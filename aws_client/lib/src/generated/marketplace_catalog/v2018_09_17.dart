@@ -618,6 +618,7 @@ class MarketplaceCatalog {
   }
 }
 
+/// @nodoc
 class BatchDescribeEntitiesResponse {
   /// Details about each entity.
   final Map<String, EntityDetail>? entityDetails;
@@ -651,6 +652,7 @@ class BatchDescribeEntitiesResponse {
   }
 }
 
+/// @nodoc
 class CancelChangeSetResponse {
   /// The ARN associated with the change set referenced in this request.
   final String? changeSetArn;
@@ -680,6 +682,7 @@ class CancelChangeSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -692,6 +695,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeChangeSetResponse {
   /// An array of <code>ChangeSummary</code> objects.
   final List<ChangeSummary>? changeSet;
@@ -793,6 +797,7 @@ class DescribeChangeSetResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntityResponse {
   /// This stringified JSON object includes the details of the entity.
   final String? details;
@@ -860,6 +865,7 @@ class DescribeEntityResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The policy document to set; formatted in JSON.
   final String? policy;
@@ -882,6 +888,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListChangeSetsResponse {
   /// Array of <code>ChangeSetSummaryListItem</code> objects.
   final List<ChangeSetSummaryListItem>? changeSetSummaryList;
@@ -917,6 +924,7 @@ class ListChangeSetsResponse {
   }
 }
 
+/// @nodoc
 class ListEntitiesResponse {
   /// Array of <code>EntitySummary</code> objects.
   final List<EntitySummary>? entitySummaryList;
@@ -949,6 +957,7 @@ class ListEntitiesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Required. The ARN associated with the resource you want to list tags on.
   final String? resourceArn;
@@ -982,6 +991,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
 
@@ -994,6 +1004,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class StartChangeSetResponse {
   /// The ARN associated to the unique identifier generated for the request.
   final String? changeSetArn;
@@ -1023,6 +1034,7 @@ class StartChangeSetResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1035,6 +1047,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1048,6 +1061,8 @@ class UntagResourceResponse {
 }
 
 /// A list of objects specifying each key name and value.
+///
+/// @nodoc
 class Tag {
   /// The key associated with the tag.
   final String key;
@@ -1077,6 +1092,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class Intent {
   static const validate = Intent._('VALIDATE');
   static const apply = Intent._('APPLY');
@@ -1102,6 +1118,8 @@ class Intent {
 
 /// An object that contains the <code>ChangeType</code>, <code>Details</code>,
 /// and <code>Entity</code>.
+///
+/// @nodoc
 class Change {
   /// Change types are single string values that describe your intention for the
   /// change. Each change type is unique for each <code>EntityType</code> provided
@@ -1173,6 +1191,8 @@ class Change {
 
 /// An entity contains data that describes your product, its supported features,
 /// and how it can be used or launched by your customer.
+///
+/// @nodoc
 class Entity {
   /// The type of entity.
   final String type;
@@ -1205,6 +1225,8 @@ class Entity {
 /// This object is a container for common summary information about the entity.
 /// The summary doesn't contain the whole entity structure, but it does contain
 /// information common across all entities.
+///
+/// @nodoc
 class EntitySummary {
   /// An object that contains summary information about the AMI product.
   final AmiProductSummary? amiProductSummary;
@@ -1350,6 +1372,8 @@ class EntitySummary {
 }
 
 /// Object that contains summarized information about an AMI product.
+///
+/// @nodoc
 class AmiProductSummary {
   /// The title of the AMI product.
   final String? productTitle;
@@ -1381,6 +1405,8 @@ class AmiProductSummary {
 }
 
 /// Object that contains summarized information about a container product.
+///
+/// @nodoc
 class ContainerProductSummary {
   /// The title of the container product.
   final String? productTitle;
@@ -1412,6 +1438,8 @@ class ContainerProductSummary {
 }
 
 /// Object that contains summarized information about a data product.
+///
+/// @nodoc
 class DataProductSummary {
   /// The title of the data product.
   final String? productTitle;
@@ -1443,6 +1471,8 @@ class DataProductSummary {
 }
 
 /// Object that contains summarized information about a SaaS product.
+///
+/// @nodoc
 class SaaSProductSummary {
   /// The title of the SaaS product.
   final String? productTitle;
@@ -1474,6 +1504,8 @@ class SaaSProductSummary {
 }
 
 /// Summarized information about an offer.
+///
+/// @nodoc
 class OfferSummary {
   /// The availability end date of the offer.
   final String? availabilityEndDate;
@@ -1562,6 +1594,8 @@ class OfferSummary {
 }
 
 /// Summarized information about a Resale Authorization.
+///
+/// @nodoc
 class ResaleAuthorizationSummary {
   /// The availability end date of the ResaleAuthorization.
   final String? availabilityEndDate;
@@ -1660,6 +1694,8 @@ class ResaleAuthorizationSummary {
 }
 
 /// A summary of a machine learning product.
+///
+/// @nodoc
 class MachineLearningProductSummary {
   /// The title of the machine learning product.
   final String? productTitle;
@@ -1693,6 +1729,8 @@ class MachineLearningProductSummary {
 }
 
 /// Summarized information about an offer set.
+///
+/// @nodoc
 class OfferSetSummary {
   /// The list of offer IDs associated with the offer set.
   final List<String>? associatedOfferIds;
@@ -1746,6 +1784,7 @@ class OfferSetSummary {
   }
 }
 
+/// @nodoc
 class OfferSetStateString {
   static const draft = OfferSetStateString._('Draft');
   static const released = OfferSetStateString._('Released');
@@ -1788,6 +1827,8 @@ class OfferSetStateString {
 /// buyers.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MachineLearningProductVisibilityString {
   static const limited = MachineLearningProductVisibilityString._('Limited');
   static const public = MachineLearningProductVisibilityString._('Public');
@@ -1816,6 +1857,7 @@ class MachineLearningProductVisibilityString {
   String toString() => value;
 }
 
+/// @nodoc
 class ResaleAuthorizationStatusString {
   static const draft = ResaleAuthorizationStatusString._('Draft');
   static const active = ResaleAuthorizationStatusString._('Active');
@@ -1842,6 +1884,7 @@ class ResaleAuthorizationStatusString {
   String toString() => value;
 }
 
+/// @nodoc
 class OfferStateString {
   static const draft = OfferStateString._('Draft');
   static const released = OfferStateString._('Released');
@@ -1866,6 +1909,7 @@ class OfferStateString {
   String toString() => value;
 }
 
+/// @nodoc
 class OfferTargetingString {
   static const buyerAccounts = OfferTargetingString._('BuyerAccounts');
   static const participatingPrograms =
@@ -1899,6 +1943,7 @@ class OfferTargetingString {
   String toString() => value;
 }
 
+/// @nodoc
 class SaaSProductVisibilityString {
   static const limited = SaaSProductVisibilityString._('Limited');
   static const public = SaaSProductVisibilityString._('Public');
@@ -1926,6 +1971,7 @@ class SaaSProductVisibilityString {
   String toString() => value;
 }
 
+/// @nodoc
 class DataProductVisibilityString {
   static const limited = DataProductVisibilityString._('Limited');
   static const public = DataProductVisibilityString._('Public');
@@ -1954,6 +2000,7 @@ class DataProductVisibilityString {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerProductVisibilityString {
   static const limited = ContainerProductVisibilityString._('Limited');
   static const public = ContainerProductVisibilityString._('Public');
@@ -1981,6 +2028,7 @@ class ContainerProductVisibilityString {
   String toString() => value;
 }
 
+/// @nodoc
 class AmiProductVisibilityString {
   static const limited = AmiProductVisibilityString._('Limited');
   static const public = AmiProductVisibilityString._('Public');
@@ -2010,6 +2058,8 @@ class AmiProductVisibilityString {
 
 /// An object that contains two attributes, <code>SortBy</code> and
 /// <code>SortOrder</code>.
+///
+/// @nodoc
 class Sort {
   /// For <code>ListEntities</code>, supported attributes include
   /// <code>LastModifiedDate</code> (default) and <code>EntityId</code>. In
@@ -2039,6 +2089,7 @@ class Sort {
   }
 }
 
+/// @nodoc
 class OwnershipType {
   static const self = OwnershipType._('SELF');
   static const shared = OwnershipType._('SHARED');
@@ -2064,6 +2115,8 @@ class OwnershipType {
 }
 
 /// Object containing all the filter fields per entity type.
+///
+/// @nodoc
 class EntityTypeFilters {
   /// A filter for AMI products.
   final AmiProductFilters? amiProductFilters;
@@ -2124,6 +2177,8 @@ class EntityTypeFilters {
 }
 
 /// Object containing all the sort fields per entity type.
+///
+/// @nodoc
 class EntityTypeSort {
   /// A sort for AMI products.
   final AmiProductSort? amiProductSort;
@@ -2185,6 +2240,8 @@ class EntityTypeSort {
 
 /// Objects that allows sorting on data products based on certain fields and
 /// sorting order.
+///
+/// @nodoc
 class DataProductSort {
   /// Field to sort the data products by.
   final DataProductSortBy? sortBy;
@@ -2210,6 +2267,8 @@ class DataProductSort {
 
 /// Objects that allows sorting on SaaS products based on certain fields and
 /// sorting order.
+///
+/// @nodoc
 class SaaSProductSort {
   /// Field to sort the SaaS products by.
   final SaaSProductSortBy? sortBy;
@@ -2235,6 +2294,8 @@ class SaaSProductSort {
 
 /// Objects that allows sorting on AMI products based on certain fields and
 /// sorting order.
+///
+/// @nodoc
 class AmiProductSort {
   /// Field to sort the AMI products by.
   final AmiProductSortBy? sortBy;
@@ -2259,6 +2320,8 @@ class AmiProductSort {
 }
 
 /// Allows to sort offers.
+///
+/// @nodoc
 class OfferSort {
   /// Allows to sort offers.
   final OfferSortBy? sortBy;
@@ -2283,6 +2346,8 @@ class OfferSort {
 
 /// Objects that allows sorting on container products based on certain fields
 /// and sorting order.
+///
+/// @nodoc
 class ContainerProductSort {
   /// Field to sort the container products by.
   final ContainerProductSortBy? sortBy;
@@ -2307,6 +2372,8 @@ class ContainerProductSort {
 }
 
 /// Allows to sort ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationSort {
   /// Allows to sort ResaleAuthorization.
   final ResaleAuthorizationSortBy? sortBy;
@@ -2330,6 +2397,8 @@ class ResaleAuthorizationSort {
 }
 
 /// The sort options for machine learning products.
+///
+/// @nodoc
 class MachineLearningProductSort {
   /// The field to sort by. Valid values: <code>EntityId</code>,
   /// <code>LastModifiedDate</code>, <code>ProductTitle</code>, and
@@ -2356,6 +2425,8 @@ class MachineLearningProductSort {
 }
 
 /// Allows to sort offer sets.
+///
+/// @nodoc
 class OfferSetSort {
   /// Allows to sort offer sets.
   final OfferSetSortBy? sortBy;
@@ -2378,6 +2449,7 @@ class OfferSetSort {
   }
 }
 
+/// @nodoc
 class OfferSetSortBy {
   static const name = OfferSetSortBy._('Name');
   static const state = OfferSetSortBy._('State');
@@ -2413,6 +2485,7 @@ class OfferSetSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -2437,6 +2510,8 @@ class SortOrder {
 }
 
 /// The fields that you can sort machine learning products by.
+///
+/// @nodoc
 class MachineLearningProductSortBy {
   static const entityId = MachineLearningProductSortBy._('EntityId');
   static const lastModifiedDate =
@@ -2465,6 +2540,7 @@ class MachineLearningProductSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ResaleAuthorizationSortBy {
   static const entityId = ResaleAuthorizationSortBy._('EntityId');
   static const name = ResaleAuthorizationSortBy._('Name');
@@ -2522,6 +2598,7 @@ class ResaleAuthorizationSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerProductSortBy {
   static const entityId = ContainerProductSortBy._('EntityId');
   static const lastModifiedDate = ContainerProductSortBy._('LastModifiedDate');
@@ -2557,6 +2634,7 @@ class ContainerProductSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class OfferSortBy {
   static const entityId = OfferSortBy._('EntityId');
   static const name = OfferSortBy._('Name');
@@ -2601,6 +2679,7 @@ class OfferSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AmiProductSortBy {
   static const entityId = AmiProductSortBy._('EntityId');
   static const lastModifiedDate = AmiProductSortBy._('LastModifiedDate');
@@ -2627,6 +2706,7 @@ class AmiProductSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SaaSProductSortBy {
   static const entityId = SaaSProductSortBy._('EntityId');
   static const productTitle = SaaSProductSortBy._('ProductTitle');
@@ -2660,6 +2740,7 @@ class SaaSProductSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class DataProductSortBy {
   static const entityId = DataProductSortBy._('EntityId');
   static const productTitle = DataProductSortBy._('ProductTitle');
@@ -2689,6 +2770,8 @@ class DataProductSortBy {
 /// Object containing all the filter fields for data products. Client can add
 /// only one wildcard filter and a maximum of 8 filters in a single
 /// <code>ListEntities</code> request.
+///
+/// @nodoc
 class DataProductFilters {
   /// Unique identifier for the data product.
   final DataProductEntityIdFilter? entityId;
@@ -2726,6 +2809,8 @@ class DataProductFilters {
 /// Object containing all the filter fields for SaaS products. Client can add
 /// only one wildcard filter and a maximum of 8 filters in a single
 /// <code>ListEntities</code> request.
+///
+/// @nodoc
 class SaaSProductFilters {
   /// Unique identifier for the SaaS product.
   final SaaSProductEntityIdFilter? entityId;
@@ -2763,6 +2848,8 @@ class SaaSProductFilters {
 /// Object containing all the filter fields for AMI products. Client can add
 /// only one wildcard filter and a maximum of 8 filters in a single
 /// <code>ListEntities</code> request.
+///
+/// @nodoc
 class AmiProductFilters {
   /// Unique identifier for the AMI product.
   final AmiProductEntityIdFilter? entityId;
@@ -2800,6 +2887,8 @@ class AmiProductFilters {
 /// Object containing all the filter fields for offers entity. Client can add
 /// only one wildcard filter and a maximum of 8 filters in a single
 /// <code>ListEntities</code> request.
+///
+/// @nodoc
 class OfferFilters {
   /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer.
   final OfferAvailabilityEndDateFilter? availabilityEndDate;
@@ -2885,6 +2974,8 @@ class OfferFilters {
 /// Object containing all the filter fields for container products. Client can
 /// add only one wildcard filter and a maximum of 8 filters in a single
 /// <code>ListEntities</code> request.
+///
+/// @nodoc
 class ContainerProductFilters {
   /// Unique identifier for the container product.
   final ContainerProductEntityIdFilter? entityId;
@@ -2922,6 +3013,8 @@ class ContainerProductFilters {
 /// Object containing all the filter fields for resale authorization entity.
 /// Client can add only one wildcard filter and a maximum of 8 filters in a
 /// single <code>ListEntities</code> request.
+///
+/// @nodoc
 class ResaleAuthorizationFilters {
   /// Allows filtering on the <code>AvailabilityEndDate</code> of a
   /// ResaleAuthorization.
@@ -3025,6 +3118,8 @@ class ResaleAuthorizationFilters {
 /// machine learning products. You can filter by <code>EntityId</code>,
 /// <code>astModifiedDate</code>, <code>ProductTitle</code>, and
 /// <code>Visibility</code>.
+///
+/// @nodoc
 class MachineLearningProductFilters {
   /// Filter machine learning products by their entity IDs.
   final MachineLearningProductEntityIdFilter? entityId;
@@ -3061,6 +3156,8 @@ class MachineLearningProductFilters {
 
 /// Object containing all the filter fields for offer sets entity. Client can
 /// add a maximum of 8 filters in a single <code>ListEntities</code> request.
+///
+/// @nodoc
 class OfferSetFilters {
   /// Allows filtering on the <code>AssociatedOfferIds</code> of an offer set.
   final OfferSetAssociatedOfferIdsFilter? associatedOfferIds;
@@ -3114,6 +3211,8 @@ class OfferSetFilters {
 }
 
 /// Allows filtering on the entity id of an offer set.
+///
+/// @nodoc
 class OfferSetEntityIdFilter {
   /// Allows filtering on entity id of an offer set with list input.
   final List<String>? valueList;
@@ -3131,6 +3230,8 @@ class OfferSetEntityIdFilter {
 }
 
 /// Allows filtering on the <code>Name</code> of an offer set.
+///
+/// @nodoc
 class OfferSetNameFilter {
   /// Allows filtering on the <code>Name</code> of an offer set with list input.
   final List<String>? valueList;
@@ -3148,6 +3249,8 @@ class OfferSetNameFilter {
 }
 
 /// Allows filtering on the <code>State</code> of an offer set.
+///
+/// @nodoc
 class OfferSetStateFilter {
   /// Allows filtering on the <code>State</code> of an offer set with list input.
   final List<OfferSetStateString>? valueList;
@@ -3166,6 +3269,8 @@ class OfferSetStateFilter {
 }
 
 /// Allows filtering on the <code>ReleaseDate</code> of an offer set.
+///
+/// @nodoc
 class OfferSetReleaseDateFilter {
   /// Allows filtering on the <code>ReleaseDate</code> of an offer set with date
   /// range as input.
@@ -3184,6 +3289,8 @@ class OfferSetReleaseDateFilter {
 }
 
 /// Allows filtering on the <code>AssociatedOfferIds</code> of an offer set.
+///
+/// @nodoc
 class OfferSetAssociatedOfferIdsFilter {
   /// Allows filtering on the <code>AssociatedOfferIds</code> of an offer set with
   /// list input.
@@ -3202,6 +3309,8 @@ class OfferSetAssociatedOfferIdsFilter {
 }
 
 /// Allows filtering on the <code>SolutionId</code> of an offer set.
+///
+/// @nodoc
 class OfferSetSolutionIdFilter {
   /// Allows filtering on the <code>SolutionId</code> of an offer set with list
   /// input.
@@ -3220,6 +3329,8 @@ class OfferSetSolutionIdFilter {
 }
 
 /// Allows filtering on the <code>LastModifiedDate</code> of an offer set.
+///
+/// @nodoc
 class OfferSetLastModifiedDateFilter {
   /// Allows filtering on the <code>LastModifiedDate</code> of an offer set with
   /// date range as input.
@@ -3239,6 +3350,8 @@ class OfferSetLastModifiedDateFilter {
 
 /// Allows filtering on the <code>LastModifiedDate</code> of an offer set with
 /// date range as input.
+///
+/// @nodoc
 class OfferSetLastModifiedDateFilterDateRange {
   /// Allows filtering on the <code>LastModifiedDate</code> of an offer set after
   /// a date.
@@ -3265,6 +3378,8 @@ class OfferSetLastModifiedDateFilterDateRange {
 
 /// Allows filtering on the <code>ReleaseDate</code> of an offer set with date
 /// range as input.
+///
+/// @nodoc
 class OfferSetReleaseDateFilterDateRange {
   /// Allows filtering on the <code>ReleaseDate</code> of offer set after a date.
   final String? afterValue;
@@ -3288,6 +3403,8 @@ class OfferSetReleaseDateFilterDateRange {
 }
 
 /// The filter for machine learning product entity IDs.
+///
+/// @nodoc
 class MachineLearningProductEntityIdFilter {
   /// A list of entity IDs to filter by. The operation returns machine learning
   /// products with entity IDs that match the values in this list.
@@ -3306,6 +3423,8 @@ class MachineLearningProductEntityIdFilter {
 }
 
 /// The filter for machine learning product last modified date.
+///
+/// @nodoc
 class MachineLearningProductLastModifiedDateFilter {
   /// A date range to filter by. The operation returns machine learning products
   /// with last modified dates that fall within this range.
@@ -3324,6 +3443,8 @@ class MachineLearningProductLastModifiedDateFilter {
 }
 
 /// The filter for machine learning product titles.
+///
+/// @nodoc
 class MachineLearningProductTitleFilter {
   /// A list of product titles to filter by. The operation returns machine
   /// learning products with titles that exactly match the values in this list.
@@ -3349,6 +3470,8 @@ class MachineLearningProductTitleFilter {
 }
 
 /// The filter for machine learning product visibility status.
+///
+/// @nodoc
 class MachineLearningProductVisibilityFilter {
   /// A list of visibility values to filter by. The operation returns machine
   /// learning products with visibility status that match the values in this list.
@@ -3369,6 +3492,8 @@ class MachineLearningProductVisibilityFilter {
 
 /// A date range for filtering machine learning products by their last modified
 /// date.
+///
+/// @nodoc
 class MachineLearningProductLastModifiedDateFilterDateRange {
   /// The start date (inclusive) of the date range. The operation returns machine
   /// learning products with last modified dates on or after this date.
@@ -3394,6 +3519,8 @@ class MachineLearningProductLastModifiedDateFilterDateRange {
 }
 
 /// Allows filtering on <code>EntityId</code> of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationEntityIdFilter {
   /// Allows filtering on <code>EntityId</code> of a ResaleAuthorization with list
   /// input.
@@ -3412,6 +3539,8 @@ class ResaleAuthorizationEntityIdFilter {
 }
 
 /// Allows filtering on the <code>Name</code> of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationNameFilter {
   /// Allows filtering on the <code>Name</code> of a ResaleAuthorization with list
   /// input.
@@ -3437,6 +3566,8 @@ class ResaleAuthorizationNameFilter {
 }
 
 /// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationProductIdFilter {
   /// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization with
   /// list input.
@@ -3462,6 +3593,8 @@ class ResaleAuthorizationProductIdFilter {
 }
 
 /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationCreatedDateFilter {
   /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
   /// date range as input.
@@ -3488,6 +3621,8 @@ class ResaleAuthorizationCreatedDateFilter {
 
 /// Allows filtering on <code>AvailabilityEndDate</code> of a
 /// ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationAvailabilityEndDateFilter {
   /// Allows filtering on <code>AvailabilityEndDate</code> of a
   /// ResaleAuthorization with date range as input
@@ -3514,6 +3649,8 @@ class ResaleAuthorizationAvailabilityEndDateFilter {
 
 /// Allows filtering on the <code>ManufacturerAccountId</code> of a
 /// ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationManufacturerAccountIdFilter {
   /// Allows filtering on the <code>ManufacturerAccountId</code> of a
   /// ResaleAuthorization with list input.
@@ -3539,6 +3676,8 @@ class ResaleAuthorizationManufacturerAccountIdFilter {
 }
 
 /// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationProductNameFilter {
   /// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization
   /// with list input.
@@ -3565,6 +3704,8 @@ class ResaleAuthorizationProductNameFilter {
 
 /// Allows filtering on the <code>ManufacturerLegalName</code> of a
 /// ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationManufacturerLegalNameFilter {
   /// Allows filtering on the <code>ManufacturerLegalName</code> of a
   /// ResaleAuthorization with list input.
@@ -3591,6 +3732,8 @@ class ResaleAuthorizationManufacturerLegalNameFilter {
 
 /// Allows filtering on the <code>ResellerAccountID</code> of a
 /// ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationResellerAccountIDFilter {
   /// Allows filtering on the <code>ResellerAccountID</code> of a
   /// ResaleAuthorization with list input.
@@ -3616,6 +3759,8 @@ class ResaleAuthorizationResellerAccountIDFilter {
 }
 
 /// Allows filtering on the ResellerLegalName of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationResellerLegalNameFilter {
   /// Allows filtering on the ResellerLegalNameProductName of a
   /// ResaleAuthorization with list input.
@@ -3641,6 +3786,8 @@ class ResaleAuthorizationResellerLegalNameFilter {
 }
 
 /// Allows filtering on the <code>Status</code> of a ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationStatusFilter {
   /// Allows filtering on the <code>Status</code> of a ResaleAuthorization with
   /// list input.
@@ -3661,6 +3808,8 @@ class ResaleAuthorizationStatusFilter {
 
 /// Allows filtering on the <code>OfferExtendedStatus</code> of a
 /// ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationOfferExtendedStatusFilter {
   /// Allows filtering on the <code>OfferExtendedStatus</code> of a
   /// ResaleAuthorization with list input.
@@ -3680,6 +3829,8 @@ class ResaleAuthorizationOfferExtendedStatusFilter {
 
 /// Allows filtering on the <code>LastModifiedDate</code> of a
 /// ResaleAuthorization.
+///
+/// @nodoc
 class ResaleAuthorizationLastModifiedDateFilter {
   /// Allows filtering on the <code>LastModifiedDate</code> of a
   /// ResaleAuthorization with date range as input.
@@ -3699,6 +3850,8 @@ class ResaleAuthorizationLastModifiedDateFilter {
 
 /// Allows filtering on the <code>LastModifiedDate</code> of a
 /// ResaleAuthorization with date range as input.
+///
+/// @nodoc
 class ResaleAuthorizationLastModifiedDateFilterDateRange {
   /// Allows filtering on the <code>LastModifiedDate</code> of a
   /// ResaleAuthorization after a date.
@@ -3725,6 +3878,8 @@ class ResaleAuthorizationLastModifiedDateFilterDateRange {
 
 /// Allows filtering on <code>AvailabilityEndDate</code> of a
 /// ResaleAuthorization with date range as input.
+///
+/// @nodoc
 class ResaleAuthorizationAvailabilityEndDateFilterDateRange {
   /// Allows filtering on <code>AvailabilityEndDate</code> of a
   /// ResaleAuthorization after a date.
@@ -3751,6 +3906,8 @@ class ResaleAuthorizationAvailabilityEndDateFilterDateRange {
 
 /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
 /// date range as input.
+///
+/// @nodoc
 class ResaleAuthorizationCreatedDateFilterDateRange {
   /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization after
   /// a date.
@@ -3776,6 +3933,8 @@ class ResaleAuthorizationCreatedDateFilterDateRange {
 }
 
 /// Object that allows filtering on entity id of a container product.
+///
+/// @nodoc
 class ContainerProductEntityIdFilter {
   /// A string array of unique entity id values to be filtered on.
   final List<String>? valueList;
@@ -3794,6 +3953,8 @@ class ContainerProductEntityIdFilter {
 
 /// Object that allows filtering based on the last modified date of container
 /// products.
+///
+/// @nodoc
 class ContainerProductLastModifiedDateFilter {
   /// Dates between which the container product was last modified.
   final ContainerProductLastModifiedDateFilterDateRange? dateRange;
@@ -3811,6 +3972,8 @@ class ContainerProductLastModifiedDateFilter {
 }
 
 /// Object that allows filtering on product title.
+///
+/// @nodoc
 class ContainerProductTitleFilter {
   /// A string array of unique product title values to be filtered on.
   final List<String>? valueList;
@@ -3836,6 +3999,8 @@ class ContainerProductTitleFilter {
 
 /// Object that allows filtering on the visibility of the product in the AWS
 /// Marketplace.
+///
+/// @nodoc
 class ContainerProductVisibilityFilter {
   /// A string array of unique visibility values to be filtered on.
   final List<ContainerProductVisibilityString>? valueList;
@@ -3856,6 +4021,8 @@ class ContainerProductVisibilityFilter {
 /// Object that contains date range of the last modified date to be filtered on.
 /// You can optionally provide a <code>BeforeValue</code> and/or
 /// <code>AfterValue</code>. Both are inclusive.
+///
+/// @nodoc
 class ContainerProductLastModifiedDateFilterDateRange {
   /// Date after which the container product was last modified.
   final String? afterValue;
@@ -3879,6 +4046,8 @@ class ContainerProductLastModifiedDateFilterDateRange {
 }
 
 /// Allows filtering on the entity id of an offer.
+///
+/// @nodoc
 class OfferEntityIdFilter {
   /// Allows filtering on entity id of an offer with list input.
   final List<String>? valueList;
@@ -3896,6 +4065,8 @@ class OfferEntityIdFilter {
 }
 
 /// Allows filtering on the <code>Name</code> of an offer.
+///
+/// @nodoc
 class OfferNameFilter {
   /// Allows filtering on the <code>Name</code> of an offer with list input.
   final List<String>? valueList;
@@ -3919,6 +4090,8 @@ class OfferNameFilter {
 }
 
 /// Allows filtering on the <code>ProductId</code> of an offer.
+///
+/// @nodoc
 class OfferProductIdFilter {
   /// Allows filtering on the <code>ProductId</code> of an offer with list input.
   final List<String>? valueList;
@@ -3940,6 +4113,8 @@ class OfferProductIdFilter {
 /// Not all offers have a <code>ResaleAuthorizationId</code>. The response will
 /// only include offers for which you have permissions.
 /// </note>
+///
+/// @nodoc
 class OfferResaleAuthorizationIdFilter {
   /// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer with
   /// list input.
@@ -3958,6 +4133,8 @@ class OfferResaleAuthorizationIdFilter {
 }
 
 /// Allows filtering on the <code>ReleaseDate</code> of an offer.
+///
+/// @nodoc
 class OfferReleaseDateFilter {
   /// Allows filtering on the <code>ReleaseDate</code> of an offer with date range
   /// as input.
@@ -3976,6 +4153,8 @@ class OfferReleaseDateFilter {
 }
 
 /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer.
+///
+/// @nodoc
 class OfferAvailabilityEndDateFilter {
   /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer with
   /// date range as input.
@@ -3994,6 +4173,8 @@ class OfferAvailabilityEndDateFilter {
 }
 
 /// Allows filtering on the <code>BuyerAccounts</code> of an offer.
+///
+/// @nodoc
 class OfferBuyerAccountsFilter {
   /// Allows filtering on the <code>BuyerAccounts</code> of an offer with wild
   /// card input.
@@ -4012,6 +4193,8 @@ class OfferBuyerAccountsFilter {
 }
 
 /// Allows filtering on the <code>State</code> of an offer.
+///
+/// @nodoc
 class OfferStateFilter {
   /// Allows filtering on the <code>State</code> of an offer with list input.
   final List<OfferStateString>? valueList;
@@ -4030,6 +4213,8 @@ class OfferStateFilter {
 }
 
 /// Allows filtering on the <code>Targeting</code> of an offer.
+///
+/// @nodoc
 class OfferTargetingFilter {
   /// Allows filtering on the <code>Targeting</code> of an offer with list input.
   final List<OfferTargetingString>? valueList;
@@ -4048,6 +4233,8 @@ class OfferTargetingFilter {
 }
 
 /// Allows filtering on the <code>LastModifiedDate</code> of an offer.
+///
+/// @nodoc
 class OfferLastModifiedDateFilter {
   /// Allows filtering on the <code>LastModifiedDate</code> of an offer with date
   /// range as input.
@@ -4066,6 +4253,8 @@ class OfferLastModifiedDateFilter {
 }
 
 /// Allows filtering on the <code>OfferSetId</code> of an offer.
+///
+/// @nodoc
 class OfferSetIdFilter {
   /// Allows filtering on the <code>OfferSetId</code> of an offer.
   final List<String>? valueList;
@@ -4084,6 +4273,8 @@ class OfferSetIdFilter {
 
 /// Allows filtering on the <code>LastModifiedDate</code> of an offer with date
 /// range as input.
+///
+/// @nodoc
 class OfferLastModifiedDateFilterDateRange {
   /// Allows filtering on the <code>LastModifiedDate</code> of an offer after a
   /// date.
@@ -4110,6 +4301,8 @@ class OfferLastModifiedDateFilterDateRange {
 
 /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer with
 /// date range as input.
+///
+/// @nodoc
 class OfferAvailabilityEndDateFilterDateRange {
   /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer after a
   /// date.
@@ -4136,6 +4329,8 @@ class OfferAvailabilityEndDateFilterDateRange {
 
 /// Allows filtering on the <code>ReleaseDate</code> of an offer with date range
 /// as input.
+///
+/// @nodoc
 class OfferReleaseDateFilterDateRange {
   /// Allows filtering on the <code>ReleaseDate</code> of offers after a date.
   final String? afterValue;
@@ -4159,6 +4354,8 @@ class OfferReleaseDateFilterDateRange {
 }
 
 /// Object that allows filtering on entity id of an AMI product.
+///
+/// @nodoc
 class AmiProductEntityIdFilter {
   /// A string array of unique entity id values to be filtered on.
   final List<String>? valueList;
@@ -4177,6 +4374,8 @@ class AmiProductEntityIdFilter {
 
 /// Object that allows filtering based on the last modified date of AMI
 /// products.
+///
+/// @nodoc
 class AmiProductLastModifiedDateFilter {
   /// Dates between which the AMI product was last modified.
   final AmiProductLastModifiedDateFilterDateRange? dateRange;
@@ -4194,6 +4393,8 @@ class AmiProductLastModifiedDateFilter {
 }
 
 /// Object that allows filtering on product title.
+///
+/// @nodoc
 class AmiProductTitleFilter {
   /// A string array of unique product title values to be filtered on.
   final List<String>? valueList;
@@ -4219,6 +4420,8 @@ class AmiProductTitleFilter {
 
 /// Object that allows filtering on the visibility of the product in the AWS
 /// Marketplace.
+///
+/// @nodoc
 class AmiProductVisibilityFilter {
   /// A string array of unique visibility values to be filtered on.
   final List<AmiProductVisibilityString>? valueList;
@@ -4239,6 +4442,8 @@ class AmiProductVisibilityFilter {
 /// Object that contains date range of the last modified date to be filtered on.
 /// You can optionally provide a <code>BeforeValue</code> and/or
 /// <code>AfterValue</code>. Both are inclusive.
+///
+/// @nodoc
 class AmiProductLastModifiedDateFilterDateRange {
   /// Date after which the AMI product was last modified.
   final String? afterValue;
@@ -4262,6 +4467,8 @@ class AmiProductLastModifiedDateFilterDateRange {
 }
 
 /// Object that allows filtering on entity id of a SaaS product.
+///
+/// @nodoc
 class SaaSProductEntityIdFilter {
   /// A string array of unique entity id values to be filtered on.
   final List<String>? valueList;
@@ -4279,6 +4486,8 @@ class SaaSProductEntityIdFilter {
 }
 
 /// Object that allows filtering on product title.
+///
+/// @nodoc
 class SaaSProductTitleFilter {
   /// A string array of unique product title values to be filtered on.
   final List<String>? valueList;
@@ -4304,6 +4513,8 @@ class SaaSProductTitleFilter {
 
 /// Object that allows filtering on the visibility of the product in the AWS
 /// Marketplace.
+///
+/// @nodoc
 class SaaSProductVisibilityFilter {
   /// A string array of unique visibility values to be filtered on.
   final List<SaaSProductVisibilityString>? valueList;
@@ -4323,6 +4534,8 @@ class SaaSProductVisibilityFilter {
 
 /// Object that allows filtering based on the last modified date of SaaS
 /// products
+///
+/// @nodoc
 class SaaSProductLastModifiedDateFilter {
   /// Dates between which the SaaS product was last modified.
   final SaaSProductLastModifiedDateFilterDateRange? dateRange;
@@ -4342,6 +4555,8 @@ class SaaSProductLastModifiedDateFilter {
 /// Object that contains date range of the last modified date to be filtered on.
 /// You can optionally provide a <code>BeforeValue</code> and/or
 /// <code>AfterValue</code>. Both are inclusive.
+///
+/// @nodoc
 class SaaSProductLastModifiedDateFilterDateRange {
   /// Date after which the SaaS product was last modified.
   final String? afterValue;
@@ -4365,6 +4580,8 @@ class SaaSProductLastModifiedDateFilterDateRange {
 }
 
 /// Object that allows filtering on entity id of a data product.
+///
+/// @nodoc
 class DataProductEntityIdFilter {
   /// A string array of unique entity id values to be filtered on.
   final List<String>? valueList;
@@ -4382,6 +4599,8 @@ class DataProductEntityIdFilter {
 }
 
 /// Object that allows filtering on product title.
+///
+/// @nodoc
 class DataProductTitleFilter {
   /// A string array of unique product title values to be filtered on.
   final List<String>? valueList;
@@ -4407,6 +4626,8 @@ class DataProductTitleFilter {
 
 /// Object that allows filtering on the visibility of the product in the AWS
 /// Marketplace.
+///
+/// @nodoc
 class DataProductVisibilityFilter {
   /// A string array of unique visibility values to be filtered on.
   final List<DataProductVisibilityString>? valueList;
@@ -4426,6 +4647,8 @@ class DataProductVisibilityFilter {
 
 /// Object that allows filtering based on the last modified date of data
 /// products.
+///
+/// @nodoc
 class DataProductLastModifiedDateFilter {
   /// Dates between which the data product was last modified.
   final DataProductLastModifiedDateFilterDateRange? dateRange;
@@ -4445,6 +4668,8 @@ class DataProductLastModifiedDateFilter {
 /// Object that contains date range of the last modified date to be filtered on.
 /// You can optionally provide a <code>BeforeValue</code> and/or
 /// <code>AfterValue</code>. Both are inclusive.
+///
+/// @nodoc
 class DataProductLastModifiedDateFilterDateRange {
   /// Date after which the data product was last modified.
   final String? afterValue;
@@ -4469,6 +4694,8 @@ class DataProductLastModifiedDateFilterDateRange {
 
 /// A filter object, used to optionally filter results from calls to the
 /// <code>ListEntities</code> and <code>ListChangeSets</code> actions.
+///
+/// @nodoc
 class Filter {
   /// For <code>ListEntities</code>, the supported value for this is an
   /// <code>EntityId</code>.
@@ -4531,6 +4758,8 @@ class Filter {
 
 /// A summary of a change set returned in a list of change sets when the
 /// <code>ListChangeSets</code> action is called.
+///
+/// @nodoc
 class ChangeSetSummaryListItem {
   /// The ARN associated with the unique identifier for the change set referenced
   /// in this request.
@@ -4615,6 +4844,7 @@ class ChangeSetSummaryListItem {
   }
 }
 
+/// @nodoc
 class ChangeStatus {
   static const preparing = ChangeStatus._('PREPARING');
   static const applying = ChangeStatus._('APPLYING');
@@ -4641,6 +4871,7 @@ class ChangeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FailureCode {
   static const clientError = FailureCode._('CLIENT_ERROR');
   static const serverFault = FailureCode._('SERVER_FAULT');
@@ -4666,6 +4897,8 @@ class FailureCode {
 
 /// This object is a container for common summary information about the change.
 /// The summary doesn't contain the whole change structure.
+///
+/// @nodoc
 class ChangeSummary {
   /// Optional name for the change.
   final String? changeName;
@@ -4737,6 +4970,8 @@ class ChangeSummary {
 }
 
 /// Details about the error.
+///
+/// @nodoc
 class ErrorDetail {
   /// The error code that identifies the type of error.
   final String? errorCode;
@@ -4767,6 +5002,8 @@ class ErrorDetail {
 }
 
 /// An object that contains an error code and error message.
+///
+/// @nodoc
 class BatchDescribeErrorDetail {
   /// The error code returned.
   final String? errorCode;
@@ -4797,6 +5034,8 @@ class BatchDescribeErrorDetail {
 }
 
 /// An object that contains metadata and details about the entity.
+///
+/// @nodoc
 class EntityDetail {
   /// An object that contains all the details of the entity.
   final Object? detailsDocument;
@@ -4850,6 +5089,8 @@ class EntityDetail {
 
 /// An object that contains entity ID and the catalog in which the entity is
 /// present.
+///
+/// @nodoc
 class EntityRequest {
   /// The name of the catalog the entity is present in. The only value at this
   /// time is <code>AWSMarketplace</code>.
@@ -4873,26 +5114,31 @@ class EntityRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotSupportedException extends _s.GenericAwsException {
   ResourceNotSupportedException({String? type, String? message})
       : super(
@@ -4901,6 +5147,7 @@ class ResourceNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4909,11 +5156,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

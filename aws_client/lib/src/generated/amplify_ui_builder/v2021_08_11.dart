@@ -1039,6 +1039,7 @@ class AmplifyUIBuilder {
   }
 }
 
+/// @nodoc
 class ExchangeCodeForTokenResponse {
   /// The access token.
   final String accessToken;
@@ -1076,6 +1077,7 @@ class ExchangeCodeForTokenResponse {
   }
 }
 
+/// @nodoc
 class GetMetadataResponse {
   /// Represents the configuration settings for the features metadata.
   final Map<String, String> features;
@@ -1100,6 +1102,7 @@ class GetMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
   final Map<String, String> tags;
@@ -1124,6 +1127,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RefreshTokenResponse {
   /// The access token.
   final String accessToken;
@@ -1153,6 +1157,7 @@ class RefreshTokenResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1165,6 +1170,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1177,6 +1183,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class StartCodegenJobResponse {
   /// The code generation job for a UI component that is associated with an
   /// Amplify app.
@@ -1194,6 +1201,7 @@ class StartCodegenJobResponse {
   }
 }
 
+/// @nodoc
 class GetCodegenJobResponse {
   /// The configuration settings for the code generation job.
   final CodegenJob? job;
@@ -1210,6 +1218,7 @@ class GetCodegenJobResponse {
   }
 }
 
+/// @nodoc
 class ListCodegenJobsResponse {
   /// The list of code generation jobs for the Amplify app.
   final List<CodegenJobSummary> entities;
@@ -1242,6 +1251,7 @@ class ListCodegenJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateComponentResponse {
   /// Describes the configuration of the new component.
   final Component? entity;
@@ -1258,6 +1268,7 @@ class CreateComponentResponse {
   }
 }
 
+/// @nodoc
 class GetComponentResponse {
   /// Represents the configuration settings for the component.
   final Component? component;
@@ -1274,6 +1285,7 @@ class GetComponentResponse {
   }
 }
 
+/// @nodoc
 class UpdateComponentResponse {
   /// Describes the configuration of the updated component.
   final Component? entity;
@@ -1290,6 +1302,7 @@ class UpdateComponentResponse {
   }
 }
 
+/// @nodoc
 class ListComponentsResponse {
   /// The list of components for the Amplify app.
   final List<ComponentSummary> entities;
@@ -1322,6 +1335,7 @@ class ListComponentsResponse {
   }
 }
 
+/// @nodoc
 class ExportComponentsResponse {
   /// Represents the configuration of the exported components.
   final List<Component> entities;
@@ -1354,6 +1368,7 @@ class ExportComponentsResponse {
   }
 }
 
+/// @nodoc
 class CreateFormResponse {
   /// Describes the configuration of the new form.
   final Form? entity;
@@ -1370,6 +1385,7 @@ class CreateFormResponse {
   }
 }
 
+/// @nodoc
 class GetFormResponse {
   /// Represents the configuration settings for the form.
   final Form? form;
@@ -1386,6 +1402,7 @@ class GetFormResponse {
   }
 }
 
+/// @nodoc
 class UpdateFormResponse {
   /// Describes the configuration of the updated form.
   final Form? entity;
@@ -1402,6 +1419,7 @@ class UpdateFormResponse {
   }
 }
 
+/// @nodoc
 class ListFormsResponse {
   /// The list of forms for the Amplify app.
   final List<FormSummary> entities;
@@ -1434,6 +1452,7 @@ class ListFormsResponse {
   }
 }
 
+/// @nodoc
 class ExportFormsResponse {
   /// Represents the configuration of the exported forms.
   final List<Form> entities;
@@ -1466,6 +1485,7 @@ class ExportFormsResponse {
   }
 }
 
+/// @nodoc
 class CreateThemeResponse {
   /// Describes the configuration of the new theme.
   final Theme? entity;
@@ -1482,6 +1502,7 @@ class CreateThemeResponse {
   }
 }
 
+/// @nodoc
 class GetThemeResponse {
   /// Represents the configuration settings for the theme.
   final Theme? theme;
@@ -1498,6 +1519,7 @@ class GetThemeResponse {
   }
 }
 
+/// @nodoc
 class UpdateThemeResponse {
   /// Describes the configuration of the updated theme.
   final Theme? entity;
@@ -1514,6 +1536,7 @@ class UpdateThemeResponse {
   }
 }
 
+/// @nodoc
 class ListThemesResponse {
   /// The list of themes for the Amplify app.
   final List<ThemeSummary> entities;
@@ -1546,6 +1569,7 @@ class ListThemesResponse {
   }
 }
 
+/// @nodoc
 class ExportThemesResponse {
   /// Represents the configuration of the exported themes.
   final List<Theme> entities;
@@ -1580,6 +1604,8 @@ class ExportThemesResponse {
 
 /// A theme is a collection of style settings that apply globally to the
 /// components associated with an Amplify application.
+///
+/// @nodoc
 class Theme {
   /// The unique ID for the Amplify app associated with the theme.
   final String appId;
@@ -1666,6 +1692,8 @@ class Theme {
 }
 
 /// A key-value pair that defines a property of a theme.
+///
+/// @nodoc
 class ThemeValues {
   /// The name of the property.
   final String? key;
@@ -1698,6 +1726,8 @@ class ThemeValues {
 }
 
 /// Describes the configuration of a theme's properties.
+///
+/// @nodoc
 class ThemeValue {
   /// A list of key-value pairs that define the theme's properties.
   final List<ThemeValues>? children;
@@ -1731,6 +1761,8 @@ class ThemeValue {
 }
 
 /// Describes the basic information about a theme.
+///
+/// @nodoc
 class ThemeSummary {
   /// The unique ID for the app associated with the theme summary.
   final String appId;
@@ -1775,6 +1807,8 @@ class ThemeSummary {
 }
 
 /// Saves the data binding information for a theme.
+///
+/// @nodoc
 class UpdateThemeData {
   /// A list of key-value pairs that define the theme's properties.
   final List<ThemeValues> values;
@@ -1810,6 +1844,8 @@ class UpdateThemeData {
 }
 
 /// Represents all of the information that is required to create a theme.
+///
+/// @nodoc
 class CreateThemeData {
   /// The name of the theme.
   final String name;
@@ -1849,6 +1885,8 @@ class CreateThemeData {
 /// (UI) element for an Amplify app. A form is a component you can add to your
 /// project by specifying a data source as the default configuration for the
 /// form.
+///
+/// @nodoc
 class Form {
   /// The unique ID of the Amplify app associated with the form.
   final String appId;
@@ -1971,6 +2009,7 @@ class Form {
   }
 }
 
+/// @nodoc
 class FormActionType {
   static const create = FormActionType._('create');
   static const update = FormActionType._('update');
@@ -1996,6 +2035,8 @@ class FormActionType {
 }
 
 /// Describes the configuration for the form's style.
+///
+/// @nodoc
 class FormStyle {
   /// The spacing for the horizontal gap.
   final FormStyleConfig? horizontalGap;
@@ -2043,6 +2084,8 @@ class FormStyle {
 
 /// Describes the data type configuration for the data source associated with a
 /// form.
+///
+/// @nodoc
 class FormDataTypeConfig {
   /// The data source type, either an Amplify DataStore model or a custom data
   /// type.
@@ -2076,6 +2119,8 @@ class FormDataTypeConfig {
 }
 
 /// Describes the call to action button configuration for the form.
+///
+/// @nodoc
 class FormCTA {
   /// Displays a cancel button.
   final FormButton? cancel;
@@ -2126,6 +2171,7 @@ class FormCTA {
   }
 }
 
+/// @nodoc
 class LabelDecorator {
   static const required = LabelDecorator._('required');
   static const optional = LabelDecorator._('optional');
@@ -2151,6 +2197,7 @@ class LabelDecorator {
   String toString() => value;
 }
 
+/// @nodoc
 class FormButtonsPosition {
   static const top = FormButtonsPosition._('top');
   static const bottom = FormButtonsPosition._('bottom');
@@ -2179,6 +2226,8 @@ class FormButtonsPosition {
 
 /// Describes the configuration for a button UI element that is a part of a
 /// form.
+///
+/// @nodoc
 class FormButton {
   /// Describes the button's properties.
   final String? children;
@@ -2218,6 +2267,8 @@ class FormButton {
 }
 
 /// Describes the field position.
+///
+/// @nodoc
 class FieldPosition {
   /// The field position is below the field specified by the string.
   final String? below;
@@ -2254,6 +2305,7 @@ class FieldPosition {
   }
 }
 
+/// @nodoc
 class FixedPosition {
   static const first = FixedPosition._('first');
 
@@ -2280,6 +2332,8 @@ class FixedPosition {
 /// Stores the configuration information for a visual helper element for a form.
 /// A sectional element can be a header, a text block, or a divider. These
 /// elements are static and not associated with any data.
+///
+/// @nodoc
 class SectionalElement {
   /// The type of sectional element. Valid values are <code>Heading</code>,
   /// <code>Text</code>, and <code>Divider</code>.
@@ -2345,6 +2399,8 @@ class SectionalElement {
 }
 
 /// Describes the configuration information for a field in a table.
+///
+/// @nodoc
 class FieldConfig {
   /// Specifies whether to hide a field.
   final bool? excluded;
@@ -2406,6 +2462,8 @@ class FieldConfig {
 
 /// Describes the configuration for the default input values to display for a
 /// field.
+///
+/// @nodoc
 class FieldInputConfig {
   /// The input type for the field.
   final String type;
@@ -2541,6 +2599,8 @@ class FieldInputConfig {
 }
 
 /// Describes the validation configuration for a field.
+///
+/// @nodoc
 class FieldValidationConfiguration {
   /// The validation to perform on an object type.<code/>
   final String type;
@@ -2589,6 +2649,8 @@ class FieldValidationConfiguration {
 }
 
 /// Represents the data binding configuration for a value map.
+///
+/// @nodoc
 class ValueMappings {
   /// The value and display value pairs.
   final List<ValueMapping> values;
@@ -2626,6 +2688,8 @@ class ValueMappings {
 }
 
 /// Describes the configuration for the file uploader field.
+///
+/// @nodoc
 class FileUploaderFieldConfig {
   /// The file types that are allowed to be uploaded by the file uploader. Provide
   /// this information in an array of strings specifying the valid file
@@ -2705,6 +2769,7 @@ class FileUploaderFieldConfig {
   }
 }
 
+/// @nodoc
 class StorageAccessLevel {
   static const public = StorageAccessLevel._('public');
   static const protected = StorageAccessLevel._('protected');
@@ -2735,6 +2800,8 @@ class StorageAccessLevel {
 /// runtime.You can use <code>FormInputBindingPropertiesValue</code> to add
 /// exposed properties to a form to allow different values to be entered when a
 /// form is reused in different places in an app.
+///
+/// @nodoc
 class FormInputBindingPropertiesValue {
   /// Describes the properties to customize with data at runtime.
   final FormInputBindingPropertiesValueProperties? bindingProperties;
@@ -2770,6 +2837,8 @@ class FormInputBindingPropertiesValue {
 /// Represents the data binding configuration for a specific property using data
 /// stored in Amazon Web Services. For Amazon Web Services connected properties,
 /// you can bind a property to data stored in an Amplify DataStore model.
+///
+/// @nodoc
 class FormInputBindingPropertiesValueProperties {
   /// An Amplify DataStore model.
   final String? model;
@@ -2796,6 +2865,8 @@ class FormInputBindingPropertiesValueProperties {
 /// Associates a complex object with a display value. Use
 /// <code>ValueMapping</code> to store how to represent complex objects when
 /// they are displayed.
+///
+/// @nodoc
 class ValueMapping {
   /// The complex object.
   final FormInputValueProperty value;
@@ -2833,6 +2904,8 @@ class ValueMapping {
 /// Describes the configuration for an input field on a form. Use
 /// <code>FormInputValueProperty</code> to specify the values to render or bind
 /// by default.
+///
+/// @nodoc
 class FormInputValueProperty {
   /// The information to bind fields to data at runtime.
   final FormInputValuePropertyBindingProperties? bindingProperties;
@@ -2880,6 +2953,8 @@ class FormInputValueProperty {
 /// Associates a form property to a binding property. This enables exposed
 /// properties on the top level form to propagate data to the form's property
 /// values.
+///
+/// @nodoc
 class FormInputValuePropertyBindingProperties {
   /// The form property to bind to the data field.
   final String property;
@@ -2910,6 +2985,7 @@ class FormInputValuePropertyBindingProperties {
   }
 }
 
+/// @nodoc
 class FormDataSourceType {
   static const dataStore = FormDataSourceType._('DataStore');
   static const custom = FormDataSourceType._('Custom');
@@ -2936,6 +3012,8 @@ class FormDataSourceType {
 }
 
 /// Describes the configuration settings for the form's style properties.
+///
+/// @nodoc
 class FormStyleConfig {
   /// A reference to a design token to use to bind the form's style properties to
   /// an existing theme.
@@ -2967,6 +3045,8 @@ class FormStyleConfig {
 }
 
 /// Describes the basic information about a form.
+///
+/// @nodoc
 class FormSummary {
   /// The unique ID for the app associated with the form summary.
   final String appId;
@@ -3028,6 +3108,8 @@ class FormSummary {
 }
 
 /// Updates and saves all of the information about a form, based on form ID.
+///
+/// @nodoc
 class UpdateFormData {
   /// The <code>FormCTA</code> object that stores the call to action configuration
   /// for the form.
@@ -3095,6 +3177,8 @@ class UpdateFormData {
 }
 
 /// Represents all of the information that is required to create a form.
+///
+/// @nodoc
 class CreateFormData {
   /// The type of data source to use to create the form.
   final FormDataTypeConfig dataType;
@@ -3172,6 +3256,8 @@ class CreateFormData {
 /// Use <code>ComponentChild</code> to configure an instance of a
 /// <code>Component</code>. A <code>ComponentChild</code> instance inherits the
 /// configuration of the main <code>Component</code>.
+///
+/// @nodoc
 class Component {
   /// The unique ID of the Amplify app associated with the component.
   final String appId;
@@ -3347,6 +3433,8 @@ class Component {
 /// Describes the configuration of an event. You can bind an event and a
 /// corresponding action to a <code>Component</code> or a
 /// <code>ComponentChild</code>. A button click is an example of an event.
+///
+/// @nodoc
 class ComponentEvent {
   /// The action to perform when a specific event is raised.
   final String? action;
@@ -3392,6 +3480,8 @@ class ComponentEvent {
 /// feature in Amplify Studio that allows you to bind events and actions to
 /// components. <code>ActionParameters</code> defines the action that is
 /// performed when an event occurs on the component.
+///
+/// @nodoc
 class ActionParameters {
   /// The HTML anchor link to the location to open. Specify this value for a
   /// navigation action.
@@ -3497,6 +3587,8 @@ class ActionParameters {
 /// Describes the configuration for all of a component's properties. Use
 /// <code>ComponentProperty</code> to specify the values to render or bind by
 /// default.
+///
+/// @nodoc
 class ComponentProperty {
   /// The information to bind the component property to data at runtime.
   final ComponentPropertyBindingProperties? bindingProperties;
@@ -3639,6 +3731,8 @@ class ComponentProperty {
 
 /// Represents the state configuration when an action modifies a property of
 /// another element within the same component.
+///
+/// @nodoc
 class MutationActionSetStateParameter {
   /// The name of the component that is being modified.
   final String componentName;
@@ -3679,6 +3773,8 @@ class MutationActionSetStateParameter {
 /// Associates a component property to a binding property. This enables exposed
 /// properties on the top level component to propagate data to the component's
 /// property values.
+///
+/// @nodoc
 class ComponentPropertyBindingProperties {
   /// The component property to bind to the data field.
   final String property;
@@ -3712,6 +3808,8 @@ class ComponentPropertyBindingProperties {
 /// Represents a conditional expression to set a component property. Use
 /// <code>ComponentConditionProperty</code> to set a property to different
 /// values conditionally, based on the value of another property.
+///
+/// @nodoc
 class ComponentConditionProperty {
   /// The value to assign to the property if the condition is not met.
   final ComponentProperty? elseValue;
@@ -3782,6 +3880,8 @@ class ComponentConditionProperty {
 }
 
 /// Describes how to bind a component property to form data.
+///
+/// @nodoc
 class FormBindingElement {
   /// The name of the component to retrieve a value from.
   final String element;
@@ -3812,6 +3912,8 @@ class FormBindingElement {
 }
 
 /// Describes the configuration for binding a component's properties to data.
+///
+/// @nodoc
 class ComponentDataConfiguration {
   /// The name of the data model to use to bind data to a component.
   final String model;
@@ -3867,6 +3969,8 @@ class ComponentDataConfiguration {
 
 /// Stores information for generating Amplify DataStore queries. Use a
 /// <code>Predicate</code> to retrieve a subset of the data in a collection.
+///
+/// @nodoc
 class Predicate {
   /// A list of predicates to combine logically.
   final List<Predicate>? and;
@@ -3931,6 +4035,8 @@ class Predicate {
 }
 
 /// Describes how to sort the data that you bind to a component.
+///
+/// @nodoc
 class SortProperty {
   /// The direction of the sort, either ascending or descending.
   final SortDirection direction;
@@ -3960,6 +4066,7 @@ class SortProperty {
   }
 }
 
+/// @nodoc
 class SortDirection {
   static const asc = SortDirection._('ASC');
   static const desc = SortDirection._('DESC');
@@ -3988,6 +4095,8 @@ class SortDirection {
 /// can use <code>ComponentBindingPropertiesValue</code> to add exposed
 /// properties to a component to allow different values to be entered when a
 /// component is reused in different places in an app.
+///
+/// @nodoc
 class ComponentBindingPropertiesValue {
   /// Describes the properties to customize with data at runtime.
   final ComponentBindingPropertiesValueProperties? bindingProperties;
@@ -4031,6 +4140,8 @@ class ComponentBindingPropertiesValue {
 /// stored in Amazon Web Services. For Amazon Web Services connected properties,
 /// you can bind a property to data stored in an Amazon S3 bucket, an Amplify
 /// DataStore model or an authenticated user attribute.
+///
+/// @nodoc
 class ComponentBindingPropertiesValueProperties {
   /// An Amazon S3 bucket.
   final String? bucket;
@@ -4107,6 +4218,8 @@ class ComponentBindingPropertiesValueProperties {
 }
 
 /// Describes the style configuration of a unique variation of a main component.
+///
+/// @nodoc
 class ComponentVariant {
   /// The properties of the component variant that can be overriden when
   /// customizing an instance of the component. You can't specify
@@ -4145,6 +4258,8 @@ class ComponentVariant {
 }
 
 /// A nested UI configuration within a parent <code>Component</code>.
+///
+/// @nodoc
 class ComponentChild {
   /// The type of the child component.
   final String componentType;
@@ -4215,6 +4330,8 @@ class ComponentChild {
 
 /// Contains a summary of a component. This is a read-only data type that is
 /// returned by <code>ListComponents</code>.
+///
+/// @nodoc
 class ComponentSummary {
   /// The unique ID of the Amplify app associated with the component.
   final String appId;
@@ -4267,6 +4384,8 @@ class ComponentSummary {
 
 /// Updates and saves all of the information about a component, based on
 /// component ID.
+///
+/// @nodoc
 class UpdateComponentData {
   /// The data binding information for the component's properties.
   final Map<String, ComponentBindingPropertiesValue>? bindingProperties;
@@ -4354,6 +4473,8 @@ class UpdateComponentData {
 }
 
 /// Represents all of the information that is required to create a component.
+///
+/// @nodoc
 class CreateComponentData {
   /// The data binding information for the component's properties.
   final Map<String, ComponentBindingPropertiesValue> bindingProperties;
@@ -4442,6 +4563,8 @@ class CreateComponentData {
 }
 
 /// A summary of the basic information about the code generation job.
+///
+/// @nodoc
 class CodegenJobSummary {
   /// The unique ID of the Amplify app associated with the code generation job.
   final String appId;
@@ -4494,6 +4617,8 @@ class CodegenJobSummary {
 
 /// Describes the configuration for a code generation job that is associated
 /// with an Amplify app.
+///
+/// @nodoc
 class CodegenJob {
   /// The ID of the Amplify app associated with the code generation job.
   final String appId;
@@ -4619,6 +4744,8 @@ class CodegenJob {
 
 /// Describes the configuration information for rendering the UI component
 /// associated with the code generation job.
+///
+/// @nodoc
 class CodegenJobRenderConfig {
   /// The name of the <code>ReactStartCodegenJobData</code> object.
   final ReactStartCodegenJobData? react;
@@ -4645,6 +4772,8 @@ class CodegenJobRenderConfig {
 }
 
 /// Describes the data schema for a code generation job.
+///
+/// @nodoc
 class CodegenJobGenericDataSchema {
   /// The type of the data source for the schema. Currently, the only valid value
   /// is an Amplify <code>DataStore</code>.
@@ -4700,6 +4829,8 @@ class CodegenJobGenericDataSchema {
 }
 
 /// Describes the feature flags that you can specify for a code generation job.
+///
+/// @nodoc
 class CodegenFeatureFlags {
   /// Specifies whether a code generation job supports non models.
   final bool? isNonModelSupported;
@@ -4731,6 +4862,7 @@ class CodegenFeatureFlags {
   }
 }
 
+/// @nodoc
 class CodegenJobStatus {
   static const inProgress = CodegenJobStatus._('in_progress');
   static const failed = CodegenJobStatus._('failed');
@@ -4757,6 +4889,8 @@ class CodegenJobStatus {
 }
 
 /// Describes an asset for a code generation job.
+///
+/// @nodoc
 class CodegenJobAsset {
   /// The URL to use to access the asset.
   final String? downloadUrl;
@@ -4780,6 +4914,8 @@ class CodegenJobAsset {
 }
 
 /// Dependency package that may be required for the project code to run.
+///
+/// @nodoc
 class CodegenDependency {
   /// Determines if the dependency package is using Semantic versioning. If set to
   /// true, it indicates that the dependency package uses Semantic versioning.
@@ -4824,6 +4960,7 @@ class CodegenDependency {
   }
 }
 
+/// @nodoc
 class CodegenJobGenericDataSourceType {
   static const dataStore = CodegenJobGenericDataSourceType._('DataStore');
 
@@ -4849,6 +4986,8 @@ class CodegenJobGenericDataSourceType {
 }
 
 /// Describes a non-model in a generic data schema.
+///
+/// @nodoc
 class CodegenGenericDataNonModel {
   /// The fields in a generic data schema non model.
   final Map<String, CodegenGenericDataField> fields;
@@ -4875,6 +5014,8 @@ class CodegenGenericDataNonModel {
 }
 
 /// Describes a field in a generic data schema.
+///
+/// @nodoc
 class CodegenGenericDataField {
   /// The data type for the generic data field.
   final CodegenGenericDataFieldDataType dataType;
@@ -4936,6 +5077,7 @@ class CodegenGenericDataField {
   }
 }
 
+/// @nodoc
 class CodegenGenericDataFieldDataType {
   static const id = CodegenGenericDataFieldDataType._('ID');
   static const string = CodegenGenericDataFieldDataType._('String');
@@ -4995,6 +5137,8 @@ class CodegenGenericDataFieldDataType {
 }
 
 /// Describes the relationship between generic data models.
+///
+/// @nodoc
 class CodegenGenericDataRelationshipType {
   /// The name of the related model in the data relationship.
   final String relatedModelName;
@@ -5087,6 +5231,7 @@ class CodegenGenericDataRelationshipType {
   }
 }
 
+/// @nodoc
 class GenericDataRelationshipType {
   static const hasMany = GenericDataRelationshipType._('HAS_MANY');
   static const hasOne = GenericDataRelationshipType._('HAS_ONE');
@@ -5114,6 +5259,8 @@ class GenericDataRelationshipType {
 }
 
 /// Describes the enums in a generic data schema.
+///
+/// @nodoc
 class CodegenGenericDataEnum {
   /// The list of enum values in the generic data schema.
   final List<String> values;
@@ -5140,6 +5287,8 @@ class CodegenGenericDataEnum {
 }
 
 /// Describes a model in a generic data schema.
+///
+/// @nodoc
 class CodegenGenericDataModel {
   /// The fields in the generic data model.
   final Map<String, CodegenGenericDataField> fields;
@@ -5183,6 +5332,8 @@ class CodegenGenericDataModel {
 }
 
 /// Describes the code generation job configuration for a React project.
+///
+/// @nodoc
 class ReactStartCodegenJobData {
   /// The API configuration for the code generation job.
   final ApiConfiguration? apiConfiguration;
@@ -5254,6 +5405,7 @@ class ReactStartCodegenJobData {
   }
 }
 
+/// @nodoc
 class JSModule {
   static const es2020 = JSModule._('es2020');
   static const esnext = JSModule._('esnext');
@@ -5277,6 +5429,7 @@ class JSModule {
   String toString() => value;
 }
 
+/// @nodoc
 class JSTarget {
   static const es2015 = JSTarget._('es2015');
   static const es2020 = JSTarget._('es2020');
@@ -5300,6 +5453,7 @@ class JSTarget {
   String toString() => value;
 }
 
+/// @nodoc
 class JSScript {
   static const jsx = JSScript._('jsx');
   static const tsx = JSScript._('tsx');
@@ -5325,6 +5479,8 @@ class JSScript {
 }
 
 /// Describes the API configuration for a code generation job.
+///
+/// @nodoc
 class ApiConfiguration {
   /// The configuration for an application using DataStore APIs.
   final DataStoreRenderConfig? dataStoreConfig;
@@ -5371,6 +5527,8 @@ class ApiConfiguration {
 }
 
 /// Describes the GraphQL configuration for an API for a code generation job.
+///
+/// @nodoc
 class GraphQLRenderConfig {
   /// The path to the GraphQL fragments file, relative to the component output
   /// directory.
@@ -5427,6 +5585,8 @@ class GraphQLRenderConfig {
 }
 
 /// Describes the DataStore configuration for an API for a code generation job.
+///
+/// @nodoc
 class DataStoreRenderConfig {
   DataStoreRenderConfig();
 
@@ -5440,6 +5600,8 @@ class DataStoreRenderConfig {
 }
 
 /// Describes the configuration for an application with no API being used.
+///
+/// @nodoc
 class NoApiRenderConfig {
   NoApiRenderConfig();
 
@@ -5453,6 +5615,8 @@ class NoApiRenderConfig {
 }
 
 /// The code generation job resource configuration.
+///
+/// @nodoc
 class StartCodegenJobData {
   /// The code generation configuration for the codegen job.
   final CodegenJobRenderConfig renderConfig;
@@ -5494,6 +5658,7 @@ class StartCodegenJobData {
   }
 }
 
+/// @nodoc
 class TokenProviders {
   static const figma = TokenProviders._('figma');
 
@@ -5518,6 +5683,8 @@ class TokenProviders {
 }
 
 /// Describes a refresh token.
+///
+/// @nodoc
 class RefreshTokenRequestBody {
   /// The token to use to refresh a previously issued access token that might have
   /// expired.
@@ -5542,6 +5709,8 @@ class RefreshTokenRequestBody {
 }
 
 /// Stores the metadata information about a feature on a form.
+///
+/// @nodoc
 class PutMetadataFlagBody {
   /// The new information to store.
   final String newValue;
@@ -5560,6 +5729,8 @@ class PutMetadataFlagBody {
 
 /// Describes the configuration of a request to exchange an access code for a
 /// token.
+///
+/// @nodoc
 class ExchangeCodeForTokenRequestBody {
   /// The access code to send in the request.
   final String code;
@@ -5588,26 +5759,31 @@ class ExchangeCodeForTokenRequestBody {
   }
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5616,11 +5792,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

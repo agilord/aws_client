@@ -526,6 +526,7 @@ class SupportApp {
   }
 }
 
+/// @nodoc
 class CreateSlackChannelConfigurationResult {
   CreateSlackChannelConfigurationResult();
 
@@ -539,6 +540,7 @@ class CreateSlackChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteAccountAliasResult {
   DeleteAccountAliasResult();
 
@@ -551,6 +553,7 @@ class DeleteAccountAliasResult {
   }
 }
 
+/// @nodoc
 class DeleteSlackChannelConfigurationResult {
   DeleteSlackChannelConfigurationResult();
 
@@ -564,6 +567,7 @@ class DeleteSlackChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteSlackWorkspaceConfigurationResult {
   DeleteSlackWorkspaceConfigurationResult();
 
@@ -577,6 +581,7 @@ class DeleteSlackWorkspaceConfigurationResult {
   }
 }
 
+/// @nodoc
 class GetAccountAliasResult {
   /// An alias or short name for an Amazon Web Services account.
   final String? accountAlias;
@@ -599,6 +604,7 @@ class GetAccountAliasResult {
   }
 }
 
+/// @nodoc
 class ListSlackChannelConfigurationsResult {
   /// The configurations for a Slack channel.
   final List<SlackChannelConfiguration> slackChannelConfigurations;
@@ -635,6 +641,7 @@ class ListSlackChannelConfigurationsResult {
   }
 }
 
+/// @nodoc
 class ListSlackWorkspaceConfigurationsResult {
   /// The point where pagination should resume when the response returns only
   /// partial results.
@@ -672,6 +679,7 @@ class ListSlackWorkspaceConfigurationsResult {
   }
 }
 
+/// @nodoc
 class PutAccountAliasResult {
   PutAccountAliasResult();
 
@@ -684,6 +692,7 @@ class PutAccountAliasResult {
   }
 }
 
+/// @nodoc
 class RegisterSlackWorkspaceForOrganizationResult {
   /// Whether the Amazon Web Services account is a management or member account
   /// that's part of an organization in Organizations.
@@ -724,6 +733,7 @@ class RegisterSlackWorkspaceForOrganizationResult {
   }
 }
 
+/// @nodoc
 class UpdateSlackChannelConfigurationResult {
   /// The channel ID in Slack. This ID identifies a channel within a Slack
   /// workspace.
@@ -811,6 +821,7 @@ class UpdateSlackChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class NotificationSeverityLevel {
   static const none = NotificationSeverityLevel._('none');
   static const all = NotificationSeverityLevel._('all');
@@ -837,6 +848,7 @@ class NotificationSeverityLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountType {
   static const management = AccountType._('management');
   static const member = AccountType._('member');
@@ -862,6 +874,8 @@ class AccountType {
 
 /// The configuration for a Slack workspace that you added to an Amazon Web
 /// Services account.
+///
+/// @nodoc
 class SlackWorkspaceConfiguration {
   /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
   /// <code>T012ABCDEFG</code>.
@@ -904,6 +918,8 @@ class SlackWorkspaceConfiguration {
 
 /// The configuration for a Slack channel that you added for your Amazon Web
 /// Services account.
+///
+/// @nodoc
 class SlackChannelConfiguration {
   /// The channel ID in Slack. This ID identifies a channel within a Slack
   /// workspace.
@@ -990,26 +1006,31 @@ class SlackChannelConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1018,6 +1039,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

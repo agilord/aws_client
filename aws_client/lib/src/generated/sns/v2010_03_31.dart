@@ -1575,7 +1575,7 @@ class Sns {
   /// This parameter applies only to FIFO (first-in-first-out) topics. The
   /// <code>MessageDeduplicationId</code> can contain up to 128 alphanumeric
   /// characters <code>(a-z, A-Z, 0-9)</code> and punctuation
-  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  /// <code>(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~)</code>.
   /// </li>
   /// <li>
   /// Every message must have a unique <code>MessageDeduplicationId</code>,
@@ -1636,7 +1636,7 @@ class Sns {
   /// Parameter [messageGroupId] :
   /// The <code>MessageGroupId</code> can contain up to 128 alphanumeric
   /// characters <code>(a-z, A-Z, 0-9)</code> and punctuation
-  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  /// <code>(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~)</code>.
   ///
   /// For FIFO topics: The <code>MessageGroupId</code> is a tag that specifies
   /// that a message belongs to a specific message group. Messages that belong
@@ -3046,6 +3046,8 @@ class Sns {
 }
 
 /// The response from the <code>CheckIfPhoneNumberIsOptedOut</code> action.
+///
+/// @nodoc
 class CheckIfPhoneNumberIsOptedOutResponse {
   /// Indicates whether the phone number is opted out:
   ///
@@ -3079,6 +3081,8 @@ class CheckIfPhoneNumberIsOptedOutResponse {
 }
 
 /// Response for ConfirmSubscriptions action.
+///
+/// @nodoc
 class ConfirmSubscriptionResponse {
   /// The ARN of the created subscription.
   final String? subscriptionArn;
@@ -3101,6 +3105,8 @@ class ConfirmSubscriptionResponse {
 }
 
 /// Response from CreatePlatformApplication action.
+///
+/// @nodoc
 class CreatePlatformApplicationResponse {
   /// <code>PlatformApplicationArn</code> is returned.
   final String? platformApplicationArn;
@@ -3125,6 +3131,8 @@ class CreatePlatformApplicationResponse {
 }
 
 /// Response from CreateEndpoint action.
+///
+/// @nodoc
 class CreateEndpointResponse {
   /// EndpointArn returned from CreateEndpoint action.
   final String? endpointArn;
@@ -3146,6 +3154,7 @@ class CreateEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateSMSSandboxPhoneNumberResult {
   CreateSMSSandboxPhoneNumberResult();
   factory CreateSMSSandboxPhoneNumberResult.fromXml(
@@ -3160,6 +3169,8 @@ class CreateSMSSandboxPhoneNumberResult {
 }
 
 /// Response from CreateTopic action.
+///
+/// @nodoc
 class CreateTopicResponse {
   /// The Amazon Resource Name (ARN) assigned to the created topic.
   final String? topicArn;
@@ -3181,6 +3192,7 @@ class CreateTopicResponse {
   }
 }
 
+/// @nodoc
 class DeleteSMSSandboxPhoneNumberResult {
   DeleteSMSSandboxPhoneNumberResult();
   factory DeleteSMSSandboxPhoneNumberResult.fromXml(
@@ -3194,6 +3206,7 @@ class DeleteSMSSandboxPhoneNumberResult {
   }
 }
 
+/// @nodoc
 class GetDataProtectionPolicyResponse {
   /// Retrieves the <code>DataProtectionPolicy</code> in JSON string format.
   final String? dataProtectionPolicy;
@@ -3219,6 +3232,8 @@ class GetDataProtectionPolicyResponse {
 
 /// Response from <code>GetEndpointAttributes</code> of the
 /// <code>EndpointArn</code>.
+///
+/// @nodoc
 class GetEndpointAttributesResponse {
   /// Attributes include the following:
   ///
@@ -3270,6 +3285,8 @@ class GetEndpointAttributesResponse {
 }
 
 /// Response for <code>GetPlatformApplicationAttributes</code> action.
+///
+/// @nodoc
 class GetPlatformApplicationAttributesResponse {
   /// Attributes include the following:
   ///
@@ -3345,6 +3362,8 @@ class GetPlatformApplicationAttributesResponse {
 }
 
 /// The response from the <code>GetSMSAttributes</code> request.
+///
+/// @nodoc
 class GetSMSAttributesResponse {
   /// The SMS attribute names and their values.
   final Map<String, String>? attributes;
@@ -3374,6 +3393,7 @@ class GetSMSAttributesResponse {
   }
 }
 
+/// @nodoc
 class GetSMSSandboxAccountStatusResult {
   /// Indicates whether the calling Amazon Web Services account is in the SMS
   /// sandbox.
@@ -3397,6 +3417,8 @@ class GetSMSSandboxAccountStatusResult {
 }
 
 /// Response for GetSubscriptionAttributes action.
+///
+/// @nodoc
 class GetSubscriptionAttributesResponse {
   /// A map of the subscription's attributes. Attributes in this map include the
   /// following:
@@ -3514,6 +3536,8 @@ class GetSubscriptionAttributesResponse {
 }
 
 /// Response for GetTopicAttributes action.
+///
+/// @nodoc
 class GetTopicAttributesResponse {
   /// A map of the topic's attributes. Attributes in this map include the
   /// following:
@@ -3670,6 +3694,8 @@ class GetTopicAttributesResponse {
 }
 
 /// Response for <code>ListEndpointsByPlatformApplication</code> action.
+///
+/// @nodoc
 class ListEndpointsByPlatformApplicationResponse {
   /// Endpoints returned for <code>ListEndpointsByPlatformApplication</code>
   /// action.
@@ -3703,6 +3729,7 @@ class ListEndpointsByPlatformApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListOriginationNumbersResult {
   /// A <code>NextToken</code> string is returned when you call the
   /// <code>ListOriginationNumbers</code> operation if additional pages of records
@@ -3737,6 +3764,8 @@ class ListOriginationNumbersResult {
 }
 
 /// The response from the <code>ListPhoneNumbersOptedOut</code> action.
+///
+/// @nodoc
 class ListPhoneNumbersOptedOutResponse {
   /// A <code>NextToken</code> string is returned when you call the
   /// <code>ListPhoneNumbersOptedOut</code> action if additional records are
@@ -3771,6 +3800,8 @@ class ListPhoneNumbersOptedOutResponse {
 }
 
 /// Response for <code>ListPlatformApplications</code> action.
+///
+/// @nodoc
 class ListPlatformApplicationsResponse {
   /// <code>NextToken</code> string is returned when calling
   /// <code>ListPlatformApplications</code> action if additional records are
@@ -3808,6 +3839,7 @@ class ListPlatformApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListSMSSandboxPhoneNumbersResult {
   /// A list of the calling account's pending and verified phone numbers.
   final List<SMSSandboxPhoneNumber> phoneNumbers;
@@ -3843,6 +3875,8 @@ class ListSMSSandboxPhoneNumbersResult {
 }
 
 /// Response for ListSubscriptions action
+///
+/// @nodoc
 class ListSubscriptionsResponse {
   /// Token to pass along to the next <code>ListSubscriptions</code> request. This
   /// element is returned if there are more subscriptions to retrieve.
@@ -3874,6 +3908,8 @@ class ListSubscriptionsResponse {
 }
 
 /// Response for ListSubscriptionsByTopic action.
+///
+/// @nodoc
 class ListSubscriptionsByTopicResponse {
   /// Token to pass along to the next <code>ListSubscriptionsByTopic</code>
   /// request. This element is returned if there are more subscriptions to
@@ -3905,6 +3941,7 @@ class ListSubscriptionsByTopicResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the specified topic.
   final List<Tag>? tags;
@@ -3928,6 +3965,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Response for ListTopics action.
+///
+/// @nodoc
 class ListTopicsResponse {
   /// Token to pass along to the next <code>ListTopics</code> request. This
   /// element is returned if there are additional topics to retrieve.
@@ -3959,6 +3998,8 @@ class ListTopicsResponse {
 }
 
 /// The response for the OptInPhoneNumber action.
+///
+/// @nodoc
 class OptInPhoneNumberResponse {
   OptInPhoneNumberResponse();
   factory OptInPhoneNumberResponse.fromXml(
@@ -3973,6 +4014,8 @@ class OptInPhoneNumberResponse {
 }
 
 /// Response for Publish action.
+///
+/// @nodoc
 class PublishResponse {
   /// Unique identifier assigned to the published message.
   ///
@@ -4008,6 +4051,7 @@ class PublishResponse {
   }
 }
 
+/// @nodoc
 class PublishBatchResponse {
   /// A list of failed <code>PublishBatch</code> responses.
   final List<BatchResultErrorEntry>? failed;
@@ -4043,6 +4087,8 @@ class PublishBatchResponse {
 }
 
 /// The response for the SetSMSAttributes action.
+///
+/// @nodoc
 class SetSMSAttributesResponse {
   SetSMSAttributesResponse();
   factory SetSMSAttributesResponse.fromXml(
@@ -4057,6 +4103,8 @@ class SetSMSAttributesResponse {
 }
 
 /// Response for Subscribe action.
+///
+/// @nodoc
 class SubscribeResponse {
   /// The ARN of the subscription if it is confirmed, or the string "pending
   /// confirmation" if the subscription requires confirmation. However, if the API
@@ -4082,6 +4130,7 @@ class SubscribeResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromXml(
@@ -4095,6 +4144,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromXml(
@@ -4109,6 +4159,8 @@ class UntagResourceResponse {
 }
 
 /// The destination phone number's verification status.
+///
+/// @nodoc
 class VerifySMSSandboxPhoneNumberResult {
   VerifySMSSandboxPhoneNumberResult();
   factory VerifySMSSandboxPhoneNumberResult.fromXml(
@@ -4123,6 +4175,8 @@ class VerifySMSSandboxPhoneNumberResult {
 }
 
 /// The list of tags to be added to the specified topic.
+///
+/// @nodoc
 class Tag {
   /// The required key portion of the tag.
   final String key;
@@ -4161,6 +4215,8 @@ class Tag {
 }
 
 /// Gives a detailed description of failed messages in the batch.
+///
+/// @nodoc
 class BatchResultErrorEntry {
   /// An error code representing why the action failed on this entry.
   final String code;
@@ -4205,6 +4261,8 @@ class BatchResultErrorEntry {
 }
 
 /// Encloses data related to a successful message in a batch request for topic.
+///
+/// @nodoc
 class PublishBatchResultEntry {
   /// The <code>Id</code> of an entry in a batch request.
   final String? id;
@@ -4248,6 +4306,8 @@ class PublishBatchResultEntry {
 
 /// Contains the details of a single Amazon SNS message along with an
 /// <code>Id</code> that identifies a message within the batch.
+///
+/// @nodoc
 class PublishBatchRequestEntry {
   /// An identifier for the message in this batch.
   /// <note>
@@ -4274,7 +4334,7 @@ class PublishBatchRequestEntry {
   /// This parameter applies only to FIFO (first-in-first-out) topics. The
   /// <code>MessageDeduplicationId</code> can contain up to 128 alphanumeric
   /// characters <code>(a-z, A-Z, 0-9)</code> and punctuation
-  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  /// <code>(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~)</code>.
   /// </li>
   /// <li>
   /// Every message must have a unique <code>MessageDeduplicationId</code>, which
@@ -4362,7 +4422,7 @@ class PublishBatchRequestEntry {
   ///
   /// <code>MessageGroupId</code> can contain alphanumeric characters <code>(a-z,
   /// A-Z, 0-9)</code> and punctuation
-  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  /// <code>(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~)</code>.
   final String? messageGroupId;
 
   /// Set <code>MessageStructure</code> to <code>json</code> if you want to send a
@@ -4457,6 +4517,8 @@ class PublishBatchRequestEntry {
 /// SNS message attributes</a> and <a
 /// href="https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Publishing
 /// to a mobile phone</a> in the <i>Amazon SNS Developer Guide.</i>
+///
+/// @nodoc
 class MessageAttributeValue {
   /// Amazon SNS supports the following logical data types: String, String.Array,
   /// Number, and Binary. For more information, see <a
@@ -4505,6 +4567,8 @@ class MessageAttributeValue {
 
 /// A wrapper type for the topic's Amazon Resource Name (ARN). To retrieve a
 /// topic's attributes, use <code>GetTopicAttributes</code>.
+///
+/// @nodoc
 class Topic {
   /// The topic's ARN.
   final String? topicArn;
@@ -4527,6 +4591,8 @@ class Topic {
 }
 
 /// A wrapper type for the attributes of an Amazon SNS subscription.
+///
+/// @nodoc
 class Subscription {
   /// The subscription's endpoint (format depends on the protocol).
   final String? endpoint;
@@ -4588,6 +4654,8 @@ class Subscription {
 /// without restrictions, see <a
 /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">SMS
 /// sandbox</a> in the <i>Amazon SNS Developer Guide</i>.
+///
+/// @nodoc
 class SMSSandboxPhoneNumber {
   /// The destination phone number.
   final String? phoneNumber;
@@ -4622,6 +4690,8 @@ class SMSSandboxPhoneNumber {
 /// statuses. The following enum values are supported. 1. PENDING : The
 /// destination phone number is pending verification. 2. VERIFIED : The
 /// destination phone number is verified.
+///
+/// @nodoc
 class SMSSandboxPhoneNumberVerificationStatus {
   static const pending = SMSSandboxPhoneNumberVerificationStatus._('Pending');
   static const verified = SMSSandboxPhoneNumberVerificationStatus._('Verified');
@@ -4648,6 +4718,8 @@ class SMSSandboxPhoneNumberVerificationStatus {
 }
 
 /// Platform application object.
+///
+/// @nodoc
 class PlatformApplication {
   /// Attributes for platform application object.
   final Map<String, String>? attributes;
@@ -4687,6 +4759,8 @@ class PlatformApplication {
 }
 
 /// A list of phone numbers and their metadata.
+///
+/// @nodoc
 class PhoneNumberInformation {
   /// The date and time when the phone number was created.
   final DateTime? createdAt;
@@ -4754,6 +4828,8 @@ class PhoneNumberInformation {
 /// Enum listing out all supported route types. The following enum values are
 /// supported. 1. Transactional : Non-marketing traffic 2. Promotional :
 /// Marketing 3. Premium : Premium routes for OTP delivery to the carriers
+///
+/// @nodoc
 class RouteType {
   static const transactional = RouteType._('Transactional');
   static const promotional = RouteType._('Promotional');
@@ -4779,6 +4855,8 @@ class RouteType {
 }
 
 /// Enum listing out all supported number capabilities.
+///
+/// @nodoc
 class NumberCapability {
   static const sms = NumberCapability._('SMS');
   static const mms = NumberCapability._('MMS');
@@ -4805,6 +4883,8 @@ class NumberCapability {
 }
 
 /// The endpoint for mobile app and device.
+///
+/// @nodoc
 class Endpoint {
   /// Attributes for endpoint.
   final Map<String, String>? attributes;
@@ -4842,6 +4922,8 @@ class Endpoint {
 }
 
 /// Supported language code for sending OTP message
+///
+/// @nodoc
 class LanguageCodeString {
   static const enUs = LanguageCodeString._('en-US');
   static const enGb = LanguageCodeString._('en-GB');
@@ -4892,12 +4974,14 @@ class LanguageCodeString {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthorizationErrorException extends _s.GenericAwsException {
   AuthorizationErrorException({String? type, String? message})
       : super(
             type: type, code: 'AuthorizationErrorException', message: message);
 }
 
+/// @nodoc
 class BatchEntryIdsNotDistinctException extends _s.GenericAwsException {
   BatchEntryIdsNotDistinctException({String? type, String? message})
       : super(
@@ -4906,27 +4990,32 @@ class BatchEntryIdsNotDistinctException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BatchRequestTooLongException extends _s.GenericAwsException {
   BatchRequestTooLongException({String? type, String? message})
       : super(
             type: type, code: 'BatchRequestTooLongException', message: message);
 }
 
+/// @nodoc
 class ConcurrentAccessException extends _s.GenericAwsException {
   ConcurrentAccessException({String? type, String? message})
       : super(type: type, code: 'ConcurrentAccessException', message: message);
 }
 
+/// @nodoc
 class EmptyBatchRequestException extends _s.GenericAwsException {
   EmptyBatchRequestException({String? type, String? message})
       : super(type: type, code: 'EmptyBatchRequestException', message: message);
 }
 
+/// @nodoc
 class EndpointDisabledException extends _s.GenericAwsException {
   EndpointDisabledException({String? type, String? message})
       : super(type: type, code: 'EndpointDisabledException', message: message);
 }
 
+/// @nodoc
 class FilterPolicyLimitExceededException extends _s.GenericAwsException {
   FilterPolicyLimitExceededException({String? type, String? message})
       : super(
@@ -4935,22 +5024,26 @@ class FilterPolicyLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidBatchEntryIdException extends _s.GenericAwsException {
   InvalidBatchEntryIdException({String? type, String? message})
       : super(
             type: type, code: 'InvalidBatchEntryIdException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -4959,56 +5052,67 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSecurityException extends _s.GenericAwsException {
   InvalidSecurityException({String? type, String? message})
       : super(type: type, code: 'InvalidSecurityException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class KMSAccessDeniedException extends _s.GenericAwsException {
   KMSAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedException', message: message);
 }
 
+/// @nodoc
 class KMSDisabledException extends _s.GenericAwsException {
   KMSDisabledException({String? type, String? message})
       : super(type: type, code: 'KMSDisabledException', message: message);
 }
 
+/// @nodoc
 class KMSInvalidStateException extends _s.GenericAwsException {
   KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
+/// @nodoc
 class KMSNotFoundException extends _s.GenericAwsException {
   KMSNotFoundException({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundException', message: message);
 }
 
+/// @nodoc
 class KMSOptInRequired extends _s.GenericAwsException {
   KMSOptInRequired({String? type, String? message})
       : super(type: type, code: 'KMSOptInRequired', message: message);
 }
 
+/// @nodoc
 class KMSThrottlingException extends _s.GenericAwsException {
   KMSThrottlingException({String? type, String? message})
       : super(type: type, code: 'KMSThrottlingException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class OptedOutException extends _s.GenericAwsException {
   OptedOutException({String? type, String? message})
       : super(type: type, code: 'OptedOutException', message: message);
 }
 
+/// @nodoc
 class PlatformApplicationDisabledException extends _s.GenericAwsException {
   PlatformApplicationDisabledException({String? type, String? message})
       : super(
@@ -5017,22 +5121,26 @@ class PlatformApplicationDisabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplayLimitExceededException extends _s.GenericAwsException {
   ReplayLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ReplayLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class StaleTagException extends _s.GenericAwsException {
   StaleTagException({String? type, String? message})
       : super(type: type, code: 'StaleTagException', message: message);
 }
 
+/// @nodoc
 class SubscriptionLimitExceededException extends _s.GenericAwsException {
   SubscriptionLimitExceededException({String? type, String? message})
       : super(
@@ -5041,21 +5149,25 @@ class SubscriptionLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagLimitExceededException extends _s.GenericAwsException {
   TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
+/// @nodoc
 class TagPolicyException extends _s.GenericAwsException {
   TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
+/// @nodoc
 class ThrottledException extends _s.GenericAwsException {
   ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
+/// @nodoc
 class TooManyEntriesInBatchRequestException extends _s.GenericAwsException {
   TooManyEntriesInBatchRequestException({String? type, String? message})
       : super(
@@ -5064,22 +5176,26 @@ class TooManyEntriesInBatchRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TopicLimitExceededException extends _s.GenericAwsException {
   TopicLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'TopicLimitExceededException', message: message);
 }
 
+/// @nodoc
 class UserErrorException extends _s.GenericAwsException {
   UserErrorException({String? type, String? message})
       : super(type: type, code: 'UserErrorException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
+/// @nodoc
 class VerificationException extends _s.GenericAwsException {
   VerificationException({String? type, String? message})
       : super(type: type, code: 'VerificationException', message: message);

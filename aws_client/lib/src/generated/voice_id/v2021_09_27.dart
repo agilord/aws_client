@@ -1388,6 +1388,7 @@ class VoiceID {
   }
 }
 
+/// @nodoc
 class AssociateFraudsterResponse {
   final Fraudster? fraudster;
 
@@ -1411,6 +1412,7 @@ class AssociateFraudsterResponse {
   }
 }
 
+/// @nodoc
 class CreateWatchlistResponse {
   /// Information about the newly created watchlist.
   final Watchlist? watchlist;
@@ -1435,6 +1437,7 @@ class CreateWatchlistResponse {
   }
 }
 
+/// @nodoc
 class DescribeFraudsterResponse {
   /// Information about the specified fraudster.
   final Fraudster? fraudster;
@@ -1459,6 +1462,7 @@ class DescribeFraudsterResponse {
   }
 }
 
+/// @nodoc
 class DescribeFraudsterRegistrationJobResponse {
   /// Contains details about the specified fraudster registration job.
   final FraudsterRegistrationJob? job;
@@ -1485,6 +1489,7 @@ class DescribeFraudsterRegistrationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeSpeakerResponse {
   /// Information about the specified speaker.
   final Speaker? speaker;
@@ -1509,6 +1514,7 @@ class DescribeSpeakerResponse {
   }
 }
 
+/// @nodoc
 class DescribeSpeakerEnrollmentJobResponse {
   /// Contains details about the specified speaker enrollment job.
   final SpeakerEnrollmentJob? job;
@@ -1534,6 +1540,7 @@ class DescribeSpeakerEnrollmentJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeWatchlistResponse {
   /// Information about the specified watchlist.
   final Watchlist? watchlist;
@@ -1558,6 +1565,7 @@ class DescribeWatchlistResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFraudsterResponse {
   final Fraudster? fraudster;
 
@@ -1581,6 +1589,7 @@ class DisassociateFraudsterResponse {
   }
 }
 
+/// @nodoc
 class EvaluateSessionResponse {
   /// Details resulting from the authentication process, such as authentication
   /// decision and authentication score.
@@ -1658,6 +1667,7 @@ class EvaluateSessionResponse {
   }
 }
 
+/// @nodoc
 class ListFraudsterRegistrationJobsResponse {
   /// A list containing details about each specified fraudster registration job.
   final List<FraudsterRegistrationJobSummary>? jobSummaries;
@@ -1695,6 +1705,7 @@ class ListFraudsterRegistrationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListFraudstersResponse {
   /// A list that contains details about each fraudster in the Amazon Web Services
   /// account.
@@ -1731,6 +1742,7 @@ class ListFraudstersResponse {
   }
 }
 
+/// @nodoc
 class ListSpeakerEnrollmentJobsResponse {
   /// A list containing details about each specified speaker enrollment job.
   final List<SpeakerEnrollmentJobSummary>? jobSummaries;
@@ -1768,6 +1780,7 @@ class ListSpeakerEnrollmentJobsResponse {
   }
 }
 
+/// @nodoc
 class ListSpeakersResponse {
   /// If <code>NextToken</code> is returned, there are more results available. The
   /// value of <code>NextToken</code> is a unique pagination token for each page.
@@ -1804,6 +1817,7 @@ class ListSpeakersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags associated with the specified resource.
   final List<Tag>? tags;
@@ -1829,6 +1843,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWatchlistsResponse {
   /// If <code>NextToken</code> is returned, there are more results available. The
   /// value of <code>NextToken</code> is a unique pagination token for each page.
@@ -1865,6 +1880,7 @@ class ListWatchlistsResponse {
   }
 }
 
+/// @nodoc
 class OptOutSpeakerResponse {
   /// Details about the opted-out speaker.
   final Speaker? speaker;
@@ -1889,6 +1905,7 @@ class OptOutSpeakerResponse {
   }
 }
 
+/// @nodoc
 class StartFraudsterRegistrationJobResponse {
   /// Details about the started fraudster registration job.
   final FraudsterRegistrationJob? job;
@@ -1915,6 +1932,7 @@ class StartFraudsterRegistrationJobResponse {
   }
 }
 
+/// @nodoc
 class StartSpeakerEnrollmentJobResponse {
   /// Details about the started speaker enrollment job.
   final SpeakerEnrollmentJob? job;
@@ -1940,6 +1958,7 @@ class StartSpeakerEnrollmentJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1952,6 +1971,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1964,6 +1984,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateWatchlistResponse {
   /// Details about the updated watchlist.
   final Watchlist? watchlist;
@@ -1988,6 +2009,7 @@ class UpdateWatchlistResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainResponse {
   /// Information about the newly created domain.
   final Domain? domain;
@@ -2012,6 +2034,7 @@ class CreateDomainResponse {
   }
 }
 
+/// @nodoc
 class DescribeDomainResponse {
   /// Information about the specified domain.
   final Domain? domain;
@@ -2036,6 +2059,7 @@ class DescribeDomainResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainResponse {
   /// Details about the updated domain
   final Domain? domain;
@@ -2060,6 +2084,7 @@ class UpdateDomainResponse {
   }
 }
 
+/// @nodoc
 class ListDomainsResponse {
   /// A list containing details about each domain in the Amazon Web Services
   /// account.
@@ -2097,6 +2122,8 @@ class ListDomainsResponse {
 }
 
 /// Contains a summary of information about a domain.
+///
+/// @nodoc
 class DomainSummary {
   /// The Amazon Resource Name (ARN) for the domain.
   final String? arn;
@@ -2205,6 +2232,7 @@ class DomainSummary {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const active = DomainStatus._('ACTIVE');
   static const pending = DomainStatus._('PENDING');
@@ -2231,6 +2259,8 @@ class DomainStatus {
 
 /// The configuration containing information about the customer managed key used
 /// for encrypting customer data.
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// The identifier of the KMS key to use to encrypt data stored by Voice ID.
   /// Voice ID doesn't support asymmetric customer managed keys.
@@ -2259,6 +2289,8 @@ class ServerSideEncryptionConfiguration {
 /// When the server-side encryption configuration is changed, dependency on the
 /// old KMS key is removed through an asynchronous process. When this update is
 /// complete, the domain’s data can only be accessed using the new KMS key.
+///
+/// @nodoc
 class ServerSideEncryptionUpdateDetails {
   /// Message explaining the current UpdateStatus. When the UpdateStatus is
   /// FAILED, this message explains the cause of the failure.
@@ -2305,6 +2337,8 @@ class ServerSideEncryptionUpdateDetails {
 }
 
 /// Details of the watchlists in a domain.
+///
+/// @nodoc
 class WatchlistDetails {
   /// The identifier of the default watchlist.
   final String defaultWatchlistId;
@@ -2327,6 +2361,7 @@ class WatchlistDetails {
   }
 }
 
+/// @nodoc
 class ServerSideEncryptionUpdateStatus {
   static const inProgress = ServerSideEncryptionUpdateStatus._('IN_PROGRESS');
   static const completed = ServerSideEncryptionUpdateStatus._('COMPLETED');
@@ -2354,6 +2389,8 @@ class ServerSideEncryptionUpdateStatus {
 }
 
 /// Contains all the information about a domain.
+///
+/// @nodoc
 class Domain {
   /// The Amazon Resource Name (ARN) for the domain.
   final String? arn;
@@ -2464,6 +2501,8 @@ class Domain {
 
 /// The tags used to organize, track, or control access for this resource. For
 /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+///
+/// @nodoc
 class Tag {
   /// The first part of a key:value pair that forms a tag associated with a given
   /// resource. For example, in the tag 'Department':'Sales', the key is
@@ -2498,6 +2537,8 @@ class Tag {
 }
 
 /// Contains all the information about a watchlist.
+///
+/// @nodoc
 class Watchlist {
   /// The timestamp of when the watchlist was created.
   final DateTime? createdAt;
@@ -2563,6 +2604,8 @@ class Watchlist {
 }
 
 /// Contains all the information about a speaker enrollment job.
+///
+/// @nodoc
 class SpeakerEnrollmentJob {
   /// A timestamp of when the speaker enrollment job was created.
   final DateTime? createdAt;
@@ -2688,6 +2731,7 @@ class SpeakerEnrollmentJob {
   }
 }
 
+/// @nodoc
 class SpeakerEnrollmentJobStatus {
   static const submitted = SpeakerEnrollmentJobStatus._('SUBMITTED');
   static const inProgress = SpeakerEnrollmentJobStatus._('IN_PROGRESS');
@@ -2724,6 +2768,8 @@ class SpeakerEnrollmentJobStatus {
 }
 
 /// Contains configurations defining enrollment behavior for the batch job.
+///
+/// @nodoc
 class EnrollmentConfig {
   /// The action to take when the specified speaker is already enrolled in the
   /// specified domain. The default value is <code>SKIP</code>, which skips the
@@ -2764,6 +2810,8 @@ class EnrollmentConfig {
 }
 
 /// The configuration containing input file information for a batch job.
+///
+/// @nodoc
 class InputDataConfig {
   /// The S3 location for the input manifest file that contains the list of
   /// individual enrollment or registration job requests.
@@ -2788,6 +2836,8 @@ class InputDataConfig {
 }
 
 /// The configuration containing output file information for a batch job.
+///
+/// @nodoc
 class OutputDataConfig {
   /// The S3 path of the folder where Voice ID writes the job output file. It has
   /// a <code>*.out</code> extension. For example, if the input file name is
@@ -2823,6 +2873,8 @@ class OutputDataConfig {
 }
 
 /// Contains error details for a failed batch job.
+///
+/// @nodoc
 class FailureDetails {
   /// A description of the error that caused the batch job failure.
   final String? message;
@@ -2853,6 +2905,8 @@ class FailureDetails {
 }
 
 /// Indicates the completion progress for a batch job.
+///
+/// @nodoc
 class JobProgress {
   /// Shows the completed percentage of enrollment or registration requests listed
   /// in the input file.
@@ -2876,6 +2930,7 @@ class JobProgress {
   }
 }
 
+/// @nodoc
 class ExistingEnrollmentAction {
   static const skip = ExistingEnrollmentAction._('SKIP');
   static const overwrite = ExistingEnrollmentAction._('OVERWRITE');
@@ -2903,6 +2958,8 @@ class ExistingEnrollmentAction {
 
 /// The fraud detection configuration to be used during the batch speaker
 /// enrollment job.
+///
+/// @nodoc
 class EnrollmentJobFraudDetectionConfig {
   /// The action to take when the given speaker is flagged by the fraud detection
   /// system. The default value is <code>FAIL</code>, which fails the speaker
@@ -2951,6 +3008,7 @@ class EnrollmentJobFraudDetectionConfig {
   }
 }
 
+/// @nodoc
 class FraudDetectionAction {
   static const ignore = FraudDetectionAction._('IGNORE');
   static const fail = FraudDetectionAction._('FAIL');
@@ -2977,6 +3035,8 @@ class FraudDetectionAction {
 }
 
 /// Contains all the information about a fraudster registration job.
+///
+/// @nodoc
 class FraudsterRegistrationJob {
   /// A timestamp of when the fraudster registration job was created.
   final DateTime? createdAt;
@@ -3103,6 +3163,7 @@ class FraudsterRegistrationJob {
   }
 }
 
+/// @nodoc
 class FraudsterRegistrationJobStatus {
   static const submitted = FraudsterRegistrationJobStatus._('SUBMITTED');
   static const inProgress = FraudsterRegistrationJobStatus._('IN_PROGRESS');
@@ -3140,6 +3201,8 @@ class FraudsterRegistrationJobStatus {
 
 /// The registration configuration to be used during the batch fraudster
 /// registration job.
+///
+/// @nodoc
 class RegistrationConfig {
   /// The action to take when a fraudster is identified as a duplicate. The
   /// default action is <code>SKIP</code>, which skips registering the duplicate
@@ -3190,6 +3253,7 @@ class RegistrationConfig {
   }
 }
 
+/// @nodoc
 class DuplicateRegistrationAction {
   static const skip = DuplicateRegistrationAction._('SKIP');
   static const registerAsNew = DuplicateRegistrationAction._('REGISTER_AS_NEW');
@@ -3216,6 +3280,8 @@ class DuplicateRegistrationAction {
 }
 
 /// Contains all the information about a speaker.
+///
+/// @nodoc
 class Speaker {
   /// A timestamp of when the speaker was created.
   final DateTime? createdAt;
@@ -3283,6 +3349,7 @@ class Speaker {
   }
 }
 
+/// @nodoc
 class SpeakerStatus {
   static const enrolled = SpeakerStatus._('ENROLLED');
   static const expired = SpeakerStatus._('EXPIRED');
@@ -3310,6 +3377,8 @@ class SpeakerStatus {
 }
 
 /// Contains a summary of information about a watchlist.
+///
+/// @nodoc
 class WatchlistSummary {
   /// The timestamp of when the watchlist was created.
   final DateTime? createdAt;
@@ -3375,6 +3444,8 @@ class WatchlistSummary {
 }
 
 /// Contains a summary of information about a speaker.
+///
+/// @nodoc
 class SpeakerSummary {
   /// A timestamp showing the speaker's creation time.
   final DateTime? createdAt;
@@ -3443,6 +3514,8 @@ class SpeakerSummary {
 }
 
 /// Contains a summary of information about a speaker enrollment job.
+///
+/// @nodoc
 class SpeakerEnrollmentJobSummary {
   /// A timestamp of when of the speaker enrollment job was created.
   final DateTime? createdAt;
@@ -3526,6 +3599,8 @@ class SpeakerEnrollmentJobSummary {
 }
 
 /// Contains a summary of information about a fraudster.
+///
+/// @nodoc
 class FraudsterSummary {
   /// The timestamp of when the fraudster summary was created.
   final DateTime? createdAt;
@@ -3574,6 +3649,8 @@ class FraudsterSummary {
 }
 
 /// Contains a summary of information about a fraudster registration job.
+///
+/// @nodoc
 class FraudsterRegistrationJobSummary {
   /// A timestamp of when the fraudster registration job was created.
   final DateTime? createdAt;
@@ -3656,6 +3733,7 @@ class FraudsterRegistrationJobSummary {
   }
 }
 
+/// @nodoc
 class StreamingStatus {
   static const pendingConfiguration =
       StreamingStatus._('PENDING_CONFIGURATION');
@@ -3684,6 +3762,8 @@ class StreamingStatus {
 
 /// The authentication result produced by Voice ID, processed against the
 /// current session state and streamed audio of the speaker.
+///
+/// @nodoc
 class AuthenticationResult {
   /// A timestamp of when audio aggregation ended for this authentication result.
   final DateTime? audioAggregationEndedAt;
@@ -3780,6 +3860,8 @@ class AuthenticationResult {
 
 /// The fraud detection result produced by Voice ID, processed against the
 /// current session state and streamed audio of the speaker.
+///
+/// @nodoc
 class FraudDetectionResult {
   /// A timestamp of when audio aggregation ended for this fraud detection result.
   final DateTime? audioAggregationEndedAt;
@@ -3874,6 +3956,8 @@ class FraudDetectionResult {
 
 /// The configuration used for performing fraud detection over a speaker during
 /// a session.
+///
+/// @nodoc
 class FraudDetectionConfiguration {
   /// Threshold value for determining whether the speaker is a fraudster. If the
   /// detected risk score calculated by Voice ID is higher than the threshold, the
@@ -3905,6 +3989,7 @@ class FraudDetectionConfiguration {
   }
 }
 
+/// @nodoc
 class FraudDetectionDecision {
   static const highRisk = FraudDetectionDecision._('HIGH_RISK');
   static const lowRisk = FraudDetectionDecision._('LOW_RISK');
@@ -3933,6 +4018,8 @@ class FraudDetectionDecision {
 
 /// Details regarding various fraud risk analyses performed against the current
 /// session state and streamed audio of the speaker.
+///
+/// @nodoc
 class FraudRiskDetails {
   /// The details resulting from 'Known Fraudster Risk' analysis of the speaker.
   final KnownFraudsterRisk knownFraudsterRisk;
@@ -3968,6 +4055,8 @@ class FraudRiskDetails {
 
 /// Contains details produced as a result of performing known fraudster risk
 /// analysis on a speaker.
+///
+/// @nodoc
 class KnownFraudsterRisk {
   /// The score indicating the likelihood the speaker is a known fraudster.
   final int riskScore;
@@ -4001,6 +4090,8 @@ class KnownFraudsterRisk {
 }
 
 /// The details resulting from 'Voice Spoofing Risk' analysis of the speaker.
+///
+/// @nodoc
 class VoiceSpoofingRisk {
   /// The score indicating the likelihood of speaker’s voice being spoofed.
   final int riskScore;
@@ -4023,6 +4114,7 @@ class VoiceSpoofingRisk {
   }
 }
 
+/// @nodoc
 class FraudDetectionReason {
   static const knownFraudster = FraudDetectionReason._('KNOWN_FRAUDSTER');
   static const voiceSpoofing = FraudDetectionReason._('VOICE_SPOOFING');
@@ -4048,6 +4140,7 @@ class FraudDetectionReason {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationDecision {
   static const accept = AuthenticationDecision._('ACCEPT');
   static const reject = AuthenticationDecision._('REJECT');
@@ -4089,6 +4182,8 @@ class AuthenticationDecision {
 }
 
 /// The configuration used to authenticate a speaker during a session.
+///
+/// @nodoc
 class AuthenticationConfiguration {
   /// The minimum threshold needed to successfully authenticate a speaker.
   final int acceptanceThreshold;
@@ -4112,6 +4207,8 @@ class AuthenticationConfiguration {
 }
 
 /// Contains all the information about a fraudster.
+///
+/// @nodoc
 class Fraudster {
   /// The timestamp of when Voice ID identified the fraudster.
   final DateTime? createdAt;
@@ -4159,26 +4256,31 @@ class Fraudster {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4187,11 +4289,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

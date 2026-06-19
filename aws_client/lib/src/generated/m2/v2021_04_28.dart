@@ -1591,6 +1591,7 @@ class M2 {
   }
 }
 
+/// @nodoc
 class GetSignedBluinsightsUrlResponse {
   /// Single sign-on AWS Blu Insights URL.
   final String signedBiUrl;
@@ -1613,6 +1614,7 @@ class GetSignedBluinsightsUrlResponse {
   }
 }
 
+/// @nodoc
 class ListEngineVersionsResponse {
   /// Returns the engine versions.
   final List<EngineVersionsSummary> engineVersions;
@@ -1646,6 +1648,7 @@ class ListEngineVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String> tags;
@@ -1670,6 +1673,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1682,6 +1686,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1694,6 +1699,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String applicationArn;
@@ -1730,6 +1736,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String applicationArn;
@@ -1917,6 +1924,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// The new version of the application.
   final int applicationVersion;
@@ -1939,6 +1947,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -1951,6 +1960,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// Returns a list of summary details for all the applications in a runtime
   /// environment.
@@ -1985,6 +1995,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class CancelBatchJobExecutionResponse {
   CancelBatchJobExecutionResponse();
 
@@ -1997,6 +2008,7 @@ class CancelBatchJobExecutionResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSetExportTaskResponse {
   /// The task identifier. This operation is asynchronous. Use this identifier
   /// with the <a>GetDataSetExportTask</a> operation to obtain the status of this
@@ -2021,6 +2033,7 @@ class CreateDataSetExportTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSetImportTaskResponse {
   /// The task identifier. This operation is asynchronous. Use this identifier
   /// with the <a>GetDataSetImportTask</a> operation to obtain the status of this
@@ -2045,6 +2058,7 @@ class CreateDataSetImportTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateDeploymentResponse {
   /// The unique identifier of the deployment.
   final String deploymentId;
@@ -2067,6 +2081,7 @@ class CreateDeploymentResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationFromEnvironmentResponse {
   DeleteApplicationFromEnvironmentResponse();
 
@@ -2080,6 +2095,7 @@ class DeleteApplicationFromEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationVersionResponse {
   /// The specific version of the application.
   final int applicationVersion;
@@ -2147,6 +2163,7 @@ class GetApplicationVersionResponse {
   }
 }
 
+/// @nodoc
 class GetBatchJobExecutionResponse {
   /// The identifier of the application.
   final String applicationId;
@@ -2265,6 +2282,7 @@ class GetBatchJobExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetDataSetDetailsResponse {
   /// The name of the data set.
   final String dataSetName;
@@ -2349,6 +2367,7 @@ class GetDataSetDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetDataSetExportTaskResponse {
   /// The status of the task.
   final DataSetTaskLifecycle status;
@@ -2404,6 +2423,7 @@ class GetDataSetExportTaskResponse {
   }
 }
 
+/// @nodoc
 class GetDataSetImportTaskResponse {
   /// The status of the task.
   final DataSetTaskLifecycle status;
@@ -2444,6 +2464,7 @@ class GetDataSetImportTaskResponse {
   }
 }
 
+/// @nodoc
 class GetDeploymentResponse {
   /// The unique identifier of the application.
   final String applicationId;
@@ -2508,6 +2529,7 @@ class GetDeploymentResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationVersionsResponse {
   /// The list of application versions.
   final List<ApplicationVersionSummary> applicationVersions;
@@ -2542,6 +2564,7 @@ class ListApplicationVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListBatchJobDefinitionsResponse {
   /// The list of batch job definitions.
   final List<BatchJobDefinition> batchJobDefinitions;
@@ -2575,6 +2598,7 @@ class ListBatchJobDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListBatchJobExecutionsResponse {
   /// Returns a list of batch job executions for an application.
   final List<BatchJobExecutionSummary> batchJobExecutions;
@@ -2609,6 +2633,7 @@ class ListBatchJobExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListBatchJobRestartPointsResponse {
   /// Returns all the batch job steps and related information for a batch job that
   /// previously ran.
@@ -2636,6 +2661,7 @@ class ListBatchJobRestartPointsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSetExportHistoryResponse {
   /// The data set export tasks.
   final List<DataSetExportTask> dataSetExportTasks;
@@ -2669,6 +2695,7 @@ class ListDataSetExportHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListDataSetImportHistoryResponse {
   /// The data set import tasks.
   final List<DataSetImportTask> dataSetImportTasks;
@@ -2702,6 +2729,7 @@ class ListDataSetImportHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListDataSetsResponse {
   /// The list of data sets, containing information including the creation time,
   /// the data set name, the data set organization, the data set format, and the
@@ -2737,6 +2765,7 @@ class ListDataSetsResponse {
   }
 }
 
+/// @nodoc
 class ListDeploymentsResponse {
   /// The list of deployments that is returned.
   final List<DeploymentSummary> deployments;
@@ -2770,6 +2799,7 @@ class ListDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class StartApplicationResponse {
   StartApplicationResponse();
 
@@ -2782,6 +2812,7 @@ class StartApplicationResponse {
   }
 }
 
+/// @nodoc
 class StartBatchJobResponse {
   /// The unique identifier of this execution of the batch job.
   final String executionId;
@@ -2804,6 +2835,7 @@ class StartBatchJobResponse {
   }
 }
 
+/// @nodoc
 class StopApplicationResponse {
   StopApplicationResponse();
 
@@ -2816,6 +2848,7 @@ class StopApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentResponse {
   /// The unique identifier of the runtime environment.
   final String environmentId;
@@ -2838,6 +2871,7 @@ class CreateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetEnvironmentResponse {
   /// The timestamp when the runtime environment was created.
   final DateTime creationTime;
@@ -3044,6 +3078,7 @@ class GetEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentResponse {
   /// The unique identifier of the runtime environment that was updated.
   final String environmentId;
@@ -3066,6 +3101,7 @@ class UpdateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentResponse {
   DeleteEnvironmentResponse();
 
@@ -3078,6 +3114,7 @@ class DeleteEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResponse {
   /// Returns a list of summary details for all the runtime environments in your
   /// account.
@@ -3114,6 +3151,8 @@ class ListEnvironmentsResponse {
 
 /// Contains a subset of the possible runtime environment attributes. Used in
 /// the environment list.
+///
+/// @nodoc
 class EnvironmentSummary {
   /// The timestamp when the runtime environment was created.
   final DateTime creationTime;
@@ -3194,6 +3233,7 @@ class EnvironmentSummary {
   }
 }
 
+/// @nodoc
 class EnvironmentLifecycle {
   static const creating = EnvironmentLifecycle._('Creating');
   static const available = EnvironmentLifecycle._('Available');
@@ -3230,6 +3270,7 @@ class EnvironmentLifecycle {
   String toString() => value;
 }
 
+/// @nodoc
 class EngineType {
   static const microfocus = EngineType._('microfocus');
   static const bluage = EngineType._('bluage');
@@ -3253,6 +3294,7 @@ class EngineType {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('ipv4');
   static const dual = NetworkType._('dual');
@@ -3277,6 +3319,8 @@ class NetworkType {
 }
 
 /// Defines the details of a high availability configuration.
+///
+/// @nodoc
 class HighAvailabilityConfig {
   /// The number of instances in a high availability configuration. The minimum
   /// possible value is 1 and the maximum is 100.
@@ -3301,6 +3345,8 @@ class HighAvailabilityConfig {
 }
 
 /// The scheduled maintenance for a runtime engine.
+///
+/// @nodoc
 class PendingMaintenance {
   /// The specific runtime engine that the maintenance schedule applies to.
   final String? engineVersion;
@@ -3334,6 +3380,8 @@ class PendingMaintenance {
 }
 
 /// The information about the maintenance schedule.
+///
+/// @nodoc
 class MaintenanceSchedule {
   /// The time the scheduled maintenance is to end.
   final DateTime? endTime;
@@ -3364,6 +3412,8 @@ class MaintenanceSchedule {
 }
 
 /// Defines the storage configuration for a runtime environment.
+///
+/// @nodoc
 class StorageConfiguration {
   /// Defines the storage configuration for an Amazon EFS file system.
   final EfsStorageConfiguration? efs;
@@ -3400,6 +3450,8 @@ class StorageConfiguration {
 }
 
 /// Defines the storage configuration for an Amazon EFS file system.
+///
+/// @nodoc
 class EfsStorageConfiguration {
   /// The file system identifier.
   final String fileSystemId;
@@ -3430,6 +3482,8 @@ class EfsStorageConfiguration {
 }
 
 /// Defines the storage configuration for an Amazon FSx file system.
+///
+/// @nodoc
 class FsxStorageConfiguration {
   /// The file system identifier.
   final String fileSystemId;
@@ -3460,6 +3514,8 @@ class FsxStorageConfiguration {
 }
 
 /// Identifies a specific batch job.
+///
+/// @nodoc
 class BatchJobIdentifier {
   /// Specifies a file associated with a specific batch job.
   final FileBatchJobIdentifier? fileBatchJobIdentifier;
@@ -3524,6 +3580,8 @@ class BatchJobIdentifier {
 
 /// A batch job identifier in which the batch job to run is identified by the
 /// file name and the relative path to the file name.
+///
+/// @nodoc
 class FileBatchJobIdentifier {
   /// The file name for the batch job identifier.
   final String fileName;
@@ -3555,6 +3613,8 @@ class FileBatchJobIdentifier {
 
 /// A batch job identifier in which the batch job to run is identified by the
 /// script name.
+///
+/// @nodoc
 class ScriptBatchJobIdentifier {
   /// The name of the script containing the batch job definition.
   final String scriptName;
@@ -3579,6 +3639,8 @@ class ScriptBatchJobIdentifier {
 
 /// A batch job identifier in which the batch jobs to run are identified by an
 /// Amazon S3 location.
+///
+/// @nodoc
 class S3BatchJobIdentifier {
   /// The Amazon S3 bucket that contains the batch job definitions.
   final String bucket;
@@ -3623,6 +3685,8 @@ class S3BatchJobIdentifier {
 
 /// An identifier for the <code>StartBatchJob</code> API to show that it is a
 /// restart operation.
+///
+/// @nodoc
 class RestartBatchJobIdentifier {
   /// The <code>executionId</code> from the <code>StartBatchJob</code> response
   /// when the job ran for the first time.
@@ -3656,6 +3720,8 @@ class RestartBatchJobIdentifier {
 }
 
 /// Provides step/procedure step information for a restart batch job operation.
+///
+/// @nodoc
 class JobStepRestartMarker {
   /// The step name that a batch job was restarted from.
   final String fromStep;
@@ -3716,6 +3782,8 @@ class JobStepRestartMarker {
 }
 
 /// Identifies a specific batch job.
+///
+/// @nodoc
 class JobIdentifier {
   /// The name of the file that contains the batch job definition.
   final String? fileName;
@@ -3746,6 +3814,8 @@ class JobIdentifier {
 }
 
 /// A subset of information about a specific deployment.
+///
+/// @nodoc
 class DeploymentSummary {
   /// The unique identifier of the application.
   final String applicationId;
@@ -3810,6 +3880,7 @@ class DeploymentSummary {
   }
 }
 
+/// @nodoc
 class DeploymentLifecycle {
   static const deploying = DeploymentLifecycle._('Deploying');
   static const succeeded = DeploymentLifecycle._('Succeeded');
@@ -3839,6 +3910,8 @@ class DeploymentLifecycle {
 }
 
 /// A subset of the possible data set attributes.
+///
+/// @nodoc
 class DataSetSummary {
   /// The name of the data set.
   final String dataSetName;
@@ -3900,6 +3973,8 @@ class DataSetSummary {
 }
 
 /// Contains information about a data set import task.
+///
+/// @nodoc
 class DataSetImportTask {
   /// The status of the data set import task.
   final DataSetTaskLifecycle status;
@@ -3946,6 +4021,7 @@ class DataSetImportTask {
   }
 }
 
+/// @nodoc
 class DataSetTaskLifecycle {
   static const creating = DataSetTaskLifecycle._('Creating');
   static const running = DataSetTaskLifecycle._('Running');
@@ -3974,6 +4050,8 @@ class DataSetTaskLifecycle {
 }
 
 /// Represents a summary of data set imports.
+///
+/// @nodoc
 class DataSetImportSummary {
   /// The number of data set imports that have failed.
   final int failed;
@@ -4025,6 +4103,8 @@ class DataSetImportSummary {
 }
 
 /// Contains information about a data set export task.
+///
+/// @nodoc
 class DataSetExportTask {
   /// The status of the data set export task.
   final DataSetTaskLifecycle status;
@@ -4072,6 +4152,8 @@ class DataSetExportTask {
 }
 
 /// Represents a summary of data set exports.
+///
+/// @nodoc
 class DataSetExportSummary {
   /// The number of data set exports that have failed.
   final int failed;
@@ -4123,6 +4205,8 @@ class DataSetExportSummary {
 }
 
 /// Provides information related to a job step.
+///
+/// @nodoc
 class JobStep {
   /// The name of a procedure step.
   final String? procStepName;
@@ -4207,6 +4291,8 @@ class JobStep {
 }
 
 /// A subset of the possible batch job attributes. Used in the batch job list.
+///
+/// @nodoc
 class BatchJobExecutionSummary {
   /// The unique identifier of the application that hosts this batch job.
   final String applicationId;
@@ -4300,6 +4386,7 @@ class BatchJobExecutionSummary {
   }
 }
 
+/// @nodoc
 class BatchJobType {
   static const vse = BatchJobType._('VSE');
   static const jes2 = BatchJobType._('JES2');
@@ -4324,6 +4411,7 @@ class BatchJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class BatchJobExecutionStatus {
   static const submitting = BatchJobExecutionStatus._('Submitting');
   static const holding = BatchJobExecutionStatus._('Holding');
@@ -4370,6 +4458,8 @@ class BatchJobExecutionStatus {
 }
 
 /// Defines the details of a batch job.
+///
+/// @nodoc
 class BatchJobDefinition {
   /// Specifies a file containing a batch job definition.
   final FileBatchJobDefinition? fileBatchJobDefinition;
@@ -4408,6 +4498,8 @@ class BatchJobDefinition {
 }
 
 /// A file containing a batch job definition.
+///
+/// @nodoc
 class FileBatchJobDefinition {
   /// The name of the file containing the batch job definition.
   final String fileName;
@@ -4438,6 +4530,8 @@ class FileBatchJobDefinition {
 }
 
 /// A batch job definition contained in a script.
+///
+/// @nodoc
 class ScriptBatchJobDefinition {
   /// The name of the script containing the batch job definition.
   final String scriptName;
@@ -4461,6 +4555,8 @@ class ScriptBatchJobDefinition {
 }
 
 /// Defines an application version summary.
+///
+/// @nodoc
 class ApplicationVersionSummary {
   /// The application version.
   final int applicationVersion;
@@ -4505,6 +4601,7 @@ class ApplicationVersionSummary {
   }
 }
 
+/// @nodoc
 class ApplicationVersionLifecycle {
   static const creating = ApplicationVersionLifecycle._('Creating');
   static const available = ApplicationVersionLifecycle._('Available');
@@ -4534,6 +4631,8 @@ class ApplicationVersionLifecycle {
 /// Additional details about the data set. Different attributes correspond to
 /// different data set organizations. The values are populated based on
 /// datasetOrg, storageType and backend (Blu Age or Micro Focus).
+///
+/// @nodoc
 class DatasetDetailOrgAttributes {
   /// The generation data group of the data set.
   final GdgDetailAttributes? gdg;
@@ -4586,6 +4685,8 @@ class DatasetDetailOrgAttributes {
 }
 
 /// The attributes of a VSAM type data set.
+///
+/// @nodoc
 class VsamDetailAttributes {
   /// The alternate key definitions, if any. A legacy dataset might not have any
   /// alternate key defined, but if those alternate keys definitions exist,
@@ -4660,6 +4761,8 @@ class VsamDetailAttributes {
 /// information on GDG, see <a
 /// href="https://www.ibm.com/docs/en/zos/2.3.0?topic=guide-generation-data-sets">Generation
 /// data sets</a>.
+///
+/// @nodoc
 class GdgDetailAttributes {
   /// The maximum number of generation data sets, up to 255, in a GDG.
   final int? limit;
@@ -4690,6 +4793,8 @@ class GdgDetailAttributes {
 }
 
 /// The supported properties for a PO type data set.
+///
+/// @nodoc
 class PoDetailAttributes {
   /// The character set encoding of the data set.
   final String encoding;
@@ -4720,6 +4825,8 @@ class PoDetailAttributes {
 }
 
 /// The supported properties for a PS type data set.
+///
+/// @nodoc
 class PsDetailAttributes {
   /// The character set encoding of the data set.
   final String encoding;
@@ -4750,6 +4857,8 @@ class PsDetailAttributes {
 }
 
 /// The primary key for a KSDS data set.
+///
+/// @nodoc
 class PrimaryKey {
   /// A strictly positive integer value representing the length of the primary
   /// key.
@@ -4791,6 +4900,8 @@ class PrimaryKey {
 /// Defines an alternate key. This value is optional. A legacy data set might
 /// not have any alternate key defined but if those alternate keys definitions
 /// exist, provide them, as some applications will make use of them.
+///
+/// @nodoc
 class AlternateKey {
   /// A strictly positive integer value representing the length of the alternate
   /// key.
@@ -4839,6 +4950,8 @@ class AlternateKey {
 
 /// Identifies one or more data sets you want to import with the
 /// <a>CreateDataSetImportTask</a> operation.
+///
+/// @nodoc
 class DataSetImportConfig {
   /// The data sets.
   final List<DataSetImportItem>? dataSets;
@@ -4862,6 +4975,8 @@ class DataSetImportConfig {
 }
 
 /// Identifies a specific data set to import from an external location.
+///
+/// @nodoc
 class DataSetImportItem {
   /// The data set.
   final DataSet dataSet;
@@ -4885,6 +5000,8 @@ class DataSetImportItem {
 }
 
 /// Defines a data set.
+///
+/// @nodoc
 class DataSet {
   /// The logical identifier for a specific data set (in mainframe format).
   final String datasetName;
@@ -4929,6 +5046,8 @@ class DataSet {
 }
 
 /// Defines an external storage location.
+///
+/// @nodoc
 class ExternalLocation {
   /// The URI of the Amazon S3 bucket.
   final String? s3Location;
@@ -4948,6 +5067,8 @@ class ExternalLocation {
 /// Additional details about the data set. Different attributes correspond to
 /// different data set organizations. The values are populated based on
 /// datasetOrg, storageType and backend (Blu Age or Micro Focus).
+///
+/// @nodoc
 class DatasetOrgAttributes {
   /// The generation data group of the data set.
   final GdgAttributes? gdg;
@@ -4983,6 +5104,8 @@ class DatasetOrgAttributes {
 }
 
 /// The length of the records in the data set.
+///
+/// @nodoc
 class RecordLength {
   /// The maximum record length. In case of fixed, both minimum and maximum are
   /// the same.
@@ -5007,6 +5130,8 @@ class RecordLength {
 }
 
 /// The attributes of a VSAM type data set.
+///
+/// @nodoc
 class VsamAttributes {
   /// The record format of the data set.
   final String format;
@@ -5058,6 +5183,8 @@ class VsamAttributes {
 /// information on GDG, see <a
 /// href="https://www.ibm.com/docs/en/zos/2.3.0?topic=guide-generation-data-sets">Generation
 /// data sets</a>.
+///
+/// @nodoc
 class GdgAttributes {
   /// The maximum number of generation data sets, up to 255, in a GDG.
   final int? limit;
@@ -5081,6 +5208,8 @@ class GdgAttributes {
 }
 
 /// The supported properties for a PO type data set.
+///
+/// @nodoc
 class PoAttributes {
   /// The format of the data set records.
   final String format;
@@ -5111,6 +5240,8 @@ class PoAttributes {
 }
 
 /// The supported properties for a PS type data set.
+///
+/// @nodoc
 class PsAttributes {
   /// The format of the data set records.
   final String format;
@@ -5135,6 +5266,8 @@ class PsAttributes {
 
 /// Identifies one or more data sets you want to import with the
 /// <a>CreateDataSetExportTask</a> operation.
+///
+/// @nodoc
 class DataSetExportConfig {
   /// The data sets.
   final List<DataSetExportItem>? dataSets;
@@ -5158,6 +5291,8 @@ class DataSetExportConfig {
 }
 
 /// Identifies a specific data set to export from an external location.
+///
+/// @nodoc
 class DataSetExportItem {
   /// The data set.
   final String datasetName;
@@ -5182,6 +5317,8 @@ class DataSetExportItem {
 
 /// A subset of the possible application attributes. Used in the application
 /// list.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The Amazon Resource Name (ARN) of the application.
   final String applicationArn;
@@ -5295,6 +5432,7 @@ class ApplicationSummary {
   }
 }
 
+/// @nodoc
 class ApplicationLifecycle {
   static const creating = ApplicationLifecycle._('Creating');
   static const created = ApplicationLifecycle._('Created');
@@ -5342,6 +5480,7 @@ class ApplicationLifecycle {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationDeploymentLifecycle {
   static const deploying = ApplicationDeploymentLifecycle._('Deploying');
   static const deployed = ApplicationDeploymentLifecycle._('Deployed');
@@ -5368,6 +5507,8 @@ class ApplicationDeploymentLifecycle {
 }
 
 /// The application definition for a particular application.
+///
+/// @nodoc
 class Definition {
   /// The content of the application definition. This is a JSON object that
   /// contains the resource configuration/definitions that identify an
@@ -5393,6 +5534,8 @@ class Definition {
 }
 
 /// Contains a summary of a deployed application.
+///
+/// @nodoc
 class DeployedVersionSummary {
   /// The version of the deployed application.
   final int applicationVersion;
@@ -5432,6 +5575,8 @@ class DeployedVersionSummary {
 /// A subset of the attributes that describe a log group. In CloudWatch a log
 /// group is a group of log streams that share the same retention, monitoring,
 /// and access control settings.
+///
+/// @nodoc
 class LogGroupSummary {
   /// The name of the log group.
   final String logGroupName;
@@ -5462,6 +5607,8 @@ class LogGroupSummary {
 }
 
 /// A subset of information about the engine version for a specific application.
+///
+/// @nodoc
 class EngineVersionsSummary {
   /// The type of target platform for the application.
   final String engineType;
@@ -5491,31 +5638,37 @@ class EngineVersionsSummary {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ExecutionTimeoutException extends _s.GenericAwsException {
   ExecutionTimeoutException({String? type, String? message})
       : super(type: type, code: 'ExecutionTimeoutException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5524,17 +5677,20 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

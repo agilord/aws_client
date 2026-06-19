@@ -361,6 +361,7 @@ class PersonalizeRuntime {
   }
 }
 
+/// @nodoc
 class GetActionRecommendationsResponse {
   /// A list of action recommendations sorted in descending order by prediction
   /// score. There can be a maximum of 100 actions in the list. For information
@@ -397,6 +398,7 @@ class GetActionRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetPersonalizedRankingResponse {
   /// A list of items in order of most likely interest to the user. The maximum is
   /// 500.
@@ -431,6 +433,7 @@ class GetPersonalizedRankingResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationsResponse {
   /// A list of recommendations sorted in descending order by prediction score.
   /// There can be a maximum of 500 items in the list.
@@ -467,6 +470,8 @@ class GetRecommendationsResponse {
 /// An object that identifies an item.
 ///
 /// The and APIs return a list of <code>PredictedItem</code>s.
+///
+/// @nodoc
 class PredictedItem {
   /// The recommended item ID.
   final String? itemId;
@@ -545,6 +550,8 @@ class PredictedItem {
 
 /// Contains information on a promotion. A promotion defines additional business
 /// rules that apply to a configurable subset of recommended items.
+///
+/// @nodoc
 class Promotion {
   /// The Amazon Resource Name (ARN) of the filter used by the promotion. This
   /// filter defines the criteria for promoted items. For more information, see <a
@@ -600,6 +607,8 @@ class Promotion {
 /// An object that identifies an action.
 ///
 /// The API returns a list of <code>PredictedAction</code>s.
+///
+/// @nodoc
 class PredictedAction {
   /// The ID of the recommended action.
   final String? actionId;
@@ -632,11 +641,13 @@ class PredictedAction {
   }
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

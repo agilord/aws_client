@@ -66,6 +66,7 @@ class EnumOutput {
   }
 }
 
+/// @nodoc
 class OutputShape {
   final JSONEnumType? fooEnum;
   final List<JSONEnumType>? listEnums;
@@ -96,6 +97,7 @@ class OutputShape {
   }
 }
 
+/// @nodoc
 class JSONEnumType {
   static const foo = JSONEnumType._('foo');
   static const bar = JSONEnumType._('bar');

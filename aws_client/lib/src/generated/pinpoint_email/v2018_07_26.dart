@@ -1579,6 +1579,8 @@ class PinpointEmail {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
 
@@ -1593,6 +1595,8 @@ class CreateConfigurationSetResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
 
@@ -1608,6 +1612,8 @@ class CreateConfigurationSetEventDestinationResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateDedicatedIpPoolResponse {
   CreateDedicatedIpPoolResponse();
 
@@ -1621,6 +1627,8 @@ class CreateDedicatedIpPoolResponse {
 }
 
 /// Information about the predictive inbox placement test that you created.
+///
+/// @nodoc
 class CreateDeliverabilityTestReportResponse {
   /// The status of the predictive inbox placement test. If the status is
   /// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
@@ -1662,6 +1670,8 @@ class CreateDeliverabilityTestReportResponse {
 /// have to add these records to the DNS configuration for your domain.
 ///
 /// If the email identity is an email address, this object is empty.
+///
+/// @nodoc
 class CreateEmailIdentityResponse {
   /// An object that contains information about the DKIM attributes for the
   /// identity. This object includes the tokens that you use to create the CNAME
@@ -1711,6 +1721,8 @@ class CreateEmailIdentityResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
 
@@ -1725,6 +1737,8 @@ class DeleteConfigurationSetResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
 
@@ -1740,6 +1754,8 @@ class DeleteConfigurationSetEventDestinationResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteDedicatedIpPoolResponse {
   DeleteDedicatedIpPoolResponse();
 
@@ -1754,6 +1770,8 @@ class DeleteDedicatedIpPoolResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
 
@@ -1768,6 +1786,8 @@ class DeleteEmailIdentityResponse {
 
 /// A list of details about the email-sending capabilities of your Amazon
 /// Pinpoint account in the current AWS Region.
+///
+/// @nodoc
 class GetAccountResponse {
   /// Indicates whether or not the automatic warm-up feature is enabled for
   /// dedicated IP addresses that are associated with your account.
@@ -1858,6 +1878,8 @@ class GetAccountResponse {
 }
 
 /// An object that contains information about blacklist events.
+///
+/// @nodoc
 class GetBlacklistReportsResponse {
   /// An object that contains information about a blacklist that one of your
   /// dedicated IP addresses appears on.
@@ -1890,6 +1912,8 @@ class GetBlacklistReportsResponse {
 }
 
 /// Information about a configuration set.
+///
+/// @nodoc
 class GetConfigurationSetResponse {
   /// The name of the configuration set.
   final String? configurationSetName;
@@ -1969,6 +1993,8 @@ class GetConfigurationSetResponse {
 }
 
 /// Information about an event destination for a configuration set.
+///
+/// @nodoc
 class GetConfigurationSetEventDestinationsResponse {
   /// An array that includes all of the events destinations that have been
   /// configured for the configuration set.
@@ -1997,6 +2023,8 @@ class GetConfigurationSetEventDestinationsResponse {
 }
 
 /// Information about a dedicated IP address.
+///
+/// @nodoc
 class GetDedicatedIpResponse {
   /// An object that contains information about a dedicated IP address.
   final DedicatedIp? dedicatedIp;
@@ -2023,6 +2051,8 @@ class GetDedicatedIpResponse {
 
 /// Information about the dedicated IP addresses that are associated with your
 /// Amazon Pinpoint account.
+///
+/// @nodoc
 class GetDedicatedIpsResponse {
   /// A list of dedicated IP addresses that are reserved for use by your Amazon
   /// Pinpoint account.
@@ -2061,6 +2091,8 @@ class GetDedicatedIpsResponse {
 
 /// An object that shows the status of the Deliverability dashboard for your
 /// Amazon Pinpoint account.
+///
+/// @nodoc
 class GetDeliverabilityDashboardOptionsResponse {
   /// Specifies whether the Deliverability dashboard is enabled for your Amazon
   /// Pinpoint account. If this value is <code>true</code>, the dashboard is
@@ -2141,6 +2173,8 @@ class GetDeliverabilityDashboardOptionsResponse {
 }
 
 /// The results of the predictive inbox placement test.
+///
+/// @nodoc
 class GetDeliverabilityTestReportResponse {
   /// An object that contains the results of the predictive inbox placement test.
   final DeliverabilityTestReport deliverabilityTestReport;
@@ -2211,6 +2245,8 @@ class GetDeliverabilityTestReportResponse {
 /// This data is available for a campaign only if the campaign sent email by
 /// using a domain that the Deliverability dashboard is enabled for
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
+///
+/// @nodoc
 class GetDomainDeliverabilityCampaignResponse {
   /// An object that contains the deliverability data for the campaign.
   final DomainDeliverabilityCampaign domainDeliverabilityCampaign;
@@ -2238,6 +2274,8 @@ class GetDomainDeliverabilityCampaignResponse {
 
 /// An object that includes statistics that are related to the domain that you
 /// specified.
+///
+/// @nodoc
 class GetDomainStatisticsReportResponse {
   /// An object that contains deliverability metrics for the domain that you
   /// specified. This object contains data for each day, starting on the
@@ -2278,6 +2316,8 @@ class GetDomainStatisticsReportResponse {
 }
 
 /// Details about an email identity.
+///
+/// @nodoc
 class GetEmailIdentityResponse {
   /// An object that contains information about the DKIM attributes for the
   /// identity. This object includes the tokens that you use to create the CNAME
@@ -2369,6 +2409,8 @@ class GetEmailIdentityResponse {
 
 /// A list of configuration sets in your Amazon Pinpoint account in the current
 /// AWS Region.
+///
+/// @nodoc
 class ListConfigurationSetsResponse {
   /// An array that contains all of the configuration sets in your Amazon Pinpoint
   /// account in the current AWS Region.
@@ -2406,6 +2448,8 @@ class ListConfigurationSetsResponse {
 }
 
 /// A list of dedicated IP pools.
+///
+/// @nodoc
 class ListDedicatedIpPoolsResponse {
   /// A list of all of the dedicated IP pools that are associated with your Amazon
   /// Pinpoint account.
@@ -2444,6 +2488,8 @@ class ListDedicatedIpPoolsResponse {
 
 /// A list of the predictive inbox placement test reports that are available for
 /// your account, regardless of whether or not those tests are complete.
+///
+/// @nodoc
 class ListDeliverabilityTestReportsResponse {
   /// An object that contains a lists of predictive inbox placement tests that
   /// you've performed.
@@ -2488,6 +2534,8 @@ class ListDeliverabilityTestReportsResponse {
 /// This data is available for a domain only if you enabled the Deliverability
 /// dashboard (<code>PutDeliverabilityDashboardOption</code> operation) for the
 /// domain.
+///
+/// @nodoc
 class ListDomainDeliverabilityCampaignsResponse {
   /// An array of responses, one for each campaign that used the domain to send
   /// email during the specified time range.
@@ -2530,6 +2578,8 @@ class ListDomainDeliverabilityCampaignsResponse {
 /// A list of all of the identities that you've attempted to verify for use with
 /// Amazon Pinpoint, regardless of whether or not those identities were
 /// successfully verified.
+///
+/// @nodoc
 class ListEmailIdentitiesResponse {
   /// An array that includes all of the identities associated with your Amazon
   /// Pinpoint account.
@@ -2566,6 +2616,7 @@ class ListEmailIdentitiesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array that lists all the tags that are associated with the resource. Each
   /// tag consists of a required tag key (<code>Key</code>) and an associated tag
@@ -2595,6 +2646,8 @@ class ListTagsForResourceResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutAccountDedicatedIpWarmupAttributesResponse {
   PutAccountDedicatedIpWarmupAttributesResponse();
 
@@ -2610,6 +2663,8 @@ class PutAccountDedicatedIpWarmupAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutAccountSendingAttributesResponse {
   PutAccountSendingAttributesResponse();
 
@@ -2624,6 +2679,8 @@ class PutAccountSendingAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
 
@@ -2639,6 +2696,8 @@ class PutConfigurationSetDeliveryOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetReputationOptionsResponse {
   PutConfigurationSetReputationOptionsResponse();
 
@@ -2654,6 +2713,8 @@ class PutConfigurationSetReputationOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetSendingOptionsResponse {
   PutConfigurationSetSendingOptionsResponse();
 
@@ -2669,6 +2730,8 @@ class PutConfigurationSetSendingOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetTrackingOptionsResponse {
   PutConfigurationSetTrackingOptionsResponse();
 
@@ -2684,6 +2747,8 @@ class PutConfigurationSetTrackingOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutDedicatedIpInPoolResponse {
   PutDedicatedIpInPoolResponse();
 
@@ -2698,6 +2763,8 @@ class PutDedicatedIpInPoolResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutDedicatedIpWarmupAttributesResponse {
   PutDedicatedIpWarmupAttributesResponse();
 
@@ -2713,6 +2780,8 @@ class PutDedicatedIpWarmupAttributesResponse {
 
 /// A response that indicates whether the Deliverability dashboard is enabled
 /// for your Amazon Pinpoint account.
+///
+/// @nodoc
 class PutDeliverabilityDashboardOptionResponse {
   PutDeliverabilityDashboardOptionResponse();
 
@@ -2728,6 +2797,8 @@ class PutDeliverabilityDashboardOptionResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutEmailIdentityDkimAttributesResponse {
   PutEmailIdentityDkimAttributesResponse();
 
@@ -2743,6 +2814,8 @@ class PutEmailIdentityDkimAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutEmailIdentityFeedbackAttributesResponse {
   PutEmailIdentityFeedbackAttributesResponse();
 
@@ -2758,6 +2831,8 @@ class PutEmailIdentityFeedbackAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutEmailIdentityMailFromAttributesResponse {
   PutEmailIdentityMailFromAttributesResponse();
 
@@ -2773,6 +2848,8 @@ class PutEmailIdentityMailFromAttributesResponse {
 
 /// A unique message ID that you receive when Amazon Pinpoint accepts an email
 /// for sending.
+///
+/// @nodoc
 class SendEmailResponse {
   /// A unique identifier for the message that is generated when Amazon Pinpoint
   /// accepts the message.
@@ -2802,6 +2879,7 @@ class SendEmailResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2814,6 +2892,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2828,6 +2907,8 @@ class UntagResourceResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
 
@@ -2845,6 +2926,8 @@ class UpdateConfigurationSetEventDestinationResponse {
 /// services receive events from emails sent using the configuration set that
 /// the event destination is associated with. Also defines the types of events
 /// that are sent to the event destination.
+///
+/// @nodoc
 class EventDestinationDefinition {
   /// An object that defines an Amazon CloudWatch destination for email events.
   /// You can use Amazon CloudWatch to monitor and gain insights on your email
@@ -2912,6 +2995,8 @@ class EventDestinationDefinition {
 /// An object that defines an Amazon Kinesis Data Firehose destination for email
 /// events. You can use Amazon Kinesis Data Firehose to stream data to other
 /// services, such as Amazon S3 and Amazon Redshift.
+///
+/// @nodoc
 class KinesisFirehoseDestination {
   /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream
   /// that Amazon Pinpoint sends email events to.
@@ -2946,6 +3031,8 @@ class KinesisFirehoseDestination {
 /// An object that defines an Amazon CloudWatch destination for email events.
 /// You can use Amazon CloudWatch to monitor and gain insights on your email
 /// sending metrics.
+///
+/// @nodoc
 class CloudWatchDestination {
   /// An array of objects that define the dimensions to use when you send email
   /// events to Amazon CloudWatch.
@@ -2976,6 +3063,8 @@ class CloudWatchDestination {
 
 /// An object that defines an Amazon SNS destination for email events. You can
 /// use Amazon SNS to send notification when certain email events occur.
+///
+/// @nodoc
 class SnsDestination {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
   /// publish email events to. For more information about Amazon SNS topics, see
@@ -3006,6 +3095,8 @@ class SnsDestination {
 /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
 /// projects. You can use these attributes to create segments for your
 /// campaigns.
+///
+/// @nodoc
 class PinpointDestination {
   /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want
   /// to send email events to.
@@ -3031,6 +3122,8 @@ class PinpointDestination {
 
 /// An object that defines the dimension configuration to use when you send
 /// Amazon Pinpoint email events to Amazon CloudWatch.
+///
+/// @nodoc
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you don't provide the value of the dimension when you send an email. This
@@ -3104,6 +3197,8 @@ class CloudWatchDimensionConfiguration {
 /// Amazon Pinpoint to use your own email headers, choose
 /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
 /// choose <code>linkTags</code>.
+///
+/// @nodoc
 class DimensionValueSource {
   static const messageTag = DimensionValueSource._('MESSAGE_TAG');
   static const emailHeader = DimensionValueSource._('EMAIL_HEADER');
@@ -3132,6 +3227,8 @@ class DimensionValueSource {
 
 /// An email sending event type. For example, email sends, opens, and bounces
 /// are all email events.
+///
+/// @nodoc
 class EventType {
   static const send = EventType._('SEND');
   static const reject = EventType._('REJECT');
@@ -3206,6 +3303,8 @@ class EventType {
 /// located in the specified AWS Region for your AWS account.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that defines a tag. The maximum length of a tag
   /// key is 128 characters. The minimum length is 1 character.
@@ -3240,6 +3339,8 @@ class Tag {
 }
 
 /// An object that describes the recipients for an email.
+///
+/// @nodoc
 class Destination {
   /// An array that contains the email addresses of the "BCC" (blind carbon copy)
   /// recipients for the email.
@@ -3277,6 +3378,8 @@ class Destination {
 /// message body. You can also create raw messages, in which you specify a
 /// complete MIME-formatted message. Raw messages can include attachments and
 /// custom headers.
+///
+/// @nodoc
 class EmailContent {
   /// The raw email message. The message has to meet the following criteria:
   ///
@@ -3337,6 +3440,8 @@ class EmailContent {
 
 /// Contains the name and value of a tag that you apply to an email. You can use
 /// message tags when you publish email sending events.
+///
+/// @nodoc
 class MessageTag {
   /// The name of the message tag. The message tag name has to meet the following
   /// criteria:
@@ -3383,6 +3488,8 @@ class MessageTag {
 
 /// Represents the email message that you're sending. The <code>Message</code>
 /// object consists of a subject line and a message body.
+///
+/// @nodoc
 class Message {
   /// The body of the message. You can specify an HTML version of the message, a
   /// text-only version of the message, or both.
@@ -3410,6 +3517,8 @@ class Message {
 }
 
 /// The raw email message.
+///
+/// @nodoc
 class RawMessage {
   /// The raw email message. The message has to meet the following criteria:
   ///
@@ -3454,6 +3563,7 @@ class RawMessage {
   }
 }
 
+/// @nodoc
 class Template {
   /// The Amazon Resource Name (ARN) of the template.
   final String? templateArn;
@@ -3481,6 +3591,8 @@ class Template {
 
 /// An object that represents the content of the email, and optionally a
 /// character set specification.
+///
+/// @nodoc
 class Content {
   /// The content of the message itself.
   final String data;
@@ -3508,6 +3620,8 @@ class Content {
 }
 
 /// Represents the body of the email message.
+///
+/// @nodoc
 class Body {
   /// An object that represents the version of the message that is displayed in
   /// email clients that support HTML. HTML messages can include formatted text,
@@ -3544,6 +3658,8 @@ class Body {
 /// These behaviors are taken when the custom MAIL FROM domain configuration is
 /// in the <code>Pending</code>, <code>Failed</code>, and
 /// <code>TemporaryFailure</code> states.
+///
+/// @nodoc
 class BehaviorOnMxFailure {
   static const useDefaultValue = BehaviorOnMxFailure._('USE_DEFAULT_VALUE');
   static const rejectMessage = BehaviorOnMxFailure._('REJECT_MESSAGE');
@@ -3574,6 +3690,8 @@ class BehaviorOnMxFailure {
 /// has an active Deliverability dashboard subscription. If a Deliverability
 /// dashboard subscription is active for a domain, you gain access to
 /// reputation, inbox placement, and other metrics for the domain.
+///
+/// @nodoc
 class DomainDeliverabilityTrackingOption {
   /// A verified domain that’s associated with your AWS account and currently has
   /// an active Deliverability dashboard subscription.
@@ -3623,6 +3741,8 @@ class DomainDeliverabilityTrackingOption {
 /// for a verified domain that’s associated with your AWS account. This data is
 /// available only if you enabled the Deliverability dashboard for the domain
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
+///
+/// @nodoc
 class InboxPlacementTrackingOption {
   /// Specifies whether inbox placement data is being tracked for the domain.
   final bool? global;
@@ -3661,6 +3781,8 @@ class InboxPlacementTrackingOption {
 /// messages are only delivered if a TLS connection can be established. If the
 /// value is <code>Optional</code>, messages can be delivered in plain text if a
 /// TLS connection can't be established.
+///
+/// @nodoc
 class TlsPolicy {
   static const require = TlsPolicy._('REQUIRE');
   static const optional = TlsPolicy._('OPTIONAL');
@@ -3685,6 +3807,8 @@ class TlsPolicy {
 }
 
 /// Information about an email identity.
+///
+/// @nodoc
 class IdentityInfo {
   /// The address or domain of the identity.
   final String? identityName;
@@ -3750,6 +3874,8 @@ class IdentityInfo {
 /// <code>DOMAIN</code> – The identity is a domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class IdentityType {
   static const emailAddress = IdentityType._('EMAIL_ADDRESS');
   static const domain = IdentityType._('DOMAIN');
@@ -3778,6 +3904,8 @@ class IdentityType {
 /// This data is available for a campaign only if the campaign sent email by
 /// using a domain that the Deliverability dashboard is enabled for
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
+///
+/// @nodoc
 class DomainDeliverabilityCampaign {
   /// The unique identifier for the campaign. Amazon Pinpoint automatically
   /// generates and assigns this identifier to a campaign. This value is not the
@@ -3916,6 +4044,8 @@ class DomainDeliverabilityCampaign {
 
 /// An object that contains metadata related to a predictive inbox placement
 /// test.
+///
+/// @nodoc
 class DeliverabilityTestReport {
   /// The date and time when the predictive inbox placement test was created, in
   /// Unix time format.
@@ -3990,6 +4120,8 @@ class DeliverabilityTestReport {
 /// <code>COMPLETE</code>, then the test is finished, and you can use the
 /// <code>GetDeliverabilityTestReport</code> operation to view the results of
 /// the test.
+///
+/// @nodoc
 class DeliverabilityTestStatus {
   static const inProgress = DeliverabilityTestStatus._('IN_PROGRESS');
   static const completed = DeliverabilityTestStatus._('COMPLETED');
@@ -4017,6 +4149,8 @@ class DeliverabilityTestStatus {
 
 /// An object that contains information about the DKIM configuration for an
 /// email identity.
+///
+/// @nodoc
 class DkimAttributes {
   /// If the value is <code>true</code>, then the messages that Amazon Pinpoint
   /// sends from the identity are DKIM-signed. If the value is <code>false</code>,
@@ -4090,6 +4224,8 @@ class DkimAttributes {
 }
 
 /// A list of attributes that are associated with a MAIL FROM domain.
+///
+/// @nodoc
 class MailFromAttributes {
   /// The action that Amazon Pinpoint to takes if it can't read the required MX
   /// record for a custom MAIL FROM domain. When you set this value to
@@ -4179,6 +4315,8 @@ class MailFromAttributes {
 /// Amazon Pinpoint from determining the status of the MAIL FROM domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MailFromDomainStatus {
   static const pending = MailFromDomainStatus._('PENDING');
   static const success = MailFromDomainStatus._('SUCCESS');
@@ -4233,6 +4371,8 @@ class MailFromDomainStatus {
 /// initiated for the domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DkimStatus {
   static const pending = DkimStatus._('PENDING');
   static const success = DkimStatus._('SUCCESS');
@@ -4267,6 +4407,8 @@ class DkimStatus {
 
 /// An object that contains information about email that was sent from the
 /// selected domain.
+///
+/// @nodoc
 class OverallVolume {
   /// An object that contains inbox and junk mail placement metrics for individual
   /// email providers.
@@ -4315,6 +4457,8 @@ class OverallVolume {
 
 /// An object that contains information about the volume of email sent on each
 /// day of the analysis period.
+///
+/// @nodoc
 class DailyVolume {
   /// An object that contains inbox placement metrics for a specified day in the
   /// analysis period, broken out by the recipient's email provider.
@@ -4362,6 +4506,8 @@ class DailyVolume {
 
 /// An object that contains information about the amount of email that was
 /// delivered to recipients.
+///
+/// @nodoc
 class VolumeStatistics {
   /// The total number of emails that arrived in recipients' inboxes.
   final int? inboxRawCount;
@@ -4410,6 +4556,8 @@ class VolumeStatistics {
 
 /// An object that contains inbox placement data for email sent from one of your
 /// email domains to a specific email provider.
+///
+/// @nodoc
 class DomainIspPlacement {
   /// The percentage of messages that were sent from the selected domain to the
   /// specified email provider that arrived in recipients' inboxes.
@@ -4467,6 +4615,8 @@ class DomainIspPlacement {
 }
 
 /// An object that contains inbox placement data for an email provider.
+///
+/// @nodoc
 class PlacementStatistics {
   /// The percentage of emails that were authenticated by using DomainKeys
   /// Identified Mail (DKIM) during the predictive inbox placement test.
@@ -4524,6 +4674,8 @@ class PlacementStatistics {
 
 /// An object that describes how email sent during the predictive inbox
 /// placement test was handled by a certain email provider.
+///
+/// @nodoc
 class IspPlacement {
   /// The name of the email provider that the inbox placement data applies to.
   final String? ispName;
@@ -4561,6 +4713,8 @@ class IspPlacement {
 /// The current status of your Deliverability dashboard subscription. If this
 /// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
 /// expire at the end of the current calendar month.
+///
+/// @nodoc
 class DeliverabilityDashboardAccountStatus {
   static const active = DeliverabilityDashboardAccountStatus._('ACTIVE');
   static const pendingExpiration =
@@ -4592,6 +4746,8 @@ class DeliverabilityDashboardAccountStatus {
 /// your Amazon Pinpoint account.
 ///
 ///
+///
+/// @nodoc
 class DedicatedIp {
   /// An IP address that is reserved for use by your Amazon Pinpoint account.
   final String ip;
@@ -4651,6 +4807,8 @@ class DedicatedIp {
 }
 
 /// The warmup status of a dedicated IP.
+///
+/// @nodoc
 class WarmupStatus {
   static const inProgress = WarmupStatus._('IN_PROGRESS');
   static const done = WarmupStatus._('DONE');
@@ -4680,6 +4838,8 @@ class WarmupStatus {
 /// event data to Amazon SNS to receive notifications when you receive bounces
 /// or complaints, or you can use Amazon Kinesis Data Firehose to stream data to
 /// Amazon S3 for long-term storage.
+///
+/// @nodoc
 class EventDestination {
   /// The types of events that Amazon Pinpoint sends to the specified event
   /// destinations.
@@ -4785,6 +4945,8 @@ class EventDestination {
 /// These images and links include references to a domain operated by AWS. You
 /// can optionally configure Amazon Pinpoint to use a domain that you operate
 /// for these images and links.
+///
+/// @nodoc
 class TrackingOptions {
   /// The domain that you want to use for tracking open and click events.
   final String customRedirectDomain;
@@ -4808,6 +4970,8 @@ class TrackingOptions {
 }
 
 /// Used to associate a configuration set with a dedicated IP pool.
+///
+/// @nodoc
 class DeliveryOptions {
   /// The name of the dedicated IP pool that you want to associate with the
   /// configuration set.
@@ -4844,6 +5008,8 @@ class DeliveryOptions {
 
 /// Enable or disable collection of reputation metrics for emails that you send
 /// using this configuration set in the current AWS Region.
+///
+/// @nodoc
 class ReputationOptions {
   /// The date and time (in Unix time) when the reputation metrics were last given
   /// a fresh start. When your account is given a fresh start, your reputation
@@ -4881,6 +5047,8 @@ class ReputationOptions {
 
 /// Used to enable or disable email sending for messages that use this
 /// configuration set in the current AWS Region.
+///
+/// @nodoc
 class SendingOptions {
   /// If <code>true</code>, email sending is enabled for the configuration set. If
   /// <code>false</code>, email sending is disabled for the configuration set.
@@ -4906,6 +5074,8 @@ class SendingOptions {
 
 /// An object that contains information about a blacklisting event that impacts
 /// one of the dedicated IP addresses that is associated with your account.
+///
+/// @nodoc
 class BlacklistEntry {
   /// Additional information about the blacklisting event, as provided by the
   /// blacklist maintainer.
@@ -4945,6 +5115,8 @@ class BlacklistEntry {
 
 /// An object that contains information about the per-day and per-second sending
 /// limits for your Amazon Pinpoint account in the current AWS Region.
+///
+/// @nodoc
 class SendQuota {
   /// The maximum number of emails that you can send in the current AWS Region
   /// over a 24-hour period. This value is also called your <i>sending quota</i>.
@@ -4985,21 +5157,25 @@ class SendQuota {
   }
 }
 
+/// @nodoc
 class AccountSuspendedException extends _s.GenericAwsException {
   AccountSuspendedException({String? type, String? message})
       : super(type: type, code: 'AccountSuspendedException', message: message);
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -5008,11 +5184,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
   MailFromDomainNotVerifiedException({String? type, String? message})
       : super(
@@ -5021,21 +5199,25 @@ class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MessageRejected extends _s.GenericAwsException {
   MessageRejected({String? type, String? message})
       : super(type: type, code: 'MessageRejected', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class SendingPausedException extends _s.GenericAwsException {
   SendingPausedException({String? type, String? message})
       : super(type: type, code: 'SendingPausedException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

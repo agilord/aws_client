@@ -1539,6 +1539,7 @@ class Billingconductor {
   }
 }
 
+/// @nodoc
 class GetBillingGroupCostReportOutput {
   /// The list of margin summary reports.
   final List<BillingGroupCostReportResultElement>?
@@ -1575,6 +1576,7 @@ class GetBillingGroupCostReportOutput {
   }
 }
 
+/// @nodoc
 class ListAccountAssociationsOutput {
   /// The list of linked accounts in the payer account.
   final List<AccountAssociationsListElement>? linkedAccounts;
@@ -1608,6 +1610,7 @@ class ListAccountAssociationsOutput {
   }
 }
 
+/// @nodoc
 class ListBillingGroupCostReportsOutput {
   /// A list of <code>BillingGroupCostReportElement</code> retrieved.
   final List<BillingGroupCostReportElement>? billingGroupCostReports;
@@ -1643,6 +1646,7 @@ class ListBillingGroupCostReportsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -1666,6 +1670,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1678,6 +1683,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1690,6 +1696,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateBillingGroupOutput {
   /// The Amazon Resource Name (ARN) of the created billing group.
   final String? arn;
@@ -1712,6 +1719,7 @@ class CreateBillingGroupOutput {
   }
 }
 
+/// @nodoc
 class UpdateBillingGroupOutput {
   /// Specifies if the billing group has automatic account association
   /// (<code>AutoAssociate</code>) enabled.
@@ -1803,6 +1811,7 @@ class UpdateBillingGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteBillingGroupOutput {
   /// The Amazon Resource Name (ARN) of the deleted billing group.
   final String? arn;
@@ -1825,6 +1834,7 @@ class DeleteBillingGroupOutput {
   }
 }
 
+/// @nodoc
 class ListBillingGroupsOutput {
   /// A list of <code>BillingGroupListElement</code> retrieved.
   final List<BillingGroupListElement>? billingGroups;
@@ -1858,6 +1868,7 @@ class ListBillingGroupsOutput {
   }
 }
 
+/// @nodoc
 class AssociateAccountsOutput {
   /// The Amazon Resource Name (ARN) of the billing group that associates the
   /// array of account IDs.
@@ -1881,6 +1892,7 @@ class AssociateAccountsOutput {
   }
 }
 
+/// @nodoc
 class DisassociateAccountsOutput {
   /// The Amazon Resource Name (ARN) of the billing group that the array of
   /// account IDs is disassociated from.
@@ -1904,6 +1916,7 @@ class DisassociateAccountsOutput {
   }
 }
 
+/// @nodoc
 class CreateCustomLineItemOutput {
   /// The Amazon Resource Name (ARN) of the created custom line item.
   final String? arn;
@@ -1926,6 +1939,7 @@ class CreateCustomLineItemOutput {
   }
 }
 
+/// @nodoc
 class UpdateCustomLineItemOutput {
   /// The ARN of the successfully updated custom line item.
   final String? arn;
@@ -1994,6 +2008,7 @@ class UpdateCustomLineItemOutput {
   }
 }
 
+/// @nodoc
 class DeleteCustomLineItemOutput {
   /// The ARN of the deleted custom line item.
   final String? arn;
@@ -2016,6 +2031,7 @@ class DeleteCustomLineItemOutput {
   }
 }
 
+/// @nodoc
 class ListCustomLineItemsOutput {
   /// A list of <code>FreeFormLineItemListElements</code> received.
   final List<CustomLineItemListElement>? customLineItems;
@@ -2050,6 +2066,7 @@ class ListCustomLineItemsOutput {
   }
 }
 
+/// @nodoc
 class BatchAssociateResourcesToCustomLineItemOutput {
   /// A list of <code>AssociateResourceResponseElement</code> for each resource
   /// that failed association to a percentage custom line item.
@@ -2094,6 +2111,7 @@ class BatchAssociateResourcesToCustomLineItemOutput {
   }
 }
 
+/// @nodoc
 class BatchDisassociateResourcesFromCustomLineItemOutput {
   /// A list of <code>DisassociateResourceResponseElement</code> for each resource
   /// that failed disassociation from a percentage custom line item.
@@ -2141,6 +2159,7 @@ class BatchDisassociateResourcesFromCustomLineItemOutput {
   }
 }
 
+/// @nodoc
 class ListCustomLineItemVersionsOutput {
   /// A list of <code>CustomLineItemVersionListElements</code> that are received.
   final List<CustomLineItemVersionListElement>? customLineItemVersions;
@@ -2176,6 +2195,7 @@ class ListCustomLineItemVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListResourcesAssociatedToCustomLineItemOutput {
   /// The custom line item ARN for which the resource associations are listed.
   final String? arn;
@@ -2223,6 +2243,7 @@ class ListResourcesAssociatedToCustomLineItemOutput {
   }
 }
 
+/// @nodoc
 class CreatePricingPlanOutput {
   /// The Amazon Resource Name (ARN) of the created pricing plan.
   final String? arn;
@@ -2245,6 +2266,7 @@ class CreatePricingPlanOutput {
   }
 }
 
+/// @nodoc
 class UpdatePricingPlanOutput {
   /// The Amazon Resource Name (ARN) of the updated pricing plan.
   final String? arn;
@@ -2296,6 +2318,7 @@ class UpdatePricingPlanOutput {
   }
 }
 
+/// @nodoc
 class DeletePricingPlanOutput {
   /// The Amazon Resource Name (ARN) of the deleted pricing plan.
   final String? arn;
@@ -2318,6 +2341,7 @@ class DeletePricingPlanOutput {
   }
 }
 
+/// @nodoc
 class ListPricingPlansOutput {
   /// The billing period for which the described pricing plans are applicable.
   final String? billingPeriod;
@@ -2358,6 +2382,7 @@ class ListPricingPlansOutput {
   }
 }
 
+/// @nodoc
 class AssociatePricingRulesOutput {
   /// The <code>PricingPlanArn</code> that the <code>PricingRuleArns</code> are
   /// associated with.
@@ -2381,6 +2406,7 @@ class AssociatePricingRulesOutput {
   }
 }
 
+/// @nodoc
 class DisassociatePricingRulesOutput {
   /// The Amazon Resource Name (ARN) of the pricing plan that the pricing rules
   /// successfully disassociated from.
@@ -2404,6 +2430,7 @@ class DisassociatePricingRulesOutput {
   }
 }
 
+/// @nodoc
 class ListPricingPlansAssociatedWithPricingRuleOutput {
   /// The pricing plan billing period for which associations will be listed.
   final String? billingPeriod;
@@ -2453,6 +2480,7 @@ class ListPricingPlansAssociatedWithPricingRuleOutput {
   }
 }
 
+/// @nodoc
 class CreatePricingRuleOutput {
   /// The Amazon Resource Name (ARN) of the created pricing rule.
   final String? arn;
@@ -2475,6 +2503,7 @@ class CreatePricingRuleOutput {
   }
 }
 
+/// @nodoc
 class UpdatePricingRuleOutput {
   /// The Amazon Resource Name (ARN) of the successfully updated pricing rule.
   final String? arn;
@@ -2602,6 +2631,7 @@ class UpdatePricingRuleOutput {
   }
 }
 
+/// @nodoc
 class DeletePricingRuleOutput {
   /// The Amazon Resource Name (ARN) of the deleted pricing rule.
   final String? arn;
@@ -2624,6 +2654,7 @@ class DeletePricingRuleOutput {
   }
 }
 
+/// @nodoc
 class ListPricingRulesOutput {
   /// The billing period for which the described pricing rules are applicable.
   final String? billingPeriod;
@@ -2664,6 +2695,7 @@ class ListPricingRulesOutput {
   }
 }
 
+/// @nodoc
 class ListPricingRulesAssociatedToPricingPlanOutput {
   /// The billing period for which the pricing rule associations are listed.
   final String? billingPeriod;
@@ -2714,6 +2746,8 @@ class ListPricingRulesAssociatedToPricingPlanOutput {
 }
 
 /// A representation of a pricing rule.
+///
+/// @nodoc
 class PricingRuleListElement {
   /// The Amazon Resource Name (ARN) used to uniquely identify a pricing rule.
   final String? arn;
@@ -2846,6 +2880,7 @@ class PricingRuleListElement {
   }
 }
 
+/// @nodoc
 class PricingRuleScope {
   static const global = PricingRuleScope._('GLOBAL');
   static const service = PricingRuleScope._('SERVICE');
@@ -2872,6 +2907,7 @@ class PricingRuleScope {
   String toString() => value;
 }
 
+/// @nodoc
 class PricingRuleType {
   static const markup = PricingRuleType._('MARKUP');
   static const discount = PricingRuleType._('DISCOUNT');
@@ -2898,6 +2934,8 @@ class PricingRuleType {
 }
 
 /// The set of tiering configurations for the pricing rule.
+///
+/// @nodoc
 class Tiering {
   /// The possible Amazon Web Services Free Tier configurations.
   final FreeTierConfig freeTier;
@@ -2923,6 +2961,8 @@ class Tiering {
 }
 
 /// The possible Amazon Web Services Free Tier configurations.
+///
+/// @nodoc
 class FreeTierConfig {
   /// Activate or deactivate Amazon Web Services Free Tier application.
   final bool activated;
@@ -2947,6 +2987,8 @@ class FreeTierConfig {
 
 /// The filter that specifies criteria that the pricing rules returned by the
 /// <code>ListPricingRules</code> API will adhere to.
+///
+/// @nodoc
 class ListPricingRulesFilter {
   /// A list containing the pricing rule Amazon Resource Names (ARNs) to include
   /// in the API response.
@@ -2965,6 +3007,8 @@ class ListPricingRulesFilter {
 }
 
 /// The set of tiering configurations for the pricing rule.
+///
+/// @nodoc
 class UpdateTieringInput {
   /// The possible Amazon Web Services Free Tier configurations.
   final UpdateFreeTierConfig freeTier;
@@ -2990,6 +3034,8 @@ class UpdateTieringInput {
 }
 
 /// The possible Amazon Web Services Free Tier configurations.
+///
+/// @nodoc
 class UpdateFreeTierConfig {
   /// Activate or deactivate application of Amazon Web Services Free Tier.
   final bool activated;
@@ -3013,6 +3059,8 @@ class UpdateFreeTierConfig {
 }
 
 /// The set of tiering configurations for the pricing rule.
+///
+/// @nodoc
 class CreateTieringInput {
   /// The possible Amazon Web Services Free Tier configurations.
   final CreateFreeTierConfig freeTier;
@@ -3030,6 +3078,8 @@ class CreateTieringInput {
 }
 
 /// The possible Amazon Web Services Free Tier configurations.
+///
+/// @nodoc
 class CreateFreeTierConfig {
   /// Activate or deactivate Amazon Web Services Free Tier.
   final bool activated;
@@ -3047,6 +3097,8 @@ class CreateFreeTierConfig {
 }
 
 /// A representation of a pricing plan.
+///
+/// @nodoc
 class PricingPlanListElement {
   /// The pricing plan Amazon Resource Names (ARN). This can be used to uniquely
   /// identify a pricing plan.
@@ -3108,6 +3160,8 @@ class PricingPlanListElement {
 
 /// The filter that specifies the Amazon Resource Names (ARNs) of pricing plans,
 /// to retrieve pricing plan information.
+///
+/// @nodoc
 class ListPricingPlansFilter {
   /// A list of pricing plan Amazon Resource Names (ARNs) to retrieve information.
   final List<String>? arns;
@@ -3125,6 +3179,8 @@ class ListPricingPlansFilter {
 }
 
 /// A representation of a resource association for a custom line item.
+///
+/// @nodoc
 class ListResourcesAssociatedToCustomLineItemResponseElement {
   /// The ARN of the associated resource.
   final String? arn;
@@ -3164,6 +3220,7 @@ class ListResourcesAssociatedToCustomLineItemResponseElement {
   }
 }
 
+/// @nodoc
 class CustomLineItemRelationship {
   static const parent = CustomLineItemRelationship._('PARENT');
   static const child = CustomLineItemRelationship._('CHILD');
@@ -3191,6 +3248,8 @@ class CustomLineItemRelationship {
 
 /// A filter that specifies the type of resource associations that should be
 /// retrieved for a custom line item.
+///
+/// @nodoc
 class ListResourcesAssociatedToCustomLineItemFilter {
   /// The type of relationship between the custom line item and the associated
   /// resource.
@@ -3209,6 +3268,8 @@ class ListResourcesAssociatedToCustomLineItemFilter {
 }
 
 /// A representation of a custom line item version.
+///
+/// @nodoc
 class CustomLineItemVersionListElement {
   /// The Amazon Web Services account in which this custom line item will be
   /// applied to.
@@ -3349,6 +3410,8 @@ class CustomLineItemVersionListElement {
 }
 
 /// A representation of the charge details of a custom line item.
+///
+/// @nodoc
 class ListCustomLineItemChargeDetails {
   /// The type of the custom line item that indicates whether the charge is a
   /// <code>fee</code> or <code>credit</code>.
@@ -3404,6 +3467,7 @@ class ListCustomLineItemChargeDetails {
   }
 }
 
+/// @nodoc
 class CurrencyCode {
   static const usd = CurrencyCode._('USD');
   static const cny = CurrencyCode._('CNY');
@@ -3428,6 +3492,8 @@ class CurrencyCode {
 }
 
 /// The display settings of the custom line item
+///
+/// @nodoc
 class ComputationRuleEnum {
   static const itemized = ComputationRuleEnum._('ITEMIZED');
   static const consolidated = ComputationRuleEnum._('CONSOLIDATED');
@@ -3455,10 +3521,12 @@ class ComputationRuleEnum {
 
 /// An object that defines how custom line item charges are presented in the
 /// bill, containing specifications for service presentation.
+///
+/// @nodoc
 class PresentationObject {
   /// The service under which the custom line item charges will be presented. Must
   /// be a string between 1 and 128 characters matching the pattern
-  /// "<code>^[a-zA-Z0-9]+$</code>".
+  /// "<code>^\[a-zA-Z0-9\]+$</code>".
   final String service;
 
   PresentationObject({
@@ -3481,6 +3549,8 @@ class PresentationObject {
 
 /// A representation of the charge details that are associated with a flat
 /// custom line item.
+///
+/// @nodoc
 class ListCustomLineItemFlatChargeDetails {
   /// The custom line item's fixed charge value in USD.
   final double chargeValue;
@@ -3506,6 +3576,8 @@ class ListCustomLineItemFlatChargeDetails {
 
 /// A representation of the charge details that are associated with a percentage
 /// custom line item.
+///
+/// @nodoc
 class ListCustomLineItemPercentageChargeDetails {
   /// The custom line item's percentage value. This will be multiplied against the
   /// combined value of its associated resources to determine its charge value.
@@ -3530,6 +3602,7 @@ class ListCustomLineItemPercentageChargeDetails {
   }
 }
 
+/// @nodoc
 class CustomLineItemType {
   static const credit = CustomLineItemType._('CREDIT');
   static const fee = CustomLineItemType._('FEE');
@@ -3560,6 +3633,8 @@ class CustomLineItemType {
 /// the billing group's total cost. For example, if you create a custom line
 /// item and you want to filter out a value, such as Savings Plans discounts,
 /// you can update <code>LineItemFilter</code> to exclude it.
+///
+/// @nodoc
 class LineItemFilter {
   /// The attribute of the line item filter. This specifies what attribute that
   /// you can filter on.
@@ -3614,6 +3689,7 @@ class LineItemFilter {
   }
 }
 
+/// @nodoc
 class LineItemFilterAttributeName {
   static const lineItemType = LineItemFilterAttributeName._('LINE_ITEM_TYPE');
   static const service = LineItemFilterAttributeName._('SERVICE');
@@ -3639,6 +3715,7 @@ class LineItemFilterAttributeName {
   String toString() => value;
 }
 
+/// @nodoc
 class MatchOption {
   static const notEqual = MatchOption._('NOT_EQUAL');
   static const equal = MatchOption._('EQUAL');
@@ -3662,6 +3739,7 @@ class MatchOption {
   String toString() => value;
 }
 
+/// @nodoc
 class LineItemFilterValue {
   static const savingsPlanNegation =
       LineItemFilterValue._('SAVINGS_PLAN_NEGATION');
@@ -3689,6 +3767,8 @@ class LineItemFilterValue {
 
 /// A filter that specifies the billing period range where the custom line item
 /// versions reside.
+///
+/// @nodoc
 class ListCustomLineItemVersionsFilter {
   /// The billing period range in which the custom line item version is applied.
   final ListCustomLineItemVersionsBillingPeriodRangeFilter? billingPeriodRange;
@@ -3707,6 +3787,8 @@ class ListCustomLineItemVersionsFilter {
 
 /// A billing period filter that specifies the custom line item versions to
 /// retrieve.
+///
+/// @nodoc
 class ListCustomLineItemVersionsBillingPeriodRangeFilter {
   /// The exclusive end billing period that defines a billing period range where a
   /// custom line item version is applied.
@@ -3732,6 +3814,8 @@ class ListCustomLineItemVersionsBillingPeriodRangeFilter {
 }
 
 /// A resource disassociation result for a percentage custom line item.
+///
+/// @nodoc
 class DisassociateResourceResponseElement {
   /// The resource ARN that was disassociated from the custom line item.
   final String? arn;
@@ -3767,6 +3851,8 @@ class DisassociateResourceResponseElement {
 }
 
 /// A representation of a resource association error.
+///
+/// @nodoc
 class AssociateResourceError {
   /// The reason why the resource association failed.
   final String? message;
@@ -3797,6 +3883,7 @@ class AssociateResourceError {
   }
 }
 
+/// @nodoc
 class AssociateResourceErrorReason {
   static const invalidArn = AssociateResourceErrorReason._('INVALID_ARN');
   static const serviceLimitExceeded =
@@ -3837,6 +3924,8 @@ class AssociateResourceErrorReason {
 
 /// The billing period range in which the custom line item request will be
 /// applied.
+///
+/// @nodoc
 class CustomLineItemBillingPeriodRange {
   /// The inclusive start billing period that defines a billing period range where
   /// a custom line is applied.
@@ -3863,6 +3952,8 @@ class CustomLineItemBillingPeriodRange {
 }
 
 /// A resource association result for a percentage custom line item.
+///
+/// @nodoc
 class AssociateResourceResponseElement {
   /// The resource ARN that was associated to the custom line item.
   final String? arn;
@@ -3897,6 +3988,8 @@ class AssociateResourceResponseElement {
 }
 
 /// A representation of a custom line item.
+///
+/// @nodoc
 class CustomLineItemListElement {
   /// The Amazon Web Services account in which this custom line item will be
   /// applied to.
@@ -4021,6 +4114,8 @@ class CustomLineItemListElement {
 
 /// A filter that specifies the custom line items and billing groups to retrieve
 /// FFLI information.
+///
+/// @nodoc
 class ListCustomLineItemsFilter {
   /// The Amazon Web Services accounts in which this custom line item will be
   /// applied to.
@@ -4058,6 +4153,8 @@ class ListCustomLineItemsFilter {
 
 /// A representation of the new charge details of a custom line item. This
 /// should contain only one of <code>Flat</code> or <code>Percentage</code>.
+///
+/// @nodoc
 class UpdateCustomLineItemChargeDetails {
   /// An <code>UpdateCustomLineItemFlatChargeDetails</code> that describes the new
   /// charge details of a flat custom line item.
@@ -4090,6 +4187,8 @@ class UpdateCustomLineItemChargeDetails {
 
 /// A representation of the new charge details that are associated with a flat
 /// custom line item.
+///
+/// @nodoc
 class UpdateCustomLineItemFlatChargeDetails {
   /// The custom line item's new fixed charge value in USD.
   final double chargeValue;
@@ -4108,6 +4207,8 @@ class UpdateCustomLineItemFlatChargeDetails {
 
 /// A representation of the new charge details that are associated with a
 /// percentage custom line item.
+///
+/// @nodoc
 class UpdateCustomLineItemPercentageChargeDetails {
   /// The custom line item's new percentage value. This will be multiplied against
   /// the combined value of its associated resources to determine its charge
@@ -4128,6 +4229,8 @@ class UpdateCustomLineItemPercentageChargeDetails {
 
 /// The charge details of a custom line item. It should contain only one of
 /// <code>Flat</code> or <code>Percentage</code>.
+///
+/// @nodoc
 class CustomLineItemChargeDetails {
   /// The type of the custom line item that indicates whether the charge is a fee
   /// or credit.
@@ -4167,6 +4270,8 @@ class CustomLineItemChargeDetails {
 
 /// A representation of the charge details that are associated with a flat
 /// custom line item.
+///
+/// @nodoc
 class CustomLineItemFlatChargeDetails {
   /// The custom line item's fixed charge value in USD.
   final double chargeValue;
@@ -4185,6 +4290,8 @@ class CustomLineItemFlatChargeDetails {
 
 /// A representation of the charge details that are associated with a percentage
 /// custom line item.
+///
+/// @nodoc
 class CustomLineItemPercentageChargeDetails {
   /// The custom line item's percentage value. This will be multiplied against the
   /// combined value of its associated resources to determine its charge value.
@@ -4209,6 +4316,8 @@ class CustomLineItemPercentageChargeDetails {
 }
 
 /// A representation of a billing group.
+///
+/// @nodoc
 class BillingGroupListElement {
   /// Specifies if the billing group has automatic account association
   /// (<code>AutoAssociate</code>) enabled.
@@ -4318,6 +4427,8 @@ class BillingGroupListElement {
 
 /// The preferences and settings that will be used to compute the Amazon Web
 /// Services charges for a billing group.
+///
+/// @nodoc
 class ComputationPreference {
   /// The Amazon Resource Name (ARN) of the pricing plan that's used to compute
   /// the Amazon Web Services charges for a billing group.
@@ -4341,6 +4452,7 @@ class ComputationPreference {
   }
 }
 
+/// @nodoc
 class BillingGroupStatus {
   static const active = BillingGroupStatus._('ACTIVE');
   static const primaryAccountMissing =
@@ -4369,6 +4481,8 @@ class BillingGroupStatus {
 }
 
 /// Specifies if the billing group has the following features enabled.
+///
+/// @nodoc
 class ListBillingGroupAccountGrouping {
   /// Specifies if this billing group will automatically associate newly added
   /// Amazon Web Services accounts that join your consolidated billing family.
@@ -4401,6 +4515,7 @@ class ListBillingGroupAccountGrouping {
   }
 }
 
+/// @nodoc
 class BillingGroupType {
   static const standard = BillingGroupType._('STANDARD');
   static const transferBilling = BillingGroupType._('TRANSFER_BILLING');
@@ -4427,6 +4542,8 @@ class BillingGroupType {
 
 /// The filter that specifies the billing groups and pricing plans to retrieve
 /// billing group information.
+///
+/// @nodoc
 class ListBillingGroupsFilter {
   /// The list of billing group Amazon Resource Names (ARNs) to retrieve
   /// information.
@@ -4491,6 +4608,8 @@ class ListBillingGroupsFilter {
 }
 
 /// A structure that defines string search parameters.
+///
+/// @nodoc
 class StringSearch {
   /// The search option to be applied when performing the string search.
   final SearchOption searchOption;
@@ -4513,6 +4632,7 @@ class StringSearch {
   }
 }
 
+/// @nodoc
 class SearchOption {
   static const startsWith = SearchOption._('STARTS_WITH');
 
@@ -4536,6 +4656,8 @@ class SearchOption {
 }
 
 /// Specifies if the billing group has the following features enabled.
+///
+/// @nodoc
 class UpdateBillingGroupAccountGrouping {
   /// Specifies if this billing group will automatically associate newly added
   /// Amazon Web Services accounts that join your consolidated billing family.
@@ -4572,6 +4694,8 @@ class UpdateBillingGroupAccountGrouping {
 
 /// The set of accounts that will be under the billing group. The set of
 /// accounts resemble the linked accounts in a consolidated billing family.
+///
+/// @nodoc
 class AccountGrouping {
   /// Specifies if this billing group will automatically associate newly added
   /// Amazon Web Services accounts that join your consolidated billing family.
@@ -4609,6 +4733,8 @@ class AccountGrouping {
 /// A summary report of actual Amazon Web Services charges and calculated Amazon
 /// Web Services charges, based on the associated pricing plan of a billing
 /// group.
+///
+/// @nodoc
 class BillingGroupCostReportElement {
   /// The actual Amazon Web Services charges for the billing group.
   final String? awsCost;
@@ -4669,6 +4795,8 @@ class BillingGroupCostReportElement {
 
 /// The filter used to retrieve specific
 /// <code>BillingGroupCostReportElements</code>.
+///
+/// @nodoc
 class ListBillingGroupCostReportsFilter {
   /// The list of Amazon Resource Names (ARNs) used to filter billing groups to
   /// retrieve reports.
@@ -4687,6 +4815,8 @@ class ListBillingGroupCostReportsFilter {
 }
 
 /// A representation of a linked account.
+///
+/// @nodoc
 class AccountAssociationsListElement {
   /// The Amazon Web Services account email.
   final String? accountEmail;
@@ -4740,6 +4870,8 @@ class AccountAssociationsListElement {
 ///
 /// <code>Billing Group Arn</code>: linked accounts that are associated to the
 /// provided Billing Group Arn.
+///
+/// @nodoc
 class ListAccountAssociationsFilter {
   /// The Amazon Web Services account ID to filter on.
   final String? accountId;
@@ -4779,6 +4911,8 @@ class ListAccountAssociationsFilter {
 /// A paginated call to retrieve a list of summary reports of actual Amazon Web
 /// Services charges and the calculated Amazon Web Services charges, broken down
 /// by attributes.
+///
+/// @nodoc
 class BillingGroupCostReportResultElement {
   /// The actual Amazon Web Services charges for the billing group.
   final String? awsCost;
@@ -4858,6 +4992,8 @@ class BillingGroupCostReportResultElement {
 /// want a service-level breakdown for Amazon Simple Storage Service (Amazon S3)
 /// of the billing group, the attribute will be a key-value pair of
 /// <code>"PRODUCT_NAME"</code> and <code>"S3"</code>.
+///
+/// @nodoc
 class Attribute {
   /// The key in a key-value pair that describes the margin summary.
   final String? key;
@@ -4889,6 +5025,8 @@ class Attribute {
 
 /// A time range for which the margin summary is effective. The time range can
 /// be up to 12 months.
+///
+/// @nodoc
 class BillingPeriodRange {
   /// The exclusive end billing period that defines a billing period range for the
   /// margin summary. For example, if you choose a billing period that starts in
@@ -4915,6 +5053,7 @@ class BillingPeriodRange {
   }
 }
 
+/// @nodoc
 class GroupByAttributeName {
   static const productName = GroupByAttributeName._('PRODUCT_NAME');
   static const billingPeriod = GroupByAttributeName._('BILLING_PERIOD');
@@ -4940,26 +5079,31 @@ class GroupByAttributeName {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceLimitExceededException extends _s.GenericAwsException {
   ServiceLimitExceededException({String? type, String? message})
       : super(
@@ -4968,11 +5112,13 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1317,6 +1317,8 @@ class Support {
 
 /// The ID and expiry time of the attachment set returned by the
 /// <a>AddAttachmentsToSet</a> operation.
+///
+/// @nodoc
 class AddAttachmentsToSetResponse {
   /// The ID of the attachment set. If an <code>attachmentSetId</code> was not
   /// specified, a new attachment set is created, and the ID of the set is
@@ -1350,6 +1352,8 @@ class AddAttachmentsToSetResponse {
 }
 
 /// The result of the <a>AddCommunicationToCase</a> operation.
+///
+/// @nodoc
 class AddCommunicationToCaseResponse {
   /// True if <a>AddCommunicationToCase</a> succeeds. Otherwise, returns an error.
   final bool? result;
@@ -1374,6 +1378,8 @@ class AddCommunicationToCaseResponse {
 
 /// The support case ID returned by a successful completion of the
 /// <a>CreateCase</a> operation.
+///
+/// @nodoc
 class CreateCaseResponse {
   /// The support case ID requested or returned in the call. The case ID is an
   /// alphanumeric string in the following format:
@@ -1400,6 +1406,8 @@ class CreateCaseResponse {
 
 /// The content and file name of the attachment returned by the
 /// <a>DescribeAttachment</a> operation.
+///
+/// @nodoc
 class DescribeAttachmentResponse {
   /// This object includes the attachment content and file name.
   ///
@@ -1433,6 +1441,8 @@ class DescribeAttachmentResponse {
 /// href="https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html">CaseDetails</a>
 /// objects and a <code>nextToken</code> that defines a point for pagination in
 /// the result set.
+///
+/// @nodoc
 class DescribeCasesResponse {
   /// The details for the cases that match the request.
   final List<CaseDetails>? cases;
@@ -1466,6 +1476,8 @@ class DescribeCasesResponse {
 }
 
 /// The communications returned by the <a>DescribeCommunications</a> operation.
+///
+/// @nodoc
 class DescribeCommunicationsResponse {
   /// The communications for the case.
   final List<Communication>? communications;
@@ -1498,6 +1510,7 @@ class DescribeCommunicationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeCreateCaseOptionsResponse {
   /// A JSON-formatted array that contains the available communication type
   /// options, along with the available support timeframes for the given inputs.
@@ -1548,6 +1561,8 @@ class DescribeCreateCaseOptionsResponse {
 
 /// The list of Amazon Web Services services returned by the
 /// <a>DescribeServices</a> operation.
+///
+/// @nodoc
 class DescribeServicesResponse {
   /// A JSON-formatted list of Amazon Web Services services.
   final List<Service>? services;
@@ -1575,6 +1590,8 @@ class DescribeServicesResponse {
 
 /// The list of severity levels returned by the <a>DescribeSeverityLevels</a>
 /// operation.
+///
+/// @nodoc
 class DescribeSeverityLevelsResponse {
   /// The available severity levels for the support case. Available severity
   /// levels are defined by your service level agreement with Amazon Web Services.
@@ -1601,6 +1618,7 @@ class DescribeSeverityLevelsResponse {
   }
 }
 
+/// @nodoc
 class DescribeSupportedLanguagesResponse {
   /// A JSON-formatted array that contains the available ISO 639-1 language codes.
   final List<SupportedLanguage>? supportedLanguages;
@@ -1629,6 +1647,8 @@ class DescribeSupportedLanguagesResponse {
 
 /// The statuses of the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorCheckRefreshStatuses</a> operation.
+///
+/// @nodoc
 class DescribeTrustedAdvisorCheckRefreshStatusesResponse {
   /// The refresh status of the specified Trusted Advisor checks.
   final List<TrustedAdvisorCheckRefreshStatus> statuses;
@@ -1658,6 +1678,8 @@ class DescribeTrustedAdvisorCheckRefreshStatusesResponse {
 
 /// The result of the Trusted Advisor check returned by the
 /// <a>DescribeTrustedAdvisorCheckResult</a> operation.
+///
+/// @nodoc
 class DescribeTrustedAdvisorCheckResultResponse {
   /// The detailed results of the Trusted Advisor check.
   final TrustedAdvisorCheckResult? result;
@@ -1686,6 +1708,8 @@ class DescribeTrustedAdvisorCheckResultResponse {
 
 /// Information about the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorChecks</a> operation.
+///
+/// @nodoc
 class DescribeTrustedAdvisorChecksResponse {
   /// Information about all available Trusted Advisor checks.
   final List<TrustedAdvisorCheckDescription> checks;
@@ -1715,6 +1739,8 @@ class DescribeTrustedAdvisorChecksResponse {
 
 /// The summaries of the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorCheckSummaries</a> operation.
+///
+/// @nodoc
 class DescribeTrustedAdvisorCheckSummariesResponse {
   /// The summary information for the requested Trusted Advisor checks.
   final List<TrustedAdvisorCheckSummary> summaries;
@@ -1743,6 +1769,8 @@ class DescribeTrustedAdvisorCheckSummariesResponse {
 }
 
 /// The current refresh status of a Trusted Advisor check.
+///
+/// @nodoc
 class RefreshTrustedAdvisorCheckResponse {
   /// The current refresh status for a check, including the amount of time until
   /// the check is eligible for refresh.
@@ -1770,6 +1798,8 @@ class RefreshTrustedAdvisorCheckResponse {
 }
 
 /// The status of the case returned by the <a>ResolveCase</a> operation.
+///
+/// @nodoc
 class ResolveCaseResponse {
   /// The status of the case after the <a>ResolveCase</a> request was processed.
   final String? finalCaseStatus;
@@ -1800,6 +1830,8 @@ class ResolveCaseResponse {
 }
 
 /// The refresh status of a Trusted Advisor check.
+///
+/// @nodoc
 class TrustedAdvisorCheckRefreshStatus {
   /// The unique identifier for the Trusted Advisor check.
   final String checkId;
@@ -1862,6 +1894,8 @@ class TrustedAdvisorCheckRefreshStatus {
 
 /// A summary of a Trusted Advisor check result, including the alert status,
 /// last refresh, and number of resources examined.
+///
+/// @nodoc
 class TrustedAdvisorCheckSummary {
   /// Summary information that relates to the category of the check. Cost
   /// Optimizing is the only category that is currently supported.
@@ -1926,6 +1960,8 @@ class TrustedAdvisorCheckSummary {
 
 /// Details about Amazon Web Services resources that were analyzed in a call to
 /// Trusted Advisor <a>DescribeTrustedAdvisorCheckSummaries</a>.
+///
+/// @nodoc
 class TrustedAdvisorResourcesSummary {
   /// The number of Amazon Web Services resources that were flagged (listed) by
   /// the Trusted Advisor check.
@@ -1975,6 +2011,8 @@ class TrustedAdvisorResourcesSummary {
 
 /// The container for summary information that relates to the category of the
 /// Trusted Advisor check.
+///
+/// @nodoc
 class TrustedAdvisorCategorySpecificSummary {
   /// The summary information about cost savings for a Trusted Advisor check that
   /// is in the Cost Optimizing category.
@@ -2004,6 +2042,8 @@ class TrustedAdvisorCategorySpecificSummary {
 
 /// The estimated cost savings that might be realized if the recommended
 /// operations are taken.
+///
+/// @nodoc
 class TrustedAdvisorCostOptimizingSummary {
   /// The estimated monthly savings that might be realized if the recommended
   /// operations are taken.
@@ -2039,6 +2079,8 @@ class TrustedAdvisorCostOptimizingSummary {
 }
 
 /// The description and metadata for a Trusted Advisor check.
+///
+/// @nodoc
 class TrustedAdvisorCheckDescription {
   /// The category of the Trusted Advisor check.
   final String category;
@@ -2099,6 +2141,8 @@ class TrustedAdvisorCheckDescription {
 
 /// The results of a Trusted Advisor check returned by
 /// <a>DescribeTrustedAdvisorCheckResult</a>.
+///
+/// @nodoc
 class TrustedAdvisorCheckResult {
   /// Summary information that relates to the category of the check. Cost
   /// Optimizing is the only category that is currently supported.
@@ -2165,6 +2209,8 @@ class TrustedAdvisorCheckResult {
 }
 
 /// Contains information about a resource identified by a Trusted Advisor check.
+///
+/// @nodoc
 class TrustedAdvisorResourceDetail {
   /// Additional information about the identified resource. The exact metadata and
   /// its order can be obtained by inspecting the
@@ -2228,6 +2274,8 @@ class TrustedAdvisorResourceDetail {
 /// <code>code</code>, <code>language</code> name and langauge
 /// <code>display</code> value. The language code is what should be used in the
 /// <a>CreateCase</a> call.
+///
+/// @nodoc
 class SupportedLanguage {
   /// 2 digit ISO 639-1 code. e.g. <code>en</code>
   final String? code;
@@ -2269,6 +2317,8 @@ class SupportedLanguage {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
 /// a severity</a> in the <i>Amazon Web Services Support User Guide</i>.
+///
+/// @nodoc
 class SeverityLevel {
   /// The code for case severity level.
   ///
@@ -2331,6 +2381,8 @@ class SeverityLevel {
 
 /// Information about an Amazon Web Services service returned by the
 /// <a>DescribeServices</a> operation.
+///
+/// @nodoc
 class Service {
   /// A list of categories that describe the type of support issue a case
   /// describes. Categories consist of a category name and a category code.
@@ -2379,6 +2431,8 @@ class Service {
 /// A JSON-formatted name/value pair that represents the category name and
 /// category code of the problem, selected from the <a>DescribeServices</a>
 /// response for each Amazon Web Services service.
+///
+/// @nodoc
 class Category {
   /// The category code for the support case.
   final String? code;
@@ -2430,6 +2484,8 @@ class Category {
 /// <code>call</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CommunicationTypeOptions {
   /// A JSON-formatted list containing date and time ranges for periods without
   /// support
@@ -2476,6 +2532,8 @@ class CommunicationTypeOptions {
 }
 
 /// Date and time (UTC) format in RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+///
+/// @nodoc
 class DateInterval {
   /// End Date Time (UTC). RFC 3339 format : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
   final String? endDateTime;
@@ -2508,6 +2566,8 @@ class DateInterval {
 
 /// Time range object with <code>startTime</code> and <code>endTime</code> range
 /// in RFC 3339 format. <code>'HH:mm:ss.SSS'</code>.
+///
+/// @nodoc
 class SupportedHour {
   /// End Time. RFC 3339 format <code>'HH:mm:ss.SSS'</code>.
   final String? endTime;
@@ -2540,6 +2600,8 @@ class SupportedHour {
 /// A communication associated with a support case. The communication consists
 /// of the case ID, the message body, attachment information, the submitter of
 /// the communication, and the date and time of the communication.
+///
+/// @nodoc
 class Communication {
   /// Information about the attachments to the case communication.
   final List<AttachmentDetails>? attachmentSet;
@@ -2603,6 +2665,8 @@ class Communication {
 /// The file name and ID of an attachment to a case communication. You can use
 /// the ID to retrieve the attachment with the <a>DescribeAttachment</a>
 /// operation.
+///
+/// @nodoc
 class AttachmentDetails {
   /// The ID of the attachment.
   final String? attachmentId;
@@ -2718,6 +2782,8 @@ class AttachmentDetails {
 /// <b>timeCreated</b> - The time the case was created, in ISO-8601 format.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CaseDetails {
   /// The support case ID requested or returned in the call. The case ID is an
   /// alphanumeric string formatted as shown in this example:
@@ -2866,6 +2932,8 @@ class CaseDetails {
 }
 
 /// The five most recent communications associated with the case.
+///
+/// @nodoc
 class RecentCaseCommunications {
   /// The five most recent communications associated with the case.
   final List<Communication>? communications;
@@ -2902,6 +2970,8 @@ class RecentCaseCommunications {
 /// name and the content of the file. Each attachment file size should not
 /// exceed 5 MB. File types that are supported include the following: pdf,
 /// jpeg,.doc, .log, .text
+///
+/// @nodoc
 class Attachment {
   /// The content of the attachment file.
   final Uint8List? data;
@@ -2931,26 +3001,31 @@ class Attachment {
   }
 }
 
+/// @nodoc
 class AttachmentIdNotFound extends _s.GenericAwsException {
   AttachmentIdNotFound({String? type, String? message})
       : super(type: type, code: 'AttachmentIdNotFound', message: message);
 }
 
+/// @nodoc
 class AttachmentLimitExceeded extends _s.GenericAwsException {
   AttachmentLimitExceeded({String? type, String? message})
       : super(type: type, code: 'AttachmentLimitExceeded', message: message);
 }
 
+/// @nodoc
 class AttachmentSetExpired extends _s.GenericAwsException {
   AttachmentSetExpired({String? type, String? message})
       : super(type: type, code: 'AttachmentSetExpired', message: message);
 }
 
+/// @nodoc
 class AttachmentSetIdNotFound extends _s.GenericAwsException {
   AttachmentSetIdNotFound({String? type, String? message})
       : super(type: type, code: 'AttachmentSetIdNotFound', message: message);
 }
 
+/// @nodoc
 class AttachmentSetSizeLimitExceeded extends _s.GenericAwsException {
   AttachmentSetSizeLimitExceeded({String? type, String? message})
       : super(
@@ -2959,16 +3034,19 @@ class AttachmentSetSizeLimitExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CaseCreationLimitExceeded extends _s.GenericAwsException {
   CaseCreationLimitExceeded({String? type, String? message})
       : super(type: type, code: 'CaseCreationLimitExceeded', message: message);
 }
 
+/// @nodoc
 class CaseIdNotFound extends _s.GenericAwsException {
   CaseIdNotFound({String? type, String? message})
       : super(type: type, code: 'CaseIdNotFound', message: message);
 }
 
+/// @nodoc
 class DescribeAttachmentLimitExceeded extends _s.GenericAwsException {
   DescribeAttachmentLimitExceeded({String? type, String? message})
       : super(
@@ -2977,11 +3055,13 @@ class DescribeAttachmentLimitExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

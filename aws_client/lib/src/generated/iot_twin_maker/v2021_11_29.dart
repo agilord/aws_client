@@ -1823,6 +1823,7 @@ class IoTTwinMaker {
   }
 }
 
+/// @nodoc
 class BatchPutPropertyValuesResponse {
   /// Entries that caused errors in the batch put operation.
   final List<BatchPutPropertyErrorEntry> errorEntries;
@@ -1849,6 +1850,7 @@ class BatchPutPropertyValuesResponse {
   }
 }
 
+/// @nodoc
 class CancelMetadataTransferJobResponse {
   /// The metadata transfer job ARN.
   final String arn;
@@ -1905,6 +1907,7 @@ class CancelMetadataTransferJobResponse {
   }
 }
 
+/// @nodoc
 class CreateComponentTypeResponse {
   /// The ARN of the component type.
   final String arn;
@@ -1942,6 +1945,7 @@ class CreateComponentTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateEntityResponse {
   /// The ARN of the entity.
   final String arn;
@@ -1986,6 +1990,7 @@ class CreateEntityResponse {
   }
 }
 
+/// @nodoc
 class CreateMetadataTransferJobResponse {
   /// The metadata transfer job ARN.
   final String arn;
@@ -2033,6 +2038,7 @@ class CreateMetadataTransferJobResponse {
   }
 }
 
+/// @nodoc
 class CreateSceneResponse {
   /// The ARN of the scene.
   final String arn;
@@ -2063,6 +2069,7 @@ class CreateSceneResponse {
   }
 }
 
+/// @nodoc
 class CreateSyncJobResponse {
   /// The SyncJob ARN.
   final String arn;
@@ -2100,6 +2107,7 @@ class CreateSyncJobResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceResponse {
   /// The ARN of the workspace.
   final String arn;
@@ -2130,6 +2138,7 @@ class CreateWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteComponentTypeResponse {
   /// The current state of the component type to be deleted.
   final State state;
@@ -2152,6 +2161,7 @@ class DeleteComponentTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteEntityResponse {
   /// The current state of the deleted entity.
   final State state;
@@ -2174,6 +2184,7 @@ class DeleteEntityResponse {
   }
 }
 
+/// @nodoc
 class DeleteSceneResponse {
   DeleteSceneResponse();
 
@@ -2186,6 +2197,7 @@ class DeleteSceneResponse {
   }
 }
 
+/// @nodoc
 class DeleteSyncJobResponse {
   /// The SyncJob response state.
   final SyncJobState state;
@@ -2208,6 +2220,7 @@ class DeleteSyncJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceResponse {
   /// The string that specifies the delete result for the workspace.
   final String? message;
@@ -2230,6 +2243,7 @@ class DeleteWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class ExecuteQueryResponse {
   /// A list of ColumnDescription objects.
   final List<ColumnDescription>? columnDescriptions;
@@ -2272,6 +2286,7 @@ class ExecuteQueryResponse {
   }
 }
 
+/// @nodoc
 class GetComponentTypeResponse {
   /// The ARN of the component type.
   final String arn;
@@ -2434,6 +2449,7 @@ class GetComponentTypeResponse {
   }
 }
 
+/// @nodoc
 class GetEntityResponse {
   /// The ARN of the entity.
   final String arn;
@@ -2547,6 +2563,7 @@ class GetEntityResponse {
   }
 }
 
+/// @nodoc
 class GetMetadataTransferJobResponse {
   /// The metadata transfer job ARN.
   final String arn;
@@ -2651,6 +2668,7 @@ class GetMetadataTransferJobResponse {
   }
 }
 
+/// @nodoc
 class GetPricingPlanResponse {
   /// The chosen pricing plan for the current billing cycle.
   final PricingPlan currentPricingPlan;
@@ -2685,6 +2703,7 @@ class GetPricingPlanResponse {
   }
 }
 
+/// @nodoc
 class GetPropertyValueResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -2732,6 +2751,7 @@ class GetPropertyValueResponse {
   }
 }
 
+/// @nodoc
 class GetPropertyValueHistoryResponse {
   /// An object that maps strings to the property definitions in the component
   /// type. Each string in the mapping must be unique to this object.
@@ -2765,6 +2785,7 @@ class GetPropertyValueHistoryResponse {
   }
 }
 
+/// @nodoc
 class GetSceneResponse {
   /// The ARN of the scene.
   final String arn;
@@ -2868,6 +2889,7 @@ class GetSceneResponse {
   }
 }
 
+/// @nodoc
 class GetSyncJobResponse {
   /// The sync job ARN.
   final String arn;
@@ -2938,6 +2960,7 @@ class GetSyncJobResponse {
   }
 }
 
+/// @nodoc
 class GetWorkspaceResponse {
   /// The ARN of the workspace.
   final String arn;
@@ -3014,6 +3037,7 @@ class GetWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class ListComponentsResponse {
   /// A list of objects that contain information about the components.
   final List<ComponentSummary> componentSummaries;
@@ -3046,6 +3070,7 @@ class ListComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListComponentTypesResponse {
   /// A list of objects that contain information about the component types.
   final List<ComponentTypeSummary> componentTypeSummaries;
@@ -3093,6 +3118,7 @@ class ListComponentTypesResponse {
   }
 }
 
+/// @nodoc
 class ListEntitiesResponse {
   /// A list of objects that contain information about the entities.
   final List<EntitySummary>? entitySummaries;
@@ -3125,6 +3151,7 @@ class ListEntitiesResponse {
   }
 }
 
+/// @nodoc
 class ListMetadataTransferJobsResponse {
   /// The metadata transfer job summaries.
   final List<MetadataTransferJobSummary> metadataTransferJobSummaries;
@@ -3160,6 +3187,7 @@ class ListMetadataTransferJobsResponse {
   }
 }
 
+/// @nodoc
 class ListPropertiesResponse {
   /// A list of objects that contain information about the properties.
   final List<PropertySummary> propertySummaries;
@@ -3192,6 +3220,7 @@ class ListPropertiesResponse {
   }
 }
 
+/// @nodoc
 class ListScenesResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -3224,6 +3253,7 @@ class ListScenesResponse {
   }
 }
 
+/// @nodoc
 class ListSyncJobsResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -3256,6 +3286,7 @@ class ListSyncJobsResponse {
   }
 }
 
+/// @nodoc
 class ListSyncResourcesResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -3288,6 +3319,7 @@ class ListSyncResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -3318,6 +3350,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspacesResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -3350,6 +3383,7 @@ class ListWorkspacesResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3362,6 +3396,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3374,6 +3409,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateComponentTypeResponse {
   /// The ARN of the component type.
   final String arn;
@@ -3417,6 +3453,7 @@ class UpdateComponentTypeResponse {
   }
 }
 
+/// @nodoc
 class UpdateEntityResponse {
   /// The current state of the entity update.
   final State state;
@@ -3446,6 +3483,7 @@ class UpdateEntityResponse {
   }
 }
 
+/// @nodoc
 class UpdatePricingPlanResponse {
   /// Update the current pricing plan.
   final PricingPlan currentPricingPlan;
@@ -3480,6 +3518,7 @@ class UpdatePricingPlanResponse {
   }
 }
 
+/// @nodoc
 class UpdateSceneResponse {
   /// The date and time when the scene was last updated.
   final DateTime updateDateTime;
@@ -3502,6 +3541,7 @@ class UpdateSceneResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceResponse {
   /// The date and time of the current update.
   final DateTime updateDateTime;
@@ -3525,6 +3565,8 @@ class UpdateWorkspaceResponse {
 }
 
 /// The pricing plan.
+///
+/// @nodoc
 class PricingPlan {
   /// The effective date and time of the pricing plan.
   final DateTime effectiveDateTime;
@@ -3590,6 +3632,8 @@ class PricingPlan {
 }
 
 /// Information about the pricing bundle.
+///
+/// @nodoc
 class BundleInformation {
   /// The bundle names.
   final List<String> bundleNames;
@@ -3623,6 +3667,7 @@ class BundleInformation {
   }
 }
 
+/// @nodoc
 class PricingMode {
   static const basic = PricingMode._('BASIC');
   static const standard = PricingMode._('STANDARD');
@@ -3647,6 +3692,7 @@ class PricingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateReason {
   static const $default = UpdateReason._('DEFAULT');
   static const pricingTierUpdate = UpdateReason._('PRICING_TIER_UPDATE');
@@ -3679,6 +3725,7 @@ class UpdateReason {
   String toString() => value;
 }
 
+/// @nodoc
 class PricingTier {
   static const tier_1 = PricingTier._('TIER_1');
   static const tier_2 = PricingTier._('TIER_2');
@@ -3704,6 +3751,7 @@ class PricingTier {
   String toString() => value;
 }
 
+/// @nodoc
 class State {
   static const creating = State._('CREATING');
   static const updating = State._('UPDATING');
@@ -3731,6 +3779,8 @@ class State {
 }
 
 /// The parent entity update request.
+///
+/// @nodoc
 class ParentEntityUpdateRequest {
   /// The type of the update.
   final ParentEntityUpdateType updateType;
@@ -3753,6 +3803,7 @@ class ParentEntityUpdateRequest {
   }
 }
 
+/// @nodoc
 class ParentEntityUpdateType {
   static const update = ParentEntityUpdateType._('UPDATE');
   static const delete = ParentEntityUpdateType._('DELETE');
@@ -3780,6 +3831,8 @@ class ParentEntityUpdateType {
 
 /// An object that sets information about the composite component update
 /// request.
+///
+/// @nodoc
 class CompositeComponentUpdateRequest {
   /// The description of the component type.
   final String? description;
@@ -3816,6 +3869,7 @@ class CompositeComponentUpdateRequest {
   }
 }
 
+/// @nodoc
 class ComponentUpdateType {
   static const create = ComponentUpdateType._('CREATE');
   static const update = ComponentUpdateType._('UPDATE');
@@ -3843,6 +3897,8 @@ class ComponentUpdateType {
 }
 
 /// The component property group request.
+///
+/// @nodoc
 class ComponentPropertyGroupRequest {
   /// The group type.
   final GroupType? groupType;
@@ -3871,6 +3927,7 @@ class ComponentPropertyGroupRequest {
   }
 }
 
+/// @nodoc
 class GroupType {
   static const tabular = GroupType._('TABULAR');
 
@@ -3893,6 +3950,7 @@ class GroupType {
   String toString() => value;
 }
 
+/// @nodoc
 class PropertyGroupUpdateType {
   static const update = PropertyGroupUpdateType._('UPDATE');
   static const delete = PropertyGroupUpdateType._('DELETE');
@@ -3920,6 +3978,8 @@ class PropertyGroupUpdateType {
 }
 
 /// An object that sets information about a property.
+///
+/// @nodoc
 class PropertyRequest {
   /// An object that specifies information about a property.
   final PropertyDefinitionRequest? definition;
@@ -3949,6 +4009,8 @@ class PropertyRequest {
 }
 
 /// An object that sets information about a property.
+///
+/// @nodoc
 class PropertyDefinitionRequest {
   /// A mapping that specifies configuration information about the property. Use
   /// this field to specify information that you read from and write to an
@@ -4012,6 +4074,8 @@ class PropertyDefinitionRequest {
 }
 
 /// An object that specifies a value for a property.
+///
+/// @nodoc
 class DataValue {
   /// A Boolean value.
   final bool? booleanValue;
@@ -4097,6 +4161,7 @@ class DataValue {
   }
 }
 
+/// @nodoc
 class PropertyUpdateType {
   static const update = PropertyUpdateType._('UPDATE');
   static const delete = PropertyUpdateType._('DELETE');
@@ -4125,6 +4190,8 @@ class PropertyUpdateType {
 }
 
 /// A value that associates a component and an entity.
+///
+/// @nodoc
 class RelationshipValue {
   /// The name of the target component associated with the relationship value.
   final String? targetComponentName;
@@ -4156,6 +4223,8 @@ class RelationshipValue {
 }
 
 /// An object that specifies the data type of a property.
+///
+/// @nodoc
 class DataType {
   /// The underlying type of the data type.
   final Type type;
@@ -4213,6 +4282,7 @@ class DataType {
   }
 }
 
+/// @nodoc
 class Type {
   static const relationship = Type._('RELATIONSHIP');
   static const string = Type._('STRING');
@@ -4252,6 +4322,8 @@ class Type {
 }
 
 /// An object that specifies a relationship with another component type.
+///
+/// @nodoc
 class Relationship {
   /// The type of the relationship.
   final String? relationshipType;
@@ -4283,6 +4355,8 @@ class Relationship {
 }
 
 /// The component update request.
+///
+/// @nodoc
 class ComponentUpdateRequest {
   /// The ID of the component type.
   final String? componentTypeId;
@@ -4327,6 +4401,8 @@ class ComponentUpdateRequest {
 
 /// An object that sets information about the composite component types of a
 /// component type.
+///
+/// @nodoc
 class CompositeComponentTypeRequest {
   /// This is the <code>componentTypeId</code> that the
   /// <code>compositeComponentType</code> refers to.
@@ -4345,6 +4421,8 @@ class CompositeComponentTypeRequest {
 }
 
 /// <p/>
+///
+/// @nodoc
 class PropertyGroupRequest {
   /// The group type.
   final GroupType? groupType;
@@ -4368,6 +4446,8 @@ class PropertyGroupRequest {
 }
 
 /// The function request body.
+///
+/// @nodoc
 class FunctionRequest {
   /// The data connector.
   final DataConnector? implementedBy;
@@ -4396,6 +4476,7 @@ class FunctionRequest {
   }
 }
 
+/// @nodoc
 class Scope {
   static const entity = Scope._('ENTITY');
   static const workspace = Scope._('WORKSPACE');
@@ -4420,6 +4501,8 @@ class Scope {
 }
 
 /// The data connector.
+///
+/// @nodoc
 class DataConnector {
   /// A Boolean value that specifies whether the data connector is native to IoT
   /// TwinMaker.
@@ -4453,6 +4536,8 @@ class DataConnector {
 }
 
 /// The Lambda function.
+///
+/// @nodoc
 class LambdaFunction {
   /// The ARN of the Lambda function.
   final String arn;
@@ -4476,6 +4561,8 @@ class LambdaFunction {
 }
 
 /// An object that contains information about a workspace.
+///
+/// @nodoc
 class WorkspaceSummary {
   /// The ARN of the workspace.
   final String arn;
@@ -4538,6 +4625,8 @@ class WorkspaceSummary {
 }
 
 /// The sync resource summary.
+///
+/// @nodoc
 class SyncResourceSummary {
   /// The external ID.
   final String? externalId;
@@ -4592,6 +4681,7 @@ class SyncResourceSummary {
   }
 }
 
+/// @nodoc
 class SyncResourceType {
   static const entity = SyncResourceType._('ENTITY');
   static const componentType = SyncResourceType._('COMPONENT_TYPE');
@@ -4617,6 +4707,8 @@ class SyncResourceType {
 }
 
 /// The sync resource status.
+///
+/// @nodoc
 class SyncResourceStatus {
   /// The status error.
   final ErrorDetails? error;
@@ -4648,6 +4740,7 @@ class SyncResourceStatus {
   }
 }
 
+/// @nodoc
 class SyncResourceState {
   static const initializing = SyncResourceState._('INITIALIZING');
   static const processing = SyncResourceState._('PROCESSING');
@@ -4676,6 +4769,8 @@ class SyncResourceState {
 }
 
 /// The error details.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error code.
   final ErrorCode? code;
@@ -4705,6 +4800,7 @@ class ErrorDetails {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const validationError = ErrorCode._('VALIDATION_ERROR');
   static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
@@ -4745,6 +4841,8 @@ class ErrorCode {
 }
 
 /// The sync resource filter.
+///
+/// @nodoc
 class SyncResourceFilter {
   /// The external ID.
   final String? externalId;
@@ -4780,6 +4878,8 @@ class SyncResourceFilter {
 }
 
 /// The SyncJob summary.
+///
+/// @nodoc
 class SyncJobSummary {
   /// The SyncJob summary ARN.
   final String? arn;
@@ -4842,6 +4942,8 @@ class SyncJobSummary {
 }
 
 /// The SyncJob status.
+///
+/// @nodoc
 class SyncJobStatus {
   /// The SyncJob error.
   final ErrorDetails? error;
@@ -4873,6 +4975,7 @@ class SyncJobStatus {
   }
 }
 
+/// @nodoc
 class SyncJobState {
   static const creating = SyncJobState._('CREATING');
   static const initializing = SyncJobState._('INITIALIZING');
@@ -4900,6 +5003,8 @@ class SyncJobState {
 }
 
 /// An object that contains information about a scene.
+///
+/// @nodoc
 class SceneSummary {
   /// The ARN of the scene.
   final String arn;
@@ -4960,6 +5065,8 @@ class SceneSummary {
 }
 
 /// This is an object that contains the information of a property.
+///
+/// @nodoc
 class PropertySummary {
   /// This is the name of the property.
   final String propertyName;
@@ -5013,6 +5120,8 @@ class PropertySummary {
 }
 
 /// An object that contains response data from a property definition request.
+///
+/// @nodoc
 class PropertyDefinitionResponse {
   /// An object that contains information about the data type.
   final DataType dataType;
@@ -5116,6 +5225,8 @@ class PropertyDefinitionResponse {
 }
 
 /// The metadata transfer job summary.
+///
+/// @nodoc
 class MetadataTransferJobSummary {
   /// The metadata transfer job summary ARN.
   final String arn;
@@ -5180,6 +5291,8 @@ class MetadataTransferJobSummary {
 }
 
 /// The metadata transfer job status.
+///
+/// @nodoc
 class MetadataTransferJobStatus {
   /// The metadata transfer job error.
   final ErrorDetails? error;
@@ -5220,6 +5333,8 @@ class MetadataTransferJobStatus {
 }
 
 /// The metadata transfer job's progress.
+///
+/// @nodoc
 class MetadataTransferJobProgress {
   /// The failed count.
   final int? failedCount;
@@ -5230,7 +5345,7 @@ class MetadataTransferJobProgress {
   /// The succeeded count.
   final int? succeededCount;
 
-  /// The total count. [of what]
+  /// The total count. \[of what\]
   final int? totalCount;
 
   MetadataTransferJobProgress({
@@ -5263,6 +5378,7 @@ class MetadataTransferJobProgress {
   }
 }
 
+/// @nodoc
 class MetadataTransferJobState {
   static const validating = MetadataTransferJobState._('VALIDATING');
   static const pending = MetadataTransferJobState._('PENDING');
@@ -5301,6 +5417,7 @@ class MetadataTransferJobState {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceType {
   static const s3 = SourceType._('s3');
   static const iotsitewise = SourceType._('iotsitewise');
@@ -5325,6 +5442,7 @@ class SourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DestinationType {
   static const s3 = DestinationType._('s3');
   static const iotsitewise = DestinationType._('iotsitewise');
@@ -5351,6 +5469,8 @@ class DestinationType {
 }
 
 /// The ListMetadataTransferJobs filter.
+///
+/// @nodoc
 class ListMetadataTransferJobsFilter {
   /// The filter state.
   final MetadataTransferJobState? state;
@@ -5374,6 +5494,8 @@ class ListMetadataTransferJobsFilter {
 }
 
 /// An object that contains information about an entity.
+///
+/// @nodoc
 class EntitySummary {
   /// The ARN of the entity.
   final String arn;
@@ -5457,6 +5579,8 @@ class EntitySummary {
 
 /// An object that represents the status of an entity, component, component
 /// type, or workspace.
+///
+/// @nodoc
 class Status {
   /// The error message.
   final ErrorDetails? error;
@@ -5489,6 +5613,8 @@ class Status {
 }
 
 /// An object that filters items in a list of entities.
+///
+/// @nodoc
 class ListEntitiesFilter {
   /// The ID of the component type in the entities in the list.
   final String? componentTypeId;
@@ -5519,6 +5645,8 @@ class ListEntitiesFilter {
 }
 
 /// An object that contains information about a component type.
+///
+/// @nodoc
 class ComponentTypeSummary {
   /// The ARN of the component type.
   final String arn;
@@ -5590,6 +5718,8 @@ class ComponentTypeSummary {
 /// <note>
 /// Only one object is accepted as a valid input.
 /// </note>
+///
+/// @nodoc
 class ListComponentTypesFilter {
   /// The component type that the component types in the list extend.
   final String? extendsFrom;
@@ -5620,6 +5750,8 @@ class ListComponentTypesFilter {
 }
 
 /// An object that returns information about a component summary.
+///
+/// @nodoc
 class ComponentSummary {
   /// The name of the component.
   final String componentName;
@@ -5699,6 +5831,8 @@ class ComponentSummary {
 }
 
 /// The component property group response.
+///
+/// @nodoc
 class ComponentPropertyGroupResponse {
   /// The group type.
   final GroupType groupType;
@@ -5740,6 +5874,8 @@ class ComponentPropertyGroupResponse {
 }
 
 /// The scene error.
+///
+/// @nodoc
 class SceneError {
   /// The SceneError code.
   final SceneErrorCode? code;
@@ -5769,6 +5905,7 @@ class SceneError {
   }
 }
 
+/// @nodoc
 class SceneErrorCode {
   static const matterportError = SceneErrorCode._('MATTERPORT_ERROR');
 
@@ -5793,6 +5930,8 @@ class SceneErrorCode {
 }
 
 /// The history of values for a time series property.
+///
+/// @nodoc
 class PropertyValueHistory {
   /// An object that uniquely identifies an entity property.
   final EntityPropertyReference entityPropertyReference;
@@ -5829,6 +5968,8 @@ class PropertyValueHistory {
 }
 
 /// An object that uniquely identifies an entity property.
+///
+/// @nodoc
 class EntityPropertyReference {
   /// The name of the property.
   final String propertyName;
@@ -5884,6 +6025,8 @@ class EntityPropertyReference {
 
 /// An object that contains information about a value for a time series
 /// property.
+///
+/// @nodoc
 class PropertyValue {
   /// An object that specifies a value for a time series property.
   final DataValue value;
@@ -5891,30 +6034,30 @@ class PropertyValue {
   /// ISO8601 DateTime of a value for a time series property.
   ///
   /// The time for when the property value was recorded in ISO 8601 format:
-  /// <i>YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm]</i>.
+  /// <i>YYYY-MM-DDThh:mm:ss\[.SSSSSSSSS\]\[Z/±HH:mm\]</i>.
   ///
   /// <ul>
   /// <li>
-  /// <i>[YYYY]</i>: year
+  /// <i>\[YYYY\]</i>: year
   /// </li>
   /// <li>
-  /// <i>[MM]</i>: month
+  /// <i>\[MM\]</i>: month
   /// </li>
   /// <li>
-  /// <i>[DD]</i>: day
+  /// <i>\[DD\]</i>: day
   /// </li>
   /// <li>
-  /// <i>[hh]</i>: hour
+  /// <i>\[hh\]</i>: hour
   /// </li>
   /// <li>
-  /// <i>[mm]</i>: minute
+  /// <i>\[mm\]</i>: minute
   /// </li>
   /// <li>
-  /// <i>[ss]</i>: seconds
+  /// <i>\[ss\]</i>: seconds
   /// </li>
   /// <li>
-  /// <i>[.SSSSSSSSS]</i>: additional precision, where precedence is maintained.
-  /// For example: [.573123] is equal to 573123000 nanoseconds.
+  /// <i>\[.SSSSSSSSS\]</i>: additional precision, where precedence is maintained.
+  /// For example: \[.573123\] is equal to 573123000 nanoseconds.
   /// </li>
   /// <li>
   /// <i>Z</i>: default timezone UTC
@@ -5923,7 +6066,7 @@ class PropertyValue {
   /// <i>± HH:mm</i>: time zone offset in Hours and Minutes.
   /// </li>
   /// </ul>
-  /// <i>Required sub-fields</i>: YYYY-MM-DDThh:mm:ss and [Z/±HH:mm]
+  /// <i>Required sub-fields</i>: YYYY-MM-DDThh:mm:ss and \[Z/±HH:mm\]
   final String? time;
 
   /// The timestamp of a value for a time series property.
@@ -5957,6 +6100,8 @@ class PropertyValue {
 }
 
 /// An object that specifies how to interpolate data in a list.
+///
+/// @nodoc
 class InterpolationParameters {
   /// The interpolation type.
   final InterpolationType? interpolationType;
@@ -5980,6 +6125,7 @@ class InterpolationParameters {
   }
 }
 
+/// @nodoc
 class OrderByTime {
   static const ascending = OrderByTime._('ASCENDING');
   static const descending = OrderByTime._('DESCENDING');
@@ -6003,6 +6149,7 @@ class OrderByTime {
   String toString() => value;
 }
 
+/// @nodoc
 class InterpolationType {
   static const linear = InterpolationType._('LINEAR');
 
@@ -6027,6 +6174,8 @@ class InterpolationType {
 }
 
 /// An object that filters items returned by a property request.
+///
+/// @nodoc
 class PropertyFilter {
   /// The operator associated with this property filter.
   final String? operator;
@@ -6056,6 +6205,8 @@ class PropertyFilter {
 }
 
 /// The latest value of the property.
+///
+/// @nodoc
 class PropertyLatestValue {
   /// An object that specifies information about a property.
   final EntityPropertyReference propertyReference;
@@ -6090,6 +6241,8 @@ class PropertyLatestValue {
 }
 
 /// The tabular conditions.
+///
+/// @nodoc
 class TabularConditions {
   /// Filter criteria that orders the output. It can be sorted in ascending or
   /// descending order.
@@ -6118,6 +6271,8 @@ class TabularConditions {
 
 /// Filter criteria that orders the return output. It can be sorted in ascending
 /// or descending order.
+///
+/// @nodoc
 class OrderBy {
   /// The property name.
   final String propertyName;
@@ -6140,6 +6295,7 @@ class OrderBy {
   }
 }
 
+/// @nodoc
 class Order {
   static const ascending = Order._('ASCENDING');
   static const descending = Order._('DESCENDING');
@@ -6163,7 +6319,9 @@ class Order {
   String toString() => value;
 }
 
-/// The [link to action] metadata transfer job destination configuration.
+/// The \[link to action\] metadata transfer job destination configuration.
+///
+/// @nodoc
 class DestinationConfiguration {
   /// The destination type.
   final DestinationType type;
@@ -6171,7 +6329,7 @@ class DestinationConfiguration {
   /// The metadata transfer job Amazon Web Services IoT TwinMaker configuration.
   final IotTwinMakerDestinationConfiguration? iotTwinMakerConfiguration;
 
-  /// The metadata transfer job S3 configuration. [need to add S3 entity]
+  /// The metadata transfer job S3 configuration. \[need to add S3 entity\]
   final S3DestinationConfiguration? s3Configuration;
 
   DestinationConfiguration({
@@ -6208,6 +6366,8 @@ class DestinationConfiguration {
 }
 
 /// The S3 destination configuration.
+///
+/// @nodoc
 class S3DestinationConfiguration {
   /// The S3 destination configuration location.
   final String location;
@@ -6231,6 +6391,8 @@ class S3DestinationConfiguration {
 }
 
 /// The metadata transfer job AWS IoT TwinMaker destination configuration.
+///
+/// @nodoc
 class IotTwinMakerDestinationConfiguration {
   /// The IoT TwinMaker workspace.
   final String workspace;
@@ -6255,6 +6417,8 @@ class IotTwinMakerDestinationConfiguration {
 }
 
 /// The source configuration.
+///
+/// @nodoc
 class SourceConfiguration {
   /// The source configuration type.
   final SourceType type;
@@ -6310,6 +6474,8 @@ class SourceConfiguration {
 }
 
 /// The S3 destination source configuration.
+///
+/// @nodoc
 class S3SourceConfiguration {
   /// The S3 destination source configuration location.
   final String location;
@@ -6333,6 +6499,8 @@ class S3SourceConfiguration {
 }
 
 /// The metadata transfer job AWS IoT SiteWise source configuration.
+///
+/// @nodoc
 class IotSiteWiseSourceConfiguration {
   /// The AWS IoT SiteWise soucre configuration filters.
   final List<IotSiteWiseSourceConfigurationFilter>? filters;
@@ -6360,6 +6528,8 @@ class IotSiteWiseSourceConfiguration {
 }
 
 /// The metadata transfer job AWS IoT TwinMaker source configuration.
+///
+/// @nodoc
 class IotTwinMakerSourceConfiguration {
   /// The IoT TwinMaker workspace.
   final String workspace;
@@ -6394,6 +6564,8 @@ class IotTwinMakerSourceConfiguration {
 }
 
 /// The metadata transfer job AWS IoT TwinMaker source configuration filter.
+///
+/// @nodoc
 class IotTwinMakerSourceConfigurationFilter {
   /// Filter by component type.
   final FilterByComponentType? filterByComponentType;
@@ -6432,6 +6604,8 @@ class IotTwinMakerSourceConfigurationFilter {
 }
 
 /// Filter by component type.
+///
+/// @nodoc
 class FilterByComponentType {
   /// The component type Id.
   final String componentTypeId;
@@ -6455,6 +6629,8 @@ class FilterByComponentType {
 }
 
 /// Vilter by entity.
+///
+/// @nodoc
 class FilterByEntity {
   /// The entity Id.
   final String entityId;
@@ -6477,7 +6653,10 @@ class FilterByEntity {
   }
 }
 
-/// The AWS IoT SiteWise soucre configuration filter.[need held with desc here]
+/// The AWS IoT SiteWise soucre configuration filter.\[need held with desc
+/// here\]
+///
+/// @nodoc
 class IotSiteWiseSourceConfigurationFilter {
   /// Filter by asset.
   final FilterByAsset? filterByAsset;
@@ -6515,6 +6694,8 @@ class IotSiteWiseSourceConfigurationFilter {
 }
 
 /// Filter by asset model.
+///
+/// @nodoc
 class FilterByAssetModel {
   /// The external-Id property of an asset model.
   final String? assetModelExternalId;
@@ -6525,7 +6706,7 @@ class FilterByAssetModel {
   /// Bolean to include assets.
   final bool? includeAssets;
 
-  /// Include asset offspring. [need desc.]
+  /// Include asset offspring. \[need desc.\]
   final bool? includeOffspring;
 
   FilterByAssetModel({
@@ -6559,7 +6740,9 @@ class FilterByAssetModel {
   }
 }
 
-/// Filter by asset. [TwinMaker asset]
+/// Filter by asset. \[TwinMaker asset\]
+///
+/// @nodoc
 class FilterByAsset {
   /// The external-Id property of an asset.
   final String? assetExternalId;
@@ -6570,7 +6753,7 @@ class FilterByAsset {
   /// Boolean to include the asset model.
   final bool? includeAssetModel;
 
-  /// Includes sub-assets.[need description hekp for this]
+  /// Includes sub-assets.\[need description hekp for this\]
   final bool? includeOffspring;
 
   FilterByAsset({
@@ -6605,6 +6788,8 @@ class FilterByAsset {
 
 /// An object that returns information about a component type create or update
 /// request.
+///
+/// @nodoc
 class ComponentResponse {
   /// This flag notes whether all <code>compositeComponents</code> are returned in
   /// the API response.
@@ -6717,6 +6902,8 @@ class ComponentResponse {
 }
 
 /// An object that contains information about a property response.
+///
+/// @nodoc
 class PropertyResponse {
   /// This flag notes whether all values of a list or map type property are
   /// returned in the API response. The maximum number of values per property
@@ -6764,6 +6951,8 @@ class PropertyResponse {
 
 /// An object that returns information about the composite component types of a
 /// component type.
+///
+/// @nodoc
 class CompositeComponentTypeResponse {
   /// This is the <code>componentTypeId</code> that this
   /// <code>compositeComponentType</code> refers to.
@@ -6796,6 +6985,8 @@ class CompositeComponentTypeResponse {
 }
 
 /// The property group response
+///
+/// @nodoc
 class PropertyGroupResponse {
   /// The group types.
   final GroupType groupType;
@@ -6837,6 +7028,8 @@ class PropertyGroupResponse {
 }
 
 /// The function response.
+///
+/// @nodoc
 class FunctionResponse {
   /// The data connector.
   final DataConnector? implementedBy;
@@ -6887,6 +7080,8 @@ class FunctionResponse {
 }
 
 /// Represents a single row in the query results.
+///
+/// @nodoc
 class Row {
   /// The data in a row of query results.
   final List<Object>? rowData;
@@ -6910,6 +7105,8 @@ class Row {
 }
 
 /// A description of the column in the query results.
+///
+/// @nodoc
 class ColumnDescription {
   /// The name of the column description.
   final String? name;
@@ -6939,6 +7136,7 @@ class ColumnDescription {
   }
 }
 
+/// @nodoc
 class ColumnType {
   static const node = ColumnType._('NODE');
   static const edge = ColumnType._('EDGE');
@@ -6965,6 +7163,8 @@ class ColumnType {
 
 /// An object that sets information about the composite component update
 /// request.
+///
+/// @nodoc
 class CompositeComponentRequest {
   /// The description of the component type.
   final String? description;
@@ -6996,6 +7196,8 @@ class CompositeComponentRequest {
 
 /// An object that sets information about a component type create or update
 /// request.
+///
+/// @nodoc
 class ComponentRequest {
   /// The ID of the component type.
   final String? componentTypeId;
@@ -7033,6 +7235,8 @@ class ComponentRequest {
 
 /// An object that contains information about errors returned by the
 /// <code>BatchPutProperty</code> action.
+///
+/// @nodoc
 class BatchPutPropertyErrorEntry {
   /// A list of objects that contain information about errors returned by the
   /// <code>BatchPutProperty</code> action.
@@ -7060,6 +7264,8 @@ class BatchPutPropertyErrorEntry {
 }
 
 /// An error returned by the <code>BatchPutProperty</code> action.
+///
+/// @nodoc
 class BatchPutPropertyError {
   /// An object that contains information about errors returned by the
   /// <code>BatchPutProperty</code> action.
@@ -7103,6 +7309,8 @@ class BatchPutPropertyError {
 /// object is used and consumed by the <a
 /// href="https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_BatchPutPropertyValues.html">BatchPutPropertyValues</a>
 /// action.
+///
+/// @nodoc
 class PropertyValueEntry {
   /// An object that contains information about the entity that has the property.
   final EntityPropertyReference entityPropertyReference;
@@ -7137,41 +7345,49 @@ class PropertyValueEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ConnectorFailureException extends _s.GenericAwsException {
   ConnectorFailureException({String? type, String? message})
       : super(type: type, code: 'ConnectorFailureException', message: message);
 }
 
+/// @nodoc
 class ConnectorTimeoutException extends _s.GenericAwsException {
   ConnectorTimeoutException({String? type, String? message})
       : super(type: type, code: 'ConnectorTimeoutException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class QueryTimeoutException extends _s.GenericAwsException {
   QueryTimeoutException({String? type, String? message})
       : super(type: type, code: 'QueryTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7180,16 +7396,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

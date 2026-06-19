@@ -84,9 +84,9 @@ class ApiGateway {
   /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   ///
   /// Parameter [value] :
   /// Specifies a value of the API key.
@@ -168,7 +168,7 @@ class ApiGateway {
   /// function, <code>path</code> indicates that the remaining substring in the
   /// URI should be treated as the path to the resource, including the initial
   /// <code>/</code>. For Lambda functions, this is usually of the form
-  /// <code>/2015-03-31/functions/[FunctionARN]/invocations</code>.
+  /// <code>/2015-03-31/functions/\[FunctionARN\]/invocations</code>.
   ///
   /// Parameter [identitySource] :
   /// The identity source for which authorization is requested. For a
@@ -344,7 +344,7 @@ class ApiGateway {
   /// A map that defines the stage variables for the Stage resource that is
   /// associated with the new deployment. Variable names can have alphanumeric
   /// and underscore characters, and the values must match
-  /// <code>[A-Za-z0-9-._~:/?#&=,]+</code>.
+  /// <code>\[A-Za-z0-9-._~:/?#&=,\]+</code>.
   Future<Deployment> createDeployment({
     required String restApiId,
     bool? cacheClusterEnabled,
@@ -473,12 +473,12 @@ class ApiGateway {
   /// Certificate Manager is the only supported source.
   ///
   /// Parameter [certificateBody] :
-  /// [Deprecated] The body of the server certificate that will be used by
+  /// \[Deprecated\] The body of the server certificate that will be used by
   /// edge-optimized endpoint or private endpoint for this domain name provided
   /// by your certificate authority.
   ///
   /// Parameter [certificateChain] :
-  /// [Deprecated] The intermediate certificates and optionally the root
+  /// \[Deprecated\] The intermediate certificates and optionally the root
   /// certificate, one after the other without any blank lines, used by an
   /// edge-optimized endpoint for this domain name. If you include the root
   /// certificate, your certificate chain must start with intermediate
@@ -491,7 +491,7 @@ class ApiGateway {
   /// edge-optimized endpoint or private endpoint for this domain name.
   ///
   /// Parameter [certificatePrivateKey] :
-  /// [Deprecated] Your edge-optimized endpoint's domain name certificate's
+  /// \[Deprecated\] Your edge-optimized endpoint's domain name certificate's
   /// private key.
   ///
   /// Parameter [endpointAccessMode] :
@@ -531,9 +531,9 @@ class ApiGateway {
   /// DomainName.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   Future<DomainName> createDomainName({
     required String domainName,
     String? certificateArn,
@@ -607,9 +607,9 @@ class ApiGateway {
   /// The ARN of the domain name.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   Future<DomainNameAccessAssociation> createDomainNameAccessAssociation({
     required String accessAssociationSource,
     required AccessAssociationSourceType accessAssociationSourceType,
@@ -820,9 +820,9 @@ class ApiGateway {
   /// RestApi.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   ///
   /// Parameter [version] :
   /// A version identifier for the API.
@@ -908,9 +908,9 @@ class ApiGateway {
   /// The version of the associated API documentation.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   ///
   /// Parameter [tracingEnabled] :
   /// Specifies whether active tracing with X-ray is enabled for the Stage.
@@ -918,7 +918,7 @@ class ApiGateway {
   /// Parameter [variables] :
   /// A map that defines the stage variables for the new Stage resource.
   /// Variable names can have alphanumeric and underscore characters, and the
-  /// values must match <code>[A-Za-z0-9-._~:/?#&=,]+</code>.
+  /// values must match <code>\[A-Za-z0-9-._~:/?#&=,\]+</code>.
   Future<Stage> createStage({
     required String deploymentId,
     required String restApiId,
@@ -978,9 +978,9 @@ class ApiGateway {
   /// The quota of the usage plan.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   ///
   /// Parameter [throttle] :
   /// The throttling limits of the usage plan.
@@ -1068,9 +1068,9 @@ class ApiGateway {
   /// The description of the VPC link.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   Future<VpcLink> createVpcLink({
     required String name,
     required List<String> targetArns,
@@ -1753,9 +1753,9 @@ class ApiGateway {
   /// The description of the ClientCertificate.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   Future<ClientCertificate> generateClientCertificate({
     String? description,
     Map<String, String>? tags,
@@ -4091,9 +4091,9 @@ class ApiGateway {
   /// The ARN of a resource that can be tagged.
   ///
   /// Parameter [tags] :
-  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
-  /// The tag key can be up to 128 characters and must not start with
-  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is
+  /// \[a-zA-Z+-=._:/\]. The tag key can be up to 128 characters and must not
+  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -5106,6 +5106,8 @@ class ApiGateway {
 /// that require an API key. API keys can be mapped to any Stage on any RestApi,
 /// which indicates that the callers with the API key can make requests to that
 /// stage.
+///
+/// @nodoc
 class ApiKey {
   /// The timestamp when the API Key was created.
   final DateTime? createdDate;
@@ -5200,6 +5202,8 @@ class ApiKey {
 
 /// Represents an authorization layer for methods. If enabled on a method, API
 /// Gateway will activate the authorizer when a client calls the method.
+///
+/// @nodoc
 class Authorizer {
   /// Optional customer-defined field, used in OpenAPI imports and exports without
   /// functional impact.
@@ -5227,7 +5231,7 @@ class Authorizer {
   /// <code>path</code> indicates that the remaining substring in the URI should
   /// be treated as the path to the resource, including the initial
   /// <code>/</code>. For Lambda functions, this is usually of the form
-  /// <code>/2015-03-31/functions/[FunctionARN]/invocations</code>.
+  /// <code>/2015-03-31/functions/\[FunctionARN\]/invocations</code>.
   final String? authorizerUri;
 
   /// The identifier for the authorizer resource.
@@ -5346,6 +5350,8 @@ class Authorizer {
 
 /// Represents the base path that callers of the API must provide as part of the
 /// URL after the domain name.
+///
+/// @nodoc
 class BasePathMapping {
   /// The base path name that callers of the API must provide as part of the URL
   /// after the domain name.
@@ -5386,6 +5392,8 @@ class BasePathMapping {
 /// An immutable representation of a RestApi resource that can be called by
 /// users using Stages. A deployment must be associated with a Stage for it to
 /// be callable over the Internet.
+///
+/// @nodoc
 class Deployment {
   /// A summary of the RestApi at the date and time that the deployment resource
   /// was created.
@@ -5435,6 +5443,8 @@ class Deployment {
 }
 
 /// A documentation part for a targeted API entity.
+///
+/// @nodoc
 class DocumentationPart {
   /// The DocumentationPart identifier, generated by API Gateway when the
   /// <code>DocumentationPart</code> is created.
@@ -5486,6 +5496,8 @@ class DocumentationPart {
 }
 
 /// A snapshot of the documentation of an API.
+///
+/// @nodoc
 class DocumentationVersion {
   /// The date when the API documentation snapshot is created.
   final DateTime? createdDate;
@@ -5524,6 +5536,8 @@ class DocumentationVersion {
 
 /// Represents a custom domain name as a user-friendly host name of an API
 /// (RestApi).
+///
+/// @nodoc
 class DomainName {
   /// The reference to an Amazon Web Services-managed certificate that will be
   /// used by edge-optimized endpoint or private endpoint for this domain name.
@@ -5770,6 +5784,8 @@ class DomainName {
 /// source and a private custom domain name. With a domain name access
 /// association, an access association source can invoke a private custom domain
 /// name while isolated from the public internet.
+///
+/// @nodoc
 class DomainNameAccessAssociation {
   /// The ARN of the domain name access association source. For a VPCE, the ARN
   /// must be a VPC endpoint.
@@ -5830,6 +5846,8 @@ class DomainNameAccessAssociation {
 }
 
 /// Represents the data structure of a method's request or response payload.
+///
+/// @nodoc
 class Model {
   /// The content-type for the model.
   final String? contentType;
@@ -5886,6 +5904,8 @@ class Model {
 }
 
 /// A set of validation rules for incoming Method requests.
+///
+/// @nodoc
 class RequestValidator {
   /// The identifier of this RequestValidator.
   final String? id;
@@ -5934,6 +5954,8 @@ class RequestValidator {
 }
 
 /// Represents an API resource.
+///
+/// @nodoc
 class Resource {
   /// The resource's identifier.
   final String? id;
@@ -5986,6 +6008,8 @@ class Resource {
 }
 
 /// Represents a REST API.
+///
+/// @nodoc
 class RestApi {
   /// The source of the API key for metering requests according to a usage plan.
   /// Valid values are: ><code>HEADER</code> to read the API key from the
@@ -6166,6 +6190,8 @@ class RestApi {
 
 /// Represents a unique identifier for a version of a deployed RestApi that is
 /// callable by users.
+///
+/// @nodoc
 class Stage {
   /// Settings for logging access in this stage.
   final AccessLogSettings? accessLogSettings;
@@ -6227,7 +6253,7 @@ class Stage {
 
   /// A map that defines the stage variables for a Stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
-  /// <code>[A-Za-z0-9-._~:/?#&=,]+</code>.
+  /// <code>\[A-Za-z0-9-._~:/?#&=,\]+</code>.
   final Map<String, String>? variables;
 
   /// The ARN of the WebAcl associated with the Stage.
@@ -6340,6 +6366,8 @@ class Stage {
 /// Web Services Budgets</a> to monitor costs and <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF</a>
 /// to manage API requests.
+///
+/// @nodoc
 class UsagePlan {
   /// The associated API stages of a usage plan.
   final List<ApiStage>? apiStages;
@@ -6424,6 +6452,8 @@ class UsagePlan {
 }
 
 /// Represents a usage plan key to identify a plan customer.
+///
+/// @nodoc
 class UsagePlanKey {
   /// The Id of a usage plan key.
   final String? id;
@@ -6470,6 +6500,8 @@ class UsagePlanKey {
 
 /// An API Gateway VPC link for a RestApi to access resources in an Amazon
 /// Virtual Private Cloud (VPC).
+///
+/// @nodoc
 class VpcLink {
   /// The description of the VPC link.
   final String? description;
@@ -6547,6 +6579,8 @@ class VpcLink {
 
 /// Represents a client certificate used to configure client-side SSL
 /// authentication while sending requests to the integration endpoint.
+///
+/// @nodoc
 class ClientCertificate {
   /// The identifier of the client certificate.
   final String? clientCertificateId;
@@ -6611,6 +6645,8 @@ class ClientCertificate {
 }
 
 /// Represents an AWS account that is associated with API Gateway.
+///
+/// @nodoc
 class Account {
   /// The version of the API keys used for the account.
   final String? apiKeyVersion;
@@ -6662,6 +6698,8 @@ class Account {
 }
 
 /// Represents a collection of API keys as represented by an ApiKeys resource.
+///
+/// @nodoc
 class ApiKeys {
   /// The current page of elements from this collection.
   final List<ApiKey>? items;
@@ -6705,6 +6743,8 @@ class ApiKeys {
 }
 
 /// Represents a collection of Authorizer resources.
+///
+/// @nodoc
 class Authorizers {
   /// The current page of elements from this collection.
   final List<Authorizer>? items;
@@ -6737,6 +6777,8 @@ class Authorizers {
 }
 
 /// Represents a collection of BasePathMapping resources.
+///
+/// @nodoc
 class BasePathMappings {
   /// The current page of elements from this collection.
   final List<BasePathMapping>? items;
@@ -6769,6 +6811,8 @@ class BasePathMappings {
 }
 
 /// Represents a collection of ClientCertificate resources.
+///
+/// @nodoc
 class ClientCertificates {
   /// The current page of elements from this collection.
   final List<ClientCertificate>? items;
@@ -6804,6 +6848,8 @@ class ClientCertificates {
 /// your existing deployments, and links that guide you on how to interact with
 /// your collection. The collection offers a paginated view of the contained
 /// deployments.
+///
+/// @nodoc
 class Deployments {
   /// The current page of elements from this collection.
   final List<Deployment>? items;
@@ -6836,6 +6882,8 @@ class Deployments {
 }
 
 /// The collection of documentation parts of an API.
+///
+/// @nodoc
 class DocumentationParts {
   /// The current page of elements from this collection.
   final List<DocumentationPart>? items;
@@ -6868,6 +6916,8 @@ class DocumentationParts {
 }
 
 /// The collection of documentation snapshots of an API.
+///
+/// @nodoc
 class DocumentationVersions {
   /// The current page of elements from this collection.
   final List<DocumentationVersion>? items;
@@ -6899,6 +6949,7 @@ class DocumentationVersions {
   }
 }
 
+/// @nodoc
 class DomainNameAccessAssociations {
   /// The current page of elements from this collection.
   final List<DomainNameAccessAssociation>? items;
@@ -6932,6 +6983,8 @@ class DomainNameAccessAssociations {
 }
 
 /// Represents a collection of DomainName resources.
+///
+/// @nodoc
 class DomainNames {
   /// The current page of elements from this collection.
   final List<DomainName>? items;
@@ -6964,6 +7017,8 @@ class DomainNames {
 }
 
 /// The binary blob response to GetExport, which contains the generated SDK.
+///
+/// @nodoc
 class ExportResponse {
   /// The binary blob response to GetExport, which contains the export.
   final Uint8List? body;
@@ -6993,6 +7048,8 @@ class ExportResponse {
 
 /// A gateway response of a given response type and status code, with optional
 /// response parameters and mapping templates.
+///
+/// @nodoc
 class GatewayResponse {
   /// A Boolean flag to indicate whether this GatewayResponse is the default
   /// gateway response (<code>true</code>) or not (<code>false</code>). A default
@@ -7054,6 +7111,8 @@ class GatewayResponse {
 /// The collection of the GatewayResponse instances of a RestApi as a
 /// <code>responseType</code>-to-GatewayResponse object map of key-value pairs.
 /// As such, pagination is not supported for querying this collection.
+///
+/// @nodoc
 class GatewayResponses {
   /// Returns the entire collection, because of no pagination support.
   final List<GatewayResponse>? items;
@@ -7088,6 +7147,8 @@ class GatewayResponses {
 
 /// Represents an <code>HTTP</code>, <code>HTTP_PROXY</code>, <code>AWS</code>,
 /// <code>AWS_PROXY</code>, or Mock integration.
+///
+/// @nodoc
 class Integration {
   /// A list of request parameters whose values API Gateway caches. To be valid
   /// values for <code>cacheKeyParameters</code>, these parameters must also be
@@ -7327,6 +7388,8 @@ class Integration {
 /// Represents an integration response. The status code must map to an existing
 /// MethodResponse, and parameters and templates can be used to transform the
 /// back-end response.
+///
+/// @nodoc
 class IntegrationResponse {
   /// Specifies how to handle response payload content type conversions. Supported
   /// values are <code>CONVERT_TO_BINARY</code> and <code>CONVERT_TO_TEXT</code>,
@@ -7416,6 +7479,8 @@ class IntegrationResponse {
 /// in an Integration resource. On the other hand, a method response is
 /// represented by a MethodResponse resource, whereas an integration response is
 /// represented by an IntegrationResponse resource.
+///
+/// @nodoc
 class Method {
   /// A boolean flag specifying whether a valid ApiKey is required to invoke this
   /// method.
@@ -7550,6 +7615,8 @@ class Method {
 /// client. The method response is passed from the back end through the
 /// associated integration response that can be transformed using a mapping
 /// template.
+///
+/// @nodoc
 class MethodResponse {
   /// Specifies the Model resources used for the response's content-type. Response
   /// models are represented as a key/value map, with a content-type as the key
@@ -7606,6 +7673,8 @@ class MethodResponse {
 }
 
 /// Represents a collection of Model resources.
+///
+/// @nodoc
 class Models {
   /// The current page of elements from this collection.
   final List<Model>? items;
@@ -7638,6 +7707,8 @@ class Models {
 }
 
 /// Represents a mapping template used to transform a payload.
+///
+/// @nodoc
 class Template {
   /// The Apache Velocity Template Language (VTL) template content used for the
   /// template resource.
@@ -7662,6 +7733,8 @@ class Template {
 }
 
 /// A collection of RequestValidator resources of a given RestApi.
+///
+/// @nodoc
 class RequestValidators {
   /// The current page of elements from this collection.
   final List<RequestValidator>? items;
@@ -7694,6 +7767,8 @@ class RequestValidators {
 }
 
 /// Represents a collection of Resource resources.
+///
+/// @nodoc
 class Resources {
   /// The current page of elements from this collection.
   final List<Resource>? items;
@@ -7727,6 +7802,8 @@ class Resources {
 
 /// Contains references to your APIs and links that guide you in how to interact
 /// with your collection. A collection offers a paginated view of your APIs.
+///
+/// @nodoc
 class RestApis {
   /// The current page of elements from this collection.
   final List<RestApi>? items;
@@ -7759,6 +7836,8 @@ class RestApis {
 }
 
 /// The binary blob response to GetSdk, which contains the generated SDK.
+///
+/// @nodoc
 class SdkResponse {
   /// The binary blob response to GetSdk, which contains the generated SDK.
   final Uint8List? body;
@@ -7786,6 +7865,8 @@ class SdkResponse {
 }
 
 /// A type of SDK that API Gateway can generate.
+///
+/// @nodoc
 class SdkType {
   /// A list of configuration properties of an SdkType.
   final List<SdkConfigurationProperty>? configurationProperties;
@@ -7835,6 +7916,8 @@ class SdkType {
 }
 
 /// The collection of SdkType instances.
+///
+/// @nodoc
 class SdkTypes {
   /// The current page of elements from this collection.
   final List<SdkType>? items;
@@ -7861,6 +7944,8 @@ class SdkTypes {
 }
 
 /// A list of Stage resources that are associated with the ApiKey resource.
+///
+/// @nodoc
 class Stages {
   /// The current page of elements from this collection.
   final List<Stage>? item;
@@ -7888,6 +7973,8 @@ class Stages {
 
 /// The collection of tags. Each tag element is associated with a given
 /// resource.
+///
+/// @nodoc
 class Tags {
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
@@ -7913,16 +8000,18 @@ class Tags {
 }
 
 /// Represents the usage data of a usage plan.
+///
+/// @nodoc
 class Usage {
   /// The ending date of the usage data.
   final String? endDate;
 
   /// The usage data, as daily logs of used and remaining quotas, over the
   /// specified time interval indexed over the API keys in a usage plan. For
-  /// example, <code>{..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100,
-  /// 10]]}</code>, where <code>{api_key}</code> stands for an API key value and
-  /// the daily log entry is of the format <code>[used quota, remaining
-  /// quota]</code>.
+  /// example, <code>{..., "values" : { "{api_key}" : \[ \[0, 100\], \[10, 90\],
+  /// \[100, 10\]\]}</code>, where <code>{api_key}</code> stands for an API key
+  /// value and the daily log entry is of the format <code>\[used quota, remaining
+  /// quota\]</code>.
   final Map<String, List<List<int>>>? items;
 
   /// The current pagination position in the paged result set.
@@ -7974,6 +8063,8 @@ class Usage {
 
 /// Represents the collection of usage plan keys added to usage plans for the
 /// associated API keys and, possibly, other types of keys.
+///
+/// @nodoc
 class UsagePlanKeys {
   /// The current page of elements from this collection.
   final List<UsagePlanKey>? items;
@@ -8006,6 +8097,8 @@ class UsagePlanKeys {
 }
 
 /// Represents a collection of usage plans for an AWS account.
+///
+/// @nodoc
 class UsagePlans {
   /// The current page of elements from this collection.
   final List<UsagePlan>? items;
@@ -8038,6 +8131,8 @@ class UsagePlans {
 }
 
 /// The collection of VPC links under the caller's account in a region.
+///
+/// @nodoc
 class VpcLinks {
   /// The current page of elements from this collection.
   final List<VpcLink>? items;
@@ -8070,6 +8165,8 @@ class VpcLinks {
 }
 
 /// The identifier of an ApiKey used in a UsagePlan.
+///
+/// @nodoc
 class ApiKeyIds {
   /// A list of all the ApiKey identifiers.
   final List<String>? ids;
@@ -8103,6 +8200,8 @@ class ApiKeyIds {
 }
 
 /// A collection of the imported DocumentationPart identifiers.
+///
+/// @nodoc
 class DocumentationPartIds {
   /// A list of the returned documentation part identifiers.
   final List<String>? ids;
@@ -8136,6 +8235,8 @@ class DocumentationPartIds {
 }
 
 /// Represents the response of the test invoke request for a custom Authorizer
+///
+/// @nodoc
 class TestInvokeAuthorizerResponse {
   /// The authorization response.
   final Map<String, List<String>>? authorization;
@@ -8206,6 +8307,8 @@ class TestInvokeAuthorizerResponse {
 }
 
 /// Represents the response of the test invoke request in the HTTP method.
+///
+/// @nodoc
 class TestInvokeMethodResponse {
   /// The body of the HTTP response.
   final String? body;
@@ -8269,6 +8372,8 @@ class TestInvokeMethodResponse {
 /// For more information about supported patch operations, see <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
 /// Operations</a>.
+///
+/// @nodoc
 class PatchOperation {
   /// The copy update operation's source as identified by a JSON-Pointer value
   /// referencing the location within the targeted resource to copy the value
@@ -8322,6 +8427,7 @@ class PatchOperation {
   }
 }
 
+/// @nodoc
 class Op {
   static const add = Op._('add');
   static const remove = Op._('remove');
@@ -8349,6 +8455,7 @@ class Op {
   String toString() => value;
 }
 
+/// @nodoc
 class GatewayResponseType {
   static const default_4xx = GatewayResponseType._('DEFAULT_4XX');
   static const default_5xx = GatewayResponseType._('DEFAULT_5XX');
@@ -8422,6 +8529,7 @@ class GatewayResponseType {
   String toString() => value;
 }
 
+/// @nodoc
 class PutMode {
   static const merge = PutMode._('merge');
   static const overwrite = PutMode._('overwrite');
@@ -8445,6 +8553,7 @@ class PutMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentHandlingStrategy {
   static const convertToBinary = ContentHandlingStrategy._('CONVERT_TO_BINARY');
   static const convertToText = ContentHandlingStrategy._('CONVERT_TO_TEXT');
@@ -8476,6 +8585,8 @@ class ContentHandlingStrategy {
 /// invoking the backend; <code>HTTP_PROXY</code> for integrating with the HTTP
 /// proxy integration; <code>AWS_PROXY</code> for integrating with the Lambda
 /// proxy integration.
+///
+/// @nodoc
 class IntegrationType {
   static const http = IntegrationType._('HTTP');
   static const aws = IntegrationType._('AWS');
@@ -8503,6 +8614,7 @@ class IntegrationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionType {
   static const internet = ConnectionType._('INTERNET');
   static const vpcLink = ConnectionType._('VPC_LINK');
@@ -8528,6 +8640,8 @@ class ConnectionType {
 }
 
 /// Specifies the TLS configuration for an integration.
+///
+/// @nodoc
 class TlsConfig {
   /// Specifies whether or not API Gateway skips verification that the certificate
   /// for an integration endpoint is issued by a supported certificate authority.
@@ -8564,6 +8678,7 @@ class TlsConfig {
   }
 }
 
+/// @nodoc
 class ResponseTransferMode {
   static const buffered = ResponseTransferMode._('BUFFERED');
   static const stream = ResponseTransferMode._('STREAM');
@@ -8589,6 +8704,7 @@ class ResponseTransferMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiKeysFormat {
   static const csv = ApiKeysFormat._('csv');
 
@@ -8613,6 +8729,8 @@ class ApiKeysFormat {
 }
 
 /// A configuration property of an SDK type.
+///
+/// @nodoc
 class SdkConfigurationProperty {
   /// The default value of an SdkType configuration property.
   final String? defaultValue;
@@ -8665,6 +8783,7 @@ class SdkConfigurationProperty {
   }
 }
 
+/// @nodoc
 class ResourceOwner {
   static const self = ResourceOwner._('SELF');
   static const otherAccounts = ResourceOwner._('OTHER_ACCOUNTS');
@@ -8689,6 +8808,7 @@ class ResourceOwner {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentationPartType {
   static const api = DocumentationPartType._('API');
   static const authorizer = DocumentationPartType._('AUTHORIZER');
@@ -8737,6 +8857,7 @@ class DocumentationPartType {
   String toString() => value;
 }
 
+/// @nodoc
 class LocationStatusType {
   static const documented = LocationStatusType._('DOCUMENTED');
   static const undocumented = LocationStatusType._('UNDOCUMENTED');
@@ -8763,6 +8884,8 @@ class LocationStatusType {
 }
 
 /// The API request rate limits.
+///
+/// @nodoc
 class ThrottleSettings {
   /// The API target request burst rate limit. This allows more requests through
   /// for a period of time than the target rate limit.
@@ -8793,6 +8916,7 @@ class ThrottleSettings {
   }
 }
 
+/// @nodoc
 class VpcLinkStatus {
   static const available = VpcLinkStatus._('AVAILABLE');
   static const pending = VpcLinkStatus._('PENDING');
@@ -8820,6 +8944,8 @@ class VpcLinkStatus {
 }
 
 /// Quotas configured for a usage plan.
+///
+/// @nodoc
 class QuotaSettings {
   /// The target maximum number of requests that can be made in a given time
   /// period.
@@ -8859,6 +8985,7 @@ class QuotaSettings {
   }
 }
 
+/// @nodoc
 class QuotaPeriodType {
   static const day = QuotaPeriodType._('DAY');
   static const week = QuotaPeriodType._('WEEK');
@@ -8885,6 +9012,8 @@ class QuotaPeriodType {
 }
 
 /// API stage name of the associated API stage in a usage plan.
+///
+/// @nodoc
 class ApiStage {
   /// API Id of the associated API stage in a usage plan.
   final String? apiId;
@@ -8924,6 +9053,8 @@ class ApiStage {
 }
 
 /// Returns the size of the CacheCluster.
+///
+/// @nodoc
 class CacheClusterSize {
   static const $0_5 = CacheClusterSize._('0.5');
   static const $1_6 = CacheClusterSize._('1.6');
@@ -8955,6 +9086,8 @@ class CacheClusterSize {
 }
 
 /// Returns the status of the CacheCluster.
+///
+/// @nodoc
 class CacheClusterStatus {
   static const createInProgress = CacheClusterStatus._('CREATE_IN_PROGRESS');
   static const available = CacheClusterStatus._('AVAILABLE');
@@ -8991,6 +9124,8 @@ class CacheClusterStatus {
 
 /// Access log settings, including the access log format and access log
 /// destination ARN.
+///
+/// @nodoc
 class AccessLogSettings {
   /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or Kinesis
   /// Data Firehose delivery stream to receive access logs. If you specify a
@@ -9026,6 +9161,8 @@ class AccessLogSettings {
 }
 
 /// Configuration settings of a canary deployment.
+///
+/// @nodoc
 class CanarySettings {
   /// The ID of the canary deployment.
   final String? deploymentId;
@@ -9077,6 +9214,8 @@ class CanarySettings {
 }
 
 /// Specifies the method setting properties.
+///
+/// @nodoc
 class MethodSetting {
   /// Specifies whether the cached responses are encrypted.
   final bool? cacheDataEncrypted;
@@ -9185,6 +9324,7 @@ class MethodSetting {
   }
 }
 
+/// @nodoc
 class UnauthorizedCacheControlHeaderStrategy {
   static const failWith_403 =
       UnauthorizedCacheControlHeaderStrategy._('FAIL_WITH_403');
@@ -9219,6 +9359,7 @@ class UnauthorizedCacheControlHeaderStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiKeySourceType {
   static const header = ApiKeySourceType._('HEADER');
   static const authorizer = ApiKeySourceType._('AUTHORIZER');
@@ -9246,6 +9387,8 @@ class ApiKeySourceType {
 /// The endpoint configuration to indicate the types of endpoints an API
 /// (RestApi) or its custom domain name (DomainName) has and the IP address
 /// types that can invoke it.
+///
+/// @nodoc
 class EndpointConfiguration {
   /// The IP address types that can invoke an API (RestApi) or a DomainName. Use
   /// <code>ipv4</code> to allow only IPv4 addresses to invoke an API or
@@ -9298,6 +9441,7 @@ class EndpointConfiguration {
   }
 }
 
+/// @nodoc
 class SecurityPolicy {
   static const tls_1_0 = SecurityPolicy._('TLS_1_0');
   static const tls_1_2 = SecurityPolicy._('TLS_1_2');
@@ -9355,6 +9499,7 @@ class SecurityPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointAccessMode {
   static const basic = EndpointAccessMode._('BASIC');
   static const strict = EndpointAccessMode._('STRICT');
@@ -9380,6 +9525,7 @@ class EndpointAccessMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiStatus {
   static const updating = ApiStatus._('UPDATING');
   static const available = ApiStatus._('AVAILABLE');
@@ -9405,6 +9551,7 @@ class ApiStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('ipv4');
   static const dualstack = IpAddressType._('dualstack');
@@ -9433,6 +9580,8 @@ class IpAddressType {
 /// API setup, most suitable for mobile applications; <code>REGIONAL</code> for
 /// regional API endpoint setup, most suitable for calling from AWS Region; and
 /// <code>PRIVATE</code> for private APIs.
+///
+/// @nodoc
 class EndpointType {
   static const regional = EndpointType._('REGIONAL');
   static const edge = EndpointType._('EDGE');
@@ -9457,6 +9606,7 @@ class EndpointType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessAssociationSourceType {
   static const vpce = AccessAssociationSourceType._('VPCE');
 
@@ -9481,6 +9631,7 @@ class AccessAssociationSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainNameStatus {
   static const available = DomainNameStatus._('AVAILABLE');
   static const updating = DomainNameStatus._('UPDATING');
@@ -9522,6 +9673,8 @@ class DomainNameStatus {
 /// specified, API Gateway performs two-way authentication between the client
 /// and the server. Clients must present a trusted certificate to access your
 /// API.
+///
+/// @nodoc
 class MutualTlsAuthentication {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example <code>s3://bucket-name/key-name</code>. The
@@ -9571,6 +9724,7 @@ class MutualTlsAuthentication {
   }
 }
 
+/// @nodoc
 class RoutingMode {
   static const basePathMappingOnly = RoutingMode._('BASE_PATH_MAPPING_ONLY');
   static const routingRuleOnly = RoutingMode._('ROUTING_RULE_ONLY');
@@ -9604,6 +9758,8 @@ class RoutingMode {
 /// specified, API Gateway performs two-way authentication between the client
 /// and the server. Clients must present a trusted certificate to access your
 /// API.
+///
+/// @nodoc
 class MutualTlsAuthenticationInput {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example <code>s3://bucket-name/key-name</code>. The
@@ -9633,6 +9789,8 @@ class MutualTlsAuthenticationInput {
 }
 
 /// Specifies the target API entity to which the documentation applies.
+///
+/// @nodoc
 class DocumentationPartLocation {
   /// The type of API entity to which the documentation content applies. Valid
   /// values are <code>API</code>, <code>AUTHORIZER</code>, <code>MODEL</code>,
@@ -9721,6 +9879,8 @@ class DocumentationPartLocation {
 }
 
 /// Represents a summary of a Method resource, given a particular date and time.
+///
+/// @nodoc
 class MethodSnapshot {
   /// Specifies whether the method requires a valid ApiKey.
   final bool? apiKeyRequired;
@@ -9754,6 +9914,8 @@ class MethodSnapshot {
 }
 
 /// The input configuration for a canary deployment.
+///
+/// @nodoc
 class DeploymentCanarySettings {
   /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
   final double? percentTraffic;
@@ -9792,6 +9954,8 @@ class DeploymentCanarySettings {
 /// <code>REQUEST</code> for a Lambda function using incoming request
 /// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon Cognito
 /// user pool.
+///
+/// @nodoc
 class AuthorizerType {
   static const token = AuthorizerType._('TOKEN');
   static const request = AuthorizerType._('REQUEST');
@@ -9819,6 +9983,8 @@ class AuthorizerType {
 
 /// A reference to a unique stage identified in the format
 /// <code>{restApiId}/{stage}</code>.
+///
+/// @nodoc
 class StageKey {
   /// The string identifier of the associated RestApi.
   final String? restApiId;
@@ -9841,37 +10007,44 @@ class StageKey {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

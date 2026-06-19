@@ -1880,6 +1880,7 @@ class ServiceDiscovery {
   }
 }
 
+/// @nodoc
 class CreateHttpNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -1904,6 +1905,7 @@ class CreateHttpNamespaceResponse {
   }
 }
 
+/// @nodoc
 class CreatePrivateDnsNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -1929,6 +1931,7 @@ class CreatePrivateDnsNamespaceResponse {
   }
 }
 
+/// @nodoc
 class CreatePublicDnsNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -1953,6 +1956,7 @@ class CreatePublicDnsNamespaceResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceResponse {
   /// A complex type that contains information about the new service.
   final Service? service;
@@ -1977,6 +1981,7 @@ class CreateServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2001,6 +2006,7 @@ class DeleteNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceResponse {
   DeleteServiceResponse();
 
@@ -2013,6 +2019,7 @@ class DeleteServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceAttributesResponse {
   DeleteServiceAttributesResponse();
 
@@ -2025,6 +2032,7 @@ class DeleteServiceAttributesResponse {
   }
 }
 
+/// @nodoc
 class DeregisterInstanceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2049,6 +2057,7 @@ class DeregisterInstanceResponse {
   }
 }
 
+/// @nodoc
 class DiscoverInstancesResponse {
   /// A complex type that contains one <code>HttpInstanceSummary</code> for each
   /// registered instance.
@@ -2085,6 +2094,7 @@ class DiscoverInstancesResponse {
   }
 }
 
+/// @nodoc
 class DiscoverInstancesRevisionResponse {
   /// The increasing revision associated to the response Instances list. If a new
   /// instance is registered or deregistered, the <code>InstancesRevision</code>
@@ -2111,6 +2121,7 @@ class DiscoverInstancesRevisionResponse {
   }
 }
 
+/// @nodoc
 class GetInstanceResponse {
   /// A complex type that contains information about a specified instance.
   final Instance? instance;
@@ -2145,6 +2156,7 @@ class GetInstanceResponse {
   }
 }
 
+/// @nodoc
 class GetInstancesHealthStatusResponse {
   /// If more than <code>MaxResults</code> instances match the specified criteria,
   /// you can submit another <code>GetInstancesHealthStatus</code> request to get
@@ -2179,6 +2191,7 @@ class GetInstancesHealthStatusResponse {
   }
 }
 
+/// @nodoc
 class GetNamespaceResponse {
   /// A complex type that contains information about the specified namespace.
   final Namespace? namespace;
@@ -2203,6 +2216,7 @@ class GetNamespaceResponse {
   }
 }
 
+/// @nodoc
 class GetOperationResponse {
   /// A complex type that contains information about the operation.
   final Operation? operation;
@@ -2227,6 +2241,7 @@ class GetOperationResponse {
   }
 }
 
+/// @nodoc
 class GetServiceResponse {
   /// A complex type that contains information about the service.
   final Service? service;
@@ -2251,6 +2266,7 @@ class GetServiceResponse {
   }
 }
 
+/// @nodoc
 class GetServiceAttributesResponse {
   /// A complex type that contains the service ARN and a list of attribute
   /// key-value pairs associated with the service.
@@ -2277,6 +2293,7 @@ class GetServiceAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListInstancesResponse {
   /// Summary information about the instances that are associated with the
   /// specified service.
@@ -2322,6 +2339,7 @@ class ListInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListNamespacesResponse {
   /// An array that contains one <code>NamespaceSummary</code> object for each
   /// namespace that matches the specified filter criteria.
@@ -2365,6 +2383,7 @@ class ListNamespacesResponse {
   }
 }
 
+/// @nodoc
 class ListOperationsResponse {
   /// If the response contains <code>NextToken</code>, submit another
   /// <code>ListOperations</code> request to get the next group of results.
@@ -2407,6 +2426,7 @@ class ListOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// If the response contains <code>NextToken</code>, submit another
   /// <code>ListServices</code> request to get the next group of results. Specify
@@ -2450,6 +2470,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags that are assigned to the resource.
   final List<Tag>? tags;
@@ -2475,6 +2496,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterInstanceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2499,6 +2521,7 @@ class RegisterInstanceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2511,6 +2534,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2523,6 +2547,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateHttpNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2547,6 +2572,7 @@ class UpdateHttpNamespaceResponse {
   }
 }
 
+/// @nodoc
 class UpdatePrivateDnsNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2572,6 +2598,7 @@ class UpdatePrivateDnsNamespaceResponse {
   }
 }
 
+/// @nodoc
 class UpdatePublicDnsNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2596,6 +2623,7 @@ class UpdatePublicDnsNamespaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -2620,6 +2648,7 @@ class UpdateServiceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceAttributesResponse {
   UpdateServiceAttributesResponse();
 
@@ -2633,6 +2662,8 @@ class UpdateServiceAttributesResponse {
 }
 
 /// A complex type that contains changes to an existing service.
+///
+/// @nodoc
 class ServiceChange {
   /// A description for the service.
   final String? description;
@@ -2666,6 +2697,8 @@ class ServiceChange {
 
 /// A complex type that contains information about changes to the Route 53 DNS
 /// records that Cloud Map creates when you register an instance.
+///
+/// @nodoc
 class DnsConfigChange {
   /// An array that contains one <code>DnsRecord</code> object for each Route 53
   /// record that you want Cloud Map to create when you register an instance.
@@ -2742,6 +2775,8 @@ class DnsConfigChange {
 /// Services endpoint. For information about pricing for health checks, see <a
 /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
 /// </dd> </dl>
+///
+/// @nodoc
 class HealthCheckConfig {
   /// The type of health check that you want to create, which indicates how Route
   /// 53 determines whether an endpoint is healthy.
@@ -2823,6 +2858,7 @@ class HealthCheckConfig {
   }
 }
 
+/// @nodoc
 class HealthCheckType {
   static const http = HealthCheckType._('HTTP');
   static const https = HealthCheckType._('HTTPS');
@@ -2850,6 +2886,8 @@ class HealthCheckType {
 
 /// A complex type that contains information about the Route 53 DNS records that
 /// you want Cloud Map to create when you register an instance.
+///
+/// @nodoc
 class DnsRecord {
   /// The amount of time, in seconds, that you want DNS resolvers to cache the
   /// settings for this record.
@@ -3007,6 +3045,7 @@ class DnsRecord {
   }
 }
 
+/// @nodoc
 class RecordType {
   static const srv = RecordType._('SRV');
   static const a = RecordType._('A');
@@ -3033,6 +3072,8 @@ class RecordType {
 }
 
 /// Updated properties for the public DNS namespace.
+///
+/// @nodoc
 class PublicDnsNamespaceChange {
   /// An updated description for the public DNS namespace.
   final String? description;
@@ -3056,6 +3097,8 @@ class PublicDnsNamespaceChange {
 }
 
 /// Updated properties for the public DNS namespace.
+///
+/// @nodoc
 class PublicDnsNamespacePropertiesChange {
   /// Updated DNS properties for the hosted zone for the public DNS namespace.
   final PublicDnsPropertiesMutableChange dnsProperties;
@@ -3073,6 +3116,8 @@ class PublicDnsNamespacePropertiesChange {
 }
 
 /// Updated DNS properties for the public DNS namespace.
+///
+/// @nodoc
 class PublicDnsPropertiesMutableChange {
   /// Updated fields for the Start of Authority (SOA) record for the hosted zone
   /// for the public DNS namespace.
@@ -3092,6 +3137,8 @@ class PublicDnsPropertiesMutableChange {
 
 /// Updated Start of Authority (SOA) properties for a public or private DNS
 /// namespace.
+///
+/// @nodoc
 class SOAChange {
   /// The updated time to live (TTL) for purposes of negative caching.
   final int ttl;
@@ -3109,6 +3156,8 @@ class SOAChange {
 }
 
 /// Updated properties for the private DNS namespace.
+///
+/// @nodoc
 class PrivateDnsNamespaceChange {
   /// An updated description for the private DNS namespace.
   final String? description;
@@ -3132,6 +3181,8 @@ class PrivateDnsNamespaceChange {
 }
 
 /// Updated properties for the private DNS namespace.
+///
+/// @nodoc
 class PrivateDnsNamespacePropertiesChange {
   /// Updated DNS properties for the private DNS namespace.
   final PrivateDnsPropertiesMutableChange dnsProperties;
@@ -3149,6 +3200,8 @@ class PrivateDnsNamespacePropertiesChange {
 }
 
 /// Updated DNS properties for the private DNS namespace.
+///
+/// @nodoc
 class PrivateDnsPropertiesMutableChange {
   /// Updated fields for the Start of Authority (SOA) record for the hosted zone
   /// for the private DNS namespace.
@@ -3166,6 +3219,7 @@ class PrivateDnsPropertiesMutableChange {
   }
 }
 
+/// @nodoc
 class CustomHealthStatus {
   static const healthy = CustomHealthStatus._('HEALTHY');
   static const unhealthy = CustomHealthStatus._('UNHEALTHY');
@@ -3192,6 +3246,8 @@ class CustomHealthStatus {
 }
 
 /// Updated properties for the HTTP namespace.
+///
+/// @nodoc
 class HttpNamespaceChange {
   /// An updated description for the HTTP namespace.
   final String description;
@@ -3209,6 +3265,8 @@ class HttpNamespaceChange {
 }
 
 /// A custom key-value pair that's associated with a resource.
+///
+/// @nodoc
 class Tag {
   /// The key identifier, or name, of the tag.
   final String key;
@@ -3241,6 +3299,8 @@ class Tag {
 }
 
 /// A complex type that contains information about a specified service.
+///
+/// @nodoc
 class ServiceSummary {
   /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when
   /// you create it.
@@ -3395,6 +3455,7 @@ class ServiceSummary {
   }
 }
 
+/// @nodoc
 class ServiceType {
   static const http = ServiceType._('HTTP');
   static const dnsHttp = ServiceType._('DNS_HTTP');
@@ -3421,6 +3482,8 @@ class ServiceType {
 
 /// A complex type that contains information about the Amazon Route 53 DNS
 /// records that you want Cloud Map to create when you register an instance.
+///
+/// @nodoc
 class DnsConfig {
   /// An array that contains one <code>DnsRecord</code> object for each Route 53
   /// DNS record that you want Cloud Map to create when you register an instance.
@@ -3573,6 +3636,8 @@ class DnsConfig {
 /// arrive during that time to change the status back to healthy, Cloud Map
 /// stops routing traffic to the resource.
 /// </li> </ol>
+///
+/// @nodoc
 class HealthCheckCustomConfig {
   /// <important>
   /// This parameter is no longer supported and is always set to 1. Cloud Map
@@ -3608,6 +3673,7 @@ class HealthCheckCustomConfig {
   }
 }
 
+/// @nodoc
 class RoutingPolicy {
   static const multivalue = RoutingPolicy._('MULTIVALUE');
   static const weighted = RoutingPolicy._('WEIGHTED');
@@ -3634,6 +3700,8 @@ class RoutingPolicy {
 
 /// A complex type that lets you specify the namespaces that you want to list
 /// services for.
+///
+/// @nodoc
 class ServiceFilter {
   /// Specify the services that you want to get using one of the following.
   ///
@@ -3701,6 +3769,7 @@ class ServiceFilter {
   }
 }
 
+/// @nodoc
 class ServiceFilterName {
   static const namespaceId = ServiceFilterName._('NAMESPACE_ID');
   static const resourceOwner = ServiceFilterName._('RESOURCE_OWNER');
@@ -3725,6 +3794,7 @@ class ServiceFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterCondition {
   static const eq = FilterCondition._('EQ');
   static const $in = FilterCondition._('IN');
@@ -3755,6 +3825,8 @@ class FilterCondition {
 /// criteria that you specified in a <a
 /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html">ListOperations</a>
 /// request.
+///
+/// @nodoc
 class OperationSummary {
   /// The ID for an operation.
   final String? id;
@@ -3801,6 +3873,7 @@ class OperationSummary {
   }
 }
 
+/// @nodoc
 class OperationStatus {
   static const submitted = OperationStatus._('SUBMITTED');
   static const pending = OperationStatus._('PENDING');
@@ -3828,6 +3901,8 @@ class OperationStatus {
 }
 
 /// A complex type that lets you select the operations that you want to list.
+///
+/// @nodoc
 class OperationFilter {
   /// Specify the operations that you want to get:
   ///
@@ -3924,6 +3999,7 @@ class OperationFilter {
   }
 }
 
+/// @nodoc
 class OperationFilterName {
   static const namespaceId = OperationFilterName._('NAMESPACE_ID');
   static const serviceId = OperationFilterName._('SERVICE_ID');
@@ -3953,6 +4029,8 @@ class OperationFilterName {
 }
 
 /// A complex type that contains information about a namespace.
+///
+/// @nodoc
 class NamespaceSummary {
   /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when
   /// you create it.
@@ -4042,6 +4120,7 @@ class NamespaceSummary {
   }
 }
 
+/// @nodoc
 class NamespaceType {
   static const dnsPublic = NamespaceType._('DNS_PUBLIC');
   static const dnsPrivate = NamespaceType._('DNS_PRIVATE');
@@ -4069,6 +4148,8 @@ class NamespaceType {
 
 /// A complex type that contains information that's specific to the namespace
 /// type.
+///
+/// @nodoc
 class NamespaceProperties {
   /// A complex type that contains the ID for the Route 53 hosted zone that Cloud
   /// Map creates when you create a namespace.
@@ -4107,6 +4188,8 @@ class NamespaceProperties {
 
 /// A complex type that contains the ID for the Route 53 hosted zone that Cloud
 /// Map creates when you create a namespace.
+///
+/// @nodoc
 class DnsProperties {
   /// The ID for the Route 53 hosted zone that Cloud Map creates when you create a
   /// namespace.
@@ -4140,6 +4223,8 @@ class DnsProperties {
 }
 
 /// A complex type that contains the name of an HTTP namespace.
+///
+/// @nodoc
 class HttpProperties {
   /// The name of an HTTP namespace.
   final String? httpName;
@@ -4163,6 +4248,8 @@ class HttpProperties {
 }
 
 /// Start of Authority (SOA) properties for a public or private DNS namespace.
+///
+/// @nodoc
 class SOA {
   /// The time to live (TTL) for purposes of negative caching.
   final int ttl;
@@ -4187,6 +4274,8 @@ class SOA {
 
 /// A complex type that identifies the namespaces that you want to list. You can
 /// choose to list public or private namespaces.
+///
+/// @nodoc
 class NamespaceFilter {
   /// Specify the namespaces that you want to get using one of the following.
   ///
@@ -4274,6 +4363,7 @@ class NamespaceFilter {
   }
 }
 
+/// @nodoc
 class NamespaceFilterName {
   static const type = NamespaceFilterName._('TYPE');
   static const name = NamespaceFilterName._('NAME');
@@ -4303,6 +4393,8 @@ class NamespaceFilterName {
 
 /// A complex type that contains information about the instances that you
 /// registered by using a specified service.
+///
+/// @nodoc
 class InstanceSummary {
   /// A string map that contains the following information:
   ///
@@ -4388,6 +4480,8 @@ class InstanceSummary {
 
 /// A complex type that contains information about attributes associated with a
 /// specific service.
+///
+/// @nodoc
 class ServiceAttributes {
   /// A string map that contains the following information for the service that
   /// you specify in <code>ServiceArn</code>:
@@ -4442,6 +4536,8 @@ class ServiceAttributes {
 }
 
 /// A complex type that contains information about the specified service.
+///
+/// @nodoc
 class Service {
   /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when
   /// you create it.
@@ -4611,6 +4707,8 @@ class Service {
 }
 
 /// A complex type that contains information about a specified operation.
+///
+/// @nodoc
 class Operation {
   /// The date and time that the request was submitted, in Unix date/time format
   /// and Coordinated Universal Time (UTC). The value of <code>CreateDate</code>
@@ -4743,6 +4841,7 @@ class Operation {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const createNamespace = OperationType._('CREATE_NAMESPACE');
   static const deleteNamespace = OperationType._('DELETE_NAMESPACE');
@@ -4778,6 +4877,7 @@ class OperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationTargetType {
   static const namespace = OperationTargetType._('NAMESPACE');
   static const service = OperationTargetType._('SERVICE');
@@ -4805,6 +4905,8 @@ class OperationTargetType {
 }
 
 /// A complex type that contains information about a specified namespace.
+///
+/// @nodoc
 class Namespace {
   /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when
   /// you create it.
@@ -4915,6 +5017,7 @@ class Namespace {
   }
 }
 
+/// @nodoc
 class HealthStatus {
   static const healthy = HealthStatus._('HEALTHY');
   static const unhealthy = HealthStatus._('UNHEALTHY');
@@ -4941,6 +5044,8 @@ class HealthStatus {
 
 /// A complex type that contains information about an instance that Cloud Map
 /// creates when you submit a <code>RegisterInstance</code> request.
+///
+/// @nodoc
 class Instance {
   /// An identifier that you want to associate with the instance. Note the
   /// following:
@@ -5122,6 +5227,8 @@ class Instance {
 /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>
 /// request, <code>HttpInstanceSummary</code> contains information about one
 /// instance that matches the values that you specified in the request.
+///
+/// @nodoc
 class HttpInstanceSummary {
   /// If you included any attributes when you registered the instance, the values
   /// of those attributes.
@@ -5179,6 +5286,7 @@ class HttpInstanceSummary {
   }
 }
 
+/// @nodoc
 class HealthStatusFilter {
   static const healthy = HealthStatusFilter._('HEALTHY');
   static const unhealthy = HealthStatusFilter._('UNHEALTHY');
@@ -5206,6 +5314,7 @@ class HealthStatusFilter {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceTypeOption {
   static const http = ServiceTypeOption._('HTTP');
 
@@ -5230,6 +5339,8 @@ class ServiceTypeOption {
 }
 
 /// DNS properties for the public DNS namespace.
+///
+/// @nodoc
 class PublicDnsNamespaceProperties {
   /// DNS properties for the public DNS namespace.
   final PublicDnsPropertiesMutable dnsProperties;
@@ -5247,6 +5358,8 @@ class PublicDnsNamespaceProperties {
 }
 
 /// DNS properties for the public DNS namespace.
+///
+/// @nodoc
 class PublicDnsPropertiesMutable {
   /// Start of Authority (SOA) record for the hosted zone for the public DNS
   /// namespace.
@@ -5265,6 +5378,8 @@ class PublicDnsPropertiesMutable {
 }
 
 /// DNS properties for the private DNS namespace.
+///
+/// @nodoc
 class PrivateDnsNamespaceProperties {
   /// DNS properties for the private DNS namespace.
   final PrivateDnsPropertiesMutable dnsProperties;
@@ -5282,6 +5397,8 @@ class PrivateDnsNamespaceProperties {
 }
 
 /// DNS properties for the private DNS namespace.
+///
+/// @nodoc
 class PrivateDnsPropertiesMutable {
   /// Fields for the Start of Authority (SOA) record for the hosted zone for the
   /// private DNS namespace.
@@ -5299,66 +5416,79 @@ class PrivateDnsPropertiesMutable {
   }
 }
 
+/// @nodoc
 class CustomHealthNotFound extends _s.GenericAwsException {
   CustomHealthNotFound({String? type, String? message})
       : super(type: type, code: 'CustomHealthNotFound', message: message);
 }
 
+/// @nodoc
 class DuplicateRequest extends _s.GenericAwsException {
   DuplicateRequest({String? type, String? message})
       : super(type: type, code: 'DuplicateRequest', message: message);
 }
 
+/// @nodoc
 class InstanceNotFound extends _s.GenericAwsException {
   InstanceNotFound({String? type, String? message})
       : super(type: type, code: 'InstanceNotFound', message: message);
 }
 
+/// @nodoc
 class InvalidInput extends _s.GenericAwsException {
   InvalidInput({String? type, String? message})
       : super(type: type, code: 'InvalidInput', message: message);
 }
 
+/// @nodoc
 class NamespaceAlreadyExists extends _s.GenericAwsException {
   NamespaceAlreadyExists({String? type, String? message})
       : super(type: type, code: 'NamespaceAlreadyExists', message: message);
 }
 
+/// @nodoc
 class NamespaceNotFound extends _s.GenericAwsException {
   NamespaceNotFound({String? type, String? message})
       : super(type: type, code: 'NamespaceNotFound', message: message);
 }
 
+/// @nodoc
 class OperationNotFound extends _s.GenericAwsException {
   OperationNotFound({String? type, String? message})
       : super(type: type, code: 'OperationNotFound', message: message);
 }
 
+/// @nodoc
 class RequestLimitExceeded extends _s.GenericAwsException {
   RequestLimitExceeded({String? type, String? message})
       : super(type: type, code: 'RequestLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ResourceInUse extends _s.GenericAwsException {
   ResourceInUse({String? type, String? message})
       : super(type: type, code: 'ResourceInUse', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceeded extends _s.GenericAwsException {
   ResourceLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ResourceLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceAlreadyExists extends _s.GenericAwsException {
   ServiceAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ServiceAlreadyExists', message: message);
 }
 
+/// @nodoc
 class ServiceAttributesLimitExceededException extends _s.GenericAwsException {
   ServiceAttributesLimitExceededException({String? type, String? message})
       : super(
@@ -5367,11 +5497,13 @@ class ServiceAttributesLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceNotFound extends _s.GenericAwsException {
   ServiceNotFound({String? type, String? message})
       : super(type: type, code: 'ServiceNotFound', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

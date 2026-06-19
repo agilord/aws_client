@@ -1397,6 +1397,7 @@ class GreengrassV2 {
   }
 }
 
+/// @nodoc
 class AssociateServiceRoleToAccountResponse {
   /// The time when the service role was associated with IoT Greengrass for your
   /// Amazon Web Services account in this Amazon Web Services Region.
@@ -1421,6 +1422,7 @@ class AssociateServiceRoleToAccountResponse {
   }
 }
 
+/// @nodoc
 class BatchAssociateClientDeviceWithCoreDeviceResponse {
   /// The list of any errors for the entries in the request. Each error entry
   /// contains the name of the IoT thing that failed to associate.
@@ -1449,6 +1451,7 @@ class BatchAssociateClientDeviceWithCoreDeviceResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateClientDeviceFromCoreDeviceResponse {
   /// The list of any errors for the entries in the request. Each error entry
   /// contains the name of the IoT thing that failed to disassociate.
@@ -1477,6 +1480,7 @@ class BatchDisassociateClientDeviceFromCoreDeviceResponse {
   }
 }
 
+/// @nodoc
 class CancelDeploymentResponse {
   /// A message that communicates if the cancel was successful.
   final String? message;
@@ -1499,6 +1503,7 @@ class CancelDeploymentResponse {
   }
 }
 
+/// @nodoc
 class CreateComponentVersionResponse {
   /// The name of the component.
   final String componentName;
@@ -1555,6 +1560,7 @@ class CreateComponentVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateDeploymentResponse {
   /// The ID of the deployment.
   final String? deploymentId;
@@ -1593,6 +1599,7 @@ class CreateDeploymentResponse {
   }
 }
 
+/// @nodoc
 class DescribeComponentResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -1685,6 +1692,7 @@ class DescribeComponentResponse {
   }
 }
 
+/// @nodoc
 class DisassociateServiceRoleFromAccountResponse {
   /// The time when the service role was disassociated from IoT Greengrass for
   /// your Amazon Web Services account in this Amazon Web Services Region.
@@ -1709,6 +1717,7 @@ class DisassociateServiceRoleFromAccountResponse {
   }
 }
 
+/// @nodoc
 class GetComponentResponse {
   /// The recipe of the component version.
   final Uint8List recipe;
@@ -1750,6 +1759,7 @@ class GetComponentResponse {
   }
 }
 
+/// @nodoc
 class GetComponentVersionArtifactResponse {
   /// The URL of the artifact.
   final String preSignedUrl;
@@ -1773,6 +1783,7 @@ class GetComponentVersionArtifactResponse {
   }
 }
 
+/// @nodoc
 class GetConnectivityInfoResponse {
   /// The connectivity information for the core device.
   final List<ConnectivityInfo>? connectivityInfo;
@@ -1805,6 +1816,7 @@ class GetConnectivityInfoResponse {
   }
 }
 
+/// @nodoc
 class GetCoreDeviceResponse {
   /// The computer architecture of the core device.
   final String? architecture;
@@ -1909,6 +1921,7 @@ class GetCoreDeviceResponse {
   }
 }
 
+/// @nodoc
 class GetDeploymentResponse {
   /// The components to deploy. This is a dictionary, where each key is the name
   /// of a component, and each key's value is the version and configuration to
@@ -2050,6 +2063,7 @@ class GetDeploymentResponse {
   }
 }
 
+/// @nodoc
 class GetServiceRoleForAccountResponse {
   /// The time when the service role was associated with IoT Greengrass for your
   /// Amazon Web Services account in this Amazon Web Services Region.
@@ -2081,6 +2095,7 @@ class GetServiceRoleForAccountResponse {
   }
 }
 
+/// @nodoc
 class ListClientDevicesAssociatedWithCoreDeviceResponse {
   /// A list that describes the client devices that are associated with the core
   /// device.
@@ -2118,6 +2133,7 @@ class ListClientDevicesAssociatedWithCoreDeviceResponse {
   }
 }
 
+/// @nodoc
 class ListComponentsResponse {
   /// A list that summarizes each component.
   final List<Component>? components;
@@ -2151,6 +2167,7 @@ class ListComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListComponentVersionsResponse {
   /// A list of versions that exist for the component.
   final List<ComponentVersionListItem>? componentVersions;
@@ -2185,6 +2202,7 @@ class ListComponentVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListCoreDevicesResponse {
   /// A list that summarizes each core device.
   final List<CoreDevice>? coreDevices;
@@ -2218,6 +2236,7 @@ class ListCoreDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListDeploymentsResponse {
   /// A list that summarizes each deployment.
   final List<Deployment>? deployments;
@@ -2251,6 +2270,7 @@ class ListDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class ListEffectiveDeploymentsResponse {
   /// A list that summarizes each deployment on the core device.
   final List<EffectiveDeployment>? effectiveDeployments;
@@ -2285,6 +2305,7 @@ class ListEffectiveDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class ListInstalledComponentsResponse {
   /// A list that summarizes each component on the core device.
   /// <note>
@@ -2329,6 +2350,7 @@ class ListInstalledComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of key-value pairs that contain metadata for the resource. For more
   /// information, see <a
@@ -2355,6 +2377,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ResolveComponentCandidatesResponse {
   /// A list of components that meet the requirements that you specify in the
   /// request. This list includes each component's recipe that you can use to
@@ -2385,6 +2408,7 @@ class ResolveComponentCandidatesResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2397,6 +2421,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2409,6 +2434,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectivityInfoResponse {
   /// A message about the connectivity information update request.
   final String? message;
@@ -2440,6 +2466,8 @@ class UpdateConnectivityInfoResponse {
 
 /// Contains information about an endpoint and port where client devices can
 /// connect to an MQTT broker on a Greengrass core device.
+///
+/// @nodoc
 class ConnectivityInfo {
   /// The IP address or DNS address where client devices can connect to an MQTT
   /// broker on the Greengrass core device.
@@ -2489,6 +2517,8 @@ class ConnectivityInfo {
 
 /// Contains information about a component version that is compatible to run on
 /// a Greengrass core device.
+///
+/// @nodoc
 class ResolvedComponentVersion {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -2570,6 +2600,7 @@ class ResolvedComponentVersion {
   }
 }
 
+/// @nodoc
 class VendorGuidance {
   static const active = VendorGuidance._('ACTIVE');
   static const discontinued = VendorGuidance._('DISCONTINUED');
@@ -2596,6 +2627,8 @@ class VendorGuidance {
 }
 
 /// Contains information about a platform that a component supports.
+///
+/// @nodoc
 class ComponentPlatform {
   /// A dictionary of attributes for the platform. The IoT Greengrass Core
   /// software defines the <code>os</code> and <code>architecture</code> by
@@ -2638,6 +2671,8 @@ class ComponentPlatform {
 
 /// Contains information about a component that is a candidate to deploy to a
 /// Greengrass core device.
+///
+/// @nodoc
 class ComponentCandidate {
   /// The name of the component.
   final String? componentName;
@@ -2672,6 +2707,8 @@ class ComponentCandidate {
 }
 
 /// Contains information about a component on a Greengrass core device.
+///
+/// @nodoc
 class InstalledComponent {
   /// The name of the component.
   final String? componentName;
@@ -2783,6 +2820,7 @@ class InstalledComponent {
   }
 }
 
+/// @nodoc
 class InstalledComponentLifecycleState {
   static const $new = InstalledComponentLifecycleState._('NEW');
   static const installed = InstalledComponentLifecycleState._('INSTALLED');
@@ -2823,6 +2861,7 @@ class InstalledComponentLifecycleState {
   String toString() => value;
 }
 
+/// @nodoc
 class InstalledComponentTopologyFilter {
   static const all = InstalledComponentTopologyFilter._('ALL');
   static const root = InstalledComponentTopologyFilter._('ROOT');
@@ -2850,6 +2889,8 @@ class InstalledComponentTopologyFilter {
 
 /// Contains information about a deployment job that IoT Greengrass sends to a
 /// Greengrass core device.
+///
+/// @nodoc
 class EffectiveDeployment {
   /// The status of the deployment job on the Greengrass core device.
   ///
@@ -2987,6 +3028,7 @@ class EffectiveDeployment {
   }
 }
 
+/// @nodoc
 class EffectiveDeploymentExecutionStatus {
   static const inProgress = EffectiveDeploymentExecutionStatus._('IN_PROGRESS');
   static const queued = EffectiveDeploymentExecutionStatus._('QUEUED');
@@ -3034,6 +3076,8 @@ class EffectiveDeploymentExecutionStatus {
 /// <code>errorStack</code> and <code>errorTypes</code> response. This field
 /// will not be returned for earlier Greengrass nucleus versions.
 /// </note>
+///
+/// @nodoc
 class EffectiveDeploymentStatusDetails {
   /// Contains an ordered list of short error codes that range from the most
   /// generic error to the most specific one. The error codes describe the reason
@@ -3075,6 +3119,8 @@ class EffectiveDeploymentStatusDetails {
 }
 
 /// Contains information about a deployment.
+///
+/// @nodoc
 class Deployment {
   /// The time at which the deployment was created, expressed in ISO 8601 format.
   final DateTime? creationTimestamp;
@@ -3153,6 +3199,7 @@ class Deployment {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const active = DeploymentStatus._('ACTIVE');
   static const completed = DeploymentStatus._('COMPLETED');
@@ -3180,6 +3227,7 @@ class DeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentHistoryFilter {
   static const all = DeploymentHistoryFilter._('ALL');
   static const latestOnly = DeploymentHistoryFilter._('LATEST_ONLY');
@@ -3207,6 +3255,8 @@ class DeploymentHistoryFilter {
 
 /// Contains information about a Greengrass core device, which is an IoT thing
 /// that runs the IoT Greengrass Core software.
+///
+/// @nodoc
 class CoreDevice {
   /// The computer architecture of the core device.
   final String? architecture;
@@ -3289,6 +3339,7 @@ class CoreDevice {
   }
 }
 
+/// @nodoc
 class CoreDeviceStatus {
   static const healthy = CoreDeviceStatus._('HEALTHY');
   static const unhealthy = CoreDeviceStatus._('UNHEALTHY');
@@ -3314,6 +3365,8 @@ class CoreDeviceStatus {
 }
 
 /// Contains information about a component version in a list.
+///
+/// @nodoc
 class ComponentVersionListItem {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -3353,6 +3406,8 @@ class ComponentVersionListItem {
 }
 
 /// Contains information about a component.
+///
+/// @nodoc
 class Component {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -3395,6 +3450,8 @@ class Component {
 }
 
 /// Contains information about the latest version of a component.
+///
+/// @nodoc
 class ComponentLatestVersion {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -3458,6 +3515,7 @@ class ComponentLatestVersion {
   }
 }
 
+/// @nodoc
 class ComponentVisibilityScope {
   static const private = ComponentVisibilityScope._('PRIVATE');
   static const public = ComponentVisibilityScope._('PUBLIC');
@@ -3485,6 +3543,8 @@ class ComponentVisibilityScope {
 
 /// Contains information about a client device that is associated to a core
 /// device for cloud discovery.
+///
+/// @nodoc
 class AssociatedClientDevice {
   /// The time that the client device was associated, expressed in ISO 8601
   /// format.
@@ -3518,6 +3578,8 @@ class AssociatedClientDevice {
 
 /// Contains information about policies that define how a deployment updates
 /// components and handles failure.
+///
+/// @nodoc
 class DeploymentPolicies {
   /// The component update policy for the configuration deployment. This policy
   /// defines when it's safe to deploy the configuration to devices.
@@ -3572,6 +3634,8 @@ class DeploymentPolicies {
 }
 
 /// Contains information about an IoT job configuration.
+///
+/// @nodoc
 class DeploymentIoTJobConfiguration {
   /// The stop configuration for the job. This configuration defines when and how
   /// to stop a job rollout.
@@ -3624,6 +3688,8 @@ class DeploymentIoTJobConfiguration {
 /// Contains information about the rollout configuration for a job. This
 /// configuration defines the rate at which the job deploys a configuration to a
 /// fleet of target devices.
+///
+/// @nodoc
 class IoTJobExecutionsRolloutConfig {
   /// The exponential rate to increase the job rollout rate.
   final IoTJobExponentialRolloutRate? exponentialRate;
@@ -3659,6 +3725,8 @@ class IoTJobExecutionsRolloutConfig {
 
 /// Contains a list of criteria that define when and how to cancel a
 /// configuration deployment.
+///
+/// @nodoc
 class IoTJobAbortConfig {
   /// The list of criteria that define when and how to cancel the configuration
   /// deployment.
@@ -3686,6 +3754,8 @@ class IoTJobAbortConfig {
 }
 
 /// Contains information about the timeout configuration for a job.
+///
+/// @nodoc
 class IoTJobTimeoutConfig {
   /// The amount of time, in minutes, that devices have to complete the job. The
   /// timer starts when the job status is set to <code>IN_PROGRESS</code>. If the
@@ -3726,6 +3796,8 @@ class IoTJobTimeoutConfig {
 /// The percentage of failures with type <code>failureType</code> exceeds the
 /// <code>thresholdPercentage</code>.
 /// </li> </ol>
+///
+/// @nodoc
 class IoTJobAbortCriteria {
   /// The action to perform when the criteria are met.
   final IoTJobAbortAction action;
@@ -3777,6 +3849,7 @@ class IoTJobAbortCriteria {
   }
 }
 
+/// @nodoc
 class IoTJobExecutionFailureType {
   static const failed = IoTJobExecutionFailureType._('FAILED');
   static const rejected = IoTJobExecutionFailureType._('REJECTED');
@@ -3804,6 +3877,7 @@ class IoTJobExecutionFailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class IoTJobAbortAction {
   static const cancel = IoTJobAbortAction._('CANCEL');
 
@@ -3829,6 +3903,8 @@ class IoTJobAbortAction {
 
 /// Contains information about an exponential rollout rate for a configuration
 /// deployment job.
+///
+/// @nodoc
 class IoTJobExponentialRolloutRate {
   /// The minimum number of devices that receive a pending job notification, per
   /// minute, when the job starts. This parameter defines the initial rollout rate
@@ -3875,6 +3951,8 @@ class IoTJobExponentialRolloutRate {
 /// Contains information about criteria to meet before a job increases its
 /// rollout rate. Specify either <code>numberOfNotifiedThings</code> or
 /// <code>numberOfSucceededThings</code>.
+///
+/// @nodoc
 class IoTJobRateIncreaseCriteria {
   /// The number of devices to receive the job notification before the rollout
   /// rate increases.
@@ -3908,6 +3986,7 @@ class IoTJobRateIncreaseCriteria {
   }
 }
 
+/// @nodoc
 class DeploymentFailureHandlingPolicy {
   static const rollback = DeploymentFailureHandlingPolicy._('ROLLBACK');
   static const doNothing = DeploymentFailureHandlingPolicy._('DO_NOTHING');
@@ -3941,6 +4020,8 @@ class DeploymentFailureHandlingPolicy {
 /// in the deployment. You can configure whether or not the deployment notifies
 /// components of an update and waits for a response. You specify the amount of
 /// time each component has to respond to the update notification.
+///
+/// @nodoc
 class DeploymentComponentUpdatePolicy {
   /// Whether or not to notify components and wait for components to become safe
   /// to update. Choose from the following options:
@@ -4005,6 +4086,8 @@ class DeploymentComponentUpdatePolicy {
 /// IPC operation. For more information, see <a
 /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
 /// deployments</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+///
+/// @nodoc
 class DeploymentConfigurationValidationPolicy {
   /// The amount of time in seconds that a component can validate its
   /// configuration updates. If the validation time exceeds this timeout, then the
@@ -4032,6 +4115,7 @@ class DeploymentConfigurationValidationPolicy {
   }
 }
 
+/// @nodoc
 class DeploymentComponentUpdatePolicyAction {
   static const notifyComponents =
       DeploymentComponentUpdatePolicyAction._('NOTIFY_COMPONENTS');
@@ -4060,6 +4144,8 @@ class DeploymentComponentUpdatePolicyAction {
 }
 
 /// Contains information about a component to deploy.
+///
+/// @nodoc
 class ComponentDeploymentSpecification {
   /// The version of the component.
   final String componentVersion;
@@ -4121,6 +4207,8 @@ class ComponentDeploymentSpecification {
 /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html">Update
 /// component configurations</a> in the <i>IoT Greengrass V2 Developer
 /// Guide</i>.
+///
+/// @nodoc
 class ComponentConfigurationUpdate {
   /// A serialized JSON string that contains the configuration object to merge to
   /// target devices. The core device merges this configuration with the
@@ -4172,6 +4260,8 @@ class ComponentConfigurationUpdate {
 /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
 /// the user and group that run components</a> in the <i>IoT Greengrass V2
 /// Developer Guide</i>.
+///
+/// @nodoc
 class ComponentRunWith {
   /// The POSIX system user and, optionally, group to use to run this component on
   /// Linux core devices. The user, and group if specified, must exist on each
@@ -4244,6 +4334,8 @@ class ComponentRunWith {
 /// <a
 /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits">Configure
 /// system resource limits for components</a>.
+///
+/// @nodoc
 class SystemResourceLimits {
   /// The maximum amount of CPU time that a component's processes can use on the
   /// core device. A core device's total CPU time is equivalent to the device's
@@ -4282,6 +4374,7 @@ class SystemResourceLimits {
   }
 }
 
+/// @nodoc
 class S3EndpointType {
   static const regional = S3EndpointType._('REGIONAL');
   static const global = S3EndpointType._('GLOBAL');
@@ -4306,6 +4399,7 @@ class S3EndpointType {
   String toString() => value;
 }
 
+/// @nodoc
 class IotEndpointType {
   static const fips = IotEndpointType._('fips');
   static const standard = IotEndpointType._('standard');
@@ -4330,6 +4424,7 @@ class IotEndpointType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecipeOutputFormat {
   static const json = RecipeOutputFormat._('JSON');
   static const yaml = RecipeOutputFormat._('YAML');
@@ -4356,6 +4451,8 @@ class RecipeOutputFormat {
 }
 
 /// Contains the status of a component version in the IoT Greengrass service.
+///
+/// @nodoc
 class CloudComponentStatus {
   /// The state of the component version.
   final CloudComponentState? componentState;
@@ -4435,6 +4532,7 @@ class CloudComponentStatus {
   }
 }
 
+/// @nodoc
 class CloudComponentState {
   static const requested = CloudComponentState._('REQUESTED');
   static const initiated = CloudComponentState._('INITIATED');
@@ -4465,6 +4563,8 @@ class CloudComponentState {
 
 /// Contains information about an Lambda function to import to create a
 /// component.
+///
+/// @nodoc
 class LambdaFunctionRecipeSource {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -4524,6 +4624,8 @@ class LambdaFunctionRecipeSource {
 }
 
 /// Contains parameters for a Lambda function that runs on IoT Greengrass.
+///
+/// @nodoc
 class LambdaExecutionParameters {
   /// The map of environment variables that are available to the Lambda function
   /// when it runs.
@@ -4630,6 +4732,7 @@ class LambdaExecutionParameters {
   }
 }
 
+/// @nodoc
 class LambdaInputPayloadEncodingType {
   static const json = LambdaInputPayloadEncodingType._('json');
   static const binary = LambdaInputPayloadEncodingType._('binary');
@@ -4656,6 +4759,8 @@ class LambdaInputPayloadEncodingType {
 }
 
 /// Contains parameters for a Linux process that contains an Lambda function.
+///
+/// @nodoc
 class LambdaLinuxProcessParams {
   /// The parameters for the container in which the Lambda function runs.
   final LambdaContainerParams? containerParams;
@@ -4682,6 +4787,7 @@ class LambdaLinuxProcessParams {
   }
 }
 
+/// @nodoc
 class LambdaIsolationMode {
   static const greengrassContainer =
       LambdaIsolationMode._('GreengrassContainer');
@@ -4710,6 +4816,8 @@ class LambdaIsolationMode {
 
 /// Contains information about a container in which Lambda functions run on
 /// Greengrass core devices.
+///
+/// @nodoc
 class LambdaContainerParams {
   /// The list of system devices that the container can access.
   final List<LambdaDeviceMount>? devices;
@@ -4751,6 +4859,8 @@ class LambdaContainerParams {
 
 /// Contains information about a device that Linux processes in a container can
 /// access.
+///
+/// @nodoc
 class LambdaDeviceMount {
   /// The mount path for the device in the file system.
   final String path;
@@ -4784,6 +4894,7 @@ class LambdaDeviceMount {
   }
 }
 
+/// @nodoc
 class LambdaFilesystemPermission {
   static const ro = LambdaFilesystemPermission._('ro');
   static const rw = LambdaFilesystemPermission._('rw');
@@ -4812,6 +4923,8 @@ class LambdaFilesystemPermission {
 /// Contains information about a volume that Linux processes in a container can
 /// access. When you define a volume, the IoT Greengrass Core software mounts
 /// the source files to the destination inside the container.
+///
+/// @nodoc
 class LambdaVolumeMount {
   /// The path to the logical volume in the file system.
   final String destinationPath;
@@ -4855,6 +4968,8 @@ class LambdaVolumeMount {
 /// Contains information about an event source for an Lambda function. The event
 /// source defines the topics on which this Lambda function subscribes to
 /// receive messages that run the function.
+///
+/// @nodoc
 class LambdaEventSource {
   /// The topic to which to subscribe to receive event messages.
   final String topic;
@@ -4890,6 +5005,7 @@ class LambdaEventSource {
   }
 }
 
+/// @nodoc
 class LambdaEventSourceType {
   static const pubSub = LambdaEventSourceType._('PUB_SUB');
   static const iotCore = LambdaEventSourceType._('IOT_CORE');
@@ -4917,6 +5033,8 @@ class LambdaEventSourceType {
 
 /// Contains information about a component dependency for a Lambda function
 /// component.
+///
+/// @nodoc
 class ComponentDependencyRequirement {
   /// The type of this dependency. Choose from the following options:
   ///
@@ -4953,6 +5071,7 @@ class ComponentDependencyRequirement {
   }
 }
 
+/// @nodoc
 class ComponentDependencyType {
   static const hard = ComponentDependencyType._('HARD');
   static const soft = ComponentDependencyType._('SOFT');
@@ -4982,6 +5101,8 @@ class ComponentDependencyType {
 /// from a core device. The <a
 /// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html">BatchDisassociateClientDeviceWithCoreDevice</a>
 /// operation returns a list of these errors.
+///
+/// @nodoc
 class DisassociateClientDeviceFromCoreDeviceErrorEntry {
   /// The error code for the request.
   final String? code;
@@ -5023,6 +5144,8 @@ class DisassociateClientDeviceFromCoreDeviceErrorEntry {
 /// <a
 /// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html">BatchDisassociateClientDeviceWithCoreDevice</a>
 /// operation consumes a list of these requests.
+///
+/// @nodoc
 class DisassociateClientDeviceFromCoreDeviceEntry {
   /// The name of the IoT thing that represents the client device to disassociate.
   final String thingName;
@@ -5043,6 +5166,8 @@ class DisassociateClientDeviceFromCoreDeviceEntry {
 /// with a core device. The <a
 /// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html">BatchAssociateClientDeviceWithCoreDevice</a>
 /// operation returns a list of these errors.
+///
+/// @nodoc
 class AssociateClientDeviceWithCoreDeviceErrorEntry {
   /// The error code for the request.
   final String? code;
@@ -5083,6 +5208,8 @@ class AssociateClientDeviceWithCoreDeviceErrorEntry {
 /// Contains a request to associate a client device with a core device. The <a
 /// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html">BatchAssociateClientDeviceWithCoreDevice</a>
 /// operation consumes a list of these requests.
+///
+/// @nodoc
 class AssociateClientDeviceWithCoreDeviceEntry {
   /// The name of the IoT thing that represents the client device to associate.
   final String thingName;
@@ -5099,21 +5226,25 @@ class AssociateClientDeviceWithCoreDeviceEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class RequestAlreadyInProgressException extends _s.GenericAwsException {
   RequestAlreadyInProgressException({String? type, String? message})
       : super(
@@ -5122,11 +5253,13 @@ class RequestAlreadyInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5135,11 +5268,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -199,7 +199,12 @@ ${builder.constructor()}
     if (shape.flattened) return;
 
     if (shape.enumeration != null) {
-      writeln(dartdocComment(shape.documentation ?? ''));
+      final doc = dartdocComment(shape.documentation ?? '');
+      if (doc.isNotEmpty) {
+        writeln(doc);
+        writeln('///');
+      }
+      writeln('/// @nodoc');
       if (shape.deprecated) {
         _writeDeprecated(shape.deprecatedMessage);
       }
@@ -234,7 +239,13 @@ ${builder.constructor()}
   String toString() => value;
 }''');
     } else if (shape.type == 'structure') {
-      writeln(dartdocComment(shape.documentation ?? ''));
+      final doc = dartdocComment(shape.documentation ?? '');
+      if (doc.isNotEmpty) {
+        writeln(doc);
+        writeln('///');
+      }
+
+      writeln('/// @nodoc');
       if (shape.deprecated) {
         _writeDeprecated(shape.deprecatedMessage);
       }
@@ -411,7 +422,8 @@ ${builder.constructor()}
   void putExceptions(Api api) {
     for (final exception in api.exceptions) {
       if (api.shapes.containsKey(exception)) continue;
-      writeln('\nclass $exception extends _s.GenericAwsException {');
+      writeln('\n/// @nodoc');
+      writeln('class $exception extends _s.GenericAwsException {');
       writeln('  $exception({String? type, String? message}) '
           ': super(type: type, code: \'$exception\', message: message);');
       writeln('}');

@@ -10544,7 +10544,7 @@ class Iam {
   /// Specifies whether IAM user passwords must contain at least one of the
   /// following non-alphanumeric characters:
   ///
-  /// ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
+  /// ! @ # $ % ^ & * ( ) _ + - = \[ \] { } | '
   ///
   /// If you do not specify a value for this parameter, then the operation uses
   /// the default value of <code>false</code>. The result is that passwords do
@@ -11749,6 +11749,8 @@ class Iam {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html">CreateAccessKey</a>
 /// request.
+///
+/// @nodoc
 class CreateAccessKeyResponse {
   /// A structure with details about the access key.
   final AccessKey accessKey;
@@ -11770,6 +11772,7 @@ class CreateAccessKeyResponse {
   }
 }
 
+/// @nodoc
 class CreateDelegationRequestResponse {
   /// A deep link URL to the Amazon Web Services Management Console for managing
   /// the delegation request.
@@ -11809,6 +11812,8 @@ class CreateDelegationRequestResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html">CreateGroup</a>
 /// request.
+///
+/// @nodoc
 class CreateGroupResponse {
   /// A structure containing details about the new group.
   final Group group;
@@ -11833,6 +11838,8 @@ class CreateGroupResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html">CreateInstanceProfile</a>
 /// request.
+///
+/// @nodoc
 class CreateInstanceProfileResponse {
   /// A structure containing details about the new instance profile.
   final InstanceProfile instanceProfile;
@@ -11858,6 +11865,8 @@ class CreateInstanceProfileResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html">CreateLoginProfile</a>
 /// request.
+///
+/// @nodoc
 class CreateLoginProfileResponse {
   /// A structure containing the user name and password create date.
   final LoginProfile loginProfile;
@@ -11883,6 +11892,8 @@ class CreateLoginProfileResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>
 /// request.
+///
+/// @nodoc
 class CreateOpenIDConnectProviderResponse {
   /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that
   /// is created. For more information, see <a
@@ -11923,6 +11934,8 @@ class CreateOpenIDConnectProviderResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html">CreatePolicy</a>
 /// request.
+///
+/// @nodoc
 class CreatePolicyResponse {
   /// A structure containing details about the new policy.
   final Policy? policy;
@@ -11947,6 +11960,8 @@ class CreatePolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html">CreatePolicyVersion</a>
 /// request.
+///
+/// @nodoc
 class CreatePolicyVersionResponse {
   /// A structure containing details about the new policy version.
   final PolicyVersion? policyVersion;
@@ -11972,6 +11987,8 @@ class CreatePolicyVersionResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
 /// request.
+///
+/// @nodoc
 class CreateRoleResponse {
   /// A structure containing details about the new role.
   final Role role;
@@ -11996,6 +12013,8 @@ class CreateRoleResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html">CreateSAMLProvider</a>
 /// request.
+///
+/// @nodoc
 class CreateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
   final String? sAMLProviderArn;
@@ -12029,6 +12048,7 @@ class CreateSAMLProviderResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceLinkedRoleResponse {
   /// A <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_Role.html">Role</a>
@@ -12052,6 +12072,7 @@ class CreateServiceLinkedRoleResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceSpecificCredentialResponse {
   /// A structure that contains information about the newly created
   /// service-specific credential.
@@ -12086,6 +12107,8 @@ class CreateServiceSpecificCredentialResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html">CreateUser</a>
 /// request.
+///
+/// @nodoc
 class CreateUserResponse {
   /// A structure with details about the new IAM user.
   final User? user;
@@ -12110,6 +12133,8 @@ class CreateUserResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateVirtualMFADevice.html">CreateVirtualMFADevice</a>
 /// request.
+///
+/// @nodoc
 class CreateVirtualMFADeviceResponse {
   /// A structure containing details about the new virtual MFA device.
   final VirtualMFADevice virtualMFADevice;
@@ -12132,6 +12157,7 @@ class CreateVirtualMFADeviceResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceLinkedRoleResponse {
   /// The deletion task identifier that you can use to check the status of the
   /// deletion. This identifier is returned in the format
@@ -12155,6 +12181,7 @@ class DeleteServiceLinkedRoleResponse {
   }
 }
 
+/// @nodoc
 class DisableOrganizationsRootCredentialsManagementResponse {
   /// The features enabled for centralized root access for member accounts in your
   /// organization.
@@ -12190,6 +12217,7 @@ class DisableOrganizationsRootCredentialsManagementResponse {
   }
 }
 
+/// @nodoc
 class DisableOrganizationsRootSessionsResponse {
   /// The features you have enabled for centralized root access of member accounts
   /// in your organization.
@@ -12224,6 +12252,7 @@ class DisableOrganizationsRootSessionsResponse {
   }
 }
 
+/// @nodoc
 class EnableOrganizationsRootCredentialsManagementResponse {
   /// The features you have enabled for centralized root access.
   final List<FeatureType>? enabledFeatures;
@@ -12258,6 +12287,7 @@ class EnableOrganizationsRootCredentialsManagementResponse {
   }
 }
 
+/// @nodoc
 class EnableOrganizationsRootSessionsResponse {
   /// The features you have enabled for centralized root access.
   final List<FeatureType>? enabledFeatures;
@@ -12291,6 +12321,7 @@ class EnableOrganizationsRootSessionsResponse {
   }
 }
 
+/// @nodoc
 class EnableOutboundWebIdentityFederationResponse {
   /// A unique issuer URL for your Amazon Web Services account that hosts the
   /// OpenID Connect (OIDC) discovery endpoints at
@@ -12320,6 +12351,8 @@ class EnableOutboundWebIdentityFederationResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html">GenerateCredentialReport</a>
 /// request.
+///
+/// @nodoc
 class GenerateCredentialReportResponse {
   /// Information about the credential report.
   final String? description;
@@ -12350,6 +12383,7 @@ class GenerateCredentialReportResponse {
   }
 }
 
+/// @nodoc
 class GenerateOrganizationsAccessReportResponse {
   /// The job identifier that you can use in the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>
@@ -12374,6 +12408,7 @@ class GenerateOrganizationsAccessReportResponse {
   }
 }
 
+/// @nodoc
 class GenerateServiceLastAccessedDetailsResponse {
   /// The <code>JobId</code> that you can use in the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
@@ -12410,6 +12445,8 @@ class GenerateServiceLastAccessedDetailsResponse {
 /// structure returned by the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
 /// action.
+///
+/// @nodoc
 class GetAccessKeyLastUsedResponse {
   /// Contains information about the last time the access key was used.
   final AccessKeyLastUsed? accessKeyLastUsed;
@@ -12445,6 +12482,8 @@ class GetAccessKeyLastUsedResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// request.
+///
+/// @nodoc
 class GetAccountAuthorizationDetailsResponse {
   /// A list containing information about IAM groups.
   final List<GroupDetail>? groupDetailList;
@@ -12519,6 +12558,8 @@ class GetAccountAuthorizationDetailsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html">GetAccountPasswordPolicy</a>
 /// request.
+///
+/// @nodoc
 class GetAccountPasswordPolicyResponse {
   /// A structure that contains details about the account's password policy.
   final PasswordPolicy passwordPolicy;
@@ -12544,6 +12585,8 @@ class GetAccountPasswordPolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html">GetAccountSummary</a>
 /// request.
+///
+/// @nodoc
 class GetAccountSummaryResponse {
   /// A set of key–value pairs containing information about IAM entity usage and
   /// IAM quotas.
@@ -12582,6 +12625,8 @@ class GetAccountSummaryResponse {
 /// or <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
 /// request.
+///
+/// @nodoc
 class GetContextKeysForPolicyResponse {
   /// The list of context keys that are referenced in the input policies.
   final List<String>? contextKeyNames;
@@ -12608,6 +12653,8 @@ class GetContextKeysForPolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetCredentialReport.html">GetCredentialReport</a>
 /// request.
+///
+/// @nodoc
 class GetCredentialReportResponse {
   /// Contains the credential report. The report is Base64-encoded.
   final Uint8List? content;
@@ -12646,6 +12693,7 @@ class GetCredentialReportResponse {
   }
 }
 
+/// @nodoc
 class GetDelegationRequestResponse {
   /// The delegation request object containing all details about the request.
   final DelegationRequest? delegationRequest;
@@ -12728,6 +12776,8 @@ class GetDelegationRequestResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html">GetGroup</a>
 /// request.
+///
+/// @nodoc
 class GetGroupResponse {
   /// A structure that contains details about the group.
   final Group group;
@@ -12785,6 +12835,8 @@ class GetGroupResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html">GetGroupPolicy</a>
 /// request.
+///
+/// @nodoc
 class GetGroupPolicyResponse {
   /// The group the policy is associated with.
   final String groupName;
@@ -12824,6 +12876,7 @@ class GetGroupPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetHumanReadableSummaryResponse {
   /// The locale that this response was generated for. This maps to the input
   /// locale.
@@ -12867,6 +12920,8 @@ class GetHumanReadableSummaryResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html">GetInstanceProfile</a>
 /// request.
+///
+/// @nodoc
 class GetInstanceProfileResponse {
   /// A structure containing details about the instance profile.
   final InstanceProfile instanceProfile;
@@ -12892,6 +12947,8 @@ class GetInstanceProfileResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html">GetLoginProfile</a>
 /// request.
+///
+/// @nodoc
 class GetLoginProfileResponse {
   /// A structure containing the user name and the profile creation date for the
   /// user.
@@ -12915,6 +12972,7 @@ class GetLoginProfileResponse {
   }
 }
 
+/// @nodoc
 class GetMFADeviceResponse {
   /// Serial number that uniquely identifies the MFA device. For this API, we only
   /// accept FIDO security key <a
@@ -12973,6 +13031,8 @@ class GetMFADeviceResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html">GetOpenIDConnectProvider</a>
 /// request.
+///
+/// @nodoc
 class GetOpenIDConnectProviderResponse {
   /// A list of client IDs (also known as audiences) that are associated with the
   /// specified IAM OIDC provider resource object. For more information, see <a
@@ -13038,6 +13098,7 @@ class GetOpenIDConnectProviderResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationsAccessReportResponse {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the report job was created.
@@ -13138,6 +13199,7 @@ class GetOrganizationsAccessReportResponse {
   }
 }
 
+/// @nodoc
 class GetOutboundWebIdentityFederationInfoResponse {
   /// A unique issuer URL for your Amazon Web Services account that hosts the
   /// OpenID Connect (OIDC) discovery endpoints at
@@ -13177,6 +13239,8 @@ class GetOutboundWebIdentityFederationInfoResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
 /// request.
+///
+/// @nodoc
 class GetPolicyResponse {
   /// A structure containing details about the policy.
   final Policy? policy;
@@ -13201,6 +13265,8 @@ class GetPolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>
 /// request.
+///
+/// @nodoc
 class GetPolicyVersionResponse {
   /// A structure containing details about the policy version.
   final PolicyVersion? policyVersion;
@@ -13226,6 +13292,8 @@ class GetPolicyVersionResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html">GetRole</a>
 /// request.
+///
+/// @nodoc
 class GetRoleResponse {
   /// A structure containing details about the IAM role.
   final Role role;
@@ -13250,6 +13318,8 @@ class GetRoleResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html">GetRolePolicy</a>
 /// request.
+///
+/// @nodoc
 class GetRolePolicyResponse {
   /// The policy document.
   ///
@@ -13292,6 +13362,8 @@ class GetRolePolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html">GetSAMLProvider</a>
 /// request.
+///
+/// @nodoc
 class GetSAMLProviderResponse {
   /// Specifies the encryption setting for the SAML provider.
   final AssertionEncryptionModeType? assertionEncryptionMode;
@@ -13370,6 +13442,8 @@ class GetSAMLProviderResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html">GetServerCertificate</a>
 /// request.
+///
+/// @nodoc
 class GetServerCertificateResponse {
   /// A structure containing details about the server certificate.
   final ServerCertificate serverCertificate;
@@ -13392,6 +13466,7 @@ class GetServerCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetServiceLastAccessedDetailsResponse {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the generated report job was completed or failed.
@@ -13486,6 +13561,7 @@ class GetServiceLastAccessedDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetServiceLastAccessedDetailsWithEntitiesResponse {
   /// An <code>EntityDetailsList</code> object that contains details about when an
   /// IAM entity (user or role) used group or policy permissions in an attempt to
@@ -13571,6 +13647,7 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
   }
 }
 
+/// @nodoc
 class GetServiceLinkedRoleDeletionStatusResponse {
   /// The status of the deletion.
   final DeletionTaskStatusType status;
@@ -13607,6 +13684,8 @@ class GetServiceLinkedRoleDeletionStatusResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html">GetSSHPublicKey</a>
 /// request.
+///
+/// @nodoc
 class GetSSHPublicKeyResponse {
   /// A structure containing details about the SSH public key.
   final SSHPublicKey? sSHPublicKey;
@@ -13632,6 +13711,8 @@ class GetSSHPublicKeyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html">GetUser</a>
 /// request.
+///
+/// @nodoc
 class GetUserResponse {
   /// A structure containing details about the IAM user.
   /// <important>
@@ -13677,6 +13758,8 @@ class GetUserResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html">GetUserPolicy</a>
 /// request.
+///
+/// @nodoc
 class GetUserPolicyResponse {
   /// The policy document.
   ///
@@ -13719,6 +13802,8 @@ class GetUserPolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
 /// request.
+///
+/// @nodoc
 class ListAccessKeysResponse {
   /// A list of objects containing metadata about the access keys.
   final List<AccessKeyMetadata> accessKeyMetadata;
@@ -13769,6 +13854,8 @@ class ListAccessKeysResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccountAliases.html">ListAccountAliases</a>
 /// request.
+///
+/// @nodoc
 class ListAccountAliasesResponse {
   /// A list of aliases associated with the account. Amazon Web Services supports
   /// only one alias per account.
@@ -13817,6 +13904,8 @@ class ListAccountAliasesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html">ListAttachedGroupPolicies</a>
 /// request.
+///
+/// @nodoc
 class ListAttachedGroupPoliciesResponse {
   /// A list of the attached policies.
   final List<AttachedPolicy>? attachedPolicies;
@@ -13865,6 +13954,8 @@ class ListAttachedGroupPoliciesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html">ListAttachedRolePolicies</a>
 /// request.
+///
+/// @nodoc
 class ListAttachedRolePoliciesResponse {
   /// A list of the attached policies.
   final List<AttachedPolicy>? attachedPolicies;
@@ -13913,6 +14004,8 @@ class ListAttachedRolePoliciesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html">ListAttachedUserPolicies</a>
 /// request.
+///
+/// @nodoc
 class ListAttachedUserPoliciesResponse {
   /// A list of the attached policies.
   final List<AttachedPolicy>? attachedPolicies;
@@ -13958,6 +14051,7 @@ class ListAttachedUserPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListDelegationRequestsResponse {
   /// A list of delegation requests that match the specified criteria.
   final List<DelegationRequest>? delegationRequests;
@@ -14004,6 +14098,8 @@ class ListDelegationRequestsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>
 /// request.
+///
+/// @nodoc
 class ListEntitiesForPolicyResponse {
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14067,6 +14163,8 @@ class ListEntitiesForPolicyResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html">ListGroupPolicies</a>
 /// request.
+///
+/// @nodoc
 class ListGroupPoliciesResponse {
   /// A list of policy names.
   ///
@@ -14119,6 +14217,8 @@ class ListGroupPoliciesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html">ListGroups</a>
 /// request.
+///
+/// @nodoc
 class ListGroupsResponse {
   /// A list of groups.
   final List<Group> groups;
@@ -14169,6 +14269,8 @@ class ListGroupsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupsForUser.html">ListGroupsForUser</a>
 /// request.
+///
+/// @nodoc
 class ListGroupsForUserResponse {
   /// A list of groups.
   final List<Group> groups;
@@ -14219,6 +14321,8 @@ class ListGroupsForUserResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html">ListInstanceProfiles</a>
 /// request.
+///
+/// @nodoc
 class ListInstanceProfilesResponse {
   /// A list of instance profiles.
   final List<InstanceProfile> instanceProfiles;
@@ -14269,6 +14373,8 @@ class ListInstanceProfilesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html">ListInstanceProfilesForRole</a>
 /// request.
+///
+/// @nodoc
 class ListInstanceProfilesForRoleResponse {
   /// A list of instance profiles.
   final List<InstanceProfile> instanceProfiles;
@@ -14316,6 +14422,7 @@ class ListInstanceProfilesForRoleResponse {
   }
 }
 
+/// @nodoc
 class ListInstanceProfileTagsResponse {
   /// The list of tags that are currently attached to the IAM instance profile.
   /// Each tag consists of a key name and an associated value. If no tags are
@@ -14368,6 +14475,8 @@ class ListInstanceProfileTagsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html">ListMFADevices</a>
 /// request.
+///
+/// @nodoc
 class ListMFADevicesResponse {
   /// A list of MFA devices.
   final List<MFADevice> mFADevices;
@@ -14415,6 +14524,7 @@ class ListMFADevicesResponse {
   }
 }
 
+/// @nodoc
 class ListMFADeviceTagsResponse {
   /// The list of tags that are currently attached to the virtual MFA device. Each
   /// tag consists of a key name and an associated value. If no tags are attached
@@ -14467,6 +14577,8 @@ class ListMFADeviceTagsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
 /// request.
+///
+/// @nodoc
 class ListOpenIDConnectProvidersResponse {
   /// The list of IAM OIDC provider resource objects defined in the Amazon Web
   /// Services account.
@@ -14495,6 +14607,7 @@ class ListOpenIDConnectProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListOpenIDConnectProviderTagsResponse {
   /// The list of tags that are currently attached to the OpenID Connect (OIDC)
   /// identity provider. Each tag consists of a key name and an associated value.
@@ -14545,6 +14658,7 @@ class ListOpenIDConnectProviderTagsResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationsFeaturesResponse {
   /// Specifies the features that are currently available in your organization.
   final List<FeatureType>? enabledFeatures;
@@ -14581,6 +14695,8 @@ class ListOrganizationsFeaturesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html">ListPolicies</a>
 /// request.
+///
+/// @nodoc
 class ListPoliciesResponse {
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14625,6 +14741,7 @@ class ListPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesGrantingServiceAccessResponse {
   /// A <code>ListPoliciesGrantingServiceAccess</code> object that contains
   /// details about the permissions policies attached to the specified identity
@@ -14674,6 +14791,7 @@ class ListPoliciesGrantingServiceAccessResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyTagsResponse {
   /// The list of tags that are currently attached to the IAM customer managed
   /// policy. Each tag consists of a key name and an associated value. If no tags
@@ -14726,6 +14844,8 @@ class ListPolicyTagsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>
 /// request.
+///
+/// @nodoc
 class ListPolicyVersionsResponse {
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14777,6 +14897,8 @@ class ListPolicyVersionsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html">ListRolePolicies</a>
 /// request.
+///
+/// @nodoc
 class ListRolePoliciesResponse {
   /// A list of policy names.
   final List<String> policyNames;
@@ -14824,6 +14946,8 @@ class ListRolePoliciesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRoles.html">ListRoles</a>
 /// request.
+///
+/// @nodoc
 class ListRolesResponse {
   /// A list of roles.
   final List<Role> roles;
@@ -14871,6 +14995,7 @@ class ListRolesResponse {
   }
 }
 
+/// @nodoc
 class ListRoleTagsResponse {
   /// The list of tags that are currently attached to the role. Each tag consists
   /// of a key name and an associated value. If no tags are attached to the
@@ -14923,6 +15048,8 @@ class ListRoleTagsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSAMLProviders.html">ListSAMLProviders</a>
 /// request.
+///
+/// @nodoc
 class ListSAMLProvidersResponse {
   /// The list of SAML provider resource objects defined in IAM for this Amazon
   /// Web Services account.
@@ -14949,6 +15076,7 @@ class ListSAMLProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListSAMLProviderTagsResponse {
   /// The list of tags that are currently attached to the Security Assertion
   /// Markup Language (SAML) identity provider. Each tag consists of a key name
@@ -15002,6 +15130,8 @@ class ListSAMLProviderTagsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html">ListServerCertificates</a>
 /// request.
+///
+/// @nodoc
 class ListServerCertificatesResponse {
   /// A list of server certificates.
   final List<ServerCertificateMetadata> serverCertificateMetadataList;
@@ -15049,6 +15179,7 @@ class ListServerCertificatesResponse {
   }
 }
 
+/// @nodoc
 class ListServerCertificateTagsResponse {
   /// The list of tags that are currently attached to the IAM server certificate.
   /// Each tag consists of a key name and an associated value. If no tags are
@@ -15098,6 +15229,7 @@ class ListServerCertificateTagsResponse {
   }
 }
 
+/// @nodoc
 class ListServiceSpecificCredentialsResponse {
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -15146,6 +15278,8 @@ class ListServiceSpecificCredentialsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html">ListSigningCertificates</a>
 /// request.
+///
+/// @nodoc
 class ListSigningCertificatesResponse {
   /// A list of the user's signing certificate information.
   final List<SigningCertificate> certificates;
@@ -15196,6 +15330,8 @@ class ListSigningCertificatesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html">ListSSHPublicKeys</a>
 /// request.
+///
+/// @nodoc
 class ListSSHPublicKeysResponse {
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -15246,6 +15382,8 @@ class ListSSHPublicKeysResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html">ListUserPolicies</a>
 /// request.
+///
+/// @nodoc
 class ListUserPoliciesResponse {
   /// A list of policy names.
   final List<String> policyNames;
@@ -15293,6 +15431,8 @@ class ListUserPoliciesResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html">ListUsers</a>
 /// request.
+///
+/// @nodoc
 class ListUsersResponse {
   /// A list of users.
   final List<User> users;
@@ -15340,6 +15480,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class ListUserTagsResponse {
   /// The list of tags that are currently attached to the user. Each tag consists
   /// of a key name and an associated value. If no tags are attached to the
@@ -15392,6 +15533,8 @@ class ListUserTagsResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListVirtualMFADevices.html">ListVirtualMFADevices</a>
 /// request.
+///
+/// @nodoc
 class ListVirtualMFADevicesResponse {
   /// The list of virtual MFA devices in the current account that match the
   /// <code>AssignmentStatus</code> value that was passed in the request.
@@ -15440,6 +15583,7 @@ class ListVirtualMFADevicesResponse {
   }
 }
 
+/// @nodoc
 class ResetServiceSpecificCredentialResponse {
   /// A structure with details about the updated service-specific credential,
   /// including the new password.
@@ -15474,6 +15618,8 @@ class ResetServiceSpecificCredentialResponse {
 /// or <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
 /// request.
+///
+/// @nodoc
 class SimulatePolicyResponse {
   /// The results of the simulation.
   final List<EvaluationResult>? evaluationResults;
@@ -15521,6 +15667,7 @@ class SimulatePolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoleResponse {
   UpdateRoleResponse();
   factory UpdateRoleResponse.fromXml(
@@ -15534,6 +15681,7 @@ class UpdateRoleResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoleDescriptionResponse {
   /// A structure that contains details about the modified role.
   final Role? role;
@@ -15558,6 +15706,8 @@ class UpdateRoleDescriptionResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html">UpdateSAMLProvider</a>
 /// request.
+///
+/// @nodoc
 class UpdateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
   final String? sAMLProviderArn;
@@ -15582,6 +15732,8 @@ class UpdateSAMLProviderResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html">UploadServerCertificate</a>
 /// request.
+///
+/// @nodoc
 class UploadServerCertificateResponse {
   /// The meta information of the uploaded server certificate without its
   /// certificate body, certificate chain, and private key.
@@ -15622,6 +15774,8 @@ class UploadServerCertificateResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html">UploadSigningCertificate</a>
 /// request.
+///
+/// @nodoc
 class UploadSigningCertificateResponse {
   /// Information about the certificate.
   final SigningCertificate certificate;
@@ -15647,6 +15801,8 @@ class UploadSigningCertificateResponse {
 /// Contains the response to a successful <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html">UploadSSHPublicKey</a>
 /// request.
+///
+/// @nodoc
 class UploadSSHPublicKeyResponse {
   /// Contains information about the SSH public key.
   final SSHPublicKey? sSHPublicKey;
@@ -15676,6 +15832,8 @@ class UploadSSHPublicKeyResponse {
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html">UploadSSHPublicKey</a>
 /// operations.
+///
+/// @nodoc
 class SSHPublicKey {
   /// The MD5 message digest of the SSH public key.
   final String fingerprint;
@@ -15736,6 +15894,7 @@ class SSHPublicKey {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const active = StatusType._('Active');
   static const inactive = StatusType._('Inactive');
@@ -15767,6 +15926,8 @@ class StatusType {
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html">ListSigningCertificates</a>
 /// operations.
+///
+/// @nodoc
 class SigningCertificate {
   /// The contents of the signing certificate.
   final String certificateBody;
@@ -15826,6 +15987,8 @@ class SigningCertificate {
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html">ListServerCertificates</a>
 /// operations.
+///
+/// @nodoc
 class ServerCertificateMetadata {
   /// The Amazon Resource Name (ARN) specifying the server certificate. For more
   /// information about ARNs and how to use them in policies, see <a
@@ -15896,6 +16059,8 @@ class ServerCertificateMetadata {
 /// with an IAM resource. For more information about tagging, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
 /// IAM resources</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key name that can be used to look up or retrieve the associated value.
   /// For example, <code>Department</code> or <code>Cost Center</code> are common
@@ -15941,6 +16106,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class AssertionEncryptionModeType {
   static const required = AssertionEncryptionModeType._('Required');
   static const allowed = AssertionEncryptionModeType._('Allowed');
@@ -15968,6 +16134,8 @@ class AssertionEncryptionModeType {
 
 /// Contains information about an IAM role. This structure is returned as a
 /// response element in several API operations that interact with roles.
+///
+/// @nodoc
 class Role {
   /// The Amazon Resource Name (ARN) specifying the role. For more information
   /// about ARNs and how to use them in policies, see <a
@@ -16100,6 +16268,8 @@ class Role {
 /// For more information about permissions boundaries, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
 /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class AttachedPermissionsBoundary {
   /// The ARN of the policy used to set the permissions boundary for the user or
   /// role.
@@ -16150,6 +16320,8 @@ class AttachedPermissionsBoundary {
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// operations.
+///
+/// @nodoc
 class RoleLastUsed {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a> that the role was last used.
@@ -16184,6 +16356,7 @@ class RoleLastUsed {
   }
 }
 
+/// @nodoc
 class PermissionsBoundaryAttachmentType {
   static const permissionsBoundaryPolicy =
       PermissionsBoundaryAttachmentType._('PermissionsBoundaryPolicy');
@@ -16218,6 +16391,8 @@ class PermissionsBoundaryAttachmentType {
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>.
+///
+/// @nodoc
 class ContextEntry {
   /// The full name of a condition context key, including the service prefix. For
   /// example, <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
@@ -16266,6 +16441,7 @@ class ContextEntry {
   }
 }
 
+/// @nodoc
 class ContextKeyTypeEnum {
   static const string = ContextKeyTypeEnum._('string');
   static const stringList = ContextKeyTypeEnum._('stringList');
@@ -16321,6 +16497,8 @@ class ContextKeyTypeEnum {
 /// </code> and <code> <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>
 /// </code>.
+///
+/// @nodoc
 class EvaluationResult {
   /// The name of the API operation tested on the indicated resource.
   final String evalActionName;
@@ -16466,6 +16644,7 @@ class EvaluationResult {
   }
 }
 
+/// @nodoc
 class PolicyEvaluationDecisionType {
   static const allowed = PolicyEvaluationDecisionType._('allowed');
   static const explicitDeny = PolicyEvaluationDecisionType._('explicitDeny');
@@ -16494,6 +16673,8 @@ class PolicyEvaluationDecisionType {
 
 /// Contains information about the effect that Organizations has on a policy
 /// simulation.
+///
+/// @nodoc
 class OrganizationsDecisionDetail {
   /// Specifies whether the simulated operation is allowed by the Organizations
   /// service control policies that impact the simulated user's account.
@@ -16520,6 +16701,8 @@ class OrganizationsDecisionDetail {
 
 /// Contains information about the effect that a permissions boundary has on a
 /// policy simulation when the boundary is applied to an IAM entity.
+///
+/// @nodoc
 class PermissionsBoundaryDecisionDetail {
   /// Specifies whether an action is allowed by a permissions boundary that is
   /// applied to an IAM entity (user or role). A value of <code>true</code> means
@@ -16557,6 +16740,8 @@ class PermissionsBoundaryDecisionDetail {
 /// This data type is used by a member of the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EvaluationResult.html">EvaluationResult</a>
 /// data type.
+///
+/// @nodoc
 class ResourceSpecificResult {
   /// The result of the simulation of the simulated API operation on the resource
   /// specified in <code>EvalResourceName</code>.
@@ -16662,6 +16847,8 @@ class ResourceSpecificResult {
 /// <code> <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EvaluationResult.html">EvaluationResult</a>
 /// </code> type.
+///
+/// @nodoc
 class Statement {
   /// The row and column of the end of a <code>Statement</code> in an IAM policy.
   final Position? endPosition;
@@ -16709,6 +16896,7 @@ class Statement {
   }
 }
 
+/// @nodoc
 class PolicySourceType {
   static const user = PolicySourceType._('user');
   static const group = PolicySourceType._('group');
@@ -16752,6 +16940,8 @@ class PolicySourceType {
 /// This data type is used as a member of the <code> <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_Statement.html">Statement</a>
 /// </code> type.
+///
+/// @nodoc
 class Position {
   /// The column in the line containing the specified position in the document.
   final int? column;
@@ -16780,6 +16970,7 @@ class Position {
   }
 }
 
+/// @nodoc
 class GlobalEndpointTokenVersion {
   static const v1Token = GlobalEndpointTokenVersion._('v1Token');
   static const v2Token = GlobalEndpointTokenVersion._('v2Token');
@@ -16806,6 +16997,8 @@ class GlobalEndpointTokenVersion {
 }
 
 /// Contains the details of a service-specific credential.
+///
+/// @nodoc
 class ServiceSpecificCredential {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the service-specific credential were created.
@@ -16910,6 +17103,8 @@ class ServiceSpecificCredential {
 }
 
 /// Contains information about a virtual MFA device.
+///
+/// @nodoc
 class VirtualMFADevice {
   /// The serial number associated with <code>VirtualMFADevice</code>.
   final String serialNumber;
@@ -16996,6 +17191,8 @@ class VirtualMFADevice {
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html">ListUsers</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class User {
   /// The Amazon Resource Name (ARN) that identifies the user. For more
   /// information about ARNs and how to use ARNs in policies, see <a
@@ -17114,6 +17311,7 @@ class User {
   }
 }
 
+/// @nodoc
 class AssignmentStatusType {
   static const assigned = AssignmentStatusType._('Assigned');
   static const unassigned = AssignmentStatusType._('Unassigned');
@@ -17146,6 +17344,8 @@ class AssignmentStatusType {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html">ListSSHPublicKeys</a>
 /// operation.
+///
+/// @nodoc
 class SSHPublicKeyMetadata {
   /// The unique identifier for the SSH public key.
   final String sSHPublicKeyId;
@@ -17193,6 +17393,8 @@ class SSHPublicKeyMetadata {
 }
 
 /// Contains additional details about a service-specific credential.
+///
+/// @nodoc
 class ServiceSpecificCredentialMetadata {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the service-specific credential were created.
@@ -17276,6 +17478,8 @@ class ServiceSpecificCredentialMetadata {
 }
 
 /// Contains the list of SAML providers for this account.
+///
+/// @nodoc
 class SAMLProviderListEntry {
   /// The Amazon Resource Name (ARN) of the SAML provider.
   final String? arn;
@@ -17326,6 +17530,8 @@ class SAMLProviderListEntry {
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class PolicyVersion {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy version was created.
@@ -17396,6 +17602,8 @@ class PolicyVersion {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccess.html">ListPoliciesGrantingServiceAccess</a>
 /// operation.
+///
+/// @nodoc
 class ListPoliciesGrantingServiceAccessEntry {
   /// The <code>PoliciesGrantingServiceAccess</code> object that contains details
   /// about the policy.
@@ -17445,6 +17653,8 @@ class ListPoliciesGrantingServiceAccessEntry {
 /// This data type is an element of the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccessEntry.html">ListPoliciesGrantingServiceAccessEntry</a>
 /// object.
+///
+/// @nodoc
 class PolicyGrantingServiceAccess {
   /// The policy name.
   final String policyName;
@@ -17510,6 +17720,7 @@ class PolicyGrantingServiceAccess {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const inline = PolicyType._('INLINE');
   static const managed = PolicyType._('MANAGED');
@@ -17533,6 +17744,7 @@ class PolicyType {
   String toString() => value;
 }
 
+/// @nodoc
 class PolicyOwnerEntityType {
   static const user = PolicyOwnerEntityType._('USER');
   static const role = PolicyOwnerEntityType._('ROLE');
@@ -17572,6 +17784,8 @@ class PolicyOwnerEntityType {
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class Policy {
   final String? arn;
 
@@ -17703,6 +17917,7 @@ class Policy {
   }
 }
 
+/// @nodoc
 class PolicyScopeType {
   static const all = PolicyScopeType._('All');
   static const aws = PolicyScopeType._('AWS');
@@ -17734,6 +17949,8 @@ class PolicyScopeType {
 /// For more information about permissions boundaries, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
 /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class PolicyUsageType {
   static const permissionsPolicy = PolicyUsageType._('PermissionsPolicy');
   static const permissionsBoundary = PolicyUsageType._('PermissionsBoundary');
@@ -17758,6 +17975,7 @@ class PolicyUsageType {
   String toString() => value;
 }
 
+/// @nodoc
 class FeatureType {
   static const rootCredentialsManagement =
       FeatureType._('RootCredentialsManagement');
@@ -17783,6 +18001,8 @@ class FeatureType {
 }
 
 /// Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
+///
+/// @nodoc
 class OpenIDConnectProviderListEntry {
   final String? arn;
 
@@ -17808,6 +18028,8 @@ class OpenIDConnectProviderListEntry {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html">ListMFADevices</a>
 /// operation.
+///
+/// @nodoc
 class MFADevice {
   /// The date when the MFA device was enabled for the user.
   final DateTime enableDate;
@@ -17866,6 +18088,8 @@ class MFADevice {
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html">ListInstanceProfilesForRole</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class InstanceProfile {
   /// The Amazon Resource Name (ARN) specifying the instance profile. For more
   /// information about ARNs and how to use them in policies, see <a
@@ -17964,6 +18188,8 @@ class InstanceProfile {
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html">ListGroups</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Group {
   /// The Amazon Resource Name (ARN) specifying the group. For more information
   /// about ARNs and how to use them in policies, see <a
@@ -18031,6 +18257,8 @@ class Group {
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class PolicyRole {
   /// The stable and unique string identifying the role. For more information
   /// about IDs, see <a
@@ -18071,6 +18299,8 @@ class PolicyRole {
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class PolicyUser {
   /// The stable and unique string identifying the user. For more information
   /// about IDs, see <a
@@ -18111,6 +18341,8 @@ class PolicyUser {
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class PolicyGroup {
   /// The stable and unique string identifying the group. For more information
   /// about IDs, see <a
@@ -18142,6 +18374,7 @@ class PolicyGroup {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const user = EntityType._('User');
   static const role = EntityType._('Role');
@@ -18176,6 +18409,8 @@ class EntityType {
 
 /// Contains information about a delegation request, including its status,
 /// permissions, and associated metadata.
+///
+/// @nodoc
 class DelegationRequest {
   final String? approverId;
 
@@ -18369,6 +18604,8 @@ class DelegationRequest {
 
 /// Contains information about the permissions being delegated in a delegation
 /// request.
+///
+/// @nodoc
 class DelegationPermission {
   /// A list of policy parameters that define the scope and constraints of the
   /// delegated permissions.
@@ -18416,6 +18653,7 @@ class DelegationPermission {
   }
 }
 
+/// @nodoc
 class StateType {
   static const unassigned = StateType._('UNASSIGNED');
   static const assigned = StateType._('ASSIGNED');
@@ -18454,6 +18692,8 @@ class StateType {
 
 /// Contains information about a policy parameter used to customize delegated
 /// permissions.
+///
+/// @nodoc
 class PolicyParameter {
   /// The name of the policy parameter.
   final String? name;
@@ -18509,6 +18749,7 @@ class PolicyParameter {
   }
 }
 
+/// @nodoc
 class PolicyParameterTypeEnum {
   static const string = PolicyParameterTypeEnum._('string');
   static const stringList = PolicyParameterTypeEnum._('stringList');
@@ -18550,6 +18791,8 @@ class PolicyParameterTypeEnum {
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class AttachedPolicy {
   final String? policyArn;
 
@@ -18583,6 +18826,8 @@ class AttachedPolicy {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
 /// operation.
+///
+/// @nodoc
 class AccessKeyMetadata {
   /// The ID for this access key.
   final String? accessKeyId;
@@ -18627,6 +18872,7 @@ class AccessKeyMetadata {
   }
 }
 
+/// @nodoc
 class EncodingType {
   static const ssh = EncodingType._('SSH');
   static const pem = EncodingType._('PEM');
@@ -18650,6 +18896,7 @@ class EncodingType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeletionTaskStatusType {
   static const succeeded = DeletionTaskStatusType._('SUCCEEDED');
   static const inProgress = DeletionTaskStatusType._('IN_PROGRESS');
@@ -18682,6 +18929,8 @@ class DeletionTaskStatusType {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html">GetServiceLinkedRoleDeletionStatus</a>
 /// operation.
+///
+/// @nodoc
 class DeletionTaskFailureReasonType {
   /// A short description of the reason that the service-linked role deletion
   /// failed.
@@ -18723,6 +18972,8 @@ class DeletionTaskFailureReasonType {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html">GetServiceLinkedRoleDeletionStatus</a>
 /// operation.
+///
+/// @nodoc
 class RoleUsageType {
   /// The name of the Region where the service-linked role is being used.
   final String? region;
@@ -18753,6 +19004,7 @@ class RoleUsageType {
   }
 }
 
+/// @nodoc
 class JobStatusType {
   static const inProgress = JobStatusType._('IN_PROGRESS');
   static const completed = JobStatusType._('COMPLETED');
@@ -18787,6 +19039,8 @@ class JobStatusType {
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html">GetServiceLastAccessedDetailsWithEntities</a>
 /// operations.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error code associated with the operation failure.
   final String code;
@@ -18822,6 +19076,8 @@ class ErrorDetails {
 /// This data type is a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html">GetServiceLastAccessedDetailsWithEntities</a>
 /// operation.
+///
+/// @nodoc
 class EntityDetails {
   /// The <code>EntityInfo</code> object that contains details about the entity
   /// (user or role).
@@ -18865,6 +19121,8 @@ class EntityDetails {
 /// This data type is an element of the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EntityDetails.html">EntityDetails</a>
 /// object.
+///
+/// @nodoc
 class EntityInfo {
   final String arn;
 
@@ -18918,6 +19176,7 @@ class EntityInfo {
   }
 }
 
+/// @nodoc
 class AccessAdvisorUsageGranularityType {
   static const serviceLevel =
       AccessAdvisorUsageGranularityType._('SERVICE_LEVEL');
@@ -18950,6 +19209,8 @@ class AccessAdvisorUsageGranularityType {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
 /// operation.
+///
+/// @nodoc
 class ServiceLastAccessed {
   /// The name of the service in which access was attempted.
   final String serviceName;
@@ -19080,6 +19341,8 @@ class ServiceLastAccessed {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
 /// operation.
+///
+/// @nodoc
 class TrackedActionLastAccessed {
   /// The name of the tracked action to which access was attempted. Tracked
   /// actions are actions that report activity to IAM.
@@ -19142,6 +19405,8 @@ class TrackedActionLastAccessed {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html">GetServerCertificate</a>
 /// operation.
+///
+/// @nodoc
 class ServerCertificate {
   /// The contents of the public key certificate.
   final String certificateBody;
@@ -19195,6 +19460,8 @@ class ServerCertificate {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html">GetSAMLProvider</a>
 /// operation.
+///
+/// @nodoc
 class SAMLPrivateKey {
   /// The unique identifier for the SAML private key.
   final String? keyId;
@@ -19232,6 +19499,8 @@ class SAMLPrivateKey {
 /// This data type is a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>
 /// operation.
+///
+/// @nodoc
 class AccessDetail {
   /// The name of the service in which access was attempted.
   final String serviceName;
@@ -19325,6 +19594,7 @@ class AccessDetail {
   }
 }
 
+/// @nodoc
 class SortKeyType {
   static const serviceNamespaceAscending =
       SortKeyType._('SERVICE_NAMESPACE_ASCENDING');
@@ -19366,6 +19636,8 @@ class SortKeyType {
 /// and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html">GetLoginProfile</a>
 /// operations.
+///
+/// @nodoc
 class LoginProfile {
   /// The date when the password for the user was created.
   final DateTime createDate;
@@ -19405,6 +19677,7 @@ class LoginProfile {
   }
 }
 
+/// @nodoc
 class SummaryStateType {
   static const available = SummaryStateType._('AVAILABLE');
   static const notAvailable = SummaryStateType._('NOT_AVAILABLE');
@@ -19431,6 +19704,7 @@ class SummaryStateType {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionCheckStatusType {
   static const complete = PermissionCheckStatusType._('COMPLETE');
   static const inProgress = PermissionCheckStatusType._('IN_PROGRESS');
@@ -19457,6 +19731,7 @@ class PermissionCheckStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionCheckResultType {
   static const allowed = PermissionCheckResultType._('ALLOWED');
   static const denied = PermissionCheckResultType._('DENIED');
@@ -19483,6 +19758,7 @@ class PermissionCheckResultType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportFormatType {
   static const textCsv = ReportFormatType._('text/csv');
 
@@ -19506,6 +19782,7 @@ class ReportFormatType {
   String toString() => value;
 }
 
+/// @nodoc
 class SummaryKeyType {
   static const users = SummaryKeyType._('Users');
   static const usersQuota = SummaryKeyType._('UsersQuota');
@@ -19616,6 +19893,8 @@ class SummaryKeyType {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html">GetAccountPasswordPolicy</a>
 /// operation.
+///
+/// @nodoc
 class PasswordPolicy {
   /// Specifies whether IAM users are allowed to change their own password. Gives
   /// IAM users permissions to <code>iam:ChangePassword</code> for only their user
@@ -19658,7 +19937,7 @@ class PasswordPolicy {
   /// Specifies whether IAM user passwords must contain at least one of the
   /// following symbols:
   ///
-  /// ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
+  /// ! @ # $ % ^ & * ( ) _ + - = \[ \] { } | '
   final bool? requireSymbols;
 
   /// Specifies whether IAM user passwords must contain at least one uppercase
@@ -19739,6 +20018,8 @@ class PasswordPolicy {
 /// For more information about managed policies, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
 /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class ManagedPolicyDetail {
   final String? arn;
 
@@ -19872,6 +20153,8 @@ class ManagedPolicyDetail {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// operation.
+///
+/// @nodoc
 class RoleDetail {
   final String? arn;
 
@@ -20013,6 +20296,8 @@ class RoleDetail {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// operation.
+///
+/// @nodoc
 class PolicyDetail {
   /// The policy document.
   final String? policyDocument;
@@ -20047,6 +20332,8 @@ class PolicyDetail {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// operation.
+///
+/// @nodoc
 class GroupDetail {
   final String? arn;
 
@@ -20127,6 +20414,8 @@ class GroupDetail {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// operation.
+///
+/// @nodoc
 class UserDetail {
   final String? arn;
 
@@ -20240,6 +20529,8 @@ class UserDetail {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html">GetAccessKeyLastUsed</a>
 /// operation.
+///
+/// @nodoc
 class AccessKeyLastUsed {
   /// The Amazon Web Services Region where this access key was most recently used.
   /// The value for this field is "N/A" in the following situations:
@@ -20322,6 +20613,7 @@ class AccessKeyLastUsed {
   }
 }
 
+/// @nodoc
 class ReportStateType {
   static const started = ReportStateType._('STARTED');
   static const inprogress = ReportStateType._('INPROGRESS');
@@ -20361,6 +20653,8 @@ class ReportStateType {
 /// you cannot recover the secret access key later. If you lose a secret access
 /// key, you must create a new access key.
 /// </note>
+///
+/// @nodoc
 class AccessKey {
   /// The ID for this access key.
   final String accessKeyId;
@@ -20412,6 +20706,7 @@ class AccessKey {
   }
 }
 
+/// @nodoc
 class AccountNotManagementOrDelegatedAdministratorException
     extends _s.GenericAwsException {
   AccountNotManagementOrDelegatedAdministratorException(
@@ -20422,6 +20717,7 @@ class AccountNotManagementOrDelegatedAdministratorException
             message: message);
 }
 
+/// @nodoc
 class CallerIsNotManagementAccountException extends _s.GenericAwsException {
   CallerIsNotManagementAccountException({String? type, String? message})
       : super(
@@ -20430,6 +20726,7 @@ class CallerIsNotManagementAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -20438,6 +20735,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CredentialReportExpiredException extends _s.GenericAwsException {
   CredentialReportExpiredException({String? type, String? message})
       : super(
@@ -20446,6 +20744,7 @@ class CredentialReportExpiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CredentialReportNotPresentException extends _s.GenericAwsException {
   CredentialReportNotPresentException({String? type, String? message})
       : super(
@@ -20454,6 +20753,7 @@ class CredentialReportNotPresentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CredentialReportNotReadyException extends _s.GenericAwsException {
   CredentialReportNotReadyException({String? type, String? message})
       : super(
@@ -20462,11 +20762,13 @@ class CredentialReportNotReadyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteConflictException extends _s.GenericAwsException {
   DeleteConflictException({String? type, String? message})
       : super(type: type, code: 'DeleteConflictException', message: message);
 }
 
+/// @nodoc
 class DuplicateCertificateException extends _s.GenericAwsException {
   DuplicateCertificateException({String? type, String? message})
       : super(
@@ -20475,6 +20777,7 @@ class DuplicateCertificateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateSSHPublicKeyException extends _s.GenericAwsException {
   DuplicateSSHPublicKeyException({String? type, String? message})
       : super(
@@ -20483,12 +20786,14 @@ class DuplicateSSHPublicKeyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EntityAlreadyExistsException extends _s.GenericAwsException {
   EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
   EntityTemporarilyUnmodifiableException({String? type, String? message})
       : super(
@@ -20497,16 +20802,19 @@ class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FeatureDisabledException extends _s.GenericAwsException {
   FeatureDisabledException({String? type, String? message})
       : super(type: type, code: 'FeatureDisabledException', message: message);
 }
 
+/// @nodoc
 class FeatureEnabledException extends _s.GenericAwsException {
   FeatureEnabledException({String? type, String? message})
       : super(type: type, code: 'FeatureEnabledException', message: message);
 }
 
+/// @nodoc
 class InvalidAuthenticationCodeException extends _s.GenericAwsException {
   InvalidAuthenticationCodeException({String? type, String? message})
       : super(
@@ -20515,37 +20823,44 @@ class InvalidAuthenticationCodeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCertificateException extends _s.GenericAwsException {
   InvalidCertificateException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCertificateException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidPublicKeyException extends _s.GenericAwsException {
   InvalidPublicKeyException({String? type, String? message})
       : super(type: type, code: 'InvalidPublicKeyException', message: message);
 }
 
+/// @nodoc
 class InvalidUserTypeException extends _s.GenericAwsException {
   InvalidUserTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidUserTypeException', message: message);
 }
 
+/// @nodoc
 class KeyPairMismatchException extends _s.GenericAwsException {
   KeyPairMismatchException({String? type, String? message})
       : super(type: type, code: 'KeyPairMismatchException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MalformedCertificateException extends _s.GenericAwsException {
   MalformedCertificateException({String? type, String? message})
       : super(
@@ -20554,6 +20869,7 @@ class MalformedCertificateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -20562,11 +20878,13 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchEntityException extends _s.GenericAwsException {
   NoSuchEntityException({String? type, String? message})
       : super(type: type, code: 'NoSuchEntityException', message: message);
 }
 
+/// @nodoc
 class OpenIdIdpCommunicationErrorException extends _s.GenericAwsException {
   OpenIdIdpCommunicationErrorException({String? type, String? message})
       : super(
@@ -20575,6 +20893,7 @@ class OpenIdIdpCommunicationErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationNotFoundException extends _s.GenericAwsException {
   OrganizationNotFoundException({String? type, String? message})
       : super(
@@ -20583,6 +20902,7 @@ class OrganizationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
   OrganizationNotInAllFeaturesModeException({String? type, String? message})
       : super(
@@ -20591,6 +20911,7 @@ class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PasswordPolicyViolationException extends _s.GenericAwsException {
   PasswordPolicyViolationException({String? type, String? message})
       : super(
@@ -20599,17 +20920,20 @@ class PasswordPolicyViolationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyEvaluationException extends _s.GenericAwsException {
   PolicyEvaluationException({String? type, String? message})
       : super(type: type, code: 'PolicyEvaluationException', message: message);
 }
 
+/// @nodoc
 class PolicyNotAttachableException extends _s.GenericAwsException {
   PolicyNotAttachableException({String? type, String? message})
       : super(
             type: type, code: 'PolicyNotAttachableException', message: message);
 }
 
+/// @nodoc
 class ReportGenerationLimitExceededException extends _s.GenericAwsException {
   ReportGenerationLimitExceededException({String? type, String? message})
       : super(
@@ -20618,6 +20942,7 @@ class ReportGenerationLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceAccessNotEnabledException extends _s.GenericAwsException {
   ServiceAccessNotEnabledException({String? type, String? message})
       : super(
@@ -20626,23 +20951,27 @@ class ServiceAccessNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceNotSupportedException extends _s.GenericAwsException {
   ServiceNotSupportedException({String? type, String? message})
       : super(
             type: type, code: 'ServiceNotSupportedException', message: message);
 }
 
+/// @nodoc
 class UnmodifiableEntityException extends _s.GenericAwsException {
   UnmodifiableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnmodifiableEntityException', message: message);
 }
 
+/// @nodoc
 class UnrecognizedPublicKeyEncodingException extends _s.GenericAwsException {
   UnrecognizedPublicKeyEncodingException({String? type, String? message})
       : super(

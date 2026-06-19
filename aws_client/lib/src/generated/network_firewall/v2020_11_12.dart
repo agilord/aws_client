@@ -1060,15 +1060,15 @@ class NetworkFirewall {
   /// </li>
   /// <li>
   /// All other match settings have a value equal to the number of elements
-  /// provided in the setting. For example, a protocol setting ["UDP"] and a
-  /// source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting
-  /// ["UDP","TCP"] has a value of 2. A source setting
-  /// ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.
+  /// provided in the setting. For example, a protocol setting \["UDP"\] and a
+  /// source setting \["10.0.0.0/24"\] each have a value of 1. A protocol
+  /// setting \["UDP","TCP"\] has a value of 2. A source setting
+  /// \["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"\] has a value of 3.
   /// </li>
   /// </ul>
   /// A rule with no criteria specified in any of its match settings has a
-  /// capacity requirement of 1. A rule with protocol setting ["UDP","TCP"],
-  /// source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"], and a single
+  /// capacity requirement of 1. A rule with protocol setting \["UDP","TCP"\],
+  /// source setting \["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"\], and a single
   /// specification or no specification for each of the other match settings has
   /// a capacity requirement of 6.
   ///
@@ -5318,6 +5318,7 @@ class NetworkFirewall {
   }
 }
 
+/// @nodoc
 class AcceptNetworkFirewallTransitGatewayAttachmentResponse {
   /// The unique identifier of the transit gateway attachment that was accepted.
   final String transitGatewayAttachmentId;
@@ -5382,6 +5383,7 @@ class AcceptNetworkFirewallTransitGatewayAttachmentResponse {
   }
 }
 
+/// @nodoc
 class AssociateAvailabilityZonesResponse {
   /// The Availability Zones where Network Firewall created firewall endpoints.
   /// Each mapping specifies an Availability Zone where the firewall processes
@@ -5447,6 +5449,7 @@ class AssociateAvailabilityZonesResponse {
   }
 }
 
+/// @nodoc
 class AssociateFirewallPolicyResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -5504,6 +5507,7 @@ class AssociateFirewallPolicyResponse {
   }
 }
 
+/// @nodoc
 class AssociateSubnetsResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -5564,6 +5568,7 @@ class AssociateSubnetsResponse {
   }
 }
 
+/// @nodoc
 class AttachRuleGroupsToProxyConfigurationResponse {
   /// The updated proxy configuration resource that reflects the updates from the
   /// request.
@@ -5608,6 +5613,7 @@ class AttachRuleGroupsToProxyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateFirewallResponse {
   /// The configuration settings for the firewall. These settings include the
   /// firewall policy and the subnets in your VPC to use for the firewall
@@ -5651,6 +5657,7 @@ class CreateFirewallResponse {
   }
 }
 
+/// @nodoc
 class CreateFirewallPolicyResponse {
   /// The high-level properties of a firewall policy. This, along with the
   /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
@@ -5693,6 +5700,7 @@ class CreateFirewallPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateProxyResponse {
   /// Proxy attached to a NAT gateway.
   final Proxy? proxy;
@@ -5733,6 +5741,7 @@ class CreateProxyResponse {
   }
 }
 
+/// @nodoc
 class CreateProxyConfigurationResponse {
   /// The properties that define the proxy configuration.
   final ProxyConfiguration? proxyConfiguration;
@@ -5775,6 +5784,7 @@ class CreateProxyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateProxyRuleGroupResponse {
   /// The properties that define the proxy rule group.
   final ProxyRuleGroup? proxyRuleGroup;
@@ -5817,6 +5827,7 @@ class CreateProxyRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateProxyRulesResponse {
   /// The properties that define the proxy rule group with the newly created proxy
   /// rule(s).
@@ -5859,6 +5870,7 @@ class CreateProxyRulesResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
@@ -5901,6 +5913,7 @@ class CreateRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateTLSInspectionConfigurationResponse {
   /// The high-level properties of a TLS inspection configuration. This, along
   /// with the <a>TLSInspectionConfiguration</a>, define the TLS inspection
@@ -5950,6 +5963,7 @@ class CreateTLSInspectionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcEndpointAssociationResponse {
   /// The configuration settings for the VPC endpoint association. These settings
   /// include the firewall and the VPC and subnet to use for the firewall
@@ -5993,6 +6007,7 @@ class CreateVpcEndpointAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteFirewallResponse {
   final Firewall? firewall;
   final FirewallStatus? firewallStatus;
@@ -6024,6 +6039,7 @@ class DeleteFirewallResponse {
   }
 }
 
+/// @nodoc
 class DeleteFirewallPolicyResponse {
   /// The object containing the definition of the <a>FirewallPolicyResponse</a>
   /// that you asked to delete.
@@ -6049,6 +6065,7 @@ class DeleteFirewallPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteNetworkFirewallTransitGatewayAttachmentResponse {
   /// The ID of the transit gateway attachment that was deleted.
   final String transitGatewayAttachmentId;
@@ -6115,6 +6132,7 @@ class DeleteNetworkFirewallTransitGatewayAttachmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteProxyResponse {
   /// The NAT Gateway the Proxy was attached to.
   final String? natGatewayId;
@@ -6152,6 +6170,7 @@ class DeleteProxyResponse {
   }
 }
 
+/// @nodoc
 class DeleteProxyConfigurationResponse {
   /// The Amazon Resource Name (ARN) of a proxy configuration.
   final String? proxyConfigurationArn;
@@ -6184,6 +6203,7 @@ class DeleteProxyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteProxyRuleGroupResponse {
   /// The Amazon Resource Name (ARN) of a proxy rule group.
   final String? proxyRuleGroupArn;
@@ -6214,6 +6234,7 @@ class DeleteProxyRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteProxyRulesResponse {
   /// The properties that define the proxy rule group with the newly created proxy
   /// rule(s).
@@ -6240,6 +6261,7 @@ class DeleteProxyRulesResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -6252,6 +6274,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
@@ -6278,6 +6301,7 @@ class DeleteRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteTLSInspectionConfigurationResponse {
   /// The high-level properties of a TLS inspection configuration. This, along
   /// with the <a>TLSInspectionConfiguration</a>, define the TLS inspection
@@ -6309,6 +6333,7 @@ class DeleteTLSInspectionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcEndpointAssociationResponse {
   /// The configuration settings for the VPC endpoint association. These settings
   /// include the firewall and the VPC and subnet to use for the firewall
@@ -6352,6 +6377,7 @@ class DeleteVpcEndpointAssociationResponse {
   }
 }
 
+/// @nodoc
 class DescribeFirewallResponse {
   /// The configuration settings for the firewall. These settings include the
   /// firewall policy and the subnets in your VPC to use for the firewall
@@ -6415,6 +6441,7 @@ class DescribeFirewallResponse {
   }
 }
 
+/// @nodoc
 class DescribeFirewallMetadataResponse {
   /// A description of the firewall.
   final String? description;
@@ -6484,6 +6511,7 @@ class DescribeFirewallMetadataResponse {
   }
 }
 
+/// @nodoc
 class DescribeFirewallPolicyResponse {
   /// The high-level properties of a firewall policy. This, along with the
   /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
@@ -6536,6 +6564,7 @@ class DescribeFirewallPolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowOperationResponse {
   /// The ID of the Availability Zone where the firewall is located. For example,
   /// <code>us-east-2a</code>.
@@ -6644,6 +6673,7 @@ class DescribeFlowOperationResponse {
   }
 }
 
+/// @nodoc
 class DescribeLoggingConfigurationResponse {
   /// A boolean that reflects whether or not the firewall monitoring dashboard is
   /// enabled on a firewall.
@@ -6689,6 +6719,7 @@ class DescribeLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeProxyResponse {
   /// Proxy attached to a NAT gateway.
   final DescribeProxyResource? proxy;
@@ -6730,6 +6761,7 @@ class DescribeProxyResponse {
   }
 }
 
+/// @nodoc
 class DescribeProxyConfigurationResponse {
   /// The configuration for the specified proxy configuration.
   final ProxyConfiguration? proxyConfiguration;
@@ -6773,6 +6805,7 @@ class DescribeProxyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeProxyRuleResponse {
   /// The configuration for the specified proxy rule.
   final ProxyRule? proxyRule;
@@ -6813,6 +6846,7 @@ class DescribeProxyRuleResponse {
   }
 }
 
+/// @nodoc
 class DescribeProxyRuleGroupResponse {
   /// The configuration for the specified proxy rule group.
   final ProxyRuleGroup? proxyRuleGroup;
@@ -6855,6 +6889,7 @@ class DescribeProxyRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePolicyResponse {
   /// The IAM policy for the resource.
   final String? policy;
@@ -6877,6 +6912,7 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
@@ -6940,6 +6976,7 @@ class DescribeRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeRuleGroupMetadataResponse {
   /// The descriptive name of the rule group. You can't change the name of a rule
   /// group after you create it.
@@ -7050,6 +7087,7 @@ class DescribeRuleGroupMetadataResponse {
   }
 }
 
+/// @nodoc
 class DescribeRuleGroupSummaryResponse {
   /// The descriptive name of the rule group. You can't change the name of a rule
   /// group after you create it.
@@ -7105,6 +7143,7 @@ class DescribeRuleGroupSummaryResponse {
   }
 }
 
+/// @nodoc
 class DescribeTLSInspectionConfigurationResponse {
   /// The high-level properties of a TLS inspection configuration. This, along
   /// with the <a>TLSInspectionConfiguration</a>, define the TLS inspection
@@ -7183,6 +7222,7 @@ class DescribeTLSInspectionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeVpcEndpointAssociationResponse {
   /// The configuration settings for the VPC endpoint association. These settings
   /// include the firewall and the VPC and subnet to use for the firewall
@@ -7226,6 +7266,7 @@ class DescribeVpcEndpointAssociationResponse {
   }
 }
 
+/// @nodoc
 class DetachRuleGroupsFromProxyConfigurationResponse {
   /// The updated proxy configuration resource that reflects the updates from the
   /// request.
@@ -7270,6 +7311,7 @@ class DetachRuleGroupsFromProxyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAvailabilityZonesResponse {
   /// The remaining Availability Zones where the firewall has endpoints after the
   /// disassociation.
@@ -7334,6 +7376,7 @@ class DisassociateAvailabilityZonesResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSubnetsResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -7394,6 +7437,7 @@ class DisassociateSubnetsResponse {
   }
 }
 
+/// @nodoc
 class GetAnalysisReportResultsResponse {
   /// Retrieves the results of a traffic analysis report.
   final List<AnalysisTypeReportResult>? analysisReportResults;
@@ -7473,6 +7517,7 @@ class GetAnalysisReportResultsResponse {
   }
 }
 
+/// @nodoc
 class ListAnalysisReportsResponse {
   /// The <code>id</code> and <code>ReportTime</code> associated with a requested
   /// analysis report. Does not provide the status of the analysis report.
@@ -7510,6 +7555,7 @@ class ListAnalysisReportsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallPoliciesResponse {
   /// The metadata for the firewall policies. Depending on your setting for max
   /// results and the number of firewall policies that you have, this might not be
@@ -7549,6 +7595,7 @@ class ListFirewallPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallsResponse {
   /// The firewall metadata objects for the VPCs that you specified. Depending on
   /// your setting for max results and the number of firewalls you have, a single
@@ -7587,6 +7634,7 @@ class ListFirewallsResponse {
   }
 }
 
+/// @nodoc
 class ListFlowOperationResultsResponse {
   /// The ID of the Availability Zone where the firewall is located. For example,
   /// <code>us-east-2a</code>.
@@ -7698,6 +7746,7 @@ class ListFlowOperationResultsResponse {
   }
 }
 
+/// @nodoc
 class ListFlowOperationsResponse {
   /// Flow operations let you manage the flows tracked in the flow table, also
   /// known as the firewall table.
@@ -7740,6 +7789,7 @@ class ListFlowOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListProxiesResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -7777,6 +7827,7 @@ class ListProxiesResponse {
   }
 }
 
+/// @nodoc
 class ListProxyConfigurationsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -7817,6 +7868,7 @@ class ListProxyConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListProxyRuleGroupsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -7856,6 +7908,7 @@ class ListProxyRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListRuleGroupsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -7894,6 +7947,7 @@ class ListRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -7930,6 +7984,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTLSInspectionConfigurationsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -7972,6 +8027,7 @@ class ListTLSInspectionConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListVpcEndpointAssociationsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -8016,6 +8072,7 @@ class ListVpcEndpointAssociationsResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
 
@@ -8028,6 +8085,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class RejectNetworkFirewallTransitGatewayAttachmentResponse {
   /// The unique identifier of the transit gateway attachment that was rejected.
   final String transitGatewayAttachmentId;
@@ -8096,6 +8154,7 @@ class RejectNetworkFirewallTransitGatewayAttachmentResponse {
   }
 }
 
+/// @nodoc
 class StartAnalysisReportResponse {
   /// The unique ID of the query that ran when you requested an analysis report.
   final String analysisReportId;
@@ -8118,6 +8177,7 @@ class StartAnalysisReportResponse {
   }
 }
 
+/// @nodoc
 class StartFlowCaptureResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -8162,6 +8222,7 @@ class StartFlowCaptureResponse {
   }
 }
 
+/// @nodoc
 class StartFlowFlushResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -8206,6 +8267,7 @@ class StartFlowFlushResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -8218,6 +8280,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8230,6 +8293,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAvailabilityZoneChangeProtectionResponse {
   /// A setting indicating whether the firewall is protected against changes to
   /// the subnet associations. Use this setting to protect against accidentally
@@ -8295,6 +8359,7 @@ class UpdateAvailabilityZoneChangeProtectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallAnalysisSettingsResponse {
   /// An optional setting indicating the specific traffic analysis types to enable
   /// on the firewall.
@@ -8363,6 +8428,7 @@ class UpdateFirewallAnalysisSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallDeleteProtectionResponse {
   /// A flag indicating whether it is possible to delete the firewall. A setting
   /// of <code>TRUE</code> indicates that the firewall is protected against
@@ -8425,6 +8491,7 @@ class UpdateFirewallDeleteProtectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallDescriptionResponse {
   /// A description of the firewall.
   final String? description;
@@ -8483,6 +8550,7 @@ class UpdateFirewallDescriptionResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallEncryptionConfigurationResponse {
   final EncryptionConfiguration? encryptionConfiguration;
 
@@ -8544,6 +8612,7 @@ class UpdateFirewallEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallPolicyResponse {
   /// The high-level properties of a firewall policy. This, along with the
   /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
@@ -8586,6 +8655,7 @@ class UpdateFirewallPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallPolicyChangeProtectionResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -8650,6 +8720,7 @@ class UpdateFirewallPolicyChangeProtectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateLoggingConfigurationResponse {
   /// A boolean that reflects whether or not the firewall monitoring dashboard is
   /// enabled on a firewall.
@@ -8703,6 +8774,7 @@ class UpdateLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateProxyResponse {
   /// The updated proxy resource that reflects the updates from the request.
   final Proxy? proxy;
@@ -8743,6 +8815,7 @@ class UpdateProxyResponse {
   }
 }
 
+/// @nodoc
 class UpdateProxyConfigurationResponse {
   /// The updated proxy configuration resource that reflects the updates from the
   /// request.
@@ -8786,6 +8859,7 @@ class UpdateProxyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateProxyRuleResponse {
   /// The updated proxy rule resource that reflects the updates from the request.
   final ProxyRule? proxyRule;
@@ -8836,6 +8910,7 @@ class UpdateProxyRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateProxyRuleGroupPrioritiesResponse {
   /// The updated proxy rule group hierarchy that reflects the updates from the
   /// request.
@@ -8881,6 +8956,7 @@ class UpdateProxyRuleGroupPrioritiesResponse {
   }
 }
 
+/// @nodoc
 class UpdateProxyRulePrioritiesResponse {
   /// The Amazon Resource Name (ARN) of a proxy rule group.
   final String? proxyRuleGroupArn;
@@ -8949,6 +9025,7 @@ class UpdateProxyRulePrioritiesResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
@@ -8991,6 +9068,7 @@ class UpdateRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubnetChangeProtectionResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -9054,6 +9132,7 @@ class UpdateSubnetChangeProtectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateTLSInspectionConfigurationResponse {
   /// The high-level properties of a TLS inspection configuration. This, along
   /// with the <a>TLSInspectionConfiguration</a>, define the TLS inspection
@@ -9107,6 +9186,8 @@ class UpdateTLSInspectionConfigurationResponse {
 /// with the <code>TLSInspectionConfiguration</code>, define the TLS inspection
 /// configuration. You can retrieve all objects for a TLS inspection
 /// configuration by calling <code>DescribeTLSInspectionConfiguration</code>.
+///
+/// @nodoc
 class TLSInspectionConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
   final String tLSInspectionConfigurationArn;
@@ -9230,6 +9311,7 @@ class TLSInspectionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const active = ResourceStatus._('ACTIVE');
   static const deleting = ResourceStatus._('DELETING');
@@ -9264,6 +9346,8 @@ class ResourceStatus {
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-encryption-at-rest.html">Encryption
 /// at rest with Amazon Web Services Key Managment Service</a> in the <i>Network
 /// Firewall Developer Guide</i>.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The type of Amazon Web Services KMS key to use for encryption of your
   /// Network Firewall resources.
@@ -9301,6 +9385,8 @@ class EncryptionConfiguration {
 }
 
 /// Contains metadata about an Certificate Manager certificate.
+///
+/// @nodoc
 class TlsCertificateData {
   /// The Amazon Resource Name (ARN) of the certificate.
   final String? certificateArn;
@@ -9345,6 +9431,7 @@ class TlsCertificateData {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const customerKms = EncryptionType._('CUSTOMER_KMS');
   static const awsOwnedKmsKey = EncryptionType._('AWS_OWNED_KMS_KEY');
@@ -9374,6 +9461,8 @@ class EncryptionType {
 /// a category (such as "environment") and the tag value represents a specific
 /// value within that category (such as "test," "development," or "production").
 /// You can add up to 50 tags to each Amazon Web Services resource.
+///
+/// @nodoc
 class Tag {
   /// The part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -9426,6 +9515,8 @@ class Tag {
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html">Inspecting
 /// SSL/TLS traffic with TLS inspection configurations</a> in the <i>Network
 /// Firewall Developer Guide</i>.
+///
+/// @nodoc
 class TLSInspectionConfiguration {
   /// Lists the server certificate configurations that are associated with the TLS
   /// configuration.
@@ -9471,6 +9562,8 @@ class TLSInspectionConfiguration {
 /// <a>TLSInspectionConfiguration</a> is revoked, deleted, or expired it can
 /// result in client-side TLS errors.
 /// </note>
+///
+/// @nodoc
 class ServerCertificateConfiguration {
   /// The Amazon Resource Name (ARN) of the imported certificate authority (CA)
   /// certificate within Certificate Manager (ACM) to use for outbound SSL/TLS
@@ -9561,6 +9654,8 @@ class ServerCertificateConfiguration {
 
 /// Defines the actions to take on the SSL/TLS connection if the certificate
 /// presented by the server in the connection has a revoked or unknown status.
+///
+/// @nodoc
 class CheckCertificateRevocationStatusActions {
   /// Configures how Network Firewall processes traffic when it determines that
   /// the certificate presented by the server in the SSL/TLS connection has a
@@ -9633,6 +9728,7 @@ class CheckCertificateRevocationStatusActions {
   }
 }
 
+/// @nodoc
 class RevocationCheckAction {
   static const pass = RevocationCheckAction._('PASS');
   static const drop = RevocationCheckAction._('DROP');
@@ -9662,6 +9758,8 @@ class RevocationCheckAction {
 /// Settings that define the Secure Sockets Layer/Transport Layer Security
 /// (SSL/TLS) traffic that Network Firewall should decrypt for inspection by the
 /// stateful rule engine.
+///
+/// @nodoc
 class ServerCertificateScope {
   /// The destination ports to decrypt for inspection, in Transmission Control
   /// Protocol (TCP) format. If not specified, this matches with any destination
@@ -9744,6 +9842,8 @@ class ServerCertificateScope {
 /// A single port range specification. This is used for source and destination
 /// port ranges in the stateless rule <a>MatchAttributes</a>,
 /// <code>SourcePorts</code>, and <code>DestinationPorts</code> settings.
+///
+/// @nodoc
 class PortRange {
   /// The lower limit of the port range. This must be less than or equal to the
   /// <code>ToPort</code> specification.
@@ -9777,6 +9877,8 @@ class PortRange {
 
 /// A single IP address specification. This is used in the
 /// <a>MatchAttributes</a> source and destination specifications.
+///
+/// @nodoc
 class Address {
   /// Specify an IP address or a block of IP addresses in Classless Inter-Domain
   /// Routing (CIDR) notation. Network Firewall supports all address ranges for
@@ -9841,6 +9943,8 @@ class Address {
 /// a public certificate </a> or <a
 /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
 /// certificates</a> in the <i>Certificate Manager User Guide</i>.
+///
+/// @nodoc
 class ServerCertificate {
   /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server
   /// certificate that's used for inbound SSL/TLS inspection.
@@ -9867,6 +9971,8 @@ class ServerCertificate {
 /// The high-level properties of a rule group. This, along with the
 /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
 /// rule group by calling <a>DescribeRuleGroup</a>.
+///
+/// @nodoc
 class RuleGroupResponse {
   /// The Amazon Resource Name (ARN) of the rule group.
   /// <note>
@@ -10056,6 +10162,7 @@ class RuleGroupResponse {
   }
 }
 
+/// @nodoc
 class RuleGroupType {
   static const stateless = RuleGroupType._('STATELESS');
   static const stateful = RuleGroupType._('STATEFUL');
@@ -10086,6 +10193,8 @@ class RuleGroupType {
 /// to the originating rule group. You can retrieve all objects for a rule group
 /// by calling <a
 /// href="https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_DescribeRuleGroup.html">DescribeRuleGroup</a>.
+///
+/// @nodoc
 class SourceMetadata {
   /// The Amazon Resource Name (ARN) of the rule group that your own rule group is
   /// copied from.
@@ -10131,6 +10240,8 @@ class SourceMetadata {
 /// These settings affect how threat information appears in both the console and
 /// API responses. Summaries are available for rule groups you manage and for
 /// active threat defense Amazon Web Services managed rule groups.
+///
+/// @nodoc
 class SummaryConfiguration {
   /// Specifies the selected rule options returned by
   /// <a>DescribeRuleGroupSummary</a>.
@@ -10158,6 +10269,7 @@ class SummaryConfiguration {
   }
 }
 
+/// @nodoc
 class SummaryRuleOption {
   static const sid = SummaryRuleOption._('SID');
   static const msg = SummaryRuleOption._('MSG');
@@ -10195,6 +10307,8 @@ class SummaryRuleOption {
 /// The <code>AnalysisResult</code> data type is not related to traffic analysis
 /// reports you generate using <a>StartAnalysisReport</a>. For information on
 /// traffic analysis report results, see <a>AnalysisTypeReportResult</a>.
+///
+/// @nodoc
 class AnalysisResult {
   /// Provides analysis details for the identified rule.
   final String? analysisDetail;
@@ -10274,6 +10388,7 @@ class AnalysisResult {
   }
 }
 
+/// @nodoc
 class IdentifiedType {
   static const statelessRuleForwardingAsymmetrically =
       IdentifiedType._('STATELESS_RULE_FORWARDING_ASYMMETRICALLY');
@@ -10316,6 +10431,8 @@ class IdentifiedType {
 /// firewall policy, then you use the policy in a firewall. You can reference a
 /// rule group from more than one firewall policy, and you can use a firewall
 /// policy in more than one firewall.
+///
+/// @nodoc
 class RuleGroup {
   /// The stateful rules or stateless rules for the rule group.
   final RulesSource rulesSource;
@@ -10380,6 +10497,8 @@ class RuleGroup {
 /// Settings that are available for use in the rules in the <a>RuleGroup</a>
 /// where this is defined. See <a>CreateRuleGroup</a> or <a>UpdateRuleGroup</a>
 /// for usage.
+///
+/// @nodoc
 class RuleVariables {
   /// A list of IP addresses and address ranges, in CIDR notation.
   final Map<String, IPSet>? iPSets;
@@ -10412,6 +10531,8 @@ class RuleVariables {
 }
 
 /// Contains a set of IP set references.
+///
+/// @nodoc
 class ReferenceSets {
   /// The list of IP set references.
   final Map<String, IPSetReference>? iPSetReferences;
@@ -10439,6 +10560,8 @@ class ReferenceSets {
 /// The stateless or stateful rules definitions for use in a single rule group.
 /// Each rule group requires a single <code>RulesSource</code>. You can use an
 /// instance of this for either stateless rules or stateful rules.
+///
+/// @nodoc
 class RulesSource {
   /// Stateful inspection criteria for a domain list rule group.
   final RulesSourceList? rulesSourceList;
@@ -10512,6 +10635,8 @@ class RulesSource {
 
 /// Additional options governing how Network Firewall handles the rule group.
 /// You can only use these for stateful rule groups.
+///
+/// @nodoc
 class StatefulRuleOptions {
   /// Indicates how to manage the order of the rule evaluation for the rule group.
   /// <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful rules
@@ -10539,6 +10664,7 @@ class StatefulRuleOptions {
   }
 }
 
+/// @nodoc
 class RuleOrder {
   static const defaultActionOrder = RuleOrder._('DEFAULT_ACTION_ORDER');
   static const strictOrder = RuleOrder._('STRICT_ORDER');
@@ -10576,6 +10702,8 @@ class RuleOrder {
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/stateful-rule-groups-domain-names.html">Stateful
 /// domain list rule groups in Network Firewall</a> in the <i>Network Firewall
 /// Developer Guide</i>.
+///
+/// @nodoc
 class RulesSourceList {
   /// Whether you want to apply allow, reject, alert, or drop behavior to the
   /// domains in your target list.
@@ -10645,6 +10773,8 @@ class RulesSourceList {
 
 /// Stateless inspection criteria. Each stateless rule group uses exactly one of
 /// these data types to define its stateless rules.
+///
+/// @nodoc
 class StatelessRulesAndCustomActions {
   /// Defines the set of stateless rules for use in a stateless rule group.
   final List<StatelessRule> statelessRules;
@@ -10709,6 +10839,8 @@ class StatelessRulesAndCustomActions {
 /// packets that don't match any of the policy's stateless rules.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CustomAction {
   /// The custom action associated with the action name.
   final ActionDefinition actionDefinition;
@@ -10743,6 +10875,8 @@ class CustomAction {
 
 /// A custom action to use in stateless rule actions settings. This is used in
 /// <a>CustomAction</a>.
+///
+/// @nodoc
 class ActionDefinition {
   /// Stateless inspection criteria that publishes the specified metrics to Amazon
   /// CloudWatch for the matching packet. This setting defines a CloudWatch
@@ -10780,6 +10914,8 @@ class ActionDefinition {
 /// Stateless inspection criteria that publishes the specified metrics to Amazon
 /// CloudWatch for the matching packet. This setting defines a CloudWatch
 /// dimension value to be published.
+///
+/// @nodoc
 class PublishMetricAction {
   ///
   final List<Dimension> dimensions;
@@ -10818,6 +10954,8 @@ class PublishMetricAction {
 /// Custom Metrics</a> in the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">Amazon
 /// CloudWatch User Guide</a>.
+///
+/// @nodoc
 class Dimension {
   /// The value to use in the custom metric dimension.
   final String value;
@@ -10842,6 +10980,8 @@ class Dimension {
 
 /// A single stateless rule. This is used in
 /// <a>StatelessRulesAndCustomActions</a>.
+///
+/// @nodoc
 class StatelessRule {
   /// Indicates the order in which to run this rule relative to all of the rules
   /// that are defined for a stateless rule group. Network Firewall evaluates the
@@ -10892,6 +11032,8 @@ class StatelessRule {
 /// Firewall inspects each packet for the specified matching criteria. When a
 /// packet matches the criteria, Network Firewall performs the rule's actions on
 /// the packet.
+///
+/// @nodoc
 class RuleDefinition {
   /// The actions to take on a packet that matches one of the stateless rule
   /// definition's match attributes. You must specify a standard action and you
@@ -10929,7 +11071,7 @@ class RuleDefinition {
   /// a comma. For example, if you have a custom <code>PublishMetrics</code>
   /// action that you've named <code>MyMetricsAction</code>, then you could
   /// specify the standard action <code>aws:pass</code> and the custom action with
-  /// <code>[“aws:pass”, “MyMetricsAction”]</code>.
+  /// <code>\[“aws:pass”, “MyMetricsAction”\]</code>.
   final List<String> actions;
 
   /// Criteria for Network Firewall to use to inspect an individual packet in
@@ -10967,6 +11109,8 @@ class RuleDefinition {
 /// Criteria for Network Firewall to use to inspect an individual packet in
 /// stateless rule inspection. Each match attributes set can include one or more
 /// items such as IP address, CIDR range, port number, protocol, and TCP flags.
+///
+/// @nodoc
 class MatchAttributes {
   /// The destination port to inspect for. You can specify an individual port, for
   /// example <code>1994</code> and you can specify a port range, for example
@@ -11057,6 +11201,8 @@ class MatchAttributes {
 
 /// TCP flags and masks to inspect packets for, used in stateless rules
 /// <a>MatchAttributes</a> settings.
+///
+/// @nodoc
 class TCPFlagField {
   /// Used in conjunction with the <code>Masks</code> setting to define the flags
   /// that must be set and flags that must not be set in order for the packet to
@@ -11109,6 +11255,7 @@ class TCPFlagField {
   }
 }
 
+/// @nodoc
 class TCPFlag {
   static const fin = TCPFlag._('FIN');
   static const syn = TCPFlag._('SYN');
@@ -11144,6 +11291,8 @@ class TCPFlag {
 /// Suricata <code>Rules</code> format, see <a
 /// href="https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html">Rules
 /// Format</a>.
+///
+/// @nodoc
 class StatefulRule {
   /// Defines what Network Firewall should do with the packets in a traffic flow
   /// when the flow matches the stateful rule criteria. For all actions, Network
@@ -11218,6 +11367,7 @@ class StatefulRule {
   }
 }
 
+/// @nodoc
 class StatefulAction {
   static const pass = StatefulAction._('PASS');
   static const drop = StatefulAction._('DROP');
@@ -11247,6 +11397,8 @@ class StatefulAction {
 /// The basic rule criteria for Network Firewall to use to inspect packet
 /// headers in stateful traffic flow inspection. Traffic flows that match the
 /// criteria are a match for the corresponding <a>StatefulRule</a>.
+///
+/// @nodoc
 class Header {
   /// The destination IP address or address range to inspect for, in CIDR
   /// notation. To match with any address, specify <code>ANY</code>.
@@ -11381,6 +11533,8 @@ class Header {
 
 /// Additional settings for a stateful rule. This is part of the
 /// <a>StatefulRule</a> configuration.
+///
+/// @nodoc
 class RuleOption {
   /// The keyword for the Suricata compatible rule option. You must include a
   /// <code>sid</code> (signature ID), and can optionally include other keywords.
@@ -11422,6 +11576,7 @@ class RuleOption {
   }
 }
 
+/// @nodoc
 class StatefulRuleProtocol {
   static const ip = StatefulRuleProtocol._('IP');
   static const tcp = StatefulRuleProtocol._('TCP');
@@ -11488,6 +11643,7 @@ class StatefulRuleProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class StatefulRuleDirection {
   static const forward = StatefulRuleDirection._('FORWARD');
   static const any = StatefulRuleDirection._('ANY');
@@ -11513,6 +11669,7 @@ class StatefulRuleDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class GeneratedRulesType {
   static const allowlist = GeneratedRulesType._('ALLOWLIST');
   static const denylist = GeneratedRulesType._('DENYLIST');
@@ -11540,6 +11697,7 @@ class GeneratedRulesType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetType {
   static const tlsSni = TargetType._('TLS_SNI');
   static const httpHost = TargetType._('HTTP_HOST');
@@ -11580,6 +11738,8 @@ class TargetType {
 /// VPC prefix lists</a> and <a
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references.html#rule-groups-referencing-resource-groups">resource
 /// groups</a> in IP set references.
+///
+/// @nodoc
 class IPSetReference {
   /// The Amazon Resource Name (ARN) of the resource that you are referencing in
   /// your rule group.
@@ -11604,6 +11764,8 @@ class IPSetReference {
 }
 
 /// A set of port ranges for use in the rules in a rule group.
+///
+/// @nodoc
 class PortSet {
   /// The set of port ranges.
   final List<String>? definition;
@@ -11631,6 +11793,8 @@ class PortSet {
 
 /// A list of IP addresses and address ranges, in CIDR notation. This is part of
 /// a <a>RuleVariables</a>.
+///
+/// @nodoc
 class IPSet {
   /// The list of IP addresses and address ranges, in CIDR notation.
   final List<String> definition;
@@ -11656,6 +11820,7 @@ class IPSet {
   }
 }
 
+/// @nodoc
 class RuleGroupRequestPhase {
   static const preDns = RuleGroupRequestPhase._('PRE_DNS');
   static const preReq = RuleGroupRequestPhase._('PRE_REQ');
@@ -11683,6 +11848,8 @@ class RuleGroupRequestPhase {
 }
 
 /// Proxy rule name and new desired position.
+///
+/// @nodoc
 class ProxyRulePriority {
   /// Where to move a proxy rule in a proxy rule group.
   final int? newPosition;
@@ -11714,6 +11881,8 @@ class ProxyRulePriority {
 }
 
 /// Proxy rule group along with its priority.
+///
+/// @nodoc
 class ProxyRuleGroupPriorityResult {
   /// Priority of the proxy rule group in the proxy configuration.
   final int? priority;
@@ -11745,6 +11914,8 @@ class ProxyRuleGroupPriorityResult {
 }
 
 /// Proxy rule group name and new desired position.
+///
+/// @nodoc
 class ProxyRuleGroupPriority {
   /// Where to move a proxy rule group in a proxy configuration.
   final int? newPosition;
@@ -11771,6 +11942,8 @@ class ProxyRuleGroupPriority {
 /// Individual rules that define match conditions and actions for
 /// application-layer traffic. Rules specify what to inspect (domains, headers,
 /// methods) and what action to take (allow, deny, alert).
+///
+/// @nodoc
 class ProxyRule {
   /// Action to take.
   final ProxyRulePhaseAction? action;
@@ -11820,6 +11993,8 @@ class ProxyRule {
 }
 
 /// Match criteria that specify what traffic attributes to examine.
+///
+/// @nodoc
 class ProxyRuleCondition {
   /// Defines what is to be matched.
   final String? conditionKey;
@@ -11859,6 +12034,7 @@ class ProxyRuleCondition {
   }
 }
 
+/// @nodoc
 class ProxyRulePhaseAction {
   static const allow = ProxyRulePhaseAction._('ALLOW');
   static const deny = ProxyRulePhaseAction._('DENY');
@@ -11888,6 +12064,8 @@ class ProxyRulePhaseAction {
 /// A Proxy Configuration defines the monitoring and protection behavior for a
 /// Proxy. The details of the behavior are defined in the rule groups that you
 /// add to your configuration.
+///
+/// @nodoc
 class ProxyConfiguration {
   /// Time the Proxy Configuration was created.
   final DateTime? createTime;
@@ -11984,6 +12162,8 @@ class ProxyConfiguration {
 ///
 /// This data type is used specifically for the <a>CreateProxyConfiguration</a>
 /// and <a>UpdateProxyConfiguration</a> APIs.
+///
+/// @nodoc
 class ProxyConfigDefaultRulePhaseActionsRequest {
   /// After receiving response.
   final ProxyRulePhaseAction? postRESPONSE;
@@ -12024,6 +12204,8 @@ class ProxyConfigDefaultRulePhaseActionsRequest {
 }
 
 /// Proxy rule group contained within a proxy configuration.
+///
+/// @nodoc
 class ProxyConfigRuleGroup {
   /// Priority of the proxy rule group in the proxy configuration.
   final int? priority;
@@ -12069,6 +12251,8 @@ class ProxyConfigRuleGroup {
 }
 
 /// Proxy attached to a NAT gateway.
+///
+/// @nodoc
 class Proxy {
   /// Time the Proxy was created.
   final DateTime? createTime;
@@ -12204,6 +12388,7 @@ class Proxy {
   }
 }
 
+/// @nodoc
 class ProxyState {
   static const attaching = ProxyState._('ATTACHING');
   static const attached = ProxyState._('ATTACHED');
@@ -12238,6 +12423,7 @@ class ProxyState {
   String toString() => value;
 }
 
+/// @nodoc
 class ProxyModifyState {
   static const modifying = ProxyModifyState._('MODIFYING');
   static const completed = ProxyModifyState._('COMPLETED');
@@ -12264,6 +12450,8 @@ class ProxyModifyState {
 }
 
 /// TLS decryption on traffic to filter on attributes in the HTTP header.
+///
+/// @nodoc
 class TlsInterceptProperties {
   /// Private Certificate Authority (PCA) used to issue private TLS certificates
   /// so that the proxy can present PCA-signed certificates which applications
@@ -12297,6 +12485,7 @@ class TlsInterceptProperties {
   }
 }
 
+/// @nodoc
 class TlsInterceptMode {
   static const enabled = TlsInterceptMode._('ENABLED');
   static const disabled = TlsInterceptMode._('DISABLED');
@@ -12322,6 +12511,8 @@ class TlsInterceptMode {
 }
 
 /// Open port for taking HTTP or HTTPS traffic.
+///
+/// @nodoc
 class ListenerProperty {
   /// Port for processing traffic.
   final int? port;
@@ -12351,6 +12542,7 @@ class ListenerProperty {
   }
 }
 
+/// @nodoc
 class ListenerPropertyType {
   static const http = ListenerPropertyType._('HTTP');
   static const https = ListenerPropertyType._('HTTPS');
@@ -12380,6 +12572,8 @@ class ListenerPropertyType {
 /// <a>UpdateProxy</a> APIs.
 ///
 /// TLS decryption on traffic to filter on attributes in the HTTP header.
+///
+/// @nodoc
 class TlsInterceptPropertiesRequest {
   /// Private Certificate Authority (PCA) used to issue private TLS certificates
   /// so that the proxy can present PCA-signed certificates which applications
@@ -12409,6 +12603,8 @@ class TlsInterceptPropertiesRequest {
 /// <a>UpdateProxy</a> APIs.
 ///
 /// Open port for taking HTTP or HTTPS traffic.
+///
+/// @nodoc
 class ListenerPropertyRequest {
   /// Port for processing traffic.
   final int port;
@@ -12432,6 +12628,8 @@ class ListenerPropertyRequest {
 }
 
 /// Defines how Network Firewall performs logging for a <a>Firewall</a>.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// Defines the logging destinations for the logs for a firewall. Network
   /// Firewall generates logs for stateful rule groups.
@@ -12466,6 +12664,8 @@ class LoggingConfiguration {
 ///
 /// Network Firewall generates logs for stateful rule groups. You can save
 /// alert, flow, and TLS log types.
+///
+/// @nodoc
 class LogDestinationConfig {
   /// The named location for the logs, provided in a key:value mapping that is
   /// specific to the chosen destination type.
@@ -12558,6 +12758,7 @@ class LogDestinationConfig {
   }
 }
 
+/// @nodoc
 class LogType {
   static const alert = LogType._('ALERT');
   static const flow = LogType._('FLOW');
@@ -12582,6 +12783,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogDestinationType {
   static const s3 = LogDestinationType._('S3');
   static const cloudWatchLogs = LogDestinationType._('CloudWatchLogs');
@@ -12612,6 +12814,8 @@ class LogDestinationType {
 /// The high-level properties of a firewall policy. This, along with the
 /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
 /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
+///
+/// @nodoc
 class FirewallPolicyResponse {
   /// The Amazon Resource Name (ARN) of the firewall policy.
   /// <note>
@@ -12748,6 +12952,8 @@ class FirewallPolicyResponse {
 /// This, along with <a>FirewallPolicyResponse</a>, define the policy. You can
 /// retrieve all objects for a firewall policy by calling
 /// <a>DescribeFirewallPolicy</a>.
+///
+/// @nodoc
 class FirewallPolicy {
   /// The actions to take on a packet if it doesn't match any of the stateless
   /// rules in the policy. If you want non-matching packets to be forwarded for
@@ -12758,9 +12964,10 @@ class FirewallPolicy {
   /// can specify custom actions that are compatible with your standard section
   /// choice.
   ///
-  /// For example, you could specify <code>["aws:pass"]</code> or you could
-  /// specify <code>["aws:pass", “customActionName”]</code>. For information about
-  /// compatibility, see the custom action descriptions under <a>CustomAction</a>.
+  /// For example, you could specify <code>\["aws:pass"\]</code> or you could
+  /// specify <code>\["aws:pass", “customActionName”\]</code>. For information
+  /// about compatibility, see the custom action descriptions under
+  /// <a>CustomAction</a>.
   final List<String> statelessDefaultActions;
 
   /// The actions to take on a fragmented UDP packet if it doesn't match any of
@@ -12774,9 +12981,10 @@ class FirewallPolicy {
   /// can specify custom actions that are compatible with your standard section
   /// choice.
   ///
-  /// For example, you could specify <code>["aws:pass"]</code> or you could
-  /// specify <code>["aws:pass", “customActionName”]</code>. For information about
-  /// compatibility, see the custom action descriptions under <a>CustomAction</a>.
+  /// For example, you could specify <code>\["aws:pass"\]</code> or you could
+  /// specify <code>\["aws:pass", “customActionName”\]</code>. For information
+  /// about compatibility, see the custom action descriptions under
+  /// <a>CustomAction</a>.
   final List<String> statelessFragmentDefaultActions;
 
   /// When true, prevents TCP and TLS packets from reaching destination servers
@@ -12930,6 +13138,8 @@ class FirewallPolicy {
 
 /// Configuration settings for the handling of the stateful rule groups in a
 /// firewall policy.
+///
+/// @nodoc
 class StatefulEngineOptions {
   /// Configures the amount of time that can pass without any traffic sent through
   /// the firewall before the firewall determines that the connection is idle.
@@ -13013,6 +13223,8 @@ class StatefulEngineOptions {
 
 /// Contains variables that you can use to override default Suricata settings in
 /// your firewall policy.
+///
+/// @nodoc
 class PolicyVariables {
   /// The IPv4 or IPv6 addresses in CIDR notation to use for the Suricata
   /// <code>HOME_NET</code> variable. If your firewall uses an inspection VPC, you
@@ -13040,6 +13252,7 @@ class PolicyVariables {
   }
 }
 
+/// @nodoc
 class StreamExceptionPolicy {
   static const drop = StreamExceptionPolicy._('DROP');
   static const $continue = StreamExceptionPolicy._('CONTINUE');
@@ -13071,6 +13284,8 @@ class StreamExceptionPolicy {
 /// Network Firewall removes the flow entry from its flow table. Existing
 /// connections and flows are not impacted when you update this value. Only new
 /// connections after you update this value are impacted.
+///
+/// @nodoc
 class FlowTimeouts {
   /// The number of seconds that can pass without any TCP traffic sent through the
   /// firewall before the firewall determines that the connection is idle. After
@@ -13103,6 +13318,8 @@ class FlowTimeouts {
 
 /// Identifier for a single stateful rule group, used in a firewall policy to
 /// refer to a rule group.
+///
+/// @nodoc
 class StatefulRuleGroupReference {
   /// The Amazon Resource Name (ARN) of the stateful rule group.
   final String resourceArn;
@@ -13176,6 +13393,8 @@ class StatefulRuleGroupReference {
 
 /// The setting that allows the policy owner to change the behavior of the rule
 /// group within a policy.
+///
+/// @nodoc
 class StatefulRuleGroupOverride {
   /// The action that changes the rule group from <code>DROP</code> to
   /// <code>ALERT</code>. This only applies to managed rule groups.
@@ -13199,6 +13418,7 @@ class StatefulRuleGroupOverride {
   }
 }
 
+/// @nodoc
 class OverrideAction {
   static const dropToAlert = OverrideAction._('DROP_TO_ALERT');
 
@@ -13224,6 +13444,8 @@ class OverrideAction {
 
 /// Identifier for a single stateless rule group, used in a firewall policy to
 /// refer to the rule group.
+///
+/// @nodoc
 class StatelessRuleGroupReference {
   /// An integer setting that indicates the order in which to run the stateless
   /// rule groups in a single <a>FirewallPolicy</a>. Network Firewall applies each
@@ -13257,6 +13479,7 @@ class StatelessRuleGroupReference {
   }
 }
 
+/// @nodoc
 class EnabledAnalysisType {
   static const tlsSni = EnabledAnalysisType._('TLS_SNI');
   static const httpHost = EnabledAnalysisType._('HTTP_HOST');
@@ -13282,6 +13505,7 @@ class EnabledAnalysisType {
   String toString() => value;
 }
 
+/// @nodoc
 class FlowOperationStatus {
   static const completed = FlowOperationStatus._('COMPLETED');
   static const inProgress = FlowOperationStatus._('IN_PROGRESS');
@@ -13312,6 +13536,8 @@ class FlowOperationStatus {
 
 /// Defines the scope a flow operation. You can use up to 20 filters to
 /// configure a single flow operation.
+///
+/// @nodoc
 class FlowFilter {
   final Address? destinationAddress;
 
@@ -13372,6 +13598,7 @@ class FlowFilter {
   }
 }
 
+/// @nodoc
 class TransitGatewayAttachmentStatus {
   static const creating = TransitGatewayAttachmentStatus._('CREATING');
   static const deleting = TransitGatewayAttachmentStatus._('DELETING');
@@ -13418,6 +13645,8 @@ class TransitGatewayAttachmentStatus {
 /// High-level information about a VPC endpoint association, returned by
 /// <code>ListVpcEndpointAssociations</code>. You can use the information
 /// provided in the metadata to retrieve and manage a VPC endpoint association.
+///
+/// @nodoc
 class VpcEndpointAssociationMetadata {
   /// The Amazon Resource Name (ARN) of a VPC endpoint association.
   final String? vpcEndpointAssociationArn;
@@ -13444,6 +13673,8 @@ class VpcEndpointAssociationMetadata {
 /// High-level information about a TLS inspection configuration, returned by
 /// <code>ListTLSInspectionConfigurations</code>. You can use the information
 /// provided in the metadata to retrieve and manage a TLS configuration.
+///
+/// @nodoc
 class TLSInspectionConfigurationMetadata {
   /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
   final String? arn;
@@ -13478,6 +13709,8 @@ class TLSInspectionConfigurationMetadata {
 /// High-level information about a rule group, returned by
 /// <a>ListRuleGroups</a>. You can use the information provided in the metadata
 /// to retrieve and manage a rule group.
+///
+/// @nodoc
 class RuleGroupMetadata {
   /// The Amazon Resource Name (ARN) of the rule group.
   final String? arn;
@@ -13516,6 +13749,7 @@ class RuleGroupMetadata {
   }
 }
 
+/// @nodoc
 class ResourceManagedStatus {
   static const managed = ResourceManagedStatus._('MANAGED');
   static const account = ResourceManagedStatus._('ACCOUNT');
@@ -13541,6 +13775,7 @@ class ResourceManagedStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceManagedType {
   static const awsManagedThreatSignatures =
       ResourceManagedType._('AWS_MANAGED_THREAT_SIGNATURES');
@@ -13576,6 +13811,7 @@ class ResourceManagedType {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionStatus {
   static const notSubscribed = SubscriptionStatus._('NOT_SUBSCRIBED');
   static const subscribed = SubscriptionStatus._('SUBSCRIBED');
@@ -13605,6 +13841,8 @@ class SubscriptionStatus {
 /// create and describe. You can use the information provided in the metadata to
 /// retrieve and manage a proxy rule group. You can retrieve all objects for a
 /// proxy rule group by calling <a>DescribeProxyRuleGroup</a>.
+///
+/// @nodoc
 class ProxyRuleGroupMetadata {
   /// The Amazon Resource Name (ARN) of a proxy rule group.
   final String? arn;
@@ -13640,6 +13878,8 @@ class ProxyRuleGroupMetadata {
 /// metadata to retrieve and manage a proxy configuration. You can retrieve all
 /// objects for a proxy configuration by calling
 /// <a>DescribeProxyConfiguration</a>.
+///
+/// @nodoc
 class ProxyConfigurationMetadata {
   /// The Amazon Resource Name (ARN) of a proxy configuration.
   final String? arn;
@@ -13674,6 +13914,8 @@ class ProxyConfigurationMetadata {
 /// describe. You can use the information provided in the metadata to retrieve
 /// and manage a proxy. You can retrieve all objects for a proxy by calling
 /// <a>DescribeProxy</a>.
+///
+/// @nodoc
 class ProxyMetadata {
   /// The Amazon Resource Name (ARN) of a proxy.
   final String? arn;
@@ -13706,6 +13948,8 @@ class ProxyMetadata {
 
 /// An array of objects with metadata about the requested
 /// <code>FlowOperation</code>.
+///
+/// @nodoc
 class FlowOperationMetadata {
   /// A unique identifier for the flow operation. This ID is returned in the
   /// responses to start and list commands. You provide to describe commands.
@@ -13761,6 +14005,7 @@ class FlowOperationMetadata {
   }
 }
 
+/// @nodoc
 class FlowOperationType {
   static const flowFlush = FlowOperationType._('FLOW_FLUSH');
   static const flowCapture = FlowOperationType._('FLOW_CAPTURE');
@@ -13788,6 +14033,8 @@ class FlowOperationType {
 /// Any number of arrays, where each array is a single flow identified in the
 /// scope of the operation. If multiple flows were in the scope of the
 /// operation, multiple <code>Flows</code> arrays are returned.
+///
+/// @nodoc
 class Flow {
   /// Returned as info about age of the flows identified by the flow operation.
   final int? age;
@@ -13868,6 +14115,8 @@ class Flow {
 /// High-level information about a firewall, returned by operations like create
 /// and describe. You can use the information provided in the metadata to
 /// retrieve and manage a firewall.
+///
+/// @nodoc
 class FirewallMetadata {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
@@ -13911,6 +14160,8 @@ class FirewallMetadata {
 /// create and describe. You can use the information provided in the metadata to
 /// retrieve and manage a firewall policy. You can retrieve all objects for a
 /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
+///
+/// @nodoc
 class FirewallPolicyMetadata {
   /// The Amazon Resource Name (ARN) of the firewall policy.
   final String? arn;
@@ -13949,6 +14200,8 @@ class FirewallPolicyMetadata {
 /// create another HTTP traffic report until 30 days pass. Alternatively, if you
 /// generate a report that combines metrics on both HTTP and HTTPS traffic, you
 /// cannot create another report for either traffic type until 30 days pass.
+///
+/// @nodoc
 class AnalysisReport {
   /// The unique ID of the query that ran when you requested an analysis report.
   final String? analysisReportId;
@@ -13999,6 +14252,8 @@ class AnalysisReport {
 ///
 /// For an example of traffic analysis report results, see the response syntax
 /// of <a>GetAnalysisReportResults</a>.
+///
+/// @nodoc
 class AnalysisTypeReportResult {
   /// The most frequently accessed domains.
   final String? domain;
@@ -14066,6 +14321,8 @@ class AnalysisTypeReportResult {
 }
 
 /// Attempts made to a access domain.
+///
+/// @nodoc
 class Hits {
   /// The number of attempts made to access a domain.
   final int? count;
@@ -14089,6 +14346,8 @@ class Hits {
 }
 
 /// A unique source IP address that connected to a domain.
+///
+/// @nodoc
 class UniqueSources {
   /// The number of unique source IP addresses that connected to a domain.
   final int? count;
@@ -14116,6 +14375,8 @@ class UniqueSources {
 /// <a>CreateVpcEndpointAssociation</a>. Network Firewall creates an instance of
 /// the associated firewall in each subnet that you specify, to filter traffic
 /// in the subnet's Availability Zone.
+///
+/// @nodoc
 class SubnetMapping {
   /// The unique identifier for the subnet.
   final String subnetId;
@@ -14147,6 +14408,7 @@ class SubnetMapping {
   }
 }
 
+/// @nodoc
 class IPAddressType {
   static const dualstack = IPAddressType._('DUALSTACK');
   static const ipv4 = IPAddressType._('IPV4');
@@ -14180,6 +14442,8 @@ class IPAddressType {
 ///
 /// To retrieve the current Availability Zone mappings for a firewall, use
 /// <a>DescribeFirewall</a>.
+///
+/// @nodoc
 class AvailabilityZoneMapping {
   /// The ID of the Availability Zone where the firewall endpoint is located. For
   /// example, <code>us-east-2a</code>. The Availability Zone must be in the same
@@ -14249,6 +14513,8 @@ class AvailabilityZoneMapping {
 /// ready to filter network traffic, is provided in the corresponding
 /// <a>VpcEndpointAssociationStatus</a>. You can retrieve both the association
 /// and its status by calling <a>DescribeVpcEndpointAssociation</a>.
+///
+/// @nodoc
 class VpcEndpointAssociation {
   /// The Amazon Resource Name (ARN) of the firewall.
   final String firewallArn;
@@ -14322,6 +14588,8 @@ class VpcEndpointAssociation {
 /// <a>VpcEndpointAssociation</a>. You can retrieve this by calling
 /// <a>DescribeVpcEndpointAssociation</a> and providing the VPC endpoint
 /// association ARN.
+///
+/// @nodoc
 class VpcEndpointAssociationStatus {
   /// The readiness of the configured firewall endpoint to handle network traffic.
   final FirewallStatusValue status;
@@ -14355,6 +14623,7 @@ class VpcEndpointAssociationStatus {
   }
 }
 
+/// @nodoc
 class FirewallStatusValue {
   static const provisioning = FirewallStatusValue._('PROVISIONING');
   static const deleting = FirewallStatusValue._('DELETING');
@@ -14383,6 +14652,8 @@ class FirewallStatusValue {
 
 /// The status of the firewall endpoint defined by a
 /// <code>VpcEndpointAssociation</code>.
+///
+/// @nodoc
 class AZSyncState {
   final Attachment? attachment;
 
@@ -14426,6 +14697,8 @@ class AZSyncState {
 /// <code>CreateVpcEndpointAssociation</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Attachment {
   /// The identifier of the firewall endpoint that Network Firewall has
   /// instantiated in the subnet. You use this to identify the firewall endpoint
@@ -14486,6 +14759,7 @@ class Attachment {
   }
 }
 
+/// @nodoc
 class AttachmentStatus {
   static const creating = AttachmentStatus._('CREATING');
   static const deleting = AttachmentStatus._('DELETING');
@@ -14519,6 +14793,8 @@ class AttachmentStatus {
 ///
 /// Network Firewall extracts this information from selected fields in the rule
 /// group's Suricata rules, based on your <a>SummaryConfiguration</a> settings.
+///
+/// @nodoc
 class Summary {
   /// An array of <a>RuleSummary</a> objects containing individual rule details
   /// that had been configured by the rulegroup's SummaryConfiguration.
@@ -14560,6 +14836,8 @@ class Summary {
 /// </ul>
 /// Summaries are available for rule groups you manage and for active threat
 /// defense Amazon Web Services managed rule groups.
+///
+/// @nodoc
 class RuleSummary {
   /// The contents of the rule's metadata.
   final String? metadata;
@@ -14598,6 +14876,8 @@ class RuleSummary {
 
 /// Collections of related proxy filtering rules. Rule groups help you manage
 /// and reuse sets of rules across multiple proxy configurations.
+///
+/// @nodoc
 class ProxyRuleGroup {
   /// Time the Proxy Rule Group was created.
   final DateTime? createTime;
@@ -14673,6 +14953,8 @@ class ProxyRuleGroup {
 
 /// Evaluation points in the traffic flow where rules are applied. There are
 /// three phases in a traffic where the rule match is applied.
+///
+/// @nodoc
 class ProxyRulesByRequestPhase {
   /// After receiving response.
   final List<ProxyRule>? postRESPONSE;
@@ -14719,6 +15001,8 @@ class ProxyRulesByRequestPhase {
 }
 
 /// Proxy attached to a NAT gateway.
+///
+/// @nodoc
 class DescribeProxyResource {
   /// Time the Proxy was created.
   final DateTime? createTime;
@@ -14879,6 +15163,8 @@ class DescribeProxyResource {
 /// stateful or stateless rules. For traffic to be considered part of a flow, it
 /// must share Destination, DestinationPort, Direction, Protocol, Source, and
 /// SourcePort.
+///
+/// @nodoc
 class FlowOperation {
   /// Defines the scope a flow operation. You can use up to 20 filters to
   /// configure a single flow operation.
@@ -14917,6 +15203,8 @@ class FlowOperation {
 
 /// High-level information about an Availability Zone where the firewall has an
 /// endpoint defined.
+///
+/// @nodoc
 class AvailabilityZoneMetadata {
   /// The IP address type of the Firewall subnet in the Availability Zone. You
   /// can't change the IP address type after you create the subnet.
@@ -14956,6 +15244,8 @@ class AvailabilityZoneMetadata {
 /// traffic, is provided in the corresponding <a>FirewallStatus</a>. You can
 /// retrieve both the firewall and firewall status by calling
 /// <a>DescribeFirewall</a>.
+///
+/// @nodoc
 class Firewall {
   /// The unique identifier for the firewall.
   final String firewallId;
@@ -15175,6 +15465,8 @@ class Firewall {
 /// subnets are up-to-date with the latest firewall configurations, which is
 /// based on the sync states config values, and also whether all subnets have
 /// their endpoints fully enabled, based on their sync states attachment values.
+///
+/// @nodoc
 class FirewallStatus {
   /// The configuration sync state for the firewall. This summarizes the
   /// <code>Config</code> settings in the <code>SyncStates</code> for this
@@ -15267,6 +15559,7 @@ class FirewallStatus {
   }
 }
 
+/// @nodoc
 class ConfigurationSyncState {
   static const pending = ConfigurationSyncState._('PENDING');
   static const inSync = ConfigurationSyncState._('IN_SYNC');
@@ -15296,6 +15589,8 @@ class ConfigurationSyncState {
 
 /// The capacity usage summary of the resources used by the <a>ReferenceSets</a>
 /// in a firewall.
+///
+/// @nodoc
 class CapacityUsageSummary {
   /// Describes the capacity usage of the CIDR blocks used by the IP set
   /// references in a firewall.
@@ -15325,6 +15620,8 @@ class CapacityUsageSummary {
 /// attachment, including its current status and any error messages. Network
 /// Firewall uses this to track the state of your transit gateway configuration
 /// changes.
+///
+/// @nodoc
 class TransitGatewayAttachmentSyncState {
   /// The unique identifier of the transit gateway attachment.
   final String? attachmentId;
@@ -15442,6 +15739,8 @@ class TransitGatewayAttachmentSyncState {
 /// Summarizes the CIDR blocks used by the IP set references in a firewall.
 /// Network Firewall calculates the number of CIDRs by taking an aggregated
 /// count of all CIDRs used by the IP sets you are referencing.
+///
+/// @nodoc
 class CIDRSummary {
   /// The number of CIDR blocks available for use by the IP set references in a
   /// firewall.
@@ -15482,6 +15781,8 @@ class CIDRSummary {
 }
 
 /// General information about the IP set.
+///
+/// @nodoc
 class IPSetMetadata {
   /// Describes the total number of CIDR blocks currently in use by the IP set
   /// references in a firewall. To determine how many CIDR blocks are available
@@ -15524,6 +15825,8 @@ class IPSetMetadata {
 /// When you update a firewall, for example to add a subnet association or
 /// change a rule group in the firewall policy, the affected sync states reflect
 /// out-of-sync or not ready status until the changes are complete.
+///
+/// @nodoc
 class SyncState {
   /// The configuration and status for a single firewall subnet. For each
   /// configured subnet, Network Firewall creates the attachment by instantiating
@@ -15568,6 +15871,8 @@ class SyncState {
 /// or modify the associated firewall policy, Network Firewall synchronizes the
 /// rules in the endpoint, so it can properly filter network traffic. This is
 /// part of a <a>SyncState</a> for a firewall.
+///
+/// @nodoc
 class PerObjectStatus {
   /// Indicates whether this object is in sync with the version indicated in the
   /// update token.
@@ -15600,6 +15905,7 @@ class PerObjectStatus {
   }
 }
 
+/// @nodoc
 class PerObjectSyncStatus {
   static const pending = PerObjectSyncStatus._('PENDING');
   static const inSync = PerObjectSyncStatus._('IN_SYNC');
@@ -15645,6 +15951,8 @@ class PerObjectSyncStatus {
 /// Pre-Request - after DNS, before request.
 ///
 /// Post-Response - after receiving response.
+///
+/// @nodoc
 class CreateProxyRulesByRequestPhase {
   /// After receiving response.
   final List<CreateProxyRule>? postRESPONSE;
@@ -15676,6 +15984,8 @@ class CreateProxyRulesByRequestPhase {
 /// Individual rules that define match conditions and actions for
 /// application-layer traffic. Rules specify what to inspect (domains, headers,
 /// methods) and what action to take (allow, deny, alert).
+///
+/// @nodoc
 class CreateProxyRule {
   /// Action to take.
   final ProxyRulePhaseAction? action;
@@ -15719,6 +16029,8 @@ class CreateProxyRule {
 }
 
 /// The proxy rule group(s) to attach to the proxy configuration
+///
+/// @nodoc
 class ProxyRuleGroupAttachment {
   /// Where to insert a proxy rule group in a proxy configuration.
   final int? insertPosition;
@@ -15742,6 +16054,7 @@ class ProxyRuleGroupAttachment {
   }
 }
 
+/// @nodoc
 class InsufficientCapacityException extends _s.GenericAwsException {
   InsufficientCapacityException({String? type, String? message})
       : super(
@@ -15750,21 +16063,25 @@ class InsufficientCapacityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidResourcePolicyException extends _s.GenericAwsException {
   InvalidResourcePolicyException({String? type, String? message})
       : super(
@@ -15773,16 +16090,19 @@ class InvalidResourcePolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTokenException extends _s.GenericAwsException {
   InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class LogDestinationPermissionException extends _s.GenericAwsException {
   LogDestinationPermissionException({String? type, String? message})
       : super(
@@ -15791,22 +16111,26 @@ class LogDestinationPermissionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceOwnerCheckException extends _s.GenericAwsException {
   ResourceOwnerCheckException({String? type, String? message})
       : super(
             type: type, code: 'ResourceOwnerCheckException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

@@ -2156,6 +2156,7 @@ class OpenSearchServerless {
   }
 }
 
+/// @nodoc
 class BatchGetCollectionResponse {
   /// Details about each collection.
   final List<CollectionDetail>? collectionDetails;
@@ -2192,6 +2193,7 @@ class BatchGetCollectionResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCollectionGroupResponse {
   /// Details about each collection group.
   final List<CollectionGroupDetail>? collectionGroupDetails;
@@ -2231,6 +2233,7 @@ class BatchGetCollectionGroupResponse {
   }
 }
 
+/// @nodoc
 class BatchGetEffectiveLifecyclePolicyResponse {
   /// A list of lifecycle policies applied to the OpenSearch Serverless indexes.
   final List<EffectiveLifecyclePolicyDetail>? effectiveLifecyclePolicyDetails;
@@ -2277,6 +2280,7 @@ class BatchGetEffectiveLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class BatchGetLifecyclePolicyResponse {
   /// A list of lifecycle policies matched to the input policy name and policy
   /// type.
@@ -2318,6 +2322,7 @@ class BatchGetLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class BatchGetVpcEndpointResponse {
   /// Details about the specified VPC endpoint.
   final List<VpcEndpointDetail>? vpcEndpointDetails;
@@ -2355,6 +2360,7 @@ class BatchGetVpcEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateLifecyclePolicyResponse {
   /// Details about the created lifecycle policy.
   final LifecyclePolicyDetail? lifecyclePolicyDetail;
@@ -2381,6 +2387,7 @@ class CreateLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityPolicyResponse {
   /// Details about the created security policy.
   final SecurityPolicyDetail? securityPolicyDetail;
@@ -2407,6 +2414,7 @@ class CreateSecurityPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetAccountSettingsResponse {
   /// OpenSearch Serverless-related details for the current account.
   final AccountSettingsDetail? accountSettingsDetail;
@@ -2433,6 +2441,7 @@ class GetAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetPoliciesStatsResponse {
   /// Information about the data access policies in your account.
   final AccessPolicyStats? accessPolicyStats;
@@ -2499,6 +2508,7 @@ class GetPoliciesStatsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final List<Tag>? tags;
@@ -2524,6 +2534,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2536,6 +2547,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2548,6 +2560,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsResponse {
   /// OpenSearch Serverless-related settings for the current Amazon Web Services
   /// account.
@@ -2575,6 +2588,7 @@ class UpdateAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateVpcEndpointResponse {
   /// Details about the updated VPC endpoint.
   final UpdateVpcEndpointDetail? updateVpcEndpointDetail;
@@ -2601,6 +2615,7 @@ class UpdateVpcEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessPolicyResponse {
   /// Details about the created access policy.
   final AccessPolicyDetail? accessPolicyDetail;
@@ -2626,6 +2641,7 @@ class CreateAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetAccessPolicyResponse {
   /// Details about the requested access policy.
   final AccessPolicyDetail? accessPolicyDetail;
@@ -2651,6 +2667,7 @@ class GetAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccessPolicyResponse {
   /// Details about the updated access policy.
   final AccessPolicyDetail? accessPolicyDetail;
@@ -2676,6 +2693,7 @@ class UpdateAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessPolicyResponse {
   DeleteAccessPolicyResponse();
 
@@ -2688,6 +2706,7 @@ class DeleteAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListAccessPoliciesResponse {
   /// Details about the requested access policies.
   final List<AccessPolicySummary>? accessPolicySummaries;
@@ -2724,6 +2743,7 @@ class ListAccessPoliciesResponse {
   }
 }
 
+/// @nodoc
 class CreateCollectionResponse {
   /// Details about the collection.
   final CreateCollectionDetail? createCollectionDetail;
@@ -2750,6 +2770,7 @@ class CreateCollectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateCollectionResponse {
   /// Details about the updated collection.
   final UpdateCollectionDetail? updateCollectionDetail;
@@ -2776,6 +2797,7 @@ class UpdateCollectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteCollectionResponse {
   /// Details of the deleted collection.
   final DeleteCollectionDetail? deleteCollectionDetail;
@@ -2802,6 +2824,7 @@ class DeleteCollectionResponse {
   }
 }
 
+/// @nodoc
 class ListCollectionsResponse {
   /// Details about each collection.
   final List<CollectionSummary>? collectionSummaries;
@@ -2838,6 +2861,7 @@ class ListCollectionsResponse {
   }
 }
 
+/// @nodoc
 class CreateCollectionGroupResponse {
   /// Details about the created collection group.
   final CreateCollectionGroupDetail? createCollectionGroupDetail;
@@ -2864,6 +2888,7 @@ class CreateCollectionGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateCollectionGroupResponse {
   /// Details about the updated collection group.
   final UpdateCollectionGroupDetail? updateCollectionGroupDetail;
@@ -2890,6 +2915,7 @@ class UpdateCollectionGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteCollectionGroupResponse {
   DeleteCollectionGroupResponse();
 
@@ -2902,6 +2928,7 @@ class DeleteCollectionGroupResponse {
   }
 }
 
+/// @nodoc
 class ListCollectionGroupsResponse {
   /// Details about each collection group.
   final List<CollectionGroupSummary>? collectionGroupSummaries;
@@ -2939,6 +2966,7 @@ class ListCollectionGroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateIndexResponse {
   CreateIndexResponse();
 
@@ -2951,6 +2979,7 @@ class CreateIndexResponse {
   }
 }
 
+/// @nodoc
 class GetIndexResponse {
   /// The JSON schema definition for the index, including field mappings and
   /// settings.
@@ -2974,6 +3003,7 @@ class GetIndexResponse {
   }
 }
 
+/// @nodoc
 class UpdateIndexResponse {
   UpdateIndexResponse();
 
@@ -2986,6 +3016,7 @@ class UpdateIndexResponse {
   }
 }
 
+/// @nodoc
 class DeleteIndexResponse {
   DeleteIndexResponse();
 
@@ -2998,6 +3029,7 @@ class DeleteIndexResponse {
   }
 }
 
+/// @nodoc
 class UpdateLifecyclePolicyResponse {
   /// Details about the updated lifecycle policy.
   final LifecyclePolicyDetail? lifecyclePolicyDetail;
@@ -3024,6 +3056,7 @@ class UpdateLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteLifecyclePolicyResponse {
   DeleteLifecyclePolicyResponse();
 
@@ -3036,6 +3069,7 @@ class DeleteLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListLifecyclePoliciesResponse {
   /// Details about the requested lifecycle policies.
   final List<LifecyclePolicySummary>? lifecyclePolicySummaries;
@@ -3073,6 +3107,7 @@ class ListLifecyclePoliciesResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityConfigResponse {
   /// Details about the created security configuration.
   final SecurityConfigDetail? securityConfigDetail;
@@ -3099,6 +3134,7 @@ class CreateSecurityConfigResponse {
   }
 }
 
+/// @nodoc
 class GetSecurityConfigResponse {
   /// Details of the requested security configuration.
   final SecurityConfigDetail? securityConfigDetail;
@@ -3125,6 +3161,7 @@ class GetSecurityConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityConfigResponse {
   /// Details about the updated security configuration.
   final SecurityConfigDetail? securityConfigDetail;
@@ -3151,6 +3188,7 @@ class UpdateSecurityConfigResponse {
   }
 }
 
+/// @nodoc
 class DeleteSecurityConfigResponse {
   DeleteSecurityConfigResponse();
 
@@ -3163,6 +3201,7 @@ class DeleteSecurityConfigResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityConfigsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -3199,6 +3238,7 @@ class ListSecurityConfigsResponse {
   }
 }
 
+/// @nodoc
 class GetSecurityPolicyResponse {
   /// Details about the requested security policy.
   final SecurityPolicyDetail? securityPolicyDetail;
@@ -3225,6 +3265,7 @@ class GetSecurityPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityPolicyResponse {
   /// Details about the updated security policy.
   final SecurityPolicyDetail? securityPolicyDetail;
@@ -3251,6 +3292,7 @@ class UpdateSecurityPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteSecurityPolicyResponse {
   DeleteSecurityPolicyResponse();
 
@@ -3263,6 +3305,7 @@ class DeleteSecurityPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityPoliciesResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -3299,6 +3342,7 @@ class ListSecurityPoliciesResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcEndpointResponse {
   /// Details about the created interface VPC endpoint.
   final CreateVpcEndpointDetail? createVpcEndpointDetail;
@@ -3325,6 +3369,7 @@ class CreateVpcEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcEndpointResponse {
   /// Details about the deleted endpoint.
   final DeleteVpcEndpointDetail? deleteVpcEndpointDetail;
@@ -3351,6 +3396,7 @@ class DeleteVpcEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListVpcEndpointsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -3388,6 +3434,8 @@ class ListVpcEndpointsResponse {
 }
 
 /// The VPC endpoint object.
+///
+/// @nodoc
 class VpcEndpointSummary {
   /// The unique identifier of the endpoint.
   final String? id;
@@ -3424,6 +3472,7 @@ class VpcEndpointSummary {
   }
 }
 
+/// @nodoc
 class VpcEndpointStatus {
   static const pending = VpcEndpointStatus._('PENDING');
   static const deleting = VpcEndpointStatus._('DELETING');
@@ -3451,6 +3500,8 @@ class VpcEndpointStatus {
 }
 
 /// Filter the results of a <code>ListVpcEndpoints</code> request.
+///
+/// @nodoc
 class VpcEndpointFilters {
   /// The current status of the endpoint.
   final VpcEndpointStatus? status;
@@ -3468,6 +3519,8 @@ class VpcEndpointFilters {
 }
 
 /// Deletion details for an OpenSearch Serverless-managed interface endpoint.
+///
+/// @nodoc
 class DeleteVpcEndpointDetail {
   /// The unique identifier of the endpoint.
   final String? id;
@@ -3508,6 +3561,8 @@ class DeleteVpcEndpointDetail {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html">Access
 /// Amazon OpenSearch Serverless using an interface endpoint</a>.
+///
+/// @nodoc
 class CreateVpcEndpointDetail {
   /// The unique identifier of the endpoint.
   final String? id;
@@ -3545,6 +3600,8 @@ class CreateVpcEndpointDetail {
 }
 
 /// A summary of a security policy for OpenSearch Serverless.
+///
+/// @nodoc
 class SecurityPolicySummary {
   /// The date the policy was created.
   final int? createdDate;
@@ -3602,6 +3659,7 @@ class SecurityPolicySummary {
   }
 }
 
+/// @nodoc
 class SecurityPolicyType {
   static const encryption = SecurityPolicyType._('encryption');
   static const network = SecurityPolicyType._('network');
@@ -3628,6 +3686,8 @@ class SecurityPolicyType {
 }
 
 /// Details about an OpenSearch Serverless security policy.
+///
+/// @nodoc
 class SecurityPolicyDetail {
   /// The date the policy was created.
   final int? createdDate;
@@ -3695,6 +3755,8 @@ class SecurityPolicyDetail {
 }
 
 /// A summary of a security configuration for OpenSearch Serverless.
+///
+/// @nodoc
 class SecurityConfigSummary {
   /// The version of the security configuration.
   final String? configVersion;
@@ -3752,6 +3814,7 @@ class SecurityConfigSummary {
   }
 }
 
+/// @nodoc
 class SecurityConfigType {
   static const saml = SecurityConfigType._('saml');
   static const iamidentitycenter = SecurityConfigType._('iamidentitycenter');
@@ -3779,6 +3842,8 @@ class SecurityConfigType {
 }
 
 /// Details about a security configuration for OpenSearch Serverless.
+///
+/// @nodoc
 class SecurityConfigDetail {
   /// The version of the security configuration.
   final String? configVersion;
@@ -3872,6 +3937,8 @@ class SecurityConfigDetail {
 
 /// Describes SAML options for an OpenSearch Serverless security configuration
 /// in the form of a key-value map.
+///
+/// @nodoc
 class SamlConfigOptions {
   /// The XML IdP metadata file generated from your identity provider.
   final String metadata;
@@ -3927,6 +3994,8 @@ class SamlConfigOptions {
 
 /// Describes IAM Identity Center options for an OpenSearch Serverless security
 /// configuration in the form of a key-value map.
+///
+/// @nodoc
 class IamIdentityCenterConfigOptions {
   /// The ARN of the IAM Identity Center application used to integrate with
   /// OpenSearch Serverless.
@@ -3997,6 +4066,8 @@ class IamIdentityCenterConfigOptions {
 /// configuration in the form of a key-value map. These options define how
 /// OpenSearch Serverless integrates with external identity providers using
 /// federation.
+///
+/// @nodoc
 class IamFederationConfigOptions {
   /// The group attribute for this IAM federation integration. This attribute is
   /// used to map identity provider groups to OpenSearch Serverless permissions.
@@ -4028,6 +4099,7 @@ class IamFederationConfigOptions {
   }
 }
 
+/// @nodoc
 class IamIdentityCenterUserAttribute {
   static const userId = IamIdentityCenterUserAttribute._('UserId');
   static const userName = IamIdentityCenterUserAttribute._('UserName');
@@ -4054,6 +4126,7 @@ class IamIdentityCenterUserAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class IamIdentityCenterGroupAttribute {
   static const groupId = IamIdentityCenterGroupAttribute._('GroupId');
   static const groupName = IamIdentityCenterGroupAttribute._('GroupName');
@@ -4081,6 +4154,8 @@ class IamIdentityCenterGroupAttribute {
 
 /// Describes IAM Identity Center options for updating an OpenSearch Serverless
 /// security configuration in the form of a key-value map.
+///
+/// @nodoc
 class UpdateIamIdentityCenterConfigOptions {
   /// The group attribute for this IAM Identity Center integration. Defaults to
   /// <code>GroupId</code>.
@@ -4107,6 +4182,8 @@ class UpdateIamIdentityCenterConfigOptions {
 
 /// Describes IAM Identity Center options for creating an OpenSearch Serverless
 /// security configuration in the form of a key-value map.
+///
+/// @nodoc
 class CreateIamIdentityCenterConfigOptions {
   /// The ARN of the IAM Identity Center instance used to integrate with
   /// OpenSearch Serverless.
@@ -4139,6 +4216,8 @@ class CreateIamIdentityCenterConfigOptions {
 }
 
 /// A summary of the lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicySummary {
   /// The Epoch time when the lifecycle policy was created.
   final int? createdDate;
@@ -4196,6 +4275,7 @@ class LifecyclePolicySummary {
   }
 }
 
+/// @nodoc
 class LifecyclePolicyType {
   static const retention = LifecyclePolicyType._('retention');
 
@@ -4221,6 +4301,8 @@ class LifecyclePolicyType {
 }
 
 /// Details about an OpenSearch Serverless lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicyDetail {
   /// The date the lifecycle policy was created.
   final int? createdDate;
@@ -4288,6 +4370,8 @@ class LifecyclePolicyDetail {
 }
 
 /// Summary information about a collection group.
+///
+/// @nodoc
 class CollectionGroupSummary {
   /// The Amazon Resource Name (ARN) of the collection group.
   final String? arn;
@@ -4358,6 +4442,8 @@ class CollectionGroupSummary {
 /// Capacity limits for a collection group. These limits define the minimum and
 /// maximum OpenSearch Compute Units (OCUs) for indexing and search operations
 /// that can be used by collections in the group.
+///
+/// @nodoc
 class CollectionGroupCapacityLimits {
   /// The maximum indexing capacity for collections in the group.
   final double? maxIndexingCapacityInOCU;
@@ -4405,6 +4491,7 @@ class CollectionGroupCapacityLimits {
   }
 }
 
+/// @nodoc
 class ServerlessGeneration {
   static const classic = ServerlessGeneration._('CLASSIC');
   static const nextgen = ServerlessGeneration._('NEXTGEN');
@@ -4431,6 +4518,8 @@ class ServerlessGeneration {
 }
 
 /// Details about the updated collection group.
+///
+/// @nodoc
 class UpdateCollectionGroupDetail {
   /// The Amazon Resource Name (ARN) of the collection group.
   final String? arn;
@@ -4508,6 +4597,8 @@ class UpdateCollectionGroupDetail {
 }
 
 /// Details about the created collection group.
+///
+/// @nodoc
 class CreateCollectionGroupDetail {
   /// The Amazon Resource Name (ARN) of the collection group.
   final String? arn;
@@ -4595,6 +4686,7 @@ class CreateCollectionGroupDetail {
   }
 }
 
+/// @nodoc
 class StandbyReplicas {
   static const enabled = StandbyReplicas._('ENABLED');
   static const disabled = StandbyReplicas._('DISABLED');
@@ -4620,6 +4712,8 @@ class StandbyReplicas {
 }
 
 /// A map of key-value pairs associated to an OpenSearch Serverless resource.
+///
+/// @nodoc
 class Tag {
   /// The key to use in the tag.
   final String key;
@@ -4650,6 +4744,8 @@ class Tag {
 }
 
 /// Details about each OpenSearch Serverless collection.
+///
+/// @nodoc
 class CollectionSummary {
   /// The Amazon Resource Name (ARN) of the collection.
   final String? arn;
@@ -4709,6 +4805,7 @@ class CollectionSummary {
   }
 }
 
+/// @nodoc
 class CollectionStatus {
   static const creating = CollectionStatus._('CREATING');
   static const updating = CollectionStatus._('UPDATING');
@@ -4746,6 +4843,8 @@ class CollectionStatus {
 
 /// A list of filter keys that you can use for LIST, UPDATE, and DELETE requests
 /// to OpenSearch Serverless collections.
+///
+/// @nodoc
 class CollectionFilters {
   /// The name of the collection group to filter by.
   final String? collectionGroupName;
@@ -4776,6 +4875,8 @@ class CollectionFilters {
 }
 
 /// Details about a deleted OpenSearch Serverless collection.
+///
+/// @nodoc
 class DeleteCollectionDetail {
   /// Indicates whether deletion protection is <code>ENABLED</code> or
   /// <code>DISABLED</code> for the collection.
@@ -4825,6 +4926,8 @@ class DeleteCollectionDetail {
 /// Indicates whether deletion protection is <code>ENABLED</code> or
 /// <code>DISABLED</code> for the collection. When deletion protection is
 /// <code>ENABLED</code>, the collection cannot be deleted.
+///
+/// @nodoc
 class DeletionProtection {
   static const enabled = DeletionProtection._('ENABLED');
   static const disabled = DeletionProtection._('DISABLED');
@@ -4851,6 +4954,8 @@ class DeletionProtection {
 }
 
 /// Details about an updated OpenSearch Serverless collection.
+///
+/// @nodoc
 class UpdateCollectionDetail {
   /// The Amazon Resource Name (ARN) of the collection.
   final String? arn;
@@ -4942,6 +5047,7 @@ class UpdateCollectionDetail {
   }
 }
 
+/// @nodoc
 class CollectionType {
   static const search = CollectionType._('SEARCH');
   static const timeseries = CollectionType._('TIMESERIES');
@@ -4969,6 +5075,8 @@ class CollectionType {
 
 /// Configuration options for vector search capabilities in an OpenSearch
 /// Serverless collection.
+///
+/// @nodoc
 class VectorOptions {
   /// Specifies whether serverless vector acceleration is enabled for the
   /// collection.
@@ -4996,6 +5104,8 @@ class VectorOptions {
 
 /// Specifies whether serverless vector acceleration is enabled for the
 /// collection.
+///
+/// @nodoc
 class ServerlessVectorAccelerationStatus {
   static const enabled = ServerlessVectorAccelerationStatus._('ENABLED');
   static const disabled = ServerlessVectorAccelerationStatus._('DISABLED');
@@ -5023,6 +5133,8 @@ class ServerlessVectorAccelerationStatus {
 }
 
 /// Details about the created OpenSearch Serverless collection.
+///
+/// @nodoc
 class CreateCollectionDetail {
   /// The Amazon Resource Name (ARN) of the collection.
   final String? arn;
@@ -5139,6 +5251,8 @@ class CreateCollectionDetail {
 }
 
 /// Encryption settings for a collection.
+///
+/// @nodoc
 class EncryptionConfig {
   /// Indicates whether to use an Amazon Web Services-owned key for encryption.
   final bool? awsOwnedKey;
@@ -5163,6 +5277,8 @@ class EncryptionConfig {
 }
 
 /// A summary of the data access policy.
+///
+/// @nodoc
 class AccessPolicySummary {
   /// The Epoch time when the access policy was created.
   final int? createdDate;
@@ -5221,6 +5337,7 @@ class AccessPolicySummary {
   }
 }
 
+/// @nodoc
 class AccessPolicyType {
   static const data = AccessPolicyType._('data');
 
@@ -5245,6 +5362,8 @@ class AccessPolicyType {
 }
 
 /// Details about an OpenSearch Serverless access policy.
+///
+/// @nodoc
 class AccessPolicyDetail {
   /// The date the policy was created.
   final int? createdDate;
@@ -5312,6 +5431,8 @@ class AccessPolicyDetail {
 }
 
 /// Update details for an OpenSearch Serverless-managed interface endpoint.
+///
+/// @nodoc
 class UpdateVpcEndpointDetail {
   /// The unique identifier of the endpoint.
   final String? id;
@@ -5378,6 +5499,8 @@ class UpdateVpcEndpointDetail {
 }
 
 /// OpenSearch Serverless-related information for the current account.
+///
+/// @nodoc
 class AccountSettingsDetail {
   final CapacityLimits? capacityLimits;
 
@@ -5407,6 +5530,8 @@ class AccountSettingsDetail {
 /// collections based on the current workload. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html">Managing
 /// capacity limits for Amazon OpenSearch Serverless</a>.
+///
+/// @nodoc
 class CapacityLimits {
   /// The maximum indexing capacity for collections.
   final int? maxIndexingCapacityInOCU;
@@ -5439,6 +5564,8 @@ class CapacityLimits {
 }
 
 /// Statistics for an OpenSearch Serverless access policy.
+///
+/// @nodoc
 class AccessPolicyStats {
   /// The number of data access policies in the current account.
   final int? dataPolicyCount;
@@ -5462,6 +5589,8 @@ class AccessPolicyStats {
 }
 
 /// Statistics for an OpenSearch Serverless security policy.
+///
+/// @nodoc
 class SecurityPolicyStats {
   /// The number of encryption policies in the current account.
   final int? encryptionPolicyCount;
@@ -5493,6 +5622,8 @@ class SecurityPolicyStats {
 }
 
 /// Statistics for an OpenSearch Serverless security configuration.
+///
+/// @nodoc
 class SecurityConfigStats {
   /// The number of security configurations in the current account.
   final int? samlConfigCount;
@@ -5516,6 +5647,8 @@ class SecurityConfigStats {
 }
 
 /// Statistics for an OpenSearch Serverless lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicyStats {
   /// The number of retention lifecycle policies in the current account.
   final int? retentionPolicyCount;
@@ -5540,6 +5673,8 @@ class LifecyclePolicyStats {
 }
 
 /// Error information for a failed <code>BatchGetVpcEndpoint</code> request.
+///
+/// @nodoc
 class VpcEndpointErrorDetail {
   /// The error code for the failed request.
   final String? errorCode;
@@ -5577,6 +5712,8 @@ class VpcEndpointErrorDetail {
 }
 
 /// Details about an OpenSearch Serverless-managed interface endpoint.
+///
+/// @nodoc
 class VpcEndpointDetail {
   /// The date the endpoint was created.
   final int? createdDate;
@@ -5664,6 +5801,8 @@ class VpcEndpointDetail {
 }
 
 /// Error information for an OpenSearch Serverless request.
+///
+/// @nodoc
 class LifecyclePolicyErrorDetail {
   /// The error code for the request. For example, <code>NOT_FOUND</code>.
   final String? errorCode;
@@ -5709,6 +5848,8 @@ class LifecyclePolicyErrorDetail {
 }
 
 /// The unique identifiers of policy types and policy names.
+///
+/// @nodoc
 class LifecyclePolicyIdentifier {
   /// The name of the lifecycle policy.
   final String name;
@@ -5732,6 +5873,8 @@ class LifecyclePolicyIdentifier {
 }
 
 /// Error information for an OpenSearch Serverless request.
+///
+/// @nodoc
 class EffectiveLifecyclePolicyErrorDetail {
   /// The error code for the request.
   final String? errorCode;
@@ -5778,6 +5921,8 @@ class EffectiveLifecyclePolicyErrorDetail {
 }
 
 /// Error information for an OpenSearch Serverless request.
+///
+/// @nodoc
 class EffectiveLifecyclePolicyDetail {
   /// The minimum number of index retention days set. That is an optional param
   /// that will return as <code>true</code> if the minimum number of days or hours
@@ -5841,6 +5986,7 @@ class EffectiveLifecyclePolicyDetail {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const $index = ResourceType._('index');
 
@@ -5864,6 +6010,8 @@ class ResourceType {
 }
 
 /// The unique identifiers of policy types and resource names.
+///
+/// @nodoc
 class LifecyclePolicyResourceIdentifier {
   /// The name of the OpenSearch Serverless ilndex resource.
   final String resource;
@@ -5887,6 +6035,8 @@ class LifecyclePolicyResourceIdentifier {
 }
 
 /// Error details for a collection group operation.
+///
+/// @nodoc
 class CollectionGroupErrorDetail {
   /// The error code for the request. For example, <code>NOT_FOUND</code>.
   final String? errorCode;
@@ -5934,6 +6084,8 @@ class CollectionGroupErrorDetail {
 }
 
 /// Details about a collection group.
+///
+/// @nodoc
 class CollectionGroupDetail {
   /// The Amazon Resource Name (ARN) of the collection group.
   final String? arn;
@@ -6041,6 +6193,8 @@ class CollectionGroupDetail {
 
 /// Current search and indexing capacity for an OpenSearch Serverless collection
 /// group. Measured in OpenSearch Compute Units (OCUs).
+///
+/// @nodoc
 class CurrentCapacity {
   /// The indexing capacity for the collection group.
   final CapacityDetails? indexing;
@@ -6076,6 +6230,8 @@ class CurrentCapacity {
 
 /// Capacity details for an OpenSearch Serverless collection group, including
 /// the current capacity and autoscaling status.
+///
+/// @nodoc
 class CapacityDetails {
   /// The current autoscaling status for the collection group.
   final AutoscalingStatus? autoscalingStatus;
@@ -6110,6 +6266,8 @@ class CapacityDetails {
 /// The autoscaling status of an OpenSearch Serverless collection group:
 /// <code>ACTION_SCALING_UP</code>, <code>ACTION_SCALING_DOWN</code>, or
 /// <code>NO_ACTION</code>.
+///
+/// @nodoc
 class AutoscalingStatus {
   static const actionScalingUp = AutoscalingStatus._('ACTION_SCALING_UP');
   static const actionScalingDown = AutoscalingStatus._('ACTION_SCALING_DOWN');
@@ -6136,6 +6294,8 @@ class AutoscalingStatus {
 }
 
 /// Error information for an OpenSearch Serverless request.
+///
+/// @nodoc
 class CollectionErrorDetail {
   /// The error code for the request. For example, <code>NOT_FOUND</code>.
   final String? errorCode;
@@ -6185,6 +6345,8 @@ class CollectionErrorDetail {
 /// Details about each OpenSearch Serverless collection, including the
 /// collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant
 /// endpoints for federal government workloads.
+///
+/// @nodoc
 class CollectionDetail {
   /// The Amazon Resource Name (ARN) of the collection.
   final String? arn;
@@ -6344,6 +6506,8 @@ class CollectionDetail {
 /// endpoints ensure all data transmission uses FIPS 140-3 validated
 /// cryptographic implementations, meeting federal security requirements for
 /// government workloads.
+///
+/// @nodoc
 class FipsEndpoints {
   /// FIPS-compliant collection endpoint used to submit index, search, and data
   /// upload requests to an OpenSearch Serverless collection. This endpoint uses
@@ -6378,6 +6542,7 @@ class FipsEndpoints {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -6390,26 +6555,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class OcuLimitExceededException extends _s.GenericAwsException {
   OcuLimitExceededException({String? type, String? message})
       : super(type: type, code: 'OcuLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6418,6 +6588,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

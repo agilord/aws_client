@@ -2294,6 +2294,7 @@ class Odb {
   }
 }
 
+/// @nodoc
 class AcceptMarketplaceRegistrationOutput {
   AcceptMarketplaceRegistrationOutput();
 
@@ -2306,6 +2307,7 @@ class AcceptMarketplaceRegistrationOutput {
   }
 }
 
+/// @nodoc
 class AssociateIamRoleToResourceOutput {
   AssociateIamRoleToResourceOutput();
 
@@ -2318,6 +2320,7 @@ class AssociateIamRoleToResourceOutput {
   }
 }
 
+/// @nodoc
 class DisassociateIamRoleFromResourceOutput {
   DisassociateIamRoleFromResourceOutput();
 
@@ -2331,6 +2334,7 @@ class DisassociateIamRoleFromResourceOutput {
   }
 }
 
+/// @nodoc
 class GetOciOnboardingStatusOutput {
   /// The existing OCI tenancy activation link for your Amazon Web Services
   /// account.
@@ -2380,6 +2384,7 @@ class GetOciOnboardingStatusOutput {
   }
 }
 
+/// @nodoc
 class InitializeServiceOutput {
   InitializeServiceOutput();
 
@@ -2392,6 +2397,7 @@ class InitializeServiceOutput {
   }
 }
 
+/// @nodoc
 class ListDbSystemShapesOutput {
   /// The list of shapes and their properties.
   final List<DbSystemShapeSummary> dbSystemShapes;
@@ -2425,6 +2431,7 @@ class ListDbSystemShapesOutput {
   }
 }
 
+/// @nodoc
 class ListGiVersionsOutput {
   /// The list of GI versions and their properties.
   final List<GiVersionSummary> giVersions;
@@ -2458,6 +2465,7 @@ class ListGiVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListSystemVersionsOutput {
   /// The list of system versions.
   final List<SystemVersionSummary> systemVersions;
@@ -2491,6 +2499,7 @@ class ListSystemVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags applied to the resource.
   final Map<String, String>? tags;
@@ -2514,6 +2523,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2526,6 +2536,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2538,6 +2549,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCloudAutonomousVmClusterOutput {
   /// The unique identifier of the created Autonomous VM cluster.
   final String cloudAutonomousVmClusterId;
@@ -2584,6 +2596,7 @@ class CreateCloudAutonomousVmClusterOutput {
   }
 }
 
+/// @nodoc
 class GetCloudAutonomousVmClusterOutput {
   /// The details of the requested Autonomous VM cluster.
   final CloudAutonomousVmCluster? cloudAutonomousVmCluster;
@@ -2611,6 +2624,7 @@ class GetCloudAutonomousVmClusterOutput {
   }
 }
 
+/// @nodoc
 class DeleteCloudAutonomousVmClusterOutput {
   DeleteCloudAutonomousVmClusterOutput();
 
@@ -2624,6 +2638,7 @@ class DeleteCloudAutonomousVmClusterOutput {
   }
 }
 
+/// @nodoc
 class ListCloudAutonomousVmClustersOutput {
   /// The list of Autonomous VM clusters in the specified Cloud Exadata
   /// Infrastructure.
@@ -2660,6 +2675,7 @@ class ListCloudAutonomousVmClustersOutput {
   }
 }
 
+/// @nodoc
 class ListAutonomousVirtualMachinesOutput {
   /// The list of Autonomous VMs in the specified Autonomous VM cluster.
   final List<AutonomousVirtualMachineSummary> autonomousVirtualMachines;
@@ -2695,6 +2711,7 @@ class ListAutonomousVirtualMachinesOutput {
   }
 }
 
+/// @nodoc
 class CreateCloudExadataInfrastructureOutput {
   /// The unique identifier of the Exadata infrastructure.
   final String cloudExadataInfrastructureId;
@@ -2740,6 +2757,7 @@ class CreateCloudExadataInfrastructureOutput {
   }
 }
 
+/// @nodoc
 class GetCloudExadataInfrastructureOutput {
   /// The Exadata infrastructure.
   final CloudExadataInfrastructure? cloudExadataInfrastructure;
@@ -2767,6 +2785,7 @@ class GetCloudExadataInfrastructureOutput {
   }
 }
 
+/// @nodoc
 class UpdateCloudExadataInfrastructureOutput {
   /// The unique identifier of the updated Exadata infrastructure.
   final String cloudExadataInfrastructureId;
@@ -2813,6 +2832,7 @@ class UpdateCloudExadataInfrastructureOutput {
   }
 }
 
+/// @nodoc
 class DeleteCloudExadataInfrastructureOutput {
   DeleteCloudExadataInfrastructureOutput();
 
@@ -2826,6 +2846,7 @@ class DeleteCloudExadataInfrastructureOutput {
   }
 }
 
+/// @nodoc
 class ListCloudExadataInfrastructuresOutput {
   /// The list of Exadata infrastructures along with their properties.
   final List<CloudExadataInfrastructureSummary> cloudExadataInfrastructures;
@@ -2862,6 +2883,7 @@ class ListCloudExadataInfrastructuresOutput {
   }
 }
 
+/// @nodoc
 class GetCloudExadataInfrastructureUnallocatedResourcesOutput {
   /// Details about the unallocated resources in the specified Cloud Exadata
   /// infrastructure.
@@ -2895,6 +2917,7 @@ class GetCloudExadataInfrastructureUnallocatedResourcesOutput {
   }
 }
 
+/// @nodoc
 class GetDbServerOutput {
   /// The details of the requested database server.
   final DbServer? dbServer;
@@ -2919,6 +2942,7 @@ class GetDbServerOutput {
   }
 }
 
+/// @nodoc
 class ListDbServersOutput {
   /// The list of database servers along with their properties.
   final List<DbServerSummary> dbServers;
@@ -2952,6 +2976,7 @@ class ListDbServersOutput {
   }
 }
 
+/// @nodoc
 class CreateCloudVmClusterOutput {
   /// The unique identifier for the VM cluster.
   final String cloudVmClusterId;
@@ -2995,6 +3020,7 @@ class CreateCloudVmClusterOutput {
   }
 }
 
+/// @nodoc
 class GetCloudVmClusterOutput {
   /// The VM cluster.
   final CloudVmCluster? cloudVmCluster;
@@ -3020,6 +3046,7 @@ class GetCloudVmClusterOutput {
   }
 }
 
+/// @nodoc
 class DeleteCloudVmClusterOutput {
   DeleteCloudVmClusterOutput();
 
@@ -3032,6 +3059,7 @@ class DeleteCloudVmClusterOutput {
   }
 }
 
+/// @nodoc
 class ListCloudVmClustersOutput {
   /// The list of VM clusters along with their properties.
   final List<CloudVmClusterSummary> cloudVmClusters;
@@ -3065,6 +3093,7 @@ class ListCloudVmClustersOutput {
   }
 }
 
+/// @nodoc
 class GetDbNodeOutput {
   final DbNode? dbNode;
 
@@ -3088,6 +3117,7 @@ class GetDbNodeOutput {
   }
 }
 
+/// @nodoc
 class ListDbNodesOutput {
   /// The list of DB nodes along with their properties.
   final List<DbNodeSummary> dbNodes;
@@ -3121,6 +3151,7 @@ class ListDbNodesOutput {
   }
 }
 
+/// @nodoc
 class RebootDbNodeOutput {
   /// The unique identifier of the DB node that was rebooted.
   final String dbNodeId;
@@ -3158,6 +3189,7 @@ class RebootDbNodeOutput {
   }
 }
 
+/// @nodoc
 class StartDbNodeOutput {
   /// The unique identifier of the DB node that was started.
   final String dbNodeId;
@@ -3195,6 +3227,7 @@ class StartDbNodeOutput {
   }
 }
 
+/// @nodoc
 class StopDbNodeOutput {
   /// The unique identifier of the DB node that was stopped.
   final String dbNodeId;
@@ -3232,6 +3265,7 @@ class StopDbNodeOutput {
   }
 }
 
+/// @nodoc
 class CreateOdbNetworkOutput {
   /// The unique identifier of the ODB network.
   final String odbNetworkId;
@@ -3275,6 +3309,7 @@ class CreateOdbNetworkOutput {
   }
 }
 
+/// @nodoc
 class GetOdbNetworkOutput {
   /// The ODB network.
   final OdbNetwork? odbNetwork;
@@ -3299,6 +3334,7 @@ class GetOdbNetworkOutput {
   }
 }
 
+/// @nodoc
 class UpdateOdbNetworkOutput {
   /// The unique identifier of the ODB network.
   final String odbNetworkId;
@@ -3342,6 +3378,7 @@ class UpdateOdbNetworkOutput {
   }
 }
 
+/// @nodoc
 class DeleteOdbNetworkOutput {
   DeleteOdbNetworkOutput();
 
@@ -3354,6 +3391,7 @@ class DeleteOdbNetworkOutput {
   }
 }
 
+/// @nodoc
 class ListOdbNetworksOutput {
   /// The list of ODB networks.
   final List<OdbNetworkSummary> odbNetworks;
@@ -3387,6 +3425,7 @@ class ListOdbNetworksOutput {
   }
 }
 
+/// @nodoc
 class CreateOdbPeeringConnectionOutput {
   /// The unique identifier of the ODB peering connection.
   final String odbPeeringConnectionId;
@@ -3430,6 +3469,7 @@ class CreateOdbPeeringConnectionOutput {
   }
 }
 
+/// @nodoc
 class GetOdbPeeringConnectionOutput {
   final OdbPeeringConnection? odbPeeringConnection;
 
@@ -3455,6 +3495,7 @@ class GetOdbPeeringConnectionOutput {
   }
 }
 
+/// @nodoc
 class UpdateOdbPeeringConnectionOutput {
   /// The identifier of the Oracle Database@Amazon Web Services peering connection
   /// that was updated.
@@ -3500,6 +3541,7 @@ class UpdateOdbPeeringConnectionOutput {
   }
 }
 
+/// @nodoc
 class DeleteOdbPeeringConnectionOutput {
   DeleteOdbPeeringConnectionOutput();
 
@@ -3512,6 +3554,7 @@ class DeleteOdbPeeringConnectionOutput {
   }
 }
 
+/// @nodoc
 class ListOdbPeeringConnectionsOutput {
   /// The list of ODB peering connections.
   final List<OdbPeeringConnectionSummary> odbPeeringConnections;
@@ -3547,6 +3590,8 @@ class ListOdbPeeringConnectionsOutput {
 }
 
 /// A summary of an ODB peering connection.
+///
+/// @nodoc
 class OdbPeeringConnectionSummary {
   /// The unique identifier of the ODB peering connection. A sample ID is
   /// <code>odbpcx-abcdefgh12345678</code>.
@@ -3650,6 +3695,7 @@ class OdbPeeringConnectionSummary {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const available = ResourceStatus._('AVAILABLE');
   static const failed = ResourceStatus._('FAILED');
@@ -3690,6 +3736,8 @@ class ResourceStatus {
 
 /// A peering connection between an ODB network and either another ODB network
 /// or a customer-owned VPC.
+///
+/// @nodoc
 class OdbPeeringConnection {
   /// The unique identifier of the ODB peering connection. A sample ID is
   /// <code>odbpcx-abcdefgh12345678</code>.
@@ -3797,6 +3845,8 @@ class OdbPeeringConnection {
 }
 
 /// Information about an ODB network.
+///
+/// @nodoc
 class OdbNetworkSummary {
   /// The unique identifier of the ODB network.
   final String odbNetworkId;
@@ -3990,6 +4040,8 @@ class OdbNetworkSummary {
 }
 
 /// The managed services configuration for the ODB network.
+///
+/// @nodoc
 class ManagedServices {
   /// The access configuration for the cross-Region Amazon S3 database restore
   /// source.
@@ -4106,6 +4158,8 @@ class ManagedServices {
 }
 
 /// The configuration for a service network endpoint.
+///
+/// @nodoc
 class ServiceNetworkEndpoint {
   /// The identifier of the VPC endpoint.
   final String? vpcEndpointId;
@@ -4137,6 +4191,8 @@ class ServiceNetworkEndpoint {
 }
 
 /// The configuration for managed Amazon S3 backup access from the ODB network.
+///
+/// @nodoc
 class ManagedS3BackupAccess {
   /// The IPv4 addresses for the managed Amazon S3 backup access.
   final List<String>? ipv4Addresses;
@@ -4171,6 +4227,8 @@ class ManagedS3BackupAccess {
 }
 
 /// The configuration for Zero-ETL access from the ODB network.
+///
+/// @nodoc
 class ZeroEtlAccess {
   /// The CIDR block for the Zero-ETL access.
   final String? cidr;
@@ -4202,6 +4260,8 @@ class ZeroEtlAccess {
 }
 
 /// The configuration for Amazon S3 access from the ODB network.
+///
+/// @nodoc
 class S3Access {
   /// The domain name for the Amazon S3 access.
   final String? domainName;
@@ -4251,6 +4311,8 @@ class S3Access {
 
 /// Configuration for Amazon Web Services Security Token Service (STS) access
 /// from the ODB network.
+///
+/// @nodoc
 class StsAccess {
   /// The domain name for Amazon Web Services Security Token Service (STS) access
   /// configuration.
@@ -4304,6 +4366,8 @@ class StsAccess {
 
 /// Configuration for Amazon Web Services Key Management Service (KMS) access
 /// from the ODB network.
+///
+/// @nodoc
 class KmsAccess {
   /// The domain name for Amazon Web Services Key Management Service (KMS) access
   /// configuration.
@@ -4357,6 +4421,8 @@ class KmsAccess {
 
 /// The configuration access for the cross-Region Amazon S3 database restore
 /// source for the ODB network.
+///
+/// @nodoc
 class CrossRegionS3RestoreSourcesAccess {
   /// The IPv4 addresses allowed for cross-Region Amazon S3 restore access.
   final List<String>? ipv4Addresses;
@@ -4399,6 +4465,7 @@ class CrossRegionS3RestoreSourcesAccess {
   }
 }
 
+/// @nodoc
 class ManagedResourceStatus {
   static const enabled = ManagedResourceStatus._('ENABLED');
   static const enabling = ManagedResourceStatus._('ENABLING');
@@ -4426,6 +4493,7 @@ class ManagedResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VpcEndpointType {
   static const servicenetwork = VpcEndpointType._('SERVICENETWORK');
 
@@ -4451,6 +4519,8 @@ class VpcEndpointType {
 
 /// DNS configuration to forward DNS resolver endpoints to your OCI Private
 /// Zone.
+///
+/// @nodoc
 class OciDnsForwardingConfig {
   /// Domain name to which DNS resolver forwards to.
   final String? domainName;
@@ -4480,6 +4550,7 @@ class OciDnsForwardingConfig {
   }
 }
 
+/// @nodoc
 class Access {
   static const enabled = Access._('ENABLED');
   static const disabled = Access._('DISABLED');
@@ -4504,6 +4575,8 @@ class Access {
 }
 
 /// Information about an ODB network.
+///
+/// @nodoc
 class OdbNetwork {
   /// The unique identifier of the ODB network.
   final String odbNetworkId;
@@ -4696,6 +4769,7 @@ class OdbNetwork {
   }
 }
 
+/// @nodoc
 class DbNodeResourceStatus {
   static const available = DbNodeResourceStatus._('AVAILABLE');
   static const failed = DbNodeResourceStatus._('FAILED');
@@ -4739,6 +4813,8 @@ class DbNodeResourceStatus {
 }
 
 /// Information about a DB node.
+///
+/// @nodoc
 class DbNodeSummary {
   /// Additional information about the planned maintenance.
   final String? additionalDetails;
@@ -4948,6 +5024,7 @@ class DbNodeSummary {
   }
 }
 
+/// @nodoc
 class DbNodeMaintenanceType {
   static const vmdbRebootMigration =
       DbNodeMaintenanceType._('VMDB_REBOOT_MIGRATION');
@@ -4974,6 +5051,8 @@ class DbNodeMaintenanceType {
 }
 
 /// Information about a DB node.
+///
+/// @nodoc
 class DbNode {
   /// Additional information about the planned maintenance.
   final String? additionalDetails;
@@ -5195,6 +5274,8 @@ class DbNode {
 }
 
 /// Information about a VM cluster.
+///
+/// @nodoc
 class CloudVmClusterSummary {
   /// The unique identifier of the VM cluster.
   final String cloudVmClusterId;
@@ -5565,6 +5646,8 @@ class CloudVmClusterSummary {
 }
 
 /// Information about the data collection options enabled for a VM cluster.
+///
+/// @nodoc
 class DataCollectionOptions {
   /// Indicates whether diagnostic collection is enabled for the VM cluster.
   final bool? isDiagnosticsEventsEnabled;
@@ -5604,6 +5687,7 @@ class DataCollectionOptions {
   }
 }
 
+/// @nodoc
 class DiskRedundancy {
   static const high = DiskRedundancy._('HIGH');
   static const normal = DiskRedundancy._('NORMAL');
@@ -5629,6 +5713,8 @@ class DiskRedundancy {
 }
 
 /// The IORM settings of the Exadata DB system.
+///
+/// @nodoc
 class ExadataIormConfig {
   /// An array of IORM settings for all the database in the Exadata DB system.
   final List<DbIormConfig>? dbPlans;
@@ -5676,6 +5762,7 @@ class ExadataIormConfig {
   }
 }
 
+/// @nodoc
 class LicenseModel {
   static const bringYourOwnLicense = LicenseModel._('BRING_YOUR_OWN_LICENSE');
   static const licenseIncluded = LicenseModel._('LICENSE_INCLUDED');
@@ -5699,6 +5786,7 @@ class LicenseModel {
   String toString() => value;
 }
 
+/// @nodoc
 class ComputeModel {
   static const ecpu = ComputeModel._('ECPU');
   static const ocpu = ComputeModel._('OCPU');
@@ -5724,6 +5812,8 @@ class ComputeModel {
 
 /// Information about an Amazon Web Services Identity and Access Management
 /// (IAM) service role associated with a resource.
+///
+/// @nodoc
 class IamRole {
   /// The Amazon Web Services integration configuration settings for the Amazon
   /// Web Services Identity and Access Management (IAM) service role.
@@ -5772,6 +5862,7 @@ class IamRole {
   }
 }
 
+/// @nodoc
 class IamRoleStatus {
   static const associating = IamRoleStatus._('ASSOCIATING');
   static const disassociating = IamRoleStatus._('DISASSOCIATING');
@@ -5809,6 +5900,7 @@ class IamRoleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SupportedAwsIntegration {
   static const kmsTde = SupportedAwsIntegration._('KmsTde');
 
@@ -5833,6 +5925,7 @@ class SupportedAwsIntegration {
   String toString() => value;
 }
 
+/// @nodoc
 class IormLifecycleState {
   static const bootstrapping = IormLifecycleState._('BOOTSTRAPPING');
   static const disabled = IormLifecycleState._('DISABLED');
@@ -5861,6 +5954,7 @@ class IormLifecycleState {
   String toString() => value;
 }
 
+/// @nodoc
 class Objective {
   static const auto = Objective._('AUTO');
   static const balanced = Objective._('BALANCED');
@@ -5888,6 +5982,8 @@ class Objective {
 }
 
 /// The IORM configuration settings for the database.
+///
+/// @nodoc
 class DbIormConfig {
   /// The database name. For the default DbPlan, the dbName is
   /// <code>default</code>.
@@ -5927,6 +6023,8 @@ class DbIormConfig {
 }
 
 /// Information about a VM cluster.
+///
+/// @nodoc
 class CloudVmCluster {
   /// The unique identifier of the VM cluster.
   final String cloudVmClusterId;
@@ -6301,6 +6399,8 @@ class CloudVmCluster {
 }
 
 /// Information about a database server.
+///
+/// @nodoc
 class DbServerSummary {
   /// A list of unique identifiers for the Autonomous VMs.
   final List<String>? autonomousVirtualMachineIds;
@@ -6489,6 +6589,8 @@ class DbServerSummary {
 
 /// The scheduling details for the quarterly maintenance window. Patching and
 /// system updates take place during the maintenance window.
+///
+/// @nodoc
 class DbServerPatchingDetails {
   /// Estimated time, in minutes, to patch one database server.
   final int? estimatedPatchDuration;
@@ -6537,6 +6639,7 @@ class DbServerPatchingDetails {
   }
 }
 
+/// @nodoc
 class DbServerPatchingStatus {
   static const complete = DbServerPatchingStatus._('COMPLETE');
   static const failed = DbServerPatchingStatus._('FAILED');
@@ -6566,6 +6669,8 @@ class DbServerPatchingStatus {
 }
 
 /// Information about a database server.
+///
+/// @nodoc
 class DbServer {
   /// The list of unique identifiers for the Autonomous VMs associated with this
   /// database server.
@@ -6747,6 +6852,8 @@ class DbServer {
 }
 
 /// Information about unallocated resources in the Cloud Exadata infrastructure.
+///
+/// @nodoc
 class CloudExadataInfrastructureUnallocatedResources {
   /// A list of Autonomous VM clusters associated with this Cloud Exadata
   /// Infrastructure.
@@ -6827,6 +6934,8 @@ class CloudExadataInfrastructureUnallocatedResources {
 }
 
 /// Resource details of an Autonomous VM cluster.
+///
+/// @nodoc
 class CloudAutonomousVmClusterResourceDetails {
   /// The unique identifier of the Autonomous VM cluster.
   final String? cloudAutonomousVmClusterId;
@@ -6861,6 +6970,8 @@ class CloudAutonomousVmClusterResourceDetails {
 }
 
 /// Information about an Exadata infrastructure.
+///
+/// @nodoc
 class CloudExadataInfrastructureSummary {
   /// The unique identifier for the Exadata infrastructure.
   final String cloudExadataInfrastructureId;
@@ -7195,6 +7306,8 @@ class CloudExadataInfrastructureSummary {
 
 /// The scheduling details for the maintenance window. Patching and system
 /// updates take place during the maintenance window.
+///
+/// @nodoc
 class MaintenanceWindow {
   /// The custom action timeout in minutes for the maintenance window.
   final int? customActionTimeoutInMins;
@@ -7296,6 +7409,7 @@ class MaintenanceWindow {
   }
 }
 
+/// @nodoc
 class PatchingModeType {
   static const rolling = PatchingModeType._('ROLLING');
   static const nonrolling = PatchingModeType._('NONROLLING');
@@ -7320,6 +7434,7 @@ class PatchingModeType {
   String toString() => value;
 }
 
+/// @nodoc
 class PreferenceType {
   static const noPreference = PreferenceType._('NO_PREFERENCE');
   static const customPreference = PreferenceType._('CUSTOM_PREFERENCE');
@@ -7345,6 +7460,8 @@ class PreferenceType {
 }
 
 /// An enumeration of months used for scheduling maintenance windows.
+///
+/// @nodoc
 class Month {
   /// The name of the month.
   final MonthName? name;
@@ -7367,6 +7484,7 @@ class Month {
   }
 }
 
+/// @nodoc
 class MonthName {
   static const january = MonthName._('JANUARY');
   static const february = MonthName._('FEBRUARY');
@@ -7414,6 +7532,8 @@ class MonthName {
 }
 
 /// An enumeration of days of the week used for scheduling maintenance windows.
+///
+/// @nodoc
 class DayOfWeek {
   /// The name of the day of the week.
   final DayOfWeekName? name;
@@ -7436,6 +7556,7 @@ class DayOfWeek {
   }
 }
 
+/// @nodoc
 class DayOfWeekName {
   static const monday = DayOfWeekName._('MONDAY');
   static const tuesday = DayOfWeekName._('TUESDAY');
@@ -7475,6 +7596,8 @@ class DayOfWeekName {
 
 /// A contact to receive notification from Oracle about maintenance updates for
 /// a specific Exadata infrastructure.
+///
+/// @nodoc
 class CustomerContact {
   /// The email address of the contact.
   final String? email;
@@ -7498,6 +7621,8 @@ class CustomerContact {
 }
 
 /// Information about an Exadata infrastructure.
+///
+/// @nodoc
 class CloudExadataInfrastructure {
   /// The unique identifier for the Exadata infrastructure.
   final String cloudExadataInfrastructureId;
@@ -7832,6 +7957,8 @@ class CloudExadataInfrastructure {
 
 /// A summary of an Autonomous Virtual Machine (VM) within an Autonomous VM
 /// cluster.
+///
+/// @nodoc
 class AutonomousVirtualMachineSummary {
   /// The unique identifier of the Autonomous VM.
   final String? autonomousVirtualMachineId;
@@ -7948,6 +8075,8 @@ class AutonomousVirtualMachineSummary {
 }
 
 /// A summary of an Autonomous VM cluster.
+///
+/// @nodoc
 class CloudAutonomousVmClusterSummary {
   /// The unique identifier of the Autonomous VM cluster.
   final String cloudAutonomousVmClusterId;
@@ -8413,6 +8542,8 @@ class CloudAutonomousVmClusterSummary {
 }
 
 /// Information about an Autonomous VM cluster resource.
+///
+/// @nodoc
 class CloudAutonomousVmCluster {
   /// The unique identifier of the Autonomous VM cluster.
   final String cloudAutonomousVmClusterId;
@@ -8883,6 +9014,8 @@ class CloudAutonomousVmCluster {
 
 /// Information about the compatible system versions that can be used with a
 /// specific Exadata shape and Grid Infrastructure (GI) version.
+///
+/// @nodoc
 class SystemVersionSummary {
   /// The version of GI software.
   final String? giVersion;
@@ -8925,6 +9058,8 @@ class SystemVersionSummary {
 
 /// Information about a specific version of Oracle Grid Infrastructure (GI)
 /// software that can be installed on a VM cluster.
+///
+/// @nodoc
 class GiVersionSummary {
   /// The GI software version.
   final String? version;
@@ -8950,6 +9085,8 @@ class GiVersionSummary {
 /// Information about a hardware system model (shape) that's available for an
 /// Exadata infrastructure. The shape determines resources, such as CPU cores,
 /// memory, and storage, to allocate to the Exadata infrastructure.
+///
+/// @nodoc
 class DbSystemShapeSummary {
   /// Indicates whether the hardware system model supports configurable database
   /// and server storage types.
@@ -9170,6 +9307,7 @@ class DbSystemShapeSummary {
   }
 }
 
+/// @nodoc
 class ShapeType {
   static const amd = ShapeType._('AMD');
   static const intel = ShapeType._('INTEL');
@@ -9196,6 +9334,8 @@ class ShapeType {
 }
 
 /// <p/>
+///
+/// @nodoc
 class OciOnboardingStatus {
   static const notStarted = OciOnboardingStatus._('NOT_STARTED');
   static const pendingLinkGeneration =
@@ -9251,6 +9391,8 @@ class OciOnboardingStatus {
 
 /// Information about an Oracle Cloud Infrastructure (OCI) identity domain
 /// configuration.
+///
+/// @nodoc
 class OciIdentityDomain {
   /// The Amazon Web Services CloudFormation URL for setting up the account
   /// integration with the OCI identity domain.
@@ -9316,26 +9458,31 @@ class OciIdentityDomain {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -9344,11 +9491,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

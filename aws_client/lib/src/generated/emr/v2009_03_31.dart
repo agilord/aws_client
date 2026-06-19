@@ -3371,6 +3371,7 @@ class Emr {
   }
 }
 
+/// @nodoc
 class AddInstanceFleetOutput {
   /// The Amazon Resource Name of the cluster.
   final String? clusterArn;
@@ -3408,6 +3409,8 @@ class AddInstanceFleetOutput {
 }
 
 /// Output from an AddInstanceGroups call.
+///
+/// @nodoc
 class AddInstanceGroupsOutput {
   /// The Amazon Resource Name of the cluster.
   final String? clusterArn;
@@ -3448,6 +3451,8 @@ class AddInstanceGroupsOutput {
 }
 
 /// The output for the <a>AddJobFlowSteps</a> operation.
+///
+/// @nodoc
 class AddJobFlowStepsOutput {
   /// The identifiers of the list of steps added to the job flow.
   final List<String>? stepIds;
@@ -3472,6 +3477,8 @@ class AddJobFlowStepsOutput {
 }
 
 /// This output indicates the result of adding tags to a resource.
+///
+/// @nodoc
 class AddTagsOutput {
   AddTagsOutput();
 
@@ -3485,6 +3492,8 @@ class AddTagsOutput {
 }
 
 /// The output for the <a>CancelSteps</a> operation.
+///
+/// @nodoc
 class CancelStepsOutput {
   /// A list of <a>CancelStepsInfo</a>, which shows the status of specified cancel
   /// requests for each <code>StepID</code> specified.
@@ -3512,6 +3521,7 @@ class CancelStepsOutput {
   }
 }
 
+/// @nodoc
 class CreatePersistentAppUIOutput {
   /// The persistent application user interface identifier.
   final String? persistentAppUIId;
@@ -3543,6 +3553,7 @@ class CreatePersistentAppUIOutput {
   }
 }
 
+/// @nodoc
 class CreateSecurityConfigurationOutput {
   /// The date and time the security configuration was created.
   final DateTime creationDateTime;
@@ -3574,6 +3585,7 @@ class CreateSecurityConfigurationOutput {
   }
 }
 
+/// @nodoc
 class CreateStudioOutput {
   /// The ID of the Amazon EMR Studio.
   final String? studioId;
@@ -3603,6 +3615,7 @@ class CreateStudioOutput {
   }
 }
 
+/// @nodoc
 class DeleteSecurityConfigurationOutput {
   DeleteSecurityConfigurationOutput();
 
@@ -3616,6 +3629,8 @@ class DeleteSecurityConfigurationOutput {
 }
 
 /// This output contains the description of the cluster.
+///
+/// @nodoc
 class DescribeClusterOutput {
   /// This output contains the details for the requested cluster.
   final Cluster? cluster;
@@ -3641,6 +3656,8 @@ class DescribeClusterOutput {
 }
 
 /// The output for the <a>DescribeJobFlows</a> operation.
+///
+/// @nodoc
 class DescribeJobFlowsOutput {
   /// A list of job flows matching the parameters supplied.
   final List<JobFlowDetail>? jobFlows;
@@ -3666,6 +3683,7 @@ class DescribeJobFlowsOutput {
   }
 }
 
+/// @nodoc
 class DescribeNotebookExecutionOutput {
   /// Properties of the notebook execution.
   final NotebookExecution? notebookExecution;
@@ -3691,6 +3709,7 @@ class DescribeNotebookExecutionOutput {
   }
 }
 
+/// @nodoc
 class DescribePersistentAppUIOutput {
   /// The persistent application user interface.
   final PersistentAppUI? persistentAppUI;
@@ -3716,6 +3735,7 @@ class DescribePersistentAppUIOutput {
   }
 }
 
+/// @nodoc
 class DescribeReleaseLabelOutput {
   /// The list of applications available for the target release label.
   /// <code>Name</code> is the name of the application. <code>Version</code> is
@@ -3772,6 +3792,7 @@ class DescribeReleaseLabelOutput {
   }
 }
 
+/// @nodoc
 class DescribeSecurityConfigurationOutput {
   /// The date and time the security configuration was created
   final DateTime? creationDateTime;
@@ -3812,6 +3833,8 @@ class DescribeSecurityConfigurationOutput {
 }
 
 /// This output contains the description of the cluster step.
+///
+/// @nodoc
 class DescribeStepOutput {
   /// The step details for the requested step identifier.
   final Step? step;
@@ -3836,6 +3859,7 @@ class DescribeStepOutput {
   }
 }
 
+/// @nodoc
 class DescribeStudioOutput {
   /// The Amazon EMR Studio details.
   final Studio? studio;
@@ -3860,6 +3884,7 @@ class DescribeStudioOutput {
   }
 }
 
+/// @nodoc
 class GetAutoTerminationPolicyOutput {
   /// Specifies the auto-termination policy that is attached to an Amazon EMR
   /// cluster.
@@ -3887,6 +3912,7 @@ class GetAutoTerminationPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetBlockPublicAccessConfigurationOutput {
   /// A configuration for Amazon EMR block public access. The configuration
   /// applies to all clusters created in your account for the current Region. The
@@ -3946,6 +3972,7 @@ class GetBlockPublicAccessConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetClusterSessionCredentialsOutput {
   /// The credentials that you can use to connect to cluster endpoints that
   /// support username and password authentication.
@@ -3980,6 +4007,7 @@ class GetClusterSessionCredentialsOutput {
   }
 }
 
+/// @nodoc
 class GetManagedScalingPolicyOutput {
   /// Specifies the managed scaling policy that is attached to an Amazon EMR
   /// cluster.
@@ -4007,6 +4035,7 @@ class GetManagedScalingPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetOnClusterAppUIPresignedURLOutput {
   /// The cluster's generated presigned URL.
   final String? presignedURL;
@@ -4037,6 +4066,7 @@ class GetOnClusterAppUIPresignedURLOutput {
   }
 }
 
+/// @nodoc
 class GetPersistentAppUIPresignedURLOutput {
   /// The returned presigned URL.
   final String? presignedURL;
@@ -4068,6 +4098,8 @@ class GetPersistentAppUIPresignedURLOutput {
 }
 
 /// Output of the <code>GetSession</code> operation.
+///
+/// @nodoc
 class GetSessionOutput {
   /// The output displays information about the session.
   final Session session;
@@ -4092,6 +4124,8 @@ class GetSessionOutput {
 }
 
 /// Output of the <code>GetSessionEndpoint</code> operation.
+///
+/// @nodoc
 class GetSessionEndpointOutput {
   /// The Spark Connect endpoint URL to use in the PySpark client.
   final String endpoint;
@@ -4142,6 +4176,7 @@ class GetSessionEndpointOutput {
   }
 }
 
+/// @nodoc
 class GetStudioSessionMappingOutput {
   /// The session mapping details for the specified Amazon EMR Studio and
   /// identity, including session policy ARN and creation time.
@@ -4169,6 +4204,8 @@ class GetStudioSessionMappingOutput {
 }
 
 /// This output contains the bootstrap actions detail.
+///
+/// @nodoc
 class ListBootstrapActionsOutput {
   /// The bootstrap actions associated with the cluster.
   final List<Command>? bootstrapActions;
@@ -4203,6 +4240,8 @@ class ListBootstrapActionsOutput {
 
 /// This contains a ClusterSummaryList with the cluster details; for example,
 /// the cluster IDs, names, and status.
+///
+/// @nodoc
 class ListClustersOutput {
   /// The list of clusters for the account based on the given filters.
   final List<ClusterSummary>? clusters;
@@ -4235,6 +4274,7 @@ class ListClustersOutput {
   }
 }
 
+/// @nodoc
 class ListInstanceFleetsOutput {
   /// The list of instance fleets for the cluster and given filters.
   final List<InstanceFleet>? instanceFleets;
@@ -4268,6 +4308,8 @@ class ListInstanceFleetsOutput {
 }
 
 /// This input determines which instance groups to retrieve.
+///
+/// @nodoc
 class ListInstanceGroupsOutput {
   /// The list of instance groups for the cluster and given filters.
   final List<InstanceGroup>? instanceGroups;
@@ -4301,6 +4343,8 @@ class ListInstanceGroupsOutput {
 }
 
 /// This output contains the list of instances.
+///
+/// @nodoc
 class ListInstancesOutput {
   /// The list of instances for the cluster and given filters.
   final List<Instance>? instances;
@@ -4333,6 +4377,7 @@ class ListInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListNotebookExecutionsOutput {
   /// A pagination token that a subsequent <code>ListNotebookExecutions</code> can
   /// use to determine the next set of results to retrieve.
@@ -4367,6 +4412,7 @@ class ListNotebookExecutionsOutput {
   }
 }
 
+/// @nodoc
 class ListReleaseLabelsOutput {
   /// Used to paginate the next page of results if specified in the next
   /// <code>ListReleaseLabels</code> request.
@@ -4400,6 +4446,7 @@ class ListReleaseLabelsOutput {
   }
 }
 
+/// @nodoc
 class ListSecurityConfigurationsOutput {
   /// A pagination token that indicates the next set of results to retrieve.
   /// Include the marker in the next ListSecurityConfiguration call to retrieve
@@ -4437,6 +4484,8 @@ class ListSecurityConfigurationsOutput {
 }
 
 /// Output of the <code>ListSessions</code> operation.
+///
+/// @nodoc
 class ListSessionsOutput {
   /// The pagination token to use in a subsequent <code>ListSessions</code> call
   /// to retrieve the next page of results. This field is absent when there are no
@@ -4473,6 +4522,8 @@ class ListSessionsOutput {
 
 /// This output contains the list of steps returned in reverse order. This means
 /// that the last step is the first element in the list.
+///
+/// @nodoc
 class ListStepsOutput {
   /// The maximum number of steps that a single <code>ListSteps</code> action
   /// returns is 50. To return a longer list of steps, use multiple
@@ -4509,6 +4560,7 @@ class ListStepsOutput {
   }
 }
 
+/// @nodoc
 class ListStudiosOutput {
   /// The pagination token that indicates the next set of results to retrieve.
   final String? marker;
@@ -4541,6 +4593,7 @@ class ListStudiosOutput {
   }
 }
 
+/// @nodoc
 class ListStudioSessionMappingsOutput {
   /// The pagination token that indicates the next set of results to retrieve.
   final String? marker;
@@ -4575,6 +4628,7 @@ class ListStudioSessionMappingsOutput {
   }
 }
 
+/// @nodoc
 class ListSupportedInstanceTypesOutput {
   /// The pagination token that marks the next set of results to retrieve.
   final String? marker;
@@ -4610,6 +4664,7 @@ class ListSupportedInstanceTypesOutput {
   }
 }
 
+/// @nodoc
 class ModifyClusterOutput {
   /// Reserved.
   final bool? extendedSupport;
@@ -4640,6 +4695,7 @@ class ModifyClusterOutput {
   }
 }
 
+/// @nodoc
 class PutAutoScalingPolicyOutput {
   /// The automatic scaling policy definition.
   final AutoScalingPolicyDescription? autoScalingPolicy;
@@ -4688,6 +4744,7 @@ class PutAutoScalingPolicyOutput {
   }
 }
 
+/// @nodoc
 class PutAutoTerminationPolicyOutput {
   PutAutoTerminationPolicyOutput();
 
@@ -4700,6 +4757,7 @@ class PutAutoTerminationPolicyOutput {
   }
 }
 
+/// @nodoc
 class PutBlockPublicAccessConfigurationOutput {
   PutBlockPublicAccessConfigurationOutput();
 
@@ -4713,6 +4771,7 @@ class PutBlockPublicAccessConfigurationOutput {
   }
 }
 
+/// @nodoc
 class PutManagedScalingPolicyOutput {
   PutManagedScalingPolicyOutput();
 
@@ -4725,6 +4784,7 @@ class PutManagedScalingPolicyOutput {
   }
 }
 
+/// @nodoc
 class RemoveAutoScalingPolicyOutput {
   RemoveAutoScalingPolicyOutput();
 
@@ -4737,6 +4797,7 @@ class RemoveAutoScalingPolicyOutput {
   }
 }
 
+/// @nodoc
 class RemoveAutoTerminationPolicyOutput {
   RemoveAutoTerminationPolicyOutput();
 
@@ -4749,6 +4810,7 @@ class RemoveAutoTerminationPolicyOutput {
   }
 }
 
+/// @nodoc
 class RemoveManagedScalingPolicyOutput {
   RemoveManagedScalingPolicyOutput();
 
@@ -4762,6 +4824,8 @@ class RemoveManagedScalingPolicyOutput {
 }
 
 /// This output indicates the result of removing tags from the resource.
+///
+/// @nodoc
 class RemoveTagsOutput {
   RemoveTagsOutput();
 
@@ -4775,6 +4839,8 @@ class RemoveTagsOutput {
 }
 
 /// The result of the <a>RunJobFlow</a> operation.
+///
+/// @nodoc
 class RunJobFlowOutput {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4804,6 +4870,7 @@ class RunJobFlowOutput {
   }
 }
 
+/// @nodoc
 class StartNotebookExecutionOutput {
   /// The unique identifier of the notebook execution.
   final String? notebookExecutionId;
@@ -4828,6 +4895,8 @@ class StartNotebookExecutionOutput {
 }
 
 /// Output of the <code>StartSession</code> operation.
+///
+/// @nodoc
 class StartSessionOutput {
   /// The output contains the ID of the session.
   final String id;
@@ -4880,6 +4949,8 @@ class StartSessionOutput {
 }
 
 /// Output of the <code>TerminateSession</code> operation.
+///
+/// @nodoc
 class TerminateSessionOutput {
   /// The ID of the cluster that the session belonged to.
   final String clusterId;
@@ -4916,6 +4987,7 @@ class TerminateSessionOutput {
   }
 }
 
+/// @nodoc
 class IdentityType {
   static const user = IdentityType._('USER');
   static const group = IdentityType._('GROUP');
@@ -4939,6 +5011,7 @@ class IdentityType {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionState {
   static const submitted = SessionState._('SUBMITTED');
   static const starting = SessionState._('STARTING');
@@ -4979,6 +5052,8 @@ class SessionState {
 
 /// The monitoring configuration for a session. Controls where session logs are
 /// published.
+///
+/// @nodoc
 class SessionMonitoringConfiguration {
   /// The CloudWatch Logs configuration for the session.
   final SessionCloudWatchLoggingConfiguration? cloudWatchLoggingConfiguration;
@@ -5034,6 +5109,8 @@ class SessionMonitoringConfiguration {
 /// allocation costs. For more information, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
 /// Clusters</a>.
+///
+/// @nodoc
 class Tag {
   /// A user-defined key, which is the minimum required information for a valid
   /// tag. For more information, see <a
@@ -5069,6 +5146,8 @@ class Tag {
 }
 
 /// The CloudWatch Logs configuration for a session.
+///
+/// @nodoc
 class SessionCloudWatchLoggingConfiguration {
   /// Whether CloudWatch Logs is enabled for the session.
   final bool? enabled;
@@ -5126,6 +5205,8 @@ class SessionCloudWatchLoggingConfiguration {
 }
 
 /// The Amazon EMR-managed logging configuration for a session.
+///
+/// @nodoc
 class SessionManagedLoggingConfiguration {
   /// Whether Amazon EMR-managed logging is enabled for the session.
   final bool? enabled;
@@ -5158,6 +5239,8 @@ class SessionManagedLoggingConfiguration {
 }
 
 /// The Amazon S3 logging configuration for a session.
+///
+/// @nodoc
 class SessionS3LoggingConfiguration {
   /// Whether Amazon S3 logging is enabled for the session.
   final bool? enabled;
@@ -5216,6 +5299,8 @@ class SessionS3LoggingConfiguration {
 /// want to change in that file. For more information, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html">Configuring
 /// Applications</a>.
+///
+/// @nodoc
 class Configuration {
   /// The classification within a configuration.
   final String? classification;
@@ -5258,6 +5343,8 @@ class Configuration {
 
 /// Specifies the execution engine (cluster) to run the notebook and perform the
 /// notebook execution, for example, an Amazon EMR cluster.
+///
+/// @nodoc
 class ExecutionEngineConfig {
   /// The unique identifier of the execution engine. For an Amazon EMR cluster,
   /// this is the cluster ID.
@@ -5311,6 +5398,8 @@ class ExecutionEngineConfig {
 }
 
 /// The Amazon S3 location that stores the notebook execution input.
+///
+/// @nodoc
 class NotebookS3LocationFromInput {
   /// The Amazon S3 bucket that stores the notebook execution input.
   final String? bucket;
@@ -5334,6 +5423,8 @@ class NotebookS3LocationFromInput {
 }
 
 /// The Amazon S3 location that stores the notebook execution output.
+///
+/// @nodoc
 class OutputNotebookS3LocationFromInput {
   /// The Amazon S3 bucket that stores the notebook execution output.
   final String? bucket;
@@ -5356,6 +5447,7 @@ class OutputNotebookS3LocationFromInput {
   }
 }
 
+/// @nodoc
 class OutputNotebookFormat {
   static const html = OutputNotebookFormat._('HTML');
 
@@ -5380,6 +5472,7 @@ class OutputNotebookFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionEngineType {
   static const emr = ExecutionEngineType._('EMR');
 
@@ -5409,6 +5502,8 @@ class ExecutionEngineType {
 /// InstanceFleets. They cannot be used together. You may also have
 /// MasterInstanceType, SlaveInstanceType, and InstanceCount (all three must be
 /// present), but we don't recommend this configuration.
+///
+/// @nodoc
 class JobFlowInstancesConfig {
   /// A list of additional Amazon EC2 security group IDs for the master node.
   final List<String>? additionalMasterSecurityGroups;
@@ -5570,6 +5665,7 @@ class JobFlowInstancesConfig {
   }
 }
 
+/// @nodoc
 class ScaleDownBehavior {
   static const terminateAtInstanceHour =
       ScaleDownBehavior._('TERMINATE_AT_INSTANCE_HOUR');
@@ -5596,6 +5692,7 @@ class ScaleDownBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class RepoUpgradeOnBoot {
   static const security = RepoUpgradeOnBoot._('SECURITY');
   static const none = RepoUpgradeOnBoot._('NONE');
@@ -5624,6 +5721,8 @@ class RepoUpgradeOnBoot {
 /// enabled using a security configuration. For more information see <a
 /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html">Use
 /// Kerberos Authentication</a> in the <i>Amazon EMR Management Guide</i>.
+///
+/// @nodoc
 class KerberosAttributes {
   /// The password used within the cluster for the kadmin service on the
   /// cluster-dedicated KDC, which maintains Kerberos principals, password
@@ -5688,6 +5787,8 @@ class KerberosAttributes {
 /// limits for resources that can be added or terminated from a cluster. The
 /// policy only applies to the core and task nodes. The master node cannot be
 /// scaled after initial configuration.
+///
+/// @nodoc
 class ManagedScalingPolicy {
   /// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling
   /// activity of a cluster is not allowed to go above or below these limits. The
@@ -5742,6 +5843,8 @@ class ManagedScalingPolicy {
 /// <a
 /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html">Control
 /// cluster termination</a>.
+///
+/// @nodoc
 class AutoTerminationPolicy {
   /// Specifies the amount of idle time in seconds after which the cluster
   /// automatically terminates. You can specify a minimum of 60 seconds and a
@@ -5768,6 +5871,8 @@ class AutoTerminationPolicy {
 
 /// Contains CloudWatch log configuration and S3 logging configuration metadata
 /// and settings.
+///
+/// @nodoc
 class MonitoringConfiguration {
   /// CloudWatch log configuration settings and metadata that specify settings
   /// like log files to monitor and where to send them.
@@ -5810,6 +5915,8 @@ class MonitoringConfiguration {
 
 /// Holds CloudWatch log configuration settings and metadata that specify
 /// settings like log files to monitor and where to send them.
+///
+/// @nodoc
 class CloudWatchLogConfiguration {
   /// Specifies if CloudWatch logging is enabled.
   final bool enabled;
@@ -5868,6 +5975,8 @@ class CloudWatchLogConfiguration {
 /// Configuration for S3 logging behavior in EMR clusters. Defines how different
 /// types of logs are uploaded to S3 based on the specified upload policies for
 /// each log type.
+///
+/// @nodoc
 class S3LoggingConfiguration {
   /// A map that specifies the upload policy for each log type. The key is the log
   /// type, and the value is the upload policy.
@@ -5931,6 +6040,7 @@ class S3LoggingConfiguration {
   }
 }
 
+/// @nodoc
 class LogType {
   static const systemLogs = LogType._('system-logs');
   static const applicationLogs = LogType._('application-logs');
@@ -5955,6 +6065,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogUploadPolicyValue {
   static const emrManaged = LogUploadPolicyValue._('emr-managed');
   static const onCustomerS3only = LogUploadPolicyValue._('on-customer-s3only');
@@ -5987,6 +6098,8 @@ class LogUploadPolicyValue {
 ///
 /// To use this configuration, consider attaching managed policy
 /// AmazonElasticMapReducePlacementGroupPolicy to the Amazon EMR role.
+///
+/// @nodoc
 class PlacementGroupConfig {
   /// Role of the instance in the cluster.
   ///
@@ -6025,6 +6138,7 @@ class PlacementGroupConfig {
   }
 }
 
+/// @nodoc
 class InstanceRoleType {
   static const master = InstanceRoleType._('MASTER');
   static const core = InstanceRoleType._('CORE');
@@ -6050,6 +6164,7 @@ class InstanceRoleType {
   String toString() => value;
 }
 
+/// @nodoc
 class PlacementGroupStrategy {
   static const spread = PlacementGroupStrategy._('SPREAD');
   static const partition = PlacementGroupStrategy._('PARTITION');
@@ -6081,6 +6196,8 @@ class PlacementGroupStrategy {
 /// activity of a cluster can not be above or below these limits. The limit only
 /// applies to the core and task nodes. The master node cannot be scaled after
 /// initial configuration.
+///
+/// @nodoc
 class ComputeLimits {
   /// The upper boundary of Amazon EC2 units. It is measured through vCPU cores or
   /// instances for instance groups and measured through units for instance
@@ -6151,6 +6268,7 @@ class ComputeLimits {
   }
 }
 
+/// @nodoc
 class ScalingStrategy {
   static const $default = ScalingStrategy._('DEFAULT');
   static const advanced = ScalingStrategy._('ADVANCED');
@@ -6175,6 +6293,7 @@ class ScalingStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ComputeLimitsUnitType {
   static const instanceFleetUnits =
       ComputeLimitsUnitType._('InstanceFleetUnits');
@@ -6215,6 +6334,8 @@ class ComputeLimitsUnitType {
 /// cluster and accepts a user argument list. Amazon EMR accepts and forwards
 /// the argument list to the corresponding installation script as bootstrap
 /// action argument.
+///
+/// @nodoc
 class Application {
   /// This option is for advanced users only. This is meta information about
   /// third-party applications that third-party vendors use for testing purposes.
@@ -6263,6 +6384,8 @@ class Application {
 /// The list of supported product configurations that allow user-supplied
 /// arguments. Amazon EMR accepts these arguments and forwards them to the
 /// corresponding installation script as bootstrap action arguments.
+///
+/// @nodoc
 class SupportedProductConfig {
   /// The list of user-supplied arguments.
   final List<String>? args;
@@ -6286,6 +6409,8 @@ class SupportedProductConfig {
 }
 
 /// Configuration of a bootstrap action.
+///
+/// @nodoc
 class BootstrapActionConfig {
   /// The name of the bootstrap action.
   final String name;
@@ -6318,6 +6443,8 @@ class BootstrapActionConfig {
 }
 
 /// Configuration of the script to run during a bootstrap action.
+///
+/// @nodoc
 class ScriptBootstrapActionConfig {
   /// Location in Amazon S3 of the script to run during a bootstrap action.
   final String path;
@@ -6348,6 +6475,8 @@ class ScriptBootstrapActionConfig {
 }
 
 /// Specification for a cluster (job flow) step.
+///
+/// @nodoc
 class StepConfig {
   /// The JAR file used for the step.
   final HadoopJarStepConfig hadoopJarStep;
@@ -6429,6 +6558,7 @@ class StepConfig {
   }
 }
 
+/// @nodoc
 class ActionOnFailure {
   static const terminateJobFlow = ActionOnFailure._('TERMINATE_JOB_FLOW');
   static const terminateCluster = ActionOnFailure._('TERMINATE_CLUSTER');
@@ -6463,6 +6593,8 @@ class ActionOnFailure {
 /// A job flow step consisting of a JAR file whose main function will be
 /// executed. The main function submits a job for Hadoop to execute and waits
 /// for the job to finish or fail.
+///
+/// @nodoc
 class HadoopJarStepConfig {
   /// A path to a JAR file run during the step.
   final String jar;
@@ -6513,6 +6645,8 @@ class HadoopJarStepConfig {
 }
 
 /// Object that holds configuration properties for logging.
+///
+/// @nodoc
 class StepMonitoringConfiguration {
   /// The Amazon S3 configuration for monitoring log publishing. You can configure
   /// your step to send log information to Amazon S3. When it's specified, it
@@ -6548,6 +6682,8 @@ class StepMonitoringConfiguration {
 /// takes precedence over the cluster's logging configuration. If you don't
 /// specify this configuration entirely, or omit individual fields, EMR falls
 /// back to cluster-level logging behavior.
+///
+/// @nodoc
 class S3MonitoringConfiguration {
   /// The KMS key ARN to encrypt the logs published to the given Amazon S3
   /// destination.
@@ -6579,6 +6715,8 @@ class S3MonitoringConfiguration {
 }
 
 /// A key-value pair.
+///
+/// @nodoc
 class KeyValue {
   /// The unique identifier of a key-value pair.
   final String? key;
@@ -6609,6 +6747,8 @@ class KeyValue {
 }
 
 /// The Amazon EC2 Availability Zone configuration of the cluster (job flow).
+///
+/// @nodoc
 class PlacementType {
   /// The Amazon EC2 Availability Zone for the cluster.
   /// <code>AvailabilityZone</code> is used for uniform instance groups, while
@@ -6656,6 +6796,8 @@ class PlacementType {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceFleetConfig {
   /// The node type that the instance fleet hosts. Valid values are MASTER, CORE,
   /// and TASK.
@@ -6756,6 +6898,7 @@ class InstanceFleetConfig {
   }
 }
 
+/// @nodoc
 class InstanceFleetType {
   static const master = InstanceFleetType._('MASTER');
   static const core = InstanceFleetType._('CORE');
@@ -6787,6 +6930,8 @@ class InstanceFleetType {
 /// 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot instance
 /// allocation strategies are available in Amazon EMR releases 5.12.1 and later.
 /// </note>
+///
+/// @nodoc
 class InstanceFleetProvisioningSpecifications {
   /// The launch specification for On-Demand Instances in the instance fleet,
   /// which determines the allocation strategy and capacity reservation options.
@@ -6833,6 +6978,8 @@ class InstanceFleetProvisioningSpecifications {
 }
 
 /// The resize specification for On-Demand and Spot Instances in the fleet.
+///
+/// @nodoc
 class InstanceFleetResizingSpecifications {
   /// The resize specification for On-Demand Instances in the instance fleet,
   /// which contains the allocation strategy, capacity reservation options, and
@@ -6876,6 +7023,8 @@ class InstanceFleetResizingSpecifications {
 
 /// The resize specification for Spot Instances in the instance fleet, which
 /// contains the resize timeout period.
+///
+/// @nodoc
 class SpotResizingSpecification {
   /// Specifies the allocation strategy to use to launch Spot instances during a
   /// resize. If you run Amazon EMR releases 6.9.0 or higher, the default is
@@ -6920,6 +7069,8 @@ class SpotResizingSpecification {
 
 /// The resize specification for On-Demand Instances in the instance fleet,
 /// which contains the resize timeout period.
+///
+/// @nodoc
 class OnDemandResizingSpecification {
   /// Specifies the allocation strategy to use to launch On-Demand instances
   /// during a resize. The default is <code>lowest-price</code>.
@@ -6969,6 +7120,7 @@ class OnDemandResizingSpecification {
   }
 }
 
+/// @nodoc
 class OnDemandProvisioningAllocationStrategy {
   static const lowestPrice =
       OnDemandProvisioningAllocationStrategy._('lowest-price');
@@ -6998,6 +7150,8 @@ class OnDemandProvisioningAllocationStrategy {
 
 /// Describes the strategy for using unused Capacity Reservations for fulfilling
 /// On-Demand capacity.
+///
+/// @nodoc
 class OnDemandCapacityReservationOptions {
   /// Indicates the instance's Capacity Reservation preferences. Possible
   /// preferences include:
@@ -7069,6 +7223,7 @@ class OnDemandCapacityReservationOptions {
   }
 }
 
+/// @nodoc
 class OnDemandCapacityReservationUsageStrategy {
   static const useCapacityReservationsFirst =
       OnDemandCapacityReservationUsageStrategy._(
@@ -7095,6 +7250,7 @@ class OnDemandCapacityReservationUsageStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class OnDemandCapacityReservationPreference {
   static const open = OnDemandCapacityReservationPreference._('open');
   static const none = OnDemandCapacityReservationPreference._('none');
@@ -7120,6 +7276,7 @@ class OnDemandCapacityReservationPreference {
   String toString() => value;
 }
 
+/// @nodoc
 class SpotProvisioningAllocationStrategy {
   static const capacityOptimized =
       SpotProvisioningAllocationStrategy._('capacity-optimized');
@@ -7172,6 +7329,8 @@ class SpotProvisioningAllocationStrategy {
 /// previously used the feature, we will continue to support Spot Instances with
 /// a defined duration until December 31, 2022.
 /// </note>
+///
+/// @nodoc
 class SpotProvisioningSpecification {
   /// The action to take when <code>TargetSpotCapacity</code> has not been
   /// fulfilled when the <code>TimeoutDurationMinutes</code> has expired; that is,
@@ -7260,6 +7419,8 @@ class SpotProvisioningSpecification {
 /// 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation
 /// strategy is available in Amazon EMR releases 5.12.1 and later.
 /// </note>
+///
+/// @nodoc
 class OnDemandProvisioningSpecification {
   /// Specifies the strategy to use in launching On-Demand instance fleets.
   /// Available options are <code>lowest-price</code> and
@@ -7301,6 +7462,7 @@ class OnDemandProvisioningSpecification {
   }
 }
 
+/// @nodoc
 class SpotProvisioningTimeoutAction {
   static const switchToOnDemand =
       SpotProvisioningTimeoutAction._('SWITCH_TO_ON_DEMAND');
@@ -7340,6 +7502,8 @@ class SpotProvisioningTimeoutAction {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceTypeConfig {
   /// An Amazon EC2 instance type, such as <code>m3.xlarge</code>.
   final String instanceType;
@@ -7418,6 +7582,8 @@ class InstanceTypeConfig {
 }
 
 /// The Amazon EBS configuration of a cluster instance.
+///
+/// @nodoc
 class EbsConfiguration {
   /// An array of Amazon EBS volume specifications attached to a cluster instance.
   final List<EbsBlockDeviceConfig>? ebsBlockDeviceConfigs;
@@ -7445,6 +7611,8 @@ class EbsConfiguration {
 
 /// Configuration of requested EBS block device associated with the instance
 /// group with count of volumes that are associated to every instance.
+///
+/// @nodoc
 class EbsBlockDeviceConfig {
   /// EBS volume specifications such as volume type, IOPS, size (GiB) and
   /// throughput (MiB/s) that are requested for the EBS volume attached to an
@@ -7473,6 +7641,8 @@ class EbsBlockDeviceConfig {
 /// EBS volume specifications such as volume type, IOPS, size (GiB) and
 /// throughput (MiB/s) that are requested for the EBS volume attached to an
 /// Amazon EC2 instance in the cluster.
+///
+/// @nodoc
 class VolumeSpecification {
   /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If
   /// the volume type is EBS-optimized, the minimum value is 10.
@@ -7520,6 +7690,8 @@ class VolumeSpecification {
 }
 
 /// Configuration defining a new instance group.
+///
+/// @nodoc
 class InstanceGroupConfig {
   /// Target number of instances for the instance group.
   final int instanceCount;
@@ -7604,6 +7776,7 @@ class InstanceGroupConfig {
   }
 }
 
+/// @nodoc
 class MarketType {
   static const onDemand = MarketType._('ON_DEMAND');
   static const spot = MarketType._('SPOT');
@@ -7632,6 +7805,8 @@ class MarketType {
 /// instance group dynamically adds and terminates Amazon EC2 instances in
 /// response to the value of a CloudWatch metric. See
 /// <a>PutAutoScalingPolicy</a>.
+///
+/// @nodoc
 class AutoScalingPolicy {
   /// The upper and lower Amazon EC2 instance limits for an automatic scaling
   /// policy. Automatic scaling activity will not cause an instance group to grow
@@ -7659,6 +7834,8 @@ class AutoScalingPolicy {
 /// The upper and lower Amazon EC2 instance limits for an automatic scaling
 /// policy. Automatic scaling activities triggered by automatic scaling rules
 /// will not cause an instance group to grow above or below these limits.
+///
+/// @nodoc
 class ScalingConstraints {
   /// The upper boundary of Amazon EC2 instances in an instance group beyond which
   /// scaling activities are not allowed to grow. Scale-out activities will not
@@ -7697,6 +7874,8 @@ class ScalingConstraints {
 /// added or removed, and the periodicity of adjustments. The automatic scaling
 /// policy for an instance group can comprise one or more automatic scaling
 /// rules.
+///
+/// @nodoc
 class ScalingRule {
   /// The conditions that trigger an automatic scaling activity.
   final ScalingAction action;
@@ -7748,6 +7927,8 @@ class ScalingRule {
 
 /// The type of adjustment the automatic scaling activity makes when triggered,
 /// and the periodicity of the adjustment.
+///
+/// @nodoc
 class ScalingAction {
   /// The type of adjustment the automatic scaling activity makes when triggered,
   /// and the periodicity of the adjustment.
@@ -7785,6 +7966,8 @@ class ScalingAction {
 }
 
 /// The conditions that trigger an automatic scaling activity.
+///
+/// @nodoc
 class ScalingTrigger {
   /// The definition of a CloudWatch metric alarm. When the defined alarm
   /// conditions are met along with other trigger parameters, scaling activity
@@ -7814,6 +7997,8 @@ class ScalingTrigger {
 /// The definition of a CloudWatch metric alarm, which determines when an
 /// automatic scaling activity is triggered. When the defined alarm conditions
 /// are satisfied, scaling activity begins.
+///
+/// @nodoc
 class CloudWatchAlarmDefinition {
   /// Determines how the metric specified by <code>MetricName</code> is compared
   /// to the value specified by <code>Threshold</code>.
@@ -7906,6 +8091,7 @@ class CloudWatchAlarmDefinition {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const greaterThanOrEqual =
       ComparisonOperator._('GREATER_THAN_OR_EQUAL');
@@ -7939,6 +8125,7 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class Statistic {
   static const sampleCount = Statistic._('SAMPLE_COUNT');
   static const average = Statistic._('AVERAGE');
@@ -7965,6 +8152,7 @@ class Statistic {
   String toString() => value;
 }
 
+/// @nodoc
 class Unit {
   static const none = Unit._('NONE');
   static const seconds = Unit._('SECONDS');
@@ -8047,6 +8235,8 @@ class Unit {
 /// <code>JobFlowID</code> and <code>Value</code> is a variable representing the
 /// cluster ID, which is <code>${emr.clusterId}</code>. This enables the rule to
 /// bootstrap when the cluster ID becomes available.
+///
+/// @nodoc
 class MetricDimension {
   /// The dimension name.
   final String? key;
@@ -8080,6 +8270,8 @@ class MetricDimension {
 /// removes instances, the cooldown period, and the number of Amazon EC2
 /// instances that will be added each time the CloudWatch metric alarm condition
 /// is satisfied.
+///
+/// @nodoc
 class SimpleScalingPolicyConfiguration {
   /// The amount by which to scale in or scale out, based on the specified
   /// <code>AdjustmentType</code>. A positive value adds to the instance group's
@@ -8139,6 +8331,7 @@ class SimpleScalingPolicyConfiguration {
   }
 }
 
+/// @nodoc
 class AdjustmentType {
   static const changeInCapacity = AdjustmentType._('CHANGE_IN_CAPACITY');
   static const percentChangeInCapacity =
@@ -8175,6 +8368,8 @@ class AdjustmentType {
 /// has a rule that allows inbound traffic from 0.0.0.0/0 or ::/0 on a port,
 /// unless the port is specified as an exception using
 /// <code>PermittedPublicSecurityGroupRuleRanges</code>.
+///
+/// @nodoc
 class BlockPublicAccessConfiguration {
   /// Indicates whether Amazon EMR block public access is enabled
   /// (<code>true</code>) or disabled (<code>false</code>). By default, the value
@@ -8254,6 +8449,8 @@ class BlockPublicAccessConfiguration {
 /// A list of port ranges that are permitted to allow inbound traffic from all
 /// public IP addresses. To specify a single port, use the same value for
 /// <code>MinRange</code> and <code>MaxRange</code>.
+///
+/// @nodoc
 class PortRange {
   /// The smallest port number in a specified range of port numbers.
   final int minRange;
@@ -8288,6 +8485,8 @@ class PortRange {
 /// instance group dynamically adds and terminates Amazon EC2 instances in
 /// response to the value of a CloudWatch metric. See
 /// <a>PutAutoScalingPolicy</a>.
+///
+/// @nodoc
 class AutoScalingPolicyDescription {
   /// The upper and lower Amazon EC2 instance limits for an automatic scaling
   /// policy. Automatic scaling activity will not cause an instance group to grow
@@ -8336,6 +8535,8 @@ class AutoScalingPolicyDescription {
 }
 
 /// The status of an automatic scaling policy.
+///
+/// @nodoc
 class AutoScalingPolicyStatus {
   /// Indicates the status of the automatic scaling policy.
   final AutoScalingPolicyState? state;
@@ -8368,6 +8569,7 @@ class AutoScalingPolicyStatus {
   }
 }
 
+/// @nodoc
 class AutoScalingPolicyState {
   static const pending = AutoScalingPolicyState._('PENDING');
   static const attaching = AutoScalingPolicyState._('ATTACHING');
@@ -8405,6 +8607,8 @@ class AutoScalingPolicyState {
 }
 
 /// The reason for an <a>AutoScalingPolicyStatus</a> change.
+///
+/// @nodoc
 class AutoScalingPolicyStateChangeReason {
   /// The code indicating the reason for the change in
   /// status.<code>USER_REQUEST</code> indicates that the scaling policy status
@@ -8441,6 +8645,7 @@ class AutoScalingPolicyStateChangeReason {
   }
 }
 
+/// @nodoc
 class AutoScalingPolicyStateChangeReasonCode {
   static const userRequest =
       AutoScalingPolicyStateChangeReasonCode._('USER_REQUEST');
@@ -8471,6 +8676,8 @@ class AutoScalingPolicyStateChangeReasonCode {
 }
 
 /// Modify the size or configurations of an instance group.
+///
+/// @nodoc
 class InstanceGroupModifyConfig {
   /// Unique ID of the instance group to modify.
   final String instanceGroupId;
@@ -8522,6 +8729,8 @@ class InstanceGroupModifyConfig {
 
 /// Policy for customizing shrink operations. Allows configuration of
 /// decommissioning timeout and targeted instance shrinking.
+///
+/// @nodoc
 class ShrinkPolicy {
   /// The desired timeout for decommissioning an instance. Overrides the default
   /// YARN decommissioning timeout.
@@ -8558,6 +8767,7 @@ class ShrinkPolicy {
   }
 }
 
+/// @nodoc
 class ReconfigurationType {
   static const overwrite = ReconfigurationType._('OVERWRITE');
   static const merge = ReconfigurationType._('MERGE');
@@ -8585,6 +8795,8 @@ class ReconfigurationType {
 
 /// Custom policy for requesting termination protection or termination of
 /// specific instances when shrinking an instance group.
+///
+/// @nodoc
 class InstanceResizePolicy {
   /// Decommissioning timeout override for the specific list of instances to be
   /// terminated.
@@ -8636,6 +8848,8 @@ class InstanceResizePolicy {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceFleetModifyConfig {
   /// A unique identifier for the instance fleet.
   final String instanceFleetId;
@@ -8691,6 +8905,8 @@ class InstanceFleetModifyConfig {
 }
 
 /// An instance type that the specified Amazon EMR release supports.
+///
+/// @nodoc
 class SupportedInstanceType {
   /// The CPU architecture, for example <code>X86_64</code> or
   /// <code>AARCH64</code>.
@@ -8801,6 +9017,8 @@ class SupportedInstanceType {
 
 /// Details for an Amazon EMR Studio session mapping. The details do not include
 /// the time the session mapping was last modified.
+///
+/// @nodoc
 class SessionMappingSummary {
   /// The time the session mapping was created.
   final DateTime? creationTime;
@@ -8870,6 +9088,8 @@ class SessionMappingSummary {
 /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description.
 /// To fetch additional details such as subnets, IAM roles, security groups, and
 /// tags for the Studio, use the <a>DescribeStudio</a> API.
+///
+/// @nodoc
 class StudioSummary {
   /// Specifies whether the Studio authenticates users using IAM or IAM Identity
   /// Center.
@@ -8937,6 +9157,7 @@ class StudioSummary {
   }
 }
 
+/// @nodoc
 class AuthMode {
   static const sso = AuthMode._('SSO');
   static const iam = AuthMode._('IAM');
@@ -8961,6 +9182,8 @@ class AuthMode {
 }
 
 /// The summary of the cluster step.
+///
+/// @nodoc
 class StepSummary {
   /// The action to take when the cluster step fails. Possible values are
   /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
@@ -9036,6 +9259,8 @@ class StepSummary {
 /// A cluster step consisting of a JAR file whose main function will be
 /// executed. The main function submits a job for Hadoop to execute and waits
 /// for the job to finish or fail.
+///
+/// @nodoc
 class HadoopStepConfig {
   /// The list of command line arguments to pass to the JAR file's main function
   /// for execution.
@@ -9084,6 +9309,8 @@ class HadoopStepConfig {
 }
 
 /// The execution status details of the cluster step.
+///
+/// @nodoc
 class StepStatus {
   /// The details for the step failure including reason, message, and log file
   /// path where the root cause was identified.
@@ -9136,6 +9363,7 @@ class StepStatus {
   }
 }
 
+/// @nodoc
 class StepState {
   static const pending = StepState._('PENDING');
   static const cancelPending = StepState._('CANCEL_PENDING');
@@ -9173,6 +9401,8 @@ class StepState {
 }
 
 /// The details of the step state change reason.
+///
+/// @nodoc
 class StepStateChangeReason {
   /// The programmable code for the state change reason. Note: Currently, the
   /// service provides no code for the state change.
@@ -9206,6 +9436,8 @@ class StepStateChangeReason {
 
 /// The details of the step failure. The service attempts to detect the root
 /// cause for many common failures.
+///
+/// @nodoc
 class FailureDetails {
   /// The path to the log file where the step failure root cause was originally
   /// recorded.
@@ -9248,6 +9480,8 @@ class FailureDetails {
 }
 
 /// The timeline of the cluster step lifecycle.
+///
+/// @nodoc
 class StepTimeline {
   /// The date and time when the cluster step was created.
   final DateTime? creationDateTime;
@@ -9286,6 +9520,7 @@ class StepTimeline {
   }
 }
 
+/// @nodoc
 class StepStateChangeReasonCode {
   static const none = StepStateChangeReasonCode._('NONE');
 
@@ -9311,6 +9546,8 @@ class StepStateChangeReasonCode {
 }
 
 /// Detailed information about a Spark Connect session.
+///
+/// @nodoc
 class Session {
   /// The Amazon Resource Name (ARN) of the session.
   final String arn;
@@ -9493,6 +9730,8 @@ class Session {
 
 /// Describes the certificate authority used to establish an mTLS connection to
 /// the Spark Connect server when connecting directly over VPC peering.
+///
+/// @nodoc
 class CertificateAuthority {
   /// The Amazon Resource Name (ARN) of the certificate authority in Amazon Web
   /// Services Private CA that issued the Spark Connect server certificate.
@@ -9526,6 +9765,8 @@ class CertificateAuthority {
 }
 
 /// The creation date and time, and name, of a security configuration.
+///
+/// @nodoc
 class SecurityConfigurationSummary {
   /// The date and time the security configuration was created.
   final DateTime? creationDateTime;
@@ -9557,6 +9798,8 @@ class SecurityConfigurationSummary {
 }
 
 /// The release label filters by application or version prefix.
+///
+/// @nodoc
 class ReleaseLabelFilter {
   /// Optional release label application filter. For example,
   /// <code>spark@2.1.0</code>.
@@ -9583,6 +9826,8 @@ class ReleaseLabelFilter {
 
 /// Details for a notebook execution. The details include information such as
 /// the unique ID and status of the notebook execution.
+///
+/// @nodoc
 class NotebookExecutionSummary {
   /// The unique identifier of the editor associated with the notebook execution.
   final String? editorId;
@@ -9703,6 +9948,7 @@ class NotebookExecutionSummary {
   }
 }
 
+/// @nodoc
 class NotebookExecutionStatus {
   static const startPending = NotebookExecutionStatus._('START_PENDING');
   static const starting = NotebookExecutionStatus._('STARTING');
@@ -9748,6 +9994,8 @@ class NotebookExecutionStatus {
 }
 
 /// The Amazon S3 location that stores the notebook execution input.
+///
+/// @nodoc
 class NotebookS3LocationForOutput {
   /// The Amazon S3 bucket that stores the notebook execution input.
   final String? bucket;
@@ -9778,6 +10026,8 @@ class NotebookS3LocationForOutput {
 }
 
 /// Represents an Amazon EC2 instance provisioned as part of cluster.
+///
+/// @nodoc
 class Instance {
   /// The list of Amazon EBS volumes that are attached to this instance.
   final List<EbsVolume>? ebsVolumes;
@@ -9885,6 +10135,8 @@ class Instance {
 }
 
 /// The instance status details.
+///
+/// @nodoc
 class InstanceStatus {
   /// The current state of the instance.
   final InstanceState? state;
@@ -9927,6 +10179,8 @@ class InstanceStatus {
 }
 
 /// EBS block device that's attached to an Amazon EC2 instance.
+///
+/// @nodoc
 class EbsVolume {
   /// The device name that is exposed to the instance, such as /dev/sdh.
   final String? device;
@@ -9956,6 +10210,7 @@ class EbsVolume {
   }
 }
 
+/// @nodoc
 class InstanceState {
   static const awaitingFulfillment = InstanceState._('AWAITING_FULFILLMENT');
   static const provisioning = InstanceState._('PROVISIONING');
@@ -9990,6 +10245,8 @@ class InstanceState {
 }
 
 /// The details of the status change reason for the instance.
+///
+/// @nodoc
 class InstanceStateChangeReason {
   /// The programmable code for the state change reason.
   final InstanceStateChangeReasonCode? code;
@@ -10021,6 +10278,8 @@ class InstanceStateChangeReason {
 }
 
 /// The timeline of the instance lifecycle.
+///
+/// @nodoc
 class InstanceTimeline {
   /// The creation date and time of the instance.
   final DateTime? creationDateTime;
@@ -10059,6 +10318,7 @@ class InstanceTimeline {
   }
 }
 
+/// @nodoc
 class InstanceStateChangeReasonCode {
   static const internalError =
       InstanceStateChangeReasonCode._('INTERNAL_ERROR');
@@ -10098,6 +10358,7 @@ class InstanceStateChangeReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceGroupType {
   static const master = InstanceGroupType._('MASTER');
   static const core = InstanceGroupType._('CORE');
@@ -10125,6 +10386,8 @@ class InstanceGroupType {
 
 /// This entity represents an instance group, which is a group of instances that
 /// have common purpose. For example, CORE instance group is used for HDFS.
+///
+/// @nodoc
 class InstanceGroup {
   /// An automatic scaling policy for a core instance group or task instance group
   /// in an Amazon EMR cluster. The automatic scaling policy defines how an
@@ -10314,6 +10577,8 @@ class InstanceGroup {
 }
 
 /// The details of the instance group status.
+///
+/// @nodoc
 class InstanceGroupStatus {
   /// The current state of the instance group.
   final InstanceGroupState? state;
@@ -10358,6 +10623,8 @@ class InstanceGroupStatus {
 
 /// Configuration of requested EBS block device associated with the instance
 /// group.
+///
+/// @nodoc
 class EbsBlockDevice {
   /// The device name that is exposed to the instance, such as /dev/sdh.
   final String? device;
@@ -10393,6 +10660,7 @@ class EbsBlockDevice {
   }
 }
 
+/// @nodoc
 class InstanceGroupState {
   static const provisioning = InstanceGroupState._('PROVISIONING');
   static const bootstrapping = InstanceGroupState._('BOOTSTRAPPING');
@@ -10440,6 +10708,8 @@ class InstanceGroupState {
 }
 
 /// The status change reason details for the instance group.
+///
+/// @nodoc
 class InstanceGroupStateChangeReason {
   /// The programmable code for the state change reason.
   final InstanceGroupStateChangeReasonCode? code;
@@ -10471,6 +10741,8 @@ class InstanceGroupStateChangeReason {
 }
 
 /// The timeline of the instance group lifecycle.
+///
+/// @nodoc
 class InstanceGroupTimeline {
   /// The creation date and time of the instance group.
   final DateTime? creationDateTime;
@@ -10509,6 +10781,7 @@ class InstanceGroupTimeline {
   }
 }
 
+/// @nodoc
 class InstanceGroupStateChangeReasonCode {
   static const internalError =
       InstanceGroupStateChangeReasonCode._('INTERNAL_ERROR');
@@ -10554,6 +10827,8 @@ class InstanceGroupStateChangeReasonCode {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceFleet {
   /// Reserved.
   final String? context;
@@ -10725,6 +11000,8 @@ class InstanceFleet {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceFleetStatus {
   /// A code representing the instance fleet status.
   ///
@@ -10805,6 +11082,8 @@ class InstanceFleetStatus {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceTypeSpecification {
   /// The bid price for each Amazon EC2 Spot Instance type as defined by
   /// <code>InstanceType</code>. Expressed in USD. If neither
@@ -10908,6 +11187,7 @@ class InstanceTypeSpecification {
   }
 }
 
+/// @nodoc
 class InstanceFleetState {
   static const provisioning = InstanceFleetState._('PROVISIONING');
   static const bootstrapping = InstanceFleetState._('BOOTSTRAPPING');
@@ -10953,6 +11233,8 @@ class InstanceFleetState {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceFleetStateChangeReason {
   /// A code corresponding to the reason the state change occurred.
   final InstanceFleetStateChangeReasonCode? code;
@@ -10989,6 +11271,8 @@ class InstanceFleetStateChangeReason {
 /// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
+///
+/// @nodoc
 class InstanceFleetTimeline {
   /// The time and date the instance fleet was created.
   final DateTime? creationDateTime;
@@ -11027,6 +11311,7 @@ class InstanceFleetTimeline {
   }
 }
 
+/// @nodoc
 class InstanceFleetStateChangeReasonCode {
   static const internalError =
       InstanceFleetStateChangeReasonCode._('INTERNAL_ERROR');
@@ -11064,6 +11349,8 @@ class InstanceFleetStateChangeReasonCode {
 }
 
 /// The summary description of the cluster.
+///
+/// @nodoc
 class ClusterSummary {
   /// The Amazon Resource Name of the cluster.
   final String? clusterArn;
@@ -11130,6 +11417,8 @@ class ClusterSummary {
 }
 
 /// The detailed status of the cluster.
+///
+/// @nodoc
 class ClusterStatus {
   /// A list of tuples that provides information about the errors that caused a
   /// cluster to terminate. This structure can contain up to 10 different
@@ -11184,6 +11473,7 @@ class ClusterStatus {
   }
 }
 
+/// @nodoc
 class ClusterState {
   static const starting = ClusterState._('STARTING');
   static const bootstrapping = ClusterState._('BOOTSTRAPPING');
@@ -11221,6 +11511,8 @@ class ClusterState {
 }
 
 /// The reason that the cluster changed to its current state.
+///
+/// @nodoc
 class ClusterStateChangeReason {
   /// The programmatic code for the state change reason.
   final ClusterStateChangeReasonCode? code;
@@ -11252,6 +11544,8 @@ class ClusterStateChangeReason {
 }
 
 /// Represents the timeline of the cluster's lifecycle.
+///
+/// @nodoc
 class ClusterTimeline {
   /// The creation date and time of the cluster.
   final DateTime? creationDateTime;
@@ -11292,6 +11586,8 @@ class ClusterTimeline {
 
 /// A tuple that provides information about an error that caused a cluster to
 /// terminate.
+///
+/// @nodoc
 class ErrorDetail {
   /// The name or code associated with the error.
   final String? errorCode;
@@ -11333,6 +11629,7 @@ class ErrorDetail {
   }
 }
 
+/// @nodoc
 class ClusterStateChangeReasonCode {
   static const internalError = ClusterStateChangeReasonCode._('INTERNAL_ERROR');
   static const validationError =
@@ -11379,6 +11676,8 @@ class ClusterStateChangeReasonCode {
 }
 
 /// An entity describing an executable that runs on a cluster.
+///
+/// @nodoc
 class Command {
   /// Arguments for Amazon EMR to pass to the command for execution.
   final List<String>? args;
@@ -11417,6 +11716,8 @@ class Command {
 
 /// Details for an Amazon EMR Studio session mapping including creation time,
 /// user or group ID, Studio ID, and so on.
+///
+/// @nodoc
 class SessionMappingDetail {
   /// The time the session mapping was created.
   final DateTime? creationTime;
@@ -11492,6 +11793,8 @@ class SessionMappingDetail {
 
 /// The credentials that you can use to connect to cluster endpoints.
 /// Credentials consist of a username and a password.
+///
+/// @nodoc
 class Credentials {
   /// The username and password that you use to connect to cluster endpoints.
   final UsernamePassword? usernamePassword;
@@ -11518,6 +11821,8 @@ class Credentials {
 }
 
 /// The username and password that you use to connect to cluster endpoints.
+///
+/// @nodoc
 class UsernamePassword {
   /// The password associated with the temporary credentials that you use to
   /// connect to cluster endpoints.
@@ -11549,6 +11854,7 @@ class UsernamePassword {
   }
 }
 
+/// @nodoc
 class PersistentAppUIType {
   static const shs = PersistentAppUIType._('SHS');
   static const tez = PersistentAppUIType._('TEZ');
@@ -11575,6 +11881,7 @@ class PersistentAppUIType {
   String toString() => value;
 }
 
+/// @nodoc
 class OnClusterAppUIType {
   static const sparkHistoryServer = OnClusterAppUIType._('SparkHistoryServer');
   static const yarnTimelineService =
@@ -11617,6 +11924,8 @@ class OnClusterAppUIType {
 /// <code>PutBlockPublicAccessConfiguration</code> action as well as the date
 /// and time that the configuration was created. Each time a configuration for
 /// block public access is updated, Amazon EMR updates this metadata.
+///
+/// @nodoc
 class BlockPublicAccessConfigurationMetadata {
   /// The Amazon Resource Name that created or last modified the configuration.
   final String createdByArn;
@@ -11650,6 +11959,8 @@ class BlockPublicAccessConfigurationMetadata {
 
 /// Details for an Amazon EMR Studio including ID, creation time, name, and so
 /// on.
+///
+/// @nodoc
 class Studio {
   /// Specifies whether the Amazon EMR Studio authenticates users with IAM or IAM
   /// Identity Center.
@@ -11843,6 +12154,7 @@ class Studio {
   }
 }
 
+/// @nodoc
 class IdcUserAssignment {
   static const required = IdcUserAssignment._('REQUIRED');
   static const optional = IdcUserAssignment._('OPTIONAL');
@@ -11868,6 +12180,8 @@ class IdcUserAssignment {
 }
 
 /// This represents a step in a cluster.
+///
+/// @nodoc
 class Step {
   /// The action to take when the cluster step fails. Possible values are
   /// <code>TERMINATE_CLUSTER</code>, <code>CANCEL_AND_WAIT</code>, and
@@ -11971,6 +12285,8 @@ class Step {
 }
 
 /// The Amazon Linux release specified for a cluster in the RunJobFlow request.
+///
+/// @nodoc
 class OSRelease {
   /// The Amazon Linux release specified for a cluster in the RunJobFlow request.
   /// The format is as shown in <a
@@ -11997,6 +12313,8 @@ class OSRelease {
 }
 
 /// The returned release label application names or versions.
+///
+/// @nodoc
 class SimplifiedApplication {
   /// The returned release label application name. For example,
   /// <code>hadoop</code>.
@@ -12031,6 +12349,8 @@ class SimplifiedApplication {
 /// Holds persistent application user interface information. Applications
 /// installed on the Amazon EMR cluster publish user interfaces as web sites to
 /// monitor cluster activity.
+///
+/// @nodoc
 class PersistentAppUI {
   /// The author ID for the persistent application user interface object.
   final String? authorId;
@@ -12120,6 +12440,8 @@ class PersistentAppUI {
 
 /// A notebook execution. An execution is a specific instance that an Amazon EMR
 /// Notebook is run using the <code>StartNotebookExecution</code> action.
+///
+/// @nodoc
 class NotebookExecution {
   /// The Amazon Resource Name (ARN) of the notebook execution.
   final String? arn;
@@ -12332,6 +12654,8 @@ class NotebookExecution {
 }
 
 /// The Amazon S3 location that stores the notebook execution output.
+///
+/// @nodoc
 class OutputNotebookS3LocationForOutput {
   /// The Amazon S3 bucket that stores the notebook execution output.
   final String? bucket;
@@ -12363,6 +12687,8 @@ class OutputNotebookS3LocationForOutput {
 }
 
 /// A description of a cluster (job flow).
+///
+/// @nodoc
 class JobFlowDetail {
   /// Describes the execution status of the job flow.
   final JobFlowExecutionStatusDetail executionStatusDetail;
@@ -12535,6 +12861,8 @@ class JobFlowDetail {
 }
 
 /// Describes the status of the cluster (job flow).
+///
+/// @nodoc
 class JobFlowExecutionStatusDetail {
   /// The creation date and time of the job flow.
   final DateTime creationDateTime;
@@ -12599,6 +12927,8 @@ class JobFlowExecutionStatusDetail {
 
 /// Specify the type of Amazon EC2 instances that the cluster (job flow) runs
 /// on.
+///
+/// @nodoc
 class JobFlowInstancesDetail {
   /// The number of Amazon EC2 instances in the cluster. If the value is 1, the
   /// same instance serves as both the master and core and task node. If the value
@@ -12738,6 +13068,8 @@ class JobFlowInstancesDetail {
 }
 
 /// Reports the configuration of a bootstrap action in a cluster (job flow).
+///
+/// @nodoc
 class BootstrapActionDetail {
   /// A description of the bootstrap action.
   final BootstrapActionConfig? bootstrapActionConfig;
@@ -12765,6 +13097,8 @@ class BootstrapActionDetail {
 }
 
 /// Combines the execution state and configuration of a step.
+///
+/// @nodoc
 class StepDetail {
   /// The description of the step status.
   final StepExecutionStatusDetail executionStatusDetail;
@@ -12799,6 +13133,8 @@ class StepDetail {
 }
 
 /// The execution state of a step.
+///
+/// @nodoc
 class StepExecutionStatusDetail {
   /// The creation date and time of the step.
   final DateTime creationDateTime;
@@ -12852,6 +13188,7 @@ class StepExecutionStatusDetail {
   }
 }
 
+/// @nodoc
 class StepExecutionState {
   static const pending = StepExecutionState._('PENDING');
   static const running = StepExecutionState._('RUNNING');
@@ -12891,6 +13228,8 @@ class StepExecutionState {
 }
 
 /// Detailed information about an instance group.
+///
+/// @nodoc
 class InstanceGroupDetail {
   /// The date/time the instance group was created.
   final DateTime creationDateTime;
@@ -13022,6 +13361,8 @@ class InstanceGroupDetail {
 }
 
 /// The type of instance.
+///
+/// @nodoc
 class JobFlowExecutionState {
   static const starting = JobFlowExecutionState._('STARTING');
   static const bootstrapping = JobFlowExecutionState._('BOOTSTRAPPING');
@@ -13063,6 +13404,8 @@ class JobFlowExecutionState {
 }
 
 /// The detailed description of the cluster.
+///
+/// @nodoc
 class Cluster {
   /// The applications installed on this cluster.
   final List<Application>? applications;
@@ -13449,6 +13792,8 @@ class Cluster {
 
 /// Provides information about the Amazon EC2 instances in a cluster grouped by
 /// category. For example, key name, subnet ID, IAM instance profile, and so on.
+///
+/// @nodoc
 class Ec2InstanceAttributes {
   /// A list of additional Amazon EC2 security group IDs for the master node.
   final List<String>? additionalMasterSecurityGroups;
@@ -13591,6 +13936,7 @@ class Ec2InstanceAttributes {
   }
 }
 
+/// @nodoc
 class InstanceCollectionType {
   static const instanceFleet = InstanceCollectionType._('INSTANCE_FLEET');
   static const instanceGroup = InstanceCollectionType._('INSTANCE_GROUP');
@@ -13617,6 +13963,8 @@ class InstanceCollectionType {
 }
 
 /// The EMR container configuration.
+///
+/// @nodoc
 class EMRContainersConfig {
   /// The Job run ID for the container configuration.
   final String? jobRunId;
@@ -13633,6 +13981,7 @@ class EMRContainersConfig {
   }
 }
 
+/// @nodoc
 class ProfilerType {
   static const shs = ProfilerType._('SHS');
   static const tezui = ProfilerType._('TEZUI');
@@ -13659,6 +14008,8 @@ class ProfilerType {
 
 /// Specification of the status of a CancelSteps request. Available only in
 /// Amazon EMR version 4.8.0 and later, excluding version 5.0.0.
+///
+/// @nodoc
 class CancelStepsInfo {
   /// The reason for the failure if the CancelSteps request fails.
   final String? reason;
@@ -13696,6 +14047,7 @@ class CancelStepsInfo {
   }
 }
 
+/// @nodoc
 class CancelStepsRequestStatus {
   static const submitted = CancelStepsRequestStatus._('SUBMITTED');
   static const failed = CancelStepsRequestStatus._('FAILED');
@@ -13721,6 +14073,7 @@ class CancelStepsRequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StepCancellationOption {
   static const sendInterrupt = StepCancellationOption._('SEND_INTERRUPT');
   static const terminateProcess = StepCancellationOption._('TERMINATE_PROCESS');
@@ -13746,16 +14099,19 @@ class StepCancellationOption {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);

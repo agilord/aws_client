@@ -1546,6 +1546,7 @@ class FinspaceData {
   }
 }
 
+/// @nodoc
 class AssociateUserToPermissionGroupResponse {
   /// The returned status code of the response.
   final int? statusCode;
@@ -1568,6 +1569,8 @@ class AssociateUserToPermissionGroupResponse {
 }
 
 /// The response from a CreateChangeset operation.
+///
+/// @nodoc
 class CreateChangesetResponse {
   /// The unique identifier of the Changeset that is created.
   final String? changesetId;
@@ -1599,6 +1602,8 @@ class CreateChangesetResponse {
 }
 
 /// The response from a CreateDataset operation
+///
+/// @nodoc
 class CreateDatasetResponse {
   /// The unique identifier for the created Dataset.
   final String? datasetId;
@@ -1622,6 +1627,8 @@ class CreateDatasetResponse {
 }
 
 /// Response for creating a data view.
+///
+/// @nodoc
 class CreateDataViewResponse {
   /// The unique identifier for the created Dataview.
   final String? dataViewId;
@@ -1651,6 +1658,7 @@ class CreateDataViewResponse {
   }
 }
 
+/// @nodoc
 class CreatePermissionGroupResponse {
   /// The unique identifier for the permission group.
   final String? permissionGroupId;
@@ -1673,6 +1681,7 @@ class CreatePermissionGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The unique identifier for the user.
   final String? userId;
@@ -1696,6 +1705,8 @@ class CreateUserResponse {
 }
 
 /// The response from an DeleteDataset operation
+///
+/// @nodoc
 class DeleteDatasetResponse {
   /// The unique identifier for the deleted Dataset.
   final String? datasetId;
@@ -1718,6 +1729,7 @@ class DeleteDatasetResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionGroupResponse {
   /// The unique identifier for the deleted permission group.
   final String? permissionGroupId;
@@ -1740,6 +1752,7 @@ class DeletePermissionGroupResponse {
   }
 }
 
+/// @nodoc
 class DisableUserResponse {
   /// The unique identifier for the deactivated user.
   final String? userId;
@@ -1762,6 +1775,7 @@ class DisableUserResponse {
   }
 }
 
+/// @nodoc
 class DisassociateUserFromPermissionGroupResponse {
   /// The returned status code of the response.
   final int? statusCode;
@@ -1783,6 +1797,7 @@ class DisassociateUserFromPermissionGroupResponse {
   }
 }
 
+/// @nodoc
 class EnableUserResponse {
   /// The unique identifier for the active user.
   final String? userId;
@@ -1806,6 +1821,8 @@ class EnableUserResponse {
 }
 
 /// The response from a describe changeset operation
+///
+/// @nodoc
 class GetChangesetResponse {
   /// Beginning time from which the Changeset is active. The value is determined
   /// as epoch time in milliseconds. For example, the value for Monday, November
@@ -1943,6 +1960,8 @@ class GetChangesetResponse {
 }
 
 /// Response for the GetDataset operation
+///
+/// @nodoc
 class GetDatasetResponse {
   /// The unique resource identifier for a Dataset.
   final String? alias;
@@ -2061,6 +2080,8 @@ class GetDatasetResponse {
 
 /// Response from retrieving a dataview, which includes details on the target
 /// database and table name
+///
+/// @nodoc
 class GetDataViewResponse {
   /// Time range to use for the Dataview. The value is determined as epoch time in
   /// milliseconds. For example, the value for Monday, November 1, 2021 12:00:00
@@ -2207,6 +2228,7 @@ class GetDataViewResponse {
   }
 }
 
+/// @nodoc
 class GetExternalDataViewAccessDetailsResponse {
   /// The credentials required to access the external Dataview from the S3
   /// location.
@@ -2242,6 +2264,7 @@ class GetExternalDataViewAccessDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetPermissionGroupResponse {
   final PermissionGroup? permissionGroup;
 
@@ -2267,6 +2290,8 @@ class GetPermissionGroupResponse {
 }
 
 /// Response for GetProgrammaticAccessCredentials operation
+///
+/// @nodoc
 class GetProgrammaticAccessCredentialsResponse {
   /// Returns the programmatic credentials.
   final Credentials? credentials;
@@ -2299,6 +2324,7 @@ class GetProgrammaticAccessCredentialsResponse {
   }
 }
 
+/// @nodoc
 class GetUserResponse {
   /// Indicates whether the user can use the
   /// <code>GetProgrammaticAccessCredentials</code> API to obtain credentials that
@@ -2450,6 +2476,7 @@ class GetUserResponse {
   }
 }
 
+/// @nodoc
 class GetWorkingLocationResponse {
   /// Returns the Amazon S3 bucket name for the working location.
   final String? s3Bucket;
@@ -2488,6 +2515,8 @@ class GetWorkingLocationResponse {
 
 /// Response to ListChangesetsResponse. This returns a list of dataset
 /// changesets that match the query criteria.
+///
+/// @nodoc
 class ListChangesetsResponse {
   /// List of Changesets found.
   final List<ChangesetSummary>? changesets;
@@ -2521,6 +2550,8 @@ class ListChangesetsResponse {
 }
 
 /// Response for the ListDatasets operation
+///
+/// @nodoc
 class ListDatasetsResponse {
   /// List of Datasets.
   final List<Dataset>? datasets;
@@ -2553,6 +2584,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListDataViewsResponse {
   /// A list of Dataviews.
   final List<DataViewSummary>? dataViews;
@@ -2585,6 +2617,7 @@ class ListDataViewsResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionGroupsResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -2617,6 +2650,7 @@ class ListPermissionGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionGroupsByUserResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -2650,6 +2684,7 @@ class ListPermissionGroupsByUserResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -2682,6 +2717,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class ListUsersByPermissionGroupResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -2715,6 +2751,7 @@ class ListUsersByPermissionGroupResponse {
   }
 }
 
+/// @nodoc
 class ResetUserPasswordResponse {
   /// A randomly generated temporary password for the requested user. This
   /// password expires in 7 days.
@@ -2746,6 +2783,8 @@ class ResetUserPasswordResponse {
 }
 
 /// The response from a update changeset operation.
+///
+/// @nodoc
 class UpdateChangesetResponse {
   /// The unique identifier for the Changeset to update.
   final String? changesetId;
@@ -2777,6 +2816,8 @@ class UpdateChangesetResponse {
 }
 
 /// The response from an UpdateDataset operation
+///
+/// @nodoc
 class UpdateDatasetResponse {
   /// The unique identifier for updated Dataset.
   final String? datasetId;
@@ -2799,6 +2840,7 @@ class UpdateDatasetResponse {
   }
 }
 
+/// @nodoc
 class UpdatePermissionGroupResponse {
   /// The unique identifier for the updated permission group.
   final String? permissionGroupId;
@@ -2821,6 +2863,7 @@ class UpdatePermissionGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The unique identifier of the updated user.
   final String? userId;
@@ -2843,6 +2886,7 @@ class UpdateUserResponse {
   }
 }
 
+/// @nodoc
 class UserType {
   static const superUser = UserType._('SUPER_USER');
   static const appUser = UserType._('APP_USER');
@@ -2866,6 +2910,7 @@ class UserType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiAccess {
   static const enabled = ApiAccess._('ENABLED');
   static const disabled = ApiAccess._('DISABLED');
@@ -2889,6 +2934,7 @@ class ApiAccess {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationPermission {
   static const createDataset = ApplicationPermission._('CreateDataset');
   static const manageClusters = ApplicationPermission._('ManageClusters');
@@ -2931,6 +2977,8 @@ class ApplicationPermission {
 }
 
 /// Dataset Kind
+///
+/// @nodoc
 class DatasetKind {
   static const tabular = DatasetKind._('TABULAR');
   static const nonTabular = DatasetKind._('NON_TABULAR');
@@ -2955,6 +3003,8 @@ class DatasetKind {
 }
 
 /// A union of schema types.
+///
+/// @nodoc
 class SchemaUnion {
   /// The configuration for a schema on a tabular Dataset.
   final SchemaDefinition? tabularSchemaConfig;
@@ -2982,6 +3032,8 @@ class SchemaUnion {
 }
 
 /// Definition for a schema on a tabular Dataset.
+///
+/// @nodoc
 class SchemaDefinition {
   /// List of column definitions.
   final List<ColumnDefinition>? columns;
@@ -3018,6 +3070,8 @@ class SchemaDefinition {
 }
 
 /// The definition of a column in a tabular Dataset.
+///
+/// @nodoc
 class ColumnDefinition {
   /// Description for a column.
   final String? columnDescription;
@@ -3083,6 +3137,8 @@ class ColumnDefinition {
 }
 
 /// Data type of a column.
+///
+/// @nodoc
 class ColumnDataType {
   static const string = ColumnDataType._('STRING');
   static const char = ColumnDataType._('CHAR');
@@ -3131,6 +3187,8 @@ class ColumnDataType {
 }
 
 /// The structure of a user associated with a permission group.
+///
+/// @nodoc
 class UserByPermissionGroup {
   /// Indicates whether the user can access FinSpace API operations.
   ///
@@ -3260,6 +3318,7 @@ class UserByPermissionGroup {
   }
 }
 
+/// @nodoc
 class UserStatus {
   static const creating = UserStatus._('CREATING');
   static const enabled = UserStatus._('ENABLED');
@@ -3284,6 +3343,7 @@ class UserStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionGroupMembershipStatus {
   static const additionInProgress =
       PermissionGroupMembershipStatus._('ADDITION_IN_PROGRESS');
@@ -3318,6 +3378,8 @@ class PermissionGroupMembershipStatus {
 }
 
 /// The details of the user.
+///
+/// @nodoc
 class User {
   /// Indicates whether the user can use the
   /// <code>GetProgrammaticAccessCredentials</code> API to obtain credentials that
@@ -3469,6 +3531,8 @@ class User {
 }
 
 /// The structure of a permission group associated with a user.
+///
+/// @nodoc
 class PermissionGroupByUser {
   /// Indicates the status of the user within a permission group.
   ///
@@ -3522,6 +3586,8 @@ class PermissionGroupByUser {
 }
 
 /// The structure for a permission group.
+///
+/// @nodoc
 class PermissionGroup {
   /// Indicates the permissions that are granted to a specific group for accessing
   /// the FinSpace application.
@@ -3646,6 +3712,8 @@ class PermissionGroup {
 }
 
 /// Structure for the summary of a Dataview.
+///
+/// @nodoc
 class DataViewSummary {
   /// Time range to use for the Dataview. The value is determined as epoch time in
   /// milliseconds. For example, the value for Monday, November 1, 2021 12:00:00
@@ -3793,6 +3861,8 @@ class DataViewSummary {
 }
 
 /// Status of a DataView
+///
+/// @nodoc
 class DataViewStatus {
   static const running = DataViewStatus._('RUNNING');
   static const starting = DataViewStatus._('STARTING');
@@ -3833,6 +3903,8 @@ class DataViewStatus {
 }
 
 /// The structure with error messages.
+///
+/// @nodoc
 class DataViewErrorInfo {
   /// The category of the error.
   ///
@@ -3896,6 +3968,8 @@ class DataViewErrorInfo {
 }
 
 /// Structure for the Dataview destination type parameters.
+///
+/// @nodoc
 class DataViewDestinationTypeParams {
   /// Destination type for a Dataview.
   ///
@@ -3965,6 +4039,8 @@ class DataViewDestinationTypeParams {
 }
 
 /// Data View Export File Format
+///
+/// @nodoc
 class ExportFileFormat {
   static const parquet = ExportFileFormat._('PARQUET');
   static const delimitedText = ExportFileFormat._('DELIMITED_TEXT');
@@ -3990,6 +4066,8 @@ class ExportFileFormat {
 }
 
 /// Changeset Error Category
+///
+/// @nodoc
 class ErrorCategory {
   static const validation = ErrorCategory._('VALIDATION');
   static const serviceQuotaExceeded = ErrorCategory._('SERVICE_QUOTA_EXCEEDED');
@@ -4031,6 +4109,8 @@ class ErrorCategory {
 }
 
 /// The structure for a Dataset.
+///
+/// @nodoc
 class Dataset {
   /// The unique resource identifier for a Dataset.
   final String? alias;
@@ -4135,6 +4215,8 @@ class Dataset {
 }
 
 /// A structure for Dataset owner info.
+///
+/// @nodoc
 class DatasetOwnerInfo {
   /// Email address for the Dataset owner.
   final String? email;
@@ -4172,6 +4254,8 @@ class DatasetOwnerInfo {
 }
 
 /// A Changeset is unit of data in a Dataset.
+///
+/// @nodoc
 class ChangesetSummary {
   /// Beginning time from which the Changeset is active. The value is determined
   /// as epoch time in milliseconds. For example, the value for Monday, November
@@ -4327,6 +4411,8 @@ class ChangesetSummary {
 }
 
 /// Indicates how the given change will be applied to the dataset.
+///
+/// @nodoc
 class ChangeType {
   static const replace = ChangeType._('REPLACE');
   static const append = ChangeType._('APPEND');
@@ -4352,6 +4438,8 @@ class ChangeType {
 }
 
 /// Status of the ingestion process returned from scheduler service.
+///
+/// @nodoc
 class IngestionStatus {
   static const pending = IngestionStatus._('PENDING');
   static const failed = IngestionStatus._('FAILED');
@@ -4380,6 +4468,8 @@ class IngestionStatus {
 }
 
 /// The structure with error messages.
+///
+/// @nodoc
 class ChangesetErrorInfo {
   /// The category of the error.
   ///
@@ -4442,6 +4532,7 @@ class ChangesetErrorInfo {
   }
 }
 
+/// @nodoc
 class LocationType {
   static const ingestion = LocationType._('INGESTION');
   static const sagemaker = LocationType._('SAGEMAKER');
@@ -4466,6 +4557,8 @@ class LocationType {
 }
 
 /// Short term API credentials.
+///
+/// @nodoc
 class Credentials {
   /// The access key identifier.
   final String? accessKeyId;
@@ -4504,6 +4597,8 @@ class Credentials {
 
 /// The credentials required to access the external Dataview from the S3
 /// location.
+///
+/// @nodoc
 class AwsCredentials {
   /// The unique identifier for the security credentials.
   final String? accessKeyId;
@@ -4548,6 +4643,8 @@ class AwsCredentials {
 }
 
 /// The location of an external Dataview in an S3 bucket.
+///
+/// @nodoc
 class S3Location {
   /// The name of the S3 bucket.
   final String bucket;
@@ -4578,6 +4675,8 @@ class S3Location {
 }
 
 /// Status of the dataset process returned from scheduler service.
+///
+/// @nodoc
 class DatasetStatus {
   static const pending = DatasetStatus._('PENDING');
   static const failed = DatasetStatus._('FAILED');
@@ -4610,9 +4709,11 @@ class DatasetStatus {
 /// <code>PermissionGroupParams</code>:
 ///
 /// <code> { "permissionGroupId": "0r6fCRtSTUk4XPfXQe3M0g",
-/// "datasetPermissions": [ {"permission": "ViewDatasetDetails"}, {"permission":
-/// "AddDatasetData"}, {"permission": "EditDatasetMetadata"}, {"permission":
-/// "DeleteDataset"} ] } </code>
+/// "datasetPermissions": \[ {"permission": "ViewDatasetDetails"},
+/// {"permission": "AddDatasetData"}, {"permission": "EditDatasetMetadata"},
+/// {"permission": "DeleteDataset"} \] } </code>
+///
+/// @nodoc
 class PermissionGroupParams {
   /// List of resource permissions.
   final List<ResourcePermission>? datasetPermissions;
@@ -4665,6 +4766,8 @@ class PermissionGroupParams {
 /// For more information on the dataset permissions, see <a
 /// href="https://docs.aws.amazon.com/finspace/latest/userguide/managing-user-permissions.html#supported-dataset-permissions">Supported
 /// Dataset Permissions</a> in the FinSpace User Guide.
+///
+/// @nodoc
 class ResourcePermission {
   /// Permission for a resource.
   final String? permission;
@@ -4681,36 +4784,43 @@ class ResourcePermission {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

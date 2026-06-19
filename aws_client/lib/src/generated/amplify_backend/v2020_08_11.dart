@@ -1118,6 +1118,7 @@ class AmplifyBackend {
   }
 }
 
+/// @nodoc
 class CloneBackendResponse {
   /// The app ID.
   final String? appId;
@@ -1176,6 +1177,7 @@ class CloneBackendResponse {
   }
 }
 
+/// @nodoc
 class CreateBackendResponse {
   /// The app ID.
   final String? appId;
@@ -1234,6 +1236,7 @@ class CreateBackendResponse {
   }
 }
 
+/// @nodoc
 class CreateBackendAPIResponse {
   /// The app ID.
   final String? appId;
@@ -1292,6 +1295,7 @@ class CreateBackendAPIResponse {
   }
 }
 
+/// @nodoc
 class CreateBackendAuthResponse {
   /// The app ID.
   final String? appId;
@@ -1350,6 +1354,7 @@ class CreateBackendAuthResponse {
   }
 }
 
+/// @nodoc
 class CreateBackendConfigResponse {
   /// The app ID.
   final String? appId;
@@ -1394,6 +1399,7 @@ class CreateBackendConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateBackendStorageResponse {
   /// The app ID.
   final String? appId;
@@ -1438,6 +1444,7 @@ class CreateBackendStorageResponse {
   }
 }
 
+/// @nodoc
 class CreateTokenResponse {
   /// The app ID.
   final String? appId;
@@ -1481,6 +1488,7 @@ class CreateTokenResponse {
   }
 }
 
+/// @nodoc
 class DeleteBackendResponse {
   /// The app ID.
   final String? appId;
@@ -1539,6 +1547,7 @@ class DeleteBackendResponse {
   }
 }
 
+/// @nodoc
 class DeleteBackendAPIResponse {
   /// The app ID.
   final String? appId;
@@ -1597,6 +1606,7 @@ class DeleteBackendAPIResponse {
   }
 }
 
+/// @nodoc
 class DeleteBackendAuthResponse {
   /// The app ID.
   final String? appId;
@@ -1655,6 +1665,7 @@ class DeleteBackendAuthResponse {
   }
 }
 
+/// @nodoc
 class DeleteBackendStorageResponse {
   /// The app ID.
   final String? appId;
@@ -1699,6 +1710,7 @@ class DeleteBackendStorageResponse {
   }
 }
 
+/// @nodoc
 class DeleteTokenResponse {
   /// Indicates whether the request succeeded or failed.
   final bool? isSuccess;
@@ -1721,6 +1733,7 @@ class DeleteTokenResponse {
   }
 }
 
+/// @nodoc
 class GenerateBackendAPIModelsResponse {
   /// The app ID.
   final String? appId;
@@ -1779,6 +1792,7 @@ class GenerateBackendAPIModelsResponse {
   }
 }
 
+/// @nodoc
 class GetBackendResponse {
   /// A stringified version of the cli.json file for your Amplify project.
   final String? amplifyFeatureFlags;
@@ -1849,6 +1863,7 @@ class GetBackendResponse {
   }
 }
 
+/// @nodoc
 class GetBackendAPIResponse {
   /// The app ID.
   final String? appId;
@@ -1903,6 +1918,7 @@ class GetBackendAPIResponse {
   }
 }
 
+/// @nodoc
 class GetBackendAPIModelsResponse {
   /// Stringified JSON of the model introspection schema for an existing backend
   /// API resource.
@@ -1941,6 +1957,7 @@ class GetBackendAPIModelsResponse {
   }
 }
 
+/// @nodoc
 class GetBackendAuthResponse {
   /// The app ID.
   final String? appId;
@@ -1996,6 +2013,7 @@ class GetBackendAuthResponse {
   }
 }
 
+/// @nodoc
 class GetBackendJobResponse {
   /// The app ID.
   final String? appId;
@@ -2068,6 +2086,7 @@ class GetBackendJobResponse {
   }
 }
 
+/// @nodoc
 class GetBackendStorageResponse {
   /// The app ID.
   final String? appId;
@@ -2115,6 +2134,7 @@ class GetBackendStorageResponse {
   }
 }
 
+/// @nodoc
 class GetTokenResponse {
   /// The app ID.
   final String? appId;
@@ -2158,6 +2178,7 @@ class GetTokenResponse {
   }
 }
 
+/// @nodoc
 class ImportBackendAuthResponse {
   /// The app ID.
   final String? appId;
@@ -2216,6 +2237,7 @@ class ImportBackendAuthResponse {
   }
 }
 
+/// @nodoc
 class ImportBackendStorageResponse {
   /// The app ID.
   final String? appId;
@@ -2260,6 +2282,7 @@ class ImportBackendStorageResponse {
   }
 }
 
+/// @nodoc
 class ListBackendJobsResponse {
   /// An array of jobs and their properties.
   final List<BackendJobRespObj>? jobs;
@@ -2292,6 +2315,7 @@ class ListBackendJobsResponse {
   }
 }
 
+/// @nodoc
 class ListS3BucketsResponse {
   /// The list of S3 buckets.
   final List<S3BucketInfo>? buckets;
@@ -2324,6 +2348,7 @@ class ListS3BucketsResponse {
   }
 }
 
+/// @nodoc
 class RemoveAllBackendsResponse {
   /// The app ID.
   final String? appId;
@@ -2374,6 +2399,7 @@ class RemoveAllBackendsResponse {
   }
 }
 
+/// @nodoc
 class RemoveBackendConfigResponse {
   /// If the request fails, this error is returned.
   final String? error;
@@ -2396,6 +2422,7 @@ class RemoveBackendConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateBackendAPIResponse {
   /// The app ID.
   final String? appId;
@@ -2454,6 +2481,7 @@ class UpdateBackendAPIResponse {
   }
 }
 
+/// @nodoc
 class UpdateBackendAuthResponse {
   /// The app ID.
   final String? appId;
@@ -2512,6 +2540,7 @@ class UpdateBackendAuthResponse {
   }
 }
 
+/// @nodoc
 class UpdateBackendConfigResponse {
   /// The app ID.
   final String? appId;
@@ -2560,6 +2589,7 @@ class UpdateBackendConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateBackendJobResponse {
   /// The app ID.
   final String? appId;
@@ -2632,6 +2662,7 @@ class UpdateBackendJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateBackendStorageResponse {
   /// The app ID.
   final String? appId;
@@ -2677,6 +2708,8 @@ class UpdateBackendStorageResponse {
 }
 
 /// The resource configuration for updating backend storage.
+///
+/// @nodoc
 class UpdateBackendStorageResourceConfig {
   /// The authorization configuration for the storage S3 bucket.
   final BackendStoragePermissions permissions;
@@ -2701,6 +2734,8 @@ class UpdateBackendStorageResourceConfig {
 
 /// Describes the read, write, and delete permissions users have against your
 /// storage S3 bucket.
+///
+/// @nodoc
 class BackendStoragePermissions {
   /// Lists all authenticated user read, write, and delete permissions for your S3
   /// bucket.
@@ -2739,6 +2774,7 @@ class BackendStoragePermissions {
   }
 }
 
+/// @nodoc
 class ServiceName {
   static const s3 = ServiceName._('S3');
 
@@ -2761,6 +2797,7 @@ class ServiceName {
   String toString() => value;
 }
 
+/// @nodoc
 class UnAuthenticatedElement {
   static const read = UnAuthenticatedElement._('READ');
   static const createAndUpdate = UnAuthenticatedElement._('CREATE_AND_UPDATE');
@@ -2787,6 +2824,7 @@ class UnAuthenticatedElement {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticatedElement {
   static const read = AuthenticatedElement._('READ');
   static const createAndUpdate = AuthenticatedElement._('CREATE_AND_UPDATE');
@@ -2814,6 +2852,8 @@ class AuthenticatedElement {
 }
 
 /// The request object for this operation.
+///
+/// @nodoc
 class LoginAuthConfigReqObj {
   /// The Amazon Cognito identity pool ID used for the Amplify Admin UI login
   /// authorization.
@@ -2863,6 +2903,8 @@ class LoginAuthConfigReqObj {
 
 /// Defines the resource configuration when updating an authentication resource
 /// in your Amplify project.
+///
+/// @nodoc
 class UpdateBackendAuthResourceConfig {
   /// Defines the service name to use when configuring an authentication resource
   /// in your Amplify project.
@@ -2902,6 +2944,7 @@ class UpdateBackendAuthResourceConfig {
   }
 }
 
+/// @nodoc
 class AuthResources {
   static const userPoolOnly = AuthResources._('USER_POOL_ONLY');
   static const identityPoolAndUserPool =
@@ -2929,6 +2972,8 @@ class AuthResources {
 
 /// Describes the authorization configuration for the Amazon Cognito identity
 /// pool, provisioned as a part of your auth resource in the Amplify project.
+///
+/// @nodoc
 class UpdateBackendAuthIdentityPoolConfig {
   /// A boolean value that can be set to allow or disallow guest-level
   /// authorization into your Amplify app.
@@ -2947,6 +2992,7 @@ class UpdateBackendAuthIdentityPoolConfig {
   }
 }
 
+/// @nodoc
 class Service {
   static const cognito = Service._('COGNITO');
 
@@ -2971,6 +3017,8 @@ class Service {
 
 /// Describes the Amazon Cognito user pool configuration for the authorization
 /// resource to be configured for your Amplify project on an update.
+///
+/// @nodoc
 class UpdateBackendAuthUserPoolConfig {
   /// <b>(DEPRECATED)</b> Describes the forgot password policy for your Amazon
   /// Cognito user pool, configured as a part of your Amplify project.
@@ -3019,6 +3067,8 @@ class UpdateBackendAuthUserPoolConfig {
 
 /// <b>(DEPRECATED)</b> Describes the forgot password policy for authenticating
 /// into the Amplify app.
+///
+/// @nodoc
 class UpdateBackendAuthForgotPasswordConfig {
   /// <b>(DEPRECATED)</b> Describes which mode to use (either SMS or email) to
   /// deliver messages to app users that want to recover their password.
@@ -3052,6 +3102,8 @@ class UpdateBackendAuthForgotPasswordConfig {
 
 /// Updates the multi-factor authentication (MFA) configuration for the backend
 /// of your Amplify project.
+///
+/// @nodoc
 class UpdateBackendAuthMFAConfig {
   /// The MFA mode for the backend of your Amplify project.
   final MFAMode? mFAMode;
@@ -3076,6 +3128,8 @@ class UpdateBackendAuthMFAConfig {
 }
 
 /// The OAuth configurations for authenticating users into your Amplify app.
+///
+/// @nodoc
 class UpdateBackendAuthOAuthConfig {
   /// The Amazon Cognito domain prefix used to create a hosted UI for
   /// authentication.
@@ -3131,6 +3185,8 @@ class UpdateBackendAuthOAuthConfig {
 
 /// Describes the password policy for your Amazon Cognito user pool configured
 /// as a part of your Amplify project.
+///
+/// @nodoc
 class UpdateBackendAuthPasswordPolicyConfig {
   /// Describes additional constraints on password requirements to sign in to the
   /// auth resource, configured as a part of your Amplify project.
@@ -3159,6 +3215,8 @@ class UpdateBackendAuthPasswordPolicyConfig {
 
 /// Updates the configuration of the email or SMS message for the auth resource
 /// configured for your Amplify project.
+///
+/// @nodoc
 class UpdateBackendAuthVerificationMessageConfig {
   /// The type of verification message to send.
   final DeliveryMethod deliveryMethod;
@@ -3188,6 +3246,8 @@ class UpdateBackendAuthVerificationMessageConfig {
 }
 
 /// The type of verification message to send.
+///
+/// @nodoc
 class DeliveryMethod {
   static const email = DeliveryMethod._('EMAIL');
   static const sms = DeliveryMethod._('SMS');
@@ -3214,6 +3274,8 @@ class DeliveryMethod {
 
 /// The configuration for the email sent when an app user forgets their
 /// password.
+///
+/// @nodoc
 class EmailSettings {
   /// The contents of the email message.
   final String? emailMessage;
@@ -3244,6 +3306,8 @@ class EmailSettings {
 }
 
 /// SMS settings for authentication.
+///
+/// @nodoc
 class SmsSettings {
   /// The contents of the SMS message.
   final String? smsMessage;
@@ -3266,6 +3330,7 @@ class SmsSettings {
   }
 }
 
+/// @nodoc
 class AdditionalConstraintsElement {
   static const requireDigit = AdditionalConstraintsElement._('REQUIRE_DIGIT');
   static const requireLowercase =
@@ -3300,6 +3365,7 @@ class AdditionalConstraintsElement {
   String toString() => value;
 }
 
+/// @nodoc
 class OAuthGrantType {
   static const code = OAuthGrantType._('CODE');
   static const implicit = OAuthGrantType._('IMPLICIT');
@@ -3326,6 +3392,8 @@ class OAuthGrantType {
 
 /// The settings for using the social identity providers for access to your
 /// Amplify app.
+///
+/// @nodoc
 class SocialProviderSettings {
   final BackendAuthSocialProviderConfig? facebook;
   final BackendAuthSocialProviderConfig? google;
@@ -3376,6 +3444,8 @@ class SocialProviderSettings {
 
 /// Describes third-party social federation configurations for allowing your app
 /// users to sign in using OAuth.
+///
+/// @nodoc
 class BackendAuthSocialProviderConfig {
   /// Describes the client_id, which can be obtained from the third-party social
   /// federation provider.
@@ -3409,6 +3479,8 @@ class BackendAuthSocialProviderConfig {
 
 /// Describes Apple social federation configurations for allowing your app users
 /// to sign in using OAuth.
+///
+/// @nodoc
 class BackendAuthAppleProviderConfig {
   /// Describes the client_id (also called Services ID) that comes from Apple.
   final String? clientId;
@@ -3452,6 +3524,7 @@ class BackendAuthAppleProviderConfig {
   }
 }
 
+/// @nodoc
 class OAuthScopesElement {
   static const phone = OAuthScopesElement._('PHONE');
   static const email = OAuthScopesElement._('EMAIL');
@@ -3487,6 +3560,7 @@ class OAuthScopesElement {
   String toString() => value;
 }
 
+/// @nodoc
 class MFAMode {
   static const on = MFAMode._('ON');
   static const off = MFAMode._('OFF');
@@ -3513,6 +3587,8 @@ class MFAMode {
 
 /// The settings of your MFA configuration for the backend of your Amplify
 /// project.
+///
+/// @nodoc
 class Settings {
   /// The supported MFA types.
   final List<MfaTypesElement>? mfaTypes;
@@ -3545,6 +3621,7 @@ class Settings {
   }
 }
 
+/// @nodoc
 class MfaTypesElement {
   static const sms = MfaTypesElement._('SMS');
   static const totp = MfaTypesElement._('TOTP');
@@ -3571,6 +3648,8 @@ class MfaTypesElement {
 
 /// The resource config for the data model, configured as a part of the Amplify
 /// project.
+///
+/// @nodoc
 class BackendAPIResourceConfig {
   /// Additional authentication methods used to interact with your data models.
   final List<BackendAPIAuthType>? additionalAuthTypes;
@@ -3643,6 +3722,8 @@ class BackendAPIResourceConfig {
 
 /// Describes the conflict resolution configuration for your data model
 /// configured in your Amplify project.
+///
+/// @nodoc
 class BackendAPIConflictResolution {
   /// The strategy for conflict resolution.
   final ResolutionStrategy? resolutionStrategy;
@@ -3668,6 +3749,8 @@ class BackendAPIConflictResolution {
 }
 
 /// Describes the auth types for your configured data models.
+///
+/// @nodoc
 class BackendAPIAuthType {
   /// Describes the authentication mode.
   final Mode? mode;
@@ -3700,6 +3783,7 @@ class BackendAPIAuthType {
   }
 }
 
+/// @nodoc
 class Mode {
   static const apiKey = Mode._('API_KEY');
   static const awsIam = Mode._('AWS_IAM');
@@ -3727,6 +3811,8 @@ class Mode {
 
 /// The authentication settings for accessing provisioned data models in your
 /// Amplify project.
+///
+/// @nodoc
 class BackendAPIAppSyncAuthSettings {
   /// The Amazon Cognito user pool ID, if Amazon Cognito was used as an
   /// authentication setting to access your data models.
@@ -3804,6 +3890,7 @@ class BackendAPIAppSyncAuthSettings {
   }
 }
 
+/// @nodoc
 class ResolutionStrategy {
   static const optimisticConcurrency =
       ResolutionStrategy._('OPTIMISTIC_CONCURRENCY');
@@ -3833,6 +3920,8 @@ class ResolutionStrategy {
 }
 
 /// Describes the metadata of the S3 bucket.
+///
+/// @nodoc
 class S3BucketInfo {
   /// The creation date of the S3 bucket.
   final String? creationDate;
@@ -3863,6 +3952,8 @@ class S3BucketInfo {
 }
 
 /// The response object for this operation.
+///
+/// @nodoc
 class BackendJobRespObj {
   /// The app ID.
   final String appId;
@@ -3935,6 +4026,8 @@ class BackendJobRespObj {
 }
 
 /// The details for a backend storage resource.
+///
+/// @nodoc
 class GetBackendStorageResourceConfig {
   /// Returns True if the storage resource has been imported.
   final bool imported;
@@ -3984,6 +4077,8 @@ class GetBackendStorageResourceConfig {
 
 /// Defines the resource configuration when creating an auth resource in your
 /// Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthResourceConfig {
   /// Defines whether you want to configure only authentication or both
   /// authentication and authorization settings.
@@ -4040,6 +4135,8 @@ class CreateBackendAuthResourceConfig {
 
 /// Describes authorization configurations for the auth resources, configured as
 /// a part of your Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthIdentityPoolConfig {
   /// Name of the Amazon Cognito identity pool used for authorization.
   final String identityPoolName;
@@ -4073,6 +4170,8 @@ class CreateBackendAuthIdentityPoolConfig {
 
 /// Describes the Amazon Cognito user pool configuration for the auth resource
 /// to be configured for your Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthUserPoolConfig {
   /// The required attributes to sign up new users in the user pool.
   final List<RequiredSignUpAttributesElement> requiredSignUpAttributes;
@@ -4175,6 +4274,8 @@ class CreateBackendAuthUserPoolConfig {
 
 /// <b>(DEPRECATED)</b> Describes the forgot password policy for authenticating
 /// into the Amplify app.
+///
+/// @nodoc
 class CreateBackendAuthForgotPasswordConfig {
   /// <b>(DEPRECATED)</b> Describes which mode to use (either SMS or email) to
   /// deliver messages to app users who want to recover their password.
@@ -4223,9 +4324,11 @@ class CreateBackendAuthForgotPasswordConfig {
 
 /// Describes whether to apply multi-factor authentication policies for your
 /// Amazon Cognito user pool configured as a part of your Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthMFAConfig {
-  /// Describes whether MFA should be [ON, OFF, or OPTIONAL] for authentication in
-  /// your Amplify project.
+  /// Describes whether MFA should be \[ON, OFF, or OPTIONAL\] for authentication
+  /// in your Amplify project.
   final MFAMode mFAMode;
 
   /// Describes the configuration settings and methods for your Amplify app users
@@ -4257,6 +4360,8 @@ class CreateBackendAuthMFAConfig {
 }
 
 /// Creates the OAuth configuration for your Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthOAuthConfig {
   /// The OAuth grant type that you use to allow app users to authenticate from
   /// your Amplify app.
@@ -4331,6 +4436,8 @@ class CreateBackendAuthOAuthConfig {
 }
 
 /// The password policy configuration for the backend to your Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthPasswordPolicyConfig {
   /// The minimum length of the password used to access the backend of your
   /// Amplify project.
@@ -4368,6 +4475,7 @@ class CreateBackendAuthPasswordPolicyConfig {
   }
 }
 
+/// @nodoc
 class SignInMethod {
   static const email = SignInMethod._('EMAIL');
   static const emailAndPhoneNumber = SignInMethod._('EMAIL_AND_PHONE_NUMBER');
@@ -4395,6 +4503,8 @@ class SignInMethod {
 
 /// Creates an email or SMS verification message for the auth resource
 /// configured for your Amplify project.
+///
+/// @nodoc
 class CreateBackendAuthVerificationMessageConfig {
   /// The type of verification message to send.
   final DeliveryMethod deliveryMethod;
@@ -4438,6 +4548,7 @@ class CreateBackendAuthVerificationMessageConfig {
   }
 }
 
+/// @nodoc
 class RequiredSignUpAttributesElement {
   static const address = RequiredSignUpAttributesElement._('ADDRESS');
   static const birthdate = RequiredSignUpAttributesElement._('BIRTHDATE');
@@ -4497,6 +4608,7 @@ class RequiredSignUpAttributesElement {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const latest = Status._('LATEST');
   static const stale = Status._('STALE');
@@ -4521,6 +4633,8 @@ class Status {
 }
 
 /// The resource configuration for creating backend storage.
+///
+/// @nodoc
 class CreateBackendStorageResourceConfig {
   /// The authorization configuration for the storage S3 bucket.
   final BackendStoragePermissions permissions;
@@ -4551,6 +4665,8 @@ class CreateBackendStorageResourceConfig {
 
 /// Defines the resource configuration for the data model in your Amplify
 /// project.
+///
+/// @nodoc
 class ResourceConfig {
   ResourceConfig();
 
@@ -4559,21 +4675,25 @@ class ResourceConfig {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class GatewayTimeoutException extends _s.GenericAwsException {
   GatewayTimeoutException({String? type, String? message})
       : super(type: type, code: 'GatewayTimeoutException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

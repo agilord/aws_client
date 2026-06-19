@@ -153,6 +153,7 @@ class SagemakerEdge {
   }
 }
 
+/// @nodoc
 class GetDeploymentsResult {
   /// Returns a list of the configurations of the active deployments on the
   /// device.
@@ -179,6 +180,7 @@ class GetDeploymentsResult {
   }
 }
 
+/// @nodoc
 class GetDeviceRegistrationResult {
   /// The amount of time, in seconds, that the registration status is stored on
   /// the device’s cache before it is refreshed.
@@ -211,6 +213,8 @@ class GetDeviceRegistrationResult {
 
 /// Information about the result of a deployment on an edge device that is
 /// registered with SageMaker Edge Manager.
+///
+/// @nodoc
 class DeploymentResult {
   /// The timestamp of when the deployment was ended, and the agent got the
   /// deployment results.
@@ -262,6 +266,8 @@ class DeploymentResult {
 }
 
 ///
+///
+/// @nodoc
 class DeploymentModel {
   /// The desired state of the model.
   final ModelState? desiredState;
@@ -321,6 +327,7 @@ class DeploymentModel {
   }
 }
 
+/// @nodoc
 class ModelState {
   static const deploy = ModelState._('DEPLOY');
   static const undeploy = ModelState._('UNDEPLOY');
@@ -344,6 +351,7 @@ class ModelState {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const success = DeploymentStatus._('SUCCESS');
   static const fail = DeploymentStatus._('FAIL');
@@ -370,6 +378,8 @@ class DeploymentStatus {
 
 /// Information about a model deployed on an edge device that is registered with
 /// SageMaker Edge Manager.
+///
+/// @nodoc
 class Model {
   /// The timestamp of the last inference that was made.
   final DateTime? latestInference;
@@ -413,6 +423,8 @@ class Model {
 }
 
 /// Information required for edge device metrics.
+///
+/// @nodoc
 class EdgeMetric {
   /// The dimension of metrics published.
   final String? dimension;
@@ -449,6 +461,8 @@ class EdgeMetric {
 
 /// Information about a deployment on an edge device that is registered with
 /// SageMaker Edge Manager.
+///
+/// @nodoc
 class EdgeDeployment {
   /// Returns a list of Definition objects.
   final List<Definition>? definitions;
@@ -498,6 +512,7 @@ class EdgeDeployment {
   }
 }
 
+/// @nodoc
 class DeploymentType {
   static const model = DeploymentType._('Model');
 
@@ -521,6 +536,7 @@ class DeploymentType {
   String toString() => value;
 }
 
+/// @nodoc
 class FailureHandlingPolicy {
   static const rollbackOnFailure =
       FailureHandlingPolicy._('ROLLBACK_ON_FAILURE');
@@ -548,6 +564,8 @@ class FailureHandlingPolicy {
 }
 
 ///
+///
+/// @nodoc
 class Definition {
   /// The checksum information of the model.
   final Checksum? checksum;
@@ -594,6 +612,8 @@ class Definition {
 }
 
 /// Information about the checksum of a model deployed on a device.
+///
+/// @nodoc
 class Checksum {
   /// The checksum of the model.
   final String? sum;
@@ -623,6 +643,7 @@ class Checksum {
   }
 }
 
+/// @nodoc
 class ChecksumType {
   static const sha1 = ChecksumType._('SHA1');
 
@@ -645,6 +666,7 @@ class ChecksumType {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);

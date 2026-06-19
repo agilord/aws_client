@@ -712,6 +712,7 @@ class NovaAct {
   }
 }
 
+/// @nodoc
 class CreateActResponse {
   /// The unique identifier for the created act.
   final String actId;
@@ -741,6 +742,7 @@ class CreateActResponse {
   }
 }
 
+/// @nodoc
 class ListActsResponse {
   /// A list of summary information for acts in the session.
   final List<ActSummary> actSummaries;
@@ -773,6 +775,7 @@ class ListActsResponse {
   }
 }
 
+/// @nodoc
 class InvokeActStepResponse {
   /// A list of tool calls that the act wants to execute in this step.
   final List<Call> calls;
@@ -805,6 +808,7 @@ class InvokeActStepResponse {
   }
 }
 
+/// @nodoc
 class UpdateActResponse {
   UpdateActResponse();
 
@@ -817,6 +821,7 @@ class UpdateActResponse {
   }
 }
 
+/// @nodoc
 class ListModelsResponse {
   /// Information about client compatibility and supported models.
   final CompatibilityInformation compatibilityInformation;
@@ -862,6 +867,7 @@ class ListModelsResponse {
   }
 }
 
+/// @nodoc
 class CreateSessionResponse {
   /// The unique identifier for the created session.
   final String sessionId;
@@ -884,6 +890,7 @@ class CreateSessionResponse {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// A list of summary information for sessions in the workflow run.
   final List<SessionSummary> sessionSummaries;
@@ -916,6 +923,7 @@ class ListSessionsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowDefinitionResponse {
   /// The current status of the workflow definition after creation.
   final WorkflowDefinitionStatus status;
@@ -939,6 +947,7 @@ class CreateWorkflowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the workflow definition.
   final String arn;
@@ -1000,6 +1009,7 @@ class GetWorkflowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowDefinitionResponse {
   /// The status of the workflow definition after deletion request.
   final WorkflowDefinitionStatus status;
@@ -1023,6 +1033,7 @@ class DeleteWorkflowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowDefinitionsResponse {
   /// A list of summary information for workflow definitions.
   final List<WorkflowDefinitionSummary> workflowDefinitionSummaries;
@@ -1057,6 +1068,7 @@ class ListWorkflowDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowRunResponse {
   /// The initial status of the workflow run after creation.
   final WorkflowRunStatus status;
@@ -1086,6 +1098,7 @@ class CreateWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowRunResponse {
   /// The ID of the AI model being used for this workflow run.
   final String modelId;
@@ -1150,6 +1163,7 @@ class GetWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkflowRunResponse {
   UpdateWorkflowRunResponse();
 
@@ -1162,6 +1176,7 @@ class UpdateWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowRunResponse {
   /// The status of the workflow run after deletion request.
   final WorkflowRunStatus status;
@@ -1184,6 +1199,7 @@ class DeleteWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowRunsResponse {
   /// A list of summary information for workflow runs.
   final List<WorkflowRunSummary> workflowRunSummaries;
@@ -1219,6 +1235,8 @@ class ListWorkflowRunsResponse {
 
 /// Summary information about a workflow run, including execution status and
 /// timing.
+///
+/// @nodoc
 class WorkflowRunSummary {
   /// The timestamp when the workflow run started execution.
   final DateTime startedAt;
@@ -1279,6 +1297,7 @@ class WorkflowRunSummary {
   }
 }
 
+/// @nodoc
 class WorkflowRunStatus {
   static const running = WorkflowRunStatus._('RUNNING');
   static const succeeded = WorkflowRunStatus._('SUCCEEDED');
@@ -1307,6 +1326,8 @@ class WorkflowRunStatus {
 }
 
 /// Information about where trace data is stored for debugging and monitoring.
+///
+/// @nodoc
 class TraceLocation {
   /// The specific location where the trace data is stored.
   final String location;
@@ -1337,6 +1358,7 @@ class TraceLocation {
   }
 }
 
+/// @nodoc
 class TraceLocationType {
   static const s3 = TraceLocationType._('S3');
 
@@ -1360,6 +1382,7 @@ class TraceLocationType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -1385,6 +1408,8 @@ class SortOrder {
 
 /// Information about the client making API requests, used for compatibility
 /// checking.
+///
+/// @nodoc
 class ClientInfo {
   /// The compatibility version of the client, used to ensure API compatibility.
   final int compatibilityVersion;
@@ -1408,6 +1433,8 @@ class ClientInfo {
 }
 
 /// Summary information about a workflow definition, used in list operations.
+///
+/// @nodoc
 class WorkflowDefinitionSummary {
   /// The timestamp when the workflow definition was created.
   final DateTime createdAt;
@@ -1452,6 +1479,7 @@ class WorkflowDefinitionSummary {
   }
 }
 
+/// @nodoc
 class WorkflowDefinitionStatus {
   static const active = WorkflowDefinitionStatus._('ACTIVE');
   static const deleting = WorkflowDefinitionStatus._('DELETING');
@@ -1479,6 +1507,8 @@ class WorkflowDefinitionStatus {
 
 /// Configuration settings for exporting workflow execution data and logs to
 /// Amazon Simple Storage Service (Amazon S3).
+///
+/// @nodoc
 class WorkflowExportConfig {
   /// The name of your Amazon S3 bucket, that Nova Act uses to export your
   /// workflow data. Note that the IAM role used to access Nova Act must also have
@@ -1511,6 +1541,8 @@ class WorkflowExportConfig {
 }
 
 /// Summary information about a session within a workflow run.
+///
+/// @nodoc
 class SessionSummary {
   /// The unique identifier of the session.
   final String sessionId;
@@ -1534,6 +1566,8 @@ class SessionSummary {
 }
 
 /// Information about client compatibility and supported model versions.
+///
+/// @nodoc
 class CompatibilityInformation {
   /// The client compatibility version that was requested.
   final int clientCompatibilityVersion;
@@ -1575,6 +1609,8 @@ class CompatibilityInformation {
 }
 
 /// An alias that provides a stable reference to a model version.
+///
+/// @nodoc
 class ModelAlias {
   /// The name of the model alias.
   final String aliasName;
@@ -1612,6 +1648,8 @@ class ModelAlias {
 }
 
 /// Summary information about an available AI model.
+///
+/// @nodoc
 class ModelSummary {
   /// The minimum client compatibility version required to use this model.
   final int minimumCompatibilityVersion;
@@ -1652,6 +1690,8 @@ class ModelSummary {
 }
 
 /// Lifecycle information for an AI model.
+///
+/// @nodoc
 class ModelLifecycle {
   /// The current lifecycle status of the model.
   final ModelStatus status;
@@ -1674,6 +1714,7 @@ class ModelLifecycle {
   }
 }
 
+/// @nodoc
 class ModelStatus {
   static const active = ModelStatus._('ACTIVE');
   static const legacy = ModelStatus._('LEGACY');
@@ -1699,6 +1740,7 @@ class ModelStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ActStatus {
   static const running = ActStatus._('RUNNING');
   static const pendingClientAction = ActStatus._('PENDING_CLIENT_ACTION');
@@ -1734,6 +1776,8 @@ class ActStatus {
 }
 
 /// Error information when an act fails to execute successfully.
+///
+/// @nodoc
 class ActError {
   /// A human-readable description of the error that occurred.
   final String message;
@@ -1757,6 +1801,8 @@ class ActError {
 }
 
 /// A request for the client to execute a specific tool with given parameters.
+///
+/// @nodoc
 class Call {
   /// A unique identifier for this tool call, used to match results back to
   /// requests.
@@ -1797,6 +1843,8 @@ class Call {
 }
 
 /// The result returned from executing a tool call.
+///
+/// @nodoc
 class CallResult {
   /// The content returned by the tool execution, which can include text or other
   /// media types.
@@ -1821,6 +1869,8 @@ class CallResult {
 }
 
 /// Content returned from a tool call execution.
+///
+/// @nodoc
 class CallResultContent {
   /// Text content returned from the tool execution.
   final String? text;
@@ -1838,6 +1888,8 @@ class CallResultContent {
 }
 
 /// Summary information about an act, including its status and execution timing.
+///
+/// @nodoc
 class ActSummary {
   /// The unique identifier of the act.
   final String actId;
@@ -1907,6 +1959,8 @@ class ActSummary {
 
 /// Specification for a tool that acts can invoke, including its name,
 /// description, and input schema.
+///
+/// @nodoc
 class ToolSpec {
   /// A description of what the tool does and how it should be used.
   final String description;
@@ -1936,6 +1990,8 @@ class ToolSpec {
 }
 
 /// The schema definition for tool input parameters.
+///
+/// @nodoc
 class ToolInputSchema {
   /// The JSON schema that defines the expected input format for the tool.
   final Object? json;
@@ -1952,26 +2008,31 @@ class ToolInputSchema {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1980,11 +2041,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

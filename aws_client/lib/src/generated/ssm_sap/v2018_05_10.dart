@@ -1065,6 +1065,7 @@ class SsmSap {
   }
 }
 
+/// @nodoc
 class DeleteResourcePermissionOutput {
   /// The policy that removes permissions on the target database.
   final String? policy;
@@ -1087,6 +1088,7 @@ class DeleteResourcePermissionOutput {
   }
 }
 
+/// @nodoc
 class DeregisterApplicationOutput {
   DeregisterApplicationOutput();
 
@@ -1099,6 +1101,7 @@ class DeregisterApplicationOutput {
   }
 }
 
+/// @nodoc
 class GetApplicationOutput {
   /// Returns all of the metadata of an application registered with AWS Systems
   /// Manager for SAP.
@@ -1132,6 +1135,7 @@ class GetApplicationOutput {
   }
 }
 
+/// @nodoc
 class GetComponentOutput {
   /// The component of an application registered with AWS Systems Manager for SAP.
   final Component? component;
@@ -1164,6 +1168,7 @@ class GetComponentOutput {
   }
 }
 
+/// @nodoc
 class GetConfigurationCheckOperationOutput {
   /// Returns the details of a configuration check operation.
   final ConfigurationCheckOperation? configurationCheckOperation;
@@ -1191,6 +1196,7 @@ class GetConfigurationCheckOperationOutput {
   }
 }
 
+/// @nodoc
 class GetDatabaseOutput {
   /// The SAP HANA database of an application registered with AWS Systems Manager
   /// for SAP.
@@ -1224,6 +1230,7 @@ class GetDatabaseOutput {
   }
 }
 
+/// @nodoc
 class GetOperationOutput {
   /// Returns the details of an operation.
   final Operation? operation;
@@ -1248,6 +1255,7 @@ class GetOperationOutput {
   }
 }
 
+/// @nodoc
 class GetResourcePermissionOutput {
   /// <p/>
   final String? policy;
@@ -1270,6 +1278,7 @@ class GetResourcePermissionOutput {
   }
 }
 
+/// @nodoc
 class ListApplicationsOutput {
   /// The applications registered with AWS Systems Manager for SAP.
   final List<ApplicationSummary>? applications;
@@ -1303,6 +1312,7 @@ class ListApplicationsOutput {
   }
 }
 
+/// @nodoc
 class ListComponentsOutput {
   /// List of components registered with AWS System Manager for SAP.
   final List<ComponentSummary>? components;
@@ -1336,6 +1346,7 @@ class ListComponentsOutput {
   }
 }
 
+/// @nodoc
 class ListConfigurationCheckDefinitionsOutput {
   /// The configuration check types supported by AWS Systems Manager for SAP.
   final List<ConfigurationCheckDefinition>? configurationChecks;
@@ -1372,6 +1383,7 @@ class ListConfigurationCheckDefinitionsOutput {
   }
 }
 
+/// @nodoc
 class ListConfigurationCheckOperationsOutput {
   /// The configuration check operations performed by AWS Systems Manager for SAP.
   final List<ConfigurationCheckOperation>? configurationCheckOperations;
@@ -1409,6 +1421,7 @@ class ListConfigurationCheckOperationsOutput {
   }
 }
 
+/// @nodoc
 class ListDatabasesOutput {
   /// The SAP HANA databases of an application.
   final List<DatabaseSummary>? databases;
@@ -1442,6 +1455,7 @@ class ListDatabasesOutput {
   }
 }
 
+/// @nodoc
 class ListOperationEventsOutput {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1475,6 +1489,7 @@ class ListOperationEventsOutput {
   }
 }
 
+/// @nodoc
 class ListOperationsOutput {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1508,6 +1523,7 @@ class ListOperationsOutput {
   }
 }
 
+/// @nodoc
 class ListSubCheckResultsOutput {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1541,6 +1557,7 @@ class ListSubCheckResultsOutput {
   }
 }
 
+/// @nodoc
 class ListSubCheckRuleResultsOutput {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1575,6 +1592,7 @@ class ListSubCheckRuleResultsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// <p/>
   final Map<String, String>? tags;
@@ -1598,6 +1616,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePermissionOutput {
   /// <p/>
   final String? policy;
@@ -1620,6 +1639,7 @@ class PutResourcePermissionOutput {
   }
 }
 
+/// @nodoc
 class RegisterApplicationOutput {
   /// The application registered with AWS Systems Manager for SAP.
   final Application? application;
@@ -1651,6 +1671,7 @@ class RegisterApplicationOutput {
   }
 }
 
+/// @nodoc
 class StartApplicationOutput {
   /// The ID of the operation.
   final String? operationId;
@@ -1673,6 +1694,7 @@ class StartApplicationOutput {
   }
 }
 
+/// @nodoc
 class StartApplicationRefreshOutput {
   /// The ID of the operation.
   final String? operationId;
@@ -1695,6 +1717,7 @@ class StartApplicationRefreshOutput {
   }
 }
 
+/// @nodoc
 class StartConfigurationChecksOutput {
   /// The configuration check operations that were started.
   final List<ConfigurationCheckOperation>? configurationCheckOperations;
@@ -1723,6 +1746,7 @@ class StartConfigurationChecksOutput {
   }
 }
 
+/// @nodoc
 class StopApplicationOutput {
   /// The ID of the operation.
   final String? operationId;
@@ -1745,6 +1769,7 @@ class StopApplicationOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1757,6 +1782,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1769,6 +1795,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationSettingsOutput {
   /// The update message.
   final String? message;
@@ -1803,6 +1830,8 @@ class UpdateApplicationSettingsOutput {
 
 /// Configuration parameters for AWS Backint Agent for SAP HANA. You can backup
 /// your SAP HANA database with AWS Backup or Amazon S3.
+///
+/// @nodoc
 class BackintConfig {
   /// AWS service for your database backup.
   final BackintMode backintMode;
@@ -1825,6 +1854,7 @@ class BackintConfig {
   }
 }
 
+/// @nodoc
 class BackintMode {
   static const awsBackup = BackintMode._('AWSBackup');
 
@@ -1848,6 +1878,8 @@ class BackintMode {
 }
 
 /// The credentials of your SAP application.
+///
+/// @nodoc
 class ApplicationCredential {
   /// The type of the application credentials.
   final CredentialType credentialType;
@@ -1886,6 +1918,7 @@ class ApplicationCredential {
   }
 }
 
+/// @nodoc
 class CredentialType {
   static const admin = CredentialType._('ADMIN');
 
@@ -1909,6 +1942,7 @@ class CredentialType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectedEntityType {
   static const dbms = ConnectedEntityType._('DBMS');
 
@@ -1935,6 +1969,8 @@ class ConnectedEntityType {
 
 /// Represents a configuration check operation that has been executed against an
 /// application.
+///
+/// @nodoc
 class ConfigurationCheckOperation {
   /// The ID of the application against which the configuration check was
   /// performed.
@@ -2030,6 +2066,7 @@ class ConfigurationCheckOperation {
   }
 }
 
+/// @nodoc
 class OperationStatus {
   static const inprogress = OperationStatus._('INPROGRESS');
   static const success = OperationStatus._('SUCCESS');
@@ -2055,6 +2092,7 @@ class OperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfigurationCheckType {
   static const sapCheck_01 = ConfigurationCheckType._('SAP_CHECK_01');
   static const sapCheck_02 = ConfigurationCheckType._('SAP_CHECK_02');
@@ -2082,6 +2120,8 @@ class ConfigurationCheckType {
 }
 
 /// A summary of rule results, providing counts for each status type.
+///
+/// @nodoc
 class RuleStatusCounts {
   /// The number of rules that failed.
   final int? failed;
@@ -2133,6 +2173,8 @@ class RuleStatusCounts {
 }
 
 /// An SAP application registered with AWS Systems Manager for SAP.
+///
+/// @nodoc
 class Application {
   /// The Amazon Resource Name (ARN) of the Application Registry.
   final String? appRegistryArn;
@@ -2227,6 +2269,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class ApplicationType {
   static const hana = ApplicationType._('HANA');
   static const sapAbap = ApplicationType._('SAP_ABAP');
@@ -2251,6 +2294,7 @@ class ApplicationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const activated = ApplicationStatus._('ACTIVATED');
   static const starting = ApplicationStatus._('STARTING');
@@ -2290,6 +2334,7 @@ class ApplicationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationDiscoveryStatus {
   static const success = ApplicationDiscoveryStatus._('SUCCESS');
   static const registrationFailed =
@@ -2327,6 +2372,8 @@ class ApplicationDiscoveryStatus {
 
 /// This is information about the component of your SAP application, such as Web
 /// Dispatcher.
+///
+/// @nodoc
 class ComponentInfo {
   /// This string is the type of the component.
   ///
@@ -2361,6 +2408,7 @@ class ComponentInfo {
   }
 }
 
+/// @nodoc
 class ComponentType {
   static const hana = ComponentType._('HANA');
   static const hanaNode = ComponentType._('HANA_NODE');
@@ -2391,6 +2439,7 @@ class ComponentType {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionActionType {
   static const restore = PermissionActionType._('RESTORE');
 
@@ -2416,6 +2465,8 @@ class PermissionActionType {
 }
 
 /// Represents the result of a single rule within a configuration check.
+///
+/// @nodoc
 class RuleResult {
   /// A description of what the rule validates.
   final String? description;
@@ -2467,6 +2518,7 @@ class RuleResult {
   }
 }
 
+/// @nodoc
 class RuleResultStatus {
   static const passed = RuleResultStatus._('PASSED');
   static const failed = RuleResultStatus._('FAILED');
@@ -2495,6 +2547,8 @@ class RuleResultStatus {
 }
 
 /// Represents the result of a sub-check within a configuration check operation.
+///
+/// @nodoc
 class SubCheckResult {
   /// A description of what the sub-check validates.
   final String? description;
@@ -2542,6 +2596,8 @@ class SubCheckResult {
 }
 
 /// The operations performed by AWS Systems Manager for SAP.
+///
+/// @nodoc
 class Operation {
   /// The end time of the operation.
   final DateTime? endTime;
@@ -2637,6 +2693,8 @@ class Operation {
 }
 
 /// A specific result obtained by specifying the name, value, and operator.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter. Filter names are case-sensitive.
   final String name;
@@ -2667,6 +2725,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterOperator {
   static const equals = FilterOperator._('Equals');
   static const greaterThanOrEquals = FilterOperator._('GreaterThanOrEquals');
@@ -2715,6 +2774,8 @@ class FilterOperator {
 /// </li>
 /// </ul>
 /// Operation event examples include StartApplication or StopApplication.
+///
+/// @nodoc
 class OperationEvent {
   /// A description of the operation event. For example, "Stop the EC2 instance
   /// i-abcdefgh987654321".
@@ -2773,6 +2834,8 @@ class OperationEvent {
 
 /// The resource contains a <code>ResourceArn</code> and the
 /// <code>ResourceType</code>.
+///
+/// @nodoc
 class Resource {
   /// The Amazon Resource Name (ARN) of the source resource.
   ///
@@ -2809,6 +2872,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class OperationEventStatus {
   static const inProgress = OperationEventStatus._('IN_PROGRESS');
   static const completed = OperationEventStatus._('COMPLETED');
@@ -2836,6 +2900,8 @@ class OperationEventStatus {
 }
 
 /// The summary of the database.
+///
+/// @nodoc
 class DatabaseSummary {
   /// The ID of the application.
   final String? applicationId;
@@ -2895,6 +2961,7 @@ class DatabaseSummary {
   }
 }
 
+/// @nodoc
 class DatabaseType {
   static const system = DatabaseType._('SYSTEM');
   static const tenant = DatabaseType._('TENANT');
@@ -2918,6 +2985,7 @@ class DatabaseType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfigurationCheckOperationListingMode {
   static const allOperations =
       ConfigurationCheckOperationListingMode._('ALL_OPERATIONS');
@@ -2947,6 +3015,8 @@ class ConfigurationCheckOperationListingMode {
 
 /// Represents a configuration check definition supported by AWS Systems Manager
 /// for SAP.
+///
+/// @nodoc
 class ConfigurationCheckDefinition {
   /// The list of SSMSAP application types that this configuration check can be
   /// evaluated against.
@@ -2997,6 +3067,8 @@ class ConfigurationCheckDefinition {
 }
 
 /// The summary of the component.
+///
+/// @nodoc
 class ComponentSummary {
   /// The ID of the application.
   final String? applicationId;
@@ -3051,6 +3123,8 @@ class ComponentSummary {
 
 /// The summary of the SAP application registered with AWS Systems Manager for
 /// SAP.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The Amazon Resource Name (ARN) of the application.
   final String? arn;
@@ -3105,6 +3179,8 @@ class ApplicationSummary {
 
 /// The SAP HANA database of the application registered with AWS Systems Manager
 /// for SAP.
+///
+/// @nodoc
 class Database {
   /// The ID of the application.
   final String? applicationId;
@@ -3213,6 +3289,7 @@ class Database {
   }
 }
 
+/// @nodoc
 class DatabaseStatus {
   static const running = DatabaseStatus._('RUNNING');
   static const starting = DatabaseStatus._('STARTING');
@@ -3251,6 +3328,8 @@ class DatabaseStatus {
 }
 
 /// The SAP component of your application.
+///
+/// @nodoc
 class Component {
   /// The ID of the application.
   final String? applicationId;
@@ -3456,6 +3535,7 @@ class Component {
   }
 }
 
+/// @nodoc
 class ComponentStatus {
   static const activated = ComponentStatus._('ACTIVATED');
   static const starting = ComponentStatus._('STARTING');
@@ -3494,6 +3574,8 @@ class ComponentStatus {
 }
 
 /// Details of the SAP HANA system replication for the instance.
+///
+/// @nodoc
 class Resilience {
   /// The cluster status of the component.
   final ClusterStatus? clusterStatus;
@@ -3549,6 +3631,8 @@ class Resilience {
 }
 
 /// Describes the properties of the associated host.
+///
+/// @nodoc
 class AssociatedHost {
   /// The ID of the Amazon EC2 instance.
   final String? ec2InstanceId;
@@ -3596,6 +3680,8 @@ class AssociatedHost {
 }
 
 /// The connection specifications for the database.
+///
+/// @nodoc
 class DatabaseConnection {
   /// The IP address for connection.
   final String? connectionIp;
@@ -3634,6 +3720,7 @@ class DatabaseConnection {
   }
 }
 
+/// @nodoc
 class DatabaseConnectionMethod {
   static const direct = DatabaseConnectionMethod._('DIRECT');
   static const overlay = DatabaseConnectionMethod._('OVERLAY');
@@ -3660,6 +3747,8 @@ class DatabaseConnectionMethod {
 }
 
 /// Describes the properties of the Dedicated Host.
+///
+/// @nodoc
 class Host {
   /// The ID of Amazon EC2 instance.
   final String? eC2InstanceId;
@@ -3717,6 +3806,7 @@ class Host {
   }
 }
 
+/// @nodoc
 class HostRole {
   static const leader = HostRole._('LEADER');
   static const worker = HostRole._('WORKER');
@@ -3743,6 +3833,8 @@ class HostRole {
 }
 
 /// Provides information of the IP address.
+///
+/// @nodoc
 class IpAddressMember {
   /// The type of allocation for the IP address.
   final AllocationType? allocationType;
@@ -3780,6 +3872,7 @@ class IpAddressMember {
   }
 }
 
+/// @nodoc
 class AllocationType {
   static const vpcSubnet = AllocationType._('VPC_SUBNET');
   static const elasticIp = AllocationType._('ELASTIC_IP');
@@ -3806,6 +3899,7 @@ class AllocationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationMode {
   static const primary = ReplicationMode._('PRIMARY');
   static const none = ReplicationMode._('NONE');
@@ -3833,6 +3927,7 @@ class ReplicationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationMode {
   static const primary = OperationMode._('PRIMARY');
   static const logreplay = OperationMode._('LOGREPLAY');
@@ -3866,6 +3961,7 @@ class OperationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterStatus {
   static const online = ClusterStatus._('ONLINE');
   static const standby = ClusterStatus._('STANDBY');
@@ -3893,26 +3989,31 @@ class ClusterStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

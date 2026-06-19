@@ -192,6 +192,7 @@ class Uxc {
   }
 }
 
+/// @nodoc
 class GetAccountCustomizationsOutput {
   /// The account color preference. A value of <code>none</code> indicates that
   /// you have not set a color.
@@ -245,6 +246,7 @@ class GetAccountCustomizationsOutput {
   }
 }
 
+/// @nodoc
 class ListServicesOutput {
   /// The token for retrieving the next page of results. This value is
   /// <code>null</code> when no more results are available.
@@ -278,6 +280,7 @@ class ListServicesOutput {
   }
 }
 
+/// @nodoc
 class UpdateAccountCustomizationsOutput {
   /// The current account color preference after the update.
   final AccountColor? accountColor;
@@ -322,6 +325,7 @@ class UpdateAccountCustomizationsOutput {
   }
 }
 
+/// @nodoc
 class AccountColor {
   static const none = AccountColor._('none');
   static const pink = AccountColor._('pink');
@@ -364,21 +368,25 @@ class AccountColor {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1082,6 +1082,7 @@ class Identitystore {
   }
 }
 
+/// @nodoc
 class GetGroupIdResponse {
   /// The identifier for a group in the identity store.
   final String groupId;
@@ -1111,6 +1112,7 @@ class GetGroupIdResponse {
   }
 }
 
+/// @nodoc
 class GetGroupMembershipIdResponse {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -1140,6 +1142,7 @@ class GetGroupMembershipIdResponse {
   }
 }
 
+/// @nodoc
 class GetUserIdResponse {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -1169,6 +1172,7 @@ class GetUserIdResponse {
   }
 }
 
+/// @nodoc
 class IsMemberInGroupsResponse {
   /// A list containing the results of membership existence checks.
   final List<GroupMembershipExistenceResult> results;
@@ -1195,6 +1199,7 @@ class IsMemberInGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupMembershipsForMemberResponse {
   /// A list of <code>GroupMembership</code> objects in the group for a specified
   /// member.
@@ -1234,6 +1239,7 @@ class ListGroupMembershipsForMemberResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupMembershipResponse {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -1264,6 +1270,7 @@ class CreateGroupMembershipResponse {
   }
 }
 
+/// @nodoc
 class DescribeGroupMembershipResponse {
   /// The identifier for a group in the identity store.
   final String groupId;
@@ -1334,6 +1341,7 @@ class DescribeGroupMembershipResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupMembershipResponse {
   DeleteGroupMembershipResponse();
 
@@ -1346,6 +1354,7 @@ class DeleteGroupMembershipResponse {
   }
 }
 
+/// @nodoc
 class ListGroupMembershipsResponse {
   /// A list of <code>GroupMembership</code> objects in the group.
   final List<GroupMembership> groupMemberships;
@@ -1383,6 +1392,7 @@ class ListGroupMembershipsResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupResponse {
   /// The identifier of the newly created group in the identity store.
   final String groupId;
@@ -1412,6 +1422,7 @@ class CreateGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeGroupResponse {
   /// The identifier for a group in the identity store.
   final String groupId;
@@ -1499,6 +1510,7 @@ class DescribeGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupResponse {
   UpdateGroupResponse();
 
@@ -1511,6 +1523,7 @@ class UpdateGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupResponse {
   DeleteGroupResponse();
 
@@ -1523,6 +1536,7 @@ class DeleteGroupResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// A list of <code>Group</code> objects in the identity store.
   final List<Group> groups;
@@ -1559,6 +1573,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -1588,6 +1603,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserResponse {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -1814,6 +1830,7 @@ class DescribeUserResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   UpdateUserResponse();
 
@@ -1826,6 +1843,7 @@ class UpdateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   DeleteUserResponse();
 
@@ -1838,6 +1856,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// A list of <code>User</code> objects in the identity store.
   final List<User> users;
@@ -1876,6 +1895,8 @@ class ListUsersResponse {
 
 /// A user object that contains the metadata and attributes for a specified
 /// user.
+///
+/// @nodoc
 class User {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -2113,6 +2134,8 @@ class User {
 }
 
 /// The full name of the user.
+///
+/// @nodoc
 class Name {
   /// The family name of the user.
   final String? familyName;
@@ -2170,6 +2193,7 @@ class Name {
   }
 }
 
+/// @nodoc
 class UserStatus {
   static const enabled = UserStatus._('ENABLED');
   static const disabled = UserStatus._('DISABLED');
@@ -2194,6 +2218,8 @@ class UserStatus {
 }
 
 /// The role associated with the user.
+///
+/// @nodoc
 class Role {
   /// A Boolean value representing whether this is the primary role for the
   /// associated resource.
@@ -2234,6 +2260,8 @@ class Role {
 /// Contains information about a user's photo. Users can have up to 3 photos,
 /// with one designated as primary. Supports common image formats, including
 /// jpg, jpeg, png, and gif.
+///
+/// @nodoc
 class Photo {
   /// The photo data or URL. Supported formats include jpg, jpeg, png, and gif.
   /// This field is required for all photo entries.
@@ -2282,6 +2310,8 @@ class Photo {
 }
 
 /// The phone number associated with the user.
+///
+/// @nodoc
 class PhoneNumber {
   /// A Boolean value representing whether this is the primary phone number for
   /// the associated resource.
@@ -2321,6 +2351,8 @@ class PhoneNumber {
 }
 
 /// The address associated with the specified user.
+///
+/// @nodoc
 class Address {
   /// The country of the address.
   final String? country;
@@ -2394,6 +2426,8 @@ class Address {
 }
 
 /// The email address associated with the user.
+///
+/// @nodoc
 class Email {
   /// A Boolean value representing whether this is the primary email address for
   /// the associated resource.
@@ -2432,6 +2466,8 @@ class Email {
 }
 
 /// The identifier issued to this resource by an external identity provider.
+///
+/// @nodoc
 class ExternalId {
   /// The identifier issued to this resource by an external identity provider.
   final String id;
@@ -2464,6 +2500,8 @@ class ExternalId {
 /// A query filter used by <code>ListUsers</code> and <code>ListGroups</code>.
 /// This filter object provides the attribute name and attribute value to search
 /// users or groups.
+///
+/// @nodoc
 class Filter {
   /// The attribute path that is used to specify which attribute name to search.
   /// Length limit is 255 characters. For example, <code>UserName</code> is a
@@ -2493,6 +2531,8 @@ class Filter {
 
 /// An operation that applies to the requested group. This operation might add,
 /// replace, or remove an attribute.
+///
+/// @nodoc
 class AttributeOperation {
   /// A string representation of the path to a given attribute or sub-attribute.
   /// Supports JMESPath.
@@ -2519,6 +2559,8 @@ class AttributeOperation {
 
 /// A group object that contains the metadata and attributes for a specified
 /// group.
+///
+/// @nodoc
 class Group {
   /// The identifier for a group in the identity store.
   final String groupId;
@@ -2609,6 +2651,8 @@ class Group {
 
 /// Contains the identifiers for a group, a group member, and a
 /// <code>GroupMembership</code> object in the identity store.
+///
+/// @nodoc
 class GroupMembership {
   /// The globally unique identifier for the identity store.
   final String identityStoreId;
@@ -2686,6 +2730,8 @@ class GroupMembership {
 }
 
 /// An object containing the identifier of a group member.
+///
+/// @nodoc
 class MemberId {
   /// An object containing the identifiers of resources that can be members.
   final String? userId;
@@ -2709,6 +2755,8 @@ class MemberId {
 }
 
 /// Indicates whether a resource is a member of a group in the identity store.
+///
+/// @nodoc
 class GroupMembershipExistenceResult {
   /// The identifier for a group in the identity store.
   final String? groupId;
@@ -2752,6 +2800,8 @@ class GroupMembershipExistenceResult {
 /// A unique identifier for a user or group that is not the primary identifier.
 /// This value can be an identifier from an external identity provider (IdP)
 /// that is associated with the user, the group, or a unique attribute.
+///
+/// @nodoc
 class AlternateIdentifier {
   /// The identifier issued to this resource by an external identity provider.
   final ExternalId? externalId;
@@ -2775,6 +2825,8 @@ class AlternateIdentifier {
 }
 
 /// An entity attribute that's unique to a specific entity.
+///
+/// @nodoc
 class UniqueAttribute {
   /// A string representation of the path to a given attribute or sub-attribute.
   /// Supports JMESPath.
@@ -2799,16 +2851,19 @@ class UniqueAttribute {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2817,6 +2872,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

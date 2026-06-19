@@ -92,7 +92,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// General Reference Guide</i>.
 /// <note>
 /// Wickr API endpoints are region-specific and include a region code in the
-/// format: <code>https://admin.wickr.[regioncode].amazonaws.com</code>. For
+/// format: <code>https://admin.wickr.\[regioncode\].amazonaws.com</code>. For
 /// example, for the US East (N.Virginia) <code>us-east-1</code>, the API
 /// endpoint is <code>https://admin.wickr.us-east-1.amazonaws.com</code>.
 /// </note>
@@ -2069,6 +2069,7 @@ class Wickr {
   }
 }
 
+/// @nodoc
 class BatchCreateUserResponse {
   /// A list of user creation attempts that failed, including error details
   /// explaining why each user could not be created.
@@ -2114,6 +2115,7 @@ class BatchCreateUserResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteUserResponse {
   /// A list of user deletion attempts that failed, including error details
   /// explaining why each user could not be deleted.
@@ -2159,6 +2161,7 @@ class BatchDeleteUserResponse {
   }
 }
 
+/// @nodoc
 class BatchLookupUserUnameResponse {
   /// A list of username hash lookup attempts that failed, including error details
   /// explaining why each lookup failed.
@@ -2205,6 +2208,7 @@ class BatchLookupUserUnameResponse {
   }
 }
 
+/// @nodoc
 class BatchReinviteUserResponse {
   /// A list of reinvitation attempts that failed, including error details
   /// explaining why each user could not be reinvited.
@@ -2250,6 +2254,7 @@ class BatchReinviteUserResponse {
   }
 }
 
+/// @nodoc
 class BatchResetDevicesForUserResponse {
   /// A list of device reset attempts that failed, including error details
   /// explaining why each device could not be reset.
@@ -2295,6 +2300,7 @@ class BatchResetDevicesForUserResponse {
   }
 }
 
+/// @nodoc
 class BatchToggleUserSuspendStatusResponse {
   /// A list of suspend status toggle attempts that failed, including error
   /// details explaining why each user's status could not be changed.
@@ -2342,6 +2348,7 @@ class BatchToggleUserSuspendStatusResponse {
   }
 }
 
+/// @nodoc
 class CreateBotResponse {
   /// The unique identifier assigned to the newly created bot.
   final String botId;
@@ -2399,6 +2406,7 @@ class CreateBotResponse {
   }
 }
 
+/// @nodoc
 class CreateDataRetentionBotResponse {
   /// A message indicating that the data retention bot was successfully
   /// provisioned.
@@ -2422,6 +2430,7 @@ class CreateDataRetentionBotResponse {
   }
 }
 
+/// @nodoc
 class CreateDataRetentionBotChallengeResponse {
   /// The newly generated challenge password for the data retention bot.
   final String challenge;
@@ -2445,6 +2454,7 @@ class CreateDataRetentionBotChallengeResponse {
   }
 }
 
+/// @nodoc
 class CreateNetworkResponse {
   /// The ARN of the KMS key being used to encrypt sensitive data in the network.
   final String? encryptionKeyArn;
@@ -2481,6 +2491,7 @@ class CreateNetworkResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityGroupResponse {
   /// The details of the newly created security group, including its ID, name, and
   /// settings.
@@ -2506,6 +2517,7 @@ class CreateSecurityGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotResponse {
   /// A message indicating the result of the bot deletion operation.
   final String? message;
@@ -2528,6 +2540,7 @@ class DeleteBotResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataRetentionBotResponse {
   /// A message indicating that the data retention bot and all associated data
   /// were successfully deleted.
@@ -2551,6 +2564,7 @@ class DeleteDataRetentionBotResponse {
   }
 }
 
+/// @nodoc
 class DeleteNetworkResponse {
   /// A message indicating that the network deletion has been initiated
   /// successfully.
@@ -2574,6 +2588,7 @@ class DeleteNetworkResponse {
   }
 }
 
+/// @nodoc
 class DeleteSecurityGroupResponse {
   /// The ID of the security group that was deleted.
   final String? groupId;
@@ -2610,6 +2625,7 @@ class DeleteSecurityGroupResponse {
   }
 }
 
+/// @nodoc
 class GetBotResponse {
   /// The unique identifier of the bot.
   final String? botId;
@@ -2695,6 +2711,7 @@ class GetBotResponse {
   }
 }
 
+/// @nodoc
 class GetBotsCountResponse {
   /// The number of bots with active status.
   final int active;
@@ -2731,6 +2748,7 @@ class GetBotsCountResponse {
   }
 }
 
+/// @nodoc
 class GetDataRetentionBotResponse {
   /// Indicates whether a data retention bot exists in the network.
   final bool? botExists;
@@ -2793,6 +2811,7 @@ class GetDataRetentionBotResponse {
   }
 }
 
+/// @nodoc
 class GetGuestUserHistoryCountResponse {
   /// A list of historical guest user counts, organized by month and billing
   /// period.
@@ -2819,6 +2838,7 @@ class GetGuestUserHistoryCountResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkResponse {
   /// The access level of the network (STANDARD or PREMIUM), which determines
   /// available features and capabilities.
@@ -2903,6 +2923,7 @@ class GetNetworkResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkSettingsResponse {
   /// A list of network settings, where each setting includes a name, value, and
   /// type.
@@ -2929,6 +2950,7 @@ class GetNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetOidcInfoResponse {
   /// The OpenID Connect configuration information for the network, including
   /// issuer, client ID, scopes, and other SSO settings.
@@ -2966,6 +2988,7 @@ class GetOidcInfoResponse {
   }
 }
 
+/// @nodoc
 class GetOpentdfConfigResponse {
   /// The OIDC client ID used for authenticating with the OpenTDF provider.
   final String clientId;
@@ -3009,6 +3032,7 @@ class GetOpentdfConfigResponse {
   }
 }
 
+/// @nodoc
 class GetSecurityGroupResponse {
   /// The detailed information about the security group, including all its
   /// settings and member counts.
@@ -3034,6 +3058,7 @@ class GetSecurityGroupResponse {
   }
 }
 
+/// @nodoc
 class GetUserResponse {
   /// The unique identifier of the user.
   final String userId;
@@ -3124,6 +3149,7 @@ class GetUserResponse {
   }
 }
 
+/// @nodoc
 class GetUsersCountResponse {
   /// The number of users with active status in the network.
   final int active;
@@ -3175,6 +3201,7 @@ class GetUsersCountResponse {
   }
 }
 
+/// @nodoc
 class ListBlockedGuestUsersResponse {
   /// A list of blocked guest user objects within the current page.
   final List<BlockedGuestUser> blocklist;
@@ -3208,6 +3235,7 @@ class ListBlockedGuestUsersResponse {
   }
 }
 
+/// @nodoc
 class ListBotsResponse {
   /// A list of bot objects matching the specified filters and within the current
   /// page.
@@ -3242,6 +3270,7 @@ class ListBotsResponse {
   }
 }
 
+/// @nodoc
 class ListDevicesForUserResponse {
   /// A list of device objects associated with the user within the current page.
   final List<BasicDeviceObject> devices;
@@ -3275,6 +3304,7 @@ class ListDevicesForUserResponse {
   }
 }
 
+/// @nodoc
 class ListGuestUsersResponse {
   /// A list of guest user objects within the current page.
   final List<GuestUser> guestlist;
@@ -3308,6 +3338,7 @@ class ListGuestUsersResponse {
   }
 }
 
+/// @nodoc
 class ListNetworksResponse {
   /// A list of network objects for the Amazon Web Services account.
   final List<Network> networks;
@@ -3341,6 +3372,7 @@ class ListNetworksResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityGroupsResponse {
   /// The token to use for retrieving the next page of results. If this is not
   /// present, there are no more results.
@@ -3374,6 +3406,7 @@ class ListSecurityGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityGroupUsersResponse {
   /// A list of user objects belonging to the security group within the current
   /// page.
@@ -3408,6 +3441,7 @@ class ListSecurityGroupUsersResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// The token to use for retrieving the next page of results. If this is not
   /// present, there are no more results.
@@ -3442,6 +3476,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class RegisterOidcConfigResponse {
   /// Custom identifier your end users will use to sign in with SSO.
   final String companyId;
@@ -3556,6 +3591,7 @@ class RegisterOidcConfigResponse {
   }
 }
 
+/// @nodoc
 class RegisterOidcConfigTestResponse {
   /// The authorization endpoint URL discovered from the OIDC provider.
   final String? authorizationEndpoint;
@@ -3674,6 +3710,7 @@ class RegisterOidcConfigTestResponse {
   }
 }
 
+/// @nodoc
 class RegisterOpentdfConfigResponse {
   /// The OIDC client ID used for authenticating with the OpenTDF provider.
   final String clientId;
@@ -3717,6 +3754,7 @@ class RegisterOpentdfConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateBotResponse {
   /// A message indicating the result of the bot update operation.
   final String? message;
@@ -3739,6 +3777,7 @@ class UpdateBotResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataRetentionResponse {
   /// A message indicating the result of the update operation.
   final String? message;
@@ -3761,6 +3800,7 @@ class UpdateDataRetentionResponse {
   }
 }
 
+/// @nodoc
 class UpdateGuestUserResponse {
   /// A message indicating the result of the update operation.
   final String? message;
@@ -3783,6 +3823,7 @@ class UpdateGuestUserResponse {
   }
 }
 
+/// @nodoc
 class UpdateNetworkResponse {
   /// A message indicating that the network was updated successfully.
   final String? message;
@@ -3805,6 +3846,7 @@ class UpdateNetworkResponse {
   }
 }
 
+/// @nodoc
 class UpdateNetworkSettingsResponse {
   /// A list of the updated network settings, showing the new values for each
   /// modified setting.
@@ -3831,6 +3873,7 @@ class UpdateNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityGroupResponse {
   /// The updated security group details, including the new settings.
   final SecurityGroup securityGroup;
@@ -3855,6 +3898,7 @@ class UpdateSecurityGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The ID of the network where the user was updated.
   final String networkId;
@@ -3965,6 +4009,8 @@ class UpdateUserResponse {
 /// user to multiple security groups is not supported and will result in an
 /// error.
 /// </note>
+///
+/// @nodoc
 class UpdateUserDetails {
   /// Indicates whether the user can be verified through a custom invite code.
   final bool? codeValidation;
@@ -4020,6 +4066,8 @@ class UpdateUserDetails {
 /// Represents a security group in a Wickr network, containing membership
 /// statistics, configuration, and all permission settings that apply to its
 /// members.
+///
+/// @nodoc
 class SecurityGroup {
   /// The number of active user members currently in the security group.
   final int activeMembers;
@@ -4102,6 +4150,8 @@ class SecurityGroup {
 /// restrictions, and features for members of a security group. These settings
 /// control everything from calling permissions to federation settings to
 /// security policies.
+///
+/// @nodoc
 class SecurityGroupSettings {
   /// Requires users to reauthenticate every time they return to the application,
   /// providing an additional layer of security.
@@ -4191,7 +4241,7 @@ class SecurityGroupSettings {
 
   /// The maximum file size in bytes that will be automatically downloaded without
   /// user confirmation. Only allowed if fileDownload is enabled. Valid Values
-  /// [512000 (low_quality), 7340032 (high_quality) ]
+  /// \[512000 (low_quality), 7340032 (high_quality) \]
   final int? maxAutoDownloadSize;
 
   /// The maximum burn-on-read (BOR) time in seconds, which determines how long
@@ -4449,6 +4499,8 @@ class SecurityGroupSettings {
 /// Defines the calling feature permissions and settings for users in a security
 /// group, controlling what types of calls users can initiate and participate
 /// in.
+///
+/// @nodoc
 class CallingSettings {
   /// Specifies whether users can start one-to-one calls.
   final bool? canStart11Call;
@@ -4489,6 +4541,8 @@ class CallingSettings {
 
 /// Defines password complexity requirements for users in a security group,
 /// including minimum length and character type requirements.
+///
+/// @nodoc
 class PasswordRequirements {
   /// The minimum number of lowercase letters required in passwords.
   final int? lowercase;
@@ -4547,12 +4601,14 @@ class PasswordRequirements {
 /// device or saved outside of the Wickr client. Wickr Network Administrators
 /// are able to disable file downloads within Security Group Settings.
 /// </note>
+///
+/// @nodoc
 class ShredderSettings {
   /// Specifies whether users can manually trigger the shredder to delete content.
   final bool? canProcessManually;
 
   /// Controls the rate (MB/minute) at which the shredder function runs on
-  /// clients. Valid Values: Must be one of [0, 20, 60, 100].
+  /// clients. Valid Values: Must be one of \[0, 20, 60, 100\].
   /// <note>
   /// A higher intensity setting could lead to higher battery usage on mobile
   /// devices.
@@ -4584,6 +4640,8 @@ class ShredderSettings {
 /// Identifies a Wickr enterprise network that is permitted for global
 /// federation, allowing users to communicate with members of the specified
 /// network.
+///
+/// @nodoc
 class PermittedWickrEnterpriseNetwork {
   /// The domain identifier for the permitted Wickr enterprise network.
   final String domain;
@@ -4615,6 +4673,8 @@ class PermittedWickrEnterpriseNetwork {
 
 /// Identifies a Amazon Web Services Wickr network by region and network ID,
 /// used for configuring permitted networks for global federation.
+///
+/// @nodoc
 class WickrAwsNetworks {
   /// The network ID of the Wickr Amazon Web Services network.
   final String networkId;
@@ -4647,6 +4707,8 @@ class WickrAwsNetworks {
 
 /// Represents a single network-level configuration setting with its name,
 /// value, and data type. Settings control network-wide behaviors and features.
+///
+/// @nodoc
 class Setting {
   /// The name of the network setting (e.g., 'enableClientMetrics',
   /// 'dataRetention').
@@ -4687,6 +4749,8 @@ class Setting {
 
 /// Contains network-level configuration settings that apply to all users and
 /// security groups within a Wickr network.
+///
+/// @nodoc
 class NetworkSettings {
   /// Consent popup configuration for the network, displayed to users on login.
   final ConsentPopupConfig? consentPopup;
@@ -4737,6 +4801,8 @@ class NetworkSettings {
 
 /// Configuration for read receipts at the network level, controlling whether
 /// senders can see when their messages have been read.
+///
+/// @nodoc
 class ReadReceiptConfig {
   /// The read receipt status mode for the network.
   final Status? status;
@@ -4754,6 +4820,8 @@ class ReadReceiptConfig {
 }
 
 /// Consent popup configuration displayed to users on login.
+///
+/// @nodoc
 class ConsentPopupConfig {
   /// Whether the consent popup is enabled. When set to true, the popup is
   /// displayed to users on login.
@@ -4792,6 +4860,7 @@ class ConsentPopupConfig {
   }
 }
 
+/// @nodoc
 class Status {
   static const disabled = Status._('DISABLED');
   static const enabled = Status._('ENABLED');
@@ -4816,6 +4885,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class DataRetentionActionType {
   static const enable = DataRetentionActionType._('ENABLE');
   static const disable = DataRetentionActionType._('DISABLE');
@@ -4848,6 +4918,8 @@ class DataRetentionActionType {
 /// codeValidation, inviteCode and inviteCodeTtl are restricted to networks
 /// under preview only.
 /// </note>
+///
+/// @nodoc
 class User {
   /// The phone number minus country code, used for cloud deployments.
   final String? cell;
@@ -5007,6 +5079,7 @@ class User {
   }
 }
 
+/// @nodoc
 class SortDirection {
   static const asc = SortDirection._('ASC');
   static const desc = SortDirection._('DESC');
@@ -5033,6 +5106,8 @@ class SortDirection {
 
 /// Represents a Wickr network with all its configuration and status
 /// information.
+///
+/// @nodoc
 class Network {
   /// The access level of the network (STANDARD or PREMIUM), which determines
   /// available features and capabilities.
@@ -5117,6 +5192,7 @@ class Network {
   }
 }
 
+/// @nodoc
 class AccessLevel {
   static const standard = AccessLevel._('STANDARD');
   static const premium = AccessLevel._('PREMIUM');
@@ -5142,6 +5218,8 @@ class AccessLevel {
 
 /// Represents a guest user who has accessed the network from a federated Wickr
 /// network.
+///
+/// @nodoc
 class GuestUser {
   /// The billing period when this guest user accessed the network (e.g.,
   /// '2024-01').
@@ -5181,6 +5259,8 @@ class GuestUser {
 
 /// Represents a device where a user has logged into Wickr, containing
 /// information about the device's type, status, and login history.
+///
+/// @nodoc
 class BasicDeviceObject {
   /// The unique application ID for the Wickr app on this device.
   final String? appId;
@@ -5243,6 +5323,8 @@ class BasicDeviceObject {
 
 /// Represents a bot account in a Wickr network with all its informational
 /// fields.
+///
+/// @nodoc
 class Bot {
   /// The unique identifier of the bot.
   final String? botId;
@@ -5329,6 +5411,8 @@ class Bot {
 }
 
 /// Represents a guest user who has been blocked from accessing a Wickr network.
+///
+/// @nodoc
 class BlockedGuestUser {
   /// The username of the administrator who blocked this guest user.
   final String admin;
@@ -5375,6 +5459,8 @@ class BlockedGuestUser {
 /// Contains the OpenID Connect (OIDC) configuration information for Single
 /// Sign-On (SSO) authentication, including identity provider settings and
 /// client credentials.
+///
+/// @nodoc
 class OidcConfigInfo {
   /// Custom identifier your end users will use to sign in with SSO.
   final String companyId;
@@ -5505,6 +5591,8 @@ class OidcConfigInfo {
 /// Contains OAuth token information returned from the identity provider,
 /// including access tokens, ID tokens, and PKCE parameters used for secure
 /// authentication.
+///
+/// @nodoc
 class OidcTokenInfo {
   /// The OAuth access token that can be used to access protected resources on
   /// behalf of the authenticated user.
@@ -5578,6 +5666,8 @@ class OidcTokenInfo {
 
 /// Contains the count of guest users for a specific billing period, used for
 /// tracking historical guest user activity.
+///
+/// @nodoc
 class GuestUserHistoryCount {
   /// The number of guest users who have communicated with your Wickr network
   /// during this billing period.
@@ -5612,6 +5702,8 @@ class GuestUserHistoryCount {
 /// when creating or updating a security group. This is a subset of
 /// SecurityGroupSettings containing only the modifiable federation and security
 /// settings.
+///
+/// @nodoc
 class SecurityGroupSettingsRequest {
   /// Guest users let you work with people outside your organization that only
   /// have limited access to Wickr. Only valid when federationMode is set to
@@ -5686,6 +5778,8 @@ class SecurityGroupSettingsRequest {
 
 /// Contains error information for a user operation that failed in a batch user
 /// request.
+///
+/// @nodoc
 class BatchUserErrorResponseItem {
   /// The user ID associated with the failed operation.
   final String userId;
@@ -5724,6 +5818,8 @@ class BatchUserErrorResponseItem {
 
 /// Contains information about a user that was successfully processed in a batch
 /// user operation.
+///
+/// @nodoc
 class BatchUserSuccessResponseItem {
   /// The user ID that was successfully processed.
   final String userId;
@@ -5748,6 +5844,8 @@ class BatchUserSuccessResponseItem {
 
 /// Contains error information for a device operation that failed in a batch
 /// device request.
+///
+/// @nodoc
 class BatchDeviceErrorResponseItem {
   /// The application ID of the device that failed to be processed.
   final String appId;
@@ -5786,6 +5884,8 @@ class BatchDeviceErrorResponseItem {
 
 /// Contains information about a device that was successfully processed in a
 /// batch device operation.
+///
+/// @nodoc
 class BatchDeviceSuccessResponseItem {
   /// The application ID of the device that was successfully processed.
   final String appId;
@@ -5810,6 +5910,8 @@ class BatchDeviceSuccessResponseItem {
 
 /// Contains error information for a username hash lookup that failed in a batch
 /// uname lookup request.
+///
+/// @nodoc
 class BatchUnameErrorResponseItem {
   /// The username hash that failed to be looked up.
   final String uname;
@@ -5848,6 +5950,8 @@ class BatchUnameErrorResponseItem {
 
 /// Contains information about a username hash that was successfully resolved in
 /// a batch uname lookup operation.
+///
+/// @nodoc
 class BatchUnameSuccessResponseItem {
   /// The username hash that was successfully resolved.
   final String uname;
@@ -5887,6 +5991,8 @@ class BatchUnameSuccessResponseItem {
 /// <code>codeValidation</code>, <code>inviteCode</code>, and
 /// <code>inviteCodeTtl</code> are restricted to networks under preview only.
 /// </note>
+///
+/// @nodoc
 class BatchCreateUserRequestItem {
   /// A list of security group IDs to which the user should be assigned.
   final List<String> securityGroupIds;
@@ -5942,36 +6048,43 @@ class BatchCreateUserRequestItem {
   }
 }
 
+/// @nodoc
 class BadRequestError extends _s.GenericAwsException {
   BadRequestError({String? type, String? message})
       : super(type: type, code: 'BadRequestError', message: message);
 }
 
+/// @nodoc
 class ForbiddenError extends _s.GenericAwsException {
   ForbiddenError({String? type, String? message})
       : super(type: type, code: 'ForbiddenError', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class RateLimitError extends _s.GenericAwsException {
   RateLimitError({String? type, String? message})
       : super(type: type, code: 'RateLimitError', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundError extends _s.GenericAwsException {
   ResourceNotFoundError({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundError', message: message);
 }
 
+/// @nodoc
 class UnauthorizedError extends _s.GenericAwsException {
   UnauthorizedError({String? type, String? message})
       : super(type: type, code: 'UnauthorizedError', message: message);
 }
 
+/// @nodoc
 class ValidationError extends _s.GenericAwsException {
   ValidationError({String? type, String? message})
       : super(type: type, code: 'ValidationError', message: message);

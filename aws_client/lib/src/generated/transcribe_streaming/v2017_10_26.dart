@@ -43,7 +43,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <li>
 /// <b>HealthScribe transcriptions</b> are designed to automatically create
 /// clinical notes from patient-clinician conversations using generative AI.
-/// Refer to [here] for details.
+/// Refer to \[here\] for details.
 /// </li>
 /// </ul>
 class TranscribeStreaming {
@@ -1415,6 +1415,7 @@ class TranscribeStreaming {
   }
 }
 
+/// @nodoc
 class GetMedicalScribeStreamResponse {
   /// Provides details about a HealthScribe streaming session.
   final MedicalScribeStreamDetails? medicalScribeStreamDetails;
@@ -1447,6 +1448,8 @@ class GetMedicalScribeStreamResponse {
 /// For example, <code>MediaEncoding</code> or <code>LanguageCode</code> used
 /// unsupported values. Check the specified parameters and try your request
 /// again.
+///
+/// @nodoc
 class BadRequestException implements _s.AwsException {
   final String? message;
 
@@ -1470,6 +1473,8 @@ class BadRequestException implements _s.AwsException {
 
 /// A problem occurred while processing the audio. Amazon Transcribe terminated
 /// processing.
+///
+/// @nodoc
 class InternalFailureException implements _s.AwsException {
   final String? message;
 
@@ -1494,6 +1499,8 @@ class InternalFailureException implements _s.AwsException {
 /// Your client has exceeded one of the Amazon Transcribe limits. This is
 /// typically the audio length limit. Break your audio stream into smaller
 /// chunks and try your request again.
+///
+/// @nodoc
 class LimitExceededException implements _s.AwsException {
   final String? message;
 
@@ -1515,6 +1522,7 @@ class LimitExceededException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class StartCallAnalyticsStreamTranscriptionResponse {
   /// Provides detailed information about your real-time Call Analytics session.
   final CallAnalyticsTranscriptResultStream?
@@ -1646,6 +1654,8 @@ class StartCallAnalyticsStreamTranscriptionResponse {
 
 /// A new stream started with the same session ID. The current stream has been
 /// terminated.
+///
+/// @nodoc
 class ConflictException implements _s.AwsException {
   final String? message;
 
@@ -1668,6 +1678,8 @@ class ConflictException implements _s.AwsException {
 }
 
 /// The service is currently unavailable. Try your request later.
+///
+/// @nodoc
 class ServiceUnavailableException implements _s.AwsException {
   final String? message;
 
@@ -1689,6 +1701,7 @@ class ServiceUnavailableException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class StartMedicalScribeStreamResponse {
   /// The Language Code that you specified in your request. Same as provided in
   /// the <code>StartMedicalScribeStreamRequest</code>.
@@ -1736,6 +1749,7 @@ class StartMedicalScribeStreamResponse {
   }
 }
 
+/// @nodoc
 class StartMedicalStreamTranscriptionResponse {
   /// Shows whether content identification was enabled for your transcription.
   final MedicalContentIdentificationType? contentIdentificationType;
@@ -1815,6 +1829,7 @@ class StartMedicalStreamTranscriptionResponse {
   }
 }
 
+/// @nodoc
 class StartStreamTranscriptionResponse {
   /// Shows whether content identification was enabled for your transcription.
   final ContentIdentificationType? contentIdentificationType;
@@ -1962,6 +1977,7 @@ class StartStreamTranscriptionResponse {
   }
 }
 
+/// @nodoc
 class LanguageCode {
   static const enUs = LanguageCode._('en-US');
   static const enGb = LanguageCode._('en-GB');
@@ -2182,6 +2198,7 @@ class LanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class MediaEncoding {
   static const pcm = MediaEncoding._('pcm');
   static const oggOpus = MediaEncoding._('ogg-opus');
@@ -2208,6 +2225,8 @@ class MediaEncoding {
 }
 
 /// Contains detailed information about your streaming session.
+///
+/// @nodoc
 class TranscriptResultStream {
   /// A client error occurred when the stream was created. Check the parameters of
   /// the request and try your request again.
@@ -2295,6 +2314,7 @@ class TranscriptResultStream {
   }
 }
 
+/// @nodoc
 class VocabularyFilterMethod {
   static const remove = VocabularyFilterMethod._('remove');
   static const mask = VocabularyFilterMethod._('mask');
@@ -2321,6 +2341,7 @@ class VocabularyFilterMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class PartialResultsStability {
   static const high = PartialResultsStability._('high');
   static const medium = PartialResultsStability._('medium');
@@ -2347,6 +2368,7 @@ class PartialResultsStability {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentIdentificationType {
   static const pii = ContentIdentificationType._('PII');
 
@@ -2371,6 +2393,7 @@ class ContentIdentificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentRedactionType {
   static const pii = ContentRedactionType._('PII');
 
@@ -2400,6 +2423,8 @@ class ContentRedactionType {
 ///
 /// Contains a set of transcription results from one or more audio segments,
 /// along with additional information per your request parameters.
+///
+/// @nodoc
 class TranscriptEvent {
   /// Contains <code>Results</code>, which contains a set of transcription results
   /// from one or more audio segments, along with additional information per your
@@ -2433,6 +2458,8 @@ class TranscriptEvent {
 /// <code>Transcript</code> contains <code>Results</code>, which contains a set
 /// of transcription results from one or more audio segments, along with
 /// additional information per your request parameters.
+///
+/// @nodoc
 class Transcript {
   /// Contains a set of transcription results from one or more audio segments,
   /// along with additional information per your request parameters. This can
@@ -2469,6 +2496,8 @@ class Transcript {
 /// include information relating to alternative transcriptions, channel
 /// identification, partial result stabilization, language identification, and
 /// other transcription-related data.
+///
+/// @nodoc
 class Result {
   /// A list of possible alternative transcriptions for the input audio. Each
   /// alternative may contain one or more of <code>Items</code>,
@@ -2562,6 +2591,8 @@ class Result {
 /// including the associated confidence score. If you enabled channel
 /// identification in your request and each channel contained a different
 /// language, you will have more than one <code>LanguageWithScore</code> result.
+///
+/// @nodoc
 class LanguageWithScore {
   /// The language code of the identified language.
   final LanguageCode? languageCode;
@@ -2597,6 +2628,8 @@ class LanguageWithScore {
 /// A list of possible alternative transcriptions for the input audio. Each
 /// alternative may contain one or more of <code>Items</code>,
 /// <code>Entities</code>, or <code>Transcript</code>.
+///
+/// @nodoc
 class Alternative {
   /// Contains entities identified as personally identifiable information (PII) in
   /// your transcription output.
@@ -2644,6 +2677,8 @@ class Alternative {
 /// your transcription output, along with various associated attributes.
 /// Examples include category, confidence score, type, stability score, and
 /// start and end times.
+///
+/// @nodoc
 class Entity {
   /// The category of information identified. The only category is
   /// <code>PII</code>.
@@ -2713,6 +2748,8 @@ class Entity {
 /// A word, phrase, or punctuation mark in your transcription output, along with
 /// various associated attributes, such as confidence score, type, and start and
 /// end times.
+///
+/// @nodoc
 class Item {
   /// The confidence score associated with a word or phrase in your transcript.
   ///
@@ -2797,6 +2834,7 @@ class Item {
   }
 }
 
+/// @nodoc
 class ItemType {
   static const pronunciation = ItemType._('pronunciation');
   static const punctuation = ItemType._('punctuation');
@@ -2826,6 +2864,8 @@ class ItemType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html">Transcribing
 /// streaming audio</a>.
+///
+/// @nodoc
 class AudioStream {
   /// A blob of audio from your application. Your audio stream consists of one or
   /// more audio events.
@@ -2859,6 +2899,8 @@ class AudioStream {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html">Event
 /// stream encoding</a>.
+///
+/// @nodoc
 class AudioEvent {
   /// An audio blob containing the next segment of audio from your application,
   /// with a maximum duration of 1 second. The maximum size in bytes varies based
@@ -2892,6 +2934,8 @@ class AudioEvent {
 
 /// Allows you to set audio channel definitions and post-call analytics
 /// settings.
+///
+/// @nodoc
 class ConfigurationEvent {
   /// Indicates which speaker is on which audio channel.
   final List<ChannelDefinition>? channelDefinitions;
@@ -2933,6 +2977,8 @@ class ConfigurationEvent {
 /// as a Call Analytics post-call transcription. Refer to <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-post-call.html">Post-call
 /// analytics</a> for more information on this feature.
+///
+/// @nodoc
 class PostCallAnalyticsSettings {
   /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
   /// the Amazon S3 bucket that contains your input files. If the role that you
@@ -3030,6 +3076,7 @@ class PostCallAnalyticsSettings {
   }
 }
 
+/// @nodoc
 class ContentRedactionOutput {
   static const redacted = ContentRedactionOutput._('redacted');
   static const redactedAndUnredacted =
@@ -3061,6 +3108,8 @@ class ContentRedactionOutput {
 /// <code>ChannelId</code> to <code>0</code> (to indicate the first channel) and
 /// <code>ParticipantRole</code> to <code>AGENT</code> (to indicate that it's
 /// the agent speaking).
+///
+/// @nodoc
 class ChannelDefinition {
   /// Specify the audio channel you want to define.
   final int channelId;
@@ -3084,6 +3133,7 @@ class ChannelDefinition {
   }
 }
 
+/// @nodoc
 class ParticipantRole {
   static const agent = ParticipantRole._('AGENT');
   static const customer = ParticipantRole._('CUSTOMER');
@@ -3108,6 +3158,7 @@ class ParticipantRole {
   String toString() => value;
 }
 
+/// @nodoc
 class Specialty {
   static const primarycare = Specialty._('PRIMARYCARE');
   static const cardiology = Specialty._('CARDIOLOGY');
@@ -3142,6 +3193,7 @@ class Specialty {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const conversation = Type._('CONVERSATION');
   static const dictation = Type._('DICTATION');
@@ -3166,6 +3218,8 @@ class Type {
 }
 
 /// Contains detailed information about your streaming session.
+///
+/// @nodoc
 class MedicalTranscriptResultStream {
   final BadRequestException? badRequestException;
   final ConflictException? conflictException;
@@ -3243,6 +3297,7 @@ class MedicalTranscriptResultStream {
   }
 }
 
+/// @nodoc
 class MedicalContentIdentificationType {
   static const phi = MedicalContentIdentificationType._('PHI');
 
@@ -3272,6 +3327,8 @@ class MedicalContentIdentificationType {
 ///
 /// Contains a set of transcription results from one or more audio segments,
 /// along with additional information per your request parameters.
+///
+/// @nodoc
 class MedicalTranscriptEvent {
   /// Contains <code>Results</code>, which contains a set of transcription results
   /// from one or more audio segments, along with additional information per your
@@ -3306,6 +3363,8 @@ class MedicalTranscriptEvent {
 /// <code>MedicalTranscript</code> contains <code>Results</code>, which contains
 /// a set of transcription results from one or more audio segments, along with
 /// additional information per your request parameters.
+///
+/// @nodoc
 class MedicalTranscript {
   /// Contains a set of transcription results from one or more audio segments,
   /// along with additional information per your request parameters. This can
@@ -3342,6 +3401,8 @@ class MedicalTranscript {
 /// include information relating to alternative transcriptions, channel
 /// identification, partial result stabilization, language identification, and
 /// other transcription-related data.
+///
+/// @nodoc
 class MedicalResult {
   /// A list of possible alternative transcriptions for the input audio. Each
   /// alternative may contain one or more of <code>Items</code>,
@@ -3410,6 +3471,8 @@ class MedicalResult {
 /// A list of possible alternative transcriptions for the input audio. Each
 /// alternative may contain one or more of <code>Items</code>,
 /// <code>Entities</code>, or <code>Transcript</code>.
+///
+/// @nodoc
 class MedicalAlternative {
   /// Contains entities identified as personal health information (PHI) in your
   /// transcription output.
@@ -3457,6 +3520,8 @@ class MedicalAlternative {
 /// transcription output, along with various associated attributes. Examples
 /// include category, confidence score, type, stability score, and start and end
 /// times.
+///
+/// @nodoc
 class MedicalEntity {
   /// The category of information identified. The only category is
   /// <code>PHI</code>.
@@ -3516,6 +3581,8 @@ class MedicalEntity {
 /// A word, phrase, or punctuation mark in your transcription output, along with
 /// various associated attributes, such as confidence score, type, and start and
 /// end times.
+///
+/// @nodoc
 class MedicalItem {
   /// The confidence score associated with a word or phrase in your transcript.
   ///
@@ -3579,6 +3646,7 @@ class MedicalItem {
   }
 }
 
+/// @nodoc
 class MedicalScribeLanguageCode {
   static const enUs = MedicalScribeLanguageCode._('en-US');
 
@@ -3603,6 +3671,7 @@ class MedicalScribeLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class MedicalScribeMediaEncoding {
   static const pcm = MedicalScribeMediaEncoding._('pcm');
   static const oggOpus = MedicalScribeMediaEncoding._('ogg-opus');
@@ -3631,6 +3700,8 @@ class MedicalScribeMediaEncoding {
 
 /// Result stream where you will receive the output events. The details are
 /// provided in the <code>MedicalScribeTranscriptEvent</code> object.
+///
+/// @nodoc
 class MedicalScribeResultStream {
   final BadRequestException? badRequestException;
   final ConflictException? conflictException;
@@ -3705,6 +3776,8 @@ class MedicalScribeResultStream {
 ///
 /// Contains <code>MedicalScribeTranscriptSegment</code>, which contains segment
 /// related information.
+///
+/// @nodoc
 class MedicalScribeTranscriptEvent {
   /// The <code>TranscriptSegment</code> associated with a
   /// <code>MedicalScribeTranscriptEvent</code>.
@@ -3733,6 +3806,8 @@ class MedicalScribeTranscriptEvent {
 
 /// Contains a set of transcription results, along with additional information
 /// of the segment.
+///
+/// @nodoc
 class MedicalScribeTranscriptSegment {
   /// The start time, in milliseconds, of the segment.
   final double? beginAudioTime;
@@ -3812,6 +3887,8 @@ class MedicalScribeTranscriptSegment {
 /// A word, phrase, or punctuation mark in your transcription output, along with
 /// various associated attributes, such as confidence score, type, and start and
 /// end times.
+///
+/// @nodoc
 class MedicalScribeTranscriptItem {
   /// The start time, in milliseconds, of the transcribed item.
   final double? beginAudioTime;
@@ -3878,6 +3955,7 @@ class MedicalScribeTranscriptItem {
   }
 }
 
+/// @nodoc
 class MedicalScribeTranscriptItemType {
   static const pronunciation =
       MedicalScribeTranscriptItemType._('pronunciation');
@@ -3921,6 +3999,8 @@ class MedicalScribeTranscriptItemType {
 /// <code>MedicalScribeSessionControlEvent</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MedicalScribeInputStream {
   final MedicalScribeAudioEvent? audioEvent;
 
@@ -3959,6 +4039,8 @@ class MedicalScribeInputStream {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html">Event
 /// stream encoding</a>.
+///
+/// @nodoc
 class MedicalScribeAudioEvent {
   /// An audio blob containing the next segment of audio from your application,
   /// with a maximum duration of 1 second. The maximum size in bytes varies based
@@ -3991,6 +4073,8 @@ class MedicalScribeAudioEvent {
 }
 
 /// Specify the lifecycle of your streaming session.
+///
+/// @nodoc
 class MedicalScribeSessionControlEvent {
   /// The type of <code>MedicalScribeSessionControlEvent</code>.
   ///
@@ -4032,6 +4116,8 @@ class MedicalScribeSessionControlEvent {
 /// first event must be a <code>MedicalScribeConfigurationEvent</code>. If you
 /// are resuming a session, then this event must have the same configurations
 /// that you provided to start the session.
+///
+/// @nodoc
 class MedicalScribeConfigurationEvent {
   /// Specify settings for post-stream analytics.
   final MedicalScribePostStreamAnalyticsSettings postStreamAnalyticsSettings;
@@ -4118,6 +4204,7 @@ class MedicalScribeConfigurationEvent {
   }
 }
 
+/// @nodoc
 class MedicalScribeVocabularyFilterMethod {
   static const remove = MedicalScribeVocabularyFilterMethod._('remove');
   static const mask = MedicalScribeVocabularyFilterMethod._('mask');
@@ -4157,6 +4244,8 @@ class MedicalScribeVocabularyFilterMethod {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/health-scribe-encryption.html">Data
 /// Encryption at rest for Amazon Web Services HealthScribe</a>.
+///
+/// @nodoc
 class MedicalScribeEncryptionSettings {
   /// The ID of the KMS key you want to use for your streaming session. You can
   /// specify its KMS key ID, key Amazon Resource Name (ARN), alias name, or alias
@@ -4225,6 +4314,8 @@ class MedicalScribeEncryptionSettings {
 }
 
 /// The settings for post-stream analytics.
+///
+/// @nodoc
 class MedicalScribePostStreamAnalyticsSettings {
   /// Specify settings for the post-stream clinical note generation.
   final ClinicalNoteGenerationSettings clinicalNoteGenerationSettings;
@@ -4253,6 +4344,8 @@ class MedicalScribePostStreamAnalyticsSettings {
 /// The <code>MedicalScribeContext</code> object that contains contextual
 /// information which is used during clinical note generation to add relevant
 /// context to the note.
+///
+/// @nodoc
 class MedicalScribeContext {
   /// Contains patient-specific information used to customize the clinical note
   /// generation.
@@ -4271,6 +4364,8 @@ class MedicalScribeContext {
 }
 
 /// Contains patient-specific information.
+///
+/// @nodoc
 class MedicalScribePatientContext {
   /// The patient's preferred pronouns that the user wants to provide as a context
   /// for clinical note generation .
@@ -4288,6 +4383,7 @@ class MedicalScribePatientContext {
   }
 }
 
+/// @nodoc
 class Pronouns {
   static const heHim = Pronouns._('HE_HIM');
   static const sheHer = Pronouns._('SHE_HER');
@@ -4314,6 +4410,8 @@ class Pronouns {
 
 /// The output configuration for aggregated transcript and clinical note
 /// generation.
+///
+/// @nodoc
 class ClinicalNoteGenerationSettings {
   /// The name of the Amazon S3 bucket where you want the output of Amazon Web
   /// Services HealthScribe post-stream analytics stored. Don't include the
@@ -4392,6 +4490,7 @@ class ClinicalNoteGenerationSettings {
   }
 }
 
+/// @nodoc
 class MedicalScribeNoteTemplate {
   static const historyAndPhysical =
       MedicalScribeNoteTemplate._('HISTORY_AND_PHYSICAL');
@@ -4443,6 +4542,8 @@ class MedicalScribeNoteTemplate {
 ///
 /// If you don't specify a channel definition, HealthScribe will diarize the
 /// transcription and identify speaker roles for each speaker.
+///
+/// @nodoc
 class MedicalScribeChannelDefinition {
   /// Specify the audio channel you want to define.
   final int channelId;
@@ -4474,6 +4575,7 @@ class MedicalScribeChannelDefinition {
   }
 }
 
+/// @nodoc
 class MedicalScribeParticipantRole {
   static const patient = MedicalScribeParticipantRole._('PATIENT');
   static const clinician = MedicalScribeParticipantRole._('CLINICIAN');
@@ -4499,6 +4601,7 @@ class MedicalScribeParticipantRole {
   String toString() => value;
 }
 
+/// @nodoc
 class MedicalScribeSessionControlEventType {
   static const endOfSession =
       MedicalScribeSessionControlEventType._('END_OF_SESSION');
@@ -4524,6 +4627,7 @@ class MedicalScribeSessionControlEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class CallAnalyticsLanguageCode {
   static const enUs = CallAnalyticsLanguageCode._('en-US');
   static const enGb = CallAnalyticsLanguageCode._('en-GB');
@@ -4559,6 +4663,8 @@ class CallAnalyticsLanguageCode {
 /// Contains detailed information about your real-time Call Analytics session.
 /// These details are provided in the <code>UtteranceEvent</code> and
 /// <code>CategoryEvent</code> objects.
+///
+/// @nodoc
 class CallAnalyticsTranscriptResultStream {
   final BadRequestException? badRequestException;
 
@@ -4648,6 +4754,8 @@ class CallAnalyticsTranscriptResultStream {
 /// with additional information about the parameters included in your request.
 /// For example, channel definitions, partial result stabilization, sentiment,
 /// and issue detection.
+///
+/// @nodoc
 class UtteranceEvent {
   /// The time, in milliseconds, from the beginning of the audio stream to the
   /// start of the <code>UtteranceEvent</code>.
@@ -4773,6 +4881,8 @@ class UtteranceEvent {
 /// Provides information on any <code>TranscriptFilterType</code> categories
 /// that matched your transcription output. Matches are identified for each
 /// segment upon completion of that segment.
+///
+/// @nodoc
 class CategoryEvent {
   /// Lists the categories that were matched in your audio segment.
   final List<String>? matchedCategories;
@@ -4809,6 +4919,8 @@ class CategoryEvent {
 }
 
 /// Contains the timestamps of matched categories.
+///
+/// @nodoc
 class PointsOfInterest {
   /// Contains the timestamp ranges (start time through end time) of matched
   /// categories and rules.
@@ -4837,6 +4949,8 @@ class PointsOfInterest {
 
 /// Contains the timestamp range (start time through end time) of a matched
 /// category.
+///
+/// @nodoc
 class TimestampRange {
   /// The time, in milliseconds, from the beginning of the audio stream to the
   /// start of the category match.
@@ -4868,6 +4982,7 @@ class TimestampRange {
   }
 }
 
+/// @nodoc
 class Sentiment {
   static const positive = Sentiment._('POSITIVE');
   static const negative = Sentiment._('NEGATIVE');
@@ -4895,6 +5010,8 @@ class Sentiment {
 
 /// The language code that represents the language identified in your audio,
 /// including the associated confidence score.
+///
+/// @nodoc
 class CallAnalyticsLanguageWithScore {
   /// The language code of the identified language.
   final CallAnalyticsLanguageCode? languageCode;
@@ -4928,6 +5045,8 @@ class CallAnalyticsLanguageWithScore {
 }
 
 /// Lists the issues that were identified in your audio segment.
+///
+/// @nodoc
 class IssueDetected {
   /// Provides the timestamps that identify when in an audio segment the specified
   /// issue occurs.
@@ -4957,6 +5076,8 @@ class IssueDetected {
 /// Provides the location, using character count, in your transcript where a
 /// match is identified. For example, the location of an issue or a category
 /// match within a segment.
+///
+/// @nodoc
 class CharacterOffsets {
   /// Provides the character count of the first character where a match is
   /// identified. For example, the first character associated with an issue or a
@@ -4994,6 +5115,8 @@ class CharacterOffsets {
 /// your transcription output, along with various associated attributes.
 /// Examples include category, confidence score, content, type, and start and
 /// end times.
+///
+/// @nodoc
 class CallAnalyticsEntity {
   /// The time, in milliseconds, from the beginning of the audio stream to the
   /// start of the identified entity.
@@ -5062,6 +5185,8 @@ class CallAnalyticsEntity {
 /// A word, phrase, or punctuation mark in your Call Analytics transcription
 /// output, along with various associated attributes, such as confidence score,
 /// type, and start and end times.
+///
+/// @nodoc
 class CallAnalyticsItem {
   /// The time, in milliseconds, from the beginning of the audio stream to the
   /// start of the identified item.
@@ -5139,6 +5264,8 @@ class CallAnalyticsItem {
 }
 
 /// Contains details about a Amazon Web Services HealthScribe streaming session.
+///
+/// @nodoc
 class MedicalScribeStreamDetails {
   /// The Channel Definitions of the HealthScribe streaming session.
   final List<MedicalScribeChannelDefinition>? channelDefinitions;
@@ -5320,6 +5447,7 @@ class MedicalScribeStreamDetails {
   }
 }
 
+/// @nodoc
 class MedicalScribeStreamStatus {
   static const inProgress = MedicalScribeStreamStatus._('IN_PROGRESS');
   static const paused = MedicalScribeStreamStatus._('PAUSED');
@@ -5348,6 +5476,8 @@ class MedicalScribeStreamStatus {
 }
 
 /// Contains details for the result of post-stream analytics.
+///
+/// @nodoc
 class MedicalScribePostStreamAnalyticsResult {
   /// Provides the Clinical Note Generation result for post-stream analytics.
   final ClinicalNoteGenerationResult? clinicalNoteGenerationResult;
@@ -5378,6 +5508,8 @@ class MedicalScribePostStreamAnalyticsResult {
 /// The details for clinical note generation, including status, and output
 /// locations for clinical note and aggregated transcript if the analytics
 /// completed, or failure reason if the analytics failed.
+///
+/// @nodoc
 class ClinicalNoteGenerationResult {
   /// Holds the Amazon S3 URI for the output Clinical Note.
   final String? clinicalNoteOutputLocation;
@@ -5447,6 +5579,7 @@ class ClinicalNoteGenerationResult {
   }
 }
 
+/// @nodoc
 class ClinicalNoteGenerationStatus {
   static const inProgress = ClinicalNoteGenerationStatus._('IN_PROGRESS');
   static const failed = ClinicalNoteGenerationStatus._('FAILED');
@@ -5473,6 +5606,7 @@ class ClinicalNoteGenerationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

@@ -350,6 +350,7 @@ class IoTSecureTunneling {
   }
 }
 
+/// @nodoc
 class CloseTunnelResponse {
   CloseTunnelResponse();
 
@@ -362,6 +363,7 @@ class CloseTunnelResponse {
   }
 }
 
+/// @nodoc
 class DescribeTunnelResponse {
   /// The tunnel being described.
   final Tunnel? tunnel;
@@ -386,6 +388,7 @@ class DescribeTunnelResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the specified resource.
   final List<Tag>? tags;
@@ -411,6 +414,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTunnelsResponse {
   /// The token to use to get the next set of results, or null if there are no
   /// additional results.
@@ -444,6 +448,7 @@ class ListTunnelsResponse {
   }
 }
 
+/// @nodoc
 class OpenTunnelResponse {
   /// The access token the destination local proxy uses to connect to IoT Secure
   /// Tunneling.
@@ -490,6 +495,7 @@ class OpenTunnelResponse {
   }
 }
 
+/// @nodoc
 class RotateTunnelAccessTokenResponse {
   /// The client access token that the destination local proxy uses to connect to
   /// IoT Secure Tunneling.
@@ -529,6 +535,7 @@ class RotateTunnelAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -541,6 +548,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -555,6 +563,8 @@ class UntagResourceResponse {
 
 /// An arbitary key/value pair used to add searchable metadata to secure tunnel
 /// resources.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -584,6 +594,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ClientMode {
   static const source = ClientMode._('SOURCE');
   static const destination = ClientMode._('DESTINATION');
@@ -609,6 +620,8 @@ class ClientMode {
 }
 
 /// The destination configuration.
+///
+/// @nodoc
 class DestinationConfig {
   /// A list of service names that identify the target application. The IoT client
   /// running on the destination device reads this value and uses it to look up a
@@ -646,6 +659,8 @@ class DestinationConfig {
 }
 
 /// Tunnel timeout configuration.
+///
+/// @nodoc
 class TimeoutConfig {
   /// The maximum amount of time (in minutes) a tunnel can remain open. If not
   /// specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values
@@ -672,6 +687,8 @@ class TimeoutConfig {
 }
 
 /// Information about the tunnel.
+///
+/// @nodoc
 class TunnelSummary {
   /// The time the tunnel was created.
   final DateTime? createdAt;
@@ -730,6 +747,7 @@ class TunnelSummary {
   }
 }
 
+/// @nodoc
 class TunnelStatus {
   static const open = TunnelStatus._('OPEN');
   static const closed = TunnelStatus._('CLOSED');
@@ -754,6 +772,8 @@ class TunnelStatus {
 }
 
 /// A connection between a source computer and a destination device.
+///
+/// @nodoc
 class Tunnel {
   /// The time when the tunnel was created.
   final DateTime? createdAt;
@@ -867,6 +887,8 @@ class Tunnel {
 }
 
 /// The state of a connection.
+///
+/// @nodoc
 class ConnectionState {
   /// The last time the connection status was updated.
   final DateTime? lastUpdatedAt;
@@ -898,6 +920,7 @@ class ConnectionState {
   }
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const connected = ConnectionStatus._('CONNECTED');
   static const disconnected = ConnectionStatus._('DISCONNECTED');
@@ -922,11 +945,13 @@ class ConnectionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

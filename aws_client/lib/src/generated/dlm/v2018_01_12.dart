@@ -85,7 +85,7 @@ class Dlm {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [description] :
-  /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$
+  /// A description of the lifecycle policy. The characters ^\[0-9A-Za-z _-\]+$
   /// are supported.
   ///
   /// Parameter [executionRoleArn] :
@@ -96,26 +96,26 @@ class Dlm {
   /// The activation state of the lifecycle policy after creation.
   ///
   /// Parameter [copyTags] :
-  /// <b>[Default policies only]</b> Indicates whether the policy should copy
+  /// <b>\[Default policies only\]</b> Indicates whether the policy should copy
   /// tags from the source resource to the snapshot or AMI. If you do not
   /// specify a value, the default is <code>false</code>.
   ///
   /// Default: false
   ///
   /// Parameter [createInterval] :
-  /// <b>[Default policies only]</b> Specifies how often the policy should run
+  /// <b>\[Default policies only\]</b> Specifies how often the policy should run
   /// and create snapshots or AMIs. The creation frequency can range from 1 to 7
   /// days. If you do not specify a value, the default is 1.
   ///
   /// Default: 1
   ///
   /// Parameter [crossRegionCopyTargets] :
-  /// <b>[Default policies only]</b> Specifies destination Regions for snapshot
-  /// or AMI copies. You can specify up to 3 destination Regions. If you do not
-  /// want to create cross-Region copies, omit this parameter.
+  /// <b>\[Default policies only\]</b> Specifies destination Regions for
+  /// snapshot or AMI copies. You can specify up to 3 destination Regions. If
+  /// you do not want to create cross-Region copies, omit this parameter.
   ///
   /// Parameter [defaultPolicy] :
-  /// <b>[Default policies only]</b> Specify the type of default policy to
+  /// <b>\[Default policies only\]</b> Specify the type of default policy to
   /// create.
   ///
   /// <ul>
@@ -132,13 +132,13 @@ class Dlm {
   /// </ul>
   ///
   /// Parameter [exclusions] :
-  /// <b>[Default policies only]</b> Specifies exclusion parameters for volumes
-  /// or instances for which you do not want to create snapshots or AMIs. The
-  /// policy will not create snapshots or AMIs for target resources that match
-  /// any of the specified exclusion parameters.
+  /// <b>\[Default policies only\]</b> Specifies exclusion parameters for
+  /// volumes or instances for which you do not want to create snapshots or
+  /// AMIs. The policy will not create snapshots or AMIs for target resources
+  /// that match any of the specified exclusion parameters.
   ///
   /// Parameter [extendDeletion] :
-  /// <b>[Default policies only]</b> Defines the snapshot or AMI retention
+  /// <b>\[Default policies only\]</b> Defines the snapshot or AMI retention
   /// behavior for the policy if the source volume or instance is deleted, or if
   /// the policy enters the error, disabled, or deleted state.
   ///
@@ -176,11 +176,11 @@ class Dlm {
   /// </important>
   ///
   /// Parameter [retainInterval] :
-  /// <b>[Default policies only]</b> Specifies how long the policy should retain
-  /// snapshots or AMIs before deleting them. The retention period can range
-  /// from 2 to 14 days, but it must be greater than the creation frequency to
-  /// ensure that the policy retains at least 1 snapshot or AMI at any given
-  /// time. If you do not specify a value, the default is 7.
+  /// <b>\[Default policies only\]</b> Specifies how long the policy should
+  /// retain snapshots or AMIs before deleting them. The retention period can
+  /// range from 2 to 14 days, but it must be greater than the creation
+  /// frequency to ensure that the policy retains at least 1 snapshot or AMI at
+  /// any given time. If you do not specify a value, the default is 7.
   ///
   /// Default: 7
   ///
@@ -272,7 +272,7 @@ class Dlm {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [defaultPolicyType] :
-  /// <b>[Default policies only]</b> Specifies the type of default policy to
+  /// <b>\[Default policies only\]</b> Specifies the type of default policy to
   /// get. Specify one of the following:
   ///
   /// <ul>
@@ -444,34 +444,34 @@ class Dlm {
   /// The identifier of the lifecycle policy.
   ///
   /// Parameter [copyTags] :
-  /// <b>[Default policies only]</b> Indicates whether the policy should copy
+  /// <b>\[Default policies only\]</b> Indicates whether the policy should copy
   /// tags from the source resource to the snapshot or AMI.
   ///
   /// Parameter [createInterval] :
-  /// <b>[Default policies only]</b> Specifies how often the policy should run
+  /// <b>\[Default policies only\]</b> Specifies how often the policy should run
   /// and create snapshots or AMIs. The creation frequency can range from 1 to 7
   /// days.
   ///
   /// Parameter [crossRegionCopyTargets] :
-  /// <b>[Default policies only]</b> Specifies destination Regions for snapshot
-  /// or AMI copies. You can specify up to 3 destination Regions. If you do not
-  /// want to create cross-Region copies, omit this parameter.
+  /// <b>\[Default policies only\]</b> Specifies destination Regions for
+  /// snapshot or AMI copies. You can specify up to 3 destination Regions. If
+  /// you do not want to create cross-Region copies, omit this parameter.
   ///
   /// Parameter [description] :
   /// A description of the lifecycle policy.
   ///
   /// Parameter [exclusions] :
-  /// <b>[Default policies only]</b> Specifies exclusion parameters for volumes
-  /// or instances for which you do not want to create snapshots or AMIs. The
-  /// policy will not create snapshots or AMIs for target resources that match
-  /// any of the specified exclusion parameters.
+  /// <b>\[Default policies only\]</b> Specifies exclusion parameters for
+  /// volumes or instances for which you do not want to create snapshots or
+  /// AMIs. The policy will not create snapshots or AMIs for target resources
+  /// that match any of the specified exclusion parameters.
   ///
   /// Parameter [executionRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role used to run the operations
   /// specified by the lifecycle policy.
   ///
   /// Parameter [extendDeletion] :
-  /// <b>[Default policies only]</b> Defines the snapshot or AMI retention
+  /// <b>\[Default policies only\]</b> Defines the snapshot or AMI retention
   /// behavior for the policy if the source volume or instance is deleted, or if
   /// the policy enters the error, disabled, or deleted state.
   ///
@@ -503,11 +503,11 @@ class Dlm {
   /// type or the resource type.
   ///
   /// Parameter [retainInterval] :
-  /// <b>[Default policies only]</b> Specifies how long the policy should retain
-  /// snapshots or AMIs before deleting them. The retention period can range
-  /// from 2 to 14 days, but it must be greater than the creation frequency to
-  /// ensure that the policy retains at least 1 snapshot or AMI at any given
-  /// time.
+  /// <b>\[Default policies only\]</b> Specifies how long the policy should
+  /// retain snapshots or AMIs before deleting them. The retention period can
+  /// range from 2 to 14 days, but it must be greater than the creation
+  /// frequency to ensure that the policy retains at least 1 snapshot or AMI at
+  /// any given time.
   ///
   /// Parameter [state] :
   /// The desired activation state of the lifecycle policy after creation.
@@ -558,6 +558,7 @@ class Dlm {
   }
 }
 
+/// @nodoc
 class CreateLifecyclePolicyResponse {
   /// The identifier of the lifecycle policy.
   final String? policyId;
@@ -580,6 +581,7 @@ class CreateLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteLifecyclePolicyResponse {
   DeleteLifecyclePolicyResponse();
 
@@ -592,6 +594,7 @@ class DeleteLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetLifecyclePoliciesResponse {
   /// Summary information about the lifecycle policies.
   final List<LifecyclePolicySummary>? policies;
@@ -618,6 +621,7 @@ class GetLifecyclePoliciesResponse {
   }
 }
 
+/// @nodoc
 class GetLifecyclePolicyResponse {
   /// Detailed information about the lifecycle policy.
   final LifecyclePolicy? policy;
@@ -642,6 +646,7 @@ class GetLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -665,6 +670,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -677,6 +683,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -689,6 +696,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateLifecyclePolicyResponse {
   UpdateLifecyclePolicyResponse();
 
@@ -701,6 +709,7 @@ class UpdateLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class SettablePolicyStateValues {
   static const enabled = SettablePolicyStateValues._('ENABLED');
   static const disabled = SettablePolicyStateValues._('DISABLED');
@@ -727,41 +736,43 @@ class SettablePolicyStateValues {
 }
 
 /// Specifies the configuration of a lifecycle policy.
+///
+/// @nodoc
 class PolicyDetails {
-  /// <b>[Event-based policies only]</b> The actions to be performed when the
+  /// <b>\[Event-based policies only\]</b> The actions to be performed when the
   /// event-based policy is activated. You can specify only one action per policy.
   final List<Action>? actions;
 
-  /// <b>[Default policies only]</b> Indicates whether the policy should copy tags
-  /// from the source resource to the snapshot or AMI. If you do not specify a
-  /// value, the default is <code>false</code>.
+  /// <b>\[Default policies only\]</b> Indicates whether the policy should copy
+  /// tags from the source resource to the snapshot or AMI. If you do not specify
+  /// a value, the default is <code>false</code>.
   ///
   /// Default: false
   final bool? copyTags;
 
-  /// <b>[Default policies only]</b> Specifies how often the policy should run and
-  /// create snapshots or AMIs. The creation frequency can range from 1 to 7 days.
-  /// If you do not specify a value, the default is 1.
+  /// <b>\[Default policies only\]</b> Specifies how often the policy should run
+  /// and create snapshots or AMIs. The creation frequency can range from 1 to 7
+  /// days. If you do not specify a value, the default is 1.
   ///
   /// Default: 1
   final int? createInterval;
 
-  /// <b>[Default policies only]</b> Specifies destination Regions for snapshot or
-  /// AMI copies. You can specify up to 3 destination Regions. If you do not want
-  /// to create cross-Region copies, omit this parameter.
+  /// <b>\[Default policies only\]</b> Specifies destination Regions for snapshot
+  /// or AMI copies. You can specify up to 3 destination Regions. If you do not
+  /// want to create cross-Region copies, omit this parameter.
   final List<CrossRegionCopyTarget>? crossRegionCopyTargets;
 
-  /// <b>[Event-based policies only]</b> The event that activates the event-based
-  /// policy.
+  /// <b>\[Event-based policies only\]</b> The event that activates the
+  /// event-based policy.
   final EventSource? eventSource;
 
-  /// <b>[Default policies only]</b> Specifies exclusion parameters for volumes or
-  /// instances for which you do not want to create snapshots or AMIs. The policy
-  /// will not create snapshots or AMIs for target resources that match any of the
-  /// specified exclusion parameters.
+  /// <b>\[Default policies only\]</b> Specifies exclusion parameters for volumes
+  /// or instances for which you do not want to create snapshots or AMIs. The
+  /// policy will not create snapshots or AMIs for target resources that match any
+  /// of the specified exclusion parameters.
   final Exclusions? exclusions;
 
-  /// <b>[Default policies only]</b> Defines the snapshot or AMI retention
+  /// <b>\[Default policies only\]</b> Defines the snapshot or AMI retention
   /// behavior for the policy if the source volume or instance is deleted, or if
   /// the policy enters the error, disabled, or deleted state.
   ///
@@ -790,8 +801,8 @@ class PolicyDetails {
   /// Default: false
   final bool? extendDeletion;
 
-  /// <b>[Custom snapshot and AMI policies only]</b> A set of optional parameters
-  /// for snapshot and AMI lifecycle policies.
+  /// <b>\[Custom snapshot and AMI policies only\]</b> A set of optional
+  /// parameters for snapshot and AMI lifecycle policies.
   /// <note>
   /// If you are modifying a policy that was created or previously modified using
   /// the Amazon Data Lifecycle Manager console, then you must include this
@@ -822,8 +833,8 @@ class PolicyDetails {
   /// The default is <code>EBS_SNAPSHOT_MANAGEMENT</code>.
   final PolicyTypeValues? policyType;
 
-  /// <b>[Custom snapshot and AMI policies only]</b> The location of the resources
-  /// to backup.
+  /// <b>\[Custom snapshot and AMI policies only\]</b> The location of the
+  /// resources to backup.
   ///
   /// <ul>
   /// <li>
@@ -832,7 +843,7 @@ class PolicyDetails {
   /// matching target tags across all Availability Zones in the Region.
   /// </li>
   /// <li>
-  /// <b>[Custom snapshot policies only]</b> If the source resources are located
+  /// <b>\[Custom snapshot policies only\]</b> If the source resources are located
   /// in a Local Zone, specify <code>LOCAL_ZONE</code>. In this case, the policy
   /// targets all resources of the specified type with matching target tags across
   /// all Local Zones in the Region.
@@ -847,7 +858,8 @@ class PolicyDetails {
   ///
   final List<ResourceLocationValues>? resourceLocations;
 
-  /// <b>[Default policies only]</b> Specify the type of default policy to create.
+  /// <b>\[Default policies only\]</b> Specify the type of default policy to
+  /// create.
   ///
   /// <ul>
   /// <li>
@@ -863,13 +875,13 @@ class PolicyDetails {
   /// </ul>
   final ResourceTypeValues? resourceType;
 
-  /// <b>[Custom snapshot policies only]</b> The target resource type for snapshot
-  /// and AMI lifecycle policies. Use <code>VOLUME </code>to create snapshots of
-  /// individual volumes or use <code>INSTANCE</code> to create multi-volume
-  /// snapshots from the volumes for an instance.
+  /// <b>\[Custom snapshot policies only\]</b> The target resource type for
+  /// snapshot and AMI lifecycle policies. Use <code>VOLUME </code>to create
+  /// snapshots of individual volumes or use <code>INSTANCE</code> to create
+  /// multi-volume snapshots from the volumes for an instance.
   final List<ResourceTypeValues>? resourceTypes;
 
-  /// <b>[Default policies only]</b> Specifies how long the policy should retain
+  /// <b>\[Default policies only\]</b> Specifies how long the policy should retain
   /// snapshots or AMIs before deleting them. The retention period can range from
   /// 2 to 14 days, but it must be greater than the creation frequency to ensure
   /// that the policy retains at least 1 snapshot or AMI at any given time. If you
@@ -878,13 +890,13 @@ class PolicyDetails {
   /// Default: 7
   final int? retainInterval;
 
-  /// <b>[Custom snapshot and AMI policies only]</b> The schedules of
+  /// <b>\[Custom snapshot and AMI policies only\]</b> The schedules of
   /// policy-defined actions for snapshot and AMI lifecycle policies. A policy can
   /// have up to four schedules—one mandatory schedule and up to three optional
   /// schedules.
   final List<Schedule>? schedules;
 
-  /// <b>[Custom snapshot and AMI policies only]</b> The single tag that
+  /// <b>\[Custom snapshot and AMI policies only\]</b> The single tag that
   /// identifies targeted resources for this policy.
   final List<Tag>? targetTags;
 
@@ -996,24 +1008,26 @@ class PolicyDetails {
   }
 }
 
-/// <b>[Default policies only]</b> Specifies exclusion parameters for volumes or
-/// instances for which you do not want to create snapshots or AMIs. The policy
-/// will not create snapshots or AMIs for target resources that match any of the
-/// specified exclusion parameters.
+/// <b>\[Default policies only\]</b> Specifies exclusion parameters for volumes
+/// or instances for which you do not want to create snapshots or AMIs. The
+/// policy will not create snapshots or AMIs for target resources that match any
+/// of the specified exclusion parameters.
+///
+/// @nodoc
 class Exclusions {
-  /// <b>[Default policies for EBS snapshots only]</b> Indicates whether to
+  /// <b>\[Default policies for EBS snapshots only\]</b> Indicates whether to
   /// exclude volumes that are attached to instances as the boot volume. If you
   /// exclude boot volumes, only volumes attached as data (non-boot) volumes will
   /// be backed up by the policy. To exclude boot volumes, specify
   /// <code>true</code>.
   final bool? excludeBootVolumes;
 
-  /// <b>[Default policies for EBS-backed AMIs only]</b> Specifies whether to
+  /// <b>\[Default policies for EBS-backed AMIs only\]</b> Specifies whether to
   /// exclude volumes that have specific tags.
   final List<Tag>? excludeTags;
 
-  /// <b>[Default policies for EBS snapshots only]</b> Specifies the volume types
-  /// to exclude. Volumes of the specified types will not be targeted by the
+  /// <b>\[Default policies for EBS snapshots only\]</b> Specifies the volume
+  /// types to exclude. Volumes of the specified types will not be targeted by the
   /// policy.
   final List<String>? excludeVolumeTypes;
 
@@ -1050,6 +1064,8 @@ class Exclusions {
 }
 
 /// Specifies a tag for a resource.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -1079,8 +1095,10 @@ class Tag {
   }
 }
 
-/// <b>[Default policies only]</b> Specifies a destination Region for
+/// <b>\[Default policies only\]</b> Specifies a destination Region for
 /// cross-Region copy actions.
+///
+/// @nodoc
 class CrossRegionCopyTarget {
   /// The target Region, for example <code>us-east-1</code>.
   final String? targetRegion;
@@ -1103,6 +1121,7 @@ class CrossRegionCopyTarget {
   }
 }
 
+/// @nodoc
 class PolicyTypeValues {
   static const ebsSnapshotManagement =
       PolicyTypeValues._('EBS_SNAPSHOT_MANAGEMENT');
@@ -1133,9 +1152,9 @@ class PolicyTypeValues {
   String toString() => value;
 }
 
-/// <b>[Custom snapshot and AMI policies only]</b> Specifies optional parameters
-/// for snapshot and AMI policies. The set of valid parameters depends on the
-/// combination of policy type and target resource type.
+/// <b>\[Custom snapshot and AMI policies only\]</b> Specifies optional
+/// parameters for snapshot and AMI policies. The set of valid parameters
+/// depends on the combination of policy type and target resource type.
 ///
 /// If you choose to exclude boot volumes and you specify tags that consequently
 /// exclude all of the additional data volumes attached to an instance, then
@@ -1144,15 +1163,17 @@ class PolicyTypeValues {
 /// CloudWatch metric. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitor-dlm-cw-metrics.html">Monitor
 /// your policies using Amazon CloudWatch</a>.
+///
+/// @nodoc
 class Parameters {
-  /// <b>[Custom snapshot policies that target instances only]</b> Indicates
+  /// <b>\[Custom snapshot policies that target instances only\]</b> Indicates
   /// whether to exclude the root volume from multi-volume snapshot sets. The
   /// default is <code>false</code>. If you specify <code>true</code>, then the
   /// root volumes attached to targeted instances will be excluded from the
   /// multi-volume snapshot sets created by the policy.
   final bool? excludeBootVolume;
 
-  /// <b>[Custom snapshot policies that target instances only]</b> The tags used
+  /// <b>\[Custom snapshot policies that target instances only\]</b> The tags used
   /// to identify data (non-root) volumes to exclude from multi-volume snapshot
   /// sets.
   ///
@@ -1162,7 +1183,7 @@ class Parameters {
   /// multi-volume snapshot sets created by the policy.
   final List<Tag>? excludeDataVolumeTags;
 
-  /// <b>[Custom AMI policies only]</b> Indicates whether targeted instances are
+  /// <b>\[Custom AMI policies only\]</b> Indicates whether targeted instances are
   /// rebooted when the lifecycle policy runs. <code>true</code> indicates that
   /// targeted instances are not rebooted when the policy runs. <code>false</code>
   /// indicates that target instances are rebooted when the policy runs. The
@@ -1199,8 +1220,10 @@ class Parameters {
   }
 }
 
-/// <b>[Event-based policies only]</b> Specifies an event that activates an
+/// <b>\[Event-based policies only\]</b> Specifies an event that activates an
 /// event-based policy.
+///
+/// @nodoc
 class EventSource {
   /// The source of the event. Currently only managed CloudWatch Events rules are
   /// supported.
@@ -1233,6 +1256,7 @@ class EventSource {
   }
 }
 
+/// @nodoc
 class PolicyLanguageValues {
   static const simplified = PolicyLanguageValues._('SIMPLIFIED');
   static const standard = PolicyLanguageValues._('STANDARD');
@@ -1258,6 +1282,7 @@ class PolicyLanguageValues {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceTypeValues {
   static const volume = ResourceTypeValues._('VOLUME');
   static const instance = ResourceTypeValues._('INSTANCE');
@@ -1283,8 +1308,10 @@ class ResourceTypeValues {
   String toString() => value;
 }
 
-/// <b>[Event-based policies only]</b> Specifies an action for an event-based
+/// <b>\[Event-based policies only\]</b> Specifies an action for an event-based
 /// policy.
+///
+/// @nodoc
 class Action {
   /// The rule for copying shared snapshots across Regions.
   final List<CrossRegionCopyAction> crossRegionCopy;
@@ -1317,12 +1344,14 @@ class Action {
   }
 }
 
-/// <b>[Event-based policies only]</b> Specifies a cross-Region copy action for
-/// event-based policies.
+/// <b>\[Event-based policies only\]</b> Specifies a cross-Region copy action
+/// for event-based policies.
 /// <note>
 /// To specify a cross-Region copy rule for snapshot and AMI policies, use <a
 /// href="https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyRule.html">CrossRegionCopyRule</a>.
 /// </note>
+///
+/// @nodoc
 class CrossRegionCopyAction {
   /// The encryption settings for the copied snapshot.
   final EncryptionConfiguration encryptionConfiguration;
@@ -1362,8 +1391,10 @@ class CrossRegionCopyAction {
   }
 }
 
-/// <b>[Event-based policies only]</b> Specifies the encryption settings for
+/// <b>\[Event-based policies only\]</b> Specifies the encryption settings for
 /// cross-Region snapshot copies created by event-based policies.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// To encrypt a copy of an unencrypted snapshot when encryption by default is
   /// not enabled, enable encryption using this parameter. Copies of encrypted
@@ -1402,6 +1433,8 @@ class EncryptionConfiguration {
 /// snapshot or event-based policies, or cross-Region AMI copies created by AMI
 /// policies. After the retention period expires, the cross-Region copy is
 /// deleted.
+///
+/// @nodoc
 class CrossRegionCopyRetainRule {
   /// The amount of time to retain a cross-Region snapshot or AMI copy. The
   /// maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or
@@ -1436,6 +1469,7 @@ class CrossRegionCopyRetainRule {
   }
 }
 
+/// @nodoc
 class RetentionIntervalUnitValues {
   static const days = RetentionIntervalUnitValues._('DAYS');
   static const weeks = RetentionIntervalUnitValues._('WEEKS');
@@ -1463,6 +1497,7 @@ class RetentionIntervalUnitValues {
   String toString() => value;
 }
 
+/// @nodoc
 class EventSourceValues {
   static const managedCwe = EventSourceValues._('MANAGED_CWE');
 
@@ -1486,8 +1521,10 @@ class EventSourceValues {
   String toString() => value;
 }
 
-/// <b>[Event-based policies only]</b> Specifies an event that activates an
+/// <b>\[Event-based policies only\]</b> Specifies an event that activates an
 /// event-based policy.
+///
+/// @nodoc
 class EventParameters {
   /// The snapshot description that can trigger the policy. The description
   /// pattern is specified using a regular expression. The policy runs only if a
@@ -1538,6 +1575,7 @@ class EventParameters {
   }
 }
 
+/// @nodoc
 class EventTypeValues {
   static const shareSnapshot = EventTypeValues._('shareSnapshot');
 
@@ -1561,10 +1599,12 @@ class EventTypeValues {
   String toString() => value;
 }
 
-/// <b>[Custom snapshot and AMI policies only]</b> Specifies a schedule for a
+/// <b>\[Custom snapshot and AMI policies only\]</b> Specifies a schedule for a
 /// snapshot or AMI lifecycle policy.
+///
+/// @nodoc
 class Schedule {
-  /// <b>[Custom snapshot policies that target volumes only]</b> The snapshot
+  /// <b>\[Custom snapshot policies that target volumes only\]</b> The snapshot
   /// archiving rule for the schedule. When you specify an archiving rule,
   /// snapshots are automatically moved from the standard tier to the archive tier
   /// once the schedule's retention threshold is met. Snapshots are then retained
@@ -1590,10 +1630,11 @@ class Schedule {
   /// </note>
   final List<CrossRegionCopyRule>? crossRegionCopyRules;
 
-  /// <b>[Custom AMI policies only]</b> The AMI deprecation rule for the schedule.
+  /// <b>\[Custom AMI policies only\]</b> The AMI deprecation rule for the
+  /// schedule.
   final DeprecateRule? deprecateRule;
 
-  /// <b>[Custom snapshot policies only]</b> The rule for enabling fast snapshot
+  /// <b>\[Custom snapshot policies only\]</b> The rule for enabling fast snapshot
   /// restore.
   final FastRestoreRule? fastRestoreRule;
 
@@ -1603,7 +1644,7 @@ class Schedule {
   /// The retention rule for snapshots or AMIs created by the policy.
   final RetainRule? retainRule;
 
-  /// <b>[Custom snapshot policies only]</b> The rule for sharing snapshots with
+  /// <b>\[Custom snapshot policies only\]</b> The rule for sharing snapshots with
   /// other Amazon Web Services accounts.
   final List<ShareRule>? shareRules;
 
@@ -1611,7 +1652,7 @@ class Schedule {
   /// in addition to the Amazon Web Services-added lifecycle tags.
   final List<Tag>? tagsToAdd;
 
-  /// <b>[AMI policies and snapshot policies that target instances only]</b> A
+  /// <b>\[AMI policies and snapshot policies that target instances only\]</b> A
   /// collection of key/value pairs with values determined dynamically when the
   /// policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be
   /// in one of the two following formats: <code>$(instance-id)</code> or
@@ -1702,7 +1743,7 @@ class Schedule {
   }
 }
 
-/// <b>[Custom snapshot and AMI policies only]</b> Specifies when the policy
+/// <b>\[Custom snapshot and AMI policies only\]</b> Specifies when the policy
 /// should create snapshots or AMIs.
 /// <note>
 /// <ul>
@@ -1717,6 +1758,8 @@ class Schedule {
 /// days.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class CreateRule {
   /// The schedule, as a Cron expression. The schedule interval must be between 1
   /// hour and 1 year. For more information, see the <a
@@ -1731,7 +1774,7 @@ class CreateRule {
   /// The interval unit.
   final IntervalUnitValues? intervalUnit;
 
-  /// <b>[Custom snapshot policies only]</b> Specifies the destination for
+  /// <b>\[Custom snapshot policies only\]</b> Specifies the destination for
   /// snapshots created by the policy. The allowed destinations depend on the
   /// location of the targeted resources.
   ///
@@ -1768,7 +1811,7 @@ class CreateRule {
   /// Default: <code>CLOUD</code>
   final LocationValues? location;
 
-  /// <b>[Custom snapshot policies that target instances only]</b> Specifies pre
+  /// <b>\[Custom snapshot policies that target instances only\]</b> Specifies pre
   /// and/or post scripts for a snapshot lifecycle policy that targets instances.
   /// This is useful for creating application-consistent snapshots, or for
   /// performing specific administrative tasks before or after Amazon Data
@@ -1829,7 +1872,7 @@ class CreateRule {
   }
 }
 
-/// <b>[Custom snapshot and AMI policies only]</b> Specifies a retention rule
+/// <b>\[Custom snapshot and AMI policies only\]</b> Specifies a retention rule
 /// for snapshots created by snapshot policies, or for AMIs created by AMI
 /// policies.
 /// <note>
@@ -1875,6 +1918,8 @@ class CreateRule {
 /// then you must specify a retention interval of <code>1</code> day or more.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetainRule {
   /// The number of snapshots to retain for each volume, up to a maximum of 1000.
   /// For example if you want to retain a maximum of three snapshots, specify
@@ -1923,9 +1968,11 @@ class RetainRule {
   }
 }
 
-/// <b>[Custom snapshot policies only]</b> Specifies a rule for enabling fast
+/// <b>\[Custom snapshot policies only\]</b> Specifies a rule for enabling fast
 /// snapshot restore for snapshots created by snapshot policies. You can enable
 /// fast snapshot restore based on either a count or a time interval.
+///
+/// @nodoc
 class FastRestoreRule {
   /// The Availability Zone Ids in which to enable fast snapshot restore.
   final List<String>? availabilityZoneIds;
@@ -1985,12 +2032,14 @@ class FastRestoreRule {
   }
 }
 
-/// <b>[Custom AMI policies only]</b> Specifies an AMI deprecation rule for AMIs
-/// created by an AMI lifecycle policy.
+/// <b>\[Custom AMI policies only\]</b> Specifies an AMI deprecation rule for
+/// AMIs created by an AMI lifecycle policy.
 ///
 /// For age-based schedules, you must specify <b>Interval</b> and
 /// <b>IntervalUnit</b>. For count-based schedules, you must specify
 /// <b>Count</b>.
+///
+/// @nodoc
 class DeprecateRule {
   /// If the schedule has a count-based retention rule, this parameter specifies
   /// the number of oldest AMIs to deprecate. The count must be less than or equal
@@ -2034,8 +2083,10 @@ class DeprecateRule {
   }
 }
 
-/// <b>[Custom snapshot policies only]</b> Specifies a snapshot archiving rule
+/// <b>\[Custom snapshot policies only\]</b> Specifies a snapshot archiving rule
 /// for a schedule.
+///
+/// @nodoc
 class ArchiveRule {
   /// Information about the retention period for the snapshot archiving rule.
   final ArchiveRetainRule retainRule;
@@ -2060,8 +2111,10 @@ class ArchiveRule {
   }
 }
 
-/// <b>[Custom snapshot policies only]</b> Specifies information about the
+/// <b>\[Custom snapshot policies only\]</b> Specifies information about the
 /// archive storage tier retention period.
+///
+/// @nodoc
 class ArchiveRetainRule {
   /// Information about retention period in the Amazon EBS Snapshots Archive. For
   /// more information, see <a
@@ -2089,7 +2142,7 @@ class ArchiveRetainRule {
   }
 }
 
-/// <b>[Custom snapshot policies only]</b> Describes the retention rule for
+/// <b>\[Custom snapshot policies only\]</b> Describes the retention rule for
 /// archived snapshots. Once the archive retention threshold is met, the
 /// snapshots are permanently deleted from the archive tier.
 /// <note>
@@ -2103,6 +2156,8 @@ class ArchiveRetainRule {
 /// For more information about using snapshot archiving, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-ami-policy.html#dlm-archive">Considerations
 /// for snapshot lifecycle policies</a>.
+///
+/// @nodoc
 class RetentionArchiveTier {
   /// The maximum number of snapshots to retain in the archive storage tier for
   /// each volume. The count must ensure that each snapshot remains in the archive
@@ -2147,8 +2202,10 @@ class RetentionArchiveTier {
   }
 }
 
-/// <b>[Custom snapshot policies only]</b> Specifies a rule for sharing
+/// <b>\[Custom snapshot policies only\]</b> Specifies a rule for sharing
 /// snapshots across Amazon Web Services accounts.
+///
+/// @nodoc
 class ShareRule {
   /// The IDs of the Amazon Web Services accounts with which to share the
   /// snapshots.
@@ -2192,12 +2249,14 @@ class ShareRule {
   }
 }
 
-/// <b>[Custom snapshot and AMI policies only]</b> Specifies a cross-Region copy
-/// rule for a snapshot and AMI policies.
+/// <b>\[Custom snapshot and AMI policies only\]</b> Specifies a cross-Region
+/// copy rule for a snapshot and AMI policies.
 /// <note>
 /// To specify a cross-Region copy action for event-based polices, use <a
 /// href="https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyAction.html">CrossRegionCopyAction</a>.
 /// </note>
+///
+/// @nodoc
 class CrossRegionCopyRule {
   /// To encrypt a copy of an unencrypted snapshot if encryption by default is not
   /// enabled, enable encryption using this parameter. Copies of encrypted
@@ -2214,8 +2273,8 @@ class CrossRegionCopyRule {
   /// AMI to the cross-Region copy.
   final bool? copyTags;
 
-  /// <b>[Custom AMI policies only]</b> The AMI deprecation rule for cross-Region
-  /// AMI copies created by the rule.
+  /// <b>\[Custom AMI policies only\]</b> The AMI deprecation rule for
+  /// cross-Region AMI copies created by the rule.
   final CrossRegionCopyDeprecateRule? deprecateRule;
 
   /// The retention rule that indicates how long the cross-Region snapshot or AMI
@@ -2226,7 +2285,7 @@ class CrossRegionCopyRule {
   /// Use this parameter for snapshot policies only. For AMI policies, use
   /// <b>TargetRegion</b> instead.
   /// </note>
-  /// <b>[Custom snapshot policies only]</b> The target Region or the Amazon
+  /// <b>\[Custom snapshot policies only\]</b> The target Region or the Amazon
   /// Resource Name (ARN) of the target Outpost for the snapshot copies.
   final String? target;
 
@@ -2238,7 +2297,7 @@ class CrossRegionCopyRule {
   ///
   ///
   /// </note>
-  /// <b>[Custom AMI policies only]</b> The target Region or the Amazon Resource
+  /// <b>\[Custom AMI policies only\]</b> The target Region or the Amazon Resource
   /// Name (ARN) of the target Outpost for the snapshot copies.
   final String? targetRegion;
 
@@ -2290,8 +2349,10 @@ class CrossRegionCopyRule {
   }
 }
 
-/// <b>[Custom AMI policies only]</b> Specifies an AMI deprecation rule for
+/// <b>\[Custom AMI policies only\]</b> Specifies an AMI deprecation rule for
 /// cross-Region AMI copies created by an AMI policy.
+///
+/// @nodoc
 class CrossRegionCopyDeprecateRule {
   /// The period after which to deprecate the cross-Region AMI copies. The period
   /// must be less than or equal to the cross-Region AMI copy retention period,
@@ -2327,6 +2388,7 @@ class CrossRegionCopyDeprecateRule {
   }
 }
 
+/// @nodoc
 class LocationValues {
   static const cloud = LocationValues._('CLOUD');
   static const outpostLocal = LocationValues._('OUTPOST_LOCAL');
@@ -2352,6 +2414,7 @@ class LocationValues {
   String toString() => value;
 }
 
+/// @nodoc
 class IntervalUnitValues {
   static const hours = IntervalUnitValues._('HOURS');
 
@@ -2376,11 +2439,13 @@ class IntervalUnitValues {
   String toString() => value;
 }
 
-/// <b>[Custom snapshot policies that target instances only]</b> Information
+/// <b>\[Custom snapshot policies that target instances only\]</b> Information
 /// about pre and/or post scripts for a snapshot lifecycle policy that targets
 /// instances. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/automate-app-consistent-backups.html">
 /// Automating application-consistent snapshots with pre and post scripts</a>.
+///
+/// @nodoc
 class Script {
   /// The SSM document that includes the pre and/or post scripts to run.
   ///
@@ -2542,6 +2607,7 @@ class Script {
   }
 }
 
+/// @nodoc
 class ExecutionHandlerServiceValues {
   static const awsSystemsManager =
       ExecutionHandlerServiceValues._('AWS_SYSTEMS_MANAGER');
@@ -2567,6 +2633,7 @@ class ExecutionHandlerServiceValues {
   String toString() => value;
 }
 
+/// @nodoc
 class StageValues {
   static const pre = StageValues._('PRE');
   static const post = StageValues._('POST');
@@ -2590,6 +2657,7 @@ class StageValues {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceLocationValues {
   static const cloud = ResourceLocationValues._('CLOUD');
   static const outpost = ResourceLocationValues._('OUTPOST');
@@ -2617,6 +2685,8 @@ class ResourceLocationValues {
 }
 
 /// Information about a lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicy {
   /// The local date and time when the lifecycle policy was created.
   final DateTime? dateCreated;
@@ -2725,6 +2795,7 @@ class LifecyclePolicy {
   }
 }
 
+/// @nodoc
 class GettablePolicyStateValues {
   static const enabled = GettablePolicyStateValues._('ENABLED');
   static const disabled = GettablePolicyStateValues._('DISABLED');
@@ -2752,8 +2823,10 @@ class GettablePolicyStateValues {
 }
 
 /// Summary information about a lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicySummary {
-  /// <b>[Default policies only]</b> The type of default policy. Values include:
+  /// <b>\[Default policies only\]</b> The type of default policy. Values include:
   ///
   /// <ul>
   /// <li>
@@ -2826,6 +2899,7 @@ class LifecyclePolicySummary {
   }
 }
 
+/// @nodoc
 class DefaultPoliciesTypeValues {
   static const volume = DefaultPoliciesTypeValues._('VOLUME');
   static const instance = DefaultPoliciesTypeValues._('INSTANCE');
@@ -2852,6 +2926,7 @@ class DefaultPoliciesTypeValues {
   String toString() => value;
 }
 
+/// @nodoc
 class DefaultPolicyTypeValues {
   static const volume = DefaultPolicyTypeValues._('VOLUME');
   static const instance = DefaultPolicyTypeValues._('INSTANCE');
@@ -2877,21 +2952,25 @@ class DefaultPolicyTypeValues {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

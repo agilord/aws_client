@@ -91,6 +91,7 @@ class EksAuth {
   }
 }
 
+/// @nodoc
 class AssumeRoleForPodIdentityResponse {
   /// An object with the permanent IAM role identity and the temporary session
   /// name.
@@ -163,6 +164,8 @@ class AssumeRoleForPodIdentityResponse {
 
 /// An object containing the name of the Kubernetes service account inside the
 /// cluster to associate the IAM credentials with.
+///
+/// @nodoc
 class Subject {
   /// The name of the Kubernetes namespace inside the cluster to create the
   /// association in. The service account and the pods that use the service
@@ -198,6 +201,8 @@ class Subject {
 /// Amazon EKS Pod Identity associations provide the ability to manage
 /// credentials for your applications, similar to the way that Amazon EC2
 /// instance profiles provide credentials to Amazon EC2 instances.
+///
+/// @nodoc
 class PodIdentityAssociation {
   /// The Amazon Resource Name (ARN) of the EKS Pod Identity association.
   final String associationArn;
@@ -229,6 +234,8 @@ class PodIdentityAssociation {
 
 /// An object with the permanent IAM role identity and the temporary session
 /// name.
+///
+/// @nodoc
 class AssumedRoleUser {
   /// The ARN of the IAM role that the temporary credentials authenticate to.
   final String arn;
@@ -265,6 +272,8 @@ class AssumedRoleUser {
 
 /// The <i>Amazon Web Services Signature Version 4</i> type of temporary
 /// credentials.
+///
+/// @nodoc
 class Credentials {
   /// The access key ID that identifies the temporary security credentials.
   final String accessKeyId;
@@ -310,47 +319,56 @@ class Credentials {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ExpiredTokenException extends _s.GenericAwsException {
   ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidTokenException extends _s.GenericAwsException {
   InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

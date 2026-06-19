@@ -602,6 +602,7 @@ class Billing {
   }
 }
 
+/// @nodoc
 class AssociateSourceViewsResponse {
   /// The ARN of the billing view that the source views were associated with.
   final String arn;
@@ -624,6 +625,7 @@ class AssociateSourceViewsResponse {
   }
 }
 
+/// @nodoc
 class CreateBillingViewResponse {
   /// The Amazon Resource Name (ARN) that can be used to uniquely identify the
   /// billing view.
@@ -654,6 +656,7 @@ class CreateBillingViewResponse {
   }
 }
 
+/// @nodoc
 class DeleteBillingViewResponse {
   /// The Amazon Resource Name (ARN) that can be used to uniquely identify the
   /// billing view.
@@ -677,6 +680,7 @@ class DeleteBillingViewResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSourceViewsResponse {
   /// The ARN of the billing view that the source views were disassociated from.
   final String arn;
@@ -699,6 +703,7 @@ class DisassociateSourceViewsResponse {
   }
 }
 
+/// @nodoc
 class GetBillingViewResponse {
   /// The billing view element associated with the specified ARN.
   final BillingViewElement billingView;
@@ -723,6 +728,7 @@ class GetBillingViewResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The Amazon Resource Name (ARN) of the billing view resource to which the
   /// policy is attached to.
@@ -754,6 +760,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListBillingViewsResponse {
   /// A list of <code>BillingViewListElement</code> retrieved.
   final List<BillingViewListElement> billingViews;
@@ -787,6 +794,7 @@ class ListBillingViewsResponse {
   }
 }
 
+/// @nodoc
 class ListSourceViewsForBillingViewResponse {
   /// A list of billing views used as the data source for the custom billing view.
   final List<String> sourceViews;
@@ -820,6 +828,7 @@ class ListSourceViewsForBillingViewResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tag key value pairs that are associated with the resource.
   final List<ResourceTag>? resourceTags;
@@ -845,6 +854,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -857,6 +867,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -869,6 +880,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateBillingViewResponse {
   /// The Amazon Resource Name (ARN) that can be used to uniquely identify the
   /// billing view.
@@ -903,6 +915,8 @@ class UpdateBillingViewResponse {
 /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html">Expression</a>.
 /// Billing view only supports <code>LINKED_ACCOUNT</code>, <code>Tags</code>,
 /// and <code>CostCategories</code>.
+///
+/// @nodoc
 class Expression {
   /// The filter that's based on <code>CostCategory</code> values.
   final CostCategoryValues? costCategories;
@@ -956,6 +970,8 @@ class Expression {
 }
 
 /// The metadata that you can use to filter and group your results.
+///
+/// @nodoc
 class DimensionValues {
   /// The names of the metadata types that you can use to filter and group your
   /// results.
@@ -990,6 +1006,8 @@ class DimensionValues {
 }
 
 /// The values that are available for a tag.
+///
+/// @nodoc
 class TagValues {
   /// The key for the tag.
   final String key;
@@ -1023,6 +1041,8 @@ class TagValues {
 }
 
 /// The Cost Categories values used for filtering the costs.
+///
+/// @nodoc
 class CostCategoryValues {
   /// The unique name of the Cost Category.
   final String key;
@@ -1056,6 +1076,8 @@ class CostCategoryValues {
 }
 
 /// Specifies a time range with inclusive begin and end dates.
+///
+/// @nodoc
 class TimeRange {
   /// The inclusive start date of the time range.
   final DateTime? beginDateInclusive;
@@ -1087,6 +1109,7 @@ class TimeRange {
   }
 }
 
+/// @nodoc
 class Dimension {
   static const linkedAccount = Dimension._('LINKED_ACCOUNT');
 
@@ -1110,6 +1133,8 @@ class Dimension {
 }
 
 /// The tag structure that contains a tag key and value.
+///
+/// @nodoc
 class ResourceTag {
   /// The key that's associated with the tag.
   final String key;
@@ -1140,6 +1165,8 @@ class ResourceTag {
 }
 
 /// A representation of a billing view.
+///
+/// @nodoc
 class BillingViewListElement {
   /// The Amazon Resource Name (ARN) that can be used to uniquely identify the
   /// billing view.
@@ -1210,6 +1237,7 @@ class BillingViewListElement {
   }
 }
 
+/// @nodoc
 class BillingViewType {
   static const primary = BillingViewType._('PRIMARY');
   static const billingGroup = BillingViewType._('BILLING_GROUP');
@@ -1246,6 +1274,8 @@ class BillingViewType {
 
 /// Represents the health status of a billing view, including a status code and
 /// optional reasons for the status.
+///
+/// @nodoc
 class BillingViewHealthStatus {
   /// The current health status code of the billing view.
   final BillingViewStatus? statusCode;
@@ -1280,6 +1310,7 @@ class BillingViewHealthStatus {
   }
 }
 
+/// @nodoc
 class BillingViewStatus {
   static const healthy = BillingViewStatus._('HEALTHY');
   static const unhealthy = BillingViewStatus._('UNHEALTHY');
@@ -1306,6 +1337,7 @@ class BillingViewStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BillingViewStatusReason {
   static const sourceViewUnhealthy =
       BillingViewStatusReason._('SOURCE_VIEW_UNHEALTHY');
@@ -1354,6 +1386,8 @@ class BillingViewStatusReason {
 }
 
 /// A time range with a start and end time.
+///
+/// @nodoc
 class ActiveTimeRange {
   /// The inclusive time range start date.
   final DateTime activeAfterInclusive;
@@ -1378,6 +1412,8 @@ class ActiveTimeRange {
 
 /// A structure that defines how to search for string values. You can specify a
 /// search option and the value to search for.
+///
+/// @nodoc
 class StringSearch {
   /// The type of search operation to perform on the string value. Determines how
   /// the search value is matched against the target field.
@@ -1402,6 +1438,7 @@ class StringSearch {
   }
 }
 
+/// @nodoc
 class SearchOption {
   static const startsWith = SearchOption._('STARTS_WITH');
 
@@ -1425,6 +1462,8 @@ class SearchOption {
 }
 
 /// The metadata associated to the billing view.
+///
+/// @nodoc
 class BillingViewElement {
   /// The Amazon Resource Name (ARN) that can be used to uniquely identify the
   /// billing view.
@@ -1547,11 +1586,13 @@ class BillingViewElement {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BillingViewHealthStatusException extends _s.GenericAwsException {
   BillingViewHealthStatusException({String? type, String? message})
       : super(
@@ -1560,21 +1601,25 @@ class BillingViewHealthStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1583,11 +1628,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

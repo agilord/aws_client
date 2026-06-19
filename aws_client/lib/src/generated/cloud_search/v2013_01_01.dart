@@ -1018,6 +1018,8 @@ class CloudSearch {
 
 /// The result of a <code>BuildSuggester</code> request. Contains a list of the
 /// fields used for suggestions.
+///
+/// @nodoc
 class BuildSuggestersResponse {
   final List<String>? fieldNames;
 
@@ -1042,6 +1044,8 @@ class BuildSuggestersResponse {
 
 /// The result of a <code>CreateDomainRequest</code>. Contains the status of a
 /// newly created domain.
+///
+/// @nodoc
 class CreateDomainResponse {
   final DomainStatus? domainStatus;
 
@@ -1065,6 +1069,8 @@ class CreateDomainResponse {
 
 /// The result of a <code><a>DefineAnalysisScheme</a></code> request. Contains
 /// the status of the newly-configured analysis scheme.
+///
+/// @nodoc
 class DefineAnalysisSchemeResponse {
   final AnalysisSchemeStatus analysisScheme;
 
@@ -1088,6 +1094,8 @@ class DefineAnalysisSchemeResponse {
 
 /// The result of a <code>DefineExpression</code> request. Contains the status
 /// of the newly-configured expression.
+///
+/// @nodoc
 class DefineExpressionResponse {
   final ExpressionStatus expression;
 
@@ -1111,6 +1119,8 @@ class DefineExpressionResponse {
 
 /// The result of a <code><a>DefineIndexField</a></code> request. Contains the
 /// status of the newly-configured index field.
+///
+/// @nodoc
 class DefineIndexFieldResponse {
   final IndexFieldStatus indexField;
 
@@ -1134,6 +1144,8 @@ class DefineIndexFieldResponse {
 
 /// The result of a <code>DefineSuggester</code> request. Contains the status of
 /// the newly-configured suggester.
+///
+/// @nodoc
 class DefineSuggesterResponse {
   final SuggesterStatus suggester;
 
@@ -1157,6 +1169,8 @@ class DefineSuggesterResponse {
 
 /// The result of a <code>DeleteAnalysisScheme</code> request. Contains the
 /// status of the deleted analysis scheme.
+///
+/// @nodoc
 class DeleteAnalysisSchemeResponse {
   /// The status of the analysis scheme being deleted.
   final AnalysisSchemeStatus analysisScheme;
@@ -1182,6 +1196,8 @@ class DeleteAnalysisSchemeResponse {
 /// The result of a <code>DeleteDomain</code> request. Contains the status of a
 /// newly deleted domain, or no status if the domain has already been completely
 /// deleted.
+///
+/// @nodoc
 class DeleteDomainResponse {
   final DomainStatus? domainStatus;
 
@@ -1205,6 +1221,8 @@ class DeleteDomainResponse {
 
 /// The result of a <code><a>DeleteExpression</a></code> request. Specifies the
 /// expression being deleted.
+///
+/// @nodoc
 class DeleteExpressionResponse {
   /// The status of the expression being deleted.
   final ExpressionStatus expression;
@@ -1228,6 +1246,8 @@ class DeleteExpressionResponse {
 }
 
 /// The result of a <code><a>DeleteIndexField</a></code> request.
+///
+/// @nodoc
 class DeleteIndexFieldResponse {
   /// The status of the index field being deleted.
   final IndexFieldStatus indexField;
@@ -1252,6 +1272,8 @@ class DeleteIndexFieldResponse {
 
 /// The result of a <code>DeleteSuggester</code> request. Contains the status of
 /// the deleted suggester.
+///
+/// @nodoc
 class DeleteSuggesterResponse {
   /// The status of the suggester being deleted.
   final SuggesterStatus suggester;
@@ -1276,6 +1298,8 @@ class DeleteSuggesterResponse {
 
 /// The result of a <code>DescribeAnalysisSchemes</code> request. Contains the
 /// analysis schemes configured for the domain specified in the request.
+///
+/// @nodoc
 class DescribeAnalysisSchemesResponse {
   /// The analysis scheme descriptions.
   final List<AnalysisSchemeStatus> analysisSchemes;
@@ -1304,6 +1328,8 @@ class DescribeAnalysisSchemesResponse {
 /// The result of a <code>DescribeAvailabilityOptions</code> request. Indicates
 /// whether or not the Multi-AZ option is enabled for the domain specified in
 /// the request.
+///
+/// @nodoc
 class DescribeAvailabilityOptionsResponse {
   /// The availability options configured for the domain. Indicates whether
   /// Multi-AZ is enabled for the domain.
@@ -1331,6 +1357,8 @@ class DescribeAvailabilityOptionsResponse {
 
 /// The result of a <code>DescribeDomainEndpointOptions</code> request. Contains
 /// the status and configuration of a search domain's endpoint options.
+///
+/// @nodoc
 class DescribeDomainEndpointOptionsResponse {
   /// The status and configuration of a search domain's endpoint options.
   final DomainEndpointOptionsStatus? domainEndpointOptions;
@@ -1357,6 +1385,8 @@ class DescribeDomainEndpointOptionsResponse {
 
 /// The result of a <code>DescribeDomains</code> request. Contains the status of
 /// the domains specified in the request or all domains owned by the account.
+///
+/// @nodoc
 class DescribeDomainsResponse {
   final List<DomainStatus> domainStatusList;
 
@@ -1383,6 +1413,8 @@ class DescribeDomainsResponse {
 
 /// The result of a <code>DescribeExpressions</code> request. Contains the
 /// expressions configured for the domain specified in the request.
+///
+/// @nodoc
 class DescribeExpressionsResponse {
   /// The expressions configured for the domain.
   final List<ExpressionStatus> expressions;
@@ -1410,6 +1442,8 @@ class DescribeExpressionsResponse {
 
 /// The result of a <code>DescribeIndexFields</code> request. Contains the index
 /// fields configured for the domain specified in the request.
+///
+/// @nodoc
 class DescribeIndexFieldsResponse {
   /// The index fields configured for the domain.
   final List<IndexFieldStatus> indexFields;
@@ -1437,6 +1471,8 @@ class DescribeIndexFieldsResponse {
 
 /// The result of a <code>DescribeScalingParameters</code> request. Contains the
 /// scaling parameters configured for the domain specified in the request.
+///
+/// @nodoc
 class DescribeScalingParametersResponse {
   final ScalingParametersStatus scalingParameters;
 
@@ -1459,6 +1495,8 @@ class DescribeScalingParametersResponse {
 }
 
 /// The result of a <code>DescribeServiceAccessPolicies</code> request.
+///
+/// @nodoc
 class DescribeServiceAccessPoliciesResponse {
   /// The access rules configured for the domain specified in the request.
   final AccessPoliciesStatus accessPolicies;
@@ -1482,6 +1520,8 @@ class DescribeServiceAccessPoliciesResponse {
 }
 
 /// The result of a <code>DescribeSuggesters</code> request.
+///
+/// @nodoc
 class DescribeSuggestersResponse {
   /// The suggesters configured for the domain specified in the request.
   final List<SuggesterStatus> suggesters;
@@ -1509,6 +1549,8 @@ class DescribeSuggestersResponse {
 
 /// The result of an <code>IndexDocuments</code> request. Contains the status of
 /// the indexing operation, including the fields being indexed.
+///
+/// @nodoc
 class IndexDocumentsResponse {
   /// The names of the fields that are currently being indexed.
   final List<String>? fieldNames;
@@ -1534,6 +1576,8 @@ class IndexDocumentsResponse {
 
 /// The result of a <code>ListDomainNames</code> request. Contains a list of the
 /// domains owned by an account.
+///
+/// @nodoc
 class ListDomainNamesResponse {
   /// The names of the search domains owned by an account.
   final Map<String, String>? domainNames;
@@ -1565,6 +1609,8 @@ class ListDomainNamesResponse {
 
 /// The result of a <code>UpdateAvailabilityOptions</code> request. Contains the
 /// status of the domain's availability options.
+///
+/// @nodoc
 class UpdateAvailabilityOptionsResponse {
   /// The newly-configured availability options. Indicates whether Multi-AZ is
   /// enabled for the domain.
@@ -1592,6 +1638,8 @@ class UpdateAvailabilityOptionsResponse {
 
 /// The result of a <code>UpdateDomainEndpointOptions</code> request. Contains
 /// the configuration and status of the domain's endpoint options.
+///
+/// @nodoc
 class UpdateDomainEndpointOptionsResponse {
   /// The newly-configured domain endpoint options.
   final DomainEndpointOptionsStatus? domainEndpointOptions;
@@ -1618,6 +1666,8 @@ class UpdateDomainEndpointOptionsResponse {
 
 /// The result of a <code>UpdateScalingParameters</code> request. Contains the
 /// status of the newly-configured scaling parameters.
+///
+/// @nodoc
 class UpdateScalingParametersResponse {
   final ScalingParametersStatus scalingParameters;
 
@@ -1641,6 +1691,8 @@ class UpdateScalingParametersResponse {
 
 /// The result of an <code>UpdateServiceAccessPolicies</code> request. Contains
 /// the new access policies.
+///
+/// @nodoc
 class UpdateServiceAccessPoliciesResponse {
   /// The access rules configured for the domain.
   final AccessPoliciesStatus accessPolicies;
@@ -1665,6 +1717,8 @@ class UpdateServiceAccessPoliciesResponse {
 
 /// The configured access rules for the domain's document and search endpoints,
 /// and the current status of those rules.
+///
+/// @nodoc
 class AccessPoliciesStatus {
   final String options;
   final OptionStatus status;
@@ -1691,6 +1745,8 @@ class AccessPoliciesStatus {
 }
 
 /// The status of domain configuration option.
+///
+/// @nodoc
 class OptionStatus {
   /// A timestamp for when this option was created.
   final DateTime creationDate;
@@ -1766,6 +1822,8 @@ class OptionStatus {
 /// data and cannot be used to index the data. You must either modify the option
 /// value or update or remove the incompatible documents.</li>
 /// </ul>
+///
+/// @nodoc
 class OptionState {
   static const requiresIndexDocuments = OptionState._('RequiresIndexDocuments');
   static const processing = OptionState._('Processing');
@@ -1797,6 +1855,8 @@ class OptionState {
 }
 
 /// The status and configuration of a search domain's scaling parameters.
+///
+/// @nodoc
 class ScalingParametersStatus {
   final ScalingParameters options;
   final OptionStatus status;
@@ -1824,6 +1884,8 @@ class ScalingParametersStatus {
 
 /// The desired instance type and desired number of replicas of each index
 /// partition.
+///
+/// @nodoc
 class ScalingParameters {
   /// The instance type that you want to preconfigure for your domain. For
   /// example, <code>search.m1.small</code>.
@@ -1884,6 +1946,8 @@ class ScalingParameters {
 
 /// The instance type (such as <code>search.m1.small</code>) on which an index
 /// partition is hosted.
+///
+/// @nodoc
 class PartitionInstanceType {
   static const searchM1Small = PartitionInstanceType._('search.m1.small');
   static const searchM1Large = PartitionInstanceType._('search.m1.large');
@@ -1947,6 +2011,8 @@ class PartitionInstanceType {
 }
 
 /// The configuration and status of the domain's endpoint options.
+///
+/// @nodoc
 class DomainEndpointOptionsStatus {
   /// The domain endpoint options configured for the domain.
   final DomainEndpointOptions options;
@@ -1977,6 +2043,8 @@ class DomainEndpointOptionsStatus {
 }
 
 /// The domain's endpoint options.
+///
+/// @nodoc
 class DomainEndpointOptions {
   /// Whether the domain is HTTPS only enabled.
   final bool? enforceHTTPS;
@@ -2019,6 +2087,8 @@ class DomainEndpointOptions {
 }
 
 /// The minimum required TLS version.
+///
+/// @nodoc
 class TLSSecurityPolicy {
   static const policyMinTls_1_0_2019_07 =
       TLSSecurityPolicy._('Policy-Min-TLS-1-0-2019-07');
@@ -2046,6 +2116,8 @@ class TLSSecurityPolicy {
 }
 
 /// The status and configuration of the domain's availability options.
+///
+/// @nodoc
 class AvailabilityOptionsStatus {
   /// The availability options configured for the domain.
   final bool options;
@@ -2073,6 +2145,8 @@ class AvailabilityOptionsStatus {
 }
 
 /// The value of a <code>Suggester</code> and its current status.
+///
+/// @nodoc
 class SuggesterStatus {
   final Suggester options;
   final OptionStatus status;
@@ -2102,6 +2176,8 @@ class SuggesterStatus {
 /// unique name and specifies the text field you want to use for suggestions.
 /// The following options can be configured for a suggester:
 /// <code>FuzzyMatching</code>, <code>SortExpression</code>.
+///
+/// @nodoc
 class Suggester {
   final DocumentSuggesterOptions documentSuggesterOptions;
   final String suggesterName;
@@ -2139,6 +2215,8 @@ class Suggester {
 }
 
 /// Options for a search suggester.
+///
+/// @nodoc
 class DocumentSuggesterOptions {
   /// The name of the index field you want to use for suggestions.
   final String sourceField;
@@ -2198,6 +2276,7 @@ class DocumentSuggesterOptions {
   }
 }
 
+/// @nodoc
 class SuggesterFuzzyMatching {
   static const none = SuggesterFuzzyMatching._('none');
   static const low = SuggesterFuzzyMatching._('low');
@@ -2225,6 +2304,8 @@ class SuggesterFuzzyMatching {
 }
 
 /// The value of an <code>IndexField</code> and its current status.
+///
+/// @nodoc
 class IndexFieldStatus {
   final IndexField options;
   final OptionStatus status;
@@ -2253,6 +2334,8 @@ class IndexFieldStatus {
 /// Configuration information for a field in the index, including its name,
 /// type, and options. The supported options depend on the
 /// <code><a>IndexFieldType</a></code>.
+///
+/// @nodoc
 class IndexField {
   /// A string that represents the name of an index field. CloudSearch supports
   /// regular index fields as well as dynamic fields. A dynamic field's name
@@ -2425,6 +2508,8 @@ class IndexField {
 /// href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html"
 /// target="_blank">Configuring Index Fields</a> in the <i>Amazon CloudSearch
 /// Developer Guide</i>.
+///
+/// @nodoc
 class IndexFieldType {
   static const $int = IndexFieldType._('int');
   static const $double = IndexFieldType._('double');
@@ -2473,6 +2558,8 @@ class IndexFieldType {
 /// Options for a 64-bit signed integer field. Present if
 /// <code>IndexFieldType</code> specifies the field is of type <code>int</code>.
 /// All options are enabled by default.
+///
+/// @nodoc
 class IntOptions {
   /// A value to use for the field if the field isn't specified for a document.
   /// This can be important if you are using the field in an expression and that
@@ -2551,6 +2638,8 @@ class IntOptions {
 /// Options for a double-precision 64-bit floating point field. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>double</code>. All options are enabled by default.
+///
+/// @nodoc
 class DoubleOptions {
   /// A value to use for the field if the field isn't specified for a document.
   /// This can be important if you are using the field in an expression and that
@@ -2629,6 +2718,8 @@ class DoubleOptions {
 /// Options for literal field. Present if <code>IndexFieldType</code> specifies
 /// the field is of type <code>literal</code>. All options are enabled by
 /// default.
+///
+/// @nodoc
 class LiteralOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final String? defaultValue;
@@ -2703,6 +2794,8 @@ class LiteralOptions {
 /// Options for text field. Present if <code>IndexFieldType</code> specifies the
 /// field is of type <code>text</code>. A <code>text</code> field is always
 /// searchable. All options are enabled by default.
+///
+/// @nodoc
 class TextOptions {
   /// The name of an analysis scheme for a <code>text</code> field.
   final String? analysisScheme;
@@ -2779,6 +2872,8 @@ class TextOptions {
 /// Universal Time) according to IETF RFC3339: yyyy-mm-ddT00:00:00Z. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>date</code>. All options are enabled by default.
+///
+/// @nodoc
 class DateOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final String? defaultValue;
@@ -2854,6 +2949,8 @@ class DateOptions {
 /// latitude and longitude value pair. Present if <code>IndexFieldType</code>
 /// specifies the field is of type <code>latlon</code>. All options are enabled
 /// by default.
+///
+/// @nodoc
 class LatLonOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final String? defaultValue;
@@ -2928,6 +3025,8 @@ class LatLonOptions {
 /// Options for a field that contains an array of 64-bit signed integers.
 /// Present if <code>IndexFieldType</code> specifies the field is of type
 /// <code>int-array</code>. All options are enabled by default.
+///
+/// @nodoc
 class IntArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final int? defaultValue;
@@ -2996,6 +3095,8 @@ class IntArrayOptions {
 /// floating point values. Present if <code>IndexFieldType</code> specifies the
 /// field is of type <code>double-array</code>. All options are enabled by
 /// default.
+///
+/// @nodoc
 class DoubleArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final double? defaultValue;
@@ -3063,6 +3164,8 @@ class DoubleArrayOptions {
 /// Options for a field that contains an array of literal strings. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>literal-array</code>. All options are enabled by default.
+///
+/// @nodoc
 class LiteralArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final String? defaultValue;
@@ -3131,6 +3234,8 @@ class LiteralArrayOptions {
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>text-array</code>. A <code>text-array</code> field is always
 /// searchable. All options are enabled by default.
+///
+/// @nodoc
 class TextArrayOptions {
   /// The name of an analysis scheme for a <code>text-array</code> field.
   final String? analysisScheme;
@@ -3199,6 +3304,8 @@ class TextArrayOptions {
 /// Options for a field that contains an array of dates. Present if
 /// <code>IndexFieldType</code> specifies the field is of type
 /// <code>date-array</code>. All options are enabled by default.
+///
+/// @nodoc
 class DateArrayOptions {
   /// A value to use for the field if the field isn't specified for a document.
   final String? defaultValue;
@@ -3264,6 +3371,8 @@ class DateArrayOptions {
 }
 
 /// The value of an <code>Expression</code> and its current status.
+///
+/// @nodoc
 class ExpressionStatus {
   /// The expression that is evaluated for sorting while processing a search
   /// request.
@@ -3294,6 +3403,8 @@ class ExpressionStatus {
 /// A named expression that can be evaluated at search time. Can be used to sort
 /// the search results, define other expressions, or return computed information
 /// in the search results.
+///
+/// @nodoc
 class Expression {
   final String expressionName;
   final String expressionValue;
@@ -3329,6 +3440,8 @@ class Expression {
 }
 
 /// The current status of the search domain.
+///
+/// @nodoc
 class DomainStatus {
   final String domainId;
   final String domainName;
@@ -3444,6 +3557,8 @@ class DomainStatus {
 }
 
 /// The endpoint to which service requests can be submitted.
+///
+/// @nodoc
 class ServiceEndpoint {
   final String? endpoint;
 
@@ -3464,6 +3579,7 @@ class ServiceEndpoint {
   }
 }
 
+/// @nodoc
 class Limits {
   final int maximumPartitionCount;
   final int maximumReplicationCount;
@@ -3492,6 +3608,8 @@ class Limits {
 }
 
 /// The status and configuration of an <code>AnalysisScheme</code>.
+///
+/// @nodoc
 class AnalysisSchemeStatus {
   final AnalysisScheme options;
   final OptionStatus status;
@@ -3523,6 +3641,8 @@ class AnalysisSchemeStatus {
 /// <code>Synonyms</code>, <code>Stopwords</code>,
 /// <code>StemmingDictionary</code>, <code>JapaneseTokenizationDictionary</code>
 /// and <code>AlgorithmicStemming</code>.
+///
+/// @nodoc
 class AnalysisScheme {
   final AnalysisSchemeLanguage analysisSchemeLanguage;
   final String analysisSchemeName;
@@ -3572,6 +3692,8 @@ class AnalysisScheme {
 
 /// An <a href="http://tools.ietf.org/html/rfc4646" target="_blank">IETF RFC
 /// 4646</a> language code or <code>mul</code> for multiple languages.
+///
+/// @nodoc
 class AnalysisSchemeLanguage {
   static const ar = AnalysisSchemeLanguage._('ar');
   static const bg = AnalysisSchemeLanguage._('bg');
@@ -3668,6 +3790,8 @@ class AnalysisSchemeLanguage {
 
 /// Synonyms, stopwords, and stemming options for an analysis scheme. Includes
 /// tokenization dictionary for Japanese.
+///
+/// @nodoc
 class AnalysisOptions {
   /// The level of algorithmic stemming to perform: <code>none</code>,
   /// <code>minimal</code>, <code>light</code>, or <code>full</code>. The
@@ -3693,7 +3817,7 @@ class AnalysisOptions {
   final String? stemmingDictionary;
 
   /// A JSON array of terms to ignore during indexing and searching. For example,
-  /// <code>["a", "an", "the", "of"]</code>. The stopwords dictionary must
+  /// <code>\["a", "an", "the", "of"\]</code>. The stopwords dictionary must
   /// explicitly list each word you want to ignore. Wildcards and regular
   /// expressions are not supported.
   final String? stopwords;
@@ -3765,6 +3889,7 @@ class AnalysisOptions {
   }
 }
 
+/// @nodoc
 class AlgorithmicStemming {
   static const none = AlgorithmicStemming._('none');
   static const minimal = AlgorithmicStemming._('minimal');
@@ -3792,31 +3917,37 @@ class AlgorithmicStemming {
   String toString() => value;
 }
 
+/// @nodoc
 class BaseException extends _s.GenericAwsException {
   BaseException({String? type, String? message})
       : super(type: type, code: 'BaseException', message: message);
 }
 
+/// @nodoc
 class DisabledOperationException extends _s.GenericAwsException {
   DisabledOperationException({String? type, String? message})
       : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidTypeException extends _s.GenericAwsException {
   InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -3825,11 +3956,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

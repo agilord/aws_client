@@ -989,6 +989,7 @@ class Mwaa {
   }
 }
 
+/// @nodoc
 class CreateCliTokenResponse {
   /// An Airflow CLI login token.
   final String? cliToken;
@@ -1018,6 +1019,7 @@ class CreateCliTokenResponse {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentOutput {
   /// The Amazon Resource Name (ARN) returned in the response for the environment.
   final String? arn;
@@ -1040,6 +1042,7 @@ class CreateEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class CreateWebLoginTokenResponse {
   /// The user name of the Apache Airflow identity creating the web login token.
   final String? airflowIdentity;
@@ -1085,6 +1088,7 @@ class CreateWebLoginTokenResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentOutput {
   DeleteEnvironmentOutput();
 
@@ -1097,6 +1101,7 @@ class DeleteEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentOutput {
   /// An object containing all available details about the environment.
   final Environment? environment;
@@ -1121,6 +1126,7 @@ class GetEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class InvokeRestApiResponse {
   /// The response data from the Apache Airflow REST API call, provided as a JSON
   /// object.
@@ -1151,6 +1157,7 @@ class InvokeRestApiResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsOutput {
   /// Returns a list of Amazon MWAA environments.
   final List<String> environments;
@@ -1183,6 +1190,7 @@ class ListEnvironmentsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The key-value tag pairs associated to your environment. For more
   /// information, refer to <a
@@ -1209,6 +1217,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PublishMetricsOutput {
   PublishMetricsOutput();
 
@@ -1221,6 +1230,7 @@ class PublishMetricsOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1233,6 +1243,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1245,6 +1256,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentOutput {
   /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example,
   /// <code>arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment</code>.
@@ -1269,6 +1281,8 @@ class UpdateEnvironmentOutput {
 }
 
 /// Defines the Apache Airflow log types to send to CloudWatch Logs.
+///
+/// @nodoc
 class LoggingConfigurationInput {
   /// Publishes Airflow DAG processing logs to CloudWatch Logs.
   final ModuleLoggingConfigurationInput? dagProcessingLogs;
@@ -1309,6 +1323,7 @@ class LoggingConfigurationInput {
   }
 }
 
+/// @nodoc
 class WorkerReplacementStrategy {
   static const forced = WorkerReplacementStrategy._('FORCED');
   static const graceful = WorkerReplacementStrategy._('GRACEFUL');
@@ -1339,6 +1354,8 @@ class WorkerReplacementStrategy {
 /// more information, refer to <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html">About
 /// networking on Amazon MWAA</a>.
+///
+/// @nodoc
 class UpdateNetworkConfigurationInput {
   /// A list of security group IDs. A security group must be attached to the same
   /// VPC as the subnets. For more information, refer to <a
@@ -1358,6 +1375,7 @@ class UpdateNetworkConfigurationInput {
   }
 }
 
+/// @nodoc
 class WebserverAccessMode {
   static const privateOnly = WebserverAccessMode._('PRIVATE_ONLY');
   static const publicOnly = WebserverAccessMode._('PUBLIC_ONLY');
@@ -1387,6 +1405,8 @@ class WebserverAccessMode {
 /// Enables the Apache Airflow log type (e.g. <code>DagProcessingLogs</code>)
 /// and defines the log level to send to CloudWatch Logs (e.g.
 /// <code>INFO</code>).
+///
+/// @nodoc
 class ModuleLoggingConfigurationInput {
   /// Indicates whether to enable the Apache Airflow log type (e.g.
   /// <code>DagProcessingLogs</code>).
@@ -1411,6 +1431,7 @@ class ModuleLoggingConfigurationInput {
   }
 }
 
+/// @nodoc
 class LoggingLevel {
   static const critical = LoggingLevel._('CRITICAL');
   static const error = LoggingLevel._('ERROR');
@@ -1441,6 +1462,8 @@ class LoggingLevel {
 /// the metrics published to Amazon CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
 /// MWAA performance metrics in Amazon CloudWatch</a>.
+///
+/// @nodoc
 class MetricDatum {
   /// <b>Internal only</b>. The name of the metric.
   final String metricName;
@@ -1488,6 +1511,7 @@ class MetricDatum {
   }
 }
 
+/// @nodoc
 class Unit {
   static const seconds = Unit._('Seconds');
   static const microseconds = Unit._('Microseconds');
@@ -1569,6 +1593,8 @@ class Unit {
 /// CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
 /// MWAA performance metrics in Amazon CloudWatch</a>.
+///
+/// @nodoc
 class StatisticSet {
   /// <b>Internal only</b>. The maximum value of the sample set.
   final double? maximum;
@@ -1607,6 +1633,8 @@ class StatisticSet {
 /// about the metrics published to Amazon CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html">Amazon
 /// MWAA performance metrics in Amazon CloudWatch</a>.
+///
+/// @nodoc
 class Dimension {
   /// <b>Internal only</b>. The name of the dimension.
   final String name;
@@ -1629,6 +1657,7 @@ class Dimension {
   }
 }
 
+/// @nodoc
 class RestApiMethod {
   static const get = RestApiMethod._('GET');
   static const put = RestApiMethod._('PUT');
@@ -1657,6 +1686,8 @@ class RestApiMethod {
 }
 
 /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+///
+/// @nodoc
 class Environment {
   /// A list of key-value pairs containing the Apache Airflow configuration
   /// options attached to your environment. For more information, refer to <a
@@ -2143,6 +2174,7 @@ class Environment {
   }
 }
 
+/// @nodoc
 class EnvironmentStatus {
   static const creating = EnvironmentStatus._('CREATING');
   static const createFailed = EnvironmentStatus._('CREATE_FAILED');
@@ -2195,6 +2227,8 @@ class EnvironmentStatus {
 /// more information, refer to <a
 /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html">About
 /// networking on Amazon MWAA</a>.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// A list of security group IDs. For more information, refer to <a
   /// href="https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html">Security
@@ -2236,6 +2270,8 @@ class NetworkConfiguration {
 
 /// Describes the Apache Airflow log types that are published to CloudWatch
 /// Logs.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// The Airflow DAG processing logs published to CloudWatch Logs and the log
   /// level.
@@ -2304,6 +2340,8 @@ class LoggingConfiguration {
 
 /// Describes the status of the last update on the environment, and any errors
 /// that were encountered.
+///
+/// @nodoc
 class LastUpdate {
   /// The day and time of the last update on the environment.
   final DateTime? createdAt;
@@ -2359,6 +2397,7 @@ class LastUpdate {
   }
 }
 
+/// @nodoc
 class EndpointManagement {
   static const customer = EndpointManagement._('CUSTOMER');
   static const service = EndpointManagement._('SERVICE');
@@ -2384,6 +2423,7 @@ class EndpointManagement {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateStatus {
   static const success = UpdateStatus._('SUCCESS');
   static const pending = UpdateStatus._('PENDING');
@@ -2409,6 +2449,8 @@ class UpdateStatus {
 }
 
 /// Describes the error(s) encountered with the last update of the environment.
+///
+/// @nodoc
 class UpdateError {
   /// The error code that corresponds to the error with the last update.
   final String? errorCode;
@@ -2440,6 +2482,8 @@ class UpdateError {
 
 /// Describes the Apache Airflow log details for the log type (e.g.
 /// <code>DagProcessingLogs</code>).
+///
+/// @nodoc
 class ModuleLoggingConfiguration {
   /// The Amazon Resource Name (ARN) for the CloudWatch Logs group where the
   /// Apache Airflow log type (e.g. <code>DagProcessingLogs</code>) is published.
@@ -2482,6 +2526,7 @@ class ModuleLoggingConfiguration {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -2490,37 +2535,44 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class RestApiClientException extends _s.GenericAwsException {
   RestApiClientException({String? type, String? message})
       : super(type: type, code: 'RestApiClientException', message: message);
 }
 
+/// @nodoc
 class RestApiServerException extends _s.GenericAwsException {
   RestApiServerException({String? type, String? message})
       : super(type: type, code: 'RestApiServerException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

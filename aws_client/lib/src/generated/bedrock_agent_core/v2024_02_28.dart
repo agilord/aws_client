@@ -3726,8 +3726,8 @@ class BedrockAgentCore {
   /// (<code>name</code>, <code>descriptorType</code>, <code>version</code>).
   /// For example, to filter by descriptor type: <code>{"descriptorType":
   /// {"$eq": "MCP"}}</code>. To combine filters: <code>{"$and":
-  /// [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq":
-  /// "my-tool"}}]}</code>.
+  /// \[{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq":
+  /// "my-tool"}}\]}</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to return in a single call. Valid values are
@@ -3754,6 +3754,7 @@ class BedrockAgentCore {
   }
 }
 
+/// @nodoc
 class CompleteResourceTokenAuthResponse {
   CompleteResourceTokenAuthResponse();
 
@@ -3769,6 +3770,8 @@ class CompleteResourceTokenAuthResponse {
 /// The exception that occurs when you do not have sufficient permissions to
 /// perform an action. Verify that your IAM policy includes the necessary
 /// permissions for the operation you are trying to perform.
+///
+/// @nodoc
 class AccessDeniedException implements _s.AwsException {
   final String? message;
 
@@ -3794,6 +3797,8 @@ class AccessDeniedException implements _s.AwsException {
 /// error. This is a temporary condition that will resolve itself with retries.
 /// We recommend implementing exponential backoff retry logic in your
 /// application.
+///
+/// @nodoc
 class InternalServerException implements _s.AwsException {
   final String? message;
 
@@ -3818,6 +3823,8 @@ class InternalServerException implements _s.AwsException {
 /// The exception that occurs when the specified resource does not exist. This
 /// can happen when using an invalid identifier or when trying to access a
 /// resource that has been deleted.
+///
+/// @nodoc
 class ResourceNotFoundException implements _s.AwsException {
   final String? message;
 
@@ -3843,6 +3850,8 @@ class ResourceNotFoundException implements _s.AwsException {
 /// throttling. This happens when you exceed the allowed request rate for an
 /// operation. Reduce the frequency of requests or implement exponential backoff
 /// retry logic in your application.
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -3867,6 +3876,8 @@ class ThrottlingException implements _s.AwsException {
 /// The exception that occurs when the input fails to satisfy the constraints
 /// specified by the service. Check the error message for details about which
 /// input parameter is invalid and correct your request.
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   final List<ValidationExceptionField>? fieldList;
   final String? message;
@@ -3903,6 +3914,7 @@ class ValidationException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class GetResourceApiKeyResponse {
   /// The API key associated with the resource requested.
   final String apiKey;
@@ -3925,6 +3937,7 @@ class GetResourceApiKeyResponse {
   }
 }
 
+/// @nodoc
 class GetResourceOauth2TokenResponse {
   /// The OAuth 2.0 access token to use.
   final String? accessToken;
@@ -3974,6 +3987,7 @@ class GetResourceOauth2TokenResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePaymentTokenResponse {
   /// Vendor-specific token response output. Contains all response data in a
   /// type-safe, vendor-specific structure.
@@ -3999,6 +4013,7 @@ class GetResourcePaymentTokenResponse {
   }
 }
 
+/// @nodoc
 class GetWorkloadAccessTokenResponse {
   /// An opaque token representing the identity of both the workload and the user.
   final String workloadAccessToken;
@@ -4021,6 +4036,7 @@ class GetWorkloadAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class GetWorkloadAccessTokenForJWTResponse {
   /// An opaque token representing the identity of both the workload and the user.
   final String workloadAccessToken;
@@ -4044,6 +4060,7 @@ class GetWorkloadAccessTokenForJWTResponse {
   }
 }
 
+/// @nodoc
 class GetWorkloadAccessTokenForUserIdResponse {
   /// The access token for the specified workload.
   final String workloadAccessToken;
@@ -4067,6 +4084,7 @@ class GetWorkloadAccessTokenForUserIdResponse {
   }
 }
 
+/// @nodoc
 class InvokeCodeInterpreterResponse {
   /// The stream containing the results of the code execution. This includes
   /// output, errors, and execution status.
@@ -4093,6 +4111,8 @@ class InvokeCodeInterpreterResponse {
 /// of the resource. This can happen when trying to modify a resource that is
 /// currently being modified by another request, or when trying to create a
 /// resource that already exists.
+///
+/// @nodoc
 class ConflictException implements _s.AwsException {
   final String? message;
 
@@ -4117,6 +4137,8 @@ class ConflictException implements _s.AwsException {
 /// The exception that occurs when the request would cause a service quota to be
 /// exceeded. Review your service quotas and either reduce your request rate or
 /// request a quota increase.
+///
+/// @nodoc
 class ServiceQuotaExceededException implements _s.AwsException {
   final String? message;
 
@@ -4138,6 +4160,7 @@ class ServiceQuotaExceededException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class InvokeHarnessResponse {
   /// The streaming output from the harness invocation.
   final InvokeHarnessStreamOutput stream;
@@ -4158,6 +4181,8 @@ class InvokeHarnessResponse {
 /// can happen due to network issues, invalid configuration, or other
 /// client-side problems. Check the error message for specific details about the
 /// error.
+///
+/// @nodoc
 class RuntimeClientError implements _s.AwsException {
   final String? message;
 
@@ -4179,6 +4204,7 @@ class RuntimeClientError implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class GetAgentCardResponse {
   /// An agent card document that contains metadata and capabilities for an
   /// AgentCore Runtime agent.
@@ -4206,6 +4232,7 @@ class GetAgentCardResponse {
   }
 }
 
+/// @nodoc
 class InvokeAgentRuntimeResponse {
   /// The MIME type of the response data. This indicates how to interpret the
   /// response data. Common values include application/json for JSON data.
@@ -4273,6 +4300,8 @@ class InvokeAgentRuntimeResponse {
 }
 
 /// Response for InvokeAgentRuntimeCommand operation.
+///
+/// @nodoc
 class InvokeAgentRuntimeCommandResponse {
   /// The MIME type of the response data. This indicates how to interpret the
   /// response data. Common values include application/json for JSON data.
@@ -4329,6 +4358,7 @@ class InvokeAgentRuntimeCommandResponse {
   }
 }
 
+/// @nodoc
 class StopRuntimeSessionResponse {
   /// The ID of the session that you requested to stop.
   final String? runtimeSessionId;
@@ -4348,6 +4378,7 @@ class StopRuntimeSessionResponse {
   }
 }
 
+/// @nodoc
 class SaveBrowserSessionProfileResponse {
   /// The unique identifier of the browser associated with the session from which
   /// the profile was saved.
@@ -4395,6 +4426,7 @@ class SaveBrowserSessionProfileResponse {
   }
 }
 
+/// @nodoc
 class GetBrowserSessionResponse {
   /// The identifier of the browser.
   final String browserIdentifier;
@@ -4545,6 +4577,8 @@ class GetBrowserSessionResponse {
 }
 
 /// Response for the InvokeBrowser operation.
+///
+/// @nodoc
 class InvokeBrowserResponse {
   /// The result of the browser action. The member set in the result corresponds
   /// to the action that was performed.
@@ -4568,6 +4602,7 @@ class InvokeBrowserResponse {
   }
 }
 
+/// @nodoc
 class ListBrowserSessionsResponse {
   /// The list of browser sessions that match the specified criteria.
   final List<BrowserSessionSummary> items;
@@ -4601,6 +4636,7 @@ class ListBrowserSessionsResponse {
   }
 }
 
+/// @nodoc
 class StartBrowserSessionResponse {
   /// The identifier of the browser.
   final String browserIdentifier;
@@ -4648,6 +4684,7 @@ class StartBrowserSessionResponse {
   }
 }
 
+/// @nodoc
 class StopBrowserSessionResponse {
   /// The identifier of the browser.
   final String browserIdentifier;
@@ -4684,6 +4721,7 @@ class StopBrowserSessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrowserStreamResponse {
   /// The identifier of the browser.
   final String browserIdentifier;
@@ -4727,6 +4765,7 @@ class UpdateBrowserStreamResponse {
   }
 }
 
+/// @nodoc
 class GetCodeInterpreterSessionResponse {
   /// The identifier of the code interpreter.
   final String codeInterpreterIdentifier;
@@ -4799,6 +4838,7 @@ class GetCodeInterpreterSessionResponse {
   }
 }
 
+/// @nodoc
 class ListCodeInterpreterSessionsResponse {
   /// The list of code interpreter sessions that match the specified criteria.
   final List<CodeInterpreterSessionSummary> items;
@@ -4834,6 +4874,7 @@ class ListCodeInterpreterSessionsResponse {
   }
 }
 
+/// @nodoc
 class StartCodeInterpreterSessionResponse {
   /// The identifier of the code interpreter.
   final String codeInterpreterIdentifier;
@@ -4872,6 +4913,7 @@ class StartCodeInterpreterSessionResponse {
   }
 }
 
+/// @nodoc
 class StopCodeInterpreterSessionResponse {
   /// The identifier of the code interpreter.
   final String codeInterpreterIdentifier;
@@ -4910,6 +4952,7 @@ class StopCodeInterpreterSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateABTestResponse {
   /// The Amazon Resource Name (ARN) of the created A/B test.
   final String abTestArn;
@@ -4968,6 +5011,7 @@ class CreateABTestResponse {
   }
 }
 
+/// @nodoc
 class DeleteABTestResponse {
   /// The Amazon Resource Name (ARN) of the deleted A/B test.
   final String abTestArn;
@@ -5004,6 +5048,7 @@ class DeleteABTestResponse {
   }
 }
 
+/// @nodoc
 class DeleteBatchEvaluationResponse {
   /// The Amazon Resource Name (ARN) of the deleted batch evaluation.
   final String batchEvaluationArn;
@@ -5041,6 +5086,7 @@ class DeleteBatchEvaluationResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecommendationResponse {
   /// The unique identifier of the deleted recommendation.
   final String recommendationId;
@@ -5071,6 +5117,7 @@ class DeleteRecommendationResponse {
   }
 }
 
+/// @nodoc
 class EvaluateResponse {
   /// The detailed evaluation results containing scores, explanations, and
   /// metadata. Includes the evaluator information, numerical or categorical
@@ -5100,6 +5147,7 @@ class EvaluateResponse {
   }
 }
 
+/// @nodoc
 class GetABTestResponse {
   /// The Amazon Resource Name (ARN) of the A/B test.
   final String abTestArn;
@@ -5264,6 +5312,7 @@ class GetABTestResponse {
   }
 }
 
+/// @nodoc
 class GetBatchEvaluationResponse {
   /// The Amazon Resource Name (ARN) of the batch evaluation.
   final String batchEvaluationArn;
@@ -5379,6 +5428,7 @@ class GetBatchEvaluationResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationResponse {
   /// The timestamp when the recommendation was created.
   final DateTime createdAt;
@@ -5473,6 +5523,7 @@ class GetRecommendationResponse {
   }
 }
 
+/// @nodoc
 class ListABTestsResponse {
   /// The list of A/B test summaries.
   final List<ABTestSummary> abTests;
@@ -5507,6 +5558,7 @@ class ListABTestsResponse {
   }
 }
 
+/// @nodoc
 class ListBatchEvaluationsResponse {
   /// The list of batch evaluation summaries.
   final List<BatchEvaluationSummary> batchEvaluations;
@@ -5542,6 +5594,7 @@ class ListBatchEvaluationsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationsResponse {
   /// The list of recommendation summaries.
   final List<RecommendationSummary> recommendationSummaries;
@@ -5577,6 +5630,7 @@ class ListRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class StartBatchEvaluationResponse {
   /// The Amazon Resource Name (ARN) of the created batch evaluation.
   final String batchEvaluationArn;
@@ -5654,6 +5708,7 @@ class StartBatchEvaluationResponse {
   }
 }
 
+/// @nodoc
 class StartRecommendationResponse {
   /// The timestamp when the recommendation was created.
   final DateTime createdAt;
@@ -5735,6 +5790,7 @@ class StartRecommendationResponse {
   }
 }
 
+/// @nodoc
 class StopBatchEvaluationResponse {
   /// The Amazon Resource Name (ARN) of the stopped batch evaluation.
   final String batchEvaluationArn;
@@ -5779,6 +5835,7 @@ class StopBatchEvaluationResponse {
   }
 }
 
+/// @nodoc
 class UpdateABTestResponse {
   /// The Amazon Resource Name (ARN) of the updated A/B test.
   final String abTestArn;
@@ -5830,6 +5887,7 @@ class UpdateABTestResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateMemoryRecordsOutput {
   /// A list of memory records that failed to be created, including error details
   /// for each failure.
@@ -5867,6 +5925,7 @@ class BatchCreateMemoryRecordsOutput {
   }
 }
 
+/// @nodoc
 class BatchDeleteMemoryRecordsOutput {
   /// A list of memory records that failed to be deleted, including error details
   /// for each failure.
@@ -5904,6 +5963,7 @@ class BatchDeleteMemoryRecordsOutput {
   }
 }
 
+/// @nodoc
 class BatchUpdateMemoryRecordsOutput {
   /// A list of memory records that failed to be updated, including error details
   /// for each failure.
@@ -5941,6 +6001,7 @@ class BatchUpdateMemoryRecordsOutput {
   }
 }
 
+/// @nodoc
 class CreateEventOutput {
   /// The event that was created.
   final Event event;
@@ -5964,6 +6025,7 @@ class CreateEventOutput {
   }
 }
 
+/// @nodoc
 class DeleteEventOutput {
   /// The identifier of the event that was deleted.
   final String eventId;
@@ -5986,6 +6048,7 @@ class DeleteEventOutput {
   }
 }
 
+/// @nodoc
 class DeleteMemoryRecordOutput {
   /// The identifier of the memory record that was deleted.
   final String memoryRecordId;
@@ -6008,6 +6071,7 @@ class DeleteMemoryRecordOutput {
   }
 }
 
+/// @nodoc
 class GetEventOutput {
   /// The requested event information.
   final Event event;
@@ -6031,6 +6095,7 @@ class GetEventOutput {
   }
 }
 
+/// @nodoc
 class GetMemoryRecordOutput {
   /// The requested memory record.
   final MemoryRecord memoryRecord;
@@ -6055,6 +6120,7 @@ class GetMemoryRecordOutput {
   }
 }
 
+/// @nodoc
 class ListActorsOutput {
   /// The list of actor summaries.
   final List<ActorSummary> actorSummaries;
@@ -6088,6 +6154,7 @@ class ListActorsOutput {
   }
 }
 
+/// @nodoc
 class ListEventsOutput {
   /// The list of events that match the specified criteria.
   final List<Event> events;
@@ -6121,6 +6188,7 @@ class ListEventsOutput {
   }
 }
 
+/// @nodoc
 class ListMemoryExtractionJobsOutput {
   /// List of extraction job metadata matching the specified criteria.
   final List<ExtractionJobMetadata> jobs;
@@ -6153,6 +6221,7 @@ class ListMemoryExtractionJobsOutput {
   }
 }
 
+/// @nodoc
 class ListMemoryRecordsOutput {
   /// The list of memory record summaries that match the specified criteria.
   final List<MemoryRecordSummary> memoryRecordSummaries;
@@ -6187,6 +6256,7 @@ class ListMemoryRecordsOutput {
   }
 }
 
+/// @nodoc
 class ListSessionsOutput {
   /// The list of session summaries that match the specified criteria.
   final List<SessionSummary> sessionSummaries;
@@ -6220,6 +6290,7 @@ class ListSessionsOutput {
   }
 }
 
+/// @nodoc
 class RetrieveMemoryRecordsOutput {
   /// The list of memory record summaries that match the search criteria, ordered
   /// by relevance.
@@ -6255,6 +6326,7 @@ class RetrieveMemoryRecordsOutput {
   }
 }
 
+/// @nodoc
 class StartMemoryExtractionJobOutput {
   /// Extraction Job ID that was attempted to start.
   final String jobId;
@@ -6278,6 +6350,8 @@ class StartMemoryExtractionJobOutput {
 }
 
 /// Response structure for creating a payment instrument.
+///
+/// @nodoc
 class CreatePaymentInstrumentResponse {
   /// The created payment instrument.
   final PaymentInstrument paymentInstrument;
@@ -6303,6 +6377,8 @@ class CreatePaymentInstrumentResponse {
 }
 
 /// Response structure for getting a payment instrument.
+///
+/// @nodoc
 class GetPaymentInstrumentResponse {
   /// The payment instrument details.
   final PaymentInstrument paymentInstrument;
@@ -6328,6 +6404,8 @@ class GetPaymentInstrumentResponse {
 }
 
 /// Response structure for deleting a payment instrument.
+///
+/// @nodoc
 class DeletePaymentInstrumentResponse {
   /// The status of the instrument after deletion. Always DELETED for successful
   /// soft delete.
@@ -6353,6 +6431,8 @@ class DeletePaymentInstrumentResponse {
 }
 
 /// Response structure for listing payment instruments.
+///
+/// @nodoc
 class ListPaymentInstrumentsResponse {
   /// List of payment instrument summaries matching the request criteria.
   final List<PaymentInstrumentSummary> paymentInstruments;
@@ -6387,6 +6467,8 @@ class ListPaymentInstrumentsResponse {
 }
 
 /// Response structure for getting payment instrument balance.
+///
+/// @nodoc
 class GetPaymentInstrumentBalanceResponse {
   /// The ID of the payment instrument.
   final String paymentInstrumentId;
@@ -6420,6 +6502,8 @@ class GetPaymentInstrumentBalanceResponse {
 }
 
 /// Response structure for creating a payment session.
+///
+/// @nodoc
 class CreatePaymentSessionResponse {
   /// The created payment session.
   final PaymentSession paymentSession;
@@ -6445,6 +6529,8 @@ class CreatePaymentSessionResponse {
 }
 
 /// Response structure for getting a payment session.
+///
+/// @nodoc
 class GetPaymentSessionResponse {
   /// The payment session details.
   final PaymentSession paymentSession;
@@ -6470,6 +6556,8 @@ class GetPaymentSessionResponse {
 }
 
 /// Response structure for deleting a payment session.
+///
+/// @nodoc
 class DeletePaymentSessionResponse {
   /// The status of the deletion. Always DELETED for successful hard delete.
   final PaymentSessionStatus status;
@@ -6494,6 +6582,8 @@ class DeletePaymentSessionResponse {
 }
 
 /// Response structure for listing payment sessions.
+///
+/// @nodoc
 class ListPaymentSessionsResponse {
   /// List of payment session summaries matching the request criteria.
   final List<PaymentSessionSummary> paymentSessions;
@@ -6527,6 +6617,8 @@ class ListPaymentSessionsResponse {
 }
 
 /// Response structure for processing a payment.
+///
+/// @nodoc
 class ProcessPaymentResponse {
   /// The timestamp when the payment was created.
   final DateTime createdAt;
@@ -6608,6 +6700,7 @@ class ProcessPaymentResponse {
   }
 }
 
+/// @nodoc
 class SearchRegistryRecordsResponse {
   /// The list of registry records that match the search query, ordered by
   /// relevance.
@@ -6635,6 +6728,8 @@ class SearchRegistryRecordsResponse {
 }
 
 /// Summary information about a registry record.
+///
+/// @nodoc
 class RegistryRecordSummary {
   /// The date and time when the registry record was created.
   final DateTime createdAt;
@@ -6732,6 +6827,8 @@ class RegistryRecordSummary {
 }
 
 /// The type of descriptor associated with a registry record.
+///
+/// @nodoc
 class DescriptorType {
   static const mcp = DescriptorType._('MCP');
   static const a2a = DescriptorType._('A2A');
@@ -6760,6 +6857,8 @@ class DescriptorType {
 
 /// Contains the descriptor configuration for a registry record. Only the field
 /// that matches the record's <code>descriptorType</code> is populated.
+///
+/// @nodoc
 class Descriptors {
   /// The A2A (Agent-to-Agent) descriptor configuration. Populated when the
   /// record's <code>descriptorType</code> is <code>A2A</code>.
@@ -6817,6 +6916,8 @@ class Descriptors {
 }
 
 /// The status of a registry record in its lifecycle.
+///
+/// @nodoc
 class RegistryRecordStatus {
   static const draft = RegistryRecordStatus._('DRAFT');
   static const pendingApproval = RegistryRecordStatus._('PENDING_APPROVAL');
@@ -6853,6 +6954,8 @@ class RegistryRecordStatus {
 
 /// The MCP (Model Context Protocol) descriptor configuration for a registry
 /// record. Contains the server definition and tools definition.
+///
+/// @nodoc
 class McpDescriptor {
   /// The MCP server definition that describes the server configuration.
   final ServerDefinition server;
@@ -6887,6 +6990,8 @@ class McpDescriptor {
 }
 
 /// The A2A (Agent-to-Agent) descriptor configuration for a registry record.
+///
+/// @nodoc
 class A2aDescriptor {
   /// The agent card definition that describes the agent's capabilities and
   /// interface.
@@ -6913,6 +7018,8 @@ class A2aDescriptor {
 }
 
 /// A custom descriptor configuration for a registry record.
+///
+/// @nodoc
 class CustomDescriptor {
   /// The inline content of the custom descriptor.
   final String? inlineContent;
@@ -6936,6 +7043,8 @@ class CustomDescriptor {
 }
 
 /// The agent skills descriptor configuration for a registry record.
+///
+/// @nodoc
 class AgentSkillsDescriptor {
   /// The skill description in markdown format.
   final SkillMdDefinition skillMd;
@@ -6971,6 +7080,8 @@ class AgentSkillsDescriptor {
 }
 
 /// The skill markdown definition for agent skills descriptors.
+///
+/// @nodoc
 class SkillMdDefinition {
   /// The inline markdown content of the skill definition.
   final String? inlineContent;
@@ -6994,6 +7105,8 @@ class SkillMdDefinition {
 }
 
 /// The structured skill definition with a schema version and inline content.
+///
+/// @nodoc
 class SkillDefinition {
   /// The inline content of the skill definition.
   final String? inlineContent;
@@ -7026,6 +7139,8 @@ class SkillDefinition {
 
 /// The agent card definition for A2A descriptors, including the schema version
 /// and inline content that describes the agent's capabilities.
+///
+/// @nodoc
 class AgentCardDefinition {
   /// The inline content of the agent card definition.
   final String? inlineContent;
@@ -7058,6 +7173,8 @@ class AgentCardDefinition {
 /// The MCP server definition with a schema version and inline content. The
 /// <code>schemaVersion</code> identifies the version of the MCP server
 /// configuration schema.
+///
+/// @nodoc
 class ServerDefinition {
   /// The inline content of the server definition.
   final String? inlineContent;
@@ -7092,6 +7209,8 @@ class ServerDefinition {
 /// <code>protocolVersion</code> identifies the MCP protocol version that the
 /// tools conform to. This differs from <code>schemaVersion</code> in the server
 /// definition, which identifies the server configuration schema format.
+///
+/// @nodoc
 class ToolsDefinition {
   /// The inline content of the tools definition.
   final String? inlineContent;
@@ -7124,6 +7243,8 @@ class ToolsDefinition {
 }
 
 /// Payment type enum.
+///
+/// @nodoc
 class PaymentType {
   static const cryptoX402 = PaymentType._('CRYPTO_X402');
 
@@ -7147,6 +7268,8 @@ class PaymentType {
 }
 
 /// Transaction status enum.
+///
+/// @nodoc
 class PaymentStatus {
   static const proofGenerated = PaymentStatus._('PROOF_GENERATED');
 
@@ -7171,6 +7294,8 @@ class PaymentStatus {
 }
 
 /// The payment output details, which vary by payment type.
+///
+/// @nodoc
 class PaymentOutput {
   /// Output from a crypto X402 payment.
   final CryptoX402PaymentOutput? cryptoX402;
@@ -7197,6 +7322,8 @@ class PaymentOutput {
 }
 
 /// The output from a crypto X402 payment.
+///
+/// @nodoc
 class CryptoX402PaymentOutput {
   /// The X402 payment response payload.
   final Object payload;
@@ -7227,6 +7354,8 @@ class CryptoX402PaymentOutput {
 }
 
 /// The payment input details, which vary by payment type.
+///
+/// @nodoc
 class PaymentInput {
   /// Input for a crypto X402 payment.
   final CryptoX402PaymentInput? cryptoX402;
@@ -7244,6 +7373,8 @@ class PaymentInput {
 }
 
 /// The input for a crypto X402 payment.
+///
+/// @nodoc
 class CryptoX402PaymentInput {
   /// The X402 payment payload.
   final Object payload;
@@ -7267,6 +7398,8 @@ class CryptoX402PaymentInput {
 }
 
 /// Summary information about a payment session.
+///
+/// @nodoc
 class PaymentSessionSummary {
   /// The timestamp when the session was created.
   final DateTime createdAt;
@@ -7325,6 +7458,8 @@ class PaymentSessionSummary {
 }
 
 /// The status of a payment session.
+///
+/// @nodoc
 class PaymentSessionStatus {
   static const active = PaymentSessionStatus._('ACTIVE');
   static const expired = PaymentSessionStatus._('EXPIRED');
@@ -7352,6 +7487,8 @@ class PaymentSessionStatus {
 }
 
 /// A payment session for managing payment transactions.
+///
+/// @nodoc
 class PaymentSession {
   /// The timestamp when the session was created.
   final DateTime createdAt;
@@ -7429,6 +7566,8 @@ class PaymentSession {
 }
 
 /// The spending limits configuration for a payment session.
+///
+/// @nodoc
 class SessionLimits {
   /// The maximum amount that can be spent in the session.
   final Amount maxSpendAmount;
@@ -7454,6 +7593,8 @@ class SessionLimits {
 }
 
 /// The available spending limits for a payment session.
+///
+/// @nodoc
 class AvailableLimits {
   /// The remaining available amount that can be spent.
   final Amount? availableSpendAmount;
@@ -7488,6 +7629,8 @@ class AvailableLimits {
 }
 
 /// Represents a monetary amount with a currency.
+///
+/// @nodoc
 class Amount {
   /// The currency code for the amount.
   final Currency currency;
@@ -7518,6 +7661,8 @@ class Amount {
 }
 
 /// Supported currency codes.
+///
+/// @nodoc
 class Currency {
   static const usd = Currency._('USD');
 
@@ -7541,6 +7686,8 @@ class Currency {
 }
 
 /// A single token balance entry.
+///
+/// @nodoc
 class TokenBalance {
   /// Raw balance in the smallest denomination (e.g., USDC base units where 1 USDC
   /// = 1000000).
@@ -7596,6 +7743,8 @@ class TokenBalance {
 
 /// Supported tokens for instrument balance queries. Only tokens supported for
 /// X402 payments are returned.
+///
+/// @nodoc
 class InstrumentBalanceToken {
   static const usdc = InstrumentBalanceToken._('USDC');
 
@@ -7621,6 +7770,8 @@ class InstrumentBalanceToken {
 }
 
 /// Supported blockchain networks for crypto wallets.
+///
+/// @nodoc
 class CryptoWalletNetwork {
   static const ethereum = CryptoWalletNetwork._('ETHEREUM');
   static const solana = CryptoWalletNetwork._('SOLANA');
@@ -7648,6 +7799,8 @@ class CryptoWalletNetwork {
 
 /// Supported blockchain chain identifiers for balance queries. Each value maps
 /// to a specific chain supported by the underlying providers (Privy, Coinbase).
+///
+/// @nodoc
 class BlockchainChainId {
   static const base = BlockchainChainId._('BASE');
   static const baseSepolia = BlockchainChainId._('BASE_SEPOLIA');
@@ -7676,6 +7829,8 @@ class BlockchainChainId {
 }
 
 /// Summary of a payment instrument for list operations.
+///
+/// @nodoc
 class PaymentInstrumentSummary {
   /// The timestamp when this payment instrument was created.
   final DateTime createdAt;
@@ -7750,6 +7905,8 @@ class PaymentInstrumentSummary {
 }
 
 /// The type of payment instrument.
+///
+/// @nodoc
 class PaymentInstrumentType {
   static const embeddedCryptoWallet =
       PaymentInstrumentType._('EMBEDDED_CRYPTO_WALLET');
@@ -7776,6 +7933,8 @@ class PaymentInstrumentType {
 }
 
 /// The status of a payment instrument.
+///
+/// @nodoc
 class PaymentInstrumentStatus {
   static const initiated = PaymentInstrumentStatus._('INITIATED');
   static const active = PaymentInstrumentStatus._('ACTIVE');
@@ -7804,6 +7963,8 @@ class PaymentInstrumentStatus {
 }
 
 /// Represents a payment instrument.
+///
+/// @nodoc
 class PaymentInstrument {
   /// The timestamp when this payment instrument was created.
   final DateTime createdAt;
@@ -7887,6 +8048,8 @@ class PaymentInstrument {
 }
 
 /// Details specific to the instrument type.
+///
+/// @nodoc
 class PaymentInstrumentDetails {
   /// Embedded crypto wallet managed directly by end user.
   final EmbeddedCryptoWallet? embeddedCryptoWallet;
@@ -7914,6 +8077,8 @@ class PaymentInstrumentDetails {
 }
 
 /// Embedded crypto wallet instrument details.
+///
+/// @nodoc
 class EmbeddedCryptoWallet {
   /// List of linked accounts linked to this wallet. Each represents a way the end
   /// user can authenticate to this wallet.
@@ -7966,6 +8131,8 @@ class EmbeddedCryptoWallet {
 
 /// Represents different linked accounts that can be linked to an embedded
 /// wallet. Supports email, SMS, JWT, and OAuth2 approaches.
+///
+/// @nodoc
 class LinkedAccount {
   /// Developer JWT linked account with key ID and subject.
   final LinkedAccountDeveloperJwt? developerJwt;
@@ -8019,6 +8186,8 @@ class LinkedAccount {
 }
 
 /// Linked account using an email address.
+///
+/// @nodoc
 class LinkedAccountEmail {
   /// The email address used for the linked account. Must be a valid email format.
   final String emailAddress;
@@ -8042,6 +8211,8 @@ class LinkedAccountEmail {
 }
 
 /// Linked account using a phone number in E.164 format.
+///
+/// @nodoc
 class LinkedAccountSms {
   /// The phone number in E.164 format (e.g., +1234567890).
   final String phoneNumber;
@@ -8065,6 +8236,8 @@ class LinkedAccountSms {
 }
 
 /// Authentication method using JWT with key ID and subject claims.
+///
+/// @nodoc
 class LinkedAccountDeveloperJwt {
   /// The key ID (kid) from the JWT header. Identifies which key was used to sign
   /// the JWT.
@@ -8098,6 +8271,8 @@ class LinkedAccountDeveloperJwt {
 
 /// Authentication method using OAuth2 providers. Supports Google, Apple, X,
 /// Telegram, and GitHub providers.
+///
+/// @nodoc
 class LinkedAccountOAuth2 {
   /// Apple OAuth2 authentication.
   final OAuth2Authentication? apple;
@@ -8162,6 +8337,8 @@ class LinkedAccountOAuth2 {
 }
 
 /// OAuth2 authentication information for third-party providers.
+///
+/// @nodoc
 class OAuth2Authentication {
   /// The subject (sub) claim from the OAuth2 provider. Uniquely identifies the
   /// user at the provider.
@@ -8208,6 +8385,8 @@ class OAuth2Authentication {
 
 /// Represents the metadata of a memory extraction job such as the message
 /// identifiers that compose this job.
+///
+/// @nodoc
 class ExtractionJob {
   /// The unique identifier of the extraction job.
   final String jobId;
@@ -8225,6 +8404,8 @@ class ExtractionJob {
 }
 
 /// Contains summary information about a memory record.
+///
+/// @nodoc
 class MemoryRecordSummary {
   /// The content of the memory record.
   final MemoryContent content;
@@ -8298,6 +8479,8 @@ class MemoryRecordSummary {
 }
 
 /// Contains the content of a memory record.
+///
+/// @nodoc
 class MemoryContent {
   /// The text content of the memory record.
   final String? text;
@@ -8321,6 +8504,8 @@ class MemoryContent {
 }
 
 /// The value of a memory record metadata entry.
+///
+/// @nodoc
 class MemoryRecordMetadataValue {
   /// A timestamp value in ISO 8601 UTC format.
   final DateTime? dateTimeValue;
@@ -8369,6 +8554,8 @@ class MemoryRecordMetadataValue {
 }
 
 /// Contains search criteria for retrieving memory records.
+///
+/// @nodoc
 class SearchCriteria {
   /// The search query to use for finding relevant memory records.
   final String searchQuery;
@@ -8407,6 +8594,8 @@ class SearchCriteria {
 /// Filters to apply to metadata associated with a memory. Specify the metadata
 /// key and value in the <code>left</code> and <code>right</code> fields and use
 /// the <code>operator</code> field to define the relationship to match.
+///
+/// @nodoc
 class MemoryMetadataFilterExpression {
   /// The metadata key to evaluate.
   final MemoryRecordLeftExpression left;
@@ -8438,6 +8627,8 @@ class MemoryMetadataFilterExpression {
 }
 
 /// The left-hand side of a memory record metadata filter expression.
+///
+/// @nodoc
 class MemoryRecordLeftExpression {
   /// The metadata key to filter on.
   final String? metadataKey;
@@ -8454,6 +8645,7 @@ class MemoryRecordLeftExpression {
   }
 }
 
+/// @nodoc
 class MemoryRecordOperatorType {
   static const equalsTo = MemoryRecordOperatorType._('EQUALS_TO');
   static const exists = MemoryRecordOperatorType._('EXISTS');
@@ -8501,6 +8693,8 @@ class MemoryRecordOperatorType {
 }
 
 /// The right-hand side of a memory record metadata filter expression.
+///
+/// @nodoc
 class MemoryRecordRightExpression {
   /// The metadata value to compare against.
   final MemoryRecordMetadataValue? metadataValue;
@@ -8519,6 +8713,8 @@ class MemoryRecordRightExpression {
 
 /// Contains summary information about a session in an AgentCore Memory
 /// resource.
+///
+/// @nodoc
 class SessionSummary {
   /// The identifier of the actor associated with the session.
   final String actorId;
@@ -8556,6 +8752,8 @@ class SessionSummary {
 }
 
 /// Contains filter criteria for listing sessions.
+///
+/// @nodoc
 class SessionFilter {
   /// The event filter condition to apply. Use this to filter sessions based on
   /// event presence.
@@ -8574,6 +8772,8 @@ class SessionFilter {
 }
 
 /// The condition to use for filtering sessions by events.
+///
+/// @nodoc
 class EventFilterCondition {
   static const hasEvents = EventFilterCondition._('HAS_EVENTS');
 
@@ -8599,6 +8799,8 @@ class EventFilterCondition {
 }
 
 /// Metadata information associated with this extraction job.
+///
+/// @nodoc
 class ExtractionJobMetadata {
   /// The unique identifier for the extraction job.
   final String jobID;
@@ -8666,6 +8868,8 @@ class ExtractionJobMetadata {
 }
 
 /// The list of messages that compose this extraction job.
+///
+/// @nodoc
 class ExtractionJobMessages {
   /// The list of messages that compose this extraction job.
   final List<MessageMetadata>? messagesList;
@@ -8691,6 +8895,7 @@ class ExtractionJobMessages {
   }
 }
 
+/// @nodoc
 class ExtractionJobStatus {
   static const failed = ExtractionJobStatus._('FAILED');
 
@@ -8716,6 +8921,8 @@ class ExtractionJobStatus {
 }
 
 /// Metadata information associated with this message.
+///
+/// @nodoc
 class MessageMetadata {
   /// The identifier of the event associated with this message.
   final String eventId;
@@ -8746,6 +8953,8 @@ class MessageMetadata {
 }
 
 /// Filters for querying memory extraction jobs based on various criteria.
+///
+/// @nodoc
 class ExtractionJobFilterInput {
   /// The identifier of the actor. If specified, only extraction jobs with this
   /// actor ID are returned.
@@ -8785,6 +8994,8 @@ class ExtractionJobFilterInput {
 }
 
 /// Contains information about an event in an AgentCore Memory resource.
+///
+/// @nodoc
 class Event {
   /// The identifier of the actor associated with the event.
   final String actorId;
@@ -8865,6 +9076,8 @@ class Event {
 /// Contains information about a branch in an AgentCore Memory resource.
 /// Branches allow for organizing events into different conversation threads or
 /// paths.
+///
+/// @nodoc
 class Branch {
   /// The name of the branch.
   final String name;
@@ -8895,6 +9108,8 @@ class Branch {
 }
 
 /// Value associated with the <code>eventMetadata</code> key.
+///
+/// @nodoc
 class MetadataValue {
   /// Value associated with the <code>eventMetadata</code> key.
   final String? stringValue;
@@ -8918,6 +9133,8 @@ class MetadataValue {
 }
 
 /// Contains the payload content for an event.
+///
+/// @nodoc
 class PayloadType {
   /// The binary content of the payload.
   final Object? blob;
@@ -8951,6 +9168,8 @@ class PayloadType {
 }
 
 /// Contains conversational content for an event payload.
+///
+/// @nodoc
 class Conversational {
   /// The content of the conversation message.
   final Content content;
@@ -8983,6 +9202,8 @@ class Conversational {
 }
 
 /// Contains the content of a memory item.
+///
+/// @nodoc
 class Content {
   /// The text content of the memory item.
   final String? text;
@@ -9005,6 +9226,7 @@ class Content {
   }
 }
 
+/// @nodoc
 class Role {
   static const assistant = Role._('ASSISTANT');
   static const user = Role._('USER');
@@ -9031,6 +9253,8 @@ class Role {
 }
 
 /// Contains filter criteria for listing events.
+///
+/// @nodoc
 class FilterInput {
   /// The branch filter criteria to apply when listing events.
   final BranchFilter? branch;
@@ -9054,6 +9278,8 @@ class FilterInput {
 }
 
 /// Contains filter criteria for branches when listing events.
+///
+/// @nodoc
 class BranchFilter {
   /// The name of the branch to filter by.
   final String name;
@@ -9080,6 +9306,8 @@ class BranchFilter {
 
 /// Filter expression for retrieving events based on metadata associated with an
 /// event.
+///
+/// @nodoc
 class EventMetadataFilterExpression {
   /// Left operand of the event metadata filter expression.
   final LeftExpression left;
@@ -9109,6 +9337,8 @@ class EventMetadataFilterExpression {
 }
 
 /// Left expression of the event metadata filter.
+///
+/// @nodoc
 class LeftExpression {
   /// Key associated with the metadata in an event.
   final String? metadataKey;
@@ -9125,6 +9355,7 @@ class LeftExpression {
   }
 }
 
+/// @nodoc
 class OperatorType {
   static const equalsTo = OperatorType._('EQUALS_TO');
   static const exists = OperatorType._('EXISTS');
@@ -9150,6 +9381,8 @@ class OperatorType {
 }
 
 /// Right expression of the <code>eventMetadata</code>filter.
+///
+/// @nodoc
 class RightExpression {
   /// Value associated with the key in <code>eventMetadata</code>.
   final MetadataValue? metadataValue;
@@ -9167,6 +9400,8 @@ class RightExpression {
 }
 
 /// Contains summary information about an actor in an AgentCore Memory resource.
+///
+/// @nodoc
 class ActorSummary {
   /// The unique identifier of the actor.
   final String actorId;
@@ -9190,6 +9425,8 @@ class ActorSummary {
 }
 
 /// Contains information about a memory record in an AgentCore Memory resource.
+///
+/// @nodoc
 class MemoryRecord {
   /// The content of the memory record.
   final MemoryContent content;
@@ -9256,6 +9493,8 @@ class MemoryRecord {
 }
 
 /// Output information returned after processing a memory record operation.
+///
+/// @nodoc
 class MemoryRecordOutput {
   /// The unique ID associated to the memory record.
   final String memoryRecordId;
@@ -9307,6 +9546,7 @@ class MemoryRecordOutput {
   }
 }
 
+/// @nodoc
 class MemoryRecordStatus {
   static const succeeded = MemoryRecordStatus._('SUCCEEDED');
   static const failed = MemoryRecordStatus._('FAILED');
@@ -9333,6 +9573,8 @@ class MemoryRecordStatus {
 }
 
 /// Input structure to update an existing memory record.
+///
+/// @nodoc
 class MemoryRecordUpdateInput {
   /// The unique ID of the memory record to be updated.
   final String memoryRecordId;
@@ -9382,6 +9624,8 @@ class MemoryRecordUpdateInput {
 }
 
 /// Input structure to delete an existing memory record.
+///
+/// @nodoc
 class MemoryRecordDeleteInput {
   /// The unique ID of the memory record to be deleted.
   final String memoryRecordId;
@@ -9399,6 +9643,8 @@ class MemoryRecordDeleteInput {
 }
 
 /// Input structure to create a new memory record.
+///
+/// @nodoc
 class MemoryRecordCreateInput {
   /// The content to be stored within the memory record.
   final MemoryContent content;
@@ -9447,6 +9693,7 @@ class MemoryRecordCreateInput {
   }
 }
 
+/// @nodoc
 class ABTestStatus {
   static const creating = ABTestStatus._('CREATING');
   static const active = ABTestStatus._('ACTIVE');
@@ -9485,6 +9732,7 @@ class ABTestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ABTestExecutionStatus {
   static const paused = ABTestExecutionStatus._('PAUSED');
   static const running = ABTestExecutionStatus._('RUNNING');
@@ -9514,6 +9762,8 @@ class ABTestExecutionStatus {
 
 /// A filter to restrict which gateway target paths are included in the A/B
 /// test.
+///
+/// @nodoc
 class GatewayFilter {
   /// A list of target path patterns to include in the A/B test.
   final List<String>? targetPaths;
@@ -9541,6 +9791,8 @@ class GatewayFilter {
 
 /// The evaluation configuration for an A/B test, specifying which online
 /// evaluation configurations to use for measuring variant performance.
+///
+/// @nodoc
 class ABTestEvaluationConfig {
   /// The Amazon Resource Name (ARN) of a single online evaluation configuration
   /// to use for both variants.
@@ -9583,6 +9835,8 @@ class ABTestEvaluationConfig {
 
 /// An online evaluation configuration associated with a specific A/B test
 /// variant.
+///
+/// @nodoc
 class PerVariantOnlineEvaluationConfig {
   /// The name of the variant this evaluation configuration applies to.
   final String name;
@@ -9616,6 +9870,8 @@ class PerVariantOnlineEvaluationConfig {
 
 /// A variant in an A/B test, representing either the control (C) or treatment
 /// (T1) configuration.
+///
+/// @nodoc
 class Variant {
   /// The name of the variant. Must be <code>C</code> for control or
   /// <code>T1</code> for treatment.
@@ -9658,6 +9914,8 @@ class Variant {
 }
 
 /// The configuration for an A/B test variant.
+///
+/// @nodoc
 class VariantConfiguration {
   /// A reference to a configuration bundle version to use for this variant.
   final ConfigurationBundleRef? configurationBundle;
@@ -9694,6 +9952,8 @@ class VariantConfiguration {
 }
 
 /// A reference to a specific version of a configuration bundle.
+///
+/// @nodoc
 class ConfigurationBundleRef {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -9724,6 +9984,8 @@ class ConfigurationBundleRef {
 }
 
 /// A reference to a gateway target.
+///
+/// @nodoc
 class TargetRef {
   /// The name of the gateway target.
   final String name;
@@ -9747,6 +10009,8 @@ class TargetRef {
 }
 
 /// The lifecycle status of a batch evaluation job.
+///
+/// @nodoc
 class BatchEvaluationStatus {
   static const pending = BatchEvaluationStatus._('PENDING');
   static const inProgress = BatchEvaluationStatus._('IN_PROGRESS');
@@ -9789,6 +10053,8 @@ class BatchEvaluationStatus {
 }
 
 /// The type of recommendation to generate.
+///
+/// @nodoc
 class RecommendationType {
   static const systemPromptRecommendation =
       RecommendationType._('SYSTEM_PROMPT_RECOMMENDATION');
@@ -9820,6 +10086,8 @@ class RecommendationType {
 }
 
 /// The configuration for a recommendation, varying by recommendation type.
+///
+/// @nodoc
 class RecommendationConfig {
   /// The configuration for a system prompt recommendation.
   final SystemPromptRecommendationConfig? systemPromptRecommendationConfig;
@@ -9866,6 +10134,8 @@ class RecommendationConfig {
 }
 
 /// The lifecycle status of a recommendation.
+///
+/// @nodoc
 class RecommendationStatus {
   static const pending = RecommendationStatus._('PENDING');
   static const inProgress = RecommendationStatus._('IN_PROGRESS');
@@ -9895,6 +10165,8 @@ class RecommendationStatus {
 }
 
 /// Configuration for generating system prompt optimization recommendations.
+///
+/// @nodoc
 class SystemPromptRecommendationConfig {
   /// The agent traces to analyze for generating recommendations.
   final AgentTracesConfig agentTraces;
@@ -9939,6 +10211,8 @@ class SystemPromptRecommendationConfig {
 }
 
 /// Configuration for generating tool description optimization recommendations.
+///
+/// @nodoc
 class ToolDescriptionRecommendationConfig {
   /// The agent traces to analyze for generating tool description recommendations.
   final AgentTracesConfig agentTraces;
@@ -9975,6 +10249,8 @@ class ToolDescriptionRecommendationConfig {
 
 /// The source of tool descriptions, either inline text or from a configuration
 /// bundle.
+///
+/// @nodoc
 class ToolDescriptionSource {
   /// Tool descriptions sourced from a configuration bundle version.
   final ToolDescriptionConfigurationBundle? configurationBundle;
@@ -10014,6 +10290,8 @@ class ToolDescriptionSource {
 
 /// The configuration specifying where to read agent traces from for
 /// recommendation analysis.
+///
+/// @nodoc
 class AgentTracesConfig {
   /// Agent traces read from CloudWatch Logs.
   final CloudWatchLogsTraceConfig? cloudwatchLogs;
@@ -10048,6 +10326,8 @@ class AgentTracesConfig {
 
 /// Configuration for reading agent traces from CloudWatch Logs for
 /// recommendation analysis.
+///
+/// @nodoc
 class CloudWatchLogsTraceConfig {
   /// The end time of the time range to read traces from.
   final DateTime endTime;
@@ -10107,6 +10387,8 @@ class CloudWatchLogsTraceConfig {
 }
 
 /// A rule configuration for filtering agent traces from CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchLogsRule {
   /// The list of filters to apply when reading agent traces.
   final List<CloudWatchLogsFilter>? filters;
@@ -10134,6 +10416,8 @@ class CloudWatchLogsRule {
 
 /// A filter for narrowing down agent traces from CloudWatch Logs based on
 /// key-value comparisons.
+///
+/// @nodoc
 class CloudWatchLogsFilter {
   /// The key or field name to filter on within the agent trace data.
   final String key;
@@ -10173,6 +10457,8 @@ class CloudWatchLogsFilter {
 }
 
 /// The comparison operator used to filter CloudWatch Logs entries.
+///
+/// @nodoc
 class CloudWatchLogsFilterOperator {
   static const equals = CloudWatchLogsFilterOperator._('Equals');
   static const notEquals = CloudWatchLogsFilterOperator._('NotEquals');
@@ -10216,6 +10502,8 @@ class CloudWatchLogsFilterOperator {
 }
 
 /// A value used in filter comparisons, supporting different data types.
+///
+/// @nodoc
 class FilterValue {
   /// A boolean value for true/false filtering conditions.
   final bool? booleanValue;
@@ -10253,6 +10541,8 @@ class FilterValue {
 }
 
 /// Inline tool description input containing a list of tools.
+///
+/// @nodoc
 class ToolDescriptionTextInput {
   /// The list of tool descriptions to optimize.
   final List<ToolDescriptionInput> tools;
@@ -10279,6 +10569,8 @@ class ToolDescriptionTextInput {
 }
 
 /// Tool descriptions sourced from a configuration bundle version.
+///
+/// @nodoc
 class ToolDescriptionConfigurationBundle {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -10322,6 +10614,8 @@ class ToolDescriptionConfigurationBundle {
 }
 
 /// Maps a tool name to its JSON path within a configuration bundle.
+///
+/// @nodoc
 class ConfigurationBundleToolEntry {
   /// The JSON path within the configuration bundle's components that contains the
   /// tool description.
@@ -10355,6 +10649,8 @@ class ConfigurationBundleToolEntry {
 
 /// A tool description input containing the tool name and its current
 /// description.
+///
+/// @nodoc
 class ToolDescriptionInput {
   /// The current description of the tool to optimize.
   final ToolDescriptionConfig toolDescription;
@@ -10387,6 +10683,8 @@ class ToolDescriptionInput {
 }
 
 /// The tool description content.
+///
+/// @nodoc
 class ToolDescriptionConfig {
   /// The tool description as inline text.
   final String? text;
@@ -10411,6 +10709,8 @@ class ToolDescriptionConfig {
 
 /// The system prompt input, either as inline text or from a configuration
 /// bundle.
+///
+/// @nodoc
 class SystemPromptConfig {
   /// The system prompt sourced from a configuration bundle version.
   final SystemPromptConfigurationBundle? configurationBundle;
@@ -10445,6 +10745,8 @@ class SystemPromptConfig {
 }
 
 /// The evaluation configuration for assessing recommendation quality.
+///
+/// @nodoc
 class RecommendationEvaluationConfig {
   /// The list of evaluators to use for assessing recommendation quality.
   final List<RecommendationEvaluatorReference> evaluators;
@@ -10472,6 +10774,8 @@ class RecommendationEvaluationConfig {
 }
 
 /// A reference to an evaluator used for recommendation assessment.
+///
+/// @nodoc
 class RecommendationEvaluatorReference {
   /// The Amazon Resource Name (ARN) of the evaluator.
   final String evaluatorArn;
@@ -10495,6 +10799,8 @@ class RecommendationEvaluatorReference {
 }
 
 /// A system prompt sourced from a configuration bundle version.
+///
+/// @nodoc
 class SystemPromptConfigurationBundle {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -10533,6 +10839,8 @@ class SystemPromptConfigurationBundle {
 }
 
 /// Output destination configuration.
+///
+/// @nodoc
 class OutputConfig {
   /// The CloudWatch Logs configuration for writing evaluation results.
   final CloudWatchOutputConfig? cloudWatchConfig;
@@ -10559,6 +10867,8 @@ class OutputConfig {
 }
 
 /// CloudWatch Logs destination for batch evaluation results.
+///
+/// @nodoc
 class CloudWatchOutputConfig {
   /// The name of the CloudWatch log group where evaluation results will be
   /// written.
@@ -10591,6 +10901,8 @@ class CloudWatchOutputConfig {
 }
 
 /// An evaluator to run against sessions.
+///
+/// @nodoc
 class Evaluator {
   /// The unique identifier of the evaluator. Can reference built-in evaluators
   /// (e.g., <code>Builtin.Helpfulness</code>) or custom evaluators.
@@ -10615,6 +10927,8 @@ class Evaluator {
 }
 
 /// Configuration for the data source used in evaluation.
+///
+/// @nodoc
 class DataSourceConfig {
   /// Configuration for pulling agent session traces from CloudWatch Logs.
   final CloudWatchLogsSource? cloudWatchLogs;
@@ -10641,6 +10955,8 @@ class DataSourceConfig {
 }
 
 /// Metadata for the evaluation, including session-specific ground truth data.
+///
+/// @nodoc
 class EvaluationMetadata {
   /// A list of session metadata entries containing ground truth data and test
   /// scenario identifiers for specific sessions.
@@ -10660,6 +10976,8 @@ class EvaluationMetadata {
 
 /// Metadata for a specific session in a batch evaluation, including ground
 /// truth data and test scenario identifiers.
+///
+/// @nodoc
 class SessionMetadataShape {
   /// The unique identifier of the session this metadata applies to.
   final String sessionId;
@@ -10697,6 +11015,8 @@ class SessionMetadataShape {
 }
 
 /// Where to pull ground truth from.
+///
+/// @nodoc
 class GroundTruthSource {
   /// Inline ground truth data provided directly in the request.
   final InlineGroundTruth? inline;
@@ -10715,6 +11035,8 @@ class GroundTruthSource {
 
 /// Inline ground truth data containing assertions, expected trajectories, and
 /// per-turn expected responses.
+///
+/// @nodoc
 class InlineGroundTruth {
   /// Assertions for evaluation, reuses common model EvaluationContentList.
   final List<EvaluationContent>? assertions;
@@ -10745,6 +11067,8 @@ class InlineGroundTruth {
 }
 
 /// The expected tool call trajectory for trajectory-based evaluation.
+///
+/// @nodoc
 class EvaluationExpectedTrajectory {
   /// The list of tool names representing the expected tool call sequence.
   final List<String>? toolNames;
@@ -10762,6 +11086,8 @@ class EvaluationExpectedTrajectory {
 }
 
 /// Ground truth data for a single conversation turn.
+///
+/// @nodoc
 class GroundTruthTurn {
   /// The expected response for this conversation turn.
   final EvaluationContent? expectedResponse;
@@ -10785,6 +11111,8 @@ class GroundTruthTurn {
 }
 
 /// The input for a ground truth conversation turn.
+///
+/// @nodoc
 class GroundTruthTurnInput {
   /// The text prompt for this conversation turn.
   final String? prompt;
@@ -10803,6 +11131,8 @@ class GroundTruthTurnInput {
 
 /// A content block for ground truth data in evaluation reference inputs.
 /// Supports text content for expected responses and assertions.
+///
+/// @nodoc
 class EvaluationContent {
   /// The text content of the ground truth data. Used for expected response text
   /// and assertion statements.
@@ -10821,6 +11151,8 @@ class EvaluationContent {
 }
 
 /// The configuration for reading agent traces from CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchLogsSource {
   /// The list of CloudWatch log group names to read agent traces from. Maximum of
   /// 5 log groups.
@@ -10870,6 +11202,8 @@ class CloudWatchLogsSource {
 
 /// Filter configuration for narrowing down CloudWatch Logs sessions for
 /// evaluation.
+///
+/// @nodoc
 class CloudWatchFilterConfig {
   /// A list of specific session IDs to evaluate. If specified, only these
   /// sessions are included in the evaluation.
@@ -10908,6 +11242,8 @@ class CloudWatchFilterConfig {
 
 /// A time range filter for selecting sessions. Specifies the start and end
 /// times to narrow down which sessions are included.
+///
+/// @nodoc
 class SessionFilterConfig {
   /// The end time of the time range. Only sessions with activity before this
   /// timestamp are included.
@@ -10940,6 +11276,8 @@ class SessionFilterConfig {
 }
 
 /// Summary information about a recommendation.
+///
+/// @nodoc
 class RecommendationSummary {
   /// The timestamp when the recommendation was created.
   final DateTime createdAt;
@@ -11013,6 +11351,8 @@ class RecommendationSummary {
 }
 
 /// Summary representation for list responses.
+///
+/// @nodoc
 class BatchEvaluationSummary {
   /// The Amazon Resource Name (ARN) of the batch evaluation.
   final String batchEvaluationArn;
@@ -11110,6 +11450,8 @@ class BatchEvaluationSummary {
 
 /// Aggregated results from a batch evaluation, including session completion
 /// counts and evaluator score summaries.
+///
+/// @nodoc
 class EvaluationJobResults {
   /// A list of per-evaluator summary statistics.
   final List<EvaluatorSummary>? evaluatorSummaries;
@@ -11176,6 +11518,8 @@ class EvaluationJobResults {
 }
 
 /// Summary statistics for a single evaluator within a batch evaluation.
+///
+/// @nodoc
 class EvaluatorSummary {
   /// The unique identifier of the evaluator.
   final String? evaluatorId;
@@ -11223,6 +11567,8 @@ class EvaluatorSummary {
 }
 
 /// Aggregated statistics for an evaluator.
+///
+/// @nodoc
 class EvaluatorStatistics {
   /// The average score across all evaluated sessions for this evaluator.
   final double? averageScore;
@@ -11246,6 +11592,8 @@ class EvaluatorStatistics {
 }
 
 /// Summary information about an A/B test.
+///
+/// @nodoc
 class ABTestSummary {
   /// The Amazon Resource Name (ARN) of the A/B test.
   final String abTestArn;
@@ -11326,6 +11674,8 @@ class ABTestSummary {
 }
 
 /// The result of a recommendation, containing the optimized output.
+///
+/// @nodoc
 class RecommendationResult {
   /// The result of a system prompt recommendation.
   final SystemPromptRecommendationResult? systemPromptRecommendationResult;
@@ -11373,6 +11723,8 @@ class RecommendationResult {
 
 /// The result of a system prompt recommendation, containing the optimized
 /// prompt.
+///
+/// @nodoc
 class SystemPromptRecommendationResult {
   /// The configuration bundle containing the recommended system prompt, if the
   /// input was sourced from a configuration bundle.
@@ -11424,6 +11776,8 @@ class SystemPromptRecommendationResult {
 
 /// The result of a tool description recommendation, containing optimized
 /// descriptions.
+///
+/// @nodoc
 class ToolDescriptionRecommendationResult {
   /// The configuration bundle containing the recommended tool descriptions, if
   /// the input was sourced from a configuration bundle.
@@ -11477,6 +11831,8 @@ class ToolDescriptionRecommendationResult {
 }
 
 /// A configuration bundle reference in a recommendation result.
+///
+/// @nodoc
 class RecommendationResultConfigurationBundle {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -11509,6 +11865,8 @@ class RecommendationResultConfigurationBundle {
 }
 
 /// The output for a single tool description recommendation.
+///
+/// @nodoc
 class ToolDescriptionOutput {
   /// The name of the tool.
   final String toolName;
@@ -11540,6 +11898,8 @@ class ToolDescriptionOutput {
 }
 
 /// The statistical results of an A/B test.
+///
+/// @nodoc
 class ABTestResults {
   /// The per-evaluator metrics comparing control and treatment variants.
   final List<EvaluatorMetric> evaluatorMetrics;
@@ -11575,6 +11935,8 @@ class ABTestResults {
 
 /// Statistical metrics for a single evaluator comparing control and treatment
 /// variants.
+///
+/// @nodoc
 class EvaluatorMetric {
   /// The statistics for the control variant.
   final ControlStats controlStats;
@@ -11617,6 +11979,8 @@ class EvaluatorMetric {
 }
 
 /// Statistics for the control variant in an A/B test.
+///
+/// @nodoc
 class ControlStats {
   /// The mean evaluation score for the control variant.
   final double mean;
@@ -11654,6 +12018,8 @@ class ControlStats {
 }
 
 /// Statistical results for a treatment variant compared against the control.
+///
+/// @nodoc
 class VariantResult {
   /// Whether the observed difference is statistically significant.
   final bool isSignificant;
@@ -11730,6 +12096,8 @@ class VariantResult {
 }
 
 /// A confidence interval for a statistical measurement.
+///
+/// @nodoc
 class ConfidenceInterval {
   /// The lower bound of the confidence interval.
   final double? lower;
@@ -11762,6 +12130,8 @@ class ConfidenceInterval {
 /// The comprehensive result of an evaluation containing the score, explanation,
 /// evaluator metadata, and execution details. Provides both quantitative
 /// ratings and qualitative insights about agent performance.
+///
+/// @nodoc
 class EvaluationResultContent {
   /// The contextual information associated with this evaluation result, including
   /// span context details that identify the specific traces and sessions that
@@ -11891,6 +12261,8 @@ class EvaluationResultContent {
 /// The contextual information associated with an evaluation, including span
 /// context details that identify the specific traces and sessions being
 /// evaluated within the agent's execution flow.
+///
+/// @nodoc
 class Context {
   /// The span context information that uniquely identifies the trace and span
   /// being evaluated, including session ID, trace ID, and span ID for precise
@@ -11920,6 +12292,8 @@ class Context {
 /// The token consumption statistics for language model operations during
 /// evaluation. Provides detailed breakdown of input, output, and total tokens
 /// used for cost tracking and performance monitoring.
+///
+/// @nodoc
 class TokenUsage {
   /// The number of tokens consumed for input processing during the evaluation.
   /// Includes tokens from the evaluation prompt, agent traces, and any additional
@@ -11965,6 +12339,8 @@ class TokenUsage {
 /// The contextual information that uniquely identifies a span within the
 /// distributed tracing system. Contains session, trace, and span identifiers
 /// used to correlate evaluation results with specific agent execution points.
+///
+/// @nodoc
 class SpanContext {
   /// The unique identifier of the session containing this span. Sessions
   /// represent complete conversation flows and are detected using configurable
@@ -12010,6 +12386,8 @@ class SpanContext {
 /// The input data structure containing agent session spans in OpenTelemetry
 /// format. Supports traces from frameworks like Strands (AgentCore Runtime) and
 /// LangGraph with OpenInference instrumentation for comprehensive evaluation.
+///
+/// @nodoc
 class EvaluationInput {
   /// The collection of spans representing agent execution traces within a
   /// session. Each span contains detailed information about tool calls, model
@@ -12032,6 +12410,8 @@ class EvaluationInput {
 /// The specification of which trace or span IDs to evaluate within the provided
 /// input data. Allows precise targeting of evaluation at different levels: tool
 /// calls, traces, or sessions.
+///
+/// @nodoc
 class EvaluationTarget {
   /// The list of specific span IDs to evaluate within the provided traces. Used
   /// to target evaluation at individual tool calls or specific operations within
@@ -12060,6 +12440,8 @@ class EvaluationTarget {
 
 /// A reference input containing ground truth data for evaluation, scoped to a
 /// specific context level (session or trace) through its span context.
+///
+/// @nodoc
 class EvaluationReferenceInput {
   /// The span context that identifies which session or trace this reference input
   /// applies to, used for correlating ground truth with agent output.
@@ -12103,6 +12485,8 @@ class EvaluationReferenceInput {
 }
 
 /// A certificate to install in the browser or code interpreter session.
+///
+/// @nodoc
 class Certificate {
   /// The location of the certificate.
   final CertificateLocation location;
@@ -12128,6 +12512,8 @@ class Certificate {
 }
 
 /// The location from which to retrieve a certificate.
+///
+/// @nodoc
 class CertificateLocation {
   /// The Amazon Web Services Secrets Manager location of the certificate.
   final SecretsManagerLocation? secretsManager;
@@ -12154,6 +12540,8 @@ class CertificateLocation {
 }
 
 /// The Amazon Web Services Secrets Manager location configuration.
+///
+/// @nodoc
 class SecretsManagerLocation {
   /// The ARN of the Amazon Web Services Secrets Manager secret containing the
   /// certificate.
@@ -12181,6 +12569,8 @@ class SecretsManagerLocation {
 /// AgentCore. This structure contains key information about a code interpreter
 /// session, including identifiers, status, and timestamps, without the full
 /// details of the session configuration.
+///
+/// @nodoc
 class CodeInterpreterSessionSummary {
   /// The unique identifier of the code interpreter associated with the session.
   /// This identifier specifies which code interpreter environment is used for the
@@ -12247,6 +12637,7 @@ class CodeInterpreterSessionSummary {
   }
 }
 
+/// @nodoc
 class CodeInterpreterSessionStatus {
   static const ready = CodeInterpreterSessionStatus._('READY');
   static const terminated = CodeInterpreterSessionStatus._('TERMINATED');
@@ -12276,6 +12667,8 @@ class CodeInterpreterSessionStatus {
 /// Bedrock AgentCore. These streams provide different ways to interact with and
 /// observe the browser session, including programmatic control and visual
 /// representation of the browser content.
+///
+/// @nodoc
 class BrowserSessionStream {
   /// The stream that enables programmatic control of the browser. This stream
   /// allows agents to perform actions such as navigating to URLs, clicking
@@ -12319,6 +12712,8 @@ class BrowserSessionStream {
 /// bidirectional communication channel for sending commands to the browser and
 /// receiving responses, allowing agents to automate web interactions such as
 /// navigation, form filling, and element clicking.
+///
+/// @nodoc
 class AutomationStream {
   /// The endpoint URL for the automation stream. This URL is used to establish a
   /// WebSocket connection to the stream for sending commands and receiving
@@ -12357,6 +12752,8 @@ class AutomationStream {
 /// browser session in Amazon Bedrock AgentCore. This stream enables agents to
 /// observe the current state of the browser, including rendered web pages,
 /// visual elements, and the results of interactions.
+///
+/// @nodoc
 class LiveViewStream {
   /// The endpoint URL for the live view stream. This URL is used to establish a
   /// connection to receive visual updates from the browser session.
@@ -12380,6 +12777,7 @@ class LiveViewStream {
   }
 }
 
+/// @nodoc
 class AutomationStreamStatus {
   static const enabled = AutomationStreamStatus._('ENABLED');
   static const disabled = AutomationStreamStatus._('DISABLED');
@@ -12406,6 +12804,8 @@ class AutomationStreamStatus {
 }
 
 /// Contains information about an update to a stream.
+///
+/// @nodoc
 class StreamUpdate {
   /// The update to an automation stream.
   final AutomationStreamUpdate? automationStreamUpdate;
@@ -12424,6 +12824,8 @@ class StreamUpdate {
 }
 
 /// Contains information about an update to an automation stream.
+///
+/// @nodoc
 class AutomationStreamUpdate {
   /// The status of the automation stream.
   final AutomationStreamStatus? streamStatus;
@@ -12445,6 +12847,8 @@ class AutomationStreamUpdate {
 /// affects how web pages are rendered and displayed. Proper viewport
 /// configuration ensures that web content is displayed correctly for the
 /// agent's browsing tasks.
+///
+/// @nodoc
 class ViewPort {
   /// The height of the viewport in pixels. This value determines the vertical
   /// dimension of the visible area. Valid values range from 600 to 1080 pixels.
@@ -12482,6 +12886,8 @@ class ViewPort {
 /// sessions. Browser profiles enable continuity for tasks that require
 /// authentication, maintain user preferences, or depend on previously stored
 /// browser state.
+///
+/// @nodoc
 class BrowserProfileConfiguration {
   /// The unique identifier of the browser profile. This identifier is used to
   /// reference the profile when starting new browser sessions or saving session
@@ -12509,6 +12915,8 @@ class BrowserProfileConfiguration {
 /// Configuration for routing browser traffic through customer-managed proxy
 /// servers. Supports 1-5 proxy servers for domain-based routing and proxy
 /// bypass rules.
+///
+/// @nodoc
 class ProxyConfiguration {
   /// An array of 1-5 proxy server configurations for domain-based routing. Each
   /// proxy can specify which domains it handles via <code>domainPatterns</code>,
@@ -12549,6 +12957,8 @@ class ProxyConfiguration {
 }
 
 /// Browser enterprise policy configuration.
+///
+/// @nodoc
 class BrowserEnterprisePolicy {
   /// The location of the enterprise policy file.
   final ResourceLocation location;
@@ -12582,6 +12992,8 @@ class BrowserEnterprisePolicy {
 }
 
 /// The location of the browser extension.
+///
+/// @nodoc
 class ResourceLocation {
   /// The Amazon S3 location of the resource. Use this when the resource is stored
   /// in an Amazon S3 bucket.
@@ -12609,6 +13021,8 @@ class ResourceLocation {
 
 /// The type of browser enterprise policy. Available values are
 /// <code>MANAGED</code> and <code>RECOMMENDED</code>.
+///
+/// @nodoc
 class BrowserEnterprisePolicyType {
   static const managed = BrowserEnterprisePolicyType._('MANAGED');
   static const recommended = BrowserEnterprisePolicyType._('RECOMMENDED');
@@ -12635,6 +13049,8 @@ class BrowserEnterprisePolicyType {
 }
 
 /// The Amazon S3 location configuration of a resource.
+///
+/// @nodoc
 class S3Location {
   /// The name of the Amazon S3 bucket where the resource is stored.
   final String bucket;
@@ -12675,6 +13091,8 @@ class S3Location {
 /// Configuration for domains that should bypass all proxies and connect
 /// directly to the internet. These bypass rules take precedence over all proxy
 /// routing rules.
+///
+/// @nodoc
 class ProxyBypass {
   /// Array of domain patterns that should bypass the proxy. Supports
   /// <code>.amazonaws.com</code> for subdomain matching or
@@ -12706,6 +13124,8 @@ class ProxyBypass {
 
 /// Union type representing different proxy configurations. Currently supports
 /// external customer-managed proxies.
+///
+/// @nodoc
 class Proxy {
   /// Configuration for an external customer-managed proxy server.
   final ExternalProxy? externalProxy;
@@ -12734,6 +13154,8 @@ class Proxy {
 /// Configuration for a customer-managed external proxy server. Includes server
 /// location, optional domain-based routing patterns, and authentication
 /// credentials.
+///
+/// @nodoc
 class ExternalProxy {
   /// The port number of the proxy server. Valid range: 1-65535.
   final int port;
@@ -12792,6 +13214,8 @@ class ExternalProxy {
 
 /// Union type representing different proxy authentication methods. Currently
 /// supports HTTP Basic Authentication (username and password).
+///
+/// @nodoc
 class ProxyCredentials {
   /// HTTP Basic Authentication credentials (username and password) stored in
   /// Amazon Web Services Secrets Manager.
@@ -12821,10 +13245,12 @@ class ProxyCredentials {
 /// Amazon Web Services Secrets Manager. The secret must contain a JSON object
 /// with <code>username</code> and <code>password</code> string fields. Username
 /// allows alphanumeric characters and <code>@._+=-</code> symbols (pattern:
-/// <code>^[a-zA-Z0-9@._+=\-]+$</code>). Password allows alphanumeric characters
-/// and <code>@._+=-!#$%&amp;*</code> symbols (pattern:
-/// <code>^[a-zA-Z0-9@._+=\-!#$%&amp;*]+$</code>). Both fields have a maximum
+/// <code>^\[a-zA-Z0-9@._+=\-\]+$</code>). Password allows alphanumeric
+/// characters and <code>@._+=-!#$%&amp;*</code> symbols (pattern:
+/// <code>^\[a-zA-Z0-9@._+=\-!#$%&amp;*\]+$</code>). Both fields have a maximum
 /// length of 256 characters.
+///
+/// @nodoc
 class BasicAuth {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret containing proxy credentials. The secret must be a JSON object with
@@ -12854,6 +13280,8 @@ class BasicAuth {
 }
 
 /// Browser extension configuration.
+///
+/// @nodoc
 class BrowserExtension {
   /// The location where the browser extension files are stored. This specifies
   /// the source from which the extension will be loaded and installed.
@@ -12883,6 +13311,8 @@ class BrowserExtension {
 /// This structure contains key information about a browser session, including
 /// identifiers, status, and timestamps, without the full details of the session
 /// configuration and streams.
+///
+/// @nodoc
 class BrowserSessionSummary {
   /// The unique identifier of the browser associated with the session. This
   /// identifier specifies which browser environment is used for the session.
@@ -12947,6 +13377,7 @@ class BrowserSessionSummary {
   }
 }
 
+/// @nodoc
 class BrowserSessionStatus {
   static const ready = BrowserSessionStatus._('READY');
   static const terminated = BrowserSessionStatus._('TERMINATED');
@@ -12974,6 +13405,8 @@ class BrowserSessionStatus {
 
 /// The result of a browser action execution. Exactly one member is set,
 /// matching the action that was performed.
+///
+/// @nodoc
 class BrowserActionResult {
   /// The result of a key press action.
   final KeyPressResult? keyPress;
@@ -13066,6 +13499,8 @@ class BrowserActionResult {
 }
 
 /// The result of a mouse click action.
+///
+/// @nodoc
 class MouseClickResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13096,6 +13531,8 @@ class MouseClickResult {
 }
 
 /// The result of a mouse move action.
+///
+/// @nodoc
 class MouseMoveResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13126,6 +13563,8 @@ class MouseMoveResult {
 }
 
 /// The result of a mouse drag action.
+///
+/// @nodoc
 class MouseDragResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13156,6 +13595,8 @@ class MouseDragResult {
 }
 
 /// The result of a mouse scroll action.
+///
+/// @nodoc
 class MouseScrollResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13186,6 +13627,8 @@ class MouseScrollResult {
 }
 
 /// The result of a key type action.
+///
+/// @nodoc
 class KeyTypeResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13216,6 +13659,8 @@ class KeyTypeResult {
 }
 
 /// The result of a key press action.
+///
+/// @nodoc
 class KeyPressResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13246,6 +13691,8 @@ class KeyPressResult {
 }
 
 /// The result of a key shortcut action.
+///
+/// @nodoc
 class KeyShortcutResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13276,6 +13723,8 @@ class KeyShortcutResult {
 }
 
 /// The result of a screenshot action.
+///
+/// @nodoc
 class ScreenshotResult {
   /// The status of the action execution.
   final BrowserActionStatus status;
@@ -13313,6 +13762,8 @@ class ScreenshotResult {
 }
 
 /// The status of a browser action execution.
+///
+/// @nodoc
 class BrowserActionStatus {
   static const success = BrowserActionStatus._('SUCCESS');
   static const failed = BrowserActionStatus._('FAILED');
@@ -13339,6 +13790,8 @@ class BrowserActionStatus {
 }
 
 /// The browser action to perform. Exactly one member must be set per request.
+///
+/// @nodoc
 class BrowserAction {
   /// Press a key one or more times.
   final KeyPressArguments? keyPress;
@@ -13398,6 +13851,8 @@ class BrowserAction {
 }
 
 /// Arguments for a mouse click action.
+///
+/// @nodoc
 class MouseClickArguments {
   /// The X coordinate on screen where the click occurs.
   final int x;
@@ -13433,6 +13888,8 @@ class MouseClickArguments {
 }
 
 /// Arguments for a mouse move action.
+///
+/// @nodoc
 class MouseMoveArguments {
   /// The target X coordinate on screen.
   final int x;
@@ -13456,6 +13913,8 @@ class MouseMoveArguments {
 }
 
 /// Arguments for a mouse drag action.
+///
+/// @nodoc
 class MouseDragArguments {
   /// The ending X coordinate for the drag.
   final int endX;
@@ -13497,6 +13956,8 @@ class MouseDragArguments {
 }
 
 /// Arguments for a mouse scroll action.
+///
+/// @nodoc
 class MouseScrollArguments {
   /// The X coordinate on screen where the scroll occurs.
   final int x;
@@ -13533,6 +13994,8 @@ class MouseScrollArguments {
 }
 
 /// Arguments for a key type action.
+///
+/// @nodoc
 class KeyTypeArguments {
   /// The text string to type. Maximum length: 10,000 characters.
   final String text;
@@ -13550,6 +14013,8 @@ class KeyTypeArguments {
 }
 
 /// Arguments for a key press action.
+///
+/// @nodoc
 class KeyPressArguments {
   /// The key name to press (for example, <code>enter</code>, <code>tab</code>,
   /// <code>escape</code>).
@@ -13574,8 +14039,10 @@ class KeyPressArguments {
 }
 
 /// Arguments for a key shortcut action.
+///
+/// @nodoc
 class KeyShortcutArguments {
-  /// The key combination to press (for example, <code>["ctrl", "s"]</code>).
+  /// The key combination to press (for example, <code>\["ctrl", "s"\]</code>).
   /// Maximum 5 keys.
   final List<String> keys;
 
@@ -13592,6 +14059,8 @@ class KeyShortcutArguments {
 }
 
 /// Arguments for a screenshot action.
+///
+/// @nodoc
 class ScreenshotArguments {
   /// The image format for the screenshot. Defaults to <code>PNG</code>.
   final ScreenshotFormat? format;
@@ -13609,6 +14078,8 @@ class ScreenshotArguments {
 }
 
 /// The image format for a browser screenshot.
+///
+/// @nodoc
 class ScreenshotFormat {
   static const png = ScreenshotFormat._('PNG');
 
@@ -13633,6 +14104,8 @@ class ScreenshotFormat {
 }
 
 /// The mouse button to use for a browser mouse action.
+///
+/// @nodoc
 class MouseButton {
   static const left = MouseButton._('LEFT');
   static const right = MouseButton._('RIGHT');
@@ -13661,6 +14134,8 @@ class MouseButton {
 /// operation. This union delivers typed events: <code>contentStart</code>
 /// (first), <code>contentDelta</code> (middle), and <code>contentStop</code>
 /// (last).
+///
+/// @nodoc
 class InvokeAgentRuntimeCommandStreamOutput {
   /// Exception events for error streaming.
   final AccessDeniedException? accessDeniedException;
@@ -13755,6 +14230,8 @@ class InvokeAgentRuntimeCommandStreamOutput {
 /// A structure representing a response chunk that contains exactly one of the
 /// possible event types: <code>contentStart</code>, <code>contentDelta</code>,
 /// or <code>contentStop</code>.
+///
+/// @nodoc
 class ResponseChunk {
   /// An event containing incremental output (stdout or stderr) from the command
   /// execution. These are the middle chunks.
@@ -13805,6 +14282,8 @@ class ResponseChunk {
 
 /// An event that signals the start of content streaming from a command
 /// execution. This event is sent when the command begins producing output.
+///
+/// @nodoc
 class ContentStartEvent {
   ContentStartEvent();
 
@@ -13820,6 +14299,8 @@ class ContentStartEvent {
 /// An event that contains incremental output from a command execution. This
 /// event streams standard output and standard error content as it becomes
 /// available during command execution.
+///
+/// @nodoc
 class ContentDeltaEvent {
   /// The standard error content from the command execution. This field contains
   /// the incremental output written to stderr by the executing command.
@@ -13853,6 +14334,8 @@ class ContentDeltaEvent {
 
 /// An event that signals the completion of a command execution. This event
 /// contains the final status and exit code of the executed command.
+///
+/// @nodoc
 class ContentStopEvent {
   /// The exit code returned by the executed command. An exit code of 0 indicates
   /// successful execution, -1 indicates a platform error, and values greater than
@@ -13887,6 +14370,7 @@ class ContentStopEvent {
   }
 }
 
+/// @nodoc
 class CommandExecutionStatus {
   static const completed = CommandExecutionStatus._('COMPLETED');
   static const timedOut = CommandExecutionStatus._('TIMED_OUT');
@@ -13915,6 +14399,8 @@ class CommandExecutionStatus {
 /// The request body structure for the <code>InvokeAgentRuntimeCommand</code>
 /// operation, containing the command to execute and optional configuration
 /// parameters.
+///
+/// @nodoc
 class InvokeAgentRuntimeCommandRequestBody {
   /// The shell command to execute on the agent runtime. This command is executed
   /// in the runtime environment and its output is streamed back to the caller.
@@ -13941,6 +14427,8 @@ class InvokeAgentRuntimeCommandRequestBody {
 }
 
 /// The streaming events returned by a harness invocation.
+///
+/// @nodoc
 class InvokeHarnessStreamOutput {
   /// A delta update to the current content block.
   final HarnessContentBlockDeltaEvent? contentBlockDelta;
@@ -14045,6 +14533,8 @@ class InvokeHarnessStreamOutput {
 }
 
 /// Event indicating the start of a message.
+///
+/// @nodoc
 class HarnessMessageStartEvent {
   /// The role of the message sender.
   final HarnessConversationRole role;
@@ -14068,6 +14558,8 @@ class HarnessMessageStartEvent {
 }
 
 /// Event indicating the start of a content block.
+///
+/// @nodoc
 class HarnessContentBlockStartEvent {
   /// The index of the content block within the message.
   final int contentBlockIndex;
@@ -14100,6 +14592,8 @@ class HarnessContentBlockStartEvent {
 }
 
 /// Event containing a delta update to a content block.
+///
+/// @nodoc
 class HarnessContentBlockDeltaEvent {
   /// The index of the content block being updated.
   final int contentBlockIndex;
@@ -14132,6 +14626,8 @@ class HarnessContentBlockDeltaEvent {
 }
 
 /// Event indicating the end of a content block.
+///
+/// @nodoc
 class HarnessContentBlockStopEvent {
   /// The index of the content block that ended.
   final int contentBlockIndex;
@@ -14155,6 +14651,8 @@ class HarnessContentBlockStopEvent {
 }
 
 /// Event indicating the end of a message.
+///
+/// @nodoc
 class HarnessMessageStopEvent {
   /// The reason the agent stopped generating.
   final HarnessStopReason stopReason;
@@ -14179,6 +14677,8 @@ class HarnessMessageStopEvent {
 }
 
 /// Token usage and latency metrics for the invocation.
+///
+/// @nodoc
 class HarnessMetadataEvent {
   /// Latency metrics.
   final HarnessStreamMetrics metrics;
@@ -14213,6 +14713,8 @@ class HarnessMetadataEvent {
 }
 
 /// Token usage counts for the invocation.
+///
+/// @nodoc
 class HarnessTokenUsage {
   /// The number of input tokens consumed.
   final int inputTokens;
@@ -14266,6 +14768,8 @@ class HarnessTokenUsage {
 }
 
 /// Latency metrics for the invocation.
+///
+/// @nodoc
 class HarnessStreamMetrics {
   /// The end-to-end latency of the invocation in milliseconds.
   final int latencyMs;
@@ -14288,6 +14792,7 @@ class HarnessStreamMetrics {
   }
 }
 
+/// @nodoc
 class HarnessStopReason {
   static const endTurn = HarnessStopReason._('end_turn');
   static const toolUse = HarnessStopReason._('tool_use');
@@ -14344,6 +14849,8 @@ class HarnessStopReason {
 }
 
 /// A delta update to a content block.
+///
+/// @nodoc
 class HarnessContentBlockDelta {
   /// A reasoning content delta.
   final HarnessReasoningContentBlockDelta? reasoningContent;
@@ -14398,6 +14905,8 @@ class HarnessContentBlockDelta {
 }
 
 /// Delta payload for tool use input.
+///
+/// @nodoc
 class HarnessToolUseBlockDelta {
   /// The partial JSON input for the tool call.
   final String input;
@@ -14421,6 +14930,8 @@ class HarnessToolUseBlockDelta {
 }
 
 /// A delta update to a reasoning content block.
+///
+/// @nodoc
 class HarnessReasoningContentBlockDelta {
   /// Redacted reasoning content.
   final Uint8List? redactedContent;
@@ -14461,6 +14972,8 @@ class HarnessReasoningContentBlockDelta {
 }
 
 /// A delta update to a tool result content block.
+///
+/// @nodoc
 class HarnessToolResultBlockDelta {
   /// A JSON tool result delta.
   final Object? json;
@@ -14491,6 +15004,8 @@ class HarnessToolResultBlockDelta {
 }
 
 /// The start payload for a content block.
+///
+/// @nodoc
 class HarnessContentBlockStart {
   /// Start of a tool result content block.
   final HarnessToolResultBlockStart? toolResult;
@@ -14527,6 +15042,8 @@ class HarnessContentBlockStart {
 }
 
 /// Start payload for a tool use content block.
+///
+/// @nodoc
 class HarnessToolUseBlockStart {
   /// The name of the tool being called.
   final String name;
@@ -14571,6 +15088,8 @@ class HarnessToolUseBlockStart {
 }
 
 /// Start payload for a tool result content block.
+///
+/// @nodoc
 class HarnessToolResultBlockStart {
   /// The tool use ID that this result corresponds to.
   final String toolUseId;
@@ -14600,6 +15119,7 @@ class HarnessToolResultBlockStart {
   }
 }
 
+/// @nodoc
 class HarnessToolUseStatus {
   static const success = HarnessToolUseStatus._('success');
   static const error = HarnessToolUseStatus._('error');
@@ -14625,6 +15145,7 @@ class HarnessToolUseStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HarnessToolUseType {
   static const toolUse = HarnessToolUseType._('tool_use');
   static const serverToolUse = HarnessToolUseType._('server_tool_use');
@@ -14651,6 +15172,7 @@ class HarnessToolUseType {
   String toString() => value;
 }
 
+/// @nodoc
 class HarnessConversationRole {
   static const user = HarnessConversationRole._('user');
   static const assistant = HarnessConversationRole._('assistant');
@@ -14677,6 +15199,8 @@ class HarnessConversationRole {
 }
 
 /// Specification of which model to use.
+///
+/// @nodoc
 class HarnessModelConfiguration {
   /// Configuration for an Amazon Bedrock model.
   final HarnessBedrockModelConfig? bedrockModelConfig;
@@ -14713,6 +15237,8 @@ class HarnessModelConfiguration {
 }
 
 /// A skill available to the agent.
+///
+/// @nodoc
 class HarnessSkill {
   /// A git repository containing the skill.
   final HarnessSkillGitSource? git;
@@ -14742,6 +15268,8 @@ class HarnessSkill {
 }
 
 /// An S3 source for a skill.
+///
+/// @nodoc
 class HarnessSkillS3Source {
   /// The S3 URI pointing to the skill directory (e.g.,
   /// s3://bucket/skills/my-skill/).
@@ -14760,6 +15288,8 @@ class HarnessSkillS3Source {
 }
 
 /// A git repository source for a skill.
+///
+/// @nodoc
 class HarnessSkillGitSource {
   /// The HTTPS URL of the git repository.
   final String url;
@@ -14789,6 +15319,8 @@ class HarnessSkillGitSource {
 }
 
 /// Authentication configuration for accessing a private git repository.
+///
+/// @nodoc
 class HarnessSkillGitAuth {
   /// The ARN of the credential in AgentCore Identity containing the password or
   /// personal access token.
@@ -14813,6 +15345,8 @@ class HarnessSkillGitAuth {
 }
 
 /// A tool available to the agent loop.
+///
+/// @nodoc
 class HarnessTool {
   /// The type of tool.
   final HarnessToolType type;
@@ -14842,6 +15376,7 @@ class HarnessTool {
   }
 }
 
+/// @nodoc
 class HarnessToolType {
   static const remoteMcp = HarnessToolType._('remote_mcp');
   static const agentcoreBrowser = HarnessToolType._('agentcore_browser');
@@ -14877,6 +15412,8 @@ class HarnessToolType {
 }
 
 /// Configuration union for different tool types.
+///
+/// @nodoc
 class HarnessToolConfiguration {
   /// Configuration for AgentCore Browser.
   final HarnessAgentCoreBrowserConfig? agentCoreBrowser;
@@ -14919,6 +15456,8 @@ class HarnessToolConfiguration {
 }
 
 /// Configuration for connecting to a remote MCP server.
+///
+/// @nodoc
 class HarnessRemoteMcpConfig {
   /// URL of the MCP endpoint.
   final String url;
@@ -14942,6 +15481,8 @@ class HarnessRemoteMcpConfig {
 }
 
 /// Configuration for AgentCore Browser.
+///
+/// @nodoc
 class HarnessAgentCoreBrowserConfig {
   /// If not populated, the built-in Browser ARN is used.
   final String? browserArn;
@@ -14959,6 +15500,8 @@ class HarnessAgentCoreBrowserConfig {
 }
 
 /// Configuration for AgentCore Gateway.
+///
+/// @nodoc
 class HarnessAgentCoreGatewayConfig {
   /// The ARN of the desired AgentCore Gateway.
   final String gatewayArn;
@@ -14984,6 +15527,8 @@ class HarnessAgentCoreGatewayConfig {
 
 /// Configuration for an inline function tool. When the agent calls this tool,
 /// the tool call is returned to the caller for external execution.
+///
+/// @nodoc
 class HarnessInlineFunctionConfig {
   /// Description of what the tool does, provided to the model.
   final String description;
@@ -15007,6 +15552,8 @@ class HarnessInlineFunctionConfig {
 }
 
 /// Configuration for AgentCore Code Interpreter.
+///
+/// @nodoc
 class HarnessAgentCoreCodeInterpreterConfig {
   /// If not populated, the built-in Code Interpreter ARN is used.
   final String? codeInterpreterArn;
@@ -15024,6 +15571,8 @@ class HarnessAgentCoreCodeInterpreterConfig {
 }
 
 /// Authentication method for calling a Gateway.
+///
+/// @nodoc
 class HarnessGatewayOutboundAuth {
   /// SigV4-sign requests using the agent's execution role.
   final Unit? awsIam;
@@ -15054,6 +15603,8 @@ class HarnessGatewayOutboundAuth {
 
 /// Configuration for an OAuth 2.0 credential provider used to authenticate tool
 /// calls.
+///
+/// @nodoc
 class OAuthCredentialProvider {
   /// The ARN of the OAuth 2.0 credential provider in AgentCore Identity.
   final String providerArn;
@@ -15094,6 +15645,7 @@ class OAuthCredentialProvider {
   }
 }
 
+/// @nodoc
 class OAuthGrantType {
   static const clientCredentials = OAuthGrantType._('CLIENT_CREDENTIALS');
   static const authorizationCode = OAuthGrantType._('AUTHORIZATION_CODE');
@@ -15120,6 +15672,8 @@ class OAuthGrantType {
 }
 
 /// A content block in the system prompt.
+///
+/// @nodoc
 class HarnessSystemContentBlock {
   /// The text content of the system prompt block.
   final String? text;
@@ -15137,6 +15691,8 @@ class HarnessSystemContentBlock {
 }
 
 /// Configuration for an Amazon Bedrock model provider.
+///
+/// @nodoc
 class HarnessBedrockModelConfig {
   /// The Bedrock model ID.
   final String modelId;
@@ -15186,6 +15742,8 @@ class HarnessBedrockModelConfig {
 
 /// Configuration for an OpenAI model provider. Requires an API key stored in
 /// AgentCore Identity.
+///
+/// @nodoc
 class HarnessOpenAiModelConfig {
   /// The ARN of your OpenAI API key on AgentCore Identity.
   final String apiKeyArn;
@@ -15241,6 +15799,8 @@ class HarnessOpenAiModelConfig {
 
 /// Configuration for a Google Gemini model provider. Requires an API key stored
 /// in AgentCore Identity.
+///
+/// @nodoc
 class HarnessGeminiModelConfig {
   /// The ARN of your Gemini API key on AgentCore Identity.
   final String apiKeyArn;
@@ -15290,6 +15850,8 @@ class HarnessGeminiModelConfig {
 
 /// Configuration for a LiteLLM model provider, enabling connection to
 /// third-party model providers.
+///
+/// @nodoc
 class HarnessLiteLlmModelConfig {
   /// The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
   final String modelId;
@@ -15344,6 +15906,7 @@ class HarnessLiteLlmModelConfig {
   }
 }
 
+/// @nodoc
 class HarnessOpenAiApiFormat {
   static const chatCompletions = HarnessOpenAiApiFormat._('chat_completions');
   static const responses = HarnessOpenAiApiFormat._('responses');
@@ -15369,6 +15932,7 @@ class HarnessOpenAiApiFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class HarnessBedrockApiFormat {
   static const converseStream = HarnessBedrockApiFormat._('converse_stream');
   static const responses = HarnessBedrockApiFormat._('responses');
@@ -15396,6 +15960,8 @@ class HarnessBedrockApiFormat {
 }
 
 /// A message in the conversation.
+///
+/// @nodoc
 class HarnessMessage {
   /// The content blocks of the message.
   final List<HarnessContentBlock> content;
@@ -15419,6 +15985,8 @@ class HarnessMessage {
 }
 
 /// A content block within a message.
+///
+/// @nodoc
 class HarnessContentBlock {
   /// Model reasoning content.
   final HarnessReasoningContentBlock? reasoningContent;
@@ -15454,6 +16022,8 @@ class HarnessContentBlock {
 }
 
 /// A tool use request from the model.
+///
+/// @nodoc
 class HarnessToolUseBlock {
   /// The JSON input to pass to the tool.
   final Object input;
@@ -15495,6 +16065,8 @@ class HarnessToolUseBlock {
 }
 
 /// The result of a tool execution.
+///
+/// @nodoc
 class HarnessToolResultBlock {
   /// The content of the tool result.
   final List<HarnessToolResultContentBlock> content;
@@ -15530,6 +16102,8 @@ class HarnessToolResultBlock {
 }
 
 /// Reasoning content from the model.
+///
+/// @nodoc
 class HarnessReasoningContentBlock {
   /// The reasoning text.
   final HarnessReasoningTextBlock? reasoningText;
@@ -15554,6 +16128,8 @@ class HarnessReasoningContentBlock {
 }
 
 /// A block of reasoning text from the model.
+///
+/// @nodoc
 class HarnessReasoningTextBlock {
   /// The reasoning text.
   final String text;
@@ -15577,6 +16153,8 @@ class HarnessReasoningTextBlock {
 }
 
 /// A content block within a tool result.
+///
+/// @nodoc
 class HarnessToolResultContentBlock {
   /// JSON content.
   final Object? json;
@@ -15600,6 +16178,8 @@ class HarnessToolResultContentBlock {
 }
 
 /// Contains output from a code interpreter stream.
+///
+/// @nodoc
 class CodeInterpreterStreamOutput {
   final AccessDeniedException? accessDeniedException;
   final ConflictException? conflictException;
@@ -15692,6 +16272,8 @@ class CodeInterpreterStreamOutput {
 /// execution, including textual output, structured data, and error information.
 /// Agents use these results to generate responses that incorporate computation,
 /// data analysis, and visualization.
+///
+/// @nodoc
 class CodeInterpreterResult {
   /// The textual content of the execution result. This includes standard output
   /// from the code execution, such as print statements, console output, and text
@@ -15742,6 +16324,8 @@ class CodeInterpreterResult {
 }
 
 /// Contains structured content from a tool result.
+///
+/// @nodoc
 class ToolResultStructuredContent {
   /// The execution time of the tool operation in milliseconds.
   final double? executionTime;
@@ -15799,6 +16383,7 @@ class ToolResultStructuredContent {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const submitted = TaskStatus._('submitted');
   static const working = TaskStatus._('working');
@@ -15826,6 +16411,8 @@ class TaskStatus {
 }
 
 /// A block of content in a response.
+///
+/// @nodoc
 class ContentBlock {
   /// The type of content in the block.
   final ContentBlockType type;
@@ -15906,6 +16493,7 @@ class ContentBlock {
   }
 }
 
+/// @nodoc
 class ContentBlockType {
   static const text = ContentBlockType._('text');
   static const image = ContentBlockType._('image');
@@ -15933,6 +16521,8 @@ class ContentBlockType {
 }
 
 /// Contains information about resource content.
+///
+/// @nodoc
 class ResourceContent {
   /// The type of resource content.
   final ResourceContentType type;
@@ -15983,6 +16573,7 @@ class ResourceContent {
   }
 }
 
+/// @nodoc
 class ResourceContentType {
   static const text = ResourceContentType._('text');
   static const blob = ResourceContentType._('blob');
@@ -16008,6 +16599,7 @@ class ResourceContentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ToolName {
   static const executeCode = ToolName._('executeCode');
   static const executeCommand = ToolName._('executeCommand');
@@ -16052,6 +16644,8 @@ class ToolName {
 /// parameters when invoking a tool in Amazon Bedrock AgentCore. Different tools
 /// require different arguments, and this structure provides a flexible way to
 /// pass the appropriate arguments to each tool type.
+///
+/// @nodoc
 class ToolArguments {
   /// Whether to clear the context for the tool.
   final bool? clearContext;
@@ -16126,6 +16720,7 @@ class ToolArguments {
   }
 }
 
+/// @nodoc
 class ProgrammingLanguage {
   static const python = ProgrammingLanguage._('python');
   static const javascript = ProgrammingLanguage._('javascript');
@@ -16152,6 +16747,7 @@ class ProgrammingLanguage {
   String toString() => value;
 }
 
+/// @nodoc
 class LanguageRuntime {
   static const nodejs = LanguageRuntime._('nodejs');
   static const deno = LanguageRuntime._('deno');
@@ -16178,6 +16774,8 @@ class LanguageRuntime {
 }
 
 /// A block of input content.
+///
+/// @nodoc
 class InputContentBlock {
   /// The path to the input content.
   final String path;
@@ -16207,6 +16805,8 @@ class InputContentBlock {
 }
 
 /// Vendor-specific token response configuration.
+///
+/// @nodoc
 class PaymentTokenResponseOutput {
   /// The Coinbase CDP token response.
   final CoinbaseCdpTokenResponseOutput? coinbaseCdpTokenResponse;
@@ -16245,6 +16845,8 @@ class PaymentTokenResponseOutput {
 }
 
 /// Coinbase CDP token response.
+///
+/// @nodoc
 class CoinbaseCdpTokenResponseOutput {
   /// Bearer Token for Authorization header.
   final String bearerToken;
@@ -16276,6 +16878,8 @@ class CoinbaseCdpTokenResponseOutput {
 
 /// Stripe Privy token response containing appId, basicAuthToken, and optionally
 /// authorizationSignature.
+///
+/// @nodoc
 class StripePrivyTokenResponseOutput {
   /// The Privy app ID for the privy-app-id header.
   final String appId;
@@ -16323,6 +16927,8 @@ class StripePrivyTokenResponseOutput {
 }
 
 /// Vendor-specific token request configuration.
+///
+/// @nodoc
 class PaymentTokenRequestInput {
   /// The Coinbase CDP token request.
   final CoinbaseCdpTokenRequestInput? coinbaseCdpTokenRequest;
@@ -16348,6 +16954,8 @@ class PaymentTokenRequestInput {
 }
 
 /// Coinbase CDP token request parameters.
+///
+/// @nodoc
 class CoinbaseCdpTokenRequestInput {
   /// The HTTP method for the payment API request.
   final PaymentHttpMethodType requestMethod;
@@ -16390,6 +16998,8 @@ class CoinbaseCdpTokenRequestInput {
 }
 
 /// Stripe Privy token request parameters.
+///
+/// @nodoc
 class StripePrivyTokenRequestInput {
   /// Request body JSON for the Privy API call.
   final String requestBody;
@@ -16425,6 +17035,7 @@ class StripePrivyTokenRequestInput {
   }
 }
 
+/// @nodoc
 class PaymentHttpMethodType {
   static const get = PaymentHttpMethodType._('GET');
   static const post = PaymentHttpMethodType._('POST');
@@ -16453,6 +17064,7 @@ class PaymentHttpMethodType {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionStatus {
   static const inProgress = SessionStatus._('IN_PROGRESS');
   static const failed = SessionStatus._('FAILED');
@@ -16477,6 +17089,7 @@ class SessionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Oauth2FlowType {
   static const userFederation = Oauth2FlowType._('USER_FEDERATION');
   static const m2m = Oauth2FlowType._('M2M');
@@ -16503,6 +17116,7 @@ class Oauth2FlowType {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidationExceptionReason {
   static const cannotParse = ValidationExceptionReason._('CannotParse');
   static const fieldValidationFailed =
@@ -16543,6 +17157,8 @@ class ValidationExceptionReason {
 
 /// Stores information about a field passed inside a request that resulted in an
 /// exception.
+///
+/// @nodoc
 class ValidationExceptionField {
   /// A message describing why this field failed validation.
   final String message;
@@ -16575,6 +17191,8 @@ class ValidationExceptionField {
 /// The OAuth2.0 token or user ID that was used to generate the workload access
 /// token used for initiating the user authorization flow to retrieve OAuth2.0
 /// tokens.
+///
+/// @nodoc
 class UserIdentifier {
   /// The ID of the user for whom you have retrieved a workload access token for
   final String? userId;
@@ -16598,6 +17216,7 @@ class UserIdentifier {
   }
 }
 
+/// @nodoc
 class Unit {
   Unit();
 
@@ -16606,6 +17225,7 @@ class Unit {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -16614,31 +17234,37 @@ class Document {
   }
 }
 
+/// @nodoc
 class DuplicateIdException extends _s.GenericAwsException {
   DuplicateIdException({String? type, String? message})
       : super(type: type, code: 'DuplicateIdException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class RetryableConflictException extends _s.GenericAwsException {
   RetryableConflictException({String? type, String? message})
       : super(type: type, code: 'RetryableConflictException', message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class ThrottledException extends _s.GenericAwsException {
   ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

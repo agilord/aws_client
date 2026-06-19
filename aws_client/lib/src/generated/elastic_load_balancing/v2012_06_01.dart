@@ -1446,6 +1446,8 @@ class ElasticLoadBalancing {
 }
 
 /// Contains the output of AddTags.
+///
+/// @nodoc
 class AddTagsOutput {
   AddTagsOutput();
   factory AddTagsOutput.fromXml(
@@ -1460,6 +1462,8 @@ class AddTagsOutput {
 }
 
 /// Contains the output of ApplySecurityGroupsToLoadBalancer.
+///
+/// @nodoc
 class ApplySecurityGroupsToLoadBalancerOutput {
   /// The IDs of the security groups associated with the load balancer.
   final List<String>? securityGroups;
@@ -1484,6 +1488,8 @@ class ApplySecurityGroupsToLoadBalancerOutput {
 }
 
 /// Contains the output of AttachLoadBalancerToSubnets.
+///
+/// @nodoc
 class AttachLoadBalancerToSubnetsOutput {
   /// The IDs of the subnets attached to the load balancer.
   final List<String>? subnets;
@@ -1508,6 +1514,8 @@ class AttachLoadBalancerToSubnetsOutput {
 }
 
 /// Contains the output of ConfigureHealthCheck.
+///
+/// @nodoc
 class ConfigureHealthCheckOutput {
   /// The updated health check.
   final HealthCheck? healthCheck;
@@ -1531,6 +1539,8 @@ class ConfigureHealthCheckOutput {
 }
 
 /// Contains the output for CreateAppCookieStickinessPolicy.
+///
+/// @nodoc
 class CreateAppCookieStickinessPolicyOutput {
   CreateAppCookieStickinessPolicyOutput();
   factory CreateAppCookieStickinessPolicyOutput.fromXml(
@@ -1545,6 +1555,8 @@ class CreateAppCookieStickinessPolicyOutput {
 }
 
 /// Contains the output for CreateLBCookieStickinessPolicy.
+///
+/// @nodoc
 class CreateLBCookieStickinessPolicyOutput {
   CreateLBCookieStickinessPolicyOutput();
   factory CreateLBCookieStickinessPolicyOutput.fromXml(
@@ -1559,6 +1571,8 @@ class CreateLBCookieStickinessPolicyOutput {
 }
 
 /// Contains the output for CreateLoadBalancer.
+///
+/// @nodoc
 class CreateAccessPointOutput {
   /// The DNS name of the load balancer.
   final String? dNSName;
@@ -1581,6 +1595,8 @@ class CreateAccessPointOutput {
 }
 
 /// Contains the parameters for CreateLoadBalancerListener.
+///
+/// @nodoc
 class CreateLoadBalancerListenerOutput {
   CreateLoadBalancerListenerOutput();
   factory CreateLoadBalancerListenerOutput.fromXml(
@@ -1595,6 +1611,8 @@ class CreateLoadBalancerListenerOutput {
 }
 
 /// Contains the output of CreateLoadBalancerPolicy.
+///
+/// @nodoc
 class CreateLoadBalancerPolicyOutput {
   CreateLoadBalancerPolicyOutput();
   factory CreateLoadBalancerPolicyOutput.fromXml(
@@ -1609,6 +1627,8 @@ class CreateLoadBalancerPolicyOutput {
 }
 
 /// Contains the output of DeleteLoadBalancer.
+///
+/// @nodoc
 class DeleteAccessPointOutput {
   DeleteAccessPointOutput();
   factory DeleteAccessPointOutput.fromXml(
@@ -1623,6 +1643,8 @@ class DeleteAccessPointOutput {
 }
 
 /// Contains the output of DeleteLoadBalancerListeners.
+///
+/// @nodoc
 class DeleteLoadBalancerListenerOutput {
   DeleteLoadBalancerListenerOutput();
   factory DeleteLoadBalancerListenerOutput.fromXml(
@@ -1637,6 +1659,8 @@ class DeleteLoadBalancerListenerOutput {
 }
 
 /// Contains the output of DeleteLoadBalancerPolicy.
+///
+/// @nodoc
 class DeleteLoadBalancerPolicyOutput {
   DeleteLoadBalancerPolicyOutput();
   factory DeleteLoadBalancerPolicyOutput.fromXml(
@@ -1651,6 +1675,8 @@ class DeleteLoadBalancerPolicyOutput {
 }
 
 /// Contains the output of DeregisterInstancesFromLoadBalancer.
+///
+/// @nodoc
 class DeregisterEndPointsOutput {
   /// The remaining instances registered with the load balancer.
   final List<Instance>? instances;
@@ -1673,6 +1699,7 @@ class DeregisterEndPointsOutput {
   }
 }
 
+/// @nodoc
 class DescribeAccountLimitsOutput {
   /// Information about the limits.
   final List<Limit>? limits;
@@ -1704,6 +1731,8 @@ class DescribeAccountLimitsOutput {
 }
 
 /// Contains the output for DescribeInstanceHealth.
+///
+/// @nodoc
 class DescribeEndPointStateOutput {
   /// Information about the health of the instances.
   final List<InstanceState>? instanceStates;
@@ -1727,6 +1756,8 @@ class DescribeEndPointStateOutput {
 }
 
 /// Contains the output of DescribeLoadBalancerAttributes.
+///
+/// @nodoc
 class DescribeLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
   final LoadBalancerAttributes? loadBalancerAttributes;
@@ -1752,6 +1783,8 @@ class DescribeLoadBalancerAttributesOutput {
 }
 
 /// Contains the output of DescribeLoadBalancerPolicies.
+///
+/// @nodoc
 class DescribeLoadBalancerPoliciesOutput {
   /// Information about the policies.
   final List<PolicyDescription>? policyDescriptions;
@@ -1778,6 +1811,8 @@ class DescribeLoadBalancerPoliciesOutput {
 }
 
 /// Contains the output of DescribeLoadBalancerPolicyTypes.
+///
+/// @nodoc
 class DescribeLoadBalancerPolicyTypesOutput {
   /// Information about the policy types.
   final List<PolicyTypeDescription>? policyTypeDescriptions;
@@ -1806,6 +1841,8 @@ class DescribeLoadBalancerPolicyTypesOutput {
 }
 
 /// Contains the parameters for DescribeLoadBalancers.
+///
+/// @nodoc
 class DescribeAccessPointsOutput {
   /// Information about the load balancers.
   final List<LoadBalancerDescription>? loadBalancerDescriptions;
@@ -1842,6 +1879,8 @@ class DescribeAccessPointsOutput {
 }
 
 /// Contains the output for DescribeTags.
+///
+/// @nodoc
 class DescribeTagsOutput {
   /// Information about the tags.
   final List<TagDescription>? tagDescriptions;
@@ -1866,6 +1905,8 @@ class DescribeTagsOutput {
 }
 
 /// Contains the output of DetachLoadBalancerFromSubnets.
+///
+/// @nodoc
 class DetachLoadBalancerFromSubnetsOutput {
   /// The IDs of the remaining subnets for the load balancer.
   final List<String>? subnets;
@@ -1890,6 +1931,8 @@ class DetachLoadBalancerFromSubnetsOutput {
 }
 
 /// Contains the output for DisableAvailabilityZonesForLoadBalancer.
+///
+/// @nodoc
 class RemoveAvailabilityZonesOutput {
   /// The remaining Availability Zones for the load balancer.
   final List<String>? availabilityZones;
@@ -1914,6 +1957,8 @@ class RemoveAvailabilityZonesOutput {
 }
 
 /// Contains the output of EnableAvailabilityZonesForLoadBalancer.
+///
+/// @nodoc
 class AddAvailabilityZonesOutput {
   /// The updated list of Availability Zones for the load balancer.
   final List<String>? availabilityZones;
@@ -1938,6 +1983,8 @@ class AddAvailabilityZonesOutput {
 }
 
 /// Contains the output of ModifyLoadBalancerAttributes.
+///
+/// @nodoc
 class ModifyLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
   final LoadBalancerAttributes? loadBalancerAttributes;
@@ -1970,6 +2017,8 @@ class ModifyLoadBalancerAttributesOutput {
 }
 
 /// Contains the output of RegisterInstancesWithLoadBalancer.
+///
+/// @nodoc
 class RegisterEndPointsOutput {
   /// The updated list of instances for the load balancer.
   final List<Instance>? instances;
@@ -1993,6 +2042,8 @@ class RegisterEndPointsOutput {
 }
 
 /// Contains the output of RemoveTags.
+///
+/// @nodoc
 class RemoveTagsOutput {
   RemoveTagsOutput();
   factory RemoveTagsOutput.fromXml(
@@ -2007,6 +2058,8 @@ class RemoveTagsOutput {
 }
 
 /// Contains the output of SetLoadBalancerListenerSSLCertificate.
+///
+/// @nodoc
 class SetLoadBalancerListenerSSLCertificateOutput {
   SetLoadBalancerListenerSSLCertificateOutput();
   factory SetLoadBalancerListenerSSLCertificateOutput.fromXml(
@@ -2021,6 +2074,8 @@ class SetLoadBalancerListenerSSLCertificateOutput {
 }
 
 /// Contains the output of SetLoadBalancerPoliciesForBackendServer.
+///
+/// @nodoc
 class SetLoadBalancerPoliciesForBackendServerOutput {
   SetLoadBalancerPoliciesForBackendServerOutput();
   factory SetLoadBalancerPoliciesForBackendServerOutput.fromXml(
@@ -2035,6 +2090,8 @@ class SetLoadBalancerPoliciesForBackendServerOutput {
 }
 
 /// Contains the output of SetLoadBalancePoliciesOfListener.
+///
+/// @nodoc
 class SetLoadBalancerPoliciesOfListenerOutput {
   SetLoadBalancerPoliciesOfListenerOutput();
   factory SetLoadBalancerPoliciesOfListenerOutput.fromXml(
@@ -2049,6 +2106,8 @@ class SetLoadBalancerPoliciesOfListenerOutput {
 }
 
 /// The key of a tag.
+///
+/// @nodoc
 class TagKeyOnly {
   /// The name of the key.
   final String? key;
@@ -2073,6 +2132,8 @@ class TagKeyOnly {
 }
 
 /// The ID of an EC2 instance.
+///
+/// @nodoc
 class Instance {
   /// The instance ID.
   final String? instanceId;
@@ -2102,6 +2163,8 @@ class Instance {
 }
 
 /// The attributes for a load balancer.
+///
+/// @nodoc
 class LoadBalancerAttributes {
   /// If enabled, the load balancer captures detailed information of all requests
   /// and delivers the information to the Amazon S3 bucket that you specify.
@@ -2217,6 +2280,8 @@ class LoadBalancerAttributes {
 }
 
 /// Information about the <code>CrossZoneLoadBalancing</code> attribute.
+///
+/// @nodoc
 class CrossZoneLoadBalancing {
   /// Specifies whether cross-zone load balancing is enabled for the load
   /// balancer.
@@ -2247,6 +2312,8 @@ class CrossZoneLoadBalancing {
 }
 
 /// Information about the <code>AccessLog</code> attribute.
+///
+/// @nodoc
 class AccessLog {
   /// Specifies whether access logs are enabled for the load balancer.
   final bool enabled;
@@ -2308,6 +2375,8 @@ class AccessLog {
 }
 
 /// Information about the <code>ConnectionDraining</code> attribute.
+///
+/// @nodoc
 class ConnectionDraining {
   /// Specifies whether connection draining is enabled for the load balancer.
   final bool enabled;
@@ -2347,6 +2416,8 @@ class ConnectionDraining {
 }
 
 /// Information about the <code>ConnectionSettings</code> attribute.
+///
+/// @nodoc
 class ConnectionSettings {
   /// The time, in seconds, that the connection is allowed to be idle (no data has
   /// been sent over the connection) before it is closed by the load balancer.
@@ -2377,6 +2448,8 @@ class ConnectionSettings {
 }
 
 /// Information about additional load balancer attributes.
+///
+/// @nodoc
 class AdditionalAttribute {
   /// The name of the attribute.
   ///
@@ -2427,6 +2500,8 @@ class AdditionalAttribute {
 }
 
 /// The tags associated with a load balancer.
+///
+/// @nodoc
 class TagDescription {
   /// The name of the load balancer.
   final String? loadBalancerName;
@@ -2457,6 +2532,8 @@ class TagDescription {
 }
 
 /// Information about a tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -2495,6 +2572,8 @@ class Tag {
 }
 
 /// Information about a load balancer.
+///
+/// @nodoc
 class LoadBalancerDescription {
   /// The Availability Zones for the load balancer.
   final List<String>? availabilityZones;
@@ -2663,6 +2742,8 @@ class LoadBalancerDescription {
 }
 
 /// The policies for a load balancer.
+///
+/// @nodoc
 class Policies {
   /// The stickiness policies created using
   /// <a>CreateAppCookieStickinessPolicy</a>.
@@ -2714,6 +2795,8 @@ class Policies {
 }
 
 /// Information about a health check.
+///
+/// @nodoc
 class HealthCheck {
   /// The number of consecutive health checks successes required before moving the
   /// instance to the <code>Healthy</code> state.
@@ -2802,6 +2885,8 @@ class HealthCheck {
 }
 
 /// Information about a source security group.
+///
+/// @nodoc
 class SourceSecurityGroup {
   /// The name of the security group.
   final String? groupName;
@@ -2831,6 +2916,8 @@ class SourceSecurityGroup {
 }
 
 /// Information about the configuration of an EC2 instance.
+///
+/// @nodoc
 class BackendServerDescription {
   /// The port on which the EC2 instance is listening.
   final int? instancePort;
@@ -2862,6 +2949,8 @@ class BackendServerDescription {
 }
 
 /// Information about a policy for duration-based session stickiness.
+///
+/// @nodoc
 class LBCookieStickinessPolicy {
   /// The time period, in seconds, after which the cookie should be considered
   /// stale. If this parameter is not specified, the stickiness session lasts for
@@ -2896,6 +2985,8 @@ class LBCookieStickinessPolicy {
 }
 
 /// Information about a policy for application-controlled session stickiness.
+///
+/// @nodoc
 class AppCookieStickinessPolicy {
   /// The name of the application cookie used for stickiness.
   final String? cookieName;
@@ -2926,6 +3017,8 @@ class AppCookieStickinessPolicy {
 }
 
 /// The policies enabled for a listener.
+///
+/// @nodoc
 class ListenerDescription {
   /// The listener.
   final Listener? listener;
@@ -2963,6 +3056,8 @@ class ListenerDescription {
 /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
 /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
 /// Guide</i>.
+///
+/// @nodoc
 class Listener {
   /// The port on which the instance is listening.
   final int instancePort;
@@ -3044,6 +3139,8 @@ class Listener {
 }
 
 /// Information about a policy type.
+///
+/// @nodoc
 class PolicyTypeDescription {
   /// A description of the policy type.
   final String? description;
@@ -3088,6 +3185,8 @@ class PolicyTypeDescription {
 }
 
 /// Information about a policy attribute type.
+///
+/// @nodoc
 class PolicyAttributeTypeDescription {
   /// The name of the attribute.
   final String? attributeName;
@@ -3156,6 +3255,8 @@ class PolicyAttributeTypeDescription {
 }
 
 /// Information about a policy.
+///
+/// @nodoc
 class PolicyDescription {
   /// The policy attributes.
   final List<PolicyAttributeDescription>? policyAttributeDescriptions;
@@ -3198,6 +3299,8 @@ class PolicyDescription {
 }
 
 /// Information about a policy attribute.
+///
+/// @nodoc
 class PolicyAttributeDescription {
   /// The name of the attribute.
   final String? attributeName;
@@ -3227,6 +3330,8 @@ class PolicyAttributeDescription {
 }
 
 /// Information about the state of an EC2 instance.
+///
+/// @nodoc
 class InstanceState {
   /// A description of the instance state. This string can contain one or more of
   /// the following messages.
@@ -3320,6 +3425,8 @@ class InstanceState {
 
 /// Information about an Elastic Load Balancing resource limit for your AWS
 /// account.
+///
+/// @nodoc
 class Limit {
   /// The maximum value of the limit.
   final String? max;
@@ -3361,6 +3468,8 @@ class Limit {
 }
 
 /// Information about a policy attribute.
+///
+/// @nodoc
 class PolicyAttribute {
   /// The name of the attribute.
   final String? attributeName;
@@ -3392,24 +3501,28 @@ class PolicyAttribute {
   }
 }
 
+/// @nodoc
 class AccessPointNotFoundException extends _s.GenericAwsException {
   AccessPointNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'AccessPointNotFoundException', message: message);
 }
 
+/// @nodoc
 class CertificateNotFoundException extends _s.GenericAwsException {
   CertificateNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CertificateNotFoundException', message: message);
 }
 
+/// @nodoc
 class DependencyThrottleException extends _s.GenericAwsException {
   DependencyThrottleException({String? type, String? message})
       : super(
             type: type, code: 'DependencyThrottleException', message: message);
 }
 
+/// @nodoc
 class DuplicateAccessPointNameException extends _s.GenericAwsException {
   DuplicateAccessPointNameException({String? type, String? message})
       : super(
@@ -3418,22 +3531,26 @@ class DuplicateAccessPointNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateListenerException extends _s.GenericAwsException {
   DuplicateListenerException({String? type, String? message})
       : super(type: type, code: 'DuplicateListenerException', message: message);
 }
 
+/// @nodoc
 class DuplicatePolicyNameException extends _s.GenericAwsException {
   DuplicatePolicyNameException({String? type, String? message})
       : super(
             type: type, code: 'DuplicatePolicyNameException', message: message);
 }
 
+/// @nodoc
 class DuplicateTagKeysException extends _s.GenericAwsException {
   DuplicateTagKeysException({String? type, String? message})
       : super(type: type, code: 'DuplicateTagKeysException', message: message);
 }
 
+/// @nodoc
 class InvalidConfigurationRequestException extends _s.GenericAwsException {
   InvalidConfigurationRequestException({String? type, String? message})
       : super(
@@ -3442,16 +3559,19 @@ class InvalidConfigurationRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEndPointException extends _s.GenericAwsException {
   InvalidEndPointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndPointException', message: message);
 }
 
+/// @nodoc
 class InvalidSchemeException extends _s.GenericAwsException {
   InvalidSchemeException({String? type, String? message})
       : super(type: type, code: 'InvalidSchemeException', message: message);
 }
 
+/// @nodoc
 class InvalidSecurityGroupException extends _s.GenericAwsException {
   InvalidSecurityGroupException({String? type, String? message})
       : super(
@@ -3460,16 +3580,19 @@ class InvalidSecurityGroupException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSubnetException extends _s.GenericAwsException {
   InvalidSubnetException({String? type, String? message})
       : super(type: type, code: 'InvalidSubnetException', message: message);
 }
 
+/// @nodoc
 class ListenerNotFoundException extends _s.GenericAwsException {
   ListenerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ListenerNotFoundException', message: message);
 }
 
+/// @nodoc
 class LoadBalancerAttributeNotFoundException extends _s.GenericAwsException {
   LoadBalancerAttributeNotFoundException({String? type, String? message})
       : super(
@@ -3478,6 +3601,7 @@ class LoadBalancerAttributeNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -3486,38 +3610,45 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyNotFoundException extends _s.GenericAwsException {
   PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 
+/// @nodoc
 class PolicyTypeNotFoundException extends _s.GenericAwsException {
   PolicyTypeNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'PolicyTypeNotFoundException', message: message);
 }
 
+/// @nodoc
 class SubnetNotFoundException extends _s.GenericAwsException {
   SubnetNotFoundException({String? type, String? message})
       : super(type: type, code: 'SubnetNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyAccessPointsException extends _s.GenericAwsException {
   TooManyAccessPointsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyAccessPointsException', message: message);
 }
 
+/// @nodoc
 class TooManyPoliciesException extends _s.GenericAwsException {
   TooManyPoliciesException({String? type, String? message})
       : super(type: type, code: 'TooManyPoliciesException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedProtocolException extends _s.GenericAwsException {
   UnsupportedProtocolException({String? type, String? message})
       : super(

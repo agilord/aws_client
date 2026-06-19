@@ -3089,6 +3089,7 @@ class Neptunedata {
   }
 }
 
+/// @nodoc
 class CancelGremlinQueryOutput {
   /// The status of the cancelation
   final String? status;
@@ -3111,6 +3112,7 @@ class CancelGremlinQueryOutput {
   }
 }
 
+/// @nodoc
 class CancelLoaderJobOutput {
   /// The cancellation status.
   final String? status;
@@ -3133,6 +3135,7 @@ class CancelLoaderJobOutput {
   }
 }
 
+/// @nodoc
 class CancelMLDataProcessingJobOutput {
   /// The status of the cancellation request.
   final String? status;
@@ -3155,6 +3158,7 @@ class CancelMLDataProcessingJobOutput {
   }
 }
 
+/// @nodoc
 class CancelMLModelTrainingJobOutput {
   /// The status of the cancellation.
   final String? status;
@@ -3177,6 +3181,7 @@ class CancelMLModelTrainingJobOutput {
   }
 }
 
+/// @nodoc
 class CancelMLModelTransformJobOutput {
   /// the status of the cancelation.
   final String? status;
@@ -3199,6 +3204,7 @@ class CancelMLModelTransformJobOutput {
   }
 }
 
+/// @nodoc
 class CancelOpenCypherQueryOutput {
   /// The cancelation payload for the openCypher query.
   final bool? payload;
@@ -3228,6 +3234,7 @@ class CancelOpenCypherQueryOutput {
   }
 }
 
+/// @nodoc
 class CreateMLEndpointOutput {
   /// The ARN for the new inference endpoint.
   final String? arn;
@@ -3265,6 +3272,7 @@ class CreateMLEndpointOutput {
   }
 }
 
+/// @nodoc
 class DeleteMLEndpointOutput {
   /// The status of the cancellation.
   final String? status;
@@ -3287,6 +3295,7 @@ class DeleteMLEndpointOutput {
   }
 }
 
+/// @nodoc
 class DeletePropertygraphStatisticsOutput {
   /// The deletion payload.
   final DeleteStatisticsValueMap? payload;
@@ -3327,6 +3336,7 @@ class DeletePropertygraphStatisticsOutput {
   }
 }
 
+/// @nodoc
 class DeleteSparqlStatisticsOutput {
   /// The deletion payload.
   final DeleteStatisticsValueMap? payload;
@@ -3366,6 +3376,7 @@ class DeleteSparqlStatisticsOutput {
   }
 }
 
+/// @nodoc
 class ExecuteFastResetOutput {
   /// The <code>status</code> is only returned for the
   /// <code>performDatabaseReset</code> action, and indicates whether or not the
@@ -3402,6 +3413,7 @@ class ExecuteFastResetOutput {
   }
 }
 
+/// @nodoc
 class ExecuteGremlinExplainQueryOutput {
   /// A text blob containing the Gremlin explain result, as described in <a
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html">Tuning
@@ -3420,6 +3432,7 @@ class ExecuteGremlinExplainQueryOutput {
   }
 }
 
+/// @nodoc
 class ExecuteGremlinProfileQueryOutput {
   /// A text blob containing the Gremlin Profile result. See <a
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html">Gremlin
@@ -3438,6 +3451,7 @@ class ExecuteGremlinProfileQueryOutput {
   }
 }
 
+/// @nodoc
 class ExecuteGremlinQueryOutput {
   /// Metadata about the Gremlin query.
   final Document? meta;
@@ -3488,6 +3502,7 @@ class ExecuteGremlinQueryOutput {
   }
 }
 
+/// @nodoc
 class ExecuteOpenCypherExplainQueryOutput {
   /// A text blob containing the openCypher <code>explain</code> results.
   final Uint8List results;
@@ -3504,6 +3519,7 @@ class ExecuteOpenCypherExplainQueryOutput {
   }
 }
 
+/// @nodoc
 class ExecuteOpenCypherQueryOutput {
   /// The openCypherquery results.
   final Document results;
@@ -3527,6 +3543,7 @@ class ExecuteOpenCypherQueryOutput {
   }
 }
 
+/// @nodoc
 class GetEngineStatusOutput {
   /// Set to the Neptune engine version running on your DB cluster. If this engine
   /// version has been manually patched since it was released, the version number
@@ -3668,6 +3685,7 @@ class GetEngineStatusOutput {
   }
 }
 
+/// @nodoc
 class GetGremlinQueryStatusOutput {
   /// The evaluation status of the Gremlin query.
   final QueryEvalStats? queryEvalStats;
@@ -3707,6 +3725,7 @@ class GetGremlinQueryStatusOutput {
   }
 }
 
+/// @nodoc
 class GetLoaderJobStatusOutput {
   /// Status information about the load job, in a layout that could look like
   /// this:
@@ -3738,6 +3757,7 @@ class GetLoaderJobStatusOutput {
   }
 }
 
+/// @nodoc
 class GetMLDataProcessingJobOutput {
   /// The unique identifier of this data-processing job.
   final String? id;
@@ -3777,6 +3797,7 @@ class GetMLDataProcessingJobOutput {
   }
 }
 
+/// @nodoc
 class GetMLEndpointOutput {
   /// The endpoint definition.
   final MlResourceDefinition? endpoint;
@@ -3826,6 +3847,7 @@ class GetMLEndpointOutput {
   }
 }
 
+/// @nodoc
 class GetMLModelTrainingJobOutput {
   /// The HPO job.
   final MlResourceDefinition? hpoJob;
@@ -3895,6 +3917,7 @@ class GetMLModelTrainingJobOutput {
   }
 }
 
+/// @nodoc
 class GetMLModelTransformJobOutput {
   /// The base data processing job.
   final MlResourceDefinition? baseProcessingJob;
@@ -3955,6 +3978,7 @@ class GetMLModelTransformJobOutput {
   }
 }
 
+/// @nodoc
 class GetOpenCypherQueryStatusOutput {
   /// The openCypher query evaluation status.
   final QueryEvalStats? queryEvalStats;
@@ -3994,6 +4018,7 @@ class GetOpenCypherQueryStatusOutput {
   }
 }
 
+/// @nodoc
 class GetPropertygraphStatisticsOutput {
   /// Statistics for property-graph data.
   final Statistics payload;
@@ -4027,6 +4052,7 @@ class GetPropertygraphStatisticsOutput {
   }
 }
 
+/// @nodoc
 class GetPropertygraphStreamOutput {
   /// Serialization format for the change records being returned. Currently, the
   /// only supported value is <code>PG_JSON</code>.
@@ -4088,6 +4114,7 @@ class GetPropertygraphStreamOutput {
   }
 }
 
+/// @nodoc
 class GetPropertygraphSummaryOutput {
   /// Payload containing the property graph summary response.
   final PropertygraphSummaryValueMap? payload;
@@ -4120,6 +4147,7 @@ class GetPropertygraphSummaryOutput {
   }
 }
 
+/// @nodoc
 class GetRDFGraphSummaryOutput {
   /// Payload for an RDF graph summary response
   final RDFGraphSummaryValueMap? payload;
@@ -4152,6 +4180,7 @@ class GetRDFGraphSummaryOutput {
   }
 }
 
+/// @nodoc
 class GetSparqlStatisticsOutput {
   /// Statistics for RDF data.
   final Statistics payload;
@@ -4191,6 +4220,7 @@ class GetSparqlStatisticsOutput {
   }
 }
 
+/// @nodoc
 class GetSparqlStreamOutput {
   /// Serialization format for the change records being returned. Currently, the
   /// only supported value is <code>NQUADS</code>.
@@ -4252,6 +4282,7 @@ class GetSparqlStreamOutput {
   }
 }
 
+/// @nodoc
 class ListGremlinQueriesOutput {
   /// The number of queries that have been accepted but not yet completed,
   /// including queries in the queue.
@@ -4292,6 +4323,7 @@ class ListGremlinQueriesOutput {
   }
 }
 
+/// @nodoc
 class ListLoaderJobsOutput {
   /// The requested list of job IDs.
   final LoaderIdResult payload;
@@ -4323,6 +4355,7 @@ class ListLoaderJobsOutput {
   }
 }
 
+/// @nodoc
 class ListMLDataProcessingJobsOutput {
   /// A page listing data processing job IDs.
   final List<String>? ids;
@@ -4345,6 +4378,7 @@ class ListMLDataProcessingJobsOutput {
   }
 }
 
+/// @nodoc
 class ListMLEndpointsOutput {
   /// A page from the list of inference endpoint IDs.
   final List<String>? ids;
@@ -4367,6 +4401,7 @@ class ListMLEndpointsOutput {
   }
 }
 
+/// @nodoc
 class ListMLModelTrainingJobsOutput {
   /// A page of the list of model training job IDs.
   final List<String>? ids;
@@ -4389,6 +4424,7 @@ class ListMLModelTrainingJobsOutput {
   }
 }
 
+/// @nodoc
 class ListMLModelTransformJobsOutput {
   /// A page from the list of model transform IDs.
   final List<String>? ids;
@@ -4411,6 +4447,7 @@ class ListMLModelTransformJobsOutput {
   }
 }
 
+/// @nodoc
 class ListOpenCypherQueriesOutput {
   /// The number of queries that have been accepted but not yet completed,
   /// including queries in the queue.
@@ -4451,6 +4488,7 @@ class ListOpenCypherQueriesOutput {
   }
 }
 
+/// @nodoc
 class ManagePropertygraphStatisticsOutput {
   /// The HTTP return code of the request. If the request succeeded, the code is
   /// 200.
@@ -4485,6 +4523,7 @@ class ManagePropertygraphStatisticsOutput {
   }
 }
 
+/// @nodoc
 class ManageSparqlStatisticsOutput {
   /// The HTTP return code of the request. If the request succeeded, the code is
   /// 200.
@@ -4518,6 +4557,7 @@ class ManageSparqlStatisticsOutput {
   }
 }
 
+/// @nodoc
 class StartLoaderJobOutput {
   /// Contains a <code>loadId</code> name-value pair that provides an identifier
   /// for the load operation.
@@ -4550,6 +4590,7 @@ class StartLoaderJobOutput {
   }
 }
 
+/// @nodoc
 class StartMLDataProcessingJobOutput {
   /// The ARN of the data processing job.
   final String? arn;
@@ -4587,6 +4628,7 @@ class StartMLDataProcessingJobOutput {
   }
 }
 
+/// @nodoc
 class StartMLModelTrainingJobOutput {
   /// The ARN of the new model training job.
   final String? arn;
@@ -4624,6 +4666,7 @@ class StartMLModelTrainingJobOutput {
   }
 }
 
+/// @nodoc
 class StartMLModelTransformJobOutput {
   /// The ARN of the model transform job.
   final String? arn;
@@ -4664,6 +4707,8 @@ class StartMLModelTransformJobOutput {
 /// Contains custom model transform parameters. See <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html">Use
 /// a trained model to generate new model artifacts</a>.
+///
+/// @nodoc
 class CustomModelTransformParameters {
   /// The path to the Amazon S3 location where the Python module implementing your
   /// model is located. This must point to a valid existing Amazon S3 location
@@ -4697,6 +4742,8 @@ class CustomModelTransformParameters {
 /// Contains custom model training parameters. See <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-custom-models.html">Custom
 /// models in Neptune ML</a>.
+///
+/// @nodoc
 class CustomModelTrainingParameters {
   /// The path to the Amazon S3 location where the Python module implementing your
   /// model is located. This must point to a valid existing Amazon S3 location
@@ -4736,6 +4783,7 @@ class CustomModelTrainingParameters {
   }
 }
 
+/// @nodoc
 class Format {
   static const csv = Format._('csv');
   static const opencypher = Format._('opencypher');
@@ -4763,6 +4811,7 @@ class Format {
   String toString() => value;
 }
 
+/// @nodoc
 class S3BucketRegion {
   static const usEast_1 = S3BucketRegion._('us-east-1');
   static const usEast_2 = S3BucketRegion._('us-east-2');
@@ -4858,6 +4907,7 @@ class S3BucketRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class Mode {
   static const resume = Mode._('RESUME');
   static const $new = Mode._('NEW');
@@ -4882,6 +4932,7 @@ class Mode {
   String toString() => value;
 }
 
+/// @nodoc
 class Parallelism {
   static const low = Parallelism._('LOW');
   static const medium = Parallelism._('MEDIUM');
@@ -4908,6 +4959,8 @@ class Parallelism {
 }
 
 /// Statistics for <code>REFRESH</code> mode.
+///
+/// @nodoc
 class RefreshStatisticsIdMap {
   /// The ID of the statistics generation run that is currently occurring.
   final String? statisticsId;
@@ -4930,6 +4983,7 @@ class RefreshStatisticsIdMap {
   }
 }
 
+/// @nodoc
 class StatisticsAutoGenerationMode {
   static const disableAutoCompute =
       StatisticsAutoGenerationMode._('disableAutoCompute');
@@ -4961,6 +5015,8 @@ class StatisticsAutoGenerationMode {
 /// Captures the status of a Gremlin query (see the <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html">Gremlin
 /// query status API</a> page).
+///
+/// @nodoc
 class GremlinQueryStatus {
   /// The query statistics of the Gremlin query.
   final QueryEvalStats? queryEvalStats;
@@ -5002,6 +5058,8 @@ class GremlinQueryStatus {
 
 /// Structure to capture query statistics such as how many queries are running,
 /// accepted or waiting and their details.
+///
+/// @nodoc
 class QueryEvalStats {
   /// Set to <code>TRUE</code> if the query was cancelled, or FALSE otherwise.
   final bool? cancelled;
@@ -5048,6 +5106,8 @@ class QueryEvalStats {
 }
 
 /// Contains a list of load IDs.
+///
+/// @nodoc
 class LoaderIdResult {
   /// A list of load IDs.
   final List<String>? loadIds;
@@ -5073,6 +5133,8 @@ class LoaderIdResult {
 
 /// A serialized SPARQL stream record capturing a change-log entry for the RDF
 /// graph.
+///
+/// @nodoc
 class SparqlRecord {
   /// The time at which the commit for the transaction was requested, in
   /// milliseconds from the Unix epoch.
@@ -5136,6 +5198,8 @@ class SparqlRecord {
 /// Description Framework (RDF) <a
 /// href="https://www.w3.org/TR/n-quads/">N-QUADS</a> language defined in the
 /// W3C RDF 1.1 N-Quads specification
+///
+/// @nodoc
 class SparqlData {
   /// Holds an <a href="https://www.w3.org/TR/n-quads/">N-QUADS</a> statement
   /// expressing the changed quad.
@@ -5159,6 +5223,7 @@ class SparqlData {
   }
 }
 
+/// @nodoc
 class IteratorType {
   static const atSequenceNumber = IteratorType._('AT_SEQUENCE_NUMBER');
   static const afterSequenceNumber = IteratorType._('AFTER_SEQUENCE_NUMBER');
@@ -5189,6 +5254,7 @@ class IteratorType {
   String toString() => value;
 }
 
+/// @nodoc
 class Encoding {
   static const gzip = Encoding._('gzip');
 
@@ -5218,6 +5284,8 @@ class Encoding {
 /// planning. See <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-dfe-statistics.html">Managing
 /// statistics for the Neptune DFE to use</a>.
+///
+/// @nodoc
 class Statistics {
   /// Indicates whether or not DFE statistics generation is enabled at all.
   final bool? active;
@@ -5294,6 +5362,8 @@ class Statistics {
 }
 
 /// Information about the characteristic sets generated in the statistics.
+///
+/// @nodoc
 class StatisticsSummary {
   /// The total number of characteristic-set instances.
   final int? instanceCount;
@@ -5331,6 +5401,8 @@ class StatisticsSummary {
 }
 
 /// Payload for an RDF graph summary response.
+///
+/// @nodoc
 class RDFGraphSummaryValueMap {
   /// The graph summary of an RDF graph. See <a
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-rdf-response">Graph
@@ -5378,6 +5450,8 @@ class RDFGraphSummaryValueMap {
 
 /// The RDF graph summary API returns a read-only list of classes and predicate
 /// keys, along with counts of quads, subjects, and predicates.
+///
+/// @nodoc
 class RDFGraphSummary {
   /// A list of the classes in the graph.
   final List<String>? classes;
@@ -5454,6 +5528,8 @@ class RDFGraphSummary {
 }
 
 /// A subject structure.
+///
+/// @nodoc
 class SubjectStructure {
   /// Number of occurrences of this specific structure.
   final int? count;
@@ -5486,6 +5562,7 @@ class SubjectStructure {
   }
 }
 
+/// @nodoc
 class GraphSummaryType {
   static const basic = GraphSummaryType._('basic');
   static const detailed = GraphSummaryType._('detailed');
@@ -5511,6 +5588,8 @@ class GraphSummaryType {
 }
 
 /// Payload for the property graph summary response.
+///
+/// @nodoc
 class PropertygraphSummaryValueMap {
   /// The graph summary.
   final PropertygraphSummary? graphSummary;
@@ -5558,6 +5637,8 @@ class PropertygraphSummaryValueMap {
 /// property keys, along with counts of nodes, edges, and properties. See <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-pg-response">Graph
 /// summary response for a property graph (PG)</a>.
+///
+/// @nodoc
 class PropertygraphSummary {
   /// A list of the distinct edge labels in the graph.
   final List<String>? edgeLabels;
@@ -5698,6 +5779,8 @@ class PropertygraphSummary {
 }
 
 /// An edge structure.
+///
+/// @nodoc
 class EdgeStructure {
   /// The number of edges that have this specific structure.
   final int? count;
@@ -5731,6 +5814,8 @@ class EdgeStructure {
 }
 
 /// A node structure.
+///
+/// @nodoc
 class NodeStructure {
   /// Number of nodes that have this specific structure.
   final int? count;
@@ -5775,6 +5860,8 @@ class NodeStructure {
 }
 
 /// Structure of a property graph record.
+///
+/// @nodoc
 class PropertygraphRecord {
   /// The time at which the commit for the transaction was requested, in
   /// milliseconds from the Unix epoch.
@@ -5832,6 +5919,8 @@ class PropertygraphRecord {
 }
 
 /// A Gremlin or openCypher change record.
+///
+/// @nodoc
 class PropertygraphData {
   /// The ID of the Gremlin or openCypher element.
   final String id;
@@ -5913,6 +6002,8 @@ class PropertygraphData {
 }
 
 /// Defines a Neptune ML resource.
+///
+/// @nodoc
 class MlResourceDefinition {
   /// The resource ARN.
   final String? arn;
@@ -5971,6 +6062,8 @@ class MlResourceDefinition {
 }
 
 /// Contains a Neptune ML configuration.
+///
+/// @nodoc
 class MlConfigDefinition {
   /// The ARN for the configuration.
   final String? arn;
@@ -6001,6 +6094,8 @@ class MlConfigDefinition {
 }
 
 /// Structure for expressing the query language version.
+///
+/// @nodoc
 class QueryLanguageVersion {
   /// The version of the query language.
   final String version;
@@ -6023,6 +6118,7 @@ class QueryLanguageVersion {
   }
 }
 
+/// @nodoc
 class OpenCypherExplainMode {
   static const static = OpenCypherExplainMode._('static');
   static const $dynamic = OpenCypherExplainMode._('dynamic');
@@ -6050,6 +6146,8 @@ class OpenCypherExplainMode {
 }
 
 /// Contains status components of a Gremlin query.
+///
+/// @nodoc
 class GremlinQueryStatusAttributes {
   /// Attributes of the Gremlin query status.
   final Document? attributes;
@@ -6089,6 +6187,8 @@ class GremlinQueryStatusAttributes {
 }
 
 /// A structure containing the fast reset token used to initiate a fast reset.
+///
+/// @nodoc
 class FastResetToken {
   /// A UUID generated by the database in the <code>initiateDatabaseReset</code>
   /// action, and then consumed by the <code>performDatabaseReset</code> to reset
@@ -6113,6 +6213,7 @@ class FastResetToken {
   }
 }
 
+/// @nodoc
 class Action {
   static const initiateDatabaseReset = Action._('initiateDatabaseReset');
   static const performDatabaseReset = Action._('performDatabaseReset');
@@ -6137,6 +6238,8 @@ class Action {
 }
 
 /// The payload for DeleteStatistics.
+///
+/// @nodoc
 class DeleteStatisticsValueMap {
   /// The current status of the statistics.
   final bool? active;
@@ -6166,6 +6269,7 @@ class DeleteStatisticsValueMap {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -6178,32 +6282,38 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class BulkLoadIdNotFoundException extends _s.GenericAwsException {
   BulkLoadIdNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'BulkLoadIdNotFoundException', message: message);
 }
 
+/// @nodoc
 class CancelledByUserException extends _s.GenericAwsException {
   CancelledByUserException({String? type, String? message})
       : super(type: type, code: 'CancelledByUserException', message: message);
 }
 
+/// @nodoc
 class ClientTimeoutException extends _s.GenericAwsException {
   ClientTimeoutException({String? type, String? message})
       : super(type: type, code: 'ClientTimeoutException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -6212,123 +6322,146 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConstraintViolationException extends _s.GenericAwsException {
   ConstraintViolationException({String? type, String? message})
       : super(
             type: type, code: 'ConstraintViolationException', message: message);
 }
 
+/// @nodoc
 class ExpiredStreamException extends _s.GenericAwsException {
   ExpiredStreamException({String? type, String? message})
       : super(type: type, code: 'ExpiredStreamException', message: message);
 }
 
+/// @nodoc
 class FailureByQueryException extends _s.GenericAwsException {
   FailureByQueryException({String? type, String? message})
       : super(type: type, code: 'FailureByQueryException', message: message);
 }
 
+/// @nodoc
 class IllegalArgumentException extends _s.GenericAwsException {
   IllegalArgumentException({String? type, String? message})
       : super(type: type, code: 'IllegalArgumentException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidNumericDataException extends _s.GenericAwsException {
   InvalidNumericDataException({String? type, String? message})
       : super(
             type: type, code: 'InvalidNumericDataException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class LoadUrlAccessDeniedException extends _s.GenericAwsException {
   LoadUrlAccessDeniedException({String? type, String? message})
       : super(
             type: type, code: 'LoadUrlAccessDeniedException', message: message);
 }
 
+/// @nodoc
 class MLResourceNotFoundException extends _s.GenericAwsException {
   MLResourceNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'MLResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class MalformedQueryException extends _s.GenericAwsException {
   MalformedQueryException({String? type, String? message})
       : super(type: type, code: 'MalformedQueryException', message: message);
 }
 
+/// @nodoc
 class MemoryLimitExceededException extends _s.GenericAwsException {
   MemoryLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'MemoryLimitExceededException', message: message);
 }
 
+/// @nodoc
 class MethodNotAllowedException extends _s.GenericAwsException {
   MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
+/// @nodoc
 class MissingParameterException extends _s.GenericAwsException {
   MissingParameterException({String? type, String? message})
       : super(type: type, code: 'MissingParameterException', message: message);
 }
 
+/// @nodoc
 class ParsingException extends _s.GenericAwsException {
   ParsingException({String? type, String? message})
       : super(type: type, code: 'ParsingException', message: message);
 }
 
+/// @nodoc
 class PreconditionsFailedException extends _s.GenericAwsException {
   PreconditionsFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionsFailedException', message: message);
 }
 
+/// @nodoc
 class QueryLimitExceededException extends _s.GenericAwsException {
   QueryLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'QueryLimitExceededException', message: message);
 }
 
+/// @nodoc
 class QueryLimitException extends _s.GenericAwsException {
   QueryLimitException({String? type, String? message})
       : super(type: type, code: 'QueryLimitException', message: message);
 }
 
+/// @nodoc
 class QueryTooLargeException extends _s.GenericAwsException {
   QueryTooLargeException({String? type, String? message})
       : super(type: type, code: 'QueryTooLargeException', message: message);
 }
 
+/// @nodoc
 class ReadOnlyViolationException extends _s.GenericAwsException {
   ReadOnlyViolationException({String? type, String? message})
       : super(type: type, code: 'ReadOnlyViolationException', message: message);
 }
 
+/// @nodoc
 class S3Exception extends _s.GenericAwsException {
   S3Exception({String? type, String? message})
       : super(type: type, code: 'S3Exception', message: message);
 }
 
+/// @nodoc
 class ServerShutdownException extends _s.GenericAwsException {
   ServerShutdownException({String? type, String? message})
       : super(type: type, code: 'ServerShutdownException', message: message);
 }
 
+/// @nodoc
 class StatisticsNotAvailableException extends _s.GenericAwsException {
   StatisticsNotAvailableException({String? type, String? message})
       : super(
@@ -6337,6 +6470,7 @@ class StatisticsNotAvailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StreamRecordsNotFoundException extends _s.GenericAwsException {
   StreamRecordsNotFoundException({String? type, String? message})
       : super(
@@ -6345,21 +6479,25 @@ class StreamRecordsNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TimeLimitExceededException extends _s.GenericAwsException {
   TimeLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TimeLimitExceededException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

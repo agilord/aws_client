@@ -7481,6 +7481,8 @@ class DatabaseMigration {
 }
 
 ///
+///
+/// @nodoc
 class AddTagsToResourceResponse {
   AddTagsToResourceResponse();
 
@@ -7494,6 +7496,8 @@ class AddTagsToResourceResponse {
 }
 
 ///
+///
+/// @nodoc
 class ApplyPendingMaintenanceActionResponse {
   /// The DMS resource that the pending maintenance action will be applied to.
   final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
@@ -7524,6 +7528,7 @@ class ApplyPendingMaintenanceActionResponse {
   }
 }
 
+/// @nodoc
 class BatchStartRecommendationsResponse {
   /// A list with error details about the analysis of each source database.
   final List<BatchStartRecommendationsErrorEntry>? errorEntries;
@@ -7551,6 +7556,7 @@ class BatchStartRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class CancelMetadataModelConversionResponse {
   final SchemaConversionRequest? request;
 
@@ -7576,6 +7582,7 @@ class CancelMetadataModelConversionResponse {
   }
 }
 
+/// @nodoc
 class CancelMetadataModelCreationResponse {
   final SchemaConversionRequest? request;
 
@@ -7602,6 +7609,8 @@ class CancelMetadataModelCreationResponse {
 }
 
 ///
+///
+/// @nodoc
 class CancelReplicationTaskAssessmentRunResponse {
   /// The <code>ReplicationTaskAssessmentRun</code> object for the canceled
   /// assessment run.
@@ -7630,6 +7639,7 @@ class CancelReplicationTaskAssessmentRunResponse {
   }
 }
 
+/// @nodoc
 class CreateDataMigrationResponse {
   /// Information about the created data migration.
   final DataMigration? dataMigration;
@@ -7655,6 +7665,7 @@ class CreateDataMigrationResponse {
   }
 }
 
+/// @nodoc
 class CreateDataProviderResponse {
   /// The data provider that was created.
   final DataProvider? dataProvider;
@@ -7680,6 +7691,8 @@ class CreateDataProviderResponse {
 }
 
 ///
+///
+/// @nodoc
 class CreateEndpointResponse {
   /// The endpoint that was created.
   final Endpoint? endpoint;
@@ -7705,6 +7718,8 @@ class CreateEndpointResponse {
 }
 
 ///
+///
+/// @nodoc
 class CreateEventSubscriptionResponse {
   /// The event subscription that was created.
   final EventSubscription? eventSubscription;
@@ -7730,6 +7745,7 @@ class CreateEventSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateFleetAdvisorCollectorResponse {
   /// The name of the new Fleet Advisor collector.
   final String? collectorName;
@@ -7785,6 +7801,7 @@ class CreateFleetAdvisorCollectorResponse {
   }
 }
 
+/// @nodoc
 class CreateInstanceProfileResponse {
   /// The instance profile that was created.
   final InstanceProfile? instanceProfile;
@@ -7810,6 +7827,7 @@ class CreateInstanceProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateMigrationProjectResponse {
   /// The migration project that was created.
   final MigrationProject? migrationProject;
@@ -7836,6 +7854,8 @@ class CreateMigrationProjectResponse {
 }
 
 ///
+///
+/// @nodoc
 class CreateReplicationConfigResponse {
   /// Configuration parameters returned from the DMS Serverless replication after
   /// it is created.
@@ -7863,6 +7883,8 @@ class CreateReplicationConfigResponse {
 }
 
 ///
+///
+/// @nodoc
 class CreateReplicationInstanceResponse {
   /// The replication instance that was created.
   final ReplicationInstance? replicationInstance;
@@ -7891,6 +7913,8 @@ class CreateReplicationInstanceResponse {
 }
 
 ///
+///
+/// @nodoc
 class CreateReplicationSubnetGroupResponse {
   /// The replication subnet group that was created.
   final ReplicationSubnetGroup? replicationSubnetGroup;
@@ -7919,6 +7943,8 @@ class CreateReplicationSubnetGroupResponse {
 }
 
 ///
+///
+/// @nodoc
 class CreateReplicationTaskResponse {
   /// The replication task that was created.
   final ReplicationTask? replicationTask;
@@ -7944,6 +7970,7 @@ class CreateReplicationTaskResponse {
   }
 }
 
+/// @nodoc
 class DeleteCertificateResponse {
   /// The Secure Sockets Layer (SSL) certificate.
   final Certificate? certificate;
@@ -7969,6 +7996,8 @@ class DeleteCertificateResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteConnectionResponse {
   /// The connection that is being deleted.
   final Connection? connection;
@@ -7993,6 +8022,7 @@ class DeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataMigrationResponse {
   /// The deleted data migration.
   final DataMigration? dataMigration;
@@ -8018,6 +8048,7 @@ class DeleteDataMigrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataProviderResponse {
   /// The data provider that was deleted.
   final DataProvider? dataProvider;
@@ -8043,6 +8074,8 @@ class DeleteDataProviderResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteEndpointResponse {
   /// The endpoint that was deleted.
   final Endpoint? endpoint;
@@ -8068,6 +8101,8 @@ class DeleteEndpointResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteEventSubscriptionResponse {
   /// The event subscription that was deleted.
   final EventSubscription? eventSubscription;
@@ -8093,6 +8128,7 @@ class DeleteEventSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteFleetAdvisorDatabasesResponse {
   /// The IDs of the databases that the operation deleted.
   final List<String>? databaseIds;
@@ -8119,6 +8155,7 @@ class DeleteFleetAdvisorDatabasesResponse {
   }
 }
 
+/// @nodoc
 class DeleteInstanceProfileResponse {
   /// The instance profile that was deleted.
   final InstanceProfile? instanceProfile;
@@ -8144,6 +8181,7 @@ class DeleteInstanceProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteMigrationProjectResponse {
   /// The migration project that was deleted.
   final MigrationProject? migrationProject;
@@ -8170,6 +8208,8 @@ class DeleteMigrationProjectResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteReplicationConfigResponse {
   /// Configuration parameters returned for the DMS Serverless replication after
   /// it is deleted.
@@ -8197,6 +8237,8 @@ class DeleteReplicationConfigResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteReplicationInstanceResponse {
   /// The replication instance that was deleted.
   final ReplicationInstance? replicationInstance;
@@ -8225,6 +8267,8 @@ class DeleteReplicationInstanceResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteReplicationSubnetGroupResponse {
   DeleteReplicationSubnetGroupResponse();
 
@@ -8239,6 +8283,8 @@ class DeleteReplicationSubnetGroupResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteReplicationTaskResponse {
   /// The deleted replication task.
   final ReplicationTask? replicationTask;
@@ -8265,6 +8311,8 @@ class DeleteReplicationTaskResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteReplicationTaskAssessmentRunResponse {
   /// The <code>ReplicationTaskAssessmentRun</code> object for the deleted
   /// assessment run.
@@ -8294,6 +8342,8 @@ class DeleteReplicationTaskAssessmentRunResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeAccountAttributesResponse {
   /// Account quota information.
   final List<AccountQuota>? accountQuotas;
@@ -8341,6 +8391,8 @@ class DescribeAccountAttributesResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeApplicableIndividualAssessmentsResponse {
   /// List of names for the individual assessments supported by the premigration
   /// assessment run that you start based on the specified request parameters. For
@@ -8384,6 +8436,7 @@ class DescribeApplicableIndividualAssessmentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeCertificatesResponse {
   /// The Secure Sockets Layer (SSL) certificates associated with the replication
   /// instance.
@@ -8418,6 +8471,8 @@ class DescribeCertificatesResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeConnectionsResponse {
   /// A description of the connections.
   final List<Connection>? connections;
@@ -8452,6 +8507,7 @@ class DescribeConnectionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeConversionConfigurationResponse {
   /// The configuration parameters for the schema conversion project.
   final String? conversionConfiguration;
@@ -8484,6 +8540,7 @@ class DescribeConversionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataMigrationsResponse {
   /// Returns information about the data migrations used in the project.
   final List<DataMigration>? dataMigrations;
@@ -8518,6 +8575,7 @@ class DescribeDataMigrationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataProvidersResponse {
   /// A description of data providers.
   final List<DataProvider>? dataProviders;
@@ -8559,6 +8617,8 @@ class DescribeDataProvidersResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeEndpointsResponse {
   /// Endpoint description.
   final List<Endpoint>? endpoints;
@@ -8593,6 +8653,7 @@ class DescribeEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointSettingsResponse {
   /// Descriptions of the endpoint settings available for your source or target
   /// database engine.
@@ -8629,6 +8690,8 @@ class DescribeEndpointSettingsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeEndpointTypesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -8664,6 +8727,7 @@ class DescribeEndpointTypesResponse {
   }
 }
 
+/// @nodoc
 class DescribeEngineVersionsResponse {
   /// Returned <code>EngineVersion</code> objects that describe the replication
   /// instance engine versions used in the project.
@@ -8700,6 +8764,8 @@ class DescribeEngineVersionsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeEventCategoriesResponse {
   /// A list of event categories.
   final List<EventCategoryGroup>? eventCategoryGroupList;
@@ -8727,6 +8793,8 @@ class DescribeEventCategoriesResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeEventsResponse {
   /// The events described.
   final List<Event>? events;
@@ -8762,6 +8830,8 @@ class DescribeEventsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeEventSubscriptionsResponse {
   /// A list of event subscriptions.
   final List<EventSubscription>? eventSubscriptionsList;
@@ -8798,6 +8868,7 @@ class DescribeEventSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeExtensionPackAssociationsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -8841,6 +8912,7 @@ class DescribeExtensionPackAssociationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFleetAdvisorCollectorsResponse {
   /// Provides descriptions of the Fleet Advisor collectors, including the
   /// collectors' name and ID, and the latest inventory data.
@@ -8878,6 +8950,7 @@ class DescribeFleetAdvisorCollectorsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFleetAdvisorDatabasesResponse {
   /// Provides descriptions of the Fleet Advisor collector databases, including
   /// the database's collector, ID, and name.
@@ -8915,6 +8988,7 @@ class DescribeFleetAdvisorDatabasesResponse {
   }
 }
 
+/// @nodoc
 class DescribeFleetAdvisorLsaAnalysisResponse {
   /// A list of <code>FleetAdvisorLsaAnalysisResponse</code> objects.
   final List<FleetAdvisorLsaAnalysisResponse>? analysis;
@@ -8952,6 +9026,7 @@ class DescribeFleetAdvisorLsaAnalysisResponse {
   }
 }
 
+/// @nodoc
 class DescribeFleetAdvisorSchemaObjectSummaryResponse {
   /// A collection of <code>FleetAdvisorSchemaObjectResponse</code> objects.
   final List<FleetAdvisorSchemaObjectResponse>? fleetAdvisorSchemaObjects;
@@ -8990,6 +9065,7 @@ class DescribeFleetAdvisorSchemaObjectSummaryResponse {
   }
 }
 
+/// @nodoc
 class DescribeFleetAdvisorSchemasResponse {
   /// A collection of <code>SchemaResponse</code> objects.
   final List<SchemaResponse>? fleetAdvisorSchemas;
@@ -9027,6 +9103,7 @@ class DescribeFleetAdvisorSchemasResponse {
   }
 }
 
+/// @nodoc
 class DescribeInstanceProfilesResponse {
   /// A description of instance profiles.
   final List<InstanceProfile>? instanceProfiles;
@@ -9067,6 +9144,7 @@ class DescribeInstanceProfilesResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelResponse {
   /// The SQL text of the metadata model. This field might not be populated for
   /// some metadata models.
@@ -9118,6 +9196,7 @@ class DescribeMetadataModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelAssessmentsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9161,6 +9240,7 @@ class DescribeMetadataModelAssessmentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelChildrenResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of metadata model children. If a marker is returned, there are
@@ -9198,6 +9278,7 @@ class DescribeMetadataModelChildrenResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelConversionsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9240,6 +9321,7 @@ class DescribeMetadataModelConversionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelCreationsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of metadata model creation requests. If Marker is returned, there
@@ -9277,6 +9359,7 @@ class DescribeMetadataModelCreationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelExportsAsScriptResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9319,6 +9402,7 @@ class DescribeMetadataModelExportsAsScriptResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelExportsToTargetResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9361,6 +9445,7 @@ class DescribeMetadataModelExportsToTargetResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetadataModelImportsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9403,6 +9488,7 @@ class DescribeMetadataModelImportsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMigrationProjectsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9445,6 +9531,8 @@ class DescribeMigrationProjectsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeOrderableReplicationInstancesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9484,6 +9572,8 @@ class DescribeOrderableReplicationInstancesResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribePendingMaintenanceActionsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9521,6 +9611,7 @@ class DescribePendingMaintenanceActionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecommendationLimitationsResponse {
   /// The list of limitations for recommendations of target Amazon Web Services
   /// engines.
@@ -9559,6 +9650,7 @@ class DescribeRecommendationLimitationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecommendationsResponse {
   /// The unique pagination token returned for you to pass to a subsequent
   /// request. Fleet Advisor returns this token when the number of records in the
@@ -9597,6 +9689,8 @@ class DescribeRecommendationsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeRefreshSchemasStatusResponse {
   /// The status of the schema.
   final RefreshSchemasStatus? refreshSchemasStatus;
@@ -9625,6 +9719,8 @@ class DescribeRefreshSchemasStatusResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationConfigsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9662,6 +9758,8 @@ class DescribeReplicationConfigsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationInstancesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9698,6 +9796,7 @@ class DescribeReplicationInstancesResponse {
   }
 }
 
+/// @nodoc
 class DescribeReplicationInstanceTaskLogsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9746,6 +9845,8 @@ class DescribeReplicationInstanceTaskLogsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9781,6 +9882,8 @@ class DescribeReplicationsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationSubnetGroupsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9819,6 +9922,8 @@ class DescribeReplicationSubnetGroupsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationTableStatisticsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9865,6 +9970,8 @@ class DescribeReplicationTableStatisticsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationTaskAssessmentResultsResponse {
   /// - The Amazon S3 bucket where the task assessment report is located.
   final String? bucketName;
@@ -9912,6 +10019,8 @@ class DescribeReplicationTaskAssessmentResultsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationTaskAssessmentRunsResponse {
   /// A pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
@@ -9953,6 +10062,8 @@ class DescribeReplicationTaskAssessmentRunsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationTaskIndividualAssessmentsResponse {
   /// A pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
@@ -9996,6 +10107,8 @@ class DescribeReplicationTaskIndividualAssessmentsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeReplicationTasksResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -10031,6 +10144,8 @@ class DescribeReplicationTasksResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeSchemasResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -10064,6 +10179,8 @@ class DescribeSchemasResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeTableStatisticsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -10105,6 +10222,7 @@ class DescribeTableStatisticsResponse {
   }
 }
 
+/// @nodoc
 class ExportMetadataModelAssessmentResponse {
   /// The Amazon S3 details for an assessment exported in CSV format.
   final ExportMetadataModelAssessmentResultEntry? csvReport;
@@ -10141,6 +10259,7 @@ class ExportMetadataModelAssessmentResponse {
   }
 }
 
+/// @nodoc
 class GetTargetSelectionRulesResponse {
   /// The JSON string representing the counterpart selection rules in the target.
   final String? targetSelectionRules;
@@ -10164,6 +10283,7 @@ class GetTargetSelectionRulesResponse {
   }
 }
 
+/// @nodoc
 class ImportCertificateResponse {
   /// The certificate to be uploaded.
   final Certificate? certificate;
@@ -10189,6 +10309,8 @@ class ImportCertificateResponse {
 }
 
 ///
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags for the resource.
   final List<Tag>? tagList;
@@ -10214,6 +10336,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ModifyConversionConfigurationResponse {
   /// The name or Amazon Resource Name (ARN) of the modified configuration.
   final String? migrationProjectIdentifier;
@@ -10238,6 +10361,7 @@ class ModifyConversionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ModifyDataMigrationResponse {
   /// Information about the modified data migration.
   final DataMigration? dataMigration;
@@ -10263,6 +10387,7 @@ class ModifyDataMigrationResponse {
   }
 }
 
+/// @nodoc
 class ModifyDataProviderResponse {
   /// The data provider that was modified.
   final DataProvider? dataProvider;
@@ -10288,6 +10413,8 @@ class ModifyDataProviderResponse {
 }
 
 ///
+///
+/// @nodoc
 class ModifyEndpointResponse {
   /// The modified endpoint.
   final Endpoint? endpoint;
@@ -10313,6 +10440,8 @@ class ModifyEndpointResponse {
 }
 
 ///
+///
+/// @nodoc
 class ModifyEventSubscriptionResponse {
   /// The modified event subscription.
   final EventSubscription? eventSubscription;
@@ -10338,6 +10467,7 @@ class ModifyEventSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class ModifyInstanceProfileResponse {
   /// The instance profile that was modified.
   final InstanceProfile? instanceProfile;
@@ -10363,6 +10493,7 @@ class ModifyInstanceProfileResponse {
   }
 }
 
+/// @nodoc
 class ModifyMigrationProjectResponse {
   /// The migration project that was modified.
   final MigrationProject? migrationProject;
@@ -10388,6 +10519,7 @@ class ModifyMigrationProjectResponse {
   }
 }
 
+/// @nodoc
 class ModifyReplicationConfigResponse {
   /// Information about the serverless replication config that was modified.
   final ReplicationConfig? replicationConfig;
@@ -10414,6 +10546,8 @@ class ModifyReplicationConfigResponse {
 }
 
 ///
+///
+/// @nodoc
 class ModifyReplicationInstanceResponse {
   /// The modified replication instance.
   final ReplicationInstance? replicationInstance;
@@ -10442,6 +10576,8 @@ class ModifyReplicationInstanceResponse {
 }
 
 ///
+///
+/// @nodoc
 class ModifyReplicationSubnetGroupResponse {
   /// The modified replication subnet group.
   final ReplicationSubnetGroup? replicationSubnetGroup;
@@ -10470,6 +10606,8 @@ class ModifyReplicationSubnetGroupResponse {
 }
 
 ///
+///
+/// @nodoc
 class ModifyReplicationTaskResponse {
   /// The replication task that was modified.
   final ReplicationTask? replicationTask;
@@ -10496,6 +10634,8 @@ class ModifyReplicationTaskResponse {
 }
 
 ///
+///
+/// @nodoc
 class MoveReplicationTaskResponse {
   /// The replication task that was moved.
   final ReplicationTask? replicationTask;
@@ -10521,6 +10661,7 @@ class MoveReplicationTaskResponse {
   }
 }
 
+/// @nodoc
 class RebootReplicationInstanceResponse {
   /// The replication instance that is being rebooted.
   final ReplicationInstance? replicationInstance;
@@ -10549,6 +10690,8 @@ class RebootReplicationInstanceResponse {
 }
 
 ///
+///
+/// @nodoc
 class RefreshSchemasResponse {
   /// The status of the refreshed schema.
   final RefreshSchemasStatus? refreshSchemasStatus;
@@ -10576,6 +10719,8 @@ class RefreshSchemasResponse {
 }
 
 ///
+///
+/// @nodoc
 class ReloadReplicationTablesResponse {
   /// The Amazon Resource Name of the replication config for which to reload
   /// tables.
@@ -10600,6 +10745,7 @@ class ReloadReplicationTablesResponse {
   }
 }
 
+/// @nodoc
 class ReloadTablesResponse {
   /// The Amazon Resource Name (ARN) of the replication task.
   final String? replicationTaskArn;
@@ -10623,6 +10769,8 @@ class ReloadTablesResponse {
 }
 
 ///
+///
+/// @nodoc
 class RemoveTagsFromResourceResponse {
   RemoveTagsFromResourceResponse();
 
@@ -10635,6 +10783,7 @@ class RemoveTagsFromResourceResponse {
   }
 }
 
+/// @nodoc
 class RunFleetAdvisorLsaAnalysisResponse {
   /// The ID of the LSA analysis run.
   final String? lsaAnalysisId;
@@ -10665,6 +10814,7 @@ class RunFleetAdvisorLsaAnalysisResponse {
   }
 }
 
+/// @nodoc
 class StartDataMigrationResponse {
   /// The data migration that DMS started.
   final DataMigration? dataMigration;
@@ -10690,6 +10840,7 @@ class StartDataMigrationResponse {
   }
 }
 
+/// @nodoc
 class StartExtensionPackAssociationResponse {
   /// The identifier for the request operation.
   final String? requestIdentifier;
@@ -10713,6 +10864,7 @@ class StartExtensionPackAssociationResponse {
   }
 }
 
+/// @nodoc
 class StartMetadataModelAssessmentResponse {
   /// The identifier for the assessment operation.
   final String? requestIdentifier;
@@ -10736,6 +10888,7 @@ class StartMetadataModelAssessmentResponse {
   }
 }
 
+/// @nodoc
 class StartMetadataModelConversionResponse {
   /// The identifier for the conversion operation.
   final String? requestIdentifier;
@@ -10759,6 +10912,7 @@ class StartMetadataModelConversionResponse {
   }
 }
 
+/// @nodoc
 class StartMetadataModelCreationResponse {
   /// The identifier for the metadata model creation operation.
   final String? requestIdentifier;
@@ -10782,6 +10936,7 @@ class StartMetadataModelCreationResponse {
   }
 }
 
+/// @nodoc
 class StartMetadataModelExportAsScriptResponse {
   /// The identifier for the export operation.
   final String? requestIdentifier;
@@ -10805,6 +10960,7 @@ class StartMetadataModelExportAsScriptResponse {
   }
 }
 
+/// @nodoc
 class StartMetadataModelExportToTargetResponse {
   /// The identifier for the export operation.
   final String? requestIdentifier;
@@ -10828,6 +10984,7 @@ class StartMetadataModelExportToTargetResponse {
   }
 }
 
+/// @nodoc
 class StartMetadataModelImportResponse {
   /// The identifier for the import operation.
   final String? requestIdentifier;
@@ -10851,6 +11008,8 @@ class StartMetadataModelImportResponse {
 }
 
 ///
+///
+/// @nodoc
 class StartReplicationResponse {
   /// The replication that DMS started.
   final Replication? replication;
@@ -10876,6 +11035,8 @@ class StartReplicationResponse {
 }
 
 ///
+///
+/// @nodoc
 class StartReplicationTaskResponse {
   /// The replication task started.
   final ReplicationTask? replicationTask;
@@ -10902,6 +11063,8 @@ class StartReplicationTaskResponse {
 }
 
 ///
+///
+/// @nodoc
 class StartReplicationTaskAssessmentResponse {
   /// The assessed replication task.
   final ReplicationTask? replicationTask;
@@ -10929,6 +11092,8 @@ class StartReplicationTaskAssessmentResponse {
 }
 
 ///
+///
+/// @nodoc
 class StartReplicationTaskAssessmentRunResponse {
   /// The premigration assessment run that was started.
   final ReplicationTaskAssessmentRun? replicationTaskAssessmentRun;
@@ -10956,6 +11121,7 @@ class StartReplicationTaskAssessmentRunResponse {
   }
 }
 
+/// @nodoc
 class StopDataMigrationResponse {
   /// The data migration that DMS stopped.
   final DataMigration? dataMigration;
@@ -10981,6 +11147,7 @@ class StopDataMigrationResponse {
   }
 }
 
+/// @nodoc
 class StopReplicationResponse {
   /// The replication that DMS stopped.
   final Replication? replication;
@@ -11006,6 +11173,8 @@ class StopReplicationResponse {
 }
 
 ///
+///
+/// @nodoc
 class StopReplicationTaskResponse {
   /// The replication task stopped.
   final ReplicationTask? replicationTask;
@@ -11032,6 +11201,8 @@ class StopReplicationTaskResponse {
 }
 
 ///
+///
+/// @nodoc
 class TestConnectionResponse {
   /// The connection tested.
   final Connection? connection;
@@ -11057,6 +11228,8 @@ class TestConnectionResponse {
 }
 
 ///
+///
+/// @nodoc
 class UpdateSubscriptionsToEventBridgeResponse {
   /// A string that indicates how many event subscriptions were migrated and how
   /// many remain to be migrated.
@@ -11083,6 +11256,8 @@ class UpdateSubscriptionsToEventBridgeResponse {
 
 /// Status of the connection between an endpoint and a replication instance,
 /// including Amazon Resource Names (ARNs) and the last error message issued.
+///
+/// @nodoc
 class Connection {
   /// The ARN string that uniquely identifies the endpoint.
   final String? endpointArn;
@@ -11164,6 +11339,8 @@ class Connection {
 
 /// Provides information that describes a replication task created by the
 /// <code>CreateReplicationTask</code> operation.
+///
+/// @nodoc
 class ReplicationTask {
   /// Indicates when you want a change data capture (CDC) operation to start. Use
   /// either <code>CdcStartPosition</code> or <code>CdcStartTime</code> to specify
@@ -11519,6 +11696,7 @@ class ReplicationTask {
   }
 }
 
+/// @nodoc
 class MigrationTypeValue {
   static const fullLoad = MigrationTypeValue._('full-load');
   static const cdc = MigrationTypeValue._('cdc');
@@ -11548,6 +11726,8 @@ class MigrationTypeValue {
 /// In response to a request by the <code>DescribeReplicationTasks</code>
 /// operation, this object provides a collection of statistics about a
 /// replication task.
+///
+/// @nodoc
 class ReplicationTaskStats {
   /// The elapsed time of the task, in milliseconds.
   final int? elapsedTimeMillis;
@@ -11649,6 +11829,8 @@ class ReplicationTaskStats {
 
 /// Provides information that describes a serverless replication created by the
 /// <code>CreateReplication</code> operation.
+///
+/// @nodoc
 class Replication {
   /// Indicates the start time for a change data capture (CDC) operation. Use
   /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
@@ -11910,6 +12092,8 @@ class Replication {
 }
 
 /// Information about provisioning resources for an DMS serverless replication.
+///
+/// @nodoc
 class ProvisionData {
   /// The timestamp when provisioning became available.
   final DateTime? dateNewProvisioningDataAvailable;
@@ -11979,6 +12163,8 @@ class ProvisionData {
 
 /// This object provides a collection of statistics about a serverless
 /// replication.
+///
+/// @nodoc
 class ReplicationStats {
   /// The elapsed time of the replication, in milliseconds.
   final int? elapsedTimeMillis;
@@ -12078,6 +12264,8 @@ class ReplicationStats {
 
 /// The results returned in <code>describe-replications</code> to display the
 /// results of the premigration assessment from the replication configuration.
+///
+/// @nodoc
 class PremigrationAssessmentStatus {
   final ReplicationTaskAssessmentRunProgress? assessmentProgress;
 
@@ -12240,6 +12428,8 @@ class PremigrationAssessmentStatus {
 
 /// The progress values reported by the <code>AssessmentProgress</code> response
 /// element.
+///
+/// @nodoc
 class ReplicationTaskAssessmentRunProgress {
   /// The number of individual assessments that have completed, successfully or
   /// not.
@@ -12277,6 +12467,8 @@ class ReplicationTaskAssessmentRunProgress {
 }
 
 /// The object containing the result statistics for a completed assessment run.
+///
+/// @nodoc
 class ReplicationTaskAssessmentRunResultStatistic {
   /// The number of individual assessments that were cancelled during the
   /// assessment run.
@@ -12341,6 +12533,8 @@ class ReplicationTaskAssessmentRunResultStatistic {
 }
 
 /// This object provides information about a DMS data migration.
+///
+/// @nodoc
 class DataMigration {
   /// The Amazon Resource Name (ARN) that identifies this replication.
   final String? dataMigrationArn;
@@ -12512,6 +12706,8 @@ class DataMigration {
 /// Options for configuring a data migration, including whether to enable
 /// CloudWatch logs, and the selection rules to use to include or exclude
 /// database objects from the migration.
+///
+/// @nodoc
 class DataMigrationSettings {
   /// Whether to enable CloudWatch logging for the data migration.
   final bool? cloudwatchLogsEnabled;
@@ -12553,6 +12749,8 @@ class DataMigrationSettings {
 
 /// Information about the data migration run, including start and stop time,
 /// latency, and migration progress.
+///
+/// @nodoc
 class DataMigrationStatistics {
   /// The current latency of the change data capture (CDC) operation.
   final int? cDCLatency;
@@ -12632,6 +12830,8 @@ class DataMigrationStatistics {
 }
 
 /// Defines settings for a target data provider for a data migration.
+///
+/// @nodoc
 class TargetDataSetting {
   /// This setting determines how DMS handles the target tables before starting a
   /// data migration, either by leaving them untouched, dropping and recreating
@@ -12658,6 +12858,7 @@ class TargetDataSetting {
   }
 }
 
+/// @nodoc
 class TablePreparationMode {
   static const doNothing = TablePreparationMode._('do-nothing');
   static const truncate = TablePreparationMode._('truncate');
@@ -12686,6 +12887,8 @@ class TablePreparationMode {
 }
 
 /// Defines settings for a source data provider for a data migration.
+///
+/// @nodoc
 class SourceDataSetting {
   /// The change data capture (CDC) start position for the source data provider.
   final String? cDCStartPosition;
@@ -12736,6 +12939,8 @@ class SourceDataSetting {
 ///
 /// Some of the information appears based on other operations that can return
 /// the <code>ReplicationTaskAssessmentRun</code> object.
+///
+/// @nodoc
 class ReplicationTaskAssessmentRun {
   /// Indication of the completion progress for the individual assessments
   /// specified to run.
@@ -12937,12 +13142,14 @@ class ReplicationTaskAssessmentRun {
 /// <code>RemoveTagsFromResource</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// A key is the required name of the tag. The string value can be 1-128 Unicode
   /// characters in length and can't be prefixed with "aws:" or "dms:". The string
   /// can only contain only the set of Unicode letters, digits, white-space, '_',
   /// '.', '/', '=', '+', '-' (Java regular expressions:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String? key;
 
   /// The Amazon Resource Name (ARN) string that uniquely identifies the resource
@@ -12953,7 +13160,7 @@ class Tag {
   /// Unicode characters in length and can't be prefixed with "aws:" or "dms:".
   /// The string can only contain only the set of Unicode letters, digits,
   /// white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String? value;
 
   Tag({
@@ -12982,6 +13189,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class StartReplicationTaskTypeValue {
   static const startReplication =
       StartReplicationTaskTypeValue._('start-replication');
@@ -13011,6 +13219,8 @@ class StartReplicationTaskTypeValue {
 }
 
 /// Provides information about the required target engine settings.
+///
+/// @nodoc
 class RecommendationSettings {
   /// The size of your target instance. Fleet Advisor calculates this value based
   /// on your data collection type, such as total capacity and resource
@@ -13046,6 +13256,7 @@ class RecommendationSettings {
   }
 }
 
+/// @nodoc
 class OriginTypeValue {
   static const source = OriginTypeValue._('SOURCE');
   static const target = OriginTypeValue._('TARGET');
@@ -13072,6 +13283,8 @@ class OriginTypeValue {
 
 /// The properties of metadata model in JSON format. This object is a Union.
 /// Only one member of this object can be specified or returned.
+///
+/// @nodoc
 class MetadataModelProperties {
   /// The properties of the statement.
   final StatementProperties? statementProperties;
@@ -13090,6 +13303,8 @@ class MetadataModelProperties {
 }
 
 /// The properties of the statement for metadata model creation.
+///
+/// @nodoc
 class StatementProperties {
   /// The SQL text of the statement.
   final String definition;
@@ -13106,6 +13321,7 @@ class StatementProperties {
   }
 }
 
+/// @nodoc
 class StartReplicationMigrationTypeValue {
   static const reloadTarget =
       StartReplicationMigrationTypeValue._('reload-target');
@@ -13135,6 +13351,7 @@ class StartReplicationMigrationTypeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class ReloadOptionValue {
   static const dataReload = ReloadOptionValue._('data-reload');
   static const validateOnly = ReloadOptionValue._('validate-only');
@@ -13160,6 +13377,8 @@ class ReloadOptionValue {
 }
 
 /// Provides the name of the schema and table to be reloaded.
+///
+/// @nodoc
 class TableToReload {
   /// The schema name of the table to be reloaded.
   final String schemaName;
@@ -13184,6 +13403,8 @@ class TableToReload {
 
 /// Provides information that describes status of a schema at an endpoint
 /// specified by the <code>DescribeRefreshSchemaStatus</code> operation.
+///
+/// @nodoc
 class RefreshSchemasStatus {
   /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
   final String? endpointArn;
@@ -13237,6 +13458,7 @@ class RefreshSchemasStatus {
   }
 }
 
+/// @nodoc
 class RefreshSchemasStatusTypeValue {
   static const successful = RefreshSchemasStatusTypeValue._('successful');
   static const failed = RefreshSchemasStatusTypeValue._('failed');
@@ -13264,6 +13486,8 @@ class RefreshSchemasStatusTypeValue {
 }
 
 /// Provides information that defines a replication instance.
+///
+/// @nodoc
 class ReplicationInstance {
   /// The amount of storage (in gigabytes) that is allocated for the replication
   /// instance.
@@ -13610,6 +13834,8 @@ class ReplicationInstance {
 
 /// Describes a subnet group in response to a request by the
 /// <code>DescribeReplicationSubnetGroups</code> operation.
+///
+/// @nodoc
 class ReplicationSubnetGroup {
   /// Indicates whether the replication subnet group is read-only. When set to
   /// <code>true</code>, this subnet group is managed by DMS as part of a zero-ETL
@@ -13697,6 +13923,8 @@ class ReplicationSubnetGroup {
 /// replication instance. This data type is an object of the <a
 /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ReplicationInstance.html">
 /// <code>ReplicationInstance</code> </a> user-defined data type.
+///
+/// @nodoc
 class ReplicationPendingModifiedValues {
   /// The amount of storage (in gigabytes) that is allocated for the replication
   /// instance.
@@ -13761,6 +13989,8 @@ class ReplicationPendingModifiedValues {
 
 /// Specifies the settings required for kerberos authentication when creating
 /// the replication instance.
+///
+/// @nodoc
 class KerberosAuthenticationSettings {
   /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon
   /// Web Services DMS access to the secret containing key cache file for the
@@ -13805,6 +14035,8 @@ class KerberosAuthenticationSettings {
 /// In response to a request by the <code>DescribeReplicationSubnetGroups</code>
 /// operation, this object identifies a subnet by its given Availability Zone,
 /// subnet identifier, and status.
+///
+/// @nodoc
 class Subnet {
   /// The Availability Zone of the subnet.
   final AvailabilityZone? subnetAvailabilityZone;
@@ -13852,6 +14084,8 @@ class Subnet {
 /// relates to the Amazon Web Services Region of an endpoint. For example, the
 /// availability zone of an endpoint in the us-east-1 region might be
 /// us-east-1a, us-east-1b, us-east-1c, or us-east-1d.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the Availability Zone.
   final String? name;
@@ -13876,6 +14110,8 @@ class AvailabilityZone {
 
 /// Describes the status of a security group associated with the virtual private
 /// cloud (VPC) hosting your replication and DB instances.
+///
+/// @nodoc
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
   final String? status;
@@ -13907,6 +14143,8 @@ class VpcSecurityGroupMembership {
 
 /// This object provides configuration information about a serverless
 /// replication.
+///
+/// @nodoc
 class ReplicationConfig {
   /// Configuration parameters for provisioning an DMS serverless replication.
   final ComputeConfig? computeConfig;
@@ -14030,6 +14268,8 @@ class ReplicationConfig {
 }
 
 /// Configuration parameters for provisioning an DMS Serverless replication.
+///
+/// @nodoc
 class ComputeConfig {
   /// The Availability Zone where the DMS Serverless replication using this
   /// configuration will run. The default value is a random, system-chosen
@@ -14159,6 +14399,8 @@ class ComputeConfig {
 }
 
 /// Provides information that defines a migration project.
+///
+/// @nodoc
 class MigrationProject {
   /// A user-friendly description of the migration project.
   final String? description;
@@ -14279,6 +14521,8 @@ class MigrationProject {
 }
 
 /// Provides information that defines a schema conversion application.
+///
+/// @nodoc
 class SCApplicationAttributes {
   /// The path for the Amazon S3 bucket that the application uses for exporting
   /// assessment reports.
@@ -14310,6 +14554,8 @@ class SCApplicationAttributes {
 }
 
 /// Information about a data provider.
+///
+/// @nodoc
 class DataProviderDescriptor {
   /// The Amazon Resource Name (ARN) of the data provider.
   final String? dataProviderArn;
@@ -14358,6 +14604,8 @@ class DataProviderDescriptor {
 }
 
 /// Information about a data provider.
+///
+/// @nodoc
 class DataProviderDescriptorDefinition {
   /// The name or Amazon Resource Name (ARN) of the data provider.
   final String dataProviderIdentifier;
@@ -14390,6 +14638,8 @@ class DataProviderDescriptorDefinition {
 }
 
 /// Provides information that defines an instance profile.
+///
+/// @nodoc
 class InstanceProfile {
   /// The Availability Zone where the instance profile runs.
   final String? availabilityZone;
@@ -14504,6 +14754,8 @@ class InstanceProfile {
 
 /// Describes an event notification subscription created by the
 /// <code>CreateEventSubscription</code> operation.
+///
+/// @nodoc
 class EventSubscription {
   /// The DMS event notification subscription Id.
   final String? custSubscriptionId;
@@ -14617,6 +14869,8 @@ class EventSubscription {
 /// <code>ModifyEndpoint</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Endpoint {
   /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
   final String? certificateArn;
@@ -15009,6 +15263,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class ReplicationEndpointTypeValue {
   static const source = ReplicationEndpointTypeValue._('source');
   static const target = ReplicationEndpointTypeValue._('target');
@@ -15034,6 +15289,7 @@ class ReplicationEndpointTypeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class DmsSslModeValue {
   static const none = DmsSslModeValue._('none');
   static const require = DmsSslModeValue._('require');
@@ -15062,6 +15318,8 @@ class DmsSslModeValue {
 
 /// Provides the Amazon Resource Name (ARN) of the Identity and Access
 /// Management (IAM) role used to define an Amazon DynamoDB target endpoint.
+///
+/// @nodoc
 class DynamoDbSettings {
   /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
   /// The role must allow the <code>iam:PassRole</code> action.
@@ -15086,6 +15344,8 @@ class DynamoDbSettings {
 }
 
 /// Settings for exporting data to Amazon S3.
+///
+/// @nodoc
 class S3Settings {
   /// An optional parameter that, when set to <code>true</code> or <code>y</code>,
   /// you can use to add column name information to the .csv output file.
@@ -15813,6 +16073,8 @@ class S3Settings {
 }
 
 /// The settings in JSON format for the DMS Transfer type source endpoint.
+///
+/// @nodoc
 class DmsTransferSettings {
   /// The name of the S3 bucket to use.
   final String? bucketName;
@@ -15845,6 +16107,8 @@ class DmsTransferSettings {
 }
 
 /// Provides information that defines a MongoDB endpoint.
+///
+/// @nodoc
 class MongoDbSettings {
   /// The authentication mechanism you use to access the MongoDB source endpoint.
   ///
@@ -16045,6 +16309,8 @@ class MongoDbSettings {
 /// Provides information that describes an Amazon Kinesis Data Stream endpoint.
 /// This information includes the output format of records applied to the
 /// endpoint and details of transaction and control table data information.
+///
+/// @nodoc
 class KinesisSettings {
   /// Shows detailed control information for table definition, column definition,
   /// and table and column changes in the Kinesis message output. The default is
@@ -16175,6 +16441,8 @@ class KinesisSettings {
 /// Provides information that describes an Apache Kafka endpoint. This
 /// information includes the output format of records applied to the endpoint
 /// and details of transaction and control table data information.
+///
+/// @nodoc
 class KafkaSettings {
   /// A comma-separated list of one or more broker locations in your Kafka cluster
   /// that host your Kafka instance. Specify each broker location in the form
@@ -16406,6 +16674,8 @@ class KafkaSettings {
 }
 
 /// Provides information that defines an OpenSearch endpoint.
+///
+/// @nodoc
 class ElasticsearchSettings {
   /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport
   /// protocol (http/https) is not specified.
@@ -16470,6 +16740,8 @@ class ElasticsearchSettings {
 }
 
 /// Provides information that defines an Amazon Neptune endpoint.
+///
+/// @nodoc
 class NeptuneSettings {
   /// A folder path where you want DMS to store migrated graph data in the S3
   /// bucket specified by <code>S3BucketName</code>
@@ -16554,6 +16826,8 @@ class NeptuneSettings {
 }
 
 /// Provides information that defines an Amazon Redshift endpoint.
+///
+/// @nodoc
 class RedshiftSettings {
   /// A value that indicates to allow any date format, including invalid formats
   /// such as 00/00/00 00:00:00, to be loaded without generating an error. You can
@@ -16912,6 +17186,8 @@ class RedshiftSettings {
 }
 
 /// Provides information that defines a PostgreSQL endpoint.
+///
+/// @nodoc
 class PostgreSQLSettings {
   /// For use with change data capture (CDC) only, this attribute has DMS bypass
   /// foreign keys and user triggers to reduce the time it takes to bulk load
@@ -17244,6 +17520,8 @@ class PostgreSQLSettings {
 }
 
 /// Provides information that defines a MySQL endpoint.
+///
+/// @nodoc
 class MySQLSettings {
   /// Specifies a script to run immediately after DMS connects to the endpoint.
   /// The migration task continues running regardless if the SQL statement
@@ -17460,6 +17738,8 @@ class MySQLSettings {
 }
 
 /// Provides information that defines an Oracle endpoint.
+///
+/// @nodoc
 class OracleSettings {
   /// Set this attribute to <code>false</code> in order to use the Binary Reader
   /// to capture change data for an Amazon RDS for Oracle as the source. This
@@ -17580,12 +17860,12 @@ class OracleSettings {
   /// example, in a primary-to-single standby setup you might apply the following
   /// settings.
   ///
-  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=[2]</code>
+  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=\[2\]</code>
   ///
   /// In a primary-to-multiple-standby setup, you might apply the following
   /// settings.
   ///
-  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=[2,3,4]</code>
+  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=\[2,3,4\]</code>
   ///
   /// Although DMS supports the use of the Oracle <code>RESETLOGS</code> option to
   /// open the database, never use <code>RESETLOGS</code> unless it's necessary.
@@ -18038,6 +18318,8 @@ class OracleSettings {
 }
 
 /// Provides information that defines a SAP ASE endpoint.
+///
+/// @nodoc
 class SybaseSettings {
   /// Database name for the endpoint.
   final String? databaseName;
@@ -18126,6 +18408,8 @@ class SybaseSettings {
 }
 
 /// Provides information that defines a Microsoft SQL Server endpoint.
+///
+/// @nodoc
 class MicrosoftSQLServerSettings {
   /// Specifies the authentication method to be used with Microsoft SQL Server.
   final SqlServerAuthenticationMethod? authenticationMethod;
@@ -18335,6 +18619,8 @@ class MicrosoftSQLServerSettings {
 }
 
 /// Provides information that defines an IBM Db2 LUW endpoint.
+///
+/// @nodoc
 class IBMDb2Settings {
   /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence
   /// number (LSN) where you want the replication to start.
@@ -18481,6 +18767,8 @@ class IBMDb2Settings {
 }
 
 /// Provides information that defines a DocumentDB endpoint.
+///
+/// @nodoc
 class DocDbSettings {
   /// The database name on the DocumentDB source endpoint.
   final String? databaseName;
@@ -18645,6 +18933,8 @@ class DocDbSettings {
 }
 
 /// Provides information that defines a Redis target endpoint.
+///
+/// @nodoc
 class RedisSettings {
   /// Transmission Control Protocol (TCP) port for the endpoint.
   final int port;
@@ -18732,6 +19022,8 @@ class RedisSettings {
 }
 
 /// Settings in JSON format for the source GCP MySQL endpoint.
+///
+/// @nodoc
 class GcpMySQLSettings {
   /// Specifies a script to run immediately after DMS connects to the endpoint.
   /// The migration task continues running regardless if the SQL statement
@@ -18909,6 +19201,8 @@ class GcpMySQLSettings {
 }
 
 /// Provides information that defines an Amazon Timestream endpoint.
+///
+/// @nodoc
 class TimestreamSettings {
   /// Database name for the endpoint.
   final String databaseName;
@@ -18985,6 +19279,8 @@ class TimestreamSettings {
 
 /// Provides information that defines a Lakehouse endpoint. This endpoint type
 /// is used for zero-ETL integrations with Lakehouse data warehouses.
+///
+/// @nodoc
 class LakehouseSettings {
   /// The Amazon Resource Name (ARN) of the Lakehouse resource that serves as the
   /// target for this endpoint.
@@ -19008,6 +19304,7 @@ class LakehouseSettings {
   }
 }
 
+/// @nodoc
 class TargetDbType {
   static const specificDatabase = TargetDbType._('specific-database');
   static const multipleDatabases = TargetDbType._('multiple-databases');
@@ -19031,6 +19328,7 @@ class TargetDbType {
   String toString() => value;
 }
 
+/// @nodoc
 class SslSecurityProtocolValue {
   static const plaintext = SslSecurityProtocolValue._('plaintext');
   static const sslEncryption = SslSecurityProtocolValue._('ssl-encryption');
@@ -19056,6 +19354,7 @@ class SslSecurityProtocolValue {
   String toString() => value;
 }
 
+/// @nodoc
 class RedisAuthTypeValue {
   static const none = RedisAuthTypeValue._('none');
   static const authRole = RedisAuthTypeValue._('auth-role');
@@ -19082,6 +19381,7 @@ class RedisAuthTypeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class NestingLevelValue {
   static const none = NestingLevelValue._('none');
   static const one = NestingLevelValue._('one');
@@ -19106,6 +19406,7 @@ class NestingLevelValue {
   String toString() => value;
 }
 
+/// @nodoc
 class SafeguardPolicy {
   static const relyOnSqlServerReplicationAgent =
       SafeguardPolicy._('rely-on-sql-server-replication-agent');
@@ -19138,6 +19439,7 @@ class SafeguardPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class TlogAccessMode {
   static const backupOnly = TlogAccessMode._('BackupOnly');
   static const preferBackup = TlogAccessMode._('PreferBackup');
@@ -19164,6 +19466,7 @@ class TlogAccessMode {
   String toString() => value;
 }
 
+/// @nodoc
 class SqlServerAuthenticationMethod {
   static const password = SqlServerAuthenticationMethod._('password');
   static const kerberos = SqlServerAuthenticationMethod._('kerberos');
@@ -19189,6 +19492,7 @@ class SqlServerAuthenticationMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class CharLengthSemantics {
   static const $default = CharLengthSemantics._('default');
   static const char = CharLengthSemantics._('char');
@@ -19215,6 +19519,7 @@ class CharLengthSemantics {
   String toString() => value;
 }
 
+/// @nodoc
 class OracleAuthenticationMethod {
   static const password = OracleAuthenticationMethod._('password');
   static const kerberos = OracleAuthenticationMethod._('kerberos');
@@ -19240,6 +19545,7 @@ class OracleAuthenticationMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class MySQLAuthenticationMethod {
   static const password = MySQLAuthenticationMethod._('password');
   static const iam = MySQLAuthenticationMethod._('iam');
@@ -19265,6 +19571,7 @@ class MySQLAuthenticationMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class PluginNameValue {
   static const noPreference = PluginNameValue._('no-preference');
   static const testDecoding = PluginNameValue._('test-decoding');
@@ -19290,6 +19597,7 @@ class PluginNameValue {
   String toString() => value;
 }
 
+/// @nodoc
 class LongVarcharMappingType {
   static const wstring = LongVarcharMappingType._('wstring');
   static const clob = LongVarcharMappingType._('clob');
@@ -19316,6 +19624,7 @@ class LongVarcharMappingType {
   String toString() => value;
 }
 
+/// @nodoc
 class DatabaseMode {
   static const $default = DatabaseMode._('default');
   static const babelfish = DatabaseMode._('babelfish');
@@ -19339,6 +19648,7 @@ class DatabaseMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PostgreSQLAuthenticationMethod {
   static const password = PostgreSQLAuthenticationMethod._('password');
   static const iam = PostgreSQLAuthenticationMethod._('iam');
@@ -19364,6 +19674,7 @@ class PostgreSQLAuthenticationMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionModeValue {
   static const sseS3 = EncryptionModeValue._('sse-s3');
   static const sseKms = EncryptionModeValue._('sse-kms');
@@ -19389,6 +19700,7 @@ class EncryptionModeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class MessageFormatValue {
   static const json = MessageFormatValue._('json');
   static const jsonUnformatted = MessageFormatValue._('json-unformatted');
@@ -19414,6 +19726,7 @@ class MessageFormatValue {
   String toString() => value;
 }
 
+/// @nodoc
 class KafkaSecurityProtocol {
   static const plaintext = KafkaSecurityProtocol._('plaintext');
   static const sslAuthentication =
@@ -19442,6 +19755,7 @@ class KafkaSecurityProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class KafkaSaslMechanism {
   static const scramSha_512 = KafkaSaslMechanism._('scram-sha-512');
   static const plain = KafkaSaslMechanism._('plain');
@@ -19467,6 +19781,7 @@ class KafkaSaslMechanism {
   String toString() => value;
 }
 
+/// @nodoc
 class KafkaSslEndpointIdentificationAlgorithm {
   static const none = KafkaSslEndpointIdentificationAlgorithm._('none');
   static const https = KafkaSslEndpointIdentificationAlgorithm._('https');
@@ -19492,6 +19807,7 @@ class KafkaSslEndpointIdentificationAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthTypeValue {
   static const no = AuthTypeValue._('no');
   static const password = AuthTypeValue._('password');
@@ -19516,6 +19832,7 @@ class AuthTypeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthMechanismValue {
   static const $default = AuthMechanismValue._('default');
   static const mongodbCr = AuthMechanismValue._('mongodb_cr');
@@ -19542,6 +19859,7 @@ class AuthMechanismValue {
   String toString() => value;
 }
 
+/// @nodoc
 class CompressionTypeValue {
   static const none = CompressionTypeValue._('none');
   static const gzip = CompressionTypeValue._('gzip');
@@ -19567,6 +19885,7 @@ class CompressionTypeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class DataFormatValue {
   static const csv = DataFormatValue._('csv');
   static const parquet = DataFormatValue._('parquet');
@@ -19591,6 +19910,7 @@ class DataFormatValue {
   String toString() => value;
 }
 
+/// @nodoc
 class EncodingTypeValue {
   static const plain = EncodingTypeValue._('plain');
   static const plainDictionary = EncodingTypeValue._('plain-dictionary');
@@ -19616,6 +19936,7 @@ class EncodingTypeValue {
   String toString() => value;
 }
 
+/// @nodoc
 class ParquetVersionValue {
   static const parquet_1_0 = ParquetVersionValue._('parquet-1-0');
   static const parquet_2_0 = ParquetVersionValue._('parquet-2-0');
@@ -19641,6 +19962,7 @@ class ParquetVersionValue {
   String toString() => value;
 }
 
+/// @nodoc
 class DatePartitionSequenceValue {
   static const yyyymmdd = DatePartitionSequenceValue._('YYYYMMDD');
   static const yyyymmddhh = DatePartitionSequenceValue._('YYYYMMDDHH');
@@ -19669,6 +19991,7 @@ class DatePartitionSequenceValue {
   String toString() => value;
 }
 
+/// @nodoc
 class DatePartitionDelimiterValue {
   static const slash = DatePartitionDelimiterValue._('SLASH');
   static const underscore = DatePartitionDelimiterValue._('UNDERSCORE');
@@ -19696,6 +20019,7 @@ class DatePartitionDelimiterValue {
   String toString() => value;
 }
 
+/// @nodoc
 class CannedAclForObjectsValue {
   static const none = CannedAclForObjectsValue._('none');
   static const private = CannedAclForObjectsValue._('private');
@@ -19741,6 +20065,8 @@ class CannedAclForObjectsValue {
 }
 
 /// Provides information that defines a data provider.
+///
+/// @nodoc
 class DataProvider {
   /// The Amazon Resource Name (ARN) string that uniquely identifies the data
   /// provider.
@@ -19821,6 +20147,8 @@ class DataProvider {
 }
 
 /// Provides information that defines a data provider.
+///
+/// @nodoc
 class DataProviderSettings {
   final DocDbDataProviderSettings? docDbSettings;
 
@@ -19935,6 +20263,8 @@ class DataProviderSettings {
 }
 
 /// Provides information that defines an Amazon Redshift data provider.
+///
+/// @nodoc
 class RedshiftDataProviderSettings {
   /// The database name on the Amazon Redshift data provider.
   final String? databaseName;
@@ -19987,6 +20317,8 @@ class RedshiftDataProviderSettings {
 }
 
 /// Provides information that defines a PostgreSQL data provider.
+///
+/// @nodoc
 class PostgreSqlDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20054,6 +20386,8 @@ class PostgreSqlDataProviderSettings {
 }
 
 /// Provides information that defines a MySQL data provider.
+///
+/// @nodoc
 class MySqlDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20114,6 +20448,8 @@ class MySqlDataProviderSettings {
 }
 
 /// Provides information that defines an Oracle data provider.
+///
+/// @nodoc
 class OracleDataProviderSettings {
   /// The address of your Oracle Automatic Storage Management (ASM) server. You
   /// can set this value from the <code>asm_server</code> value. You set
@@ -20244,6 +20580,8 @@ class OracleDataProviderSettings {
 }
 
 /// Provides information that defines an SAP ASE data provider.
+///
+/// @nodoc
 class SybaseAseDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20305,6 +20643,8 @@ class SybaseAseDataProviderSettings {
 }
 
 /// Provides information that defines a Microsoft SQL Server data provider.
+///
+/// @nodoc
 class MicrosoftSqlServerDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20373,6 +20713,8 @@ class MicrosoftSqlServerDataProviderSettings {
 }
 
 /// Provides information that defines a DocumentDB data provider.
+///
+/// @nodoc
 class DocDbDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20425,6 +20767,8 @@ class DocDbDataProviderSettings {
 }
 
 /// Provides information that defines a MariaDB data provider.
+///
+/// @nodoc
 class MariaDbDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20485,6 +20829,8 @@ class MariaDbDataProviderSettings {
 }
 
 /// Provides information about an IBM DB2 LUW data provider.
+///
+/// @nodoc
 class IbmDb2LuwDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20574,6 +20920,8 @@ class IbmDb2LuwDataProviderSettings {
 }
 
 /// Provides information about an IBM DB2 for z/OS data provider.
+///
+/// @nodoc
 class IbmDb2zOsDataProviderSettings {
   /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
   final String? certificateArn;
@@ -20642,6 +20990,8 @@ class IbmDb2zOsDataProviderSettings {
 }
 
 /// Provides information that defines a MongoDB data provider.
+///
+/// @nodoc
 class MongoDbDataProviderSettings {
   /// The authentication method for connecting to the data provider. Valid values
   /// are DEFAULT, MONGODB_CR, or SCRAM_SHA_1.
@@ -20722,6 +21072,8 @@ class MongoDbDataProviderSettings {
 
 /// The SSL certificate that can be used to encrypt connections between the
 /// endpoints and the replication instance.
+///
+/// @nodoc
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
   final String? certificateArn;
@@ -20832,6 +21184,8 @@ class Certificate {
 }
 
 /// Provides information about an exported metadata model assessment.
+///
+/// @nodoc
 class ExportMetadataModelAssessmentResultEntry {
   /// The URL for the object containing the exported metadata model assessment.
   final String? objectURL;
@@ -20863,6 +21217,7 @@ class ExportMetadataModelAssessmentResultEntry {
   }
 }
 
+/// @nodoc
 class AssessmentReportType {
   static const pdf = AssessmentReportType._('pdf');
   static const csv = AssessmentReportType._('csv');
@@ -20890,6 +21245,8 @@ class AssessmentReportType {
 
 /// Provides a collection of table statistics in response to a request by the
 /// <code>DescribeTableStatistics</code> operation.
+///
+/// @nodoc
 class TableStatistics {
   /// The number of data definition language (DDL) statements used to build and
   /// modify the structure of your tables applied on the target.
@@ -21194,6 +21551,8 @@ class TableStatistics {
 /// limit the number and type of DMS objects that are returned for a particular
 /// <code>Describe*</code> call or similar operation. Filters are used as an
 /// optional parameter for certain API operations.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter as specified for a <code>Describe*</code> or similar
   /// operation.
@@ -21220,6 +21579,8 @@ class Filter {
 
 /// Provides information that describes an individual assessment from a
 /// premigration assessment run.
+///
+/// @nodoc
 class ReplicationTaskIndividualAssessment {
   /// Name of this individual assessment.
   final String? individualAssessmentName;
@@ -21312,6 +21673,8 @@ class ReplicationTaskIndividualAssessment {
 }
 
 /// The task assessment report in JSON format.
+///
+/// @nodoc
 class ReplicationTaskAssessmentResult {
   /// The task assessment results in JSON format.
   ///
@@ -21392,6 +21755,8 @@ class ReplicationTaskAssessmentResult {
 }
 
 /// Contains metadata for a replication instance task log.
+///
+/// @nodoc
 class ReplicationInstanceTaskLog {
   /// The size, in bytes, of the replication task log.
   final int? replicationInstanceTaskLogSize;
@@ -21444,6 +21809,8 @@ class ReplicationInstanceTaskLog {
 /// With recommendations, you can explore different target options and compare
 /// metrics, so you can make an informed decision when you choose the migration
 /// target.
+///
+/// @nodoc
 class Recommendation {
   /// The date when Fleet Advisor created the target engine recommendation.
   final String? createdDate;
@@ -21523,6 +21890,8 @@ class Recommendation {
 
 /// Provides information about the target engine for the specified source
 /// database.
+///
+/// @nodoc
 class RecommendationData {
   /// The recommendation of a target Amazon RDS database engine.
   final RdsRecommendation? rdsEngine;
@@ -21550,6 +21919,8 @@ class RecommendationData {
 
 /// Provides information that describes a recommendation of a target engine on
 /// Amazon RDS.
+///
+/// @nodoc
 class RdsRecommendation {
   /// Supplemental information about the requirements to the recommended target
   /// database on Amazon RDS.
@@ -21591,6 +21962,8 @@ class RdsRecommendation {
 
 /// Provides information that describes the requirements to the target engine on
 /// Amazon RDS.
+///
+/// @nodoc
 class RdsRequirements {
   /// The required deployment option for the Amazon RDS DB instance. Valid values
   /// include <code>"MULTI_AZ"</code> for Multi-AZ deployments and
@@ -21660,6 +22033,8 @@ class RdsRequirements {
 
 /// Provides information that describes the configuration of the recommended
 /// target engine on Amazon RDS.
+///
+/// @nodoc
 class RdsConfiguration {
   /// Describes the deployment option for the recommended Amazon RDS DB instance.
   /// The deployment options include Multi-AZ and Single-AZ deployments. Valid
@@ -21757,6 +22132,8 @@ class RdsConfiguration {
 /// limitations. You should consider these limitations during database
 /// migration. For each limitation, Fleet Advisor recommends an action that you
 /// can take to address or avoid this limitation.
+///
+/// @nodoc
 class Limitation {
   /// The identifier of the source database.
   final String? databaseId;
@@ -21826,6 +22203,8 @@ class Limitation {
 }
 
 /// Identifies an DMS resource and any pending actions for it.
+///
+/// @nodoc
 class ResourcePendingMaintenanceActions {
   /// Detailed information about the pending maintenance action.
   final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
@@ -21870,6 +22249,8 @@ class ResourcePendingMaintenanceActions {
 /// Describes a maintenance action pending for an DMS resource, including when
 /// and how it will be applied. This data type is a response element to the
 /// <code>DescribePendingMaintenanceActions</code> operation.
+///
+/// @nodoc
 class PendingMaintenanceAction {
   /// The type of pending maintenance action that is available for the resource.
   final String? action;
@@ -21946,6 +22327,8 @@ class PendingMaintenanceAction {
 /// operation, this object describes an available replication instance. This
 /// description includes the replication instance's type, engine version, and
 /// allocated storage.
+///
+/// @nodoc
 class OrderableReplicationInstance {
   /// List of Availability Zones for this replication instance.
   final List<String>? availabilityZones;
@@ -22051,6 +22434,7 @@ class OrderableReplicationInstance {
   }
 }
 
+/// @nodoc
 class ReleaseStatusValues {
   static const beta = ReleaseStatusValues._('beta');
   static const prod = ReleaseStatusValues._('prod');
@@ -22077,6 +22461,8 @@ class ReleaseStatusValues {
 }
 
 /// Provides information about a schema conversion action.
+///
+/// @nodoc
 class SchemaConversionRequest {
   final ErrorDetails? error;
   final ExportSqlDetails? exportSqlDetails;
@@ -22138,6 +22524,8 @@ class SchemaConversionRequest {
 }
 
 /// Provides error information about a project.
+///
+/// @nodoc
 class ErrorDetails {
   /// Error information about a project.
   final DefaultErrorDetails? defaultErrorDetails;
@@ -22165,6 +22553,8 @@ class ErrorDetails {
 }
 
 /// Provides information about a metadata model assessment exported to SQL.
+///
+/// @nodoc
 class ExportSqlDetails {
   /// The URL for the object containing the exported metadata model assessment.
   final String? objectURL;
@@ -22196,6 +22586,8 @@ class ExportSqlDetails {
 }
 
 /// Provides information about the progress of the schema conversion operation.
+///
+/// @nodoc
 class Progress {
   /// The name of the database object that the schema conversion operation
   /// currently uses.
@@ -22272,6 +22664,8 @@ class Progress {
 }
 
 /// The database object that the schema conversion operation currently uses.
+///
+/// @nodoc
 class ProcessedObject {
   /// The type of the data provider. This parameter can store one of the following
   /// values: <code>"SOURCE"</code> or <code>"TARGET"</code>.
@@ -22311,6 +22705,8 @@ class ProcessedObject {
 }
 
 /// Provides error information about a schema conversion operation.
+///
+/// @nodoc
 class DefaultErrorDetails {
   /// The error message.
   final String? message;
@@ -22335,6 +22731,8 @@ class DefaultErrorDetails {
 
 /// A reference to a metadata model, including its name and selection rules for
 /// location identification.
+///
+/// @nodoc
 class MetadataModelReference {
   /// The name of the metadata model.
   final String? metadataModelName;
@@ -22365,6 +22763,8 @@ class MetadataModelReference {
 }
 
 /// Describes a schema in a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class SchemaResponse {
   /// The number of lines of code in a schema in a Fleet Advisor collector
   /// inventory.
@@ -22455,6 +22855,8 @@ class SchemaResponse {
 }
 
 /// Describes a server in a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class ServerShortInfoResponse {
   /// The IP address of a server in a Fleet Advisor collector inventory.
   final String? ipAddress;
@@ -22492,6 +22894,8 @@ class ServerShortInfoResponse {
 }
 
 /// Describes a database in a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class DatabaseShortInfoResponse {
   /// The database engine of a database in a Fleet Advisor collector inventory,
   /// for example <code>PostgreSQL</code>.
@@ -22537,6 +22941,8 @@ class DatabaseShortInfoResponse {
 }
 
 /// Describes a schema in a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class SchemaShortInfoResponse {
   /// The ID of a database in a Fleet Advisor collector inventory.
   final String? databaseId;
@@ -22588,6 +22994,8 @@ class SchemaShortInfoResponse {
 }
 
 /// Describes a schema object in a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class FleetAdvisorSchemaObjectResponse {
   /// The number of lines of code in a schema object in a Fleet Advisor collector
   /// inventory.
@@ -22659,6 +23067,8 @@ class FleetAdvisorSchemaObjectResponse {
 
 /// Describes a large-scale assessment (LSA) analysis run by a Fleet Advisor
 /// collector.
+///
+/// @nodoc
 class FleetAdvisorLsaAnalysisResponse {
   /// The ID of an LSA analysis run by a Fleet Advisor collector.
   final String? lsaAnalysisId;
@@ -22689,6 +23099,8 @@ class FleetAdvisorLsaAnalysisResponse {
 }
 
 /// Describes a database in a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class DatabaseResponse {
   /// A list of collectors associated with the database.
   final List<CollectorShortInfoResponse>? collectors;
@@ -22765,6 +23177,8 @@ class DatabaseResponse {
 }
 
 /// Describes an inventory database instance for a Fleet Advisor collector.
+///
+/// @nodoc
 class DatabaseInstanceSoftwareDetailsResponse {
   /// The database engine of a database in a Fleet Advisor collector inventory,
   /// for example <code>Microsoft SQL Server</code>.
@@ -22836,6 +23250,8 @@ class DatabaseInstanceSoftwareDetailsResponse {
 }
 
 /// Briefly describes a Fleet Advisor collector.
+///
+/// @nodoc
 class CollectorShortInfoResponse {
   /// The name of the Fleet Advisor collector.
   final String? collectorName;
@@ -22867,6 +23283,8 @@ class CollectorShortInfoResponse {
 }
 
 /// Describes a Fleet Advisor collector.
+///
+/// @nodoc
 class CollectorResponse {
   final CollectorHealthCheck? collectorHealthCheck;
 
@@ -22987,6 +23405,7 @@ class CollectorResponse {
   }
 }
 
+/// @nodoc
 class VersionStatus {
   static const upToDate = VersionStatus._('UP_TO_DATE');
   static const outdated = VersionStatus._('OUTDATED');
@@ -23013,6 +23432,8 @@ class VersionStatus {
 }
 
 /// Describes the last Fleet Advisor collector health check.
+///
+/// @nodoc
 class CollectorHealthCheck {
   /// The status of the Fleet Advisor collector.
   final CollectorStatus? collectorStatus;
@@ -23065,6 +23486,8 @@ class CollectorHealthCheck {
 }
 
 /// Describes a Fleet Advisor collector inventory.
+///
+/// @nodoc
 class InventoryData {
   /// The number of databases in the Fleet Advisor collector inventory.
   final int? numberOfDatabases;
@@ -23094,6 +23517,7 @@ class InventoryData {
   }
 }
 
+/// @nodoc
 class CollectorStatus {
   static const unregistered = CollectorStatus._('UNREGISTERED');
   static const active = CollectorStatus._('ACTIVE');
@@ -23121,6 +23545,8 @@ class CollectorStatus {
 /// Describes an identifiable significant activity that affects a replication
 /// instance or task. This object can provide the message, the available event
 /// categories, the date and source of the event, and the DMS resource type.
+///
+/// @nodoc
 class Event {
   /// The date of the event.
   final DateTime? date;
@@ -23176,6 +23602,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const replicationInstance = SourceType._('replication-instance');
 
@@ -23202,6 +23629,8 @@ class SourceType {
 /// DMS resource type. This data type appears in response to the <a
 /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_EventCategoryGroup.html">
 /// <code>DescribeEventCategories</code> </a> action.
+///
+/// @nodoc
 class EventCategoryGroup {
   /// A list of event categories from a source type that you've chosen.
   final List<String>? eventCategories;
@@ -23238,6 +23667,8 @@ class EventCategoryGroup {
 }
 
 /// Provides information about a replication instance version.
+///
+/// @nodoc
 class EngineVersion {
   /// The date when the replication instance will be automatically upgraded. This
   /// setting only applies if the <code>auto-minor-version</code> setting is
@@ -23325,6 +23756,8 @@ class EngineVersion {
 /// request by the <code>DescribeEndpointTypes</code> operation. This
 /// information includes the type of endpoint, the database engine name, and
 /// whether change data capture (CDC) is supported.
+///
+/// @nodoc
 class SupportedEndpointType {
   /// The type of endpoint. Valid values are <code>source</code> and
   /// <code>target</code>.
@@ -23395,6 +23828,8 @@ class SupportedEndpointType {
 }
 
 /// Endpoint settings.
+///
+/// @nodoc
 class EndpointSetting {
   /// The relevance or validity of an endpoint setting for an engine name and its
   /// endpoint type.
@@ -23479,6 +23914,7 @@ class EndpointSetting {
   }
 }
 
+/// @nodoc
 class EndpointSettingTypeValue {
   static const string = EndpointSettingTypeValue._('string');
   static const boolean = EndpointSettingTypeValue._('boolean');
@@ -23508,6 +23944,8 @@ class EndpointSettingTypeValue {
 
 /// Describes a quota for an Amazon Web Services account, for example the number
 /// of replication instances allowed.
+///
+/// @nodoc
 class AccountQuota {
   /// The name of the DMS quota for this Amazon Web Services account.
   final String? accountQuotaName;
@@ -23546,6 +23984,8 @@ class AccountQuota {
 
 /// Provides information about the errors that occurred during the analysis of
 /// the source database.
+///
+/// @nodoc
 class BatchStartRecommendationsErrorEntry {
   /// The code of an error that occurred during the analysis of the source
   /// database.
@@ -23586,6 +24026,8 @@ class BatchStartRecommendationsErrorEntry {
 
 /// Provides information about the source database to analyze and provide target
 /// recommendations according to the specified requirements.
+///
+/// @nodoc
 class StartRecommendationsRequestEntry {
   /// The identifier of the source database.
   final String databaseId;
@@ -23608,21 +24050,25 @@ class StartRecommendationsRequestEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedFault extends _s.GenericAwsException {
   AccessDeniedFault({String? type, String? message})
       : super(type: type, code: 'AccessDeniedFault', message: message);
 }
 
+/// @nodoc
 class CollectorNotFoundFault extends _s.GenericAwsException {
   CollectorNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CollectorNotFoundFault', message: message);
 }
 
+/// @nodoc
 class FailedDependencyFault extends _s.GenericAwsException {
   FailedDependencyFault({String? type, String? message})
       : super(type: type, code: 'FailedDependencyFault', message: message);
 }
 
+/// @nodoc
 class InsufficientResourceCapacityFault extends _s.GenericAwsException {
   InsufficientResourceCapacityFault({String? type, String? message})
       : super(
@@ -23631,61 +24077,73 @@ class InsufficientResourceCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCertificateFault extends _s.GenericAwsException {
   InvalidCertificateFault({String? type, String? message})
       : super(type: type, code: 'InvalidCertificateFault', message: message);
 }
 
+/// @nodoc
 class InvalidOperationFault extends _s.GenericAwsException {
   InvalidOperationFault({String? type, String? message})
       : super(type: type, code: 'InvalidOperationFault', message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateFault extends _s.GenericAwsException {
   InvalidResourceStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidResourceStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class KMSAccessDeniedFault extends _s.GenericAwsException {
   KMSAccessDeniedFault({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedFault', message: message);
 }
 
+/// @nodoc
 class KMSDisabledFault extends _s.GenericAwsException {
   KMSDisabledFault({String? type, String? message})
       : super(type: type, code: 'KMSDisabledFault', message: message);
 }
 
+/// @nodoc
 class KMSFault extends _s.GenericAwsException {
   KMSFault({String? type, String? message})
       : super(type: type, code: 'KMSFault', message: message);
 }
 
+/// @nodoc
 class KMSInvalidStateFault extends _s.GenericAwsException {
   KMSInvalidStateFault({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateFault', message: message);
 }
 
+/// @nodoc
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
   KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+/// @nodoc
 class KMSNotFoundFault extends _s.GenericAwsException {
   KMSNotFoundFault({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundFault', message: message);
 }
 
+/// @nodoc
 class KMSThrottlingFault extends _s.GenericAwsException {
   KMSThrottlingFault({String? type, String? message})
       : super(type: type, code: 'KMSThrottlingFault', message: message);
 }
 
+/// @nodoc
 class ReplicationSubnetGroupDoesNotCoverEnoughAZs
     extends _s.GenericAwsException {
   ReplicationSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
@@ -23695,51 +24153,61 @@ class ReplicationSubnetGroupDoesNotCoverEnoughAZs
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsFault extends _s.GenericAwsException {
   ResourceAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ResourceAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundFault extends _s.GenericAwsException {
   ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ResourceQuotaExceededFault extends _s.GenericAwsException {
   ResourceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'ResourceQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class S3AccessDeniedFault extends _s.GenericAwsException {
   S3AccessDeniedFault({String? type, String? message})
       : super(type: type, code: 'S3AccessDeniedFault', message: message);
 }
 
+/// @nodoc
 class S3ResourceNotFoundFault extends _s.GenericAwsException {
   S3ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'S3ResourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SNSInvalidTopicFault extends _s.GenericAwsException {
   SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
+/// @nodoc
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
   SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
+/// @nodoc
 class StorageQuotaExceededFault extends _s.GenericAwsException {
   StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class SubnetAlreadyInUse extends _s.GenericAwsException {
   SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
+/// @nodoc
 class UpgradeDependencyFailureFault extends _s.GenericAwsException {
   UpgradeDependencyFailureFault({String? type, String? message})
       : super(

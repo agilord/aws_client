@@ -189,22 +189,22 @@ class Finspace {
   /// This request adds files in the given <code>s3Path</code> under the
   /// <i>taq</i> table partition of the database.
   ///
-  /// <code>[ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/",
-  /// "dbPath":"/2020.01.02/taq/"}]</code>
+  /// <code>\[ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/",
+  /// "dbPath":"/2020.01.02/taq/"}\]</code>
   /// </li>
   /// <li>
   /// This request deletes the 2020.01.02 partition of the database.
   ///
-  /// <code>[{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ]</code>
+  /// <code>\[{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} \]</code>
   /// </li>
   /// <li>
   /// The <i>DELETE</i> request allows you to delete the existing files under
   /// the 2020.01.02 partition of the database, and the <i>PUT</i> request adds
   /// a new taq table under it.
   ///
-  /// <code>[ {"changeType": "DELETE", "dbPath":"/2020.01.02/"}, {"changeType":
+  /// <code>\[ {"changeType": "DELETE", "dbPath":"/2020.01.02/"}, {"changeType":
   /// "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/",
-  /// "dbPath":"/2020.01.02/taq/"}]</code>
+  /// "dbPath":"/2020.01.02/taq/"}\]</code>
   /// </li> </ol>
   ///
   /// Parameter [databaseName] :
@@ -2486,6 +2486,7 @@ class Finspace {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the FinSpace environment that you created.
   final String? environmentArn;
@@ -2523,6 +2524,7 @@ class CreateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class CreateKxChangesetResponse {
   /// A list of change requests.
   final List<ChangeRequest>? changeRequests;
@@ -2621,6 +2623,7 @@ class CreateKxChangesetResponse {
   }
 }
 
+/// @nodoc
 class CreateKxClusterResponse {
   /// The configuration based on which FinSpace will scale in or scale out nodes
   /// in your cluster.
@@ -2941,6 +2944,7 @@ class CreateKxClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateKxDatabaseResponse {
   /// The timestamp at which the database is created in FinSpace. The value is
   /// determined as epoch time in milliseconds. For example, the value for Monday,
@@ -3004,6 +3008,7 @@ class CreateKxDatabaseResponse {
   }
 }
 
+/// @nodoc
 class CreateKxDataviewResponse {
   /// The option to select whether you want to apply all the future additions and
   /// corrections automatically to the dataview when you ingest new changesets.
@@ -3142,6 +3147,7 @@ class CreateKxDataviewResponse {
   }
 }
 
+/// @nodoc
 class CreateKxEnvironmentResponse {
   /// The timestamp at which the kdb environment was created in FinSpace.
   final DateTime? creationTimestamp;
@@ -3207,6 +3213,7 @@ class CreateKxEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class CreateKxScalingGroupResponse {
   /// The identifier of the availability zones.
   final String? availabilityZoneId;
@@ -3306,6 +3313,7 @@ class CreateKxScalingGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateKxUserResponse {
   /// A unique identifier for the kdb environment.
   final String? environmentId;
@@ -3352,6 +3360,7 @@ class CreateKxUserResponse {
   }
 }
 
+/// @nodoc
 class CreateKxVolumeResponse {
   /// The identifier of the availability zones.
   final List<String>? availabilityZoneIds;
@@ -3489,6 +3498,7 @@ class CreateKxVolumeResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentResponse {
   DeleteEnvironmentResponse();
 
@@ -3501,6 +3511,7 @@ class DeleteEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxClusterResponse {
   DeleteKxClusterResponse();
 
@@ -3513,6 +3524,7 @@ class DeleteKxClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxClusterNodeResponse {
   DeleteKxClusterNodeResponse();
 
@@ -3525,6 +3537,7 @@ class DeleteKxClusterNodeResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxDatabaseResponse {
   DeleteKxDatabaseResponse();
 
@@ -3537,6 +3550,7 @@ class DeleteKxDatabaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxDataviewResponse {
   DeleteKxDataviewResponse();
 
@@ -3549,6 +3563,7 @@ class DeleteKxDataviewResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxEnvironmentResponse {
   DeleteKxEnvironmentResponse();
 
@@ -3561,6 +3576,7 @@ class DeleteKxEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxScalingGroupResponse {
   DeleteKxScalingGroupResponse();
 
@@ -3573,6 +3589,7 @@ class DeleteKxScalingGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxUserResponse {
   DeleteKxUserResponse();
 
@@ -3585,6 +3602,7 @@ class DeleteKxUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteKxVolumeResponse {
   DeleteKxVolumeResponse();
 
@@ -3597,6 +3615,7 @@ class DeleteKxVolumeResponse {
   }
 }
 
+/// @nodoc
 class GetEnvironmentResponse {
   /// The name of the FinSpace environment.
   final Environment? environment;
@@ -3621,6 +3640,7 @@ class GetEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetKxChangesetResponse {
   /// Beginning time from which the changeset is active. The value is determined
   /// as epoch time in milliseconds. For example, the value for Monday, November
@@ -3729,6 +3749,7 @@ class GetKxChangesetResponse {
   }
 }
 
+/// @nodoc
 class GetKxClusterResponse {
   /// The configuration based on which FinSpace will scale in or scale out nodes
   /// in your cluster.
@@ -4040,6 +4061,7 @@ class GetKxClusterResponse {
   }
 }
 
+/// @nodoc
 class GetKxConnectionStringResponse {
   /// The signed connection string that you can use to connect to clusters.
   final String? signedConnectionString;
@@ -4063,6 +4085,7 @@ class GetKxConnectionStringResponse {
   }
 }
 
+/// @nodoc
 class GetKxDatabaseResponse {
   /// The timestamp at which the database is created in FinSpace. The value is
   /// determined as epoch time in milliseconds. For example, the value for Monday,
@@ -4155,6 +4178,7 @@ class GetKxDatabaseResponse {
   }
 }
 
+/// @nodoc
 class GetKxDataviewResponse {
   /// The current active changeset versions of the database on the given dataview.
   final List<KxDataviewActiveVersion>? activeVersions;
@@ -4311,6 +4335,7 @@ class GetKxDataviewResponse {
   }
 }
 
+/// @nodoc
 class GetKxEnvironmentResponse {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
@@ -4463,6 +4488,7 @@ class GetKxEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetKxScalingGroupResponse {
   /// The identifier of the availability zones.
   final String? availabilityZoneId;
@@ -4620,6 +4646,7 @@ class GetKxScalingGroupResponse {
   }
 }
 
+/// @nodoc
 class GetKxUserResponse {
   /// A unique identifier for the kdb environment.
   final String? environmentId;
@@ -4666,6 +4693,7 @@ class GetKxUserResponse {
   }
 }
 
+/// @nodoc
 class GetKxVolumeResponse {
   /// A list of cluster identifiers that a volume is attached to.
   final List<KxAttachedCluster>? attachedClusters;
@@ -4823,6 +4851,7 @@ class GetKxVolumeResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResponse {
   /// A list of all of your FinSpace environments.
   final List<Environment>? environments;
@@ -4856,6 +4885,7 @@ class ListEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class ListKxChangesetsResponse {
   /// A list of changesets for a database.
   final List<KxChangesetListEntry>? kxChangesets;
@@ -4888,6 +4918,7 @@ class ListKxChangesetsResponse {
   }
 }
 
+/// @nodoc
 class ListKxClusterNodesResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -4920,6 +4951,7 @@ class ListKxClusterNodesResponse {
   }
 }
 
+/// @nodoc
 class ListKxClustersResponse {
   /// Lists the cluster details.
   final List<KxCluster>? kxClusterSummaries;
@@ -4952,6 +4984,7 @@ class ListKxClustersResponse {
   }
 }
 
+/// @nodoc
 class ListKxDatabasesResponse {
   /// A list of databases in the kdb environment.
   final List<KxDatabaseListEntry>? kxDatabases;
@@ -4984,6 +5017,7 @@ class ListKxDatabasesResponse {
   }
 }
 
+/// @nodoc
 class ListKxDataviewsResponse {
   /// The list of kdb dataviews that are currently active for the given database.
   final List<KxDataviewListEntry>? kxDataviews;
@@ -5016,6 +5050,7 @@ class ListKxDataviewsResponse {
   }
 }
 
+/// @nodoc
 class ListKxEnvironmentsResponse {
   /// A list of environments in an account.
   final List<KxEnvironment>? environments;
@@ -5048,6 +5083,7 @@ class ListKxEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class ListKxScalingGroupsResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -5080,6 +5116,7 @@ class ListKxScalingGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListKxUsersResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -5112,6 +5149,7 @@ class ListKxUsersResponse {
   }
 }
 
+/// @nodoc
 class ListKxVolumesResponse {
   /// A summary of volumes.
   final List<KxVolume>? kxVolumeSummaries;
@@ -5144,6 +5182,7 @@ class ListKxVolumesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of all tags for a resource.
   final Map<String, String>? tags;
@@ -5167,6 +5206,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5179,6 +5219,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5191,6 +5232,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentResponse {
   /// Returns the FinSpace environment object.
   final Environment? environment;
@@ -5215,6 +5257,7 @@ class UpdateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxClusterCodeConfigurationResponse {
   UpdateKxClusterCodeConfigurationResponse();
 
@@ -5228,6 +5271,7 @@ class UpdateKxClusterCodeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxClusterDatabasesResponse {
   UpdateKxClusterDatabasesResponse();
 
@@ -5240,6 +5284,7 @@ class UpdateKxClusterDatabasesResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxDatabaseResponse {
   /// The name of the kdb database.
   final String? databaseName;
@@ -5286,6 +5331,7 @@ class UpdateKxDatabaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxDataviewResponse {
   /// The current active changeset versions of the database on the given dataview.
   final List<KxDataviewActiveVersion>? activeVersions;
@@ -5435,6 +5481,7 @@ class UpdateKxDataviewResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxEnvironmentResponse {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
@@ -5578,6 +5625,7 @@ class UpdateKxEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxEnvironmentNetworkResponse {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
@@ -5722,6 +5770,7 @@ class UpdateKxEnvironmentNetworkResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxUserResponse {
   /// A unique identifier for the kdb environment.
   final String? environmentId;
@@ -5768,6 +5817,7 @@ class UpdateKxUserResponse {
   }
 }
 
+/// @nodoc
 class UpdateKxVolumeResponse {
   /// Specifies the clusters that a volume is attached to.
   final List<KxAttachedCluster>? attachedClusters;
@@ -5925,6 +5975,7 @@ class UpdateKxVolumeResponse {
   }
 }
 
+/// @nodoc
 class KxVolumeType {
   static const nas_1 = KxVolumeType._('NAS_1');
 
@@ -5949,6 +6000,8 @@ class KxVolumeType {
 
 /// The structure containing the size and type of the network attached storage
 /// (NAS_1) file system volume.
+///
+/// @nodoc
 class KxNAS1Configuration {
   /// The size of the network attached storage. For storage type
   /// <code>SSD_1000</code> and <code>SSD_250</code> you can select the minimum
@@ -5982,6 +6035,7 @@ class KxNAS1Configuration {
   }
 }
 
+/// @nodoc
 class KxVolumeStatus {
   static const creating = KxVolumeStatus._('CREATING');
   static const createFailed = KxVolumeStatus._('CREATE_FAILED');
@@ -6023,6 +6077,7 @@ class KxVolumeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class KxAzMode {
   static const single = KxAzMode._('SINGLE');
   static const multi = KxAzMode._('MULTI');
@@ -6047,6 +6102,8 @@ class KxAzMode {
 }
 
 /// The structure containing the metadata of the attached clusters.
+///
+/// @nodoc
 class KxAttachedCluster {
   /// A unique name for the attached cluster.
   final String? clusterName;
@@ -6113,6 +6170,7 @@ class KxAttachedCluster {
   }
 }
 
+/// @nodoc
 class KxClusterType {
   static const hdb = KxClusterType._('HDB');
   static const rdb = KxClusterType._('RDB');
@@ -6140,6 +6198,7 @@ class KxClusterType {
   String toString() => value;
 }
 
+/// @nodoc
 class KxClusterStatus {
   static const pending = KxClusterStatus._('PENDING');
   static const creating = KxClusterStatus._('CREATING');
@@ -6179,6 +6238,7 @@ class KxClusterStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class KxNAS1Type {
   static const ssd_1000 = KxNAS1Type._('SSD_1000');
   static const ssd_250 = KxNAS1Type._('SSD_250');
@@ -6203,6 +6263,7 @@ class KxNAS1Type {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentStatus {
   static const createRequested = EnvironmentStatus._('CREATE_REQUESTED');
   static const creating = EnvironmentStatus._('CREATING');
@@ -6254,6 +6315,7 @@ class EnvironmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TgwStatus {
   static const none = TgwStatus._('NONE');
   static const updateRequested = TgwStatus._('UPDATE_REQUESTED');
@@ -6286,6 +6348,7 @@ class TgwStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DnsStatus {
   static const none = DnsStatus._('NONE');
   static const updateRequested = DnsStatus._('UPDATE_REQUESTED');
@@ -6320,6 +6383,8 @@ class DnsStatus {
 
 /// The structure of the transit gateway and network configuration that is used
 /// to connect the kdb environment to an internal network.
+///
+/// @nodoc
 class TransitGatewayConfiguration {
   /// The routing CIDR on behalf of kdb environment. It could be any "/26 range in
   /// the 100.64.0.0 CIDR space. After providing, it will be added to the
@@ -6369,6 +6434,8 @@ class TransitGatewayConfiguration {
 
 /// A list of DNS server name and server IP. This is used to set up Route-53
 /// outbound resolvers.
+///
+/// @nodoc
 class CustomDNSServer {
   /// The IP address of the DNS server.
   final String customDNSServerIP;
@@ -6404,6 +6471,8 @@ class CustomDNSServer {
 /// that determine whether a packet should be allowed in or out of a subnet
 /// associated with the ACL. We process the entries in the ACL according to the
 /// rule numbers, in ascending order.
+///
+/// @nodoc
 class NetworkACLEntry {
   /// The IPv4 network range to allow or deny, in CIDR notation. For example,
   /// <code>172.16.0.0/24</code>. We modify the specified CIDR block to its
@@ -6469,6 +6538,7 @@ class NetworkACLEntry {
   }
 }
 
+/// @nodoc
 class RuleAction {
   static const allow = RuleAction._('allow');
   static const deny = RuleAction._('deny');
@@ -6493,6 +6563,8 @@ class RuleAction {
 }
 
 /// The range of ports the rule applies to.
+///
+/// @nodoc
 class PortRange {
   /// The first port in the range.
   final int from;
@@ -6523,6 +6595,8 @@ class PortRange {
 }
 
 /// Defines the ICMP protocol that consists of the ICMP type and code.
+///
+/// @nodoc
 class IcmpTypeCode {
   /// The ICMP code. A value of <i>-1</i> means all codes for the specified ICMP
   /// type.
@@ -6553,6 +6627,7 @@ class IcmpTypeCode {
   }
 }
 
+/// @nodoc
 class KxDataviewStatus {
   static const creating = KxDataviewStatus._('CREATING');
   static const active = KxDataviewStatus._('ACTIVE');
@@ -6581,6 +6656,8 @@ class KxDataviewStatus {
 }
 
 /// The active version of the dataview that is currently in use by this cluster.
+///
+/// @nodoc
 class KxDataviewActiveVersion {
   /// The list of clusters that are currently using this dataview.
   final List<String>? attachedClusters;
@@ -6651,6 +6728,8 @@ class KxDataviewActiveVersion {
 /// path for each volume. If you do not explicitly specify any database path for
 /// a volume, they are accessible from the cluster through the default S3/object
 /// store segment.
+///
+/// @nodoc
 class KxDataviewSegmentConfiguration {
   /// The database path of the data that you want to place on each selected volume
   /// for the segment. Each segment must have a unique database path for each
@@ -6699,6 +6778,8 @@ class KxDataviewSegmentConfiguration {
 /// The configuration that allows you to choose how you want to update the
 /// databases on a cluster. Depending on the option you choose, you can reduce
 /// the time it takes to update the cluster.
+///
+/// @nodoc
 class KxDeploymentConfiguration {
   /// The type of deployment that you want on a cluster.
   ///
@@ -6732,6 +6813,7 @@ class KxDeploymentConfiguration {
   }
 }
 
+/// @nodoc
 class KxDeploymentStrategy {
   static const noRestart = KxDeploymentStrategy._('NO_RESTART');
   static const rolling = KxDeploymentStrategy._('ROLLING');
@@ -6758,6 +6840,8 @@ class KxDeploymentStrategy {
 }
 
 /// The configuration of data that is available for querying from this database.
+///
+/// @nodoc
 class KxDatabaseConfiguration {
   /// The name of the kdb database. When this parameter is specified in the
   /// structure, S3 with the whole database is included by default.
@@ -6820,6 +6904,8 @@ class KxDatabaseConfiguration {
 }
 
 /// The structure that stores the configuration details of a dataview.
+///
+/// @nodoc
 class KxDataviewConfiguration {
   /// A unique identifier for the changeset.
   final String? changesetId;
@@ -6870,6 +6956,8 @@ class KxDataviewConfiguration {
 
 /// The structure of database cache configuration that is used for mapping
 /// database paths to cache types in clusters.
+///
+/// @nodoc
 class KxDatabaseCacheConfiguration {
   /// The type of disk cache. This parameter is used to map the database path to
   /// cache storage. The valid values are:
@@ -6918,6 +7006,8 @@ class KxDatabaseCacheConfiguration {
 }
 
 /// The structure of the customer code available within the running cluster.
+///
+/// @nodoc
 class CodeConfiguration {
   /// A unique name for the S3 bucket.
   final String? s3Bucket;
@@ -6958,6 +7048,8 @@ class CodeConfiguration {
 /// The configuration that allows you to choose how you want to update code on a
 /// cluster. Depending on the option you choose, you can reduce the time it
 /// takes to update the cluster.
+///
+/// @nodoc
 class KxClusterCodeDeploymentConfiguration {
   /// The type of deployment that you want on a cluster.
   ///
@@ -6996,6 +7088,7 @@ class KxClusterCodeDeploymentConfiguration {
   }
 }
 
+/// @nodoc
 class KxClusterCodeDeploymentStrategy {
   static const noRestart = KxClusterCodeDeploymentStrategy._('NO_RESTART');
   static const rolling = KxClusterCodeDeploymentStrategy._('ROLLING');
@@ -7023,6 +7116,8 @@ class KxClusterCodeDeploymentStrategy {
 }
 
 /// Defines the key-value pairs to make them available inside the cluster.
+///
+/// @nodoc
 class KxCommandLineArgument {
   /// The name of the key.
   final String? key;
@@ -7053,6 +7148,8 @@ class KxCommandLineArgument {
 }
 
 /// Represents an FinSpace environment.
+///
+/// @nodoc
 class Environment {
   /// The ID of the AWS account in which the FinSpace environment is created.
   final String? awsAccountId;
@@ -7161,6 +7258,7 @@ class Environment {
   }
 }
 
+/// @nodoc
 class FederationMode {
   static const federated = FederationMode._('FEDERATED');
   static const local = FederationMode._('LOCAL');
@@ -7186,6 +7284,8 @@ class FederationMode {
 }
 
 /// Configuration information when authentication mode is FEDERATED.
+///
+/// @nodoc
 class FederationParameters {
   /// The redirect or sign-in URL that should be entered into the SAML 2.0
   /// compliant identity provider configuration (IdP).
@@ -7256,6 +7356,8 @@ class FederationParameters {
 }
 
 /// The structure that contains the metadata of the volume.
+///
+/// @nodoc
 class KxVolume {
   /// The identifier of the availability zones.
   final List<String>? availabilityZoneIds;
@@ -7378,6 +7480,8 @@ class KxVolume {
 }
 
 /// A structure that stores metadata for a kdb user.
+///
+/// @nodoc
 class KxUser {
   /// The timestamp at which the kdb user was created.
   final DateTime? createTimestamp;
@@ -7434,6 +7538,8 @@ class KxUser {
 }
 
 /// A structure for storing metadata of scaling group.
+///
+/// @nodoc
 class KxScalingGroup {
   /// The identifier of the availability zones.
   final String? availabilityZoneId;
@@ -7556,6 +7662,7 @@ class KxScalingGroup {
   }
 }
 
+/// @nodoc
 class KxScalingGroupStatus {
   static const creating = KxScalingGroupStatus._('CREATING');
   static const createFailed = KxScalingGroupStatus._('CREATE_FAILED');
@@ -7593,6 +7700,8 @@ class KxScalingGroupStatus {
 }
 
 /// The details of a kdb environment.
+///
+/// @nodoc
 class KxEnvironment {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
@@ -7783,6 +7892,8 @@ class KxEnvironment {
 }
 
 /// A collection of kdb dataview entries.
+///
+/// @nodoc
 class KxDataviewListEntry {
   /// The active changeset versions for the given dataview entry.
   final List<KxDataviewActiveVersion>? activeVersions;
@@ -7927,6 +8038,8 @@ class KxDataviewListEntry {
 }
 
 /// Details about a FinSpace managed kdb database
+///
+/// @nodoc
 class KxDatabaseListEntry {
   /// The timestamp at which the database was created in FinSpace. The value is
   /// determined as epoch time in milliseconds. For example, the value for Monday,
@@ -7970,6 +8083,8 @@ class KxDatabaseListEntry {
 }
 
 /// The details of a kdb cluster.
+///
+/// @nodoc
 class KxCluster {
   /// The availability zone identifiers for the requested regions.
   final String? availabilityZoneId;
@@ -8168,6 +8283,8 @@ class KxCluster {
 }
 
 /// The structure that consists of name and type of volume.
+///
+/// @nodoc
 class Volume {
   /// A unique identifier for the volume.
   final String? volumeName;
@@ -8198,6 +8315,7 @@ class Volume {
   }
 }
 
+/// @nodoc
 class VolumeType {
   static const nas_1 = VolumeType._('NAS_1');
 
@@ -8221,6 +8339,8 @@ class VolumeType {
 }
 
 /// A structure that stores metadata for a kdb node.
+///
+/// @nodoc
 class KxNode {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
@@ -8276,6 +8396,7 @@ class KxNode {
   }
 }
 
+/// @nodoc
 class KxNodeStatus {
   static const running = KxNodeStatus._('RUNNING');
   static const provisioning = KxNodeStatus._('PROVISIONING');
@@ -8300,6 +8421,8 @@ class KxNodeStatus {
 }
 
 /// Details of changeset.
+///
+/// @nodoc
 class KxChangesetListEntry {
   /// Beginning time from which the changeset is active. The value is determined
   /// as epoch time in milliseconds. For example, the value for Monday, November
@@ -8374,6 +8497,7 @@ class KxChangesetListEntry {
   }
 }
 
+/// @nodoc
 class ChangesetStatus {
   static const pending = ChangesetStatus._('PENDING');
   static const processing = ChangesetStatus._('PROCESSING');
@@ -8404,6 +8528,8 @@ class ChangesetStatus {
 /// volumes that will be mounted to your cluster. For the cluster type
 /// <code>Tickerplant</code>, the location of the TP volume on the cluster will
 /// be available by using the global variable <code>.aws.tp_log_path</code>.
+///
+/// @nodoc
 class TickerplantLogConfiguration {
   /// The name of the volumes for tickerplant logs.
   final List<String>? tickerplantLogVolumes;
@@ -8432,6 +8558,8 @@ class TickerplantLogConfiguration {
 
 /// The configuration based on which FinSpace will scale in or scale out nodes
 /// in your cluster.
+///
+/// @nodoc
 class AutoScalingConfiguration {
   /// The metric your cluster will track in order to scale in and out. For
   /// example, <code>CPU_UTILIZATION_PERCENTAGE</code> is the average CPU usage
@@ -8505,6 +8633,8 @@ class AutoScalingConfiguration {
 
 /// A structure for the metadata of a cluster. It includes information like the
 /// CPUs needed, memory of instances, and number of instances.
+///
+/// @nodoc
 class CapacityConfiguration {
   /// The number of instances running in a cluster.
   final int? nodeCount;
@@ -8572,6 +8702,8 @@ class CapacityConfiguration {
 
 /// Configuration details about the network where the Privatelink endpoint of
 /// the cluster resides.
+///
+/// @nodoc
 class VpcConfiguration {
   /// The IP address type for cluster network configuration parameters. The
   /// following type is available:
@@ -8634,6 +8766,8 @@ class VpcConfiguration {
 /// The size and type of temporary storage that is used to hold data during the
 /// savedown process. All the data written to this storage space is lost when
 /// the cluster node is restarted.
+///
+/// @nodoc
 class KxSavedownStorageConfiguration {
   /// The size of temporary storage in gibibytes.
   final int? size;
@@ -8680,6 +8814,8 @@ class KxSavedownStorageConfiguration {
 
 /// The structure that stores the capacity configuration details of a scaling
 /// group.
+///
+/// @nodoc
 class KxScalingGroupConfiguration {
   /// A reservation of the minimum amount of memory that should be available on
   /// the scaling group for a kdb cluster to be successfully placed in a scaling
@@ -8733,6 +8869,7 @@ class KxScalingGroupConfiguration {
   }
 }
 
+/// @nodoc
 class KxSavedownStorageType {
   static const sds01 = KxSavedownStorageType._('SDS01');
 
@@ -8757,6 +8894,7 @@ class KxSavedownStorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class IPAddressType {
   static const ipV4 = IPAddressType._('IP_V4');
 
@@ -8780,6 +8918,7 @@ class IPAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoScalingMetric {
   static const cpuUtilizationPercentage =
       AutoScalingMetric._('CPU_UTILIZATION_PERCENTAGE');
@@ -8805,6 +8944,8 @@ class AutoScalingMetric {
 }
 
 /// The configuration for read only disk cache associated with a cluster.
+///
+/// @nodoc
 class KxCacheStorageConfiguration {
   /// The size of cache in Gigabytes.
   final int size;
@@ -8852,6 +8993,8 @@ class KxCacheStorageConfiguration {
 
 /// Provides details in the event of a failed flow, including the error type and
 /// the related error message.
+///
+/// @nodoc
 class ErrorInfo {
   /// Specifies the error message that appears if a flow fails.
   final String? errorMessage;
@@ -8881,6 +9024,7 @@ class ErrorInfo {
   }
 }
 
+/// @nodoc
 class ErrorDetails {
   static const theInputsToThisRequestAreInvalid =
       ErrorDetails._('The inputs to this request are invalid.');
@@ -8928,6 +9072,8 @@ class ErrorDetails {
 }
 
 /// A list of change request objects.
+///
+/// @nodoc
 class ChangeRequest {
   /// Defines the type of change request. A <code>changeType</code> can have the
   /// following values:
@@ -8975,6 +9121,7 @@ class ChangeRequest {
   }
 }
 
+/// @nodoc
 class ChangeType {
   static const put = ChangeType._('PUT');
   static const delete = ChangeType._('DELETE');
@@ -8999,6 +9146,8 @@ class ChangeType {
 }
 
 /// Configuration information for the superuser.
+///
+/// @nodoc
 class SuperuserParameters {
   /// The email address of the superuser.
   final String emailAddress;
@@ -9027,31 +9176,37 @@ class SuperuserParameters {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -9060,11 +9215,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -9073,11 +9230,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

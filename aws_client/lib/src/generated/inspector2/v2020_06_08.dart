@@ -2709,6 +2709,7 @@ class Inspector2 {
   }
 }
 
+/// @nodoc
 class AssociateMemberResponse {
   /// The Amazon Web Services account ID of the successfully associated member
   /// account.
@@ -2732,6 +2733,7 @@ class AssociateMemberResponse {
   }
 }
 
+/// @nodoc
 class BatchAssociateCodeSecurityScanConfigurationResponse {
   /// Details of any code repositories that failed to be associated with the scan
   /// configuration.
@@ -2773,6 +2775,7 @@ class BatchAssociateCodeSecurityScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateCodeSecurityScanConfigurationResponse {
   /// Details of any code repositories that failed to be disassociated from the
   /// scan configuration.
@@ -2814,6 +2817,7 @@ class BatchDisassociateCodeSecurityScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAccountStatusResponse {
   /// An array of objects that provide details on the status of Amazon Inspector
   /// for each of the requested accounts.
@@ -2851,6 +2855,7 @@ class BatchGetAccountStatusResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCodeSnippetResponse {
   /// The retrieved code snippets associated with the provided finding ARNs.
   final List<CodeSnippetResult>? codeSnippetResults;
@@ -2887,6 +2892,7 @@ class BatchGetCodeSnippetResponse {
   }
 }
 
+/// @nodoc
 class BatchGetFindingDetailsResponse {
   /// Error information for findings that details could not be returned for.
   final List<FindingDetailsError>? errors;
@@ -2922,6 +2928,7 @@ class BatchGetFindingDetailsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetFreeTrialInfoResponse {
   /// An array of objects that provide Amazon Inspector free trial details for
   /// each of the requested accounts.
@@ -2959,6 +2966,7 @@ class BatchGetFreeTrialInfoResponse {
   }
 }
 
+/// @nodoc
 class BatchGetMemberEc2DeepInspectionStatusResponse {
   /// An array of objects that provide details on the activation status of Amazon
   /// Inspector deep inspection for each of the requested accounts.
@@ -2999,6 +3007,7 @@ class BatchGetMemberEc2DeepInspectionStatusResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateMemberEc2DeepInspectionStatusResponse {
   /// An array of objects that provide details for each of the accounts that
   /// Amazon Inspector deep inspection status was successfully changed for.
@@ -3040,6 +3049,7 @@ class BatchUpdateMemberEc2DeepInspectionStatusResponse {
   }
 }
 
+/// @nodoc
 class CancelFindingsReportResponse {
   /// The ID of the canceled report.
   final String reportId;
@@ -3062,6 +3072,7 @@ class CancelFindingsReportResponse {
   }
 }
 
+/// @nodoc
 class CancelSbomExportResponse {
   /// The report ID of the canceled SBOM export.
   final String? reportId;
@@ -3084,6 +3095,7 @@ class CancelSbomExportResponse {
   }
 }
 
+/// @nodoc
 class CreateCisScanConfigurationResponse {
   /// The scan configuration ARN for the CIS scan configuration.
   final String? scanConfigurationArn;
@@ -3108,6 +3120,7 @@ class CreateCisScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateCodeSecurityIntegrationResponse {
   /// The Amazon Resource Name (ARN) of the created code security integration.
   final String integrationArn;
@@ -3145,6 +3158,7 @@ class CreateCodeSecurityIntegrationResponse {
   }
 }
 
+/// @nodoc
 class CreateCodeSecurityScanConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the created scan configuration.
   final String scanConfigurationArn;
@@ -3168,6 +3182,7 @@ class CreateCodeSecurityScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateFilterResponse {
   /// The Amazon Resource Number (ARN) of the successfully created filter.
   final String arn;
@@ -3190,6 +3205,7 @@ class CreateFilterResponse {
   }
 }
 
+/// @nodoc
 class CreateFindingsReportResponse {
   /// The ID of the report.
   final String? reportId;
@@ -3212,6 +3228,7 @@ class CreateFindingsReportResponse {
   }
 }
 
+/// @nodoc
 class CreateSbomExportResponse {
   /// The report ID for the software bill of materials (SBOM) report.
   final String? reportId;
@@ -3234,6 +3251,7 @@ class CreateSbomExportResponse {
   }
 }
 
+/// @nodoc
 class DeleteCisScanConfigurationResponse {
   /// The ARN of the CIS scan configuration.
   final String scanConfigurationArn;
@@ -3257,6 +3275,7 @@ class DeleteCisScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteCodeSecurityIntegrationResponse {
   /// The Amazon Resource Name (ARN) of the deleted code security integration.
   final String? integrationArn;
@@ -3280,6 +3299,7 @@ class DeleteCodeSecurityIntegrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteCodeSecurityScanConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the deleted scan configuration.
   final String? scanConfigurationArn;
@@ -3304,6 +3324,7 @@ class DeleteCodeSecurityScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteFilterResponse {
   /// The Amazon Resource Number (ARN) of the filter that has been deleted.
   final String arn;
@@ -3326,6 +3347,7 @@ class DeleteFilterResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigurationResponse {
   /// The scan types are automatically enabled for new members of your
   /// organization.
@@ -3361,6 +3383,7 @@ class DescribeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DisableResponse {
   /// Information on the accounts that have had Amazon Inspector scans
   /// successfully disabled. Details are provided for each account.
@@ -3398,6 +3421,7 @@ class DisableResponse {
   }
 }
 
+/// @nodoc
 class DisableDelegatedAdminAccountResponse {
   /// The Amazon Web Services account ID of the successfully disabled delegated
   /// administrator.
@@ -3423,6 +3447,7 @@ class DisableDelegatedAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberResponse {
   /// The Amazon Web Services account ID of the successfully disassociated member.
   final String accountId;
@@ -3445,6 +3470,7 @@ class DisassociateMemberResponse {
   }
 }
 
+/// @nodoc
 class EnableResponse {
   /// Information on the accounts that have had Amazon Inspector scans
   /// successfully enabled. Details are provided for each account.
@@ -3482,6 +3508,7 @@ class EnableResponse {
   }
 }
 
+/// @nodoc
 class EnableDelegatedAdminAccountResponse {
   /// The Amazon Web Services account ID of the successfully Amazon Inspector
   /// delegated administrator.
@@ -3507,6 +3534,7 @@ class EnableDelegatedAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class GetCisScanReportResponse {
   /// The status.
   final CisReportStatus? status;
@@ -3536,6 +3564,7 @@ class GetCisScanReportResponse {
   }
 }
 
+/// @nodoc
 class GetCisScanResultDetailsResponse {
   /// The pagination token from a previous request that's used to retrieve the
   /// next page of results.
@@ -3569,6 +3598,7 @@ class GetCisScanResultDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetClustersForImageResponse {
   /// A unit of work inside of a cluster, which can include metadata about the
   /// cluster.
@@ -3603,6 +3633,7 @@ class GetClustersForImageResponse {
   }
 }
 
+/// @nodoc
 class GetCodeSecurityIntegrationResponse {
   /// The timestamp when the code security integration was created.
   final DateTime createdOn;
@@ -3685,6 +3716,7 @@ class GetCodeSecurityIntegrationResponse {
   }
 }
 
+/// @nodoc
 class GetCodeSecurityScanResponse {
   /// The Amazon Web Services account ID associated with the scan.
   final String? accountId;
@@ -3760,6 +3792,7 @@ class GetCodeSecurityScanResponse {
   }
 }
 
+/// @nodoc
 class GetCodeSecurityScanConfigurationResponse {
   /// The configuration settings for the code security scan.
   final CodeSecurityScanConfiguration? configuration;
@@ -3844,6 +3877,7 @@ class GetCodeSecurityScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetConfigurationResponse {
   /// Specifies how the Amazon EC2 automated scan mode is currently configured for
   /// your environment.
@@ -3881,6 +3915,7 @@ class GetConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetDelegatedAdminAccountResponse {
   /// The Amazon Web Services account ID of the Amazon Inspector delegated
   /// administrator.
@@ -3907,6 +3942,7 @@ class GetDelegatedAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class GetEc2DeepInspectionConfigurationResponse {
   /// An error message explaining why Amazon Inspector deep inspection
   /// configurations could not be retrieved for your account.
@@ -3959,6 +3995,7 @@ class GetEc2DeepInspectionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetEncryptionKeyResponse {
   /// A kms key ID.
   final String kmsKeyId;
@@ -3981,6 +4018,7 @@ class GetEncryptionKeyResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsReportStatusResponse {
   /// The destination of the report.
   final Destination? destination;
@@ -4044,6 +4082,7 @@ class GetFindingsReportStatusResponse {
   }
 }
 
+/// @nodoc
 class GetMemberResponse {
   /// Details of the retrieved member account.
   final Member? member;
@@ -4068,6 +4107,7 @@ class GetMemberResponse {
   }
 }
 
+/// @nodoc
 class GetSbomExportResponse {
   /// An error code.
   final ReportingErrorCode? errorCode;
@@ -4139,6 +4179,7 @@ class GetSbomExportResponse {
   }
 }
 
+/// @nodoc
 class ListAccountPermissionsResponse {
   /// Contains details on the permissions an account has to configure Amazon
   /// Inspector.
@@ -4175,6 +4216,7 @@ class ListAccountPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListCisScanConfigurationsResponse {
   /// The pagination token from a previous request that's used to retrieve the
   /// next page of results.
@@ -4209,6 +4251,7 @@ class ListCisScanConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListCisScanResultsAggregatedByChecksResponse {
   /// The check aggregations.
   final List<CisCheckAggregation>? checkAggregations;
@@ -4243,6 +4286,7 @@ class ListCisScanResultsAggregatedByChecksResponse {
   }
 }
 
+/// @nodoc
 class ListCisScanResultsAggregatedByTargetResourceResponse {
   /// The pagination token from a previous request that's used to retrieve the
   /// next page of results.
@@ -4279,6 +4323,7 @@ class ListCisScanResultsAggregatedByTargetResourceResponse {
   }
 }
 
+/// @nodoc
 class ListCisScansResponse {
   /// The pagination token from a previous request that's used to retrieve the
   /// next page of results.
@@ -4312,6 +4357,7 @@ class ListCisScansResponse {
   }
 }
 
+/// @nodoc
 class ListCodeSecurityIntegrationsResponse {
   /// A list of code security integration summaries.
   final List<CodeSecurityIntegrationSummary>? integrations;
@@ -4349,6 +4395,7 @@ class ListCodeSecurityIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class ListCodeSecurityScanConfigurationAssociationsResponse {
   /// A list of associations between code repositories and scan configurations.
   final List<CodeSecurityScanConfigurationAssociationSummary>? associations;
@@ -4386,6 +4433,7 @@ class ListCodeSecurityScanConfigurationAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListCodeSecurityScanConfigurationsResponse {
   /// A list of code security scan configuration summaries.
   final List<CodeSecurityScanConfigurationSummary>? configurations;
@@ -4423,6 +4471,7 @@ class ListCodeSecurityScanConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListCoverageResponse {
   /// An object that contains details on the covered resources in your
   /// environment.
@@ -4459,6 +4508,7 @@ class ListCoverageResponse {
   }
 }
 
+/// @nodoc
 class ListCoverageStatisticsResponse {
   /// The total number for all groups.
   final int totalCounts;
@@ -4501,6 +4551,7 @@ class ListCoverageStatisticsResponse {
   }
 }
 
+/// @nodoc
 class ListDelegatedAdminAccountsResponse {
   /// Details of the Amazon Inspector delegated administrator of your
   /// organization.
@@ -4539,6 +4590,7 @@ class ListDelegatedAdminAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListFiltersResponse {
   /// Contains details on the filters associated with your account.
   final List<Filter> filters;
@@ -4574,6 +4626,7 @@ class ListFiltersResponse {
   }
 }
 
+/// @nodoc
 class ListFindingAggregationsResponse {
   /// The type of aggregation to perform.
   final AggregationType aggregationType;
@@ -4617,6 +4670,7 @@ class ListFindingAggregationsResponse {
   }
 }
 
+/// @nodoc
 class ListFindingsResponse {
   /// Contains details on the findings in your environment.
   final List<Finding>? findings;
@@ -4652,6 +4706,7 @@ class ListFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListMembersResponse {
   /// An object that contains details for each member account.
   final List<Member>? members;
@@ -4685,6 +4740,7 @@ class ListMembersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final Map<String, String>? tags;
@@ -4708,6 +4764,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUsageTotalsResponse {
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
@@ -4741,6 +4798,7 @@ class ListUsageTotalsResponse {
   }
 }
 
+/// @nodoc
 class ResetEncryptionKeyResponse {
   ResetEncryptionKeyResponse();
 
@@ -4753,6 +4811,7 @@ class ResetEncryptionKeyResponse {
   }
 }
 
+/// @nodoc
 class SearchVulnerabilitiesResponse {
   /// Details about the listed vulnerability.
   final List<Vulnerability> vulnerabilities;
@@ -4786,6 +4845,7 @@ class SearchVulnerabilitiesResponse {
   }
 }
 
+/// @nodoc
 class SendCisSessionHealthResponse {
   SendCisSessionHealthResponse();
 
@@ -4798,6 +4858,7 @@ class SendCisSessionHealthResponse {
   }
 }
 
+/// @nodoc
 class SendCisSessionTelemetryResponse {
   SendCisSessionTelemetryResponse();
 
@@ -4810,6 +4871,7 @@ class SendCisSessionTelemetryResponse {
   }
 }
 
+/// @nodoc
 class StartCisSessionResponse {
   StartCisSessionResponse();
 
@@ -4822,6 +4884,7 @@ class StartCisSessionResponse {
   }
 }
 
+/// @nodoc
 class StartCodeSecurityScanResponse {
   /// The unique identifier of the initiated scan.
   final String? scanId;
@@ -4851,6 +4914,7 @@ class StartCodeSecurityScanResponse {
   }
 }
 
+/// @nodoc
 class StopCisSessionResponse {
   StopCisSessionResponse();
 
@@ -4863,6 +4927,7 @@ class StopCisSessionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4875,6 +4940,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4887,6 +4953,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCisScanConfigurationResponse {
   /// The CIS scan configuration ARN.
   final String scanConfigurationArn;
@@ -4910,6 +4977,7 @@ class UpdateCisScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateCodeSecurityIntegrationResponse {
   /// The Amazon Resource Name (ARN) of the updated code security integration.
   final String integrationArn;
@@ -4940,6 +5008,7 @@ class UpdateCodeSecurityIntegrationResponse {
   }
 }
 
+/// @nodoc
 class UpdateCodeSecurityScanConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the updated scan configuration.
   final String? scanConfigurationArn;
@@ -4964,6 +5033,7 @@ class UpdateCodeSecurityScanConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateConfigurationResponse {
   UpdateConfigurationResponse();
 
@@ -4976,6 +5046,7 @@ class UpdateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateEc2DeepInspectionConfigurationResponse {
   /// An error message explaining why new Amazon Inspector deep inspection custom
   /// paths could not be added.
@@ -5029,6 +5100,7 @@ class UpdateEc2DeepInspectionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateEncryptionKeyResponse {
   UpdateEncryptionKeyResponse();
 
@@ -5041,6 +5113,7 @@ class UpdateEncryptionKeyResponse {
   }
 }
 
+/// @nodoc
 class UpdateFilterResponse {
   /// The Amazon Resource Number (ARN) of the successfully updated filter.
   final String arn;
@@ -5063,6 +5136,7 @@ class UpdateFilterResponse {
   }
 }
 
+/// @nodoc
 class UpdateOrganizationConfigurationResponse {
   /// The updated status of scan types automatically enabled for new members of
   /// your Amazon Inspector organization.
@@ -5089,6 +5163,7 @@ class UpdateOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateOrgEc2DeepInspectionConfigurationResponse {
   UpdateOrgEc2DeepInspectionConfigurationResponse();
 
@@ -5104,6 +5179,8 @@ class UpdateOrgEc2DeepInspectionConfigurationResponse {
 
 /// Represents which scan types are automatically enabled for new members of
 /// your Amazon Inspector organization.
+///
+/// @nodoc
 class AutoEnable {
   /// Represents whether Amazon EC2 scans are automatically enabled for new
   /// members of your Amazon Inspector organization.
@@ -5159,6 +5236,7 @@ class AutoEnable {
   }
 }
 
+/// @nodoc
 class FilterAction {
   static const none = FilterAction._('NONE');
   static const suppress = FilterAction._('SUPPRESS');
@@ -5183,6 +5261,8 @@ class FilterAction {
 }
 
 /// Details on the criteria used to define the filter.
+///
+/// @nodoc
 class FilterCriteria {
   /// Details of the Amazon Web Services account IDs used to filter findings.
   final List<StringFilter>? awsAccountId;
@@ -5704,6 +5784,8 @@ class FilterCriteria {
 }
 
 /// Contains information on the details of a package filter.
+///
+/// @nodoc
 class PackageFilter {
   /// An object that contains details on the package architecture type to filter
   /// on.
@@ -5796,6 +5878,8 @@ class PackageFilter {
 }
 
 /// An object that describes the details of a string filter.
+///
+/// @nodoc
 class StringFilter {
   /// The operator to use when comparing values in the filter.
   final StringComparison comparison;
@@ -5827,6 +5911,8 @@ class StringFilter {
 }
 
 /// An object that describes the details of a number filter.
+///
+/// @nodoc
 class NumberFilter {
   /// The lowest number to be included in the filter.
   final double? lowerInclusive;
@@ -5856,6 +5942,7 @@ class NumberFilter {
   }
 }
 
+/// @nodoc
 class StringComparison {
   static const equals = StringComparison._('EQUALS');
   static const prefix = StringComparison._('PREFIX');
@@ -5882,6 +5969,8 @@ class StringComparison {
 }
 
 /// An object that describes the details of a port range filter.
+///
+/// @nodoc
 class PortRangeFilter {
   /// The port number the port range begins at.
   final int? beginInclusive;
@@ -5912,6 +6001,8 @@ class PortRangeFilter {
 }
 
 /// An object that describes details of a map filter.
+///
+/// @nodoc
 class MapFilter {
   /// The operator to use when comparing values in the filter.
   final MapComparison comparison;
@@ -5949,6 +6040,7 @@ class MapFilter {
   }
 }
 
+/// @nodoc
 class MapComparison {
   static const equals = MapComparison._('EQUALS');
 
@@ -5973,6 +6065,8 @@ class MapComparison {
 }
 
 /// Contains details on the time range used to filter findings.
+///
+/// @nodoc
 class DateFilter {
   /// A timestamp representing the end of the time period filtered on.
   final DateTime? endInclusive;
@@ -6004,6 +6098,7 @@ class DateFilter {
   }
 }
 
+/// @nodoc
 class ScanType {
   static const network = ScanType._('NETWORK');
   static const package = ScanType._('PACKAGE');
@@ -6028,6 +6123,7 @@ class ScanType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const awsEc2Instance = ResourceType._('AWS_EC2_INSTANCE');
   static const awsEcrContainerImage = ResourceType._('AWS_ECR_CONTAINER_IMAGE');
@@ -6060,6 +6156,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class Ec2DeepInspectionStatus {
   static const activated = Ec2DeepInspectionStatus._('ACTIVATED');
   static const deactivated = Ec2DeepInspectionStatus._('DEACTIVATED');
@@ -6089,6 +6186,8 @@ class Ec2DeepInspectionStatus {
 
 /// Details about the ECR automated re-scan duration setting for your
 /// environment.
+///
+/// @nodoc
 class EcrConfiguration {
   /// The rescan duration configured for image push date.
   final EcrRescanDuration rescanDuration;
@@ -6121,6 +6220,8 @@ class EcrConfiguration {
 
 /// Enables agent-based scanning, which scans instances that are not managed by
 /// SSM.
+///
+/// @nodoc
 class Ec2Configuration {
   /// The scan method that is applied to the instance.
   final Ec2ScanMode scanMode;
@@ -6143,6 +6244,7 @@ class Ec2Configuration {
   }
 }
 
+/// @nodoc
 class Ec2ScanMode {
   static const ec2SsmAgentBased = Ec2ScanMode._('EC2_SSM_AGENT_BASED');
   static const ec2Hybrid = Ec2ScanMode._('EC2_HYBRID');
@@ -6166,6 +6268,7 @@ class Ec2ScanMode {
   String toString() => value;
 }
 
+/// @nodoc
 class EcrRescanDuration {
   static const lifetime = EcrRescanDuration._('LIFETIME');
   static const days_30 = EcrRescanDuration._('DAYS_30');
@@ -6201,6 +6304,7 @@ class EcrRescanDuration {
   String toString() => value;
 }
 
+/// @nodoc
 class EcrPullDateRescanDuration {
   static const days_14 = EcrPullDateRescanDuration._('DAYS_14');
   static const days_30 = EcrPullDateRescanDuration._('DAYS_30');
@@ -6229,6 +6333,7 @@ class EcrPullDateRescanDuration {
   String toString() => value;
 }
 
+/// @nodoc
 class EcrPullDateRescanMode {
   static const lastPullDate = EcrPullDateRescanMode._('LAST_PULL_DATE');
   static const lastInUseAt = EcrPullDateRescanMode._('LAST_IN_USE_AT');
@@ -6255,6 +6360,8 @@ class EcrPullDateRescanMode {
 }
 
 /// Contains the configuration settings for code security scans.
+///
+/// @nodoc
 class CodeSecurityScanConfiguration {
   /// The categories of security rules to be applied during the scan.
   final List<RuleSetCategory> ruleSetCategories;
@@ -6309,6 +6416,8 @@ class CodeSecurityScanConfiguration {
 }
 
 /// Configuration settings for periodic scans that run on a scheduled basis.
+///
+/// @nodoc
 class PeriodicScanConfiguration {
   /// The frequency at which periodic scans are performed (such as weekly or
   /// monthly).
@@ -6348,6 +6457,8 @@ class PeriodicScanConfiguration {
 
 /// Configuration settings for continuous integration scans that run
 /// automatically when code changes are made.
+///
+/// @nodoc
 class ContinuousIntegrationScanConfiguration {
   /// The repository events that trigger continuous integration scans, such as
   /// pull requests or commits.
@@ -6375,6 +6486,7 @@ class ContinuousIntegrationScanConfiguration {
   }
 }
 
+/// @nodoc
 class RuleSetCategory {
   static const sast = RuleSetCategory._('SAST');
   static const iac = RuleSetCategory._('IAC');
@@ -6400,6 +6512,7 @@ class RuleSetCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class ContinuousIntegrationScanEvent {
   static const pullRequest = ContinuousIntegrationScanEvent._('PULL_REQUEST');
   static const push = ContinuousIntegrationScanEvent._('PUSH');
@@ -6425,6 +6538,7 @@ class ContinuousIntegrationScanEvent {
   String toString() => value;
 }
 
+/// @nodoc
 class PeriodicScanFrequency {
   static const weekly = PeriodicScanFrequency._('WEEKLY');
   static const monthly = PeriodicScanFrequency._('MONTHLY');
@@ -6451,6 +6565,7 @@ class PeriodicScanFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class IntegrationStatus {
   static const pending = IntegrationStatus._('PENDING');
   static const inProgress = IntegrationStatus._('IN_PROGRESS');
@@ -6480,6 +6595,8 @@ class IntegrationStatus {
 
 /// Contains details required to update a code security integration with a
 /// specific repository provider.
+///
+/// @nodoc
 class UpdateIntegrationDetails {
   /// Details specific to updating an integration with GitHub.
   final UpdateGitHubIntegrationDetail? github;
@@ -6505,6 +6622,8 @@ class UpdateIntegrationDetails {
 
 /// Contains details required to update an integration with a self-managed
 /// GitLab instance.
+///
+/// @nodoc
 class UpdateGitLabSelfManagedIntegrationDetail {
   /// The authorization code received from the self-managed GitLab instance to
   /// update the integration.
@@ -6523,6 +6642,8 @@ class UpdateGitLabSelfManagedIntegrationDetail {
 }
 
 /// Contains details required to update an integration with GitHub.
+///
+/// @nodoc
 class UpdateGitHubIntegrationDetail {
   /// The authorization code received from GitHub to update the integration.
   final String code;
@@ -6545,6 +6666,7 @@ class UpdateGitHubIntegrationDetail {
   }
 }
 
+/// @nodoc
 class CisSecurityLevel {
   static const level_1 = CisSecurityLevel._('LEVEL_1');
   static const level_2 = CisSecurityLevel._('LEVEL_2');
@@ -6570,6 +6692,8 @@ class CisSecurityLevel {
 }
 
 /// A schedule.
+///
+/// @nodoc
 class Schedule {
   /// The schedule's daily.
   final DailySchedule? daily;
@@ -6622,6 +6746,8 @@ class Schedule {
 }
 
 /// Updates CIS targets.
+///
+/// @nodoc
 class UpdateCisTargets {
   /// The target account ids.
   final List<String>? accountIds;
@@ -6645,6 +6771,8 @@ class UpdateCisTargets {
 }
 
 /// A one time schedule.
+///
+/// @nodoc
 class OneTimeSchedule {
   OneTimeSchedule();
 
@@ -6658,6 +6786,8 @@ class OneTimeSchedule {
 }
 
 /// A daily schedule.
+///
+/// @nodoc
 class DailySchedule {
   /// The schedule start time.
   final Time startTime;
@@ -6682,6 +6812,8 @@ class DailySchedule {
 }
 
 /// A weekly schedule.
+///
+/// @nodoc
 class WeeklySchedule {
   /// The weekly schedule's days.
   final List<Day> days;
@@ -6716,6 +6848,8 @@ class WeeklySchedule {
 }
 
 /// A monthly schedule.
+///
+/// @nodoc
 class MonthlySchedule {
   /// The monthly schedule's day.
   final Day day;
@@ -6747,6 +6881,8 @@ class MonthlySchedule {
 }
 
 /// The time.
+///
+/// @nodoc
 class Time {
   /// The time of day in 24-hour format (00:00).
   final String timeOfDay;
@@ -6776,6 +6912,7 @@ class Time {
   }
 }
 
+/// @nodoc
 class Day {
   static const sun = Day._('SUN');
   static const mon = Day._('MON');
@@ -6805,6 +6942,8 @@ class Day {
 }
 
 /// The stop CIS session message.
+///
+/// @nodoc
 class StopCisSessionMessage {
   /// The progress of the message.
   final StopCisMessageProgress progress;
@@ -6851,6 +6990,7 @@ class StopCisSessionMessage {
   }
 }
 
+/// @nodoc
 class StopCisSessionStatus {
   static const success = StopCisSessionStatus._('SUCCESS');
   static const failed = StopCisSessionStatus._('FAILED');
@@ -6879,6 +7019,8 @@ class StopCisSessionStatus {
 }
 
 /// The stop CIS message progress.
+///
+/// @nodoc
 class StopCisMessageProgress {
   /// The progress' error checks.
   final int? errorChecks;
@@ -6940,6 +7082,8 @@ class StopCisMessageProgress {
 }
 
 /// A compute platform.
+///
+/// @nodoc
 class ComputePlatform {
   /// The compute platform product.
   final String? product;
@@ -6968,6 +7112,7 @@ class ComputePlatform {
   }
 }
 
+/// @nodoc
 class CodeScanStatus {
   static const inProgress = CodeScanStatus._('IN_PROGRESS');
   static const successful = CodeScanStatus._('SUCCESSFUL');
@@ -6995,6 +7140,8 @@ class CodeScanStatus {
 }
 
 /// Identifies a specific resource in a code repository that will be scanned.
+///
+/// @nodoc
 class CodeSecurityResource {
   /// The unique identifier of the project in the code repository.
   final String? projectId;
@@ -7018,6 +7165,8 @@ class CodeSecurityResource {
 }
 
 /// The start CIS session message.
+///
+/// @nodoc
 class StartCisSessionMessage {
   /// The unique token that identifies the CIS session.
   final String sessionToken;
@@ -7035,6 +7184,8 @@ class StartCisSessionMessage {
 }
 
 /// The CIS session message.
+///
+/// @nodoc
 class CisSessionMessage {
   /// The CIS rule details for the CIS session message.
   final Uint8List cisRuleDetails;
@@ -7063,6 +7214,7 @@ class CisSessionMessage {
   }
 }
 
+/// @nodoc
 class CisRuleStatus {
   static const failed = CisRuleStatus._('FAILED');
   static const passed = CisRuleStatus._('PASSED');
@@ -7101,6 +7253,8 @@ class CisRuleStatus {
 }
 
 /// Contains details about a specific vulnerability Amazon Inspector can detect.
+///
+/// @nodoc
 class Vulnerability {
   /// The ID for the specific vulnerability.
   final String id;
@@ -7279,6 +7433,8 @@ class Vulnerability {
 
 /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a
 /// specific vulnerability.
+///
+/// @nodoc
 class CisaData {
   /// The remediation action recommended by CISA for this vulnerability.
   final String? action;
@@ -7315,6 +7471,7 @@ class CisaData {
   }
 }
 
+/// @nodoc
 class VulnerabilitySource {
   static const nvd = VulnerabilitySource._('NVD');
 
@@ -7341,6 +7498,8 @@ class VulnerabilitySource {
 
 /// The Amazon Web Services Threat Intel Group (ATIG) details for a specific
 /// vulnerability.
+///
+/// @nodoc
 class AtigData {
   /// The date and time this vulnerability was first observed.
   final DateTime? firstSeen;
@@ -7388,6 +7547,8 @@ class AtigData {
 
 /// The Common Vulnerability Scoring System (CVSS) version 4 details for the
 /// vulnerability.
+///
+/// @nodoc
 class Cvss4 {
   /// The base CVSS v4 score for the vulnerability finding, which rates the
   /// severity of the vulnerability on a scale from 0 to 10.
@@ -7421,6 +7582,8 @@ class Cvss4 {
 
 /// The Common Vulnerability Scoring System (CVSS) version 3 details for the
 /// vulnerability.
+///
+/// @nodoc
 class Cvss3 {
   /// The CVSS v3 base score for the vulnerability.
   final double? baseScore;
@@ -7452,6 +7615,8 @@ class Cvss3 {
 
 /// The Common Vulnerability Scoring System (CVSS) version 2 details for the
 /// vulnerability.
+///
+/// @nodoc
 class Cvss2 {
   /// The CVSS v2 base score for the vulnerability.
   final double? baseScore;
@@ -7482,6 +7647,8 @@ class Cvss2 {
 }
 
 /// Contains information on when this exploit was observed.
+///
+/// @nodoc
 class ExploitObserved {
   /// The date an time when the exploit was first seen.
   final DateTime? firstSeen;
@@ -7512,6 +7679,8 @@ class ExploitObserved {
 }
 
 /// Details about the Exploit Prediction Scoring System (EPSS) score.
+///
+/// @nodoc
 class Epss {
   /// The Exploit Prediction Scoring System (EPSS) score.
   final double? score;
@@ -7536,6 +7705,8 @@ class Epss {
 
 /// Details on the criteria used to define the filter for a vulnerability
 /// search.
+///
+/// @nodoc
 class SearchVulnerabilitiesFilterCriteria {
   /// The IDs for specific vulnerabilities.
   final List<String> vulnerabilityIds;
@@ -7553,6 +7724,8 @@ class SearchVulnerabilitiesFilterCriteria {
 }
 
 /// The total of usage for an account ID.
+///
+/// @nodoc
 class UsageTotal {
   /// The account ID of the account that usage data was retrieved for.
   final String? accountId;
@@ -7586,6 +7759,8 @@ class UsageTotal {
 }
 
 /// Contains usage information about the cost of Amazon Inspector operation.
+///
+/// @nodoc
 class Usage {
   /// The currency type used when calculating usage data.
   final Currency? currency;
@@ -7630,6 +7805,7 @@ class Usage {
   }
 }
 
+/// @nodoc
 class UsageType {
   static const ec2InstanceHours = UsageType._('EC2_INSTANCE_HOURS');
   static const ecrInitialScan = UsageType._('ECR_INITIAL_SCAN');
@@ -7672,6 +7848,7 @@ class UsageType {
   String toString() => value;
 }
 
+/// @nodoc
 class Currency {
   static const usd = Currency._('USD');
 
@@ -7695,6 +7872,8 @@ class Currency {
 }
 
 /// Details on a member account in your organization.
+///
+/// @nodoc
 class Member {
   /// The Amazon Web Services account ID of the member account.
   final String? accountId;
@@ -7742,6 +7921,7 @@ class Member {
   }
 }
 
+/// @nodoc
 class RelationshipStatus {
   static const created = RelationshipStatus._('CREATED');
   static const invited = RelationshipStatus._('INVITED');
@@ -7794,6 +7974,8 @@ class RelationshipStatus {
 }
 
 /// Details about an Amazon Inspector finding.
+///
+/// @nodoc
 class Finding {
   /// The Amazon Web Services account ID associated with the finding.
   final String awsAccountId;
@@ -8004,6 +8186,7 @@ class Finding {
   }
 }
 
+/// @nodoc
 class FindingType {
   static const networkReachability = FindingType._('NETWORK_REACHABILITY');
   static const packageVulnerability = FindingType._('PACKAGE_VULNERABILITY');
@@ -8033,6 +8216,8 @@ class FindingType {
 }
 
 /// Information on how to remediate a finding.
+///
+/// @nodoc
 class Remediation {
   /// An object that contains information about the recommended course of action
   /// to remediate the finding.
@@ -8059,6 +8244,7 @@ class Remediation {
   }
 }
 
+/// @nodoc
 class Severity {
   static const informational = Severity._('INFORMATIONAL');
   static const low = Severity._('LOW');
@@ -8086,6 +8272,7 @@ class Severity {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingStatus {
   static const active = FindingStatus._('ACTIVE');
   static const suppressed = FindingStatus._('SUPPRESSED');
@@ -8112,6 +8299,8 @@ class FindingStatus {
 }
 
 /// Information about the Amazon Inspector score given to a finding.
+///
+/// @nodoc
 class InspectorScoreDetails {
   /// An object that contains details about the CVSS score given to a finding.
   final CvssScoreDetails? adjustedCvss;
@@ -8138,6 +8327,8 @@ class InspectorScoreDetails {
 }
 
 /// Contains the details of a network reachability finding.
+///
+/// @nodoc
 class NetworkReachabilityDetails {
   /// An object that contains details about a network path associated with a
   /// finding.
@@ -8181,6 +8372,8 @@ class NetworkReachabilityDetails {
 }
 
 /// Information about a package vulnerability finding.
+///
+/// @nodoc
 class PackageVulnerabilityDetails {
   /// The source of the vulnerability information.
   final String source;
@@ -8283,6 +8476,7 @@ class PackageVulnerabilityDetails {
   }
 }
 
+/// @nodoc
 class FixAvailable {
   static const yes = FixAvailable._('YES');
   static const no = FixAvailable._('NO');
@@ -8307,6 +8501,7 @@ class FixAvailable {
   String toString() => value;
 }
 
+/// @nodoc
 class ExploitAvailable {
   static const yes = ExploitAvailable._('YES');
   static const no = ExploitAvailable._('NO');
@@ -8333,6 +8528,8 @@ class ExploitAvailable {
 
 /// The details of an exploit available for a finding discovered in your
 /// environment.
+///
+/// @nodoc
 class ExploitabilityDetails {
   /// The date and time of the last exploit associated with a finding discovered
   /// in your environment.
@@ -8359,6 +8556,8 @@ class ExploitabilityDetails {
 
 /// Contains information on the code vulnerability identified in your Lambda
 /// function.
+///
+/// @nodoc
 class CodeVulnerabilityDetails {
   /// The Common Weakness Enumeration (CWE) item associated with the detected
   /// vulnerability.
@@ -8460,6 +8659,8 @@ class CodeVulnerabilityDetails {
 
 /// Details about the Exploit Prediction Scoring System (EPSS) score for a
 /// finding.
+///
+/// @nodoc
 class EpssDetails {
   /// The EPSS score.
   final double? score;
@@ -8484,6 +8685,8 @@ class EpssDetails {
 
 /// Contains information on where a code vulnerability is located in your Lambda
 /// function.
+///
+/// @nodoc
 class CodeFilePath {
   /// The line number of the last line of code that a vulnerability was found in.
   final int endLine;
@@ -8528,6 +8731,8 @@ class CodeFilePath {
 }
 
 /// The CVSS score for a finding.
+///
+/// @nodoc
 class CvssScore {
   /// The base CVSS score used for the finding.
   final double baseScore;
@@ -8572,6 +8777,8 @@ class CvssScore {
 }
 
 /// Information on the vulnerable package identified by a finding.
+///
+/// @nodoc
 class VulnerablePackage {
   /// The name of the vulnerable package.
   final String name;
@@ -8667,6 +8874,7 @@ class VulnerablePackage {
   }
 }
 
+/// @nodoc
 class PackageManager {
   static const bundler = PackageManager._('BUNDLER');
   static const cargo = PackageManager._('CARGO');
@@ -8727,6 +8935,8 @@ class PackageManager {
 }
 
 /// Details about the port range associated with a finding.
+///
+/// @nodoc
 class PortRange {
   /// The beginning port in a port range.
   final int begin;
@@ -8756,6 +8966,7 @@ class PortRange {
   }
 }
 
+/// @nodoc
 class NetworkProtocol {
   static const tcp = NetworkProtocol._('TCP');
   static const udp = NetworkProtocol._('UDP');
@@ -8781,6 +8992,8 @@ class NetworkProtocol {
 }
 
 /// Information on the network path associated with a finding.
+///
+/// @nodoc
 class NetworkPath {
   /// The details on the steps in the network path.
   final List<Step>? steps;
@@ -8807,6 +9020,8 @@ class NetworkPath {
 }
 
 /// Details about the step associated with a finding.
+///
+/// @nodoc
 class Step {
   /// The component ID.
   final String componentId;
@@ -8845,6 +9060,8 @@ class Step {
 }
 
 /// Information about the CVSS score.
+///
+/// @nodoc
 class CvssScoreDetails {
   /// The CVSS score.
   final double score;
@@ -8908,6 +9125,8 @@ class CvssScoreDetails {
 
 /// Details on adjustments Amazon Inspector made to the CVSS score for a
 /// finding.
+///
+/// @nodoc
 class CvssScoreAdjustment {
   /// The metric used to adjust the CVSS score.
   final String metric;
@@ -8938,6 +9157,8 @@ class CvssScoreAdjustment {
 }
 
 /// Details about the resource involved in a finding.
+///
+/// @nodoc
 class Resource {
   /// The ID of the resource.
   final String id;
@@ -8999,6 +9220,8 @@ class Resource {
 }
 
 /// Contains details about the resource involved in the finding.
+///
+/// @nodoc
 class ResourceDetails {
   /// An object that contains details about the Amazon EC2 instance involved in
   /// the finding.
@@ -9059,6 +9282,8 @@ class ResourceDetails {
 }
 
 /// Details of the Amazon EC2 instance involved in a finding.
+///
+/// @nodoc
 class AwsEc2InstanceDetails {
   /// The IAM instance profile ARN of the Amazon EC2 instance.
   final String? iamInstanceProfileArn;
@@ -9152,6 +9377,8 @@ class AwsEc2InstanceDetails {
 }
 
 /// The image details of the Amazon ECR container image.
+///
+/// @nodoc
 class AwsEcrContainerImageDetails {
   /// The image hash of the Amazon ECR container image.
   final String imageHash;
@@ -9243,6 +9470,8 @@ class AwsEcrContainerImageDetails {
 }
 
 /// A summary of information about the Amazon Web Services Lambda function.
+///
+/// @nodoc
 class AwsLambdaFunctionDetails {
   /// The SHA256 hash of the Amazon Web Services Lambda function's deployment
   /// package.
@@ -9346,6 +9575,8 @@ class AwsLambdaFunctionDetails {
 }
 
 /// Contains details about a code repository associated with a finding.
+///
+/// @nodoc
 class CodeRepositoryDetails {
   /// The Amazon Resource Name (ARN) of the code security integration associated
   /// with the repository.
@@ -9384,6 +9615,7 @@ class CodeRepositoryDetails {
   }
 }
 
+/// @nodoc
 class CodeRepositoryProviderType {
   static const github = CodeRepositoryProviderType._('GITHUB');
   static const gitlabSelfManaged =
@@ -9410,6 +9642,7 @@ class CodeRepositoryProviderType {
   String toString() => value;
 }
 
+/// @nodoc
 class Runtime {
   static const nodejs = Runtime._('NODEJS');
   static const nodejs_12X = Runtime._('NODEJS_12_X');
@@ -9482,6 +9715,8 @@ class Runtime {
 /// Services Lambda function. For more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
 /// Settings</a>.
+///
+/// @nodoc
 class LambdaVpcConfig {
   /// The VPC security groups and subnets that are attached to an Amazon Web
   /// Services Lambda function. For more information, see <a
@@ -9527,6 +9762,7 @@ class LambdaVpcConfig {
   }
 }
 
+/// @nodoc
 class PackageType {
   static const image = PackageType._('IMAGE');
   static const zip = PackageType._('ZIP');
@@ -9550,6 +9786,7 @@ class PackageType {
   String toString() => value;
 }
 
+/// @nodoc
 class Architecture {
   static const x86_64 = Architecture._('X86_64');
   static const arm64 = Architecture._('ARM64');
@@ -9574,6 +9811,8 @@ class Architecture {
 }
 
 /// Details about the recommended course of action to remediate the finding.
+///
+/// @nodoc
 class Recommendation {
   /// The URL address to the CVE remediation recommendations.
   final String? url;
@@ -9604,6 +9843,8 @@ class Recommendation {
 }
 
 /// Details about the criteria used to sort finding results.
+///
+/// @nodoc
 class SortCriteria {
   /// The finding detail field by which results are sorted.
   final SortField field;
@@ -9626,6 +9867,7 @@ class SortCriteria {
   }
 }
 
+/// @nodoc
 class SortField {
   static const awsAccountId = SortField._('AWS_ACCOUNT_ID');
   static const findingType = SortField._('FINDING_TYPE');
@@ -9683,6 +9925,7 @@ class SortField {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -9706,6 +9949,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationType {
   static const findingType = AggregationType._('FINDING_TYPE');
   static const package = AggregationType._('PACKAGE');
@@ -9754,6 +9998,8 @@ class AggregationType {
 }
 
 /// A structure that contains details about the results of an aggregation type.
+///
+/// @nodoc
 class AggregationResponse {
   /// An object that contains details about an aggregation response based on
   /// Amazon Web Services account IDs.
@@ -9908,6 +10154,8 @@ class AggregationResponse {
 }
 
 /// An aggregation of findings by Amazon Web Services account ID.
+///
+/// @nodoc
 class AccountAggregationResponse {
   /// The Amazon Web Services account ID.
   final String? accountId;
@@ -9956,6 +10204,8 @@ class AccountAggregationResponse {
 }
 
 /// A response that contains the results of a finding aggregation by AMI.
+///
+/// @nodoc
 class AmiAggregationResponse {
   /// The ID of the AMI that findings were aggregated for.
   final String ami;
@@ -10003,6 +10253,8 @@ class AmiAggregationResponse {
 }
 
 /// An aggregation of information about Amazon ECR containers.
+///
+/// @nodoc
 class AwsEcrContainerAggregationResponse {
   /// The resource ID of the container.
   final String resourceId;
@@ -10092,6 +10344,8 @@ class AwsEcrContainerAggregationResponse {
 
 /// A response that contains the results of a finding aggregation by Amazon EC2
 /// instance.
+///
+/// @nodoc
 class Ec2InstanceAggregationResponse {
   /// The Amazon EC2 instance ID.
   final String instanceId;
@@ -10161,6 +10415,8 @@ class Ec2InstanceAggregationResponse {
 }
 
 /// A response that contains the results of a finding type aggregation.
+///
+/// @nodoc
 class FindingTypeAggregationResponse {
   /// The ID of the Amazon Web Services account associated with the findings.
   final String? accountId;
@@ -10210,6 +10466,8 @@ class FindingTypeAggregationResponse {
 
 /// A response that contains the results of a finding aggregation by image
 /// layer.
+///
+/// @nodoc
 class ImageLayerAggregationResponse {
   /// The ID of the Amazon Web Services account that owns the container image
   /// hosting the layer image.
@@ -10266,6 +10524,8 @@ class ImageLayerAggregationResponse {
 
 /// A response that contains the results of a finding aggregation by image
 /// layer.
+///
+/// @nodoc
 class PackageAggregationResponse {
   /// The name of the operating system package.
   final String packageName;
@@ -10307,6 +10567,8 @@ class PackageAggregationResponse {
 
 /// A response that contains details on the results of a finding aggregation by
 /// repository.
+///
+/// @nodoc
 class RepositoryAggregationResponse {
   /// The name of the repository associated with the findings.
   final String repository;
@@ -10355,6 +10617,8 @@ class RepositoryAggregationResponse {
 
 /// A response that contains details on the results of a finding aggregation by
 /// title.
+///
+/// @nodoc
 class TitleAggregationResponse {
   /// The title that the findings were aggregated on.
   final String title;
@@ -10403,6 +10667,8 @@ class TitleAggregationResponse {
 
 /// A response that contains the results of an Amazon Web Services Lambda
 /// function layer finding aggregation.
+///
+/// @nodoc
 class LambdaLayerAggregationResponse {
   /// The account ID of the Amazon Web Services Lambda function layer.
   final String accountId;
@@ -10460,6 +10726,8 @@ class LambdaLayerAggregationResponse {
 
 /// A response that contains the results of an Amazon Web Services Lambda
 /// function finding aggregation.
+///
+/// @nodoc
 class LambdaFunctionAggregationResponse {
   /// The resource IDs included in the aggregation results.
   final String resourceId;
@@ -10535,6 +10803,8 @@ class LambdaFunctionAggregationResponse {
 
 /// A response that contains the results of a finding aggregation by code
 /// repository.
+///
+/// @nodoc
 class CodeRepositoryAggregationResponse {
   /// The names of the projects associated with the code repository.
   final String projectNames;
@@ -10611,6 +10881,8 @@ class CodeRepositoryAggregationResponse {
 }
 
 /// An object that contains the counts of aggregated finding per severity.
+///
+/// @nodoc
 class SeverityCounts {
   /// The total count of findings from all severities.
   final int? all;
@@ -10655,6 +10927,8 @@ class SeverityCounts {
 }
 
 /// Contains details about an aggregation request.
+///
+/// @nodoc
 class AggregationRequest {
   /// An object that contains details about an aggregation request based on Amazon
   /// Web Services account IDs.
@@ -10759,6 +11033,8 @@ class AggregationRequest {
 
 /// An object that contains details about an aggregation response based on
 /// Amazon Web Services accounts.
+///
+/// @nodoc
 class AccountAggregation {
   /// The type of finding.
   final AggregationFindingType? findingType;
@@ -10795,6 +11071,8 @@ class AccountAggregation {
 
 /// The details that define an aggregation based on Amazon machine images
 /// (AMIs).
+///
+/// @nodoc
 class AmiAggregation {
   /// The IDs of AMIs to aggregate findings for.
   final List<StringFilter>? amis;
@@ -10824,6 +11102,8 @@ class AmiAggregation {
 }
 
 /// An aggregation of information about Amazon ECR containers.
+///
+/// @nodoc
 class AwsEcrContainerAggregation {
   /// The architecture of the containers.
   final List<StringFilter>? architectures;
@@ -10891,6 +11171,8 @@ class AwsEcrContainerAggregation {
 }
 
 /// The details that define an aggregation based on Amazon EC2 instances.
+///
+/// @nodoc
 class Ec2InstanceAggregation {
   /// The AMI IDs associated with the Amazon EC2 instances to aggregate findings
   /// for.
@@ -10941,6 +11223,8 @@ class Ec2InstanceAggregation {
 }
 
 /// The details that define an aggregation based on finding type.
+///
+/// @nodoc
 class FindingTypeAggregation {
   /// The finding type to aggregate.
   final AggregationFindingType? findingType;
@@ -10976,6 +11260,8 @@ class FindingTypeAggregation {
 }
 
 /// The details that define an aggregation based on container image layers.
+///
+/// @nodoc
 class ImageLayerAggregation {
   /// The hashes associated with the layers.
   final List<StringFilter>? layerHashes;
@@ -11018,6 +11304,8 @@ class ImageLayerAggregation {
 
 /// The details that define an aggregation based on operating system package
 /// type.
+///
+/// @nodoc
 class PackageAggregation {
   /// The names of packages to aggregate findings on.
   final List<StringFilter>? packageNames;
@@ -11047,6 +11335,8 @@ class PackageAggregation {
 }
 
 /// The details that define an aggregation based on repository.
+///
+/// @nodoc
 class RepositoryAggregation {
   /// The names of repositories to aggregate findings on.
   final List<StringFilter>? repositories;
@@ -11076,6 +11366,8 @@ class RepositoryAggregation {
 }
 
 /// The details that define an aggregation based on finding title.
+///
+/// @nodoc
 class TitleAggregation {
   /// The type of finding to aggregate on.
   final AggregationFindingType? findingType;
@@ -11124,6 +11416,8 @@ class TitleAggregation {
 
 /// The details that define a findings aggregation based on an Amazon Web
 /// Services Lambda function's layers.
+///
+/// @nodoc
 class LambdaLayerAggregation {
   /// The names of the Amazon Web Services Lambda functions associated with the
   /// layers.
@@ -11168,6 +11462,8 @@ class LambdaLayerAggregation {
 
 /// The details that define a findings aggregation based on Amazon Web Services
 /// Lambda functions.
+///
+/// @nodoc
 class LambdaFunctionAggregation {
   /// The Amazon Web Services Lambda function names to include in the aggregation
   /// results.
@@ -11217,6 +11513,8 @@ class LambdaFunctionAggregation {
 }
 
 /// The details that define an aggregation based on code repositories.
+///
+/// @nodoc
 class CodeRepositoryAggregation {
   /// The project names to include in the aggregation results.
   final List<StringFilter>? projectNames;
@@ -11258,6 +11556,7 @@ class CodeRepositoryAggregation {
   }
 }
 
+/// @nodoc
 class CodeRepositorySortBy {
   static const critical = CodeRepositorySortBy._('CRITICAL');
   static const high = CodeRepositorySortBy._('HIGH');
@@ -11284,6 +11583,7 @@ class CodeRepositorySortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaFunctionSortBy {
   static const critical = LambdaFunctionSortBy._('CRITICAL');
   static const high = LambdaFunctionSortBy._('HIGH');
@@ -11310,6 +11610,7 @@ class LambdaFunctionSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaLayerSortBy {
   static const critical = LambdaLayerSortBy._('CRITICAL');
   static const high = LambdaLayerSortBy._('HIGH');
@@ -11335,6 +11636,7 @@ class LambdaLayerSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationResourceType {
   static const awsEc2Instance = AggregationResourceType._('AWS_EC2_INSTANCE');
   static const awsEcrContainerImage =
@@ -11369,6 +11671,7 @@ class AggregationResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class TitleSortBy {
   static const critical = TitleSortBy._('CRITICAL');
   static const high = TitleSortBy._('HIGH');
@@ -11393,6 +11696,7 @@ class TitleSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationFindingType {
   static const networkReachability =
       AggregationFindingType._('NETWORK_REACHABILITY');
@@ -11426,6 +11730,7 @@ class AggregationFindingType {
   String toString() => value;
 }
 
+/// @nodoc
 class RepositorySortBy {
   static const critical = RepositorySortBy._('CRITICAL');
   static const high = RepositorySortBy._('HIGH');
@@ -11452,6 +11757,7 @@ class RepositorySortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageSortBy {
   static const critical = PackageSortBy._('CRITICAL');
   static const high = PackageSortBy._('HIGH');
@@ -11477,6 +11783,7 @@ class PackageSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageLayerSortBy {
   static const critical = ImageLayerSortBy._('CRITICAL');
   static const high = ImageLayerSortBy._('HIGH');
@@ -11502,6 +11809,7 @@ class ImageLayerSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingTypeSortBy {
   static const critical = FindingTypeSortBy._('CRITICAL');
   static const high = FindingTypeSortBy._('HIGH');
@@ -11527,6 +11835,7 @@ class FindingTypeSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class Ec2InstanceSortBy {
   static const networkFindings = Ec2InstanceSortBy._('NETWORK_FINDINGS');
   static const critical = Ec2InstanceSortBy._('CRITICAL');
@@ -11553,6 +11862,7 @@ class Ec2InstanceSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AwsEcrContainerSortBy {
   static const critical = AwsEcrContainerSortBy._('CRITICAL');
   static const high = AwsEcrContainerSortBy._('HIGH');
@@ -11579,6 +11889,7 @@ class AwsEcrContainerSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AmiSortBy {
   static const critical = AmiSortBy._('CRITICAL');
   static const high = AmiSortBy._('HIGH');
@@ -11604,6 +11915,7 @@ class AmiSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountSortBy {
   static const critical = AccountSortBy._('CRITICAL');
   static const high = AccountSortBy._('HIGH');
@@ -11630,6 +11942,8 @@ class AccountSortBy {
 }
 
 /// Details about a filter.
+///
+/// @nodoc
 class Filter {
   /// The action that is to be applied to the findings that match the filter.
   final FilterAction action;
@@ -11720,6 +12034,8 @@ class Filter {
 
 /// Details of the Amazon Inspector delegated administrator for your
 /// organization.
+///
+/// @nodoc
 class DelegatedAdminAccount {
   /// The Amazon Web Services account ID of the Amazon Inspector delegated
   /// administrator for your organization.
@@ -11750,6 +12066,7 @@ class DelegatedAdminAccount {
   }
 }
 
+/// @nodoc
 class DelegatedAdminStatus {
   static const enabled = DelegatedAdminStatus._('ENABLED');
   static const disableInProgress =
@@ -11778,6 +12095,8 @@ class DelegatedAdminStatus {
 
 /// a structure that contains information on the count of resources within a
 /// group.
+///
+/// @nodoc
 class Counts {
   /// The number of resources.
   final int? count;
@@ -11807,6 +12126,7 @@ class Counts {
   }
 }
 
+/// @nodoc
 class GroupKey {
   static const scanStatusCode = GroupKey._('SCAN_STATUS_CODE');
   static const scanStatusReason = GroupKey._('SCAN_STATUS_REASON');
@@ -11841,6 +12161,8 @@ class GroupKey {
 
 /// A structure that identifies filter criteria for
 /// <code>GetCoverageStatistics</code>.
+///
+/// @nodoc
 class CoverageFilterCriteria {
   /// An array of Amazon Web Services account IDs to return coverage statistics
   /// for.
@@ -12003,6 +12325,8 @@ class CoverageFilterCriteria {
 }
 
 /// The coverage number to be used in the filter.
+///
+/// @nodoc
 class CoverageNumberFilter {
   /// The lower inclusive for the coverage number.
   final int? lowerInclusive;
@@ -12026,6 +12350,8 @@ class CoverageNumberFilter {
 }
 
 /// Contains details of a coverage date filter.
+///
+/// @nodoc
 class CoverageDateFilter {
   /// A timestamp representing the end of the time period to filter results by.
   final DateTime? endInclusive;
@@ -12051,6 +12377,8 @@ class CoverageDateFilter {
 }
 
 /// Contains details of a coverage map filter.
+///
+/// @nodoc
 class CoverageMapFilter {
   /// The operator to compare coverage on.
   final CoverageMapComparison comparison;
@@ -12079,6 +12407,7 @@ class CoverageMapFilter {
   }
 }
 
+/// @nodoc
 class CoverageMapComparison {
   static const equals = CoverageMapComparison._('EQUALS');
 
@@ -12104,6 +12433,8 @@ class CoverageMapComparison {
 }
 
 /// Contains details of a coverage string filter.
+///
+/// @nodoc
 class CoverageStringFilter {
   /// The operator to compare strings on.
   final CoverageStringComparison comparison;
@@ -12126,6 +12457,7 @@ class CoverageStringFilter {
   }
 }
 
+/// @nodoc
 class CoverageStringComparison {
   static const equals = CoverageStringComparison._('EQUALS');
   static const notEquals = CoverageStringComparison._('NOT_EQUALS');
@@ -12153,6 +12485,8 @@ class CoverageStringComparison {
 
 /// An object that contains details about a resource covered by Amazon
 /// Inspector.
+///
+/// @nodoc
 class CoveredResource {
   /// The Amazon Web Services account ID of the covered resource.
   final String accountId;
@@ -12231,6 +12565,7 @@ class CoveredResource {
   }
 }
 
+/// @nodoc
 class CoverageResourceType {
   static const awsEc2Instance = CoverageResourceType._('AWS_EC2_INSTANCE');
   static const awsEcrContainerImage =
@@ -12268,6 +12603,8 @@ class CoverageResourceType {
 }
 
 /// The status of the scan.
+///
+/// @nodoc
 class ScanStatus {
   /// The scan status. Possible return values and descriptions are:
   ///
@@ -12417,6 +12754,8 @@ class ScanStatus {
 
 /// An object that contains details about the metadata for an Amazon ECR
 /// resource.
+///
+/// @nodoc
 class ResourceScanMetadata {
   /// Contains metadata about scan coverage for a code repository resource.
   final CodeRepositoryMetadata? codeRepository;
@@ -12484,6 +12823,7 @@ class ResourceScanMetadata {
   }
 }
 
+/// @nodoc
 class ScanMode {
   static const ec2SsmAgentBased = ScanMode._('EC2_SSM_AGENT_BASED');
   static const ec2Agentless = ScanMode._('EC2_AGENTLESS');
@@ -12513,6 +12853,8 @@ class ScanMode {
 }
 
 /// Information on the Amazon ECR repository metadata associated with a finding.
+///
+/// @nodoc
 class EcrRepositoryMetadata {
   /// The name of the Amazon ECR repository.
   final String? name;
@@ -12544,6 +12886,8 @@ class EcrRepositoryMetadata {
 }
 
 /// Information on the Amazon ECR image metadata associated with a finding.
+///
+/// @nodoc
 class EcrContainerImageMetadata {
   /// The date an image was last pulled at.
   final DateTime? imagePulledAt;
@@ -12591,6 +12935,8 @@ class EcrContainerImageMetadata {
 }
 
 /// Meta data details of an Amazon EC2 instance.
+///
+/// @nodoc
 class Ec2Metadata {
   /// The ID of the Amazon Machine Image (AMI) used to launch the instance.
   final String? amiId;
@@ -12629,6 +12975,8 @@ class Ec2Metadata {
 }
 
 /// The Amazon Web Services Lambda function metadata.
+///
+/// @nodoc
 class LambdaFunctionMetadata {
   /// The name of a function.
   final String? functionName;
@@ -12677,6 +13025,8 @@ class LambdaFunctionMetadata {
 
 /// Contains metadata information about a code repository that is being scanned
 /// by Amazon Inspector.
+///
+/// @nodoc
 class CodeRepositoryMetadata {
   /// The name of the project in the code repository.
   final String projectName;
@@ -12751,6 +13101,8 @@ class CodeRepositoryMetadata {
 
 /// Contains the scan configuration settings applied to a specific project in a
 /// code repository.
+///
+/// @nodoc
 class ProjectCodeSecurityScanConfiguration {
   /// The continuous integration scan configurations applied to the project.
   final List<ProjectContinuousIntegrationScanConfiguration>?
@@ -12797,6 +13149,8 @@ class ProjectCodeSecurityScanConfiguration {
 }
 
 /// Contains information about on-demand scans performed on a code repository.
+///
+/// @nodoc
 class CodeRepositoryOnDemandScan {
   /// The timestamp when the last on-demand scan was performed.
   final DateTime? lastScanAt;
@@ -12836,6 +13190,8 @@ class CodeRepositoryOnDemandScan {
 
 /// Contains the continuous integration scan configuration settings applied to a
 /// specific project.
+///
+/// @nodoc
 class ProjectContinuousIntegrationScanConfiguration {
   /// The categories of security rules applied during continuous integration scans
   /// for the project.
@@ -12875,6 +13231,8 @@ class ProjectContinuousIntegrationScanConfiguration {
 
 /// Contains the periodic scan configuration settings applied to a specific
 /// project.
+///
+/// @nodoc
 class ProjectPeriodicScanConfiguration {
   /// The schedule expression for periodic scans, in cron format, applied to the
   /// project.
@@ -12911,6 +13269,7 @@ class ProjectPeriodicScanConfiguration {
   }
 }
 
+/// @nodoc
 class Ec2Platform {
   static const windows = Ec2Platform._('WINDOWS');
   static const linux = Ec2Platform._('LINUX');
@@ -12936,6 +13295,7 @@ class Ec2Platform {
   String toString() => value;
 }
 
+/// @nodoc
 class EcrScanFrequency {
   static const manual = EcrScanFrequency._('MANUAL');
   static const scanOnPush = EcrScanFrequency._('SCAN_ON_PUSH');
@@ -12961,6 +13321,7 @@ class EcrScanFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanStatusCode {
   static const active = ScanStatusCode._('ACTIVE');
   static const inactive = ScanStatusCode._('INACTIVE');
@@ -12985,6 +13346,7 @@ class ScanStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanStatusReason {
   static const pendingInitialScan = ScanStatusReason._('PENDING_INITIAL_SCAN');
   static const accessDenied = ScanStatusReason._('ACCESS_DENIED');
@@ -13093,6 +13455,8 @@ class ScanStatusReason {
 }
 
 /// A summary of information about a code security scan configuration.
+///
+/// @nodoc
 class CodeSecurityScanConfigurationSummary {
   /// The name of the scan configuration.
   final String name;
@@ -13196,6 +13560,8 @@ class CodeSecurityScanConfigurationSummary {
 }
 
 /// Defines the scope of repositories to be included in code security scans.
+///
+/// @nodoc
 class ScopeSettings {
   /// The scope of projects to be selected for scanning within the integrated
   /// repositories. Setting the value to <code>ALL</code> applies the scope
@@ -13222,6 +13588,7 @@ class ScopeSettings {
   }
 }
 
+/// @nodoc
 class ProjectSelectionScope {
   static const all = ProjectSelectionScope._('ALL');
 
@@ -13248,6 +13615,8 @@ class ProjectSelectionScope {
 
 /// A summary of an association between a code repository and a scan
 /// configuration.
+///
+/// @nodoc
 class CodeSecurityScanConfigurationAssociationSummary {
   final CodeSecurityResource? resource;
 
@@ -13274,6 +13643,8 @@ class CodeSecurityScanConfigurationAssociationSummary {
 }
 
 /// A summary of information about a code security integration.
+///
+/// @nodoc
 class CodeSecurityIntegrationSummary {
   /// The timestamp when the code security integration was created.
   final DateTime createdOn;
@@ -13346,6 +13717,7 @@ class CodeSecurityIntegrationSummary {
   }
 }
 
+/// @nodoc
 class IntegrationType {
   static const gitlabSelfManaged = IntegrationType._('GITLAB_SELF_MANAGED');
   static const github = IntegrationType._('GITHUB');
@@ -13371,6 +13743,8 @@ class IntegrationType {
 }
 
 /// The CIS scan.
+///
+/// @nodoc
 class CisScan {
   /// The CIS scan's ARN.
   final String scanArn;
@@ -13460,6 +13834,7 @@ class CisScan {
   }
 }
 
+/// @nodoc
 class CisScanStatus {
   static const failed = CisScanStatus._('FAILED');
   static const completed = CisScanStatus._('COMPLETED');
@@ -13487,6 +13862,8 @@ class CisScanStatus {
 }
 
 /// The CIS targets.
+///
+/// @nodoc
 class CisTargets {
   /// The CIS target account ids.
   final List<String>? accountIds;
@@ -13522,6 +13899,8 @@ class CisTargets {
 }
 
 /// A list of CIS scans filter criteria.
+///
+/// @nodoc
 class ListCisScansFilterCriteria {
   /// The list of failed checks filters.
   final List<CisNumberFilter>? failedChecksFilters;
@@ -13597,6 +13976,7 @@ class ListCisScansFilterCriteria {
   }
 }
 
+/// @nodoc
 class ListCisScansDetailLevel {
   static const organization = ListCisScansDetailLevel._('ORGANIZATION');
   static const member = ListCisScansDetailLevel._('MEMBER');
@@ -13622,6 +14002,7 @@ class ListCisScansDetailLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class ListCisScansSortBy {
   static const status = ListCisScansSortBy._('STATUS');
   static const scheduledBy = ListCisScansSortBy._('SCHEDULED_BY');
@@ -13649,6 +14030,7 @@ class ListCisScansSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class CisSortOrder {
   static const asc = CisSortOrder._('ASC');
   static const desc = CisSortOrder._('DESC');
@@ -13673,6 +14055,8 @@ class CisSortOrder {
 }
 
 /// The CIS string filter.
+///
+/// @nodoc
 class CisStringFilter {
   /// The comparison value of the CIS string filter.
   final CisStringComparison comparison;
@@ -13695,6 +14079,7 @@ class CisStringFilter {
   }
 }
 
+/// @nodoc
 class CisStringComparison {
   static const equals = CisStringComparison._('EQUALS');
   static const prefix = CisStringComparison._('PREFIX');
@@ -13722,6 +14107,8 @@ class CisStringComparison {
 }
 
 /// The CIS number filter.
+///
+/// @nodoc
 class CisNumberFilter {
   /// The CIS number filter's lower inclusive.
   final int? lowerInclusive;
@@ -13745,6 +14132,8 @@ class CisNumberFilter {
 }
 
 /// The CIS date filter.
+///
+/// @nodoc
 class CisDateFilter {
   /// The CIS date filter's earliest scan start time.
   final DateTime? earliestScanStartTime;
@@ -13770,6 +14159,8 @@ class CisDateFilter {
 }
 
 /// The CIS scan status filter.
+///
+/// @nodoc
 class CisScanStatusFilter {
   /// The filter comparison value.
   final CisScanStatusComparison comparison;
@@ -13792,6 +14183,7 @@ class CisScanStatusFilter {
   }
 }
 
+/// @nodoc
 class CisScanStatusComparison {
   static const equals = CisScanStatusComparison._('EQUALS');
 
@@ -13817,6 +14209,8 @@ class CisScanStatusComparison {
 }
 
 /// The tag filter.
+///
+/// @nodoc
 class TagFilter {
   /// The tag filter comparison value.
   final TagComparison comparison;
@@ -13845,6 +14239,7 @@ class TagFilter {
   }
 }
 
+/// @nodoc
 class TagComparison {
   static const equals = TagComparison._('EQUALS');
 
@@ -13869,6 +14264,8 @@ class TagComparison {
 }
 
 /// The CIS target resource aggregation.
+///
+/// @nodoc
 class CisTargetResourceAggregation {
   /// The scan ARN for the CIS target resource.
   final String scanArn;
@@ -13948,6 +14345,8 @@ class CisTargetResourceAggregation {
 }
 
 /// The status counts.
+///
+/// @nodoc
 class StatusCounts {
   /// The number of checks that failed.
   final int? failed;
@@ -13984,6 +14383,7 @@ class StatusCounts {
   }
 }
 
+/// @nodoc
 class CisTargetStatus {
   static const timedOut = CisTargetStatus._('TIMED_OUT');
   static const cancelled = CisTargetStatus._('CANCELLED');
@@ -14009,6 +14409,7 @@ class CisTargetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CisTargetStatusReason {
   static const scanInProgress = CisTargetStatusReason._('SCAN_IN_PROGRESS');
   static const unsupportedOs = CisTargetStatusReason._('UNSUPPORTED_OS');
@@ -14036,6 +14437,8 @@ class CisTargetStatusReason {
 }
 
 /// The scan results aggregated by target resource filter criteria.
+///
+/// @nodoc
 class CisScanResultsAggregatedByTargetResourceFilterCriteria {
   /// The criteria's account ID filters.
   final List<CisStringFilter>? accountIdFilters;
@@ -14105,6 +14508,7 @@ class CisScanResultsAggregatedByTargetResourceFilterCriteria {
   }
 }
 
+/// @nodoc
 class CisScanResultsAggregatedByTargetResourceSortBy {
   static const resourceId =
       CisScanResultsAggregatedByTargetResourceSortBy._('RESOURCE_ID');
@@ -14151,6 +14555,8 @@ class CisScanResultsAggregatedByTargetResourceSortBy {
 }
 
 /// The CIS target status reason filter.
+///
+/// @nodoc
 class CisTargetStatusReasonFilter {
   /// The comparison value of the CIS target status reason filter.
   final CisTargetStatusComparison comparison;
@@ -14173,6 +14579,7 @@ class CisTargetStatusReasonFilter {
   }
 }
 
+/// @nodoc
 class CisTargetStatusComparison {
   static const equals = CisTargetStatusComparison._('EQUALS');
 
@@ -14198,6 +14605,8 @@ class CisTargetStatusComparison {
 }
 
 /// The CIS target status filter.
+///
+/// @nodoc
 class CisTargetStatusFilter {
   /// The comparison value of the CIS target status filter.
   final CisTargetStatusComparison comparison;
@@ -14221,6 +14630,8 @@ class CisTargetStatusFilter {
 }
 
 /// The CIS result status filter.
+///
+/// @nodoc
 class CisResultStatusFilter {
   /// The comparison value of the CIS result status filter.
   final CisResultStatusComparison comparison;
@@ -14243,6 +14654,7 @@ class CisResultStatusFilter {
   }
 }
 
+/// @nodoc
 class CisResultStatusComparison {
   static const equals = CisResultStatusComparison._('EQUALS');
 
@@ -14267,6 +14679,7 @@ class CisResultStatusComparison {
   String toString() => value;
 }
 
+/// @nodoc
 class CisResultStatus {
   static const passed = CisResultStatus._('PASSED');
   static const failed = CisResultStatus._('FAILED');
@@ -14293,6 +14706,8 @@ class CisResultStatus {
 }
 
 /// A CIS check.
+///
+/// @nodoc
 class CisCheckAggregation {
   /// The scan ARN for the CIS check scan ARN.
   final String scanArn;
@@ -14367,6 +14782,8 @@ class CisCheckAggregation {
 }
 
 /// The scan results aggregated by checks filter criteria.
+///
+/// @nodoc
 class CisScanResultsAggregatedByChecksFilterCriteria {
   /// The criteria's account ID filters.
   final List<CisStringFilter>? accountIdFilters;
@@ -14415,6 +14832,7 @@ class CisScanResultsAggregatedByChecksFilterCriteria {
   }
 }
 
+/// @nodoc
 class CisScanResultsAggregatedByChecksSortBy {
   static const checkId = CisScanResultsAggregatedByChecksSortBy._('CHECK_ID');
   static const title = CisScanResultsAggregatedByChecksSortBy._('TITLE');
@@ -14447,6 +14865,8 @@ class CisScanResultsAggregatedByChecksSortBy {
 
 /// The CIS security level filter. Security level refers to the Benchmark levels
 /// that CIS assigns to a profile.
+///
+/// @nodoc
 class CisSecurityLevelFilter {
   /// The CIS security filter comparison value.
   final CisSecurityLevelComparison comparison;
@@ -14469,6 +14889,7 @@ class CisSecurityLevelFilter {
   }
 }
 
+/// @nodoc
 class CisSecurityLevelComparison {
   static const equals = CisSecurityLevelComparison._('EQUALS');
 
@@ -14494,6 +14915,8 @@ class CisSecurityLevelComparison {
 }
 
 /// The CIS scan configuration.
+///
+/// @nodoc
 class CisScanConfiguration {
   /// The CIS scan configuration's scan configuration ARN.
   final String scanConfigurationArn;
@@ -14565,6 +14988,8 @@ class CisScanConfiguration {
 }
 
 /// A list of CIS scan configurations filter criteria.
+///
+/// @nodoc
 class ListCisScanConfigurationsFilterCriteria {
   /// The list of scan configuration ARN filters.
   final List<CisStringFilter>? scanConfigurationArnFilters;
@@ -14595,6 +15020,7 @@ class ListCisScanConfigurationsFilterCriteria {
   }
 }
 
+/// @nodoc
 class CisScanConfigurationsSortBy {
   static const scanName = CisScanConfigurationsSortBy._('SCAN_NAME');
   static const scanConfigurationArn =
@@ -14623,6 +15049,8 @@ class CisScanConfigurationsSortBy {
 
 /// Contains information on the permissions an account has within Amazon
 /// Inspector.
+///
+/// @nodoc
 class Permission {
   /// The operations that can be performed with the given permissions.
   final Operation operation;
@@ -14653,6 +15081,7 @@ class Permission {
   }
 }
 
+/// @nodoc
 class Service {
   static const ec2 = Service._('EC2');
   static const ecr = Service._('ECR');
@@ -14677,6 +15106,7 @@ class Service {
   String toString() => value;
 }
 
+/// @nodoc
 class Operation {
   static const enableScanning = Operation._('ENABLE_SCANNING');
   static const disableScanning = Operation._('DISABLE_SCANNING');
@@ -14707,6 +15137,7 @@ class Operation {
   String toString() => value;
 }
 
+/// @nodoc
 class SbomReportFormat {
   static const cyclonedx_1_4 = SbomReportFormat._('CYCLONEDX_1_4');
   static const spdx_2_3 = SbomReportFormat._('SPDX_2_3');
@@ -14731,6 +15162,7 @@ class SbomReportFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ExternalReportStatus {
   static const succeeded = ExternalReportStatus._('SUCCEEDED');
   static const inProgress = ExternalReportStatus._('IN_PROGRESS');
@@ -14758,6 +15190,7 @@ class ExternalReportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportingErrorCode {
   static const internalError = ReportingErrorCode._('INTERNAL_ERROR');
   static const invalidPermissions = ReportingErrorCode._('INVALID_PERMISSIONS');
@@ -14797,6 +15230,8 @@ class ReportingErrorCode {
 
 /// Contains details of the Amazon S3 bucket and KMS key used to export
 /// findings.
+///
+/// @nodoc
 class Destination {
   /// The name of the Amazon S3 bucket to export findings to.
   final String bucketName;
@@ -14834,6 +15269,8 @@ class Destination {
 }
 
 /// The resource filter criteria for a Software bill of materials (SBOM) report.
+///
+/// @nodoc
 class ResourceFilterCriteria {
   /// The account IDs used as resource filter criteria.
   final List<ResourceStringFilter>? accountId;
@@ -14932,6 +15369,8 @@ class ResourceFilterCriteria {
 }
 
 /// A resource map filter for a software bill of material report.
+///
+/// @nodoc
 class ResourceMapFilter {
   /// The filter's comparison.
   final ResourceMapComparison comparison;
@@ -14969,6 +15408,7 @@ class ResourceMapFilter {
   }
 }
 
+/// @nodoc
 class ResourceMapComparison {
   static const equals = ResourceMapComparison._('EQUALS');
 
@@ -14994,6 +15434,8 @@ class ResourceMapComparison {
 }
 
 /// A resource string filter for a software bill of materials report.
+///
+/// @nodoc
 class ResourceStringFilter {
   /// The filter's comparison.
   final ResourceStringComparison comparison;
@@ -15024,6 +15466,7 @@ class ResourceStringFilter {
   }
 }
 
+/// @nodoc
 class ResourceStringComparison {
   static const equals = ResourceStringComparison._('EQUALS');
   static const notEquals = ResourceStringComparison._('NOT_EQUALS');
@@ -15051,6 +15494,8 @@ class ResourceStringComparison {
 
 /// Details of the Amazon Inspector delegated administrator for your
 /// organization.
+///
+/// @nodoc
 class DelegatedAdmin {
   /// The Amazon Web Services account ID of the Amazon Inspector delegated
   /// administrator for your organization.
@@ -15084,6 +15529,8 @@ class DelegatedAdmin {
 }
 
 /// Details about the state of the ECR scans for your environment.
+///
+/// @nodoc
 class EcrConfigurationState {
   /// An object that contains details about the state of the ECR re-scan settings.
   final EcrRescanDurationState? rescanDurationState;
@@ -15111,6 +15558,8 @@ class EcrConfigurationState {
 }
 
 /// Details about the state of the EC2 scan configuration for your environment.
+///
+/// @nodoc
 class Ec2ConfigurationState {
   /// An object that contains details about the state of the Amazon EC2 scan mode.
   final Ec2ScanModeState? scanModeState;
@@ -15148,6 +15597,8 @@ class Ec2ConfigurationState {
 }
 
 /// The state of your Amazon EC2 scan mode configuration.
+///
+/// @nodoc
 class Ec2ScanModeState {
   /// The scan method that is applied to the instance.
   final Ec2ScanMode? scanMode;
@@ -15179,6 +15630,8 @@ class Ec2ScanModeState {
 }
 
 /// The state of the Amazon Inspector VM scanner.
+///
+/// @nodoc
 class VMScannerState {
   /// Whether the VM scanner is activated.
   final bool? activated;
@@ -15215,6 +15668,7 @@ class VMScannerState {
   }
 }
 
+/// @nodoc
 class VMScannerStatus {
   static const success = VMScannerStatus._('SUCCESS');
   static const pending = VMScannerStatus._('PENDING');
@@ -15240,6 +15694,7 @@ class VMScannerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Ec2ScanModeStatus {
   static const success = Ec2ScanModeStatus._('SUCCESS');
   static const pending = Ec2ScanModeStatus._('PENDING');
@@ -15270,6 +15725,8 @@ class Ec2ScanModeStatus {
 /// exceeds the duration configured for image pull date, and the duration
 /// configured for image pull date, the monitoring state of that image becomes
 /// <code>inactive</code> and all associated findings are scheduled for closure.
+///
+/// @nodoc
 class EcrRescanDurationState {
   /// The rescan duration configured for image pull date.
   final EcrPullDateRescanDuration? pullDateRescanDuration;
@@ -15327,6 +15784,7 @@ class EcrRescanDurationState {
   }
 }
 
+/// @nodoc
 class EcrRescanDurationStatus {
   static const success = EcrRescanDurationStatus._('SUCCESS');
   static const pending = EcrRescanDurationStatus._('PENDING');
@@ -15353,6 +15811,7 @@ class EcrRescanDurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfigurationLevel {
   static const organization = ConfigurationLevel._('ORGANIZATION');
   static const account = ConfigurationLevel._('ACCOUNT');
@@ -15379,6 +15838,8 @@ class ConfigurationLevel {
 }
 
 /// Information about the cluster.
+///
+/// @nodoc
 class ClusterInformation {
   /// The cluster ARN.
   final String clusterArn;
@@ -15412,6 +15873,8 @@ class ClusterInformation {
 }
 
 /// Details about the task or pod in the cluster.
+///
+/// @nodoc
 class ClusterDetails {
   final ClusterMetadata clusterMetadata;
 
@@ -15459,6 +15922,8 @@ class ClusterDetails {
 }
 
 /// The metadata for a cluster.
+///
+/// @nodoc
 class ClusterMetadata {
   /// The details for an Amazon ECS cluster in the cluster metadata.
   final AwsEcsMetadataDetails? awsEcsMetadataDetails;
@@ -15497,6 +15962,8 @@ class ClusterMetadata {
 }
 
 /// Metadata about tasks where an image was in use.
+///
+/// @nodoc
 class AwsEcsMetadataDetails {
   /// The details group information for a task in a cluster.
   final String detailsGroup;
@@ -15527,6 +15994,8 @@ class AwsEcsMetadataDetails {
 }
 
 /// The metadata for an Amazon EKS pod where an Amazon ECR image is in use.
+///
+/// @nodoc
 class AwsEksMetadataDetails {
   /// The namespace for an Amazon EKS cluster.
   final String? namespace;
@@ -15560,6 +16029,8 @@ class AwsEksMetadataDetails {
 }
 
 /// Information about the workload.
+///
+/// @nodoc
 class AwsEksWorkloadInfo {
   /// The name of the workload.
   final String name;
@@ -15590,6 +16061,8 @@ class AwsEksWorkloadInfo {
 }
 
 /// The filter criteria to be used.
+///
+/// @nodoc
 class ClusterForImageFilterCriteria {
   /// The resource Id to be used in the filter criteria.
   final String resourceId;
@@ -15607,6 +16080,8 @@ class ClusterForImageFilterCriteria {
 }
 
 /// The CIS scan result details.
+///
+/// @nodoc
 class CisScanResultDetails {
   /// The CIS scan result details' scan ARN.
   final String scanArn;
@@ -15706,6 +16181,7 @@ class CisScanResultDetails {
   }
 }
 
+/// @nodoc
 class CisFindingStatus {
   static const passed = CisFindingStatus._('PASSED');
   static const failed = CisFindingStatus._('FAILED');
@@ -15732,6 +16208,8 @@ class CisFindingStatus {
 }
 
 /// The CIS scan result details filter criteria.
+///
+/// @nodoc
 class CisScanResultDetailsFilterCriteria {
   /// The criteria's check ID filters.
   final List<CisStringFilter>? checkIdFilters;
@@ -15775,6 +16253,7 @@ class CisScanResultDetailsFilterCriteria {
   }
 }
 
+/// @nodoc
 class CisScanResultDetailsSortBy {
   static const checkId = CisScanResultDetailsSortBy._('CHECK_ID');
   static const status = CisScanResultDetailsSortBy._('STATUS');
@@ -15801,6 +16280,8 @@ class CisScanResultDetailsSortBy {
 }
 
 /// The CIS finding status filter.
+///
+/// @nodoc
 class CisFindingStatusFilter {
   /// The comparison value of the CIS finding status filter.
   final CisFindingStatusComparison comparison;
@@ -15823,6 +16304,7 @@ class CisFindingStatusFilter {
   }
 }
 
+/// @nodoc
 class CisFindingStatusComparison {
   static const equals = CisFindingStatusComparison._('EQUALS');
 
@@ -15847,6 +16329,7 @@ class CisFindingStatusComparison {
   String toString() => value;
 }
 
+/// @nodoc
 class CisReportStatus {
   static const succeeded = CisReportStatus._('SUCCEEDED');
   static const failed = CisReportStatus._('FAILED');
@@ -15872,6 +16355,7 @@ class CisReportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CisReportFormat {
   static const pdf = CisReportFormat._('PDF');
   static const csv = CisReportFormat._('CSV');
@@ -15897,6 +16381,8 @@ class CisReportFormat {
 }
 
 /// An object with details on why an account failed to enable Amazon Inspector.
+///
+/// @nodoc
 class FailedAccount {
   /// The Amazon Web Services account ID.
   final String accountId;
@@ -15952,6 +16438,7 @@ class FailedAccount {
   }
 }
 
+/// @nodoc
 class Status {
   static const enabling = Status._('ENABLING');
   static const enabled = Status._('ENABLED');
@@ -15988,6 +16475,8 @@ class Status {
 
 /// Details the status of Amazon Inspector for each resource type Amazon
 /// Inspector scans.
+///
+/// @nodoc
 class ResourceStatus {
   /// The status of Amazon Inspector scanning for Amazon EC2 resources.
   final Status ec2;
@@ -16041,6 +16530,7 @@ class ResourceStatus {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const alreadyEnabled = ErrorCode._('ALREADY_ENABLED');
   static const enableInProgress = ErrorCode._('ENABLE_IN_PROGRESS');
@@ -16103,6 +16593,8 @@ class ErrorCode {
 
 /// An Amazon Web Services account within your environment that Amazon Inspector
 /// has been enabled for.
+///
+/// @nodoc
 class Account {
   /// The ID of the Amazon Web Services account.
   final String accountId;
@@ -16141,6 +16633,7 @@ class Account {
   }
 }
 
+/// @nodoc
 class ResourceScanType {
   static const ec2 = ResourceScanType._('EC2');
   static const ecr = ResourceScanType._('ECR');
@@ -16168,6 +16661,7 @@ class ResourceScanType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportFormat {
   static const csv = ReportFormat._('CSV');
   static const json = ReportFormat._('JSON');
@@ -16193,6 +16687,8 @@ class ReportFormat {
 
 /// Contains details required to create a code security integration with a
 /// specific repository provider.
+///
+/// @nodoc
 class CreateIntegrationDetail {
   /// Details specific to creating an integration with a self-managed GitLab
   /// instance.
@@ -16212,6 +16708,8 @@ class CreateIntegrationDetail {
 
 /// Contains details required to create an integration with a self-managed
 /// GitLab instance.
+///
+/// @nodoc
 class CreateGitLabSelfManagedIntegrationDetail {
   /// The personal access token used to authenticate with the self-managed GitLab
   /// instance.
@@ -16236,6 +16734,8 @@ class CreateGitLabSelfManagedIntegrationDetail {
 }
 
 /// Creates CIS targets.
+///
+/// @nodoc
 class CreateCisTargets {
   /// The CIS target account ids.
   final List<String> accountIds;
@@ -16260,6 +16760,8 @@ class CreateCisTargets {
 
 /// An object that contains details about a member account in your organization
 /// that failed to activate Amazon Inspector deep inspection.
+///
+/// @nodoc
 class FailedMemberAccountEc2DeepInspectionStatusState {
   /// The unique identifier for the Amazon Web Services account of the
   /// organization member that failed to activate Amazon Inspector deep
@@ -16303,6 +16805,8 @@ class FailedMemberAccountEc2DeepInspectionStatusState {
 
 /// An object that contains details about the state of Amazon Inspector deep
 /// inspection for a member account.
+///
+/// @nodoc
 class MemberAccountEc2DeepInspectionStatusState {
   /// The unique identifier for the Amazon Web Services account of the
   /// organization member
@@ -16345,6 +16849,8 @@ class MemberAccountEc2DeepInspectionStatusState {
 
 /// An object that contains details about the status of Amazon Inspector deep
 /// inspection for a member account in your organization.
+///
+/// @nodoc
 class MemberAccountEc2DeepInspectionStatus {
   /// The unique identifier for the Amazon Web Services account of the
   /// organization member.
@@ -16372,6 +16878,8 @@ class MemberAccountEc2DeepInspectionStatus {
 
 /// Information about an error received while accessing free trail data for an
 /// account.
+///
+/// @nodoc
 class FreeTrialInfoError {
   /// The account associated with the Amazon Inspector free trial information.
   final String accountId;
@@ -16408,6 +16916,7 @@ class FreeTrialInfoError {
   }
 }
 
+/// @nodoc
 class FreeTrialInfoErrorCode {
   static const accessDenied = FreeTrialInfoErrorCode._('ACCESS_DENIED');
   static const internalError = FreeTrialInfoErrorCode._('INTERNAL_ERROR');
@@ -16434,6 +16943,8 @@ class FreeTrialInfoErrorCode {
 }
 
 /// Information about the Amazon Inspector free trial for an account.
+///
+/// @nodoc
 class FreeTrialAccountInfo {
   /// The account associated with the Amazon Inspector free trial information.
   final String accountId;
@@ -16468,6 +16979,8 @@ class FreeTrialAccountInfo {
 
 /// An object that contains information about the Amazon Inspector free trial
 /// for an account.
+///
+/// @nodoc
 class FreeTrialInfo {
   /// The date and time that the Amazon Inspector free trail ends for a given
   /// account.
@@ -16513,6 +17026,7 @@ class FreeTrialInfo {
   }
 }
 
+/// @nodoc
 class FreeTrialType {
   static const ec2 = FreeTrialType._('EC2');
   static const ecr = FreeTrialType._('ECR');
@@ -16540,6 +17054,7 @@ class FreeTrialType {
   String toString() => value;
 }
 
+/// @nodoc
 class FreeTrialStatus {
   static const active = FreeTrialStatus._('ACTIVE');
   static const inactive = FreeTrialStatus._('INACTIVE');
@@ -16566,6 +17081,8 @@ class FreeTrialStatus {
 
 /// Details about an error encountered when trying to return vulnerability data
 /// for a finding.
+///
+/// @nodoc
 class FindingDetailsError {
   /// The error code.
   final FindingDetailsErrorCode errorCode;
@@ -16603,6 +17120,7 @@ class FindingDetailsError {
   }
 }
 
+/// @nodoc
 class FindingDetailsErrorCode {
   static const internalError = FindingDetailsErrorCode._('INTERNAL_ERROR');
   static const accessDenied = FindingDetailsErrorCode._('ACCESS_DENIED');
@@ -16637,6 +17155,8 @@ class FindingDetailsErrorCode {
 }
 
 /// Details of the vulnerability identified in a finding.
+///
+/// @nodoc
 class FindingDetail {
   /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a
   /// specific vulnerability.
@@ -16737,6 +17257,8 @@ class FindingDetail {
 }
 
 /// Details of the evidence for a vulnerability identified in a finding.
+///
+/// @nodoc
 class Evidence {
   /// The evidence details.
   final String? evidenceDetail;
@@ -16775,6 +17297,8 @@ class Evidence {
 
 /// Contains information about any errors encountered while trying to retrieve a
 /// code snippet.
+///
+/// @nodoc
 class CodeSnippetError {
   /// The error code for the error that prevented a code snippet from being
   /// retrieved.
@@ -16814,6 +17338,7 @@ class CodeSnippetError {
   }
 }
 
+/// @nodoc
 class CodeSnippetErrorCode {
   static const internalError = CodeSnippetErrorCode._('INTERNAL_ERROR');
   static const accessDenied = CodeSnippetErrorCode._('ACCESS_DENIED');
@@ -16849,6 +17374,8 @@ class CodeSnippetErrorCode {
 
 /// Contains information on a code snippet retrieved by Amazon Inspector from a
 /// code vulnerability finding.
+///
+/// @nodoc
 class CodeSnippetResult {
   /// Contains information on the retrieved code snippet.
   final List<CodeLine>? codeSnippet;
@@ -16906,6 +17433,8 @@ class CodeSnippetResult {
 }
 
 /// A suggested fix for a vulnerability in your Lambda function code.
+///
+/// @nodoc
 class SuggestedFix {
   /// The fix's code.
   final String? code;
@@ -16936,6 +17465,8 @@ class SuggestedFix {
 }
 
 /// Contains information on the lines of code associated with a code snippet.
+///
+/// @nodoc
 class CodeLine {
   /// The content of a line of code
   final String content;
@@ -16967,6 +17498,8 @@ class CodeLine {
 
 /// An object with details the status of an Amazon Web Services account within
 /// your Amazon Inspector environment.
+///
+/// @nodoc
 class AccountState {
   /// The Amazon Web Services account ID.
   final String accountId;
@@ -17008,6 +17541,8 @@ class AccountState {
 }
 
 /// An object that described the state of Amazon Inspector scans for an account.
+///
+/// @nodoc
 class State {
   /// The error code explaining why the account failed to enable Amazon Inspector.
   final ErrorCode errorCode;
@@ -17047,6 +17582,8 @@ class State {
 
 /// Details the state of Amazon Inspector for each resource type Amazon
 /// Inspector scans.
+///
+/// @nodoc
 class ResourceState {
   /// An object detailing the state of Amazon Inspector scanning for Amazon EC2
   /// resources.
@@ -17107,6 +17644,8 @@ class ResourceState {
 
 /// Details about a successful association or disassociation between a code
 /// repository and a scan configuration.
+///
+/// @nodoc
 class SuccessfulAssociationResult {
   final CodeSecurityResource? resource;
 
@@ -17142,6 +17681,8 @@ class SuccessfulAssociationResult {
 
 /// Details about a failed attempt to associate or disassociate a code
 /// repository with a scan configuration.
+///
+/// @nodoc
 class FailedAssociationResult {
   final CodeSecurityResource? resource;
 
@@ -17190,6 +17731,7 @@ class FailedAssociationResult {
   }
 }
 
+/// @nodoc
 class AssociationResultStatusCode {
   static const internalError = AssociationResultStatusCode._('INTERNAL_ERROR');
   static const accessDenied = AssociationResultStatusCode._('ACCESS_DENIED');
@@ -17230,6 +17772,8 @@ class AssociationResultStatusCode {
 
 /// Contains details about a request to disassociate a code repository from a
 /// scan configuration.
+///
+/// @nodoc
 class DisassociateConfigurationRequest {
   final CodeSecurityResource resource;
 
@@ -17254,6 +17798,8 @@ class DisassociateConfigurationRequest {
 
 /// Contains details about a request to associate a code repository with a scan
 /// configuration.
+///
+/// @nodoc
 class AssociateConfigurationRequest {
   final CodeSecurityResource resource;
 
@@ -17275,31 +17821,37 @@ class AssociateConfigurationRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -17308,11 +17860,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

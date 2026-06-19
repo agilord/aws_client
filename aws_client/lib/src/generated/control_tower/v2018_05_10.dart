@@ -1483,6 +1483,7 @@ class ControlTower {
   }
 }
 
+/// @nodoc
 class DisableControlOutput {
   /// The ID of the asynchronous operation, which is used to track status. The
   /// operation is available for 90 days.
@@ -1506,6 +1507,7 @@ class DisableControlOutput {
   }
 }
 
+/// @nodoc
 class GetBaselineOperationOutput {
   /// A <code>baselineOperation</code> object that shows information about the
   /// specified operation ID.
@@ -1531,6 +1533,7 @@ class GetBaselineOperationOutput {
   }
 }
 
+/// @nodoc
 class GetBaselineOutput {
   /// The baseline ARN.
   final String arn;
@@ -1567,6 +1570,7 @@ class GetBaselineOutput {
   }
 }
 
+/// @nodoc
 class ListBaselinesOutput {
   /// A list of <code>Baseline</code> object details.
   final List<BaselineSummary> baselines;
@@ -1599,6 +1603,7 @@ class ListBaselinesOutput {
   }
 }
 
+/// @nodoc
 class GetControlOperationOutput {
   /// An operation performed by the control.
   final ControlOperation controlOperation;
@@ -1623,6 +1628,7 @@ class GetControlOperationOutput {
   }
 }
 
+/// @nodoc
 class ListControlOperationsOutput {
   /// Returns a list of output from control operations.
   final List<ControlOperationSummary> controlOperations;
@@ -1656,6 +1662,7 @@ class ListControlOperationsOutput {
   }
 }
 
+/// @nodoc
 class EnableBaselineOutput {
   /// The ARN of the <code>EnabledBaseline</code> resource.
   final String arn;
@@ -1687,6 +1694,7 @@ class EnableBaselineOutput {
   }
 }
 
+/// @nodoc
 class GetEnabledBaselineOutput {
   /// Details of the <code>EnabledBaseline</code> resource.
   final EnabledBaselineDetails? enabledBaselineDetails;
@@ -1713,6 +1721,7 @@ class GetEnabledBaselineOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnabledBaselineOutput {
   /// The ID (in UUID format) of the asynchronous
   /// <code>UpdateEnabledBaseline</code> operation. This
@@ -1738,6 +1747,7 @@ class UpdateEnabledBaselineOutput {
   }
 }
 
+/// @nodoc
 class DisableBaselineOutput {
   /// The ID (in UUID format) of the asynchronous <code>DisableBaseline</code>
   /// operation. This <code>operationIdentifier</code> is used to track status
@@ -1762,6 +1772,7 @@ class DisableBaselineOutput {
   }
 }
 
+/// @nodoc
 class ListEnabledBaselinesOutput {
   /// Retuens a list of summaries of <code>EnabledBaseline</code> resources.
   final List<EnabledBaselineSummary> enabledBaselines;
@@ -1795,6 +1806,7 @@ class ListEnabledBaselinesOutput {
   }
 }
 
+/// @nodoc
 class ResetEnabledBaselineOutput {
   /// The ID (in UUID format) of the asynchronous
   /// <code>ResetEnabledBaseline</code> operation. This
@@ -1820,6 +1832,7 @@ class ResetEnabledBaselineOutput {
   }
 }
 
+/// @nodoc
 class EnableControlOutput {
   /// The ID of the asynchronous operation, which is used to track status. The
   /// operation is available for 90 days.
@@ -1850,6 +1863,7 @@ class EnableControlOutput {
   }
 }
 
+/// @nodoc
 class GetEnabledControlOutput {
   /// Information about the enabled control.
   final EnabledControlDetails enabledControlDetails;
@@ -1874,6 +1888,7 @@ class GetEnabledControlOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnabledControlOutput {
   /// The operation identifier for this <code>UpdateEnabledControl</code>
   /// operation.
@@ -1897,6 +1912,7 @@ class UpdateEnabledControlOutput {
   }
 }
 
+/// @nodoc
 class ListEnabledControlsOutput {
   /// Lists the controls enabled by Amazon Web Services Control Tower on the
   /// specified organizational unit and the accounts it contains.
@@ -1931,6 +1947,7 @@ class ListEnabledControlsOutput {
   }
 }
 
+/// @nodoc
 class ResetEnabledControlOutput {
   /// The operation identifier for this <code>ResetEnabledControl</code>
   /// operation.
@@ -1954,6 +1971,7 @@ class ResetEnabledControlOutput {
   }
 }
 
+/// @nodoc
 class GetLandingZoneOperationOutput {
   /// Details about a landing zone operation.
   final LandingZoneOperationDetail operationDetails;
@@ -1978,6 +1996,7 @@ class GetLandingZoneOperationOutput {
   }
 }
 
+/// @nodoc
 class ListLandingZoneOperationsOutput {
   /// Lists landing zone operations.
   final List<LandingZoneOperationSummary> landingZoneOperations;
@@ -2013,6 +2032,7 @@ class ListLandingZoneOperationsOutput {
   }
 }
 
+/// @nodoc
 class CreateLandingZoneOutput {
   /// The ARN of the landing zone resource.
   final String arn;
@@ -2044,6 +2064,7 @@ class CreateLandingZoneOutput {
   }
 }
 
+/// @nodoc
 class GetLandingZoneOutput {
   /// Information about the landing zone.
   final LandingZoneDetail landingZone;
@@ -2068,6 +2089,7 @@ class GetLandingZoneOutput {
   }
 }
 
+/// @nodoc
 class UpdateLandingZoneOutput {
   /// A unique identifier assigned to a <code>UpdateLandingZone</code> operation.
   /// You can use this identifier as an input of
@@ -2092,6 +2114,7 @@ class UpdateLandingZoneOutput {
   }
 }
 
+/// @nodoc
 class DeleteLandingZoneOutput {
   /// &gt;A unique identifier assigned to a <code>DeleteLandingZone</code>
   /// operation. You can use this identifier as an input parameter of
@@ -2116,6 +2139,7 @@ class DeleteLandingZoneOutput {
   }
 }
 
+/// @nodoc
 class ListLandingZonesOutput {
   /// The ARN of the landing zone.
   final List<LandingZoneSummary> landingZones;
@@ -2149,6 +2173,7 @@ class ListLandingZonesOutput {
   }
 }
 
+/// @nodoc
 class ResetLandingZoneOutput {
   /// A unique identifier assigned to a <code>ResetLandingZone</code> operation.
   /// You can use this identifier as an input parameter of
@@ -2173,6 +2198,7 @@ class ResetLandingZoneOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A list of tags, as <code>key:value</code> strings.
   final Map<String, String> tags;
@@ -2197,6 +2223,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2209,6 +2236,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -2222,6 +2250,8 @@ class UntagResourceOutput {
 }
 
 /// Returns a summary of information about a landing zone.
+///
+/// @nodoc
 class LandingZoneSummary {
   /// The ARN of the landing zone.
   final String? arn;
@@ -2244,6 +2274,7 @@ class LandingZoneSummary {
   }
 }
 
+/// @nodoc
 class RemediationType {
   static const inheritanceDrift = RemediationType._('INHERITANCE_DRIFT');
 
@@ -2268,6 +2299,8 @@ class RemediationType {
 }
 
 /// Information about the landing zone.
+///
+/// @nodoc
 class LandingZoneDetail {
   /// The landing zone manifest JSON text file that specifies the landing zone
   /// configurations.
@@ -2343,6 +2376,7 @@ class LandingZoneDetail {
   }
 }
 
+/// @nodoc
 class LandingZoneStatus {
   static const active = LandingZoneStatus._('ACTIVE');
   static const processing = LandingZoneStatus._('PROCESSING');
@@ -2373,6 +2407,8 @@ class LandingZoneStatus {
 /// If the landing zone differs from the expected configuration, it is defined
 /// to be in a state of drift. You can repair this drift by resetting the
 /// landing zone.
+///
+/// @nodoc
 class LandingZoneDriftStatusSummary {
   /// The drift status of the landing zone.
   ///
@@ -2409,6 +2445,7 @@ class LandingZoneDriftStatusSummary {
   }
 }
 
+/// @nodoc
 class LandingZoneDriftStatus {
   static const drifted = LandingZoneDriftStatus._('DRIFTED');
   static const inSync = LandingZoneDriftStatus._('IN_SYNC');
@@ -2435,6 +2472,8 @@ class LandingZoneDriftStatus {
 }
 
 /// Returns a summary of information about a landing zone operation.
+///
+/// @nodoc
 class LandingZoneOperationSummary {
   /// The <code>operationIdentifier</code> of the landing zone operation.
   final String? operationIdentifier;
@@ -2474,6 +2513,7 @@ class LandingZoneOperationSummary {
   }
 }
 
+/// @nodoc
 class LandingZoneOperationType {
   static const delete = LandingZoneOperationType._('DELETE');
   static const create = LandingZoneOperationType._('CREATE');
@@ -2501,6 +2541,7 @@ class LandingZoneOperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class LandingZoneOperationStatus {
   static const succeeded = LandingZoneOperationStatus._('SUCCEEDED');
   static const failed = LandingZoneOperationStatus._('FAILED');
@@ -2529,6 +2570,8 @@ class LandingZoneOperationStatus {
 
 /// A filter object that lets you call <code>ListLandingZoneOperations</code>
 /// with a specific filter.
+///
+/// @nodoc
 class LandingZoneOperationFilter {
   /// The statuses of the set of landing zone operations selected by the filter.
   final List<LandingZoneOperationStatus>? statuses;
@@ -2552,6 +2595,8 @@ class LandingZoneOperationFilter {
 }
 
 /// Information about a landing zone operation.
+///
+/// @nodoc
 class LandingZoneOperationDetail {
   /// The landing zone operation end time.
   final DateTime? endTime;
@@ -2643,6 +2688,8 @@ class LandingZoneOperationDetail {
 }
 
 /// Returns a summary of information about an enabled control.
+///
+/// @nodoc
 class EnabledControlSummary {
   /// The ARN of the enabled control.
   final String? arn;
@@ -2709,6 +2756,8 @@ class EnabledControlSummary {
 
 /// The deployment summary of an <code>EnabledControl</code> or
 /// <code>EnabledBaseline</code> resource.
+///
+/// @nodoc
 class EnablementStatusSummary {
   /// The last operation identifier for the enabled resource.
   final String? lastOperationIdentifier;
@@ -2762,6 +2811,8 @@ class EnablementStatusSummary {
 /// to include all supported and governed Regions. If the enabled control
 /// differs from the expected configuration, it is defined to be in a state of
 /// drift. You can repair this drift by resetting the enabled control.
+///
+/// @nodoc
 class DriftStatusSummary {
   /// The drift status of the enabled control.
   ///
@@ -2819,6 +2870,7 @@ class DriftStatusSummary {
   }
 }
 
+/// @nodoc
 class DriftStatus {
   static const drifted = DriftStatus._('DRIFTED');
   static const inSync = DriftStatus._('IN_SYNC');
@@ -2846,6 +2898,8 @@ class DriftStatus {
 
 /// Defines the various categories of drift that can occur for an enabled
 /// control resource.
+///
+/// @nodoc
 class EnabledControlDriftTypes {
   /// Indicates drift related to inheritance configuration between parent and
   /// child controls.
@@ -2885,6 +2939,8 @@ class EnabledControlDriftTypes {
 
 /// Represents drift information related to control inheritance between
 /// organizational units.
+///
+/// @nodoc
 class EnabledControlInheritanceDrift {
   /// The status of inheritance drift for the enabled control, indicating whether
   /// inheritance configuration matches expectations.
@@ -2910,6 +2966,8 @@ class EnabledControlInheritanceDrift {
 
 /// Represents drift information related to the underlying Amazon Web Services
 /// resources managed by the control.
+///
+/// @nodoc
 class EnabledControlResourceDrift {
   /// The status of resource drift for the enabled control, indicating whether the
   /// underlying resources match the expected configuration.
@@ -2933,6 +2991,7 @@ class EnabledControlResourceDrift {
   }
 }
 
+/// @nodoc
 class EnablementStatus {
   static const succeeded = EnablementStatus._('SUCCEEDED');
   static const failed = EnablementStatus._('FAILED');
@@ -2961,6 +3020,8 @@ class EnablementStatus {
 /// A structure that returns a set of control identifiers, the control status
 /// for each control in the set, and the drift status for each control in the
 /// set.
+///
+/// @nodoc
 class EnabledControlFilter {
   /// The set of <code>controlIdentifier</code> returned by the filter.
   final List<String>? controlIdentifiers;
@@ -3017,6 +3078,8 @@ class EnabledControlFilter {
 
 /// A key/value pair, where <code>Key</code> is of type <code>String</code> and
 /// <code>Value</code> is of type <code>Document</code>.
+///
+/// @nodoc
 class EnabledControlParameter {
   /// The key of a key/value pair.
   final String key;
@@ -3040,6 +3103,8 @@ class EnabledControlParameter {
 }
 
 /// Information about the enabled control.
+///
+/// @nodoc
 class EnabledControlDetails {
   /// The ARN of the enabled control.
   final String? arn;
@@ -3132,6 +3197,8 @@ class EnabledControlDetails {
 }
 
 /// Returns a summary of information about the parameters of an enabled control.
+///
+/// @nodoc
 class EnabledControlParameterSummary {
   /// The key of a key/value pair.
   final String key;
@@ -3170,6 +3237,8 @@ class EnabledControlParameterSummary {
 /// Region as expected, such as during drift, or <a
 /// href="https://docs.aws.amazon.com/controltower/latest/userguide/region-how.html#mixed-governance">mixed
 /// governance</a>.
+///
+/// @nodoc
 class Region {
   /// The Amazon Web Services Region name.
   final String? name;
@@ -3194,6 +3263,8 @@ class Region {
 
 /// Returns a summary of information about an <code>EnabledBaseline</code>
 /// object.
+///
+/// @nodoc
 class EnabledBaselineSummary {
   /// The ARN of the <code>EnabledBaseline</code> resource
   final String arn;
@@ -3272,6 +3343,8 @@ class EnabledBaselineSummary {
 ///
 /// For example, you may see this type of drift if you move accounts between
 /// OUs, but the accounts are not yet (re-)enrolled.
+///
+/// @nodoc
 class EnabledBaselineDriftStatusSummary {
   /// The types of drift that can be detected for an enabled baseline. Amazon Web
   /// Services Control Tower detects inheritance drift on enabled baselines that
@@ -3328,6 +3401,8 @@ class EnabledBaselineDriftStatusSummary {
 /// state of inheritance drift. This drift could occur in the
 /// <code>AWSControlTowerBaseline</code> or the <code>BackupBaseline</code>
 /// related to that account.
+///
+/// @nodoc
 class EnabledBaselineDriftTypes {
   /// At least one account within the target OU does not match the baseline
   /// configuration defined on that OU. An account is in inheritance drift when it
@@ -3359,6 +3434,8 @@ class EnabledBaselineDriftTypes {
 /// The inheritance drift summary for the enabled baseline. Inheritance drift
 /// occurs when any accounts in the target OU do not match the baseline
 /// configuration defined on that OU.
+///
+/// @nodoc
 class EnabledBaselineInheritanceDrift {
   /// The inheritance drift status for enabled baselines.
   final EnabledBaselineDriftStatus? status;
@@ -3382,6 +3459,7 @@ class EnabledBaselineInheritanceDrift {
   }
 }
 
+/// @nodoc
 class EnabledBaselineDriftStatus {
   static const inSync = EnabledBaselineDriftStatus._('IN_SYNC');
   static const drifted = EnabledBaselineDriftStatus._('DRIFTED');
@@ -3411,6 +3489,8 @@ class EnabledBaselineDriftStatus {
 /// filters are <code>baselineIdentifiers</code> and
 /// <code>targetIdentifiers</code>. The filter can be applied for either, or
 /// both.
+///
+/// @nodoc
 class EnabledBaselineFilter {
   /// Identifiers for the <code>Baseline</code> objects returned as part of the
   /// filter operation.
@@ -3458,6 +3538,8 @@ class EnabledBaselineFilter {
 }
 
 /// A key-value parameter to an <code>EnabledBaseline</code> resource.
+///
+/// @nodoc
 class EnabledBaselineParameter {
   /// A string denoting the parameter key.
   final String key;
@@ -3482,6 +3564,8 @@ class EnabledBaselineParameter {
 }
 
 /// Details of the <code>EnabledBaseline</code> resource.
+///
+/// @nodoc
 class EnabledBaselineDetails {
   /// The ARN of the <code>EnabledBaseline</code> resource.
   final String arn;
@@ -3566,6 +3650,8 @@ class EnabledBaselineDetails {
 }
 
 /// Summary of an applied parameter to an <code>EnabledBaseline</code> resource.
+///
+/// @nodoc
 class EnabledBaselineParameterSummary {
   /// A string denoting the parameter key.
   final String key;
@@ -3596,6 +3682,8 @@ class EnabledBaselineParameterSummary {
 }
 
 /// A summary of information about the specified control operation.
+///
+/// @nodoc
 class ControlOperationSummary {
   /// The <code>controlIdentifier</code> of a control.
   final String? controlIdentifier;
@@ -3678,6 +3766,7 @@ class ControlOperationSummary {
   }
 }
 
+/// @nodoc
 class ControlOperationType {
   static const enableControl = ControlOperationType._('ENABLE_CONTROL');
   static const disableControl = ControlOperationType._('DISABLE_CONTROL');
@@ -3712,6 +3801,7 @@ class ControlOperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ControlOperationStatus {
   static const succeeded = ControlOperationStatus._('SUCCEEDED');
   static const failed = ControlOperationStatus._('FAILED');
@@ -3740,6 +3830,8 @@ class ControlOperationStatus {
 
 /// A filter object that lets you call <code>ListControlOperations</code> with a
 /// specific filter.
+///
+/// @nodoc
 class ControlOperationFilter {
   /// The set of <code>controlIdentifier</code> returned by the filter.
   final List<String>? controlIdentifiers;
@@ -3785,6 +3877,8 @@ class ControlOperationFilter {
 }
 
 /// An operation performed by the control.
+///
+/// @nodoc
 class ControlOperation {
   /// The <code>controlIdentifier</code> of the control for the operation.
   final String? controlIdentifier;
@@ -3870,6 +3964,8 @@ class ControlOperation {
 }
 
 /// Returns a summary of information about a <code>Baseline</code> object.
+///
+/// @nodoc
 class BaselineSummary {
   /// The full ARN of a Baseline.
   final String arn;
@@ -3908,6 +4004,8 @@ class BaselineSummary {
 
 /// An object of shape <code>BaselineOperation</code>, returning details about
 /// the specified <code>Baseline</code> operation ID.
+///
+/// @nodoc
 class BaselineOperation {
   /// The end time of the operation (if applicable), in ISO 8601 format.
   final DateTime? endTime;
@@ -3973,6 +4071,7 @@ class BaselineOperation {
   }
 }
 
+/// @nodoc
 class BaselineOperationType {
   static const enableBaseline = BaselineOperationType._('ENABLE_BASELINE');
   static const disableBaseline = BaselineOperationType._('DISABLE_BASELINE');
@@ -4007,6 +4106,7 @@ class BaselineOperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class BaselineOperationStatus {
   static const succeeded = BaselineOperationStatus._('SUCCEEDED');
   static const failed = BaselineOperationStatus._('FAILED');
@@ -4033,6 +4133,7 @@ class BaselineOperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -4045,26 +4146,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4073,11 +4179,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

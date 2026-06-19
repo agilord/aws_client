@@ -1007,6 +1007,7 @@ class SecurityIR {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// Response element for ListTagsForResource providing content for each
   /// configured tag.
@@ -1032,6 +1033,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1044,6 +1046,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1056,6 +1059,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateCaseResponse {
   /// A response element providing responses for requests to CreateCase. This
   /// element responds with the case ID.
@@ -1079,6 +1083,7 @@ class CreateCaseResponse {
   }
 }
 
+/// @nodoc
 class GetCaseResponse {
   /// Response element for GetCase that provides the actual incident start date as
   /// identified by data analysis during the investigation.
@@ -1279,6 +1284,7 @@ class GetCaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateCaseResponse {
   UpdateCaseResponse();
 
@@ -1291,6 +1297,7 @@ class UpdateCaseResponse {
   }
 }
 
+/// @nodoc
 class ListCasesResponse {
   /// Response element for ListCases that includes caseARN, caseID, caseStatus,
   /// closedDate, createdDate, engagementType, lastUpdatedDate, pendingAction,
@@ -1333,6 +1340,7 @@ class ListCasesResponse {
   }
 }
 
+/// @nodoc
 class CloseCaseResponse {
   /// A response element providing responses for requests to CloseCase. This
   /// element responds <code>Closed </code> if successful.
@@ -1365,6 +1373,7 @@ class CloseCaseResponse {
   }
 }
 
+/// @nodoc
 class CreateCaseCommentResponse {
   /// Response element indicating the new comment ID.
   final String commentId;
@@ -1387,6 +1396,7 @@ class CreateCaseCommentResponse {
   }
 }
 
+/// @nodoc
 class GetCaseAttachmentDownloadUrlResponse {
   /// Response element providing the Amazon S3 presigned URL to download an
   /// attachment.
@@ -1411,6 +1421,7 @@ class GetCaseAttachmentDownloadUrlResponse {
   }
 }
 
+/// @nodoc
 class GetCaseAttachmentUploadUrlResponse {
   /// Response element providing the Amazon S3 presigned URL to upload the
   /// attachment.
@@ -1435,6 +1446,7 @@ class GetCaseAttachmentUploadUrlResponse {
   }
 }
 
+/// @nodoc
 class ListCaseEditsResponse {
   /// Response element for ListCaseEdits that includes the action, event
   /// timestamp, message, and principal for the response.
@@ -1477,6 +1489,7 @@ class ListCaseEditsResponse {
   }
 }
 
+/// @nodoc
 class ListCommentsResponse {
   /// Response element for ListComments providing the body, commentID, createDate,
   /// creator, lastUpdatedBy and lastUpdatedDate for each response.
@@ -1518,6 +1531,7 @@ class ListCommentsResponse {
   }
 }
 
+/// @nodoc
 class ListInvestigationsResponse {
   /// Investigation performed by an agent for a security incid…Unique identifier
   /// for the specific investigation&gt;
@@ -1552,6 +1566,7 @@ class ListInvestigationsResponse {
   }
 }
 
+/// @nodoc
 class SendFeedbackResponse {
   SendFeedbackResponse();
 
@@ -1564,6 +1579,7 @@ class SendFeedbackResponse {
   }
 }
 
+/// @nodoc
 class UpdateCaseCommentResponse {
   /// Response element for UpdateCaseComment providing the updated comment ID.
   final String commentId;
@@ -1594,6 +1610,7 @@ class UpdateCaseCommentResponse {
   }
 }
 
+/// @nodoc
 class UpdateCaseStatusResponse {
   /// Response element for UpdateCaseStatus showing the newly configured status.
   final SelfManagedCaseStatus? caseStatus;
@@ -1617,6 +1634,7 @@ class UpdateCaseStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateResolverTypeResponse {
   /// Response element for UpdateResolver identifying the case ID being updated.
   final String caseId;
@@ -1656,6 +1674,7 @@ class UpdateResolverTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateMembershipResponse {
   /// Response element for CreateMembership providing the newly created membership
   /// ID.
@@ -1679,6 +1698,7 @@ class CreateMembershipResponse {
   }
 }
 
+/// @nodoc
 class GetMembershipResponse {
   /// Response element for GetMembership that provides the queried membership ID.
   final String membershipId;
@@ -1835,6 +1855,7 @@ class GetMembershipResponse {
   }
 }
 
+/// @nodoc
 class UpdateMembershipResponse {
   UpdateMembershipResponse();
 
@@ -1847,6 +1868,7 @@ class UpdateMembershipResponse {
   }
 }
 
+/// @nodoc
 class ListMembershipsResponse {
   /// Request element for ListMemberships including the accountID, membershipARN,
   /// membershipID, membershipStatus, and region for each response.
@@ -1881,6 +1903,7 @@ class ListMembershipsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetMemberAccountDetailsResponse {
   /// The response element providing error messages for requests to
   /// GetMembershipAccountDetails.
@@ -1921,6 +1944,7 @@ class BatchGetMemberAccountDetailsResponse {
   }
 }
 
+/// @nodoc
 class CancelMembershipResponse {
   /// The response element providing responses for requests to
   /// CancelMembershipRequest.
@@ -1945,6 +1969,8 @@ class CancelMembershipResponse {
 }
 
 /// <p/>
+///
+/// @nodoc
 class GetMembershipAccountDetailError {
   /// <p/>
   final String accountId;
@@ -1982,6 +2008,8 @@ class GetMembershipAccountDetailError {
 }
 
 /// <p/>
+///
+/// @nodoc
 class GetMembershipAccountDetailItem {
   /// <p/>
   final String? accountId;
@@ -2021,6 +2049,7 @@ class GetMembershipAccountDetailItem {
   }
 }
 
+/// @nodoc
 class MembershipAccountRelationshipStatus {
   static const associated = MembershipAccountRelationshipStatus._('Associated');
   static const disassociated =
@@ -2049,6 +2078,7 @@ class MembershipAccountRelationshipStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MembershipAccountRelationshipType {
   static const organization =
       MembershipAccountRelationshipType._('Organization');
@@ -2076,6 +2106,8 @@ class MembershipAccountRelationshipType {
 }
 
 /// <p/>
+///
+/// @nodoc
 class ListMembershipItem {
   /// <p/>
   final String membershipId;
@@ -2127,6 +2159,7 @@ class ListMembershipItem {
   }
 }
 
+/// @nodoc
 class AwsRegion {
   static const afSouth_1 = AwsRegion._('af-south-1');
   static const apEast_1 = AwsRegion._('ap-east-1');
@@ -2221,6 +2254,7 @@ class AwsRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class MembershipStatus {
   static const active = MembershipStatus._('Active');
   static const cancelled = MembershipStatus._('Cancelled');
@@ -2268,6 +2302,8 @@ class MembershipStatus {
 /// affected accounts
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MembershipAccountsConfigurationsUpdate {
   /// The <code>coverEntireOrganization</code> field is a boolean value that
   /// determines whether the membership configuration should be applied across the
@@ -2280,14 +2316,14 @@ class MembershipAccountsConfigurationsUpdate {
 
   /// A list of organizational unit IDs to add to the membership configuration.
   /// Each organizational unit ID must match the pattern
-  /// <code>ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}</code>.
+  /// <code>ou-\[0-9a-z\]{4,32}-\[a-z0-9\]{8,32}</code>.
   ///
   /// The list must contain between 1 and 5 organizational unit IDs.
   final List<String>? organizationalUnitsToAdd;
 
   /// A list of organizational unit IDs to remove from the membership
   /// configuration. Each organizational unit ID must match the pattern
-  /// <code>ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}</code>.
+  /// <code>ou-\[0-9a-z\]{4,32}-\[a-z0-9\]{8,32}</code>.
   ///
   /// The list must contain between 1 and 5 organizational unit IDs per invocation
   /// of the API request.
@@ -2315,6 +2351,8 @@ class MembershipAccountsConfigurationsUpdate {
 }
 
 /// <p/>
+///
+/// @nodoc
 class OptInFeature {
   /// <p/>
   final OptInFeatureName featureName;
@@ -2345,6 +2383,7 @@ class OptInFeature {
   }
 }
 
+/// @nodoc
 class OptInFeatureName {
   static const triage = OptInFeatureName._('Triage');
 
@@ -2369,6 +2408,8 @@ class OptInFeatureName {
 }
 
 /// <p/>
+///
+/// @nodoc
 class IncidentResponder {
   /// <p/>
   final String email;
@@ -2417,6 +2458,7 @@ class IncidentResponder {
   }
 }
 
+/// @nodoc
 class CommunicationType {
   static const caseCreated = CommunicationType._('Case Created');
   static const caseUpdated = CommunicationType._('Case Updated');
@@ -2479,6 +2521,7 @@ class CommunicationType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomerType {
   static const standalone = CustomerType._('Standalone');
   static const organization = CustomerType._('Organization');
@@ -2522,6 +2565,8 @@ class CustomerType {
 /// </ul>
 /// You can use this structure to define and maintain standardized
 /// configurations across multiple member accounts in your organization.
+///
+/// @nodoc
 class MembershipAccountsConfigurations {
   /// The <code>coverEntireOrganization</code> field is a boolean value that
   /// determines whether the membership configuration applies to all accounts
@@ -2534,7 +2579,7 @@ class MembershipAccountsConfigurations {
   final bool? coverEntireOrganization;
 
   /// A list of organizational unit IDs that follow the pattern
-  /// <code>ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}</code>. These IDs represent the
+  /// <code>ou-\[0-9a-z\]{4,32}-\[a-z0-9\]{8,32}</code>. These IDs represent the
   /// organizational units within an Amazon Web Services Organizations structure
   /// that are covered by the membership.
   ///
@@ -2580,6 +2625,7 @@ class MembershipAccountsConfigurations {
   }
 }
 
+/// @nodoc
 class CaseStatus {
   static const submitted = CaseStatus._('Submitted');
   static const acknowledged = CaseStatus._('Acknowledged');
@@ -2618,6 +2664,7 @@ class CaseStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolverType {
   static const aws = ResolverType._('AWS');
   static const self = ResolverType._('Self');
@@ -2641,6 +2688,7 @@ class ResolverType {
   String toString() => value;
 }
 
+/// @nodoc
 class SelfManagedCaseStatus {
   static const submitted = SelfManagedCaseStatus._('Submitted');
   static const detectionAndAnalysis =
@@ -2676,6 +2724,7 @@ class SelfManagedCaseStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UsefulnessRating {
   static const useful = UsefulnessRating._('USEFUL');
   static const notUseful = UsefulnessRating._('NOT_USEFUL');
@@ -2703,6 +2752,8 @@ class UsefulnessRating {
 /// Represents an investigation action performed within a case. This structure
 /// captures the details of an automated or manual investigation, including its
 /// status, results, and user feedback.
+///
+/// @nodoc
 class InvestigationAction {
   /// The type of investigation action being performed. This categorizes the
   /// investigation method or approach used in the case.
@@ -2779,6 +2830,7 @@ class InvestigationAction {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const evidence = ActionType._('Evidence');
   static const investigation = ActionType._('Investigation');
@@ -2803,6 +2855,7 @@ class ActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const pending = ExecutionStatus._('Pending');
   static const inProgress = ExecutionStatus._('InProgress');
@@ -2841,6 +2894,8 @@ class ExecutionStatus {
 /// Represents user feedback for an investigation result. This structure
 /// captures the user's evaluation of the investigation's quality, usefulness,
 /// and any additional comments.
+///
+/// @nodoc
 class InvestigationFeedback {
   /// Optional user comments providing additional context about the investigation
   /// feedback. This allows users to explain their rating or provide suggestions
@@ -2884,6 +2939,8 @@ class InvestigationFeedback {
 }
 
 /// <p/>
+///
+/// @nodoc
 class ListCommentsItem {
   /// <p/>
   final String commentId;
@@ -2943,6 +3000,8 @@ class ListCommentsItem {
 }
 
 /// <p/>
+///
+/// @nodoc
 class CaseEditItem {
   /// <p/>
   final String? action;
@@ -2988,6 +3047,8 @@ class CaseEditItem {
 }
 
 /// <p/>
+///
+/// @nodoc
 class ListCasesItem {
   /// <p/>
   final String caseId;
@@ -3077,6 +3138,7 @@ class ListCasesItem {
   }
 }
 
+/// @nodoc
 class EngagementType {
   static const securityIncident = EngagementType._('Security Incident');
   static const investigation = EngagementType._('Investigation');
@@ -3101,6 +3163,7 @@ class EngagementType {
   String toString() => value;
 }
 
+/// @nodoc
 class PendingAction {
   static const customer = PendingAction._('Customer');
   static const none = PendingAction._('None');
@@ -3129,6 +3192,8 @@ class PendingAction {
 /// consists of a key-value pair that provides additional contextual information
 /// about the case, such as classification tags, custom attributes, or
 /// system-generated properties.
+///
+/// @nodoc
 class CaseMetadataEntry {
   /// The identifier for the metadata field. This key uniquely identifies the type
   /// of metadata being stored, such as "severity", "category", or "assignee".
@@ -3161,6 +3226,8 @@ class CaseMetadataEntry {
 }
 
 /// <p/>
+///
+/// @nodoc
 class ImpactedAwsRegion {
   /// <p/>
   final AwsRegion region;
@@ -3184,6 +3251,8 @@ class ImpactedAwsRegion {
 }
 
 /// <p/>
+///
+/// @nodoc
 class ThreatActorIp {
   /// <p/>
   final String ipAddress;
@@ -3214,6 +3283,8 @@ class ThreatActorIp {
 }
 
 /// <p/>
+///
+/// @nodoc
 class Watcher {
   /// <p/>
   final String email;
@@ -3250,6 +3321,7 @@ class Watcher {
   }
 }
 
+/// @nodoc
 class ClosureCode {
   static const investigationCompleted =
       ClosureCode._('Investigation Completed');
@@ -3282,6 +3354,8 @@ class ClosureCode {
 }
 
 /// <p/>
+///
+/// @nodoc
 class CaseAttachmentAttributes {
   /// <p/>
   final String attachmentId;
@@ -3333,6 +3407,7 @@ class CaseAttachmentAttributes {
   }
 }
 
+/// @nodoc
 class CaseAttachmentStatus {
   static const verified = CaseAttachmentStatus._('Verified');
   static const failed = CaseAttachmentStatus._('Failed');
@@ -3359,16 +3434,19 @@ class CaseAttachmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

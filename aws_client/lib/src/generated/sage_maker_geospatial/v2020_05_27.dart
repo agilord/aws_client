@@ -757,6 +757,7 @@ class SageMakerGeospatial {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Each tag consists of a key and a value.
   final Map<String, String>? tags;
@@ -780,6 +781,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -792,6 +794,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -804,6 +807,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class StartEarthObservationJobOutput {
   /// The Amazon Resource Name (ARN) of the Earth Observation job.
   final String arn;
@@ -897,6 +901,7 @@ class StartEarthObservationJobOutput {
   }
 }
 
+/// @nodoc
 class GetEarthObservationJobOutput {
   /// The Amazon Resource Name (ARN) of the Earth Observation job.
   final String arn;
@@ -1027,6 +1032,7 @@ class GetEarthObservationJobOutput {
   }
 }
 
+/// @nodoc
 class DeleteEarthObservationJobOutput {
   DeleteEarthObservationJobOutput();
 
@@ -1039,6 +1045,7 @@ class DeleteEarthObservationJobOutput {
   }
 }
 
+/// @nodoc
 class ListEarthObservationJobOutput {
   /// Contains summary information about the Earth Observation jobs.
   final List<ListEarthObservationJobOutputConfig> earthObservationJobSummaries;
@@ -1074,6 +1081,7 @@ class ListEarthObservationJobOutput {
   }
 }
 
+/// @nodoc
 class ExportEarthObservationJobOutput {
   /// The output Amazon Resource Name (ARN) of the Earth Observation job being
   /// exported.
@@ -1136,6 +1144,7 @@ class ExportEarthObservationJobOutput {
   }
 }
 
+/// @nodoc
 class GetTileOutput {
   /// The output binary file.
   final Uint8List? binaryFile;
@@ -1152,6 +1161,7 @@ class GetTileOutput {
   }
 }
 
+/// @nodoc
 class StopEarthObservationJobOutput {
   StopEarthObservationJobOutput();
 
@@ -1164,6 +1174,7 @@ class StopEarthObservationJobOutput {
   }
 }
 
+/// @nodoc
 class GetRasterDataCollectionOutput {
   /// The Amazon Resource Name (ARN) of the raster data collection.
   final String arn;
@@ -1242,6 +1253,7 @@ class GetRasterDataCollectionOutput {
   }
 }
 
+/// @nodoc
 class ListRasterDataCollectionsOutput {
   /// Contains summary information about the raster data collection.
   final List<RasterDataCollectionMetadata> rasterDataCollectionSummaries;
@@ -1278,6 +1290,7 @@ class ListRasterDataCollectionsOutput {
   }
 }
 
+/// @nodoc
 class SearchRasterDataCollectionOutput {
   /// Approximate number of results in the response.
   final int approximateResultCount;
@@ -1318,6 +1331,7 @@ class SearchRasterDataCollectionOutput {
   }
 }
 
+/// @nodoc
 class StartVectorEnrichmentJobOutput {
   /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
   final String arn;
@@ -1417,6 +1431,7 @@ class StartVectorEnrichmentJobOutput {
   }
 }
 
+/// @nodoc
 class GetVectorEnrichmentJobOutput {
   /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
   final String arn;
@@ -1544,6 +1559,7 @@ class GetVectorEnrichmentJobOutput {
   }
 }
 
+/// @nodoc
 class DeleteVectorEnrichmentJobOutput {
   DeleteVectorEnrichmentJobOutput();
 
@@ -1556,6 +1572,7 @@ class DeleteVectorEnrichmentJobOutput {
   }
 }
 
+/// @nodoc
 class ListVectorEnrichmentJobOutput {
   /// Contains summary information about the Vector Enrichment jobs.
   final List<ListVectorEnrichmentJobOutputConfig> vectorEnrichmentJobSummaries;
@@ -1591,6 +1608,7 @@ class ListVectorEnrichmentJobOutput {
   }
 }
 
+/// @nodoc
 class ExportVectorEnrichmentJobOutput {
   /// The Amazon Resource Name (ARN) of the Vector Enrichment job being exported.
   final String arn;
@@ -1645,6 +1663,7 @@ class ExportVectorEnrichmentJobOutput {
   }
 }
 
+/// @nodoc
 class StopVectorEnrichmentJobOutput {
   StopVectorEnrichmentJobOutput();
 
@@ -1657,6 +1676,7 @@ class StopVectorEnrichmentJobOutput {
   }
 }
 
+/// @nodoc
 class VectorEnrichmentJobExportStatus {
   static const inProgress = VectorEnrichmentJobExportStatus._('IN_PROGRESS');
   static const succeeded = VectorEnrichmentJobExportStatus._('SUCCEEDED');
@@ -1684,6 +1704,8 @@ class VectorEnrichmentJobExportStatus {
 }
 
 /// An object containing information about the output file.
+///
+/// @nodoc
 class ExportVectorEnrichmentJobOutputConfig {
   /// The input structure for Amazon S3 data; representing the Amazon S3 location
   /// of the input data objects.
@@ -1711,6 +1733,8 @@ class ExportVectorEnrichmentJobOutputConfig {
 }
 
 /// The Amazon S3 data for the Vector Enrichment job.
+///
+/// @nodoc
 class VectorEnrichmentJobS3Data {
   /// The URL to the Amazon S3 data for the Vector Enrichment job.
   final String s3Uri;
@@ -1741,6 +1765,8 @@ class VectorEnrichmentJobS3Data {
 }
 
 /// An object containing information about the output file.
+///
+/// @nodoc
 class ListVectorEnrichmentJobOutputConfig {
   /// The Amazon Resource Name (ARN) of the list of the Vector Enrichment jobs.
   final String arn;
@@ -1808,6 +1834,7 @@ class ListVectorEnrichmentJobOutputConfig {
   }
 }
 
+/// @nodoc
 class VectorEnrichmentJobType {
   static const reverseGeocoding =
       VectorEnrichmentJobType._('REVERSE_GEOCODING');
@@ -1834,6 +1861,7 @@ class VectorEnrichmentJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class VectorEnrichmentJobStatus {
   static const initializing = VectorEnrichmentJobStatus._('INITIALIZING');
   static const inProgress = VectorEnrichmentJobStatus._('IN_PROGRESS');
@@ -1874,6 +1902,7 @@ class VectorEnrichmentJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -1898,6 +1927,8 @@ class SortOrder {
 }
 
 /// The input structure for the InputConfig in a VectorEnrichmentJob.
+///
+/// @nodoc
 class VectorEnrichmentJobInputConfig {
   /// The input structure for the data source that represents the storage type of
   /// the input data objects.
@@ -1932,6 +1963,8 @@ class VectorEnrichmentJobInputConfig {
 }
 
 /// It contains configs such as ReverseGeocodingConfig and MapMatchingConfig.
+///
+/// @nodoc
 class VectorEnrichmentJobConfig {
   /// The input structure for Map Matching operation type.
   final MapMatchingConfig? mapMatchingConfig;
@@ -1969,6 +2002,8 @@ class VectorEnrichmentJobConfig {
 }
 
 /// VectorEnrichmentJob error details in response from GetVectorEnrichmentJob.
+///
+/// @nodoc
 class VectorEnrichmentJobErrorDetails {
   /// A message that you define and then is processed and rendered by the Vector
   /// Enrichment job when the error occurs.
@@ -2002,6 +2037,8 @@ class VectorEnrichmentJobErrorDetails {
 
 /// VectorEnrichmentJob export error details in response from
 /// GetVectorEnrichmentJob.
+///
+/// @nodoc
 class VectorEnrichmentJobExportErrorDetails {
   /// The message providing details about the errors generated during the Vector
   /// Enrichment job.
@@ -2034,6 +2071,7 @@ class VectorEnrichmentJobExportErrorDetails {
   }
 }
 
+/// @nodoc
 class VectorEnrichmentJobExportErrorType {
   static const clientError =
       VectorEnrichmentJobExportErrorType._('CLIENT_ERROR');
@@ -2061,6 +2099,7 @@ class VectorEnrichmentJobExportErrorType {
   String toString() => value;
 }
 
+/// @nodoc
 class VectorEnrichmentJobErrorType {
   static const clientError = VectorEnrichmentJobErrorType._('CLIENT_ERROR');
   static const serverError = VectorEnrichmentJobErrorType._('SERVER_ERROR');
@@ -2087,6 +2126,8 @@ class VectorEnrichmentJobErrorType {
 }
 
 /// The input structure for Reverse Geocoding operation type.
+///
+/// @nodoc
 class ReverseGeocodingConfig {
   /// The field name for the data that describes x-axis coordinate, eg. longitude
   /// of a point.
@@ -2119,6 +2160,8 @@ class ReverseGeocodingConfig {
 }
 
 /// The input structure for Map Matching operation type.
+///
+/// @nodoc
 class MapMatchingConfig {
   /// The field name for the data that describes the identifier representing a
   /// collection of GPS points belonging to an individual trace.
@@ -2163,6 +2206,7 @@ class MapMatchingConfig {
   }
 }
 
+/// @nodoc
 class VectorEnrichmentJobDocumentType {
   static const csv = VectorEnrichmentJobDocumentType._('CSV');
 
@@ -2189,6 +2233,8 @@ class VectorEnrichmentJobDocumentType {
 
 /// The input structure for the data source that represents the storage type of
 /// the input data objects.
+///
+/// @nodoc
 class VectorEnrichmentJobDataSourceConfigInput {
   /// The input structure for the Amazon S3 data that represents the Amazon S3
   /// location of the input data objects.
@@ -2218,6 +2264,8 @@ class VectorEnrichmentJobDataSourceConfigInput {
 
 /// The structure representing the items in the response for
 /// SearchRasterDataCollection.
+///
+/// @nodoc
 class ItemSource {
   /// The searchable date and time of the item, in UTC.
   final DateTime dateTime;
@@ -2275,6 +2323,8 @@ class ItemSource {
 
 /// The structure representing a Geometry in terms of Type and Coordinates as
 /// per GeoJson spec.
+///
+/// @nodoc
 class Geometry {
   /// The coordinates of the GeoJson Geometry.
   final List<List<List<double>>> coordinates;
@@ -2311,6 +2361,8 @@ class Geometry {
 }
 
 /// Properties associated with the Item.
+///
+/// @nodoc
 class Properties {
   /// Estimate of cloud cover.
   final double? eoCloudCover;
@@ -2380,6 +2432,8 @@ class Properties {
 }
 
 /// The structure containing the asset properties.
+///
+/// @nodoc
 class AssetValue {
   /// Link to the asset object.
   final String? href;
@@ -2404,6 +2458,8 @@ class AssetValue {
 
 /// This is a RasterDataCollectionQueryInput containing AreaOfInterest, Time
 /// Range filter and Property filters.
+///
+/// @nodoc
 class RasterDataCollectionQueryWithBandFilterInput {
   /// The TimeRange Filter used in the search query.
   final TimeRangeFilterInput timeRangeFilter;
@@ -2439,6 +2495,8 @@ class RasterDataCollectionQueryWithBandFilterInput {
 }
 
 /// The input for the time-range filter.
+///
+/// @nodoc
 class TimeRangeFilterInput {
   /// The end time for the time-range filter.
   final DateTime endTime;
@@ -2462,6 +2520,8 @@ class TimeRangeFilterInput {
 }
 
 /// The geographic extent of the Earth Observation job.
+///
+/// @nodoc
 class AreaOfInterest {
   /// A GeoJSON object representing the geographic extent in the coordinate space.
   final AreaOfInterestGeometry? areaOfInterestGeometry;
@@ -2489,6 +2549,8 @@ class AreaOfInterest {
 }
 
 /// A list of PropertyFilter objects.
+///
+/// @nodoc
 class PropertyFilters {
   /// The Logical Operator used to combine the Property Filters.
   final LogicalOperator? logicalOperator;
@@ -2522,6 +2584,7 @@ class PropertyFilters {
   }
 }
 
+/// @nodoc
 class LogicalOperator {
   static const and = LogicalOperator._('AND');
 
@@ -2546,6 +2609,8 @@ class LogicalOperator {
 }
 
 /// The structure representing a single PropertyFilter.
+///
+/// @nodoc
 class PropertyFilter {
   /// Represents a single property to match with when searching a raster data
   /// collection.
@@ -2571,6 +2636,8 @@ class PropertyFilter {
 }
 
 /// Represents a single searchable property to search on.
+///
+/// @nodoc
 class Property {
   /// The structure representing EoCloudCover property filter containing a lower
   /// bound and upper bound.
@@ -2653,6 +2720,8 @@ class Property {
 }
 
 /// The structure representing the EoCloudCover filter.
+///
+/// @nodoc
 class EoCloudCoverInput {
   /// Lower bound for EoCloudCover.
   final double lowerBound;
@@ -2685,6 +2754,8 @@ class EoCloudCoverInput {
 /// The input structure for specifying ViewOffNadir property filter.
 /// ViewOffNadir refers to the angle from the sensor between nadir (straight
 /// down) and the scene center. Measured in degrees (0-90).
+///
+/// @nodoc
 class ViewOffNadirInput {
   /// The minimum value for ViewOffNadir property filter. This filters items
   /// having ViewOffNadir greater than or equal to this value.
@@ -2720,6 +2791,8 @@ class ViewOffNadirInput {
 /// ViewSunAzimuth refers to the Sun azimuth angle. From the scene center point
 /// on the ground, this is the angle between truth north and the sun. Measured
 /// clockwise in degrees (0-360).
+///
+/// @nodoc
 class ViewSunAzimuthInput {
   /// The minimum value for ViewSunAzimuth property filter. This filters items
   /// having ViewSunAzimuth greater than or equal to this value.
@@ -2752,6 +2825,8 @@ class ViewSunAzimuthInput {
 }
 
 /// The input structure for specifying ViewSunElevation angle property filter.
+///
+/// @nodoc
 class ViewSunElevationInput {
   /// The lower bound to view the sun elevation.
   final double lowerBound;
@@ -2784,6 +2859,8 @@ class ViewSunElevationInput {
 /// The input structure for specifying Platform. Platform refers to the unique
 /// name of the specific platform the instrument is attached to. For satellites
 /// it is the name of the satellite, eg. landsat-8 (Landsat-8), sentinel-2a.
+///
+/// @nodoc
 class PlatformInput {
   /// The value of the platform.
   final String value;
@@ -2817,6 +2894,8 @@ class PlatformInput {
 
 /// The structure representing Land Cloud Cover property for Landsat data
 /// collection.
+///
+/// @nodoc
 class LandsatCloudCoverLandInput {
   /// The minimum value for Land Cloud Cover property filter. This will filter
   /// items having Land Cloud Cover greater than or equal to this value.
@@ -2848,6 +2927,7 @@ class LandsatCloudCoverLandInput {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const equals = ComparisonOperator._('EQUALS');
   static const notEquals = ComparisonOperator._('NOT_EQUALS');
@@ -2875,6 +2955,8 @@ class ComparisonOperator {
 }
 
 /// A GeoJSON object representing the geographic extent in the coordinate space.
+///
+/// @nodoc
 class AreaOfInterestGeometry {
   /// The structure representing the MultiPolygon Geometry.
   final MultiPolygonGeometryInput? multiPolygonGeometry;
@@ -2914,6 +2996,8 @@ class AreaOfInterestGeometry {
 /// The structure representing Polygon Geometry based on the <a
 /// href="https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6">GeoJson
 /// spec</a>.
+///
+/// @nodoc
 class PolygonGeometryInput {
   /// Coordinates representing a Polygon based on the <a
   /// href="https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6">GeoJson
@@ -2947,6 +3031,8 @@ class PolygonGeometryInput {
 /// The structure representing Polygon Geometry based on the <a
 /// href="https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6">GeoJson
 /// spec</a>.
+///
+/// @nodoc
 class MultiPolygonGeometryInput {
   /// The coordinates of the multipolygon geometry.
   final List<List<List<List<double>>>> coordinates;
@@ -2980,6 +3066,8 @@ class MultiPolygonGeometryInput {
 }
 
 /// Response object containing details for a specific RasterDataCollection.
+///
+/// @nodoc
 class RasterDataCollectionMetadata {
   /// The Amazon Resource Name (ARN) of the raster data collection.
   final String arn;
@@ -3048,6 +3136,7 @@ class RasterDataCollectionMetadata {
   }
 }
 
+/// @nodoc
 class DataCollectionType {
   static const public = DataCollectionType._('PUBLIC');
   static const premium = DataCollectionType._('PREMIUM');
@@ -3075,6 +3164,8 @@ class DataCollectionType {
 }
 
 /// The structure representing the filters supported by a RasterDataCollection.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter.
   final String name;
@@ -3118,6 +3209,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class TargetOptions {
   static const input = TargetOptions._('INPUT');
   static const output = TargetOptions._('OUTPUT');
@@ -3142,6 +3234,7 @@ class TargetOptions {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputType {
   static const int32 = OutputType._('INT32');
   static const float32 = OutputType._('FLOAT32');
@@ -3168,6 +3261,7 @@ class OutputType {
   String toString() => value;
 }
 
+/// @nodoc
 class EarthObservationJobExportStatus {
   static const inProgress = EarthObservationJobExportStatus._('IN_PROGRESS');
   static const succeeded = EarthObservationJobExportStatus._('SUCCEEDED');
@@ -3196,6 +3290,8 @@ class EarthObservationJobExportStatus {
 
 /// The response structure for an OutputConfig returned by an
 /// ExportEarthObservationJob.
+///
+/// @nodoc
 class OutputConfigInput {
   /// Path to Amazon S3 storage location for the output configuration file.
   final ExportS3DataInput s3Data;
@@ -3222,6 +3318,8 @@ class OutputConfigInput {
 
 /// The structure containing the Amazon S3 path to export the Earth Observation
 /// job output.
+///
+/// @nodoc
 class ExportS3DataInput {
   /// The URL to the Amazon S3 data input.
   final String s3Uri;
@@ -3252,6 +3350,8 @@ class ExportS3DataInput {
 }
 
 /// An object containing information about the output file.
+///
+/// @nodoc
 class ListEarthObservationJobOutputConfig {
   /// The Amazon Resource Name (ARN) of the list of the Earth Observation jobs.
   final String arn;
@@ -3319,6 +3419,7 @@ class ListEarthObservationJobOutputConfig {
   }
 }
 
+/// @nodoc
 class EarthObservationJobStatus {
   static const initializing = EarthObservationJobStatus._('INITIALIZING');
   static const inProgress = EarthObservationJobStatus._('IN_PROGRESS');
@@ -3360,6 +3461,8 @@ class EarthObservationJobStatus {
 }
 
 /// The InputConfig for an EarthObservationJob response.
+///
+/// @nodoc
 class InputConfigOutput {
   /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
   final String? previousEarthObservationJobArn;
@@ -3398,6 +3501,8 @@ class InputConfigOutput {
 }
 
 /// The input structure for the JobConfig in an EarthObservationJob.
+///
+/// @nodoc
 class JobConfigInput {
   /// An object containing information about the job configuration for BandMath.
   final BandMathConfigInput? bandMathConfig;
@@ -3513,6 +3618,8 @@ class JobConfigInput {
 }
 
 /// The structure representing the errors in an EarthObservationJob.
+///
+/// @nodoc
 class EarthObservationJobErrorDetails {
   /// A detailed message describing the error in an Earth Observation job.
   final String? message;
@@ -3545,6 +3652,8 @@ class EarthObservationJobErrorDetails {
 
 /// The structure for returning the export error details in a
 /// GetEarthObservationJob.
+///
+/// @nodoc
 class ExportErrorDetails {
   /// The structure for returning the export error details while exporting results
   /// of an Earth Observation job.
@@ -3584,6 +3693,8 @@ class ExportErrorDetails {
 
 /// The structure representing the errors in an export EarthObservationJob
 /// operation.
+///
+/// @nodoc
 class ExportErrorDetailsOutput {
   /// A detailed message describing the error in an export EarthObservationJob
   /// operation.
@@ -3614,6 +3725,7 @@ class ExportErrorDetailsOutput {
   }
 }
 
+/// @nodoc
 class ExportErrorType {
   static const clientError = ExportErrorType._('CLIENT_ERROR');
   static const serverError = ExportErrorType._('SERVER_ERROR');
@@ -3638,6 +3750,7 @@ class ExportErrorType {
   String toString() => value;
 }
 
+/// @nodoc
 class EarthObservationJobErrorType {
   static const clientError = EarthObservationJobErrorType._('CLIENT_ERROR');
   static const serverError = EarthObservationJobErrorType._('SERVER_ERROR');
@@ -3664,6 +3777,8 @@ class EarthObservationJobErrorType {
 }
 
 /// A single EarthObservationJob output band.
+///
+/// @nodoc
 class OutputBand {
   /// The name of the band.
   final String bandName;
@@ -3696,6 +3811,8 @@ class OutputBand {
 
 /// Input structure for the BandMath operation type. Defines Predefined and
 /// CustomIndices to be computed using BandMath.
+///
+/// @nodoc
 class BandMathConfigInput {
   /// CustomIndices that are computed.
   final CustomIndicesInput? customIndices;
@@ -3734,6 +3851,8 @@ class BandMathConfigInput {
 }
 
 /// The structure representing input for resampling operation.
+///
+/// @nodoc
 class ResamplingConfigInput {
   /// The structure representing output resolution (in target georeferenced units)
   /// of the result of resampling operation.
@@ -3780,6 +3899,8 @@ class ResamplingConfigInput {
 
 /// The structure representing the configuration for Temporal Statistics
 /// operation.
+///
+/// @nodoc
 class TemporalStatisticsConfigInput {
   /// The list of the statistics method options.
   final List<TemporalStatistics> statistics;
@@ -3823,6 +3944,8 @@ class TemporalStatisticsConfigInput {
 }
 
 /// Input structure for Cloud Removal Operation type
+///
+/// @nodoc
 class CloudRemovalConfigInput {
   /// The name of the algorithm used for cloud removal.
   final AlgorithmNameCloudRemoval? algorithmName;
@@ -3864,6 +3987,8 @@ class CloudRemovalConfigInput {
 }
 
 /// The structure representing input configuration of ZonalStatistics operation.
+///
+/// @nodoc
 class ZonalStatisticsConfigInput {
   /// List of zonal statistics to compute.
   final List<ZonalStatistics> statistics;
@@ -3938,6 +4063,8 @@ class ZonalStatisticsConfigInput {
 }
 
 /// Input configuration information for the geomosaic.
+///
+/// @nodoc
 class GeoMosaicConfigInput {
   /// The name of the algorithm being used for geomosaic.
   final AlgorithmNameGeoMosaic? algorithmName;
@@ -3972,6 +4099,8 @@ class GeoMosaicConfigInput {
 }
 
 /// The input structure for Stacking Operation.
+///
+/// @nodoc
 class StackConfigInput {
   /// The structure representing output resolution (in target georeferenced units)
   /// of the result of stacking operation.
@@ -4011,6 +4140,8 @@ class StackConfigInput {
 }
 
 /// Input structure for CloudMasking operation type.
+///
+/// @nodoc
 class CloudMaskingConfigInput {
   CloudMaskingConfigInput();
 
@@ -4024,6 +4155,8 @@ class CloudMaskingConfigInput {
 }
 
 /// The input structure for Land Cover Operation type.
+///
+/// @nodoc
 class LandCoverSegmentationConfigInput {
   LandCoverSegmentationConfigInput();
 
@@ -4037,6 +4170,8 @@ class LandCoverSegmentationConfigInput {
 }
 
 /// The input structure representing Output Resolution for Stacking Operation.
+///
+/// @nodoc
 class OutputResolutionStackInput {
   /// A string value representing Predefined Output Resolution for a stacking
   /// operation. Allowed values are <code>HIGHEST</code>, <code>LOWEST</code>, and
@@ -4072,6 +4207,7 @@ class OutputResolutionStackInput {
   }
 }
 
+/// @nodoc
 class PredefinedResolution {
   static const highest = PredefinedResolution._('HIGHEST');
   static const lowest = PredefinedResolution._('LOWEST');
@@ -4100,6 +4236,8 @@ class PredefinedResolution {
 
 /// The output resolution (in target georeferenced units) of the result of the
 /// operation
+///
+/// @nodoc
 class UserDefined {
   /// The units for output resolution of the result.
   final Unit unit;
@@ -4129,6 +4267,7 @@ class UserDefined {
   }
 }
 
+/// @nodoc
 class Unit {
   static const meters = Unit._('METERS');
 
@@ -4151,6 +4290,7 @@ class Unit {
   String toString() => value;
 }
 
+/// @nodoc
 class AlgorithmNameGeoMosaic {
   static const near = AlgorithmNameGeoMosaic._('NEAR');
   static const bilinear = AlgorithmNameGeoMosaic._('BILINEAR');
@@ -4203,6 +4343,7 @@ class AlgorithmNameGeoMosaic {
   String toString() => value;
 }
 
+/// @nodoc
 class ZonalStatistics {
   static const mean = ZonalStatistics._('MEAN');
   static const median = ZonalStatistics._('MEDIAN');
@@ -4231,6 +4372,7 @@ class ZonalStatistics {
   String toString() => value;
 }
 
+/// @nodoc
 class AlgorithmNameCloudRemoval {
   static const interpolation = AlgorithmNameCloudRemoval._('INTERPOLATION');
 
@@ -4255,6 +4397,7 @@ class AlgorithmNameCloudRemoval {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupBy {
   static const all = GroupBy._('ALL');
   static const yearly = GroupBy._('YEARLY');
@@ -4278,6 +4421,7 @@ class GroupBy {
   String toString() => value;
 }
 
+/// @nodoc
 class TemporalStatistics {
   static const mean = TemporalStatistics._('MEAN');
   static const median = TemporalStatistics._('MEDIAN');
@@ -4306,6 +4450,8 @@ class TemporalStatistics {
 
 /// OutputResolution Configuration indicating the target resolution for the
 /// output of Resampling operation.
+///
+/// @nodoc
 class OutputResolutionResamplingInput {
   /// User Defined Resolution for the output of Resampling operation defined by
   /// value and unit.
@@ -4331,6 +4477,7 @@ class OutputResolutionResamplingInput {
   }
 }
 
+/// @nodoc
 class AlgorithmNameResampling {
   static const near = AlgorithmNameResampling._('NEAR');
   static const bilinear = AlgorithmNameResampling._('BILINEAR');
@@ -4384,6 +4531,8 @@ class AlgorithmNameResampling {
 }
 
 /// Input object defining the custom BandMath indices to compute.
+///
+/// @nodoc
 class CustomIndicesInput {
   /// A list of BandMath indices to compute.
   final List<Operation>? operations;
@@ -4410,6 +4559,8 @@ class CustomIndicesInput {
 }
 
 /// Represents an arithmetic operation to compute spectral index.
+///
+/// @nodoc
 class Operation {
   /// Textual representation of the math operation; Equation used to compute the
   /// spectral index.
@@ -4449,6 +4600,8 @@ class Operation {
 
 /// The output structure contains the Raster Data Collection Query input along
 /// with some additional metadata.
+///
+/// @nodoc
 class RasterDataCollectionQueryOutput {
   /// The ARN of the Raster Data Collection against which the search is done.
   final String rasterDataCollectionArn;
@@ -4510,6 +4663,8 @@ class RasterDataCollectionQueryOutput {
 }
 
 /// The output structure of the time range filter.
+///
+/// @nodoc
 class TimeRangeFilterOutput {
   /// The ending time for the time range filter.
   final DateTime endTime;
@@ -4540,6 +4695,8 @@ class TimeRangeFilterOutput {
 }
 
 /// Input configuration information.
+///
+/// @nodoc
 class InputConfigInput {
   /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
   final String? previousEarthObservationJobArn;
@@ -4567,6 +4724,8 @@ class InputConfigInput {
 
 /// The input structure for Raster Data Collection Query containing the Area of
 /// Interest, TimeRange Filters, and Property Filters.
+///
+/// @nodoc
 class RasterDataCollectionQueryInput {
   /// The Amazon Resource Name (ARN) of the raster data collection.
   final String rasterDataCollectionArn;
@@ -4601,26 +4760,31 @@ class RasterDataCollectionQueryInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4629,11 +4793,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

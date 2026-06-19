@@ -1292,6 +1292,7 @@ class Tnb {
   }
 }
 
+/// @nodoc
 class CreateSolFunctionPackageOutput {
   /// Function package ARN.
   final String arn;
@@ -1354,6 +1355,7 @@ class CreateSolFunctionPackageOutput {
   }
 }
 
+/// @nodoc
 class CreateSolNetworkInstanceOutput {
   /// Network instance ARN.
   final String arn;
@@ -1407,6 +1409,7 @@ class CreateSolNetworkInstanceOutput {
   }
 }
 
+/// @nodoc
 class CreateSolNetworkPackageOutput {
   /// Network package ARN.
   final String arn;
@@ -1470,6 +1473,7 @@ class CreateSolNetworkPackageOutput {
   }
 }
 
+/// @nodoc
 class GetSolFunctionInstanceOutput {
   /// Network function instance ARN.
   final String arn;
@@ -1575,6 +1579,7 @@ class GetSolFunctionInstanceOutput {
   }
 }
 
+/// @nodoc
 class GetSolFunctionPackageOutput {
   /// Function package ARN.
   final String arn;
@@ -1673,6 +1678,7 @@ class GetSolFunctionPackageOutput {
   }
 }
 
+/// @nodoc
 class GetSolFunctionPackageContentOutput {
   /// Indicates the media type of the resource.
   final PackageContentType? contentType;
@@ -1695,6 +1701,7 @@ class GetSolFunctionPackageContentOutput {
   }
 }
 
+/// @nodoc
 class GetSolFunctionPackageDescriptorOutput {
   /// Indicates the media type of the resource.
   final DescriptorContentType? contentType;
@@ -1716,6 +1723,7 @@ class GetSolFunctionPackageDescriptorOutput {
   }
 }
 
+/// @nodoc
 class GetSolNetworkInstanceOutput {
   /// Network instance ARN.
   final String arn;
@@ -1804,6 +1812,7 @@ class GetSolNetworkInstanceOutput {
   }
 }
 
+/// @nodoc
 class GetSolNetworkOperationOutput {
   /// Network operation ARN.
   final String arn;
@@ -1905,6 +1914,7 @@ class GetSolNetworkOperationOutput {
   }
 }
 
+/// @nodoc
 class GetSolNetworkPackageOutput {
   /// Network package ARN.
   final String arn;
@@ -2007,6 +2017,7 @@ class GetSolNetworkPackageOutput {
   }
 }
 
+/// @nodoc
 class GetSolNetworkPackageContentOutput {
   /// Indicates the media type of the resource.
   final PackageContentType? contentType;
@@ -2028,6 +2039,7 @@ class GetSolNetworkPackageContentOutput {
   }
 }
 
+/// @nodoc
 class GetSolNetworkPackageDescriptorOutput {
   /// Indicates the media type of the resource.
   final DescriptorContentType? contentType;
@@ -2049,6 +2061,7 @@ class GetSolNetworkPackageDescriptorOutput {
   }
 }
 
+/// @nodoc
 class InstantiateSolNetworkInstanceOutput {
   /// The identifier of the network operation.
   final String nsLcmOpOccId;
@@ -2084,6 +2097,7 @@ class InstantiateSolNetworkInstanceOutput {
   }
 }
 
+/// @nodoc
 class ListSolFunctionInstancesOutput {
   /// Network function instances.
   final List<ListSolFunctionInstanceInfo>? functionInstances;
@@ -2118,6 +2132,7 @@ class ListSolFunctionInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListSolFunctionPackagesOutput {
   /// Function packages. A function package is a .zip file in CSAR (Cloud Service
   /// Archive) format that contains a network function (an ETSI standard
@@ -2156,6 +2171,7 @@ class ListSolFunctionPackagesOutput {
   }
 }
 
+/// @nodoc
 class ListSolNetworkInstancesOutput {
   /// Lists network instances.
   final List<ListSolNetworkInstanceInfo>? networkInstances;
@@ -2190,6 +2206,7 @@ class ListSolNetworkInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListSolNetworkOperationsOutput {
   /// Lists network operation occurrences. Lifecycle management operations are
   /// deploy, update, or delete operations.
@@ -2225,6 +2242,7 @@ class ListSolNetworkOperationsOutput {
   }
 }
 
+/// @nodoc
 class ListSolNetworkPackagesOutput {
   /// Network packages. A network package is a .zip file in CSAR (Cloud Service
   /// Archive) format defines the function packages you want to deploy and the
@@ -2261,6 +2279,7 @@ class ListSolNetworkPackagesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. You can use tags to search and
@@ -2287,6 +2306,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutSolFunctionPackageContentOutput {
   /// Function package ID.
   final String id;
@@ -2347,6 +2367,7 @@ class PutSolFunctionPackageContentOutput {
   }
 }
 
+/// @nodoc
 class PutSolNetworkPackageContentOutput {
   /// Network package ARN.
   final String arn;
@@ -2417,6 +2438,7 @@ class PutSolNetworkPackageContentOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2429,6 +2451,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class TerminateSolNetworkInstanceOutput {
   /// The identifier of the network operation.
   final String? nsLcmOpOccId;
@@ -2464,6 +2487,7 @@ class TerminateSolNetworkInstanceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -2476,6 +2500,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateSolFunctionPackageOutput {
   /// Operational state of the function package.
   final OperationalState operationalState;
@@ -2499,6 +2524,7 @@ class UpdateSolFunctionPackageOutput {
   }
 }
 
+/// @nodoc
 class UpdateSolNetworkInstanceOutput {
   /// The identifier of the network operation.
   final String? nsLcmOpOccId;
@@ -2533,6 +2559,7 @@ class UpdateSolNetworkInstanceOutput {
   }
 }
 
+/// @nodoc
 class UpdateSolNetworkPackageOutput {
   /// Operational state of the network service descriptor in the network package.
   final NsdOperationalState nsdOperationalState;
@@ -2556,6 +2583,7 @@ class UpdateSolNetworkPackageOutput {
   }
 }
 
+/// @nodoc
 class ValidateSolFunctionPackageContentOutput {
   /// Function package ID.
   final String id;
@@ -2616,6 +2644,7 @@ class ValidateSolFunctionPackageContentOutput {
   }
 }
 
+/// @nodoc
 class ValidateSolNetworkPackageContentOutput {
   /// Network package ARN.
   final String arn;
@@ -2691,6 +2720,8 @@ class ValidateSolNetworkPackageContentOutput {
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
 /// defines the function packages you want to deploy and the Amazon Web Services
 /// infrastructure you want to deploy them on.
+///
+/// @nodoc
 class ValidateSolNetworkPackageContentMetadata {
   final NetworkArtifactMeta? nsd;
 
@@ -2719,6 +2750,8 @@ class ValidateSolNetworkPackageContentMetadata {
 ///
 /// Artifacts are the contents of the package descriptor file and the state of
 /// the package.
+///
+/// @nodoc
 class NetworkArtifactMeta {
   /// Lists network package overrides.
   final List<ToscaOverride>? overrides;
@@ -2745,6 +2778,8 @@ class NetworkArtifactMeta {
 }
 
 /// Overrides of the TOSCA node.
+///
+/// @nodoc
 class ToscaOverride {
   /// Default value for the override.
   final String? defaultValue;
@@ -2774,6 +2809,7 @@ class ToscaOverride {
   }
 }
 
+/// @nodoc
 class PackageContentType {
   static const applicationZip = PackageContentType._('application/zip');
 
@@ -2804,6 +2840,8 @@ class PackageContentType {
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
+///
+/// @nodoc
 class ValidateSolFunctionPackageContentMetadata {
   final FunctionArtifactMeta? vnfd;
 
@@ -2832,6 +2870,8 @@ class ValidateSolFunctionPackageContentMetadata {
 ///
 /// Artifacts are the contents of the package descriptor file and the state of
 /// the package.
+///
+/// @nodoc
 class FunctionArtifactMeta {
   /// Lists of function package overrides.
   final List<ToscaOverride>? overrides;
@@ -2857,6 +2897,7 @@ class FunctionArtifactMeta {
   }
 }
 
+/// @nodoc
 class NsdOperationalState {
   static const enabled = NsdOperationalState._('ENABLED');
   static const disabled = NsdOperationalState._('DISABLED');
@@ -2882,6 +2923,7 @@ class NsdOperationalState {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateSolNetworkType {
   static const modifyVnfInformation =
       UpdateSolNetworkType._('MODIFY_VNF_INFORMATION');
@@ -2912,6 +2954,8 @@ class UpdateSolNetworkType {
 /// function.
 ///
 /// A network function instance is a function in a function package .
+///
+/// @nodoc
 class UpdateSolNetworkModify {
   /// Provides values for the configurable properties declared in the function
   /// package descriptor.
@@ -2939,6 +2983,8 @@ class UpdateSolNetworkModify {
 
 /// Information parameters and/or the configurable properties for a network
 /// descriptor used for update.
+///
+/// @nodoc
 class UpdateSolNetworkServiceData {
   /// ID of the network service descriptor.
   final String nsdInfoId;
@@ -2963,6 +3009,7 @@ class UpdateSolNetworkServiceData {
   }
 }
 
+/// @nodoc
 class OperationalState {
   static const enabled = OperationalState._('ENABLED');
   static const disabled = OperationalState._('DISABLED');
@@ -2992,6 +3039,8 @@ class OperationalState {
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
 /// defines the function packages you want to deploy and the Amazon Web Services
 /// infrastructure you want to deploy them on.
+///
+/// @nodoc
 class PutSolNetworkPackageContentMetadata {
   final NetworkArtifactMeta? nsd;
 
@@ -3022,6 +3071,8 @@ class PutSolNetworkPackageContentMetadata {
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
+///
+/// @nodoc
 class PutSolFunctionPackageContentMetadata {
   final FunctionArtifactMeta? vnfd;
 
@@ -3051,6 +3102,8 @@ class PutSolFunctionPackageContentMetadata {
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
 /// defines the function packages you want to deploy and the Amazon Web Services
 /// infrastructure you want to deploy them on.
+///
+/// @nodoc
 class ListSolNetworkPackageInfo {
   /// Network package ARN.
   final String arn;
@@ -3159,6 +3212,7 @@ class ListSolNetworkPackageInfo {
   }
 }
 
+/// @nodoc
 class NsdOnboardingState {
   static const created = NsdOnboardingState._('CREATED');
   static const onboarded = NsdOnboardingState._('ONBOARDED');
@@ -3185,6 +3239,7 @@ class NsdOnboardingState {
   String toString() => value;
 }
 
+/// @nodoc
 class NsdUsageState {
   static const inUse = NsdUsageState._('IN_USE');
   static const notInUse = NsdUsageState._('NOT_IN_USE');
@@ -3214,6 +3269,8 @@ class NsdUsageState {
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
 /// defines the function packages you want to deploy and the Amazon Web Services
 /// infrastructure you want to deploy them on.
+///
+/// @nodoc
 class ListSolNetworkPackageMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -3244,6 +3301,8 @@ class ListSolNetworkPackageMetadata {
 }
 
 /// Information parameters for a network operation.
+///
+/// @nodoc
 class ListSolNetworkOperationsInfo {
   /// Network operation ARN.
   final String arn;
@@ -3324,6 +3383,7 @@ class ListSolNetworkOperationsInfo {
   }
 }
 
+/// @nodoc
 class NsLcmOperationState {
   static const processing = NsLcmOperationState._('PROCESSING');
   static const completed = NsLcmOperationState._('COMPLETED');
@@ -3352,6 +3412,7 @@ class NsLcmOperationState {
   String toString() => value;
 }
 
+/// @nodoc
 class LcmOperationType {
   static const instantiate = LcmOperationType._('INSTANTIATE');
   static const update = LcmOperationType._('UPDATE');
@@ -3378,6 +3439,8 @@ class LcmOperationType {
 }
 
 /// Details related to problems with AWS TNB resources.
+///
+/// @nodoc
 class ProblemDetails {
   /// A human-readable explanation specific to this occurrence of the problem.
   final String detail;
@@ -3411,6 +3474,8 @@ class ProblemDetails {
 ///
 /// A network operation is any operation that is done to your network, such as
 /// network instance instantiation or termination.
+///
+/// @nodoc
 class ListSolNetworkOperationsMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -3463,6 +3528,8 @@ class ListSolNetworkOperationsMetadata {
 /// A network instance is a single network created in Amazon Web Services TNB
 /// that can be deployed and on which life-cycle operations (like terminate,
 /// update, and delete) can be performed.
+///
+/// @nodoc
 class ListSolNetworkInstanceInfo {
   /// Network instance ARN.
   final String arn;
@@ -3536,6 +3603,7 @@ class ListSolNetworkInstanceInfo {
   }
 }
 
+/// @nodoc
 class NsState {
   static const instantiated = NsState._('INSTANTIATED');
   static const notInstantiated = NsState._('NOT_INSTANTIATED');
@@ -3586,6 +3654,8 @@ class NsState {
 /// A network instance is a single network created in Amazon Web Services TNB
 /// that can be deployed and on which life-cycle operations (like terminate,
 /// update, and delete) can be performed.
+///
+/// @nodoc
 class ListSolNetworkInstanceMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -3621,6 +3691,8 @@ class ListSolNetworkInstanceMetadata {
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
+///
+/// @nodoc
 class ListSolFunctionPackageInfo {
   /// Function package ARN.
   final String arn;
@@ -3711,6 +3783,7 @@ class ListSolFunctionPackageInfo {
   }
 }
 
+/// @nodoc
 class OnboardingState {
   static const created = OnboardingState._('CREATED');
   static const onboarded = OnboardingState._('ONBOARDED');
@@ -3736,6 +3809,7 @@ class OnboardingState {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageState {
   static const inUse = UsageState._('IN_USE');
   static const notInUse = UsageState._('NOT_IN_USE');
@@ -3765,6 +3839,8 @@ class UsageState {
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
+///
+/// @nodoc
 class ListSolFunctionPackageMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -3797,6 +3873,8 @@ class ListSolFunctionPackageMetadata {
 /// Lists information about a network function instance.
 ///
 /// A network function instance is a function in a function package .
+///
+/// @nodoc
 class ListSolFunctionInstanceInfo {
   /// Network function instance ARN.
   final String arn;
@@ -3873,6 +3951,7 @@ class ListSolFunctionInstanceInfo {
   }
 }
 
+/// @nodoc
 class VnfInstantiationState {
   static const instantiated = VnfInstantiationState._('INSTANTIATED');
   static const notInstantiated = VnfInstantiationState._('NOT_INSTANTIATED');
@@ -3903,6 +3982,8 @@ class VnfInstantiationState {
 /// A network instance is a single network created in Amazon Web Services TNB
 /// that can be deployed and on which life-cycle operations (like terminate,
 /// update, and delete) can be performed.
+///
+/// @nodoc
 class GetSolInstantiatedVnfInfo {
   /// State of the network function.
   final VnfOperationalState? vnfState;
@@ -3929,6 +4010,8 @@ class GetSolInstantiatedVnfInfo {
 /// Lists network function instance metadata.
 ///
 /// A network function instance is a function in a function package .
+///
+/// @nodoc
 class ListSolFunctionInstanceMetadata {
   /// When the network function instance was created.
   final DateTime createdAt;
@@ -3958,6 +4041,7 @@ class ListSolFunctionInstanceMetadata {
   }
 }
 
+/// @nodoc
 class VnfOperationalState {
   static const started = VnfOperationalState._('STARTED');
   static const stopped = VnfOperationalState._('STOPPED');
@@ -3983,6 +4067,7 @@ class VnfOperationalState {
   String toString() => value;
 }
 
+/// @nodoc
 class DescriptorContentType {
   static const textPlain = DescriptorContentType._('text/plain');
 
@@ -4012,6 +4097,8 @@ class DescriptorContentType {
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
 /// defines the function packages you want to deploy and the Amazon Web Services
 /// infrastructure you want to deploy them on.
+///
+/// @nodoc
 class GetSolNetworkPackageMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -4055,6 +4142,8 @@ class GetSolNetworkPackageMetadata {
 ///
 /// A network operation is any operation that is done to your network, such as
 /// network instance instantiation or termination.
+///
+/// @nodoc
 class GetSolNetworkOperationMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -4127,6 +4216,8 @@ class GetSolNetworkOperationMetadata {
 ///
 /// A network operation is any operation that is done to your network, such as
 /// network instance instantiation or termination.
+///
+/// @nodoc
 class GetSolNetworkOperationTaskDetails {
   /// Context for the network operation task.
   final Map<String, String>? taskContext;
@@ -4189,6 +4280,8 @@ class GetSolNetworkOperationTaskDetails {
 }
 
 /// Provides error information.
+///
+/// @nodoc
 class ErrorInfo {
   /// Error cause.
   final String? cause;
@@ -4218,6 +4311,7 @@ class ErrorInfo {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const scheduled = TaskStatus._('SCHEDULED');
   static const started = TaskStatus._('STARTED');
@@ -4256,6 +4350,8 @@ class TaskStatus {
 
 /// Metadata related to the configuration properties used during update of a
 /// network instance.
+///
+/// @nodoc
 class UpdateNsMetadata {
   /// The network service descriptor used for updating the network instance.
   final String nsdInfoId;
@@ -4291,6 +4387,8 @@ class UpdateNsMetadata {
 
 /// Metadata related to the configuration properties used during update of a
 /// specific network function in a network instance.
+///
+/// @nodoc
 class ModifyVnfInfoMetadata {
   /// The configurable properties used during update of the network function
   /// instance.
@@ -4325,6 +4423,8 @@ class ModifyVnfInfoMetadata {
 
 /// Metadata related to the configuration properties used during instantiation
 /// of the network instance.
+///
+/// @nodoc
 class InstantiateMetadata {
   /// The network service descriptor used for instantiating the network instance.
   final String nsdInfoId;
@@ -4361,6 +4461,8 @@ class InstantiateMetadata {
 /// Lifecycle management operation details on the network instance.
 ///
 /// Lifecycle management operations are deploy, update, or delete operations.
+///
+/// @nodoc
 class LcmOperationInfo {
   /// The identifier of the network operation.
   final String nsLcmOpOccId;
@@ -4388,6 +4490,8 @@ class LcmOperationInfo {
 /// A network instance is a single network created in Amazon Web Services TNB
 /// that can be deployed and on which life-cycle operations (like terminate,
 /// update, and delete) can be performed.
+///
+/// @nodoc
 class GetSolNetworkInstanceMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -4423,6 +4527,8 @@ class GetSolNetworkInstanceMetadata {
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
+///
+/// @nodoc
 class GetSolFunctionPackageMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -4464,6 +4570,8 @@ class GetSolFunctionPackageMetadata {
 /// Information about the network function.
 ///
 /// A network function instance is a function in a function package .
+///
+/// @nodoc
 class GetSolVnfInfo {
   /// State of the network function instance.
   final VnfOperationalState? vnfState;
@@ -4501,6 +4609,8 @@ class GetSolVnfInfo {
 /// The metadata of a network function instance.
 ///
 /// A network function instance is a function in a function package .
+///
+/// @nodoc
 class GetSolFunctionInstanceMetadata {
   /// The date that the resource was created.
   final DateTime createdAt;
@@ -4535,6 +4645,8 @@ class GetSolFunctionInstanceMetadata {
 /// A network instance is a single network created in Amazon Web Services TNB
 /// that can be deployed and on which life-cycle operations (like terminate,
 /// update, and delete) can be performed.
+///
+/// @nodoc
 class GetSolVnfcResourceInfo {
   /// The metadata of the network function compute.
   final GetSolVnfcResourceInfoMetadata? metadata;
@@ -4565,6 +4677,8 @@ class GetSolVnfcResourceInfo {
 /// A network instance is a single network created in Amazon Web Services TNB
 /// that can be deployed and on which life-cycle operations (like terminate,
 /// update, and delete) can be performed.
+///
+/// @nodoc
 class GetSolVnfcResourceInfoMetadata {
   /// Information about the cluster.
   final String? cluster;
@@ -4601,6 +4715,7 @@ class GetSolVnfcResourceInfoMetadata {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -4613,21 +4728,25 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4636,11 +4755,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

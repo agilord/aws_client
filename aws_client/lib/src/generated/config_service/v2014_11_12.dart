@@ -5737,6 +5737,7 @@ class ConfigService {
   }
 }
 
+/// @nodoc
 class AssociateResourceTypesResponse {
   final ConfigurationRecorder configurationRecorder;
 
@@ -5760,6 +5761,7 @@ class AssociateResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAggregateResourceConfigResponse {
   /// A list that contains the current configuration of one or more resources.
   final List<BaseConfigurationItem>? baseConfigurationItems;
@@ -5801,6 +5803,7 @@ class BatchGetAggregateResourceConfigResponse {
   }
 }
 
+/// @nodoc
 class BatchGetResourceConfigResponse {
   /// A list that contains the current configuration of one or more resources.
   final List<BaseConfigurationItem>? baseConfigurationItems;
@@ -5844,6 +5847,8 @@ class BatchGetResourceConfigResponse {
 
 /// The output when you delete the evaluation results for the specified Config
 /// rule.
+///
+/// @nodoc
 class DeleteEvaluationResultsResponse {
   DeleteEvaluationResultsResponse();
 
@@ -5856,6 +5861,7 @@ class DeleteEvaluationResultsResponse {
   }
 }
 
+/// @nodoc
 class DeleteRemediationConfigurationResponse {
   DeleteRemediationConfigurationResponse();
 
@@ -5869,6 +5875,7 @@ class DeleteRemediationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteRemediationExceptionsResponse {
   /// Returns a list of failed delete remediation exceptions batch objects. Each
   /// object in the batch consists of a list of failed items and failure messages.
@@ -5897,6 +5904,7 @@ class DeleteRemediationExceptionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceLinkedConfigurationRecorderResponse {
   /// The Amazon Resource Name (ARN) of the specified configuration recorder.
   final String arn;
@@ -5927,6 +5935,7 @@ class DeleteServiceLinkedConfigurationRecorderResponse {
   }
 }
 
+/// @nodoc
 class DeleteStoredQueryResponse {
   DeleteStoredQueryResponse();
 
@@ -5940,6 +5949,8 @@ class DeleteStoredQueryResponse {
 }
 
 /// The output for the <a>DeliverConfigSnapshot</a> action, in JSON format.
+///
+/// @nodoc
 class DeliverConfigSnapshotResponse {
   /// The ID of the snapshot that is being created.
   final String? configSnapshotId;
@@ -5962,6 +5973,7 @@ class DeliverConfigSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DescribeAggregateComplianceByConfigRulesResponse {
   /// Returns a list of AggregateComplianceByConfigRule object.
   final List<AggregateComplianceByConfigRule>? aggregateComplianceByConfigRules;
@@ -6000,6 +6012,7 @@ class DescribeAggregateComplianceByConfigRulesResponse {
   }
 }
 
+/// @nodoc
 class DescribeAggregateComplianceByConformancePacksResponse {
   /// Returns the <code>AggregateComplianceByConformancePack</code> object.
   final List<AggregateComplianceByConformancePack>?
@@ -6040,6 +6053,7 @@ class DescribeAggregateComplianceByConformancePacksResponse {
   }
 }
 
+/// @nodoc
 class DescribeAggregationAuthorizationsResponse {
   /// Returns a list of authorizations granted to various aggregator accounts and
   /// regions.
@@ -6078,6 +6092,8 @@ class DescribeAggregationAuthorizationsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeComplianceByConfigRuleResponse {
   /// Indicates whether each of the specified Config rules is compliant.
   final List<ComplianceByConfigRule>? complianceByConfigRules;
@@ -6115,6 +6131,8 @@ class DescribeComplianceByConfigRuleResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeComplianceByResourceResponse {
   /// Indicates whether the specified Amazon Web Services resource complies with
   /// all of the Config rules that evaluate it.
@@ -6152,6 +6170,8 @@ class DescribeComplianceByResourceResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeConfigRuleEvaluationStatusResponse {
   /// Status information about your Config managed rules.
   final List<ConfigRuleEvaluationStatus>? configRulesEvaluationStatus;
@@ -6190,6 +6210,8 @@ class DescribeConfigRuleEvaluationStatusResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeConfigRulesResponse {
   /// The details about your Config rules.
   final List<ConfigRule>? configRules;
@@ -6223,6 +6245,7 @@ class DescribeConfigRulesResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationAggregatorsResponse {
   /// Returns a ConfigurationAggregators object.
   final List<ConfigurationAggregator>? configurationAggregators;
@@ -6259,6 +6282,7 @@ class DescribeConfigurationAggregatorsResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationAggregatorSourcesStatusResponse {
   /// Returns an AggregatedSourceStatus object.
   final List<AggregatedSourceStatus>? aggregatedSourceStatusList;
@@ -6296,6 +6320,8 @@ class DescribeConfigurationAggregatorSourcesStatusResponse {
 }
 
 /// The output for the <a>DescribeConfigurationRecorders</a> action.
+///
+/// @nodoc
 class DescribeConfigurationRecordersResponse {
   /// A list that contains the descriptions of the specified configuration
   /// recorders.
@@ -6326,6 +6352,8 @@ class DescribeConfigurationRecordersResponse {
 
 /// The output for the <a>DescribeConfigurationRecorderStatus</a> action, in
 /// JSON format.
+///
+/// @nodoc
 class DescribeConfigurationRecorderStatusResponse {
   /// A list that contains status of the specified recorders.
   final List<ConfigurationRecorderStatus>? configurationRecordersStatus;
@@ -6355,6 +6383,7 @@ class DescribeConfigurationRecorderStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeConformancePackComplianceResponse {
   /// Name of the conformance pack.
   final String conformancePackName;
@@ -6399,6 +6428,7 @@ class DescribeConformancePackComplianceResponse {
   }
 }
 
+/// @nodoc
 class DescribeConformancePacksResponse {
   /// Returns a list of <code>ConformancePackDetail</code> objects.
   final List<ConformancePackDetail>? conformancePackDetails;
@@ -6433,6 +6463,7 @@ class DescribeConformancePacksResponse {
   }
 }
 
+/// @nodoc
 class DescribeConformancePackStatusResponse {
   /// A list of <code>ConformancePackStatusDetail</code> objects.
   final List<ConformancePackStatusDetail>? conformancePackStatusDetails;
@@ -6471,6 +6502,8 @@ class DescribeConformancePackStatusResponse {
 }
 
 /// The output for the <a>DescribeDeliveryChannels</a> action.
+///
+/// @nodoc
 class DescribeDeliveryChannelsResponse {
   /// A list that contains the descriptions of the specified delivery channel.
   final List<DeliveryChannel>? deliveryChannels;
@@ -6497,6 +6530,8 @@ class DescribeDeliveryChannelsResponse {
 }
 
 /// The output for the <a>DescribeDeliveryChannelStatus</a> action.
+///
+/// @nodoc
 class DescribeDeliveryChannelStatusResponse {
   /// A list that contains the status of a specified delivery channel.
   final List<DeliveryChannelStatus>? deliveryChannelsStatus;
@@ -6524,6 +6559,7 @@ class DescribeDeliveryChannelStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigRulesResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -6560,6 +6596,7 @@ class DescribeOrganizationConfigRulesResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigRuleStatusesResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -6597,6 +6634,7 @@ class DescribeOrganizationConfigRuleStatusesResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConformancePacksResponse {
   /// The nextToken string returned on a previous page that you use to get the
   /// next page of results in a paginated response.
@@ -6634,6 +6672,7 @@ class DescribeOrganizationConformancePacksResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConformancePackStatusesResponse {
   /// The nextToken string returned on a previous page that you use to get the
   /// next page of results in a paginated response.
@@ -6674,6 +6713,7 @@ class DescribeOrganizationConformancePackStatusesResponse {
   }
 }
 
+/// @nodoc
 class DescribePendingAggregationRequestsResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -6710,6 +6750,7 @@ class DescribePendingAggregationRequestsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRemediationConfigurationsResponse {
   /// Returns a remediation configuration object.
   final List<RemediationConfiguration>? remediationConfigurations;
@@ -6738,6 +6779,7 @@ class DescribeRemediationConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRemediationExceptionsResponse {
   /// The <code>nextToken</code> string returned in a previous request that you
   /// use to request the next page of results in a paginated response.
@@ -6773,6 +6815,7 @@ class DescribeRemediationExceptionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRemediationExecutionStatusResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -6810,6 +6853,7 @@ class DescribeRemediationExecutionStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeRetentionConfigurationsResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -6846,6 +6890,7 @@ class DescribeRetentionConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResourceTypesResponse {
   final ConfigurationRecorder configurationRecorder;
 
@@ -6870,6 +6915,7 @@ class DisassociateResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class GetAggregateComplianceDetailsByConfigRuleResponse {
   /// Returns an AggregateEvaluationResults object.
   final List<AggregateEvaluationResult>? aggregateEvaluationResults;
@@ -6906,6 +6952,7 @@ class GetAggregateComplianceDetailsByConfigRuleResponse {
   }
 }
 
+/// @nodoc
 class GetAggregateConfigRuleComplianceSummaryResponse {
   /// Returns a list of AggregateComplianceCounts object.
   final List<AggregateComplianceCount>? aggregateComplianceCounts;
@@ -6949,6 +6996,7 @@ class GetAggregateConfigRuleComplianceSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetAggregateConformancePackComplianceSummaryResponse {
   /// Returns a list of <code>AggregateConformancePackComplianceSummary</code>
   /// object.
@@ -6998,6 +7046,7 @@ class GetAggregateConformancePackComplianceSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetAggregateDiscoveredResourceCountsResponse {
   /// The total number of resources that are present in an aggregator with the
   /// filters that you provide.
@@ -7049,6 +7098,7 @@ class GetAggregateDiscoveredResourceCountsResponse {
   }
 }
 
+/// @nodoc
 class GetAggregateResourceConfigResponse {
   /// Returns a <code>ConfigurationItem</code> object.
   final ConfigurationItem? configurationItem;
@@ -7076,6 +7126,8 @@ class GetAggregateResourceConfigResponse {
 }
 
 ///
+///
+/// @nodoc
 class GetComplianceDetailsByConfigRuleResponse {
   /// Indicates whether the Amazon Web Services resource complies with the
   /// specified Config rule.
@@ -7112,6 +7164,8 @@ class GetComplianceDetailsByConfigRuleResponse {
 }
 
 ///
+///
+/// @nodoc
 class GetComplianceDetailsByResourceResponse {
   /// Indicates whether the specified Amazon Web Services resource complies each
   /// Config rule.
@@ -7148,6 +7202,8 @@ class GetComplianceDetailsByResourceResponse {
 }
 
 ///
+///
+/// @nodoc
 class GetComplianceSummaryByConfigRuleResponse {
   /// The number of Config rules that are compliant and the number that are
   /// noncompliant, up to a maximum of 25 for each.
@@ -7176,6 +7232,8 @@ class GetComplianceSummaryByConfigRuleResponse {
 }
 
 ///
+///
+/// @nodoc
 class GetComplianceSummaryByResourceTypeResponse {
   /// The number of resources that are compliant and the number that are
   /// noncompliant. If one or more resource types were provided with the request,
@@ -7210,6 +7268,7 @@ class GetComplianceSummaryByResourceTypeResponse {
   }
 }
 
+/// @nodoc
 class GetConformancePackComplianceDetailsResponse {
   /// Name of the conformance pack.
   final String conformancePackName;
@@ -7257,6 +7316,7 @@ class GetConformancePackComplianceDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetConformancePackComplianceSummaryResponse {
   /// A list of <code>ConformancePackComplianceSummary</code> objects.
   final List<ConformancePackComplianceSummary>?
@@ -7297,6 +7357,7 @@ class GetConformancePackComplianceSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetCustomRulePolicyResponse {
   /// The policy definition containing the logic for your Config Custom Policy
   /// rule.
@@ -7320,6 +7381,7 @@ class GetCustomRulePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetDiscoveredResourceCountsResponse {
   /// The string that you use in a subsequent request to get the next page of
   /// results in a paginated response.
@@ -7380,6 +7442,7 @@ class GetDiscoveredResourceCountsResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationConfigRuleDetailedStatusResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -7418,6 +7481,7 @@ class GetOrganizationConfigRuleDetailedStatusResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationConformancePackDetailedStatusResponse {
   /// The nextToken string returned on a previous page that you use to get the
   /// next page of results in a paginated response.
@@ -7458,6 +7522,7 @@ class GetOrganizationConformancePackDetailedStatusResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationCustomRulePolicyResponse {
   /// The policy definition containing the logic for your organization Config
   /// Custom Policy rule.
@@ -7483,6 +7548,8 @@ class GetOrganizationCustomRulePolicyResponse {
 }
 
 /// The output for the <a>GetResourceConfigHistory</a> action.
+///
+/// @nodoc
 class GetResourceConfigHistoryResponse {
   /// An array of <code>ConfigurationItems</code> Objects. Contatins the
   /// configuration history for one or more resources.
@@ -7517,6 +7584,7 @@ class GetResourceConfigHistoryResponse {
   }
 }
 
+/// @nodoc
 class GetResourceEvaluationSummaryResponse {
   /// The compliance status of the resource evaluation summary.
   final ComplianceType? compliance;
@@ -7600,6 +7668,7 @@ class GetResourceEvaluationSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetStoredQueryResponse {
   /// Returns a <code>StoredQuery</code> object.
   final StoredQuery? storedQuery;
@@ -7624,6 +7693,7 @@ class GetStoredQueryResponse {
   }
 }
 
+/// @nodoc
 class ListAggregateDiscoveredResourcesResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -7660,6 +7730,7 @@ class ListAggregateDiscoveredResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationRecordersResponse {
   /// A list of <code>ConfigurationRecorderSummary</code> objects that includes.
   final List<ConfigurationRecorderSummary> configurationRecorderSummaries;
@@ -7697,6 +7768,7 @@ class ListConfigurationRecordersResponse {
   }
 }
 
+/// @nodoc
 class ListConformancePackComplianceScoresResponse {
   /// A list of <code>ConformancePackComplianceScore</code> objects.
   final List<ConformancePackComplianceScore> conformancePackComplianceScores;
@@ -7735,6 +7807,8 @@ class ListConformancePackComplianceScoresResponse {
 }
 
 ///
+///
+/// @nodoc
 class ListDiscoveredResourcesResponse {
   /// The string that you use in a subsequent request to get the next page of
   /// results in a paginated response.
@@ -7770,6 +7844,7 @@ class ListDiscoveredResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListResourceEvaluationsResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -7804,6 +7879,7 @@ class ListResourceEvaluationsResponse {
   }
 }
 
+/// @nodoc
 class ListStoredQueriesResponse {
   /// If the previous paginated request didn't return all of the remaining
   /// results, the response object's <code>NextToken</code> parameter value is set
@@ -7842,6 +7918,7 @@ class ListStoredQueriesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -7875,6 +7952,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutAggregationAuthorizationResponse {
   /// Returns an AggregationAuthorization object.
   final AggregationAuthorization? aggregationAuthorization;
@@ -7902,6 +7980,7 @@ class PutAggregationAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class PutConfigurationAggregatorResponse {
   /// Returns a ConfigurationAggregator object.
   final ConfigurationAggregator? configurationAggregator;
@@ -7929,6 +8008,7 @@ class PutConfigurationAggregatorResponse {
   }
 }
 
+/// @nodoc
 class PutConformancePackResponse {
   /// ARN of the conformance pack.
   final String? conformancePackArn;
@@ -7952,6 +8032,8 @@ class PutConformancePackResponse {
 }
 
 ///
+///
+/// @nodoc
 class PutEvaluationsResponse {
   /// Requests that failed because of a client or server error.
   final List<Evaluation>? failedEvaluations;
@@ -7977,6 +8059,7 @@ class PutEvaluationsResponse {
   }
 }
 
+/// @nodoc
 class PutExternalEvaluationResponse {
   PutExternalEvaluationResponse();
 
@@ -7989,6 +8072,7 @@ class PutExternalEvaluationResponse {
   }
 }
 
+/// @nodoc
 class PutOrganizationConfigRuleResponse {
   /// The Amazon Resource Name (ARN) of an organization Config rule.
   final String? organizationConfigRuleArn;
@@ -8013,6 +8097,7 @@ class PutOrganizationConfigRuleResponse {
   }
 }
 
+/// @nodoc
 class PutOrganizationConformancePackResponse {
   /// ARN of the organization conformance pack.
   final String? organizationConformancePackArn;
@@ -8038,6 +8123,7 @@ class PutOrganizationConformancePackResponse {
   }
 }
 
+/// @nodoc
 class PutRemediationConfigurationsResponse {
   /// Returns a list of failed remediation batch objects.
   final List<FailedRemediationBatch>? failedBatches;
@@ -8065,6 +8151,7 @@ class PutRemediationConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class PutRemediationExceptionsResponse {
   /// Returns a list of failed remediation exceptions batch objects. Each object
   /// in the batch consists of a list of failed items and failure messages.
@@ -8092,6 +8179,7 @@ class PutRemediationExceptionsResponse {
   }
 }
 
+/// @nodoc
 class PutRetentionConfigurationResponse {
   /// Returns a retention configuration object.
   final RetentionConfiguration? retentionConfiguration;
@@ -8119,6 +8207,7 @@ class PutRetentionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutServiceLinkedConfigurationRecorderResponse {
   /// The Amazon Resource Name (ARN) of the specified configuration recorder.
   final String? arn;
@@ -8153,6 +8242,7 @@ class PutServiceLinkedConfigurationRecorderResponse {
   }
 }
 
+/// @nodoc
 class PutStoredQueryResponse {
   /// Amazon Resource Name (ARN) of the query. For example,
   /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
@@ -8176,6 +8266,7 @@ class PutStoredQueryResponse {
   }
 }
 
+/// @nodoc
 class SelectAggregateResourceConfigResponse {
   /// The nextToken string returned in a previous request that you use to request
   /// the next page of results in a paginated response.
@@ -8215,6 +8306,7 @@ class SelectAggregateResourceConfigResponse {
   }
 }
 
+/// @nodoc
 class SelectResourceConfigResponse {
   /// The <code>nextToken</code> string returned in a previous request that you
   /// use to request the next page of results in a paginated response.
@@ -8256,6 +8348,8 @@ class SelectResourceConfigResponse {
 }
 
 /// The output when you start the evaluation for the specified Config rule.
+///
+/// @nodoc
 class StartConfigRulesEvaluationResponse {
   StartConfigRulesEvaluationResponse();
 
@@ -8268,6 +8362,7 @@ class StartConfigRulesEvaluationResponse {
   }
 }
 
+/// @nodoc
 class StartRemediationExecutionResponse {
   /// For resources that have failed to start execution, the API returns a
   /// resource key object.
@@ -8302,6 +8397,7 @@ class StartRemediationExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartResourceEvaluationResponse {
   /// A unique ResourceEvaluationId that is associated with a single execution.
   final String? resourceEvaluationId;
@@ -8330,6 +8426,8 @@ class StartResourceEvaluationResponse {
 /// value, both of which you define. Tag keys can have a maximum character
 /// length of 128 characters, and tag values can have a maximum length of 256
 /// characters.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that make up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
@@ -8362,6 +8460,8 @@ class Tag {
 }
 
 /// Returns information about the resource being evaluated.
+///
+/// @nodoc
 class ResourceDetails {
   /// The resource definition to be evaluated as per the resource configuration
   /// schema type.
@@ -8429,6 +8529,8 @@ class ResourceDetails {
 /// Use EvaluationContext to group independently initiated proactive resource
 /// evaluations. For example, CFN Stack. If you want to check just a resource
 /// definition, you do not need to provide evaluation context.
+///
+/// @nodoc
 class EvaluationContext {
   /// A unique EvaluationContextIdentifier ID for an EvaluationContext.
   final String? evaluationContextIdentifier;
@@ -8453,6 +8555,7 @@ class EvaluationContext {
   }
 }
 
+/// @nodoc
 class EvaluationMode {
   static const detective = EvaluationMode._('DETECTIVE');
   static const proactive = EvaluationMode._('PROACTIVE');
@@ -8477,6 +8580,7 @@ class EvaluationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceConfigurationSchemaType {
   static const cfnResourceSchema =
       ResourceConfigurationSchemaType._('CFN_RESOURCE_SCHEMA');
@@ -8504,6 +8608,8 @@ class ResourceConfigurationSchemaType {
 
 /// The details that identify a resource within Config, including the resource
 /// type and resource ID.
+///
+/// @nodoc
 class ResourceKey {
   /// The ID of the resource (for example., sg-xxxxxx).
   final String resourceId;
@@ -8534,6 +8640,7 @@ class ResourceKey {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const awsEc2CustomerGateway =
       ResourceType._('AWS::EC2::CustomerGateway');
@@ -9995,6 +10102,8 @@ class ResourceType {
 }
 
 /// Details about the query.
+///
+/// @nodoc
 class QueryInfo {
   /// Returns a <code>FieldInfo</code> object.
   final List<FieldInfo>? selectFields;
@@ -10021,6 +10130,8 @@ class QueryInfo {
 }
 
 /// Details about the fields such as name of the field.
+///
+/// @nodoc
 class FieldInfo {
   /// Name of the field.
   final String? name;
@@ -10044,6 +10155,8 @@ class FieldInfo {
 }
 
 /// Provides the details of a stored query.
+///
+/// @nodoc
 class StoredQuery {
   /// The name of the query.
   final String queryName;
@@ -10103,6 +10216,8 @@ class StoredQuery {
 /// An object with the name of the retention configuration and the retention
 /// period in days. The object stores the configuration for data retention in
 /// Config.
+///
+/// @nodoc
 class RetentionConfiguration {
   /// The name of the retention configuration object.
   final String name;
@@ -10136,6 +10251,8 @@ class RetentionConfiguration {
 }
 
 /// List of each of the failed remediation exceptions with specific reasons.
+///
+/// @nodoc
 class FailedRemediationExceptionBatch {
   /// Returns remediation exception resource key object of the failed items.
   final List<RemediationException>? failedItems;
@@ -10171,6 +10288,8 @@ class FailedRemediationExceptionBatch {
 /// An object that represents the details about the remediation exception. The
 /// details include the rule name, an explanation of an exception, the time when
 /// the exception will be deleted, the resource ID, and resource type.
+///
+/// @nodoc
 class RemediationException {
   /// The name of the Config rule.
   final String configRuleName;
@@ -10224,6 +10343,8 @@ class RemediationException {
 
 /// The details that identify a resource within Config, including the resource
 /// type and resource ID.
+///
+/// @nodoc
 class RemediationExceptionResourceKey {
   /// The ID of the resource (for example., sg-xxxxxx).
   final String? resourceId;
@@ -10254,6 +10375,8 @@ class RemediationExceptionResourceKey {
 }
 
 /// List of each of the failed remediations with specific reasons.
+///
+/// @nodoc
 class FailedRemediationBatch {
   /// Returns remediation configurations of the failed items.
   final List<RemediationConfiguration>? failedItems;
@@ -10290,6 +10413,8 @@ class FailedRemediationBatch {
 /// An object that represents the details about the remediation configuration
 /// that includes the remediation action, parameters, and data to execute the
 /// action.
+///
+/// @nodoc
 class RemediationConfiguration {
   /// The name of the Config rule.
   final String configRuleName;
@@ -10418,6 +10543,7 @@ class RemediationConfiguration {
   }
 }
 
+/// @nodoc
 class RemediationTargetType {
   static const ssmDocument = RemediationTargetType._('SSM_DOCUMENT');
 
@@ -10443,6 +10569,8 @@ class RemediationTargetType {
 }
 
 /// The controls that Config uses for executing remediations.
+///
+/// @nodoc
 class ExecutionControls {
   /// A SsmControls object.
   final SsmControls? ssmControls;
@@ -10468,6 +10596,8 @@ class ExecutionControls {
 }
 
 /// Amazon Web Services Systems Manager (SSM) specific remediation controls.
+///
+/// @nodoc
 class SsmControls {
   /// The maximum percentage of remediation actions allowed to run in parallel on
   /// the non-compliant resources for that specific rule. You can specify a
@@ -10509,6 +10639,8 @@ class SsmControls {
 
 /// The value is either a dynamic (resource) value or a static value. You must
 /// select either a dynamic value or a static value.
+///
+/// @nodoc
 class RemediationParameterValue {
   /// The value is dynamic and changes at run-time.
   final ResourceValue? resourceValue;
@@ -10544,6 +10676,8 @@ class RemediationParameterValue {
 }
 
 /// The dynamic value of the resource.
+///
+/// @nodoc
 class ResourceValue {
   /// The value is a resource ID.
   final ResourceValueType value;
@@ -10567,6 +10701,8 @@ class ResourceValue {
 }
 
 /// The static value of the resource.
+///
+/// @nodoc
 class StaticValue {
   /// A list of values. For example, the ARN of the assumed role.
   final List<String> values;
@@ -10592,6 +10728,7 @@ class StaticValue {
   }
 }
 
+/// @nodoc
 class ResourceValueType {
   static const resourceId = ResourceValueType._('RESOURCE_ID');
 
@@ -10618,6 +10755,8 @@ class ResourceValueType {
 /// Input parameters in the form of key-value pairs for the conformance pack,
 /// both of which you define. Keys can have a maximum character length of 255
 /// characters, and values can have a maximum length of 4096 characters.
+///
+/// @nodoc
 class ConformancePackInputParameter {
   /// One part of a key-value pair.
   final String parameterName;
@@ -10651,6 +10790,8 @@ class ConformancePackInputParameter {
 /// type and ID of Amazon Web Services resource along with the rule identifier.
 /// It also provides the frequency with which you want Config to run evaluations
 /// for the rule if the trigger type is periodic.
+///
+/// @nodoc
 class OrganizationManagedRuleMetadata {
   /// For organization config managed rules, a predefined identifier from a list.
   /// For example, <code>IAM_PASSWORD_POLICY</code> is a managed rule. To
@@ -10746,6 +10887,8 @@ class OrganizationManagedRuleMetadata {
 /// Services resources against a rule. It also provides the frequency with which
 /// you want Config to run evaluations for the rule if the trigger type is
 /// periodic.
+///
+/// @nodoc
 class OrganizationCustomRuleMetadata {
   /// The lambda function ARN.
   final String lambdaFunctionArn;
@@ -10871,6 +11014,8 @@ class OrganizationCustomRuleMetadata {
 /// type, resource ID of Amazon Web Services resource, and organization trigger
 /// types that initiate Config to evaluate Amazon Web Services resources against
 /// a rule.
+///
+/// @nodoc
 class OrganizationCustomPolicyRuleMetadata {
   /// The runtime system for your organization Config Custom Policy rules. Guard
   /// is a policy-as-code language that allows you to write policies that are
@@ -10983,6 +11128,7 @@ class OrganizationCustomPolicyRuleMetadata {
   }
 }
 
+/// @nodoc
 class MaximumExecutionFrequency {
   static const oneHour = MaximumExecutionFrequency._('One_Hour');
   static const threeHours = MaximumExecutionFrequency._('Three_Hours');
@@ -11018,6 +11164,7 @@ class MaximumExecutionFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class OrganizationConfigRuleTriggerTypeNoSN {
   static const configurationItemChangeNotification =
       OrganizationConfigRuleTriggerTypeNoSN._(
@@ -11050,6 +11197,7 @@ class OrganizationConfigRuleTriggerTypeNoSN {
   String toString() => value;
 }
 
+/// @nodoc
 class OrganizationConfigRuleTriggerType {
   static const configurationItemChangeNotification =
       OrganizationConfigRuleTriggerType._(
@@ -11087,6 +11235,8 @@ class OrganizationConfigRuleTriggerType {
 
 /// Identifies an Amazon Web Services resource and indicates whether it complies
 /// with the Config rule that it was evaluated against.
+///
+/// @nodoc
 class ExternalEvaluation {
   /// The evaluated compliance resource ID. Config accepts only Amazon Web
   /// Services account ID.
@@ -11131,6 +11281,7 @@ class ExternalEvaluation {
   }
 }
 
+/// @nodoc
 class ComplianceType {
   static const compliant = ComplianceType._('COMPLIANT');
   static const nonCompliant = ComplianceType._('NON_COMPLIANT');
@@ -11164,6 +11315,8 @@ class ComplianceType {
 
 /// Identifies an Amazon Web Services resource and indicates whether it complies
 /// with the Config rule that it was evaluated against.
+///
+/// @nodoc
 class Evaluation {
   /// The ID of the Amazon Web Services resource that was evaluated.
   final String complianceResourceId;
@@ -11234,6 +11387,8 @@ class Evaluation {
 
 /// The channel through which Config delivers notifications and updated
 /// configuration states.
+///
+/// @nodoc
 class DeliveryChannel {
   /// The options for how often Config delivers configuration snapshots to the
   /// Amazon S3 bucket.
@@ -11366,6 +11521,8 @@ class DeliveryChannel {
 ///
 /// To update the <code>deliveryFrequency</code> with which Config delivers your
 /// configuration snapshots, use the <code>PutDeliveryChannel</code> action.
+///
+/// @nodoc
 class ConfigSnapshotDeliveryProperties {
   /// The frequency with which Config delivers configuration snapshots.
   final MaximumExecutionFrequency? deliveryFrequency;
@@ -11399,6 +11556,8 @@ class ConfigSnapshotDeliveryProperties {
 ///
 /// The <code>TemplateSSMDocumentDetails</code> object contains the name of the
 /// SSM document and the version of the SSM document.
+///
+/// @nodoc
 class TemplateSSMDocumentDetails {
   /// The name or Amazon Resource Name (ARN) of the SSM document to use to create
   /// a conformance pack. If you use the document name, Config checks only your
@@ -11440,6 +11599,8 @@ class TemplateSSMDocumentDetails {
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
 /// <b>Working with the Configuration Recorder</b> </a> in the <i>Config
 /// Developer Guide</i>.
+///
+/// @nodoc
 class ConfigurationRecorder {
   /// The Amazon Resource Name (ARN) of the specified configuration recorder.
   final String? arn;
@@ -11654,6 +11815,8 @@ class ConfigurationRecorder {
 /// enabled Regions, use the <code>EXCLUSION_BY_RESOURCE_TYPES</code> or
 /// <code>INCLUSION_BY_RESOURCE_TYPES</code> recording strategy.
 /// </important>
+///
+/// @nodoc
 class RecordingGroup {
   /// Specifies whether Config records configuration changes for all supported
   /// resource types, excluding the global IAM resource types.
@@ -11953,6 +12116,8 @@ class RecordingGroup {
 /// recording frequency to Continuous.
 /// </note>
 /// You can also override the recording frequency for specific resource types.
+///
+/// @nodoc
 class RecordingMode {
   /// The default recording frequency that Config uses to record configuration
   /// changes.
@@ -12011,6 +12176,7 @@ class RecordingMode {
   }
 }
 
+/// @nodoc
 class RecordingScope {
   static const internal = RecordingScope._('INTERNAL');
   static const paid = RecordingScope._('PAID');
@@ -12035,6 +12201,7 @@ class RecordingScope {
   String toString() => value;
 }
 
+/// @nodoc
 class RecordingFrequency {
   static const continuous = RecordingFrequency._('CONTINUOUS');
   static const daily = RecordingFrequency._('DAILY');
@@ -12061,6 +12228,8 @@ class RecordingFrequency {
 }
 
 /// An object for you to specify your overrides for the recording mode.
+///
+/// @nodoc
 class RecordingModeOverride {
   /// The recording frequency that will be applied to all the resource types
   /// specified in the override.
@@ -12165,6 +12334,8 @@ class RecordingModeOverride {
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Recording
 /// Amazon Web Services Resources | Global Resources</a>.
 /// </note>
+///
+/// @nodoc
 class ExclusionByResourceTypes {
   /// A comma-separated list of resource types to exclude from recording by the
   /// configuration recorder.
@@ -12193,6 +12364,8 @@ class ExclusionByResourceTypes {
 }
 
 /// Specifies the recording strategy of the configuration recorder.
+///
+/// @nodoc
 class RecordingStrategy {
   /// The recording strategy for the configuration recorder.
   ///
@@ -12314,6 +12487,7 @@ class RecordingStrategy {
   }
 }
 
+/// @nodoc
 class RecordingStrategyType {
   static const allSupportedResourceTypes =
       RecordingStrategyType._('ALL_SUPPORTED_RESOURCE_TYPES');
@@ -12349,6 +12523,8 @@ class RecordingStrategyType {
 
 /// The details about the configuration aggregator, including information about
 /// source accounts, regions, and metadata of the aggregator.
+///
+/// @nodoc
 class ConfigurationAggregator {
   /// Provides a list of source accounts and regions to be aggregated.
   final List<AccountAggregationSource>? accountAggregationSources;
@@ -12440,6 +12616,8 @@ class ConfigurationAggregator {
 
 /// This object contains regions to set up the aggregator and an IAM role to
 /// retrieve organization details.
+///
+/// @nodoc
 class OrganizationAggregationSource {
   /// ARN of the IAM role used to retrieve Amazon Web Services Organization
   /// details associated with the aggregator account.
@@ -12481,6 +12659,8 @@ class OrganizationAggregationSource {
 }
 
 /// An object to filter the data you specify for an aggregator.
+///
+/// @nodoc
 class AggregatorFilters {
   /// An object to filter the configuration recorders based on the resource types
   /// in scope for recording.
@@ -12520,6 +12700,8 @@ class AggregatorFilters {
 
 /// An object to filter the configuration recorders based on the resource types
 /// in scope for recording.
+///
+/// @nodoc
 class AggregatorFilterResourceType {
   /// The type of resource type filter to apply. <code>INCLUDE</code> specifies
   /// that the list of resource types in the <code>Value</code> field will be
@@ -12555,6 +12737,8 @@ class AggregatorFilterResourceType {
 
 /// An object to filter service-linked configuration recorders in an aggregator
 /// based on the linked Amazon Web Services service.
+///
+/// @nodoc
 class AggregatorFilterServicePrincipal {
   /// The type of service principal filter to apply. <code>INCLUDE</code>
   /// specifies that the list of service principals in the <code>Value</code>
@@ -12589,6 +12773,7 @@ class AggregatorFilterServicePrincipal {
   }
 }
 
+/// @nodoc
 class AggregatorFilterType {
   static const include = AggregatorFilterType._('INCLUDE');
 
@@ -12614,6 +12799,8 @@ class AggregatorFilterType {
 }
 
 /// A collection of accounts and regions.
+///
+/// @nodoc
 class AccountAggregationSource {
   /// The 12-digit account ID of the account being aggregated.
   final List<String> accountIds;
@@ -12686,6 +12873,8 @@ class AccountAggregationSource {
 /// Config delivers the configuration snapshot. For more information, see
 /// <a>ConfigSnapshotDeliveryProperties</a>.
 /// </note>
+///
+/// @nodoc
 class ConfigRule {
   /// Provides the rule owner (<code>Amazon Web Services</code> for managed rules,
   /// <code>CUSTOM_POLICY</code> for Custom Policy rules, and
@@ -12851,6 +13040,8 @@ class ConfigRule {
 /// scope to constrain which resources trigger an evaluation for a rule.
 /// Otherwise, evaluations for the rule are triggered when any resource in your
 /// recording group changes in configuration.
+///
+/// @nodoc
 class Scope {
   /// The ID of the only Amazon Web Services resource that you want to trigger an
   /// evaluation for the rule. If you specify a resource ID, you must specify one
@@ -12926,6 +13117,8 @@ class Scope {
 /// Policy rules, and <code>CUSTOM_LAMBDA</code> for Custom Lambda rules), the
 /// rule identifier, and the events that cause the evaluation of your Amazon Web
 /// Services resources.
+///
+/// @nodoc
 class Source {
   /// Indicates whether Amazon Web Services or the customer owns and manages the
   /// Config rule.
@@ -13007,6 +13200,7 @@ class Source {
   }
 }
 
+/// @nodoc
 class ConfigRuleState {
   static const active = ConfigRuleState._('ACTIVE');
   static const deleting = ConfigRuleState._('DELETING');
@@ -13033,6 +13227,7 @@ class ConfigRuleState {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleEvaluationVisibility {
   static const external = RuleEvaluationVisibility._('EXTERNAL');
   static const internal = RuleEvaluationVisibility._('INTERNAL');
@@ -13060,6 +13255,8 @@ class RuleEvaluationVisibility {
 
 /// The configuration object for Config rule evaluation mode. The supported
 /// valid values are Detective or Proactive.
+///
+/// @nodoc
 class EvaluationModeConfiguration {
   /// The mode of an evaluation. The valid values are Detective or Proactive.
   final EvaluationMode? mode;
@@ -13082,6 +13279,7 @@ class EvaluationModeConfiguration {
   }
 }
 
+/// @nodoc
 class Owner {
   static const customLambda = Owner._('CUSTOM_LAMBDA');
   static const aws = Owner._('AWS');
@@ -13109,6 +13307,8 @@ class Owner {
 /// Provides the runtime system, policy definition, and whether debug logging
 /// enabled. You can specify the following CustomPolicyDetails parameter values
 /// only for Config Custom Policy rules.
+///
+/// @nodoc
 class CustomPolicyDetails {
   /// The runtime system for your Config Custom Policy rule. Guard is a
   /// policy-as-code language that allows you to write policies that are enforced
@@ -13157,6 +13357,8 @@ class CustomPolicyDetails {
 /// frequency with which you want Config to run evaluations for the rule if the
 /// trigger type is periodic. You can specify the parameter values for
 /// <code>SourceDetail</code> only for custom rules.
+///
+/// @nodoc
 class SourceDetail {
   /// The source of the event, such as an Amazon Web Services service, that
   /// triggers Config to evaluate your Amazon Web Services resources.
@@ -13237,6 +13439,7 @@ class SourceDetail {
   }
 }
 
+/// @nodoc
 class EventSource {
   static const awsConfig = EventSource._('aws.config');
 
@@ -13259,6 +13462,7 @@ class EventSource {
   String toString() => value;
 }
 
+/// @nodoc
 class MessageType {
   static const configurationItemChangeNotification =
       MessageType._('ConfigurationItemChangeNotification');
@@ -13294,6 +13498,8 @@ class MessageType {
 
 /// An object that represents the authorizations granted to aggregator accounts
 /// and regions.
+///
+/// @nodoc
 class AggregationAuthorization {
   /// The Amazon Resource Name (ARN) of the aggregation object.
   final String? aggregationAuthorizationArn;
@@ -13343,6 +13549,8 @@ class AggregationAuthorization {
 }
 
 /// Returns details of a specific query.
+///
+/// @nodoc
 class StoredQueryMetadata {
   /// Amazon Resource Name (ARN) of the query. For example,
   /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
@@ -13388,6 +13596,8 @@ class StoredQueryMetadata {
 }
 
 /// Returns details of a resource evaluation.
+///
+/// @nodoc
 class ResourceEvaluation {
   /// The mode of an evaluation. The valid values are Detective or Proactive.
   final EvaluationMode? evaluationMode;
@@ -13430,6 +13640,8 @@ class ResourceEvaluation {
 }
 
 /// Returns details of a resource evaluation based on the selected filter.
+///
+/// @nodoc
 class ResourceEvaluationFilters {
   /// Filters evaluations for a given infrastructure deployment. For example: CFN
   /// Stack.
@@ -13465,6 +13677,8 @@ class ResourceEvaluationFilters {
 }
 
 /// Filters evaluation results based on start and end times.
+///
+/// @nodoc
 class TimeWindow {
   /// The end time of an execution. The end time must be after the start date.
   final DateTime? endTime;
@@ -13489,6 +13703,8 @@ class TimeWindow {
 
 /// The details that identify a resource that is discovered by Config, including
 /// the resource type, ID, and (if available) the custom resource name.
+///
+/// @nodoc
 class ResourceIdentifier {
   /// The time that the resource was deleted.
   final DateTime? resourceDeletionTime;
@@ -13540,6 +13756,8 @@ class ResourceIdentifier {
 /// metric provides you with a high-level view of the compliance state of your
 /// conformance packs. You can use it to identify, investigate, and understand
 /// the level of compliance in your conformance packs.
+///
+/// @nodoc
 class ConformancePackComplianceScore {
   /// The name of the conformance pack.
   final String? conformancePackName;
@@ -13582,6 +13800,8 @@ class ConformancePackComplianceScore {
 
 /// A list of filters to apply to the conformance pack compliance score result
 /// set.
+///
+/// @nodoc
 class ConformancePackComplianceScoresFilters {
   /// The names of the conformance packs whose compliance scores you want to
   /// include in the conformance pack compliance score result set. You can include
@@ -13602,6 +13822,7 @@ class ConformancePackComplianceScoresFilters {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -13625,6 +13846,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class SortBy {
   static const score = SortBy._('SCORE');
 
@@ -13650,6 +13872,8 @@ class SortBy {
 /// A summary of a configuration recorder, including the <code>arn</code>,
 /// <code>name</code>, <code>servicePrincipal</code>, and
 /// <code>recordingScope</code>.
+///
+/// @nodoc
 class ConfigurationRecorderSummary {
   /// The Amazon Resource Name (ARN) of the configuration recorder.
   final String arn;
@@ -13700,6 +13924,8 @@ class ConfigurationRecorderSummary {
 }
 
 /// Filters configuration recorders by recording scope.
+///
+/// @nodoc
 class ConfigurationRecorderFilter {
   /// The name of the type of filter. Currently, only <code>recordingScope</code>
   /// is supported.
@@ -13732,6 +13958,7 @@ class ConfigurationRecorderFilter {
   }
 }
 
+/// @nodoc
 class ConfigurationRecorderFilterName {
   static const recordingScope =
       ConfigurationRecorderFilterName._('recordingScope');
@@ -13760,6 +13987,8 @@ class ConfigurationRecorderFilterName {
 /// The details that identify a resource that is collected by Config aggregator,
 /// including the resource type, ID, (if available) the custom resource name,
 /// the source account, and source region.
+///
+/// @nodoc
 class AggregateResourceIdentifier {
   /// The ID of the Amazon Web Services resource.
   final String resourceId;
@@ -13813,6 +14042,8 @@ class AggregateResourceIdentifier {
 
 /// Filters the results by resource account ID, region, resource ID, and
 /// resource name.
+///
+/// @nodoc
 class ResourceFilters {
   /// The 12-digit source account ID.
   final String? accountId;
@@ -13848,6 +14079,8 @@ class ResourceFilters {
 }
 
 /// Returns status details of an evaluation.
+///
+/// @nodoc
 class EvaluationStatus {
   /// The status of an execution. The valid values are In_Progress, Succeeded or
   /// Failed.
@@ -13879,6 +14112,7 @@ class EvaluationStatus {
   }
 }
 
+/// @nodoc
 class ResourceEvaluationStatus {
   static const inProgress = ResourceEvaluationStatus._('IN_PROGRESS');
   static const failed = ResourceEvaluationStatus._('FAILED');
@@ -13906,6 +14140,8 @@ class ResourceEvaluationStatus {
 }
 
 /// A list that contains detailed configurations of a specified resource.
+///
+/// @nodoc
 class ConfigurationItem {
   /// The 12-digit Amazon Web Services account ID associated with the resource.
   final String? accountId;
@@ -14151,6 +14387,7 @@ class ConfigurationItem {
   }
 }
 
+/// @nodoc
 class ConfigurationItemStatus {
   static const ok = ConfigurationItemStatus._('OK');
   static const resourceDiscovered =
@@ -14189,6 +14426,8 @@ class ConfigurationItemStatus {
 }
 
 /// The relationship of the related resource to the main resource.
+///
+/// @nodoc
 class Relationship {
   /// The type of relationship with the related resource.
   final String? relationshipName;
@@ -14233,6 +14472,7 @@ class Relationship {
   }
 }
 
+/// @nodoc
 class ChronologicalOrder {
   static const reverse = ChronologicalOrder._('Reverse');
   static const forward = ChronologicalOrder._('Forward');
@@ -14262,6 +14502,8 @@ class ChronologicalOrder {
 /// account. This includes the name of the conformance pack, the status, error
 /// code and error message when the conformance pack creation or deletion
 /// failed.
+///
+/// @nodoc
 class OrganizationConformancePackDetailedStatus {
   /// The 12-digit account ID of a member account.
   final String accountId;
@@ -14373,6 +14615,7 @@ class OrganizationConformancePackDetailedStatus {
   }
 }
 
+/// @nodoc
 class OrganizationResourceDetailedStatus {
   static const createSuccessful =
       OrganizationResourceDetailedStatus._('CREATE_SUCCESSFUL');
@@ -14426,6 +14669,8 @@ class OrganizationResourceDetailedStatus {
 
 /// Status filter object to filter results based on specific member account ID
 /// or status type for an organization conformance pack.
+///
+/// @nodoc
 class OrganizationResourceDetailedStatusFilters {
   /// The 12-digit account ID of the member account within an organization.
   final String? accountId;
@@ -14500,6 +14745,8 @@ class OrganizationResourceDetailedStatusFilters {
 /// Organization Config rule creation or deletion status in each member account.
 /// This includes the name of the rule, the status, error code and error message
 /// when the rule creation or deletion failed.
+///
+/// @nodoc
 class MemberAccountStatus {
   /// The 12-digit account ID of a member account.
   final String accountId;
@@ -14609,6 +14856,7 @@ class MemberAccountStatus {
   }
 }
 
+/// @nodoc
 class MemberAccountRuleStatus {
   static const createSuccessful =
       MemberAccountRuleStatus._('CREATE_SUCCESSFUL');
@@ -14659,6 +14907,8 @@ class MemberAccountRuleStatus {
 
 /// Status filter object to filter results based on specific member account ID
 /// or status type for an organization Config rule.
+///
+/// @nodoc
 class StatusDetailFilters {
   /// The 12-digit account ID of the member account within an organization.
   final String? accountId;
@@ -14731,6 +14981,8 @@ class StatusDetailFilters {
 }
 
 /// An object that contains the resource type and the number of resources.
+///
+/// @nodoc
 class ResourceCount {
   /// The number of resources.
   final int? count;
@@ -14762,6 +15014,8 @@ class ResourceCount {
 }
 
 /// Summary includes the name and status of the conformance pack.
+///
+/// @nodoc
 class ConformancePackComplianceSummary {
   /// The status of the conformance pack.
   final ConformancePackComplianceType conformancePackComplianceStatus;
@@ -14793,6 +15047,7 @@ class ConformancePackComplianceSummary {
   }
 }
 
+/// @nodoc
 class ConformancePackComplianceType {
   static const compliant = ConformancePackComplianceType._('COMPLIANT');
   static const nonCompliant = ConformancePackComplianceType._('NON_COMPLIANT');
@@ -14823,6 +15078,8 @@ class ConformancePackComplianceType {
 /// The details of a conformance pack evaluation. Provides Config rule and
 /// Amazon Web Services resource type that was evaluated, the compliance of the
 /// conformance pack, related time stamps, and supplementary information.
+///
+/// @nodoc
 class ConformancePackEvaluationResult {
   /// The compliance type. The allowed values are <code>COMPLIANT</code> and
   /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
@@ -14879,6 +15136,8 @@ class ConformancePackEvaluationResult {
 }
 
 /// Uniquely identifies an evaluation result.
+///
+/// @nodoc
 class EvaluationResultIdentifier {
   /// Identifies an Config rule used to evaluate an Amazon Web Services resource,
   /// and provides the type and ID of the evaluated resource.
@@ -14928,6 +15187,8 @@ class EvaluationResultIdentifier {
 
 /// Identifies an Config rule that evaluated an Amazon Web Services resource,
 /// and provides the type and ID of the resource that the rule evaluated.
+///
+/// @nodoc
 class EvaluationResultQualifier {
   /// The name of the Config rule that was used in the evaluation.
   final String? configRuleName;
@@ -14974,6 +15235,8 @@ class EvaluationResultQualifier {
 
 /// Filters a conformance pack by Config rule names, compliance types, Amazon
 /// Web Services resource types, and resource IDs.
+///
+/// @nodoc
 class ConformancePackEvaluationFilters {
   /// Filters the results by compliance.
   ///
@@ -15018,6 +15281,8 @@ class ConformancePackEvaluationFilters {
 
 /// The number of Amazon Web Services resources of a specific type that are
 /// compliant or noncompliant, up to a maximum of 100 for each.
+///
+/// @nodoc
 class ComplianceSummaryByResourceType {
   /// The number of Amazon Web Services resources that are compliant or
   /// noncompliant, up to a maximum of 100 for each.
@@ -15053,6 +15318,8 @@ class ComplianceSummaryByResourceType {
 
 /// The number of Config rules or Amazon Web Services resources that are
 /// compliant and noncompliant.
+///
+/// @nodoc
 class ComplianceSummary {
   /// The time that Config created the compliance summary.
   final DateTime? complianceSummaryTimestamp;
@@ -15104,6 +15371,8 @@ class ComplianceSummary {
 
 /// The number of Amazon Web Services resources or Config rules responsible for
 /// the current compliance of the item, up to a maximum number.
+///
+/// @nodoc
 class ComplianceContributorCount {
   /// Indicates whether the maximum count is reached.
   final bool? capExceeded;
@@ -15137,6 +15406,8 @@ class ComplianceContributorCount {
 /// The details of an Config evaluation. Provides the Amazon Web Services
 /// resource that was evaluated, the compliance of the resource, related time
 /// stamps, and supplementary information.
+///
+/// @nodoc
 class EvaluationResult {
   /// Supplementary information about how the evaluation determined the
   /// compliance.
@@ -15212,6 +15483,8 @@ class EvaluationResult {
 }
 
 /// The count of resources that are grouped by the group name.
+///
+/// @nodoc
 class GroupedResourceCount {
   /// The name of the group that can be region, account ID, or resource type. For
   /// example, region1, region2 if the region was chosen as
@@ -15244,6 +15517,8 @@ class GroupedResourceCount {
 }
 
 /// Filters the resource count based on account ID, region, and resource type.
+///
+/// @nodoc
 class ResourceCountFilters {
   /// The 12-digit ID of the account.
   final String? accountId;
@@ -15272,6 +15547,7 @@ class ResourceCountFilters {
   }
 }
 
+/// @nodoc
 class ResourceCountGroupKey {
   static const resourceType = ResourceCountGroupKey._('RESOURCE_TYPE');
   static const accountId = ResourceCountGroupKey._('ACCOUNT_ID');
@@ -15299,6 +15575,8 @@ class ResourceCountGroupKey {
 }
 
 /// Provides a summary of compliance based on either account ID or region.
+///
+/// @nodoc
 class AggregateConformancePackComplianceSummary {
   /// Returns an <code>AggregateConformancePackComplianceCount</code> object.
   final AggregateConformancePackComplianceCount? complianceSummary;
@@ -15334,6 +15612,8 @@ class AggregateConformancePackComplianceSummary {
 }
 
 /// The number of conformance packs that are compliant and noncompliant.
+///
+/// @nodoc
 class AggregateConformancePackComplianceCount {
   /// Number of compliant conformance packs.
   final int? compliantConformancePackCount;
@@ -15370,6 +15650,8 @@ class AggregateConformancePackComplianceCount {
 }
 
 /// Filters the results based on account ID and region.
+///
+/// @nodoc
 class AggregateConformancePackComplianceSummaryFilters {
   /// The 12-digit Amazon Web Services account ID of the source account.
   final String? accountId;
@@ -15392,6 +15674,7 @@ class AggregateConformancePackComplianceSummaryFilters {
   }
 }
 
+/// @nodoc
 class AggregateConformancePackComplianceSummaryGroupKey {
   static const accountId =
       AggregateConformancePackComplianceSummaryGroupKey._('ACCOUNT_ID');
@@ -15424,6 +15707,8 @@ class AggregateConformancePackComplianceSummaryGroupKey {
 
 /// Returns the number of compliant and noncompliant rules for one or more
 /// accounts and regions in an aggregator.
+///
+/// @nodoc
 class AggregateComplianceCount {
   /// The number of compliant and noncompliant Config rules.
   final ComplianceSummary? complianceSummary;
@@ -15457,6 +15742,8 @@ class AggregateComplianceCount {
 }
 
 /// Filters the results based on the account IDs and regions.
+///
+/// @nodoc
 class ConfigRuleComplianceSummaryFilters {
   /// The 12-digit account ID of the source account.
   final String? accountId;
@@ -15479,6 +15766,7 @@ class ConfigRuleComplianceSummaryFilters {
   }
 }
 
+/// @nodoc
 class ConfigRuleComplianceSummaryGroupKey {
   static const accountId = ConfigRuleComplianceSummaryGroupKey._('ACCOUNT_ID');
   static const awsRegion = ConfigRuleComplianceSummaryGroupKey._('AWS_REGION');
@@ -15508,6 +15796,8 @@ class ConfigRuleComplianceSummaryGroupKey {
 /// aggregator. Provides the Amazon Web Services resource that was evaluated,
 /// the compliance of the resource, related time stamps, and supplementary
 /// information.
+///
+/// @nodoc
 class AggregateEvaluationResult {
   /// The 12-digit account ID of the source account.
   final String? accountId;
@@ -15587,6 +15877,8 @@ class AggregateEvaluationResult {
 
 /// Provides details of the current status of the invoked remediation action for
 /// that resource.
+///
+/// @nodoc
 class RemediationExecutionStatus {
   /// Start time when the remediation was executed.
   final DateTime? invocationTime;
@@ -15644,6 +15936,7 @@ class RemediationExecutionStatus {
   }
 }
 
+/// @nodoc
 class RemediationExecutionState {
   static const queued = RemediationExecutionState._('QUEUED');
   static const inProgress = RemediationExecutionState._('IN_PROGRESS');
@@ -15673,6 +15966,8 @@ class RemediationExecutionState {
 }
 
 /// Name of the step from the SSM document.
+///
+/// @nodoc
 class RemediationExecutionStep {
   /// An error message if the step was interrupted during execution.
   final String? errorMessage;
@@ -15724,6 +16019,7 @@ class RemediationExecutionStep {
   }
 }
 
+/// @nodoc
 class RemediationExecutionStepState {
   static const succeeded = RemediationExecutionStepState._('SUCCEEDED');
   static const pending = RemediationExecutionStepState._('PENDING');
@@ -15762,6 +16058,8 @@ class RemediationExecutionStepState {
 
 /// An object that represents the account ID and region of an aggregator account
 /// that is requesting authorization but is not yet authorized.
+///
+/// @nodoc
 class PendingAggregationRequest {
   /// The 12-digit account ID of the account requesting to aggregate data.
   final String? requesterAccountId;
@@ -15792,6 +16090,8 @@ class PendingAggregationRequest {
 }
 
 /// Returns the status for an organization conformance pack in an organization.
+///
+/// @nodoc
 class OrganizationConformancePackStatus {
   /// The name that you assign to organization conformance pack.
   final String organizationConformancePackName;
@@ -15899,6 +16199,7 @@ class OrganizationConformancePackStatus {
   }
 }
 
+/// @nodoc
 class OrganizationResourceStatus {
   static const createSuccessful =
       OrganizationResourceStatus._('CREATE_SUCCESSFUL');
@@ -15949,6 +16250,8 @@ class OrganizationResourceStatus {
 
 /// An organization conformance pack that has information about conformance
 /// packs that Config creates in member accounts.
+///
+/// @nodoc
 class OrganizationConformancePack {
   /// Last time when organization conformation pack was updated.
   final DateTime lastUpdateTime;
@@ -16035,6 +16338,8 @@ class OrganizationConformancePack {
 }
 
 /// Returns the status for an organization Config rule in an organization.
+///
+/// @nodoc
 class OrganizationConfigRuleStatus {
   /// The name that you assign to organization Config rule.
   final String organizationConfigRuleName;
@@ -16139,6 +16444,7 @@ class OrganizationConfigRuleStatus {
   }
 }
 
+/// @nodoc
 class OrganizationRuleStatus {
   static const createSuccessful = OrganizationRuleStatus._('CREATE_SUCCESSFUL');
   static const createInProgress =
@@ -16186,6 +16492,8 @@ class OrganizationRuleStatus {
 
 /// An organization Config rule that has information about Config rules that
 /// Config creates in member accounts.
+///
+/// @nodoc
 class OrganizationConfigRule {
   /// Amazon Resource Name (ARN) of organization Config rule.
   final String organizationConfigRuleArn;
@@ -16287,6 +16595,8 @@ class OrganizationConfigRule {
 /// custom rule metadata such as resource type, resource ID of Amazon Web
 /// Services resource, and organization trigger types that trigger Config to
 /// evaluate Amazon Web Services resources against a rule.
+///
+/// @nodoc
 class OrganizationCustomPolicyRuleMetadataNoPolicy {
   /// A list of accounts that you can enable debug logging for your organization
   /// Config Custom Policy rule. List is null when debug logging is enabled for
@@ -16423,6 +16733,8 @@ class OrganizationCustomPolicyRuleMetadataNoPolicy {
 /// The status of a specified delivery channel.
 ///
 /// Valid values: <code>Success</code> | <code>Failure</code>
+///
+/// @nodoc
 class DeliveryChannelStatus {
   /// A list that contains the status of the delivery of the configuration history
   /// to the specified Amazon S3 bucket.
@@ -16484,6 +16796,8 @@ class DeliveryChannelStatus {
 /// Provides status of the delivery of the snapshot or the configuration history
 /// to the specified Amazon S3 bucket. Also provides the status of notifications
 /// about the Amazon S3 delivery to the specified Amazon SNS topic.
+///
+/// @nodoc
 class ConfigExportDeliveryInfo {
   /// The time of the last attempted delivery.
   final DateTime? lastAttemptTime;
@@ -16547,6 +16861,8 @@ class ConfigExportDeliveryInfo {
 
 /// A list that contains the status of the delivery of the configuration stream
 /// notification to the Amazon SNS topic.
+///
+/// @nodoc
 class ConfigStreamDeliveryInfo {
   /// The error code from the last attempted delivery.
   final String? lastErrorCode;
@@ -16597,6 +16913,7 @@ class ConfigStreamDeliveryInfo {
   }
 }
 
+/// @nodoc
 class DeliveryStatus {
   static const success = DeliveryStatus._('Success');
   static const failure = DeliveryStatus._('Failure');
@@ -16623,6 +16940,8 @@ class DeliveryStatus {
 }
 
 /// Status details of a conformance pack.
+///
+/// @nodoc
 class ConformancePackStatusDetail {
   /// Amazon Resource Name (ARN) of comformance pack.
   final String conformancePackArn;
@@ -16722,6 +17041,7 @@ class ConformancePackStatusDetail {
   }
 }
 
+/// @nodoc
 class ConformancePackState {
   static const createInProgress = ConformancePackState._('CREATE_IN_PROGRESS');
   static const createComplete = ConformancePackState._('CREATE_COMPLETE');
@@ -16759,6 +17079,8 @@ class ConformancePackState {
 /// Returns details of a conformance pack. A conformance pack is a collection of
 /// Config rules and remediation actions that can be easily deployed in an
 /// account and a region.
+///
+/// @nodoc
 class ConformancePackDetail {
   /// Amazon Resource Name (ARN) of the conformance pack.
   final String conformancePackArn;
@@ -16861,6 +17183,8 @@ class ConformancePackDetail {
 
 /// Compliance information of one or more Config rules within a conformance
 /// pack. You can filter using Config rule names and compliance types.
+///
+/// @nodoc
 class ConformancePackRuleCompliance {
   /// Compliance of the Config rule.
   final ConformancePackComplianceType? complianceType;
@@ -16905,6 +17229,8 @@ class ConformancePackRuleCompliance {
 }
 
 /// Filters the conformance pack by compliance types and Config rule names.
+///
+/// @nodoc
 class ConformancePackComplianceFilters {
   /// Filters the results by compliance.
   ///
@@ -16934,6 +17260,8 @@ class ConformancePackComplianceFilters {
 ///
 /// For a detailed status of recording events over time, add your Config events
 /// to CloudWatch metrics and use CloudWatch metrics.
+///
+/// @nodoc
 class ConfigurationRecorderStatus {
   /// The Amazon Resource Name (ARN) of the configuration recorder.
   final String? arn;
@@ -17025,6 +17353,7 @@ class ConfigurationRecorderStatus {
   }
 }
 
+/// @nodoc
 class RecorderStatus {
   static const pending = RecorderStatus._('Pending');
   static const success = RecorderStatus._('Success');
@@ -17052,6 +17381,8 @@ class RecorderStatus {
 }
 
 /// The current sync status between the source and the aggregator account.
+///
+/// @nodoc
 class AggregatedSourceStatus {
   /// The region authorized to collect aggregated data.
   final String? awsRegion;
@@ -17133,6 +17464,7 @@ class AggregatedSourceStatus {
   }
 }
 
+/// @nodoc
 class AggregatedSourceType {
   static const account = AggregatedSourceType._('ACCOUNT');
   static const organization = AggregatedSourceType._('ORGANIZATION');
@@ -17158,6 +17490,7 @@ class AggregatedSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregatedSourceStatusType {
   static const failed = AggregatedSourceStatusType._('FAILED');
   static const succeeded = AggregatedSourceStatusType._('SUCCEEDED');
@@ -17189,6 +17522,8 @@ class AggregatedSourceStatusType {
 /// information on Detective or Proactive Config rules, see <a
 /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html">
 /// <b>Evaluation Mode</b> </a> in the <i>Config Developer Guide</i>.
+///
+/// @nodoc
 class DescribeConfigRulesFilters {
   /// The mode of an evaluation. The valid values are Detective or Proactive.
   final EvaluationMode? evaluationMode;
@@ -17218,6 +17553,8 @@ class DescribeConfigRulesFilters {
 ///
 /// This operation does not return status information about Config Custom Lambda
 /// rules.
+///
+/// @nodoc
 class ConfigRuleEvaluationStatus {
   /// The Amazon Resource Name (ARN) of the Config rule.
   final String? configRuleArn;
@@ -17383,6 +17720,8 @@ class ConfigRuleEvaluationStatus {
 /// according to one or more Config rules is compliant. A resource is compliant
 /// if it complies with all of the rules that evaluate it. A resource is
 /// noncompliant if it does not comply with one or more of these rules.
+///
+/// @nodoc
 class ComplianceByResource {
   /// Indicates whether the Amazon Web Services resource complies with all of the
   /// Config rules that evaluated it.
@@ -17425,6 +17764,8 @@ class ComplianceByResource {
 /// Indicates whether an Amazon Web Services resource or Config rule is
 /// compliant and provides the number of contributors that affect the
 /// compliance.
+///
+/// @nodoc
 class Compliance {
   /// The number of Amazon Web Services resources or Config rules that cause a
   /// result of <code>NON_COMPLIANT</code>, up to a maximum number.
@@ -17479,6 +17820,8 @@ class Compliance {
 /// Indicates whether an Config rule is compliant. A rule is compliant if all of
 /// the resources that the rule evaluated comply with it. A rule is noncompliant
 /// if any of these resources do not comply.
+///
+/// @nodoc
 class ComplianceByConfigRule {
   /// Indicates whether the Config rule is compliant.
   final Compliance? compliance;
@@ -17521,6 +17864,8 @@ class ComplianceByConfigRule {
 /// data. If some of the rules in a conformance pack are compliant but the
 /// compliance status of other rules in that same conformance pack is
 /// INSUFFICIENT_DATA, the conformance pack shows compliant.
+///
+/// @nodoc
 class AggregateComplianceByConformancePack {
   /// The 12-digit Amazon Web Services account ID of the source account.
   final String? accountId;
@@ -17581,6 +17926,8 @@ class AggregateComplianceByConformancePack {
 /// data. If some of the rules in a conformance pack are compliant but the
 /// compliance status of other rules in that same conformance pack is
 /// INSUFFICIENT_DATA, the conformance pack shows compliant.
+///
+/// @nodoc
 class AggregateConformancePackCompliance {
   /// The compliance status of the conformance pack.
   final ConformancePackComplianceType? complianceType;
@@ -17631,6 +17978,8 @@ class AggregateConformancePackCompliance {
 
 /// Filters the conformance packs based on an account ID, region, compliance
 /// type, and the name of the conformance pack.
+///
+/// @nodoc
 class AggregateConformancePackComplianceFilters {
   /// The 12-digit Amazon Web Services account ID of the source account.
   final String? accountId;
@@ -17671,6 +18020,8 @@ class AggregateConformancePackComplianceFilters {
 ///
 /// A rule is compliant if all of the resources that the rule evaluated comply
 /// with it. It is noncompliant if any of these resources do not comply.
+///
+/// @nodoc
 class AggregateComplianceByConfigRule {
   /// The 12-digit account ID of the source account.
   final String? accountId;
@@ -17720,6 +18071,8 @@ class AggregateComplianceByConfigRule {
 
 /// Filters the compliance results based on account ID, region, compliance type,
 /// and rule name.
+///
+/// @nodoc
 class ConfigRuleComplianceFilters {
   /// The 12-digit account ID of the source account.
   final String? accountId;
@@ -17761,6 +18114,8 @@ class ConfigRuleComplianceFilters {
 
 /// List of each of the failed delete remediation exceptions with specific
 /// reasons.
+///
+/// @nodoc
 class FailedDeleteRemediationExceptionsBatch {
   /// Returns remediation exception resource key object of the failed items.
   final List<RemediationExceptionResourceKey>? failedItems;
@@ -17797,6 +18152,8 @@ class FailedDeleteRemediationExceptionsBatch {
 }
 
 /// The detailed configurations of a specified resource.
+///
+/// @nodoc
 class BaseConfigurationItem {
   /// The 12-digit Amazon Web Services account ID associated with the resource.
   final String? accountId;
@@ -17989,11 +18346,13 @@ class BaseConfigurationItem {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ConformancePackTemplateValidationException
     extends _s.GenericAwsException {
   ConformancePackTemplateValidationException({String? type, String? message})
@@ -18003,12 +18362,14 @@ class ConformancePackTemplateValidationException
             message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatch extends _s.GenericAwsException {
   IdempotentParameterMismatch({String? type, String? message})
       : super(
             type: type, code: 'IdempotentParameterMismatch', message: message);
 }
 
+/// @nodoc
 class InsufficientDeliveryPolicyException extends _s.GenericAwsException {
   InsufficientDeliveryPolicyException({String? type, String? message})
       : super(
@@ -18017,6 +18378,7 @@ class InsufficientDeliveryPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientPermissionsException extends _s.GenericAwsException {
   InsufficientPermissionsException({String? type, String? message})
       : super(
@@ -18025,6 +18387,7 @@ class InsufficientPermissionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidConfigurationRecorderNameException extends _s.GenericAwsException {
   InvalidConfigurationRecorderNameException({String? type, String? message})
       : super(
@@ -18033,6 +18396,7 @@ class InvalidConfigurationRecorderNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeliveryChannelNameException extends _s.GenericAwsException {
   InvalidDeliveryChannelNameException({String? type, String? message})
       : super(
@@ -18041,21 +18405,25 @@ class InvalidDeliveryChannelNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidExpressionException extends _s.GenericAwsException {
   InvalidExpressionException({String? type, String? message})
       : super(type: type, code: 'InvalidExpressionException', message: message);
 }
 
+/// @nodoc
 class InvalidLimitException extends _s.GenericAwsException {
   InvalidLimitException({String? type, String? message})
       : super(type: type, code: 'InvalidLimitException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -18064,6 +18432,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRecordingGroupException extends _s.GenericAwsException {
   InvalidRecordingGroupException({String? type, String? message})
       : super(
@@ -18072,40 +18441,47 @@ class InvalidRecordingGroupException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidResultTokenException extends _s.GenericAwsException {
   InvalidResultTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidResultTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidRoleException extends _s.GenericAwsException {
   InvalidRoleException({String? type, String? message})
       : super(type: type, code: 'InvalidRoleException', message: message);
 }
 
+/// @nodoc
 class InvalidS3KeyPrefixException extends _s.GenericAwsException {
   InvalidS3KeyPrefixException({String? type, String? message})
       : super(
             type: type, code: 'InvalidS3KeyPrefixException', message: message);
 }
 
+/// @nodoc
 class InvalidS3KmsKeyArnException extends _s.GenericAwsException {
   InvalidS3KmsKeyArnException({String? type, String? message})
       : super(
             type: type, code: 'InvalidS3KmsKeyArnException', message: message);
 }
 
+/// @nodoc
 class InvalidSNSTopicARNException extends _s.GenericAwsException {
   InvalidSNSTopicARNException({String? type, String? message})
       : super(
             type: type, code: 'InvalidSNSTopicARNException', message: message);
 }
 
+/// @nodoc
 class InvalidTimeRangeException extends _s.GenericAwsException {
   InvalidTimeRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidTimeRangeException', message: message);
 }
 
+/// @nodoc
 class LastDeliveryChannelDeleteFailedException extends _s.GenericAwsException {
   LastDeliveryChannelDeleteFailedException({String? type, String? message})
       : super(
@@ -18114,11 +18490,13 @@ class LastDeliveryChannelDeleteFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MaxActiveResourcesExceededException extends _s.GenericAwsException {
   MaxActiveResourcesExceededException({String? type, String? message})
       : super(
@@ -18127,6 +18505,7 @@ class MaxActiveResourcesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfConfigRulesExceededException extends _s.GenericAwsException {
   MaxNumberOfConfigRulesExceededException({String? type, String? message})
       : super(
@@ -18135,6 +18514,7 @@ class MaxNumberOfConfigRulesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfConfigurationRecordersExceededException
     extends _s.GenericAwsException {
   MaxNumberOfConfigurationRecordersExceededException(
@@ -18145,6 +18525,7 @@ class MaxNumberOfConfigurationRecordersExceededException
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfConformancePacksExceededException
     extends _s.GenericAwsException {
   MaxNumberOfConformancePacksExceededException({String? type, String? message})
@@ -18154,6 +18535,7 @@ class MaxNumberOfConformancePacksExceededException
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfDeliveryChannelsExceededException
     extends _s.GenericAwsException {
   MaxNumberOfDeliveryChannelsExceededException({String? type, String? message})
@@ -18163,6 +18545,7 @@ class MaxNumberOfDeliveryChannelsExceededException
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfOrganizationConfigRulesExceededException
     extends _s.GenericAwsException {
   MaxNumberOfOrganizationConfigRulesExceededException(
@@ -18173,6 +18556,7 @@ class MaxNumberOfOrganizationConfigRulesExceededException
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfOrganizationConformancePacksExceededException
     extends _s.GenericAwsException {
   MaxNumberOfOrganizationConformancePacksExceededException(
@@ -18183,6 +18567,7 @@ class MaxNumberOfOrganizationConformancePacksExceededException
             message: message);
 }
 
+/// @nodoc
 class MaxNumberOfRetentionConfigurationsExceededException
     extends _s.GenericAwsException {
   MaxNumberOfRetentionConfigurationsExceededException(
@@ -18193,6 +18578,7 @@ class MaxNumberOfRetentionConfigurationsExceededException
             message: message);
 }
 
+/// @nodoc
 class NoAvailableConfigurationRecorderException extends _s.GenericAwsException {
   NoAvailableConfigurationRecorderException({String? type, String? message})
       : super(
@@ -18201,6 +18587,7 @@ class NoAvailableConfigurationRecorderException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoAvailableDeliveryChannelException extends _s.GenericAwsException {
   NoAvailableDeliveryChannelException({String? type, String? message})
       : super(
@@ -18209,6 +18596,7 @@ class NoAvailableDeliveryChannelException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoAvailableOrganizationException extends _s.GenericAwsException {
   NoAvailableOrganizationException({String? type, String? message})
       : super(
@@ -18217,6 +18605,7 @@ class NoAvailableOrganizationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoRunningConfigurationRecorderException extends _s.GenericAwsException {
   NoRunningConfigurationRecorderException({String? type, String? message})
       : super(
@@ -18225,16 +18614,19 @@ class NoRunningConfigurationRecorderException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchBucketException extends _s.GenericAwsException {
   NoSuchBucketException({String? type, String? message})
       : super(type: type, code: 'NoSuchBucketException', message: message);
 }
 
+/// @nodoc
 class NoSuchConfigRuleException extends _s.GenericAwsException {
   NoSuchConfigRuleException({String? type, String? message})
       : super(type: type, code: 'NoSuchConfigRuleException', message: message);
 }
 
+/// @nodoc
 class NoSuchConfigRuleInConformancePackException
     extends _s.GenericAwsException {
   NoSuchConfigRuleInConformancePackException({String? type, String? message})
@@ -18244,6 +18636,7 @@ class NoSuchConfigRuleInConformancePackException
             message: message);
 }
 
+/// @nodoc
 class NoSuchConfigurationAggregatorException extends _s.GenericAwsException {
   NoSuchConfigurationAggregatorException({String? type, String? message})
       : super(
@@ -18252,6 +18645,7 @@ class NoSuchConfigurationAggregatorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchConfigurationRecorderException extends _s.GenericAwsException {
   NoSuchConfigurationRecorderException({String? type, String? message})
       : super(
@@ -18260,6 +18654,7 @@ class NoSuchConfigurationRecorderException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchConformancePackException extends _s.GenericAwsException {
   NoSuchConformancePackException({String? type, String? message})
       : super(
@@ -18268,6 +18663,7 @@ class NoSuchConformancePackException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchDeliveryChannelException extends _s.GenericAwsException {
   NoSuchDeliveryChannelException({String? type, String? message})
       : super(
@@ -18276,6 +18672,7 @@ class NoSuchDeliveryChannelException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchOrganizationConfigRuleException extends _s.GenericAwsException {
   NoSuchOrganizationConfigRuleException({String? type, String? message})
       : super(
@@ -18284,6 +18681,7 @@ class NoSuchOrganizationConfigRuleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchOrganizationConformancePackException
     extends _s.GenericAwsException {
   NoSuchOrganizationConformancePackException({String? type, String? message})
@@ -18293,6 +18691,7 @@ class NoSuchOrganizationConformancePackException
             message: message);
 }
 
+/// @nodoc
 class NoSuchRemediationConfigurationException extends _s.GenericAwsException {
   NoSuchRemediationConfigurationException({String? type, String? message})
       : super(
@@ -18301,6 +18700,7 @@ class NoSuchRemediationConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchRemediationExceptionException extends _s.GenericAwsException {
   NoSuchRemediationExceptionException({String? type, String? message})
       : super(
@@ -18309,6 +18709,7 @@ class NoSuchRemediationExceptionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchRetentionConfigurationException extends _s.GenericAwsException {
   NoSuchRetentionConfigurationException({String? type, String? message})
       : super(
@@ -18317,6 +18718,7 @@ class NoSuchRetentionConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationAccessDeniedException extends _s.GenericAwsException {
   OrganizationAccessDeniedException({String? type, String? message})
       : super(
@@ -18325,6 +18727,7 @@ class OrganizationAccessDeniedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationAllFeaturesNotEnabledException
     extends _s.GenericAwsException {
   OrganizationAllFeaturesNotEnabledException({String? type, String? message})
@@ -18334,6 +18737,7 @@ class OrganizationAllFeaturesNotEnabledException
             message: message);
 }
 
+/// @nodoc
 class OrganizationConformancePackTemplateValidationException
     extends _s.GenericAwsException {
   OrganizationConformancePackTemplateValidationException(
@@ -18344,6 +18748,7 @@ class OrganizationConformancePackTemplateValidationException
             message: message);
 }
 
+/// @nodoc
 class OversizedConfigurationItemException extends _s.GenericAwsException {
   OversizedConfigurationItemException({String? type, String? message})
       : super(
@@ -18352,6 +18757,7 @@ class OversizedConfigurationItemException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RemediationInProgressException extends _s.GenericAwsException {
   RemediationInProgressException({String? type, String? message})
       : super(
@@ -18360,6 +18766,7 @@ class RemediationInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceConcurrentModificationException extends _s.GenericAwsException {
   ResourceConcurrentModificationException({String? type, String? message})
       : super(
@@ -18368,11 +18775,13 @@ class ResourceConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotDiscoveredException extends _s.GenericAwsException {
   ResourceNotDiscoveredException({String? type, String? message})
       : super(
@@ -18381,22 +18790,26 @@ class ResourceNotDiscoveredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnmodifiableEntityException extends _s.GenericAwsException {
   UnmodifiableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnmodifiableEntityException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

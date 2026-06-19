@@ -1025,6 +1025,7 @@ class RolesAnywhere {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags attached to the resource.
   final List<Tag>? tags;
@@ -1050,6 +1051,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutNotificationSettingsResponse {
   final TrustAnchorDetail trustAnchor;
 
@@ -1073,6 +1075,7 @@ class PutNotificationSettingsResponse {
   }
 }
 
+/// @nodoc
 class ResetNotificationSettingsResponse {
   final TrustAnchorDetail trustAnchor;
 
@@ -1097,6 +1100,7 @@ class ResetNotificationSettingsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1109,6 +1113,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1121,6 +1126,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CrlDetailResponse {
   /// The state of the certificate revocation list (CRL) after a read or write
   /// operation.
@@ -1145,6 +1151,7 @@ class CrlDetailResponse {
   }
 }
 
+/// @nodoc
 class ListCrlsResponse {
   /// A list of certificate revocation lists (CRL).
   final List<CrlDetail>? crls;
@@ -1179,6 +1186,7 @@ class ListCrlsResponse {
   }
 }
 
+/// @nodoc
 class ProfileDetailResponse {
   /// The state of the profile after a read or write operation.
   final ProfileDetail? profile;
@@ -1203,6 +1211,7 @@ class ProfileDetailResponse {
   }
 }
 
+/// @nodoc
 class ListProfilesResponse {
   /// A token that indicates where the output should continue from, if a previous
   /// request did not show all results. To get the next results, make the request
@@ -1237,6 +1246,7 @@ class ListProfilesResponse {
   }
 }
 
+/// @nodoc
 class DeleteAttributeMappingResponse {
   /// The state of the profile after a read or write operation.
   final ProfileDetail profile;
@@ -1261,6 +1271,7 @@ class DeleteAttributeMappingResponse {
   }
 }
 
+/// @nodoc
 class PutAttributeMappingResponse {
   /// The state of the profile after a read or write operation.
   final ProfileDetail profile;
@@ -1285,6 +1296,7 @@ class PutAttributeMappingResponse {
   }
 }
 
+/// @nodoc
 class SubjectDetailResponse {
   /// The state of the subject after a read or write operation.
   final SubjectDetail? subject;
@@ -1309,6 +1321,7 @@ class SubjectDetailResponse {
   }
 }
 
+/// @nodoc
 class ListSubjectsResponse {
   /// A token that indicates where the output should continue from, if a previous
   /// request did not show all results. To get the next results, make the request
@@ -1343,6 +1356,7 @@ class ListSubjectsResponse {
   }
 }
 
+/// @nodoc
 class TrustAnchorDetailResponse {
   /// The state of the trust anchor after a read or write operation.
   final TrustAnchorDetail trustAnchor;
@@ -1367,6 +1381,7 @@ class TrustAnchorDetailResponse {
   }
 }
 
+/// @nodoc
 class ListTrustAnchorsResponse {
   /// A token that indicates where the output should continue from, if a previous
   /// request did not show all results. To get the next results, make the request
@@ -1402,6 +1417,8 @@ class ListTrustAnchorsResponse {
 }
 
 /// The state of the trust anchor after a read or write operation.
+///
+/// @nodoc
 class TrustAnchorDetail {
   /// The ISO-8601 timestamp when the trust anchor was created.
   final DateTime? createdAt;
@@ -1481,6 +1498,8 @@ class TrustAnchorDetail {
 }
 
 /// The trust anchor type and its related certificate data.
+///
+/// @nodoc
 class Source {
   /// The data field of the trust anchor depending on its type.
   final SourceData? sourceData;
@@ -1517,6 +1536,8 @@ class Source {
 ///
 /// A notification setting includes information such as event name, threshold,
 /// status of the notification setting, and the channel to notify.
+///
+/// @nodoc
 class NotificationSettingDetail {
   /// Indicates whether the notification setting is enabled.
   final bool enabled;
@@ -1576,6 +1597,7 @@ class NotificationSettingDetail {
   }
 }
 
+/// @nodoc
 class NotificationEvent {
   static const caCertificateExpiry =
       NotificationEvent._('CA_CERTIFICATE_EXPIRY');
@@ -1602,6 +1624,7 @@ class NotificationEvent {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationChannel {
   static const all = NotificationChannel._('ALL');
 
@@ -1626,6 +1649,7 @@ class NotificationChannel {
   String toString() => value;
 }
 
+/// @nodoc
 class TrustAnchorType {
   static const awsAcmPca = TrustAnchorType._('AWS_ACM_PCA');
   static const certificateBundle = TrustAnchorType._('CERTIFICATE_BUNDLE');
@@ -1653,6 +1677,8 @@ class TrustAnchorType {
 }
 
 /// The data field of the trust anchor depending on its type.
+///
+/// @nodoc
 class SourceData {
   /// The root certificate of the Private Certificate Authority specified by this
   /// ARN is used in trust validation for temporary credential requests. Included
@@ -1689,6 +1715,8 @@ class SourceData {
 /// Customizable notification settings that will be applied to notification
 /// events. IAM Roles Anywhere consumes these settings while notifying across
 /// multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard.
+///
+/// @nodoc
 class NotificationSetting {
   /// Indicates whether the notification setting is enabled.
   final bool enabled;
@@ -1730,6 +1758,8 @@ class NotificationSetting {
 }
 
 /// A label that consists of a key and value you define.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -1760,6 +1790,8 @@ class Tag {
 }
 
 /// A summary representation of subjects.
+///
+/// @nodoc
 class SubjectSummary {
   /// The ISO-8601 time stamp of when the certificate was first used in a
   /// temporary credential request.
@@ -1827,6 +1859,8 @@ class SubjectSummary {
 }
 
 /// The state of the subject after a read or write operation.
+///
+/// @nodoc
 class SubjectDetail {
   /// The ISO-8601 timestamp when the subject was created.
   final DateTime? createdAt;
@@ -1915,6 +1949,8 @@ class SubjectDetail {
 
 /// A key-value pair you set that identifies a property of the authenticating
 /// instance.
+///
+/// @nodoc
 class InstanceProperty {
   /// Indicates whether the temporary credential request was successful.
   final bool? failed;
@@ -1954,6 +1990,8 @@ class InstanceProperty {
 }
 
 /// A record of a presented X509 credential from a temporary credential request.
+///
+/// @nodoc
 class CredentialSummary {
   /// Indicates whether the credential is enabled.
   final bool? enabled;
@@ -2015,6 +2053,8 @@ class CredentialSummary {
 }
 
 /// The state of the profile after a read or write operation.
+///
+/// @nodoc
 class ProfileDetail {
   /// Used to determine if a custom role session name will be accepted in a
   /// temporary credential request.
@@ -2148,6 +2188,8 @@ class ProfileDetail {
 }
 
 /// A mapping applied to the authenticating end-entity certificate.
+///
+/// @nodoc
 class AttributeMapping {
   /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
   final CertificateField? certificateField;
@@ -2181,6 +2223,7 @@ class AttributeMapping {
   }
 }
 
+/// @nodoc
 class CertificateField {
   static const x509Subject = CertificateField._('x509Subject');
   static const x509Issuer = CertificateField._('x509Issuer');
@@ -2207,6 +2250,8 @@ class CertificateField {
 }
 
 /// A single mapping entry for each supported specifier or sub-field.
+///
+/// @nodoc
 class MappingRule {
   /// Specifier within a certificate field, such as CN, OU, or UID from the
   /// Subject field.
@@ -2232,6 +2277,8 @@ class MappingRule {
 
 /// The state of the certificate revocation list (CRL) after a read or write
 /// operation.
+///
+/// @nodoc
 class CrlDetail {
   /// The ISO-8601 timestamp when the certificate revocation list (CRL) was
   /// created.
@@ -2309,6 +2356,8 @@ class CrlDetail {
 
 /// A notification setting key to reset. A notification setting key includes the
 /// event and the channel.
+///
+/// @nodoc
 class NotificationSettingKey {
   /// The notification setting event to reset.
   final NotificationEvent event;
@@ -2331,21 +2380,25 @@ class NotificationSettingKey {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

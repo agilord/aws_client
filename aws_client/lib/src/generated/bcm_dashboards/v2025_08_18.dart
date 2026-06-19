@@ -684,6 +684,7 @@ class BcmDashboards {
   }
 }
 
+/// @nodoc
 class CreateDashboardResponse {
   /// The ARN of the newly created dashboard.
   final String arn;
@@ -706,6 +707,7 @@ class CreateDashboardResponse {
   }
 }
 
+/// @nodoc
 class CreateScheduledReportResponse {
   /// The ARN of the newly created scheduled report.
   final String arn;
@@ -728,6 +730,7 @@ class CreateScheduledReportResponse {
   }
 }
 
+/// @nodoc
 class DeleteDashboardResponse {
   /// The ARN of the dashboard that was deleted.
   final String arn;
@@ -750,6 +753,7 @@ class DeleteDashboardResponse {
   }
 }
 
+/// @nodoc
 class DeleteScheduledReportResponse {
   /// The ARN of the scheduled report that was deleted.
   final String arn;
@@ -772,6 +776,7 @@ class DeleteScheduledReportResponse {
   }
 }
 
+/// @nodoc
 class ExecuteScheduledReportResponse {
   /// Indicates whether the execution was successfully triggered.
   final bool? executionTriggered;
@@ -803,6 +808,7 @@ class ExecuteScheduledReportResponse {
   }
 }
 
+/// @nodoc
 class GetDashboardResponse {
   /// The ARN of the retrieved dashboard.
   final String arn;
@@ -870,6 +876,7 @@ class GetDashboardResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The JSON policy document that represents the dashboard's resource-based
   /// policy.
@@ -900,6 +907,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetScheduledReportResponse {
   /// The scheduled report configuration and metadata.
   final ScheduledReport scheduledReport;
@@ -924,6 +932,7 @@ class GetScheduledReportResponse {
   }
 }
 
+/// @nodoc
 class ListDashboardsResponse {
   /// An array of dashboard references, containing basic information about each
   /// dashboard.
@@ -958,6 +967,7 @@ class ListDashboardsResponse {
   }
 }
 
+/// @nodoc
 class ListScheduledReportsResponse {
   /// An array of scheduled report summaries, containing basic information about
   /// each scheduled report.
@@ -993,6 +1003,7 @@ class ListScheduledReportsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags associated with the specified dashboard resource.
   final List<ResourceTag>? resourceTags;
@@ -1018,6 +1029,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1030,6 +1042,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1042,6 +1055,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardResponse {
   /// The ARN of the updated dashboard.
   final String arn;
@@ -1064,6 +1078,7 @@ class UpdateDashboardResponse {
   }
 }
 
+/// @nodoc
 class UpdateScheduledReportResponse {
   /// The ARN of the updated scheduled report.
   final String arn;
@@ -1088,6 +1103,8 @@ class UpdateScheduledReportResponse {
 
 /// Defines the schedule for a scheduled report, including the cron expression,
 /// time zone, active period, and the schedule state.
+///
+/// @nodoc
 class ScheduleConfig {
   /// The schedule expression that specifies when to trigger the scheduled report
   /// run. This value must be a cron expression consisting of six fields separated
@@ -1141,6 +1158,8 @@ class ScheduleConfig {
 }
 
 /// Defines a time period with explicit start and end times for data queries.
+///
+/// @nodoc
 class DateTimeRange {
   /// The end time of the date range for querying data.
   final DateTimeValue endTime;
@@ -1177,6 +1196,8 @@ class DateTimeRange {
 /// Represents a point in time that can be specified as either an absolute date
 /// (for example, "2025-07-01") or a relative time period using ISO 8601
 /// duration format (for example, "-P3M" for three months ago).
+///
+/// @nodoc
 class DateTimeValue {
   /// The type of date/time value: <code>ABSOLUTE</code> for specific dates or
   /// <code>RELATIVE</code> for dynamic time periods.
@@ -1207,6 +1228,7 @@ class DateTimeValue {
   }
 }
 
+/// @nodoc
 class DateTimeType {
   static const absolute = DateTimeType._('ABSOLUTE');
   static const relative = DateTimeType._('RELATIVE');
@@ -1231,6 +1253,8 @@ class DateTimeType {
 }
 
 /// Defines the active time period for execution of the scheduled report.
+///
+/// @nodoc
 class SchedulePeriod {
   /// The end time of the schedule period. If not specified, defaults to 3 years
   /// from the time of the create or update request. The maximum allowed value is
@@ -1265,6 +1289,7 @@ class SchedulePeriod {
   }
 }
 
+/// @nodoc
 class ScheduleState {
   static const enabled = ScheduleState._('ENABLED');
   static const disabled = ScheduleState._('DISABLED');
@@ -1293,6 +1318,8 @@ class ScheduleState {
 /// specific cost and usage metrics. Each widget can show data as charts or
 /// tables and includes settings for data querying, filtering, and visual
 /// presentation.
+///
+/// @nodoc
 class Widget {
   /// An array of configurations that define the data queries and display settings
   /// for the widget.
@@ -1366,6 +1393,8 @@ class Widget {
 
 /// Defines the complete configuration for a widget, including data retrieval
 /// settings and visualization preferences.
+///
+/// @nodoc
 class WidgetConfig {
   /// The configuration that determines how the retrieved data should be
   /// visualized in the widget.
@@ -1402,6 +1431,8 @@ class WidgetConfig {
 }
 
 /// Defines the data retrieval parameters for a widget.
+///
+/// @nodoc
 class QueryParameters {
   /// The parameters for querying cost and usage data, including metrics, time
   /// range, granularity, grouping dimensions, and filters.
@@ -1478,6 +1509,8 @@ class QueryParameters {
 
 /// Defines how the widget's data should be visualized, including chart type,
 /// color schemes, axis configurations, and other display preferences.
+///
+/// @nodoc
 class DisplayConfig {
   /// The configuration for graphical display of the widget data, including chart
   /// type and visual options.
@@ -1513,6 +1546,8 @@ class DisplayConfig {
 }
 
 /// Configuration structure for customizing the tabular display of widget data.
+///
+/// @nodoc
 class TableDisplayConfigStruct {
   TableDisplayConfigStruct();
 
@@ -1528,6 +1563,8 @@ class TableDisplayConfigStruct {
 /// Defines the visual representation settings for widget data, including the
 /// visualization type, styling options, and display preferences for different
 /// metric types.
+///
+/// @nodoc
 class GraphDisplayConfig {
   /// The type of visualization to use for the data.
   final VisualType visualType;
@@ -1550,6 +1587,7 @@ class GraphDisplayConfig {
   }
 }
 
+/// @nodoc
 class VisualType {
   static const line = VisualType._('LINE');
   static const bar = VisualType._('BAR');
@@ -1577,6 +1615,8 @@ class VisualType {
 /// Defines the parameters for retrieving Amazon Web Services cost and usage
 /// data. Includes specifications for metrics, time periods, granularity,
 /// grouping dimensions, and filtering conditions.
+///
+/// @nodoc
 class CostAndUsageQuery {
   /// The granularity of the retrieved data: <code>HOURLY</code>,
   /// <code>DAILY</code>, or <code>MONTHLY</code>.
@@ -1649,6 +1689,8 @@ class CostAndUsageQuery {
 
 /// Defines the parameters for querying Savings Plans coverage data, including
 /// metrics, grouping options, and time granularity.
+///
+/// @nodoc
 class SavingsPlansCoverageQuery {
   final DateTimeRange timeRange;
   final Expression? filter;
@@ -1715,6 +1757,8 @@ class SavingsPlansCoverageQuery {
 
 /// Defines the parameters for querying Savings Plans utilization data,
 /// including time granularity and sorting preferences.
+///
+/// @nodoc
 class SavingsPlansUtilizationQuery {
   final DateTimeRange timeRange;
   final Expression? filter;
@@ -1756,6 +1800,8 @@ class SavingsPlansUtilizationQuery {
 
 /// Defines the parameters for querying Reserved Instance coverage data,
 /// including grouping options, metrics, and sorting preferences.
+///
+/// @nodoc
 class ReservationCoverageQuery {
   final DateTimeRange timeRange;
   final Expression? filter;
@@ -1822,6 +1868,8 @@ class ReservationCoverageQuery {
 
 /// Defines the parameters for querying Reserved Instance utilization data,
 /// including grouping options and time granularity.
+///
+/// @nodoc
 class ReservationUtilizationQuery {
   final DateTimeRange timeRange;
   final Expression? filter;
@@ -1872,6 +1920,7 @@ class ReservationUtilizationQuery {
   }
 }
 
+/// @nodoc
 class Granularity {
   static const hourly = Granularity._('HOURLY');
   static const daily = Granularity._('DAILY');
@@ -1899,6 +1948,8 @@ class Granularity {
 /// Defines complex filtering conditions using logical operators
 /// (<code>AND</code>, <code>OR</code>, <code>NOT</code>) and various filter
 /// types.
+///
+/// @nodoc
 class Expression {
   /// A list of expressions to combine with AND logic.
   final List<Expression>? and;
@@ -1973,6 +2024,8 @@ class Expression {
 
 /// Specifies the values and match options for dimension-based filtering in cost
 /// and usage queries.
+///
+/// @nodoc
 class DimensionValues {
   /// The key of the dimension to filter on (for example, <code>SERVICE</code>,
   /// <code>USAGE_TYPE</code>, or <code>OPERATION</code>).
@@ -2019,6 +2072,8 @@ class DimensionValues {
 }
 
 /// Specifies tag-based filtering options for cost and usage queries.
+///
+/// @nodoc
 class TagValues {
   /// The key of the tag to filter on.
   final String? key;
@@ -2063,6 +2118,8 @@ class TagValues {
 
 /// Specifies the values and match options for cost category-based filtering in
 /// cost and usage queries.
+///
+/// @nodoc
 class CostCategoryValues {
   /// The key of the cost category to filter on.
   final String? key;
@@ -2105,6 +2162,7 @@ class CostCategoryValues {
   }
 }
 
+/// @nodoc
 class MatchOption {
   static const equals = MatchOption._('EQUALS');
   static const absent = MatchOption._('ABSENT');
@@ -2143,6 +2201,7 @@ class MatchOption {
   String toString() => value;
 }
 
+/// @nodoc
 class Dimension {
   static const az = Dimension._('AZ');
   static const instanceType = Dimension._('INSTANCE_TYPE');
@@ -2218,6 +2277,8 @@ class Dimension {
 }
 
 /// Specifies how to group cost and usage data.
+///
+/// @nodoc
 class GroupDefinition {
   /// The key to use for grouping cost and usage data.
   final String key;
@@ -2247,6 +2308,7 @@ class GroupDefinition {
   }
 }
 
+/// @nodoc
 class GroupDefinitionType {
   static const dimension = GroupDefinitionType._('DIMENSION');
   static const tag = GroupDefinitionType._('TAG');
@@ -2273,6 +2335,7 @@ class GroupDefinitionType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricName {
   static const amortizedCost = MetricName._('AmortizedCost');
   static const blendedCost = MetricName._('BlendedCost');
@@ -2320,6 +2383,8 @@ class MetricName {
 
 /// A key-value pair that can be attached to a dashboard for organization and
 /// management purposes.
+///
+/// @nodoc
 class ResourceTag {
   /// The key of the tag to be attached to the dashboard resource.
   final String key;
@@ -2350,6 +2415,8 @@ class ResourceTag {
 }
 
 /// Contains summary information for a scheduled report.
+///
+/// @nodoc
 class ScheduledReportSummary {
   /// The ARN of the scheduled report.
   final String arn;
@@ -2429,6 +2496,8 @@ class ScheduledReportSummary {
 
 /// Contains the health status information for a scheduled report, including the
 /// status code and any reasons for an unhealthy state.
+///
+/// @nodoc
 class HealthStatus {
   /// The health status code. <code>HEALTHY</code> indicates the scheduled report
   /// is configured properly and has all required permissions to execute.
@@ -2477,6 +2546,7 @@ class HealthStatus {
   }
 }
 
+/// @nodoc
 class HealthStatusCode {
   static const healthy = HealthStatusCode._('HEALTHY');
   static const unhealthy = HealthStatusCode._('UNHEALTHY');
@@ -2501,6 +2571,7 @@ class HealthStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class StatusReason {
   static const dataSourceAccessDenied =
       StatusReason._('DATA_SOURCE_ACCESS_DENIED');
@@ -2543,6 +2614,8 @@ class StatusReason {
 
 /// Contains basic information about a dashboard, including its ARN, name, type,
 /// and timestamps.
+///
+/// @nodoc
 class DashboardReference {
   /// The ARN of the referenced dashboard.
   final String arn;
@@ -2600,6 +2673,7 @@ class DashboardReference {
   }
 }
 
+/// @nodoc
 class DashboardType {
   static const custom = DashboardType._('CUSTOM');
 
@@ -2624,6 +2698,8 @@ class DashboardType {
 }
 
 /// Contains the full configuration and metadata of a scheduled report.
+///
+/// @nodoc
 class ScheduledReport {
   /// The ARN of the dashboard associated with the scheduled report.
   final String dashboardArn;
@@ -2742,6 +2818,8 @@ class ScheduledReport {
 
 /// Defines the configuration for creating a new scheduled report, including the
 /// dashboard, schedule, execution role, and optional widget settings.
+///
+/// @nodoc
 class ScheduledReportInput {
   /// The ARN of the dashboard to generate the scheduled report from.
   final String dashboardArn;
@@ -2801,26 +2879,31 @@ class ScheduledReportInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2829,11 +2912,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -822,6 +822,7 @@ class MediaStore {
   }
 }
 
+/// @nodoc
 class CreateContainerOutput {
   /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container.
   /// The ARN has the following format: arn:aws:<region>:<account that owns this
@@ -863,6 +864,7 @@ class CreateContainerOutput {
   }
 }
 
+/// @nodoc
 class DeleteContainerOutput {
   DeleteContainerOutput();
 
@@ -875,6 +877,7 @@ class DeleteContainerOutput {
   }
 }
 
+/// @nodoc
 class DeleteContainerPolicyOutput {
   DeleteContainerPolicyOutput();
 
@@ -887,6 +890,7 @@ class DeleteContainerPolicyOutput {
   }
 }
 
+/// @nodoc
 class DeleteCorsPolicyOutput {
   DeleteCorsPolicyOutput();
 
@@ -899,6 +903,7 @@ class DeleteCorsPolicyOutput {
   }
 }
 
+/// @nodoc
 class DeleteLifecyclePolicyOutput {
   DeleteLifecyclePolicyOutput();
 
@@ -911,6 +916,7 @@ class DeleteLifecyclePolicyOutput {
   }
 }
 
+/// @nodoc
 class DeleteMetricPolicyOutput {
   DeleteMetricPolicyOutput();
 
@@ -923,6 +929,7 @@ class DeleteMetricPolicyOutput {
   }
 }
 
+/// @nodoc
 class DescribeContainerOutput {
   /// The name of the queried container.
   final Container? container;
@@ -947,6 +954,7 @@ class DescribeContainerOutput {
   }
 }
 
+/// @nodoc
 class GetContainerPolicyOutput {
   /// The contents of the access policy.
   final String policy;
@@ -969,6 +977,7 @@ class GetContainerPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetCorsPolicyOutput {
   /// The CORS policy assigned to the container.
   final List<CorsRule> corsPolicy;
@@ -994,6 +1003,7 @@ class GetCorsPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetLifecyclePolicyOutput {
   /// The object lifecycle policy that is assigned to the container.
   final String lifecyclePolicy;
@@ -1016,6 +1026,7 @@ class GetLifecyclePolicyOutput {
   }
 }
 
+/// @nodoc
 class GetMetricPolicyOutput {
   /// The metric policy that is associated with the specific container.
   final MetricPolicy metricPolicy;
@@ -1040,6 +1051,7 @@ class GetMetricPolicyOutput {
   }
 }
 
+/// @nodoc
 class ListContainersOutput {
   /// The names of the containers.
   final List<Container> containers;
@@ -1075,6 +1087,7 @@ class ListContainersOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// An array of key:value pairs that are assigned to the container.
   final List<Tag>? tags;
@@ -1100,6 +1113,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutContainerPolicyOutput {
   PutContainerPolicyOutput();
 
@@ -1112,6 +1126,7 @@ class PutContainerPolicyOutput {
   }
 }
 
+/// @nodoc
 class PutCorsPolicyOutput {
   PutCorsPolicyOutput();
 
@@ -1124,6 +1139,7 @@ class PutCorsPolicyOutput {
   }
 }
 
+/// @nodoc
 class PutLifecyclePolicyOutput {
   PutLifecyclePolicyOutput();
 
@@ -1136,6 +1152,7 @@ class PutLifecyclePolicyOutput {
   }
 }
 
+/// @nodoc
 class PutMetricPolicyOutput {
   PutMetricPolicyOutput();
 
@@ -1148,6 +1165,7 @@ class PutMetricPolicyOutput {
   }
 }
 
+/// @nodoc
 class StartAccessLoggingOutput {
   StartAccessLoggingOutput();
 
@@ -1160,6 +1178,7 @@ class StartAccessLoggingOutput {
   }
 }
 
+/// @nodoc
 class StopAccessLoggingOutput {
   StopAccessLoggingOutput();
 
@@ -1172,6 +1191,7 @@ class StopAccessLoggingOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1184,6 +1204,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1204,6 +1225,8 @@ class UntagResourceOutput {
 /// information about tagging, including naming and usage conventions, see <a
 /// href="https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html">Tagging
 /// Resources in MediaStore</a>.
+///
+/// @nodoc
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -1247,6 +1270,8 @@ class Tag {
 /// <a
 /// href="https://docs.aws.amazon.com/mediastore/latest/ug/policies-metric-examples.html">Example
 /// Metric Policies</a>.
+///
+/// @nodoc
 class MetricPolicy {
   /// A setting to enable or disable metrics at the container level.
   final ContainerLevelMetrics containerLevelMetrics;
@@ -1285,6 +1310,7 @@ class MetricPolicy {
   }
 }
 
+/// @nodoc
 class ContainerLevelMetrics {
   static const enabled = ContainerLevelMetrics._('ENABLED');
   static const disabled = ContainerLevelMetrics._('DISABLED');
@@ -1316,6 +1342,8 @@ class ContainerLevelMetrics {
 /// policy can include up to five rules by default. You can also <a
 /// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
 /// a quota increase</a> to allow up to 300 rules per policy.
+///
+/// @nodoc
 class MetricPolicyRule {
   /// A path or file name that defines which objects to include in the group.
   /// Wildcards (*) are acceptable.
@@ -1349,6 +1377,8 @@ class MetricPolicyRule {
 /// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If
 /// more than one rule applies, the service uses the first applicable rule
 /// listed.
+///
+/// @nodoc
 class CorsRule {
   /// Specifies which headers are allowed in a preflight <code>OPTIONS</code>
   /// request through the <code>Access-Control-Request-Headers</code> header. Each
@@ -1436,6 +1466,7 @@ class CorsRule {
   }
 }
 
+/// @nodoc
 class MethodName {
   static const put = MethodName._('PUT');
   static const get = MethodName._('GET');
@@ -1463,6 +1494,8 @@ class MethodName {
 
 /// This section describes operations that you can perform on an AWS Elemental
 /// MediaStore container.
+///
+/// @nodoc
 class Container {
   /// The Amazon Resource Name (ARN) of the container. The ARN has the following
   /// format:
@@ -1540,6 +1573,7 @@ class Container {
   }
 }
 
+/// @nodoc
 class ContainerStatus {
   static const active = ContainerStatus._('ACTIVE');
   static const creating = ContainerStatus._('CREATING');
@@ -1565,32 +1599,38 @@ class ContainerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerInUseException extends _s.GenericAwsException {
   ContainerInUseException({String? type, String? message})
       : super(type: type, code: 'ContainerInUseException', message: message);
 }
 
+/// @nodoc
 class ContainerNotFoundException extends _s.GenericAwsException {
   ContainerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ContainerNotFoundException', message: message);
 }
 
+/// @nodoc
 class CorsPolicyNotFoundException extends _s.GenericAwsException {
   CorsPolicyNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CorsPolicyNotFoundException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class PolicyNotFoundException extends _s.GenericAwsException {
   PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);

@@ -100,6 +100,8 @@ class Signin {
 /// Output structure for CreateOAuth2Token operation Contains flattened token
 /// operation outputs for both authorization code and refresh token flows. The
 /// response content depends on the grant_type from the original request.
+///
+/// @nodoc
 class CreateOAuth2TokenResponse {
   /// Flattened token operation outputs The specific response fields depend on the
   /// grant_type used in the request
@@ -122,6 +124,8 @@ class CreateOAuth2TokenResponse {
 /// Returns all fields including refresh_token and id_token -
 /// grant_type=refresh_token: Returns access_token, token_type, expires_in,
 /// refresh_token (no id_token)
+///
+/// @nodoc
 class CreateOAuth2TokenResponseBody {
   /// Scoped-down AWS credentials (15 minute duration) Present for both
   /// authorization code redemption and token refresh
@@ -184,6 +188,8 @@ class CreateOAuth2TokenResponseBody {
 /// scoped-down, 15 minute duration AWS credentials. Scoping down will be based
 /// on CLI policy (CLI team needs to create it). Similar to cloud shell
 /// implementation.
+///
+/// @nodoc
 class AccessToken {
   /// AWS access key ID for temporary credentials
   final String accessKeyId;
@@ -224,6 +230,8 @@ class AccessToken {
 /// determined by the grant_type parameter: - grant_type=authorization_code:
 /// Requires code, redirect_uri, code_verifier - grant_type=refresh_token:
 /// Requires refresh_token
+///
+/// @nodoc
 class CreateOAuth2TokenRequestBody {
   /// The client identifier (ARN) used during Sign-In onboarding Required for both
   /// authorization code and refresh token flows
@@ -276,21 +284,25 @@ class CreateOAuth2TokenRequestBody {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsError extends _s.GenericAwsException {
   TooManyRequestsError({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsError', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

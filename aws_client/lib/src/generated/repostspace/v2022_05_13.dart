@@ -729,6 +729,7 @@ class Repostspace {
   }
 }
 
+/// @nodoc
 class BatchAddChannelRoleToAccessorsOutput {
   /// An array of successfully updated identifiers.
   final List<String> addedAccessorIds;
@@ -765,6 +766,7 @@ class BatchAddChannelRoleToAccessorsOutput {
   }
 }
 
+/// @nodoc
 class BatchAddRoleOutput {
   /// An array of successfully updated accessor identifiers.
   final List<String> addedAccessorIds;
@@ -800,6 +802,7 @@ class BatchAddRoleOutput {
   }
 }
 
+/// @nodoc
 class BatchRemoveChannelRoleFromAccessorsOutput {
   /// An array of errors that occurred when roles were removed.
   final List<BatchError> errors;
@@ -836,6 +839,7 @@ class BatchRemoveChannelRoleFromAccessorsOutput {
   }
 }
 
+/// @nodoc
 class BatchRemoveRoleOutput {
   /// An array of errors that occurred when roles were removed.
   final List<BatchError> errors;
@@ -871,6 +875,7 @@ class BatchRemoveRoleOutput {
   }
 }
 
+/// @nodoc
 class CreateChannelOutput {
   /// The unique ID of the private re:Post channel.
   final String channelId;
@@ -893,6 +898,7 @@ class CreateChannelOutput {
   }
 }
 
+/// @nodoc
 class CreateSpaceOutput {
   /// The unique ID of the private re:Post.
   final String spaceId;
@@ -915,6 +921,7 @@ class CreateSpaceOutput {
   }
 }
 
+/// @nodoc
 class GetChannelOutput {
   /// The unique ID of the private re:Post channel.
   final String channelId;
@@ -997,6 +1004,7 @@ class GetChannelOutput {
   }
 }
 
+/// @nodoc
 class GetSpaceOutput {
   /// The ARN of the private re:Post.
   final String arn;
@@ -1202,6 +1210,7 @@ class GetSpaceOutput {
   }
 }
 
+/// @nodoc
 class ListChannelsOutput {
   /// An array of structures that contain some information about the channels in
   /// the private re:Post.
@@ -1235,6 +1244,7 @@ class ListChannelsOutput {
   }
 }
 
+/// @nodoc
 class ListSpacesOutput {
   /// An array of structures that contain some information about the private
   /// re:Posts in the account.
@@ -1268,6 +1278,7 @@ class ListSpacesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags that are associated with the resource.
   final Map<String, String>? tags;
@@ -1291,6 +1302,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1303,6 +1315,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1315,6 +1328,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelOutput {
   UpdateChannelOutput();
 
@@ -1327,6 +1341,7 @@ class UpdateChannelOutput {
   }
 }
 
+/// @nodoc
 class TierLevel {
   static const basic = TierLevel._('BASIC');
   static const standard = TierLevel._('STANDARD');
@@ -1351,6 +1366,8 @@ class TierLevel {
 }
 
 /// <p/>
+///
+/// @nodoc
 class SupportedEmailDomainsParameters {
   /// <p/>
   final List<String>? allowedDomains;
@@ -1373,6 +1390,7 @@ class SupportedEmailDomainsParameters {
   }
 }
 
+/// @nodoc
 class FeatureEnableParameter {
   static const enabled = FeatureEnableParameter._('ENABLED');
   static const disabled = FeatureEnableParameter._('DISABLED');
@@ -1400,6 +1418,8 @@ class FeatureEnableParameter {
 
 /// A structure that contains some information about a private re:Post in the
 /// account.
+///
+/// @nodoc
 class SpaceData {
   /// The ARN of the private re:Post.
   final String arn;
@@ -1543,6 +1563,7 @@ class SpaceData {
   }
 }
 
+/// @nodoc
 class ConfigurationStatus {
   static const configured = ConfigurationStatus._('CONFIGURED');
   static const unconfigured = ConfigurationStatus._('UNCONFIGURED');
@@ -1568,6 +1589,7 @@ class ConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VanityDomainStatus {
   static const pending = VanityDomainStatus._('PENDING');
   static const approved = VanityDomainStatus._('APPROVED');
@@ -1595,6 +1617,8 @@ class VanityDomainStatus {
 }
 
 /// <p/>
+///
+/// @nodoc
 class SupportedEmailDomainsStatus {
   /// <p/>
   final List<String>? allowedDomains;
@@ -1628,6 +1652,7 @@ class SupportedEmailDomainsStatus {
   }
 }
 
+/// @nodoc
 class FeatureEnableStatus {
   static const enabled = FeatureEnableStatus._('ENABLED');
   static const disabled = FeatureEnableStatus._('DISABLED');
@@ -1656,6 +1681,8 @@ class FeatureEnableStatus {
 
 /// A structure that contains some information about a channel in a private
 /// re:Post.
+///
+/// @nodoc
 class ChannelData {
   /// The unique ID of the private re:Post channel.
   final String channelId;
@@ -1737,6 +1764,7 @@ class ChannelData {
   }
 }
 
+/// @nodoc
 class ChannelStatus {
   static const created = ChannelStatus._('CREATED');
   static const creating = ChannelStatus._('CREATING');
@@ -1772,6 +1800,7 @@ class ChannelStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Role {
   static const expert = Role._('EXPERT');
   static const moderator = Role._('MODERATOR');
@@ -1797,6 +1826,7 @@ class Role {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelRole {
   static const asker = ChannelRole._('ASKER');
   static const expert = ChannelRole._('EXPERT');
@@ -1823,6 +1853,8 @@ class ChannelRole {
 }
 
 /// An error that occurred during a batch operation.
+///
+/// @nodoc
 class BatchError {
   /// The accessor identifier that's related to the error.
   final String accessorId;
@@ -1859,26 +1891,31 @@ class BatchError {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1887,11 +1924,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

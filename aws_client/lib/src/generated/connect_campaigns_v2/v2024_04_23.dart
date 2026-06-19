@@ -920,6 +920,8 @@ class ConnectCampaignsV2 {
 }
 
 /// The response for Create Campaign API
+///
+/// @nodoc
 class CreateCampaignResponse {
   final String? arn;
   final String? id;
@@ -953,6 +955,8 @@ class CreateCampaignResponse {
 }
 
 /// The response for DescribeCampaign API.
+///
+/// @nodoc
 class DescribeCampaignResponse {
   final Campaign? campaign;
 
@@ -977,6 +981,8 @@ class DescribeCampaignResponse {
 }
 
 /// The response for GetCampaignState API.
+///
+/// @nodoc
 class GetCampaignStateResponse {
   final CampaignState? state;
 
@@ -999,6 +1005,8 @@ class GetCampaignStateResponse {
 }
 
 /// The response for GetCampaignStateBatch API.
+///
+/// @nodoc
 class GetCampaignStateBatchResponse {
   final List<FailedCampaignStateResponse>? failedRequests;
   final List<SuccessfulCampaignStateResponse>? successfulRequests;
@@ -1034,6 +1042,8 @@ class GetCampaignStateBatchResponse {
 }
 
 /// The response for GetConnectInstanceConfig API.
+///
+/// @nodoc
 class GetConnectInstanceConfigResponse {
   final InstanceConfig? connectInstanceConfig;
 
@@ -1060,6 +1070,8 @@ class GetConnectInstanceConfigResponse {
 }
 
 /// The response for GetInstanceCommunicationLimits API.
+///
+/// @nodoc
 class GetInstanceCommunicationLimitsResponse {
   final InstanceCommunicationLimitsConfig? communicationLimitsConfig;
 
@@ -1087,6 +1099,8 @@ class GetInstanceCommunicationLimitsResponse {
 }
 
 /// The response for GetInstanceOnboardingJobStatus API.
+///
+/// @nodoc
 class GetInstanceOnboardingJobStatusResponse {
   final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
 
@@ -1118,6 +1132,8 @@ class GetInstanceOnboardingJobStatusResponse {
 }
 
 /// The response for ListCampaigns API.
+///
+/// @nodoc
 class ListCampaignsResponse {
   final List<CampaignSummary>? campaignSummaryList;
   final String? nextToken;
@@ -1149,6 +1165,8 @@ class ListCampaignsResponse {
 }
 
 /// The response for ListConnectInstanceIntegrations API.
+///
+/// @nodoc
 class ListConnectInstanceIntegrationsResponse {
   final List<IntegrationSummary>? integrationSummaryList;
   final String? nextToken;
@@ -1181,6 +1199,8 @@ class ListConnectInstanceIntegrationsResponse {
 }
 
 /// The request for ListTagsForResource API.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -1204,6 +1224,8 @@ class ListTagsForResourceResponse {
 }
 
 /// The response for PutOutboundRequestBatch API.
+///
+/// @nodoc
 class PutOutboundRequestBatchResponse {
   final List<FailedRequest>? failedRequests;
   final List<SuccessfulRequest>? successfulRequests;
@@ -1237,6 +1259,8 @@ class PutOutboundRequestBatchResponse {
 }
 
 /// The response for PutProfileOutboundRequestBatch API
+///
+/// @nodoc
 class PutProfileOutboundRequestBatchResponse {
   final List<FailedProfileOutboundRequest>? failedRequests;
   final List<SuccessfulProfileOutboundRequest>? successfulRequests;
@@ -1273,6 +1297,8 @@ class PutProfileOutboundRequestBatchResponse {
 }
 
 /// The response for StartInstanceOnboardingJob API.
+///
+/// @nodoc
 class StartInstanceOnboardingJobResponse {
   final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
 
@@ -1304,6 +1330,8 @@ class StartInstanceOnboardingJobResponse {
 }
 
 /// Source of the campaign
+///
+/// @nodoc
 class Source {
   final String? customerProfilesSegmentArn;
   final EventTrigger? eventTrigger;
@@ -1334,6 +1362,8 @@ class Source {
 }
 
 /// Event trigger of the campaign
+///
+/// @nodoc
 class EventTrigger {
   final String? customerProfilesDomainArn;
 
@@ -1357,6 +1387,8 @@ class EventTrigger {
 }
 
 /// Campaign schedule
+///
+/// @nodoc
 class Schedule {
   final DateTime endTime;
   final DateTime startTime;
@@ -1389,6 +1421,8 @@ class Schedule {
 }
 
 /// Campaign entry limits config
+///
+/// @nodoc
 class EntryLimitsConfig {
   /// Maximum number of times a participant can enter the campaign. A value of 0
   /// indicates unlimited entries. Values of 1 or greater specify the exact number
@@ -1422,6 +1456,8 @@ class EntryLimitsConfig {
 }
 
 /// Campaign communication time config
+///
+/// @nodoc
 class CommunicationTimeConfig {
   final LocalTimeZoneConfig localTimeZoneConfig;
   final TimeWindow? email;
@@ -1474,6 +1510,8 @@ class CommunicationTimeConfig {
 }
 
 /// Local time zone config
+///
+/// @nodoc
 class LocalTimeZoneConfig {
   final String? defaultTimeZone;
   final List<LocalTimeZoneDetectionType>? localTimeZoneDetection;
@@ -1514,6 +1552,8 @@ class LocalTimeZoneConfig {
 }
 
 /// Time window config
+///
+/// @nodoc
 class TimeWindow {
   final OpenHours openHours;
   final RestrictedPeriods? restrictedPeriods;
@@ -1546,6 +1586,8 @@ class TimeWindow {
 }
 
 /// Open Hours config
+///
+/// @nodoc
 class OpenHours {
   final Map<DayOfWeek, List<TimeRange>>? dailyHours;
 
@@ -1575,6 +1617,8 @@ class OpenHours {
 }
 
 /// Restricted period config
+///
+/// @nodoc
 class RestrictedPeriods {
   final List<RestrictedPeriod>? restrictedPeriodList;
 
@@ -1601,6 +1645,8 @@ class RestrictedPeriods {
 }
 
 /// Restricted period
+///
+/// @nodoc
 class RestrictedPeriod {
   final String endDate;
   final String startDate;
@@ -1633,6 +1679,8 @@ class RestrictedPeriod {
 }
 
 /// Day of week enum
+///
+/// @nodoc
 class DayOfWeek {
   static const monday = DayOfWeek._('MONDAY');
   static const tuesday = DayOfWeek._('TUESDAY');
@@ -1670,6 +1718,8 @@ class DayOfWeek {
 }
 
 /// Time range in 24 hour format
+///
+/// @nodoc
 class TimeRange {
   final String endTime;
   final String startTime;
@@ -1697,6 +1747,8 @@ class TimeRange {
 }
 
 /// Local TimeZone Detection scope.
+///
+/// @nodoc
 class LocalTimeZoneDetectionScope {
   static const primaryOnly = LocalTimeZoneDetectionScope._('PRIMARY_ONLY');
   static const allAvailable = LocalTimeZoneDetectionScope._('ALL_AVAILABLE');
@@ -1723,6 +1775,8 @@ class LocalTimeZoneDetectionScope {
 }
 
 /// Local TimeZone Detection method.
+///
+/// @nodoc
 class LocalTimeZoneDetectionType {
   static const zipCode = LocalTimeZoneDetectionType._('ZIP_CODE');
   static const areaCode = LocalTimeZoneDetectionType._('AREA_CODE');
@@ -1749,6 +1803,8 @@ class LocalTimeZoneDetectionType {
 }
 
 /// Communication limits config
+///
+/// @nodoc
 class CommunicationLimitsConfig {
   final CommunicationLimits? allChannelSubtypes;
   final InstanceLimitsHandling? instanceLimitsHandling;
@@ -1781,6 +1837,8 @@ class CommunicationLimitsConfig {
 }
 
 /// Communication limits
+///
+/// @nodoc
 class CommunicationLimits {
   final List<CommunicationLimit>? communicationLimitsList;
 
@@ -1807,6 +1865,8 @@ class CommunicationLimits {
 }
 
 /// Instance limits handling
+///
+/// @nodoc
 class InstanceLimitsHandling {
   static const optIn = InstanceLimitsHandling._('OPT_IN');
   static const optOut = InstanceLimitsHandling._('OPT_OUT');
@@ -1833,6 +1893,8 @@ class InstanceLimitsHandling {
 }
 
 /// Communication Limit
+///
+/// @nodoc
 class CommunicationLimit {
   /// The number of days to consider with regards to this limit.
   final int frequency;
@@ -1870,6 +1932,8 @@ class CommunicationLimit {
 }
 
 /// The communication limit time unit.
+///
+/// @nodoc
 class CommunicationLimitTimeUnit {
   static const day = CommunicationLimitTimeUnit._('DAY');
 
@@ -1895,6 +1959,8 @@ class CommunicationLimitTimeUnit {
 }
 
 /// Campaign Channel Subtype config
+///
+/// @nodoc
 class ChannelSubtypeConfig {
   final EmailChannelSubtypeConfig? email;
   final SmsChannelSubtypeConfig? sms;
@@ -1944,6 +2010,8 @@ class ChannelSubtypeConfig {
 }
 
 /// Telephony Channel Subtype config
+///
+/// @nodoc
 class TelephonyChannelSubtypeConfig {
   final TelephonyOutboundConfig defaultOutboundConfig;
   final TelephonyOutboundMode outboundMode;
@@ -1985,6 +2053,8 @@ class TelephonyChannelSubtypeConfig {
 }
 
 /// SMS Channel Subtype config
+///
+/// @nodoc
 class SmsChannelSubtypeConfig {
   final SmsOutboundConfig defaultOutboundConfig;
   final SmsOutboundMode outboundMode;
@@ -2021,6 +2091,8 @@ class SmsChannelSubtypeConfig {
 }
 
 /// Email Channel Subtype config
+///
+/// @nodoc
 class EmailChannelSubtypeConfig {
   final EmailOutboundConfig defaultOutboundConfig;
   final EmailOutboundMode outboundMode;
@@ -2057,6 +2129,8 @@ class EmailChannelSubtypeConfig {
 }
 
 /// WhatsApp Channel Subtype config
+///
+/// @nodoc
 class WhatsAppChannelSubtypeConfig {
   final WhatsAppOutboundConfig defaultOutboundConfig;
   final WhatsAppOutboundMode outboundMode;
@@ -2093,6 +2167,8 @@ class WhatsAppChannelSubtypeConfig {
 }
 
 /// WhatsApp Outbound Mode
+///
+/// @nodoc
 class WhatsAppOutboundMode {
   final AgentlessConfig? agentless;
 
@@ -2117,6 +2193,8 @@ class WhatsAppOutboundMode {
 }
 
 /// Default WhatsApp Outbound config
+///
+/// @nodoc
 class WhatsAppOutboundConfig {
   final String connectSourcePhoneNumberArn;
   final String wisdomTemplateArn;
@@ -2145,6 +2223,8 @@ class WhatsAppOutboundConfig {
 }
 
 /// Agentless config
+///
+/// @nodoc
 class AgentlessConfig {
   AgentlessConfig();
 
@@ -2158,6 +2238,8 @@ class AgentlessConfig {
 }
 
 /// Email Outbound Mode
+///
+/// @nodoc
 class EmailOutboundMode {
   final AgentlessConfig? agentless;
 
@@ -2182,6 +2264,8 @@ class EmailOutboundMode {
 }
 
 /// Default Email Outbound config
+///
+/// @nodoc
 class EmailOutboundConfig {
   final String connectSourceEmailAddress;
   final String wisdomTemplateArn;
@@ -2217,6 +2301,8 @@ class EmailOutboundConfig {
 }
 
 /// SMS Outbound Mode
+///
+/// @nodoc
 class SmsOutboundMode {
   final AgentlessConfig? agentless;
 
@@ -2241,6 +2327,8 @@ class SmsOutboundMode {
 }
 
 /// Default SMS Outbound config
+///
+/// @nodoc
 class SmsOutboundConfig {
   final String connectSourcePhoneNumberArn;
   final String wisdomTemplateArn;
@@ -2269,6 +2357,8 @@ class SmsOutboundConfig {
 }
 
 /// Telephony Outbound Mode
+///
+/// @nodoc
 class TelephonyOutboundMode {
   final AgentlessConfig? agentless;
   final PredictiveConfig? predictive;
@@ -2316,6 +2406,8 @@ class TelephonyOutboundMode {
 }
 
 /// Default Telephony Outbound config
+///
+/// @nodoc
 class TelephonyOutboundConfig {
   final String connectContactFlowId;
   final AnswerMachineDetectionConfig? answerMachineDetectionConfig;
@@ -2358,6 +2450,8 @@ class TelephonyOutboundConfig {
 }
 
 /// Answering Machine Detection config
+///
+/// @nodoc
 class AnswerMachineDetectionConfig {
   /// Enable or disable answering machine detection
   final bool enableAnswerMachineDetection;
@@ -2390,6 +2484,8 @@ class AnswerMachineDetectionConfig {
 }
 
 /// Progressive config
+///
+/// @nodoc
 class ProgressiveConfig {
   final double bandwidthAllocation;
 
@@ -2412,6 +2508,8 @@ class ProgressiveConfig {
 }
 
 /// Predictive config
+///
+/// @nodoc
 class PredictiveConfig {
   final double bandwidthAllocation;
 
@@ -2434,6 +2532,8 @@ class PredictiveConfig {
 }
 
 /// Preview config
+///
+/// @nodoc
 class PreviewConfig {
   final double bandwidthAllocation;
   final TimeoutConfig timeoutConfig;
@@ -2472,6 +2572,8 @@ class PreviewConfig {
 }
 
 /// Timeout Config for preview contacts.
+///
+/// @nodoc
 class TimeoutConfig {
   final int durationInSeconds;
 
@@ -2494,6 +2596,8 @@ class TimeoutConfig {
 }
 
 /// Actions that can performed on a contact by an agent
+///
+/// @nodoc
 class AgentAction {
   static const discard = AgentAction._('DISCARD');
 
@@ -2517,6 +2621,8 @@ class AgentAction {
 }
 
 /// Instance onboarding job status object
+///
+/// @nodoc
 class InstanceOnboardingJobStatus {
   final String connectInstanceId;
   final InstanceOnboardingJobStatusCode status;
@@ -2551,6 +2657,8 @@ class InstanceOnboardingJobStatus {
 }
 
 /// Enumeration of the possible states for instance onboarding job
+///
+/// @nodoc
 class InstanceOnboardingJobStatusCode {
   static const inProgress = InstanceOnboardingJobStatusCode._('IN_PROGRESS');
   static const succeeded = InstanceOnboardingJobStatusCode._('SUCCEEDED');
@@ -2578,6 +2686,8 @@ class InstanceOnboardingJobStatusCode {
 }
 
 /// Enumeration of the possible failure codes for instance onboarding job
+///
+/// @nodoc
 class InstanceOnboardingJobFailureCode {
   static const eventBridgeAccessDenied =
       InstanceOnboardingJobFailureCode._('EVENT_BRIDGE_ACCESS_DENIED');
@@ -2625,6 +2735,8 @@ class InstanceOnboardingJobFailureCode {
 /// be encrypted. If disabled, service will perform encryption with its own key.
 /// If enabled, a KMS key id needs to be provided and KMS charges will apply.
 /// KMS is only type supported
+///
+/// @nodoc
 class EncryptionConfig {
   final bool enabled;
   final EncryptionType? encryptionType;
@@ -2658,6 +2770,8 @@ class EncryptionConfig {
 }
 
 /// Server-side encryption type.
+///
+/// @nodoc
 class EncryptionType {
   static const kms = EncryptionType._('KMS');
 
@@ -2682,6 +2796,8 @@ class EncryptionType {
 }
 
 /// Failure details for a profile outbound request
+///
+/// @nodoc
 class FailedProfileOutboundRequest {
   final String? clientToken;
   final ProfileOutboundRequestFailureCode? failureCode;
@@ -2715,6 +2831,8 @@ class FailedProfileOutboundRequest {
 }
 
 /// Predefined code indicating the error that caused the failure
+///
+/// @nodoc
 class ProfileOutboundRequestFailureCode {
   static const unknownError =
       ProfileOutboundRequestFailureCode._('UnknownError');
@@ -2754,6 +2872,8 @@ class ProfileOutboundRequestFailureCode {
 }
 
 /// Success details for a profile outbound request
+///
+/// @nodoc
 class SuccessfulProfileOutboundRequest {
   final String? clientToken;
   final String? id;
@@ -2781,6 +2901,8 @@ class SuccessfulProfileOutboundRequest {
 }
 
 /// Information about a profile outbound request
+///
+/// @nodoc
 class ProfileOutboundRequest {
   final String clientToken;
   final String profileId;
@@ -2806,6 +2928,8 @@ class ProfileOutboundRequest {
 }
 
 /// A failed request identified by the unique client token.
+///
+/// @nodoc
 class FailedRequest {
   final String? clientToken;
   final FailureCode? failureCode;
@@ -2839,6 +2963,8 @@ class FailedRequest {
 }
 
 /// A predefined code indicating the error that caused the failure.
+///
+/// @nodoc
 class FailureCode {
   static const invalidInput = FailureCode._('InvalidInput');
   static const requestThrottled = FailureCode._('RequestThrottled');
@@ -2870,6 +2996,8 @@ class FailureCode {
 }
 
 /// A successful request identified by the unique client token.
+///
+/// @nodoc
 class SuccessfulRequest {
   final String? clientToken;
   final String? id;
@@ -2897,6 +3025,8 @@ class SuccessfulRequest {
 }
 
 /// An outbound request for a campaign.
+///
+/// @nodoc
 class OutboundRequest {
   final ChannelSubtypeParameters channelSubtypeParameters;
   final String clientToken;
@@ -2921,6 +3051,8 @@ class OutboundRequest {
 }
 
 /// ChannelSubtypeParameters for an outbound request
+///
+/// @nodoc
 class ChannelSubtypeParameters {
   final EmailChannelSubtypeParameters? email;
   final SmsChannelSubtypeParameters? sms;
@@ -2949,6 +3081,8 @@ class ChannelSubtypeParameters {
 }
 
 /// Parameters for the Telephony Channel Subtype
+///
+/// @nodoc
 class TelephonyChannelSubtypeParameters {
   final Map<String, String> attributes;
   final String destinationPhoneNumber;
@@ -2983,6 +3117,8 @@ class TelephonyChannelSubtypeParameters {
 }
 
 /// Parameters for the SMS Channel Subtype
+///
+/// @nodoc
 class SmsChannelSubtypeParameters {
   final String destinationPhoneNumber;
   final Map<String, String> templateParameters;
@@ -3012,6 +3148,8 @@ class SmsChannelSubtypeParameters {
 }
 
 /// Parameters for the Email Channel Subtype
+///
+/// @nodoc
 class EmailChannelSubtypeParameters {
   final String destinationEmailAddress;
   final Map<String, String> templateParameters;
@@ -3041,6 +3179,8 @@ class EmailChannelSubtypeParameters {
 }
 
 /// Parameters for the WhatsApp Channel Subtype
+///
+/// @nodoc
 class WhatsAppChannelSubtypeParameters {
   final String destinationPhoneNumber;
   final Map<String, String> templateParameters;
@@ -3070,6 +3210,8 @@ class WhatsAppChannelSubtypeParameters {
 }
 
 /// Instance Communication limits config
+///
+/// @nodoc
 class InstanceCommunicationLimitsConfig {
   final CommunicationLimits? allChannelSubtypes;
 
@@ -3096,6 +3238,8 @@ class InstanceCommunicationLimitsConfig {
 }
 
 /// Integration config for Connect Instance
+///
+/// @nodoc
 class IntegrationConfig {
   final CustomerProfilesIntegrationConfig? customerProfiles;
   final LambdaIntegrationConfig? lambda;
@@ -3120,6 +3264,8 @@ class IntegrationConfig {
 }
 
 /// Customer Profiles integration config
+///
+/// @nodoc
 class CustomerProfilesIntegrationConfig {
   final String domainArn;
   final Map<EventType, String> objectTypeNames;
@@ -3140,6 +3286,8 @@ class CustomerProfilesIntegrationConfig {
 }
 
 /// Q Connect integration config
+///
+/// @nodoc
 class QConnectIntegrationConfig {
   final String knowledgeBaseArn;
 
@@ -3156,6 +3304,8 @@ class QConnectIntegrationConfig {
 }
 
 /// Lambda integration config
+///
+/// @nodoc
 class LambdaIntegrationConfig {
   final String functionArn;
 
@@ -3172,6 +3322,8 @@ class LambdaIntegrationConfig {
 }
 
 /// Enumeration of Customer Profiles event type
+///
+/// @nodoc
 class EventType {
   static const campaignEmail = EventType._('Campaign-Email');
   static const campaignSms = EventType._('Campaign-SMS');
@@ -3205,6 +3357,8 @@ class EventType {
 }
 
 /// Integration summary for Connect instance.
+///
+/// @nodoc
 class IntegrationSummary {
   final CustomerProfilesIntegrationSummary? customerProfiles;
   final LambdaIntegrationSummary? lambda;
@@ -3246,6 +3400,8 @@ class IntegrationSummary {
 }
 
 /// Customer Profiles integration summary
+///
+/// @nodoc
 class CustomerProfilesIntegrationSummary {
   final String domainArn;
   final Map<EventType, String> objectTypeNames;
@@ -3276,6 +3432,8 @@ class CustomerProfilesIntegrationSummary {
 }
 
 /// Q Connect integration summary
+///
+/// @nodoc
 class QConnectIntegrationSummary {
   final String knowledgeBaseArn;
 
@@ -3298,6 +3456,8 @@ class QConnectIntegrationSummary {
 }
 
 /// Lambda integration summary
+///
+/// @nodoc
 class LambdaIntegrationSummary {
   final String functionArn;
 
@@ -3320,6 +3480,8 @@ class LambdaIntegrationSummary {
 }
 
 /// An Amazon Connect campaign summary.
+///
+/// @nodoc
 class CampaignSummary {
   final String arn;
   final List<ChannelSubtype> channelSubtypes;
@@ -3391,6 +3553,8 @@ class CampaignSummary {
 }
 
 /// The type of campaign externally exposed in APIs.
+///
+/// @nodoc
 class ExternalCampaignType {
   static const managed = ExternalCampaignType._('MANAGED');
   static const journey = ExternalCampaignType._('JOURNEY');
@@ -3417,6 +3581,8 @@ class ExternalCampaignType {
 }
 
 /// The type of campaign channel subtype.
+///
+/// @nodoc
 class ChannelSubtype {
   static const telephony = ChannelSubtype._('TELEPHONY');
   static const sms = ChannelSubtype._('SMS');
@@ -3444,6 +3610,8 @@ class ChannelSubtype {
 }
 
 /// Filter model by type
+///
+/// @nodoc
 class CampaignFilters {
   final InstanceIdFilter? instanceIdFilter;
 
@@ -3460,6 +3628,8 @@ class CampaignFilters {
 }
 
 /// Connect instance identifier filter
+///
+/// @nodoc
 class InstanceIdFilter {
   final InstanceIdFilterOperator operator;
   final String value;
@@ -3480,6 +3650,8 @@ class InstanceIdFilter {
 }
 
 /// Operators for Connect instance identifier filter
+///
+/// @nodoc
 class InstanceIdFilterOperator {
   static const eq = InstanceIdFilterOperator._('Eq');
 
@@ -3505,6 +3677,8 @@ class InstanceIdFilterOperator {
 }
 
 /// Instance config object
+///
+/// @nodoc
 class InstanceConfig {
   final String connectInstanceId;
   final EncryptionConfig encryptionConfig;
@@ -3539,6 +3713,8 @@ class InstanceConfig {
 }
 
 /// Failed response of campaign state
+///
+/// @nodoc
 class FailedCampaignStateResponse {
   final String? campaignId;
   final GetCampaignStateBatchFailureCode? failureCode;
@@ -3568,6 +3744,8 @@ class FailedCampaignStateResponse {
 
 /// A predefined code indicating the error that caused the failure in getting
 /// state of campaigns
+///
+/// @nodoc
 class GetCampaignStateBatchFailureCode {
   static const resourceNotFound =
       GetCampaignStateBatchFailureCode._('ResourceNotFound');
@@ -3596,6 +3774,8 @@ class GetCampaignStateBatchFailureCode {
 }
 
 /// Successful response of campaign state
+///
+/// @nodoc
 class SuccessfulCampaignStateResponse {
   final String? campaignId;
   final CampaignState? state;
@@ -3623,6 +3803,8 @@ class SuccessfulCampaignStateResponse {
 }
 
 /// State of a campaign
+///
+/// @nodoc
 class CampaignState {
   static const initialized = CampaignState._('Initialized');
   static const running = CampaignState._('Running');
@@ -3659,6 +3841,8 @@ class CampaignState {
 }
 
 /// An Amazon Connect campaign.
+///
+/// @nodoc
 class Campaign {
   final String arn;
   final String connectInstanceId;
@@ -3762,6 +3946,8 @@ class Campaign {
 }
 
 /// Integration identifier for Connect instance
+///
+/// @nodoc
 class IntegrationIdentifier {
   final CustomerProfilesIntegrationIdentifier? customerProfiles;
   final LambdaIntegrationIdentifier? lambda;
@@ -3786,6 +3972,8 @@ class IntegrationIdentifier {
 }
 
 /// Customer Profiles integration identifier
+///
+/// @nodoc
 class CustomerProfilesIntegrationIdentifier {
   final String domainArn;
 
@@ -3802,6 +3990,8 @@ class CustomerProfilesIntegrationIdentifier {
 }
 
 /// Q Connect integration identifier
+///
+/// @nodoc
 class QConnectIntegrationIdentifier {
   final String knowledgeBaseArn;
 
@@ -3818,6 +4008,8 @@ class QConnectIntegrationIdentifier {
 }
 
 /// Lambda integration identifier
+///
+/// @nodoc
 class LambdaIntegrationIdentifier {
   final String functionArn;
 
@@ -3835,6 +4027,8 @@ class LambdaIntegrationIdentifier {
 
 /// Enumeration of the policies to enact on existing campaigns during instance
 /// config deletion
+///
+/// @nodoc
 class CampaignDeletionPolicy {
   static const retainAll = CampaignDeletionPolicy._('RETAIN_ALL');
   static const deleteAll = CampaignDeletionPolicy._('DELETE_ALL');
@@ -3861,6 +4055,8 @@ class CampaignDeletionPolicy {
 }
 
 /// The type of campaign communication time config
+///
+/// @nodoc
 class CommunicationTimeConfigType {
   static const telephony = CommunicationTimeConfigType._('TELEPHONY');
   static const sms = CommunicationTimeConfigType._('SMS');
@@ -3889,6 +4085,8 @@ class CommunicationTimeConfigType {
 }
 
 /// The type of campaign communication limits config.
+///
+/// @nodoc
 class CommunicationLimitsConfigType {
   static const allChannelSubtypes =
       CommunicationLimitsConfigType._('ALL_CHANNEL_SUBTYPES');
@@ -3914,21 +4112,25 @@ class CommunicationLimitsConfigType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidCampaignStateException extends _s.GenericAwsException {
   InvalidCampaignStateException({String? type, String? message})
       : super(
@@ -3937,16 +4139,19 @@ class InvalidCampaignStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3955,11 +4160,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

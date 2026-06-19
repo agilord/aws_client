@@ -290,7 +290,7 @@ class Polly {
   ///
   /// Parameter [name] :
   /// Name of the lexicon. The name must follow the regular express format
-  /// [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric
+  /// \[0-9A-Za-z\]{1,20}. That is, the name is a case-sensitive alphanumeric
   /// string up to 20 characters long.
   Future<void> putLexicon({
     required String content,
@@ -649,6 +649,7 @@ class Polly {
   }
 }
 
+/// @nodoc
 class DeleteLexiconOutput {
   DeleteLexiconOutput();
 
@@ -662,6 +663,8 @@ class DeleteLexiconOutput {
 }
 
 /// An unknown condition has caused a service failure.
+///
+/// @nodoc
 class ServiceFailureException implements _s.AwsException {
   final String? message;
 
@@ -683,6 +686,7 @@ class ServiceFailureException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class DescribeVoicesOutput {
   /// The pagination token to use in the next request to continue the listing of
   /// voices. <code>NextToken</code> is returned only if the response is
@@ -717,6 +721,7 @@ class DescribeVoicesOutput {
   }
 }
 
+/// @nodoc
 class GetLexiconOutput {
   /// Lexicon object that provides name and the string content of the lexicon.
   final Lexicon? lexicon;
@@ -753,6 +758,7 @@ class GetLexiconOutput {
   }
 }
 
+/// @nodoc
 class GetSpeechSynthesisTaskOutput {
   /// SynthesisTask object that provides information from the requested task,
   /// including output format, creation time, task status, and so on.
@@ -779,6 +785,7 @@ class GetSpeechSynthesisTaskOutput {
   }
 }
 
+/// @nodoc
 class ListLexiconsOutput {
   /// A list of lexicon names and attributes.
   final List<LexiconDescription>? lexicons;
@@ -813,6 +820,7 @@ class ListLexiconsOutput {
   }
 }
 
+/// @nodoc
 class ListSpeechSynthesisTasksOutput {
   /// An opaque pagination token returned from the previous List operation in this
   /// request. If present, this indicates where to continue the listing.
@@ -848,6 +856,7 @@ class ListSpeechSynthesisTasksOutput {
   }
 }
 
+/// @nodoc
 class PutLexiconOutput {
   PutLexiconOutput();
 
@@ -860,6 +869,7 @@ class PutLexiconOutput {
   }
 }
 
+/// @nodoc
 class StartSpeechSynthesisStreamOutput {
   /// The output event stream that contains synthesized audio events and stream
   /// status events.
@@ -878,6 +888,8 @@ class StartSpeechSynthesisStreamOutput {
 }
 
 /// The request would cause a service quota to be exceeded.
+///
+/// @nodoc
 class ServiceQuotaExceededException implements _s.AwsException {
   final String? message;
 
@@ -915,6 +927,8 @@ class ServiceQuotaExceededException implements _s.AwsException {
 }
 
 /// The request was denied because of request throttling.
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -947,6 +961,8 @@ class ThrottlingException implements _s.AwsException {
 }
 
 /// The input fails to satisfy the constraints specified by the service.
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   /// The fields that caused the validation error.
   final List<ValidationExceptionField>? fields;
@@ -986,6 +1002,7 @@ class ValidationException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class StartSpeechSynthesisTaskOutput {
   /// SynthesisTask object that provides information and attributes about a newly
   /// submitted speech synthesis task.
@@ -1012,6 +1029,7 @@ class StartSpeechSynthesisTaskOutput {
   }
 }
 
+/// @nodoc
 class SynthesizeSpeechOutput {
   /// Stream containing the synthesized speech.
   final Uint8List? audioStream;
@@ -1072,6 +1090,7 @@ class SynthesizeSpeechOutput {
   }
 }
 
+/// @nodoc
 class Engine {
   static const standard = Engine._('standard');
   static const neural = Engine._('neural');
@@ -1097,6 +1116,7 @@ class Engine {
   String toString() => value;
 }
 
+/// @nodoc
 class LanguageCode {
   static const arb = LanguageCode._('arb');
   static const cmnCn = LanguageCode._('cmn-CN');
@@ -1203,6 +1223,7 @@ class LanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputFormat {
   static const json = OutputFormat._('json');
   static const mp3 = OutputFormat._('mp3');
@@ -1231,6 +1252,7 @@ class OutputFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class TextType {
   static const ssml = TextType._('ssml');
   static const text = TextType._('text');
@@ -1254,6 +1276,7 @@ class TextType {
   String toString() => value;
 }
 
+/// @nodoc
 class VoiceId {
   static const aditi = VoiceId._('Aditi');
   static const amy = VoiceId._('Amy');
@@ -1488,6 +1511,7 @@ class VoiceId {
   String toString() => value;
 }
 
+/// @nodoc
 class SpeechMarkType {
   static const sentence = SpeechMarkType._('sentence');
   static const ssml = SpeechMarkType._('ssml');
@@ -1516,6 +1540,8 @@ class SpeechMarkType {
 
 /// SynthesisTask object that provides information about a speech synthesis
 /// task.
+///
+/// @nodoc
 class SynthesisTask {
   /// Timestamp for the time the synthesis task was started.
   final DateTime? creationTime;
@@ -1676,6 +1702,7 @@ class SynthesisTask {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const scheduled = TaskStatus._('scheduled');
   static const inProgress = TaskStatus._('inProgress');
@@ -1701,6 +1728,7 @@ class TaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidationExceptionReason {
   static const unsupportedOperation =
       ValidationExceptionReason._('unsupportedOperation');
@@ -1737,6 +1765,8 @@ class ValidationExceptionReason {
 }
 
 /// Information about a field that failed validation.
+///
+/// @nodoc
 class ValidationExceptionField {
   /// A message describing why the field failed validation.
   final String message;
@@ -1767,6 +1797,8 @@ class ValidationExceptionField {
 }
 
 /// Provides information about a specific throttling reason.
+///
+/// @nodoc
 class ThrottlingReason {
   /// The reason code explaining why the request was throttled.
   final String? reason;
@@ -1796,6 +1828,7 @@ class ThrottlingReason {
   }
 }
 
+/// @nodoc
 class QuotaCode {
   static const inputStreamInboundEventTimeout =
       QuotaCode._('input-stream-inbound-event-timeout');
@@ -1820,6 +1853,7 @@ class QuotaCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceCode {
   static const polly = ServiceCode._('polly');
 
@@ -1844,6 +1878,8 @@ class ServiceCode {
 
 /// Outbound event stream that contains synthesized audio data and stream status
 /// events.
+///
+/// @nodoc
 class StartSpeechSynthesisStreamEventStream {
   /// An audio event containing synthesized speech.
   final AudioEvent? audioEvent;
@@ -1923,6 +1959,8 @@ class StartSpeechSynthesisStreamEventStream {
 }
 
 /// Contains a chunk of synthesized audio data.
+///
+/// @nodoc
 class AudioEvent {
   /// A chunk of synthesized audio data encoded in the format specified by the
   /// <code>OutputFormat</code> parameter.
@@ -1948,6 +1986,8 @@ class AudioEvent {
 
 /// Indicates that the synthesis stream is closed and provides summary
 /// information.
+///
+/// @nodoc
 class StreamClosedEvent {
   /// The total number of characters synthesized during the streaming session.
   final int? requestCharacters;
@@ -1972,6 +2012,8 @@ class StreamClosedEvent {
 
 /// Inbound event stream for sending input and control events to manage
 /// bidirectional speech synthesis.
+///
+/// @nodoc
 class StartSpeechSynthesisStreamActionStream {
   /// An event indicating the end of the input stream.
   final CloseStreamEvent? closeStreamEvent;
@@ -1995,6 +2037,8 @@ class StartSpeechSynthesisStreamActionStream {
 }
 
 /// Contains text content to be synthesized into speech.
+///
+/// @nodoc
 class TextEvent {
   /// The text content to synthesize. If you specify <code>ssml</code> as the
   /// <code>TextType</code>, follow the SSML format for the input text.
@@ -2028,6 +2072,8 @@ class TextEvent {
 
 /// Indicates the end of the input stream. After sending this event, the input
 /// stream will be closed and all audio will be returned.
+///
+/// @nodoc
 class CloseStreamEvent {
   CloseStreamEvent();
 
@@ -2038,6 +2084,8 @@ class CloseStreamEvent {
 
 /// Configuration that controls when synthesized audio data is sent on the
 /// output stream.
+///
+/// @nodoc
 class FlushStreamConfiguration {
   /// Specifies whether to force the synthesis engine to immediately write
   /// buffered audio data to the output stream.
@@ -2056,6 +2104,8 @@ class FlushStreamConfiguration {
 }
 
 /// Describes the content of the lexicon.
+///
+/// @nodoc
 class LexiconDescription {
   /// Provides lexicon metadata.
   final LexiconAttributes? attributes;
@@ -2092,6 +2142,8 @@ class LexiconDescription {
 /// language code, and so on. For more information, see <a
 /// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
 /// Lexicons</a>.
+///
+/// @nodoc
 class LexiconAttributes {
   /// Phonetic alphabet used in the lexicon. Valid values are <code>ipa</code> and
   /// <code>x-sampa</code>.
@@ -2158,6 +2210,8 @@ class LexiconAttributes {
 /// information, see <a
 /// href="https://www.w3.org/TR/pronunciation-lexicon/">Pronunciation Lexicon
 /// Specification (PLS) Version 1.0</a>.
+///
+/// @nodoc
 class Lexicon {
   /// Lexicon content in string format. The content of a lexicon must be in PLS
   /// format.
@@ -2189,6 +2243,8 @@ class Lexicon {
 }
 
 /// Description of the voice.
+///
+/// @nodoc
 class Voice {
   /// Additional codes for languages available for the specified voice in addition
   /// to its default language.
@@ -2273,6 +2329,7 @@ class Voice {
   }
 }
 
+/// @nodoc
 class Gender {
   static const female = Gender._('Female');
   static const male = Gender._('Male');
@@ -2296,53 +2353,63 @@ class Gender {
   String toString() => value;
 }
 
+/// @nodoc
 class EngineNotSupportedException extends _s.GenericAwsException {
   EngineNotSupportedException({String? type, String? message})
       : super(
             type: type, code: 'EngineNotSupportedException', message: message);
 }
 
+/// @nodoc
 class InvalidLexiconException extends _s.GenericAwsException {
   InvalidLexiconException({String? type, String? message})
       : super(type: type, code: 'InvalidLexiconException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidS3BucketException extends _s.GenericAwsException {
   InvalidS3BucketException({String? type, String? message})
       : super(type: type, code: 'InvalidS3BucketException', message: message);
 }
 
+/// @nodoc
 class InvalidS3KeyException extends _s.GenericAwsException {
   InvalidS3KeyException({String? type, String? message})
       : super(type: type, code: 'InvalidS3KeyException', message: message);
 }
 
+/// @nodoc
 class InvalidSampleRateException extends _s.GenericAwsException {
   InvalidSampleRateException({String? type, String? message})
       : super(type: type, code: 'InvalidSampleRateException', message: message);
 }
 
+/// @nodoc
 class InvalidSnsTopicArnException extends _s.GenericAwsException {
   InvalidSnsTopicArnException({String? type, String? message})
       : super(
             type: type, code: 'InvalidSnsTopicArnException', message: message);
 }
 
+/// @nodoc
 class InvalidSsmlException extends _s.GenericAwsException {
   InvalidSsmlException({String? type, String? message})
       : super(type: type, code: 'InvalidSsmlException', message: message);
 }
 
+/// @nodoc
 class InvalidTaskIdException extends _s.GenericAwsException {
   InvalidTaskIdException({String? type, String? message})
       : super(type: type, code: 'InvalidTaskIdException', message: message);
 }
 
+/// @nodoc
 class LanguageNotSupportedException extends _s.GenericAwsException {
   LanguageNotSupportedException({String? type, String? message})
       : super(
@@ -2351,17 +2418,20 @@ class LanguageNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LexiconNotFoundException extends _s.GenericAwsException {
   LexiconNotFoundException({String? type, String? message})
       : super(type: type, code: 'LexiconNotFoundException', message: message);
 }
 
+/// @nodoc
 class LexiconSizeExceededException extends _s.GenericAwsException {
   LexiconSizeExceededException({String? type, String? message})
       : super(
             type: type, code: 'LexiconSizeExceededException', message: message);
 }
 
+/// @nodoc
 class MarksNotSupportedForFormatException extends _s.GenericAwsException {
   MarksNotSupportedForFormatException({String? type, String? message})
       : super(
@@ -2370,6 +2440,7 @@ class MarksNotSupportedForFormatException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaxLexemeLengthExceededException extends _s.GenericAwsException {
   MaxLexemeLengthExceededException({String? type, String? message})
       : super(
@@ -2378,6 +2449,7 @@ class MaxLexemeLengthExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaxLexiconsNumberExceededException extends _s.GenericAwsException {
   MaxLexiconsNumberExceededException({String? type, String? message})
       : super(
@@ -2386,6 +2458,7 @@ class MaxLexiconsNumberExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SsmlMarksNotSupportedForTextTypeException extends _s.GenericAwsException {
   SsmlMarksNotSupportedForTextTypeException({String? type, String? message})
       : super(
@@ -2394,6 +2467,7 @@ class SsmlMarksNotSupportedForTextTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SynthesisTaskNotFoundException extends _s.GenericAwsException {
   SynthesisTaskNotFoundException({String? type, String? message})
       : super(
@@ -2402,12 +2476,14 @@ class SynthesisTaskNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TextLengthExceededException extends _s.GenericAwsException {
   TextLengthExceededException({String? type, String? message})
       : super(
             type: type, code: 'TextLengthExceededException', message: message);
 }
 
+/// @nodoc
 class UnsupportedPlsAlphabetException extends _s.GenericAwsException {
   UnsupportedPlsAlphabetException({String? type, String? message})
       : super(
@@ -2416,6 +2492,7 @@ class UnsupportedPlsAlphabetException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedPlsLanguageException extends _s.GenericAwsException {
   UnsupportedPlsLanguageException({String? type, String? message})
       : super(

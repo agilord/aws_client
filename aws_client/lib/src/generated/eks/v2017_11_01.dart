@@ -3630,8 +3630,8 @@ class Eks {
   /// configuration in the cluster for EKS Hybrid Nodes. To remove the
   /// configuration, use the <code>remoteNetworkConfig</code> key with an object
   /// containing both subkeys with empty arrays for each. Here is an inline
-  /// example: <code>"remoteNetworkConfig": { "remoteNodeNetworks": [],
-  /// "remotePodNetworks": [] }</code>.
+  /// example: <code>"remoteNetworkConfig": { "remoteNodeNetworks": \[\],
+  /// "remotePodNetworks": \[\] }</code>.
   /// </li>
   /// </ul>
   /// Cluster updates are asynchronous, and they should finish within a few
@@ -4188,6 +4188,7 @@ class Eks {
   }
 }
 
+/// @nodoc
 class AssociateAccessPolicyResponse {
   /// The <code>AccessPolicy</code> and scope associated to the
   /// <code>AccessEntry</code>.
@@ -4229,6 +4230,7 @@ class AssociateAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class AssociateEncryptionConfigResponse {
   final Update? update;
 
@@ -4253,6 +4255,7 @@ class AssociateEncryptionConfigResponse {
   }
 }
 
+/// @nodoc
 class AssociateIdentityProviderConfigResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -4284,6 +4287,7 @@ class AssociateIdentityProviderConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessEntryResponse {
   final AccessEntry? accessEntry;
 
@@ -4307,6 +4311,7 @@ class CreateAccessEntryResponse {
   }
 }
 
+/// @nodoc
 class CreateAddonResponse {
   final Addon? addon;
 
@@ -4330,6 +4335,7 @@ class CreateAddonResponse {
   }
 }
 
+/// @nodoc
 class CreateCapabilityResponse {
   /// An object containing information about the newly created capability,
   /// including its name, ARN, status, and configuration.
@@ -4355,6 +4361,7 @@ class CreateCapabilityResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The full description of your new cluster.
   final Cluster? cluster;
@@ -4379,6 +4386,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateEksAnywhereSubscriptionResponse {
   /// The full description of the subscription.
   final EksAnywhereSubscription? subscription;
@@ -4405,6 +4413,7 @@ class CreateEksAnywhereSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateFargateProfileResponse {
   /// The full description of your new Fargate profile.
   final FargateProfile? fargateProfile;
@@ -4430,6 +4439,7 @@ class CreateFargateProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateNodegroupResponse {
   /// The full description of your new node group.
   final Nodegroup? nodegroup;
@@ -4454,6 +4464,7 @@ class CreateNodegroupResponse {
   }
 }
 
+/// @nodoc
 class CreatePodIdentityAssociationResponse {
   /// The full description of your new association.
   ///
@@ -4483,6 +4494,7 @@ class CreatePodIdentityAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessEntryResponse {
   DeleteAccessEntryResponse();
 
@@ -4495,6 +4507,7 @@ class DeleteAccessEntryResponse {
   }
 }
 
+/// @nodoc
 class DeleteAddonResponse {
   final Addon? addon;
 
@@ -4518,6 +4531,7 @@ class DeleteAddonResponse {
   }
 }
 
+/// @nodoc
 class DeleteCapabilityResponse {
   /// An object containing information about the deleted capability, including its
   /// final status and configuration.
@@ -4543,6 +4557,7 @@ class DeleteCapabilityResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// The full description of the cluster to delete.
   final Cluster? cluster;
@@ -4567,6 +4582,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteEksAnywhereSubscriptionResponse {
   /// The full description of the subscription to be deleted.
   final EksAnywhereSubscription? subscription;
@@ -4593,6 +4609,7 @@ class DeleteEksAnywhereSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteFargateProfileResponse {
   /// The deleted Fargate profile.
   final FargateProfile? fargateProfile;
@@ -4618,6 +4635,7 @@ class DeleteFargateProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteNodegroupResponse {
   /// The full description of your deleted node group.
   final Nodegroup? nodegroup;
@@ -4642,6 +4660,7 @@ class DeleteNodegroupResponse {
   }
 }
 
+/// @nodoc
 class DeletePodIdentityAssociationResponse {
   /// The full description of the EKS Pod Identity association that was deleted.
   final PodIdentityAssociation? association;
@@ -4668,6 +4687,7 @@ class DeletePodIdentityAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeregisterClusterResponse {
   final Cluster? cluster;
 
@@ -4691,6 +4711,7 @@ class DeregisterClusterResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccessEntryResponse {
   /// Information about the access entry.
   final AccessEntry? accessEntry;
@@ -4715,6 +4736,7 @@ class DescribeAccessEntryResponse {
   }
 }
 
+/// @nodoc
 class DescribeAddonResponse {
   final Addon? addon;
 
@@ -4738,6 +4760,7 @@ class DescribeAddonResponse {
   }
 }
 
+/// @nodoc
 class DescribeAddonConfigurationResponse {
   /// The name of the add-on.
   final String? addonName;
@@ -4793,6 +4816,7 @@ class DescribeAddonConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeAddonVersionsResponse {
   /// The list of available versions with Kubernetes version compatibility and
   /// other properties.
@@ -4834,6 +4858,7 @@ class DescribeAddonVersionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeCapabilityResponse {
   /// An object containing detailed information about the capability, including
   /// its name, ARN, type, status, version, configuration, health status, and
@@ -4860,6 +4885,7 @@ class DescribeCapabilityResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterResponse {
   /// The full description of your specified cluster.
   final Cluster? cluster;
@@ -4884,6 +4910,7 @@ class DescribeClusterResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterVersionsResponse {
   /// List of cluster version information objects.
   final List<ClusterVersionInformation>? clusterVersions;
@@ -4917,6 +4944,7 @@ class DescribeClusterVersionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeEksAnywhereSubscriptionResponse {
   /// The full description of the subscription.
   final EksAnywhereSubscription? subscription;
@@ -4943,6 +4971,7 @@ class DescribeEksAnywhereSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DescribeFargateProfileResponse {
   /// The full description of your Fargate profile.
   final FargateProfile? fargateProfile;
@@ -4968,6 +4997,7 @@ class DescribeFargateProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeIdentityProviderConfigResponse {
   /// The object that represents an OpenID Connect (OIDC) identity provider
   /// configuration.
@@ -4996,6 +5026,7 @@ class DescribeIdentityProviderConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeInsightResponse {
   /// The full description of the insight.
   final Insight? insight;
@@ -5020,6 +5051,7 @@ class DescribeInsightResponse {
   }
 }
 
+/// @nodoc
 class DescribeInsightsRefreshResponse {
   /// The date and time when the insights refresh operation ended.
   final DateTime? endedAt;
@@ -5064,6 +5096,7 @@ class DescribeInsightsRefreshResponse {
   }
 }
 
+/// @nodoc
 class DescribeNodegroupResponse {
   /// The full description of your node group.
   final Nodegroup? nodegroup;
@@ -5088,6 +5121,7 @@ class DescribeNodegroupResponse {
   }
 }
 
+/// @nodoc
 class DescribePodIdentityAssociationResponse {
   /// The full description of the EKS Pod Identity association.
   final PodIdentityAssociation? association;
@@ -5114,6 +5148,7 @@ class DescribePodIdentityAssociationResponse {
   }
 }
 
+/// @nodoc
 class DescribeUpdateResponse {
   /// The full description of the specified update.
   final Update? update;
@@ -5138,6 +5173,7 @@ class DescribeUpdateResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAccessPolicyResponse {
   DisassociateAccessPolicyResponse();
 
@@ -5150,6 +5186,7 @@ class DisassociateAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class DisassociateIdentityProviderConfigResponse {
   final Update? update;
 
@@ -5174,6 +5211,7 @@ class DisassociateIdentityProviderConfigResponse {
   }
 }
 
+/// @nodoc
 class ListAccessEntriesResponse {
   /// The list of access entries that exist for the cluster.
   final List<String>? accessEntries;
@@ -5214,6 +5252,7 @@ class ListAccessEntriesResponse {
   }
 }
 
+/// @nodoc
 class ListAccessPoliciesResponse {
   /// The list of available access policies. You can't view the contents of an
   /// access policy using the API. To view the contents, see <a
@@ -5257,6 +5296,7 @@ class ListAccessPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListAddonsResponse {
   /// A list of installed add-ons.
   final List<String>? addons;
@@ -5295,6 +5335,7 @@ class ListAddonsResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedAccessPoliciesResponse {
   /// The list of access policies associated with the access entry.
   final List<AssociatedAccessPolicy>? associatedAccessPolicies;
@@ -5352,6 +5393,7 @@ class ListAssociatedAccessPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListCapabilitiesResponse {
   /// A list of capability summary objects, each containing basic information
   /// about a capability including its name, ARN, type, status, version, and
@@ -5390,6 +5432,7 @@ class ListCapabilitiesResponse {
   }
 }
 
+/// @nodoc
 class ListClustersResponse {
   /// A list of all of the clusters for your account in the specified Amazon Web
   /// Services Region .
@@ -5431,6 +5474,7 @@ class ListClustersResponse {
   }
 }
 
+/// @nodoc
 class ListEksAnywhereSubscriptionsResponse {
   /// The nextToken value to include in a future ListEksAnywhereSubscriptions
   /// request. When the results of a ListEksAnywhereSubscriptions request exceed
@@ -5469,6 +5513,7 @@ class ListEksAnywhereSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class ListFargateProfilesResponse {
   /// A list of all of the Fargate profiles associated with the specified cluster.
   final List<String>? fargateProfileNames;
@@ -5510,6 +5555,7 @@ class ListFargateProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListIdentityProviderConfigsResponse {
   /// The identity provider configurations for the cluster.
   final List<IdentityProviderConfig>? identityProviderConfigs;
@@ -5554,6 +5600,7 @@ class ListIdentityProviderConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListInsightsResponse {
   /// The returned list of insights.
   final List<InsightSummary>? insights;
@@ -5590,6 +5637,7 @@ class ListInsightsResponse {
   }
 }
 
+/// @nodoc
 class ListNodegroupsResponse {
   /// The <code>nextToken</code> value returned from a previous paginated request,
   /// where <code>maxResults</code> was used and the results exceeded the value of
@@ -5630,6 +5678,7 @@ class ListNodegroupsResponse {
   }
 }
 
+/// @nodoc
 class ListPodIdentityAssociationsResponse {
   /// The list of summarized descriptions of the associations that are in the
   /// cluster and match any filters that you provided.
@@ -5694,6 +5743,7 @@ class ListPodIdentityAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -5717,6 +5767,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUpdatesResponse {
   /// The <code>nextToken</code> value returned from a previous paginated request,
   /// where <code>maxResults</code> was used and the results exceeded the value of
@@ -5757,6 +5808,7 @@ class ListUpdatesResponse {
   }
 }
 
+/// @nodoc
 class RegisterClusterResponse {
   final Cluster? cluster;
 
@@ -5780,6 +5832,7 @@ class RegisterClusterResponse {
   }
 }
 
+/// @nodoc
 class StartInsightsRefreshResponse {
   /// The message associated with the insights refresh operation.
   final String? message;
@@ -5810,6 +5863,7 @@ class StartInsightsRefreshResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5822,6 +5876,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5834,6 +5889,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccessEntryResponse {
   /// The ARN of the IAM principal for the <code>AccessEntry</code>.
   final AccessEntry? accessEntry;
@@ -5858,6 +5914,7 @@ class UpdateAccessEntryResponse {
   }
 }
 
+/// @nodoc
 class UpdateAddonResponse {
   final Update? update;
 
@@ -5881,6 +5938,7 @@ class UpdateAddonResponse {
   }
 }
 
+/// @nodoc
 class UpdateCapabilityResponse {
   final Update? update;
 
@@ -5904,6 +5962,7 @@ class UpdateCapabilityResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterConfigResponse {
   final Update? update;
 
@@ -5927,6 +5986,7 @@ class UpdateClusterConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterVersionResponse {
   /// The full description of the specified update
   final Update? update;
@@ -5951,6 +6011,7 @@ class UpdateClusterVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateEksAnywhereSubscriptionResponse {
   /// The full description of the updated subscription.
   final EksAnywhereSubscription? subscription;
@@ -5977,6 +6038,7 @@ class UpdateEksAnywhereSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class UpdateNodegroupConfigResponse {
   final Update? update;
 
@@ -6000,6 +6062,7 @@ class UpdateNodegroupConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateNodegroupVersionResponse {
   final Update? update;
 
@@ -6023,6 +6086,7 @@ class UpdateNodegroupVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdatePodIdentityAssociationResponse {
   /// The full description of the association that was updated.
   final PodIdentityAssociation? association;
@@ -6052,6 +6116,8 @@ class UpdatePodIdentityAssociationResponse {
 /// Amazon EKS Pod Identity associations provide the ability to manage
 /// credentials for your applications, similar to the way that Amazon EC2
 /// instance profiles provide credentials to Amazon EC2 instances.
+///
+/// @nodoc
 class PodIdentityAssociation {
   /// The Amazon Resource Name (ARN) of the association.
   final String? associationArn;
@@ -6241,6 +6307,8 @@ class PodIdentityAssociation {
 }
 
 /// An object representing an asynchronous update.
+///
+/// @nodoc
 class Update {
   /// The Unix epoch timestamp at object creation.
   final DateTime? createdAt;
@@ -6304,6 +6372,7 @@ class Update {
   }
 }
 
+/// @nodoc
 class UpdateStatus {
   static const inProgress = UpdateStatus._('InProgress');
   static const failed = UpdateStatus._('Failed');
@@ -6329,6 +6398,7 @@ class UpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateType {
   static const versionUpdate = UpdateType._('VersionUpdate');
   static const endpointAccessUpdate = UpdateType._('EndpointAccessUpdate');
@@ -6392,6 +6462,8 @@ class UpdateType {
 }
 
 /// An object representing an error when an asynchronous operation fails.
+///
+/// @nodoc
 class ErrorDetail {
   /// A brief description of the error.
   ///
@@ -6461,6 +6533,7 @@ class ErrorDetail {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const subnetNotFound = ErrorCode._('SubnetNotFound');
   static const securityGroupNotFound = ErrorCode._('SecurityGroupNotFound');
@@ -6521,6 +6594,8 @@ class ErrorCode {
 }
 
 /// An object representing the details of an update request.
+///
+/// @nodoc
 class UpdateParam {
   /// The keys associated with an update request.
   final UpdateParamType? type;
@@ -6550,6 +6625,7 @@ class UpdateParam {
   }
 }
 
+/// @nodoc
 class UpdateParamType {
   static const version = UpdateParamType._('Version');
   static const platformVersion = UpdateParamType._('PlatformVersion');
@@ -6695,6 +6771,8 @@ class UpdateParamType {
 ///
 /// You must specify either the launch template ID or the launch template name
 /// in the request, but not both.
+///
+/// @nodoc
 class LaunchTemplateSpecification {
   /// The ID of the launch template.
   ///
@@ -6743,6 +6821,8 @@ class LaunchTemplateSpecification {
 
 /// An object representing a Kubernetes <code>label</code> change for a managed
 /// node group.
+///
+/// @nodoc
 class UpdateLabelsPayload {
   /// The Kubernetes <code>labels</code> to add or update.
   final Map<String, String>? addOrUpdateLabels;
@@ -6769,6 +6849,8 @@ class UpdateLabelsPayload {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
 /// taints on managed node groups</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class UpdateTaintsPayload {
   /// Kubernetes taints to be added or updated.
   final List<Taint>? addOrUpdateTaints;
@@ -6795,6 +6877,8 @@ class UpdateTaintsPayload {
 /// Scaling group that is associated with your node group. When creating a node
 /// group, you must specify all or none of the properties. When updating a node
 /// group, you can specify any or none of the properties.
+///
+/// @nodoc
 class NodegroupScalingConfig {
   /// The current number of nodes that the managed node group should maintain.
   /// <important>
@@ -6859,6 +6943,8 @@ class NodegroupScalingConfig {
 /// The node group update configuration. An Amazon EKS managed node group
 /// updates by replacing nodes with new nodes of newer AMI versions in parallel.
 /// You choose the <i>maximum unavailable</i> and the <i>update strategy</i>.
+///
+/// @nodoc
 class NodegroupUpdateConfig {
   /// The maximum number of nodes unavailable at once during a version update.
   /// Nodes are updated in parallel. This value or
@@ -6917,6 +7003,8 @@ class NodegroupUpdateConfig {
 }
 
 /// The node auto repair configuration for the node group.
+///
+/// @nodoc
 class NodeRepairConfig {
   /// Specifies whether to enable node auto repair for the node group. Node auto
   /// repair is disabled by default.
@@ -7012,6 +7100,8 @@ class NodeRepairConfig {
 /// instances alongside your Auto Scaling group that have already completed the
 /// bootup initialization process and can be kept in a <code>Stopped</code>,
 /// <code>Running</code>, or <code>Hibernated</code> state.
+///
+/// @nodoc
 class WarmPoolConfig {
   /// Specifies whether to attach warm pools on the managed node group. Set to
   /// <code>true</code> to enable the warm pool, or <code>false</code> to disable
@@ -7078,6 +7168,7 @@ class WarmPoolConfig {
   }
 }
 
+/// @nodoc
 class WarmPoolState {
   static const stopped = WarmPoolState._('STOPPED');
   static const running = WarmPoolState._('RUNNING');
@@ -7107,6 +7198,8 @@ class WarmPoolState {
 /// control the repair action and the repair delay time before a node is
 /// considered eligible for repair. If you use this, you must specify all the
 /// values.
+///
+/// @nodoc
 class NodeRepairConfigOverrides {
   /// Specify the minimum time in minutes to wait before attempting to repair a
   /// node with this specific <code>nodeMonitoringCondition</code> and
@@ -7159,6 +7252,7 @@ class NodeRepairConfigOverrides {
   }
 }
 
+/// @nodoc
 class RepairAction {
   static const replace = RepairAction._('Replace');
   static const reboot = RepairAction._('Reboot');
@@ -7183,6 +7277,7 @@ class RepairAction {
   String toString() => value;
 }
 
+/// @nodoc
 class NodegroupUpdateStrategies {
   static const $default = NodegroupUpdateStrategies._('DEFAULT');
   static const minimal = NodegroupUpdateStrategies._('MINIMAL');
@@ -7212,6 +7307,8 @@ class NodegroupUpdateStrategies {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
 /// taints on managed node groups</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class Taint {
   /// The effect of the taint.
   final TaintEffect? effect;
@@ -7248,6 +7345,7 @@ class Taint {
   }
 }
 
+/// @nodoc
 class TaintEffect {
   static const noSchedule = TaintEffect._('NO_SCHEDULE');
   static const noExecute = TaintEffect._('NO_EXECUTE');
@@ -7274,6 +7372,8 @@ class TaintEffect {
 
 /// An EKS Anywhere subscription authorizing the customer to support for
 /// licensed clusters and access to EKS Anywhere Curated Packages.
+///
+/// @nodoc
 class EksAnywhereSubscription {
   /// The Amazon Resource Name (ARN) for the subscription.
   final String? arn;
@@ -7402,6 +7502,7 @@ class EksAnywhereSubscription {
   }
 }
 
+/// @nodoc
 class EksAnywhereSubscriptionLicenseType {
   static const cluster = EksAnywhereSubscriptionLicenseType._('Cluster');
 
@@ -7430,6 +7531,8 @@ class EksAnywhereSubscriptionLicenseType {
 /// subscription. This determines the term length of your subscription. Valid
 /// values are MONTHS for term unit and 12 or 36 for term duration, indicating a
 /// 12 month or 36 month subscription.
+///
+/// @nodoc
 class EksAnywhereSubscriptionTerm {
   /// The duration of the subscription term. Valid values are 12 and 36,
   /// indicating a 12 month or 36 month subscription.
@@ -7462,6 +7565,8 @@ class EksAnywhereSubscriptionTerm {
 }
 
 /// An EKS Anywhere license associated with a subscription.
+///
+/// @nodoc
 class License {
   /// An id associated with an EKS Anywhere subscription license.
   final String? id;
@@ -7492,6 +7597,7 @@ class License {
   }
 }
 
+/// @nodoc
 class EksAnywhereSubscriptionTermUnit {
   static const months = EksAnywhereSubscriptionTermUnit._('MONTHS');
 
@@ -7518,6 +7624,8 @@ class EksAnywhereSubscriptionTermUnit {
 
 /// An object representing the VPC configuration to use for an Amazon EKS
 /// cluster.
+///
+/// @nodoc
 class VpcConfigRequest {
   /// Set this value to <code>true</code> to enable private access for your
   /// cluster's Kubernetes API server endpoint. If you enable private access,
@@ -7603,6 +7711,8 @@ class VpcConfigRequest {
 
 /// An object representing the logging configuration for resources in your
 /// cluster.
+///
+/// @nodoc
 class Logging {
   /// The cluster control plane logging configuration for your cluster.
   final List<LogSetup>? clusterLogging;
@@ -7629,6 +7739,8 @@ class Logging {
 }
 
 /// The access configuration information for the cluster.
+///
+/// @nodoc
 class UpdateAccessConfigRequest {
   /// The desired authentication mode for the cluster.
   final AuthenticationMode? authenticationMode;
@@ -7654,6 +7766,8 @@ class UpdateAccessConfigRequest {
 /// <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
 /// more about EKS Extended Support in the <i>Amazon EKS User Guide</i>.</a>
+///
+/// @nodoc
 class UpgradePolicyRequest {
   /// If the cluster is set to <code>EXTENDED</code>, it will enter extended
   /// support at the end of standard support. If the cluster is set to
@@ -7678,6 +7792,8 @@ class UpgradePolicyRequest {
 }
 
 /// The configuration for zonal shift for the cluster.
+///
+/// @nodoc
 class ZonalShiftConfigRequest {
   /// If zonal shift is enabled, Amazon Web Services configures zonal autoshift
   /// for the cluster.
@@ -7698,6 +7814,8 @@ class ZonalShiftConfigRequest {
 /// Request to update the configuration of the compute capability of your EKS
 /// Auto Mode cluster. For example, enable the capability. For more information,
 /// see EKS Auto Mode compute capability in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class ComputeConfigRequest {
   /// Request to enable or disable the compute capability on your EKS Auto Mode
   /// cluster. If the compute capability is enabled, EKS Auto Mode will create and
@@ -7734,6 +7852,8 @@ class ComputeConfigRequest {
 }
 
 /// The Kubernetes network configuration for the cluster.
+///
+/// @nodoc
 class KubernetesNetworkConfigRequest {
   /// Request to enable or disable the load balancing capability on your EKS Auto
   /// Mode cluster. For more information, see EKS Auto Mode load balancing
@@ -7810,6 +7930,8 @@ class KubernetesNetworkConfigRequest {
 /// Auto Mode cluster. For example, enable the capability. For more information,
 /// see EKS Auto Mode block storage capability in the <i>Amazon EKS User
 /// Guide</i>.
+///
+/// @nodoc
 class StorageConfigRequest {
   /// Request to configure EBS Block Storage settings for your EKS Auto Mode
   /// cluster.
@@ -7829,6 +7951,8 @@ class StorageConfigRequest {
 
 /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change,
 /// or remove this configuration after the cluster is created.
+///
+/// @nodoc
 class RemoteNetworkConfigRequest {
   /// The list of network CIDRs that can contain hybrid nodes.
   ///
@@ -7915,6 +8039,8 @@ class RemoteNetworkConfigRequest {
 
 /// The control plane scaling tier configuration. For more information, see EKS
 /// Provisioned Control Plane in the Amazon EKS User Guide.
+///
+/// @nodoc
 class ControlPlaneScalingConfig {
   /// The control plane scaling tier configuration. Available options are
   /// <code>standard</code>, <code>tier-xl</code>, <code>tier-2xl</code>,
@@ -7941,6 +8067,7 @@ class ControlPlaneScalingConfig {
   }
 }
 
+/// @nodoc
 class ProvisionedControlPlaneTier {
   static const standard = ProvisionedControlPlaneTier._('standard');
   static const tierXl = ProvisionedControlPlaneTier._('tier-xl');
@@ -7993,6 +8120,8 @@ class ProvisionedControlPlaneTier {
 /// resources, or the block of the Kubernetes service IP range.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RemotePodNetwork {
   /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid
   /// nodes.
@@ -8079,6 +8208,8 @@ class RemotePodNetwork {
 /// service and pod DNS names.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RemoteNodeNetwork {
   /// A network CIDR that can contain hybrid nodes.
   ///
@@ -8147,6 +8278,8 @@ class RemoteNodeNetwork {
 /// create and delete EBS volumes in your Amazon Web Services account. For more
 /// information, see EKS Auto Mode block storage capability in the <i>Amazon EKS
 /// User Guide</i>.
+///
+/// @nodoc
 class BlockStorage {
   /// Indicates if the block storage capability is enabled on your EKS Auto Mode
   /// cluster. If the block storage capability is enabled, EKS Auto Mode will
@@ -8171,6 +8304,7 @@ class BlockStorage {
   }
 }
 
+/// @nodoc
 class IpFamily {
   static const ipv4 = IpFamily._('ipv4');
   static const ipv6 = IpFamily._('ipv6');
@@ -8198,6 +8332,8 @@ class IpFamily {
 /// EKS Auto Mode cluster. For example, if the capability is enabled or
 /// disabled. For more information, see EKS Auto Mode load balancing capability
 /// in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class ElasticLoadBalancing {
   /// Indicates if the load balancing capability is enabled on your EKS Auto Mode
   /// cluster. If the load balancing capability is enabled, EKS Auto Mode will
@@ -8222,6 +8358,7 @@ class ElasticLoadBalancing {
   }
 }
 
+/// @nodoc
 class SupportType {
   static const standard = SupportType._('STANDARD');
   static const extended = SupportType._('EXTENDED');
@@ -8245,6 +8382,7 @@ class SupportType {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationMode {
   static const api = AuthenticationMode._('API');
   static const apiAndConfigMap = AuthenticationMode._('API_AND_CONFIG_MAP');
@@ -8273,6 +8411,8 @@ class AuthenticationMode {
 
 /// An object representing the enabled or disabled Kubernetes control plane logs
 /// for your cluster.
+///
+/// @nodoc
 class LogSetup {
   /// If a log type is enabled, that log type exports its control plane logs to
   /// CloudWatch Logs . If a log type isn't enabled, that log type doesn't export
@@ -8308,6 +8448,7 @@ class LogSetup {
   }
 }
 
+/// @nodoc
 class LogType {
   static const api = LogType._('api');
   static const audit = LogType._('audit');
@@ -8342,6 +8483,8 @@ class LogType {
 
 /// Configuration updates for a capability. The structure varies depending on
 /// the capability type.
+///
+/// @nodoc
 class UpdateCapabilityConfiguration {
   /// Configuration updates specific to Argo CD capabilities.
   final UpdateArgoCdConfig? argoCd;
@@ -8358,6 +8501,7 @@ class UpdateCapabilityConfiguration {
   }
 }
 
+/// @nodoc
 class CapabilityDeletePropagationPolicy {
   static const retain = CapabilityDeletePropagationPolicy._('RETAIN');
 
@@ -8384,6 +8528,8 @@ class CapabilityDeletePropagationPolicy {
 
 /// Configuration updates for an Argo CD capability. You only need to specify
 /// the fields you want to update.
+///
+/// @nodoc
 class UpdateArgoCdConfig {
   /// Updated network access configuration for the Argo CD capability's managed
   /// API server endpoint. You can add or remove VPC endpoint associations to
@@ -8411,6 +8557,8 @@ class UpdateArgoCdConfig {
 
 /// Updates to RBAC role mappings for an Argo CD capability. You can add,
 /// update, or remove role mappings in a single operation.
+///
+/// @nodoc
 class UpdateRoleMappings {
   /// A list of role mappings to add or update. If a mapping for the specified
   /// role already exists, it will be updated with the new identities. If it
@@ -8442,6 +8590,8 @@ class UpdateRoleMappings {
 /// server endpoint. When VPC endpoint IDs are specified, public access is
 /// blocked and the Argo CD server is only accessible through the specified VPC
 /// endpoints.
+///
+/// @nodoc
 class ArgoCdNetworkAccessConfigRequest {
   /// A list of VPC endpoint IDs to associate with the managed Argo CD API server
   /// endpoint. Each VPC endpoint provides private connectivity from a specific
@@ -8464,6 +8614,8 @@ class ArgoCdNetworkAccessConfigRequest {
 /// A mapping between an Argo CD role and IAM Identity CenterIAM; Identity
 /// Center identities. This defines which users or groups have specific
 /// permissions in Argo CD.
+///
+/// @nodoc
 class ArgoCdRoleMapping {
   /// A list of IAM Identity CenterIAM; Identity Center identities (users or
   /// groups) that should be assigned this Argo CD role.
@@ -8509,6 +8661,7 @@ class ArgoCdRoleMapping {
   }
 }
 
+/// @nodoc
 class ArgoCdRole {
   static const admin = ArgoCdRole._('ADMIN');
   static const editor = ArgoCdRole._('EDITOR');
@@ -8535,6 +8688,8 @@ class ArgoCdRole {
 
 /// An IAM Identity CenterIAM; Identity Center identity (user or group) that can
 /// be assigned permissions in a capability.
+///
+/// @nodoc
 class SsoIdentity {
   /// The unique identifier of the IAM Identity CenterIAM; Identity Center user or
   /// group.
@@ -8566,6 +8721,7 @@ class SsoIdentity {
   }
 }
 
+/// @nodoc
 class SsoIdentityType {
   static const ssoUser = SsoIdentityType._('SSO_USER');
   static const ssoGroup = SsoIdentityType._('SSO_GROUP');
@@ -8590,6 +8746,7 @@ class SsoIdentityType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolveConflicts {
   static const overwrite = ResolveConflicts._('OVERWRITE');
   static const none = ResolveConflicts._('NONE');
@@ -8624,6 +8781,8 @@ class ResolveConflicts {
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html">Attach
 /// an IAM Role to an Amazon EKS add-on using EKS Pod Identity</a> in the
 /// <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class AddonPodIdentityAssociations {
   /// The ARN of an IAM Role.
   final String roleArn;
@@ -8652,6 +8811,8 @@ class AddonPodIdentityAssociations {
 /// information about access entries, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html">Access
 /// entries</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class AccessEntry {
   /// The ARN of the access entry.
   final String? accessEntryArn;
@@ -8750,6 +8911,7 @@ class AccessEntry {
   }
 }
 
+/// @nodoc
 class InsightsRefreshStatus {
   static const inProgress = InsightsRefreshStatus._('IN_PROGRESS');
   static const failed = InsightsRefreshStatus._('FAILED');
@@ -8777,6 +8939,8 @@ class InsightsRefreshStatus {
 }
 
 /// An object representing an Amazon EKS cluster.
+///
+/// @nodoc
 class Cluster {
   /// The access configuration for the cluster.
   final AccessConfigResponse? accessConfig;
@@ -9081,6 +9245,8 @@ class Cluster {
 }
 
 /// An object representing an Amazon EKS cluster VPC configuration response.
+///
+/// @nodoc
 class VpcConfigResponse {
   /// The cluster security group that was created by Amazon EKS for the cluster.
   /// Managed node groups use this security group for control-plane-to-data-plane
@@ -9184,6 +9350,8 @@ class VpcConfigResponse {
 
 /// The Kubernetes network configuration for the cluster. The response contains
 /// a value for <b>serviceIpv6Cidr</b> or <b>serviceIpv4Cidr</b>, but not both.
+///
+/// @nodoc
 class KubernetesNetworkConfigResponse {
   /// Indicates the current configuration of the load balancing capability on your
   /// EKS Auto Mode cluster. For example, if the capability is enabled or
@@ -9250,6 +9418,8 @@ class KubernetesNetworkConfigResponse {
 }
 
 /// An object representing an identity provider.
+///
+/// @nodoc
 class Identity {
   /// An object representing the <a href="https://openid.net/connect/">OpenID
   /// Connect</a> identity provider information.
@@ -9275,6 +9445,7 @@ class Identity {
   }
 }
 
+/// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('CREATING');
   static const active = ClusterStatus._('ACTIVE');
@@ -9305,6 +9476,8 @@ class ClusterStatus {
 
 /// An object representing the <code>certificate-authority-data</code> for your
 /// cluster.
+///
+/// @nodoc
 class Certificate {
   /// The Base64-encoded certificate data required to communicate with your
   /// cluster. Add this to the <code>certificate-authority-data</code> section of
@@ -9330,6 +9503,8 @@ class Certificate {
 }
 
 /// The full description of your connected cluster.
+///
+/// @nodoc
 class ConnectorConfigResponse {
   /// A unique code associated with the cluster for registration purposes.
   final String? activationCode;
@@ -9384,6 +9559,8 @@ class ConnectorConfigResponse {
 }
 
 /// An object representing the health of your Amazon EKS cluster.
+///
+/// @nodoc
 class ClusterHealth {
   /// An object representing the health issues of your Amazon EKS cluster.
   final List<ClusterIssue>? issues;
@@ -9412,6 +9589,8 @@ class ClusterHealth {
 /// An object representing the configuration of your local Amazon EKS cluster on
 /// an Amazon Web Services Outpost. This API isn't available for Amazon EKS
 /// clusters on the Amazon Web Services cloud.
+///
+/// @nodoc
 class OutpostConfigResponse {
   /// The Amazon EC2 instance type used for the control plane. The instance type
   /// is the same for all control plane instances.
@@ -9463,6 +9642,8 @@ class OutpostConfigResponse {
 }
 
 /// The access configuration for the cluster.
+///
+/// @nodoc
 class AccessConfigResponse {
   /// The current authentication mode of the cluster.
   final AuthenticationMode? authenticationMode;
@@ -9505,6 +9686,8 @@ class AccessConfigResponse {
 /// <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
 /// more about EKS Extended Support in the <i>Amazon EKS User Guide</i>.</a>
+///
+/// @nodoc
 class UpgradePolicyResponse {
   /// If the cluster is set to <code>EXTENDED</code>, it will enter extended
   /// support at the end of standard support. If the cluster is set to
@@ -9536,6 +9719,8 @@ class UpgradePolicyResponse {
 }
 
 /// The status of zonal shift configuration for the cluster
+///
+/// @nodoc
 class ZonalShiftConfigResponse {
   /// Whether the zonal shift is enabled.
   final bool? enabled;
@@ -9560,6 +9745,8 @@ class ZonalShiftConfigResponse {
 
 /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change,
 /// or remove this configuration after the cluster is created.
+///
+/// @nodoc
 class RemoteNetworkConfigResponse {
   /// The list of network CIDRs that can contain hybrid nodes.
   final List<RemoteNodeNetwork>? remoteNodeNetworks;
@@ -9598,6 +9785,8 @@ class RemoteNetworkConfigResponse {
 
 /// Indicates the status of the request to update the compute capability of your
 /// EKS Auto Mode cluster.
+///
+/// @nodoc
 class ComputeConfigResponse {
   /// Indicates if the compute capability is enabled on your EKS Auto Mode
   /// cluster. If the compute capability is enabled, EKS Auto Mode will create and
@@ -9644,6 +9833,8 @@ class ComputeConfigResponse {
 
 /// Indicates the status of the request to update the block storage capability
 /// of your EKS Auto Mode cluster.
+///
+/// @nodoc
 class StorageConfigResponse {
   /// Indicates the current configuration of the block storage capability on your
   /// EKS Auto Mode cluster. For example, if the capability is enabled or
@@ -9675,6 +9866,8 @@ class StorageConfigResponse {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
 /// considerations</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class ControlPlanePlacementResponse {
   /// The name of the placement group for the Kubernetes control plane instances.
   final String? groupName;
@@ -9698,6 +9891,8 @@ class ControlPlanePlacementResponse {
 }
 
 /// An issue with your Amazon EKS cluster.
+///
+/// @nodoc
 class ClusterIssue {
   /// The error code of the issue.
   final ClusterIssueCode? code;
@@ -9737,6 +9932,7 @@ class ClusterIssue {
   }
 }
 
+/// @nodoc
 class ClusterIssueCode {
   static const accessDenied = ClusterIssueCode._('AccessDenied');
   static const clusterUnreachable = ClusterIssueCode._('ClusterUnreachable');
@@ -9806,6 +10002,8 @@ class ClusterIssueCode {
 }
 
 /// The encryption configuration for the cluster.
+///
+/// @nodoc
 class EncryptionConfig {
   /// Key Management Service (KMS) key. Either the ARN or the alias can be used.
   final Provider? provider;
@@ -9842,6 +10040,8 @@ class EncryptionConfig {
 }
 
 /// Identifies the Key Management Service (KMS) key used to encrypt the secrets.
+///
+/// @nodoc
 class Provider {
   /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be
   /// symmetric and created in the same Amazon Web Services Region as the cluster.
@@ -9873,6 +10073,8 @@ class Provider {
 
 /// An object representing the <a href="https://openid.net/connect/">OpenID
 /// Connect</a> (OIDC) identity provider information for the cluster.
+///
+/// @nodoc
 class OIDC {
   /// The issuer URL for the OIDC identity provider.
   final String? issuer;
@@ -9896,6 +10098,8 @@ class OIDC {
 }
 
 /// The configuration sent to a cluster for configuration.
+///
+/// @nodoc
 class ConnectorConfigRequest {
   /// The cloud provider for the target cluster to connect.
   final ConnectorConfigProvider provider;
@@ -9919,6 +10123,7 @@ class ConnectorConfigRequest {
   }
 }
 
+/// @nodoc
 class ConnectorConfigProvider {
   static const eksAnywhere = ConnectorConfigProvider._('EKS_ANYWHERE');
   static const anthos = ConnectorConfigProvider._('ANTHOS');
@@ -9982,6 +10187,8 @@ class ConnectorConfigProvider {
 /// The tags on the association: <code>tags</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PodIdentityAssociationSummary {
   /// The Amazon Resource Name (ARN) of the association.
   final String? associationArn;
@@ -10043,6 +10250,8 @@ class PodIdentityAssociationSummary {
 }
 
 /// The summarized description of the insight.
+///
+/// @nodoc
 class InsightSummary {
   /// The category of the insight.
   final Category? category;
@@ -10121,6 +10330,7 @@ class InsightSummary {
   }
 }
 
+/// @nodoc
 class Category {
   static const upgradeReadiness = Category._('UPGRADE_READINESS');
   static const misconfiguration = Category._('MISCONFIGURATION');
@@ -10145,6 +10355,8 @@ class Category {
 }
 
 /// The status of the insight.
+///
+/// @nodoc
 class InsightStatus {
   /// Explanation on the reasoning for the status of the resource.
   final String? reason;
@@ -10174,6 +10386,7 @@ class InsightStatus {
   }
 }
 
+/// @nodoc
 class InsightStatusValue {
   static const passing = InsightStatusValue._('PASSING');
   static const warning = InsightStatusValue._('WARNING');
@@ -10202,6 +10415,8 @@ class InsightStatusValue {
 }
 
 /// The criteria to use for the insights.
+///
+/// @nodoc
 class InsightsFilter {
   /// The categories to use to filter insights. The following lists the available
   /// categories:
@@ -10246,6 +10461,8 @@ class InsightsFilter {
 }
 
 /// An object representing an identity provider configuration.
+///
+/// @nodoc
 class IdentityProviderConfig {
   /// The name of the identity provider configuration.
   final String name;
@@ -10276,6 +10493,7 @@ class IdentityProviderConfig {
   }
 }
 
+/// @nodoc
 class EksAnywhereSubscriptionStatus {
   static const creating = EksAnywhereSubscriptionStatus._('CREATING');
   static const active = EksAnywhereSubscriptionStatus._('ACTIVE');
@@ -10315,6 +10533,8 @@ class EksAnywhereSubscriptionStatus {
 /// A summary of a capability, containing basic information without the full
 /// configuration details. This is returned by the <code>ListCapabilities</code>
 /// operation.
+///
+/// @nodoc
 class CapabilitySummary {
   /// The Amazon Resource Name (ARN) of the capability.
   final String? arn;
@@ -10381,6 +10601,7 @@ class CapabilitySummary {
   }
 }
 
+/// @nodoc
 class CapabilityType {
   static const ack = CapabilityType._('ACK');
   static const kro = CapabilityType._('KRO');
@@ -10406,6 +10627,7 @@ class CapabilityType {
   String toString() => value;
 }
 
+/// @nodoc
 class CapabilityStatus {
   static const creating = CapabilityStatus._('CREATING');
   static const createFailed = CapabilityStatus._('CREATE_FAILED');
@@ -10444,6 +10666,8 @@ class CapabilityStatus {
 }
 
 /// An access policy association.
+///
+/// @nodoc
 class AssociatedAccessPolicy {
   /// The scope of the access policy.
   final AccessScope? accessScope;
@@ -10493,6 +10717,8 @@ class AssociatedAccessPolicy {
 
 /// The scope of an <code>AccessPolicy</code> that's associated to an
 /// <code>AccessEntry</code>.
+///
+/// @nodoc
 class AccessScope {
   /// A Kubernetes <code>namespace</code> that an access policy is scoped to. A
   /// value is required if you specified <code>namespace</code> for
@@ -10527,6 +10753,7 @@ class AccessScope {
   }
 }
 
+/// @nodoc
 class AccessScopeType {
   static const cluster = AccessScopeType._('cluster');
   static const namespace = AccessScopeType._('namespace');
@@ -10563,6 +10790,8 @@ class AccessScopeType {
 /// policies, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html#access-policy-permissions">Access
 /// policy permissions</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class AccessPolicy {
   /// The ARN of the access policy.
   final String? arn;
@@ -10593,6 +10822,8 @@ class AccessPolicy {
 }
 
 /// An object representing an Amazon EKS managed node group.
+///
+/// @nodoc
 class Nodegroup {
   /// If the node group was deployed using a launch template with a custom AMI,
   /// then this is <code>CUSTOM</code>. For node groups that weren't deployed
@@ -10853,6 +11084,7 @@ class Nodegroup {
   }
 }
 
+/// @nodoc
 class NodegroupStatus {
   static const creating = NodegroupStatus._('CREATING');
   static const active = NodegroupStatus._('ACTIVE');
@@ -10890,6 +11122,7 @@ class NodegroupStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityTypes {
   static const onDemand = CapacityTypes._('ON_DEMAND');
   static const spot = CapacityTypes._('SPOT');
@@ -10917,6 +11150,8 @@ class CapacityTypes {
 
 /// An object representing the remote access configuration for the managed node
 /// group.
+///
+/// @nodoc
 class RemoteAccessConfig {
   /// The Amazon EC2 SSH key name that provides access for SSH communication with
   /// the nodes in the managed node group. For more information, see <a
@@ -10965,6 +11200,7 @@ class RemoteAccessConfig {
   }
 }
 
+/// @nodoc
 class AMITypes {
   static const al2X86_64 = AMITypes._('AL2_x86_64');
   static const al2X86_64Gpu = AMITypes._('AL2_x86_64_GPU');
@@ -11039,6 +11275,8 @@ class AMITypes {
 
 /// An object representing the resources associated with the node group, such as
 /// Auto Scaling groups and security groups for remote access.
+///
+/// @nodoc
 class NodegroupResources {
   /// The Auto Scaling groups associated with the node group.
   final List<AutoScalingGroup>? autoScalingGroups;
@@ -11074,6 +11312,8 @@ class NodegroupResources {
 }
 
 /// An object representing the health status of the node group.
+///
+/// @nodoc
 class NodegroupHealth {
   /// Any issues that are associated with the node group.
   final List<Issue>? issues;
@@ -11100,6 +11340,8 @@ class NodegroupHealth {
 }
 
 /// An object representing an issue with an Amazon EKS resource.
+///
+/// @nodoc
 class Issue {
   /// A brief description of the error.
   ///
@@ -11229,6 +11471,7 @@ class Issue {
   }
 }
 
+/// @nodoc
 class NodegroupIssueCode {
   static const autoScalingGroupNotFound =
       NodegroupIssueCode._('AutoScalingGroupNotFound');
@@ -11353,6 +11596,8 @@ class NodegroupIssueCode {
 
 /// An Auto Scaling group that is associated with an Amazon EKS managed node
 /// group.
+///
+/// @nodoc
 class AutoScalingGroup {
   /// The name of the Auto Scaling group associated with an Amazon EKS managed
   /// node group.
@@ -11378,6 +11623,8 @@ class AutoScalingGroup {
 
 /// A check that provides recommendations to remedy potential upgrade-impacting
 /// issues.
+///
+/// @nodoc
 class Insight {
   /// Links to sources that provide additional context on the insight.
   final Map<String, String>? additionalInfo;
@@ -11497,6 +11744,8 @@ class Insight {
 /// Summary information that relates to the category of the insight. Currently
 /// only returned with certain insights having category
 /// <code>UPGRADE_READINESS</code>.
+///
+/// @nodoc
 class InsightCategorySpecificSummary {
   /// A list of <code>AddonCompatibilityDetail</code> objects for Amazon EKS
   /// add-ons.
@@ -11539,6 +11788,8 @@ class InsightCategorySpecificSummary {
 /// The summary information about the Amazon EKS add-on compatibility for the
 /// next Kubernetes version for an insight check in the
 /// <code>UPGRADE_READINESS</code> category.
+///
+/// @nodoc
 class AddonCompatibilityDetail {
   /// The list of compatible Amazon EKS add-on versions for the next Kubernetes
   /// version.
@@ -11574,6 +11825,8 @@ class AddonCompatibilityDetail {
 
 /// The summary information about deprecated resource usage for an insight check
 /// in the <code>UPGRADE_READINESS</code> category.
+///
+/// @nodoc
 class DeprecationDetail {
   /// Details about Kubernetes clients using the deprecated resources.
   final List<ClientStat>? clientStats;
@@ -11632,6 +11885,8 @@ class DeprecationDetail {
 }
 
 /// Details about clients using the deprecated resources.
+///
+/// @nodoc
 class ClientStat {
   /// The timestamp of the last request seen from the Kubernetes client.
   final DateTime? lastRequestTime;
@@ -11672,6 +11927,8 @@ class ClientStat {
 }
 
 /// Returns information about the resource being evaluated.
+///
+/// @nodoc
 class InsightResourceDetail {
   /// The Amazon Resource Name (ARN) if applicable.
   final String? arn;
@@ -11713,6 +11970,8 @@ class InsightResourceDetail {
 }
 
 /// The full description of your identity configuration.
+///
+/// @nodoc
 class IdentityProviderConfigResponse {
   /// An object representing an OpenID Connect (OIDC) identity provider
   /// configuration.
@@ -11741,6 +12000,8 @@ class IdentityProviderConfigResponse {
 
 /// An object representing the configuration for an OpenID Connect (OIDC)
 /// identity provider.
+///
+/// @nodoc
 class OidcIdentityProviderConfig {
   /// This is also known as <i>audience</i>. The ID of the client application that
   /// makes authentication requests to the OIDC identity provider.
@@ -11855,6 +12116,7 @@ class OidcIdentityProviderConfig {
   }
 }
 
+/// @nodoc
 class ConfigStatus {
   static const creating = ConfigStatus._('CREATING');
   static const deleting = ConfigStatus._('DELETING');
@@ -11880,6 +12142,8 @@ class ConfigStatus {
 }
 
 /// An object representing an Fargate profile.
+///
+/// @nodoc
 class FargateProfile {
   /// The name of your cluster.
   final String? clusterName;
@@ -11982,6 +12246,7 @@ class FargateProfile {
   }
 }
 
+/// @nodoc
 class FargateProfileStatus {
   static const creating = FargateProfileStatus._('CREATING');
   static const active = FargateProfileStatus._('ACTIVE');
@@ -12018,6 +12283,8 @@ class FargateProfileStatus {
 
 /// The health status of the Fargate profile. If there are issues with your
 /// Fargate profile's health, they are listed here.
+///
+/// @nodoc
 class FargateProfileHealth {
   /// Any issues that are associated with the Fargate profile.
   final List<FargateProfileIssue>? issues;
@@ -12044,6 +12311,8 @@ class FargateProfileHealth {
 }
 
 /// An issue that is associated with the Fargate profile.
+///
+/// @nodoc
 class FargateProfileIssue {
   /// A brief description of the error.
   final FargateProfileIssueCode? code;
@@ -12083,6 +12352,7 @@ class FargateProfileIssue {
   }
 }
 
+/// @nodoc
 class FargateProfileIssueCode {
   static const podExecutionRoleAlreadyInUse =
       FargateProfileIssueCode._('PodExecutionRoleAlreadyInUse');
@@ -12118,6 +12388,8 @@ class FargateProfileIssueCode {
 }
 
 /// An object representing an Fargate profile selector.
+///
+/// @nodoc
 class FargateProfileSelector {
   /// The Kubernetes labels that the selector should match. A pod must contain all
   /// of the labels that are specified in the selector for it to be considered a
@@ -12151,6 +12423,8 @@ class FargateProfileSelector {
 }
 
 /// Contains details about a specific EKS cluster version.
+///
+/// @nodoc
 class ClusterVersionInformation {
   /// The type of cluster this version is for.
   final String? clusterType;
@@ -12249,6 +12523,7 @@ class ClusterVersionInformation {
   }
 }
 
+/// @nodoc
 class ClusterVersionStatus {
   static const unsupported = ClusterVersionStatus._('unsupported');
   static const standardSupport = ClusterVersionStatus._('standard-support');
@@ -12275,6 +12550,7 @@ class ClusterVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VersionStatus {
   static const unsupported = VersionStatus._('UNSUPPORTED');
   static const standardSupport = VersionStatus._('STANDARD_SUPPORT');
@@ -12303,6 +12579,8 @@ class VersionStatus {
 /// An object representing a managed capability in an Amazon EKS cluster. This
 /// includes all configuration, status, and health information for the
 /// capability.
+///
+/// @nodoc
 class Capability {
   /// The Amazon Resource Name (ARN) of the capability.
   final String? arn;
@@ -12447,6 +12725,8 @@ class Capability {
 }
 
 /// The response object containing capability configuration details.
+///
+/// @nodoc
 class CapabilityConfigurationResponse {
   /// Configuration settings for an Argo CD capability, including the server URL
   /// and other Argo CD-specific settings.
@@ -12475,6 +12755,8 @@ class CapabilityConfigurationResponse {
 
 /// Health information for a capability, including any issues that may be
 /// affecting its operation.
+///
+/// @nodoc
 class CapabilityHealth {
   /// A list of issues affecting the capability. If this list is empty, the
   /// capability is healthy.
@@ -12502,6 +12784,8 @@ class CapabilityHealth {
 }
 
 /// An issue affecting a capability's health or operation.
+///
+/// @nodoc
 class CapabilityIssue {
   /// A code identifying the type of issue. This can be used to programmatically
   /// handle specific issue types.
@@ -12533,6 +12817,7 @@ class CapabilityIssue {
   }
 }
 
+/// @nodoc
 class CapabilityIssueCode {
   static const accessDenied = CapabilityIssueCode._('AccessDenied');
   static const clusterUnreachable = CapabilityIssueCode._('ClusterUnreachable');
@@ -12560,6 +12845,8 @@ class CapabilityIssueCode {
 
 /// The response object containing Argo CD configuration details, including the
 /// server URL that you use to access the Argo CD web interface and API.
+///
+/// @nodoc
 class ArgoCdConfigResponse {
   /// The IAM Identity CenterIAM; Identity Center integration configuration.
   final ArgoCdAwsIdcConfigResponse? awsIdc;
@@ -12627,6 +12914,8 @@ class ArgoCdConfigResponse {
 
 /// The response object containing IAM Identity CenterIAM; Identity Center
 /// configuration details for an Argo CD capability.
+///
+/// @nodoc
 class ArgoCdAwsIdcConfigResponse {
   /// The Amazon Resource Name (ARN) of the IAM Identity CenterIAM; Identity
   /// Center instance used for authentication.
@@ -12672,6 +12961,8 @@ class ArgoCdAwsIdcConfigResponse {
 /// capability's managed API server endpoint. If VPC endpoint IDs are present,
 /// public access is blocked and the Argo CD server is only accessible through
 /// the specified VPC endpoints.
+///
+/// @nodoc
 class ArgoCdNetworkAccessConfigResponse {
   /// The list of VPC endpoint IDs associated with the managed Argo CD API server
   /// endpoint. Each VPC endpoint provides private connectivity from a specific
@@ -12699,6 +12990,8 @@ class ArgoCdNetworkAccessConfigResponse {
 }
 
 /// Information about an add-on.
+///
+/// @nodoc
 class AddonInfo {
   /// The name of the add-on.
   final String? addonName;
@@ -12774,6 +13067,8 @@ class AddonInfo {
 
 /// Information about an Amazon EKS add-on from the Amazon Web Services
 /// Marketplace.
+///
+/// @nodoc
 class MarketplaceInformation {
   /// The product ID from the Amazon Web Services Marketplace.
   final String? productId;
@@ -12804,6 +13099,8 @@ class MarketplaceInformation {
 }
 
 /// Information about an add-on version.
+///
+/// @nodoc
 class AddonVersionInfo {
   /// The version of the add-on.
   final String? addonVersion;
@@ -12874,6 +13171,8 @@ class AddonVersionInfo {
 }
 
 /// Compatibility information.
+///
+/// @nodoc
 class Compatibility {
   /// The supported Kubernetes version of the cluster.
   final String? clusterVersion;
@@ -12914,6 +13213,8 @@ class Compatibility {
 }
 
 /// Information about how to configure IAM for an add-on.
+///
+/// @nodoc
 class AddonPodIdentityConfiguration {
   /// A suggested IAM Policy for the add-on.
   final List<String>? recommendedManagedPolicies;
@@ -12950,6 +13251,8 @@ class AddonPodIdentityConfiguration {
 /// An Amazon EKS add-on. For more information, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html">Amazon
 /// EKS add-ons</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class Addon {
   /// The Amazon Resource Name (ARN) of the add-on.
   final String? addonArn;
@@ -13104,6 +13407,7 @@ class Addon {
   }
 }
 
+/// @nodoc
 class AddonStatus {
   static const creating = AddonStatus._('CREATING');
   static const active = AddonStatus._('ACTIVE');
@@ -13143,6 +13447,8 @@ class AddonStatus {
 }
 
 /// The health of the add-on.
+///
+/// @nodoc
 class AddonHealth {
   /// An object representing the health issues for an add-on.
   final List<AddonIssue>? issues;
@@ -13170,6 +13476,8 @@ class AddonHealth {
 
 /// The namespace configuration response object containing information about the
 /// namespace where an addon is installed.
+///
+/// @nodoc
 class AddonNamespaceConfigResponse {
   /// The name of the Kubernetes namespace where the addon is installed.
   final String? namespace;
@@ -13193,6 +13501,8 @@ class AddonNamespaceConfigResponse {
 }
 
 /// An issue related to an add-on.
+///
+/// @nodoc
 class AddonIssue {
   /// A code that describes the type of issue.
   final AddonIssueCode? code;
@@ -13232,6 +13542,7 @@ class AddonIssue {
   }
 }
 
+/// @nodoc
 class AddonIssueCode {
   static const accessDenied = AddonIssueCode._('AccessDenied');
   static const internalFailure = AddonIssueCode._('InternalFailure');
@@ -13287,6 +13598,8 @@ class AddonIssueCode {
 /// a local cluster on an Outpost</a> in the <i>Amazon EKS User Guide</i>. This
 /// API isn't available for Amazon EKS clusters on the Amazon Web Services
 /// cloud.
+///
+/// @nodoc
 class OutpostConfigRequest {
   /// The Amazon EC2 instance type that you want to use for your local Amazon EKS
   /// cluster on Outposts. Choose an instance type based on the number of nodes
@@ -13332,6 +13645,8 @@ class OutpostConfigRequest {
 }
 
 /// The access configuration information for the cluster.
+///
+/// @nodoc
 class CreateAccessConfigRequest {
   /// The desired authentication mode for the cluster. If you create a cluster by
   /// using the EKS API, Amazon Web Services SDKs, or CloudFormation, the default
@@ -13369,6 +13684,8 @@ class CreateAccessConfigRequest {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
 /// considerations</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
 class ControlPlanePlacementRequest {
   /// The name of the placement group for the Kubernetes control plane instances.
   /// This setting can't be changed after cluster creation.
@@ -13388,6 +13705,8 @@ class ControlPlanePlacementRequest {
 
 /// Configuration settings for a capability. The structure of this object varies
 /// depending on the capability type.
+///
+/// @nodoc
 class CapabilityConfigurationRequest {
   /// Configuration settings specific to Argo CD capabilities. This field is only
   /// used when creating or updating an Argo CD capability.
@@ -13408,6 +13727,8 @@ class CapabilityConfigurationRequest {
 /// Configuration settings for an Argo CD capability. This includes the
 /// Kubernetes namespace, IAM Identity CenterIAM; Identity Center integration,
 /// RBAC role mappings, and network access configuration.
+///
+/// @nodoc
 class ArgoCdConfigRequest {
   /// Configuration for IAM Identity CenterIAM; Identity Center integration. When
   /// configured, users can authenticate to Argo CD using their IAM Identity
@@ -13457,6 +13778,8 @@ class ArgoCdConfigRequest {
 /// Configuration for integrating Argo CD with IAM Identity CenterIAM; Identity
 /// Center. This allows you to use your organization's identity provider for
 /// authentication to Argo CD.
+///
+/// @nodoc
 class ArgoCdAwsIdcConfigRequest {
   /// The Amazon Resource Name (ARN) of the IAM Identity CenterIAM; Identity
   /// Center instance to use for authentication.
@@ -13483,6 +13806,8 @@ class ArgoCdAwsIdcConfigRequest {
 
 /// The namespace configuration request object for specifying a custom namespace
 /// when creating an addon.
+///
+/// @nodoc
 class AddonNamespaceConfigRequest {
   /// The name of the Kubernetes namespace to install the addon in. Must be a
   /// valid RFC 1123 DNS label.
@@ -13506,6 +13831,8 @@ class AddonNamespaceConfigRequest {
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html">Authenticating
 /// users for your cluster from an OIDC identity provider</a> in the <i>Amazon
 /// EKS User Guide</i>.
+///
+/// @nodoc
 class OidcIdentityProviderConfigRequest {
   /// This is also known as <i>audience</i>. The ID for the client application
   /// that makes authentication requests to the OIDC identity provider.
@@ -13589,46 +13916,55 @@ class OidcIdentityProviderConfigRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ClientException extends _s.GenericAwsException {
   ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -13637,11 +13973,13 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourcePropagationDelayException extends _s.GenericAwsException {
   ResourcePropagationDelayException({String? type, String? message})
       : super(
@@ -13650,22 +13988,26 @@ class ResourcePropagationDelayException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedAvailabilityZoneException extends _s.GenericAwsException {
   UnsupportedAvailabilityZoneException({String? type, String? message})
       : super(

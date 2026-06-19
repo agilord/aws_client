@@ -336,6 +336,7 @@ class Artifact {
   }
 }
 
+/// @nodoc
 class GetAccountSettingsResponse {
   final AccountSettings? accountSettings;
 
@@ -360,6 +361,7 @@ class GetAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class PutAccountSettingsResponse {
   final AccountSettings? accountSettings;
 
@@ -384,6 +386,7 @@ class PutAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomerAgreementsResponse {
   /// List of customer-agreement resources.
   final List<CustomerAgreementSummary> customerAgreements;
@@ -417,6 +420,7 @@ class ListCustomerAgreementsResponse {
   }
 }
 
+/// @nodoc
 class GetReportMetadataResponse {
   /// Report resource detail.
   final ReportDetail? reportDetails;
@@ -441,6 +445,7 @@ class GetReportMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListReportsResponse {
   /// Pagination token to request the next page of resources.
   final String? nextToken;
@@ -473,6 +478,7 @@ class ListReportsResponse {
   }
 }
 
+/// @nodoc
 class GetReportResponse {
   /// Presigned S3 url to access the report content.
   final String? documentPresignedUrl;
@@ -496,6 +502,7 @@ class GetReportResponse {
   }
 }
 
+/// @nodoc
 class GetTermForReportResponse {
   /// Presigned S3 url to access the term content.
   final String? documentPresignedUrl;
@@ -526,6 +533,7 @@ class GetTermForReportResponse {
   }
 }
 
+/// @nodoc
 class ListReportVersionsResponse {
   /// List of report resources.
   final List<ReportSummary> reports;
@@ -559,6 +567,8 @@ class ListReportVersionsResponse {
 }
 
 /// Summary for report resource.
+///
+/// @nodoc
 class ReportSummary {
   /// Acceptance type for report.
   final AcceptanceType? acceptanceType;
@@ -681,6 +691,7 @@ class ReportSummary {
   }
 }
 
+/// @nodoc
 class PublishedState {
   static const published = PublishedState._('PUBLISHED');
   static const unpublished = PublishedState._('UNPUBLISHED');
@@ -705,6 +716,7 @@ class PublishedState {
   String toString() => value;
 }
 
+/// @nodoc
 class UploadState {
   static const processing = UploadState._('PROCESSING');
   static const complete = UploadState._('COMPLETE');
@@ -730,6 +742,7 @@ class UploadState {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceptanceType {
   static const passthrough = AcceptanceType._('PASSTHROUGH');
   static const explicit = AcceptanceType._('EXPLICIT');
@@ -755,6 +768,8 @@ class AcceptanceType {
 }
 
 /// Full detail for report resource metadata.
+///
+/// @nodoc
 class ReportDetail {
   /// Acceptance type for report.
   final AcceptanceType? acceptanceType;
@@ -914,6 +929,8 @@ class ReportDetail {
 }
 
 /// Summary for customer-agreement resource.
+///
+/// @nodoc
 class CustomerAgreementSummary {
   /// Terms required to accept the agreement resource.
   final List<String>? acceptanceTerms;
@@ -1027,6 +1044,7 @@ class CustomerAgreementSummary {
   }
 }
 
+/// @nodoc
 class CustomerAgreementState {
   static const active = CustomerAgreementState._('ACTIVE');
   static const customerTerminated =
@@ -1054,6 +1072,7 @@ class CustomerAgreementState {
   String toString() => value;
 }
 
+/// @nodoc
 class AgreementType {
   static const custom = AgreementType._('CUSTOM');
   static const $default = AgreementType._('DEFAULT');
@@ -1080,6 +1099,8 @@ class AgreementType {
 }
 
 /// Account settings for the customer.
+///
+/// @nodoc
 class AccountSettings {
   /// Notification subscription status of the customer.
   final NotificationSubscriptionStatus? notificationSubscriptionStatus;
@@ -1105,6 +1126,7 @@ class AccountSettings {
   }
 }
 
+/// @nodoc
 class NotificationSubscriptionStatus {
   static const subscribed = NotificationSubscriptionStatus._('SUBSCRIBED');
   static const notSubscribed =
@@ -1131,26 +1153,31 @@ class NotificationSubscriptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1159,11 +1186,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

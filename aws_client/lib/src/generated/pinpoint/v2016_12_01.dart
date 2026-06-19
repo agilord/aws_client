@@ -4933,6 +4933,7 @@ class Pinpoint {
   }
 }
 
+/// @nodoc
 class CreateAppResponse {
   final ApplicationResponse applicationResponse;
 
@@ -4948,6 +4949,7 @@ class CreateAppResponse {
   }
 }
 
+/// @nodoc
 class CreateCampaignResponse {
   final CampaignResponse campaignResponse;
 
@@ -4963,6 +4965,7 @@ class CreateCampaignResponse {
   }
 }
 
+/// @nodoc
 class CreateEmailTemplateResponse {
   final CreateTemplateMessageBody createTemplateMessageBody;
 
@@ -4978,6 +4981,7 @@ class CreateEmailTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateExportJobResponse {
   final ExportJobResponse exportJobResponse;
 
@@ -4993,6 +4997,7 @@ class CreateExportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateImportJobResponse {
   final ImportJobResponse importJobResponse;
 
@@ -5008,6 +5013,7 @@ class CreateImportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateInAppTemplateResponse {
   final TemplateCreateMessageBody templateCreateMessageBody;
 
@@ -5023,6 +5029,7 @@ class CreateInAppTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateJourneyResponse {
   final JourneyResponse journeyResponse;
 
@@ -5038,6 +5045,7 @@ class CreateJourneyResponse {
   }
 }
 
+/// @nodoc
 class CreatePushTemplateResponse {
   final CreateTemplateMessageBody createTemplateMessageBody;
 
@@ -5053,6 +5061,7 @@ class CreatePushTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateRecommenderConfigurationResponse {
   final RecommenderConfigurationResponse recommenderConfigurationResponse;
 
@@ -5069,6 +5078,7 @@ class CreateRecommenderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateSegmentResponse {
   final SegmentResponse segmentResponse;
 
@@ -5084,6 +5094,7 @@ class CreateSegmentResponse {
   }
 }
 
+/// @nodoc
 class CreateSmsTemplateResponse {
   final CreateTemplateMessageBody createTemplateMessageBody;
 
@@ -5099,6 +5110,7 @@ class CreateSmsTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateVoiceTemplateResponse {
   final CreateTemplateMessageBody createTemplateMessageBody;
 
@@ -5114,6 +5126,7 @@ class CreateVoiceTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteAdmChannelResponse {
   final ADMChannelResponse aDMChannelResponse;
 
@@ -5129,6 +5142,7 @@ class DeleteAdmChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteApnsChannelResponse {
   final APNSChannelResponse aPNSChannelResponse;
 
@@ -5144,6 +5158,7 @@ class DeleteApnsChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteApnsSandboxChannelResponse {
   final APNSSandboxChannelResponse aPNSSandboxChannelResponse;
 
@@ -5159,6 +5174,7 @@ class DeleteApnsSandboxChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteApnsVoipChannelResponse {
   final APNSVoipChannelResponse aPNSVoipChannelResponse;
 
@@ -5174,6 +5190,7 @@ class DeleteApnsVoipChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteApnsVoipSandboxChannelResponse {
   final APNSVoipSandboxChannelResponse aPNSVoipSandboxChannelResponse;
 
@@ -5189,6 +5206,7 @@ class DeleteApnsVoipSandboxChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppResponse {
   final ApplicationResponse applicationResponse;
 
@@ -5204,6 +5222,7 @@ class DeleteAppResponse {
   }
 }
 
+/// @nodoc
 class DeleteBaiduChannelResponse {
   final BaiduChannelResponse baiduChannelResponse;
 
@@ -5219,6 +5238,7 @@ class DeleteBaiduChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteCampaignResponse {
   final CampaignResponse campaignResponse;
 
@@ -5234,6 +5254,7 @@ class DeleteCampaignResponse {
   }
 }
 
+/// @nodoc
 class DeleteEmailChannelResponse {
   final EmailChannelResponse emailChannelResponse;
 
@@ -5249,6 +5270,7 @@ class DeleteEmailChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteEmailTemplateResponse {
   final MessageBody messageBody;
 
@@ -5264,6 +5286,7 @@ class DeleteEmailTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteEndpointResponse {
   final EndpointResponse endpointResponse;
 
@@ -5279,6 +5302,7 @@ class DeleteEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteEventStreamResponse {
   final EventStream eventStream;
 
@@ -5294,6 +5318,7 @@ class DeleteEventStreamResponse {
   }
 }
 
+/// @nodoc
 class DeleteGcmChannelResponse {
   final GCMChannelResponse gCMChannelResponse;
 
@@ -5309,6 +5334,7 @@ class DeleteGcmChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteInAppTemplateResponse {
   final MessageBody messageBody;
 
@@ -5324,6 +5350,7 @@ class DeleteInAppTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteJourneyResponse {
   final JourneyResponse journeyResponse;
 
@@ -5339,6 +5366,7 @@ class DeleteJourneyResponse {
   }
 }
 
+/// @nodoc
 class DeletePushTemplateResponse {
   final MessageBody messageBody;
 
@@ -5354,6 +5382,7 @@ class DeletePushTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecommenderConfigurationResponse {
   final RecommenderConfigurationResponse recommenderConfigurationResponse;
 
@@ -5370,6 +5399,7 @@ class DeleteRecommenderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteSegmentResponse {
   final SegmentResponse segmentResponse;
 
@@ -5385,6 +5415,7 @@ class DeleteSegmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteSmsChannelResponse {
   final SMSChannelResponse sMSChannelResponse;
 
@@ -5400,6 +5431,7 @@ class DeleteSmsChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteSmsTemplateResponse {
   final MessageBody messageBody;
 
@@ -5415,6 +5447,7 @@ class DeleteSmsTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserEndpointsResponse {
   final EndpointsResponse endpointsResponse;
 
@@ -5430,6 +5463,7 @@ class DeleteUserEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DeleteVoiceChannelResponse {
   final VoiceChannelResponse voiceChannelResponse;
 
@@ -5445,6 +5479,7 @@ class DeleteVoiceChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteVoiceTemplateResponse {
   final MessageBody messageBody;
 
@@ -5460,6 +5495,7 @@ class DeleteVoiceTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetAdmChannelResponse {
   final ADMChannelResponse aDMChannelResponse;
 
@@ -5475,6 +5511,7 @@ class GetAdmChannelResponse {
   }
 }
 
+/// @nodoc
 class GetApnsChannelResponse {
   final APNSChannelResponse aPNSChannelResponse;
 
@@ -5490,6 +5527,7 @@ class GetApnsChannelResponse {
   }
 }
 
+/// @nodoc
 class GetApnsSandboxChannelResponse {
   final APNSSandboxChannelResponse aPNSSandboxChannelResponse;
 
@@ -5505,6 +5543,7 @@ class GetApnsSandboxChannelResponse {
   }
 }
 
+/// @nodoc
 class GetApnsVoipChannelResponse {
   final APNSVoipChannelResponse aPNSVoipChannelResponse;
 
@@ -5520,6 +5559,7 @@ class GetApnsVoipChannelResponse {
   }
 }
 
+/// @nodoc
 class GetApnsVoipSandboxChannelResponse {
   final APNSVoipSandboxChannelResponse aPNSVoipSandboxChannelResponse;
 
@@ -5535,6 +5575,7 @@ class GetApnsVoipSandboxChannelResponse {
   }
 }
 
+/// @nodoc
 class GetAppResponse {
   final ApplicationResponse applicationResponse;
 
@@ -5550,6 +5591,7 @@ class GetAppResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationDateRangeKpiResponse {
   final ApplicationDateRangeKpiResponse applicationDateRangeKpiResponse;
 
@@ -5566,6 +5608,7 @@ class GetApplicationDateRangeKpiResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationSettingsResponse {
   final ApplicationSettingsResource applicationSettingsResource;
 
@@ -5581,6 +5624,7 @@ class GetApplicationSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetAppsResponse {
   final ApplicationsResponse applicationsResponse;
 
@@ -5596,6 +5640,7 @@ class GetAppsResponse {
   }
 }
 
+/// @nodoc
 class GetBaiduChannelResponse {
   final BaiduChannelResponse baiduChannelResponse;
 
@@ -5611,6 +5656,7 @@ class GetBaiduChannelResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignResponse {
   final CampaignResponse campaignResponse;
 
@@ -5626,6 +5672,7 @@ class GetCampaignResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignActivitiesResponse {
   final ActivitiesResponse activitiesResponse;
 
@@ -5641,6 +5688,7 @@ class GetCampaignActivitiesResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignDateRangeKpiResponse {
   final CampaignDateRangeKpiResponse campaignDateRangeKpiResponse;
 
@@ -5656,6 +5704,7 @@ class GetCampaignDateRangeKpiResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignsResponse {
   final CampaignsResponse campaignsResponse;
 
@@ -5671,6 +5720,7 @@ class GetCampaignsResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignVersionResponse {
   final CampaignResponse campaignResponse;
 
@@ -5686,6 +5736,7 @@ class GetCampaignVersionResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignVersionsResponse {
   final CampaignsResponse campaignsResponse;
 
@@ -5701,6 +5752,7 @@ class GetCampaignVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetChannelsResponse {
   final ChannelsResponse channelsResponse;
 
@@ -5716,6 +5768,7 @@ class GetChannelsResponse {
   }
 }
 
+/// @nodoc
 class GetEmailChannelResponse {
   final EmailChannelResponse emailChannelResponse;
 
@@ -5731,6 +5784,7 @@ class GetEmailChannelResponse {
   }
 }
 
+/// @nodoc
 class GetEmailTemplateResponse {
   final EmailTemplateResponse emailTemplateResponse;
 
@@ -5746,6 +5800,7 @@ class GetEmailTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetEndpointResponse {
   final EndpointResponse endpointResponse;
 
@@ -5761,6 +5816,7 @@ class GetEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetEventStreamResponse {
   final EventStream eventStream;
 
@@ -5776,6 +5832,7 @@ class GetEventStreamResponse {
   }
 }
 
+/// @nodoc
 class GetExportJobResponse {
   final ExportJobResponse exportJobResponse;
 
@@ -5791,6 +5848,7 @@ class GetExportJobResponse {
   }
 }
 
+/// @nodoc
 class GetExportJobsResponse {
   final ExportJobsResponse exportJobsResponse;
 
@@ -5806,6 +5864,7 @@ class GetExportJobsResponse {
   }
 }
 
+/// @nodoc
 class GetGcmChannelResponse {
   final GCMChannelResponse gCMChannelResponse;
 
@@ -5821,6 +5880,7 @@ class GetGcmChannelResponse {
   }
 }
 
+/// @nodoc
 class GetImportJobResponse {
   final ImportJobResponse importJobResponse;
 
@@ -5836,6 +5896,7 @@ class GetImportJobResponse {
   }
 }
 
+/// @nodoc
 class GetImportJobsResponse {
   final ImportJobsResponse importJobsResponse;
 
@@ -5851,6 +5912,7 @@ class GetImportJobsResponse {
   }
 }
 
+/// @nodoc
 class GetInAppMessagesResponse {
   final InAppMessagesResponse inAppMessagesResponse;
 
@@ -5866,6 +5928,7 @@ class GetInAppMessagesResponse {
   }
 }
 
+/// @nodoc
 class GetInAppTemplateResponse {
   final InAppTemplateResponse inAppTemplateResponse;
 
@@ -5881,6 +5944,7 @@ class GetInAppTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyResponse {
   final JourneyResponse journeyResponse;
 
@@ -5896,6 +5960,7 @@ class GetJourneyResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyDateRangeKpiResponse {
   final JourneyDateRangeKpiResponse journeyDateRangeKpiResponse;
 
@@ -5911,6 +5976,7 @@ class GetJourneyDateRangeKpiResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyExecutionActivityMetricsResponse {
   final JourneyExecutionActivityMetricsResponse
       journeyExecutionActivityMetricsResponse;
@@ -5929,6 +5995,7 @@ class GetJourneyExecutionActivityMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyExecutionMetricsResponse {
   final JourneyExecutionMetricsResponse journeyExecutionMetricsResponse;
 
@@ -5945,6 +6012,7 @@ class GetJourneyExecutionMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyRunExecutionActivityMetricsResponse {
   final JourneyRunExecutionActivityMetricsResponse
       journeyRunExecutionActivityMetricsResponse;
@@ -5963,6 +6031,7 @@ class GetJourneyRunExecutionActivityMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyRunExecutionMetricsResponse {
   final JourneyRunExecutionMetricsResponse journeyRunExecutionMetricsResponse;
 
@@ -5979,6 +6048,7 @@ class GetJourneyRunExecutionMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetJourneyRunsResponse {
   final JourneyRunsResponse journeyRunsResponse;
 
@@ -5994,6 +6064,7 @@ class GetJourneyRunsResponse {
   }
 }
 
+/// @nodoc
 class GetPushTemplateResponse {
   final PushNotificationTemplateResponse pushNotificationTemplateResponse;
 
@@ -6010,6 +6081,7 @@ class GetPushTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetRecommenderConfigurationResponse {
   final RecommenderConfigurationResponse recommenderConfigurationResponse;
 
@@ -6026,6 +6098,7 @@ class GetRecommenderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetRecommenderConfigurationsResponse {
   final ListRecommenderConfigurationsResponse
       listRecommenderConfigurationsResponse;
@@ -6044,6 +6117,7 @@ class GetRecommenderConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentResponse {
   final SegmentResponse segmentResponse;
 
@@ -6059,6 +6133,7 @@ class GetSegmentResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentExportJobsResponse {
   final ExportJobsResponse exportJobsResponse;
 
@@ -6074,6 +6149,7 @@ class GetSegmentExportJobsResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentImportJobsResponse {
   final ImportJobsResponse importJobsResponse;
 
@@ -6089,6 +6165,7 @@ class GetSegmentImportJobsResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentsResponse {
   final SegmentsResponse segmentsResponse;
 
@@ -6104,6 +6181,7 @@ class GetSegmentsResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentVersionResponse {
   final SegmentResponse segmentResponse;
 
@@ -6119,6 +6197,7 @@ class GetSegmentVersionResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentVersionsResponse {
   final SegmentsResponse segmentsResponse;
 
@@ -6134,6 +6213,7 @@ class GetSegmentVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetSmsChannelResponse {
   final SMSChannelResponse sMSChannelResponse;
 
@@ -6149,6 +6229,7 @@ class GetSmsChannelResponse {
   }
 }
 
+/// @nodoc
 class GetSmsTemplateResponse {
   final SMSTemplateResponse sMSTemplateResponse;
 
@@ -6164,6 +6245,7 @@ class GetSmsTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetUserEndpointsResponse {
   final EndpointsResponse endpointsResponse;
 
@@ -6179,6 +6261,7 @@ class GetUserEndpointsResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceChannelResponse {
   final VoiceChannelResponse voiceChannelResponse;
 
@@ -6194,6 +6277,7 @@ class GetVoiceChannelResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceTemplateResponse {
   final VoiceTemplateResponse voiceTemplateResponse;
 
@@ -6209,6 +6293,7 @@ class GetVoiceTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListJourneysResponse {
   final JourneysResponse journeysResponse;
 
@@ -6224,6 +6309,7 @@ class ListJourneysResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final TagsModel tagsModel;
 
@@ -6239,6 +6325,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTemplatesResponse {
   final TemplatesResponse templatesResponse;
 
@@ -6254,6 +6341,7 @@ class ListTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateVersionsResponse {
   final TemplateVersionsResponse templateVersionsResponse;
 
@@ -6269,6 +6357,7 @@ class ListTemplateVersionsResponse {
   }
 }
 
+/// @nodoc
 class PhoneNumberValidateResponse {
   final NumberValidateResponse numberValidateResponse;
 
@@ -6284,6 +6373,7 @@ class PhoneNumberValidateResponse {
   }
 }
 
+/// @nodoc
 class PutEventsResponse {
   final EventsResponse eventsResponse;
 
@@ -6299,6 +6389,7 @@ class PutEventsResponse {
   }
 }
 
+/// @nodoc
 class PutEventStreamResponse {
   final EventStream eventStream;
 
@@ -6314,6 +6405,7 @@ class PutEventStreamResponse {
   }
 }
 
+/// @nodoc
 class RemoveAttributesResponse {
   final AttributesResource attributesResource;
 
@@ -6329,6 +6421,7 @@ class RemoveAttributesResponse {
   }
 }
 
+/// @nodoc
 class SendMessagesResponse {
   final MessageResponse messageResponse;
 
@@ -6344,6 +6437,7 @@ class SendMessagesResponse {
   }
 }
 
+/// @nodoc
 class SendOTPMessageResponse {
   final MessageResponse messageResponse;
 
@@ -6359,6 +6453,7 @@ class SendOTPMessageResponse {
   }
 }
 
+/// @nodoc
 class SendUsersMessagesResponse {
   final SendUsersMessageResponse sendUsersMessageResponse;
 
@@ -6374,6 +6469,7 @@ class SendUsersMessagesResponse {
   }
 }
 
+/// @nodoc
 class UpdateAdmChannelResponse {
   final ADMChannelResponse aDMChannelResponse;
 
@@ -6389,6 +6485,7 @@ class UpdateAdmChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateApnsChannelResponse {
   final APNSChannelResponse aPNSChannelResponse;
 
@@ -6404,6 +6501,7 @@ class UpdateApnsChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateApnsSandboxChannelResponse {
   final APNSSandboxChannelResponse aPNSSandboxChannelResponse;
 
@@ -6419,6 +6517,7 @@ class UpdateApnsSandboxChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateApnsVoipChannelResponse {
   final APNSVoipChannelResponse aPNSVoipChannelResponse;
 
@@ -6434,6 +6533,7 @@ class UpdateApnsVoipChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateApnsVoipSandboxChannelResponse {
   final APNSVoipSandboxChannelResponse aPNSVoipSandboxChannelResponse;
 
@@ -6449,6 +6549,7 @@ class UpdateApnsVoipSandboxChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationSettingsResponse {
   final ApplicationSettingsResource applicationSettingsResource;
 
@@ -6464,6 +6565,7 @@ class UpdateApplicationSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateBaiduChannelResponse {
   final BaiduChannelResponse baiduChannelResponse;
 
@@ -6479,6 +6581,7 @@ class UpdateBaiduChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateCampaignResponse {
   final CampaignResponse campaignResponse;
 
@@ -6494,6 +6597,7 @@ class UpdateCampaignResponse {
   }
 }
 
+/// @nodoc
 class UpdateEmailChannelResponse {
   final EmailChannelResponse emailChannelResponse;
 
@@ -6509,6 +6613,7 @@ class UpdateEmailChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateEmailTemplateResponse {
   final MessageBody messageBody;
 
@@ -6524,6 +6629,7 @@ class UpdateEmailTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointResponse {
   final MessageBody messageBody;
 
@@ -6539,6 +6645,7 @@ class UpdateEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointsBatchResponse {
   final MessageBody messageBody;
 
@@ -6554,6 +6661,7 @@ class UpdateEndpointsBatchResponse {
   }
 }
 
+/// @nodoc
 class UpdateGcmChannelResponse {
   final GCMChannelResponse gCMChannelResponse;
 
@@ -6569,6 +6677,7 @@ class UpdateGcmChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateInAppTemplateResponse {
   final MessageBody messageBody;
 
@@ -6584,6 +6693,7 @@ class UpdateInAppTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateJourneyResponse {
   final JourneyResponse journeyResponse;
 
@@ -6599,6 +6709,7 @@ class UpdateJourneyResponse {
   }
 }
 
+/// @nodoc
 class UpdateJourneyStateResponse {
   final JourneyResponse journeyResponse;
 
@@ -6614,6 +6725,7 @@ class UpdateJourneyStateResponse {
   }
 }
 
+/// @nodoc
 class UpdatePushTemplateResponse {
   final MessageBody messageBody;
 
@@ -6629,6 +6741,7 @@ class UpdatePushTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecommenderConfigurationResponse {
   final RecommenderConfigurationResponse recommenderConfigurationResponse;
 
@@ -6645,6 +6758,7 @@ class UpdateRecommenderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSegmentResponse {
   final SegmentResponse segmentResponse;
 
@@ -6660,6 +6774,7 @@ class UpdateSegmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateSmsChannelResponse {
   final SMSChannelResponse sMSChannelResponse;
 
@@ -6675,6 +6790,7 @@ class UpdateSmsChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateSmsTemplateResponse {
   final MessageBody messageBody;
 
@@ -6690,6 +6806,7 @@ class UpdateSmsTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplateActiveVersionResponse {
   final MessageBody messageBody;
 
@@ -6705,6 +6822,7 @@ class UpdateTemplateActiveVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateVoiceChannelResponse {
   final VoiceChannelResponse voiceChannelResponse;
 
@@ -6720,6 +6838,7 @@ class UpdateVoiceChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateVoiceTemplateResponse {
   final MessageBody messageBody;
 
@@ -6735,6 +6854,7 @@ class UpdateVoiceTemplateResponse {
   }
 }
 
+/// @nodoc
 class VerifyOTPMessageResponse {
   final VerificationResponse verificationResponse;
 
@@ -6751,6 +6871,8 @@ class VerifyOTPMessageResponse {
 }
 
 /// Verify OTP Message Response.
+///
+/// @nodoc
 class VerificationResponse {
   /// Specifies whether the OTP is valid or not.
   final bool? valid;
@@ -6774,6 +6896,8 @@ class VerificationResponse {
 }
 
 /// Verify OTP message request.
+///
+/// @nodoc
 class VerifyOTPMessageRequestParameters {
   /// The destination identity to send OTP to.
   final String destinationIdentity;
@@ -6803,6 +6927,8 @@ class VerifyOTPMessageRequestParameters {
 }
 
 /// Provides information about an API request or response.
+///
+/// @nodoc
 class MessageBody {
   /// The message that's returned from the API.
   final String? message;
@@ -6834,6 +6960,8 @@ class MessageBody {
 
 /// Specifies the content and settings for a message template that can be used
 /// in messages that are sent through the voice channel.
+///
+/// @nodoc
 class VoiceTemplateRequest {
   /// The text of the script to use in messages that are based on the message
   /// template, in plain text format.
@@ -6910,6 +7038,8 @@ class VoiceTemplateRequest {
 
 /// Provides information about the status and settings of the voice channel for
 /// an application.
+///
+/// @nodoc
 class VoiceChannelResponse {
   /// The type of messaging or notification platform for the channel. For the
   /// voice channel, this value is VOICE.
@@ -6999,6 +7129,8 @@ class VoiceChannelResponse {
 }
 
 /// Specifies the status and settings of the voice channel for an application.
+///
+/// @nodoc
 class VoiceChannelRequest {
   /// Specifies whether to enable the voice channel for the application.
   final bool? enabled;
@@ -7017,6 +7149,8 @@ class VoiceChannelRequest {
 
 /// Specifies which version of a message template to use as the active version
 /// of the template.
+///
+/// @nodoc
 class TemplateActiveVersionRequest {
   /// The version of the message template to use as the active version of the
   /// template. Valid values are: latest, for the most recent version of the
@@ -7042,6 +7176,8 @@ class TemplateActiveVersionRequest {
 
 /// Specifies the content and settings for a message template that can be used
 /// in text messages that are sent through the SMS channel.
+///
+/// @nodoc
 class SMSTemplateRequest {
   /// The message body to use in text messages that are based on the message
   /// template.
@@ -7109,6 +7245,8 @@ class SMSTemplateRequest {
 
 /// Provides information about the status and settings of the SMS channel for an
 /// application.
+///
+/// @nodoc
 class SMSChannelResponse {
   /// The type of messaging or notification platform for the channel. For the SMS
   /// channel, this value is SMS.
@@ -7234,6 +7372,8 @@ class SMSChannelResponse {
 }
 
 /// Specifies the status and settings of the SMS channel for an application.
+///
+/// @nodoc
 class SMSChannelRequest {
   /// Specifies whether to enable the SMS channel for the application.
   final bool? enabled;
@@ -7266,6 +7406,8 @@ class SMSChannelRequest {
 
 /// Provides information about the configuration, dimension, and other settings
 /// for a segment.
+///
+/// @nodoc
 class SegmentResponse {
   /// The unique identifier for the application that the segment is associated
   /// with.
@@ -7395,6 +7537,8 @@ class SegmentResponse {
 }
 
 /// Specifies the dimension settings for a segment.
+///
+/// @nodoc
 class SegmentDimensions {
   /// One or more custom attributes to use as criteria for the segment.
   final Map<String, AttributeDimension>? attributes;
@@ -7467,6 +7611,8 @@ class SegmentDimensions {
 
 /// Provides information about the import job that created a segment. An import
 /// job is a job that creates a user segment by importing endpoint definitions.
+///
+/// @nodoc
 class SegmentImportResource {
   /// (Deprecated) Your AWS account ID, which you assigned to an external ID key
   /// in an IAM trust policy. Amazon Pinpoint previously used this value to assume
@@ -7538,6 +7684,8 @@ class SegmentImportResource {
 
 /// Specifies the settings that define the relationships between segment groups
 /// for a segment.
+///
+/// @nodoc
 class SegmentGroupList {
   /// An array that defines the set of segment criteria to evaluate when handling
   /// segment groups for the segment.
@@ -7574,6 +7722,7 @@ class SegmentGroupList {
   }
 }
 
+/// @nodoc
 class SegmentType {
   static const dimensional = SegmentType._('DIMENSIONAL');
   static const import = SegmentType._('IMPORT');
@@ -7597,6 +7746,7 @@ class SegmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class Include {
   static const all = Include._('ALL');
   static const any = Include._('ANY');
@@ -7623,6 +7773,8 @@ class Include {
 
 /// Specifies the base segments and dimensions for a segment, and the
 /// relationships between these base segments and dimensions.
+///
+/// @nodoc
 class SegmentGroup {
   /// An array that defines the dimensions for the segment.
   final List<SegmentDimensions>? dimensions;
@@ -7684,6 +7836,7 @@ class SegmentGroup {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const all = SourceType._('ALL');
   static const any = SourceType._('ANY');
@@ -7708,6 +7861,7 @@ class SourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const all = Type._('ALL');
   static const any = Type._('ANY');
@@ -7733,6 +7887,8 @@ class Type {
 }
 
 /// Specifies the segment identifier and version of a segment.
+///
+/// @nodoc
 class SegmentReference {
   /// The unique identifier for the segment.
   final String id;
@@ -7762,6 +7918,7 @@ class SegmentReference {
   }
 }
 
+/// @nodoc
 class Format {
   static const csv = Format._('CSV');
   static const json = Format._('JSON');
@@ -7787,6 +7944,8 @@ class Format {
 
 /// Specifies dimension settings for including or excluding endpoints from a
 /// segment based on how recently an endpoint was active.
+///
+/// @nodoc
 class SegmentBehaviors {
   /// The dimension settings that are based on how recently an endpoint was
   /// active.
@@ -7815,6 +7974,8 @@ class SegmentBehaviors {
 /// Specifies demographic-based dimension settings for including or excluding
 /// endpoints from a segment. These settings derive from characteristics of
 /// endpoint devices, such as platform, make, and model.
+///
+/// @nodoc
 class SegmentDemographics {
   /// The app version criteria for the segment.
   final SetDimension? appVersion;
@@ -7885,6 +8046,8 @@ class SegmentDemographics {
 }
 
 /// Specifies geographical dimension settings for a segment.
+///
+/// @nodoc
 class SegmentLocation {
   /// The country or region code, in ISO 3166-1 alpha-2 format, for the segment.
   final SetDimension? country;
@@ -7921,6 +8084,8 @@ class SegmentLocation {
 /// Specifies metric-based criteria for including or excluding endpoints from a
 /// segment. These criteria derive from custom metrics that you define for
 /// endpoints.
+///
+/// @nodoc
 class MetricDimension {
   /// The operator to use when comparing metric values. Valid values are:
   /// GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, and
@@ -7953,6 +8118,8 @@ class MetricDimension {
 }
 
 /// Specifies the dimension type and values for a segment dimension.
+///
+/// @nodoc
 class SetDimension {
   /// The criteria values to use for the segment dimension. Depending on the value
   /// of the DimensionType property, endpoints are included or excluded from the
@@ -7992,6 +8159,8 @@ class SetDimension {
 
 /// Specifies GPS-based criteria for including or excluding endpoints from a
 /// segment.
+///
+/// @nodoc
 class GPSPointDimension {
   /// The GPS coordinates to measure distance from.
   final GPSCoordinates coordinates;
@@ -8024,6 +8193,8 @@ class GPSPointDimension {
 }
 
 /// Specifies the GPS coordinates of a location.
+///
+/// @nodoc
 class GPSCoordinates {
   /// The latitude coordinate of the location.
   final double latitude;
@@ -8053,6 +8224,7 @@ class GPSCoordinates {
   }
 }
 
+/// @nodoc
 class DimensionType {
   static const inclusive = DimensionType._('INCLUSIVE');
   static const exclusive = DimensionType._('EXCLUSIVE');
@@ -8079,6 +8251,8 @@ class DimensionType {
 
 /// Specifies criteria for including or excluding endpoints from a segment based
 /// on how recently an endpoint was active.
+///
+/// @nodoc
 class RecencyDimension {
   /// The duration to use when determining whether an endpoint is active or
   /// inactive.
@@ -8113,6 +8287,7 @@ class RecencyDimension {
   }
 }
 
+/// @nodoc
 class Duration {
   static const hr_24 = Duration._('HR_24');
   static const day_7 = Duration._('DAY_7');
@@ -8138,6 +8313,7 @@ class Duration {
   String toString() => value;
 }
 
+/// @nodoc
 class RecencyType {
   static const active = RecencyType._('ACTIVE');
   static const inactive = RecencyType._('INACTIVE');
@@ -8163,6 +8339,8 @@ class RecencyType {
 
 /// Specifies attribute-based criteria for including or excluding endpoints from
 /// a segment.
+///
+/// @nodoc
 class AttributeDimension {
   /// The criteria values to use for the segment dimension. Depending on the value
   /// of the AttributeType property, endpoints are included or excluded from the
@@ -8213,6 +8391,7 @@ class AttributeDimension {
   }
 }
 
+/// @nodoc
 class AttributeType {
   static const inclusive = AttributeType._('INCLUSIVE');
   static const exclusive = AttributeType._('EXCLUSIVE');
@@ -8253,6 +8432,8 @@ class AttributeType {
 /// Specifies the configuration, dimension, and other settings for a segment. A
 /// WriteSegmentRequest object can include a Dimensions object or a
 /// SegmentGroups object, but not both.
+///
+/// @nodoc
 class WriteSegmentRequest {
   /// The criteria that define the dimensions for the segment.
   final SegmentDimensions? dimensions;
@@ -8304,6 +8485,8 @@ class WriteSegmentRequest {
 
 /// Provides information about Amazon Pinpoint configuration settings for
 /// retrieving and processing data from a recommender model.
+///
+/// @nodoc
 class RecommenderConfigurationResponse {
   /// The date, in extended ISO 8601 format, when the configuration was created
   /// for the recommender model.
@@ -8460,6 +8643,8 @@ class RecommenderConfigurationResponse {
 
 /// Specifies Amazon Pinpoint configuration settings for retrieving and
 /// processing recommendation data from a recommender model.
+///
+/// @nodoc
 class UpdateRecommenderConfigurationShape {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data
@@ -8604,6 +8789,8 @@ class UpdateRecommenderConfigurationShape {
 
 /// Specifies the content and settings for a message template that can be used
 /// in messages that are sent through a push notification channel.
+///
+/// @nodoc
 class PushNotificationTemplateRequest {
   /// The message template to use for the ADM (Amazon Device Messaging) channel.
   /// This message template overrides the default template for push notification
@@ -8705,6 +8892,8 @@ class PushNotificationTemplateRequest {
 /// can be used in push notifications that are sent through the ADM (Amazon
 /// Device Messaging), Baidu (Baidu Cloud Push), or GCM (Firebase Cloud
 /// Messaging, formerly Google Cloud Messaging) channel.
+///
+/// @nodoc
 class AndroidPushNotificationTemplate {
   /// The action to occur if a recipient taps a push notification that's based on
   /// the message template. Valid values are:
@@ -8815,6 +9004,8 @@ class AndroidPushNotificationTemplate {
 /// Specifies channel-specific content and settings for a message template that
 /// can be used in push notifications that are sent through the APNs (Apple Push
 /// Notification service) channel.
+///
+/// @nodoc
 class APNSPushNotificationTemplate {
   /// The action to occur if a recipient taps a push notification that's based on
   /// the message template. Valid values are:
@@ -8909,6 +9100,8 @@ class APNSPushNotificationTemplate {
 
 /// Specifies the default settings and content for a message template that can
 /// be used in messages that are sent through a push notification channel.
+///
+/// @nodoc
 class DefaultPushNotificationTemplate {
   /// The action to occur if a recipient taps a push notification that's based on
   /// the message template. Valid values are:
@@ -8989,6 +9182,7 @@ class DefaultPushNotificationTemplate {
   }
 }
 
+/// @nodoc
 class Action {
   static const openApp = Action._('OPEN_APP');
   static const deepLink = Action._('DEEP_LINK');
@@ -9015,6 +9209,8 @@ class Action {
 
 /// Provides information about the status, configuration, and other settings for
 /// a journey.
+///
+/// @nodoc
 class JourneyResponse {
   /// The unique identifier for the application that the journey applies to.
   final String applicationId;
@@ -9290,6 +9486,8 @@ class JourneyResponse {
 
 /// Specifies limits on the messages that a journey can send and the number of
 /// times participants can enter a journey.
+///
+/// @nodoc
 class JourneyLimits {
   /// The maximum number of messages that the journey can send to a single
   /// participant during a 24-hour period. The maximum value is 100.
@@ -9359,6 +9557,8 @@ class JourneyLimits {
 
 /// Specifies the start and end times that define a time range when messages
 /// aren't sent to endpoints.
+///
+/// @nodoc
 class QuietTime {
   /// The specific time when quiet time ends. This value has to use 24-hour
   /// notation and be in HH:MM format, where HH is the hour (with a leading zero,
@@ -9395,6 +9595,8 @@ class QuietTime {
 }
 
 /// Specifies the schedule settings for a journey.
+///
+/// @nodoc
 class JourneySchedule {
   /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
   final DateTime? endTime;
@@ -9440,6 +9642,8 @@ class JourneySchedule {
 
 /// Specifies the conditions for the first activity in a journey. This activity
 /// and its conditions determine which users are participants in a journey.
+///
+/// @nodoc
 class StartCondition {
   /// The custom description of the condition.
   final String? description;
@@ -9483,6 +9687,7 @@ class StartCondition {
   }
 }
 
+/// @nodoc
 class State {
   static const draft = State._('DRAFT');
   static const active = State._('ACTIVE');
@@ -9511,6 +9716,8 @@ class State {
 }
 
 /// The channel-specific configurations for the journey.
+///
+/// @nodoc
 class JourneyChannelSettings {
   /// Amazon Resource Name (ARN) of the Connect Campaign.
   final String? connectCampaignArn;
@@ -9545,6 +9752,8 @@ class JourneyChannelSettings {
 }
 
 /// Specifies the times when message are allowed to be sent to endpoints.
+///
+/// @nodoc
 class OpenHours {
   /// Specifies the schedule settings for the custom channel.
   final Map<DayOfWeek, List<OpenHoursRule>>? custom;
@@ -9622,6 +9831,8 @@ class OpenHours {
 
 /// The time when a journey will not send messages. QuietTime should be
 /// configured first and SendingSchedule should be set to true.
+///
+/// @nodoc
 class ClosedDays {
   /// Rules for the Custom channel.
   final List<ClosedDaysRule>? custom;
@@ -9687,6 +9898,7 @@ class ClosedDays {
   }
 }
 
+/// @nodoc
 class TimezoneEstimationMethodsElement {
   static const phoneNumber = TimezoneEstimationMethodsElement._('PHONE_NUMBER');
   static const postalCode = TimezoneEstimationMethodsElement._('POSTAL_CODE');
@@ -9713,6 +9925,8 @@ class TimezoneEstimationMethodsElement {
 }
 
 /// Specifies the rule settings for when messages can't be sent.
+///
+/// @nodoc
 class ClosedDaysRule {
   /// End DateTime ISO 8601 format
   final String? endDateTime;
@@ -9749,6 +9963,7 @@ class ClosedDaysRule {
   }
 }
 
+/// @nodoc
 class DayOfWeek {
   static const monday = DayOfWeek._('MONDAY');
   static const tuesday = DayOfWeek._('TUESDAY');
@@ -9786,6 +10001,8 @@ class DayOfWeek {
 }
 
 /// Specifies the start and end time for OpenHours.
+///
+/// @nodoc
 class OpenHoursRule {
   /// The end of the scheduled time, in ISO 8601 format, when the channel can't
   /// send messages.
@@ -9818,6 +10035,8 @@ class OpenHoursRule {
 }
 
 /// Specifies the settings for an event that causes a journey activity to start.
+///
+/// @nodoc
 class EventStartCondition {
   final EventFilter? eventFilter;
   final String? segmentId;
@@ -9847,6 +10066,8 @@ class EventStartCondition {
 }
 
 /// Specifies a segment to associate with an activity in a journey.
+///
+/// @nodoc
 class SegmentCondition {
   /// The unique identifier for the segment to associate with the activity.
   final String segmentId;
@@ -9871,6 +10092,8 @@ class SegmentCondition {
 
 /// Specifies the settings for an event that causes a campaign to be sent or a
 /// journey activity to be performed.
+///
+/// @nodoc
 class EventFilter {
   /// The dimensions for the event filter to use for the campaign or the journey
   /// activity.
@@ -9909,6 +10132,8 @@ class EventFilter {
 
 /// Specifies the dimensions for an event filter that determines when a campaign
 /// is sent or a journey activity is performed.
+///
+/// @nodoc
 class EventDimensions {
   /// One or more custom attributes that your application reports to Amazon
   /// Pinpoint. You can use these attributes as selection criteria when you create
@@ -9959,6 +10184,7 @@ class EventDimensions {
   }
 }
 
+/// @nodoc
 class FilterType {
   static const system = FilterType._('SYSTEM');
   static const endpoint = FilterType._('ENDPOINT');
@@ -9984,6 +10210,8 @@ class FilterType {
 
 /// The number of messages that can be sent to an endpoint during the specified
 /// timeframe for all journeys.
+///
+/// @nodoc
 class JourneyTimeframeCap {
   /// The maximum number of messages that all journeys can send to an endpoint
   /// during the specified timeframe. The maximum value is 100. If set to 0, this
@@ -10017,6 +10245,8 @@ class JourneyTimeframeCap {
 }
 
 /// Specifies the configuration and other settings for an activity in a journey.
+///
+/// @nodoc
 class Activity {
   /// The settings for a custom message activity. This type of activity calls an
   /// AWS Lambda function or web hook that sends messages to participants.
@@ -10150,6 +10380,8 @@ class Activity {
 
 /// The settings for a custom message activity. This type of activity calls an
 /// AWS Lambda function or web hook that sends messages to participants.
+///
+/// @nodoc
 class CustomMessageActivity {
   /// The destination to send the campaign or treatment to. This value can be one
   /// of the following:
@@ -10254,6 +10486,8 @@ class CustomMessageActivity {
 /// Amazon Pinpoint with your application</a> in the <i>Amazon Pinpoint
 /// Developer Guide</i>.
 /// </note>
+///
+/// @nodoc
 class ConditionalSplitActivity {
   /// The conditions that define the paths for the activity, and the relationship
   /// between the conditions.
@@ -10308,6 +10542,8 @@ class ConditionalSplitActivity {
 
 /// Specifies the settings for an email activity in a journey. This type of
 /// activity sends an email message to participants.
+///
+/// @nodoc
 class EmailMessageActivity {
   /// Specifies the sender address for an email message that's sent to
   /// participants in the journey.
@@ -10370,6 +10606,8 @@ class EmailMessageActivity {
 
 /// Specifies the settings for a holdout activity in a journey. This type of
 /// activity stops a journey for a specified percentage of participants.
+///
+/// @nodoc
 class HoldoutActivity {
   /// The percentage of participants who shouldn't continue the journey.
   ///
@@ -10418,6 +10656,8 @@ class HoldoutActivity {
 /// Amazon Pinpoint with your application</a> in the <i>Amazon Pinpoint
 /// Developer Guide</i>.
 /// </note>
+///
+/// @nodoc
 class MultiConditionalSplitActivity {
   /// The paths for the activity, including the conditions for entering each path
   /// and the activity to perform for each path.
@@ -10466,6 +10706,8 @@ class MultiConditionalSplitActivity {
 
 /// Specifies the settings for a push notification activity in a journey. This
 /// type of activity sends a push notification to participants.
+///
+/// @nodoc
 class PushMessageActivity {
   /// Specifies the time to live (TTL) value for push notifications that are sent
   /// to participants in a journey.
@@ -10529,6 +10771,8 @@ class PushMessageActivity {
 /// Specifies the settings for a random split activity in a journey. This type
 /// of activity randomly sends specified percentages of participants down one of
 /// as many as five paths in a journey, based on conditions that you specify.
+///
+/// @nodoc
 class RandomSplitActivity {
   /// The paths for the activity, including the percentage of participants to
   /// enter each path and the activity to perform for each path.
@@ -10557,6 +10801,8 @@ class RandomSplitActivity {
 
 /// Specifies the settings for an SMS activity in a journey. This type of
 /// activity sends a text message to participants.
+///
+/// @nodoc
 class SMSMessageActivity {
   /// Specifies the sender ID and message type for an SMS message that's sent to
   /// participants in a journey.
@@ -10620,6 +10866,8 @@ class SMSMessageActivity {
 /// Specifies the settings for a wait activity in a journey. This type of
 /// activity waits for a certain amount of time or until a specific date and
 /// time before moving participants to the next activity in a journey.
+///
+/// @nodoc
 class WaitActivity {
   /// The unique identifier for the next activity to perform, after performing the
   /// wait activity.
@@ -10653,6 +10901,7 @@ class WaitActivity {
   }
 }
 
+/// @nodoc
 class ContactCenterActivity {
   /// The unique identifier for the next activity to perform after the this
   /// activity.
@@ -10679,6 +10928,8 @@ class ContactCenterActivity {
 /// Specifies a duration or a date and time that indicates when Amazon Pinpoint
 /// determines whether an activity's conditions have been met or an activity
 /// moves participants to the next activity in a journey.
+///
+/// @nodoc
 class WaitTime {
   /// The amount of time to wait, as a duration in ISO 8601 format, before
   /// determining whether the activity's conditions have been met or moving
@@ -10714,6 +10965,8 @@ class WaitTime {
 
 /// Specifies the sender ID and message type for an SMS message that's sent to
 /// participants in a journey.
+///
+/// @nodoc
 class JourneySMSMessage {
   /// The entity ID or Principal Entity (PE) id received from the regulatory body
   /// for sending SMS in your country.
@@ -10778,6 +11031,7 @@ class JourneySMSMessage {
   }
 }
 
+/// @nodoc
 class MessageType {
   static const transactional = MessageType._('TRANSACTIONAL');
   static const promotional = MessageType._('PROMOTIONAL');
@@ -10802,6 +11056,8 @@ class MessageType {
 }
 
 /// Specifies the settings for a path in a random split activity in a journey.
+///
+/// @nodoc
 class RandomSplitEntry {
   /// The unique identifier for the next activity to perform, after completing the
   /// activity for the path.
@@ -10839,6 +11095,8 @@ class RandomSplitEntry {
 
 /// Specifies the message configuration for a push notification that's sent to
 /// participants in a journey.
+///
+/// @nodoc
 class JourneyPushMessage {
   /// The number of seconds that the push notification service should keep the
   /// message, if the service is unable to deliver the notification the first
@@ -10870,6 +11128,8 @@ class JourneyPushMessage {
 }
 
 /// Specifies a condition to evaluate for an activity path in a journey.
+///
+/// @nodoc
 class MultiConditionalBranch {
   /// The condition to evaluate for the activity path.
   final SimpleCondition? condition;
@@ -10903,6 +11163,8 @@ class MultiConditionalBranch {
 }
 
 /// Specifies a condition to evaluate for an activity in a journey.
+///
+/// @nodoc
 class SimpleCondition {
   /// The dimension settings for the event that's associated with the activity.
   final EventCondition? eventCondition;
@@ -10950,6 +11212,8 @@ class SimpleCondition {
 
 /// Specifies the conditions to evaluate for an event that applies to an
 /// activity in a journey.
+///
+/// @nodoc
 class EventCondition {
   /// The dimensions for the event filter to use for the activity.
   final EventDimensions? dimensions;
@@ -10984,6 +11248,8 @@ class EventCondition {
 
 /// Specifies the "From" address for an email message that's sent to
 /// participants in a journey.
+///
+/// @nodoc
 class JourneyEmailMessage {
   /// The verified email address to send the email message from. The default
   /// address is the FromAddress specified for the email channel for the
@@ -11010,6 +11276,8 @@ class JourneyEmailMessage {
 
 /// Specifies the conditions to evaluate for an activity in a journey, and how
 /// to evaluate those conditions.
+///
+/// @nodoc
 class Condition {
   /// The conditions to evaluate for the activity.
   final List<SimpleCondition>? conditions;
@@ -11044,6 +11312,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class Operator {
   static const all = Operator._('ALL');
   static const any = Operator._('ANY');
@@ -11069,6 +11338,8 @@ class Operator {
 
 /// Specifies the message content for a custom channel message that's sent to
 /// participants in a journey.
+///
+/// @nodoc
 class JourneyCustomMessage {
   /// The message content that's passed to an AWS Lambda function or to a web
   /// hook.
@@ -11092,6 +11363,7 @@ class JourneyCustomMessage {
   }
 }
 
+/// @nodoc
 class EndpointTypesElement {
   static const push = EndpointTypesElement._('PUSH');
   static const gcm = EndpointTypesElement._('GCM');
@@ -11143,6 +11415,8 @@ class EndpointTypesElement {
 }
 
 /// Changes the status of a journey.
+///
+/// @nodoc
 class JourneyStateRequest {
   /// The status of the journey. Currently, Supported values are ACTIVE, PAUSED,
   /// and CANCELLED
@@ -11178,6 +11452,8 @@ class JourneyStateRequest {
 }
 
 /// Specifies the configuration and other settings for a journey.
+///
+/// @nodoc
 class WriteJourneyRequest {
   /// The name of the journey. A journey name can contain a maximum of 150
   /// characters. The characters can be alphanumeric characters or symbols, such
@@ -11378,6 +11654,8 @@ class WriteJourneyRequest {
 }
 
 /// InApp Template Request.
+///
+/// @nodoc
 class InAppTemplateRequest {
   /// The content of the message, can include up to 5 modals. Each modal must
   /// contain a message, a header, and background color. ImageUrl and buttons are
@@ -11434,6 +11712,7 @@ class InAppTemplateRequest {
   }
 }
 
+/// @nodoc
 class Layout {
   static const bottomBanner = Layout._('BOTTOM_BANNER');
   static const topBanner = Layout._('TOP_BANNER');
@@ -11469,6 +11748,8 @@ class Layout {
 }
 
 /// The configuration for the message content.
+///
+/// @nodoc
 class InAppMessageContent {
   /// The background color for the message.
   final String? backgroundColor;
@@ -11539,6 +11820,8 @@ class InAppMessageContent {
 }
 
 /// Text config for Message Body.
+///
+/// @nodoc
 class InAppMessageBodyConfig {
   /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
   final Alignment alignment;
@@ -11576,6 +11859,8 @@ class InAppMessageBodyConfig {
 }
 
 /// Text config for Message Header.
+///
+/// @nodoc
 class InAppMessageHeaderConfig {
   /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
   final Alignment alignment;
@@ -11613,6 +11898,8 @@ class InAppMessageHeaderConfig {
 }
 
 /// Button Config for an in-app message.
+///
+/// @nodoc
 class InAppMessageButton {
   /// Default button content.
   final OverrideButtonConfiguration? android;
@@ -11669,6 +11956,8 @@ class InAppMessageButton {
 }
 
 /// Override button configuration.
+///
+/// @nodoc
 class OverrideButtonConfiguration {
   /// Action triggered by the button.
   final ButtonAction buttonAction;
@@ -11700,6 +11989,8 @@ class OverrideButtonConfiguration {
 }
 
 /// Default button configuration.
+///
+/// @nodoc
 class DefaultButtonConfiguration {
   /// Action triggered by the button.
   final ButtonAction buttonAction;
@@ -11758,6 +12049,7 @@ class DefaultButtonConfiguration {
   }
 }
 
+/// @nodoc
 class ButtonAction {
   static const link = ButtonAction._('LINK');
   static const deepLink = ButtonAction._('DEEP_LINK');
@@ -11782,6 +12074,7 @@ class ButtonAction {
   String toString() => value;
 }
 
+/// @nodoc
 class Alignment {
   static const left = Alignment._('LEFT');
   static const center = Alignment._('CENTER');
@@ -11810,6 +12103,8 @@ class Alignment {
 /// application. The GCM channel enables Amazon Pinpoint to send push
 /// notifications through the Firebase Cloud Messaging (FCM), formerly Google
 /// Cloud Messaging (GCM), service.
+///
+/// @nodoc
 class GCMChannelResponse {
   /// The type of messaging or notification platform for the channel. For the GCM
   /// channel, this value is GCM.
@@ -11928,6 +12223,8 @@ class GCMChannelResponse {
 /// This channel enables Amazon Pinpoint to send push notifications through the
 /// Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM),
 /// service.
+///
+/// @nodoc
 class GCMChannelRequest {
   /// The Web API Key, also referred to as an <i>API_KEY</i> or <i>server key</i>,
   /// that you received from Google to communicate with Google services.
@@ -11971,6 +12268,8 @@ class GCMChannelRequest {
 
 /// Specifies a batch of endpoints to create or update and the settings and
 /// attributes to set or change for each endpoint.
+///
+/// @nodoc
 class EndpointBatchRequest {
   /// An array that defines the endpoints to create or update and, for each
   /// endpoint, the property values to set or change. An array can contain a
@@ -11991,6 +12290,8 @@ class EndpointBatchRequest {
 
 /// Specifies an endpoint to create or update and the settings and attributes to
 /// set or change for the endpoint.
+///
+/// @nodoc
 class EndpointBatchItem {
   /// The destination address for messages or push notifications that you send to
   /// the endpoint. The address varies by channel. For a push-notification
@@ -12003,9 +12304,9 @@ class EndpointBatchItem {
 
   /// One or more custom attributes that describe the endpoint by associating a
   /// name with an array of values. For example, the value of a custom attribute
-  /// named Interests might be: ["Science", "Music", "Travel"]. You can use these
-  /// attributes as filter criteria when you create segments. Attribute names are
-  /// case sensitive.
+  /// named Interests might be: \["Science", "Music", "Travel"\]. You can use
+  /// these attributes as filter criteria when you create segments. Attribute
+  /// names are case sensitive.
   ///
   /// An attribute name can contain up to 50 characters. An attribute value can
   /// contain up to 100 characters. When you define the name of a custom
@@ -12106,6 +12407,7 @@ class EndpointBatchItem {
   }
 }
 
+/// @nodoc
 class ChannelType {
   static const push = ChannelType._('PUSH');
   static const gcm = ChannelType._('GCM');
@@ -12156,6 +12458,8 @@ class ChannelType {
 
 /// Specifies demographic information about an endpoint, such as the applicable
 /// time zone and platform.
+///
+/// @nodoc
 class EndpointDemographic {
   /// The version of the app that's associated with the endpoint.
   final String? appVersion;
@@ -12231,6 +12535,8 @@ class EndpointDemographic {
 }
 
 /// Specifies geographic information about an endpoint.
+///
+/// @nodoc
 class EndpointLocation {
   /// The name of the city where the endpoint is located.
   final String? city;
@@ -12294,10 +12600,12 @@ class EndpointLocation {
 
 /// Specifies data for one or more attributes that describe the user who's
 /// associated with an endpoint.
+///
+/// @nodoc
 class EndpointUser {
   /// One or more custom attributes that describe the user by associating a name
   /// with an array of values. For example, the value of an attribute named
-  /// Interests might be: ["Science", "Music", "Travel"]. You can use these
+  /// Interests might be: \["Science", "Music", "Travel"\]. You can use these
   /// attributes as filter criteria when you create segments. Attribute names are
   /// case sensitive.
   ///
@@ -12337,6 +12645,8 @@ class EndpointUser {
 }
 
 /// Specifies the channel type and other settings for an endpoint.
+///
+/// @nodoc
 class EndpointRequest {
   /// The destination address for messages or push notifications that you send to
   /// the endpoint. The address varies by channel. For a push-notification
@@ -12349,9 +12659,9 @@ class EndpointRequest {
 
   /// One or more custom attributes that describe the endpoint by associating a
   /// name with an array of values. For example, the value of a custom attribute
-  /// named Interests might be: ["Science", "Music", "Travel"]. You can use these
-  /// attributes as filter criteria when you create segments. Attribute names are
-  /// case sensitive.
+  /// named Interests might be: \["Science", "Music", "Travel"\]. You can use
+  /// these attributes as filter criteria when you create segments. Attribute
+  /// names are case sensitive.
   ///
   /// An attribute name can contain up to 50 characters. An attribute value can
   /// contain up to 100 characters. When you define the name of a custom
@@ -12447,6 +12757,8 @@ class EndpointRequest {
 
 /// Specifies the content and settings for a message template that can be used
 /// in messages that are sent through the email channel.
+///
+/// @nodoc
 class EmailTemplateRequest {
   /// A JSON object that specifies the default values to use for message variables
   /// in the message template. This object is a set of key-value pairs. Each key
@@ -12541,6 +12853,8 @@ class EmailTemplateRequest {
 /// Contains the name and value pair of an email header to add to your email.
 /// You can have up to 15 MessageHeaders. A header can contain information such
 /// as the sender, receiver, route, or timestamp.
+///
+/// @nodoc
 class MessageHeader {
   /// The name of the message header. The header name can contain up to 126
   /// characters.
@@ -12576,6 +12890,8 @@ class MessageHeader {
 
 /// Provides information about the status and settings of the email channel for
 /// an application.
+///
+/// @nodoc
 class EmailChannelResponse {
   /// The type of messaging or notification platform for the channel. For the
   /// email channel, this value is EMAIL.
@@ -12718,6 +13034,8 @@ class EmailChannelResponse {
 }
 
 /// Specifies the status and settings of the email channel for an application.
+///
+/// @nodoc
 class EmailChannelRequest {
   /// The verified email address that you want to send email from when you send
   /// email through the channel.
@@ -12776,6 +13094,8 @@ class EmailChannelRequest {
 
 /// Provides information about the status, configuration, and other settings for
 /// a campaign.
+///
+/// @nodoc
 class CampaignResponse {
   /// The unique identifier for the application that the campaign applies to.
   final String applicationId;
@@ -13011,6 +13331,8 @@ class CampaignResponse {
 /// campaign treatment through a custom channel. This object is required if you
 /// use the CampaignCustomMessage object to define the message to send for the
 /// campaign or campaign treatment.
+///
+/// @nodoc
 class CustomDeliveryConfiguration {
   /// The destination to send the campaign or treatment to. This value can be one
   /// of the following:
@@ -13059,6 +13381,8 @@ class CustomDeliveryConfiguration {
 }
 
 /// Provides information about the status of a campaign.
+///
+/// @nodoc
 class CampaignState {
   /// The current status of the campaign, or the current status of a treatment
   /// that belongs to an A/B test campaign.
@@ -13090,6 +13414,8 @@ class CampaignState {
 
 /// Specifies settings for invoking an AWS Lambda function that customizes a
 /// segment for a campaign.
+///
+/// @nodoc
 class CampaignHook {
   /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that
   /// Amazon Pinpoint invokes to customize a segment for a campaign.
@@ -13146,6 +13472,8 @@ class CampaignHook {
 /// For a campaign, specifies limits on the messages that the campaign can send.
 /// For an application, specifies the default limits for messages that campaigns
 /// in the application can send.
+///
+/// @nodoc
 class CampaignLimits {
   /// The maximum number of messages that a campaign can send to a single endpoint
   /// during a 24-hour period. For an application, this value specifies the
@@ -13208,6 +13536,8 @@ class CampaignLimits {
 }
 
 /// Specifies the message configuration settings for a campaign.
+///
+/// @nodoc
 class MessageConfiguration {
   /// The message that the campaign sends through the ADM (Amazon Device
   /// Messaging) channel. If specified, this message overrides the default
@@ -13322,6 +13652,8 @@ class MessageConfiguration {
 }
 
 /// Specifies the schedule settings for a campaign.
+///
+/// @nodoc
 class Schedule {
   /// The scheduled time when the campaign began or will begin. Valid values are:
   /// IMMEDIATE, to start the campaign immediately; or, a specific time in ISO
@@ -13423,6 +13755,8 @@ class Schedule {
 
 /// Specifies the message template to use for the message, for each type of
 /// channel.
+///
+/// @nodoc
 class TemplateConfiguration {
   /// The email template to use for the message.
   final Template? emailTemplate;
@@ -13487,6 +13821,8 @@ class TemplateConfiguration {
 
 /// Specifies the name and version of the message template to use for the
 /// message.
+///
+/// @nodoc
 class Template {
   /// The name of the message template to use for the message. If specified, this
   /// value must match the name of an existing message template.
@@ -13529,6 +13865,8 @@ class Template {
 }
 
 /// Specifies the settings for events that cause a campaign to be sent.
+///
+/// @nodoc
 class CampaignEventFilter {
   /// The dimension settings of the event filter for the campaign.
   final EventDimensions dimensions;
@@ -13563,6 +13901,7 @@ class CampaignEventFilter {
   }
 }
 
+/// @nodoc
 class Frequency {
   static const once = Frequency._('ONCE');
   static const hourly = Frequency._('HOURLY');
@@ -13601,6 +13940,8 @@ class Frequency {
 
 /// Specifies the content and settings for a push notification that's sent to
 /// recipients of a campaign.
+///
+/// @nodoc
 class Message {
   /// The action to occur if a recipient taps the push notification. Valid values
   /// are:
@@ -13736,6 +14077,8 @@ class Message {
 
 /// Specifies the contents of a message that's sent through a custom channel to
 /// recipients of a campaign.
+///
+/// @nodoc
 class CampaignCustomMessage {
   /// The raw, JSON-formatted string to use as the payload for the message. The
   /// maximum size is 5 KB.
@@ -13761,6 +14104,8 @@ class CampaignCustomMessage {
 
 /// Specifies the content and "From" address for an email message that's sent to
 /// recipients of a campaign.
+///
+/// @nodoc
 class CampaignEmailMessage {
   /// The body of the email for recipients whose email clients don't render HTML
   /// content.
@@ -13821,6 +14166,8 @@ class CampaignEmailMessage {
 
 /// Specifies the content and settings for an SMS message that's sent to
 /// recipients of a campaign.
+///
+/// @nodoc
 class CampaignSmsMessage {
   /// The body of the SMS message.
   final String? body;
@@ -13890,6 +14237,8 @@ class CampaignSmsMessage {
 }
 
 /// In-app message configuration.
+///
+/// @nodoc
 class CampaignInAppMessage {
   /// The message body of the notification, the email body or the text message.
   final String? body;
@@ -13937,6 +14286,7 @@ class CampaignInAppMessage {
   }
 }
 
+/// @nodoc
 class Mode {
   static const delivery = Mode._('DELIVERY');
   static const filter = Mode._('FILTER');
@@ -13960,6 +14310,7 @@ class Mode {
   String toString() => value;
 }
 
+/// @nodoc
 class CampaignStatus {
   static const scheduled = CampaignStatus._('SCHEDULED');
   static const executing = CampaignStatus._('EXECUTING');
@@ -13999,6 +14350,8 @@ class CampaignStatus {
 
 /// Specifies the settings for a campaign treatment. A <i>treatment</i> is a
 /// variation of a campaign that's used for A/B testing of a campaign.
+///
+/// @nodoc
 class TreatmentResource {
   /// The unique identifier for the treatment.
   final String id;
@@ -14098,6 +14451,8 @@ class TreatmentResource {
 }
 
 /// Specifies the configuration and other settings for a campaign.
+///
+/// @nodoc
 class WriteCampaignRequest {
   /// An array of requests that defines additional treatments for the campaign, in
   /// addition to the default treatment for the campaign.
@@ -14241,6 +14596,8 @@ class WriteCampaignRequest {
 
 /// Specifies the settings for a campaign treatment. A <i>treatment</i> is a
 /// variation of a campaign that's used for A/B testing of a campaign.
+///
+/// @nodoc
 class WriteTreatmentResource {
   /// The allocated percentage of users (segment members) to send the treatment
   /// to.
@@ -14302,6 +14659,8 @@ class WriteTreatmentResource {
 
 /// Provides information about the status and settings of the Baidu (Baidu Cloud
 /// Push) channel for an application.
+///
+/// @nodoc
 class BaiduChannelResponse {
   /// The API key that you received from the Baidu Cloud Push service to
   /// communicate with the service.
@@ -14399,6 +14758,8 @@ class BaiduChannelResponse {
 
 /// Specifies the status and settings of the Baidu (Baidu Cloud Push) channel
 /// for an application.
+///
+/// @nodoc
 class BaiduChannelRequest {
   /// The API key that you received from the Baidu Cloud Push service to
   /// communicate with the service.
@@ -14431,6 +14792,8 @@ class BaiduChannelRequest {
 
 /// Provides information about an application, including the default settings
 /// for an application.
+///
+/// @nodoc
 class ApplicationSettingsResource {
   /// The unique identifier for the application. This identifier is displayed as
   /// the <b>Project ID</b> on the Amazon Pinpoint console.
@@ -14527,6 +14890,8 @@ class ApplicationSettingsResource {
 /// The default sending limits for journeys in the application. To override
 /// these limits and define custom limits for a specific journey, use the
 /// Journey resource.
+///
+/// @nodoc
 class ApplicationSettingsJourneyLimits {
   /// The daily number of messages that an endpoint can receive from all journeys.
   /// The maximum value is 100. If set to 0, this limit will not apply.
@@ -14571,6 +14936,8 @@ class ApplicationSettingsJourneyLimits {
 }
 
 /// Specifies the default settings for an application.
+///
+/// @nodoc
 class WriteApplicationSettingsRequest {
   /// The settings for the AWS Lambda function to invoke by default as a code hook
   /// for campaigns in the application. You can use this hook to customize
@@ -14662,6 +15029,8 @@ class WriteApplicationSettingsRequest {
 
 /// Provides information about the status and settings of the APNs (Apple Push
 /// Notification service) VoIP sandbox channel for an application.
+///
+/// @nodoc
 class APNSVoipSandboxChannelResponse {
   /// The type of messaging or notification platform for the channel. For the APNs
   /// VoIP sandbox channel, this value is APNS_VOIP_SANDBOX.
@@ -14772,6 +15141,8 @@ class APNSVoipSandboxChannelResponse {
 
 /// Specifies the status and settings of the APNs (Apple Push Notification
 /// service) VoIP sandbox channel for an application.
+///
+/// @nodoc
 class APNSVoipSandboxChannelRequest {
   /// The bundle identifier that's assigned to your iOS app. This identifier is
   /// used for APNs tokens.
@@ -14843,6 +15214,8 @@ class APNSVoipSandboxChannelRequest {
 
 /// Provides information about the status and settings of the APNs (Apple Push
 /// Notification service) VoIP channel for an application.
+///
+/// @nodoc
 class APNSVoipChannelResponse {
   /// The type of messaging or notification platform for the channel. For the APNs
   /// VoIP channel, this value is APNS_VOIP.
@@ -14952,6 +15325,8 @@ class APNSVoipChannelResponse {
 
 /// Specifies the status and settings of the APNs (Apple Push Notification
 /// service) VoIP channel for an application.
+///
+/// @nodoc
 class APNSVoipChannelRequest {
   /// The bundle identifier that's assigned to your iOS app. This identifier is
   /// used for APNs tokens.
@@ -15019,6 +15394,8 @@ class APNSVoipChannelRequest {
 
 /// Provides information about the status and settings of the APNs (Apple Push
 /// Notification service) sandbox channel for an application.
+///
+/// @nodoc
 class APNSSandboxChannelResponse {
   /// The type of messaging or notification platform for the channel. For the APNs
   /// sandbox channel, this value is APNS_SANDBOX.
@@ -15128,6 +15505,8 @@ class APNSSandboxChannelResponse {
 
 /// Specifies the status and settings of the APNs (Apple Push Notification
 /// service) sandbox channel for an application.
+///
+/// @nodoc
 class APNSSandboxChannelRequest {
   /// The bundle identifier that's assigned to your iOS app. This identifier is
   /// used for APNs tokens.
@@ -15197,6 +15576,8 @@ class APNSSandboxChannelRequest {
 
 /// Provides information about the status and settings of the APNs (Apple Push
 /// Notification service) channel for an application.
+///
+/// @nodoc
 class APNSChannelResponse {
   /// The type of messaging or notification platform for the channel. For the APNs
   /// channel, this value is APNS.
@@ -15305,6 +15686,8 @@ class APNSChannelResponse {
 
 /// Specifies the status and settings of the APNs (Apple Push Notification
 /// service) channel for an application.
+///
+/// @nodoc
 class APNSChannelRequest {
   /// The bundle identifier that's assigned to your iOS app. This identifier is
   /// used for APNs tokens.
@@ -15372,6 +15755,8 @@ class APNSChannelRequest {
 
 /// Provides information about the status and settings of the ADM (Amazon Device
 /// Messaging) channel for an application.
+///
+/// @nodoc
 class ADMChannelResponse {
   /// The type of messaging or notification platform for the channel. For the ADM
   /// channel, this value is ADM.
@@ -15461,6 +15846,8 @@ class ADMChannelResponse {
 
 /// Specifies the status and settings of the ADM (Amazon Device Messaging)
 /// channel for an application.
+///
+/// @nodoc
 class ADMChannelRequest {
   /// The Client ID that you received from Amazon to send messages by using ADM.
   final String clientId;
@@ -15492,6 +15879,8 @@ class ADMChannelRequest {
 
 /// Specifies the tags (keys and values) for an application, campaign, message
 /// template, or segment.
+///
+/// @nodoc
 class TagsModel {
   /// A string-to-string map of key-value pairs that defines the tags for an
   /// application, campaign, message template, or segment. Each of these resources
@@ -15523,6 +15912,8 @@ class TagsModel {
 }
 
 /// Provides information about which users and endpoints a message was sent to.
+///
+/// @nodoc
 class SendUsersMessageResponse {
   /// The unique identifier for the application that was used to send the message.
   final String applicationId;
@@ -15567,6 +15958,8 @@ class SendUsersMessageResponse {
 
 /// Provides information about the delivery status and results of sending a
 /// message directly to an endpoint.
+///
+/// @nodoc
 class EndpointMessageResult {
   /// The delivery status of the message. Possible values are:
   ///
@@ -15657,6 +16050,7 @@ class EndpointMessageResult {
   }
 }
 
+/// @nodoc
 class DeliveryStatus {
   static const successful = DeliveryStatus._('SUCCESSFUL');
   static const throttled = DeliveryStatus._('THROTTLED');
@@ -15696,6 +16090,8 @@ class DeliveryStatus {
 
 /// Specifies the configuration and other settings for a message to send to all
 /// the endpoints that are associated with a list of users.
+///
+/// @nodoc
 class SendUsersMessageRequest {
   /// The settings and content for the default message and any default messages
   /// that you defined for specific channels.
@@ -15749,6 +16145,8 @@ class SendUsersMessageRequest {
 
 /// Specifies the settings and content for the default message and any default
 /// messages that you tailored for specific channels.
+///
+/// @nodoc
 class DirectMessageConfiguration {
   /// The default push notification message for the ADM (Amazon Device Messaging)
   /// channel. This message overrides the default push notification message
@@ -15828,6 +16226,8 @@ class DirectMessageConfiguration {
 
 /// Specifies the content, including message variables and attributes, to use in
 /// a message that's sent directly to an endpoint.
+///
+/// @nodoc
 class EndpointSendConfiguration {
   /// The body of the message. If specified, this value overrides the default
   /// message body.
@@ -15880,6 +16280,8 @@ class EndpointSendConfiguration {
 
 /// Specifies the settings for a one-time message that's sent directly to an
 /// endpoint through the ADM (Amazon Device Messaging) channel.
+///
+/// @nodoc
 class ADMMessage {
   /// The action to occur if the recipient taps the push notification. Valid
   /// values are:
@@ -16024,6 +16426,8 @@ class ADMMessage {
 
 /// Specifies the settings for a one-time message that's sent directly to an
 /// endpoint through the APNs (Apple Push Notification service) channel.
+///
+/// @nodoc
 class APNSMessage {
   /// The type of push notification to send. Valid values are:
   ///
@@ -16278,6 +16682,8 @@ class APNSMessage {
 
 /// Specifies the settings for a one-time message that's sent directly to an
 /// endpoint through the Baidu (Baidu Cloud Push) channel.
+///
+/// @nodoc
 class BaiduMessage {
   /// The action to occur if the recipient taps the push notification. Valid
   /// values are:
@@ -16406,6 +16812,8 @@ class BaiduMessage {
 }
 
 /// Specifies the default message for all channels.
+///
+/// @nodoc
 class DefaultMessage {
   /// The default body of the message.
   final String? body;
@@ -16431,6 +16839,8 @@ class DefaultMessage {
 
 /// Specifies the default settings and content for a push notification that's
 /// sent directly to an endpoint.
+///
+/// @nodoc
 class DefaultPushNotificationMessage {
   /// The default action to occur if a recipient taps the push notification. Valid
   /// values are:
@@ -16511,6 +16921,8 @@ class DefaultPushNotificationMessage {
 
 /// Specifies the default settings and content for a one-time email message
 /// that's sent directly to an endpoint.
+///
+/// @nodoc
 class EmailMessage {
   /// The body of the email message.
   final String? body;
@@ -16572,6 +16984,8 @@ class EmailMessage {
 /// endpoint through the GCM channel. The GCM channel enables Amazon Pinpoint to
 /// send messages to the Firebase Cloud Messaging (FCM), formerly Google Cloud
 /// Messaging (GCM), service.
+///
+/// @nodoc
 class GCMMessage {
   /// The action to occur if the recipient taps the push notification. Valid
   /// values are:
@@ -16753,6 +17167,8 @@ class GCMMessage {
 
 /// Specifies the default settings for a one-time SMS message that's sent
 /// directly to an endpoint.
+///
+/// @nodoc
 class SMSMessage {
   /// The body of the SMS message.
   final String? body;
@@ -16830,6 +17246,8 @@ class SMSMessage {
 
 /// Specifies the settings for a one-time voice message that's sent directly to
 /// an endpoint through the voice channel.
+///
+/// @nodoc
 class VoiceMessage {
   /// The text of the script to use for the voice message.
   final String? body;
@@ -16883,6 +17301,8 @@ class VoiceMessage {
 
 /// Specifies the contents of an email message, represented as a raw MIME
 /// message.
+///
+/// @nodoc
 class RawEmail {
   /// The email message, represented as a raw MIME message. The entire message
   /// must be base64 encoded.
@@ -16902,6 +17322,8 @@ class RawEmail {
 
 /// Specifies the contents of an email message, composed of a subject, a text
 /// part, and an HTML part.
+///
+/// @nodoc
 class SimpleEmail {
   /// The list of MessageHeaders for the email. You can have up to 15 Headers.
   final List<MessageHeader>? headers;
@@ -16942,6 +17364,8 @@ class SimpleEmail {
 
 /// Specifies the subject or body of an email message, represented as textual
 /// email data and the applicable character set.
+///
+/// @nodoc
 class SimpleEmailPart {
   /// The applicable character set for the message content.
   final String? charset;
@@ -16966,6 +17390,8 @@ class SimpleEmailPart {
 
 /// Provides information about the results of a request to send a message to an
 /// endpoint address.
+///
+/// @nodoc
 class MessageResponse {
   /// The unique identifier for the application that was used to send the message.
   final String applicationId;
@@ -17018,6 +17444,8 @@ class MessageResponse {
 
 /// Provides information about the results of sending a message directly to an
 /// endpoint address.
+///
+/// @nodoc
 class MessageResult {
   /// The delivery status of the message. Possible values are:
   ///
@@ -17102,12 +17530,14 @@ class MessageResult {
 }
 
 /// Send OTP message request parameters.
+///
+/// @nodoc
 class SendOTPMessageRequestParameters {
   /// The brand name that will be substituted into the OTP message body. Should be
   /// owned by calling AWS account.
   final String brandName;
 
-  /// Channel type for the OTP message. Supported values: [SMS].
+  /// Channel type for the OTP message. Supported values: \[SMS\].
   final String channel;
 
   /// The destination identity to send OTP to.
@@ -17182,6 +17612,8 @@ class SendOTPMessageRequestParameters {
 }
 
 /// Specifies the configuration and other settings for a message.
+///
+/// @nodoc
 class MessageRequest {
   /// The settings and content for the default message and any default messages
   /// that you defined for specific channels.
@@ -17249,6 +17681,8 @@ class MessageRequest {
 
 /// Specifies address-based configuration settings for a message that's sent
 /// directly to an endpoint.
+///
+/// @nodoc
 class AddressConfiguration {
   /// The message body to use instead of the default message body. This value
   /// overrides the default message body.
@@ -17307,6 +17741,8 @@ class AddressConfiguration {
 
 /// Provides information about the type and the names of attributes that were
 /// removed from all the endpoints that are associated with an application.
+///
+/// @nodoc
 class AttributesResource {
   /// The unique identifier for the application.
   final String applicationId;
@@ -17363,6 +17799,8 @@ class AttributesResource {
 
 /// Specifies one or more attributes to remove from all the endpoints that are
 /// associated with an application.
+///
+/// @nodoc
 class UpdateAttributesRequest {
   /// An array of the attributes to remove from all the endpoints that are
   /// associated with the application. The array can specify the complete, exact
@@ -17384,6 +17822,8 @@ class UpdateAttributesRequest {
 
 /// Specifies settings for publishing event data to an Amazon Kinesis data
 /// stream or an Amazon Kinesis Data Firehose delivery stream.
+///
+/// @nodoc
 class EventStream {
   /// The unique identifier for the application to publish event data for.
   final String applicationId;
@@ -17456,6 +17896,8 @@ class EventStream {
 /// Specifies the Amazon Resource Name (ARN) of an event stream to publish
 /// events to and the AWS Identity and Access Management (IAM) role to use when
 /// publishing those events.
+///
+/// @nodoc
 class WriteEventStream {
   /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon
   /// Kinesis Data Firehose delivery stream that you want to publish event data
@@ -17489,6 +17931,8 @@ class WriteEventStream {
 
 /// Provides information about endpoints and the events that they're associated
 /// with.
+///
+/// @nodoc
 class EventsResponse {
   /// A map that contains a multipart response for each endpoint. For each item in
   /// this object, the endpoint ID is the key and the item response is the value.
@@ -17518,6 +17962,8 @@ class EventsResponse {
 
 /// Provides information about the results of a request to create or update an
 /// endpoint that's associated with an event.
+///
+/// @nodoc
 class ItemResponse {
   /// The response that was received after the endpoint data was accepted.
   final EndpointItemResponse? endpointItemResponse;
@@ -17557,6 +18003,8 @@ class ItemResponse {
 
 /// Provides the status code and message that result from processing data for an
 /// endpoint.
+///
+/// @nodoc
 class EndpointItemResponse {
   /// The custom message that's returned in the response as a result of processing
   /// the endpoint data.
@@ -17589,6 +18037,8 @@ class EndpointItemResponse {
 }
 
 /// Provides the status code and message that result from processing an event.
+///
+/// @nodoc
 class EventItemResponse {
   /// A custom message that's returned in the response as a result of processing
   /// the event.
@@ -17622,6 +18072,8 @@ class EventItemResponse {
 }
 
 /// Specifies a batch of events to process.
+///
+/// @nodoc
 class EventsRequest {
   /// The batch of events to process. For each item in a batch, the endpoint ID
   /// acts as a key that has an EventsBatch object as its value.
@@ -17640,6 +18092,8 @@ class EventsRequest {
 }
 
 /// Specifies a batch of endpoints and events to process.
+///
+/// @nodoc
 class EventsBatch {
   /// A set of properties and attributes that are associated with the endpoint.
   final PublicEndpoint endpoint;
@@ -17664,6 +18118,8 @@ class EventsBatch {
 
 /// Specifies the properties and attributes of an endpoint that's associated
 /// with an event.
+///
+/// @nodoc
 class PublicEndpoint {
   /// The unique identifier for the recipient, such as a device token, email
   /// address, or mobile phone number.
@@ -17759,6 +18215,8 @@ class PublicEndpoint {
 }
 
 /// Specifies information about an event that reports data to Amazon Pinpoint.
+///
+/// @nodoc
 class Event {
   /// The name of the event.
   final String eventType;
@@ -17830,6 +18288,8 @@ class Event {
 }
 
 /// Provides information about a session.
+///
+/// @nodoc
 class Session {
   /// The unique identifier for the session.
   final String id;
@@ -17865,6 +18325,8 @@ class Session {
 }
 
 /// Provides information about a phone number.
+///
+/// @nodoc
 class NumberValidateResponse {
   /// The carrier or service provider that the phone number is currently
   /// registered with. In some countries and regions, this value may be the
@@ -17997,6 +18459,8 @@ class NumberValidateResponse {
 }
 
 /// Specifies a phone number to validate and retrieve information about.
+///
+/// @nodoc
 class NumberValidateRequest {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or
   /// region where the phone number was originally registered.
@@ -18023,6 +18487,8 @@ class NumberValidateRequest {
 }
 
 /// Provides information about all the versions of a specific message template.
+///
+/// @nodoc
 class TemplateVersionsResponse {
   /// An array of responses, one for each version of the message template.
   final List<TemplateVersionResponse> item;
@@ -18074,6 +18540,8 @@ class TemplateVersionsResponse {
 }
 
 /// Provides information about a specific version of a message template.
+///
+/// @nodoc
 class TemplateVersionResponse {
   /// The date, in ISO 8601 format, when the version of the message template was
   /// created.
@@ -18150,6 +18618,8 @@ class TemplateVersionResponse {
 
 /// Provides information about all the message templates that are associated
 /// with your Amazon Pinpoint account.
+///
+/// @nodoc
 class TemplatesResponse {
   /// An array of responses, one for each message template that's associated with
   /// your Amazon Pinpoint account and meets any filter criteria that you
@@ -18187,6 +18657,8 @@ class TemplatesResponse {
 
 /// Provides information about a message template that's associated with your
 /// Amazon Pinpoint account.
+///
+/// @nodoc
 class TemplateResponse {
   /// The date, in ISO 8601 format, when the message template was created.
   final String creationDate;
@@ -18288,6 +18760,7 @@ class TemplateResponse {
   }
 }
 
+/// @nodoc
 class TemplateType {
   static const email = TemplateType._('EMAIL');
   static const sms = TemplateType._('SMS');
@@ -18316,6 +18789,8 @@ class TemplateType {
 
 /// Provides information about the status, configuration, and other settings for
 /// all the journeys that are associated with an application.
+///
+/// @nodoc
 class JourneysResponse {
   /// An array of responses, one for each journey that's associated with the
   /// application.
@@ -18352,6 +18827,8 @@ class JourneysResponse {
 
 /// Provides information about the content and settings for a message template
 /// that can be used in messages that are sent through the voice channel.
+///
+/// @nodoc
 class VoiceTemplateResponse {
   /// The date, in ISO 8601 format, when the message template was created.
   final String creationDate;
@@ -18473,6 +18950,8 @@ class VoiceTemplateResponse {
 
 /// Provides information about all the endpoints that are associated with a user
 /// ID.
+///
+/// @nodoc
 class EndpointsResponse {
   /// An array of responses, one for each endpoint that's associated with the user
   /// ID.
@@ -18501,6 +18980,8 @@ class EndpointsResponse {
 
 /// Provides information about the channel type and other settings for an
 /// endpoint.
+///
+/// @nodoc
 class EndpointResponse {
   /// The destination address for messages or push notifications that you send to
   /// the endpoint. The address varies by channel. For example, the address for a
@@ -18517,8 +18998,8 @@ class EndpointResponse {
 
   /// One or more custom attributes that describe the endpoint by associating a
   /// name with an array of values. For example, the value of a custom attribute
-  /// named Interests might be: ["Science", "Music", "Travel"]. You can use these
-  /// attributes as filter criteria when you create segments.
+  /// named Interests might be: \["Science", "Music", "Travel"\]. You can use
+  /// these attributes as filter criteria when you create segments.
   final Map<String, List<String>>? attributes;
 
   /// The channel that's used when sending messages or push notifications to the
@@ -18664,6 +19145,8 @@ class EndpointResponse {
 
 /// Provides information about the content and settings for a message template
 /// that can be used in text messages that are sent through the SMS channel.
+///
+/// @nodoc
 class SMSTemplateResponse {
   /// The date, in ISO 8601 format, when the message template was created.
   final String creationDate;
@@ -18772,6 +19255,8 @@ class SMSTemplateResponse {
 
 /// Provides information about all the segments that are associated with an
 /// application.
+///
+/// @nodoc
 class SegmentsResponse {
   /// An array of responses, one for each segment that's associated with the
   /// application (Segments resource) or each version of a segment that's
@@ -18810,6 +19295,8 @@ class SegmentsResponse {
 /// Provides information about the status and settings of all the import jobs
 /// that are associated with an application or segment. An import job is a job
 /// that imports endpoint definitions from one or more files.
+///
+/// @nodoc
 class ImportJobsResponse {
   /// An array of responses, one for each import job that's associated with the
   /// application (Import Jobs resource) or segment (Segment Import Jobs
@@ -18849,6 +19336,8 @@ class ImportJobsResponse {
 /// endpoint definitions from one or more files. The files can be stored in an
 /// Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a
 /// computer by using the Amazon Pinpoint console.
+///
+/// @nodoc
 class ImportJobResponse {
   /// The unique identifier for the application that's associated with the import
   /// job.
@@ -18974,6 +19463,8 @@ class ImportJobResponse {
 /// endpoint definitions from one or more files. The files can be stored in an
 /// Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a
 /// computer by using the Amazon Pinpoint console.
+///
+/// @nodoc
 class ImportJobResource {
   /// The format of the files that contain the endpoint definitions to import.
   /// Valid values are: CSV, for comma-separated values format; and, JSON, for
@@ -19070,6 +19561,7 @@ class ImportJobResource {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const created = JobStatus._('CREATED');
   static const preparingForInitialization =
@@ -19114,6 +19606,8 @@ class JobStatus {
 /// Provides information about all the export jobs that are associated with an
 /// application or segment. An export job is a job that exports endpoint
 /// definitions to a file.
+///
+/// @nodoc
 class ExportJobsResponse {
   /// An array of responses, one for each export job that's associated with the
   /// application (Export Jobs resource) or segment (Segment Export Jobs
@@ -19153,6 +19647,8 @@ class ExportJobsResponse {
 /// endpoint definitions to a file. The file can be added directly to an Amazon
 /// Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API
 /// or downloaded directly to a computer by using the Amazon Pinpoint console.
+///
+/// @nodoc
 class ExportJobResponse {
   /// The unique identifier for the application that's associated with the export
   /// job.
@@ -19278,6 +19774,8 @@ class ExportJobResponse {
 /// endpoint definitions to a file. The file can be added directly to an Amazon
 /// Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API
 /// or downloaded directly to a computer by using the Amazon Pinpoint console.
+///
+/// @nodoc
 class ExportJobResource {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that authorized Amazon Pinpoint to access the Amazon S3 location
@@ -19331,6 +19829,8 @@ class ExportJobResource {
 
 /// Provides information about all the recommender model configurations that are
 /// associated with your Amazon Pinpoint account.
+///
+/// @nodoc
 class ListRecommenderConfigurationsResponse {
   /// An array of responses, one for each recommender model configuration that's
   /// associated with your Amazon Pinpoint account.
@@ -19370,6 +19870,8 @@ class ListRecommenderConfigurationsResponse {
 /// Provides information about the content and settings for a message template
 /// that can be used in messages that are sent through a push notification
 /// channel.
+///
+/// @nodoc
 class PushNotificationTemplateResponse {
   /// The date, in ISO 8601 format, when the message template was created.
   final String creationDate;
@@ -19528,6 +20030,8 @@ class PushNotificationTemplateResponse {
 }
 
 /// Provides information from all runs of a journey.
+///
+/// @nodoc
 class JourneyRunsResponse {
   /// An array of responses, one for each run of the journey
   final List<JourneyRunResponse> item;
@@ -19562,6 +20066,8 @@ class JourneyRunsResponse {
 }
 
 /// Provides information from a specified run of a journey.
+///
+/// @nodoc
 class JourneyRunResponse {
   /// The time when the journey run was created or scheduled, in ISO 8601 format.
   final String creationTime;
@@ -19605,6 +20111,7 @@ class JourneyRunResponse {
   }
 }
 
+/// @nodoc
 class JourneyRunStatus {
   static const scheduled = JourneyRunStatus._('SCHEDULED');
   static const running = JourneyRunStatus._('RUNNING');
@@ -19634,6 +20141,8 @@ class JourneyRunStatus {
 /// Provides the results of a query that retrieved the data for a standard
 /// execution metric that applies to a journey run, and provides information
 /// about that query.
+///
+/// @nodoc
 class JourneyRunExecutionMetricsResponse {
   /// The unique identifier for the application that the metric applies to.
   final String applicationId;
@@ -19695,6 +20204,8 @@ class JourneyRunExecutionMetricsResponse {
 /// Provides the results of a query that retrieved the data for a standard
 /// execution metric that applies to a journey activity for a particular journey
 /// run, and provides information about that query.
+///
+/// @nodoc
 class JourneyRunExecutionActivityMetricsResponse {
   /// The type of activity that the metric applies to. Possible values are:
   ///
@@ -19801,6 +20312,8 @@ class JourneyRunExecutionActivityMetricsResponse {
 /// Provides the results of a query that retrieved the data for a standard
 /// execution metric that applies to a journey, and provides information about
 /// that query.
+///
+/// @nodoc
 class JourneyExecutionMetricsResponse {
   /// The unique identifier for the application that the metric applies to.
   final String applicationId;
@@ -19853,6 +20366,8 @@ class JourneyExecutionMetricsResponse {
 /// Provides the results of a query that retrieved the data for a standard
 /// execution metric that applies to a journey activity, and provides
 /// information about that query.
+///
+/// @nodoc
 class JourneyExecutionActivityMetricsResponse {
   /// The type of activity that the metric applies to. Possible values are:
   ///
@@ -19951,6 +20466,8 @@ class JourneyExecutionActivityMetricsResponse {
 /// Provides the results of a query that retrieved the data for a standard
 /// engagement metric that applies to a journey, and provides information about
 /// that query.
+///
+/// @nodoc
 class JourneyDateRangeKpiResponse {
   /// The unique identifier for the application that the metric applies to.
   final String applicationId;
@@ -20030,6 +20547,8 @@ class JourneyDateRangeKpiResponse {
 
 /// Provides the results of a query that retrieved the data for a standard
 /// metric that applies to an application, campaign, or journey.
+///
+/// @nodoc
 class BaseKpiResult {
   /// An array of objects that provides the results of a query that retrieved the
   /// data for a standard metric that applies to an application, campaign, or
@@ -20059,6 +20578,8 @@ class BaseKpiResult {
 
 /// Provides the results of a query that retrieved the data for a standard
 /// metric that applies to an application, campaign, or journey.
+///
+/// @nodoc
 class ResultRow {
   /// An array of objects that defines the field and field values that were used
   /// to group data in a result set that contains multiple results. This value is
@@ -20100,6 +20621,8 @@ class ResultRow {
 /// Provides a single value and metadata about that value as part of an array of
 /// query results for a standard metric that applies to an application,
 /// campaign, or journey.
+///
+/// @nodoc
 class ResultRowValue {
   /// The friendly name of the metric whose value is specified by the Value
   /// property.
@@ -20140,6 +20663,8 @@ class ResultRowValue {
 }
 
 /// In-App Template Response.
+///
+/// @nodoc
 class InAppTemplateResponse {
   /// The creation date of the template.
   final String creationDate;
@@ -20244,6 +20769,8 @@ class InAppTemplateResponse {
 }
 
 /// Get in-app messages response object.
+///
+/// @nodoc
 class InAppMessagesResponse {
   /// List of targeted in-app message campaigns.
   final List<InAppMessageCampaign>? inAppMessageCampaigns;
@@ -20271,6 +20798,8 @@ class InAppMessagesResponse {
 }
 
 /// Targeted in-app message campaign.
+///
+/// @nodoc
 class InAppMessageCampaign {
   /// Campaign id of the corresponding campaign.
   final String? campaignId;
@@ -20352,6 +20881,8 @@ class InAppMessageCampaign {
 }
 
 /// Provides all fields required for building an in-app message.
+///
+/// @nodoc
 class InAppMessage {
   /// In-app message content.
   final List<InAppMessageContent>? content;
@@ -20393,6 +20924,8 @@ class InAppMessage {
 }
 
 /// Schedule of the campaign.
+///
+/// @nodoc
 class InAppCampaignSchedule {
   /// The scheduled time after which the in-app message should not be shown.
   /// Timestamp is in ISO 8601 format.
@@ -20438,6 +20971,8 @@ class InAppCampaignSchedule {
 
 /// Provides information about the content and settings for a message template
 /// that can be used in messages that are sent through the email channel.
+///
+/// @nodoc
 class EmailTemplateResponse {
   /// The date, in ISO 8601 format, when the message template was created.
   final String creationDate;
@@ -20575,6 +21110,8 @@ class EmailTemplateResponse {
 /// Provides information about the general settings and status of all channels
 /// for an application, including channels that aren't enabled for the
 /// application.
+///
+/// @nodoc
 class ChannelsResponse {
   /// A map that contains a multipart response for each channel. For each item in
   /// this object, the ChannelType is the key and the Channel is the value.
@@ -20603,6 +21140,8 @@ class ChannelsResponse {
 
 /// Provides information about the general settings and status of a channel for
 /// an application.
+///
+/// @nodoc
 class ChannelResponse {
   /// The unique identifier for the application.
   final String? applicationId;
@@ -20684,6 +21223,8 @@ class ChannelResponse {
 
 /// Provides information about the configuration and other settings for all the
 /// campaigns that are associated with an application.
+///
+/// @nodoc
 class CampaignsResponse {
   /// An array of responses, one for each campaign that's associated with the
   /// application.
@@ -20721,6 +21262,8 @@ class CampaignsResponse {
 /// Provides the results of a query that retrieved the data for a standard
 /// metric that applies to a campaign, and provides information about that
 /// query.
+///
+/// @nodoc
 class CampaignDateRangeKpiResponse {
   /// The unique identifier for the application that the metric applies to.
   final String applicationId;
@@ -20799,6 +21342,8 @@ class CampaignDateRangeKpiResponse {
 }
 
 /// Provides information about the activities that were performed by a campaign.
+///
+/// @nodoc
 class ActivitiesResponse {
   /// An array of responses, one for each activity that was performed by the
   /// campaign.
@@ -20834,6 +21379,8 @@ class ActivitiesResponse {
 }
 
 /// Provides information about an activity that was performed by a campaign.
+///
+/// @nodoc
 class ActivityResponse {
   /// The unique identifier for the application that the campaign applies to.
   final String applicationId;
@@ -20965,6 +21512,8 @@ class ActivityResponse {
 }
 
 /// Provides information about all of your applications.
+///
+/// @nodoc
 class ApplicationsResponse {
   /// An array of responses, one for each application that was returned.
   final List<ApplicationResponse>? item;
@@ -20999,6 +21548,8 @@ class ApplicationsResponse {
 }
 
 /// Provides information about an application.
+///
+/// @nodoc
 class ApplicationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String arn;
@@ -21057,6 +21608,8 @@ class ApplicationResponse {
 /// Provides the results of a query that retrieved the data for a standard
 /// metric that applies to an application, and provides information about that
 /// query.
+///
+/// @nodoc
 class ApplicationDateRangeKpiResponse {
   /// The unique identifier for the application that the metric applies to.
   final String applicationId;
@@ -21128,6 +21681,8 @@ class ApplicationDateRangeKpiResponse {
 }
 
 /// Provides information about a request to create a message template.
+///
+/// @nodoc
 class CreateTemplateMessageBody {
   /// The Amazon Resource Name (ARN) of the message template that was created.
   final String? arn;
@@ -21167,6 +21722,8 @@ class CreateTemplateMessageBody {
 
 /// Specifies Amazon Pinpoint configuration settings for retrieving and
 /// processing recommendation data from a recommender model.
+///
+/// @nodoc
 class CreateRecommenderConfigurationShape {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that authorizes Amazon Pinpoint to retrieve recommendation data
@@ -21310,6 +21867,8 @@ class CreateRecommenderConfigurationShape {
 }
 
 /// Provides information about a request to create a message template.
+///
+/// @nodoc
 class TemplateCreateMessageBody {
   /// The Amazon Resource Name (ARN) of the message template that was created.
   final String? arn;
@@ -21349,6 +21908,8 @@ class TemplateCreateMessageBody {
 
 /// Specifies the settings for a job that imports endpoint definitions from an
 /// Amazon Simple Storage Service (Amazon S3) bucket.
+///
+/// @nodoc
 class ImportJobRequest {
   /// The format of the files that contain the endpoint definitions to import.
   /// Valid values are: CSV, for comma-separated values format; and, JSON, for
@@ -21432,6 +21993,8 @@ class ImportJobRequest {
 
 /// Specifies the settings for a job that exports endpoint definitions to an
 /// Amazon Simple Storage Service (Amazon S3) bucket.
+///
+/// @nodoc
 class ExportJobRequest {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location
@@ -21477,6 +22040,8 @@ class ExportJobRequest {
 
 /// Specifies the display name of an application and the tags to associate with
 /// the application.
+///
+/// @nodoc
 class CreateApplicationRequest {
   /// The display name of the application. This name is displayed as the
   /// <b>Project name</b> on the Amazon Pinpoint console.
@@ -21502,42 +22067,50 @@ class CreateApplicationRequest {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class MethodNotAllowedException extends _s.GenericAwsException {
   MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class PayloadTooLargeException extends _s.GenericAwsException {
   PayloadTooLargeException({String? type, String? message})
       : super(type: type, code: 'PayloadTooLargeException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

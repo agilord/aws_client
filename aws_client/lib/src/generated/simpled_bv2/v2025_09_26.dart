@@ -196,6 +196,7 @@ class SimpleDBV2 {
   }
 }
 
+/// @nodoc
 class GetExportResponse {
   /// The client token provided for this export.
   final String clientToken;
@@ -324,6 +325,7 @@ class GetExportResponse {
   }
 }
 
+/// @nodoc
 class ListExportsResponse {
   /// List of export summaries containing export ARN, status, request timestamp,
   /// and associated domain name.
@@ -359,6 +361,7 @@ class ListExportsResponse {
   }
 }
 
+/// @nodoc
 class StartDomainExportResponse {
   /// The client token that was provided in the request.
   final String clientToken;
@@ -395,6 +398,7 @@ class StartDomainExportResponse {
   }
 }
 
+/// @nodoc
 class S3SseAlgorithm {
   static const aes256 = S3SseAlgorithm._('AES256');
   static const kms = S3SseAlgorithm._('KMS');
@@ -421,6 +425,8 @@ class S3SseAlgorithm {
 
 /// Summary information about an export, including its unique identifier,
 /// current status, creation time, and the domain being exported.
+///
+/// @nodoc
 class ExportSummary {
   /// The name of the domain for which the export was created.
   final String domainName;
@@ -470,6 +476,8 @@ class ExportSummary {
 /// The current state of the export. Current possible values include : PENDING -
 /// export request received, IN_PROGRESS - export is being processed, SUCCEEDED
 /// - export completed successfully, and FAILED - export encountered an error.
+///
+/// @nodoc
 class ExportStatus {
   static const pending = ExportStatus._('PENDING');
   static const inProgress = ExportStatus._('IN_PROGRESS');
@@ -495,16 +503,19 @@ class ExportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -513,6 +524,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -521,16 +533,19 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchDomainException extends _s.GenericAwsException {
   NoSuchDomainException({String? type, String? message})
       : super(type: type, code: 'NoSuchDomainException', message: message);
 }
 
+/// @nodoc
 class NoSuchExportException extends _s.GenericAwsException {
   NoSuchExportException({String? type, String? message})
       : super(type: type, code: 'NoSuchExportException', message: message);
 }
 
+/// @nodoc
 class NumberExportsLimitExceeded extends _s.GenericAwsException {
   NumberExportsLimitExceeded({String? type, String? message})
       : super(type: type, code: 'NumberExportsLimitExceeded', message: message);

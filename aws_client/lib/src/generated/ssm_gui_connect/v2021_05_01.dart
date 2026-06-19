@@ -142,6 +142,7 @@ class SsmGuiConnect {
   }
 }
 
+/// @nodoc
 class GetConnectionRecordingPreferencesResponse {
   /// Service-provided idempotency token.
   final String? clientToken;
@@ -179,6 +180,7 @@ class GetConnectionRecordingPreferencesResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionRecordingPreferencesResponse {
   /// Service-provided idempotency token.
   final String? clientToken;
@@ -202,6 +204,7 @@ class DeleteConnectionRecordingPreferencesResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectionRecordingPreferencesResponse {
   /// Service-provided idempotency token.
   final String? clientToken;
@@ -242,6 +245,8 @@ class UpdateConnectionRecordingPreferencesResponse {
 /// The set of preferences used for recording RDP connections in the requesting
 /// Amazon Web Services account and Amazon Web Services Region. This includes
 /// details such as which S3 bucket recordings are stored in.
+///
+/// @nodoc
 class ConnectionRecordingPreferences {
   /// The ARN of a KMS key that is used to encrypt data while it is being
   /// processed by the service. This key must exist in the same Amazon Web
@@ -276,6 +281,8 @@ class ConnectionRecordingPreferences {
 }
 
 /// Determines where recordings of RDP connections are stored.
+///
+/// @nodoc
 class RecordingDestinations {
   /// The S3 bucket where RDP connection recordings are stored.
   final List<S3Bucket> s3Buckets;
@@ -302,6 +309,8 @@ class RecordingDestinations {
 }
 
 /// The S3 bucket where RDP connection recordings are stored.
+///
+/// @nodoc
 class S3Bucket {
   /// The name of the S3 bucket where RDP connection recordings are stored.
   final String bucketName;
@@ -331,26 +340,31 @@ class S3Bucket {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -359,11 +373,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

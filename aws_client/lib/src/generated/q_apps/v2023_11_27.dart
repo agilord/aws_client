@@ -1569,6 +1569,7 @@ class QApps {
   }
 }
 
+/// @nodoc
 class CreateLibraryItemOutput {
   /// The date and time the library item was created.
   final DateTime createdAt;
@@ -1640,6 +1641,7 @@ class CreateLibraryItemOutput {
   }
 }
 
+/// @nodoc
 class CreatePresignedUrlOutput {
   /// The unique identifier assigned to the file to be uploaded.
   final String fileId;
@@ -1688,6 +1690,7 @@ class CreatePresignedUrlOutput {
   }
 }
 
+/// @nodoc
 class CreateQAppOutput {
   /// The Amazon Resource Name (ARN) of the new Q App.
   final String appArn;
@@ -1793,6 +1796,7 @@ class CreateQAppOutput {
   }
 }
 
+/// @nodoc
 class DescribeQAppPermissionsOutput {
   /// The unique identifier of the Amazon Q App for which permissions are
   /// returned.
@@ -1834,6 +1838,7 @@ class DescribeQAppPermissionsOutput {
   }
 }
 
+/// @nodoc
 class ExportQAppSessionDataOutput {
   /// The link where the exported Q App session data can be downloaded from.
   final String csvFileLink;
@@ -1870,6 +1875,7 @@ class ExportQAppSessionDataOutput {
   }
 }
 
+/// @nodoc
 class GetLibraryItemOutput {
   /// The unique identifier of the Q App associated with the library item.
   final String appId;
@@ -1979,6 +1985,7 @@ class GetLibraryItemOutput {
   }
 }
 
+/// @nodoc
 class GetQAppOutput {
   /// The Amazon Resource Name (ARN) of the Q App.
   final String appArn;
@@ -2093,6 +2100,7 @@ class GetQAppOutput {
   }
 }
 
+/// @nodoc
 class GetQAppSessionOutput {
   /// The current status for each card in the Q App session.
   final Map<String, CardStatus> cardStatus;
@@ -2169,6 +2177,7 @@ class GetQAppSessionOutput {
   }
 }
 
+/// @nodoc
 class GetQAppSessionMetadataOutput {
   /// The Amazon Resource Name (ARN) of the Q App session.
   final String sessionArn;
@@ -2221,6 +2230,7 @@ class GetQAppSessionMetadataOutput {
   }
 }
 
+/// @nodoc
 class ImportDocumentOutput {
   /// The unique identifier assigned to the uploaded file.
   final String? fileId;
@@ -2243,6 +2253,7 @@ class ImportDocumentOutput {
   }
 }
 
+/// @nodoc
 class ListCategoriesOutput {
   /// The categories of a Amazon Q Business application environment instance.
   final List<Category>? categories;
@@ -2268,6 +2279,7 @@ class ListCategoriesOutput {
   }
 }
 
+/// @nodoc
 class ListLibraryItemsOutput {
   /// The list of library items meeting the request criteria.
   final List<LibraryItemMember>? libraryItems;
@@ -2300,6 +2312,7 @@ class ListLibraryItemsOutput {
   }
 }
 
+/// @nodoc
 class ListQAppsOutput {
   /// The list of Amazon Q Apps meeting the request criteria.
   final List<UserAppItem> apps;
@@ -2332,6 +2345,7 @@ class ListQAppsOutput {
   }
 }
 
+/// @nodoc
 class ListQAppSessionDataOutput {
   /// The Amazon Resource Name (ARN) of the Q App data collection session.
   final String sessionArn;
@@ -2378,6 +2392,7 @@ class ListQAppSessionDataOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags that are assigned to the resource.
   final Map<String, String>? tags;
@@ -2401,6 +2416,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PredictQAppOutput {
   /// The generated Q App definition.
   final PredictAppDefinition app;
@@ -2431,6 +2447,7 @@ class PredictQAppOutput {
   }
 }
 
+/// @nodoc
 class StartQAppSessionOutput {
   /// The Amazon Resource Name (ARN) of the new Q App session.
   final String sessionArn;
@@ -2460,6 +2477,7 @@ class StartQAppSessionOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2472,6 +2490,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2484,6 +2503,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateLibraryItemOutput {
   /// The unique identifier of the Q App associated with the library item.
   final String appId;
@@ -2593,6 +2613,7 @@ class UpdateLibraryItemOutput {
   }
 }
 
+/// @nodoc
 class UpdateQAppOutput {
   /// The Amazon Resource Name (ARN) of the updated Q App.
   final String appArn;
@@ -2697,6 +2718,7 @@ class UpdateQAppOutput {
   }
 }
 
+/// @nodoc
 class UpdateQAppPermissionsOutput {
   /// The unique identifier of the Amazon Q App for which permissions were
   /// updated.
@@ -2738,6 +2760,7 @@ class UpdateQAppPermissionsOutput {
   }
 }
 
+/// @nodoc
 class UpdateQAppSessionOutput {
   /// The Amazon Resource Name (ARN) of the updated Q App session.
   final String sessionArn;
@@ -2767,6 +2790,7 @@ class UpdateQAppSessionOutput {
   }
 }
 
+/// @nodoc
 class UpdateQAppSessionMetadataOutput {
   /// The Amazon Resource Name (ARN) of the updated Q App session.
   final String sessionArn;
@@ -2813,6 +2837,8 @@ class UpdateQAppSessionMetadataOutput {
 }
 
 /// The sharing configuration of an Amazon Q App data collection session.
+///
+/// @nodoc
 class SessionSharingConfiguration {
   /// Indicates whether an Q App session is shareable with other users.
   final bool enabled;
@@ -2851,6 +2877,8 @@ class SessionSharingConfiguration {
 }
 
 /// The value or result associated with a card in a Amazon Q App session.
+///
+/// @nodoc
 class CardValue {
   /// The unique identifier of the card.
   final String cardId;
@@ -2881,6 +2909,8 @@ class CardValue {
 }
 
 /// Represents an action performed on a submission.
+///
+/// @nodoc
 class SubmissionMutation {
   /// The operation that is performed on a submission.
   final SubmissionMutationKind mutationType;
@@ -2903,6 +2933,7 @@ class SubmissionMutation {
   }
 }
 
+/// @nodoc
 class SubmissionMutationKind {
   static const edit = SubmissionMutationKind._('edit');
   static const delete = SubmissionMutationKind._('delete');
@@ -2930,6 +2961,8 @@ class SubmissionMutationKind {
 }
 
 /// The permission granted to the Amazon Q App.
+///
+/// @nodoc
 class PermissionOutput {
   /// The action associated with the permission.
   final Action action;
@@ -2961,6 +2994,7 @@ class PermissionOutput {
   }
 }
 
+/// @nodoc
 class Action {
   static const read = Action._('read');
   static const write = Action._('write');
@@ -2985,6 +3019,8 @@ class Action {
 }
 
 /// The principal for which the permission applies.
+///
+/// @nodoc
 class PrincipalOutput {
   /// The email address associated with the user.
   final String? email;
@@ -3021,6 +3057,7 @@ class PrincipalOutput {
   }
 }
 
+/// @nodoc
 class UserType {
   static const owner = UserType._('owner');
   static const user = UserType._('user');
@@ -3045,6 +3082,8 @@ class UserType {
 }
 
 /// The permission to grant or revoke for a Amazon Q App.
+///
+/// @nodoc
 class PermissionInput {
   /// The action associated with the permission.
   final Action action;
@@ -3067,6 +3106,7 @@ class PermissionInput {
   }
 }
 
+/// @nodoc
 class AppStatus {
   static const published = AppStatus._('PUBLISHED');
   static const draft = AppStatus._('DRAFT');
@@ -3091,6 +3131,7 @@ class AppStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AppRequiredCapability {
   static const fileUpload = AppRequiredCapability._('FileUpload');
   static const creatorMode = AppRequiredCapability._('CreatorMode');
@@ -3119,6 +3160,8 @@ class AppRequiredCapability {
 }
 
 /// The input for defining an Q App.
+///
+/// @nodoc
 class AppDefinitionInput {
   /// The cards that make up the Q App definition.
   final List<CardInput> cards;
@@ -3152,6 +3195,8 @@ class AppDefinitionInput {
 }
 
 /// The properties defining an input card in an Amazon Q App.
+///
+/// @nodoc
 class CardInput {
   /// A container for the properties of the file upload input card.
   final FileUploadCardInput? fileUpload;
@@ -3216,6 +3261,8 @@ class CardInput {
 }
 
 /// The input shape for defining a text input card in an Amazon Q App.
+///
+/// @nodoc
 class TextInputCardInput {
   /// The unique identifier of the text input card.
   final String id;
@@ -3267,6 +3314,8 @@ class TextInputCardInput {
 }
 
 /// The input shape for defining a query card in an Amazon Q App.
+///
+/// @nodoc
 class QQueryCardInput {
   /// The unique identifier of the query card.
   final String id;
@@ -3330,6 +3379,8 @@ class QQueryCardInput {
 }
 
 /// The input shape for defining a plugin card in an Amazon Q App.
+///
+/// @nodoc
 class QPluginCardInput {
   /// The unique identifier of the plugin card.
   final String id;
@@ -3390,6 +3441,8 @@ class QPluginCardInput {
 /// Represents a file upload card. It can optionally receive a
 /// <code>filename</code> and <code>fileId</code> to set a default file. If not
 /// received, the user must provide the file when the Q App runs.
+///
+/// @nodoc
 class FileUploadCardInput {
   /// The unique identifier of the file upload card.
   final String id;
@@ -3449,6 +3502,8 @@ class FileUploadCardInput {
 }
 
 /// Represents a form input card for an Amazon Q App.
+///
+/// @nodoc
 class FormInputCardInput {
   /// The unique identifier of the form input card.
   final String id;
@@ -3507,6 +3562,7 @@ class FormInputCardInput {
   }
 }
 
+/// @nodoc
 class CardType {
   static const textInput = CardType._('text-input');
   static const qQuery = CardType._('q-query');
@@ -3534,6 +3590,8 @@ class CardType {
 }
 
 /// The metadata of the form input card.
+///
+/// @nodoc
 class FormInputCardMetadata {
   /// The JSON schema that defines the shape of the response data.
   final Object schema;
@@ -3556,6 +3614,7 @@ class FormInputCardMetadata {
   }
 }
 
+/// @nodoc
 class InputCardComputeMode {
   static const append = InputCardComputeMode._('append');
   static const replace = InputCardComputeMode._('replace');
@@ -3581,6 +3640,7 @@ class InputCardComputeMode {
   String toString() => value;
 }
 
+/// @nodoc
 class CardOutputSource {
   static const approvedSources = CardOutputSource._('approved-sources');
   static const llm = CardOutputSource._('llm');
@@ -3607,6 +3667,8 @@ class CardOutputSource {
 
 /// The filter criteria used on responses based on document attributes or
 /// metadata fields.
+///
+/// @nodoc
 class AttributeFilter {
   /// Performs a logical <code>AND</code> operation on all supplied filters.
   final List<AttributeFilter>? andAllFilters;
@@ -3746,6 +3808,8 @@ class AttributeFilter {
 }
 
 /// A document attribute or metadata field.
+///
+/// @nodoc
 class DocumentAttribute {
   /// The identifier for the attribute.
   final String name;
@@ -3779,6 +3843,8 @@ class DocumentAttribute {
 
 /// The value of a document attribute. You can only provide one value for a
 /// document attribute.
+///
+/// @nodoc
 class DocumentAttributeValue {
   /// A date expressed as an ISO 8601 string.
   ///
@@ -3831,6 +3897,8 @@ class DocumentAttributeValue {
 }
 
 /// A category used to classify and filter library items for Amazon Q Apps.
+///
+/// @nodoc
 class Category {
   /// The unique identifier of the category.
   final String id;
@@ -3874,6 +3942,7 @@ class Category {
   }
 }
 
+/// @nodoc
 class LibraryItemStatus {
   static const published = LibraryItemStatus._('PUBLISHED');
   static const disabled = LibraryItemStatus._('DISABLED');
@@ -3900,6 +3969,8 @@ class LibraryItemStatus {
 
 /// The definition of an Amazon Q App generated based on input such as a
 /// conversation or problem statement.
+///
+/// @nodoc
 class PredictAppDefinition {
   /// The definition specifying the cards and flow of the generated Q App.
   final AppDefinitionInput appDefinition;
@@ -3939,6 +4010,8 @@ class PredictAppDefinition {
 }
 
 /// The input options for generating an Q App definition.
+///
+/// @nodoc
 class PredictQAppInputOptions {
   /// A conversation to use as input for generating the Q App definition.
   final List<ConversationMessage>? conversation;
@@ -3963,6 +4036,8 @@ class PredictQAppInputOptions {
 
 /// A message in a conversation, used as input for generating an Amazon Q App
 /// definition.
+///
+/// @nodoc
 class ConversationMessage {
   /// The text content of the conversation message.
   final String body;
@@ -3985,6 +4060,7 @@ class ConversationMessage {
   }
 }
 
+/// @nodoc
 class Sender {
   static const user = Sender._('USER');
   static const system = Sender._('SYSTEM');
@@ -4010,6 +4086,8 @@ class Sender {
 
 /// The response collected for a Amazon Q App session. This container represents
 /// a single response to a Q App session.
+///
+/// @nodoc
 class QAppSessionData {
   /// The card Id associated with the response submitted for a Q App session.
   final String cardId;
@@ -4064,6 +4142,8 @@ class QAppSessionData {
 }
 
 /// A user of an Amazon Q App.
+///
+/// @nodoc
 class User {
   /// The unique identifier of a user.
   final String? userId;
@@ -4088,6 +4168,8 @@ class User {
 
 /// An Amazon Q App associated with a user, either owned by the user or
 /// favorited.
+///
+/// @nodoc
 class UserAppItem {
   /// The Amazon Resource Name (ARN) of the Q App.
   final String appArn;
@@ -4161,6 +4243,8 @@ class UserAppItem {
 
 /// A library item is a snapshot of an Amazon Q App that can be published so the
 /// users in their Amazon Q Apps library can discover it, clone it, and run it.
+///
+/// @nodoc
 class LibraryItemMember {
   /// The unique identifier of the Q App associated with the library item.
   final String appId;
@@ -4270,6 +4354,7 @@ class LibraryItemMember {
   }
 }
 
+/// @nodoc
 class DocumentScope {
   static const application = DocumentScope._('APPLICATION');
   static const session = DocumentScope._('SESSION');
@@ -4294,6 +4379,7 @@ class DocumentScope {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const inProgress = ExecutionStatus._('IN_PROGRESS');
   static const waiting = ExecutionStatus._('WAITING');
@@ -4321,6 +4407,8 @@ class ExecutionStatus {
 }
 
 /// The current status and value of a card in an active Amazon Q App session.
+///
+/// @nodoc
 class CardStatus {
   /// The current state of the card.
   final ExecutionStatus currentState;
@@ -4362,6 +4450,8 @@ class CardStatus {
 }
 
 /// A record created when a user submits a form card.
+///
+/// @nodoc
 class Submission {
   /// The unique identifier of the submission.
   final String? submissionId;
@@ -4401,6 +4491,8 @@ class Submission {
 }
 
 /// The definition of the Q App, specifying the cards and flow.
+///
+/// @nodoc
 class AppDefinition {
   /// The version of the app definition schema or specification.
   final String appDefinitionVersion;
@@ -4442,6 +4534,8 @@ class AppDefinition {
 }
 
 /// A card representing a component or step in an Amazon Q App's flow.
+///
+/// @nodoc
 class Card {
   /// A container for the properties of the file upload card.
   final FileUploadCard? fileUpload;
@@ -4503,6 +4597,8 @@ class Card {
 }
 
 /// A card in an Amazon Q App that allows the user to input text.
+///
+/// @nodoc
 class TextInputCard {
   /// Any dependencies or requirements for the text input card.
   final List<String> dependencies;
@@ -4565,6 +4661,8 @@ class TextInputCard {
 
 /// A card in a Amazon Q App that generates a response based on the Amazon Q
 /// Business service.
+///
+/// @nodoc
 class QQueryCard {
   /// Any dependencies or requirements for the query card.
   final List<String> dependencies;
@@ -4649,6 +4747,8 @@ class QQueryCard {
 }
 
 /// A card in an Q App that integrates with a third-party plugin or service.
+///
+/// @nodoc
 class QPluginCard {
   /// Any dependencies or requirements for the plugin card.
   final List<String> dependencies;
@@ -4724,6 +4824,8 @@ class QPluginCard {
 }
 
 /// A card in an Amazon Q App that allows the user to upload a file.
+///
+/// @nodoc
 class FileUploadCard {
   /// Any dependencies or requirements for the file upload card.
   final List<String> dependencies;
@@ -4793,6 +4895,8 @@ class FileUploadCard {
 }
 
 /// A card in an Amazon Q App that allows the user to submit a response.
+///
+/// @nodoc
 class FormInputCard {
   /// Any dependencies or requirements for the form input card.
   final List<String> dependencies;
@@ -4861,6 +4965,7 @@ class FormInputCard {
   }
 }
 
+/// @nodoc
 class PluginType {
   static const serviceNow = PluginType._('SERVICE_NOW');
   static const salesforce = PluginType._('SALESFORCE');
@@ -4917,6 +5022,8 @@ class PluginType {
 
 /// A label that web experience users associate with a library item. Web
 /// experience users use Categories to tag and filter library items.
+///
+/// @nodoc
 class CategoryInput {
   /// The unique identifier of the category.
   final String id;
@@ -4947,6 +5054,8 @@ class CategoryInput {
 }
 
 /// The category object to be created.
+///
+/// @nodoc
 class BatchCreateCategoryInputCategory {
   /// The name of the category.
   final String title;
@@ -4977,6 +5086,7 @@ class BatchCreateCategoryInputCategory {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -4989,31 +5099,37 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ContentTooLargeException extends _s.GenericAwsException {
   ContentTooLargeException({String? type, String? message})
       : super(type: type, code: 'ContentTooLargeException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5022,16 +5138,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1602,8 +1602,8 @@ class IoT {
   /// The name of the fleet metric to create.
   ///
   /// Parameter [period] :
-  /// The time in seconds between fleet metric emissions. Range [60(1 min),
-  /// 86400(1 day)] and must be multiple of 60.
+  /// The time in seconds between fleet metric emissions. Range \[60(1 min),
+  /// 86400(1 day)\] and must be multiple of 60.
   ///
   /// Parameter [queryString] :
   /// The search query string.
@@ -2068,8 +2068,8 @@ class IoT {
   ///
   /// Parameter [protocols] :
   /// The protocol used to transfer the OTA update image. Valid values are
-  /// [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the
-  /// target device can choose the protocol.
+  /// \[HTTP\], \[MQTT\], \[HTTP, MQTT\]. When both HTTP and MQTT are specified,
+  /// the target device can choose the protocol.
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage updates.
@@ -11749,8 +11749,8 @@ class IoT {
   /// The expected version of the fleet metric record in the registry.
   ///
   /// Parameter [period] :
-  /// The time in seconds between fleet metric emissions. Range [60(1 min),
-  /// 86400(1 day)] and must be multiple of 60.
+  /// The time in seconds between fleet metric emissions. Range \[60(1 min),
+  /// 86400(1 day)\] and must be multiple of 60.
   ///
   /// Parameter [queryString] :
   /// The search query string.
@@ -12753,6 +12753,7 @@ class IoT {
   }
 }
 
+/// @nodoc
 class AddThingToBillingGroupResponse {
   AddThingToBillingGroupResponse();
 
@@ -12765,6 +12766,7 @@ class AddThingToBillingGroupResponse {
   }
 }
 
+/// @nodoc
 class AddThingToThingGroupResponse {
   AddThingToThingGroupResponse();
 
@@ -12777,6 +12779,7 @@ class AddThingToThingGroupResponse {
   }
 }
 
+/// @nodoc
 class AssociateSbomWithPackageVersionResponse {
   /// The name of the new software package.
   final String? packageName;
@@ -12825,6 +12828,7 @@ class AssociateSbomWithPackageVersionResponse {
   }
 }
 
+/// @nodoc
 class AssociateTargetsWithJobResponse {
   /// A short text description of the job.
   final String? description;
@@ -12861,6 +12865,7 @@ class AssociateTargetsWithJobResponse {
   }
 }
 
+/// @nodoc
 class AttachSecurityProfileResponse {
   AttachSecurityProfileResponse();
 
@@ -12874,6 +12879,8 @@ class AttachSecurityProfileResponse {
 }
 
 /// The output from the AttachThingPrincipal operation.
+///
+/// @nodoc
 class AttachThingPrincipalResponse {
   AttachThingPrincipalResponse();
 
@@ -12886,6 +12893,7 @@ class AttachThingPrincipalResponse {
   }
 }
 
+/// @nodoc
 class CancelAuditMitigationActionsTaskResponse {
   CancelAuditMitigationActionsTaskResponse();
 
@@ -12899,6 +12907,7 @@ class CancelAuditMitigationActionsTaskResponse {
   }
 }
 
+/// @nodoc
 class CancelAuditTaskResponse {
   CancelAuditTaskResponse();
 
@@ -12911,6 +12920,7 @@ class CancelAuditTaskResponse {
   }
 }
 
+/// @nodoc
 class CancelDetectMitigationActionsTaskResponse {
   CancelDetectMitigationActionsTaskResponse();
 
@@ -12924,6 +12934,7 @@ class CancelDetectMitigationActionsTaskResponse {
   }
 }
 
+/// @nodoc
 class CancelJobResponse {
   /// A short text description of the job.
   final String? description;
@@ -12960,6 +12971,7 @@ class CancelJobResponse {
   }
 }
 
+/// @nodoc
 class ClearDefaultAuthorizerResponse {
   ClearDefaultAuthorizerResponse();
 
@@ -12972,6 +12984,7 @@ class ClearDefaultAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class ConfirmTopicRuleDestinationResponse {
   ConfirmTopicRuleDestinationResponse();
 
@@ -12984,6 +12997,7 @@ class ConfirmTopicRuleDestinationResponse {
   }
 }
 
+/// @nodoc
 class CreateAuditSuppressionResponse {
   CreateAuditSuppressionResponse();
 
@@ -12996,6 +13010,7 @@ class CreateAuditSuppressionResponse {
   }
 }
 
+/// @nodoc
 class CreateAuthorizerResponse {
   /// The authorizer ARN.
   final String? authorizerArn;
@@ -13025,6 +13040,7 @@ class CreateAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class CreateBillingGroupResponse {
   /// The ARN of the billing group.
   final String? billingGroupArn;
@@ -13062,6 +13078,8 @@ class CreateBillingGroupResponse {
 }
 
 /// The output from the CreateCertificateFromCsr operation.
+///
+/// @nodoc
 class CreateCertificateFromCsrResponse {
   /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a
   /// principal for policy operations.
@@ -13100,6 +13118,7 @@ class CreateCertificateFromCsrResponse {
   }
 }
 
+/// @nodoc
 class CreateCertificateProviderResponse {
   /// The ARN of the certificate provider.
   final String? certificateProviderArn;
@@ -13132,6 +13151,7 @@ class CreateCertificateProviderResponse {
   }
 }
 
+/// @nodoc
 class CreateCommandResponse {
   /// The Amazon Resource Number (ARN) of the command. For example,
   /// <code>arn:aws:iot:<region>:<accountid>:command/<commandId></code>
@@ -13162,6 +13182,7 @@ class CreateCommandResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomMetricResponse {
   /// The Amazon Resource Number (ARN) of the custom metric. For example,
   /// <code>arn:<i>aws-partition</i>:iot:<i>region</i>:<i>accountId</i>:custommetric/<i>metricName</i>
@@ -13193,6 +13214,7 @@ class CreateCustomMetricResponse {
   }
 }
 
+/// @nodoc
 class CreateDimensionResponse {
   /// The Amazon Resource Name (ARN) of the created dimension.
   final String? arn;
@@ -13222,6 +13244,7 @@ class CreateDimensionResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainConfigurationResponse {
   /// The ARN of the domain configuration.
   final String? domainConfigurationArn;
@@ -13254,6 +13277,7 @@ class CreateDomainConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateDynamicThingGroupResponse {
   /// The dynamic thing group index name.
   final String? indexName;
@@ -13311,6 +13335,7 @@ class CreateDynamicThingGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateFleetMetricResponse {
   /// The Amazon Resource Name (ARN) of the new fleet metric.
   final String? metricArn;
@@ -13340,6 +13365,7 @@ class CreateFleetMetricResponse {
   }
 }
 
+/// @nodoc
 class CreateJobResponse {
   /// The job description.
   final String? description;
@@ -13376,6 +13402,7 @@ class CreateJobResponse {
   }
 }
 
+/// @nodoc
 class CreateJobTemplateResponse {
   /// The ARN of the job template.
   final String? jobTemplateArn;
@@ -13406,6 +13433,8 @@ class CreateJobTemplateResponse {
 }
 
 /// The output of the CreateKeysAndCertificate operation.
+///
+/// @nodoc
 class CreateKeysAndCertificateResponse {
   /// The ARN of the certificate.
   final String? certificateArn;
@@ -13452,6 +13481,7 @@ class CreateKeysAndCertificateResponse {
   }
 }
 
+/// @nodoc
 class CreateMitigationActionResponse {
   /// The ARN for the new mitigation action.
   final String? actionArn;
@@ -13481,6 +13511,7 @@ class CreateMitigationActionResponse {
   }
 }
 
+/// @nodoc
 class CreateOTAUpdateResponse {
   /// The IoT job ARN associated with the OTA update.
   final String? awsIotJobArn;
@@ -13532,6 +13563,7 @@ class CreateOTAUpdateResponse {
   }
 }
 
+/// @nodoc
 class CreatePackageResponse {
   /// The package description.
   final String? description;
@@ -13568,6 +13600,7 @@ class CreatePackageResponse {
   }
 }
 
+/// @nodoc
 class CreatePackageVersionResponse {
   /// Metadata that were added to the package version that can be used to define a
   /// package version’s configuration.
@@ -13637,6 +13670,8 @@ class CreatePackageVersionResponse {
 }
 
 /// The output from the CreatePolicy operation.
+///
+/// @nodoc
 class CreatePolicyResponse {
   /// The policy ARN.
   final String? policyArn;
@@ -13681,6 +13716,8 @@ class CreatePolicyResponse {
 }
 
 /// The output of the CreatePolicyVersion operation.
+///
+/// @nodoc
 class CreatePolicyVersionResponse {
   /// Specifies whether the policy version is the default.
   final bool? isDefaultVersion;
@@ -13724,6 +13761,7 @@ class CreatePolicyVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateProvisioningClaimResponse {
   /// The ID of the certificate.
   final String? certificateId;
@@ -13769,6 +13807,7 @@ class CreateProvisioningClaimResponse {
   }
 }
 
+/// @nodoc
 class CreateProvisioningTemplateResponse {
   /// The default version of the provisioning template.
   final int? defaultVersionId;
@@ -13806,6 +13845,7 @@ class CreateProvisioningTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateProvisioningTemplateVersionResponse {
   /// True if the provisioning template version is the default version, otherwise
   /// false.
@@ -13851,6 +13891,7 @@ class CreateProvisioningTemplateVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateRoleAliasResponse {
   /// The role alias.
   final String? roleAlias;
@@ -13880,6 +13921,7 @@ class CreateRoleAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateScheduledAuditResponse {
   /// The ARN of the scheduled audit.
   final String? scheduledAuditArn;
@@ -13902,6 +13944,7 @@ class CreateScheduledAuditResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityProfileResponse {
   /// The ARN of the security profile.
   final String? securityProfileArn;
@@ -13932,6 +13975,7 @@ class CreateSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateStreamResponse {
   /// A description of the stream.
   final String? description;
@@ -13976,6 +14020,8 @@ class CreateStreamResponse {
 }
 
 /// The output of the CreateThing operation.
+///
+/// @nodoc
 class CreateThingResponse {
   /// The ARN of the new thing.
   final String? thingArn;
@@ -14012,6 +14058,7 @@ class CreateThingResponse {
   }
 }
 
+/// @nodoc
 class CreateThingGroupResponse {
   /// The thing group ARN.
   final String? thingGroupArn;
@@ -14049,6 +14096,8 @@ class CreateThingGroupResponse {
 }
 
 /// The output of the CreateThingType operation.
+///
+/// @nodoc
 class CreateThingTypeResponse {
   /// The Amazon Resource Name (ARN) of the thing type.
   final String? thingTypeArn;
@@ -14085,6 +14134,7 @@ class CreateThingTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateTopicRuleDestinationResponse {
   /// The topic rule destination.
   final TopicRuleDestination? topicRuleDestination;
@@ -14112,6 +14162,7 @@ class CreateTopicRuleDestinationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountAuditConfigurationResponse {
   DeleteAccountAuditConfigurationResponse();
 
@@ -14125,6 +14176,7 @@ class DeleteAccountAuditConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAuditSuppressionResponse {
   DeleteAuditSuppressionResponse();
 
@@ -14137,6 +14189,7 @@ class DeleteAuditSuppressionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAuthorizerResponse {
   DeleteAuthorizerResponse();
 
@@ -14149,6 +14202,7 @@ class DeleteAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class DeleteBillingGroupResponse {
   DeleteBillingGroupResponse();
 
@@ -14162,6 +14216,8 @@ class DeleteBillingGroupResponse {
 }
 
 /// The output for the DeleteCACertificate operation.
+///
+/// @nodoc
 class DeleteCACertificateResponse {
   DeleteCACertificateResponse();
 
@@ -14174,6 +14230,7 @@ class DeleteCACertificateResponse {
   }
 }
 
+/// @nodoc
 class DeleteCertificateProviderResponse {
   DeleteCertificateProviderResponse();
 
@@ -14186,6 +14243,7 @@ class DeleteCertificateProviderResponse {
   }
 }
 
+/// @nodoc
 class DeleteCommandResponse {
   /// The status code for the command deletion request. The status code is in the
   /// 200 range for a successful request.
@@ -14224,6 +14282,7 @@ class DeleteCommandResponse {
   }
 }
 
+/// @nodoc
 class DeleteCommandExecutionResponse {
   DeleteCommandExecutionResponse();
 
@@ -14236,6 +14295,7 @@ class DeleteCommandExecutionResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomMetricResponse {
   DeleteCustomMetricResponse();
 
@@ -14248,6 +14308,7 @@ class DeleteCustomMetricResponse {
   }
 }
 
+/// @nodoc
 class DeleteDimensionResponse {
   DeleteDimensionResponse();
 
@@ -14260,6 +14321,7 @@ class DeleteDimensionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainConfigurationResponse {
   DeleteDomainConfigurationResponse();
 
@@ -14272,6 +14334,7 @@ class DeleteDomainConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteDynamicThingGroupResponse {
   DeleteDynamicThingGroupResponse();
 
@@ -14284,6 +14347,7 @@ class DeleteDynamicThingGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteMitigationActionResponse {
   DeleteMitigationActionResponse();
 
@@ -14296,6 +14360,7 @@ class DeleteMitigationActionResponse {
   }
 }
 
+/// @nodoc
 class DeleteOTAUpdateResponse {
   DeleteOTAUpdateResponse();
 
@@ -14308,6 +14373,7 @@ class DeleteOTAUpdateResponse {
   }
 }
 
+/// @nodoc
 class DeletePackageResponse {
   DeletePackageResponse();
 
@@ -14320,6 +14386,7 @@ class DeletePackageResponse {
   }
 }
 
+/// @nodoc
 class DeletePackageVersionResponse {
   DeletePackageVersionResponse();
 
@@ -14332,6 +14399,7 @@ class DeletePackageVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteProvisioningTemplateResponse {
   DeleteProvisioningTemplateResponse();
 
@@ -14344,6 +14412,7 @@ class DeleteProvisioningTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteProvisioningTemplateVersionResponse {
   DeleteProvisioningTemplateVersionResponse();
 
@@ -14358,6 +14427,8 @@ class DeleteProvisioningTemplateVersionResponse {
 }
 
 /// The output for the DeleteRegistrationCode operation.
+///
+/// @nodoc
 class DeleteRegistrationCodeResponse {
   DeleteRegistrationCodeResponse();
 
@@ -14370,6 +14441,7 @@ class DeleteRegistrationCodeResponse {
   }
 }
 
+/// @nodoc
 class DeleteRoleAliasResponse {
   DeleteRoleAliasResponse();
 
@@ -14382,6 +14454,7 @@ class DeleteRoleAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteScheduledAuditResponse {
   DeleteScheduledAuditResponse();
 
@@ -14394,6 +14467,7 @@ class DeleteScheduledAuditResponse {
   }
 }
 
+/// @nodoc
 class DeleteSecurityProfileResponse {
   DeleteSecurityProfileResponse();
 
@@ -14406,6 +14480,7 @@ class DeleteSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteStreamResponse {
   DeleteStreamResponse();
 
@@ -14419,6 +14494,8 @@ class DeleteStreamResponse {
 }
 
 /// The output of the DeleteThing operation.
+///
+/// @nodoc
 class DeleteThingResponse {
   DeleteThingResponse();
 
@@ -14431,6 +14508,7 @@ class DeleteThingResponse {
   }
 }
 
+/// @nodoc
 class DeleteThingGroupResponse {
   DeleteThingGroupResponse();
 
@@ -14444,6 +14522,8 @@ class DeleteThingGroupResponse {
 }
 
 /// The output for the DeleteThingType operation.
+///
+/// @nodoc
 class DeleteThingTypeResponse {
   DeleteThingTypeResponse();
 
@@ -14456,6 +14536,7 @@ class DeleteThingTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteTopicRuleDestinationResponse {
   DeleteTopicRuleDestinationResponse();
 
@@ -14469,6 +14550,8 @@ class DeleteTopicRuleDestinationResponse {
 }
 
 /// The output for the DeprecateThingType operation.
+///
+/// @nodoc
 class DeprecateThingTypeResponse {
   DeprecateThingTypeResponse();
 
@@ -14481,6 +14564,7 @@ class DeprecateThingTypeResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountAuditConfigurationResponse {
   /// Which audit checks are enabled and disabled for this account.
   final Map<String, AuditCheckConfiguration>? auditCheckConfigurations;
@@ -14537,6 +14621,7 @@ class DescribeAccountAuditConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeAuditFindingResponse {
   final AuditFinding? finding;
 
@@ -14560,6 +14645,7 @@ class DescribeAuditFindingResponse {
   }
 }
 
+/// @nodoc
 class DescribeAuditMitigationActionsTaskResponse {
   /// Specifies the mitigation actions and their parameters that are applied as
   /// part of this task.
@@ -14642,6 +14728,7 @@ class DescribeAuditMitigationActionsTaskResponse {
   }
 }
 
+/// @nodoc
 class DescribeAuditSuppressionResponse {
   final String? checkName;
 
@@ -14694,6 +14781,7 @@ class DescribeAuditSuppressionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAuditTaskResponse {
   /// Detailed information about each check performed during this audit.
   final Map<String, AuditCheckDetails>? auditDetails;
@@ -14759,6 +14847,7 @@ class DescribeAuditTaskResponse {
   }
 }
 
+/// @nodoc
 class DescribeAuthorizerResponse {
   /// The authorizer description.
   final AuthorizerDescription? authorizerDescription;
@@ -14785,6 +14874,7 @@ class DescribeAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class DescribeBillingGroupResponse {
   /// The ARN of the billing group.
   final String? billingGroupArn;
@@ -14851,6 +14941,8 @@ class DescribeBillingGroupResponse {
 }
 
 /// The output from the DescribeCACertificate operation.
+///
+/// @nodoc
 class DescribeCACertificateResponse {
   /// The CA certificate description.
   final CACertificateDescription? certificateDescription;
@@ -14888,6 +14980,8 @@ class DescribeCACertificateResponse {
 }
 
 /// The output of the DescribeCertificate operation.
+///
+/// @nodoc
 class DescribeCertificateResponse {
   /// The description of the certificate.
   final CertificateDescription? certificateDescription;
@@ -14914,6 +15008,7 @@ class DescribeCertificateResponse {
   }
 }
 
+/// @nodoc
 class DescribeCertificateProviderResponse {
   /// A list of the operations that the certificate provider will use to generate
   /// certificates. Valid value: <code>CreateCertificateFromCsr</code>.
@@ -14985,6 +15080,7 @@ class DescribeCertificateProviderResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomMetricResponse {
   /// The creation date of the custom metric in milliseconds since epoch.
   final DateTime? creationDate;
@@ -15052,6 +15148,7 @@ class DescribeCustomMetricResponse {
   }
 }
 
+/// @nodoc
 class DescribeDefaultAuthorizerResponse {
   /// The default authorizer's description.
   final AuthorizerDescription? authorizerDescription;
@@ -15079,6 +15176,7 @@ class DescribeDefaultAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class DescribeDetectMitigationActionsTaskResponse {
   /// The description of a task.
   final DetectMitigationActionsTaskSummary? taskSummary;
@@ -15105,6 +15203,7 @@ class DescribeDetectMitigationActionsTaskResponse {
   }
 }
 
+/// @nodoc
 class DescribeDimensionResponse {
   /// The Amazon Resource Name (ARN) for the dimension.
   final String? arn;
@@ -15168,6 +15267,7 @@ class DescribeDimensionResponse {
   }
 }
 
+/// @nodoc
 class DescribeDomainConfigurationResponse {
   /// An enumerated string that speciﬁes the application-layer protocol.
   ///
@@ -15376,6 +15476,7 @@ class DescribeDomainConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeEncryptionConfigurationResponse {
   /// The encryption configuration details that include the status information of
   /// the KMS key and the KMS access role.
@@ -15436,6 +15537,8 @@ class DescribeEncryptionConfigurationResponse {
 }
 
 /// The output from the DescribeEndpoint operation.
+///
+/// @nodoc
 class DescribeEndpointResponse {
   /// The endpoint. The format of the endpoint is as follows:
   /// <i>identifier</i>.iot.<i>region</i>.amazonaws.com.
@@ -15459,6 +15562,7 @@ class DescribeEndpointResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventConfigurationsResponse {
   /// The creation date of the event configuration.
   final DateTime? creationDate;
@@ -15503,6 +15607,7 @@ class DescribeEventConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFleetMetricResponse {
   /// The field to aggregate.
   final String? aggregationField;
@@ -15528,8 +15633,8 @@ class DescribeFleetMetricResponse {
   /// The name of the fleet metric to describe.
   final String? metricName;
 
-  /// The time in seconds between fleet metric emissions. Range [60(1 min),
-  /// 86400(1 day)] and must be multiple of 60.
+  /// The time in seconds between fleet metric emissions. Range \[60(1 min),
+  /// 86400(1 day)\] and must be multiple of 60.
   final int? period;
 
   /// The search query string.
@@ -15618,6 +15723,7 @@ class DescribeFleetMetricResponse {
   }
 }
 
+/// @nodoc
 class DescribeIndexResponse {
   /// The index name.
   final String? indexName;
@@ -15679,6 +15785,7 @@ class DescribeIndexResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobResponse {
   /// An S3 link to the job document.
   final String? documentSource;
@@ -15710,6 +15817,7 @@ class DescribeJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobExecutionResponse {
   /// Information about the job execution.
   final JobExecution? execution;
@@ -15734,6 +15842,7 @@ class DescribeJobExecutionResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobTemplateResponse {
   final AbortConfig? abortConfig;
 
@@ -15866,6 +15975,7 @@ class DescribeJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeManagedJobTemplateResponse {
   /// The unique description of a managed template.
   final String? description;
@@ -15943,6 +16053,7 @@ class DescribeManagedJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeMitigationActionResponse {
   /// The ARN that identifies this migration action.
   final String? actionArn;
@@ -16022,6 +16133,7 @@ class DescribeMitigationActionResponse {
   }
 }
 
+/// @nodoc
 class DescribeProvisioningTemplateResponse {
   /// The date when the provisioning template was created.
   final DateTime? creationDate;
@@ -16128,6 +16240,7 @@ class DescribeProvisioningTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeProvisioningTemplateVersionResponse {
   /// The date when the provisioning template version was created.
   final DateTime? creationDate;
@@ -16173,6 +16286,7 @@ class DescribeProvisioningTemplateVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeRoleAliasResponse {
   /// The role alias description.
   final RoleAliasDescription? roleAliasDescription;
@@ -16199,6 +16313,7 @@ class DescribeRoleAliasResponse {
   }
 }
 
+/// @nodoc
 class DescribeScheduledAuditResponse {
   /// The day of the month on which the scheduled audit takes place. This is will
   /// be <code>1</code> through <code>31</code> or <code>LAST</code>. If days
@@ -16272,6 +16387,7 @@ class DescribeScheduledAuditResponse {
   }
 }
 
+/// @nodoc
 class DescribeSecurityProfileResponse {
   /// <i>Please use
   /// <a>DescribeSecurityProfileResponse$additionalMetricsToRetainV2</a>
@@ -16398,6 +16514,7 @@ class DescribeSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeStreamResponse {
   /// Information about the stream.
   final StreamInfo? streamInfo;
@@ -16423,6 +16540,8 @@ class DescribeStreamResponse {
 }
 
 /// The output from the DescribeThing operation.
+///
+/// @nodoc
 class DescribeThingResponse {
   /// The thing attributes.
   final Map<String, String>? attributes;
@@ -16507,6 +16626,7 @@ class DescribeThingResponse {
   }
 }
 
+/// @nodoc
 class DescribeThingGroupResponse {
   /// The dynamic thing group index name.
   final String? indexName;
@@ -16599,6 +16719,7 @@ class DescribeThingGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeThingRegistrationTaskResponse {
   /// The task creation date.
   final DateTime? creationDate;
@@ -16702,6 +16823,8 @@ class DescribeThingRegistrationTaskResponse {
 }
 
 /// The output for the DescribeThingType operation.
+///
+/// @nodoc
 class DescribeThingTypeResponse {
   /// The thing type ARN.
   final String? thingTypeArn;
@@ -16763,6 +16886,7 @@ class DescribeThingTypeResponse {
   }
 }
 
+/// @nodoc
 class DetachSecurityProfileResponse {
   DetachSecurityProfileResponse();
 
@@ -16776,6 +16900,8 @@ class DetachSecurityProfileResponse {
 }
 
 /// The output from the DetachThingPrincipal operation.
+///
+/// @nodoc
 class DetachThingPrincipalResponse {
   DetachThingPrincipalResponse();
 
@@ -16788,6 +16914,7 @@ class DetachThingPrincipalResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSbomFromPackageVersionResponse {
   DisassociateSbomFromPackageVersionResponse();
 
@@ -16801,6 +16928,7 @@ class DisassociateSbomFromPackageVersionResponse {
   }
 }
 
+/// @nodoc
 class GetBehaviorModelTrainingSummariesResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -16837,6 +16965,7 @@ class GetBehaviorModelTrainingSummariesResponse {
   }
 }
 
+/// @nodoc
 class GetBucketsAggregationResponse {
   /// The main part of the response with a list of buckets. Each bucket contains a
   /// <code>keyValue</code> and a <code>count</code>.
@@ -16875,6 +17004,7 @@ class GetBucketsAggregationResponse {
   }
 }
 
+/// @nodoc
 class GetCardinalityResponse {
   /// The approximate count of unique values that match the query.
   final int? cardinality;
@@ -16897,6 +17027,7 @@ class GetCardinalityResponse {
   }
 }
 
+/// @nodoc
 class GetCommandResponse {
   /// The Amazon Resource Number (ARN) of the command. For example,
   /// <code>arn:aws:iot:<region>:<accountid>:command/<commandId></code>
@@ -17024,6 +17155,7 @@ class GetCommandResponse {
   }
 }
 
+/// @nodoc
 class GetCommandExecutionResponse {
   /// The Amazon Resource Number (ARN) of the command. For example,
   /// <code></code>arn:aws:iot:<region>:<accountid>:command/<commandId>
@@ -17157,6 +17289,7 @@ class GetCommandExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetEffectivePoliciesResponse {
   /// The effective policies.
   final List<EffectivePolicy>? effectivePolicies;
@@ -17182,6 +17315,7 @@ class GetEffectivePoliciesResponse {
   }
 }
 
+/// @nodoc
 class GetIndexingConfigurationResponse {
   /// The index configuration.
   final ThingGroupIndexingConfiguration? thingGroupIndexingConfiguration;
@@ -17222,6 +17356,7 @@ class GetIndexingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetJobDocumentResponse {
   /// The job document content.
   final String? document;
@@ -17245,6 +17380,8 @@ class GetJobDocumentResponse {
 }
 
 /// The output from the GetLoggingOptions operation.
+///
+/// @nodoc
 class GetLoggingOptionsResponse {
   /// The logging level.
   final LogLevel? logLevel;
@@ -17274,6 +17411,7 @@ class GetLoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class GetOTAUpdateResponse {
   /// The OTA update info.
   final OTAUpdateInfo? otaUpdateInfo;
@@ -17299,6 +17437,7 @@ class GetOTAUpdateResponse {
   }
 }
 
+/// @nodoc
 class GetPackageResponse {
   /// The date the package was created.
   final DateTime? creationDate;
@@ -17358,6 +17497,7 @@ class GetPackageResponse {
   }
 }
 
+/// @nodoc
 class GetPackageConfigurationResponse {
   /// The version that is associated to a specific job.
   final VersionUpdateByJobsConfig? versionUpdateByJobsConfig;
@@ -17384,6 +17524,7 @@ class GetPackageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetPackageVersionResponse {
   /// The various components that make up a software package version.
   final PackageVersionArtifact? artifact;
@@ -17505,6 +17646,7 @@ class GetPackageVersionResponse {
   }
 }
 
+/// @nodoc
 class GetPercentilesResponse {
   /// The percentile values of the aggregated fields.
   final List<PercentPair>? percentiles;
@@ -17531,6 +17673,8 @@ class GetPercentilesResponse {
 }
 
 /// The output from the GetPolicy operation.
+///
+/// @nodoc
 class GetPolicyResponse {
   /// The date the policy was created.
   final DateTime? creationDate;
@@ -17598,6 +17742,8 @@ class GetPolicyResponse {
 }
 
 /// The output from the GetPolicyVersion operation.
+///
+/// @nodoc
 class GetPolicyVersionResponse {
   /// The date the policy was created.
   final DateTime? creationDate;
@@ -17672,6 +17818,8 @@ class GetPolicyVersionResponse {
 }
 
 /// The output from the GetRegistrationCode operation.
+///
+/// @nodoc
 class GetRegistrationCodeResponse {
   /// The CA certificate registration code.
   final String? registrationCode;
@@ -17694,6 +17842,7 @@ class GetRegistrationCodeResponse {
   }
 }
 
+/// @nodoc
 class GetStatisticsResponse {
   /// The statistics returned by the Fleet Indexing service based on the query and
   /// aggregation field.
@@ -17719,6 +17868,7 @@ class GetStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetThingConnectivityDataResponse {
   /// Indicates whether the client is using a clean session. Returns
   /// <code>true</code> for clean sessions.
@@ -17834,6 +17984,8 @@ class GetThingConnectivityDataResponse {
 }
 
 /// The output from the GetTopicRule operation.
+///
+/// @nodoc
 class GetTopicRuleResponse {
   /// The rule.
   final TopicRule? rule;
@@ -17865,6 +18017,7 @@ class GetTopicRuleResponse {
   }
 }
 
+/// @nodoc
 class GetTopicRuleDestinationResponse {
   /// The topic rule destination.
   final TopicRuleDestination? topicRuleDestination;
@@ -17891,6 +18044,7 @@ class GetTopicRuleDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetV2LoggingOptionsResponse {
   /// The default log level.
   final LogLevel? defaultLogLevel;
@@ -17939,6 +18093,7 @@ class GetV2LoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class ListActiveViolationsResponse {
   /// The list of active violations.
   final List<ActiveViolation>? activeViolations;
@@ -17972,6 +18127,7 @@ class ListActiveViolationsResponse {
   }
 }
 
+/// @nodoc
 class ListAttachedPoliciesResponse {
   /// The token to retrieve the next set of results, or ``null`` if there are no
   /// more results.
@@ -18005,6 +18161,7 @@ class ListAttachedPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListAuditFindingsResponse {
   /// The findings (results) of the audit.
   final List<AuditFinding>? findings;
@@ -18038,6 +18195,7 @@ class ListAuditFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListAuditMitigationActionsExecutionsResponse {
   /// A set of task execution results based on the input parameters. Details
   /// include the mitigation action applied, start time, and task status.
@@ -18073,6 +18231,7 @@ class ListAuditMitigationActionsExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListAuditMitigationActionsTasksResponse {
   /// The token for the next set of results.
   final String? nextToken;
@@ -18107,6 +18266,7 @@ class ListAuditMitigationActionsTasksResponse {
   }
 }
 
+/// @nodoc
 class ListAuditSuppressionsResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -18140,6 +18300,7 @@ class ListAuditSuppressionsResponse {
   }
 }
 
+/// @nodoc
 class ListAuditTasksResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -18173,6 +18334,7 @@ class ListAuditTasksResponse {
   }
 }
 
+/// @nodoc
 class ListAuthorizersResponse {
   /// The authorizers.
   final List<AuthorizerSummary>? authorizers;
@@ -18205,6 +18367,7 @@ class ListAuthorizersResponse {
   }
 }
 
+/// @nodoc
 class ListBillingGroupsResponse {
   /// The list of billing groups.
   final List<GroupNameAndArn>? billingGroups;
@@ -18239,6 +18402,8 @@ class ListBillingGroupsResponse {
 }
 
 /// The output from the ListCACertificates operation.
+///
+/// @nodoc
 class ListCACertificatesResponse {
   /// The CA certificates registered in your Amazon Web Services account.
   final List<CACertificate>? certificates;
@@ -18271,6 +18436,7 @@ class ListCACertificatesResponse {
   }
 }
 
+/// @nodoc
 class ListCertificateProvidersResponse {
   /// The list of certificate providers in your Amazon Web Services account.
   final List<CertificateProviderSummary>? certificateProviders;
@@ -18307,6 +18473,8 @@ class ListCertificateProvidersResponse {
 }
 
 /// The output of the ListCertificates operation.
+///
+/// @nodoc
 class ListCertificatesResponse {
   /// The descriptions of the certificates.
   final List<Certificate>? certificates;
@@ -18341,6 +18509,8 @@ class ListCertificatesResponse {
 }
 
 /// The output of the ListCertificatesByCA operation.
+///
+/// @nodoc
 class ListCertificatesByCAResponse {
   /// The device certificates signed by the specified CA certificate.
   final List<Certificate>? certificates;
@@ -18374,6 +18544,7 @@ class ListCertificatesByCAResponse {
   }
 }
 
+/// @nodoc
 class ListCommandExecutionsResponse {
   /// The list of command executions.
   final List<CommandExecutionSummary>? commandExecutions;
@@ -18408,6 +18579,7 @@ class ListCommandExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListCommandsResponse {
   /// The list of commands.
   final List<CommandSummary>? commands;
@@ -18441,6 +18613,7 @@ class ListCommandsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomMetricsResponse {
   /// The name of the custom metric.
   final List<String>? metricNames;
@@ -18474,6 +18647,7 @@ class ListCustomMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListDetectMitigationActionsExecutionsResponse {
   /// List of actions executions.
   final List<DetectMitigationActionExecution>? actionsExecutions;
@@ -18509,6 +18683,7 @@ class ListDetectMitigationActionsExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListDetectMitigationActionsTasksResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -18545,6 +18720,7 @@ class ListDetectMitigationActionsTasksResponse {
   }
 }
 
+/// @nodoc
 class ListDimensionsResponse {
   /// A list of the names of the defined dimensions. Use
   /// <code>DescribeDimension</code> to get details for a dimension.
@@ -18579,6 +18755,7 @@ class ListDimensionsResponse {
   }
 }
 
+/// @nodoc
 class ListDomainConfigurationsResponse {
   /// A list of objects that contain summary information about the user's domain
   /// configurations.
@@ -18614,6 +18791,7 @@ class ListDomainConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListFleetMetricsResponse {
   /// The list of fleet metrics objects.
   final List<FleetMetricNameAndArn>? fleetMetrics;
@@ -18647,6 +18825,7 @@ class ListFleetMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListIndicesResponse {
   /// The index names.
   final List<String>? indexNames;
@@ -18680,6 +18859,7 @@ class ListIndicesResponse {
   }
 }
 
+/// @nodoc
 class ListJobExecutionsForJobResponse {
   /// A list of job execution summaries.
   final List<JobExecutionSummaryForJob>? executionSummaries;
@@ -18714,6 +18894,7 @@ class ListJobExecutionsForJobResponse {
   }
 }
 
+/// @nodoc
 class ListJobExecutionsForThingResponse {
   /// A list of job execution summaries.
   final List<JobExecutionSummaryForThing>? executionSummaries;
@@ -18749,6 +18930,7 @@ class ListJobExecutionsForThingResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// A list of jobs.
   final List<JobSummary>? jobs;
@@ -18782,6 +18964,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListJobTemplatesResponse {
   /// A list of objects that contain information about the job templates.
   final List<JobTemplateSummary>? jobTemplates;
@@ -18815,6 +18998,7 @@ class ListJobTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListManagedJobTemplatesResponse {
   /// A list of managed job templates that are returned.
   final List<ManagedJobTemplateSummary>? managedJobTemplates;
@@ -18849,6 +19033,7 @@ class ListManagedJobTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListMetricValuesResponse {
   /// The data the thing reports for the metric during the specified time period.
   final List<MetricDatum>? metricDatumList;
@@ -18882,6 +19067,7 @@ class ListMetricValuesResponse {
   }
 }
 
+/// @nodoc
 class ListMitigationActionsResponse {
   /// A set of actions that matched the specified filter criteria.
   final List<MitigationActionIdentifier>? actionIdentifiers;
@@ -18915,6 +19101,7 @@ class ListMitigationActionsResponse {
   }
 }
 
+/// @nodoc
 class ListOTAUpdatesResponse {
   /// A token to use to get the next set of results.
   final String? nextToken;
@@ -18948,6 +19135,8 @@ class ListOTAUpdatesResponse {
 }
 
 /// The output from the ListOutgoingCertificates operation.
+///
+/// @nodoc
 class ListOutgoingCertificatesResponse {
   /// The marker for the next set of results.
   final String? nextMarker;
@@ -18981,6 +19170,7 @@ class ListOutgoingCertificatesResponse {
   }
 }
 
+/// @nodoc
 class ListPackagesResponse {
   /// The token for the next set of results.
   final String? nextToken;
@@ -19013,6 +19203,7 @@ class ListPackagesResponse {
   }
 }
 
+/// @nodoc
 class ListPackageVersionsResponse {
   /// The token for the next set of results.
   final String? nextToken;
@@ -19047,6 +19238,8 @@ class ListPackageVersionsResponse {
 }
 
 /// The output from the ListPolicies operation.
+///
+/// @nodoc
 class ListPoliciesResponse {
   /// The marker for the next set of results, or null if there are no additional
   /// results.
@@ -19081,6 +19274,8 @@ class ListPoliciesResponse {
 }
 
 /// The output from the ListPolicyPrincipals operation.
+///
+/// @nodoc
 class ListPolicyPrincipalsResponse {
   /// The marker for the next set of results, or null if there are no additional
   /// results.
@@ -19115,6 +19310,8 @@ class ListPolicyPrincipalsResponse {
 }
 
 /// The output from the ListPolicyVersions operation.
+///
+/// @nodoc
 class ListPolicyVersionsResponse {
   /// The policy versions.
   final List<PolicyVersion>? policyVersions;
@@ -19141,6 +19338,8 @@ class ListPolicyVersionsResponse {
 }
 
 /// The output from the ListPrincipalPolicies operation.
+///
+/// @nodoc
 class ListPrincipalPoliciesResponse {
   /// The marker for the next set of results, or null if there are no additional
   /// results.
@@ -19175,6 +19374,8 @@ class ListPrincipalPoliciesResponse {
 }
 
 /// The output from the ListPrincipalThings operation.
+///
+/// @nodoc
 class ListPrincipalThingsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19206,6 +19407,7 @@ class ListPrincipalThingsResponse {
   }
 }
 
+/// @nodoc
 class ListPrincipalThingsV2Response {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19241,6 +19443,7 @@ class ListPrincipalThingsV2Response {
   }
 }
 
+/// @nodoc
 class ListProvisioningTemplatesResponse {
   /// A token to retrieve the next set of results.
   final String? nextToken;
@@ -19275,6 +19478,7 @@ class ListProvisioningTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListProvisioningTemplateVersionsResponse {
   /// A token to retrieve the next set of results.
   final String? nextToken;
@@ -19309,6 +19513,7 @@ class ListProvisioningTemplateVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListRelatedResourcesForAuditFindingResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> for the first API call.
@@ -19343,6 +19548,7 @@ class ListRelatedResourcesForAuditFindingResponse {
   }
 }
 
+/// @nodoc
 class ListRoleAliasesResponse {
   /// A marker used to get the next set of results.
   final String? nextMarker;
@@ -19375,6 +19581,7 @@ class ListRoleAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListSbomValidationResultsResponse {
   /// A token that can be used to retrieve the next set of results, or null if
   /// there are no additional results.
@@ -19412,6 +19619,7 @@ class ListSbomValidationResultsResponse {
   }
 }
 
+/// @nodoc
 class ListScheduledAuditsResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -19446,6 +19654,7 @@ class ListScheduledAuditsResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityProfilesResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -19481,6 +19690,7 @@ class ListSecurityProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityProfilesForTargetResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -19518,6 +19728,7 @@ class ListSecurityProfilesForTargetResponse {
   }
 }
 
+/// @nodoc
 class ListStreamsResponse {
   /// A token used to get the next set of results.
   final String? nextToken;
@@ -19550,6 +19761,7 @@ class ListStreamsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19583,6 +19795,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTargetsForPolicyResponse {
   /// A marker used to get the next set of results.
   final String? nextMarker;
@@ -19613,6 +19826,7 @@ class ListTargetsForPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListTargetsForSecurityProfileResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -19648,6 +19862,7 @@ class ListTargetsForSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class ListThingGroupsResponse {
   /// The token to use to get the next set of results. Will not be returned if
   /// operation has returned all results.
@@ -19681,6 +19896,7 @@ class ListThingGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListThingGroupsForThingResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19715,6 +19931,8 @@ class ListThingGroupsForThingResponse {
 }
 
 /// The output from the ListThingPrincipals operation.
+///
+/// @nodoc
 class ListThingPrincipalsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19748,6 +19966,7 @@ class ListThingPrincipalsResponse {
   }
 }
 
+/// @nodoc
 class ListThingPrincipalsV2Response {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19783,6 +20002,7 @@ class ListThingPrincipalsV2Response {
   }
 }
 
+/// @nodoc
 class ListThingRegistrationTaskReportsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19824,6 +20044,7 @@ class ListThingRegistrationTaskReportsResponse {
   }
 }
 
+/// @nodoc
 class ListThingRegistrationTasksResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19857,6 +20078,8 @@ class ListThingRegistrationTasksResponse {
 }
 
 /// The output from the ListThings operation.
+///
+/// @nodoc
 class ListThingsResponse {
   /// The token to use to get the next set of results. Will not be returned if
   /// operation has returned all results.
@@ -19890,6 +20113,7 @@ class ListThingsResponse {
   }
 }
 
+/// @nodoc
 class ListThingsInBillingGroupResponse {
   /// The token to use to get the next set of results. Will not be returned if
   /// operation has returned all results.
@@ -19921,6 +20145,7 @@ class ListThingsInBillingGroupResponse {
   }
 }
 
+/// @nodoc
 class ListThingsInThingGroupResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -19953,6 +20178,8 @@ class ListThingsInThingGroupResponse {
 }
 
 /// The output for the ListThingTypes operation.
+///
+/// @nodoc
 class ListThingTypesResponse {
   /// The token for the next set of results. Will not be returned if operation has
   /// returned all results.
@@ -19986,6 +20213,7 @@ class ListThingTypesResponse {
   }
 }
 
+/// @nodoc
 class ListTopicRuleDestinationsResponse {
   /// Information about a topic rule destination.
   final List<TopicRuleDestinationSummary>? destinationSummaries;
@@ -20023,6 +20251,8 @@ class ListTopicRuleDestinationsResponse {
 }
 
 /// The output from the ListTopicRules operation.
+///
+/// @nodoc
 class ListTopicRulesResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -20056,6 +20286,7 @@ class ListTopicRulesResponse {
   }
 }
 
+/// @nodoc
 class ListV2LoggingLevelsResponse {
   /// The logging configuration for a target.
   final List<LogTargetConfiguration>? logTargetConfigurations;
@@ -20091,6 +20322,7 @@ class ListV2LoggingLevelsResponse {
   }
 }
 
+/// @nodoc
 class ListViolationEventsResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -20126,6 +20358,7 @@ class ListViolationEventsResponse {
   }
 }
 
+/// @nodoc
 class PutVerificationStateOnViolationResponse {
   PutVerificationStateOnViolationResponse();
 
@@ -20140,6 +20373,8 @@ class PutVerificationStateOnViolationResponse {
 }
 
 /// The output from the RegisterCACertificateResponse operation.
+///
+/// @nodoc
 class RegisterCACertificateResponse {
   /// The CA certificate ARN.
   final String? certificateArn;
@@ -20170,6 +20405,8 @@ class RegisterCACertificateResponse {
 }
 
 /// The output from the RegisterCertificate operation.
+///
+/// @nodoc
 class RegisterCertificateResponse {
   /// The certificate ARN.
   final String? certificateArn;
@@ -20199,6 +20436,7 @@ class RegisterCertificateResponse {
   }
 }
 
+/// @nodoc
 class RegisterCertificateWithoutCAResponse {
   /// The Amazon Resource Name (ARN) of the registered certificate.
   final String? certificateArn;
@@ -20230,6 +20468,7 @@ class RegisterCertificateWithoutCAResponse {
   }
 }
 
+/// @nodoc
 class RegisterThingResponse {
   /// The certificate data, in PEM format.
   final String? certificatePem;
@@ -20260,6 +20499,7 @@ class RegisterThingResponse {
   }
 }
 
+/// @nodoc
 class RemoveThingFromBillingGroupResponse {
   RemoveThingFromBillingGroupResponse();
 
@@ -20272,6 +20512,7 @@ class RemoveThingFromBillingGroupResponse {
   }
 }
 
+/// @nodoc
 class RemoveThingFromThingGroupResponse {
   RemoveThingFromThingGroupResponse();
 
@@ -20284,6 +20525,7 @@ class RemoveThingFromThingGroupResponse {
   }
 }
 
+/// @nodoc
 class SearchIndexResponse {
   /// The token used to get the next set of results, or <code>null</code> if there
   /// are no additional results.
@@ -20327,6 +20569,7 @@ class SearchIndexResponse {
   }
 }
 
+/// @nodoc
 class SetDefaultAuthorizerResponse {
   /// The authorizer ARN.
   final String? authorizerArn;
@@ -20356,6 +20599,7 @@ class SetDefaultAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class StartAuditMitigationActionsTaskResponse {
   /// The unique identifier for the audit mitigation task. This matches the
   /// <code>taskId</code> that you specified in the request.
@@ -20380,6 +20624,7 @@ class StartAuditMitigationActionsTaskResponse {
   }
 }
 
+/// @nodoc
 class StartDetectMitigationActionsTaskResponse {
   /// The unique identifier of the task.
   final String? taskId;
@@ -20403,6 +20648,7 @@ class StartDetectMitigationActionsTaskResponse {
   }
 }
 
+/// @nodoc
 class StartOnDemandAuditTaskResponse {
   /// The ID of the on-demand audit you started.
   final String? taskId;
@@ -20425,6 +20671,7 @@ class StartOnDemandAuditTaskResponse {
   }
 }
 
+/// @nodoc
 class StartThingRegistrationTaskResponse {
   /// The bulk thing provisioning task ID.
   final String? taskId;
@@ -20448,6 +20695,7 @@ class StartThingRegistrationTaskResponse {
   }
 }
 
+/// @nodoc
 class StopThingRegistrationTaskResponse {
   StopThingRegistrationTaskResponse();
 
@@ -20460,6 +20708,7 @@ class StopThingRegistrationTaskResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -20472,6 +20721,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TestAuthorizationResponse {
   /// The authentication results.
   final List<AuthResult>? authResults;
@@ -20497,6 +20747,7 @@ class TestAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class TestInvokeAuthorizerResponse {
   /// The number of seconds after which the connection is terminated.
   final int? disconnectAfterInSeconds;
@@ -20553,6 +20804,8 @@ class TestInvokeAuthorizerResponse {
 }
 
 /// The output from the TransferCertificate operation.
+///
+/// @nodoc
 class TransferCertificateResponse {
   /// The ARN of the certificate.
   final String? transferredCertificateArn;
@@ -20576,6 +20829,7 @@ class TransferCertificateResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -20588,6 +20842,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountAuditConfigurationResponse {
   UpdateAccountAuditConfigurationResponse();
 
@@ -20601,6 +20856,7 @@ class UpdateAccountAuditConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateAuditSuppressionResponse {
   UpdateAuditSuppressionResponse();
 
@@ -20613,6 +20869,7 @@ class UpdateAuditSuppressionResponse {
   }
 }
 
+/// @nodoc
 class UpdateAuthorizerResponse {
   /// The authorizer ARN.
   final String? authorizerArn;
@@ -20642,6 +20899,7 @@ class UpdateAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class UpdateBillingGroupResponse {
   /// The latest version of the billing group.
   final int? version;
@@ -20664,6 +20922,7 @@ class UpdateBillingGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateCertificateProviderResponse {
   /// The ARN of the certificate provider.
   final String? certificateProviderArn;
@@ -20696,6 +20955,7 @@ class UpdateCertificateProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateCommandResponse {
   /// The unique identifier of the command.
   final String? commandId;
@@ -20748,6 +21008,7 @@ class UpdateCommandResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomMetricResponse {
   /// The creation date of the custom metric in milliseconds since epoch.
   final DateTime? creationDate;
@@ -20813,6 +21074,7 @@ class UpdateCustomMetricResponse {
   }
 }
 
+/// @nodoc
 class UpdateDimensionResponse {
   /// The Amazon Resource Name (ARN)of the created dimension.
   final String? arn;
@@ -20878,6 +21140,7 @@ class UpdateDimensionResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainConfigurationResponse {
   /// The ARN of the domain configuration that was updated.
   final String? domainConfigurationArn;
@@ -20910,6 +21173,7 @@ class UpdateDomainConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateDynamicThingGroupResponse {
   /// The dynamic thing group version.
   final int? version;
@@ -20932,6 +21196,7 @@ class UpdateDynamicThingGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateEncryptionConfigurationResponse {
   UpdateEncryptionConfigurationResponse();
 
@@ -20945,6 +21210,7 @@ class UpdateEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventConfigurationsResponse {
   UpdateEventConfigurationsResponse();
 
@@ -20957,6 +21223,7 @@ class UpdateEventConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class UpdateIndexingConfigurationResponse {
   UpdateIndexingConfigurationResponse();
 
@@ -20969,6 +21236,7 @@ class UpdateIndexingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateMitigationActionResponse {
   /// The ARN for the new mitigation action.
   final String? actionArn;
@@ -20998,6 +21266,7 @@ class UpdateMitigationActionResponse {
   }
 }
 
+/// @nodoc
 class UpdatePackageResponse {
   UpdatePackageResponse();
 
@@ -21010,6 +21279,7 @@ class UpdatePackageResponse {
   }
 }
 
+/// @nodoc
 class UpdatePackageConfigurationResponse {
   UpdatePackageConfigurationResponse();
 
@@ -21022,6 +21292,7 @@ class UpdatePackageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePackageVersionResponse {
   UpdatePackageVersionResponse();
 
@@ -21034,6 +21305,7 @@ class UpdatePackageVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateProvisioningTemplateResponse {
   UpdateProvisioningTemplateResponse();
 
@@ -21046,6 +21318,7 @@ class UpdateProvisioningTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoleAliasResponse {
   /// The role alias.
   final String? roleAlias;
@@ -21075,6 +21348,7 @@ class UpdateRoleAliasResponse {
   }
 }
 
+/// @nodoc
 class UpdateScheduledAuditResponse {
   /// The ARN of the scheduled audit.
   final String? scheduledAuditArn;
@@ -21097,6 +21371,7 @@ class UpdateScheduledAuditResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityProfileResponse {
   /// <i>Please use
   /// <a>UpdateSecurityProfileResponse$additionalMetricsToRetainV2</a>
@@ -21223,6 +21498,7 @@ class UpdateSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateStreamResponse {
   /// A description of the stream.
   final String? description;
@@ -21267,6 +21543,8 @@ class UpdateStreamResponse {
 }
 
 /// The output from the UpdateThing operation.
+///
+/// @nodoc
 class UpdateThingResponse {
   UpdateThingResponse();
 
@@ -21279,6 +21557,7 @@ class UpdateThingResponse {
   }
 }
 
+/// @nodoc
 class UpdateThingGroupResponse {
   /// The version of the updated thing group.
   final int? version;
@@ -21301,6 +21580,7 @@ class UpdateThingGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateThingGroupsForThingResponse {
   UpdateThingGroupsForThingResponse();
 
@@ -21313,6 +21593,7 @@ class UpdateThingGroupsForThingResponse {
   }
 }
 
+/// @nodoc
 class UpdateThingTypeResponse {
   UpdateThingTypeResponse();
 
@@ -21325,6 +21606,7 @@ class UpdateThingTypeResponse {
   }
 }
 
+/// @nodoc
 class UpdateTopicRuleDestinationResponse {
   UpdateTopicRuleDestinationResponse();
 
@@ -21337,6 +21619,7 @@ class UpdateTopicRuleDestinationResponse {
   }
 }
 
+/// @nodoc
 class ValidateSecurityProfileBehaviorsResponse {
   /// True if the behaviors were valid.
   final bool? valid;
@@ -21371,6 +21654,8 @@ class ValidateSecurityProfileBehaviorsResponse {
 }
 
 /// Information about an error found in a behavior specification.
+///
+/// @nodoc
 class ValidationError {
   /// The description of an error found in the behaviors.
   final String? errorMessage;
@@ -21394,6 +21679,8 @@ class ValidationError {
 }
 
 /// A Device Defender security profile behavior.
+///
+/// @nodoc
 class Behavior {
   /// The name you've given to the behavior.
   final String name;
@@ -21465,6 +21752,8 @@ class Behavior {
 }
 
 /// The dimension of a metric.
+///
+/// @nodoc
 class MetricDimension {
   /// A unique identifier for the dimension.
   final String dimensionName;
@@ -21502,6 +21791,8 @@ class MetricDimension {
 }
 
 /// The criteria by which the behavior is determined to be normal.
+///
+/// @nodoc
 class BehaviorCriteria {
   /// The operator that relates the thing measured (<code>metric</code>) to the
   /// criteria (containing a <code>value</code> or
@@ -21612,6 +21903,7 @@ class BehaviorCriteria {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const lessThan = ComparisonOperator._('less-than');
   static const lessThanEquals = ComparisonOperator._('less-than-equals');
@@ -21657,6 +21949,8 @@ class ComparisonOperator {
 }
 
 /// The value to be compared with the <code>metric</code>.
+///
+/// @nodoc
 class MetricValue {
   /// If the <code>comparisonOperator</code> calls for a set of CIDRs, use this to
   /// specify that set to be compared with the <code>metric</code>.
@@ -21723,6 +22017,8 @@ class MetricValue {
 /// A statistical ranking (percentile) that indicates a threshold value by which
 /// a behavior is determined to be in compliance or in violation of the
 /// behavior.
+///
+/// @nodoc
 class StatisticalThreshold {
   /// The percentile that resolves to a threshold value by which compliance with a
   /// behavior is determined. Metrics are collected over the specified period
@@ -21753,6 +22049,8 @@ class StatisticalThreshold {
 }
 
 /// The configuration of an ML Detect Security Profile.
+///
+/// @nodoc
 class MachineLearningDetectionConfig {
   /// The sensitivity of anomalous behavior evaluation. Can be <code>Low</code>,
   /// <code>Medium</code>, or <code>High</code>.
@@ -21777,6 +22075,7 @@ class MachineLearningDetectionConfig {
   }
 }
 
+/// @nodoc
 class ConfidenceLevel {
   static const low = ConfidenceLevel._('LOW');
   static const medium = ConfidenceLevel._('MEDIUM');
@@ -21802,6 +22101,7 @@ class ConfidenceLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class DimensionValueOperator {
   static const $in = DimensionValueOperator._('IN');
   static const notIn = DimensionValueOperator._('NOT_IN');
@@ -21827,6 +22127,7 @@ class DimensionValueOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class TopicRuleDestinationStatus {
   static const enabled = TopicRuleDestinationStatus._('ENABLED');
   static const inProgress = TopicRuleDestinationStatus._('IN_PROGRESS');
@@ -21857,6 +22158,8 @@ class TopicRuleDestinationStatus {
 
 /// The ThingTypeProperties contains information about the thing type including:
 /// a thing type description, and a list of searchable thing attribute names.
+///
+/// @nodoc
 class ThingTypeProperties {
   /// The configuration to add user-defined properties to enrich MQTT 5 messages.
   final Mqtt5Configuration? mqtt5Configuration;
@@ -21902,6 +22205,8 @@ class ThingTypeProperties {
 }
 
 /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+///
+/// @nodoc
 class Mqtt5Configuration {
   /// An object that represents the propagating thing attributes and the
   /// connection attributes.
@@ -21931,6 +22236,8 @@ class Mqtt5Configuration {
 
 /// An object that represents the connection attribute, thing attribute, and the
 /// user property key.
+///
+/// @nodoc
 class PropagatingAttribute {
   /// The attribute associated with the connection between a device and Amazon Web
   /// Services IoT Core.
@@ -21971,6 +22278,8 @@ class PropagatingAttribute {
 }
 
 /// Thing group properties.
+///
+/// @nodoc
 class ThingGroupProperties {
   /// The thing group attributes in JSON format.
   final AttributePayload? attributePayload;
@@ -22005,6 +22314,8 @@ class ThingGroupProperties {
 }
 
 /// The attribute payload.
+///
+/// @nodoc
 class AttributePayload {
   /// A JSON string containing up to three key-value pair in JSON format. For
   /// example:
@@ -22048,6 +22359,8 @@ class AttributePayload {
 }
 
 /// Represents a file to stream.
+///
+/// @nodoc
 class StreamFile {
   /// The file ID.
   final int? fileId;
@@ -22080,6 +22393,8 @@ class StreamFile {
 }
 
 /// The S3 location.
+///
+/// @nodoc
 class S3Location {
   /// The S3 bucket.
   final String? bucket;
@@ -22117,6 +22432,8 @@ class S3Location {
 }
 
 /// Set configurations for metrics export.
+///
+/// @nodoc
 class MetricsExportConfig {
   /// The MQTT topic that Device Defender Detect should publish messages to for
   /// metrics export.
@@ -22149,6 +22466,8 @@ class MetricsExportConfig {
 }
 
 /// The metric you want to retain. Dimensions are optional.
+///
+/// @nodoc
 class MetricToRetain {
   /// What is measured by the behavior.
   final String metric;
@@ -22190,6 +22509,8 @@ class MetricToRetain {
 }
 
 /// The type of alert target: one of "SNS".
+///
+/// @nodoc
 class AlertTargetType {
   static const sns = AlertTargetType._('SNS');
 
@@ -22214,6 +22535,8 @@ class AlertTargetType {
 }
 
 /// A structure containing the alert target ARN and the role ARN.
+///
+/// @nodoc
 class AlertTarget {
   /// The Amazon Resource Name (ARN) of the notification target to which alerts
   /// are sent.
@@ -22245,6 +22568,7 @@ class AlertTarget {
   }
 }
 
+/// @nodoc
 class AuditFrequency {
   static const daily = AuditFrequency._('DAILY');
   static const weekly = AuditFrequency._('WEEKLY');
@@ -22271,6 +22595,7 @@ class AuditFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class DayOfWeek {
   static const sun = DayOfWeek._('SUN');
   static const mon = DayOfWeek._('MON');
@@ -22301,6 +22626,8 @@ class DayOfWeek {
 
 /// Structure that contains <code>payloadVersion</code> and
 /// <code>targetArn</code>.
+///
+/// @nodoc
 class ProvisioningHook {
   /// The ARN of the target function.
   ///
@@ -22336,6 +22663,8 @@ class ProvisioningHook {
 
 /// A specific package version artifact associated with a software package
 /// version.
+///
+/// @nodoc
 class PackageVersionArtifact {
   final S3Location? s3Location;
 
@@ -22359,6 +22688,7 @@ class PackageVersionArtifact {
   }
 }
 
+/// @nodoc
 class PackageVersionAction {
   static const publish = PackageVersionAction._('PUBLISH');
   static const deprecate = PackageVersionAction._('DEPRECATE');
@@ -22390,6 +22720,8 @@ class PackageVersionAction {
 ///
 /// <b>Note:</b> For each job, the destinationPackageVersions attribute has to
 /// be set with the correct data for Jobs to report to the thing shadow.
+///
+/// @nodoc
 class VersionUpdateByJobsConfig {
   /// Indicates whether the Job is enabled or not.
   final bool? enabled;
@@ -22424,6 +22756,8 @@ class VersionUpdateByJobsConfig {
 /// The set of parameters for this mitigation action. You can specify only one
 /// type of parameter (in other words, you can apply only one action for each
 /// defined mitigation action).
+///
+/// @nodoc
 class MitigationActionParams {
   /// Parameters to define a mitigation action that moves devices associated with
   /// a certificate to one or more specified thing groups, typically for
@@ -22519,6 +22853,8 @@ class MitigationActionParams {
 
 /// Parameters to define a mitigation action that changes the state of the
 /// device certificate to inactive.
+///
+/// @nodoc
 class UpdateDeviceCertificateParams {
   /// The action that you want to apply to the device certificate. The only
   /// supported value is <code>DEACTIVATE</code>.
@@ -22545,6 +22881,8 @@ class UpdateDeviceCertificateParams {
 
 /// Parameters to define a mitigation action that changes the state of the CA
 /// certificate to inactive.
+///
+/// @nodoc
 class UpdateCACertificateParams {
   /// The action that you want to apply to the CA certificate. The only supported
   /// value is <code>DEACTIVATE</code>.
@@ -22571,6 +22909,8 @@ class UpdateCACertificateParams {
 
 /// Parameters used when defining a mitigation action that move a set of things
 /// to a thing group.
+///
+/// @nodoc
 class AddThingsToThingGroupParams {
   /// The list of groups to which you want to add the things that triggered the
   /// mitigation action. You can add a thing to a maximum of 10 groups, but you
@@ -22609,6 +22949,8 @@ class AddThingsToThingGroupParams {
 
 /// Parameters to define a mitigation action that adds a blank policy to
 /// restrict permissions.
+///
+/// @nodoc
 class ReplaceDefaultPolicyVersionParams {
   /// The name of the template to be applied. The only supported value is
   /// <code>BLANK_POLICY</code>.
@@ -22636,6 +22978,8 @@ class ReplaceDefaultPolicyVersionParams {
 
 /// Parameters used when defining a mitigation action that enable Amazon Web
 /// Services IoT Core logging.
+///
+/// @nodoc
 class EnableIoTLoggingParams {
   /// Specifies the type of information to be logged.
   final LogLevel logLevel;
@@ -22668,6 +23012,8 @@ class EnableIoTLoggingParams {
 /// Parameters to define a mitigation action that publishes findings to Amazon
 /// SNS. You can implement your own custom actions in response to the Amazon SNS
 /// messages.
+///
+/// @nodoc
 class PublishFindingToSnsParams {
   /// The ARN of the topic to which you want to publish the findings.
   final String topicArn;
@@ -22690,6 +23036,7 @@ class PublishFindingToSnsParams {
   }
 }
 
+/// @nodoc
 class LogLevel {
   static const debug = LogLevel._('DEBUG');
   static const info = LogLevel._('INFO');
@@ -22716,6 +23063,7 @@ class LogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class PolicyTemplateName {
   static const blankPolicy = PolicyTemplateName._('BLANK_POLICY');
 
@@ -22740,6 +23088,7 @@ class PolicyTemplateName {
   String toString() => value;
 }
 
+/// @nodoc
 class CACertificateUpdateAction {
   static const deactivate = CACertificateUpdateAction._('DEACTIVATE');
 
@@ -22764,6 +23113,7 @@ class CACertificateUpdateAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceCertificateUpdateAction {
   static const deactivate = DeviceCertificateUpdateAction._('DEACTIVATE');
 
@@ -22789,6 +23139,8 @@ class DeviceCertificateUpdateAction {
 }
 
 /// Configuration for pre-signed S3 URLs.
+///
+/// @nodoc
 class PresignedUrlConfig {
   /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600,
   /// the default value is 3600 seconds. Pre-signed URLs are generated when Jobs
@@ -22829,6 +23181,8 @@ class PresignedUrlConfig {
 }
 
 /// Allows you to create a staged rollout of a job.
+///
+/// @nodoc
 class JobExecutionsRolloutConfig {
   /// The rate of increase for a job rollout. This parameter allows you to define
   /// an exponential rate for a job rollout.
@@ -22864,6 +23218,8 @@ class JobExecutionsRolloutConfig {
 }
 
 /// The criteria that determine when and how a job abort takes place.
+///
+/// @nodoc
 class AbortConfig {
   /// The list of criteria that determine when and how to abort the job.
   final List<AbortCriteria> criteriaList;
@@ -22894,6 +23250,8 @@ class AbortConfig {
 /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
 /// terminal state before the timer expires, it will be automatically set to
 /// <code>TIMED_OUT</code>.
+///
+/// @nodoc
 class TimeoutConfig {
   /// Specifies the amount of time, in minutes, this device has to finish
   /// execution of this job. The timeout interval can be anywhere between 1 minute
@@ -22925,6 +23283,8 @@ class TimeoutConfig {
 
 /// The configuration that determines how many retries are allowed for each
 /// failure type for a job.
+///
+/// @nodoc
 class JobExecutionsRetryConfig {
   /// The list of criteria that determines how many retries are allowed for each
   /// failure type for a job.
@@ -22953,6 +23313,8 @@ class JobExecutionsRetryConfig {
 
 /// The criteria that determines how many retries are allowed for each failure
 /// type for a job.
+///
+/// @nodoc
 class RetryCriteria {
   /// The type of job execution failures that can initiate a job retry.
   final RetryableFailureType failureType;
@@ -22983,6 +23345,7 @@ class RetryCriteria {
   }
 }
 
+/// @nodoc
 class RetryableFailureType {
   static const failed = RetryableFailureType._('FAILED');
   static const timedOut = RetryableFailureType._('TIMED_OUT');
@@ -23010,6 +23373,8 @@ class RetryableFailureType {
 }
 
 /// The criteria that determine when and how a job abort takes place.
+///
+/// @nodoc
 class AbortCriteria {
   /// The type of job action to take to initiate the job abort.
   final AbortAction action;
@@ -23060,6 +23425,7 @@ class AbortCriteria {
   }
 }
 
+/// @nodoc
 class JobExecutionFailureType {
   static const failed = JobExecutionFailureType._('FAILED');
   static const rejected = JobExecutionFailureType._('REJECTED');
@@ -23087,6 +23453,7 @@ class JobExecutionFailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class AbortAction {
   static const cancel = AbortAction._('CANCEL');
 
@@ -23110,6 +23477,8 @@ class AbortAction {
 }
 
 /// Allows you to create an exponential rate of rollout for a job.
+///
+/// @nodoc
 class ExponentialRolloutRate {
   /// The minimum number of things that will be notified of a pending job, per
   /// minute at the start of job rollout. This parameter allows you to define the
@@ -23155,6 +23524,8 @@ class ExponentialRolloutRate {
 
 /// Allows you to define a criteria to initiate the increase in rate of rollout
 /// for a job.
+///
+/// @nodoc
 class RateIncreaseCriteria {
   /// The threshold for number of notified things that will initiate the increase
   /// in rate of rollout.
@@ -23191,6 +23562,8 @@ class RateIncreaseCriteria {
 /// The thing indexing configuration. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-index.html">Managing
 /// Thing Indexing</a>.
+///
+/// @nodoc
 class ThingIndexingConfiguration {
   /// Thing indexing mode. Valid values are:
   ///
@@ -23351,6 +23724,8 @@ class ThingIndexingConfiguration {
 }
 
 /// Thing group indexing configuration.
+///
+/// @nodoc
 class ThingGroupIndexingConfiguration {
   /// Thing group indexing mode.
   final ThingGroupIndexingMode thingGroupIndexingMode;
@@ -23405,6 +23780,7 @@ class ThingGroupIndexingConfiguration {
   }
 }
 
+/// @nodoc
 class ThingGroupIndexingMode {
   static const off = ThingGroupIndexingMode._('OFF');
   static const on = ThingGroupIndexingMode._('ON');
@@ -23431,6 +23807,8 @@ class ThingGroupIndexingMode {
 }
 
 /// Describes the name and data type at a field.
+///
+/// @nodoc
 class Field {
   /// The name of the field.
   final String? name;
@@ -23460,6 +23838,7 @@ class Field {
   }
 }
 
+/// @nodoc
 class FieldType {
   static const number = FieldType._('Number');
   static const string = FieldType._('String');
@@ -23484,6 +23863,7 @@ class FieldType {
   String toString() => value;
 }
 
+/// @nodoc
 class ThingIndexingMode {
   static const off = ThingIndexingMode._('OFF');
   static const registry = ThingIndexingMode._('REGISTRY');
@@ -23509,6 +23889,7 @@ class ThingIndexingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ThingConnectivityIndexingMode {
   static const off = ThingConnectivityIndexingMode._('OFF');
   static const status = ThingConnectivityIndexingMode._('STATUS');
@@ -23534,6 +23915,7 @@ class ThingConnectivityIndexingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceDefenderIndexingMode {
   static const off = DeviceDefenderIndexingMode._('OFF');
   static const violations = DeviceDefenderIndexingMode._('VIOLATIONS');
@@ -23559,6 +23941,7 @@ class DeviceDefenderIndexingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class NamedShadowIndexingMode {
   static const off = NamedShadowIndexingMode._('OFF');
   static const on = NamedShadowIndexingMode._('ON');
@@ -23607,6 +23990,8 @@ class NamedShadowIndexingMode {
 /// fleet indexing</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class IndexingFilter {
   /// Provides additional connectivity filter selections for the fleet indexing
   /// configuration.
@@ -23664,6 +24049,8 @@ class IndexingFilter {
 
 /// Provides connectivity filter selections for the fleet indexing
 /// configuration.
+///
+/// @nodoc
 class ConnectivityFilter {
   /// A list of fleet indexing APIs for which to enable socket information
   /// retrieval. Currently, the only supported value is
@@ -23693,6 +24080,7 @@ class ConnectivityFilter {
   }
 }
 
+/// @nodoc
 class FleetIndexingApi {
   static const getThingConnectivityData =
       FleetIndexingApi._('GET_THING_CONNECTIVITY_DATA');
@@ -23720,6 +24108,8 @@ class FleetIndexingApi {
 /// A geolocation target that you select to index. Each geolocation target
 /// contains a <code>name</code> and <code>order</code> key-value pair that
 /// specifies the geolocation target fields.
+///
+/// @nodoc
 class GeoLocationTarget {
   /// The <code>name</code> of the geolocation target field. If the target field
   /// is part of a named shadow, you must select the named shadow using the
@@ -23752,6 +24142,7 @@ class GeoLocationTarget {
   }
 }
 
+/// @nodoc
 class TargetFieldOrder {
   static const latLon = TargetFieldOrder._('LatLon');
   static const lonLat = TargetFieldOrder._('LonLat');
@@ -23777,6 +24168,8 @@ class TargetFieldOrder {
 }
 
 /// The type of aggregation queries.
+///
+/// @nodoc
 class AggregationType {
   /// The name of the aggregation type.
   final AggregationTypeName name;
@@ -23807,6 +24200,7 @@ class AggregationType {
   }
 }
 
+/// @nodoc
 class FleetMetricUnit {
   static const seconds = FleetMetricUnit._('Seconds');
   static const microseconds = FleetMetricUnit._('Microseconds');
@@ -23884,6 +24278,7 @@ class FleetMetricUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationTypeName {
   static const statistics = AggregationTypeName._('Statistics');
   static const percentiles = AggregationTypeName._('Percentiles');
@@ -23910,6 +24305,7 @@ class AggregationTypeName {
   String toString() => value;
 }
 
+/// @nodoc
 class EventType {
   static const thing = EventType._('THING');
   static const thingGroup = EventType._('THING_GROUP');
@@ -23955,6 +24351,8 @@ class EventType {
 }
 
 /// Configuration.
+///
+/// @nodoc
 class Configuration {
   /// True to enable the configuration.
   final bool? enabled;
@@ -23977,6 +24375,7 @@ class Configuration {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const customerManagedKmsKey =
       EncryptionType._('CUSTOMER_MANAGED_KMS_KEY');
@@ -24003,6 +24402,8 @@ class EncryptionType {
 }
 
 /// An object that specifies the authorization service for a domain.
+///
+/// @nodoc
 class AuthorizerConfig {
   /// A Boolean that specifies whether the domain configuration's authorization
   /// service can be overridden.
@@ -24035,6 +24436,7 @@ class AuthorizerConfig {
   }
 }
 
+/// @nodoc
 class DomainConfigurationStatus {
   static const enabled = DomainConfigurationStatus._('ENABLED');
   static const disabled = DomainConfigurationStatus._('DISABLED');
@@ -24061,6 +24463,8 @@ class DomainConfigurationStatus {
 }
 
 /// An object that specifies the TLS configuration for a domain.
+///
+/// @nodoc
 class TlsConfig {
   /// The security policy for a domain configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/transport-security.html#tls-policy-table">Security
@@ -24086,6 +24490,8 @@ class TlsConfig {
 }
 
 /// The server certificate configuration.
+///
+/// @nodoc
 class ServerCertificateConfig {
   /// A Boolean value that indicates whether Online Certificate Status Protocol
   /// (OCSP) server certificate check is enabled or not.
@@ -24145,6 +24551,7 @@ class ServerCertificateConfig {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const customAuthX509 = AuthenticationType._('CUSTOM_AUTH_X509');
   static const customAuth = AuthenticationType._('CUSTOM_AUTH');
@@ -24179,6 +24586,7 @@ class AuthenticationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationProtocol {
   static const secureMqtt = ApplicationProtocol._('SECURE_MQTT');
   static const mqttWss = ApplicationProtocol._('MQTT_WSS');
@@ -24207,6 +24615,8 @@ class ApplicationProtocol {
 }
 
 /// An object that speciﬁes the client certificate conﬁguration for a domain.
+///
+/// @nodoc
 class ClientCertificateConfig {
   /// The ARN of the Lambda function that IoT invokes after mutual TLS
   /// authentication during the connection.
@@ -24232,6 +24642,7 @@ class ClientCertificateConfig {
   }
 }
 
+/// @nodoc
 class DimensionType {
   static const topicFilter = DimensionType._('TOPIC_FILTER');
 
@@ -24255,6 +24666,7 @@ class DimensionType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomMetricType {
   static const stringList = CustomMetricType._('string-list');
   static const ipAddressList = CustomMetricType._('ip-address-list');
@@ -24281,6 +24693,7 @@ class CustomMetricType {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateProviderOperation {
   static const createCertificateFromCsr =
       CertificateProviderOperation._('CreateCertificateFromCsr');
@@ -24306,6 +24719,7 @@ class CertificateProviderOperation {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateStatus {
   static const active = CertificateStatus._('ACTIVE');
   static const inactive = CertificateStatus._('INACTIVE');
@@ -24341,6 +24755,7 @@ class CertificateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CACertificateStatus {
   static const active = CACertificateStatus._('ACTIVE');
   static const inactive = CACertificateStatus._('INACTIVE');
@@ -24366,6 +24781,7 @@ class CACertificateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoRegistrationStatus {
   static const enable = AutoRegistrationStatus._('ENABLE');
   static const disable = AutoRegistrationStatus._('DISABLE');
@@ -24392,6 +24808,8 @@ class AutoRegistrationStatus {
 }
 
 /// The registration configuration.
+///
+/// @nodoc
 class RegistrationConfig {
   /// The ARN of the role.
   final String? roleArn;
@@ -24429,6 +24847,8 @@ class RegistrationConfig {
 }
 
 /// The properties of a billing group.
+///
+/// @nodoc
 class BillingGroupProperties {
   /// The description of the billing group.
   final String? billingGroupDescription;
@@ -24452,6 +24872,7 @@ class BillingGroupProperties {
   }
 }
 
+/// @nodoc
 class AuthorizerStatus {
   static const active = AuthorizerStatus._('ACTIVE');
   static const inactive = AuthorizerStatus._('INACTIVE');
@@ -24477,6 +24898,8 @@ class AuthorizerStatus {
 }
 
 /// Information that identifies the noncompliant resource.
+///
+/// @nodoc
 class ResourceIdentifier {
   /// The account with which the resource is associated.
   final String? account;
@@ -24574,6 +24997,8 @@ class ResourceIdentifier {
 }
 
 /// Information about the version of the policy associated with the resource.
+///
+/// @nodoc
 class PolicyVersionIdentifier {
   /// The name of the policy.
   final String? policyName;
@@ -24604,6 +25029,8 @@ class PolicyVersionIdentifier {
 }
 
 /// The certificate issuer indentifier.
+///
+/// @nodoc
 class IssuerCertificateIdentifier {
   /// The issuer certificate serial number.
   final String? issuerCertificateSerialNumber;
@@ -24644,6 +25071,8 @@ class IssuerCertificateIdentifier {
 }
 
 /// Which audit checks are enabled and disabled for this account.
+///
+/// @nodoc
 class AuditCheckConfiguration {
   /// A structure containing the configName and corresponding configValue for
   /// configuring audit checks.
@@ -24676,6 +25105,7 @@ class AuditCheckConfiguration {
   }
 }
 
+/// @nodoc
 class ConfigName {
   static const certAgeThresholdInDays =
       ConfigName._('CERT_AGE_THRESHOLD_IN_DAYS');
@@ -24701,6 +25131,7 @@ class ConfigName {
   String toString() => value;
 }
 
+/// @nodoc
 class AuditNotificationType {
   static const sns = AuditNotificationType._('SNS');
 
@@ -24726,6 +25157,8 @@ class AuditNotificationType {
 }
 
 /// Information about the targets to which audit notifications are sent.
+///
+/// @nodoc
 class AuditNotificationTarget {
   /// True if notifications to the target are enabled.
   final bool? enabled;
@@ -24764,6 +25197,8 @@ class AuditNotificationTarget {
 }
 
 /// Specifies the HTTP context to use for the test authorizer request.
+///
+/// @nodoc
 class HttpContext {
   /// The header keys and values in an HTTP authorization request.
   final Map<String, String>? headers;
@@ -24787,6 +25222,8 @@ class HttpContext {
 }
 
 /// Specifies the MQTT context to use for the test authorizer request
+///
+/// @nodoc
 class MqttContext {
   /// The value of the <code>clientId</code> key in an MQTT authorization request.
   final String? clientId;
@@ -24816,6 +25253,8 @@ class MqttContext {
 }
 
 /// Specifies the TLS context to use for the test authorizer request.
+///
+/// @nodoc
 class TlsContext {
   /// The value of the <code>serverName</code> key in a TLS authorization request.
   final String? serverName;
@@ -24833,6 +25272,8 @@ class TlsContext {
 }
 
 /// The authorizer result.
+///
+/// @nodoc
 class AuthResult {
   /// The policies and statements that allowed the specified action.
   final Allowed? allowed;
@@ -24897,6 +25338,8 @@ class AuthResult {
 }
 
 /// A collection of authorization information.
+///
+/// @nodoc
 class AuthInfo {
   /// The resources for which the principal is being authorized to perform the
   /// specified action.
@@ -24931,6 +25374,8 @@ class AuthInfo {
 }
 
 /// Contains information that allowed the authorization.
+///
+/// @nodoc
 class Allowed {
   /// A list of policies that allowed the authentication.
   final List<Policy>? policies;
@@ -24957,6 +25402,8 @@ class Allowed {
 }
 
 /// Contains information that denied the authorization.
+///
+/// @nodoc
 class Denied {
   /// Information that explicitly denies the authorization.
   final ExplicitDeny? explicitDeny;
@@ -24992,6 +25439,7 @@ class Denied {
   }
 }
 
+/// @nodoc
 class AuthDecision {
   static const allowed = AuthDecision._('ALLOWED');
   static const explicitDeny = AuthDecision._('EXPLICIT_DENY');
@@ -25019,6 +25467,8 @@ class AuthDecision {
 /// Information that implicitly denies authorization. When policy doesn't
 /// explicitly deny or allow an action on a resource it is considered an
 /// implicit deny.
+///
+/// @nodoc
 class ImplicitDeny {
   /// Policies that don't contain a matching allow or deny statement for the
   /// specified action on the specified resource.
@@ -25046,6 +25496,8 @@ class ImplicitDeny {
 }
 
 /// Information that explicitly denies authorization.
+///
+/// @nodoc
 class ExplicitDeny {
   /// The policies that denied the authorization.
   final List<Policy>? policies;
@@ -25072,6 +25524,8 @@ class ExplicitDeny {
 }
 
 /// Describes an IoT policy.
+///
+/// @nodoc
 class Policy {
   /// The policy ARN.
   final String? policyArn;
@@ -25101,6 +25555,7 @@ class Policy {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const publish = ActionType._('PUBLISH');
   static const subscribe = ActionType._('SUBSCRIBE');
@@ -25127,6 +25582,8 @@ class ActionType {
 }
 
 /// A set of key/value pairs that are used to manage the resource.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -25157,6 +25614,8 @@ class Tag {
 }
 
 /// The target of a mitigation action task.
+///
+/// @nodoc
 class DetectMitigationActionsTaskTarget {
   /// The name of the behavior.
   final String? behaviorName;
@@ -25199,6 +25658,8 @@ class DetectMitigationActionsTaskTarget {
 }
 
 /// Specifies the time period of which violation events occurred between.
+///
+/// @nodoc
 class ViolationEventOccurrenceRange {
   /// The end date and time of a time period in which violation events occurred.
   final DateTime endTime;
@@ -25231,6 +25692,8 @@ class ViolationEventOccurrenceRange {
 /// Used in MitigationActionParams, this information identifies the target
 /// findings to which the mitigation actions are applied. Only one entry
 /// appears.
+///
+/// @nodoc
 class AuditMitigationActionsTaskTarget {
   /// Specifies a filter in the form of an audit check and set of reason codes
   /// that identify the findings from the audit to which the audit mitigation
@@ -25280,6 +25743,8 @@ class AuditMitigationActionsTaskTarget {
 
 /// Configuration for event-based logging that specifies which event types to
 /// log and their logging settings. Used for account-level logging overrides.
+///
+/// @nodoc
 class LogEventConfiguration {
   /// The type of event to log. These include event types like Connect, Publish,
   /// and Disconnect.
@@ -25322,6 +25787,8 @@ class LogEventConfiguration {
 }
 
 /// A log target.
+///
+/// @nodoc
 class LogTarget {
   /// The target type.
   final LogTargetType targetType;
@@ -25352,6 +25819,7 @@ class LogTarget {
   }
 }
 
+/// @nodoc
 class LogTargetType {
   static const $default = LogTargetType._('DEFAULT');
   static const thingGroup = LogTargetType._('THING_GROUP');
@@ -25380,6 +25848,8 @@ class LogTargetType {
 }
 
 /// Describes the logging options payload.
+///
+/// @nodoc
 class LoggingOptionsPayload {
   /// The ARN of the IAM role that grants access.
   final String roleArn;
@@ -25403,6 +25873,8 @@ class LoggingOptionsPayload {
 }
 
 /// The thing group search index document.
+///
+/// @nodoc
 class ThingGroupDocument {
   /// The thing group attributes.
   final Map<String, String>? attributes;
@@ -25459,6 +25931,8 @@ class ThingGroupDocument {
 }
 
 /// The thing search index document.
+///
+/// @nodoc
 class ThingDocument {
   /// The attributes.
   final Map<String, String>? attributes;
@@ -25547,6 +26021,8 @@ class ThingDocument {
 }
 
 /// The connectivity status of the thing.
+///
+/// @nodoc
 class ThingConnectivity {
   /// Indicates whether the client is using a clean session. Returns
   /// <code>true</code> for clean sessions.
@@ -25618,6 +26094,8 @@ class ThingConnectivity {
 }
 
 /// Describes a rule.
+///
+/// @nodoc
 class TopicRulePayload {
   /// The actions associated with the rule.
   final List<Action> actions;
@@ -25667,6 +26145,8 @@ class TopicRulePayload {
 }
 
 /// Describes the actions associated with a rule.
+///
+/// @nodoc
 class Action {
   /// Change the state of a CloudWatch alarm.
   final CloudwatchAlarmAction? cloudwatchAlarm;
@@ -25934,6 +26414,8 @@ class Action {
 /// The following field uses the timestamp:
 ///
 /// <code>"rangeKeyValue": "${timestamp()}"</code>
+///
+/// @nodoc
 class DynamoDBAction {
   /// The hash key name.
   final String hashKeyField;
@@ -26028,6 +26510,8 @@ class DynamoDBAction {
 ///
 /// This DynamoDB action writes each attribute in the message payload into it's
 /// own column in the DynamoDB table.
+///
+/// @nodoc
 class DynamoDBv2Action {
   /// Specifies the DynamoDB table to which the message data will be written. For
   /// example:
@@ -26067,6 +26551,8 @@ class DynamoDBv2Action {
 }
 
 /// Describes an action to invoke a Lambda function.
+///
+/// @nodoc
 class LambdaAction {
   /// The ARN of the Lambda function.
   final String functionArn;
@@ -26090,6 +26576,8 @@ class LambdaAction {
 }
 
 /// Describes an action to publish to an Amazon SNS topic.
+///
+/// @nodoc
 class SnsAction {
   /// The ARN of the IAM role that grants access.
   final String roleArn;
@@ -26134,6 +26622,8 @@ class SnsAction {
 }
 
 /// Describes an action to publish data to an Amazon SQS queue.
+///
+/// @nodoc
 class SqsAction {
   /// The URL of the Amazon SQS queue.
   final String queueUrl;
@@ -26171,6 +26661,8 @@ class SqsAction {
 }
 
 /// Describes an action to write data to an Amazon Kinesis stream.
+///
+/// @nodoc
 class KinesisAction {
   /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
   final String roleArn;
@@ -26208,6 +26700,8 @@ class KinesisAction {
 }
 
 /// Describes an action to republish to another topic.
+///
+/// @nodoc
 class RepublishAction {
   /// The ARN of the IAM role that grants access.
   final String roleArn;
@@ -26257,6 +26751,8 @@ class RepublishAction {
 }
 
 /// Describes an action to write data to an Amazon S3 bucket.
+///
+/// @nodoc
 class S3Action {
   /// The Amazon S3 bucket.
   final String bucketName;
@@ -26307,6 +26803,8 @@ class S3Action {
 }
 
 /// Describes an action that writes data to an Amazon Kinesis Firehose stream.
+///
+/// @nodoc
 class FirehoseAction {
   /// The delivery stream name.
   final String deliveryStreamName;
@@ -26362,6 +26860,8 @@ class FirehoseAction {
 }
 
 /// Describes an action that captures a CloudWatch metric.
+///
+/// @nodoc
 class CloudwatchMetricAction {
   /// The CloudWatch metric name.
   final String metricName;
@@ -26424,6 +26924,8 @@ class CloudwatchMetricAction {
 }
 
 /// Describes an action that updates a CloudWatch alarm.
+///
+/// @nodoc
 class CloudwatchAlarmAction {
   /// The CloudWatch alarm name.
   final String alarmName;
@@ -26469,6 +26971,8 @@ class CloudwatchAlarmAction {
 }
 
 /// Describes an action that sends data to CloudWatch Logs.
+///
+/// @nodoc
 class CloudwatchLogsAction {
   /// The CloudWatch log group to which the action sends data.
   final String logGroupName;
@@ -26515,6 +27019,8 @@ class CloudwatchLogsAction {
 /// see <a
 /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_OpenSearchAction.html">OpenSearchAction</a>.
 /// </note>
+///
+/// @nodoc
 class ElasticsearchAction {
   /// The endpoint of your OpenSearch domain.
   final String endpoint;
@@ -26567,6 +27073,8 @@ class ElasticsearchAction {
 
 /// Describes an action to write a message to a Salesforce IoT Cloud Input
 /// Stream.
+///
+/// @nodoc
 class SalesforceAction {
   /// The token used to authenticate access to the Salesforce IoT Cloud Input
   /// Stream. The token is available from the Salesforce IoT Cloud platform after
@@ -26601,6 +27109,8 @@ class SalesforceAction {
 }
 
 /// Sends message data to an IoT Analytics channel.
+///
+/// @nodoc
 class IotAnalyticsAction {
   /// Whether to process the action as a batch. The default value is
   /// <code>false</code>.
@@ -26655,6 +27165,8 @@ class IotAnalyticsAction {
 }
 
 /// Sends an input to an IoT Events detector.
+///
+/// @nodoc
 class IotEventsAction {
   /// The name of the IoT Events input.
   final String inputName;
@@ -26719,6 +27231,8 @@ class IotEventsAction {
 
 /// Describes an action to send data from an MQTT message that triggered the
 /// rule to IoT SiteWise asset properties.
+///
+/// @nodoc
 class IotSiteWiseAction {
   /// A list of asset property value entries.
   final List<PutAssetPropertyValueEntry> putAssetPropertyValueEntries;
@@ -26758,6 +27272,8 @@ class IotSiteWiseAction {
 }
 
 /// Starts execution of a Step Functions state machine.
+///
+/// @nodoc
 class StepFunctionsAction {
   /// The ARN of the role that grants IoT permission to start execution of a state
   /// machine ("Action":"states:StartExecution").
@@ -26803,6 +27319,8 @@ class StepFunctionsAction {
 /// into an Amazon Timestream table. For more information, see the <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html">Timestream</a>
 /// topic rule action documentation.
+///
+/// @nodoc
 class TimestreamAction {
   /// The name of an Amazon Timestream database.
   final String databaseName;
@@ -26870,6 +27388,8 @@ class TimestreamAction {
 }
 
 /// Send data to an HTTPS endpoint.
+///
+/// @nodoc
 class HttpAction {
   /// The endpoint URL. If substitution templates are used in the URL, you must
   /// also specify a <code>confirmationUrl</code>. If this is a new destination, a
@@ -26946,6 +27466,8 @@ class HttpAction {
 
 /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK)
 /// or self-managed Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaAction {
   /// Properties of the Apache Kafka producer client.
   final Map<String, String> clientProperties;
@@ -27009,6 +27531,8 @@ class KafkaAction {
 }
 
 /// Describes an action that writes data to an Amazon OpenSearch Service domain.
+///
+/// @nodoc
 class OpenSearchAction {
   /// The endpoint of your OpenSearch domain.
   final String endpoint;
@@ -27061,6 +27585,8 @@ class OpenSearchAction {
 
 /// The Amazon Location rule action sends device location updates from an MQTT
 /// message to an Amazon Location tracker resource.
+///
+/// @nodoc
 class LocationAction {
   /// The unique ID of the device providing the location data.
   final String deviceId;
@@ -27128,6 +27654,8 @@ class LocationAction {
 
 /// Describes how to interpret an application-defined timestamp value from an
 /// MQTT message payload and the precision of that value.
+///
+/// @nodoc
 class LocationTimestamp {
   /// An expression that returns a long epoch time value.
   final String value;
@@ -27169,6 +27697,8 @@ class LocationTimestamp {
 /// For more information about Rule's Kafka action, see <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/apache-kafka-rule-action.html">Apache
 /// Kafka</a>.
+///
+/// @nodoc
 class KafkaActionHeader {
   /// The key of the Kafka header.
   final String key;
@@ -27199,6 +27729,8 @@ class KafkaActionHeader {
 }
 
 /// The authorization method used to send messages.
+///
+/// @nodoc
 class HttpAuthorization {
   /// Use Sig V4 authorization. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
@@ -27226,6 +27758,8 @@ class HttpAuthorization {
 }
 
 /// Configuration settings for batching.
+///
+/// @nodoc
 class BatchConfig {
   /// Whether to allow batching messages from different MQTT topics into a single
   /// HTTP request. By default, only messages from the same topic are batched
@@ -27288,6 +27822,8 @@ class BatchConfig {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
 /// Version 4 signing process</a>.
+///
+/// @nodoc
 class SigV4Authorization {
   /// The ARN of the signing role.
   final String roleArn;
@@ -27325,6 +27861,8 @@ class SigV4Authorization {
 }
 
 /// The HTTP action header.
+///
+/// @nodoc
 class HttpActionHeader {
   /// The HTTP header key.
   final String key;
@@ -27356,6 +27894,8 @@ class HttpActionHeader {
 
 /// Describes how to interpret an application-defined timestamp value from an
 /// MQTT message payload and the precision of that value.
+///
+/// @nodoc
 class TimestreamTimestamp {
   /// The precision of the timestamp value that results from the expression
   /// described in <code>value</code>.
@@ -27392,6 +27932,8 @@ class TimestreamTimestamp {
 
 /// Metadata attributes of the time series that are written in each measure
 /// record.
+///
+/// @nodoc
 class TimestreamDimension {
   /// The metadata dimension name. This is the name of the column in the Amazon
   /// Timestream database table record.
@@ -27429,6 +27971,8 @@ class TimestreamDimension {
 }
 
 /// An asset property value entry containing the following information.
+///
+/// @nodoc
 class PutAssetPropertyValueEntry {
   /// A list of property values to insert that each contain timestamp, quality,
   /// and value (TQV) information.
@@ -27492,6 +28036,8 @@ class PutAssetPropertyValueEntry {
 }
 
 /// An asset property value entry containing the following information.
+///
+/// @nodoc
 class AssetPropertyValue {
   /// The asset property value timestamp.
   final AssetPropertyTimestamp timestamp;
@@ -27535,6 +28081,8 @@ class AssetPropertyValue {
 }
 
 /// Contains an asset property value (of a single type).
+///
+/// @nodoc
 class AssetPropertyVariant {
   /// Optional. A string that contains the boolean value (<code>true</code> or
   /// <code>false</code>) of the value entry. Accepts substitution templates.
@@ -27583,6 +28131,8 @@ class AssetPropertyVariant {
 }
 
 /// An asset property timestamp entry containing the following information.
+///
+/// @nodoc
 class AssetPropertyTimestamp {
   /// A string that contains the time in seconds since epoch. Accepts substitution
   /// templates.
@@ -27614,6 +28164,7 @@ class AssetPropertyTimestamp {
   }
 }
 
+/// @nodoc
 class CannedAccessControlList {
   static const private = CannedAccessControlList._('private');
   static const publicRead = CannedAccessControlList._('public-read');
@@ -27660,6 +28211,8 @@ class CannedAccessControlList {
 /// Specifies MQTT Version 5.0 headers information. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html">
 /// MQTT</a> from Amazon Web Services IoT Core Developer Guide.
+///
+/// @nodoc
 class MqttHeaders {
   /// A UTF-8 encoded string that describes the content of the publishing message.
   ///
@@ -27778,6 +28331,8 @@ class MqttHeaders {
 /// are either literal strings or valid <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html">substitution
 /// templates</a>.
+///
+/// @nodoc
 class UserProperty {
   /// A key to be specified in <code>UserProperty</code>.
   final String key;
@@ -27807,6 +28362,7 @@ class UserProperty {
   }
 }
 
+/// @nodoc
 class MessageFormat {
   static const raw = MessageFormat._('RAW');
   static const json = MessageFormat._('JSON');
@@ -27833,6 +28389,8 @@ class MessageFormat {
 
 /// The input for the DynamoActionVS action that specifies the DynamoDB table to
 /// which the message data will be written.
+///
+/// @nodoc
 class PutItemInput {
   /// The table where the message data will be written.
   final String tableName;
@@ -27855,6 +28413,7 @@ class PutItemInput {
   }
 }
 
+/// @nodoc
 class DynamoKeyType {
   static const string = DynamoKeyType._('STRING');
   static const number = DynamoKeyType._('NUMBER');
@@ -27879,6 +28438,7 @@ class DynamoKeyType {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateMode {
   static const $default = CertificateMode._('DEFAULT');
   static const sniOnly = CertificateMode._('SNI_ONLY');
@@ -27903,6 +28463,7 @@ class CertificateMode {
   String toString() => value;
 }
 
+/// @nodoc
 class VerificationState {
   static const falsePositive = VerificationState._('FALSE_POSITIVE');
   static const benignPositive = VerificationState._('BENIGN_POSITIVE');
@@ -27930,6 +28491,8 @@ class VerificationState {
 }
 
 /// Information about a Device Defender security profile behavior violation.
+///
+/// @nodoc
 class ViolationEvent {
   /// The behavior that was violated.
   final Behavior? behavior;
@@ -28032,6 +28595,8 @@ class ViolationEvent {
 }
 
 /// The details of a violation event.
+///
+/// @nodoc
 class ViolationEventAdditionalInfo {
   /// The sensitivity of anomalous behavior evaluation. Can be <code>Low</code>,
   /// <code>Medium</code>, or <code>High</code>.
@@ -28056,6 +28621,7 @@ class ViolationEventAdditionalInfo {
   }
 }
 
+/// @nodoc
 class ViolationEventType {
   static const inAlarm = ViolationEventType._('in-alarm');
   static const alarmCleared = ViolationEventType._('alarm-cleared');
@@ -28082,6 +28648,7 @@ class ViolationEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class BehaviorCriteriaType {
   static const static = BehaviorCriteriaType._('STATIC');
   static const statistical = BehaviorCriteriaType._('STATISTICAL');
@@ -28109,6 +28676,8 @@ class BehaviorCriteriaType {
 }
 
 /// The target configuration.
+///
+/// @nodoc
 class LogTargetConfiguration {
   /// The logging level.
   final LogLevel? logLevel;
@@ -28141,6 +28710,8 @@ class LogTargetConfiguration {
 }
 
 /// Describes a rule.
+///
+/// @nodoc
 class TopicRuleListItem {
   /// The date and time the rule was created.
   final DateTime? createdAt;
@@ -28192,6 +28763,8 @@ class TopicRuleListItem {
 }
 
 /// Information about the topic rule destination.
+///
+/// @nodoc
 class TopicRuleDestinationSummary {
   /// The topic rule destination ARN.
   final String? arn;
@@ -28288,6 +28861,8 @@ class TopicRuleDestinationSummary {
 }
 
 /// Information about an HTTP URL destination.
+///
+/// @nodoc
 class HttpUrlDestinationSummary {
   /// The URL used to confirm ownership of or access to the HTTP topic rule
   /// destination URL.
@@ -28312,6 +28887,8 @@ class HttpUrlDestinationSummary {
 }
 
 /// The summary of a virtual private cloud (VPC) destination.
+///
+/// @nodoc
 class VpcDestinationSummary {
   /// The ARN of a role that has permission to create and attach to elastic
   /// network interfaces (ENIs).
@@ -28363,6 +28940,8 @@ class VpcDestinationSummary {
 }
 
 /// The definition of the thing type, including thing type name and description.
+///
+/// @nodoc
 class ThingTypeDefinition {
   /// The thing type ARN.
   final String? thingTypeArn;
@@ -28418,6 +28997,8 @@ class ThingTypeDefinition {
 /// The ThingTypeMetadata contains additional information about the thing type
 /// including: creation date and time, a value indicating whether the thing type
 /// is deprecated, and a date and time when time was deprecated.
+///
+/// @nodoc
 class ThingTypeMetadata {
   /// The date and time when the thing type was created.
   final DateTime? creationDate;
@@ -28459,6 +29040,8 @@ class ThingTypeMetadata {
 
 /// The properties of the thing, including thing name, thing type name, and a
 /// list of thing attributes.
+///
+/// @nodoc
 class ThingAttribute {
   /// A list of thing attributes which are name-value pairs.
   final Map<String, String>? attributes;
@@ -28510,6 +29093,7 @@ class ThingAttribute {
   }
 }
 
+/// @nodoc
 class Status {
   static const inProgress = Status._('InProgress');
   static const completed = Status._('Completed');
@@ -28536,6 +29120,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportType {
   static const errors = ReportType._('ERRORS');
   static const results = ReportType._('RESULTS');
@@ -28561,6 +29146,8 @@ class ReportType {
 
 /// An object that represents the principal and the type of relation it has with
 /// the thing.
+///
+/// @nodoc
 class ThingPrincipalObject {
   /// The principal of the thing principal object.
   final String principal;
@@ -28607,6 +29194,7 @@ class ThingPrincipalObject {
   }
 }
 
+/// @nodoc
 class ThingPrincipalType {
   static const exclusiveThing = ThingPrincipalType._('EXCLUSIVE_THING');
   static const nonExclusiveThing = ThingPrincipalType._('NON_EXCLUSIVE_THING');
@@ -28633,6 +29221,8 @@ class ThingPrincipalType {
 }
 
 /// The name and ARN of a group.
+///
+/// @nodoc
 class GroupNameAndArn {
   /// The group ARN.
   final String? groupArn;
@@ -28664,6 +29254,8 @@ class GroupNameAndArn {
 
 /// A target to which an alert is sent when a security profile behavior is
 /// violated.
+///
+/// @nodoc
 class SecurityProfileTarget {
   /// The ARN of the security profile.
   final String arn;
@@ -28687,6 +29279,8 @@ class SecurityProfileTarget {
 }
 
 /// A summary of a stream.
+///
+/// @nodoc
 class StreamSummary {
   /// A description of the stream.
   final String? description;
@@ -28731,6 +29325,8 @@ class StreamSummary {
 }
 
 /// Information about a security profile and the target associated with it.
+///
+/// @nodoc
 class SecurityProfileTargetMapping {
   /// Information that identifies the security profile.
   final SecurityProfileIdentifier? securityProfileIdentifier;
@@ -28769,6 +29365,8 @@ class SecurityProfileTargetMapping {
 }
 
 /// Identifying information for a Device Defender security profile.
+///
+/// @nodoc
 class SecurityProfileIdentifier {
   /// The ARN of the security profile.
   final String arn;
@@ -28799,6 +29397,8 @@ class SecurityProfileIdentifier {
 }
 
 /// Information about the scheduled audit.
+///
+/// @nodoc
 class ScheduledAuditMetadata {
   /// The day of the month on which the scheduled audit is run (if the
   /// <code>frequency</code> is "MONTHLY"). If days 29-31 are specified, and the
@@ -28855,6 +29455,8 @@ class ScheduledAuditMetadata {
 
 /// A summary of the validation results for a specific software bill of
 /// materials (SBOM) attached to a software package version.
+///
+/// @nodoc
 class SbomValidationResultSummary {
   /// The <code>errorCode</code> representing the validation failure error if the
   /// SBOM validation failed.
@@ -28902,6 +29504,7 @@ class SbomValidationResultSummary {
   }
 }
 
+/// @nodoc
 class SbomValidationResult {
   static const failed = SbomValidationResult._('FAILED');
   static const succeeded = SbomValidationResult._('SUCCEEDED');
@@ -28927,6 +29530,7 @@ class SbomValidationResult {
   String toString() => value;
 }
 
+/// @nodoc
 class SbomValidationErrorCode {
   static const incompatibleFormat =
       SbomValidationErrorCode._('INCOMPATIBLE_FORMAT');
@@ -28955,6 +29559,8 @@ class SbomValidationErrorCode {
 }
 
 /// Information about a related resource.
+///
+/// @nodoc
 class RelatedResource {
   /// Other information about the resource.
   final Map<String, String>? additionalInfo;
@@ -28996,6 +29602,7 @@ class RelatedResource {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const deviceCertificate = ResourceType._('DEVICE_CERTIFICATE');
   static const caCertificate = ResourceType._('CA_CERTIFICATE');
@@ -29037,6 +29644,8 @@ class ResourceType {
 }
 
 /// A summary of information about a fleet provision template version.
+///
+/// @nodoc
 class ProvisioningTemplateVersionSummary {
   /// The date when the provisioning template version was created
   final DateTime? creationDate;
@@ -29077,6 +29686,8 @@ class ProvisioningTemplateVersionSummary {
 }
 
 /// A summary of information about a provisioning template.
+///
+/// @nodoc
 class ProvisioningTemplateSummary {
   /// The date when the provisioning template summary was created.
   final DateTime? creationDate;
@@ -29148,6 +29759,7 @@ class ProvisioningTemplateSummary {
   }
 }
 
+/// @nodoc
 class TemplateType {
   static const fleetProvisioning = TemplateType._('FLEET_PROVISIONING');
   static const jitp = TemplateType._('JITP');
@@ -29173,6 +29785,8 @@ class TemplateType {
 
 /// An object that represents the thing and the type of relation it has with the
 /// principal.
+///
+/// @nodoc
 class PrincipalThingObject {
   /// The name of the thing.
   final String thingName;
@@ -29220,6 +29834,8 @@ class PrincipalThingObject {
 }
 
 /// Describes a policy version.
+///
+/// @nodoc
 class PolicyVersion {
   /// The date and time the policy was created.
   final DateTime? createDate;
@@ -29257,6 +29873,8 @@ class PolicyVersion {
 }
 
 /// A summary of information about a package version.
+///
+/// @nodoc
 class PackageVersionSummary {
   /// The date that the package version was created.
   final DateTime? creationDate;
@@ -29311,6 +29929,7 @@ class PackageVersionSummary {
   }
 }
 
+/// @nodoc
 class PackageVersionStatus {
   static const draft = PackageVersionStatus._('DRAFT');
   static const published = PackageVersionStatus._('PUBLISHED');
@@ -29338,6 +29957,8 @@ class PackageVersionStatus {
 }
 
 /// A summary of information about a software package.
+///
+/// @nodoc
 class PackageSummary {
   /// The date that the package was created.
   final DateTime? creationDate;
@@ -29384,6 +30005,8 @@ class PackageSummary {
 }
 
 /// A certificate that has been transferred but not yet accepted.
+///
+/// @nodoc
 class OutgoingCertificate {
   /// The certificate ARN.
   final String? certificateArn;
@@ -29444,6 +30067,8 @@ class OutgoingCertificate {
 }
 
 /// An OTA update summary.
+///
+/// @nodoc
 class OTAUpdateSummary {
   /// The date when the OTA update was created.
   final DateTime? creationDate;
@@ -29481,6 +30106,7 @@ class OTAUpdateSummary {
   }
 }
 
+/// @nodoc
 class OTAUpdateStatus {
   static const createPending = OTAUpdateStatus._('CREATE_PENDING');
   static const createInProgress = OTAUpdateStatus._('CREATE_IN_PROGRESS');
@@ -29518,6 +30144,8 @@ class OTAUpdateStatus {
 
 /// Information that identifies a mitigation action. This information is
 /// returned by ListMitigationActions.
+///
+/// @nodoc
 class MitigationActionIdentifier {
   /// The IAM role ARN used to apply this mitigation action.
   final String? actionArn;
@@ -29555,6 +30183,7 @@ class MitigationActionIdentifier {
   }
 }
 
+/// @nodoc
 class MitigationActionType {
   static const updateDeviceCertificate =
       MitigationActionType._('UPDATE_DEVICE_CERTIFICATE');
@@ -29597,6 +30226,8 @@ class MitigationActionType {
 }
 
 /// A metric.
+///
+/// @nodoc
 class MetricDatum {
   /// The time the metric value was reported.
   final DateTime? timestamp;
@@ -29629,6 +30260,8 @@ class MetricDatum {
 }
 
 /// An object that contains information about the managed template.
+///
+/// @nodoc
 class ManagedJobTemplateSummary {
   /// The description for a managed template.
   final String? description;
@@ -29683,6 +30316,8 @@ class ManagedJobTemplateSummary {
 }
 
 /// An object that contains information about the job template.
+///
+/// @nodoc
 class JobTemplateSummary {
   /// The time, in seconds since the epoch, when the job template was created.
   final DateTime? createdAt;
@@ -29727,6 +30362,8 @@ class JobTemplateSummary {
 }
 
 /// The job summary.
+///
+/// @nodoc
 class JobSummary {
   /// The time, in seconds since the epoch, when the job completed.
   final DateTime? completedAt;
@@ -29819,6 +30456,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class TargetSelection {
   static const continuous = TargetSelection._('CONTINUOUS');
   static const snapshot = TargetSelection._('SNAPSHOT');
@@ -29843,6 +30481,7 @@ class TargetSelection {
   String toString() => value;
 }
 
+/// @nodoc
 class JobStatus {
   static const inProgress = JobStatus._('IN_PROGRESS');
   static const canceled = JobStatus._('CANCELED');
@@ -29876,6 +30515,8 @@ class JobStatus {
 }
 
 /// The job execution summary for a thing.
+///
+/// @nodoc
 class JobExecutionSummaryForThing {
   /// Contains a subset of information about a job execution.
   final JobExecutionSummary? jobExecutionSummary;
@@ -29910,6 +30551,8 @@ class JobExecutionSummaryForThing {
 }
 
 /// The job execution summary.
+///
+/// @nodoc
 class JobExecutionSummary {
   /// A string (consisting of the digits "0" through "9") which identifies this
   /// particular job execution on this particular device. It can be used later in
@@ -29972,6 +30615,7 @@ class JobExecutionSummary {
   }
 }
 
+/// @nodoc
 class JobExecutionStatus {
   static const queued = JobExecutionStatus._('QUEUED');
   static const inProgress = JobExecutionStatus._('IN_PROGRESS');
@@ -30013,6 +30657,8 @@ class JobExecutionStatus {
 }
 
 /// Contains a summary of information about job executions for a specific job.
+///
+/// @nodoc
 class JobExecutionSummaryForJob {
   /// Contains a subset of information about a job execution.
   final JobExecutionSummary? jobExecutionSummary;
@@ -30047,6 +30693,8 @@ class JobExecutionSummaryForJob {
 }
 
 /// The name and ARN of a fleet metric.
+///
+/// @nodoc
 class FleetMetricNameAndArn {
   /// The fleet metric ARN.
   final String? metricArn;
@@ -30093,6 +30741,8 @@ class FleetMetricNameAndArn {
 /// CredentialProvider
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DomainConfigurationSummary {
   /// The ARN of the domain configuration.
   final String? domainConfigurationArn;
@@ -30132,6 +30782,7 @@ class DomainConfigurationSummary {
   }
 }
 
+/// @nodoc
 class ServiceType {
   static const data = ServiceType._('DATA');
   static const credentialProvider = ServiceType._('CREDENTIAL_PROVIDER');
@@ -30157,6 +30808,8 @@ class ServiceType {
 }
 
 /// The summary of the mitigation action tasks.
+///
+/// @nodoc
 class DetectMitigationActionsTaskSummary {
   /// The definition of the actions.
   final List<MitigationAction>? actionsDefinition;
@@ -30263,6 +30916,7 @@ class DetectMitigationActionsTaskSummary {
   }
 }
 
+/// @nodoc
 class DetectMitigationActionsTaskStatus {
   static const inProgress = DetectMitigationActionsTaskStatus._('IN_PROGRESS');
   static const successful = DetectMitigationActionsTaskStatus._('SUCCESSFUL');
@@ -30291,6 +30945,8 @@ class DetectMitigationActionsTaskStatus {
 }
 
 /// The statistics of a mitigation action task.
+///
+/// @nodoc
 class DetectMitigationActionsTaskStatistics {
   /// The actions that were performed.
   final int? actionsExecuted;
@@ -30329,6 +30985,8 @@ class DetectMitigationActionsTaskStatistics {
 }
 
 /// Describes which changes should be applied as part of a mitigation action.
+///
+/// @nodoc
 class MitigationAction {
   /// The set of parameters for this mitigation action. The parameters vary,
   /// depending on the kind of action you apply.
@@ -30377,6 +31035,8 @@ class MitigationAction {
 }
 
 /// Describes which mitigation actions should be executed.
+///
+/// @nodoc
 class DetectMitigationActionExecution {
   /// The friendly name that uniquely identifies the mitigation action.
   final String? actionName;
@@ -30458,6 +31118,7 @@ class DetectMitigationActionExecution {
   }
 }
 
+/// @nodoc
 class DetectMitigationActionExecutionStatus {
   static const inProgress =
       DetectMitigationActionExecutionStatus._('IN_PROGRESS');
@@ -30488,6 +31149,8 @@ class DetectMitigationActionExecutionStatus {
 }
 
 /// Summary information about a particular command resource.
+///
+/// @nodoc
 class CommandSummary {
   /// The Amazon Resource Name (ARN) of the command.
   final String? commandArn;
@@ -30553,6 +31216,7 @@ class CommandSummary {
   }
 }
 
+/// @nodoc
 class CommandNamespace {
   static const awsIoT = CommandNamespace._('AWS-IoT');
   static const awsIoTFleetWise = CommandNamespace._('AWS-IoT-FleetWise');
@@ -30577,6 +31241,7 @@ class CommandNamespace {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -30601,6 +31266,8 @@ class SortOrder {
 }
 
 /// Summary information about a particular command execution.
+///
+/// @nodoc
 class CommandExecutionSummary {
   /// The Amazon Resource Name (ARN) of the command execution.
   final String? commandArn;
@@ -30670,6 +31337,7 @@ class CommandExecutionSummary {
   }
 }
 
+/// @nodoc
 class CommandExecutionStatus {
   static const created = CommandExecutionStatus._('CREATED');
   static const inProgress = CommandExecutionStatus._('IN_PROGRESS');
@@ -30708,6 +31376,8 @@ class CommandExecutionStatus {
 
 /// A filter that can be used to list command executions for a device that
 /// started or completed before or after a particular date and time.
+///
+/// @nodoc
 class TimeFilter {
   /// Filter to display command executions that started or completed only after a
   /// particular date and time.
@@ -30733,6 +31403,8 @@ class TimeFilter {
 }
 
 /// Information about a certificate.
+///
+/// @nodoc
 class Certificate {
   /// The ARN of the certificate.
   final String? certificateArn;
@@ -30803,6 +31475,8 @@ class Certificate {
 }
 
 /// The certificate provider summary.
+///
+/// @nodoc
 class CertificateProviderSummary {
   /// The ARN of the certificate provider.
   final String? certificateProviderArn;
@@ -30835,6 +31509,8 @@ class CertificateProviderSummary {
 }
 
 /// A CA certificate.
+///
+/// @nodoc
 class CACertificate {
   /// The ARN of the CA certificate.
   final String? certificateArn;
@@ -30882,6 +31558,8 @@ class CACertificate {
 }
 
 /// The authorizer summary.
+///
+/// @nodoc
 class AuthorizerSummary {
   /// The authorizer ARN.
   final String? authorizerArn;
@@ -30912,6 +31590,8 @@ class AuthorizerSummary {
 }
 
 /// The audits that were performed.
+///
+/// @nodoc
 class AuditTaskMetadata {
   /// The ID of this audit.
   final String? taskId;
@@ -30951,6 +31631,7 @@ class AuditTaskMetadata {
   }
 }
 
+/// @nodoc
 class AuditTaskStatus {
   static const inProgress = AuditTaskStatus._('IN_PROGRESS');
   static const completed = AuditTaskStatus._('COMPLETED');
@@ -30977,6 +31658,7 @@ class AuditTaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AuditTaskType {
   static const onDemandAuditTask = AuditTaskType._('ON_DEMAND_AUDIT_TASK');
   static const scheduledAuditTask = AuditTaskType._('SCHEDULED_AUDIT_TASK');
@@ -31002,6 +31684,8 @@ class AuditTaskType {
 }
 
 /// Filters out specific findings of a Device Defender audit.
+///
+/// @nodoc
 class AuditSuppression {
   final String checkName;
   final ResourceIdentifier resourceIdentifier;
@@ -31056,6 +31740,8 @@ class AuditSuppression {
 
 /// Information about an audit mitigation actions task that is returned by
 /// <code>ListAuditMitigationActionsTasks</code>.
+///
+/// @nodoc
 class AuditMitigationActionsTaskMetadata {
   /// The time at which the audit mitigation actions task was started.
   final DateTime? startTime;
@@ -31094,6 +31780,7 @@ class AuditMitigationActionsTaskMetadata {
   }
 }
 
+/// @nodoc
 class AuditMitigationActionsTaskStatus {
   static const inProgress = AuditMitigationActionsTaskStatus._('IN_PROGRESS');
   static const completed = AuditMitigationActionsTaskStatus._('COMPLETED');
@@ -31123,6 +31810,8 @@ class AuditMitigationActionsTaskStatus {
 
 /// Returned by ListAuditMitigationActionsTask, this object contains information
 /// that describes a mitigation action that has been started.
+///
+/// @nodoc
 class AuditMitigationActionExecutionMetadata {
   /// The unique identifier for the mitigation action being applied by the task.
   final String? actionId;
@@ -31205,6 +31894,7 @@ class AuditMitigationActionExecutionMetadata {
   }
 }
 
+/// @nodoc
 class AuditMitigationActionsExecutionStatus {
   static const inProgress =
       AuditMitigationActionsExecutionStatus._('IN_PROGRESS');
@@ -31243,6 +31933,8 @@ class AuditMitigationActionsExecutionStatus {
 }
 
 /// The findings (results) of the audit.
+///
+/// @nodoc
 class AuditFinding {
   /// The audit check that generated this result.
   final String? checkName;
@@ -31347,6 +32039,7 @@ class AuditFinding {
   }
 }
 
+/// @nodoc
 class AuditFindingSeverity {
   static const critical = AuditFindingSeverity._('CRITICAL');
   static const high = AuditFindingSeverity._('HIGH');
@@ -31375,6 +32068,8 @@ class AuditFindingSeverity {
 }
 
 /// Information about the resource that was noncompliant with the audit check.
+///
+/// @nodoc
 class NonCompliantResource {
   /// Other information about the noncompliant resource.
   final Map<String, String>? additionalInfo;
@@ -31418,6 +32113,8 @@ class NonCompliantResource {
 
 /// Information about an active Device Defender security profile behavior
 /// violation.
+///
+/// @nodoc
 class ActiveViolation {
   /// The behavior that is being violated.
   final Behavior? behavior;
@@ -31521,6 +32218,8 @@ class ActiveViolation {
 }
 
 /// A topic rule destination.
+///
+/// @nodoc
 class TopicRuleDestination {
   /// The topic rule destination URL.
   final String? arn;
@@ -31617,6 +32316,8 @@ class TopicRuleDestination {
 }
 
 /// HTTP URL destination properties.
+///
+/// @nodoc
 class HttpUrlDestinationProperties {
   /// The URL used to confirm the HTTP topic rule destination URL.
   final String? confirmationUrl;
@@ -31640,6 +32341,8 @@ class HttpUrlDestinationProperties {
 }
 
 /// The properties of a virtual private cloud (VPC) destination.
+///
+/// @nodoc
 class VpcDestinationProperties {
   /// The ARN of a role that has permission to create and attach to elastic
   /// network interfaces (ENIs).
@@ -31691,6 +32394,8 @@ class VpcDestinationProperties {
 }
 
 /// Describes a rule.
+///
+/// @nodoc
 class TopicRule {
   /// The actions associated with the rule.
   final List<Action>? actions;
@@ -31768,6 +32473,7 @@ class TopicRule {
   }
 }
 
+/// @nodoc
 class DisconnectReasonValue {
   static const authError = DisconnectReasonValue._('AUTH_ERROR');
   static const clientInitiatedDisconnect =
@@ -31833,6 +32539,8 @@ class DisconnectReasonValue {
 /// missing or unexpected values for this API, consult <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/fleet-indexing-troubleshooting.html">
 /// Fleet indexing troubleshooting guide</a>.
+///
+/// @nodoc
 class Statistics {
   /// The average of the aggregated field values.
   final double? average;
@@ -31906,6 +32614,8 @@ class Statistics {
 }
 
 /// Describes the percentile and percentile value.
+///
+/// @nodoc
 class PercentPair {
   /// The percentile.
   final double? percent;
@@ -31937,6 +32647,8 @@ class PercentPair {
 
 /// A specific software bill of matrerials associated with a software package
 /// version.
+///
+/// @nodoc
 class Sbom {
   final S3Location? s3Location;
 
@@ -31960,6 +32672,7 @@ class Sbom {
   }
 }
 
+/// @nodoc
 class SbomValidationStatus {
   static const inProgress = SbomValidationStatus._('IN_PROGRESS');
   static const failed = SbomValidationStatus._('FAILED');
@@ -31987,6 +32700,8 @@ class SbomValidationStatus {
 }
 
 /// Information about an OTA update.
+///
+/// @nodoc
 class OTAUpdateInfo {
   /// A collection of name/value pairs
   final Map<String, String>? additionalParameters;
@@ -32028,9 +32743,9 @@ class OTAUpdateInfo {
   /// The status of the OTA update.
   final OTAUpdateStatus? otaUpdateStatus;
 
-  /// The protocol used to transfer the OTA update image. Valid values are [HTTP],
-  /// [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target
-  /// device can choose the protocol.
+  /// The protocol used to transfer the OTA update image. Valid values are
+  /// \[HTTP\], \[MQTT\], \[HTTP, MQTT\]. When both HTTP and MQTT are specified,
+  /// the target device can choose the protocol.
   final List<Protocol>? protocols;
 
   /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will
@@ -32149,6 +32864,8 @@ class OTAUpdateInfo {
 }
 
 /// Configuration for the rollout of OTA updates.
+///
+/// @nodoc
 class AwsJobExecutionsRolloutConfig {
   /// The rate of increase for a job rollout. This parameter allows you to define
   /// an exponential rate increase for a job rollout.
@@ -32184,6 +32901,8 @@ class AwsJobExecutionsRolloutConfig {
 
 /// Configuration information for pre-signed URLs. Valid when
 /// <code>protocols</code> contains HTTP.
+///
+/// @nodoc
 class AwsJobPresignedUrlConfig {
   /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600,
   /// the default value is 1800 seconds. Pre-signed URLs are generated when a
@@ -32209,6 +32928,8 @@ class AwsJobPresignedUrlConfig {
 }
 
 /// Error information.
+///
+/// @nodoc
 class ErrorInfo {
   /// The error code.
   final String? code;
@@ -32239,6 +32960,8 @@ class ErrorInfo {
 }
 
 /// Describes a file to be associated with an OTA update.
+///
+/// @nodoc
 class OTAUpdateFile {
   /// A list of name-attribute pairs. They won't be sent to devices as a part of
   /// the Job document.
@@ -32304,6 +33027,8 @@ class OTAUpdateFile {
 }
 
 /// The location of the OTA update.
+///
+/// @nodoc
 class FileLocation {
   /// The location of the updated firmware in S3.
   final S3Location? s3Location;
@@ -32338,6 +33063,8 @@ class FileLocation {
 }
 
 /// Describes the method to use when code signing a file.
+///
+/// @nodoc
 class CodeSigning {
   /// The ID of the <code>AWSSignerJob</code> which was created to sign the file.
   final String? awsSignerJobId;
@@ -32382,6 +33109,8 @@ class CodeSigning {
 }
 
 /// Information required to start a signing job.
+///
+/// @nodoc
 class StartSigningJobParameter {
   /// The location to write the code-signed file.
   final Destination? destination;
@@ -32425,6 +33154,8 @@ class StartSigningJobParameter {
 }
 
 /// Describes a custom method used to code sign a file.
+///
+/// @nodoc
 class CustomCodeSigning {
   /// The certificate chain.
   final CodeSigningCertificateChain? certificateChain;
@@ -32485,6 +33216,8 @@ class CustomCodeSigning {
 }
 
 /// Describes the signature for a file.
+///
+/// @nodoc
 class CodeSigningSignature {
   /// A base64 encoded binary representation of the code signing signature.
   final Uint8List? inlineDocument;
@@ -32510,6 +33243,8 @@ class CodeSigningSignature {
 }
 
 /// Describes the certificate chain being used when code signing a file.
+///
+/// @nodoc
 class CodeSigningCertificateChain {
   /// The name of the certificate.
   final String? certificateName;
@@ -32541,6 +33276,8 @@ class CodeSigningCertificateChain {
 }
 
 /// Describes the code-signing profile.
+///
+/// @nodoc
 class SigningProfileParameter {
   /// Certificate ARN.
   final String? certificateArn;
@@ -32579,6 +33316,8 @@ class SigningProfileParameter {
 }
 
 /// Describes the location of the updated firmware.
+///
+/// @nodoc
 class Destination {
   /// Describes the location in S3 of the updated firmware.
   final S3Destination? s3Destination;
@@ -32605,6 +33344,8 @@ class Destination {
 }
 
 /// Describes the location of updated firmware in S3.
+///
+/// @nodoc
 class S3Destination {
   /// The S3 bucket that contains the updated firmware.
   final String? bucket;
@@ -32635,6 +33376,8 @@ class S3Destination {
 }
 
 /// Describes a group of files that can be streamed.
+///
+/// @nodoc
 class Stream {
   /// The ID of a file associated with a stream.
   final int? fileId;
@@ -32666,6 +33409,8 @@ class Stream {
 
 /// The rate of increase for a job rollout. This parameter allows you to define
 /// an exponential rate increase for a job rollout.
+///
+/// @nodoc
 class AwsJobExponentialRolloutRate {
   /// The minimum number of things that will be notified of a pending job, per
   /// minute, at the start of the job rollout. This is the initial rate of the
@@ -32711,6 +33456,8 @@ class AwsJobExponentialRolloutRate {
 }
 
 /// The criteria to initiate the increase in rate of rollout for a job.
+///
+/// @nodoc
 class AwsJobRateIncreaseCriteria {
   /// When this number of things have been notified, it will initiate an increase
   /// in the rollout rate.
@@ -32744,6 +33491,7 @@ class AwsJobRateIncreaseCriteria {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const mqtt = Protocol._('MQTT');
   static const http = Protocol._('HTTP');
@@ -32768,6 +33516,8 @@ class Protocol {
 }
 
 /// The policy that has the effect on the authorization results.
+///
+/// @nodoc
 class EffectivePolicy {
   /// The policy ARN.
   final String? policyArn;
@@ -32806,6 +33556,8 @@ class EffectivePolicy {
 
 /// Provide additional context about the status of a command execution using a
 /// reason code and description.
+///
+/// @nodoc
 class StatusReason {
   /// A code that provides additional context for the command execution status.
   final String reasonCode;
@@ -32841,6 +33593,8 @@ class StatusReason {
 /// The <code>commandParameterValue</code> can only have one of the below fields
 /// listed.
 /// </note>
+///
+/// @nodoc
 class CommandParameterValue {
   /// An attribute of type Boolean. For example:
   ///
@@ -32918,6 +33672,8 @@ class CommandParameterValue {
 /// This field is not applicable if you use the <code>AWS-IoT-FleetWise</code>
 /// namespace.
 /// </note>
+///
+/// @nodoc
 class CommandExecutionResult {
   /// An attribute of type Boolean. For example:
   ///
@@ -32960,6 +33716,8 @@ class CommandExecutionResult {
 
 /// The command payload object that contains the instructions for the device to
 /// process.
+///
+/// @nodoc
 class CommandPayload {
   /// The static payload file for the command.
   final Uint8List? content;
@@ -32996,6 +33754,8 @@ class CommandPayload {
 /// Configuration that determines how the <code>payloadTemplate</code> is
 /// processed by the service to generate the final payload sent to devices at
 /// <code>StartCommandExecution</code> API invocation.
+///
+/// @nodoc
 class CommandPreprocessor {
   /// Configuration for the JSON substitution preprocessor.
   final AwsJsonSubstitutionCommandPreprocessorConfig? awsJsonSubstitution;
@@ -33025,6 +33785,8 @@ class CommandPreprocessor {
 /// Configures the command to treat the <code>payloadTemplate</code> as a JSON
 /// document for preprocessing. This preprocessor substitutes placeholders with
 /// parameter values to generate the command execution request payload.
+///
+/// @nodoc
 class AwsJsonSubstitutionCommandPreprocessorConfig {
   /// Converts the command preprocessor result to the format defined by this
   /// parameter, before sending it to the device.
@@ -33050,6 +33812,7 @@ class AwsJsonSubstitutionCommandPreprocessorConfig {
   }
 }
 
+/// @nodoc
 class OutputFormat {
   static const json = OutputFormat._('JSON');
   static const cbor = OutputFormat._('CBOR');
@@ -33074,6 +33837,8 @@ class OutputFormat {
 }
 
 /// A map of key-value pairs that describe the command.
+///
+/// @nodoc
 class CommandParameter {
   /// The name of a specific parameter used in a command and command execution.
   final String name;
@@ -33143,6 +33908,7 @@ class CommandParameter {
   }
 }
 
+/// @nodoc
 class CommandParameterType {
   static const string = CommandParameterType._('STRING');
   static const integer = CommandParameterType._('INTEGER');
@@ -33183,6 +33949,8 @@ class CommandParameterType {
 
 /// A condition for the command parameter that must be evaluated to true for
 /// successful creation of a command execution.
+///
+/// @nodoc
 class CommandParameterValueCondition {
   /// The comparison operator for the command parameter.
   /// <note>
@@ -33218,6 +33986,7 @@ class CommandParameterValueCondition {
   }
 }
 
+/// @nodoc
 class CommandParameterValueComparisonOperator {
   static const equals = CommandParameterValueComparisonOperator._('EQUALS');
   static const notEquals =
@@ -33271,6 +34040,8 @@ class CommandParameterValueComparisonOperator {
 
 /// The comparison operand used to compare the defined value against the value
 /// supplied in request.
+///
+/// @nodoc
 class CommandParameterValueComparisonOperand {
   /// An operand of number value type, defined as a string.
   final String? number;
@@ -33328,6 +34099,8 @@ class CommandParameterValueComparisonOperand {
 }
 
 /// The numerical range value type to compare a command parameter value against.
+///
+/// @nodoc
 class CommandParameterValueNumberRange {
   /// The maximum value of a numerical range of a command parameter value.
   final String max;
@@ -33358,6 +34131,8 @@ class CommandParameterValueNumberRange {
 }
 
 /// A count of documents that meets a specific aggregation criteria.
+///
+/// @nodoc
 class Bucket {
   /// The number of documents that have the value counted for the particular
   /// bucket.
@@ -33389,6 +34164,8 @@ class Bucket {
 }
 
 /// The type of bucketed aggregation performed.
+///
+/// @nodoc
 class BucketsAggregationType {
   /// Performs an aggregation that will return a list of buckets. The list of
   /// buckets is a ranked list of the number of occurrences of an aggregation
@@ -33410,6 +34187,8 @@ class BucketsAggregationType {
 /// Performs an aggregation that will return a list of buckets. The list of
 /// buckets is a ranked list of the number of occurrences of an aggregation
 /// field value.
+///
+/// @nodoc
 class TermsAggregation {
   /// The number of buckets to return in the response. Default to 10.
   final int? maxBuckets;
@@ -33427,6 +34206,8 @@ class TermsAggregation {
 }
 
 /// The summary of an ML Detect behavior model.
+///
+/// @nodoc
 class BehaviorModelTrainingSummary {
   /// The name of the behavior.
   final String? behaviorName;
@@ -33493,6 +34274,7 @@ class BehaviorModelTrainingSummary {
   }
 }
 
+/// @nodoc
 class ModelStatus {
   static const pendingBuild = ModelStatus._('PENDING_BUILD');
   static const active = ModelStatus._('ACTIVE');
@@ -33518,6 +34300,8 @@ class ModelStatus {
 }
 
 /// Thing group metadata.
+///
+/// @nodoc
 class ThingGroupMetadata {
   /// The UNIX timestamp of when the thing group was created.
   final DateTime? creationDate;
@@ -33559,6 +34343,7 @@ class ThingGroupMetadata {
   }
 }
 
+/// @nodoc
 class DynamicGroupStatus {
   static const active = DynamicGroupStatus._('ACTIVE');
   static const building = DynamicGroupStatus._('BUILDING');
@@ -33586,6 +34371,8 @@ class DynamicGroupStatus {
 }
 
 /// Information about a stream.
+///
+/// @nodoc
 class StreamInfo {
   /// The date when the stream was created.
   final DateTime? createdAt;
@@ -33662,6 +34449,8 @@ class StreamInfo {
 }
 
 /// Role alias description.
+///
+/// @nodoc
 class RoleAliasDescription {
   /// The UNIX timestamp of when the role alias was created.
   final DateTime? creationDate;
@@ -33737,6 +34526,8 @@ class RoleAliasDescription {
 /// Amazon Web Services managed templates. This parameter can't be used with
 /// custom job templates or to create jobs from them.
 /// </note>
+///
+/// @nodoc
 class DocumentParameter {
   /// Description of the map field containing the patterns that need to be
   /// replaced in a managed template job document schema.
@@ -33796,6 +34587,8 @@ class DocumentParameter {
 /// a recurring maintenance window with a predetermined start time and duration
 /// for the rollout of a job document to all devices in a target group for a
 /// job.
+///
+/// @nodoc
 class MaintenanceWindow {
   /// Displays the duration of the next maintenance window.
   final int durationInMinutes;
@@ -33827,6 +34620,8 @@ class MaintenanceWindow {
 
 /// The job execution object represents the execution of a job on a particular
 /// device.
+///
+/// @nodoc
 class JobExecution {
   /// The estimated number of seconds that remain before the job execution status
   /// will be changed to <code>TIMED_OUT</code>. The timeout interval can be
@@ -33939,6 +34734,8 @@ class JobExecution {
 }
 
 /// Details of the job execution status.
+///
+/// @nodoc
 class JobExecutionStatusDetails {
   /// The job execution status.
   final Map<String, String>? detailsMap;
@@ -33963,6 +34760,8 @@ class JobExecutionStatusDetails {
 }
 
 /// The <code>Job</code> object contains details about a job.
+///
+/// @nodoc
 class Job {
   /// Configuration for criteria to abort the job.
   final AbortConfig? abortConfig;
@@ -34240,6 +35039,8 @@ class Job {
 }
 
 /// The job process details.
+///
+/// @nodoc
 class JobProcessDetails {
   /// The number of things that cancelled the job.
   final int? numberOfCanceledThings;
@@ -34337,6 +35138,8 @@ class JobProcessDetails {
 /// document to all devices in the target group. Additionally, you can specify
 /// the end behavior for each job execution when it reaches the scheduled end
 /// time.
+///
+/// @nodoc
 class SchedulingConfig {
   /// Specifies the end behavior for all job executions after a job reaches the
   /// selected <code>endTime</code>. If <code>endTime</code> is not selected when
@@ -34410,6 +35213,8 @@ class SchedulingConfig {
 
 /// Displays the next seven maintenance window occurrences and their start
 /// times.
+///
+/// @nodoc
 class ScheduledJobRollout {
   /// Displays the start times of the next seven maintenance window occurrences.
   final String? startTime;
@@ -34432,6 +35237,7 @@ class ScheduledJobRollout {
   }
 }
 
+/// @nodoc
 class JobEndBehavior {
   static const stopRollout = JobEndBehavior._('STOP_ROLLOUT');
   static const cancel = JobEndBehavior._('CANCEL');
@@ -34457,6 +35263,7 @@ class JobEndBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class IndexStatus {
   static const active = IndexStatus._('ACTIVE');
   static const building = IndexStatus._('BUILDING');
@@ -34483,6 +35290,8 @@ class IndexStatus {
 
 /// The encryption configuration details that include the status information of
 /// the Key Management Service (KMS) key and the KMS access role.
+///
+/// @nodoc
 class ConfigurationDetails {
   /// The health status of KMS key and KMS access role. If either KMS key or KMS
   /// access role is <code>UNHEALTHY</code>, the return value will be
@@ -34526,6 +35335,7 @@ class ConfigurationDetails {
   }
 }
 
+/// @nodoc
 class ConfigurationStatus {
   static const healthy = ConfigurationStatus._('HEALTHY');
   static const unhealthy = ConfigurationStatus._('UNHEALTHY');
@@ -34551,6 +35361,7 @@ class ConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainType {
   static const endpoint = DomainType._('ENDPOINT');
   static const awsManaged = DomainType._('AWS_MANAGED');
@@ -34576,6 +35387,8 @@ class DomainType {
 }
 
 /// An object that contains information about a server certificate.
+///
+/// @nodoc
 class ServerCertificateSummary {
   /// The ARN of the server certificate.
   final String? serverCertificateArn;
@@ -34617,6 +35430,7 @@ class ServerCertificateSummary {
   }
 }
 
+/// @nodoc
 class ServerCertificateStatus {
   static const invalid = ServerCertificateStatus._('INVALID');
   static const valid = ServerCertificateStatus._('VALID');
@@ -34643,6 +35457,8 @@ class ServerCertificateStatus {
 }
 
 /// The authorizer description.
+///
+/// @nodoc
 class AuthorizerDescription {
   /// The authorizer ARN.
   final String? authorizerArn;
@@ -34740,6 +35556,8 @@ class AuthorizerDescription {
 }
 
 /// Describes a certificate.
+///
+/// @nodoc
 class CertificateDescription {
   /// The certificate ID of the CA certificate used to sign this certificate.
   final String? caCertificateId;
@@ -34881,6 +35699,8 @@ class CertificateDescription {
 }
 
 /// Data used to transfer a certificate to an Amazon Web Services account.
+///
+/// @nodoc
 class TransferData {
   /// The date the transfer was accepted.
   final DateTime? acceptDate;
@@ -34933,6 +35753,8 @@ class TransferData {
 }
 
 /// When the certificate is valid.
+///
+/// @nodoc
 class CertificateValidity {
   /// The certificate is not valid after this date.
   final DateTime? notAfter;
@@ -34963,6 +35785,8 @@ class CertificateValidity {
 }
 
 /// Describes a CA certificate.
+///
+/// @nodoc
 class CACertificateDescription {
   /// Whether the CA certificate configured for auto registration of device
   /// certificates. Valid values are "ENABLE" and "DISABLE"
@@ -35078,6 +35902,8 @@ class CACertificateDescription {
 }
 
 /// Additional information about the billing group.
+///
+/// @nodoc
 class BillingGroupMetadata {
   /// The date the billing group was created.
   final DateTime? creationDate;
@@ -35102,6 +35928,8 @@ class BillingGroupMetadata {
 }
 
 /// Statistics for the checks performed during the audit.
+///
+/// @nodoc
 class TaskStatistics {
   /// The number of checks that did not run because the audit was canceled.
   final int? canceledChecks;
@@ -35169,6 +35997,8 @@ class TaskStatistics {
 }
 
 /// Information about the audit check.
+///
+/// @nodoc
 class AuditCheckDetails {
   /// True if the check is complete and found all resources compliant.
   final bool? checkCompliant;
@@ -35245,6 +36075,7 @@ class AuditCheckDetails {
   }
 }
 
+/// @nodoc
 class AuditCheckRunStatus {
   static const inProgress = AuditCheckRunStatus._('IN_PROGRESS');
   static const waitingForDataCollection =
@@ -35287,6 +36118,8 @@ class AuditCheckRunStatus {
 /// Provides summary counts of how many tasks for findings are in a particular
 /// state. This information is included in the response from
 /// DescribeAuditMitigationActionsTask.
+///
+/// @nodoc
 class TaskStatisticsForAuditCheck {
   /// The number of findings to which the mitigation action task was canceled when
   /// applied.
@@ -35346,6 +36179,8 @@ class TaskStatisticsForAuditCheck {
 }
 
 /// Configuration of the topic rule destination.
+///
+/// @nodoc
 class TopicRuleDestinationConfiguration {
   /// Configuration of the HTTP URL.
   final HttpUrlDestinationConfiguration? httpUrlConfiguration;
@@ -35370,6 +36205,8 @@ class TopicRuleDestinationConfiguration {
 }
 
 /// HTTP URL destination configuration used by the topic rule's HTTP action.
+///
+/// @nodoc
 class HttpUrlDestinationConfiguration {
   /// The URL IoT uses to confirm ownership of or access to the topic rule
   /// destination URL.
@@ -35388,6 +36225,8 @@ class HttpUrlDestinationConfiguration {
 }
 
 /// The configuration information for a virtual private cloud (VPC) destination.
+///
+/// @nodoc
 class VpcDestinationConfiguration {
   /// The ARN of a role that has permission to create and attach to elastic
   /// network interfaces (ENIs).
@@ -35424,6 +36263,8 @@ class VpcDestinationConfiguration {
 }
 
 /// Describes a key pair.
+///
+/// @nodoc
 class KeyPair {
   /// The private key.
   final String? privateKey;
@@ -35454,6 +36295,8 @@ class KeyPair {
 }
 
 /// The criteria that determine when and how a job abort takes place.
+///
+/// @nodoc
 class AwsJobAbortConfig {
   /// The list of criteria that determine when and how to abort the job.
   final List<AwsJobAbortCriteria> abortCriteriaList;
@@ -35475,6 +36318,8 @@ class AwsJobAbortConfig {
 /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
 /// terminal state before the timer expires, it will be automatically set to
 /// <code>TIMED_OUT</code>.
+///
+/// @nodoc
 class AwsJobTimeoutConfig {
   /// Specifies the amount of time, in minutes, this device has to finish
   /// execution of this job. The timeout interval can be anywhere between 1 minute
@@ -35499,6 +36344,8 @@ class AwsJobTimeoutConfig {
 }
 
 /// The criteria that determine when and how a job abort takes place.
+///
+/// @nodoc
 class AwsJobAbortCriteria {
   /// The type of job action to take to initiate the job abort.
   final AwsJobAbortCriteriaAbortAction action;
@@ -35538,6 +36385,7 @@ class AwsJobAbortCriteria {
   }
 }
 
+/// @nodoc
 class AwsJobAbortCriteriaFailureType {
   static const failed = AwsJobAbortCriteriaFailureType._('FAILED');
   static const rejected = AwsJobAbortCriteriaFailureType._('REJECTED');
@@ -35565,6 +36413,7 @@ class AwsJobAbortCriteriaFailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class AwsJobAbortCriteriaAbortAction {
   static const cancel = AwsJobAbortCriteriaAbortAction._('CANCEL');
 
@@ -35589,17 +36438,20 @@ class AwsJobAbortCriteriaAbortAction {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateConflictException extends _s.GenericAwsException {
   CertificateConflictException({String? type, String? message})
       : super(
             type: type, code: 'CertificateConflictException', message: message);
 }
 
+/// @nodoc
 class CertificateStateException extends _s.GenericAwsException {
   CertificateStateException({String? type, String? message})
       : super(type: type, code: 'CertificateStateException', message: message);
 }
 
+/// @nodoc
 class CertificateValidationException extends _s.GenericAwsException {
   CertificateValidationException({String? type, String? message})
       : super(
@@ -35608,11 +36460,13 @@ class CertificateValidationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ConflictingResourceUpdateException extends _s.GenericAwsException {
   ConflictingResourceUpdateException({String? type, String? message})
       : super(
@@ -35621,52 +36475,62 @@ class ConflictingResourceUpdateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteConflictException extends _s.GenericAwsException {
   DeleteConflictException({String? type, String? message})
       : super(type: type, code: 'DeleteConflictException', message: message);
 }
 
+/// @nodoc
 class IndexNotReadyException extends _s.GenericAwsException {
   IndexNotReadyException({String? type, String? message})
       : super(type: type, code: 'IndexNotReadyException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidAggregationException extends _s.GenericAwsException {
   InvalidAggregationException({String? type, String? message})
       : super(
             type: type, code: 'InvalidAggregationException', message: message);
 }
 
+/// @nodoc
 class InvalidQueryException extends _s.GenericAwsException {
   InvalidQueryException({String? type, String? message})
       : super(type: type, code: 'InvalidQueryException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidResponseException extends _s.GenericAwsException {
   InvalidResponseException({String? type, String? message})
       : super(type: type, code: 'InvalidResponseException', message: message);
 }
 
+/// @nodoc
 class InvalidStateTransitionException extends _s.GenericAwsException {
   InvalidStateTransitionException({String? type, String? message})
       : super(
@@ -35675,21 +36539,25 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MalformedPolicyException extends _s.GenericAwsException {
   MalformedPolicyException({String? type, String? message})
       : super(type: type, code: 'MalformedPolicyException', message: message);
 }
 
+/// @nodoc
 class NotConfiguredException extends _s.GenericAwsException {
   NotConfiguredException({String? type, String? message})
       : super(type: type, code: 'NotConfiguredException', message: message);
 }
 
+/// @nodoc
 class RegistrationCodeValidationException extends _s.GenericAwsException {
   RegistrationCodeValidationException({String? type, String? message})
       : super(
@@ -35698,6 +36566,7 @@ class RegistrationCodeValidationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -35706,11 +36575,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceRegistrationFailureException extends _s.GenericAwsException {
   ResourceRegistrationFailureException({String? type, String? message})
       : super(
@@ -35719,6 +36590,7 @@ class ResourceRegistrationFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -35727,27 +36599,32 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class SqlParseException extends _s.GenericAwsException {
   SqlParseException({String? type, String? message})
       : super(type: type, code: 'SqlParseException', message: message);
 }
 
+/// @nodoc
 class TaskAlreadyExistsException extends _s.GenericAwsException {
   TaskAlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'TaskAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TransferAlreadyCompletedException extends _s.GenericAwsException {
   TransferAlreadyCompletedException({String? type, String? message})
       : super(
@@ -35756,26 +36633,31 @@ class TransferAlreadyCompletedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TransferConflictException extends _s.GenericAwsException {
   TransferConflictException({String? type, String? message})
       : super(type: type, code: 'TransferConflictException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
+/// @nodoc
 class VersionConflictException extends _s.GenericAwsException {
   VersionConflictException({String? type, String? message})
       : super(type: type, code: 'VersionConflictException', message: message);
 }
 
+/// @nodoc
 class VersionsLimitExceededException extends _s.GenericAwsException {
   VersionsLimitExceededException({String? type, String? message})
       : super(

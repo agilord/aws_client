@@ -59,6 +59,7 @@ class XmlAttributes {
   }
 }
 
+/// @nodoc
 class OutputShape {
   final List<ItemShape>? listItems;
 
@@ -80,6 +81,7 @@ class OutputShape {
   }
 }
 
+/// @nodoc
 class ItemShape {
   final ItemDetailShape? itemDetail;
 
@@ -101,6 +103,7 @@ class ItemShape {
   }
 }
 
+/// @nodoc
 class ItemDetailShape {
   final ItemType type;
   final String? id;
@@ -128,6 +131,7 @@ class ItemDetailShape {
   }
 }
 
+/// @nodoc
 class ItemType {
   static const type1 = ItemType._('Type1');
   static const type2 = ItemType._('Type2');

@@ -4277,6 +4277,7 @@ class Imagebuilder {
   }
 }
 
+/// @nodoc
 class CancelImageCreationResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4315,6 +4316,7 @@ class CancelImageCreationResponse {
   }
 }
 
+/// @nodoc
 class CancelLifecycleExecutionResponse {
   /// The unique identifier for the image lifecycle runtime instance that was
   /// canceled.
@@ -4339,6 +4341,7 @@ class CancelLifecycleExecutionResponse {
   }
 }
 
+/// @nodoc
 class CreateComponentResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4387,6 +4390,7 @@ class CreateComponentResponse {
   }
 }
 
+/// @nodoc
 class CreateContainerRecipeResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4435,6 +4439,7 @@ class CreateContainerRecipeResponse {
   }
 }
 
+/// @nodoc
 class CreateDistributionConfigurationResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4475,6 +4480,7 @@ class CreateDistributionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateImageResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4523,6 +4529,7 @@ class CreateImageResponse {
   }
 }
 
+/// @nodoc
 class CreateImagePipelineResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4560,6 +4567,7 @@ class CreateImagePipelineResponse {
   }
 }
 
+/// @nodoc
 class CreateImageRecipeResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4608,6 +4616,7 @@ class CreateImageRecipeResponse {
   }
 }
 
+/// @nodoc
 class CreateInfrastructureConfigurationResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4648,6 +4657,7 @@ class CreateInfrastructureConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateLifecyclePolicyResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4678,6 +4688,7 @@ class CreateLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -4720,6 +4731,7 @@ class CreateWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DeleteComponentResponse {
   /// The Amazon Resource Name (ARN) of the component build version that this
   /// request deleted.
@@ -4751,6 +4763,7 @@ class DeleteComponentResponse {
   }
 }
 
+/// @nodoc
 class DeleteContainerRecipeResponse {
   /// The Amazon Resource Name (ARN) of the container recipe that was deleted.
   final String? containerRecipeArn;
@@ -4780,6 +4793,7 @@ class DeleteContainerRecipeResponse {
   }
 }
 
+/// @nodoc
 class DeleteDistributionConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the distribution configuration that was
   /// deleted.
@@ -4813,6 +4827,7 @@ class DeleteDistributionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteImageResponse {
   /// The Amazon Resource Name (ARN) of the Image Builder image resource that this
   /// request deleted.
@@ -4844,6 +4859,7 @@ class DeleteImageResponse {
   }
 }
 
+/// @nodoc
 class DeleteImagePipelineResponse {
   /// The Amazon Resource Name (ARN) of the image pipeline that was deleted.
   final String? imagePipelineArn;
@@ -4873,6 +4889,7 @@ class DeleteImagePipelineResponse {
   }
 }
 
+/// @nodoc
 class DeleteImageRecipeResponse {
   /// The Amazon Resource Name (ARN) of the image recipe that was deleted.
   final String? imageRecipeArn;
@@ -4902,6 +4919,7 @@ class DeleteImageRecipeResponse {
   }
 }
 
+/// @nodoc
 class DeleteInfrastructureConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the infrastructure configuration that was
   /// deleted.
@@ -4935,6 +4953,7 @@ class DeleteInfrastructureConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteLifecyclePolicyResponse {
   /// The Amazon Resource Name (ARN) of the lifecycle policy that was deleted.
   final String? lifecyclePolicyArn;
@@ -4957,6 +4976,7 @@ class DeleteLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the workflow resource that this request
   /// deleted.
@@ -4981,6 +5001,7 @@ class DeleteWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DistributeImageResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -5011,6 +5032,7 @@ class DistributeImageResponse {
   }
 }
 
+/// @nodoc
 class GetComponentResponse {
   /// The component object specified in the request.
   final Component? component;
@@ -5053,6 +5075,7 @@ class GetComponentResponse {
   }
 }
 
+/// @nodoc
 class GetComponentPolicyResponse {
   /// The component policy.
   final String? policy;
@@ -5082,6 +5105,7 @@ class GetComponentPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetContainerRecipeResponse {
   /// The container recipe object that is returned.
   final ContainerRecipe? containerRecipe;
@@ -5125,6 +5149,7 @@ class GetContainerRecipeResponse {
   }
 }
 
+/// @nodoc
 class GetContainerRecipePolicyResponse {
   /// The container recipe policy object that is returned.
   final String? policy;
@@ -5154,6 +5179,7 @@ class GetContainerRecipePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetDistributionConfigurationResponse {
   /// The distribution configuration object.
   final DistributionConfiguration? distributionConfiguration;
@@ -5188,6 +5214,7 @@ class GetDistributionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetImageResponse {
   /// The image object.
   final Image? image;
@@ -5230,6 +5257,7 @@ class GetImageResponse {
   }
 }
 
+/// @nodoc
 class GetImagePipelineResponse {
   /// The image pipeline object.
   final ImagePipeline? imagePipeline;
@@ -5262,6 +5290,7 @@ class GetImagePipelineResponse {
   }
 }
 
+/// @nodoc
 class GetImagePolicyResponse {
   /// The image policy object.
   final String? policy;
@@ -5291,6 +5320,7 @@ class GetImagePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetImageRecipeResponse {
   /// The image recipe object.
   final ImageRecipe? imageRecipe;
@@ -5333,6 +5363,7 @@ class GetImageRecipeResponse {
   }
 }
 
+/// @nodoc
 class GetImageRecipePolicyResponse {
   /// The image recipe policy object.
   final String? policy;
@@ -5363,6 +5394,8 @@ class GetImageRecipePolicyResponse {
 }
 
 /// GetInfrastructureConfiguration response object.
+///
+/// @nodoc
 class GetInfrastructureConfigurationResponse {
   /// The infrastructure configuration object.
   final InfrastructureConfiguration? infrastructureConfiguration;
@@ -5397,6 +5430,7 @@ class GetInfrastructureConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetLifecycleExecutionResponse {
   /// Runtime details for the specified runtime instance of the lifecycle policy.
   final LifecycleExecution? lifecycleExecution;
@@ -5422,6 +5456,7 @@ class GetLifecycleExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetLifecyclePolicyResponse {
   /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that
   /// was returned.
@@ -5448,6 +5483,7 @@ class GetLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetMarketplaceResourceResponse {
   /// Returns obfuscated data that contains the YAML content of the component.
   final String? data;
@@ -5485,6 +5521,7 @@ class GetMarketplaceResourceResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowResponse {
   /// The resource ARNs with different wildcard variations of semantic versioning.
   final LatestVersionReferences? latestVersionReferences;
@@ -5520,6 +5557,7 @@ class GetWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowExecutionResponse {
   /// The timestamp when the specified runtime instance of the workflow finished.
   final String? endTime;
@@ -5651,6 +5689,7 @@ class GetWorkflowExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowStepExecutionResponse {
   /// The name of the action that the specified step performs.
   final String? action;
@@ -5800,6 +5839,7 @@ class GetWorkflowStepExecutionResponse {
   }
 }
 
+/// @nodoc
 class ImportComponentResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -5837,6 +5877,7 @@ class ImportComponentResponse {
   }
 }
 
+/// @nodoc
 class ImportDiskImageResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -5868,6 +5909,7 @@ class ImportDiskImageResponse {
   }
 }
 
+/// @nodoc
 class ImportVmImageResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -5906,6 +5948,7 @@ class ImportVmImageResponse {
   }
 }
 
+/// @nodoc
 class ListComponentBuildVersionsResponse {
   /// The list of component summaries for the specified semantic version.
   final List<ComponentSummary>? componentSummaryList;
@@ -5950,6 +5993,7 @@ class ListComponentBuildVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListComponentsResponse {
   /// The list of component semantic versions.
   /// <note>
@@ -5997,6 +6041,7 @@ class ListComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListContainerRecipesResponse {
   /// The list of container recipes returned for the request.
   final List<ContainerRecipeSummary>? containerRecipeSummaryList;
@@ -6041,6 +6086,7 @@ class ListContainerRecipesResponse {
   }
 }
 
+/// @nodoc
 class ListDistributionConfigurationsResponse {
   /// The list of distributions.
   final List<DistributionConfigurationSummary>?
@@ -6090,6 +6136,7 @@ class ListDistributionConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListImageBuildVersionsResponse {
   /// The list of image build versions.
   final List<ImageSummary>? imageSummaryList;
@@ -6132,6 +6179,7 @@ class ListImageBuildVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListImagePackagesResponse {
   /// The list of Image Packages returned in the response.
   final List<ImagePackage>? imagePackageList;
@@ -6174,6 +6222,7 @@ class ListImagePackagesResponse {
   }
 }
 
+/// @nodoc
 class ListImagePipelineImagesResponse {
   /// The list of images built by this pipeline.
   final List<ImageSummary>? imageSummaryList;
@@ -6216,6 +6265,7 @@ class ListImagePipelineImagesResponse {
   }
 }
 
+/// @nodoc
 class ListImagePipelinesResponse {
   /// The list of image pipelines.
   final List<ImagePipeline>? imagePipelineList;
@@ -6258,6 +6308,7 @@ class ListImagePipelinesResponse {
   }
 }
 
+/// @nodoc
 class ListImageRecipesResponse {
   /// A list of <code>ImageRecipeSummary</code> objects that contain identifying
   /// characteristics for the image recipe, such as the name, the Amazon Resource
@@ -6303,6 +6354,7 @@ class ListImageRecipesResponse {
   }
 }
 
+/// @nodoc
 class ListImagesResponse {
   /// The list of image semantic versions.
   /// <note>
@@ -6354,6 +6406,7 @@ class ListImagesResponse {
   }
 }
 
+/// @nodoc
 class ListImageScanFindingAggregationsResponse {
   /// The aggregation type specifies what type of key is used to group the image
   /// scan findings. Image Builder returns results based on the request filter. If
@@ -6427,6 +6480,7 @@ class ListImageScanFindingAggregationsResponse {
   }
 }
 
+/// @nodoc
 class ListImageScanFindingsResponse {
   /// The image scan findings for your account that meet your request filter
   /// criteria.
@@ -6470,6 +6524,7 @@ class ListImageScanFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListInfrastructureConfigurationsResponse {
   /// The list of infrastructure configurations.
   final List<InfrastructureConfigurationSummary>?
@@ -6519,6 +6574,7 @@ class ListInfrastructureConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListLifecycleExecutionResourcesResponse {
   /// Runtime details for the specified runtime instance of the lifecycle policy.
   final String? lifecycleExecutionId;
@@ -6575,6 +6631,7 @@ class ListLifecycleExecutionResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListLifecycleExecutionsResponse {
   /// A list of lifecycle runtime instances for the specified resource.
   final List<LifecycleExecution>? lifecycleExecutions;
@@ -6611,6 +6668,7 @@ class ListLifecycleExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListLifecyclePoliciesResponse {
   /// A list of lifecycle policies in your Amazon Web Services account that meet
   /// the criteria specified in the request.
@@ -6649,6 +6707,7 @@ class ListLifecyclePoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the specified resource.
   final Map<String, String>? tags;
@@ -6672,6 +6731,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWaitingWorkflowStepsResponse {
   /// The next token used for paginated responses. When this field isn't empty,
   /// there are additional elements that the service hasn't included in this
@@ -6708,6 +6768,7 @@ class ListWaitingWorkflowStepsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowBuildVersionsResponse {
   /// The next token used for paginated responses. When this field isn't empty,
   /// there are additional elements that the service hasn't included in this
@@ -6746,6 +6807,7 @@ class ListWorkflowBuildVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowExecutionsResponse {
   /// The resource Amazon Resource Name (ARN) of the image build version for which
   /// you requested a list of workflow runtime details.
@@ -6806,6 +6868,7 @@ class ListWorkflowExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// The next token used for paginated responses. When this field isn't empty,
   /// there are additional elements that the service hasn't included in this
@@ -6842,6 +6905,7 @@ class ListWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowStepExecutionsResponse {
   /// The image build version resource Amazon Resource Name (ARN) that's
   /// associated with the specified runtime instance of the workflow.
@@ -6920,6 +6984,7 @@ class ListWorkflowStepExecutionsResponse {
   }
 }
 
+/// @nodoc
 class PutComponentPolicyResponse {
   /// The Amazon Resource Name (ARN) of the component that this policy was applied
   /// to.
@@ -6950,6 +7015,7 @@ class PutComponentPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutContainerRecipePolicyResponse {
   /// The Amazon Resource Name (ARN) of the container recipe that this policy was
   /// applied to.
@@ -6980,6 +7046,7 @@ class PutContainerRecipePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutImagePolicyResponse {
   /// The Amazon Resource Name (ARN) of the image that this policy was applied to.
   final String? imageArn;
@@ -7009,6 +7076,7 @@ class PutImagePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutImageRecipePolicyResponse {
   /// The Amazon Resource Name (ARN) of the image recipe that this policy was
   /// applied to.
@@ -7039,6 +7107,7 @@ class PutImageRecipePolicyResponse {
   }
 }
 
+/// @nodoc
 class RetryImageResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -7069,6 +7138,7 @@ class RetryImageResponse {
   }
 }
 
+/// @nodoc
 class SendWorkflowStepActionResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -7107,6 +7177,7 @@ class SendWorkflowStepActionResponse {
   }
 }
 
+/// @nodoc
 class StartImagePipelineExecutionResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -7145,6 +7216,7 @@ class StartImagePipelineExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartResourceStateUpdateResponse {
   /// Identifies the lifecycle runtime instance that started the resource state
   /// update.
@@ -7177,6 +7249,7 @@ class StartResourceStateUpdateResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7189,6 +7262,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7201,6 +7275,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDistributionConfigurationResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -7241,6 +7316,7 @@ class UpdateDistributionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateImagePipelineResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -7278,6 +7354,7 @@ class UpdateImagePipelineResponse {
   }
 }
 
+/// @nodoc
 class UpdateInfrastructureConfigurationResponse {
   /// The client token that uniquely identifies the request.
   final String? clientToken;
@@ -7318,6 +7395,7 @@ class UpdateInfrastructureConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateLifecyclePolicyResponse {
   /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that
   /// was updated.
@@ -7341,6 +7419,7 @@ class UpdateLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class LifecyclePolicyStatus {
   static const disabled = LifecyclePolicyStatus._('DISABLED');
   static const enabled = LifecyclePolicyStatus._('ENABLED');
@@ -7366,6 +7445,7 @@ class LifecyclePolicyStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LifecyclePolicyResourceType {
   static const amiImage = LifecyclePolicyResourceType._('AMI_IMAGE');
   static const containerImage =
@@ -7393,6 +7473,8 @@ class LifecyclePolicyResourceType {
 }
 
 /// Resource selection criteria for the lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicyResourceSelection {
   /// A list of recipes that are used as selection criteria for the output images
   /// that the lifecycle policy applies to.
@@ -7431,6 +7513,8 @@ class LifecyclePolicyResourceSelection {
 
 /// Specifies an Image Builder recipe that the lifecycle policy uses for
 /// resource selection.
+///
+/// @nodoc
 class LifecyclePolicyResourceSelectionRecipe {
   /// The name of an Image Builder recipe that the lifecycle policy uses for
   /// resource selection.
@@ -7464,6 +7548,8 @@ class LifecyclePolicyResourceSelectionRecipe {
 }
 
 /// The configuration details for a lifecycle policy resource.
+///
+/// @nodoc
 class LifecyclePolicyDetail {
   /// Configuration details for the policy action.
   final LifecyclePolicyDetailAction action;
@@ -7509,6 +7595,8 @@ class LifecyclePolicyDetail {
 }
 
 /// Contains selection criteria for the lifecycle policy.
+///
+/// @nodoc
 class LifecyclePolicyDetailAction {
   /// Specifies the lifecycle action to take.
   final LifecyclePolicyDetailActionType type;
@@ -7544,6 +7632,8 @@ class LifecyclePolicyDetailAction {
 
 /// Defines filters that the lifecycle policy uses to determine impacted
 /// resource.
+///
+/// @nodoc
 class LifecyclePolicyDetailFilter {
   /// Filter resources based on either <code>age</code> or <code>count</code>.
   final LifecyclePolicyDetailFilterType type;
@@ -7599,6 +7689,8 @@ class LifecyclePolicyDetailFilter {
 }
 
 /// Specifies resources that lifecycle policy actions should not apply to.
+///
+/// @nodoc
 class LifecyclePolicyDetailExclusionRules {
   /// Lists configuration values that apply to AMIs that Image Builder should
   /// exclude from the lifecycle action.
@@ -7636,6 +7728,8 @@ class LifecyclePolicyDetailExclusionRules {
 }
 
 /// Defines criteria for AMIs that are excluded from lifecycle actions.
+///
+/// @nodoc
 class LifecyclePolicyDetailExclusionRulesAmis {
   /// Configures whether public AMIs are excluded from the lifecycle action.
   final bool? isPublic;
@@ -7701,6 +7795,8 @@ class LifecyclePolicyDetailExclusionRulesAmis {
 
 /// Defines criteria to exclude AMIs from lifecycle actions based on the last
 /// time they were used to launch an instance.
+///
+/// @nodoc
 class LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
   /// Defines the unit of time that the lifecycle policy uses to calculate elapsed
   /// time since the last instance launched from the AMI. For example: days,
@@ -7734,6 +7830,7 @@ class LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
   }
 }
 
+/// @nodoc
 class LifecyclePolicyTimeUnit {
   static const days = LifecyclePolicyTimeUnit._('DAYS');
   static const weeks = LifecyclePolicyTimeUnit._('WEEKS');
@@ -7761,6 +7858,7 @@ class LifecyclePolicyTimeUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class LifecyclePolicyDetailFilterType {
   static const age = LifecyclePolicyDetailFilterType._('AGE');
   static const count = LifecyclePolicyDetailFilterType._('COUNT');
@@ -7786,6 +7884,7 @@ class LifecyclePolicyDetailFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class LifecyclePolicyDetailActionType {
   static const delete = LifecyclePolicyDetailActionType._('DELETE');
   static const deprecate = LifecyclePolicyDetailActionType._('DEPRECATE');
@@ -7814,6 +7913,8 @@ class LifecyclePolicyDetailActionType {
 
 /// Specifies how the lifecycle policy should apply actions to selected
 /// resources.
+///
+/// @nodoc
 class LifecyclePolicyDetailActionIncludeResources {
   /// Specifies whether the lifecycle action should apply to distributed AMIs.
   final bool? amis;
@@ -7854,6 +7955,8 @@ class LifecyclePolicyDetailActionIncludeResources {
 }
 
 /// Logging configuration defines where Image Builder uploads your logs.
+///
+/// @nodoc
 class Logging {
   /// The Amazon S3 logging configuration.
   final S3Logs? s3Logs;
@@ -7887,6 +7990,8 @@ class Logging {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/configuring-instance-metadata-options.html">Configure
 /// the instance metadata options</a> in the <i> <i>Amazon EC2 Windows Guide</i>
 /// </i> for Windows instances.
+///
+/// @nodoc
 class InstanceMetadataOptions {
   /// Limit the number of hops that an instance metadata request can traverse to
   /// reach its destination. The default is one hop. However, if HTTP tokens are
@@ -7940,6 +8045,8 @@ class InstanceMetadataOptions {
 /// your instances is dedicated to your Amazon Web Services account. Instance
 /// placement settings contain the details for the physical hardware where
 /// instances that Image Builder launches during image creation will run.
+///
+/// @nodoc
 class Placement {
   /// The Availability Zone where your build and test instances will launch.
   final String? availabilityZone;
@@ -7998,6 +8105,7 @@ class Placement {
   }
 }
 
+/// @nodoc
 class TenancyType {
   static const $default = TenancyType._('default');
   static const dedicated = TenancyType._('dedicated');
@@ -8023,6 +8131,8 @@ class TenancyType {
 }
 
 /// Amazon S3 logging configuration.
+///
+/// @nodoc
 class S3Logs {
   /// The S3 bucket in which to store the logs.
   final String? s3BucketName;
@@ -8055,6 +8165,8 @@ class S3Logs {
 /// Configure image tests for your pipeline build. Tests run after building the
 /// image, to verify that the AMI or container image is valid before
 /// distributing it.
+///
+/// @nodoc
 class ImageTestsConfiguration {
   /// Determines if tests should run after building the image. Image Builder
   /// defaults to enable tests to run following the image build, before image
@@ -8091,6 +8203,8 @@ class ImageTestsConfiguration {
 
 /// A schedule configures when and how often a pipeline will automatically
 /// create a new image.
+///
+/// @nodoc
 class Schedule {
   /// The policy that configures when Image Builder should automatically disable a
   /// pipeline that is failing.
@@ -8170,6 +8284,7 @@ class Schedule {
   }
 }
 
+/// @nodoc
 class PipelineStatus {
   static const disabled = PipelineStatus._('DISABLED');
   static const enabled = PipelineStatus._('ENABLED');
@@ -8196,6 +8311,8 @@ class PipelineStatus {
 
 /// Contains settings for Image Builder image resource and container image
 /// scans.
+///
+/// @nodoc
 class ImageScanningConfiguration {
   /// Contains Amazon ECR settings for vulnerability scans.
   final EcrConfiguration? ecrConfiguration;
@@ -8232,6 +8349,8 @@ class ImageScanningConfiguration {
 }
 
 /// The logging configuration that's defined for pipeline execution.
+///
+/// @nodoc
 class PipelineLoggingConfiguration {
   /// The log group name that Image Builder uses for image creation. If not
   /// specified, the log group name defaults to
@@ -8267,6 +8386,8 @@ class PipelineLoggingConfiguration {
 }
 
 /// Contains control settings and configurable inputs for a workflow resource.
+///
+/// @nodoc
 class WorkflowConfiguration {
   /// The Amazon Resource Name (ARN) of the workflow resource.
   final String workflowArn;
@@ -8321,6 +8442,7 @@ class WorkflowConfiguration {
   }
 }
 
+/// @nodoc
 class OnWorkflowFailure {
   static const $continue = OnWorkflowFailure._('CONTINUE');
   static const abort = OnWorkflowFailure._('ABORT');
@@ -8346,6 +8468,8 @@ class OnWorkflowFailure {
 }
 
 /// Contains a key/value pair that sets the named workflow parameter.
+///
+/// @nodoc
 class WorkflowParameter {
   /// The name of the workflow parameter to set.
   final String name;
@@ -8380,6 +8504,8 @@ class WorkflowParameter {
 
 /// Settings that Image Builder uses to configure the ECR repository and the
 /// output container images that Amazon Inspector scans.
+///
+/// @nodoc
 class EcrConfiguration {
   /// Tags for Image Builder to apply to the output container image that Amazon
   /// Inspector scans. Tags can help you identify and manage your scanned images.
@@ -8418,6 +8544,7 @@ class EcrConfiguration {
   }
 }
 
+/// @nodoc
 class PipelineExecutionStartCondition {
   static const expressionMatchOnly =
       PipelineExecutionStartCondition._('EXPRESSION_MATCH_ONLY');
@@ -8451,6 +8578,8 @@ class PipelineExecutionStartCondition {
 
 /// Defines the rules by which an image pipeline is automatically disabled when
 /// it fails.
+///
+/// @nodoc
 class AutoDisablePolicy {
   /// The number of consecutive scheduled image pipeline executions that must fail
   /// before Image Builder automatically disables the pipeline.
@@ -8475,6 +8604,8 @@ class AutoDisablePolicy {
 }
 
 /// Defines the settings for a specific Region.
+///
+/// @nodoc
 class Distribution {
   /// The target Region.
   final String region;
@@ -8589,6 +8720,8 @@ class Distribution {
 }
 
 /// Define and configure the output AMIs of the pipeline.
+///
+/// @nodoc
 class AmiDistributionConfiguration {
   /// The tags to apply to AMIs distributed to this Region.
   final Map<String, String>? amiTags;
@@ -8662,6 +8795,8 @@ class AmiDistributionConfiguration {
 
 /// Container distribution settings for encryption, licensing, and sharing in a
 /// specific Region.
+///
+/// @nodoc
 class ContainerDistributionConfiguration {
   /// The destination repository for the container distribution configuration.
   final TargetContainerRepository targetRepository;
@@ -8706,6 +8841,8 @@ class ContainerDistributionConfiguration {
 
 /// Properties that configure export from your build instance to a compatible
 /// file format for your VM.
+///
+/// @nodoc
 class S3ExportConfiguration {
   /// Export the updated image to one of the following supported disk image
   /// formats:
@@ -8769,6 +8906,8 @@ class S3ExportConfiguration {
 
 /// Configuration for a single Parameter in the Amazon Web Services Systems
 /// Manager (SSM) Parameter Store in a given Region.
+///
+/// @nodoc
 class SsmParameterConfiguration {
   /// This is the name of the Parameter in the target Region or account. The image
   /// distribution creates the Parameter if it doesn't already exist. Otherwise,
@@ -8811,6 +8950,7 @@ class SsmParameterConfiguration {
   }
 }
 
+/// @nodoc
 class SsmParameterDataType {
   static const text = SsmParameterDataType._('text');
   static const awsEc2Image = SsmParameterDataType._('aws:ec2:image');
@@ -8837,6 +8977,8 @@ class SsmParameterDataType {
 }
 
 /// Define and configure faster launching for output Windows AMIs.
+///
+/// @nodoc
 class FastLaunchConfiguration {
   /// A Boolean that represents the current state of faster launching for the
   /// Windows AMI. Set to <code>true</code> to start using Windows faster
@@ -8903,6 +9045,8 @@ class FastLaunchConfiguration {
 
 /// Configuration settings for creating and managing pre-provisioned snapshots
 /// for a fast-launch enabled Windows AMI.
+///
+/// @nodoc
 class FastLaunchSnapshotConfiguration {
   /// The number of pre-provisioned snapshots to keep on hand for a fast-launch
   /// enabled Windows AMI.
@@ -8933,6 +9077,8 @@ class FastLaunchSnapshotConfiguration {
 /// You can specify either the <code>launchTemplateName</code> or the
 /// <code>launchTemplateId</code>, but not both.
 /// </note>
+///
+/// @nodoc
 class FastLaunchLaunchTemplateSpecification {
   /// The ID of the launch template to use for faster launching for a Windows AMI.
   final String? launchTemplateId;
@@ -8973,6 +9119,7 @@ class FastLaunchLaunchTemplateSpecification {
   }
 }
 
+/// @nodoc
 class DiskImageFormat {
   static const vmdk = DiskImageFormat._('VMDK');
   static const raw = DiskImageFormat._('RAW');
@@ -8999,6 +9146,8 @@ class DiskImageFormat {
 }
 
 /// Identifies an Amazon EC2 launch template to use for a specific account.
+///
+/// @nodoc
 class LaunchTemplateConfiguration {
   /// Identifies the Amazon EC2 launch template to use.
   final String launchTemplateId;
@@ -9037,6 +9186,8 @@ class LaunchTemplateConfiguration {
 }
 
 /// The container repository where the output container image is stored.
+///
+/// @nodoc
 class TargetContainerRepository {
   /// The name of the container repository where the output container image is
   /// stored. This name is prefixed by the repository location. For example,
@@ -9069,6 +9220,7 @@ class TargetContainerRepository {
   }
 }
 
+/// @nodoc
 class ContainerRepositoryService {
   static const ecr = ContainerRepositoryService._('ECR');
 
@@ -9102,6 +9254,8 @@ class ContainerRepositoryService {
 /// making an AMI public at <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyImageAttribute.html">Amazon
 /// EC2 ModifyImageAttribute</a>.
+///
+/// @nodoc
 class LaunchPermissionConfiguration {
   /// The ARN for an Amazon Web Services Organization that you want to share your
   /// AMI with. For more information, see <a
@@ -9164,6 +9318,8 @@ class LaunchPermissionConfiguration {
 }
 
 /// The current state of an impacted resource.
+///
+/// @nodoc
 class ResourceState {
   /// Shows the current lifecycle policy action that was applied to an impacted
   /// resource.
@@ -9183,6 +9339,8 @@ class ResourceState {
 
 /// Specifies if the lifecycle policy should apply actions to selected
 /// resources.
+///
+/// @nodoc
 class ResourceStateUpdateIncludeResources {
   /// Specifies whether the lifecycle action should apply to distributed AMIs
   final bool? amis;
@@ -9215,6 +9373,8 @@ class ResourceStateUpdateIncludeResources {
 
 /// Additional rules to specify resources that should be exempt from ad-hoc
 /// lifecycle actions.
+///
+/// @nodoc
 class ResourceStateUpdateExclusionRules {
   final LifecyclePolicyDetailExclusionRulesAmis? amis;
 
@@ -9230,6 +9390,7 @@ class ResourceStateUpdateExclusionRules {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const available = ResourceStatus._('AVAILABLE');
   static const deleted = ResourceStatus._('DELETED');
@@ -9256,6 +9417,7 @@ class ResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkflowStepActionType {
   static const resume = WorkflowStepActionType._('RESUME');
   static const stop = WorkflowStepActionType._('STOP');
@@ -9282,6 +9444,8 @@ class WorkflowStepActionType {
 }
 
 /// Runtime details and status for the workflow step.
+///
+/// @nodoc
 class WorkflowStepMetadata {
   /// The step action name.
   final String? action;
@@ -9377,6 +9541,7 @@ class WorkflowStepMetadata {
   }
 }
 
+/// @nodoc
 class WorkflowStepExecutionStatus {
   static const pending = WorkflowStepExecutionStatus._('PENDING');
   static const skipped = WorkflowStepExecutionStatus._('SKIPPED');
@@ -9413,6 +9578,7 @@ class WorkflowStepExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkflowStepExecutionRollbackStatus {
   static const running = WorkflowStepExecutionRollbackStatus._('RUNNING');
   static const completed = WorkflowStepExecutionRollbackStatus._('COMPLETED');
@@ -9441,6 +9607,8 @@ class WorkflowStepExecutionRollbackStatus {
 }
 
 /// Contains details about this version of the workflow.
+///
+/// @nodoc
 class WorkflowVersion {
   /// The Amazon Resource Name (ARN) of the workflow resource.
   final String? arn;
@@ -9507,6 +9675,7 @@ class WorkflowVersion {
   }
 }
 
+/// @nodoc
 class WorkflowType {
   static const build = WorkflowType._('BUILD');
   static const test = WorkflowType._('TEST');
@@ -9531,6 +9700,7 @@ class WorkflowType {
   String toString() => value;
 }
 
+/// @nodoc
 class Ownership {
   static const self = Ownership._('Self');
   static const shared = Ownership._('Shared');
@@ -9560,6 +9730,8 @@ class Ownership {
 /// A filter name and value pair that is used to return a more specific list of
 /// results from a list operation. Filters can be used to match a set of
 /// resources by specific criteria, such as tags, attributes, or IDs.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter. Filter names are case-sensitive.
   final String? name;
@@ -9584,6 +9756,8 @@ class Filter {
 
 /// Metadata that includes details and status from this runtime instance of the
 /// workflow.
+///
+/// @nodoc
 class WorkflowExecutionMetadata {
   /// The timestamp when this runtime instance of the workflow finished.
   final String? endTime;
@@ -9700,6 +9874,7 @@ class WorkflowExecutionMetadata {
   }
 }
 
+/// @nodoc
 class WorkflowExecutionStatus {
   static const pending = WorkflowExecutionStatus._('PENDING');
   static const skipped = WorkflowExecutionStatus._('SKIPPED');
@@ -9743,6 +9918,8 @@ class WorkflowExecutionStatus {
 }
 
 /// Contains metadata about the workflow resource.
+///
+/// @nodoc
 class WorkflowSummary {
   /// The Amazon Resource Name (ARN) of the workflow resource.
   final String? arn;
@@ -9833,6 +10010,8 @@ class WorkflowSummary {
 }
 
 /// A group of fields that describe the current status of workflow.
+///
+/// @nodoc
 class WorkflowState {
   /// Describes how or why the workflow changed state.
   final String? reason;
@@ -9862,6 +10041,7 @@ class WorkflowState {
   }
 }
 
+/// @nodoc
 class WorkflowStatus {
   static const deprecated = WorkflowStatus._('DEPRECATED');
 
@@ -9887,6 +10067,8 @@ class WorkflowStatus {
 
 /// Contains runtime details for an instance of a workflow that ran for the
 /// associated image build version.
+///
+/// @nodoc
 class WorkflowStepExecution {
   /// The name of the step action.
   final String? action;
@@ -9958,6 +10140,8 @@ class WorkflowStepExecution {
 }
 
 /// Contains a summary of lifecycle policy resources.
+///
+/// @nodoc
 class LifecyclePolicySummary {
   /// The Amazon Resource Name (ARN) of the lifecycle policy summary resource.
   final String? arn;
@@ -10050,6 +10234,8 @@ class LifecyclePolicySummary {
 }
 
 /// Contains metadata from a runtime instance of a lifecycle policy.
+///
+/// @nodoc
 class LifecycleExecution {
   /// The timestamp when the lifecycle runtime instance completed.
   final DateTime? endTime;
@@ -10119,6 +10305,8 @@ class LifecycleExecution {
 
 /// Contains details for an image resource that was identified for a lifecycle
 /// action.
+///
+/// @nodoc
 class LifecycleExecutionResourcesImpactedSummary {
   /// Indicates whether an image resource that was identified for a lifecycle
   /// action has associated resources that are also impacted.
@@ -10145,6 +10333,8 @@ class LifecycleExecutionResourcesImpactedSummary {
 }
 
 /// The current state of the runtime instance of the lifecycle policy.
+///
+/// @nodoc
 class LifecycleExecutionState {
   /// The reason for the current status.
   final String? reason;
@@ -10175,6 +10365,7 @@ class LifecycleExecutionState {
   }
 }
 
+/// @nodoc
 class LifecycleExecutionStatus {
   static const inProgress = LifecycleExecutionStatus._('IN_PROGRESS');
   static const cancelled = LifecycleExecutionStatus._('CANCELLED');
@@ -10213,6 +10404,8 @@ class LifecycleExecutionStatus {
 
 /// Contains details for a resource that the runtime instance of the lifecycle
 /// policy identified for action.
+///
+/// @nodoc
 class LifecycleExecutionResource {
   /// The account that owns the impacted resource.
   final String? accountId;
@@ -10324,6 +10517,8 @@ class LifecycleExecutionResource {
 
 /// Contains the state of an impacted resource that the runtime instance of the
 /// lifecycle policy identified for action.
+///
+/// @nodoc
 class LifecycleExecutionResourceState {
   /// Messaging that clarifies the reason for the assigned status.
   final String? reason;
@@ -10355,6 +10550,8 @@ class LifecycleExecutionResourceState {
 }
 
 /// The lifecycle policy action that was identified for the impacted resource.
+///
+/// @nodoc
 class LifecycleExecutionResourceAction {
   /// The name of the resource that was identified for a lifecycle policy action.
   final LifecycleExecutionResourceActionName? name;
@@ -10387,6 +10584,8 @@ class LifecycleExecutionResourceAction {
 
 /// Contains the state of an impacted snapshot resource that the runtime
 /// instance of the lifecycle policy identified for action.
+///
+/// @nodoc
 class LifecycleExecutionSnapshotResource {
   /// Identifies the impacted snapshot resource.
   final String? snapshotId;
@@ -10420,6 +10619,7 @@ class LifecycleExecutionSnapshotResource {
   }
 }
 
+/// @nodoc
 class LifecycleExecutionResourceActionName {
   static const available = LifecycleExecutionResourceActionName._('AVAILABLE');
   static const delete = LifecycleExecutionResourceActionName._('DELETE');
@@ -10447,6 +10647,7 @@ class LifecycleExecutionResourceActionName {
   String toString() => value;
 }
 
+/// @nodoc
 class LifecycleExecutionResourceStatus {
   static const failed = LifecycleExecutionResourceStatus._('FAILED');
   static const inProgress = LifecycleExecutionResourceStatus._('IN_PROGRESS');
@@ -10475,6 +10676,8 @@ class LifecycleExecutionResourceStatus {
 }
 
 /// The infrastructure used when building Amazon EC2 AMIs.
+///
+/// @nodoc
 class InfrastructureConfigurationSummary {
   /// The Amazon Resource Name (ARN) of the infrastructure configuration.
   final String? arn;
@@ -10571,6 +10774,8 @@ class InfrastructureConfigurationSummary {
 }
 
 /// Contains details about a vulnerability scan finding.
+///
+/// @nodoc
 class ImageScanFinding {
   /// The Amazon Web Services account ID that's associated with the finding.
   final String? awsAccountId;
@@ -10702,6 +10907,8 @@ class ImageScanFinding {
 }
 
 /// Information about how to remediate a finding.
+///
+/// @nodoc
 class Remediation {
   /// An object that contains information about the recommended course of action
   /// to remediate the finding.
@@ -10730,6 +10937,8 @@ class Remediation {
 
 /// Information about the factors that influenced the score that Amazon
 /// Inspector assigned for a finding.
+///
+/// @nodoc
 class InspectorScoreDetails {
   /// An object that contains details about an adjustment that Amazon Inspector
   /// made to the CVSS score for the finding.
@@ -10757,6 +10966,8 @@ class InspectorScoreDetails {
 }
 
 /// Information about package vulnerability findings.
+///
+/// @nodoc
 class PackageVulnerabilityDetails {
   /// A unique identifier for this vulnerability.
   final String vulnerabilityId;
@@ -10870,6 +11081,8 @@ class PackageVulnerabilityDetails {
 /// href="https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html">Severity
 /// levels for Amazon Inspector findings</a> in the <i>Amazon Inspector User
 /// Guide</i>.
+///
+/// @nodoc
 class CvssScore {
   /// The CVSS base score.
   final double? baseScore;
@@ -10915,6 +11128,8 @@ class CvssScore {
 
 /// Information about a vulnerable package that Amazon Inspector identifies in a
 /// finding.
+///
+/// @nodoc
 class VulnerablePackage {
   /// The architecture of the vulnerable package.
   final String? arch;
@@ -11002,6 +11217,8 @@ class VulnerablePackage {
 
 /// Details about the source of the score, and the factors that determined the
 /// adjustments to create the final score.
+///
+/// @nodoc
 class CvssScoreDetails {
   /// An object that contains details about an adjustment that Amazon Inspector
   /// made to the CVSS score for the finding.
@@ -11065,6 +11282,8 @@ class CvssScoreDetails {
 
 /// Details about an adjustment that Amazon Inspector made to the CVSS score for
 /// a finding.
+///
+/// @nodoc
 class CvssScoreAdjustment {
   /// The metric that Amazon Inspector used to adjust the CVSS score.
   final String? metric;
@@ -11095,6 +11314,8 @@ class CvssScoreAdjustment {
 }
 
 /// Details about the recommended course of action to remediate the finding.
+///
+/// @nodoc
 class RemediationRecommendation {
   /// The recommended course of action to remediate the finding.
   final String? text;
@@ -11127,6 +11348,8 @@ class RemediationRecommendation {
 
 /// A name value pair that Image Builder applies to streamline results from the
 /// vulnerability scan findings list action.
+///
+/// @nodoc
 class ImageScanFindingsFilter {
   /// The name of the image scan finding filter. Filter names are case-sensitive.
   final String? name;
@@ -11151,6 +11374,8 @@ class ImageScanFindingsFilter {
 
 /// This returns exactly one type of aggregation, based on the filter that Image
 /// Builder applies in its API action.
+///
+/// @nodoc
 class ImageScanFindingAggregation {
   /// Returns an object that contains severity counts based on an account ID.
   final AccountAggregation? accountAggregation;
@@ -11215,6 +11440,8 @@ class ImageScanFindingAggregation {
 /// The vulnerability counts are grouped by severity level. The counts are
 /// aggregated across resources to create the final tally for the account that
 /// owns them.
+///
+/// @nodoc
 class AccountAggregation {
   /// Identifies the account that owns the aggregated resource findings.
   final String? accountId;
@@ -11249,6 +11476,8 @@ class AccountAggregation {
 }
 
 /// Contains vulnerability counts for a specific image.
+///
+/// @nodoc
 class ImageAggregation {
   /// The Amazon Resource Name (ARN) that identifies the image for this
   /// aggregation.
@@ -11285,6 +11514,8 @@ class ImageAggregation {
 }
 
 /// Contains vulnerability counts for a specific image pipeline.
+///
+/// @nodoc
 class ImagePipelineAggregation {
   /// The Amazon Resource Name (ARN) that identifies the image pipeline for this
   /// aggregation.
@@ -11320,6 +11551,8 @@ class ImagePipelineAggregation {
 }
 
 /// Includes counts of image and pipeline resource findings by vulnerability.
+///
+/// @nodoc
 class VulnerabilityIdAggregation {
   /// Counts by severity level for medium severity and higher level findings, plus
   /// a total for all of the findings for the specified vulnerability.
@@ -11355,6 +11588,8 @@ class VulnerabilityIdAggregation {
 
 /// Includes counts by severity level for medium severity and higher level
 /// findings, plus a total for all of the findings for the specified filter.
+///
+/// @nodoc
 class SeverityCounts {
   /// The total number of findings across all severity levels for the specified
   /// filter.
@@ -11401,6 +11636,8 @@ class SeverityCounts {
 
 /// The defining characteristics of a specific version of an Image Builder
 /// image.
+///
+/// @nodoc
 class ImageVersion {
   /// The Amazon Resource Name (ARN) of a specific version of an Image Builder
   /// image.
@@ -11545,6 +11782,7 @@ class ImageVersion {
   }
 }
 
+/// @nodoc
 class ImageType {
   static const ami = ImageType._('AMI');
   static const docker = ImageType._('DOCKER');
@@ -11568,6 +11806,7 @@ class ImageType {
   String toString() => value;
 }
 
+/// @nodoc
 class Platform {
   static const windows = Platform._('Windows');
   static const linux = Platform._('Linux');
@@ -11592,6 +11831,7 @@ class Platform {
   String toString() => value;
 }
 
+/// @nodoc
 class BuildType {
   static const userInitiated = BuildType._('USER_INITIATED');
   static const scheduled = BuildType._('SCHEDULED');
@@ -11617,6 +11857,7 @@ class BuildType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSource {
   static const amazonManaged = ImageSource._('AMAZON_MANAGED');
   static const awsMarketplace = ImageSource._('AWS_MARKETPLACE');
@@ -11643,6 +11884,8 @@ class ImageSource {
 }
 
 /// A summary of an image recipe.
+///
+/// @nodoc
 class ImageRecipeSummary {
   /// The Amazon Resource Name (ARN) of the image recipe.
   final String? arn;
@@ -11709,6 +11952,8 @@ class ImageRecipeSummary {
 }
 
 /// Details of an image pipeline.
+///
+/// @nodoc
 class ImagePipeline {
   /// The Amazon Resource Name (ARN) of the image pipeline.
   final String? arn;
@@ -11956,6 +12201,7 @@ class ImagePipeline {
   }
 }
 
+/// @nodoc
 class ImageStatus {
   static const pending = ImageStatus._('PENDING');
   static const creating = ImageStatus._('CREATING');
@@ -12003,6 +12249,8 @@ class ImageStatus {
 }
 
 /// An image summary.
+///
+/// @nodoc
 class ImageSummary {
   /// The Amazon Resource Name (ARN) of the image.
   final String? arn;
@@ -12165,6 +12413,8 @@ class ImageSummary {
 }
 
 /// Image status and the reason for that status.
+///
+/// @nodoc
 class ImageState {
   /// The reason for the status of the image.
   final String? reason;
@@ -12195,6 +12445,8 @@ class ImageState {
 }
 
 /// The resources produced by this image.
+///
+/// @nodoc
 class OutputResources {
   /// The Amazon EC2 AMIs created by this image.
   final List<Ami>? amis;
@@ -12233,6 +12485,8 @@ class OutputResources {
 
 /// The logging configuration that's defined for the image. Image Builder uses
 /// the defined settings to direct execution log output during image creation.
+///
+/// @nodoc
 class ImageLoggingConfiguration {
   /// The log group name that Image Builder uses for image creation. If not
   /// specified, the log group name defaults to
@@ -12258,6 +12512,8 @@ class ImageLoggingConfiguration {
 }
 
 /// A container encapsulates the runtime environment for an application.
+///
+/// @nodoc
 class Container {
   /// A list of URIs for containers created in the context Region.
   final List<String>? imageUris;
@@ -12292,6 +12548,8 @@ class Container {
 }
 
 /// Details of an Amazon EC2 AMI.
+///
+/// @nodoc
 class Ami {
   /// The account ID of the owner of the AMI.
   final String? accountId;
@@ -12352,6 +12610,8 @@ class Ami {
 
 /// A software package that's installed on top of the base image to create a
 /// customized image.
+///
+/// @nodoc
 class ImagePackage {
   /// The name of the package that's reported to the operating system package
   /// manager.
@@ -12384,6 +12644,8 @@ class ImagePackage {
 }
 
 /// A high-level overview of a distribution configuration.
+///
+/// @nodoc
 class DistributionConfigurationSummary {
   /// The Amazon Resource Name (ARN) of the distribution configuration.
   final String? arn;
@@ -12451,6 +12713,8 @@ class DistributionConfigurationSummary {
 }
 
 /// A summary of a container recipe
+///
+/// @nodoc
 class ContainerRecipeSummary {
   /// The Amazon Resource Name (ARN) of the container recipe.
   final String? arn;
@@ -12537,6 +12801,7 @@ class ContainerRecipeSummary {
   }
 }
 
+/// @nodoc
 class ContainerType {
   static const docker = ContainerType._('DOCKER');
 
@@ -12562,6 +12827,8 @@ class ContainerType {
 
 /// The defining characteristics of a specific version of an Amazon Web Services
 /// TOE component.
+///
+/// @nodoc
 class ComponentVersion {
   /// The Amazon Resource Name (ARN) of the component.
   /// <note>
@@ -12700,6 +12967,7 @@ class ComponentVersion {
   }
 }
 
+/// @nodoc
 class ComponentType {
   static const build = ComponentType._('BUILD');
   static const test = ComponentType._('TEST');
@@ -12724,6 +12992,7 @@ class ComponentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ComponentStatus {
   static const deprecated = ComponentStatus._('DEPRECATED');
   static const disabled = ComponentStatus._('DISABLED');
@@ -12750,6 +13019,8 @@ class ComponentStatus {
 }
 
 /// Information about a single product code.
+///
+/// @nodoc
 class ProductCodeListItem {
   /// For Amazon Web Services Marketplace components, this contains the product
   /// code ID that can be stamped onto an EC2 AMI to ensure that components are
@@ -12784,6 +13055,7 @@ class ProductCodeListItem {
   }
 }
 
+/// @nodoc
 class ProductCodeType {
   static const marketplace = ProductCodeType._('marketplace');
 
@@ -12808,6 +13080,8 @@ class ProductCodeType {
 }
 
 /// A high-level summary of a component.
+///
+/// @nodoc
 class ComponentSummary {
   /// The Amazon Resource Name (ARN) of the component.
   final String? arn;
@@ -12934,6 +13208,8 @@ class ComponentSummary {
 }
 
 /// A group of fields that describe the current status of components.
+///
+/// @nodoc
 class ComponentState {
   /// Describes how or why the component changed state.
   final String? reason;
@@ -12968,6 +13244,8 @@ class ComponentState {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-secure-boot.html">UEFI
 /// Secure Boot for Amazon EC2 instances</a> in the <i> <i>Amazon EC2 User
 /// Guide</i> </i>.
+///
+/// @nodoc
 class RegisterImageOptions {
   /// Specifies whether Secure Boot is enabled for the output AMI. The default
   /// value is <code>true</code>. To disable Secure Boot for custom unsigned
@@ -13003,6 +13281,8 @@ class RegisterImageOptions {
 
 /// Windows-specific configuration settings for an ISO import, including the
 /// edition to install from a multi-edition Windows ISO file.
+///
+/// @nodoc
 class WindowsConfiguration {
   /// The 1-based index that specifies which Windows edition to install from a
   /// multi-edition Windows ISO file. A Windows ISO can contain a
@@ -13022,6 +13302,7 @@ class WindowsConfiguration {
   }
 }
 
+/// @nodoc
 class ComponentFormat {
   static const shell = ComponentFormat._('SHELL');
 
@@ -13047,6 +13328,8 @@ class ComponentFormat {
 
 /// Defines a process that Image Builder uses to build and test images during
 /// the image creation process.
+///
+/// @nodoc
 class Workflow {
   /// The Amazon Resource Name (ARN) of the workflow resource.
   final String? arn;
@@ -13169,6 +13452,8 @@ class Workflow {
 }
 
 /// The resource ARNs with different wildcard variations of semantic versioning.
+///
+/// @nodoc
 class LatestVersionReferences {
   /// The latest version Amazon Resource Name (ARN) with the same
   /// <code>major</code> version of the Image Builder resource.
@@ -13220,6 +13505,8 @@ class LatestVersionReferences {
 
 /// Defines a parameter that's used to provide configuration details for the
 /// workflow.
+///
+/// @nodoc
 class WorkflowParameterDetail {
   /// The name of this input parameter.
   final String name;
@@ -13267,6 +13554,7 @@ class WorkflowParameterDetail {
   }
 }
 
+/// @nodoc
 class MarketplaceResourceType {
   static const componentData = MarketplaceResourceType._('COMPONENT_DATA');
   static const componentArtifact =
@@ -13294,6 +13582,8 @@ class MarketplaceResourceType {
 }
 
 /// The configuration details for a lifecycle policy resource.
+///
+/// @nodoc
 class LifecyclePolicy {
   /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
   final String? arn;
@@ -13406,6 +13696,8 @@ class LifecyclePolicy {
 }
 
 /// Details of the infrastructure configuration.
+///
+/// @nodoc
 class InfrastructureConfiguration {
   /// The Amazon Resource Name (ARN) of the infrastructure configuration.
   final String? arn;
@@ -13568,6 +13860,8 @@ class InfrastructureConfiguration {
 }
 
 /// An image recipe.
+///
+/// @nodoc
 class ImageRecipe {
   /// Before you create a new AMI, Image Builder launches temporary Amazon EC2
   /// instances to build and test your image configuration. Instance configuration
@@ -13741,6 +14035,8 @@ class ImageRecipe {
 /// agent, Image Builder installs it. For Linux instances where Image Builder
 /// installs the Systems Manager agent, you can choose whether to keep it for
 /// the AMI that you create.
+///
+/// @nodoc
 class AdditionalInstanceConfiguration {
   /// Contains settings for the Systems Manager agent on your build instance.
   final SystemsManagerAgent? systemsManagerAgent;
@@ -13792,6 +14088,8 @@ class AdditionalInstanceConfiguration {
 }
 
 /// Contains settings for the Systems Manager agent on your build instance.
+///
+/// @nodoc
 class SystemsManagerAgent {
   /// Controls whether the Systems Manager agent is removed from your final build
   /// image, prior to creating the new AMI. If this is set to true, then the agent
@@ -13822,6 +14120,8 @@ class SystemsManagerAgent {
 }
 
 /// Defines block device mappings for the instance used to configure your image.
+///
+/// @nodoc
 class InstanceBlockDeviceMapping {
   /// The device to which these mappings apply.
   final String? deviceName;
@@ -13869,6 +14169,8 @@ class InstanceBlockDeviceMapping {
 }
 
 /// Amazon EBS-specific block device mapping specifications.
+///
+/// @nodoc
 class EbsInstanceBlockDeviceSpecification {
   /// Use to configure delete on termination of the associated device.
   final bool? deleteOnTermination;
@@ -13949,6 +14251,7 @@ class EbsInstanceBlockDeviceSpecification {
   }
 }
 
+/// @nodoc
 class EbsVolumeType {
   static const standard = EbsVolumeType._('standard');
   static const io1 = EbsVolumeType._('io1');
@@ -13979,6 +14282,8 @@ class EbsVolumeType {
 }
 
 /// Configuration details of the component.
+///
+/// @nodoc
 class ComponentConfiguration {
   /// The Amazon Resource Name (ARN) of the component.
   final String componentArn;
@@ -14013,6 +14318,8 @@ class ComponentConfiguration {
 }
 
 /// Contains a key/value pair that sets the named component parameter.
+///
+/// @nodoc
 class ComponentParameter {
   /// The name of the component parameter to set.
   final String name;
@@ -14050,6 +14357,8 @@ class ComponentParameter {
 /// exactly one recipe for the image – either a container recipe
 /// (<code>containerRecipe</code>), which creates a container image, or an image
 /// recipe (<code>imageRecipe</code>), which creates an AMI.
+///
+/// @nodoc
 class Image {
   /// The Amazon Resource Name (ARN) of the image.
   /// <note>
@@ -14358,6 +14667,8 @@ class Image {
 }
 
 /// A container recipe.
+///
+/// @nodoc
 class ContainerRecipe {
   /// The Amazon Resource Name (ARN) of the container recipe.
   /// <note>
@@ -14557,6 +14868,8 @@ class ContainerRecipe {
 }
 
 /// A distribution configuration.
+///
+/// @nodoc
 class DistributionConfiguration {
   /// The maximum duration in minutes for this distribution configuration.
   final int timeoutMinutes;
@@ -14635,6 +14948,8 @@ class DistributionConfiguration {
 
 /// Shows the vulnerability scan status for a specific image, and the reason for
 /// that status.
+///
+/// @nodoc
 class ImageScanState {
   /// The reason for the scan status for the image.
   final String? reason;
@@ -14664,6 +14979,7 @@ class ImageScanState {
   }
 }
 
+/// @nodoc
 class ImageScanStatus {
   static const pending = ImageScanStatus._('PENDING');
   static const scanning = ImageScanStatus._('SCANNING');
@@ -14703,6 +15019,8 @@ class ImageScanStatus {
 
 /// Defines a custom base AMI and block device mapping configurations of an
 /// instance used for building and testing container images.
+///
+/// @nodoc
 class InstanceConfiguration {
   /// Defines the block devices to attach for building an instance from this Image
   /// Builder AMI.
@@ -14745,6 +15063,8 @@ class InstanceConfiguration {
 }
 
 /// A detailed view of a component.
+///
+/// @nodoc
 class Component {
   /// The Amazon Resource Name (ARN) of the component.
   final String? arn;
@@ -14921,6 +15241,8 @@ class Component {
 
 /// Defines a parameter that is used to provide configuration details for the
 /// component.
+///
+/// @nodoc
 class ComponentParameterDetail {
   /// The name of this input parameter.
   final String name;
@@ -14968,11 +15290,13 @@ class ComponentParameterDetail {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class CallRateLimitExceededException extends _s.GenericAwsException {
   CallRateLimitExceededException({String? type, String? message})
       : super(
@@ -14981,21 +15305,25 @@ class CallRateLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClientException extends _s.GenericAwsException {
   ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
+/// @nodoc
 class DryRunOperationException extends _s.GenericAwsException {
   DryRunOperationException({String? type, String? message})
       : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -15004,6 +15332,7 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -15012,6 +15341,7 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -15020,11 +15350,13 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -15033,11 +15365,13 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidVersionNumberException extends _s.GenericAwsException {
   InvalidVersionNumberException({String? type, String? message})
       : super(
@@ -15046,6 +15380,7 @@ class InvalidVersionNumberException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -15054,27 +15389,32 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceDependencyException extends _s.GenericAwsException {
   ResourceDependencyException({String? type, String? message})
       : super(
             type: type, code: 'ResourceDependencyException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -15083,12 +15423,14 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

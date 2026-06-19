@@ -3532,6 +3532,7 @@ class ChimeSdkVoice {
   }
 }
 
+/// @nodoc
 class AssociatePhoneNumbersWithVoiceConnectorResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -3560,6 +3561,7 @@ class AssociatePhoneNumbersWithVoiceConnectorResponse {
   }
 }
 
+/// @nodoc
 class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -3588,6 +3590,7 @@ class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
   }
 }
 
+/// @nodoc
 class BatchDeletePhoneNumberResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -3615,6 +3618,7 @@ class BatchDeletePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdatePhoneNumberResponse {
   /// A list of failed phone numbers and their error messages.
   final List<PhoneNumberError>? phoneNumberErrors;
@@ -3640,6 +3644,7 @@ class BatchUpdatePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class CreatePhoneNumberOrderResponse {
   /// The phone number order details.
   final PhoneNumberOrder? phoneNumberOrder;
@@ -3665,6 +3670,7 @@ class CreatePhoneNumberOrderResponse {
   }
 }
 
+/// @nodoc
 class CreateProxySessionResponse {
   /// The proxy session details.
   final ProxySession? proxySession;
@@ -3689,6 +3695,7 @@ class CreateProxySessionResponse {
   }
 }
 
+/// @nodoc
 class CreateSipMediaApplicationResponse {
   /// The SIP media application details.
   final SipMediaApplication? sipMediaApplication;
@@ -3716,6 +3723,7 @@ class CreateSipMediaApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateSipMediaApplicationCallResponse {
   /// The actual call.
   final SipMediaApplicationCall? sipMediaApplicationCall;
@@ -3743,6 +3751,7 @@ class CreateSipMediaApplicationCallResponse {
   }
 }
 
+/// @nodoc
 class CreateSipRuleResponse {
   /// The SIP rule information, including the rule ID, triggers, and target
   /// applications.
@@ -3768,6 +3777,7 @@ class CreateSipRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateVoiceConnectorResponse {
   /// The details of the Voice Connector.
   final VoiceConnector? voiceConnector;
@@ -3793,6 +3803,7 @@ class CreateVoiceConnectorResponse {
   }
 }
 
+/// @nodoc
 class CreateVoiceConnectorGroupResponse {
   /// The details of the Voice Connector group.
   final VoiceConnectorGroup? voiceConnectorGroup;
@@ -3820,6 +3831,7 @@ class CreateVoiceConnectorGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateVoiceProfileResponse {
   /// The requested voice profile.
   final VoiceProfile? voiceProfile;
@@ -3844,6 +3856,7 @@ class CreateVoiceProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateVoiceProfileDomainResponse {
   /// The requested voice profile domain.
   final VoiceProfileDomain? voiceProfileDomain;
@@ -3869,6 +3882,7 @@ class CreateVoiceProfileDomainResponse {
   }
 }
 
+/// @nodoc
 class DisassociatePhoneNumbersFromVoiceConnectorResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -3897,6 +3911,7 @@ class DisassociatePhoneNumbersFromVoiceConnectorResponse {
   }
 }
 
+/// @nodoc
 class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -3925,6 +3940,7 @@ class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
   }
 }
 
+/// @nodoc
 class GetGlobalSettingsResponse {
   /// The Voice Connector settings.
   final VoiceConnectorSettings? voiceConnector;
@@ -3950,6 +3966,7 @@ class GetGlobalSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetPhoneNumberResponse {
   /// The phone number details.
   final PhoneNumber? phoneNumber;
@@ -3974,6 +3991,7 @@ class GetPhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class GetPhoneNumberOrderResponse {
   /// The phone number order details.
   final PhoneNumberOrder? phoneNumberOrder;
@@ -3999,6 +4017,7 @@ class GetPhoneNumberOrderResponse {
   }
 }
 
+/// @nodoc
 class GetPhoneNumberSettingsResponse {
   /// The default outbound calling name for the account.
   final String? callingName;
@@ -4031,6 +4050,7 @@ class GetPhoneNumberSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetProxySessionResponse {
   /// The proxy session details.
   final ProxySession? proxySession;
@@ -4055,6 +4075,7 @@ class GetProxySessionResponse {
   }
 }
 
+/// @nodoc
 class GetSipMediaApplicationResponse {
   /// The details of the SIP media application.
   final SipMediaApplication? sipMediaApplication;
@@ -4081,6 +4102,7 @@ class GetSipMediaApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetSipMediaApplicationAlexaSkillConfigurationResponse {
   /// Returns the Alexa Skill configuration.
   final SipMediaApplicationAlexaSkillConfiguration?
@@ -4113,6 +4135,7 @@ class GetSipMediaApplicationAlexaSkillConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetSipMediaApplicationLoggingConfigurationResponse {
   /// The actual logging configuration.
   final SipMediaApplicationLoggingConfiguration?
@@ -4145,6 +4168,7 @@ class GetSipMediaApplicationLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetSipRuleResponse {
   /// The SIP rule details.
   final SipRule? sipRule;
@@ -4169,6 +4193,7 @@ class GetSipRuleResponse {
   }
 }
 
+/// @nodoc
 class GetSpeakerSearchTaskResponse {
   /// The details of the speaker search task.
   final SpeakerSearchTask? speakerSearchTask;
@@ -4194,6 +4219,7 @@ class GetSpeakerSearchTaskResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorResponse {
   /// The Voice Connector details.
   final VoiceConnector? voiceConnector;
@@ -4219,6 +4245,7 @@ class GetVoiceConnectorResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorEmergencyCallingConfigurationResponse {
   /// The details of the emergency calling configuration.
   final EmergencyCallingConfiguration? emergencyCallingConfiguration;
@@ -4247,6 +4274,7 @@ class GetVoiceConnectorEmergencyCallingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorExternalSystemsConfigurationResponse {
   /// An object that contains information about an external systems configuration
   /// for a Voice Connector.
@@ -4275,6 +4303,7 @@ class GetVoiceConnectorExternalSystemsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorGroupResponse {
   /// The details of the Voice Connector group.
   final VoiceConnectorGroup? voiceConnectorGroup;
@@ -4301,6 +4330,7 @@ class GetVoiceConnectorGroupResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorLoggingConfigurationResponse {
   /// The logging configuration details .
   final LoggingConfiguration? loggingConfiguration;
@@ -4328,6 +4358,7 @@ class GetVoiceConnectorLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorOriginationResponse {
   /// The origination setting details.
   final Origination? origination;
@@ -4353,6 +4384,7 @@ class GetVoiceConnectorOriginationResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorProxyResponse {
   /// The proxy configuration details.
   final Proxy? proxy;
@@ -4377,6 +4409,7 @@ class GetVoiceConnectorProxyResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorStreamingConfigurationResponse {
   /// The details of the streaming configuration.
   final StreamingConfiguration? streamingConfiguration;
@@ -4404,6 +4437,7 @@ class GetVoiceConnectorStreamingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorTerminationResponse {
   /// The termination setting details.
   final Termination? termination;
@@ -4429,6 +4463,7 @@ class GetVoiceConnectorTerminationResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceConnectorTerminationHealthResponse {
   /// The termination health details.
   final TerminationHealth? terminationHealth;
@@ -4455,6 +4490,7 @@ class GetVoiceConnectorTerminationHealthResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceProfileResponse {
   /// The voice profile details.
   final VoiceProfile? voiceProfile;
@@ -4479,6 +4515,7 @@ class GetVoiceProfileResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceProfileDomainResponse {
   /// The details of the voice profile domain.
   final VoiceProfileDomain? voiceProfileDomain;
@@ -4504,6 +4541,7 @@ class GetVoiceProfileDomainResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceToneAnalysisTaskResponse {
   /// The details of the voice tone analysis task.
   final VoiceToneAnalysisTask? voiceToneAnalysisTask;
@@ -4530,6 +4568,7 @@ class GetVoiceToneAnalysisTaskResponse {
   }
 }
 
+/// @nodoc
 class ListAvailableVoiceConnectorRegionsResponse {
   /// The list of AWS Regions.
   final List<VoiceConnectorAwsRegion>? voiceConnectorRegions;
@@ -4558,6 +4597,7 @@ class ListAvailableVoiceConnectorRegionsResponse {
   }
 }
 
+/// @nodoc
 class ListPhoneNumberOrdersResponse {
   /// The token used to retrieve the next page of results.
   final String? nextToken;
@@ -4590,6 +4630,7 @@ class ListPhoneNumberOrdersResponse {
   }
 }
 
+/// @nodoc
 class ListPhoneNumbersResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -4622,6 +4663,7 @@ class ListPhoneNumbersResponse {
   }
 }
 
+/// @nodoc
 class ListProxySessionsResponse {
   /// The token used to retrieve the next page of results.
   final String? nextToken;
@@ -4654,6 +4696,7 @@ class ListProxySessionsResponse {
   }
 }
 
+/// @nodoc
 class ListSipMediaApplicationsResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -4687,6 +4730,7 @@ class ListSipMediaApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListSipRulesResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -4719,6 +4763,7 @@ class ListSipRulesResponse {
   }
 }
 
+/// @nodoc
 class ListSupportedPhoneNumberCountriesResponse {
   /// The supported phone number countries.
   final List<PhoneNumberCountry>? phoneNumberCountries;
@@ -4746,6 +4791,7 @@ class ListSupportedPhoneNumberCountriesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags in the list.
   final List<Tag>? tags;
@@ -4771,6 +4817,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListVoiceConnectorGroupsResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -4804,6 +4851,7 @@ class ListVoiceConnectorGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListVoiceConnectorsResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -4836,6 +4884,7 @@ class ListVoiceConnectorsResponse {
   }
 }
 
+/// @nodoc
 class ListVoiceConnectorTerminationCredentialsResponse {
   /// A list of user names.
   final List<String>? usernames;
@@ -4862,6 +4911,7 @@ class ListVoiceConnectorTerminationCredentialsResponse {
   }
 }
 
+/// @nodoc
 class ListVoiceProfileDomainsResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -4896,6 +4946,7 @@ class ListVoiceProfileDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListVoiceProfilesResponse {
   /// The token used to retrieve the next page of results.
   final String? nextToken;
@@ -4928,6 +4979,7 @@ class ListVoiceProfilesResponse {
   }
 }
 
+/// @nodoc
 class PutSipMediaApplicationAlexaSkillConfigurationResponse {
   /// Returns the Alexa Skill configuration.
   final SipMediaApplicationAlexaSkillConfiguration?
@@ -4960,6 +5012,7 @@ class PutSipMediaApplicationAlexaSkillConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutSipMediaApplicationLoggingConfigurationResponse {
   /// The updated logging configuration for the specified SIP media application.
   final SipMediaApplicationLoggingConfiguration?
@@ -4992,6 +5045,7 @@ class PutSipMediaApplicationLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorEmergencyCallingConfigurationResponse {
   /// The updated configuration.
   final EmergencyCallingConfiguration? emergencyCallingConfiguration;
@@ -5020,6 +5074,7 @@ class PutVoiceConnectorEmergencyCallingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorExternalSystemsConfigurationResponse {
   /// An object that contains information about an external systems configuration
   /// for a Voice Connector.
@@ -5048,6 +5103,7 @@ class PutVoiceConnectorExternalSystemsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorLoggingConfigurationResponse {
   /// The updated logging configuration.
   final LoggingConfiguration? loggingConfiguration;
@@ -5075,6 +5131,7 @@ class PutVoiceConnectorLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorOriginationResponse {
   /// The updated origination settings.
   final Origination? origination;
@@ -5100,6 +5157,7 @@ class PutVoiceConnectorOriginationResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorProxyResponse {
   /// The proxy configuration details.
   final Proxy? proxy;
@@ -5124,6 +5182,7 @@ class PutVoiceConnectorProxyResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorStreamingConfigurationResponse {
   /// The updated streaming settings.
   final StreamingConfiguration? streamingConfiguration;
@@ -5151,6 +5210,7 @@ class PutVoiceConnectorStreamingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutVoiceConnectorTerminationResponse {
   /// The updated termination settings.
   final Termination? termination;
@@ -5176,6 +5236,7 @@ class PutVoiceConnectorTerminationResponse {
   }
 }
 
+/// @nodoc
 class RestorePhoneNumberResponse {
   /// The restored phone number.
   final PhoneNumber? phoneNumber;
@@ -5200,6 +5261,7 @@ class RestorePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class SearchAvailablePhoneNumbersResponse {
   /// Confines a search to just the phone numbers in the E.164 format.
   final List<String>? e164PhoneNumbers;
@@ -5233,6 +5295,7 @@ class SearchAvailablePhoneNumbersResponse {
   }
 }
 
+/// @nodoc
 class StartSpeakerSearchTaskResponse {
   /// The details of the speaker search task.
   final SpeakerSearchTask? speakerSearchTask;
@@ -5258,6 +5321,7 @@ class StartSpeakerSearchTaskResponse {
   }
 }
 
+/// @nodoc
 class StartVoiceToneAnalysisTaskResponse {
   /// The details of the voice tone analysis task.
   final VoiceToneAnalysisTask? voiceToneAnalysisTask;
@@ -5285,6 +5349,7 @@ class StartVoiceToneAnalysisTaskResponse {
   }
 }
 
+/// @nodoc
 class UpdatePhoneNumberResponse {
   /// The updated phone number details.
   final PhoneNumber? phoneNumber;
@@ -5309,6 +5374,7 @@ class UpdatePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class UpdateProxySessionResponse {
   /// The updated proxy session details.
   final ProxySession? proxySession;
@@ -5333,6 +5399,7 @@ class UpdateProxySessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateSipMediaApplicationResponse {
   /// The updated SIP media application’s details.
   final SipMediaApplication? sipMediaApplication;
@@ -5360,6 +5427,7 @@ class UpdateSipMediaApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSipMediaApplicationCallResponse {
   /// A <code>Call</code> instance for a SIP media application.
   final SipMediaApplicationCall? sipMediaApplicationCall;
@@ -5387,6 +5455,7 @@ class UpdateSipMediaApplicationCallResponse {
   }
 }
 
+/// @nodoc
 class UpdateSipRuleResponse {
   /// The updated SIP rule details.
   final SipRule? sipRule;
@@ -5411,6 +5480,7 @@ class UpdateSipRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateVoiceConnectorResponse {
   /// The updated Voice Connector details.
   final VoiceConnector? voiceConnector;
@@ -5436,6 +5506,7 @@ class UpdateVoiceConnectorResponse {
   }
 }
 
+/// @nodoc
 class UpdateVoiceConnectorGroupResponse {
   /// The updated Voice Connector group.
   final VoiceConnectorGroup? voiceConnectorGroup;
@@ -5463,6 +5534,7 @@ class UpdateVoiceConnectorGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateVoiceProfileResponse {
   /// The updated voice profile settings.
   final VoiceProfile? voiceProfile;
@@ -5487,6 +5559,7 @@ class UpdateVoiceProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateVoiceProfileDomainResponse {
   /// The updated details of the voice profile domain.
   final VoiceProfileDomain? voiceProfileDomain;
@@ -5512,6 +5585,7 @@ class UpdateVoiceProfileDomainResponse {
   }
 }
 
+/// @nodoc
 class ValidateE911AddressResponse {
   /// The validated address.
   final Address? address;
@@ -5579,6 +5653,8 @@ class ValidateE911AddressResponse {
 }
 
 /// A validated address.
+///
+/// @nodoc
 class Address {
   /// The city of an address.
   final String? city;
@@ -5667,6 +5743,8 @@ class Address {
 }
 
 /// A suggested address.
+///
+/// @nodoc
 class CandidateAddress {
   /// The city of the candidate address.
   final String? city;
@@ -5732,6 +5810,8 @@ class CandidateAddress {
 }
 
 /// A collection of voice profiles.
+///
+/// @nodoc
 class VoiceProfileDomain {
   /// The time at which the voice profile domain was created.
   final DateTime? createdTimestamp;
@@ -5814,6 +5894,8 @@ class VoiceProfileDomain {
 /// We only support symmetric keys. Do not use asymmetric or HMAC keys, or KMS
 /// aliases.
 /// </note>
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// The ARN of the KMS key used to encrypt the enrollment data in a voice
   /// profile domain. Asymmetric customer managed keys are not supported.
@@ -5839,6 +5921,8 @@ class ServerSideEncryptionConfiguration {
 }
 
 /// The combination of a voice print and caller ID.
+///
+/// @nodoc
 class VoiceProfile {
   /// The time at which the voice profile was created and enrolled.
   final DateTime? createdTimestamp;
@@ -5905,6 +5989,8 @@ class VoiceProfile {
 /// associated Voice Connectors. You can include Voice Connectors from different
 /// AWS Regions in a group. This creates a fault tolerant mechanism for fallback
 /// in case of availability events.
+///
+/// @nodoc
 class VoiceConnectorGroup {
   /// The Voice Connector group's creation time stamp, in ISO 8601 format.
   final DateTime? createdTimestamp;
@@ -5973,6 +6059,8 @@ class VoiceConnectorGroup {
 /// For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice
 /// Connectors to which you route inbound calls. Includes priority configuration
 /// settings. Limit: 3 VoiceConnectorItems per Voice Connector group.
+///
+/// @nodoc
 class VoiceConnectorItem {
   /// The priority setting of a Voice Connector item. Calls are routed to hosts in
   /// priority order, with 1 as the highest priority. When hosts have equal
@@ -6007,6 +6095,8 @@ class VoiceConnectorItem {
 
 /// The Amazon Chime SDK Voice Connector configuration, including outbound host
 /// name and encryption settings.
+///
+/// @nodoc
 class VoiceConnector {
   /// The AWS Region in which the Voice Connector is created. Default: us-east-1.
   final VoiceConnectorAwsRegion? awsRegion;
@@ -6098,6 +6188,7 @@ class VoiceConnector {
   }
 }
 
+/// @nodoc
 class VoiceConnectorAwsRegion {
   static const usEast_1 = VoiceConnectorAwsRegion._('us-east-1');
   static const usWest_2 = VoiceConnectorAwsRegion._('us-west-2');
@@ -6142,6 +6233,7 @@ class VoiceConnectorAwsRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class VoiceConnectorIntegrationType {
   static const connectCallTransferConnector =
       VoiceConnectorIntegrationType._('CONNECT_CALL_TRANSFER_CONNECTOR');
@@ -6172,6 +6264,7 @@ class VoiceConnectorIntegrationType {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4Only = NetworkType._('IPV4_ONLY');
   static const dualStack = NetworkType._('DUAL_STACK');
@@ -6197,6 +6290,8 @@ class NetworkType {
 
 /// The details of a SIP rule, including name, triggers, and target
 /// applications. An AWS account can have multiple SIP rules.
+///
+/// @nodoc
 class SipRule {
   /// The time at which the SIP rule was created, in ISO 8601 format.
   final DateTime? createdTimestamp;
@@ -6280,6 +6375,7 @@ class SipRule {
   }
 }
 
+/// @nodoc
 class SipRuleTriggerType {
   static const toPhoneNumber = SipRuleTriggerType._('ToPhoneNumber');
   static const requestUriHostname = SipRuleTriggerType._('RequestUriHostname');
@@ -6308,6 +6404,8 @@ class SipRuleTriggerType {
 /// A target SIP media application and other details, such as priority and AWS
 /// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
 /// can be provided.
+///
+/// @nodoc
 class SipRuleTargetApplication {
   /// The AWS Region of a rule's target SIP media application.
   final String? awsRegion;
@@ -6346,6 +6444,8 @@ class SipRuleTargetApplication {
 }
 
 /// A <code>Call</code> instance for a SIP media application.
+///
+/// @nodoc
 class SipMediaApplicationCall {
   /// The call's transaction ID.
   final String? transactionId;
@@ -6370,6 +6470,8 @@ class SipMediaApplicationCall {
 
 /// The details of the SIP media application, including name and endpoints. An
 /// AWS account can have multiple SIP media applications.
+///
+/// @nodoc
 class SipMediaApplication {
   /// The AWS Region in which the SIP media application is created.
   final String? awsRegion;
@@ -6444,6 +6546,8 @@ class SipMediaApplication {
 }
 
 /// The endpoint assigned to a SIP media application.
+///
+/// @nodoc
 class SipMediaApplicationEndpoint {
   /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias.
   /// The function must be created in the same AWS Region as the SIP media
@@ -6469,6 +6573,8 @@ class SipMediaApplicationEndpoint {
 }
 
 /// The proxy session for an Amazon Chime SDK Voice Connector.
+///
+/// @nodoc
 class ProxySession {
   /// The proxy session capabilities.
   final List<Capability>? capabilities;
@@ -6593,6 +6699,7 @@ class ProxySession {
   }
 }
 
+/// @nodoc
 class ProxySessionStatus {
   static const open = ProxySessionStatus._('Open');
   static const inProgress = ProxySessionStatus._('InProgress');
@@ -6619,6 +6726,7 @@ class ProxySessionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NumberSelectionBehavior {
   static const preferSticky = NumberSelectionBehavior._('PreferSticky');
   static const avoidSticky = NumberSelectionBehavior._('AvoidSticky');
@@ -6644,6 +6752,7 @@ class NumberSelectionBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class GeoMatchLevel {
   static const country = GeoMatchLevel._('Country');
   static const areaCode = GeoMatchLevel._('AreaCode');
@@ -6669,6 +6778,8 @@ class GeoMatchLevel {
 }
 
 /// The country and area code for a proxy phone number in a proxy phone session.
+///
+/// @nodoc
 class GeoMatchParams {
   /// The area code.
   final String areaCode;
@@ -6700,6 +6811,8 @@ class GeoMatchParams {
 
 /// The phone number and proxy phone number for a participant in an Amazon Chime
 /// SDK Voice Connector proxy session.
+///
+/// @nodoc
 class Participant {
   /// The participant's phone number.
   final String? phoneNumber;
@@ -6729,6 +6842,7 @@ class Participant {
   }
 }
 
+/// @nodoc
 class Capability {
   static const voice = Capability._('Voice');
   static const sms = Capability._('SMS');
@@ -6753,6 +6867,8 @@ class Capability {
 }
 
 /// A phone number used to call an Amazon Chime SDK Voice Connector.
+///
+/// @nodoc
 class PhoneNumber {
   /// The phone number's associations.
   final List<PhoneNumberAssociation>? associations;
@@ -6886,6 +7002,7 @@ class PhoneNumber {
   }
 }
 
+/// @nodoc
 class PhoneNumberType {
   static const local = PhoneNumberType._('Local');
   static const tollFree = PhoneNumberType._('TollFree');
@@ -6910,6 +7027,7 @@ class PhoneNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberProductType {
   static const voiceConnector = PhoneNumberProductType._('VoiceConnector');
   static const sipMediaApplicationDialIn =
@@ -6936,6 +7054,7 @@ class PhoneNumberProductType {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberStatus {
   static const cancelled = PhoneNumberStatus._('Cancelled');
   static const portinCancelRequested =
@@ -6984,6 +7103,8 @@ class PhoneNumberStatus {
 
 /// The phone number capabilities for Amazon Chime SDK phone numbers, such as
 /// enabled inbound and outbound calling, and text messaging.
+///
+/// @nodoc
 class PhoneNumberCapabilities {
   /// Allows or denies inbound calling for the specified phone number.
   final bool? inboundCall;
@@ -7041,6 +7162,7 @@ class PhoneNumberCapabilities {
   }
 }
 
+/// @nodoc
 class CallingNameStatus {
   static const unassigned = CallingNameStatus._('Unassigned');
   static const updateInProgress = CallingNameStatus._('UpdateInProgress');
@@ -7074,6 +7196,8 @@ class CallingNameStatus {
 
 /// The phone number associations, such as an Amazon Chime SDK account ID, user
 /// ID, Voice Connector ID, or Voice Connector group ID.
+///
+/// @nodoc
 class PhoneNumberAssociation {
   /// The timestamp of the phone number association, in ISO 8601 format.
   final DateTime? associatedTimestamp;
@@ -7113,6 +7237,7 @@ class PhoneNumberAssociation {
   }
 }
 
+/// @nodoc
 class PhoneNumberAssociationName {
   static const voiceConnectorId =
       PhoneNumberAssociationName._('VoiceConnectorId');
@@ -7143,6 +7268,8 @@ class PhoneNumberAssociationName {
 
 /// The Amazon Chime SDK Voice Connector settings. Includes any Amazon S3
 /// buckets designated for storing call detail records.
+///
+/// @nodoc
 class VoiceConnectorSettings {
   /// The S3 bucket that stores the Voice Connector's call detail records.
   final String? cdrBucket;
@@ -7166,6 +7293,8 @@ class VoiceConnectorSettings {
 }
 
 /// Describes a tag applied to a resource.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -7197,6 +7326,8 @@ class Tag {
 
 /// A representation of an asynchronous request to perform voice tone analysis
 /// on a Voice Connector call.
+///
+/// @nodoc
 class VoiceToneAnalysisTask {
   /// The call details of a voice tone analysis task.
   final CallDetails? callDetails;
@@ -7272,6 +7403,8 @@ class VoiceToneAnalysisTask {
 }
 
 /// The details of an Amazon Chime SDK Voice Connector call.
+///
+/// @nodoc
 class CallDetails {
   /// Identifies a person as the caller or the callee.
   final bool? isCaller;
@@ -7308,6 +7441,7 @@ class CallDetails {
   }
 }
 
+/// @nodoc
 class LanguageCode {
   static const enUs = LanguageCode._('en-US');
 
@@ -7330,6 +7464,7 @@ class LanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorCode {
   static const badRequest = ErrorCode._('BadRequest');
   static const conflict = ErrorCode._('Conflict');
@@ -7388,6 +7523,8 @@ class ErrorCode {
 
 /// A representation of an asynchronous request to perform speaker search
 /// analysis on a Voice Connector call.
+///
+/// @nodoc
 class SpeakerSearchTask {
   /// The call details of a speaker search task.
   final CallDetails? callDetails;
@@ -7473,6 +7610,8 @@ class SpeakerSearchTask {
 }
 
 /// The details of a speaker search task.
+///
+/// @nodoc
 class SpeakerSearchDetails {
   /// The result value in the speaker search details.
   final List<SpeakerSearchResult>? results;
@@ -7509,6 +7648,8 @@ class SpeakerSearchDetails {
 }
 
 /// The result of a speaker search analysis.
+///
+/// @nodoc
 class SpeakerSearchResult {
   /// The confidence score in the speaker search analysis.
   final double? confidenceScore;
@@ -7538,6 +7679,7 @@ class SpeakerSearchResult {
   }
 }
 
+/// @nodoc
 class CallLegType {
   static const caller = CallLegType._('Caller');
   static const callee = CallLegType._('Callee');
@@ -7563,6 +7705,8 @@ class CallLegType {
 
 /// The SIP credentials used to authenticate requests to an Amazon Chime SDK
 /// Voice Connector.
+///
+/// @nodoc
 class Credential {
   /// The RFC2617 compliant password associated with the SIP credentials, in
   /// US-ASCII format.
@@ -7589,6 +7733,8 @@ class Credential {
 
 /// Termination settings enable SIP hosts to make outbound calls using an Amazon
 /// Chime SDK Voice Connector.
+///
+/// @nodoc
 class Termination {
   /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format.
   /// Required.
@@ -7651,6 +7797,8 @@ class Termination {
 /// Connector. Specifies whether media streaming is enabled for sending to
 /// Amazon Kinesis, and shows the retention period for the Amazon Kinesis data,
 /// in hours.
+///
+/// @nodoc
 class StreamingConfiguration {
   /// The amount of time, in hours, to the Kinesis data.
   final int dataRetentionInHours;
@@ -7705,6 +7853,8 @@ class StreamingConfiguration {
 }
 
 /// The configuration for a call analytics task.
+///
+/// @nodoc
 class MediaInsightsConfiguration {
   /// The configuration's ARN.
   final String? configurationArn;
@@ -7735,6 +7885,8 @@ class MediaInsightsConfiguration {
 }
 
 /// The target recipient for a streaming configuration notification.
+///
+/// @nodoc
 class StreamingNotificationTarget {
   /// The streaming notification target.
   final NotificationTarget? notificationTarget;
@@ -7759,6 +7911,7 @@ class StreamingNotificationTarget {
   }
 }
 
+/// @nodoc
 class NotificationTarget {
   static const eventBridge = NotificationTarget._('EventBridge');
   static const sns = NotificationTarget._('SNS');
@@ -7786,6 +7939,8 @@ class NotificationTarget {
 }
 
 /// The proxy configuration for an Amazon Chime SDK Voice Connector.
+///
+/// @nodoc
 class Proxy {
   /// The default number of minutes allowed for proxy sessions.
   final int? defaultSessionExpiryMinutes;
@@ -7841,6 +7996,8 @@ class Proxy {
 /// <note>
 /// The parameters listed below are not required, but you must use at least one.
 /// </note>
+///
+/// @nodoc
 class Origination {
   /// When origination settings are disabled, inbound calls are not enabled for
   /// your Amazon Chime SDK Voice Connector. This parameter is not required, but
@@ -7883,6 +8040,8 @@ class Origination {
 /// <note>
 /// The parameters listed below are not required, but you must use at least one.
 /// </note>
+///
+/// @nodoc
 class OriginationRoute {
   /// The FQDN or IP address to contact for origination traffic.
   final String? host;
@@ -7937,6 +8096,7 @@ class OriginationRoute {
   }
 }
 
+/// @nodoc
 class OriginationRouteProtocol {
   static const tcp = OriginationRouteProtocol._('TCP');
   static const udp = OriginationRouteProtocol._('UDP');
@@ -7965,6 +8125,8 @@ class OriginationRouteProtocol {
 /// The logging configuration associated with an Amazon Chime SDK Voice
 /// Connector. Specifies whether SIP message logs can be sent to Amazon
 /// CloudWatch Logs.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// Enables or disables media metrics logging.
   final bool? enableMediaMetricLogs;
@@ -7997,6 +8159,8 @@ class LoggingConfiguration {
 
 /// Contains information about an external systems configuration for a Voice
 /// Connector.
+///
+/// @nodoc
 class ExternalSystemsConfiguration {
   /// The contact center system.
   final List<ContactCenterSystemType>? contactCenterSystemTypes;
@@ -8037,6 +8201,7 @@ class ExternalSystemsConfiguration {
   }
 }
 
+/// @nodoc
 class ContactCenterSystemType {
   static const genesysEngageOnPremises =
       ContactCenterSystemType._('GENESYS_ENGAGE_ON_PREMISES');
@@ -8073,6 +8238,7 @@ class ContactCenterSystemType {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionBorderControllerType {
   static const ribbonSbc = SessionBorderControllerType._('RIBBON_SBC');
   static const oracleAcmePacketSbc =
@@ -8112,6 +8278,8 @@ class SessionBorderControllerType {
 
 /// The emergency calling configuration details associated with an Amazon Chime
 /// SDK Voice Connector.
+///
+/// @nodoc
 class EmergencyCallingConfiguration {
   /// The Dialed Number Identification Service (DNIS) emergency calling
   /// configuration details.
@@ -8142,6 +8310,8 @@ class EmergencyCallingConfiguration {
 /// The Dialed Number Identification Service (DNIS) emergency calling
 /// configuration details associated with an Amazon Chime SDK Voice Connector's
 /// emergency calling configuration.
+///
+/// @nodoc
 class DNISEmergencyCallingConfiguration {
   /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2
   /// format.
@@ -8181,6 +8351,8 @@ class DNISEmergencyCallingConfiguration {
 }
 
 /// The logging configuration of a SIP media application.
+///
+/// @nodoc
 class SipMediaApplicationLoggingConfiguration {
   /// Enables message logging for the specified SIP media application.
   final bool? enableSipMediaApplicationMessageLogs;
@@ -8215,6 +8387,8 @@ class SipMediaApplicationLoggingConfiguration {
 /// href="https://developer.amazon.com/en-US/alexa/alexasmartproperties">Alexa
 /// Smart Properties</a> page.
 /// </important>
+///
+/// @nodoc
 class SipMediaApplicationAlexaSkillConfiguration {
   /// The ID of the Alexa Skill configuration.
   final List<String> alexaSkillIds;
@@ -8249,6 +8423,7 @@ class SipMediaApplicationAlexaSkillConfiguration {
   }
 }
 
+/// @nodoc
 class AlexaSkillStatus {
   static const active = AlexaSkillStatus._('ACTIVE');
   static const inactive = AlexaSkillStatus._('INACTIVE');
@@ -8274,6 +8449,8 @@ class AlexaSkillStatus {
 }
 
 /// A high-level summary of a voice profile.
+///
+/// @nodoc
 class VoiceProfileSummary {
   /// The time at which a voice profile summary was created.
   final DateTime? createdTimestamp;
@@ -8338,6 +8515,8 @@ class VoiceProfileSummary {
 }
 
 /// A high-level overview of a voice profile domain.
+///
+/// @nodoc
 class VoiceProfileDomainSummary {
   /// The time at which the voice profile domain summary was created.
   final DateTime? createdTimestamp;
@@ -8400,6 +8579,8 @@ class VoiceProfileDomainSummary {
 }
 
 /// The phone number's country.
+///
+/// @nodoc
 class PhoneNumberCountry {
   /// The phone number country code. Format: ISO 3166-1 alpha-2.
   final String? countryCode;
@@ -8435,6 +8616,8 @@ class PhoneNumberCountry {
 }
 
 /// The details of an Amazon Chime SDK phone number order.
+///
+/// @nodoc
 class PhoneNumberOrder {
   /// The phone number order creation time stamp, in ISO 8601 format.
   final DateTime? createdTimestamp;
@@ -8517,6 +8700,7 @@ class PhoneNumberOrder {
   }
 }
 
+/// @nodoc
 class PhoneNumberOrderStatus {
   static const processing = PhoneNumberOrderStatus._('Processing');
   static const successful = PhoneNumberOrderStatus._('Successful');
@@ -8563,6 +8747,7 @@ class PhoneNumberOrderStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberOrderType {
   static const $new = PhoneNumberOrderType._('New');
   static const porting = PhoneNumberOrderType._('Porting');
@@ -8589,6 +8774,8 @@ class PhoneNumberOrderType {
 }
 
 /// A phone number for which an order has been placed.
+///
+/// @nodoc
 class OrderedPhoneNumber {
   /// The phone number, in E.164 format.
   final String? e164PhoneNumber;
@@ -8619,6 +8806,7 @@ class OrderedPhoneNumber {
   }
 }
 
+/// @nodoc
 class OrderedPhoneNumberStatus {
   static const processing = OrderedPhoneNumberStatus._('Processing');
   static const acquired = OrderedPhoneNumberStatus._('Acquired');
@@ -8648,6 +8836,8 @@ class OrderedPhoneNumberStatus {
 /// The termination health details, including the source IP address and
 /// timestamp of the last successful <code>SIP OPTIONS</code> message from your
 /// SIP infrastructure.
+///
+/// @nodoc
 class TerminationHealth {
   /// The source IP address.
   final String? source;
@@ -8680,6 +8870,8 @@ class TerminationHealth {
 /// If a phone number action fails for one or more of the phone numbers in a
 /// request, a list of the failed phone numbers is returned, along with error
 /// codes and error messages.
+///
+/// @nodoc
 class PhoneNumberError {
   /// The error code.
   final ErrorCode? errorCode;
@@ -8718,6 +8910,8 @@ class PhoneNumberError {
 
 /// The phone number ID, product type, or calling name fields to update, used
 /// with the <a>BatchUpdatePhoneNumber</a> and <a>UpdatePhoneNumber</a> actions.
+///
+/// @nodoc
 class UpdatePhoneNumberRequestItem {
   /// The phone number ID to update.
   final String phoneNumberId;
@@ -8752,36 +8946,43 @@ class UpdatePhoneNumberRequestItem {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GoneException extends _s.GenericAwsException {
   GoneException({String? type, String? message})
       : super(type: type, code: 'GoneException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -8790,28 +8991,33 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottledClientException extends _s.GenericAwsException {
   ThrottledClientException({String? type, String? message})
       : super(type: type, code: 'ThrottledClientException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedClientException extends _s.GenericAwsException {
   UnauthorizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnauthorizedClientException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(

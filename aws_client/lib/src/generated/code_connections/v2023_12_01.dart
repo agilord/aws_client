@@ -1227,6 +1227,7 @@ class CodeConnections {
   }
 }
 
+/// @nodoc
 class CreateConnectionOutput {
   /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is
   /// used as the connection reference when the connection is shared between
@@ -1264,6 +1265,7 @@ class CreateConnectionOutput {
   }
 }
 
+/// @nodoc
 class CreateHostOutput {
   /// The Amazon Resource Name (ARN) of the host to be created.
   final String? hostArn;
@@ -1296,6 +1298,7 @@ class CreateHostOutput {
   }
 }
 
+/// @nodoc
 class CreateRepositoryLinkOutput {
   /// The returned information about the created repository link.
   final RepositoryLinkInfo repositoryLinkInfo;
@@ -1320,6 +1323,7 @@ class CreateRepositoryLinkOutput {
   }
 }
 
+/// @nodoc
 class CreateSyncConfigurationOutput {
   /// The created sync configuration for the connection. A sync configuration
   /// allows Amazon Web Services to sync content from a Git repository to update a
@@ -1346,6 +1350,7 @@ class CreateSyncConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DeleteConnectionOutput {
   DeleteConnectionOutput();
 
@@ -1358,6 +1363,7 @@ class DeleteConnectionOutput {
   }
 }
 
+/// @nodoc
 class DeleteHostOutput {
   DeleteHostOutput();
 
@@ -1370,6 +1376,7 @@ class DeleteHostOutput {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryLinkOutput {
   DeleteRepositoryLinkOutput();
 
@@ -1382,6 +1389,7 @@ class DeleteRepositoryLinkOutput {
   }
 }
 
+/// @nodoc
 class DeleteSyncConfigurationOutput {
   DeleteSyncConfigurationOutput();
 
@@ -1394,6 +1402,7 @@ class DeleteSyncConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetConnectionOutput {
   /// The connection details, such as status, owner, and provider type.
   final Connection? connection;
@@ -1418,6 +1427,7 @@ class GetConnectionOutput {
   }
 }
 
+/// @nodoc
 class GetHostOutput {
   /// The name of the requested host.
   final String? name;
@@ -1472,6 +1482,7 @@ class GetHostOutput {
   }
 }
 
+/// @nodoc
 class GetRepositoryLinkOutput {
   /// The information returned for a specified repository link.
   final RepositoryLinkInfo repositoryLinkInfo;
@@ -1496,6 +1507,7 @@ class GetRepositoryLinkOutput {
   }
 }
 
+/// @nodoc
 class GetRepositorySyncStatusOutput {
   /// The status of the latest sync returned for a specified repository and
   /// branch.
@@ -1521,6 +1533,7 @@ class GetRepositorySyncStatusOutput {
   }
 }
 
+/// @nodoc
 class GetResourceSyncStatusOutput {
   /// The latest sync for the sync status with the Git repository, whether
   /// successful or not.
@@ -1567,6 +1580,7 @@ class GetResourceSyncStatusOutput {
   }
 }
 
+/// @nodoc
 class GetSyncBlockerSummaryOutput {
   /// The list of sync blockers for a specified resource.
   final SyncBlockerSummary syncBlockerSummary;
@@ -1591,6 +1605,7 @@ class GetSyncBlockerSummaryOutput {
   }
 }
 
+/// @nodoc
 class GetSyncConfigurationOutput {
   /// The details about the sync configuration for which you want to retrieve
   /// information.
@@ -1616,6 +1631,7 @@ class GetSyncConfigurationOutput {
   }
 }
 
+/// @nodoc
 class ListConnectionsOutput {
   /// A list of connections and the details for each connection, such as status,
   /// owner, and provider type.
@@ -1651,6 +1667,7 @@ class ListConnectionsOutput {
   }
 }
 
+/// @nodoc
 class ListHostsOutput {
   /// A list of hosts and the details for each host, such as status, endpoint, and
   /// provider type.
@@ -1686,6 +1703,7 @@ class ListHostsOutput {
   }
 }
 
+/// @nodoc
 class ListRepositoryLinksOutput {
   /// Lists the repository links called by the list repository links operation.
   final List<RepositoryLinkInfo> repositoryLinks;
@@ -1719,6 +1737,7 @@ class ListRepositoryLinksOutput {
   }
 }
 
+/// @nodoc
 class ListRepositorySyncDefinitionsOutput {
   /// The list of repository sync definitions returned by the request. A
   /// <code>RepositorySyncDefinition</code> is a mapping from a repository branch
@@ -1758,6 +1777,7 @@ class ListRepositorySyncDefinitionsOutput {
   }
 }
 
+/// @nodoc
 class ListSyncConfigurationsOutput {
   /// The list of repository sync definitions returned by the request.
   final List<SyncConfiguration> syncConfigurations;
@@ -1791,6 +1811,7 @@ class ListSyncConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A list of tag key and value pairs associated with the specified resource.
   final List<Tag>? tags;
@@ -1816,6 +1837,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1828,6 +1850,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1840,6 +1863,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateHostOutput {
   UpdateHostOutput();
 
@@ -1852,6 +1876,7 @@ class UpdateHostOutput {
   }
 }
 
+/// @nodoc
 class UpdateRepositoryLinkOutput {
   /// Information about the repository link to be updated.
   final RepositoryLinkInfo repositoryLinkInfo;
@@ -1876,6 +1901,7 @@ class UpdateRepositoryLinkOutput {
   }
 }
 
+/// @nodoc
 class UpdateSyncBlockerOutput {
   /// The resource name for the sync blocker.
   final String resourceName;
@@ -1914,6 +1940,7 @@ class UpdateSyncBlockerOutput {
   }
 }
 
+/// @nodoc
 class UpdateSyncConfigurationOutput {
   /// The information returned for the sync configuration to be updated.
   final SyncConfiguration syncConfiguration;
@@ -1940,6 +1967,8 @@ class UpdateSyncConfigurationOutput {
 
 /// Information, such as repository, branch, provider, and resource names for a
 /// specific sync configuration.
+///
+/// @nodoc
 class SyncConfiguration {
   /// The branch associated with a specific sync configuration.
   final String branch;
@@ -2055,6 +2084,7 @@ class SyncConfiguration {
   }
 }
 
+/// @nodoc
 class ProviderType {
   static const bitbucket = ProviderType._('Bitbucket');
   static const gitHub = ProviderType._('GitHub');
@@ -2090,6 +2120,7 @@ class ProviderType {
   String toString() => value;
 }
 
+/// @nodoc
 class SyncConfigurationType {
   static const cfnStackSync = SyncConfigurationType._('CFN_STACK_SYNC');
 
@@ -2114,6 +2145,7 @@ class SyncConfigurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class PublishDeploymentStatus {
   static const enabled = PublishDeploymentStatus._('ENABLED');
   static const disabled = PublishDeploymentStatus._('DISABLED');
@@ -2139,6 +2171,7 @@ class PublishDeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TriggerResourceUpdateOn {
   static const anyChange = TriggerResourceUpdateOn._('ANY_CHANGE');
   static const fileChange = TriggerResourceUpdateOn._('FILE_CHANGE');
@@ -2164,6 +2197,7 @@ class TriggerResourceUpdateOn {
   String toString() => value;
 }
 
+/// @nodoc
 class PullRequestComment {
   static const enabled = PullRequestComment._('ENABLED');
   static const disabled = PullRequestComment._('DISABLED');
@@ -2190,6 +2224,8 @@ class PullRequestComment {
 }
 
 /// Information about a blocker for a sync event.
+///
+/// @nodoc
 class SyncBlocker {
   /// The creation time for a specific sync blocker.
   final DateTime createdAt;
@@ -2264,6 +2300,7 @@ class SyncBlocker {
   }
 }
 
+/// @nodoc
 class BlockerType {
   static const automated = BlockerType._('AUTOMATED');
 
@@ -2286,6 +2323,7 @@ class BlockerType {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockerStatus {
   static const active = BlockerStatus._('ACTIVE');
   static const resolved = BlockerStatus._('RESOLVED');
@@ -2311,6 +2349,8 @@ class BlockerStatus {
 }
 
 /// The context for a specific sync blocker.
+///
+/// @nodoc
 class SyncBlockerContext {
   /// The key provided for a context key-value pair for a specific sync blocker.
   final String key;
@@ -2342,6 +2382,8 @@ class SyncBlockerContext {
 
 /// Information about the repository link resource, such as the repository link
 /// ARN, the associated connection ARN, encryption key ARN, and owner ID.
+///
+/// @nodoc
 class RepositoryLinkInfo {
   /// The Amazon Resource Name (ARN) of the connection associated with the
   /// repository link.
@@ -2412,6 +2454,8 @@ class RepositoryLinkInfo {
 }
 
 /// The VPC configuration provisioned for the host.
+///
+/// @nodoc
 class VpcConfiguration {
   /// The ID of the security group or security groups associated with the Amazon
   /// VPC connected to the infrastructure where your provider type is installed.
@@ -2469,6 +2513,8 @@ class VpcConfiguration {
 ///
 /// This tag is available for use by Amazon Web Services services that support
 /// tags.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -2499,6 +2545,8 @@ class Tag {
 }
 
 /// The definition for a repository with a sync configuration.
+///
+/// @nodoc
 class RepositorySyncDefinition {
   /// The branch specified for a repository sync definition.
   final String branch;
@@ -2553,6 +2601,8 @@ class RepositorySyncDefinition {
 /// A host created through the CLI or the SDK is in `PENDING` status by default.
 /// You can make its status `AVAILABLE` by setting up the host in the console.
 /// </note>
+///
+/// @nodoc
 class Host {
   /// The Amazon Resource Name (ARN) of the host.
   final String? hostArn;
@@ -2630,6 +2680,8 @@ class Host {
 /// Note: A connection created through CloudFormation, the CLI, or the SDK is in
 /// `PENDING` status by default. You can make its status `AVAILABLE` by updating
 /// the connection in the console.
+///
+/// @nodoc
 class Connection {
   /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the
   /// connection reference when the connection is shared between Amazon Web
@@ -2698,6 +2750,7 @@ class Connection {
   }
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const pending = ConnectionStatus._('PENDING');
   static const available = ConnectionStatus._('AVAILABLE');
@@ -2724,6 +2777,8 @@ class ConnectionStatus {
 }
 
 /// A summary for sync blockers.
+///
+/// @nodoc
 class SyncBlockerSummary {
   /// The resource name for sync blocker summary.
   final String resourceName;
@@ -2765,6 +2820,8 @@ class SyncBlockerSummary {
 
 /// Information about the revision for a specific sync event, such as the
 /// branch, owner ID, and name of the repository.
+///
+/// @nodoc
 class Revision {
   /// The branch name for a specific revision.
   final String branch;
@@ -2825,6 +2882,8 @@ class Revision {
 }
 
 /// Information about a resource sync attempt.
+///
+/// @nodoc
 class ResourceSyncAttempt {
   /// The events related to a resource sync attempt.
   final List<ResourceSyncEvent> events;
@@ -2909,6 +2968,7 @@ class ResourceSyncAttempt {
   }
 }
 
+/// @nodoc
 class ResourceSyncStatus {
   static const failed = ResourceSyncStatus._('FAILED');
   static const initiated = ResourceSyncStatus._('INITIATED');
@@ -2938,6 +2998,8 @@ class ResourceSyncStatus {
 
 /// Information about a resource sync event for the resource associated with a
 /// sync configuration.
+///
+/// @nodoc
 class ResourceSyncEvent {
   /// The event for a resource sync event.
   final String event;
@@ -2983,6 +3045,8 @@ class ResourceSyncEvent {
 
 /// Information about a repository sync attempt for a repository with a sync
 /// configuration.
+///
+/// @nodoc
 class RepositorySyncAttempt {
   /// The events associated with a specific sync attempt.
   final List<RepositorySyncEvent> events;
@@ -3042,6 +3106,7 @@ class RepositorySyncAttempt {
   }
 }
 
+/// @nodoc
 class RepositorySyncStatus {
   static const failed = RepositorySyncStatus._('FAILED');
   static const initiated = RepositorySyncStatus._('INITIATED');
@@ -3071,6 +3136,8 @@ class RepositorySyncStatus {
 }
 
 /// Information about a repository sync event.
+///
+/// @nodoc
 class RepositorySyncEvent {
   /// A description of a repository sync event.
   final String event;
@@ -3114,11 +3181,13 @@ class RepositorySyncEvent {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -3127,6 +3196,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConditionalCheckFailedException extends _s.GenericAwsException {
   ConditionalCheckFailedException({String? type, String? message})
       : super(
@@ -3135,26 +3205,31 @@ class ConditionalCheckFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -3163,17 +3238,20 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class RetryLatestCommitFailedException extends _s.GenericAwsException {
   RetryLatestCommitFailedException({String? type, String? message})
       : super(
@@ -3182,6 +3260,7 @@ class RetryLatestCommitFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SyncBlockerDoesNotExistException extends _s.GenericAwsException {
   SyncBlockerDoesNotExistException({String? type, String? message})
       : super(
@@ -3190,6 +3269,7 @@ class SyncBlockerDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SyncConfigurationStillExistsException extends _s.GenericAwsException {
   SyncConfigurationStillExistsException({String? type, String? message})
       : super(
@@ -3198,11 +3278,13 @@ class SyncConfigurationStillExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -3211,6 +3293,7 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedProviderTypeException extends _s.GenericAwsException {
   UnsupportedProviderTypeException({String? type, String? message})
       : super(
@@ -3219,6 +3302,7 @@ class UnsupportedProviderTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UpdateOutOfSyncException extends _s.GenericAwsException {
   UpdateOutOfSyncException({String? type, String? message})
       : super(type: type, code: 'UpdateOutOfSyncException', message: message);

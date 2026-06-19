@@ -155,6 +155,7 @@ class KinesisVideoSignaling {
   }
 }
 
+/// @nodoc
 class GetIceServerConfigResponse {
   /// The list of ICE server information objects.
   final List<IceServer>? iceServerList;
@@ -180,6 +181,7 @@ class GetIceServerConfigResponse {
   }
 }
 
+/// @nodoc
 class SendAlexaOfferToMasterResponse {
   /// The base64-encoded SDP answer content.
   final String? answer;
@@ -203,6 +205,8 @@ class SendAlexaOfferToMasterResponse {
 }
 
 /// A structure for the ICE server connection data.
+///
+/// @nodoc
 class IceServer {
   /// A password to login to the ICE server.
   final String? password;
@@ -250,6 +254,7 @@ class IceServer {
   }
 }
 
+/// @nodoc
 class Service {
   static const turn = Service._('TURN');
 
@@ -272,32 +277,38 @@ class Service {
   String toString() => value;
 }
 
+/// @nodoc
 class ClientLimitExceededException extends _s.GenericAwsException {
   ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidClientException extends _s.GenericAwsException {
   InvalidClientException({String? type, String? message})
       : super(type: type, code: 'InvalidClientException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class SessionExpiredException extends _s.GenericAwsException {
   SessionExpiredException({String? type, String? message})
       : super(type: type, code: 'SessionExpiredException', message: message);

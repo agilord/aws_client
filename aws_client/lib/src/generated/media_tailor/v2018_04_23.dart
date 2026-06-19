@@ -97,7 +97,7 @@ class MediaTailor {
   /// CloudWatch, as described in <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html#AWS-vended-logs-permissions-V2">Enable
   /// logging from AWS services, Logging that requires additional permissions
-  /// [V2]</a>.
+  /// \[V2\]</a>.
   ///
   /// Parameter [manifestServiceInteractionLog] :
   /// The event types that MediaTailor emits in logs for interactions with the
@@ -1938,6 +1938,7 @@ class MediaTailor {
   }
 }
 
+/// @nodoc
 class ConfigureLogsForPlaybackConfigurationResponse {
   /// The percentage of session logs that MediaTailor sends to your Cloudwatch
   /// Logs account.
@@ -2011,6 +2012,7 @@ class ConfigureLogsForPlaybackConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListAlertsResponse {
   /// A list of alerts that are associated with this resource.
   final List<Alert>? items;
@@ -2044,6 +2046,7 @@ class ListAlertsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with this resource. Tags are key-value pairs that you
   /// can associate with Amazon resources to help with organization, access
@@ -2071,6 +2074,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelResponse {
   /// The Amazon Resource Name (ARN) to assign to the channel.
   final String? arn;
@@ -2191,6 +2195,7 @@ class CreateChannelResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelResponse {
   /// The log configuration for the channel.
   final LogConfigurationForChannel logConfiguration;
@@ -2320,6 +2325,7 @@ class DescribeChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelResponse {
   /// The Amazon Resource Name (ARN) associated with the channel.
   final String? arn;
@@ -2448,6 +2454,7 @@ class UpdateChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelResponse {
   DeleteChannelResponse();
 
@@ -2460,6 +2467,7 @@ class DeleteChannelResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// A list of channels that are associated with this account.
   final List<Channel>? items;
@@ -2493,6 +2501,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class ConfigureLogsForChannelResponse {
   /// The name of the channel.
   final String? channelName;
@@ -2525,6 +2534,7 @@ class ConfigureLogsForChannelResponse {
   }
 }
 
+/// @nodoc
 class GetChannelScheduleResponse {
   /// A list of schedule entries for the channel.
   final List<ScheduleEntry>? items;
@@ -2558,6 +2568,7 @@ class GetChannelScheduleResponse {
   }
 }
 
+/// @nodoc
 class StartChannelResponse {
   StartChannelResponse();
 
@@ -2570,6 +2581,7 @@ class StartChannelResponse {
   }
 }
 
+/// @nodoc
 class StopChannelResponse {
   StopChannelResponse();
 
@@ -2582,6 +2594,7 @@ class StopChannelResponse {
   }
 }
 
+/// @nodoc
 class PutChannelPolicyResponse {
   PutChannelPolicyResponse();
 
@@ -2594,6 +2607,7 @@ class PutChannelPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetChannelPolicyResponse {
   /// The IAM policy for the channel. IAM policies are used to control access to
   /// your channel.
@@ -2617,6 +2631,7 @@ class GetChannelPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelPolicyResponse {
   DeleteChannelPolicyResponse();
 
@@ -2629,6 +2644,7 @@ class DeleteChannelPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateProgramResponse {
   /// The ad break configuration settings.
   final List<AdBreak>? adBreaks;
@@ -2750,6 +2766,7 @@ class CreateProgramResponse {
   }
 }
 
+/// @nodoc
 class DescribeProgramResponse {
   /// The ad break configuration settings.
   final List<AdBreak>? adBreaks;
@@ -2873,6 +2890,7 @@ class DescribeProgramResponse {
   }
 }
 
+/// @nodoc
 class UpdateProgramResponse {
   /// The ad break configuration settings.
   final List<AdBreak>? adBreaks;
@@ -2994,6 +3012,7 @@ class UpdateProgramResponse {
   }
 }
 
+/// @nodoc
 class DeleteProgramResponse {
   DeleteProgramResponse();
 
@@ -3007,6 +3026,8 @@ class DeleteProgramResponse {
 }
 
 /// -- Define Mixin --
+///
+/// @nodoc
 class PutFunctionResponse {
   /// The identifier of the function.
   final String functionId;
@@ -3100,6 +3121,8 @@ class PutFunctionResponse {
 }
 
 /// -- Define Mixin --
+///
+/// @nodoc
 class GetFunctionResponse {
   /// The identifier of the function.
   final String functionId;
@@ -3192,6 +3215,7 @@ class GetFunctionResponse {
   }
 }
 
+/// @nodoc
 class DeleteFunctionResponse {
   DeleteFunctionResponse();
 
@@ -3204,6 +3228,7 @@ class DeleteFunctionResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionsResponse {
   /// A list of functions associated with your account in the current Region.
   final List<$Function>? items;
@@ -3244,6 +3269,7 @@ class ListFunctionsResponse {
   }
 }
 
+/// @nodoc
 class CreateLiveSourceResponse {
   /// The ARN to assign to the live source.
   final String? arn;
@@ -3320,6 +3346,7 @@ class CreateLiveSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeLiveSourceResponse {
   /// The ARN of the live source.
   final String? arn;
@@ -3396,6 +3423,7 @@ class DescribeLiveSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateLiveSourceResponse {
   /// The Amazon Resource Name (ARN) associated with this live source.
   final String? arn;
@@ -3472,6 +3500,7 @@ class UpdateLiveSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteLiveSourceResponse {
   DeleteLiveSourceResponse();
 
@@ -3484,6 +3513,7 @@ class DeleteLiveSourceResponse {
   }
 }
 
+/// @nodoc
 class ListLiveSourcesResponse {
   /// Lists the live sources.
   final List<LiveSource>? items;
@@ -3517,6 +3547,7 @@ class ListLiveSourcesResponse {
   }
 }
 
+/// @nodoc
 class PutPlaybackConfigurationResponse {
   /// The setting that indicates what conditioning MediaTailor will perform on ads
   /// that the ad decision server (ADS) returns, and what priority MediaTailor
@@ -3801,6 +3832,7 @@ class PutPlaybackConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetPlaybackConfigurationResponse {
   /// The setting that indicates what conditioning MediaTailor will perform on ads
   /// that the ad decision server (ADS) returns, and what priority MediaTailor
@@ -4086,6 +4118,7 @@ class GetPlaybackConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePlaybackConfigurationResponse {
   DeletePlaybackConfigurationResponse();
 
@@ -4098,6 +4131,7 @@ class DeletePlaybackConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListPlaybackConfigurationsResponse {
   /// Array of playback configurations. This might be all the available
   /// configurations or a subset, depending on the settings that you provide and
@@ -4134,6 +4168,7 @@ class ListPlaybackConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class CreatePrefetchScheduleResponse {
   /// The ARN to assign to the prefetch schedule.
   final String? arn;
@@ -4244,6 +4279,7 @@ class CreatePrefetchScheduleResponse {
   }
 }
 
+/// @nodoc
 class GetPrefetchScheduleResponse {
   /// The Amazon Resource Name (ARN) of the prefetch schedule.
   final String? arn;
@@ -4352,6 +4388,7 @@ class GetPrefetchScheduleResponse {
   }
 }
 
+/// @nodoc
 class DeletePrefetchScheduleResponse {
   DeletePrefetchScheduleResponse();
 
@@ -4364,6 +4401,7 @@ class DeletePrefetchScheduleResponse {
   }
 }
 
+/// @nodoc
 class ListPrefetchSchedulesResponse {
   /// Lists the prefetch schedules. An empty <code>Items</code> list doesn't mean
   /// there aren't more items to fetch, just that that page was empty.
@@ -4398,6 +4436,7 @@ class ListPrefetchSchedulesResponse {
   }
 }
 
+/// @nodoc
 class CreateSourceLocationResponse {
   /// Access configuration parameters. Configures the type of authentication used
   /// to access content from your source location.
@@ -4509,6 +4548,7 @@ class CreateSourceLocationResponse {
   }
 }
 
+/// @nodoc
 class DescribeSourceLocationResponse {
   /// The access configuration for the source location.
   final AccessConfiguration? accessConfiguration;
@@ -4616,6 +4656,7 @@ class DescribeSourceLocationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSourceLocationResponse {
   /// Access configuration parameters. Configures the type of authentication used
   /// to access content from your source location.
@@ -4727,6 +4768,7 @@ class UpdateSourceLocationResponse {
   }
 }
 
+/// @nodoc
 class DeleteSourceLocationResponse {
   DeleteSourceLocationResponse();
 
@@ -4739,6 +4781,7 @@ class DeleteSourceLocationResponse {
   }
 }
 
+/// @nodoc
 class ListSourceLocationsResponse {
   /// A list of source locations.
   final List<SourceLocation>? items;
@@ -4772,6 +4815,7 @@ class ListSourceLocationsResponse {
   }
 }
 
+/// @nodoc
 class CreateVodSourceResponse {
   /// The ARN to assign to this VOD source.
   final String? arn;
@@ -4848,6 +4892,7 @@ class CreateVodSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeVodSourceResponse {
   /// The ad break opportunities within the VOD source.
   final List<AdBreakOpportunity>? adBreakOpportunities;
@@ -4935,6 +4980,7 @@ class DescribeVodSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateVodSourceResponse {
   /// The Amazon Resource Name (ARN) associated with the VOD source.
   final String? arn;
@@ -5011,6 +5057,7 @@ class UpdateVodSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteVodSourceResponse {
   DeleteVodSourceResponse();
 
@@ -5023,6 +5070,7 @@ class DeleteVodSourceResponse {
   }
 }
 
+/// @nodoc
 class ListVodSourcesResponse {
   /// Lists the VOD sources.
   final List<VodSource>? items;
@@ -5057,6 +5105,8 @@ class ListVodSourcesResponse {
 }
 
 /// VOD source configuration parameters.
+///
+/// @nodoc
 class VodSource {
   /// The ARN for the VOD source.
   final String arn;
@@ -5134,6 +5184,8 @@ class VodSource {
 }
 
 /// The HTTP package configuration properties for the requested VOD source.
+///
+/// @nodoc
 class HttpPackageConfiguration {
   /// The relative path to the URL for this VOD source. This is combined with
   /// <code>SourceLocation::HttpConfiguration::BaseUrl</code> to form a valid URL.
@@ -5173,6 +5225,7 @@ class HttpPackageConfiguration {
   }
 }
 
+/// @nodoc
 class Type {
   static const dash = Type._('DASH');
   static const hls = Type._('HLS');
@@ -5198,6 +5251,8 @@ class Type {
 
 /// A location at which a zero-duration ad marker was detected in a VOD source
 /// manifest.
+///
+/// @nodoc
 class AdBreakOpportunity {
   /// The offset in milliseconds from the start of the VOD source at which an ad
   /// marker was detected.
@@ -5225,6 +5280,8 @@ class AdBreakOpportunity {
 /// source locations, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html">Working
 /// with source locations</a> in the <i>MediaTailor User Guide</i>.
+///
+/// @nodoc
 class SourceLocation {
   /// The ARN of the SourceLocation.
   final String arn;
@@ -5332,6 +5389,8 @@ class SourceLocation {
 }
 
 /// Access configuration parameters.
+///
+/// @nodoc
 class AccessConfiguration {
   /// The type of authentication used to access content from
   /// <code>HttpConfiguration::BaseUrl</code> on your source location.
@@ -5438,6 +5497,8 @@ class AccessConfiguration {
 /// server to be a content delivery network (CDN), such as CloudFront. If you
 /// don't specify a segment delivery server, then the source location server is
 /// used.
+///
+/// @nodoc
 class DefaultSegmentDeliveryConfiguration {
   /// The hostname of the server that will be used to serve segments. This string
   /// must include the protocol, such as <b>https://</b>.
@@ -5463,6 +5524,8 @@ class DefaultSegmentDeliveryConfiguration {
 }
 
 /// The HTTP configuration for the source location.
+///
+/// @nodoc
 class HttpConfiguration {
   /// The base URL for the source location host server. This string must include
   /// the protocol, such as <b>https://</b>.
@@ -5487,6 +5550,8 @@ class HttpConfiguration {
 }
 
 /// The segment delivery configuration settings.
+///
+/// @nodoc
 class SegmentDeliveryConfiguration {
   /// The base URL of the host or path of the segment delivery server that you're
   /// using to serve segments. This is typically a content delivery network (CDN).
@@ -5521,6 +5586,7 @@ class SegmentDeliveryConfiguration {
   }
 }
 
+/// @nodoc
 class AccessType {
   static const s3Sigv4 = AccessType._('S3_SIGV4');
   static const secretsManagerAccessToken =
@@ -5550,6 +5616,8 @@ class AccessType {
 /// about Secrets Manager access token authentication, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-access-configuration-access-token.html">Working
 /// with AWS Secrets Manager access token authentication</a>.
+///
+/// @nodoc
 class SecretsManagerAccessTokenConfiguration {
   /// The name of the HTTP header used to supply the access token in requests to
   /// the source location.
@@ -5597,6 +5665,8 @@ class SecretsManagerAccessTokenConfiguration {
 /// prefetching, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html">Using
 /// ad prefetching</a> in the <i>MediaTailor User Guide</i>.
+///
+/// @nodoc
 class PrefetchSchedule {
   /// The Amazon Resource Name (ARN) of the prefetch schedule.
   final String arn;
@@ -5712,6 +5782,8 @@ class PrefetchSchedule {
 
 /// For single prefetch, describes how and when that MediaTailor places
 /// prefetched ads into upcoming ad breaks.
+///
+/// @nodoc
 class PrefetchConsumption {
   /// The time when MediaTailor no longer considers the prefetched ads for use in
   /// an ad break. MediaTailor automatically deletes prefetch schedules no less
@@ -5762,6 +5834,8 @@ class PrefetchConsumption {
 /// A complex type that contains settings governing when MediaTailor prefetches
 /// ads, and which dynamic variables that MediaTailor includes in the request to
 /// the ad decision server.
+///
+/// @nodoc
 class PrefetchRetrieval {
   /// The time when prefetch retrieval ends for the ad break. Prefetching will be
   /// attempted for manifest requests that occur at or before this time.
@@ -5849,6 +5923,7 @@ class PrefetchRetrieval {
   }
 }
 
+/// @nodoc
 class PrefetchScheduleType {
   static const single = PrefetchScheduleType._('SINGLE');
   static const recurring = PrefetchScheduleType._('RECURRING');
@@ -5875,6 +5950,8 @@ class PrefetchScheduleType {
 }
 
 /// The configuration that defines how MediaTailor performs recurring prefetch.
+///
+/// @nodoc
 class RecurringPrefetchConfiguration {
   /// The end time for the window that MediaTailor prefetches and inserts ads in a
   /// live event.
@@ -5927,6 +6004,8 @@ class RecurringPrefetchConfiguration {
 
 /// The settings that determine how and when MediaTailor places prefetched ads
 /// into upcoming ad breaks for recurring prefetch scedules.
+///
+/// @nodoc
 class RecurringConsumption {
   /// The configuration for the dynamic variables that determine which ad breaks
   /// that MediaTailor inserts prefetched ads in.
@@ -5967,6 +6046,8 @@ class RecurringConsumption {
 /// With recurring prefetch, MediaTailor automatically prefetches ads for every
 /// avail that occurs during the retrieval window. The following configurations
 /// describe the MediaTailor behavior when prefetching ads for a live event.
+///
+/// @nodoc
 class RecurringRetrieval {
   /// The number of seconds that MediaTailor waits after an ad avail before
   /// prefetching ads for the next avail. If not set, the default is 0 (no delay).
@@ -6039,6 +6120,7 @@ class RecurringRetrieval {
   }
 }
 
+/// @nodoc
 class TrafficShapingType {
   static const retrievalWindow = TrafficShapingType._('RETRIEVAL_WINDOW');
   static const tps = TrafficShapingType._('TPS');
@@ -6068,6 +6150,8 @@ class TrafficShapingType {
 /// spread out requests to the ad decision server (ADS). Instead of sending ADS
 /// requests for all sessions at the same time, MediaTailor spreads the requests
 /// across the amount of time specified in the retrieval window.
+///
+/// @nodoc
 class TrafficShapingRetrievalWindow {
   /// The amount of time, in seconds, that MediaTailor spreads prefetch requests
   /// to the ADS.
@@ -6096,6 +6180,8 @@ class TrafficShapingRetrievalWindow {
 /// The configuration for TPS-based traffic shaping. This approach limits
 /// requests to the ad decision server (ADS) based on transactions per second
 /// and concurrent users.
+///
+/// @nodoc
 class TrafficShapingTpsConfiguration {
   /// The expected peak number of concurrent viewers for your content. MediaTailor
   /// uses this value along with peak TPS to determine how to distribute prefetch
@@ -6138,7 +6224,7 @@ class TrafficShapingTpsConfiguration {
 /// As an example, let's say that you set <code>DynamicVariable</code> to
 /// <code>scte.event_id</code> and <code>Operator</code> to <code>EQUALS</code>,
 /// and your playback configuration has an ADS URL of
-/// <code>https://my.ads.server.com/path?&amp;podId=[scte.avail_num]&amp;event=[scte.event_id]&amp;duration=[session.avail_duration_secs]</code>.
+/// <code>https://my.ads.server.com/path?&amp;podId=\[scte.avail_num\]&amp;event=\[scte.event_id\]&amp;duration=\[session.avail_duration_secs\]</code>.
 /// And the prefetch request to the ADS contains these values
 /// <code>https://my.ads.server.com/path?&amp;podId=3&amp;event=my-awesome-event&amp;duration=30</code>.
 /// MediaTailor will only insert the prefetched ads into the ad break if has a
@@ -6149,6 +6235,8 @@ class TrafficShapingTpsConfiguration {
 /// specify multiple <code>AvailMatchingCriteria</code>, MediaTailor combines
 /// them to match using a logical <code>AND</code>. You can model logical
 /// <code>OR</code> combinations by creating multiple prefetch schedules.
+///
+/// @nodoc
 class AvailMatchingCriteria {
   /// The dynamic variable(s) that MediaTailor should use as avail matching
   /// criteria. MediaTailor only places the prefetched ads into the avail if the
@@ -6187,6 +6275,7 @@ class AvailMatchingCriteria {
   }
 }
 
+/// @nodoc
 class Operator {
   static const equals = Operator._('EQUALS');
 
@@ -6209,6 +6298,7 @@ class Operator {
   String toString() => value;
 }
 
+/// @nodoc
 class ListPrefetchScheduleType {
   static const single = ListPrefetchScheduleType._('SINGLE');
   static const recurring = ListPrefetchScheduleType._('RECURRING');
@@ -6239,6 +6329,8 @@ class ListPrefetchScheduleType {
 /// see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html">Working
 /// with configurations in AWS Elemental MediaTailor</a>.
+///
+/// @nodoc
 class PlaybackConfiguration {
   /// The setting that indicates what conditioning MediaTailor will perform on ads
   /// that the ad decision server (ADS) returns, and what priority MediaTailor
@@ -6524,6 +6616,8 @@ class PlaybackConfiguration {
 /// more information about ad suppression, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html">Ad
 /// Suppression</a>.
+///
+/// @nodoc
 class AvailSuppression {
   /// Defines the policy to apply to the avail suppression mode.
   /// <code>BEHIND_LIVE_EDGE</code> will always use the full avail suppression
@@ -6580,6 +6674,8 @@ class AvailSuppression {
 /// play at the start or before the end of an ad break. To learn more about
 /// bumpers, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html">Bumpers</a>.
+///
+/// @nodoc
 class Bumper {
   /// The URL for the end bumper asset.
   final String? endUrl;
@@ -6611,6 +6707,8 @@ class Bumper {
 
 /// The configuration for using a content delivery network (CDN), like Amazon
 /// CloudFront, for content and ad segment management.
+///
+/// @nodoc
 class CdnConfiguration {
   /// A non-default content delivery network (CDN) to serve ad segments. By
   /// default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache
@@ -6653,6 +6751,8 @@ class CdnConfiguration {
 }
 
 /// The configuration for DASH content.
+///
+/// @nodoc
 class DashConfiguration {
   /// The URL generated by MediaTailor to initiate a playback session. The session
   /// uses server-side reporting. This setting is ignored in PUT operations.
@@ -6707,6 +6807,8 @@ class DashConfiguration {
 }
 
 /// The configuration for HLS content.
+///
+/// @nodoc
 class HlsConfiguration {
   /// The URL that is used to initiate a playback session for devices that support
   /// Apple HLS. The session uses server-side reporting.
@@ -6733,6 +6835,8 @@ class HlsConfiguration {
 
 /// Insertion Mode controls whether players can use stitched or guided ad
 /// insertion.
+///
+/// @nodoc
 class InsertionMode {
   static const stitchedOnly = InsertionMode._('STITCHED_ONLY');
   static const playerSelect = InsertionMode._('PLAYER_SELECT');
@@ -6758,6 +6862,8 @@ class InsertionMode {
 }
 
 /// The configuration for pre-roll ad insertion.
+///
+/// @nodoc
 class LivePreRollConfiguration {
   /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the
   /// specification of static parameters and placeholders for dynamic parameters.
@@ -6796,6 +6902,8 @@ class LivePreRollConfiguration {
 
 /// Defines where AWS Elemental MediaTailor sends logs for the playback
 /// configuration.
+///
+/// @nodoc
 class LogConfiguration {
   /// The method used for collecting logs from AWS Elemental MediaTailor.
   /// <code>LEGACY_CLOUDWATCH</code> indicates that MediaTailor is sending logs
@@ -6870,6 +6978,8 @@ class LogConfiguration {
 
 /// The configuration for manifest processing rules. Manifest processing rules
 /// enable customization of the personalized manifests created by MediaTailor.
+///
+/// @nodoc
 class ManifestProcessingRules {
   /// For HLS, when set to <code>true</code>, MediaTailor passes through
   /// <code>EXT-X-CUE-IN</code>, <code>EXT-X-CUE-OUT</code>, and
@@ -6906,6 +7016,8 @@ class ManifestProcessingRules {
 
 /// The setting that indicates what conditioning MediaTailor will perform on ads
 /// that the ad decision server (ADS) returns.
+///
+/// @nodoc
 class AdConditioningConfiguration {
   /// For ads that have media files with streaming delivery and supported file
   /// extensions, indicates what transcoding action MediaTailor takes when it
@@ -6940,6 +7052,8 @@ class AdConditioningConfiguration {
 /// Configuration parameters for customizing HTTP requests sent to the ad
 /// decision server (ADS). This allows you to specify the HTTP method, headers,
 /// request body, and compression settings for ADS requests.
+///
+/// @nodoc
 class AdDecisionServerConfiguration {
   /// The HTTP request configuration parameters for the ad decision server.
   final HttpRequest? httpRequest;
@@ -6964,6 +7078,7 @@ class AdDecisionServerConfiguration {
   }
 }
 
+/// @nodoc
 class EventName {
   static const preSessionInitialization =
       EventName._('PRE_SESSION_INITIALIZATION');
@@ -6990,6 +7105,8 @@ class EventName {
 
 /// HTTP request configuration parameters that define how MediaTailor
 /// communicates with the ad decision server.
+///
+/// @nodoc
 class HttpRequest {
   /// The request body content to send with HTTP requests to the ad decision
   /// server. This value is only eligible for <code>POST</code> requests.
@@ -7041,6 +7158,7 @@ class HttpRequest {
   }
 }
 
+/// @nodoc
 class Method {
   static const get = Method._('GET');
   static const post = Method._('POST');
@@ -7064,6 +7182,7 @@ class Method {
   String toString() => value;
 }
 
+/// @nodoc
 class CompressionMethod {
   static const none = CompressionMethod._('NONE');
   static const gzip = CompressionMethod._('GZIP');
@@ -7088,6 +7207,7 @@ class CompressionMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamingMediaFileConditioning {
   static const transcode = StreamingMediaFileConditioning._('TRANSCODE');
   static const none = StreamingMediaFileConditioning._('NONE');
@@ -7122,6 +7242,8 @@ class StreamingMediaFileConditioning {
 /// <code>EXT-X-CUE-OUT</code> has a value of <code>60</code>, but no ads are
 /// filled for that ad break, MediaTailor will not set the value to
 /// <code>0</code>.
+///
+/// @nodoc
 class AdMarkerPassthrough {
   /// Enables ad marker passthrough for your configuration.
   final bool? enabled;
@@ -7152,6 +7274,8 @@ class AdMarkerPassthrough {
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/ads-log-format.html">MediaTailor
 /// ADS logs description and event types</a> in Elemental MediaTailor User
 /// Guide.
+///
+/// @nodoc
 class AdsInteractionLog {
   /// Indicates that MediaTailor won't emit the selected events in the logs for
   /// playback sessions that are initialized with this configuration.
@@ -7201,6 +7325,8 @@ class AdsInteractionLog {
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/log-types.html">MediaTailor
 /// manifest logs description and event types</a> in Elemental MediaTailor User
 /// Guide.
+///
+/// @nodoc
 class ManifestServiceInteractionLog {
   /// Indicates that MediaTailor won't emit the selected events in the logs for
   /// playback sessions that are initialized with this configuration.
@@ -7243,6 +7369,7 @@ class ManifestServiceInteractionLog {
   }
 }
 
+/// @nodoc
 class ManifestServiceExcludeEventType {
   static const generatedManifest =
       ManifestServiceExcludeEventType._('GENERATED_MANIFEST');
@@ -7370,6 +7497,7 @@ class ManifestServiceExcludeEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class ManifestServicePublishOptInEventType {
   static const preSessionInitHookSummary =
       ManifestServicePublishOptInEventType._('PRE_SESSION_INIT_HOOK_SUMMARY');
@@ -7401,6 +7529,7 @@ class ManifestServicePublishOptInEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class AdsInteractionExcludeEventType {
   static const adMarkerFound =
       AdsInteractionExcludeEventType._('AD_MARKER_FOUND');
@@ -7552,6 +7681,7 @@ class AdsInteractionExcludeEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class AdsInteractionPublishOptInEventType {
   static const rawAdsResponse =
       AdsInteractionPublishOptInEventType._('RAW_ADS_RESPONSE');
@@ -7589,6 +7719,7 @@ class AdsInteractionPublishOptInEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class LoggingStrategy {
   static const vendedLogs = LoggingStrategy._('VENDED_LOGS');
   static const legacyCloudwatch = LoggingStrategy._('LEGACY_CLOUDWATCH');
@@ -7613,6 +7744,7 @@ class LoggingStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class OriginManifestType {
   static const singlePeriod = OriginManifestType._('SINGLE_PERIOD');
   static const multiPeriod = OriginManifestType._('MULTI_PERIOD');
@@ -7638,6 +7770,7 @@ class OriginManifestType {
   String toString() => value;
 }
 
+/// @nodoc
 class Mode {
   static const off = Mode._('OFF');
   static const behindLiveEdge = Mode._('BEHIND_LIVE_EDGE');
@@ -7662,6 +7795,7 @@ class Mode {
   String toString() => value;
 }
 
+/// @nodoc
 class FillPolicy {
   static const fullAvailOnly = FillPolicy._('FULL_AVAIL_ONLY');
   static const partialAvail = FillPolicy._('PARTIAL_AVAIL');
@@ -7686,6 +7820,8 @@ class FillPolicy {
 }
 
 /// The configuration for DASH PUT operations.
+///
+/// @nodoc
 class DashConfigurationForPut {
   /// The setting that controls whether MediaTailor includes the Location tag in
   /// DASH manifests. MediaTailor populates the Location tag with the URL for
@@ -7723,6 +7859,8 @@ class DashConfigurationForPut {
 }
 
 /// Live source configuration parameters.
+///
+/// @nodoc
 class LiveSource {
   /// The ARN for the live source.
   final String arn;
@@ -7800,6 +7938,8 @@ class LiveSource {
 }
 
 /// -- Define Mixin --
+///
+/// @nodoc
 class $Function {
   /// The identifier of the function.
   final String functionId;
@@ -7893,6 +8033,8 @@ class $Function {
 }
 
 /// -- Define Enums
+///
+/// @nodoc
 class FunctionType {
   static const httpRequest = FunctionType._('HTTP_REQUEST');
   static const customOutput = FunctionType._('CUSTOM_OUTPUT');
@@ -7918,6 +8060,8 @@ class FunctionType {
 }
 
 /// -- Function Configuration DataStructure
+///
+/// @nodoc
 class HttpRequestConfiguration {
   /// The HTTP method for the request. Valid values: <code>GET</code> and
   /// <code>POST</code>.
@@ -8008,6 +8152,8 @@ class HttpRequestConfiguration {
 /// do not make external calls. For more information, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-custom-output.html">CUSTOM_OUTPUT</a>
 /// in the <i>MediaTailor User Guide</i>.
+///
+/// @nodoc
 class CustomOutputConfiguration {
   /// The expression language used to evaluate expressions in the function
   /// configuration. Set this to <code>JSONata</code>.
@@ -8051,6 +8197,8 @@ class CustomOutputConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-sequential-executor.html">SEQUENTIAL_EXECUTOR</a>
 /// in the <i>MediaTailor User Guide</i>.
+///
+/// @nodoc
 class SequentialExecutorConfiguration {
   /// An ordered list of 1 to 10 steps. Each step specifies a child function to
   /// execute and an optional run condition expression that controls whether the
@@ -8107,6 +8255,7 @@ class SequentialExecutorConfiguration {
   }
 }
 
+/// @nodoc
 class RuntimeType {
   static const jsonata = RuntimeType._('JSONATA');
 
@@ -8131,6 +8280,8 @@ class RuntimeType {
 
 /// A reference to a child function within a <code>SEQUENTIAL_EXECUTOR</code>
 /// function.
+///
+/// @nodoc
 class FunctionRef {
   /// The identifier of the child function to execute in this step.
   final String? functionId;
@@ -8164,6 +8315,7 @@ class FunctionRef {
   }
 }
 
+/// @nodoc
 class MethodType {
   static const get = MethodType._('GET');
   static const post = MethodType._('POST');
@@ -8188,6 +8340,8 @@ class MethodType {
 }
 
 /// Clip range configuration for the VOD source associated with the program.
+///
+/// @nodoc
 class ClipRange {
   /// The end offset of the clip range, in milliseconds, starting from the
   /// beginning of the VOD source associated with the program.
@@ -8220,6 +8374,8 @@ class ClipRange {
 }
 
 /// An AudienceMedia object contains an Audience and a list of AlternateMedia.
+///
+/// @nodoc
 class AudienceMedia {
   /// The list of AlternateMedia defined in AudienceMedia.
   final List<AlternateMedia>? alternateMedia;
@@ -8254,6 +8410,8 @@ class AudienceMedia {
 
 /// A playlist of media (VOD and/or live) to be played instead of the default
 /// media on a particular program.
+///
+/// @nodoc
 class AlternateMedia {
   /// Ad break configuration parameters defined in AlternateMedia.
   final List<AdBreak>? adBreaks;
@@ -8324,6 +8482,8 @@ class AlternateMedia {
 }
 
 /// Ad break configuration parameters.
+///
+/// @nodoc
 class AdBreak {
   /// How long (in milliseconds) after the beginning of the program that an ad
   /// starts. This value must fall within 100ms of a segment boundary, otherwise
@@ -8406,6 +8566,7 @@ class AdBreak {
   }
 }
 
+/// @nodoc
 class MessageType {
   static const spliceInsert = MessageType._('SPLICE_INSERT');
   static const timeSignal = MessageType._('TIME_SIGNAL');
@@ -8430,6 +8591,8 @@ class MessageType {
 }
 
 /// Slate VOD source configuration.
+///
+/// @nodoc
 class SlateSource {
   /// The name of the source location where the slate VOD source is stored.
   final String? sourceLocationName;
@@ -8461,6 +8624,8 @@ class SlateSource {
 }
 
 /// Splice insert message configuration.
+///
+/// @nodoc
 class SpliceInsertMessage {
   /// This is written to <code>splice_insert.avail_num</code>, as defined in
   /// section 9.7.3.1 of the SCTE-35 specification. The default value is
@@ -8528,6 +8693,8 @@ class SpliceInsertMessage {
 ///
 /// See the <code>time_signal()</code> table of the 2022 SCTE-35 specification
 /// for more information.
+///
+/// @nodoc
 class TimeSignalMessage {
   /// The configurations for the SCTE-35 <code>segmentation_descriptor</code>
   /// message(s) sent with the <code>time_signal</code> message.
@@ -8559,6 +8726,8 @@ class TimeSignalMessage {
 /// For <code>SCTE35_ENHANCED</code> output, defines a key and corresponding
 /// value. MediaTailor generates these pairs within the
 /// <code>EXT-X-ASSET</code>tag.
+///
+/// @nodoc
 class KeyValuePair {
   /// For <code>SCTE35_ENHANCED</code> output, defines a key. MediaTailor takes
   /// this key, and its associated value, and generates the key/value pair within
@@ -8605,6 +8774,8 @@ class KeyValuePair {
 ///
 /// See the <code>segmentation_descriptor()</code> table of the 2022 SCTE-35
 /// specification for more information.
+///
+/// @nodoc
 class SegmentationDescriptor {
   /// The segment number to assign to the
   /// <code>segmentation_descriptor.segment_num</code> message, as defined in
@@ -8705,6 +8876,8 @@ class SegmentationDescriptor {
 }
 
 /// Schedule configuration parameters.
+///
+/// @nodoc
 class UpdateProgramScheduleConfiguration {
   /// Program clip range configuration.
   final ClipRange? clipRange;
@@ -8728,6 +8901,8 @@ class UpdateProgramScheduleConfiguration {
 }
 
 /// Program transition configuration.
+///
+/// @nodoc
 class UpdateProgramTransition {
   /// The duration of the live program in seconds.
   final int? durationMillis;
@@ -8754,6 +8929,8 @@ class UpdateProgramTransition {
 
 /// Schedule configuration parameters. A channel must be stopped before changes
 /// can be made to the schedule.
+///
+/// @nodoc
 class ScheduleConfiguration {
   /// Program transition configurations.
   final Transition transition;
@@ -8777,6 +8954,8 @@ class ScheduleConfiguration {
 }
 
 /// Program transition configuration.
+///
+/// @nodoc
 class Transition {
   /// The position where this program will be inserted relative to the
   /// <code>RelativePosition</code>.
@@ -8840,6 +9019,7 @@ class Transition {
   }
 }
 
+/// @nodoc
 class RelativePosition {
   static const beforeProgram = RelativePosition._('BEFORE_PROGRAM');
   static const afterProgram = RelativePosition._('AFTER_PROGRAM');
@@ -8865,6 +9045,8 @@ class RelativePosition {
 }
 
 /// The properties for a schedule.
+///
+/// @nodoc
 class ScheduleEntry {
   /// The ARN of the program.
   final String arn;
@@ -8967,6 +9149,7 @@ class ScheduleEntry {
   }
 }
 
+/// @nodoc
 class ScheduleEntryType {
   static const program = ScheduleEntryType._('PROGRAM');
   static const fillerSlate = ScheduleEntryType._('FILLER_SLATE');
@@ -8993,6 +9176,8 @@ class ScheduleEntryType {
 }
 
 /// The schedule's ad break properties.
+///
+/// @nodoc
 class ScheduleAdBreak {
   /// The approximate duration of the ad break, in seconds.
   final int? approximateDurationSeconds;
@@ -9039,6 +9224,7 @@ class ScheduleAdBreak {
   }
 }
 
+/// @nodoc
 class LogType {
   static const asRun = LogType._('AS_RUN');
 
@@ -9065,6 +9251,8 @@ class LogType {
 /// MediaTailor channels, see <a
 /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html">Working
 /// with channels</a> in the <i>MediaTailor User Guide</i>.
+///
+/// @nodoc
 class Channel {
   /// The ARN of the channel.
   final String arn;
@@ -9191,6 +9379,8 @@ class Channel {
 }
 
 /// The log configuration for the channel.
+///
+/// @nodoc
 class LogConfigurationForChannel {
   /// The log types.
   final List<LogType>? logTypes;
@@ -9217,6 +9407,8 @@ class LogConfigurationForChannel {
 }
 
 /// The output item response.
+///
+/// @nodoc
 class ResponseOutputItem {
   /// The name of the manifest for the channel that will appear in the channel
   /// output's playback URL.
@@ -9278,6 +9470,8 @@ class ResponseOutputItem {
 }
 
 /// Dash manifest configuration parameters.
+///
+/// @nodoc
 class DashPlaylistSettings {
   /// The total duration (in seconds) of each manifest. Minimum value:
   /// <code>30</code> seconds. Maximum value: <code>3600</code> seconds.
@@ -9335,6 +9529,8 @@ class DashPlaylistSettings {
 }
 
 /// HLS playlist configuration parameters.
+///
+/// @nodoc
 class HlsPlaylistSettings {
   /// Determines the type of SCTE 35 tags to use in ad markup. Specify
   /// <code>DATERANGE</code> to use <code>DATERANGE</code> tags (for live or VOD
@@ -9374,6 +9570,7 @@ class HlsPlaylistSettings {
   }
 }
 
+/// @nodoc
 class AdMarkupType {
   static const daterange = AdMarkupType._('DATERANGE');
   static const scte35Enhanced = AdMarkupType._('SCTE35_ENHANCED');
@@ -9397,6 +9594,7 @@ class AdMarkupType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelState {
   static const running = ChannelState._('RUNNING');
   static const stopped = ChannelState._('STOPPED');
@@ -9421,6 +9619,8 @@ class ChannelState {
 }
 
 /// The configuration for time-shifted viewing.
+///
+/// @nodoc
 class TimeShiftConfiguration {
   /// The maximum time delay for time-shifted viewing. The minimum allowed maximum
   /// time delay is 0 seconds, and the maximum allowed maximum time delay is 21600
@@ -9446,6 +9646,8 @@ class TimeShiftConfiguration {
 }
 
 /// The output configuration for this channel.
+///
+/// @nodoc
 class RequestOutputItem {
   /// The name of the manifest for the channel. The name appears in the
   /// <code>PlaybackUrl</code>.
@@ -9484,6 +9686,7 @@ class RequestOutputItem {
   }
 }
 
+/// @nodoc
 class PlaybackMode {
   static const loop = PlaybackMode._('LOOP');
   static const linear = PlaybackMode._('LINEAR');
@@ -9507,6 +9710,7 @@ class PlaybackMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Tier {
   static const basic = Tier._('BASIC');
   static const standard = Tier._('STANDARD');
@@ -9531,6 +9735,8 @@ class Tier {
 }
 
 /// Alert configuration parameters.
+///
+/// @nodoc
 class Alert {
   /// The code for the alert. For example, <code>NOT_PROCESSED</code>.
   final String alertCode;
@@ -9593,6 +9799,7 @@ class Alert {
   }
 }
 
+/// @nodoc
 class AlertCategory {
   static const schedulingError = AlertCategory._('SCHEDULING_ERROR');
   static const playbackWarning = AlertCategory._('PLAYBACK_WARNING');
@@ -9618,6 +9825,7 @@ class AlertCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);

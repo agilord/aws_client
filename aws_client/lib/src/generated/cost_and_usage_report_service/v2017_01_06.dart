@@ -291,6 +291,8 @@ class CostAndUsageReport {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
+///
+/// @nodoc
 class DeleteReportDefinitionResponse {
   final String? responseMessage;
 
@@ -313,6 +315,8 @@ class DeleteReportDefinitionResponse {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
+///
+/// @nodoc
 class DescribeReportDefinitionsResponse {
   final String? nextToken;
 
@@ -345,6 +349,7 @@ class DescribeReportDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags assigned to the report definition resource.
   final List<Tag>? tags;
@@ -370,6 +375,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ModifyReportDefinitionResponse {
   ModifyReportDefinitionResponse();
 
@@ -384,6 +390,8 @@ class ModifyReportDefinitionResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class PutReportDefinitionResponse {
   PutReportDefinitionResponse();
 
@@ -396,6 +404,7 @@ class PutReportDefinitionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -408,6 +417,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -422,6 +432,8 @@ class UntagResourceResponse {
 
 /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
 /// report definition.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag. Tag keys are case sensitive. Each report definition can
   /// only have up to one tag with the same key. If you try to add an existing tag
@@ -457,6 +469,8 @@ class Tag {
 /// The definition of Amazon Web Services Cost and Usage Report. You can specify
 /// the report name, time unit, report format, compression format, S3 bucket,
 /// additional artifacts, and schema elements in the definition.
+///
+/// @nodoc
 class ReportDefinition {
   /// A list of strings that indicate additional content that Amazon Web Services
   /// includes in the report, such as individual resource IDs.
@@ -574,6 +588,8 @@ class ReportDefinition {
 }
 
 /// The length of time covered by the report.
+///
+/// @nodoc
 class TimeUnit {
   static const hourly = TimeUnit._('HOURLY');
   static const daily = TimeUnit._('DAILY');
@@ -599,6 +615,8 @@ class TimeUnit {
 }
 
 /// The format that Amazon Web Services saves the report in.
+///
+/// @nodoc
 class ReportFormat {
   static const textORcsv = ReportFormat._('textORcsv');
   static const parquet = ReportFormat._('Parquet');
@@ -623,6 +641,8 @@ class ReportFormat {
 }
 
 /// The compression format that Amazon Web Services uses for the report.
+///
+/// @nodoc
 class CompressionFormat {
   static const zip = CompressionFormat._('ZIP');
   static const gzip = CompressionFormat._('GZIP');
@@ -650,6 +670,8 @@ class CompressionFormat {
 
 /// The region of the S3 bucket that Amazon Web Services delivers the report
 /// into.
+///
+/// @nodoc
 class AWSRegion {
   static const afSouth_1 = AWSRegion._('af-south-1');
   static const apEast_1 = AWSRegion._('ap-east-1');
@@ -728,6 +750,7 @@ class AWSRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportVersioning {
   static const createNewReport = ReportVersioning._('CREATE_NEW_REPORT');
   static const overwriteReport = ReportVersioning._('OVERWRITE_REPORT');
@@ -755,6 +778,8 @@ class ReportVersioning {
 /// A two element dictionary with a <code>lastDelivery</code> and
 /// <code>lastStatus</code> key whose values describe the date and status of the
 /// last delivered report for a particular report definition.
+///
+/// @nodoc
 class ReportStatus {
   /// A timestamp that gives the date of a report delivery.
   final String? lastDelivery;
@@ -784,6 +809,7 @@ class ReportStatus {
   }
 }
 
+/// @nodoc
 class LastStatus {
   static const success = LastStatus._('SUCCESS');
   static const errorPermissions = LastStatus._('ERROR_PERMISSIONS');
@@ -810,6 +836,8 @@ class LastStatus {
 
 /// The types of manifest that you want Amazon Web Services to create for this
 /// report.
+///
+/// @nodoc
 class AdditionalArtifact {
   static const redshift = AdditionalArtifact._('REDSHIFT');
   static const quicksight = AdditionalArtifact._('QUICKSIGHT');
@@ -837,6 +865,8 @@ class AdditionalArtifact {
 }
 
 /// Whether or not Amazon Web Services includes resource IDs in the report.
+///
+/// @nodoc
 class SchemaElement {
   static const resources = SchemaElement._('RESOURCES');
   static const splitCostAllocationData =
@@ -868,28 +898,33 @@ class SchemaElement {
   String toString() => value;
 }
 
+/// @nodoc
 class DuplicateReportNameException extends _s.GenericAwsException {
   DuplicateReportNameException({String? type, String? message})
       : super(
             type: type, code: 'DuplicateReportNameException', message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class ReportLimitReachedException extends _s.GenericAwsException {
   ReportLimitReachedException({String? type, String? message})
       : super(
             type: type, code: 'ReportLimitReachedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

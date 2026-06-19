@@ -1101,6 +1101,7 @@ class Translate {
   }
 }
 
+/// @nodoc
 class CreateParallelDataResponse {
   /// The custom name that you assigned to the parallel data resource.
   final String? name;
@@ -1131,6 +1132,7 @@ class CreateParallelDataResponse {
   }
 }
 
+/// @nodoc
 class DeleteParallelDataResponse {
   /// The name of the parallel data resource that is being deleted.
   final String? name;
@@ -1160,6 +1162,7 @@ class DeleteParallelDataResponse {
   }
 }
 
+/// @nodoc
 class DescribeTextTranslationJobResponse {
   /// An object that contains the properties associated with an asynchronous batch
   /// translation job.
@@ -1188,6 +1191,7 @@ class DescribeTextTranslationJobResponse {
   }
 }
 
+/// @nodoc
 class GetParallelDataResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
@@ -1270,6 +1274,7 @@ class GetParallelDataResponse {
   }
 }
 
+/// @nodoc
 class GetTerminologyResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
@@ -1335,6 +1340,7 @@ class GetTerminologyResponse {
   }
 }
 
+/// @nodoc
 class ImportTerminologyResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
@@ -1375,6 +1381,7 @@ class ImportTerminologyResponse {
   }
 }
 
+/// @nodoc
 class ListLanguagesResponse {
   /// The language code passed in with the request.
   final DisplayLanguageCode? displayLanguageCode;
@@ -1417,6 +1424,7 @@ class ListLanguagesResponse {
   }
 }
 
+/// @nodoc
 class ListParallelDataResponse {
   /// The string to use in a subsequent request to get the next page of results in
   /// a paginated response. This value is null if there are no additional pages.
@@ -1452,6 +1460,7 @@ class ListParallelDataResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags associated with the Amazon Translate resource being queried. A tag is a
   /// key-value pair that adds as a metadata to a resource used by Amazon
@@ -1480,6 +1489,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTerminologiesResponse {
   /// If the response to the ListTerminologies was truncated, the NextToken
   /// fetches the next group of custom terminologies.
@@ -1515,6 +1525,7 @@ class ListTerminologiesResponse {
   }
 }
 
+/// @nodoc
 class ListTextTranslationJobsResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -1552,6 +1563,7 @@ class ListTextTranslationJobsResponse {
   }
 }
 
+/// @nodoc
 class StartTextTranslationJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// ID with the <a>DescribeTextTranslationJob</a> operation.
@@ -1611,6 +1623,7 @@ class StartTextTranslationJobResponse {
   }
 }
 
+/// @nodoc
 class StopTextTranslationJobResponse {
   /// The job ID of the stopped batch translation job.
   final String? jobId;
@@ -1641,6 +1654,7 @@ class StopTextTranslationJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1653,6 +1667,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TranslateDocumentResponse {
   /// The language code of the source document.
   final String sourceLanguageCode;
@@ -1712,6 +1727,7 @@ class TranslateDocumentResponse {
   }
 }
 
+/// @nodoc
 class TranslateTextResponse {
   /// The language code for the language of the source text.
   final String sourceLanguageCode;
@@ -1770,6 +1786,7 @@ class TranslateTextResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1782,6 +1799,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateParallelDataResponse {
   /// The time that the most recent update was attempted.
   final DateTime? latestUpdateAttemptAt;
@@ -1831,6 +1849,7 @@ class UpdateParallelDataResponse {
   }
 }
 
+/// @nodoc
 class ParallelDataStatus {
   static const creating = ParallelDataStatus._('CREATING');
   static const updating = ParallelDataStatus._('UPDATING');
@@ -1860,6 +1879,8 @@ class ParallelDataStatus {
 }
 
 /// Specifies the format and S3 location of the parallel data input file.
+///
+/// @nodoc
 class ParallelDataConfig {
   /// The format of the parallel data input file.
   final ParallelDataFormat? format;
@@ -1890,6 +1911,7 @@ class ParallelDataConfig {
   }
 }
 
+/// @nodoc
 class ParallelDataFormat {
   static const tsv = ParallelDataFormat._('TSV');
   static const csv = ParallelDataFormat._('CSV');
@@ -1931,6 +1953,8 @@ class ParallelDataFormat {
 /// Profanity: masks profane words and phrases in the translation output.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TranslationSettings {
   /// When you turn on brevity, Amazon Translate reduces the length of the
   /// translation output for most translations (when compared with the same
@@ -2004,6 +2028,7 @@ class TranslationSettings {
   }
 }
 
+/// @nodoc
 class Formality {
   static const formal = Formality._('FORMAL');
   static const informal = Formality._('INFORMAL');
@@ -2027,6 +2052,7 @@ class Formality {
   String toString() => value;
 }
 
+/// @nodoc
 class Profanity {
   static const mask = Profanity._('MASK');
 
@@ -2049,6 +2075,7 @@ class Profanity {
   String toString() => value;
 }
 
+/// @nodoc
 class Brevity {
   static const on = Brevity._('ON');
 
@@ -2075,6 +2102,8 @@ class Brevity {
 /// translated text response. This is optional in the response and will only be
 /// present if you specified terminology input in the request. Currently, only
 /// one terminology can be applied per TranslateText request.
+///
+/// @nodoc
 class AppliedTerminology {
   /// The name of the custom terminology applied to the input text by Amazon
   /// Translate for the translated text response.
@@ -2112,6 +2141,8 @@ class AppliedTerminology {
 }
 
 /// The term being translated by the custom terminology.
+///
+/// @nodoc
 class Term {
   /// The source text of the term being translated by the custom terminology.
   final String? sourceText;
@@ -2142,6 +2173,8 @@ class Term {
 }
 
 /// The translated content.
+///
+/// @nodoc
 class TranslatedDocument {
   /// The document containing the translated content.
   final Uint8List content;
@@ -2165,6 +2198,8 @@ class TranslatedDocument {
 }
 
 /// The content and content type of a document.
+///
+/// @nodoc
 class Document {
   /// The <code>Content</code>field type is Binary large object (blob). This
   /// object contains the document content converted into base64-encoded binary
@@ -2207,6 +2242,8 @@ class Document {
 
 /// A key-value pair that adds as a metadata to a resource used by Amazon
 /// Translate.
+///
+/// @nodoc
 class Tag {
   /// The initial part of a key-value pair that forms a tag associated with a
   /// given resource.
@@ -2238,6 +2275,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const inProgress = JobStatus._('IN_PROGRESS');
@@ -2275,6 +2313,8 @@ class JobStatus {
 }
 
 /// The input configuration properties for requesting a batch translation job.
+///
+/// @nodoc
 class InputDataConfig {
   /// Describes the format of the data that you submit to Amazon Translate as
   /// input. You can specify one of the following multipurpose internet mail
@@ -2346,6 +2386,8 @@ class InputDataConfig {
 }
 
 /// The output configuration properties for a batch translation job.
+///
+/// @nodoc
 class OutputDataConfig {
   /// The URI of the S3 folder that contains a translation job's output file. The
   /// folder must be in the same Region as the API endpoint that you are calling.
@@ -2378,6 +2420,8 @@ class OutputDataConfig {
 }
 
 /// The encryption key used to encrypt this object.
+///
+/// @nodoc
 class EncryptionKey {
   /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt
   /// this object.
@@ -2408,6 +2452,7 @@ class EncryptionKey {
   }
 }
 
+/// @nodoc
 class EncryptionKeyType {
   static const kms = EncryptionKeyType._('KMS');
 
@@ -2432,6 +2477,8 @@ class EncryptionKeyType {
 }
 
 /// Provides information about a translation job.
+///
+/// @nodoc
 class TextTranslationJobProperties {
   /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
   /// (IAM) role that granted Amazon Translate read access to the job's input
@@ -2587,6 +2634,8 @@ class TextTranslationJobProperties {
 
 /// The number of documents successfully and unsuccessfully processed during a
 /// translation job.
+///
+/// @nodoc
 class JobDetails {
   /// The number of documents that could not be processed during a translation
   /// job.
@@ -2629,6 +2678,8 @@ class JobDetails {
 
 /// Provides information for filtering a list of translation jobs. For more
 /// information, see <a>ListTextTranslationJobs</a>.
+///
+/// @nodoc
 class TextTranslationJobFilter {
   /// Filters the list of jobs by name.
   final String? jobName;
@@ -2670,6 +2721,8 @@ class TextTranslationJobFilter {
 }
 
 /// The properties of the custom terminology.
+///
+/// @nodoc
 class TerminologyProperties {
   /// The Amazon Resource Name (ARN) of the custom terminology.
   final String? arn;
@@ -2805,6 +2858,7 @@ class TerminologyProperties {
   }
 }
 
+/// @nodoc
 class Directionality {
   static const uni = Directionality._('UNI');
   static const multi = Directionality._('MULTI');
@@ -2829,6 +2883,7 @@ class Directionality {
   String toString() => value;
 }
 
+/// @nodoc
 class TerminologyDataFormat {
   static const csv = TerminologyDataFormat._('CSV');
   static const tmx = TerminologyDataFormat._('TMX');
@@ -2856,6 +2911,8 @@ class TerminologyDataFormat {
 }
 
 /// The properties of a parallel data resource.
+///
+/// @nodoc
 class ParallelDataProperties {
   /// The Amazon Resource Name (ARN) of the parallel data resource.
   final String? arn;
@@ -3014,6 +3071,7 @@ class ParallelDataProperties {
   }
 }
 
+/// @nodoc
 class DisplayLanguageCode {
   static const de = DisplayLanguageCode._('de');
   static const en = DisplayLanguageCode._('en');
@@ -3048,6 +3106,8 @@ class DisplayLanguageCode {
 }
 
 /// A supported language.
+///
+/// @nodoc
 class Language {
   /// Language code for the supported language.
   final String languageCode;
@@ -3078,6 +3138,8 @@ class Language {
 }
 
 /// The location of the custom terminology data.
+///
+/// @nodoc
 class TerminologyDataLocation {
   /// The Amazon S3 location of the most recent custom terminology input file that
   /// was successfully imported into Amazon Translate. The location is returned as
@@ -3121,6 +3183,7 @@ class TerminologyDataLocation {
   }
 }
 
+/// @nodoc
 class MergeStrategy {
   static const overwrite = MergeStrategy._('OVERWRITE');
 
@@ -3148,6 +3211,8 @@ class MergeStrategy {
 /// custom terminology file, see <a
 /// href="https://docs.aws.amazon.com/translate/latest/dg/creating-custom-terminology.html">
 /// Creating a Custom Terminology</a>.
+///
+/// @nodoc
 class TerminologyData {
   /// The file containing the custom terminology data. Your version of the AWS SDK
   /// performs a Base64-encoding on this field before sending a request to the AWS
@@ -3194,6 +3259,8 @@ class TerminologyData {
 
 /// The location of the most recent parallel data input file that was
 /// successfully imported into Amazon Translate.
+///
+/// @nodoc
 class ParallelDataDataLocation {
   /// The Amazon S3 location of the parallel data input file. The location is
   /// returned as a presigned URL to that has a 30-minute expiration.
@@ -3236,6 +3303,7 @@ class ParallelDataDataLocation {
   }
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -3244,11 +3312,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DetectedLanguageLowConfidenceException extends _s.GenericAwsException {
   DetectedLanguageLowConfidenceException({String? type, String? message})
       : super(
@@ -3257,16 +3327,19 @@ class DetectedLanguageLowConfidenceException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidFilterException extends _s.GenericAwsException {
   InvalidFilterException({String? type, String? message})
       : super(type: type, code: 'InvalidFilterException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -3275,27 +3348,32 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TextSizeLimitExceededException extends _s.GenericAwsException {
   TextSizeLimitExceededException({String? type, String? message})
       : super(
@@ -3304,16 +3382,19 @@ class TextSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedDisplayLanguageCodeException extends _s.GenericAwsException {
   UnsupportedDisplayLanguageCodeException({String? type, String? message})
       : super(
@@ -3322,6 +3403,7 @@ class UnsupportedDisplayLanguageCodeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedLanguagePairException extends _s.GenericAwsException {
   UnsupportedLanguagePairException({String? type, String? message})
       : super(

@@ -2876,6 +2876,7 @@ class CleanRoomsML {
   }
 }
 
+/// @nodoc
 class ListCollaborationConfiguredModelAlgorithmAssociationsResponse {
   /// The configured model algorithm associations that belong to this
   /// collaboration.
@@ -2918,6 +2919,7 @@ class ListCollaborationConfiguredModelAlgorithmAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListCollaborationMLInputChannelsResponse {
   /// The list of ML input channels that you wanted.
   final List<CollaborationMLInputChannelSummary>
@@ -2955,6 +2957,7 @@ class ListCollaborationMLInputChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListCollaborationTrainedModelExportJobsResponse {
   /// The exports jobs that exist for the requested trained model in the requested
   /// collaboration.
@@ -2994,6 +2997,7 @@ class ListCollaborationTrainedModelExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListCollaborationTrainedModelInferenceJobsResponse {
   /// The trained model inference jobs that you are interested in.
   final List<CollaborationTrainedModelInferenceJobSummary>
@@ -3033,6 +3037,7 @@ class ListCollaborationTrainedModelInferenceJobsResponse {
   }
 }
 
+/// @nodoc
 class ListCollaborationTrainedModelsResponse {
   /// The trained models in the collaboration that you requested.
   final List<CollaborationTrainedModelSummary> collaborationTrainedModels;
@@ -3068,6 +3073,7 @@ class ListCollaborationTrainedModelsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags that are associated with the resource.
   final Map<String, String> tags;
@@ -3092,6 +3098,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3104,6 +3111,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3116,6 +3124,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class ListAudienceExportJobsResponse {
   /// The audience export jobs that match the request.
   final List<AudienceExportJobSummary> audienceExportJobs;
@@ -3149,6 +3158,7 @@ class ListAudienceExportJobsResponse {
   }
 }
 
+/// @nodoc
 class StartAudienceGenerationJobResponse {
   /// The Amazon Resource Name (ARN) of the audience generation job.
   final String audienceGenerationJobArn;
@@ -3173,6 +3183,7 @@ class StartAudienceGenerationJobResponse {
   }
 }
 
+/// @nodoc
 class GetAudienceGenerationJobResponse {
   /// The Amazon Resource Name (ARN) of the audience generation job.
   final String audienceGenerationJobArn;
@@ -3319,6 +3330,7 @@ class GetAudienceGenerationJobResponse {
   }
 }
 
+/// @nodoc
 class ListAudienceGenerationJobsResponse {
   /// The audience generation jobs that match the request.
   final List<AudienceGenerationJobSummary> audienceGenerationJobs;
@@ -3354,6 +3366,7 @@ class ListAudienceGenerationJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateAudienceModelResponse {
   /// The Amazon Resource Name (ARN) of the audience model.
   final String audienceModelArn;
@@ -3376,6 +3389,7 @@ class CreateAudienceModelResponse {
   }
 }
 
+/// @nodoc
 class GetAudienceModelResponse {
   /// The Amazon Resource Name (ARN) of the audience model.
   final String audienceModelArn;
@@ -3482,6 +3496,7 @@ class GetAudienceModelResponse {
   }
 }
 
+/// @nodoc
 class ListAudienceModelsResponse {
   /// The audience models that match the request.
   final List<AudienceModelSummary> audienceModels;
@@ -3514,6 +3529,7 @@ class ListAudienceModelsResponse {
   }
 }
 
+/// @nodoc
 class CreateConfiguredAudienceModelResponse {
   /// The Amazon Resource Name (ARN) of the configured audience model.
   final String configuredAudienceModelArn;
@@ -3538,6 +3554,7 @@ class CreateConfiguredAudienceModelResponse {
   }
 }
 
+/// @nodoc
 class GetConfiguredAudienceModelResponse {
   /// The Amazon Resource Name (ARN) of the audience model used for this
   /// configured audience model.
@@ -3672,6 +3689,7 @@ class GetConfiguredAudienceModelResponse {
   }
 }
 
+/// @nodoc
 class UpdateConfiguredAudienceModelResponse {
   /// The Amazon Resource Name (ARN) of the configured audience model that was
   /// updated.
@@ -3697,6 +3715,7 @@ class UpdateConfiguredAudienceModelResponse {
   }
 }
 
+/// @nodoc
 class ListConfiguredAudienceModelsResponse {
   /// The configured audience models.
   final List<ConfiguredAudienceModelSummary> configuredAudienceModels;
@@ -3732,6 +3751,7 @@ class ListConfiguredAudienceModelsResponse {
   }
 }
 
+/// @nodoc
 class PutConfiguredAudienceModelPolicyResponse {
   /// The IAM resource policy.
   final String configuredAudienceModelPolicy;
@@ -3764,6 +3784,7 @@ class PutConfiguredAudienceModelPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetConfiguredAudienceModelPolicyResponse {
   /// The Amazon Resource Name (ARN) of the configured audience model.
   final String configuredAudienceModelArn;
@@ -3804,6 +3825,7 @@ class GetConfiguredAudienceModelPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateConfiguredModelAlgorithmResponse {
   /// The Amazon Resource Name (ARN) of the configured model algorithm.
   final String configuredModelAlgorithmArn;
@@ -3828,6 +3850,7 @@ class CreateConfiguredModelAlgorithmResponse {
   }
 }
 
+/// @nodoc
 class GetConfiguredModelAlgorithmResponse {
   /// The Amazon Resource Name (ARN) of the configured model algorithm.
   final String configuredModelAlgorithmArn;
@@ -3965,6 +3988,7 @@ class GetConfiguredModelAlgorithmResponse {
   }
 }
 
+/// @nodoc
 class ListConfiguredModelAlgorithmsResponse {
   /// The list of configured model algorithms.
   final List<ConfiguredModelAlgorithmSummary> configuredModelAlgorithms;
@@ -4000,6 +4024,7 @@ class ListConfiguredModelAlgorithmsResponse {
   }
 }
 
+/// @nodoc
 class CreateConfiguredModelAlgorithmAssociationResponse {
   /// The Amazon Resource Name (ARN) of the configured model algorithm
   /// association.
@@ -4027,6 +4052,7 @@ class CreateConfiguredModelAlgorithmAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetConfiguredModelAlgorithmAssociationResponse {
   /// The collaboration ID of the collaboration that contains the configured model
   /// algorithm association.
@@ -4166,6 +4192,7 @@ class GetConfiguredModelAlgorithmAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListConfiguredModelAlgorithmAssociationsResponse {
   /// The list of configured model algorithm associations.
   final List<ConfiguredModelAlgorithmAssociationSummary>
@@ -4204,6 +4231,7 @@ class ListConfiguredModelAlgorithmAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetCollaborationConfiguredModelAlgorithmAssociationResponse {
   /// The collaboration ID of the collaboration that contains the configured model
   /// algorithm association.
@@ -4303,6 +4331,7 @@ class GetCollaborationConfiguredModelAlgorithmAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetMLConfigurationResponse {
   /// The time at which the ML configuration was created.
   final DateTime createTime;
@@ -4349,6 +4378,7 @@ class GetMLConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateMLInputChannelResponse {
   /// The Amazon Resource Name (ARN) of the ML input channel.
   final String mlInputChannelArn;
@@ -4371,6 +4401,7 @@ class CreateMLInputChannelResponse {
   }
 }
 
+/// @nodoc
 class GetMLInputChannelResponse {
   /// The collaboration ID of the collaboration that contains the ML input
   /// channel.
@@ -4600,6 +4631,7 @@ class GetMLInputChannelResponse {
   }
 }
 
+/// @nodoc
 class ListMLInputChannelsResponse {
   /// The list of ML input channels that you wanted.
   final List<MLInputChannelSummary> mlInputChannelsList;
@@ -4632,6 +4664,7 @@ class ListMLInputChannelsResponse {
   }
 }
 
+/// @nodoc
 class GetCollaborationMLInputChannelResponse {
   /// The collaboration ID of the collaboration that contains the ML input
   /// channel.
@@ -4785,6 +4818,7 @@ class GetCollaborationMLInputChannelResponse {
   }
 }
 
+/// @nodoc
 class CreateTrainedModelResponse {
   /// The Amazon Resource Name (ARN) of the trained model.
   final String trainedModelArn;
@@ -4820,6 +4854,7 @@ class CreateTrainedModelResponse {
   }
 }
 
+/// @nodoc
 class GetTrainedModelResponse {
   /// The collaboration ID of the collaboration that contains the trained model.
   final String collaborationIdentifier;
@@ -5096,6 +5131,7 @@ class GetTrainedModelResponse {
   }
 }
 
+/// @nodoc
 class ListTrainedModelsResponse {
   /// The list of trained models.
   final List<TrainedModelSummary> trainedModels;
@@ -5128,6 +5164,7 @@ class ListTrainedModelsResponse {
   }
 }
 
+/// @nodoc
 class GetCollaborationTrainedModelResponse {
   /// The collaboration ID of the collaboration that contains the trained model.
   final String collaborationIdentifier;
@@ -5332,6 +5369,7 @@ class GetCollaborationTrainedModelResponse {
   }
 }
 
+/// @nodoc
 class ListTrainedModelVersionsResponse {
   /// A list of trained model versions that match the specified criteria. Each
   /// entry contains summary information about a trained model version, including
@@ -5368,6 +5406,7 @@ class ListTrainedModelVersionsResponse {
   }
 }
 
+/// @nodoc
 class StartTrainedModelInferenceJobResponse {
   /// The Amazon Resource Name (ARN) of the trained model inference job.
   final String trainedModelInferenceJobArn;
@@ -5392,6 +5431,7 @@ class StartTrainedModelInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class GetTrainedModelInferenceJobResponse {
   /// The time at which the trained model inference job was created.
   final DateTime createTime;
@@ -5647,6 +5687,7 @@ class GetTrainedModelInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class ListTrainedModelInferenceJobsResponse {
   /// Returns the requested trained model inference jobs.
   final List<TrainedModelInferenceJobSummary> trainedModelInferenceJobs;
@@ -5682,6 +5723,7 @@ class ListTrainedModelInferenceJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateTrainingDatasetResponse {
   /// The Amazon Resource Name (ARN) of the training dataset resource.
   final String trainingDatasetArn;
@@ -5704,6 +5746,7 @@ class CreateTrainingDatasetResponse {
   }
 }
 
+/// @nodoc
 class GetTrainingDatasetResponse {
   /// The time at which the training dataset was created.
   final DateTime createTime;
@@ -5787,6 +5830,7 @@ class GetTrainingDatasetResponse {
   }
 }
 
+/// @nodoc
 class ListTrainingDatasetsResponse {
   /// The training datasets that match the request.
   final List<TrainingDatasetSummary> trainingDatasets;
@@ -5821,6 +5865,8 @@ class ListTrainingDatasetsResponse {
 }
 
 /// Provides information about the training dataset.
+///
+/// @nodoc
 class TrainingDatasetSummary {
   /// The time at which the training dataset was created.
   final DateTime createTime;
@@ -5879,6 +5925,7 @@ class TrainingDatasetSummary {
   }
 }
 
+/// @nodoc
 class TrainingDatasetStatus {
   static const active = TrainingDatasetStatus._('ACTIVE');
 
@@ -5905,6 +5952,8 @@ class TrainingDatasetStatus {
 
 /// Defines where the training dataset is located, what type of data it
 /// contains, and how to access the data.
+///
+/// @nodoc
 class Dataset {
   /// A DatasetInputConfig object that defines the data source and schema mapping.
   final DatasetInputConfig inputConfig;
@@ -5936,6 +5985,7 @@ class Dataset {
   }
 }
 
+/// @nodoc
 class DatasetType {
   static const interactions = DatasetType._('INTERACTIONS');
 
@@ -5959,6 +6009,8 @@ class DatasetType {
 }
 
 /// Defines the Glue data source and schema mapping information.
+///
+/// @nodoc
 class DatasetInputConfig {
   /// A DataSource object that specifies the Glue data source for the training
   /// data.
@@ -5996,6 +6048,8 @@ class DatasetInputConfig {
 
 /// Defines information about the Glue data source that contains the training
 /// data.
+///
+/// @nodoc
 class DataSource {
   /// A GlueDataSource object that defines the catalog ID, database name, and
   /// table name for the training data.
@@ -6022,6 +6076,8 @@ class DataSource {
 }
 
 /// Defines the Glue data source that contains the training data.
+///
+/// @nodoc
 class GlueDataSource {
   /// The Glue database that contains the training data.
   final String databaseName;
@@ -6059,6 +6115,8 @@ class GlueDataSource {
 }
 
 /// Metadata for a column.
+///
+/// @nodoc
 class ColumnSchema {
   /// The name of a column.
   final String columnName;
@@ -6091,6 +6149,7 @@ class ColumnSchema {
   }
 }
 
+/// @nodoc
 class ColumnType {
   static const userId = ColumnType._('USER_ID');
   static const itemId = ColumnType._('ITEM_ID');
@@ -6124,6 +6183,8 @@ class ColumnType {
 }
 
 /// Provides information about the trained model inference job.
+///
+/// @nodoc
 class TrainedModelInferenceJobSummary {
   /// The collaboration ID of the collaboration that contains the trained model
   /// inference job.
@@ -6279,6 +6340,7 @@ class TrainedModelInferenceJobSummary {
   }
 }
 
+/// @nodoc
 class TrainedModelInferenceJobStatus {
   static const createPending =
       TrainedModelInferenceJobStatus._('CREATE_PENDING');
@@ -6324,6 +6386,8 @@ class TrainedModelInferenceJobStatus {
 }
 
 /// Configuration information about how the inference output is stored.
+///
+/// @nodoc
 class InferenceOutputConfiguration {
   /// Defines the members that can receive inference output.
   final List<InferenceReceiverMember> members;
@@ -6357,6 +6421,7 @@ class InferenceOutputConfiguration {
   }
 }
 
+/// @nodoc
 class MetricsStatus {
   static const publishSucceeded = MetricsStatus._('PUBLISH_SUCCEEDED');
   static const publishFailed = MetricsStatus._('PUBLISH_FAILED');
@@ -6381,6 +6446,7 @@ class MetricsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LogsStatus {
   static const publishSucceeded = LogsStatus._('PUBLISH_SUCCEEDED');
   static const publishFailed = LogsStatus._('PUBLISH_FAILED');
@@ -6405,6 +6471,8 @@ class LogsStatus {
 }
 
 /// Defines who will receive inference results.
+///
+/// @nodoc
 class InferenceReceiverMember {
   /// The account ID of the member that can receive inference results.
   final String accountId;
@@ -6428,6 +6496,8 @@ class InferenceReceiverMember {
 }
 
 /// Defines the resources used to perform model inference.
+///
+/// @nodoc
 class InferenceResourceConfig {
   /// The type of instance that is used to perform model inference.
   final InferenceInstanceType instanceType;
@@ -6459,6 +6529,8 @@ class InferenceResourceConfig {
 }
 
 /// Defines information about the data source used for model inference.
+///
+/// @nodoc
 class ModelInferenceDataSource {
   /// The Amazon Resource Name (ARN) of the ML input channel for this model
   /// inference data source.
@@ -6483,6 +6555,8 @@ class ModelInferenceDataSource {
 }
 
 /// Provides execution parameters for the inference container.
+///
+/// @nodoc
 class InferenceContainerExecutionParameters {
   /// The maximum size of the inference container payload, specified in MB.
   final int? maxPayloadInMB;
@@ -6507,6 +6581,8 @@ class InferenceContainerExecutionParameters {
 }
 
 /// Details about the status of a resource.
+///
+/// @nodoc
 class StatusDetails {
   /// The error message that was returned. The message is intended for human
   /// consumption and can change at any time. Use the <code>statusCode</code> for
@@ -6540,6 +6616,7 @@ class StatusDetails {
   }
 }
 
+/// @nodoc
 class InferenceInstanceType {
   static const mlR7i_48xlarge = InferenceInstanceType._('ml.r7i.48xlarge');
   static const mlR6i_16xlarge = InferenceInstanceType._('ml.r6i.16xlarge');
@@ -6753,6 +6830,8 @@ class InferenceInstanceType {
 }
 
 /// Information about the output of the trained model export job.
+///
+/// @nodoc
 class TrainedModelExportOutputConfiguration {
   /// The members that will received the exported trained model output.
   final List<TrainedModelExportReceiverMember> members;
@@ -6782,6 +6861,8 @@ class TrainedModelExportOutputConfiguration {
 
 /// Provides information about the member who will receive trained model
 /// exports.
+///
+/// @nodoc
 class TrainedModelExportReceiverMember {
   /// The account ID of the member who will receive trained model exports.
   final String accountId;
@@ -6805,6 +6886,8 @@ class TrainedModelExportReceiverMember {
 }
 
 /// Summary information about the trained model.
+///
+/// @nodoc
 class TrainedModelSummary {
   /// The collaboration ID of the collaboration that contains the trained model.
   final String collaborationIdentifier;
@@ -6921,6 +7004,7 @@ class TrainedModelSummary {
   }
 }
 
+/// @nodoc
 class TrainedModelStatus {
   static const createPending = TrainedModelStatus._('CREATE_PENDING');
   static const createInProgress = TrainedModelStatus._('CREATE_IN_PROGRESS');
@@ -6970,6 +7054,8 @@ class TrainedModelStatus {
 /// Contains information about an incremental training data channel that was
 /// used to create a trained model. This structure provides details about the
 /// base model and channel configuration used during incremental training.
+///
+/// @nodoc
 class IncrementalTrainingDataChannelOutput {
   /// The name of the incremental training data channel that was used.
   final String channelName;
@@ -7009,6 +7095,8 @@ class IncrementalTrainingDataChannelOutput {
 }
 
 /// Information about the EC2 resources that are used to train the model.
+///
+/// @nodoc
 class ResourceConfig {
   /// The instance type that is used to train the model.
   final InstanceType instanceType;
@@ -7049,6 +7137,7 @@ class ResourceConfig {
   }
 }
 
+/// @nodoc
 class TrainingInputMode {
   static const file = TrainingInputMode._('File');
   static const fastFile = TrainingInputMode._('FastFile');
@@ -7075,6 +7164,8 @@ class TrainingInputMode {
 }
 
 /// The criteria used to stop model training.
+///
+/// @nodoc
 class StoppingCondition {
   /// The maximum amount of time, in seconds, that model training can run before
   /// it is terminated.
@@ -7099,6 +7190,7 @@ class StoppingCondition {
   }
 }
 
+/// @nodoc
 class InstanceType {
   static const mlM4Xlarge = InstanceType._('ml.m4.xlarge');
   static const mlM4_2xlarge = InstanceType._('ml.m4.2xlarge');
@@ -7389,6 +7481,8 @@ class InstanceType {
 
 /// Information about the model training data channel. A training data channel
 /// is a named data source that the training algorithms can consume.
+///
+/// @nodoc
 class ModelTrainingDataChannel {
   /// The name of the training data channel.
   final String channelName;
@@ -7444,6 +7538,7 @@ class ModelTrainingDataChannel {
   }
 }
 
+/// @nodoc
 class S3DataDistributionType {
   static const fullyReplicated = S3DataDistributionType._('FullyReplicated');
   static const shardedByS3Key = S3DataDistributionType._('ShardedByS3Key');
@@ -7474,6 +7569,8 @@ class S3DataDistributionType {
 /// model with new data, building upon the knowledge from a base model rather
 /// than training from scratch. This can significantly reduce training time and
 /// computational costs while improving model performance with additional data.
+///
+/// @nodoc
 class IncrementalTrainingDataChannel {
   /// The name of the incremental training data channel. This name is used to
   /// identify the channel during the training process and must be unique within
@@ -7507,6 +7604,7 @@ class IncrementalTrainingDataChannel {
   }
 }
 
+/// @nodoc
 class MLInputChannelStatus {
   static const createPending = MLInputChannelStatus._('CREATE_PENDING');
   static const createInProgress = MLInputChannelStatus._('CREATE_IN_PROGRESS');
@@ -7549,6 +7647,8 @@ class MLInputChannelStatus {
 
 /// The privacy budget information that controls access to Clean Rooms ML input
 /// channels.
+///
+/// @nodoc
 class PrivacyBudgets {
   /// A list of access budgets that apply to resources associated with this Clean
   /// Rooms ML input channel.
@@ -7579,6 +7679,8 @@ class PrivacyBudgets {
 /// parameters that control data synthesis and the evaluation scores that
 /// measure the quality and privacy characteristics of the generated synthetic
 /// data.
+///
+/// @nodoc
 class SyntheticDataConfiguration {
   /// The parameters that control how synthetic data is generated, including
   /// privacy settings, column classifications, and other configuration options
@@ -7621,6 +7723,8 @@ class SyntheticDataConfiguration {
 
 /// Specifies which member accounts are responsible for paying for compute and
 /// synthetic data generation costs in a Clean Rooms ML collaboration.
+///
+/// @nodoc
 class PayerConfiguration {
   /// The account ID of the member that is responsible for paying compute costs.
   final String? computePayerAccountId;
@@ -7656,6 +7760,8 @@ class PayerConfiguration {
 
 /// Parameters that control the generation of synthetic data for custom model
 /// training, including privacy settings and column classification details.
+///
+/// @nodoc
 class MLSyntheticDataParameters {
   /// The epsilon value for differential privacy, which controls the
   /// privacy-utility tradeoff in synthetic data generation. Lower values provide
@@ -7706,6 +7812,8 @@ class MLSyntheticDataParameters {
 /// Comprehensive evaluation metrics for synthetic data that assess both the
 /// utility of the generated data for machine learning tasks and its privacy
 /// preservation characteristics.
+///
+/// @nodoc
 class SyntheticDataEvaluationScores {
   /// Privacy-specific evaluation scores that measure how well the synthetic data
   /// protects individual privacy, including assessments of potential privacy
@@ -7735,6 +7843,8 @@ class SyntheticDataEvaluationScores {
 /// Privacy evaluation scores that measure the privacy characteristics of the
 /// generated synthetic data, including assessments of potential privacy risks
 /// such as membership inference attacks.
+///
+/// @nodoc
 class DataPrivacyScores {
   /// Scores that evaluate the vulnerability of the synthetic data to membership
   /// inference attacks, which attempt to determine whether a specific individual
@@ -7768,6 +7878,8 @@ class DataPrivacyScores {
 /// A score that measures the vulnerability of synthetic data to membership
 /// inference attacks and provides both the numerical score and the version of
 /// the attack methodology used for evaluation.
+///
+/// @nodoc
 class MembershipInferenceAttackScore {
   /// The version of the membership inference attack, which consists of the attack
   /// type and its version number, used to generate this privacy score.
@@ -7800,6 +7912,7 @@ class MembershipInferenceAttackScore {
   }
 }
 
+/// @nodoc
 class MembershipInferenceAttackVersion {
   static const distanceToClosestRecordV1 =
       MembershipInferenceAttackVersion._('DISTANCE_TO_CLOSEST_RECORD_V1');
@@ -7828,6 +7941,8 @@ class MembershipInferenceAttackVersion {
 /// Contains classification information for data columns, including mappings
 /// that specify how columns should be handled during synthetic data generation
 /// and privacy analysis.
+///
+/// @nodoc
 class ColumnClassificationDetails {
   /// A mapping that defines the classification of data columns for synthetic data
   /// generation and specifies how each column should be handled during the
@@ -7859,6 +7974,8 @@ class ColumnClassificationDetails {
 /// Properties that define how a specific data column should be handled during
 /// synthetic data generation, including its name, type, and role in predictive
 /// modeling.
+///
+/// @nodoc
 class SyntheticDataColumnProperties {
   /// The name of the data column as it appears in the dataset.
   final String columnName;
@@ -7899,6 +8016,7 @@ class SyntheticDataColumnProperties {
   }
 }
 
+/// @nodoc
 class SyntheticDataColumnType {
   static const categorical = SyntheticDataColumnType._('CATEGORICAL');
   static const numerical = SyntheticDataColumnType._('NUMERICAL');
@@ -7926,6 +8044,8 @@ class SyntheticDataColumnType {
 
 /// An access budget that defines consumption limits for a specific resource
 /// within defined time periods.
+///
+/// @nodoc
 class AccessBudget {
   /// The total remaining budget across all active budget periods for this
   /// resource.
@@ -7970,6 +8090,8 @@ class AccessBudget {
 
 /// The detailed information for a specific budget period, including time
 /// boundaries and budget amounts.
+///
+/// @nodoc
 class AccessBudgetDetails {
   /// The total budget amount allocated for this period.
   final int budget;
@@ -8032,6 +8154,7 @@ class AccessBudgetDetails {
   }
 }
 
+/// @nodoc
 class AccessBudgetType {
   static const calendarDay = AccessBudgetType._('CALENDAR_DAY');
   static const calendarMonth = AccessBudgetType._('CALENDAR_MONTH');
@@ -8058,6 +8181,7 @@ class AccessBudgetType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoRefreshMode {
   static const enabled = AutoRefreshMode._('ENABLED');
   static const disabled = AutoRefreshMode._('DISABLED');
@@ -8083,6 +8207,8 @@ class AutoRefreshMode {
 }
 
 /// Provides summary information about the ML input channel.
+///
+/// @nodoc
 class MLInputChannelSummary {
   /// The collaboration ID of the collaboration that contains the ML input
   /// channel.
@@ -8191,6 +8317,8 @@ class MLInputChannelSummary {
 
 /// Provides information about the data source that is used to create an ML
 /// input channel.
+///
+/// @nodoc
 class InputChannel {
   /// The data source that is used to create the ML input channel.
   final InputChannelDataSource dataSource;
@@ -8227,6 +8355,8 @@ class InputChannel {
 }
 
 /// Provides the data source that is used to define an input channel.
+///
+/// @nodoc
 class InputChannelDataSource {
   final ProtectedQueryInputParameters? protectedQueryInputParameters;
 
@@ -8254,6 +8384,8 @@ class InputChannelDataSource {
 }
 
 /// Provides information necessary to perform the protected query.
+///
+/// @nodoc
 class ProtectedQueryInputParameters {
   final ProtectedQuerySQLParameters sqlParameters;
 
@@ -8299,6 +8431,8 @@ class ProtectedQueryInputParameters {
 }
 
 /// The parameters for the SQL type Protected Query.
+///
+/// @nodoc
 class ProtectedQuerySQLParameters {
   /// The Amazon Resource Name (ARN) associated with the analysis template within
   /// a collaboration.
@@ -8340,6 +8474,8 @@ class ProtectedQuerySQLParameters {
 
 /// Provides configuration information for the instances that will perform the
 /// compute work.
+///
+/// @nodoc
 class ComputeConfiguration {
   /// The worker instances that will perform the compute work.
   final WorkerComputeConfiguration? worker;
@@ -8366,6 +8502,8 @@ class ComputeConfiguration {
 }
 
 /// File format of the returned data.
+///
+/// @nodoc
 class ResultFormat {
   static const csv = ResultFormat._('CSV');
   static const parquet = ResultFormat._('PARQUET');
@@ -8391,6 +8529,8 @@ class ResultFormat {
 
 /// Configuration information about the compute workers that perform the
 /// transform job.
+///
+/// @nodoc
 class WorkerComputeConfiguration {
   /// The number of compute workers that are used.
   final int? number;
@@ -8428,6 +8568,7 @@ class WorkerComputeConfiguration {
   }
 }
 
+/// @nodoc
 class WorkerComputeType {
   static const cr_1x = WorkerComputeType._('CR.1X');
   static const cr_4x = WorkerComputeType._('CR.4X');
@@ -8455,6 +8596,8 @@ class WorkerComputeType {
 /// The configuration properties for the worker compute environment. These
 /// properties allow you to customize the compute settings for your Clean Rooms
 /// workloads.
+///
+/// @nodoc
 class WorkerComputeConfigurationProperties {
   /// The Spark configuration properties for SQL workloads. This map contains
   /// key-value pairs that configure Apache Spark settings to optimize performance
@@ -8485,6 +8628,8 @@ class WorkerComputeConfigurationProperties {
 }
 
 /// Configuration information about how the exported model artifacts are stored.
+///
+/// @nodoc
 class MLOutputConfiguration {
   /// The Amazon Resource Name (ARN) of the service access role that is used to
   /// store the model artifacts.
@@ -8518,6 +8663,8 @@ class MLOutputConfiguration {
 }
 
 /// The Amazon S3 location where the exported model artifacts are stored.
+///
+/// @nodoc
 class Destination {
   final S3ConfigMap s3Destination;
 
@@ -8542,6 +8689,8 @@ class Destination {
 }
 
 /// Provides information about an Amazon S3 bucket and path.
+///
+/// @nodoc
 class S3ConfigMap {
   /// The Amazon S3 location URI.
   final String s3Uri;
@@ -8566,6 +8715,8 @@ class S3ConfigMap {
 
 /// Information about the privacy configuration for a configured model algorithm
 /// association.
+///
+/// @nodoc
 class PrivacyConfiguration {
   /// The privacy configuration policies for a configured model algorithm
   /// association.
@@ -8593,6 +8744,8 @@ class PrivacyConfiguration {
 
 /// Information about the privacy configuration policies for a configured model
 /// algorithm association.
+///
+/// @nodoc
 class PrivacyConfigurationPolicies {
   /// Specifies who will receive the trained model export.
   final TrainedModelExportsConfigurationPolicy? trainedModelExports;
@@ -8641,6 +8794,8 @@ class PrivacyConfigurationPolicies {
 }
 
 /// The configuration policy for the trained models.
+///
+/// @nodoc
 class TrainedModelsConfigurationPolicy {
   /// The container for the logs of the trained model.
   final List<LogsConfigurationPolicy>? containerLogs;
@@ -8690,6 +8845,8 @@ class TrainedModelsConfigurationPolicy {
 }
 
 /// Information about how the trained model exports are configured.
+///
+/// @nodoc
 class TrainedModelExportsConfigurationPolicy {
   /// The files that are exported during the trained model export job.
   final List<TrainedModelExportFileType> filesToExport;
@@ -8726,6 +8883,8 @@ class TrainedModelExportsConfigurationPolicy {
 }
 
 /// Provides configuration information for the trained model inference job.
+///
+/// @nodoc
 class TrainedModelInferenceJobsConfigurationPolicy {
   /// The logs container for the trained model inference job.
   final List<LogsConfigurationPolicy>? containerLogs;
@@ -8764,6 +8923,8 @@ class TrainedModelInferenceJobsConfigurationPolicy {
 }
 
 /// Information about the maximum output size for a trained model inference job.
+///
+/// @nodoc
 class TrainedModelInferenceMaxOutputSize {
   /// The measurement unit to use.
   final TrainedModelInferenceMaxOutputSizeUnitType unit;
@@ -8795,6 +8956,7 @@ class TrainedModelInferenceMaxOutputSize {
   }
 }
 
+/// @nodoc
 class TrainedModelInferenceMaxOutputSizeUnitType {
   static const gb = TrainedModelInferenceMaxOutputSizeUnitType._('GB');
 
@@ -8821,6 +8983,8 @@ class TrainedModelInferenceMaxOutputSizeUnitType {
 }
 
 /// Provides the information necessary for a user to access the logs.
+///
+/// @nodoc
 class LogsConfigurationPolicy {
   /// A list of account IDs that are allowed to access the logs.
   final List<String> allowedAccountIds;
@@ -8873,6 +9037,7 @@ class LogsConfigurationPolicy {
   }
 }
 
+/// @nodoc
 class LogType {
   static const all = LogType._('ALL');
   static const errorSummary = LogType._('ERROR_SUMMARY');
@@ -8897,6 +9062,8 @@ class LogType {
 }
 
 /// The configuration for log redaction.
+///
+/// @nodoc
 class LogRedactionConfiguration {
   /// Specifies the entities to be redacted from logs. Entities to redact are
   /// "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION", "NUMBERS","CUSTOM". If CUSTOM is
@@ -8939,6 +9106,8 @@ class LogRedactionConfiguration {
 /// The configuration for defining custom patterns to be redacted from logs and
 /// error messages. This is for the CUSTOM config under entitiesToRedact. Both
 /// CustomEntityConfig and entitiesToRedact need to be present or not present.
+///
+/// @nodoc
 class CustomEntityConfig {
   /// Defines data identifiers for the custom entity configuration. Provide this
   /// only if CUSTOM redaction is configured.
@@ -8966,6 +9135,7 @@ class CustomEntityConfig {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const allPersonallyIdentifiableInformation =
       EntityType._('ALL_PERSONALLY_IDENTIFIABLE_INFORMATION');
@@ -8994,6 +9164,8 @@ class EntityType {
 /// The maximum size of the trained model metrics that can be exported. If the
 /// trained model metrics dataset is larger than this value, it will not be
 /// exported.
+///
+/// @nodoc
 class TrainedModelExportsMaxSize {
   /// The unit of measurement for the data size.
   final TrainedModelExportsMaxSizeUnitType unit;
@@ -9024,6 +9196,7 @@ class TrainedModelExportsMaxSize {
   }
 }
 
+/// @nodoc
 class TrainedModelExportFileType {
   static const model = TrainedModelExportFileType._('MODEL');
   static const output = TrainedModelExportFileType._('OUTPUT');
@@ -9049,6 +9222,7 @@ class TrainedModelExportFileType {
   String toString() => value;
 }
 
+/// @nodoc
 class TrainedModelExportsMaxSizeUnitType {
   static const gb = TrainedModelExportsMaxSizeUnitType._('GB');
 
@@ -9074,6 +9248,8 @@ class TrainedModelExportsMaxSizeUnitType {
 }
 
 /// Provides the configuration policy for metrics generation.
+///
+/// @nodoc
 class MetricsConfigurationPolicy {
   /// The noise level for the generated metrics.
   final NoiseLevelType noiseLevel;
@@ -9101,6 +9277,8 @@ class MetricsConfigurationPolicy {
 /// configuration helps control storage costs and ensures that trained models
 /// don't exceed specified size constraints. The size limit applies to the total
 /// size of all artifacts produced by the training job.
+///
+/// @nodoc
 class TrainedModelArtifactMaxSize {
   /// The unit of measurement for the maximum artifact size. Valid values include
   /// common storage units such as bytes, kilobytes, megabytes, gigabytes, and
@@ -9134,6 +9312,7 @@ class TrainedModelArtifactMaxSize {
   }
 }
 
+/// @nodoc
 class TrainedModelArtifactMaxSizeUnitType {
   static const gb = TrainedModelArtifactMaxSizeUnitType._('GB');
 
@@ -9158,6 +9337,7 @@ class TrainedModelArtifactMaxSizeUnitType {
   String toString() => value;
 }
 
+/// @nodoc
 class NoiseLevelType {
   static const high = NoiseLevelType._('HIGH');
   static const medium = NoiseLevelType._('MEDIUM');
@@ -9186,6 +9366,8 @@ class NoiseLevelType {
 
 /// Provides summary information about the configured model algorithm
 /// association.
+///
+/// @nodoc
 class ConfiguredModelAlgorithmAssociationSummary {
   /// The collaboration ID of the collaboration that contains the configured model
   /// algorithm association.
@@ -9269,6 +9451,8 @@ class ConfiguredModelAlgorithmAssociationSummary {
 }
 
 /// Provides summary information about a configured model algorithm.
+///
+/// @nodoc
 class ConfiguredModelAlgorithmSummary {
   /// The Amazon Resource Name (ARN) of the configured model algorithm.
   final String configuredModelAlgorithmArn;
@@ -9322,11 +9506,13 @@ class ConfiguredModelAlgorithmSummary {
 
 /// Provides configuration information for the dockerized container where the
 /// model algorithm is stored.
+///
+/// @nodoc
 class ContainerConfig {
   /// The registry path of the docker image that contains the algorithm. Clean
-  /// Rooms ML currently only supports the <code>registry/repository[:tag]</code>
-  /// image path format. For more information about using images in Clean Rooms
-  /// ML, see the <a
+  /// Rooms ML currently only supports the
+  /// <code>registry/repository\[:tag\]</code> image path format. For more
+  /// information about using images in Clean Rooms ML, see the <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html#sagemaker-Type-AlgorithmSpecification-TrainingImage">Sagemaker
   /// API reference</a>.
   final String imageUri;
@@ -9392,10 +9578,12 @@ class ContainerConfig {
 }
 
 /// Provides configuration information for the inference container.
+///
+/// @nodoc
 class InferenceContainerConfig {
   /// The registry path of the docker image that contains the inference algorithm.
   /// Clean Rooms ML currently only supports the
-  /// <code>registry/repository[:tag]</code> image path format. For more
+  /// <code>registry/repository\[:tag\]</code> image path format. For more
   /// information about using images in Clean Rooms ML, see the <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html#sagemaker-Type-AlgorithmSpecification-TrainingImage">Sagemaker
   /// API reference</a>.
@@ -9420,6 +9608,8 @@ class InferenceContainerConfig {
 }
 
 /// Information about the model metric that is reported for a trained model.
+///
+/// @nodoc
 class MetricDefinition {
   /// The name of the model metric.
   final String name;
@@ -9450,6 +9640,7 @@ class MetricDefinition {
   }
 }
 
+/// @nodoc
 class PolicyExistenceCondition {
   static const policyMustExist =
       PolicyExistenceCondition._('POLICY_MUST_EXIST');
@@ -9478,6 +9669,8 @@ class PolicyExistenceCondition {
 }
 
 /// Information about the configured audience model.
+///
+/// @nodoc
 class ConfiguredAudienceModelSummary {
   /// The Amazon Resource Name (ARN) of the audience model that was used to create
   /// the configured audience model.
@@ -9556,6 +9749,8 @@ class ConfiguredAudienceModelSummary {
 }
 
 /// Configuration information necessary for the configure audience model output.
+///
+/// @nodoc
 class ConfiguredAudienceModelOutputConfig {
   final AudienceDestination destination;
 
@@ -9587,6 +9782,7 @@ class ConfiguredAudienceModelOutputConfig {
   }
 }
 
+/// @nodoc
 class ConfiguredAudienceModelStatus {
   static const active = ConfiguredAudienceModelStatus._('ACTIVE');
 
@@ -9612,6 +9808,8 @@ class ConfiguredAudienceModelStatus {
 }
 
 /// Defines the Amazon S3 bucket where the configured audience is stored.
+///
+/// @nodoc
 class AudienceDestination {
   /// The Amazon S3 bucket and path for the configured audience.
   final S3ConfigMap s3Destination;
@@ -9646,6 +9844,8 @@ class AudienceDestination {
 /// sizes using the count of identifiers in the output. You can use the
 /// <code>Percentage</code> <a>AudienceSize</a> to configure sizes in the range
 /// 1-100 percent.
+///
+/// @nodoc
 class AudienceSizeConfig {
   /// An array of the different audience output sizes.
   final List<int> audienceSizeBins;
@@ -9680,6 +9880,7 @@ class AudienceSizeConfig {
   }
 }
 
+/// @nodoc
 class AudienceSizeType {
   static const absolute = AudienceSizeType._('ABSOLUTE');
   static const percentage = AudienceSizeType._('PERCENTAGE');
@@ -9704,6 +9905,7 @@ class AudienceSizeType {
   String toString() => value;
 }
 
+/// @nodoc
 class SharedAudienceMetrics {
   static const all = SharedAudienceMetrics._('ALL');
   static const none = SharedAudienceMetrics._('NONE');
@@ -9729,6 +9931,7 @@ class SharedAudienceMetrics {
   String toString() => value;
 }
 
+/// @nodoc
 class TagOnCreatePolicy {
   static const fromParentResource = TagOnCreatePolicy._('FROM_PARENT_RESOURCE');
   static const none = TagOnCreatePolicy._('NONE');
@@ -9754,6 +9957,8 @@ class TagOnCreatePolicy {
 }
 
 /// Information about the audience model.
+///
+/// @nodoc
 class AudienceModelSummary {
   /// The Amazon Resource Name (ARN) of the audience model.
   final String audienceModelArn;
@@ -9819,6 +10024,7 @@ class AudienceModelSummary {
   }
 }
 
+/// @nodoc
 class AudienceModelStatus {
   static const createPending = AudienceModelStatus._('CREATE_PENDING');
   static const createInProgress = AudienceModelStatus._('CREATE_IN_PROGRESS');
@@ -9858,6 +10064,8 @@ class AudienceModelStatus {
 }
 
 /// Provides information about the configured audience generation job.
+///
+/// @nodoc
 class AudienceGenerationJobSummary {
   /// The Amazon Resource Name (ARN) of the audience generation job.
   final String audienceGenerationJobArn;
@@ -9941,6 +10149,7 @@ class AudienceGenerationJobSummary {
   }
 }
 
+/// @nodoc
 class AudienceGenerationJobStatus {
   static const createPending = AudienceGenerationJobStatus._('CREATE_PENDING');
   static const createInProgress =
@@ -9983,6 +10192,8 @@ class AudienceGenerationJobStatus {
 
 /// Defines the Amazon S3 bucket where the seed audience for the generating
 /// audience is stored.
+///
+/// @nodoc
 class AudienceGenerationJobDataSource {
   /// The ARN of the IAM role that can read the Amazon S3 bucket where the seed
   /// audience is stored.
@@ -10043,6 +10254,8 @@ class AudienceGenerationJobDataSource {
 }
 
 /// Metrics that describe the quality of the generated audience.
+///
+/// @nodoc
 class AudienceQualityMetrics {
   /// The relevance scores of the generated audience.
   final List<RelevanceMetric> relevanceMetrics;
@@ -10081,6 +10294,8 @@ class AudienceQualityMetrics {
 }
 
 /// The relevance score of a generated audience.
+///
+/// @nodoc
 class RelevanceMetric {
   final AudienceSize audienceSize;
 
@@ -10113,6 +10328,8 @@ class RelevanceMetric {
 
 /// The size of the generated audience. Must match one of the sizes in the
 /// configured audience model.
+///
+/// @nodoc
 class AudienceSize {
   /// Whether the audience size is defined in absolute terms or as a percentage.
   /// You can use the <code>ABSOLUTE</code> <a>AudienceSize</a> to configure out
@@ -10147,6 +10364,8 @@ class AudienceSize {
 }
 
 /// Provides information about the audience export job.
+///
+/// @nodoc
 class AudienceExportJobSummary {
   /// The Amazon Resource Name (ARN) of the audience generation job that was
   /// exported.
@@ -10229,6 +10448,7 @@ class AudienceExportJobSummary {
   }
 }
 
+/// @nodoc
 class AudienceExportJobStatus {
   static const createPending = AudienceExportJobStatus._('CREATE_PENDING');
   static const createInProgress =
@@ -10258,6 +10478,8 @@ class AudienceExportJobStatus {
 }
 
 /// Provides summary information about a trained model in a collaboration.
+///
+/// @nodoc
 class CollaborationTrainedModelSummary {
   /// The collaboration ID of the collaboration that contains the trained model.
   final String collaborationIdentifier;
@@ -10383,6 +10605,8 @@ class CollaborationTrainedModelSummary {
 
 /// Provides summary information about a trained model inference job in a
 /// collaboration.
+///
+/// @nodoc
 class CollaborationTrainedModelInferenceJobSummary {
   /// The collaboration ID of the collaboration that contains the trained model
   /// inference job.
@@ -10549,6 +10773,8 @@ class CollaborationTrainedModelInferenceJobSummary {
 
 /// Provides summary information about a trained model export job in a
 /// collaboration.
+///
+/// @nodoc
 class CollaborationTrainedModelExportJobSummary {
   /// The collaboration ID of the collaboration that contains the trained model
   /// export job.
@@ -10655,6 +10881,7 @@ class CollaborationTrainedModelExportJobSummary {
   }
 }
 
+/// @nodoc
 class TrainedModelExportJobStatus {
   static const createPending = TrainedModelExportJobStatus._('CREATE_PENDING');
   static const createInProgress =
@@ -10684,6 +10911,8 @@ class TrainedModelExportJobStatus {
 }
 
 /// Provides summary information about an ML input channel in a collaboration.
+///
+/// @nodoc
 class CollaborationMLInputChannelSummary {
   /// The collaboration ID of the collaboration that contains the ML input
   /// channel.
@@ -10792,6 +11021,8 @@ class CollaborationMLInputChannelSummary {
 
 /// Provides summary information about a configured model algorithm in a
 /// collaboration.
+///
+/// @nodoc
 class CollaborationConfiguredModelAlgorithmAssociationSummary {
   /// The collaboration ID of the collaboration that contains the configured model
   /// algorithm association.
@@ -10882,26 +11113,31 @@ class CollaborationConfiguredModelAlgorithmAssociationSummary {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -10910,11 +11146,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

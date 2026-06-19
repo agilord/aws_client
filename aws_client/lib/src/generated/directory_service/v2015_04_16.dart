@@ -635,19 +635,19 @@ class Directory {
   ///
   /// <ul>
   /// <li>
-  /// Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])
+  /// Numbers and upper case and lowercase (?=.*\d)(?=.*\[A-Z\])(?=.*\[a-z\])
   /// </li>
   /// <li>
   /// Numbers and special characters and lower case
-  /// (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])
+  /// (?=.*\d)(?=.*\[^A-Za-z0-9\s\])(?=.*\[a-z\])
   /// </li>
   /// <li>
   /// Special characters and upper case and lower case
-  /// (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])
+  /// (?=.*\[^A-Za-z0-9\s\])(?=.*\[A-Z\])(?=.*\[a-z\])
   /// </li>
   /// <li>
   /// Numbers and upper case and special characters
-  /// (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])
+  /// (?=.*\d)(?=.*\[A-Z\])(?=.*\[^A-Za-z0-9\s\])
   /// </li>
   /// </ul>
   /// For additional information about how Active Directory passwords are
@@ -3407,9 +3407,9 @@ class Directory {
   /// <code>CustomerDnsIps</code>, meaning that if the IP address for instance
   /// i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is
   /// 10.24.34.200, then the input arrays must maintain the same order
-  /// relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410,
-  /// i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420,
-  /// i-10243410].
+  /// relationship, either \[10.24.34.100, 10.24.34.200\] paired with
+  /// \[i-10243410, i-10243420\] or \[10.24.34.200, 10.24.34.100\] paired with
+  /// \[i-10243420, i-10243410\].
   ///
   /// Note: You must provide exactly one <code>DirectoryId</code> or
   /// <code>AssessmentConfiguration</code>.
@@ -3670,9 +3670,9 @@ class Directory {
   /// <code>CustomerDnsIps</code>, meaning that if the IP address for instance
   /// i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is
   /// 10.24.34.200, then the input arrays must maintain the same order
-  /// relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410,
-  /// i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420,
-  /// i-10243410].
+  /// relationship, either \[10.24.34.100, 10.24.34.200\] paired with
+  /// \[i-10243410, i-10243420\] or \[10.24.34.200, 10.24.34.100\] paired with
+  /// \[i-10243420, i-10243410\].
   /// <note>
   /// You must provide at least one update to
   /// <a>UpdateHybridADRequest$HybridAdministratorAccountUpdate</a> or
@@ -3930,6 +3930,7 @@ class Directory {
   }
 }
 
+/// @nodoc
 class AcceptSharedDirectoryResult {
   /// The shared directory in the directory consumer account.
   final SharedDirectory? sharedDirectory;
@@ -3955,6 +3956,7 @@ class AcceptSharedDirectoryResult {
   }
 }
 
+/// @nodoc
 class AddIpRoutesResult {
   AddIpRoutesResult();
 
@@ -3967,6 +3969,7 @@ class AddIpRoutesResult {
   }
 }
 
+/// @nodoc
 class AddRegionResult {
   AddRegionResult();
 
@@ -3979,6 +3982,7 @@ class AddRegionResult {
   }
 }
 
+/// @nodoc
 class AddTagsToResourceResult {
   AddTagsToResourceResult();
 
@@ -3991,6 +3995,7 @@ class AddTagsToResourceResult {
   }
 }
 
+/// @nodoc
 class CancelSchemaExtensionResult {
   CancelSchemaExtensionResult();
 
@@ -4004,6 +4009,8 @@ class CancelSchemaExtensionResult {
 }
 
 /// Contains the results of the <a>ConnectDirectory</a> operation.
+///
+/// @nodoc
 class ConnectDirectoryResult {
   /// The identifier of the new directory.
   final String? directoryId;
@@ -4027,6 +4034,8 @@ class ConnectDirectoryResult {
 }
 
 /// Contains the results of the <a>CreateAlias</a> operation.
+///
+/// @nodoc
 class CreateAliasResult {
   /// The alias for the directory.
   final String? alias;
@@ -4057,6 +4066,8 @@ class CreateAliasResult {
 }
 
 /// Contains the results for the <a>CreateComputer</a> operation.
+///
+/// @nodoc
 class CreateComputerResult {
   /// A <a>Computer</a> object that represents the computer account.
   final Computer? computer;
@@ -4082,6 +4093,8 @@ class CreateComputerResult {
 }
 
 /// The result of a CreateConditinalForwarder request.
+///
+/// @nodoc
 class CreateConditionalForwarderResult {
   CreateConditionalForwarderResult();
 
@@ -4095,6 +4108,8 @@ class CreateConditionalForwarderResult {
 }
 
 /// Contains the results of the <a>CreateDirectory</a> operation.
+///
+/// @nodoc
 class CreateDirectoryResult {
   /// The identifier of the directory that was created.
   final String? directoryId;
@@ -4117,6 +4132,7 @@ class CreateDirectoryResult {
   }
 }
 
+/// @nodoc
 class CreateHybridADResult {
   /// The unique identifier of the newly created hybrid directory.
   final String? directoryId;
@@ -4139,6 +4155,7 @@ class CreateHybridADResult {
   }
 }
 
+/// @nodoc
 class CreateLogSubscriptionResult {
   CreateLogSubscriptionResult();
 
@@ -4152,6 +4169,8 @@ class CreateLogSubscriptionResult {
 }
 
 /// Result of a CreateMicrosoftAD request.
+///
+/// @nodoc
 class CreateMicrosoftADResult {
   /// The identifier of the directory that was created.
   final String? directoryId;
@@ -4175,6 +4194,8 @@ class CreateMicrosoftADResult {
 }
 
 /// Contains the results of the <a>CreateSnapshot</a> operation.
+///
+/// @nodoc
 class CreateSnapshotResult {
   /// The identifier of the snapshot that was created.
   final String? snapshotId;
@@ -4198,6 +4219,8 @@ class CreateSnapshotResult {
 }
 
 /// The result of a CreateTrust request.
+///
+/// @nodoc
 class CreateTrustResult {
   /// A unique identifier for the trust relationship that was created.
   final String? trustId;
@@ -4220,6 +4243,7 @@ class CreateTrustResult {
   }
 }
 
+/// @nodoc
 class DeleteADAssessmentResult {
   /// The unique identifier of the deleted directory assessment.
   final String? assessmentId;
@@ -4243,6 +4267,8 @@ class DeleteADAssessmentResult {
 }
 
 /// The result of a DeleteConditionalForwarder request.
+///
+/// @nodoc
 class DeleteConditionalForwarderResult {
   DeleteConditionalForwarderResult();
 
@@ -4256,6 +4282,8 @@ class DeleteConditionalForwarderResult {
 }
 
 /// Contains the results of the <a>DeleteDirectory</a> operation.
+///
+/// @nodoc
 class DeleteDirectoryResult {
   /// The directory identifier.
   final String? directoryId;
@@ -4278,6 +4306,7 @@ class DeleteDirectoryResult {
   }
 }
 
+/// @nodoc
 class DeleteLogSubscriptionResult {
   DeleteLogSubscriptionResult();
 
@@ -4291,6 +4320,8 @@ class DeleteLogSubscriptionResult {
 }
 
 /// Contains the results of the <a>DeleteSnapshot</a> operation.
+///
+/// @nodoc
 class DeleteSnapshotResult {
   /// The identifier of the directory snapshot that was deleted.
   final String? snapshotId;
@@ -4314,6 +4345,8 @@ class DeleteSnapshotResult {
 }
 
 /// The result of a DeleteTrust request.
+///
+/// @nodoc
 class DeleteTrustResult {
   /// The Trust ID of the trust relationship that was deleted.
   final String? trustId;
@@ -4336,6 +4369,7 @@ class DeleteTrustResult {
   }
 }
 
+/// @nodoc
 class DeregisterCertificateResult {
   DeregisterCertificateResult();
 
@@ -4349,6 +4383,8 @@ class DeregisterCertificateResult {
 }
 
 /// The result of a DeregisterEventTopic request.
+///
+/// @nodoc
 class DeregisterEventTopicResult {
   DeregisterEventTopicResult();
 
@@ -4361,6 +4397,7 @@ class DeregisterEventTopicResult {
   }
 }
 
+/// @nodoc
 class DescribeADAssessmentResult {
   /// Detailed information about the self-managed instance settings (IDs and DNS
   /// IPs).
@@ -4399,6 +4436,8 @@ class DescribeADAssessmentResult {
 }
 
 /// Contains the results of the <a>DescribeCAEnrollmentPolicy</a> operation.
+///
+/// @nodoc
 class DescribeCAEnrollmentPolicyResult {
   /// The current status of the CA enrollment policy. This indicates if automatic
   /// certificate enrollment is currently active, inactive, or in a transitional
@@ -4486,6 +4525,7 @@ class DescribeCAEnrollmentPolicyResult {
   }
 }
 
+/// @nodoc
 class DescribeCertificateResult {
   /// Information about the certificate, including registered date time,
   /// certificate state, the reason for the state, expiration date time, and
@@ -4512,6 +4552,7 @@ class DescribeCertificateResult {
   }
 }
 
+/// @nodoc
 class DescribeClientAuthenticationSettingsResult {
   /// Information about the type of client authentication for the specified
   /// directory. The following information is retrieved: The date and time when
@@ -4555,6 +4596,8 @@ class DescribeClientAuthenticationSettingsResult {
 }
 
 /// The result of a DescribeConditionalForwarder request.
+///
+/// @nodoc
 class DescribeConditionalForwardersResult {
   /// The list of conditional forwarders that have been created.
   final List<ConditionalForwarder>? conditionalForwarders;
@@ -4583,6 +4626,8 @@ class DescribeConditionalForwardersResult {
 }
 
 /// Contains the results of the <a>DescribeDirectories</a> operation.
+///
+/// @nodoc
 class DescribeDirectoriesResult {
   /// The list of available <a>DirectoryDescription</a> objects that were
   /// retrieved.
@@ -4624,6 +4669,7 @@ class DescribeDirectoriesResult {
   }
 }
 
+/// @nodoc
 class DescribeDirectoryDataAccessResult {
   /// The current status of data access through the Directory Service Data API.
   final DataAccessStatus? dataAccessStatus;
@@ -4648,6 +4694,7 @@ class DescribeDirectoryDataAccessResult {
   }
 }
 
+/// @nodoc
 class DescribeDomainControllersResult {
   /// List of the <a>DomainController</a> objects that were retrieved.
   final List<DomainController>? domainControllers;
@@ -4683,6 +4730,8 @@ class DescribeDomainControllersResult {
 }
 
 /// The result of a DescribeEventTopic request.
+///
+/// @nodoc
 class DescribeEventTopicsResult {
   /// A list of Amazon SNS topic names that receive status messages from the
   /// specified Directory ID.
@@ -4709,6 +4758,7 @@ class DescribeEventTopicsResult {
   }
 }
 
+/// @nodoc
 class DescribeHybridADUpdateResult {
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent request to retrieve the
@@ -4744,6 +4794,7 @@ class DescribeHybridADUpdateResult {
   }
 }
 
+/// @nodoc
 class DescribeLDAPSSettingsResult {
   /// Information about LDAP security for the specified directory, including
   /// status of enablement, state last updated date time, and the reason for the
@@ -4779,6 +4830,7 @@ class DescribeLDAPSSettingsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegionsResult {
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent call to
@@ -4814,6 +4866,7 @@ class DescribeRegionsResult {
   }
 }
 
+/// @nodoc
 class DescribeSettingsResult {
   /// The identifier of the directory.
   final String? directoryId;
@@ -4860,6 +4913,7 @@ class DescribeSettingsResult {
   }
 }
 
+/// @nodoc
 class DescribeSharedDirectoriesResult {
   /// If not null, token that indicates that more results are available. Pass this
   /// value for the <code>NextToken</code> parameter in a subsequent call to
@@ -4895,6 +4949,8 @@ class DescribeSharedDirectoriesResult {
 }
 
 /// Contains the results of the <a>DescribeSnapshots</a> operation.
+///
+/// @nodoc
 class DescribeSnapshotsResult {
   /// If not null, more results are available. Pass this value in the
   /// <i>NextToken</i> member of a subsequent call to <a>DescribeSnapshots</a>.
@@ -4934,6 +4990,8 @@ class DescribeSnapshotsResult {
 }
 
 /// The result of a DescribeTrust request.
+///
+/// @nodoc
 class DescribeTrustsResult {
   /// If not null, more results are available. Pass this value for the
   /// <i>NextToken</i> parameter in a subsequent call to <a>DescribeTrusts</a> to
@@ -4973,6 +5031,7 @@ class DescribeTrustsResult {
   }
 }
 
+/// @nodoc
 class DescribeUpdateDirectoryResult {
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter.
@@ -5007,6 +5066,8 @@ class DescribeUpdateDirectoryResult {
 }
 
 /// Contains the results of the <a>DisableCAEnrollmentPolicy</a> operation.
+///
+/// @nodoc
 class DisableCAEnrollmentPolicyResult {
   DisableCAEnrollmentPolicyResult();
 
@@ -5019,6 +5080,7 @@ class DisableCAEnrollmentPolicyResult {
   }
 }
 
+/// @nodoc
 class DisableClientAuthenticationResult {
   DisableClientAuthenticationResult();
 
@@ -5031,6 +5093,7 @@ class DisableClientAuthenticationResult {
   }
 }
 
+/// @nodoc
 class DisableDirectoryDataAccessResult {
   DisableDirectoryDataAccessResult();
 
@@ -5043,6 +5106,7 @@ class DisableDirectoryDataAccessResult {
   }
 }
 
+/// @nodoc
 class DisableLDAPSResult {
   DisableLDAPSResult();
 
@@ -5056,6 +5120,8 @@ class DisableLDAPSResult {
 }
 
 /// Contains the results of the <a>DisableRadius</a> operation.
+///
+/// @nodoc
 class DisableRadiusResult {
   DisableRadiusResult();
 
@@ -5069,6 +5135,8 @@ class DisableRadiusResult {
 }
 
 /// Contains the results of the <a>DisableSso</a> operation.
+///
+/// @nodoc
 class DisableSsoResult {
   DisableSsoResult();
 
@@ -5082,6 +5150,8 @@ class DisableSsoResult {
 }
 
 /// Contains the results of the <a>EnableCAEnrollmentPolicy</a> operation.
+///
+/// @nodoc
 class EnableCAEnrollmentPolicyResult {
   EnableCAEnrollmentPolicyResult();
 
@@ -5094,6 +5164,7 @@ class EnableCAEnrollmentPolicyResult {
   }
 }
 
+/// @nodoc
 class EnableClientAuthenticationResult {
   EnableClientAuthenticationResult();
 
@@ -5106,6 +5177,7 @@ class EnableClientAuthenticationResult {
   }
 }
 
+/// @nodoc
 class EnableDirectoryDataAccessResult {
   EnableDirectoryDataAccessResult();
 
@@ -5118,6 +5190,7 @@ class EnableDirectoryDataAccessResult {
   }
 }
 
+/// @nodoc
 class EnableLDAPSResult {
   EnableLDAPSResult();
 
@@ -5131,6 +5204,8 @@ class EnableLDAPSResult {
 }
 
 /// Contains the results of the <a>EnableRadius</a> operation.
+///
+/// @nodoc
 class EnableRadiusResult {
   EnableRadiusResult();
 
@@ -5144,6 +5219,8 @@ class EnableRadiusResult {
 }
 
 /// Contains the results of the <a>EnableSso</a> operation.
+///
+/// @nodoc
 class EnableSsoResult {
   EnableSsoResult();
 
@@ -5157,6 +5234,8 @@ class EnableSsoResult {
 }
 
 /// Contains the results of the <a>GetDirectoryLimits</a> operation.
+///
+/// @nodoc
 class GetDirectoryLimitsResult {
   /// A <a>DirectoryLimits</a> object that contains the directory limits for the
   /// current Region.
@@ -5184,6 +5263,8 @@ class GetDirectoryLimitsResult {
 }
 
 /// Contains the results of the <a>GetSnapshotLimits</a> operation.
+///
+/// @nodoc
 class GetSnapshotLimitsResult {
   /// A <a>SnapshotLimits</a> object that contains the manual snapshot limits for
   /// the specified directory.
@@ -5210,6 +5291,7 @@ class GetSnapshotLimitsResult {
   }
 }
 
+/// @nodoc
 class ListADAssessmentsResult {
   /// A list of assessment summaries containing basic information about each
   /// directory assessment.
@@ -5245,6 +5327,7 @@ class ListADAssessmentsResult {
   }
 }
 
+/// @nodoc
 class ListCertificatesResult {
   /// A list of certificates with basic details including certificate ID,
   /// certificate common name, certificate state.
@@ -5279,6 +5362,7 @@ class ListCertificatesResult {
   }
 }
 
+/// @nodoc
 class ListIpRoutesResult {
   /// A list of <a>IpRoute</a>s.
   final List<IpRouteInfo>? ipRoutesInfo;
@@ -5313,6 +5397,7 @@ class ListIpRoutesResult {
   }
 }
 
+/// @nodoc
 class ListLogSubscriptionsResult {
   /// A list of active <a>LogSubscription</a> objects for calling the Amazon Web
   /// Services account.
@@ -5346,6 +5431,7 @@ class ListLogSubscriptionsResult {
   }
 }
 
+/// @nodoc
 class ListSchemaExtensionsResult {
   /// If not null, more results are available. Pass this value for the
   /// <code>NextToken</code> parameter in a subsequent call to
@@ -5381,6 +5467,7 @@ class ListSchemaExtensionsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// Reserved for future use.
   final String? nextToken;
@@ -5413,6 +5500,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class RegisterCertificateResult {
   /// The identifier of the certificate.
   final String? certificateId;
@@ -5436,6 +5524,8 @@ class RegisterCertificateResult {
 }
 
 /// The result of a RegisterEventTopic request.
+///
+/// @nodoc
 class RegisterEventTopicResult {
   RegisterEventTopicResult();
 
@@ -5448,6 +5538,7 @@ class RegisterEventTopicResult {
   }
 }
 
+/// @nodoc
 class RejectSharedDirectoryResult {
   /// Identifier of the shared directory in the directory consumer account.
   final String? sharedDirectoryId;
@@ -5470,6 +5561,7 @@ class RejectSharedDirectoryResult {
   }
 }
 
+/// @nodoc
 class RemoveIpRoutesResult {
   RemoveIpRoutesResult();
 
@@ -5482,6 +5574,7 @@ class RemoveIpRoutesResult {
   }
 }
 
+/// @nodoc
 class RemoveRegionResult {
   RemoveRegionResult();
 
@@ -5494,6 +5587,7 @@ class RemoveRegionResult {
   }
 }
 
+/// @nodoc
 class RemoveTagsFromResourceResult {
   RemoveTagsFromResourceResult();
 
@@ -5506,6 +5600,7 @@ class RemoveTagsFromResourceResult {
   }
 }
 
+/// @nodoc
 class ResetUserPasswordResult {
   ResetUserPasswordResult();
 
@@ -5519,6 +5614,8 @@ class ResetUserPasswordResult {
 }
 
 /// Contains the results of the <a>RestoreFromSnapshot</a> operation.
+///
+/// @nodoc
 class RestoreFromSnapshotResult {
   RestoreFromSnapshotResult();
 
@@ -5531,6 +5628,7 @@ class RestoreFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class ShareDirectoryResult {
   /// Identifier of the directory that is stored in the directory consumer account
   /// that is shared from the specified directory (<code>DirectoryId</code>).
@@ -5554,6 +5652,7 @@ class ShareDirectoryResult {
   }
 }
 
+/// @nodoc
 class StartADAssessmentResult {
   /// The unique identifier of the newly started directory assessment. Use this
   /// identifier to monitor assessment progress and retrieve results.
@@ -5577,6 +5676,7 @@ class StartADAssessmentResult {
   }
 }
 
+/// @nodoc
 class StartSchemaExtensionResult {
   /// The identifier of the schema extension that will be applied.
   final String? schemaExtensionId;
@@ -5599,6 +5699,7 @@ class StartSchemaExtensionResult {
   }
 }
 
+/// @nodoc
 class UnshareDirectoryResult {
   /// Identifier of the directory stored in the directory consumer account that is
   /// to be unshared from the specified directory (<code>DirectoryId</code>).
@@ -5623,6 +5724,8 @@ class UnshareDirectoryResult {
 }
 
 /// The result of an UpdateConditionalForwarder request.
+///
+/// @nodoc
 class UpdateConditionalForwarderResult {
   UpdateConditionalForwarderResult();
 
@@ -5635,6 +5738,7 @@ class UpdateConditionalForwarderResult {
   }
 }
 
+/// @nodoc
 class UpdateDirectorySetupResult {
   UpdateDirectorySetupResult();
 
@@ -5647,6 +5751,7 @@ class UpdateDirectorySetupResult {
   }
 }
 
+/// @nodoc
 class UpdateHybridADResult {
   /// The identifier of the assessment performed to validate the update
   /// configuration. This assessment ensures the updated settings are compatible
@@ -5678,6 +5783,7 @@ class UpdateHybridADResult {
   }
 }
 
+/// @nodoc
 class UpdateNumberOfDomainControllersResult {
   UpdateNumberOfDomainControllersResult();
 
@@ -5692,6 +5798,8 @@ class UpdateNumberOfDomainControllersResult {
 }
 
 /// Contains the results of the <a>UpdateRadius</a> operation.
+///
+/// @nodoc
 class UpdateRadiusResult {
   UpdateRadiusResult();
 
@@ -5704,6 +5812,7 @@ class UpdateRadiusResult {
   }
 }
 
+/// @nodoc
 class UpdateSettingsResult {
   /// The identifier of the directory.
   final String? directoryId;
@@ -5726,6 +5835,7 @@ class UpdateSettingsResult {
   }
 }
 
+/// @nodoc
 class UpdateTrustResult {
   final String? requestId;
 
@@ -5755,6 +5865,8 @@ class UpdateTrustResult {
 }
 
 /// Result of a VerifyTrust request.
+///
+/// @nodoc
 class VerifyTrustResult {
   /// The unique Trust ID of the trust relationship that was verified.
   final String? trustId;
@@ -5777,6 +5889,7 @@ class VerifyTrustResult {
   }
 }
 
+/// @nodoc
 class SelectiveAuth {
   static const enabled = SelectiveAuth._('Enabled');
   static const disabled = SelectiveAuth._('Disabled');
@@ -5802,6 +5915,8 @@ class SelectiveAuth {
 }
 
 /// Contains information about the configurable settings for a directory.
+///
+/// @nodoc
 class Setting {
   /// The name of the directory setting. For example:
   ///
@@ -5830,6 +5945,8 @@ class Setting {
 
 /// Contains information about a Remote Authentication Dial In User Service
 /// (RADIUS) server.
+///
+/// @nodoc
 class RadiusSettings {
   /// The protocol specified for your RADIUS endpoints.
   final RadiusAuthenticationProtocol? authenticationProtocol;
@@ -5921,6 +6038,7 @@ class RadiusSettings {
   }
 }
 
+/// @nodoc
 class RadiusAuthenticationProtocol {
   static const pap = RadiusAuthenticationProtocol._('PAP');
   static const chap = RadiusAuthenticationProtocol._('CHAP');
@@ -5949,6 +6067,8 @@ class RadiusAuthenticationProtocol {
 }
 
 /// Use to recover to the hybrid directory administrator account credentials.
+///
+/// @nodoc
 class HybridAdministratorAccountUpdate {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret that contains the credentials for the AD administrator user, and
@@ -5974,6 +6094,8 @@ class HybridAdministratorAccountUpdate {
 
 /// Contains configuration settings for self-managed instances with SSM used in
 /// hybrid directory operations.
+///
+/// @nodoc
 class HybridCustomerInstancesSettings {
   /// The IP addresses of the DNS servers or domain controllers in your
   /// self-managed AD environment.
@@ -5998,6 +6120,7 @@ class HybridCustomerInstancesSettings {
   }
 }
 
+/// @nodoc
 class UpdateType {
   static const os = UpdateType._('OS');
   static const network = UpdateType._('NETWORK');
@@ -6023,6 +6146,8 @@ class UpdateType {
 }
 
 /// OS version that the directory needs to be updated to.
+///
+/// @nodoc
 class OSUpdateSettings {
   /// OS version that the directory needs to be updated to.
   final OSVersion? oSVersion;
@@ -6046,6 +6171,8 @@ class OSUpdateSettings {
 }
 
 /// Contains the directory size configuration for update operations.
+///
+/// @nodoc
 class DirectorySizeUpdateSettings {
   /// The target directory size for the update operation.
   final DirectorySize? directorySize;
@@ -6063,6 +6190,8 @@ class DirectorySizeUpdateSettings {
 }
 
 /// Contains the network configuration for directory update operations.
+///
+/// @nodoc
 class NetworkUpdateSettings {
   /// IPv6 addresses of DNS servers or domain controllers in the self-managed
   /// directory. Required only when updating an AD Connector directory.
@@ -6086,6 +6215,7 @@ class NetworkUpdateSettings {
   }
 }
 
+/// @nodoc
 class NetworkType {
   static const dualStack = NetworkType._('Dual-stack');
   static const iPv4 = NetworkType._('IPv4');
@@ -6110,6 +6240,7 @@ class NetworkType {
   String toString() => value;
 }
 
+/// @nodoc
 class DirectorySize {
   static const small = DirectorySize._('Small');
   static const large = DirectorySize._('Large');
@@ -6134,6 +6265,7 @@ class DirectorySize {
   String toString() => value;
 }
 
+/// @nodoc
 class OSVersion {
   static const server_2012 = OSVersion._('SERVER_2012');
   static const server_2019 = OSVersion._('SERVER_2019');
@@ -6159,6 +6291,8 @@ class OSVersion {
 
 /// Identifier that contains details about the directory consumer account with
 /// whom the directory is being unshared.
+///
+/// @nodoc
 class UnshareTarget {
   /// Identifier of the directory consumer account.
   final String id;
@@ -6181,6 +6315,7 @@ class UnshareTarget {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const account = TargetType._('ACCOUNT');
 
@@ -6205,6 +6340,8 @@ class TargetType {
 
 /// Contains configuration parameters required to perform a directory
 /// assessment.
+///
+/// @nodoc
 class AssessmentConfiguration {
   /// A list of IP addresses for the DNS servers or domain controllers in your
   /// self-managed AD that are tested during the assessment.
@@ -6251,6 +6388,8 @@ class AssessmentConfiguration {
 
 /// Contains VPC information for the <a>CreateDirectory</a>,
 /// <a>CreateMicrosoftAD</a>, or <a>CreateHybridAD</a> operation.
+///
+/// @nodoc
 class DirectoryVpcSettings {
   /// The identifiers of the subnets for the directory servers. The two subnets
   /// must be in different Availability Zones. Directory Service creates a
@@ -6286,6 +6425,8 @@ class DirectoryVpcSettings {
 }
 
 /// Identifier that contains details about the directory consumer account.
+///
+/// @nodoc
 class ShareTarget {
   /// Identifier of the directory consumer account.
   final String id;
@@ -6308,6 +6449,7 @@ class ShareTarget {
   }
 }
 
+/// @nodoc
 class ShareMethod {
   static const organizations = ShareMethod._('ORGANIZATIONS');
   static const handshake = ShareMethod._('HANDSHAKE');
@@ -6331,6 +6473,7 @@ class ShareMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateType {
   static const clientCertAuth = CertificateType._('ClientCertAuth');
   static const clientLDAPS = CertificateType._('ClientLDAPS');
@@ -6358,6 +6501,8 @@ class CertificateType {
 /// Contains information about the client certificate authentication settings
 /// for the <code>RegisterCertificate</code> and
 /// <code>DescribeCertificate</code> operations.
+///
+/// @nodoc
 class ClientCertAuthSettings {
   /// Specifies the URL of the default OCSP server used to check for revocation
   /// status. A secondary value to any OCSP address found in the AIA extension of
@@ -6383,17 +6528,19 @@ class ClientCertAuthSettings {
 }
 
 /// Metadata assigned to a directory consisting of a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// Required name of the tag. The string value can be Unicode characters and
   /// cannot be prefixed with "aws:". The string can contain only the set of
   /// Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':',
-  /// '@'(Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// '@'(Java regex: "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String key;
 
   /// The optional value of the tag. The string value can be Unicode characters.
   /// The string can contain only the set of Unicode letters, digits, white-space,
   /// '_', '.', '/', '=', '+', '-', ':', '@' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String value;
 
   Tag({
@@ -6419,6 +6566,8 @@ class Tag {
 }
 
 /// Information about a schema extension.
+///
+/// @nodoc
 class SchemaExtensionInfo {
   /// A description of the schema extension.
   final String? description;
@@ -6489,6 +6638,7 @@ class SchemaExtensionInfo {
   }
 }
 
+/// @nodoc
 class SchemaExtensionStatus {
   static const initializing = SchemaExtensionStatus._('Initializing');
   static const creatingSnapshot = SchemaExtensionStatus._('CreatingSnapshot');
@@ -6534,6 +6684,8 @@ class SchemaExtensionStatus {
 
 /// Represents a log subscription, which tracks real-time data from a chosen log
 /// group to a specified destination.
+///
+/// @nodoc
 class LogSubscription {
   /// Identifier (ID) of the directory that you want to associate with the log
   /// subscription.
@@ -6575,6 +6727,8 @@ class LogSubscription {
 }
 
 /// Information about one or more IP address blocks.
+///
+/// @nodoc
 class IpRouteInfo {
   /// The date and time the address block was added to the directory.
   final DateTime? addedDateTime;
@@ -6642,6 +6796,7 @@ class IpRouteInfo {
   }
 }
 
+/// @nodoc
 class IpRouteStatusMsg {
   static const adding = IpRouteStatusMsg._('Adding');
   static const added = IpRouteStatusMsg._('Added');
@@ -6678,6 +6833,8 @@ class IpRouteStatusMsg {
 }
 
 /// Contains general information about a certificate.
+///
+/// @nodoc
 class CertificateInfo {
   /// The identifier of the certificate.
   final String? certificateId;
@@ -6731,6 +6888,7 @@ class CertificateInfo {
   }
 }
 
+/// @nodoc
 class CertificateState {
   static const registering = CertificateState._('Registering');
   static const registered = CertificateState._('Registered');
@@ -6768,6 +6926,8 @@ class CertificateState {
 
 /// Contains summary information about a directory assessment, providing a
 /// high-level overview without detailed validation results.
+///
+/// @nodoc
 class AssessmentSummary {
   /// The unique identifier of the directory assessment.
   final String? assessmentId;
@@ -6849,6 +7009,8 @@ class AssessmentSummary {
 }
 
 /// Contains manual snapshot limit information for a directory.
+///
+/// @nodoc
 class SnapshotLimits {
   /// The current number of manual snapshots of the directory.
   final int? manualSnapshotsCurrentCount;
@@ -6889,6 +7051,8 @@ class SnapshotLimits {
 }
 
 /// Contains directory limit information for a Region.
+///
+/// @nodoc
 class DirectoryLimits {
   /// The current number of cloud directories in the Region.
   final int? cloudOnlyDirectoriesCurrentCount;
@@ -6989,6 +7153,7 @@ class DirectoryLimits {
   }
 }
 
+/// @nodoc
 class LDAPSType {
   static const client = LDAPSType._('Client');
 
@@ -7011,6 +7176,7 @@ class LDAPSType {
   String toString() => value;
 }
 
+/// @nodoc
 class ClientAuthenticationType {
   static const smartCard = ClientAuthenticationType._('SmartCard');
   static const smartCardOrPassword =
@@ -7038,6 +7204,8 @@ class ClientAuthenticationType {
 }
 
 /// An entry of update information related to a requested update type.
+///
+/// @nodoc
 class UpdateInfoEntry {
   /// This specifies if the update was initiated by the customer or by the service
   /// team.
@@ -7116,6 +7284,7 @@ class UpdateInfoEntry {
   }
 }
 
+/// @nodoc
 class UpdateStatus {
   static const updated = UpdateStatus._('Updated');
   static const updating = UpdateStatus._('Updating');
@@ -7141,6 +7310,8 @@ class UpdateStatus {
 }
 
 /// The value for a given type of <code>UpdateSettings</code>.
+///
+/// @nodoc
 class UpdateValue {
   /// The OS update related settings.
   final OSUpdateSettings? oSUpdateSettings;
@@ -7168,6 +7339,8 @@ class UpdateValue {
 
 /// Describes a trust relationship between an Managed Microsoft AD directory and
 /// an external domain.
+///
+/// @nodoc
 class Trust {
   /// The date and time that the trust relationship was created.
   final DateTime? createdDateTime;
@@ -7269,6 +7442,7 @@ class Trust {
   }
 }
 
+/// @nodoc
 class TrustType {
   static const forest = TrustType._('Forest');
   static const external = TrustType._('External');
@@ -7292,6 +7466,7 @@ class TrustType {
   String toString() => value;
 }
 
+/// @nodoc
 class TrustDirection {
   static const oneWayOutgoing = TrustDirection._('One-Way: Outgoing');
   static const oneWayIncoming = TrustDirection._('One-Way: Incoming');
@@ -7317,6 +7492,7 @@ class TrustDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class TrustState {
   static const creating = TrustState._('Creating');
   static const created = TrustState._('Created');
@@ -7362,6 +7538,8 @@ class TrustState {
 }
 
 /// Describes a directory snapshot.
+///
+/// @nodoc
 class Snapshot {
   /// The directory identifier.
   final String? directoryId;
@@ -7419,6 +7597,7 @@ class Snapshot {
   }
 }
 
+/// @nodoc
 class SnapshotType {
   static const auto = SnapshotType._('Auto');
   static const manual = SnapshotType._('Manual');
@@ -7442,6 +7621,7 @@ class SnapshotType {
   String toString() => value;
 }
 
+/// @nodoc
 class SnapshotStatus {
   static const creating = SnapshotStatus._('Creating');
   static const completed = SnapshotStatus._('Completed');
@@ -7469,6 +7649,8 @@ class SnapshotStatus {
 
 /// Details about the shared directory in the directory owner account for which
 /// the share request in the directory consumer account has been accepted.
+///
+/// @nodoc
 class SharedDirectory {
   /// The date and time that the shared directory was created.
   final DateTime? createdDateTime;
@@ -7560,6 +7742,7 @@ class SharedDirectory {
   }
 }
 
+/// @nodoc
 class ShareStatus {
   static const shared = ShareStatus._('Shared');
   static const pendingAcceptance = ShareStatus._('PendingAcceptance');
@@ -7602,6 +7785,8 @@ class ShareStatus {
 
 /// Contains information about the specified configurable setting for a
 /// directory.
+///
+/// @nodoc
 class SettingEntry {
   /// The valid range of values for the directory setting. These values depend on
   /// the <code>DataType</code> of your directory.
@@ -7715,6 +7900,7 @@ class SettingEntry {
   }
 }
 
+/// @nodoc
 class DirectoryConfigurationStatus {
   static const requested = DirectoryConfigurationStatus._('Requested');
   static const updating = DirectoryConfigurationStatus._('Updating');
@@ -7744,6 +7930,8 @@ class DirectoryConfigurationStatus {
 }
 
 /// The replicated Region information for a directory.
+///
+/// @nodoc
 class RegionDescription {
   /// The desired number of domain controllers in the specified Region for the
   /// specified directory.
@@ -7831,6 +8019,7 @@ class RegionDescription {
   }
 }
 
+/// @nodoc
 class RegionType {
   static const primary = RegionType._('Primary');
   static const additional = RegionType._('Additional');
@@ -7854,6 +8043,7 @@ class RegionType {
   String toString() => value;
 }
 
+/// @nodoc
 class DirectoryStage {
   static const requested = DirectoryStage._('Requested');
   static const creating = DirectoryStage._('Creating');
@@ -7902,6 +8092,8 @@ class DirectoryStage {
 }
 
 /// Contains general information about the LDAPS settings.
+///
+/// @nodoc
 class LDAPSSettingInfo {
   /// The state of the LDAPS settings.
   final LDAPSStatus? lDAPSStatus;
@@ -7940,6 +8132,7 @@ class LDAPSSettingInfo {
   }
 }
 
+/// @nodoc
 class LDAPSStatus {
   static const enabling = LDAPSStatus._('Enabling');
   static const enabled = LDAPSStatus._('Enabled');
@@ -7967,6 +8160,8 @@ class LDAPSStatus {
 
 /// Contains information about update activities for different components of a
 /// hybrid directory.
+///
+/// @nodoc
 class HybridUpdateActivities {
   /// A list of update activities related to hybrid directory administrator
   /// account changes.
@@ -8008,6 +8203,8 @@ class HybridUpdateActivities {
 
 /// Contains detailed information about a specific update activity for a hybrid
 /// directory component.
+///
+/// @nodoc
 class HybridUpdateInfoEntry {
   /// The identifier of the assessment performed to validate this update
   /// configuration.
@@ -8091,6 +8288,8 @@ class HybridUpdateInfoEntry {
 
 /// Contains the configuration values for a hybrid directory update, including
 /// Amazon Web Services System Manager managed node and DNS information.
+///
+/// @nodoc
 class HybridUpdateValue {
   /// The IP addresses of the DNS servers or domain controllers in the hybrid
   /// directory configuration.
@@ -8126,6 +8325,7 @@ class HybridUpdateValue {
   }
 }
 
+/// @nodoc
 class HybridUpdateType {
   static const selfManagedInstances =
       HybridUpdateType._('SelfManagedInstances');
@@ -8154,6 +8354,8 @@ class HybridUpdateType {
 
 /// Information about Amazon SNS topic and Directory Service directory
 /// associations.
+///
+/// @nodoc
 class EventTopic {
   /// The date and time of when you associated your directory with the Amazon SNS
   /// topic.
@@ -8208,6 +8410,7 @@ class EventTopic {
   }
 }
 
+/// @nodoc
 class TopicStatus {
   static const registered = TopicStatus._('Registered');
   static const topicNotFound = TopicStatus._('Topic not found');
@@ -8234,6 +8437,8 @@ class TopicStatus {
 }
 
 /// Contains information about the domain controllers for a specified directory.
+///
+/// @nodoc
 class DomainController {
   /// The Availability Zone where the domain controller is located.
   final String? availabilityZone;
@@ -8330,6 +8535,7 @@ class DomainController {
   }
 }
 
+/// @nodoc
 class DomainControllerStatus {
   static const creating = DomainControllerStatus._('Creating');
   static const active = DomainControllerStatus._('Active');
@@ -8370,6 +8576,7 @@ class DomainControllerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DataAccessStatus {
   static const disabled = DataAccessStatus._('Disabled');
   static const disabling = DataAccessStatus._('Disabling');
@@ -8398,6 +8605,8 @@ class DataAccessStatus {
 }
 
 /// Contains information about an Directory Service directory.
+///
+/// @nodoc
 class DirectoryDescription {
   /// The access URL for the directory, such as
   /// <code>http://<alias>.awsapps.com</code>. If no alias exists,
@@ -8677,6 +8886,7 @@ class DirectoryDescription {
   }
 }
 
+/// @nodoc
 class DirectoryEdition {
   static const enterprise = DirectoryEdition._('Enterprise');
   static const standard = DirectoryEdition._('Standard');
@@ -8702,6 +8912,7 @@ class DirectoryEdition {
   String toString() => value;
 }
 
+/// @nodoc
 class DirectoryType {
   static const simpleAD = DirectoryType._('SimpleAD');
   static const aDConnector = DirectoryType._('ADConnector');
@@ -8729,6 +8940,8 @@ class DirectoryType {
 }
 
 /// Contains information about the directory.
+///
+/// @nodoc
 class DirectoryVpcSettingsDescription {
   /// The list of Availability Zones that the directory is in.
   final List<String>? availabilityZones;
@@ -8779,6 +8992,8 @@ class DirectoryVpcSettingsDescription {
 }
 
 /// Contains information about an AD Connector directory.
+///
+/// @nodoc
 class DirectoryConnectSettingsDescription {
   /// The Availability Zones that the directory is in.
   final List<String>? availabilityZones;
@@ -8856,6 +9071,7 @@ class DirectoryConnectSettingsDescription {
   }
 }
 
+/// @nodoc
 class RadiusStatus {
   static const creating = RadiusStatus._('Creating');
   static const completed = RadiusStatus._('Completed');
@@ -8882,6 +9098,8 @@ class RadiusStatus {
 
 /// Contains the directory owner account details shared with the directory
 /// consumer account.
+///
+/// @nodoc
 class OwnerDirectoryDescription {
   /// Identifier of the directory owner account.
   final String? accountId;
@@ -8970,6 +9188,8 @@ class OwnerDirectoryDescription {
 
 /// Provides information about the Regions that are configured for multi-Region
 /// replication.
+///
+/// @nodoc
 class RegionsInfo {
   /// Lists the Regions where the directory has been replicated, excluding the
   /// primary Region.
@@ -9005,6 +9225,8 @@ class RegionsInfo {
 
 /// Describes the current hybrid directory configuration settings for a
 /// directory.
+///
+/// @nodoc
 class HybridSettingsDescription {
   /// The IP addresses of the DNS servers in your self-managed AD environment.
   final List<String>? selfManagedDnsIpAddrs;
@@ -9046,6 +9268,8 @@ class HybridSettingsDescription {
 /// Points to a remote domain with which you are setting up a trust
 /// relationship. Conditional forwarders are required in order to set up a trust
 /// relationship with another domain.
+///
+/// @nodoc
 class ConditionalForwarder {
   /// The IP addresses of the remote DNS server associated with RemoteDomainName.
   /// This is the IP address of the DNS server that your conditional forwarder
@@ -9103,6 +9327,7 @@ class ConditionalForwarder {
   }
 }
 
+/// @nodoc
 class ReplicationScope {
   static const domain = ReplicationScope._('Domain');
 
@@ -9127,6 +9352,8 @@ class ReplicationScope {
 }
 
 /// Contains information about a client authentication method for a directory.
+///
+/// @nodoc
 class ClientAuthenticationSettingInfo {
   /// The date and time when the status of the client authentication type was last
   /// updated.
@@ -9169,6 +9396,7 @@ class ClientAuthenticationSettingInfo {
   }
 }
 
+/// @nodoc
 class ClientAuthenticationStatus {
   static const enabled = ClientAuthenticationStatus._('Enabled');
   static const disabled = ClientAuthenticationStatus._('Disabled');
@@ -9195,6 +9423,8 @@ class ClientAuthenticationStatus {
 }
 
 /// Information about the certificate.
+///
+/// @nodoc
 class Certificate {
   /// The identifier of the certificate.
   final String? certificateId;
@@ -9275,6 +9505,7 @@ class Certificate {
   }
 }
 
+/// @nodoc
 class CaEnrollmentPolicyStatus {
   static const inProgress = CaEnrollmentPolicyStatus._('InProgress');
   static const success = CaEnrollmentPolicyStatus._('Success');
@@ -9313,6 +9544,8 @@ class CaEnrollmentPolicyStatus {
 
 /// Contains detailed information about a directory assessment, including
 /// configuration parameters, status, and validation results.
+///
+/// @nodoc
 class Assessment {
   /// The unique identifier of the directory assessment.
   final String? assessmentId;
@@ -9460,6 +9693,8 @@ class Assessment {
 
 /// Contains the results of validation tests performed against a specific domain
 /// controller during a directory assessment.
+///
+/// @nodoc
 class AssessmentReport {
   /// The IP address of the domain controller that was tested during the
   /// assessment.
@@ -9496,6 +9731,8 @@ class AssessmentReport {
 
 /// Contains information about a specific validation test performed during a
 /// directory assessment.
+///
+/// @nodoc
 class AssessmentValidation {
   /// The category of the validation test.
   final String? category;
@@ -9566,6 +9803,8 @@ class AssessmentValidation {
 }
 
 /// Contains information about a computer account in a directory.
+///
+/// @nodoc
 class Computer {
   /// An array of <a>Attribute</a> objects containing the LDAP attributes that
   /// belong to the computer account.
@@ -9607,6 +9846,8 @@ class Computer {
 }
 
 /// Represents a named directory attribute.
+///
+/// @nodoc
 class Attribute {
   /// The name of the attribute.
   final String? name;
@@ -9638,6 +9879,8 @@ class Attribute {
 
 /// Contains connection settings for creating an AD Connector with the
 /// <a>ConnectDirectory</a> action.
+///
+/// @nodoc
 class DirectoryConnectSettings {
   /// The user name of an account in your self-managed directory that is used to
   /// connect to the directory. This account must have the following permissions:
@@ -9696,6 +9939,8 @@ class DirectoryConnectSettings {
 
 /// Contains the IP address block. This is often the address block of the DNS
 /// server used for your self-managed domain.
+///
+/// @nodoc
 class IpRoute {
   /// IP address block in CIDR format, such as 10.0.0.0/24. This is often the
   /// address block of the DNS server used for your self-managed domain. For a
@@ -9730,6 +9975,7 @@ class IpRoute {
   }
 }
 
+/// @nodoc
 class ADAssessmentLimitExceededException extends _s.GenericAwsException {
   ADAssessmentLimitExceededException({String? type, String? message})
       : super(
@@ -9738,11 +9984,13 @@ class ADAssessmentLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AuthenticationFailedException extends _s.GenericAwsException {
   AuthenticationFailedException({String? type, String? message})
       : super(
@@ -9751,6 +9999,7 @@ class AuthenticationFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CertificateAlreadyExistsException extends _s.GenericAwsException {
   CertificateAlreadyExistsException({String? type, String? message})
       : super(
@@ -9759,6 +10008,7 @@ class CertificateAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CertificateDoesNotExistException extends _s.GenericAwsException {
   CertificateDoesNotExistException({String? type, String? message})
       : super(
@@ -9767,11 +10017,13 @@ class CertificateDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CertificateInUseException extends _s.GenericAwsException {
   CertificateInUseException({String? type, String? message})
       : super(type: type, code: 'CertificateInUseException', message: message);
 }
 
+/// @nodoc
 class CertificateLimitExceededException extends _s.GenericAwsException {
   CertificateLimitExceededException({String? type, String? message})
       : super(
@@ -9780,11 +10032,13 @@ class CertificateLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClientException extends _s.GenericAwsException {
   ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
+/// @nodoc
 class DirectoryAlreadyInRegionException extends _s.GenericAwsException {
   DirectoryAlreadyInRegionException({String? type, String? message})
       : super(
@@ -9793,6 +10047,7 @@ class DirectoryAlreadyInRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryAlreadySharedException extends _s.GenericAwsException {
   DirectoryAlreadySharedException({String? type, String? message})
       : super(
@@ -9801,6 +10056,7 @@ class DirectoryAlreadySharedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryDoesNotExistException extends _s.GenericAwsException {
   DirectoryDoesNotExistException({String? type, String? message})
       : super(
@@ -9809,6 +10065,7 @@ class DirectoryDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryInDesiredStateException extends _s.GenericAwsException {
   DirectoryInDesiredStateException({String? type, String? message})
       : super(
@@ -9817,6 +10074,7 @@ class DirectoryInDesiredStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryLimitExceededException extends _s.GenericAwsException {
   DirectoryLimitExceededException({String? type, String? message})
       : super(
@@ -9825,12 +10083,14 @@ class DirectoryLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryNotSharedException extends _s.GenericAwsException {
   DirectoryNotSharedException({String? type, String? message})
       : super(
             type: type, code: 'DirectoryNotSharedException', message: message);
 }
 
+/// @nodoc
 class DirectoryUnavailableException extends _s.GenericAwsException {
   DirectoryUnavailableException({String? type, String? message})
       : super(
@@ -9839,6 +10099,7 @@ class DirectoryUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DisableAlreadyInProgressException extends _s.GenericAwsException {
   DisableAlreadyInProgressException({String? type, String? message})
       : super(
@@ -9847,6 +10108,7 @@ class DisableAlreadyInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DomainControllerLimitExceededException extends _s.GenericAwsException {
   DomainControllerLimitExceededException({String? type, String? message})
       : super(
@@ -9855,6 +10117,7 @@ class DomainControllerLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EnableAlreadyInProgressException extends _s.GenericAwsException {
   EnableAlreadyInProgressException({String? type, String? message})
       : super(
@@ -9863,18 +10126,21 @@ class EnableAlreadyInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EntityAlreadyExistsException extends _s.GenericAwsException {
   EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class EntityDoesNotExistException extends _s.GenericAwsException {
   EntityDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'EntityDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class IncompatibleSettingsException extends _s.GenericAwsException {
   IncompatibleSettingsException({String? type, String? message})
       : super(
@@ -9883,6 +10149,7 @@ class IncompatibleSettingsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientPermissionsException extends _s.GenericAwsException {
   InsufficientPermissionsException({String? type, String? message})
       : super(
@@ -9891,12 +10158,14 @@ class InsufficientPermissionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCertificateException extends _s.GenericAwsException {
   InvalidCertificateException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCertificateException', message: message);
 }
 
+/// @nodoc
 class InvalidClientAuthStatusException extends _s.GenericAwsException {
   InvalidClientAuthStatusException({String? type, String? message})
       : super(
@@ -9905,32 +10174,38 @@ class InvalidClientAuthStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLDAPSStatusException extends _s.GenericAwsException {
   InvalidLDAPSStatusException({String? type, String? message})
       : super(
             type: type, code: 'InvalidLDAPSStatusException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidPasswordException extends _s.GenericAwsException {
   InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
+/// @nodoc
 class InvalidTargetException extends _s.GenericAwsException {
   InvalidTargetException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetException', message: message);
 }
 
+/// @nodoc
 class IpRouteLimitExceededException extends _s.GenericAwsException {
   IpRouteLimitExceededException({String? type, String? message})
       : super(
@@ -9939,6 +10214,7 @@ class IpRouteLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoAvailableCertificateException extends _s.GenericAwsException {
   NoAvailableCertificateException({String? type, String? message})
       : super(
@@ -9947,28 +10223,33 @@ class NoAvailableCertificateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationsException extends _s.GenericAwsException {
   OrganizationsException({String? type, String? message})
       : super(type: type, code: 'OrganizationsException', message: message);
 }
 
+/// @nodoc
 class RegionLimitExceededException extends _s.GenericAwsException {
   RegionLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'RegionLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class ShareLimitExceededException extends _s.GenericAwsException {
   ShareLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ShareLimitExceededException', message: message);
 }
 
+/// @nodoc
 class SnapshotLimitExceededException extends _s.GenericAwsException {
   SnapshotLimitExceededException({String? type, String? message})
       : super(
@@ -9977,11 +10258,13 @@ class SnapshotLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagLimitExceededException extends _s.GenericAwsException {
   TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -9990,12 +10273,14 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedSettingsException extends _s.GenericAwsException {
   UnsupportedSettingsException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedSettingsException', message: message);
 }
 
+/// @nodoc
 class UserDoesNotExistException extends _s.GenericAwsException {
   UserDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'UserDoesNotExistException', message: message);

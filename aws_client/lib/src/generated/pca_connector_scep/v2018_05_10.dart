@@ -493,6 +493,7 @@ class PcaConnectorScep {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The key-value pairs to associate with the resource.
   final Map<String, String>? tags;
@@ -516,6 +517,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateChallengeResponse {
   /// Returns the challenge details for the specified connector.
   final Challenge? challenge;
@@ -540,6 +542,7 @@ class CreateChallengeResponse {
   }
 }
 
+/// @nodoc
 class GetChallengeMetadataResponse {
   /// The metadata for the challenge.
   final ChallengeMetadata? challengeMetadata;
@@ -565,6 +568,7 @@ class GetChallengeMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListChallengeMetadataResponse {
   /// The challenge metadata for the challenges belonging to your Amazon Web
   /// Services account.
@@ -603,6 +607,7 @@ class ListChallengeMetadataResponse {
   }
 }
 
+/// @nodoc
 class GetChallengePasswordResponse {
   /// The SCEP challenge password.
   final String? password;
@@ -625,6 +630,7 @@ class GetChallengePasswordResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorResponse {
   /// Returns the Amazon Resource Name (ARN) of the connector.
   final String? connectorArn;
@@ -647,6 +653,7 @@ class CreateConnectorResponse {
   }
 }
 
+/// @nodoc
 class GetConnectorResponse {
   /// The properties of the connector.
   final Connector? connector;
@@ -671,6 +678,7 @@ class GetConnectorResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorsResponse {
   /// The connectors belonging to your Amazon Web Services account.
   final List<ConnectorSummary>? connectors;
@@ -709,6 +717,8 @@ class ListConnectorsResponse {
 
 /// Lists the Amazon Web Services Private CA SCEP connectors belonging to your
 /// Amazon Web Services account.
+///
+/// @nodoc
 class ConnectorSummary {
   /// The Amazon Resource Name (ARN) of the connector.
   final String? arn;
@@ -809,6 +819,7 @@ class ConnectorSummary {
   }
 }
 
+/// @nodoc
 class ConnectorType {
   static const generalPurpose = ConnectorType._('GENERAL_PURPOSE');
   static const intune = ConnectorType._('INTUNE');
@@ -846,6 +857,8 @@ class ConnectorType {
 /// challenge passwords using Microsoft Intune. For more information, see <a
 /// href="https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html">Using
 /// Connector for SCEP for Microsoft Intune</a>.
+///
+/// @nodoc
 class MobileDeviceManagement {
   /// Configuration settings for use with Microsoft Intune. For information about
   /// using Connector for SCEP for Microsoft Intune, see <a
@@ -877,6 +890,8 @@ class MobileDeviceManagement {
 /// more information about using Connector for SCEP for Microsoft Intune, see <a
 /// href="https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html">Using
 /// Connector for SCEP for Microsoft Intune</a>.
+///
+/// @nodoc
 class OpenIdConfiguration {
   /// The audience value to copy into your Microsoft Entra app registration's
   /// OIDC.
@@ -914,6 +929,7 @@ class OpenIdConfiguration {
   }
 }
 
+/// @nodoc
 class ConnectorStatus {
   static const creating = ConnectorStatus._('CREATING');
   static const active = ConnectorStatus._('ACTIVE');
@@ -940,6 +956,7 @@ class ConnectorStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorStatusReason {
   static const internalFailure = ConnectorStatusReason._('INTERNAL_FAILURE');
   static const privatecaAccessDenied =
@@ -993,6 +1010,8 @@ class ConnectorStatusReason {
 /// your use of the Microsoft Intune service. You should also review the <a
 /// href="https://learn.microsoft.com/en-us/mem/intune/apps/app-protection-policy">Microsoft
 /// Intune® App Protection Policies</a>.
+///
+/// @nodoc
 class IntuneConfiguration {
   /// The directory (tenant) ID from your Microsoft Entra ID app registration.
   final String azureApplicationId;
@@ -1027,6 +1046,8 @@ class IntuneConfiguration {
 /// the exchange of certificates from Amazon Web Services Private CA to your
 /// SCEP-enabled devices and mobile device management systems. The connector is
 /// a complex type that contains the connector's configuration settings.
+///
+/// @nodoc
 class Connector {
   /// The Amazon Resource Name (ARN) of the connector.
   final String? arn;
@@ -1134,6 +1155,8 @@ class Connector {
 /// Details about the specified challenge, returned by the <a
 /// href="https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_GetChallengeMetadata.html">GetChallengeMetadata</a>
 /// action.
+///
+/// @nodoc
 class ChallengeMetadataSummary {
   /// The Amazon Resource Name (ARN) of the challenge.
   final String? arn;
@@ -1178,6 +1201,8 @@ class ChallengeMetadataSummary {
 }
 
 /// Contains details about the connector's challenge.
+///
+/// @nodoc
 class ChallengeMetadata {
   /// The Amazon Resource Name (ARN) of the challenge.
   final String? arn;
@@ -1223,6 +1248,8 @@ class ChallengeMetadata {
 
 /// For Connector for SCEP for general-purpose. An object containing information
 /// about the specified connector's SCEP challenge passwords.
+///
+/// @nodoc
 class Challenge {
   /// The Amazon Resource Name (ARN) of the challenge.
   final String? arn;
@@ -1273,31 +1300,37 @@ class Challenge {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1306,11 +1339,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

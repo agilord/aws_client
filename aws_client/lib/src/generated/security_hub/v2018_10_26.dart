@@ -808,13 +808,13 @@ class SecurityHub {
   ///
   /// Parameter [severityId] :
   /// The updated value for the normalized severity identifier. The severity ID
-  /// is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When
-  /// customer provides the updated severity ID, the string sibling severity
-  /// will automatically be updated in the finding.
+  /// is an integer with the allowed enum values \[0, 1, 2, 3, 4, 5, 6, 99\].
+  /// When customer provides the updated severity ID, the string sibling
+  /// severity will automatically be updated in the finding.
   ///
   /// Parameter [statusId] :
   /// The updated value for the normalized status identifier. The status ID is
-  /// an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When
+  /// an integer with the allowed enum values \[0, 1, 2, 3, 4, 5, 99\]. When
   /// customer provides the updated status ID, the string sibling status will
   /// automatically be updated in the finding.
   Future<BatchUpdateFindingsV2Response> batchUpdateFindingsV2({
@@ -4959,6 +4959,7 @@ class SecurityHub {
   }
 }
 
+/// @nodoc
 class AcceptAdministratorInvitationResponse {
   AcceptAdministratorInvitationResponse();
 
@@ -4972,6 +4973,7 @@ class AcceptAdministratorInvitationResponse {
   }
 }
 
+/// @nodoc
 class AcceptInvitationResponse {
   AcceptInvitationResponse();
 
@@ -4984,6 +4986,7 @@ class AcceptInvitationResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteAutomationRulesResponse {
   /// A list of properly processed rule ARNs.
   final List<String>? processedAutomationRules;
@@ -5025,6 +5028,7 @@ class BatchDeleteAutomationRulesResponse {
   }
 }
 
+/// @nodoc
 class BatchDisableStandardsResponse {
   /// The details of the standards subscriptions that were disabled.
   final List<StandardsSubscription>? standardsSubscriptions;
@@ -5051,6 +5055,7 @@ class BatchDisableStandardsResponse {
   }
 }
 
+/// @nodoc
 class BatchEnableStandardsResponse {
   /// The details of the standards subscriptions that were enabled.
   final List<StandardsSubscription>? standardsSubscriptions;
@@ -5077,6 +5082,7 @@ class BatchEnableStandardsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAutomationRulesResponse {
   /// A list of rule details for the provided rule ARNs.
   final List<AutomationRulesConfig>? rules;
@@ -5116,6 +5122,7 @@ class BatchGetAutomationRulesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetConfigurationPolicyAssociationsResponse {
   /// Describes associations for the target accounts, OUs, or the root.
   final List<ConfigurationPolicyAssociationSummary>?
@@ -5165,6 +5172,7 @@ class BatchGetConfigurationPolicyAssociationsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetSecurityControlsResponse {
   /// An array that returns the identifier, Amazon Resource Name (ARN), and other
   /// details about a security control. The same information is returned whether
@@ -5206,6 +5214,7 @@ class BatchGetSecurityControlsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetStandardsControlAssociationsResponse {
   /// Provides the enablement status of a security control in a specified standard
   /// and other details for the control in relation to the specified standard.
@@ -5251,6 +5260,7 @@ class BatchGetStandardsControlAssociationsResponse {
   }
 }
 
+/// @nodoc
 class BatchImportFindingsResponse {
   /// The number of findings that failed to import.
   final int failedCount;
@@ -5290,6 +5300,7 @@ class BatchImportFindingsResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateAutomationRulesResponse {
   /// A list of properly processed rule ARNs.
   final List<String>? processedAutomationRules;
@@ -5331,6 +5342,7 @@ class BatchUpdateAutomationRulesResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateFindingsResponse {
   /// The list of findings that were updated successfully.
   final List<AwsSecurityFindingIdentifier> processedFindings;
@@ -5368,6 +5380,7 @@ class BatchUpdateFindingsResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateFindingsV2Response {
   /// The list of findings that were updated successfully.
   final List<BatchUpdateFindingsV2ProcessedFinding> processedFindings;
@@ -5405,6 +5418,7 @@ class BatchUpdateFindingsV2Response {
   }
 }
 
+/// @nodoc
 class BatchUpdateStandardsControlAssociationsResponse {
   /// A security control (identified with <code>SecurityControlId</code>,
   /// <code>SecurityControlArn</code>, or a mix of both parameters) whose
@@ -5437,6 +5451,7 @@ class BatchUpdateStandardsControlAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateActionTargetResponse {
   /// The Amazon Resource Name (ARN) for the custom action target.
   final String actionTargetArn;
@@ -5459,6 +5474,7 @@ class CreateActionTargetResponse {
   }
 }
 
+/// @nodoc
 class CreateAggregatorV2Response {
   /// The Amazon Web Services Region where data is aggregated.
   final String? aggregationRegion;
@@ -5505,6 +5521,7 @@ class CreateAggregatorV2Response {
   }
 }
 
+/// @nodoc
 class CreateAutomationRuleResponse {
   /// The Amazon Resource Name (ARN) of the automation rule that you created.
   final String? ruleArn;
@@ -5527,6 +5544,7 @@ class CreateAutomationRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateAutomationRuleV2Response {
   /// The ARN of the V2 automation rule.
   final String? ruleArn;
@@ -5556,6 +5574,7 @@ class CreateAutomationRuleV2Response {
   }
 }
 
+/// @nodoc
 class CreateConfigurationPolicyResponse {
   /// The Amazon Resource Name (ARN) of the configuration policy.
   final String? arn;
@@ -5634,6 +5653,7 @@ class CreateConfigurationPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorV2Response {
   /// The Amazon Resource Name (ARN) of the connectorV2.
   final String connectorArn;
@@ -5678,6 +5698,7 @@ class CreateConnectorV2Response {
   }
 }
 
+/// @nodoc
 class CreateFindingAggregatorResponse {
   /// The home Region. Findings generated in linked Regions are replicated and
   /// sent to the home Region.
@@ -5727,6 +5748,7 @@ class CreateFindingAggregatorResponse {
   }
 }
 
+/// @nodoc
 class CreateInsightResponse {
   /// The ARN of the insight created.
   final String insightArn;
@@ -5749,6 +5771,7 @@ class CreateInsightResponse {
   }
 }
 
+/// @nodoc
 class CreateMembersResponse {
   /// The list of Amazon Web Services accounts that were not processed. For each
   /// account, the list includes the account ID and the email address.
@@ -5776,6 +5799,7 @@ class CreateMembersResponse {
   }
 }
 
+/// @nodoc
 class CreateTicketV2Response {
   /// The ID for the ticketv2.
   final String ticketId;
@@ -5805,6 +5829,7 @@ class CreateTicketV2Response {
   }
 }
 
+/// @nodoc
 class DeclineInvitationsResponse {
   /// The list of Amazon Web Services accounts that were not processed. For each
   /// account, the list includes the account ID and the email address.
@@ -5832,6 +5857,7 @@ class DeclineInvitationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteActionTargetResponse {
   /// The ARN of the custom action target that was deleted.
   final String actionTargetArn;
@@ -5854,6 +5880,7 @@ class DeleteActionTargetResponse {
   }
 }
 
+/// @nodoc
 class DeleteAggregatorV2Response {
   DeleteAggregatorV2Response();
 
@@ -5866,6 +5893,7 @@ class DeleteAggregatorV2Response {
   }
 }
 
+/// @nodoc
 class DeleteAutomationRuleV2Response {
   DeleteAutomationRuleV2Response();
 
@@ -5878,6 +5906,7 @@ class DeleteAutomationRuleV2Response {
   }
 }
 
+/// @nodoc
 class DeleteConfigurationPolicyResponse {
   DeleteConfigurationPolicyResponse();
 
@@ -5890,6 +5919,7 @@ class DeleteConfigurationPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectorV2Response {
   DeleteConnectorV2Response();
 
@@ -5902,6 +5932,7 @@ class DeleteConnectorV2Response {
   }
 }
 
+/// @nodoc
 class DeleteFindingAggregatorResponse {
   DeleteFindingAggregatorResponse();
 
@@ -5914,6 +5945,7 @@ class DeleteFindingAggregatorResponse {
   }
 }
 
+/// @nodoc
 class DeleteInsightResponse {
   /// The ARN of the insight that was deleted.
   final String insightArn;
@@ -5936,6 +5968,7 @@ class DeleteInsightResponse {
   }
 }
 
+/// @nodoc
 class DeleteInvitationsResponse {
   /// The list of Amazon Web Services accounts for which the invitations were not
   /// deleted. For each account, the list includes the account ID and the email
@@ -5964,6 +5997,7 @@ class DeleteInvitationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteMembersResponse {
   /// The list of Amazon Web Services accounts that were not deleted. For each
   /// account, the list includes the account ID and the email address.
@@ -5991,6 +6025,7 @@ class DeleteMembersResponse {
   }
 }
 
+/// @nodoc
 class DescribeActionTargetsResponse {
   /// A list of <code>ActionTarget</code> objects. Each object includes the
   /// <code>ActionTargetArn</code>, <code>Description</code>, and
@@ -6025,6 +6060,7 @@ class DescribeActionTargetsResponse {
   }
 }
 
+/// @nodoc
 class DescribeHubResponse {
   /// Whether to automatically enable new controls when they are added to
   /// standards that are enabled.
@@ -6098,6 +6134,7 @@ class DescribeHubResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigurationResponse {
   /// Whether to automatically enable Security Hub CSPM in new member accounts
   /// when they join the organization.
@@ -6175,6 +6212,7 @@ class DescribeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeProductsResponse {
   /// A list of products, including details for each product.
   final List<Product> products;
@@ -6207,6 +6245,7 @@ class DescribeProductsResponse {
   }
 }
 
+/// @nodoc
 class DescribeProductsV2Response {
   /// Gets information about the product integration.
   final List<ProductV2> productsV2;
@@ -6240,6 +6279,7 @@ class DescribeProductsV2Response {
   }
 }
 
+/// @nodoc
 class DescribeSecurityHubV2Response {
   /// The ARN of the service resource.
   final String? hubV2Arn;
@@ -6269,6 +6309,7 @@ class DescribeSecurityHubV2Response {
   }
 }
 
+/// @nodoc
 class DescribeStandardsResponse {
   /// The pagination token to use to request the next page of results.
   final String? nextToken;
@@ -6301,6 +6342,7 @@ class DescribeStandardsResponse {
   }
 }
 
+/// @nodoc
 class DescribeStandardsControlsResponse {
   /// A list of security standards controls.
   final List<StandardsControl>? controls;
@@ -6334,6 +6376,7 @@ class DescribeStandardsControlsResponse {
   }
 }
 
+/// @nodoc
 class DisableImportFindingsForProductResponse {
   DisableImportFindingsForProductResponse();
 
@@ -6347,6 +6390,7 @@ class DisableImportFindingsForProductResponse {
   }
 }
 
+/// @nodoc
 class DisableOrganizationAdminAccountResponse {
   DisableOrganizationAdminAccountResponse();
 
@@ -6360,6 +6404,7 @@ class DisableOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class DisableSecurityHubResponse {
   DisableSecurityHubResponse();
 
@@ -6372,6 +6417,7 @@ class DisableSecurityHubResponse {
   }
 }
 
+/// @nodoc
 class DisableSecurityHubV2Response {
   DisableSecurityHubV2Response();
 
@@ -6384,6 +6430,7 @@ class DisableSecurityHubV2Response {
   }
 }
 
+/// @nodoc
 class DisassociateFromAdministratorAccountResponse {
   DisassociateFromAdministratorAccountResponse();
 
@@ -6397,6 +6444,7 @@ class DisassociateFromAdministratorAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFromMasterAccountResponse {
   DisassociateFromMasterAccountResponse();
 
@@ -6410,6 +6458,7 @@ class DisassociateFromMasterAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMembersResponse {
   DisassociateMembersResponse();
 
@@ -6422,6 +6471,7 @@ class DisassociateMembersResponse {
   }
 }
 
+/// @nodoc
 class EnableImportFindingsForProductResponse {
   /// The ARN of your subscription to the product to enable integrations for.
   final String? productSubscriptionArn;
@@ -6446,6 +6496,7 @@ class EnableImportFindingsForProductResponse {
   }
 }
 
+/// @nodoc
 class EnableOrganizationAdminAccountResponse {
   /// The Amazon Web Services account identifier of the account to designate as
   /// the Security Hub CSPM administrator account.
@@ -6479,6 +6530,7 @@ class EnableOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class EnableSecurityHubResponse {
   EnableSecurityHubResponse();
 
@@ -6491,6 +6543,7 @@ class EnableSecurityHubResponse {
   }
 }
 
+/// @nodoc
 class EnableSecurityHubV2Response {
   /// The ARN of the V2 resource that was created.
   final String? hubV2Arn;
@@ -6513,6 +6566,7 @@ class EnableSecurityHubV2Response {
   }
 }
 
+/// @nodoc
 class GenerateRecommendedPolicyV2Response {
   GenerateRecommendedPolicyV2Response();
 
@@ -6525,6 +6579,7 @@ class GenerateRecommendedPolicyV2Response {
   }
 }
 
+/// @nodoc
 class GetAdministratorAccountResponse {
   final Invitation? administrator;
 
@@ -6548,6 +6603,7 @@ class GetAdministratorAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAggregatorV2Response {
   /// The Amazon Web Services Region where data is aggregated.
   final String? aggregationRegion;
@@ -6594,6 +6650,7 @@ class GetAggregatorV2Response {
   }
 }
 
+/// @nodoc
 class GetAutomationRuleV2Response {
   /// A list of actions performed when the rule criteria is met.
   final List<AutomationRulesActionV2>? actions;
@@ -6685,6 +6742,7 @@ class GetAutomationRuleV2Response {
   }
 }
 
+/// @nodoc
 class GetConfigurationPolicyResponse {
   /// The ARN of the configuration policy.
   final String? arn;
@@ -6761,6 +6819,7 @@ class GetConfigurationPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetConfigurationPolicyAssociationResponse {
   /// The current status of the association between the specified target and the
   /// configuration.
@@ -6839,6 +6898,7 @@ class GetConfigurationPolicyAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetConnectorV2Response {
   /// The UUID of the connectorV2 to identify connectorV2 resource.
   final String connectorId;
@@ -6920,6 +6980,7 @@ class GetConnectorV2Response {
   }
 }
 
+/// @nodoc
 class GetEnabledStandardsResponse {
   /// The pagination token to use to request the next page of results.
   final String? nextToken;
@@ -6954,6 +7015,7 @@ class GetEnabledStandardsResponse {
   }
 }
 
+/// @nodoc
 class GetFindingAggregatorResponse {
   /// The home Region. Findings generated in linked Regions are replicated and
   /// sent to the home Region.
@@ -7002,6 +7064,7 @@ class GetFindingAggregatorResponse {
   }
 }
 
+/// @nodoc
 class GetFindingHistoryResponse {
   /// A token for pagination purposes. Provide this token in the subsequent
   /// request to <code>GetFindingsHistory</code> to get up to an additional 100
@@ -7038,6 +7101,7 @@ class GetFindingHistoryResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsResponse {
   /// The findings that matched the filters specified in the request.
   final List<AwsSecurityFinding> findings;
@@ -7070,6 +7134,7 @@ class GetFindingsResponse {
   }
 }
 
+/// @nodoc
 class GetFindingStatisticsV2Response {
   /// Aggregated statistics about security findings based on specified grouping
   /// criteria.
@@ -7096,6 +7161,7 @@ class GetFindingStatisticsV2Response {
   }
 }
 
+/// @nodoc
 class GetFindingsTrendsV2Response {
   /// The time interval granularity for the returned trend data.
   final GranularityField granularity;
@@ -7138,6 +7204,7 @@ class GetFindingsTrendsV2Response {
   }
 }
 
+/// @nodoc
 class GetFindingsV2Response {
   /// An array of security findings returned by the operation.
   final List<Object>? findings;
@@ -7168,6 +7235,7 @@ class GetFindingsV2Response {
   }
 }
 
+/// @nodoc
 class GetInsightResultsResponse {
   /// The insight results returned by the operation.
   final InsightResults insightResults;
@@ -7192,6 +7260,7 @@ class GetInsightResultsResponse {
   }
 }
 
+/// @nodoc
 class GetInsightsResponse {
   /// The insights returned by the operation.
   final List<Insight> insights;
@@ -7224,6 +7293,7 @@ class GetInsightsResponse {
   }
 }
 
+/// @nodoc
 class GetInvitationsCountResponse {
   /// The number of all membership invitations sent to this Security Hub CSPM
   /// member account, not including the currently accepted invitation.
@@ -7247,6 +7317,7 @@ class GetInvitationsCountResponse {
   }
 }
 
+/// @nodoc
 class GetMasterAccountResponse {
   /// A list of details about the Security Hub CSPM administrator account for the
   /// current member account.
@@ -7272,6 +7343,7 @@ class GetMasterAccountResponse {
   }
 }
 
+/// @nodoc
 class GetMembersResponse {
   /// The list of details about the Security Hub CSPM member accounts.
   final List<Member>? members;
@@ -7309,6 +7381,7 @@ class GetMembersResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendedPolicyV2Response {
   /// Detailed information for a <code>FAILED</code> retrieval status.
   final RecommendationError? error;
@@ -7374,6 +7447,7 @@ class GetRecommendedPolicyV2Response {
   }
 }
 
+/// @nodoc
 class GetResourcesStatisticsV2Response {
   /// The aggregated statistics about resources based on the specified grouping
   /// rule.
@@ -7400,6 +7474,7 @@ class GetResourcesStatisticsV2Response {
   }
 }
 
+/// @nodoc
 class GetResourcesTrendsV2Response {
   /// The time interval granularity for the returned trend data (such as DAILY or
   /// WEEKLY).
@@ -7444,6 +7519,7 @@ class GetResourcesTrendsV2Response {
   }
 }
 
+/// @nodoc
 class GetResourcesV2Response {
   /// An array of resources returned by the operation.
   final List<ResourceResult> resources;
@@ -7477,6 +7553,7 @@ class GetResourcesV2Response {
   }
 }
 
+/// @nodoc
 class GetSecurityControlDefinitionResponse {
   final SecurityControlDefinition securityControlDefinition;
 
@@ -7501,6 +7578,7 @@ class GetSecurityControlDefinitionResponse {
   }
 }
 
+/// @nodoc
 class InviteMembersResponse {
   /// The list of Amazon Web Services accounts that could not be processed. For
   /// each account, the list includes the account ID and the email address.
@@ -7528,6 +7606,7 @@ class InviteMembersResponse {
   }
 }
 
+/// @nodoc
 class ListAggregatorsV2Response {
   /// An array of aggregators.
   final List<AggregatorV2>? aggregatorsV2;
@@ -7561,6 +7640,7 @@ class ListAggregatorsV2Response {
   }
 }
 
+/// @nodoc
 class ListAutomationRulesResponse {
   /// Metadata for rules in the calling account. The response includes rules with
   /// a <code>RuleStatus</code> of <code>ENABLED</code> and <code>DISABLED</code>.
@@ -7596,6 +7676,7 @@ class ListAutomationRulesResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationRulesV2Response {
   /// The pagination token to use to request the next page of results. Otherwise,
   /// this parameter is null.
@@ -7630,6 +7711,7 @@ class ListAutomationRulesV2Response {
   }
 }
 
+/// @nodoc
 class ListConfigurationPoliciesResponse {
   /// Provides metadata for each of your configuration policies.
   final List<ConfigurationPolicySummary>? configurationPolicySummaries;
@@ -7671,6 +7753,7 @@ class ListConfigurationPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationPolicyAssociationsResponse {
   /// An object that contains the details of each configuration policy association
   /// that’s returned in a <code>ListConfigurationPolicyAssociations</code>
@@ -7717,6 +7800,7 @@ class ListConfigurationPolicyAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorsV2Response {
   /// An array of connectorV2 summaries.
   final List<ConnectorSummary> connectors;
@@ -7750,6 +7834,7 @@ class ListConnectorsV2Response {
   }
 }
 
+/// @nodoc
 class ListEnabledProductsForImportResponse {
   /// The pagination token to use to request the next page of results.
   final String? nextToken;
@@ -7785,6 +7870,7 @@ class ListEnabledProductsForImportResponse {
   }
 }
 
+/// @nodoc
 class ListFindingAggregatorsResponse {
   /// The list of finding aggregators. This operation currently only returns a
   /// single result.
@@ -7821,6 +7907,7 @@ class ListFindingAggregatorsResponse {
   }
 }
 
+/// @nodoc
 class ListInvitationsResponse {
   /// The details of the invitations returned by the operation.
   final List<Invitation>? invitations;
@@ -7853,6 +7940,7 @@ class ListInvitationsResponse {
   }
 }
 
+/// @nodoc
 class ListMembersResponse {
   /// Member details returned by the operation.
   final List<Member>? members;
@@ -7885,6 +7973,7 @@ class ListMembersResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationAdminAccountsResponse {
   /// The list of Security Hub CSPM administrator accounts.
   final List<AdminAccount>? adminAccounts;
@@ -7926,6 +8015,7 @@ class ListOrganizationAdminAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityControlDefinitionsResponse {
   /// An array of controls that apply to the specified standard.
   final List<SecurityControlDefinition> securityControlDefinitions;
@@ -7962,6 +8052,7 @@ class ListSecurityControlDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListStandardsControlAssociationsResponse {
   /// An array that provides the enablement status and other details for each
   /// security control that applies to each enabled standard.
@@ -8002,6 +8093,7 @@ class ListStandardsControlAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with a resource.
   final Map<String, String>? tags;
@@ -8025,6 +8117,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterConnectorV2Response {
   /// The UUID of the connectorV2 to identify connectorV2 resource.
   final String connectorId;
@@ -8054,6 +8147,7 @@ class RegisterConnectorV2Response {
   }
 }
 
+/// @nodoc
 class StartConfigurationPolicyAssociationResponse {
   /// The current status of the association between the specified target and the
   /// configuration.
@@ -8131,6 +8225,7 @@ class StartConfigurationPolicyAssociationResponse {
   }
 }
 
+/// @nodoc
 class StartConfigurationPolicyDisassociationResponse {
   StartConfigurationPolicyDisassociationResponse();
 
@@ -8144,6 +8239,7 @@ class StartConfigurationPolicyDisassociationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -8156,6 +8252,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8168,6 +8265,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateActionTargetResponse {
   UpdateActionTargetResponse();
 
@@ -8180,6 +8278,7 @@ class UpdateActionTargetResponse {
   }
 }
 
+/// @nodoc
 class UpdateAggregatorV2Response {
   /// The Amazon Web Services Region where data is aggregated.
   final String? aggregationRegion;
@@ -8227,6 +8326,7 @@ class UpdateAggregatorV2Response {
   }
 }
 
+/// @nodoc
 class UpdateAutomationRuleV2Response {
   UpdateAutomationRuleV2Response();
 
@@ -8239,6 +8339,7 @@ class UpdateAutomationRuleV2Response {
   }
 }
 
+/// @nodoc
 class UpdateConfigurationPolicyResponse {
   /// The ARN of the configuration policy.
   final String? arn;
@@ -8317,6 +8418,7 @@ class UpdateConfigurationPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectorV2Response {
   UpdateConnectorV2Response();
 
@@ -8329,6 +8431,7 @@ class UpdateConnectorV2Response {
   }
 }
 
+/// @nodoc
 class UpdateFindingAggregatorResponse {
   /// The home Region. Findings generated in linked Regions are replicated and
   /// sent to the home Region.
@@ -8377,6 +8480,7 @@ class UpdateFindingAggregatorResponse {
   }
 }
 
+/// @nodoc
 class UpdateFindingsResponse {
   UpdateFindingsResponse();
 
@@ -8389,6 +8493,7 @@ class UpdateFindingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateInsightResponse {
   UpdateInsightResponse();
 
@@ -8401,6 +8506,7 @@ class UpdateInsightResponse {
   }
 }
 
+/// @nodoc
 class UpdateOrganizationConfigurationResponse {
   UpdateOrganizationConfigurationResponse();
 
@@ -8414,6 +8520,7 @@ class UpdateOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityControlResponse {
   UpdateSecurityControlResponse();
 
@@ -8426,6 +8533,7 @@ class UpdateSecurityControlResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityHubConfigurationResponse {
   UpdateSecurityHubConfigurationResponse();
 
@@ -8439,6 +8547,7 @@ class UpdateSecurityHubConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateStandardsControlResponse {
   UpdateStandardsControlResponse();
 
@@ -8451,6 +8560,7 @@ class UpdateStandardsControlResponse {
   }
 }
 
+/// @nodoc
 class ControlStatus {
   static const enabled = ControlStatus._('ENABLED');
   static const disabled = ControlStatus._('DISABLED');
@@ -8475,6 +8585,7 @@ class ControlStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ControlFindingGenerator {
   static const standardControl = ControlFindingGenerator._('STANDARD_CONTROL');
   static const securityControl = ControlFindingGenerator._('SECURITY_CONTROL');
@@ -8502,6 +8613,8 @@ class ControlFindingGenerator {
 
 /// An object that provides the current value of a security control parameter
 /// and identifies whether it has been customized.
+///
+/// @nodoc
 class ParameterConfiguration {
   /// Identifies whether a control parameter uses a custom user-defined value or
   /// subscribes to the default Security Hub CSPM behavior.
@@ -8544,6 +8657,7 @@ class ParameterConfiguration {
   }
 }
 
+/// @nodoc
 class ParameterValueType {
   static const $default = ParameterValueType._('DEFAULT');
   static const custom = ParameterValueType._('CUSTOM');
@@ -8571,6 +8685,8 @@ class ParameterValueType {
 
 /// An object that includes the data type of a security control parameter and
 /// its current value.
+///
+/// @nodoc
 class ParameterValue {
   /// A control parameter that is a boolean.
   final bool? boolean;
@@ -8651,6 +8767,7 @@ class ParameterValue {
   }
 }
 
+/// @nodoc
 class AutoEnableStandards {
   static const none = AutoEnableStandards._('NONE');
   static const $default = AutoEnableStandards._('DEFAULT');
@@ -8678,6 +8795,8 @@ class AutoEnableStandards {
 
 /// Provides information about the way an organization is configured in Security
 /// Hub CSPM.
+///
+/// @nodoc
 class OrganizationConfiguration {
   /// Indicates whether the organization uses local or central configuration.
   ///
@@ -8737,6 +8856,7 @@ class OrganizationConfiguration {
   }
 }
 
+/// @nodoc
 class OrganizationConfigurationConfigurationType {
   static const central =
       OrganizationConfigurationConfigurationType._('CENTRAL');
@@ -8764,6 +8884,7 @@ class OrganizationConfigurationConfigurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OrganizationConfigurationStatus {
   static const pending = OrganizationConfigurationStatus._('PENDING');
   static const enabled = OrganizationConfigurationStatus._('ENABLED');
@@ -8795,6 +8916,8 @@ class OrganizationConfigurationStatus {
 ///
 /// You can filter by up to ten finding attributes. For each attribute, you can
 /// provide up to 20 filter values.
+///
+/// @nodoc
 class AwsSecurityFindingFilters {
   /// The Amazon Web Services account ID in which a finding is generated.
   final List<StringFilter>? awsAccountId;
@@ -10124,6 +10247,8 @@ class AwsSecurityFindingFilters {
 }
 
 /// Boolean filter for querying findings.
+///
+/// @nodoc
 class BooleanFilter {
   /// The value of the boolean.
   final bool? value;
@@ -10147,6 +10272,8 @@ class BooleanFilter {
 }
 
 /// A keyword filter for querying findings.
+///
+/// @nodoc
 class KeywordFilter {
   /// A value for the keyword.
   final String? value;
@@ -10170,6 +10297,8 @@ class KeywordFilter {
 }
 
 /// The IP filter for querying findings.
+///
+/// @nodoc
 class IpFilter {
   /// A finding's CIDR value.
   final String? cidr;
@@ -10195,6 +10324,8 @@ class IpFilter {
 /// A map filter for filtering Security Hub CSPM findings. Each map filter
 /// provides the field to check for, the value to check for, and the comparison
 /// operator.
+///
+/// @nodoc
 class MapFilter {
   /// The condition to apply to the key value when filtering Security Hub CSPM
   /// findings with a map filter.
@@ -10302,6 +10433,7 @@ class MapFilter {
   }
 }
 
+/// @nodoc
 class MapFilterComparison {
   static const equals = MapFilterComparison._('EQUALS');
   static const notEquals = MapFilterComparison._('NOT_EQUALS');
@@ -10330,6 +10462,8 @@ class MapFilterComparison {
 }
 
 /// A number filter for querying findings.
+///
+/// @nodoc
 class NumberFilter {
   /// The equal-to condition to be applied to a single field when querying for
   /// findings.
@@ -10386,6 +10520,8 @@ class NumberFilter {
 }
 
 /// A date filter for querying findings.
+///
+/// @nodoc
 class DateFilter {
   /// A date range for the date filter.
   final DateRange? dateRange;
@@ -10433,6 +10569,8 @@ class DateFilter {
 }
 
 /// A date range for the date filter.
+///
+/// @nodoc
 class DateRange {
   /// The condition to apply to a date range filter. If you specify
   /// <code>WITHIN</code>, Security Hub filters for dates within the specified
@@ -10474,6 +10612,7 @@ class DateRange {
   }
 }
 
+/// @nodoc
 class DateRangeUnit {
   static const days = DateRangeUnit._('DAYS');
 
@@ -10497,6 +10636,7 @@ class DateRangeUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class DateRangeComparison {
   static const within = DateRangeComparison._('WITHIN');
   static const olderThan = DateRangeComparison._('OLDER_THAN');
@@ -10523,6 +10663,8 @@ class DateRangeComparison {
 }
 
 /// A string filter for filtering Security Hub CSPM findings.
+///
+/// @nodoc
 class StringFilter {
   /// The condition to apply to a string value when filtering Security Hub CSPM
   /// findings.
@@ -10662,6 +10804,7 @@ class StringFilter {
   }
 }
 
+/// @nodoc
 class StringFilterComparison {
   static const equals = StringFilterComparison._('EQUALS');
   static const prefix = StringFilterComparison._('PREFIX');
@@ -10701,6 +10844,8 @@ class StringFilterComparison {
 }
 
 /// The updated note.
+///
+/// @nodoc
 class NoteUpdate {
   /// The updated note text.
   final String text;
@@ -10730,6 +10875,7 @@ class NoteUpdate {
   }
 }
 
+/// @nodoc
 class RecordState {
   static const active = RecordState._('ACTIVE');
   static const archived = RecordState._('ARCHIVED');
@@ -10755,6 +10901,8 @@ class RecordState {
 
 /// The parameters required to update the configuration of an integration
 /// provider.
+///
+/// @nodoc
 class ProviderUpdateConfiguration {
   /// The parameters required to update the configuration for a Jira Cloud
   /// integration.
@@ -10780,6 +10928,8 @@ class ProviderUpdateConfiguration {
 }
 
 /// The parameters used to modify an existing Jira Cloud integration.
+///
+/// @nodoc
 class JiraCloudUpdateConfiguration {
   /// The project key for a JiraCloud instance.
   final String? projectKey;
@@ -10797,6 +10947,8 @@ class JiraCloudUpdateConfiguration {
 }
 
 /// The parameters used to modify an existing ServiceNow integration.
+///
+/// @nodoc
 class ServiceNowUpdateConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret that contains the ServiceNow credentials.
@@ -10823,6 +10975,8 @@ class ServiceNowUpdateConfiguration {
 /// provide a list of security controls that are disabled in the configuration
 /// policy, Security Hub CSPM enables all other controls (including newly
 /// released controls).
+///
+/// @nodoc
 class Policy {
   /// The Amazon Web Services service that the configuration policy applies to.
   final SecurityHubPolicy? securityHub;
@@ -10857,6 +11011,8 @@ class Policy {
 /// controls (including newly released controls). If you provide a list of
 /// security controls that are disabled in the configuration policy, Security
 /// Hub CSPM enables all other controls (including newly released controls).
+///
+/// @nodoc
 class SecurityHubPolicy {
   /// A list that defines which security standards are enabled in the
   /// configuration policy.
@@ -10908,6 +11064,8 @@ class SecurityHubPolicy {
 /// An object that defines which security controls are enabled in an Security
 /// Hub CSPM configuration policy. The enablement status of a control is aligned
 /// across all of the enabled standards in an account.
+///
+/// @nodoc
 class SecurityControlsConfiguration {
   /// A list of security controls that are disabled in the configuration policy.
   /// Security Hub CSPM enables all other controls (including newly released
@@ -10971,6 +11129,8 @@ class SecurityControlsConfiguration {
 
 /// A list of security controls and control parameter values that are included
 /// in a configuration policy.
+///
+/// @nodoc
 class SecurityControlCustomParameter {
   /// An object that specifies parameter values for a control in a configuration
   /// policy.
@@ -11003,6 +11163,7 @@ class SecurityControlCustomParameter {
   }
 }
 
+/// @nodoc
 class RuleStatusV2 {
   static const enabled = RuleStatusV2._('ENABLED');
   static const disabled = RuleStatusV2._('DISABLED');
@@ -11028,6 +11189,8 @@ class RuleStatusV2 {
 
 /// Defines the parameters and conditions used to evaluate and filter security
 /// findings.
+///
+/// @nodoc
 class Criteria {
   /// The filtering conditions that align with OCSF standards.
   final OcsfFindingFilters? ocsfFindingCriteria;
@@ -11055,6 +11218,8 @@ class Criteria {
 }
 
 /// Allows you to configure automated responses.
+///
+/// @nodoc
 class AutomationRulesActionV2 {
   /// The category of action to be executed by the automation rule.
   final AutomationRulesActionTypeV2 type;
@@ -11105,6 +11270,7 @@ class AutomationRulesActionV2 {
   }
 }
 
+/// @nodoc
 class AutomationRulesActionTypeV2 {
   static const findingFieldsUpdate =
       AutomationRulesActionTypeV2._('FINDING_FIELDS_UPDATE');
@@ -11134,6 +11300,8 @@ class AutomationRulesActionTypeV2 {
 
 /// Allows you to define the structure for modifying specific fields in security
 /// findings.
+///
+/// @nodoc
 class AutomationRulesFindingFieldsUpdateV2 {
   /// Notes or contextual information for findings that are modified by the
   /// automation rule.
@@ -11175,6 +11343,8 @@ class AutomationRulesFindingFieldsUpdateV2 {
 
 /// Defines the settings and parameters required for integrating external
 /// security tools and services.
+///
+/// @nodoc
 class ExternalIntegrationConfiguration {
   /// The ARN of the connector that establishes the integration.
   final String? connectorArn;
@@ -11198,6 +11368,8 @@ class ExternalIntegrationConfiguration {
 }
 
 /// Specifies the filtering criteria for security findings using OCSF.
+///
+/// @nodoc
 class OcsfFindingFilters {
   /// Enables the creation of complex filtering conditions by combining filter
   /// criteria.
@@ -11234,6 +11406,7 @@ class OcsfFindingFilters {
   }
 }
 
+/// @nodoc
 class AllowedOperators {
   static const and = AllowedOperators._('AND');
   static const or = AllowedOperators._('OR');
@@ -11259,6 +11432,8 @@ class AllowedOperators {
 }
 
 /// Enables the creation of filtering criteria for security findings.
+///
+/// @nodoc
 class CompositeFilter {
   /// Enables filtering based on boolean field values.
   final List<OcsfBooleanFilter>? booleanFilters;
@@ -11360,6 +11535,8 @@ class CompositeFilter {
 }
 
 /// The structure for filtering findings based on IP address attributes.
+///
+/// @nodoc
 class OcsfIpFilter {
   /// The name of the IP address field to filter on.
   final OcsfIpField? fieldName;
@@ -11389,6 +11566,7 @@ class OcsfIpFilter {
   }
 }
 
+/// @nodoc
 class OcsfIpField {
   static const evidencesDstEndpointIp =
       OcsfIpField._('evidences.dst_endpoint.ip');
@@ -11415,6 +11593,8 @@ class OcsfIpField {
 }
 
 /// Enables filtering of security findings based on map field values in OCSF.
+///
+/// @nodoc
 class OcsfMapFilter {
   /// The name of the field.
   final OcsfMapField? fieldName;
@@ -11444,6 +11624,7 @@ class OcsfMapFilter {
   }
 }
 
+/// @nodoc
 class OcsfMapField {
   static const resourcesTags = OcsfMapField._('resources.tags');
   static const complianceControlParameters =
@@ -11477,6 +11658,8 @@ class OcsfMapField {
 
 /// Enables filtering of security findings based on numerical field values in
 /// OCSF.
+///
+/// @nodoc
 class OcsfNumberFilter {
   /// The name of the field.
   final OcsfNumberField? fieldName;
@@ -11507,6 +11690,7 @@ class OcsfNumberFilter {
   }
 }
 
+/// @nodoc
 class OcsfNumberField {
   static const activityId = OcsfNumberField._('activity_id');
   static const complianceStatusId = OcsfNumberField._('compliance.status_id');
@@ -11569,6 +11753,8 @@ class OcsfNumberField {
 
 /// Enables filtering of security findings based on boolean field values in
 /// OCSF.
+///
+/// @nodoc
 class OcsfBooleanFilter {
   /// The name of the field.
   final OcsfBooleanField? fieldName;
@@ -11599,6 +11785,7 @@ class OcsfBooleanFilter {
   }
 }
 
+/// @nodoc
 class OcsfBooleanField {
   static const complianceAssessmentsMeetsCriteria =
       OcsfBooleanField._('compliance.assessments.meets_criteria');
@@ -11633,6 +11820,8 @@ class OcsfBooleanField {
 
 /// Enables filtering of security findings based on date and timestamp fields in
 /// OCSF.
+///
+/// @nodoc
 class OcsfDateFilter {
   /// The name of the field.
   final OcsfDateField? fieldName;
@@ -11662,6 +11851,7 @@ class OcsfDateFilter {
   }
 }
 
+/// @nodoc
 class OcsfDateField {
   static const findingInfoCreatedTimeDt =
       OcsfDateField._('finding_info.created_time_dt');
@@ -11707,6 +11897,8 @@ class OcsfDateField {
 }
 
 /// Enables filtering of security findings based on string field values in OCSF.
+///
+/// @nodoc
 class OcsfStringFilter {
   /// The name of the field.
   final OcsfStringField? fieldName;
@@ -11737,6 +11929,7 @@ class OcsfStringFilter {
   }
 }
 
+/// @nodoc
 class OcsfStringField {
   static const metadataUid = OcsfStringField._('metadata.uid');
   static const activityName = OcsfStringField._('activity_name');
@@ -11948,6 +12141,8 @@ class OcsfStringField {
 /// The target account, organizational unit, or the root that is associated with
 /// an Security Hub CSPM configuration. The configuration can be a configuration
 /// policy or self-managed behavior.
+///
+/// @nodoc
 class Target {
   /// The Amazon Web Services account ID of the target account.
   final String? accountId;
@@ -11985,6 +12180,7 @@ class Target {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const account = TargetType._('ACCOUNT');
   static const organizationalUnit = TargetType._('ORGANIZATIONAL_UNIT');
@@ -12009,6 +12205,7 @@ class TargetType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssociationType {
   static const inherited = AssociationType._('INHERITED');
   static const applied = AssociationType._('APPLIED');
@@ -12033,6 +12230,7 @@ class AssociationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfigurationPolicyAssociationStatus {
   static const pending = ConfigurationPolicyAssociationStatus._('PENDING');
   static const success = ConfigurationPolicyAssociationStatus._('SUCCESS');
@@ -12061,6 +12259,8 @@ class ConfigurationPolicyAssociationStatus {
 
 /// An array that provides the enablement status and other details for each
 /// control that applies to each enabled standard.
+///
+/// @nodoc
 class StandardsControlAssociationSummary {
   /// The enablement status of a control in a specific standard.
   final AssociationStatus associationStatus;
@@ -12157,6 +12357,7 @@ class StandardsControlAssociationSummary {
   }
 }
 
+/// @nodoc
 class AssociationStatus {
   static const enabled = AssociationStatus._('ENABLED');
   static const disabled = AssociationStatus._('DISABLED');
@@ -12184,6 +12385,8 @@ class AssociationStatus {
 /// Provides metadata for a security control, including its unique
 /// standard-agnostic identifier, title, description, severity, availability in
 /// Amazon Web Services Regions, and a link to remediation steps.
+///
+/// @nodoc
 class SecurityControlDefinition {
   /// Specifies whether a security control is available in the current Amazon Web
   /// Services Region.
@@ -12284,6 +12487,7 @@ class SecurityControlDefinition {
   }
 }
 
+/// @nodoc
 class SeverityRating {
   static const low = SeverityRating._('LOW');
   static const medium = SeverityRating._('MEDIUM');
@@ -12310,6 +12514,7 @@ class SeverityRating {
   String toString() => value;
 }
 
+/// @nodoc
 class RegionAvailabilityStatus {
   static const available = RegionAvailabilityStatus._('AVAILABLE');
   static const unavailable = RegionAvailabilityStatus._('UNAVAILABLE');
@@ -12337,6 +12542,8 @@ class RegionAvailabilityStatus {
 
 /// An object that describes a security control parameter and the options for
 /// customizing it.
+///
+/// @nodoc
 class ParameterDefinition {
   /// The options for customizing a control parameter. Customization options vary
   /// based on the data type of the parameter.
@@ -12370,6 +12577,8 @@ class ParameterDefinition {
 }
 
 /// The options for customizing a security control parameter.
+///
+/// @nodoc
 class ConfigurationOptions {
   /// The options for customizing a security control parameter that is a boolean.
   /// For a boolean parameter, the options are <code>true</code> and
@@ -12472,6 +12681,8 @@ class ConfigurationOptions {
 }
 
 /// The options for customizing a security control parameter that is an integer.
+///
+/// @nodoc
 class IntegerConfigurationOptions {
   /// The Security Hub CSPM default value for a control parameter that is an
   /// integer.
@@ -12511,6 +12722,8 @@ class IntegerConfigurationOptions {
 
 /// The options for customizing a security control parameter that is a list of
 /// integers.
+///
+/// @nodoc
 class IntegerListConfigurationOptions {
   /// The Security Hub CSPM default value for a control parameter that is a list
   /// of integers.
@@ -12560,6 +12773,8 @@ class IntegerListConfigurationOptions {
 }
 
 /// The options for customizing a security control parameter that is a double.
+///
+/// @nodoc
 class DoubleConfigurationOptions {
   /// The Security Hub CSPM default value for a control parameter that is a
   /// double.
@@ -12598,6 +12813,8 @@ class DoubleConfigurationOptions {
 }
 
 /// The options for customizing a security control parameter that is a string.
+///
+/// @nodoc
 class StringConfigurationOptions {
   /// The Security Hub CSPM default value for a control parameter that is a
   /// string.
@@ -12639,6 +12856,8 @@ class StringConfigurationOptions {
 
 /// The options for customizing a security control parameter that is a list of
 /// strings.
+///
+/// @nodoc
 class StringListConfigurationOptions {
   /// The Security Hub CSPM default value for a control parameter that is a list
   /// of strings.
@@ -12692,6 +12911,8 @@ class StringListConfigurationOptions {
 /// The options for customizing a security control parameter with a boolean. For
 /// a boolean parameter, the options are <code>true</code> and
 /// <code>false</code>.
+///
+/// @nodoc
 class BooleanConfigurationOptions {
   /// The Security Hub CSPM default value for a boolean parameter.
   final bool? defaultValue;
@@ -12715,6 +12936,8 @@ class BooleanConfigurationOptions {
 }
 
 /// The options for customizing a security control parameter that is an enum.
+///
+/// @nodoc
 class EnumConfigurationOptions {
   /// The valid values for a control parameter that is an enum.
   final List<String>? allowedValues;
@@ -12749,6 +12972,8 @@ class EnumConfigurationOptions {
 
 /// The options for customizing a security control parameter that is a list of
 /// enums.
+///
+/// @nodoc
 class EnumListConfigurationOptions {
   /// The valid values for a control parameter that is a list of enums.
   final List<String>? allowedValues;
@@ -12793,6 +13018,7 @@ class EnumListConfigurationOptions {
   }
 }
 
+/// @nodoc
 class SecurityControlProperty {
   static const parameters = SecurityControlProperty._('Parameters');
 
@@ -12817,6 +13043,7 @@ class SecurityControlProperty {
   String toString() => value;
 }
 
+/// @nodoc
 class SecurityHubFeature {
   static const securityHub = SecurityHubFeature._('SecurityHub');
   static const securityHubV2 = SecurityHubFeature._('SecurityHubV2');
@@ -12844,6 +13071,8 @@ class SecurityHubFeature {
 
 /// Represents a Security Hub CSPM administrator account designated by an
 /// organization management account.
+///
+/// @nodoc
 class AdminAccount {
   /// The Amazon Web Services account identifier of the Security Hub CSPM
   /// administrator account.
@@ -12876,6 +13105,7 @@ class AdminAccount {
   }
 }
 
+/// @nodoc
 class AdminStatus {
   static const enabled = AdminStatus._('ENABLED');
   static const disableInProgress = AdminStatus._('DISABLE_IN_PROGRESS');
@@ -12900,6 +13130,8 @@ class AdminStatus {
 }
 
 /// The details about a member account.
+///
+/// @nodoc
 class Member {
   /// The Amazon Web Services account ID of the member account.
   final String? accountId;
@@ -13006,6 +13238,8 @@ class Member {
 }
 
 /// Details about an invitation.
+///
+/// @nodoc
 class Invitation {
   /// The account ID of the Security Hub CSPM administrator account that the
   /// invitation was sent from.
@@ -13054,6 +13288,8 @@ class Invitation {
 /// A finding aggregator is a Security Hub CSPM resource that specifies
 /// cross-Region aggregation settings, including the home Region and any linked
 /// Regions.
+///
+/// @nodoc
 class FindingAggregator {
   /// The ARN of the finding aggregator. You use the finding aggregator ARN to
   /// retrieve details for, update, and delete the finding aggregator.
@@ -13079,6 +13315,8 @@ class FindingAggregator {
 }
 
 /// A condensed overview of the connectorV2..
+///
+/// @nodoc
 class ConnectorSummary {
   /// The UUID of the connectorV2 to identify connectorV2 resource.
   final String connectorId;
@@ -13141,6 +13379,8 @@ class ConnectorSummary {
 }
 
 /// The connectorV2 third-party provider configuration summary.
+///
+/// @nodoc
 class ProviderSummary {
   /// The status for the connectorV2.
   final ConnectorStatus? connectorStatus;
@@ -13172,6 +13412,7 @@ class ProviderSummary {
   }
 }
 
+/// @nodoc
 class ConnectorProviderName {
   static const jiraCloud = ConnectorProviderName._('JIRA_CLOUD');
   static const servicenow = ConnectorProviderName._('SERVICENOW');
@@ -13197,6 +13438,7 @@ class ConnectorProviderName {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorStatus {
   static const connected = ConnectorStatus._('CONNECTED');
   static const failedToConnect = ConnectorStatus._('FAILED_TO_CONNECT');
@@ -13233,6 +13475,8 @@ class ConnectorStatus {
 /// An object that contains the details of a configuration policy association
 /// that’s returned in a <code>ListConfigurationPolicyAssociations</code>
 /// request.
+///
+/// @nodoc
 class ConfigurationPolicyAssociationSummary {
   /// The current status of the association between the specified target and the
   /// configuration.
@@ -13313,6 +13557,8 @@ class ConfigurationPolicyAssociationSummary {
 /// response. You can filter by the Amazon Resource Name (ARN) or universally
 /// unique identifier (UUID) of a configuration policy,
 /// <code>AssociationType</code>, or <code>AssociationStatus</code>.
+///
+/// @nodoc
 class AssociationFilters {
   /// The current status of the association between a target and a configuration
   /// policy.
@@ -13348,6 +13594,8 @@ class AssociationFilters {
 
 /// An object that contains the details of an Security Hub CSPM configuration
 /// policy that’s returned in a <code>ListConfigurationPolicies</code> request.
+///
+/// @nodoc
 class ConfigurationPolicySummary {
   /// The Amazon Resource Name (ARN) of the configuration policy.
   final String? arn;
@@ -13409,6 +13657,8 @@ class ConfigurationPolicySummary {
 }
 
 /// Includes essential metadata information about automation rules.
+///
+/// @nodoc
 class AutomationRulesMetadataV2 {
   /// The list of action to be performed when the rule criteria is met.
   final List<AutomationRulesActionTypeObjectV2>? actions;
@@ -13492,6 +13742,8 @@ class AutomationRulesMetadataV2 {
 }
 
 /// Allows you to customize security response workflows.
+///
+/// @nodoc
 class AutomationRulesActionTypeObjectV2 {
   /// The category of action to be executed by the automation rule.
   final AutomationRulesActionTypeV2? type;
@@ -13519,6 +13771,8 @@ class AutomationRulesActionTypeObjectV2 {
 /// Metadata for automation rules in the calling account. The response includes
 /// rules with a <code>RuleStatus</code> of <code>ENABLED</code> and
 /// <code>DISABLED</code>.
+///
+/// @nodoc
 class AutomationRulesMetadata {
   /// A timestamp that indicates when the rule was created.
   ///
@@ -13617,6 +13871,7 @@ class AutomationRulesMetadata {
   }
 }
 
+/// @nodoc
 class RuleStatus {
   static const enabled = RuleStatus._('ENABLED');
   static const disabled = RuleStatus._('DISABLED');
@@ -13642,6 +13897,8 @@ class RuleStatus {
 
 /// Specifies a cross-Region data aggregation configuration, including the
 /// aggregation Region and any linked Regions.
+///
+/// @nodoc
 class AggregatorV2 {
   /// The ARN of the aggregatorV2.
   final String? aggregatorV2Arn;
@@ -13665,6 +13922,8 @@ class AggregatorV2 {
 }
 
 /// Details about the account that was not processed.
+///
+/// @nodoc
 class Result {
   /// An Amazon Web Services account ID of the account that was not processed.
   final String? accountId;
@@ -13696,6 +13955,8 @@ class Result {
 
 /// Provides comprehensive details about an Amazon Web Services resource and its
 /// associated security findings.
+///
+/// @nodoc
 class ResourceResult {
   /// The Amazon Web Services account that owns the resource.
   final String accountId;
@@ -13805,6 +14066,7 @@ class ResourceResult {
   }
 }
 
+/// @nodoc
 class ResourceCategory {
   static const compute = ResourceCategory._('Compute');
   static const database = ResourceCategory._('Database');
@@ -13845,6 +14107,8 @@ class ResourceCategory {
 }
 
 /// Represents tag information associated with Amazon Web Services resources.
+///
+/// @nodoc
 class ResourceTag {
   /// The identifier or name of the tag.
   final String key;
@@ -13875,6 +14139,8 @@ class ResourceTag {
 }
 
 /// A list of summaries for all finding types on a resource.
+///
+/// @nodoc
 class ResourceFindingsSummary {
   /// The category or classification of the security finding.
   final String findingType;
@@ -13923,6 +14189,8 @@ class ResourceFindingsSummary {
 
 /// A comprehensive distribution of security findings by severity level for
 /// Amazon Web Services resources.
+///
+/// @nodoc
 class ResourceSeverityBreakdown {
   /// The number of findings with a severity level of critical.
   final int? critical;
@@ -13995,6 +14263,8 @@ class ResourceSeverityBreakdown {
 }
 
 /// Enables filtering of Amazon Web Services resources based on data.
+///
+/// @nodoc
 class ResourcesFilters {
   /// A collection of complex filtering conditions that can be applied to Amazon
   /// Web Services resources.
@@ -14022,6 +14292,8 @@ class ResourcesFilters {
 
 /// Defines the data boundary for a resources query. Scopes determine which
 /// organizational units or organizations to retrieve data from.
+///
+/// @nodoc
 class ResourceScopes {
   /// A list of Organizations scopes to include in the query results. Each entry
   /// in the list specifies an organization or organizational unit to include for
@@ -14042,6 +14314,8 @@ class ResourceScopes {
 }
 
 /// A collection of finding attributes used to sort findings.
+///
+/// @nodoc
 class SortCriterion {
   /// The finding attribute used to sort findings.
   final String? field;
@@ -14064,6 +14338,7 @@ class SortCriterion {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('asc');
   static const desc = SortOrder._('desc');
@@ -14105,6 +14380,8 @@ class SortOrder {
 /// providing <code>AwsOrganizationScope</code> entries with
 /// <code>OrganizationalUnitId</code>. You can't combine both approaches in the
 /// same request.
+///
+/// @nodoc
 class AwsOrganizationScope {
   /// The unique identifier (ID) of the organization (for example,
   /// <code>o-abcd1234567890</code>). The organization must be the delegated
@@ -14137,6 +14414,8 @@ class AwsOrganizationScope {
 
 /// Enables the creation of criteria for Amazon Web Services resources in
 /// Security Hub CSPM.
+///
+/// @nodoc
 class ResourcesCompositeFilter {
   /// Enables filtering based on date and timestamp field values.
   final List<ResourcesDateFilter>? dateFilters;
@@ -14192,6 +14471,8 @@ class ResourcesCompositeFilter {
 
 /// Enables filtering of Amazon Web Services resources based on key-value map
 /// attributes.
+///
+/// @nodoc
 class ResourcesMapFilter {
   /// The name of the field.
   final ResourcesMapField? fieldName;
@@ -14212,6 +14493,7 @@ class ResourcesMapFilter {
   }
 }
 
+/// @nodoc
 class ResourcesMapField {
   static const resourceTags = ResourcesMapField._('ResourceTags');
 
@@ -14237,6 +14519,8 @@ class ResourcesMapField {
 
 /// Enables filtering of Amazon Web Services resources based on numerical
 /// values.
+///
+/// @nodoc
 class ResourcesNumberFilter {
   /// The name of the field.
   final ResourcesNumberField? fieldName;
@@ -14257,6 +14541,7 @@ class ResourcesNumberFilter {
   }
 }
 
+/// @nodoc
 class ResourcesNumberField {
   static const findingsSummaryTotalFindings =
       ResourcesNumberField._('FindingsSummary.TotalFindings');
@@ -14310,6 +14595,8 @@ class ResourcesNumberField {
 
 /// Enables the filtering of Amazon Web Services resources based on date and
 /// timestamp attributes.
+///
+/// @nodoc
 class ResourcesDateFilter {
   /// The name of the field.
   final ResourcesDateField? fieldName;
@@ -14330,6 +14617,7 @@ class ResourcesDateFilter {
   }
 }
 
+/// @nodoc
 class ResourcesDateField {
   static const resourceDetailCaptureTime =
       ResourcesDateField._('ResourceDetailCaptureTime');
@@ -14359,6 +14647,8 @@ class ResourcesDateField {
 
 /// Enables filtering of Amazon Web Services resources based on string field
 /// values.
+///
+/// @nodoc
 class ResourcesStringFilter {
   /// The name of the field.
   final ResourcesStringField? fieldName;
@@ -14379,6 +14669,7 @@ class ResourcesStringFilter {
   }
 }
 
+/// @nodoc
 class ResourcesStringField {
   static const resourceGuid = ResourcesStringField._('ResourceGuid');
   static const resourceId = ResourcesStringField._('ResourceId');
@@ -14423,6 +14714,7 @@ class ResourcesStringField {
   String toString() => value;
 }
 
+/// @nodoc
 class GranularityField {
   static const daily = GranularityField._('Daily');
   static const weekly = GranularityField._('Weekly');
@@ -14450,6 +14742,8 @@ class GranularityField {
 
 /// Contains the resource trend metrics data for a specific time point in the
 /// requested time period.
+///
+/// @nodoc
 class ResourcesTrendsMetricsResult {
   /// The timestamp for this data point in the resources trend metrics.
   final DateTime timestamp;
@@ -14484,6 +14778,8 @@ class ResourcesTrendsMetricsResult {
 
 /// Contains the aggregated resource count values for a specific point in the
 /// resources trend timeline.
+///
+/// @nodoc
 class ResourcesTrendsValues {
   /// The resource count statistics for this data point in the trend timeline.
   final ResourcesCount resourcesCount;
@@ -14509,6 +14805,8 @@ class ResourcesTrendsValues {
 }
 
 /// Contains counts of resources for trend analysis.
+///
+/// @nodoc
 class ResourcesCount {
   /// The total count of all resources for the given time interval.
   final int allResources;
@@ -14532,6 +14830,8 @@ class ResourcesCount {
 }
 
 /// The structure that defines filters to apply to resources trend data queries.
+///
+/// @nodoc
 class ResourcesTrendsFilters {
   /// A list of composite filters to apply to the resources trend data.
   final List<ResourcesTrendsCompositeFilter>? compositeFilters;
@@ -14557,6 +14857,8 @@ class ResourcesTrendsFilters {
 
 /// A filter structure that contains a logical combination of string filters and
 /// nested composite filters for resources trend data.
+///
+/// @nodoc
 class ResourcesTrendsCompositeFilter {
   /// A list of nested composite filters that you can use to create complex filter
   /// conditions for resources trend data.
@@ -14590,6 +14892,8 @@ class ResourcesTrendsCompositeFilter {
 
 /// A filter for string-based fields in resources trend data, such as resource
 /// type or account ID.
+///
+/// @nodoc
 class ResourcesTrendsStringFilter {
   /// The name of the resources field to filter on, such as resourceType,
   /// accountId, or region.
@@ -14611,6 +14915,7 @@ class ResourcesTrendsStringFilter {
   }
 }
 
+/// @nodoc
 class ResourcesTrendsStringField {
   static const accountId = ResourcesTrendsStringField._('account_id');
   static const region = ResourcesTrendsStringField._('region');
@@ -14640,6 +14945,8 @@ class ResourcesTrendsStringField {
 }
 
 /// Represents finding statistics grouped by <code>GroupedByField</code>.
+///
+/// @nodoc
 class GroupByResult {
   /// The attribute by which filtered security findings should be grouped.
   final String? groupByField;
@@ -14675,6 +14982,8 @@ class GroupByResult {
 
 /// Represents individual aggregated results when grouping security findings for
 /// each <code>GroupByField</code>.
+///
+/// @nodoc
 class GroupByValue {
   /// The number of findings for a specific <code>FieldValue</code> and
   /// <code>GroupByField</code>.
@@ -14707,6 +15016,8 @@ class GroupByValue {
 
 /// Defines the configuration for organizing and categorizing Amazon Web
 /// Services resources based on associated security findings.
+///
+/// @nodoc
 class ResourceGroupByRule {
   /// Specifies the attribute that resources should be grouped by.
   final ResourceGroupByField groupByField;
@@ -14729,6 +15040,7 @@ class ResourceGroupByRule {
   }
 }
 
+/// @nodoc
 class ResourceGroupByField {
   static const accountId = ResourceGroupByField._('AccountId');
   static const region = ResourceGroupByField._('Region');
@@ -14766,6 +15078,7 @@ class ResourceGroupByField {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationType {
   static const unusedPermissionRecommendation =
       RecommendationType._('UNUSED_PERMISSION_RECOMMENDATION');
@@ -14793,6 +15106,8 @@ class RecommendationType {
 
 /// Contains information about the reason that the retrieval of a recommended
 /// policy for a finding failed.
+///
+/// @nodoc
 class RecommendationError {
   /// The error code for a failed retrieval of a recommended policy for a finding.
   final String? code;
@@ -14823,6 +15138,7 @@ class RecommendationError {
   }
 }
 
+/// @nodoc
 class RecommendationStatus {
   static const inProgress = RecommendationStatus._('IN_PROGRESS');
   static const succeeded = RecommendationStatus._('SUCCEEDED');
@@ -14851,6 +15167,8 @@ class RecommendationStatus {
 
 /// Contains information about a recommended step to remediate a Security Hub
 /// finding.
+///
+/// @nodoc
 class RecommendationStep {
   /// A recommended step to remediate an unused permissions finding.
   final UnusedPermissionsRecommendationStep? unusedPermissions;
@@ -14878,6 +15196,8 @@ class RecommendationStep {
 
 /// Contains information about the action to take for a policy in an unused
 /// permissions finding.
+///
+/// @nodoc
 class UnusedPermissionsRecommendationStep {
   /// The contents of the existing policy identified by
   /// <code>ExistingPolicyId</code> which needs to be replaced, when the
@@ -14937,6 +15257,8 @@ class UnusedPermissionsRecommendationStep {
 }
 
 /// Contains information about a Security Hub CSPM insight.
+///
+/// @nodoc
 class Insight {
   /// One or more attributes used to filter the findings included in the insight.
   /// You can filter by up to ten finding attributes. For each attribute, you can
@@ -14990,6 +15312,8 @@ class Insight {
 
 /// The insight results returned by the <code>GetInsightResults</code>
 /// operation.
+///
+/// @nodoc
 class InsightResults {
   /// The attribute that the findings are grouped by for the insight whose results
   /// are returned by the <code>GetInsightResults</code> operation.
@@ -15034,6 +15358,8 @@ class InsightResults {
 
 /// The insight result values returned by the <code>GetInsightResults</code>
 /// operation.
+///
+/// @nodoc
 class InsightResultValue {
   /// The number of findings returned for each <code>GroupByAttributeValue</code>.
   final int count;
@@ -15066,6 +15392,8 @@ class InsightResultValue {
 
 /// Defines the data boundary for a findings query. Scopes determine which
 /// organizational units or organizations to retrieve data from.
+///
+/// @nodoc
 class FindingScopes {
   /// A list of Organizations scopes to include in the query results. Each entry
   /// in the list specifies an organization or organizational unit to include for
@@ -15087,6 +15415,8 @@ class FindingScopes {
 
 /// Contains the findings trend metrics data for a specific time point in the
 /// requested time period.
+///
+/// @nodoc
 class TrendsMetricsResult {
   /// The timestamp for this data point in the findings trend metrics.
   final DateTime timestamp;
@@ -15121,6 +15451,8 @@ class TrendsMetricsResult {
 
 /// Contains the aggregated finding values for a specific point in the findings
 /// trend timeline.
+///
+/// @nodoc
 class TrendsValues {
   /// The count of findings organized by severity level for this data point in the
   /// trend timeline.
@@ -15147,6 +15479,8 @@ class TrendsValues {
 }
 
 /// Contains counts of findings grouped by severity level for trend analysis.
+///
+/// @nodoc
 class SeverityTrendsCount {
   /// The count of findings with Critical severity level at this point in the
   /// trend timeline.
@@ -15227,6 +15561,8 @@ class SeverityTrendsCount {
 }
 
 /// The structure that defines filters to apply to findings trend data queries.
+///
+/// @nodoc
 class FindingsTrendsFilters {
   /// A list of composite filters to apply to the findings trend data.
   final List<FindingsTrendsCompositeFilter>? compositeFilters;
@@ -15252,6 +15588,8 @@ class FindingsTrendsFilters {
 
 /// A filter structure that contains a logical combination of string filters and
 /// nested composite filters for findings trend data.
+///
+/// @nodoc
 class FindingsTrendsCompositeFilter {
   /// A list of nested composite filters that you can use to create complex filter
   /// conditions for findings trend data.
@@ -15284,6 +15622,8 @@ class FindingsTrendsCompositeFilter {
 }
 
 /// A filter for string-based fields in findings trend data.
+///
+/// @nodoc
 class FindingsTrendsStringFilter {
   /// The name of the findings field to filter on.
   final FindingsTrendsStringField? fieldName;
@@ -15304,6 +15644,7 @@ class FindingsTrendsStringFilter {
   }
 }
 
+/// @nodoc
 class FindingsTrendsStringField {
   static const accountId = FindingsTrendsStringField._('account_id');
   static const region = FindingsTrendsStringField._('region');
@@ -15354,6 +15695,8 @@ class FindingsTrendsStringField {
 }
 
 /// Defines the how the finding attribute should be grouped.
+///
+/// @nodoc
 class GroupByRule {
   /// The attribute by which filtered findings should be grouped.
   final GroupByField groupByField;
@@ -15377,6 +15720,7 @@ class GroupByRule {
   }
 }
 
+/// @nodoc
 class GroupByField {
   static const activityName = GroupByField._('activity_name');
   static const cloudAccountUid = GroupByField._('cloud.account.uid');
@@ -15462,6 +15806,8 @@ class GroupByField {
 /// Services services or by the integrated third-party solutions and standards
 /// checks.
 /// </note>
+///
+/// @nodoc
 class AwsSecurityFinding {
   /// The Amazon Web Services account ID that a finding is generated in.
   ///
@@ -15989,6 +16335,8 @@ class AwsSecurityFinding {
 /// CSPM automatically populates the other one. If neither attribute is
 /// populated, then the finding is invalid. <code>Label</code> is the preferred
 /// attribute.
+///
+/// @nodoc
 class Severity {
   /// The severity value of the finding. The allowed values are the following.
   ///
@@ -16103,6 +16451,8 @@ class Severity {
 }
 
 /// Details about the remediation steps for a finding.
+///
+/// @nodoc
 class Remediation {
   /// A recommendation on the steps to take to remediate the issue identified by a
   /// finding.
@@ -16130,6 +16480,8 @@ class Remediation {
 }
 
 /// The details of network-related information about a finding.
+///
+/// @nodoc
 class Network {
   /// The destination domain of network-related information about a finding.
   ///
@@ -16240,6 +16592,8 @@ class Network {
 }
 
 /// The details of process-related information about a finding.
+///
+/// @nodoc
 class ProcessDetails {
   /// Indicates when the process was launched.
   ///
@@ -16315,6 +16669,8 @@ class ProcessDetails {
 /// providers can add custom content in <code>Compliance</code> object fields,
 /// they are typically used to review details of Security Hub CSPM control
 /// findings.
+///
+/// @nodoc
 class Compliance {
   /// Typically provides an array of enabled security standards in which a
   /// security control is currently enabled.
@@ -16424,6 +16780,7 @@ class Compliance {
   }
 }
 
+/// @nodoc
 class VerificationState {
   static const unknown = VerificationState._('UNKNOWN');
   static const truePositive = VerificationState._('TRUE_POSITIVE');
@@ -16450,6 +16807,7 @@ class VerificationState {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkflowState {
   static const $new = WorkflowState._('NEW');
   static const assigned = WorkflowState._('ASSIGNED');
@@ -16478,6 +16836,8 @@ class WorkflowState {
 }
 
 /// Provides details about the status of the investigation into a finding.
+///
+/// @nodoc
 class Workflow {
   /// The status of the investigation into the finding. The workflow status is
   /// specific to an individual finding. It does not affect the generation of new
@@ -16539,6 +16899,8 @@ class Workflow {
 }
 
 /// A user-defined note added to a finding.
+///
+/// @nodoc
 class Note {
   /// The text of a note.
   ///
@@ -16583,6 +16945,8 @@ class Note {
 
 /// Provides an overview of the patch compliance status for an instance against
 /// a selected compliance standard.
+///
+/// @nodoc
 class PatchSummary {
   /// The identifier of the compliance standard that was used to determine the
   /// patch compliance status.
@@ -16728,6 +17092,8 @@ class PatchSummary {
 /// A remote IP address attempted a port probe on an EC2 instance
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Action {
   /// The type of action that was detected. The possible action types are:
   ///
@@ -16855,6 +17221,8 @@ class Action {
 /// Guide</i>.
 ///
 ///
+///
+/// @nodoc
 class FindingProviderFields {
   /// A finding's confidence. Confidence is defined as the likelihood that a
   /// finding accurately identifies the behavior or issue that it was intended to
@@ -16930,6 +17298,8 @@ class FindingProviderFields {
 /// Amazon Inspector identifies policy violations and vulnerabilities in Lambda
 /// function code based on internal detectors developed in collaboration with
 /// Amazon CodeGuru. Security Hub CSPM receives those findings.
+///
+/// @nodoc
 class GeneratorDetails {
   /// The description of the detector used to identify the code vulnerability.
   final String? description;
@@ -16976,6 +17346,8 @@ class GeneratorDetails {
 /// CSPM, you must have GuardDuty enabled. For more information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class Detection {
   /// Provides details about an attack sequence.
   final Sequence? sequence;
@@ -17007,6 +17379,8 @@ class Detection {
 /// GuardDuty enabled. For more information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class Sequence {
   /// Provides information about the actors involved in the attack sequence.
   final List<Actor>? actors;
@@ -17084,6 +17458,8 @@ class Sequence {
 /// see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class Indicator {
   /// The name of the indicator that’s present in the attack sequence finding.
   final String? key;
@@ -17140,6 +17516,8 @@ class Indicator {
 ///
 /// A signal can be an API activity or a finding that GuardDuty uses to detect
 /// an attack sequence finding.
+///
+/// @nodoc
 class Signal {
   /// The IDs of the threat actors involved in the signal.
   final List<String>? actorIds;
@@ -17321,6 +17699,8 @@ class Signal {
 /// This field can provide information about the network endpoints associated
 /// with the resource in the attack sequence finding, or about a specific
 /// network endpoint used for the attack.
+///
+/// @nodoc
 class NetworkEndpoint {
   /// The Autonomous System Number (ASN) of the network endpoint.
   final NetworkAutonomousSystem? autonomousSystem;
@@ -17402,6 +17782,8 @@ class NetworkEndpoint {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class NetworkGeoLocation {
   /// The name of the city.
   final String? city;
@@ -17453,6 +17835,8 @@ class NetworkGeoLocation {
 /// enabled. For more information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class NetworkAutonomousSystem {
   /// The name associated with the AS.
   final String? name;
@@ -17490,6 +17874,8 @@ class NetworkAutonomousSystem {
 /// see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class NetworkConnection {
   /// The direction in which the network traffic is flowing.
   final ConnectionDirection? direction;
@@ -17513,6 +17899,7 @@ class NetworkConnection {
   }
 }
 
+/// @nodoc
 class ConnectionDirection {
   static const inbound = ConnectionDirection._('INBOUND');
   static const outbound = ConnectionDirection._('OUTBOUND');
@@ -17545,6 +17932,8 @@ class ConnectionDirection {
 /// CSPM, you must have GuardDuty enabled. For more information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class Actor {
   /// The ID of the threat actor.
   final String? id;
@@ -17593,6 +17982,8 @@ class Actor {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class ActorUser {
   /// The account of the threat actor.
   final UserAccount? account;
@@ -17653,6 +18044,8 @@ class ActorUser {
 /// enabled. For more information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class ActorSession {
   /// The timestamp for when the session was created.
   ///
@@ -17707,6 +18100,7 @@ class ActorSession {
   }
 }
 
+/// @nodoc
 class ActorSessionMfaStatus {
   static const enabled = ActorSessionMfaStatus._('ENABLED');
   static const disabled = ActorSessionMfaStatus._('DISABLED');
@@ -17740,6 +18134,8 @@ class ActorSessionMfaStatus {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html">GuardDuty
 /// Extended Threat Detection </a> in the <i>Amazon GuardDuty User Guide</i>.
+///
+/// @nodoc
 class UserAccount {
   /// The name of the user account involved in the attack sequence.
   final String? name;
@@ -17806,6 +18202,8 @@ class UserAccount {
 /// the original, provider-supplied details are retained within the
 /// <code>FindingProviderFields.Severity</code> object, even if the top-level
 /// <code>Severity</code> object is overwritten.
+///
+/// @nodoc
 class FindingProviderSeverity {
   /// The severity label assigned to the finding by the finding provider.
   final SeverityLabel? label;
@@ -17837,6 +18235,7 @@ class FindingProviderSeverity {
   }
 }
 
+/// @nodoc
 class SeverityLabel {
   static const informational = SeverityLabel._('INFORMATIONAL');
   static const low = SeverityLabel._('LOW');
@@ -17866,6 +18265,8 @@ class SeverityLabel {
 
 /// Provided if <code>ActionType</code> is <code>NETWORK_CONNECTION</code>. It
 /// provides details about the attempted network connection that was detected.
+///
+/// @nodoc
 class NetworkConnectionAction {
   /// Indicates whether the network connection attempt was blocked.
   final bool? blocked;
@@ -17939,6 +18340,8 @@ class NetworkConnectionAction {
 
 /// Provided if <code>ActionType</code> is <code>AWS_API_CALL</code>. It
 /// provides details about the API call that was detected.
+///
+/// @nodoc
 class AwsApiCallAction {
   /// Identifies the resources that were affected by the API call.
   final Map<String, String>? affectedResources;
@@ -18034,6 +18437,8 @@ class AwsApiCallAction {
 
 /// Provided if <code>ActionType</code> is <code>DNS_REQUEST</code>. It provides
 /// details about the DNS request that was detected.
+///
+/// @nodoc
 class DnsRequestAction {
   /// Indicates whether the DNS request was blocked.
   final bool? blocked;
@@ -18076,6 +18481,8 @@ class DnsRequestAction {
 
 /// Provided if <code>ActionType</code> is <code>PORT_PROBE</code>. It provides
 /// details about the attempted port probe that was detected.
+///
+/// @nodoc
 class PortProbeAction {
   /// Indicates whether the port probe was blocked.
   final bool? blocked;
@@ -18111,6 +18518,8 @@ class PortProbeAction {
 /// A port scan that was part of the port probe. For each scan, PortProbeDetails
 /// provides information about the local IP address and port that were scanned,
 /// and the remote IP address that the scan originated from.
+///
+/// @nodoc
 class PortProbeDetail {
   /// Provides information about the IP address where the scanned port is located.
   final ActionLocalIpDetails? localIpDetails;
@@ -18159,6 +18568,8 @@ class PortProbeDetail {
 /// For <code>NetworkConnectionAction</code> and <code>PortProbeDetails</code>,
 /// <code>LocalPortDetails</code> provides information about the local port that
 /// was involved in the action.
+///
+/// @nodoc
 class ActionLocalPortDetails {
   /// The number of the port.
   final int? port;
@@ -18191,6 +18602,8 @@ class ActionLocalPortDetails {
 }
 
 /// Provides information about the IP address where the scanned port is located.
+///
+/// @nodoc
 class ActionLocalIpDetails {
   /// The IP address.
   final String? ipAddressV4;
@@ -18216,6 +18629,8 @@ class ActionLocalIpDetails {
 /// For <code>AwsApiAction</code>, <code>NetworkConnectionAction</code>, and
 /// <code>PortProbeAction</code>, <code>RemoteIpDetails</code> provides
 /// information about the remote IP address that was involved in the action.
+///
+/// @nodoc
 class ActionRemoteIpDetails {
   /// The city where the remote IP address is located.
   final City? city;
@@ -18277,6 +18692,8 @@ class ActionRemoteIpDetails {
 }
 
 /// Provides information about an internet provider.
+///
+/// @nodoc
 class IpOrganizationDetails {
   /// The Autonomous System Number (ASN) of the internet provider
   final int? asn;
@@ -18321,6 +18738,8 @@ class IpOrganizationDetails {
 }
 
 /// Information about a country.
+///
+/// @nodoc
 class Country {
   /// The 2-letter ISO 3166 country code for the country.
   final String? countryCode;
@@ -18351,6 +18770,8 @@ class Country {
 }
 
 /// Information about a city.
+///
+/// @nodoc
 class City {
   /// The name of the city.
   final String? cityName;
@@ -18374,6 +18795,8 @@ class City {
 }
 
 /// Provides the latitude and longitude coordinates of a location.
+///
+/// @nodoc
 class GeoLocation {
   /// The latitude of the location.
   final double? lat;
@@ -18405,6 +18828,8 @@ class GeoLocation {
 
 /// Provided if <code>CallerType</code> is <code>domain</code>. It provides
 /// information about the DNS domain that issued the API call.
+///
+/// @nodoc
 class AwsApiCallActionDomainDetails {
   /// The name of the DNS domain that issued the API call.
   ///
@@ -18431,6 +18856,8 @@ class AwsApiCallActionDomainDetails {
 
 /// Provides information about the remote port that was involved in an attempted
 /// network connection.
+///
+/// @nodoc
 class ActionRemotePortDetails {
   /// The number of the port.
   final int? port;
@@ -18463,6 +18890,8 @@ class ActionRemotePortDetails {
 }
 
 /// A vulnerability associated with a finding.
+///
+/// @nodoc
 class Vulnerability {
   /// The identifier of the vulnerability.
   final String id;
@@ -18598,6 +19027,8 @@ class Vulnerability {
 }
 
 /// A vendor that generates a vulnerability report.
+///
+/// @nodoc
 class VulnerabilityVendor {
   /// The name of the vendor.
   final String name;
@@ -18656,6 +19087,7 @@ class VulnerabilityVendor {
   }
 }
 
+/// @nodoc
 class VulnerabilityFixAvailable {
   static const yes = VulnerabilityFixAvailable._('YES');
   static const no = VulnerabilityFixAvailable._('NO');
@@ -18682,6 +19114,7 @@ class VulnerabilityFixAvailable {
   String toString() => value;
 }
 
+/// @nodoc
 class VulnerabilityExploitAvailable {
   static const yes = VulnerabilityExploitAvailable._('YES');
   static const no = VulnerabilityExploitAvailable._('NO');
@@ -18710,6 +19143,8 @@ class VulnerabilityExploitAvailable {
 /// Provides details about the vulnerabilities found in your Lambda function
 /// code. This field pertains to findings that Security Hub CSPM receives from
 /// Amazon Inspector.
+///
+/// @nodoc
 class VulnerabilityCodeVulnerabilities {
   /// The Common Weakness Enumeration (CWE) item associated with the detected code
   /// vulnerability.
@@ -18754,6 +19189,8 @@ class VulnerabilityCodeVulnerabilities {
 
 /// Provides details about where a code vulnerability is located in your Lambda
 /// function.
+///
+/// @nodoc
 class CodeVulnerabilitiesFilePath {
   /// The line number of the last line of code in which the vulnerability is
   /// located.
@@ -18800,6 +19237,8 @@ class CodeVulnerabilitiesFilePath {
 }
 
 /// CVSS scores from the advisory related to the vulnerability.
+///
+/// @nodoc
 class Cvss {
   /// Adjustments to the CVSS metrics.
   final List<Adjustment>? adjustments;
@@ -18854,6 +19293,8 @@ class Cvss {
 }
 
 /// An adjustment to the CVSS metric.
+///
+/// @nodoc
 class Adjustment {
   /// The metric to adjust.
   final String? metric;
@@ -18884,6 +19325,8 @@ class Adjustment {
 }
 
 /// Information about a software package.
+///
+/// @nodoc
 class SoftwarePackage {
   /// The architecture used for the software package.
   final String? architecture;
@@ -18979,6 +19422,8 @@ class SoftwarePackage {
 }
 
 /// Details about a related finding.
+///
+/// @nodoc
 class RelatedFinding {
   /// The product-generated identifier for a related finding.
   final String id;
@@ -19008,6 +19453,7 @@ class RelatedFinding {
   }
 }
 
+/// @nodoc
 class WorkflowStatus {
   static const $new = WorkflowStatus._('NEW');
   static const notified = WorkflowStatus._('NOTIFIED');
@@ -19034,6 +19480,7 @@ class WorkflowStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ComplianceStatus {
   static const passed = ComplianceStatus._('PASSED');
   static const warning = ComplianceStatus._('WARNING');
@@ -19061,6 +19508,8 @@ class ComplianceStatus {
 }
 
 /// A parameter that a security control accepts.
+///
+/// @nodoc
 class SecurityControlParameter {
   /// The name of a
   final String? name;
@@ -19093,6 +19542,8 @@ class SecurityControlParameter {
 
 /// Information about an enabled security standard in which a security control
 /// is enabled.
+///
+/// @nodoc
 class AssociatedStandard {
   /// The unique identifier of a standard in which a control is enabled. This
   /// field consists of the resource portion of the Amazon Resource Name (ARN)
@@ -19120,6 +19571,8 @@ class AssociatedStandard {
 }
 
 /// Provides additional context for the value of <code>Compliance.Status</code>.
+///
+/// @nodoc
 class StatusReason {
   /// A code that represents a reason for the control status. For the list of
   /// status reason codes and their meanings, see <a
@@ -19153,6 +19606,8 @@ class StatusReason {
 }
 
 /// A resource related to a finding.
+///
+/// @nodoc
 class Resource {
   /// The canonical identifier for the given resource type.
   final String id;
@@ -19261,6 +19716,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class Partition {
   static const aws = Partition._('aws');
   static const awsCn = Partition._('aws-cn');
@@ -19286,6 +19742,8 @@ class Partition {
 }
 
 /// Provides details about sensitive data that was detected on a resource.
+///
+/// @nodoc
 class DataClassificationDetails {
   /// The path to the folder or file that contains the sensitive data.
   final String? detailedResultsLocation;
@@ -19331,6 +19789,8 @@ class DataClassificationDetails {
 ///
 /// You also use the <code>Other</code> object to populate the details when the
 /// selected type does not have a corresponding object.
+///
+/// @nodoc
 class ResourceDetails {
   /// Provides details about AppSync message broker. A message broker allows
   /// software applications and components to communicate using various
@@ -20454,6 +20914,8 @@ class ResourceDetails {
 }
 
 /// Provides details about an auto scaling group.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupDetails {
   /// The list of Availability Zones for the automatic scaling group.
   final List<AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails>?
@@ -20559,6 +21021,8 @@ class AwsAutoScalingAutoScalingGroupDetails {
 }
 
 /// Information about an CodeBuild project.
+///
+/// @nodoc
 class AwsCodeBuildProjectDetails {
   /// Information about the build artifacts for the CodeBuild project.
   final List<AwsCodeBuildProjectArtifactsDetails>? artifacts;
@@ -20662,6 +21126,8 @@ class AwsCodeBuildProjectDetails {
 }
 
 /// A CloudFront distribution configuration.
+///
+/// @nodoc
 class AwsCloudFrontDistributionDetails {
   /// Provides information about the cache configuration for the distribution.
   final AwsCloudFrontDistributionCacheBehaviors? cacheBehaviors;
@@ -20792,6 +21258,8 @@ class AwsCloudFrontDistributionDetails {
 }
 
 /// The details of an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2InstanceDetails {
   /// The IAM profile ARN of the instance.
   final String? iamInstanceProfileArn;
@@ -20923,6 +21391,8 @@ class AwsEc2InstanceDetails {
 }
 
 /// Details about the network interface
+///
+/// @nodoc
 class AwsEc2NetworkInterfaceDetails {
   /// The network interface attachment.
   final AwsEc2NetworkInterfaceAttachment? attachment;
@@ -21010,6 +21480,8 @@ class AwsEc2NetworkInterfaceDetails {
 }
 
 /// Details about an Amazon EC2 security group.
+///
+/// @nodoc
 class AwsEc2SecurityGroupDetails {
   /// The ID of the security group.
   final String? groupId;
@@ -21020,13 +21492,13 @@ class AwsEc2SecurityGroupDetails {
   /// The inbound rules associated with the security group.
   final List<AwsEc2SecurityGroupIpPermission>? ipPermissions;
 
-  /// [VPC only] The outbound rules associated with the security group.
+  /// \[VPC only\] The outbound rules associated with the security group.
   final List<AwsEc2SecurityGroupIpPermission>? ipPermissionsEgress;
 
   /// The Amazon Web Services account ID of the owner of the security group.
   final String? ownerId;
 
-  /// [VPC only] The ID of the VPC for the security group.
+  /// \[VPC only\] The ID of the VPC for the security group.
   final String? vpcId;
 
   AwsEc2SecurityGroupDetails({
@@ -21077,6 +21549,8 @@ class AwsEc2SecurityGroupDetails {
 }
 
 /// Details about an EC2 volume.
+///
+/// @nodoc
 class AwsEc2VolumeDetails {
   /// The volume attachments.
   final List<AwsEc2VolumeAttachment>? attachments;
@@ -21200,6 +21674,8 @@ class AwsEc2VolumeDetails {
 }
 
 /// Details about an EC2 VPC.
+///
+/// @nodoc
 class AwsEc2VpcDetails {
   /// Information about the IPv4 CIDR blocks associated with the VPC.
   final List<CidrBlockAssociation>? cidrBlockAssociationSet;
@@ -21257,6 +21733,8 @@ class AwsEc2VpcDetails {
 }
 
 /// Information about an Elastic IP address.
+///
+/// @nodoc
 class AwsEc2EipDetails {
   /// The identifier that Amazon Web Services assigns to represent the allocation
   /// of the Elastic IP address for use with Amazon VPC.
@@ -21351,6 +21829,8 @@ class AwsEc2EipDetails {
 }
 
 /// Contains information about a subnet in Amazon EC2.
+///
+/// @nodoc
 class AwsEc2SubnetDetails {
   /// Whether to assign an IPV6 address to a network interface that is created in
   /// this subnet.
@@ -21470,6 +21950,8 @@ class AwsEc2SubnetDetails {
 }
 
 /// Contains details about an Amazon EC2 network access control list (ACL).
+///
+/// @nodoc
 class AwsEc2NetworkAclDetails {
   /// Associations between the network ACL and subnets.
   final List<AwsEc2NetworkAclAssociation>? associations;
@@ -21535,6 +22017,8 @@ class AwsEc2NetworkAclDetails {
 }
 
 /// Information about a load balancer.
+///
+/// @nodoc
 class AwsElbv2LoadBalancerDetails {
   /// The Availability Zones for the load balancer.
   final List<AvailabilityZone>? availabilityZones;
@@ -21648,6 +22132,8 @@ class AwsElbv2LoadBalancerDetails {
 }
 
 /// Contains details about an Elastic Beanstalk environment.
+///
+/// @nodoc
 class AwsElasticBeanstalkEnvironmentDetails {
   /// The name of the application that is associated with the environment.
   final String? applicationName;
@@ -21817,6 +22303,8 @@ class AwsElasticBeanstalkEnvironmentDetails {
 }
 
 /// Information about an Elasticsearch domain.
+///
+/// @nodoc
 class AwsElasticsearchDomainDetails {
   /// IAM policy document specifying the access policies for the new Elasticsearch
   /// domain.
@@ -21970,6 +22458,8 @@ class AwsElasticsearchDomainDetails {
 }
 
 /// The details of an Amazon Simple Storage Service (Amazon S3) bucket.
+///
+/// @nodoc
 class AwsS3BucketDetails {
   /// The access control list for the S3 bucket.
   final String? accessControlList;
@@ -22134,6 +22624,8 @@ class AwsS3BucketDetails {
 
 /// provides information about the Amazon S3 Public Access Block configuration
 /// for accounts.
+///
+/// @nodoc
 class AwsS3AccountPublicAccessBlockDetails {
   /// Indicates whether to reject calls to update an S3 bucket if the calls
   /// include a public access control list (ACL).
@@ -22185,6 +22677,8 @@ class AwsS3AccountPublicAccessBlockDetails {
 }
 
 /// Details about an Amazon S3 object.
+///
+/// @nodoc
 class AwsS3ObjectDetails {
   /// A standard MIME type describing the format of the object data.
   final String? contentType;
@@ -22251,6 +22745,8 @@ class AwsS3ObjectDetails {
 }
 
 /// Details about an Secrets Manager secret.
+///
+/// @nodoc
 class AwsSecretsManagerSecretDetails {
   /// Whether the secret is deleted.
   final bool? deleted;
@@ -22331,6 +22827,8 @@ class AwsSecretsManagerSecretDetails {
 }
 
 /// IAM access key details related to a finding.
+///
+/// @nodoc
 class AwsIamAccessKeyDetails {
   /// The identifier of the access key.
   final String? accessKeyId;
@@ -22422,6 +22920,8 @@ class AwsIamAccessKeyDetails {
 }
 
 /// Information about an IAM user.
+///
+/// @nodoc
 class AwsIamUserDetails {
   /// A list of the managed policies that are attached to the user.
   final List<AwsIamAttachedManagedPolicy>? attachedManagedPolicies;
@@ -22513,6 +23013,8 @@ class AwsIamUserDetails {
 }
 
 /// Represents an IAM permissions policy.
+///
+/// @nodoc
 class AwsIamPolicyDetails {
   /// The number of users, groups, and roles that the policy is attached to.
   final int? attachmentCount;
@@ -22620,6 +23122,8 @@ class AwsIamPolicyDetails {
 }
 
 /// Contains information about a version 2 stage for Amazon API Gateway.
+///
+/// @nodoc
 class AwsApiGatewayV2StageDetails {
   /// Information about settings for logging access for the stage.
   final AwsApiGatewayAccessLogSettings? accessLogSettings;
@@ -22767,6 +23271,8 @@ class AwsApiGatewayV2StageDetails {
 }
 
 /// Contains information about a version 2 API in Amazon API Gateway.
+///
+/// @nodoc
 class AwsApiGatewayV2ApiDetails {
   /// The URI of the API.
   ///
@@ -22876,6 +23382,8 @@ class AwsApiGatewayV2ApiDetails {
 }
 
 /// Provides details about a DynamoDB table.
+///
+/// @nodoc
 class AwsDynamoDbTableDetails {
   /// A list of attribute definitions for the table.
   final List<AwsDynamoDbTableAttributeDefinition>? attributeDefinitions;
@@ -23102,6 +23610,8 @@ class AwsDynamoDbTableDetails {
 }
 
 /// Provides information about a version 1 Amazon API Gateway stage.
+///
+/// @nodoc
 class AwsApiGatewayStageDetails {
   /// Settings for logging access for the stage.
   final AwsApiGatewayAccessLogSettings? accessLogSettings;
@@ -23268,6 +23778,8 @@ class AwsApiGatewayStageDetails {
 }
 
 /// Contains information about a REST API in version 1 of Amazon API Gateway.
+///
+/// @nodoc
 class AwsApiGatewayRestApiDetails {
   /// The source of the API key for metering requests according to a usage plan.
   ///
@@ -23369,6 +23881,8 @@ class AwsApiGatewayRestApiDetails {
 }
 
 /// Provides details about a CloudTrail trail.
+///
+/// @nodoc
 class AwsCloudTrailTrailDetails {
   /// The ARN of the log group that CloudTrail logs are delivered to.
   final String? cloudWatchLogsLogGroupArn;
@@ -23504,6 +24018,8 @@ class AwsCloudTrailTrailDetails {
 
 /// Provides information about the state of a patch on an instance based on the
 /// patch baseline that was used to patch the instance.
+///
+/// @nodoc
 class AwsSsmPatchComplianceDetails {
   /// Information about the status of a patch.
   final AwsSsmPatch? patch;
@@ -23529,6 +24045,8 @@ class AwsSsmPatchComplianceDetails {
 }
 
 /// Provides details about an Certificate Manager certificate.
+///
+/// @nodoc
 class AwsCertificateManagerCertificateDetails {
   /// The ARN of the private certificate authority (CA) that will be used to issue
   /// the certificate.
@@ -23804,6 +24322,8 @@ class AwsCertificateManagerCertificateDetails {
 }
 
 /// Details about an Amazon Redshift cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterDetails {
   /// Indicates whether major version upgrades are applied automatically to the
   /// cluster during the maintenance window.
@@ -24292,6 +24812,8 @@ class AwsRedshiftClusterDetails {
 }
 
 /// Contains details about a Classic Load Balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerDetails {
   /// The list of Availability Zones for the load balancer.
   final List<String>? availabilityZones;
@@ -24477,6 +24999,8 @@ class AwsElbLoadBalancerDetails {
 }
 
 /// Contains details about an IAM group.
+///
+/// @nodoc
 class AwsIamGroupDetails {
   /// A list of the managed policies that are attached to the IAM group.
   final List<AwsIamAttachedManagedPolicy>? attachedManagedPolicies;
@@ -24548,6 +25072,8 @@ class AwsIamGroupDetails {
 
 /// Contains information about an IAM role, including all of the role's
 /// policies.
+///
+/// @nodoc
 class AwsIamRoleDetails {
   /// The trust policy that grants permission to assume the role.
   final String? assumeRolePolicyDocument;
@@ -24654,6 +25180,8 @@ class AwsIamRoleDetails {
 }
 
 /// Contains metadata about an KMS key.
+///
+/// @nodoc
 class AwsKmsKeyDetails {
   /// The twelve-digit account ID of the Amazon Web Services account that owns the
   /// KMS key.
@@ -24759,6 +25287,8 @@ class AwsKmsKeyDetails {
 }
 
 /// Details about an Lambda function's configuration.
+///
+/// @nodoc
 class AwsLambdaFunctionDetails {
   /// The instruction set architecture that the function uses. Valid values are
   /// <code>x86_64</code> or <code>arm64</code>.
@@ -24945,6 +25475,8 @@ class AwsLambdaFunctionDetails {
 }
 
 /// Details about a Lambda layer version.
+///
+/// @nodoc
 class AwsLambdaLayerVersionDetails {
   /// The layer's compatible <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">function
@@ -25006,6 +25538,8 @@ class AwsLambdaLayerVersionDetails {
 }
 
 /// Contains the details of an Amazon RDS DB instance.
+///
+/// @nodoc
 class AwsRdsDbInstanceDetails {
   /// The amount of storage (in gigabytes) to initially allocate for the DB
   /// instance.
@@ -25586,6 +26120,8 @@ class AwsRdsDbInstanceDetails {
 
 /// Provides information about an Amazon SNS topic to which notifications can be
 /// published.
+///
+/// @nodoc
 class AwsSnsTopicDetails {
   /// Indicates failed message delivery status for an Amazon SNS topic that is
   /// subscribed to a platform application endpoint.
@@ -25703,6 +26239,8 @@ class AwsSnsTopicDetails {
 }
 
 /// Data about a queue.
+///
+/// @nodoc
 class AwsSqsQueueDetails {
   /// The ARN of the dead-letter queue to which Amazon SQS moves messages after
   /// the value of <code>maxReceiveCount</code> is exceeded.
@@ -25753,6 +26291,8 @@ class AwsSqsQueueDetails {
 }
 
 /// Provides information about an WAF web access control list (web ACL).
+///
+/// @nodoc
 class AwsWafWebAclDetails {
   /// The action to perform if none of the rules contained in the web ACL match.
   final String? defaultAction;
@@ -25802,6 +26342,8 @@ class AwsWafWebAclDetails {
 }
 
 /// Provides details about an Amazon RDS DB cluster snapshot.
+///
+/// @nodoc
 class AwsRdsDbSnapshotDetails {
   /// The amount of storage (in gigabytes) to be initially allocated for the
   /// database instance.
@@ -26085,6 +26627,8 @@ class AwsRdsDbSnapshotDetails {
 }
 
 /// Information about an Amazon RDS DB cluster snapshot.
+///
+/// @nodoc
 class AwsRdsDbClusterSnapshotDetails {
   /// Specifies the allocated storage size in gibibytes (GiB).
   final int? allocatedStorage;
@@ -26263,6 +26807,8 @@ class AwsRdsDbClusterSnapshotDetails {
 }
 
 /// Information about an Amazon RDS DB cluster.
+///
+/// @nodoc
 class AwsRdsDbClusterDetails {
   /// The status of the database activity stream. Valid values are as follows:
   ///
@@ -26671,6 +27217,8 @@ class AwsRdsDbClusterDetails {
 }
 
 /// Provides details about an Amazon ECS cluster.
+///
+/// @nodoc
 class AwsEcsClusterDetails {
   /// The number of services that are running on the cluster in an
   /// <code>ACTIVE</code> state. You can view these services with the Amazon ECS
@@ -26791,6 +27339,8 @@ class AwsEcsClusterDetails {
 }
 
 /// Provides information about an Amazon ECS container.
+///
+/// @nodoc
 class AwsEcsContainerDetails {
   /// The image used for the container.
   final String? image;
@@ -26840,6 +27390,8 @@ class AwsEcsContainerDetails {
 
 /// Details about a task definition. A task definition describes the container
 /// and volume definitions of an Amazon Elastic Container Service task.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionDetails {
   /// The container definitions that describe the containers that make up the
   /// task.
@@ -27049,6 +27601,8 @@ class AwsEcsTaskDefinitionDetails {
 }
 
 /// Container details related to a finding.
+///
+/// @nodoc
 class ContainerDetails {
   /// The runtime of the container.
   final String? containerRuntime;
@@ -27123,6 +27677,8 @@ class ContainerDetails {
 
 /// Details about an Amazon RDS event notification subscription. The
 /// subscription allows Amazon RDS to post events to an SNS topic.
+///
+/// @nodoc
 class AwsRdsEventSubscriptionDetails {
   /// The identifier of the account that is associated with the event notification
   /// subscription.
@@ -27227,6 +27783,8 @@ class AwsRdsEventSubscriptionDetails {
 }
 
 /// Provides details about a service within an ECS cluster.
+///
+/// @nodoc
 class AwsEcsServiceDetails {
   /// The capacity provider strategy that the service uses.
   final List<AwsEcsServiceCapacityProviderStrategyDetails>?
@@ -27468,6 +28026,8 @@ class AwsEcsServiceDetails {
 }
 
 /// Details about a launch configuration.
+///
+/// @nodoc
 class AwsAutoScalingLaunchConfigurationDetails {
   /// For Auto Scaling groups that run in a VPC, specifies whether to assign a
   /// public IP address to the group's instances.
@@ -27655,6 +28215,8 @@ class AwsAutoScalingLaunchConfigurationDetails {
 }
 
 /// Details about an Amazon EC2 VPN connection.
+///
+/// @nodoc
 class AwsEc2VpnConnectionDetails {
   /// The category of the VPN connection. <code>VPN</code> indicates an Amazon Web
   /// Services VPN connection. <code>VPN-Classic</code> indicates an Amazon Web
@@ -27782,6 +28344,8 @@ class AwsEc2VpnConnectionDetails {
 }
 
 /// Information about an Amazon ECR image.
+///
+/// @nodoc
 class AwsEcrContainerImageDetails {
   /// The architecture of the image. Valid values are as follows:
   ///
@@ -27860,6 +28424,8 @@ class AwsEcrContainerImageDetails {
 }
 
 /// Information about an Amazon OpenSearch Service domain.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainDetails {
   /// IAM policy document that specifies the access policies for the OpenSearch
   /// Service domain.
@@ -28026,6 +28592,8 @@ class AwsOpenSearchServiceDomainDetails {
 }
 
 /// Contains details about the service configuration for a VPC endpoint service.
+///
+/// @nodoc
 class AwsEc2VpcEndpointServiceDetails {
   /// Whether requests from other Amazon Web Services accounts to create an
   /// endpoint to the service must first be accepted.
@@ -28158,6 +28726,8 @@ class AwsEc2VpcEndpointServiceDetails {
 }
 
 /// Information about the encryption configuration for X-Ray.
+///
+/// @nodoc
 class AwsXrayEncryptionConfigDetails {
   /// The identifier of the KMS key that is used for encryption. Provided if
   /// <code>Type</code> is <code>KMS</code>.
@@ -28204,6 +28774,8 @@ class AwsXrayEncryptionConfigDetails {
 /// provides settings to indicate when to allow, block, or count a request.
 /// Rate-based rules include the number of requests that arrive over a specified
 /// period of time.
+///
+/// @nodoc
 class AwsWafRateBasedRuleDetails {
   /// The predicates to include in the rate-based rule.
   final List<AwsWafRateBasedRuleMatchPredicate>? matchPredicates;
@@ -28274,6 +28846,8 @@ class AwsWafRateBasedRuleDetails {
 /// rate-based rule provides settings to indicate when to allow, block, or count
 /// a request. Rate-based rules include the number of requests that arrive over
 /// a specified period of time.
+///
+/// @nodoc
 class AwsWafRegionalRateBasedRuleDetails {
   /// The predicates to include in the rate-based rule.
   final List<AwsWafRegionalRateBasedRuleMatchPredicate>? matchPredicates;
@@ -28342,6 +28916,8 @@ class AwsWafRegionalRateBasedRuleDetails {
 }
 
 /// Provides information about an Amazon Elastic Container Registry repository.
+///
+/// @nodoc
 class AwsEcrRepositoryDetails {
   /// The ARN of the repository.
   final String? arn;
@@ -28410,6 +28986,8 @@ class AwsEcrRepositoryDetails {
 }
 
 /// Provides details about an Amazon EKS cluster.
+///
+/// @nodoc
 class AwsEksClusterDetails {
   /// The ARN of the cluster.
   final String? arn;
@@ -28519,6 +29097,8 @@ class AwsEksClusterDetails {
 
 /// Details about a firewall policy. A firewall policy defines the behavior of a
 /// network firewall.
+///
+/// @nodoc
 class AwsNetworkFirewallFirewallPolicyDetails {
   /// A description of the firewall policy.
   final String? description;
@@ -28574,6 +29154,8 @@ class AwsNetworkFirewallFirewallPolicyDetails {
 }
 
 /// Details about an Network Firewall firewall.
+///
+/// @nodoc
 class AwsNetworkFirewallFirewallDetails {
   /// Whether the firewall is protected from deletion. If set to
   /// <code>true</code>, then the firewall cannot be deleted.
@@ -28679,6 +29261,8 @@ class AwsNetworkFirewallFirewallDetails {
 /// their traffic flow.
 ///
 /// Rule groups are referenced in firewall policies.
+///
+/// @nodoc
 class AwsNetworkFirewallRuleGroupDetails {
   /// The maximum number of operating resources that this rule group can use.
   final int? capacity;
@@ -28747,6 +29331,8 @@ class AwsNetworkFirewallRuleGroupDetails {
 }
 
 /// Provides information about an Amazon RDS DB security group.
+///
+/// @nodoc
 class AwsRdsDbSecurityGroupDetails {
   /// The ARN for the DB security group.
   final String? dbSecurityGroupArn;
@@ -28823,6 +29409,8 @@ class AwsRdsDbSecurityGroupDetails {
 }
 
 /// Provides information about an Amazon Kinesis data stream.
+///
+/// @nodoc
 class AwsKinesisStreamDetails {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream.
   final String? arn;
@@ -28883,6 +29471,8 @@ class AwsKinesisStreamDetails {
 
 /// Information about an Amazon Web Services Amazon EC2 Transit Gateway that
 /// interconnects virtual private clouds (VPCs) and on-premises networks.
+///
+/// @nodoc
 class AwsEc2TransitGatewayDetails {
   /// A private Autonomous System Number (ASN) for the Amazon side of a BGP
   /// session.
@@ -29000,6 +29590,8 @@ class AwsEc2TransitGatewayDetails {
 }
 
 /// Provides information about an Amazon EFS access point.
+///
+/// @nodoc
 class AwsEfsAccessPointDetails {
   /// The ID of the Amazon EFS access point.
   final String? accessPointId;
@@ -29068,6 +29660,8 @@ class AwsEfsAccessPointDetails {
 
 /// Nests a stack as a resource in a top-level template. Nested stacks are
 /// stacks created as resources for another stack.
+///
+/// @nodoc
 class AwsCloudFormationStackDetails {
   /// The capabilities allowed in the stack.
   final List<String>? capabilities;
@@ -29209,6 +29803,8 @@ class AwsCloudFormationStackDetails {
 
 /// Specifies an alarm and associates it with the specified metric or metric
 /// math expression.
+///
+/// @nodoc
 class AwsCloudWatchAlarmDetails {
   /// Indicates whether actions should be executed during any changes to the alarm
   /// state.
@@ -29430,6 +30026,8 @@ class AwsCloudWatchAlarmDetails {
 /// Provides information about a VPC peering connection between two VPCs: a
 /// requester VPC that you own and an accepter VPC with which to create the
 /// connection.
+///
+/// @nodoc
 class AwsEc2VpcPeeringConnectionDetails {
   /// Information about the accepter VPC.
   final AwsEc2VpcPeeringConnectionVpcInfoDetails? accepterVpcInfo;
@@ -29493,6 +30091,8 @@ class AwsEc2VpcPeeringConnectionDetails {
 
 /// Provides information about an WAF Regional rule group. The rule group is a
 /// collection of rules for inspecting and controlling web requests.
+///
+/// @nodoc
 class AwsWafRegionalRuleGroupDetails {
   /// A name for the metrics for this rule group.
   final String? metricName;
@@ -29543,6 +30143,8 @@ class AwsWafRegionalRuleGroupDetails {
 
 /// Provides information about an WAF Regional rule. This rule identifies the
 /// web requests that you want to allow, block, or count.
+///
+/// @nodoc
 class AwsWafRegionalRuleDetails {
   /// A name for the metrics for the rule.
   final String? metricName;
@@ -29597,6 +30199,8 @@ class AwsWafRegionalRuleDetails {
 /// Provides information about the web access control list (web ACL). The web
 /// ACL contains the rules that identify the requests that you want to allow,
 /// block, or count.
+///
+/// @nodoc
 class AwsWafRegionalWebAclDetails {
   /// The action to perform if none of the rules contained in the web ACL match.
   final String? defaultAction;
@@ -29654,6 +30258,8 @@ class AwsWafRegionalWebAclDetails {
 
 /// Provides information about a WAF rule. This rule specifies the web requests
 /// that you want to allow, block, or count.
+///
+/// @nodoc
 class AwsWafRuleDetails {
   /// The name of the metrics for this rule.
   final String? metricName;
@@ -29707,6 +30313,8 @@ class AwsWafRuleDetails {
 
 /// Provides information about an WAF rule group. A rule group is a collection
 /// of rules for inspecting and controlling web requests.
+///
+/// @nodoc
 class AwsWafRuleGroupDetails {
   /// The name of the metrics for this rule group.
   final String? metricName;
@@ -29756,6 +30364,8 @@ class AwsWafRuleGroupDetails {
 }
 
 /// Provides details about a task in a cluster.
+///
+/// @nodoc
 class AwsEcsTaskDetails {
   /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
   final String? clusterArn;
@@ -29850,6 +30460,8 @@ class AwsEcsTaskDetails {
 
 /// Provides details about an Backup backup vault. In Backup, a backup vault is
 /// a container that stores and organizes your backups.
+///
+/// @nodoc
 class AwsBackupBackupVaultDetails {
   /// A resource-based policy that is used to manage access permissions on the
   /// target backup vault.
@@ -29912,6 +30524,8 @@ class AwsBackupBackupVaultDetails {
 
 /// Provides details about an Backup backup plan and an array of
 /// <code>BackupRule</code> objects, each of which specifies a backup rule.
+///
+/// @nodoc
 class AwsBackupBackupPlanDetails {
   /// Uniquely identifies the backup plan to be associated with the selection of
   /// resources.
@@ -29963,6 +30577,8 @@ class AwsBackupBackupPlanDetails {
 /// Contains detailed information about the recovery points stored in an Backup
 /// backup vault. A backup, or recovery point, represents the content of a
 /// resource at a specified time.
+///
+/// @nodoc
 class AwsBackupRecoveryPointDetails {
   /// The size, in bytes, of a backup.
   final int? backupSizeInBytes;
@@ -30178,6 +30794,8 @@ class AwsBackupRecoveryPointDetails {
 
 /// Specifies the properties for creating an Amazon Elastic Compute Cloud
 /// (Amazon EC2) launch template.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDetails {
   /// The default version of the launch template.
   final int? defaultVersionNumber;
@@ -30234,6 +30852,8 @@ class AwsEc2LaunchTemplateDetails {
 }
 
 /// Provides details about an Amazon SageMaker AI notebook instance.
+///
+/// @nodoc
 class AwsSageMakerNotebookInstanceDetails {
   /// A list of Amazon Elastic Inference instance types to associate with the
   /// notebook instance. Currently, only one instance type can be associated with
@@ -30453,6 +31073,8 @@ class AwsSageMakerNotebookInstanceDetails {
 }
 
 /// Details about an WAFv2 web Access Control List (ACL).
+///
+/// @nodoc
 class AwsWafv2WebAclDetails {
   /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
   /// with the resource.
@@ -30558,6 +31180,8 @@ class AwsWafv2WebAclDetails {
 }
 
 /// Details about an WAFv2 rule group.
+///
+/// @nodoc
 class AwsWafv2RuleGroupDetails {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -30644,6 +31268,8 @@ class AwsWafv2RuleGroupDetails {
 }
 
 /// Provides details about a route table for the specified VPC.
+///
+/// @nodoc
 class AwsEc2RouteTableDetails {
   /// The associations between a route table and one or more subnets or a gateway.
   final List<AssociationSetDetails>? associationSet;
@@ -30714,6 +31340,8 @@ class AwsEc2RouteTableDetails {
 /// Provides details about an Amazon MQ message broker. A message broker allows
 /// software applications and components to communicate using various
 /// programming languages, operating systems, and formal messaging protocols.
+///
+/// @nodoc
 class AwsAmazonMqBrokerDetails {
   /// The authentication strategy used to secure the broker. The default is
   /// <code>SIMPLE</code>.
@@ -30894,6 +31522,8 @@ class AwsAmazonMqBrokerDetails {
 
 /// Provides details about an AppSync Graph QL API, which lets you query
 /// multiple databases, microservices, and APIs from a single GraphQL endpoint.
+///
+/// @nodoc
 class AwsAppSyncGraphQlApiDetails {
   /// A list of additional authentication providers for the GraphQL API.
   final List<AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails>?
@@ -31024,6 +31654,8 @@ class AwsAppSyncGraphQlApiDetails {
 /// A schema defines the structure of events that are sent to Amazon
 /// EventBridge. Schema registries are containers for schemas. They collect and
 /// organize schemas so that your schemas are in logical groups.
+///
+/// @nodoc
 class AwsEventSchemasRegistryDetails {
   /// A description of the registry to be created.
   final String? description;
@@ -31063,6 +31695,8 @@ class AwsEventSchemasRegistryDetails {
 /// Provides details about an Amazon GuardDuty detector. A detector is an object
 /// that represents the GuardDuty service. A detector is required for GuardDuty
 /// to become operational.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDetails {
   /// Describes which data sources are activated for the detector.
   final AwsGuardDutyDetectorDataSourcesDetails? dataSources;
@@ -31123,6 +31757,8 @@ class AwsGuardDutyDetectorDetails {
 
 /// Provides details about an Step Functions state machine, which is a workflow
 /// consisting of a series of event- driven steps.
+///
+/// @nodoc
 class AwsStepFunctionStateMachineDetails {
   /// A user-defined or an auto-generated string that identifies a
   /// <code>Map</code> state. This parameter is present only if the
@@ -31210,6 +31846,8 @@ class AwsStepFunctionStateMachineDetails {
 }
 
 /// Provides information about an Amazon Athena workgroup.
+///
+/// @nodoc
 class AwsAthenaWorkGroupDetails {
   /// The configuration of the workgroup, which includes the location in Amazon
   /// Simple Storage Service (Amazon S3) where query results are stored, the
@@ -31265,6 +31903,8 @@ class AwsAthenaWorkGroupDetails {
 /// or targets. This can be a custom event bus which you can use to receive
 /// events from your custom applications and services, or it can be a partner
 /// event bus which can be matched to a partner event source.
+///
+/// @nodoc
 class AwsEventsEventbusDetails {
   /// The Amazon Resource Name (ARN) of the account permitted to write events to
   /// the current account.
@@ -31305,6 +31945,8 @@ class AwsEventsEventbusDetails {
 /// Provides details about an Database Migration Service (DMS) endpoint. An
 /// endpoint provides connection, data store type, and location information
 /// about your data store.
+///
+/// @nodoc
 class AwsDmsEndpointDetails {
   /// The Amazon Resource Name (ARN) for the SSL certificate that encrypts
   /// connections between the DMS endpoint and the replication instance.
@@ -31422,6 +32064,8 @@ class AwsDmsEndpointDetails {
 /// Provides details about an Amazon EventBridge global endpoint. The endpoint
 /// can improve your application’s availability by making it Regional-fault
 /// tolerant.
+///
+/// @nodoc
 class AwsEventsEndpointDetails {
   /// The Amazon Resource Name (ARN) of the endpoint.
   final String? arn;
@@ -31532,6 +32176,8 @@ class AwsEventsEndpointDetails {
 /// Provides details about an Database Migration Service (DMS) replication task.
 /// A replication task moves a set of data from the source endpoint to the
 /// target endpoint.
+///
+/// @nodoc
 class AwsDmsReplicationTaskDetails {
   /// Indicates when you want a change data capture (CDC) operation to start.
   /// <code>CCdcStartPosition</code> or <code>CCdcStartTime</code> specifies when
@@ -31655,6 +32301,8 @@ class AwsDmsReplicationTaskDetails {
 /// instance. DMS uses a replication instance to connect to your source data
 /// store, read the source data, and format the data for consumption by the
 /// target data store.
+///
+/// @nodoc
 class AwsDmsReplicationInstanceDetails {
   /// The amount of storage (in gigabytes) that is allocated for the replication
   /// instance.
@@ -31792,6 +32440,8 @@ class AwsDmsReplicationInstanceDetails {
 /// the four name servers assigned to the hosted zone. A hosted zone represents
 /// a collection of records that can be managed together, belonging to a single
 /// parent domain name.
+///
+/// @nodoc
 class AwsRoute53HostedZoneDetails {
   /// An object that contains information about the specified hosted zone.
   final AwsRoute53HostedZoneObjectDetails? hostedZone;
@@ -31854,6 +32504,8 @@ class AwsRoute53HostedZoneDetails {
 
 /// Provides details about an Amazon Managed Streaming for Apache Kafka (Amazon
 /// MSK) cluster.
+///
+/// @nodoc
 class AwsMskClusterDetails {
   /// Provides information about a cluster.
   final AwsMskClusterClusterInfoDetails? clusterInfo;
@@ -31882,6 +32534,8 @@ class AwsMskClusterDetails {
 /// Returns configuration information about the specified Amazon S3 access
 /// point. S3 access points are named network endpoints that are attached to
 /// buckets that you can use to perform S3 object operations.
+///
+/// @nodoc
 class AwsS3AccessPointDetails {
   /// The Amazon Resource Name (ARN) of the access point.
   final String? accessPointArn;
@@ -31964,6 +32618,8 @@ class AwsS3AccessPointDetails {
 /// Describes an Client VPN endpoint. A Client VPN endpoint is the resource that
 /// you create and configure to enable and manage client VPN sessions. It's the
 /// termination point for all client VPN sessions.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointDetails {
   /// Information about the authentication method used by the Client VPN endpoint.
   final List<AwsEc2ClientVpnEndpointAuthenticationOptionsDetails>?
@@ -32130,6 +32786,8 @@ class AwsEc2ClientVpnEndpointDetails {
 /// Details about an external code repository with which you can connect your
 /// Amazon Web Services resources. The connection is established through Amazon
 /// Inspector.
+///
+/// @nodoc
 class CodeRepositoryDetails {
   /// The Amazon Resource Name (ARN) of the code security integration associated
   /// with the repository.
@@ -32170,6 +32828,8 @@ class CodeRepositoryDetails {
 
 /// Information about the client connection logging options for the Client VPN
 /// endpoint.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointConnectionLogOptionsDetails {
   /// The name of the Amazon CloudWatch Logs log group to which connection logging
   /// data is published.
@@ -32213,6 +32873,8 @@ class AwsEc2ClientVpnEndpointConnectionLogOptionsDetails {
 
 /// The options for managing connection authorization for new client
 /// connections.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointClientConnectOptionsDetails {
   /// Indicates whether client connect options are enabled.
   final bool? enabled;
@@ -32256,6 +32918,8 @@ class AwsEc2ClientVpnEndpointClientConnectOptionsDetails {
 
 /// Options for enabling a customizable text banner that will be displayed on
 /// Amazon Web Services provided clients when a VPN session is established.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails {
   /// Customizable text that will be displayed in a banner on Amazon Web Services
   /// provided clients when a VPN session is established.
@@ -32288,6 +32952,8 @@ class AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails {
 }
 
 /// Describes the status of the Client VPN endpoint attribute.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails {
   /// The status code.
   final String? code;
@@ -32319,6 +32985,8 @@ class AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails {
 }
 
 /// Information about the authentication method used by the Client VPN endpoint.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointAuthenticationOptionsDetails {
   /// Information about the Active Directory, if applicable. With Active Directory
   /// authentication, clients are authenticated against existing Active Directory
@@ -32381,6 +33049,8 @@ class AwsEc2ClientVpnEndpointAuthenticationOptionsDetails {
 
 /// Provides details about an Active Directory that’s used to authenticate an
 /// Client VPN endpoint.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails {
   /// The ID of the Active Directory used for authentication.
   final String? directoryId;
@@ -32405,6 +33075,8 @@ class AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails {
 }
 
 /// Information about the client certificate used for authentication.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails {
   /// The Amazon Resource Name (ARN) of the client certificate.
   final String? clientRootCertificateChain;
@@ -32430,6 +33102,8 @@ class AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails {
 }
 
 /// Describes the IAM SAML identity providers used for federated authentication.
+///
+/// @nodoc
 class AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails {
   /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
   final String? samlProviderArn;
@@ -32463,6 +33137,8 @@ class AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails
 }
 
 /// The virtual private cloud (VPC) configuration for an Amazon S3 access point.
+///
+/// @nodoc
 class AwsS3AccessPointVpcConfigurationDetails {
   /// If this field is specified, this access point will only allow connections
   /// from the specified VPC ID.
@@ -32489,6 +33165,8 @@ class AwsS3AccessPointVpcConfigurationDetails {
 
 /// Provide details about an Amazon Managed Streaming for Apache Kafka (Amazon
 /// MSK) cluster.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoDetails {
   /// Provides information for different modes of client authentication.
   final AwsMskClusterClusterInfoClientAuthenticationDetails?
@@ -32560,6 +33238,8 @@ class AwsMskClusterClusterInfoDetails {
 /// Includes encryption-related information, such as the KMS key used for
 /// encrypting data at rest and whether you want MSK to encrypt your data in
 /// transit.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoEncryptionInfoDetails {
   /// The data-volume encryption details. You can't update encryption at rest
   /// settings for existing clusters.
@@ -32601,6 +33281,8 @@ class AwsMskClusterClusterInfoEncryptionInfoDetails {
 }
 
 /// Provides details about different modes of client authentication.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoClientAuthenticationDetails {
   /// Provides details for client authentication using SASL.
   final AwsMskClusterClusterInfoClientAuthenticationSaslDetails? sasl;
@@ -32649,6 +33331,8 @@ class AwsMskClusterClusterInfoClientAuthenticationDetails {
 }
 
 /// Provides details for client authentication using SASL.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoClientAuthenticationSaslDetails {
   /// Provides details for SASL client authentication using IAM.
   final AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails? iam;
@@ -32686,6 +33370,8 @@ class AwsMskClusterClusterInfoClientAuthenticationSaslDetails {
 }
 
 /// Provides details for allowing no client authentication.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails {
   /// Indicates whether unauthenticated is allowed or not.
   final bool? enabled;
@@ -32710,6 +33396,8 @@ class AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails {
 }
 
 /// Provides details for client authentication using TLS.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoClientAuthenticationTlsDetails {
   /// List of Amazon Web Services Private CA Amazon Resource Names (ARNs). Amazon
   /// Web Services Private CA enables creation of private certificate authority
@@ -32749,6 +33437,8 @@ class AwsMskClusterClusterInfoClientAuthenticationTlsDetails {
 }
 
 /// Details for SASL/IAM client authentication.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails {
   /// Indicates whether SASL/IAM authentication is enabled or not.
   final bool? enabled;
@@ -32773,6 +33463,8 @@ class AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails {
 }
 
 /// Details for SASL/SCRAM client authentication.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails {
   /// Indicates whether SASL/SCRAM authentication is enabled or not.
   final bool? enabled;
@@ -32797,6 +33489,8 @@ class AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails {
 }
 
 /// The settings for encrypting data in transit.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails {
   /// Indicates the encryption setting for data in transit between clients and
   /// brokers.
@@ -32833,6 +33527,8 @@ class AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails {
 
 /// The data-volume encryption details. You can't update encryption at rest
 /// settings for existing clusters.
+///
+/// @nodoc
 class AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails {
   /// The Amazon Resource Name (ARN) of the KMS key for encrypting data at rest.
   /// If you don't specify a KMS key, MSK creates one for you and uses it.
@@ -32858,6 +33554,8 @@ class AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails {
 }
 
 /// An object that contains information about an Amazon Route 53 hosted zone.
+///
+/// @nodoc
 class AwsRoute53HostedZoneObjectDetails {
   /// An object that includes the <code>Comment</code> element.
   final AwsRoute53HostedZoneConfigDetails? config;
@@ -32901,6 +33599,8 @@ class AwsRoute53HostedZoneObjectDetails {
 
 /// Provides details about a specified Amazon Route 53 configuration for DNS
 /// query logging.
+///
+/// @nodoc
 class AwsRoute53QueryLoggingConfigDetails {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group that
   /// Route 53 is publishing logs to.
@@ -32931,6 +33631,8 @@ class AwsRoute53QueryLoggingConfigDetails {
 
 /// The Amazon Resource Name (ARN) and other details of the Amazon CloudWatch
 /// Logs log group that Amazon Route 53 is publishing logs to.
+///
+/// @nodoc
 class CloudWatchLogsLogGroupArnConfigDetails {
   /// The ARN of the CloudWatch Logs log group that Route 53 is publishing logs
   /// to.
@@ -32972,6 +33674,8 @@ class CloudWatchLogsLogGroupArnConfigDetails {
 
 /// For private hosted zones, this is a complex type that contains information
 /// about an Amazon VPC.
+///
+/// @nodoc
 class AwsRoute53HostedZoneVpcDetails {
   /// The identifier of an Amazon VPC.
   final String? id;
@@ -33003,6 +33707,8 @@ class AwsRoute53HostedZoneVpcDetails {
 
 /// An object that contains an optional comment about your Amazon Route 53
 /// hosted zone.
+///
+/// @nodoc
 class AwsRoute53HostedZoneConfigDetails {
   /// Any comments that you include about the hosted zone.
   final String? comment;
@@ -33027,6 +33733,8 @@ class AwsRoute53HostedZoneConfigDetails {
 }
 
 /// Provides details about the replication subnet group.
+///
+/// @nodoc
 class AwsDmsReplicationInstanceReplicationSubnetGroupDetails {
   /// The identifier of the replication subnet group.
   final String? replicationSubnetGroupIdentifier;
@@ -33055,6 +33763,8 @@ class AwsDmsReplicationInstanceReplicationSubnetGroupDetails {
 
 /// Provides details about the virtual private cloud (VPC) security group that’s
 /// associated with the replication instance.
+///
+/// @nodoc
 class AwsDmsReplicationInstanceVpcSecurityGroupsDetails {
   /// The identifier of the VPC security group that’s associated with the
   /// replication instance.
@@ -33082,6 +33792,8 @@ class AwsDmsReplicationInstanceVpcSecurityGroupsDetails {
 /// Indicates whether replication is enabled or disabled for the endpoint. If
 /// enabled, the endpoint can replicate all events to a secondary Amazon Web
 /// Services Region.
+///
+/// @nodoc
 class AwsEventsEndpointReplicationConfigDetails {
   /// The state of event replication.
   final String? state;
@@ -33106,6 +33818,8 @@ class AwsEventsEndpointReplicationConfigDetails {
 }
 
 /// Provides details about the routing configuration of the endpoint.
+///
+/// @nodoc
 class AwsEventsEndpointRoutingConfigDetails {
   /// The failover configuration for an endpoint. This includes what triggers
   /// failover and what happens when it's triggered.
@@ -33135,6 +33849,8 @@ class AwsEventsEndpointRoutingConfigDetails {
 
 /// The failover configuration for an endpoint. This includes what triggers
 /// failover and what happens when it's triggered.
+///
+/// @nodoc
 class AwsEventsEndpointRoutingConfigFailoverConfigDetails {
   /// The main Region of the endpoint.
   final AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails? primary;
@@ -33174,6 +33890,8 @@ class AwsEventsEndpointRoutingConfigFailoverConfigDetails {
 
 /// Provides details about the primary Amazon Web Services Region of the
 /// endpoint.
+///
+/// @nodoc
 class AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails {
   /// The Amazon Resource Name (ARN) of the health check used by the endpoint to
   /// determine whether failover is triggered.
@@ -33200,6 +33918,8 @@ class AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails {
 
 /// The Amazon Web Services Region that events are routed to when failover is
 /// triggered or event replication is enabled.
+///
+/// @nodoc
 class AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails {
   /// Defines the secondary Region.
   final String? route;
@@ -33225,6 +33945,8 @@ class AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails {
 
 /// Provides details about the Amazon EventBridge event buses that the endpoint
 /// is associated with.
+///
+/// @nodoc
 class AwsEventsEndpointEventBusesDetails {
   /// The Amazon Resource Name (ARN) of the event bus that the endpoint is
   /// associated with.
@@ -33254,6 +33976,8 @@ class AwsEventsEndpointEventBusesDetails {
 /// encryption option, if any, used for query results, whether Amazon CloudWatch
 /// metrics are enabled for the workgroup, and the limit for the amount of bytes
 /// scanned (cutoff) per query, if it is specified.
+///
+/// @nodoc
 class AwsAthenaWorkGroupConfigurationDetails {
   /// The location in Amazon S3 where query and calculation results are stored and
   /// the encryption option, if any, used for query and calculation results. These
@@ -33290,6 +34014,8 @@ class AwsAthenaWorkGroupConfigurationDetails {
 /// query and calculation results. These are known as client-side settings. If
 /// workgroup settings override client-side settings, then the query uses the
 /// workgroup settings.
+///
+/// @nodoc
 class AwsAthenaWorkGroupConfigurationResultConfigurationDetails {
   /// Specifies the method used to encrypt the user’s data stores in the Athena
   /// workgroup.
@@ -33321,6 +34047,8 @@ class AwsAthenaWorkGroupConfigurationResultConfigurationDetails {
 
 /// Specifies the method used to encrypt the user’s data stores in the Athena
 /// workgroup.
+///
+/// @nodoc
 class AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails {
   /// Indicates whether Amazon Simple Storage Service (Amazon S3) server-side
   /// encryption with Amazon S3 managed keys (SSE_S3), server-side encryption with
@@ -33357,6 +34085,8 @@ class AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationD
 
 /// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
 /// Logs options.
+///
+/// @nodoc
 class AwsStepFunctionStateMachineLoggingConfigurationDetails {
   /// An array of objects that describes where your execution history events will
   /// be logged.
@@ -33405,6 +34135,8 @@ class AwsStepFunctionStateMachineLoggingConfigurationDetails {
 }
 
 /// Specifies whether X-Ray tracing is enabled.
+///
+/// @nodoc
 class AwsStepFunctionStateMachineTracingConfigurationDetails {
   /// When set to true, X-Ray tracing is enabled.
   final bool? enabled;
@@ -33430,6 +34162,8 @@ class AwsStepFunctionStateMachineTracingConfigurationDetails {
 
 /// An array of objects that describes where your execution history events will
 /// be logged.
+///
+/// @nodoc
 class AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails {
   /// An object describing a CloudWatch Logs log group. For more information, see
   /// <a
@@ -33466,6 +34200,8 @@ class AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html">
 /// Amazon Web Services::Logs::LogGroup</a> in the <i>CloudFormation User
 /// Guide</i>.
+///
+/// @nodoc
 class AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails {
   /// The ARN (ends with <code>:*</code>) of the CloudWatch Logs log group to
   /// which you want your logs emitted.
@@ -33491,6 +34227,8 @@ class AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsL
 }
 
 /// Describes which data sources are activated for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesDetails {
   /// An object that contains information on the status of CloudTrail as a data
   /// source for the detector.
@@ -33575,6 +34313,8 @@ class AwsGuardDutyDetectorDataSourcesDetails {
 }
 
 /// Describes which features are activated for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorFeaturesDetails {
   /// Indicates the name of the feature that is activated for the detector.
   final String? name;
@@ -33607,6 +34347,8 @@ class AwsGuardDutyDetectorFeaturesDetails {
 
 /// An object that contains information on the status of CloudTrail as a data
 /// source for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesCloudTrailDetails {
   /// Specifies whether CloudTrail is activated as a data source for the detector.
   final String? status;
@@ -33632,6 +34374,8 @@ class AwsGuardDutyDetectorDataSourcesCloudTrailDetails {
 
 /// An object that contains information on the status of DNS logs as a data
 /// source for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesDnsLogsDetails {
   /// Describes whether DNS logs is enabled as a data source for the detector.
   final String? status;
@@ -33657,6 +34401,8 @@ class AwsGuardDutyDetectorDataSourcesDnsLogsDetails {
 
 /// An object that contains information on the status of VPC Flow Logs as a data
 /// source for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesFlowLogsDetails {
   /// Describes whether VPC Flow Logs are activated as a data source for the
   /// detector.
@@ -33683,6 +34429,8 @@ class AwsGuardDutyDetectorDataSourcesFlowLogsDetails {
 
 /// An object that contains information on the status of Kubernetes data sources
 /// for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesKubernetesDetails {
   /// Describes whether Kubernetes audit logs are activated as a data source for
   /// the detector.
@@ -33712,6 +34460,8 @@ class AwsGuardDutyDetectorDataSourcesKubernetesDetails {
 
 /// An object that contains information on the status of Malware Protection as a
 /// data source for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails {
   /// Describes the configuration of Malware Protection for EC2 instances with
   /// findings.
@@ -33751,6 +34501,8 @@ class AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails {
 
 /// An object that contains information on the status of S3 data event logs as a
 /// data source for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesS3LogsDetails {
   /// A value that describes whether S3 data event logs are automatically enabled
   /// for new members of an organization.
@@ -33777,6 +34529,8 @@ class AwsGuardDutyDetectorDataSourcesS3LogsDetails {
 
 /// Describes the configuration of Malware Protection for EC2 instances with
 /// findings.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails {
   /// Describes the configuration of scanning EBS volumes (Malware Protection) as
   /// a data source.
@@ -33807,6 +34561,8 @@ class AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFinding
 
 /// Describes the configuration of scanning EBS volumes (Malware Protection) as
 /// a data source.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails {
   /// Specifies the reason why scanning EBS volumes (Malware Protection) isn’t
   /// activated as a data source.
@@ -33841,6 +34597,8 @@ class AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFinding
 
 /// An object that contains information on the status of Kubernetes audit logs
 /// as a data source for the detector.
+///
+/// @nodoc
 class AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails {
   /// Describes whether Kubernetes audit logs are activated as a data source for
   /// the detector.
@@ -33867,6 +34625,8 @@ class AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails {
 
 /// Specifies the authorization configuration for using an OpenID Connect
 /// compliant service with your AppSync GraphQL API endpoint.
+///
+/// @nodoc
 class AwsAppSyncGraphQlApiOpenIdConnectConfigDetails {
   /// The number of milliseconds that a token is valid after being authenticated.
   final int? authTtL;
@@ -33918,6 +34678,8 @@ class AwsAppSyncGraphQlApiOpenIdConnectConfigDetails {
 
 /// Specifies the authorization configuration for using an Lambda function with
 /// your AppSync GraphQL API endpoint.
+///
+/// @nodoc
 class AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails {
   /// The number of seconds a response should be cached for. The default is 5
   /// minutes (300 seconds).
@@ -33965,6 +34727,8 @@ class AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails {
 
 /// Specifies the authorization configuration for using Amazon Cognito user
 /// pools with your AppSync GraphQL API endpoint.
+///
+/// @nodoc
 class AwsAppSyncGraphQlApiUserPoolConfigDetails {
   /// A regular expression for validating the incoming Amazon Cognito user pools
   /// app client ID. If this value isn't set, no filtering is applied.
@@ -34014,6 +34778,8 @@ class AwsAppSyncGraphQlApiUserPoolConfigDetails {
 
 /// Specifies the logging configuration when writing GraphQL operations and
 /// tracing to Amazon CloudWatch for an AppSync GraphQL API.
+///
+/// @nodoc
 class AwsAppSyncGraphQlApiLogConfigDetails {
   /// The Amazon Resource Name (ARN) of the service role that AppSync assumes to
   /// publish to CloudWatch Logs in your account.
@@ -34057,6 +34823,8 @@ class AwsAppSyncGraphQlApiLogConfigDetails {
 }
 
 /// A list of additional authentication providers for the GraphqlApi API.
+///
+/// @nodoc
 class AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails {
   /// The type of security configuration for your GraphQL API: API key, Identity
   /// and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user
@@ -34116,6 +34884,8 @@ class AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails {
 }
 
 /// Provides details about broker encryption options.
+///
+/// @nodoc
 class AwsAmazonMqBrokerEncryptionOptionsDetails {
   /// The KMS key that’s used to encrypt your data at rest. If not provided,
   /// Amazon MQ will use a default KMS key to encrypt your data.
@@ -34152,6 +34922,8 @@ class AwsAmazonMqBrokerEncryptionOptionsDetails {
 /// The metadata of the Lightweight Directory Access Protocol (LDAP) server used
 /// to authenticate and authorize connections to the broker. This is an optional
 /// failover server.
+///
+/// @nodoc
 class AwsAmazonMqBrokerLdapServerMetadataDetails {
   /// Specifies the location of the LDAP server, such as Amazon Web Services
   /// Directory Service for Microsoft Active Directory.
@@ -34249,6 +35021,8 @@ class AwsAmazonMqBrokerLdapServerMetadataDetails {
 }
 
 /// Provides information about logs to be activated for the specified broker.
+///
+/// @nodoc
 class AwsAmazonMqBrokerLogsDetails {
   /// Activates audit logging. Every user management action made using JMX or the
   /// ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
@@ -34306,6 +35080,8 @@ class AwsAmazonMqBrokerLogsDetails {
 
 /// The scheduled time period (UTC) during which Amazon MQ begins to apply
 /// pending updates or patches to the broker.
+///
+/// @nodoc
 class AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails {
   /// The day of the week on which the maintenance window falls.
   final String? dayOfWeek;
@@ -34346,6 +35122,8 @@ class AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails {
 
 /// Provides details about the broker usernames for the specified broker.
 /// Doesn't apply to RabbitMQ brokers.
+///
+/// @nodoc
 class AwsAmazonMqBrokerUsersDetails {
   /// The type of change pending for the broker user.
   final String? pendingChange;
@@ -34376,6 +35154,8 @@ class AwsAmazonMqBrokerUsersDetails {
 }
 
 /// Provides information about logs to be activated for the specified broker.
+///
+/// @nodoc
 class AwsAmazonMqBrokerLogsPendingDetails {
   /// Activates audit logging. Every user management action made using JMX or the
   /// ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
@@ -34408,6 +35188,8 @@ class AwsAmazonMqBrokerLogsPendingDetails {
 }
 
 /// Provides details about the routes in the route table.
+///
+/// @nodoc
 class RouteSetDetails {
   /// The ID of the carrier gateway.
   final String? carrierGatewayId;
@@ -34542,6 +35324,8 @@ class RouteSetDetails {
 }
 
 /// Describes a virtual private gateway propagating route.
+///
+/// @nodoc
 class PropagatingVgwSetDetails {
   /// The ID of the virtual private gateway.
   final String? gatewayId;
@@ -34565,6 +35349,8 @@ class PropagatingVgwSetDetails {
 }
 
 /// The associations between a route table and one or more subnets or a gateway.
+///
+/// @nodoc
 class AssociationSetDetails {
   /// The state of the association between a route table and a subnet or gateway.
   final AssociationStateDetails? associationState;
@@ -34629,6 +35415,8 @@ class AssociationSetDetails {
 
 /// Describes the state of an association between a route table and a subnet or
 /// gateway.
+///
+/// @nodoc
 class AssociationStateDetails {
   /// The state of the association.
   final String? state;
@@ -34660,6 +35448,8 @@ class AssociationStateDetails {
 
 /// Defines and enables Amazon CloudWatch metrics and web request sample
 /// collection.
+///
+/// @nodoc
 class AwsWafv2VisibilityConfigDetails {
   /// A boolean indicating whether the associated resource sends metrics to Amazon
   /// CloudWatch. For the list of available metrics, see <a
@@ -34707,6 +35497,8 @@ class AwsWafv2VisibilityConfigDetails {
 /// that you want to allow, block, or count. Each rule includes one top-level
 /// Statement that WAF uses to identify matching web requests, and parameters
 /// that govern how WAF handles them.
+///
+/// @nodoc
 class AwsWafv2RulesDetails {
   /// The action that WAF should take on a web request when it matches the rule
   /// statement. Settings at the web ACL level can override the rule action
@@ -34773,6 +35565,8 @@ class AwsWafv2RulesDetails {
 /// The action that WAF should take on a web request when it matches a rule's
 /// statement. Settings at the web ACL level can override the rule action
 /// setting.
+///
+/// @nodoc
 class AwsWafv2RulesActionDetails {
   /// Instructs WAF to allow the web request.
   final AwsWafv2ActionAllowDetails? allow;
@@ -34831,6 +35625,8 @@ class AwsWafv2RulesActionDetails {
 
 /// Specifies that WAF should allow the request and optionally defines
 /// additional custom handling for the request.
+///
+/// @nodoc
 class AwsWafv2ActionAllowDetails {
   /// Defines custom handling for the web request. For information about
   /// customizing web requests and responses, see <a
@@ -34862,6 +35658,8 @@ class AwsWafv2ActionAllowDetails {
 
 /// Specifies that WAF should block the request and optionally defines
 /// additional custom handling for the response to the web request.
+///
+/// @nodoc
 class AwsWafv2ActionBlockDetails {
   /// Defines a custom response for the web request. For information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
@@ -34890,6 +35688,8 @@ class AwsWafv2ActionBlockDetails {
 }
 
 /// Specifies that WAF should run a CAPTCHA check against the request.
+///
+/// @nodoc
 class AwsWafv2RulesActionCaptchaDetails {
   /// Defines custom handling for the web request, used when the CAPTCHA
   /// inspection determines that the request's token is valid and unexpired. For
@@ -34922,6 +35722,8 @@ class AwsWafv2RulesActionCaptchaDetails {
 }
 
 /// Specifies that WAF should count the request.
+///
+/// @nodoc
 class AwsWafv2RulesActionCountDetails {
   /// Defines custom handling for the web request. For more information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
@@ -34953,6 +35755,8 @@ class AwsWafv2RulesActionCountDetails {
 /// Custom request handling behavior that inserts custom headers into a web
 /// request. WAF uses custom request handling when the rule action doesn't block
 /// the request.
+///
+/// @nodoc
 class AwsWafv2CustomRequestHandlingDetails {
   /// The HTTP headers to insert into the request.
   final List<AwsWafv2CustomHttpHeader>? insertHeaders;
@@ -34981,6 +35785,8 @@ class AwsWafv2CustomRequestHandlingDetails {
 }
 
 /// A custom header for custom request and response handling.
+///
+/// @nodoc
 class AwsWafv2CustomHttpHeader {
   /// The name of the custom header.
   final String? name;
@@ -35012,6 +35818,8 @@ class AwsWafv2CustomHttpHeader {
 
 /// A custom response to send to the client. You can define a custom response
 /// for rule actions and default web ACL actions that are set to block.
+///
+/// @nodoc
 class AwsWafv2CustomResponseDetails {
   /// References the response body that you want WAF to return to the web request
   /// client. You can define a custom response for a rule action or a default web
@@ -35060,6 +35868,8 @@ class AwsWafv2CustomResponseDetails {
 
 /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't
 /// have their own <code>CaptchaConfig</code> settings.
+///
+/// @nodoc
 class AwsWafv2WebAclCaptchaConfigDetails {
   /// Determines how long a CAPTCHA timestamp in the token remains valid after the
   /// client successfully solves a CAPTCHA puzzle.
@@ -35091,6 +35901,8 @@ class AwsWafv2WebAclCaptchaConfigDetails {
 
 /// Specifies the action that Amazon CloudFront or WAF takes when a web request
 /// matches the conditions in the rule.
+///
+/// @nodoc
 class AwsWafv2WebAclActionDetails {
   /// Specifies that WAF should allow requests by default.
   final AwsWafv2ActionAllowDetails? allow;
@@ -35129,6 +35941,8 @@ class AwsWafv2WebAclActionDetails {
 /// Used for CAPTCHA and challenge token settings. Determines how long a CAPTCHA
 /// or challenge timestamp remains valid after WAF updates it for a successful
 /// CAPTCHA or challenge response.
+///
+/// @nodoc
 class AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails {
   /// The amount of time, in seconds, that a CAPTCHA or challenge timestamp is
   /// considered valid by WAF.
@@ -35155,6 +35969,8 @@ class AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails {
 
 /// Information on the instance metadata service (IMDS) configuration of the
 /// notebook instance.
+///
+/// @nodoc
 class AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails {
   /// Indicates the minimum IMDS version that the notebook instance supports.
   final String? minimumInstanceMetadataServiceVersion;
@@ -35184,6 +36000,8 @@ class AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails {
 
 /// The information to include in an Amazon Elastic Compute Cloud (Amazon EC2)
 /// launch template.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataDetails {
   /// Information about a block device mapping for an Amazon EC2 launch template.
   final List<AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails>?
@@ -35527,6 +36345,8 @@ class AwsEc2LaunchTemplateDataDetails {
 
 /// Specifies the Capacity Reservation targeting option of an Amazon EC2
 /// instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails {
   /// Indicates the instance's Capacity Reservation preferences. If equal to
   /// <code>open</code>, the instance can run in any open Capacity Reservation
@@ -35574,6 +36394,8 @@ class AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails {
 /// see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimize
 /// CPU options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataCpuOptionsDetails {
   /// The number of CPU cores for the instance.
   final int? coreCount;
@@ -35607,6 +36429,8 @@ class AwsEc2LaunchTemplateDataCpuOptionsDetails {
 
 /// Specifies the credit option for CPU usage of a T2, T3, or T3a Amazon EC2
 /// instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataCreditSpecificationDetails {
   /// The credit option for CPU usage of a T instance.
   final String? cpuCredits;
@@ -35632,6 +36456,8 @@ class AwsEc2LaunchTemplateDataCreditSpecificationDetails {
 
 /// Indicates whether the instance is enabled for Amazon Web Services Nitro
 /// Enclaves.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataEnclaveOptionsDetails {
   /// If this parameter is set to <code>true</code>, the instance is enabled for
   /// Amazon Web Services Nitro Enclaves.
@@ -35657,6 +36483,8 @@ class AwsEc2LaunchTemplateDataEnclaveOptionsDetails {
 }
 
 /// Specifies whether your Amazon EC2 instance is configured for hibernation.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataHibernationOptionsDetails {
   /// If you set this parameter to <code>true</code>, the instance is enabled for
   /// hibernation.
@@ -35683,6 +36511,8 @@ class AwsEc2LaunchTemplateDataHibernationOptionsDetails {
 
 /// Provides details for an Identity and Access Management (IAM) instance
 /// profile, which is a container for an IAM role for your instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataIamInstanceProfileDetails {
   /// The Amazon Resource Name (ARN) of the instance profile.
   final String? arn;
@@ -35715,6 +36545,8 @@ class AwsEc2LaunchTemplateDataIamInstanceProfileDetails {
 
 /// Provides details about the market (purchasing) option for an Amazon EC2
 /// instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails {
   /// The market type.
   final String? marketType;
@@ -35750,6 +36582,8 @@ class AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails {
 }
 
 /// The attributes for the Amazon EC2 instance types.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
   /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web
   /// Services Inferentia chips) on an instance.
@@ -36016,6 +36850,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
 }
 
 /// The maintenance options of an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataMaintenanceOptionsDetails {
   /// Disables the automatic recovery behavior of your instance or sets it to
   /// default.
@@ -36041,6 +36877,8 @@ class AwsEc2LaunchTemplateDataMaintenanceOptionsDetails {
 }
 
 /// Specifies the metadata options for an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataMetadataOptionsDetails {
   /// Enables or disables the HTTP metadata endpoint on your instances. If the
   /// parameter is not specified, the default state is enabled, and you won't be
@@ -36104,6 +36942,8 @@ class AwsEc2LaunchTemplateDataMetadataOptionsDetails {
 }
 
 /// The monitoring for an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataMonitoringDetails {
   /// Enables detailed monitoring when <code>true</code> is specified. Otherwise,
   /// basic monitoring is enabled. For more information about detailed monitoring,
@@ -36133,6 +36973,8 @@ class AwsEc2LaunchTemplateDataMonitoringDetails {
 }
 
 /// Provides details about the placement of an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataPlacementDetails {
   /// The affinity setting for an instance on an EC2 Dedicated Host.
   final String? affinity;
@@ -36209,6 +37051,8 @@ class AwsEc2LaunchTemplateDataPlacementDetails {
 }
 
 /// Describes the options for Amazon EC2 instance hostnames.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails {
   /// Indicates whether to respond to DNS queries for instance hostnames with DNS
   /// AAAA records.
@@ -36256,6 +37100,8 @@ class AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails {
 /// One or more network interfaces to attach to an Amazon EC2 instance. If you
 /// specify a network interface, you must specify security groups and subnets as
 /// part of the network interface.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails {
   /// Indicates whether to associate a Carrier IP address with eth0 for a new
   /// network interface. You use this option when you launch an instance in a
@@ -36455,6 +37301,8 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails {
 }
 
 /// One or more private IPv4 addresses.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails {
   /// Indicates whether the private IPv4 address is the primary private IPv4
   /// address. Only one IPv4 address can be designated as primary.
@@ -36488,6 +37336,8 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails {
 
 /// Provides details on one or more IPv6 prefixes to be assigned to the network
 /// interface.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails {
   /// The IPv6 prefix.
   final String? ipv6Prefix;
@@ -36512,6 +37362,8 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails {
 }
 
 /// Specifies an IPv6 address in an Amazon EC2 launch template.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails {
   /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your
   /// subnet.
@@ -36537,6 +37389,8 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails {
 }
 
 /// Provides details on one or more IPv4 prefixes for a network interface.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails {
   /// The IPv4 prefix. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html">Assigning
@@ -36564,6 +37418,8 @@ class AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails {
 }
 
 /// Provides details about the license configuration for an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataLicenseSetDetails {
   /// The Amazon Resource Name (ARN) of the license configuration.
   final String? licenseConfigurationArn;
@@ -36590,6 +37446,8 @@ class AwsEc2LaunchTemplateDataLicenseSetDetails {
 
 /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web
 /// Services Inferentia chips) on an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails {
   /// The maximum number of accelerators. If this parameter isn't specified,
   /// there's no maximum limit. To exclude accelerator-enabled instance types, set
@@ -36625,6 +37483,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails {
 
 /// The minimum and maximum amount of memory, in MiB, for the accelerators on an
 /// Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails {
   /// The maximum amount of memory, in MiB. If this parameter isn't specified,
   /// there's no maximum limit.
@@ -36661,6 +37521,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetai
 /// (Amazon EBS), in Mbps. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
 /// EBS–optimized instances </a> in the <i>Amazon EC2 User Guide</i>.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails {
   /// The maximum baseline bandwidth, in Mbps. If this parameter is omitted,
   /// there's no maximum limit.
@@ -36694,6 +37556,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetail
 }
 
 /// The minimum and maximum amount of memory per vCPU, in GiB.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails {
   /// The maximum amount of memory per vCPU, in GiB. If this parameter is omitted,
   /// there's no maximum limit.
@@ -36728,6 +37592,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails {
 
 /// The minimum and maximum amount of memory, in MiB, for an Amazon EC2
 /// instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails {
   /// The maximum amount of memory, in MiB.
   final int? max;
@@ -36760,6 +37626,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails {
 
 /// The minimum and maximum number of network interfaces to be attached to an
 /// Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails {
   /// The maximum number of network interfaces.
   final int? max;
@@ -36792,6 +37660,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails {
 
 /// The minimum and maximum amount of total local storage, in GB, that an Amazon
 /// EC2 instance uses.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails {
   /// The maximum amount of total local storage, in GB.
   final double? max;
@@ -36823,6 +37693,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails {
 }
 
 /// The minimum and maximum number of vCPUs for an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails {
   /// The maximum number of vCPUs.
   final int? max;
@@ -36854,6 +37726,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails {
 }
 
 /// Provides details about the market (purchasing) options for Spot Instances.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails {
   /// Deprecated.
   final int? blockDurationMinutes;
@@ -36910,6 +37784,8 @@ class AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails {
 }
 
 /// Provides details for an Amazon Elastic Inference accelerator.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails {
   /// The number of Elastic Inference accelerators to attach to the instance.
   final int? count;
@@ -36942,6 +37818,8 @@ class AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails {
 
 /// Provides details about an Elastic Graphics specification for an Amazon EC2
 /// launch template.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails {
   /// The type of Elastic Graphics accelerator.
   final String? type;
@@ -36967,6 +37845,8 @@ class AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails {
 
 /// Information about the target Capacity Reservation or Capacity Reservation
 /// group in which to run an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails {
   /// The ID of the Capacity Reservation in which to run the instance.
   final String? capacityReservationId;
@@ -37005,6 +37885,8 @@ class AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservatio
 
 /// Information about a block device mapping for an Amazon Elastic Compute Cloud
 /// (Amazon EC2) launch template.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails {
   /// The device name.
   final String? deviceName;
@@ -37060,6 +37942,8 @@ class AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails {
 
 /// Parameters for a block device for an Amazon Elastic Block Store (Amazon EBS)
 /// volume in an Amazon EC2 launch template.
+///
+/// @nodoc
 class AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails {
   /// Indicates whether the EBS volume is deleted on instance termination.
   final bool? deleteOnTermination;
@@ -37139,6 +38023,8 @@ class AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails {
 
 /// Specifies how long in days before a recovery point transitions to cold
 /// storage or is deleted.
+///
+/// @nodoc
 class AwsBackupRecoveryPointCalculatedLifecycleDetails {
   /// Specifies the number of days after creation that a recovery point is
   /// deleted. Must be greater than 90 days plus
@@ -37175,6 +38061,8 @@ class AwsBackupRecoveryPointCalculatedLifecycleDetails {
 
 /// Contains information about the backup plan and rule that Backup used to
 /// initiate the recovery point backup.
+///
+/// @nodoc
 class AwsBackupRecoveryPointCreatedByDetails {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan.
   final String? backupPlanArn;
@@ -37223,6 +38111,8 @@ class AwsBackupRecoveryPointCreatedByDetails {
 
 /// Contains an array of Transition objects specifying how long in days before a
 /// recovery point transitions to cold storage or is deleted.
+///
+/// @nodoc
 class AwsBackupRecoveryPointLifecycleDetails {
   /// Specifies the number of days after creation that a recovery point is
   /// deleted. Must be greater than 90 days plus
@@ -37259,6 +38149,8 @@ class AwsBackupRecoveryPointLifecycleDetails {
 
 /// Provides details about an Backup backup plan and an array of
 /// <code>BackupRule</code> objects, each of which specifies a backup rule.
+///
+/// @nodoc
 class AwsBackupBackupPlanBackupPlanDetails {
   /// A list of backup options for each resource type.
   final List<AwsBackupBackupPlanAdvancedBackupSettingsDetails>?
@@ -37310,6 +38202,8 @@ class AwsBackupBackupPlanBackupPlanDetails {
 /// Provides details about an array of <code>BackupRule</code> objects, each of
 /// which specifies a scheduled task that is used to back up a selection of
 /// resources.
+///
+/// @nodoc
 class AwsBackupBackupPlanRuleDetails {
   /// A value in minutes after a backup job is successfully started before it must
   /// be completed, or it is canceled by Backup.
@@ -37414,6 +38308,8 @@ class AwsBackupBackupPlanRuleDetails {
 
 /// Provides lifecycle details for the backup plan. A lifecycle defines when a
 /// backup is transitioned to cold storage and when it expires.
+///
+/// @nodoc
 class AwsBackupBackupPlanLifecycleDetails {
   /// Specifies the number of days after creation that a recovery point is
   /// deleted. Must be greater than 90 days plus
@@ -37450,6 +38346,8 @@ class AwsBackupBackupPlanLifecycleDetails {
 
 /// An array of <code>CopyAction</code> objects, each of which contains details
 /// of the copy operation.
+///
+/// @nodoc
 class AwsBackupBackupPlanRuleCopyActionsDetails {
   /// An Amazon Resource Name (ARN) that uniquely identifies the destination
   /// backup vault for the copied backup.
@@ -37492,6 +38390,8 @@ class AwsBackupBackupPlanRuleCopyActionsDetails {
 }
 
 /// Provides a list of backup options for each resource type.
+///
+/// @nodoc
 class AwsBackupBackupPlanAdvancedBackupSettingsDetails {
   /// Specifies the backup option for a selected resource. This option is only
   /// available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid
@@ -37541,6 +38441,8 @@ class AwsBackupBackupPlanAdvancedBackupSettingsDetails {
 
 /// Provides details about the Amazon SNS event notifications for the specified
 /// backup vault.
+///
+/// @nodoc
 class AwsBackupBackupVaultNotificationsDetails {
   /// An array of events that indicate the status of jobs to back up resources to
   /// the backup vault. The following events are supported:
@@ -37593,6 +38495,8 @@ class AwsBackupBackupVaultNotificationsDetails {
 }
 
 /// Provides information about a data volume that's used in a task definition.
+///
+/// @nodoc
 class AwsEcsTaskVolumeDetails {
   /// This parameter is specified when you use bind mount host volumes. The
   /// contents of the <code>host</code> parameter determine whether your bind
@@ -37632,6 +38536,8 @@ class AwsEcsTaskVolumeDetails {
 }
 
 /// Provides details on a container instance bind mount host volume.
+///
+/// @nodoc
 class AwsEcsTaskVolumeHostDetails {
   /// When the <code>host</code> parameter is used, specify a
   /// <code>sourcePath</code> to declare the path on the host container instance
@@ -37658,6 +38564,8 @@ class AwsEcsTaskVolumeHostDetails {
 
 /// Provides information about the rules attached to the rule group. These rules
 /// identify the web requests that you want to allow, block, or count.
+///
+/// @nodoc
 class AwsWafRuleGroupRulesDetails {
   /// Provides information about what action WAF should take on a web request when
   /// it matches the criteria defined in the rule.
@@ -37708,6 +38616,8 @@ class AwsWafRuleGroupRulesDetails {
 
 /// Provides information about what action WAF should take on a web request when
 /// it matches the criteria defined in the rule.
+///
+/// @nodoc
 class AwsWafRuleGroupRulesActionDetails {
   /// The action that WAF should take on a web request when it matches the rule's
   /// statement.
@@ -37737,6 +38647,8 @@ class AwsWafRuleGroupRulesActionDetails {
 /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
 /// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
 /// for each object, indicates whether you want to negate the settings.
+///
+/// @nodoc
 class AwsWafRulePredicateListDetails {
   /// A unique identifier for a predicate in a rule, such as
   /// <code>ByteMatchSetId</code> or <code>IPSetId</code>.
@@ -37782,6 +38694,8 @@ class AwsWafRulePredicateListDetails {
 /// A combination of <code>ByteMatchSet</code>, <code>IPSet</code>, and/or
 /// <code>SqlInjectionMatchSet</code> objects that identify the web requests
 /// that you want to allow, block, or count.
+///
+/// @nodoc
 class AwsWafRegionalWebAclRulesListDetails {
   /// The action that WAF takes when a web request matches all conditions in the
   /// rule, such as allow, block, or count the request.
@@ -37843,6 +38757,8 @@ class AwsWafRegionalWebAclRulesListDetails {
 
 /// The action that WAF takes when a web request matches all conditions in the
 /// rule, such as allow, block, or count the request.
+///
+/// @nodoc
 class AwsWafRegionalWebAclRulesListActionDetails {
   /// For actions that are associated with a rule, the action that WAF takes when
   /// a web request matches all conditions in a rule.
@@ -37869,6 +38785,8 @@ class AwsWafRegionalWebAclRulesListActionDetails {
 
 /// Provides details about the action to use in the place of the action that
 /// results from the rule group evaluation.
+///
+/// @nodoc
 class AwsWafRegionalWebAclRulesListOverrideActionDetails {
   /// Overrides the rule evaluation result in the rule group.
   final String? type;
@@ -37897,6 +38815,8 @@ class AwsWafRegionalWebAclRulesListOverrideActionDetails {
 /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
 /// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
 /// for each object, indicates whether you want to negate the settings.
+///
+/// @nodoc
 class AwsWafRegionalRulePredicateListDetails {
   /// A unique identifier for a predicate in a rule, such as
   /// <code>ByteMatchSetId</code> or <code>IPSetId</code>.
@@ -37941,6 +38861,8 @@ class AwsWafRegionalRulePredicateListDetails {
 }
 
 /// Provides information about the rules attached to a rule group
+///
+/// @nodoc
 class AwsWafRegionalRuleGroupRulesDetails {
   /// The action that WAF should take on a web request when it matches the
   /// criteria defined in the rule.
@@ -37992,6 +38914,8 @@ class AwsWafRegionalRuleGroupRulesDetails {
 
 /// Describes the action that WAF should take on a web request when it matches
 /// the criteria defined in the rule.
+///
+/// @nodoc
 class AwsWafRegionalRuleGroupRulesActionDetails {
   /// Specifies the <code>ByteMatchSet</code>, <code>IPSet</code>,
   /// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
@@ -38020,6 +38944,8 @@ class AwsWafRegionalRuleGroupRulesActionDetails {
 }
 
 /// Describes a VPC in a VPC peering connection.
+///
+/// @nodoc
 class AwsEc2VpcPeeringConnectionVpcInfoDetails {
   /// The IPv4 CIDR block for the VPC.
   final String? cidrBlock;
@@ -38098,6 +39024,8 @@ class AwsEc2VpcPeeringConnectionVpcInfoDetails {
 }
 
 /// Details about the status of the VPC peering connection.
+///
+/// @nodoc
 class AwsEc2VpcPeeringConnectionStatusDetails {
   /// The status of the VPC peering connection.
   final String? code;
@@ -38130,6 +39058,8 @@ class AwsEc2VpcPeeringConnectionStatusDetails {
 
 /// Provides information about the VPC peering connection options for the
 /// accepter or requester VPC.
+///
+/// @nodoc
 class VpcInfoPeeringOptionsDetails {
   /// Indicates whether a local VPC can resolve public DNS hostnames to private IP
   /// addresses when queried from instances in a peer VPC.
@@ -38181,6 +39111,8 @@ class VpcInfoPeeringOptionsDetails {
 }
 
 /// Provides details about the IPv6 CIDR blocks for the VPC.
+///
+/// @nodoc
 class VpcInfoIpv6CidrBlockSetDetails {
   /// The IPv6 CIDR block for the VPC.
   final String? ipv6CidrBlock;
@@ -38204,6 +39136,8 @@ class VpcInfoIpv6CidrBlockSetDetails {
 }
 
 /// Provides details about the IPv4 CIDR blocks for the VPC.
+///
+/// @nodoc
 class VpcInfoCidrBlockSetDetails {
   /// The IPv4 CIDR block for the VPC.
   final String? cidrBlock;
@@ -38227,6 +39161,8 @@ class VpcInfoCidrBlockSetDetails {
 }
 
 /// Details about the dimensions for the metric associated with the alarm.
+///
+/// @nodoc
 class AwsCloudWatchAlarmDimensionsDetails {
   /// The name of a dimension.
   final String? name;
@@ -38259,6 +39195,8 @@ class AwsCloudWatchAlarmDimensionsDetails {
 
 /// Provides information about the stack's conformity to its expected template
 /// configuration.
+///
+/// @nodoc
 class AwsCloudFormationStackDriftInformationDetails {
   /// Status of the stack's actual configuration compared to its expected template
   /// configuration.
@@ -38284,6 +39222,8 @@ class AwsCloudFormationStackDriftInformationDetails {
 }
 
 /// Provides information about the CloudFormation stack output.
+///
+/// @nodoc
 class AwsCloudFormationStackOutputsDetails {
   /// A user-defined description associated with the output.
   final String? description;
@@ -38323,6 +39263,8 @@ class AwsCloudFormationStackOutputsDetails {
 
 /// Provides details for all file system operations using this Amazon EFS access
 /// point.
+///
+/// @nodoc
 class AwsEfsAccessPointPosixUserDetails {
   /// The POSIX group ID used for all file system operations using this access
   /// point.
@@ -38369,6 +39311,8 @@ class AwsEfsAccessPointPosixUserDetails {
 /// Provides information about the directory on the Amazon EFS file system that
 /// the access point exposes as the root directory to NFS clients using the
 /// access point.
+///
+/// @nodoc
 class AwsEfsAccessPointRootDirectoryDetails {
   /// Specifies the POSIX IDs and permissions to apply to the access point's root
   /// directory.
@@ -38408,6 +39352,8 @@ class AwsEfsAccessPointRootDirectoryDetails {
 
 /// Provides information about the settings that Amazon EFS uses to create the
 /// root directory when a client connects to an access point.
+///
+/// @nodoc
 class AwsEfsAccessPointRootDirectoryCreationInfoDetails {
   /// Specifies the POSIX group ID to apply to the root directory.
   final String? ownerGid;
@@ -38447,6 +39393,8 @@ class AwsEfsAccessPointRootDirectoryCreationInfoDetails {
 }
 
 /// Provides information about stream encryption.
+///
+/// @nodoc
 class AwsKinesisStreamStreamEncryptionDetails {
   /// The encryption type to use.
   final String? encryptionType;
@@ -38479,6 +39427,8 @@ class AwsKinesisStreamStreamEncryptionDetails {
 }
 
 /// IP range information for an RDS DB security group.
+///
+/// @nodoc
 class AwsRdsDbSecurityGroupIpRange {
   /// Specifies the IP range.
   final String? cidrIp;
@@ -38509,6 +39459,8 @@ class AwsRdsDbSecurityGroupIpRange {
 }
 
 /// EC2 security group information for an RDS DB security group.
+///
+/// @nodoc
 class AwsRdsDbSecurityGroupEc2SecurityGroup {
   /// Specifies the ID for the EC2 security group.
   final String? ec2SecurityGroupId;
@@ -38556,6 +39508,8 @@ class AwsRdsDbSecurityGroupEc2SecurityGroup {
 }
 
 /// Details about the rule group.
+///
+/// @nodoc
 class RuleGroupDetails {
   /// Additional settings to use in the specified rules.
   final RuleGroupVariables? ruleVariables;
@@ -38598,6 +39552,8 @@ class RuleGroupDetails {
 }
 
 /// Additional settings to use in the specified rules.
+///
+/// @nodoc
 class RuleGroupVariables {
   /// A list of IP addresses and address ranges, in CIDR notation.
   final RuleGroupVariablesIpSetsDetails? ipSets;
@@ -38634,6 +39590,8 @@ class RuleGroupVariables {
 }
 
 /// The rules and actions for the rule group.
+///
+/// @nodoc
 class RuleGroupSource {
   /// Stateful inspection criteria for a domain list rule group. A domain list
   /// rule group determines access by specific protocols to specific domains.
@@ -38693,6 +39651,8 @@ class RuleGroupSource {
 }
 
 /// Stateful inspection criteria for a domain list rule group.
+///
+/// @nodoc
 class RuleGroupSourceListDetails {
   /// Indicates whether to allow or deny access to the domains listed in
   /// <code>Targets</code>.
@@ -38740,6 +39700,8 @@ class RuleGroupSourceListDetails {
 }
 
 /// Stateless rules and custom actions for a stateless rule group.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRulesAndCustomActionsDetails {
   /// Custom actions for the rule group.
   final List<RuleGroupSourceCustomActionsDetails>? customActions;
@@ -38779,6 +39741,8 @@ class RuleGroupSourceStatelessRulesAndCustomActionsDetails {
 }
 
 /// A stateless rule in the rule group.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRulesDetails {
   /// Indicates the order in which to run this rule relative to all of the rules
   /// in the stateless rule group.
@@ -38814,6 +39778,8 @@ class RuleGroupSourceStatelessRulesDetails {
 }
 
 /// The definition of the stateless rule.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleDefinition {
   /// The actions to take on a packet that matches one of the stateless rule
   /// definition's match attributes. You must specify a standard action
@@ -38853,6 +39819,8 @@ class RuleGroupSourceStatelessRuleDefinition {
 }
 
 /// Criteria for the stateless rule.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleMatchAttributes {
   /// A list of port ranges to specify the destination ports to inspect for.
   final List<RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts>?
@@ -38942,6 +39910,8 @@ class RuleGroupSourceStatelessRuleMatchAttributes {
 }
 
 /// A set of TCP flags and masks to inspect for.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleMatchAttributesTcpFlags {
   /// Defines the flags from the <code>Masks</code> setting that must be set in
   /// order for the packet to match. Flags that are listed must be set. Flags that
@@ -38978,6 +39948,8 @@ class RuleGroupSourceStatelessRuleMatchAttributesTcpFlags {
 }
 
 /// A source IP addresses and address range to inspect for.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleMatchAttributesSources {
   /// An IP address or a block of IP addresses.
   final String? addressDefinition;
@@ -39002,6 +39974,8 @@ class RuleGroupSourceStatelessRuleMatchAttributesSources {
 }
 
 /// A port range to specify the source ports to inspect for.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleMatchAttributesSourcePorts {
   /// The starting port value for the port range.
   final int? fromPort;
@@ -39033,6 +40007,8 @@ class RuleGroupSourceStatelessRuleMatchAttributesSourcePorts {
 }
 
 /// A destination IP address or range.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleMatchAttributesDestinations {
   /// An IP address or a block of IP addresses.
   final String? addressDefinition;
@@ -39057,6 +40033,8 @@ class RuleGroupSourceStatelessRuleMatchAttributesDestinations {
 }
 
 /// A port range to specify the destination ports to inspect for.
+///
+/// @nodoc
 class RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts {
   /// The starting port value for the port range.
   final int? fromPort;
@@ -39089,6 +40067,8 @@ class RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts {
 
 /// A custom action definition. A custom action is an optional, non-standard
 /// action to use for stateless packet handling.
+///
+/// @nodoc
 class RuleGroupSourceCustomActionsDetails {
   /// The definition of a custom action.
   final StatelessCustomActionDefinition? actionDefinition;
@@ -39124,6 +40104,8 @@ class RuleGroupSourceCustomActionsDetails {
 
 /// The definition of a custom action that can be used for stateless packet
 /// handling.
+///
+/// @nodoc
 class StatelessCustomActionDefinition {
   /// Information about metrics to publish to CloudWatch.
   final StatelessCustomPublishMetricAction? publishMetricAction;
@@ -39151,6 +40133,8 @@ class StatelessCustomActionDefinition {
 }
 
 /// Information about metrics to publish to CloudWatch.
+///
+/// @nodoc
 class StatelessCustomPublishMetricAction {
   /// Defines CloudWatch dimension values to publish.
   final List<StatelessCustomPublishMetricActionDimension>? dimensions;
@@ -39179,6 +40163,8 @@ class StatelessCustomPublishMetricAction {
 }
 
 /// Defines a CloudWatch dimension value to publish.
+///
+/// @nodoc
 class StatelessCustomPublishMetricActionDimension {
   /// The value to use for the custom metric dimension.
   final String? value;
@@ -39203,6 +40189,8 @@ class StatelessCustomPublishMetricActionDimension {
 }
 
 /// A Suricata rule specification.
+///
+/// @nodoc
 class RuleGroupSourceStatefulRulesDetails {
   /// Defines what Network Firewall should do with the packets in a traffic flow
   /// when the flow matches the stateful rule criteria.
@@ -39249,6 +40237,8 @@ class RuleGroupSourceStatefulRulesDetails {
 }
 
 /// The inspection criteria for a stateful rule.
+///
+/// @nodoc
 class RuleGroupSourceStatefulRulesHeaderDetails {
   /// The destination IP address or address range to inspect for, in CIDR
   /// notation. To match with any address, specify <code>ANY</code>.
@@ -39319,6 +40309,8 @@ class RuleGroupSourceStatefulRulesHeaderDetails {
 }
 
 /// A rule option for a stateful rule.
+///
+/// @nodoc
 class RuleGroupSourceStatefulRulesOptionsDetails {
   /// A keyword to look for.
   final String? keyword;
@@ -39353,6 +40345,8 @@ class RuleGroupSourceStatefulRulesOptionsDetails {
 }
 
 /// A list of IP addresses and address ranges, in CIDR notation.
+///
+/// @nodoc
 class RuleGroupVariablesIpSetsDetails {
   /// The list of IP addresses and ranges.
   final List<String>? definition;
@@ -39379,6 +40373,8 @@ class RuleGroupVariablesIpSetsDetails {
 }
 
 /// A list of port ranges.
+///
+/// @nodoc
 class RuleGroupVariablesPortSetsDetails {
   /// The list of port ranges.
   final List<String>? definition;
@@ -39406,6 +40402,8 @@ class RuleGroupVariablesPortSetsDetails {
 }
 
 /// A public subnet that Network Firewall uses for the firewall.
+///
+/// @nodoc
 class AwsNetworkFirewallFirewallSubnetMappingsDetails {
   /// The identifier of the subnet
   final String? subnetId;
@@ -39430,6 +40428,8 @@ class AwsNetworkFirewallFirewallSubnetMappingsDetails {
 }
 
 /// Defines the behavior of the firewall.
+///
+/// @nodoc
 class FirewallPolicyDetails {
   /// The stateful rule groups that are used in the firewall policy.
   final List<FirewallPolicyStatefulRuleGroupReferencesDetails>?
@@ -39523,6 +40523,8 @@ class FirewallPolicyDetails {
 }
 
 /// A stateless rule group that is used by the firewall policy.
+///
+/// @nodoc
 class FirewallPolicyStatelessRuleGroupReferencesDetails {
   /// The order in which to run the stateless rule group.
   final int? priority;
@@ -39554,6 +40556,8 @@ class FirewallPolicyStatelessRuleGroupReferencesDetails {
 }
 
 /// A custom action that can be used for stateless packet handling.
+///
+/// @nodoc
 class FirewallPolicyStatelessCustomActionsDetails {
   /// The definition of the custom action.
   final StatelessCustomActionDefinition? actionDefinition;
@@ -39588,6 +40592,8 @@ class FirewallPolicyStatelessCustomActionsDetails {
 }
 
 /// A stateful rule group that is used by the firewall policy.
+///
+/// @nodoc
 class FirewallPolicyStatefulRuleGroupReferencesDetails {
   /// The ARN of the stateful rule group.
   final String? resourceArn;
@@ -39612,6 +40618,8 @@ class FirewallPolicyStatefulRuleGroupReferencesDetails {
 }
 
 /// Information about the VPC configuration used by the cluster control plane.
+///
+/// @nodoc
 class AwsEksClusterResourcesVpcConfigDetails {
   /// Indicates whether the Amazon EKS public API server endpoint is turned on. If
   /// the Amazon EKS public API server endpoint is turned off, your cluster's
@@ -39662,6 +40670,8 @@ class AwsEksClusterResourcesVpcConfigDetails {
 }
 
 /// The logging configuration for an Amazon EKS cluster.
+///
+/// @nodoc
 class AwsEksClusterLoggingDetails {
   /// Cluster logging configurations.
   final List<AwsEksClusterLoggingClusterLoggingDetails>? clusterLogging;
@@ -39689,6 +40699,8 @@ class AwsEksClusterLoggingDetails {
 }
 
 /// Details for a cluster logging configuration.
+///
+/// @nodoc
 class AwsEksClusterLoggingClusterLoggingDetails {
   /// Whether the logging types that are listed in <code>Types</code> are enabled.
   final bool? enabled;
@@ -39739,6 +40751,8 @@ class AwsEksClusterLoggingClusterLoggingDetails {
 }
 
 /// The image scanning configuration for a repository.
+///
+/// @nodoc
 class AwsEcrRepositoryImageScanningConfigurationDetails {
   /// Whether to scan images after they are pushed to a repository.
   final bool? scanOnPush;
@@ -39763,6 +40777,8 @@ class AwsEcrRepositoryImageScanningConfigurationDetails {
 }
 
 /// Information about the lifecycle policy for the repository.
+///
+/// @nodoc
 class AwsEcrRepositoryLifecyclePolicyDetails {
   /// The text of the lifecycle policy.
   final String? lifecyclePolicyText;
@@ -39797,6 +40813,8 @@ class AwsEcrRepositoryLifecyclePolicyDetails {
 
 /// Details for a match predicate. A predicate might look for characteristics
 /// such as specific IP addresses, geographic locations, or sizes.
+///
+/// @nodoc
 class AwsWafRegionalRateBasedRuleMatchPredicate {
   /// The unique identifier for the predicate.
   final String? dataId;
@@ -39864,6 +40882,8 @@ class AwsWafRegionalRateBasedRuleMatchPredicate {
 
 /// A match predicate. A predicate might look for characteristics such as
 /// specific IP addresses, geographic locations, or sizes.
+///
+/// @nodoc
 class AwsWafRateBasedRuleMatchPredicate {
   /// The unique identifier for the predicate.
   final String? dataId;
@@ -39930,6 +40950,8 @@ class AwsWafRateBasedRuleMatchPredicate {
 }
 
 /// The service type information for a VPC endpoint service.
+///
+/// @nodoc
 class AwsEc2VpcEndpointServiceServiceTypeDetails {
   /// The type of service.
   final String? serviceType;
@@ -39955,6 +40977,8 @@ class AwsEc2VpcEndpointServiceServiceTypeDetails {
 
 /// Details about the configuration for encryption at rest for the OpenSearch
 /// domain.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails {
   /// Whether encryption at rest is enabled.
   final bool? enabled;
@@ -39986,6 +41010,8 @@ class AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails {
 }
 
 /// Provides details about the configuration for node-to-node encryption.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails {
   /// Whether node-to-node encryption is enabled.
   final bool? enabled;
@@ -40011,6 +41037,8 @@ class AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails {
 
 /// Provides information about the state of the domain relative to the latest
 /// service software.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails {
   /// The epoch time when the deployment window closes for required updates. After
   /// this time, OpenSearch Service schedules the software upgrade automatically.
@@ -40105,6 +41133,8 @@ class AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails {
 }
 
 /// Details about the configuration of an OpenSearch cluster.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainClusterConfigDetails {
   /// The number of instances to use for the master node. If this attribute is
   /// specified, then <code>DedicatedMasterEnabled</code> must be
@@ -40219,6 +41249,8 @@ class AwsOpenSearchServiceDomainClusterConfigDetails {
 }
 
 /// Information about additional options for the domain endpoint.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainDomainEndpointOptionsDetails {
   /// The fully qualified URL for the custom endpoint.
   final String? customEndpoint;
@@ -40276,6 +41308,8 @@ class AwsOpenSearchServiceDomainDomainEndpointOptionsDetails {
 
 /// Contains information that OpenSearch Service derives based on the
 /// <code>VPCOptions</code> for the domain.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainVpcOptionsDetails {
   /// The list of security group IDs that are associated with the VPC endpoints
   /// for the domain.
@@ -40315,6 +41349,8 @@ class AwsOpenSearchServiceDomainVpcOptionsDetails {
 }
 
 /// Configures the CloudWatch Logs to publish for the OpenSearch domain.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainLogPublishingOptionsDetails {
   /// Configures the OpenSearch audit logs publishing.
   final AwsOpenSearchServiceDomainLogPublishingOption? auditLogs;
@@ -40362,6 +41398,8 @@ class AwsOpenSearchServiceDomainLogPublishingOptionsDetails {
 }
 
 /// Provides information about domain access control options.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails {
   /// Enables fine-grained access control.
   final bool? enabled;
@@ -40404,6 +41442,8 @@ class AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails {
 }
 
 /// Specifies information about the master user of the domain.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainMasterUserOptionsDetails {
   /// The Amazon Resource Name (ARN) for the master user.
   final String? masterUserArn;
@@ -40442,6 +41482,8 @@ class AwsOpenSearchServiceDomainMasterUserOptionsDetails {
 }
 
 /// Configuration details for a log publishing option.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainLogPublishingOption {
   /// The ARN of the CloudWatch Logs group to publish the logs to.
   final String? cloudWatchLogsLogGroupArn;
@@ -40474,6 +41516,8 @@ class AwsOpenSearchServiceDomainLogPublishingOption {
 }
 
 /// Configuration options for zone awareness.
+///
+/// @nodoc
 class AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails {
   /// The number of Availability Zones that the domain uses. Valid values are
   /// <code>2</code> or <code>3</code>. The default is <code>2</code>.
@@ -40500,6 +41544,8 @@ class AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails {
 }
 
 /// VPN connection options.
+///
+/// @nodoc
 class AwsEc2VpnConnectionOptionsDetails {
   /// Whether the VPN connection uses static routes only.
   final bool? staticRoutesOnly;
@@ -40535,6 +41581,8 @@ class AwsEc2VpnConnectionOptionsDetails {
 }
 
 /// A static routes associated with the VPN connection.
+///
+/// @nodoc
 class AwsEc2VpnConnectionRoutesDetails {
   /// The CIDR block associated with the local subnet of the customer data center.
   final String? destinationCidrBlock;
@@ -40566,6 +41614,8 @@ class AwsEc2VpnConnectionRoutesDetails {
 }
 
 /// The VPN tunnel options.
+///
+/// @nodoc
 class AwsEc2VpnConnectionOptionsTunnelOptionsDetails {
   /// The number of seconds after which a Dead Peer Detection (DPD) timeout
   /// occurs.
@@ -40739,6 +41789,8 @@ class AwsEc2VpnConnectionOptionsTunnelOptionsDetails {
 }
 
 /// Information about the VPN tunnel.
+///
+/// @nodoc
 class AwsEc2VpnConnectionVgwTelemetryDetails {
   /// The number of accepted routes.
   final int? acceptedRouteCount;
@@ -40804,6 +41856,8 @@ class AwsEc2VpnConnectionVgwTelemetryDetails {
 }
 
 /// Information about the type of monitoring for instances in the group.
+///
+/// @nodoc
 class AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails {
   /// If set to <code>true</code>, then instances in the group launch with
   /// detailed monitoring.
@@ -40832,6 +41886,8 @@ class AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails {
 }
 
 /// The metadata options for the instances.
+///
+/// @nodoc
 class AwsAutoScalingLaunchConfigurationMetadataOptions {
   /// Enables or disables the HTTP metadata endpoint on your instances. By
   /// default, the metadata endpoint is enabled.
@@ -40875,6 +41931,8 @@ class AwsAutoScalingLaunchConfigurationMetadataOptions {
 }
 
 /// A block device for the instance.
+///
+/// @nodoc
 class AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails {
   /// The device name that is exposed to the EC2 instance. For example,
   /// <code>/dev/sdh</code> or <code>xvdh</code>.
@@ -40933,6 +41991,8 @@ class AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails {
 
 /// Parameters that are used to automatically set up EBS volumes when an
 /// instance is launched.
+///
+/// @nodoc
 class AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails {
   /// Whether to delete the volume when the instance is terminated.
   final bool? deleteOnTermination;
@@ -41040,6 +42100,8 @@ class AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails {
 }
 
 /// Optional deployment parameters for the service.
+///
+/// @nodoc
 class AwsEcsServiceDeploymentConfigurationDetails {
   /// Determines whether a service deployment fails if a service cannot reach a
   /// steady state.
@@ -41112,6 +42174,8 @@ class AwsEcsServiceDeploymentConfigurationDetails {
 }
 
 /// Information about the deployment controller type that the service uses.
+///
+/// @nodoc
 class AwsEcsServiceDeploymentControllerDetails {
   /// The rolling update (<code>ECS</code>) deployment type replaces the current
   /// running version of the container with the latest version.
@@ -41150,6 +42214,8 @@ class AwsEcsServiceDeploymentControllerDetails {
 
 /// For tasks that use the <code>awsvpc</code> networking mode, the VPC subnet
 /// and security group configuration.
+///
+/// @nodoc
 class AwsEcsServiceNetworkConfigurationDetails {
   /// The VPC subnet and security group configuration.
   final AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails?
@@ -41179,6 +42245,8 @@ class AwsEcsServiceNetworkConfigurationDetails {
 }
 
 /// Information about a service discovery registry to assign to the service.
+///
+/// @nodoc
 class AwsEcsServiceServiceRegistriesDetails {
   /// The container name value to use for the service discovery service.
   ///
@@ -41242,6 +42310,8 @@ class AwsEcsServiceServiceRegistriesDetails {
 }
 
 /// A placement strategy that determines how to place the tasks for the service.
+///
+/// @nodoc
 class AwsEcsServicePlacementStrategiesDetails {
   /// The field to apply the placement strategy against.
   ///
@@ -41296,6 +42366,8 @@ class AwsEcsServicePlacementStrategiesDetails {
 }
 
 /// A placement constraint for the tasks in the service.
+///
+/// @nodoc
 class AwsEcsServicePlacementConstraintsDetails {
   /// A cluster query language expression to apply to the constraint. You cannot
   /// specify an expression if the constraint type is
@@ -41335,6 +42407,8 @@ class AwsEcsServicePlacementConstraintsDetails {
 
 /// For tasks that use the <code>awsvpc</code> networking mode, the VPC subnet
 /// and security group configuration.
+///
+/// @nodoc
 class AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails {
   /// Whether the task's elastic network interface receives a public IP address.
   /// The default value is <code>DISABLED</code>.
@@ -41384,6 +42458,8 @@ class AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails {
 }
 
 /// Information about a load balancer that the service uses.
+///
+/// @nodoc
 class AwsEcsServiceLoadBalancersDetails {
   /// The name of the container to associate with the load balancer.
   final String? containerName;
@@ -41442,6 +42518,8 @@ class AwsEcsServiceLoadBalancersDetails {
 
 /// Determines whether a service deployment fails if a service cannot reach a
 /// steady state.
+///
+/// @nodoc
 class AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails {
   /// Whether to enable the deployment circuit breaker logic for the service.
   final bool? enable;
@@ -41475,6 +42553,8 @@ class AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails {
 }
 
 /// Strategy item for the capacity provider strategy that the service uses.
+///
+/// @nodoc
 class AwsEcsServiceCapacityProviderStrategyDetails {
   /// The minimum number of tasks to run on the capacity provider. Only one
   /// strategy item can specify a value for <code>Base</code>.
@@ -41522,6 +42602,8 @@ class AwsEcsServiceCapacityProviderStrategyDetails {
 }
 
 /// Describes the mounting of a volume in a container.
+///
+/// @nodoc
 class VolumeMount {
   /// The path in the container at which the volume should be mounted.
   final String? mountPath;
@@ -41552,6 +42634,8 @@ class VolumeMount {
 }
 
 /// The configuration details for the App Mesh proxy.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionProxyConfigurationDetails {
   /// The name of the container that will serve as the App Mesh proxy.
   final String? containerName;
@@ -41600,6 +42684,8 @@ class AwsEcsTaskDefinitionProxyConfigurationDetails {
 }
 
 /// A data volume to mount from another container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionVolumesDetails {
   /// Information about a Docker volume.
   final AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails?
@@ -41660,6 +42746,8 @@ class AwsEcsTaskDefinitionVolumesDetails {
 }
 
 /// Information about a Docker volume.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails {
   /// Whether to create the Docker volume automatically if it does not already
   /// exist.
@@ -41720,6 +42808,8 @@ class AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails {
 
 /// Information about the Amazon Elastic File System file system that is used
 /// for task storage.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails {
   /// The authorization configuration details for the Amazon EFS file system.
   final AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails?
@@ -41781,6 +42871,8 @@ class AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails {
 }
 
 /// Information about a bind mount host volume.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionVolumesHostDetails {
   /// The path on the host container instance that is presented to the container.
   final String? sourcePath;
@@ -41805,6 +42897,8 @@ class AwsEcsTaskDefinitionVolumesHostDetails {
 }
 
 ///
+///
+/// @nodoc
 class AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails {
   /// The Amazon EFS access point identifier to use.
   final String? accessPointId;
@@ -41838,6 +42932,8 @@ class AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetail
 
 /// A network configuration parameter to provide to the Container Network
 /// Interface (CNI) plugin.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails {
   /// The name of the property.
   final String? name;
@@ -41869,6 +42965,8 @@ class AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails 
 }
 
 /// A placement constraint object to use for tasks.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionPlacementConstraintsDetails {
   /// A cluster query language expression to apply to the constraint.
   final String? expression;
@@ -41900,6 +42998,8 @@ class AwsEcsTaskDefinitionPlacementConstraintsDetails {
 }
 
 /// An Elastic Inference accelerator to use for the containers in the task.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionInferenceAcceleratorsDetails {
   /// The Elastic Inference accelerator device name.
   final String? deviceName;
@@ -41931,6 +43031,8 @@ class AwsEcsTaskDefinitionInferenceAcceleratorsDetails {
 }
 
 /// A container definition that describes a container in the task.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsDetails {
   /// The command that is passed to the container.
   final List<String>? command;
@@ -42361,6 +43463,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsDetails {
 
 /// The FireLens configuration for the container. The configuration specifies
 /// and configures a log router for container logs.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails {
   /// The options to use to configure the log router.
   ///
@@ -42412,6 +43516,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails {
 
 /// The container health check command and associated configuration parameters
 /// for the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails {
   /// The command that the container runs to determine whether it is healthy.
   final List<String>? command;
@@ -42471,6 +43577,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails {
 
 /// >Linux-specific modifications that are applied to the container, such as
 /// Linux kernel capabilities.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails {
   /// The Linux capabilities for the container that are added to or dropped from
   /// the default configuration provided by Docker.
@@ -42559,6 +43667,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails {
 }
 
 /// The log configuration specification for the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails {
   /// The log driver to use for the container.
   ///
@@ -42651,6 +43761,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails {
 }
 
 /// The private repository authentication credentials to use.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails {
   /// The ARN of the secret that contains the private repository credentials.
   final String? credentialsParameter;
@@ -42676,6 +43788,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails {
 }
 
 /// A data volume to mount from another container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails {
   /// Whether the container has read-only access to the volume.
   final bool? readOnly;
@@ -42708,6 +43822,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails {
 }
 
 /// A ulimit to set in the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails {
   /// The hard limit for the ulimit type.
   final int? hardLimit;
@@ -42794,6 +43910,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails {
 }
 
 /// A namespaced kernel parameter to set in the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails {
   /// The namespaced kernel parameter for which to set a value.
   final String? namespace;
@@ -42825,6 +43943,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails {
 }
 
 /// A secret to pass to the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails {
   /// The name of the secret.
   final String? name;
@@ -42858,6 +43978,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails {
 }
 
 /// A resource to assign to a container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails {
   /// The type of resource to assign to a container. Valid values are
   /// <code>GPU</code> or <code>InferenceAccelerator</code>.
@@ -42897,6 +44019,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails {
 }
 
 /// A port mapping for the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails {
   /// The port number on the container that is bound to the user-specified or
   /// automatically assigned host port.
@@ -42936,6 +44060,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails {
 }
 
 /// A mount point for the data volumes in the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails {
   /// The path on the container to mount the host volume at.
   final String? containerPath;
@@ -42975,6 +44101,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails {
 }
 
 /// A secret to pass to the log configuration.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails {
   /// The name of the secret.
   final String? name;
@@ -43010,6 +44138,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetai
 
 /// The Linux capabilities for the container that are added to or dropped from
 /// the default configuration provided by Docker.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails {
   /// The Linux capabilities for the container that are added to the default
   /// configuration provided by Docker. Valid values are as follows:
@@ -43077,6 +44207,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails
 }
 
 /// The container path, mount options, and size (in MiB) of a tmpfs mount.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails {
   /// The absolute file path where the tmpfs volume is to be mounted.
   final String? containerPath;
@@ -43134,6 +44266,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails {
 }
 
 /// A host device to expose to the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails {
   /// The path inside the container at which to expose the host device.
   final String? containerPath;
@@ -43178,6 +44312,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails {
 
 /// A hostname and IP address mapping to append to the <b>/etc/hosts</b> file on
 /// the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails {
   /// The hostname to use in the <b>/etc/hosts</b> entry.
   final String? hostname;
@@ -43209,6 +44345,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails {
 }
 
 /// A file that contain environment variables to pass to a container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails {
   /// The type of environment file. The valid value is <code>s3</code>.
   final String? type;
@@ -43240,6 +44378,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails {
 }
 
 /// An environment variable to pass to the container.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails {
   /// The name of the environment variable.
   final String? name;
@@ -43271,6 +44411,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails {
 }
 
 /// A dependency that is defined for container startup and shutdown.
+///
+/// @nodoc
 class AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails {
   /// The dependency condition of the dependent container. Indicates the required
   /// status of the dependent container before the current container can start.
@@ -43319,6 +44461,8 @@ class AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails {
 }
 
 /// Details for a volume mount point that's used in a container definition.
+///
+/// @nodoc
 class AwsMountPoint {
   /// The path on the container to mount the host volume at.
   final String? containerPath;
@@ -43350,6 +44494,8 @@ class AwsMountPoint {
 }
 
 /// The run command configuration for the cluster.
+///
+/// @nodoc
 class AwsEcsClusterConfigurationDetails {
   /// Contains the run command configuration for the cluster.
   final AwsEcsClusterConfigurationExecuteCommandConfigurationDetails?
@@ -43382,6 +44528,8 @@ class AwsEcsClusterConfigurationDetails {
 /// The default capacity provider strategy for the cluster. The default capacity
 /// provider strategy is used when services or tasks are run without a specified
 /// launch type or capacity provider strategy.
+///
+/// @nodoc
 class AwsEcsClusterDefaultCapacityProviderStrategyDetails {
   /// The minimum number of tasks to run on the specified capacity provider.
   final int? base;
@@ -43421,6 +44569,8 @@ class AwsEcsClusterDefaultCapacityProviderStrategyDetails {
 }
 
 /// Contains the run command configuration for the cluster.
+///
+/// @nodoc
 class AwsEcsClusterConfigurationExecuteCommandConfigurationDetails {
   /// The identifier of the KMS key that is used to encrypt the data between the
   /// local client and the container.
@@ -43465,6 +44615,8 @@ class AwsEcsClusterConfigurationExecuteCommandConfigurationDetails {
 }
 
 /// The log configuration for the results of the run command actions.
+///
+/// @nodoc
 class AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails {
   /// Whether to enable encryption on the CloudWatch logs.
   final bool? cloudWatchEncryptionEnabled;
@@ -43521,6 +44673,8 @@ class AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetai
 
 /// Indicates whether to enable CloudWatch Container Insights for the ECS
 /// cluster.
+///
+/// @nodoc
 class AwsEcsClusterClusterSettingsDetails {
   /// The name of the setting. The valid value is <code>containerInsights</code>.
   final String? name;
@@ -43553,6 +44707,8 @@ class AwsEcsClusterClusterSettingsDetails {
 }
 
 /// Information about an instance in the DB cluster.
+///
+/// @nodoc
 class AwsRdsDbClusterMember {
   /// The status of the DB cluster parameter group for this member of the DB
   /// cluster.
@@ -43602,6 +44758,8 @@ class AwsRdsDbClusterMember {
 }
 
 /// Information about an option group membership for a DB cluster.
+///
+/// @nodoc
 class AwsRdsDbClusterOptionGroupMembership {
   /// The name of the DB cluster option group.
   final String? dbClusterOptionGroupName;
@@ -43635,6 +44793,8 @@ class AwsRdsDbClusterOptionGroupMembership {
 
 /// Information about an Active Directory domain membership record associated
 /// with the DB instance.
+///
+/// @nodoc
 class AwsRdsDbDomainMembership {
   /// The identifier of the Active Directory domain.
   final String? domain;
@@ -43680,6 +44840,8 @@ class AwsRdsDbDomainMembership {
 }
 
 /// An IAM role that is associated with the Amazon RDS DB cluster.
+///
+/// @nodoc
 class AwsRdsDbClusterAssociatedRole {
   /// The ARN of the IAM role.
   final String? roleArn;
@@ -43723,6 +44885,8 @@ class AwsRdsDbClusterAssociatedRole {
 }
 
 /// A VPC security groups that the DB instance belongs to.
+///
+/// @nodoc
 class AwsRdsDbInstanceVpcSecurityGroup {
   /// The status of the VPC security group.
   final String? status;
@@ -43754,6 +44918,8 @@ class AwsRdsDbInstanceVpcSecurityGroup {
 
 /// Contains the name and values of a manual Amazon Relational Database Service
 /// (RDS) DB cluster snapshot attribute.
+///
+/// @nodoc
 class AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute {
   /// The name of the manual DB cluster snapshot attribute. The attribute named
   /// <code>restore</code> refers to the list of Amazon Web Services accounts that
@@ -43795,6 +44961,8 @@ class AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute {
 }
 
 /// A processor feature.
+///
+/// @nodoc
 class AwsRdsDbProcessorFeature {
   /// The name of the processor feature. Valid values are <code>coreCount</code>
   /// or <code>threadsPerCore</code>.
@@ -43826,6 +44994,8 @@ class AwsRdsDbProcessorFeature {
 }
 
 /// Details for a rule in an WAF web ACL.
+///
+/// @nodoc
 class AwsWafWebAclRule {
   /// Specifies the action that CloudFront or WAF takes when a web request matches
   /// the conditions in the rule.
@@ -43920,6 +45090,8 @@ class AwsWafWebAclRule {
 
 /// Details about the action that CloudFront or WAF takes when a web request
 /// matches the conditions in the rule.
+///
+/// @nodoc
 class WafAction {
   /// Specifies how you want WAF to respond to requests that match the settings in
   /// a rule.
@@ -43961,6 +45133,8 @@ class WafAction {
 }
 
 /// Details about an override action for a rule.
+///
+/// @nodoc
 class WafOverrideAction {
   /// <code>COUNT</code> overrides the action specified by the individual rule
   /// within a <code>RuleGroup</code> .
@@ -43987,6 +45161,8 @@ class WafOverrideAction {
 }
 
 /// Details about a rule to exclude from a rule group.
+///
+/// @nodoc
 class WafExcludedRule {
   /// The unique identifier for the rule to exclude from the rule group.
   final String? ruleId;
@@ -44010,6 +45186,8 @@ class WafExcludedRule {
 }
 
 /// A wrapper type for the attributes of an Amazon SNS subscription.
+///
+/// @nodoc
 class AwsSnsTopicSubscription {
   /// The subscription's endpoint (format depends on the protocol).
   final String? endpoint;
@@ -44040,6 +45218,8 @@ class AwsSnsTopicSubscription {
 }
 
 /// Specifies the connection endpoint.
+///
+/// @nodoc
 class AwsRdsDbInstanceEndpoint {
   /// Specifies the DNS address of the DB instance.
   final String? address;
@@ -44077,6 +45257,8 @@ class AwsRdsDbInstanceEndpoint {
 }
 
 /// Information about the subnet group for the database instance.
+///
+/// @nodoc
 class AwsRdsDbSubnetGroup {
   /// The ARN of the subnet group.
   final String? dbSubnetGroupArn;
@@ -44140,6 +45322,8 @@ class AwsRdsDbSubnetGroup {
 }
 
 /// Changes to a DB instance that are currently pending.
+///
+/// @nodoc
 class AwsRdsDbPendingModifiedValues {
   /// The new value of the allocated storage for the DB instance.
   final int? allocatedStorage;
@@ -44273,6 +45457,8 @@ class AwsRdsDbPendingModifiedValues {
 }
 
 /// Information about the status of a read replica.
+///
+/// @nodoc
 class AwsRdsDbStatusInfo {
   /// If the read replica is currently in an error state, provides the error
   /// details.
@@ -44318,6 +45504,8 @@ class AwsRdsDbStatusInfo {
 }
 
 /// An option group membership.
+///
+/// @nodoc
 class AwsRdsDbOptionGroupMembership {
   /// The name of the option group.
   final String? optionGroupName;
@@ -44348,6 +45536,8 @@ class AwsRdsDbOptionGroupMembership {
 }
 
 /// Identifies the log types to enable and disable.
+///
+/// @nodoc
 class AwsRdsPendingCloudWatchLogsExports {
   /// A list of log types that are being disabled.
   final List<String>? logTypesToDisable;
@@ -44385,6 +45575,8 @@ class AwsRdsPendingCloudWatchLogsExports {
 }
 
 /// Information about a subnet in a subnet group.
+///
+/// @nodoc
 class AwsRdsDbSubnetGroupSubnet {
   /// Information about the Availability Zone for a subnet in the subnet group.
   final AwsRdsDbSubnetGroupSubnetAvailabilityZone? subnetAvailabilityZone;
@@ -44426,6 +45618,8 @@ class AwsRdsDbSubnetGroupSubnet {
 }
 
 /// An Availability Zone for a subnet in a subnet group.
+///
+/// @nodoc
 class AwsRdsDbSubnetGroupSubnetAvailabilityZone {
   /// The name of the Availability Zone for a subnet in the subnet group.
   final String? name;
@@ -44450,6 +45644,8 @@ class AwsRdsDbSubnetGroupSubnetAvailabilityZone {
 }
 
 /// Provides information about a parameter group for a DB instance.
+///
+/// @nodoc
 class AwsRdsDbParameterGroup {
   /// The name of the parameter group.
   final String? dbParameterGroupName;
@@ -44482,6 +45678,8 @@ class AwsRdsDbParameterGroup {
 }
 
 /// An IAM role associated with the DB instance.
+///
+/// @nodoc
 class AwsRdsDbInstanceAssociatedRole {
   /// The name of the feature associated with the IAM role.
   final String? featureName;
@@ -44538,6 +45736,8 @@ class AwsRdsDbInstanceAssociatedRole {
 
 /// The code for the Lambda function. You can specify either an object in Amazon
 /// S3, or upload a deployment package directly.
+///
+/// @nodoc
 class AwsLambdaFunctionCode {
   /// An Amazon S3 bucket in the same Amazon Web Services Region as your function.
   /// The bucket can be in a different Amazon Web Services account.
@@ -44584,6 +45784,8 @@ class AwsLambdaFunctionCode {
 }
 
 /// The dead-letter queue for failed asynchronous invocations.
+///
+/// @nodoc
 class AwsLambdaFunctionDeadLetterConfig {
   /// The ARN of an SQS queue or SNS topic.
   final String? targetArn;
@@ -44608,6 +45810,8 @@ class AwsLambdaFunctionDeadLetterConfig {
 }
 
 /// A function's environment variable settings.
+///
+/// @nodoc
 class AwsLambdaFunctionEnvironment {
   /// An <code>AwsLambdaFunctionEnvironmentError</code> object.
   final AwsLambdaFunctionEnvironmentError? error;
@@ -44642,6 +45846,8 @@ class AwsLambdaFunctionEnvironment {
 }
 
 /// The function's X-Ray tracing configuration.
+///
+/// @nodoc
 class AwsLambdaFunctionTracingConfig {
   /// The tracing mode.
   final String? mode;
@@ -44665,6 +45871,8 @@ class AwsLambdaFunctionTracingConfig {
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.
+///
+/// @nodoc
 class AwsLambdaFunctionVpcConfig {
   /// A list of VPC security groups IDs.
   final List<String>? securityGroupIds;
@@ -44708,6 +45916,8 @@ class AwsLambdaFunctionVpcConfig {
 }
 
 /// An Lambda layer.
+///
+/// @nodoc
 class AwsLambdaFunctionLayer {
   /// The ARN of the function layer.
   final String? arn;
@@ -44738,6 +45948,8 @@ class AwsLambdaFunctionLayer {
 }
 
 /// Error messages for environment variables that could not be applied.
+///
+/// @nodoc
 class AwsLambdaFunctionEnvironmentError {
   /// The error code.
   final String? errorCode;
@@ -44770,6 +45982,8 @@ class AwsLambdaFunctionEnvironmentError {
 
 /// Information about the policy used to set the permissions boundary for an IAM
 /// principal.
+///
+/// @nodoc
 class AwsIamPermissionsBoundary {
   /// The ARN of the policy used to set the permissions boundary.
   final String? permissionsBoundaryArn;
@@ -44802,6 +46016,8 @@ class AwsIamPermissionsBoundary {
 }
 
 /// An inline policy that is embedded in the role.
+///
+/// @nodoc
 class AwsIamRolePolicy {
   /// The name of the policy.
   final String? policyName;
@@ -44825,6 +46041,8 @@ class AwsIamRolePolicy {
 }
 
 /// Information about an instance profile.
+///
+/// @nodoc
 class AwsIamInstanceProfile {
   /// The ARN of the instance profile.
   final String? arn;
@@ -44892,6 +46110,8 @@ class AwsIamInstanceProfile {
 }
 
 /// Information about a role associated with an instance profile.
+///
+/// @nodoc
 class AwsIamInstanceProfileRole {
   /// The ARN of the role.
   final String? arn;
@@ -44955,6 +46175,8 @@ class AwsIamInstanceProfileRole {
 }
 
 /// A managed policy that is attached to an IAM principal.
+///
+/// @nodoc
 class AwsIamAttachedManagedPolicy {
   /// The ARN of the policy.
   final String? policyArn;
@@ -44985,6 +46207,8 @@ class AwsIamAttachedManagedPolicy {
 }
 
 /// A managed policy that is attached to the IAM group.
+///
+/// @nodoc
 class AwsIamGroupPolicy {
   /// The name of the policy.
   final String? policyName;
@@ -45009,6 +46233,8 @@ class AwsIamGroupPolicy {
 
 /// Contains information about the health checks that are conducted on the load
 /// balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerHealthCheck {
   /// The number of consecutive health check successes required before the
   /// instance is moved to the Healthy state.
@@ -45077,6 +46303,8 @@ class AwsElbLoadBalancerHealthCheck {
 }
 
 /// Contains attributes for the load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerAttributes {
   /// Information about the access log configuration for the load balancer.
   ///
@@ -45163,6 +46391,8 @@ class AwsElbLoadBalancerAttributes {
 }
 
 /// Contains information about the policies for a load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerPolicies {
   /// The stickiness policies that are created using
   /// <code>CreateAppCookieStickinessPolicy</code>.
@@ -45216,6 +46446,8 @@ class AwsElbLoadBalancerPolicies {
 }
 
 /// Contains information about the security group for the load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerSourceSecurityGroup {
   /// The name of the security group.
   final String? groupName;
@@ -45248,6 +46480,8 @@ class AwsElbLoadBalancerSourceSecurityGroup {
 
 /// Contains information about a stickiness policy that was created using
 /// <code>CreateLBCookieStickinessPolicy</code>.
+///
+/// @nodoc
 class AwsElbLbCookieStickinessPolicy {
   /// The amount of time, in seconds, after which the cookie is considered stale.
   /// If an expiration period is not specified, the stickiness session lasts for
@@ -45283,6 +46517,8 @@ class AwsElbLbCookieStickinessPolicy {
 
 /// Contains information about a stickiness policy that was created using
 /// <code>CreateAppCookieStickinessPolicy</code>.
+///
+/// @nodoc
 class AwsElbAppCookieStickinessPolicy {
   /// The name of the application cookie used for stickiness.
   final String? cookieName;
@@ -45315,6 +46551,8 @@ class AwsElbAppCookieStickinessPolicy {
 
 /// Contains information about the access log configuration for the load
 /// balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerAccessLog {
   /// The interval in minutes for publishing the access logs.
   ///
@@ -45365,6 +46603,8 @@ class AwsElbLoadBalancerAccessLog {
 
 /// Contains information about the connection draining configuration for the
 /// load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerConnectionDraining {
   /// Indicates whether connection draining is enabled for the load balancer.
   final bool? enabled;
@@ -45397,6 +46637,8 @@ class AwsElbLoadBalancerConnectionDraining {
 }
 
 /// Contains connection settings for the load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerConnectionSettings {
   /// The time, in seconds, that the connection can be idle (no data is sent over
   /// the connection) before it is closed by the load balancer.
@@ -45422,6 +46664,8 @@ class AwsElbLoadBalancerConnectionSettings {
 }
 
 /// Contains cross-zone load balancing settings for the load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerCrossZoneLoadBalancing {
   /// Indicates whether cross-zone load balancing is enabled for the load
   /// balancer.
@@ -45447,6 +46691,8 @@ class AwsElbLoadBalancerCrossZoneLoadBalancing {
 }
 
 /// Provides information about additional attributes for the load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerAdditionalAttribute {
   /// The name of the attribute.
   final String? key;
@@ -45478,6 +46724,8 @@ class AwsElbLoadBalancerAdditionalAttribute {
 }
 
 /// Lists the policies that are enabled for a load balancer listener.
+///
+/// @nodoc
 class AwsElbLoadBalancerListenerDescription {
   /// Information about the listener.
   final AwsElbLoadBalancerListener? listener;
@@ -45515,6 +46763,8 @@ class AwsElbLoadBalancerListenerDescription {
 }
 
 /// Information about a load balancer listener.
+///
+/// @nodoc
 class AwsElbLoadBalancerListener {
   /// The port on which the instance is listening.
   final int? instancePort;
@@ -45577,6 +46827,8 @@ class AwsElbLoadBalancerListener {
 }
 
 /// Provides information about an EC2 instance for a load balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerInstance {
   /// The instance identifier.
   final String? instanceId;
@@ -45601,6 +46853,8 @@ class AwsElbLoadBalancerInstance {
 
 /// Provides information about the configuration of an EC2 instance for the load
 /// balancer.
+///
+/// @nodoc
 class AwsElbLoadBalancerBackendServerDescription {
   /// The port on which the EC2 instance is listening.
   final int? instancePort;
@@ -45637,6 +46891,8 @@ class AwsElbLoadBalancerBackendServerDescription {
 /// You can configure Amazon Redshift to copy snapshots for a cluster to another
 /// Amazon Web Services Region. This parameter provides information about a
 /// cross-Region snapshot copy.
+///
+/// @nodoc
 class AwsRedshiftClusterClusterSnapshotCopyStatus {
   /// The destination Region that snapshots are automatically copied to when
   /// cross-Region snapshot copy is enabled.
@@ -45693,6 +46949,8 @@ class AwsRedshiftClusterClusterSnapshotCopyStatus {
 }
 
 /// The status of the elastic IP (EIP) address for an Amazon Redshift cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterElasticIpStatus {
   /// The elastic IP address for the cluster.
   final String? elasticIp;
@@ -45724,6 +46982,8 @@ class AwsRedshiftClusterElasticIpStatus {
 }
 
 /// The connection endpoint for an Amazon Redshift cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterEndpoint {
   /// The DNS address of the cluster.
   final String? address;
@@ -45756,6 +47016,8 @@ class AwsRedshiftClusterEndpoint {
 /// Information about whether an Amazon Redshift cluster finished applying any
 /// hardware changes to security module (HSM) settings that were specified in a
 /// modify cluster command.
+///
+/// @nodoc
 class AwsRedshiftClusterHsmStatus {
   /// The name of the HSM client certificate that the Amazon Redshift cluster uses
   /// to retrieve the data encryption keys that are stored in an HSM.
@@ -45803,6 +47065,8 @@ class AwsRedshiftClusterHsmStatus {
 }
 
 /// Changes to the Amazon Redshift cluster that are currently pending.
+///
+/// @nodoc
 class AwsRedshiftClusterPendingModifiedValues {
   /// The pending or in-progress change to the automated snapshot retention
   /// period.
@@ -45905,6 +47169,8 @@ class AwsRedshiftClusterPendingModifiedValues {
 }
 
 /// Information about the resize operation for the cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterResizeInfo {
   /// Indicates whether the resize operation can be canceled.
   final bool? allowCancelResize;
@@ -45938,6 +47204,8 @@ class AwsRedshiftClusterResizeInfo {
 
 /// Information about the status of a cluster restore action. It only applies if
 /// the cluster was created by restoring a snapshot.
+///
+/// @nodoc
 class AwsRedshiftClusterRestoreStatus {
   /// The number of megabytes per second being transferred from the backup
   /// storage. Returns the average rate for a completed backup.
@@ -46023,6 +47291,8 @@ class AwsRedshiftClusterRestoreStatus {
 }
 
 /// Provides information about the logging status of the cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterLoggingStatus {
   /// The name of the S3 bucket where the log files are stored.
   final String? bucketName;
@@ -46091,6 +47361,8 @@ class AwsRedshiftClusterLoggingStatus {
 
 /// A VPC security group that the cluster belongs to, if the cluster is in a
 /// VPC.
+///
+/// @nodoc
 class AwsRedshiftClusterVpcSecurityGroup {
   /// The status of the VPC security group.
   final String? status;
@@ -46123,6 +47395,8 @@ class AwsRedshiftClusterVpcSecurityGroup {
 
 /// An IAM role that the cluster can use to access other Amazon Web Services
 /// services.
+///
+/// @nodoc
 class AwsRedshiftClusterIamRole {
   /// The status of the IAM role's association with the cluster.
   ///
@@ -46157,6 +47431,8 @@ class AwsRedshiftClusterIamRole {
 
 /// A time windows during which maintenance was deferred for an Amazon Redshift
 /// cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterDeferredMaintenanceWindow {
   /// The end of the time window for which maintenance was deferred.
   ///
@@ -46206,6 +47482,8 @@ class AwsRedshiftClusterDeferredMaintenanceWindow {
 }
 
 /// A security group that is associated with the cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterClusterSecurityGroup {
   /// The name of the cluster security group.
   final String? clusterSecurityGroupName;
@@ -46239,6 +47517,8 @@ class AwsRedshiftClusterClusterSecurityGroup {
 
 /// A cluster parameter group that is associated with an Amazon Redshift
 /// cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterClusterParameterGroup {
   /// The list of parameter statuses.
   final List<AwsRedshiftClusterClusterParameterStatus>?
@@ -46285,6 +47565,8 @@ class AwsRedshiftClusterClusterParameterGroup {
 
 /// The status of a parameter in a cluster parameter group for an Amazon
 /// Redshift cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterClusterParameterStatus {
   /// The error that prevented the parameter from being applied to the database.
   final String? parameterApplyErrorDescription;
@@ -46333,6 +47615,8 @@ class AwsRedshiftClusterClusterParameterStatus {
 }
 
 /// A node in an Amazon Redshift cluster.
+///
+/// @nodoc
 class AwsRedshiftClusterClusterNode {
   /// The role of the node. A node might be a leader node or a compute node.
   final String? nodeRole;
@@ -46370,6 +47654,8 @@ class AwsRedshiftClusterClusterNode {
 }
 
 /// Contains other options for the certificate.
+///
+/// @nodoc
 class AwsCertificateManagerCertificateOptions {
   /// Whether to add the certificate to a transparency log.
   ///
@@ -46401,6 +47687,8 @@ class AwsCertificateManagerCertificateOptions {
 
 /// Contains information about the Certificate Manager managed renewal for an
 /// <code>AMAZON_ISSUED</code> certificate.
+///
+/// @nodoc
 class AwsCertificateManagerCertificateRenewalSummary {
   /// Information about the validation of each domain name in the certificate, as
   /// it pertains to Certificate Manager managed renewal. Provided only when the
@@ -46475,6 +47763,8 @@ class AwsCertificateManagerCertificateRenewalSummary {
 }
 
 /// Contains information about a key usage X.509 v3 extension object.
+///
+/// @nodoc
 class AwsCertificateManagerCertificateKeyUsage {
   /// The key usage extension name.
   final String? name;
@@ -46499,6 +47789,8 @@ class AwsCertificateManagerCertificateKeyUsage {
 }
 
 /// Contains information about an extended key usage X.509 v3 extension object.
+///
+/// @nodoc
 class AwsCertificateManagerCertificateExtendedKeyUsage {
   /// The name of an extension value. Indicates the purpose for which the
   /// certificate public key can be used.
@@ -46544,6 +47836,8 @@ class AwsCertificateManagerCertificateExtendedKeyUsage {
 /// Certificate Manager managed renewal
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AwsCertificateManagerCertificateDomainValidationOption {
   /// A fully qualified domain name (FQDN) in the certificate.
   final String? domainName;
@@ -46612,6 +47906,8 @@ class AwsCertificateManagerCertificateDomainValidationOption {
 
 /// Provides details about the CNAME record that is added to the DNS database
 /// for domain validation.
+///
+/// @nodoc
 class AwsCertificateManagerCertificateResourceRecord {
   /// The name of the resource.
   final String? name;
@@ -46650,6 +47946,8 @@ class AwsCertificateManagerCertificateResourceRecord {
 }
 
 /// Provides details about the compliance for a patch.
+///
+/// @nodoc
 class AwsSsmPatch {
   /// The compliance status details for the patch.
   final AwsSsmComplianceSummary? complianceSummary;
@@ -46676,6 +47974,8 @@ class AwsSsmPatch {
 }
 
 /// Provides the details about the compliance status for a patch.
+///
+/// @nodoc
 class AwsSsmComplianceSummary {
   /// The type of resource for which the compliance was determined. For
   /// <code>AwsSsmPatchCompliance</code>, <code>ComplianceType</code> is
@@ -46880,6 +48180,8 @@ class AwsSsmComplianceSummary {
 }
 
 /// Contains information about the endpoints for the API.
+///
+/// @nodoc
 class AwsApiGatewayEndpointConfiguration {
   /// A list of endpoint types for the REST API.
   ///
@@ -46909,6 +48211,8 @@ class AwsApiGatewayEndpointConfiguration {
 }
 
 /// Contains information about settings for logging access for the stage.
+///
+/// @nodoc
 class AwsApiGatewayAccessLogSettings {
   /// The ARN of the CloudWatch Logs log group that receives the access logs.
   final String? destinationArn;
@@ -46941,6 +48245,8 @@ class AwsApiGatewayAccessLogSettings {
 }
 
 /// Contains information about settings for canary deployment in the stage.
+///
+/// @nodoc
 class AwsApiGatewayCanarySettings {
   /// The deployment identifier for the canary deployment.
   final String? deploymentId;
@@ -46992,6 +48298,8 @@ class AwsApiGatewayCanarySettings {
 }
 
 /// Defines settings for a method for the stage.
+///
+/// @nodoc
 class AwsApiGatewayMethodSettings {
   /// Indicates whether the cached responses are encrypted.
   final bool? cacheDataEncrypted;
@@ -47127,6 +48435,8 @@ class AwsApiGatewayMethodSettings {
 }
 
 /// Provides information about the billing for read/write capacity on the table.
+///
+/// @nodoc
 class AwsDynamoDbTableBillingModeSummary {
   /// The method used to charge for read and write throughput and to manage
   /// capacity.
@@ -47168,6 +48478,8 @@ class AwsDynamoDbTableBillingModeSummary {
 
 /// Information about the provisioned throughput for the table or for a global
 /// secondary index.
+///
+/// @nodoc
 class AwsDynamoDbTableProvisionedThroughput {
   /// Indicates when the provisioned throughput was last decreased.
   ///
@@ -47234,6 +48546,8 @@ class AwsDynamoDbTableProvisionedThroughput {
 }
 
 /// Information about the restore for the table.
+///
+/// @nodoc
 class AwsDynamoDbTableRestoreSummary {
   /// Indicates the point in time that the table was restored to.
   ///
@@ -47282,6 +48596,8 @@ class AwsDynamoDbTableRestoreSummary {
 }
 
 /// Information about the server-side encryption for the table.
+///
+/// @nodoc
 class AwsDynamoDbTableSseDescription {
   /// If the key is inaccessible, the date and time when DynamoDB detected that
   /// the key was inaccessible.
@@ -47333,6 +48649,8 @@ class AwsDynamoDbTableSseDescription {
 }
 
 /// The current DynamoDB Streams configuration for the table.
+///
+/// @nodoc
 class AwsDynamoDbTableStreamSpecification {
   /// Indicates whether DynamoDB Streams is enabled on the table.
   final bool? streamEnabled;
@@ -47364,6 +48682,8 @@ class AwsDynamoDbTableStreamSpecification {
 }
 
 /// Information about a replica of a DynamoDB table.
+///
+/// @nodoc
 class AwsDynamoDbTableReplica {
   /// List of global secondary indexes for the replica.
   final List<AwsDynamoDbTableReplicaGlobalSecondaryIndex>?
@@ -47454,6 +48774,8 @@ class AwsDynamoDbTableReplica {
 }
 
 /// Replica-specific configuration for the provisioned throughput.
+///
+/// @nodoc
 class AwsDynamoDbTableProvisionedThroughputOverride {
   /// The read capacity units for the replica.
   final int? readCapacityUnits;
@@ -47478,6 +48800,8 @@ class AwsDynamoDbTableProvisionedThroughputOverride {
 }
 
 /// Information about a global secondary index for a DynamoDB table replica.
+///
+/// @nodoc
 class AwsDynamoDbTableReplicaGlobalSecondaryIndex {
   /// The name of the index.
   final String? indexName;
@@ -47515,6 +48839,8 @@ class AwsDynamoDbTableReplicaGlobalSecondaryIndex {
 }
 
 /// Information about a local secondary index for a DynamoDB table.
+///
+/// @nodoc
 class AwsDynamoDbTableLocalSecondaryIndex {
   /// The ARN of the index.
   final String? indexArn;
@@ -47570,6 +48896,8 @@ class AwsDynamoDbTableLocalSecondaryIndex {
 
 /// For global and local secondary indexes, identifies the attributes that are
 /// copied from the table into the index.
+///
+/// @nodoc
 class AwsDynamoDbTableProjection {
   /// The nonkey attributes that are projected into the index. For each attribute,
   /// provide the attribute name.
@@ -47618,6 +48946,8 @@ class AwsDynamoDbTableProjection {
 
 /// A component of the key schema for the DynamoDB table, a global secondary
 /// index, or a local secondary index.
+///
+/// @nodoc
 class AwsDynamoDbTableKeySchema {
   /// The name of the key schema attribute.
   final String? attributeName;
@@ -47649,6 +48979,8 @@ class AwsDynamoDbTableKeySchema {
 }
 
 /// Information abut a global secondary index for the table.
+///
+/// @nodoc
 class AwsDynamoDbTableGlobalSecondaryIndex {
   /// Whether the index is currently backfilling.
   final bool? backfilling;
@@ -47755,6 +49087,8 @@ class AwsDynamoDbTableGlobalSecondaryIndex {
 }
 
 /// Contains a definition of an attribute for the table.
+///
+/// @nodoc
 class AwsDynamoDbTableAttributeDefinition {
   /// The name of the attribute.
   final String? attributeName;
@@ -47787,6 +49121,8 @@ class AwsDynamoDbTableAttributeDefinition {
 
 /// Contains the cross-origin resource sharing (CORS) configuration for the API.
 /// CORS is only supported for HTTP APIs.
+///
+/// @nodoc
 class AwsCorsConfiguration {
   /// Indicates whether the CORS request includes credentials.
   final bool? allowCredentials;
@@ -47858,6 +49194,8 @@ class AwsCorsConfiguration {
 }
 
 /// Contains route settings for a stage.
+///
+/// @nodoc
 class AwsApiGatewayV2RouteSettings {
   /// Indicates whether data trace logging is enabled. Data trace logging affects
   /// the log entries that are pushed to CloudWatch Logs. Supported only for
@@ -47923,6 +49261,8 @@ class AwsApiGatewayV2RouteSettings {
 }
 
 /// A version of an IAM policy.
+///
+/// @nodoc
 class AwsIamPolicyVersion {
   /// Indicates when the version was created.
   ///
@@ -47964,6 +49304,8 @@ class AwsIamPolicyVersion {
 }
 
 /// Information about an inline policy that is embedded in the user.
+///
+/// @nodoc
 class AwsIamUserPolicy {
   /// The name of the policy.
   final String? policyName;
@@ -47986,6 +49328,7 @@ class AwsIamUserPolicy {
   }
 }
 
+/// @nodoc
 class AwsIamAccessKeyStatus {
   static const active = AwsIamAccessKeyStatus._('Active');
   static const inactive = AwsIamAccessKeyStatus._('Inactive');
@@ -48012,6 +49355,8 @@ class AwsIamAccessKeyStatus {
 }
 
 /// Provides information about the session that the key was used for.
+///
+/// @nodoc
 class AwsIamAccessKeySessionContext {
   /// Attributes of the session that the key was used for.
   final AwsIamAccessKeySessionContextAttributes? attributes;
@@ -48048,6 +49393,8 @@ class AwsIamAccessKeySessionContext {
 }
 
 /// Attributes of the session that the key was used for.
+///
+/// @nodoc
 class AwsIamAccessKeySessionContextAttributes {
   /// Indicates when the session was created.
   ///
@@ -48083,6 +49430,8 @@ class AwsIamAccessKeySessionContextAttributes {
 }
 
 /// Information about the entity that created the session.
+///
+/// @nodoc
 class AwsIamAccessKeySessionContextSessionIssuer {
   /// The identifier of the Amazon Web Services account that created the session.
   final String? accountId;
@@ -48136,6 +49485,8 @@ class AwsIamAccessKeySessionContextSessionIssuer {
 }
 
 /// Defines the rotation schedule for the secret.
+///
+/// @nodoc
 class AwsSecretsManagerSecretRotationRules {
   /// The number of days after the previous rotation to rotate the secret.
   final int? automaticallyAfterDays;
@@ -48161,6 +49512,8 @@ class AwsSecretsManagerSecretRotationRules {
 }
 
 /// The encryption configuration for the S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketServerSideEncryptionConfiguration {
   /// The encryption rules that are applied to the S3 bucket.
   final List<AwsS3BucketServerSideEncryptionRule>? rules;
@@ -48189,6 +49542,8 @@ class AwsS3BucketServerSideEncryptionConfiguration {
 }
 
 /// The lifecycle configuration for the objects in the S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationDetails {
   /// The lifecycle rules.
   final List<AwsS3BucketBucketLifecycleConfigurationRulesDetails>? rules;
@@ -48218,6 +49573,8 @@ class AwsS3BucketBucketLifecycleConfigurationDetails {
 }
 
 /// Information about logging for the S3 bucket
+///
+/// @nodoc
 class AwsS3BucketLoggingConfiguration {
   /// The name of the S3 bucket where log files for the S3 bucket are stored.
   final String? destinationBucketName;
@@ -48249,6 +49606,8 @@ class AwsS3BucketLoggingConfiguration {
 }
 
 /// Website parameters for the S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketWebsiteConfiguration {
   /// The name of the error document for the website.
   final String? errorDocument;
@@ -48302,6 +49661,8 @@ class AwsS3BucketWebsiteConfiguration {
 }
 
 /// The notification configuration for the S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketNotificationConfiguration {
   /// Configurations for S3 bucket notifications.
   final List<AwsS3BucketNotificationConfigurationDetail>? configurations;
@@ -48330,6 +49691,8 @@ class AwsS3BucketNotificationConfiguration {
 }
 
 /// Describes the versioning state of an S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketBucketVersioningConfiguration {
   /// Specifies whether MFA delete is currently enabled in the S3 bucket
   /// versioning configuration. If the S3 bucket was never configured with MFA
@@ -48366,6 +49729,8 @@ class AwsS3BucketBucketVersioningConfiguration {
 /// The container element for S3 Object Lock configuration parameters. In Amazon
 /// S3, Object Lock can help prevent objects from being deleted or overwritten
 /// for a fixed amount of time or indefinitely.
+///
+/// @nodoc
 class AwsS3BucketObjectLockConfiguration {
   /// Indicates whether the bucket has an Object Lock configuration enabled.
   final String? objectLockEnabled;
@@ -48402,6 +49767,8 @@ class AwsS3BucketObjectLockConfiguration {
 /// Specifies the S3 Object Lock rule for the specified object. In Amazon S3,
 /// Object Lock can help prevent objects from being deleted or overwritten for a
 /// fixed amount of time or indefinitely.
+///
+/// @nodoc
 class AwsS3BucketObjectLockConfigurationRuleDetails {
   /// The default Object Lock retention mode and period that you want to apply to
   /// new objects placed in the specified bucket.
@@ -48432,6 +49799,8 @@ class AwsS3BucketObjectLockConfigurationRuleDetails {
 
 /// The default S3 Object Lock retention mode and period that you want to apply
 /// to new objects placed in the specified Amazon S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails {
   /// The number of days that you want to specify for the default retention
   /// period.
@@ -48473,6 +49842,8 @@ class AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails {
 }
 
 /// Details for an S3 bucket notification configuration.
+///
+/// @nodoc
 class AwsS3BucketNotificationConfigurationDetail {
   /// The ARN of the Lambda function, Amazon SQS queue, or Amazon SNS topic that
   /// generates the notification.
@@ -48538,6 +49909,8 @@ class AwsS3BucketNotificationConfigurationDetail {
 
 /// Filtering information for the notifications. The filtering is based on
 /// Amazon S3 key names.
+///
+/// @nodoc
 class AwsS3BucketNotificationConfigurationFilter {
   /// Details for an Amazon S3 filter.
   final AwsS3BucketNotificationConfigurationS3KeyFilter? s3KeyFilter;
@@ -48565,6 +49938,8 @@ class AwsS3BucketNotificationConfigurationFilter {
 }
 
 /// Details for an Amazon S3 filter.
+///
+/// @nodoc
 class AwsS3BucketNotificationConfigurationS3KeyFilter {
   /// The filter rules for the filter.
   final List<AwsS3BucketNotificationConfigurationS3KeyFilterRule>? filterRules;
@@ -48594,6 +49969,8 @@ class AwsS3BucketNotificationConfigurationS3KeyFilter {
 }
 
 /// Details for a filter rule.
+///
+/// @nodoc
 class AwsS3BucketNotificationConfigurationS3KeyFilterRule {
   /// Indicates whether the filter is based on the prefix or suffix of the Amazon
   /// S3 key.
@@ -48626,6 +50003,7 @@ class AwsS3BucketNotificationConfigurationS3KeyFilterRule {
   }
 }
 
+/// @nodoc
 class AwsS3BucketNotificationConfigurationS3KeyFilterRuleName {
   static const prefix =
       AwsS3BucketNotificationConfigurationS3KeyFilterRuleName._('Prefix');
@@ -48657,6 +50035,8 @@ class AwsS3BucketNotificationConfigurationS3KeyFilterRuleName {
 }
 
 /// The redirect behavior for requests to the website.
+///
+/// @nodoc
 class AwsS3BucketWebsiteConfigurationRedirectTo {
   /// The name of the host to redirect requests to.
   final String? hostname;
@@ -48690,6 +50070,8 @@ class AwsS3BucketWebsiteConfigurationRedirectTo {
 }
 
 /// A rule for redirecting requests to the website.
+///
+/// @nodoc
 class AwsS3BucketWebsiteConfigurationRoutingRule {
   /// Provides the condition that must be met in order to apply the routing rule.
   final AwsS3BucketWebsiteConfigurationRoutingRuleCondition? condition;
@@ -48728,6 +50110,8 @@ class AwsS3BucketWebsiteConfigurationRoutingRule {
 }
 
 /// The condition that must be met in order to apply the routing rule.
+///
+/// @nodoc
 class AwsS3BucketWebsiteConfigurationRoutingRuleCondition {
   /// Indicates to redirect the request if the HTTP error code matches this value.
   final String? httpErrorCodeReturnedEquals;
@@ -48762,6 +50146,8 @@ class AwsS3BucketWebsiteConfigurationRoutingRuleCondition {
 
 /// The rules to redirect the request if the condition in <code>Condition</code>
 /// is met.
+///
+/// @nodoc
 class AwsS3BucketWebsiteConfigurationRoutingRuleRedirect {
   /// The host name to use in the redirect request.
   final String? hostname;
@@ -48820,6 +50206,8 @@ class AwsS3BucketWebsiteConfigurationRoutingRuleRedirect {
 }
 
 /// Configuration for a lifecycle rule.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesDetails {
   /// How Amazon S3 responds when a multipart upload is incomplete. Specifically,
   /// provides a number of days before Amazon S3 cancels the entire upload.
@@ -48957,6 +50345,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesDetails {
 }
 
 /// Information about what Amazon S3 does when a multipart upload is incomplete.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails {
   /// The number of days after which Amazon S3 cancels an incomplete multipart
   /// upload.
@@ -48983,6 +50373,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUpload
 }
 
 /// Identifies the objects that a rule applies to.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails {
   /// The configuration for the filter.
   final AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails?
@@ -49011,6 +50403,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails {
 }
 
 /// A rule for when objects transition to specific storage classes.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails {
   /// A date on which to transition objects to the specified storage class. If you
   /// provide <code>Date</code>, you cannot provide <code>Days</code>.
@@ -49075,6 +50469,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails {
 
 /// A transition rule that describes when noncurrent objects transition to a
 /// specified storage class.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails {
   /// The number of days that an object is noncurrent before Amazon S3 can perform
   /// the associated action.
@@ -49108,6 +50504,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDe
 }
 
 /// The configuration for the filter.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails {
   /// The values to use for the filter.
   final List<
@@ -49166,6 +50564,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails {
 }
 
 /// A tag filter.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails {
   /// The tag key.
   final String? key;
@@ -49197,6 +50597,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails {
 }
 
 /// A value to use for the filter.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails {
   /// Prefix text for matching objects.
   final String? prefix;
@@ -49240,6 +50642,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails
 }
 
 /// A tag that is assigned to matching objects.
+///
+/// @nodoc
 class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails {
   /// The tag key.
   final String? key;
@@ -49271,6 +50675,8 @@ class AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDeta
 }
 
 /// An encryption rule to apply to the S3 bucket.
+///
+/// @nodoc
 class AwsS3BucketServerSideEncryptionRule {
   /// Specifies the default server-side encryption to apply to new objects in the
   /// bucket. If a <code>PUT</code> object request doesn't specify any server-side
@@ -49307,6 +50713,8 @@ class AwsS3BucketServerSideEncryptionRule {
 
 /// Specifies the default server-side encryption to apply to new objects in the
 /// bucket.
+///
+/// @nodoc
 class AwsS3BucketServerSideEncryptionByDefault {
   /// KMS key ID to use for the default encryption.
   final String? kMSMasterKeyID;
@@ -49340,6 +50748,8 @@ class AwsS3BucketServerSideEncryptionByDefault {
 
 /// Additional options for the domain endpoint, such as whether to require HTTPS
 /// for all traffic.
+///
+/// @nodoc
 class AwsElasticsearchDomainDomainEndpointOptions {
   /// Whether to require that all traffic to the domain arrive over HTTPS.
   final bool? enforceHTTPS;
@@ -49383,6 +50793,8 @@ class AwsElasticsearchDomainDomainEndpointOptions {
 }
 
 /// details about the configuration of an OpenSearch cluster.
+///
+/// @nodoc
 class AwsElasticsearchDomainElasticsearchClusterConfigDetails {
   /// The number of instances to use for the master node. If this attribute is
   /// specified, then <code>DedicatedMasterEnabled</code> must be
@@ -49480,6 +50892,8 @@ class AwsElasticsearchDomainElasticsearchClusterConfigDetails {
 }
 
 /// Details about the configuration for encryption at rest.
+///
+/// @nodoc
 class AwsElasticsearchDomainEncryptionAtRestOptions {
   /// Whether encryption at rest is enabled.
   final bool? enabled;
@@ -49512,6 +50926,8 @@ class AwsElasticsearchDomainEncryptionAtRestOptions {
 }
 
 /// configures the CloudWatch Logs to publish for the Elasticsearch domain.
+///
+/// @nodoc
 class AwsElasticsearchDomainLogPublishingOptions {
   final AwsElasticsearchDomainLogPublishingOptionsLogConfig? auditLogs;
 
@@ -49558,6 +50974,8 @@ class AwsElasticsearchDomainLogPublishingOptions {
 }
 
 /// Details about the configuration for node-to-node encryption.
+///
+/// @nodoc
 class AwsElasticsearchDomainNodeToNodeEncryptionOptions {
   /// Whether node-to-node encryption is enabled.
   final bool? enabled;
@@ -49583,6 +51001,8 @@ class AwsElasticsearchDomainNodeToNodeEncryptionOptions {
 
 /// Information about the state of the domain relative to the latest service
 /// software.
+///
+/// @nodoc
 class AwsElasticsearchDomainServiceSoftwareOptions {
   /// The epoch time when the deployment window closes for required updates. After
   /// this time, Amazon OpenSearch Service schedules the software upgrade
@@ -49672,6 +51092,8 @@ class AwsElasticsearchDomainServiceSoftwareOptions {
 
 /// Information that OpenSearch derives based on <code>VPCOptions</code> for the
 /// domain.
+///
+/// @nodoc
 class AwsElasticsearchDomainVPCOptions {
   /// The list of Availability Zones associated with the VPC subnets.
   final List<String>? availabilityZones;
@@ -49726,6 +51148,8 @@ class AwsElasticsearchDomainVPCOptions {
 }
 
 /// The log configuration.
+///
+/// @nodoc
 class AwsElasticsearchDomainLogPublishingOptionsLogConfig {
   /// The ARN of the CloudWatch Logs group to publish the logs to.
   final String? cloudWatchLogsLogGroupArn;
@@ -49758,6 +51182,8 @@ class AwsElasticsearchDomainLogPublishingOptionsLogConfig {
 }
 
 /// Configuration options for zone awareness.
+///
+/// @nodoc
 class AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails {
   /// he number of Availability Zones that the domain uses. Valid values are 2 and
   /// 3. The default is 2.
@@ -49784,6 +51210,8 @@ class AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails
 }
 
 /// Contains information about the tier of the environment.
+///
+/// @nodoc
 class AwsElasticBeanstalkEnvironmentTier {
   /// The name of the environment tier. Valid values are <code>WebServer</code> or
   /// <code>Worker</code>.
@@ -49824,6 +51252,8 @@ class AwsElasticBeanstalkEnvironmentTier {
 }
 
 /// A configuration option setting for the environment.
+///
+/// @nodoc
 class AwsElasticBeanstalkEnvironmentOptionSetting {
   /// The type of resource that the configuration option is associated with.
   final String? namespace;
@@ -49870,6 +51300,8 @@ class AwsElasticBeanstalkEnvironmentOptionSetting {
 
 /// Contains information about a link to another environment that is in the same
 /// group.
+///
+/// @nodoc
 class AwsElasticBeanstalkEnvironmentEnvironmentLink {
   /// The name of the linked environment.
   final String? environmentName;
@@ -49901,6 +51333,8 @@ class AwsElasticBeanstalkEnvironmentEnvironmentLink {
 }
 
 /// Information about the state of the load balancer.
+///
+/// @nodoc
 class LoadBalancerState {
   /// The state code. The initial state of the load balancer is provisioning.
   ///
@@ -49936,6 +51370,8 @@ class LoadBalancerState {
 }
 
 /// A load balancer attribute.
+///
+/// @nodoc
 class AwsElbv2LoadBalancerAttribute {
   /// The name of the load balancer attribute.
   final String? key;
@@ -49966,6 +51402,8 @@ class AwsElbv2LoadBalancerAttribute {
 }
 
 /// Information about an Availability Zone.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The ID of the subnet. You can specify one subnet per Availability Zone.
   final String? subnetId;
@@ -49997,6 +51435,8 @@ class AvailabilityZone {
 
 /// A rule for the network ACL. Each rule allows or denies access based on the
 /// IP address, traffic direction, port, and protocol.
+///
+/// @nodoc
 class AwsEc2NetworkAclEntry {
   /// The IPV4 network range for which to deny or allow access.
   final String? cidrBlock;
@@ -50076,6 +51516,8 @@ class AwsEc2NetworkAclEntry {
 }
 
 /// An Internet Control Message Protocol (ICMP) type and code.
+///
+/// @nodoc
 class IcmpTypeCode {
   /// The ICMP code for which to deny or allow access. To deny or allow all codes,
   /// use the value <code>-1</code>.
@@ -50108,6 +51550,8 @@ class IcmpTypeCode {
 }
 
 /// A range of ports.
+///
+/// @nodoc
 class PortRangeFromTo {
   /// The first port in the port range.
   final int? from;
@@ -50138,6 +51582,8 @@ class PortRangeFromTo {
 }
 
 /// An association between the network ACL and a subnet.
+///
+/// @nodoc
 class AwsEc2NetworkAclAssociation {
   /// The identifier of the association between the network ACL and the subnet.
   final String? networkAclAssociationId;
@@ -50176,6 +51622,8 @@ class AwsEc2NetworkAclAssociation {
 }
 
 /// An IPV6 CIDR block association.
+///
+/// @nodoc
 class Ipv6CidrBlockAssociation {
   /// The association ID for the IPv6 CIDR block.
   final String? associationId;
@@ -50234,6 +51682,8 @@ class Ipv6CidrBlockAssociation {
 }
 
 /// An IPv4 CIDR block association.
+///
+/// @nodoc
 class CidrBlockAssociation {
   /// The association ID for the IPv4 CIDR block.
   final String? associationId;
@@ -50271,6 +51721,8 @@ class CidrBlockAssociation {
 }
 
 /// An attachment to an Amazon EC2 volume.
+///
+/// @nodoc
 class AwsEc2VolumeAttachment {
   /// The datetime when the attachment initiated.
   final String? attachTime;
@@ -50334,6 +51786,8 @@ class AwsEc2VolumeAttachment {
 }
 
 /// An IP permission for an EC2 security group.
+///
+/// @nodoc
 class AwsEc2SecurityGroupIpPermission {
   /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6
   /// type number.
@@ -50345,7 +51799,7 @@ class AwsEc2SecurityGroupIpPermission {
   /// The IP protocol name (<code>tcp</code>, <code>udp</code>, <code>icmp</code>,
   /// <code>icmpv6</code>) or number.
   ///
-  /// [VPC only] Use <code>-1</code> to specify all protocols.
+  /// \[VPC only\] Use <code>-1</code> to specify all protocols.
   ///
   /// When authorizing security group rules, specifying <code>-1</code> or a
   /// protocol number other than <code>tcp</code>, <code>udp</code>,
@@ -50365,7 +51819,7 @@ class AwsEc2SecurityGroupIpPermission {
   /// The IPv6 ranges.
   final List<AwsEc2SecurityGroupIpv6Range>? ipv6Ranges;
 
-  /// [VPC only] The prefix list IDs for an Amazon Web Services service. With
+  /// \[VPC only\] The prefix list IDs for an Amazon Web Services service. With
   /// outbound rules, this is the Amazon Web Services service to access through a
   /// VPC endpoint from instances associated with the security group.
   final List<AwsEc2SecurityGroupPrefixListId>? prefixListIds;
@@ -50439,6 +51893,8 @@ class AwsEc2SecurityGroupIpPermission {
 }
 
 /// A prefix list ID.
+///
+/// @nodoc
 class AwsEc2SecurityGroupPrefixListId {
   /// The ID of the prefix.
   final String? prefixListId;
@@ -50462,6 +51918,8 @@ class AwsEc2SecurityGroupPrefixListId {
 }
 
 /// A range of IPv6 addresses.
+///
+/// @nodoc
 class AwsEc2SecurityGroupIpv6Range {
   /// The IPv6 CIDR range. You can specify either a CIDR range or a source
   /// security group, but not both. To specify a single IPv6 address, use the /128
@@ -50487,6 +51945,8 @@ class AwsEc2SecurityGroupIpv6Range {
 }
 
 /// A range of IPv4 addresses.
+///
+/// @nodoc
 class AwsEc2SecurityGroupIpRange {
   /// The IPv4 CIDR range. You can specify either a CIDR range or a source
   /// security group, but not both. To specify a single IPv4 address, use the /32
@@ -50512,6 +51972,8 @@ class AwsEc2SecurityGroupIpRange {
 }
 
 /// A relationship between a security group and a user.
+///
+/// @nodoc
 class AwsEc2SecurityGroupUserIdGroupPair {
   /// The ID of the security group.
   final String? groupId;
@@ -50528,7 +51990,7 @@ class AwsEc2SecurityGroupUserIdGroupPair {
   /// referenced security group is returned in the response. If the referenced
   /// security group is deleted, this value is not returned.
   ///
-  /// [EC2-Classic] Required when adding or removing rules that reference a
+  /// \[EC2-Classic\] Required when adding or removing rules that reference a
   /// security group in another VPC.
   final String? userId;
 
@@ -50579,6 +52041,8 @@ class AwsEc2SecurityGroupUserIdGroupPair {
 }
 
 /// Information about the network interface attachment.
+///
+/// @nodoc
 class AwsEc2NetworkInterfaceAttachment {
   /// Indicates when the attachment initiated.
   ///
@@ -50654,6 +52118,8 @@ class AwsEc2NetworkInterfaceAttachment {
 
 /// Provides information about a private IPv4 address that is with the network
 /// interface.
+///
+/// @nodoc
 class AwsEc2NetworkInterfacePrivateIpAddressDetail {
   /// The private DNS name for the IP address.
   final String? privateDnsName;
@@ -50686,6 +52152,8 @@ class AwsEc2NetworkInterfacePrivateIpAddressDetail {
 
 /// Provides information about an IPV6 address that is associated with the
 /// network interface.
+///
+/// @nodoc
 class AwsEc2NetworkInterfaceIpV6AddressDetail {
   /// The IPV6 address.
   final String? ipV6Address;
@@ -50710,6 +52178,8 @@ class AwsEc2NetworkInterfaceIpV6AddressDetail {
 }
 
 /// A security group associated with the network interface.
+///
+/// @nodoc
 class AwsEc2NetworkInterfaceSecurityGroup {
   /// The ID of the security group.
   final String? groupId;
@@ -50742,6 +52212,8 @@ class AwsEc2NetworkInterfaceSecurityGroup {
 
 /// Metadata options that allow you to configure and secure the Amazon EC2
 /// instance.
+///
+/// @nodoc
 class AwsEc2InstanceMetadataOptions {
   /// Enables or disables the HTTP metadata endpoint on the instance.
   final String? httpEndpoint;
@@ -50797,6 +52269,8 @@ class AwsEc2InstanceMetadataOptions {
 }
 
 /// The type of monitoring that’s turned on for an Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2InstanceMonitoringDetails {
   /// Indicates whether detailed monitoring is turned on. Otherwise, basic
   /// monitoring is turned on.
@@ -50821,6 +52295,8 @@ class AwsEc2InstanceMonitoringDetails {
 }
 
 /// Identifies a network interface for the Amazon EC2 instance.
+///
+/// @nodoc
 class AwsEc2InstanceNetworkInterfacesDetails {
   /// The identifier of the network interface. The details are in a corresponding
   /// <code>AwsEc2NetworkInterfacesDetails</code> object.
@@ -50846,6 +52322,8 @@ class AwsEc2InstanceNetworkInterfacesDetails {
 }
 
 /// Provides information about caching for the CloudFront distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionCacheBehaviors {
   /// The cache behaviors for the distribution.
   final List<AwsCloudFrontDistributionCacheBehavior>? items;
@@ -50875,6 +52353,8 @@ class AwsCloudFrontDistributionCacheBehaviors {
 
 /// Contains information about the default cache configuration for the
 /// CloudFront distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionDefaultCacheBehavior {
   /// The protocol that viewers can use to access the files in an origin. You can
   /// specify the following options:
@@ -50917,6 +52397,8 @@ class AwsCloudFrontDistributionDefaultCacheBehavior {
 
 /// A complex type that controls whether access logs are written for the
 /// CloudFront distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionLogging {
   /// The S3 bucket to store the access logs in.
   final String? bucket;
@@ -50963,6 +52445,8 @@ class AwsCloudFrontDistributionLogging {
 
 /// A complex type that contains information about origins and origin groups for
 /// this CloudFront distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOrigins {
   /// A complex type that contains origins or origin groups for this distribution.
   final List<AwsCloudFrontDistributionOriginItem>? items;
@@ -50991,6 +52475,8 @@ class AwsCloudFrontDistributionOrigins {
 
 /// Provides information about origin groups that are associated with the
 /// CloudFront distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginGroups {
   /// The list of origin groups.
   final List<AwsCloudFrontDistributionOriginGroup>? items;
@@ -51020,6 +52506,8 @@ class AwsCloudFrontDistributionOriginGroups {
 
 /// Provides information about the TLS/SSL configuration that the CloudFront
 /// distribution uses to communicate with viewers.
+///
+/// @nodoc
 class AwsCloudFrontDistributionViewerCertificate {
   /// The ARN of the ACM certificate. Used if the certificate is stored in ACM. If
   /// you provide an ACM certificate ARN, you must also provide
@@ -51100,6 +52588,8 @@ class AwsCloudFrontDistributionViewerCertificate {
 }
 
 /// Information about an origin group for the CloudFront distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginGroup {
   /// Provides the criteria for an origin group to fail over.
   final AwsCloudFrontDistributionOriginGroupFailover? failoverCriteria;
@@ -51127,6 +52617,8 @@ class AwsCloudFrontDistributionOriginGroup {
 }
 
 /// Provides information about when an origin group fails over.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginGroupFailover {
   /// Information about the status codes that cause an origin group to fail over.
   final AwsCloudFrontDistributionOriginGroupFailoverStatusCodes? statusCodes;
@@ -51154,6 +52646,8 @@ class AwsCloudFrontDistributionOriginGroupFailover {
 }
 
 /// The status codes that cause an origin group to fail over.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
   /// The list of status code values that can cause a failover to the next origin.
   final List<int>? items;
@@ -51187,6 +52681,8 @@ class AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
 /// A complex type that describes the Amazon S3 bucket, HTTP server (for
 /// example, a web server), or other server from which CloudFront gets your
 /// files.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginItem {
   /// An origin that is not an Amazon S3 bucket, with one exception. If the Amazon
   /// S3 bucket is configured with static website hosting, use this attribute. If
@@ -51252,6 +52748,8 @@ class AwsCloudFrontDistributionOriginItem {
 
 /// Information about an origin that is an Amazon S3 bucket that is not
 /// configured with static website hosting.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginS3OriginConfig {
   /// The CloudFront origin access identity to associate with the origin.
   final String? originAccessIdentity;
@@ -51280,6 +52778,8 @@ class AwsCloudFrontDistributionOriginS3OriginConfig {
 /// bucket, with one exception. An Amazon S3 bucket that is <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">configured
 /// with static website hosting</a> is a custom origin.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginCustomOriginConfig {
   /// The HTTP port that CloudFront uses to connect to the origin.
   final int? httpPort;
@@ -51349,6 +52849,8 @@ class AwsCloudFrontDistributionOriginCustomOriginConfig {
 
 /// A complex type that contains information about the SSL/TLS protocols that
 /// CloudFront can use when establishing an HTTPS connection with your origin.
+///
+/// @nodoc
 class AwsCloudFrontDistributionOriginSslProtocols {
   /// A list that contains allowed SSL/TLS protocols for this distribution.
   final List<String>? items;
@@ -51382,6 +52884,8 @@ class AwsCloudFrontDistributionOriginSslProtocols {
 }
 
 /// Information about a cache behavior for the distribution.
+///
+/// @nodoc
 class AwsCloudFrontDistributionCacheBehavior {
   /// The protocol that viewers can use to access the files in an origin. You can
   /// specify the following options:
@@ -51423,6 +52927,8 @@ class AwsCloudFrontDistributionCacheBehavior {
 }
 
 /// Information about the build environment for this build project.
+///
+/// @nodoc
 class AwsCodeBuildProjectEnvironment {
   /// The certificate to use with this build project.
   final String? certificate;
@@ -51531,6 +53037,8 @@ class AwsCodeBuildProjectEnvironment {
 }
 
 /// Information about the build input source code for this build project.
+///
+/// @nodoc
 class AwsCodeBuildProjectSource {
   /// Information about the Git clone depth for the build project.
   final int? gitCloneDepth;
@@ -51641,6 +53149,8 @@ class AwsCodeBuildProjectSource {
 }
 
 /// Information about logs for the build project.
+///
+/// @nodoc
 class AwsCodeBuildProjectLogsConfigDetails {
   /// Information about CloudWatch Logs for the build project.
   final AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails? cloudWatchLogs;
@@ -51678,6 +53188,8 @@ class AwsCodeBuildProjectLogsConfigDetails {
 }
 
 /// Information about the VPC configuration that CodeBuild accesses.
+///
+/// @nodoc
 class AwsCodeBuildProjectVpcConfig {
   /// A list of one or more security group IDs in your VPC.
   final List<String>? securityGroupIds;
@@ -51719,6 +53231,8 @@ class AwsCodeBuildProjectVpcConfig {
 }
 
 /// Information about CloudWatch Logs for the build project.
+///
+/// @nodoc
 class AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails {
   /// The group name of the logs in CloudWatch Logs.
   final String? groupName;
@@ -51757,6 +53271,8 @@ class AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails {
 }
 
 /// Information about logs built to an S3 bucket for a build project.
+///
+/// @nodoc
 class AwsCodeBuildProjectLogsConfigS3LogsDetails {
   /// Whether to disable encryption of the S3 build log output.
   final bool? encryptionDisabled;
@@ -51795,6 +53311,8 @@ class AwsCodeBuildProjectLogsConfigS3LogsDetails {
 }
 
 /// The credentials for access to a private registry.
+///
+/// @nodoc
 class AwsCodeBuildProjectEnvironmentRegistryCredential {
   /// The ARN or name of credentials created using Secrets Manager.
   /// <note>
@@ -51834,6 +53352,8 @@ class AwsCodeBuildProjectEnvironmentRegistryCredential {
 
 /// Information about an environment variable that is available to builds for
 /// the build project.
+///
+/// @nodoc
 class AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails {
   /// The name of the environment variable.
   final String? name;
@@ -51872,6 +53392,8 @@ class AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails {
 }
 
 /// Information about the build artifacts for the CodeBuild project.
+///
+/// @nodoc
 class AwsCodeBuildProjectArtifactsDetails {
   /// An identifier for the artifact definition.
   final String? artifactIdentifier;
@@ -51963,6 +53485,8 @@ class AwsCodeBuildProjectArtifactsDetails {
 }
 
 /// The mixed instances policy for the automatic scaling group.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails {
   /// The instances distribution. The instances distribution specifies the
   /// distribution of On-Demand Instances and Spot Instances, the maximum price to
@@ -52007,6 +53531,8 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails {
 }
 
 /// Details about the launch template to use.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification {
   /// The identifier of the launch template. You must specify either
   /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
@@ -52048,6 +53574,8 @@ class AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification {
 }
 
 /// An Availability Zone for the automatic scaling group.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails {
   /// The name of the Availability Zone.
   final String? value;
@@ -52072,6 +53600,8 @@ class AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails {
 }
 
 /// Information about the instances distribution.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails {
   /// How to allocate instance types to fulfill On-Demand capacity. The valid
   /// value is <code>prioritized</code>.
@@ -52156,6 +53686,8 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDet
 }
 
 /// Describes a launch template and overrides for a mixed instances policy.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
   /// The launch template to use for a mixed instances policy.
   final AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification?
@@ -52200,6 +53732,8 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
 }
 
 /// Details about the launch template to use for a mixed instances policy.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification {
   /// The identifier of the launch template. You must specify either
   /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
@@ -52241,6 +53775,8 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemp
 }
 
 /// Property values to use to override the values in the launch template.
+///
+/// @nodoc
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails {
   /// The instance type. For example, <code>m3.xlarge</code>.
   final String? instanceType;
@@ -52274,6 +53810,8 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesL
 }
 
 /// Details about the sensitive data that was detected on the resource.
+///
+/// @nodoc
 class ClassificationResult {
   /// Indicates whether there are additional occurrences of sensitive data that
   /// are not included in the finding. This occurs when the number of occurrences
@@ -52347,6 +53885,8 @@ class ClassificationResult {
 }
 
 /// Provides details about the current status of the sensitive data detection.
+///
+/// @nodoc
 class ClassificationStatus {
   /// The code that represents the status of the sensitive data detection.
   final String? code;
@@ -52378,6 +53918,8 @@ class ClassificationStatus {
 
 /// Contains an instance of sensitive data that was detected by a
 /// customer-defined identifier.
+///
+/// @nodoc
 class CustomDataIdentifiersResult {
   /// The list of detected instances of sensitive data.
   final List<CustomDataIdentifiersDetections>? detections;
@@ -52412,6 +53954,8 @@ class CustomDataIdentifiersResult {
 }
 
 /// The list of detected instances of sensitive data.
+///
+/// @nodoc
 class CustomDataIdentifiersDetections {
   /// The ARN of the custom identifier that was used to detect the sensitive data.
   final String? arn;
@@ -52458,6 +54002,8 @@ class CustomDataIdentifiersDetections {
 }
 
 /// The detected occurrences of sensitive data.
+///
+/// @nodoc
 class Occurrences {
   /// Occurrences of sensitive data detected in Microsoft Excel workbooks,
   /// comma-separated value (CSV) files, or tab-separated value (TSV) files.
@@ -52530,6 +54076,8 @@ class Occurrences {
 
 /// An occurrence of sensitive data detected in a Microsoft Excel workbook,
 /// comma-separated value (CSV) file, or tab-separated value (TSV) file.
+///
+/// @nodoc
 class Cell {
   /// For a Microsoft Excel workbook, provides the location of the cell, as an
   /// absolute cell reference, that contains the data. For example, Sheet2!C5 for
@@ -52580,6 +54128,8 @@ class Cell {
 
 /// An occurrence of sensitive data in an Apache Avro object container or an
 /// Apache Parquet file.
+///
+/// @nodoc
 class Record {
   /// The path, as a JSONPath expression, to the field in the record that contains
   /// the data. If the field name is longer than 20 characters, it is truncated.
@@ -52613,6 +54163,8 @@ class Record {
 
 /// An occurrence of sensitive data in an Adobe Portable Document Format (PDF)
 /// file.
+///
+/// @nodoc
 class Page {
   /// An occurrence of sensitive data detected in a non-binary text file or a
   /// Microsoft Word file. Non-binary text files include files such as HTML, XML,
@@ -52656,6 +54208,8 @@ class Page {
 }
 
 /// Identifies where the sensitive data begins and ends.
+///
+/// @nodoc
 class Range {
   /// The number of lines (for a line range) or characters (for an offset range)
   /// from the beginning of the file to the end of the sensitive data.
@@ -52697,6 +54251,8 @@ class Range {
 
 /// Contains a detected instance of sensitive data that are based on built-in
 /// identifiers.
+///
+/// @nodoc
 class SensitiveDataResult {
   /// The category of sensitive data that was detected. For example, the category
   /// can indicate that the sensitive data involved credentials, financial
@@ -52740,6 +54296,8 @@ class SensitiveDataResult {
 }
 
 /// The list of detected instances of sensitive data.
+///
+/// @nodoc
 class SensitiveDataDetections {
   /// The total number of occurrences of sensitive data that were detected.
   final int? count;
@@ -52780,6 +54338,8 @@ class SensitiveDataDetections {
 }
 
 /// Details about the threat intelligence related to a finding.
+///
+/// @nodoc
 class ThreatIntelIndicator {
   /// The category of a threat intelligence indicator.
   final ThreatIntelIndicatorCategory? category;
@@ -52848,6 +54408,7 @@ class ThreatIntelIndicator {
   }
 }
 
+/// @nodoc
 class ThreatIntelIndicatorType {
   static const domain = ThreatIntelIndicatorType._('DOMAIN');
   static const emailAddress = ThreatIntelIndicatorType._('EMAIL_ADDRESS');
@@ -52894,6 +54455,7 @@ class ThreatIntelIndicatorType {
   String toString() => value;
 }
 
+/// @nodoc
 class ThreatIntelIndicatorCategory {
   static const backdoor = ThreatIntelIndicatorCategory._('BACKDOOR');
   static const cardStealer = ThreatIntelIndicatorCategory._('CARD_STEALER');
@@ -52933,6 +54495,8 @@ class ThreatIntelIndicatorCategory {
 
 /// Provides information about the threat detected in a security finding and the
 /// file paths that were affected by the threat.
+///
+/// @nodoc
 class Threat {
   /// Provides information about the file paths that were affected by the threat.
   ///
@@ -52986,6 +54550,8 @@ class Threat {
 }
 
 /// Provides information about the file paths that were affected by the threat.
+///
+/// @nodoc
 class FilePaths {
   /// The name of the infected or suspicious file corresponding to the hash.
   ///
@@ -53039,6 +54605,8 @@ class FilePaths {
 }
 
 /// Information about a network path component.
+///
+/// @nodoc
 class NetworkPathComponent {
   /// The identifier of a component in the network path.
   ///
@@ -53094,6 +54662,8 @@ class NetworkPathComponent {
 
 /// Details about a network path component that occurs before or after the
 /// current component.
+///
+/// @nodoc
 class NetworkHeader {
   /// Information about the destination of the component.
   final NetworkPathComponentDetails? destination;
@@ -53139,6 +54709,8 @@ class NetworkHeader {
 }
 
 /// Information about the destination of the next component in the network path.
+///
+/// @nodoc
 class NetworkPathComponentDetails {
   /// The IP addresses of the destination.
   final List<String>? address;
@@ -53173,6 +54745,8 @@ class NetworkPathComponentDetails {
 }
 
 /// A range of ports.
+///
+/// @nodoc
 class PortRange {
   /// The first port in the port range.
   final int? begin;
@@ -53202,6 +54776,7 @@ class PortRange {
   }
 }
 
+/// @nodoc
 class NetworkDirection {
   static const $in = NetworkDirection._('IN');
   static const out = NetworkDirection._('OUT');
@@ -53227,6 +54802,8 @@ class NetworkDirection {
 }
 
 /// A list of malware related to a finding.
+///
+/// @nodoc
 class Malware {
   /// The name of the malware that was observed.
   ///
@@ -53274,6 +54851,7 @@ class Malware {
   }
 }
 
+/// @nodoc
 class MalwareType {
   static const adware = MalwareType._('ADWARE');
   static const blendedThreat = MalwareType._('BLENDED_THREAT');
@@ -53326,6 +54904,7 @@ class MalwareType {
   String toString() => value;
 }
 
+/// @nodoc
 class MalwareState {
   static const observed = MalwareState._('OBSERVED');
   static const removalFailed = MalwareState._('REMOVAL_FAILED');
@@ -53351,6 +54930,8 @@ class MalwareState {
 }
 
 /// A recommendation on how to remediate the issue identified in a finding.
+///
+/// @nodoc
 class Recommendation {
   /// Describes the recommended steps to take to remediate an issue identified in
   /// a finding.
@@ -53386,6 +54967,8 @@ class Recommendation {
 
 /// A list of events that changed the specified finding during the specified
 /// time period. Each record represents a single finding change event.
+///
+/// @nodoc
 class FindingHistoryRecord {
   /// Identifies whether the event marks the creation of a new finding. A value of
   /// <code>True</code> means that the finding is newly created. A value of
@@ -53472,6 +55055,8 @@ class FindingHistoryRecord {
 }
 
 /// Identifies which finding to get the finding history for.
+///
+/// @nodoc
 class AwsSecurityFindingIdentifier {
   /// The identifier of the finding that was specified by the finding provider.
   final String id;
@@ -53504,6 +55089,8 @@ class AwsSecurityFindingIdentifier {
 }
 
 /// Identifies the source of the finding change event.
+///
+/// @nodoc
 class FindingHistoryUpdateSource {
   /// The identity of the source that initiated the finding change event. For
   /// example, the Amazon Resource Name (ARN) of a partner that calls
@@ -53545,6 +55132,8 @@ class FindingHistoryUpdateSource {
 /// including the Amazon Web Services Security Finding Format (ASFF) field that
 /// changed, the value of the field before the change, and the value of the
 /// field after the change.
+///
+/// @nodoc
 class FindingHistoryUpdate {
   /// The value of the ASFF field after the finding change event. To preserve
   /// storage and readability, Security Hub CSPM omits this value if <a
@@ -53584,6 +55173,7 @@ class FindingHistoryUpdate {
   }
 }
 
+/// @nodoc
 class FindingHistoryUpdateSourceType {
   static const batchUpdateFindings =
       FindingHistoryUpdateSourceType._('BATCH_UPDATE_FINDINGS');
@@ -53612,6 +55202,8 @@ class FindingHistoryUpdateSourceType {
 }
 
 /// A resource that represents your subscription to a supported standard.
+///
+/// @nodoc
 class StandardsSubscription {
   /// The ARN of the standard.
   final String standardsArn;
@@ -53716,6 +55308,7 @@ class StandardsSubscription {
   }
 }
 
+/// @nodoc
 class StandardsStatus {
   static const pending = StandardsStatus._('PENDING');
   static const ready = StandardsStatus._('READY');
@@ -53743,6 +55336,7 @@ class StandardsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StandardsControlsUpdatable {
   static const readyForUpdates =
       StandardsControlsUpdatable._('READY_FOR_UPDATES');
@@ -53771,6 +55365,8 @@ class StandardsControlsUpdatable {
 }
 
 /// The reason for the current status of your subscription to the standard.
+///
+/// @nodoc
 class StandardsStatusReason {
   /// The reason code that represents the reason for the current status of a
   /// standard subscription.
@@ -53795,6 +55391,7 @@ class StandardsStatusReason {
   }
 }
 
+/// @nodoc
 class StatusReasonCode {
   static const noAvailableConfigurationRecorder =
       StatusReasonCode._('NO_AVAILABLE_CONFIGURATION_RECORDER');
@@ -53827,6 +55424,8 @@ class StatusReasonCode {
 }
 
 /// Information about the operational status and health of a connectorV2.
+///
+/// @nodoc
 class HealthCheck {
   /// The status of the connectorV2.
   final ConnectorStatus connectorStatus;
@@ -53866,6 +55465,8 @@ class HealthCheck {
 }
 
 /// The third-party provider detail for a service configuration.
+///
+/// @nodoc
 class ProviderDetail {
   /// Details about a Jira Cloud integration.
   final JiraCloudDetail? jiraCloud;
@@ -53901,6 +55502,8 @@ class ProviderDetail {
 }
 
 /// Information about the configuration and status of a Jira Cloud integration.
+///
+/// @nodoc
 class JiraCloudDetail {
   /// The status of the authorization between Jira Cloud and the service.
   final ConnectorAuthStatus? authStatus;
@@ -53953,6 +55556,8 @@ class JiraCloudDetail {
 }
 
 /// Information about a ServiceNow ITSM integration.
+///
+/// @nodoc
 class ServiceNowDetail {
   /// The status of the authorization between ServiceNow and the service.
   final ConnectorAuthStatus authStatus;
@@ -53991,6 +55596,7 @@ class ServiceNowDetail {
   }
 }
 
+/// @nodoc
 class ConnectorAuthStatus {
   static const active = ConnectorAuthStatus._('ACTIVE');
   static const failed = ConnectorAuthStatus._('FAILED');
@@ -54017,6 +55623,8 @@ class ConnectorAuthStatus {
 }
 
 /// Details for an individual security standard control.
+///
+/// @nodoc
 class StandardsControl {
   /// The identifier of the security standard control.
   final String? controlId;
@@ -54119,6 +55727,8 @@ class StandardsControl {
 }
 
 /// Provides information about a specific security standard.
+///
+/// @nodoc
 class Standard {
   /// A description of the standard.
   final String? description;
@@ -54179,6 +55789,8 @@ class Standard {
 }
 
 /// Provides details about the management of a security standard.
+///
+/// @nodoc
 class StandardsManagedBy {
   /// An identifier for the company that manages a specific security standard. For
   /// existing standards, the value is equal to <code>Amazon Web Services</code>.
@@ -54212,6 +55824,8 @@ class StandardsManagedBy {
 }
 
 /// Defines the structure for the productV2.
+///
+/// @nodoc
 class ProductV2 {
   /// The URL to the serviceV@ or productV2 documentation about the integration,
   /// which includes how to activate the integration.
@@ -54293,6 +55907,7 @@ class ProductV2 {
   }
 }
 
+/// @nodoc
 class IntegrationV2Type {
   static const sendFindingsToSecurityHub =
       IntegrationV2Type._('SEND_FINDINGS_TO_SECURITY_HUB');
@@ -54328,6 +55943,8 @@ class IntegrationV2Type {
 }
 
 /// Contains details about a product.
+///
+/// @nodoc
 class Product {
   /// The ARN assigned to the product.
   final String productArn;
@@ -54438,6 +56055,7 @@ class Product {
   }
 }
 
+/// @nodoc
 class IntegrationType {
   static const sendFindingsToSecurityHub =
       IntegrationType._('SEND_FINDINGS_TO_SECURITY_HUB');
@@ -54471,6 +56089,8 @@ class IntegrationType {
 }
 
 /// An <code>ActionTarget</code> object.
+///
+/// @nodoc
 class ActionTarget {
   /// The ARN for the target action.
   final String actionTargetArn;
@@ -54508,6 +56128,8 @@ class ActionTarget {
 }
 
 /// The mode for creating a ticket.
+///
+/// @nodoc
 class TicketCreationMode {
   static const dryrun = TicketCreationMode._('DRYRUN');
 
@@ -54533,6 +56155,8 @@ class TicketCreationMode {
 }
 
 /// The details of an Amazon Web Services account.
+///
+/// @nodoc
 class AccountDetails {
   /// The ID of an Amazon Web Services account.
   final String accountId;
@@ -54557,6 +56181,8 @@ class AccountDetails {
 
 /// The initial configuration settings required to establish an integration
 /// between Security Hub and third-party provider.
+///
+/// @nodoc
 class ProviderConfiguration {
   /// The configuration settings required to establish an integration with Jira
   /// Cloud.
@@ -54583,6 +56209,8 @@ class ProviderConfiguration {
 
 /// The initial configuration settings required to establish an integration
 /// between Security Hub and Jira Cloud.
+///
+/// @nodoc
 class JiraCloudProviderConfiguration {
   /// The project key for a JiraCloud instance.
   final String? projectKey;
@@ -54601,6 +56229,8 @@ class JiraCloudProviderConfiguration {
 
 /// The initial configuration settings required to establish an integration
 /// between Security Hub and ServiceNow ITSM.
+///
+/// @nodoc
 class ServiceNowProviderConfiguration {
   /// The instance name of ServiceNow ITSM.
   final String instanceName;
@@ -54625,6 +56255,8 @@ class ServiceNowProviderConfiguration {
 }
 
 /// The criteria that determine which findings a rule applies to.
+///
+/// @nodoc
 class AutomationRulesFindingFilters {
   /// The Amazon Web Services account ID in which a finding was generated.
   ///
@@ -55170,6 +56802,8 @@ class AutomationRulesFindingFilters {
 
 /// One or more actions that Security Hub CSPM takes when a finding matches the
 /// defined criteria of a rule.
+///
+/// @nodoc
 class AutomationRulesAction {
   /// Specifies that the automation rule action is an update to a finding field.
   final AutomationRulesFindingFieldsUpdate? findingFieldsUpdate;
@@ -55205,6 +56839,7 @@ class AutomationRulesAction {
   }
 }
 
+/// @nodoc
 class AutomationRulesActionType {
   static const findingFieldsUpdate =
       AutomationRulesActionType._('FINDING_FIELDS_UPDATE');
@@ -55232,6 +56867,8 @@ class AutomationRulesActionType {
 
 /// Identifies the finding fields that the automation rule action updates when a
 /// finding matches the defined criteria.
+///
+/// @nodoc
 class AutomationRulesFindingFieldsUpdate {
   /// The rule action updates the <code>Confidence</code> field of a finding.
   final int? confidence;
@@ -55321,6 +56958,8 @@ class AutomationRulesFindingFieldsUpdate {
 }
 
 /// Updates to the severity information for a finding.
+///
+/// @nodoc
 class SeverityUpdate {
   /// The severity value of the finding. The allowed values are the following.
   ///
@@ -55400,6 +57039,8 @@ class SeverityUpdate {
 }
 
 /// Used to update information about the investigation into the finding.
+///
+/// @nodoc
 class WorkflowUpdate {
   /// The status of the investigation into the finding. The workflow status is
   /// specific to an individual finding. It does not affect the generation of new
@@ -55465,6 +57106,8 @@ class WorkflowUpdate {
 /// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html">BatchUpdateStandardsControlAssociations</a>
 /// API. This parameter also provides details about why the request was
 /// unprocessed.
+///
+/// @nodoc
 class UnprocessedStandardsControlAssociationUpdate {
   /// The error code for the unprocessed update of the control's enablement status
   /// in the specified standard. The <code>NOT_FOUND</code> value has been
@@ -55517,6 +57160,8 @@ class UnprocessedStandardsControlAssociationUpdate {
 /// specified standards. The objects in the array include a security control ID,
 /// the Amazon Resource Name (ARN) of the standard, the requested enablement
 /// status, and the reason for updating the enablement status.
+///
+/// @nodoc
 class StandardsControlAssociationUpdate {
   /// The desired enablement status of the control in the standard.
   final AssociationStatus associationStatus;
@@ -55564,6 +57209,7 @@ class StandardsControlAssociationUpdate {
   }
 }
 
+/// @nodoc
 class UnprocessedErrorCode {
   static const invalidInput = UnprocessedErrorCode._('INVALID_INPUT');
   static const accessDenied = UnprocessedErrorCode._('ACCESS_DENIED');
@@ -55599,6 +57245,8 @@ class UnprocessedErrorCode {
 }
 
 /// The list of findings that were not updated.
+///
+/// @nodoc
 class BatchUpdateFindingsV2UnprocessedFinding {
   /// Indicates the specific type of error preventing successful processing of a
   /// finding during a batch update operation.
@@ -55650,6 +57298,8 @@ class BatchUpdateFindingsV2UnprocessedFinding {
 }
 
 /// Provides a standard to identify security findings using OCSF.
+///
+/// @nodoc
 class OcsfFindingIdentifier {
   /// Finding cloud.account.uid, which is a unique identifier in the Amazon Web
   /// Services account..
@@ -55688,6 +57338,7 @@ class OcsfFindingIdentifier {
   }
 }
 
+/// @nodoc
 class BatchUpdateFindingsV2UnprocessedFindingErrorCode {
   static const resourceNotFoundException =
       BatchUpdateFindingsV2UnprocessedFindingErrorCode._(
@@ -55730,6 +57381,8 @@ class BatchUpdateFindingsV2UnprocessedFindingErrorCode {
 }
 
 /// The list of findings that were updated.
+///
+/// @nodoc
 class BatchUpdateFindingsV2ProcessedFinding {
   /// The finding identifier of a processed finding.
   final OcsfFindingIdentifier? findingIdentifier;
@@ -55765,6 +57418,8 @@ class BatchUpdateFindingsV2ProcessedFinding {
 
 /// A finding from a <code>BatchUpdateFindings</code> request that Security Hub
 /// CSPM was unable to update.
+///
+/// @nodoc
 class BatchUpdateFindingsUnprocessedFinding {
   /// The code associated with the error. Possible values are:
   ///
@@ -55862,6 +57517,8 @@ class BatchUpdateFindingsUnprocessedFinding {
 /// A list of objects containing <code>RuleArn</code>, <code>ErrorCode</code>,
 /// and <code>ErrorMessage</code>. This parameter tells you which automation
 /// rules the request didn't process and why.
+///
+/// @nodoc
 class UnprocessedAutomationRule {
   /// The error code associated with the unprocessed automation rule.
   final int? errorCode;
@@ -55899,6 +57556,8 @@ class UnprocessedAutomationRule {
 }
 
 /// Specifies the parameters to update in an existing automation rule.
+///
+/// @nodoc
 class UpdateAutomationRulesRequestItem {
   /// The Amazon Resource Name (ARN) for the rule.
   final String ruleArn;
@@ -55975,6 +57634,8 @@ class UpdateAutomationRulesRequestItem {
 
 /// The list of the findings that cannot be imported. For each finding, the list
 /// provides the error.
+///
+/// @nodoc
 class ImportFindingsError {
   /// The code of the error returned by the <code>BatchImportFindings</code>
   /// operation.
@@ -56017,6 +57678,8 @@ class ImportFindingsError {
 /// retrieved in a specified standard when calling <a
 /// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html">BatchUpdateStandardsControlAssociations</a>.
 /// This parameter also provides details about why the request was unprocessed.
+///
+/// @nodoc
 class UnprocessedStandardsControlAssociation {
   /// The error code for the unprocessed standard and control association. The
   /// <code>NOT_FOUND</code> value has been deprecated and replaced by the
@@ -56070,6 +57733,8 @@ class UnprocessedStandardsControlAssociation {
 /// <code>SecurityControlArn</code>, or a mix of both parameters) and the Amazon
 /// Resource Name (ARN) of a standard. The security control ID or ARN is the
 /// same across standards.
+///
+/// @nodoc
 class StandardsControlAssociationId {
   /// The unique identifier (identified with <code>SecurityControlId</code>,
   /// <code>SecurityControlArn</code>, or a mix of both parameters) of a security
@@ -56103,6 +57768,8 @@ class StandardsControlAssociationId {
 
 /// Provides details about a control's enablement status in a specified
 /// standard.
+///
+/// @nodoc
 class StandardsControlAssociationDetail {
   /// Specifies whether a control is enabled or disabled in a specified standard.
   final AssociationStatus associationStatus;
@@ -56215,6 +57882,8 @@ class StandardsControlAssociationDetail {
 
 /// Provides details about a security control for which a response couldn't be
 /// returned.
+///
+/// @nodoc
 class UnprocessedSecurityControl {
   /// The error code for the unprocessed security control. The
   /// <code>NOT_FOUND</code> value has been deprecated and replaced by the
@@ -56258,6 +57927,8 @@ class UnprocessedSecurityControl {
 
 /// A security control in Security Hub CSPM describes a security best practice
 /// related to a specific resource.
+///
+/// @nodoc
 class SecurityControl {
   /// The description of a security control across standards. This typically
   /// summarizes how Security Hub CSPM evaluates the control and the conditions
@@ -56373,6 +58044,7 @@ class SecurityControl {
   }
 }
 
+/// @nodoc
 class UpdateStatus {
   static const ready = UpdateStatus._('READY');
   static const updating = UpdateStatus._('UPDATING');
@@ -56400,6 +58072,8 @@ class UpdateStatus {
 /// policy association identifier, that was specified in a
 /// <code>BatchGetConfigurationPolicyAssociations</code> request but couldn’t be
 /// processed due to an error.
+///
+/// @nodoc
 class UnprocessedConfigurationPolicyAssociation {
   /// Configuration policy association identifiers that were specified in a
   /// <code>BatchGetConfigurationPolicyAssociations</code> request but couldn’t be
@@ -56453,6 +58127,8 @@ class UnprocessedConfigurationPolicyAssociation {
 /// configuration and a target account, organizational unit, or the root. An
 /// association can exist between a target and a configuration policy, or
 /// between a target and self-managed behavior.
+///
+/// @nodoc
 class ConfigurationPolicyAssociation {
   /// The target account, organizational unit, or the root.
   final Target? target;
@@ -56478,6 +58154,8 @@ class ConfigurationPolicyAssociation {
 }
 
 /// Defines the configuration of an automation rule.
+///
+/// @nodoc
 class AutomationRulesConfig {
   /// One or more actions to update finding fields if a finding matches the
   /// defined criteria of the rule.
@@ -56601,6 +58279,8 @@ class AutomationRulesConfig {
 }
 
 /// The standard that you want to enable.
+///
+/// @nodoc
 class StandardsSubscriptionRequest {
   /// The ARN of the standard that you want to enable. To view the list of
   /// available standards and their ARNs, use the <code>DescribeStandards</code>
@@ -56625,41 +58305,49 @@ class StandardsSubscriptionRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidAccessException extends _s.GenericAwsException {
   InvalidAccessException({String? type, String? message})
       : super(type: type, code: 'InvalidAccessException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class OrganizationNotFoundException extends _s.GenericAwsException {
   OrganizationNotFoundException({String? type, String? message})
       : super(
@@ -56668,6 +58356,7 @@ class OrganizationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationalUnitNotFoundException extends _s.GenericAwsException {
   OrganizationalUnitNotFoundException({String? type, String? message})
       : super(
@@ -56676,21 +58365,25 @@ class OrganizationalUnitNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -56699,11 +58392,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

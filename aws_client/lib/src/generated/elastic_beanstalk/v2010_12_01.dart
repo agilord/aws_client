@@ -2705,6 +2705,8 @@ class ElasticBeanstalk {
 }
 
 /// The result message containing information about the managed action.
+///
+/// @nodoc
 class ApplyEnvironmentManagedActionResult {
   /// A description of the managed action.
   final String? actionDescription;
@@ -2750,6 +2752,8 @@ class ApplyEnvironmentManagedActionResult {
 }
 
 /// Indicates if the specified CNAME is available.
+///
+/// @nodoc
 class CheckDNSAvailabilityResultMessage {
   /// Indicates if the specified CNAME is available:
   ///
@@ -2791,6 +2795,8 @@ class CheckDNSAvailabilityResultMessage {
 }
 
 /// Result message containing a list of environment descriptions.
+///
+/// @nodoc
 class EnvironmentDescriptionsMessage {
   /// Returns an <a>EnvironmentDescription</a> list.
   final List<EnvironmentDescription>? environments;
@@ -2824,6 +2830,8 @@ class EnvironmentDescriptionsMessage {
 }
 
 /// Result message containing a single description of an application.
+///
+/// @nodoc
 class ApplicationDescriptionMessage {
   /// The <a>ApplicationDescription</a> of the application.
   final ApplicationDescription? application;
@@ -2848,6 +2856,8 @@ class ApplicationDescriptionMessage {
 }
 
 /// Result message wrapping a single description of an application version.
+///
+/// @nodoc
 class ApplicationVersionDescriptionMessage {
   /// The <a>ApplicationVersionDescription</a> of the application version.
   final ApplicationVersionDescription? applicationVersion;
@@ -2872,6 +2882,8 @@ class ApplicationVersionDescriptionMessage {
 }
 
 /// Describes the settings for a configuration set.
+///
+/// @nodoc
 class ConfigurationSettingsDescription {
   /// The name of the application associated with this configuration set.
   final String? applicationName;
@@ -2987,6 +2999,8 @@ class ConfigurationSettingsDescription {
 }
 
 /// Describes the properties of an environment.
+///
+/// @nodoc
 class EnvironmentDescription {
   /// Indicates if there is an in-progress environment configuration update or
   /// application version deployment that you can cancel.
@@ -3219,6 +3233,7 @@ class EnvironmentDescription {
   }
 }
 
+/// @nodoc
 class CreatePlatformVersionResult {
   /// The builder used to create the custom platform.
   final Builder? builder;
@@ -3250,6 +3265,8 @@ class CreatePlatformVersionResult {
 }
 
 /// Results of a <a>CreateStorageLocationResult</a> call.
+///
+/// @nodoc
 class CreateStorageLocationResultMessage {
   /// The name of the Amazon S3 bucket created.
   final String? s3Bucket;
@@ -3271,6 +3288,7 @@ class CreateStorageLocationResultMessage {
   }
 }
 
+/// @nodoc
 class DeletePlatformVersionResult {
   /// Detailed information about the version of the custom platform.
   final PlatformSummary? platformSummary;
@@ -3294,6 +3312,7 @@ class DeletePlatformVersionResult {
   }
 }
 
+/// @nodoc
 class DescribeAccountAttributesResult {
   /// The Elastic Beanstalk resource quotas associated with the calling AWS
   /// account.
@@ -3319,6 +3338,8 @@ class DescribeAccountAttributesResult {
 }
 
 /// Result message containing a list of application descriptions.
+///
+/// @nodoc
 class ApplicationDescriptionsMessage {
   /// This parameter contains a list of <a>ApplicationDescription</a>.
   final List<ApplicationDescription>? applications;
@@ -3344,6 +3365,8 @@ class ApplicationDescriptionsMessage {
 }
 
 /// Result message wrapping a list of application version descriptions.
+///
+/// @nodoc
 class ApplicationVersionDescriptionsMessage {
   /// List of <code>ApplicationVersionDescription</code> objects sorted in order
   /// of creation.
@@ -3380,6 +3403,8 @@ class ApplicationVersionDescriptionsMessage {
 }
 
 /// Describes the settings for a specified configuration set.
+///
+/// @nodoc
 class ConfigurationOptionsDescription {
   /// A list of <a>ConfigurationOptionDescription</a>.
   final List<ConfigurationOptionDescription>? options;
@@ -3420,6 +3445,8 @@ class ConfigurationOptionsDescription {
 
 /// The results from a request to change the configuration settings of an
 /// environment.
+///
+/// @nodoc
 class ConfigurationSettingsDescriptions {
   /// A list of <a>ConfigurationSettingsDescription</a>.
   final List<ConfigurationSettingsDescription>? configurationSettings;
@@ -3448,6 +3475,8 @@ class ConfigurationSettingsDescriptions {
 }
 
 /// Health details for an AWS Elastic Beanstalk environment.
+///
+/// @nodoc
 class DescribeEnvironmentHealthResult {
   /// Application request metrics for the environment.
   final ApplicationMetrics? applicationMetrics;
@@ -3534,6 +3563,8 @@ class DescribeEnvironmentHealthResult {
 }
 
 /// A result message containing a list of completed and failed managed actions.
+///
+/// @nodoc
 class DescribeEnvironmentManagedActionHistoryResult {
   /// A list of completed and failed managed actions.
   final List<ManagedActionHistoryItem>? managedActionHistoryItems;
@@ -3572,6 +3603,8 @@ class DescribeEnvironmentManagedActionHistoryResult {
 }
 
 /// The result message containing a list of managed actions.
+///
+/// @nodoc
 class DescribeEnvironmentManagedActionsResult {
   /// A list of upcoming and in-progress managed actions.
   final List<ManagedAction>? managedActions;
@@ -3595,6 +3628,8 @@ class DescribeEnvironmentManagedActionsResult {
 }
 
 /// Result message containing a list of environment resource descriptions.
+///
+/// @nodoc
 class EnvironmentResourceDescriptionsMessage {
   /// A list of <a>EnvironmentResourceDescription</a>.
   final EnvironmentResourceDescription? environmentResources;
@@ -3620,6 +3655,8 @@ class EnvironmentResourceDescriptionsMessage {
 }
 
 /// Result message wrapping a list of event descriptions.
+///
+/// @nodoc
 class EventDescriptionsMessage {
   /// A list of <a>EventDescription</a>.
   final List<EventDescription>? events;
@@ -3653,6 +3690,8 @@ class EventDescriptionsMessage {
 
 /// Detailed health information about the Amazon EC2 instances in an AWS Elastic
 /// Beanstalk environment.
+///
+/// @nodoc
 class DescribeInstancesHealthResult {
   /// Detailed health information about each instance.
   ///
@@ -3696,6 +3735,7 @@ class DescribeInstancesHealthResult {
   }
 }
 
+/// @nodoc
 class DescribePlatformVersionResult {
   /// Detailed information about the platform version.
   final PlatformDescription? platformDescription;
@@ -3721,6 +3761,8 @@ class DescribePlatformVersionResult {
 }
 
 /// A list of available AWS Elastic Beanstalk solution stacks.
+///
+/// @nodoc
 class ListAvailableSolutionStacksResultMessage {
   /// A list of available solution stacks and their
   /// <a>SolutionStackDescription</a>.
@@ -3758,6 +3800,7 @@ class ListAvailableSolutionStacksResultMessage {
   }
 }
 
+/// @nodoc
 class ListPlatformBranchesResult {
   /// In a paginated request, if this value isn't <code>null</code>, it's the
   /// token that you can pass in a subsequent request to get the next response
@@ -3794,6 +3837,7 @@ class ListPlatformBranchesResult {
   }
 }
 
+/// @nodoc
 class ListPlatformVersionsResult {
   /// In a paginated request, if this value isn't <code>null</code>, it's the
   /// token that you can pass in a subsequent request to get the next response
@@ -3829,6 +3873,7 @@ class ListPlatformVersionsResult {
   }
 }
 
+/// @nodoc
 class ResourceTagsDescriptionMessage {
   /// The Amazon Resource Name (ARN) of the resource for which a tag list was
   /// requested.
@@ -3860,6 +3905,8 @@ class ResourceTagsDescriptionMessage {
 }
 
 /// Result message containing a description of the requested environment info.
+///
+/// @nodoc
 class RetrieveEnvironmentInfoResultMessage {
   /// The <a>EnvironmentInfoDescription</a> of the environment.
   final List<EnvironmentInfoDescription>? environmentInfo;
@@ -3885,6 +3932,7 @@ class RetrieveEnvironmentInfoResultMessage {
   }
 }
 
+/// @nodoc
 class ApplicationResourceLifecycleDescriptionMessage {
   /// The name of the application.
   final String? applicationName;
@@ -3918,6 +3966,8 @@ class ApplicationResourceLifecycleDescriptionMessage {
 }
 
 /// Provides a list of validation messages.
+///
+/// @nodoc
 class ConfigurationSettingsValidationMessages {
   /// A list of <a>ValidationMessage</a>.
   final List<ValidationMessage>? messages;
@@ -3941,6 +3991,8 @@ class ConfigurationSettingsValidationMessages {
 }
 
 /// An error or warning for a desired configuration option value.
+///
+/// @nodoc
 class ValidationMessage {
   /// A message describing the error or warning.
   final String? message;
@@ -3996,6 +4048,7 @@ class ValidationMessage {
   }
 }
 
+/// @nodoc
 class ValidationSeverity {
   static const error = ValidationSeverity._('error');
   static const warning = ValidationSeverity._('warning');
@@ -4026,6 +4079,8 @@ class ValidationSeverity {
 /// <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html">Option
 /// Values</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+///
+/// @nodoc
 class ConfigurationOptionSetting {
   /// A unique namespace that identifies the option's associated AWS resource.
   final String? namespace;
@@ -4083,6 +4138,8 @@ class ConfigurationOptionSetting {
 }
 
 /// Describes a tag applied to a resource in an environment.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String? key;
@@ -4121,6 +4178,8 @@ class Tag {
 }
 
 /// Describes the properties of an environment tier
+///
+/// @nodoc
 class EnvironmentTier {
   /// The name of this environment tier.
   ///
@@ -4195,6 +4254,8 @@ class EnvironmentTier {
 }
 
 /// A specification identifying an individual configuration option.
+///
+/// @nodoc
 class OptionSpecification {
   /// A unique namespace identifying the option's associated AWS resource.
   final String? namespace;
@@ -4239,6 +4300,8 @@ class OptionSpecification {
 /// that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The
 /// version lifecycle configuration defines lifecycle settings for application
 /// versions.
+///
+/// @nodoc
 class ApplicationResourceLifecycleConfig {
   /// The ARN of an IAM service role that Elastic Beanstalk has permission to
   /// assume.
@@ -4298,6 +4361,8 @@ class ApplicationResourceLifecycleConfig {
 /// When Elastic Beanstalk deletes an application version from its database, you
 /// can no longer deploy that version to an environment. The source bundle
 /// remains in S3 unless you configure the rule to delete it.
+///
+/// @nodoc
 class ApplicationVersionLifecycleConfig {
   /// Specify a max age rule to restrict the length of time that application
   /// versions are retained for an application.
@@ -4345,6 +4410,8 @@ class ApplicationVersionLifecycleConfig {
 
 /// A lifecycle rule that deletes the oldest application version when the
 /// maximum count is exceeded.
+///
+/// @nodoc
 class MaxCountRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
@@ -4396,6 +4463,8 @@ class MaxCountRule {
 
 /// A lifecycle rule that deletes application versions after the specified
 /// number of days.
+///
+/// @nodoc
 class MaxAgeRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
@@ -4446,6 +4515,8 @@ class MaxAgeRule {
 }
 
 /// The information retrieved from the Amazon EC2 instances.
+///
+/// @nodoc
 class EnvironmentInfoDescription {
   /// The Amazon EC2 Instance ID for this information.
   final String? ec2InstanceId;
@@ -4495,6 +4566,7 @@ class EnvironmentInfoDescription {
   }
 }
 
+/// @nodoc
 class EnvironmentInfoType {
   static const tail = EnvironmentInfoType._('tail');
   static const bundle = EnvironmentInfoType._('bundle');
@@ -4522,6 +4594,8 @@ class EnvironmentInfoType {
 }
 
 /// Summary information about a platform version.
+///
+/// @nodoc
 class PlatformSummary {
   /// The operating system used by the platform version.
   final String? operatingSystemName;
@@ -4643,6 +4717,7 @@ class PlatformSummary {
   }
 }
 
+/// @nodoc
 class PlatformStatus {
   static const creating = PlatformStatus._('Creating');
   static const failed = PlatformStatus._('Failed');
@@ -4672,7 +4747,9 @@ class PlatformStatus {
 
 /// Describes criteria to restrict the results when listing platform versions.
 ///
-/// The filter is evaluated as follows: <code>Type Operator Values[1]</code>
+/// The filter is evaluated as follows: <code>Type Operator Values\[1\]</code>
+///
+/// @nodoc
 class PlatformFilter {
   /// The operator to apply to the <code>Type</code> with each of the
   /// <code>Values</code>.
@@ -4750,6 +4827,8 @@ class PlatformFilter {
 }
 
 /// Summary information about a platform branch.
+///
+/// @nodoc
 class PlatformBranchSummary {
   /// The name of the platform branch.
   final String? branchName;
@@ -4816,16 +4895,18 @@ class PlatformBranchSummary {
 /// Describes criteria to restrict a list of results.
 ///
 /// For operators that apply a single value to the attribute, the filter is
-/// evaluated as follows: <code>Attribute Operator Values[1]</code>
+/// evaluated as follows: <code>Attribute Operator Values\[1\]</code>
 ///
 /// Some operators, e.g. <code>in</code>, can apply multiple values. In this
 /// case, the filter is evaluated as a logical union (OR) of applications of the
 /// operator to the attribute with each one of the values: <code>(Attribute
-/// Operator Values[1]) OR (Attribute Operator Values[2]) OR ...</code>
+/// Operator Values\[1\]) OR (Attribute Operator Values\[2\]) OR ...</code>
 ///
 /// The valid values for attributes of <code>SearchFilter</code> depend on the
 /// API action. For valid values, see the reference page for the API action
 /// you're calling that takes a <code>SearchFilter</code> parameter.
+///
+/// @nodoc
 class SearchFilter {
   /// The result attribute to which the filter values are applied. Valid values
   /// vary by API action.
@@ -4875,6 +4956,8 @@ class SearchFilter {
 }
 
 /// Describes the solution stack.
+///
+/// @nodoc
 class SolutionStackDescription {
   /// The permitted file types allowed for a solution stack.
   final List<String>? permittedFileTypes;
@@ -4906,6 +4989,8 @@ class SolutionStackDescription {
 }
 
 /// Detailed information about a platform version.
+///
+/// @nodoc
 class PlatformDescription {
   /// The custom AMIs supported by the platform version.
   final List<CustomAmi>? customAmiList;
@@ -5099,6 +5184,8 @@ class PlatformDescription {
 }
 
 /// A custom AMI available to platforms.
+///
+/// @nodoc
 class CustomAmi {
   /// THe ID of the image used to create the custom AMI.
   final String? imageId;
@@ -5128,6 +5215,8 @@ class CustomAmi {
 }
 
 /// A framework supported by the platform.
+///
+/// @nodoc
 class PlatformFramework {
   /// The name of the framework.
   final String? name;
@@ -5157,6 +5246,8 @@ class PlatformFramework {
 }
 
 /// A programming language supported by the platform.
+///
+/// @nodoc
 class PlatformProgrammingLanguage {
   /// The name of the programming language.
   final String? name;
@@ -5187,6 +5278,8 @@ class PlatformProgrammingLanguage {
 
 /// Detailed health information about an Amazon EC2 instance in your Elastic
 /// Beanstalk environment.
+///
+/// @nodoc
 class SingleInstanceHealth {
   /// Request metrics from your application.
   final ApplicationMetrics? applicationMetrics;
@@ -5284,6 +5377,8 @@ class SingleInstanceHealth {
 }
 
 /// Application request metrics for an AWS Elastic Beanstalk environment.
+///
+/// @nodoc
 class ApplicationMetrics {
   /// The amount of time that the metrics cover (usually 10 seconds). For example,
   /// you might have 5 requests (<code>request_count</code>) within the most
@@ -5334,6 +5429,8 @@ class ApplicationMetrics {
 }
 
 /// CPU utilization and load average metrics for an Amazon EC2 instance.
+///
+/// @nodoc
 class SystemStatus {
   /// CPU utilization metrics for the instance.
   final CPUUtilization? cPUUtilization;
@@ -5370,6 +5467,8 @@ class SystemStatus {
 }
 
 /// Information about an application version deployment.
+///
+/// @nodoc
 class Deployment {
   /// The ID of the deployment. This number increases by one each time that you
   /// deploy source code or change instance configuration settings.
@@ -5429,6 +5528,8 @@ class Deployment {
 }
 
 /// CPU utilization metrics for an instance.
+///
+/// @nodoc
 class CPUUtilization {
   /// Available on Linux environments only.
   ///
@@ -5523,6 +5624,8 @@ class CPUUtilization {
 /// in each type of status code response. For more information, see <a
 /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">Status Code
 /// Definitions</a>.
+///
+/// @nodoc
 class StatusCodes {
   /// The percentage of requests over the last 10 seconds that resulted in a 2xx
   /// (200, 201, etc.) status code.
@@ -5571,6 +5674,8 @@ class StatusCodes {
 
 /// Represents the average latency for the slowest X percent of requests over
 /// the last 10 seconds.
+///
+/// @nodoc
 class Latency {
   /// The average latency for the slowest 90 percent of requests over the last 10
   /// seconds.
@@ -5649,6 +5754,7 @@ class Latency {
   }
 }
 
+/// @nodoc
 class InstancesHealthAttribute {
   static const healthStatus = InstancesHealthAttribute._('HealthStatus');
   static const color = InstancesHealthAttribute._('Color');
@@ -5698,6 +5804,8 @@ class InstancesHealthAttribute {
 }
 
 /// Describes an event.
+///
+/// @nodoc
 class EventDescription {
   /// The application associated with the event.
   final String? applicationName;
@@ -5777,6 +5885,7 @@ class EventDescription {
   }
 }
 
+/// @nodoc
 class EventSeverity {
   static const trace = EventSeverity._('TRACE');
   static const debug = EventSeverity._('DEBUG');
@@ -5806,6 +5915,8 @@ class EventSeverity {
 }
 
 /// Describes the AWS resources in use by this environment. This data is live.
+///
+/// @nodoc
 class EnvironmentResourceDescription {
   /// The <code>AutoScalingGroups</code> used by this environment.
   final List<AutoScalingGroup>? autoScalingGroups;
@@ -5893,6 +6004,8 @@ class EnvironmentResourceDescription {
 }
 
 /// Describes a queue.
+///
+/// @nodoc
 class Queue {
   /// The name of the queue.
   final String? name;
@@ -5922,6 +6035,8 @@ class Queue {
 }
 
 /// Describes a trigger.
+///
+/// @nodoc
 class Trigger {
   /// The name of the trigger.
   final String? name;
@@ -5944,6 +6059,8 @@ class Trigger {
 }
 
 /// Describes a LoadBalancer.
+///
+/// @nodoc
 class LoadBalancer {
   /// The name of the LoadBalancer.
   final String? name;
@@ -5966,6 +6083,8 @@ class LoadBalancer {
 }
 
 /// Describes an Amazon EC2 launch template.
+///
+/// @nodoc
 class LaunchTemplate {
   /// The ID of the launch template.
   final String? id;
@@ -5988,6 +6107,8 @@ class LaunchTemplate {
 }
 
 /// Describes an Auto Scaling launch configuration.
+///
+/// @nodoc
 class LaunchConfiguration {
   /// The name of the launch configuration.
   final String? name;
@@ -6010,6 +6131,8 @@ class LaunchConfiguration {
 }
 
 /// The description of an Amazon EC2 instance.
+///
+/// @nodoc
 class Instance {
   /// The ID of the Amazon EC2 instance.
   final String? id;
@@ -6032,6 +6155,8 @@ class Instance {
 }
 
 /// Describes an Auto Scaling launch configuration.
+///
+/// @nodoc
 class AutoScalingGroup {
   /// The name of the <code>AutoScalingGroup</code> .
   final String? name;
@@ -6054,6 +6179,8 @@ class AutoScalingGroup {
 }
 
 /// The record of an upcoming or in-progress managed action.
+///
+/// @nodoc
 class ManagedAction {
   /// A description of the managed action.
   final String? actionDescription;
@@ -6110,6 +6237,7 @@ class ManagedAction {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const instanceRefresh = ActionType._('InstanceRefresh');
   static const platformUpdate = ActionType._('PlatformUpdate');
@@ -6134,6 +6262,7 @@ class ActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionStatus {
   static const scheduled = ActionStatus._('Scheduled');
   static const pending = ActionStatus._('Pending');
@@ -6160,6 +6289,8 @@ class ActionStatus {
 }
 
 /// The record of a completed or failed managed action.
+///
+/// @nodoc
 class ManagedActionHistoryItem {
   /// A description of the managed action.
   final String? actionDescription;
@@ -6236,6 +6367,7 @@ class ManagedActionHistoryItem {
   }
 }
 
+/// @nodoc
 class FailureType {
   static const updateCancelled = FailureType._('UpdateCancelled');
   static const cancellationFailed = FailureType._('CancellationFailed');
@@ -6273,6 +6405,7 @@ class FailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionHistoryStatus {
   static const completed = ActionHistoryStatus._('Completed');
   static const failed = ActionHistoryStatus._('Failed');
@@ -6299,6 +6432,7 @@ class ActionHistoryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentHealth {
   static const green = EnvironmentHealth._('Green');
   static const yellow = EnvironmentHealth._('Yellow');
@@ -6329,6 +6463,8 @@ class EnvironmentHealth {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
 /// Colors and Statuses</a>.
+///
+/// @nodoc
 class InstanceHealthSummary {
   /// <b>Red.</b> The health agent is reporting a high number of request failures
   /// or other issues for an instance or environment.
@@ -6406,6 +6542,7 @@ class InstanceHealthSummary {
   }
 }
 
+/// @nodoc
 class EnvironmentHealthAttribute {
   static const status = EnvironmentHealthAttribute._('Status');
   static const color = EnvironmentHealthAttribute._('Color');
@@ -6449,6 +6586,8 @@ class EnvironmentHealthAttribute {
 }
 
 /// Describes the possible values for a configuration option.
+///
+/// @nodoc
 class ConfigurationOptionDescription {
   /// An indication of which action is required if the value for this
   /// configuration option changes:
@@ -6605,6 +6744,7 @@ class ConfigurationOptionDescription {
   }
 }
 
+/// @nodoc
 class ConfigurationOptionValueType {
   static const scalar = ConfigurationOptionValueType._('Scalar');
   static const list = ConfigurationOptionValueType._('List');
@@ -6632,6 +6772,8 @@ class ConfigurationOptionValueType {
 
 /// A regular expression representing a restriction on a string configuration
 /// option value.
+///
+/// @nodoc
 class OptionRestrictionRegex {
   /// A unique name representing this regular expression.
   final String? label;
@@ -6662,6 +6804,8 @@ class OptionRestrictionRegex {
 }
 
 /// Describes the properties of an application version.
+///
+/// @nodoc
 class ApplicationVersionDescription {
   /// The name of the application to which the application version belongs.
   final String? applicationName;
@@ -6785,6 +6929,8 @@ class ApplicationVersionDescription {
 }
 
 /// Location of the source code for an application version.
+///
+/// @nodoc
 class SourceBuildInformation {
   /// The location of the source code, as a formatted string, depending on the
   /// value of <code>SourceRepository</code>
@@ -6868,6 +7014,8 @@ class SourceBuildInformation {
 }
 
 /// The bucket and key of an item stored in Amazon S3.
+///
+/// @nodoc
 class S3Location {
   /// The Amazon S3 bucket where the data is located.
   final String? s3Bucket;
@@ -6905,6 +7053,7 @@ class S3Location {
   }
 }
 
+/// @nodoc
 class ApplicationVersionStatus {
   static const processed = ApplicationVersionStatus._('Processed');
   static const unprocessed = ApplicationVersionStatus._('Unprocessed');
@@ -6933,6 +7082,7 @@ class ApplicationVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceType {
   static const git = SourceType._('Git');
   static const zip = SourceType._('Zip');
@@ -6956,6 +7106,7 @@ class SourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceRepository {
   static const codeCommit = SourceRepository._('CodeCommit');
   static const s3 = SourceRepository._('S3');
@@ -6981,6 +7132,8 @@ class SourceRepository {
 }
 
 /// Describes the properties of an application.
+///
+/// @nodoc
 class ApplicationDescription {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationArn;
@@ -7061,6 +7214,8 @@ class ApplicationDescription {
 
 /// A set of per-resource AWS Elastic Beanstalk quotas associated with an AWS
 /// account. They reflect Elastic Beanstalk resource limits for this account.
+///
+/// @nodoc
 class ResourceQuotas {
   /// The quota for applications in the AWS account.
   final ResourceQuota? applicationQuota;
@@ -7125,6 +7280,8 @@ class ResourceQuotas {
 
 /// The AWS Elastic Beanstalk quota information for a single resource type in an
 /// AWS account. It reflects the resource's limits for this account.
+///
+/// @nodoc
 class ResourceQuota {
   /// The maximum number of instances of this Elastic Beanstalk resource type that
   /// an AWS account can use.
@@ -7148,6 +7305,8 @@ class ResourceQuota {
 }
 
 /// The builder used to build the custom platform.
+///
+/// @nodoc
 class Builder {
   /// The ARN of the builder.
   final String? arn;
@@ -7169,6 +7328,7 @@ class Builder {
   }
 }
 
+/// @nodoc
 class EnvironmentStatus {
   static const aborting = EnvironmentStatus._('Aborting');
   static const launching = EnvironmentStatus._('Launching');
@@ -7208,6 +7368,7 @@ class EnvironmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentHealthStatus {
   static const noData = EnvironmentHealthStatus._('NoData');
   static const unknown = EnvironmentHealthStatus._('Unknown');
@@ -7252,6 +7413,8 @@ class EnvironmentHealthStatus {
 
 /// Describes the AWS resources in use by this environment. This data is not
 /// live data.
+///
+/// @nodoc
 class EnvironmentResourcesDescription {
   /// Describes the LoadBalancer.
   final LoadBalancerDescription? loadBalancer;
@@ -7280,6 +7443,8 @@ class EnvironmentResourcesDescription {
 /// connect to another environment in the same group. See <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html">Environment
 /// Manifest (env.yaml)</a> for details.
+///
+/// @nodoc
 class EnvironmentLink {
   /// The name of the linked environment (the dependency).
   final String? environmentName;
@@ -7309,6 +7474,8 @@ class EnvironmentLink {
 }
 
 /// Describes the details of a LoadBalancer.
+///
+/// @nodoc
 class LoadBalancerDescription {
   /// The domain name of the LoadBalancer.
   final String? domain;
@@ -7346,6 +7513,8 @@ class LoadBalancerDescription {
 }
 
 /// Describes the properties of a Listener for the LoadBalancer.
+///
+/// @nodoc
 class Listener {
   /// The port that is used by the Listener.
   final int? port;
@@ -7374,6 +7543,7 @@ class Listener {
   }
 }
 
+/// @nodoc
 class ConfigurationDeploymentStatus {
   static const deployed = ConfigurationDeploymentStatus._('deployed');
   static const pending = ConfigurationDeploymentStatus._('pending');
@@ -7401,6 +7571,8 @@ class ConfigurationDeploymentStatus {
 }
 
 /// A specification for an environment configuration.
+///
+/// @nodoc
 class SourceConfiguration {
   /// The name of the application associated with the configuration.
   final String? applicationName;
@@ -7433,6 +7605,8 @@ class SourceConfiguration {
 }
 
 /// Settings for an AWS CodeBuild build.
+///
+/// @nodoc
 class BuildConfiguration {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that enables AWS CodeBuild to interact with dependent AWS
@@ -7513,6 +7687,7 @@ class BuildConfiguration {
   }
 }
 
+/// @nodoc
 class ComputeType {
   static const buildGeneral1Small = ComputeType._('BUILD_GENERAL1_SMALL');
   static const buildGeneral1Medium = ComputeType._('BUILD_GENERAL1_MEDIUM');
@@ -7541,6 +7716,7 @@ class ComputeType {
   String toString() => value;
 }
 
+/// @nodoc
 class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {
   CodeBuildNotInServiceRegionException({String? type, String? message})
       : super(
@@ -7549,6 +7725,7 @@ class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ElasticBeanstalkServiceException extends _s.GenericAwsException {
   ElasticBeanstalkServiceException({String? type, String? message})
       : super(
@@ -7557,6 +7734,7 @@ class ElasticBeanstalkServiceException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientPrivilegesException extends _s.GenericAwsException {
   InsufficientPrivilegesException({String? type, String? message})
       : super(
@@ -7565,11 +7743,13 @@ class InsufficientPrivilegesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ManagedActionInvalidStateException extends _s.GenericAwsException {
   ManagedActionInvalidStateException({String? type, String? message})
       : super(
@@ -7578,12 +7758,14 @@ class ManagedActionInvalidStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationInProgressException extends _s.GenericAwsException {
   OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
+/// @nodoc
 class PlatformVersionStillReferencedException extends _s.GenericAwsException {
   PlatformVersionStillReferencedException({String? type, String? message})
       : super(
@@ -7592,11 +7774,13 @@ class PlatformVersionStillReferencedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceTypeNotSupportedException extends _s.GenericAwsException {
   ResourceTypeNotSupportedException({String? type, String? message})
       : super(
@@ -7605,6 +7789,7 @@ class ResourceTypeNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class S3LocationNotInServiceRegionException extends _s.GenericAwsException {
   S3LocationNotInServiceRegionException({String? type, String? message})
       : super(
@@ -7613,6 +7798,7 @@ class S3LocationNotInServiceRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class S3SubscriptionRequiredException extends _s.GenericAwsException {
   S3SubscriptionRequiredException({String? type, String? message})
       : super(
@@ -7621,6 +7807,7 @@ class S3SubscriptionRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SourceBundleDeletionException extends _s.GenericAwsException {
   SourceBundleDeletionException({String? type, String? message})
       : super(
@@ -7629,6 +7816,7 @@ class SourceBundleDeletionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyApplicationVersionsException extends _s.GenericAwsException {
   TooManyApplicationVersionsException({String? type, String? message})
       : super(
@@ -7637,17 +7825,20 @@ class TooManyApplicationVersionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyApplicationsException extends _s.GenericAwsException {
   TooManyApplicationsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyApplicationsException', message: message);
 }
 
+/// @nodoc
 class TooManyBucketsException extends _s.GenericAwsException {
   TooManyBucketsException({String? type, String? message})
       : super(type: type, code: 'TooManyBucketsException', message: message);
 }
 
+/// @nodoc
 class TooManyConfigurationTemplatesException extends _s.GenericAwsException {
   TooManyConfigurationTemplatesException({String? type, String? message})
       : super(
@@ -7656,17 +7847,20 @@ class TooManyConfigurationTemplatesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyEnvironmentsException extends _s.GenericAwsException {
   TooManyEnvironmentsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyEnvironmentsException', message: message);
 }
 
+/// @nodoc
 class TooManyPlatformsException extends _s.GenericAwsException {
   TooManyPlatformsException({String? type, String? message})
       : super(type: type, code: 'TooManyPlatformsException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

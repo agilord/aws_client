@@ -211,7 +211,7 @@ class ControlCatalog {
   /// Here is a more general pattern that covers Amazon Web Services Control
   /// Tower and Control Catalog ARNs:
   ///
-  /// <code>^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$</code>
+  /// <code>^arn:(aws(?:\[-a-z\]*)?):(controlcatalog|controltower):\[a-zA-Z0-9-\]*::control/\[0-9a-zA-Z_\\-\]+$</code>
   Future<GetControlResponse> getControl({
     required String controlArn,
   }) async {
@@ -362,6 +362,7 @@ class ControlCatalog {
   }
 }
 
+/// @nodoc
 class ListControlMappingsResponse {
   /// The list of control mappings that the ListControlMappings API returns.
   final List<ControlMapping> controlMappings;
@@ -394,6 +395,7 @@ class ListControlMappingsResponse {
   }
 }
 
+/// @nodoc
 class ListCommonControlsResponse {
   /// The list of common controls that the <code>ListCommonControls</code> API
   /// returns.
@@ -427,6 +429,7 @@ class ListCommonControlsResponse {
   }
 }
 
+/// @nodoc
 class GetControlResponse {
   /// The Amazon Resource Name (ARN) of the control.
   final String arn;
@@ -570,6 +573,7 @@ class GetControlResponse {
   }
 }
 
+/// @nodoc
 class ListControlsResponse {
   /// Returns a list of controls, given as structures of type
   /// <i>controlSummary</i>.
@@ -603,6 +607,7 @@ class ListControlsResponse {
   }
 }
 
+/// @nodoc
 class ListDomainsResponse {
   /// The list of domains that the <code>ListDomains</code> API returns.
   final List<DomainSummary> domains;
@@ -635,6 +640,7 @@ class ListDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListObjectivesResponse {
   /// The list of objectives that the <code>ListObjectives</code> API returns.
   final List<ObjectiveSummary> objectives;
@@ -668,6 +674,8 @@ class ListObjectivesResponse {
 }
 
 /// A summary of metadata for an objective.
+///
+/// @nodoc
 class ObjectiveSummary {
   /// The Amazon Resource Name (ARN) that identifies the objective.
   final String arn;
@@ -728,6 +736,8 @@ class ObjectiveSummary {
 }
 
 /// A summary of the domain that a common control or an objective belongs to.
+///
+/// @nodoc
 class AssociatedDomainSummary {
   /// The Amazon Resource Name (ARN) of the related domain.
   final String? arn;
@@ -758,6 +768,8 @@ class AssociatedDomainSummary {
 }
 
 /// An optional filter that narrows the list of objectives to a specific domain.
+///
+/// @nodoc
 class ObjectiveFilter {
   /// The domain that's used as filter criteria.
   ///
@@ -778,6 +790,8 @@ class ObjectiveFilter {
 }
 
 /// The domain resource that's being used as a filter.
+///
+/// @nodoc
 class DomainResourceFilter {
   /// The Amazon Resource Name (ARN) of the domain.
   final String? arn;
@@ -795,6 +809,8 @@ class DomainResourceFilter {
 }
 
 /// A summary of metadata for a domain.
+///
+/// @nodoc
 class DomainSummary {
   /// The Amazon Resource Name (ARN) that identifies the domain.
   final String arn;
@@ -846,6 +862,8 @@ class DomainSummary {
 }
 
 /// Overview of information about a control.
+///
+/// @nodoc
 class ControlSummary {
   /// The Amazon Resource Name (ARN) of the control.
   final String arn;
@@ -969,6 +987,7 @@ class ControlSummary {
   }
 }
 
+/// @nodoc
 class ControlBehavior {
   static const preventive = ControlBehavior._('PREVENTIVE');
   static const proactive = ControlBehavior._('PROACTIVE');
@@ -994,6 +1013,7 @@ class ControlBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class ControlSeverity {
   static const low = ControlSeverity._('LOW');
   static const medium = ControlSeverity._('MEDIUM');
@@ -1020,6 +1040,7 @@ class ControlSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class ParameterRequirementSummary {
   static const required = ParameterRequirementSummary._('REQUIRED');
   static const optional = ParameterRequirementSummary._('OPTIONAL');
@@ -1051,6 +1072,8 @@ class ParameterRequirementSummary {
 /// identifier. For example, the value of this field could indicate that the
 /// control is implemented as an Amazon Web Services Config Rule or an Amazon
 /// Web Services Security Hub control.
+///
+/// @nodoc
 class ImplementationSummary {
   /// A string that represents the Amazon Web Services service that implements
   /// this control. For example, a value of <code>AWS::Config::ConfigRule</code>
@@ -1089,6 +1112,8 @@ class ImplementationSummary {
 /// A structure that defines filtering criteria for the ListControls operation.
 /// You can use this filter to narrow down the list of controls based on their
 /// implementation details.
+///
+/// @nodoc
 class ControlFilter {
   /// A filter that narrows the results to controls that govern a specific
   /// provider's resources.
@@ -1118,6 +1143,8 @@ class ControlFilter {
 /// A structure that defines filtering criteria for control implementations. You
 /// can use this filter to find controls that are implemented by specific Amazon
 /// Web Services services or with specific service identifiers.
+///
+/// @nodoc
 class ImplementationFilter {
   /// A list of service-specific identifiers that can serve as filters. For
   /// example, you can filter for controls with specific Amazon Web Services
@@ -1161,6 +1188,8 @@ class ImplementationFilter {
 /// control with <code>REGIONAL</code> scope, even though you may not intend to
 /// deploy the control in Region <code>D</code>, because you do not govern it
 /// through your landing zone.
+///
+/// @nodoc
 class RegionConfiguration {
   /// The coverage of the control, if deployed. Scope is an enumerated type, with
   /// value <code>Regional</code>, or <code>Global</code>. A control with Global
@@ -1230,6 +1259,8 @@ class RegionConfiguration {
 ///
 /// Although the format is similar, the values for the <code>Type</code> field
 /// do not match any Amazon Web Services CloudFormation values.
+///
+/// @nodoc
 class ImplementationDetails {
   /// A string that describes a control's implementation type.
   final String type;
@@ -1270,14 +1301,14 @@ class ImplementationDetails {
 /// This parameter is mandatory for the <b>OU Region deny</b> control,
 /// <b>CT.MULTISERVICE.PV.1</b>.
 ///
-/// Example: <code>["us-east-1","us-west-2"]</code>
+/// Example: <code>\["us-east-1","us-west-2"\]</code>
 /// </li>
 /// <li>
 /// <b>ExemptedActions</b>: List of Amazon Web Services IAM actions exempted
 /// from the control. Each string is expected to be an IAM action.
 ///
 /// Example:
-/// <code>["logs:DescribeLogGroups","logs:StartQuery","logs:GetQueryResults"]</code>
+/// <code>\["logs:DescribeLogGroups","logs:StartQuery","logs:GetQueryResults"\]</code>
 /// </li>
 /// <li>
 /// <b>ExemptedPrincipalArns</b>: List of Amazon Web Services IAM principal ARNs
@@ -1285,13 +1316,13 @@ class ImplementationDetails {
 /// that follows the format <code>arn:partition:service::account:resource</code>
 ///
 /// Example:
-/// <code>["arn:aws:iam::*:role/ReadOnly","arn:aws:sts::*:assumed-role/ReadOnly/*"]</code>
+/// <code>\["arn:aws:iam::*:role/ReadOnly","arn:aws:sts::*:assumed-role/ReadOnly/*"\]</code>
 /// </li>
 /// <li>
 /// <b>ExemptedResourceArns</b>: List of resource ARNs exempted from the
 /// control. Each string is expected to be a resource ARN.
 ///
-/// Example: <code>["arn:aws:s3:::my-bucket-name"]</code>
+/// Example: <code>\["arn:aws:s3:::my-bucket-name"\]</code>
 /// </li>
 /// <li>
 /// <b>ExemptAssumeRoot</b>: A parameter that lets you choose whether to exempt
@@ -1308,11 +1339,13 @@ class ImplementationDetails {
 ///
 /// <code>{ "controlIdentifier":
 /// "arn:aws:controlcatalog:::control/5kvme4m5d2b4d7if2fs5yg2ui", "parameters":
-/// [ { "key": "ExemptAssumeRoot", "value": true } ], "targetIdentifier":
+/// \[ { "key": "ExemptAssumeRoot", "value": true } \], "targetIdentifier":
 /// "arn:aws:organizations::8633900XXXXX:ou/o-6jmn81636m/ou-qsah-jtiihcla"
 /// }</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ControlParameter {
   /// The parameter name. This name is the parameter <code>key</code> when you
   /// call <a
@@ -1349,6 +1382,7 @@ class ControlParameter {
   }
 }
 
+/// @nodoc
 class ControlParameterRequirement {
   static const required = ControlParameterRequirement._('REQUIRED');
   static const optional = ControlParameterRequirement._('OPTIONAL');
@@ -1374,6 +1408,7 @@ class ControlParameterRequirement {
   String toString() => value;
 }
 
+/// @nodoc
 class ControlScope {
   static const global = ControlScope._('GLOBAL');
   static const regional = ControlScope._('REGIONAL');
@@ -1398,6 +1433,8 @@ class ControlScope {
 }
 
 /// A summary of metadata for a common control.
+///
+/// @nodoc
 class CommonControlSummary {
   /// The Amazon Resource Name (ARN) that identifies the common control.
   final String arn;
@@ -1467,6 +1504,8 @@ class CommonControlSummary {
 }
 
 /// A summary of the objective that a common control supports.
+///
+/// @nodoc
 class AssociatedObjectiveSummary {
   /// The Amazon Resource Name (ARN) of the related objective.
   final String? arn;
@@ -1497,6 +1536,8 @@ class AssociatedObjectiveSummary {
 }
 
 /// An optional filter that narrows the results to a specific objective.
+///
+/// @nodoc
 class CommonControlFilter {
   /// The objective that's used as filter criteria.
   ///
@@ -1517,6 +1558,8 @@ class CommonControlFilter {
 }
 
 /// The objective resource that's being used as a filter.
+///
+/// @nodoc
 class ObjectiveResourceFilter {
   /// The Amazon Resource Name (ARN) of the objective.
   final String? arn;
@@ -1535,6 +1578,8 @@ class ObjectiveResourceFilter {
 
 /// A structure that contains information about a control mapping, including the
 /// control ARN, mapping type, and mapping details.
+///
+/// @nodoc
 class ControlMapping {
   /// The Amazon Resource Name (ARN) that identifies the control in the mapping.
   final String controlArn;
@@ -1574,6 +1619,7 @@ class ControlMapping {
   }
 }
 
+/// @nodoc
 class MappingType {
   static const framework = MappingType._('FRAMEWORK');
   static const commonControl = MappingType._('COMMON_CONTROL');
@@ -1600,6 +1646,8 @@ class MappingType {
 
 /// A structure that contains the details of a mapping relationship, which can
 /// be either to a framework or to a common control.
+///
+/// @nodoc
 class Mapping {
   /// The common control mapping details when the mapping type relates to a common
   /// control.
@@ -1651,6 +1699,8 @@ class Mapping {
 /// A structure that contains details about a framework mapping, including the
 /// framework name and specific item within the framework that the control maps
 /// to.
+///
+/// @nodoc
 class FrameworkMappingDetails {
   /// The specific item or requirement within the framework that the control maps
   /// to.
@@ -1683,6 +1733,8 @@ class FrameworkMappingDetails {
 
 /// A structure that contains details about a common control mapping. In
 /// particular, it returns the Amazon Resource Name (ARN) of the common control.
+///
+/// @nodoc
 class CommonControlMappingDetails {
   /// The Amazon Resource Name (ARN) that identifies the common control in the
   /// mapping.
@@ -1708,6 +1760,8 @@ class CommonControlMappingDetails {
 
 /// A structure that describes a control's relationship status with other
 /// controls.
+///
+/// @nodoc
 class RelatedControlMappingDetails {
   /// Returns an enumerated value that represents the relationship between two or
   /// more controls.
@@ -1739,6 +1793,7 @@ class RelatedControlMappingDetails {
   }
 }
 
+/// @nodoc
 class ControlRelationType {
   static const complementary = ControlRelationType._('COMPLEMENTARY');
   static const alternative = ControlRelationType._('ALTERNATIVE');
@@ -1768,6 +1823,8 @@ class ControlRelationType {
 /// A structure that defines filtering criteria for the ListControlMappings
 /// operation. You can use this filter to narrow down the list of control
 /// mappings based on control ARNs, common control ARNs, or mapping types.
+///
+/// @nodoc
 class ControlMappingFilter {
   /// A list of common control ARNs to filter the mappings. When specified, only
   /// mappings associated with these common controls are returned.
@@ -1800,26 +1857,31 @@ class ControlMappingFilter {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

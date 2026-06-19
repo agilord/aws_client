@@ -73,6 +73,7 @@ class MapWithEnumKey {
   }
 }
 
+/// @nodoc
 class QueueAttributeName {
   static const all = QueueAttributeName._('All');
   static const policy = QueueAttributeName._('Policy');

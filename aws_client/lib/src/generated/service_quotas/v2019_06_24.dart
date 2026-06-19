@@ -1375,6 +1375,7 @@ class ServiceQuotas {
   }
 }
 
+/// @nodoc
 class AssociateServiceQuotaTemplateResponse {
   AssociateServiceQuotaTemplateResponse();
 
@@ -1388,6 +1389,7 @@ class AssociateServiceQuotaTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateSupportCaseResponse {
   CreateSupportCaseResponse();
 
@@ -1400,6 +1402,7 @@ class CreateSupportCaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceQuotaIncreaseRequestFromTemplateResponse {
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse();
 
@@ -1413,6 +1416,7 @@ class DeleteServiceQuotaIncreaseRequestFromTemplateResponse {
   }
 }
 
+/// @nodoc
 class DisassociateServiceQuotaTemplateResponse {
   DisassociateServiceQuotaTemplateResponse();
 
@@ -1426,6 +1430,7 @@ class DisassociateServiceQuotaTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetAssociationForServiceQuotaTemplateResponse {
   /// The association status. If the status is <code>ASSOCIATED</code>, the quota
   /// increase requests in the template are automatically applied to new Amazon
@@ -1457,6 +1462,7 @@ class GetAssociationForServiceQuotaTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetAutoManagementConfigurationResponse {
   /// List of Amazon Web Services services excluded from Automatic Management. You
   /// won't be notified of Service Quotas utilization for Amazon Web Services
@@ -1523,6 +1529,7 @@ class GetAutoManagementConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetAWSDefaultServiceQuotaResponse {
   /// Information about the quota.
   final ServiceQuota? quota;
@@ -1548,6 +1555,7 @@ class GetAWSDefaultServiceQuotaResponse {
   }
 }
 
+/// @nodoc
 class GetQuotaUtilizationReportResponse {
   /// An error code indicating the reason for failure when the report status is
   /// <code>FAILED</code>. This field is only present when the status is
@@ -1652,6 +1660,7 @@ class GetQuotaUtilizationReportResponse {
   }
 }
 
+/// @nodoc
 class GetRequestedServiceQuotaChangeResponse {
   /// Information about the quota increase request.
   final RequestedServiceQuotaChange? requestedQuota;
@@ -1678,6 +1687,7 @@ class GetRequestedServiceQuotaChangeResponse {
   }
 }
 
+/// @nodoc
 class GetServiceQuotaResponse {
   /// Information about the quota.
   final ServiceQuota? quota;
@@ -1702,6 +1712,7 @@ class GetServiceQuotaResponse {
   }
 }
 
+/// @nodoc
 class GetServiceQuotaIncreaseRequestFromTemplateResponse {
   /// Information about the quota increase request.
   final ServiceQuotaIncreaseRequestInTemplate?
@@ -1734,6 +1745,7 @@ class GetServiceQuotaIncreaseRequestFromTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListAWSDefaultServiceQuotasResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1771,6 +1783,7 @@ class ListAWSDefaultServiceQuotasResponse {
   }
 }
 
+/// @nodoc
 class ListRequestedServiceQuotaChangeHistoryResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1809,6 +1822,7 @@ class ListRequestedServiceQuotaChangeHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1847,6 +1861,7 @@ class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
   }
 }
 
+/// @nodoc
 class ListServiceQuotaIncreaseRequestsInTemplateResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1890,6 +1905,7 @@ class ListServiceQuotaIncreaseRequestsInTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListServiceQuotasResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1926,6 +1942,7 @@ class ListServiceQuotasResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1962,6 +1979,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A complex data type that contains zero or more tag elements.
   final List<Tag>? tags;
@@ -1987,6 +2005,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
   /// Information about the quota increase request.
   final ServiceQuotaIncreaseRequestInTemplate?
@@ -2019,6 +2038,7 @@ class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
   }
 }
 
+/// @nodoc
 class RequestServiceQuotaIncreaseResponse {
   /// Information about the quota increase request.
   final RequestedServiceQuotaChange? requestedQuota;
@@ -2045,6 +2065,7 @@ class RequestServiceQuotaIncreaseResponse {
   }
 }
 
+/// @nodoc
 class StartAutoManagementResponse {
   StartAutoManagementResponse();
 
@@ -2057,6 +2078,7 @@ class StartAutoManagementResponse {
   }
 }
 
+/// @nodoc
 class StartQuotaUtilizationReportResponse {
   /// An optional message providing additional information about the report
   /// generation status. This field may contain details about the report
@@ -2099,6 +2121,7 @@ class StartQuotaUtilizationReportResponse {
   }
 }
 
+/// @nodoc
 class StopAutoManagementResponse {
   StopAutoManagementResponse();
 
@@ -2111,6 +2134,7 @@ class StopAutoManagementResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2123,6 +2147,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2135,6 +2160,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutoManagementResponse {
   UpdateAutoManagementResponse();
 
@@ -2147,6 +2173,7 @@ class UpdateAutoManagementResponse {
   }
 }
 
+/// @nodoc
 class OptInType {
   static const notifyOnly = OptInType._('NotifyOnly');
   static const notifyAndAdjust = OptInType._('NotifyAndAdjust');
@@ -2171,6 +2198,8 @@ class OptInType {
 }
 
 /// A complex data type that contains a tag key and tag value.
+///
+/// @nodoc
 class Tag {
   /// A string that contains a tag key. The string length should be between 1 and
   /// 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the
@@ -2204,6 +2233,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ReportStatus {
   static const pending = ReportStatus._('PENDING');
   static const inProgress = ReportStatus._('IN_PROGRESS');
@@ -2229,6 +2259,7 @@ class ReportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OptInLevel {
   static const account = OptInLevel._('ACCOUNT');
 
@@ -2252,6 +2283,8 @@ class OptInLevel {
 }
 
 /// Information about a quota increase request.
+///
+/// @nodoc
 class RequestedServiceQuotaChange {
   /// The case ID.
   final String? caseId;
@@ -2440,6 +2473,7 @@ class RequestedServiceQuotaChange {
   }
 }
 
+/// @nodoc
 class RequestType {
   static const automaticManagement = RequestType._('AutomaticManagement');
 
@@ -2462,6 +2496,7 @@ class RequestType {
   String toString() => value;
 }
 
+/// @nodoc
 class RequestStatus {
   static const pending = RequestStatus._('PENDING');
   static const caseOpened = RequestStatus._('CASE_OPENED');
@@ -2499,6 +2534,7 @@ class RequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AppliedLevelEnum {
   static const account = AppliedLevelEnum._('ACCOUNT');
   static const resource = AppliedLevelEnum._('RESOURCE');
@@ -2534,6 +2570,8 @@ class AppliedLevelEnum {
 /// at the account-level for each Amazon Web Services Region, the
 /// <code>QuotaContext</code> field is absent. See the attribute descriptions
 /// below to further understand how to use them.
+///
+/// @nodoc
 class QuotaContextInfo {
   /// Specifies the resource, or resources, to which the quota applies. The value
   /// for this field is either an Amazon Resource Name (ARN) or *. If the value is
@@ -2580,6 +2618,7 @@ class QuotaContextInfo {
   }
 }
 
+/// @nodoc
 class QuotaContextScope {
   static const resource = QuotaContextScope._('RESOURCE');
   static const account = QuotaContextScope._('ACCOUNT');
@@ -2605,6 +2644,8 @@ class QuotaContextScope {
 }
 
 /// Information about a quota increase request.
+///
+/// @nodoc
 class ServiceQuotaIncreaseRequestInTemplate {
   /// The Amazon Web Services Region.
   final String? awsRegion;
@@ -2681,6 +2722,8 @@ class ServiceQuotaIncreaseRequestInTemplate {
 }
 
 /// Information about an Amazon Web Services service.
+///
+/// @nodoc
 class ServiceInfo {
   /// Specifies the service identifier. To find the service code value for an
   /// Amazon Web Services service, use the <a>ListServices</a> operation.
@@ -2712,6 +2755,8 @@ class ServiceInfo {
 }
 
 /// Information about a quota.
+///
+/// @nodoc
 class ServiceQuota {
   /// Indicates whether the quota value can be increased.
   final bool? adjustable;
@@ -2849,6 +2894,8 @@ class ServiceQuota {
 }
 
 /// Information about the CloudWatch metric that reflects quota usage.
+///
+/// @nodoc
 class MetricInfo {
   /// The metric dimension. This is a name/value pair that is part of the identity
   /// of a metric.
@@ -2897,6 +2944,8 @@ class MetricInfo {
 }
 
 /// Information about the quota period.
+///
+/// @nodoc
 class QuotaPeriod {
   /// The time unit.
   final PeriodUnit? periodUnit;
@@ -2927,6 +2976,8 @@ class QuotaPeriod {
 }
 
 /// An error that explains why an action did not succeed.
+///
+/// @nodoc
 class ErrorReason {
   /// Service Quotas returns the following error values:
   ///
@@ -2976,6 +3027,7 @@ class ErrorReason {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const dependencyAccessDeniedError =
       ErrorCode._('DEPENDENCY_ACCESS_DENIED_ERROR');
@@ -3009,6 +3061,7 @@ class ErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class PeriodUnit {
   static const microsecond = PeriodUnit._('MICROSECOND');
   static const millisecond = PeriodUnit._('MILLISECOND');
@@ -3047,6 +3100,8 @@ class PeriodUnit {
 
 /// Information about a quota's utilization, including the quota code, service
 /// information, current usage, and applied limits.
+///
+/// @nodoc
 class QuotaUtilizationInfo {
   /// Indicates whether the quota value can be increased.
   final bool? adjustable;
@@ -3128,6 +3183,7 @@ class QuotaUtilizationInfo {
   }
 }
 
+/// @nodoc
 class OptInStatus {
   static const enabled = OptInStatus._('ENABLED');
   static const disabled = OptInStatus._('DISABLED');
@@ -3156,6 +3212,8 @@ class OptInStatus {
 /// Quotas Automatic Management</a>. Automatic Management monitors your Service
 /// Quotas utilization and notifies you before you run out of your allocated
 /// quotas.
+///
+/// @nodoc
 class QuotaInfo {
   /// The Service Quotas code for the Amazon Web Services service monitored with
   /// Automatic Management.
@@ -3187,6 +3245,7 @@ class QuotaInfo {
   }
 }
 
+/// @nodoc
 class ServiceQuotaTemplateAssociationStatus {
   static const associated =
       ServiceQuotaTemplateAssociationStatus._('ASSOCIATED');
@@ -3214,6 +3273,7 @@ class ServiceQuotaTemplateAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AWSServiceAccessNotEnabledException extends _s.GenericAwsException {
   AWSServiceAccessNotEnabledException({String? type, String? message})
       : super(
@@ -3222,11 +3282,13 @@ class AWSServiceAccessNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class DependencyAccessDeniedException extends _s.GenericAwsException {
   DependencyAccessDeniedException({String? type, String? message})
       : super(
@@ -3235,11 +3297,13 @@ class DependencyAccessDeniedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IllegalArgumentException extends _s.GenericAwsException {
   IllegalArgumentException({String? type, String? message})
       : super(type: type, code: 'IllegalArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -3248,6 +3312,7 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateException extends _s.GenericAwsException {
   InvalidResourceStateException({String? type, String? message})
       : super(
@@ -3256,6 +3321,7 @@ class InvalidResourceStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoAvailableOrganizationException extends _s.GenericAwsException {
   NoAvailableOrganizationException({String? type, String? message})
       : super(
@@ -3264,11 +3330,13 @@ class NoAvailableOrganizationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchResourceException extends _s.GenericAwsException {
   NoSuchResourceException({String? type, String? message})
       : super(type: type, code: 'NoSuchResourceException', message: message);
 }
 
+/// @nodoc
 class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
   OrganizationNotInAllFeaturesModeException({String? type, String? message})
       : super(
@@ -3277,11 +3345,13 @@ class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class QuotaExceededException extends _s.GenericAwsException {
   QuotaExceededException({String? type, String? message})
       : super(type: type, code: 'QuotaExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -3290,11 +3360,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaTemplateNotInUseException extends _s.GenericAwsException {
   ServiceQuotaTemplateNotInUseException({String? type, String? message})
       : super(
@@ -3303,12 +3375,14 @@ class ServiceQuotaTemplateNotInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagPolicyViolationException extends _s.GenericAwsException {
   TagPolicyViolationException({String? type, String? message})
       : super(
             type: type, code: 'TagPolicyViolationException', message: message);
 }
 
+/// @nodoc
 class TemplatesNotAvailableInRegionException extends _s.GenericAwsException {
   TemplatesNotAvailableInRegionException({String? type, String? message})
       : super(
@@ -3317,11 +3391,13 @@ class TemplatesNotAvailableInRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

@@ -64,6 +64,7 @@ class EnumOutput {
   }
 }
 
+/// @nodoc
 class OutputShape {
   final EC2EnumType? fooEnum;
   final List<EC2EnumType>? listEnums;
@@ -95,6 +96,7 @@ class OutputShape {
   }
 }
 
+/// @nodoc
 class EC2EnumType {
   static const foo = EC2EnumType._('foo');
   static const bar = EC2EnumType._('bar');

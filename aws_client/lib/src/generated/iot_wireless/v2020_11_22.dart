@@ -3918,6 +3918,7 @@ class IoTWireless {
   }
 }
 
+/// @nodoc
 class AssociateAwsAccountWithPartnerAccountResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -3951,6 +3952,7 @@ class AssociateAwsAccountWithPartnerAccountResponse {
   }
 }
 
+/// @nodoc
 class AssociateMulticastGroupWithFuotaTaskResponse {
   AssociateMulticastGroupWithFuotaTaskResponse();
 
@@ -3964,6 +3966,7 @@ class AssociateMulticastGroupWithFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class AssociateWirelessDeviceWithFuotaTaskResponse {
   AssociateWirelessDeviceWithFuotaTaskResponse();
 
@@ -3977,6 +3980,7 @@ class AssociateWirelessDeviceWithFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class AssociateWirelessDeviceWithMulticastGroupResponse {
   AssociateWirelessDeviceWithMulticastGroupResponse();
 
@@ -3990,6 +3994,7 @@ class AssociateWirelessDeviceWithMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class AssociateWirelessDeviceWithThingResponse {
   AssociateWirelessDeviceWithThingResponse();
 
@@ -4003,6 +4008,7 @@ class AssociateWirelessDeviceWithThingResponse {
   }
 }
 
+/// @nodoc
 class AssociateWirelessGatewayWithCertificateResponse {
   /// The ID of the certificate associated with the wireless gateway.
   final String? iotCertificateId;
@@ -4026,6 +4032,7 @@ class AssociateWirelessGatewayWithCertificateResponse {
   }
 }
 
+/// @nodoc
 class AssociateWirelessGatewayWithThingResponse {
   AssociateWirelessGatewayWithThingResponse();
 
@@ -4039,6 +4046,7 @@ class AssociateWirelessGatewayWithThingResponse {
   }
 }
 
+/// @nodoc
 class CancelMulticastGroupSessionResponse {
   CancelMulticastGroupSessionResponse();
 
@@ -4051,6 +4059,7 @@ class CancelMulticastGroupSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateDestinationResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -4080,6 +4089,7 @@ class CreateDestinationResponse {
   }
 }
 
+/// @nodoc
 class CreateDeviceProfileResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -4109,6 +4119,7 @@ class CreateDeviceProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateFuotaTaskResponse {
   final String? arn;
   final String? id;
@@ -4135,6 +4146,7 @@ class CreateFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateMulticastGroupResponse {
   final String? arn;
   final String? id;
@@ -4161,6 +4173,7 @@ class CreateMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateNetworkAnalyzerConfigurationResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -4189,6 +4202,7 @@ class CreateNetworkAnalyzerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceProfileResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -4218,6 +4232,7 @@ class CreateServiceProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateWirelessDeviceResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -4247,6 +4262,7 @@ class CreateWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class CreateWirelessGatewayResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -4276,6 +4292,7 @@ class CreateWirelessGatewayResponse {
   }
 }
 
+/// @nodoc
 class CreateWirelessGatewayTaskResponse {
   /// The status of the request.
   final WirelessGatewayTaskStatus? status;
@@ -4310,6 +4327,7 @@ class CreateWirelessGatewayTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateWirelessGatewayTaskDefinitionResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -4340,6 +4358,7 @@ class CreateWirelessGatewayTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDestinationResponse {
   DeleteDestinationResponse();
 
@@ -4352,6 +4371,7 @@ class DeleteDestinationResponse {
   }
 }
 
+/// @nodoc
 class DeleteDeviceProfileResponse {
   DeleteDeviceProfileResponse();
 
@@ -4364,6 +4384,7 @@ class DeleteDeviceProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteFuotaTaskResponse {
   DeleteFuotaTaskResponse();
 
@@ -4376,6 +4397,7 @@ class DeleteFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class DeleteMulticastGroupResponse {
   DeleteMulticastGroupResponse();
 
@@ -4388,6 +4410,7 @@ class DeleteMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteNetworkAnalyzerConfigurationResponse {
   DeleteNetworkAnalyzerConfigurationResponse();
 
@@ -4401,6 +4424,7 @@ class DeleteNetworkAnalyzerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueuedMessagesResponse {
   DeleteQueuedMessagesResponse();
 
@@ -4413,6 +4437,7 @@ class DeleteQueuedMessagesResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceProfileResponse {
   DeleteServiceProfileResponse();
 
@@ -4425,6 +4450,7 @@ class DeleteServiceProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteWirelessDeviceResponse {
   DeleteWirelessDeviceResponse();
 
@@ -4437,6 +4463,7 @@ class DeleteWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class DeleteWirelessDeviceImportTaskResponse {
   DeleteWirelessDeviceImportTaskResponse();
 
@@ -4450,6 +4477,7 @@ class DeleteWirelessDeviceImportTaskResponse {
   }
 }
 
+/// @nodoc
 class DeleteWirelessGatewayResponse {
   DeleteWirelessGatewayResponse();
 
@@ -4462,6 +4490,7 @@ class DeleteWirelessGatewayResponse {
   }
 }
 
+/// @nodoc
 class DeleteWirelessGatewayTaskResponse {
   DeleteWirelessGatewayTaskResponse();
 
@@ -4474,6 +4503,7 @@ class DeleteWirelessGatewayTaskResponse {
   }
 }
 
+/// @nodoc
 class DeleteWirelessGatewayTaskDefinitionResponse {
   DeleteWirelessGatewayTaskDefinitionResponse();
 
@@ -4487,6 +4517,7 @@ class DeleteWirelessGatewayTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeregisterWirelessDeviceResponse {
   DeregisterWirelessDeviceResponse();
 
@@ -4499,6 +4530,7 @@ class DeregisterWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAwsAccountFromPartnerAccountResponse {
   DisassociateAwsAccountFromPartnerAccountResponse();
 
@@ -4512,6 +4544,7 @@ class DisassociateAwsAccountFromPartnerAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMulticastGroupFromFuotaTaskResponse {
   DisassociateMulticastGroupFromFuotaTaskResponse();
 
@@ -4525,6 +4558,7 @@ class DisassociateMulticastGroupFromFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWirelessDeviceFromFuotaTaskResponse {
   DisassociateWirelessDeviceFromFuotaTaskResponse();
 
@@ -4538,6 +4572,7 @@ class DisassociateWirelessDeviceFromFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWirelessDeviceFromMulticastGroupResponse {
   DisassociateWirelessDeviceFromMulticastGroupResponse();
 
@@ -4551,6 +4586,7 @@ class DisassociateWirelessDeviceFromMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWirelessDeviceFromThingResponse {
   DisassociateWirelessDeviceFromThingResponse();
 
@@ -4564,6 +4600,7 @@ class DisassociateWirelessDeviceFromThingResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWirelessGatewayFromCertificateResponse {
   DisassociateWirelessGatewayFromCertificateResponse();
 
@@ -4577,6 +4614,7 @@ class DisassociateWirelessGatewayFromCertificateResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWirelessGatewayFromThingResponse {
   DisassociateWirelessGatewayFromThingResponse();
 
@@ -4590,6 +4628,7 @@ class DisassociateWirelessGatewayFromThingResponse {
   }
 }
 
+/// @nodoc
 class GetDestinationResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -4648,6 +4687,7 @@ class GetDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceProfileResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -4704,6 +4744,7 @@ class GetDeviceProfileResponse {
   }
 }
 
+/// @nodoc
 class GetEventConfigurationByResourceTypesResponse {
   /// Resource type event configuration for the connection status event.
   final ConnectionStatusResourceTypeEventConfiguration? connectionStatus;
@@ -4775,6 +4816,7 @@ class GetEventConfigurationByResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class GetFuotaTaskResponse {
   final String? arn;
   final DateTime? createdAt;
@@ -4860,6 +4902,7 @@ class GetFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class GetLogLevelsByResourceTypesResponse {
   final LogLevel? defaultLogLevel;
   final List<FuotaTaskLogOption>? fuotaTaskLogOptions;
@@ -4912,6 +4955,7 @@ class GetLogLevelsByResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class GetMetricConfigurationResponse {
   /// The configuration status of the AWS account for summary metric aggregation.
   final SummaryMetricConfiguration? summaryMetric;
@@ -4937,6 +4981,7 @@ class GetMetricConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetMetricsResponse {
   /// The list of summary metrics that were retrieved.
   final List<SummaryMetricQueryResult>? summaryMetricQueryResults;
@@ -4964,6 +5009,7 @@ class GetMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetMulticastGroupResponse {
   final String? arn;
   final DateTime? createdAt;
@@ -5018,6 +5064,7 @@ class GetMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class GetMulticastGroupSessionResponse {
   final LoRaWANMulticastSession? loRaWAN;
 
@@ -5042,6 +5089,7 @@ class GetMulticastGroupSessionResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkAnalyzerConfigurationResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -5115,6 +5163,7 @@ class GetNetworkAnalyzerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetPartnerAccountResponse {
   /// Whether the partner account is linked to the AWS account.
   final bool? accountLinked;
@@ -5147,6 +5196,7 @@ class GetPartnerAccountResponse {
   }
 }
 
+/// @nodoc
 class GetPositionResponse {
   /// The accuracy of the estimated position in meters. An empty value indicates
   /// that no position data is available. A value of ‘0.0’ value indicates that
@@ -5214,6 +5264,7 @@ class GetPositionResponse {
   }
 }
 
+/// @nodoc
 class GetPositionConfigurationResponse {
   /// The position data destination that describes the AWS IoT rule that processes
   /// the device's position data for use by AWS IoT Core for LoRaWAN.
@@ -5247,6 +5298,7 @@ class GetPositionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetPositionEstimateResponse {
   /// The position information of the resource, displayed as a JSON payload. The
   /// payload is of type blob and uses the <a
@@ -5271,6 +5323,7 @@ class GetPositionEstimateResponse {
   }
 }
 
+/// @nodoc
 class GetResourceEventConfigurationResponse {
   /// Event configuration for the connection status event.
   final ConnectionStatusEventConfiguration? connectionStatus;
@@ -5339,6 +5392,7 @@ class GetResourceEventConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetResourceLogLevelResponse {
   final LogLevel? logLevel;
 
@@ -5360,6 +5414,7 @@ class GetResourceLogLevelResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePositionResponse {
   /// The position information of the resource, displayed as a JSON payload. The
   /// payload uses the GeoJSON format, which a format that's used to encode
@@ -5380,6 +5435,7 @@ class GetResourcePositionResponse {
   }
 }
 
+/// @nodoc
 class GetServiceEndpointResponse {
   /// The Root CA of the server trust certificate.
   final String? serverTrust;
@@ -5417,6 +5473,7 @@ class GetServiceEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetServiceProfileResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -5463,6 +5520,7 @@ class GetServiceProfileResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessDeviceResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -5562,6 +5620,7 @@ class GetWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessDeviceImportTaskResponse {
   /// The ARN (Amazon Resource Name) of the import task.
   final String? arn;
@@ -5679,6 +5738,7 @@ class GetWirelessDeviceImportTaskResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessDeviceStatisticsResponse {
   /// The date and time when the most recent uplink was received.
   /// <note>
@@ -5733,6 +5793,7 @@ class GetWirelessDeviceStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessGatewayResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -5800,6 +5861,7 @@ class GetWirelessGatewayResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessGatewayCertificateResponse {
   /// The ID of the certificate associated with the wireless gateway.
   final String? iotCertificateId;
@@ -5834,6 +5896,7 @@ class GetWirelessGatewayCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessGatewayFirmwareInformationResponse {
   /// Information about the wireless gateway's firmware.
   final LoRaWANGatewayCurrentVersion? loRaWAN;
@@ -5860,6 +5923,7 @@ class GetWirelessGatewayFirmwareInformationResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessGatewayStatisticsResponse {
   /// The connection status of the wireless gateway.
   final ConnectionStatus? connectionStatus;
@@ -5902,6 +5966,7 @@ class GetWirelessGatewayStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessGatewayTaskResponse {
   /// The date and time when the most recent uplink was received.
   /// <note>
@@ -5960,6 +6025,7 @@ class GetWirelessGatewayTaskResponse {
   }
 }
 
+/// @nodoc
 class GetWirelessGatewayTaskDefinitionResponse {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -6009,6 +6075,7 @@ class GetWirelessGatewayTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class ListDestinationsResponse {
   /// The list of destinations.
   final List<Destinations>? destinationList;
@@ -6042,6 +6109,7 @@ class ListDestinationsResponse {
   }
 }
 
+/// @nodoc
 class ListDeviceProfilesResponse {
   /// The list of device profiles.
   final List<DeviceProfile>? deviceProfileList;
@@ -6075,6 +6143,7 @@ class ListDeviceProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListDevicesForWirelessDeviceImportTaskResponse {
   /// The name of the Sidewalk destination that describes the IoT rule to route
   /// messages received from devices in an import task that are onboarded to AWS
@@ -6138,6 +6207,7 @@ class ListDevicesForWirelessDeviceImportTaskResponse {
   }
 }
 
+/// @nodoc
 class ListEventConfigurationsResponse {
   /// Event configurations of all events for a single resource.
   final List<EventConfigurationItem>? eventConfigurationsList;
@@ -6174,6 +6244,7 @@ class ListEventConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListFuotaTasksResponse {
   final List<FuotaTask>? fuotaTaskList;
 
@@ -6207,6 +6278,7 @@ class ListFuotaTasksResponse {
   }
 }
 
+/// @nodoc
 class ListMulticastGroupsResponse {
   final List<MulticastGroup>? multicastGroupList;
 
@@ -6240,6 +6312,7 @@ class ListMulticastGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListMulticastGroupsByFuotaTaskResponse {
   final List<MulticastGroupByFuotaTask>? multicastGroupList;
 
@@ -6275,6 +6348,7 @@ class ListMulticastGroupsByFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkAnalyzerConfigurationsResponse {
   /// The list of network analyzer configurations.
   final List<NetworkAnalyzerConfigurations>? networkAnalyzerConfigurationList;
@@ -6313,6 +6387,7 @@ class ListNetworkAnalyzerConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListPartnerAccountsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -6347,6 +6422,7 @@ class ListPartnerAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListPositionConfigurationsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -6383,6 +6459,7 @@ class ListPositionConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListQueuedMessagesResponse {
   /// The messages in the downlink queue.
   final List<DownlinkQueueMessage>? downlinkQueueMessagesList;
@@ -6418,6 +6495,7 @@ class ListQueuedMessagesResponse {
   }
 }
 
+/// @nodoc
 class ListServiceProfilesResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -6451,6 +6529,7 @@ class ListServiceProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags to attach to the specified resource. Tags are metadata that you can
   /// use to manage a resource.
@@ -6477,6 +6556,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWirelessDeviceImportTasksResponse {
   /// The token to use to get the next set of results, or <code>null</code> if
   /// there are no additional results.
@@ -6515,6 +6595,7 @@ class ListWirelessDeviceImportTasksResponse {
   }
 }
 
+/// @nodoc
 class ListWirelessDevicesResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -6549,6 +6630,7 @@ class ListWirelessDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListWirelessGatewaysResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -6584,6 +6666,7 @@ class ListWirelessGatewaysResponse {
   }
 }
 
+/// @nodoc
 class ListWirelessGatewayTaskDefinitionsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -6619,6 +6702,7 @@ class ListWirelessGatewayTaskDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class PutPositionConfigurationResponse {
   PutPositionConfigurationResponse();
 
@@ -6631,6 +6715,7 @@ class PutPositionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutResourceLogLevelResponse {
   PutResourceLogLevelResponse();
 
@@ -6643,6 +6728,7 @@ class PutResourceLogLevelResponse {
   }
 }
 
+/// @nodoc
 class ResetAllResourceLogLevelsResponse {
   ResetAllResourceLogLevelsResponse();
 
@@ -6655,6 +6741,7 @@ class ResetAllResourceLogLevelsResponse {
   }
 }
 
+/// @nodoc
 class ResetResourceLogLevelResponse {
   ResetResourceLogLevelResponse();
 
@@ -6667,6 +6754,7 @@ class ResetResourceLogLevelResponse {
   }
 }
 
+/// @nodoc
 class SendDataToMulticastGroupResponse {
   final String? messageId;
 
@@ -6688,6 +6776,7 @@ class SendDataToMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class SendDataToWirelessDeviceResponse {
   /// The ID of the message sent to the wireless device.
   final String? messageId;
@@ -6710,6 +6799,7 @@ class SendDataToWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
   StartBulkAssociateWirelessDeviceWithMulticastGroupResponse();
 
@@ -6723,6 +6813,7 @@ class StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {
   StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse();
 
@@ -6736,6 +6827,7 @@ class StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class StartFuotaTaskResponse {
   StartFuotaTaskResponse();
 
@@ -6748,6 +6840,7 @@ class StartFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class StartMulticastGroupSessionResponse {
   StartMulticastGroupSessionResponse();
 
@@ -6760,6 +6853,7 @@ class StartMulticastGroupSessionResponse {
   }
 }
 
+/// @nodoc
 class StartSingleWirelessDeviceImportTaskResponse {
   /// The ARN (Amazon Resource Name) of the import task.
   final String? arn;
@@ -6790,6 +6884,7 @@ class StartSingleWirelessDeviceImportTaskResponse {
   }
 }
 
+/// @nodoc
 class StartWirelessDeviceImportTaskResponse {
   /// The ARN (Amazon Resource Name) of the import task.
   final String? arn;
@@ -6820,6 +6915,7 @@ class StartWirelessDeviceImportTaskResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6832,6 +6928,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TestWirelessDeviceResponse {
   /// The result returned by the test.
   final String? result;
@@ -6854,6 +6951,7 @@ class TestWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6866,6 +6964,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDestinationResponse {
   UpdateDestinationResponse();
 
@@ -6878,6 +6977,7 @@ class UpdateDestinationResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventConfigurationByResourceTypesResponse {
   UpdateEventConfigurationByResourceTypesResponse();
 
@@ -6891,6 +6991,7 @@ class UpdateEventConfigurationByResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class UpdateFuotaTaskResponse {
   UpdateFuotaTaskResponse();
 
@@ -6903,6 +7004,7 @@ class UpdateFuotaTaskResponse {
   }
 }
 
+/// @nodoc
 class UpdateLogLevelsByResourceTypesResponse {
   UpdateLogLevelsByResourceTypesResponse();
 
@@ -6916,6 +7018,7 @@ class UpdateLogLevelsByResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class UpdateMetricConfigurationResponse {
   UpdateMetricConfigurationResponse();
 
@@ -6928,6 +7031,7 @@ class UpdateMetricConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateMulticastGroupResponse {
   UpdateMulticastGroupResponse();
 
@@ -6940,6 +7044,7 @@ class UpdateMulticastGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateNetworkAnalyzerConfigurationResponse {
   UpdateNetworkAnalyzerConfigurationResponse();
 
@@ -6953,6 +7058,7 @@ class UpdateNetworkAnalyzerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePartnerAccountResponse {
   UpdatePartnerAccountResponse();
 
@@ -6965,6 +7071,7 @@ class UpdatePartnerAccountResponse {
   }
 }
 
+/// @nodoc
 class UpdatePositionResponse {
   UpdatePositionResponse();
 
@@ -6977,6 +7084,7 @@ class UpdatePositionResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceEventConfigurationResponse {
   UpdateResourceEventConfigurationResponse();
 
@@ -6990,6 +7098,7 @@ class UpdateResourceEventConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourcePositionResponse {
   UpdateResourcePositionResponse();
 
@@ -7002,6 +7111,7 @@ class UpdateResourcePositionResponse {
   }
 }
 
+/// @nodoc
 class UpdateWirelessDeviceResponse {
   UpdateWirelessDeviceResponse();
 
@@ -7014,6 +7124,7 @@ class UpdateWirelessDeviceResponse {
   }
 }
 
+/// @nodoc
 class UpdateWirelessDeviceImportTaskResponse {
   UpdateWirelessDeviceImportTaskResponse();
 
@@ -7027,6 +7138,7 @@ class UpdateWirelessDeviceImportTaskResponse {
   }
 }
 
+/// @nodoc
 class UpdateWirelessGatewayResponse {
   UpdateWirelessGatewayResponse();
 
@@ -7040,6 +7152,8 @@ class UpdateWirelessGatewayResponse {
 }
 
 /// Sidewalk object information for updating an import task.
+///
+/// @nodoc
 class SidewalkUpdateImportInfo {
   /// The CSV file contained in an S3 bucket that's used for appending devices to
   /// an existing import task.
@@ -7058,6 +7172,8 @@ class SidewalkUpdateImportInfo {
 }
 
 /// LoRaWAN object for update functions.
+///
+/// @nodoc
 class LoRaWANUpdateDevice {
   /// ABP device object for update APIs for v1.0.x
   final UpdateAbpV1_0_x? abpV1_0X;
@@ -7098,6 +7214,7 @@ class LoRaWANUpdateDevice {
   }
 }
 
+/// @nodoc
 class PositioningConfigStatus {
   static const enabled = PositioningConfigStatus._('Enabled');
   static const disabled = PositioningConfigStatus._('Disabled');
@@ -7124,6 +7241,8 @@ class PositioningConfigStatus {
 }
 
 /// Sidewalk object for updating a wireless device.
+///
+/// @nodoc
 class SidewalkUpdateWirelessDevice {
   /// The Positioning object of the Sidewalk device.
   final SidewalkPositioning? positioning;
@@ -7141,6 +7260,8 @@ class SidewalkUpdateWirelessDevice {
 }
 
 /// The Positioning object of the Sidewalk device.
+///
+/// @nodoc
 class SidewalkPositioning {
   /// The location destination name of the Sidewalk device.
   final String? destinationName;
@@ -7164,6 +7285,8 @@ class SidewalkPositioning {
 }
 
 /// ABP device object for LoRaWAN specification v1.1
+///
+/// @nodoc
 // ignore: camel_case_types
 class UpdateAbpV1_1 {
   /// The FCnt init value.
@@ -7182,6 +7305,8 @@ class UpdateAbpV1_1 {
 }
 
 /// ABP device object for LoRaWAN specification v1.0.x
+///
+/// @nodoc
 // ignore: camel_case_types
 class UpdateAbpV1_0_x {
   /// The FCnt init value.
@@ -7200,6 +7325,8 @@ class UpdateAbpV1_0_x {
 }
 
 /// Object for updating the FPorts information.
+///
+/// @nodoc
 class UpdateFPorts {
   /// LoRaWAN application, which can be used for geolocation by activating
   /// positioning.
@@ -7224,6 +7351,8 @@ class UpdateFPorts {
 }
 
 /// The FPorts for the position information.
+///
+/// @nodoc
 class Positioning {
   final int? clockSync;
   final int? gnss;
@@ -7256,6 +7385,8 @@ class Positioning {
 }
 
 /// LoRaWAN application configuration, which can be used to perform geolocation.
+///
+/// @nodoc
 class ApplicationConfig {
   /// The name of the position data destination that describes the AWS IoT rule
   /// that processes the device's position data for use by AWS IoT Core for
@@ -7293,6 +7424,7 @@ class ApplicationConfig {
   }
 }
 
+/// @nodoc
 class ApplicationConfigType {
   static const semtechGeolocation =
       ApplicationConfigType._('SemtechGeolocation');
@@ -7318,6 +7450,7 @@ class ApplicationConfigType {
   String toString() => value;
 }
 
+/// @nodoc
 class PositionResourceType {
   static const wirelessDevice = PositionResourceType._('WirelessDevice');
   static const wirelessGateway = PositionResourceType._('WirelessGateway');
@@ -7343,6 +7476,7 @@ class PositionResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentifierType {
   static const partnerAccountId = IdentifierType._('PartnerAccountId');
   static const devEui = IdentifierType._('DevEui');
@@ -7376,6 +7510,7 @@ class IdentifierType {
   String toString() => value;
 }
 
+/// @nodoc
 class EventNotificationPartnerType {
   static const sidewalk = EventNotificationPartnerType._('Sidewalk');
 
@@ -7402,6 +7537,8 @@ class EventNotificationPartnerType {
 
 /// Device registration state event configuration object for enabling and
 /// disabling relevant topics.
+///
+/// @nodoc
 class DeviceRegistrationStateEventConfiguration {
   /// Device registration state event configuration object for enabling or
   /// disabling Sidewalk related event topics.
@@ -7442,6 +7579,8 @@ class DeviceRegistrationStateEventConfiguration {
 
 /// Proximity event configuration object for enabling and disabling relevant
 /// topics.
+///
+/// @nodoc
 class ProximityEventConfiguration {
   /// Proximity event configuration object for enabling or disabling Sidewalk
   /// related event topics.
@@ -7480,6 +7619,8 @@ class ProximityEventConfiguration {
 }
 
 /// Join event configuration object for enabling or disabling topic.
+///
+/// @nodoc
 class JoinEventConfiguration {
   /// Join event configuration object for enabling or disabling LoRaWAN related
   /// event topics.
@@ -7519,6 +7660,8 @@ class JoinEventConfiguration {
 
 /// Connection status event configuration object for enabling or disabling
 /// topic.
+///
+/// @nodoc
 class ConnectionStatusEventConfiguration {
   /// Connection status event configuration object for enabling or disabling
   /// LoRaWAN related event topics.
@@ -7559,6 +7702,8 @@ class ConnectionStatusEventConfiguration {
 
 /// Message delivery status event configuration object for enabling and
 /// disabling relevant topics.
+///
+/// @nodoc
 class MessageDeliveryStatusEventConfiguration {
   final SidewalkEventNotificationConfigurations? sidewalk;
 
@@ -7597,6 +7742,8 @@ class MessageDeliveryStatusEventConfiguration {
 
 /// <code>SidewalkEventNotificationConfigurations</code> object, which is the
 /// event configuration object for Sidewalk-related event topics.
+///
+/// @nodoc
 class SidewalkEventNotificationConfigurations {
   /// Denotes whether the Amazon ID event topic is enabled or disabled.
   final EventNotificationTopicStatus? amazonIdEventTopic;
@@ -7622,6 +7769,7 @@ class SidewalkEventNotificationConfigurations {
   }
 }
 
+/// @nodoc
 class EventNotificationTopicStatus {
   static const enabled = EventNotificationTopicStatus._('Enabled');
   static const disabled = EventNotificationTopicStatus._('Disabled');
@@ -7648,6 +7796,8 @@ class EventNotificationTopicStatus {
 }
 
 /// Object for LoRaWAN connection status resource type event configuration.
+///
+/// @nodoc
 class LoRaWANConnectionStatusEventNotificationConfigurations {
   /// Denotes whether the gateway EUI connection status event topic is enabled or
   /// disabled.
@@ -7675,6 +7825,8 @@ class LoRaWANConnectionStatusEventNotificationConfigurations {
 }
 
 /// Object for LoRaWAN join resource type event configuration.
+///
+/// @nodoc
 class LoRaWANJoinEventNotificationConfigurations {
   /// Denotes whether the Dev EUI join event topic is enabled or disabled.
   final EventNotificationTopicStatus? devEuiEventTopic;
@@ -7700,6 +7852,8 @@ class LoRaWANJoinEventNotificationConfigurations {
 }
 
 /// Sidewalk update.
+///
+/// @nodoc
 class SidewalkUpdateAccount {
   /// The new Sidewalk application server private key.
   final String? appServerPrivateKey;
@@ -7717,6 +7871,7 @@ class SidewalkUpdateAccount {
   }
 }
 
+/// @nodoc
 class PartnerType {
   static const sidewalk = PartnerType._('Sidewalk');
 
@@ -7740,6 +7895,8 @@ class PartnerType {
 }
 
 /// Trace content for your wireless devices, gateways, and multicast groups.
+///
+/// @nodoc
 class TraceContent {
   final LogLevel? logLevel;
   final MulticastFrameInfo? multicastFrameInfo;
@@ -7778,6 +7935,8 @@ class TraceContent {
 /// <code>FrameInfo</code> of your wireless device resources for the trace
 /// content. Use FrameInfo to debug the communication between your LoRaWAN end
 /// devices and the network server.
+///
+/// @nodoc
 class WirelessDeviceFrameInfo {
   static const enabled = WirelessDeviceFrameInfo._('ENABLED');
   static const disabled = WirelessDeviceFrameInfo._('DISABLED');
@@ -7806,6 +7965,8 @@ class WirelessDeviceFrameInfo {
 /// The log level for a log message. The log levels can be disabled, or set to
 /// <code>ERROR</code> to display less verbose logs containing only error
 /// information, or to <code>INFO</code> for more detailed logs.
+///
+/// @nodoc
 class LogLevel {
   static const info = LogLevel._('INFO');
   static const error = LogLevel._('ERROR');
@@ -7833,6 +7994,8 @@ class LogLevel {
 /// <code>FrameInfo</code> of your multicast group resources for the trace
 /// content. Use FrameInfo to debug the multicast communication between your
 /// multicast groups and the network server.
+///
+/// @nodoc
 class MulticastFrameInfo {
   static const enabled = MulticastFrameInfo._('ENABLED');
   static const disabled = MulticastFrameInfo._('DISABLED');
@@ -7859,6 +8022,8 @@ class MulticastFrameInfo {
 }
 
 /// The LoRaWAN information that is to be used with the multicast group.
+///
+/// @nodoc
 class LoRaWANMulticast {
   final DlClass? dlClass;
   final ParticipatingGatewaysMulticast? participatingGateways;
@@ -7884,6 +8049,8 @@ class LoRaWANMulticast {
 }
 
 /// Supported RfRegions
+///
+/// @nodoc
 class SupportedRfRegion {
   static const eu868 = SupportedRfRegion._('EU868');
   static const us915 = SupportedRfRegion._('US915');
@@ -7934,6 +8101,8 @@ class SupportedRfRegion {
 }
 
 /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
+///
+/// @nodoc
 class DlClass {
   static const classB = DlClass._('ClassB');
   static const classC = DlClass._('ClassC');
@@ -7961,6 +8130,8 @@ class DlClass {
 /// downlink messages. The multicast message will be sent to each gateway in the
 /// list, with the transmission interval as the time interval between each
 /// message.
+///
+/// @nodoc
 class ParticipatingGatewaysMulticast {
   /// The list of gateways that you want to use for sending the multicast downlink
   /// message. Each downlink message will be sent to all the gateways in the list
@@ -8001,6 +8172,8 @@ class ParticipatingGatewaysMulticast {
 }
 
 /// The configuration of summary metrics.
+///
+/// @nodoc
 class SummaryMetricConfiguration {
   /// The status of the configuration of summary metrics.
   final SummaryMetricConfigurationStatus? status;
@@ -8024,6 +8197,7 @@ class SummaryMetricConfiguration {
   }
 }
 
+/// @nodoc
 class SummaryMetricConfigurationStatus {
   static const enabled = SummaryMetricConfigurationStatus._('Enabled');
   static const disabled = SummaryMetricConfigurationStatus._('Disabled');
@@ -8051,6 +8225,8 @@ class SummaryMetricConfigurationStatus {
 
 /// The log options for wireless gateways and can be used to set log levels for
 /// a specific type of wireless gateway.
+///
+/// @nodoc
 class WirelessGatewayLogOption {
   final LogLevel logLevel;
   final WirelessGatewayType type;
@@ -8087,6 +8263,8 @@ class WirelessGatewayLogOption {
 }
 
 /// The wireless gateway type.
+///
+/// @nodoc
 class WirelessGatewayType {
   static const loRaWAN = WirelessGatewayType._('LoRaWAN');
 
@@ -8116,6 +8294,8 @@ class WirelessGatewayType {
 ///
 /// For a LoRaWAN gateway, possible events for a log message are
 /// <code>CUPS_Request</code> and <code>Certificate</code>.
+///
+/// @nodoc
 class WirelessGatewayEventLogOption {
   final WirelessGatewayEvent event;
   final LogLevel logLevel;
@@ -8144,6 +8324,8 @@ class WirelessGatewayEventLogOption {
 
 /// The event for a log message, if the log message is tied to a wireless
 /// gateway.
+///
+/// @nodoc
 class WirelessGatewayEvent {
   static const cupsRequest = WirelessGatewayEvent._('CUPS_Request');
   static const certificate = WirelessGatewayEvent._('Certificate');
@@ -8171,6 +8353,8 @@ class WirelessGatewayEvent {
 
 /// The log options for wireless devices and can be used to set log levels for a
 /// specific type of wireless device.
+///
+/// @nodoc
 class WirelessDeviceLogOption {
   final LogLevel logLevel;
 
@@ -8208,6 +8392,7 @@ class WirelessDeviceLogOption {
   }
 }
 
+/// @nodoc
 class WirelessDeviceType {
   static const sidewalk = WirelessDeviceType._('Sidewalk');
   static const loRaWAN = WirelessDeviceType._('LoRaWAN');
@@ -8241,6 +8426,8 @@ class WirelessDeviceType {
 /// <code>Uplink_Data</code>. For a Sidewalk device, possible events for a log
 /// message are <code>Registration</code>, <code>Downlink_Data</code>, and
 /// <code>Uplink_Data</code>.
+///
+/// @nodoc
 class WirelessDeviceEventLogOption {
   final WirelessDeviceEvent event;
   final LogLevel logLevel;
@@ -8269,6 +8456,8 @@ class WirelessDeviceEventLogOption {
 
 /// The event for a log message, if the log message is tied to a wireless
 /// device.
+///
+/// @nodoc
 class WirelessDeviceEvent {
   static const join = WirelessDeviceEvent._('Join');
   static const rejoin = WirelessDeviceEvent._('Rejoin');
@@ -8299,6 +8488,8 @@ class WirelessDeviceEvent {
 
 /// The log options for FUOTA tasks and can be used to set log levels for a
 /// specific type of FUOTA task.
+///
+/// @nodoc
 class FuotaTaskLogOption {
   final LogLevel logLevel;
 
@@ -8337,6 +8528,8 @@ class FuotaTaskLogOption {
 }
 
 /// The FUOTA task type.
+///
+/// @nodoc
 class FuotaTaskType {
   static const loRaWAN = FuotaTaskType._('LoRaWAN');
 
@@ -8365,6 +8558,8 @@ class FuotaTaskType {
 ///
 /// For a LoRaWAN FUOTA task, the only possible event for a log message is
 /// <code>Fuota</code>.
+///
+/// @nodoc
 class FuotaTaskEventLogOption {
   final FuotaTaskEvent event;
   final LogLevel logLevel;
@@ -8392,6 +8587,8 @@ class FuotaTaskEventLogOption {
 }
 
 /// The event for a log message, if the log message is tied to a FUOTA task.
+///
+/// @nodoc
 class FuotaTaskEvent {
   static const fuota = FuotaTaskEvent._('Fuota');
 
@@ -8416,6 +8613,8 @@ class FuotaTaskEvent {
 }
 
 /// The LoRaWAN information used with a FUOTA task.
+///
+/// @nodoc
 class LoRaWANFuotaTask {
   final SupportedRfRegion? rfRegion;
 
@@ -8433,6 +8632,8 @@ class LoRaWANFuotaTask {
 
 /// Device registration state resource type event configuration object for
 /// enabling or disabling topic.
+///
+/// @nodoc
 class DeviceRegistrationStateResourceTypeEventConfiguration {
   /// Device registration resource type state event configuration object for
   /// enabling or disabling Sidewalk related event topics.
@@ -8462,6 +8663,8 @@ class DeviceRegistrationStateResourceTypeEventConfiguration {
 
 /// Proximity resource type event configuration object for enabling or disabling
 /// topic.
+///
+/// @nodoc
 class ProximityResourceTypeEventConfiguration {
   /// Proximity resource type event configuration object for enabling and
   /// disabling wireless device topic.
@@ -8491,6 +8694,8 @@ class ProximityResourceTypeEventConfiguration {
 
 /// Join resource type event configuration object for enabling or disabling
 /// topic.
+///
+/// @nodoc
 class JoinResourceTypeEventConfiguration {
   /// Join resource type event configuration object for enabling or disabling
   /// LoRaWAN related event topics.
@@ -8520,6 +8725,8 @@ class JoinResourceTypeEventConfiguration {
 
 /// Connection status resource type event configuration object for enabling or
 /// disabling topic.
+///
+/// @nodoc
 class ConnectionStatusResourceTypeEventConfiguration {
   /// Connection status resource type event configuration object for enabling or
   /// disabling LoRaWAN related event topics.
@@ -8549,6 +8756,8 @@ class ConnectionStatusResourceTypeEventConfiguration {
 
 /// Message delivery status resource type event configuration object for
 /// enabling or disabling relevant topic.
+///
+/// @nodoc
 class MessageDeliveryStatusResourceTypeEventConfiguration {
   final SidewalkResourceTypeEventConfiguration? sidewalk;
 
@@ -8576,6 +8785,8 @@ class MessageDeliveryStatusResourceTypeEventConfiguration {
 
 /// Sidewalk resource type event configuration object for enabling or disabling
 /// topic.
+///
+/// @nodoc
 class SidewalkResourceTypeEventConfiguration {
   /// Denotes whether the wireless device join event topic is enabled or disabled.
   final EventNotificationTopicStatus? wirelessDeviceEventTopic;
@@ -8602,6 +8813,8 @@ class SidewalkResourceTypeEventConfiguration {
 }
 
 /// Object for LoRaWAN connection status resource type event configuration.
+///
+/// @nodoc
 class LoRaWANConnectionStatusResourceTypeEventConfiguration {
   /// Denotes whether the wireless gateway connection status event topic is
   /// enabled or disabled.
@@ -8629,6 +8842,8 @@ class LoRaWANConnectionStatusResourceTypeEventConfiguration {
 }
 
 /// Object for LoRaWAN join resource type event configuration.
+///
+/// @nodoc
 class LoRaWANJoinResourceTypeEventConfiguration {
   /// Denotes whether the wireless device join event topic is enabled or disabled.
   final EventNotificationTopicStatus? wirelessDeviceEventTopic;
@@ -8654,6 +8869,7 @@ class LoRaWANJoinResourceTypeEventConfiguration {
   }
 }
 
+/// @nodoc
 class ExpressionType {
   static const ruleName = ExpressionType._('RuleName');
   static const mqttTopic = ExpressionType._('MqttTopic');
@@ -8679,6 +8895,8 @@ class ExpressionType {
 }
 
 /// A simple label consisting of a customer-defined key-value pair
+///
+/// @nodoc
 class Tag {
   /// The tag's key value.
   final String key;
@@ -8709,6 +8927,8 @@ class Tag {
 }
 
 /// Information about an import task created for bulk provisioning.
+///
+/// @nodoc
 class SidewalkStartImportInfo {
   /// The CSV file contained in an S3 bucket that's used for adding devices to an
   /// import task.
@@ -8740,6 +8960,8 @@ class SidewalkStartImportInfo {
 }
 
 /// Information about an import task created for an individual Sidewalk device.
+///
+/// @nodoc
 class SidewalkSingleStartImportInfo {
   /// The Positioning object of the Sidewalk device.
   final SidewalkPositioning? positioning;
@@ -8765,6 +8987,8 @@ class SidewalkSingleStartImportInfo {
 }
 
 /// The LoRaWAN information used with the multicast session.
+///
+/// @nodoc
 class LoRaWANMulticastSession {
   final int? dlDr;
   final int? dlFreq;
@@ -8810,6 +9034,8 @@ class LoRaWANMulticastSession {
 }
 
 /// The LoRaWAN information used to start a FUOTA task.
+///
+/// @nodoc
 class LoRaWANStartFuotaTask {
   final DateTime? startTime;
 
@@ -8826,6 +9052,8 @@ class LoRaWANStartFuotaTask {
 }
 
 /// WirelessMetadata object.
+///
+/// @nodoc
 class WirelessMetadata {
   /// LoRaWAN device info.
   final LoRaWANSendDataToDevice? loRaWAN;
@@ -8849,6 +9077,8 @@ class WirelessMetadata {
 }
 
 /// LoRaWAN router info.
+///
+/// @nodoc
 class LoRaWANSendDataToDevice {
   final int? fPort;
 
@@ -8883,6 +9113,8 @@ class LoRaWANSendDataToDevice {
 }
 
 /// Information about a Sidewalk router.
+///
+/// @nodoc
 class SidewalkSendDataToDevice {
   /// The duration of time in seconds to retry sending the ACK.
   final int? ackModeRetryDurationSecs;
@@ -8912,6 +9144,8 @@ class SidewalkSendDataToDevice {
 
 /// Sidewalk device message type. Default value is
 /// <code>CUSTOM_COMMAND_ID_NOTIFY</code>.
+///
+/// @nodoc
 class MessageType {
   static const customCommandIdNotify =
       MessageType._('CUSTOM_COMMAND_ID_NOTIFY');
@@ -8945,6 +9179,8 @@ class MessageType {
 
 /// Specify the list of gateways to which you want to send downlink data traffic
 /// when the wireless device is running in class B or class C mode.
+///
+/// @nodoc
 class ParticipatingGateways {
   /// Indicates whether to send the downlink message in sequential mode or
   /// concurrent mode, or to use only the chosen gateways from the previous uplink
@@ -8989,6 +9225,7 @@ class ParticipatingGateways {
   }
 }
 
+/// @nodoc
 class DownlinkMode {
   static const sequential = DownlinkMode._('SEQUENTIAL');
   static const concurrent = DownlinkMode._('CONCURRENT');
@@ -9015,6 +9252,8 @@ class DownlinkMode {
 
 /// Gateway list item object that specifies the frequency and list of gateways
 /// for which the downlink message should be sent.
+///
+/// @nodoc
 class GatewayListItem {
   /// The frequency to use for the gateways when sending a downlink message to the
   /// wireless device.
@@ -9047,6 +9286,8 @@ class GatewayListItem {
 }
 
 /// Wireless metadata that is to be sent to multicast group.
+///
+/// @nodoc
 class MulticastWirelessMetadata {
   final LoRaWANMulticastMetadata? loRaWAN;
 
@@ -9063,6 +9304,8 @@ class MulticastWirelessMetadata {
 }
 
 /// The metadata information of the LoRaWAN multicast group.
+///
+/// @nodoc
 class LoRaWANMulticastMetadata {
   final int? fPort;
 
@@ -9079,6 +9322,8 @@ class LoRaWANMulticastMetadata {
 }
 
 /// The wrapper for position solver configurations.
+///
+/// @nodoc
 class PositionSolverConfigurations {
   /// The Semtech GNSS solver configuration object.
   final SemtechGnssConfiguration? semtechGnss;
@@ -9096,6 +9341,8 @@ class PositionSolverConfigurations {
 }
 
 /// Information about the Semtech GNSS solver configuration.
+///
+/// @nodoc
 class SemtechGnssConfiguration {
   /// Whether forward error correction is enabled.
   final PositionConfigurationFec fec;
@@ -9118,6 +9365,7 @@ class SemtechGnssConfiguration {
   }
 }
 
+/// @nodoc
 class PositionConfigurationStatus {
   static const enabled = PositionConfigurationStatus._('Enabled');
   static const disabled = PositionConfigurationStatus._('Disabled');
@@ -9143,6 +9391,7 @@ class PositionConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PositionConfigurationFec {
   static const rose = PositionConfigurationFec._('ROSE');
   static const none = PositionConfigurationFec._('NONE');
@@ -9169,6 +9418,8 @@ class PositionConfigurationFec {
 }
 
 /// UpdateWirelessGatewayTaskEntry object.
+///
+/// @nodoc
 class UpdateWirelessGatewayTaskEntry {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -9209,6 +9460,8 @@ class UpdateWirelessGatewayTaskEntry {
 }
 
 /// LoRaWANUpdateGatewayTaskEntry object.
+///
+/// @nodoc
 class LoRaWANUpdateGatewayTaskEntry {
   /// The version of the gateways that should receive the update.
   final LoRaWANGatewayVersion? currentVersion;
@@ -9245,6 +9498,8 @@ class LoRaWANUpdateGatewayTaskEntry {
 }
 
 /// LoRaWANGatewayVersion object.
+///
+/// @nodoc
 class LoRaWANGatewayVersion {
   /// The model number of the wireless gateway.
   final String? model;
@@ -9281,6 +9536,7 @@ class LoRaWANGatewayVersion {
   }
 }
 
+/// @nodoc
 class WirelessGatewayTaskDefinitionType {
   static const update = WirelessGatewayTaskDefinitionType._('UPDATE');
 
@@ -9306,6 +9562,8 @@ class WirelessGatewayTaskDefinitionType {
 }
 
 /// Information about a wireless gateway's operation.
+///
+/// @nodoc
 class WirelessGatewayStatistics {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -9370,6 +9628,8 @@ class WirelessGatewayStatistics {
 }
 
 /// LoRaWANGateway object.
+///
+/// @nodoc
 class LoRaWANGateway {
   /// Beaconing object information, which consists of the data rate and frequency
   /// parameters.
@@ -9439,6 +9699,8 @@ class LoRaWANGateway {
 }
 
 /// Beaconing parameters for configuring the wireless gateways.
+///
+/// @nodoc
 class Beaconing {
   /// The data rate for gateways that are sending the beacons.
   final int? dataRate;
@@ -9472,6 +9734,8 @@ class Beaconing {
 }
 
 /// Information about a wireless device's operation.
+///
+/// @nodoc
 class WirelessDeviceStatistics {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -9582,6 +9846,8 @@ class WirelessDeviceStatistics {
 }
 
 /// LoRaWAN object for list functions.
+///
+/// @nodoc
 class LoRaWANListDevice {
   /// The DevEUI value.
   final String? devEui;
@@ -9605,6 +9871,8 @@ class LoRaWANListDevice {
 }
 
 /// Sidewalk object used by list functions.
+///
+/// @nodoc
 class SidewalkListDevice {
   /// The Sidewalk Amazon ID.
   final String? amazonId;
@@ -9678,6 +9946,8 @@ class SidewalkListDevice {
 }
 
 /// The status of a wireless device in a FUOTA task.
+///
+/// @nodoc
 class FuotaDeviceStatus {
   static const initial = FuotaDeviceStatus._('Initial');
   static const packageNotSupported =
@@ -9729,6 +9999,7 @@ class FuotaDeviceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class WirelessDeviceSidewalkStatus {
   static const provisioned = WirelessDeviceSidewalkStatus._('PROVISIONED');
   static const registered = WirelessDeviceSidewalkStatus._('REGISTERED');
@@ -9757,6 +10028,8 @@ class WirelessDeviceSidewalkStatus {
 }
 
 /// List of sidewalk certificates.
+///
+/// @nodoc
 class CertificateList {
   /// The certificate chain algorithm provided by sidewalk.
   final SigningAlg signingAlg;
@@ -9787,6 +10060,8 @@ class CertificateList {
 }
 
 /// The certificate chain algorithm provided by sidewalk.
+///
+/// @nodoc
 class SigningAlg {
   static const ed25519 = SigningAlg._('Ed25519');
   static const p256r1 = SigningAlg._('P256r1');
@@ -9811,6 +10086,8 @@ class SigningAlg {
 }
 
 /// Information about an import task for wireless devices.
+///
+/// @nodoc
 class WirelessDeviceImportTask {
   /// The ARN (Amazon Resource Name) of the wireless device import task.
   final String? arn;
@@ -9929,6 +10206,8 @@ class WirelessDeviceImportTask {
 
 /// Sidewalk-related information for devices in an import task that are being
 /// onboarded.
+///
+/// @nodoc
 class SidewalkGetStartImportInfo {
   /// List of Sidewalk devices that are added to the import task.
   final List<String>? deviceCreationFileList;
@@ -9973,6 +10252,7 @@ class SidewalkGetStartImportInfo {
   }
 }
 
+/// @nodoc
 class ImportTaskStatus {
   static const initializing = ImportTaskStatus._('INITIALIZING');
   static const initialized = ImportTaskStatus._('INITIALIZED');
@@ -10009,6 +10289,8 @@ class ImportTaskStatus {
 }
 
 /// Information about a service profile.
+///
+/// @nodoc
 class ServiceProfile {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -10046,6 +10328,8 @@ class ServiceProfile {
 }
 
 /// The message in the downlink queue.
+///
+/// @nodoc
 class DownlinkQueueMessage {
   final LoRaWANSendDataToDevice? loRaWAN;
 
@@ -10095,6 +10379,8 @@ class DownlinkQueueMessage {
 }
 
 /// The wrapper for a position configuration.
+///
+/// @nodoc
 class PositionConfigurationItem {
   /// The position data destination that describes the AWS IoT rule that processes
   /// the device's position data for use by AWS IoT Core for LoRaWAN.
@@ -10144,6 +10430,8 @@ class PositionConfigurationItem {
 }
 
 /// The wrapper for position solver details.
+///
+/// @nodoc
 class PositionSolverDetails {
   /// The Semtech GNSS solver object details.
   final SemtechGnssDetail? semtechGnss;
@@ -10170,6 +10458,8 @@ class PositionSolverDetails {
 }
 
 /// Details of the Semtech GNSS solver object.
+///
+/// @nodoc
 class SemtechGnssDetail {
   /// Whether forward error correction is enabled.
   final PositionConfigurationFec? fec;
@@ -10215,6 +10505,7 @@ class SemtechGnssDetail {
   }
 }
 
+/// @nodoc
 class PositionSolverProvider {
   static const semtech = PositionSolverProvider._('Semtech');
 
@@ -10239,6 +10530,7 @@ class PositionSolverProvider {
   String toString() => value;
 }
 
+/// @nodoc
 class PositionSolverType {
   static const gnss = PositionSolverType._('GNSS');
 
@@ -10264,6 +10556,8 @@ class PositionSolverType {
 }
 
 /// Information about a Sidewalk account.
+///
+/// @nodoc
 class SidewalkAccountInfoWithFingerprint {
   /// The Sidewalk Amazon ID.
   final String? amazonId;
@@ -10302,6 +10596,8 @@ class SidewalkAccountInfoWithFingerprint {
 }
 
 /// Network analyzer configurations.
+///
+/// @nodoc
 class NetworkAnalyzerConfigurations {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -10330,6 +10626,8 @@ class NetworkAnalyzerConfigurations {
 }
 
 /// A multicast group that is associated with a FUOTA task.
+///
+/// @nodoc
 class MulticastGroupByFuotaTask {
   final String? id;
 
@@ -10352,6 +10650,8 @@ class MulticastGroupByFuotaTask {
 }
 
 /// A multicast group.
+///
+/// @nodoc
 class MulticastGroup {
   final String? arn;
   final String? id;
@@ -10384,6 +10684,8 @@ class MulticastGroup {
 }
 
 /// A FUOTA task.
+///
+/// @nodoc
 class FuotaTask {
   final String? arn;
   final String? id;
@@ -10416,6 +10718,8 @@ class FuotaTask {
 }
 
 /// Event configuration object for a single resource.
+///
+/// @nodoc
 class EventConfigurationItem {
   final EventNotificationItemConfigurations? events;
 
@@ -10465,6 +10769,8 @@ class EventConfigurationItem {
 }
 
 /// Object of all event configurations and the status of the event topics.
+///
+/// @nodoc
 class EventNotificationItemConfigurations {
   /// Connection status event configuration for an event configuration item.
   final ConnectionStatusEventConfiguration? connectionStatus;
@@ -10534,6 +10840,7 @@ class EventNotificationItemConfigurations {
   }
 }
 
+/// @nodoc
 class EventNotificationResourceType {
   static const sidewalkAccount =
       EventNotificationResourceType._('SidewalkAccount');
@@ -10565,6 +10872,8 @@ class EventNotificationResourceType {
 
 /// The Sidewalk-related object containing positioning information used to
 /// configure Sidewalk devices during import.
+///
+/// @nodoc
 class SidewalkListDevicesForImportInfo {
   /// The Positioning object of the Sidewalk device.
   final SidewalkPositioning? positioning;
@@ -10591,6 +10900,8 @@ class SidewalkListDevicesForImportInfo {
 }
 
 /// Information about a wireless device that has been added to an import task.
+///
+/// @nodoc
 class ImportedWirelessDevice {
   /// The Sidewalk-related information about a device that has been added to an
   /// import task.
@@ -10618,6 +10929,8 @@ class ImportedWirelessDevice {
 }
 
 /// Information about a Sidewalk device that has been added to an import task.
+///
+/// @nodoc
 class ImportedSidewalkDevice {
   /// The time at which the status information was last updated.
   final DateTime? lastUpdateTime;
@@ -10665,6 +10978,7 @@ class ImportedSidewalkDevice {
   }
 }
 
+/// @nodoc
 class OnboardStatus {
   static const initialized = OnboardStatus._('INITIALIZED');
   static const pending = OnboardStatus._('PENDING');
@@ -10692,6 +11006,8 @@ class OnboardStatus {
 }
 
 /// Describes a device profile.
+///
+/// @nodoc
 class DeviceProfile {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -10728,6 +11044,7 @@ class DeviceProfile {
   }
 }
 
+/// @nodoc
 class DeviceProfileType {
   static const sidewalk = DeviceProfileType._('Sidewalk');
   static const loRaWAN = DeviceProfileType._('LoRaWAN');
@@ -10753,6 +11070,8 @@ class DeviceProfileType {
 }
 
 /// Describes a destination.
+///
+/// @nodoc
 class Destinations {
   /// The Amazon Resource Name of the resource.
   final String? arn;
@@ -10812,6 +11131,8 @@ class Destinations {
 }
 
 /// UpdateWirelessGatewayTaskCreate object.
+///
+/// @nodoc
 class UpdateWirelessGatewayTaskCreate {
   /// The properties that relate to the LoRaWAN wireless gateway.
   final LoRaWANUpdateGatewayTaskCreate? loRaWAN;
@@ -10852,6 +11173,8 @@ class UpdateWirelessGatewayTaskCreate {
 }
 
 /// LoRaWANUpdateGatewayTaskCreate object.
+///
+/// @nodoc
 class LoRaWANUpdateGatewayTaskCreate {
   /// The version of the gateways that should receive the update.
   final LoRaWANGatewayVersion? currentVersion;
@@ -10901,6 +11224,7 @@ class LoRaWANUpdateGatewayTaskCreate {
   }
 }
 
+/// @nodoc
 class WirelessGatewayTaskStatus {
   static const pending = WirelessGatewayTaskStatus._('PENDING');
   static const inProgress = WirelessGatewayTaskStatus._('IN_PROGRESS');
@@ -10937,6 +11261,7 @@ class WirelessGatewayTaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const connected = ConnectionStatus._('Connected');
   static const disconnected = ConnectionStatus._('Disconnected');
@@ -10962,6 +11287,8 @@ class ConnectionStatus {
 }
 
 /// LoRaWANGatewayCurrentVersion object.
+///
+/// @nodoc
 class LoRaWANGatewayCurrentVersion {
   /// The version of the gateways that should receive the update.
   final LoRaWANGatewayVersion? currentVersion;
@@ -10987,6 +11314,7 @@ class LoRaWANGatewayCurrentVersion {
   }
 }
 
+/// @nodoc
 class WirelessGatewayIdType {
   static const gatewayEui = WirelessGatewayIdType._('GatewayEui');
   static const wirelessGatewayId = WirelessGatewayIdType._('WirelessGatewayId');
@@ -11014,6 +11342,8 @@ class WirelessGatewayIdType {
 }
 
 /// LoRaWAN device metatdata.
+///
+/// @nodoc
 class LoRaWANDeviceMetadata {
   /// The DataRate value.
   final int? dataRate;
@@ -11087,6 +11417,8 @@ class LoRaWANDeviceMetadata {
 }
 
 /// MetaData for Sidewalk device.
+///
+/// @nodoc
 class SidewalkDeviceMetadata {
   /// Sidewalk device battery level.
   final BatteryLevel? batteryLevel;
@@ -11133,6 +11465,8 @@ class SidewalkDeviceMetadata {
 }
 
 /// Sidewalk device battery level.
+///
+/// @nodoc
 class BatteryLevel {
   static const normal = BatteryLevel._('normal');
   static const low = BatteryLevel._('low');
@@ -11158,6 +11492,8 @@ class BatteryLevel {
 }
 
 /// Sidewalk device status notification.
+///
+/// @nodoc
 class Event {
   static const discovered = Event._('discovered');
   static const lost = Event._('lost');
@@ -11185,6 +11521,8 @@ class Event {
 }
 
 /// Device state defines the device status of sidewalk device.
+///
+/// @nodoc
 class DeviceState {
   static const provisioned = DeviceState._('Provisioned');
   static const registeredNotSeen = DeviceState._('RegisteredNotSeen');
@@ -11216,6 +11554,8 @@ class DeviceState {
 }
 
 /// LoRaWAN public gateway metadata.
+///
+/// @nodoc
 class LoRaWANPublicGatewayMetadata {
   /// Boolean that indicates whether downlink is allowed using the network.
   final bool? dlAllowed;
@@ -11272,6 +11612,8 @@ class LoRaWANPublicGatewayMetadata {
 }
 
 /// LoRaWAN gateway metatdata.
+///
+/// @nodoc
 class LoRaWANGatewayMetadata {
   /// The gateway's EUI value.
   final String? gatewayEui;
@@ -11309,6 +11651,8 @@ class LoRaWANGatewayMetadata {
 }
 
 /// LoRaWAN object for create functions.
+///
+/// @nodoc
 class LoRaWANDevice {
   /// LoRaWAN object for create APIs
   final AbpV1_0_x? abpV1_0X;
@@ -11389,6 +11733,8 @@ class LoRaWANDevice {
 }
 
 /// Sidewalk device object.
+///
+/// @nodoc
 class SidewalkDevice {
   final String? amazonId;
 
@@ -11479,6 +11825,8 @@ class SidewalkDevice {
 }
 
 /// OTAA device object for v1.1
+///
+/// @nodoc
 // ignore: camel_case_types
 class OtaaV1_1 {
   /// The AppKey value.
@@ -11517,6 +11865,8 @@ class OtaaV1_1 {
 }
 
 /// OTAA device object for v1.0.x
+///
+/// @nodoc
 // ignore: camel_case_types
 class OtaaV1_0_x {
   /// The AppEUI value. You specify this value when using LoRaWAN versions v1.0.2
@@ -11564,6 +11914,8 @@ class OtaaV1_0_x {
 }
 
 /// ABP device object for LoRaWAN specification v1.1
+///
+/// @nodoc
 // ignore: camel_case_types
 class AbpV1_1 {
   /// The DevAddr value.
@@ -11605,6 +11957,8 @@ class AbpV1_1 {
 }
 
 /// ABP device object for LoRaWAN specification v1.0.x
+///
+/// @nodoc
 // ignore: camel_case_types
 class AbpV1_0_x {
   /// The DevAddr value.
@@ -11646,6 +12000,8 @@ class AbpV1_0_x {
 }
 
 /// List of FPort assigned for different LoRaWAN application packages to use
+///
+/// @nodoc
 class FPorts {
   /// Optional LoRaWAN application information, which can be used for geolocation.
   final List<ApplicationConfig>? applications;
@@ -11697,6 +12053,8 @@ class FPorts {
 }
 
 /// Session keys for ABP v1.1
+///
+/// @nodoc
 // ignore: camel_case_types
 class SessionKeysAbpV1_0_x {
   /// The AppSKey value.
@@ -11728,6 +12086,8 @@ class SessionKeysAbpV1_0_x {
 }
 
 /// Session keys for ABP v1.1
+///
+/// @nodoc
 // ignore: camel_case_types
 class SessionKeysAbpV1_1 {
   /// The AppSKey value.
@@ -11772,6 +12132,7 @@ class SessionKeysAbpV1_1 {
   }
 }
 
+/// @nodoc
 class WirelessDeviceIdType {
   static const wirelessDeviceId = WirelessDeviceIdType._('WirelessDeviceId');
   static const devEui = WirelessDeviceIdType._('DevEui');
@@ -11806,6 +12167,8 @@ class WirelessDeviceIdType {
 }
 
 /// LoRaWANGetServiceProfileInfo object.
+///
+/// @nodoc
 class LoRaWANGetServiceProfileInfo {
   /// The AddGWMetaData value.
   final bool? addGwMetadata;
@@ -11992,6 +12355,7 @@ class LoRaWANGetServiceProfileInfo {
   }
 }
 
+/// @nodoc
 class WirelessGatewayServiceType {
   static const cups = WirelessGatewayServiceType._('CUPS');
   static const lns = WirelessGatewayServiceType._('LNS');
@@ -12018,6 +12382,8 @@ class WirelessGatewayServiceType {
 }
 
 /// The cell towers that were used to perform the measurements.
+///
+/// @nodoc
 class CellTowers {
   /// CDMA object information.
   final List<CdmaObj>? cdma;
@@ -12059,6 +12425,8 @@ class CellTowers {
 }
 
 /// IP address used for resolving device location.
+///
+/// @nodoc
 class Ip {
   /// IP address information.
   final String ipAddress;
@@ -12076,6 +12444,8 @@ class Ip {
 }
 
 /// Global navigation satellite system (GNSS) object used for positioning.
+///
+/// @nodoc
 class Gnss {
   /// Payload that contains the GNSS scan result, or NAV message, in hexadecimal
   /// notation.
@@ -12133,6 +12503,8 @@ class Gnss {
 }
 
 /// Optional configuration to customize location estimates.
+///
+/// @nodoc
 class AdvancedConfiguration {
   /// Configuration for WiFi and cellular-based payloads for location estimates.
   final WiFiCellular? wiFiCellular;
@@ -12150,6 +12522,8 @@ class AdvancedConfiguration {
 }
 
 /// Configuration for WiFi and cellular location payloads.
+///
+/// @nodoc
 class WiFiCellular {
   /// Confidence level for WiFi and cellular position estimates, expressed as a
   /// percentage. Valid range: 50–99 inclusive. Defaults to 68 if not specified.
@@ -12168,6 +12542,8 @@ class WiFiCellular {
 }
 
 /// CDMA (Code-division multiple access) object.
+///
+/// @nodoc
 class CdmaObj {
   /// CDMA base station ID (BSID).
   final int baseStationId;
@@ -12235,6 +12611,8 @@ class CdmaObj {
 
 /// CDMA local ID information, which corresponds to the local identification
 /// parameters of a CDMA cell.
+///
+/// @nodoc
 class CdmaLocalId {
   /// CDMA channel information.
   final int cdmaChannel;
@@ -12259,6 +12637,8 @@ class CdmaLocalId {
 }
 
 /// CDMA object for network measurement reports.
+///
+/// @nodoc
 class CdmaNmrObj {
   /// CDMA channel information.
   final int cdmaChannel;
@@ -12296,6 +12676,8 @@ class CdmaNmrObj {
 }
 
 /// LTE object.
+///
+/// @nodoc
 class LteObj {
   /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) Cell Global
   /// Identifier.
@@ -12370,6 +12752,8 @@ class LteObj {
 }
 
 /// LTE local identification (local ID) information.
+///
+/// @nodoc
 class LteLocalId {
   /// Evolved universal terrestrial radio access (E-UTRA) absolute radio frequency
   /// channel number (FCN).
@@ -12394,6 +12778,8 @@ class LteLocalId {
 }
 
 /// LTE object for network measurement reports.
+///
+/// @nodoc
 class LteNmrObj {
   /// E-UTRA (Evolved universal terrestrial Radio Access) absolute radio frequency
   /// channel Number (EARFCN).
@@ -12438,6 +12824,8 @@ class LteNmrObj {
 }
 
 /// TD-SCDMA object.
+///
+/// @nodoc
 class TdscdmaObj {
   /// Mobile Country Code.
   final int mcc;
@@ -12506,6 +12894,8 @@ class TdscdmaObj {
 }
 
 /// TD-SCDMA local identification (local Id) information.
+///
+/// @nodoc
 class TdscdmaLocalId {
   /// Cell parameters for TD-SCDMA.
   final int cellParams;
@@ -12530,6 +12920,8 @@ class TdscdmaLocalId {
 }
 
 /// TD-SCDMA object for network measurement reports.
+///
+/// @nodoc
 class TdscdmaNmrObj {
   /// Cell parameters for TD-SCDMA network measurement reports object.
   final int cellParams;
@@ -12573,6 +12965,8 @@ class TdscdmaNmrObj {
 }
 
 /// WCDMA.
+///
+/// @nodoc
 class WcdmaObj {
   /// Mobile Country Code.
   final int mcc;
@@ -12633,6 +13027,8 @@ class WcdmaObj {
 }
 
 /// WCDMA local identification (local ID) information.
+///
+/// @nodoc
 class WcdmaLocalId {
   /// Primary Scrambling Code.
   final int psc;
@@ -12656,6 +13052,8 @@ class WcdmaLocalId {
 }
 
 /// Network Measurement Reports.
+///
+/// @nodoc
 class WcdmaNmrObj {
   /// Primary Scrambling Code.
   final int psc;
@@ -12698,6 +13096,8 @@ class WcdmaNmrObj {
 }
 
 /// GSM object.
+///
+/// @nodoc
 class GsmObj {
   /// GERAN (GSM EDGE Radio Access Network) Cell Global Identifier.
   final int geranCid;
@@ -12760,6 +13160,8 @@ class GsmObj {
 
 /// GSM local ID information, which corresponds to the local identification
 /// parameters of a GSM cell.
+///
+/// @nodoc
 class GsmLocalId {
   /// GSM broadcast control channel.
   final int bcch;
@@ -12783,6 +13185,8 @@ class GsmLocalId {
 }
 
 /// GSM object for network measurement reports.
+///
+/// @nodoc
 class GsmNmrObj {
   /// GSM broadcast control channel.
   final int bcch;
@@ -12819,6 +13223,8 @@ class GsmNmrObj {
 }
 
 /// Global identity information.
+///
+/// @nodoc
 class GlobalIdentity {
   /// GERAN (GSM EDGE Radio Access Network) cell global identifier.
   final int geranCid;
@@ -12842,6 +13248,8 @@ class GlobalIdentity {
 }
 
 /// Wi-Fi access point.
+///
+/// @nodoc
 class WiFiAccessPoint {
   /// Wi-Fi MAC Address.
   final String macAddress;
@@ -12868,6 +13276,8 @@ class WiFiAccessPoint {
 /// that no position data is available. A value of ‘0.0’ value indicates that
 /// position data is available. This data corresponds to the position
 /// information that you specified instead of the position computed by solver.
+///
+/// @nodoc
 class Accuracy {
   /// The horizontal accuracy of the estimated position, which is the difference
   /// between the estimated location and the actual device location.
@@ -12901,6 +13311,8 @@ class Accuracy {
 
 /// The LoRaWAN information that is to be returned from getting multicast group
 /// information.
+///
+/// @nodoc
 class LoRaWANMulticastGet {
   final DlClass? dlClass;
   final int? numberOfDevicesInGroup;
@@ -12950,6 +13362,8 @@ class LoRaWANMulticastGet {
 }
 
 /// The result of the summary metrics aggregation operation.
+///
+/// @nodoc
 class SummaryMetricQueryResult {
   /// The aggregation period of the metric.
   final AggregationPeriod? aggregationPeriod;
@@ -13057,6 +13471,7 @@ class SummaryMetricQueryResult {
   }
 }
 
+/// @nodoc
 class MetricQueryStatus {
   static const succeeded = MetricQueryStatus._('Succeeded');
   static const failed = MetricQueryStatus._('Failed');
@@ -13081,6 +13496,7 @@ class MetricQueryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricName {
   static const deviceRSSI = MetricName._('DeviceRSSI');
   static const deviceSNR = MetricName._('DeviceSNR');
@@ -13179,6 +13595,7 @@ class MetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationPeriod {
   static const oneHour = AggregationPeriod._('OneHour');
   static const oneDay = AggregationPeriod._('OneDay');
@@ -13205,6 +13622,8 @@ class AggregationPeriod {
 }
 
 /// The aggregated values of the metric.
+///
+/// @nodoc
 class MetricQueryValue {
   /// The average of the values of all data points collected during the
   /// aggregation period.
@@ -13269,6 +13688,8 @@ class MetricQueryValue {
 }
 
 /// The required list of dimensions for the metric.
+///
+/// @nodoc
 class Dimension {
   /// The name of the dimension.
   final DimensionName? name;
@@ -13298,6 +13719,7 @@ class Dimension {
   }
 }
 
+/// @nodoc
 class DimensionName {
   static const deviceId = DimensionName._('DeviceId');
   static const gatewayId = DimensionName._('GatewayId');
@@ -13323,6 +13745,8 @@ class DimensionName {
 }
 
 /// The summary metric query object.
+///
+/// @nodoc
 class SummaryMetricQuery {
   /// The aggregation period of the summary metric.
   final AggregationPeriod? aggregationPeriod;
@@ -13373,6 +13797,8 @@ class SummaryMetricQuery {
 }
 
 /// The status of a FUOTA task.
+///
+/// @nodoc
 class FuotaTaskStatus {
   static const pending = FuotaTaskStatus._('Pending');
   static const fuotaSessionWaiting = FuotaTaskStatus._('FuotaSession_Waiting');
@@ -13407,6 +13833,8 @@ class FuotaTaskStatus {
 }
 
 /// The LoRaWAN information returned from getting a FUOTA task.
+///
+/// @nodoc
 class LoRaWANFuotaTaskGetInfo {
   final String? rfRegion;
   final DateTime? startTime;
@@ -13434,6 +13862,8 @@ class LoRaWANFuotaTaskGetInfo {
 }
 
 /// LoRaWANDeviceProfile object.
+///
+/// @nodoc
 class LoRaWANDeviceProfile {
   /// The ClassBTimeout value.
   final int? classBTimeout;
@@ -13588,6 +14018,8 @@ class LoRaWANDeviceProfile {
 }
 
 /// Gets information about a Sidewalk device profile.
+///
+/// @nodoc
 class SidewalkGetDeviceProfile {
   /// The Sidewalk application server public key.
   final String? applicationServerPublicKey;
@@ -13633,6 +14065,8 @@ class SidewalkGetDeviceProfile {
 }
 
 /// The device attestation key (DAK) information.
+///
+/// @nodoc
 class DakCertificateMetadata {
   /// The certificate ID for the DAK.
   final String certificateId;
@@ -13687,6 +14121,8 @@ class DakCertificateMetadata {
 }
 
 /// Sidewalk object for creating a wireless device.
+///
+/// @nodoc
 class SidewalkCreateWirelessDevice {
   /// The ID of the Sidewalk device profile.
   final String? deviceProfileId;
@@ -13717,6 +14153,8 @@ class SidewalkCreateWirelessDevice {
 }
 
 /// LoRaWANServiceProfile object.
+///
+/// @nodoc
 class LoRaWANServiceProfile {
   /// The AddGWMetaData value.
   final bool? addGwMetadata;
@@ -13790,6 +14228,8 @@ class LoRaWANServiceProfile {
 }
 
 /// Sidewalk object for creating a device profile.
+///
+/// @nodoc
 class SidewalkCreateDeviceProfile {
   SidewalkCreateDeviceProfile();
 
@@ -13799,6 +14239,8 @@ class SidewalkCreateDeviceProfile {
 }
 
 /// Information about a Sidewalk account.
+///
+/// @nodoc
 class SidewalkAccountInfo {
   /// The Sidewalk Amazon ID.
   final String? amazonId;
@@ -13829,36 +14271,43 @@ class SidewalkAccountInfo {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

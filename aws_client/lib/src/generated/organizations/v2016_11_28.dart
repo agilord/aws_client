@@ -632,14 +632,14 @@ class Organizations {
   /// <li>
   /// The local name can't contain any of the following characters:
   ///
-  /// whitespace, " ' ( ) < > [ ] : ; , \ | % &
+  /// whitespace, " ' ( ) < > \[ \] : ; , \ | % &
   /// </li>
   /// <li>
   /// The local name can't begin with a dot (.)
   /// </li>
   /// <li>
-  /// The domain name can consist of only the characters [a-z],[A-Z],[0-9],
-  /// hyphen (-), or dot (.)
+  /// The domain name can consist of only the characters
+  /// \[a-z\],\[A-Z\],\[0-9\], hyphen (-), or dot (.)
   /// </li>
   /// <li>
   /// The domain name can't begin or end with a hyphen (-) or dot (.)
@@ -914,8 +914,9 @@ class Organizations {
   /// Parameter [accountName] :
   /// The friendly name of the member account.
   ///
-  /// The account name can consist of only the characters [a-z],[A-Z],[0-9],
-  /// hyphen (-), or dot (.) You can't separate characters with a dash (–).
+  /// The account name can consist of only the characters
+  /// \[a-z\],\[A-Z\],\[0-9\], hyphen (-), or dot (.) You can't separate
+  /// characters with a dash (–).
   ///
   /// Parameter [email] :
   /// Specifies the email address of the owner to assign to the new member
@@ -939,14 +940,14 @@ class Organizations {
   /// <li>
   /// The local name can't contain any of the following characters:
   ///
-  /// whitespace, " ' ( ) < > [ ] : ; , \ | % &
+  /// whitespace, " ' ( ) < > \[ \] : ; , \ | % &
   /// </li>
   /// <li>
   /// The local name can't begin with a dot (.)
   /// </li>
   /// <li>
-  /// The domain name can consist of only the characters [a-z],[A-Z],[0-9],
-  /// hyphen (-), or dot (.)
+  /// The domain name can consist of only the characters
+  /// \[a-z\],\[A-Z\],\[0-9\], hyphen (-), or dot (.)
   /// </li>
   /// <li>
   /// The domain name can't begin or end with a hyphen (-) or dot (.)
@@ -5177,6 +5178,7 @@ class Organizations {
   }
 }
 
+/// @nodoc
 class AcceptHandshakeResponse {
   /// A <code>Handshake</code> object. Contains details for the handshake.
   final Handshake? handshake;
@@ -5201,6 +5203,7 @@ class AcceptHandshakeResponse {
   }
 }
 
+/// @nodoc
 class CancelHandshakeResponse {
   /// A <code>Handshake</code> object. Contains for the handshake that you
   /// canceled.
@@ -5226,6 +5229,7 @@ class CancelHandshakeResponse {
   }
 }
 
+/// @nodoc
 class CreateAccountResponse {
   /// A structure that contains details about the request to create an account.
   /// This response structure might not be fully populated when you first receive
@@ -5260,6 +5264,7 @@ class CreateAccountResponse {
   }
 }
 
+/// @nodoc
 class CreateGovCloudAccountResponse {
   final CreateAccountStatus? createAccountStatus;
 
@@ -5285,6 +5290,7 @@ class CreateGovCloudAccountResponse {
   }
 }
 
+/// @nodoc
 class CreateOrganizationResponse {
   /// A structure that contains details about the newly created organization.
   final Organization? organization;
@@ -5309,6 +5315,7 @@ class CreateOrganizationResponse {
   }
 }
 
+/// @nodoc
 class CreateOrganizationalUnitResponse {
   /// A structure that contains details about the newly created OU.
   final OrganizationalUnit? organizationalUnit;
@@ -5334,6 +5341,7 @@ class CreateOrganizationalUnitResponse {
   }
 }
 
+/// @nodoc
 class CreatePolicyResponse {
   /// A structure that contains details about the newly created policy.
   final Policy? policy;
@@ -5358,6 +5366,7 @@ class CreatePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeclineHandshakeResponse {
   /// A <code>Handshake</code> object. Contains details for the declined
   /// handshake.
@@ -5383,6 +5392,7 @@ class DeclineHandshakeResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountResponse {
   /// A structure that contains information about the requested account.
   /// <important>
@@ -5416,6 +5426,7 @@ class DescribeAccountResponse {
   }
 }
 
+/// @nodoc
 class DescribeCreateAccountStatusResponse {
   /// A structure that contains the current status of an account creation request.
   final CreateAccountStatus? createAccountStatus;
@@ -5443,6 +5454,7 @@ class DescribeCreateAccountStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeEffectivePolicyResponse {
   /// The contents of the effective policy.
   final EffectivePolicy? effectivePolicy;
@@ -5468,6 +5480,7 @@ class DescribeEffectivePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeHandshakeResponse {
   /// A <code>Handshake</code> object. Contains details for the handshake.
   final Handshake? handshake;
@@ -5492,6 +5505,7 @@ class DescribeHandshakeResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationResponse {
   /// A structure that contains information about the organization.
   /// <important>
@@ -5523,6 +5537,7 @@ class DescribeOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationalUnitResponse {
   /// A structure that contains details about the specified OU.
   final OrganizationalUnit? organizationalUnit;
@@ -5549,6 +5564,7 @@ class DescribeOrganizationalUnitResponse {
   }
 }
 
+/// @nodoc
 class DescribePolicyResponse {
   /// A structure that contains details about the specified policy.
   final Policy? policy;
@@ -5573,6 +5589,7 @@ class DescribePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePolicyResponse {
   /// A structure that contains details about the resource policy.
   final ResourcePolicy? resourcePolicy;
@@ -5598,6 +5615,7 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeResponsibilityTransferResponse {
   /// A <code>ResponsibilityTransfer</code> object. Contains details for a
   /// transfer.
@@ -5626,6 +5644,7 @@ class DescribeResponsibilityTransferResponse {
   }
 }
 
+/// @nodoc
 class DisablePolicyTypeResponse {
   /// A structure that shows the root with the updated list of enabled policy
   /// types.
@@ -5651,6 +5670,7 @@ class DisablePolicyTypeResponse {
   }
 }
 
+/// @nodoc
 class EnableAllFeaturesResponse {
   /// A structure that contains details about the handshake created to support
   /// this request to enable all features in the organization.
@@ -5676,6 +5696,7 @@ class EnableAllFeaturesResponse {
   }
 }
 
+/// @nodoc
 class EnablePolicyTypeResponse {
   /// A structure that shows the root with the updated list of enabled policy
   /// types.
@@ -5701,6 +5722,7 @@ class EnablePolicyTypeResponse {
   }
 }
 
+/// @nodoc
 class InviteAccountToOrganizationResponse {
   /// A structure that contains details about the handshake that is created to
   /// support this invitation request.
@@ -5727,6 +5749,7 @@ class InviteAccountToOrganizationResponse {
   }
 }
 
+/// @nodoc
 class InviteOrganizationToTransferResponsibilityResponse {
   final Handshake? handshake;
 
@@ -5751,6 +5774,7 @@ class InviteOrganizationToTransferResponsibilityResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsResponse {
   /// A list of objects in the organization.
   /// <important>
@@ -5796,6 +5820,7 @@ class ListAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsForParentResponse {
   /// A list of the accounts in the specified root or OU.
   /// <important>
@@ -5841,6 +5866,7 @@ class ListAccountsForParentResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsWithInvalidEffectivePolicyResponse {
   /// The accounts in the organization which have an invalid effective policy for
   /// the specified policy type.
@@ -5934,6 +5960,7 @@ class ListAccountsWithInvalidEffectivePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListAWSServiceAccessForOrganizationResponse {
   /// A list of the service principals for the services that are enabled to
   /// integrate with your organization. Each principal is a structure that
@@ -5976,6 +6003,7 @@ class ListAWSServiceAccessForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class ListChildrenResponse {
   /// The list of children of the specified parent container.
   final List<Child>? children;
@@ -6012,6 +6040,7 @@ class ListChildrenResponse {
   }
 }
 
+/// @nodoc
 class ListCreateAccountStatusResponse {
   /// A list of objects with details about the requests. Certain elements, such as
   /// the accountId number, are present in the output only after the account has
@@ -6051,6 +6080,7 @@ class ListCreateAccountStatusResponse {
   }
 }
 
+/// @nodoc
 class ListDelegatedAdministratorsResponse {
   /// The list of delegated administrators in your organization.
   final List<DelegatedAdministrator>? delegatedAdministrators;
@@ -6090,6 +6120,7 @@ class ListDelegatedAdministratorsResponse {
   }
 }
 
+/// @nodoc
 class ListDelegatedServicesForAccountResponse {
   /// The services for which the account is a delegated administrator.
   final List<DelegatedService>? delegatedServices;
@@ -6127,6 +6158,7 @@ class ListDelegatedServicesForAccountResponse {
   }
 }
 
+/// @nodoc
 class ListEffectivePolicyValidationErrorsResponse {
   /// The ID of the specified account.
   final String? accountId;
@@ -6249,6 +6281,7 @@ class ListEffectivePolicyValidationErrorsResponse {
   }
 }
 
+/// @nodoc
 class ListHandshakesForAccountResponse {
   /// An array of <code>Handshake</code>objects. Contains details for a handshake.
   final List<Handshake>? handshakes;
@@ -6285,6 +6318,7 @@ class ListHandshakesForAccountResponse {
   }
 }
 
+/// @nodoc
 class ListHandshakesForOrganizationResponse {
   /// An array of <code>Handshake</code>objects. Contains details for a handshake.
   final List<Handshake>? handshakes;
@@ -6322,6 +6356,7 @@ class ListHandshakesForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class ListInboundResponsibilityTransfersResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6362,6 +6397,7 @@ class ListInboundResponsibilityTransfersResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationalUnitsForParentResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6400,6 +6436,7 @@ class ListOrganizationalUnitsForParentResponse {
   }
 }
 
+/// @nodoc
 class ListOutboundResponsibilityTransfersResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6440,6 +6477,7 @@ class ListOutboundResponsibilityTransfersResponse {
   }
 }
 
+/// @nodoc
 class ListParentsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6476,6 +6514,7 @@ class ListParentsResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6514,6 +6553,7 @@ class ListPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesForTargetResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6550,6 +6590,7 @@ class ListPoliciesForTargetResponse {
   }
 }
 
+/// @nodoc
 class ListRootsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6586,6 +6627,7 @@ class ListRootsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6622,6 +6664,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTargetsForPolicyResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6659,6 +6702,7 @@ class ListTargetsForPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// A structure that contains details about the resource policy.
   final ResourcePolicy? resourcePolicy;
@@ -6684,6 +6728,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class TerminateResponsibilityTransferResponse {
   /// A <code>ResponsibilityTransfer</code> object. Contains details for a
   /// transfer.
@@ -6712,6 +6757,7 @@ class TerminateResponsibilityTransferResponse {
   }
 }
 
+/// @nodoc
 class UpdateOrganizationalUnitResponse {
   /// A structure that contains the details about the specified OU, including its
   /// new name.
@@ -6738,6 +6784,7 @@ class UpdateOrganizationalUnitResponse {
   }
 }
 
+/// @nodoc
 class UpdatePolicyResponse {
   /// A structure that contains details about the updated policy, showing the
   /// requested changes.
@@ -6763,6 +6810,7 @@ class UpdatePolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateResponsibilityTransferResponse {
   final ResponsibilityTransfer? responsibilityTransfer;
 
@@ -6792,6 +6840,8 @@ class UpdateResponsibilityTransferResponse {
 /// Contains details for a transfer. A <i>transfer</i> is the arrangement
 /// between two management accounts where one account designates the other with
 /// specified responsibilities for their organization.
+///
+/// @nodoc
 class ResponsibilityTransfer {
   /// ID for the handshake of the transfer.
   final String? activeHandshakeId;
@@ -6887,6 +6937,7 @@ class ResponsibilityTransfer {
   }
 }
 
+/// @nodoc
 class ResponsibilityTransferType {
   static const billing = ResponsibilityTransferType._('BILLING');
 
@@ -6911,6 +6962,7 @@ class ResponsibilityTransferType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResponsibilityTransferStatus {
   static const requested = ResponsibilityTransferStatus._('REQUESTED');
   static const declined = ResponsibilityTransferStatus._('DECLINED');
@@ -6950,6 +7002,8 @@ class ResponsibilityTransferStatus {
 /// Contains details for a participant in a transfer. A <i>transfer</i> is the
 /// arrangement between two management accounts where one account designates the
 /// other with specified responsibilities for their organization.
+///
+/// @nodoc
 class TransferParticipant {
   /// Email address for the management account.
   final String? managementAccountEmail;
@@ -6984,6 +7038,8 @@ class TransferParticipant {
 /// Contains rules to be applied to the affected accounts. Policies can be
 /// attached directly to accounts, or to roots and OUs to affect all accounts in
 /// those hierarchies.
+///
+/// @nodoc
 class Policy {
   /// The text content of the policy.
   final String? content;
@@ -7018,6 +7074,8 @@ class Policy {
 
 /// Contains information about a policy, but does not include the content. To
 /// see the content of a policy, see <a>DescribePolicy</a>.
+///
+/// @nodoc
 class PolicySummary {
   /// The Amazon Resource Name (ARN) of the policy.
   ///
@@ -7090,6 +7148,7 @@ class PolicySummary {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const serviceControlPolicy = PolicyType._('SERVICE_CONTROL_POLICY');
   static const resourceControlPolicy = PolicyType._('RESOURCE_CONTROL_POLICY');
@@ -7144,6 +7203,8 @@ class PolicyType {
 /// Amazon Web Services accounts within a root of an organization. Policies that
 /// are attached to an OU apply to all accounts contained in that OU and in any
 /// child OUs.
+///
+/// @nodoc
 class OrganizationalUnit {
   /// The Amazon Resource Name (ARN) of this OU.
   ///
@@ -7221,6 +7282,8 @@ class OrganizationalUnit {
 /// Policy
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// The key identifier, or name, of the tag.
   final String key;
@@ -7253,6 +7316,8 @@ class Tag {
 }
 
 /// A structure that contains details about a resource policy.
+///
+/// @nodoc
 class ResourcePolicy {
   /// The policy text of the resource policy.
   final String? content;
@@ -7287,6 +7352,8 @@ class ResourcePolicy {
 }
 
 /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+///
+/// @nodoc
 class ResourcePolicySummary {
   /// The Amazon Resource Name (ARN) of the resource policy.
   final String? arn;
@@ -7318,6 +7385,8 @@ class ResourcePolicySummary {
 
 /// Contains information about a root, OU, or account that a policy is attached
 /// to.
+///
+/// @nodoc
 class PolicyTargetSummary {
   /// The Amazon Resource Name (ARN) of the policy target.
   ///
@@ -7389,6 +7458,7 @@ class PolicyTargetSummary {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const account = TargetType._('ACCOUNT');
   static const organizationalUnit = TargetType._('ORGANIZATIONAL_UNIT');
@@ -7417,6 +7487,8 @@ class TargetType {
 /// hierarchy of an organization that can contain organizational units (OUs) and
 /// accounts. The root contains every Amazon Web Services account in the
 /// organization.
+///
+/// @nodoc
 class Root {
   /// The Amazon Resource Name (ARN) of the root.
   ///
@@ -7487,6 +7559,8 @@ class Root {
 
 /// Contains information about a policy type and its status in the associated
 /// root.
+///
+/// @nodoc
 class PolicyTypeSummary {
   /// The status of the policy type as it relates to the associated root. To
   /// attach a policy of the specified type to a root or to an OU or account in
@@ -7519,6 +7593,7 @@ class PolicyTypeSummary {
   }
 }
 
+/// @nodoc
 class PolicyTypeStatus {
   static const enabled = PolicyTypeStatus._('ENABLED');
   static const pendingEnable = PolicyTypeStatus._('PENDING_ENABLE');
@@ -7546,6 +7621,8 @@ class PolicyTypeStatus {
 
 /// Contains information about either a root or an organizational unit (OU) that
 /// can contain OUs or accounts in an organization.
+///
+/// @nodoc
 class Parent {
   /// The unique identifier (ID) of the parent entity.
   ///
@@ -7591,6 +7668,7 @@ class Parent {
   }
 }
 
+/// @nodoc
 class ParentType {
   static const root = ParentType._('ROOT');
   static const organizationalUnit = ParentType._('ORGANIZATIONAL_UNIT');
@@ -7622,6 +7700,8 @@ class ParentType {
 /// <code>ACCEPTED</code>, <code>DECLINED</code>, or <code>EXPIRED</code> show
 /// up in lists for only 30 days after entering that state After that they are
 /// deleted.
+///
+/// @nodoc
 class Handshake {
   /// The type of handshake:
   ///
@@ -7755,6 +7835,7 @@ class Handshake {
   }
 }
 
+/// @nodoc
 class HandshakeState {
   static const requested = HandshakeState._('REQUESTED');
   static const open = HandshakeState._('OPEN');
@@ -7790,6 +7871,7 @@ class HandshakeState {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionType {
   static const invite = ActionType._('INVITE');
   static const enableAllFeatures = ActionType._('ENABLE_ALL_FEATURES');
@@ -7824,6 +7906,8 @@ class ActionType {
 }
 
 /// Contains additional details for a handshake.
+///
+/// @nodoc
 class HandshakeResource {
   /// An array of <code>HandshakeResource</code> objects. When needed, contains
   /// additional details for a handshake. For example, the email address for the
@@ -7888,6 +7972,7 @@ class HandshakeResource {
   }
 }
 
+/// @nodoc
 class HandshakeResourceType {
   static const account = HandshakeResourceType._('ACCOUNT');
   static const organization = HandshakeResourceType._('ORGANIZATION');
@@ -7945,6 +8030,8 @@ class HandshakeResourceType {
 }
 
 /// Contains details for a participant in a handshake.
+///
+/// @nodoc
 class HandshakeParty {
   /// ID for the participant: Acccount ID, organization ID, or email address.
   ///
@@ -7978,6 +8065,7 @@ class HandshakeParty {
   }
 }
 
+/// @nodoc
 class HandshakePartyType {
   static const account = HandshakePartyType._('ACCOUNT');
   static const organization = HandshakePartyType._('ORGANIZATION');
@@ -8005,6 +8093,8 @@ class HandshakePartyType {
 }
 
 /// Contains the filter used to select the handshakes for an operation.
+///
+/// @nodoc
 class HandshakeFilter {
   /// The type of handshake.
   ///
@@ -8038,6 +8128,7 @@ class HandshakeFilter {
   }
 }
 
+/// @nodoc
 class EffectivePolicyType {
   static const tagPolicy = EffectivePolicyType._('TAG_POLICY');
   static const backupPolicy = EffectivePolicyType._('BACKUP_POLICY');
@@ -8093,6 +8184,8 @@ class EffectivePolicyType {
 /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html">effective
 /// policy</a>, such as which policies contributed to the error and location of
 /// the error.
+///
+/// @nodoc
 class EffectivePolicyValidationError {
   /// The individual policies <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html">inherited</a>
@@ -8147,6 +8240,8 @@ class EffectivePolicyValidationError {
 
 /// Contains information about the Amazon Web Services service for which the
 /// account is a delegated administrator.
+///
+/// @nodoc
 class DelegatedService {
   /// The date that the account became a delegated administrator for this service.
   final DateTime? delegationEnabledDate;
@@ -8180,6 +8275,8 @@ class DelegatedService {
 }
 
 /// Contains information about the delegated administrator.
+///
+/// @nodoc
 class DelegatedAdministrator {
   /// The Amazon Resource Name (ARN) of the delegated administrator's account.
   final String? arn;
@@ -8271,6 +8368,7 @@ class DelegatedAdministrator {
   }
 }
 
+/// @nodoc
 class AccountStatus {
   static const active = AccountStatus._('ACTIVE');
   static const suspended = AccountStatus._('SUSPENDED');
@@ -8296,6 +8394,7 @@ class AccountStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountState {
   static const pendingActivation = AccountState._('PENDING_ACTIVATION');
   static const active = AccountState._('ACTIVE');
@@ -8328,6 +8427,7 @@ class AccountState {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountJoinedMethod {
   static const invited = AccountJoinedMethod._('INVITED');
   static const created = AccountJoinedMethod._('CREATED');
@@ -8356,6 +8456,8 @@ class AccountJoinedMethod {
 /// Contains the status about a <a>CreateAccount</a> or
 /// <a>CreateGovCloudAccount</a> request to create an Amazon Web Services
 /// account or an Amazon Web Services GovCloud (US) account in an organization.
+///
+/// @nodoc
 class CreateAccountStatus {
   /// If the account was created successfully, the unique identifier (ID) of the
   /// new account.
@@ -8509,6 +8611,7 @@ class CreateAccountStatus {
   }
 }
 
+/// @nodoc
 class CreateAccountState {
   static const inProgress = CreateAccountState._('IN_PROGRESS');
   static const succeeded = CreateAccountState._('SUCCEEDED');
@@ -8535,6 +8638,7 @@ class CreateAccountState {
   String toString() => value;
 }
 
+/// @nodoc
 class CreateAccountFailureReason {
   static const accountLimitExceeded =
       CreateAccountFailureReason._('ACCOUNT_LIMIT_EXCEEDED');
@@ -8604,6 +8708,8 @@ class CreateAccountFailureReason {
 }
 
 /// Contains a list of child entities, either OUs or accounts.
+///
+/// @nodoc
 class Child {
   /// The unique identifier (ID) of this child entity.
   ///
@@ -8648,6 +8754,7 @@ class Child {
   }
 }
 
+/// @nodoc
 class ChildType {
   static const account = ChildType._('ACCOUNT');
   static const organizationalUnit = ChildType._('ORGANIZATIONAL_UNIT');
@@ -8673,6 +8780,8 @@ class ChildType {
 
 /// A structure that contains details of a service principal that represents an
 /// Amazon Web Services service that is enabled to integrate with Organizations.
+///
+/// @nodoc
 class EnabledServicePrincipal {
   /// The date that the service principal was enabled for integration with
   /// Organizations.
@@ -8706,6 +8815,8 @@ class EnabledServicePrincipal {
 
 /// Contains information about an Amazon Web Services account that is a member
 /// of an organization.
+///
+/// @nodoc
 class Account {
   /// The Amazon Resource Name (ARN) of the account.
   ///
@@ -8823,6 +8934,8 @@ class Account {
 /// accounts that are centrally managed together using consolidated billing,
 /// organized hierarchically with organizational units (OUs), and controlled
 /// with policies .
+///
+/// @nodoc
 class Organization {
   /// The Amazon Resource Name (ARN) of an organization.
   ///
@@ -8923,6 +9036,7 @@ class Organization {
   }
 }
 
+/// @nodoc
 class OrganizationFeatureSet {
   static const all = OrganizationFeatureSet._('ALL');
   static const consolidatedBilling =
@@ -8952,6 +9066,8 @@ class OrganizationFeatureSet {
 /// Contains rules to be applied to the affected accounts. The effective policy
 /// is the aggregation of any policies the account inherits, plus any policy
 /// directly attached to the account.
+///
+/// @nodoc
 class EffectivePolicy {
   /// The time of the last update to this policy.
   final DateTime? lastUpdatedTimestamp;
@@ -8997,6 +9113,7 @@ class EffectivePolicy {
   }
 }
 
+/// @nodoc
 class IAMUserAccessToBilling {
   static const allow = IAMUserAccessToBilling._('ALLOW');
   static const deny = IAMUserAccessToBilling._('DENY');
@@ -9022,6 +9139,7 @@ class IAMUserAccessToBilling {
   String toString() => value;
 }
 
+/// @nodoc
 class AWSOrganizationsNotInUseException extends _s.GenericAwsException {
   AWSOrganizationsNotInUseException({String? type, String? message})
       : super(
@@ -9030,11 +9148,13 @@ class AWSOrganizationsNotInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AccessDeniedForDependencyException extends _s.GenericAwsException {
   AccessDeniedForDependencyException({String? type, String? message})
       : super(
@@ -9043,6 +9163,7 @@ class AccessDeniedForDependencyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountAlreadyClosedException extends _s.GenericAwsException {
   AccountAlreadyClosedException({String? type, String? message})
       : super(
@@ -9051,6 +9172,7 @@ class AccountAlreadyClosedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountAlreadyRegisteredException extends _s.GenericAwsException {
   AccountAlreadyRegisteredException({String? type, String? message})
       : super(
@@ -9059,11 +9181,13 @@ class AccountAlreadyRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountNotFoundException extends _s.GenericAwsException {
   AccountNotFoundException({String? type, String? message})
       : super(type: type, code: 'AccountNotFoundException', message: message);
 }
 
+/// @nodoc
 class AccountNotRegisteredException extends _s.GenericAwsException {
   AccountNotRegisteredException({String? type, String? message})
       : super(
@@ -9072,6 +9196,7 @@ class AccountNotRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountOwnerNotVerifiedException extends _s.GenericAwsException {
   AccountOwnerNotVerifiedException({String? type, String? message})
       : super(
@@ -9080,6 +9205,7 @@ class AccountOwnerNotVerifiedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AlreadyInOrganizationException extends _s.GenericAwsException {
   AlreadyInOrganizationException({String? type, String? message})
       : super(
@@ -9088,11 +9214,13 @@ class AlreadyInOrganizationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ChildNotFoundException extends _s.GenericAwsException {
   ChildNotFoundException({String? type, String? message})
       : super(type: type, code: 'ChildNotFoundException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -9101,17 +9229,20 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ConstraintViolationException extends _s.GenericAwsException {
   ConstraintViolationException({String? type, String? message})
       : super(
             type: type, code: 'ConstraintViolationException', message: message);
 }
 
+/// @nodoc
 class CreateAccountStatusNotFoundException extends _s.GenericAwsException {
   CreateAccountStatusNotFoundException({String? type, String? message})
       : super(
@@ -9120,6 +9251,7 @@ class CreateAccountStatusNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DestinationParentNotFoundException extends _s.GenericAwsException {
   DestinationParentNotFoundException({String? type, String? message})
       : super(
@@ -9128,17 +9260,20 @@ class DestinationParentNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateAccountException extends _s.GenericAwsException {
   DuplicateAccountException({String? type, String? message})
       : super(type: type, code: 'DuplicateAccountException', message: message);
 }
 
+/// @nodoc
 class DuplicateHandshakeException extends _s.GenericAwsException {
   DuplicateHandshakeException({String? type, String? message})
       : super(
             type: type, code: 'DuplicateHandshakeException', message: message);
 }
 
+/// @nodoc
 class DuplicateOrganizationalUnitException extends _s.GenericAwsException {
   DuplicateOrganizationalUnitException({String? type, String? message})
       : super(
@@ -9147,6 +9282,7 @@ class DuplicateOrganizationalUnitException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicatePolicyAttachmentException extends _s.GenericAwsException {
   DuplicatePolicyAttachmentException({String? type, String? message})
       : super(
@@ -9155,11 +9291,13 @@ class DuplicatePolicyAttachmentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicatePolicyException extends _s.GenericAwsException {
   DuplicatePolicyException({String? type, String? message})
       : super(type: type, code: 'DuplicatePolicyException', message: message);
 }
 
+/// @nodoc
 class EffectivePolicyNotFoundException extends _s.GenericAwsException {
   EffectivePolicyNotFoundException({String? type, String? message})
       : super(
@@ -9168,6 +9306,7 @@ class EffectivePolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FinalizingOrganizationException extends _s.GenericAwsException {
   FinalizingOrganizationException({String? type, String? message})
       : super(
@@ -9176,6 +9315,7 @@ class FinalizingOrganizationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HandshakeAlreadyInStateException extends _s.GenericAwsException {
   HandshakeAlreadyInStateException({String? type, String? message})
       : super(
@@ -9184,6 +9324,7 @@ class HandshakeAlreadyInStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HandshakeConstraintViolationException extends _s.GenericAwsException {
   HandshakeConstraintViolationException({String? type, String? message})
       : super(
@@ -9192,11 +9333,13 @@ class HandshakeConstraintViolationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HandshakeNotFoundException extends _s.GenericAwsException {
   HandshakeNotFoundException({String? type, String? message})
       : super(type: type, code: 'HandshakeNotFoundException', message: message);
 }
 
+/// @nodoc
 class InvalidHandshakeTransitionException extends _s.GenericAwsException {
   InvalidHandshakeTransitionException({String? type, String? message})
       : super(
@@ -9205,11 +9348,13 @@ class InvalidHandshakeTransitionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidResponsibilityTransferTransitionException
     extends _s.GenericAwsException {
   InvalidResponsibilityTransferTransitionException(
@@ -9220,6 +9365,7 @@ class InvalidResponsibilityTransferTransitionException
             message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -9228,6 +9374,7 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MasterCannotLeaveOrganizationException extends _s.GenericAwsException {
   MasterCannotLeaveOrganizationException({String? type, String? message})
       : super(
@@ -9236,6 +9383,7 @@ class MasterCannotLeaveOrganizationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationNotEmptyException extends _s.GenericAwsException {
   OrganizationNotEmptyException({String? type, String? message})
       : super(
@@ -9244,6 +9392,7 @@ class OrganizationNotEmptyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationalUnitNotEmptyException extends _s.GenericAwsException {
   OrganizationalUnitNotEmptyException({String? type, String? message})
       : super(
@@ -9252,6 +9401,7 @@ class OrganizationalUnitNotEmptyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationalUnitNotFoundException extends _s.GenericAwsException {
   OrganizationalUnitNotFoundException({String? type, String? message})
       : super(
@@ -9260,11 +9410,13 @@ class OrganizationalUnitNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParentNotFoundException extends _s.GenericAwsException {
   ParentNotFoundException({String? type, String? message})
       : super(type: type, code: 'ParentNotFoundException', message: message);
 }
 
+/// @nodoc
 class PolicyChangesInProgressException extends _s.GenericAwsException {
   PolicyChangesInProgressException({String? type, String? message})
       : super(
@@ -9273,21 +9425,25 @@ class PolicyChangesInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyInUseException extends _s.GenericAwsException {
   PolicyInUseException({String? type, String? message})
       : super(type: type, code: 'PolicyInUseException', message: message);
 }
 
+/// @nodoc
 class PolicyNotAttachedException extends _s.GenericAwsException {
   PolicyNotAttachedException({String? type, String? message})
       : super(type: type, code: 'PolicyNotAttachedException', message: message);
 }
 
+/// @nodoc
 class PolicyNotFoundException extends _s.GenericAwsException {
   PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 
+/// @nodoc
 class PolicyTypeAlreadyEnabledException extends _s.GenericAwsException {
   PolicyTypeAlreadyEnabledException({String? type, String? message})
       : super(
@@ -9296,6 +9452,7 @@ class PolicyTypeAlreadyEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyTypeNotAvailableForOrganizationException
     extends _s.GenericAwsException {
   PolicyTypeNotAvailableForOrganizationException(
@@ -9306,6 +9463,7 @@ class PolicyTypeNotAvailableForOrganizationException
             message: message);
 }
 
+/// @nodoc
 class PolicyTypeNotEnabledException extends _s.GenericAwsException {
   PolicyTypeNotEnabledException({String? type, String? message})
       : super(
@@ -9314,6 +9472,7 @@ class PolicyTypeNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourcePolicyNotFoundException extends _s.GenericAwsException {
   ResourcePolicyNotFoundException({String? type, String? message})
       : super(
@@ -9322,6 +9481,7 @@ class ResourcePolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResponsibilityTransferAlreadyInStatusException
     extends _s.GenericAwsException {
   ResponsibilityTransferAlreadyInStatusException(
@@ -9332,6 +9492,7 @@ class ResponsibilityTransferAlreadyInStatusException
             message: message);
 }
 
+/// @nodoc
 class ResponsibilityTransferNotFoundException extends _s.GenericAwsException {
   ResponsibilityTransferNotFoundException({String? type, String? message})
       : super(
@@ -9340,16 +9501,19 @@ class ResponsibilityTransferNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RootNotFoundException extends _s.GenericAwsException {
   RootNotFoundException({String? type, String? message})
       : super(type: type, code: 'RootNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class SourceParentNotFoundException extends _s.GenericAwsException {
   SourceParentNotFoundException({String? type, String? message})
       : super(
@@ -9358,16 +9522,19 @@ class SourceParentNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TargetNotFoundException extends _s.GenericAwsException {
   TargetNotFoundException({String? type, String? message})
       : super(type: type, code: 'TargetNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedAPIEndpointException extends _s.GenericAwsException {
   UnsupportedAPIEndpointException({String? type, String? message})
       : super(

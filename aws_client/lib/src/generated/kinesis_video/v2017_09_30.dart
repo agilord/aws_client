@@ -1565,6 +1565,7 @@ class KinesisVideo {
   }
 }
 
+/// @nodoc
 class CreateSignalingChannelOutput {
   /// The Amazon Resource Name (ARN) of the created channel.
   final String? channelARN;
@@ -1587,6 +1588,7 @@ class CreateSignalingChannelOutput {
   }
 }
 
+/// @nodoc
 class CreateStreamOutput {
   /// The Amazon Resource Name (ARN) of the stream.
   final String? streamARN;
@@ -1609,6 +1611,7 @@ class CreateStreamOutput {
   }
 }
 
+/// @nodoc
 class DeleteEdgeConfigurationOutput {
   DeleteEdgeConfigurationOutput();
 
@@ -1621,6 +1624,7 @@ class DeleteEdgeConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DeleteSignalingChannelOutput {
   DeleteSignalingChannelOutput();
 
@@ -1633,6 +1637,7 @@ class DeleteSignalingChannelOutput {
   }
 }
 
+/// @nodoc
 class DeleteStreamOutput {
   DeleteStreamOutput();
 
@@ -1645,6 +1650,7 @@ class DeleteStreamOutput {
   }
 }
 
+/// @nodoc
 class DescribeEdgeConfigurationOutput {
   /// The timestamp at which a stream’s edge configuration was first created.
   final DateTime? creationTime;
@@ -1728,6 +1734,7 @@ class DescribeEdgeConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeImageGenerationConfigurationOutput {
   /// The structure that contains the information required for the Kinesis video
   /// stream (KVS) images delivery. If this structure is null, the configuration
@@ -1757,6 +1764,7 @@ class DescribeImageGenerationConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeMappedResourceConfigurationOutput {
   /// A structure that encapsulates, or contains, the media storage configuration
   /// properties.
@@ -1797,6 +1805,7 @@ class DescribeMappedResourceConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeMediaStorageConfigurationOutput {
   /// A structure that encapsulates, or contains, the media storage configuration
   /// properties.
@@ -1825,6 +1834,7 @@ class DescribeMediaStorageConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeNotificationConfigurationOutput {
   /// The structure that contains the information required for notifications. If
   /// the structure is null, the configuration will be deleted from the stream.
@@ -1853,6 +1863,7 @@ class DescribeNotificationConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeSignalingChannelOutput {
   /// A structure that encapsulates the specified signaling channel's metadata and
   /// properties.
@@ -1878,6 +1889,7 @@ class DescribeSignalingChannelOutput {
   }
 }
 
+/// @nodoc
 class DescribeStreamOutput {
   /// An object that describes the stream.
   final StreamInfo? streamInfo;
@@ -1902,6 +1914,7 @@ class DescribeStreamOutput {
   }
 }
 
+/// @nodoc
 class DescribeStreamStorageConfigurationOutput {
   /// The Amazon Resource Name (ARN) of the stream.
   final String? streamARN;
@@ -1944,6 +1957,7 @@ class DescribeStreamStorageConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetDataEndpointOutput {
   /// The endpoint value. To read data from the stream or to write data to it,
   /// specify this endpoint in your application.
@@ -1967,6 +1981,7 @@ class GetDataEndpointOutput {
   }
 }
 
+/// @nodoc
 class GetSignalingChannelEndpointOutput {
   /// A list of endpoints for the specified signaling channel.
   final List<ResourceEndpointListItem>? resourceEndpointList;
@@ -1995,6 +2010,7 @@ class GetSignalingChannelEndpointOutput {
   }
 }
 
+/// @nodoc
 class ListEdgeAgentConfigurationsOutput {
   /// A description of a single stream's edge configuration.
   final List<ListEdgeAgentConfigurationsEdgeConfig>? edgeConfigs;
@@ -2031,6 +2047,7 @@ class ListEdgeAgentConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListSignalingChannelsOutput {
   /// An array of <code>ChannelInfo</code> objects.
   final List<ChannelInfo>? channelInfoList;
@@ -2064,6 +2081,7 @@ class ListSignalingChannelsOutput {
   }
 }
 
+/// @nodoc
 class ListStreamsOutput {
   /// If the response is truncated, the call returns this element with a token. To
   /// get the next batch of streams, use this token in your next request.
@@ -2097,6 +2115,7 @@ class ListStreamsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// If you specify this parameter and the result of a
   /// <code>ListTagsForResource</code> call is truncated, the response includes a
@@ -2130,6 +2149,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForStreamOutput {
   /// If you specify this parameter and the result of a <code>ListTags</code> call
   /// is truncated, the response includes a token that you can use in the next
@@ -2162,6 +2182,7 @@ class ListTagsForStreamOutput {
   }
 }
 
+/// @nodoc
 class StartEdgeConfigurationUpdateOutput {
   /// The timestamp at which a stream’s edge configuration was first created.
   final DateTime? creationTime;
@@ -2237,6 +2258,7 @@ class StartEdgeConfigurationUpdateOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2249,6 +2271,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class TagStreamOutput {
   TagStreamOutput();
 
@@ -2261,6 +2284,7 @@ class TagStreamOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -2273,6 +2297,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagStreamOutput {
   UntagStreamOutput();
 
@@ -2285,6 +2310,7 @@ class UntagStreamOutput {
   }
 }
 
+/// @nodoc
 class UpdateDataRetentionOutput {
   UpdateDataRetentionOutput();
 
@@ -2297,6 +2323,7 @@ class UpdateDataRetentionOutput {
   }
 }
 
+/// @nodoc
 class UpdateImageGenerationConfigurationOutput {
   UpdateImageGenerationConfigurationOutput();
 
@@ -2310,6 +2337,7 @@ class UpdateImageGenerationConfigurationOutput {
   }
 }
 
+/// @nodoc
 class UpdateMediaStorageConfigurationOutput {
   UpdateMediaStorageConfigurationOutput();
 
@@ -2323,6 +2351,7 @@ class UpdateMediaStorageConfigurationOutput {
   }
 }
 
+/// @nodoc
 class UpdateNotificationConfigurationOutput {
   UpdateNotificationConfigurationOutput();
 
@@ -2336,6 +2365,7 @@ class UpdateNotificationConfigurationOutput {
   }
 }
 
+/// @nodoc
 class UpdateSignalingChannelOutput {
   UpdateSignalingChannelOutput();
 
@@ -2348,6 +2378,7 @@ class UpdateSignalingChannelOutput {
   }
 }
 
+/// @nodoc
 class UpdateStreamOutput {
   UpdateStreamOutput();
 
@@ -2360,6 +2391,7 @@ class UpdateStreamOutput {
   }
 }
 
+/// @nodoc
 class UpdateStreamStorageConfigurationOutput {
   UpdateStreamStorageConfigurationOutput();
 
@@ -2377,6 +2409,8 @@ class UpdateStreamStorageConfigurationOutput {
 /// stream data. This configuration determines how stream data is stored and
 /// accessed, with different tiers offering varying levels of performance and
 /// cost optimization.
+///
+/// @nodoc
 class StreamStorageConfiguration {
   /// The default storage tier for the stream data. This setting determines the
   /// storage class used for stream data, affecting both performance
@@ -2416,6 +2450,7 @@ class StreamStorageConfiguration {
   }
 }
 
+/// @nodoc
 class DefaultStorageTier {
   static const hot = DefaultStorageTier._('HOT');
   static const warm = DefaultStorageTier._('WARM');
@@ -2443,6 +2478,8 @@ class DefaultStorageTier {
 
 /// A structure that contains the configuration for the
 /// <code>SINGLE_MASTER</code> channel type.
+///
+/// @nodoc
 class SingleMasterConfiguration {
   /// The period of time (in seconds) a signaling channel retains undelivered
   /// messages before they are discarded. Use to update this value.
@@ -2473,6 +2510,8 @@ class SingleMasterConfiguration {
 /// See <a
 /// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/notifications.html">Notifications
 /// in Kinesis Video Streams</a> for more information.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// The destination information required to deliver a notification to a
   /// customer.
@@ -2505,6 +2544,7 @@ class NotificationConfiguration {
   }
 }
 
+/// @nodoc
 class ConfigurationStatus {
   static const enabled = ConfigurationStatus._('ENABLED');
   static const disabled = ConfigurationStatus._('DISABLED');
@@ -2532,6 +2572,8 @@ class ConfigurationStatus {
 
 /// The structure that contains the information required to deliver a
 /// notification to a customer.
+///
+/// @nodoc
 class NotificationDestinationConfig {
   /// The Uniform Resource Identifier (URI) that identifies where the images will
   /// be delivered.
@@ -2569,6 +2611,8 @@ class NotificationDestinationConfig {
 /// <code>StreamARN</code> parameter will not be needed.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MediaStorageConfiguration {
   /// The status of the media storage configuration.
   final MediaStorageConfigurationStatus status;
@@ -2599,6 +2643,7 @@ class MediaStorageConfiguration {
   }
 }
 
+/// @nodoc
 class MediaStorageConfigurationStatus {
   static const enabled = MediaStorageConfigurationStatus._('ENABLED');
   static const disabled = MediaStorageConfigurationStatus._('DISABLED');
@@ -2626,6 +2671,8 @@ class MediaStorageConfigurationStatus {
 
 /// The structure that contains the information required for the KVS images
 /// delivery. If null, the configuration will be deleted from the stream.
+///
+/// @nodoc
 class ImageGenerationConfiguration {
   /// The structure that contains the information required to deliver images to a
   /// customer.
@@ -2728,6 +2775,7 @@ class ImageGenerationConfiguration {
   }
 }
 
+/// @nodoc
 class ImageSelectorType {
   static const serverTimestamp = ImageSelectorType._('SERVER_TIMESTAMP');
   static const producerTimestamp = ImageSelectorType._('PRODUCER_TIMESTAMP');
@@ -2754,6 +2802,8 @@ class ImageSelectorType {
 
 /// The structure that contains the information required to deliver images to a
 /// customer.
+///
+/// @nodoc
 class ImageGenerationDestinationConfig {
   /// The Amazon Web Services Region of the S3 bucket where images will be
   /// delivered. This <code>DestinationRegion</code> must match the Region where
@@ -2786,6 +2836,7 @@ class ImageGenerationDestinationConfig {
   }
 }
 
+/// @nodoc
 class Format {
   static const jpeg = Format._('JPEG');
   static const png = Format._('PNG');
@@ -2809,6 +2860,7 @@ class Format {
   String toString() => value;
 }
 
+/// @nodoc
 class FormatConfigKey {
   static const jPEGQuality = FormatConfigKey._('JPEGQuality');
 
@@ -2832,6 +2884,7 @@ class FormatConfigKey {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateDataRetentionOperation {
   static const increaseDataRetention =
       UpdateDataRetentionOperation._('INCREASE_DATA_RETENTION');
@@ -2861,6 +2914,8 @@ class UpdateDataRetentionOperation {
 
 /// A key and value pair that is associated with the specified signaling
 /// channel.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag that is associated with the specified signaling channel.
   final String key;
@@ -2884,6 +2939,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class SyncStatus {
   static const syncing = SyncStatus._('SYNCING');
   static const acknowledged = SyncStatus._('ACKNOWLEDGED');
@@ -2923,6 +2979,8 @@ class SyncStatus {
 /// A description of the stream's edge configuration that will be used to sync
 /// with the Edge Agent IoT Greengrass component. The Edge Agent component will
 /// run on an IoT Hub Device setup at your premise.
+///
+/// @nodoc
 class EdgeConfig {
   /// The "<b>Internet of Things (IoT) Thing</b>" Arn of the stream.
   final String hubDeviceArn;
@@ -2983,6 +3041,8 @@ class EdgeConfig {
 /// The recorder configuration consists of the local
 /// <code>MediaSourceConfig</code> details that are used as credentials to
 /// access the local media files streamed on the camera.
+///
+/// @nodoc
 class RecorderConfig {
   /// The configuration details that consist of the credentials required
   /// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
@@ -3029,6 +3089,8 @@ class RecorderConfig {
 /// <code>ScheduleConfig</code> is not provided in the
 /// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
 /// intervals (every 1 hour).
+///
+/// @nodoc
 class UploaderConfig {
   /// The configuration that consists of the <code>ScheduleExpression</code> and
   /// the <code>DurationInMinutes</code> details that specify the scheduling to
@@ -3060,6 +3122,8 @@ class UploaderConfig {
 
 /// The configuration details required to delete the connection of the stream
 /// from the Edge Agent.
+///
+/// @nodoc
 class DeletionConfig {
   /// The <code>boolean</code> value used to indicate whether or not you want to
   /// mark the media for deletion, once it has been uploaded to the Kinesis Video
@@ -3117,6 +3181,8 @@ class DeletionConfig {
 /// the Edge Agent, as well as the strategy that should be used
 /// (<code>StrategyOnFullSize</code>) when a stream's maximum size has been
 /// reached.
+///
+/// @nodoc
 class LocalSizeConfig {
   /// The overall maximum size of the media that you want to store for a stream on
   /// the Edge Agent.
@@ -3151,6 +3217,7 @@ class LocalSizeConfig {
   }
 }
 
+/// @nodoc
 class StrategyOnFullSize {
   static const deleteOldestMedia = StrategyOnFullSize._('DELETE_OLDEST_MEDIA');
   static const denyNewMedia = StrategyOnFullSize._('DENY_NEW_MEDIA');
@@ -3188,6 +3255,8 @@ class StrategyOnFullSize {
 /// If the <code>ScheduleConfig</code> is not provided in the
 /// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
 /// intervals (every 1 hour).
+///
+/// @nodoc
 class ScheduleConfig {
   /// The total duration to record the media. If the
   /// <code>ScheduleExpression</code> attribute is provided, then the
@@ -3231,6 +3300,8 @@ class ScheduleConfig {
 /// The configuration details that consist of the credentials required
 /// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
 /// media files that are streamed to the camera.
+///
+/// @nodoc
 class MediaSourceConfig {
   /// The Amazon Web Services Secrets Manager ARN for the username and password of
   /// the camera, or a local media file location.
@@ -3266,6 +3337,7 @@ class MediaSourceConfig {
   }
 }
 
+/// @nodoc
 class MediaUriType {
   static const rtspUri = MediaUriType._('RTSP_URI');
   static const fileUri = MediaUriType._('FILE_URI');
@@ -3290,6 +3362,8 @@ class MediaUriType {
 }
 
 /// An object describing a Kinesis video stream.
+///
+/// @nodoc
 class StreamInfo {
   /// A time stamp that indicates when the stream was created.
   final DateTime? creationTime;
@@ -3371,6 +3445,7 @@ class StreamInfo {
   }
 }
 
+/// @nodoc
 class Status {
   static const creating = Status._('CREATING');
   static const active = Status._('ACTIVE');
@@ -3401,6 +3476,8 @@ class Status {
 /// comparison operation and a value. Currently, you can specify only the
 /// <code>BEGINS_WITH</code> operator, which finds streams whose names start
 /// with a given prefix.
+///
+/// @nodoc
 class StreamNameCondition {
   /// A comparison operator. Currently, you can specify only the
   /// <code>BEGINS_WITH</code> operator, which finds streams whose names start
@@ -3426,6 +3503,7 @@ class StreamNameCondition {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const beginsWith = ComparisonOperator._('BEGINS_WITH');
 
@@ -3451,6 +3529,8 @@ class ComparisonOperator {
 }
 
 /// A structure that encapsulates a signaling channel's metadata and properties.
+///
+/// @nodoc
 class ChannelInfo {
   /// The Amazon Resource Name (ARN) of the signaling channel.
   final String? channelARN;
@@ -3522,6 +3602,7 @@ class ChannelInfo {
   }
 }
 
+/// @nodoc
 class ChannelType {
   static const singleMaster = ChannelType._('SINGLE_MASTER');
   static const fullMesh = ChannelType._('FULL_MESH');
@@ -3549,6 +3630,8 @@ class ChannelType {
 /// When this parameter is specified while invoking
 /// <code>ListSignalingChannels</code>, the API returns only the channels that
 /// satisfy a condition specified in <code>ChannelNameCondition</code>.
+///
+/// @nodoc
 class ChannelNameCondition {
   /// A comparison operator. Currently, you can only specify the
   /// <code>BEGINS_WITH</code> operator, which finds signaling channels whose
@@ -3575,6 +3658,8 @@ class ChannelNameCondition {
 }
 
 /// A description of a single stream's edge configuration.
+///
+/// @nodoc
 class ListEdgeAgentConfigurationsEdgeConfig {
   /// The timestamp when the stream first created the edge config.
   final DateTime? creationTime;
@@ -3648,6 +3733,8 @@ class ListEdgeAgentConfigurationsEdgeConfig {
 ///
 /// The media server endpoint will correspond to the <code>WEBRTC</code>
 /// Protocol.
+///
+/// @nodoc
 class ResourceEndpointListItem {
   /// The protocol of the signaling channel returned by the
   /// <code>GetSignalingChannelEndpoint</code> API.
@@ -3679,6 +3766,7 @@ class ResourceEndpointListItem {
   }
 }
 
+/// @nodoc
 class ChannelProtocol {
   static const wss = ChannelProtocol._('WSS');
   static const https = ChannelProtocol._('HTTPS');
@@ -3706,6 +3794,8 @@ class ChannelProtocol {
 
 /// An object that contains the endpoint configuration for the
 /// <code>SINGLE_MASTER</code> channel type.
+///
+/// @nodoc
 class SingleMasterChannelEndpointConfiguration {
   /// This property is used to determine the nature of communication over this
   /// <code>SINGLE_MASTER</code> signaling channel. If <code>WSS</code> is
@@ -3738,6 +3828,7 @@ class SingleMasterChannelEndpointConfiguration {
   }
 }
 
+/// @nodoc
 class ChannelRole {
   static const master = ChannelRole._('MASTER');
   static const viewer = ChannelRole._('VIEWER');
@@ -3761,6 +3852,7 @@ class ChannelRole {
   String toString() => value;
 }
 
+/// @nodoc
 class APIName {
   static const putMedia = APIName._('PUT_MEDIA');
   static const getMedia = APIName._('GET_MEDIA');
@@ -3804,6 +3896,8 @@ class APIName {
 
 /// A structure that encapsulates, or contains, the media storage configuration
 /// properties.
+///
+/// @nodoc
 class MappedResourceConfigurationListItem {
   /// The Amazon Resource Name (ARN) of the Kinesis Video Stream resource,
   /// associated with the stream.
@@ -3838,6 +3932,8 @@ class MappedResourceConfigurationListItem {
 /// An object that contains the latest status details for an edge agent's
 /// recorder and uploader jobs. Use this information to determine the current
 /// health of an edge agent.
+///
+/// @nodoc
 class EdgeAgentStatus {
   /// The latest status of a stream’s edge recording job.
   final LastRecorderStatus? lastRecorderStatus;
@@ -3874,6 +3970,8 @@ class EdgeAgentStatus {
 }
 
 /// The latest status of a stream's edge recording job.
+///
+/// @nodoc
 class LastRecorderStatus {
   /// A description of a recorder job’s latest status.
   final String? jobStatusDetails;
@@ -3922,6 +4020,8 @@ class LastRecorderStatus {
 }
 
 /// The latest status of a stream’s edge to cloud uploader job.
+///
+/// @nodoc
 class LastUploaderStatus {
   /// A description of an uploader job’s latest status.
   final String? jobStatusDetails;
@@ -3969,6 +4069,7 @@ class LastUploaderStatus {
   }
 }
 
+/// @nodoc
 class UploaderStatus {
   static const success = UploaderStatus._('SUCCESS');
   static const userError = UploaderStatus._('USER_ERROR');
@@ -3994,6 +4095,7 @@ class UploaderStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RecorderStatus {
   static const success = RecorderStatus._('SUCCESS');
   static const userError = RecorderStatus._('USER_ERROR');
@@ -4019,11 +4121,13 @@ class RecorderStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AccountChannelLimitExceededException extends _s.GenericAwsException {
   AccountChannelLimitExceededException({String? type, String? message})
       : super(
@@ -4032,6 +4136,7 @@ class AccountChannelLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountStreamLimitExceededException extends _s.GenericAwsException {
   AccountStreamLimitExceededException({String? type, String? message})
       : super(
@@ -4040,12 +4145,14 @@ class AccountStreamLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClientLimitExceededException extends _s.GenericAwsException {
   ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
+/// @nodoc
 class DeviceStreamLimitExceededException extends _s.GenericAwsException {
   DeviceStreamLimitExceededException({String? type, String? message})
       : super(
@@ -4054,16 +4161,19 @@ class DeviceStreamLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidDeviceException extends _s.GenericAwsException {
   InvalidDeviceException({String? type, String? message})
       : super(type: type, code: 'InvalidDeviceException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceFormatException extends _s.GenericAwsException {
   InvalidResourceFormatException({String? type, String? message})
       : super(
@@ -4072,26 +4182,31 @@ class InvalidResourceFormatException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoDataRetentionException extends _s.GenericAwsException {
   NoDataRetentionException({String? type, String? message})
       : super(type: type, code: 'NoDataRetentionException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class StreamEdgeConfigurationNotFoundException extends _s.GenericAwsException {
   StreamEdgeConfigurationNotFoundException({String? type, String? message})
       : super(
@@ -4100,6 +4215,7 @@ class StreamEdgeConfigurationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagsPerResourceExceededLimitException extends _s.GenericAwsException {
   TagsPerResourceExceededLimitException({String? type, String? message})
       : super(
@@ -4108,6 +4224,7 @@ class TagsPerResourceExceededLimitException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class VersionMismatchException extends _s.GenericAwsException {
   VersionMismatchException({String? type, String? message})
       : super(type: type, code: 'VersionMismatchException', message: message);

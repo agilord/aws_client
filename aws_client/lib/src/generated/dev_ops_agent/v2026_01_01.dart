@@ -1568,6 +1568,8 @@ class DevOpsAgent {
 }
 
 /// Response structure containing the created backlog task
+///
+/// @nodoc
 class CreateBacklogTaskResponse {
   /// The newly created task object
   final Task task;
@@ -1592,6 +1594,8 @@ class CreateBacklogTaskResponse {
 }
 
 /// Response structure for creating a new chat
+///
+/// @nodoc
 class CreateChatResponse {
   /// Timestamp when the chat was created
   final DateTime createdAt;
@@ -1621,6 +1625,7 @@ class CreateChatResponse {
   }
 }
 
+/// @nodoc
 class GetAccountUsageOutput {
   /// The end time of the usage tracking period
   final DateTime usagePeriodEndTime;
@@ -1702,6 +1707,8 @@ class GetAccountUsageOutput {
 }
 
 /// Response structure containing the requested backlog task
+///
+/// @nodoc
 class GetBacklogTaskResponse {
   /// The requested task object
   final Task task;
@@ -1726,6 +1733,8 @@ class GetBacklogTaskResponse {
 }
 
 /// Response structure containing the requested recommendation
+///
+/// @nodoc
 class GetRecommendationResponse {
   /// The requested recommendation
   final Recommendation recommendation;
@@ -1751,6 +1760,8 @@ class GetRecommendationResponse {
 }
 
 /// Response structure containing a list of backlog tasks
+///
+/// @nodoc
 class ListBacklogTasksResponse {
   /// List of backlog tasks
   final List<Task> tasks;
@@ -1784,6 +1795,8 @@ class ListBacklogTasksResponse {
 }
 
 /// Response structure for listing chats
+///
+/// @nodoc
 class ListChatsResponse {
   /// List of recent chat executions
   final List<ChatExecution> executions;
@@ -1817,6 +1830,8 @@ class ListChatsResponse {
 }
 
 /// Response structure containing executions
+///
+/// @nodoc
 class ListExecutionsResponse {
   /// List of executions
   final List<Execution> executions;
@@ -1850,6 +1865,8 @@ class ListExecutionsResponse {
 }
 
 /// Response structure containing the list of goals
+///
+/// @nodoc
 class ListGoalsResponse {
   /// List of goals matching the criteria
   final List<Goal> goals;
@@ -1883,6 +1900,8 @@ class ListGoalsResponse {
 }
 
 /// Response structure containing a list of journal records
+///
+/// @nodoc
 class ListJournalRecordsResponse {
   /// List of journal records matching the request criteria
   final List<JournalRecord> records;
@@ -1916,6 +1935,8 @@ class ListJournalRecordsResponse {
 }
 
 /// Response structure containing a list of pending messages
+///
+/// @nodoc
 class ListPendingMessagesResponse {
   final String agentSpaceId;
 
@@ -1962,6 +1983,8 @@ class ListPendingMessagesResponse {
 }
 
 /// Response structure containing a list of recommendations
+///
+/// @nodoc
 class ListRecommendationsResponse {
   /// List of recommendations matching the request criteria
   final List<Recommendation> recommendations;
@@ -1994,6 +2017,7 @@ class ListRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags associated with the resource.
   final Map<String, String> tags;
@@ -2019,6 +2043,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Response structure for sending chat message events
+///
+/// @nodoc
 class SendMessageResponse {
   /// The stream of chat message events
   final SendMessageEvents events;
@@ -2035,6 +2061,7 @@ class SendMessageResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2047,6 +2074,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2060,6 +2088,8 @@ class UntagResourceResponse {
 }
 
 /// Response structure containing the updated task
+///
+/// @nodoc
 class UpdateBacklogTaskResponse {
   /// The updated task object
   final Task task;
@@ -2084,6 +2114,8 @@ class UpdateBacklogTaskResponse {
 }
 
 /// Response structure containing the updated goal
+///
+/// @nodoc
 class UpdateGoalResponse {
   /// The updated goal object
   final Goal goal;
@@ -2108,6 +2140,8 @@ class UpdateGoalResponse {
 }
 
 /// Response structure containing the updated recommendation
+///
+/// @nodoc
 class UpdateRecommendationResponse {
   /// The updated recommendation
   final Recommendation recommendation;
@@ -2133,6 +2167,8 @@ class UpdateRecommendationResponse {
 }
 
 /// Output containing the newly created AgentSpace.
+///
+/// @nodoc
 class CreateAgentSpaceOutput {
   final AgentSpace agentSpace;
 
@@ -2165,6 +2201,8 @@ class CreateAgentSpaceOutput {
 }
 
 /// Output containing the requested AgentSpace details.
+///
+/// @nodoc
 class GetAgentSpaceOutput {
   final AgentSpace agentSpace;
 
@@ -2197,6 +2235,8 @@ class GetAgentSpaceOutput {
 }
 
 /// Output containing the updated AgentSpace.
+///
+/// @nodoc
 class UpdateAgentSpaceOutput {
   final AgentSpace agentSpace;
 
@@ -2221,6 +2261,8 @@ class UpdateAgentSpaceOutput {
 }
 
 /// Empty output for successful AgentSpace deletion.
+///
+/// @nodoc
 class DeleteAgentSpaceOutput {
   DeleteAgentSpaceOutput();
 
@@ -2234,6 +2276,8 @@ class DeleteAgentSpaceOutput {
 }
 
 /// Output containing the enabled Operator App configuration.
+///
+/// @nodoc
 class EnableOperatorAppOutput {
   /// The unique identifier of the AgentSpace
   final String agentSpaceId;
@@ -2279,6 +2323,8 @@ class EnableOperatorAppOutput {
 
 /// Output containing the Operator App configuration including authentication
 /// details.
+///
+/// @nodoc
 class GetOperatorAppOutput {
   final IamAuthConfiguration? iam;
   final IdcAuthConfiguration? idc;
@@ -2317,6 +2363,8 @@ class GetOperatorAppOutput {
 }
 
 /// Output containing the updated IdP configuration.
+///
+/// @nodoc
 class UpdateOperatorAppIdpConfigOutput {
   /// The unique identifier of the AgentSpace
   final String agentSpaceId;
@@ -2346,6 +2394,8 @@ class UpdateOperatorAppIdpConfigOutput {
 }
 
 /// Output containing a list of AgentSpaces and pagination token.
+///
+/// @nodoc
 class ListAgentSpacesOutput {
   /// The list of AgentSpaces.
   final List<AgentSpace> agentSpaces;
@@ -2380,6 +2430,8 @@ class ListAgentSpacesOutput {
 
 /// Output containing the newly created association and optional webhook
 /// configuration.
+///
+/// @nodoc
 class AssociateServiceOutput {
   final Association association;
 
@@ -2413,6 +2465,8 @@ class AssociateServiceOutput {
 }
 
 /// Output containing the requested association details.
+///
+/// @nodoc
 class GetAssociationOutput {
   final Association association;
 
@@ -2438,6 +2492,8 @@ class GetAssociationOutput {
 
 /// Output containing the updated association and optional webhook
 /// configuration.
+///
+/// @nodoc
 class UpdateAssociationOutput {
   final Association association;
 
@@ -2471,6 +2527,8 @@ class UpdateAssociationOutput {
 }
 
 /// Empty output for successful service disassociation.
+///
+/// @nodoc
 class DisassociateServiceOutput {
   DisassociateServiceOutput();
 
@@ -2484,6 +2542,8 @@ class DisassociateServiceOutput {
 }
 
 /// Output containing a list of service association webhooks.
+///
+/// @nodoc
 class ListWebhooksOutput {
   /// The list of association webhooks.
   final List<Webhook> webhooks;
@@ -2510,6 +2570,8 @@ class ListWebhooksOutput {
 }
 
 /// Output containing a list of service associations and pagination token.
+///
+/// @nodoc
 class ListAssociationsOutput {
   /// The list of associations.
   final List<Association> associations;
@@ -2543,6 +2605,8 @@ class ListAssociationsOutput {
 }
 
 /// Empty Output for successful validating an aws association
+///
+/// @nodoc
 class ValidateAwsAssociationsOutput {
   ValidateAwsAssociationsOutput();
 
@@ -2556,6 +2620,8 @@ class ValidateAwsAssociationsOutput {
 }
 
 /// Output containing the newly created Private Connection summary.
+///
+/// @nodoc
 class CreatePrivateConnectionOutput {
   /// The name of the Private Connection.
   final String name;
@@ -2644,6 +2710,8 @@ class CreatePrivateConnectionOutput {
 }
 
 /// Output containing the Private Connection details.
+///
+/// @nodoc
 class DescribePrivateConnectionOutput {
   /// The name of the Private Connection.
   final String name;
@@ -2732,6 +2800,8 @@ class DescribePrivateConnectionOutput {
 }
 
 /// Output containing the status of the Private Connection deletion.
+///
+/// @nodoc
 class DeletePrivateConnectionOutput {
   /// The name of the Private Connection.
   final String name;
@@ -2763,6 +2833,8 @@ class DeletePrivateConnectionOutput {
 }
 
 /// Output containing the list of Private Connections.
+///
+/// @nodoc
 class ListPrivateConnectionsOutput {
   /// The list of Private Connections.
   final List<PrivateConnectionSummary> privateConnections;
@@ -2790,6 +2862,8 @@ class ListPrivateConnectionsOutput {
 }
 
 /// Output containing the updated Private Connection summary.
+///
+/// @nodoc
 class UpdatePrivateConnectionCertificateOutput {
   /// The name of the Private Connection.
   final String name;
@@ -2872,6 +2946,8 @@ class UpdatePrivateConnectionCertificateOutput {
 
 /// Output containing the service ID and any additional steps required for
 /// registration.
+///
+/// @nodoc
 class RegisterServiceOutput {
   /// Indicates if additional steps are required to complete service registration
   /// (e.g., 3-legged OAuth)
@@ -2923,6 +2999,8 @@ class RegisterServiceOutput {
 }
 
 /// Output containing the requested service details.
+///
+/// @nodoc
 class GetServiceOutput {
   final RegisteredService service;
 
@@ -2955,6 +3033,8 @@ class GetServiceOutput {
 }
 
 /// Empty output for successful service deregistration.
+///
+/// @nodoc
 class DeregisterServiceOutput {
   DeregisterServiceOutput();
 
@@ -2968,6 +3048,8 @@ class DeregisterServiceOutput {
 }
 
 /// Output containing a list of registered services and pagination token.
+///
+/// @nodoc
 class ListServicesOutput {
   final List<RegisteredService> services;
 
@@ -3001,6 +3083,8 @@ class ListServicesOutput {
 
 /// Represents a registered service with its configuration and accessible
 /// resources.
+///
+/// @nodoc
 class RegisteredService {
   /// The unique identifier of a service.
   final String serviceId;
@@ -3077,6 +3161,8 @@ class RegisteredService {
 
 /// Enumeration of all supported service types, combining OAuth 3-legged, client
 /// credentials, and simple token authentication methods.
+///
+/// @nodoc
 class Service {
   static const github = Service._('github');
   static const slack = Service._('slack');
@@ -3132,6 +3218,8 @@ class Service {
 }
 
 /// Union of service-specific details for different service types.
+///
+/// @nodoc
 class AdditionalServiceDetails {
   /// Azure DevOps specific service details.
   final RegisteredAzureDevOpsServiceDetails? azuredevops;
@@ -3278,6 +3366,8 @@ class AdditionalServiceDetails {
 }
 
 /// Details specific to a registered GitHub service.
+///
+/// @nodoc
 class RegisteredGithubServiceDetails {
   /// The GitHub repository owner name.
   final String owner;
@@ -3316,6 +3406,8 @@ class RegisteredGithubServiceDetails {
 }
 
 /// Details specific to a registered Slack workspace.
+///
+/// @nodoc
 class RegisteredSlackServiceDetails {
   /// The Slack team ID.
   final String teamId;
@@ -3346,6 +3438,8 @@ class RegisteredSlackServiceDetails {
 }
 
 /// Details specific to a registered MCP (Model Context Protocol) server.
+///
+/// @nodoc
 class RegisteredMCPServerDetails {
   /// The MCP server uses this authorization method.
   final MCPServerAuthorizationMethod authorizationMethod;
@@ -3398,6 +3492,8 @@ class RegisteredMCPServerDetails {
 }
 
 /// Details specific to a registered ServiceNow instance.
+///
+/// @nodoc
 class RegisteredServiceNowDetails {
   /// The ServiceNow instance url
   final String? instanceUrl;
@@ -3421,6 +3517,8 @@ class RegisteredServiceNowDetails {
 }
 
 /// Details specific to a registered GitLab instance.
+///
+/// @nodoc
 class RegisteredGitLabServiceDetails {
   /// The GitLab instance URL.
   final String targetUrl;
@@ -3459,6 +3557,8 @@ class RegisteredGitLabServiceDetails {
 }
 
 /// Details specific to a registered NewRelic instance.
+///
+/// @nodoc
 class RegisteredNewRelicDetails {
   /// The NewRelic account ID.
   final String accountId;
@@ -3496,6 +3596,8 @@ class RegisteredNewRelicDetails {
 }
 
 /// Details specific to a registered Azure DevOps service.
+///
+/// @nodoc
 class RegisteredAzureDevOpsServiceDetails {
   /// The Azure DevOps Organization name associated with the service.
   final String organizationName;
@@ -3521,6 +3623,8 @@ class RegisteredAzureDevOpsServiceDetails {
 
 /// Details specific to a registered Azure identity using AWS Outbound Identity
 /// Federation.
+///
+/// @nodoc
 class RegisteredAzureIdentityDetails {
   /// The client ID of the service principal or managed identity used for
   /// authentication.
@@ -3572,6 +3676,8 @@ class RegisteredAzureIdentityDetails {
 
 /// Details specific to a registered Grafana server, used by the built-in MCP
 /// server.
+///
+/// @nodoc
 class RegisteredGrafanaServerDetails {
   /// The authz method used by the MCP server.
   final MCPServerAuthorizationMethod authorizationMethod;
@@ -3603,6 +3709,8 @@ class RegisteredGrafanaServerDetails {
 }
 
 /// Details specific to a registered PagerDuty service.
+///
+/// @nodoc
 class RegisteredPagerDutyDetails {
   /// The scopes that were assigned to the service
   final List<String> scopes;
@@ -3629,6 +3737,8 @@ class RegisteredPagerDutyDetails {
 }
 
 /// Details specific to a registered SigV4-authenticated MCP server.
+///
+/// @nodoc
 class RegisteredMCPServerSigV4Details {
   /// MCP server endpoint URL.
   final String endpoint;
@@ -3695,6 +3805,8 @@ class RegisteredMCPServerSigV4Details {
 }
 
 /// Supported authorization methods for MCP servers.
+///
+/// @nodoc
 class MCPServerAuthorizationMethod {
   static const oauthClientCredentials =
       MCPServerAuthorizationMethod._('oauth-client-credentials');
@@ -3729,6 +3841,8 @@ class MCPServerAuthorizationMethod {
 }
 
 /// The NewRelic region (determines API endpoint).
+///
+/// @nodoc
 class NewRelicRegion {
   static const us = NewRelicRegion._('US');
   static const eu = NewRelicRegion._('EU');
@@ -3754,6 +3868,8 @@ class NewRelicRegion {
 }
 
 /// Type of GitLab access token.
+///
+/// @nodoc
 class GitLabTokenType {
   static const personal = GitLabTokenType._('personal');
   static const group = GitLabTokenType._('group');
@@ -3779,6 +3895,8 @@ class GitLabTokenType {
 }
 
 /// Type of GitHub repository owner.
+///
+/// @nodoc
 class GithubRepoOwnerType {
   static const organization = GithubRepoOwnerType._('organization');
   static const user = GithubRepoOwnerType._('user');
@@ -3805,6 +3923,8 @@ class GithubRepoOwnerType {
 }
 
 /// Additional steps required to complete service registration.
+///
+/// @nodoc
 class AdditionalServiceRegistrationStep {
   /// OAuth authorization step required.
   final OAuthAdditionalStepDetails? oauth;
@@ -3832,6 +3952,8 @@ class AdditionalServiceRegistrationStep {
 }
 
 /// Details for completing OAuth authorization step.
+///
+/// @nodoc
 class OAuthAdditionalStepDetails {
   /// The URL to redirect the user to for OAuth authorization.
   final String authorizationUrl;
@@ -3856,6 +3978,8 @@ class OAuthAdditionalStepDetails {
 
 /// Services that can be registered via the post-registration API (excludes
 /// OAuth 3LO services).
+///
+/// @nodoc
 class PostRegisterServiceSupportedService {
   static const dynatrace = PostRegisterServiceSupportedService._('dynatrace');
   static const servicenow = PostRegisterServiceSupportedService._('servicenow');
@@ -3912,6 +4036,8 @@ class PostRegisterServiceSupportedService {
 }
 
 /// Union of service-specific configuration details for service registration.
+///
+/// @nodoc
 class ServiceDetails {
   /// Azure integration with AWS Outbound Identity Federation specific service
   /// details.
@@ -3996,6 +4122,8 @@ class ServiceDetails {
 }
 
 /// Complete service details for Dynatrace integration.
+///
+/// @nodoc
 class DynatraceServiceDetails {
   /// Dynatrace resource account urn.
   final String accountUrn;
@@ -4021,6 +4149,8 @@ class DynatraceServiceDetails {
 }
 
 /// Complete service details for ServiceNow integration.
+///
+/// @nodoc
 class ServiceNowServiceDetails {
   /// ServiceNow instance URL.
   final String instanceUrl;
@@ -4046,6 +4176,8 @@ class ServiceNowServiceDetails {
 }
 
 /// Complete service details for Datadog MCP server integration.
+///
+/// @nodoc
 class DatadogServiceDetails {
   /// Datadog MCP server authorization configuration (only authorization discovery
   /// is supported).
@@ -4082,6 +4214,8 @@ class DatadogServiceDetails {
 }
 
 /// Complete service details for MCP server integration.
+///
+/// @nodoc
 class MCPServerDetails {
   /// MCP server authorization configuration.
   final MCPServerAuthorizationConfig authorizationConfig;
@@ -4117,6 +4251,8 @@ class MCPServerDetails {
 }
 
 /// Service details for GitLab integration.
+///
+/// @nodoc
 class GitLabDetails {
   /// GitLab instance URL (e.g., https://gitlab.com or self-hosted instance).
   final String targetUrl;
@@ -4152,6 +4288,8 @@ class GitLabDetails {
 }
 
 /// Complete service details for New Relic integration.
+///
+/// @nodoc
 class NewRelicServiceDetails {
   /// New Relic MCP server authorization configuration.
   final NewRelicServiceAuthorizationConfig authorizationConfig;
@@ -4169,6 +4307,8 @@ class NewRelicServiceDetails {
 }
 
 /// Service details for Event Channel integration.
+///
+/// @nodoc
 class EventChannelDetails {
   /// The type of event channel
   final EventChannelType? type;
@@ -4186,6 +4326,8 @@ class EventChannelDetails {
 }
 
 /// Complete service details for Grafana MCP server integration.
+///
+/// @nodoc
 class GrafanaServiceDetails {
   /// Grafana MCP server authorization configuration (experimental).
   final MCPServerAuthorizationConfig authorizationConfig;
@@ -4221,6 +4363,8 @@ class GrafanaServiceDetails {
 }
 
 /// Complete service details for PagerDuty integration
+///
+/// @nodoc
 class PagerDutyDetails {
   /// PagerDuty authorization configuration
   final PagerDutyAuthorizationConfig authorizationConfig;
@@ -4244,6 +4388,8 @@ class PagerDutyDetails {
 }
 
 /// Complete service details for SigV4-authenticated MCP server integration.
+///
+/// @nodoc
 class MCPServerSigV4ServiceDetails {
   /// MCP Server SigV4 authorization configuration.
   final MCPServerSigV4AuthorizationConfig authorizationConfig;
@@ -4279,6 +4425,8 @@ class MCPServerSigV4ServiceDetails {
 }
 
 /// Authorization configuration for SigV4-authenticated MCP server.
+///
+/// @nodoc
 class MCPServerSigV4AuthorizationConfig {
   /// AWS region for SigV4 signing. Use '*' for SigV4a multi-region signing.
   final String region;
@@ -4314,6 +4462,8 @@ class MCPServerSigV4AuthorizationConfig {
 }
 
 /// Authorization configuration options for PagerDuty service.
+///
+/// @nodoc
 class PagerDutyAuthorizationConfig {
   /// OAuth client credentials configuration.
   final PagerDutyOAuthClientCredentialsConfig? oAuthClientCredentials;
@@ -4332,6 +4482,8 @@ class PagerDutyAuthorizationConfig {
 }
 
 /// OAuth client credentials configuration for PagerDuty.
+///
+/// @nodoc
 class PagerDutyOAuthClientCredentialsConfig {
   /// OAuth client ID for authenticating with the service.
   final String clientId;
@@ -4368,6 +4520,8 @@ class PagerDutyOAuthClientCredentialsConfig {
 
 /// Authorization configuration options for MCP server, supporting OAuth, API
 /// key, bearer token, and authorization discovery methods.
+///
+/// @nodoc
 class MCPServerAuthorizationConfig {
   /// MCP server configuration with API key authentication.
   final MCPServerAPIKeyConfig? apiKey;
@@ -4411,6 +4565,8 @@ class MCPServerAuthorizationConfig {
 }
 
 /// OAuth client credentials configuration for MCP server.
+///
+/// @nodoc
 class MCPServerOAuthClientCredentialsConfig {
   /// OAuth client ID for authenticating with the service.
   final String clientId;
@@ -4459,6 +4615,8 @@ class MCPServerOAuthClientCredentialsConfig {
 }
 
 /// OAuth 3-legged authorization configuration for MCP server.
+///
+/// @nodoc
 class MCPServerOAuth3LOConfig {
   /// OAuth authorization URL for 3LO authentication.
   final String authorizationUrl;
@@ -4530,6 +4688,8 @@ class MCPServerOAuth3LOConfig {
 }
 
 /// API key configuration for MCP server.
+///
+/// @nodoc
 class MCPServerAPIKeyConfig {
   /// HTTP header name to send the API key in requests to the service.
   final String apiKeyHeader;
@@ -4559,6 +4719,8 @@ class MCPServerAPIKeyConfig {
 }
 
 /// Bearer token configuration for MCP server (RFC 6750).
+///
+/// @nodoc
 class MCPServerBearerTokenConfig {
   /// User friendly bearer token name specified by end user.
   final String tokenName;
@@ -4590,6 +4752,8 @@ class MCPServerBearerTokenConfig {
 }
 
 /// Authorization discovery configuration for MCP server.
+///
+/// @nodoc
 class MCPServerAuthorizationDiscoveryConfig {
   /// The endpoint to return to after OAuth flow completes (must be AWS console
   /// domain)
@@ -4608,6 +4772,8 @@ class MCPServerAuthorizationDiscoveryConfig {
 }
 
 /// Event Channel type
+///
+/// @nodoc
 class EventChannelType {
   static const webhook = EventChannelType._('webhook');
 
@@ -4632,6 +4798,8 @@ class EventChannelType {
 }
 
 /// Authorization configuration options for New Relic service.
+///
+/// @nodoc
 class NewRelicServiceAuthorizationConfig {
   /// New Relic API Key authentication (apiKey, accountId, region).
   final NewRelicApiKeyConfig? apiKey;
@@ -4649,6 +4817,8 @@ class NewRelicServiceAuthorizationConfig {
 }
 
 /// API key authentication configuration for New Relic service.
+///
+/// @nodoc
 class NewRelicApiKeyConfig {
   /// New Relic Account ID
   final String accountId;
@@ -4697,6 +4867,8 @@ class NewRelicApiKeyConfig {
 
 /// Authorization configuration for Datadog MCP server (uses authorization
 /// discovery only).
+///
+/// @nodoc
 class DatadogAuthorizationConfig {
   /// Datadog MCP server authorization discovery configuration.
   final MCPServerAuthorizationDiscoveryConfig? authorizationDiscovery;
@@ -4715,6 +4887,8 @@ class DatadogAuthorizationConfig {
 }
 
 /// Authorization configuration options for ServiceNow service.
+///
+/// @nodoc
 class ServiceNowServiceAuthorizationConfig {
   /// OAuth client credentials configuration.
   final ServiceNowOAuthClientCredentialsConfig? oAuthClientCredentials;
@@ -4733,6 +4907,8 @@ class ServiceNowServiceAuthorizationConfig {
 }
 
 /// OAuth client credentials configuration for ServiceNow.
+///
+/// @nodoc
 class ServiceNowOAuthClientCredentialsConfig {
   /// OAuth client ID for authenticating with the service.
   final String clientId;
@@ -4768,6 +4944,8 @@ class ServiceNowOAuthClientCredentialsConfig {
 }
 
 /// Authorization configuration options for Dynatrace service.
+///
+/// @nodoc
 class DynatraceServiceAuthorizationConfig {
   /// OAuth client credentials configuration.
   final DynatraceOAuthClientCredentialsConfig? oAuthClientCredentials;
@@ -4786,6 +4964,8 @@ class DynatraceServiceAuthorizationConfig {
 }
 
 /// OAuth client credentials configuration for Dynatrace.
+///
+/// @nodoc
 class DynatraceOAuthClientCredentialsConfig {
   /// OAuth client ID for authenticating with the service.
   final String clientId;
@@ -4821,6 +5001,8 @@ class DynatraceOAuthClientCredentialsConfig {
 }
 
 /// The type of Private Connection.
+///
+/// @nodoc
 class PrivateConnectionType {
   static const selfManaged = PrivateConnectionType._('SELF_MANAGED');
   static const serviceManaged = PrivateConnectionType._('SERVICE_MANAGED');
@@ -4847,6 +5029,8 @@ class PrivateConnectionType {
 }
 
 /// Status of a Private Connection.
+///
+/// @nodoc
 class PrivateConnectionStatus {
   static const active = PrivateConnectionStatus._('ACTIVE');
   static const createInProgress =
@@ -4884,6 +5068,8 @@ class PrivateConnectionStatus {
 }
 
 /// Summary of a Private Connection.
+///
+/// @nodoc
 class PrivateConnectionSummary {
   /// The name of the Private Connection.
   final String name;
@@ -4964,6 +5150,8 @@ class PrivateConnectionSummary {
 }
 
 /// Private Connection mode — either service-managed or self-managed.
+///
+/// @nodoc
 class PrivateConnectionMode {
   /// Caller manages their own resource configuration.
   final SelfManagedInput? selfManaged;
@@ -4987,6 +5175,8 @@ class PrivateConnectionMode {
 }
 
 /// Configuration for a service-managed Private Connection.
+///
+/// @nodoc
 class ServiceManagedInput {
   /// IP address or DNS name of the target resource.
   final String hostAddress;
@@ -5049,6 +5239,8 @@ class ServiceManagedInput {
 }
 
 /// Configuration for a self-managed Private Connection.
+///
+/// @nodoc
 class SelfManagedInput {
   /// The ID or ARN of the resource configuration.
   final String resourceConfigurationId;
@@ -5072,6 +5264,8 @@ class SelfManagedInput {
 }
 
 /// IP address type for a Resource Gateway.
+///
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const ipv6 = IpAddressType._('IPV6');
@@ -5099,6 +5293,8 @@ class IpAddressType {
 
 /// Represents a service association within an AgentSpace, defining how the
 /// agent interacts with external services.
+///
+/// @nodoc
 class Association {
   /// The unique identifier of the AgentSpace
   final String agentSpaceId;
@@ -5167,6 +5363,8 @@ class Association {
 }
 
 /// Represents the validation state of an association.
+///
+/// @nodoc
 class ValidationStatus {
   static const valid = ValidationStatus._('valid');
   static const invalid = ValidationStatus._('invalid');
@@ -5194,6 +5392,8 @@ class ValidationStatus {
 
 /// Union of all supported service configuration types. Each service has its own
 /// specific configuration structure.
+///
+/// @nodoc
 class ServiceConfiguration {
   /// AWS monitor account configuration.
   final AWSConfiguration? aws;
@@ -5376,6 +5576,8 @@ class ServiceConfiguration {
 
 /// Configuration for AWS source account integration. Note: passRole check on
 /// 'assumableRoleArn' is not supported.
+///
+/// @nodoc
 class SourceAwsConfiguration {
   /// AWS Account Id corresponding to provided resources.
   final String accountId;
@@ -5423,6 +5625,8 @@ class SourceAwsConfiguration {
 
 /// Configuration for AWS monitor account integration, allowing AIDevOps to
 /// monitor AWS resources.
+///
+/// @nodoc
 class AWSConfiguration {
   /// AWS Account Id corresponding to provided resources.
   final String accountId;
@@ -5461,6 +5665,8 @@ class AWSConfiguration {
 }
 
 /// Configuration for GitHub repository integration.
+///
+/// @nodoc
 class GitHubConfiguration {
   /// The GitHub repository owner name.
   final String owner;
@@ -5511,6 +5717,8 @@ class GitHubConfiguration {
 }
 
 /// Configuration for Slack workspace integration.
+///
+/// @nodoc
 class SlackConfiguration {
   /// Transmission targets for agent notifications
   final SlackTransmissionTarget transmissionTarget;
@@ -5550,6 +5758,8 @@ class SlackConfiguration {
 }
 
 /// Configuration for Dynatrace monitoring integration.
+///
+/// @nodoc
 class DynatraceConfiguration {
   /// Dynatrace environment id
   final String envId;
@@ -5583,6 +5793,8 @@ class DynatraceConfiguration {
 }
 
 /// Configuration for ServiceNow instance integration.
+///
+/// @nodoc
 class ServiceNowConfiguration {
   /// Scoped down authentication scopes for fine grained control
   final List<String>? authScopes;
@@ -5616,6 +5828,8 @@ class ServiceNowConfiguration {
 }
 
 /// Mixin for webhook update support.
+///
+/// @nodoc
 class MCPServerNewRelicConfiguration {
   /// New Relic Account ID
   final String accountId;
@@ -5646,6 +5860,8 @@ class MCPServerNewRelicConfiguration {
 }
 
 /// Mixin for webhook update support.
+///
+/// @nodoc
 class MCPServerDatadogConfiguration {
   MCPServerDatadogConfiguration();
 
@@ -5659,6 +5875,8 @@ class MCPServerDatadogConfiguration {
 }
 
 /// Configuration for Model Context Protocol (MCP) server integration.
+///
+/// @nodoc
 class MCPServerConfiguration {
   /// List of MCP tools can be used with the association.
   final List<String> tools;
@@ -5685,6 +5903,8 @@ class MCPServerConfiguration {
 }
 
 /// Configuration for GitLab project integration.
+///
+/// @nodoc
 class GitLabConfiguration {
   /// GitLab numeric project ID.
   final String projectId;
@@ -5723,6 +5943,8 @@ class GitLabConfiguration {
 }
 
 /// Mixin for webhook update support.
+///
+/// @nodoc
 class MCPServerSplunkConfiguration {
   MCPServerSplunkConfiguration();
 
@@ -5736,6 +5958,8 @@ class MCPServerSplunkConfiguration {
 }
 
 /// Configuration for Event Channel integration.
+///
+/// @nodoc
 class EventChannelConfiguration {
   EventChannelConfiguration();
 
@@ -5749,6 +5973,8 @@ class EventChannelConfiguration {
 }
 
 /// Configuration for Azure subscription integration.
+///
+/// @nodoc
 class AzureConfiguration {
   /// Azure subscription ID corresponding to provided resources.
   final String subscriptionId;
@@ -5772,6 +5998,8 @@ class AzureConfiguration {
 }
 
 /// Configuration for Azure DevOps project integration.
+///
+/// @nodoc
 class AzureDevOpsConfiguration {
   /// Azure DevOps organization name.
   final String organizationName;
@@ -5810,6 +6038,8 @@ class AzureDevOpsConfiguration {
 
 /// Configuration for Grafana MCP server integration, used with an AWS-hosted
 /// MCP server.
+///
+/// @nodoc
 class MCPServerGrafanaConfiguration {
   /// Grafana instance URL (e.g., https://your-instance.grafana.net)
   final String endpoint;
@@ -5848,6 +6078,8 @@ class MCPServerGrafanaConfiguration {
 }
 
 /// Configuration for Pagerduty integration.
+///
+/// @nodoc
 class PagerDutyConfiguration {
   /// Email to be used in Pagerduty API header
   final String customerEmail;
@@ -5881,6 +6113,8 @@ class PagerDutyConfiguration {
 }
 
 /// Configuration for SigV4-authenticated MCP server integration.
+///
+/// @nodoc
 class MCPServerSigV4Configuration {
   /// List of MCP tools available for the association.
   final List<String> tools;
@@ -5907,6 +6141,8 @@ class MCPServerSigV4Configuration {
 }
 
 /// Defines Slack channels for different types of agent notifications.
+///
+/// @nodoc
 class SlackTransmissionTarget {
   /// Destination for On-call Agent (Ops1)
   final SlackChannel opsOncallTarget;
@@ -5941,6 +6177,8 @@ class SlackTransmissionTarget {
 }
 
 /// Represents a Slack channel with its ID and optional name.
+///
+/// @nodoc
 class SlackChannel {
   /// Slack channel ID
   final String channelId;
@@ -5971,6 +6209,8 @@ class SlackChannel {
 }
 
 /// AWS association type for monitoring account.
+///
+/// @nodoc
 class MonitorAccountType {
   static const monitor = MonitorAccountType._('monitor');
 
@@ -5996,6 +6236,8 @@ class MonitorAccountType {
 }
 
 /// AWS association type for source account.
+///
+/// @nodoc
 class SourceAccountType {
   static const source = SourceAccountType._('source');
 
@@ -6021,6 +6263,8 @@ class SourceAccountType {
 
 /// Represents a complete Webhook with all its properties, and unique
 /// identifier.
+///
+/// @nodoc
 class Webhook {
   /// The unique identifier of the Webhook
   final String webhookId;
@@ -6059,6 +6303,8 @@ class Webhook {
 }
 
 /// Webhook authentication type.
+///
+/// @nodoc
 class WebhookType {
   static const hmac = WebhookType._('hmac');
   static const apikey = WebhookType._('apikey');
@@ -6086,6 +6332,8 @@ class WebhookType {
 
 /// Generic webhook configuration for services that support webhook
 /// notifications.
+///
+/// @nodoc
 class GenericWebhook {
   /// API Key for API Key webhook authentication
   final String? apiKey;
@@ -6139,6 +6387,8 @@ class GenericWebhook {
 
 /// Represents a complete AgentSpace with all its properties, timestamps,
 /// encryption settings, and unique identifier.
+///
+/// @nodoc
 class AgentSpace {
   /// The unique identifier of the AgentSpace
   final String agentSpaceId;
@@ -6207,6 +6457,8 @@ class AgentSpace {
 
 /// Configuration for external Identity Provider OIDC authentication flow for
 /// the Operator App.
+///
+/// @nodoc
 class IdpAuthConfiguration {
   /// The OIDC client ID for the IdP application
   final String clientId;
@@ -6265,6 +6517,8 @@ class IdpAuthConfiguration {
 }
 
 /// Configuration for IAM-based authentication flow for the Operator App.
+///
+/// @nodoc
 class IamAuthConfiguration {
   /// The timestamp when the Operator App IAM auth flow was enabled.
   final DateTime createdAt;
@@ -6303,6 +6557,8 @@ class IamAuthConfiguration {
 
 /// Configuration for AWS Identity Center (IdC) authentication flow for the
 /// Operator App.
+///
+/// @nodoc
 class IdcAuthConfiguration {
   /// The timestamp when the Operator App IdC auth flow was enabled.
   final DateTime createdAt;
@@ -6354,6 +6610,8 @@ class IdcAuthConfiguration {
 }
 
 /// Authentication flow type for operator app.
+///
+/// @nodoc
 class AuthFlow {
   static const iam = AuthFlow._('iam');
   static const idc = AuthFlow._('idc');
@@ -6379,6 +6637,8 @@ class AuthFlow {
 }
 
 /// Represents a recommendation with all its properties and metadata
+///
+/// @nodoc
 class Recommendation {
   /// ARN of the agent space this recommendation belongs to
   final String agentSpaceArn;
@@ -6504,6 +6764,8 @@ class Recommendation {
 }
 
 /// Content of a recommendation
+///
+/// @nodoc
 class RecommendationContent {
   /// A brief summary of the recommendation.
   final String summary;
@@ -6534,6 +6796,8 @@ class RecommendationContent {
 }
 
 /// Status of a recommendation
+///
+/// @nodoc
 class RecommendationStatus {
   static const proposed = RecommendationStatus._('PROPOSED');
   static const accepted = RecommendationStatus._('ACCEPTED');
@@ -6571,6 +6835,8 @@ class RecommendationStatus {
 }
 
 /// Priority level of a recommendation
+///
+/// @nodoc
 class RecommendationPriority {
   static const high = RecommendationPriority._('HIGH');
   static const medium = RecommendationPriority._('MEDIUM');
@@ -6598,6 +6864,8 @@ class RecommendationPriority {
 }
 
 /// Represents a goal with all its properties and metadata
+///
+/// @nodoc
 class Goal {
   /// The unique identifier for the agent space containing this goal
   final String agentSpaceArn;
@@ -6713,6 +6981,8 @@ class Goal {
 }
 
 /// Content of a goal
+///
+/// @nodoc
 class GoalContent {
   /// A detailed description of the goal.
   final String description;
@@ -6743,6 +7013,8 @@ class GoalContent {
 }
 
 /// Possible states of a goal throughout its lifecycle
+///
+/// @nodoc
 class GoalStatus {
   static const active = GoalStatus._('ACTIVE');
   static const paused = GoalStatus._('PAUSED');
@@ -6768,6 +7040,8 @@ class GoalStatus {
 }
 
 /// Type of goal based on its origin
+///
+/// @nodoc
 class GoalType {
   static const customerDefined = GoalType._('CUSTOMER_DEFINED');
   static const oncallReport = GoalType._('ONCALL_REPORT');
@@ -6792,6 +7066,8 @@ class GoalType {
 }
 
 /// Schedule configuration for goal evaluations
+///
+/// @nodoc
 class GoalSchedule {
   /// Whether the schedule is enabled or disabled
   final SchedulerState state;
@@ -6822,6 +7098,8 @@ class GoalSchedule {
 }
 
 /// State of Goal Schedule. Mirrors EventBridge Scheduler State
+///
+/// @nodoc
 class SchedulerState {
   static const enabled = SchedulerState._('ENABLED');
   static const disabled = SchedulerState._('DISABLED');
@@ -6847,6 +7125,8 @@ class SchedulerState {
 }
 
 /// Schedule configuration for updating goal evaluations
+///
+/// @nodoc
 class GoalScheduleInput {
   /// Whether the schedule is enabled or disabled
   final SchedulerState state;
@@ -6864,6 +7144,8 @@ class GoalScheduleInput {
 }
 
 /// Represents a backlog task with all its properties and metadata
+///
+/// @nodoc
 class Task {
   /// The unique identifier for the agent space containing this task
   final String agentSpaceId;
@@ -7006,6 +7288,8 @@ class Task {
 
 /// Reference information linking a task to external systems - for output
 /// without validation
+///
+/// @nodoc
 class ReferenceOutput {
   /// Association identifier of the external system
   final String associationId;
@@ -7057,6 +7341,8 @@ class ReferenceOutput {
 }
 
 /// Types of tasks that can be created in the backlog
+///
+/// @nodoc
 class TaskType {
   static const investigation = TaskType._('INVESTIGATION');
   static const evaluation = TaskType._('EVALUATION');
@@ -7081,6 +7367,8 @@ class TaskType {
 }
 
 /// Priority levels for tasks, from highest to lowest urgency
+///
+/// @nodoc
 class Priority {
   static const critical = Priority._('CRITICAL');
   static const high = Priority._('HIGH');
@@ -7108,6 +7396,8 @@ class Priority {
 }
 
 /// Possible states of a task throughout its lifecycle
+///
+/// @nodoc
 class TaskStatus {
   static const pendingTriage = TaskStatus._('PENDING_TRIAGE');
   static const linked = TaskStatus._('LINKED');
@@ -7155,6 +7445,8 @@ class TaskStatus {
 /// responseCompleted|responseFailed SendMessage always uses content block mode
 /// — legacy per-field events (outputTextDelta, functionCallArgumentsDelta,
 /// etc.) are not emitted.
+///
+/// @nodoc
 class SendMessageEvents {
   /// Emitted for each incremental content delta within a content block
   final SendMessageContentBlockDeltaEvent? contentBlockDelta;
@@ -7262,6 +7554,8 @@ class SendMessageEvents {
 }
 
 /// Event emitted when the response is created
+///
+/// @nodoc
 class SendMessageResponseCreatedEvent {
   /// The response ID
   final String? responseId;
@@ -7292,6 +7586,8 @@ class SendMessageResponseCreatedEvent {
 }
 
 /// Event emitted while the response is being generated
+///
+/// @nodoc
 class SendMessageResponseInProgressEvent {
   /// The response ID
   final String? responseId;
@@ -7323,6 +7619,8 @@ class SendMessageResponseInProgressEvent {
 }
 
 /// Event emitted when the response completes successfully
+///
+/// @nodoc
 class SendMessageResponseCompletedEvent {
   /// The response ID
   final String? responseId;
@@ -7363,6 +7661,8 @@ class SendMessageResponseCompletedEvent {
 }
 
 /// Event emitted when the response fails
+///
+/// @nodoc
 class SendMessageResponseFailedEvent {
   /// Error code
   final String? errorCode;
@@ -7407,6 +7707,8 @@ class SendMessageResponseFailedEvent {
 }
 
 /// Event summarizing agent actions
+///
+/// @nodoc
 class SendMessageSummaryEvent {
   /// Summary content
   final String? content;
@@ -7437,6 +7739,8 @@ class SendMessageSummaryEvent {
 }
 
 /// Heartbeat event to keep connection alive
+///
+/// @nodoc
 class SendMessageHeartbeatEvent {
   SendMessageHeartbeatEvent();
 
@@ -7450,6 +7754,8 @@ class SendMessageHeartbeatEvent {
 }
 
 /// Event emitted when a new content block starts
+///
+/// @nodoc
 class SendMessageContentBlockStartEvent {
   /// Block identifier
   final String? id;
@@ -7503,6 +7809,8 @@ class SendMessageContentBlockStartEvent {
 }
 
 /// Event emitted for each incremental content delta within a content block
+///
+/// @nodoc
 class SendMessageContentBlockDeltaEvent {
   /// The incremental content delta
   final SendMessageContentBlockDelta? delta;
@@ -7544,6 +7852,8 @@ class SendMessageContentBlockDeltaEvent {
 }
 
 /// Event emitted when a content block is complete
+///
+/// @nodoc
 class SendMessageContentBlockStopEvent {
   /// Zero-based index of the content block
   final int? index;
@@ -7595,6 +7905,8 @@ class SendMessageContentBlockStopEvent {
 }
 
 /// Union of possible delta payloads within a content block delta event
+///
+/// @nodoc
 class SendMessageContentBlockDelta {
   /// JSON delta for structured content blocks
   final SendMessageJsonDelta? jsonDelta;
@@ -7631,6 +7943,8 @@ class SendMessageContentBlockDelta {
 }
 
 /// Text delta containing a text fragment
+///
+/// @nodoc
 class SendMessageTextDelta {
   /// The text fragment
   final String? text;
@@ -7654,6 +7968,8 @@ class SendMessageTextDelta {
 }
 
 /// JSON delta containing partial JSON
+///
+/// @nodoc
 class SendMessageJsonDelta {
   /// Partial JSON string
   final String? partialJson;
@@ -7677,6 +7993,8 @@ class SendMessageJsonDelta {
 }
 
 /// Token usage information
+///
+/// @nodoc
 class SendMessageUsageInfo {
   /// Number of input tokens
   final int? inputTokens;
@@ -7714,6 +8032,8 @@ class SendMessageUsageInfo {
 }
 
 /// Context object for additional message metadata
+///
+/// @nodoc
 class SendMessageContext {
   /// The current page or view the user is on
   final String? currentPage;
@@ -7743,6 +8063,8 @@ class SendMessageContext {
 }
 
 /// Represents a pending message in an agent execution.
+///
+/// @nodoc
 class PendingMessage {
   /// The message content.
   final Message message;
@@ -7774,6 +8096,8 @@ class PendingMessage {
 }
 
 /// A message in a conversation, either from the user or the assistant.
+///
+/// @nodoc
 class Message {
   /// A message from the assistant.
   final List<AssistantMessageBlock>? assistantMessage;
@@ -7810,6 +8134,8 @@ class Message {
 }
 
 /// A block of content in an assistant message.
+///
+/// @nodoc
 class AssistantMessageBlock {
   /// Text content from the assistant.
   final String? text;
@@ -7842,6 +8168,8 @@ class AssistantMessageBlock {
 }
 
 /// A block of content in a user message.
+///
+/// @nodoc
 class UserMessageBlock {
   /// Text content from the user.
   final String? text;
@@ -7874,6 +8202,8 @@ class UserMessageBlock {
 }
 
 /// Represents a journal record containing execution details and content
+///
+/// @nodoc
 class JournalRecord {
   /// The unique identifier for the agent space containing this record
   final String agentSpaceId;
@@ -7943,6 +8273,8 @@ class JournalRecord {
 }
 
 /// Reference to a user in the system
+///
+/// @nodoc
 class UserReference {
   /// The unique identifier for the user
   final String userId;
@@ -7973,6 +8305,8 @@ class UserReference {
 }
 
 /// Types of users in the system
+///
+/// @nodoc
 class UserType {
   static const iam = UserType._('IAM');
   static const idc = UserType._('IDC');
@@ -7998,6 +8332,8 @@ class UserType {
 }
 
 /// Sort order options for journal operations
+///
+/// @nodoc
 class OrderType {
   static const asc = OrderType._('ASC');
   static const desc = OrderType._('DESC');
@@ -8022,6 +8358,8 @@ class OrderType {
 }
 
 /// Represents an execution instance with its lifecycle information
+///
+/// @nodoc
 class Execution {
   /// The unique identifier for the agent space containing this execution
   final String agentSpaceId;
@@ -8102,6 +8440,8 @@ class Execution {
 }
 
 /// Possible states of an execution
+///
+/// @nodoc
 class ExecutionStatus {
   static const failed = ExecutionStatus._('FAILED');
   static const running = ExecutionStatus._('RUNNING');
@@ -8130,6 +8470,8 @@ class ExecutionStatus {
 }
 
 /// A single chat execution summary
+///
+/// @nodoc
 class ChatExecution {
   /// Timestamp when the chat was created
   final DateTime createdAt;
@@ -8175,6 +8517,8 @@ class ChatExecution {
 
 /// Filter criteria for listing backlog tasks, supporting time range, priority,
 /// status, and type filters.
+///
+/// @nodoc
 class TaskFilter {
   /// Filter for tasks created after this timestamp inclusive
   final DateTime? createdAfter;
@@ -8222,6 +8566,8 @@ class TaskFilter {
 }
 
 /// Fields available for sorting tasks
+///
+/// @nodoc
 class TaskSortField {
   static const createdAt = TaskSortField._('CREATED_AT');
   static const priority = TaskSortField._('PRIORITY');
@@ -8247,6 +8593,8 @@ class TaskSortField {
 }
 
 /// Sort order options
+///
+/// @nodoc
 class TaskSortOrder {
   static const asc = TaskSortOrder._('ASC');
   static const desc = TaskSortOrder._('DESC');
@@ -8272,6 +8620,8 @@ class TaskSortOrder {
 }
 
 /// Represents a usage metric with its configured limit and current usage value.
+///
+/// @nodoc
 class UsageMetric {
   /// Configured limit for this metric.
   final int limit;
@@ -8303,6 +8653,8 @@ class UsageMetric {
 
 /// Reference information linking a task to external systems - for input with
 /// validation
+///
+/// @nodoc
 class ReferenceInput {
   /// Association identifier of the external system
   final String associationId;
@@ -8343,6 +8695,7 @@ class ReferenceInput {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -8355,16 +8708,19 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class IdentityCenterServiceException extends _s.GenericAwsException {
   IdentityCenterServiceException({String? type, String? message})
       : super(
@@ -8373,21 +8729,25 @@ class IdentityCenterServiceException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8396,11 +8756,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1543,6 +1543,7 @@ class EntityResolution {
   }
 }
 
+/// @nodoc
 class AddPolicyStatementOutput {
   /// The Amazon Resource Name (ARN) of the resource that will be accessed by the
   /// principal.
@@ -1580,6 +1581,7 @@ class AddPolicyStatementOutput {
   }
 }
 
+/// @nodoc
 class BatchDeleteUniqueIdOutput {
   /// The unique IDs that were deleted.
   final List<DeletedUniqueId> deleted;
@@ -1634,6 +1636,7 @@ class BatchDeleteUniqueIdOutput {
   }
 }
 
+/// @nodoc
 class CreateIdMappingWorkflowOutput {
   /// An object which defines the ID mapping technique and any additional
   /// configurations.
@@ -1724,6 +1727,7 @@ class CreateIdMappingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class CreateIdNamespaceOutput {
   /// The timestamp of when the ID namespace was created.
   final DateTime createdAt;
@@ -1833,6 +1837,7 @@ class CreateIdNamespaceOutput {
   }
 }
 
+/// @nodoc
 class CreateMatchingWorkflowOutput {
   /// A list of <code>InputSource</code> objects, which have the fields
   /// <code>InputSourceARN</code> and <code>SchemaName</code>.
@@ -1923,6 +1928,7 @@ class CreateMatchingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class CreateSchemaMappingOutput {
   /// A description of the schema.
   final String description;
@@ -1972,6 +1978,7 @@ class CreateSchemaMappingOutput {
   }
 }
 
+/// @nodoc
 class DeleteIdMappingWorkflowOutput {
   /// A successful operation message.
   final String message;
@@ -1994,6 +2001,7 @@ class DeleteIdMappingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class DeleteIdNamespaceOutput {
   /// A successful operation message.
   final String message;
@@ -2016,6 +2024,7 @@ class DeleteIdNamespaceOutput {
   }
 }
 
+/// @nodoc
 class DeleteMatchingWorkflowOutput {
   /// A successful operation message.
   final String message;
@@ -2038,6 +2047,7 @@ class DeleteMatchingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class DeletePolicyStatementOutput {
   /// The ARN of the resource for which the policy need to be deleted.
   final String arn;
@@ -2074,6 +2084,7 @@ class DeletePolicyStatementOutput {
   }
 }
 
+/// @nodoc
 class DeleteSchemaMappingOutput {
   /// A successful operation message.
   final String message;
@@ -2096,6 +2107,7 @@ class DeleteSchemaMappingOutput {
   }
 }
 
+/// @nodoc
 class GenerateMatchIdOutput {
   /// The records that didn't receive a generated Match ID.
   final List<FailedRecord> failedRecords;
@@ -2131,6 +2143,7 @@ class GenerateMatchIdOutput {
   }
 }
 
+/// @nodoc
 class GetIdMappingJobOutput {
   /// The ID of the job.
   final String jobId;
@@ -2221,6 +2234,7 @@ class GetIdMappingJobOutput {
   }
 }
 
+/// @nodoc
 class GetIdMappingWorkflowOutput {
   /// The timestamp of when the workflow was created.
   final DateTime createdAt;
@@ -2333,6 +2347,7 @@ class GetIdMappingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class GetIdNamespaceOutput {
   /// The timestamp of when the ID namespace was created.
   final DateTime createdAt;
@@ -2442,6 +2457,7 @@ class GetIdNamespaceOutput {
   }
 }
 
+/// @nodoc
 class GetMatchIdOutput {
   /// The unique identifiers for this group of match records.
   final String? matchId;
@@ -2471,6 +2487,7 @@ class GetMatchIdOutput {
   }
 }
 
+/// @nodoc
 class GetMatchingJobOutput {
   /// The unique identifier of the matching job.
   final String jobId;
@@ -2543,6 +2560,7 @@ class GetMatchingJobOutput {
   }
 }
 
+/// @nodoc
 class GetMatchingWorkflowOutput {
   /// The timestamp of when the workflow was created.
   final DateTime createdAt;
@@ -2655,6 +2673,7 @@ class GetMatchingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class GetPolicyOutput {
   /// The Entity Resolution resource ARN.
   final String arn;
@@ -2691,6 +2710,7 @@ class GetPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetProviderServiceOutput {
   /// Specifies whether output data from the provider is anonymized. A value of
   /// <code>TRUE</code> means the output will be anonymized and you can't relate
@@ -2839,6 +2859,7 @@ class GetProviderServiceOutput {
   }
 }
 
+/// @nodoc
 class GetSchemaMappingOutput {
   /// The timestamp of when the <code>SchemaMapping</code> was created.
   final DateTime createdAt;
@@ -2917,6 +2938,7 @@ class GetSchemaMappingOutput {
   }
 }
 
+/// @nodoc
 class ListIdMappingJobsOutput {
   /// A list of <code>JobSummary</code> objects.
   final List<JobSummary>? jobs;
@@ -2949,6 +2971,7 @@ class ListIdMappingJobsOutput {
   }
 }
 
+/// @nodoc
 class ListIdMappingWorkflowsOutput {
   /// The pagination token from the previous API call.
   final String? nextToken;
@@ -2982,6 +3005,7 @@ class ListIdMappingWorkflowsOutput {
   }
 }
 
+/// @nodoc
 class ListIdNamespacesOutput {
   /// A list of <code>IdNamespaceSummaries</code> objects.
   final List<IdNamespaceSummary>? idNamespaceSummaries;
@@ -3015,6 +3039,7 @@ class ListIdNamespacesOutput {
   }
 }
 
+/// @nodoc
 class ListMatchingJobsOutput {
   /// A list of <code>JobSummary</code> objects, each of which contain the ID,
   /// status, start time, and end time of a job.
@@ -3048,6 +3073,7 @@ class ListMatchingJobsOutput {
   }
 }
 
+/// @nodoc
 class ListMatchingWorkflowsOutput {
   /// The pagination token from the previous API call.
   final String? nextToken;
@@ -3084,6 +3110,7 @@ class ListMatchingWorkflowsOutput {
   }
 }
 
+/// @nodoc
 class ListProviderServicesOutput {
   /// The pagination token from the previous API call.
   final String? nextToken;
@@ -3118,6 +3145,7 @@ class ListProviderServicesOutput {
   }
 }
 
+/// @nodoc
 class ListSchemaMappingsOutput {
   /// The pagination token from the previous API call.
   final String? nextToken;
@@ -3152,6 +3180,7 @@ class ListSchemaMappingsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String> tags;
@@ -3176,6 +3205,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutPolicyOutput {
   /// The Entity Resolution resource ARN.
   final String arn;
@@ -3212,6 +3242,7 @@ class PutPolicyOutput {
   }
 }
 
+/// @nodoc
 class StartIdMappingJobOutput {
   /// The ID of the job.
   final String jobId;
@@ -3263,6 +3294,7 @@ class StartIdMappingJobOutput {
   }
 }
 
+/// @nodoc
 class StartMatchingJobOutput {
   /// The ID of the job.
   final String jobId;
@@ -3285,6 +3317,7 @@ class StartMatchingJobOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -3297,6 +3330,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -3309,6 +3343,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateIdMappingWorkflowOutput {
   /// An object which defines the ID mapping technique and any additional
   /// configurations.
@@ -3399,6 +3434,7 @@ class UpdateIdMappingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class UpdateIdNamespaceOutput {
   /// The timestamp of when the ID namespace was created.
   final DateTime createdAt;
@@ -3500,6 +3536,7 @@ class UpdateIdNamespaceOutput {
   }
 }
 
+/// @nodoc
 class UpdateMatchingWorkflowOutput {
   /// A list of <code>InputSource</code> objects, which have the fields
   /// <code>InputSourceARN</code> and <code>SchemaName</code>.
@@ -3582,6 +3619,7 @@ class UpdateMatchingWorkflowOutput {
   }
 }
 
+/// @nodoc
 class UpdateSchemaMappingOutput {
   /// A list of <code>MappedInputFields</code>. Each <code>MappedInputField</code>
   /// corresponds to a column the source data table, and contains column name plus
@@ -3634,6 +3672,8 @@ class UpdateSchemaMappingOutput {
 /// A configuration object for defining input data fields in Entity Resolution.
 /// The <code>SchemaInputAttribute</code> specifies how individual fields in
 /// your input data should be processed and matched.
+///
+/// @nodoc
 class SchemaInputAttribute {
   /// A string containing the field name.
   final String fieldName;
@@ -3749,6 +3789,7 @@ class SchemaInputAttribute {
   }
 }
 
+/// @nodoc
 class SchemaAttributeType {
   static const name = SchemaAttributeType._('NAME');
   static const nameFirst = SchemaAttributeType._('NAME_FIRST');
@@ -3821,6 +3862,8 @@ class SchemaAttributeType {
 
 /// An object which defines the <code>resolutionType</code> and the
 /// <code>ruleBasedProperties</code>.
+///
+/// @nodoc
 class ResolutionTechniques {
   /// The type of matching workflow to create. Specify one of the following types:
   ///
@@ -3897,6 +3940,8 @@ class ResolutionTechniques {
 /// For workflows where <code>resolutionType</code> is <code>ML_MATCHING</code>
 /// or <code>PROVIDER</code>, incremental processing is not supported.
 /// </important>
+///
+/// @nodoc
 class IncrementalRunConfig {
   /// The type of incremental run. The only valid value is <code>IMMEDIATE</code>.
   /// This appears as "Automatic" in the console.
@@ -3926,6 +3971,7 @@ class IncrementalRunConfig {
   }
 }
 
+/// @nodoc
 class IncrementalRunType {
   static const immediate = IncrementalRunType._('IMMEDIATE');
 
@@ -3950,6 +3996,7 @@ class IncrementalRunType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolutionType {
   static const ruleMatching = ResolutionType._('RULE_MATCHING');
   static const mlMatching = ResolutionType._('ML_MATCHING');
@@ -3977,6 +4024,8 @@ class ResolutionType {
 
 /// An object which defines the list of matching rules to run in a matching
 /// workflow.
+///
+/// @nodoc
 class RuleBasedProperties {
   /// The comparison type. You can choose <code>ONE_TO_ONE</code> or
   /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
@@ -4040,6 +4089,8 @@ class RuleBasedProperties {
 
 /// The properties of a rule condition that provides the ability to use more
 /// complex syntax.
+///
+/// @nodoc
 class RuleConditionProperties {
   /// A list of rule objects, each of which have fields <code>ruleName</code> and
   /// <code>condition</code>.
@@ -4079,6 +4130,8 @@ class RuleConditionProperties {
 /// An object containing the <code>providerServiceARN</code>,
 /// <code>intermediateSourceConfiguration</code>, and
 /// <code>providerConfiguration</code>.
+///
+/// @nodoc
 class ProviderProperties {
   /// The ARN of the provider service.
   final String providerServiceArn;
@@ -4129,6 +4182,8 @@ class ProviderProperties {
 
 /// The Amazon S3 location that temporarily stores your data while it processes.
 /// Your information won't be saved permanently.
+///
+/// @nodoc
 class IntermediateSourceConfiguration {
   /// The Amazon S3 location (bucket and prefix). For example:
   /// <code>s3://provider_bucket/DOC-EXAMPLE-BUCKET</code>
@@ -4154,6 +4209,8 @@ class IntermediateSourceConfiguration {
 
 /// An object that contains configuration settings for the matching process in a
 /// rule-based matching workflow.
+///
+/// @nodoc
 class MatchingConfig {
   /// Enables transitive matching for the rule-based matching workflow. When
   /// enabled, records that match through different rules are grouped together
@@ -4181,6 +4238,8 @@ class MatchingConfig {
 
 /// An object that defines the <code>ruleCondition</code> and the
 /// <code>ruleName</code> to use in a matching workflow.
+///
+/// @nodoc
 class RuleCondition {
   /// A statement that specifies the conditions for a matching rule.
   ///
@@ -4225,6 +4284,7 @@ class RuleCondition {
   }
 }
 
+/// @nodoc
 class AttributeMatchingModel {
   static const oneToOne = AttributeMatchingModel._('ONE_TO_ONE');
   static const manyToMany = AttributeMatchingModel._('MANY_TO_MANY');
@@ -4250,6 +4310,7 @@ class AttributeMatchingModel {
   String toString() => value;
 }
 
+/// @nodoc
 class MatchPurpose {
   static const identifierGeneration = MatchPurpose._('IDENTIFIER_GENERATION');
   static const indexing = MatchPurpose._('INDEXING');
@@ -4275,6 +4336,8 @@ class MatchPurpose {
 
 /// An object containing the <code>ruleName</code> and
 /// <code>matchingKeys</code>.
+///
+/// @nodoc
 class Rule {
   /// A list of <code>MatchingKeys</code>. The <code>MatchingKeys</code> must have
   /// been defined in the <code>SchemaMapping</code>. Two records are considered
@@ -4314,6 +4377,8 @@ class Rule {
 /// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
 /// selects a column to be included in the output table, and whether the values
 /// of the column should be hashed.
+///
+/// @nodoc
 class OutputSource {
   /// A list of <code>OutputAttribute</code> objects, each of which have the
   /// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
@@ -4389,6 +4454,8 @@ class OutputSource {
 /// configuration enables Entity Resolution to send matched output directly to
 /// Customer Profiles instead of Amazon S3, creating a unified customer view by
 /// automatically updating customer profiles based on match clusters.
+///
+/// @nodoc
 class CustomerProfilesIntegrationConfig {
   /// The Amazon Resource Name (ARN) of the Customer Profiles domain where the
   /// matched output will be sent.
@@ -4425,6 +4492,8 @@ class CustomerProfilesIntegrationConfig {
 /// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
 /// selects a column to be included in the output table, and whether the values
 /// of the column should be hashed.
+///
+/// @nodoc
 class OutputAttribute {
   /// A name of a column to be written to the output. This must be an
   /// <code>InputField</code> name in the schema mapping.
@@ -4457,6 +4526,8 @@ class OutputAttribute {
 
 /// An object containing <code>inputSourceARN</code>, <code>schemaName</code>,
 /// and <code>applyNormalization</code>.
+///
+/// @nodoc
 class InputSource {
   /// An Glue table Amazon Resource Name (ARN) for the input source table.
   final String inputSourceARN;
@@ -4497,6 +4568,7 @@ class InputSource {
   }
 }
 
+/// @nodoc
 class IdNamespaceType {
   static const source = IdNamespaceType._('SOURCE');
   static const target = IdNamespaceType._('TARGET');
@@ -4523,6 +4595,8 @@ class IdNamespaceType {
 
 /// An object containing <code>idMappingType</code>,
 /// <code>providerProperties</code>, and <code>ruleBasedProperties</code>.
+///
+/// @nodoc
 class IdNamespaceIdMappingWorkflowProperties {
   /// The type of ID mapping.
   final IdMappingType idMappingType;
@@ -4570,6 +4644,7 @@ class IdNamespaceIdMappingWorkflowProperties {
   }
 }
 
+/// @nodoc
 class IdMappingType {
   static const provider = IdMappingType._('PROVIDER');
   static const ruleBased = IdMappingType._('RULE_BASED');
@@ -4596,6 +4671,8 @@ class IdMappingType {
 
 /// The rule-based properties of an ID namespace. These properties define how
 /// the ID namespace can be used in an ID mapping workflow.
+///
+/// @nodoc
 class NamespaceRuleBasedProperties {
   /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
   /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
@@ -4677,6 +4754,8 @@ class NamespaceRuleBasedProperties {
 
 /// An object containing <code>providerConfiguration</code> and
 /// <code>providerServiceArn</code>.
+///
+/// @nodoc
 class NamespaceProviderProperties {
   /// The Amazon Resource Name (ARN) of the provider service.
   final String providerServiceArn;
@@ -4711,6 +4790,7 @@ class NamespaceProviderProperties {
   }
 }
 
+/// @nodoc
 class RecordMatchingModel {
   static const oneSourceToOneTarget =
       RecordMatchingModel._('ONE_SOURCE_TO_ONE_TARGET');
@@ -4738,6 +4818,7 @@ class RecordMatchingModel {
   String toString() => value;
 }
 
+/// @nodoc
 class IdMappingWorkflowRuleDefinitionType {
   static const source = IdMappingWorkflowRuleDefinitionType._('SOURCE');
   static const target = IdMappingWorkflowRuleDefinitionType._('TARGET');
@@ -4765,6 +4846,8 @@ class IdMappingWorkflowRuleDefinitionType {
 
 /// An object containing <code>inputSourceARN</code> and
 /// <code>schemaName</code>.
+///
+/// @nodoc
 class IdNamespaceInputSource {
   /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the
   /// input source table.
@@ -4797,6 +4880,8 @@ class IdNamespaceInputSource {
 
 /// An object which defines the ID mapping technique and any additional
 /// configurations.
+///
+/// @nodoc
 class IdMappingTechniques {
   /// The type of ID mapping.
   final IdMappingType idMappingType;
@@ -4844,6 +4929,8 @@ class IdMappingTechniques {
 }
 
 /// Incremental run configuration for an ID mapping workflow.
+///
+/// @nodoc
 class IdMappingIncrementalRunConfig {
   /// The incremental run type for an ID mapping workflow.
   ///
@@ -4872,6 +4959,7 @@ class IdMappingIncrementalRunConfig {
   }
 }
 
+/// @nodoc
 class IdMappingIncrementalRunType {
   static const onDemand = IdMappingIncrementalRunType._('ON_DEMAND');
 
@@ -4898,6 +4986,8 @@ class IdMappingIncrementalRunType {
 
 /// An object that defines the list of matching rules to run in an ID mapping
 /// workflow.
+///
+/// @nodoc
 class IdMappingRuleBasedProperties {
   /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
   /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
@@ -4970,6 +5060,8 @@ class IdMappingRuleBasedProperties {
 }
 
 /// The output source for the ID mapping workflow.
+///
+/// @nodoc
 class IdMappingWorkflowOutputSource {
   /// The S3 path to which Entity Resolution will write the output table.
   final String outputS3Path;
@@ -5002,6 +5094,8 @@ class IdMappingWorkflowOutputSource {
 
 /// An object containing <code>inputSourceARN</code>, <code>schemaName</code>,
 /// and <code>type</code>.
+///
+/// @nodoc
 class IdMappingWorkflowInputSource {
   /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the
   /// input source table.
@@ -5046,6 +5140,7 @@ class IdMappingWorkflowInputSource {
   }
 }
 
+/// @nodoc
 class JobType {
   static const batch = JobType._('BATCH');
   static const incremental = JobType._('INCREMENTAL');
@@ -5072,6 +5167,8 @@ class JobType {
 
 /// An object containing <code>KMSArn</code>, <code>outputS3Path</code>, and
 /// <code>roleARN</code>.
+///
+/// @nodoc
 class IdMappingJobOutputSource {
   /// The S3 path to which Entity Resolution will write the output table.
   final String outputS3Path;
@@ -5114,6 +5211,8 @@ class IdMappingJobOutputSource {
 /// An object containing <code>schemaName</code>, <code>schemaArn</code>,
 /// <code>createdAt</code>, <code>updatedAt</code>, and
 /// <code>hasWorkflows</code>.
+///
+/// @nodoc
 class SchemaMappingSummary {
   /// The timestamp of when the <code>SchemaMapping</code> was created.
   final DateTime createdAt;
@@ -5168,6 +5267,8 @@ class SchemaMappingSummary {
 /// A list of <code>ProviderService</code> objects, each of which contain the
 /// fields <code>providerName</code>, <code>providerServiceArn</code>,
 /// <code>providerServiceName</code>, and <code>providerServiceType</code>.
+///
+/// @nodoc
 class ProviderServiceSummary {
   /// The name of the provider. This name is typically the company name.
   final String providerName;
@@ -5221,6 +5322,7 @@ class ProviderServiceSummary {
   }
 }
 
+/// @nodoc
 class ServiceType {
   static const assignment = ServiceType._('ASSIGNMENT');
   static const idMapping = ServiceType._('ID_MAPPING');
@@ -5247,6 +5349,8 @@ class ServiceType {
 /// A list of <code>MatchingWorkflowSummary</code> objects, each of which
 /// contain the fields <code>workflowName</code>, <code>workflowArn</code>,
 /// <code>resolutionType</code>, <code>createdAt</code>, <code>updatedAt</code>.
+///
+/// @nodoc
 class MatchingWorkflowSummary {
   /// The timestamp of when the workflow was created.
   final DateTime createdAt;
@@ -5302,6 +5406,8 @@ class MatchingWorkflowSummary {
 
 /// An object containing the <code>jobId</code>, <code>status</code>,
 /// <code>startTime</code>, and <code>endTime</code> of a job.
+///
+/// @nodoc
 class JobSummary {
   /// The ID of the job.
   final String jobId;
@@ -5345,6 +5451,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const running = JobStatus._('RUNNING');
   static const succeeded = JobStatus._('SUCCEEDED');
@@ -5371,6 +5478,8 @@ class JobStatus {
 }
 
 /// A summary of ID namespaces.
+///
+/// @nodoc
 class IdNamespaceSummary {
   /// The timestamp of when the ID namespace was created.
   final DateTime createdAt;
@@ -5450,6 +5559,8 @@ class IdNamespaceSummary {
 }
 
 /// The settings for the ID namespace for the ID mapping workflow job.
+///
+/// @nodoc
 class IdNamespaceIdMappingWorkflowMetadata {
   /// The type of ID mapping.
   final IdMappingType idMappingType;
@@ -5477,6 +5588,8 @@ class IdNamespaceIdMappingWorkflowMetadata {
 /// A list of <code>IdMappingWorkflowSummary</code> objects, each of which
 /// contain the fields <code>WorkflowName</code>, <code>WorkflowArn</code>,
 /// <code>CreatedAt</code>, and <code>UpdatedAt</code>.
+///
+/// @nodoc
 class IdMappingWorkflowSummary {
   /// The timestamp of when the workflow was created.
   final DateTime createdAt;
@@ -5522,6 +5635,8 @@ class IdMappingWorkflowSummary {
 }
 
 /// The provider configuration required for different ID namespace types.
+///
+/// @nodoc
 class ProviderIdNameSpaceConfiguration {
   /// The description of the ID namespace.
   final String? description;
@@ -5573,6 +5688,8 @@ class ProviderIdNameSpaceConfiguration {
 }
 
 /// The required configuration fields to use with the provider service.
+///
+/// @nodoc
 class ProviderEndpointConfiguration {
   /// The identifiers of the provider service, from Data Exchange.
   final ProviderMarketplaceConfiguration? marketplaceConfiguration;
@@ -5601,6 +5718,8 @@ class ProviderEndpointConfiguration {
 
 /// The required configuration fields to give intermediate access to a provider
 /// service.
+///
+/// @nodoc
 class ProviderIntermediateDataAccessConfiguration {
   /// The Amazon Web Services account that provider can use to read or write data
   /// into the customer's intermediate S3 bucket.
@@ -5640,6 +5759,8 @@ class ProviderIntermediateDataAccessConfiguration {
 }
 
 /// The input schema supported by provider service.
+///
+/// @nodoc
 class ProviderComponentSchema {
   /// The provider schema attributes.
   final List<ProviderSchemaAttribute>? providerSchemaAttributes;
@@ -5678,6 +5799,8 @@ class ProviderComponentSchema {
 }
 
 /// The provider schema attribute.
+///
+/// @nodoc
 class ProviderSchemaAttribute {
   /// The field name.
   final String fieldName;
@@ -5741,6 +5864,8 @@ class ProviderSchemaAttribute {
 }
 
 /// The identifiers of the provider service, from Data Exchange.
+///
+/// @nodoc
 class ProviderMarketplaceConfiguration {
   /// The asset ID on Data Exchange.
   final String assetId;
@@ -5787,6 +5912,8 @@ class ProviderMarketplaceConfiguration {
 /// An object containing <code>inputRecords</code>,
 /// <code>totalRecordsProcessed</code>, <code>matchIDs</code>, and
 /// <code>recordsNotProcessed</code>.
+///
+/// @nodoc
 class JobMetrics {
   /// The number of records processed that were marked for deletion
   /// (<code>DELETE</code> = True) in the input file. This metric tracks records
@@ -5843,6 +5970,8 @@ class JobMetrics {
 }
 
 /// An object containing an error message, if there was an error.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error message from the job, if there is one.
   final String? errorMessage;
@@ -5867,6 +5996,8 @@ class ErrorDetails {
 
 /// An object containing <code>KMSArn</code>, <code>outputS3Path</code>, and
 /// <code>roleArn</code>.
+///
+/// @nodoc
 class JobOutputSource {
   /// The S3 path to which Entity Resolution will write the output table.
   final String outputS3Path;
@@ -5909,6 +6040,8 @@ class JobOutputSource {
 /// An object that contains metrics about an ID mapping job, including counts of
 /// input records, processed records, and mapped records between source and
 /// target identifiers.
+///
+/// @nodoc
 class IdMappingJobMetrics {
   /// The number of records processed that were marked for deletion in the input
   /// file using the DELETE schema mapping field. These are the records to be
@@ -6055,6 +6188,8 @@ class IdMappingJobMetrics {
 }
 
 /// The record that didn't generate a Match ID.
+///
+/// @nodoc
 class FailedRecord {
   /// The error message for the record that didn't generate a Match ID.
   final String errorMessage;
@@ -6092,6 +6227,8 @@ class FailedRecord {
 }
 
 /// The match group.
+///
+/// @nodoc
 class MatchGroup {
   /// The match ID.
   final String matchId;
@@ -6132,6 +6269,8 @@ class MatchGroup {
 }
 
 /// The matched record.
+///
+/// @nodoc
 class MatchedRecord {
   /// The input source ARN of the matched record.
   final String inputSourceARN;
@@ -6161,6 +6300,7 @@ class MatchedRecord {
   }
 }
 
+/// @nodoc
 class ProcessingType {
   static const consistent = ProcessingType._('CONSISTENT');
   static const eventual = ProcessingType._('EVENTUAL');
@@ -6187,6 +6327,8 @@ class ProcessingType {
 }
 
 /// The record.
+///
+/// @nodoc
 class Record {
   /// The input source ARN of the record.
   final String inputSourceARN;
@@ -6215,6 +6357,7 @@ class Record {
   }
 }
 
+/// @nodoc
 class DeleteUniqueIdStatus {
   static const completed = DeleteUniqueIdStatus._('COMPLETED');
   static const accepted = DeleteUniqueIdStatus._('ACCEPTED');
@@ -6241,6 +6384,8 @@ class DeleteUniqueIdStatus {
 }
 
 /// The deleted unique ID.
+///
+/// @nodoc
 class DeletedUniqueId {
   /// The unique ID of the deleted item.
   final String uniqueId;
@@ -6265,6 +6410,8 @@ class DeletedUniqueId {
 
 /// The error information provided when the delete unique ID operation doesn't
 /// complete.
+///
+/// @nodoc
 class DeleteUniqueIdError {
   /// The error type for the delete unique ID operation.
   ///
@@ -6301,6 +6448,7 @@ class DeleteUniqueIdError {
   }
 }
 
+/// @nodoc
 class DeleteUniqueIdErrorType {
   static const serviceError = DeleteUniqueIdErrorType._('SERVICE_ERROR');
   static const validationError = DeleteUniqueIdErrorType._('VALIDATION_ERROR');
@@ -6326,6 +6474,7 @@ class DeleteUniqueIdErrorType {
   String toString() => value;
 }
 
+/// @nodoc
 class StatementEffect {
   static const allow = StatementEffect._('Allow');
   static const deny = StatementEffect._('Deny');
@@ -6350,6 +6499,7 @@ class StatementEffect {
   String toString() => value;
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -6362,36 +6512,43 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ExceedsLimitException extends _s.GenericAwsException {
   ExceedsLimitException({String? type, String? message})
       : super(type: type, code: 'ExceedsLimitException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

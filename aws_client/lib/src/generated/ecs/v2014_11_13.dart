@@ -1598,7 +1598,7 @@ class Ecs {
   /// provider or launch type is specified, then the cluster's default capacity
   /// provider strategy is used. We recommend that you define a default capacity
   /// provider strategy for your cluster. However, you must specify an empty
-  /// array (<code>[]</code>) to bypass defining a default strategy.
+  /// array (<code>\[\]</code>) to bypass defining a default strategy.
   ///
   /// Amazon ECS Managed Instances doesn't support this, because when you create
   /// a capacity provider with Amazon ECS Managed Instances, it becomes
@@ -7827,6 +7827,7 @@ class Ecs {
   }
 }
 
+/// @nodoc
 class ContinueServiceDeploymentResponse {
   /// The ARN of the service deployment that was continued or rolled back.
   final String? serviceDeploymentArn;
@@ -7851,6 +7852,7 @@ class ContinueServiceDeploymentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountSettingResponse {
   /// The account setting for the specified principal ARN.
   final Setting? setting;
@@ -7875,6 +7877,7 @@ class DeleteAccountSettingResponse {
   }
 }
 
+/// @nodoc
 class DeregisterTaskDefinitionResponse {
   /// The full description of the deregistered task.
   final TaskDefinition? taskDefinition;
@@ -7900,6 +7903,7 @@ class DeregisterTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeTaskDefinitionResponse {
   /// The metadata that's applied to the task definition to help you categorize
   /// and organize them. Each tag consists of a key and an optional value. You
@@ -7971,6 +7975,7 @@ class DescribeTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DiscoverPollEndpointResponse {
   /// The endpoint for the Amazon ECS agent to poll.
   final String? endpoint;
@@ -8011,6 +8016,7 @@ class DiscoverPollEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListAccountSettingsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListAccountSettings</code> request. When the results of a
@@ -8047,6 +8053,7 @@ class ListAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListServicesByNamespaceResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListServicesByNamespace</code> request. When the results of a
@@ -8084,6 +8091,7 @@ class ListServicesByNamespaceResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final List<Tag>? tags;
@@ -8109,6 +8117,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTaskDefinitionFamiliesResponse {
   /// The list of task definition family names that match the
   /// <code>ListTaskDefinitionFamilies</code> request.
@@ -8148,6 +8157,7 @@ class ListTaskDefinitionFamiliesResponse {
   }
 }
 
+/// @nodoc
 class PutAccountSettingResponse {
   /// The current account setting for a resource.
   final Setting? setting;
@@ -8172,6 +8182,7 @@ class PutAccountSettingResponse {
   }
 }
 
+/// @nodoc
 class PutAccountSettingDefaultResponse {
   /// The current setting for a resource.
   final Setting? setting;
@@ -8196,6 +8207,7 @@ class PutAccountSettingDefaultResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -8208,6 +8220,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8220,6 +8233,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCapacityProviderResponse {
   /// The full description of the new capacity provider.
   final CapacityProvider? capacityProvider;
@@ -8245,6 +8259,7 @@ class CreateCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateCapacityProviderResponse {
   /// Details about the capacity provider.
   final CapacityProvider? capacityProvider;
@@ -8270,6 +8285,7 @@ class UpdateCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class DeleteCapacityProviderResponse {
   /// The details of the capacity provider.
   final CapacityProvider? capacityProvider;
@@ -8295,6 +8311,7 @@ class DeleteCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class DescribeCapacityProvidersResponse {
   /// The list of capacity providers.
   final List<CapacityProvider>? capacityProviders;
@@ -8343,6 +8360,7 @@ class DescribeCapacityProvidersResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterResponse {
   /// Details about the cluster.
   final Cluster? cluster;
@@ -8367,6 +8385,7 @@ class UpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// The full description of the deleted cluster.
   final Cluster? cluster;
@@ -8391,6 +8410,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class PutClusterCapacityProvidersResponse {
   /// Details about the cluster.
   final Cluster? cluster;
@@ -8416,6 +8436,7 @@ class PutClusterCapacityProvidersResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterSettingsResponse {
   /// Details about the cluster
   final Cluster? cluster;
@@ -8440,6 +8461,7 @@ class UpdateClusterSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The full description of your new cluster.
   final Cluster? cluster;
@@ -8464,6 +8486,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class DeregisterContainerInstanceResponse {
   /// The container instance that was deregistered.
   final ContainerInstance? containerInstance;
@@ -8490,6 +8513,7 @@ class DeregisterContainerInstanceResponse {
   }
 }
 
+/// @nodoc
 class DescribeClustersResponse {
   /// The list of clusters.
   final List<Cluster>? clusters;
@@ -8525,6 +8549,7 @@ class DescribeClustersResponse {
   }
 }
 
+/// @nodoc
 class ExecuteCommandResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -8587,6 +8612,7 @@ class ExecuteCommandResponse {
   }
 }
 
+/// @nodoc
 class ListAttributesResponse {
   /// A list of attribute objects that meet the criteria of the request.
   final List<Attribute>? attributes;
@@ -8623,6 +8649,7 @@ class ListAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListClustersResponse {
   /// The list of full Amazon Resource Name (ARN) entries for each cluster that's
   /// associated with your account.
@@ -8660,6 +8687,7 @@ class ListClustersResponse {
   }
 }
 
+/// @nodoc
 class ListContainerInstancesResponse {
   /// The list of container instances with full ARN entries for each container
   /// instance associated with the specified cluster.
@@ -8698,6 +8726,7 @@ class ListContainerInstancesResponse {
   }
 }
 
+/// @nodoc
 class SubmitAttachmentStateChangesResponse {
   /// Acknowledgement of the state change.
   final String? acknowledgment;
@@ -8721,6 +8750,7 @@ class SubmitAttachmentStateChangesResponse {
   }
 }
 
+/// @nodoc
 class SubmitContainerStateChangeResponse {
   /// Acknowledgement of the state change.
   final String? acknowledgment;
@@ -8744,6 +8774,7 @@ class SubmitContainerStateChangeResponse {
   }
 }
 
+/// @nodoc
 class SubmitTaskStateChangeResponse {
   /// Acknowledgement of the state change.
   final String? acknowledgment;
@@ -8766,6 +8797,7 @@ class SubmitTaskStateChangeResponse {
   }
 }
 
+/// @nodoc
 class DeleteAttributesResponse {
   /// A list of attribute objects that were successfully deleted from your
   /// resource.
@@ -8792,6 +8824,7 @@ class DeleteAttributesResponse {
   }
 }
 
+/// @nodoc
 class DescribeContainerInstancesResponse {
   /// The list of container instances.
   final List<ContainerInstance>? containerInstances;
@@ -8828,6 +8861,7 @@ class DescribeContainerInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListTasksResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListTasks</code> request. When the results of a <code>ListTasks</code>
@@ -8864,6 +8898,7 @@ class ListTasksResponse {
   }
 }
 
+/// @nodoc
 class PutAttributesResponse {
   /// The attributes applied to your resource.
   final List<Attribute>? attributes;
@@ -8889,6 +8924,7 @@ class PutAttributesResponse {
   }
 }
 
+/// @nodoc
 class RegisterContainerInstanceResponse {
   /// The container instance that was registered.
   final ContainerInstance? containerInstance;
@@ -8915,6 +8951,7 @@ class RegisterContainerInstanceResponse {
   }
 }
 
+/// @nodoc
 class UpdateContainerAgentResponse {
   /// The container instance that the container agent was updated for.
   final ContainerInstance? containerInstance;
@@ -8940,6 +8977,7 @@ class UpdateContainerAgentResponse {
   }
 }
 
+/// @nodoc
 class UpdateContainerInstancesStateResponse {
   /// The list of container instances.
   final List<ContainerInstance>? containerInstances;
@@ -8976,6 +9014,7 @@ class UpdateContainerInstancesStateResponse {
   }
 }
 
+/// @nodoc
 class DescribeDaemonDeploymentsResponse {
   /// The list of daemon deployments.
   final List<DaemonDeployment>? daemonDeployments;
@@ -9012,6 +9051,7 @@ class DescribeDaemonDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class CreateDaemonResponse {
   /// The Unix timestamp for the time when the daemon was created.
   final DateTime? createdAt;
@@ -9057,6 +9097,7 @@ class CreateDaemonResponse {
   }
 }
 
+/// @nodoc
 class DeleteDaemonResponse {
   /// The Unix timestamp for the time when the daemon was created.
   final DateTime? createdAt;
@@ -9110,6 +9151,7 @@ class DeleteDaemonResponse {
   }
 }
 
+/// @nodoc
 class DescribeDaemonResponse {
   /// The full description of the daemon, including the current revisions,
   /// deployment ARN, cluster, and status information.
@@ -9135,6 +9177,7 @@ class DescribeDaemonResponse {
   }
 }
 
+/// @nodoc
 class ListDaemonDeploymentsResponse {
   /// The list of daemon deployment summaries.
   final List<DaemonDeploymentSummary>? daemonDeployments;
@@ -9171,6 +9214,7 @@ class ListDaemonDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class ListDaemonsResponse {
   /// The list of daemon summaries.
   final List<DaemonSummary>? daemonSummariesList;
@@ -9207,6 +9251,7 @@ class ListDaemonsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDaemonResponse {
   /// The Unix timestamp for the time when the daemon was created.
   final DateTime? createdAt;
@@ -9258,6 +9303,7 @@ class UpdateDaemonResponse {
   }
 }
 
+/// @nodoc
 class DescribeDaemonRevisionsResponse {
   /// The list of daemon revisions.
   final List<DaemonRevision>? daemonRevisions;
@@ -9293,6 +9339,7 @@ class DescribeDaemonRevisionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteDaemonTaskDefinitionResponse {
   /// The full Amazon Resource Name (ARN) of the deleted daemon task definition.
   final String? daemonTaskDefinitionArn;
@@ -9317,6 +9364,7 @@ class DeleteDaemonTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeDaemonTaskDefinitionResponse {
   /// The full daemon task definition description.
   final DaemonTaskDefinition? daemonTaskDefinition;
@@ -9344,6 +9392,7 @@ class DescribeDaemonTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class ListDaemonTaskDefinitionsResponse {
   /// The list of daemon task definition summaries.
   final List<DaemonTaskDefinitionSummary>? daemonTaskDefinitions;
@@ -9383,6 +9432,7 @@ class ListDaemonTaskDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class RegisterDaemonTaskDefinitionResponse {
   /// The full Amazon Resource Name (ARN) of the registered daemon task
   /// definition.
@@ -9408,6 +9458,7 @@ class RegisterDaemonTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceDeploymentsResponse {
   /// Any failures associated with the call.
   ///
@@ -9448,6 +9499,7 @@ class DescribeServiceDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class UpdateServicePrimaryTaskSetResponse {
   /// The details about the task set.
   final TaskSet? taskSet;
@@ -9473,6 +9525,7 @@ class UpdateServicePrimaryTaskSetResponse {
   }
 }
 
+/// @nodoc
 class CreateExpressGatewayServiceResponse {
   /// The full description of your Express service following the create operation.
   final ECSExpressGatewayService? service;
@@ -9499,6 +9552,7 @@ class CreateExpressGatewayServiceResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceResponse {
   /// The full description of your service following the create call.
   ///
@@ -9542,6 +9596,7 @@ class CreateServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteExpressGatewayServiceResponse {
   /// The full description of the deleted express service.
   final ECSExpressGatewayService? service;
@@ -9568,6 +9623,7 @@ class DeleteExpressGatewayServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceResponse {
   /// The full description of the deleted service.
   final Service? service;
@@ -9592,6 +9648,7 @@ class DeleteServiceResponse {
   }
 }
 
+/// @nodoc
 class DescribeExpressGatewayServiceResponse {
   /// The full description of the described express service.
   final ECSExpressGatewayService? service;
@@ -9618,6 +9675,7 @@ class DescribeExpressGatewayServiceResponse {
   }
 }
 
+/// @nodoc
 class DescribeServicesResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -9653,6 +9711,7 @@ class DescribeServicesResponse {
   }
 }
 
+/// @nodoc
 class ListServiceDeploymentsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListServiceDeployments</code> request. When the results of a
@@ -9717,6 +9776,7 @@ class ListServiceDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListServices</code> request. When the results of a
@@ -9754,6 +9814,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class StopServiceDeploymentResponse {
   /// The ARN of the stopped service deployment.
   final String? serviceDeploymentArn;
@@ -9777,6 +9838,7 @@ class StopServiceDeploymentResponse {
   }
 }
 
+/// @nodoc
 class UpdateExpressGatewayServiceResponse {
   /// The full description of your express gateway service following the update
   /// call.
@@ -9804,6 +9866,7 @@ class UpdateExpressGatewayServiceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceResponse {
   /// The full description of your service following the update call.
   ///
@@ -9834,6 +9897,7 @@ class UpdateServiceResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceRevisionsResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -9869,6 +9933,7 @@ class DescribeServiceRevisionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteTaskDefinitionsResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -9904,6 +9969,7 @@ class DeleteTaskDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListTaskDefinitionsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListTaskDefinitions</code> request. When the results of a
@@ -9941,6 +10007,7 @@ class ListTaskDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class RegisterTaskDefinitionResponse {
   /// The list of tags associated with the task definition.
   final List<Tag>? tags;
@@ -9976,6 +10043,7 @@ class RegisterTaskDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeTasksResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -10011,6 +10079,7 @@ class DescribeTasksResponse {
   }
 }
 
+/// @nodoc
 class GetTaskProtectionResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -10061,6 +10130,7 @@ class GetTaskProtectionResponse {
   }
 }
 
+/// @nodoc
 class RunTaskResponse {
   /// Any failures associated with the call.
   ///
@@ -10104,6 +10174,7 @@ class RunTaskResponse {
   }
 }
 
+/// @nodoc
 class StartTaskResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -10140,6 +10211,7 @@ class StartTaskResponse {
   }
 }
 
+/// @nodoc
 class StopTaskResponse {
   /// The task that was stopped.
   final Task? task;
@@ -10164,6 +10236,7 @@ class StopTaskResponse {
   }
 }
 
+/// @nodoc
 class UpdateTaskProtectionResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -10214,6 +10287,7 @@ class UpdateTaskProtectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateTaskSetResponse {
   /// Details about the task set.
   final TaskSet? taskSet;
@@ -10238,6 +10312,7 @@ class UpdateTaskSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteTaskSetResponse {
   /// Details about the task set.
   final TaskSet? taskSet;
@@ -10262,6 +10337,7 @@ class DeleteTaskSetResponse {
   }
 }
 
+/// @nodoc
 class CreateTaskSetResponse {
   /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an
   /// <code>EXTERNAL</code> deployment. A task set includes details such as the
@@ -10289,6 +10365,7 @@ class CreateTaskSetResponse {
   }
 }
 
+/// @nodoc
 class DescribeTaskSetsResponse {
   /// Any failures associated with the call.
   final List<Failure>? failures;
@@ -10328,6 +10405,8 @@ class DescribeTaskSetsResponse {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html">API
 /// failure reasons</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class Failure {
   /// The Amazon Resource Name (ARN) of the failed resource.
   final String? arn;
@@ -10368,6 +10447,8 @@ class Failure {
 /// <code>EXTERNAL</code> deployment. An Amazon ECS task set includes details
 /// such as the desired number of tasks, how many tasks are running, and whether
 /// the task set serves production traffic.
+///
+/// @nodoc
 class TaskSet {
   /// The capacity provider strategy that are associated with the task set.
   final List<CapacityProviderStrategyItem>? capacityProviderStrategy;
@@ -10688,6 +10769,7 @@ class TaskSet {
   }
 }
 
+/// @nodoc
 class LaunchType {
   static const ec2 = LaunchType._('EC2');
   static const fargate = LaunchType._('FARGATE');
@@ -10714,6 +10796,8 @@ class LaunchType {
 }
 
 /// The network configuration for a task or service.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// The VPC subnets and security groups that are associated with a task.
   /// <note>
@@ -10745,6 +10829,8 @@ class NetworkConfiguration {
 
 /// A floating-point percentage of the desired number of tasks to place and keep
 /// running in the task set.
+///
+/// @nodoc
 class Scale {
   /// The unit of measure for the scale value.
   final ScaleUnit? unit;
@@ -10776,6 +10862,7 @@ class Scale {
   }
 }
 
+/// @nodoc
 class StabilityStatus {
   static const steadyState = StabilityStatus._('STEADY_STATE');
   static const stabilizing = StabilityStatus._('STABILIZING');
@@ -10801,6 +10888,8 @@ class StabilityStatus {
 }
 
 /// The amount of ephemeral storage to allocate for the deployment.
+///
+/// @nodoc
 class DeploymentEphemeralStorage {
   /// Specify an Key Management Service key ID to encrypt the ephemeral storage
   /// for deployment.
@@ -10861,6 +10950,8 @@ class DeploymentEphemeralStorage {
 /// resource limit.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
@@ -10892,6 +10983,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ScaleUnit {
   static const percent = ScaleUnit._('PERCENT');
 
@@ -10922,6 +11014,8 @@ class ScaleUnit {
 /// When you add, update, or remove the service registries configuration, Amazon
 /// ECS starts a new deployment. New tasks are registered and deregistered to
 /// the updated service registry configuration.
+///
+/// @nodoc
 class ServiceRegistry {
   /// The container name value to be used for your service discovery service. It's
   /// already specified in the task definition. If the task definition that your
@@ -11000,6 +11094,8 @@ class ServiceRegistry {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Using
 /// service-linked roles</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
+///
+/// @nodoc
 class LoadBalancer {
   /// The advanced settings for the load balancer used in blue/green deployments.
   /// Specify the alternate target group, listener rules, and IAM role required
@@ -11100,6 +11196,8 @@ class LoadBalancer {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-deployment-implementation.html">Required
 /// resources for Amazon ECS blue/green deployments</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class AdvancedConfiguration {
   /// The Amazon Resource Name (ARN) of the alternate target group for Amazon ECS
   /// blue/green deployments.
@@ -11153,7 +11251,9 @@ class AdvancedConfiguration {
 
 /// An object representing the networking details for a task or service. For
 /// example
-/// <code>awsVpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}</code>.
+/// <code>awsVpcConfiguration={subnets=\["subnet-12344321"\],securityGroups=\["sg-12344321"\]}</code>.
+///
+/// @nodoc
 class AwsVpcConfiguration {
   /// The IDs of the subnets associated with the task or service. There's a limit
   /// of 16 subnets that can be specified.
@@ -11219,6 +11319,7 @@ class AwsVpcConfiguration {
   }
 }
 
+/// @nodoc
 class AssignPublicIp {
   static const enabled = AssignPublicIp._('ENABLED');
   static const disabled = AssignPublicIp._('DISABLED');
@@ -11278,6 +11379,8 @@ class AssignPublicIp {
 /// on platform version 1.4.0 or later.
 ///
 /// A capacity provider strategy can contain a maximum of 20 capacity providers.
+///
+/// @nodoc
 class CapacityProviderStrategyItem {
   /// The short name of the capacity provider.
   final String capacityProvider;
@@ -11384,6 +11487,7 @@ class CapacityProviderStrategyItem {
   }
 }
 
+/// @nodoc
 class TaskSetField {
   static const tags = TaskSetField._('TAGS');
 
@@ -11412,6 +11516,8 @@ class TaskSetField {
 /// API and get the status of tasks with the <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_GetTaskProtection.html">GetTaskProtection</a>
 /// API.
+///
+/// @nodoc
 class ProtectedTask {
   /// The epoch time when protection for the task will expire.
   final DateTime? expirationDate;
@@ -11451,6 +11557,8 @@ class ProtectedTask {
 }
 
 /// Details on a task in a cluster.
+///
+/// @nodoc
 class Task {
   /// The Elastic Network Adapter that's associated with the task if the task uses
   /// the <code>awsvpc</code> network mode.
@@ -11912,6 +12020,7 @@ class Task {
   }
 }
 
+/// @nodoc
 class Connectivity {
   static const connected = Connectivity._('CONNECTED');
   static const disconnected = Connectivity._('DISCONNECTED');
@@ -11935,6 +12044,7 @@ class Connectivity {
   String toString() => value;
 }
 
+/// @nodoc
 class HealthStatus {
   static const healthy = HealthStatus._('HEALTHY');
   static const unhealthy = HealthStatus._('UNHEALTHY');
@@ -11960,6 +12070,8 @@ class HealthStatus {
 }
 
 /// The overrides that are associated with a task.
+///
+/// @nodoc
 class TaskOverride {
   /// One or more container overrides that are sent to a task.
   final List<ContainerOverride>? containerOverrides;
@@ -12057,6 +12169,7 @@ class TaskOverride {
   }
 }
 
+/// @nodoc
 class TaskStopCode {
   static const taskFailedToStart = TaskStopCode._('TaskFailedToStart');
   static const essentialContainerExited =
@@ -12110,6 +12223,8 @@ class TaskStopCode {
 /// Windows platform version <code>1.0.0</code> or later.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class EphemeralStorage {
   /// The total amount, in GiB, of ephemeral storage to set for the task. The
   /// minimum supported value is <code>21</code> GiB and the maximum supported
@@ -12135,6 +12250,8 @@ class EphemeralStorage {
 }
 
 /// The amount of ephemeral storage to allocate for the task.
+///
+/// @nodoc
 class TaskEphemeralStorage {
   /// Specify an Key Management Service key ID to encrypt the ephemeral storage
   /// for the task.
@@ -12173,6 +12290,8 @@ class TaskEphemeralStorage {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class InferenceAcceleratorOverride {
   /// The Elastic Inference accelerator device name to override for the task. This
   /// parameter must match a <code>deviceName</code> specified in the task
@@ -12206,13 +12325,15 @@ class InferenceAcceleratorOverride {
 
 /// The overrides that are sent to a container. An empty container override can
 /// be passed in. An example of an empty container override is
-/// <code>{"containerOverrides": [ ] }</code>. If a non-empty container override
-/// is specified, the <code>name</code> parameter must be included.
+/// <code>{"containerOverrides": \[ \] }</code>. If a non-empty container
+/// override is specified, the <code>name</code> parameter must be included.
 ///
 /// You can use Secrets Manager or Amazon Web Services Systems Manager Parameter
 /// Store to store the sensitive data. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/secrets-envvar.html">Retrieve
 /// secrets through environment variables</a> in the Amazon ECS Developer Guide.
+///
+/// @nodoc
 class ContainerOverride {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the task definition. You must also specify a container
@@ -12319,6 +12440,8 @@ class ContainerOverride {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>
+///
+/// @nodoc
 class ResourceRequirement {
   /// The type of resource to assign to a container.
   final ResourceType type;
@@ -12366,6 +12489,7 @@ class ResourceRequirement {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const gpu = ResourceType._('GPU');
   static const inferenceAccelerator = ResourceType._('InferenceAccelerator');
@@ -12432,6 +12556,8 @@ class ResourceType {
 /// The container entry point interperts the <code>VARIABLE</code> values.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EnvironmentFile {
   /// The file type to use. Environment files are objects in Amazon S3. The only
   /// supported value is <code>s3</code>.
@@ -12463,6 +12589,7 @@ class EnvironmentFile {
   }
 }
 
+/// @nodoc
 class EnvironmentFileType {
   static const s3 = EnvironmentFileType._('s3');
 
@@ -12488,6 +12615,8 @@ class EnvironmentFileType {
 }
 
 /// A key-value pair object.
+///
+/// @nodoc
 class KeyValuePair {
   /// The name of the key-value pair. For environment variables, this is the name
   /// of the environment variable.
@@ -12523,6 +12652,8 @@ class KeyValuePair {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class InferenceAccelerator {
   /// The Elastic Inference accelerator device name. The <code>deviceName</code>
   /// must also be referenced in a container definition as a <a
@@ -12555,6 +12686,8 @@ class InferenceAccelerator {
 }
 
 /// A Docker container that's part of a task.
+///
+/// @nodoc
 class Container {
   /// The Amazon Resource Name (ARN) of the container.
   final String? containerArn;
@@ -12716,6 +12849,8 @@ class Container {
 }
 
 /// Details about the managed agent status for the container.
+///
+/// @nodoc
 class ManagedAgent {
   /// The Unix timestamp for the time when the managed agent was last started.
   final DateTime? lastStartedAt;
@@ -12761,6 +12896,7 @@ class ManagedAgent {
   }
 }
 
+/// @nodoc
 class ManagedAgentName {
   static const executeCommandAgent = ManagedAgentName._('ExecuteCommandAgent');
 
@@ -12786,6 +12922,8 @@ class ManagedAgentName {
 
 /// An object representing the elastic network interface for tasks that use the
 /// <code>awsvpc</code> network mode.
+///
+/// @nodoc
 class NetworkInterface {
   /// The attachment ID for the network interface.
   final String? attachmentId;
@@ -12828,6 +12966,8 @@ class NetworkInterface {
 /// <code>networkBindings</code> section of <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html">DescribeTasks</a>
 /// API responses.
+///
+/// @nodoc
 class NetworkBinding {
   /// The IP address that the container is bound to on the container instance.
   final String? bindIP;
@@ -12957,6 +13097,7 @@ class NetworkBinding {
   }
 }
 
+/// @nodoc
 class TransportProtocol {
   static const tcp = TransportProtocol._('tcp');
   static const udp = TransportProtocol._('udp');
@@ -12986,6 +13127,8 @@ class TransportProtocol {
 /// metadata to your resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes">Attributes</a>
 /// in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class Attribute {
   /// The name of the attribute. The <code>name</code> must contain between 1 and
   /// 128 characters. The name may contain letters (uppercase and lowercase),
@@ -13039,6 +13182,7 @@ class Attribute {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const containerInstance = TargetType._('container-instance');
 
@@ -13062,6 +13206,8 @@ class TargetType {
 }
 
 /// An object representing a container instance or task attachment.
+///
+/// @nodoc
 class Attachment {
   /// Details of the attachment.
   ///
@@ -13124,6 +13270,7 @@ class Attachment {
   }
 }
 
+/// @nodoc
 class PropagateTags {
   static const taskDefinition = PropagateTags._('TASK_DEFINITION');
   static const service = PropagateTags._('SERVICE');
@@ -13152,6 +13299,8 @@ class PropagateTags {
 /// Configuration settings for the task volume that was
 /// <code>configuredAtLaunch</code> that weren't set during
 /// <code>RegisterTaskDef</code>.
+///
+/// @nodoc
 class TaskVolumeConfiguration {
   /// The name of the volume. This value must match the volume name from the
   /// <code>Volume</code> object in the task definition.
@@ -13181,6 +13330,8 @@ class TaskVolumeConfiguration {
 /// The configuration for the Amazon EBS volume that Amazon ECS creates and
 /// manages on your behalf. These settings are used to create each Amazon EBS
 /// volume, with one volume created for each task.
+///
+/// @nodoc
 class TaskManagedEBSVolumeConfiguration {
   /// The ARN of the IAM role to associate with this volume. This is the Amazon
   /// ECS infrastructure IAM role that is used to manage your Amazon Web Services
@@ -13400,6 +13551,8 @@ class TaskManagedEBSVolumeConfiguration {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types">Amazon
 /// ECS volume termination policy</a>.
+///
+/// @nodoc
 class TaskManagedEBSVolumeTerminationPolicy {
   /// Indicates whether the volume should be deleted on when the task stops. If a
   /// value of <code>true</code> is specified, Amazon ECS deletes the Amazon EBS
@@ -13421,6 +13574,7 @@ class TaskManagedEBSVolumeTerminationPolicy {
   }
 }
 
+/// @nodoc
 class TaskFilesystemType {
   static const ext3 = TaskFilesystemType._('ext3');
   static const ext4 = TaskFilesystemType._('ext4');
@@ -13449,6 +13603,8 @@ class TaskFilesystemType {
 }
 
 /// The tag specifications of an Amazon EBS volume.
+///
+/// @nodoc
 class EBSTagSpecification {
   /// The type of volume resource.
   final EBSResourceType resourceType;
@@ -13494,6 +13650,7 @@ class EBSTagSpecification {
   }
 }
 
+/// @nodoc
 class EBSResourceType {
   static const volume = EBSResourceType._('volume');
 
@@ -13522,6 +13679,8 @@ class EBSResourceType {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html">Task
 /// placement strategies</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
+///
+/// @nodoc
 class PlacementStrategy {
   /// The field to apply the placement strategy against. For the
   /// <code>spread</code> placement strategy, valid values are
@@ -13565,6 +13724,7 @@ class PlacementStrategy {
   }
 }
 
+/// @nodoc
 class PlacementStrategyType {
   static const random = PlacementStrategyType._('random');
   static const spread = PlacementStrategyType._('spread');
@@ -13600,6 +13760,8 @@ class PlacementStrategyType {
 /// If you're using the Fargate launch type, task placement constraints aren't
 /// supported.
 /// </note>
+///
+/// @nodoc
 class PlacementConstraint {
   /// A cluster query language expression to apply to the constraint. The
   /// expression can have a maximum length of 2000 characters. You can't specify
@@ -13638,6 +13800,7 @@ class PlacementConstraint {
   }
 }
 
+/// @nodoc
 class PlacementConstraintType {
   static const distinctInstance = PlacementConstraintType._('distinctInstance');
   static const memberOf = PlacementConstraintType._('memberOf');
@@ -13663,6 +13826,7 @@ class PlacementConstraintType {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskField {
   static const tags = TaskField._('TAGS');
 
@@ -13690,6 +13854,8 @@ class TaskField {
 /// which Docker images to use, the required resources, and other configurations
 /// related to launching the task definition through an Amazon ECS service or
 /// task.
+///
+/// @nodoc
 class TaskDefinition {
   /// Amazon ECS validates the task definition parameters with those supported by
   /// the launch type. For more information, see <a
@@ -14163,6 +14329,7 @@ class TaskDefinition {
   }
 }
 
+/// @nodoc
 class NetworkMode {
   static const bridge = NetworkMode._('bridge');
   static const host = NetworkMode._('host');
@@ -14188,6 +14355,7 @@ class NetworkMode {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskDefinitionStatus {
   static const active = TaskDefinitionStatus._('ACTIVE');
   static const inactive = TaskDefinitionStatus._('INACTIVE');
@@ -14219,6 +14387,8 @@ class TaskDefinitionStatus {
 /// For more information about <code>RuntimePlatform</code>, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#runtime-platform">RuntimePlatform</a>
 /// in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class RuntimePlatform {
   /// The CPU architecture.
   ///
@@ -14256,6 +14426,7 @@ class RuntimePlatform {
   }
 }
 
+/// @nodoc
 class PidMode {
   static const host = PidMode._('host');
   static const task = PidMode._('task');
@@ -14279,6 +14450,7 @@ class PidMode {
   String toString() => value;
 }
 
+/// @nodoc
 class IpcMode {
   static const host = IpcMode._('host');
   static const task = IpcMode._('task');
@@ -14313,6 +14485,8 @@ class IpcMode {
 /// the container agent and <code>ecs-init</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
 /// ECS-optimized Linux AMI</a>
+///
+/// @nodoc
 class ProxyConfiguration {
   /// The name of the container that will serve as the App Mesh proxy.
   final String containerName;
@@ -14391,6 +14565,7 @@ class ProxyConfiguration {
   }
 }
 
+/// @nodoc
 class ProxyConfigurationType {
   static const appmesh = ProxyConfigurationType._('APPMESH');
 
@@ -14415,6 +14590,7 @@ class ProxyConfigurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class CPUArchitecture {
   static const x86_64 = CPUArchitecture._('X86_64');
   static const arm64 = CPUArchitecture._('ARM64');
@@ -14439,6 +14615,7 @@ class CPUArchitecture {
   String toString() => value;
 }
 
+/// @nodoc
 class OSFamily {
   static const windowsServer_2019Full = OSFamily._('WINDOWS_SERVER_2019_FULL');
   static const windowsServer_2019Core = OSFamily._('WINDOWS_SERVER_2019_CORE');
@@ -14481,6 +14658,7 @@ class OSFamily {
   String toString() => value;
 }
 
+/// @nodoc
 class Compatibility {
   static const ec2 = Compatibility._('EC2');
   static const fargate = Compatibility._('FARGATE');
@@ -14515,6 +14693,8 @@ class Compatibility {
 /// <note>
 /// Task placement constraints aren't supported for tasks run on Fargate.
 /// </note>
+///
+/// @nodoc
 class TaskDefinitionPlacementConstraint {
   /// A cluster query language expression to apply to the constraint. For more
   /// information, see <a
@@ -14551,6 +14731,7 @@ class TaskDefinitionPlacementConstraint {
   }
 }
 
+/// @nodoc
 class TaskDefinitionPlacementConstraintType {
   static const memberOf = TaskDefinitionPlacementConstraintType._('memberOf');
 
@@ -14588,6 +14769,8 @@ class TaskDefinitionPlacementConstraintType {
 /// host volume. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">Using
 /// data volumes in tasks</a>.
+///
+/// @nodoc
 class Volume {
   /// Indicates whether the volume should be configured at launch time. This is
   /// used to create Amazon EBS volumes for standalone tasks or tasks created as
@@ -14721,6 +14904,8 @@ class Volume {
 }
 
 /// Details on a container instance bind mount host volume.
+///
+/// @nodoc
 class HostVolumeProperties {
   /// When the <code>host</code> parameter is used, specify a
   /// <code>sourcePath</code> to declare the path on the host container instance
@@ -14758,6 +14943,8 @@ class HostVolumeProperties {
 /// are only supported when you're using the EC2 launch type. Windows containers
 /// only support the use of the <code>local</code> driver. To use bind mounts,
 /// specify a <code>host</code> instead.
+///
+/// @nodoc
 class DockerVolumeConfiguration {
   /// If this value is <code>true</code>, the Docker volume is created if it
   /// doesn't already exist.
@@ -14833,6 +15020,8 @@ class DockerVolumeConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html">Amazon
 /// EFS volumes</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class EFSVolumeConfiguration {
   /// The Amazon EFS file system ID to use.
   final String fileSystemId;
@@ -14920,6 +15109,8 @@ class EFSVolumeConfiguration {
 /// IAM role for attaching your file system to Amazon Web Services compute
 /// resources</a> for required permissions.
 /// </important>
+///
+/// @nodoc
 class S3FilesVolumeConfiguration {
   /// The full ARN of the S3 Files file system to mount.
   final String fileSystemArn;
@@ -14991,6 +15182,8 @@ class S3FilesVolumeConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
 /// FSx for Windows File Server volumes</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>.
+///
+/// @nodoc
 class FSxWindowsFileServerVolumeConfiguration {
   /// The authorization configuration details for the Amazon FSx for Windows File
   /// Server file system.
@@ -15041,6 +15234,8 @@ class FSxWindowsFileServerVolumeConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
 /// FSx for Windows File Server Volumes</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>.
+///
+/// @nodoc
 class FSxWindowsFileServerAuthorizationConfig {
   /// The authorization credential option to use. The authorization credential
   /// options can be provided using either the Amazon Resource Name (ARN) of an
@@ -15077,6 +15272,7 @@ class FSxWindowsFileServerAuthorizationConfig {
   }
 }
 
+/// @nodoc
 class EFSTransitEncryption {
   static const enabled = EFSTransitEncryption._('ENABLED');
   static const disabled = EFSTransitEncryption._('DISABLED');
@@ -15103,6 +15299,8 @@ class EFSTransitEncryption {
 }
 
 /// The authorization configuration details for the Amazon EFS file system.
+///
+/// @nodoc
 class EFSAuthorizationConfig {
   /// The Amazon EFS access point ID to use. If an access point is specified, the
   /// root directory value specified in the <code>EFSVolumeConfiguration</code>
@@ -15147,6 +15345,7 @@ class EFSAuthorizationConfig {
   }
 }
 
+/// @nodoc
 class EFSAuthorizationConfigIAM {
   static const enabled = EFSAuthorizationConfigIAM._('ENABLED');
   static const disabled = EFSAuthorizationConfigIAM._('DISABLED');
@@ -15172,6 +15371,7 @@ class EFSAuthorizationConfigIAM {
   String toString() => value;
 }
 
+/// @nodoc
 class Scope {
   static const task = Scope._('task');
   static const shared = Scope._('shared');
@@ -15197,6 +15397,8 @@ class Scope {
 
 /// Container definitions are used in task definitions to describe the different
 /// containers that are launched as part of a task.
+///
+/// @nodoc
 class ContainerDefinition {
   /// The command that's passed to the container. This parameter maps to
   /// <code>Cmd</code> in the docker container create command and the
@@ -16186,6 +16388,8 @@ class ContainerDefinition {
 }
 
 /// The repository credentials for private registry authentication.
+///
+/// @nodoc
 class RepositoryCredentials {
   /// The Amazon Resource Name (ARN) of the secret containing the private
   /// repository credentials.
@@ -16224,6 +16428,8 @@ class RepositoryCredentials {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-restart-policy.html">Restart
 /// individual containers in Amazon ECS tasks with container restart
 /// policies</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ContainerRestartPolicy {
   /// Specifies whether a restart policy is enabled for the container.
   final bool enabled;
@@ -16275,6 +16481,8 @@ class ContainerRestartPolicy {
 /// The Linux-specific options that are applied to the container, such as Linux
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html">KernelCapabilities</a>.
+///
+/// @nodoc
 class LinuxParameters {
   /// The Linux capabilities for the container that are added to or dropped from
   /// the default configuration provided by Docker.
@@ -16404,6 +16612,7 @@ class LinuxParameters {
   }
 }
 
+/// @nodoc
 class VersionConsistency {
   static const enabled = VersionConsistency._('enabled');
   static const disabled = VersionConsistency._('disabled');
@@ -16476,6 +16685,8 @@ class VersionConsistency {
 /// output aggregators or a remote host running Logstash to send Gelf logs to.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LogConfiguration {
   /// The log driver to use for the container.
   ///
@@ -16944,6 +17155,8 @@ class LogConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency">Container
 /// dependency</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class HealthCheck {
   /// A string array representing the command that the container runs to determine
   /// if it is healthy. The string array must start with <code>CMD</code> to run
@@ -16954,7 +17167,7 @@ class HealthCheck {
   /// Command Line Interface, or the APIs, enclose the list of commands in double
   /// quotes and brackets.
   ///
-  /// <code>[ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]</code>
+  /// <code>\[ "CMD-SHELL", "curl -f http://localhost/ || exit 1" \]</code>
   ///
   /// You don't include the double quotes and brackets when you use the Amazon Web
   /// Services Management Console.
@@ -17035,6 +17248,8 @@ class HealthCheck {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html">Custom
 /// log routing</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class FirelensConfiguration {
   /// The log router to use. The valid values are <code>fluentd</code> or
   /// <code>fluentbit</code>.
@@ -17079,6 +17294,7 @@ class FirelensConfiguration {
   }
 }
 
+/// @nodoc
 class FirelensConfigurationType {
   static const fluentd = FirelensConfigurationType._('fluentd');
   static const fluentbit = FirelensConfigurationType._('fluentbit');
@@ -17150,6 +17366,8 @@ class FirelensConfigurationType {
 /// tasks are using platform version <code>1.4.0</code> or later (Linux). This
 /// isn't supported for Windows containers on Fargate.
 /// </note>
+///
+/// @nodoc
 class SystemControl {
   /// The namespaced kernel parameter to set a <code>value</code> for.
   final String? namespace;
@@ -17190,6 +17408,7 @@ class SystemControl {
   }
 }
 
+/// @nodoc
 class LogDriver {
   static const jsonFile = LogDriver._('json-file');
   static const syslog = LogDriver._('syslog');
@@ -17239,6 +17458,8 @@ class LogDriver {
 ///
 /// You can specify the <code>ulimit</code> settings for a container in a task
 /// definition.
+///
+/// @nodoc
 class Ulimit {
   /// The hard limit for the <code>ulimit</code> type. The value can be specified
   /// in bytes, seconds, or as a count, depending on the <code>type</code> of the
@@ -17279,6 +17500,7 @@ class Ulimit {
   }
 }
 
+/// @nodoc
 class UlimitName {
   static const core = UlimitName._('core');
   static const cpu = UlimitName._('cpu');
@@ -17335,6 +17557,8 @@ class UlimitName {
 /// <code>/etc/hosts</code> file of a container via the <code>extraHosts</code>
 /// parameter of its <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html">ContainerDefinition</a>.
+///
+/// @nodoc
 class HostEntry {
   /// The hostname to use in the <code>/etc/hosts</code> entry.
   final String hostname;
@@ -17399,6 +17623,8 @@ class HostEntry {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency">Container
 /// dependency</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class ContainerDependency {
   /// The dependency condition of the container. The following are the available
   /// conditions and their behavior:
@@ -17455,6 +17681,7 @@ class ContainerDependency {
   }
 }
 
+/// @nodoc
 class ContainerCondition {
   static const start = ContainerCondition._('START');
   static const complete = ContainerCondition._('COMPLETE');
@@ -17499,6 +17726,8 @@ class ContainerCondition {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html">Specifying
 /// sensitive data</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class Secret {
   /// The name of the secret.
   final String name;
@@ -17584,6 +17813,8 @@ class Secret {
 /// in the <code>add</code> request parameter.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KernelCapabilities {
   /// The Linux capabilities for the container that have been added to the default
   /// configuration provided by Docker. This parameter maps to <code>CapAdd</code>
@@ -17641,6 +17872,8 @@ class KernelCapabilities {
 }
 
 /// The container path, mount options, and size of the tmpfs mount.
+///
+/// @nodoc
 class Tmpfs {
   /// The absolute file path where the tmpfs volume is to be mounted.
   final String containerPath;
@@ -17689,6 +17922,8 @@ class Tmpfs {
 }
 
 /// An object representing a container instance host device.
+///
+/// @nodoc
 class Device {
   /// The path for the device on the host container instance.
   final String hostPath;
@@ -17731,6 +17966,7 @@ class Device {
   }
 }
 
+/// @nodoc
 class DeviceCgroupPermission {
   static const read = DeviceCgroupPermission._('read');
   static const write = DeviceCgroupPermission._('write');
@@ -17758,6 +17994,8 @@ class DeviceCgroupPermission {
 }
 
 /// Details on a data volume from another container in the same task definition.
+///
+/// @nodoc
 class VolumeFrom {
   /// If this value is <code>true</code>, the container has read-only access to
   /// the volume. If this value is <code>false</code>, then the container can
@@ -17791,6 +18029,8 @@ class VolumeFrom {
 }
 
 /// The details for a volume mount point that's used in a container definition.
+///
+/// @nodoc
 class MountPoint {
   /// The path on the container to mount the host volume at.
   final String? containerPath;
@@ -17854,6 +18094,8 @@ class MountPoint {
 /// <code>networkBindings</code> section of <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html">DescribeTasks</a>
 /// API responses.
+///
+/// @nodoc
 class PortMapping {
   /// The application protocol that's used for the port mapping. This parameter
   /// only applies to Service Connect. We recommend that you set this parameter to
@@ -18067,6 +18309,7 @@ class PortMapping {
   }
 }
 
+/// @nodoc
 class ApplicationProtocol {
   static const http = ApplicationProtocol._('http');
   static const http2 = ApplicationProtocol._('http2');
@@ -18093,6 +18336,7 @@ class ApplicationProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -18126,6 +18370,8 @@ class SortOrder {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-revision.html">Amazon
 /// ECS service revisions</a> in the <i> <i>Amazon Elastic Container Service
 /// Developer Guide</i> </i>.
+///
+/// @nodoc
 class ServiceRevision {
   /// The capacity provider strategy the service revision uses.
   final List<CapacityProviderStrategyItem>? capacityProviderStrategy;
@@ -18336,6 +18582,8 @@ class ServiceRevision {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html">Service
 /// Connect</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ServiceConnectConfiguration {
   /// Specifies whether to use Service Connect with this service.
   final bool enabled;
@@ -18423,6 +18671,8 @@ class ServiceConnectConfiguration {
 /// The resolved configuration for a service revision, which contains the actual
 /// resources your service revision uses, such as which target groups serve
 /// traffic.
+///
+/// @nodoc
 class ResolvedConfiguration {
   /// The resolved load balancer configuration for the service revision. This
   /// includes information about which target groups serve traffic and which
@@ -18454,6 +18704,8 @@ class ResolvedConfiguration {
 /// Represents the Amazon Web Services resources managed by Amazon ECS for an
 /// Express service, including ingress paths, auto-scaling policies, metric
 /// alarms, and security groups.
+///
+/// @nodoc
 class ECSManagedResources {
   /// The auto-scaling configuration and policies for the Express service.
   final ManagedAutoScaling? autoScaling;
@@ -18521,6 +18773,8 @@ class ECSManagedResources {
 }
 
 /// The auto scaling configuration created by Amazon ECS for an Express service.
+///
+/// @nodoc
 class ManagedAutoScaling {
   /// The policy used for auto scaling.
   final List<ManagedApplicationAutoScalingPolicy>?
@@ -18561,6 +18815,8 @@ class ManagedAutoScaling {
 }
 
 /// The Cloudwatch Log Group created by Amazon ECS for an Express service.
+///
+/// @nodoc
 class ManagedLogGroup {
   /// The name of the Cloudwatch Log Group associated with the Express service.
   final String logGroupName;
@@ -18613,6 +18869,7 @@ class ManagedLogGroup {
   }
 }
 
+/// @nodoc
 class ManagedResourceStatus {
   static const provisioning = ManagedResourceStatus._('PROVISIONING');
   static const active = ManagedResourceStatus._('ACTIVE');
@@ -18642,6 +18899,8 @@ class ManagedResourceStatus {
 }
 
 /// A security group associated with the Express service.
+///
+/// @nodoc
 class ManagedSecurityGroup {
   /// The status of the security group.
   final ManagedResourceStatus status;
@@ -18688,6 +18947,8 @@ class ManagedSecurityGroup {
 
 /// The CloudWatch metric alarm associated with the Express service's scaling
 /// policy.
+///
+/// @nodoc
 class ManagedMetricAlarm {
   /// The status of the CloudWatch metric alarm.
   final ManagedResourceStatus status;
@@ -18733,6 +18994,8 @@ class ManagedMetricAlarm {
 }
 
 /// Represents a scalable target.
+///
+/// @nodoc
 class ManagedScalableTarget {
   /// The maximum value to scale to in response to a scale-out activity.
   final int maxCapacity;
@@ -18793,6 +19056,8 @@ class ManagedScalableTarget {
 
 /// The Application Auto Scaling policy created by Amazon ECS when you create an
 /// Express service.
+///
+/// @nodoc
 class ManagedApplicationAutoScalingPolicy {
   /// The metric used for auto scaling decisions. The available metrics are
   /// <code>ECSServiceAverageCPUUtilization</code>,
@@ -18868,6 +19133,8 @@ class ManagedApplicationAutoScalingPolicy {
 }
 
 /// The entry point into the Express service.
+///
+/// @nodoc
 class ManagedIngressPath {
   /// The type of access to the endpoint for the Express service.
   final AccessType accessType;
@@ -18956,6 +19223,7 @@ class ManagedIngressPath {
   }
 }
 
+/// @nodoc
 class AccessType {
   static const public = AccessType._('PUBLIC');
   static const private = AccessType._('PRIVATE');
@@ -18980,6 +19248,8 @@ class AccessType {
 }
 
 /// The Application Load Balancer associated with the Express service.
+///
+/// @nodoc
 class ManagedLoadBalancer {
   /// The scheme of the load balancer. By default, the scheme of the load balancer
   /// is <code>internet-facing</code>.
@@ -19054,6 +19324,8 @@ class ManagedLoadBalancer {
 
 /// The ACM certificate associated with the HTTPS domain created for the Express
 /// service.
+///
+/// @nodoc
 class ManagedCertificate {
   /// The fully qualified domain name (FQDN) that is secured with this ACM
   /// certificate.
@@ -19108,6 +19380,8 @@ class ManagedCertificate {
 
 /// The listeners associated with the Express service's Application Load
 /// Balancer.
+///
+/// @nodoc
 class ManagedListener {
   /// The status of the load balancer listener.
   final ManagedResourceStatus status;
@@ -19154,6 +19428,8 @@ class ManagedListener {
 
 /// The listener rule associated with the Express service's Application Load
 /// Balancer.
+///
+/// @nodoc
 class ManagedListenerRule {
   /// The status of the load balancer listener rule.
   final ManagedResourceStatus status;
@@ -19203,6 +19479,8 @@ class ManagedListenerRule {
 /// Balancer. For more information about load balancer target groups, see <a
 /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html">CreateTargetGroup</a>
 /// in the <i>Elastic Load Balancing API Reference</i>
+///
+/// @nodoc
 class ManagedTargetGroup {
   /// The destination for health checks on the targets.
   final String healthCheckPath;
@@ -19271,6 +19549,8 @@ class ManagedTargetGroup {
 /// The resolved load balancer configuration for a service revision. This
 /// includes information about which target groups serve traffic and which
 /// listener rules direct traffic to them.
+///
+/// @nodoc
 class ServiceRevisionLoadBalancer {
   /// The Amazon Resource Name (ARN) of the production listener rule or listener
   /// that directs traffic to the target group associated with the service
@@ -19306,6 +19586,8 @@ class ServiceRevisionLoadBalancer {
 
 /// The VPC Lattice configuration for your service that holds the information
 /// for the target group(s) Amazon ECS tasks will be registered to.
+///
+/// @nodoc
 class VpcLatticeConfiguration {
   /// The name of the port mapping to register in the VPC Lattice target group.
   /// This is the name of the <code>portMapping</code> you defined in your task
@@ -19351,6 +19633,8 @@ class VpcLatticeConfiguration {
 /// The configuration for a volume specified in the task definition as a volume
 /// that is configured at launch time. Currently, the only supported volume type
 /// is an Amazon EBS volume.
+///
+/// @nodoc
 class ServiceVolumeConfiguration {
   /// The name of the volume. This value must match the volume name from the
   /// <code>Volume</code> object in the task definition.
@@ -19398,6 +19682,8 @@ class ServiceVolumeConfiguration {
 ///
 /// Many of these parameters map 1:1 with the Amazon EBS
 /// <code>CreateVolume</code> API request parameters.
+///
+/// @nodoc
 class ServiceManagedEBSVolumeConfiguration {
   /// The ARN of the IAM role to associate with this volume. This is the Amazon
   /// ECS infrastructure IAM role that is used to manage your Amazon Web Services
@@ -19637,6 +19923,8 @@ class ServiceManagedEBSVolumeConfiguration {
 /// To enable access logs, you must also specify a <code>logConfiguration</code>
 /// in the <code>serviceConnectConfiguration</code>.
 /// </note>
+///
+/// @nodoc
 class ServiceConnectAccessLogConfiguration {
   /// The format for Service Connect access log output. Choose TEXT for
   /// human-readable logs or JSON for structured data that integrates well with
@@ -19681,6 +19969,8 @@ class ServiceConnectAccessLogConfiguration {
 /// The format for Service Connect access log output. Choose TEXT for
 /// human-readable logs or JSON for structured data that integrates well with
 /// log analysis tools.
+///
+/// @nodoc
 class ServiceConnectAccessLoggingFormat {
   static const text = ServiceConnectAccessLoggingFormat._('TEXT');
   static const json = ServiceConnectAccessLoggingFormat._('JSON');
@@ -19709,6 +19999,8 @@ class ServiceConnectAccessLoggingFormat {
 /// Controls whether query parameters are included in Service Connect access
 /// logs. Consider security and privacy implications when enabling this feature.
 /// By default, this parameter is <code>DISABLED</code>.
+///
+/// @nodoc
 class ServiceConnectIncludeQueryParameters {
   static const disabled = ServiceConnectIncludeQueryParameters._('DISABLED');
   static const enabled = ServiceConnectIncludeQueryParameters._('ENABLED');
@@ -19738,6 +20030,8 @@ class ServiceConnectIncludeQueryParameters {
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html">Service
 /// Connect</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ServiceConnectService {
   /// The <code>portName</code> must match the name of one of the
   /// <code>portMappings</code> from all the containers in the task definition of
@@ -19844,6 +20138,8 @@ class ServiceConnectService {
 /// <code>idleTimeout</code> is reached and not the
 /// <code>perRequestTimeout</code>.
 /// </note>
+///
+/// @nodoc
 class TimeoutConfiguration {
   /// The amount of time in seconds a connection will stay active while idle. A
   /// value of <code>0</code> can be set to disable <code>idleTimeout</code>.
@@ -19886,6 +20182,8 @@ class TimeoutConfiguration {
 }
 
 /// The key that encrypts and decrypts your resources for Service Connect TLS.
+///
+/// @nodoc
 class ServiceConnectTlsConfiguration {
   /// The signer certificate authority.
   final ServiceConnectTlsCertificateAuthority issuerCertificateAuthority;
@@ -19927,6 +20225,8 @@ class ServiceConnectTlsConfiguration {
 }
 
 /// The certificate root authority that secures your service.
+///
+/// @nodoc
 class ServiceConnectTlsCertificateAuthority {
   /// The ARN of the Amazon Web Services Private Certificate Authority
   /// certificate.
@@ -19964,6 +20264,8 @@ class ServiceConnectTlsCertificateAuthority {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html">Service
 /// Connect</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ServiceConnectClientAlias {
   /// The listening port number for the Service Connect proxy. This port is
   /// available inside of all of the tasks within the same namespace.
@@ -20039,6 +20341,8 @@ class ServiceConnectClientAlias {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html">Service
 /// Connect for Amazon ECS blue/green deployments</a> in the <i> Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ServiceConnectTestTrafficRules {
   /// The HTTP header-based routing rules that determine which requests should be
   /// routed to the new service version during blue/green deployment testing.
@@ -20074,6 +20378,8 @@ class ServiceConnectTestTrafficRules {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html">Service
 /// Connect for Amazon ECS blue/green deployments</a> in the <i> Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ServiceConnectTestTrafficHeaderRules {
   /// The name of the HTTP header to examine for test traffic routing. Common
   /// examples include custom headers like <code>X-Test-Version</code> or
@@ -20113,6 +20419,8 @@ class ServiceConnectTestTrafficHeaderRules {
 /// The header matching rules for test traffic routing in Amazon ECS blue/green
 /// deployments. These rules determine how incoming requests are matched based
 /// on HTTP headers to route test traffic to the new service revision.
+///
+/// @nodoc
 class ServiceConnectTestTrafficHeaderMatchRules {
   /// The exact value that the HTTP header must match for the test traffic routing
   /// rule to apply. This provides precise control over which requests are routed
@@ -20151,6 +20459,8 @@ class ServiceConnectTestTrafficHeaderMatchRules {
 /// your software. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html#deployment-container-image-stability">Container
 /// image resolution</a> in the Amazon ECS Developer Guide.
+///
+/// @nodoc
 class ContainerImage {
   /// The name of the container.
   final String? containerName;
@@ -20188,6 +20498,8 @@ class ContainerImage {
 }
 
 /// Details on a service within a cluster.
+///
+/// @nodoc
 class Service {
   /// Indicates whether to use Availability Zone rebalancing for the service.
   ///
@@ -20650,6 +20962,8 @@ class Service {
 
 /// Optional deployment parameters that control how many tasks run during a
 /// deployment and the ordering of stopping and starting tasks.
+///
+/// @nodoc
 class DeploymentConfiguration {
   /// Information about the CloudWatch alarms.
   final DeploymentAlarms? alarms;
@@ -20926,6 +21240,7 @@ class DeploymentConfiguration {
   }
 }
 
+/// @nodoc
 class SchedulingStrategy {
   static const replica = SchedulingStrategy._('REPLICA');
   static const daemon = SchedulingStrategy._('DAEMON');
@@ -20952,6 +21267,8 @@ class SchedulingStrategy {
 }
 
 /// The deployment controller to use for the service.
+///
+/// @nodoc
 class DeploymentController {
   /// The deployment controller type to use.
   ///
@@ -21083,6 +21400,7 @@ class DeploymentController {
   }
 }
 
+/// @nodoc
 class AvailabilityZoneRebalancing {
   static const enabled = AvailabilityZoneRebalancing._('ENABLED');
   static const disabled = AvailabilityZoneRebalancing._('DISABLED');
@@ -21108,6 +21426,7 @@ class AvailabilityZoneRebalancing {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceManagementType {
   static const customer = ResourceManagementType._('CUSTOMER');
   static const ecs = ResourceManagementType._('ECS');
@@ -21133,6 +21452,7 @@ class ResourceManagementType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentControllerType {
   static const ecs = DeploymentControllerType._('ECS');
   static const codeDeploy = DeploymentControllerType._('CODE_DEPLOY');
@@ -21160,6 +21480,8 @@ class DeploymentControllerType {
 }
 
 /// The summary of the current service revision configuration
+///
+/// @nodoc
 class ServiceCurrentRevisionSummary {
   /// The ARN of the current service revision.
   final String? arn;
@@ -21204,6 +21526,8 @@ class ServiceCurrentRevisionSummary {
 }
 
 /// The details for an event that's associated with a service.
+///
+/// @nodoc
 class ServiceEvent {
   /// The Unix timestamp for the time when the event was triggered.
   final DateTime? createdAt;
@@ -21242,6 +21566,8 @@ class ServiceEvent {
 
 /// The details of an Amazon ECS service deployment. This is used only when a
 /// service uses the <code>ECS</code> deployment controller type.
+///
+/// @nodoc
 class Deployment {
   /// The capacity provider strategy that the deployment is using.
   final List<CapacityProviderStrategyItem>? capacityProviderStrategy;
@@ -21508,6 +21834,7 @@ class Deployment {
   }
 }
 
+/// @nodoc
 class DeploymentRolloutState {
   static const completed = DeploymentRolloutState._('COMPLETED');
   static const failed = DeploymentRolloutState._('FAILED');
@@ -21544,6 +21871,8 @@ class DeploymentRolloutState {
 /// discovery names. If you want to connect to a service, refer to the
 /// <code>ServiceConnectConfiguration</code> of that service for the list of
 /// <code>clientAliases</code> that you can use.
+///
+/// @nodoc
 class ServiceConnectServiceResource {
   /// The Amazon Resource Name (ARN) for the service in Cloud Map that matches the
   /// discovery name for this Service Connect resource. You can use this ARN in
@@ -21602,6 +21931,8 @@ class ServiceConnectServiceResource {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html">API
 /// failure reasons</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class DeploymentCircuitBreaker {
   /// Determines whether to use the deployment circuit breaker logic for the
   /// service.
@@ -21650,6 +21981,8 @@ class DeploymentCircuitBreaker {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html">Rolling
 /// update</a> in the <i> <i>Amazon Elastic Container Service Developer
 /// Guide</i> </i>.
+///
+/// @nodoc
 class DeploymentAlarms {
   /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
   final List<String> alarmNames;
@@ -21693,6 +22026,7 @@ class DeploymentAlarms {
   }
 }
 
+/// @nodoc
 class DeploymentStrategy {
   static const rolling = DeploymentStrategy._('ROLLING');
   static const blueGreen = DeploymentStrategy._('BLUE_GREEN');
@@ -21727,6 +22061,8 @@ class DeploymentStrategy {
 /// <code>UpdateService</code> with <code>deploymentController</code> set to
 /// <code>ECS</code> and a <code>deploymentConfiguration</code> with a strategy
 /// set to <code>LINEAR</code>.
+///
+/// @nodoc
 class LinearConfiguration {
   /// The amount of time in minutes to wait between each traffic shifting step
   /// during a linear deployment. Valid values are 0 to 1440 minutes (24 hours).
@@ -21770,6 +22106,8 @@ class LinearConfiguration {
 /// <code>UpdateService</code> with <code>deploymentController</code> set to
 /// <code>ECS</code> and a <code>deploymentConfiguration</code> with a strategy
 /// set to <code>CANARY</code>.
+///
+/// @nodoc
 class CanaryConfiguration {
   /// The amount of time in minutes to wait during the canary phase before
   /// shifting the remaining production traffic to the new service revision. Valid
@@ -21811,6 +22149,8 @@ class CanaryConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html">Lifecycle
 /// hooks for Amazon ECS service deployments</a> in the <i> Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class DeploymentLifecycleHook {
   /// Use this field to specify custom parameters that Amazon ECS will pass to
   /// your hook target invocations (such as a Lambda function).
@@ -21966,6 +22306,7 @@ class DeploymentLifecycleHook {
   }
 }
 
+/// @nodoc
 class DeploymentLifecycleHookTargetType {
   static const awsLambda = DeploymentLifecycleHookTargetType._('AWS_LAMBDA');
   static const pause = DeploymentLifecycleHookTargetType._('PAUSE');
@@ -21994,6 +22335,8 @@ class DeploymentLifecycleHookTargetType {
 /// The timeout configuration for a deployment lifecycle hook. This determines
 /// how long Amazon ECS waits for the hook to complete before taking the
 /// specified timeout action.
+///
+/// @nodoc
 class DeploymentLifecycleHookTimeoutConfiguration {
   /// The action Amazon ECS takes when the lifecycle hook times out. Valid values
   /// are:
@@ -22037,6 +22380,7 @@ class DeploymentLifecycleHookTimeoutConfiguration {
   }
 }
 
+/// @nodoc
 class DeploymentLifecycleHookAction {
   static const rollback = DeploymentLifecycleHookAction._('ROLLBACK');
   static const $continue = DeploymentLifecycleHookAction._('CONTINUE');
@@ -22062,6 +22406,7 @@ class DeploymentLifecycleHookAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentLifecycleHookStage {
   static const reconcileService =
       DeploymentLifecycleHookStage._('RECONCILE_SERVICE');
@@ -22109,6 +22454,8 @@ class DeploymentLifecycleHookStage {
 }
 
 /// An object that describes an Express service to be updated.
+///
+/// @nodoc
 class UpdatedExpressGatewayService {
   /// The cluster associated with the Express service that is being updated.
   final String? cluster;
@@ -22184,6 +22531,8 @@ class UpdatedExpressGatewayService {
 
 /// An object that defines the status of Express service creation and
 /// information about the status of the service.
+///
+/// @nodoc
 class ExpressGatewayServiceStatus {
   /// The status of the Express service.
   final ExpressGatewayServiceStatusCode? statusCode;
@@ -22216,6 +22565,8 @@ class ExpressGatewayServiceStatus {
 
 /// Represents a specific configuration revision of an Express service,
 /// containing all the settings and parameters for that revision.
+///
+/// @nodoc
 class ExpressGatewayServiceConfiguration {
   /// The CPU allocation for tasks in this service revision.
   final String? cpu;
@@ -22325,6 +22676,8 @@ class ExpressGatewayServiceConfiguration {
 /// The network configuration for an Express service. By default, an Express
 /// service utilizes subnets and security groups associated with the default
 /// VPC.
+///
+/// @nodoc
 class ExpressGatewayServiceNetworkConfiguration {
   /// The IDs of the security groups associated with the Express service.
   final List<String>? securityGroups;
@@ -22367,6 +22720,8 @@ class ExpressGatewayServiceNetworkConfiguration {
 /// logging settings, environment variables, and secrets. The container image is
 /// the only required parameter, with sensible defaults provided for other
 /// settings.
+///
+/// @nodoc
 class ExpressGatewayContainer {
   /// The image used to start a container. This string is passed directly to the
   /// Docker daemon. Images in the Docker Hub registry are available by default.
@@ -22466,6 +22821,8 @@ class ExpressGatewayContainer {
 /// traffic while optimizing costs by scaling down during low-demand periods.
 /// You can specify the minimum and maximum number of tasks, the scaling metric,
 /// and the target value for that metric.
+///
+/// @nodoc
 class ExpressGatewayScalingTarget {
   /// The metric used for auto-scaling decisions. The default metric used for an
   /// Express service is <code>CPUUtilization</code>.
@@ -22515,6 +22872,8 @@ class ExpressGatewayScalingTarget {
 }
 
 /// The entry point into an Express service.
+///
+/// @nodoc
 class IngressPathSummary {
   /// The type of access to the endpoint for the Express service.
   final AccessType accessType;
@@ -22544,6 +22903,7 @@ class IngressPathSummary {
   }
 }
 
+/// @nodoc
 class ExpressGatewayServiceScalingMetric {
   static const averageCpu = ExpressGatewayServiceScalingMetric._('AVERAGE_CPU');
   static const averageMemory =
@@ -22574,6 +22934,8 @@ class ExpressGatewayServiceScalingMetric {
 
 /// Specifies the Amazon CloudWatch Logs configuration for the Express service
 /// container.
+///
+/// @nodoc
 class ExpressGatewayServiceAwsLogsConfiguration {
   /// The name of the CloudWatch Logs log group to send container logs to.
   final String logGroup;
@@ -22607,6 +22969,8 @@ class ExpressGatewayServiceAwsLogsConfiguration {
 
 /// The repository credentials for private registry authentication to pass to
 /// the container.
+///
+/// @nodoc
 class ExpressGatewayRepositoryCredentials {
   /// The Amazon Resource Name (ARN) of the secret containing the private
   /// repository credentials.
@@ -22632,6 +22996,7 @@ class ExpressGatewayRepositoryCredentials {
   }
 }
 
+/// @nodoc
 class ExpressGatewayServiceStatusCode {
   static const active = ExpressGatewayServiceStatusCode._('ACTIVE');
   static const draining = ExpressGatewayServiceStatusCode._('DRAINING');
@@ -22658,6 +23023,7 @@ class ExpressGatewayServiceStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class StopServiceDeploymentStopType {
   static const abort = StopServiceDeploymentStopType._('ABORT');
   static const rollback = StopServiceDeploymentStopType._('ROLLBACK');
@@ -22687,6 +23053,8 @@ class StopServiceDeploymentStopType {
 /// <code>ListServiceDeployments</code>.
 ///
 /// This provides a high-level overview of the service deployment.
+///
+/// @nodoc
 class ServiceDeploymentBrief {
   /// The ARN of the cluster that hosts the service.
   final String? clusterArn;
@@ -22772,6 +23140,7 @@ class ServiceDeploymentBrief {
   }
 }
 
+/// @nodoc
 class ServiceDeploymentStatus {
   static const pending = ServiceDeploymentStatus._('PENDING');
   static const successful = ServiceDeploymentStatus._('SUCCESSFUL');
@@ -22822,6 +23191,8 @@ class ServiceDeploymentStatus {
 ///
 /// If you do not specify a value, service deployments that were created before
 /// the current time are included in the result.
+///
+/// @nodoc
 class CreatedAt {
   /// Include service deployments in the result that were created after this time.
   /// The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
@@ -22846,6 +23217,7 @@ class CreatedAt {
   }
 }
 
+/// @nodoc
 class ServiceField {
   static const tags = ServiceField._('TAGS');
 
@@ -22878,6 +23250,8 @@ class ServiceField {
 /// have multiple active configurations, enabling blue-green deployments and
 /// gradual rollouts. The service maintains a list of active configurations and
 /// manages the lifecycle of the underlying Amazon Web Services resources.
+///
+/// @nodoc
 class ECSExpressGatewayService {
   /// The list of active service configurations for the Express service.
   final List<ExpressGatewayServiceConfiguration>? activeConfigurations;
@@ -22976,6 +23350,7 @@ class ECSExpressGatewayService {
   }
 }
 
+/// @nodoc
 class ExpressGatewayServiceInclude {
   static const tags = ExpressGatewayServiceInclude._('TAGS');
 
@@ -23007,6 +23382,8 @@ class ExpressGatewayServiceInclude {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-deployment.html">View
 /// service history using Amazon ECS service deployments</a> in the <i>
 /// <i>Amazon Elastic Container Service Developer Guide</i> </i>.
+///
+/// @nodoc
 class ServiceDeployment {
   /// The CloudWatch alarms that determine when a service deployment fails.
   final ServiceDeploymentAlarms? alarms;
@@ -23261,6 +23638,8 @@ class ServiceDeployment {
 
 /// The information about the number of requested, pending, and running tasks
 /// for a service revision.
+///
+/// @nodoc
 class ServiceRevisionSummary {
   /// The ARN of the service revision.
   final String? arn;
@@ -23328,6 +23707,7 @@ class ServiceRevisionSummary {
   }
 }
 
+/// @nodoc
 class ServiceDeploymentLifecycleStage {
   static const reconcileService =
       ServiceDeploymentLifecycleStage._('RECONCILE_SERVICE');
@@ -23378,6 +23758,8 @@ class ServiceDeploymentLifecycleStage {
 }
 
 /// Information about the service deployment rollback.
+///
+/// @nodoc
 class Rollback {
   /// The reason the rollback happened. For example, the circuit breaker initiated
   /// the rollback operation.
@@ -23426,6 +23808,8 @@ class Rollback {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-circuit-breaker.html">How
 /// the Amazon ECS deployment circuit breaker detects failures</a> in the<i>
 /// Amazon ECS Developer Guide</i>.
+///
+/// @nodoc
 class ServiceDeploymentCircuitBreaker {
   /// The number of times the circuit breaker detected a service deploymeny
   /// failure.
@@ -23480,6 +23864,8 @@ class ServiceDeploymentCircuitBreaker {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-alarm-failure.html">How
 /// CloudWatch alarms detect Amazon ECS deployment failures</a> in the Amazon
 /// ECS Developer Guide.
+///
+/// @nodoc
 class ServiceDeploymentAlarms {
   /// The name of the CloudWatch alarms that determine when a service deployment
   /// failed. A "," separates the alarms.
@@ -23527,6 +23913,7 @@ class ServiceDeploymentAlarms {
   }
 }
 
+/// @nodoc
 class ServiceDeploymentRollbackMonitorsStatus {
   static const triggered =
       ServiceDeploymentRollbackMonitorsStatus._('TRIGGERED');
@@ -23562,6 +23949,8 @@ class ServiceDeploymentRollbackMonitorsStatus {
 ///
 /// You can view lifecycle hook details by calling <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceDeployments.html">DescribeServiceDeployments</a>.
+///
+/// @nodoc
 class DeploymentLifecycleHookDetail {
   /// The time when the lifecycle hook times out. If the hook has not been
   /// completed by this time, Amazon ECS takes the timeout action.
@@ -23640,6 +24029,7 @@ class DeploymentLifecycleHookDetail {
   }
 }
 
+/// @nodoc
 class DeploymentLifecycleHookStatus {
   static const awaitingAction =
       DeploymentLifecycleHookStatus._('AWAITING_ACTION');
@@ -23676,6 +24066,8 @@ class DeploymentLifecycleHookStatus {
 }
 
 /// A data volume definition for a daemon task.
+///
+/// @nodoc
 class DaemonVolume {
   /// The contents of the <code>host</code> parameter determine whether your bind
   /// mount host volume persists on the host container instance and where it's
@@ -23713,6 +24105,8 @@ class DaemonVolume {
 /// A container definition for a daemon task. Daemon container definitions
 /// describe the containers that run as part of a daemon task on container
 /// instances managed by capacity providers.
+///
+/// @nodoc
 class DaemonContainerDefinition {
   /// The image used to start the container. This string is passed directly to the
   /// Docker daemon. Images in the Docker Hub registry are available by default.
@@ -23997,6 +24391,8 @@ class DaemonContainerDefinition {
 
 /// The Linux-specific options that are applied to the daemon container, such as
 /// Linux kernel capabilities.
+///
+/// @nodoc
 class DaemonLinuxParameters {
   /// The Linux capabilities for the container that are added to or dropped from
   /// the default configuration provided by Docker.
@@ -24052,6 +24448,8 @@ class DaemonLinuxParameters {
 }
 
 /// A summary of a daemon task definition.
+///
+/// @nodoc
 class DaemonTaskDefinitionSummary {
   /// The Amazon Resource Name (ARN) of the daemon task definition.
   final String? arn;
@@ -24107,6 +24505,7 @@ class DaemonTaskDefinitionSummary {
   }
 }
 
+/// @nodoc
 class DaemonTaskDefinitionStatus {
   static const active = DaemonTaskDefinitionStatus._('ACTIVE');
   static const deleteInProgress =
@@ -24134,6 +24533,7 @@ class DaemonTaskDefinitionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DaemonTaskDefinitionRevisionFilter {
   static const lastRegistered =
       DaemonTaskDefinitionRevisionFilter._('LAST_REGISTERED');
@@ -24159,6 +24559,7 @@ class DaemonTaskDefinitionRevisionFilter {
   String toString() => value;
 }
 
+/// @nodoc
 class DaemonTaskDefinitionStatusFilter {
   static const active = DaemonTaskDefinitionStatusFilter._('ACTIVE');
   static const deleteInProgress =
@@ -24190,6 +24591,8 @@ class DaemonTaskDefinitionStatusFilter {
 /// template that describes the containers that form a daemon. Daemons deploy
 /// cross-cutting software agents independently across your Amazon ECS
 /// infrastructure.
+///
+/// @nodoc
 class DaemonTaskDefinition {
   /// A list of container definitions in JSON format that describe the containers
   /// that make up the daemon task.
@@ -24323,6 +24726,8 @@ class DaemonTaskDefinition {
 
 /// Information about a daemon revision. A daemon revision is a snapshot of the
 /// daemon's configuration at the time a deployment was initiated.
+///
+/// @nodoc
 class DaemonRevision {
   /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
   final String? clusterArn;
@@ -24411,6 +24816,7 @@ class DaemonRevision {
   }
 }
 
+/// @nodoc
 class DaemonPropagateTags {
   static const daemon = DaemonPropagateTags._('DAEMON');
   static const none = DaemonPropagateTags._('NONE');
@@ -24437,6 +24843,8 @@ class DaemonPropagateTags {
 }
 
 /// The details about the container image a daemon revision uses.
+///
+/// @nodoc
 class DaemonContainerImage {
   /// The name of the container.
   final String? containerName;
@@ -24473,6 +24881,7 @@ class DaemonContainerImage {
   }
 }
 
+/// @nodoc
 class DaemonStatus {
   static const active = DaemonStatus._('ACTIVE');
   static const deleteInProgress = DaemonStatus._('DELETE_IN_PROGRESS');
@@ -24498,6 +24907,8 @@ class DaemonStatus {
 
 /// Optional deployment parameters that control how a daemon rolls out updates
 /// across container instances.
+///
+/// @nodoc
 class DaemonDeploymentConfiguration {
   /// The CloudWatch alarm configuration for the daemon deployment. When alarms
   /// are triggered during a deployment, the deployment can be automatically
@@ -24544,6 +24955,8 @@ class DaemonDeploymentConfiguration {
 
 /// The CloudWatch alarm configuration for a daemon. When enabled, CloudWatch
 /// alarms determine whether a daemon deployment has failed.
+///
+/// @nodoc
 class DaemonAlarmConfiguration {
   /// The CloudWatch alarm names to monitor during a daemon deployment.
   final List<String>? alarmNames;
@@ -24578,6 +24991,8 @@ class DaemonAlarmConfiguration {
 }
 
 /// A summary of a daemon.
+///
+/// @nodoc
 class DaemonSummary {
   /// The Unix timestamp for the time when the daemon was created.
   final DateTime? createdAt;
@@ -24622,6 +25037,8 @@ class DaemonSummary {
 }
 
 /// A summary of a daemon deployment.
+///
+/// @nodoc
 class DaemonDeploymentSummary {
   /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
   final String? clusterArn;
@@ -24710,6 +25127,7 @@ class DaemonDeploymentSummary {
   }
 }
 
+/// @nodoc
 class DaemonDeploymentStatus {
   static const pending = DaemonDeploymentStatus._('PENDING');
   static const successful = DaemonDeploymentStatus._('SUCCESSFUL');
@@ -24753,6 +25171,8 @@ class DaemonDeploymentStatus {
 }
 
 /// The detailed information about a daemon.
+///
+/// @nodoc
 class DaemonDetail {
   /// The Amazon Resource Name (ARN) of the cluster that the daemon is running in.
   final String? clusterArn;
@@ -24823,6 +25243,8 @@ class DaemonDetail {
 
 /// Details about a daemon revision, including the running task counts per
 /// capacity provider.
+///
+/// @nodoc
 class DaemonRevisionDetail {
   /// The Amazon Resource Name (ARN) of the daemon revision.
   final String? arn;
@@ -24864,6 +25286,8 @@ class DaemonRevisionDetail {
 }
 
 /// Information about a capacity provider associated with a daemon revision.
+///
+/// @nodoc
 class DaemonCapacityProvider {
   /// The Amazon Resource Name (ARN) of the capacity provider.
   final String? arn;
@@ -24895,6 +25319,8 @@ class DaemonCapacityProvider {
 
 /// Information about a daemon deployment. A daemon deployment orchestrates the
 /// progressive rollout of daemon task updates across container instances.
+///
+/// @nodoc
 class DaemonDeployment {
   /// The CloudWatch alarms that determine when a daemon deployment fails.
   final DaemonDeploymentAlarms? alarms;
@@ -25038,6 +25464,8 @@ class DaemonDeployment {
 
 /// Details about a daemon revision during a deployment, including running and
 /// draining instance counts per capacity provider.
+///
+/// @nodoc
 class DaemonDeploymentRevisionDetail {
   /// The Amazon Resource Name (ARN) of the daemon revision.
   final String? arn;
@@ -25091,6 +25519,8 @@ class DaemonDeploymentRevisionDetail {
 
 /// Information about the circuit breaker used to determine when a daemon
 /// deployment has failed.
+///
+/// @nodoc
 class DaemonCircuitBreaker {
   /// The number of times the circuit breaker detected a daemon deployment
   /// failure.
@@ -25131,6 +25561,8 @@ class DaemonCircuitBreaker {
 }
 
 /// The CloudWatch alarms used to determine a daemon deployment failed.
+///
+/// @nodoc
 class DaemonDeploymentAlarms {
   /// The name of the CloudWatch alarms that determine when a daemon deployment
   /// failed.
@@ -25179,6 +25611,8 @@ class DaemonDeploymentAlarms {
 }
 
 /// Information about a daemon deployment rollback.
+///
+/// @nodoc
 class DaemonRollback {
   /// The reason the rollback happened. For example, the circuit breaker initiated
   /// the rollback operation.
@@ -25231,6 +25665,7 @@ class DaemonRollback {
   }
 }
 
+/// @nodoc
 class DaemonDeploymentRollbackMonitorsStatus {
   static const triggered =
       DaemonDeploymentRollbackMonitorsStatus._('TRIGGERED');
@@ -25262,6 +25697,8 @@ class DaemonDeploymentRollbackMonitorsStatus {
 }
 
 /// Information about a capacity provider during a daemon deployment.
+///
+/// @nodoc
 class DaemonDeploymentCapacityProvider {
   /// The Amazon Resource Name (ARN) of the capacity provider.
   final String? arn;
@@ -25303,6 +25740,8 @@ class DaemonDeploymentCapacityProvider {
 
 /// An Amazon EC2 or External instance that's running the Amazon ECS agent and
 /// has been registered with a cluster.
+///
+/// @nodoc
 class ContainerInstance {
   /// This parameter returns <code>true</code> if the agent is connected to Amazon
   /// ECS. An instance with an agent that may be unhealthy or stopped return
@@ -25565,6 +26004,8 @@ class ContainerInstance {
 
 /// The Docker and Amazon ECS container agent version information about a
 /// container instance.
+///
+/// @nodoc
 class VersionInfo {
   /// The Git commit hash for the Amazon ECS container agent build on the <a
   /// href="https://github.com/aws/amazon-ecs-agent">amazon-ecs-agent </a> GitHub
@@ -25603,6 +26044,7 @@ class VersionInfo {
   }
 }
 
+/// @nodoc
 class AgentUpdateStatus {
   static const pending = AgentUpdateStatus._('PENDING');
   static const staging = AgentUpdateStatus._('STAGING');
@@ -25632,6 +26074,8 @@ class AgentUpdateStatus {
 }
 
 /// An object representing the health status of the container instance.
+///
+/// @nodoc
 class ContainerInstanceHealthStatus {
   /// An array of objects representing the details of the container instance
   /// health status.
@@ -25668,6 +26112,7 @@ class ContainerInstanceHealthStatus {
   }
 }
 
+/// @nodoc
 class InstanceHealthCheckState {
   static const ok = InstanceHealthCheckState._('OK');
   static const impaired = InstanceHealthCheckState._('IMPAIRED');
@@ -25698,6 +26143,8 @@ class InstanceHealthCheckState {
 
 /// An object representing the result of a container instance health status
 /// check.
+///
+/// @nodoc
 class InstanceHealthCheckResult {
   /// The Unix timestamp for when the container instance health status last
   /// changed.
@@ -25752,6 +26199,7 @@ class InstanceHealthCheckResult {
   }
 }
 
+/// @nodoc
 class InstanceHealthCheckType {
   static const containerRuntime =
       InstanceHealthCheckType._('CONTAINER_RUNTIME');
@@ -25781,6 +26229,8 @@ class InstanceHealthCheckType {
 }
 
 /// Describes the resources available for a container instance.
+///
+/// @nodoc
 class Resource {
   /// When the <code>doubleValue</code> type is set, the value of the resource
   /// must be a double precision floating-point type.
@@ -25847,6 +26297,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class ContainerInstanceStatus {
   static const active = ContainerInstanceStatus._('ACTIVE');
   static const draining = ContainerInstanceStatus._('DRAINING');
@@ -25884,6 +26335,8 @@ class ContainerInstanceStatus {
 
 /// The devices that are available on the container instance. The supported
 /// device types are GPUs and Neuron devices.
+///
+/// @nodoc
 class PlatformDevice {
   /// The ID for the GPU or Neuron device on the container instance. For GPUs, the
   /// available GPU IDs can also be obtained on the container instance in the
@@ -25911,6 +26364,7 @@ class PlatformDevice {
   }
 }
 
+/// @nodoc
 class PlatformDeviceType {
   static const gpu = PlatformDeviceType._('GPU');
   static const neuronDevice = PlatformDeviceType._('NEURON_DEVICE');
@@ -25936,6 +26390,7 @@ class PlatformDeviceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DesiredStatus {
   static const running = DesiredStatus._('RUNNING');
   static const pending = DesiredStatus._('PENDING');
@@ -25961,6 +26416,7 @@ class DesiredStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerInstanceField {
   static const tags = ContainerInstanceField._('TAGS');
   static const containerInstanceHealth =
@@ -25988,6 +26444,8 @@ class ContainerInstanceField {
 }
 
 /// An object representing a change in state for a managed agent.
+///
+/// @nodoc
 class ManagedAgentStateChange {
   /// The name of the container that's associated with the managed agent.
   final String containerName;
@@ -26023,6 +26481,8 @@ class ManagedAgentStateChange {
 }
 
 /// An object representing a change in state for a task attachment.
+///
+/// @nodoc
 class AttachmentStateChange {
   /// The Amazon Resource Name (ARN) of the attachment.
   final String attachmentArn;
@@ -26046,6 +26506,8 @@ class AttachmentStateChange {
 }
 
 /// An object that represents a change in state for a container.
+///
+/// @nodoc
 class ContainerStateChange {
   /// The name of the container.
   final String? containerName;
@@ -26100,6 +26562,8 @@ class ContainerStateChange {
 }
 
 /// The details for the execute command session.
+///
+/// @nodoc
 class Session {
   /// The ID of the execute command session.
   final String? sessionId;
@@ -26142,6 +26606,8 @@ class Session {
 /// task requests. Each account receives a default cluster the first time you
 /// use the Amazon ECS service, but you may also create other clusters. Clusters
 /// may contain more than one instance type simultaneously.
+///
+/// @nodoc
 class Cluster {
   /// The number of services that are running on the cluster in an
   /// <code>ACTIVE</code> state. You can view these services with <a
@@ -26424,6 +26890,8 @@ class Cluster {
 }
 
 /// The execute command and managed storage configuration for the cluster.
+///
+/// @nodoc
 class ClusterConfiguration {
   /// The details of the execute command configuration.
   final ExecuteCommandConfiguration? executeCommandConfiguration;
@@ -26478,6 +26946,8 @@ class ClusterConfiguration {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html">Service
 /// Connect</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ClusterServiceConnectDefaults {
   /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map
   /// namespace. When you create a service and don't specify a Service Connect
@@ -26521,6 +26991,8 @@ class ClusterServiceConnectDefaults {
 /// Amazon ECS containers using Container Insights with enhanced
 /// observability</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class ClusterSetting {
   /// The name of the cluster setting. The value is
   /// <code>containerInsights</code>.
@@ -26564,6 +27036,7 @@ class ClusterSetting {
   }
 }
 
+/// @nodoc
 class ClusterSettingName {
   static const containerInsights = ClusterSettingName._('containerInsights');
 
@@ -26589,6 +27062,8 @@ class ClusterSettingName {
 }
 
 /// The details of the execute command configuration.
+///
+/// @nodoc
 class ExecuteCommandConfiguration {
   /// Specify an Key Management Service key ID to encrypt the data between the
   /// local client and the container.
@@ -26652,6 +27127,8 @@ class ExecuteCommandConfiguration {
 }
 
 /// The managed storage configuration for the cluster.
+///
+/// @nodoc
 class ManagedStorageConfiguration {
   /// Specify the Key Management Service key ID for Fargate ephemeral storage.
   ///
@@ -26705,6 +27182,7 @@ class ManagedStorageConfiguration {
   }
 }
 
+/// @nodoc
 class ExecuteCommandLogging {
   static const none = ExecuteCommandLogging._('NONE');
   static const $default = ExecuteCommandLogging._('DEFAULT');
@@ -26733,6 +27211,8 @@ class ExecuteCommandLogging {
 
 /// The log configuration for the results of the execute command actions. The
 /// logs can be sent to CloudWatch Logs or an Amazon S3 bucket.
+///
+/// @nodoc
 class ExecuteCommandLogConfiguration {
   /// Determines whether to use encryption on the CloudWatch logs. If not
   /// specified, encryption will be off.
@@ -26794,6 +27274,7 @@ class ExecuteCommandLogConfiguration {
   }
 }
 
+/// @nodoc
 class ClusterField {
   static const attachments = ClusterField._('ATTACHMENTS');
   static const configurations = ClusterField._('CONFIGURATIONS');
@@ -26843,6 +27324,8 @@ class ClusterField {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html">Service
 /// Connect</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+///
+/// @nodoc
 class ClusterServiceConnectDefaultsRequest {
   /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map
   /// namespace that's used when you create a service and don't specify a Service
@@ -26883,6 +27366,8 @@ class ClusterServiceConnectDefaultsRequest {
 }
 
 /// The details for a capacity provider.
+///
+/// @nodoc
 class CapacityProvider {
   /// The Auto Scaling group settings for the capacity provider.
   final AutoScalingGroupProvider? autoScalingGroupProvider;
@@ -27039,6 +27524,7 @@ class CapacityProvider {
   }
 }
 
+/// @nodoc
 class CapacityProviderStatus {
   static const provisioning = CapacityProviderStatus._('PROVISIONING');
   static const active = CapacityProviderStatus._('ACTIVE');
@@ -27067,6 +27553,8 @@ class CapacityProviderStatus {
 }
 
 /// The details of the Auto Scaling group for the capacity provider.
+///
+/// @nodoc
 class AutoScalingGroupProvider {
   /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group, or
   /// the Auto Scaling group name.
@@ -27141,6 +27629,8 @@ class AutoScalingGroupProvider {
 /// Amazon EC2 instances on your behalf. Managed instances provide access to the
 /// full range of Amazon EC2 instance types and features while offloading
 /// infrastructure management to Amazon Web Services.
+///
+/// @nodoc
 class ManagedInstancesProvider {
   /// The auto repair configuration for the Amazon ECS Managed Instances capacity
   /// provider. Indicates whether Amazon ECS automatically replaces container
@@ -27228,6 +27718,7 @@ class ManagedInstancesProvider {
   }
 }
 
+/// @nodoc
 class CapacityProviderUpdateStatus {
   static const createInProgress =
       CapacityProviderUpdateStatus._('CREATE_IN_PROGRESS');
@@ -27276,6 +27767,7 @@ class CapacityProviderUpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityProviderType {
   static const ec2Autoscaling = CapacityProviderType._('EC2_AUTOSCALING');
   static const managedInstances = CapacityProviderType._('MANAGED_INSTANCES');
@@ -27312,6 +27804,8 @@ class CapacityProviderType {
 /// defines how Amazon ECS launches Amazon EC2 instances, including the instance
 /// profile for your tasks, network and storage configuration, capacity options,
 /// and instance requirements for flexible instance type selection.
+///
+/// @nodoc
 class InstanceLaunchTemplate {
   /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS
   /// applies to Amazon ECS Managed Instances. This instance profile must include
@@ -27388,7 +27882,7 @@ class InstanceLaunchTemplate {
   ///
   /// Disable this setting if your tags contain characters that are not compatible
   /// with IMDS, such as <code>/</code>. IMDS requires tag keys to match the
-  /// pattern <code>[0-9a-zA-Z\-_+=,.@:]{1,255}</code>.
+  /// pattern <code>\[0-9a-zA-Z\-_+=,.@:\]{1,255}</code>.
   ///
   /// The default value is <code>true</code>.
   ///
@@ -27511,6 +28005,7 @@ class InstanceLaunchTemplate {
   }
 }
 
+/// @nodoc
 class PropagateMITags {
   static const capacityProvider = PropagateMITags._('CAPACITY_PROVIDER');
   static const none = PropagateMITags._('NONE');
@@ -27537,6 +28032,8 @@ class PropagateMITags {
 
 /// The configuration that controls how Amazon ECS optimizes your
 /// infrastructure.
+///
+/// @nodoc
 class InfrastructureOptimization {
   /// This parameter defines the number of seconds Amazon ECS Managed Instances
   /// waits before optimizing EC2 instances that have become idle or
@@ -27583,6 +28080,8 @@ class InfrastructureOptimization {
 /// provider. When enabled, Amazon ECS automatically replaces container
 /// instances that are detected as unhealthy based on container instance health
 /// checks, including accelerated compute device and daemon health checks.
+///
+/// @nodoc
 class AutoRepairConfiguration {
   /// The status of auto repair actions for the capacity provider. When set to
   /// <code>ENABLED</code>, Amazon ECS automatically replaces container instances
@@ -27610,6 +28109,7 @@ class AutoRepairConfiguration {
   }
 }
 
+/// @nodoc
 class AutoRepairActionsStatus {
   static const enabled = AutoRepairActionsStatus._('ENABLED');
   static const disabled = AutoRepairActionsStatus._('DISABLED');
@@ -27642,6 +28142,8 @@ class AutoRepairActionsStatus {
 /// <code>host</code> (instances share network namespace with tasks), and
 /// <code>none</code> (no external network connectivity), ensuring backward
 /// compatibility for migrating workloads from Fargate or Amazon EC2.
+///
+/// @nodoc
 class ManagedInstancesNetworkConfiguration {
   /// The list of security group IDs to apply to Amazon ECS Managed Instances.
   /// These security groups control the network traffic allowed to and from the
@@ -27682,6 +28184,8 @@ class ManagedInstancesNetworkConfiguration {
 
 /// The storage configuration for Amazon ECS Managed Instances. This defines the
 /// data volume configuration for the instances.
+///
+/// @nodoc
 class ManagedInstancesStorageConfiguration {
   /// The size of the data volume.
   final int? storageSizeGiB;
@@ -27708,6 +28212,8 @@ class ManagedInstancesStorageConfiguration {
 /// The local storage configuration for Amazon ECS Managed Instances. This
 /// defines how ECS uses and configures instance store volumes available on
 /// container instance.
+///
+/// @nodoc
 class ManagedInstancesLocalStorageConfiguration {
   /// Use instance store volumes for data storage when available. EBS volumes are
   /// not provisioned for data storage. If the container instance has multiple
@@ -27736,6 +28242,7 @@ class ManagedInstancesLocalStorageConfiguration {
   }
 }
 
+/// @nodoc
 class ManagedInstancesMonitoringOptions {
   static const basic = ManagedInstancesMonitoringOptions._('BASIC');
   static const detailed = ManagedInstancesMonitoringOptions._('DETAILED');
@@ -27761,6 +28268,7 @@ class ManagedInstancesMonitoringOptions {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityOptionType {
   static const onDemand = CapacityOptionType._('ON_DEMAND');
   static const spot = CapacityOptionType._('SPOT');
@@ -27793,6 +28301,8 @@ class CapacityOptionType {
 /// specifications. Amazon ECS automatically selects Amazon EC2 instance types
 /// that match these requirements, providing flexibility and helping to mitigate
 /// capacity constraints.
+///
+/// @nodoc
 class InstanceRequirementsRequest {
   /// The minimum and maximum amount of memory in mebibytes (MiB) for the instance
   /// types. Amazon ECS selects instance types that have memory within this range.
@@ -28107,6 +28617,8 @@ class InstanceRequirementsRequest {
 
 /// The Capacity Reservation configurations to be used when using the
 /// <code>RESERVED</code> capacity option type.
+///
+/// @nodoc
 class CapacityReservationRequest {
   /// The ARN of the Capacity Reservation resource group in which to run the
   /// instance.
@@ -28160,6 +28672,7 @@ class CapacityReservationRequest {
   }
 }
 
+/// @nodoc
 class CapacityReservationPreference {
   static const reservationsOnly =
       CapacityReservationPreference._('RESERVATIONS_ONLY');
@@ -28196,6 +28709,8 @@ class CapacityReservationPreference {
 /// The minimum and maximum number of vCPUs for instance type selection. This
 /// allows you to specify a range of vCPU counts that meet your workload
 /// requirements.
+///
+/// @nodoc
 class VCpuCountRangeRequest {
   /// The minimum number of vCPUs. Instance types with fewer vCPUs than this value
   /// are excluded from selection.
@@ -28230,6 +28745,8 @@ class VCpuCountRangeRequest {
 /// The minimum and maximum amount of memory in mebibytes (MiB) for instance
 /// type selection. This ensures that selected instance types have adequate
 /// memory for your workloads.
+///
+/// @nodoc
 class MemoryMiBRequest {
   /// The minimum amount of memory in MiB. Instance types with less memory than
   /// this value are excluded from selection.
@@ -28264,6 +28781,8 @@ class MemoryMiBRequest {
 /// The minimum and maximum amount of memory per vCPU in gibibytes (GiB). This
 /// helps ensure that instance types have the appropriate memory-to-CPU ratio
 /// for your workloads.
+///
+/// @nodoc
 class MemoryGiBPerVCpuRequest {
   /// The maximum amount of memory per vCPU in GiB. Instance types with a higher
   /// memory-to-vCPU ratio are excluded from selection.
@@ -28295,6 +28814,7 @@ class MemoryGiBPerVCpuRequest {
   }
 }
 
+/// @nodoc
 class BareMetal {
   static const included = BareMetal._('included');
   static const required = BareMetal._('required');
@@ -28319,6 +28839,7 @@ class BareMetal {
   String toString() => value;
 }
 
+/// @nodoc
 class BurstablePerformance {
   static const included = BurstablePerformance._('included');
   static const required = BurstablePerformance._('required');
@@ -28348,6 +28869,8 @@ class BurstablePerformance {
 /// The minimum and maximum number of network interfaces for instance type
 /// selection. This is useful for workloads that require multiple network
 /// interfaces.
+///
+/// @nodoc
 class NetworkInterfaceCountRequest {
   /// The maximum number of network interfaces. Instance types that support more
   /// network interfaces are excluded from selection.
@@ -28379,6 +28902,7 @@ class NetworkInterfaceCountRequest {
   }
 }
 
+/// @nodoc
 class LocalStorage {
   static const included = LocalStorage._('included');
   static const required = LocalStorage._('required');
@@ -28406,6 +28930,8 @@ class LocalStorage {
 /// The minimum and maximum total local storage in gigabytes (GB) for instance
 /// types with local storage. This is useful for workloads that require local
 /// storage for temporary data or caching.
+///
+/// @nodoc
 class TotalLocalStorageGBRequest {
   /// The maximum total local storage in GB. Instance types with more local
   /// storage are excluded from selection.
@@ -28440,6 +28966,8 @@ class TotalLocalStorageGBRequest {
 /// The minimum and maximum baseline Amazon EBS bandwidth in megabits per second
 /// (Mbps) for instance type selection. This is important for workloads with
 /// high storage I/O requirements.
+///
+/// @nodoc
 class BaselineEbsBandwidthMbpsRequest {
   /// The maximum baseline Amazon EBS bandwidth in Mbps. Instance types with
   /// higher Amazon EBS bandwidth are excluded from selection.
@@ -28474,6 +29002,8 @@ class BaselineEbsBandwidthMbpsRequest {
 /// The minimum and maximum number of accelerators (such as GPUs) for instance
 /// type selection. This is used for workloads that require specific numbers of
 /// accelerators.
+///
+/// @nodoc
 class AcceleratorCountRequest {
   /// The maximum number of accelerators. Instance types with more accelerators
   /// are excluded from selection.
@@ -28508,6 +29038,8 @@ class AcceleratorCountRequest {
 /// The minimum and maximum total accelerator memory in mebibytes (MiB) for
 /// instance type selection. This is important for GPU workloads that require
 /// specific amounts of video memory.
+///
+/// @nodoc
 class AcceleratorTotalMemoryMiBRequest {
   /// The maximum total accelerator memory in MiB. Instance types with more
   /// accelerator memory are excluded from selection.
@@ -28541,6 +29073,8 @@ class AcceleratorTotalMemoryMiBRequest {
 
 /// The minimum and maximum network bandwidth in gigabits per second (Gbps) for
 /// instance type selection. This is important for network-intensive workloads.
+///
+/// @nodoc
 class NetworkBandwidthGbpsRequest {
   /// The maximum network bandwidth in Gbps. Instance types with higher network
   /// bandwidth are excluded from selection.
@@ -28572,6 +29106,7 @@ class NetworkBandwidthGbpsRequest {
   }
 }
 
+/// @nodoc
 class AcceleratorName {
   static const a100 = AcceleratorName._('a100');
   static const inferentia = AcceleratorName._('inferentia');
@@ -28619,6 +29154,7 @@ class AcceleratorName {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceleratorManufacturer {
   static const amazonWebServices =
       AcceleratorManufacturer._('amazon-web-services');
@@ -28648,6 +29184,7 @@ class AcceleratorManufacturer {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceleratorType {
   static const gpu = AcceleratorType._('gpu');
   static const fpga = AcceleratorType._('fpga');
@@ -28673,6 +29210,7 @@ class AcceleratorType {
   String toString() => value;
 }
 
+/// @nodoc
 class LocalStorageType {
   static const hdd = LocalStorageType._('hdd');
   static const ssd = LocalStorageType._('ssd');
@@ -28697,6 +29235,7 @@ class LocalStorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceGeneration {
   static const current = InstanceGeneration._('current');
   static const previous = InstanceGeneration._('previous');
@@ -28722,6 +29261,7 @@ class InstanceGeneration {
   String toString() => value;
 }
 
+/// @nodoc
 class CpuManufacturer {
   static const intel = CpuManufacturer._('intel');
   static const amd = CpuManufacturer._('amd');
@@ -28760,6 +29300,8 @@ class CpuManufacturer {
 ///
 /// If managed scaling is off, the user must manage the scaling of the Auto
 /// Scaling group.
+///
+/// @nodoc
 class ManagedScaling {
   /// The period of time, in seconds, after a newly launched Amazon EC2 instance
   /// can contribute to CloudWatch metrics for Auto Scaling group. If this
@@ -28829,6 +29371,7 @@ class ManagedScaling {
   }
 }
 
+/// @nodoc
 class ManagedTerminationProtection {
   static const enabled = ManagedTerminationProtection._('ENABLED');
   static const disabled = ManagedTerminationProtection._('DISABLED');
@@ -28854,6 +29397,7 @@ class ManagedTerminationProtection {
   String toString() => value;
 }
 
+/// @nodoc
 class ManagedDraining {
   static const enabled = ManagedDraining._('ENABLED');
   static const disabled = ManagedDraining._('DISABLED');
@@ -28878,6 +29422,7 @@ class ManagedDraining {
   String toString() => value;
 }
 
+/// @nodoc
 class ManagedScalingStatus {
   static const enabled = ManagedScalingStatus._('ENABLED');
   static const disabled = ManagedScalingStatus._('DISABLED');
@@ -28903,6 +29448,7 @@ class ManagedScalingStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityProviderField {
   static const tags = CapacityProviderField._('TAGS');
 
@@ -28928,6 +29474,8 @@ class CapacityProviderField {
 }
 
 /// The details of the Auto Scaling group capacity provider to update.
+///
+/// @nodoc
 class AutoScalingGroupProviderUpdate {
   /// The managed draining option for the Auto Scaling group capacity provider.
   /// When you enable this, Amazon ECS manages and gracefully drains the EC2
@@ -28979,6 +29527,8 @@ class AutoScalingGroupProviderUpdate {
 /// can modify the infrastructure role, instance launch template, and tag
 /// propagation settings. Changes apply to new instances launched after the
 /// update.
+///
+/// @nodoc
 class UpdateManagedInstancesProviderConfiguration {
   /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new
   /// role must have the necessary permissions to manage instances and access
@@ -29041,6 +29591,8 @@ class UpdateManagedInstancesProviderConfiguration {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">Store
 /// instance launch parameters in Amazon EC2 launch templates</a> in the
 /// <i>Amazon EC2 User Guide</i>.
+///
+/// @nodoc
 class InstanceLaunchTemplateUpdate {
   /// The updated capacity reservations specifications for Amazon ECS Managed
   /// Instances. Changes to capacity reservations settings apply to new instances
@@ -29064,7 +29616,7 @@ class InstanceLaunchTemplateUpdate {
   ///
   /// Disable this setting if your tags contain characters that are not compatible
   /// with IMDS, such as <code>/</code>. IMDS requires tag keys to match the
-  /// pattern <code>[0-9a-zA-Z\-_+=,.@:]{1,255}</code>.
+  /// pattern <code>\[0-9a-zA-Z\-_+=,.@:\]{1,255}</code>.
   ///
   /// The default value is <code>true</code>.
   ///
@@ -29149,6 +29701,8 @@ class InstanceLaunchTemplateUpdate {
 /// specifies how Amazon ECS should manage Amazon EC2 instances, including the
 /// infrastructure role, instance launch template, and whether to propagate tags
 /// from the capacity provider to the instances.
+///
+/// @nodoc
 class CreateManagedInstancesProviderConfiguration {
   /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS
   /// uses to manage instances on your behalf. This role must have permissions to
@@ -29214,6 +29768,8 @@ class CreateManagedInstancesProviderConfiguration {
 }
 
 /// The current account setting for a resource.
+///
+/// @nodoc
 class Setting {
   /// The Amazon ECS resource name.
   final SettingName? name;
@@ -29265,6 +29821,7 @@ class Setting {
   }
 }
 
+/// @nodoc
 class SettingName {
   static const serviceLongArnFormat = SettingName._('serviceLongArnFormat');
   static const taskLongArnFormat = SettingName._('taskLongArnFormat');
@@ -29312,6 +29869,7 @@ class SettingName {
   String toString() => value;
 }
 
+/// @nodoc
 class SettingType {
   static const user = SettingType._('user');
   static const awsManaged = SettingType._('aws_managed');
@@ -29335,6 +29893,7 @@ class SettingType {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskDefinitionFamilyStatus {
   static const active = TaskDefinitionFamilyStatus._('ACTIVE');
   static const inactive = TaskDefinitionFamilyStatus._('INACTIVE');
@@ -29361,6 +29920,7 @@ class TaskDefinitionFamilyStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskDefinitionField {
   static const tags = TaskDefinitionField._('TAGS');
 
@@ -29385,11 +29945,13 @@ class TaskDefinitionField {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AttributeLimitExceededException extends _s.GenericAwsException {
   AttributeLimitExceededException({String? type, String? message})
       : super(
@@ -29398,16 +29960,19 @@ class AttributeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BlockedException extends _s.GenericAwsException {
   BlockedException({String? type, String? message})
       : super(type: type, code: 'BlockedException', message: message);
 }
 
+/// @nodoc
 class ClientException extends _s.GenericAwsException {
   ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
+/// @nodoc
 class ClusterContainsCapacityProviderException extends _s.GenericAwsException {
   ClusterContainsCapacityProviderException({String? type, String? message})
       : super(
@@ -29416,6 +29981,7 @@ class ClusterContainsCapacityProviderException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterContainsContainerInstancesException
     extends _s.GenericAwsException {
   ClusterContainsContainerInstancesException({String? type, String? message})
@@ -29425,6 +29991,7 @@ class ClusterContainsContainerInstancesException
             message: message);
 }
 
+/// @nodoc
 class ClusterContainsServicesException extends _s.GenericAwsException {
   ClusterContainsServicesException({String? type, String? message})
       : super(
@@ -29433,6 +30000,7 @@ class ClusterContainsServicesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterContainsTasksException extends _s.GenericAwsException {
   ClusterContainsTasksException({String? type, String? message})
       : super(
@@ -29441,51 +30009,61 @@ class ClusterContainsTasksException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterNotFoundException extends _s.GenericAwsException {
   ClusterNotFoundException({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DaemonNotActiveException extends _s.GenericAwsException {
   DaemonNotActiveException({String? type, String? message})
       : super(type: type, code: 'DaemonNotActiveException', message: message);
 }
 
+/// @nodoc
 class DaemonNotFoundException extends _s.GenericAwsException {
   DaemonNotFoundException({String? type, String? message})
       : super(type: type, code: 'DaemonNotFoundException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MissingVersionException extends _s.GenericAwsException {
   MissingVersionException({String? type, String? message})
       : super(type: type, code: 'MissingVersionException', message: message);
 }
 
+/// @nodoc
 class NamespaceNotFoundException extends _s.GenericAwsException {
   NamespaceNotFoundException({String? type, String? message})
       : super(type: type, code: 'NamespaceNotFoundException', message: message);
 }
 
+/// @nodoc
 class NoUpdateAvailableException extends _s.GenericAwsException {
   NoUpdateAvailableException({String? type, String? message})
       : super(type: type, code: 'NoUpdateAvailableException', message: message);
 }
 
+/// @nodoc
 class PlatformTaskDefinitionIncompatibilityException
     extends _s.GenericAwsException {
   PlatformTaskDefinitionIncompatibilityException(
@@ -29496,26 +30074,31 @@ class PlatformTaskDefinitionIncompatibilityException
             message: message);
 }
 
+/// @nodoc
 class PlatformUnknownException extends _s.GenericAwsException {
   PlatformUnknownException({String? type, String? message})
       : super(type: type, code: 'PlatformUnknownException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
+/// @nodoc
 class ServiceDeploymentNotFoundException extends _s.GenericAwsException {
   ServiceDeploymentNotFoundException({String? type, String? message})
       : super(
@@ -29524,38 +30107,45 @@ class ServiceDeploymentNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceNotActiveException extends _s.GenericAwsException {
   ServiceNotActiveException({String? type, String? message})
       : super(type: type, code: 'ServiceNotActiveException', message: message);
 }
 
+/// @nodoc
 class ServiceNotFoundException extends _s.GenericAwsException {
   ServiceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ServiceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TargetNotConnectedException extends _s.GenericAwsException {
   TargetNotConnectedException({String? type, String? message})
       : super(
             type: type, code: 'TargetNotConnectedException', message: message);
 }
 
+/// @nodoc
 class TargetNotFoundException extends _s.GenericAwsException {
   TargetNotFoundException({String? type, String? message})
       : super(type: type, code: 'TargetNotFoundException', message: message);
 }
 
+/// @nodoc
 class TaskSetNotFoundException extends _s.GenericAwsException {
   TaskSetNotFoundException({String? type, String? message})
       : super(type: type, code: 'TaskSetNotFoundException', message: message);
 }
 
+/// @nodoc
 class UnsupportedFeatureException extends _s.GenericAwsException {
   UnsupportedFeatureException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedFeatureException', message: message);
 }
 
+/// @nodoc
 class UpdateInProgressException extends _s.GenericAwsException {
   UpdateInProgressException({String? type, String? message})
       : super(type: type, code: 'UpdateInProgressException', message: message);

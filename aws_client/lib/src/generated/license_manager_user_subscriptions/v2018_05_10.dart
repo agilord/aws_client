@@ -845,6 +845,7 @@ class LicenseManagerUserSubscriptions {
   }
 }
 
+/// @nodoc
 class AssociateUserResponse {
   /// Metadata that describes the associate user operation.
   final InstanceUserSummary instanceUserSummary;
@@ -869,6 +870,7 @@ class AssociateUserResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseServerEndpointResponse {
   /// The Amazon Resource Name (ARN) of the identity provider specified in the
   /// request.
@@ -902,6 +904,7 @@ class CreateLicenseServerEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseServerEndpointResponse {
   /// Shows details from the <code>LicenseServerEndpoint</code> resource that was
   /// deleted.
@@ -930,6 +933,7 @@ class DeleteLicenseServerEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeregisterIdentityProviderResponse {
   /// Metadata that describes the results of an identity provider operation.
   final IdentityProviderSummary identityProviderSummary;
@@ -955,6 +959,7 @@ class DeregisterIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class DisassociateUserResponse {
   /// Metadata that describes the associate user operation.
   final InstanceUserSummary instanceUserSummary;
@@ -979,6 +984,7 @@ class DisassociateUserResponse {
   }
 }
 
+/// @nodoc
 class ListIdentityProvidersResponse {
   /// An array of <code>IdentityProviderSummary</code> resources that contain
   /// details about the Active Directory identity providers that meet the request
@@ -1018,6 +1024,7 @@ class ListIdentityProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListInstancesResponse {
   /// An array of <code>InstanceSummary</code> resources that contain details
   /// about the instances that provide user-based subscriptions and also meet the
@@ -1055,6 +1062,7 @@ class ListInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseServerEndpointsResponse {
   /// An array of <code>LicenseServerEndpoint</code> resources that contain
   /// detailed information about the RDS License Servers that meet the request
@@ -1094,6 +1102,7 @@ class ListLicenseServerEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListProductSubscriptionsResponse {
   /// The next token used for paginated responses. When this field isn't empty,
   /// there are additional elements that the service hasn't included in this
@@ -1130,6 +1139,7 @@ class ListProductSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the specified resource.
   final Map<String, String>? tags;
@@ -1153,6 +1163,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUserAssociationsResponse {
   /// Metadata that describes the list user association operation.
   final List<InstanceUserSummary>? instanceUserSummaries;
@@ -1189,6 +1200,7 @@ class ListUserAssociationsResponse {
   }
 }
 
+/// @nodoc
 class RegisterIdentityProviderResponse {
   /// Metadata that describes the results of an identity provider operation.
   final IdentityProviderSummary identityProviderSummary;
@@ -1213,6 +1225,7 @@ class RegisterIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class StartProductSubscriptionResponse {
   /// Metadata that describes the start product subscription operation.
   final ProductUserSummary productUserSummary;
@@ -1237,6 +1250,7 @@ class StartProductSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class StopProductSubscriptionResponse {
   /// Metadata that describes the start product subscription operation.
   final ProductUserSummary productUserSummary;
@@ -1261,6 +1275,7 @@ class StopProductSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1273,6 +1288,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1285,6 +1301,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateIdentityProviderSettingsResponse {
   final IdentityProviderSummary identityProviderSummary;
 
@@ -1310,6 +1327,8 @@ class UpdateIdentityProviderSettingsResponse {
 }
 
 /// Describes an identity provider.
+///
+/// @nodoc
 class IdentityProviderSummary {
   /// The <code>IdentityProvider</code> resource contains information about an
   /// identity provider.
@@ -1382,6 +1401,8 @@ class IdentityProviderSummary {
 }
 
 /// Refers to an identity provider.
+///
+/// @nodoc
 class IdentityProvider {
   /// The <code>ActiveDirectoryIdentityProvider</code> resource contains settings
   /// and other details about a specific Active Directory identity provider.
@@ -1416,6 +1437,8 @@ class IdentityProvider {
 /// such as the subnets to provision VPC endpoints, and the security group ID
 /// that is associated with the VPC endpoints. The security group should permit
 /// inbound TCP port 1688 communication from resources in the VPC.
+///
+/// @nodoc
 class Settings {
   /// A security group ID that allows inbound TCP port 1688 communication between
   /// resources in your VPC and the VPC endpoint for activation servers.
@@ -1450,6 +1473,8 @@ class Settings {
 }
 
 /// Details about an Active Directory identity provider.
+///
+/// @nodoc
 class ActiveDirectoryIdentityProvider {
   /// The <code>ActiveDirectorySettings</code> resource contains details about the
   /// Active Directory, including network access details such as domain name and
@@ -1506,6 +1531,8 @@ class ActiveDirectoryIdentityProvider {
 
 /// Contains network access and credential details that are needed for user
 /// administration in the Active Directory.
+///
+/// @nodoc
 class ActiveDirectorySettings {
   /// Points to the <code>CredentialsProvider</code> resource that contains
   /// information about the credential provider for user administration.
@@ -1572,6 +1599,7 @@ class ActiveDirectorySettings {
   }
 }
 
+/// @nodoc
 class ActiveDirectoryType {
   static const selfManaged = ActiveDirectoryType._('SELF_MANAGED');
   static const awsManaged = ActiveDirectoryType._('AWS_MANAGED');
@@ -1598,6 +1626,8 @@ class ActiveDirectoryType {
 }
 
 /// Contains information about the credential provider for user administration.
+///
+/// @nodoc
 class CredentialsProvider {
   /// Identifies the Secrets Manager secret that contains credentials needed for
   /// user administration in the Active Directory.
@@ -1629,6 +1659,8 @@ class CredentialsProvider {
 }
 
 /// Contains network settings for the Active Directory domain.
+///
+/// @nodoc
 class DomainNetworkSettings {
   /// Contains a list of subnets that apply for the Active Directory domain.
   final List<String> subnets;
@@ -1655,6 +1687,8 @@ class DomainNetworkSettings {
 }
 
 /// Contains a credentials secret that's stored in Secrets Manager.
+///
+/// @nodoc
 class SecretsManagerCredentialsProvider {
   /// The ID of the Secrets Manager secret that contains credentials.
   final String? secretId;
@@ -1680,6 +1714,8 @@ class SecretsManagerCredentialsProvider {
 
 /// Updates the registered identity provider’s product related configuration
 /// settings such as the subnets to provision VPC endpoints.
+///
+/// @nodoc
 class UpdateSettings {
   /// The ID of one or more subnets in which License Manager will create a VPC
   /// endpoint for products that require connectivity to activation servers.
@@ -1711,6 +1747,8 @@ class UpdateSettings {
 }
 
 /// A summary of the user-based subscription products for a specific user.
+///
+/// @nodoc
 class ProductUserSummary {
   /// An object that specifies details for the identity provider.
   final IdentityProvider identityProvider;
@@ -1795,6 +1833,8 @@ class ProductUserSummary {
 }
 
 /// Describes users of an EC2 instance providing user-based subscriptions.
+///
+/// @nodoc
 class InstanceUserSummary {
   /// The <code>IdentityProvider</code> resource specifies details about the
   /// identity provider.
@@ -1880,6 +1920,8 @@ class InstanceUserSummary {
 /// A filter name and value pair that is used to return more specific results
 /// from a describe or list operation. You can use filters can be used to match
 /// a set of resources by specific criteria, such as tags, attributes, or IDs.
+///
+/// @nodoc
 class Filter {
   /// The name of an attribute to use as a filter.
   final String? attribute;
@@ -1910,6 +1952,8 @@ class Filter {
 
 /// Contains details about a network endpoint for a Remote Desktop Services
 /// (RDS) license server.
+///
+/// @nodoc
 class LicenseServerEndpoint {
   /// The timestamp when License Manager created the license server endpoint.
   final DateTime? creationTime;
@@ -2009,6 +2053,7 @@ class LicenseServerEndpoint {
   }
 }
 
+/// @nodoc
 class ServerType {
   static const rdsSal = ServerType._('RDS_SAL');
 
@@ -2032,6 +2077,8 @@ class ServerType {
 }
 
 /// A network endpoint through which you can access one or more servers.
+///
+/// @nodoc
 class ServerEndpoint {
   /// The network address of the endpoint.
   final String? endpoint;
@@ -2054,6 +2101,7 @@ class ServerEndpoint {
   }
 }
 
+/// @nodoc
 class LicenseServerEndpointProvisioningStatus {
   static const provisioning =
       LicenseServerEndpointProvisioningStatus._('PROVISIONING');
@@ -2095,6 +2143,8 @@ class LicenseServerEndpointProvisioningStatus {
 }
 
 /// Information about a Remote Desktop Services (RDS) license server.
+///
+/// @nodoc
 class LicenseServer {
   /// The health status of the RDS license server.
   final LicenseServerHealthStatus? healthStatus;
@@ -2141,6 +2191,7 @@ class LicenseServer {
   }
 }
 
+/// @nodoc
 class LicenseServerHealthStatus {
   static const healthy = LicenseServerHealthStatus._('HEALTHY');
   static const unhealthy = LicenseServerHealthStatus._('UNHEALTHY');
@@ -2168,6 +2219,8 @@ class LicenseServerHealthStatus {
 }
 
 /// Describes an EC2 instance providing user-based subscriptions.
+///
+/// @nodoc
 class InstanceSummary {
   /// The ID of the EC2 instance, which provides user-based subscriptions.
   final String instanceId;
@@ -2241,6 +2294,8 @@ class InstanceSummary {
 }
 
 /// The settings to configure your license server.
+///
+/// @nodoc
 class LicenseServerSettings {
   /// The <code>ServerSettings</code> resource contains the settings for your
   /// server.
@@ -2265,6 +2320,8 @@ class LicenseServerSettings {
 }
 
 /// Contains settings for a specific server.
+///
+/// @nodoc
 class ServerSettings {
   /// The <code>RdsSalSettings</code> resource contains settings to configure a
   /// specific Remote Desktop Services (RDS) license server.
@@ -2284,6 +2341,8 @@ class ServerSettings {
 
 /// Server settings that are specific to a Remote Desktop Services (RDS) license
 /// server.
+///
+/// @nodoc
 class RdsSalSettings {
   /// The <code>CredentialsProvider</code> resource contains a reference to the
   /// credentials provider that's used for RDS license server user administration.
@@ -2301,26 +2360,31 @@ class RdsSalSettings {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2329,11 +2393,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

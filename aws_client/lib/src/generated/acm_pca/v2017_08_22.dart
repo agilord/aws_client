@@ -1968,6 +1968,7 @@ class AcmPca {
   }
 }
 
+/// @nodoc
 class CreateCertificateAuthorityResponse {
   /// If successful, the Amazon Resource Name (ARN) of the certificate authority
   /// (CA). This is of the form:
@@ -1996,6 +1997,7 @@ class CreateCertificateAuthorityResponse {
   }
 }
 
+/// @nodoc
 class CreateCertificateAuthorityAuditReportResponse {
   /// An alphanumeric string that contains a report identifier.
   final String? auditReportId;
@@ -2026,6 +2028,7 @@ class CreateCertificateAuthorityAuditReportResponse {
   }
 }
 
+/// @nodoc
 class DescribeCertificateAuthorityResponse {
   /// A <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html">CertificateAuthority</a>
@@ -2055,6 +2058,7 @@ class DescribeCertificateAuthorityResponse {
   }
 }
 
+/// @nodoc
 class DescribeCertificateAuthorityAuditReportResponse {
   /// Specifies whether report creation is in progress, has succeeded, or has
   /// failed.
@@ -2102,6 +2106,7 @@ class DescribeCertificateAuthorityAuditReportResponse {
   }
 }
 
+/// @nodoc
 class GetCertificateResponse {
   /// The base64 PEM-encoded certificate specified by the
   /// <code>CertificateArn</code> parameter.
@@ -2133,6 +2138,7 @@ class GetCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetCertificateAuthorityCertificateResponse {
   /// Base64-encoded certificate authority (CA) certificate.
   final String? certificate;
@@ -2166,6 +2172,7 @@ class GetCertificateAuthorityCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetCertificateAuthorityCsrResponse {
   /// The base64 PEM-encoded certificate signing request (CSR) for your private CA
   /// certificate.
@@ -2190,6 +2197,7 @@ class GetCertificateAuthorityCsrResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// The policy attached to the private CA as a JSON document.
   final String? policy;
@@ -2212,6 +2220,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class IssueCertificateResponse {
   /// The Amazon Resource Name (ARN) of the issued certificate and the certificate
   /// serial number. This is of the form:
@@ -2238,6 +2247,7 @@ class IssueCertificateResponse {
   }
 }
 
+/// @nodoc
 class ListCertificateAuthoritiesResponse {
   /// Summary information about each certificate authority you have created.
   final List<CertificateAuthority>? certificateAuthorities;
@@ -2273,6 +2283,7 @@ class ListCertificateAuthoritiesResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionsResponse {
   /// When the list is truncated, this value is present and should be used for the
   /// <b>NextToken</b> parameter in a subsequent pagination request.
@@ -2308,6 +2319,7 @@ class ListPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsResponse {
   /// When the list is truncated, this value is present and should be used for the
   /// <b>NextToken</b> parameter in a subsequent pagination request.
@@ -2355,6 +2367,8 @@ class ListTagsResponse {
 /// href="https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html">Setting
 /// up a certificate revocation method</a> in the <i>Amazon Web Services Private
 /// Certificate Authority User Guide</i>.
+///
+/// @nodoc
 class RevocationConfiguration {
   /// Configuration of the certificate revocation list (CRL), if any, maintained
   /// by your private CA. A CRL is typically updated approximately 30 minutes
@@ -2395,6 +2409,7 @@ class RevocationConfiguration {
   }
 }
 
+/// @nodoc
 class CertificateAuthorityStatus {
   static const creating = CertificateAuthorityStatus._('CREATING');
   static const pendingCertificate =
@@ -2533,6 +2548,8 @@ class CertificateAuthorityStatus {
 /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html">Planning
 /// a certificate revocation list (CRL)</a> in the <i>Amazon Web Services
 /// Private Certificate Authority User Guide</i>
+///
+/// @nodoc
 class CrlConfiguration {
   /// Boolean value that specifies whether certificate revocation lists (CRLs) are
   /// enabled. You can use this value to enable certificate revocation for a new
@@ -2694,6 +2711,8 @@ class CrlConfiguration {
 ///
 /// When you revoke a certificate, OCSP responses may take up to 60 minutes to
 /// reflect the new status.
+///
+/// @nodoc
 class OcspConfiguration {
   /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for
   /// validating certificate revocation status.
@@ -2737,6 +2756,7 @@ class OcspConfiguration {
   }
 }
 
+/// @nodoc
 class S3ObjectAcl {
   static const publicRead = S3ObjectAcl._('PUBLIC_READ');
   static const bucketOwnerFullControl =
@@ -2767,6 +2787,8 @@ class S3ObjectAcl {
 /// certificate has been revoked. To choose whether you want this extension
 /// omitted or not in certificates issued by your CA, you can set the
 /// <b>OmitExtension</b> parameter.
+///
+/// @nodoc
 class CrlDistributionPointExtensionConfiguration {
   /// Configures whether the CRL Distribution Point extension should be populated
   /// with the default URL to the CRL. If set to <code>true</code>, then the CDP
@@ -2800,6 +2822,7 @@ class CrlDistributionPointExtensionConfiguration {
   }
 }
 
+/// @nodoc
 class CrlType {
   static const complete = CrlType._('COMPLETE');
   static const partitioned = CrlType._('PARTITIONED');
@@ -2830,6 +2853,8 @@ class CrlType {
 /// action. To remove a tag, call the <a
 /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
 /// action.
+///
+/// @nodoc
 class Tag {
   /// Key (name) of the tag.
   final String key;
@@ -2859,6 +2884,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class RevocationReason {
   static const unspecified = RevocationReason._('UNSPECIFIED');
   static const keyCompromise = RevocationReason._('KEY_COMPROMISE');
@@ -2911,6 +2937,8 @@ class RevocationReason {
 /// action, and listed with the <a
 /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
 /// action.
+///
+/// @nodoc
 class Permission {
   /// The private CA actions that can be performed by the designated Amazon Web
   /// Services service.
@@ -2975,6 +3003,7 @@ class Permission {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const issueCertificate = ActionType._('IssueCertificate');
   static const getCertificate = ActionType._('GetCertificate');
@@ -3012,6 +3041,8 @@ class ActionType {
 /// subordinate CA certificate. Call the <a
 /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
 /// action to import the signed certificate into Certificate Manager (ACM).
+///
+/// @nodoc
 class CertificateAuthority {
   /// Amazon Resource Name (ARN) for your private certificate authority (CA). The
   /// format is <code> <i>12345678-1234-1234-1234-123456789012</i> </code>.
@@ -3175,6 +3206,7 @@ class CertificateAuthority {
   }
 }
 
+/// @nodoc
 class CertificateAuthorityType {
   static const root = CertificateAuthorityType._('ROOT');
   static const subordinate = CertificateAuthorityType._('SUBORDINATE');
@@ -3200,6 +3232,7 @@ class CertificateAuthorityType {
   String toString() => value;
 }
 
+/// @nodoc
 class FailureReason {
   static const requestTimedOut = FailureReason._('REQUEST_TIMED_OUT');
   static const unsupportedAlgorithm = FailureReason._('UNSUPPORTED_ALGORITHM');
@@ -3233,6 +3266,8 @@ class FailureReason {
 /// information when you call the <a
 /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
 /// action.
+///
+/// @nodoc
 class CertificateAuthorityConfiguration {
   /// Type of the public key algorithm and size, in bits, of the key pair that
   /// your CA creates when it issues a certificate. When you create a subordinate
@@ -3291,6 +3326,7 @@ class CertificateAuthorityConfiguration {
   }
 }
 
+/// @nodoc
 class KeyStorageSecurityStandard {
   static const fips_140_2Level_2OrHigher =
       KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_2_OR_HIGHER');
@@ -3324,6 +3360,7 @@ class KeyStorageSecurityStandard {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateAuthorityUsageMode {
   static const generalPurpose =
       CertificateAuthorityUsageMode._('GENERAL_PURPOSE');
@@ -3351,6 +3388,7 @@ class CertificateAuthorityUsageMode {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyAlgorithm {
   static const rsa_2048 = KeyAlgorithm._('RSA_2048');
   static const rsa_3072 = KeyAlgorithm._('RSA_3072');
@@ -3393,6 +3431,7 @@ class KeyAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class SigningAlgorithm {
   static const sha256withecdsa = SigningAlgorithm._('SHA256WITHECDSA');
   static const sha384withecdsa = SigningAlgorithm._('SHA384WITHECDSA');
@@ -3442,6 +3481,8 @@ class SigningAlgorithm {
 /// or service. The <code>Subject </code>must contain an X.500 distinguished
 /// name (DN). A DN is a sequence of relative distinguished names (RDNs). The
 /// RDNs are separated by commas in the certificate.
+///
+/// @nodoc
 class ASN1Subject {
   /// For CA and end-entity certificates in a private PKI, the common name (CN)
   /// can be any string within the length limit.
@@ -3592,6 +3633,8 @@ class ASN1Subject {
 
 /// Describes the certificate extensions to be added to the certificate signing
 /// request (CSR).
+///
+/// @nodoc
 class CsrExtensions {
   /// Indicates the purpose of the certificate and of the key contained in the
   /// certificate.
@@ -3633,6 +3676,8 @@ class CsrExtensions {
 
 /// Defines one or more purposes for which the key contained in the certificate
 /// can be used. Default value for each option is false.
+///
+/// @nodoc
 class KeyUsage {
   /// Key can be used to sign CRLs.
   final bool? cRLSign;
@@ -3714,6 +3759,8 @@ class KeyUsage {
 /// Provides access information used by the <code>authorityInfoAccess</code> and
 /// <code>subjectInfoAccess</code> extensions described in <a
 /// href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>.
+///
+/// @nodoc
 class AccessDescription {
   /// The location of <code>AccessDescription</code> information.
   final GeneralName accessLocation;
@@ -3750,6 +3797,8 @@ class AccessDescription {
 /// Describes the type and format of extension access. Only one of
 /// <code>CustomObjectIdentifier</code> or <code>AccessMethodType</code> may be
 /// provided. Providing both results in <code>InvalidArgsException</code>.
+///
+/// @nodoc
 class AccessMethod {
   /// Specifies the <code>AccessMethod</code>.
   final AccessMethodType? accessMethodType;
@@ -3789,6 +3838,8 @@ class AccessMethod {
 /// href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>. Only one
 /// of the following naming options should be provided. Providing more than one
 /// option results in an <code>InvalidArgsException</code> error.
+///
+/// @nodoc
 class GeneralName {
   final ASN1Subject? directoryName;
 
@@ -3873,6 +3924,8 @@ class GeneralName {
 /// shown below. For more information, see NIST's definition of <a
 /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
 /// Identifier (OID)</a>.
+///
+/// @nodoc
 class OtherName {
   /// Specifies an OID.
   final String typeId;
@@ -3905,6 +3958,8 @@ class OtherName {
 /// Describes an Electronic Data Interchange (EDI) entity as described in as
 /// defined in <a href="https://datatracker.ietf.org/doc/html/rfc5280">Subject
 /// Alternative Name</a> in RFC 5280.
+///
+/// @nodoc
 class EdiPartyName {
   /// Specifies the party name.
   final String partyName;
@@ -3934,6 +3989,7 @@ class EdiPartyName {
   }
 }
 
+/// @nodoc
 class AccessMethodType {
   static const caRepository = AccessMethodType._('CA_REPOSITORY');
   static const resourcePkiManifest =
@@ -3961,6 +4017,8 @@ class AccessMethodType {
 }
 
 /// Defines the X.500 relative distinguished name (RDN).
+///
+/// @nodoc
 class CustomAttribute {
   /// Specifies the object identifier (OID) of the attribute type of the relative
   /// distinguished name (RDN).
@@ -3992,6 +4050,7 @@ class CustomAttribute {
   }
 }
 
+/// @nodoc
 class ResourceOwner {
   static const self = ResourceOwner._('SELF');
   static const otherAccounts = ResourceOwner._('OTHER_ACCOUNTS');
@@ -4025,6 +4084,8 @@ class ResourceOwner {
 /// sources, Amazon Web Services Private CA applies <a
 /// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
 /// of operation rules</a> to determine what information is used.
+///
+/// @nodoc
 class ApiPassthrough {
   /// Specifies X.509 extension information for a certificate.
   final Extensions? extensions;
@@ -4059,6 +4120,8 @@ class ApiPassthrough {
 /// certificate's validity period. The optional parameter
 /// <code>IssueCertificate</code>:<code>ValidityNotBefore</code> specifies a
 /// customized starting time for the validity period.
+///
+/// @nodoc
 class Validity {
   /// Determines how <i>Amazon Web Services Private CA</i> interprets the
   /// <code>Value</code> parameter, an integer. Supported validity types include
@@ -4129,6 +4192,7 @@ class Validity {
   }
 }
 
+/// @nodoc
 class ValidityPeriodType {
   static const endDate = ValidityPeriodType._('END_DATE');
   static const absolute = ValidityPeriodType._('ABSOLUTE');
@@ -4158,6 +4222,8 @@ class ValidityPeriodType {
 }
 
 /// Contains X.509 extension information for a certificate.
+///
+/// @nodoc
 class Extensions {
   /// Contains a sequence of one or more policy information terms, each of which
   /// consists of an object identifier (OID) and optional qualifiers. For more
@@ -4221,6 +4287,8 @@ class Extensions {
 /// <code>ApiPassthrough</code> <a
 /// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">template
 /// rules</a>.
+///
+/// @nodoc
 class CustomExtension {
   /// <p/>
   /// Specifies the object identifier (OID) of the X.509 extension. For more
@@ -4256,6 +4324,8 @@ class CustomExtension {
 
 /// Specifies additional purposes for which the certified public key may be used
 /// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+///
+/// @nodoc
 class ExtendedKeyUsage {
   /// Specifies a custom <code>ExtendedKeyUsage</code> with an object identifier
   /// (OID).
@@ -4284,6 +4354,7 @@ class ExtendedKeyUsage {
   }
 }
 
+/// @nodoc
 class ExtendedKeyUsageType {
   static const serverAuth = ExtendedKeyUsageType._('SERVER_AUTH');
   static const clientAuth = ExtendedKeyUsageType._('CLIENT_AUTH');
@@ -4328,6 +4399,8 @@ class ExtendedKeyUsageType {
 }
 
 /// Defines the X.509 <code>CertificatePolicies</code> extension.
+///
+/// @nodoc
 class PolicyInformation {
   /// Specifies the object identifier (OID) of the certificate policy under which
   /// the certificate was issued. For more information, see NIST's definition of
@@ -4358,6 +4431,8 @@ class PolicyInformation {
 /// Modifies the <code>CertPolicyId</code> of a <code>PolicyInformation</code>
 /// object with a qualifier. Amazon Web Services Private CA supports the
 /// certification practice statement (CPS) qualifier.
+///
+/// @nodoc
 class PolicyQualifierInfo {
   /// Identifies the qualifier modifying a <code>CertPolicyId</code>.
   final PolicyQualifierId policyQualifierId;
@@ -4381,6 +4456,7 @@ class PolicyQualifierInfo {
   }
 }
 
+/// @nodoc
 class PolicyQualifierId {
   static const cps = PolicyQualifierId._('CPS');
 
@@ -4408,6 +4484,8 @@ class PolicyQualifierId {
 /// Private CA supports the <a
 /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4">certification
 /// practice statement (CPS) qualifier</a> defined in RFC 5280.
+///
+/// @nodoc
 class Qualifier {
   /// Contains a pointer to a certification practice statement (CPS) published by
   /// the CA.
@@ -4425,6 +4503,7 @@ class Qualifier {
   }
 }
 
+/// @nodoc
 class AuditReportStatus {
   static const creating = AuditReportStatus._('CREATING');
   static const success = AuditReportStatus._('SUCCESS');
@@ -4450,6 +4529,7 @@ class AuditReportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AuditReportResponseFormat {
   static const json = AuditReportResponseFormat._('JSON');
   static const csv = AuditReportResponseFormat._('CSV');
@@ -4475,12 +4555,14 @@ class AuditReportResponseFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateMismatchException extends _s.GenericAwsException {
   CertificateMismatchException({String? type, String? message})
       : super(
             type: type, code: 'CertificateMismatchException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -4489,56 +4571,67 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgsException extends _s.GenericAwsException {
   InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
 }
 
+/// @nodoc
 class InvalidArnException extends _s.GenericAwsException {
   InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyException extends _s.GenericAwsException {
   InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class InvalidTagException extends _s.GenericAwsException {
   InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class LockoutPreventedException extends _s.GenericAwsException {
   LockoutPreventedException({String? type, String? message})
       : super(type: type, code: 'LockoutPreventedException', message: message);
 }
 
+/// @nodoc
 class MalformedCSRException extends _s.GenericAwsException {
   MalformedCSRException({String? type, String? message})
       : super(type: type, code: 'MalformedCSRException', message: message);
 }
 
+/// @nodoc
 class MalformedCertificateException extends _s.GenericAwsException {
   MalformedCertificateException({String? type, String? message})
       : super(
@@ -4547,6 +4640,7 @@ class MalformedCertificateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PermissionAlreadyExistsException extends _s.GenericAwsException {
   PermissionAlreadyExistsException({String? type, String? message})
       : super(
@@ -4555,6 +4649,7 @@ class PermissionAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RequestAlreadyProcessedException extends _s.GenericAwsException {
   RequestAlreadyProcessedException({String? type, String? message})
       : super(
@@ -4563,21 +4658,25 @@ class RequestAlreadyProcessedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RequestFailedException extends _s.GenericAwsException {
   RequestFailedException({String? type, String? message})
       : super(type: type, code: 'RequestFailedException', message: message);
 }
 
+/// @nodoc
 class RequestInProgressException extends _s.GenericAwsException {
   RequestInProgressException({String? type, String? message})
       : super(type: type, code: 'RequestInProgressException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

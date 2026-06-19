@@ -2129,6 +2129,7 @@ class Drs {
   }
 }
 
+/// @nodoc
 class CreateExtendedSourceServerResponse {
   /// Created extended source server.
   final SourceServer? sourceServer;
@@ -2154,6 +2155,7 @@ class CreateExtendedSourceServerResponse {
   }
 }
 
+/// @nodoc
 class DeleteLaunchActionResponse {
   DeleteLaunchActionResponse();
 
@@ -2166,6 +2168,7 @@ class DeleteLaunchActionResponse {
   }
 }
 
+/// @nodoc
 class InitializeServiceResponse {
   InitializeServiceResponse();
 
@@ -2178,6 +2181,7 @@ class InitializeServiceResponse {
   }
 }
 
+/// @nodoc
 class ListExtensibleSourceServersResponse {
   /// A list of source servers on a staging Account that are extensible.
   final List<StagingSourceServer>? items;
@@ -2211,6 +2215,7 @@ class ListExtensibleSourceServersResponse {
   }
 }
 
+/// @nodoc
 class ListLaunchActionsResponse {
   /// List of resource launch actions.
   final List<LaunchAction>? items;
@@ -2243,6 +2248,7 @@ class ListLaunchActionsResponse {
   }
 }
 
+/// @nodoc
 class ListStagingAccountsResponse {
   /// An array of staging AWS Accounts.
   final List<Account>? accounts;
@@ -2275,6 +2281,7 @@ class ListStagingAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags of the requested resource.
   final Map<String, String>? tags;
@@ -2298,6 +2305,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutLaunchActionResponse {
   /// Launch action code.
   final String? actionCode;
@@ -2384,6 +2392,7 @@ class PutLaunchActionResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobResponse {
   DeleteJobResponse();
 
@@ -2396,6 +2405,7 @@ class DeleteJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobsResponse {
   /// An array of Jobs.
   final List<Job>? items;
@@ -2428,6 +2438,7 @@ class DescribeJobsResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobLogItemsResponse {
   /// An array of Job log items.
   final List<JobLog>? items;
@@ -2460,6 +2471,7 @@ class DescribeJobLogItemsResponse {
   }
 }
 
+/// @nodoc
 class CreateLaunchConfigurationTemplateResponse {
   /// Created Launch Configuration Template.
   final LaunchConfigurationTemplate? launchConfigurationTemplate;
@@ -2487,6 +2499,7 @@ class CreateLaunchConfigurationTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateLaunchConfigurationTemplateResponse {
   /// Updated Launch Configuration Template.
   final LaunchConfigurationTemplate? launchConfigurationTemplate;
@@ -2514,6 +2527,7 @@ class UpdateLaunchConfigurationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteLaunchConfigurationTemplateResponse {
   DeleteLaunchConfigurationTemplateResponse();
 
@@ -2527,6 +2541,7 @@ class DeleteLaunchConfigurationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeLaunchConfigurationTemplatesResponse {
   /// List of items returned by DescribeLaunchConfigurationTemplates.
   final List<LaunchConfigurationTemplate>? items;
@@ -2561,6 +2576,7 @@ class DescribeLaunchConfigurationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecoveryInstancesResponse {
   /// An array of Recovery Instances.
   final List<RecoveryInstance>? items;
@@ -2594,6 +2610,7 @@ class DescribeRecoveryInstancesResponse {
   }
 }
 
+/// @nodoc
 class GetFailbackReplicationConfigurationResponse {
   /// The ID of the Recovery Instance.
   final String recoveryInstanceID;
@@ -2650,6 +2667,7 @@ class GetFailbackReplicationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ReverseReplicationResponse {
   /// ARN of created SourceServer.
   final String? reversedDirectionSourceServerArn;
@@ -2675,6 +2693,7 @@ class ReverseReplicationResponse {
   }
 }
 
+/// @nodoc
 class StartFailbackLaunchResponse {
   /// The failback launch Job.
   final Job? job;
@@ -2699,6 +2718,7 @@ class StartFailbackLaunchResponse {
   }
 }
 
+/// @nodoc
 class TerminateRecoveryInstancesResponse {
   /// The Job for terminating the Recovery Instances.
   final Job? job;
@@ -2724,6 +2744,7 @@ class TerminateRecoveryInstancesResponse {
   }
 }
 
+/// @nodoc
 class ReplicationConfigurationTemplate {
   /// The Replication Configuration Template ID.
   final String replicationConfigurationTemplateID;
@@ -2903,6 +2924,7 @@ class ReplicationConfigurationTemplate {
   }
 }
 
+/// @nodoc
 class DeleteReplicationConfigurationTemplateResponse {
   DeleteReplicationConfigurationTemplateResponse();
 
@@ -2916,6 +2938,7 @@ class DeleteReplicationConfigurationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeReplicationConfigurationTemplatesResponse {
   /// An array of Replication Configuration Templates.
   final List<ReplicationConfigurationTemplate>? items;
@@ -2950,6 +2973,7 @@ class DescribeReplicationConfigurationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class CreateSourceNetworkResponse {
   /// ID of the created Source Network.
   final String? sourceNetworkID;
@@ -2972,6 +2996,7 @@ class CreateSourceNetworkResponse {
   }
 }
 
+/// @nodoc
 class DeleteSourceNetworkResponse {
   DeleteSourceNetworkResponse();
 
@@ -2984,6 +3009,7 @@ class DeleteSourceNetworkResponse {
   }
 }
 
+/// @nodoc
 class DescribeSourceNetworksResponse {
   /// An array of Source Networks.
   final List<SourceNetwork>? items;
@@ -3016,6 +3042,7 @@ class DescribeSourceNetworksResponse {
   }
 }
 
+/// @nodoc
 class AssociateSourceNetworkStackResponse {
   /// The Source Network association Job.
   final Job? job;
@@ -3041,6 +3068,7 @@ class AssociateSourceNetworkStackResponse {
   }
 }
 
+/// @nodoc
 class ExportSourceNetworkCfnTemplateResponse {
   /// S3 bucket URL where the Source Network CloudFormation template was exported
   /// to.
@@ -3065,6 +3093,7 @@ class ExportSourceNetworkCfnTemplateResponse {
   }
 }
 
+/// @nodoc
 class StartSourceNetworkReplicationResponse {
   /// Source Network which was requested for replication.
   final SourceNetwork? sourceNetwork;
@@ -3091,6 +3120,7 @@ class StartSourceNetworkReplicationResponse {
   }
 }
 
+/// @nodoc
 class StopSourceNetworkReplicationResponse {
   /// Source Network which was requested to stop replication.
   final SourceNetwork? sourceNetwork;
@@ -3117,6 +3147,7 @@ class StopSourceNetworkReplicationResponse {
   }
 }
 
+/// @nodoc
 class StartSourceNetworkRecoveryResponse {
   /// The Source Network recovery Job.
   final Job? job;
@@ -3142,6 +3173,7 @@ class StartSourceNetworkRecoveryResponse {
   }
 }
 
+/// @nodoc
 class DeleteSourceServerResponse {
   DeleteSourceServerResponse();
 
@@ -3154,6 +3186,7 @@ class DeleteSourceServerResponse {
   }
 }
 
+/// @nodoc
 class DescribeSourceServersResponse {
   /// An array of Source Servers.
   final List<SourceServer>? items;
@@ -3186,6 +3219,7 @@ class DescribeSourceServersResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecoverySnapshotsResponse {
   /// An array of Recovery Snapshots.
   final List<RecoverySnapshot>? items;
@@ -3219,6 +3253,7 @@ class DescribeRecoverySnapshotsResponse {
   }
 }
 
+/// @nodoc
 class SourceServer {
   /// The version of the DRS agent installed on the source server
   final String? agentVersion;
@@ -3356,6 +3391,7 @@ class SourceServer {
   }
 }
 
+/// @nodoc
 class LaunchConfiguration {
   /// Whether we should copy the Private IP of the Source Server to the Recovery
   /// Instance.
@@ -3459,6 +3495,7 @@ class LaunchConfiguration {
   }
 }
 
+/// @nodoc
 class ReplicationConfiguration {
   /// Whether to associate the default Elastic Disaster Recovery Security group
   /// with the Replication Configuration.
@@ -3638,6 +3675,7 @@ class ReplicationConfiguration {
   }
 }
 
+/// @nodoc
 class StartReplicationResponse {
   /// The Source Server that this action was targeted on.
   final SourceServer? sourceServer;
@@ -3662,6 +3700,7 @@ class StartReplicationResponse {
   }
 }
 
+/// @nodoc
 class StopReplicationResponse {
   /// The Source Server that this action was targeted on.
   final SourceServer? sourceServer;
@@ -3686,6 +3725,7 @@ class StopReplicationResponse {
   }
 }
 
+/// @nodoc
 class StartRecoveryResponse {
   /// The Recovery Job.
   final Job? job;
@@ -3711,6 +3751,8 @@ class StartRecoveryResponse {
 }
 
 /// A job is an asynchronous workflow.
+///
+/// @nodoc
 class Job {
   /// The ID of the Job.
   final String jobID;
@@ -3806,6 +3848,7 @@ class Job {
   }
 }
 
+/// @nodoc
 class JobType {
   static const launch = JobType._('LAUNCH');
   static const terminate = JobType._('TERMINATE');
@@ -3830,6 +3873,7 @@ class JobType {
   String toString() => value;
 }
 
+/// @nodoc
 class InitiatedBy {
   static const startRecovery = InitiatedBy._('START_RECOVERY');
   static const startDrill = InitiatedBy._('START_DRILL');
@@ -3872,6 +3916,7 @@ class InitiatedBy {
   String toString() => value;
 }
 
+/// @nodoc
 class JobStatus {
   static const pending = JobStatus._('PENDING');
   static const started = JobStatus._('STARTED');
@@ -3897,6 +3942,8 @@ class JobStatus {
 }
 
 /// Represents a resource participating in an asynchronous Job.
+///
+/// @nodoc
 class ParticipatingResource {
   /// The launch status of a participating resource.
   final LaunchStatus? launchStatus;
@@ -3932,6 +3979,8 @@ class ParticipatingResource {
 }
 
 /// ID of a resource participating in an asynchronous Job.
+///
+/// @nodoc
 class ParticipatingResourceID {
   /// Source Network ID.
   final String? sourceNetworkID;
@@ -3954,6 +4003,7 @@ class ParticipatingResourceID {
   }
 }
 
+/// @nodoc
 class LaunchStatus {
   static const pending = LaunchStatus._('PENDING');
   static const inProgress = LaunchStatus._('IN_PROGRESS');
@@ -3981,6 +4031,8 @@ class LaunchStatus {
 }
 
 /// Represents a server participating in an asynchronous Job.
+///
+/// @nodoc
 class ParticipatingServer {
   /// The post-launch action runs of a participating server.
   final LaunchActionsStatus? launchActionsStatus;
@@ -4030,6 +4082,8 @@ class ParticipatingServer {
 }
 
 /// Launch actions status.
+///
+/// @nodoc
 class LaunchActionsStatus {
   /// List of post launch action status.
   final List<LaunchActionRun>? runs;
@@ -4065,6 +4119,8 @@ class LaunchActionsStatus {
 }
 
 /// Launch action run.
+///
+/// @nodoc
 class LaunchActionRun {
   /// Action.
   final LaunchAction? action;
@@ -4112,6 +4168,8 @@ class LaunchActionRun {
 }
 
 /// Launch action.
+///
+/// @nodoc
 class LaunchAction {
   /// Launch action code.
   final String? actionCode;
@@ -4193,6 +4251,7 @@ class LaunchAction {
   }
 }
 
+/// @nodoc
 class LaunchActionRunStatus {
   static const inProgress = LaunchActionRunStatus._('IN_PROGRESS');
   static const succeeded = LaunchActionRunStatus._('SUCCEEDED');
@@ -4219,6 +4278,7 @@ class LaunchActionRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LaunchActionType {
   static const ssmAutomation = LaunchActionType._('SSM_AUTOMATION');
   static const ssmCommand = LaunchActionType._('SSM_COMMAND');
@@ -4244,6 +4304,8 @@ class LaunchActionType {
 }
 
 /// Launch action category.
+///
+/// @nodoc
 class LaunchActionCategory {
   static const monitoring = LaunchActionCategory._('MONITORING');
   static const validation = LaunchActionCategory._('VALIDATION');
@@ -4279,6 +4341,8 @@ class LaunchActionCategory {
 }
 
 /// Launch action parameter.
+///
+/// @nodoc
 class LaunchActionParameter {
   /// Type.
   final LaunchActionParameterType? type;
@@ -4309,6 +4373,7 @@ class LaunchActionParameter {
   }
 }
 
+/// @nodoc
 class LaunchActionParameterType {
   static const ssmStore = LaunchActionParameterType._('SSM_STORE');
   static const $dynamic = LaunchActionParameterType._('DYNAMIC');
@@ -4335,6 +4400,8 @@ class LaunchActionParameterType {
 }
 
 /// An object representing the Source Server to recover.
+///
+/// @nodoc
 class StartRecoveryRequestSourceServer {
   /// The ID of the Source Server you want to recover.
   final String sourceServerID;
@@ -4358,6 +4425,7 @@ class StartRecoveryRequestSourceServer {
   }
 }
 
+/// @nodoc
 class ReplicationConfigurationDefaultLargeStagingDiskType {
   static const gp2 =
       ReplicationConfigurationDefaultLargeStagingDiskType._('GP2');
@@ -4392,6 +4460,7 @@ class ReplicationConfigurationDefaultLargeStagingDiskType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationConfigurationEbsEncryption {
   static const $default = ReplicationConfigurationEbsEncryption._('DEFAULT');
   static const custom = ReplicationConfigurationEbsEncryption._('CUSTOM');
@@ -4418,6 +4487,7 @@ class ReplicationConfigurationEbsEncryption {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationConfigurationDataPlaneRouting {
   static const privateIp =
       ReplicationConfigurationDataPlaneRouting._('PRIVATE_IP');
@@ -4445,6 +4515,7 @@ class ReplicationConfigurationDataPlaneRouting {
   String toString() => value;
 }
 
+/// @nodoc
 class InternetProtocol {
   static const ipv4 = InternetProtocol._('IPV4');
   static const ipv6 = InternetProtocol._('IPV6');
@@ -4471,6 +4542,8 @@ class InternetProtocol {
 
 /// A rule in the Point in Time (PIT) policy representing when to take snapshots
 /// and how long to retain them for.
+///
+/// @nodoc
 class PITPolicyRule {
   /// How often, in the chosen units, a snapshot should be taken.
   final int interval;
@@ -4521,6 +4594,7 @@ class PITPolicyRule {
   }
 }
 
+/// @nodoc
 class PITPolicyRuleUnits {
   static const minute = PITPolicyRuleUnits._('MINUTE');
   static const hour = PITPolicyRuleUnits._('HOUR');
@@ -4548,6 +4622,8 @@ class PITPolicyRuleUnits {
 }
 
 /// The configuration of a disk of the Source Server to be replicated.
+///
+/// @nodoc
 class ReplicationConfigurationReplicatedDisk {
   /// The name of the device.
   final String? deviceName;
@@ -4613,6 +4689,7 @@ class ReplicationConfigurationReplicatedDisk {
   }
 }
 
+/// @nodoc
 class ReplicationConfigurationReplicatedDiskStagingDiskType {
   static const auto =
       ReplicationConfigurationReplicatedDiskStagingDiskType._('AUTO');
@@ -4653,6 +4730,7 @@ class ReplicationConfigurationReplicatedDiskStagingDiskType {
   String toString() => value;
 }
 
+/// @nodoc
 class LaunchDisposition {
   static const stopped = LaunchDisposition._('STOPPED');
   static const started = LaunchDisposition._('STARTED');
@@ -4677,6 +4755,7 @@ class LaunchDisposition {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetInstanceTypeRightSizingMethod {
   static const none = TargetInstanceTypeRightSizingMethod._('NONE');
   static const basic = TargetInstanceTypeRightSizingMethod._('BASIC');
@@ -4704,6 +4783,8 @@ class TargetInstanceTypeRightSizingMethod {
 }
 
 /// Configuration of a machine's license.
+///
+/// @nodoc
 class Licensing {
   /// Whether to enable "Bring your own license" or not.
   final bool? osByol;
@@ -4727,6 +4808,8 @@ class Licensing {
 }
 
 /// Launch into existing instance.
+///
+/// @nodoc
 class LaunchIntoInstanceProperties {
   /// Optionally holds EC2 instance ID of an instance to launch into, instead of
   /// launching a new instance during drill, recovery or failback.
@@ -4751,6 +4834,7 @@ class LaunchIntoInstanceProperties {
   }
 }
 
+/// @nodoc
 class LastLaunchResult {
   static const notStarted = LastLaunchResult._('NOT_STARTED');
   static const pending = LastLaunchResult._('PENDING');
@@ -4778,6 +4862,8 @@ class LastLaunchResult {
 }
 
 /// Information about Data Replication
+///
+/// @nodoc
 class DataReplicationInfo {
   /// Error in data replication.
   final DataReplicationError? dataReplicationError;
@@ -4865,6 +4951,8 @@ class DataReplicationInfo {
 }
 
 /// An object representing the Source Server Lifecycle.
+///
+/// @nodoc
 class LifeCycle {
   /// The date and time of when the Source Server was added to the service.
   final String? addedToServiceDateTime;
@@ -4924,6 +5012,8 @@ class LifeCycle {
 }
 
 /// Properties of the Source Server machine.
+///
+/// @nodoc
 class SourceProperties {
   /// An array of CPUs.
   final List<CPU>? cpus;
@@ -5022,6 +5112,8 @@ class SourceProperties {
 }
 
 /// Staging information related to source server.
+///
+/// @nodoc
 class StagingArea {
   /// Shows an error message that occurred when DRS tried to access the staging
   /// source server. In this case StagingArea$status will have value
@@ -5077,6 +5169,8 @@ class StagingArea {
 
 /// Properties of the cloud environment where this Source Server originated
 /// from.
+///
+/// @nodoc
 class SourceCloudProperties {
   /// AWS Account ID for an EC2-originated Source Server.
   final String? originAccountID;
@@ -5127,6 +5221,8 @@ class SourceCloudProperties {
 /// in the recovery location and a new recovery instance was created, and then a
 /// failback replication was initiated from that recovery instance back to the
 /// origin location, then the replication direction will be failback.
+///
+/// @nodoc
 class ReplicationDirection {
   static const failover = ReplicationDirection._('FAILOVER');
   static const failback = ReplicationDirection._('FAILBACK');
@@ -5152,6 +5248,7 @@ class ReplicationDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class ExtensionStatus {
   static const extended = ExtensionStatus._('EXTENDED');
   static const extensionError = ExtensionStatus._('EXTENSION_ERROR');
@@ -5178,6 +5275,8 @@ class ExtensionStatus {
 }
 
 /// Hints used to uniquely identify a machine.
+///
+/// @nodoc
 class IdentificationHints {
   /// AWS Instance ID identification hint.
   final String? awsInstanceID;
@@ -5222,6 +5321,8 @@ class IdentificationHints {
 }
 
 /// Operating System.
+///
+/// @nodoc
 class OS {
   /// The long name of the Operating System.
   final String? fullString;
@@ -5245,6 +5346,8 @@ class OS {
 }
 
 /// Information about a server's CPU.
+///
+/// @nodoc
 class CPU {
   /// The number of CPU cores.
   final int? cores;
@@ -5275,6 +5378,8 @@ class CPU {
 }
 
 /// An object representing a data storage device on a server.
+///
+/// @nodoc
 class Disk {
   /// The amount of storage on the disk in bytes.
   final int? bytes;
@@ -5305,6 +5410,8 @@ class Disk {
 }
 
 /// Network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// Network interface IPs.
   final List<String>? ips;
@@ -5343,6 +5450,8 @@ class NetworkInterface {
 
 /// An object containing information regarding the last launch of a Source
 /// Server.
+///
+/// @nodoc
 class LifeCycleLastLaunch {
   /// An object containing information regarding the initiation of the last launch
   /// of a Source Server.
@@ -5378,6 +5487,8 @@ class LifeCycleLastLaunch {
 
 /// An object containing information regarding the initiation of the last launch
 /// of a Source Server.
+///
+/// @nodoc
 class LifeCycleLastLaunchInitiated {
   /// The date and time the last Source Server launch was initiated.
   final String? apiCallDateTime;
@@ -5414,6 +5525,7 @@ class LifeCycleLastLaunchInitiated {
   }
 }
 
+/// @nodoc
 class LastLaunchType {
   static const recovery = LastLaunchType._('RECOVERY');
   static const drill = LastLaunchType._('DRILL');
@@ -5438,6 +5550,7 @@ class LastLaunchType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataReplicationState {
   static const stopped = DataReplicationState._('STOPPED');
   static const initiating = DataReplicationState._('INITIATING');
@@ -5483,6 +5596,8 @@ class DataReplicationState {
 }
 
 /// Data replication initiation.
+///
+/// @nodoc
 class DataReplicationInitiation {
   /// The date and time of the next attempt to initiate data replication.
   final String? nextAttemptDateTime;
@@ -5525,6 +5640,8 @@ class DataReplicationInitiation {
 }
 
 /// Error in data replication.
+///
+/// @nodoc
 class DataReplicationError {
   /// Error in data replication.
   final DataReplicationErrorString? error;
@@ -5555,6 +5672,7 @@ class DataReplicationError {
   }
 }
 
+/// @nodoc
 class DataReplicationErrorString {
   static const agentNotSeen = DataReplicationErrorString._('AGENT_NOT_SEEN');
   static const snapshotsFailure =
@@ -5622,6 +5740,8 @@ class DataReplicationErrorString {
 }
 
 /// Data replication initiation step.
+///
+/// @nodoc
 class DataReplicationInitiationStep {
   /// The name of the step.
   final DataReplicationInitiationStepName? name;
@@ -5653,6 +5773,7 @@ class DataReplicationInitiationStep {
   }
 }
 
+/// @nodoc
 class DataReplicationInitiationStepName {
   static const wait = DataReplicationInitiationStepName._('WAIT');
   static const createSecurityGroup =
@@ -5710,6 +5831,7 @@ class DataReplicationInitiationStepName {
   String toString() => value;
 }
 
+/// @nodoc
 class DataReplicationInitiationStepStatus {
   static const notStarted =
       DataReplicationInitiationStepStatus._('NOT_STARTED');
@@ -5741,6 +5863,8 @@ class DataReplicationInitiationStepStatus {
 }
 
 /// A disk that should be replicated.
+///
+/// @nodoc
 class DataReplicationInfoReplicatedDisk {
   /// The size of the replication backlog in bytes.
   final int? backloggedStorageBytes;
@@ -5803,6 +5927,7 @@ class DataReplicationInfoReplicatedDisk {
   }
 }
 
+/// @nodoc
 class VolumeStatus {
   static const regular = VolumeStatus._('REGULAR');
   static const containsMarketplaceProductCodes =
@@ -5839,6 +5964,8 @@ class VolumeStatus {
 }
 
 /// A snapshot of a Source Server used during recovery.
+///
+/// @nodoc
 class RecoverySnapshot {
   /// The timestamp of when we expect the snapshot to be taken.
   final String expectedTimestamp;
@@ -5893,6 +6020,8 @@ class RecoverySnapshot {
 }
 
 /// A set of filters by which to return Recovery Snapshots.
+///
+/// @nodoc
 class DescribeRecoverySnapshotsRequestFilters {
   /// The start date in a date range query.
   final String? fromDateTime;
@@ -5915,6 +6044,7 @@ class DescribeRecoverySnapshotsRequestFilters {
   }
 }
 
+/// @nodoc
 class RecoverySnapshotsOrder {
   static const asc = RecoverySnapshotsOrder._('ASC');
   static const desc = RecoverySnapshotsOrder._('DESC');
@@ -5941,6 +6071,8 @@ class RecoverySnapshotsOrder {
 }
 
 /// A set of filters by which to return Source Servers.
+///
+/// @nodoc
 class DescribeSourceServersRequestFilters {
   /// An ID that describes the hardware of the Source Server. This is either an
   /// EC2 instance id, a VMware uuid or a mac address.
@@ -5973,6 +6105,8 @@ class DescribeSourceServersRequestFilters {
 }
 
 /// An object representing the Source Network to recover.
+///
+/// @nodoc
 class StartSourceNetworkRecoveryRequestNetworkEntry {
   /// The ID of the Source Network you want to recover.
   final String sourceNetworkID;
@@ -5996,6 +6130,8 @@ class StartSourceNetworkRecoveryRequestNetworkEntry {
 }
 
 /// The ARN of the Source Network.
+///
+/// @nodoc
 class SourceNetwork {
   /// The ARN of the Source Network.
   final String? arn;
@@ -6101,6 +6237,7 @@ class SourceNetwork {
   }
 }
 
+/// @nodoc
 class ReplicationStatus {
   static const stopped = ReplicationStatus._('STOPPED');
   static const inProgress = ReplicationStatus._('IN_PROGRESS');
@@ -6128,6 +6265,8 @@ class ReplicationStatus {
 }
 
 /// An object representing the Source Network recovery Lifecycle.
+///
+/// @nodoc
 class RecoveryLifeCycle {
   /// The date and time the last Source Network recovery was initiated.
   final DateTime? apiCallDateTime;
@@ -6167,6 +6306,7 @@ class RecoveryLifeCycle {
   }
 }
 
+/// @nodoc
 class RecoveryResult {
   static const notStarted = RecoveryResult._('NOT_STARTED');
   static const inProgress = RecoveryResult._('IN_PROGRESS');
@@ -6205,6 +6345,8 @@ class RecoveryResult {
 }
 
 /// A set of filters by which to return Source Networks.
+///
+/// @nodoc
 class DescribeSourceNetworksRequestFilters {
   /// Filter Source Networks by account ID containing the protected VPCs.
   final String? originAccountID;
@@ -6235,6 +6377,8 @@ class DescribeSourceNetworksRequestFilters {
 }
 
 /// A Recovery Instance is a replica of a Source Server running on EC2.
+///
+/// @nodoc
 class RecoveryInstance {
   /// The version of the DRS agent installed on the recovery instance
   final String? agentVersion;
@@ -6384,6 +6528,7 @@ class RecoveryInstance {
   }
 }
 
+/// @nodoc
 class EC2InstanceState {
   static const pending = EC2InstanceState._('PENDING');
   static const running = EC2InstanceState._('RUNNING');
@@ -6423,6 +6568,8 @@ class EC2InstanceState {
 
 /// An object representing failback related information of the Recovery
 /// Instance.
+///
+/// @nodoc
 class RecoveryInstanceFailback {
   /// The date and time the agent on the Recovery Instance was last seen by the
   /// service.
@@ -6525,6 +6672,8 @@ class RecoveryInstanceFailback {
 }
 
 /// Information about Data Replication
+///
+/// @nodoc
 class RecoveryInstanceDataReplicationInfo {
   /// Information about Data Replication
   final RecoveryInstanceDataReplicationError? dataReplicationError;
@@ -6615,6 +6764,8 @@ class RecoveryInstanceDataReplicationInfo {
 }
 
 /// Properties of the Recovery Instance machine.
+///
+/// @nodoc
 class RecoveryInstanceProperties {
   /// An array of CPUs.
   final List<CPU>? cpus;
@@ -6695,6 +6846,7 @@ class RecoveryInstanceProperties {
   }
 }
 
+/// @nodoc
 class OriginEnvironment {
   static const onPremises = OriginEnvironment._('ON_PREMISES');
   static const aws = OriginEnvironment._('AWS');
@@ -6720,6 +6872,8 @@ class OriginEnvironment {
 }
 
 /// An object representing a block storage device on the Recovery Instance.
+///
+/// @nodoc
 class RecoveryInstanceDisk {
   /// The amount of storage on the disk in bytes.
   final int? bytes;
@@ -6757,6 +6911,7 @@ class RecoveryInstanceDisk {
   }
 }
 
+/// @nodoc
 class RecoveryInstanceDataReplicationState {
   static const stopped = RecoveryInstanceDataReplicationState._('STOPPED');
   static const initiating =
@@ -6813,6 +6968,8 @@ class RecoveryInstanceDataReplicationState {
 }
 
 /// Data replication initiation.
+///
+/// @nodoc
 class RecoveryInstanceDataReplicationInitiation {
   /// The date and time of the current attempt to initiate data replication.
   final String? startDateTime;
@@ -6848,6 +7005,8 @@ class RecoveryInstanceDataReplicationInitiation {
 }
 
 /// Error in data replication.
+///
+/// @nodoc
 class RecoveryInstanceDataReplicationError {
   /// Error in data replication.
   final FailbackReplicationError? error;
@@ -6879,6 +7038,7 @@ class RecoveryInstanceDataReplicationError {
   }
 }
 
+/// @nodoc
 class FailbackReplicationError {
   static const agentNotSeen = FailbackReplicationError._('AGENT_NOT_SEEN');
   static const failbackClientNotSeen =
@@ -6970,6 +7130,8 @@ class FailbackReplicationError {
 }
 
 /// Data replication initiation step.
+///
+/// @nodoc
 class RecoveryInstanceDataReplicationInitiationStep {
   /// The name of the step.
   final RecoveryInstanceDataReplicationInitiationStepName? name;
@@ -7002,6 +7164,7 @@ class RecoveryInstanceDataReplicationInitiationStep {
   }
 }
 
+/// @nodoc
 class RecoveryInstanceDataReplicationInitiationStepName {
   static const linkFailbackClientWithRecoveryInstance =
       RecoveryInstanceDataReplicationInitiationStepName._(
@@ -7100,6 +7263,7 @@ class RecoveryInstanceDataReplicationInitiationStepName {
   String toString() => value;
 }
 
+/// @nodoc
 class RecoveryInstanceDataReplicationInitiationStepStatus {
   static const notStarted =
       RecoveryInstanceDataReplicationInitiationStepStatus._('NOT_STARTED');
@@ -7137,6 +7301,8 @@ class RecoveryInstanceDataReplicationInitiationStepStatus {
 }
 
 /// A disk that should be replicated.
+///
+/// @nodoc
 class RecoveryInstanceDataReplicationInfoReplicatedDisk {
   /// The size of the replication backlog in bytes.
   final int? backloggedStorageBytes;
@@ -7191,6 +7357,7 @@ class RecoveryInstanceDataReplicationInfoReplicatedDisk {
   }
 }
 
+/// @nodoc
 class FailbackState {
   static const failbackNotStarted = FailbackState._('FAILBACK_NOT_STARTED');
   static const failbackInProgress = FailbackState._('FAILBACK_IN_PROGRESS');
@@ -7231,6 +7398,7 @@ class FailbackState {
   String toString() => value;
 }
 
+/// @nodoc
 class FailbackLaunchType {
   static const recovery = FailbackLaunchType._('RECOVERY');
   static const drill = FailbackLaunchType._('DRILL');
@@ -7257,6 +7425,8 @@ class FailbackLaunchType {
 }
 
 /// A set of filters by which to return Recovery Instances.
+///
+/// @nodoc
 class DescribeRecoveryInstancesRequestFilters {
   /// An array of Recovery Instance IDs that should be returned. An empty array
   /// means all Recovery Instances.
@@ -7283,6 +7453,8 @@ class DescribeRecoveryInstancesRequestFilters {
 }
 
 /// Account level Launch Configuration Template.
+///
+/// @nodoc
 class LaunchConfigurationTemplate {
   /// ARN of the Launch Configuration Template.
   final String? arn;
@@ -7392,6 +7564,8 @@ class LaunchConfigurationTemplate {
 }
 
 /// A log outputted by a Job.
+///
+/// @nodoc
 class JobLog {
   /// The event represents the type of a log.
   final JobLogEvent? event;
@@ -7430,6 +7604,7 @@ class JobLog {
   }
 }
 
+/// @nodoc
 class JobLogEvent {
   static const jobStart = JobLogEvent._('JOB_START');
   static const serverSkipped = JobLogEvent._('SERVER_SKIPPED');
@@ -7517,6 +7692,8 @@ class JobLogEvent {
 }
 
 /// Metadata associated with a Job log.
+///
+/// @nodoc
 class JobLogEventData {
   /// Retries for this operation.
   final int? attemptCount;
@@ -7597,6 +7774,8 @@ class JobLogEventData {
 }
 
 /// Properties of a conversion job
+///
+/// @nodoc
 class ConversionProperties {
   /// The timestamp of when the snapshot being converted was taken
   final String? dataTimestamp;
@@ -7671,6 +7850,8 @@ class ConversionProperties {
 }
 
 /// Properties of resource related to a job event.
+///
+/// @nodoc
 class EventResourceData {
   /// Source Network properties.
   final SourceNetworkData? sourceNetworkData;
@@ -7697,6 +7878,8 @@ class EventResourceData {
 }
 
 /// Properties of Source Network related to a job event.
+///
+/// @nodoc
 class SourceNetworkData {
   /// Source Network ID.
   final String? sourceNetworkID;
@@ -7742,6 +7925,8 @@ class SourceNetworkData {
 }
 
 /// Properties of a product code associated with a volume.
+///
+/// @nodoc
 class ProductCode {
   /// Id of a product code associated with a volume.
   final String? productCodeId;
@@ -7772,6 +7957,7 @@ class ProductCode {
   }
 }
 
+/// @nodoc
 class ProductCodeMode {
   static const enabled = ProductCodeMode._('ENABLED');
   static const disabled = ProductCodeMode._('DISABLED');
@@ -7797,6 +7983,8 @@ class ProductCodeMode {
 }
 
 /// A set of filters by which to return Jobs.
+///
+/// @nodoc
 class DescribeJobsRequestFilters {
   /// The start date in a date range query.
   final String? fromDate;
@@ -7826,6 +8014,8 @@ class DescribeJobsRequestFilters {
 }
 
 /// AWS account.
+///
+/// @nodoc
 class Account {
   /// Account ID of AWS account.
   final String? accountID;
@@ -7849,6 +8039,8 @@ class Account {
 }
 
 /// Resource launch actions filter.
+///
+/// @nodoc
 class LaunchActionsRequestFilters {
   /// Launch actions Ids.
   final List<String>? actionIds;
@@ -7866,6 +8058,8 @@ class LaunchActionsRequestFilters {
 }
 
 /// Source server in staging account that extended source server connected to.
+///
+/// @nodoc
 class StagingSourceServer {
   /// The ARN of the source server.
   final String? arn;
@@ -7903,26 +8097,31 @@ class StagingSourceServer {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7931,11 +8130,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UninitializedAccountException extends _s.GenericAwsException {
   UninitializedAccountException({String? type, String? message})
       : super(
@@ -7944,6 +8145,7 @@ class UninitializedAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -210,6 +210,7 @@ class MarketplaceDeployment {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of key-value pairs, where each pair represents a tag present on the
   /// resource.
@@ -234,6 +235,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -246,6 +248,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -258,6 +261,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class PutDeploymentParameterResponse {
   /// The unique identifier of the agreement.
   final String agreementId;
@@ -312,6 +316,8 @@ class PutDeploymentParameterResponse {
 /// Quick Launch, this value must match a parameter defined in the
 /// CloudFormation templated provided to buyers.
 /// </note>
+///
+/// @nodoc
 class DeploymentParameterInput {
   /// The desired name of the deployment parameter. This is the identifier on
   /// which deployment parameters are keyed for a given buyer and product. If this
@@ -337,26 +343,31 @@ class DeploymentParameterInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -365,11 +376,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

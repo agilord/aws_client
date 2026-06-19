@@ -1900,7 +1900,7 @@ class Sqs {
   /// The maximum length of <code>ReceiveRequestAttemptId</code> is 128
   /// characters. <code>ReceiveRequestAttemptId</code> can contain alphanumeric
   /// characters (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and
-  /// punctuation (<code>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</code>).
+  /// punctuation (<code>!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~</code>).
   ///
   /// For best practices of using <code>ReceiveRequestAttemptId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html">Using
@@ -2197,7 +2197,7 @@ class Sqs {
   /// The maximum length of <code>MessageDeduplicationId</code> is 128
   /// characters. <code>MessageDeduplicationId</code> can contain alphanumeric
   /// characters (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and
-  /// punctuation (<code>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</code>).
+  /// punctuation (<code>!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~</code>).
   ///
   /// For best practices of using <code>MessageDeduplicationId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
@@ -2250,7 +2250,7 @@ class Sqs {
   /// </ul>
   /// The length of <code>MessageGroupId</code> is 128 characters. Valid values:
   /// alphanumeric characters and punctuation
-  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  /// <code>(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~)</code>.
   ///
   /// For best practices of using <code>MessageGroupId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html">Using
@@ -2880,6 +2880,7 @@ class Sqs {
   }
 }
 
+/// @nodoc
 class CancelMessageMoveTaskResult {
   /// The approximate number of messages already moved to the destination queue.
   final int? approximateNumberOfMessagesMoved;
@@ -2909,6 +2910,8 @@ class CancelMessageMoveTaskResult {
 /// <a>ChangeMessageVisibilityBatchResultEntry</a> </code> tag if the message
 /// succeeds or a <code> <a>BatchResultErrorEntry</a> </code> tag if the message
 /// fails.
+///
+/// @nodoc
 class ChangeMessageVisibilityBatchResult {
   /// A list of <code> <a>BatchResultErrorEntry</a> </code> items.
   final List<BatchResultErrorEntry> failed;
@@ -2948,6 +2951,8 @@ class ChangeMessageVisibilityBatchResult {
 }
 
 /// Returns the <code>QueueUrl</code> attribute of the created queue.
+///
+/// @nodoc
 class CreateQueueResult {
   /// The URL of the created Amazon SQS queue.
   final String? queueUrl;
@@ -2974,6 +2979,8 @@ class CreateQueueResult {
 /// <a>DeleteMessageBatchResultEntry</a> </code> tag if the message is deleted
 /// or a <code> <a>BatchResultErrorEntry</a> </code> tag if the message can't be
 /// deleted.
+///
+/// @nodoc
 class DeleteMessageBatchResult {
   /// A list of <code> <a>BatchResultErrorEntry</a> </code> items.
   final List<BatchResultErrorEntry> failed;
@@ -3011,6 +3018,8 @@ class DeleteMessageBatchResult {
 }
 
 /// A list of returned queue attributes.
+///
+/// @nodoc
 class GetQueueAttributesResult {
   /// A map of attributes to their respective values.
   final Map<QueueAttributeName, String>? attributes;
@@ -3038,6 +3047,8 @@ class GetQueueAttributesResult {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-responses.html">Interpreting
 /// Responses</a> in the <i>Amazon SQS Developer Guide</i>.
+///
+/// @nodoc
 class GetQueueUrlResult {
   /// The URL of the queue.
   final String? queueUrl;
@@ -3061,6 +3072,8 @@ class GetQueueUrlResult {
 }
 
 /// A list of your dead letter source queues.
+///
+/// @nodoc
 class ListDeadLetterSourceQueuesResult {
   /// A list of source queue URLs that have the <code>RedrivePolicy</code> queue
   /// attribute configured with a dead-letter queue.
@@ -3096,6 +3109,7 @@ class ListDeadLetterSourceQueuesResult {
   }
 }
 
+/// @nodoc
 class ListMessageMoveTasksResult {
   /// A list of message movement tasks and their attributes.
   final List<ListMessageMoveTasksResultEntry>? results;
@@ -3123,6 +3137,8 @@ class ListMessageMoveTasksResult {
 }
 
 /// A list of your queues.
+///
+/// @nodoc
 class ListQueuesResult {
   /// Pagination token to include in the next request. Token value is
   /// <code>null</code> if there are no additional results to request, or if you
@@ -3158,6 +3174,7 @@ class ListQueuesResult {
   }
 }
 
+/// @nodoc
 class ListQueueTagsResult {
   /// The list of all tags added to the specified queue.
   final Map<String, String>? tags;
@@ -3182,6 +3199,8 @@ class ListQueueTagsResult {
 }
 
 /// A list of received messages.
+///
+/// @nodoc
 class ReceiveMessageResult {
   /// A list of messages.
   final List<Message>? messages;
@@ -3208,6 +3227,8 @@ class ReceiveMessageResult {
 }
 
 /// The <code>MD5OfMessageBody</code> and <code>MessageId</code> elements.
+///
+/// @nodoc
 class SendMessageResult {
   /// An MD5 digest of the non-URL-encoded message attribute string. You can use
   /// this attribute to verify that Amazon SQS received the message correctly.
@@ -3283,6 +3304,8 @@ class SendMessageResult {
 /// For each message in the batch, the response contains a <code>
 /// <a>SendMessageBatchResultEntry</a> </code> tag if the message succeeds or a
 /// <code> <a>BatchResultErrorEntry</a> </code> tag if the message fails.
+///
+/// @nodoc
 class SendMessageBatchResult {
   /// A list of <code> <a>BatchResultErrorEntry</a> </code> items with error
   /// details about each message that can't be enqueued.
@@ -3320,6 +3343,7 @@ class SendMessageBatchResult {
   }
 }
 
+/// @nodoc
 class StartMessageMoveTaskResult {
   /// An identifier associated with a message movement task. You can use this
   /// identifier to cancel a specified message movement task using the
@@ -3344,6 +3368,7 @@ class StartMessageMoveTaskResult {
   }
 }
 
+/// @nodoc
 class QueueAttributeName {
   static const all = QueueAttributeName._('All');
   static const policy = QueueAttributeName._('Policy');
@@ -3424,6 +3449,8 @@ class QueueAttributeName {
 
 /// Gives a detailed description of the result of an action on each entry in the
 /// request.
+///
+/// @nodoc
 class BatchResultErrorEntry {
   /// An error code representing why the action failed on this entry.
   final String code;
@@ -3470,6 +3497,8 @@ class BatchResultErrorEntry {
 
 /// Encloses a <code>MessageId</code> for a successfully-enqueued message in a
 /// <code> <a>SendMessageBatch</a>.</code>
+///
+/// @nodoc
 class SendMessageBatchResultEntry {
   /// An identifier for the message in this batch.
   final String id;
@@ -3549,6 +3578,8 @@ class SendMessageBatchResultEntry {
 
 /// Contains the details of a single Amazon SQS message along with an
 /// <code>Id</code>.
+///
+/// @nodoc
 class SendMessageBatchRequestEntry {
   /// An identifier for a message in this batch used to communicate the result.
   /// <note>
@@ -3639,7 +3670,7 @@ class SendMessageBatchRequestEntry {
   /// The length of <code>MessageDeduplicationId</code> is 128 characters.
   /// <code>MessageDeduplicationId</code> can contain alphanumeric characters
   /// (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and punctuation
-  /// (<code>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</code>).
+  /// (<code>!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~</code>).
   ///
   /// For best practices of using <code>MessageDeduplicationId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
@@ -3692,7 +3723,7 @@ class SendMessageBatchRequestEntry {
   /// </ul>
   /// The length of <code>MessageGroupId</code> is 128 characters. Valid values:
   /// alphanumeric characters and punctuation
-  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  /// <code>(!"#$%&'()*+,-./:;<=>?@\[\\]^_`{|}~)</code>.
   ///
   /// For best practices of using <code>MessageGroupId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html">Using
@@ -3749,6 +3780,7 @@ class SendMessageBatchRequestEntry {
   }
 }
 
+/// @nodoc
 class MessageSystemAttributeNameForSends {
   static const awsTraceHeader =
       MessageSystemAttributeNameForSends._('AWSTraceHeader');
@@ -3781,6 +3813,8 @@ class MessageSystemAttributeNameForSends {
 ///
 /// <code>Name</code>, <code>type</code>, <code>value</code> and the message
 /// body must not be empty or null.
+///
+/// @nodoc
 class MessageSystemAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -3840,6 +3874,8 @@ class MessageSystemAttributeValue {
 /// body must not be empty or null. All parts of the message attribute,
 /// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
 /// part of the message size restriction (1 MiB or 1,048,576 bytes).
+///
+/// @nodoc
 class MessageAttributeValue {
   /// Amazon SQS supports the following logical data types: <code>String</code>,
   /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
@@ -3908,6 +3944,8 @@ class MessageAttributeValue {
 }
 
 /// An Amazon SQS message.
+///
+/// @nodoc
 class Message {
   /// A map of the attributes requested in <code> <a>ReceiveMessage</a> </code> to
   /// their respective values. Supported attributes:
@@ -4017,6 +4055,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class MessageSystemAttributeName {
   static const all = MessageSystemAttributeName._('All');
   static const senderId = MessageSystemAttributeName._('SenderId');
@@ -4066,6 +4105,8 @@ class MessageSystemAttributeName {
 }
 
 /// Contains the details of a message movement task.
+///
+/// @nodoc
 class ListMessageMoveTasksResultEntry {
   /// The approximate number of messages already moved to the destination queue.
   final int? approximateNumberOfMessagesMoved;
@@ -4166,6 +4207,8 @@ class ListMessageMoveTasksResultEntry {
 
 /// Encloses the <code>Id</code> of an entry in <code>
 /// <a>DeleteMessageBatch</a>.</code>
+///
+/// @nodoc
 class DeleteMessageBatchResultEntry {
   /// Represents a successfully deleted message.
   final String id;
@@ -4189,6 +4232,8 @@ class DeleteMessageBatchResultEntry {
 }
 
 /// Encloses a receipt handle and an identifier for it.
+///
+/// @nodoc
 class DeleteMessageBatchRequestEntry {
   /// The identifier for this particular receipt handle. This is used to
   /// communicate the result.
@@ -4220,6 +4265,8 @@ class DeleteMessageBatchRequestEntry {
 
 /// Encloses the <code>Id</code> of an entry in <code>
 /// <a>ChangeMessageVisibilityBatch</a>.</code>
+///
+/// @nodoc
 class ChangeMessageVisibilityBatchResultEntry {
   /// Represents a message whose visibility timeout has been changed successfully.
   final String id;
@@ -4245,6 +4292,8 @@ class ChangeMessageVisibilityBatchResultEntry {
 
 /// Encloses a receipt handle and an entry ID for each message in <code>
 /// <a>ChangeMessageVisibilityBatch</a>.</code>
+///
+/// @nodoc
 class ChangeMessageVisibilityBatchRequestEntry {
   /// An identifier for this particular receipt handle used to communicate the
   /// result.
@@ -4280,142 +4329,170 @@ class ChangeMessageVisibilityBatchRequestEntry {
   }
 }
 
+/// @nodoc
 class BatchEntryIdsNotDistinct extends _s.GenericAwsException {
   BatchEntryIdsNotDistinct({String? type, String? message})
       : super(type: type, code: 'BatchEntryIdsNotDistinct', message: message);
 }
 
+/// @nodoc
 class BatchRequestTooLong extends _s.GenericAwsException {
   BatchRequestTooLong({String? type, String? message})
       : super(type: type, code: 'BatchRequestTooLong', message: message);
 }
 
+/// @nodoc
 class EmptyBatchRequest extends _s.GenericAwsException {
   EmptyBatchRequest({String? type, String? message})
       : super(type: type, code: 'EmptyBatchRequest', message: message);
 }
 
+/// @nodoc
 class InvalidAddress extends _s.GenericAwsException {
   InvalidAddress({String? type, String? message})
       : super(type: type, code: 'InvalidAddress', message: message);
 }
 
+/// @nodoc
 class InvalidAttributeName extends _s.GenericAwsException {
   InvalidAttributeName({String? type, String? message})
       : super(type: type, code: 'InvalidAttributeName', message: message);
 }
 
+/// @nodoc
 class InvalidAttributeValue extends _s.GenericAwsException {
   InvalidAttributeValue({String? type, String? message})
       : super(type: type, code: 'InvalidAttributeValue', message: message);
 }
 
+/// @nodoc
 class InvalidBatchEntryId extends _s.GenericAwsException {
   InvalidBatchEntryId({String? type, String? message})
       : super(type: type, code: 'InvalidBatchEntryId', message: message);
 }
 
+/// @nodoc
 class InvalidIdFormat extends _s.GenericAwsException {
   InvalidIdFormat({String? type, String? message})
       : super(type: type, code: 'InvalidIdFormat', message: message);
 }
 
+/// @nodoc
 class InvalidMessageContents extends _s.GenericAwsException {
   InvalidMessageContents({String? type, String? message})
       : super(type: type, code: 'InvalidMessageContents', message: message);
 }
 
+/// @nodoc
 class InvalidSecurity extends _s.GenericAwsException {
   InvalidSecurity({String? type, String? message})
       : super(type: type, code: 'InvalidSecurity', message: message);
 }
 
+/// @nodoc
 class KmsAccessDenied extends _s.GenericAwsException {
   KmsAccessDenied({String? type, String? message})
       : super(type: type, code: 'KmsAccessDenied', message: message);
 }
 
+/// @nodoc
 class KmsDisabled extends _s.GenericAwsException {
   KmsDisabled({String? type, String? message})
       : super(type: type, code: 'KmsDisabled', message: message);
 }
 
+/// @nodoc
 class KmsInvalidKeyUsage extends _s.GenericAwsException {
   KmsInvalidKeyUsage({String? type, String? message})
       : super(type: type, code: 'KmsInvalidKeyUsage', message: message);
 }
 
+/// @nodoc
 class KmsInvalidState extends _s.GenericAwsException {
   KmsInvalidState({String? type, String? message})
       : super(type: type, code: 'KmsInvalidState', message: message);
 }
 
+/// @nodoc
 class KmsNotFound extends _s.GenericAwsException {
   KmsNotFound({String? type, String? message})
       : super(type: type, code: 'KmsNotFound', message: message);
 }
 
+/// @nodoc
 class KmsOptInRequired extends _s.GenericAwsException {
   KmsOptInRequired({String? type, String? message})
       : super(type: type, code: 'KmsOptInRequired', message: message);
 }
 
+/// @nodoc
 class KmsThrottled extends _s.GenericAwsException {
   KmsThrottled({String? type, String? message})
       : super(type: type, code: 'KmsThrottled', message: message);
 }
 
+/// @nodoc
 class MessageNotInflight extends _s.GenericAwsException {
   MessageNotInflight({String? type, String? message})
       : super(type: type, code: 'MessageNotInflight', message: message);
 }
 
+/// @nodoc
 class OverLimit extends _s.GenericAwsException {
   OverLimit({String? type, String? message})
       : super(type: type, code: 'OverLimit', message: message);
 }
 
+/// @nodoc
 class PurgeQueueInProgress extends _s.GenericAwsException {
   PurgeQueueInProgress({String? type, String? message})
       : super(type: type, code: 'PurgeQueueInProgress', message: message);
 }
 
+/// @nodoc
 class QueueDeletedRecently extends _s.GenericAwsException {
   QueueDeletedRecently({String? type, String? message})
       : super(type: type, code: 'QueueDeletedRecently', message: message);
 }
 
+/// @nodoc
 class QueueDoesNotExist extends _s.GenericAwsException {
   QueueDoesNotExist({String? type, String? message})
       : super(type: type, code: 'QueueDoesNotExist', message: message);
 }
 
+/// @nodoc
 class QueueNameExists extends _s.GenericAwsException {
   QueueNameExists({String? type, String? message})
       : super(type: type, code: 'QueueNameExists', message: message);
 }
 
+/// @nodoc
 class ReceiptHandleIsInvalid extends _s.GenericAwsException {
   ReceiptHandleIsInvalid({String? type, String? message})
       : super(type: type, code: 'ReceiptHandleIsInvalid', message: message);
 }
 
+/// @nodoc
 class RequestThrottled extends _s.GenericAwsException {
   RequestThrottled({String? type, String? message})
       : super(type: type, code: 'RequestThrottled', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyEntriesInBatchRequest extends _s.GenericAwsException {
   TooManyEntriesInBatchRequest({String? type, String? message})
       : super(
             type: type, code: 'TooManyEntriesInBatchRequest', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperation extends _s.GenericAwsException {
   UnsupportedOperation({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperation', message: message);

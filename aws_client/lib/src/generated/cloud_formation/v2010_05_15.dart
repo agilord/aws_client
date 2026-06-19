@@ -273,9 +273,9 @@ class CloudFormation {
   /// resource-level permissions and avoid returning a response when no
   /// parameter is sent in the request:
   ///
-  /// <code>{ "Version": "2012-10-17", "Statement": [{ "Effect": "Deny",
+  /// <code>{ "Version": "2012-10-17", "Statement": \[{ "Effect": "Deny",
   /// "Action": "cloudformation:DescribeStacks", "NotResource":
-  /// "arn:aws:cloudformation:*:*:stack/*/*" }] }</code>
+  /// "arn:aws:cloudformation:*:*:stack/*/*" }\] }</code>
   /// </note>
   /// The name or the unique stack ID that's associated with the stack.
   ///
@@ -1335,7 +1335,7 @@ class CloudFormation {
   /// instances from.
   ///
   /// Parameter [accounts] :
-  /// [Self-managed permissions] The account IDs of one or more Amazon Web
+  /// \[Self-managed permissions\] The account IDs of one or more Amazon Web
   /// Services accounts that you want to create stack instances in the specified
   /// Region(s) for.
   ///
@@ -1343,7 +1343,7 @@ class CloudFormation {
   /// but not both.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -1366,7 +1366,7 @@ class CloudFormation {
   /// </ul>
   ///
   /// Parameter [deploymentTargets] :
-  /// [Service-managed permissions] The Organizations accounts in which to
+  /// \[Service-managed permissions\] The Organizations accounts in which to
   /// create stack instances in the specified Amazon Web Services Regions.
   ///
   /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
@@ -2120,14 +2120,14 @@ class CloudFormation {
   /// instances for.
   ///
   /// Parameter [accounts] :
-  /// [Self-managed permissions] The account IDs of the Amazon Web Services
+  /// \[Self-managed permissions\] The account IDs of the Amazon Web Services
   /// accounts that you want to delete stack instances for.
   ///
   /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
   /// but not both.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -2150,7 +2150,7 @@ class CloudFormation {
   /// </ul>
   ///
   /// Parameter [deploymentTargets] :
-  /// [Service-managed permissions] The Organizations accounts from which to
+  /// \[Service-managed permissions\] The Organizations accounts from which to
   /// delete stack instances.
   ///
   /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
@@ -2228,7 +2228,7 @@ class CloudFormation {
   /// this value by running <a>ListStackSets</a>.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -2574,7 +2574,7 @@ class CloudFormation {
   /// May throw [OperationNotFoundException].
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -2795,7 +2795,7 @@ class CloudFormation {
   /// instance information for.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -3105,9 +3105,9 @@ class CloudFormation {
   /// resource-level permissions and avoid returning a response when no
   /// parameter is sent in the request:
   ///
-  /// { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action":
+  /// { "Version": "2012-10-17", "Statement": \[{ "Effect": "Deny", "Action":
   /// "cloudformation:DescribeStacks", "NotResource":
-  /// "arn:aws:cloudformation:*:*:stack/*/*" }] }
+  /// "arn:aws:cloudformation:*:*:stack/*/*" }\] }
   /// </note>
   /// The name or the unique stack ID that's associated with the stack, which
   /// aren't always interchangeable:
@@ -3153,7 +3153,7 @@ class CloudFormation {
   /// The name or unique ID of the StackSet whose description you want.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -3210,7 +3210,7 @@ class CloudFormation {
   /// The name or the unique stack ID of the StackSet for the stack operation.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -3524,7 +3524,7 @@ class CloudFormation {
   /// operation.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -3935,7 +3935,7 @@ class CloudFormation {
   /// May throw [StackSetNotFoundException].
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -4548,7 +4548,7 @@ class CloudFormation {
   /// resources for.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -4658,7 +4658,7 @@ class CloudFormation {
   /// instances for.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -5008,7 +5008,7 @@ class CloudFormation {
   /// results for.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -5095,7 +5095,7 @@ class CloudFormation {
   /// summaries for.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -5164,27 +5164,27 @@ class CloudFormation {
   /// </note>
   /// <ul>
   /// <li>
-  /// [Self-managed permissions] If you set the <code>CallAs</code> parameter to
-  /// <code>SELF</code> while signed in to your Amazon Web Services account,
+  /// \[Self-managed permissions\] If you set the <code>CallAs</code> parameter
+  /// to <code>SELF</code> while signed in to your Amazon Web Services account,
   /// <code>ListStackSets</code> returns all self-managed StackSets in your
   /// Amazon Web Services account.
   /// </li>
   /// <li>
-  /// [Service-managed permissions] If you set the <code>CallAs</code> parameter
-  /// to <code>SELF</code> while signed in to the organization's management
-  /// account, <code>ListStackSets</code> returns all StackSets in the
-  /// management account.
+  /// \[Service-managed permissions\] If you set the <code>CallAs</code>
+  /// parameter to <code>SELF</code> while signed in to the organization's
+  /// management account, <code>ListStackSets</code> returns all StackSets in
+  /// the management account.
   /// </li>
   /// <li>
-  /// [Service-managed permissions] If you set the <code>CallAs</code> parameter
-  /// to <code>DELEGATED_ADMIN</code> while signed in to your member account,
-  /// <code>ListStackSets</code> returns all StackSets with service-managed
-  /// permissions in the management account.
+  /// \[Service-managed permissions\] If you set the <code>CallAs</code>
+  /// parameter to <code>DELEGATED_ADMIN</code> while signed in to your member
+  /// account, <code>ListStackSets</code> returns all StackSets with
+  /// service-managed permissions in the management account.
   /// </li>
   /// </ul>
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the management account or as a delegated
   /// administrator in a member account.
   ///
@@ -6955,7 +6955,7 @@ class CloudFormation {
   /// The name or unique ID of the StackSet associated with the stack instances.
   ///
   /// Parameter [accounts] :
-  /// [Self-managed permissions] The account IDs of one or more Amazon Web
+  /// \[Self-managed permissions\] The account IDs of one or more Amazon Web
   /// Services accounts in which you want to update parameter values for stack
   /// instances. The overridden parameter values will be applied to all stack
   /// instances in the specified accounts and Amazon Web Services Regions.
@@ -6964,7 +6964,7 @@ class CloudFormation {
   /// but not both.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -6987,12 +6987,12 @@ class CloudFormation {
   /// </ul>
   ///
   /// Parameter [deploymentTargets] :
-  /// [Service-managed permissions] The Organizations accounts in which you want
-  /// to update parameter values for stack instances. If your update targets
-  /// OUs, the overridden parameter values only apply to the accounts that are
-  /// currently in the target OUs and their child OUs. Accounts added to the
-  /// target OUs and their child OUs in the future won't use the overridden
-  /// values.
+  /// \[Service-managed permissions\] The Organizations accounts in which you
+  /// want to update parameter values for stack instances. If your update
+  /// targets OUs, the overridden parameter values only apply to the accounts
+  /// that are currently in the target OUs and their child OUs. Accounts added
+  /// to the target OUs and their child OUs in the future won't use the
+  /// overridden values.
   ///
   /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>,
   /// but not both.
@@ -7140,7 +7140,7 @@ class CloudFormation {
   /// The name or unique ID of the StackSet that you want to update.
   ///
   /// Parameter [accounts] :
-  /// [Self-managed permissions] The accounts in which to update associated
+  /// \[Self-managed permissions\] The accounts in which to update associated
   /// stack instances. If you specify accounts, you must also specify the Amazon
   /// Web Services Regions in which to update StackSet instances.
   ///
@@ -7159,8 +7159,8 @@ class CloudFormation {
   /// other stack instances with their existing stack instance status.
   ///
   /// Parameter [administrationRoleARN] :
-  /// [Self-managed permissions] The Amazon Resource Name (ARN) of the IAM role
-  /// to use to update this StackSet.
+  /// \[Self-managed permissions\] The Amazon Resource Name (ARN) of the IAM
+  /// role to use to update this StackSet.
   ///
   /// Specify an IAM role only if you are using customized administrator roles
   /// to control which users or groups can manage specific StackSets within the
@@ -7173,7 +7173,7 @@ class CloudFormation {
   /// the same customized administrator role used with this StackSet previously.
   ///
   /// Parameter [autoDeployment] :
-  /// [Service-managed permissions] Describes whether StackSets automatically
+  /// \[Service-managed permissions\] Describes whether StackSets automatically
   /// deploys to Organizations accounts that are added to a target organization
   /// or organizational unit (OU). For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html">Enable
@@ -7184,7 +7184,7 @@ class CloudFormation {
   /// <code>DeploymentTargets</code> or <code>Regions</code>.
   ///
   /// Parameter [callAs] :
-  /// [Service-managed permissions] Specifies whether you are acting as an
+  /// \[Service-managed permissions\] Specifies whether you are acting as an
   /// account administrator in the organization's management account or as a
   /// delegated administrator in a member account.
   ///
@@ -7299,7 +7299,7 @@ class CloudFormation {
   /// </ul>
   ///
   /// Parameter [deploymentTargets] :
-  /// [Service-managed permissions] The Organizations accounts in which to
+  /// \[Service-managed permissions\] The Organizations accounts in which to
   /// update associated stack instances.
   ///
   /// To update all the stack instances associated with this StackSet, do not
@@ -7319,7 +7319,7 @@ class CloudFormation {
   /// A brief description of updates that you are making.
   ///
   /// Parameter [executionRoleName] :
-  /// [Self-managed permissions] The name of the IAM execution role to use to
+  /// \[Self-managed permissions\] The name of the IAM execution role to use to
   /// update the stack set. If you do not specify an execution role,
   /// CloudFormation uses the
   /// <code>AWSCloudFormationStackSetExecutionRole</code> role for the StackSet
@@ -7632,6 +7632,7 @@ class CloudFormation {
   }
 }
 
+/// @nodoc
 class ActivateOrganizationsAccessOutput {
   ActivateOrganizationsAccessOutput();
   factory ActivateOrganizationsAccessOutput.fromXml(
@@ -7645,6 +7646,7 @@ class ActivateOrganizationsAccessOutput {
   }
 }
 
+/// @nodoc
 class ActivateTypeOutput {
   /// The Amazon Resource Name (ARN) of the activated extension in this account
   /// and Region.
@@ -7667,6 +7669,7 @@ class ActivateTypeOutput {
   }
 }
 
+/// @nodoc
 class BatchDescribeTypeConfigurationsOutput {
   /// A list of information concerning any errors generated during the setting of
   /// the specified configurations.
@@ -7719,6 +7722,8 @@ class BatchDescribeTypeConfigurationsOutput {
 }
 
 /// The output for a <a>ContinueUpdateRollback</a> operation.
+///
+/// @nodoc
 class ContinueUpdateRollbackOutput {
   ContinueUpdateRollbackOutput();
   factory ContinueUpdateRollbackOutput.fromXml(
@@ -7733,6 +7738,8 @@ class ContinueUpdateRollbackOutput {
 }
 
 /// The output for the <a>CreateChangeSet</a> action.
+///
+/// @nodoc
 class CreateChangeSetOutput {
   /// The Amazon Resource Name (ARN) of the change set.
   final String? id;
@@ -7761,6 +7768,7 @@ class CreateChangeSetOutput {
   }
 }
 
+/// @nodoc
 class CreateGeneratedTemplateOutput {
   /// The ID of the generated template.
   final String? generatedTemplateId;
@@ -7785,6 +7793,8 @@ class CreateGeneratedTemplateOutput {
 }
 
 /// The output for a <a>CreateStack</a> action.
+///
+/// @nodoc
 class CreateStackOutput {
   /// A unique identifier for this stack operation that can be used to track the
   /// operation's progress and events.
@@ -7814,6 +7824,7 @@ class CreateStackOutput {
   }
 }
 
+/// @nodoc
 class CreateStackInstancesOutput {
   /// The unique identifier for this StackSet operation.
   final String? operationId;
@@ -7835,6 +7846,7 @@ class CreateStackInstancesOutput {
   }
 }
 
+/// @nodoc
 class CreateStackRefactorOutput {
   /// The ID associated with the stack refactor created from the
   /// <a>CreateStackRefactor</a> action.
@@ -7857,6 +7869,7 @@ class CreateStackRefactorOutput {
   }
 }
 
+/// @nodoc
 class CreateStackSetOutput {
   /// The ID of the StackSet that you're creating.
   final String? stackSetId;
@@ -7878,6 +7891,7 @@ class CreateStackSetOutput {
   }
 }
 
+/// @nodoc
 class DeactivateOrganizationsAccessOutput {
   DeactivateOrganizationsAccessOutput();
   factory DeactivateOrganizationsAccessOutput.fromXml(
@@ -7891,6 +7905,7 @@ class DeactivateOrganizationsAccessOutput {
   }
 }
 
+/// @nodoc
 class DeactivateTypeOutput {
   DeactivateTypeOutput();
   factory DeactivateTypeOutput.fromXml(
@@ -7905,6 +7920,8 @@ class DeactivateTypeOutput {
 }
 
 /// The output for the <a>DeleteChangeSet</a> action.
+///
+/// @nodoc
 class DeleteChangeSetOutput {
   DeleteChangeSetOutput();
   factory DeleteChangeSetOutput.fromXml(
@@ -7918,6 +7935,7 @@ class DeleteChangeSetOutput {
   }
 }
 
+/// @nodoc
 class DeleteStackInstancesOutput {
   /// The unique identifier for this StackSet operation.
   final String? operationId;
@@ -7939,6 +7957,7 @@ class DeleteStackInstancesOutput {
   }
 }
 
+/// @nodoc
 class DeleteStackSetOutput {
   DeleteStackSetOutput();
   factory DeleteStackSetOutput.fromXml(
@@ -7952,6 +7971,7 @@ class DeleteStackSetOutput {
   }
 }
 
+/// @nodoc
 class DeregisterTypeOutput {
   DeregisterTypeOutput();
   factory DeregisterTypeOutput.fromXml(
@@ -7966,6 +7986,8 @@ class DeregisterTypeOutput {
 }
 
 /// The output for the <a>DescribeAccountLimits</a> action.
+///
+/// @nodoc
 class DescribeAccountLimitsOutput {
   /// An account limit structure that contain a list of CloudFormation account
   /// limits and their values.
@@ -7998,6 +8020,8 @@ class DescribeAccountLimitsOutput {
 }
 
 /// The output for the <a>DescribeChangeSet</a> action.
+///
+/// @nodoc
 class DescribeChangeSetOutput {
   /// If you execute the change set, the list of capabilities that were explicitly
   /// acknowledged when the change set was created.
@@ -8269,6 +8293,7 @@ class DescribeChangeSetOutput {
   }
 }
 
+/// @nodoc
 class DescribeChangeSetHooksOutput {
   /// The change set identifier (stack ID).
   final String? changeSetId;
@@ -8335,6 +8360,7 @@ class DescribeChangeSetHooksOutput {
   }
 }
 
+/// @nodoc
 class DescribeEventsOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -8369,6 +8395,7 @@ class DescribeEventsOutput {
   }
 }
 
+/// @nodoc
 class DescribeGeneratedTemplateOutput {
   /// The time the generated template was created.
   final DateTime? creationTime;
@@ -8508,6 +8535,7 @@ class DescribeGeneratedTemplateOutput {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationsAccessOutput {
   /// Presents the status of the <code>OrganizationAccess</code>.
   final OrganizationStatus? status;
@@ -8531,6 +8559,7 @@ class DescribeOrganizationsAccessOutput {
   }
 }
 
+/// @nodoc
 class DescribePublisherOutput {
   /// The type of account used as the identity provider when registering this
   /// publisher with CloudFormation.
@@ -8579,6 +8608,7 @@ class DescribePublisherOutput {
   }
 }
 
+/// @nodoc
 class DescribeResourceScanOutput {
   /// The time that the resource scan was finished.
   final DateTime? endTime;
@@ -8694,6 +8724,7 @@ class DescribeResourceScanOutput {
   }
 }
 
+/// @nodoc
 class DescribeStackDriftDetectionStatusOutput {
   /// The status of the stack drift detection operation.
   ///
@@ -8818,6 +8849,8 @@ class DescribeStackDriftDetectionStatusOutput {
 }
 
 /// The output for a <a>DescribeStackEvents</a> action.
+///
+/// @nodoc
 class DescribeStackEventsOutput {
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of events. If no additional page exists, this value is null.
@@ -8848,6 +8881,7 @@ class DescribeStackEventsOutput {
   }
 }
 
+/// @nodoc
 class DescribeStackInstanceOutput {
   /// The stack instance that matches the specified request parameters.
   final StackInstance? stackInstance;
@@ -8870,6 +8904,7 @@ class DescribeStackInstanceOutput {
   }
 }
 
+/// @nodoc
 class DescribeStackRefactorOutput {
   /// A description to help you identify the refactor.
   final String? description;
@@ -8945,6 +8980,8 @@ class DescribeStackRefactorOutput {
 }
 
 /// The output for a <a>DescribeStackResource</a> action.
+///
+/// @nodoc
 class DescribeStackResourceOutput {
   /// A <code>StackResourceDetail</code> structure that contains the description
   /// of the specified resource in the specified stack.
@@ -8970,6 +9007,7 @@ class DescribeStackResourceOutput {
   }
 }
 
+/// @nodoc
 class DescribeStackResourceDriftsOutput {
   /// Drift information for the resources that have been checked for drift in the
   /// specified stack. This includes actual and expected configuration values for
@@ -9018,6 +9056,8 @@ class DescribeStackResourceDriftsOutput {
 }
 
 /// The output for a <a>DescribeStackResources</a> action.
+///
+/// @nodoc
 class DescribeStackResourcesOutput {
   /// A list of <code>StackResource</code> structures.
   final List<StackResource>? stackResources;
@@ -9041,6 +9081,8 @@ class DescribeStackResourcesOutput {
 }
 
 /// The output for a <a>DescribeStacks</a> action.
+///
+/// @nodoc
 class DescribeStacksOutput {
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of stacks. If no additional page exists, this value is null.
@@ -9071,6 +9113,7 @@ class DescribeStacksOutput {
   }
 }
 
+/// @nodoc
 class DescribeStackSetOutput {
   /// The specified StackSet.
   final StackSet? stackSet;
@@ -9092,6 +9135,7 @@ class DescribeStackSetOutput {
   }
 }
 
+/// @nodoc
 class DescribeStackSetOperationOutput {
   /// The specified StackSet operation.
   final StackSetOperation? stackSetOperation;
@@ -9115,6 +9159,7 @@ class DescribeStackSetOperationOutput {
   }
 }
 
+/// @nodoc
 class DescribeTypeOutput {
   /// The Amazon Resource Name (ARN) of the extension.
   final String? arn;
@@ -9527,6 +9572,7 @@ class DescribeTypeOutput {
   }
 }
 
+/// @nodoc
 class DescribeTypeRegistrationOutput {
   /// The description of the extension registration request.
   final String? description;
@@ -9578,6 +9624,7 @@ class DescribeTypeRegistrationOutput {
   }
 }
 
+/// @nodoc
 class DetectStackDriftOutput {
   /// The ID of the drift detection results of this operation.
   ///
@@ -9604,6 +9651,7 @@ class DetectStackDriftOutput {
   }
 }
 
+/// @nodoc
 class DetectStackResourceDriftOutput {
   /// Information about whether the resource's actual configuration has drifted
   /// from its expected template configuration, including actual and expected
@@ -9628,6 +9676,7 @@ class DetectStackResourceDriftOutput {
   }
 }
 
+/// @nodoc
 class DetectStackSetDriftOutput {
   /// The ID of the drift detection StackSet operation.
   ///
@@ -9653,6 +9702,8 @@ class DetectStackSetDriftOutput {
 }
 
 /// The output for a <a>EstimateTemplateCost</a> action.
+///
+/// @nodoc
 class EstimateTemplateCostOutput {
   /// An Amazon Web Services Simple Monthly Calculator URL with a query string
   /// that describes the resources required to run the template.
@@ -9676,6 +9727,8 @@ class EstimateTemplateCostOutput {
 }
 
 /// The output for the <a>ExecuteChangeSet</a> action.
+///
+/// @nodoc
 class ExecuteChangeSetOutput {
   ExecuteChangeSetOutput();
   factory ExecuteChangeSetOutput.fromXml(
@@ -9689,6 +9742,7 @@ class ExecuteChangeSetOutput {
   }
 }
 
+/// @nodoc
 class GetGeneratedTemplateOutput {
   /// The status of the template generation. Supported values are:
   ///
@@ -9747,6 +9801,7 @@ class GetGeneratedTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetHookResultOutput {
   /// A list of objects with additional information and guidance that can help you
   /// resolve a failed Hook invocation.
@@ -9883,6 +9938,8 @@ class GetHookResultOutput {
 }
 
 /// The output for the <a>GetStackPolicy</a> action.
+///
+/// @nodoc
 class GetStackPolicyOutput {
   /// Structure that contains the stack policy body. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html">Prevent
@@ -9907,6 +9964,8 @@ class GetStackPolicyOutput {
 }
 
 /// The output for <a>GetTemplate</a> action.
+///
+/// @nodoc
 class GetTemplateOutput {
   /// The stage of the template that you can retrieve. For stacks, the
   /// <code>Original</code> and <code>Processed</code> templates are always
@@ -9948,6 +10007,8 @@ class GetTemplateOutput {
 }
 
 /// The output for the <a>GetTemplateSummary</a> action.
+///
+/// @nodoc
 class GetTemplateSummaryOutput {
   /// The capabilities found within the template. If your template contains IAM
   /// resources, you must specify the <code>CAPABILITY_IAM</code> or
@@ -10068,6 +10129,7 @@ class GetTemplateSummaryOutput {
   }
 }
 
+/// @nodoc
 class ImportStacksToStackSetOutput {
   /// The unique identifier for the StackSet operation.
   final String? operationId;
@@ -10090,6 +10152,8 @@ class ImportStacksToStackSetOutput {
 }
 
 /// The output for the <a>ListChangeSets</a> action.
+///
+/// @nodoc
 class ListChangeSetsOutput {
   /// If the output exceeds 1 MB, a string that identifies the next page of change
   /// sets. If there is no additional page, this value is <code>null</code>.
@@ -10121,6 +10185,7 @@ class ListChangeSetsOutput {
   }
 }
 
+/// @nodoc
 class ListExportsOutput {
   /// The output for the <a>ListExports</a> action.
   final List<Export>? exports;
@@ -10152,6 +10217,7 @@ class ListExportsOutput {
   }
 }
 
+/// @nodoc
 class ListGeneratedTemplatesOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10185,6 +10251,7 @@ class ListGeneratedTemplatesOutput {
   }
 }
 
+/// @nodoc
 class ListHookResultsOutput {
   /// A list of <code>HookResultSummary</code> structures that provides the status
   /// and Hook status reason for each Hook invocation for the specified target.
@@ -10231,6 +10298,7 @@ class ListHookResultsOutput {
   }
 }
 
+/// @nodoc
 class ListImportsOutput {
   /// A list of stack names that are importing the specified exported output
   /// value.
@@ -10263,6 +10331,7 @@ class ListImportsOutput {
   }
 }
 
+/// @nodoc
 class ListResourceScanRelatedResourcesOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10300,6 +10369,7 @@ class ListResourceScanRelatedResourcesOutput {
   }
 }
 
+/// @nodoc
 class ListResourceScanResourcesOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10334,6 +10404,7 @@ class ListResourceScanResourcesOutput {
   }
 }
 
+/// @nodoc
 class ListResourceScansOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10372,6 +10443,7 @@ class ListResourceScansOutput {
   }
 }
 
+/// @nodoc
 class ListStackInstanceResourceDriftsOutput {
   /// If the previous paginated request didn't return all of the remaining
   /// results, the response object's <code>NextToken</code> parameter value is set
@@ -10409,6 +10481,7 @@ class ListStackInstanceResourceDriftsOutput {
   }
 }
 
+/// @nodoc
 class ListStackInstancesOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10445,6 +10518,7 @@ class ListStackInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListStackRefactorActionsOutput {
   /// The stack refactor actions.
   final List<StackRefactorAction> stackRefactorActions;
@@ -10481,6 +10555,7 @@ class ListStackRefactorActionsOutput {
   }
 }
 
+/// @nodoc
 class ListStackRefactorsOutput {
   /// Provides a summary of a stack refactor, including the following:
   ///
@@ -10539,6 +10614,8 @@ class ListStackRefactorsOutput {
 }
 
 /// The output for a <a>ListStackResources</a> action.
+///
+/// @nodoc
 class ListStackResourcesOutput {
   /// If the output exceeds 1 MB, a string that identifies the next page of stack
   /// resources. If no additional page exists, this value is null.
@@ -10575,6 +10652,8 @@ class ListStackResourcesOutput {
 }
 
 /// The output for <a>ListStacks</a> action.
+///
+/// @nodoc
 class ListStacksOutput {
   /// If the output exceeds 1 MB in size, a string that identifies the next page
   /// of stacks. If no additional page exists, this value is null.
@@ -10606,6 +10685,7 @@ class ListStacksOutput {
   }
 }
 
+/// @nodoc
 class ListStackSetAutoDeploymentTargetsOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10643,6 +10723,7 @@ class ListStackSetAutoDeploymentTargetsOutput {
   }
 }
 
+/// @nodoc
 class ListStackSetOperationResultsOutput {
   /// If the request doesn't return all results, <code>NextToken</code> is set to
   /// a token. To retrieve the next set of results, call
@@ -10680,6 +10761,7 @@ class ListStackSetOperationResultsOutput {
   }
 }
 
+/// @nodoc
 class ListStackSetOperationsOutput {
   /// If the request doesn't return all results, <code>NextToken</code> is set to
   /// a token. To retrieve the next set of results, call
@@ -10716,6 +10798,7 @@ class ListStackSetOperationsOutput {
   }
 }
 
+/// @nodoc
 class ListStackSetsOutput {
   /// If the request doesn't return all of the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10750,6 +10833,7 @@ class ListStackSetsOutput {
   }
 }
 
+/// @nodoc
 class ListTypeRegistrationsOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10788,6 +10872,7 @@ class ListTypeRegistrationsOutput {
   }
 }
 
+/// @nodoc
 class ListTypesOutput {
   /// If the request doesn't return all the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10822,6 +10907,7 @@ class ListTypesOutput {
   }
 }
 
+/// @nodoc
 class ListTypeVersionsOutput {
   /// If the request doesn't return all of the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -10861,6 +10947,7 @@ class ListTypeVersionsOutput {
   }
 }
 
+/// @nodoc
 class PublishTypeOutput {
   /// The Amazon Resource Name (ARN) assigned to the public extension upon
   /// publication.
@@ -10883,6 +10970,7 @@ class PublishTypeOutput {
   }
 }
 
+/// @nodoc
 class RecordHandlerProgressOutput {
   RecordHandlerProgressOutput();
   factory RecordHandlerProgressOutput.fromXml(
@@ -10896,6 +10984,7 @@ class RecordHandlerProgressOutput {
   }
 }
 
+/// @nodoc
 class RegisterPublisherOutput {
   /// The ID assigned this account by CloudFormation for publishing extensions.
   final String? publisherId;
@@ -10917,6 +11006,7 @@ class RegisterPublisherOutput {
   }
 }
 
+/// @nodoc
 class RegisterTypeOutput {
   /// The identifier for this registration request.
   ///
@@ -10942,6 +11032,7 @@ class RegisterTypeOutput {
   }
 }
 
+/// @nodoc
 class RollbackStackOutput {
   /// A unique identifier for this rollback operation that can be used to track
   /// the operation's progress and events.
@@ -10971,6 +11062,7 @@ class RollbackStackOutput {
   }
 }
 
+/// @nodoc
 class SetTypeConfigurationOutput {
   /// The Amazon Resource Name (ARN) for the configuration data in this account
   /// and Region.
@@ -10996,6 +11088,7 @@ class SetTypeConfigurationOutput {
   }
 }
 
+/// @nodoc
 class SetTypeDefaultVersionOutput {
   SetTypeDefaultVersionOutput();
   factory SetTypeDefaultVersionOutput.fromXml(
@@ -11009,6 +11102,7 @@ class SetTypeDefaultVersionOutput {
   }
 }
 
+/// @nodoc
 class StartResourceScanOutput {
   /// The Amazon Resource Name (ARN) of the resource scan. The format is
   /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}</code>.
@@ -11034,6 +11128,7 @@ class StartResourceScanOutput {
   }
 }
 
+/// @nodoc
 class StopStackSetOperationOutput {
   StopStackSetOperationOutput();
   factory StopStackSetOperationOutput.fromXml(
@@ -11047,6 +11142,7 @@ class StopStackSetOperationOutput {
   }
 }
 
+/// @nodoc
 class TestTypeOutput {
   /// The Amazon Resource Name (ARN) of the extension.
   final String? typeVersionArn;
@@ -11068,6 +11164,7 @@ class TestTypeOutput {
   }
 }
 
+/// @nodoc
 class UpdateGeneratedTemplateOutput {
   /// The Amazon Resource Name (ARN) of the generated template. The format is
   /// <code>arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}</code>.
@@ -11096,6 +11193,8 @@ class UpdateGeneratedTemplateOutput {
 }
 
 /// The output for an <a>UpdateStack</a> action.
+///
+/// @nodoc
 class UpdateStackOutput {
   /// A unique identifier for this update operation that can be used to track the
   /// operation's progress and events.
@@ -11125,6 +11224,7 @@ class UpdateStackOutput {
   }
 }
 
+/// @nodoc
 class UpdateStackInstancesOutput {
   /// The unique identifier for this StackSet operation.
   final String? operationId;
@@ -11146,6 +11246,7 @@ class UpdateStackInstancesOutput {
   }
 }
 
+/// @nodoc
 class UpdateStackSetOutput {
   /// The unique ID for this StackSet operation.
   final String? operationId;
@@ -11167,6 +11268,7 @@ class UpdateStackSetOutput {
   }
 }
 
+/// @nodoc
 class UpdateTerminationProtectionOutput {
   /// The unique ID of the stack.
   final String? stackId;
@@ -11189,6 +11291,8 @@ class UpdateTerminationProtectionOutput {
 }
 
 /// The output for <a>ValidateTemplate</a> action.
+///
+/// @nodoc
 class ValidateTemplateOutput {
   /// The capabilities found within the template. If your template contains IAM
   /// resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value
@@ -11254,6 +11358,7 @@ class ValidateTemplateOutput {
   }
 }
 
+/// @nodoc
 class Capability {
   static const capabilityIam = Capability._('CAPABILITY_IAM');
   static const capabilityNamedIam = Capability._('CAPABILITY_NAMED_IAM');
@@ -11283,6 +11388,8 @@ class Capability {
 }
 
 /// The <code>TemplateParameter</code> data type.
+///
+/// @nodoc
 class TemplateParameter {
   /// The default value associated with the parameter.
   final String? defaultValue;
@@ -11337,6 +11444,8 @@ class TemplateParameter {
 /// <code>StackSetOperationPreferences</code> don't apply to
 /// <code>AutoDeployment</code>, even if it's enabled.
 /// </note>
+///
+/// @nodoc
 class StackSetOperationPreferences {
   /// Specifies how the concurrency level behaves during the operation execution.
   ///
@@ -11526,6 +11635,8 @@ class StackSetOperationPreferences {
 /// When performing create operations, if you specify both
 /// <code>OrganizationalUnitIds</code> and <code>Accounts</code>, you must also
 /// specify the <code>AccountFilterType</code> property.
+///
+/// @nodoc
 class DeploymentTargets {
   /// Refines which accounts will have stack operations performed on them by
   /// specifying how to use the <code>Accounts</code> and
@@ -11645,6 +11756,7 @@ class DeploymentTargets {
   }
 }
 
+/// @nodoc
 class PermissionModels {
   static const serviceManaged = PermissionModels._('SERVICE_MANAGED');
   static const selfManaged = PermissionModels._('SELF_MANAGED');
@@ -11675,6 +11787,8 @@ class PermissionModels {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html">Enable
 /// or disable automatic deployments for StackSets in Organizations</a> in the
 /// <i>CloudFormation User Guide</i>.
+///
+/// @nodoc
 class AutoDeployment {
   /// A list of StackSet ARNs that this StackSet depends on for auto-deployment
   /// operations. When auto-deployment is triggered, operations will be sequenced
@@ -11741,6 +11855,7 @@ class AutoDeployment {
   }
 }
 
+/// @nodoc
 class CallAs {
   static const self = CallAs._('SELF');
   static const delegatedAdmin = CallAs._('DELEGATED_ADMIN');
@@ -11766,6 +11881,8 @@ class CallAs {
 
 /// Describes whether StackSets performs non-conflicting operations concurrently
 /// and queues conflicting operations.
+///
+/// @nodoc
 class ManagedExecution {
   /// When <code>true</code>, CloudFormation performs non-conflicting operations
   /// concurrently and queues conflicting operations. After conflicting operations
@@ -11805,6 +11922,7 @@ class ManagedExecution {
   }
 }
 
+/// @nodoc
 class AccountFilterType {
   static const none = AccountFilterType._('NONE');
   static const intersection = AccountFilterType._('INTERSECTION');
@@ -11831,6 +11949,7 @@ class AccountFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class RegionConcurrencyType {
   static const sequential = RegionConcurrencyType._('SEQUENTIAL');
   static const parallel = RegionConcurrencyType._('PARALLEL');
@@ -11856,6 +11975,7 @@ class RegionConcurrencyType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConcurrencyMode {
   static const strictFailureTolerance =
       ConcurrencyMode._('STRICT_FAILURE_TOLERANCE');
@@ -11884,6 +12004,8 @@ class ConcurrencyMode {
 
 /// The Tag type enables you to specify a key-value pair that can be used to
 /// store information about an CloudFormation stack.
+///
+/// @nodoc
 class Tag {
   /// A string used to identify this tag. You can specify a maximum of 128
   /// characters for a tag key. Tags owned by Amazon Web Services have the
@@ -11925,6 +12047,8 @@ class Tag {
 }
 
 /// The <code>Parameter</code> data type.
+///
+/// @nodoc
 class Parameter {
   /// The key associated with the parameter. If you don't specify a key and value
   /// for a particular parameter, CloudFormation uses the default value that's
@@ -12000,6 +12124,8 @@ class Parameter {
 /// you've specified. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html">Roll
 /// back your CloudFormation stack on alarm breach with rollback triggers</a>.
+///
+/// @nodoc
 class RollbackConfiguration {
   /// The amount of time, in minutes, during which CloudFormation should monitor
   /// all the rollback triggers after the stack creation or update operation
@@ -12097,6 +12223,8 @@ class RollbackConfiguration {
 /// stacks. If any of the alarms you specify goes to ALARM state during the
 /// stack operation or within the specified monitoring period afterwards,
 /// CloudFormation rolls back the entire stack operation.
+///
+/// @nodoc
 class RollbackTrigger {
   /// The Amazon Resource Name (ARN) of the rollback trigger.
   ///
@@ -12142,6 +12270,8 @@ class RollbackTrigger {
 }
 
 /// The configuration details of a generated template.
+///
+/// @nodoc
 class TemplateConfiguration {
   /// The <code>DeletionPolicy</code> assigned to resources in the generated
   /// template. Supported values are:
@@ -12213,6 +12343,7 @@ class TemplateConfiguration {
   }
 }
 
+/// @nodoc
 class GeneratedTemplateDeletionPolicy {
   static const delete = GeneratedTemplateDeletionPolicy._('DELETE');
   static const retain = GeneratedTemplateDeletionPolicy._('RETAIN');
@@ -12238,6 +12369,7 @@ class GeneratedTemplateDeletionPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class GeneratedTemplateUpdateReplacePolicy {
   static const delete = GeneratedTemplateUpdateReplacePolicy._('DELETE');
   static const retain = GeneratedTemplateUpdateReplacePolicy._('RETAIN');
@@ -12266,6 +12398,8 @@ class GeneratedTemplateUpdateReplacePolicy {
 /// A resource included in a generated template. This data type is used with the
 /// <code>CreateGeneratedTemplate</code> and
 /// <code>UpdateGeneratedTemplate</code> API actions.
+///
+/// @nodoc
 class ResourceDefinition {
   /// A list of up to 256 key-value pairs that identifies the scanned resource.
   /// The key is the name of one of the primary identifiers for the resource.
@@ -12321,6 +12455,7 @@ class ResourceDefinition {
   }
 }
 
+/// @nodoc
 class ThirdPartyType {
   static const resource = ThirdPartyType._('RESOURCE');
   static const module = ThirdPartyType._('MODULE');
@@ -12347,6 +12482,8 @@ class ThirdPartyType {
 }
 
 /// A filter that is used to specify which resource types to scan.
+///
+/// @nodoc
 class ScanFilter {
   /// An array of strings where each string represents an Amazon Web Services
   /// resource type you want to scan. Each string defines the resource type using
@@ -12392,6 +12529,7 @@ class ScanFilter {
   }
 }
 
+/// @nodoc
 class ResourceSignalStatus {
   static const success = ResourceSignalStatus._('SUCCESS');
   static const failure = ResourceSignalStatus._('FAILURE');
@@ -12417,6 +12555,7 @@ class ResourceSignalStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistryType {
   static const resource = RegistryType._('RESOURCE');
   static const module = RegistryType._('MODULE');
@@ -12442,6 +12581,8 @@ class RegistryType {
 }
 
 /// Contains logging configuration information for an extension.
+///
+/// @nodoc
 class LoggingConfig {
   /// The Amazon CloudWatch Logs group to which CloudFormation sends error logging
   /// information when invoking the extension's handlers.
@@ -12481,6 +12622,7 @@ class LoggingConfig {
   }
 }
 
+/// @nodoc
 class OperationStatus {
   static const pending = OperationStatus._('PENDING');
   static const inProgress = OperationStatus._('IN_PROGRESS');
@@ -12507,6 +12649,7 @@ class OperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HandlerErrorCode {
   static const notUpdatable = HandlerErrorCode._('NotUpdatable');
   static const invalidRequest = HandlerErrorCode._('InvalidRequest');
@@ -12575,6 +12718,8 @@ class HandlerErrorCode {
 
 /// Contains summary information about a specific version of a CloudFormation
 /// extension.
+///
+/// @nodoc
 class TypeVersionSummary {
   /// The ARN of the extension version.
   final String? arn;
@@ -12664,6 +12809,7 @@ class TypeVersionSummary {
   }
 }
 
+/// @nodoc
 class DeprecatedStatus {
   static const live = DeprecatedStatus._('LIVE');
   static const deprecated = DeprecatedStatus._('DEPRECATED');
@@ -12689,6 +12835,8 @@ class DeprecatedStatus {
 }
 
 /// Contains summary information about the specified CloudFormation extension.
+///
+/// @nodoc
 class TypeSummary {
   /// The ID of the default version of the extension. The default version is used
   /// when the extension version isn't specified.
@@ -12868,6 +13016,7 @@ class TypeSummary {
   }
 }
 
+/// @nodoc
 class IdentityProvider {
   static const awsMarketplace = IdentityProvider._('AWS_Marketplace');
   static const gitHub = IdentityProvider._('GitHub');
@@ -12893,6 +13042,7 @@ class IdentityProvider {
   String toString() => value;
 }
 
+/// @nodoc
 class Visibility {
   static const public = Visibility._('PUBLIC');
   static const private = Visibility._('PRIVATE');
@@ -12916,6 +13066,7 @@ class Visibility {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisioningType {
   static const nonProvisionable = ProvisioningType._('NON_PROVISIONABLE');
   static const immutable = ProvisioningType._('IMMUTABLE');
@@ -12942,6 +13093,8 @@ class ProvisioningType {
 }
 
 /// Filter criteria to use in determining which extensions to return.
+///
+/// @nodoc
 class TypeFilters {
   /// The category of extensions to return.
   ///
@@ -13012,6 +13165,7 @@ class TypeFilters {
   }
 }
 
+/// @nodoc
 class Category {
   static const registered = Category._('REGISTERED');
   static const activated = Category._('ACTIVATED');
@@ -13037,6 +13191,7 @@ class Category {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistrationStatus {
   static const complete = RegistrationStatus._('COMPLETE');
   static const inProgress = RegistrationStatus._('IN_PROGRESS');
@@ -13065,8 +13220,10 @@ class RegistrationStatus {
 
 /// The structures that contain summary information about the specified
 /// StackSet.
+///
+/// @nodoc
 class StackSetSummary {
-  /// [Service-managed permissions] Describes whether StackSets automatically
+  /// \[Service-managed permissions\] Describes whether StackSets automatically
   /// deploys to Organizations accounts that are added to a target organizational
   /// unit (OU).
   final AutoDeployment? autoDeployment;
@@ -13198,6 +13355,7 @@ class StackSetSummary {
   }
 }
 
+/// @nodoc
 class StackSetStatus {
   static const active = StackSetStatus._('ACTIVE');
   static const deleted = StackSetStatus._('DELETED');
@@ -13222,6 +13380,7 @@ class StackSetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StackDriftStatus {
   static const drifted = StackDriftStatus._('DRIFTED');
   static const inSync = StackDriftStatus._('IN_SYNC');
@@ -13250,6 +13409,8 @@ class StackDriftStatus {
 
 /// The structures that contain summary information about the specified
 /// operation.
+///
+/// @nodoc
 class StackSetOperationSummary {
   /// The type of operation: <code>CREATE</code>, <code>UPDATE</code>, or
   /// <code>DELETE</code>. Create and delete operations affect only the specified
@@ -13295,9 +13456,9 @@ class StackSetOperationSummary {
   /// CloudFormation cancels the operation in any remaining Regions.
   /// </li>
   /// <li>
-  /// <code>QUEUED</code>: [Service-managed permissions] For automatic deployments
-  /// that require a sequence of operations, the operation is queued to be
-  /// performed. For more information, see the <a
+  /// <code>QUEUED</code>: \[Service-managed permissions\] For automatic
+  /// deployments that require a sequence of operations, the operation is queued
+  /// to be performed. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">StackSet
   /// status codes</a> in the <i>CloudFormation User Guide</i>.
   /// </li>
@@ -13379,6 +13540,7 @@ class StackSetOperationSummary {
   }
 }
 
+/// @nodoc
 class StackSetOperationAction {
   static const create = StackSetOperationAction._('CREATE');
   static const update = StackSetOperationAction._('UPDATE');
@@ -13406,6 +13568,7 @@ class StackSetOperationAction {
   String toString() => value;
 }
 
+/// @nodoc
 class StackSetOperationStatus {
   static const running = StackSetOperationStatus._('RUNNING');
   static const succeeded = StackSetOperationStatus._('SUCCEEDED');
@@ -13436,6 +13599,8 @@ class StackSetOperationStatus {
 }
 
 /// Detailed information about the StackSet operation.
+///
+/// @nodoc
 class StackSetOperationStatusDetails {
   /// The number of stack instances for which the StackSet operation failed.
   final int? failedStackInstancesCount;
@@ -13461,8 +13626,10 @@ class StackSetOperationStatusDetails {
 
 /// The structure that contains information about a specified operation's
 /// results for a given account in a given Region.
+///
+/// @nodoc
 class StackSetOperationResultSummary {
-  /// [Self-managed permissions] The name of the Amazon Web Services account for
+  /// \[Self-managed permissions\] The name of the Amazon Web Services account for
   /// this operation result.
   final String? account;
 
@@ -13470,7 +13637,7 @@ class StackSetOperationResultSummary {
   /// before proceeding with StackSet operations in an account.
   final AccountGateResult? accountGateResult;
 
-  /// [Service-managed permissions] The organization root ID or organizational
+  /// \[Service-managed permissions\] The organization root ID or organizational
   /// unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final String? organizationalUnitId;
@@ -13556,6 +13723,7 @@ class StackSetOperationResultSummary {
   }
 }
 
+/// @nodoc
 class StackSetOperationResultStatus {
   static const pending = StackSetOperationResultStatus._('PENDING');
   static const running = StackSetOperationResultStatus._('RUNNING');
@@ -13601,6 +13769,8 @@ class StackSetOperationResultStatus {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-account-gating.html">Prevent
 /// failed StackSets deployments using target account gates</a> in the
 /// <i>CloudFormation User Guide</i>.
+///
+/// @nodoc
 class AccountGateResult {
   /// The status of the account gate function.
   ///
@@ -13669,6 +13839,7 @@ class AccountGateResult {
   }
 }
 
+/// @nodoc
 class AccountGateStatus {
   static const succeeded = AccountGateStatus._('SUCCEEDED');
   static const failed = AccountGateStatus._('FAILED');
@@ -13695,6 +13866,8 @@ class AccountGateStatus {
 }
 
 /// The status that operation results are filtered by.
+///
+/// @nodoc
 class OperationResultFilter {
   /// The type of filter to apply.
   final OperationResultFilterName? name;
@@ -13726,6 +13899,7 @@ class OperationResultFilter {
   }
 }
 
+/// @nodoc
 class OperationResultFilterName {
   static const operationResultStatus =
       OperationResultFilterName._('OPERATION_RESULT_STATUS');
@@ -13754,6 +13928,8 @@ class OperationResultFilterName {
 /// One of the targets for the StackSet. Returned by the <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html">ListStackSetAutoDeploymentTargets</a>
 /// API operation.
+///
+/// @nodoc
 class StackSetAutoDeploymentTargetSummary {
   /// The organization root ID or organizational unit (OU) IDs where the StackSet
   /// is targeted.
@@ -13788,6 +13964,8 @@ class StackSetAutoDeploymentTargetSummary {
 }
 
 /// The <code>StackSummary</code> Data Type
+///
+/// @nodoc
 class StackSummary {
   /// The time the stack was created.
   final DateTime creationTime;
@@ -13911,6 +14089,7 @@ class StackSummary {
   }
 }
 
+/// @nodoc
 class StackStatus {
   static const createInProgress = StackStatus._('CREATE_IN_PROGRESS');
   static const createFailed = StackStatus._('CREATE_FAILED');
@@ -13989,6 +14168,8 @@ class StackStatus {
 /// or has <i>drifted</i>, from its expected configuration, as defined in the
 /// stack template and any values specified as template parameters. A stack is
 /// considered to have drifted if one or more of its resources have drifted.
+///
+/// @nodoc
 class StackDriftInformationSummary {
   /// Status of the stack's actual configuration compared to its expected template
   /// configuration.
@@ -14044,6 +14225,8 @@ class StackDriftInformationSummary {
 }
 
 /// Contains information about a CloudFormation operation.
+///
+/// @nodoc
 class OperationEntry {
   /// The unique identifier for the operation.
   final String? operationId;
@@ -14074,6 +14257,7 @@ class OperationEntry {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const createStack = OperationType._('CREATE_STACK');
   static const updateStack = OperationType._('UPDATE_STACK');
@@ -14110,6 +14294,8 @@ class OperationType {
 }
 
 /// Contains high-level information about the specified stack resource.
+///
+/// @nodoc
 class StackResourceSummary {
   /// Time the status was updated.
   final DateTime lastUpdatedTimestamp;
@@ -14199,6 +14385,7 @@ class StackResourceSummary {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const createInProgress = ResourceStatus._('CREATE_IN_PROGRESS');
   static const createFailed = ResourceStatus._('CREATE_FAILED');
@@ -14289,6 +14476,8 @@ class ResourceStatus {
 
 /// Summarizes information about whether the resource's actual configuration
 /// differs, or has <i>drifted</i>, from its expected configuration.
+///
+/// @nodoc
 class StackResourceDriftInformationSummary {
   /// Status of the resource's actual configuration compared to its expected
   /// configuration.
@@ -14359,6 +14548,8 @@ class StackResourceDriftInformationSummary {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html">Create
 /// reusable resource configurations that can be included across templates with
 /// CloudFormation modules</a> in the <i>CloudFormation User Guide</i>.
+///
+/// @nodoc
 class ModuleInfo {
   /// A concatenated list of the logical IDs of the module or modules that
   /// contains the resource. Modules are listed starting with the inner-most
@@ -14408,6 +14599,7 @@ class ModuleInfo {
   }
 }
 
+/// @nodoc
 class StackResourceDriftStatus {
   static const inSync = StackResourceDriftStatus._('IN_SYNC');
   static const modified = StackResourceDriftStatus._('MODIFIED');
@@ -14445,6 +14637,8 @@ class StackResourceDriftStatus {
 }
 
 /// The summary of a stack refactor operation.
+///
+/// @nodoc
 class StackRefactorSummary {
   /// A description to help you identify the refactor.
   final String? description;
@@ -14510,6 +14704,7 @@ class StackRefactorSummary {
   }
 }
 
+/// @nodoc
 class StackRefactorExecutionStatus {
   static const unavailable = StackRefactorExecutionStatus._('UNAVAILABLE');
   static const available = StackRefactorExecutionStatus._('AVAILABLE');
@@ -14557,6 +14752,7 @@ class StackRefactorExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StackRefactorStatus {
   static const createInProgress = StackRefactorStatus._('CREATE_IN_PROGRESS');
   static const createComplete = StackRefactorStatus._('CREATE_COMPLETE');
@@ -14595,6 +14791,8 @@ class StackRefactorStatus {
 
 /// Describes the stack and the action that CloudFormation will perform on it if
 /// you execute the stack refactor.
+///
+/// @nodoc
 class StackRefactorAction {
   /// The action that CloudFormation takes on the stack.
   final StackRefactorActionType? action;
@@ -14715,6 +14913,7 @@ class StackRefactorAction {
   }
 }
 
+/// @nodoc
 class StackRefactorActionType {
   static const move = StackRefactorActionType._('MOVE');
   static const create = StackRefactorActionType._('CREATE');
@@ -14740,6 +14939,7 @@ class StackRefactorActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class StackRefactorActionEntity {
   static const resource = StackRefactorActionEntity._('RESOURCE');
   static const stack = StackRefactorActionEntity._('STACK');
@@ -14765,6 +14965,7 @@ class StackRefactorActionEntity {
   String toString() => value;
 }
 
+/// @nodoc
 class StackRefactorDetection {
   static const auto = StackRefactorDetection._('AUTO');
   static const manual = StackRefactorDetection._('MANUAL');
@@ -14792,6 +14993,8 @@ class StackRefactorDetection {
 
 /// Specifies the current source of the resource and the destination of where it
 /// will be moved to.
+///
+/// @nodoc
 class ResourceMapping {
   /// The destination stack <code>StackName</code> and
   /// <code>LogicalResourceId</code> for the resource being refactored.
@@ -14834,6 +15037,8 @@ class ResourceMapping {
 }
 
 /// The location of the resource in a stack template.
+///
+/// @nodoc
 class ResourceLocation {
   /// The logical name of the resource specified in the template.
   final String logicalResourceId;
@@ -14872,9 +15077,11 @@ class ResourceLocation {
 }
 
 /// The structure that contains summary information about a stack instance.
+///
+/// @nodoc
 class StackInstanceSummary {
-  /// [Self-managed permissions] The name of the Amazon Web Services account that
-  /// the stack instance is associated with.
+  /// \[Self-managed permissions\] The name of the Amazon Web Services account
+  /// that the stack instance is associated with.
   final String? account;
 
   /// Status of the stack instance's actual configuration compared to the expected
@@ -14909,7 +15116,7 @@ class StackInstanceSummary {
   /// The last unique ID of a StackSet operation performed on a stack instance.
   final String? lastOperationId;
 
-  /// [Service-managed permissions] The organization root ID or organizational
+  /// \[Service-managed permissions\] The organization root ID or organizational
   /// unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final String? organizationalUnitId;
@@ -15038,6 +15245,7 @@ class StackInstanceSummary {
   }
 }
 
+/// @nodoc
 class StackInstanceStatus {
   static const current = StackInstanceStatus._('CURRENT');
   static const outdated = StackInstanceStatus._('OUTDATED');
@@ -15065,6 +15273,8 @@ class StackInstanceStatus {
 }
 
 /// The detailed status of the stack instance.
+///
+/// @nodoc
 class StackInstanceComprehensiveStatus {
   /// <ul>
   /// <li>
@@ -15134,6 +15344,7 @@ class StackInstanceComprehensiveStatus {
   }
 }
 
+/// @nodoc
 class StackInstanceDetailedStatus {
   static const pending = StackInstanceDetailedStatus._('PENDING');
   static const running = StackInstanceDetailedStatus._('RUNNING');
@@ -15176,6 +15387,8 @@ class StackInstanceDetailedStatus {
 }
 
 /// The filter to apply to stack instances
+///
+/// @nodoc
 class StackInstanceFilter {
   /// The type of filter to apply.
   final StackInstanceFilterName? name;
@@ -15207,6 +15420,7 @@ class StackInstanceFilter {
   }
 }
 
+/// @nodoc
 class StackInstanceFilterName {
   static const detailedStatus = StackInstanceFilterName._('DETAILED_STATUS');
   static const lastOperationId = StackInstanceFilterName._('LAST_OPERATION_ID');
@@ -15235,6 +15449,8 @@ class StackInstanceFilterName {
 
 /// The structure containing summary information about resource drifts for a
 /// stack instance.
+///
+/// @nodoc
 class StackInstanceResourceDriftsSummary {
   /// The logical name of the resource specified in the template.
   final String logicalResourceId;
@@ -15355,6 +15571,8 @@ class StackInstanceResourceDriftsSummary {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detect
 /// unmanaged configuration changes to stacks and resources with drift
 /// detection</a>.
+///
+/// @nodoc
 class PropertyDifference {
   /// The actual property value of the resource property.
   final String actualValue;
@@ -15416,6 +15634,7 @@ class PropertyDifference {
   }
 }
 
+/// @nodoc
 class DifferenceType {
   static const add = DifferenceType._('ADD');
   static const remove = DifferenceType._('REMOVE');
@@ -15446,6 +15665,8 @@ class DifferenceType {
 /// resource's logical and physical IDs aren't enough to uniquely identify that
 /// resource. Each context key-value pair specifies a resource that contains the
 /// targeted resource.
+///
+/// @nodoc
 class PhysicalResourceIdContextKeyValuePair {
   /// The resource context key.
   final String key;
@@ -15476,6 +15697,8 @@ class PhysicalResourceIdContextKeyValuePair {
 
 /// A summary of the resource scan. This is returned by the
 /// <code>ListResourceScan</code> API action.
+///
+/// @nodoc
 class ResourceScanSummary {
   /// The time that the resource scan was finished.
   final DateTime? endTime;
@@ -15554,6 +15777,7 @@ class ResourceScanSummary {
   }
 }
 
+/// @nodoc
 class ResourceScanStatus {
   static const inProgress = ResourceScanStatus._('IN_PROGRESS');
   static const failed = ResourceScanStatus._('FAILED');
@@ -15581,6 +15805,7 @@ class ResourceScanStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanType {
   static const full = ScanType._('FULL');
   static const partial = ScanType._('PARTIAL');
@@ -15606,6 +15831,8 @@ class ScanType {
 
 /// A scanned resource returned by <code>ListResourceScanResources</code> or
 /// <code>ListResourceScanRelatedResources</code>.
+///
+/// @nodoc
 class ScannedResource {
   /// If <code>true</code>, the resource is managed by a CloudFormation stack.
   final bool? managedByStack;
@@ -15664,6 +15891,8 @@ class ScannedResource {
 
 /// Identifies a scanned resource. This is used with the
 /// <code>ListResourceScanRelatedResources</code> API action.
+///
+/// @nodoc
 class ScannedResourceIdentifier {
   /// A list of up to 256 key-value pairs that identifies the scanned resource.
   /// The key is the name of one of the primary identifiers for the resource.
@@ -15711,6 +15940,7 @@ class ScannedResourceIdentifier {
   }
 }
 
+/// @nodoc
 class ListHookResultsTargetType {
   static const changeSet = ListHookResultsTargetType._('CHANGE_SET');
   static const stack = ListHookResultsTargetType._('STACK');
@@ -15739,6 +15969,8 @@ class ListHookResultsTargetType {
 }
 
 /// A <code>ListHookResults</code> call returns a summary of a Hook invocation.
+///
+/// @nodoc
 class HookResultSummary {
   /// The failure mode of the invocation.
   final HookFailureMode? failureMode;
@@ -15879,6 +16111,7 @@ class HookResultSummary {
   }
 }
 
+/// @nodoc
 class HookInvocationPoint {
   static const preProvision = HookInvocationPoint._('PRE_PROVISION');
 
@@ -15903,6 +16136,7 @@ class HookInvocationPoint {
   String toString() => value;
 }
 
+/// @nodoc
 class HookFailureMode {
   static const fail = HookFailureMode._('FAIL');
   static const warn = HookFailureMode._('WARN');
@@ -15927,6 +16161,7 @@ class HookFailureMode {
   String toString() => value;
 }
 
+/// @nodoc
 class HookStatus {
   static const hookInProgress = HookStatus._('HOOK_IN_PROGRESS');
   static const hookCompleteSucceeded = HookStatus._('HOOK_COMPLETE_SUCCEEDED');
@@ -15958,6 +16193,8 @@ class HookStatus {
 }
 
 /// The summary of a generated template.
+///
+/// @nodoc
 class TemplateSummary {
   /// The time the generated template was created.
   final DateTime? creationTime;
@@ -16061,6 +16298,7 @@ class TemplateSummary {
   }
 }
 
+/// @nodoc
 class GeneratedTemplateStatus {
   static const createPending = GeneratedTemplateStatus._('CREATE_PENDING');
   static const updatePending = GeneratedTemplateStatus._('UPDATE_PENDING');
@@ -16110,6 +16348,8 @@ class GeneratedTemplateStatus {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html">Get
 /// exported outputs from a deployed CloudFormation stack</a>.
+///
+/// @nodoc
 class Export {
   /// The stack that contains the exported output name and value.
   final String? exportingStackId;
@@ -16152,6 +16392,8 @@ class Export {
 
 /// The <code>ChangeSetSummary</code> structure describes a change set, its
 /// status, and the stack with which it's associated.
+///
+/// @nodoc
 class ChangeSetSummary {
   /// The ID of the change set.
   final String? changeSetId;
@@ -16271,6 +16513,7 @@ class ChangeSetSummary {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const unavailable = ExecutionStatus._('UNAVAILABLE');
   static const available = ExecutionStatus._('AVAILABLE');
@@ -16306,6 +16549,7 @@ class ExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeSetStatus {
   static const createPending = ChangeSetStatus._('CREATE_PENDING');
   static const createInProgress = ChangeSetStatus._('CREATE_IN_PROGRESS');
@@ -16347,6 +16591,8 @@ class ChangeSetStatus {
 
 /// Contains any warnings returned by the <code>GetTemplateSummary</code> API
 /// action.
+///
+/// @nodoc
 class Warnings {
   /// A list of all of the unrecognized resource types. This is only returned if
   /// the <code>TemplateSummaryConfig</code> parameter has the
@@ -16377,6 +16623,8 @@ class Warnings {
 /// Describes the target resources of a specific type in your import template
 /// (for example, all <code>AWS::S3::Bucket</code> resources) and the properties
 /// you can provide during the import to identify resources of that type.
+///
+/// @nodoc
 class ResourceIdentifierSummary {
   /// The logical IDs of the target resources of the specified
   /// <code>ResourceType</code>, as defined in the import template.
@@ -16422,6 +16670,8 @@ class ResourceIdentifierSummary {
 }
 
 /// The <code>ParameterDeclaration</code> data type.
+///
+/// @nodoc
 class ParameterDeclaration {
   /// The default value of the parameter.
   final String? defaultValue;
@@ -16485,6 +16735,8 @@ class ParameterDeclaration {
 /// A set of criteria that CloudFormation uses to validate parameter values.
 /// Although other constraints might be defined in the stack template,
 /// CloudFormation returns only the <code>AllowedValues</code> property.
+///
+/// @nodoc
 class ParameterConstraints {
   /// A list of values that are permitted for a parameter.
   final List<String>? allowedValues;
@@ -16509,6 +16761,8 @@ class ParameterConstraints {
 }
 
 /// Options for the <code>GetTemplateSummary</code> API action.
+///
+/// @nodoc
 class TemplateSummaryConfig {
   /// If set to <code>True</code>, any unrecognized resource types generate
   /// warnings and not an error. Any unrecognized resource types are returned in
@@ -16540,6 +16794,7 @@ class TemplateSummaryConfig {
   }
 }
 
+/// @nodoc
 class TemplateStage {
   static const original = TemplateStage._('Original');
   static const processed = TemplateStage._('Processed');
@@ -16565,6 +16820,8 @@ class TemplateStage {
 }
 
 /// The <code>HookTarget</code> data type.
+///
+/// @nodoc
 class HookTarget {
   /// The action that invoked the Hook.
   final HookTargetAction action;
@@ -16616,6 +16873,8 @@ class HookTarget {
 /// A <code>GetHookResult</code> call returns detailed information and
 /// remediation guidance from Control Tower, Guard, Lambda, or custom Hooks for
 /// a Hook invocation result.
+///
+/// @nodoc
 class Annotation {
   /// An identifier for the evaluation logic that was used when invoking the Hook.
   /// For Control Tower, this is the control ID. For Guard, this is the rule ID.
@@ -16680,6 +16939,7 @@ class Annotation {
   }
 }
 
+/// @nodoc
 class AnnotationStatus {
   static const passed = AnnotationStatus._('PASSED');
   static const failed = AnnotationStatus._('FAILED');
@@ -16705,6 +16965,7 @@ class AnnotationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AnnotationSeverityLevel {
   static const informational = AnnotationSeverityLevel._('INFORMATIONAL');
   static const low = AnnotationSeverityLevel._('LOW');
@@ -16733,6 +16994,7 @@ class AnnotationSeverityLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class HookTargetType {
   static const resource = HookTargetType._('RESOURCE');
 
@@ -16756,6 +17018,7 @@ class HookTargetType {
   String toString() => value;
 }
 
+/// @nodoc
 class HookTargetAction {
   static const create = HookTargetAction._('CREATE');
   static const update = HookTargetAction._('UPDATE');
@@ -16782,6 +17045,7 @@ class HookTargetAction {
   String toString() => value;
 }
 
+/// @nodoc
 class TemplateFormat {
   static const json = TemplateFormat._('JSON');
   static const yaml = TemplateFormat._('YAML');
@@ -16823,6 +17087,8 @@ class TemplateFormat {
 /// Use <a>DetectStackResourceDrift</a> to detect drift on individual resources,
 /// or <a>DetectStackDrift</a> to detect drift on all resources in a given stack
 /// that support drift detection.
+///
+/// @nodoc
 class StackResourceDrift {
   /// The logical name of the resource specified in the template.
   final String logicalResourceId;
@@ -16978,6 +17244,7 @@ class StackResourceDrift {
   }
 }
 
+/// @nodoc
 class TypeTestsStatus {
   static const passed = TypeTestsStatus._('PASSED');
   static const failed = TypeTestsStatus._('FAILED');
@@ -17011,6 +17278,8 @@ class TypeTestsStatus {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/module-versioning.html#requirements-for-modules">Requirements
 /// for activating third-party public modules</a> in the <i>CloudFormation User
 /// Guide</i>.
+///
+/// @nodoc
 class RequiredActivatedType {
   /// The type name of the public extension.
   ///
@@ -17068,6 +17337,8 @@ class RequiredActivatedType {
 }
 
 /// The structure that contains information about a StackSet operation.
+///
+/// @nodoc
 class StackSetOperation {
   /// The type of StackSet operation: <code>CREATE</code>, <code>UPDATE</code>, or
   /// <code>DELETE</code>. Create and delete operations affect only the specified
@@ -17149,9 +17420,9 @@ class StackSetOperation {
   /// CloudFormation cancels the operation in any remaining Regions.
   /// </li>
   /// <li>
-  /// <code>QUEUED</code>: [Service-managed permissions] For automatic deployments
-  /// that require a sequence of operations, the operation is queued to be
-  /// performed. For more information, see the <a
+  /// <code>QUEUED</code>: \[Service-managed permissions\] For automatic
+  /// deployments that require a sequence of operations, the operation is queued
+  /// to be performed. For more information, see the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">StackSets
   /// status codes</a> in the <i>CloudFormation User Guide</i>.
   /// </li>
@@ -17277,6 +17548,8 @@ class StackSetOperation {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html">Performing
 /// drift detection on CloudFormation StackSets</a> in the <i>CloudFormation
 /// User Guide</i>.
+///
+/// @nodoc
 class StackSetDriftDetectionDetails {
   /// The status of the StackSet drift detection operation.
   ///
@@ -17428,6 +17701,7 @@ class StackSetDriftDetectionDetails {
   }
 }
 
+/// @nodoc
 class StackSetDriftStatus {
   static const drifted = StackSetDriftStatus._('DRIFTED');
   static const inSync = StackSetDriftStatus._('IN_SYNC');
@@ -17454,6 +17728,7 @@ class StackSetDriftStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StackSetDriftDetectionStatus {
   static const completed = StackSetDriftDetectionStatus._('COMPLETED');
   static const failed = StackSetDriftDetectionStatus._('FAILED');
@@ -17494,6 +17769,8 @@ class StackSetDriftDetectionStatus {
 /// single CloudFormation template. Each stack is based on the same
 /// CloudFormation template, but you can customize individual stacks using
 /// parameters.
+///
+/// @nodoc
 class StackSet {
   /// The Amazon Resource Name (ARN) of the IAM role used to create or update the
   /// stack set.
@@ -17533,7 +17810,7 @@ class StackSet {
   /// and queues conflicting operations.
   final ManagedExecution? managedExecution;
 
-  /// [Service-managed permissions] The organization root ID or organizational
+  /// \[Service-managed permissions\] The organization root ID or organizational
   /// unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final List<String>? organizationalUnitIds;
@@ -17699,6 +17976,8 @@ class StackSet {
 }
 
 /// The <code>Stack</code> data type.
+///
+/// @nodoc
 class Stack {
   /// The time at which the stack was created.
   final DateTime creationTime;
@@ -17986,6 +18265,8 @@ class Stack {
 /// or has <i>drifted</i>, from its expected configuration, as defined in the
 /// stack template and any values specified as template parameters. A stack is
 /// considered to have drifted if one or more of its resources have drifted.
+///
+/// @nodoc
 class StackDriftInformation {
   /// Status of the stack's actual configuration compared to its expected template
   /// configuration.
@@ -18040,6 +18321,7 @@ class StackDriftInformation {
   }
 }
 
+/// @nodoc
 class DeletionMode {
   static const standard = DeletionMode._('STANDARD');
   static const forceDeleteStack = DeletionMode._('FORCE_DELETE_STACK');
@@ -18063,6 +18345,7 @@ class DeletionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DetailedStatus {
   static const configurationComplete =
       DetailedStatus._('CONFIGURATION_COMPLETE');
@@ -18089,6 +18372,8 @@ class DetailedStatus {
 }
 
 /// The <code>Output</code> data type.
+///
+/// @nodoc
 class Output {
   /// User defined description associated with the output.
   final String? description;
@@ -18132,6 +18417,8 @@ class Output {
 }
 
 /// The <code>StackResource</code> data type.
+///
+/// @nodoc
 class StackResource {
   /// The logical name of the resource specified in the template.
   final String logicalResourceId;
@@ -18243,6 +18530,8 @@ class StackResource {
 
 /// Contains information about whether the resource's actual configuration
 /// differs, or has <i>drifted</i>, from its expected configuration.
+///
+/// @nodoc
 class StackResourceDriftInformation {
   /// Status of the resource's actual configuration compared to its expected
   /// configuration
@@ -18301,6 +18590,8 @@ class StackResourceDriftInformation {
 }
 
 /// Contains detailed information about the specified stack resource.
+///
+/// @nodoc
 class StackResourceDetail {
   /// Time the status was updated.
   final DateTime lastUpdatedTimestamp;
@@ -18428,9 +18719,11 @@ class StackResourceDetail {
 /// reason. A stack instance is associated with only one StackSet. Each stack
 /// instance contains the ID of its associated StackSet, in addition to the ID
 /// of the actual stack and the stack status.
+///
+/// @nodoc
 class StackInstance {
-  /// [Self-managed permissions] The name of the Amazon Web Services account that
-  /// the stack instance is associated with.
+  /// \[Self-managed permissions\] The name of the Amazon Web Services account
+  /// that the stack instance is associated with.
   final String? account;
 
   /// Status of the stack instance's actual configuration compared to the expected
@@ -18465,7 +18758,7 @@ class StackInstance {
   /// The last unique ID of a StackSet operation performed on a stack instance.
   final String? lastOperationId;
 
-  /// [Service-managed permissions] The organization root ID or organizational
+  /// \[Service-managed permissions\] The organization root ID or organizational
   /// unit (OU) IDs that you specified for <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final String? organizationalUnitId;
@@ -18605,6 +18898,8 @@ class StackInstance {
 }
 
 /// The <code>StackEvent</code> data type.
+///
+/// @nodoc
 class StackEvent {
   /// The unique identifier of this event.
   final String eventId;
@@ -18812,6 +19107,7 @@ class StackEvent {
   }
 }
 
+/// @nodoc
 class StackDriftDetectionStatus {
   static const detectionInProgress =
       StackDriftDetectionStatus._('DETECTION_IN_PROGRESS');
@@ -18845,6 +19141,7 @@ class StackDriftDetectionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PublisherStatus {
   static const verified = PublisherStatus._('VERIFIED');
   static const unverified = PublisherStatus._('UNVERIFIED');
@@ -18869,6 +19166,7 @@ class PublisherStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OrganizationStatus {
   static const enabled = OrganizationStatus._('ENABLED');
   static const disabled = OrganizationStatus._('DISABLED');
@@ -18897,6 +19195,8 @@ class OrganizationStatus {
 }
 
 /// A summary of the progress of the template generation.
+///
+/// @nodoc
 class TemplateProgress {
   /// The number of resources that failed the template generation.
   final int? resourcesFailed;
@@ -18941,6 +19241,8 @@ class TemplateProgress {
 }
 
 /// Details about a resource in a generated template
+///
+/// @nodoc
 class ResourceDetail {
   /// The logical id for this resource in the final generated template.
   final String? logicalResourceId;
@@ -19033,6 +19335,7 @@ class ResourceDetail {
   }
 }
 
+/// @nodoc
 class GeneratedTemplateResourceStatus {
   static const pending = GeneratedTemplateResourceStatus._('PENDING');
   static const inProgress = GeneratedTemplateResourceStatus._('IN_PROGRESS');
@@ -19061,6 +19364,8 @@ class GeneratedTemplateResourceStatus {
 }
 
 /// The warnings generated for a specific resource for this generated template.
+///
+/// @nodoc
 class WarningDetail {
   /// The properties of the resource that are impacted by this warning.
   final List<WarningProperty>? properties;
@@ -19118,6 +19423,7 @@ class WarningDetail {
   }
 }
 
+/// @nodoc
 class WarningType {
   static const mutuallyExclusiveProperties =
       WarningType._('MUTUALLY_EXCLUSIVE_PROPERTIES');
@@ -19153,6 +19459,8 @@ class WarningType {
 }
 
 /// A specific property that is impacted by a warning.
+///
+/// @nodoc
 class WarningProperty {
   /// The description of the property from the resource provider schema.
   final String? description;
@@ -19192,6 +19500,8 @@ class WarningProperty {
 
 /// Contains detailed information about an event that occurred during a
 /// CloudFormation operation.
+///
+/// @nodoc
 class OperationEvent {
   /// A unique identifier for the request that initiated this operation.
   final String? clientRequestToken;
@@ -19422,6 +19732,7 @@ class OperationEvent {
   }
 }
 
+/// @nodoc
 class BeaconStackOperationStatus {
   static const inProgress = BeaconStackOperationStatus._('IN_PROGRESS');
   static const succeeded = BeaconStackOperationStatus._('SUCCEEDED');
@@ -19448,6 +19759,7 @@ class BeaconStackOperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EventType {
   static const stackEvent = EventType._('STACK_EVENT');
   static const progressEvent = EventType._('PROGRESS_EVENT');
@@ -19480,6 +19792,7 @@ class EventType {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidationStatus {
   static const failed = ValidationStatus._('FAILED');
   static const skipped = ValidationStatus._('SKIPPED');
@@ -19505,6 +19818,8 @@ class ValidationStatus {
 }
 
 /// Event filter allows you to focus on specific events in an operation.
+///
+/// @nodoc
 class EventFilter {
   /// When set to true, only returns failed events within the operation. This
   /// helps quickly identify root causes for a failed operation.
@@ -19529,6 +19844,7 @@ class EventFilter {
   }
 }
 
+/// @nodoc
 class ChangeSetHooksStatus {
   static const planning = ChangeSetHooksStatus._('PLANNING');
   static const planned = ChangeSetHooksStatus._('PLANNED');
@@ -19556,6 +19872,8 @@ class ChangeSetHooksStatus {
 }
 
 /// Specifies the resource, the Hook, and the Hook version to be invoked.
+///
+/// @nodoc
 class ChangeSetHook {
   /// Specify the Hook failure mode for non-compliant resources in the followings
   /// ways.
@@ -19660,6 +19978,8 @@ class ChangeSetHook {
 }
 
 /// Specifies target details for an activated Hook.
+///
+/// @nodoc
 class ChangeSetHookTargetDetails {
   /// Required if <code>TargetType</code> is <code>RESOURCE</code>.
   final ChangeSetHookResourceTargetDetails? resourceTargetDetails;
@@ -19694,6 +20014,8 @@ class ChangeSetHookTargetDetails {
 }
 
 /// Specifies <code>RESOURCE</code> type target details for activated Hooks.
+///
+/// @nodoc
 class ChangeSetHookResourceTargetDetails {
   /// The resource's logical ID, which is defined in the stack's template.
   final String? logicalResourceId;
@@ -19731,6 +20053,7 @@ class ChangeSetHookResourceTargetDetails {
   }
 }
 
+/// @nodoc
 class ChangeAction {
   static const add = ChangeAction._('Add');
   static const modify = ChangeAction._('Modify');
@@ -19758,6 +20081,7 @@ class ChangeAction {
   String toString() => value;
 }
 
+/// @nodoc
 class OnStackFailure {
   static const doNothing = OnStackFailure._('DO_NOTHING');
   static const rollback = OnStackFailure._('ROLLBACK');
@@ -19783,6 +20107,7 @@ class OnStackFailure {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentMode {
   static const revertDrift = DeploymentMode._('REVERT_DRIFT');
 
@@ -19808,6 +20133,8 @@ class DeploymentMode {
 
 /// The <code>Change</code> structure describes the changes CloudFormation will
 /// perform if you execute the change set.
+///
+/// @nodoc
 class Change {
   /// Is either <code>null</code>, if no Hooks invoke for the resource, or
   /// contains the number of Hooks that will invoke for the resource.
@@ -19854,6 +20181,7 @@ class Change {
   }
 }
 
+/// @nodoc
 class ChangeType {
   static const resource = ChangeType._('Resource');
 
@@ -19879,6 +20207,8 @@ class ChangeType {
 /// The <code>ResourceChange</code> structure describes the resource and the
 /// action that CloudFormation will perform on it if you execute this change
 /// set.
+///
+/// @nodoc
 class ResourceChange {
   /// The action that CloudFormation takes on the resource, such as
   /// <code>Add</code> (adds a new resource), <code>Modify</code> (changes a
@@ -20101,6 +20431,7 @@ class ResourceChange {
   }
 }
 
+/// @nodoc
 class PolicyAction {
   static const delete = PolicyAction._('Delete');
   static const retain = PolicyAction._('Retain');
@@ -20135,6 +20466,7 @@ class PolicyAction {
   String toString() => value;
 }
 
+/// @nodoc
 class Replacement {
   static const $true = Replacement._('True');
   static const $false = Replacement._('False');
@@ -20162,6 +20494,8 @@ class Replacement {
 /// For a resource with <code>Modify</code> as the action, the
 /// <code>ResourceChange</code> structure describes the changes CloudFormation
 /// will make to that resource.
+///
+/// @nodoc
 class ResourceChangeDetail {
   /// The identity of the entity that triggered this change. This entity is a
   /// member of the group that's specified by the <code>ChangeSource</code> field.
@@ -20190,7 +20524,7 @@ class ResourceChangeDetail {
   /// <li>
   /// <code>ResourceAttribute</code> entities are <code>Fn::GetAtt</code>
   /// intrinsic functions that get resource attribute values, such as <code>{
-  /// "Fn::GetAtt" : [ "MyEC2InstanceResource", "PublicDnsName" ] }</code>.
+  /// "Fn::GetAtt" : \[ "MyEC2InstanceResource", "PublicDnsName" \] }</code>.
   /// </li>
   /// <li>
   /// <code>DirectModification</code> entities are changes that are made directly
@@ -20272,6 +20606,8 @@ class ResourceChangeDetail {
 
 /// The field that CloudFormation will change, such as the name of a resource's
 /// property, and whether the resource will be recreated.
+///
+/// @nodoc
 class ResourceTargetDefinition {
   /// The value of the property after the change is executed. Large values can be
   /// truncated.
@@ -20417,6 +20753,7 @@ class ResourceTargetDefinition {
   }
 }
 
+/// @nodoc
 class EvaluationType {
   static const static = EvaluationType._('Static');
   static const $dynamic = EvaluationType._('Dynamic');
@@ -20441,6 +20778,7 @@ class EvaluationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeSource {
   static const resourceReference = ChangeSource._('ResourceReference');
   static const parameterReference = ChangeSource._('ParameterReference');
@@ -20475,6 +20813,7 @@ class ChangeSource {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceAttribute {
   static const properties = ResourceAttribute._('Properties');
   static const metadata = ResourceAttribute._('Metadata');
@@ -20512,6 +20851,7 @@ class ResourceAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RequiresRecreation {
   static const never = RequiresRecreation._('Never');
   static const conditionally = RequiresRecreation._('Conditionally');
@@ -20538,6 +20878,7 @@ class RequiresRecreation {
   String toString() => value;
 }
 
+/// @nodoc
 class BeforeValueFrom {
   static const previousDeploymentState =
       BeforeValueFrom._('PREVIOUS_DEPLOYMENT_STATE');
@@ -20563,6 +20904,7 @@ class BeforeValueFrom {
   String toString() => value;
 }
 
+/// @nodoc
 class AfterValueFrom {
   static const template = AfterValueFrom._('TEMPLATE');
 
@@ -20588,6 +20930,8 @@ class AfterValueFrom {
 
 /// Contains drift information for a resource property, including actual value,
 /// previous deployment value, and drift detection timestamp.
+///
+/// @nodoc
 class LiveResourceDrift {
   /// The current live configuration value of the resource property.
   final String? actualValue;
@@ -20625,6 +20969,7 @@ class LiveResourceDrift {
   }
 }
 
+/// @nodoc
 class AttributeChangeType {
   static const add = AttributeChangeType._('Add');
   static const remove = AttributeChangeType._('Remove');
@@ -20653,6 +20998,8 @@ class AttributeChangeType {
 }
 
 /// The <code>ResourceDriftIgnoredAttribute</code> data type.
+///
+/// @nodoc
 class ResourceDriftIgnoredAttribute {
   /// Path of the resource attribute for which drift was ignored.
   final String? path;
@@ -20694,6 +21041,7 @@ class ResourceDriftIgnoredAttribute {
   }
 }
 
+/// @nodoc
 class DriftIgnoredReason {
   static const managedByAws = DriftIgnoredReason._('MANAGED_BY_AWS');
   static const writeOnlyProperty = DriftIgnoredReason._('WRITE_ONLY_PROPERTY');
@@ -20737,6 +21085,8 @@ class DriftIgnoredReason {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html">Understand
 /// CloudFormation quotas</a> in the <i>CloudFormation User Guide</i>.
+///
+/// @nodoc
 class AccountLimit {
   /// The name of the account limit.
   ///
@@ -20769,6 +21119,8 @@ class AccountLimit {
 }
 
 /// Describes the stack and the template used by the stack.
+///
+/// @nodoc
 class StackDefinition {
   /// The name associated with the stack.
   final String? stackName;
@@ -20808,6 +21160,7 @@ class StackDefinition {
   }
 }
 
+/// @nodoc
 class OnFailure {
   static const doNothing = OnFailure._('DO_NOTHING');
   static const rollback = OnFailure._('ROLLBACK');
@@ -20832,6 +21185,7 @@ class OnFailure {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeSetType {
   static const create = ChangeSetType._('CREATE');
   static const update = ChangeSetType._('UPDATE');
@@ -20858,6 +21212,8 @@ class ChangeSetType {
 }
 
 /// Describes the target resource of an import operation.
+///
+/// @nodoc
 class ResourceToImport {
   /// The logical ID of the target resource as specified in the template.
   final String logicalResourceId;
@@ -20914,6 +21270,8 @@ class ResourceToImport {
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html">Edit
 /// configuration data for extensions in your account</a> in the
 /// <i>CloudFormation User Guide</i>.
+///
+/// @nodoc
 class TypeConfigurationDetails {
   /// The alias specified for this configuration, if one was specified when the
   /// configuration was set.
@@ -20996,6 +21354,8 @@ class TypeConfigurationDetails {
 }
 
 /// Identifying information for the configuration of a CloudFormation extension.
+///
+/// @nodoc
 class TypeConfigurationIdentifier {
   /// The type of extension.
   final ThirdPartyType? type;
@@ -21078,6 +21438,8 @@ class TypeConfigurationIdentifier {
 
 /// Detailed information concerning an error generated during the setting of
 /// configuration data for a CloudFormation extension.
+///
+/// @nodoc
 class BatchDescribeTypeConfigurationsError {
   /// The error code.
   final String? errorCode;
@@ -21116,6 +21478,7 @@ class BatchDescribeTypeConfigurationsError {
   }
 }
 
+/// @nodoc
 class VersionBump {
   static const major = VersionBump._('MAJOR');
   static const minor = VersionBump._('MINOR');
@@ -21139,21 +21502,25 @@ class VersionBump {
   String toString() => value;
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class CFNRegistryException extends _s.GenericAwsException {
   CFNRegistryException({String? type, String? message})
       : super(type: type, code: 'CFNRegistryException', message: message);
 }
 
+/// @nodoc
 class ChangeSetNotFoundException extends _s.GenericAwsException {
   ChangeSetNotFoundException({String? type, String? message})
       : super(type: type, code: 'ChangeSetNotFoundException', message: message);
 }
 
+/// @nodoc
 class ConcurrentResourcesLimitExceededException extends _s.GenericAwsException {
   ConcurrentResourcesLimitExceededException({String? type, String? message})
       : super(
@@ -21162,12 +21529,14 @@ class ConcurrentResourcesLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CreatedButModifiedException extends _s.GenericAwsException {
   CreatedButModifiedException({String? type, String? message})
       : super(
             type: type, code: 'CreatedButModifiedException', message: message);
 }
 
+/// @nodoc
 class GeneratedTemplateNotFoundException extends _s.GenericAwsException {
   GeneratedTemplateNotFoundException({String? type, String? message})
       : super(
@@ -21176,12 +21545,14 @@ class GeneratedTemplateNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HookResultNotFoundException extends _s.GenericAwsException {
   HookResultNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'HookResultNotFoundException', message: message);
 }
 
+/// @nodoc
 class InsufficientCapabilitiesException extends _s.GenericAwsException {
   InsufficientCapabilitiesException({String? type, String? message})
       : super(
@@ -21190,6 +21561,7 @@ class InsufficientCapabilitiesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidChangeSetStatusException extends _s.GenericAwsException {
   InvalidChangeSetStatusException({String? type, String? message})
       : super(
@@ -21198,11 +21570,13 @@ class InvalidChangeSetStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidStateTransitionException extends _s.GenericAwsException {
   InvalidStateTransitionException({String? type, String? message})
       : super(
@@ -21211,16 +21585,19 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NameAlreadyExistsException extends _s.GenericAwsException {
   NameAlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'NameAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class OperationIdAlreadyExistsException extends _s.GenericAwsException {
   OperationIdAlreadyExistsException({String? type, String? message})
       : super(
@@ -21229,17 +21606,20 @@ class OperationIdAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationInProgressException extends _s.GenericAwsException {
   OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
+/// @nodoc
 class OperationNotFoundException extends _s.GenericAwsException {
   OperationNotFoundException({String? type, String? message})
       : super(type: type, code: 'OperationNotFoundException', message: message);
 }
 
+/// @nodoc
 class OperationStatusCheckFailedException extends _s.GenericAwsException {
   OperationStatusCheckFailedException({String? type, String? message})
       : super(
@@ -21248,6 +21628,7 @@ class OperationStatusCheckFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceScanInProgressException extends _s.GenericAwsException {
   ResourceScanInProgressException({String? type, String? message})
       : super(
@@ -21256,6 +21637,7 @@ class ResourceScanInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceScanLimitExceededException extends _s.GenericAwsException {
   ResourceScanLimitExceededException({String? type, String? message})
       : super(
@@ -21264,6 +21646,7 @@ class ResourceScanLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceScanNotFoundException extends _s.GenericAwsException {
   ResourceScanNotFoundException({String? type, String? message})
       : super(
@@ -21272,6 +21655,7 @@ class ResourceScanNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StackInstanceNotFoundException extends _s.GenericAwsException {
   StackInstanceNotFoundException({String? type, String? message})
       : super(
@@ -21280,11 +21664,13 @@ class StackInstanceNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StackNotFoundException extends _s.GenericAwsException {
   StackNotFoundException({String? type, String? message})
       : super(type: type, code: 'StackNotFoundException', message: message);
 }
 
+/// @nodoc
 class StackRefactorNotFoundException extends _s.GenericAwsException {
   StackRefactorNotFoundException({String? type, String? message})
       : super(
@@ -21293,27 +21679,32 @@ class StackRefactorNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StackSetNotEmptyException extends _s.GenericAwsException {
   StackSetNotEmptyException({String? type, String? message})
       : super(type: type, code: 'StackSetNotEmptyException', message: message);
 }
 
+/// @nodoc
 class StackSetNotFoundException extends _s.GenericAwsException {
   StackSetNotFoundException({String? type, String? message})
       : super(type: type, code: 'StackSetNotFoundException', message: message);
 }
 
+/// @nodoc
 class StaleRequestException extends _s.GenericAwsException {
   StaleRequestException({String? type, String? message})
       : super(type: type, code: 'StaleRequestException', message: message);
 }
 
+/// @nodoc
 class TokenAlreadyExistsException extends _s.GenericAwsException {
   TokenAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'TokenAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class TypeConfigurationNotFoundException extends _s.GenericAwsException {
   TypeConfigurationNotFoundException({String? type, String? message})
       : super(
@@ -21322,6 +21713,7 @@ class TypeConfigurationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TypeNotFoundException extends _s.GenericAwsException {
   TypeNotFoundException({String? type, String? message})
       : super(type: type, code: 'TypeNotFoundException', message: message);

@@ -634,6 +634,7 @@ class Route53Profiles {
   }
 }
 
+/// @nodoc
 class AssociateProfileResponse {
   /// The association that you just created. The association has an ID that you
   /// can use to identify it in other requests, like update and delete.
@@ -660,6 +661,7 @@ class AssociateProfileResponse {
   }
 }
 
+/// @nodoc
 class AssociateResourceToProfileResponse {
   /// Infromation about the <code>AssociateResourceToProfile</code>, including a
   /// status message.
@@ -688,6 +690,7 @@ class AssociateResourceToProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateProfileResponse {
   /// The Profile that you just created.
   final Profile? profile;
@@ -712,6 +715,7 @@ class CreateProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteProfileResponse {
   /// Information about the <code>DeleteProfile</code> request, including the
   /// status of the request.
@@ -737,6 +741,7 @@ class DeleteProfileResponse {
   }
 }
 
+/// @nodoc
 class DisassociateProfileResponse {
   /// Information about the <code>DisassociateProfile</code> request.
   final ProfileAssociation? profileAssociation;
@@ -762,6 +767,7 @@ class DisassociateProfileResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResourceFromProfileResponse {
   /// Information about the <code>DisassociateResourceFromProfile</code> request,
   /// including the status of the request.
@@ -790,6 +796,7 @@ class DisassociateResourceFromProfileResponse {
   }
 }
 
+/// @nodoc
 class GetProfileResponse {
   /// Information about the Profile, including the status of the Profile.
   final Profile? profile;
@@ -814,6 +821,7 @@ class GetProfileResponse {
   }
 }
 
+/// @nodoc
 class GetProfileAssociationResponse {
   /// Information about the Profile association that you specified in a
   /// <code>GetProfileAssociation</code> request.
@@ -840,6 +848,7 @@ class GetProfileAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetProfileResourceAssociationResponse {
   /// Information about the Profile resource association that you specified in a
   /// <code>GetProfileResourceAssociation</code> request.
@@ -868,6 +877,7 @@ class GetProfileResourceAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListProfileAssociationsResponse {
   /// If more than <code>MaxResults</code> profile associations match the
   /// specified criteria, you can submit another
@@ -906,6 +916,7 @@ class ListProfileAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListProfileResourceAssociationsResponse {
   /// If more than <code>MaxResults</code> resource associations match the
   /// specified criteria, you can submit another
@@ -947,6 +958,7 @@ class ListProfileResourceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListProfilesResponse {
   /// If more than <code>MaxResults</code> resource associations match the
   /// specified criteria, you can submit another <code>ListProfiles</code> request
@@ -982,6 +994,7 @@ class ListProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags that are associated with the resource that you specified in the
   /// <code>ListTagsForResource</code> request.
@@ -1007,6 +1020,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1019,6 +1033,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1031,6 +1046,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateProfileResourceAssociationResponse {
   /// Information about the <code>UpdateProfileResourceAssociation</code> request,
   /// including a status message.
@@ -1060,6 +1076,8 @@ class UpdateProfileResourceAssociationResponse {
 }
 
 /// The association between a Route 53 Profile and resources.
+///
+/// @nodoc
 class ProfileResourceAssociation {
   /// The date and time that the Profile resource association was created, in Unix
   /// time format and Coordinated Universal Time (UTC).
@@ -1157,6 +1175,7 @@ class ProfileResourceAssociation {
   }
 }
 
+/// @nodoc
 class ProfileStatus {
   static const complete = ProfileStatus._('COMPLETE');
   static const deleting = ProfileStatus._('DELETING');
@@ -1193,6 +1212,8 @@ class ProfileStatus {
 }
 
 /// Summary information about a Route 53 Profile.
+///
+/// @nodoc
 class ProfileSummary {
   /// The Amazon Resource Name (ARN) of the Profile.
   final String? arn;
@@ -1237,6 +1258,7 @@ class ProfileSummary {
   }
 }
 
+/// @nodoc
 class ShareStatus {
   static const notShared = ShareStatus._('NOT_SHARED');
   static const sharedWithMe = ShareStatus._('SHARED_WITH_ME');
@@ -1262,6 +1284,8 @@ class ShareStatus {
 }
 
 /// An association between a Route 53 Profile and a VPC.
+///
+/// @nodoc
 class ProfileAssociation {
   /// The date and time that the Profile association was created, in Unix time
   /// format and Coordinated Universal Time (UTC).
@@ -1345,6 +1369,8 @@ class ProfileAssociation {
 }
 
 /// A complex type that includes settings for a Route 53 Profile.
+///
+/// @nodoc
 class Profile {
   /// The Amazon Resource Name (ARN) of the Profile.
   final String? arn;
@@ -1437,6 +1463,8 @@ class Profile {
 }
 
 /// Tag for the Profile.
+///
+/// @nodoc
 class Tag {
   /// Key associated with the <code>Tag</code>.
   final String key;
@@ -1459,16 +1487,19 @@ class Tag {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -1477,36 +1508,43 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceExistsException extends _s.GenericAwsException {
   ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

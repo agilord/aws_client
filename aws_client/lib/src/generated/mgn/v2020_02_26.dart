@@ -4146,6 +4146,7 @@ class Mgn {
   }
 }
 
+/// @nodoc
 class InitializeServiceResponse {
   InitializeServiceResponse();
 
@@ -4158,6 +4159,7 @@ class InitializeServiceResponse {
   }
 }
 
+/// @nodoc
 class ListImportFileEnrichmentsResponse {
   /// A list of import file enrichment jobs.
   final List<ImportFileEnrichment>? items;
@@ -4193,6 +4195,8 @@ class ListImportFileEnrichmentsResponse {
 }
 
 /// List managed accounts response.
+///
+/// @nodoc
 class ListManagedAccountsResponse {
   /// List managed accounts response items.
   final List<ManagedAccount> items;
@@ -4225,6 +4229,7 @@ class ListManagedAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// List tags for resource response.
   final Map<String, String>? tags;
@@ -4248,6 +4253,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartImportFileEnrichmentResponse {
   /// The unique identifier of the import file enrichment job that was started.
   final String? jobID;
@@ -4271,6 +4277,7 @@ class StartImportFileEnrichmentResponse {
   }
 }
 
+/// @nodoc
 class Application {
   /// Application aggregated status.
   final ApplicationAggregatedStatus? applicationAggregatedStatus;
@@ -4362,6 +4369,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -4374,6 +4382,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// Applications list.
   final List<Application>? items;
@@ -4406,6 +4415,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class AssociateSourceServersResponse {
   AssociateSourceServersResponse();
 
@@ -4418,6 +4428,7 @@ class AssociateSourceServersResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSourceServersResponse {
   DisassociateSourceServersResponse();
 
@@ -4430,6 +4441,7 @@ class DisassociateSourceServersResponse {
   }
 }
 
+/// @nodoc
 class Connector {
   /// Connector arn.
   final String? arn;
@@ -4491,6 +4503,7 @@ class Connector {
   }
 }
 
+/// @nodoc
 class ListConnectorsResponse {
   /// List connectors response items.
   final List<Connector>? items;
@@ -4524,6 +4537,8 @@ class ListConnectorsResponse {
 }
 
 /// Start export response.
+///
+/// @nodoc
 class StartExportResponse {
   /// Start export response export task.
   final ExportTask? exportTask;
@@ -4549,6 +4564,8 @@ class StartExportResponse {
 }
 
 /// List export response.
+///
+/// @nodoc
 class ListExportsResponse {
   /// List export response items.
   final List<ExportTask>? items;
@@ -4582,6 +4599,8 @@ class ListExportsResponse {
 }
 
 /// List export errors response.
+///
+/// @nodoc
 class ListExportErrorsResponse {
   /// List export errors response items.
   final List<ExportTaskError>? items;
@@ -4615,6 +4634,8 @@ class ListExportErrorsResponse {
 }
 
 /// Start import response.
+///
+/// @nodoc
 class StartImportResponse {
   /// Start import response import task.
   final ImportTask? importTask;
@@ -4640,6 +4661,8 @@ class StartImportResponse {
 }
 
 /// List import response.
+///
+/// @nodoc
 class ListImportsResponse {
   /// List import response items.
   final List<ImportTask>? items;
@@ -4673,6 +4696,8 @@ class ListImportsResponse {
 }
 
 /// List imports errors response.
+///
+/// @nodoc
 class ListImportErrorsResponse {
   /// List imports errors response items.
   final List<ImportTaskError>? items;
@@ -4705,6 +4730,7 @@ class ListImportErrorsResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobResponse {
   DeleteJobResponse();
 
@@ -4717,6 +4743,7 @@ class DeleteJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobsResponse {
   /// Request to describe Job log items.
   final List<Job>? items;
@@ -4749,6 +4776,7 @@ class DescribeJobsResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobLogItemsResponse {
   /// Request to describe Job log response items.
   final List<JobLog>? items;
@@ -4781,6 +4809,7 @@ class DescribeJobLogItemsResponse {
   }
 }
 
+/// @nodoc
 class LaunchConfigurationTemplate {
   /// ID of the Launch Configuration Template.
   final String launchConfigurationTemplateID;
@@ -4954,6 +4983,7 @@ class LaunchConfigurationTemplate {
   }
 }
 
+/// @nodoc
 class DeleteLaunchConfigurationTemplateResponse {
   DeleteLaunchConfigurationTemplateResponse();
 
@@ -4967,6 +4997,7 @@ class DeleteLaunchConfigurationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeLaunchConfigurationTemplatesResponse {
   /// List of items returned by DescribeLaunchConfigurationTemplates.
   final List<LaunchConfigurationTemplate>? items;
@@ -5001,6 +5032,7 @@ class DescribeLaunchConfigurationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateActionsResponse {
   /// List of template post migration custom actions.
   final List<TemplateActionDocument>? items;
@@ -5034,6 +5066,7 @@ class ListTemplateActionsResponse {
   }
 }
 
+/// @nodoc
 class TemplateActionDocument {
   /// Template post migration custom action ID.
   final String? actionID;
@@ -5150,6 +5183,7 @@ class TemplateActionDocument {
   }
 }
 
+/// @nodoc
 class RemoveTemplateActionResponse {
   RemoveTemplateActionResponse();
 
@@ -5162,6 +5196,7 @@ class RemoveTemplateActionResponse {
   }
 }
 
+/// @nodoc
 class NetworkMigrationDefinition {
   /// The Amazon Resource Name (ARN) of the network migration definition.
   final String? arn;
@@ -5277,6 +5312,7 @@ class NetworkMigrationDefinition {
   }
 }
 
+/// @nodoc
 class DeleteNetworkMigrationDefinitionResponse {
   DeleteNetworkMigrationDefinitionResponse();
 
@@ -5290,6 +5326,7 @@ class DeleteNetworkMigrationDefinitionResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationDefinitionsResponse {
   /// A list of network migration definition summaries.
   final List<NetworkMigrationDefinitionSummary>? items;
@@ -5325,6 +5362,7 @@ class ListNetworkMigrationDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkMigrationMapperSegmentConstructResponse {
   /// The construct metadata including type, name, and configuration.
   final NetworkMigrationMapperSegmentConstruct? construct;
@@ -5351,6 +5389,7 @@ class GetNetworkMigrationMapperSegmentConstructResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationAnalysesResponse {
   /// A list of network migration analysis job details.
   final List<NetworkMigrationAnalysisJobDetails>? items;
@@ -5386,6 +5425,7 @@ class ListNetworkMigrationAnalysesResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationAnalysisResultsResponse {
   /// A list of network migration analysis results.
   final List<NetworkMigrationAnalysisResult>? items;
@@ -5421,6 +5461,7 @@ class ListNetworkMigrationAnalysisResultsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationCodeGenerationsResponse {
   /// A list of network migration code generation job details.
   final List<NetworkMigrationCodeGenerationJobDetails>? items;
@@ -5456,6 +5497,7 @@ class ListNetworkMigrationCodeGenerationsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationCodeGenerationSegmentsResponse {
   /// A list of network migration code generation segments.
   final List<NetworkMigrationCodeGenerationSegment>? items;
@@ -5491,6 +5533,7 @@ class ListNetworkMigrationCodeGenerationSegmentsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationDeployedStacksResponse {
   /// A list of deployed stack details including status and resources.
   final List<NetworkMigrationDeployedStackDetails>? items;
@@ -5526,6 +5569,7 @@ class ListNetworkMigrationDeployedStacksResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationDeployerJobResponse {
   /// A list of deployer job details.
   final List<NetworkMigrationDeployerJobDetails>? items;
@@ -5561,6 +5605,7 @@ class ListNetworkMigrationDeployerJobResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationExecutionsResponse {
   /// A list of network migration execution details.
   final List<NetworkMigrationExecution>? items;
@@ -5596,6 +5641,7 @@ class ListNetworkMigrationExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationMapperSegmentConstructsResponse {
   /// A list of mapper segment constructs.
   final List<NetworkMigrationMapperSegmentConstruct>? items;
@@ -5631,6 +5677,7 @@ class ListNetworkMigrationMapperSegmentConstructsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationMapperSegmentsResponse {
   /// A list of mapper segments.
   final List<NetworkMigrationMapperSegment>? items;
@@ -5666,6 +5713,7 @@ class ListNetworkMigrationMapperSegmentsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationMappingsResponse {
   /// A list of network migration mapping job details.
   final List<NetworkMigrationMappingJobDetails>? items;
@@ -5701,6 +5749,7 @@ class ListNetworkMigrationMappingsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkMigrationMappingUpdatesResponse {
   /// A list of mapping update job details.
   final List<NetworkMigrationMappingUpdateJobDetails>? items;
@@ -5736,6 +5785,7 @@ class ListNetworkMigrationMappingUpdatesResponse {
   }
 }
 
+/// @nodoc
 class StartNetworkMigrationAnalysisResponse {
   /// The unique identifier of the analysis job that was started.
   final String? jobID;
@@ -5759,6 +5809,7 @@ class StartNetworkMigrationAnalysisResponse {
   }
 }
 
+/// @nodoc
 class StartNetworkMigrationCodeGenerationResponse {
   /// The unique identifier of the code generation job that was started.
   final String? jobID;
@@ -5782,6 +5833,7 @@ class StartNetworkMigrationCodeGenerationResponse {
   }
 }
 
+/// @nodoc
 class StartNetworkMigrationDeployerJobResponse {
   /// The unique identifier of the deployer job that was started.
   final String? jobID;
@@ -5805,6 +5857,7 @@ class StartNetworkMigrationDeployerJobResponse {
   }
 }
 
+/// @nodoc
 class StartNetworkMigrationMappingResponse {
   /// The unique identifier of the mapping job that was started.
   final String? jobID;
@@ -5828,6 +5881,7 @@ class StartNetworkMigrationMappingResponse {
   }
 }
 
+/// @nodoc
 class StartNetworkMigrationMappingUpdateResponse {
   /// The unique identifier of the mapping update job that was started.
   final String? jobID;
@@ -5851,6 +5905,7 @@ class StartNetworkMigrationMappingUpdateResponse {
   }
 }
 
+/// @nodoc
 class NetworkMigrationMapperSegment {
   /// The checksum of the segment data for integrity verification.
   final Checksum? checksum;
@@ -5986,6 +6041,7 @@ class NetworkMigrationMapperSegment {
   }
 }
 
+/// @nodoc
 class ReplicationConfigurationTemplate {
   /// Replication Configuration template ID.
   final String replicationConfigurationTemplateID;
@@ -6156,6 +6212,7 @@ class ReplicationConfigurationTemplate {
   }
 }
 
+/// @nodoc
 class DeleteReplicationConfigurationTemplateResponse {
   DeleteReplicationConfigurationTemplateResponse();
 
@@ -6169,6 +6226,7 @@ class DeleteReplicationConfigurationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeReplicationConfigurationTemplatesResponse {
   /// Request to describe Replication Configuration template by items.
   final List<ReplicationConfigurationTemplate>? items;
@@ -6203,6 +6261,7 @@ class DescribeReplicationConfigurationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class SourceServer {
   /// Source server application ID.
   final String? applicationID;
@@ -6334,6 +6393,7 @@ class SourceServer {
   }
 }
 
+/// @nodoc
 class DeleteSourceServerResponse {
   DeleteSourceServerResponse();
 
@@ -6346,6 +6406,7 @@ class DeleteSourceServerResponse {
   }
 }
 
+/// @nodoc
 class DescribeSourceServersResponse {
   /// Request to filter Source Servers list by item.
   final List<SourceServer>? items;
@@ -6378,6 +6439,7 @@ class DescribeSourceServersResponse {
   }
 }
 
+/// @nodoc
 class LaunchConfiguration {
   /// Launch configuration boot mode.
   final BootMode? bootMode;
@@ -6491,6 +6553,7 @@ class LaunchConfiguration {
   }
 }
 
+/// @nodoc
 class ReplicationConfiguration {
   /// Replication Configuration associate default Application Migration Service
   /// Security Group.
@@ -6662,6 +6725,7 @@ class ReplicationConfiguration {
   }
 }
 
+/// @nodoc
 class ListSourceServerActionsResponse {
   /// List of source server post migration custom actions.
   final List<SourceServerActionDocument>? items;
@@ -6696,6 +6760,7 @@ class ListSourceServerActionsResponse {
   }
 }
 
+/// @nodoc
 class SourceServerActionDocument {
   /// Source server post migration custom action ID.
   final String? actionID;
@@ -6805,6 +6870,7 @@ class SourceServerActionDocument {
   }
 }
 
+/// @nodoc
 class RemoveSourceServerActionResponse {
   RemoveSourceServerActionResponse();
 
@@ -6817,6 +6883,7 @@ class RemoveSourceServerActionResponse {
   }
 }
 
+/// @nodoc
 class StartCutoverResponse {
   /// Start Cutover Job response.
   final Job? job;
@@ -6841,6 +6908,7 @@ class StartCutoverResponse {
   }
 }
 
+/// @nodoc
 class StartTestResponse {
   /// Start Test Job response.
   final Job? job;
@@ -6865,6 +6933,7 @@ class StartTestResponse {
   }
 }
 
+/// @nodoc
 class TerminateTargetInstancesResponse {
   /// Terminate Target instance Job response.
   final Job? job;
@@ -6889,6 +6958,7 @@ class TerminateTargetInstancesResponse {
   }
 }
 
+/// @nodoc
 class DescribeVcenterClientsResponse {
   /// List of items returned by DescribeVcenterClients.
   final List<VcenterClient>? items;
@@ -6921,6 +6991,7 @@ class DescribeVcenterClientsResponse {
   }
 }
 
+/// @nodoc
 class Wave {
   /// Wave ARN.
   final String? arn;
@@ -7005,6 +7076,7 @@ class Wave {
   }
 }
 
+/// @nodoc
 class DeleteWaveResponse {
   DeleteWaveResponse();
 
@@ -7017,6 +7089,7 @@ class DeleteWaveResponse {
   }
 }
 
+/// @nodoc
 class ListWavesResponse {
   /// Waves list.
   final List<Wave>? items;
@@ -7049,6 +7122,7 @@ class ListWavesResponse {
   }
 }
 
+/// @nodoc
 class AssociateApplicationsResponse {
   AssociateApplicationsResponse();
 
@@ -7061,6 +7135,7 @@ class AssociateApplicationsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateApplicationsResponse {
   DisassociateApplicationsResponse();
 
@@ -7074,6 +7149,8 @@ class DisassociateApplicationsResponse {
 }
 
 /// Waves list filters.
+///
+/// @nodoc
 class ListWavesRequestFilters {
   /// Filter waves list by archival status.
   final bool? isArchived;
@@ -7097,6 +7174,8 @@ class ListWavesRequestFilters {
 }
 
 /// Wave aggregated status.
+///
+/// @nodoc
 class WaveAggregatedStatus {
   /// Wave aggregated status health status.
   final WaveHealthStatus? healthStatus;
@@ -7151,6 +7230,7 @@ class WaveAggregatedStatus {
   }
 }
 
+/// @nodoc
 class WaveHealthStatus {
   static const healthy = WaveHealthStatus._('HEALTHY');
   static const lagging = WaveHealthStatus._('LAGGING');
@@ -7176,6 +7256,7 @@ class WaveHealthStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class WaveProgressStatus {
   static const notStarted = WaveProgressStatus._('NOT_STARTED');
   static const inProgress = WaveProgressStatus._('IN_PROGRESS');
@@ -7203,6 +7284,8 @@ class WaveProgressStatus {
 }
 
 /// vCenter client.
+///
+/// @nodoc
 class VcenterClient {
   /// Arn of vCenter client.
   final String? arn;
@@ -7277,6 +7360,8 @@ class VcenterClient {
 }
 
 /// Job.
+///
+/// @nodoc
 class Job {
   /// Job ID.
   final String jobID;
@@ -7361,6 +7446,7 @@ class Job {
   }
 }
 
+/// @nodoc
 class JobType {
   static const launch = JobType._('LAUNCH');
   static const terminate = JobType._('TERMINATE');
@@ -7384,6 +7470,7 @@ class JobType {
   String toString() => value;
 }
 
+/// @nodoc
 class InitiatedBy {
   static const startTest = InitiatedBy._('START_TEST');
   static const startCutover = InitiatedBy._('START_CUTOVER');
@@ -7409,6 +7496,7 @@ class InitiatedBy {
   String toString() => value;
 }
 
+/// @nodoc
 class JobStatus {
   static const pending = JobStatus._('PENDING');
   static const started = JobStatus._('STARTED');
@@ -7434,6 +7522,8 @@ class JobStatus {
 }
 
 /// Server participating in Job.
+///
+/// @nodoc
 class ParticipatingServer {
   /// Participating server Source Server ID.
   final String sourceServerID;
@@ -7483,6 +7573,7 @@ class ParticipatingServer {
   }
 }
 
+/// @nodoc
 class LaunchStatus {
   static const pending = LaunchStatus._('PENDING');
   static const inProgress = LaunchStatus._('IN_PROGRESS');
@@ -7510,6 +7601,8 @@ class LaunchStatus {
 }
 
 /// Status of the Post Launch Actions running on the Test or Cutover instance.
+///
+/// @nodoc
 class PostLaunchActionsStatus {
   /// List of Post Launch Action status.
   final List<JobPostLaunchActionsLaunchStatus>?
@@ -7550,6 +7643,8 @@ class PostLaunchActionsStatus {
 }
 
 /// Launch Status of the Job Post Launch Actions.
+///
+/// @nodoc
 class JobPostLaunchActionsLaunchStatus {
   /// AWS Systems Manager Document's execution ID of the of the Job Post Launch
   /// Actions.
@@ -7606,6 +7701,8 @@ class JobPostLaunchActionsLaunchStatus {
 }
 
 /// AWS Systems Manager Document.
+///
+/// @nodoc
 class SsmDocument {
   /// User-friendly name for the AWS Systems Manager Document.
   final String actionName;
@@ -7673,6 +7770,7 @@ class SsmDocument {
   }
 }
 
+/// @nodoc
 class SsmDocumentType {
   static const automation = SsmDocumentType._('AUTOMATION');
   static const command = SsmDocumentType._('COMMAND');
@@ -7697,6 +7795,7 @@ class SsmDocumentType {
   String toString() => value;
 }
 
+/// @nodoc
 class PostLaunchActionExecutionStatus {
   static const inProgress = PostLaunchActionExecutionStatus._('IN_PROGRESS');
   static const success = PostLaunchActionExecutionStatus._('SUCCESS');
@@ -7724,6 +7823,8 @@ class PostLaunchActionExecutionStatus {
 }
 
 /// AWS Systems Manager Document external parameter.
+///
+/// @nodoc
 class SsmExternalParameter {
   /// AWS Systems Manager Document external parameters dynamic path.
   final String? dynamicPath;
@@ -7747,6 +7848,8 @@ class SsmExternalParameter {
 }
 
 /// AWS Systems Manager Parameter Store parameter.
+///
+/// @nodoc
 class SsmParameterStoreParameter {
   /// AWS Systems Manager Parameter Store parameter name.
   final String parameterName;
@@ -7777,6 +7880,7 @@ class SsmParameterStoreParameter {
   }
 }
 
+/// @nodoc
 class SsmParameterStoreParameterType {
   static const string = SsmParameterStoreParameterType._('STRING');
   static const secureString = SsmParameterStoreParameterType._('SECURE_STRING');
@@ -7802,6 +7906,7 @@ class SsmParameterStoreParameterType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationType {
   static const agentBased = ReplicationType._('AGENT_BASED');
   static const snapshotShipping = ReplicationType._('SNAPSHOT_SHIPPING');
@@ -7826,6 +7931,7 @@ class ReplicationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationConfigurationDefaultLargeStagingDiskType {
   static const gp2 =
       ReplicationConfigurationDefaultLargeStagingDiskType._('GP2');
@@ -7858,6 +7964,7 @@ class ReplicationConfigurationDefaultLargeStagingDiskType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationConfigurationEbsEncryption {
   static const $default = ReplicationConfigurationEbsEncryption._('DEFAULT');
   static const custom = ReplicationConfigurationEbsEncryption._('CUSTOM');
@@ -7883,6 +7990,7 @@ class ReplicationConfigurationEbsEncryption {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationConfigurationDataPlaneRouting {
   static const privateIp =
       ReplicationConfigurationDataPlaneRouting._('PRIVATE_IP');
@@ -7910,6 +8018,7 @@ class ReplicationConfigurationDataPlaneRouting {
   String toString() => value;
 }
 
+/// @nodoc
 class InternetProtocol {
   static const ipv4 = InternetProtocol._('IPV4');
   static const ipv6 = InternetProtocol._('IPV6');
@@ -7935,6 +8044,8 @@ class InternetProtocol {
 }
 
 /// Replication Configuration replicated disk.
+///
+/// @nodoc
 class ReplicationConfigurationReplicatedDisk {
   /// Replication Configuration replicated disk device name.
   final String? deviceName;
@@ -7987,6 +8098,7 @@ class ReplicationConfigurationReplicatedDisk {
   }
 }
 
+/// @nodoc
 class ReplicationConfigurationReplicatedDiskStagingDiskType {
   static const auto =
       ReplicationConfigurationReplicatedDiskStagingDiskType._('AUTO');
@@ -8029,6 +8141,7 @@ class ReplicationConfigurationReplicatedDiskStagingDiskType {
   String toString() => value;
 }
 
+/// @nodoc
 class LaunchDisposition {
   static const stopped = LaunchDisposition._('STOPPED');
   static const started = LaunchDisposition._('STARTED');
@@ -8053,6 +8166,7 @@ class LaunchDisposition {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetInstanceTypeRightSizingMethod {
   static const none = TargetInstanceTypeRightSizingMethod._('NONE');
   static const basic = TargetInstanceTypeRightSizingMethod._('BASIC');
@@ -8079,6 +8193,8 @@ class TargetInstanceTypeRightSizingMethod {
 }
 
 /// Configure Licensing.
+///
+/// @nodoc
 class Licensing {
   /// Configure BYOL OS licensing.
   final bool? osByol;
@@ -8101,6 +8217,7 @@ class Licensing {
   }
 }
 
+/// @nodoc
 class BootMode {
   static const legacyBios = BootMode._('LEGACY_BIOS');
   static const uefi = BootMode._('UEFI');
@@ -8126,6 +8243,8 @@ class BootMode {
 }
 
 /// Post Launch Actions to executed on the Test or Cutover instance.
+///
+/// @nodoc
 class PostLaunchActions {
   /// AWS Systems Manager Command's CloudWatch log group name.
   final String? cloudWatchLogGroupName;
@@ -8181,6 +8300,7 @@ class PostLaunchActions {
   }
 }
 
+/// @nodoc
 class PostLaunchActionsDeploymentType {
   static const testAndCutover =
       PostLaunchActionsDeploymentType._('TEST_AND_CUTOVER');
@@ -8208,6 +8328,7 @@ class PostLaunchActionsDeploymentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionCategory {
   static const disasterRecovery = ActionCategory._('DISASTER_RECOVERY');
   static const operatingSystem = ActionCategory._('OPERATING_SYSTEM');
@@ -8255,6 +8376,8 @@ class ActionCategory {
 }
 
 /// Source server post migration custom action filters.
+///
+/// @nodoc
 class SourceServerActionsRequestFilters {
   /// Action IDs to filter source server post migration custom actions by.
   final List<String>? actionIDs;
@@ -8272,6 +8395,8 @@ class SourceServerActionsRequestFilters {
 }
 
 /// The request to change the source server migration lifecycle state.
+///
+/// @nodoc
 class ChangeServerLifeCycleStateSourceServerLifecycle {
   /// The request to change the source server migration lifecycle state.
   final ChangeServerLifeCycleStateSourceServerLifecycleState state;
@@ -8288,6 +8413,7 @@ class ChangeServerLifeCycleStateSourceServerLifecycle {
   }
 }
 
+/// @nodoc
 class ChangeServerLifeCycleStateSourceServerLifecycleState {
   static const readyForTest =
       ChangeServerLifeCycleStateSourceServerLifecycleState._('READY_FOR_TEST');
@@ -8322,6 +8448,8 @@ class ChangeServerLifeCycleStateSourceServerLifecycleState {
 }
 
 /// Request to filter Source Servers list.
+///
+/// @nodoc
 class DescribeSourceServersRequestFilters {
   /// Request to filter Source Servers list by application IDs.
   final List<String>? applicationIDs;
@@ -8364,6 +8492,7 @@ class DescribeSourceServersRequestFilters {
   }
 }
 
+/// @nodoc
 class LifeCycleState {
   static const stopped = LifeCycleState._('STOPPED');
   static const notReady = LifeCycleState._('NOT_READY');
@@ -8408,6 +8537,8 @@ class LifeCycleState {
 }
 
 /// Launched instance.
+///
+/// @nodoc
 class LaunchedInstance {
   /// Launched instance EC2 ID.
   final String? ec2InstanceID;
@@ -8445,6 +8576,8 @@ class LaunchedInstance {
 }
 
 /// Request data replication info.
+///
+/// @nodoc
 class DataReplicationInfo {
   /// Error in obtaining data replication info.
   final DataReplicationError? dataReplicationError;
@@ -8532,6 +8665,8 @@ class DataReplicationInfo {
 }
 
 /// Lifecycle.
+///
+/// @nodoc
 class LifeCycle {
   /// Lifecycle added to service data and time.
   final String? addedToServiceDateTime;
@@ -8605,6 +8740,8 @@ class LifeCycle {
 }
 
 /// Source server properties.
+///
+/// @nodoc
 class SourceProperties {
   /// Source Server CPUs.
   final List<CPU>? cpus;
@@ -8694,6 +8831,8 @@ class SourceProperties {
 }
 
 /// Source Server connector action.
+///
+/// @nodoc
 class SourceServerConnectorAction {
   /// Source Server connector action connector arn.
   final String? connectorArn;
@@ -8725,6 +8864,8 @@ class SourceServerConnectorAction {
 }
 
 /// Identification hints.
+///
+/// @nodoc
 class IdentificationHints {
   /// AWS Instance ID identification hint.
   final String? awsInstanceID;
@@ -8776,6 +8917,8 @@ class IdentificationHints {
 }
 
 /// Operating System.
+///
+/// @nodoc
 class OS {
   /// OS full string.
   final String? fullString;
@@ -8799,6 +8942,8 @@ class OS {
 }
 
 /// Source server CPU information.
+///
+/// @nodoc
 class CPU {
   /// The number of CPU cores on the source server.
   final int? cores;
@@ -8829,6 +8974,8 @@ class CPU {
 }
 
 /// The disk identifier.
+///
+/// @nodoc
 class Disk {
   /// The amount of storage on the disk in bytes.
   final int? bytes;
@@ -8859,6 +9006,8 @@ class Disk {
 }
 
 /// Network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// Network interface IPs.
   final List<String>? ips;
@@ -8896,6 +9045,8 @@ class NetworkInterface {
 }
 
 /// Lifecycle last Test.
+///
+/// @nodoc
 class LifeCycleLastTest {
   /// Lifecycle last Test finalized.
   final LifeCycleLastTestFinalized? finalized;
@@ -8942,6 +9093,8 @@ class LifeCycleLastTest {
 }
 
 /// Lifecycle last Cutover .
+///
+/// @nodoc
 class LifeCycleLastCutover {
   /// Lifecycle Cutover finalized date and time.
   final LifeCycleLastCutoverFinalized? finalized;
@@ -8988,6 +9141,8 @@ class LifeCycleLastCutover {
 }
 
 /// Lifecycle last Cutover initiated.
+///
+/// @nodoc
 class LifeCycleLastCutoverInitiated {
   /// <p/>
   final String? apiCallDateTime;
@@ -9018,6 +9173,8 @@ class LifeCycleLastCutoverInitiated {
 }
 
 /// Lifecycle last Cutover reverted.
+///
+/// @nodoc
 class LifeCycleLastCutoverReverted {
   /// Lifecycle last Cutover reverted API call date time.
   final String? apiCallDateTime;
@@ -9041,6 +9198,8 @@ class LifeCycleLastCutoverReverted {
 }
 
 /// Lifecycle Cutover finalized
+///
+/// @nodoc
 class LifeCycleLastCutoverFinalized {
   /// Lifecycle Cutover finalized date and time.
   final String? apiCallDateTime;
@@ -9064,6 +9223,8 @@ class LifeCycleLastCutoverFinalized {
 }
 
 /// Lifecycle last Test initiated.
+///
+/// @nodoc
 class LifeCycleLastTestInitiated {
   /// Lifecycle last Test initiated API call date and time.
   final String? apiCallDateTime;
@@ -9094,6 +9255,8 @@ class LifeCycleLastTestInitiated {
 }
 
 /// Lifecycle last Test reverted.
+///
+/// @nodoc
 class LifeCycleLastTestReverted {
   /// Lifecycle last Test reverted API call date and time.
   final String? apiCallDateTime;
@@ -9117,6 +9280,8 @@ class LifeCycleLastTestReverted {
 }
 
 /// Lifecycle last Test finalized.
+///
+/// @nodoc
 class LifeCycleLastTestFinalized {
   /// Lifecycle Test failed API call date and time.
   final String? apiCallDateTime;
@@ -9139,6 +9304,7 @@ class LifeCycleLastTestFinalized {
   }
 }
 
+/// @nodoc
 class DataReplicationState {
   static const stopped = DataReplicationState._('STOPPED');
   static const initiating = DataReplicationState._('INITIATING');
@@ -9189,6 +9355,8 @@ class DataReplicationState {
 }
 
 /// Data replication initiation.
+///
+/// @nodoc
 class DataReplicationInitiation {
   /// Request to query next data initiation date and time.
   final String? nextAttemptDateTime;
@@ -9231,6 +9399,8 @@ class DataReplicationInitiation {
 }
 
 /// Error in data replication.
+///
+/// @nodoc
 class DataReplicationError {
   /// Error in data replication.
   final DataReplicationErrorString? error;
@@ -9261,6 +9431,7 @@ class DataReplicationError {
   }
 }
 
+/// @nodoc
 class DataReplicationErrorString {
   static const agentNotSeen = DataReplicationErrorString._('AGENT_NOT_SEEN');
   static const snapshotsFailure =
@@ -9334,6 +9505,8 @@ class DataReplicationErrorString {
 }
 
 /// Data replication initiation step.
+///
+/// @nodoc
 class DataReplicationInitiationStep {
   /// Request to query data initiation step name.
   final DataReplicationInitiationStepName? name;
@@ -9365,6 +9538,7 @@ class DataReplicationInitiationStep {
   }
 }
 
+/// @nodoc
 class DataReplicationInitiationStepName {
   static const wait = DataReplicationInitiationStepName._('WAIT');
   static const createSecurityGroup =
@@ -9422,6 +9596,7 @@ class DataReplicationInitiationStepName {
   String toString() => value;
 }
 
+/// @nodoc
 class DataReplicationInitiationStepStatus {
   static const notStarted =
       DataReplicationInitiationStepStatus._('NOT_STARTED');
@@ -9453,6 +9628,8 @@ class DataReplicationInitiationStepStatus {
 }
 
 /// Request to query disks replicated.
+///
+/// @nodoc
 class DataReplicationInfoReplicatedDisk {
   /// Request to query data replication backlog size in bytes.
   final int? backloggedStorageBytes;
@@ -9507,6 +9684,7 @@ class DataReplicationInfoReplicatedDisk {
   }
 }
 
+/// @nodoc
 class FirstBoot {
   static const waiting = FirstBoot._('WAITING');
   static const succeeded = FirstBoot._('SUCCEEDED');
@@ -9532,6 +9710,7 @@ class FirstBoot {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkMigrationMapperSegmentType {
   static const workload = NetworkMigrationMapperSegmentType._('WORKLOAD');
   static const appliance = NetworkMigrationMapperSegmentType._('APPLIANCE');
@@ -9558,6 +9737,8 @@ class NetworkMigrationMapperSegmentType {
 }
 
 /// A checksum structure used to verify data integrity.
+///
+/// @nodoc
 class Checksum {
   /// The encryption algorithm used to generate the checksum.
   final EncryptionAlgorithm? encryptionAlgorithm;
@@ -9590,6 +9771,8 @@ class Checksum {
 }
 
 /// Configuration for an S3 location.
+///
+/// @nodoc
 class S3Configuration {
   /// The name of the S3 bucket.
   final String? s3Bucket;
@@ -9626,6 +9809,7 @@ class S3Configuration {
   }
 }
 
+/// @nodoc
 class EncryptionAlgorithm {
   static const sha256 = EncryptionAlgorithm._('SHA256');
 
@@ -9651,6 +9835,8 @@ class EncryptionAlgorithm {
 }
 
 /// A segment update to apply during a mapping update operation.
+///
+/// @nodoc
 class StartNetworkMigrationMappingUpdateSegment {
   /// The ID of the segment to update.
   final String segmentID;
@@ -9680,6 +9866,8 @@ class StartNetworkMigrationMappingUpdateSegment {
 }
 
 /// A construct update to apply during a mapping update operation.
+///
+/// @nodoc
 class StartNetworkMigrationMappingUpdateConstruct {
   /// The ID of the construct to update.
   final String constructID;
@@ -9716,6 +9904,8 @@ class StartNetworkMigrationMappingUpdateConstruct {
 
 /// A union type representing the operation to perform on a construct during a
 /// mapping update.
+///
+/// @nodoc
 class OperationUnion {
   /// A delete operation to remove a construct from the mapping.
   final DeleteOperation? delete;
@@ -9753,6 +9943,8 @@ class OperationUnion {
 
 /// An operation that merges constructs from different segments into the target
 /// construct.
+///
+/// @nodoc
 class MergeOperation {
   /// The list of constructs to merge into the target.
   final List<MergeConstruct>? mergeConstructs;
@@ -9771,6 +9963,8 @@ class MergeOperation {
 
 /// An operation that splits a construct into multiple constructs with different
 /// CIDR blocks.
+///
+/// @nodoc
 class SplitOperation {
   /// The list of split targets with their CIDR blocks.
   final List<SplitConstruct>? splitConstructs;
@@ -9788,6 +9982,8 @@ class SplitOperation {
 }
 
 /// An operation that deletes a construct from the mapping.
+///
+/// @nodoc
 class DeleteOperation {
   DeleteOperation();
 
@@ -9797,6 +9993,8 @@ class DeleteOperation {
 }
 
 /// An operation that updates the properties of a construct.
+///
+/// @nodoc
 class UpdateOperation {
   /// Whether to exclude this construct from the migration.
   final bool? excluded;
@@ -9826,6 +10024,8 @@ class UpdateOperation {
 }
 
 /// A split target specifying the CIDR block for the new construct.
+///
+/// @nodoc
 class SplitConstruct {
   /// The CIDR block for the split construct.
   final String? cidrBlock;
@@ -9843,6 +10043,8 @@ class SplitConstruct {
 }
 
 /// A construct reference specifying the source segment and construct to merge.
+///
+/// @nodoc
 class MergeConstruct {
   /// The construct ID to merge.
   final String? constructID;
@@ -9865,6 +10067,7 @@ class MergeConstruct {
   }
 }
 
+/// @nodoc
 class SecurityGroupMappingStrategy {
   static const map = SecurityGroupMappingStrategy._('MAP');
   static const skip = SecurityGroupMappingStrategy._('SKIP');
@@ -9891,6 +10094,7 @@ class SecurityGroupMappingStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class CodeGenerationOutputFormatType {
   static const cdkL1 = CodeGenerationOutputFormatType._('CDK_L1');
   static const cdkL2 = CodeGenerationOutputFormatType._('CDK_L2');
@@ -9919,6 +10123,8 @@ class CodeGenerationOutputFormatType {
 }
 
 /// Details about a network migration mapping update job.
+///
+/// @nodoc
 class NetworkMigrationMappingUpdateJobDetails {
   /// The timestamp when the job was created.
   final DateTime? createdAt;
@@ -9989,6 +10195,7 @@ class NetworkMigrationMappingUpdateJobDetails {
   }
 }
 
+/// @nodoc
 class NetworkMigrationJobStatus {
   static const pending = NetworkMigrationJobStatus._('PENDING');
   static const started = NetworkMigrationJobStatus._('STARTED');
@@ -10017,6 +10224,8 @@ class NetworkMigrationJobStatus {
 }
 
 /// Filters for listing mapping update jobs.
+///
+/// @nodoc
 class ListNetworkMigrationMappingUpdatesFilters {
   /// A list of job IDs to filter by.
   final List<String>? jobIDs;
@@ -10034,6 +10243,8 @@ class ListNetworkMigrationMappingUpdatesFilters {
 }
 
 /// Details about a network migration mapping job.
+///
+/// @nodoc
 class NetworkMigrationMappingJobDetails {
   /// The timestamp when the job was created.
   final DateTime? createdAt;
@@ -10105,6 +10316,8 @@ class NetworkMigrationMappingJobDetails {
 }
 
 /// Filters for listing network migration mapping jobs.
+///
+/// @nodoc
 class ListNetworkMigrationMappingsFilters {
   /// A list of job IDs to filter by.
   final List<String>? jobIDs;
@@ -10122,6 +10335,8 @@ class ListNetworkMigrationMappingsFilters {
 }
 
 /// Filters for listing mapper segments.
+///
+/// @nodoc
 class ListNetworkMigrationMapperSegmentsFilters {
   /// A list of segment IDs to filter by.
   final List<String>? segmentIDs;
@@ -10141,6 +10356,8 @@ class ListNetworkMigrationMapperSegmentsFilters {
 /// Represents a construct within a mapper segment. A construct is an individual
 /// infrastructure component such as a VPC, subnet, security group, route table,
 /// or other network resource that is part of the network migration.
+///
+/// @nodoc
 class NetworkMigrationMapperSegmentConstruct {
   /// The unique identifier of the construct.
   final String? constructID;
@@ -10223,6 +10440,8 @@ class NetworkMigrationMapperSegmentConstruct {
 }
 
 /// Filters for listing mapper segment constructs.
+///
+/// @nodoc
 class ListNetworkMigrationMapperSegmentConstructsFilters {
   /// A list of construct IDs to filter by.
   final List<String>? constructIDs;
@@ -10246,6 +10465,8 @@ class ListNetworkMigrationMapperSegmentConstructsFilters {
 }
 
 /// Details about a network migration execution instance.
+///
+/// @nodoc
 class NetworkMigrationExecution {
   /// The current activity being performed in the execution.
   final ExecutionStageActivity? activity;
@@ -10324,6 +10545,7 @@ class NetworkMigrationExecution {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const pending = ExecutionStatus._('PENDING');
   static const started = ExecutionStatus._('STARTED');
@@ -10350,6 +10572,7 @@ class ExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStage {
   static const mapping = ExecutionStage._('MAPPING');
   static const codeGeneration = ExecutionStage._('CODE_GENERATION');
@@ -10384,6 +10607,7 @@ class ExecutionStage {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStageActivity {
   static const mapping = ExecutionStageActivity._('MAPPING');
   static const mappingUpdate = ExecutionStageActivity._('MAPPING_UPDATE');
@@ -10422,6 +10646,8 @@ class ExecutionStageActivity {
 }
 
 /// Filters for listing network migration executions.
+///
+/// @nodoc
 class ListNetworkMigrationExecutionRequestFilters {
   /// A list of execution IDs to filter by.
   final List<String>? networkMigrationExecutionIDs;
@@ -10449,6 +10675,8 @@ class ListNetworkMigrationExecutionRequestFilters {
 }
 
 /// Details about a network migration deployer job.
+///
+/// @nodoc
 class NetworkMigrationDeployerJobDetails {
   /// The timestamp when the job was created.
   final DateTime? createdAt;
@@ -10520,6 +10748,8 @@ class NetworkMigrationDeployerJobDetails {
 }
 
 /// Filters for listing deployer jobs.
+///
+/// @nodoc
 class ListNetworkMigrationDeployerJobFilters {
   /// A list of job IDs to filter by.
   final List<String>? jobIDs;
@@ -10538,6 +10768,8 @@ class ListNetworkMigrationDeployerJobFilters {
 
 /// Details about a CloudFormation stack that has been deployed as part of the
 /// network migration.
+///
+/// @nodoc
 class NetworkMigrationDeployedStackDetails {
   /// A list of resources that failed to deploy.
   final List<NetworkMigrationFailedResourceDetails>? failedResources;
@@ -10601,6 +10833,7 @@ class NetworkMigrationDeployedStackDetails {
   }
 }
 
+/// @nodoc
 class NetworkMigrationDeployedStackStatus {
   static const createComplete =
       NetworkMigrationDeployedStackStatus._('CREATE_COMPLETE');
@@ -10644,6 +10877,8 @@ class NetworkMigrationDeployedStackStatus {
 }
 
 /// Details about a resource that failed to deploy.
+///
+/// @nodoc
 class NetworkMigrationFailedResourceDetails {
   /// The logical ID of the failed resource.
   final String? logicalID;
@@ -10682,6 +10917,7 @@ class NetworkMigrationFailedResourceDetails {
   }
 }
 
+/// @nodoc
 class NetworkMigrationFailedResourceStatus {
   static const createFailed =
       NetworkMigrationFailedResourceStatus._('CREATE_FAILED');
@@ -10711,6 +10947,8 @@ class NetworkMigrationFailedResourceStatus {
 
 /// A segment of generated code representing a logical grouping of
 /// infrastructure resources.
+///
+/// @nodoc
 class NetworkMigrationCodeGenerationSegment {
   /// A list of artifacts generated for this segment.
   final List<NetworkMigrationCodeGenerationArtifact>? artifacts;
@@ -10810,6 +11048,7 @@ class NetworkMigrationCodeGenerationSegment {
   }
 }
 
+/// @nodoc
 class NetworkMigrationCodeGenerationSegmentType {
   static const workload =
       NetworkMigrationCodeGenerationSegmentType._('WORKLOAD');
@@ -10841,6 +11080,8 @@ class NetworkMigrationCodeGenerationSegmentType {
 
 /// An artifact generated during code generation, such as a CloudFormation
 /// template or Terraform file.
+///
+/// @nodoc
 class NetworkMigrationCodeGenerationArtifact {
   /// The unique identifier of the artifact.
   final String? artifactID;
@@ -10915,6 +11156,7 @@ class NetworkMigrationCodeGenerationArtifact {
   }
 }
 
+/// @nodoc
 class NetworkMigrationCodeGenerationArtifactType {
   static const cdkTypescript =
       NetworkMigrationCodeGenerationArtifactType._('CDK_TYPESCRIPT');
@@ -10955,6 +11197,7 @@ class NetworkMigrationCodeGenerationArtifactType {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkMigrationCodeGenerationArtifactSubType {
   static const application =
       NetworkMigrationCodeGenerationArtifactSubType._('APPLICATION');
@@ -10986,6 +11229,8 @@ class NetworkMigrationCodeGenerationArtifactSubType {
 }
 
 /// Filters for listing code generation segments.
+///
+/// @nodoc
 class ListNetworkMigrationCodeGenerationSegmentsFilters {
   /// A list of segment IDs to filter by.
   final List<String>? segmentIDs;
@@ -11003,6 +11248,8 @@ class ListNetworkMigrationCodeGenerationSegmentsFilters {
 }
 
 /// Details about a network migration code generation job.
+///
+/// @nodoc
 class NetworkMigrationCodeGenerationJobDetails {
   /// A map of output format types to their status details.
   final Map<CodeGenerationOutputFormatType,
@@ -11093,6 +11340,8 @@ class NetworkMigrationCodeGenerationJobDetails {
 }
 
 /// Status details for a specific code generation output format.
+///
+/// @nodoc
 class CodeGenerationOutputFormatStatusDetails {
   /// The status of the code generation for this output format.
   final CodeGenerationOutputFormatStatus? status;
@@ -11124,6 +11373,7 @@ class CodeGenerationOutputFormatStatusDetails {
   }
 }
 
+/// @nodoc
 class CodeGenerationOutputFormatStatus {
   static const succeeded = CodeGenerationOutputFormatStatus._('SUCCEEDED');
   static const failed = CodeGenerationOutputFormatStatus._('FAILED');
@@ -11150,6 +11400,8 @@ class CodeGenerationOutputFormatStatus {
 }
 
 /// Filters for listing code generation jobs.
+///
+/// @nodoc
 class ListNetworkMigrationCodeGenerationsFilters {
   /// A list of job IDs to filter by.
   final List<String>? jobIDs;
@@ -11167,6 +11419,8 @@ class ListNetworkMigrationCodeGenerationsFilters {
 }
 
 /// The result of a network migration analysis operation.
+///
+/// @nodoc
 class NetworkMigrationAnalysisResult {
   /// The detailed analysis findings and recommendations.
   final String? analysisResult;
@@ -11250,6 +11504,7 @@ class NetworkMigrationAnalysisResult {
   }
 }
 
+/// @nodoc
 class AnalyzerType {
   static const reachabilityAnalyzer = AnalyzerType._('REACHABILITY_ANALYZER');
 
@@ -11273,6 +11528,8 @@ class AnalyzerType {
 }
 
 /// The source resource information for an analysis result.
+///
+/// @nodoc
 class NetworkMigrationAnalysisResultSource {
   /// The subnet ID of the source resource.
   final String? subnetID;
@@ -11304,6 +11561,8 @@ class NetworkMigrationAnalysisResultSource {
 }
 
 /// The target resource information for an analysis result.
+///
+/// @nodoc
 class NetworkMigrationAnalysisResultTarget {
   /// The subnet ID of the target resource.
   final String? subnetID;
@@ -11334,6 +11593,7 @@ class NetworkMigrationAnalysisResultTarget {
   }
 }
 
+/// @nodoc
 class NetworkMigrationAnalysisResultStatus {
   static const pending = NetworkMigrationAnalysisResultStatus._('PENDING');
   static const started = NetworkMigrationAnalysisResultStatus._('STARTED');
@@ -11362,6 +11622,8 @@ class NetworkMigrationAnalysisResultStatus {
 }
 
 /// Filters for listing network migration analysis results.
+///
+/// @nodoc
 class ListNetworkMigrationAnalysisResultsFilters {
   /// A list of VPC IDs to filter results by.
   final List<String>? vpcIDs;
@@ -11379,6 +11641,8 @@ class ListNetworkMigrationAnalysisResultsFilters {
 }
 
 /// Details about a network migration analysis job.
+///
+/// @nodoc
 class NetworkMigrationAnalysisJobDetails {
   /// The timestamp when the job was created.
   final DateTime? createdAt;
@@ -11450,6 +11714,8 @@ class NetworkMigrationAnalysisJobDetails {
 }
 
 /// Filters for listing network migration analysis jobs.
+///
+/// @nodoc
 class ListNetworkMigrationAnalysesFilters {
   /// A list of job IDs to filter by.
   final List<String>? jobIDs;
@@ -11467,6 +11733,8 @@ class ListNetworkMigrationAnalysesFilters {
 }
 
 /// A summary of a network migration definition.
+///
+/// @nodoc
 class NetworkMigrationDefinitionSummary {
   /// The Amazon Resource Name (ARN) of the network migration definition.
   final String? arn;
@@ -11531,6 +11799,7 @@ class NetworkMigrationDefinitionSummary {
   }
 }
 
+/// @nodoc
 class SourceEnvironment {
   static const nsx = SourceEnvironment._('NSX');
   static const vsphere = SourceEnvironment._('VSPHERE');
@@ -11569,6 +11838,8 @@ class SourceEnvironment {
 }
 
 /// Filters for listing network migration definitions.
+///
+/// @nodoc
 class ListNetworkMigrationDefinitionsRequestFilters {
   /// A list of definition IDs to filter by.
   final List<String>? networkMigrationDefinitionIDs;
@@ -11587,6 +11858,8 @@ class ListNetworkMigrationDefinitionsRequestFilters {
 }
 
 /// Updated S3 configuration for storing target network artifacts.
+///
+/// @nodoc
 class TargetS3ConfigurationUpdate {
   /// The updated name of the S3 bucket.
   final String? s3Bucket;
@@ -11610,6 +11883,8 @@ class TargetS3ConfigurationUpdate {
 }
 
 /// Updated configuration for the target network topology and addressing.
+///
+/// @nodoc
 class TargetNetworkUpdate {
   /// The updated CIDR block for inbound traffic.
   final String? inboundCidr;
@@ -11644,6 +11919,7 @@ class TargetNetworkUpdate {
   }
 }
 
+/// @nodoc
 class TargetDeployment {
   static const singleAccount = TargetDeployment._('SINGLE_ACCOUNT');
   static const multiAccount = TargetDeployment._('MULTI_ACCOUNT');
@@ -11668,6 +11944,7 @@ class TargetDeployment {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetNetworkTopology {
   static const isolatedVpc = TargetNetworkTopology._('ISOLATED_VPC');
   static const hubAndSpoke = TargetNetworkTopology._('HUB_AND_SPOKE');
@@ -11694,6 +11971,8 @@ class TargetNetworkTopology {
 }
 
 /// Configuration for a migration source environment.
+///
+/// @nodoc
 class SourceConfiguration {
   /// The source environment type.
   final SourceEnvironment sourceEnvironment;
@@ -11727,6 +12006,8 @@ class SourceConfiguration {
 }
 
 /// S3 configuration for source network data.
+///
+/// @nodoc
 class SourceS3Configuration {
   /// The name of the S3 bucket containing source data.
   final String s3Bucket;
@@ -11764,6 +12045,8 @@ class SourceS3Configuration {
 }
 
 /// S3 configuration for storing target network artifacts.
+///
+/// @nodoc
 class TargetS3Configuration {
   /// The name of the S3 bucket for target artifacts.
   final String s3Bucket;
@@ -11794,6 +12077,8 @@ class TargetS3Configuration {
 }
 
 /// Configuration for the target network topology and addressing.
+///
+/// @nodoc
 class TargetNetwork {
   /// The network topology type for the target environment.
   final TargetNetworkTopology topology;
@@ -11839,6 +12124,8 @@ class TargetNetwork {
 }
 
 /// Template post migration custom action filters.
+///
+/// @nodoc
 class TemplateActionsRequestFilters {
   /// Action IDs to filter template post migration custom actions by.
   final List<String>? actionIDs;
@@ -11856,6 +12143,8 @@ class TemplateActionsRequestFilters {
 }
 
 /// Launch template disk configuration.
+///
+/// @nodoc
 class LaunchTemplateDiskConf {
   /// Launch template disk iops configuration.
   final int? iops;
@@ -11892,6 +12181,7 @@ class LaunchTemplateDiskConf {
   }
 }
 
+/// @nodoc
 class VolumeType {
   static const io1 = VolumeType._('io1');
   static const io2 = VolumeType._('io2');
@@ -11921,6 +12211,8 @@ class VolumeType {
 }
 
 /// Job log.
+///
+/// @nodoc
 class JobLog {
   /// Job log event.
   final JobLogEvent? event;
@@ -11959,6 +12251,7 @@ class JobLog {
   }
 }
 
+/// @nodoc
 class JobLogEvent {
   static const jobStart = JobLogEvent._('JOB_START');
   static const serverSkipped = JobLogEvent._('SERVER_SKIPPED');
@@ -12014,6 +12307,8 @@ class JobLogEvent {
 }
 
 /// Job log data
+///
+/// @nodoc
 class JobLogEventData {
   /// Retries for this operation.
   final int? attemptCount;
@@ -12073,6 +12368,8 @@ class JobLogEventData {
 }
 
 /// Request to describe Job log filters.
+///
+/// @nodoc
 class DescribeJobsRequestFilters {
   /// Request to describe Job log filters by date.
   final String? fromDate;
@@ -12102,6 +12399,8 @@ class DescribeJobsRequestFilters {
 }
 
 /// Import task error.
+///
+/// @nodoc
 class ImportTaskError {
   /// Import task error data.
   final ImportErrorData? errorData;
@@ -12141,6 +12440,7 @@ class ImportTaskError {
   }
 }
 
+/// @nodoc
 class ImportErrorType {
   static const validationError = ImportErrorType._('VALIDATION_ERROR');
   static const processingError = ImportErrorType._('PROCESSING_ERROR');
@@ -12166,6 +12466,8 @@ class ImportErrorType {
 }
 
 /// Import error data.
+///
+/// @nodoc
 class ImportErrorData {
   /// Import error data source account ID.
   final String? accountID;
@@ -12232,6 +12534,8 @@ class ImportErrorData {
 }
 
 /// Import task.
+///
+/// @nodoc
 class ImportTask {
   /// ImportTask arn.
   final String? arn;
@@ -12317,6 +12621,8 @@ class ImportTask {
 }
 
 /// S3 bucket source.
+///
+/// @nodoc
 class S3BucketSource {
   /// S3 bucket source s3 bucket.
   final String s3Bucket;
@@ -12353,6 +12659,7 @@ class S3BucketSource {
   }
 }
 
+/// @nodoc
 class ImportStatus {
   static const pending = ImportStatus._('PENDING');
   static const started = ImportStatus._('STARTED');
@@ -12379,6 +12686,8 @@ class ImportStatus {
 }
 
 /// Import task summary.
+///
+/// @nodoc
 class ImportTaskSummary {
   /// Import task summary applications.
   final ImportTaskSummaryApplications? applications;
@@ -12425,6 +12734,8 @@ class ImportTaskSummary {
 }
 
 /// Import task summery waves.
+///
+/// @nodoc
 class ImportTaskSummaryWaves {
   /// Import task summery waves created count.
   final int? createdCount;
@@ -12455,6 +12766,8 @@ class ImportTaskSummaryWaves {
 }
 
 /// Import task summary applications.
+///
+/// @nodoc
 class ImportTaskSummaryApplications {
   /// Import task summary applications created count.
   final int? createdCount;
@@ -12485,6 +12798,8 @@ class ImportTaskSummaryApplications {
 }
 
 /// Import task summary servers.
+///
+/// @nodoc
 class ImportTaskSummaryServers {
   /// Import task summary servers created count.
   final int? createdCount;
@@ -12515,6 +12830,8 @@ class ImportTaskSummaryServers {
 }
 
 /// List imports request filters.
+///
+/// @nodoc
 class ListImportsRequestFilters {
   /// List imports request filters import IDs.
   final List<String>? importIDs;
@@ -12532,6 +12849,8 @@ class ListImportsRequestFilters {
 }
 
 /// Export task error.
+///
+/// @nodoc
 class ExportTaskError {
   /// Export task error data.
   final ExportErrorData? errorData;
@@ -12564,6 +12883,8 @@ class ExportTaskError {
 }
 
 /// Export errors data.
+///
+/// @nodoc
 class ExportErrorData {
   /// Export errors data raw error.
   final String? rawError;
@@ -12587,6 +12908,8 @@ class ExportErrorData {
 }
 
 /// Export task.
+///
+/// @nodoc
 class ExportTask {
   /// ExportTask arn.
   final String? arn;
@@ -12682,6 +13005,7 @@ class ExportTask {
   }
 }
 
+/// @nodoc
 class ExportStatus {
   static const pending = ExportStatus._('PENDING');
   static const started = ExportStatus._('STARTED');
@@ -12708,6 +13032,8 @@ class ExportStatus {
 }
 
 /// Export task summary.
+///
+/// @nodoc
 class ExportTaskSummary {
   /// Export task summary applications count.
   final int? applicationsCount;
@@ -12745,6 +13071,8 @@ class ExportTaskSummary {
 }
 
 /// List exports request filters.
+///
+/// @nodoc
 class ListExportsRequestFilters {
   /// List exports request filters export ids.
   final List<String>? exportIDs;
@@ -12762,6 +13090,8 @@ class ListExportsRequestFilters {
 }
 
 /// List Connectors Request Filters.
+///
+/// @nodoc
 class ListConnectorsRequestFilters {
   /// List Connectors Request Filters connector IDs.
   final List<String>? connectorIDs;
@@ -12779,6 +13109,8 @@ class ListConnectorsRequestFilters {
 }
 
 /// Connector SSM command config.
+///
+/// @nodoc
 class ConnectorSsmCommandConfig {
   /// Connector SSM command config CloudWatch output enabled.
   final bool cloudWatchOutputEnabled;
@@ -12825,6 +13157,8 @@ class ConnectorSsmCommandConfig {
 }
 
 /// Applications list filters.
+///
+/// @nodoc
 class ListApplicationsRequestFilters {
   /// Filter applications list by application ID.
   final List<String>? applicationIDs;
@@ -12854,6 +13188,8 @@ class ListApplicationsRequestFilters {
 }
 
 /// Application aggregated status.
+///
+/// @nodoc
 class ApplicationAggregatedStatus {
   /// Application aggregated status health status.
   final ApplicationHealthStatus? healthStatus;
@@ -12899,6 +13235,7 @@ class ApplicationAggregatedStatus {
   }
 }
 
+/// @nodoc
 class ApplicationHealthStatus {
   static const healthy = ApplicationHealthStatus._('HEALTHY');
   static const lagging = ApplicationHealthStatus._('LAGGING');
@@ -12925,6 +13262,7 @@ class ApplicationHealthStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationProgressStatus {
   static const notStarted = ApplicationProgressStatus._('NOT_STARTED');
   static const inProgress = ApplicationProgressStatus._('IN_PROGRESS');
@@ -12952,6 +13290,8 @@ class ApplicationProgressStatus {
 }
 
 /// S3 configuration for the source import file to be enriched.
+///
+/// @nodoc
 class EnrichmentSourceS3Configuration {
   /// The name of the S3 bucket containing the source import file.
   final String s3Bucket;
@@ -12981,6 +13321,8 @@ class EnrichmentSourceS3Configuration {
 }
 
 /// S3 configuration for storing the enriched import file.
+///
+/// @nodoc
 class EnrichmentTargetS3Configuration {
   /// The name of the S3 bucket where the enriched import file will be stored.
   final String s3Bucket;
@@ -13020,6 +13362,8 @@ class EnrichmentTargetS3Configuration {
 /// The strategy for assigning IP addresses during the enrichment process.
 /// STATIC assigns fixed IP addresses, while DYNAMIC allows for dynamic IP
 /// allocation.
+///
+/// @nodoc
 class IpAssignmentStrategy {
   static const static = IpAssignmentStrategy._('STATIC');
   static const $dynamic = IpAssignmentStrategy._('DYNAMIC');
@@ -13046,6 +13390,8 @@ class IpAssignmentStrategy {
 }
 
 /// Managed account.
+///
+/// @nodoc
 class ManagedAccount {
   /// Managed account, account ID.
   final String? accountId;
@@ -13069,6 +13415,8 @@ class ManagedAccount {
 }
 
 /// Details about an import file enrichment job.
+///
+/// @nodoc
 class ImportFileEnrichment {
   /// The checksum of the enriched file for integrity verification.
   final Checksum? checksum;
@@ -13141,6 +13489,8 @@ class ImportFileEnrichment {
 
 /// The status of an import file enrichment job. Can be PENDING, STARTED,
 /// FAILED, SUCCEEDED, or SUCCEEDED_WITH_WARNINGS.
+///
+/// @nodoc
 class ImportFileEnrichmentStatus {
   static const pending = ImportFileEnrichmentStatus._('PENDING');
   static const started = ImportFileEnrichmentStatus._('STARTED');
@@ -13177,6 +13527,8 @@ class ImportFileEnrichmentStatus {
 }
 
 /// Filters for listing import file enrichment jobs.
+///
+/// @nodoc
 class ListImportFileEnrichmentsFilters {
   /// A list of job IDs to filter by.
   final List<String>? jobIDs;
@@ -13193,26 +13545,31 @@ class ListImportFileEnrichmentsFilters {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -13221,11 +13578,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UninitializedAccountException extends _s.GenericAwsException {
   UninitializedAccountException({String? type, String? message})
       : super(
@@ -13234,6 +13593,7 @@ class UninitializedAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

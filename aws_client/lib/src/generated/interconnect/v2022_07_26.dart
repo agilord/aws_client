@@ -595,6 +595,7 @@ class Interconnect {
   }
 }
 
+/// @nodoc
 class AcceptConnectionProposalResponse {
   /// The created <a>Connection</a> object.
   final Connection? connection;
@@ -619,6 +620,7 @@ class AcceptConnectionProposalResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectionProposalResponse {
   /// The bandwidth of the proposed <a>Connection</a>.
   final String bandwidth;
@@ -666,6 +668,7 @@ class DescribeConnectionProposalResponse {
   }
 }
 
+/// @nodoc
 class ListAttachPointsResponse {
   /// The valid <a>AttachPoint</a>
   final List<AttachPointDescriptor> attachPoints;
@@ -699,6 +702,7 @@ class ListAttachPointsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags on the specified ARN.
   final Map<String, String>? tags;
@@ -722,6 +726,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -734,6 +739,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -746,6 +752,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectionResponse {
   /// The resulting <a>Connection</a>.
   final Connection? connection;
@@ -770,6 +777,7 @@ class CreateConnectionResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionResponse {
   /// The existing <a>Connection</a> resource.
   final Connection? connection;
@@ -794,6 +802,7 @@ class GetConnectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectionResponse {
   /// The resulting updated <a>Connection</a>
   final Connection? connection;
@@ -818,6 +827,7 @@ class UpdateConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionResponse {
   /// The <a>Connection</a> object that has been marked for deletion.
   final Connection connection;
@@ -842,6 +852,7 @@ class DeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class ListConnectionsResponse {
   /// The resulting list of <a>Connection</a> objects.
   final List<ConnectionSummary>? connections;
@@ -875,6 +886,7 @@ class ListConnectionsResponse {
   }
 }
 
+/// @nodoc
 class GetEnvironmentResponse {
   /// The requested <a>Environment</a> structure.
   final Environment environment;
@@ -899,6 +911,7 @@ class GetEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResponse {
   /// The list of matching <a>Environment</a> objects.
   final List<Environment> environments;
@@ -939,6 +952,8 @@ class ListEnvironmentsResponse {
 /// Provider of this resource. or The remote Last Mile Provider of this
 /// resource. and the region or location specification to which an AWS
 /// Interconnect Connection can be made.
+///
+/// @nodoc
 class Environment {
   /// The sets of bandwidths that are available and supported on this environment.
   final Bandwidths bandwidths;
@@ -1034,6 +1049,8 @@ class Environment {
 }
 
 /// Describes the respective AWS Interconnect Partner organization.
+///
+/// @nodoc
 class Provider {
   /// The provider's name. Specifically, connections to/from this Cloud Service
   /// Provider will be considered Multicloud connections.
@@ -1066,6 +1083,7 @@ class Provider {
   }
 }
 
+/// @nodoc
 class EnvironmentState {
   static const available = EnvironmentState._('available');
   static const limited = EnvironmentState._('limited');
@@ -1092,6 +1110,8 @@ class EnvironmentState {
 }
 
 /// Contains the details about the available and supported bandwidths.
+///
+/// @nodoc
 class Bandwidths {
   /// The list of currently available bandwidths.
   final List<String>? available;
@@ -1127,6 +1147,7 @@ class Bandwidths {
   }
 }
 
+/// @nodoc
 class RemoteAccountIdentifierType {
   static const account = RemoteAccountIdentifierType._('account');
   static const email = RemoteAccountIdentifierType._('email');
@@ -1153,6 +1174,8 @@ class RemoteAccountIdentifierType {
 }
 
 /// Summarized view of a Connection object.
+///
+/// @nodoc
 class ConnectionSummary {
   /// The ARN of the <a>Connection</a>
   final String arn;
@@ -1282,6 +1305,8 @@ class ConnectionSummary {
 }
 
 /// Identifies an attach point to use with a Connection.
+///
+/// @nodoc
 class AttachPoint {
   /// Identifies an attach point by full ARN.
   final String? arn;
@@ -1312,6 +1337,7 @@ class AttachPoint {
   }
 }
 
+/// @nodoc
 class ConnectionState {
   static const available = ConnectionState._('available');
   static const requested = ConnectionState._('requested');
@@ -1353,6 +1379,8 @@ class ConnectionState {
 
 /// The object describing the provided connectivity from the AWS region to the
 /// partner location.
+///
+/// @nodoc
 class Connection {
   /// The Activation Key associated to this connection.
   final String activationKey;
@@ -1505,6 +1533,8 @@ class Connection {
 
 /// The types of identifiers that may be needed for remote account
 /// specification.
+///
+/// @nodoc
 class RemoteAccountIdentifier {
   /// A generic bit of identifying information. Can be used in place of any of the
   /// more specific types.
@@ -1523,6 +1553,8 @@ class RemoteAccountIdentifier {
 }
 
 /// Describes a possible Attach Point for a Connection.
+///
+/// @nodoc
 class AttachPointDescriptor {
   /// The identifier for the specific type of the AttachPoint.
   final String identifier;
@@ -1571,6 +1603,7 @@ class AttachPointDescriptor {
   }
 }
 
+/// @nodoc
 class AttachPointType {
   static const directConnectGateway = AttachPointType._('DirectConnectGateway');
 

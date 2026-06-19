@@ -112,6 +112,7 @@ class ApiGatewayManagementApi {
   }
 }
 
+/// @nodoc
 class GetConnectionResponse {
   /// The time in ISO 8601 format for when the connection was established.
   final DateTime? connectedAt;
@@ -148,6 +149,7 @@ class GetConnectionResponse {
   }
 }
 
+/// @nodoc
 class Identity {
   /// The source IP address of the TCP connection making the request to API
   /// Gateway.
@@ -178,21 +180,25 @@ class Identity {
   }
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GoneException extends _s.GenericAwsException {
   GoneException({String? type, String? message})
       : super(type: type, code: 'GoneException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class PayloadTooLargeException extends _s.GenericAwsException {
   PayloadTooLargeException({String? type, String? message})
       : super(type: type, code: 'PayloadTooLargeException', message: message);

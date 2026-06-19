@@ -3856,27 +3856,27 @@ class CostExplorer {
   /// <ul>
   /// <li>
   /// Absolute threshold: <code>{ "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } }</code>
+  /// "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }</code>
   /// </li>
   /// <li>
   /// Percentage threshold: <code>{ "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }</code>
+  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }</code>
   /// </li>
   /// <li>
-  /// <code>AND</code> two thresholds together: <code>{ "And": [ { "Dimensions":
-  /// { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }</code>
+  /// <code>AND</code> two thresholds together: <code>{ "And": \[ {
+  /// "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }, { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } } \] }</code>
   /// </li>
   /// <li>
-  /// <code>OR</code> two thresholds together: <code>{ "Or": [ { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }</code>
+  /// <code>OR</code> two thresholds together: <code>{ "Or": \[ { "Dimensions":
+  /// { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }, { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } } \] }</code>
   /// </li>
   /// </ul>
   Future<UpdateAnomalySubscriptionResponse> updateAnomalySubscription({
@@ -4009,6 +4009,7 @@ class CostExplorer {
   }
 }
 
+/// @nodoc
 class CreateAnomalyMonitorResponse {
   /// The unique identifier of your newly created cost anomaly detection monitor.
   final String monitorArn;
@@ -4031,6 +4032,7 @@ class CreateAnomalyMonitorResponse {
   }
 }
 
+/// @nodoc
 class CreateAnomalySubscriptionResponse {
   /// The unique identifier of your newly created cost anomaly subscription.
   final String subscriptionArn;
@@ -4054,6 +4056,7 @@ class CreateAnomalySubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateCostCategoryDefinitionResponse {
   /// The unique identifier for your newly created cost category.
   final String? costCategoryArn;
@@ -4085,6 +4088,7 @@ class CreateCostCategoryDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAnomalyMonitorResponse {
   DeleteAnomalyMonitorResponse();
 
@@ -4097,6 +4101,7 @@ class DeleteAnomalyMonitorResponse {
   }
 }
 
+/// @nodoc
 class DeleteAnomalySubscriptionResponse {
   DeleteAnomalySubscriptionResponse();
 
@@ -4109,6 +4114,7 @@ class DeleteAnomalySubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteCostCategoryDefinitionResponse {
   /// The unique identifier for your cost category.
   final String? costCategoryArn;
@@ -4140,6 +4146,7 @@ class DeleteCostCategoryDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeCostCategoryDefinitionResponse {
   final CostCategory? costCategory;
 
@@ -4164,6 +4171,7 @@ class DescribeCostCategoryDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetAnomaliesResponse {
   /// A list of cost anomalies.
   final List<Anomaly> anomalies;
@@ -4198,6 +4206,7 @@ class GetAnomaliesResponse {
   }
 }
 
+/// @nodoc
 class GetAnomalyMonitorsResponse {
   /// A list of cost anomaly monitors that includes the detailed metadata for each
   /// monitor.
@@ -4233,6 +4242,7 @@ class GetAnomalyMonitorsResponse {
   }
 }
 
+/// @nodoc
 class GetAnomalySubscriptionsResponse {
   /// A list of cost anomaly subscriptions that includes the detailed metadata for
   /// each one.
@@ -4269,6 +4279,7 @@ class GetAnomalySubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class GetApproximateUsageRecordsResponse {
   /// The lookback period that's used for the estimation.
   final DateInterval? lookbackPeriod;
@@ -4310,6 +4321,7 @@ class GetApproximateUsageRecordsResponse {
   }
 }
 
+/// @nodoc
 class GetCommitmentPurchaseAnalysisResponse {
   /// The analysis ID that's associated with the commitment purchase analysis.
   final String analysisId;
@@ -4395,6 +4407,7 @@ class GetCommitmentPurchaseAnalysisResponse {
   }
 }
 
+/// @nodoc
 class GetCostAndUsageResponse {
   /// The attributes that apply to a specific dimension value. For example, if the
   /// value is a linked account, the attribute is that account name.
@@ -4453,6 +4466,7 @@ class GetCostAndUsageResponse {
   }
 }
 
+/// @nodoc
 class GetCostAndUsageComparisonsResponse {
   /// An array of comparison results showing cost and usage metrics between
   /// <code>BaselineTimePeriod</code> and <code>ComparisonTimePeriod</code>.
@@ -4501,6 +4515,7 @@ class GetCostAndUsageComparisonsResponse {
   }
 }
 
+/// @nodoc
 class GetCostAndUsageWithResourcesResponse {
   /// The attributes that apply to a specific dimension value. For example, if the
   /// value is a linked account, the attribute is that account name.
@@ -4560,6 +4575,7 @@ class GetCostAndUsageWithResourcesResponse {
   }
 }
 
+/// @nodoc
 class GetCostCategoriesResponse {
   /// The number of objects that are returned.
   final int returnSize;
@@ -4622,6 +4638,7 @@ class GetCostCategoriesResponse {
   }
 }
 
+/// @nodoc
 class GetCostComparisonDriversResponse {
   /// An array of comparison results showing factors that drive significant cost
   /// differences between <code>BaselineTimePeriod</code> and
@@ -4657,6 +4674,7 @@ class GetCostComparisonDriversResponse {
   }
 }
 
+/// @nodoc
 class GetCostForecastResponse {
   /// The forecasts for your query, in order. For <code>DAILY</code> forecasts,
   /// this is a list of days. For <code>MONTHLY</code> forecasts, this is a list
@@ -4695,6 +4713,7 @@ class GetCostForecastResponse {
   }
 }
 
+/// @nodoc
 class GetDimensionValuesResponse {
   /// The filters that you used to filter your request. Some dimensions are
   /// available only for a specific context.
@@ -4879,6 +4898,7 @@ class GetDimensionValuesResponse {
   }
 }
 
+/// @nodoc
 class GetReservationCoverageResponse {
   /// The amount of time that your reservations covered.
   final List<CoverageByTime> coveragesByTime;
@@ -4922,6 +4942,7 @@ class GetReservationCoverageResponse {
   }
 }
 
+/// @nodoc
 class GetReservationPurchaseRecommendationResponse {
   /// Information about this specific recommendation call, such as the time stamp
   /// for when Cost Explorer generated this recommendation.
@@ -4967,6 +4988,7 @@ class GetReservationPurchaseRecommendationResponse {
   }
 }
 
+/// @nodoc
 class GetReservationUtilizationResponse {
   /// The amount of time that you used your Reserved Instances (RIs).
   final List<UtilizationByTime> utilizationsByTime;
@@ -5012,6 +5034,7 @@ class GetReservationUtilizationResponse {
   }
 }
 
+/// @nodoc
 class GetRightsizingRecommendationResponse {
   /// You can use Configuration to customize recommendations across two
   /// attributes. You can choose to view recommendations for instances within the
@@ -5082,6 +5105,7 @@ class GetRightsizingRecommendationResponse {
   }
 }
 
+/// @nodoc
 class GetSavingsPlanPurchaseRecommendationDetailsResponse {
   /// Contains detailed information about a specific Savings Plan recommendation.
   final RecommendationDetailData? recommendationDetailData;
@@ -5117,6 +5141,7 @@ class GetSavingsPlanPurchaseRecommendationDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetSavingsPlansCoverageResponse {
   /// The amount of spend that your Savings Plans covered.
   final List<SavingsPlansCoverage> savingsPlansCoverages;
@@ -5152,6 +5177,7 @@ class GetSavingsPlansCoverageResponse {
   }
 }
 
+/// @nodoc
 class GetSavingsPlansPurchaseRecommendationResponse {
   /// Information that regards this specific recommendation set.
   final SavingsPlansPurchaseRecommendationMetadata? metadata;
@@ -5203,6 +5229,7 @@ class GetSavingsPlansPurchaseRecommendationResponse {
   }
 }
 
+/// @nodoc
 class GetSavingsPlansUtilizationResponse {
   /// The total amount of cost/commitment that you used your Savings Plans,
   /// regardless of date ranges.
@@ -5243,6 +5270,7 @@ class GetSavingsPlansUtilizationResponse {
   }
 }
 
+/// @nodoc
 class GetSavingsPlansUtilizationDetailsResponse {
   /// Retrieves a single daily or monthly Savings Plans utilization rate and
   /// details for your account.
@@ -5299,6 +5327,7 @@ class GetSavingsPlansUtilizationDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetTagsResponse {
   /// The number of query results that Amazon Web Services returns at a time.
   final int returnSize;
@@ -5347,6 +5376,7 @@ class GetTagsResponse {
   }
 }
 
+/// @nodoc
 class GetUsageForecastResponse {
   /// The forecasts for your query, in order. For <code>DAILY</code> forecasts,
   /// this is a list of days. For <code>MONTHLY</code> forecasts, this is a list
@@ -5384,6 +5414,7 @@ class GetUsageForecastResponse {
   }
 }
 
+/// @nodoc
 class ListCommitmentPurchaseAnalysesResponse {
   /// The list of analyses.
   final List<AnalysisSummary>? analysisSummaryList;
@@ -5418,6 +5449,7 @@ class ListCommitmentPurchaseAnalysesResponse {
   }
 }
 
+/// @nodoc
 class ListCostAllocationTagBackfillHistoryResponse {
   /// The list of historical cost allocation tag backfill requests.
   final List<CostAllocationTagBackfillRequest>? backfillRequests;
@@ -5454,6 +5486,7 @@ class ListCostAllocationTagBackfillHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListCostAllocationTagsResponse {
   /// A list of cost allocation tags that includes the detailed metadata for each
   /// one.
@@ -5489,6 +5522,7 @@ class ListCostAllocationTagsResponse {
   }
 }
 
+/// @nodoc
 class ListCostCategoryDefinitionsResponse {
   /// A reference to a cost category that contains enough information to identify
   /// the Cost Category.
@@ -5526,6 +5560,7 @@ class ListCostCategoryDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListCostCategoryResourceAssociationsResponse {
   /// A reference to a cost category association that contains information on an
   /// associated resource.
@@ -5566,6 +5601,7 @@ class ListCostCategoryResourceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListSavingsPlansPurchaseRecommendationGenerationResponse {
   /// The list of historical recommendation generations.
   final List<GenerationSummary>? generationSummaryList;
@@ -5600,6 +5636,7 @@ class ListSavingsPlansPurchaseRecommendationGenerationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tag key value pairs that are associated with the resource.
   final List<ResourceTag>? resourceTags;
@@ -5625,6 +5662,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ProvideAnomalyFeedbackResponse {
   /// The ID of the modified cost anomaly.
   final String anomalyId;
@@ -5647,6 +5685,7 @@ class ProvideAnomalyFeedbackResponse {
   }
 }
 
+/// @nodoc
 class StartCommitmentPurchaseAnalysisResponse {
   /// The analysis ID that's associated with the commitment purchase analysis.
   final String analysisId;
@@ -5685,6 +5724,7 @@ class StartCommitmentPurchaseAnalysisResponse {
   }
 }
 
+/// @nodoc
 class StartCostAllocationTagBackfillResponse {
   /// An object containing detailed metadata of your new backfill request.
   final CostAllocationTagBackfillRequest? backfillRequest;
@@ -5711,6 +5751,7 @@ class StartCostAllocationTagBackfillResponse {
   }
 }
 
+/// @nodoc
 class StartSavingsPlansPurchaseRecommendationGenerationResponse {
   /// The estimated time for when the recommendation generation will complete.
   final String? estimatedCompletionTime;
@@ -5750,6 +5791,7 @@ class StartSavingsPlansPurchaseRecommendationGenerationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5762,6 +5804,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5774,6 +5817,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnomalyMonitorResponse {
   /// A cost anomaly monitor ARN.
   final String monitorArn;
@@ -5796,6 +5840,7 @@ class UpdateAnomalyMonitorResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnomalySubscriptionResponse {
   /// A cost anomaly subscription ARN.
   final String subscriptionArn;
@@ -5819,6 +5864,7 @@ class UpdateAnomalySubscriptionResponse {
   }
 }
 
+/// @nodoc
 class UpdateCostAllocationTagsStatusResponse {
   /// A list of <code>UpdateCostAllocationTagsStatusError</code> objects with
   /// error details about each cost allocation tag that can't be updated. If
@@ -5848,6 +5894,7 @@ class UpdateCostAllocationTagsStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateCostCategoryDefinitionResponse {
   /// The unique identifier for your cost category.
   final String? costCategoryArn;
@@ -5880,6 +5927,8 @@ class UpdateCostCategoryDefinitionResponse {
 }
 
 /// The rule schema version in this particular cost category.
+///
+/// @nodoc
 class CostCategoryRuleVersion {
   static const costCategoryExpressionV1 =
       CostCategoryRuleVersion._('CostCategoryExpression.v1');
@@ -5907,6 +5956,8 @@ class CostCategoryRuleVersion {
 
 /// Use the split charge rule to split the cost of one cost category value
 /// across several other target values.
+///
+/// @nodoc
 class CostCategorySplitChargeRule {
   /// The method that's used to define how to split your source costs across your
   /// targets.
@@ -5971,6 +6022,7 @@ class CostCategorySplitChargeRule {
   }
 }
 
+/// @nodoc
 class CostCategorySplitChargeMethod {
   static const fixed = CostCategorySplitChargeMethod._('FIXED');
   static const proportional = CostCategorySplitChargeMethod._('PROPORTIONAL');
@@ -5998,6 +6050,8 @@ class CostCategorySplitChargeMethod {
 }
 
 /// The parameters for a split charge method.
+///
+/// @nodoc
 class CostCategorySplitChargeRuleParameter {
   /// The parameter type.
   final CostCategorySplitChargeRuleParameterType type;
@@ -6032,6 +6086,7 @@ class CostCategorySplitChargeRuleParameter {
   }
 }
 
+/// @nodoc
 class CostCategorySplitChargeRuleParameterType {
   static const allocationPercentages =
       CostCategorySplitChargeRuleParameterType._('ALLOCATION_PERCENTAGES');
@@ -6060,6 +6115,8 @@ class CostCategorySplitChargeRuleParameterType {
 /// Rules are processed in order. If there are multiple rules that match the
 /// line item, then the first rule to match is used to determine that cost
 /// category value.
+///
+/// @nodoc
 class CostCategoryRule {
   /// The value the line item is categorized as if the line item contains the
   /// matched dimension.
@@ -6173,8 +6230,8 @@ class CostCategoryRule {
 /// </li>
 /// <li>
 /// The corresponding <code>Expression</code> for this example is as follows:
-/// <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
-/// "us-west-1" ] } }</code>
+/// <code>{ "Dimensions": { "Key": "REGION", "Values": \[ "us-east-1",
+/// "us-west-1" \] } }</code>
 /// </li>
 /// <li>
 /// As shown in the previous example, lists of dimension values are combined
@@ -6192,8 +6249,8 @@ class CostCategoryRule {
 /// </li>
 /// <li>
 /// The corresponding <code>Expression</code> for this example is as follows:
-/// <code>{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [
-/// "STARTS_WITH" ], "Values": [ "a" ] } }</code>
+/// <code>{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": \[
+/// "STARTS_WITH" \], "Values": \[ "a" \] } }</code>
 /// </li>
 /// </ul> </li>
 /// </ul> </li>
@@ -6213,17 +6270,17 @@ class CostCategoryRule {
 /// </li>
 /// <li>
 /// The corresponding <code>Expression</code> for this example is as follows:
-/// <code>{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
-/// "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values":
-/// ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values":
-/// ["DataTransfer"] }}} ] } </code>
+/// <code>{ "And": \[ {"Or": \[ {"Dimensions": { "Key": "REGION", "Values": \[
+/// "us-east-1", "us-west-1" \] }}, {"Tags": { "Key": "TagName", "Values":
+/// \["Value1"\] } } \]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE",
+/// "Values": \["DataTransfer"\] }}} \] } </code>
 /// </li>
 /// </ul> <note>
 /// Because each <code>Expression</code> can have only one operator, the service
 /// returns an error if more than one is specified. The following example shows
-/// an <code>Expression</code> object that creates an error: <code> { "And": [
-/// ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
-/// </code>
+/// an <code>Expression</code> object that creates an error: <code> { "And": \[
+/// ... \], "Dimensions": { "Key": "USAGE_TYPE", "Values": \[ "DataTransfer" \]
+/// } } </code>
 ///
 /// The following is an example of the corresponding error message:
 /// <code>"Expression has more than one roots. Only one root operator is allowed
@@ -6240,6 +6297,8 @@ class CostCategoryRule {
 /// is supported. AND and OR aren't supported. Dimensions are limited to
 /// <code>LINKED_ACCOUNT</code>.
 /// </note>
+///
+/// @nodoc
 class Expression {
   /// Return results that match both <code>Dimension</code> objects.
   final List<Expression>? and;
@@ -6320,6 +6379,8 @@ class Expression {
 /// you want to dynamically group costs that are based on the value of a
 /// specific tag key. First, choose an inherited value rule type, and then
 /// choose the tag dimension and specify the tag key to use.
+///
+/// @nodoc
 class CostCategoryInheritedValueDimension {
   /// The key to extract cost category values.
   final String? dimensionKey;
@@ -6355,6 +6416,7 @@ class CostCategoryInheritedValueDimension {
   }
 }
 
+/// @nodoc
 class CostCategoryRuleType {
   static const regular = CostCategoryRuleType._('REGULAR');
   static const inheritedValue = CostCategoryRuleType._('INHERITED_VALUE');
@@ -6380,6 +6442,7 @@ class CostCategoryRuleType {
   String toString() => value;
 }
 
+/// @nodoc
 class CostCategoryInheritedValueDimensionName {
   static const linkedAccountName =
       CostCategoryInheritedValueDimensionName._('LINKED_ACCOUNT_NAME');
@@ -6408,6 +6471,8 @@ class CostCategoryInheritedValueDimensionName {
 
 /// The metadata that you can use to filter and group your results. You can use
 /// <code>GetDimensionValues</code> to find specific values.
+///
+/// @nodoc
 class DimensionValues {
   /// The names of the metadata types that you can use to filter and group your
   /// results. For example, <code>AZ</code> returns a list of Availability Zones.
@@ -6479,6 +6544,8 @@ class DimensionValues {
 /// <code>ABSENT</code> <code>MatchOption</code> is applied to the tag
 /// <code>Key</code> only. That is, it's filtered on resources without the given
 /// tag key.
+///
+/// @nodoc
 class TagValues {
   /// The key for the tag.
   final String? key;
@@ -6534,6 +6601,8 @@ class TagValues {
 /// <code>ABSENT</code> <code>MatchOption</code> is applied to the Cost
 /// Categories <code>Key</code> only. That is, it filters on resources without
 /// the given Cost Categories key.
+///
+/// @nodoc
 class CostCategoryValues {
   final String? key;
 
@@ -6577,6 +6646,7 @@ class CostCategoryValues {
   }
 }
 
+/// @nodoc
 class MatchOption {
   static const equals = MatchOption._('EQUALS');
   static const absent = MatchOption._('ABSENT');
@@ -6615,6 +6685,7 @@ class MatchOption {
   String toString() => value;
 }
 
+/// @nodoc
 class Dimension {
   static const az = Dimension._('AZ');
   static const instanceType = Dimension._('INSTANCE_TYPE');
@@ -6713,6 +6784,8 @@ class Dimension {
 
 /// Gives a detailed description of the result of an action. It's on each cost
 /// allocation tag entry in the request.
+///
+/// @nodoc
 class UpdateCostAllocationTagsStatusError {
   /// An error code representing why the action failed on this entry.
   final String? code;
@@ -6752,6 +6825,8 @@ class UpdateCostAllocationTagsStatusError {
 
 /// The cost allocation tag status. The status of a key can either be active or
 /// inactive.
+///
+/// @nodoc
 class CostAllocationTagStatusEntry {
   /// The status of a cost allocation tag.
   final CostAllocationTagStatus status;
@@ -6774,6 +6849,7 @@ class CostAllocationTagStatusEntry {
   }
 }
 
+/// @nodoc
 class CostAllocationTagStatus {
   static const active = CostAllocationTagStatus._('Active');
   static const inactive = CostAllocationTagStatus._('Inactive');
@@ -6799,6 +6875,7 @@ class CostAllocationTagStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AnomalySubscriptionFrequency {
   static const daily = AnomalySubscriptionFrequency._('DAILY');
   static const immediate = AnomalySubscriptionFrequency._('IMMEDIATE');
@@ -6826,6 +6903,8 @@ class AnomalySubscriptionFrequency {
 }
 
 /// The recipient of <code>AnomalySubscription</code> notifications.
+///
+/// @nodoc
 class Subscriber {
   /// The email address or SNS Amazon Resource Name (ARN). This depends on the
   /// <code>Type</code>.
@@ -6863,6 +6942,7 @@ class Subscriber {
   }
 }
 
+/// @nodoc
 class SubscriberType {
   static const email = SubscriberType._('EMAIL');
   static const sns = SubscriberType._('SNS');
@@ -6887,6 +6967,7 @@ class SubscriberType {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriberStatus {
   static const confirmed = SubscriberStatus._('CONFIRMED');
   static const declined = SubscriberStatus._('DECLINED');
@@ -6921,6 +7002,8 @@ class SubscriberStatus {
 /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html">
 /// <code>CostCategory</code> </a>.
 /// </note>
+///
+/// @nodoc
 class ResourceTag {
   /// The key that's associated with the tag.
   final String key;
@@ -6952,6 +7035,8 @@ class ResourceTag {
 
 /// The cost allocation tag backfill request structure that contains metadata
 /// and details of a certain backfill.
+///
+/// @nodoc
 class CostAllocationTagBackfillRequest {
   /// The date the backfill starts from.
   final String? backfillFrom;
@@ -7003,6 +7088,7 @@ class CostAllocationTagBackfillRequest {
   }
 }
 
+/// @nodoc
 class CostAllocationTagBackfillStatus {
   static const succeeded = CostAllocationTagBackfillStatus._('SUCCEEDED');
   static const processing = CostAllocationTagBackfillStatus._('PROCESSING');
@@ -7030,6 +7116,8 @@ class CostAllocationTagBackfillStatus {
 }
 
 /// The configuration for the commitment purchase analysis.
+///
+/// @nodoc
 class CommitmentPurchaseAnalysisConfiguration {
   /// The configuration for the Savings Plans purchase analysis.
   final SavingsPlansPurchaseAnalysisConfiguration?
@@ -7063,6 +7151,8 @@ class CommitmentPurchaseAnalysisConfiguration {
 }
 
 /// The configuration for the Savings Plans purchase analysis.
+///
+/// @nodoc
 class SavingsPlansPurchaseAnalysisConfiguration {
   /// The type of analysis.
   final AnalysisType analysisType;
@@ -7144,6 +7234,7 @@ class SavingsPlansPurchaseAnalysisConfiguration {
   }
 }
 
+/// @nodoc
 class AccountScope {
   static const payer = AccountScope._('PAYER');
   static const linked = AccountScope._('LINKED');
@@ -7167,6 +7258,7 @@ class AccountScope {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalysisType {
   static const maxSavings = AnalysisType._('MAX_SAVINGS');
   static const customCommitment = AnalysisType._('CUSTOM_COMMITMENT');
@@ -7193,6 +7285,8 @@ class AnalysisType {
 }
 
 /// The time period of the request.
+///
+/// @nodoc
 class DateInterval {
   /// The end of the time period. The end date is exclusive. For example, if
   /// <code>end</code> is <code>2017-05-01</code>, Amazon Web Services retrieves
@@ -7230,6 +7324,8 @@ class DateInterval {
 }
 
 /// The Savings Plans commitment details.
+///
+/// @nodoc
 class SavingsPlans {
   /// The instance family of the Savings Plans commitment.
   final String? instanceFamily;
@@ -7299,6 +7395,7 @@ class SavingsPlans {
   }
 }
 
+/// @nodoc
 class PaymentOption {
   static const noUpfront = PaymentOption._('NO_UPFRONT');
   static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
@@ -7334,6 +7431,7 @@ class PaymentOption {
   String toString() => value;
 }
 
+/// @nodoc
 class SupportedSavingsPlansType {
   static const computeSp = SupportedSavingsPlansType._('COMPUTE_SP');
   static const ec2InstanceSp = SupportedSavingsPlansType._('EC2_INSTANCE_SP');
@@ -7361,6 +7459,7 @@ class SupportedSavingsPlansType {
   String toString() => value;
 }
 
+/// @nodoc
 class TermInYears {
   static const oneYear = TermInYears._('ONE_YEAR');
   static const threeYears = TermInYears._('THREE_YEARS');
@@ -7384,6 +7483,7 @@ class TermInYears {
   String toString() => value;
 }
 
+/// @nodoc
 class AnomalyFeedbackType {
   static const yes = AnomalyFeedbackType._('YES');
   static const no = AnomalyFeedbackType._('NO');
@@ -7411,6 +7511,8 @@ class AnomalyFeedbackType {
 }
 
 /// The summary of the Savings Plans recommendation generation.
+///
+/// @nodoc
 class GenerationSummary {
   /// Indicates the estimated time for when the recommendation generation will
   /// complete.
@@ -7467,6 +7569,7 @@ class GenerationSummary {
   }
 }
 
+/// @nodoc
 class GenerationStatus {
   static const succeeded = GenerationStatus._('SUCCEEDED');
   static const processing = GenerationStatus._('PROCESSING');
@@ -7494,6 +7597,8 @@ class GenerationStatus {
 
 /// A reference to a cost category association that contains information on an
 /// associated resource.
+///
+/// @nodoc
 class CostCategoryResourceAssociation {
   /// The unique identifier for your cost category.
   final String? costCategoryArn;
@@ -7533,6 +7638,8 @@ class CostCategoryResourceAssociation {
 ///
 /// You can use this information to retrieve the full cost category information
 /// using <code>DescribeCostCategory</code>.
+///
+/// @nodoc
 class CostCategoryReference {
   /// The unique identifier for your cost category.
   final String? costCategoryArn;
@@ -7619,6 +7726,8 @@ class CostCategoryReference {
 
 /// The list of processing statuses for Cost Management products for a specific
 /// cost category.
+///
+/// @nodoc
 class CostCategoryProcessingStatus {
   /// The Cost Management product name of the applied status.
   final CostCategoryStatusComponent? component;
@@ -7649,6 +7758,7 @@ class CostCategoryProcessingStatus {
   }
 }
 
+/// @nodoc
 class CostCategoryStatusComponent {
   static const costExplorer = CostCategoryStatusComponent._('COST_EXPLORER');
 
@@ -7673,6 +7783,7 @@ class CostCategoryStatusComponent {
   String toString() => value;
 }
 
+/// @nodoc
 class CostCategoryStatus {
   static const processing = CostCategoryStatus._('PROCESSING');
   static const applied = CostCategoryStatus._('APPLIED');
@@ -7700,6 +7811,8 @@ class CostCategoryStatus {
 
 /// The cost allocation tag structure. This includes detailed metadata for the
 /// <code>CostAllocationTag</code> object.
+///
+/// @nodoc
 class CostAllocationTag {
   /// The status of a cost allocation tag.
   final CostAllocationTagStatus status;
@@ -7755,6 +7868,7 @@ class CostAllocationTag {
   }
 }
 
+/// @nodoc
 class CostAllocationTagType {
   static const awsGenerated = CostAllocationTagType._('AWSGenerated');
   static const userDefined = CostAllocationTagType._('UserDefined');
@@ -7781,6 +7895,8 @@ class CostAllocationTagType {
 }
 
 /// A summary of the analysis.
+///
+/// @nodoc
 class AnalysisSummary {
   /// The completion time of the analysis.
   final String? analysisCompletionTime;
@@ -7858,6 +7974,7 @@ class AnalysisSummary {
   }
 }
 
+/// @nodoc
 class AnalysisStatus {
   static const succeeded = AnalysisStatus._('SUCCEEDED');
   static const processing = AnalysisStatus._('PROCESSING');
@@ -7883,6 +8000,7 @@ class AnalysisStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorCode {
   static const noUsageFound = ErrorCode._('NO_USAGE_FOUND');
   static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
@@ -7918,6 +8036,8 @@ class ErrorCode {
 }
 
 /// The aggregated value for a metric.
+///
+/// @nodoc
 class MetricValue {
   /// The actual number that represents the metric.
   final String? amount;
@@ -7948,6 +8068,8 @@ class MetricValue {
 }
 
 /// The forecast that's created for your query.
+///
+/// @nodoc
 class ForecastResult {
   /// The mean value of the forecast.
   final String? meanValue;
@@ -7997,6 +8119,7 @@ class ForecastResult {
   }
 }
 
+/// @nodoc
 class Metric {
   static const blendedCost = Metric._('BLENDED_COST');
   static const unblendedCost = Metric._('UNBLENDED_COST');
@@ -8033,6 +8156,7 @@ class Metric {
   String toString() => value;
 }
 
+/// @nodoc
 class Granularity {
   static const daily = Granularity._('DAILY');
   static const monthly = Granularity._('MONTHLY');
@@ -8058,6 +8182,8 @@ class Granularity {
 }
 
 /// The details for how to sort the data.
+///
+/// @nodoc
 class SortDefinition {
   /// The key that's used to sort the data.
   final String key;
@@ -8080,6 +8206,7 @@ class SortDefinition {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -8104,6 +8231,8 @@ class SortOrder {
 }
 
 /// The aggregated utilization metrics for your Savings Plans usage.
+///
+/// @nodoc
 class SavingsPlansUtilizationAggregates {
   /// A ratio of your effectiveness of using existing Savings Plans to apply to
   /// workloads that are Savings Plans eligible.
@@ -8156,6 +8285,8 @@ class SavingsPlansUtilizationAggregates {
 }
 
 /// The measurement of how well you're using your existing Savings Plans.
+///
+/// @nodoc
 class SavingsPlansUtilization {
   /// The total amount of Savings Plans commitment that's been purchased in an
   /// account (or set of accounts).
@@ -8206,6 +8337,8 @@ class SavingsPlansUtilization {
 
 /// The amount of savings that you're accumulating, against the public On-Demand
 /// rate of the usage accrued in an account.
+///
+/// @nodoc
 class SavingsPlansSavings {
   /// The savings amount that you're accumulating for the usage that's covered by
   /// a Savings Plans, when compared to the On-Demand equivalent of the same
@@ -8241,6 +8374,8 @@ class SavingsPlansSavings {
 
 /// The amortized amount of Savings Plans purchased in a specific account during
 /// a specific time interval.
+///
+/// @nodoc
 class SavingsPlansAmortizedCommitment {
   /// The amortized amount of your Savings Plans commitment that was purchased
   /// with either a <code>Partial</code> or a <code>NoUpfront</code>.
@@ -8288,6 +8423,8 @@ class SavingsPlansAmortizedCommitment {
 /// your account. A management account in an organization have access to member
 /// accounts. You can use <code>GetDimensionValues</code> to determine the
 /// possible dimension values.
+///
+/// @nodoc
 class SavingsPlansUtilizationDetail {
   /// The total amortized commitment for a Savings Plans. Includes the sum of the
   /// upfront and recurring Savings Plans fees.
@@ -8353,6 +8490,7 @@ class SavingsPlansUtilizationDetail {
   }
 }
 
+/// @nodoc
 class SavingsPlansDataType {
   static const attributes = SavingsPlansDataType._('ATTRIBUTES');
   static const utilization = SavingsPlansDataType._('UTILIZATION');
@@ -8382,6 +8520,8 @@ class SavingsPlansDataType {
 }
 
 /// The amount of Savings Plans utilization (in hours).
+///
+/// @nodoc
 class SavingsPlansUtilizationByTime {
   final DateInterval timePeriod;
 
@@ -8441,6 +8581,8 @@ class SavingsPlansUtilizationByTime {
 }
 
 /// Metadata about your Savings Plans Purchase Recommendations.
+///
+/// @nodoc
 class SavingsPlansPurchaseRecommendationMetadata {
   /// Additional metadata that might be applicable to the recommendation.
   final String? additionalMetadata;
@@ -8481,6 +8623,8 @@ class SavingsPlansPurchaseRecommendationMetadata {
 
 /// Contains your request parameters, Savings Plan Recommendations Summary, and
 /// Details.
+///
+/// @nodoc
 class SavingsPlansPurchaseRecommendation {
   /// The account scope that you want your recommendations for. Amazon Web
   /// Services calculates recommendations that include the management account and
@@ -8576,6 +8720,7 @@ class SavingsPlansPurchaseRecommendation {
   }
 }
 
+/// @nodoc
 class LookbackPeriodInDays {
   static const sevenDays = LookbackPeriodInDays._('SEVEN_DAYS');
   static const thirtyDays = LookbackPeriodInDays._('THIRTY_DAYS');
@@ -8603,6 +8748,8 @@ class LookbackPeriodInDays {
 }
 
 /// Summary metrics for your Savings Plans Purchase Recommendations.
+///
+/// @nodoc
 class SavingsPlansPurchaseRecommendationSummary {
   /// The currency code that Amazon Web Services used to generate the
   /// recommendations and present potential savings.
@@ -8722,6 +8869,8 @@ class SavingsPlansPurchaseRecommendationSummary {
 }
 
 /// Details for your recommended Savings Plans.
+///
+/// @nodoc
 class SavingsPlansPurchaseRecommendationDetail {
   /// The <code>AccountID</code> the recommendation is generated for.
   final String? accountId;
@@ -8898,6 +9047,8 @@ class SavingsPlansPurchaseRecommendationDetail {
 }
 
 /// The attribute details on a specific Savings Plan.
+///
+/// @nodoc
 class SavingsPlansDetails {
   /// A group of instance types that Savings Plans applies to.
   final String? instanceFamily;
@@ -8938,6 +9089,8 @@ class SavingsPlansDetails {
 /// The amount of Savings Plans eligible usage that's covered by Savings Plans.
 /// All calculations consider the On-Demand equivalent of your Savings Plans
 /// usage.
+///
+/// @nodoc
 class SavingsPlansCoverage {
   /// The attribute that applies to a specific <code>Dimension</code>.
   final Map<String, String>? attributes;
@@ -8980,6 +9133,8 @@ class SavingsPlansCoverage {
 
 /// Specific coverage percentage, On-Demand costs, and spend covered by Savings
 /// Plans, and total Savings Plans costs for an account.
+///
+/// @nodoc
 class SavingsPlansCoverageData {
   /// The percentage of your existing Savings Plans covered usage, divided by all
   /// of your eligible Savings Plans usage in an account (or set of accounts).
@@ -9029,6 +9184,8 @@ class SavingsPlansCoverageData {
 
 /// Represents a group when you specify a group by criteria or in the response
 /// to a query with a specific grouping.
+///
+/// @nodoc
 class GroupDefinition {
   /// The string that represents a key for a specified group.
   final String? key;
@@ -9058,6 +9215,7 @@ class GroupDefinition {
   }
 }
 
+/// @nodoc
 class GroupDefinitionType {
   static const dimension = GroupDefinitionType._('DIMENSION');
   static const tag = GroupDefinitionType._('TAG');
@@ -9085,6 +9243,8 @@ class GroupDefinitionType {
 }
 
 /// The details and metrics for the given recommendation.
+///
+/// @nodoc
 class RecommendationDetailData {
   /// The AccountID that the recommendation is generated for.
   final String? accountId;
@@ -9358,6 +9518,8 @@ class RecommendationDetailData {
 
 /// Contains the hourly metrics for the given recommendation over the lookback
 /// period.
+///
+/// @nodoc
 class RecommendationDetailHourlyMetrics {
   /// The current amount of Savings Plans eligible usage that the Savings Plan
   /// covered.
@@ -9414,6 +9576,8 @@ class RecommendationDetailHourlyMetrics {
 }
 
 /// Metadata for a recommendation set.
+///
+/// @nodoc
 class RightsizingRecommendationMetadata {
   /// Additional metadata that might be applicable to the recommendation.
   final String? additionalMetadata;
@@ -9463,6 +9627,8 @@ class RightsizingRecommendationMetadata {
 }
 
 /// The summary of rightsizing recommendations
+///
+/// @nodoc
 class RightsizingRecommendationSummary {
   /// The estimated total savings resulting from modifications, on a monthly
   /// basis.
@@ -9520,6 +9686,8 @@ class RightsizingRecommendationSummary {
 /// different instance families. You can also choose to view your estimated
 /// savings that are associated with recommendations with consideration of
 /// existing Savings Plans or Reserved Instance (RI) benefits, or neither.
+///
+/// @nodoc
 class RightsizingRecommendationConfiguration {
   /// The option to consider RI or Savings Plans discount benefits in your savings
   /// calculation. The default value is <code>TRUE</code>.
@@ -9554,6 +9722,7 @@ class RightsizingRecommendationConfiguration {
   }
 }
 
+/// @nodoc
 class RecommendationTarget {
   static const sameInstanceFamily =
       RecommendationTarget._('SAME_INSTANCE_FAMILY');
@@ -9582,6 +9751,8 @@ class RecommendationTarget {
 }
 
 /// Recommendations to rightsize resources.
+///
+/// @nodoc
 class RightsizingRecommendation {
   /// The account that this recommendation is for.
   final String? accountId;
@@ -9659,6 +9830,8 @@ class RightsizingRecommendation {
 }
 
 /// Context about the current instance.
+///
+/// @nodoc
 class CurrentInstance {
   /// The currency code that Amazon Web Services used to calculate the costs for
   /// this instance.
@@ -9779,6 +9952,7 @@ class CurrentInstance {
   }
 }
 
+/// @nodoc
 class RightsizingType {
   static const terminate = RightsizingType._('TERMINATE');
   static const modify = RightsizingType._('MODIFY');
@@ -9804,6 +9978,8 @@ class RightsizingType {
 }
 
 /// Details for the modification recommendation.
+///
+/// @nodoc
 class ModifyRecommendationDetail {
   /// Determines whether this instance type is the Amazon Web Services default
   /// recommendation.
@@ -9831,6 +10007,8 @@ class ModifyRecommendationDetail {
 }
 
 /// Details on termination recommendation.
+///
+/// @nodoc
 class TerminateRecommendationDetail {
   /// The currency code that Amazon Web Services used to calculate the costs for
   /// this instance.
@@ -9862,6 +10040,7 @@ class TerminateRecommendationDetail {
   }
 }
 
+/// @nodoc
 class FindingReasonCode {
   static const cpuOverProvisioned = FindingReasonCode._('CPU_OVER_PROVISIONED');
   static const cpuUnderProvisioned =
@@ -9933,6 +10112,8 @@ class FindingReasonCode {
 }
 
 /// Details on recommended instance.
+///
+/// @nodoc
 class TargetInstance {
   /// The currency code that Amazon Web Services used to calculate the costs for
   /// this instance.
@@ -10016,6 +10197,8 @@ class TargetInstance {
 }
 
 /// Details for the resource.
+///
+/// @nodoc
 class ResourceDetails {
   /// Details for the Amazon EC2 resource.
   final EC2ResourceDetails? eC2ResourceDetails;
@@ -10042,6 +10225,8 @@ class ResourceDetails {
 }
 
 /// Resource utilization of current resource.
+///
+/// @nodoc
 class ResourceUtilization {
   /// The utilization of current Amazon EC2 instance.
   final EC2ResourceUtilization? eC2ResourceUtilization;
@@ -10068,6 +10253,7 @@ class ResourceUtilization {
   }
 }
 
+/// @nodoc
 class PlatformDifference {
   static const hypervisor = PlatformDifference._('HYPERVISOR');
   static const networkInterface = PlatformDifference._('NETWORK_INTERFACE');
@@ -10104,6 +10290,8 @@ class PlatformDifference {
 }
 
 /// Utilization metrics for the instance.
+///
+/// @nodoc
 class EC2ResourceUtilization {
   /// The field that contains a list of disk (local storage) metrics that are
   /// associated with the current instance.
@@ -10186,6 +10374,8 @@ class EC2ResourceUtilization {
 
 /// The EBS field that contains a list of EBS metrics that are associated with
 /// the current instance.
+///
+/// @nodoc
 class EBSResourceUtilization {
   /// The maximum size of read operations per second
   final String? ebsReadBytesPerSecond;
@@ -10235,6 +10425,8 @@ class EBSResourceUtilization {
 
 /// The field that contains a list of disk (local storage) metrics that are
 /// associated with the current instance.
+///
+/// @nodoc
 class DiskResourceUtilization {
   /// The maximum read throughput operations per second.
   final String? diskReadBytesPerSecond;
@@ -10284,6 +10476,8 @@ class DiskResourceUtilization {
 
 /// The network field that contains a list of network metrics that are
 /// associated with the current instance.
+///
+/// @nodoc
 class NetworkResourceUtilization {
   /// The network inbound throughput utilization measured in Bytes per second
   /// (Bps).
@@ -10334,6 +10528,8 @@ class NetworkResourceUtilization {
 }
 
 /// Details on the Amazon EC2 Resource.
+///
+/// @nodoc
 class EC2ResourceDetails {
   /// The hourly public On-Demand rate for the instance type.
   final String? hourlyOnDemandRate;
@@ -10416,6 +10612,8 @@ class EC2ResourceDetails {
 }
 
 /// The aggregated numbers for your reservation usage.
+///
+/// @nodoc
 class ReservationAggregates {
   /// The monthly cost of your reservation. It's amortized over the reservation
   /// period.
@@ -10572,6 +10770,8 @@ class ReservationAggregates {
 }
 
 /// The amount of utilization, in hours.
+///
+/// @nodoc
 class UtilizationByTime {
   /// The groups that this utilization result uses.
   final List<ReservationUtilizationGroup>? groups;
@@ -10618,6 +10818,8 @@ class UtilizationByTime {
 }
 
 /// A group of reservations that share a set of attributes.
+///
+/// @nodoc
 class ReservationUtilizationGroup {
   /// The attributes for this group of reservations.
   final Map<String, String>? attributes;
@@ -10667,6 +10869,8 @@ class ReservationUtilizationGroup {
 
 /// Information about a recommendation, such as the timestamp for when Amazon
 /// Web Services made a specific recommendation.
+///
+/// @nodoc
 class ReservationPurchaseRecommendationMetadata {
   /// Additional metadata that might be applicable to the recommendation.
   final String? additionalMetadata;
@@ -10706,6 +10910,8 @@ class ReservationPurchaseRecommendationMetadata {
 }
 
 /// A specific reservation that Amazon Web Services recommends for purchase.
+///
+/// @nodoc
 class ReservationPurchaseRecommendation {
   /// The account scope that Amazon Web Services recommends that you purchase this
   /// instance for. For example, you can purchase this reservation for an entire
@@ -10794,6 +11000,8 @@ class ReservationPurchaseRecommendation {
 }
 
 /// Hardware specifications for the service that you want recommendations for.
+///
+/// @nodoc
 class ServiceSpecification {
   /// The Amazon EC2 hardware specifications that you want Amazon Web Services to
   /// provide recommendations for.
@@ -10823,6 +11031,8 @@ class ServiceSpecification {
 /// A summary about this recommendation, such as the currency code, the amount
 /// that Amazon Web Services estimates that you could save, and the total amount
 /// of reservation to purchase.
+///
+/// @nodoc
 class ReservationPurchaseRecommendationSummary {
   /// The currency code used for this recommendation.
   final String? currencyCode;
@@ -10871,6 +11081,8 @@ class ReservationPurchaseRecommendationSummary {
 }
 
 /// Details about your recommended reservation purchase.
+///
+/// @nodoc
 class ReservationPurchaseRecommendationDetail {
   /// The account that this Reserved Instance (RI) recommendation is for.
   final String? accountId;
@@ -11153,6 +11365,8 @@ class ReservationPurchaseRecommendationDetail {
 
 /// Details about the reservations that Amazon Web Services recommends that you
 /// purchase.
+///
+/// @nodoc
 class InstanceDetails {
   /// The Amazon EC2 reservations that Amazon Web Services recommends that you
   /// purchase.
@@ -11239,6 +11453,8 @@ class InstanceDetails {
 
 /// Details about the reservations that Amazon Web Services recommends that you
 /// purchase.
+///
+/// @nodoc
 class ReservedCapacityDetails {
   /// The DynamoDB reservations that Amazon Web Services recommends that you
   /// purchase.
@@ -11268,6 +11484,8 @@ class ReservedCapacityDetails {
 
 /// The DynamoDB reservations that Amazon Web Services recommends that you
 /// purchase.
+///
+/// @nodoc
 class DynamoDBCapacityDetails {
   /// The capacity unit of the recommended reservation.
   final String? capacityUnits;
@@ -11299,6 +11517,8 @@ class DynamoDBCapacityDetails {
 
 /// Details about the Amazon EC2 reservations that Amazon Web Services
 /// recommends that you purchase.
+///
+/// @nodoc
 class EC2InstanceDetails {
   /// The Availability Zone of the recommended reservation.
   final String? availabilityZone;
@@ -11373,6 +11593,8 @@ class EC2InstanceDetails {
 
 /// Details about the Amazon RDS reservations that Amazon Web Services
 /// recommends that you purchase.
+///
+/// @nodoc
 class RDSInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
   final bool? currentGeneration;
@@ -11462,6 +11684,8 @@ class RDSInstanceDetails {
 
 /// Details about the Amazon Redshift reservations that Amazon Web Services
 /// recommends that you purchase.
+///
+/// @nodoc
 class RedshiftInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
   final bool? currentGeneration;
@@ -11514,6 +11738,8 @@ class RedshiftInstanceDetails {
 
 /// Details about the Amazon ElastiCache reservations that Amazon Web Services
 /// recommends that you purchase.
+///
+/// @nodoc
 class ElastiCacheInstanceDetails {
   /// Determines whether the recommendation is for a current generation instance.
   final bool? currentGeneration;
@@ -11573,6 +11799,8 @@ class ElastiCacheInstanceDetails {
 
 /// Details about the Amazon OpenSearch Service reservations that Amazon Web
 /// Services recommends that you purchase.
+///
+/// @nodoc
 class ESInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
   final bool? currentGeneration;
@@ -11625,6 +11853,8 @@ class ESInstanceDetails {
 
 /// Details about the MemoryDB reservations that Amazon Web Services recommends
 /// that you purchase.
+///
+/// @nodoc
 class MemoryDBInstanceDetails {
   /// Determines whether the recommendation is for a current generation instance.
   final bool? currentGeneration;
@@ -11677,6 +11907,8 @@ class MemoryDBInstanceDetails {
 
 /// The Amazon EC2 hardware specifications that you want Amazon Web Services to
 /// provide recommendations for.
+///
+/// @nodoc
 class EC2Specification {
   /// Indicates whether you want a recommendation for standard or convertible
   /// reservations.
@@ -11701,6 +11933,7 @@ class EC2Specification {
   }
 }
 
+/// @nodoc
 class OfferingClass {
   static const standard = OfferingClass._('STANDARD');
   static const convertible = OfferingClass._('CONVERTIBLE');
@@ -11726,6 +11959,8 @@ class OfferingClass {
 }
 
 /// The amount of instance usage that a reservation covered.
+///
+/// @nodoc
 class Coverage {
   /// The amount of cost that the reservation covered.
   final CoverageCost? coverageCost;
@@ -11773,6 +12008,8 @@ class Coverage {
 }
 
 /// How long a running instance either used a reservation or was On-Demand.
+///
+/// @nodoc
 class CoverageHours {
   /// The percentage of instance hours that a reservation covered.
   final String? coverageHoursPercentage;
@@ -11830,6 +12067,8 @@ class CoverageHours {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
 /// Reserved Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide for
 /// Linux Instances</i>.
+///
+/// @nodoc
 class CoverageNormalizedUnits {
   /// The percentage of your used instance normalized units that a reservation
   /// covers.
@@ -11883,6 +12122,8 @@ class CoverageNormalizedUnits {
 }
 
 /// How much it costs to run an instance.
+///
+/// @nodoc
 class CoverageCost {
   /// How much an On-Demand Instance costs.
   final String? onDemandCost;
@@ -11906,6 +12147,8 @@ class CoverageCost {
 }
 
 /// Reservation coverage for a specified period, in hours.
+///
+/// @nodoc
 class CoverageByTime {
   /// The groups of instances that the reservation covered.
   final List<ReservationCoverageGroup>? groups;
@@ -11951,6 +12194,8 @@ class CoverageByTime {
 }
 
 /// A group of reservations that share a set of attributes.
+///
+/// @nodoc
 class ReservationCoverageGroup {
   /// The attributes for this group of reservations.
   final Map<String, String>? attributes;
@@ -11986,6 +12231,8 @@ class ReservationCoverageGroup {
 /// The metadata of a specific type that you can use to filter and group your
 /// results. You can use <code>GetDimensionValues</code> to find specific
 /// values.
+///
+/// @nodoc
 class DimensionValuesWithAttributes {
   /// The attribute that applies to a specific <code>Dimension</code>.
   final Map<String, String>? attributes;
@@ -12016,6 +12263,7 @@ class DimensionValuesWithAttributes {
   }
 }
 
+/// @nodoc
 class Context {
   static const costAndUsage = Context._('COST_AND_USAGE');
   static const reservations = Context._('RESERVATIONS');
@@ -12042,6 +12290,8 @@ class Context {
 
 /// Represents a collection of cost drivers and their associated metrics for
 /// cost comparison analysis.
+///
+/// @nodoc
 class CostComparisonDriver {
   /// An array of cost drivers, each representing a cost difference between the
   /// baseline and comparison time periods. Each entry also includes a metric
@@ -12089,6 +12339,8 @@ class CostComparisonDriver {
 /// Represents factors that contribute to cost variations between the baseline
 /// and comparison time periods, including the type of driver, an identifier of
 /// the driver, and associated metrics.
+///
+/// @nodoc
 class CostDriver {
   /// A mapping of metric names to their comparison values, measuring the impact
   /// of this cost driver.
@@ -12136,6 +12388,8 @@ class CostDriver {
 /// Contains cost or usage metric values for comparing two time periods. Each
 /// value includes amounts for the baseline and comparison time periods, their
 /// difference, and the unit of measurement.
+///
+/// @nodoc
 class ComparisonMetricValue {
   /// The numeric value for the baseline time period measurement.
   final String? baselineTimePeriodAmount;
@@ -12183,6 +12437,8 @@ class ComparisonMetricValue {
 }
 
 /// The result that's associated with a time period.
+///
+/// @nodoc
 class ResultByTime {
   /// Determines whether the result is estimated.
   final bool? estimated;
@@ -12233,6 +12489,8 @@ class ResultByTime {
 }
 
 /// One level of grouped data in the results.
+///
+/// @nodoc
 class Group {
   /// The keys that are included in this group.
   final List<String>? keys;
@@ -12264,6 +12522,8 @@ class Group {
 }
 
 /// Represents a comparison of cost and usage metrics between two time periods.
+///
+/// @nodoc
 class CostAndUsageComparison {
   final Expression? costAndUsageSelector;
 
@@ -12299,6 +12559,8 @@ class CostAndUsageComparison {
 }
 
 /// Details about the analysis.
+///
+/// @nodoc
 class AnalysisDetails {
   /// Details about the Savings Plans purchase analysis.
   final SavingsPlansPurchaseAnalysisDetails?
@@ -12331,6 +12593,8 @@ class AnalysisDetails {
 }
 
 /// Details about the Savings Plans purchase analysis.
+///
+/// @nodoc
 class SavingsPlansPurchaseAnalysisDetails {
   /// Additional metadata that might be applicable to the commitment.
   final String? additionalMetadata;
@@ -12542,6 +12806,7 @@ class SavingsPlansPurchaseAnalysisDetails {
   }
 }
 
+/// @nodoc
 class ApproximationDimension {
   static const service = ApproximationDimension._('SERVICE');
   static const resource = ApproximationDimension._('RESOURCE');
@@ -12585,6 +12850,8 @@ class ApproximationDimension {
 /// console and from the <a
 /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html">
 /// <code>GetAnomalies</code> </a> API.
+///
+/// @nodoc
 class AnomalySubscription {
   /// The frequency that anomaly notifications are sent. Notifications are sent
   /// either over email (for DAILY and WEEKLY frequencies) or SNS (for IMMEDIATE
@@ -12644,27 +12911,27 @@ class AnomalySubscription {
   /// <ul>
   /// <li>
   /// Absolute threshold: <code>{ "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } }</code>
+  /// "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": \[ "GREATER_THAN_OR_EQUAL"
+  /// \], "Values": \[ "100" \] } }</code>
   /// </li>
   /// <li>
   /// Percentage threshold: <code>{ "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } }</code>
+  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }</code>
   /// </li>
   /// <li>
-  /// <code>AND</code> two thresholds together: <code>{ "And": [ { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } } ] }</code>
+  /// <code>AND</code> two thresholds together: <code>{ "And": \[ { "Dimensions":
+  /// { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }, { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } } \] }</code>
   /// </li>
   /// <li>
-  /// <code>OR</code> two thresholds together: <code>{ "Or": [ { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } } ] }</code>
+  /// <code>OR</code> two thresholds together: <code>{ "Or": \[ { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } }, { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": \[
+  /// "GREATER_THAN_OR_EQUAL" \], "Values": \[ "100" \] } } \] }</code>
   /// </li>
   /// </ul>
   final Expression? thresholdExpression;
@@ -12730,6 +12997,8 @@ class AnomalySubscription {
 /// It's based on <code>MonitorType</code> and
 /// <code>MonitorSpecification</code>. The content consists of detailed metadata
 /// and the current status of the monitor object.
+///
+/// @nodoc
 class AnomalyMonitor {
   /// The name of the monitor.
   final String monitorName;
@@ -12801,17 +13070,18 @@ class AnomalyMonitor {
   /// <ul>
   /// <li>
   /// To track linked accounts, set this field to <code>{ "Dimensions": { "Key":
-  /// "LINKED_ACCOUNT", "Values": [ "your list of up to 10 account IDs" ] } }
+  /// "LINKED_ACCOUNT", "Values": \[ "your list of up to 10 account IDs" \] } }
   /// </code>
   /// </li>
   /// <li>
   /// To track cost allocation tags, set this field to <code>{ "Tags": { "Key":
-  /// "your tag key", "Values": [ "your list of up to 10 tag values" ] } } </code>
+  /// "your tag key", "Values": \[ "your list of up to 10 tag values" \] } }
+  /// </code>
   /// </li>
   /// <li>
   /// To track cost categories, set this field to<code>{ "CostCategories": {
-  /// "Key": "your cost category key", "Values": [ "your cost category value" ] }
-  /// } </code>
+  /// "Key": "your cost category key", "Values": \[ "your cost category value" \]
+  /// } } </code>
   /// </li>
   /// </ul>
   final Expression? monitorSpecification;
@@ -12873,6 +13143,7 @@ class AnomalyMonitor {
   }
 }
 
+/// @nodoc
 class MonitorType {
   static const dimensional = MonitorType._('DIMENSIONAL');
   static const custom = MonitorType._('CUSTOM');
@@ -12896,6 +13167,7 @@ class MonitorType {
   String toString() => value;
 }
 
+/// @nodoc
 class MonitorDimension {
   static const service = MonitorDimension._('SERVICE');
   static const linkedAccount = MonitorDimension._('LINKED_ACCOUNT');
@@ -12924,6 +13196,8 @@ class MonitorDimension {
 
 /// An unusual cost pattern. This consists of the detailed metadata and the
 /// current status of the anomaly object.
+///
+/// @nodoc
 class Anomaly {
   /// The unique identifier for the anomaly.
   final String anomalyId;
@@ -13012,6 +13286,8 @@ class Anomaly {
 }
 
 /// Quantifies the anomaly. The higher score means that it's more anomalous.
+///
+/// @nodoc
 class AnomalyScore {
   /// The last observed score.
   final double currentScore;
@@ -13043,6 +13319,8 @@ class AnomalyScore {
 }
 
 /// The dollar value of the anomaly.
+///
+/// @nodoc
 class Impact {
   /// The maximum dollar value that's observed for an anomaly.
   final double maxImpact;
@@ -13107,6 +13385,8 @@ class Impact {
 /// account name, Region, and usage type where a cost anomaly is observed, along
 /// with the dollar and percentage amount of the anomaly impact. The linked
 /// account name will only be available when the account name can be identified.
+///
+/// @nodoc
 class RootCause {
   /// The dollar impact for the root cause.
   final RootCauseImpact? impact;
@@ -13168,6 +13448,8 @@ class RootCause {
 }
 
 /// The dollar value of the root cause.
+///
+/// @nodoc
 class RootCauseImpact {
   /// The dollar amount that this root cause contributed to the anomaly's
   /// TotalImpact.
@@ -13192,6 +13474,8 @@ class RootCauseImpact {
 }
 
 /// The time period for an anomaly.
+///
+/// @nodoc
 class AnomalyDateInterval {
   /// The first date an anomaly was observed.
   final String startDate;
@@ -13215,6 +13499,8 @@ class AnomalyDateInterval {
 }
 
 /// Filters cost anomalies based on the total impact.
+///
+/// @nodoc
 class TotalImpactFilter {
   /// The comparing value that's used in the filter.
   final NumericOperator numericOperator;
@@ -13243,6 +13529,7 @@ class TotalImpactFilter {
   }
 }
 
+/// @nodoc
 class NumericOperator {
   static const equal = NumericOperator._('EQUAL');
   static const greaterThanOrEqual = NumericOperator._('GREATER_THAN_OR_EQUAL');
@@ -13280,6 +13567,8 @@ class NumericOperator {
 
 /// The structure of Cost Categories. This includes detailed metadata and the
 /// set of rules for the <code>CostCategory</code> object.
+///
+/// @nodoc
 class CostCategory {
   /// The unique identifier for your cost category.
   final String costCategoryArn;
@@ -13368,11 +13657,13 @@ class CostCategory {
   }
 }
 
+/// @nodoc
 class AnalysisNotFoundException extends _s.GenericAwsException {
   AnalysisNotFoundException({String? type, String? message})
       : super(type: type, code: 'AnalysisNotFoundException', message: message);
 }
 
+/// @nodoc
 class BackfillLimitExceededException extends _s.GenericAwsException {
   BackfillLimitExceededException({String? type, String? message})
       : super(
@@ -13381,11 +13672,13 @@ class BackfillLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BillExpirationException extends _s.GenericAwsException {
   BillExpirationException({String? type, String? message})
       : super(type: type, code: 'BillExpirationException', message: message);
 }
 
+/// @nodoc
 class BillingViewHealthStatusException extends _s.GenericAwsException {
   BillingViewHealthStatusException({String? type, String? message})
       : super(
@@ -13394,36 +13687,43 @@ class BillingViewHealthStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DataUnavailableException extends _s.GenericAwsException {
   DataUnavailableException({String? type, String? message})
       : super(type: type, code: 'DataUnavailableException', message: message);
 }
 
+/// @nodoc
 class GenerationExistsException extends _s.GenericAwsException {
   GenerationExistsException({String? type, String? message})
       : super(type: type, code: 'GenerationExistsException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class RequestChangedException extends _s.GenericAwsException {
   RequestChangedException({String? type, String? message})
       : super(type: type, code: 'RequestChangedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -13432,22 +13732,26 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnknownMonitorException extends _s.GenericAwsException {
   UnknownMonitorException({String? type, String? message})
       : super(type: type, code: 'UnknownMonitorException', message: message);
 }
 
+/// @nodoc
 class UnknownSubscriptionException extends _s.GenericAwsException {
   UnknownSubscriptionException({String? type, String? message})
       : super(
             type: type, code: 'UnknownSubscriptionException', message: message);
 }
 
+/// @nodoc
 class UnresolvableUsageUnitException extends _s.GenericAwsException {
   UnresolvableUsageUnitException({String? type, String? message})
       : super(

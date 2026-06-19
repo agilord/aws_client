@@ -1173,6 +1173,7 @@ class Acm {
   }
 }
 
+/// @nodoc
 class DescribeCertificateResponse {
   /// Metadata about an ACM certificate.
   final CertificateDetail? certificate;
@@ -1198,6 +1199,7 @@ class DescribeCertificateResponse {
   }
 }
 
+/// @nodoc
 class ExportCertificateResponse {
   /// The base64 PEM-encoded certificate.
   final String? certificate;
@@ -1236,6 +1238,7 @@ class ExportCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetAccountConfigurationResponse {
   /// Expiration events configuration options associated with the Amazon Web
   /// Services account.
@@ -1262,6 +1265,7 @@ class GetAccountConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetCertificateResponse {
   /// The ACM-issued certificate corresponding to the ARN specified as input.
   final String? certificate;
@@ -1293,6 +1297,7 @@ class GetCertificateResponse {
   }
 }
 
+/// @nodoc
 class ImportCertificateResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1317,6 +1322,7 @@ class ImportCertificateResponse {
   }
 }
 
+/// @nodoc
 class ListCertificatesResponse {
   /// A list of ACM certificates.
   final List<CertificateSummary>? certificateSummaryList;
@@ -1352,6 +1358,7 @@ class ListCertificatesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForCertificateResponse {
   /// The key-value pairs that define the applied tags.
   final List<Tag>? tags;
@@ -1377,6 +1384,7 @@ class ListTagsForCertificateResponse {
   }
 }
 
+/// @nodoc
 class RequestCertificateResponse {
   /// String that contains the ARN of the issued certificate. This must be of the
   /// form:
@@ -1402,6 +1410,7 @@ class RequestCertificateResponse {
   }
 }
 
+/// @nodoc
 class RevokeCertificateResponse {
   /// The Amazon Resource Name (ARN) of the public or private certificate that was
   /// revoked.
@@ -1425,6 +1434,7 @@ class RevokeCertificateResponse {
   }
 }
 
+/// @nodoc
 class SearchCertificatesResponse {
   /// When the list is truncated, this value is present and contains the value to
   /// use for the <code>NextToken</code> parameter in a subsequent pagination
@@ -1478,6 +1488,8 @@ class SearchCertificatesResponse {
 /// see <a
 /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html">Certificate
 /// Manager exportable public certificate</a>.
+///
+/// @nodoc
 class CertificateOptions {
   /// You can opt out of certificate transparency logging by specifying the
   /// <code>DISABLED</code> option. Opt in by specifying <code>ENABLED</code>.
@@ -1516,6 +1528,7 @@ class CertificateOptions {
   }
 }
 
+/// @nodoc
 class CertificateTransparencyLoggingPreference {
   static const enabled = CertificateTransparencyLoggingPreference._('ENABLED');
   static const disabled =
@@ -1542,6 +1555,7 @@ class CertificateTransparencyLoggingPreference {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateExport {
   static const enabled = CertificateExport._('ENABLED');
   static const disabled = CertificateExport._('DISABLED');
@@ -1569,6 +1583,8 @@ class CertificateExport {
 /// Contains information about a certificate returned by the
 /// <a>SearchCertificates</a> action. This structure includes the certificate
 /// ARN, X.509 attributes, and ACM metadata.
+///
+/// @nodoc
 class CertificateSearchResult {
   /// The Amazon Resource Name (ARN) of the certificate.
   final String? certificateArn;
@@ -1613,6 +1629,8 @@ class CertificateSearchResult {
 }
 
 /// Contains X.509 certificate attributes extracted from the certificate.
+///
+/// @nodoc
 class X509Attributes {
   /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each
   /// object specifies a purpose for which the certificate public key can be used
@@ -1719,6 +1737,8 @@ class X509Attributes {
 
 /// Contains metadata about a certificate. Currently supports ACM certificate
 /// metadata.
+///
+/// @nodoc
 class CertificateMetadata {
   /// Metadata for an ACM certificate.
   final AcmCertificateMetadata? acmCertificateMetadata;
@@ -1746,6 +1766,8 @@ class CertificateMetadata {
 }
 
 /// Contains ACM-specific metadata about a certificate.
+///
+/// @nodoc
 class AcmCertificateMetadata {
   /// The time at which the certificate was requested.
   final DateTime? createdAt;
@@ -1886,6 +1908,7 @@ class AcmCertificateMetadata {
   }
 }
 
+/// @nodoc
 class RenewalEligibility {
   static const eligible = RenewalEligibility._('ELIGIBLE');
   static const ineligible = RenewalEligibility._('INELIGIBLE');
@@ -1911,6 +1934,7 @@ class RenewalEligibility {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateStatus {
   static const pendingValidation = CertificateStatus._('PENDING_VALIDATION');
   static const issued = CertificateStatus._('ISSUED');
@@ -1948,6 +1972,7 @@ class CertificateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RenewalStatus {
   static const pendingAutoRenewal = RenewalStatus._('PENDING_AUTO_RENEWAL');
   static const pendingValidation = RenewalStatus._('PENDING_VALIDATION');
@@ -1979,6 +2004,7 @@ class RenewalStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateType {
   static const imported = CertificateType._('IMPORTED');
   static const amazonIssued = CertificateType._('AMAZON_ISSUED');
@@ -2004,6 +2030,7 @@ class CertificateType {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateManagedBy {
   static const cloudfront = CertificateManagedBy._('CLOUDFRONT');
 
@@ -2028,6 +2055,7 @@ class CertificateManagedBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidationMethod {
   static const email = ValidationMethod._('EMAIL');
   static const dns = ValidationMethod._('DNS');
@@ -2054,6 +2082,8 @@ class ValidationMethod {
 }
 
 /// Contains X.500 distinguished name information.
+///
+/// @nodoc
 class DistinguishedName {
   /// The common name (CN) attribute.
   final String? commonName;
@@ -2190,6 +2220,7 @@ class DistinguishedName {
   }
 }
 
+/// @nodoc
 class KeyAlgorithm {
   static const rsa_1024 = KeyAlgorithm._('RSA_1024');
   static const rsa_2048 = KeyAlgorithm._('RSA_2048');
@@ -2226,6 +2257,7 @@ class KeyAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyUsageName {
   static const digitalSignature = KeyUsageName._('DIGITAL_SIGNATURE');
   static const nonRepudiation = KeyUsageName._('NON_REPUDIATION');
@@ -2270,6 +2302,7 @@ class KeyUsageName {
   String toString() => value;
 }
 
+/// @nodoc
 class ExtendedKeyUsageName {
   static const tlsWebServerAuthentication =
       ExtendedKeyUsageName._('TLS_WEB_SERVER_AUTHENTICATION');
@@ -2323,6 +2356,8 @@ class ExtendedKeyUsageName {
 /// Describes an ASN.1 X.400 <code>GeneralName</code> as defined in <a
 /// href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>. Only one
 /// of the following naming options should be provided.
+///
+/// @nodoc
 class GeneralName {
   /// Contains information about the certificate subject. The <code>Subject</code>
   /// field in the certificate identifies the entity that owns or controls the
@@ -2404,6 +2439,8 @@ class GeneralName {
 /// identifier (OID) and value. For more information, see NIST's definition of
 /// <a href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
 /// Identifier (OID)</a>.
+///
+/// @nodoc
 class OtherName {
   /// Specifies an OID.
   final String? objectIdentifier;
@@ -2434,6 +2471,8 @@ class OtherName {
 }
 
 /// Defines the X.500 relative distinguished name (RDN).
+///
+/// @nodoc
 class CustomAttribute {
   /// Specifies the object identifier (OID) of the attribute type of the relative
   /// distinguished name (RDN).
@@ -2466,6 +2505,8 @@ class CustomAttribute {
 
 /// A filter statement used to search for certificates. Can contain AND, OR, NOT
 /// logical operators or a single filter.
+///
+/// @nodoc
 class CertificateFilterStatement {
   /// A list of filter statements that must all be true.
   final List<CertificateFilterStatement>? and;
@@ -2501,6 +2542,8 @@ class CertificateFilterStatement {
 }
 
 /// The field to sort search results by.
+///
+/// @nodoc
 class SearchCertificatesSortBy {
   static const createdAt = SearchCertificatesSortBy._('CREATED_AT');
   static const notAfter = SearchCertificatesSortBy._('NOT_AFTER');
@@ -2564,6 +2607,8 @@ class SearchCertificatesSortBy {
 }
 
 /// The order to sort search results.
+///
+/// @nodoc
 class SearchCertificatesSortOrder {
   static const ascending = SearchCertificatesSortOrder._('ASCENDING');
   static const descending = SearchCertificatesSortOrder._('DESCENDING');
@@ -2591,6 +2636,8 @@ class SearchCertificatesSortOrder {
 
 /// Defines a filter for searching certificates by ARN, X.509 attributes, or ACM
 /// metadata.
+///
+/// @nodoc
 class CertificateFilter {
   /// Filter by ACM certificate metadata.
   final AcmCertificateMetadataFilter? acmCertificateMetadataFilter;
@@ -2622,6 +2669,8 @@ class CertificateFilter {
 }
 
 /// Filters certificates by X.509 attributes.
+///
+/// @nodoc
 class X509AttributeFilter {
   /// Filter by extended key usage.
   final ExtendedKeyUsageName? extendedKeyUsage;
@@ -2682,6 +2731,8 @@ class X509AttributeFilter {
 }
 
 /// Filters certificates by ACM metadata.
+///
+/// @nodoc
 class AcmCertificateMetadataFilter {
   /// Filter by certificate export option.
   final CertificateExport? exportOption;
@@ -2741,6 +2792,8 @@ class AcmCertificateMetadataFilter {
 }
 
 /// Filters certificates by subject attributes.
+///
+/// @nodoc
 class SubjectFilter {
   /// Filter by common name in the subject.
   final CommonNameFilter? commonName;
@@ -2758,6 +2811,8 @@ class SubjectFilter {
 }
 
 /// Filters certificates by subject alternative name attributes.
+///
+/// @nodoc
 class SubjectAlternativeNameFilter {
   /// Filter by DNS name in subject alternative names.
   final DnsNameFilter? dnsName;
@@ -2775,6 +2830,8 @@ class SubjectAlternativeNameFilter {
 }
 
 /// Specifies a time range for filtering certificates.
+///
+/// @nodoc
 class TimestampRange {
   /// The end of the time range. This value is inclusive.
   final DateTime? end;
@@ -2798,6 +2855,8 @@ class TimestampRange {
 }
 
 /// Filters certificates by DNS name.
+///
+/// @nodoc
 class DnsNameFilter {
   /// The comparison operator to use.
   final ComparisonOperator comparisonOperator;
@@ -2822,6 +2881,8 @@ class DnsNameFilter {
 
 /// The comparison operator to use for string filters. Valid values are
 /// <code>CONTAINS</code> and <code>EQUALS</code>.
+///
+/// @nodoc
 class ComparisonOperator {
   static const contains = ComparisonOperator._('CONTAINS');
   static const equals = ComparisonOperator._('EQUALS');
@@ -2848,6 +2909,8 @@ class ComparisonOperator {
 }
 
 /// Filters certificates by common name.
+///
+/// @nodoc
 class CommonNameFilter {
   /// The comparison operator to use.
   final ComparisonOperator comparisonOperator;
@@ -2870,6 +2933,7 @@ class CommonNameFilter {
   }
 }
 
+/// @nodoc
 class RevocationReason {
   static const unspecified = RevocationReason._('UNSPECIFIED');
   static const keyCompromise = RevocationReason._('KEY_COMPROMISE');
@@ -2918,6 +2982,8 @@ class RevocationReason {
 
 /// A key-value pair that identifies or specifies metadata about an ACM
 /// resource.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -2949,6 +3015,8 @@ class Tag {
 
 /// Contains information about the domain names that you want ACM to use to send
 /// you emails that enable you to validate domain ownership.
+///
+/// @nodoc
 class DomainValidationOption {
   /// A fully qualified domain name (FQDN) in the certificate request.
   final String domainName;
@@ -2997,6 +3065,8 @@ class DomainValidationOption {
 
 /// Object containing expiration events options associated with an Amazon Web
 /// Services account.
+///
+/// @nodoc
 class ExpiryEventsConfiguration {
   /// Specifies the number of days prior to certificate expiration when ACM starts
   /// generating <code>EventBridge</code> events. ACM sends one event per day per
@@ -3024,6 +3094,8 @@ class ExpiryEventsConfiguration {
 
 /// This structure is returned in the response object of <a>ListCertificates</a>
 /// action.
+///
+/// @nodoc
 class CertificateSummary {
   /// Amazon Resource Name (ARN) of the certificate. This is of the form:
   ///
@@ -3263,6 +3335,8 @@ class CertificateSummary {
 
 /// This structure can be used in the <a>ListCertificates</a> action to filter
 /// the output of the certificate list.
+///
+/// @nodoc
 class Filters {
   /// Specify <code>ENABLED</code> or <code>DISABLED</code> to identify
   /// certificates that can be exported.
@@ -3277,7 +3351,7 @@ class Filters {
   /// <code>RSA_2048</code> certificates that have at least one domain. To return
   /// other certificate types, provide the desired type signatures in a
   /// comma-separated list. For example, <code>"keyTypes":
-  /// ["RSA_2048","RSA_4096"]</code> returns both <code>RSA_2048</code> and
+  /// \["RSA_2048","RSA_4096"\]</code> returns both <code>RSA_2048</code> and
   /// <code>RSA_4096</code> certificates.
   final List<KeyAlgorithm>? keyTypes;
 
@@ -3313,6 +3387,7 @@ class Filters {
   }
 }
 
+/// @nodoc
 class SortBy {
   static const createdAt = SortBy._('CREATED_AT');
 
@@ -3335,6 +3410,7 @@ class SortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -3360,6 +3436,8 @@ class SortOrder {
 
 /// Contains metadata about an ACM certificate. This structure is returned in
 /// the response to a <a>DescribeCertificate</a> request.
+///
+/// @nodoc
 class CertificateDetail {
   /// The Amazon Resource Name (ARN) of the certificate. For more information
   /// about ARNs, see <a
@@ -3652,6 +3730,7 @@ class CertificateDetail {
   }
 }
 
+/// @nodoc
 class FailureReason {
   static const noAvailableContacts = FailureReason._('NO_AVAILABLE_CONTACTS');
   static const additionalVerificationRequired =
@@ -3716,6 +3795,8 @@ class FailureReason {
 /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html">managed
 /// renewal</a> for the certificate. This structure exists only when the
 /// certificate type is <code>AMAZON_ISSUED</code>.
+///
+/// @nodoc
 class RenewalSummary {
   /// Contains information about the validation of each domain name in the
   /// certificate, as it pertains to ACM's <a
@@ -3776,6 +3857,8 @@ class RenewalSummary {
 /// The Extended Key Usage X.509 v3 extension defines one or more purposes for
 /// which the public key can be used. This is in addition to or in place of the
 /// basic purposes specified by the Key Usage extension.
+///
+/// @nodoc
 class ExtendedKeyUsage {
   /// The name of an Extended Key Usage value.
   final ExtendedKeyUsageName? name;
@@ -3839,6 +3922,8 @@ class ExtendedKeyUsage {
 
 /// The Key Usage X.509 v3 extension defines the purpose of the public key
 /// contained in the certificate.
+///
+/// @nodoc
 class KeyUsage {
   /// A string value that contains a Key Usage extension name.
   final KeyUsageName? name;
@@ -3863,6 +3948,8 @@ class KeyUsage {
 
 /// Contains information about the validation of each domain name in the
 /// certificate.
+///
+/// @nodoc
 class DomainValidation {
   /// A fully qualified domain name (FQDN) in the certificate. For example,
   /// <code>www.example.com</code> or <code>example.com</code>.
@@ -3964,6 +4051,7 @@ class DomainValidation {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const pendingValidation = DomainStatus._('PENDING_VALIDATION');
   static const success = DomainStatus._('SUCCESS');
@@ -3990,6 +4078,8 @@ class DomainStatus {
 
 /// Contains a DNS record value that you can use to validate ownership or
 /// control of a domain. This is used by the <a>DescribeCertificate</a> action.
+///
+/// @nodoc
 class ResourceRecord {
   /// The name of the DNS record to create in your domain. This is supplied by
   /// ACM.
@@ -4032,6 +4122,8 @@ class ResourceRecord {
 /// requested through Amazon CloudFront and issued by ACM. This field exists
 /// only when the certificate type is <code>AMAZON_ISSUED</code> and the
 /// validation method is <code>HTTP</code>.
+///
+/// @nodoc
 class HttpRedirect {
   /// The URL including the domain to be validated. The certificate authority
   /// sends <code>GET</code> requests here during validation.
@@ -4063,6 +4155,7 @@ class HttpRedirect {
   }
 }
 
+/// @nodoc
 class RecordType {
   static const cname = RecordType._('CNAME');
 
@@ -4085,26 +4178,31 @@ class RecordType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InvalidArgsException extends _s.GenericAwsException {
   InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
 }
 
+/// @nodoc
 class InvalidArnException extends _s.GenericAwsException {
   InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
+/// @nodoc
 class InvalidDomainValidationOptionsException extends _s.GenericAwsException {
   InvalidDomainValidationOptionsException({String? type, String? message})
       : super(
@@ -4113,56 +4211,67 @@ class InvalidDomainValidationOptionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class InvalidTagException extends _s.GenericAwsException {
   InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class RequestInProgressException extends _s.GenericAwsException {
   RequestInProgressException({String? type, String? message})
       : super(type: type, code: 'RequestInProgressException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TagPolicyException extends _s.GenericAwsException {
   TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

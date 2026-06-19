@@ -5075,6 +5075,7 @@ class Proton {
   }
 }
 
+/// @nodoc
 class CancelComponentDeploymentOutput {
   /// The detailed data of the component with the deployment that is being
   /// canceled.
@@ -5100,6 +5101,7 @@ class CancelComponentDeploymentOutput {
   }
 }
 
+/// @nodoc
 class CancelEnvironmentDeploymentOutput {
   /// The environment summary data that's returned by Proton.
   final Environment environment;
@@ -5125,6 +5127,7 @@ class CancelEnvironmentDeploymentOutput {
   }
 }
 
+/// @nodoc
 class CancelServiceInstanceDeploymentOutput {
   /// The service instance summary data that's returned by Proton.
   final ServiceInstance serviceInstance;
@@ -5150,6 +5153,7 @@ class CancelServiceInstanceDeploymentOutput {
   }
 }
 
+/// @nodoc
 class CancelServicePipelineDeploymentOutput {
   /// The service pipeline detail data that's returned by Proton.
   final ServicePipeline pipeline;
@@ -5175,6 +5179,7 @@ class CancelServicePipelineDeploymentOutput {
   }
 }
 
+/// @nodoc
 class GetRepositorySyncStatusOutput {
   /// The repository sync status detail data that's returned by Proton.
   final RepositorySyncAttempt? latestSync;
@@ -5200,6 +5205,7 @@ class GetRepositorySyncStatusOutput {
   }
 }
 
+/// @nodoc
 class GetResourcesSummaryOutput {
   /// Summary counts of each Proton resource type.
   final CountsSummary counts;
@@ -5224,6 +5230,7 @@ class GetResourcesSummaryOutput {
   }
 }
 
+/// @nodoc
 class GetServiceInstanceSyncStatusOutput {
   /// The service instance sync desired state that's returned by Proton
   final Revision? desiredState;
@@ -5270,6 +5277,7 @@ class GetServiceInstanceSyncStatusOutput {
   }
 }
 
+/// @nodoc
 class GetTemplateSyncStatusOutput {
   /// The template sync desired state that's returned by Proton.
   final Revision? desiredState;
@@ -5315,6 +5323,7 @@ class GetTemplateSyncStatusOutput {
   }
 }
 
+/// @nodoc
 class ListRepositorySyncDefinitionsOutput {
   /// An array of repository sync definitions.
   final List<RepositorySyncDefinition> syncDefinitions;
@@ -5351,6 +5360,7 @@ class ListRepositorySyncDefinitionsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A list of resource tags with detail data.
   final List<Tag> tags;
@@ -5384,6 +5394,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class NotifyResourceDeploymentStatusChangeOutput {
   NotifyResourceDeploymentStatusChangeOutput();
 
@@ -5397,6 +5408,7 @@ class NotifyResourceDeploymentStatusChangeOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -5409,6 +5421,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -5421,6 +5434,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class GetAccountSettingsOutput {
   /// The Proton pipeline service role detail data that's returned by Proton.
   final AccountSettings? accountSettings;
@@ -5446,6 +5460,7 @@ class GetAccountSettingsOutput {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsOutput {
   /// The Proton pipeline service role and repository data shared across the
   /// Amazon Web Services account.
@@ -5471,6 +5486,7 @@ class UpdateAccountSettingsOutput {
   }
 }
 
+/// @nodoc
 class ListComponentOutputsOutput {
   /// An array of component Infrastructure as Code (IaC) outputs.
   final List<Output> outputs;
@@ -5504,6 +5520,7 @@ class ListComponentOutputsOutput {
   }
 }
 
+/// @nodoc
 class ListComponentProvisionedResourcesOutput {
   /// An array of provisioned resources for a component.
   final List<ProvisionedResource> provisionedResources;
@@ -5540,6 +5557,7 @@ class ListComponentProvisionedResourcesOutput {
   }
 }
 
+/// @nodoc
 class CreateComponentOutput {
   /// The detailed data of the created component.
   final Component component;
@@ -5564,6 +5582,7 @@ class CreateComponentOutput {
   }
 }
 
+/// @nodoc
 class GetComponentOutput {
   /// The detailed data of the requested component.
   final Component? component;
@@ -5588,6 +5607,7 @@ class GetComponentOutput {
   }
 }
 
+/// @nodoc
 class UpdateComponentOutput {
   /// The detailed data of the updated component.
   final Component component;
@@ -5612,6 +5632,7 @@ class UpdateComponentOutput {
   }
 }
 
+/// @nodoc
 class DeleteComponentOutput {
   /// The detailed data of the component being deleted.
   final Component? component;
@@ -5636,6 +5657,7 @@ class DeleteComponentOutput {
   }
 }
 
+/// @nodoc
 class ListComponentsOutput {
   /// An array of components with summary data.
   final List<ComponentSummary> components;
@@ -5669,6 +5691,7 @@ class ListComponentsOutput {
   }
 }
 
+/// @nodoc
 class GetDeploymentOutput {
   /// The detailed data of the requested deployment.
   final Deployment? deployment;
@@ -5693,6 +5716,7 @@ class GetDeploymentOutput {
   }
 }
 
+/// @nodoc
 class DeleteDeploymentOutput {
   /// The detailed data of the deployment being deleted.
   final Deployment? deployment;
@@ -5717,6 +5741,7 @@ class DeleteDeploymentOutput {
   }
 }
 
+/// @nodoc
 class ListDeploymentsOutput {
   /// An array of deployment with summary data.
   final List<DeploymentSummary> deployments;
@@ -5750,6 +5775,7 @@ class ListDeploymentsOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentAccountConnectionOutput {
   /// The environment account connection detail data that's returned by Proton.
   final EnvironmentAccountConnection environmentAccountConnection;
@@ -5775,6 +5801,7 @@ class CreateEnvironmentAccountConnectionOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentAccountConnectionOutput {
   /// The detailed data of the requested environment account connection.
   final EnvironmentAccountConnection environmentAccountConnection;
@@ -5800,6 +5827,7 @@ class GetEnvironmentAccountConnectionOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentAccountConnectionOutput {
   /// The environment account connection detail data that's returned by Proton.
   final EnvironmentAccountConnection environmentAccountConnection;
@@ -5825,6 +5853,7 @@ class UpdateEnvironmentAccountConnectionOutput {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentAccountConnectionOutput {
   /// The detailed data of the environment account connection being deleted.
   final EnvironmentAccountConnection? environmentAccountConnection;
@@ -5852,6 +5881,7 @@ class DeleteEnvironmentAccountConnectionOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentAccountConnectionsOutput {
   /// An array of environment account connections with details that's returned by
   /// Proton.
@@ -5890,6 +5920,7 @@ class ListEnvironmentAccountConnectionsOutput {
   }
 }
 
+/// @nodoc
 class AcceptEnvironmentAccountConnectionOutput {
   /// The environment account connection data that's returned by Proton.
   final EnvironmentAccountConnection environmentAccountConnection;
@@ -5915,6 +5946,7 @@ class AcceptEnvironmentAccountConnectionOutput {
   }
 }
 
+/// @nodoc
 class RejectEnvironmentAccountConnectionOutput {
   /// The environment connection account detail data that's returned by Proton.
   final EnvironmentAccountConnection environmentAccountConnection;
@@ -5940,6 +5972,7 @@ class RejectEnvironmentAccountConnectionOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentOutputsOutput {
   /// An array of environment outputs with detail data.
   final List<Output> outputs;
@@ -5974,6 +6007,7 @@ class ListEnvironmentOutputsOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentProvisionedResourcesOutput {
   /// An array of environment provisioned resources.
   final List<ProvisionedResource> provisionedResources;
@@ -6010,6 +6044,7 @@ class ListEnvironmentProvisionedResourcesOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentOutput {
   /// The environment detail data that's returned by Proton.
   final Environment environment;
@@ -6034,6 +6069,7 @@ class CreateEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentOutput {
   /// The detailed data of the requested environment.
   final Environment environment;
@@ -6058,6 +6094,7 @@ class GetEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentOutput {
   /// The environment detail data that's returned by Proton.
   final Environment environment;
@@ -6082,6 +6119,7 @@ class UpdateEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentOutput {
   /// The detailed data of the environment being deleted.
   final Environment? environment;
@@ -6106,6 +6144,7 @@ class DeleteEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsOutput {
   /// An array of environment detail data summaries.
   final List<EnvironmentSummary> environments;
@@ -6139,6 +6178,7 @@ class ListEnvironmentsOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentTemplateOutput {
   /// The environment template detail data that's returned by Proton.
   final EnvironmentTemplate environmentTemplate;
@@ -6163,6 +6203,7 @@ class CreateEnvironmentTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentTemplateOutput {
   /// The detailed data of the requested environment template.
   final EnvironmentTemplate environmentTemplate;
@@ -6187,6 +6228,7 @@ class GetEnvironmentTemplateOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentTemplateOutput {
   /// The environment template detail data that's returned by Proton.
   final EnvironmentTemplate environmentTemplate;
@@ -6211,6 +6253,7 @@ class UpdateEnvironmentTemplateOutput {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentTemplateOutput {
   /// The detailed data of the environment template being deleted.
   final EnvironmentTemplate? environmentTemplate;
@@ -6237,6 +6280,7 @@ class DeleteEnvironmentTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentTemplatesOutput {
   /// An array of environment templates with detail data.
   final List<EnvironmentTemplateSummary> templates;
@@ -6272,6 +6316,7 @@ class ListEnvironmentTemplatesOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentTemplateVersionOutput {
   /// The environment template detail data that's returned by Proton.
   final EnvironmentTemplateVersion environmentTemplateVersion;
@@ -6297,6 +6342,7 @@ class CreateEnvironmentTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentTemplateVersionOutput {
   /// The detailed data of the requested environment template version.
   final EnvironmentTemplateVersion environmentTemplateVersion;
@@ -6322,6 +6368,7 @@ class GetEnvironmentTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentTemplateVersionOutput {
   /// The environment template version detail data that's returned by Proton.
   final EnvironmentTemplateVersion environmentTemplateVersion;
@@ -6347,6 +6394,7 @@ class UpdateEnvironmentTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentTemplateVersionOutput {
   /// The detailed data of the environment template version being deleted.
   final EnvironmentTemplateVersion? environmentTemplateVersion;
@@ -6374,6 +6422,7 @@ class DeleteEnvironmentTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentTemplateVersionsOutput {
   /// An array of major or minor versions of an environment template detail data.
   final List<EnvironmentTemplateVersionSummary> templateVersions;
@@ -6410,6 +6459,7 @@ class ListEnvironmentTemplateVersionsOutput {
   }
 }
 
+/// @nodoc
 class CreateRepositoryOutput {
   /// The repository link's detail data that's returned by Proton.
   final Repository repository;
@@ -6434,6 +6484,7 @@ class CreateRepositoryOutput {
   }
 }
 
+/// @nodoc
 class GetRepositoryOutput {
   /// The repository link's detail data that's returned by Proton.
   final Repository repository;
@@ -6458,6 +6509,7 @@ class GetRepositoryOutput {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryOutput {
   /// The deleted repository link's detail data that's returned by Proton.
   final Repository? repository;
@@ -6482,6 +6534,7 @@ class DeleteRepositoryOutput {
   }
 }
 
+/// @nodoc
 class ListRepositoriesOutput {
   /// An array of repository links.
   final List<RepositorySummary> repositories;
@@ -6515,6 +6568,7 @@ class ListRepositoriesOutput {
   }
 }
 
+/// @nodoc
 class ListServiceInstanceOutputsOutput {
   /// An array of service instance Infrastructure as Code (IaC) outputs.
   final List<Output> outputs;
@@ -6548,6 +6602,7 @@ class ListServiceInstanceOutputsOutput {
   }
 }
 
+/// @nodoc
 class ListServiceInstanceProvisionedResourcesOutput {
   /// An array of provisioned resources for a service instance.
   final List<ProvisionedResource> provisionedResources;
@@ -6584,6 +6639,7 @@ class ListServiceInstanceProvisionedResourcesOutput {
   }
 }
 
+/// @nodoc
 class CreateServiceInstanceOutput {
   /// The detailed data of the service instance being created.
   final ServiceInstance serviceInstance;
@@ -6608,6 +6664,7 @@ class CreateServiceInstanceOutput {
   }
 }
 
+/// @nodoc
 class GetServiceInstanceOutput {
   /// The detailed data of the requested service instance.
   final ServiceInstance serviceInstance;
@@ -6632,6 +6689,7 @@ class GetServiceInstanceOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceInstanceOutput {
   /// The service instance summary data that's returned by Proton.
   final ServiceInstance serviceInstance;
@@ -6656,6 +6714,7 @@ class UpdateServiceInstanceOutput {
   }
 }
 
+/// @nodoc
 class ListServiceInstancesOutput {
   /// An array of service instances with summary data.
   final List<ServiceInstanceSummary> serviceInstances;
@@ -6691,6 +6750,7 @@ class ListServiceInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListServicePipelineOutputsOutput {
   /// An array of service pipeline Infrastructure as Code (IaC) outputs.
   final List<Output> outputs;
@@ -6724,6 +6784,7 @@ class ListServicePipelineOutputsOutput {
   }
 }
 
+/// @nodoc
 class ListServicePipelineProvisionedResourcesOutput {
   /// An array of provisioned resources for a service and pipeline.
   final List<ProvisionedResource> provisionedResources;
@@ -6760,6 +6821,7 @@ class ListServicePipelineProvisionedResourcesOutput {
   }
 }
 
+/// @nodoc
 class UpdateServicePipelineOutput {
   /// The pipeline details that are returned by Proton.
   final ServicePipeline pipeline;
@@ -6784,6 +6846,7 @@ class UpdateServicePipelineOutput {
   }
 }
 
+/// @nodoc
 class CreateServiceOutput {
   /// The service detail data that's returned by Proton.
   final Service service;
@@ -6807,6 +6870,7 @@ class CreateServiceOutput {
   }
 }
 
+/// @nodoc
 class GetServiceOutput {
   /// The detailed data of the requested service.
   final Service? service;
@@ -6831,6 +6895,7 @@ class GetServiceOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceOutput {
   /// The service detail data that's returned by Proton.
   final Service service;
@@ -6854,6 +6919,7 @@ class UpdateServiceOutput {
   }
 }
 
+/// @nodoc
 class DeleteServiceOutput {
   /// The detailed data of the service being deleted.
   final Service? service;
@@ -6878,6 +6944,7 @@ class DeleteServiceOutput {
   }
 }
 
+/// @nodoc
 class ListServicesOutput {
   /// An array of services with summaries of detail data.
   final List<ServiceSummary> services;
@@ -6911,6 +6978,7 @@ class ListServicesOutput {
   }
 }
 
+/// @nodoc
 class GetServiceSyncBlockerSummaryOutput {
   /// The detailed data of the requested service sync blocker summary.
   final ServiceSyncBlockerSummary? serviceSyncBlockerSummary;
@@ -6938,6 +7006,7 @@ class GetServiceSyncBlockerSummaryOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceSyncBlockerOutput {
   /// The name of the service that you want to update the service sync blocker
   /// for.
@@ -6979,6 +7048,7 @@ class UpdateServiceSyncBlockerOutput {
   }
 }
 
+/// @nodoc
 class CreateServiceSyncConfigOutput {
   /// The detailed data of the Proton Ops file.
   final ServiceSyncConfig? serviceSyncConfig;
@@ -7004,6 +7074,7 @@ class CreateServiceSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class GetServiceSyncConfigOutput {
   /// The detailed data of the requested service sync configuration.
   final ServiceSyncConfig? serviceSyncConfig;
@@ -7029,6 +7100,7 @@ class GetServiceSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceSyncConfigOutput {
   /// The detailed data of the Proton Ops file.
   final ServiceSyncConfig? serviceSyncConfig;
@@ -7054,6 +7126,7 @@ class UpdateServiceSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class DeleteServiceSyncConfigOutput {
   /// The detailed data for the service sync config.
   final ServiceSyncConfig? serviceSyncConfig;
@@ -7079,6 +7152,7 @@ class DeleteServiceSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class CreateServiceTemplateOutput {
   /// The service template detail data that's returned by Proton.
   final ServiceTemplate serviceTemplate;
@@ -7103,6 +7177,7 @@ class CreateServiceTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetServiceTemplateOutput {
   /// The detailed data of the requested service template.
   final ServiceTemplate serviceTemplate;
@@ -7127,6 +7202,7 @@ class GetServiceTemplateOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceTemplateOutput {
   /// The service template detail data that's returned by Proton.
   final ServiceTemplate serviceTemplate;
@@ -7151,6 +7227,7 @@ class UpdateServiceTemplateOutput {
   }
 }
 
+/// @nodoc
 class DeleteServiceTemplateOutput {
   /// The detailed data of the service template being deleted.
   final ServiceTemplate? serviceTemplate;
@@ -7176,6 +7253,7 @@ class DeleteServiceTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListServiceTemplatesOutput {
   /// An array of service templates with detail data.
   final List<ServiceTemplateSummary> templates;
@@ -7211,6 +7289,7 @@ class ListServiceTemplatesOutput {
   }
 }
 
+/// @nodoc
 class CreateServiceTemplateVersionOutput {
   /// The service template version summary of detail data that's returned by
   /// Proton.
@@ -7237,6 +7316,7 @@ class CreateServiceTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class GetServiceTemplateVersionOutput {
   /// The detailed data of the requested service template version.
   final ServiceTemplateVersion serviceTemplateVersion;
@@ -7261,6 +7341,7 @@ class GetServiceTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceTemplateVersionOutput {
   /// The service template version detail data that's returned by Proton.
   final ServiceTemplateVersion serviceTemplateVersion;
@@ -7286,6 +7367,7 @@ class UpdateServiceTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class DeleteServiceTemplateVersionOutput {
   /// The detailed data of the service template version being deleted.
   final ServiceTemplateVersion? serviceTemplateVersion;
@@ -7313,6 +7395,7 @@ class DeleteServiceTemplateVersionOutput {
   }
 }
 
+/// @nodoc
 class ListServiceTemplateVersionsOutput {
   /// An array of major or minor versions of a service template with detail data.
   final List<ServiceTemplateVersionSummary> templateVersions;
@@ -7349,6 +7432,7 @@ class ListServiceTemplateVersionsOutput {
   }
 }
 
+/// @nodoc
 class CreateTemplateSyncConfigOutput {
   /// The template sync configuration detail data that's returned by Proton.
   final TemplateSyncConfig? templateSyncConfig;
@@ -7374,6 +7458,7 @@ class CreateTemplateSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class GetTemplateSyncConfigOutput {
   /// The template sync configuration detail data that's returned by Proton.
   final TemplateSyncConfig? templateSyncConfig;
@@ -7399,6 +7484,7 @@ class GetTemplateSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class UpdateTemplateSyncConfigOutput {
   /// The template sync configuration detail data that's returned by Proton.
   final TemplateSyncConfig? templateSyncConfig;
@@ -7424,6 +7510,7 @@ class UpdateTemplateSyncConfigOutput {
   }
 }
 
+/// @nodoc
 class DeleteTemplateSyncConfigOutput {
   /// The template sync configuration detail data that's returned by Proton.
   final TemplateSyncConfig? templateSyncConfig;
@@ -7450,6 +7537,8 @@ class DeleteTemplateSyncConfigOutput {
 }
 
 /// The detail data for a template sync configuration.
+///
+/// @nodoc
 class TemplateSyncConfig {
   /// The repository branch.
   final String branch;
@@ -7509,6 +7598,7 @@ class TemplateSyncConfig {
   }
 }
 
+/// @nodoc
 class TemplateType {
   static const environment = TemplateType._('ENVIRONMENT');
   static const service = TemplateType._('SERVICE');
@@ -7532,6 +7622,7 @@ class TemplateType {
   String toString() => value;
 }
 
+/// @nodoc
 class RepositoryProvider {
   static const github = RepositoryProvider._('GITHUB');
   static const githubEnterprise = RepositoryProvider._('GITHUB_ENTERPRISE');
@@ -7559,6 +7650,8 @@ class RepositoryProvider {
 }
 
 /// Summary data of an Proton service template version resource.
+///
+/// @nodoc
 class ServiceTemplateVersionSummary {
   /// The Amazon Resource Name (ARN) of the version of a service template.
   final String arn;
@@ -7647,6 +7740,7 @@ class ServiceTemplateVersionSummary {
   }
 }
 
+/// @nodoc
 class TemplateVersionStatus {
   static const registrationInProgress =
       TemplateVersionStatus._('REGISTRATION_IN_PROGRESS');
@@ -7682,6 +7776,8 @@ class TemplateVersionStatus {
 }
 
 /// Detailed data of an Proton service template version resource.
+///
+/// @nodoc
 class ServiceTemplateVersion {
   /// The Amazon Resource Name (ARN) of the version of a service template.
   final String arn;
@@ -7810,6 +7906,7 @@ class ServiceTemplateVersion {
   }
 }
 
+/// @nodoc
 class ServiceTemplateSupportedComponentSourceType {
   static const directlyDefined =
       ServiceTemplateSupportedComponentSourceType._('DIRECTLY_DEFINED');
@@ -7837,6 +7934,8 @@ class ServiceTemplateSupportedComponentSourceType {
 }
 
 /// Compatible environment template data.
+///
+/// @nodoc
 class CompatibleEnvironmentTemplate {
   /// The major version of the compatible environment template.
   final String majorVersion;
@@ -7867,6 +7966,8 @@ class CompatibleEnvironmentTemplate {
 }
 
 /// Compatible environment template data.
+///
+/// @nodoc
 class CompatibleEnvironmentTemplateInput {
   /// The major version of the compatible environment template.
   final String majorVersion;
@@ -7890,6 +7991,8 @@ class CompatibleEnvironmentTemplateInput {
 }
 
 /// Template version source data.
+///
+/// @nodoc
 class TemplateVersionSourceInput {
   /// An S3 source object that includes the template bundle S3 path and name for a
   /// template minor version.
@@ -7908,6 +8011,8 @@ class TemplateVersionSourceInput {
 }
 
 /// A description of a resource tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the resource tag.
   final String key;
@@ -7938,6 +8043,8 @@ class Tag {
 }
 
 /// Template bundle S3 bucket data.
+///
+/// @nodoc
 class S3ObjectSource {
   /// The name of the S3 bucket that contains a template bundle.
   final String bucket;
@@ -7961,6 +8068,8 @@ class S3ObjectSource {
 }
 
 /// Summary data of an Proton service template resource.
+///
+/// @nodoc
 class ServiceTemplateSummary {
   /// The Amazon Resource Name (ARN) of the service template.
   final String arn;
@@ -8036,6 +8145,7 @@ class ServiceTemplateSummary {
   }
 }
 
+/// @nodoc
 class Provisioning {
   static const customerManaged = Provisioning._('CUSTOMER_MANAGED');
 
@@ -8059,6 +8169,8 @@ class Provisioning {
 }
 
 /// Detailed data of an Proton service template resource.
+///
+/// @nodoc
 class ServiceTemplate {
   /// The Amazon Resource Name (ARN) of the service template.
   final String arn;
@@ -8143,6 +8255,8 @@ class ServiceTemplate {
 }
 
 /// Detailed data of the service sync configuration.
+///
+/// @nodoc
 class ServiceSyncConfig {
   /// The name of the code repository branch that holds the service code Proton
   /// will sync with.
@@ -8198,6 +8312,8 @@ class ServiceSyncConfig {
 }
 
 /// Detailed data of the sync blocker.
+///
+/// @nodoc
 class SyncBlocker {
   /// The time when the sync blocker was created.
   final DateTime createdAt;
@@ -8272,6 +8388,7 @@ class SyncBlocker {
   }
 }
 
+/// @nodoc
 class BlockerType {
   static const automated = BlockerType._('AUTOMATED');
 
@@ -8294,6 +8411,7 @@ class BlockerType {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockerStatus {
   static const active = BlockerStatus._('ACTIVE');
   static const resolved = BlockerStatus._('RESOLVED');
@@ -8319,6 +8437,8 @@ class BlockerStatus {
 }
 
 /// Detailed data of the context of the sync blocker.
+///
+/// @nodoc
 class SyncBlockerContext {
   /// The key for the sync blocker context.
   final String key;
@@ -8353,6 +8473,8 @@ class SyncBlockerContext {
 ///
 /// A blocker is created because of the manual update or deletion of a service
 /// instance. The summary describes the blocker as being active or resolved.
+///
+/// @nodoc
 class ServiceSyncBlockerSummary {
   /// The name of the service that you want to get the sync blocker summary for.
   /// If given a service instance name and a service name, it will return the
@@ -8403,6 +8525,8 @@ class ServiceSyncBlockerSummary {
 }
 
 /// Summary data of an Proton service resource.
+///
+/// @nodoc
 class ServiceSummary {
   /// The Amazon Resource Name (ARN) of the service.
   final String arn;
@@ -8474,6 +8598,7 @@ class ServiceSummary {
   }
 }
 
+/// @nodoc
 class ServiceStatus {
   static const createInProgress = ServiceStatus._('CREATE_IN_PROGRESS');
   static const createFailedCleanupInProgress =
@@ -8533,6 +8658,8 @@ class ServiceStatus {
 }
 
 /// Detailed data of an Proton service resource.
+///
+/// @nodoc
 class Service {
   /// The Amazon Resource Name (ARN) of the service.
   final String arn;
@@ -8647,6 +8774,8 @@ class Service {
 }
 
 /// Detailed data of an Proton service instance pipeline resource.
+///
+/// @nodoc
 class ServicePipeline {
   /// The Amazon Resource Name (ARN) of the service pipeline.
   final String arn;
@@ -8757,6 +8886,7 @@ class ServicePipeline {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const inProgress = DeploymentStatus._('IN_PROGRESS');
   static const failed = DeploymentStatus._('FAILED');
@@ -8796,6 +8926,7 @@ class DeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentUpdateType {
   static const none = DeploymentUpdateType._('NONE');
   static const currentVersion = DeploymentUpdateType._('CURRENT_VERSION');
@@ -8824,6 +8955,8 @@ class DeploymentUpdateType {
 }
 
 /// Detail data for a provisioned resource.
+///
+/// @nodoc
 class ProvisionedResource {
   /// The provisioned resource identifier.
   final String? identifier;
@@ -8869,6 +9002,8 @@ class ProvisionedResource {
 }
 
 /// List of provisioning engines
+///
+/// @nodoc
 class ProvisionedResourceEngine {
   static const cloudformation = ProvisionedResourceEngine._('CLOUDFORMATION');
   static const terraform = ProvisionedResourceEngine._('TERRAFORM');
@@ -8895,6 +9030,8 @@ class ProvisionedResourceEngine {
 }
 
 /// An infrastructure as code defined resource output.
+///
+/// @nodoc
 class Output {
   /// The output key.
   final String? key;
@@ -8925,6 +9062,8 @@ class Output {
 }
 
 /// Summary data of an Proton service instance resource.
+///
+/// @nodoc
 class ServiceInstanceSummary {
   /// The Amazon Resource Name (ARN) of the service instance.
   final String arn;
@@ -9046,6 +9185,7 @@ class ServiceInstanceSummary {
   }
 }
 
+/// @nodoc
 class ListServiceInstancesSortBy {
   static const name = ListServiceInstancesSortBy._('name');
   static const deploymentStatus =
@@ -9087,6 +9227,7 @@ class ListServiceInstancesSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -9112,6 +9253,8 @@ class SortOrder {
 
 /// A filtering criterion to scope down the result list of the
 /// <a>ListServiceInstances</a> action.
+///
+/// @nodoc
 class ListServiceInstancesFilter {
   /// The name of a filtering criterion.
   final ListServiceInstancesFilterBy? key;
@@ -9139,6 +9282,7 @@ class ListServiceInstancesFilter {
   }
 }
 
+/// @nodoc
 class ListServiceInstancesFilterBy {
   static const name = ListServiceInstancesFilterBy._('name');
   static const deploymentStatus =
@@ -9191,6 +9335,8 @@ class ListServiceInstancesFilterBy {
 }
 
 /// Detailed data of an Proton service instance resource.
+///
+/// @nodoc
 class ServiceInstance {
   /// The Amazon Resource Name (ARN) of the service instance.
   final String arn;
@@ -9332,6 +9478,8 @@ class ServiceInstance {
 
 /// Summary data of a linked repository—a repository that has been registered
 /// with Proton.
+///
+/// @nodoc
 class RepositorySummary {
   /// The Amazon Resource Name (ARN) of the linked repository.
   final String arn;
@@ -9379,6 +9527,8 @@ class RepositorySummary {
 
 /// Detailed data of a linked repository—a repository that has been registered
 /// with Proton.
+///
+/// @nodoc
 class Repository {
   /// The Amazon Resource Name (ARN) of the linked repository.
   final String arn;
@@ -9432,6 +9582,8 @@ class Repository {
 }
 
 /// A summary of the version of an environment template detail data.
+///
+/// @nodoc
 class EnvironmentTemplateVersionSummary {
   /// The Amazon Resource Name (ARN) of the version of an environment template.
   final String arn;
@@ -9522,6 +9674,8 @@ class EnvironmentTemplateVersionSummary {
 }
 
 /// The environment template version data.
+///
+/// @nodoc
 class EnvironmentTemplateVersion {
   /// The Amazon Resource Name (ARN) of the version of an environment template.
   final String arn;
@@ -9618,6 +9772,8 @@ class EnvironmentTemplateVersion {
 }
 
 /// The environment template data.
+///
+/// @nodoc
 class EnvironmentTemplateSummary {
   /// The Amazon Resource Name (ARN) of the environment template.
   final String arn;
@@ -9693,6 +9849,8 @@ class EnvironmentTemplateSummary {
 }
 
 /// The environment template data.
+///
+/// @nodoc
 class EnvironmentTemplate {
   /// The Amazon Resource Name (ARN) of the environment template.
   final String arn;
@@ -9776,6 +9934,8 @@ class EnvironmentTemplate {
 
 /// Summary data of an Proton environment resource. An Proton environment is a
 /// set of resources shared across Proton services.
+///
+/// @nodoc
 class EnvironmentSummary {
   /// The Amazon Resource Name (ARN) of the environment.
   final String arn;
@@ -9944,6 +10104,8 @@ class EnvironmentSummary {
 }
 
 /// A search filter for environment templates.
+///
+/// @nodoc
 class EnvironmentTemplateFilter {
   /// Include <code>majorVersion</code> to filter search for a major version.
   final String majorVersion;
@@ -9968,6 +10130,8 @@ class EnvironmentTemplateFilter {
 
 /// Detailed data of an Proton environment resource. An Proton environment is a
 /// set of resources shared across Proton services.
+///
+/// @nodoc
 class Environment {
   /// The Amazon Resource Name (ARN) of the environment.
   final String arn;
@@ -10165,6 +10329,8 @@ class Environment {
 }
 
 /// Detail data for a linked repository branch.
+///
+/// @nodoc
 class RepositoryBranch {
   /// The Amazon Resource Name (ARN) of the linked repository.
   final String arn;
@@ -10210,6 +10376,8 @@ class RepositoryBranch {
 }
 
 /// Detail input data for a linked repository branch.
+///
+/// @nodoc
 class RepositoryBranchInput {
   /// The repository branch.
   final String branch;
@@ -10239,6 +10407,8 @@ class RepositoryBranchInput {
 }
 
 /// Detailed data of an Proton environment account connection resource.
+///
+/// @nodoc
 class EnvironmentAccountConnection {
   /// The Amazon Resource Name (ARN) of the environment account connection.
   final String arn;
@@ -10349,6 +10519,7 @@ class EnvironmentAccountConnection {
   }
 }
 
+/// @nodoc
 class EnvironmentAccountConnectionStatus {
   static const pending = EnvironmentAccountConnectionStatus._('PENDING');
   static const connected = EnvironmentAccountConnectionStatus._('CONNECTED');
@@ -10376,6 +10547,8 @@ class EnvironmentAccountConnectionStatus {
 }
 
 /// Summary data of an Proton environment account connection resource.
+///
+/// @nodoc
 class EnvironmentAccountConnectionSummary {
   /// The Amazon Resource Name (ARN) of the environment account connection.
   final String arn;
@@ -10478,6 +10651,7 @@ class EnvironmentAccountConnectionSummary {
   }
 }
 
+/// @nodoc
 class EnvironmentAccountConnectionRequesterAccountType {
   static const managementAccount =
       EnvironmentAccountConnectionRequesterAccountType._('MANAGEMENT_ACCOUNT');
@@ -10509,6 +10683,8 @@ class EnvironmentAccountConnectionRequesterAccountType {
 }
 
 /// Summary data of the deployment.
+///
+/// @nodoc
 class DeploymentSummary {
   /// The Amazon Resource Name (ARN) of the deployment.
   final String arn;
@@ -10636,6 +10812,7 @@ class DeploymentSummary {
   }
 }
 
+/// @nodoc
 class DeploymentTargetResourceType {
   static const environment = DeploymentTargetResourceType._('ENVIRONMENT');
   static const servicePipeline =
@@ -10671,6 +10848,8 @@ class DeploymentTargetResourceType {
 }
 
 /// The detailed information about a deployment.
+///
+/// @nodoc
 class Deployment {
   /// The Amazon Resource Name (ARN) of the deployment.
   final String arn;
@@ -10827,6 +11006,8 @@ class Deployment {
 }
 
 /// The detailed data about the current state of the deployment.
+///
+/// @nodoc
 class DeploymentState {
   /// The state of the component associated with the deployment.
   final ComponentState? component;
@@ -10882,6 +11063,8 @@ class DeploymentState {
 }
 
 /// The detailed data about the current state of this service instance.
+///
+/// @nodoc
 class ServiceInstanceState {
   /// The service spec that was used to create the service instance.
   final String spec;
@@ -10968,6 +11151,8 @@ class ServiceInstanceState {
 }
 
 /// The detailed data about the current state of the environment.
+///
+/// @nodoc
 class EnvironmentState {
   /// The major version of the environment template that was used to create the
   /// environment.
@@ -11015,6 +11200,8 @@ class EnvironmentState {
 }
 
 /// The detailed data about the current state of the service pipeline.
+///
+/// @nodoc
 class ServicePipelineState {
   /// The major version of the service template that was used to create the
   /// service pipeline.
@@ -11062,6 +11249,8 @@ class ServicePipelineState {
 }
 
 /// The detailed data about the current state of the component.
+///
+/// @nodoc
 class ComponentState {
   /// The name of the service instance that this component is attached to.
   /// Provided when a component is attached to a service instance.
@@ -11114,6 +11303,8 @@ class ComponentState {
 /// For more information about components, see <a
 /// href="https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html">Proton
 /// components</a> in the <i>Proton User Guide</i>.
+///
+/// @nodoc
 class ComponentSummary {
   /// The Amazon Resource Name (ARN) of the component.
   final String arn;
@@ -11238,6 +11429,8 @@ class ComponentSummary {
 /// For more information about components, see <a
 /// href="https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html">Proton
 /// components</a> in the <i>Proton User Guide</i>.
+///
+/// @nodoc
 class Component {
   /// The Amazon Resource Name (ARN) of the component.
   final String arn;
@@ -11380,6 +11573,7 @@ class Component {
   }
 }
 
+/// @nodoc
 class ComponentDeploymentUpdateType {
   static const none = ComponentDeploymentUpdateType._('NONE');
   static const currentVersion =
@@ -11408,6 +11602,8 @@ class ComponentDeploymentUpdateType {
 
 /// Proton settings that are used for multiple services in the Amazon Web
 /// Services account.
+///
+/// @nodoc
 class AccountSettings {
   /// The Amazon Resource Name (ARN) of the service role that Proton uses for
   /// provisioning pipelines. Proton assumes this role for CodeBuild-based
@@ -11460,6 +11656,8 @@ class AccountSettings {
 }
 
 /// The state that a PR-based deployment can be updated to.
+///
+/// @nodoc
 class ResourceDeploymentStatus {
   static const inProgress = ResourceDeploymentStatus._('IN_PROGRESS');
   static const failed = ResourceDeploymentStatus._('FAILED');
@@ -11487,6 +11685,8 @@ class ResourceDeploymentStatus {
 }
 
 /// A repository sync definition.
+///
+/// @nodoc
 class RepositorySyncDefinition {
   /// The repository branch.
   final String branch;
@@ -11530,6 +11730,7 @@ class RepositorySyncDefinition {
   }
 }
 
+/// @nodoc
 class SyncType {
   static const templateSync = SyncType._('TEMPLATE_SYNC');
   static const serviceSync = SyncType._('SERVICE_SYNC');
@@ -11554,6 +11755,8 @@ class SyncType {
 }
 
 /// Detail data for a resource sync attempt activated by a push to a repository.
+///
+/// @nodoc
 class ResourceSyncAttempt {
   /// An array of events with detail data.
   final List<ResourceSyncEvent> events;
@@ -11619,6 +11822,8 @@ class ResourceSyncAttempt {
 }
 
 /// Revision detail data for a commit and push that activates a sync attempt
+///
+/// @nodoc
 class Revision {
   /// The repository branch.
   final String branch;
@@ -11671,6 +11876,7 @@ class Revision {
   }
 }
 
+/// @nodoc
 class ResourceSyncStatus {
   static const initiated = ResourceSyncStatus._('INITIATED');
   static const inProgress = ResourceSyncStatus._('IN_PROGRESS');
@@ -11699,6 +11905,8 @@ class ResourceSyncStatus {
 }
 
 /// Detail data for a resource sync event.
+///
+/// @nodoc
 class ResourceSyncEvent {
   /// A resource sync event.
   final String event;
@@ -11743,6 +11951,8 @@ class ResourceSyncEvent {
 }
 
 /// Summary counts of each Proton resource type.
+///
+/// @nodoc
 class CountsSummary {
   /// The total number of components in the Amazon Web Services account.
   ///
@@ -11844,6 +12054,8 @@ class CountsSummary {
 }
 
 /// Summary counts of each Proton resource types.
+///
+/// @nodoc
 class ResourceCountsSummary {
   /// The total number of resources of this type in the Amazon Web Services
   /// account.
@@ -11901,6 +12113,8 @@ class ResourceCountsSummary {
 
 /// Detail data for a repository sync attempt activated by a push to a
 /// repository.
+///
+/// @nodoc
 class RepositorySyncAttempt {
   /// Detail data for sync attempt events.
   final List<RepositorySyncEvent> events;
@@ -11941,6 +12155,7 @@ class RepositorySyncAttempt {
   }
 }
 
+/// @nodoc
 class RepositorySyncStatus {
   static const initiated = RepositorySyncStatus._('INITIATED');
   static const inProgress = RepositorySyncStatus._('IN_PROGRESS');
@@ -11970,6 +12185,8 @@ class RepositorySyncStatus {
 }
 
 /// Repository sync event detail data for a sync attempt.
+///
+/// @nodoc
 class RepositorySyncEvent {
   /// Event detail for a repository sync attempt.
   final String event;
@@ -12013,26 +12230,31 @@ class RepositorySyncEvent {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -12041,11 +12263,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1132,6 +1132,7 @@ class CloudHsm {
   }
 }
 
+/// @nodoc
 class AddTagsToResourceResponse {
   /// The status of the operation.
   final String status;
@@ -1155,6 +1156,8 @@ class AddTagsToResourceResponse {
 }
 
 /// Contains the output of the <a>CreateHAPartitionGroup</a> action.
+///
+/// @nodoc
 class CreateHapgResponse {
   /// The ARN of the high-availability partition group.
   final String? hapgArn;
@@ -1178,6 +1181,8 @@ class CreateHapgResponse {
 }
 
 /// Contains the output of the <code>CreateHsm</code> operation.
+///
+/// @nodoc
 class CreateHsmResponse {
   /// The ARN of the HSM.
   final String? hsmArn;
@@ -1201,6 +1206,8 @@ class CreateHsmResponse {
 }
 
 /// Contains the output of the <a>CreateLunaClient</a> action.
+///
+/// @nodoc
 class CreateLunaClientResponse {
   /// The ARN of the client.
   final String? clientArn;
@@ -1224,6 +1231,8 @@ class CreateLunaClientResponse {
 }
 
 /// Contains the output of the <a>DeleteHapg</a> action.
+///
+/// @nodoc
 class DeleteHapgResponse {
   /// The status of the action.
   final String status;
@@ -1247,6 +1256,8 @@ class DeleteHapgResponse {
 }
 
 /// Contains the output of the <a>DeleteHsm</a> operation.
+///
+/// @nodoc
 class DeleteHsmResponse {
   /// The status of the operation.
   final String status;
@@ -1269,6 +1280,7 @@ class DeleteHsmResponse {
   }
 }
 
+/// @nodoc
 class DeleteLunaClientResponse {
   /// The status of the action.
   final String status;
@@ -1292,6 +1304,8 @@ class DeleteLunaClientResponse {
 }
 
 /// Contains the output of the <a>DescribeHapg</a> action.
+///
+/// @nodoc
 class DescribeHapgResponse {
   /// The ARN of the high-availability partition group.
   final String? hapgArn;
@@ -1389,6 +1403,8 @@ class DescribeHapgResponse {
 }
 
 /// Contains the output of the <a>DescribeHsm</a> operation.
+///
+/// @nodoc
 class DescribeHsmResponse {
   /// The Availability Zone that the HSM is in.
   final String? availabilityZone;
@@ -1556,6 +1572,7 @@ class DescribeHsmResponse {
   }
 }
 
+/// @nodoc
 class DescribeLunaClientResponse {
   /// The certificate installed on the HSMs used by this client.
   final String? certificate;
@@ -1608,6 +1625,7 @@ class DescribeLunaClientResponse {
   }
 }
 
+/// @nodoc
 class GetConfigResponse {
   /// The certificate file containing the server.pem files of the HSMs.
   final String? configCred;
@@ -1644,6 +1662,7 @@ class GetConfigResponse {
   }
 }
 
+/// @nodoc
 class ListAvailableZonesResponse {
   /// The list of Availability Zones that have available AWS CloudHSM capacity.
   final List<String>? aZList;
@@ -1667,6 +1686,7 @@ class ListAvailableZonesResponse {
   }
 }
 
+/// @nodoc
 class ListHapgsResponse {
   /// The list of high-availability partition groups.
   final List<String> hapgList;
@@ -1701,6 +1721,8 @@ class ListHapgsResponse {
 }
 
 /// Contains the output of the <code>ListHsms</code> operation.
+///
+/// @nodoc
 class ListHsmsResponse {
   /// The list of ARNs that identify the HSMs.
   final List<String>? hsmList;
@@ -1732,6 +1754,7 @@ class ListHsmsResponse {
   }
 }
 
+/// @nodoc
 class ListLunaClientsResponse {
   /// The list of clients.
   final List<String> clientList;
@@ -1765,6 +1788,7 @@ class ListLunaClientsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// One or more tags.
   final List<Tag> tagList;
@@ -1790,6 +1814,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ModifyHapgResponse {
   /// The ARN of the high-availability partition group.
   final String? hapgArn;
@@ -1813,6 +1838,8 @@ class ModifyHapgResponse {
 }
 
 /// Contains the output of the <a>ModifyHsm</a> operation.
+///
+/// @nodoc
 class ModifyHsmResponse {
   /// The ARN of the HSM.
   final String? hsmArn;
@@ -1835,6 +1862,7 @@ class ModifyHsmResponse {
   }
 }
 
+/// @nodoc
 class ModifyLunaClientResponse {
   /// The ARN of the client.
   final String? clientArn;
@@ -1857,6 +1885,7 @@ class ModifyLunaClientResponse {
   }
 }
 
+/// @nodoc
 class RemoveTagsFromResourceResponse {
   /// The status of the operation.
   final String status;
@@ -1881,6 +1910,8 @@ class RemoveTagsFromResourceResponse {
 
 /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM
 /// resource.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -1910,6 +1941,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ClientVersion {
   static const $5_1 = ClientVersion._('5.1');
   static const $5_3 = ClientVersion._('5.3');
@@ -1934,6 +1966,7 @@ class ClientVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class HsmStatus {
   static const pending = HsmStatus._('PENDING');
   static const running = HsmStatus._('RUNNING');
@@ -1980,6 +2013,8 @@ class HsmStatus {
 /// <b>TRIAL</b> - The HSM is being used in a product trial.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SubscriptionType {
   static const production = SubscriptionType._('PRODUCTION');
 
@@ -2003,6 +2038,7 @@ class SubscriptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class CloudHsmObjectState {
   static const ready = CloudHsmObjectState._('READY');
   static const updating = CloudHsmObjectState._('UPDATING');
@@ -2029,16 +2065,19 @@ class CloudHsmObjectState {
   String toString() => value;
 }
 
+/// @nodoc
 class CloudHsmInternalException extends _s.GenericAwsException {
   CloudHsmInternalException({String? type, String? message})
       : super(type: type, code: 'CloudHsmInternalException', message: message);
 }
 
+/// @nodoc
 class CloudHsmServiceException extends _s.GenericAwsException {
   CloudHsmServiceException({String? type, String? message})
       : super(type: type, code: 'CloudHsmServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);

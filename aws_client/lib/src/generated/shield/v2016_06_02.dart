@@ -1625,6 +1625,7 @@ class Shield {
   }
 }
 
+/// @nodoc
 class AssociateDRTLogBucketResponse {
   AssociateDRTLogBucketResponse();
 
@@ -1637,6 +1638,7 @@ class AssociateDRTLogBucketResponse {
   }
 }
 
+/// @nodoc
 class AssociateDRTRoleResponse {
   AssociateDRTRoleResponse();
 
@@ -1649,6 +1651,7 @@ class AssociateDRTRoleResponse {
   }
 }
 
+/// @nodoc
 class AssociateHealthCheckResponse {
   AssociateHealthCheckResponse();
 
@@ -1661,6 +1664,7 @@ class AssociateHealthCheckResponse {
   }
 }
 
+/// @nodoc
 class AssociateProactiveEngagementDetailsResponse {
   AssociateProactiveEngagementDetailsResponse();
 
@@ -1674,6 +1678,7 @@ class AssociateProactiveEngagementDetailsResponse {
   }
 }
 
+/// @nodoc
 class CreateProtectionResponse {
   /// The unique identifier (ID) for the <a>Protection</a> object that is created.
   final String? protectionId;
@@ -1696,6 +1701,7 @@ class CreateProtectionResponse {
   }
 }
 
+/// @nodoc
 class CreateProtectionGroupResponse {
   CreateProtectionGroupResponse();
 
@@ -1708,6 +1714,7 @@ class CreateProtectionGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionResponse {
   CreateSubscriptionResponse();
 
@@ -1720,6 +1727,7 @@ class CreateSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteProtectionResponse {
   DeleteProtectionResponse();
 
@@ -1732,6 +1740,7 @@ class DeleteProtectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteProtectionGroupResponse {
   DeleteProtectionGroupResponse();
 
@@ -1744,6 +1753,7 @@ class DeleteProtectionGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteSubscriptionResponse {
   DeleteSubscriptionResponse();
 
@@ -1756,6 +1766,7 @@ class DeleteSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAttackResponse {
   /// The attack that you requested.
   final AttackDetail? attack;
@@ -1780,6 +1791,7 @@ class DescribeAttackResponse {
   }
 }
 
+/// @nodoc
 class DescribeAttackStatisticsResponse {
   /// The data that describes the attacks detected during the time period.
   final List<AttackStatisticsDataItem> dataItems;
@@ -1815,6 +1827,7 @@ class DescribeAttackStatisticsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDRTAccessResponse {
   /// The list of Amazon S3 buckets accessed by the SRT.
   final List<String>? logBucketList;
@@ -1848,6 +1861,7 @@ class DescribeDRTAccessResponse {
   }
 }
 
+/// @nodoc
 class DescribeEmergencyContactSettingsResponse {
   /// A list of email addresses and phone numbers that the Shield Response Team
   /// (SRT) can use to contact you if you have proactive engagement enabled, for
@@ -1877,6 +1891,7 @@ class DescribeEmergencyContactSettingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeProtectionResponse {
   /// The <a>Protection</a> that you requested.
   final Protection? protection;
@@ -1901,6 +1916,7 @@ class DescribeProtectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeProtectionGroupResponse {
   /// A grouping of protected resources that you and Shield Advanced can monitor
   /// as a collective. This resource grouping improves the accuracy of detection
@@ -1927,6 +1943,7 @@ class DescribeProtectionGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeSubscriptionResponse {
   /// The Shield Advanced subscription details for an account.
   final Subscription? subscription;
@@ -1951,6 +1968,7 @@ class DescribeSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DisableApplicationLayerAutomaticResponseResponse {
   DisableApplicationLayerAutomaticResponseResponse();
 
@@ -1964,6 +1982,7 @@ class DisableApplicationLayerAutomaticResponseResponse {
   }
 }
 
+/// @nodoc
 class DisableProactiveEngagementResponse {
   DisableProactiveEngagementResponse();
 
@@ -1976,6 +1995,7 @@ class DisableProactiveEngagementResponse {
   }
 }
 
+/// @nodoc
 class DisassociateDRTLogBucketResponse {
   DisassociateDRTLogBucketResponse();
 
@@ -1988,6 +2008,7 @@ class DisassociateDRTLogBucketResponse {
   }
 }
 
+/// @nodoc
 class DisassociateDRTRoleResponse {
   DisassociateDRTRoleResponse();
 
@@ -2000,6 +2021,7 @@ class DisassociateDRTRoleResponse {
   }
 }
 
+/// @nodoc
 class DisassociateHealthCheckResponse {
   DisassociateHealthCheckResponse();
 
@@ -2012,6 +2034,7 @@ class DisassociateHealthCheckResponse {
   }
 }
 
+/// @nodoc
 class EnableApplicationLayerAutomaticResponseResponse {
   EnableApplicationLayerAutomaticResponseResponse();
 
@@ -2025,6 +2048,7 @@ class EnableApplicationLayerAutomaticResponseResponse {
   }
 }
 
+/// @nodoc
 class EnableProactiveEngagementResponse {
   EnableProactiveEngagementResponse();
 
@@ -2037,6 +2061,7 @@ class EnableProactiveEngagementResponse {
   }
 }
 
+/// @nodoc
 class GetSubscriptionStateResponse {
   /// The status of the subscription.
   final SubscriptionState subscriptionState;
@@ -2060,6 +2085,7 @@ class GetSubscriptionStateResponse {
   }
 }
 
+/// @nodoc
 class ListAttacksResponse {
   /// The attack information for the specified time range.
   final List<AttackSummary>? attackSummaries;
@@ -2104,6 +2130,7 @@ class ListAttacksResponse {
   }
 }
 
+/// @nodoc
 class ListProtectionGroupsResponse {
   ///
   final List<ProtectionGroup> protectionGroups;
@@ -2148,6 +2175,7 @@ class ListProtectionGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListProtectionsResponse {
   /// When you request a list of objects from Shield Advanced, if the response
   /// does not include all of the remaining available objects, Shield Advanced
@@ -2192,6 +2220,7 @@ class ListProtectionsResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesInProtectionGroupResponse {
   /// The Amazon Resource Names (ARNs) of the resources that are included in the
   /// protection group.
@@ -2238,6 +2267,7 @@ class ListResourcesInProtectionGroupResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tag key and value pairs associated with the specified resource.
   final List<Tag>? tags;
@@ -2263,6 +2293,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2275,6 +2306,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2287,6 +2319,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationLayerAutomaticResponseResponse {
   UpdateApplicationLayerAutomaticResponseResponse();
 
@@ -2300,6 +2333,7 @@ class UpdateApplicationLayerAutomaticResponseResponse {
   }
 }
 
+/// @nodoc
 class UpdateEmergencyContactSettingsResponse {
   UpdateEmergencyContactSettingsResponse();
 
@@ -2313,6 +2347,7 @@ class UpdateEmergencyContactSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateProtectionGroupResponse {
   UpdateProtectionGroupResponse();
 
@@ -2325,6 +2360,7 @@ class UpdateProtectionGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubscriptionResponse {
   UpdateSubscriptionResponse();
 
@@ -2337,6 +2373,7 @@ class UpdateSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class AutoRenew {
   static const enabled = AutoRenew._('ENABLED');
   static const disabled = AutoRenew._('DISABLED');
@@ -2360,6 +2397,7 @@ class AutoRenew {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectionGroupAggregation {
   static const sum = ProtectionGroupAggregation._('SUM');
   static const mean = ProtectionGroupAggregation._('MEAN');
@@ -2386,6 +2424,7 @@ class ProtectionGroupAggregation {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectionGroupPattern {
   static const all = ProtectionGroupPattern._('ALL');
   static const arbitrary = ProtectionGroupPattern._('ARBITRARY');
@@ -2412,6 +2451,7 @@ class ProtectionGroupPattern {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectedResourceType {
   static const cloudfrontDistribution =
       ProtectedResourceType._('CLOUDFRONT_DISTRIBUTION');
@@ -2457,6 +2497,8 @@ class ProtectedResourceType {
 /// Contact information that the SRT can use to contact you if you have
 /// proactive engagement enabled, for escalations to the SRT and to initiate
 /// proactive customer support.
+///
+/// @nodoc
 class EmergencyContact {
   /// The email address for the contact.
   final String emailAddress;
@@ -2500,6 +2542,8 @@ class EmergencyContact {
 /// update automatic mitigation. Shield Advanced creates the WAF rules in a
 /// Shield Advanced-managed rule group, inside the web ACL that you have
 /// associated with the resource.
+///
+/// @nodoc
 class ResponseAction {
   /// Specifies that Shield Advanced should configure its WAF rules with the WAF
   /// <code>Block</code> action.
@@ -2547,6 +2591,8 @@ class ResponseAction {
 /// This is only used in the context of the <code>ResponseAction</code> setting.
 ///
 /// JSON specification: <code>"Block": {}</code>
+///
+/// @nodoc
 class BlockAction {
   BlockAction();
 
@@ -2565,6 +2611,8 @@ class BlockAction {
 /// This is only used in the context of the <code>ResponseAction</code> setting.
 ///
 /// JSON specification: <code>"Count": {}</code>
+///
+/// @nodoc
 class CountAction {
   CountAction();
 
@@ -2585,6 +2633,8 @@ class CountAction {
 /// Or you might set the tag key to "customer" and the value to the customer
 /// name or ID. You can specify one or more tags to add to each Amazon Web
 /// Services resource, up to 50 tags for a resource.
+///
+/// @nodoc
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -2619,6 +2669,8 @@ class Tag {
 }
 
 /// An object that represents a resource that is under DDoS protection.
+///
+/// @nodoc
 class Protection {
   /// The automatic application layer DDoS mitigation settings for the protection.
   /// This configuration determines whether Shield Advanced automatically manages
@@ -2698,6 +2750,8 @@ class Protection {
 /// <a>Protection</a>. This configuration determines whether Shield Advanced
 /// automatically manages rules in the web ACL in order to respond to
 /// application layer events that Shield Advanced determines to be DDoS attacks.
+///
+/// @nodoc
 class ApplicationLayerAutomaticResponseConfiguration {
   /// Specifies the action setting that Shield Advanced should use in the WAF
   /// rules that it creates on behalf of the protected resource in response to
@@ -2738,6 +2792,7 @@ class ApplicationLayerAutomaticResponseConfiguration {
   }
 }
 
+/// @nodoc
 class ApplicationLayerAutomaticResponseStatus {
   static const enabled = ApplicationLayerAutomaticResponseStatus._('ENABLED');
   static const disabled = ApplicationLayerAutomaticResponseStatus._('DISABLED');
@@ -2769,6 +2824,8 @@ class ApplicationLayerAutomaticResponseStatus {
 /// resource type. You can provide up to one criteria per filter type. Shield
 /// Advanced returns protections that exactly match all of the filter criteria
 /// that you provide.
+///
+/// @nodoc
 class InclusionProtectionFilters {
   /// The name of the protection that you want to retrieve.
   final List<String>? protectionNames;
@@ -2802,6 +2859,8 @@ class InclusionProtectionFilters {
 /// A grouping of protected resources that you and Shield Advanced can monitor
 /// as a collective. This resource grouping improves the accuracy of detection
 /// and reduces false positives.
+///
+/// @nodoc
 class ProtectionGroup {
   /// Defines how Shield combines resource data for the group in order to detect,
   /// mitigate, and report events.
@@ -2902,6 +2961,8 @@ class ProtectionGroup {
 /// or resource type. You can provide up to one criteria per filter type. Shield
 /// Advanced returns the protection groups that exactly match all of the search
 /// criteria that you provide.
+///
+/// @nodoc
 class InclusionProtectionGroupFilters {
   /// The aggregation setting of the protection groups that you want to retrieve.
   final List<ProtectionGroupAggregation>? aggregations;
@@ -2943,6 +3004,8 @@ class InclusionProtectionGroupFilters {
 }
 
 /// Summarizes all DDoS attacks for a specified time period.
+///
+/// @nodoc
 class AttackSummary {
   /// The unique identifier (ID) of the attack.
   final String? attackId;
@@ -2998,6 +3061,8 @@ class AttackSummary {
 }
 
 /// Describes the attack.
+///
+/// @nodoc
 class AttackVectorDescription {
   /// The attack type. Valid values:
   ///
@@ -3078,6 +3143,8 @@ class AttackVectorDescription {
 }
 
 /// The time range.
+///
+/// @nodoc
 class TimeRange {
   /// The start time, in Unix time in seconds.
   final DateTime? fromInclusive;
@@ -3108,6 +3175,7 @@ class TimeRange {
   }
 }
 
+/// @nodoc
 class SubscriptionState {
   static const active = SubscriptionState._('ACTIVE');
   static const inactive = SubscriptionState._('INACTIVE');
@@ -3133,6 +3201,8 @@ class SubscriptionState {
 }
 
 /// Information about the Shield Advanced subscription for an account.
+///
+/// @nodoc
 class Subscription {
   /// Limits settings for your subscription.
   final SubscriptionLimits subscriptionLimits;
@@ -3229,6 +3299,7 @@ class Subscription {
   }
 }
 
+/// @nodoc
 class ProactiveEngagementStatus {
   static const enabled = ProactiveEngagementStatus._('ENABLED');
   static const disabled = ProactiveEngagementStatus._('DISABLED');
@@ -3256,6 +3327,8 @@ class ProactiveEngagementStatus {
 }
 
 /// Limits settings for your subscription.
+///
+/// @nodoc
 class SubscriptionLimits {
   /// Limits settings on protection groups for your subscription.
   final ProtectionGroupLimits protectionGroupLimits;
@@ -3290,6 +3363,8 @@ class SubscriptionLimits {
 }
 
 /// Limits settings on protections for your subscription.
+///
+/// @nodoc
 class ProtectionLimits {
   /// The maximum number of resource types that you can specify in a protection.
   final List<Limit> protectedResourceTypeLimits;
@@ -3317,6 +3392,8 @@ class ProtectionLimits {
 }
 
 /// Limits settings on protection groups for your subscription.
+///
+/// @nodoc
 class ProtectionGroupLimits {
   /// The maximum number of protection groups that you can have at one time.
   final int maxProtectionGroups;
@@ -3351,6 +3428,8 @@ class ProtectionGroupLimits {
 
 /// Limits settings by pattern type in the protection groups for your
 /// subscription.
+///
+/// @nodoc
 class ProtectionGroupPatternTypeLimits {
   /// Limits settings on protection groups with arbitrary pattern type.
   final ProtectionGroupArbitraryPatternLimits arbitraryPatternLimits;
@@ -3376,6 +3455,8 @@ class ProtectionGroupPatternTypeLimits {
 }
 
 /// Limits settings on protection groups with arbitrary pattern type.
+///
+/// @nodoc
 class ProtectionGroupArbitraryPatternLimits {
   /// The maximum number of resources you can specify for a single arbitrary
   /// pattern in a protection group.
@@ -3401,6 +3482,8 @@ class ProtectionGroupArbitraryPatternLimits {
 }
 
 /// Specifies how many protections of a given type you can create.
+///
+/// @nodoc
 class Limit {
   /// The maximum number of protections that can be created for the specified
   /// <code>Type</code>.
@@ -3434,6 +3517,8 @@ class Limit {
 /// A single attack statistics data record. This is returned by
 /// <a>DescribeAttackStatistics</a> along with a time range indicating the time
 /// period that the attack statistics apply to.
+///
+/// @nodoc
 class AttackStatisticsDataItem {
   /// The number of attacks detected during the time period. This is always
   /// present, but might be zero.
@@ -3471,6 +3556,8 @@ class AttackStatisticsDataItem {
 /// an <a>AttackStatisticsDataItem</a>. If the accompanying
 /// <code>AttackCount</code> in the statistics object is zero, this setting
 /// might be empty.
+///
+/// @nodoc
 class AttackVolume {
   /// A statistics object that uses bits per second as the unit. This is included
   /// for network level attacks.
@@ -3521,6 +3608,8 @@ class AttackVolume {
 }
 
 /// Statistics objects for the various data types in <a>AttackVolume</a>.
+///
+/// @nodoc
 class AttackVolumeStatistics {
   /// The maximum attack volume observed for the given unit.
   final double max;
@@ -3544,6 +3633,8 @@ class AttackVolumeStatistics {
 }
 
 /// The details of a DDoS attack.
+///
+/// @nodoc
 class AttackDetail {
   /// List of counters that describe the attack for the specified time period.
   final List<SummarizedCounter>? attackCounters;
@@ -3634,6 +3725,8 @@ class AttackDetail {
 }
 
 /// The mitigation applied to a DDoS attack.
+///
+/// @nodoc
 class Mitigation {
   /// The name of the mitigation taken for this attack.
   final String? mitigationName;
@@ -3658,6 +3751,8 @@ class Mitigation {
 
 /// Details of a Shield event. This is provided as part of an
 /// <a>AttackDetail</a>.
+///
+/// @nodoc
 class AttackProperty {
   /// The type of Shield event that was observed. <code>NETWORK</code> indicates
   /// layer 3 and layer 4 events and <code>APPLICATION</code> indicates layer 7
@@ -3726,6 +3821,7 @@ class AttackProperty {
   }
 }
 
+/// @nodoc
 class AttackLayer {
   static const network = AttackLayer._('NETWORK');
   static const application = AttackLayer._('APPLICATION');
@@ -3749,6 +3845,7 @@ class AttackLayer {
   String toString() => value;
 }
 
+/// @nodoc
 class AttackPropertyIdentifier {
   static const destinationUrl = AttackPropertyIdentifier._('DESTINATION_URL');
   static const referrer = AttackPropertyIdentifier._('REFERRER');
@@ -3793,6 +3890,7 @@ class AttackPropertyIdentifier {
   String toString() => value;
 }
 
+/// @nodoc
 class Unit {
   static const bits = Unit._('BITS');
   static const bytes = Unit._('BYTES');
@@ -3819,6 +3917,8 @@ class Unit {
 }
 
 /// A contributor to the attack and their contribution.
+///
+/// @nodoc
 class Contributor {
   /// The name of the contributor. The type of name that you'll find here depends
   /// on the <code>AttackPropertyIdentifier</code> setting in the
@@ -3854,6 +3954,8 @@ class Contributor {
 }
 
 /// The counter that describes a DDoS attack.
+///
+/// @nodoc
 class SummarizedCounter {
   /// The average value of the counter for a specified time period.
   final double? average;
@@ -3912,6 +4014,8 @@ class SummarizedCounter {
 }
 
 /// The attack information for the specified SubResource.
+///
+/// @nodoc
 class SubResourceSummary {
   /// The list of attack types and associated counters.
   final List<SummarizedAttackVector>? attackVectors;
@@ -3962,6 +4066,7 @@ class SubResourceSummary {
   }
 }
 
+/// @nodoc
 class SubResourceType {
   static const ip = SubResourceType._('IP');
   static const url = SubResourceType._('URL');
@@ -3987,6 +4092,8 @@ class SubResourceType {
 }
 
 /// A summary of information about the attack.
+///
+/// @nodoc
 class SummarizedAttackVector {
   /// The attack type, for example, SNMP reflection or SYN flood.
   final String vectorType;
@@ -4019,11 +4126,13 @@ class SummarizedAttackVector {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AccessDeniedForDependencyException extends _s.GenericAwsException {
   AccessDeniedForDependencyException({String? type, String? message})
       : super(
@@ -4032,16 +4141,19 @@ class AccessDeniedForDependencyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -4050,37 +4162,44 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceException extends _s.GenericAwsException {
   InvalidResourceException({String? type, String? message})
       : super(type: type, code: 'InvalidResourceException', message: message);
 }
 
+/// @nodoc
 class LimitsExceededException extends _s.GenericAwsException {
   LimitsExceededException({String? type, String? message})
       : super(type: type, code: 'LimitsExceededException', message: message);
 }
 
+/// @nodoc
 class LockedSubscriptionException extends _s.GenericAwsException {
   LockedSubscriptionException({String? type, String? message})
       : super(
             type: type, code: 'LockedSubscriptionException', message: message);
 }
 
+/// @nodoc
 class NoAssociatedRoleException extends _s.GenericAwsException {
   NoAssociatedRoleException({String? type, String? message})
       : super(type: type, code: 'NoAssociatedRoleException', message: message);
 }
 
+/// @nodoc
 class OptimisticLockException extends _s.GenericAwsException {
   OptimisticLockException({String? type, String? message})
       : super(type: type, code: 'OptimisticLockException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -4089,6 +4208,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

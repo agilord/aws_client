@@ -2240,6 +2240,7 @@ class GameLiftStreams {
   }
 }
 
+/// @nodoc
 class AddStreamGroupLocationsOutput {
   /// This value is an <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
@@ -2301,6 +2302,7 @@ class AddStreamGroupLocationsOutput {
   }
 }
 
+/// @nodoc
 class AssociateApplicationsOutput {
   /// A set of applications that are associated to the stream group.
   ///
@@ -2345,6 +2347,7 @@ class AssociateApplicationsOutput {
   }
 }
 
+/// @nodoc
 class CreateStreamSessionConnectionOutput {
   /// The WebRTC answer string that the stream server generates in response to the
   /// <code>SignalRequest</code>.
@@ -2369,6 +2372,7 @@ class CreateStreamSessionConnectionOutput {
   }
 }
 
+/// @nodoc
 class DisassociateApplicationsOutput {
   /// A set of applications that are disassociated from this stream group.
   ///
@@ -2411,6 +2415,7 @@ class DisassociateApplicationsOutput {
   }
 }
 
+/// @nodoc
 class ExportStreamSessionFilesOutput {
   ExportStreamSessionFilesOutput();
 
@@ -2423,6 +2428,7 @@ class ExportStreamSessionFilesOutput {
   }
 }
 
+/// @nodoc
 class GetStreamSessionOutput {
   /// A set of options that you can use to control the stream session runtime
   /// environment, expressed as a set of key-value pairs. You can use this to
@@ -2468,9 +2474,9 @@ class GetStreamSessionOutput {
   /// Resource Name (ARN)</a> that's assigned to a stream session resource. When
   /// combined with the stream group resource ID, this value uniquely identifies
   /// the stream session across all Amazon Web Services Regions. Format is
-  /// <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:streamsession/[stream group resource ID]/[stream session resource
-  /// ID]</code>.
+  /// <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:streamsession/\[stream group resource ID\]/\[stream session
+  /// resource ID\]</code>.
   final String? arn;
 
   /// The length of time that Amazon GameLift Streams should wait for a client to
@@ -2767,6 +2773,7 @@ class GetStreamSessionOutput {
   }
 }
 
+/// @nodoc
 class ListStreamSessionsOutput {
   /// A collection of Amazon GameLift Streams stream sessions that are associated
   /// with a stream group and returned in response to a list request. Each item
@@ -2802,6 +2809,7 @@ class ListStreamSessionsOutput {
   }
 }
 
+/// @nodoc
 class ListStreamSessionsByAccountOutput {
   /// A collection of Amazon GameLift Streams stream sessions that are associated
   /// with a stream group and returned in response to a list request. Each item
@@ -2838,6 +2846,7 @@ class ListStreamSessionsByAccountOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A collection of tags that have been assigned to the specified resource.
   final Map<String, String>? tags;
@@ -2861,6 +2870,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartStreamSessionOutput {
   /// A set of options that you can use to control the stream session runtime
   /// environment, expressed as a set of key-value pairs. You can use this to
@@ -2906,9 +2916,9 @@ class StartStreamSessionOutput {
   /// Resource Name (ARN)</a> that's assigned to a stream session resource. When
   /// combined with the stream group resource ID, this value uniquely identifies
   /// the stream session across all Amazon Web Services Regions. Format is
-  /// <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:streamsession/[stream group resource ID]/[stream session resource
-  /// ID]</code>.
+  /// <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:streamsession/\[stream group resource ID\]/\[stream session
+  /// resource ID\]</code>.
   final String? arn;
 
   /// The length of time that Amazon GameLift Streams should wait for a client to
@@ -3205,6 +3215,7 @@ class StartStreamSessionOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3217,6 +3228,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3229,13 +3241,14 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
   /// Resource Name (ARN)</a> that's assigned to an application resource and
   /// uniquely identifies it across all Amazon Web Services Regions. Format is
-  /// <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:application/[resource ID]</code>.
+  /// <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:application/\[resource ID\]</code>.
   final String arn;
 
   /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to
@@ -3440,13 +3453,14 @@ class CreateApplicationOutput {
   }
 }
 
+/// @nodoc
 class GetApplicationOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
   /// Resource Name (ARN)</a> that's assigned to an application resource and
   /// uniquely identifies it across all Amazon Web Services Regions. Format is
-  /// <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:application/[resource ID]</code>.
+  /// <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:application/\[resource ID\]</code>.
   final String arn;
 
   /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to
@@ -3657,13 +3671,14 @@ class GetApplicationOutput {
   }
 }
 
+/// @nodoc
 class UpdateApplicationOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
   /// Resource Name (ARN)</a> that's assigned to an application resource and
   /// uniquely identifies it across all Amazon Web Services Regions. Format is
-  /// <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:application/[resource ID]</code>.
+  /// <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:application/\[resource ID\]</code>.
   final String arn;
 
   /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to
@@ -3874,6 +3889,7 @@ class UpdateApplicationOutput {
   }
 }
 
+/// @nodoc
 class ListApplicationsOutput {
   /// A collection of Amazon GameLift Streams applications that are associated
   /// with the Amazon Web Services account in use. Each item includes application
@@ -3909,13 +3925,14 @@ class ListApplicationsOutput {
   }
 }
 
+/// @nodoc
 class CreateStreamGroupOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
   /// Resource Name (ARN)</a> that is assigned to the stream group resource and
   /// that uniquely identifies the group across all Amazon Web Services Regions.
-  /// Format is <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:streamgroup/[resource ID]</code>.
+  /// Format is <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:streamgroup/\[resource ID\]</code>.
   final String arn;
 
   /// A set of applications that this stream group is associated to. You can
@@ -4451,13 +4468,14 @@ class CreateStreamGroupOutput {
   }
 }
 
+/// @nodoc
 class GetStreamGroupOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
   /// Resource Name (ARN)</a> that is assigned to the stream group resource and
   /// that uniquely identifies the group across all Amazon Web Services Regions.
-  /// Format is <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:streamgroup/[resource ID]</code>.
+  /// Format is <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:streamgroup/\[resource ID\]</code>.
   final String arn;
 
   /// A set of applications that this stream group is associated to. You can
@@ -4993,13 +5011,14 @@ class GetStreamGroupOutput {
   }
 }
 
+/// @nodoc
 class UpdateStreamGroupOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
   /// Resource Name (ARN)</a> that is assigned to the stream group resource and
   /// that uniquely identifies the group across all Amazon Web Services Regions.
-  /// Format is <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:streamgroup/[resource ID]</code>.
+  /// Format is <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:streamgroup/\[resource ID\]</code>.
   final String arn;
 
   /// A set of applications that this stream group is associated with. You can
@@ -5535,6 +5554,7 @@ class UpdateStreamGroupOutput {
   }
 }
 
+/// @nodoc
 class ListStreamGroupsOutput {
   /// A collection of Amazon GameLift Streams stream groups that are associated
   /// with the Amazon Web Services account in use. Each item includes stream group
@@ -5573,6 +5593,8 @@ class ListStreamGroupsOutput {
 /// Describes a Amazon GameLift Streams stream group resource for hosting
 /// content streams. To retrieve additional stream group details, call <a
 /// href="https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamGroup.html">GetStreamGroup</a>.
+///
+/// @nodoc
 class StreamGroupSummary {
   /// An <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
@@ -6042,6 +6064,8 @@ class StreamGroupSummary {
 
 /// Represents the default Amazon GameLift Streams application that a stream
 /// group hosts.
+///
+/// @nodoc
 class DefaultApplication {
   /// An <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
@@ -6076,6 +6100,7 @@ class DefaultApplication {
   }
 }
 
+/// @nodoc
 class StreamClass {
   static const gen4nHigh = StreamClass._('gen4n_high');
   static const gen4nUltra = StreamClass._('gen4n_ultra');
@@ -6132,6 +6157,7 @@ class StreamClass {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamGroupStatus {
   static const activating = StreamGroupStatus._('ACTIVATING');
   static const updatingLocations = StreamGroupStatus._('UPDATING_LOCATIONS');
@@ -6169,6 +6195,7 @@ class StreamGroupStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamGroupStatusReason {
   static const internalError = StreamGroupStatusReason._('internalError');
   static const noAvailableInstances =
@@ -6196,6 +6223,8 @@ class StreamGroupStatusReason {
 }
 
 /// Represents a location and its corresponding stream capacity and status.
+///
+/// @nodoc
 class LocationState {
   /// This value is the stream capacity that Amazon GameLift Streams has
   /// provisioned in a stream group that can respond immediately to stream
@@ -6354,6 +6383,7 @@ class LocationState {
   }
 }
 
+/// @nodoc
 class StreamGroupLocationStatus {
   static const activating = StreamGroupLocationStatus._('ACTIVATING');
   static const active = StreamGroupLocationStatus._('ACTIVE');
@@ -6383,6 +6413,8 @@ class StreamGroupLocationStatus {
 
 /// The VPC transit configuration details for a stream group location, including
 /// the Transit Gateway information needed to complete the VPC attachment setup.
+///
+/// @nodoc
 class VpcTransitConfigurationResponse {
   /// The IPv4 CIDR blocks in your VPC that the stream group can access.
   final List<String>? ipv4CidrBlocks;
@@ -6441,6 +6473,8 @@ class VpcTransitConfigurationResponse {
 /// href="https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html">UpdateStreamGroup</a>.
 /// To add a new location and specify its capacity, call <a
 /// href="https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html">AddStreamGroupLocations</a>.
+///
+/// @nodoc
 class LocationConfiguration {
   /// A location's name. For example, <code>us-east-1</code>. For a complete list
   /// of locations that Amazon GameLift Streams supports, refer to <a
@@ -6520,6 +6554,8 @@ class LocationConfiguration {
 /// it with your account using AWS Resource Access Manager. After the stream
 /// group is active, you must complete the setup by accepting the resource
 /// share, creating a VPC attachment, and configuring routing.
+///
+/// @nodoc
 class VpcTransitConfiguration {
   /// A list of IPv4 CIDR blocks in your VPC that you want the stream group to be
   /// able to access. You can specify up to 5 CIDR blocks. The CIDR blocks must be
@@ -6551,11 +6587,13 @@ class VpcTransitConfiguration {
 /// for streaming with Amazon GameLift Streams. To retrieve additional
 /// application details, call <a
 /// href="https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetApplication.html">GetApplication</a>.
+///
+/// @nodoc
 class ApplicationSummary {
   /// An Amazon Resource Name (ARN) that's assigned to an application resource and
   /// uniquely identifies the application across all Amazon Web Services Regions.
-  /// Format is <code>arn:aws:gameliftstreams:[AWS Region]:[AWS
-  /// account]:application/[resource ID]</code>.
+  /// Format is <code>arn:aws:gameliftstreams:\[AWS Region\]:\[AWS
+  /// account\]:application/\[resource ID\]</code>.
   final String arn;
 
   /// A timestamp that indicates when this resource was created. Timestamps are
@@ -6686,6 +6724,7 @@ class ApplicationSummary {
   }
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const initialized = ApplicationStatus._('INITIALIZED');
   static const processing = ApplicationStatus._('PROCESSING');
@@ -6748,6 +6787,8 @@ class ApplicationStatus {
 /// </li>
 /// </ul> </li>
 /// </ul>
+///
+/// @nodoc
 class RuntimeEnvironment {
   /// The operating system and other drivers. For Proton, this also includes the
   /// Proton compatibility layer.
@@ -6778,6 +6819,7 @@ class RuntimeEnvironment {
   }
 }
 
+/// @nodoc
 class RuntimeEnvironmentType {
   static const proton = RuntimeEnvironmentType._('PROTON');
   static const windows = RuntimeEnvironmentType._('WINDOWS');
@@ -6804,6 +6846,7 @@ class RuntimeEnvironmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationStatusReason {
   static const internalError = ApplicationStatusReason._('internalError');
   static const accessDenied = ApplicationStatusReason._('accessDenied');
@@ -6833,6 +6876,8 @@ class ApplicationStatusReason {
 /// Represents the status of the replication of an application to a location. An
 /// application cannot be streamed from a location until it has finished
 /// replicating there.
+///
+/// @nodoc
 class ReplicationStatus {
   /// A location's name. For example, <code>us-east-1</code>. For a complete list
   /// of locations that Amazon GameLift Streams supports, refer to <a
@@ -6867,6 +6912,7 @@ class ReplicationStatus {
   }
 }
 
+/// @nodoc
 class ReplicationStatusType {
   static const replicating = ReplicationStatusType._('REPLICATING');
   static const completed = ReplicationStatusType._('COMPLETED');
@@ -6892,6 +6938,7 @@ class ReplicationStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamSessionStatus {
   static const activating = StreamSessionStatus._('ACTIVATING');
   static const active = StreamSessionStatus._('ACTIVE');
@@ -6933,6 +6980,7 @@ class StreamSessionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamSessionStatusReason {
   static const internalError = StreamSessionStatusReason._('internalError');
   static const invalidSignalRequest =
@@ -6983,6 +7031,7 @@ class StreamSessionStatusReason {
   String toString() => value;
 }
 
+/// @nodoc
 class Protocol {
   static const webRTC = Protocol._('WebRTC');
 
@@ -7007,6 +7056,8 @@ class Protocol {
 
 /// Configuration settings for sharing the stream session's performance stats
 /// with the client
+///
+/// @nodoc
 class PerformanceStatsConfiguration {
   /// Performance stats for the session are streamed to the client when set to
   /// <code>true</code>. Defaults to <code>false</code>.
@@ -7031,6 +7082,8 @@ class PerformanceStatsConfiguration {
 }
 
 /// Provides details about the stream session's exported files.
+///
+/// @nodoc
 class ExportFilesMetadata {
   /// The S3 bucket URI where Amazon GameLift Streams uploaded the set of
   /// compressed exported files for a stream session. Amazon GameLift Streams
@@ -7084,6 +7137,7 @@ class ExportFilesMetadata {
   }
 }
 
+/// @nodoc
 class ExportFilesStatus {
   static const succeeded = ExportFilesStatus._('SUCCEEDED');
   static const failed = ExportFilesStatus._('FAILED');
@@ -7112,6 +7166,8 @@ class ExportFilesStatus {
 /// Describes an Amazon GameLift Streams stream session. To retrieve additional
 /// details for the stream session, call <a
 /// href="https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html">GetStreamSession</a>.
+///
+/// @nodoc
 class StreamSessionSummary {
   /// An <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
@@ -7320,26 +7376,31 @@ class StreamSessionSummary {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7348,11 +7409,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -2580,6 +2580,7 @@ class ComputeOptimizer {
   }
 }
 
+/// @nodoc
 class DeleteRecommendationPreferencesResponse {
   DeleteRecommendationPreferencesResponse();
 
@@ -2593,6 +2594,7 @@ class DeleteRecommendationPreferencesResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecommendationExportJobsResponse {
   /// The token to use to advance to the next page of export jobs.
   ///
@@ -2630,6 +2632,7 @@ class DescribeRecommendationExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ExportAutoScalingGroupRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2667,6 +2670,7 @@ class ExportAutoScalingGroupRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportEBSVolumeRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2701,6 +2705,7 @@ class ExportEBSVolumeRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportEC2InstanceRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2738,6 +2743,7 @@ class ExportEC2InstanceRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportECSServiceRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2772,6 +2778,7 @@ class ExportECSServiceRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportIdleRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2806,6 +2813,7 @@ class ExportIdleRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportLambdaFunctionRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2840,6 +2848,7 @@ class ExportLambdaFunctionRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportLicenseRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2874,6 +2883,7 @@ class ExportLicenseRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ExportRDSDatabaseRecommendationsResponse {
   /// The identification number of the export job.
   ///
@@ -2908,6 +2918,7 @@ class ExportRDSDatabaseRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetAutoScalingGroupRecommendationsResponse {
   /// An array of objects that describe Auto Scaling group recommendations.
   final List<AutoScalingGroupRecommendation>? autoScalingGroupRecommendations;
@@ -2963,6 +2974,7 @@ class GetAutoScalingGroupRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetEBSVolumeRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   ///
@@ -3014,6 +3026,7 @@ class GetEBSVolumeRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetEC2InstanceRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   ///
@@ -3066,6 +3079,7 @@ class GetEC2InstanceRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetEC2RecommendationProjectedMetricsResponse {
   /// An array of objects that describes projected metrics.
   final List<RecommendedOptionProjectedMetric>?
@@ -3097,6 +3111,7 @@ class GetEC2RecommendationProjectedMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetECSServiceRecommendationProjectedMetricsResponse {
   /// An array of objects that describes the projected metrics.
   final List<ECSServiceRecommendedOptionProjectedMetric>?
@@ -3128,6 +3143,7 @@ class GetECSServiceRecommendationProjectedMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetECSServiceRecommendationsResponse {
   /// An array of objects that describe the Amazon ECS service recommendations.
   final List<ECSServiceRecommendation>? ecsServiceRecommendations;
@@ -3174,6 +3190,7 @@ class GetECSServiceRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetEffectiveRecommendationPreferencesResponse {
   /// The status of the enhanced infrastructure metrics recommendation preference.
   /// Considers all applicable preferences that you might have set at the
@@ -3295,6 +3312,7 @@ class GetEffectiveRecommendationPreferencesResponse {
   }
 }
 
+/// @nodoc
 class GetEnrollmentStatusResponse {
   /// The Unix epoch timestamp, in seconds, of when the account enrollment status
   /// was last updated.
@@ -3356,6 +3374,7 @@ class GetEnrollmentStatusResponse {
   }
 }
 
+/// @nodoc
 class GetEnrollmentStatusesForOrganizationResponse {
   /// An array of objects that describe the enrollment statuses of organization
   /// member accounts.
@@ -3395,6 +3414,7 @@ class GetEnrollmentStatusesForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class GetIdleRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   final List<IdleRecommendationError>? errors;
@@ -3439,6 +3459,7 @@ class GetIdleRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetLambdaFunctionRecommendationsResponse {
   /// An array of objects that describe function recommendations.
   final List<LambdaFunctionRecommendation>? lambdaFunctionRecommendations;
@@ -3478,6 +3499,7 @@ class GetLambdaFunctionRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   final List<GetRecommendationError>? errors;
@@ -3523,6 +3545,7 @@ class GetLicenseRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetRDSDatabaseRecommendationProjectedMetricsResponse {
   /// An array of objects that describes the projected metrics.
   final List<RDSDatabaseRecommendedOptionProjectedMetric>?
@@ -3554,6 +3577,7 @@ class GetRDSDatabaseRecommendationProjectedMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetRDSDatabaseRecommendationsResponse {
   /// An array of objects that describe errors of the request.
   final List<GetRecommendationError>? errors;
@@ -3601,6 +3625,7 @@ class GetRDSDatabaseRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationPreferencesResponse {
   /// The token to use to advance to the next page of recommendation preferences.
   ///
@@ -3641,6 +3666,7 @@ class GetRecommendationPreferencesResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationSummariesResponse {
   /// The token to use to advance to the next page of recommendation summaries.
   ///
@@ -3678,6 +3704,7 @@ class GetRecommendationSummariesResponse {
   }
 }
 
+/// @nodoc
 class PutRecommendationPreferencesResponse {
   PutRecommendationPreferencesResponse();
 
@@ -3691,6 +3718,7 @@ class PutRecommendationPreferencesResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnrollmentStatusResponse {
   /// The enrollment status of the account.
   final Status? status;
@@ -3722,6 +3750,7 @@ class UpdateEnrollmentStatusResponse {
   }
 }
 
+/// @nodoc
 class Status {
   static const active = Status._('Active');
   static const inactive = Status._('Inactive');
@@ -3747,6 +3776,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const ec2Instance = ResourceType._('Ec2Instance');
   static const autoScalingGroup = ResourceType._('AutoScalingGroup');
@@ -3809,6 +3839,8 @@ class ResourceType {
 /// are part of an Auto Scaling group. You can create recommendation preferences
 /// at the resource level only for standalone instances.
 /// </note>
+///
+/// @nodoc
 class Scope {
   /// The name of the scope.
   ///
@@ -3875,6 +3907,7 @@ class Scope {
   }
 }
 
+/// @nodoc
 class EnhancedInfrastructureMetrics {
   static const active = EnhancedInfrastructureMetrics._('Active');
   static const inactive = EnhancedInfrastructureMetrics._('Inactive');
@@ -3900,6 +3933,7 @@ class EnhancedInfrastructureMetrics {
   String toString() => value;
 }
 
+/// @nodoc
 class InferredWorkloadTypesPreference {
   static const active = InferredWorkloadTypesPreference._('Active');
   static const inactive = InferredWorkloadTypesPreference._('Inactive');
@@ -3927,6 +3961,8 @@ class InferredWorkloadTypesPreference {
 
 /// Describes the external metrics preferences for EC2 rightsizing
 /// recommendations.
+///
+/// @nodoc
 class ExternalMetricsPreference {
   /// Contains the source options for external metrics preferences.
   final ExternalMetricsSource? source;
@@ -3950,6 +3986,7 @@ class ExternalMetricsPreference {
   }
 }
 
+/// @nodoc
 class LookBackPeriodPreference {
   static const days_14 = LookBackPeriodPreference._('DAYS_14');
   static const days_32 = LookBackPeriodPreference._('DAYS_32');
@@ -3976,6 +4013,7 @@ class LookBackPeriodPreference {
   String toString() => value;
 }
 
+/// @nodoc
 class SavingsEstimationMode {
   static const afterDiscounts = SavingsEstimationMode._('AfterDiscounts');
   static const beforeDiscounts = SavingsEstimationMode._('BeforeDiscounts');
@@ -4021,6 +4059,8 @@ class SavingsEstimationMode {
 /// <code>Ec2InstanceTypes</code>.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class PreferredResource {
   /// The preferred resource type values to exclude from the recommendation
   /// candidates. If this isn’t specified, all supported resources are included by
@@ -4059,6 +4099,7 @@ class PreferredResource {
   }
 }
 
+/// @nodoc
 class PreferredResourceName {
   static const ec2InstanceTypes = PreferredResourceName._('Ec2InstanceTypes');
 
@@ -4088,6 +4129,8 @@ class PreferredResourceName {
 /// <note>
 /// This preference is only available for the Amazon EC2 instance resource type.
 /// </note>
+///
+/// @nodoc
 class UtilizationPreference {
   /// The name of the resource utilization metric name to customize.
   final CustomizableMetricName? metricName;
@@ -4121,6 +4164,7 @@ class UtilizationPreference {
   }
 }
 
+/// @nodoc
 class CustomizableMetricName {
   static const cpuUtilization = CustomizableMetricName._('CpuUtilization');
   static const memoryUtilization =
@@ -4149,6 +4193,8 @@ class CustomizableMetricName {
 
 /// Defines the various metric parameters that can be customized, such as
 /// threshold and headroom.
+///
+/// @nodoc
 class CustomizableMetricParameters {
   /// The headroom value in percentage used for the specified metric parameter.
   ///
@@ -4194,6 +4240,7 @@ class CustomizableMetricParameters {
   }
 }
 
+/// @nodoc
 class CustomizableMetricThreshold {
   static const p90 = CustomizableMetricThreshold._('P90');
   static const p95 = CustomizableMetricThreshold._('P95');
@@ -4220,6 +4267,7 @@ class CustomizableMetricThreshold {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomizableMetricHeadroom {
   static const percent_30 = CustomizableMetricHeadroom._('PERCENT_30');
   static const percent_20 = CustomizableMetricHeadroom._('PERCENT_20');
@@ -4247,6 +4295,7 @@ class CustomizableMetricHeadroom {
   String toString() => value;
 }
 
+/// @nodoc
 class ExternalMetricsSource {
   static const datadog = ExternalMetricsSource._('Datadog');
   static const dynatrace = ExternalMetricsSource._('Dynatrace');
@@ -4274,6 +4323,7 @@ class ExternalMetricsSource {
   String toString() => value;
 }
 
+/// @nodoc
 class ScopeName {
   static const organization = ScopeName._('Organization');
   static const accountId = ScopeName._('AccountId');
@@ -4299,6 +4349,8 @@ class ScopeName {
 }
 
 /// A summary of a recommendation.
+///
+/// @nodoc
 class RecommendationSummary {
   /// The Amazon Web Services account ID of the recommendation summary.
   final String? accountId;
@@ -4409,6 +4461,7 @@ class RecommendationSummary {
   }
 }
 
+/// @nodoc
 class RecommendationSourceType {
   static const ec2Instance = RecommendationSourceType._('Ec2Instance');
   static const autoScalingGroup =
@@ -4476,6 +4529,8 @@ class RecommendationSourceType {
 /// your cost with Rightsizing Recommendations</a> in the <i>Cost Management
 /// User Guide</i>.
 /// </important>
+///
+/// @nodoc
 class SavingsOpportunity {
   /// An object that describes the estimated monthly savings amount possible by
   /// adopting Compute Optimizer recommendations for a given resource. This is
@@ -4519,6 +4574,8 @@ class SavingsOpportunity {
 /// Resources with a <code>high</code> or <code>medium</code> rating are at risk
 /// of not meeting the performance needs of their workloads, while resources
 /// with a <code>low</code> rating are performing well in their workloads.
+///
+/// @nodoc
 class CurrentPerformanceRiskRatings {
   /// A count of the applicable resource types with a high performance risk
   /// rating.
@@ -4570,6 +4627,8 @@ class CurrentPerformanceRiskRatings {
 /// configurations. If the <code>inferredWorkloadTypes</code> list contains
 /// multiple entries, then the savings are the sum of the monthly savings from
 /// instances that run the exact combination of the inferred workload types.
+///
+/// @nodoc
 class InferredWorkloadSaving {
   /// An object that describes the estimated monthly savings amount possible by
   /// adopting Compute Optimizer recommendations for a given resource. This is
@@ -4658,6 +4717,8 @@ class InferredWorkloadSaving {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html#ec2-savings-calculation">Estimated
 /// monthly savings and savings opportunities</a> in the <i>Compute Optimizer
 /// User Guide</i>.
+///
+/// @nodoc
 class EstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -4687,6 +4748,7 @@ class EstimatedMonthlySavings {
   }
 }
 
+/// @nodoc
 class Currency {
   static const usd = Currency._('USD');
   static const cny = Currency._('CNY');
@@ -4710,6 +4772,7 @@ class Currency {
   String toString() => value;
 }
 
+/// @nodoc
 class InferredWorkloadType {
   static const amazonEmr = InferredWorkloadType._('AmazonEmr');
   static const apacheCassandra = InferredWorkloadType._('ApacheCassandra');
@@ -4753,6 +4816,8 @@ class InferredWorkloadType {
 }
 
 /// Describes the findings summary of the idle resources.
+///
+/// @nodoc
 class IdleSummary {
   /// The name of the finding group for the idle resources.
   final IdleFinding? name;
@@ -4782,6 +4847,7 @@ class IdleSummary {
   }
 }
 
+/// @nodoc
 class IdleFinding {
   static const idle = IdleFinding._('Idle');
   static const unattached = IdleFinding._('Unattached');
@@ -4807,6 +4873,8 @@ class IdleFinding {
 }
 
 /// The summary of a recommendation.
+///
+/// @nodoc
 class Summary {
   /// The finding classification of the recommendation.
   final Finding? name;
@@ -4847,6 +4915,7 @@ class Summary {
   }
 }
 
+/// @nodoc
 class Finding {
   static const underprovisioned = Finding._('Underprovisioned');
   static const overprovisioned = Finding._('Overprovisioned');
@@ -4878,6 +4947,8 @@ class Finding {
 }
 
 /// A summary of a finding reason code.
+///
+/// @nodoc
 class ReasonCodeSummary {
   /// The name of the finding reason code.
   final FindingReasonCode? name;
@@ -4907,6 +4978,7 @@ class ReasonCodeSummary {
   }
 }
 
+/// @nodoc
 class FindingReasonCode {
   static const memoryOverprovisioned =
       FindingReasonCode._('MemoryOverprovisioned');
@@ -4934,6 +5006,8 @@ class FindingReasonCode {
 }
 
 /// Describes a recommendation preference.
+///
+/// @nodoc
 class RecommendationPreferencesDetail {
   /// The status of the enhanced infrastructure metrics recommendation preference.
   ///
@@ -5085,6 +5159,8 @@ class RecommendationPreferencesDetail {
 /// <note>
 /// Compute Optimizer only supports Amazon EC2 instance types.
 /// </note>
+///
+/// @nodoc
 class EffectivePreferredResource {
   /// The expanded version of your preferred resource's include list.
   final List<String>? effectiveIncludeList;
@@ -5145,6 +5221,8 @@ class EffectivePreferredResource {
 /// For example, an error is returned if you request recommendations for an
 /// unsupported Auto Scaling group, or if you request recommendations for an
 /// instance of an unsupported instance family.
+///
+/// @nodoc
 class GetRecommendationError {
   /// The error code.
   final String? code;
@@ -5182,6 +5260,8 @@ class GetRecommendationError {
 }
 
 /// Describes an Amazon Aurora and RDS database recommendation.
+///
+/// @nodoc
 class RDSDBRecommendation {
   /// The Amazon Web Services account ID of the Amazon Aurora or RDS database.
   final String? accountId;
@@ -5428,6 +5508,8 @@ class RDSDBRecommendation {
 }
 
 /// The configuration of the recommended RDS storage.
+///
+/// @nodoc
 class DBStorageConfiguration {
   /// The size of the DB storage in gigabytes (GB).
   final int? allocatedStorage;
@@ -5480,6 +5562,7 @@ class DBStorageConfiguration {
   }
 }
 
+/// @nodoc
 class Idle {
   static const $true = Idle._('True');
   static const $false = Idle._('False');
@@ -5503,6 +5586,7 @@ class Idle {
   String toString() => value;
 }
 
+/// @nodoc
 class RDSInstanceFinding {
   static const optimized = RDSInstanceFinding._('Optimized');
   static const underprovisioned = RDSInstanceFinding._('Underprovisioned');
@@ -5529,6 +5613,7 @@ class RDSInstanceFinding {
   String toString() => value;
 }
 
+/// @nodoc
 class RDSStorageFinding {
   static const optimized = RDSStorageFinding._('Optimized');
   static const underprovisioned = RDSStorageFinding._('Underprovisioned');
@@ -5560,6 +5645,7 @@ class RDSStorageFinding {
   String toString() => value;
 }
 
+/// @nodoc
 class RDSCurrentInstancePerformanceRisk {
   static const veryLow = RDSCurrentInstancePerformanceRisk._('VeryLow');
   static const low = RDSCurrentInstancePerformanceRisk._('Low');
@@ -5587,6 +5673,7 @@ class RDSCurrentInstancePerformanceRisk {
   String toString() => value;
 }
 
+/// @nodoc
 class RDSEstimatedMonthlyVolumeIOPsCostVariation {
   static const none = RDSEstimatedMonthlyVolumeIOPsCostVariation._('None');
   static const low = RDSEstimatedMonthlyVolumeIOPsCostVariation._('Low');
@@ -5617,6 +5704,8 @@ class RDSEstimatedMonthlyVolumeIOPsCostVariation {
 
 /// Describes the effective recommendation preferences for Amazon Aurora and RDS
 /// databases.
+///
+/// @nodoc
 class RDSEffectiveRecommendationPreferences {
   /// Describes the CPU vendor and architecture for DB instance recommendations.
   final List<CpuVendorArchitecture>? cpuVendorArchitectures;
@@ -5685,6 +5774,8 @@ class RDSEffectiveRecommendationPreferences {
 }
 
 /// A list of tag key and value pairs that you define.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
@@ -5718,6 +5809,8 @@ class Tag {
 
 /// Describes the savings estimation mode used for calculating savings
 /// opportunity for DB instances.
+///
+/// @nodoc
 class RDSSavingsEstimationMode {
   /// Describes the source for calculating the savings opportunity for DB
   /// instances.
@@ -5742,6 +5835,7 @@ class RDSSavingsEstimationMode {
   }
 }
 
+/// @nodoc
 class RDSSavingsEstimationModeSource {
   static const publicPricing =
       RDSSavingsEstimationModeSource._('PublicPricing');
@@ -5775,6 +5869,7 @@ class RDSSavingsEstimationModeSource {
   String toString() => value;
 }
 
+/// @nodoc
 class CpuVendorArchitecture {
   static const awsArm64 = CpuVendorArchitecture._('AWS_ARM64');
   static const current = CpuVendorArchitecture._('CURRENT');
@@ -5805,6 +5900,8 @@ class CpuVendorArchitecture {
 /// To determine the performance difference between your current DB instance and
 /// the recommended option, compare the utilization metric data of your service
 /// against its projected utilization metric data.
+///
+/// @nodoc
 class RDSDBUtilizationMetric {
   /// The name of the utilization metric.
   final RDSDBMetricName? name;
@@ -5857,6 +5954,7 @@ class RDSDBUtilizationMetric {
   }
 }
 
+/// @nodoc
 class RDSDBMetricName {
   static const cpu = RDSDBMetricName._('CPU');
   static const memory = RDSDBMetricName._('Memory');
@@ -5935,6 +6033,7 @@ class RDSDBMetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class RDSDBMetricStatistic {
   static const maximum = RDSDBMetricStatistic._('Maximum');
   static const minimum = RDSDBMetricStatistic._('Minimum');
@@ -5962,6 +6061,8 @@ class RDSDBMetricStatistic {
 }
 
 /// Describes the recommendation options for DB storage.
+///
+/// @nodoc
 class RDSDBStorageRecommendationOption {
   /// The projected level of variation in monthly I/O costs for the DB storage
   /// recommendation option.
@@ -6043,6 +6144,8 @@ class RDSDBStorageRecommendationOption {
 /// Savings opportunity represents the estimated monthly savings after applying
 /// Savings Plans discounts. You can achieve this by implementing a given
 /// Compute Optimizer recommendation.
+///
+/// @nodoc
 class RDSStorageSavingsOpportunityAfterDiscounts {
   /// The estimated monthly savings possible by adopting Compute Optimizer’s DB
   /// instance storage recommendations. This includes any applicable Savings Plans
@@ -6086,6 +6189,8 @@ class RDSStorageSavingsOpportunityAfterDiscounts {
 /// Describes the estimated monthly savings possible for DB instance storage by
 /// adopting Compute Optimizer recommendations. This is based on DB instance
 /// pricing after applying Savings Plans discounts.
+///
+/// @nodoc
 class RDSStorageEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -6117,6 +6222,8 @@ class RDSStorageEstimatedMonthlySavings {
 }
 
 /// Describes the recommendation options for a DB instance.
+///
+/// @nodoc
 class RDSDBInstanceRecommendationOption {
   /// Describes the DB instance class recommendation option for your Amazon Aurora
   /// or RDS database.
@@ -6203,6 +6310,8 @@ class RDSDBInstanceRecommendationOption {
 /// Savings opportunity represents the estimated monthly savings after applying
 /// Savings Plans discounts. You can achieve this by implementing a given
 /// Compute Optimizer recommendation.
+///
+/// @nodoc
 class RDSInstanceSavingsOpportunityAfterDiscounts {
   /// The estimated monthly savings possible by adopting Compute Optimizer’s DB
   /// instance recommendations. This includes any applicable Savings Plans
@@ -6246,6 +6355,8 @@ class RDSInstanceSavingsOpportunityAfterDiscounts {
 /// Describes the estimated monthly savings possible for DB instances by
 /// adopting Compute Optimizer recommendations. This is based on DB instance
 /// pricing after applying Savings Plans discounts.
+///
+/// @nodoc
 class RDSInstanceEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -6276,6 +6387,7 @@ class RDSInstanceEstimatedMonthlySavings {
   }
 }
 
+/// @nodoc
 class RDSStorageFindingReasonCode {
   static const eBSVolumeAllocatedStorageUnderprovisioned =
       RDSStorageFindingReasonCode._(
@@ -6322,6 +6434,7 @@ class RDSStorageFindingReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class RDSInstanceFindingReasonCode {
   static const cPUOverprovisioned =
       RDSInstanceFindingReasonCode._('CPUOverprovisioned');
@@ -6395,6 +6508,8 @@ class RDSInstanceFindingReasonCode {
 /// <a>GetEC2RecommendationProjectedMetrics</a>,
 /// <a>GetRDSDatabaseRecommendations</a>, and
 /// <a>GetRDSDatabaseRecommendationProjectedMetrics</a> request.
+///
+/// @nodoc
 class RecommendationPreferences {
   /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto
   /// Scaling group recommendations.
@@ -6437,6 +6552,8 @@ class RecommendationPreferences {
 /// Describes a filter that returns a more specific list of DB instance
 /// recommendations. Use this filter with the
 /// <a>GetECSServiceRecommendations</a> action.
+///
+/// @nodoc
 class RDSDBRecommendationFilter {
   /// The name of the filter.
   ///
@@ -6478,6 +6595,7 @@ class RDSDBRecommendationFilter {
   }
 }
 
+/// @nodoc
 class RDSDBRecommendationFilterName {
   static const instanceFinding =
       RDSDBRecommendationFilterName._('InstanceFinding');
@@ -6522,6 +6640,8 @@ class RDSDBRecommendationFilterName {
 /// To determine the performance difference between your current Amazon Aurora
 /// and RDS database and the recommended option, compare the metric data of your
 /// service against its projected metric data.
+///
+/// @nodoc
 class RDSDatabaseRecommendedOptionProjectedMetric {
   /// An array of objects that describe the projected metric.
   final List<RDSDatabaseProjectedMetric>? projectedMetrics;
@@ -6571,6 +6691,8 @@ class RDSDatabaseRecommendedOptionProjectedMetric {
 /// To determine the performance difference between your current Amazon Aurora
 /// and RDS database and the recommended option, compare the metric data of your
 /// service against its projected metric data.
+///
+/// @nodoc
 class RDSDatabaseProjectedMetric {
   /// The name of the projected metric.
   final RDSDBMetricName? name;
@@ -6612,6 +6734,7 @@ class RDSDatabaseProjectedMetric {
   }
 }
 
+/// @nodoc
 class MetricStatistic {
   static const maximum = MetricStatistic._('Maximum');
   static const average = MetricStatistic._('Average');
@@ -6637,6 +6760,8 @@ class MetricStatistic {
 }
 
 /// Describes a license recommendation for an EC2 instance.
+///
+/// @nodoc
 class LicenseRecommendation {
   /// The Amazon Web Services account ID of the license.
   final String? accountId;
@@ -6780,6 +6905,8 @@ class LicenseRecommendation {
 }
 
 /// Describes the configuration of a license for an Amazon EC2 instance.
+///
+/// @nodoc
 class LicenseConfiguration {
   /// The instance type used in the license.
   final String? instanceType;
@@ -6858,6 +6985,7 @@ class LicenseConfiguration {
   }
 }
 
+/// @nodoc
 class LicenseFinding {
   static const insufficientMetrics = LicenseFinding._('InsufficientMetrics');
   static const optimized = LicenseFinding._('Optimized');
@@ -6884,6 +7012,8 @@ class LicenseFinding {
 }
 
 /// Describes the recommendation options for licenses.
+///
+/// @nodoc
 class LicenseRecommendationOption {
   /// The recommended edition of the license for the application that runs on the
   /// instance.
@@ -6940,6 +7070,7 @@ class LicenseRecommendationOption {
   }
 }
 
+/// @nodoc
 class LicenseEdition {
   static const enterprise = LicenseEdition._('Enterprise');
   static const standard = LicenseEdition._('Standard');
@@ -6967,6 +7098,7 @@ class LicenseEdition {
   String toString() => value;
 }
 
+/// @nodoc
 class LicenseModel {
   static const licenseIncluded = LicenseModel._('LicenseIncluded');
   static const bringYourOwnLicense = LicenseModel._('BringYourOwnLicense');
@@ -6990,6 +7122,7 @@ class LicenseModel {
   String toString() => value;
 }
 
+/// @nodoc
 class LicenseFindingReasonCode {
   static const invalidCloudWatchApplicationInsightsSetup =
       LicenseFindingReasonCode._('InvalidCloudWatchApplicationInsightsSetup');
@@ -7025,6 +7158,7 @@ class LicenseFindingReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class LicenseName {
   static const sQLServer = LicenseName._('SQLServer');
 
@@ -7049,6 +7183,8 @@ class LicenseName {
 
 /// The list of metric sources required to generate recommendations for
 /// commercial software licenses.
+///
+/// @nodoc
 class MetricSource {
   /// The name of the metric source provider.
   final MetricSourceProvider? provider;
@@ -7079,6 +7215,7 @@ class MetricSource {
   }
 }
 
+/// @nodoc
 class MetricSourceProvider {
   static const cloudWatchApplicationInsights =
       MetricSourceProvider._('CloudWatchApplicationInsights');
@@ -7107,6 +7244,8 @@ class MetricSourceProvider {
 /// Describes a filter that returns a more specific list of license
 /// recommendations. Use this filter with the
 /// <code>GetLicenseRecommendation</code> action.
+///
+/// @nodoc
 class LicenseRecommendationFilter {
   /// The name of the filter.
   ///
@@ -7169,6 +7308,7 @@ class LicenseRecommendationFilter {
   }
 }
 
+/// @nodoc
 class LicenseRecommendationFilterName {
   static const finding = LicenseRecommendationFilterName._('Finding');
   static const findingReasonCode =
@@ -7197,6 +7337,8 @@ class LicenseRecommendationFilterName {
 }
 
 /// Describes an Lambda function recommendation.
+///
+/// @nodoc
 class LambdaFunctionRecommendation {
   /// The Amazon Web Services account ID of the function.
   final String? accountId;
@@ -7419,6 +7561,7 @@ class LambdaFunctionRecommendation {
   }
 }
 
+/// @nodoc
 class LambdaFunctionRecommendationFinding {
   static const optimized = LambdaFunctionRecommendationFinding._('Optimized');
   static const notOptimized =
@@ -7447,6 +7590,7 @@ class LambdaFunctionRecommendationFinding {
   String toString() => value;
 }
 
+/// @nodoc
 class CurrentPerformanceRisk {
   static const veryLow = CurrentPerformanceRisk._('VeryLow');
   static const low = CurrentPerformanceRisk._('Low');
@@ -7475,6 +7619,8 @@ class CurrentPerformanceRisk {
 }
 
 /// Describes the effective recommendation preferences for Lambda functions.
+///
+/// @nodoc
 class LambdaEffectiveRecommendationPreferences {
   /// Describes the savings estimation mode applied for calculating savings
   /// opportunity for Lambda functions.
@@ -7505,6 +7651,8 @@ class LambdaEffectiveRecommendationPreferences {
 
 /// Describes the savings estimation used for calculating savings opportunity
 /// for Lambda functions.
+///
+/// @nodoc
 class LambdaSavingsEstimationMode {
   /// Describes the source for calculation of savings opportunity for Lambda
   /// functions.
@@ -7529,6 +7677,7 @@ class LambdaSavingsEstimationMode {
   }
 }
 
+/// @nodoc
 class LambdaSavingsEstimationModeSource {
   static const publicPricing =
       LambdaSavingsEstimationModeSource._('PublicPricing');
@@ -7563,6 +7712,8 @@ class LambdaSavingsEstimationModeSource {
 }
 
 /// Describes a recommendation option for an Lambda function.
+///
+/// @nodoc
 class LambdaFunctionMemoryRecommendationOption {
   /// The memory size, in MB, of the function recommendation option.
   final int? memorySize;
@@ -7644,6 +7795,8 @@ class LambdaFunctionMemoryRecommendationOption {
 /// Savings opportunity represents the estimated monthly savings after applying
 /// Savings Plans discounts. You can achieve this by implementing a given
 /// Compute Optimizer recommendation.
+///
+/// @nodoc
 class LambdaSavingsOpportunityAfterDiscounts {
   /// The estimated monthly savings possible by adopting Compute Optimizer’s
   /// Lambda function recommendations. This includes any applicable Savings Plans
@@ -7687,6 +7840,8 @@ class LambdaSavingsOpportunityAfterDiscounts {
 /// Describes the estimated monthly savings possible for Lambda functions by
 /// adopting Compute Optimizer recommendations. This is based on Lambda
 /// functions pricing after applying Savings Plans discounts.
+///
+/// @nodoc
 class LambdaEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -7718,6 +7873,8 @@ class LambdaEstimatedMonthlySavings {
 
 /// Describes a projected utilization metric of an Lambda function
 /// recommendation option.
+///
+/// @nodoc
 class LambdaFunctionMemoryProjectedMetric {
   /// The name of the projected utilization metric.
   final LambdaFunctionMemoryMetricName? name;
@@ -7757,6 +7914,7 @@ class LambdaFunctionMemoryProjectedMetric {
   }
 }
 
+/// @nodoc
 class LambdaFunctionMemoryMetricName {
   static const duration = LambdaFunctionMemoryMetricName._('Duration');
 
@@ -7781,6 +7939,7 @@ class LambdaFunctionMemoryMetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaFunctionMemoryMetricStatistic {
   static const lowerBound = LambdaFunctionMemoryMetricStatistic._('LowerBound');
   static const upperBound = LambdaFunctionMemoryMetricStatistic._('UpperBound');
@@ -7807,6 +7966,7 @@ class LambdaFunctionMemoryMetricStatistic {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaFunctionRecommendationFindingReasonCode {
   static const memoryOverprovisioned =
       LambdaFunctionRecommendationFindingReasonCode._('MemoryOverprovisioned');
@@ -7846,6 +8006,8 @@ class LambdaFunctionRecommendationFindingReasonCode {
 }
 
 /// Describes a utilization metric of an Lambda function.
+///
+/// @nodoc
 class LambdaFunctionUtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -7910,6 +8072,7 @@ class LambdaFunctionUtilizationMetric {
   }
 }
 
+/// @nodoc
 class LambdaFunctionMetricName {
   static const duration = LambdaFunctionMetricName._('Duration');
   static const memory = LambdaFunctionMetricName._('Memory');
@@ -7935,6 +8098,7 @@ class LambdaFunctionMetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaFunctionMetricStatistic {
   static const maximum = LambdaFunctionMetricStatistic._('Maximum');
   static const average = LambdaFunctionMetricStatistic._('Average');
@@ -7969,6 +8133,8 @@ class LambdaFunctionMetricStatistic {
 /// <a>DescribeRecommendationExportJobs</a> action, and <code>Filter</code> with
 /// the <a>GetAutoScalingGroupRecommendations</a> and
 /// <a>GetEC2InstanceRecommendations</a> actions.
+///
+/// @nodoc
 class LambdaFunctionRecommendationFilter {
   /// The name of the filter.
   ///
@@ -8032,6 +8198,7 @@ class LambdaFunctionRecommendationFilter {
   }
 }
 
+/// @nodoc
 class LambdaFunctionRecommendationFilterName {
   static const finding = LambdaFunctionRecommendationFilterName._('Finding');
   static const findingReasonCode =
@@ -8059,6 +8226,8 @@ class LambdaFunctionRecommendationFilterName {
 }
 
 /// Returns of list of resources that doesn't have idle recommendations.
+///
+/// @nodoc
 class IdleRecommendationError {
   /// The error code.
   final String? code;
@@ -8103,6 +8272,7 @@ class IdleRecommendationError {
   }
 }
 
+/// @nodoc
 class IdleRecommendationResourceType {
   static const eC2Instance = IdleRecommendationResourceType._('EC2Instance');
   static const autoScalingGroup =
@@ -8142,6 +8312,8 @@ class IdleRecommendationResourceType {
 }
 
 /// Describes an Idle resource recommendation.
+///
+/// @nodoc
 class IdleRecommendation {
   /// The Amazon Web Services account ID of the idle resource.
   final String? accountId;
@@ -8262,6 +8434,8 @@ class IdleRecommendation {
 }
 
 /// Describes the savings opportunity for idle resource recommendations.
+///
+/// @nodoc
 class IdleSavingsOpportunity {
   /// The estimated monthly savings possible by adopting Compute Optimizer's idle
   /// resource recommendations.
@@ -8305,6 +8479,8 @@ class IdleSavingsOpportunity {
 /// Savings opportunity represents the estimated monthly savings after applying
 /// discounts. You can achieve this by implementing a given Compute Optimizer
 /// recommendation.
+///
+/// @nodoc
 class IdleSavingsOpportunityAfterDiscounts {
   /// The estimated monthly savings possible by adopting Compute Optimizer's idle
   /// resource recommendations. This includes any applicable discounts.
@@ -8345,6 +8521,8 @@ class IdleSavingsOpportunityAfterDiscounts {
 }
 
 /// Describes the utilization metric of an idle resource.
+///
+/// @nodoc
 class IdleUtilizationMetric {
   /// The name of the utilization metric.
   final IdleMetricName? name;
@@ -8397,6 +8575,7 @@ class IdleUtilizationMetric {
   }
 }
 
+/// @nodoc
 class IdleMetricName {
   static const cpu = IdleMetricName._('CPU');
   static const memory = IdleMetricName._('Memory');
@@ -8452,6 +8631,8 @@ class IdleMetricName {
 
 /// Describes the estimated monthly savings possible for idle resources by
 /// adopting Compute Optimizer recommendations.
+///
+/// @nodoc
 class IdleEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -8482,6 +8663,8 @@ class IdleEstimatedMonthlySavings {
 }
 
 /// Describes how the recommendations are ordered.
+///
+/// @nodoc
 class OrderBy {
   /// The dimension values to sort the recommendations.
   final Dimension? dimension;
@@ -8504,6 +8687,7 @@ class OrderBy {
   }
 }
 
+/// @nodoc
 class Dimension {
   static const savingsValue = Dimension._('SavingsValue');
   static const savingsValueAfterDiscount =
@@ -8528,6 +8712,7 @@ class Dimension {
   String toString() => value;
 }
 
+/// @nodoc
 class Order {
   static const asc = Order._('Asc');
   static const desc = Order._('Desc');
@@ -8553,6 +8738,8 @@ class Order {
 
 /// Describes a filter that returns a more specific list of idle resource
 /// recommendations.
+///
+/// @nodoc
 class IdleRecommendationFilter {
   /// The name of the filter.
   ///
@@ -8595,6 +8782,7 @@ class IdleRecommendationFilter {
   }
 }
 
+/// @nodoc
 class IdleRecommendationFilterName {
   static const finding = IdleRecommendationFilterName._('Finding');
   static const resourceType = IdleRecommendationFilterName._('ResourceType');
@@ -8622,6 +8810,8 @@ class IdleRecommendationFilterName {
 
 /// Describes the enrollment status of an organization's member accounts in
 /// Compute Optimizer.
+///
+/// @nodoc
 class AccountEnrollmentStatus {
   /// The Amazon Web Services account ID.
   final String? accountId;
@@ -8674,6 +8864,8 @@ class AccountEnrollmentStatus {
 /// Describes a filter that returns a more specific list of account enrollment
 /// statuses. Use this filter with the
 /// <a>GetEnrollmentStatusesForOrganization</a> action.
+///
+/// @nodoc
 class EnrollmentFilter {
   /// The name of the filter.
   ///
@@ -8702,6 +8894,7 @@ class EnrollmentFilter {
   }
 }
 
+/// @nodoc
 class EnrollmentFilterName {
   static const status = EnrollmentFilterName._('Status');
 
@@ -8727,6 +8920,8 @@ class EnrollmentFilterName {
 }
 
 /// Describes an Amazon ECS service recommendation.
+///
+/// @nodoc
 class ECSServiceRecommendation {
   /// The Amazon Web Services account ID of the Amazon ECS service.
   final String? accountId;
@@ -8935,6 +9130,8 @@ class ECSServiceRecommendation {
 }
 
 /// The Amazon ECS service configurations used for recommendations.
+///
+/// @nodoc
 class ServiceConfiguration {
   /// Describes the Auto Scaling configuration methods for an Amazon ECS service.
   /// This affects the generated recommendations. For example, if Auto Scaling is
@@ -9016,6 +9213,7 @@ class ServiceConfiguration {
   }
 }
 
+/// @nodoc
 class ECSServiceLaunchType {
   static const ec2 = ECSServiceLaunchType._('EC2');
   static const fargate = ECSServiceLaunchType._('Fargate');
@@ -9041,6 +9239,7 @@ class ECSServiceLaunchType {
   String toString() => value;
 }
 
+/// @nodoc
 class ECSServiceRecommendationFinding {
   static const optimized = ECSServiceRecommendationFinding._('Optimized');
   static const underprovisioned =
@@ -9070,6 +9269,8 @@ class ECSServiceRecommendationFinding {
 }
 
 /// Describes the effective recommendation preferences for Amazon ECS services.
+///
+/// @nodoc
 class ECSEffectiveRecommendationPreferences {
   /// The number of days the Amazon ECS service utilization metrics were analyzed.
   final LookBackPeriodPreference? lookBackPeriod;
@@ -9108,6 +9309,8 @@ class ECSEffectiveRecommendationPreferences {
 
 /// Describes the savings estimation mode used for calculating savings
 /// opportunity for Amazon ECS services.
+///
+/// @nodoc
 class ECSSavingsEstimationMode {
   /// Describes the source for calculating the savings opportunity for Amazon ECS
   /// services.
@@ -9132,6 +9335,7 @@ class ECSSavingsEstimationMode {
   }
 }
 
+/// @nodoc
 class ECSSavingsEstimationModeSource {
   static const publicPricing =
       ECSSavingsEstimationModeSource._('PublicPricing');
@@ -9166,6 +9370,8 @@ class ECSSavingsEstimationModeSource {
 }
 
 /// Describes the recommendation options for an Amazon ECS service.
+///
+/// @nodoc
 class ECSServiceRecommendationOption {
   /// The CPU and memory size recommendations for the containers within the task
   /// of your Amazon ECS service.
@@ -9255,6 +9461,8 @@ class ECSServiceRecommendationOption {
 /// Savings opportunity represents the estimated monthly savings after applying
 /// Savings Plans discounts. You can achieve this by implementing a given
 /// Compute Optimizer recommendation.
+///
+/// @nodoc
 class ECSSavingsOpportunityAfterDiscounts {
   /// The estimated monthly savings possible by adopting Compute Optimizer’s
   /// Amazon ECS service recommendations. This includes any applicable Savings
@@ -9297,6 +9505,8 @@ class ECSSavingsOpportunityAfterDiscounts {
 
 /// The CPU and memory recommendations for a container within the tasks of your
 /// Amazon ECS service.
+///
+/// @nodoc
 class ContainerRecommendation {
   /// The name of the container.
   final String? containerName;
@@ -9338,6 +9548,8 @@ class ContainerRecommendation {
 }
 
 /// The memory size configurations of a container.
+///
+/// @nodoc
 class MemorySizeConfiguration {
   /// The amount of memory in the container.
   final int? memory;
@@ -9373,6 +9585,8 @@ class MemorySizeConfiguration {
 /// To determine the performance difference between your current Amazon ECS
 /// service and the recommended option, compare the utilization metric data of
 /// your service against its projected utilization metric data.
+///
+/// @nodoc
 class ECSServiceProjectedUtilizationMetric {
   /// The lower bound values for the projected utilization metrics.
   final double? lowerBoundValue;
@@ -9446,6 +9660,7 @@ class ECSServiceProjectedUtilizationMetric {
   }
 }
 
+/// @nodoc
 class ECSServiceMetricName {
   static const cpu = ECSServiceMetricName._('Cpu');
   static const memory = ECSServiceMetricName._('Memory');
@@ -9471,6 +9686,7 @@ class ECSServiceMetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class ECSServiceMetricStatistic {
   static const maximum = ECSServiceMetricStatistic._('Maximum');
   static const average = ECSServiceMetricStatistic._('Average');
@@ -9499,6 +9715,8 @@ class ECSServiceMetricStatistic {
 /// Describes the estimated monthly savings possible for Amazon ECS services by
 /// adopting Compute Optimizer recommendations. This is based on Amazon ECS
 /// service pricing after applying Savings Plans discounts.
+///
+/// @nodoc
 class ECSEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -9528,6 +9746,7 @@ class ECSEstimatedMonthlySavings {
   }
 }
 
+/// @nodoc
 class ECSServiceRecommendationFindingReasonCode {
   static const memoryOverprovisioned =
       ECSServiceRecommendationFindingReasonCode._('MemoryOverprovisioned');
@@ -9570,6 +9789,8 @@ class ECSServiceRecommendationFindingReasonCode {
 /// To determine the performance difference between your current Amazon ECS
 /// service and the recommended option, compare the utilization metric data of
 /// your service against its projected utilization metric data.
+///
+/// @nodoc
 class ECSServiceUtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -9633,6 +9854,7 @@ class ECSServiceUtilizationMetric {
   }
 }
 
+/// @nodoc
 class AutoScalingConfiguration {
   static const targetTrackingScalingCpu =
       AutoScalingConfiguration._('TargetTrackingScalingCpu');
@@ -9662,6 +9884,8 @@ class AutoScalingConfiguration {
 
 /// Describes the container configurations within the tasks of your Amazon ECS
 /// service.
+///
+/// @nodoc
 class ContainerConfiguration {
   /// The name of the container.
   final String? containerName;
@@ -9705,6 +9929,8 @@ class ContainerConfiguration {
 /// Describes a filter that returns a more specific list of Amazon ECS service
 /// recommendations. Use this filter with the
 /// <a>GetECSServiceRecommendations</a> action.
+///
+/// @nodoc
 class ECSServiceRecommendationFilter {
   /// The name of the filter.
   ///
@@ -9766,6 +9992,7 @@ class ECSServiceRecommendationFilter {
   }
 }
 
+/// @nodoc
 class ECSServiceRecommendationFilterName {
   static const finding = ECSServiceRecommendationFilterName._('Finding');
   static const findingReasonCode =
@@ -9798,6 +10025,8 @@ class ECSServiceRecommendationFilterName {
 /// To determine the performance difference between your current Amazon ECS
 /// service and the recommended option, compare the metric data of your service
 /// against its projected metric data.
+///
+/// @nodoc
 class ECSServiceRecommendedOptionProjectedMetric {
   /// An array of objects that describe the projected metric.
   final List<ECSServiceProjectedMetric>? projectedMetrics;
@@ -9847,6 +10076,8 @@ class ECSServiceRecommendedOptionProjectedMetric {
 /// To determine the performance difference between your current Amazon ECS
 /// service and the recommended option, compare the metric data of your service
 /// against its projected metric data.
+///
+/// @nodoc
 class ECSServiceProjectedMetric {
   /// The lower bound values for the projected metric.
   final List<double>? lowerBoundValues;
@@ -9923,6 +10154,8 @@ class ECSServiceProjectedMetric {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent">Enabling
 /// Memory Utilization with the CloudWatch Agent</a>.
 /// </note>
+///
+/// @nodoc
 class RecommendedOptionProjectedMetric {
   /// An array of objects that describe a projected utilization metric.
   final List<ProjectedMetric>? projectedMetrics;
@@ -9988,6 +10221,8 @@ class RecommendedOptionProjectedMetric {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent">Enabling
 /// NVIDIA GPU utilization with the CloudWatch Agent</a>.
 /// </note>
+///
+/// @nodoc
 class ProjectedMetric {
   /// The name of the projected utilization metric.
   ///
@@ -10071,6 +10306,7 @@ class ProjectedMetric {
   }
 }
 
+/// @nodoc
 class MetricName {
   static const cpu = MetricName._('Cpu');
   static const memory = MetricName._('Memory');
@@ -10135,6 +10371,8 @@ class MetricName {
 }
 
 /// Describes an Amazon EC2 instance recommendation.
+///
+/// @nodoc
 class InstanceRecommendation {
   /// The Amazon Web Services account ID of the instance.
   final String? accountId;
@@ -10550,6 +10788,8 @@ class InstanceRecommendation {
 }
 
 /// Describes the effective recommendation preferences for a resource.
+///
+/// @nodoc
 class EffectiveRecommendationPreferences {
   /// Describes the CPU vendor and architecture for an instance or Auto Scaling
   /// group recommendations.
@@ -10695,6 +10935,7 @@ class EffectiveRecommendationPreferences {
   }
 }
 
+/// @nodoc
 class InstanceState {
   static const pending = InstanceState._('pending');
   static const running = InstanceState._('running');
@@ -10732,6 +10973,8 @@ class InstanceState {
 
 /// Describes Compute Optimizer's integration status with your chosen external
 /// metric provider. For example, Datadog.
+///
+/// @nodoc
 class ExternalMetricStatus {
   /// The status code for Compute Optimizer's integration with an external metrics
   /// provider.
@@ -10765,6 +11008,8 @@ class ExternalMetricStatus {
 }
 
 /// Describes the GPU accelerator settings for the instance type.
+///
+/// @nodoc
 class GpuInfo {
   /// Describes the GPU accelerators for the instance type.
   final List<Gpu>? gpus;
@@ -10790,6 +11035,7 @@ class GpuInfo {
   }
 }
 
+/// @nodoc
 class InstanceIdle {
   static const $true = InstanceIdle._('True');
   static const $false = InstanceIdle._('False');
@@ -10814,6 +11060,8 @@ class InstanceIdle {
 }
 
 /// Describes the GPU accelerators for the instance type.
+///
+/// @nodoc
 class Gpu {
   /// The number of GPUs for the instance type.
   final int? gpuCount;
@@ -10844,6 +11092,7 @@ class Gpu {
   }
 }
 
+/// @nodoc
 class ExternalMetricStatusCode {
   static const noExternalMetricSet =
       ExternalMetricStatusCode._('NO_EXTERNAL_METRIC_SET');
@@ -10900,6 +11149,8 @@ class ExternalMetricStatusCode {
 
 /// Describes the savings estimation mode used for calculating savings
 /// opportunity for Amazon EC2 instances.
+///
+/// @nodoc
 class InstanceSavingsEstimationMode {
   /// Describes the source for calculating the savings opportunity for Amazon EC2
   /// instances.
@@ -10924,6 +11175,7 @@ class InstanceSavingsEstimationMode {
   }
 }
 
+/// @nodoc
 class InstanceSavingsEstimationModeSource {
   static const publicPricing =
       InstanceSavingsEstimationModeSource._('PublicPricing');
@@ -10959,6 +11211,8 @@ class InstanceSavingsEstimationModeSource {
 
 /// Describes the source of a recommendation, such as an Amazon EC2 instance or
 /// Auto Scaling group.
+///
+/// @nodoc
 class RecommendationSource {
   /// The Amazon Resource Name (ARN) of the recommendation source.
   final String? recommendationSourceArn;
@@ -10992,6 +11246,8 @@ class RecommendationSource {
 }
 
 /// Describes a recommendation option for an Amazon EC2 instance.
+///
+/// @nodoc
 class InstanceRecommendationOption {
   /// Describes the GPU accelerator settings for the recommended instance type.
   final GpuInfo? instanceGpuInfo;
@@ -11243,6 +11499,8 @@ class InstanceRecommendationOption {
 ///
 /// Savings opportunity after discounts represents the estimated monthly savings
 /// you can achieve by implementing Compute Optimizer recommendations.
+///
+/// @nodoc
 class InstanceSavingsOpportunityAfterDiscounts {
   /// An object that describes the estimated monthly savings possible by adopting
   /// Compute Optimizer’s Amazon EC2 instance recommendations. This is based on
@@ -11283,6 +11541,7 @@ class InstanceSavingsOpportunityAfterDiscounts {
   }
 }
 
+/// @nodoc
 class MigrationEffort {
   static const veryLow = MigrationEffort._('VeryLow');
   static const low = MigrationEffort._('Low');
@@ -11312,6 +11571,8 @@ class MigrationEffort {
 /// An object that describes the estimated monthly savings possible by adopting
 /// Compute Optimizer’s Amazon EC2 instance recommendations. This is based on
 /// the Savings Plans and Reserved Instances pricing discounts.
+///
+/// @nodoc
 class InstanceEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -11341,6 +11602,7 @@ class InstanceEstimatedMonthlySavings {
   }
 }
 
+/// @nodoc
 class PlatformDifference {
   static const hypervisor = PlatformDifference._('Hypervisor');
   static const networkInterface = PlatformDifference._('NetworkInterface');
@@ -11384,6 +11646,8 @@ class PlatformDifference {
 /// Compare the utilization metric data of your resource against its projected
 /// utilization metric data to determine the performance difference between your
 /// current resource and the recommended option.
+///
+/// @nodoc
 class UtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -11556,6 +11820,7 @@ class UtilizationMetric {
   }
 }
 
+/// @nodoc
 class InstanceRecommendationFindingReasonCode {
   static const cPUOverprovisioned =
       InstanceRecommendationFindingReasonCode._('CPUOverprovisioned');
@@ -11654,6 +11919,8 @@ class InstanceRecommendationFindingReasonCode {
 /// <code>LambdaFunctionRecommendationFilter</code> with the
 /// <a>GetLambdaFunctionRecommendations</a> action, and <code>JobFilter</code>
 /// with the <a>DescribeRecommendationExportJobs</a> action.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter.
   ///
@@ -11821,6 +12088,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterName {
   static const finding = FilterName._('Finding');
   static const findingReasonCodes = FilterName._('FindingReasonCodes');
@@ -11853,6 +12121,8 @@ class FilterName {
 }
 
 /// Describes an Amazon Elastic Block Store (Amazon EBS) volume recommendation.
+///
+/// @nodoc
 class VolumeRecommendation {
   /// The Amazon Web Services account ID of the volume.
   final String? accountId;
@@ -11995,6 +12265,8 @@ class VolumeRecommendation {
 
 /// Describes the configuration of an Amazon Elastic Block Store (Amazon EBS)
 /// volume.
+///
+/// @nodoc
 class VolumeConfiguration {
   /// Contains the image used to boot the instance during launch.
   final bool? rootVolume;
@@ -12082,6 +12354,7 @@ class VolumeConfiguration {
   }
 }
 
+/// @nodoc
 class EBSFinding {
   static const optimized = EBSFinding._('Optimized');
   static const notOptimized = EBSFinding._('NotOptimized');
@@ -12106,6 +12379,8 @@ class EBSFinding {
 }
 
 /// Describes the effective recommendation preferences for Amazon EBS volumes.
+///
+/// @nodoc
 class EBSEffectiveRecommendationPreferences {
   /// The number of days for which utilization metrics were analyzed for the
   /// volume.
@@ -12145,6 +12420,8 @@ class EBSEffectiveRecommendationPreferences {
 
 /// Describes the savings estimation mode used for calculating savings
 /// opportunity for Amazon EBS volumes.
+///
+/// @nodoc
 class EBSSavingsEstimationMode {
   /// Describes the source for calculating the savings opportunity for Amazon EBS
   /// volumes.
@@ -12169,6 +12446,7 @@ class EBSSavingsEstimationMode {
   }
 }
 
+/// @nodoc
 class EBSSavingsEstimationModeSource {
   static const publicPricing =
       EBSSavingsEstimationModeSource._('PublicPricing');
@@ -12204,6 +12482,8 @@ class EBSSavingsEstimationModeSource {
 
 /// Describes a recommendation option for an Amazon Elastic Block Store (Amazon
 /// EBS) instance.
+///
+/// @nodoc
 class VolumeRecommendationOption {
   /// An array of objects that describe a volume configuration.
   final VolumeConfiguration? configuration;
@@ -12284,6 +12564,8 @@ class VolumeRecommendationOption {
 
 /// Describes the savings opportunity for Amazon EBS volume recommendations
 /// after applying specific discounts.
+///
+/// @nodoc
 class EBSSavingsOpportunityAfterDiscounts {
   /// The estimated monthly savings possible as a percentage of monthly cost by
   /// adopting Compute Optimizer’s Amazon EBS volume recommendations. This saving
@@ -12327,6 +12609,8 @@ class EBSSavingsOpportunityAfterDiscounts {
 /// An object that describes the estimated monthly savings possible by adopting
 /// Compute Optimizer’s Amazon EBS volume recommendations. This includes any
 /// applicable discounts.
+///
+/// @nodoc
 class EBSEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -12362,6 +12646,8 @@ class EBSEstimatedMonthlySavings {
 /// Compare the utilization metric data of your resource against its projected
 /// utilization metric data to determine the performance difference between your
 /// current resource and the recommended option.
+///
+/// @nodoc
 class EBSUtilizationMetric {
   /// The name of the utilization metric.
   ///
@@ -12443,6 +12729,7 @@ class EBSUtilizationMetric {
   }
 }
 
+/// @nodoc
 class EBSMetricName {
   static const volumeReadOpsPerSecond =
       EBSMetricName._('VolumeReadOpsPerSecond');
@@ -12487,6 +12774,8 @@ class EBSMetricName {
 /// the <a>DescribeRecommendationExportJobs</a> action, and <code>Filter</code>
 /// with the <a>GetAutoScalingGroupRecommendations</a> and
 /// <a>GetEC2InstanceRecommendations</a> actions.
+///
+/// @nodoc
 class EBSFilter {
   /// The name of the filter.
   ///
@@ -12531,6 +12820,7 @@ class EBSFilter {
   }
 }
 
+/// @nodoc
 class EBSFilterName {
   static const finding = EBSFilterName._('Finding');
 
@@ -12555,6 +12845,8 @@ class EBSFilterName {
 }
 
 /// Describes an Auto Scaling group recommendation.
+///
+/// @nodoc
 class AutoScalingGroupRecommendation {
   /// The Amazon Web Services account ID of the Auto Scaling group.
   final String? accountId;
@@ -12764,6 +13056,8 @@ class AutoScalingGroupRecommendation {
 }
 
 /// Describes the configuration of an EC2 Auto Scaling group.
+///
+/// @nodoc
 class AutoScalingGroupConfiguration {
   /// Describes the allocation strategy that the EC2 Auto Scaling group uses. This
   /// field is only available for EC2 Auto Scaling groups with mixed instance
@@ -12854,6 +13148,8 @@ class AutoScalingGroupConfiguration {
 }
 
 /// Describes a recommendation option for an Auto Scaling group.
+///
+/// @nodoc
 class AutoScalingGroupRecommendationOption {
   /// An array of objects that describe an Auto Scaling group configuration.
   final AutoScalingGroupConfiguration? configuration;
@@ -12992,6 +13288,8 @@ class AutoScalingGroupRecommendationOption {
 ///
 /// Savings opportunity represents the estimated monthly savings you can achieve
 /// by implementing Compute Optimizer recommendations.
+///
+/// @nodoc
 class AutoScalingGroupSavingsOpportunityAfterDiscounts {
   /// An object that describes the estimated monthly savings possible by adopting
   /// Compute Optimizer’s Auto Scaling group recommendations. This is based on the
@@ -13036,6 +13334,8 @@ class AutoScalingGroupSavingsOpportunityAfterDiscounts {
 /// An object that describes the estimated monthly savings possible by adopting
 /// Compute Optimizer’s Auto Scaling group recommendations. This is based on the
 /// Savings Plans and Reserved Instances discounts.
+///
+/// @nodoc
 class AutoScalingGroupEstimatedMonthlySavings {
   /// The currency of the estimated monthly savings.
   final Currency? currency;
@@ -13066,6 +13366,7 @@ class AutoScalingGroupEstimatedMonthlySavings {
   }
 }
 
+/// @nodoc
 class AllocationStrategy {
   static const prioritized = AllocationStrategy._('Prioritized');
   static const lowestPrice = AllocationStrategy._('LowestPrice');
@@ -13091,6 +13392,7 @@ class AllocationStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class AsgType {
   static const singleInstanceType = AsgType._('SingleInstanceType');
   static const mixedInstanceTypes = AsgType._('MixedInstanceTypes');
@@ -13117,6 +13419,8 @@ class AsgType {
 /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket
 /// name and object keys of a recommendations export file, and its associated
 /// metadata file.
+///
+/// @nodoc
 class S3Destination {
   /// The name of the Amazon S3 bucket used as the destination of an export file.
   final String? bucket;
@@ -13170,6 +13474,8 @@ class S3Destination {
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html">Amazon
 /// S3 Bucket Policy for Compute Optimizer</a> in the <i>Compute Optimizer User
 /// Guide</i>.
+///
+/// @nodoc
 class S3DestinationConfig {
   /// The name of the Amazon S3 bucket to use as the destination for an export
   /// job.
@@ -13193,6 +13499,7 @@ class S3DestinationConfig {
   }
 }
 
+/// @nodoc
 class FileFormat {
   static const csv = FileFormat._('Csv');
 
@@ -13215,6 +13522,7 @@ class FileFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableRDSDBField {
   static const resourceArn = ExportableRDSDBField._('ResourceArn');
   static const accountId = ExportableRDSDBField._('AccountId');
@@ -13514,6 +13822,7 @@ class ExportableRDSDBField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableLicenseField {
   static const accountId = ExportableLicenseField._('AccountId');
   static const resourceArn = ExportableLicenseField._('ResourceArn');
@@ -13600,6 +13909,7 @@ class ExportableLicenseField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableLambdaFunctionField {
   static const accountId = ExportableLambdaFunctionField._('AccountId');
   static const functionArn = ExportableLambdaFunctionField._('FunctionArn');
@@ -13724,6 +14034,7 @@ class ExportableLambdaFunctionField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableIdleField {
   static const accountId = ExportableIdleField._('AccountId');
   static const resourceArn = ExportableIdleField._('ResourceArn');
@@ -13811,6 +14122,7 @@ class ExportableIdleField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableECSServiceField {
   static const accountId = ExportableECSServiceField._('AccountId');
   static const serviceArn = ExportableECSServiceField._('ServiceArn');
@@ -13930,6 +14242,7 @@ class ExportableECSServiceField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableInstanceField {
   static const accountId = ExportableInstanceField._('AccountId');
   static const instanceArn = ExportableInstanceField._('InstanceArn');
@@ -14190,6 +14503,7 @@ class ExportableInstanceField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableVolumeField {
   static const accountId = ExportableVolumeField._('AccountId');
   static const volumeArn = ExportableVolumeField._('VolumeArn');
@@ -14333,6 +14647,7 @@ class ExportableVolumeField {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportableAutoScalingGroupField {
   static const accountId = ExportableAutoScalingGroupField._('AccountId');
   static const autoScalingGroupArn =
@@ -14625,6 +14940,8 @@ class ExportableAutoScalingGroupField {
 /// Use the <a>ExportAutoScalingGroupRecommendations</a> or
 /// <a>ExportEC2InstanceRecommendations</a> actions to request an export of your
 /// recommendations.
+///
+/// @nodoc
 class RecommendationExportJob {
   /// The timestamp of when the export job was created.
   final DateTime? creationTimestamp;
@@ -14696,6 +15013,8 @@ class RecommendationExportJob {
 }
 
 /// Describes the destination of the recommendations export and metadata files.
+///
+/// @nodoc
 class ExportDestination {
   /// An object that describes the destination Amazon Simple Storage Service
   /// (Amazon S3) bucket name and object keys of a recommendations export file,
@@ -14722,6 +15041,7 @@ class ExportDestination {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const queued = JobStatus._('Queued');
   static const inProgress = JobStatus._('InProgress');
@@ -14757,6 +15077,8 @@ class JobStatus {
 /// <a>GetLambdaFunctionRecommendations</a> action, and <code>Filter</code> with
 /// the <a>GetAutoScalingGroupRecommendations</a> and
 /// <a>GetEC2InstanceRecommendations</a> actions.
+///
+/// @nodoc
 class JobFilter {
   /// The name of the filter.
   ///
@@ -14802,6 +15124,7 @@ class JobFilter {
   }
 }
 
+/// @nodoc
 class JobFilterName {
   static const resourceType = JobFilterName._('ResourceType');
   static const jobStatus = JobFilterName._('JobStatus');
@@ -14826,6 +15149,7 @@ class JobFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationPreferenceName {
   static const enhancedInfrastructureMetrics =
       RecommendationPreferenceName._('EnhancedInfrastructureMetrics');
@@ -14868,16 +15192,19 @@ class RecommendationPreferenceName {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -14886,32 +15213,38 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MissingAuthenticationToken extends _s.GenericAwsException {
   MissingAuthenticationToken({String? type, String? message})
       : super(type: type, code: 'MissingAuthenticationToken', message: message);
 }
 
+/// @nodoc
 class OptInRequiredException extends _s.GenericAwsException {
   OptInRequiredException({String? type, String? message})
       : super(type: type, code: 'OptInRequiredException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

@@ -194,6 +194,7 @@ class Forecastquery {
   }
 }
 
+/// @nodoc
 class QueryForecastResponse {
   /// The forecast.
   final Forecast? forecast;
@@ -218,6 +219,7 @@ class QueryForecastResponse {
   }
 }
 
+/// @nodoc
 class QueryWhatIfForecastResponse {
   final Forecast? forecast;
 
@@ -243,6 +245,8 @@ class QueryWhatIfForecastResponse {
 
 /// Provides information about a forecast. Returned as part of the
 /// <a>QueryForecast</a> response.
+///
+/// @nodoc
 class Forecast {
   /// The forecast.
   ///
@@ -259,8 +263,8 @@ class Forecast {
   /// p90
   /// </li>
   /// </ul>
-  /// The default setting is <code>["0.1", "0.5", "0.9"]</code>. Use the optional
-  /// <code>ForecastTypes</code> parameter of the <a
+  /// The default setting is <code>\["0.1", "0.5", "0.9"\]</code>. Use the
+  /// optional <code>ForecastTypes</code> parameter of the <a
   /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateForecast.html">CreateForecast</a>
   /// operation to change the values. The values will vary depending on how this
   /// is set, with a minimum of <code>1</code> and a maximum of <code>5.</code>
@@ -291,6 +295,8 @@ class Forecast {
 }
 
 /// The forecast value for a specific date. Part of the <a>Forecast</a> object.
+///
+/// @nodoc
 class DataPoint {
   /// The timestamp of the specific forecast.
   final String? timestamp;
@@ -320,26 +326,31 @@ class DataPoint {
   }
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

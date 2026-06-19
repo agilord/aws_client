@@ -3416,6 +3416,7 @@ class MediaConnect {
   }
 }
 
+/// @nodoc
 class ListEntitlementsResponse {
   /// A list of entitlements that have been granted to you from other Amazon Web
   /// Services accounts.
@@ -3455,6 +3456,7 @@ class ListEntitlementsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForGlobalResourceResponse {
   /// A map of tag keys and values associated with the global resource.
   final Map<String, String>? tags;
@@ -3479,6 +3481,7 @@ class ListTagsForGlobalResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map from tag keys to values. Tag keys can have a maximum character length
   /// of 128 characters, and tag values can have a maximum length of 256
@@ -3504,6 +3507,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateBridgeResponse {
   /// The name of the bridge that was created.
   final Bridge? bridge;
@@ -3528,6 +3532,7 @@ class CreateBridgeResponse {
   }
 }
 
+/// @nodoc
 class DescribeBridgeResponse {
   /// The bridge that you requested a description of.
   final Bridge? bridge;
@@ -3552,6 +3557,7 @@ class DescribeBridgeResponse {
   }
 }
 
+/// @nodoc
 class UpdateBridgeResponse {
   /// The bridge that was updated.
   final Bridge? bridge;
@@ -3576,6 +3582,7 @@ class UpdateBridgeResponse {
   }
 }
 
+/// @nodoc
 class DeleteBridgeResponse {
   /// The ARN of the deleted bridge.
   final String? bridgeArn;
@@ -3598,6 +3605,7 @@ class DeleteBridgeResponse {
   }
 }
 
+/// @nodoc
 class ListBridgesResponse {
   /// A list of bridge summaries.
   final List<ListedBridge>? bridges;
@@ -3636,6 +3644,7 @@ class ListBridgesResponse {
   }
 }
 
+/// @nodoc
 class AddBridgeOutputsResponse {
   /// The ARN of the bridge that you added outputs to.
   final String? bridgeArn;
@@ -3668,6 +3677,7 @@ class AddBridgeOutputsResponse {
   }
 }
 
+/// @nodoc
 class AddBridgeSourcesResponse {
   /// The ARN of the bridge that you added sources to.
   final String? bridgeArn;
@@ -3700,6 +3710,7 @@ class AddBridgeSourcesResponse {
   }
 }
 
+/// @nodoc
 class RemoveBridgeOutputResponse {
   /// The ARN of the bridge from which the output was removed.
   final String? bridgeArn;
@@ -3729,6 +3740,7 @@ class RemoveBridgeOutputResponse {
   }
 }
 
+/// @nodoc
 class RemoveBridgeSourceResponse {
   /// The ARN of the bridge from which the source was removed.
   final String? bridgeArn;
@@ -3758,6 +3770,7 @@ class RemoveBridgeSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateBridgeOutputResponse {
   /// The ARN of the bridge that was updated.
   final String? bridgeArn;
@@ -3789,6 +3802,7 @@ class UpdateBridgeOutputResponse {
   }
 }
 
+/// @nodoc
 class UpdateBridgeSourceResponse {
   /// The ARN of the updated bridge source.
   final String? bridgeArn;
@@ -3820,6 +3834,7 @@ class UpdateBridgeSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateBridgeStateResponse {
   /// The ARN of the updated bridge.
   final String? bridgeArn;
@@ -3850,6 +3865,7 @@ class UpdateBridgeStateResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowResponse {
   /// The flow that you created.
   final Flow? flow;
@@ -3874,6 +3890,7 @@ class CreateFlowResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowResponse {
   /// The flow that you requested a description of.
   final Flow? flow;
@@ -3908,6 +3925,7 @@ class DescribeFlowResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowResponse {
   /// The updated flow.
   final Flow? flow;
@@ -3932,6 +3950,7 @@ class UpdateFlowResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowResponse {
   /// The ARN of the flow that was deleted.
   final String? flowArn;
@@ -3961,6 +3980,7 @@ class DeleteFlowResponse {
   }
 }
 
+/// @nodoc
 class ListFlowsResponse {
   /// A list of flow summaries.
   final List<ListedFlow>? flows;
@@ -3999,6 +4019,7 @@ class ListFlowsResponse {
   }
 }
 
+/// @nodoc
 class AddFlowMediaStreamsResponse {
   /// The ARN of the flow that you added media streams to.
   final String? flowArn;
@@ -4031,6 +4052,7 @@ class AddFlowMediaStreamsResponse {
   }
 }
 
+/// @nodoc
 class AddFlowOutputsResponse {
   /// The ARN of the flow that these outputs were added to.
   final String? flowArn;
@@ -4063,6 +4085,7 @@ class AddFlowOutputsResponse {
   }
 }
 
+/// @nodoc
 class AddFlowSourcesResponse {
   /// The ARN of the flow that these sources were added to.
   final String? flowArn;
@@ -4095,6 +4118,7 @@ class AddFlowSourcesResponse {
   }
 }
 
+/// @nodoc
 class AddFlowVpcInterfacesResponse {
   /// The ARN of the flow that these VPC interfaces were added to.
   final String? flowArn;
@@ -4127,6 +4151,7 @@ class AddFlowVpcInterfacesResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowSourceMetadataResponse {
   /// The ARN of the flow that DescribeFlowSourceMetadata was performed on.
   final String? flowArn;
@@ -4191,6 +4216,7 @@ class DescribeFlowSourceMetadataResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowSourceThumbnailResponse {
   /// The details of the thumbnail, including thumbnail base64 string, timecode
   /// and the time when thumbnail was generated.
@@ -4218,6 +4244,7 @@ class DescribeFlowSourceThumbnailResponse {
   }
 }
 
+/// @nodoc
 class GrantFlowEntitlementsResponse {
   /// The entitlements that were just granted.
   final List<Entitlement>? entitlements;
@@ -4250,6 +4277,7 @@ class GrantFlowEntitlementsResponse {
   }
 }
 
+/// @nodoc
 class RemoveFlowMediaStreamResponse {
   /// The ARN of the flow that was updated.
   final String? flowArn;
@@ -4279,6 +4307,7 @@ class RemoveFlowMediaStreamResponse {
   }
 }
 
+/// @nodoc
 class RemoveFlowOutputResponse {
   /// The ARN of the flow that the output was removed from.
   final String? flowArn;
@@ -4308,6 +4337,7 @@ class RemoveFlowOutputResponse {
   }
 }
 
+/// @nodoc
 class RemoveFlowSourceResponse {
   /// The ARN of the flow that the source was removed from.
   final String? flowArn;
@@ -4337,6 +4367,7 @@ class RemoveFlowSourceResponse {
   }
 }
 
+/// @nodoc
 class RemoveFlowVpcInterfaceResponse {
   /// The ARN of the flow that is associated with the VPC interface you removed.
   final String? flowArn;
@@ -4379,6 +4410,7 @@ class RemoveFlowVpcInterfaceResponse {
   }
 }
 
+/// @nodoc
 class RevokeFlowEntitlementResponse {
   /// The ARN of the entitlement that was revoked.
   final String? entitlementArn;
@@ -4408,6 +4440,7 @@ class RevokeFlowEntitlementResponse {
   }
 }
 
+/// @nodoc
 class StartFlowResponse {
   /// The ARN of the flow that you started.
   final String? flowArn;
@@ -4437,6 +4470,7 @@ class StartFlowResponse {
   }
 }
 
+/// @nodoc
 class StopFlowResponse {
   /// The ARN of the flow that you stopped.
   final String? flowArn;
@@ -4466,6 +4500,7 @@ class StopFlowResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowEntitlementResponse {
   /// The new configuration of the entitlement that you updated.
   final Entitlement? entitlement;
@@ -4497,6 +4532,7 @@ class UpdateFlowEntitlementResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowMediaStreamResponse {
   /// The ARN of the flow that is associated with the media stream that you
   /// updated.
@@ -4529,6 +4565,7 @@ class UpdateFlowMediaStreamResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowOutputResponse {
   /// The ARN of the flow that is associated with the updated output.
   final String? flowArn;
@@ -4560,6 +4597,7 @@ class UpdateFlowOutputResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowSourceResponse {
   /// The ARN of the flow that you updated.
   final String? flowArn;
@@ -4591,6 +4629,7 @@ class UpdateFlowSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeGatewayInstanceResponse {
   /// The gateway instance that you requested a description of.
   final GatewayInstance? gatewayInstance;
@@ -4616,6 +4655,7 @@ class DescribeGatewayInstanceResponse {
   }
 }
 
+/// @nodoc
 class UpdateGatewayInstanceResponse {
   /// The state of the instance. <code>ACTIVE</code> or <code>INACTIVE</code>.
   final BridgePlacement? bridgePlacement;
@@ -4646,6 +4686,7 @@ class UpdateGatewayInstanceResponse {
   }
 }
 
+/// @nodoc
 class DeregisterGatewayInstanceResponse {
   /// The ARN of the instance.
   final String? gatewayInstanceArn;
@@ -4677,6 +4718,7 @@ class DeregisterGatewayInstanceResponse {
   }
 }
 
+/// @nodoc
 class ListGatewayInstancesResponse {
   /// A list of instance summaries.
   final List<ListedGatewayInstance>? instances;
@@ -4715,6 +4757,7 @@ class ListGatewayInstancesResponse {
   }
 }
 
+/// @nodoc
 class CreateGatewayResponse {
   /// The gateway that you created.
   final Gateway? gateway;
@@ -4739,6 +4782,7 @@ class CreateGatewayResponse {
   }
 }
 
+/// @nodoc
 class DescribeGatewayResponse {
   /// The gateway that you wanted to describe.
   final Gateway? gateway;
@@ -4763,6 +4807,7 @@ class DescribeGatewayResponse {
   }
 }
 
+/// @nodoc
 class DeleteGatewayResponse {
   /// The ARN of the gateway that was deleted.
   final String? gatewayArn;
@@ -4785,6 +4830,7 @@ class DeleteGatewayResponse {
   }
 }
 
+/// @nodoc
 class ListGatewaysResponse {
   /// A list of gateway summaries.
   final List<ListedGateway>? gateways;
@@ -4823,6 +4869,7 @@ class ListGatewaysResponse {
   }
 }
 
+/// @nodoc
 class DescribeOfferingResponse {
   /// The offering that you requested a description of.
   final Offering? offering;
@@ -4847,6 +4894,7 @@ class DescribeOfferingResponse {
   }
 }
 
+/// @nodoc
 class ListOfferingsResponse {
   /// The token that identifies the batch of results that you want to see.
   ///
@@ -4886,6 +4934,7 @@ class ListOfferingsResponse {
   }
 }
 
+/// @nodoc
 class PurchaseOfferingResponse {
   /// The details of the reservation that you just created when you purchased the
   /// offering.
@@ -4911,6 +4960,7 @@ class PurchaseOfferingResponse {
   }
 }
 
+/// @nodoc
 class DescribeReservationResponse {
   /// A pricing agreement for a discounted rate for a specific outbound bandwidth
   /// that your MediaConnect account will use each month over a specific time
@@ -4941,6 +4991,7 @@ class DescribeReservationResponse {
   }
 }
 
+/// @nodoc
 class ListReservationsResponse {
   /// The token that identifies the batch of results that you want to see.
   ///
@@ -4980,6 +5031,7 @@ class ListReservationsResponse {
   }
 }
 
+/// @nodoc
 class CreateRouterInputResponse {
   /// The newly-created router input.
   final RouterInput routerInput;
@@ -5004,6 +5056,7 @@ class CreateRouterInputResponse {
   }
 }
 
+/// @nodoc
 class GetRouterInputResponse {
   /// The details of the requested router input, including its configuration,
   /// state, and other attributes.
@@ -5029,6 +5082,7 @@ class GetRouterInputResponse {
   }
 }
 
+/// @nodoc
 class UpdateRouterInputResponse {
   /// The updated router input.
   final RouterInput routerInput;
@@ -5053,6 +5107,7 @@ class UpdateRouterInputResponse {
   }
 }
 
+/// @nodoc
 class DeleteRouterInputResponse {
   /// The ARN of the deleted router input.
   final String arn;
@@ -5090,6 +5145,7 @@ class DeleteRouterInputResponse {
   }
 }
 
+/// @nodoc
 class ListRouterInputsResponse {
   /// The summary information for the retrieved router inputs.
   final List<ListedRouterInput> routerInputs;
@@ -5122,6 +5178,7 @@ class ListRouterInputsResponse {
   }
 }
 
+/// @nodoc
 class GetRouterInputSourceMetadataResponse {
   /// The Amazon Resource Name (ARN) of the router input.
   final String arn;
@@ -5162,6 +5219,7 @@ class GetRouterInputSourceMetadataResponse {
   }
 }
 
+/// @nodoc
 class GetRouterInputThumbnailResponse {
   /// The ARN of the router input.
   final String arn;
@@ -5201,6 +5259,7 @@ class GetRouterInputThumbnailResponse {
   }
 }
 
+/// @nodoc
 class RestartRouterInputResponse {
   /// The ARN of the router input that was restarted.
   final String arn;
@@ -5237,6 +5296,7 @@ class RestartRouterInputResponse {
   }
 }
 
+/// @nodoc
 class StartRouterInputResponse {
   /// The ARN of the router input that was started.
   final String arn;
@@ -5290,6 +5350,7 @@ class StartRouterInputResponse {
   }
 }
 
+/// @nodoc
 class StopRouterInputResponse {
   /// The ARN of the router input that was stopped.
   final String arn;
@@ -5326,6 +5387,7 @@ class StopRouterInputResponse {
   }
 }
 
+/// @nodoc
 class BatchGetRouterInputResponse {
   /// An array of errors that occurred when retrieving the requested router
   /// inputs.
@@ -5363,6 +5425,7 @@ class BatchGetRouterInputResponse {
   }
 }
 
+/// @nodoc
 class CreateRouterNetworkInterfaceResponse {
   /// The newly-created router network interface.
   final RouterNetworkInterface routerNetworkInterface;
@@ -5388,6 +5451,7 @@ class CreateRouterNetworkInterfaceResponse {
   }
 }
 
+/// @nodoc
 class GetRouterNetworkInterfaceResponse {
   /// The details of the requested router network interface, including its
   /// configuration and other attributes.
@@ -5414,6 +5478,7 @@ class GetRouterNetworkInterfaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateRouterNetworkInterfaceResponse {
   /// The updated router network interface.
   final RouterNetworkInterface routerNetworkInterface;
@@ -5439,6 +5504,7 @@ class UpdateRouterNetworkInterfaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteRouterNetworkInterfaceResponse {
   /// The ARN of the deleted router network interface.
   final String arn;
@@ -5478,6 +5544,7 @@ class DeleteRouterNetworkInterfaceResponse {
   }
 }
 
+/// @nodoc
 class ListRouterNetworkInterfacesResponse {
   /// The summary information for the retrieved router network interfaces.
   final List<ListedRouterNetworkInterface> routerNetworkInterfaces;
@@ -5513,6 +5580,7 @@ class ListRouterNetworkInterfacesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetRouterNetworkInterfaceResponse {
   /// An array of errors that occurred when retrieving the requested router
   /// network interfaces.
@@ -5553,6 +5621,7 @@ class BatchGetRouterNetworkInterfaceResponse {
   }
 }
 
+/// @nodoc
 class CreateRouterOutputResponse {
   /// The newly-created router output.
   final RouterOutput routerOutput;
@@ -5577,6 +5646,7 @@ class CreateRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class GetRouterOutputResponse {
   /// The details of the requested router output, including its configuration,
   /// state, and other attributes.
@@ -5602,6 +5672,7 @@ class GetRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class UpdateRouterOutputResponse {
   /// The updated router output.
   final RouterOutput routerOutput;
@@ -5626,6 +5697,7 @@ class UpdateRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class DeleteRouterOutputResponse {
   /// The ARN of the deleted router output.
   final String arn;
@@ -5663,6 +5735,7 @@ class DeleteRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class ListRouterOutputsResponse {
   /// The summary information for the retrieved router outputs.
   final List<ListedRouterOutput> routerOutputs;
@@ -5695,6 +5768,7 @@ class ListRouterOutputsResponse {
   }
 }
 
+/// @nodoc
 class RestartRouterOutputResponse {
   /// The ARN of the router output that was restarted.
   final String arn;
@@ -5731,6 +5805,7 @@ class RestartRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class StartRouterOutputResponse {
   /// The Amazon Resource Name (ARN) of the router output that was started.
   final String arn;
@@ -5784,6 +5859,7 @@ class StartRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class StopRouterOutputResponse {
   /// The ARN of the router output that was stopped.
   final String arn;
@@ -5820,6 +5896,7 @@ class StopRouterOutputResponse {
   }
 }
 
+/// @nodoc
 class TakeRouterInputResponse {
   /// The state of the association between the router input and output.
   final RouterOutputRoutedState routedState;
@@ -5871,6 +5948,7 @@ class TakeRouterInputResponse {
   }
 }
 
+/// @nodoc
 class BatchGetRouterOutputResponse {
   /// An array of errors that occurred when retrieving the requested router
   /// outputs.
@@ -5911,6 +5989,8 @@ class BatchGetRouterOutputResponse {
 /// An error that occurred when retrieving multiple router outputs in the
 /// BatchGetRouterOutput operation, including the ARN, error code, and error
 /// message.
+///
+/// @nodoc
 class BatchGetRouterOutputError {
   /// The Amazon Resource Name (ARN) of the router output for which the error
   /// occurred.
@@ -5951,6 +6031,8 @@ class BatchGetRouterOutputError {
 /// A router output in AWS Elemental MediaConnect. A router output is a
 /// destination for media content that can receive input from one or more router
 /// inputs.
+///
+/// @nodoc
 class RouterOutput {
   /// The Amazon Resource Name (ARN) of the router output.
   final String arn;
@@ -6147,6 +6229,7 @@ class RouterOutput {
   }
 }
 
+/// @nodoc
 class RouterOutputState {
   static const creating = RouterOutputState._('CREATING');
   static const standby = RouterOutputState._('STANDBY');
@@ -6190,6 +6273,7 @@ class RouterOutputState {
   String toString() => value;
 }
 
+/// @nodoc
 class RouterOutputType {
   static const standard = RouterOutputType._('STANDARD');
   static const mediaconnectFlow = RouterOutputType._('MEDIACONNECT_FLOW');
@@ -6216,6 +6300,8 @@ class RouterOutputType {
 }
 
 /// The configuration settings for a router output.
+///
+/// @nodoc
 class RouterOutputConfiguration {
   final MediaConnectFlowRouterOutputConfiguration? mediaConnectFlow;
   final MediaLiveInputRouterOutputConfiguration? mediaLiveInput;
@@ -6256,6 +6342,7 @@ class RouterOutputConfiguration {
   }
 }
 
+/// @nodoc
 class RouterOutputRoutedState {
   static const routed = RouterOutputRoutedState._('ROUTED');
   static const routing = RouterOutputRoutedState._('ROUTING');
@@ -6282,6 +6369,7 @@ class RouterOutputRoutedState {
   String toString() => value;
 }
 
+/// @nodoc
 class RoutingScope {
   static const regional = RoutingScope._('REGIONAL');
   static const global = RoutingScope._('GLOBAL');
@@ -6305,6 +6393,7 @@ class RoutingScope {
   String toString() => value;
 }
 
+/// @nodoc
 class RouterOutputTier {
   static const output_100 = RouterOutputTier._('OUTPUT_100');
   static const output_50 = RouterOutputTier._('OUTPUT_50');
@@ -6333,6 +6422,8 @@ class RouterOutputTier {
 /// Information about the router output's stream, including connection state and
 /// destination details. The specific details provided vary based on the router
 /// output type.
+///
+/// @nodoc
 class RouterOutputStreamDetails {
   final MediaConnectFlowRouterOutputStreamDetails? mediaConnectFlow;
   final MediaLiveInputRouterOutputStreamDetails? mediaLiveInput;
@@ -6373,6 +6464,7 @@ class RouterOutputStreamDetails {
   }
 }
 
+/// @nodoc
 class MaintenanceType {
   static const preferredDayTime = MaintenanceType._('PREFERRED_DAY_TIME');
   static const $default = MaintenanceType._('DEFAULT');
@@ -6399,6 +6491,8 @@ class MaintenanceType {
 
 /// The configuration settings for maintenance operations, including preferred
 /// maintenance windows and schedules.
+///
+/// @nodoc
 class MaintenanceConfiguration {
   /// Default maintenance configuration settings.
   final DefaultMaintenanceConfiguration? defaultValue;
@@ -6434,6 +6528,7 @@ class MaintenanceConfiguration {
   }
 }
 
+/// @nodoc
 class MaintenanceScheduleType {
   static const window = MaintenanceScheduleType._('WINDOW');
 
@@ -6459,6 +6554,8 @@ class MaintenanceScheduleType {
 }
 
 /// The details of the maintenance schedule.
+///
+/// @nodoc
 class MaintenanceSchedule {
   final WindowMaintenanceSchedule? window;
 
@@ -6484,6 +6581,8 @@ class MaintenanceSchedule {
 }
 
 /// Defines a specific time window for maintenance operations.
+///
+/// @nodoc
 class WindowMaintenanceSchedule {
   /// The end time of the maintenance window.
   final DateTime end;
@@ -6521,6 +6620,8 @@ class WindowMaintenanceSchedule {
 }
 
 /// Configuration for preferred day and time maintenance settings.
+///
+/// @nodoc
 class PreferredDayTimeMaintenanceConfiguration {
   /// The preferred day for maintenance operations.
   final Day day;
@@ -6552,6 +6653,8 @@ class PreferredDayTimeMaintenanceConfiguration {
 }
 
 /// Configuration settings for default maintenance scheduling.
+///
+/// @nodoc
 class DefaultMaintenanceConfiguration {
   DefaultMaintenanceConfiguration();
 
@@ -6564,6 +6667,7 @@ class DefaultMaintenanceConfiguration {
   }
 }
 
+/// @nodoc
 class Day {
   static const monday = Day._('MONDAY');
   static const tuesday = Day._('TUESDAY');
@@ -6603,6 +6707,8 @@ class Day {
 /// Configuration details for a standard router output stream type. Contains
 /// information about the destination IP address and connection state for basic
 /// output routing.
+///
+/// @nodoc
 class StandardRouterOutputStreamDetails {
   /// The IP address where the output stream will be sent. This is the destination
   /// address that will receive the routed media content.
@@ -6630,6 +6736,8 @@ class StandardRouterOutputStreamDetails {
 
 /// Configuration details for a MediaConnect flow when used as a router output
 /// destination.
+///
+/// @nodoc
 class MediaConnectFlowRouterOutputStreamDetails {
   MediaConnectFlowRouterOutputStreamDetails();
 
@@ -6645,6 +6753,8 @@ class MediaConnectFlowRouterOutputStreamDetails {
 
 /// Configuration details for a MediaLive input when used as a router output
 /// destination.
+///
+/// @nodoc
 class MediaLiveInputRouterOutputStreamDetails {
   MediaLiveInputRouterOutputStreamDetails();
 
@@ -6659,6 +6769,8 @@ class MediaLiveInputRouterOutputStreamDetails {
 }
 
 /// A message associated with a router output.
+///
+/// @nodoc
 class RouterOutputMessage {
   /// The code associated with the router output message.
   final String code;
@@ -6691,6 +6803,8 @@ class RouterOutputMessage {
 /// The configuration settings for a standard router output, including the
 /// protocol, protocol-specific configuration, network interface, and
 /// availability zone.
+///
+/// @nodoc
 class StandardRouterOutputConfiguration {
   /// The Amazon Resource Name (ARN) of the network interface associated with the
   /// standard router output.
@@ -6735,6 +6849,8 @@ class StandardRouterOutputConfiguration {
 
 /// Configuration settings for connecting a router output to a MediaConnect flow
 /// source.
+///
+/// @nodoc
 class MediaConnectFlowRouterOutputConfiguration {
   /// The encryption configuration for the flow destination when connected to this
   /// router output.
@@ -6776,6 +6892,8 @@ class MediaConnectFlowRouterOutputConfiguration {
 }
 
 /// Configuration settings for connecting a router output to a MediaLive input.
+///
+/// @nodoc
 class MediaLiveInputRouterOutputConfiguration {
   /// The encryption configuration for the MediaLive input when connected to this
   /// router output.
@@ -6818,6 +6936,7 @@ class MediaLiveInputRouterOutputConfiguration {
   }
 }
 
+/// @nodoc
 class MediaLiveInputPipelineId {
   static const pipeline_0 = MediaLiveInputPipelineId._('PIPELINE_0');
   static const pipeline_1 = MediaLiveInputPipelineId._('PIPELINE_1');
@@ -6847,6 +6966,8 @@ class MediaLiveInputPipelineId {
 /// transit between MediaConnect Router and MediaLive. This configuration
 /// determines whether encryption keys are automatically managed by the service
 /// or manually managed through Secrets Manager.
+///
+/// @nodoc
 class MediaLiveTransitEncryption {
   /// The configuration details for the MediaLive encryption key.
   final MediaLiveTransitEncryptionKeyConfiguration encryptionKeyConfiguration;
@@ -6881,6 +7002,7 @@ class MediaLiveTransitEncryption {
   }
 }
 
+/// @nodoc
 class MediaLiveTransitEncryptionKeyType {
   static const secretsManager =
       MediaLiveTransitEncryptionKeyType._('SECRETS_MANAGER');
@@ -6908,6 +7030,8 @@ class MediaLiveTransitEncryptionKeyType {
 }
 
 /// Configuration settings for the MediaLive transit encryption key.
+///
+/// @nodoc
 class MediaLiveTransitEncryptionKeyConfiguration {
   final AutomaticEncryptionKeyConfiguration? automatic;
   final SecretsManagerEncryptionKeyConfiguration? secretsManager;
@@ -6943,6 +7067,8 @@ class MediaLiveTransitEncryptionKeyConfiguration {
 
 /// The configuration settings for transit encryption using Secrets Manager,
 /// including the secret ARN and role ARN.
+///
+/// @nodoc
 class SecretsManagerEncryptionKeyConfiguration {
   /// The ARN of the IAM role assumed by MediaConnect to access the Secrets
   /// Manager secret.
@@ -6976,6 +7102,8 @@ class SecretsManagerEncryptionKeyConfiguration {
 
 /// Configuration settings for automatic encryption key management, where
 /// MediaConnect handles key creation and rotation.
+///
+/// @nodoc
 class AutomaticEncryptionKeyConfiguration {
   AutomaticEncryptionKeyConfiguration();
 
@@ -6990,6 +7118,8 @@ class AutomaticEncryptionKeyConfiguration {
 
 /// The configuration that defines how content is encrypted during transit
 /// between the MediaConnect router and a MediaConnect flow.
+///
+/// @nodoc
 class FlowTransitEncryption {
   /// The configuration details for the encryption key.
   final FlowTransitEncryptionKeyConfiguration encryptionKeyConfiguration;
@@ -7024,6 +7154,7 @@ class FlowTransitEncryption {
   }
 }
 
+/// @nodoc
 class FlowTransitEncryptionKeyType {
   static const secretsManager =
       FlowTransitEncryptionKeyType._('SECRETS_MANAGER');
@@ -7051,6 +7182,8 @@ class FlowTransitEncryptionKeyType {
 }
 
 /// Configuration settings for flow transit encryption keys.
+///
+/// @nodoc
 class FlowTransitEncryptionKeyConfiguration {
   final AutomaticEncryptionKeyConfiguration? automatic;
   final SecretsManagerEncryptionKeyConfiguration? secretsManager;
@@ -7085,6 +7218,8 @@ class FlowTransitEncryptionKeyConfiguration {
 }
 
 /// The protocol configuration settings for a router output.
+///
+/// @nodoc
 class RouterOutputProtocolConfiguration {
   final RistRouterOutputConfiguration? rist;
   final RtpRouterOutputConfiguration? rtp;
@@ -7134,6 +7269,7 @@ class RouterOutputProtocolConfiguration {
   }
 }
 
+/// @nodoc
 class RouterOutputProtocol {
   static const rtp = RouterOutputProtocol._('RTP');
   static const rist = RouterOutputProtocol._('RIST');
@@ -7164,6 +7300,8 @@ class RouterOutputProtocol {
 /// The configuration settings for a router output using the RIST (Reliable
 /// Internet Stream Transport) protocol, including the destination address and
 /// port.
+///
+/// @nodoc
 class RistRouterOutputConfiguration {
   /// The destination IP address for the RIST protocol in the router output
   /// configuration.
@@ -7198,6 +7336,8 @@ class RistRouterOutputConfiguration {
 /// The configuration settings for a router output using the SRT (Secure
 /// Reliable Transport) protocol in listener mode, including the port, minimum
 /// latency, and encryption key configuration.
+///
+/// @nodoc
 class SrtListenerRouterOutputConfiguration {
   /// The minimum latency in milliseconds for the SRT protocol in listener mode.
   final int minimumLatencyMilliseconds;
@@ -7245,6 +7385,8 @@ class SrtListenerRouterOutputConfiguration {
 /// Reliable Transport) protocol in caller mode, including the destination
 /// address and port, minimum latency, stream ID, and encryption key
 /// configuration.
+///
+/// @nodoc
 class SrtCallerRouterOutputConfiguration {
   /// The destination IP address for the SRT protocol in caller mode.
   final String destinationAddress;
@@ -7305,6 +7447,8 @@ class SrtCallerRouterOutputConfiguration {
 /// The configuration settings for a router output using the RTP (Real-Time
 /// Transport Protocol) protocol, including the destination address and port,
 /// and forward error correction state.
+///
+/// @nodoc
 class RtpRouterOutputConfiguration {
   /// The destination IP address for the RTP protocol in the router output
   /// configuration.
@@ -7346,6 +7490,7 @@ class RtpRouterOutputConfiguration {
   }
 }
 
+/// @nodoc
 class ForwardErrorCorrectionState {
   static const enabled = ForwardErrorCorrectionState._('ENABLED');
   static const disabled = ForwardErrorCorrectionState._('DISABLED');
@@ -7373,6 +7518,8 @@ class ForwardErrorCorrectionState {
 
 /// Contains the configuration settings for encrypting SRT streams, including
 /// the encryption key details and encryption parameters.
+///
+/// @nodoc
 class SrtEncryptionConfiguration {
   /// Specifies the encryption key configuration used for encrypting SRT streams,
   /// including the key source and associated credentials.
@@ -7401,6 +7548,8 @@ class SrtEncryptionConfiguration {
 /// A summary of a router output, including its name, type, ARN, ID, state,
 /// routed state, and other key details. This structure is used in the response
 /// of the ListRouterOutputs operation.
+///
+/// @nodoc
 class ListedRouterOutput {
   /// The Amazon Resource Name (ARN) of the router output.
   final String arn;
@@ -7549,6 +7698,8 @@ class ListedRouterOutput {
 }
 
 /// A filter that can be used to retrieve a list of router outputs.
+///
+/// @nodoc
 class RouterOutputFilter {
   /// The names of the router outputs to include in the filter.
   final List<String>? nameContains;
@@ -7603,6 +7754,8 @@ class RouterOutputFilter {
 /// An error that occurred when retrieving multiple router network interfaces in
 /// the BatchGetRouterNetworkInterface operation, including the ARN, error code,
 /// and error message.
+///
+/// @nodoc
 class BatchGetRouterNetworkInterfaceError {
   /// The Amazon Resource Name (ARN) of the router network interface for which the
   /// error occurred.
@@ -7644,6 +7797,8 @@ class BatchGetRouterNetworkInterfaceError {
 /// A router network interface in AWS Elemental MediaConnect. A router network
 /// interface is a network interface that can be associated with one or more
 /// router inputs and outputs.
+///
+/// @nodoc
 class RouterNetworkInterface {
   /// The Amazon Resource Name (ARN) of the router network interface.
   final String arn;
@@ -7749,6 +7904,7 @@ class RouterNetworkInterface {
   }
 }
 
+/// @nodoc
 class RouterNetworkInterfaceState {
   static const creating = RouterNetworkInterfaceState._('CREATING');
   static const active = RouterNetworkInterfaceState._('ACTIVE');
@@ -7785,6 +7941,7 @@ class RouterNetworkInterfaceState {
   String toString() => value;
 }
 
+/// @nodoc
 class RouterNetworkInterfaceType {
   static const public = RouterNetworkInterfaceType._('PUBLIC');
   static const vpc = RouterNetworkInterfaceType._('VPC');
@@ -7811,6 +7968,8 @@ class RouterNetworkInterfaceType {
 }
 
 /// The configuration settings for a router network interface.
+///
+/// @nodoc
 class RouterNetworkInterfaceConfiguration {
   final PublicRouterNetworkInterfaceConfiguration? public;
   final VpcRouterNetworkInterfaceConfiguration? vpc;
@@ -7846,6 +8005,8 @@ class RouterNetworkInterfaceConfiguration {
 
 /// The configuration settings for a public router network interface, including
 /// the list of allowed CIDR blocks.
+///
+/// @nodoc
 class PublicRouterNetworkInterfaceConfiguration {
   /// The list of allowed CIDR blocks for the public router network interface.
   final List<PublicRouterNetworkInterfaceRule> allowRules;
@@ -7875,6 +8036,8 @@ class PublicRouterNetworkInterfaceConfiguration {
 
 /// The configuration settings for a router network interface within a VPC,
 /// including the security group IDs and subnet ID.
+///
+/// @nodoc
 class VpcRouterNetworkInterfaceConfiguration {
   /// The IDs of the security groups to associate with the router network
   /// interface within the VPC.
@@ -7912,6 +8075,8 @@ class VpcRouterNetworkInterfaceConfiguration {
 
 /// A rule that allows a specific CIDR block to access the public router network
 /// interface.
+///
+/// @nodoc
 class PublicRouterNetworkInterfaceRule {
   /// The CIDR block that is allowed to access the public router network
   /// interface.
@@ -7938,6 +8103,8 @@ class PublicRouterNetworkInterfaceRule {
 /// A summary of a router network interface, including its name, type, ARN, ID,
 /// associated input/output counts, state, and other key details. This structure
 /// is used in the response of the ListRouterNetworkInterfaces operation.
+///
+/// @nodoc
 class ListedRouterNetworkInterface {
   /// The Amazon Resource Name (ARN) of the router network interface.
   final String arn;
@@ -8027,6 +8194,8 @@ class ListedRouterNetworkInterface {
 }
 
 /// A filter that can be used to retrieve a list of router network interfaces.
+///
+/// @nodoc
 class RouterNetworkInterfaceFilter {
   /// The names of the router network interfaces to include in the filter.
   final List<String>? nameContains;
@@ -8060,6 +8229,8 @@ class RouterNetworkInterfaceFilter {
 /// An error that occurred when retrieving multiple router inputs in the
 /// BatchGetRouterInput operation, including the ARN, error code, and error
 /// message.
+///
+/// @nodoc
 class BatchGetRouterInputError {
   /// The Amazon Resource Name (ARN) of the router input for which the error
   /// occurred.
@@ -8099,6 +8270,8 @@ class BatchGetRouterInputError {
 
 /// A router input in AWS Elemental MediaConnect. A router input is a source of
 /// media content that can be routed to one or more router outputs.
+///
+/// @nodoc
 class RouterInput {
   /// The Amazon Resource Name (ARN) of the router input.
   final String arn;
@@ -8301,6 +8474,7 @@ class RouterInput {
   }
 }
 
+/// @nodoc
 class RouterInputState {
   static const creating = RouterInputState._('CREATING');
   static const standby = RouterInputState._('STANDBY');
@@ -8344,6 +8518,7 @@ class RouterInputState {
   String toString() => value;
 }
 
+/// @nodoc
 class RouterInputType {
   static const standard = RouterInputType._('STANDARD');
   static const failover = RouterInputType._('FAILOVER');
@@ -8378,6 +8553,8 @@ class RouterInputType {
 }
 
 /// The configuration settings for a router input.
+///
+/// @nodoc
 class RouterInputConfiguration {
   final FailoverRouterInputConfiguration? failover;
   final MediaConnectFlowRouterInputConfiguration? mediaConnectFlow;
@@ -8434,6 +8611,7 @@ class RouterInputConfiguration {
   }
 }
 
+/// @nodoc
 class RouterInputTier {
   static const input_100 = RouterInputTier._('INPUT_100');
   static const input_50 = RouterInputTier._('INPUT_50');
@@ -8460,6 +8638,8 @@ class RouterInputTier {
 }
 
 /// The transit encryption settings for a router input.
+///
+/// @nodoc
 class RouterInputTransitEncryption {
   /// Contains the configuration details for the encryption key used in transit
   /// encryption, including the key source and associated parameters.
@@ -8496,6 +8676,8 @@ class RouterInputTransitEncryption {
 }
 
 /// Configuration details for the router input stream.
+///
+/// @nodoc
 class RouterInputStreamDetails {
   final FailoverRouterInputStreamDetails? failover;
   final MediaConnectFlowRouterInputStreamDetails? mediaConnectFlow;
@@ -8553,6 +8735,8 @@ class RouterInputStreamDetails {
 }
 
 /// Configuration details for a standard router input stream type.
+///
+/// @nodoc
 class StandardRouterInputStreamDetails {
   /// The source IP address for the standard router input stream.
   final String? sourceIpAddress;
@@ -8577,6 +8761,8 @@ class StandardRouterInputStreamDetails {
 
 /// Configuration details for a MediaLive channel when used as a router input
 /// source.
+///
+/// @nodoc
 class MediaLiveChannelRouterInputStreamDetails {
   MediaLiveChannelRouterInputStreamDetails();
 
@@ -8592,6 +8778,8 @@ class MediaLiveChannelRouterInputStreamDetails {
 
 /// Configuration details for a failover router input that can automatically
 /// switch between two sources.
+///
+/// @nodoc
 class FailoverRouterInputStreamDetails {
   /// Configuration details for the secondary source (index 1) in the failover
   /// setup.
@@ -8631,6 +8819,8 @@ class FailoverRouterInputStreamDetails {
 
 /// Configuration details for a MediaConnect flow when used as a router input
 /// source.
+///
+/// @nodoc
 class MediaConnectFlowRouterInputStreamDetails {
   MediaConnectFlowRouterInputStreamDetails();
 
@@ -8646,6 +8836,8 @@ class MediaConnectFlowRouterInputStreamDetails {
 
 /// Configuration details for a merge router input that combines two input
 /// sources.
+///
+/// @nodoc
 class MergeRouterInputStreamDetails {
   /// Configuration details for the second source (index 1) in the merge setup.
   final MergeRouterInputIndexedStreamDetails sourceIndexOneStreamDetails;
@@ -8682,6 +8874,8 @@ class MergeRouterInputStreamDetails {
 }
 
 /// Configuration details for an indexed stream in a merge router input setup.
+///
+/// @nodoc
 class MergeRouterInputIndexedStreamDetails {
   /// The index number (0 or 1) assigned to this source in the merge
   /// configuration.
@@ -8715,6 +8909,8 @@ class MergeRouterInputIndexedStreamDetails {
 
 /// Configuration details for an indexed stream in a failover router input
 /// setup.
+///
+/// @nodoc
 class FailoverRouterInputIndexedStreamDetails {
   /// The index number (0 or 1) assigned to this source in the failover
   /// configuration.
@@ -8746,6 +8942,7 @@ class FailoverRouterInputIndexedStreamDetails {
   }
 }
 
+/// @nodoc
 class RouterInputTransitEncryptionKeyType {
   static const secretsManager =
       RouterInputTransitEncryptionKeyType._('SECRETS_MANAGER');
@@ -8773,6 +8970,8 @@ class RouterInputTransitEncryptionKeyType {
 }
 
 /// Defines the configuration settings for transit encryption keys.
+///
+/// @nodoc
 class RouterInputTransitEncryptionKeyConfiguration {
   final AutomaticEncryptionKeyConfiguration? automatic;
   final SecretsManagerEncryptionKeyConfiguration? secretsManager;
@@ -8807,6 +9006,8 @@ class RouterInputTransitEncryptionKeyConfiguration {
 }
 
 /// A message associated with a router input, including a code and a message.
+///
+/// @nodoc
 class RouterInputMessage {
   /// The code associated with the router input message.
   final String code;
@@ -8839,6 +9040,8 @@ class RouterInputMessage {
 /// The configuration settings for a standard router input, including the
 /// protocol, protocol-specific configuration, network interface, and
 /// availability zone.
+///
+/// @nodoc
 class StandardRouterInputConfiguration {
   /// The Amazon Resource Name (ARN) of the network interface associated with the
   /// standard router input.
@@ -8882,6 +9085,8 @@ class StandardRouterInputConfiguration {
 
 /// Configuration settings for connecting a router input to a MediaLive channel
 /// output.
+///
+/// @nodoc
 class MediaLiveChannelRouterInputConfiguration {
   final MediaLiveTransitEncryption sourceTransitDecryption;
 
@@ -8933,6 +9138,8 @@ class MediaLiveChannelRouterInputConfiguration {
 
 /// Configuration settings for a failover router input that allows switching
 /// between two input sources.
+///
+/// @nodoc
 class FailoverRouterInputConfiguration {
   /// The ARN of the network interface to use for this failover router input.
   final String networkInterfaceArn;
@@ -8987,6 +9194,8 @@ class FailoverRouterInputConfiguration {
 }
 
 /// Configuration settings for connecting a router input to a flow output.
+///
+/// @nodoc
 class MediaConnectFlowRouterInputConfiguration {
   /// The decryption configuration for the flow source when connected to this
   /// router input.
@@ -9029,6 +9238,8 @@ class MediaConnectFlowRouterInputConfiguration {
 
 /// Configuration settings for a merge router input that combines two input
 /// sources.
+///
+/// @nodoc
 class MergeRouterInputConfiguration {
   /// The time window in milliseconds for merging the two input sources.
   final int mergeRecoveryWindowMilliseconds;
@@ -9074,6 +9285,8 @@ class MergeRouterInputConfiguration {
 }
 
 /// Protocol configuration settings for merge router inputs.
+///
+/// @nodoc
 class MergeRouterInputProtocolConfiguration {
   final RistRouterInputConfiguration? rist;
   final RtpRouterInputConfiguration? rtp;
@@ -9110,6 +9323,8 @@ class MergeRouterInputProtocolConfiguration {
 /// The configuration settings for a Router Input using the RTP (Real-Time
 /// Transport Protocol) protocol, including the port and forward error
 /// correction state.
+///
+/// @nodoc
 class RtpRouterInputConfiguration {
   /// The port number used for the RTP protocol in the router input configuration.
   final int port;
@@ -9145,6 +9360,8 @@ class RtpRouterInputConfiguration {
 /// The configuration settings for a router input using the RIST (Reliable
 /// Internet Stream Transport) protocol, including the port and recovery
 /// latency.
+///
+/// @nodoc
 class RistRouterInputConfiguration {
   /// The port number used for the RIST protocol in the router input
   /// configuration.
@@ -9177,6 +9394,7 @@ class RistRouterInputConfiguration {
   }
 }
 
+/// @nodoc
 class FailoverInputSourcePriorityMode {
   static const noPriority = FailoverInputSourcePriorityMode._('NO_PRIORITY');
   static const primarySecondary =
@@ -9204,6 +9422,8 @@ class FailoverInputSourcePriorityMode {
 }
 
 /// Protocol configuration settings for failover router inputs.
+///
+/// @nodoc
 class FailoverRouterInputProtocolConfiguration {
   final RistRouterInputConfiguration? rist;
   final RtpRouterInputConfiguration? rtp;
@@ -9256,6 +9476,8 @@ class FailoverRouterInputProtocolConfiguration {
 /// The configuration settings for a router input using the SRT (Secure Reliable
 /// Transport) protocol in listener mode, including the port, minimum latency,
 /// and decryption key configuration.
+///
+/// @nodoc
 class SrtListenerRouterInputConfiguration {
   /// The minimum latency in milliseconds for the SRT protocol in listener mode.
   final int minimumLatencyMilliseconds;
@@ -9302,6 +9524,8 @@ class SrtListenerRouterInputConfiguration {
 /// The configuration settings for a router input using the SRT (Secure Reliable
 /// Transport) protocol in caller mode, including the source address and port,
 /// minimum latency, stream ID, and decryption key configuration.
+///
+/// @nodoc
 class SrtCallerRouterInputConfiguration {
   /// The minimum latency in milliseconds for the SRT protocol in caller mode.
   final int minimumLatencyMilliseconds;
@@ -9361,6 +9585,8 @@ class SrtCallerRouterInputConfiguration {
 
 /// Contains the configuration settings for decrypting SRT streams, including
 /// the encryption key details and decryption parameters.
+///
+/// @nodoc
 class SrtDecryptionConfiguration {
   /// Specifies the encryption key configuration used for decrypting SRT streams,
   /// including the key source and associated credentials.
@@ -9386,6 +9612,7 @@ class SrtDecryptionConfiguration {
   }
 }
 
+/// @nodoc
 class MediaLiveChannelPipelineId {
   static const pipeline_0 = MediaLiveChannelPipelineId._('PIPELINE_0');
   static const pipeline_1 = MediaLiveChannelPipelineId._('PIPELINE_1');
@@ -9412,6 +9639,8 @@ class MediaLiveChannelPipelineId {
 }
 
 /// The protocol configuration settings for a router input.
+///
+/// @nodoc
 class RouterInputProtocolConfiguration {
   final RistRouterInputConfiguration? rist;
   final RtpRouterInputConfiguration? rtp;
@@ -9460,6 +9689,7 @@ class RouterInputProtocolConfiguration {
   }
 }
 
+/// @nodoc
 class RouterInputProtocol {
   static const rtp = RouterInputProtocol._('RTP');
   static const rist = RouterInputProtocol._('RIST');
@@ -9489,6 +9719,8 @@ class RouterInputProtocol {
 
 /// The details of a thumbnail associated with a router input, including the
 /// thumbnail messages, the thumbnail image, the timecode, and the timestamp.
+///
+/// @nodoc
 class RouterInputThumbnailDetails {
   /// The messages associated with the router input thumbnail.
   final List<RouterInputMessage> thumbnailMessages;
@@ -9536,6 +9768,8 @@ class RouterInputThumbnailDetails {
 }
 
 /// Detailed metadata information about a router input source.
+///
+/// @nodoc
 class RouterInputSourceMetadataDetails {
   /// Collection of metadata messages associated with the router input source.
   final List<RouterInputMessage> sourceMetadataMessages;
@@ -9582,6 +9816,8 @@ class RouterInputSourceMetadataDetails {
 
 /// Metadata information associated with the router input, including stream
 /// details and connection state.
+///
+/// @nodoc
 class RouterInputMetadata {
   final TransportMediaInfo? transportStreamMediaInfo;
 
@@ -9608,6 +9844,8 @@ class RouterInputMetadata {
 }
 
 /// The metadata of the transport stream in the current flow's source.
+///
+/// @nodoc
 class TransportMediaInfo {
   /// The list of transport stream programs in the current flow's source.
   final List<TransportStreamProgram> programs;
@@ -9635,6 +9873,8 @@ class TransportMediaInfo {
 }
 
 /// The metadata of a single transport stream program.
+///
+/// @nodoc
 class TransportStreamProgram {
   /// The Program Clock Reference (PCR) Packet ID (PID) as it is reported in the
   /// Program Association Table.
@@ -9692,6 +9932,8 @@ class TransportStreamProgram {
 }
 
 /// The metadata of an elementary transport stream.
+///
+/// @nodoc
 class TransportStream {
   /// The Packet ID (PID) as it is reported in the Program Map Table.
   final int pid;
@@ -9767,6 +10009,8 @@ class TransportStream {
 }
 
 /// The frame resolution used by the video stream.
+///
+/// @nodoc
 class FrameResolution {
   /// The number of pixels in the height of the video frame.
   final int frameHeight;
@@ -9799,6 +10043,8 @@ class FrameResolution {
 /// A summary of a router input, including its name, type, ARN, ID, state, and
 /// other key details. This structure is used in the response of the
 /// ListRouterInputs operation.
+///
+/// @nodoc
 class ListedRouterInput {
   /// The Amazon Resource Name (ARN) of the router input.
   final String arn;
@@ -9938,6 +10184,8 @@ class ListedRouterInput {
 }
 
 /// A filter that can be used to retrieve a list of router inputs.
+///
+/// @nodoc
 class RouterInputFilter {
   /// The types of router inputs to include in the filter.
   final List<RouterInputType>? inputTypes;
@@ -9990,6 +10238,8 @@ class RouterInputFilter {
 /// bandwidth in your reservation. If you use more outbound bandwidth than the
 /// agreed upon amount in a single month, the overage is charged at the
 /// on-demand rate.
+///
+/// @nodoc
 class Reservation {
   /// The type of currency that is used for billing. The currencyCode used for
   /// your reservation is US dollars.
@@ -10113,6 +10363,7 @@ class Reservation {
   }
 }
 
+/// @nodoc
 class DurationUnits {
   static const months = DurationUnits._('MONTHS');
 
@@ -10136,6 +10387,7 @@ class DurationUnits {
   String toString() => value;
 }
 
+/// @nodoc
 class PriceUnits {
   static const hourly = PriceUnits._('HOURLY');
 
@@ -10158,6 +10410,7 @@ class PriceUnits {
   String toString() => value;
 }
 
+/// @nodoc
 class ReservationState {
   static const active = ReservationState._('ACTIVE');
   static const expired = ReservationState._('EXPIRED');
@@ -10185,6 +10438,8 @@ class ReservationState {
 }
 
 /// A definition of what is being billed for, including the type and amount.
+///
+/// @nodoc
 class ResourceSpecification {
   /// The type of resource and the unit that is being billed for.
   final ResourceType resourceType;
@@ -10215,6 +10470,7 @@ class ResourceSpecification {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const mbpsOutboundBandwidth =
       ResourceType._('Mbps_Outbound_Bandwidth');
@@ -10240,6 +10496,8 @@ class ResourceType {
 
 /// A savings plan that reserves a certain amount of outbound bandwidth usage at
 /// a discounted rate each month over a period of time.
+///
+/// @nodoc
 class Offering {
   /// The type of currency that is used for billing. The currencyCode used for all
   /// reservations is US dollars.
@@ -10319,6 +10577,8 @@ class Offering {
 }
 
 /// A summary of a gateway, including its name, ARN, and status.
+///
+/// @nodoc
 class ListedGateway {
   /// The Amazon Resource Name (ARN) of the gateway.
   final String gatewayArn;
@@ -10356,6 +10616,7 @@ class ListedGateway {
   }
 }
 
+/// @nodoc
 class GatewayState {
   static const creating = GatewayState._('CREATING');
   static const active = GatewayState._('ACTIVE');
@@ -10384,6 +10645,8 @@ class GatewayState {
 }
 
 /// The settings for a gateway, including its networks.
+///
+/// @nodoc
 class Gateway {
   /// The range of IP addresses that contribute content or initiate output
   /// requests for flows communicating with this gateway. These IP addresses
@@ -10456,6 +10719,8 @@ class Gateway {
 }
 
 /// The network settings for a gateway.
+///
+/// @nodoc
 class GatewayNetwork {
   /// A unique IP address range to use for this network. These IP addresses should
   /// be in the form of a Classless Inter-Domain Routing (CIDR) block; for
@@ -10489,6 +10754,8 @@ class GatewayNetwork {
 }
 
 /// The details of an error message.
+///
+/// @nodoc
 class MessageDetail {
   /// The error code.
   final String code;
@@ -10527,6 +10794,8 @@ class MessageDetail {
 }
 
 /// A summary of an instance.
+///
+/// @nodoc
 class ListedGatewayInstance {
   /// The Amazon Resource Name (ARN) of the gateway.
   final String gatewayArn;
@@ -10572,6 +10841,7 @@ class ListedGatewayInstance {
   }
 }
 
+/// @nodoc
 class InstanceState {
   static const registering = InstanceState._('REGISTERING');
   static const active = InstanceState._('ACTIVE');
@@ -10607,6 +10877,7 @@ class InstanceState {
   String toString() => value;
 }
 
+/// @nodoc
 class BridgePlacement {
   static const available = BridgePlacement._('AVAILABLE');
   static const locked = BridgePlacement._('LOCKED');
@@ -10632,6 +10903,8 @@ class BridgePlacement {
 }
 
 /// The settings for an instance in a gateway.
+///
+/// @nodoc
 class GatewayInstance {
   /// The availability of the instance to host new bridges. The bridgePlacement
   /// property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be
@@ -10712,6 +10985,7 @@ class GatewayInstance {
   }
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const connected = ConnectionStatus._('CONNECTED');
   static const disconnected = ConnectionStatus._('DISCONNECTED');
@@ -10737,6 +11011,8 @@ class ConnectionStatus {
 }
 
 /// The settings for the source of the flow.
+///
+/// @nodoc
 class Source {
   /// The name of the source.
   final String name;
@@ -10947,6 +11223,8 @@ class Source {
 }
 
 /// Encryption information.
+///
+/// @nodoc
 class Encryption {
   /// The ARN of the role that you created during setup (when you set up
   /// MediaConnect as a trusted entity).
@@ -11045,6 +11323,8 @@ class Encryption {
 
 /// Attributes related to the transport stream that are used in a source or
 /// output.
+///
+/// @nodoc
 class Transport {
   /// The protocol that is used by the source or output.
   /// <note>
@@ -11220,6 +11500,8 @@ class Transport {
 }
 
 /// The source configuration for cloud flows receiving a stream from a bridge.
+///
+/// @nodoc
 class GatewayBridgeSource {
   /// The ARN of the bridge feeding this flow.
   final String bridgeArn;
@@ -11253,6 +11535,7 @@ class GatewayBridgeSource {
   }
 }
 
+/// @nodoc
 class State {
   static const enabled = State._('ENABLED');
   static const disabled = State._('DISABLED');
@@ -11277,6 +11560,8 @@ class State {
 }
 
 /// The settings for attaching a VPC interface to an resource.
+///
+/// @nodoc
 class VpcInterfaceAttachment {
   /// The name of the VPC interface to use for this resource.
   final String? vpcInterfaceName;
@@ -11299,6 +11584,7 @@ class VpcInterfaceAttachment {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const zixiPush = Protocol._('zixi-push');
   static const rtpFec = Protocol._('rtp-fec');
@@ -11347,6 +11633,8 @@ class Protocol {
 
 /// The settings for the NDI® source. This includes the exact name of the
 /// upstream NDI sender that you want to connect to your source.
+///
+/// @nodoc
 class NdiSourceSettings {
   /// The exact name of an existing NDI sender that's registered with your
   /// discovery server. If included, the format of this name must be
@@ -11371,6 +11659,7 @@ class NdiSourceSettings {
   }
 }
 
+/// @nodoc
 class NdiOutputTimecodeSource {
   static const embeddedTimecode =
       NdiOutputTimecodeSource._('EMBEDDED_TIMECODE');
@@ -11399,6 +11688,8 @@ class NdiOutputTimecodeSource {
 
 /// The media stream that is associated with the source, and the parameters for
 /// that association.
+///
+/// @nodoc
 class MediaStreamSourceConfiguration {
   /// The format that was used to encode the data. For ancillary data streams, set
   /// the encoding name to smpte291. For audio streams, set the encoding name to
@@ -11443,6 +11734,7 @@ class MediaStreamSourceConfiguration {
   }
 }
 
+/// @nodoc
 class EncodingName {
   static const jxsv = EncodingName._('jxsv');
   static const raw = EncodingName._('raw');
@@ -11469,6 +11761,8 @@ class EncodingName {
 }
 
 /// The transport parameters that are associated with an incoming media stream.
+///
+/// @nodoc
 class InputConfiguration {
   /// The IP address that the flow listens on for incoming content for a media
   /// stream.
@@ -11510,6 +11804,8 @@ class InputConfiguration {
 
 /// The VPC interface that is used for the media stream associated with the
 /// source or output.
+///
+/// @nodoc
 class Interface {
   /// The name of the VPC interface.
   final String name;
@@ -11532,6 +11828,7 @@ class Interface {
   }
 }
 
+/// @nodoc
 class Algorithm {
   static const aes128 = Algorithm._('aes128');
   static const aes192 = Algorithm._('aes192');
@@ -11556,6 +11853,7 @@ class Algorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyType {
   static const speke = KeyType._('speke');
   static const staticKey = KeyType._('static-key');
@@ -11581,6 +11879,8 @@ class KeyType {
 }
 
 /// Information about the encryption of the flow.
+///
+/// @nodoc
 class UpdateEncryption {
   /// The type of algorithm that is used for the encryption (such as aes128,
   /// aes192, or aes256).
@@ -11663,6 +11963,8 @@ class UpdateEncryption {
 }
 
 /// The source configuration for cloud flows receiving a stream from a bridge.
+///
+/// @nodoc
 class UpdateGatewayBridgeSourceRequest {
   /// The ARN of the bridge feeding this flow.
   final String? bridgeArn;
@@ -11688,6 +11990,8 @@ class UpdateGatewayBridgeSourceRequest {
 
 /// The media stream that you want to associate with the source, and the
 /// parameters for that association.
+///
+/// @nodoc
 class MediaStreamSourceConfigurationRequest {
   /// The format that was used to encode the data. For ancillary data streams, set
   /// the encoding name to smpte291. For audio streams, set the encoding name to
@@ -11722,6 +12026,8 @@ class MediaStreamSourceConfigurationRequest {
 
 /// The transport parameters that you want to associate with an incoming media
 /// stream.
+///
+/// @nodoc
 class InputConfigurationRequest {
   /// The port that you want the flow to listen on for an incoming media stream.
   final int inputPort;
@@ -11746,6 +12052,8 @@ class InputConfigurationRequest {
 
 /// The VPC interface that you want to designate where the media stream is
 /// coming from or going to.
+///
+/// @nodoc
 class InterfaceRequest {
   /// The name of the VPC interface.
   final String name;
@@ -11763,6 +12071,8 @@ class InterfaceRequest {
 }
 
 /// The settings for an output.
+///
+/// @nodoc
 class Output {
   /// The name of the output. This value must be unique within the current flow.
   final String name;
@@ -11983,6 +12293,7 @@ class Output {
   }
 }
 
+/// @nodoc
 class OutputStatus {
   static const enabled = OutputStatus._('ENABLED');
   static const disabled = OutputStatus._('DISABLED');
@@ -12008,6 +12319,8 @@ class OutputStatus {
 
 /// The media stream that is associated with the output, and the parameters for
 /// that association.
+///
+/// @nodoc
 class MediaStreamOutputConfiguration {
   /// The format that was used to encode the data. For ancillary data streams, set
   /// the encoding name to smpte291. For audio streams, set the encoding name to
@@ -12067,6 +12380,8 @@ class MediaStreamOutputConfiguration {
 
 /// A collection of parameters that determine how MediaConnect will convert the
 /// content. These fields only apply to outputs on flows that have a CDI source.
+///
+/// @nodoc
 class EncodingParameters {
   /// A value that is used to calculate compression for an output. The bitrate of
   /// the output is calculated as follows: Output bitrate = (1 /
@@ -12104,6 +12419,7 @@ class EncodingParameters {
   }
 }
 
+/// @nodoc
 class EncoderProfile {
   static const main = EncoderProfile._('main');
   static const high = EncoderProfile._('high');
@@ -12130,6 +12446,8 @@ class EncoderProfile {
 
 /// The transport parameters that you want to associate with an outbound media
 /// stream.
+///
+/// @nodoc
 class DestinationConfiguration {
   /// The IP address where you want MediaConnect to send contents of the media
   /// stream.
@@ -12183,6 +12501,8 @@ class DestinationConfiguration {
 
 /// The media stream that you want to associate with the output, and the
 /// parameters for that association.
+///
+/// @nodoc
 class MediaStreamOutputConfigurationRequest {
   /// The format that will be used to encode the data. For ancillary data streams,
   /// set the encoding name to smpte291. For audio streams, set the encoding name
@@ -12224,6 +12544,8 @@ class MediaStreamOutputConfigurationRequest {
 
 /// A collection of parameters that determine how MediaConnect will convert the
 /// content. These fields only apply to outputs on flows that have a CDI source.
+///
+/// @nodoc
 class EncodingParametersRequest {
   /// A value that is used to calculate compression for an output. The bitrate of
   /// the output is calculated as follows: Output bitrate = (1 /
@@ -12255,6 +12577,8 @@ class EncodingParametersRequest {
 }
 
 /// The definition of a media stream that you want to associate with the output.
+///
+/// @nodoc
 class DestinationConfigurationRequest {
   /// The IP address where you want MediaConnect to send contents of the media
   /// stream.
@@ -12290,6 +12614,8 @@ class DestinationConfigurationRequest {
 /// audio, or ancillary data. After you add a media stream to your flow, you can
 /// associate it with sources and outputs that use the ST 2110 JPEG XS or CDI
 /// protocol.
+///
+/// @nodoc
 class MediaStream {
   /// The format type number (sometimes referred to as RTP payload type) of the
   /// media stream. MediaConnect assigns this value to the media stream. For ST
@@ -12369,6 +12695,8 @@ class MediaStream {
 }
 
 /// Attributes that are related to the media stream.
+///
+/// @nodoc
 class MediaStreamAttributes {
   /// The settings that you want to use to define the media stream.
   final Fmtp fmtp;
@@ -12399,6 +12727,7 @@ class MediaStreamAttributes {
   }
 }
 
+/// @nodoc
 class MediaStreamType {
   static const video = MediaStreamType._('video');
   static const audio = MediaStreamType._('audio');
@@ -12425,6 +12754,8 @@ class MediaStreamType {
 }
 
 /// A set of parameters that define the media stream.
+///
+/// @nodoc
 class Fmtp {
   /// The format of the audio channel.
   final String? channelOrder;
@@ -12491,6 +12822,7 @@ class Fmtp {
   }
 }
 
+/// @nodoc
 class Colorimetry {
   static const bt601 = Colorimetry._('BT601');
   static const bt709 = Colorimetry._('BT709');
@@ -12519,6 +12851,7 @@ class Colorimetry {
   String toString() => value;
 }
 
+/// @nodoc
 class Range {
   static const narrow = Range._('NARROW');
   static const full = Range._('FULL');
@@ -12543,6 +12876,7 @@ class Range {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanMode {
   static const progressive = ScanMode._('progressive');
   static const interlace = ScanMode._('interlace');
@@ -12568,6 +12902,7 @@ class ScanMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Tcs {
   static const sdr = Tcs._('SDR');
   static const pq = Tcs._('PQ');
@@ -12609,6 +12944,8 @@ class Tcs {
 }
 
 /// Attributes that are related to the media stream.
+///
+/// @nodoc
 class MediaStreamAttributesRequest {
   /// The settings that you want to use to define the media stream.
   final FmtpRequest? fmtp;
@@ -12632,6 +12969,8 @@ class MediaStreamAttributesRequest {
 }
 
 /// The settings that you want to use to define the media stream.
+///
+/// @nodoc
 class FmtpRequest {
   /// The format of the audio channel.
   final String? channelOrder;
@@ -12688,6 +13027,8 @@ class FmtpRequest {
 }
 
 /// The settings for a flow entitlement.
+///
+/// @nodoc
 class Entitlement {
   /// The ARN of the entitlement.
   final String entitlementArn;
@@ -12766,6 +13107,7 @@ class Entitlement {
   }
 }
 
+/// @nodoc
 class EntitlementStatus {
   static const enabled = EntitlementStatus._('ENABLED');
   static const disabled = EntitlementStatus._('DISABLED');
@@ -12790,6 +13132,7 @@ class EntitlementStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const standby = Status._('STANDBY');
   static const active = Status._('ACTIVE');
@@ -12827,6 +13170,8 @@ class Status {
 }
 
 /// The entitlements that you want to grant on a flow.
+///
+/// @nodoc
 class GrantEntitlementRequest {
   /// The Amazon Web Services account IDs that you want to share your content
   /// with. The receiving accounts (subscribers) will be allowed to create their
@@ -12892,6 +13237,8 @@ class GrantEntitlementRequest {
 
 /// The details of the thumbnail, including thumbnail base64 string, timecode
 /// and the time when thumbnail was generated.
+///
+/// @nodoc
 class ThumbnailDetails {
   /// The ARN of the flow that DescribeFlowSourceThumbnail was performed on.
   final String flowArn;
@@ -12949,6 +13296,8 @@ class ThumbnailDetails {
 /// flow. This includes the currently active NDI source, a list of all
 /// discovered NDI senders, metadata about the media streams, and any relevant
 /// status messages.
+///
+/// @nodoc
 class NdiSourceMetadataInfo {
   /// A list of the available upstream NDI senders aggregated from all of your
   /// configured discovery servers.
@@ -13007,6 +13356,8 @@ class NdiSourceMetadataInfo {
 }
 
 /// Information about a single NDI® sender, including its name.
+///
+/// @nodoc
 class NdiSourceInfo {
   /// The name of the upstream NDI sender.
   final String sourceName;
@@ -13031,6 +13382,8 @@ class NdiSourceInfo {
 
 /// Metadata about the audio and video media that is part of the NDI® source
 /// content. This includes details about the individual media streams.
+///
+/// @nodoc
 class NdiMediaInfo {
   /// A list of the individual media streams that make up the NDI source. This
   /// includes details about each stream's codec, resolution, frame rate, audio
@@ -13061,6 +13414,8 @@ class NdiMediaInfo {
 /// Detailed information about a single media stream that is part of an NDI®
 /// source. This includes details about the stream type, codec, resolution,
 /// frame rate, audio channels, and sample rate.
+///
+/// @nodoc
 class NdiMediaStreamInfo {
   /// The codec used for the media stream. For NDI sources, use
   /// <code>speed-hq</code>.
@@ -13143,6 +13498,8 @@ class NdiMediaStreamInfo {
 }
 
 /// The settings for a VPC source.
+///
+/// @nodoc
 class VpcInterface {
   /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
   final String name;
@@ -13207,6 +13564,7 @@ class VpcInterface {
   }
 }
 
+/// @nodoc
 class NetworkInterfaceType {
   static const ena = NetworkInterfaceType._('ena');
   static const efa = NetworkInterfaceType._('efa');
@@ -13233,6 +13591,8 @@ class NetworkInterfaceType {
 }
 
 /// The details of the VPC interfaces that you want to add to the flow.
+///
+/// @nodoc
 class VpcInterfaceRequest {
   /// The name for the VPC interface. This name must be unique within the flow.
   final String name;
@@ -13290,6 +13650,8 @@ class VpcInterfaceRequest {
 }
 
 /// The settings for the source of the flow.
+///
+/// @nodoc
 class SetSourceRequest {
   /// The type of encryption that is used on the content ingested from this
   /// source. Allowable encryption types: static-key.
@@ -13472,6 +13834,8 @@ class SetSourceRequest {
 }
 
 /// The source configuration for cloud flows receiving a stream from a bridge.
+///
+/// @nodoc
 class SetGatewayBridgeSourceRequest {
   /// The ARN of the bridge feeding this flow.
   final String bridgeArn;
@@ -13496,6 +13860,8 @@ class SetGatewayBridgeSourceRequest {
 }
 
 /// A request to add an output to a flow.
+///
+/// @nodoc
 class AddOutputRequest {
   /// The range of IP addresses that should be allowed to initiate output requests
   /// to this flow. These IP addresses should be in the form of a Classless
@@ -13681,6 +14047,8 @@ class AddOutputRequest {
 }
 
 /// The media stream that you want to add to the flow.
+///
+/// @nodoc
 class AddMediaStreamRequest {
   /// A unique identifier for the media stream.
   final int mediaStreamId;
@@ -13743,6 +14111,8 @@ class AddMediaStreamRequest {
 }
 
 /// A summary of a flow, including its ARN, Availability Zone, and source type.
+///
+/// @nodoc
 class ListedFlow {
   /// The Availability Zone that the flow was created in.
   final String availabilityZone;
@@ -13812,6 +14182,7 @@ class ListedFlow {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const owned = SourceType._('OWNED');
   static const entitled = SourceType._('ENTITLED');
@@ -13836,6 +14207,8 @@ class SourceType {
 }
 
 /// The maintenance setting of a flow.
+///
+/// @nodoc
 class Maintenance {
   /// A day of a week when the maintenance will happen. Use
   /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
@@ -13887,6 +14260,7 @@ class Maintenance {
   }
 }
 
+/// @nodoc
 class MaintenanceDay {
   static const monday = MaintenanceDay._('Monday');
   static const tuesday = MaintenanceDay._('Tuesday');
@@ -13925,6 +14299,8 @@ class MaintenanceDay {
 }
 
 /// The settings for a flow, including its source, outputs, and entitlements.
+///
+/// @nodoc
 class Flow {
   /// The Availability Zone that you want to create the flow in. These options are
   /// limited to the Availability Zones within the current Amazon Web Services
@@ -14105,6 +14481,8 @@ class Flow {
 }
 
 /// The settings for source failover.
+///
+/// @nodoc
 class FailoverConfig {
   /// The type of failover you choose for this flow. MERGE combines the source
   /// streams into a single stream, allowing graceful recovery from any
@@ -14158,6 +14536,8 @@ class FailoverConfig {
 }
 
 /// The settings for source monitoring.
+///
+/// @nodoc
 class MonitoringConfig {
   /// Contains the settings for audio stream metrics monitoring.
   final List<AudioMonitoringSetting>? audioMonitoringSettings;
@@ -14215,6 +14595,7 @@ class MonitoringConfig {
   }
 }
 
+/// @nodoc
 class FlowSize {
   static const medium = FlowSize._('MEDIUM');
   static const large = FlowSize._('LARGE');
@@ -14240,6 +14621,8 @@ class FlowSize {
 }
 
 /// Specifies the configuration settings for NDI sources and outputs.
+///
+/// @nodoc
 class NdiConfig {
   /// A prefix for the names of the NDI sources that the flow creates. If a custom
   /// name isn't specified, MediaConnect generates a unique 12-character ID as the
@@ -14292,6 +14675,8 @@ class NdiConfig {
 /// The encoding configuration to apply to the NDI® source when transcoding it
 /// to a transport stream for downstream distribution. You can choose between
 /// several predefined encoding profiles based on common use cases.
+///
+/// @nodoc
 class EncodingConfig {
   /// The encoding profile to use when transcoding the NDI source content to a
   /// transport stream. You can change this value while the flow is running.
@@ -14329,6 +14714,7 @@ class EncodingConfig {
   }
 }
 
+/// @nodoc
 class EncodingProfile {
   static const distributionH264Default =
       EncodingProfile._('DISTRIBUTION_H264_DEFAULT');
@@ -14355,6 +14741,7 @@ class EncodingProfile {
   String toString() => value;
 }
 
+/// @nodoc
 class NdiState {
   static const enabled = NdiState._('ENABLED');
   static const disabled = NdiState._('DISABLED');
@@ -14380,6 +14767,8 @@ class NdiState {
 
 /// Specifies the configuration settings for individual NDI® discovery servers.
 /// A maximum of 3 servers is allowed.
+///
+/// @nodoc
 class NdiDiscoveryServerConfig {
   /// The unique network address of the NDI discovery server.
   final String discoveryServerAddress;
@@ -14419,6 +14808,7 @@ class NdiDiscoveryServerConfig {
   }
 }
 
+/// @nodoc
 class ThumbnailState {
   static const enabled = ThumbnailState._('ENABLED');
   static const disabled = ThumbnailState._('DISABLED');
@@ -14443,6 +14833,7 @@ class ThumbnailState {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentQualityAnalysisState {
   static const enabled = ContentQualityAnalysisState._('ENABLED');
   static const disabled = ContentQualityAnalysisState._('DISABLED');
@@ -14469,6 +14860,8 @@ class ContentQualityAnalysisState {
 }
 
 /// Specifies the configuration for video stream metrics monitoring.
+///
+/// @nodoc
 class VideoMonitoringSetting {
   /// Detects video frames that are black.
   final BlackFrames? blackFrames;
@@ -14503,6 +14896,8 @@ class VideoMonitoringSetting {
 }
 
 /// Configures settings for the <code>BlackFrames</code> metric.
+///
+/// @nodoc
 class BlackFrames {
   /// Indicates whether the <code>BlackFrames</code> metric is enabled or
   /// disabled..
@@ -14535,6 +14930,8 @@ class BlackFrames {
 }
 
 /// Configures settings for the <code>FrozenFrames</code> metric.
+///
+/// @nodoc
 class FrozenFrames {
   /// Indicates whether the <code>FrozenFrames</code> metric is enabled or
   /// disabled.
@@ -14567,6 +14964,8 @@ class FrozenFrames {
 }
 
 /// Specifies the configuration for audio stream metrics monitoring.
+///
+/// @nodoc
 class AudioMonitoringSetting {
   /// Detects periods of silence.
   final SilentAudio? silentAudio;
@@ -14592,6 +14991,8 @@ class AudioMonitoringSetting {
 }
 
 /// Configures settings for the <code>SilentAudio</code> metric.
+///
+/// @nodoc
 class SilentAudio {
   /// Indicates whether the <code>SilentAudio</code> metric is enabled or
   /// disabled.
@@ -14623,6 +15024,7 @@ class SilentAudio {
   }
 }
 
+/// @nodoc
 class FailoverMode {
   static const merge = FailoverMode._('MERGE');
   static const failover = FailoverMode._('FAILOVER');
@@ -14648,6 +15050,8 @@ class FailoverMode {
 
 /// The priority you want to assign to a source. You can have a primary stream
 /// and a backup stream or two equally prioritized streams.
+///
+/// @nodoc
 class SourcePriority {
   /// The name of the source you choose as the primary source for this flow.
   final String? primarySource;
@@ -14671,6 +15075,8 @@ class SourcePriority {
 }
 
 /// The settings for source failover.
+///
+/// @nodoc
 class UpdateFailoverConfig {
   /// The type of failover you choose for this flow. MERGE combines the source
   /// streams into a single stream, allowing graceful recovery from any
@@ -14711,6 +15117,8 @@ class UpdateFailoverConfig {
 }
 
 /// Update maintenance setting for a flow.
+///
+/// @nodoc
 class UpdateMaintenance {
   /// A day of a week when the maintenance will happen.
   final MaintenanceDay? maintenanceDay;
@@ -14744,6 +15152,8 @@ class UpdateMaintenance {
 }
 
 /// Messages that provide the state of the flow.
+///
+/// @nodoc
 class Messages {
   /// A list of errors that might have been generated from processes on this flow.
   final List<String> errors;
@@ -14770,6 +15180,8 @@ class Messages {
 }
 
 /// Create a maintenance setting for a flow.
+///
+/// @nodoc
 class AddMaintenance {
   /// A day of a week when the maintenance will happen.
   final MaintenanceDay maintenanceDay;
@@ -14800,6 +15212,7 @@ class AddMaintenance {
   }
 }
 
+/// @nodoc
 class DesiredState {
   static const active = DesiredState._('ACTIVE');
   static const standby = DesiredState._('STANDBY');
@@ -14825,6 +15238,8 @@ class DesiredState {
 }
 
 /// The bridge's source.
+///
+/// @nodoc
 class BridgeSource {
   /// The source of the associated flow.
   final BridgeFlowSource? flowSource;
@@ -14862,6 +15277,8 @@ class BridgeSource {
 
 /// The source of the bridge. A flow source originates in MediaConnect as an
 /// existing cloud flow.
+///
+/// @nodoc
 class BridgeFlowSource {
   /// The ARN of the cloud flow used as a source of this bridge.
   final String flowArn;
@@ -14910,6 +15327,8 @@ class BridgeFlowSource {
 }
 
 /// The source of the bridge. A network source originates at your premises.
+///
+/// @nodoc
 class BridgeNetworkSource {
   /// The network source multicast IP.
   final String multicastIp;
@@ -14976,6 +15395,8 @@ class BridgeNetworkSource {
 }
 
 /// The settings related to the multicast source.
+///
+/// @nodoc
 class MulticastSourceSettings {
   /// The IP address of the source for source-specific multicast (SSM).
   final String? multicastSourceIp;
@@ -14999,6 +15420,8 @@ class MulticastSourceSettings {
 }
 
 /// Update the flow source of the bridge.
+///
+/// @nodoc
 class UpdateBridgeFlowSourceRequest {
   /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource
   /// from which to delete tags.
@@ -15024,6 +15447,8 @@ class UpdateBridgeFlowSourceRequest {
 }
 
 /// Update the network source of the bridge.
+///
+/// @nodoc
 class UpdateBridgeNetworkSourceRequest {
   /// The network source multicast IP.
   final String? multicastIp;
@@ -15070,6 +15495,8 @@ class UpdateBridgeNetworkSourceRequest {
 }
 
 /// The output of the bridge.
+///
+/// @nodoc
 class BridgeOutput {
   /// The output of the associated flow.
   final BridgeFlowOutput? flowOutput;
@@ -15107,6 +15534,8 @@ class BridgeOutput {
 
 /// The output of the bridge. A flow output is delivered to the Amazon Web
 /// Services cloud.
+///
+/// @nodoc
 class BridgeFlowOutput {
   /// The Amazon Resource Number (ARN) of the cloud flow.
   final String flowArn;
@@ -15144,6 +15573,8 @@ class BridgeFlowOutput {
 }
 
 /// The output of the bridge. A network output is delivered to your premises.
+///
+/// @nodoc
 class BridgeNetworkOutput {
   /// The network output IP address.
   final String ipAddress;
@@ -15206,6 +15637,8 @@ class BridgeNetworkOutput {
 }
 
 /// Update an existing network output.
+///
+/// @nodoc
 class UpdateBridgeNetworkOutputRequest {
   /// The network output IP Address.
   final String? ipAddress;
@@ -15251,6 +15684,8 @@ class UpdateBridgeNetworkOutputRequest {
 }
 
 /// Add an output to a bridge.
+///
+/// @nodoc
 class AddBridgeSourceRequest {
   /// The source of the flow.
   final AddBridgeFlowSourceRequest? flowSource;
@@ -15274,6 +15709,8 @@ class AddBridgeSourceRequest {
 }
 
 /// Add a flow source to an existing bridge.
+///
+/// @nodoc
 class AddBridgeFlowSourceRequest {
   /// The Amazon Resource Number (ARN) of the flow to use as a source of this
   /// bridge.
@@ -15306,6 +15743,8 @@ class AddBridgeFlowSourceRequest {
 }
 
 /// Add a network source to an existing bridge.
+///
+/// @nodoc
 class AddBridgeNetworkSourceRequest {
   /// The network source multicast IP.
   final String multicastIp;
@@ -15359,6 +15798,8 @@ class AddBridgeNetworkSourceRequest {
 }
 
 /// Add outputs to the specified bridge.
+///
+/// @nodoc
 class AddBridgeOutputRequest {
   /// The network output of the bridge. A network output is delivered to your
   /// premises.
@@ -15377,6 +15818,8 @@ class AddBridgeOutputRequest {
 }
 
 /// Add a network output to an existing bridge.
+///
+/// @nodoc
 class AddBridgeNetworkOutputRequest {
   /// The network output IP Address.
   final String ipAddress;
@@ -15429,6 +15872,8 @@ class AddBridgeNetworkOutputRequest {
 }
 
 /// Displays details of the selected bridge.
+///
+/// @nodoc
 class ListedBridge {
   /// The ARN of the bridge.
   final String bridgeArn;
@@ -15480,6 +15925,7 @@ class ListedBridge {
   }
 }
 
+/// @nodoc
 class BridgeState {
   static const creating = BridgeState._('CREATING');
   static const standby = BridgeState._('STANDBY');
@@ -15530,6 +15976,8 @@ class BridgeState {
 /// Amazon Web Services cloud. A bridge can be used to send video from the
 /// Amazon Web Services cloud to your data center or from your data center to
 /// the Amazon Web Services cloud.
+///
+/// @nodoc
 class Bridge {
   /// The Amazon Resource Number (ARN) of the bridge.
   final String bridgeArn;
@@ -15642,6 +16090,8 @@ class Bridge {
 /// Create a bridge with the egress bridge type. An egress bridge is a
 /// cloud-to-ground bridge. The content comes from an existing MediaConnect flow
 /// and is delivered to your premises.
+///
+/// @nodoc
 class EgressGatewayBridge {
   /// The maximum expected bitrate (in bps) of the egress bridge.
   final int maxBitrate;
@@ -15674,6 +16124,8 @@ class EgressGatewayBridge {
 /// Create a bridge with the ingress bridge type. An ingress bridge is a
 /// ground-to-cloud bridge. The content originates at your premises and is
 /// delivered to the cloud.
+///
+/// @nodoc
 class IngressGatewayBridge {
   /// The maximum expected bitrate (in bps) of the ingress bridge.
   final int maxBitrate;
@@ -15711,6 +16163,8 @@ class IngressGatewayBridge {
 }
 
 /// Update an existing egress-type bridge.
+///
+/// @nodoc
 class UpdateEgressGatewayBridgeRequest {
   /// The maximum expected bitrate (in bps).
   final int? maxBitrate;
@@ -15728,6 +16182,8 @@ class UpdateEgressGatewayBridgeRequest {
 }
 
 /// Update an existing ingress-type bridge.
+///
+/// @nodoc
 class UpdateIngressGatewayBridgeRequest {
   /// The maximum expected bitrate (in bps).
   final int? maxBitrate;
@@ -15753,6 +16209,8 @@ class UpdateIngressGatewayBridgeRequest {
 /// Create a bridge with the egress bridge type. An egress bridge is a
 /// cloud-to-ground bridge. The content comes from an existing MediaConnect flow
 /// and is delivered to your premises.
+///
+/// @nodoc
 class AddEgressGatewayBridgeRequest {
   /// The maximum expected bitrate (in bps) of the egress bridge.
   final int maxBitrate;
@@ -15772,6 +16230,8 @@ class AddEgressGatewayBridgeRequest {
 /// Create a bridge with the ingress bridge type. An ingress bridge is a
 /// ground-to-cloud bridge. The content originates at your premises and is
 /// delivered to the cloud.
+///
+/// @nodoc
 class AddIngressGatewayBridgeRequest {
   /// The maximum expected bitrate (in bps) of the ingress bridge.
   final int maxBitrate;
@@ -15796,6 +16256,8 @@ class AddIngressGatewayBridgeRequest {
 
 /// An entitlement that has been granted to you from other Amazon Web Services
 /// accounts.
+///
+/// @nodoc
 class ListedEntitlement {
   /// The ARN of the entitlement.
   final String entitlementArn;
@@ -15836,41 +16298,49 @@ class ListedEntitlement {
   }
 }
 
+/// @nodoc
 class AddFlowOutputs420Exception extends _s.GenericAwsException {
   AddFlowOutputs420Exception({String? type, String? message})
       : super(type: type, code: 'AddFlowOutputs420Exception', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class CreateBridge420Exception extends _s.GenericAwsException {
   CreateBridge420Exception({String? type, String? message})
       : super(type: type, code: 'CreateBridge420Exception', message: message);
 }
 
+/// @nodoc
 class CreateFlow420Exception extends _s.GenericAwsException {
   CreateFlow420Exception({String? type, String? message})
       : super(type: type, code: 'CreateFlow420Exception', message: message);
 }
 
+/// @nodoc
 class CreateGateway420Exception extends _s.GenericAwsException {
   CreateGateway420Exception({String? type, String? message})
       : super(type: type, code: 'CreateGateway420Exception', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GrantFlowEntitlements420Exception extends _s.GenericAwsException {
   GrantFlowEntitlements420Exception({String? type, String? message})
       : super(
@@ -15879,17 +16349,20 @@ class GrantFlowEntitlements420Exception extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class RouterInputServiceQuotaExceededException extends _s.GenericAwsException {
   RouterInputServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -15898,6 +16371,7 @@ class RouterInputServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RouterNetworkInterfaceServiceQuotaExceededException
     extends _s.GenericAwsException {
   RouterNetworkInterfaceServiceQuotaExceededException(
@@ -15908,6 +16382,7 @@ class RouterNetworkInterfaceServiceQuotaExceededException
             message: message);
 }
 
+/// @nodoc
 class RouterOutputServiceQuotaExceededException extends _s.GenericAwsException {
   RouterOutputServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -15916,12 +16391,14 @@ class RouterOutputServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

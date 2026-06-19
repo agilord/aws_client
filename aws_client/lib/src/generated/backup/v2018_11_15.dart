@@ -3892,14 +3892,14 @@ class Backup {
   /// If used from an Amazon Web Services Organizations management account,
   /// passing <code>*</code> returns all jobs across the organization.
   ///
-  /// Pattern: <code>^[0-9]{12}$</code>
+  /// Pattern: <code>^\[0-9\]{12}$</code>
   ///
   /// Parameter [byBackupVaultName] :
   /// Returns only scan jobs that will be stored in the specified backup vault.
   /// Backup vaults are identified by names that are unique to the account used
   /// to create them and the Amazon Web Services Region where they are created.
   ///
-  /// Pattern: <code>^[a-zA-Z0-9\-\_\.]{2,50}$</code>
+  /// Pattern: <code>^\[a-zA-Z0-9\-\_\.\]{2,50}$</code>
   ///
   /// Parameter [byCompleteAfter] :
   /// Returns only scan jobs completed after a date expressed in Unix format and
@@ -3936,7 +3936,7 @@ class Backup {
   /// <code>S3</code>for Amazon Simple Storage Service (Amazon S3)
   /// </li>
   /// </ul>
-  /// Pattern: <code>^[a-zA-Z0-9\-\_\.]{1,50}$</code>
+  /// Pattern: <code>^\[a-zA-Z0-9\-\_\.\]{1,50}$</code>
   ///
   /// Parameter [byScanResultStatus] :
   /// Returns only the scan jobs for the specified scan results:
@@ -4943,7 +4943,7 @@ class Backup {
   /// are identified by names that are unique to the account used to create them
   /// and the Amazon Web Services Region where they are created.
   ///
-  /// Pattern: <code>^[a-zA-Z0-9\-\_]{2,50}$</code>
+  /// Pattern: <code>^\[a-zA-Z0-9\-\_\]{2,50}$</code>
   ///
   /// Parameter [iamRoleArn] :
   /// Specifies the IAM role ARN used to create the target recovery point; for
@@ -5091,7 +5091,7 @@ class Backup {
   /// Key-value pairs that are used to help organize your resources. You can
   /// assign your own metadata to the resources you create. For clarity, this is
   /// the structure to assign tags:
-  /// <code>[{"Key":"string","Value":"string"}]</code>.
+  /// <code>\[{"Key":"string","Value":"string"}\]</code>.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -5640,6 +5640,7 @@ class Backup {
   }
 }
 
+/// @nodoc
 class CancelLegalHoldOutput {
   CancelLegalHoldOutput();
 
@@ -5652,6 +5653,7 @@ class CancelLegalHoldOutput {
   }
 }
 
+/// @nodoc
 class CreateBackupPlanOutput {
   /// The settings for a resource type. This option is only available for Windows
   /// Volume Shadow Copy Service (VSS) backup jobs.
@@ -5714,6 +5716,7 @@ class CreateBackupPlanOutput {
   }
 }
 
+/// @nodoc
 class CreateBackupSelectionOutput {
   /// The ID of the backup plan.
   final String? backupPlanId;
@@ -5755,6 +5758,7 @@ class CreateBackupSelectionOutput {
   }
 }
 
+/// @nodoc
 class CreateBackupVaultOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -5800,6 +5804,7 @@ class CreateBackupVaultOutput {
   }
 }
 
+/// @nodoc
 class CreateFrameworkOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
@@ -5832,6 +5837,7 @@ class CreateFrameworkOutput {
   }
 }
 
+/// @nodoc
 class CreateLegalHoldOutput {
   /// The time when the legal hold was created.
   final DateTime? creationDate;
@@ -5902,6 +5908,7 @@ class CreateLegalHoldOutput {
   }
 }
 
+/// @nodoc
 class CreateLogicallyAirGappedBackupVaultOutput {
   /// The ARN (Amazon Resource Name) of the vault.
   final String? backupVaultArn;
@@ -5953,6 +5960,7 @@ class CreateLogicallyAirGappedBackupVaultOutput {
   }
 }
 
+/// @nodoc
 class CreateReportPlanOutput {
   /// The date and time a backup vault is created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationTime</code> is accurate to
@@ -5994,6 +6002,7 @@ class CreateReportPlanOutput {
   }
 }
 
+/// @nodoc
 class CreateRestoreAccessBackupVaultOutput {
   /// >The date and time when the restore access backup vault was created, in Unix
   /// format and Coordinated Universal Time
@@ -6044,6 +6053,7 @@ class CreateRestoreAccessBackupVaultOutput {
   }
 }
 
+/// @nodoc
 class CreateRestoreTestingPlanOutput {
   /// The date and time a restore testing plan was created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationTime</code> is
@@ -6087,6 +6097,7 @@ class CreateRestoreTestingPlanOutput {
   }
 }
 
+/// @nodoc
 class CreateRestoreTestingSelectionOutput {
   /// The time that the resource testing selection was created.
   final DateTime creationTime;
@@ -6140,6 +6151,7 @@ class CreateRestoreTestingSelectionOutput {
   }
 }
 
+/// @nodoc
 class CreateTieringConfigurationOutput {
   /// The date and time a tiering configuration was created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationTime</code> is
@@ -6186,6 +6198,7 @@ class CreateTieringConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DeleteBackupPlanOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
@@ -6236,6 +6249,7 @@ class DeleteBackupPlanOutput {
   }
 }
 
+/// @nodoc
 class DeleteTieringConfigurationOutput {
   DeleteTieringConfigurationOutput();
 
@@ -6248,6 +6262,7 @@ class DeleteTieringConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeBackupJobOutput {
   /// Returns the account ID that owns the backup job.
   final String? accountId;
@@ -6593,6 +6608,7 @@ class DescribeBackupJobOutput {
   }
 }
 
+/// @nodoc
 class DescribeBackupVaultOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -6789,6 +6805,7 @@ class DescribeBackupVaultOutput {
   }
 }
 
+/// @nodoc
 class DescribeCopyJobOutput {
   /// Contains detailed information about a copy job.
   final CopyJob? copyJob;
@@ -6813,6 +6830,7 @@ class DescribeCopyJobOutput {
   }
 }
 
+/// @nodoc
 class DescribeFrameworkOutput {
   /// The date and time that a framework is created, in ISO 8601 representation.
   /// The value of <code>CreationTime</code> is accurate to milliseconds. For
@@ -6922,6 +6940,7 @@ class DescribeFrameworkOutput {
   }
 }
 
+/// @nodoc
 class DescribeGlobalSettingsOutput {
   /// The status of the flags <code>isCrossAccountBackupEnabled</code>,
   /// <code>isMpaEnabled</code> ('Mpa' refers to multi-party approval), and
@@ -6974,6 +6993,7 @@ class DescribeGlobalSettingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeProtectedResourceOutput {
   /// The date and time that a resource was last backed up, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>LastBackupTime</code>
@@ -7070,6 +7090,7 @@ class DescribeProtectedResourceOutput {
   }
 }
 
+/// @nodoc
 class DescribeRecoveryPointOutput {
   /// The size, in bytes, of a backup.
   final int? backupSizeInBytes;
@@ -7421,6 +7442,7 @@ class DescribeRecoveryPointOutput {
   }
 }
 
+/// @nodoc
 class DescribeRegionSettingsOutput {
   /// Returns whether Backup fully manages the backups for a resource type.
   ///
@@ -7471,6 +7493,7 @@ class DescribeRegionSettingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeReportJobOutput {
   /// The information about a report job, including its completion and creation
   /// times, report destination, unique report job ID, Amazon Resource Name (ARN),
@@ -7497,6 +7520,7 @@ class DescribeReportJobOutput {
   }
 }
 
+/// @nodoc
 class DescribeReportPlanOutput {
   /// Returns details about the report plan that is specified by its name. These
   /// details include the report plan's Amazon Resource Name (ARN), description,
@@ -7524,6 +7548,7 @@ class DescribeReportPlanOutput {
   }
 }
 
+/// @nodoc
 class DescribeRestoreJobOutput {
   /// Returns the account ID that owns the restore job.
   final String? accountId;
@@ -7734,10 +7759,11 @@ class DescribeRestoreJobOutput {
   }
 }
 
+/// @nodoc
 class DescribeScanJobOutput {
   /// Returns the account ID that owns the scan job.
   ///
-  /// Pattern: <code>^[0-9]{12}$</code>
+  /// Pattern: <code>^\[0-9\]{12}$</code>
   final String accountId;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
@@ -7749,7 +7775,7 @@ class DescribeScanJobOutput {
   /// identified by names that are unique to the account used to create them and
   /// the Amazon Web Services Region where they are created.
   ///
-  /// Pattern: <code>^[a-zA-Z0-9\-\_\.]{2,50}$</code>
+  /// Pattern: <code>^\[a-zA-Z0-9\-\_\.\]{2,50}$</code>
   final String backupVaultName;
   final ScanJobCreator createdBy;
 
@@ -7782,7 +7808,7 @@ class DescribeScanJobOutput {
   /// The type of Amazon Web Services Resource to be backed up; for example, an
   /// Amazon Elastic Block Store (Amazon EBS) volume.
   ///
-  /// Pattern: <code>^[a-zA-Z0-9\-\_\.]{1,50}$</code>
+  /// Pattern: <code>^\[a-zA-Z0-9\-\_\.\]{1,50}$</code>
   final ScanResourceType resourceType;
 
   /// The scan job ID that uniquely identified the request to Backup.
@@ -7938,6 +7964,7 @@ class DescribeScanJobOutput {
   }
 }
 
+/// @nodoc
 class ExportBackupPlanTemplateOutput {
   /// The body of a backup plan template in JSON format.
   /// <note>
@@ -7965,6 +7992,7 @@ class ExportBackupPlanTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetBackupPlanOutput {
   /// Contains a list of <code>BackupOptions</code> for each resource type. The
   /// list is populated only if the advanced option is set for the backup plan.
@@ -8082,6 +8110,7 @@ class GetBackupPlanOutput {
   }
 }
 
+/// @nodoc
 class GetBackupPlanFromJSONOutput {
   /// Specifies the body of a backup plan. Includes a <code>BackupPlanName</code>
   /// and one or more sets of <code>Rules</code>.
@@ -8107,6 +8136,7 @@ class GetBackupPlanFromJSONOutput {
   }
 }
 
+/// @nodoc
 class GetBackupPlanFromTemplateOutput {
   /// Returns the body of a backup plan based on the target template, including
   /// the name, rules, and backup vault of the plan.
@@ -8133,6 +8163,7 @@ class GetBackupPlanFromTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetBackupSelectionOutput {
   /// Uniquely identifies a backup plan.
   final String? backupPlanId;
@@ -8193,6 +8224,7 @@ class GetBackupSelectionOutput {
   }
 }
 
+/// @nodoc
 class GetBackupVaultAccessPolicyOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -8233,6 +8265,7 @@ class GetBackupVaultAccessPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetBackupVaultNotificationsOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -8288,6 +8321,7 @@ class GetBackupVaultNotificationsOutput {
   }
 }
 
+/// @nodoc
 class GetLegalHoldOutput {
   /// The reason for removing the legal hold.
   final String? cancelDescription;
@@ -8382,6 +8416,7 @@ class GetLegalHoldOutput {
   }
 }
 
+/// @nodoc
 class GetPITRMalwareScanResultsOutput {
   /// The point in time that was queried. This echoes back the time specified in
   /// the request.
@@ -8440,6 +8475,7 @@ class GetPITRMalwareScanResultsOutput {
   }
 }
 
+/// @nodoc
 class GetRecoveryPointIndexDetailsOutput {
   /// An ARN that uniquely identifies the backup vault where the recovery point
   /// index is stored.
@@ -8546,6 +8582,7 @@ class GetRecoveryPointIndexDetailsOutput {
   }
 }
 
+/// @nodoc
 class GetRecoveryPointRestoreMetadataOutput {
   /// An ARN that uniquely identifies a backup vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
@@ -8595,6 +8632,7 @@ class GetRecoveryPointRestoreMetadataOutput {
   }
 }
 
+/// @nodoc
 class GetRestoreJobMetadataOutput {
   /// This contains the metadata of the specified backup job.
   final Map<String, String>? metadata;
@@ -8625,6 +8663,7 @@ class GetRestoreJobMetadataOutput {
   }
 }
 
+/// @nodoc
 class GetRestoreTestingInferredMetadataOutput {
   /// This is a string map of the metadata inferred from the request.
   final Map<String, String> inferredMetadata;
@@ -8650,6 +8689,7 @@ class GetRestoreTestingInferredMetadataOutput {
   }
 }
 
+/// @nodoc
 class GetRestoreTestingPlanOutput {
   /// Specifies the body of a restore testing plan. Includes
   /// <code>RestoreTestingPlanName</code>.
@@ -8675,6 +8715,7 @@ class GetRestoreTestingPlanOutput {
   }
 }
 
+/// @nodoc
 class GetRestoreTestingSelectionOutput {
   /// Unique name of the restore testing selection.
   final RestoreTestingSelectionForGet restoreTestingSelection;
@@ -8699,6 +8740,7 @@ class GetRestoreTestingSelectionOutput {
   }
 }
 
+/// @nodoc
 class GetSupportedResourceTypesOutput {
   /// Contains a string with the supported Amazon Web Services resource types:
   ///
@@ -8779,6 +8821,7 @@ class GetSupportedResourceTypesOutput {
   }
 }
 
+/// @nodoc
 class GetTieringConfigurationOutput {
   /// Specifies the body of a tiering configuration. Includes
   /// <code>TieringConfigurationName</code>.
@@ -8806,6 +8849,7 @@ class GetTieringConfigurationOutput {
   }
 }
 
+/// @nodoc
 class ListBackupJobsOutput {
   /// An array of structures containing metadata about your backup jobs returned
   /// in JSON format.
@@ -8842,6 +8886,7 @@ class ListBackupJobsOutput {
   }
 }
 
+/// @nodoc
 class ListBackupJobSummariesOutput {
   /// The period for the returned results.
   ///
@@ -8896,6 +8941,7 @@ class ListBackupJobSummariesOutput {
   }
 }
 
+/// @nodoc
 class ListBackupPlansOutput {
   /// Information about the backup plans.
   final List<BackupPlansListMember>? backupPlansList;
@@ -8931,6 +8977,7 @@ class ListBackupPlansOutput {
   }
 }
 
+/// @nodoc
 class ListBackupPlanTemplatesOutput {
   /// An array of template list items containing metadata about your saved
   /// templates.
@@ -8969,6 +9016,7 @@ class ListBackupPlanTemplatesOutput {
   }
 }
 
+/// @nodoc
 class ListBackupPlanVersionsOutput {
   /// An array of version list items containing metadata about your backup plans.
   final List<BackupPlansListMember>? backupPlanVersionsList;
@@ -9005,6 +9053,7 @@ class ListBackupPlanVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListBackupSelectionsOutput {
   /// An array of backup selection list items containing metadata about each
   /// resource in the list.
@@ -9043,6 +9092,7 @@ class ListBackupSelectionsOutput {
   }
 }
 
+/// @nodoc
 class ListBackupVaultsOutput {
   /// An array of backup vault list members containing vault metadata, including
   /// Amazon Resource Name (ARN), display name, creation date, number of saved
@@ -9081,6 +9131,7 @@ class ListBackupVaultsOutput {
   }
 }
 
+/// @nodoc
 class ListCopyJobsOutput {
   /// An array of structures containing metadata about your copy jobs returned in
   /// JSON format.
@@ -9117,6 +9168,7 @@ class ListCopyJobsOutput {
   }
 }
 
+/// @nodoc
 class ListCopyJobSummariesOutput {
   /// The period for the returned results.
   ///
@@ -9173,6 +9225,7 @@ class ListCopyJobSummariesOutput {
   }
 }
 
+/// @nodoc
 class ListFrameworksOutput {
   /// The frameworks with details for each framework, including the framework
   /// name, Amazon Resource Name (ARN), description, number of controls, creation
@@ -9208,6 +9261,7 @@ class ListFrameworksOutput {
   }
 }
 
+/// @nodoc
 class ListIndexedRecoveryPointsOutput {
   /// This is a list of recovery points that have an associated index, belonging
   /// to the specified account.
@@ -9246,6 +9300,7 @@ class ListIndexedRecoveryPointsOutput {
   }
 }
 
+/// @nodoc
 class ListLegalHoldsOutput {
   /// This is an array of returned legal holds, both active and previous.
   final List<LegalHold>? legalHolds;
@@ -9281,6 +9336,7 @@ class ListLegalHoldsOutput {
   }
 }
 
+/// @nodoc
 class ListProtectedResourcesOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9318,6 +9374,7 @@ class ListProtectedResourcesOutput {
   }
 }
 
+/// @nodoc
 class ListProtectedResourcesByBackupVaultOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9355,6 +9412,7 @@ class ListProtectedResourcesByBackupVaultOutput {
   }
 }
 
+/// @nodoc
 class ListRecoveryPointsByBackupVaultOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9393,6 +9451,7 @@ class ListRecoveryPointsByBackupVaultOutput {
   }
 }
 
+/// @nodoc
 class ListRecoveryPointsByLegalHoldOutput {
   /// The next item following a partial list of returned resources.
   final String? nextToken;
@@ -9426,6 +9485,7 @@ class ListRecoveryPointsByLegalHoldOutput {
   }
 }
 
+/// @nodoc
 class ListRecoveryPointsByResourceOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9467,6 +9527,7 @@ class ListRecoveryPointsByResourceOutput {
   }
 }
 
+/// @nodoc
 class ListReportJobsOutput {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
@@ -9500,6 +9561,7 @@ class ListReportJobsOutput {
   }
 }
 
+/// @nodoc
 class ListReportPlansOutput {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
@@ -9536,6 +9598,7 @@ class ListReportPlansOutput {
   }
 }
 
+/// @nodoc
 class ListRestoreAccessBackupVaultsOutput {
   /// The pagination token to use in a subsequent request to retrieve the next set
   /// of results.
@@ -9573,6 +9636,7 @@ class ListRestoreAccessBackupVaultsOutput {
   }
 }
 
+/// @nodoc
 class ListRestoreJobsOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9609,6 +9673,7 @@ class ListRestoreJobsOutput {
   }
 }
 
+/// @nodoc
 class ListRestoreJobsByProtectedResourceOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9646,6 +9711,7 @@ class ListRestoreJobsByProtectedResourceOutput {
   }
 }
 
+/// @nodoc
 class ListRestoreJobSummariesOutput {
   /// The period for the returned results.
   ///
@@ -9703,6 +9769,7 @@ class ListRestoreJobSummariesOutput {
   }
 }
 
+/// @nodoc
 class ListRestoreTestingPlansOutput {
   /// This is a returned list of restore testing plans.
   final List<RestoreTestingPlanForList> restoreTestingPlans;
@@ -9739,6 +9806,7 @@ class ListRestoreTestingPlansOutput {
   }
 }
 
+/// @nodoc
 class ListRestoreTestingSelectionsOutput {
   /// The returned restore testing selections associated with the restore testing
   /// plan.
@@ -9778,6 +9846,7 @@ class ListRestoreTestingSelectionsOutput {
   }
 }
 
+/// @nodoc
 class ListScanJobsOutput {
   /// An array of structures containing metadata about your scan jobs returned in
   /// JSON format.
@@ -9814,6 +9883,7 @@ class ListScanJobsOutput {
   }
 }
 
+/// @nodoc
 class ListScanJobSummariesOutput {
   /// The period for the returned results.
   ///
@@ -9870,6 +9940,7 @@ class ListScanJobSummariesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9903,6 +9974,7 @@ class ListTagsOutput {
   }
 }
 
+/// @nodoc
 class ListTieringConfigurationsOutput {
   /// The next item following a partial list of returned items. For example, if a
   /// request is made to return <code>MaxResults</code> number of items,
@@ -9941,6 +10013,7 @@ class ListTieringConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class StartBackupJobOutput {
   /// Uniquely identifies a request to Backup to back up a resource.
   final String? backupJobId;
@@ -9993,6 +10066,7 @@ class StartBackupJobOutput {
   }
 }
 
+/// @nodoc
 class StartCopyJobOutput {
   /// Uniquely identifies a copy job.
   final String? copyJobId;
@@ -10034,6 +10108,7 @@ class StartCopyJobOutput {
   }
 }
 
+/// @nodoc
 class StartReportJobOutput {
   /// The identifier of the report job. A unique, randomly generated, Unicode,
   /// UTF-8 encoded string that is at most 1,024 bytes long. The report job ID
@@ -10058,6 +10133,7 @@ class StartReportJobOutput {
   }
 }
 
+/// @nodoc
 class StartRestoreJobOutput {
   /// Uniquely identifies the job that restores a recovery point.
   final String? restoreJobId;
@@ -10080,6 +10156,7 @@ class StartRestoreJobOutput {
   }
 }
 
+/// @nodoc
 class StartScanJobOutput {
   /// The date and time that a backup job is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
@@ -10112,6 +10189,7 @@ class StartScanJobOutput {
   }
 }
 
+/// @nodoc
 class UpdateBackupPlanOutput {
   /// Contains a list of <code>BackupOptions</code> for each resource type.
   final List<AdvancedBackupSetting>? advancedBackupSettings;
@@ -10184,6 +10262,7 @@ class UpdateBackupPlanOutput {
   }
 }
 
+/// @nodoc
 class UpdateFrameworkOutput {
   /// The date and time that a framework is created, in ISO 8601 representation.
   /// The value of <code>CreationTime</code> is accurate to milliseconds. For
@@ -10227,6 +10306,7 @@ class UpdateFrameworkOutput {
   }
 }
 
+/// @nodoc
 class UpdateRecoveryPointIndexSettingsOutput {
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
@@ -10288,6 +10368,7 @@ class UpdateRecoveryPointIndexSettingsOutput {
   }
 }
 
+/// @nodoc
 class UpdateRecoveryPointLifecycleOutput {
   /// An ARN that uniquely identifies a backup vault; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
@@ -10355,6 +10436,7 @@ class UpdateRecoveryPointLifecycleOutput {
   }
 }
 
+/// @nodoc
 class UpdateReportPlanOutput {
   /// The date and time that a report plan is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationTime</code> is
@@ -10396,6 +10478,7 @@ class UpdateReportPlanOutput {
   }
 }
 
+/// @nodoc
 class UpdateRestoreTestingPlanOutput {
   /// The time the resource testing plan was created.
   final DateTime creationTime;
@@ -10440,6 +10523,7 @@ class UpdateRestoreTestingPlanOutput {
   }
 }
 
+/// @nodoc
 class UpdateRestoreTestingSelectionOutput {
   /// The time the resource testing selection was updated successfully.
   final DateTime creationTime;
@@ -10493,6 +10577,7 @@ class UpdateRestoreTestingSelectionOutput {
   }
 }
 
+/// @nodoc
 class UpdateTieringConfigurationOutput {
   /// The date and time a tiering configuration was created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationTime</code> is
@@ -10548,6 +10633,8 @@ class UpdateTieringConfigurationOutput {
 }
 
 /// This contains metadata about a tiering configuration for update operations.
+///
+/// @nodoc
 class TieringConfigurationInputForUpdate {
   /// The name of the backup vault where the tiering configuration applies. Use
   /// <code>*</code> to apply to all backup vaults.
@@ -10577,6 +10664,8 @@ class TieringConfigurationInputForUpdate {
 /// You can specify up to 5 different resource selections per tiering
 /// configuration. Data moved to lower-cost tier remains there until deletion
 /// (one-way transition).
+///
+/// @nodoc
 class ResourceSelection {
   /// The type of Amazon Web Services resource; for example, <code>S3</code> for
   /// Amazon S3. For tiering configurations, this is currently limited to
@@ -10624,6 +10713,8 @@ class ResourceSelection {
 }
 
 /// This contains metadata about a restore testing selection.
+///
+/// @nodoc
 class RestoreTestingSelectionForUpdate {
   /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
   /// the target resource; for example:
@@ -10631,8 +10722,8 @@ class RestoreTestingSelectionForUpdate {
   final String? iamRoleArn;
 
   /// You can include a list of specific ARNs, such as
-  /// <code>ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."]</code> or you
-  /// can include a wildcard: <code>ProtectedResourceArns: ["*"]</code>, but not
+  /// <code>ProtectedResourceArns: \["arn:aws:...", "arn:aws:..."\]</code> or you
+  /// can include a wildcard: <code>ProtectedResourceArns: \["*"\]</code>, but not
   /// both.
   final List<String>? protectedResourceArns;
 
@@ -10686,6 +10777,8 @@ class RestoreTestingSelectionForUpdate {
 
 /// The conditions that you define for resources in your restore testing plan
 /// using tags.
+///
+/// @nodoc
 class ProtectedResourceConditions {
   /// Filters the values of your tagged resources for only those resources that
   /// you tagged with the same value. Also called "exact matching."
@@ -10726,20 +10819,22 @@ class ProtectedResourceConditions {
 /// Pair of two related strings. Allowed characters are letters, white space,
 /// and numbers that can be represented in UTF-8 and the following characters:
 /// <code> + - = . _ : /</code>
+///
+/// @nodoc
 class KeyValue {
   /// The tag key (String). The key can't start with <code>aws:</code>.
   ///
   /// Length Constraints: Minimum length of 1. Maximum length of 128.
   ///
   /// Pattern:
-  /// <code>^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$</code>
+  /// <code>^(?!\[aA\]{1}\[wW\]{1}\[sS\]{1}:)(\[\p{L}\p{Z}\p{N}_.:/=+\-@\]+)$</code>
   final String key;
 
   /// The value of the key.
   ///
   /// Length Constraints: Maximum length of 256.
   ///
-  /// Pattern: <code>^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</code>
+  /// Pattern: <code>^(\[\p{L}\p{Z}\p{N}_.:/=+\-@\]*)$</code>
   final String value;
 
   KeyValue({
@@ -10765,6 +10860,8 @@ class KeyValue {
 }
 
 /// This contains metadata about a restore testing plan.
+///
+/// @nodoc
 class RestoreTestingPlanForUpdate {
   /// Required: <code>Algorithm</code>; <code>RecoveryPointTypes</code>;
   /// <code>IncludeVaults</code> (<i>one or more</i>).
@@ -10834,7 +10931,7 @@ class RestoreTestingPlanForUpdate {
 /// <code>Algorithm</code>.
 ///
 /// <code>IncludeVaults</code> (<i>required</i>). You must include one or more
-/// backup vaults. Use the wildcard ["*"] or specific ARNs.
+/// backup vaults. Use the wildcard \["*"\] or specific ARNs.
 ///
 /// <code>SelectionWindowDays</code> (<i>optional</i>) Value must be an integer
 /// (in days) from 1 to 365. If not included, the value defaults to
@@ -10844,6 +10941,8 @@ class RestoreTestingPlanForUpdate {
 /// more specific backup vault ARNs to exclude those vaults' contents from
 /// restore eligibility. Or, you can include a list of selectors. If this
 /// parameter and its value are not included, it defaults to empty list.
+///
+/// @nodoc
 class RestoreTestingRecoveryPointSelection {
   /// Acceptable values include "LATEST_WITHIN_WINDOW" or "RANDOM_WITHIN_WINDOW"
   final RestoreTestingRecoveryPointSelectionAlgorithm? algorithm;
@@ -10852,9 +10951,9 @@ class RestoreTestingRecoveryPointSelection {
   /// empty list if not listed.
   final List<String>? excludeVaults;
 
-  /// Accepted values include wildcard ["*"] or by specific ARNs or ARN wilcard
-  /// replacement ["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf", ...]
-  /// ["arn:aws:backup:*:*:backup-vault:asdf-*", ...]
+  /// Accepted values include wildcard \["*"\] or by specific ARNs or ARN wilcard
+  /// replacement \["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf",
+  /// ...\] \["arn:aws:backup:*:*:backup-vault:asdf-*", ...\]
   final List<String>? includeVaults;
 
   /// These are the types of recovery points.
@@ -10916,6 +11015,7 @@ class RestoreTestingRecoveryPointSelection {
   }
 }
 
+/// @nodoc
 class RestoreTestingRecoveryPointSelectionAlgorithm {
   static const latestWithinWindow =
       RestoreTestingRecoveryPointSelectionAlgorithm._('LATEST_WITHIN_WINDOW');
@@ -10945,6 +11045,7 @@ class RestoreTestingRecoveryPointSelectionAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class RestoreTestingRecoveryPointType {
   static const continuous = RestoreTestingRecoveryPointType._('CONTINUOUS');
   static const snapshot = RestoreTestingRecoveryPointType._('SNAPSHOT');
@@ -10973,6 +11074,8 @@ class RestoreTestingRecoveryPointType {
 /// Contains information from your report plan about where to deliver your
 /// reports, specifically your Amazon S3 bucket name, S3 key prefix, and the
 /// formats of your reports.
+///
+/// @nodoc
 class ReportDeliveryChannel {
   /// The unique name of the S3 bucket that receives your reports.
   final String s3BucketName;
@@ -11015,6 +11118,8 @@ class ReportDeliveryChannel {
 }
 
 /// Contains detailed information about a report setting.
+///
+/// @nodoc
 class ReportSetting {
   /// Identifies the report template for the report. Reports are built using a
   /// report template. The report templates are:
@@ -11108,6 +11213,8 @@ class ReportSetting {
 /// To remove the existing lifecycle and retention periods and keep your
 /// recovery points indefinitely, specify -1 for
 /// <code>MoveToColdStorageAfterDays</code> and <code>DeleteAfterDays</code>.
+///
+/// @nodoc
 class Lifecycle {
   /// The number of days after creation that a recovery point is deleted. This
   /// value must be at least 90 days after the number of days specified in
@@ -11180,6 +11287,8 @@ class Lifecycle {
 /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
 /// availability by resource</a> table. Backup ignores this expression for other
 /// resource types.
+///
+/// @nodoc
 class CalculatedLifecycle {
   /// A timestamp that specifies when to delete a recovery point.
   final DateTime? deleteAt;
@@ -11211,6 +11320,7 @@ class CalculatedLifecycle {
   }
 }
 
+/// @nodoc
 class LifecycleDeleteAfterEvent {
   static const deleteAfterCopy =
       LifecycleDeleteAfterEvent._('DELETE_AFTER_COPY');
@@ -11236,6 +11346,7 @@ class LifecycleDeleteAfterEvent {
   String toString() => value;
 }
 
+/// @nodoc
 class IndexStatus {
   static const pending = IndexStatus._('PENDING');
   static const active = IndexStatus._('ACTIVE');
@@ -11261,6 +11372,7 @@ class IndexStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Index {
   static const enabled = Index._('ENABLED');
   static const disabled = Index._('DISABLED');
@@ -11286,6 +11398,8 @@ class Index {
 
 /// Contains detailed information about all of the controls of a framework. Each
 /// framework must contain at least one control.
+///
+/// @nodoc
 class FrameworkControl {
   /// The name of a control. This name is between 1 and 256 characters.
   final String controlName;
@@ -11345,6 +11459,8 @@ class FrameworkControl {
 /// <code>ControlScope</code> empty or do not pass it when calling
 /// <code>CreateFramework</code>.
 /// </note>
+///
+/// @nodoc
 class ControlScope {
   /// The ID of the only Amazon Web Services resource that you want your control
   /// scope to contain.
@@ -11362,7 +11478,7 @@ class ControlScope {
   /// template).
   ///
   /// The structure to assign a tag is:
-  /// <code>[{"Key":"string","Value":"string"}]</code>.
+  /// <code>\[{"Key":"string","Value":"string"}\]</code>.
   final Map<String, String>? tags;
 
   ControlScope({
@@ -11405,6 +11521,8 @@ class ControlScope {
 /// frequency is at least <code>daily</code> and the retention period is at
 /// least <code>1 year</code>". The first parameter is <code>daily</code>. The
 /// second parameter is <code>1 year</code>.
+///
+/// @nodoc
 class ControlInputParameter {
   /// The name of a parameter, for example, <code>BackupPlanFrequency</code>.
   final String? parameterName;
@@ -11436,6 +11554,8 @@ class ControlInputParameter {
 
 /// Contains configuration settings for malware scanning, including the scanner
 /// type, target resource types, and scanner role.
+///
+/// @nodoc
 class ScanSetting {
   /// The malware scanner to use for scanning. Currently only
   /// <code>GUARDDUTY</code> is supported.
@@ -11479,6 +11599,7 @@ class ScanSetting {
   }
 }
 
+/// @nodoc
 class MalwareScanner {
   static const guardduty = MalwareScanner._('GUARDDUTY');
 
@@ -11503,6 +11624,8 @@ class MalwareScanner {
 }
 
 /// The backup options for each resource type.
+///
+/// @nodoc
 class AdvancedBackupSetting {
   /// Specifies the backup option for a selected resource. This option is
   /// available for Windows VSS backup jobs and S3 backups.
@@ -11564,6 +11687,8 @@ class AdvancedBackupSetting {
 /// Contains an optional backup plan display name and an array of
 /// <code>BackupRule</code> objects, each of which specifies a backup rule. Each
 /// rule in a backup plan is a separate scheduled task.
+///
+/// @nodoc
 class BackupPlanInput {
   /// The display name of a backup plan. Must contain 1 to 50 alphanumeric or
   /// '-_.' characters.
@@ -11605,6 +11730,8 @@ class BackupPlanInput {
 }
 
 /// Specifies a scheduled task used to back up a selection of resources.
+///
+/// @nodoc
 class BackupRuleInput {
   /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.'
   /// characters.
@@ -11758,6 +11885,8 @@ class BackupRuleInput {
 
 /// Defines a scanning action that specifies the malware scanner and scan mode
 /// to use.
+///
+/// @nodoc
 class ScanAction {
   /// The malware scanner to use for the scan action. Currently only
   /// <code>GUARDDUTY</code> is supported.
@@ -11791,6 +11920,7 @@ class ScanAction {
   }
 }
 
+/// @nodoc
 class ScanMode {
   static const fullScan = ScanMode._('FULL_SCAN');
   static const incrementalScan = ScanMode._('INCREMENTAL_SCAN');
@@ -11817,6 +11947,8 @@ class ScanMode {
 /// This is an optional array within a BackupRule.
 ///
 /// IndexAction consists of one ResourceTypes.
+///
+/// @nodoc
 class IndexAction {
   /// 0 or 1 index action will be accepted for each BackupRule.
   ///
@@ -11854,6 +11986,8 @@ class IndexAction {
 }
 
 /// The details of the copy operation.
+///
+/// @nodoc
 class CopyAction {
   /// An Amazon Resource Name (ARN) that uniquely identifies the destination
   /// backup vault for the copied backup. For example,
@@ -11886,6 +12020,7 @@ class CopyAction {
   }
 }
 
+/// @nodoc
 class RestoreValidationStatus {
   static const failed = RestoreValidationStatus._('FAILED');
   static const successful = RestoreValidationStatus._('SUCCESSFUL');
@@ -11913,6 +12048,7 @@ class RestoreValidationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BackupVaultEvent {
   static const backupJobStarted = BackupVaultEvent._('BACKUP_JOB_STARTED');
   static const backupJobCompleted = BackupVaultEvent._('BACKUP_JOB_COMPLETED');
@@ -11998,6 +12134,8 @@ class BackupVaultEvent {
 }
 
 /// This contains metadata about a tiering configuration returned in a list.
+///
+/// @nodoc
 class TieringConfigurationsListMember {
   /// The name of the backup vault where the tiering configuration applies. Use
   /// <code>*</code> to apply to all backup vaults.
@@ -12062,6 +12200,8 @@ class TieringConfigurationsListMember {
 
 /// Contains summary information about scan jobs, including counts and metadata
 /// for a specific time period and criteria.
+///
+/// @nodoc
 class ScanJobSummary {
   /// The account ID that owns the scan jobs included in this summary.
   final String? accountId;
@@ -12158,6 +12298,7 @@ class ScanJobSummary {
   }
 }
 
+/// @nodoc
 class ScanJobStatus {
   static const created = ScanJobStatus._('CREATED');
   static const completed = ScanJobStatus._('COMPLETED');
@@ -12197,6 +12338,7 @@ class ScanJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanResultStatus {
   static const noThreatsFound = ScanResultStatus._('NO_THREATS_FOUND');
   static const threatsFound = ScanResultStatus._('THREATS_FOUND');
@@ -12222,6 +12364,7 @@ class ScanResultStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationPeriod {
   static const oneDay = AggregationPeriod._('ONE_DAY');
   static const sevenDays = AggregationPeriod._('SEVEN_DAYS');
@@ -12249,6 +12392,8 @@ class AggregationPeriod {
 
 /// Contains metadata about a scan job, including information about the scanning
 /// process, results, and associated resources.
+///
+/// @nodoc
 class ScanJob {
   /// The account ID that owns the scan job.
   final String accountId;
@@ -12461,6 +12606,8 @@ class ScanJob {
 
 /// Contains identifying information about the creation of a scan job, including
 /// the backup plan and rule that initiated the scan.
+///
+/// @nodoc
 class ScanJobCreator {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
@@ -12507,6 +12654,7 @@ class ScanJobCreator {
   }
 }
 
+/// @nodoc
 class ScanResourceType {
   static const ebs = ScanResourceType._('EBS');
   static const ec2 = ScanResourceType._('EC2');
@@ -12533,6 +12681,8 @@ class ScanResourceType {
 }
 
 /// Contains information about the results of a scan job.
+///
+/// @nodoc
 class ScanResultInfo {
   /// The status of the scan results.
   ///
@@ -12559,6 +12709,7 @@ class ScanResultInfo {
   }
 }
 
+/// @nodoc
 class ScanState {
   static const canceled = ScanState._('CANCELED');
   static const completed = ScanState._('COMPLETED');
@@ -12594,6 +12745,8 @@ class ScanState {
 }
 
 /// This contains metadata about a restore testing selection.
+///
+/// @nodoc
 class RestoreTestingSelectionForList {
   /// The date and time that a restore testing selection was created, in Unix
   /// format and Coordinated Universal Time (UTC). The value of
@@ -12670,6 +12823,8 @@ class RestoreTestingSelectionForList {
 }
 
 /// This contains metadata about a restore testing plan.
+///
+/// @nodoc
 class RestoreTestingPlanForList {
   /// The date and time that a restore testing plan was created, in Unix format
   /// and Coordinated Universal Time (UTC). The value of <code>CreationTime</code>
@@ -12770,6 +12925,8 @@ class RestoreTestingPlanForList {
 /// The returned summary may contain the following: Region, Account, State,
 /// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
 /// jobs.
+///
+/// @nodoc
 class RestoreJobSummary {
   /// The account ID that owns the jobs within the summary.
   final String? accountId;
@@ -12844,6 +13001,7 @@ class RestoreJobSummary {
   }
 }
 
+/// @nodoc
 class RestoreJobState {
   static const created = RestoreJobState._('CREATED');
   static const pending = RestoreJobState._('PENDING');
@@ -12884,6 +13042,8 @@ class RestoreJobState {
 }
 
 /// Contains metadata about a restore job.
+///
+/// @nodoc
 class RestoreJobsListMember {
   /// The account ID that owns the restore job.
   final String? accountId;
@@ -13097,6 +13257,7 @@ class RestoreJobsListMember {
   }
 }
 
+/// @nodoc
 class RestoreJobStatus {
   static const pending = RestoreJobStatus._('PENDING');
   static const running = RestoreJobStatus._('RUNNING');
@@ -13126,6 +13287,8 @@ class RestoreJobStatus {
 
 /// Contains information about the restore testing plan that Backup used to
 /// initiate the restore job.
+///
+/// @nodoc
 class RestoreJobCreator {
   /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing
   /// plan.
@@ -13150,6 +13313,7 @@ class RestoreJobCreator {
   }
 }
 
+/// @nodoc
 class RestoreDeletionStatus {
   static const deleting = RestoreDeletionStatus._('DELETING');
   static const failed = RestoreDeletionStatus._('FAILED');
@@ -13177,6 +13341,8 @@ class RestoreDeletionStatus {
 }
 
 /// Contains information about a restore access backup vault.
+///
+/// @nodoc
 class RestoreAccessBackupVaultListMember {
   /// The date and time when the restore access backup vault was approved.
   final DateTime? approvalDate;
@@ -13236,6 +13402,7 @@ class RestoreAccessBackupVaultListMember {
   }
 }
 
+/// @nodoc
 class VaultState {
   static const creating = VaultState._('CREATING');
   static const available = VaultState._('AVAILABLE');
@@ -13262,6 +13429,8 @@ class VaultState {
 
 /// Contains information about the latest request to revoke access to a backup
 /// vault.
+///
+/// @nodoc
 class LatestRevokeRequest {
   /// The date and time when the revoke request will expire.
   final DateTime? expiryDate;
@@ -13314,6 +13483,7 @@ class LatestRevokeRequest {
   }
 }
 
+/// @nodoc
 class MpaRevokeSessionStatus {
   static const pending = MpaRevokeSessionStatus._('PENDING');
   static const failed = MpaRevokeSessionStatus._('FAILED');
@@ -13340,6 +13510,8 @@ class MpaRevokeSessionStatus {
 }
 
 /// Contains detailed information about a report plan.
+///
+/// @nodoc
 class ReportPlan {
   /// The date and time that a report plan is created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CreationTime</code> is
@@ -13462,6 +13634,8 @@ class ReportPlan {
 
 /// Contains detailed information about a report job. A report job compiles a
 /// report based on a report plan and publishes it to Amazon S3.
+///
+/// @nodoc
 class ReportJob {
   /// The date and time that a report job is completed, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CompletionTime</code>
@@ -13559,6 +13733,8 @@ class ReportJob {
 }
 
 /// Contains information from your report job about your report destination.
+///
+/// @nodoc
 class ReportDestination {
   /// The unique name of the Amazon S3 bucket that receives your reports.
   final String? s3BucketName;
@@ -13590,6 +13766,8 @@ class ReportDestination {
 }
 
 /// Contains detailed information about a saved recovery point.
+///
+/// @nodoc
 class RecoveryPointByResource {
   /// Contains the latest scanning results against the recovery point and
   /// currently include <code>FailedScan</code>, <code>Findings</code>,
@@ -13741,6 +13919,7 @@ class RecoveryPointByResource {
   }
 }
 
+/// @nodoc
 class RecoveryPointStatus {
   static const completed = RecoveryPointStatus._('COMPLETED');
   static const partial = RecoveryPointStatus._('PARTIAL');
@@ -13779,6 +13958,7 @@ class RecoveryPointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VaultType {
   static const backupVault = VaultType._('BACKUP_VAULT');
   static const logicallyAirGappedBackupVault =
@@ -13809,6 +13989,7 @@ class VaultType {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionKeyType {
   static const awsOwnedKmsKey = EncryptionKeyType._('AWS_OWNED_KMS_KEY');
   static const customerManagedKmsKey =
@@ -13836,6 +14017,8 @@ class EncryptionKeyType {
 
 /// Contains aggregated scan results across multiple scan operations, providing
 /// a summary of scan status and findings.
+///
+/// @nodoc
 class AggregatedScanResult {
   /// A Boolean value indicating whether any of the aggregated scans failed.
   final bool? failedScan;
@@ -13877,6 +14060,7 @@ class AggregatedScanResult {
   }
 }
 
+/// @nodoc
 class ScanFinding {
   static const malware = ScanFinding._('MALWARE');
 
@@ -13903,6 +14087,8 @@ class ScanFinding {
 /// parent (composite) recovery point. These recovery points can be
 /// disassociated from their parent (composite) recovery point, in which case
 /// they will no longer be a member.
+///
+/// @nodoc
 class RecoveryPointMember {
   /// The name of the backup vault (the logical container in which backups are
   /// stored).
@@ -13949,6 +14135,8 @@ class RecoveryPointMember {
 
 /// Contains detailed information about the recovery points stored in a backup
 /// vault.
+///
+/// @nodoc
 class RecoveryPointByBackupVault {
   /// Contains the latest scanning results against the recovery point and
   /// currently include <code>FailedScan</code>, <code>Findings</code>,
@@ -14245,6 +14433,8 @@ class RecoveryPointByBackupVault {
 
 /// Contains information about the backup plan and rule that Backup used to
 /// initiate the recovery point backup.
+///
+/// @nodoc
 class RecoveryPointCreator {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
@@ -14327,6 +14517,8 @@ class RecoveryPointCreator {
 }
 
 /// A structure that contains information about a backed-up resource.
+///
+/// @nodoc
 class ProtectedResource {
   /// The date and time a resource was last backed up, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>LastBackupTime</code>
@@ -14401,6 +14593,8 @@ class ProtectedResource {
 /// removed. A backup can have more than one legal hold. Legal holds are applied
 /// to one or more backups (also known as recovery points). These backups can be
 /// filtered by resource types and by resource IDs.
+///
+/// @nodoc
 class LegalHold {
   /// The time when the legal hold was cancelled.
   final DateTime? cancellationDate;
@@ -14468,6 +14662,7 @@ class LegalHold {
   }
 }
 
+/// @nodoc
 class LegalHoldStatus {
   static const creating = LegalHoldStatus._('CREATING');
   static const active = LegalHoldStatus._('ACTIVE');
@@ -14497,6 +14692,8 @@ class LegalHoldStatus {
 /// This is a recovery point that has an associated backup index.
 ///
 /// Only recovery points with a backup index can be included in a search.
+///
+/// @nodoc
 class IndexedRecoveryPoint {
   /// The date and time that a backup was created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
@@ -14612,6 +14809,8 @@ class IndexedRecoveryPoint {
 /// Contains detailed information about a framework. Frameworks contain
 /// controls, which evaluate and report on your backup events and resources.
 /// Frameworks generate daily compliance results.
+///
+/// @nodoc
 class Framework {
   /// The date and time that a framework is created, in ISO 8601 representation.
   /// The value of <code>CreationTime</code> is accurate to milliseconds. For
@@ -14686,6 +14885,8 @@ class Framework {
 /// The returned summary may contain the following: Region, Account, State,
 /// RestourceType, MessageCategory, StartTime, EndTime, and Count of included
 /// jobs.
+///
+/// @nodoc
 class CopyJobSummary {
   /// The account ID that owns the jobs within the summary.
   final String? accountId;
@@ -14777,6 +14978,7 @@ class CopyJobSummary {
   }
 }
 
+/// @nodoc
 class CopyJobStatus {
   static const created = CopyJobStatus._('CREATED');
   static const running = CopyJobStatus._('RUNNING');
@@ -14823,6 +15025,8 @@ class CopyJobStatus {
 }
 
 /// Contains detailed information about a copy job.
+///
+/// @nodoc
 class CopyJob {
   /// The account ID that owns the copy job.
   final String? accountId;
@@ -15088,6 +15292,7 @@ class CopyJob {
   }
 }
 
+/// @nodoc
 class CopyJobState {
   static const created = CopyJobState._('CREATED');
   static const running = CopyJobState._('RUNNING');
@@ -15115,6 +15320,8 @@ class CopyJobState {
 }
 
 /// Contains metadata about a backup vault.
+///
+/// @nodoc
 class BackupVaultListMember {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -15281,6 +15488,8 @@ class BackupVaultListMember {
 }
 
 /// Contains metadata about a <code>BackupSelection</code> object.
+///
+/// @nodoc
 class BackupSelectionsListMember {
   /// Uniquely identifies a backup plan.
   final String? backupPlanId;
@@ -15350,6 +15559,8 @@ class BackupSelectionsListMember {
 }
 
 /// Contains metadata about a backup plan.
+///
+/// @nodoc
 class BackupPlansListMember {
   /// Contains a list of <code>BackupOptions</code> for a resource type.
   final List<AdvancedBackupSetting>? advancedBackupSettings;
@@ -15453,6 +15664,8 @@ class BackupPlansListMember {
 }
 
 /// An object specifying metadata associated with a backup plan template.
+///
+/// @nodoc
 class BackupPlanTemplatesListMember {
   /// Uniquely identifies a stored backup plan template.
   final String? backupPlanTemplateId;
@@ -15489,6 +15702,8 @@ class BackupPlanTemplatesListMember {
 /// The returned summary may contain the following: Region, Account, State,
 /// RestourceType, MessageCategory, StartTime, EndTime, and Count of included
 /// jobs.
+///
+/// @nodoc
 class BackupJobSummary {
   /// The account ID that owns the jobs within the summary.
   final String? accountId;
@@ -15580,6 +15795,7 @@ class BackupJobSummary {
   }
 }
 
+/// @nodoc
 class BackupJobStatus {
   static const created = BackupJobStatus._('CREATED');
   static const pending = BackupJobStatus._('PENDING');
@@ -15626,6 +15842,8 @@ class BackupJobStatus {
 }
 
 /// Contains detailed information about a backup job.
+///
+/// @nodoc
 class BackupJob {
   /// The account ID that owns the backup job.
   final String? accountId;
@@ -15966,6 +16184,7 @@ class BackupJob {
   }
 }
 
+/// @nodoc
 class BackupJobState {
   static const created = BackupJobState._('CREATED');
   static const pending = BackupJobState._('PENDING');
@@ -16008,6 +16227,8 @@ class BackupJobState {
 }
 
 /// This contains metadata about a tiering configuration.
+///
+/// @nodoc
 class TieringConfiguration {
   /// The name of the backup vault where the tiering configuration applies. Use
   /// <code>*</code> to apply to all backup vaults.
@@ -16092,6 +16313,8 @@ class TieringConfiguration {
 }
 
 /// This contains metadata about a restore testing selection.
+///
+/// @nodoc
 class RestoreTestingSelectionForGet {
   /// The date and time that a restore testing selection was created, in Unix
   /// format and Coordinated Universal Time (UTC). The value of
@@ -16129,8 +16352,8 @@ class RestoreTestingSelectionForGet {
   final String? creatorRequestId;
 
   /// You can include specific ARNs, such as <code>ProtectedResourceArns:
-  /// ["arn:aws:...", "arn:aws:..."]</code> or you can include a wildcard:
-  /// <code>ProtectedResourceArns: ["*"]</code>, but not both.
+  /// \["arn:aws:...", "arn:aws:..."\]</code> or you can include a wildcard:
+  /// <code>ProtectedResourceArns: \["*"\]</code>, but not both.
   final List<String>? protectedResourceArns;
 
   /// In a resource testing selection, this parameter filters by specific
@@ -16220,6 +16443,8 @@ class RestoreTestingSelectionForGet {
 }
 
 /// This contains metadata about a restore testing plan.
+///
+/// @nodoc
 class RestoreTestingPlanForGet {
   /// The date and time that a restore testing plan was created, in Unix format
   /// and Coordinated Universal Time (UTC). The value of <code>CreationTime</code>
@@ -16339,6 +16564,8 @@ class RestoreTestingPlanForGet {
 
 /// This specifies criteria to assign a set of resources, such as resource types
 /// or backup vaults.
+///
+/// @nodoc
 class RecoveryPointSelection {
   final DateRange? dateRange;
 
@@ -16393,6 +16620,8 @@ class RecoveryPointSelection {
 /// and it is accurate to milliseconds ((milliseconds are optional). For
 /// example, the value 1516925490.087 represents Friday, January 26, 2018
 /// 12:11:30.087 AM.
+///
+/// @nodoc
 class DateRange {
   /// This value is the beginning date, inclusive.
   ///
@@ -16437,6 +16666,8 @@ class DateRange {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json">Assigning
 /// resources programmatically</a>.
+///
+/// @nodoc
 class BackupSelection {
   /// The ARN of the IAM role that Backup uses to authenticate when backing up the
   /// target resource; for example,
@@ -16548,6 +16779,8 @@ class BackupSelection {
 
 /// Contains information about which resources to include or exclude from a
 /// backup plan using their tags. Conditions are case sensitive.
+///
+/// @nodoc
 class Conditions {
   /// Filters the values of your tagged resources for only those resources that
   /// you tagged with the same value. Also called "exact matching."
@@ -16613,6 +16846,8 @@ class Conditions {
 ///
 /// Include the prefix <code>aws:ResourceTag</code> in your tags. For example,
 /// <code>"aws:ResourceTag/TagKey1": "Value1"</code>.
+///
+/// @nodoc
 class ConditionParameter {
   /// The key in a key-value pair. For example, in the tag <code>Department:
   /// Accounting</code>, <code>Department</code> is the key.
@@ -16647,6 +16882,8 @@ class ConditionParameter {
 /// Contains an array of triplets made up of a condition type (such as
 /// <code>StringEquals</code>), a key, and a value. Used to filter resources
 /// using their tags and assign them to a backup plan. Case sensitive.
+///
+/// @nodoc
 class Condition {
   /// The key in a key-value pair. For example, in the tag <code>Department:
   /// Accounting</code>, <code>Department</code> is the key.
@@ -16692,6 +16929,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class ConditionType {
   static const stringequals = ConditionType._('STRINGEQUALS');
 
@@ -16719,6 +16957,8 @@ class ConditionType {
 /// <code>BackupRule</code> objects, each of which specifies a backup rule. Each
 /// rule in a backup plan is a separate scheduled task and can back up a
 /// different selection of Amazon Web Services resources.
+///
+/// @nodoc
 class BackupPlan {
   /// The display name of a backup plan. Must contain only alphanumeric or '-_.'
   /// special characters.
@@ -16779,6 +17019,8 @@ class BackupPlan {
 }
 
 /// Specifies a scheduled task used to back up a selection of resources.
+///
+/// @nodoc
 class BackupRule {
   /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.'
   /// characters.
@@ -16972,6 +17214,8 @@ class BackupRule {
 
 /// Contains information about a scheduled backup plan execution, including the
 /// execution time, rule type, and associated rule identifier.
+///
+/// @nodoc
 class ScheduledPlanExecutionMember {
   /// The timestamp when the backup is scheduled to run, in Unix format and
   /// Coordinated Universal Time (UTC). The value is accurate to milliseconds.
@@ -17015,6 +17259,7 @@ class ScheduledPlanExecutionMember {
   }
 }
 
+/// @nodoc
 class RuleExecutionType {
   static const continuous = RuleExecutionType._('CONTINUOUS');
   static const snapshots = RuleExecutionType._('SNAPSHOTS');
@@ -17041,6 +17286,7 @@ class RuleExecutionType {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageClass {
   static const warm = StorageClass._('WARM');
   static const cold = StorageClass._('COLD');
@@ -17067,6 +17313,8 @@ class StorageClass {
 
 /// Contains the results of a security scan, including scanner information, scan
 /// state, and any findings discovered.
+///
+/// @nodoc
 class ScanResult {
   /// An array of findings discovered during the scan.
   final List<ScanFinding>? findings;
@@ -17121,6 +17369,7 @@ class ScanResult {
   }
 }
 
+/// @nodoc
 class ScanJobState {
   static const completed = ScanJobState._('COMPLETED');
   static const completedWithIssues = ScanJobState._('COMPLETED_WITH_ISSUES');
@@ -17148,6 +17397,8 @@ class ScanJobState {
 
 /// Contains information about the latest update to an MPA approval team
 /// association.
+///
+/// @nodoc
 class LatestMpaApprovalTeamUpdate {
   /// The date and time when the MPA approval team update will expire.
   final DateTime? expiryDate;
@@ -17199,6 +17450,7 @@ class LatestMpaApprovalTeamUpdate {
   }
 }
 
+/// @nodoc
 class MpaSessionStatus {
   static const pending = MpaSessionStatus._('PENDING');
   static const approved = MpaSessionStatus._('APPROVED');
@@ -17225,6 +17477,8 @@ class MpaSessionStatus {
 }
 
 /// This contains metadata about a tiering configuration for create operations.
+///
+/// @nodoc
 class TieringConfigurationInputForCreate {
   /// The name of the backup vault where the tiering configuration applies. Use
   /// <code>*</code> to apply to all backup vaults.
@@ -17282,6 +17536,8 @@ class TieringConfigurationInputForCreate {
 ///
 /// <code>ProtectedResourceConditions</code> examples include as
 /// <code>StringEquals</code> and <code>StringNotEquals</code>.
+///
+/// @nodoc
 class RestoreTestingSelectionForCreate {
   /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
   /// the target resource; for example:
@@ -17335,13 +17591,13 @@ class RestoreTestingSelectionForCreate {
   final String restoreTestingSelectionName;
 
   /// Each protected resource can be filtered by its specific ARNs, such as
-  /// <code>ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."]</code> or by a
-  /// wildcard: <code>ProtectedResourceArns: ["*"]</code>, but not both.
+  /// <code>ProtectedResourceArns: \["arn:aws:...", "arn:aws:..."\]</code> or by a
+  /// wildcard: <code>ProtectedResourceArns: \["*"\]</code>, but not both.
   final List<String>? protectedResourceArns;
 
   /// If you have included the wildcard in ProtectedResourceArns, you can include
   /// resource conditions, such as <code>ProtectedResourceConditions: {
-  /// StringEquals: [{ key: "XXXX", value: "YYYY" }]</code>.
+  /// StringEquals: \[{ key: "XXXX", value: "YYYY" }\]</code>.
   final ProtectedResourceConditions? protectedResourceConditions;
 
   /// You can override certain restore metadata keys by including the parameter
@@ -17393,6 +17649,8 @@ class RestoreTestingSelectionForCreate {
 }
 
 /// This contains metadata about a restore testing plan.
+///
+/// @nodoc
 class RestoreTestingPlanForCreate {
   /// <code>RecoveryPointSelection</code> has five parameters (three required and
   /// two optional). The values you specify determine which recovery point is
@@ -17414,7 +17672,7 @@ class RestoreTestingPlanForCreate {
   /// <code>Algorithm</code>.
   ///
   /// <code>IncludeVaults</code> (<i>required</i>). You must include one or more
-  /// backup vaults. Use the wildcard ["*"] or specific ARNs.
+  /// backup vaults. Use the wildcard \["*"\] or specific ARNs.
   ///
   /// <code>SelectionWindowDays</code> (<i>optional</i>) Value must be an integer
   /// (in days) from 1 to 365. If not included, the value defaults to
@@ -17474,21 +17732,25 @@ class RestoreTestingPlanForCreate {
   }
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DependencyFailureException extends _s.GenericAwsException {
   DependencyFailureException({String? type, String? message})
       : super(type: type, code: 'DependencyFailureException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -17497,11 +17759,13 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateException extends _s.GenericAwsException {
   InvalidResourceStateException({String? type, String? message})
       : super(
@@ -17510,11 +17774,13 @@ class InvalidResourceStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MissingParameterValueException extends _s.GenericAwsException {
   MissingParameterValueException({String? type, String? message})
       : super(
@@ -17523,11 +17789,13 @@ class MissingParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(

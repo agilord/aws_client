@@ -1116,6 +1116,7 @@ class MigrationHubRefactorSpaces {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// A wrapper object holding the API Gateway endpoint type and stage name for
   /// the proxy.
@@ -1236,6 +1237,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the environment.
   final String? arn;
@@ -1327,6 +1329,7 @@ class CreateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class CreateRouteResponse {
   /// The ID of the application in which the route is created.
   final String? applicationId;
@@ -1440,6 +1443,7 @@ class CreateRouteResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceResponse {
   /// The ID of the application that the created service belongs to.
   final String? applicationId;
@@ -1577,6 +1581,7 @@ class CreateServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   /// The ID of the application.
   final String? applicationId;
@@ -1635,6 +1640,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the environment.
   final String? arn;
@@ -1686,6 +1692,7 @@ class DeleteEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -1698,6 +1705,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteRouteResponse {
   /// The ID of the application that the route belongs to.
   final String? applicationId;
@@ -1756,6 +1764,7 @@ class DeleteRouteResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceResponse {
   /// The ID of the application that the service is in.
   final String? applicationId;
@@ -1821,6 +1830,7 @@ class DeleteServiceResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The endpoint URL of the API Gateway proxy.
   final ApiGatewayProxyConfig? apiGatewayProxy;
@@ -1943,6 +1953,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the environment.
   final String? arn;
@@ -2049,6 +2060,7 @@ class GetEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// A JSON-formatted string for an Amazon Web Services resource-based policy.
   final String? policy;
@@ -2071,6 +2083,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRouteResponse {
   /// If set to <code>true</code>, this option appends the source path to the
   /// service URL endpoint.
@@ -2236,6 +2249,7 @@ class GetRouteResponse {
   }
 }
 
+/// @nodoc
 class GetServiceResponse {
   /// The ID of the application.
   final String? applicationId;
@@ -2389,6 +2403,7 @@ class GetServiceResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// The list of <code>ApplicationSummary</code> objects.
   final List<ApplicationSummary>? applicationSummaryList;
@@ -2422,6 +2437,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResponse {
   /// The list of <code>EnvironmentSummary</code> objects.
   final List<EnvironmentSummary>? environmentSummaryList;
@@ -2455,6 +2471,7 @@ class ListEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentVpcsResponse {
   /// The list of <code>EnvironmentVpc</code> objects.
   final List<EnvironmentVpc>? environmentVpcList;
@@ -2487,6 +2504,7 @@ class ListEnvironmentVpcsResponse {
   }
 }
 
+/// @nodoc
 class ListRoutesResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -2519,6 +2537,7 @@ class ListRoutesResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -2551,6 +2570,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags assigned to the resource.
   final Map<String, String>? tags;
@@ -2574,6 +2594,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
 
@@ -2586,6 +2607,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2598,6 +2620,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2610,6 +2633,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateRouteResponse {
   /// The ID of the application in which the route is being updated.
   final String? applicationId;
@@ -2674,6 +2698,7 @@ class UpdateRouteResponse {
   }
 }
 
+/// @nodoc
 class RouteState {
   static const creating = RouteState._('CREATING');
   static const active = RouteState._('ACTIVE');
@@ -2708,6 +2733,7 @@ class RouteState {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteActivationState {
   static const active = RouteActivationState._('ACTIVE');
   static const inactive = RouteActivationState._('INACTIVE');
@@ -2734,6 +2760,8 @@ class RouteActivationState {
 }
 
 /// A summary for the service as a response to <code>ListServices</code>.
+///
+/// @nodoc
 class ServiceSummary {
   /// The unique identifier of the application.
   final String? applicationId;
@@ -2879,6 +2907,7 @@ class ServiceSummary {
   }
 }
 
+/// @nodoc
 class ServiceEndpointType {
   static const lambda = ServiceEndpointType._('LAMBDA');
   static const url = ServiceEndpointType._('URL');
@@ -2905,6 +2934,8 @@ class ServiceEndpointType {
 }
 
 /// The summary of the configuration for the URL endpoint type.
+///
+/// @nodoc
 class UrlEndpointSummary {
   /// The health check URL of the URL endpoint type. If the URL is a public
   /// endpoint, the <code>HealthUrl</code> must also be a public endpoint. If the
@@ -2944,6 +2975,8 @@ class UrlEndpointSummary {
 }
 
 /// The summary for the Lambda endpoint type.
+///
+/// @nodoc
 class LambdaEndpointSummary {
   /// The Amazon Resource Name (ARN) of the Lambda endpoint.
   final String? arn;
@@ -2966,6 +2999,7 @@ class LambdaEndpointSummary {
   }
 }
 
+/// @nodoc
 class ServiceState {
   static const creating = ServiceState._('CREATING');
   static const active = ServiceState._('ACTIVE');
@@ -2993,6 +3027,8 @@ class ServiceState {
 
 /// Error associated with a resource returned for a Get or List resource
 /// response.
+///
+/// @nodoc
 class ErrorResponse {
   /// The Amazon Web Services account ID of the resource owner.
   final String? accountId;
@@ -3052,6 +3088,7 @@ class ErrorResponse {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const invalidResourceState = ErrorCode._('INVALID_RESOURCE_STATE');
   static const resourceLimitExceeded = ErrorCode._('RESOURCE_LIMIT_EXCEEDED');
@@ -3102,6 +3139,7 @@ class ErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorResourceType {
   static const environment = ErrorResourceType._('ENVIRONMENT');
   static const application = ErrorResourceType._('APPLICATION');
@@ -3168,6 +3206,8 @@ class ErrorResourceType {
 
 /// The summary information for the routes as a response to
 /// <code>ListRoutes</code>.
+///
+/// @nodoc
 class RouteSummary {
   /// If set to <code>true</code>, this option appends the source path to the
   /// service URL endpoint.
@@ -3326,6 +3366,7 @@ class RouteSummary {
   }
 }
 
+/// @nodoc
 class RouteType {
   static const $default = RouteType._('DEFAULT');
   static const uriPath = RouteType._('URI_PATH');
@@ -3349,6 +3390,7 @@ class RouteType {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpMethod {
   static const delete = HttpMethod._('DELETE');
   static const get = HttpMethod._('GET');
@@ -3379,6 +3421,8 @@ class HttpMethod {
 
 /// Provides summary information for the <code>EnvironmentVpc</code> resource as
 /// a response to <code>ListEnvironmentVpc</code>.
+///
+/// @nodoc
 class EnvironmentVpc {
   /// The Amazon Web Services account ID of the virtual private cloud (VPC) owner.
   final String? accountId;
@@ -3449,6 +3493,8 @@ class EnvironmentVpc {
 
 /// The summary information for environments as a response to
 /// <code>ListEnvironments</code>.
+///
+/// @nodoc
 class EnvironmentSummary {
   /// The Amazon Resource Name (ARN) of the environment.
   final String? arn;
@@ -3554,6 +3600,7 @@ class EnvironmentSummary {
   }
 }
 
+/// @nodoc
 class NetworkFabricType {
   static const transitGateway = NetworkFabricType._('TRANSIT_GATEWAY');
   static const none = NetworkFabricType._('NONE');
@@ -3578,6 +3625,7 @@ class NetworkFabricType {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentState {
   static const creating = EnvironmentState._('CREATING');
   static const active = EnvironmentState._('ACTIVE');
@@ -3605,6 +3653,8 @@ class EnvironmentState {
 }
 
 /// The list of <code>ApplicationSummary</code> objects.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The endpoint URL of the Amazon API Gateway proxy.
   final ApiGatewayProxySummary? apiGatewayProxy;
@@ -3726,6 +3776,7 @@ class ApplicationSummary {
   }
 }
 
+/// @nodoc
 class ProxyType {
   static const apiGateway = ProxyType._('API_GATEWAY');
 
@@ -3749,6 +3800,8 @@ class ProxyType {
 }
 
 /// A wrapper object holding the Amazon API Gateway proxy summary.
+///
+/// @nodoc
 class ApiGatewayProxySummary {
   /// The resource ID of the API Gateway for the proxy.
   final String? apiGatewayId;
@@ -3816,6 +3869,7 @@ class ApiGatewayProxySummary {
   }
 }
 
+/// @nodoc
 class ApplicationState {
   static const creating = ApplicationState._('CREATING');
   static const active = ApplicationState._('ACTIVE');
@@ -3843,6 +3897,7 @@ class ApplicationState {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiGatewayEndpointType {
   static const regional = ApiGatewayEndpointType._('REGIONAL');
   static const private = ApiGatewayEndpointType._('PRIVATE');
@@ -3869,6 +3924,8 @@ class ApiGatewayEndpointType {
 }
 
 /// The configuration for the URL endpoint type.
+///
+/// @nodoc
 class UrlEndpointConfig {
   /// The health check URL of the URL endpoint type.
   final String? healthUrl;
@@ -3899,6 +3956,8 @@ class UrlEndpointConfig {
 }
 
 /// The configuration for the Lambda endpoint type.
+///
+/// @nodoc
 class LambdaEndpointConfig {
   /// The Amazon Resource Name (ARN) of the Lambda endpoint.
   final String? arn;
@@ -3922,6 +3981,8 @@ class LambdaEndpointConfig {
 }
 
 /// A wrapper object holding the Amazon API Gateway proxy configuration.
+///
+/// @nodoc
 class ApiGatewayProxyConfig {
   /// The resource ID of the API Gateway for the proxy.
   final String? apiGatewayId;
@@ -3990,6 +4051,8 @@ class ApiGatewayProxyConfig {
 }
 
 /// The configuration for the URL endpoint type.
+///
+/// @nodoc
 class UrlEndpointInput {
   /// The URL to route traffic to. The URL must be an <a
   /// href="https://datatracker.ietf.org/doc/html/rfc3986">rfc3986-formatted
@@ -4029,6 +4092,8 @@ class UrlEndpointInput {
 }
 
 /// The input for the Lambda endpoint type.
+///
+/// @nodoc
 class LambdaEndpointInput {
   /// The Amazon Resource Name (ARN) of the Lambda function or alias.
   final String arn;
@@ -4052,6 +4117,8 @@ class LambdaEndpointInput {
 }
 
 /// The configuration for the URI path route type.
+///
+/// @nodoc
 class UriPathRouteInput {
   /// If set to <code>ACTIVE</code>, traffic is forwarded to this route’s service
   /// after the route is created.
@@ -4117,6 +4184,8 @@ class UriPathRouteInput {
 }
 
 /// The configuration for the default route type.
+///
+/// @nodoc
 class DefaultRouteInput {
   /// If set to <code>ACTIVE</code>, traffic is forwarded to this route’s service
   /// after the route is created.
@@ -4135,6 +4204,8 @@ class DefaultRouteInput {
 }
 
 /// A wrapper object holding the Amazon API Gateway endpoint input.
+///
+/// @nodoc
 class ApiGatewayProxyInput {
   /// The type of endpoint to use for the API Gateway proxy. If no value is
   /// specified in the request, the value is set to <code>REGIONAL</code> by
@@ -4178,21 +4249,25 @@ class ApiGatewayProxyInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidResourcePolicyException extends _s.GenericAwsException {
   InvalidResourcePolicyException({String? type, String? message})
       : super(
@@ -4201,11 +4276,13 @@ class InvalidResourcePolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4214,11 +4291,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

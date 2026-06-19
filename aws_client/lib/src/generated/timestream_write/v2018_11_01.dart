@@ -1039,6 +1039,7 @@ class TimestreamWrite {
   }
 }
 
+/// @nodoc
 class CreateBatchLoadTaskResponse {
   /// The ID of the batch load task.
   final String taskId;
@@ -1061,6 +1062,7 @@ class CreateBatchLoadTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateDatabaseResponse {
   /// The newly created Timestream database.
   final Database? database;
@@ -1085,6 +1087,7 @@ class CreateDatabaseResponse {
   }
 }
 
+/// @nodoc
 class CreateTableResponse {
   /// The newly created Timestream table.
   final Table? table;
@@ -1109,6 +1112,7 @@ class CreateTableResponse {
   }
 }
 
+/// @nodoc
 class DescribeBatchLoadTaskResponse {
   /// Description of the batch load task.
   final BatchLoadTaskDescription batchLoadTaskDescription;
@@ -1133,6 +1137,7 @@ class DescribeBatchLoadTaskResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatabaseResponse {
   /// The name of the Timestream table.
   final Database? database;
@@ -1157,6 +1162,7 @@ class DescribeDatabaseResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointsResponse {
   /// An <code>Endpoints</code> object is returned when a
   /// <code>DescribeEndpoints</code> request is made.
@@ -1183,6 +1189,7 @@ class DescribeEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DescribeTableResponse {
   /// The Timestream table.
   final Table? table;
@@ -1207,6 +1214,7 @@ class DescribeTableResponse {
   }
 }
 
+/// @nodoc
 class ListBatchLoadTasksResponse {
   /// A list of batch load task details.
   final List<BatchLoadTask>? batchLoadTasks;
@@ -1240,6 +1248,7 @@ class ListBatchLoadTasksResponse {
   }
 }
 
+/// @nodoc
 class ListDatabasesResponse {
   /// A list of database names.
   final List<Database>? databases;
@@ -1273,6 +1282,7 @@ class ListDatabasesResponse {
   }
 }
 
+/// @nodoc
 class ListTablesResponse {
   /// A token to specify where to start paginating. This is the NextToken from a
   /// previously truncated response.
@@ -1306,6 +1316,7 @@ class ListTablesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags currently associated with the Timestream resource.
   final List<Tag>? tags;
@@ -1331,6 +1342,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ResumeBatchLoadTaskResponse {
   ResumeBatchLoadTaskResponse();
 
@@ -1343,6 +1355,7 @@ class ResumeBatchLoadTaskResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1355,6 +1368,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1367,6 +1381,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatabaseResponse {
   final Database? database;
 
@@ -1390,6 +1405,7 @@ class UpdateDatabaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableResponse {
   /// The updated Timestream table.
   final Table? table;
@@ -1414,6 +1430,7 @@ class UpdateTableResponse {
   }
 }
 
+/// @nodoc
 class WriteRecordsResponse {
   /// Information on the records ingested by this request.
   final RecordsIngested? recordsIngested;
@@ -1440,6 +1457,8 @@ class WriteRecordsResponse {
 }
 
 /// Information on the records ingested by this request.
+///
+/// @nodoc
 class RecordsIngested {
   /// Count of records ingested into the magnetic store.
   final int? magneticStore;
@@ -1493,6 +1512,8 @@ class RecordsIngested {
 /// attribute of the record in the write request is higher than that of the
 /// existing record. Timestream defaults to a <code>Version</code> of
 /// <code>1</code> for records without the <code>Version</code> field.
+///
+/// @nodoc
 class Record {
   /// Contains the list of dimensions for time-series data points.
   final List<Dimension>? dimensions;
@@ -1571,6 +1592,7 @@ class Record {
   }
 }
 
+/// @nodoc
 class MeasureValueType {
   static const $double = MeasureValueType._('DOUBLE');
   static const bigint = MeasureValueType._('BIGINT');
@@ -1599,6 +1621,7 @@ class MeasureValueType {
   String toString() => value;
 }
 
+/// @nodoc
 class TimeUnit {
   static const milliseconds = TimeUnit._('MILLISECONDS');
   static const seconds = TimeUnit._('SECONDS');
@@ -1631,6 +1654,8 @@ class TimeUnit {
 /// MeasureValue is only allowed for type <code>MULTI</code>. Using
 /// <code>MULTI</code> type, you can pass multiple data attributes associated
 /// with the same time series in a single record
+///
+/// @nodoc
 class MeasureValue {
   /// The name of the MeasureValue.
   ///
@@ -1668,6 +1693,8 @@ class MeasureValue {
 /// Represents the metadata attributes of the time series. For example, the name
 /// and Availability Zone of an EC2 instance or the name of the manufacturer of
 /// a wind turbine are dimensions.
+///
+/// @nodoc
 class Dimension {
   /// Dimension represents the metadata attributes of the time series. For
   /// example, the name and Availability Zone of an EC2 instance or the name of
@@ -1703,6 +1730,7 @@ class Dimension {
   }
 }
 
+/// @nodoc
 class DimensionValueType {
   static const varchar = DimensionValueType._('VARCHAR');
 
@@ -1730,6 +1758,8 @@ class DimensionValueType {
 /// Represents a database table in Timestream. Tables contain one or more
 /// related time series. You can modify the retention duration of the memory
 /// store and the magnetic store for a table.
+///
+/// @nodoc
 class Table {
   /// The Amazon Resource Name that uniquely identifies this table.
   final String? arn;
@@ -1830,6 +1860,7 @@ class Table {
   }
 }
 
+/// @nodoc
 class TableStatus {
   static const active = TableStatus._('ACTIVE');
   static const deleting = TableStatus._('DELETING');
@@ -1856,6 +1887,8 @@ class TableStatus {
 
 /// Retention properties contain the duration for which your time-series data
 /// must be stored in the magnetic store and the memory store.
+///
+/// @nodoc
 class RetentionProperties {
   /// The duration for which data must be stored in the magnetic store.
   final int magneticStoreRetentionPeriodInDays;
@@ -1890,6 +1923,8 @@ class RetentionProperties {
 }
 
 /// The set of properties on a table for configuring magnetic store writes.
+///
+/// @nodoc
 class MagneticStoreWriteProperties {
   /// A flag to enable magnetic store writes.
   final bool enableMagneticStoreWrites;
@@ -1929,6 +1964,8 @@ class MagneticStoreWriteProperties {
 }
 
 /// A Schema specifies the expected data model of the table.
+///
+/// @nodoc
 class Schema {
   /// A non-empty list of partition keys defining the attributes used to partition
   /// the table data. The order of the list determines the partition hierarchy.
@@ -1963,6 +2000,8 @@ class Schema {
 /// partitions data using the values of the dimension specified by the
 /// dimension-name as partition key, while a measure key partitions data using
 /// measure names (values of the 'measure_name' column).
+///
+/// @nodoc
 class PartitionKey {
   /// The type of the partition key. Options are DIMENSION (dimension key) and
   /// MEASURE (measure key).
@@ -2004,6 +2043,7 @@ class PartitionKey {
   }
 }
 
+/// @nodoc
 class PartitionKeyType {
   static const dimension = PartitionKeyType._('DIMENSION');
   static const measure = PartitionKeyType._('MEASURE');
@@ -2028,6 +2068,7 @@ class PartitionKeyType {
   String toString() => value;
 }
 
+/// @nodoc
 class PartitionKeyEnforcementLevel {
   static const required = PartitionKeyEnforcementLevel._('REQUIRED');
   static const optional = PartitionKeyEnforcementLevel._('OPTIONAL');
@@ -2055,6 +2096,8 @@ class PartitionKeyEnforcementLevel {
 
 /// The location to write error reports for records rejected, asynchronously,
 /// during magnetic store writes.
+///
+/// @nodoc
 class MagneticStoreRejectedDataLocation {
   /// Configuration of an S3 location to write error reports for records rejected,
   /// asynchronously, during magnetic store writes.
@@ -2083,6 +2126,8 @@ class MagneticStoreRejectedDataLocation {
 }
 
 /// The configuration that specifies an S3 location.
+///
+/// @nodoc
 class S3Configuration {
   /// The bucket name of the customer S3 bucket.
   final String? bucketName;
@@ -2130,6 +2175,7 @@ class S3Configuration {
   }
 }
 
+/// @nodoc
 class S3EncryptionOption {
   static const sseS3 = S3EncryptionOption._('SSE_S3');
   static const sseKms = S3EncryptionOption._('SSE_KMS');
@@ -2158,6 +2204,8 @@ class S3EncryptionOption {
 /// A top-level container for a table. Databases and tables are the fundamental
 /// management concepts in Amazon Timestream. All tables in a database are
 /// encrypted with the same KMS key.
+///
+/// @nodoc
 class Database {
   /// The Amazon Resource Name that uniquely identifies this database.
   final String? arn;
@@ -2222,6 +2270,8 @@ class Database {
 /// tag consists of a key and an optional value, both of which you define. With
 /// tags, you can categorize databases and/or tables, for example, by purpose,
 /// owner, or environment.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag. Tag keys are case sensitive.
   final String key;
@@ -2252,6 +2302,8 @@ class Tag {
 }
 
 /// Details about a batch load task.
+///
+/// @nodoc
 class BatchLoadTask {
   /// The time when the Timestream batch load task was created.
   final DateTime? creationTime;
@@ -2320,6 +2372,7 @@ class BatchLoadTask {
   }
 }
 
+/// @nodoc
 class BatchLoadStatus {
   static const created = BatchLoadStatus._('CREATED');
   static const inProgress = BatchLoadStatus._('IN_PROGRESS');
@@ -2357,6 +2410,8 @@ class BatchLoadStatus {
 
 /// Represents an available endpoint against which to make API calls against, as
 /// well as the TTL for that endpoint.
+///
+/// @nodoc
 class Endpoint {
   /// An endpoint address.
   final String address;
@@ -2387,6 +2442,8 @@ class Endpoint {
 }
 
 /// Details about a batch load task.
+///
+/// @nodoc
 class BatchLoadTaskDescription {
   /// The time when the Timestream batch load task was created.
   final DateTime? creationTime;
@@ -2515,6 +2572,8 @@ class BatchLoadTaskDescription {
 }
 
 /// Defines configuration details about the data source.
+///
+/// @nodoc
 class DataSourceConfiguration {
   /// This is currently CSV.
   final BatchLoadDataFormat dataFormat;
@@ -2556,6 +2615,8 @@ class DataSourceConfiguration {
 }
 
 /// Details about the progress of a batch load task.
+///
+/// @nodoc
 class BatchLoadProgressReport {
   ///
   final int? bytesMetered;
@@ -2616,6 +2677,8 @@ class BatchLoadProgressReport {
 
 /// Report configuration for a batch load task. This contains details about
 /// where error reports are stored.
+///
+/// @nodoc
 class ReportConfiguration {
   /// Configuration of an S3 location to write error reports and events for a
   /// batch load.
@@ -2644,6 +2707,8 @@ class ReportConfiguration {
 }
 
 ///
+///
+/// @nodoc
 class DataModelConfiguration {
   ///
   final DataModel? dataModel;
@@ -2680,6 +2745,8 @@ class DataModelConfiguration {
 }
 
 /// Data model for a batch load task.
+///
+/// @nodoc
 class DataModel {
   /// Source to target mappings for dimensions.
   final List<DimensionMapping> dimensionMappings;
@@ -2751,6 +2818,8 @@ class DataModel {
 }
 
 ///
+///
+/// @nodoc
 class DataModelS3Configuration {
   ///
   final String? bucketName;
@@ -2781,6 +2850,8 @@ class DataModelS3Configuration {
 }
 
 ///
+///
+/// @nodoc
 class MultiMeasureMappings {
   ///
   final List<MultiMeasureAttributeMapping> multiMeasureAttributeMappings;
@@ -2818,6 +2889,8 @@ class MultiMeasureMappings {
 }
 
 ///
+///
+/// @nodoc
 class MixedMeasureMapping {
   ///
   final MeasureValueType measureValueType;
@@ -2876,6 +2949,8 @@ class MixedMeasureMapping {
 }
 
 ///
+///
+/// @nodoc
 class MultiMeasureAttributeMapping {
   ///
   final String sourceColumn;
@@ -2916,6 +2991,7 @@ class MultiMeasureAttributeMapping {
   }
 }
 
+/// @nodoc
 class ScalarMeasureValueType {
   static const $double = ScalarMeasureValueType._('DOUBLE');
   static const bigint = ScalarMeasureValueType._('BIGINT');
@@ -2945,6 +3021,8 @@ class ScalarMeasureValueType {
 }
 
 ///
+///
+/// @nodoc
 class DimensionMapping {
   ///
   final String? destinationColumn;
@@ -2975,6 +3053,8 @@ class DimensionMapping {
 }
 
 ///
+///
+/// @nodoc
 class ReportS3Configuration {
   ///
   final String bucketName;
@@ -3020,6 +3100,8 @@ class ReportS3Configuration {
 }
 
 ///
+///
+/// @nodoc
 class DataSourceS3Configuration {
   /// The bucket name of the customer S3 bucket.
   final String bucketName;
@@ -3051,6 +3133,8 @@ class DataSourceS3Configuration {
 
 /// A delimited data format where the column separator can be a comma and the
 /// record separator is a newline character.
+///
+/// @nodoc
 class CsvConfiguration {
   /// Column separator can be one of comma (','), pipe ('|), semicolon (';'),
   /// tab('/t'), or blank space (' ').
@@ -3102,6 +3186,7 @@ class CsvConfiguration {
   }
 }
 
+/// @nodoc
 class BatchLoadDataFormat {
   static const csv = BatchLoadDataFormat._('CSV');
 
@@ -3126,36 +3211,43 @@ class BatchLoadDataFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidEndpointException extends _s.GenericAwsException {
   InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
+/// @nodoc
 class RejectedRecordsException extends _s.GenericAwsException {
   RejectedRecordsException({String? type, String? message})
       : super(type: type, code: 'RejectedRecordsException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3164,11 +3256,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

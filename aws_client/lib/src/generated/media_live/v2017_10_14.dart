@@ -4714,6 +4714,8 @@ class MediaLive {
 }
 
 /// Placeholder documentation for AcceptInputDeviceTransferResponse
+///
+/// @nodoc
 class AcceptInputDeviceTransferResponse {
   AcceptInputDeviceTransferResponse();
 
@@ -4727,6 +4729,8 @@ class AcceptInputDeviceTransferResponse {
 }
 
 /// Placeholder documentation for BatchDeleteResponse
+///
+/// @nodoc
 class BatchDeleteResponse {
   /// List of failed operations
   final List<BatchFailedResultModel>? failed;
@@ -4765,6 +4769,8 @@ class BatchDeleteResponse {
 }
 
 /// Placeholder documentation for BatchStartResponse
+///
+/// @nodoc
 class BatchStartResponse {
   /// List of failed operations
   final List<BatchFailedResultModel>? failed;
@@ -4803,6 +4809,8 @@ class BatchStartResponse {
 }
 
 /// Placeholder documentation for BatchStopResponse
+///
+/// @nodoc
 class BatchStopResponse {
   /// List of failed operations
   final List<BatchFailedResultModel>? failed;
@@ -4841,6 +4849,8 @@ class BatchStopResponse {
 }
 
 /// Placeholder documentation for BatchUpdateScheduleResponse
+///
+/// @nodoc
 class BatchUpdateScheduleResponse {
   /// Schedule actions created in the schedule.
   final BatchScheduleActionCreateResult? creates;
@@ -4877,6 +4887,8 @@ class BatchUpdateScheduleResponse {
 }
 
 /// Placeholder documentation for CancelInputDeviceTransferResponse
+///
+/// @nodoc
 class CancelInputDeviceTransferResponse {
   CancelInputDeviceTransferResponse();
 
@@ -4890,6 +4902,8 @@ class CancelInputDeviceTransferResponse {
 }
 
 /// Placeholder documentation for ClaimDeviceResponse
+///
+/// @nodoc
 class ClaimDeviceResponse {
   ClaimDeviceResponse();
 
@@ -4903,6 +4917,8 @@ class ClaimDeviceResponse {
 }
 
 /// Placeholder documentation for CreateChannelResponse
+///
+/// @nodoc
 class CreateChannelResponse {
   final Channel? channel;
 
@@ -4927,6 +4943,8 @@ class CreateChannelResponse {
 }
 
 /// Placeholder documentation for CreateChannelPlacementGroupResponse
+///
+/// @nodoc
 class CreateChannelPlacementGroupResponse {
   /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the
   /// ChannelPlacementGroup is created.
@@ -5001,6 +5019,8 @@ class CreateChannelPlacementGroupResponse {
 }
 
 /// Placeholder documentation for CreateCloudWatchAlarmTemplateResponse
+///
+/// @nodoc
 class CreateCloudWatchAlarmTemplateResponse {
   /// A cloudwatch alarm template's ARN (Amazon Resource Name)
   final String? arn;
@@ -5136,6 +5156,8 @@ class CreateCloudWatchAlarmTemplateResponse {
 }
 
 /// Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse
+///
+/// @nodoc
 class CreateCloudWatchAlarmTemplateGroupResponse {
   /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
   final String? arn;
@@ -5199,6 +5221,8 @@ class CreateCloudWatchAlarmTemplateGroupResponse {
 }
 
 /// Placeholder documentation for CreateClusterResponse
+///
+/// @nodoc
 class CreateClusterResponse {
   /// The ARN of this Cluster. It is automatically assigned when the Cluster is
   /// created.
@@ -5281,6 +5305,8 @@ class CreateClusterResponse {
 }
 
 /// Placeholder documentation for CreateEventBridgeRuleTemplateResponse
+///
+/// @nodoc
 class CreateEventBridgeRuleTemplateResponse {
   /// An eventbridge rule template's ARN (Amazon Resource Name)
   final String? arn;
@@ -5367,6 +5393,8 @@ class CreateEventBridgeRuleTemplateResponse {
 }
 
 /// Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse
+///
+/// @nodoc
 class CreateEventBridgeRuleTemplateGroupResponse {
   /// An eventbridge rule template group's ARN (Amazon Resource Name)
   final String? arn;
@@ -5430,6 +5458,8 @@ class CreateEventBridgeRuleTemplateGroupResponse {
 }
 
 /// Placeholder documentation for CreateInputResponse
+///
+/// @nodoc
 class CreateInputResponse {
   final Input? input;
 
@@ -5454,6 +5484,8 @@ class CreateInputResponse {
 }
 
 /// Placeholder documentation for CreateInputSecurityGroupResponse
+///
+/// @nodoc
 class CreateInputSecurityGroupResponse {
   final InputSecurityGroup? securityGroup;
 
@@ -5479,6 +5511,8 @@ class CreateInputSecurityGroupResponse {
 }
 
 /// Placeholder documentation for CreateMultiplexResponse
+///
+/// @nodoc
 class CreateMultiplexResponse {
   /// The newly created multiplex.
   final Multiplex? multiplex;
@@ -5504,6 +5538,8 @@ class CreateMultiplexResponse {
 }
 
 /// Placeholder documentation for CreateMultiplexProgramResponse
+///
+/// @nodoc
 class CreateMultiplexProgramResponse {
   /// The newly created multiplex program.
   final MultiplexProgram? multiplexProgram;
@@ -5530,6 +5566,8 @@ class CreateMultiplexProgramResponse {
 }
 
 /// Placeholder documentation for CreateNetworkResponse
+///
+/// @nodoc
 class CreateNetworkResponse {
   /// The ARN of this Network. It is automatically assigned when the Network is
   /// created.
@@ -5611,6 +5649,8 @@ class CreateNetworkResponse {
 }
 
 /// Placeholder documentation for CreateNodeResponse
+///
+/// @nodoc
 class CreateNodeResponse {
   /// The ARN of the Node. It is automatically assigned when the Node is created.
   final String? arn;
@@ -5721,6 +5761,8 @@ class CreateNodeResponse {
 }
 
 /// Placeholder documentation for CreateNodeRegistrationScriptResponse
+///
+/// @nodoc
 class CreateNodeRegistrationScriptResponse {
   /// A script that can be run on a Bring Your Own Device Elemental Anywhere
   /// system to create a node in a cluster.
@@ -5747,6 +5789,8 @@ class CreateNodeRegistrationScriptResponse {
 }
 
 /// Placeholder documentation for CreatePartnerInputResponse
+///
+/// @nodoc
 class CreatePartnerInputResponse {
   final Input? input;
 
@@ -5771,6 +5815,8 @@ class CreatePartnerInputResponse {
 }
 
 /// Placeholder documentation for CreateSdiSourceResponse
+///
+/// @nodoc
 class CreateSdiSourceResponse {
   /// Settings for the SDI source.
   final SdiSource? sdiSource;
@@ -5796,6 +5842,8 @@ class CreateSdiSourceResponse {
 }
 
 /// Placeholder documentation for CreateSignalMapResponse
+///
+/// @nodoc
 class CreateSignalMapResponse {
   /// A signal map's ARN (Amazon Resource Name)
   final String? arn;
@@ -5953,6 +6001,8 @@ class CreateSignalMapResponse {
 }
 
 /// Placeholder documentation for DeleteChannelResponse
+///
+/// @nodoc
 class DeleteChannelResponse {
   /// Anywhere settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -6179,6 +6229,8 @@ class DeleteChannelResponse {
 }
 
 /// Placeholder documentation for DeleteChannelPlacementGroupResponse
+///
+/// @nodoc
 class DeleteChannelPlacementGroupResponse {
   /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the
   /// ChannelPlacementGroup is created.
@@ -6253,6 +6305,8 @@ class DeleteChannelPlacementGroupResponse {
 }
 
 /// Placeholder documentation for DeleteClusterResponse
+///
+/// @nodoc
 class DeleteClusterResponse {
   /// The ARN of this Cluster. It is automatically assigned when the Cluster is
   /// created.
@@ -6335,6 +6389,8 @@ class DeleteClusterResponse {
 }
 
 /// Placeholder documentation for DeleteInputResponse
+///
+/// @nodoc
 class DeleteInputResponse {
   DeleteInputResponse();
 
@@ -6348,6 +6404,8 @@ class DeleteInputResponse {
 }
 
 /// Placeholder documentation for DeleteInputSecurityGroupResponse
+///
+/// @nodoc
 class DeleteInputSecurityGroupResponse {
   DeleteInputSecurityGroupResponse();
 
@@ -6361,6 +6419,8 @@ class DeleteInputSecurityGroupResponse {
 }
 
 /// Placeholder documentation for DeleteMultiplexResponse
+///
+/// @nodoc
 class DeleteMultiplexResponse {
   /// The unique arn of the multiplex.
   final String? arn;
@@ -6459,6 +6519,8 @@ class DeleteMultiplexResponse {
 }
 
 /// Placeholder documentation for DeleteMultiplexProgramResponse
+///
+/// @nodoc
 class DeleteMultiplexProgramResponse {
   /// The MediaLive channel associated with the program.
   final String? channelId;
@@ -6526,6 +6588,8 @@ class DeleteMultiplexProgramResponse {
 }
 
 /// Placeholder documentation for DeleteNetworkResponse
+///
+/// @nodoc
 class DeleteNetworkResponse {
   /// The ARN of this Network. It is automatically assigned when the Network is
   /// created.
@@ -6607,6 +6671,8 @@ class DeleteNetworkResponse {
 }
 
 /// Placeholder documentation for DeleteNodeResponse
+///
+/// @nodoc
 class DeleteNodeResponse {
   /// The ARN of the Node. It is automatically assigned when the Node is created.
   final String? arn;
@@ -6717,6 +6783,8 @@ class DeleteNodeResponse {
 }
 
 /// Placeholder documentation for DeleteReservationResponse
+///
+/// @nodoc
 class DeleteReservationResponse {
   /// Unique reservation ARN, e.g.
   /// 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
@@ -6882,6 +6950,8 @@ class DeleteReservationResponse {
 }
 
 /// Placeholder documentation for DeleteScheduleResponse
+///
+/// @nodoc
 class DeleteScheduleResponse {
   DeleteScheduleResponse();
 
@@ -6895,6 +6965,8 @@ class DeleteScheduleResponse {
 }
 
 /// Placeholder documentation for DeleteSdiSourceResponse
+///
+/// @nodoc
 class DeleteSdiSourceResponse {
   /// Settings for the SDI source.
   final SdiSource? sdiSource;
@@ -6920,6 +6992,8 @@ class DeleteSdiSourceResponse {
 }
 
 /// Placeholder documentation for DescribeAccountConfigurationResponse
+///
+/// @nodoc
 class DescribeAccountConfigurationResponse {
   final AccountConfiguration? accountConfiguration;
 
@@ -6947,6 +7021,8 @@ class DescribeAccountConfigurationResponse {
 }
 
 /// Placeholder documentation for DescribeChannelResponse
+///
+/// @nodoc
 class DescribeChannelResponse {
   /// Anywhere settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -7173,6 +7249,8 @@ class DescribeChannelResponse {
 }
 
 /// Placeholder documentation for DescribeChannelPlacementGroupResponse
+///
+/// @nodoc
 class DescribeChannelPlacementGroupResponse {
   /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the
   /// ChannelPlacementGroup is created.
@@ -7247,6 +7325,8 @@ class DescribeChannelPlacementGroupResponse {
 }
 
 /// Placeholder documentation for DescribeClusterResponse
+///
+/// @nodoc
 class DescribeClusterResponse {
   /// The ARN of this Cluster. It is automatically assigned when the Cluster is
   /// created.
@@ -7329,6 +7409,8 @@ class DescribeClusterResponse {
 }
 
 /// Placeholder documentation for DescribeInputResponse
+///
+/// @nodoc
 class DescribeInputResponse {
   /// The Unique ARN of the input (generated, immutable).
   final String? arn;
@@ -7547,6 +7629,8 @@ class DescribeInputResponse {
 }
 
 /// Placeholder documentation for DescribeInputDeviceResponse
+///
+/// @nodoc
 class DescribeInputDeviceResponse {
   /// The unique ARN of the input device.
   final String? arn;
@@ -7701,6 +7785,8 @@ class DescribeInputDeviceResponse {
 }
 
 /// Placeholder documentation for DescribeInputDeviceThumbnailResponse
+///
+/// @nodoc
 class DescribeInputDeviceThumbnailResponse {
   /// The binary data for the thumbnail that the Link device has most recently
   /// sent to MediaLive.
@@ -7739,6 +7825,8 @@ class DescribeInputDeviceThumbnailResponse {
 }
 
 /// Placeholder documentation for DescribeInputSecurityGroupResponse
+///
+/// @nodoc
 class DescribeInputSecurityGroupResponse {
   /// Unique ARN of Input Security Group
   final String? arn;
@@ -7815,6 +7903,8 @@ class DescribeInputSecurityGroupResponse {
 }
 
 /// Placeholder documentation for DescribeMultiplexResponse
+///
+/// @nodoc
 class DescribeMultiplexResponse {
   /// The unique arn of the multiplex.
   final String? arn;
@@ -7913,6 +8003,8 @@ class DescribeMultiplexResponse {
 }
 
 /// Placeholder documentation for DescribeMultiplexProgramResponse
+///
+/// @nodoc
 class DescribeMultiplexProgramResponse {
   /// The MediaLive channel associated with the program.
   final String? channelId;
@@ -7980,6 +8072,8 @@ class DescribeMultiplexProgramResponse {
 }
 
 /// Placeholder documentation for DescribeNetworkResponse
+///
+/// @nodoc
 class DescribeNetworkResponse {
   /// The ARN of this Network. It is automatically assigned when the Network is
   /// created.
@@ -8061,6 +8155,8 @@ class DescribeNetworkResponse {
 }
 
 /// Placeholder documentation for DescribeNodeResponse
+///
+/// @nodoc
 class DescribeNodeResponse {
   /// The ARN of the Node. It is automatically assigned when the Node is created.
   final String? arn;
@@ -8171,6 +8267,8 @@ class DescribeNodeResponse {
 }
 
 /// Placeholder documentation for DescribeOfferingResponse
+///
+/// @nodoc
 class DescribeOfferingResponse {
   /// Unique offering ARN, e.g.
   /// 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
@@ -8274,6 +8372,8 @@ class DescribeOfferingResponse {
 }
 
 /// Placeholder documentation for DescribeReservationResponse
+///
+/// @nodoc
 class DescribeReservationResponse {
   /// Unique reservation ARN, e.g.
   /// 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
@@ -8439,6 +8539,8 @@ class DescribeReservationResponse {
 }
 
 /// Placeholder documentation for DescribeScheduleResponse
+///
+/// @nodoc
 class DescribeScheduleResponse {
   /// The next token; for use in pagination.
   final String? nextToken;
@@ -8472,6 +8574,8 @@ class DescribeScheduleResponse {
 }
 
 /// Placeholder documentation for DescribeSdiSourceResponse
+///
+/// @nodoc
 class DescribeSdiSourceResponse {
   /// Settings for the SDI source.
   final SdiSource? sdiSource;
@@ -8497,6 +8601,8 @@ class DescribeSdiSourceResponse {
 }
 
 /// Placeholder documentation for DescribeThumbnailsResponse
+///
+/// @nodoc
 class DescribeThumbnailsResponse {
   final List<ThumbnailDetail>? thumbnailDetails;
 
@@ -8522,6 +8628,8 @@ class DescribeThumbnailsResponse {
 }
 
 /// Placeholder documentation for GetCloudWatchAlarmTemplateResponse
+///
+/// @nodoc
 class GetCloudWatchAlarmTemplateResponse {
   /// A cloudwatch alarm template's ARN (Amazon Resource Name)
   final String? arn;
@@ -8657,6 +8765,8 @@ class GetCloudWatchAlarmTemplateResponse {
 }
 
 /// Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse
+///
+/// @nodoc
 class GetCloudWatchAlarmTemplateGroupResponse {
   /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
   final String? arn;
@@ -8720,6 +8830,8 @@ class GetCloudWatchAlarmTemplateGroupResponse {
 }
 
 /// Placeholder documentation for GetEventBridgeRuleTemplateResponse
+///
+/// @nodoc
 class GetEventBridgeRuleTemplateResponse {
   /// An eventbridge rule template's ARN (Amazon Resource Name)
   final String? arn;
@@ -8806,6 +8918,8 @@ class GetEventBridgeRuleTemplateResponse {
 }
 
 /// Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse
+///
+/// @nodoc
 class GetEventBridgeRuleTemplateGroupResponse {
   /// An eventbridge rule template group's ARN (Amazon Resource Name)
   final String? arn;
@@ -8869,6 +8983,8 @@ class GetEventBridgeRuleTemplateGroupResponse {
 }
 
 /// Placeholder documentation for GetSignalMapResponse
+///
+/// @nodoc
 class GetSignalMapResponse {
   /// A signal map's ARN (Amazon Resource Name)
   final String? arn;
@@ -9026,6 +9142,8 @@ class GetSignalMapResponse {
 }
 
 /// Placeholder documentation for ListAlertsResponse
+///
+/// @nodoc
 class ListAlertsResponse {
   /// The alerts found for this channel
   final List<ChannelAlert>? alerts;
@@ -9059,6 +9177,8 @@ class ListAlertsResponse {
 }
 
 /// Placeholder documentation for ListChannelPlacementGroupsResponse
+///
+/// @nodoc
 class ListChannelPlacementGroupsResponse {
   /// An array of ChannelPlacementGroups that exist in the Cluster.
   final List<DescribeChannelPlacementGroupSummary>? channelPlacementGroups;
@@ -9095,6 +9215,8 @@ class ListChannelPlacementGroupsResponse {
 }
 
 /// Placeholder documentation for ListChannelsResponse
+///
+/// @nodoc
 class ListChannelsResponse {
   final List<ChannelSummary>? channels;
   final String? nextToken;
@@ -9125,6 +9247,8 @@ class ListChannelsResponse {
 }
 
 /// Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse
+///
+/// @nodoc
 class ListCloudWatchAlarmTemplateGroupsResponse {
   final List<CloudWatchAlarmTemplateGroupSummary>?
       cloudWatchAlarmTemplateGroups;
@@ -9163,6 +9287,8 @@ class ListCloudWatchAlarmTemplateGroupsResponse {
 }
 
 /// Placeholder documentation for ListCloudWatchAlarmTemplatesResponse
+///
+/// @nodoc
 class ListCloudWatchAlarmTemplatesResponse {
   final List<CloudWatchAlarmTemplateSummary>? cloudWatchAlarmTemplates;
 
@@ -9199,6 +9325,8 @@ class ListCloudWatchAlarmTemplatesResponse {
 }
 
 /// Placeholder documentation for ListClusterAlertsResponse
+///
+/// @nodoc
 class ListClusterAlertsResponse {
   /// The alerts found for this cluster
   final List<ClusterAlert>? alerts;
@@ -9232,6 +9360,8 @@ class ListClusterAlertsResponse {
 }
 
 /// Placeholder documentation for ListClustersResponse
+///
+/// @nodoc
 class ListClustersResponse {
   /// A list of the Clusters that exist in your AWS account.
   final List<DescribeClusterSummary>? clusters;
@@ -9266,6 +9396,8 @@ class ListClustersResponse {
 }
 
 /// Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse
+///
+/// @nodoc
 class ListEventBridgeRuleTemplateGroupsResponse {
   final List<EventBridgeRuleTemplateGroupSummary>?
       eventBridgeRuleTemplateGroups;
@@ -9304,6 +9436,8 @@ class ListEventBridgeRuleTemplateGroupsResponse {
 }
 
 /// Placeholder documentation for ListEventBridgeRuleTemplatesResponse
+///
+/// @nodoc
 class ListEventBridgeRuleTemplatesResponse {
   final List<EventBridgeRuleTemplateSummary>? eventBridgeRuleTemplates;
 
@@ -9340,6 +9474,8 @@ class ListEventBridgeRuleTemplatesResponse {
 }
 
 /// Placeholder documentation for ListInputDevicesResponse
+///
+/// @nodoc
 class ListInputDevicesResponse {
   /// The list of input devices.
   final List<InputDeviceSummary>? inputDevices;
@@ -9373,6 +9509,8 @@ class ListInputDevicesResponse {
 }
 
 /// Placeholder documentation for ListInputDeviceTransfersResponse
+///
+/// @nodoc
 class ListInputDeviceTransfersResponse {
   /// The list of devices that you are transferring or are being transferred to
   /// you.
@@ -9409,6 +9547,8 @@ class ListInputDeviceTransfersResponse {
 }
 
 /// Placeholder documentation for ListInputsResponse
+///
+/// @nodoc
 class ListInputsResponse {
   final List<Input>? inputs;
   final String? nextToken;
@@ -9439,6 +9579,8 @@ class ListInputsResponse {
 }
 
 /// Placeholder documentation for ListInputSecurityGroupsResponse
+///
+/// @nodoc
 class ListInputSecurityGroupsResponse {
   /// List of input security groups
   final List<InputSecurityGroup>? inputSecurityGroups;
@@ -9471,6 +9613,8 @@ class ListInputSecurityGroupsResponse {
 }
 
 /// Placeholder documentation for ListMultiplexAlertsResponse
+///
+/// @nodoc
 class ListMultiplexAlertsResponse {
   /// The alerts found for this multiplex
   final List<MultiplexAlert>? alerts;
@@ -9504,6 +9648,8 @@ class ListMultiplexAlertsResponse {
 }
 
 /// Placeholder documentation for ListMultiplexesResponse
+///
+/// @nodoc
 class ListMultiplexesResponse {
   /// List of multiplexes.
   final List<MultiplexSummary>? multiplexes;
@@ -9537,6 +9683,8 @@ class ListMultiplexesResponse {
 }
 
 /// Placeholder documentation for ListMultiplexProgramsResponse
+///
+/// @nodoc
 class ListMultiplexProgramsResponse {
   /// List of multiplex programs.
   final List<MultiplexProgramSummary>? multiplexPrograms;
@@ -9571,6 +9719,8 @@ class ListMultiplexProgramsResponse {
 }
 
 /// Placeholder documentation for ListNetworksResponse
+///
+/// @nodoc
 class ListNetworksResponse {
   /// An array of networks that you have created.
   final List<DescribeNetworkSummary>? networks;
@@ -9605,6 +9755,8 @@ class ListNetworksResponse {
 }
 
 /// Placeholder documentation for ListNodesResponse
+///
+/// @nodoc
 class ListNodesResponse {
   /// Token for the next result.
   final String? nextToken;
@@ -9638,6 +9790,8 @@ class ListNodesResponse {
 }
 
 /// Placeholder documentation for ListOfferingsResponse
+///
+/// @nodoc
 class ListOfferingsResponse {
   /// Token to retrieve the next page of results
   final String? nextToken;
@@ -9671,6 +9825,8 @@ class ListOfferingsResponse {
 }
 
 /// Placeholder documentation for ListReservationsResponse
+///
+/// @nodoc
 class ListReservationsResponse {
   /// Token to retrieve the next page of results
   final String? nextToken;
@@ -9704,6 +9860,8 @@ class ListReservationsResponse {
 }
 
 /// Placeholder documentation for ListSdiSourcesResponse
+///
+/// @nodoc
 class ListSdiSourcesResponse {
   final String? nextToken;
   final List<SdiSourceSummary>? sdiSources;
@@ -9734,6 +9892,8 @@ class ListSdiSourcesResponse {
 }
 
 /// Placeholder documentation for ListSignalMapsResponse
+///
+/// @nodoc
 class ListSignalMapsResponse {
   /// A token used to retrieve the next set of results in paginated list
   /// responses.
@@ -9766,6 +9926,8 @@ class ListSignalMapsResponse {
 }
 
 /// Placeholder documentation for ListTagsForResourceResponse
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -9789,6 +9951,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Placeholder documentation for ListVersionsResponse
+///
+/// @nodoc
 class ListVersionsResponse {
   /// List of engine versions that are available for this AWS account.
   final List<ChannelEngineVersionResponse>? versions;
@@ -9816,6 +9980,8 @@ class ListVersionsResponse {
 }
 
 /// Placeholder documentation for PurchaseOfferingResponse
+///
+/// @nodoc
 class PurchaseOfferingResponse {
   final Reservation? reservation;
 
@@ -9840,6 +10006,8 @@ class PurchaseOfferingResponse {
 }
 
 /// Placeholder documentation for RebootInputDeviceResponse
+///
+/// @nodoc
 class RebootInputDeviceResponse {
   RebootInputDeviceResponse();
 
@@ -9853,6 +10021,8 @@ class RebootInputDeviceResponse {
 }
 
 /// Placeholder documentation for RejectInputDeviceTransferResponse
+///
+/// @nodoc
 class RejectInputDeviceTransferResponse {
   RejectInputDeviceTransferResponse();
 
@@ -9866,6 +10036,8 @@ class RejectInputDeviceTransferResponse {
 }
 
 /// Placeholder documentation for RestartChannelPipelinesResponse
+///
+/// @nodoc
 class RestartChannelPipelinesResponse {
   /// Anywhere settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -10099,6 +10271,8 @@ class RestartChannelPipelinesResponse {
 }
 
 /// Placeholder documentation for StartChannelResponse
+///
+/// @nodoc
 class StartChannelResponse {
   /// Anywhere settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -10325,6 +10499,8 @@ class StartChannelResponse {
 }
 
 /// Placeholder documentation for StartDeleteMonitorDeploymentResponse
+///
+/// @nodoc
 class StartDeleteMonitorDeploymentResponse {
   /// A signal map's ARN (Amazon Resource Name)
   final String? arn;
@@ -10483,6 +10659,8 @@ class StartDeleteMonitorDeploymentResponse {
 }
 
 /// Placeholder documentation for StartInputDeviceResponse
+///
+/// @nodoc
 class StartInputDeviceResponse {
   StartInputDeviceResponse();
 
@@ -10496,6 +10674,8 @@ class StartInputDeviceResponse {
 }
 
 /// Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+///
+/// @nodoc
 class StartInputDeviceMaintenanceWindowResponse {
   StartInputDeviceMaintenanceWindowResponse();
 
@@ -10510,6 +10690,8 @@ class StartInputDeviceMaintenanceWindowResponse {
 }
 
 /// Placeholder documentation for StartMonitorDeploymentResponse
+///
+/// @nodoc
 class StartMonitorDeploymentResponse {
   /// A signal map's ARN (Amazon Resource Name)
   final String? arn;
@@ -10667,6 +10849,8 @@ class StartMonitorDeploymentResponse {
 }
 
 /// Placeholder documentation for StartMultiplexResponse
+///
+/// @nodoc
 class StartMultiplexResponse {
   /// The unique arn of the multiplex.
   final String? arn;
@@ -10765,6 +10949,8 @@ class StartMultiplexResponse {
 }
 
 /// Placeholder documentation for StartUpdateSignalMapResponse
+///
+/// @nodoc
 class StartUpdateSignalMapResponse {
   /// A signal map's ARN (Amazon Resource Name)
   final String? arn;
@@ -10922,6 +11108,8 @@ class StartUpdateSignalMapResponse {
 }
 
 /// Placeholder documentation for StopChannelResponse
+///
+/// @nodoc
 class StopChannelResponse {
   /// Anywhere settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -11148,6 +11336,8 @@ class StopChannelResponse {
 }
 
 /// Placeholder documentation for StopInputDeviceResponse
+///
+/// @nodoc
 class StopInputDeviceResponse {
   StopInputDeviceResponse();
 
@@ -11161,6 +11351,8 @@ class StopInputDeviceResponse {
 }
 
 /// Placeholder documentation for StopMultiplexResponse
+///
+/// @nodoc
 class StopMultiplexResponse {
   /// The unique arn of the multiplex.
   final String? arn;
@@ -11259,6 +11451,8 @@ class StopMultiplexResponse {
 }
 
 /// Placeholder documentation for TransferInputDeviceResponse
+///
+/// @nodoc
 class TransferInputDeviceResponse {
   TransferInputDeviceResponse();
 
@@ -11272,6 +11466,8 @@ class TransferInputDeviceResponse {
 }
 
 /// Placeholder documentation for UpdateAccountConfigurationResponse
+///
+/// @nodoc
 class UpdateAccountConfigurationResponse {
   final AccountConfiguration? accountConfiguration;
 
@@ -11299,6 +11495,8 @@ class UpdateAccountConfigurationResponse {
 }
 
 /// Placeholder documentation for UpdateChannelResponse
+///
+/// @nodoc
 class UpdateChannelResponse {
   final Channel? channel;
 
@@ -11323,6 +11521,8 @@ class UpdateChannelResponse {
 }
 
 /// Placeholder documentation for UpdateChannelClassResponse
+///
+/// @nodoc
 class UpdateChannelClassResponse {
   final Channel? channel;
 
@@ -11347,6 +11547,8 @@ class UpdateChannelClassResponse {
 }
 
 /// Placeholder documentation for UpdateChannelPlacementGroupResponse
+///
+/// @nodoc
 class UpdateChannelPlacementGroupResponse {
   /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the
   /// ChannelPlacementGroup is created.
@@ -11421,6 +11623,8 @@ class UpdateChannelPlacementGroupResponse {
 }
 
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse
+///
+/// @nodoc
 class UpdateCloudWatchAlarmTemplateResponse {
   /// A cloudwatch alarm template's ARN (Amazon Resource Name)
   final String? arn;
@@ -11556,6 +11760,8 @@ class UpdateCloudWatchAlarmTemplateResponse {
 }
 
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse
+///
+/// @nodoc
 class UpdateCloudWatchAlarmTemplateGroupResponse {
   /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
   final String? arn;
@@ -11619,6 +11825,8 @@ class UpdateCloudWatchAlarmTemplateGroupResponse {
 }
 
 /// Placeholder documentation for UpdateClusterResponse
+///
+/// @nodoc
 class UpdateClusterResponse {
   /// The ARN of the Cluster.
   final String? arn;
@@ -11695,6 +11903,8 @@ class UpdateClusterResponse {
 }
 
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateResponse
+///
+/// @nodoc
 class UpdateEventBridgeRuleTemplateResponse {
   /// An eventbridge rule template's ARN (Amazon Resource Name)
   final String? arn;
@@ -11781,6 +11991,8 @@ class UpdateEventBridgeRuleTemplateResponse {
 }
 
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse
+///
+/// @nodoc
 class UpdateEventBridgeRuleTemplateGroupResponse {
   /// An eventbridge rule template group's ARN (Amazon Resource Name)
   final String? arn;
@@ -11844,6 +12056,8 @@ class UpdateEventBridgeRuleTemplateGroupResponse {
 }
 
 /// Placeholder documentation for UpdateInputResponse
+///
+/// @nodoc
 class UpdateInputResponse {
   final Input? input;
 
@@ -11868,6 +12082,8 @@ class UpdateInputResponse {
 }
 
 /// Placeholder documentation for UpdateInputDeviceResponse
+///
+/// @nodoc
 class UpdateInputDeviceResponse {
   /// The unique ARN of the input device.
   final String? arn;
@@ -12022,6 +12238,8 @@ class UpdateInputDeviceResponse {
 }
 
 /// Placeholder documentation for UpdateInputSecurityGroupResponse
+///
+/// @nodoc
 class UpdateInputSecurityGroupResponse {
   final InputSecurityGroup? securityGroup;
 
@@ -12047,6 +12265,8 @@ class UpdateInputSecurityGroupResponse {
 }
 
 /// Placeholder documentation for UpdateMultiplexResponse
+///
+/// @nodoc
 class UpdateMultiplexResponse {
   /// The updated multiplex.
   final Multiplex? multiplex;
@@ -12072,6 +12292,8 @@ class UpdateMultiplexResponse {
 }
 
 /// Placeholder documentation for UpdateMultiplexProgramResponse
+///
+/// @nodoc
 class UpdateMultiplexProgramResponse {
   /// The updated multiplex program.
   final MultiplexProgram? multiplexProgram;
@@ -12098,6 +12320,8 @@ class UpdateMultiplexProgramResponse {
 }
 
 /// Placeholder documentation for UpdateNetworkResponse
+///
+/// @nodoc
 class UpdateNetworkResponse {
   /// The ARN of this Network. It is automatically assigned when the Network is
   /// created.
@@ -12179,6 +12403,8 @@ class UpdateNetworkResponse {
 }
 
 /// Placeholder documentation for UpdateNodeResponse
+///
+/// @nodoc
 class UpdateNodeResponse {
   /// The ARN of the Node. It is automatically assigned when the Node is created.
   final String? arn;
@@ -12289,6 +12515,8 @@ class UpdateNodeResponse {
 }
 
 /// Placeholder documentation for UpdateNodeStateResponse
+///
+/// @nodoc
 class UpdateNodeStateResponse {
   /// The ARN of the Node. It is automatically assigned when the Node is created.
   final String? arn;
@@ -12399,6 +12627,8 @@ class UpdateNodeStateResponse {
 }
 
 /// Placeholder documentation for UpdateReservationResponse
+///
+/// @nodoc
 class UpdateReservationResponse {
   final Reservation? reservation;
 
@@ -12423,6 +12653,8 @@ class UpdateReservationResponse {
 }
 
 /// Placeholder documentation for UpdateSdiSourceResponse
+///
+/// @nodoc
 class UpdateSdiSourceResponse {
   /// Settings for the SDI source.
   final SdiSource? sdiSource;
@@ -12449,6 +12681,8 @@ class UpdateSdiSourceResponse {
 
 /// Used in CreateSdiSourceResponse, DeleteSdiSourceResponse,
 /// DescribeSdiSourceResponse, ListSdiSourcesResponse, UpdateSdiSourceResponse
+///
+/// @nodoc
 class SdiSource {
   /// The ARN of this SdiSource. It is automatically assigned when the SdiSource
   /// is created.
@@ -12518,6 +12752,8 @@ class SdiSource {
 }
 
 /// Used in SdiSource, CreateSdiSourceRequest, UpdateSdiSourceRequest.
+///
+/// @nodoc
 class SdiSourceMode {
   static const quadrant = SdiSourceMode._('QUADRANT');
   static const interleave = SdiSourceMode._('INTERLEAVE');
@@ -12543,6 +12779,8 @@ class SdiSourceMode {
 }
 
 /// Used in SdiSource, DescribeNodeRequest, DescribeNodeResult
+///
+/// @nodoc
 class SdiSourceState {
   static const idle = SdiSourceState._('IDLE');
   static const inUse = SdiSourceState._('IN_USE');
@@ -12569,6 +12807,8 @@ class SdiSourceState {
 }
 
 /// Used in SdiSource, CreateSdiSourceRequest, UpdateSdiSourceRequest.
+///
+/// @nodoc
 class SdiSourceType {
   static const single = SdiSourceType._('SINGLE');
   static const quad = SdiSourceType._('QUAD');
@@ -12594,6 +12834,8 @@ class SdiSourceType {
 }
 
 /// Reserved resources available to use
+///
+/// @nodoc
 class Reservation {
   /// Unique reservation ARN, e.g.
   /// 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
@@ -12759,6 +13001,8 @@ class Reservation {
 }
 
 /// Units for duration, e.g. 'MONTHS'
+///
+/// @nodoc
 class OfferingDurationUnits {
   static const months = OfferingDurationUnits._('MONTHS');
 
@@ -12784,6 +13028,8 @@ class OfferingDurationUnits {
 }
 
 /// Offering type, e.g. 'NO_UPFRONT'
+///
+/// @nodoc
 class OfferingType {
   static const noUpfront = OfferingType._('NO_UPFRONT');
 
@@ -12807,6 +13053,8 @@ class OfferingType {
 }
 
 /// The Renewal settings for Reservations
+///
+/// @nodoc
 class RenewalSettings {
   /// Automatic renewal status for the reservation
   final ReservationAutomaticRenewal? automaticRenewal;
@@ -12838,6 +13086,8 @@ class RenewalSettings {
 }
 
 /// Resource configuration (codec, resolution, bitrate, ...)
+///
+/// @nodoc
 class ReservationResourceSpecification {
   /// Channel class, e.g. 'STANDARD'
   final ChannelClass? channelClass;
@@ -12917,6 +13167,8 @@ class ReservationResourceSpecification {
 }
 
 /// Current reservation state
+///
+/// @nodoc
 class ReservationState {
   static const active = ReservationState._('ACTIVE');
   static const expired = ReservationState._('EXPIRED');
@@ -12945,6 +13197,8 @@ class ReservationState {
 
 /// A standard channel has two encoding pipelines and a single pipeline channel
 /// only has one.
+///
+/// @nodoc
 class ChannelClass {
   static const standard = ChannelClass._('STANDARD');
   static const singlePipeline = ChannelClass._('SINGLE_PIPELINE');
@@ -12969,6 +13223,8 @@ class ChannelClass {
 }
 
 /// Codec, 'MPEG2', 'AVC', 'HEVC', 'AUDIO', 'LINK', or 'AV1'
+///
+/// @nodoc
 class ReservationCodec {
   static const mpeg2 = ReservationCodec._('MPEG2');
   static const avc = ReservationCodec._('AVC');
@@ -12998,6 +13254,8 @@ class ReservationCodec {
 }
 
 /// Maximum bitrate in megabits per second
+///
+/// @nodoc
 class ReservationMaximumBitrate {
   static const max_10Mbps = ReservationMaximumBitrate._('MAX_10_MBPS');
   static const max_20Mbps = ReservationMaximumBitrate._('MAX_20_MBPS');
@@ -13025,6 +13283,8 @@ class ReservationMaximumBitrate {
 }
 
 /// Maximum framerate in frames per second (Outputs only)
+///
+/// @nodoc
 class ReservationMaximumFramerate {
   static const max_30Fps = ReservationMaximumFramerate._('MAX_30_FPS');
   static const max_60Fps = ReservationMaximumFramerate._('MAX_60_FPS');
@@ -13052,6 +13312,8 @@ class ReservationMaximumFramerate {
 
 /// Resolution based on lines of vertical resolution; SD is less than 720 lines,
 /// HD is 720 to 1080 lines, FHD is 1080 lines, UHD is greater than 1080 lines
+///
+/// @nodoc
 class ReservationResolution {
   static const sd = ReservationResolution._('SD');
   static const hd = ReservationResolution._('HD');
@@ -13080,6 +13342,8 @@ class ReservationResolution {
 }
 
 /// Resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
+///
+/// @nodoc
 class ReservationResourceType {
   static const input = ReservationResourceType._('INPUT');
   static const output = ReservationResourceType._('OUTPUT');
@@ -13108,6 +13372,8 @@ class ReservationResourceType {
 }
 
 /// Special features, 'ADVANCED_AUDIO' 'AUDIO_NORMALIZATION' 'MGHD' or 'MGUHD'
+///
+/// @nodoc
 class ReservationSpecialFeature {
   static const advancedAudio = ReservationSpecialFeature._('ADVANCED_AUDIO');
   static const audioNormalization =
@@ -13137,6 +13403,8 @@ class ReservationSpecialFeature {
 }
 
 /// Video quality, e.g. 'STANDARD' (Outputs only)
+///
+/// @nodoc
 class ReservationVideoQuality {
   static const standard = ReservationVideoQuality._('STANDARD');
   static const enhanced = ReservationVideoQuality._('ENHANCED');
@@ -13164,6 +13432,8 @@ class ReservationVideoQuality {
 }
 
 /// Automatic Renewal Status for Reservation
+///
+/// @nodoc
 class ReservationAutomaticRenewal {
   static const disabled = ReservationAutomaticRenewal._('DISABLED');
   static const enabled = ReservationAutomaticRenewal._('ENABLED');
@@ -13191,6 +13461,8 @@ class ReservationAutomaticRenewal {
 }
 
 /// Used in DescribeNodeSummary.
+///
+/// @nodoc
 class NodeConnectionState {
   static const connected = NodeConnectionState._('CONNECTED');
   static const disconnected = NodeConnectionState._('DISCONNECTED');
@@ -13218,6 +13490,8 @@ class NodeConnectionState {
 
 /// Used in CreateNodeRequest, CreateNodeRegistrationScriptRequest,
 /// DescribeNodeResult, DescribeNodeSummary, UpdateNodeRequest.
+///
+/// @nodoc
 class NodeRole {
   static const backup = NodeRole._('BACKUP');
   static const active = NodeRole._('ACTIVE');
@@ -13242,6 +13516,8 @@ class NodeRole {
 }
 
 /// Used in DescribeNodeSummary.
+///
+/// @nodoc
 class NodeState {
   static const created = NodeState._('CREATED');
   static const registering = NodeState._('REGISTERING');
@@ -13289,6 +13565,8 @@ class NodeState {
 }
 
 /// Used in DescribeNodeSummary, DescribeNodeResult.
+///
+/// @nodoc
 class SdiSourceMapping {
   /// A number that uniquely identifies the SDI card on the node hardware.
   final int? cardNumber;
@@ -13328,6 +13606,8 @@ class SdiSourceMapping {
 
 /// A mapping that's used to pair a logical network interface name on a Node
 /// with the physical interface name exposed in the operating system.
+///
+/// @nodoc
 class NodeInterfaceMapping {
   /// A uniform logical interface name to address in a MediaLive channel
   /// configuration.
@@ -13382,6 +13662,8 @@ class NodeInterfaceMapping {
 }
 
 /// Used in NodeInterfaceMapping and NodeInterfaceMappingCreateRequest
+///
+/// @nodoc
 class NetworkInterfaceMode {
   static const nat = NetworkInterfaceMode._('NAT');
   static const bridge = NetworkInterfaceMode._('BRIDGE');
@@ -13408,6 +13690,8 @@ class NetworkInterfaceMode {
 }
 
 /// Used in UpdateNodeStateRequest.
+///
+/// @nodoc
 class UpdateNodeStateShape {
   static const active = UpdateNodeStateShape._('ACTIVE');
   static const draining = UpdateNodeStateShape._('DRAINING');
@@ -13436,6 +13720,8 @@ class UpdateNodeStateShape {
 /// Used in SdiSourceMappingsUpdateRequest. One SDI source mapping. It connects
 /// one logical SdiSource to the physical SDI card and port that the physical
 /// SDI source uses. You must specify all three parameters in this object.
+///
+/// @nodoc
 class SdiSourceMappingUpdateRequest {
   /// A number that uniquely identifies the SDI card on the node hardware. For
   /// information about how physical cards are identified on your node hardware,
@@ -13470,6 +13756,8 @@ class SdiSourceMappingUpdateRequest {
 }
 
 /// Used in DescribeNetworkResult, DescribeNetworkSummary, UpdateNetworkResult.
+///
+/// @nodoc
 class NetworkState {
   static const creating = NetworkState._('CREATING');
   static const createFailed = NetworkState._('CREATE_FAILED');
@@ -13511,6 +13799,8 @@ class NetworkState {
 }
 
 /// Used in DescribeNetworkResult, DescribeNetworkSummary, UpdateNetworkResult.
+///
+/// @nodoc
 class Route {
   /// A CIDR block for one Route.
   final String? cidr;
@@ -13541,6 +13831,8 @@ class Route {
 }
 
 /// Used in DescribeNetworkResult, DescribeNetworkSummary, UpdateNetworkResult.
+///
+/// @nodoc
 class IpPool {
   /// A CIDR block of IP addresses that are reserved for MediaLive Anywhere.
   final String? cidr;
@@ -13564,6 +13856,8 @@ class IpPool {
 }
 
 /// Used in UpdateNetworkRequest.
+///
+/// @nodoc
 class RouteUpdateRequest {
   /// A CIDR block for one Route.
   final String? cidr;
@@ -13587,6 +13881,8 @@ class RouteUpdateRequest {
 }
 
 /// Used in UpdateNetworkRequest.
+///
+/// @nodoc
 class IpPoolUpdateRequest {
   /// A CIDR block of IP addresses to reserve for MediaLive Anywhere.
   final String? cidr;
@@ -13604,6 +13900,8 @@ class IpPoolUpdateRequest {
 }
 
 /// The multiplex program object.
+///
+/// @nodoc
 class MultiplexProgram {
   /// The MediaLive channel associated with the program.
   final String? channelId;
@@ -13671,6 +13969,8 @@ class MultiplexProgram {
 }
 
 /// Multiplex Program settings configuration.
+///
+/// @nodoc
 class MultiplexProgramSettings {
   /// Unique program number.
   final int programNumber;
@@ -13723,6 +14023,8 @@ class MultiplexProgramSettings {
 }
 
 /// Packet identifiers map for a given Multiplex program.
+///
+/// @nodoc
 class MultiplexProgramPacketIdentifiersMap {
   final int? aribCaptionsPid;
   final List<int>? audioPids;
@@ -13835,6 +14137,8 @@ class MultiplexProgramPacketIdentifiersMap {
 }
 
 /// The current source for one of the pipelines in the multiplex.
+///
+/// @nodoc
 class MultiplexProgramPipelineDetail {
   /// Identifies the channel pipeline that is currently active for the pipeline
   /// (identified by PipelineId) in the multiplex.
@@ -13872,6 +14176,8 @@ class MultiplexProgramPipelineDetail {
 /// once that ingest is healthy again. If set to \"CURRENTLY_ACTIVE\", it will
 /// not switch back to the other pipeline based on it recovering to a healthy
 /// state, it will only switch if the active pipeline becomes unhealthy.
+///
+/// @nodoc
 class PreferredChannelPipeline {
   static const currentlyActive = PreferredChannelPipeline._('CURRENTLY_ACTIVE');
   static const pipeline_0 = PreferredChannelPipeline._('PIPELINE_0');
@@ -13899,6 +14205,8 @@ class PreferredChannelPipeline {
 }
 
 /// Transport stream service descriptor configuration for the Multiplex program.
+///
+/// @nodoc
 class MultiplexProgramServiceDescriptor {
   /// Name of the provider.
   final String providerName;
@@ -13930,6 +14238,8 @@ class MultiplexProgramServiceDescriptor {
 }
 
 /// The video configuration for each program in a multiplex.
+///
+/// @nodoc
 class MultiplexVideoSettings {
   /// The constant bitrate configuration for the video encode. When this field is
   /// defined, StatmuxSettings must be undefined.
@@ -13965,6 +14275,8 @@ class MultiplexVideoSettings {
 }
 
 /// Statmux rate control settings
+///
+/// @nodoc
 class MultiplexStatmuxVideoSettings {
   /// Maximum statmux bitrate.
   final int? maximumBitrate;
@@ -14006,6 +14318,8 @@ class MultiplexStatmuxVideoSettings {
 }
 
 /// The multiplex object.
+///
+/// @nodoc
 class Multiplex {
   /// The unique arn of the multiplex.
   final String? arn;
@@ -14104,6 +14418,8 @@ class Multiplex {
 }
 
 /// Contains configuration for a Multiplex event
+///
+/// @nodoc
 class MultiplexSettings {
   /// Transport stream bit rate.
   final int transportStreamBitrate;
@@ -14154,6 +14470,8 @@ class MultiplexSettings {
 }
 
 /// The current state of the multiplex.
+///
+/// @nodoc
 class MultiplexState {
   static const creating = MultiplexState._('CREATING');
   static const createFailed = MultiplexState._('CREATE_FAILED');
@@ -14196,6 +14514,8 @@ class MultiplexState {
 }
 
 /// Multiplex output destination settings
+///
+/// @nodoc
 class MultiplexOutputDestination {
   /// Multiplex MediaConnect output destination settings.
   final MultiplexMediaConnectOutputDestinationSettings? mediaConnectSettings;
@@ -14223,6 +14543,8 @@ class MultiplexOutputDestination {
 }
 
 /// Multiplex MediaConnect output destination settings.
+///
+/// @nodoc
 class MultiplexMediaConnectOutputDestinationSettings {
   /// The MediaConnect entitlement ARN available as a Flow source.
   final String? entitlementArn;
@@ -14247,6 +14569,8 @@ class MultiplexMediaConnectOutputDestinationSettings {
 }
 
 /// An Input Security Group
+///
+/// @nodoc
 class InputSecurityGroup {
   /// Unique ARN of Input Security Group
   final String? arn;
@@ -14322,6 +14646,8 @@ class InputSecurityGroup {
 }
 
 /// Placeholder documentation for InputSecurityGroupState
+///
+/// @nodoc
 class InputSecurityGroupState {
   static const idle = InputSecurityGroupState._('IDLE');
   static const inUse = InputSecurityGroupState._('IN_USE');
@@ -14350,6 +14676,8 @@ class InputSecurityGroupState {
 }
 
 /// Whitelist rule
+///
+/// @nodoc
 class InputWhitelistRule {
   /// The IPv4 CIDR that's whitelisted.
   final String? cidr;
@@ -14373,6 +14701,8 @@ class InputWhitelistRule {
 }
 
 /// An IPv4 CIDR to whitelist.
+///
+/// @nodoc
 class InputWhitelistRuleCidr {
   /// The IPv4 CIDR to whitelist.
   final String? cidr;
@@ -14390,6 +14720,8 @@ class InputWhitelistRuleCidr {
 }
 
 /// The state of the connection between the input device and AWS.
+///
+/// @nodoc
 class InputDeviceConnectionState {
   static const disconnected = InputDeviceConnectionState._('DISCONNECTED');
   static const connected = InputDeviceConnectionState._('CONNECTED');
@@ -14420,6 +14752,8 @@ class InputDeviceConnectionState {
 /// bitrate), MediaLive sends the new data to the device. The device might not
 /// update itself immediately. SYNCED means the device has updated its
 /// configuration. SYNCING means that it has not updated its configuration.
+///
+/// @nodoc
 class DeviceSettingsSyncState {
   static const synced = DeviceSettingsSyncState._('SYNCED');
   static const syncing = DeviceSettingsSyncState._('SYNCING');
@@ -14446,6 +14780,8 @@ class DeviceSettingsSyncState {
 }
 
 /// The status of software on the input device.
+///
+/// @nodoc
 class DeviceUpdateStatus {
   static const upToDate = DeviceUpdateStatus._('UP_TO_DATE');
   static const notUpToDate = DeviceUpdateStatus._('NOT_UP_TO_DATE');
@@ -14474,6 +14810,8 @@ class DeviceUpdateStatus {
 
 /// Settings that describe the active source from the input device, and the
 /// video characteristics of that source.
+///
+/// @nodoc
 class InputDeviceHdSettings {
   /// If you specified Auto as the configured input, specifies which of the
   /// sources is currently active (SDI or HDMI).
@@ -14561,6 +14899,8 @@ class InputDeviceHdSettings {
 }
 
 /// The network settings for the input device.
+///
+/// @nodoc
 class InputDeviceNetworkSettings {
   /// The DNS addresses of the input device.
   final List<String>? dnsAddresses;
@@ -14619,6 +14959,8 @@ class InputDeviceNetworkSettings {
 
 /// The type of the input device. For an AWS Elemental Link device that outputs
 /// resolutions up to 1080, choose "HD".
+///
+/// @nodoc
 class InputDeviceType {
   static const hd = InputDeviceType._('HD');
   static const uhd = InputDeviceType._('UHD');
@@ -14645,6 +14987,8 @@ class InputDeviceType {
 
 /// Settings that describe the active source from the input device, and the
 /// video characteristics of that source.
+///
+/// @nodoc
 class InputDeviceUhdSettings {
   /// If you specified Auto as the configured input, specifies which of the
   /// sources is currently active (SDI or HDMI).
@@ -14773,6 +15117,8 @@ class InputDeviceUhdSettings {
 }
 
 /// The output attachment type of the input device.
+///
+/// @nodoc
 class InputDeviceOutputType {
   static const none = InputDeviceOutputType._('NONE');
   static const medialiveInput = InputDeviceOutputType._('MEDIALIVE_INPUT');
@@ -14800,6 +15146,8 @@ class InputDeviceOutputType {
 }
 
 /// The source at the input device that is currently active.
+///
+/// @nodoc
 class InputDeviceActiveInput {
   static const hdmi = InputDeviceActiveInput._('HDMI');
   static const sdi = InputDeviceActiveInput._('SDI');
@@ -14826,6 +15174,8 @@ class InputDeviceActiveInput {
 }
 
 /// The source to activate (use) from the input device.
+///
+/// @nodoc
 class InputDeviceConfiguredInput {
   static const auto = InputDeviceConfiguredInput._('AUTO');
   static const hdmi = InputDeviceConfiguredInput._('HDMI');
@@ -14853,6 +15203,8 @@ class InputDeviceConfiguredInput {
 }
 
 /// The state of the input device.
+///
+/// @nodoc
 class InputDeviceState {
   static const idle = InputDeviceState._('IDLE');
   static const streaming = InputDeviceState._('STREAMING');
@@ -14878,6 +15230,8 @@ class InputDeviceState {
 }
 
 /// The scan type of the video source.
+///
+/// @nodoc
 class InputDeviceScanType {
   static const interlaced = InputDeviceScanType._('INTERLACED');
   static const progressive = InputDeviceScanType._('PROGRESSIVE');
@@ -14904,6 +15258,8 @@ class InputDeviceScanType {
 }
 
 /// The codec to use on the video that the device produces.
+///
+/// @nodoc
 class InputDeviceCodec {
   static const hevc = InputDeviceCodec._('HEVC');
   static const avc = InputDeviceCodec._('AVC');
@@ -14929,6 +15285,8 @@ class InputDeviceCodec {
 }
 
 /// Information about the MediaConnect flow attached to the device.
+///
+/// @nodoc
 class InputDeviceMediaConnectSettings {
   /// The ARN of the MediaConnect flow.
   final String? flowArn;
@@ -14975,6 +15333,8 @@ class InputDeviceMediaConnectSettings {
 
 /// One audio configuration that specifies the format for one audio pair that
 /// the device produces as output.
+///
+/// @nodoc
 class InputDeviceUhdAudioChannelPairConfig {
   /// The ID for one audio pair configuration, a value from 1 to 8.
   final int? id;
@@ -15012,6 +15372,8 @@ class InputDeviceUhdAudioChannelPairConfig {
 
 /// Property of InputDeviceUhdAudioChannelPairConfig, which describes one audio
 /// channel that the device is configured to produce.
+///
+/// @nodoc
 class InputDeviceUhdAudioChannelPairProfile {
   static const disabled = InputDeviceUhdAudioChannelPairProfile._('DISABLED');
   static const vbrAacHhe_16000 =
@@ -15062,6 +15424,8 @@ class InputDeviceUhdAudioChannelPairProfile {
 /// Specifies whether the input device has been configured (outside of
 /// MediaLive) to use a dynamic IP address assignment (DHCP) or a static IP
 /// address.
+///
+/// @nodoc
 class InputDeviceIpScheme {
   static const static = InputDeviceIpScheme._('STATIC');
   static const dhcp = InputDeviceIpScheme._('DHCP');
@@ -15088,6 +15452,8 @@ class InputDeviceIpScheme {
 }
 
 /// Configurable settings for the input device.
+///
+/// @nodoc
 class InputDeviceConfigurableSettings {
   /// An array of eight audio configurations, one for each audio pair in the
   /// source. Set up each audio configuration either to exclude the pair, or to
@@ -15157,6 +15523,8 @@ class InputDeviceConfigurableSettings {
 }
 
 /// Parameters required to attach a MediaConnect flow to the device.
+///
+/// @nodoc
 class InputDeviceMediaConnectConfigurableSettings {
   /// The ARN of the MediaConnect flow to attach this device to.
   final String? flowArn;
@@ -15196,6 +15564,8 @@ class InputDeviceMediaConnectConfigurableSettings {
 
 /// One audio configuration that specifies the format for one audio pair that
 /// the device produces as output.
+///
+/// @nodoc
 class InputDeviceConfigurableAudioChannelPairConfig {
   /// The ID for one audio pair configuration, a value from 1 to 8.
   final int? id;
@@ -15224,6 +15594,8 @@ class InputDeviceConfigurableAudioChannelPairConfig {
 
 /// Property of InputDeviceConfigurableAudioChannelPairConfig, which configures
 /// one audio channel that the device produces.
+///
+/// @nodoc
 class InputDeviceConfigurableAudioChannelPairProfile {
   static const disabled =
       InputDeviceConfigurableAudioChannelPairProfile._('DISABLED');
@@ -15276,6 +15648,8 @@ class InputDeviceConfigurableAudioChannelPairProfile {
 }
 
 /// Placeholder documentation for Input
+///
+/// @nodoc
 class Input {
   /// The Unique ARN of the input (generated, immutable).
   final String? arn;
@@ -15494,6 +15868,8 @@ class Input {
 }
 
 /// A standard input has two sources and a single pipeline input only has one.
+///
+/// @nodoc
 class InputClass {
   static const standard = InputClass._('STANDARD');
   static const singlePipeline = InputClass._('SINGLE_PIPELINE');
@@ -15521,6 +15897,8 @@ class InputClass {
 /// is dynamic you can change the source url of the input dynamically using an
 /// input switch action. Currently, two input types support a dynamic url at
 /// this time, MP4_FILE and TS_FILE. By default all input sources are static.
+///
+/// @nodoc
 class InputSourceType {
   static const static = InputSourceType._('STATIC');
   static const $dynamic = InputSourceType._('DYNAMIC');
@@ -15546,6 +15924,8 @@ class InputSourceType {
 }
 
 /// Placeholder documentation for InputState
+///
+/// @nodoc
 class InputState {
   static const creating = InputState._('CREATING');
   static const detached = InputState._('DETACHED');
@@ -15573,6 +15953,8 @@ class InputState {
 }
 
 /// The different types of inputs that AWS Elemental MediaLive supports.
+///
+/// @nodoc
 class InputType {
   static const udpPush = InputType._('UDP_PUSH');
   static const rtpPush = InputType._('RTP_PUSH');
@@ -15629,6 +16011,8 @@ class InputType {
 }
 
 /// The configured settings for SRT inputs (caller and listener).
+///
+/// @nodoc
 class SrtSettings {
   final List<SrtCallerSource>? srtCallerSources;
   final SrtListenerSettings? srtListenerSettings;
@@ -15665,6 +16049,8 @@ class SrtSettings {
 /// With the introduction of MediaLive Anywhere, a MediaLive input can now exist
 /// in two different places: AWS or inside an on-premises datacenter. By default
 /// all inputs will continue to be AWS inputs.
+///
+/// @nodoc
 class InputNetworkLocation {
   static const aws = InputNetworkLocation._('AWS');
   static const onPremises = InputNetworkLocation._('ON_PREMISES');
@@ -15692,6 +16078,8 @@ class InputNetworkLocation {
 
 /// Settings for a Multicast input. Contains a list of multicast Urls and
 /// optional source ip addresses.
+///
+/// @nodoc
 class MulticastSettings {
   final List<MulticastSource>? sources;
 
@@ -15717,6 +16105,8 @@ class MulticastSettings {
 }
 
 /// Configures the sources for the SMPTE 2110 Receiver Group input.
+///
+/// @nodoc
 class Smpte2110ReceiverGroupSettings {
   final List<Smpte2110ReceiverGroup>? smpte2110ReceiverGroups;
 
@@ -15744,6 +16134,8 @@ class Smpte2110ReceiverGroupSettings {
 }
 
 /// The settings for a MediaConnect Router Input.
+///
+/// @nodoc
 class RouterInputSettings {
   /// MediaConnect Router destinations associated with the MediaLive Input.
   final List<RouterDestination>? destinations;
@@ -15786,6 +16178,8 @@ class RouterInputSettings {
 /// encryption, you must provide the ARN of the secret used to encrypt data in
 /// transit. When using AUTOMATIC encryption, a service-managed secret will be
 /// used instead.
+///
+/// @nodoc
 class RouterEncryptionType {
   static const automatic = RouterEncryptionType._('AUTOMATIC');
   static const secretsManager = RouterEncryptionType._('SECRETS_MANAGER');
@@ -15812,6 +16206,8 @@ class RouterEncryptionType {
 }
 
 /// Placeholder documentation for RouterDestination
+///
+/// @nodoc
 class RouterDestination {
   /// The Availability Zone (AZ) names of the AZs this destination is created in.
   final String? availabilityZoneName;
@@ -15845,6 +16241,8 @@ class RouterDestination {
 
 /// A receiver group is a collection of video, audio, and ancillary streams that
 /// you want to group together and attach to one input.
+///
+/// @nodoc
 class Smpte2110ReceiverGroup {
   /// The single Smpte2110ReceiverGroupSdpSettings that identify the video, audio,
   /// and ancillary streams for this receiver group.
@@ -15873,6 +16271,8 @@ class Smpte2110ReceiverGroup {
 
 /// Information about the SDP files that describe the SMPTE 2110 streams that go
 /// into one SMPTE 2110 receiver group.
+///
+/// @nodoc
 class Smpte2110ReceiverGroupSdpSettings {
   /// A list of InputSdpLocations. Each item in the list specifies the SDP file
   /// and index for one ancillary SMPTE 2110 stream. Each stream encapsulates one
@@ -15925,6 +16325,8 @@ class Smpte2110ReceiverGroupSdpSettings {
 
 /// The location of the SDP file for one of the SMPTE 2110 streams in a receiver
 /// group.
+///
+/// @nodoc
 class InputSdpLocation {
   /// The index of the media stream in the SDP file for one SMPTE 2110 stream.
   final int? mediaIndex;
@@ -15956,6 +16358,8 @@ class InputSdpLocation {
 
 /// Pair of multicast url and source ip address (optional) that make up a
 /// multicast source.
+///
+/// @nodoc
 class MulticastSource {
   /// This represents the customer's source URL where multicast stream is pulled
   /// from.
@@ -15987,6 +16391,8 @@ class MulticastSource {
 }
 
 /// Settings for SRT Listener input.
+///
+/// @nodoc
 class SrtListenerSettings {
   final SrtListenerDecryption? decryption;
 
@@ -16028,6 +16434,8 @@ class SrtListenerSettings {
 
 /// Decryption settings for SRT listener. If present, both algorithm and
 /// passphraseSecretArn are required.
+///
+/// @nodoc
 class SrtListenerDecryption {
   /// The algorithm used to decrypt content.
   final Algorithm algorithm;
@@ -16059,6 +16467,8 @@ class SrtListenerDecryption {
 }
 
 /// Placeholder documentation for Algorithm
+///
+/// @nodoc
 class Algorithm {
   static const aes128 = Algorithm._('AES128');
   static const aes192 = Algorithm._('AES192');
@@ -16088,6 +16498,8 @@ class Algorithm {
 /// upstream system is always the listener. In terms of transmission of the
 /// source content, MediaLive is always the receiver and the upstream system is
 /// always the sender.
+///
+/// @nodoc
 class SrtCallerSource {
   final SrtCallerDecryption? decryption;
 
@@ -16145,6 +16557,8 @@ class SrtCallerSource {
 
 /// The decryption settings for the SRT caller source. Present only if the
 /// source has decryption enabled.
+///
+/// @nodoc
 class SrtCallerDecryption {
   /// The algorithm used to encrypt content.
   final Algorithm? algorithm;
@@ -16178,6 +16592,8 @@ class SrtCallerDecryption {
 }
 
 /// The settings for a PULL type input.
+///
+/// @nodoc
 class InputSource {
   /// The key used to extract the password from EC2 Parameter store.
   final String? passwordParam;
@@ -16215,6 +16631,8 @@ class InputSource {
 }
 
 /// The settings for a MediaConnect Flow.
+///
+/// @nodoc
 class MediaConnectFlow {
   /// The unique ARN of the MediaConnect Flow being used as a source.
   final String? flowArn;
@@ -16238,6 +16656,8 @@ class MediaConnectFlow {
 }
 
 /// Settings for an input device.
+///
+/// @nodoc
 class InputDeviceSettings {
   /// The unique ID for the device.
   final String? id;
@@ -16261,6 +16681,8 @@ class InputDeviceSettings {
 }
 
 /// The settings for a PUSH type input.
+///
+/// @nodoc
 class InputDestination {
   /// The system-generated static IP address of endpoint. It remains fixed for the
   /// lifetime of the input.
@@ -16325,6 +16747,8 @@ class InputDestination {
 }
 
 /// The properties for a VPC type input destination.
+///
+/// @nodoc
 class InputDestinationVpc {
   /// The availability zone of the Input destination.
   final String? availabilityZone;
@@ -16355,6 +16779,8 @@ class InputDestinationVpc {
 }
 
 /// A network route configuration.
+///
+/// @nodoc
 class InputDestinationRoute {
   /// The CIDR of the route.
   final String? cidr;
@@ -16386,6 +16812,8 @@ class InputDestinationRoute {
 
 /// Configures the settings for SRT inputs. Provide either srtCallerSources (for
 /// SRT_CALLER type) OR srtListenerSettings (for SRT_LISTENER type), not both.
+///
+/// @nodoc
 class SrtSettingsRequest {
   final List<SrtCallerSourceRequest>? srtCallerSources;
   final SrtListenerSettingsRequest? srtListenerSettings;
@@ -16408,6 +16836,8 @@ class SrtSettingsRequest {
 
 /// Settings for a Multicast input. Contains a list of multicast Urls and
 /// optional source ip addresses.
+///
+/// @nodoc
 class MulticastSettingsUpdateRequest {
   final List<MulticastSourceUpdateRequest>? sources;
 
@@ -16427,6 +16857,8 @@ class MulticastSettingsUpdateRequest {
 /// special handoff that occurs when a router output is created. This group of
 /// settings is set on your behalf by the MediaConnect Router service using this
 /// set of settings. This setting object can only by used by that service.
+///
+/// @nodoc
 class SpecialRouterSettings {
   /// This is the arn of the MediaConnect Router resource being associated with
   /// the MediaLive Input.
@@ -16446,6 +16878,8 @@ class SpecialRouterSettings {
 
 /// Pair of multicast url and source ip address (optional) that make up a
 /// multicast source.
+///
+/// @nodoc
 class MulticastSourceUpdateRequest {
   /// This represents the customer's source URL where multicast stream is pulled
   /// from.
@@ -16472,6 +16906,8 @@ class MulticastSourceUpdateRequest {
 /// Configuration for SRT Listener input. Encryption is REQUIRED for all SRT
 /// Listener inputs for security reasons. You must provide decryption settings
 /// including algorithm and passphrase secret ARN.
+///
+/// @nodoc
 class SrtListenerSettingsRequest {
   final SrtListenerDecryptionRequest decryption;
 
@@ -16502,6 +16938,8 @@ class SrtListenerSettingsRequest {
 
 /// Decryption settings. If specified, both algorithm and passphraseSecretArn
 /// are required.
+///
+/// @nodoc
 class SrtListenerDecryptionRequest {
   /// Required. The decryption algorithm.
   final Algorithm algorithm;
@@ -16530,6 +16968,8 @@ class SrtListenerDecryptionRequest {
 /// caller and the upstream system is always the listener. In terms of
 /// transmission of the source content, MediaLive is always the receiver and the
 /// upstream system is always the sender.
+///
+/// @nodoc
 class SrtCallerSourceRequest {
   final SrtCallerDecryptionRequest? decryption;
 
@@ -16576,6 +17016,8 @@ class SrtCallerSourceRequest {
 }
 
 /// Complete these parameters only if the content is encrypted.
+///
+/// @nodoc
 class SrtCallerDecryptionRequest {
   /// The algorithm used to encrypt content.
   final Algorithm? algorithm;
@@ -16602,6 +17044,8 @@ class SrtCallerDecryptionRequest {
 }
 
 /// Settings for for a PULL type input.
+///
+/// @nodoc
 class InputSourceRequest {
   /// The key used to extract the password from EC2 Parameter store.
   final String? passwordParam;
@@ -16631,6 +17075,8 @@ class InputSourceRequest {
 }
 
 /// The settings for a MediaConnect Flow.
+///
+/// @nodoc
 class MediaConnectFlowRequest {
   /// The ARN of the MediaConnect Flow that you want to use as a source.
   final String? flowArn;
@@ -16648,6 +17094,8 @@ class MediaConnectFlowRequest {
 }
 
 /// Settings for an input device.
+///
+/// @nodoc
 class InputDeviceRequest {
   /// The unique ID for the device.
   final String? id;
@@ -16665,6 +17113,8 @@ class InputDeviceRequest {
 }
 
 /// Endpoint settings for a PUSH type input.
+///
+/// @nodoc
 class InputDestinationRequest {
   /// If the push input has an input location of ON-PREM, ID the ID of the
   /// attached network.
@@ -16705,6 +17155,8 @@ class InputDestinationRequest {
 }
 
 /// A network route configuration.
+///
+/// @nodoc
 class InputRequestDestinationRoute {
   /// The CIDR of the route.
   final String? cidr;
@@ -16728,6 +17180,8 @@ class InputRequestDestinationRoute {
 }
 
 /// The type of event to match with the rule.
+///
+/// @nodoc
 class EventBridgeRuleTemplateEventType {
   static const medialiveMultiplexAlert =
       EventBridgeRuleTemplateEventType._('MEDIALIVE_MULTIPLEX_ALERT');
@@ -16794,6 +17248,8 @@ class EventBridgeRuleTemplateEventType {
 }
 
 /// The target to which to send matching events.
+///
+/// @nodoc
 class EventBridgeRuleTemplateTarget {
   /// Target ARNs must be either an SNS topic or CloudWatch log group.
   final String arn;
@@ -16818,6 +17274,8 @@ class EventBridgeRuleTemplateTarget {
 
 /// Used in CreateClusterSummary, DescribeClusterSummary, DescribeClusterResult,
 /// UpdateClusterResult.
+///
+/// @nodoc
 class ClusterType {
   static const onPremises = ClusterType._('ON_PREMISES');
 
@@ -16841,6 +17299,8 @@ class ClusterType {
 }
 
 /// Used in DescribeClusterResult, DescribeClusterSummary, UpdateClusterResult.
+///
+/// @nodoc
 class ClusterNetworkSettings {
   /// The network interface that is the default route for traffic to and from the
   /// node. MediaLive Anywhere uses this default when the destination for the
@@ -16880,6 +17340,8 @@ class ClusterNetworkSettings {
 }
 
 /// Used in DescribeClusterSummary, DescribeClusterResult, UpdateClusterResult.
+///
+/// @nodoc
 class ClusterState {
   static const creating = ClusterState._('CREATING');
   static const createFailed = ClusterState._('CREATE_FAILED');
@@ -16915,6 +17377,8 @@ class ClusterState {
 }
 
 /// Used in ClusterNetworkSettings
+///
+/// @nodoc
 class InterfaceMapping {
   /// The logical name for one interface (on every Node) that handles a specific
   /// type of traffic. We recommend that the name hints at the physical interface
@@ -16950,6 +17414,8 @@ class InterfaceMapping {
 }
 
 /// Placeholder documentation for ClusterNetworkSettingsUpdateRequest
+///
+/// @nodoc
 class ClusterNetworkSettingsUpdateRequest {
   /// Include this parameter only if you want to change the default route for the
   /// Cluster. Specify one network interface as the default route for traffic to
@@ -16990,6 +17456,8 @@ class ClusterNetworkSettingsUpdateRequest {
 }
 
 /// Placeholder documentation for InterfaceMappingUpdateRequest
+///
+/// @nodoc
 class InterfaceMappingUpdateRequest {
   /// The logical name for one interface (on every Node) that handles a specific
   /// type of traffic. We recommend that the name hints at the physical interface
@@ -17020,6 +17488,8 @@ class InterfaceMappingUpdateRequest {
 
 /// The comparison operator used to compare the specified statistic and the
 /// threshold.
+///
+/// @nodoc
 class CloudWatchAlarmTemplateComparisonOperator {
   static const greaterThanOrEqualToThreshold =
       CloudWatchAlarmTemplateComparisonOperator._(
@@ -17059,6 +17529,8 @@ class CloudWatchAlarmTemplateComparisonOperator {
 }
 
 /// The statistic to apply to the alarm's metric data.
+///
+/// @nodoc
 class CloudWatchAlarmTemplateStatistic {
   static const sampleCount = CloudWatchAlarmTemplateStatistic._('SampleCount');
   static const average = CloudWatchAlarmTemplateStatistic._('Average');
@@ -17089,6 +17561,8 @@ class CloudWatchAlarmTemplateStatistic {
 
 /// The resource type this template should dynamically generate cloudwatch
 /// metric alarms for.
+///
+/// @nodoc
 class CloudWatchAlarmTemplateTargetResourceType {
   static const cloudfrontDistribution =
       CloudWatchAlarmTemplateTargetResourceType._('CLOUDFRONT_DISTRIBUTION');
@@ -17145,6 +17619,8 @@ class CloudWatchAlarmTemplateTargetResourceType {
 
 /// Specifies how missing data points are treated when evaluating the alarm's
 /// condition.
+///
+/// @nodoc
 class CloudWatchAlarmTemplateTreatMissingData {
   static const notBreaching =
       CloudWatchAlarmTemplateTreatMissingData._('notBreaching');
@@ -17175,6 +17651,8 @@ class CloudWatchAlarmTemplateTreatMissingData {
 }
 
 /// Used in DescribeChannelPlacementGroupResult
+///
+/// @nodoc
 class ChannelPlacementGroupState {
   static const unassigned = ChannelPlacementGroupState._('UNASSIGNED');
   static const assigning = ChannelPlacementGroupState._('ASSIGNING');
@@ -17214,6 +17692,8 @@ class ChannelPlacementGroupState {
 }
 
 /// Placeholder documentation for Channel
+///
+/// @nodoc
 class Channel {
   /// Anywhere settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -17440,6 +17920,8 @@ class Channel {
 }
 
 /// Placeholder documentation for CdiInputSpecification
+///
+/// @nodoc
 class CdiInputSpecification {
   /// Maximum CDI input resolution
   final CdiInputResolution? resolution;
@@ -17464,6 +17946,8 @@ class CdiInputSpecification {
 }
 
 /// Encoder Settings
+///
+/// @nodoc
 class EncoderSettings {
   final List<AudioDescription> audioDescriptions;
   final List<OutputGroup> outputGroups;
@@ -17621,6 +18105,8 @@ class EncoderSettings {
 }
 
 /// Placeholder documentation for InputSpecification
+///
+/// @nodoc
 class InputSpecification {
   /// Input codec
   final InputCodec? codec;
@@ -17660,6 +18146,8 @@ class InputSpecification {
 }
 
 /// The log level the user wants for their channel.
+///
+/// @nodoc
 class LogLevel {
   static const error = LogLevel._('ERROR');
   static const warning = LogLevel._('WARNING');
@@ -17687,6 +18175,8 @@ class LogLevel {
 }
 
 /// Placeholder documentation for MaintenanceStatus
+///
+/// @nodoc
 class MaintenanceStatus {
   /// The currently selected maintenance day.
   final MaintenanceDay? maintenanceDay;
@@ -17736,6 +18226,8 @@ class MaintenanceStatus {
 }
 
 /// Placeholder documentation for ChannelState
+///
+/// @nodoc
 class ChannelState {
   static const creating = ChannelState._('CREATING');
   static const createFailed = ChannelState._('CREATE_FAILED');
@@ -17781,6 +18273,8 @@ class ChannelState {
 }
 
 /// The properties for a private VPC Output
+///
+/// @nodoc
 class VpcOutputSettingsDescription {
   /// The Availability Zones where the vpc subnets are located. The first
   /// Availability Zone applies to the first subnet in the list of subnets. The
@@ -17843,6 +18337,8 @@ class VpcOutputSettingsDescription {
 }
 
 /// Elemental anywhere settings
+///
+/// @nodoc
 class DescribeAnywhereSettings {
   /// The ID of the channel placement group for the channel.
   final String? channelPlacementGroupId;
@@ -17874,6 +18370,8 @@ class DescribeAnywhereSettings {
 }
 
 /// Placeholder documentation for ChannelEngineVersionResponse
+///
+/// @nodoc
 class ChannelEngineVersionResponse {
   /// The UTC time when the version expires.
   final DateTime? expirationDate;
@@ -17905,6 +18403,8 @@ class ChannelEngineVersionResponse {
 }
 
 /// Linked channel configuration details
+///
+/// @nodoc
 class DescribeLinkedChannelSettings {
   final DescribeFollowerChannelSettings? followerChannelSettings;
   final DescribePrimaryChannelSettings? primaryChannelSettings;
@@ -17940,6 +18440,8 @@ class DescribeLinkedChannelSettings {
 }
 
 /// Configures Elemental Inference features in a channel.
+///
+/// @nodoc
 class DescribeInferenceSettings {
   /// A list of audio feed inputs that map audio selectors in the channel to feed
   /// inputs on the associated Elemental Inference feed.
@@ -17976,6 +18478,8 @@ class DescribeInferenceSettings {
 
 /// Maps an audio selector in the channel to a feed input on the associated
 /// Elemental Inference feed.
+///
+/// @nodoc
 class AudioFeedInput {
   /// The name of the audio selector in the channel that will be sent to the
   /// Elemental Inference feed input.
@@ -18008,6 +18512,8 @@ class AudioFeedInput {
 }
 
 /// Details of a follower channel in a linked pair
+///
+/// @nodoc
 class DescribeFollowerChannelSettings {
   /// Specifies this as a follower channel
   final LinkedChannelType? linkedChannelType;
@@ -18040,6 +18546,8 @@ class DescribeFollowerChannelSettings {
 }
 
 /// Details of a primary (leader) channel in a linked pair
+///
+/// @nodoc
 class DescribePrimaryChannelSettings {
   /// The ARNs of the following channels for this primary channel
   final List<String>? followingChannelArns;
@@ -18076,6 +18584,8 @@ class DescribePrimaryChannelSettings {
 }
 
 /// The values for the role for a linked channel.
+///
+/// @nodoc
 class LinkedChannelType {
   static const followingChannel = LinkedChannelType._('FOLLOWING_CHANNEL');
   static const primaryChannel = LinkedChannelType._('PRIMARY_CHANNEL');
@@ -18101,6 +18611,8 @@ class LinkedChannelType {
 }
 
 /// Runtime details of a pipeline when a channel is running.
+///
+/// @nodoc
 class PipelineDetail {
   /// The name of the active input attachment currently being ingested by this
   /// pipeline.
@@ -18191,6 +18703,8 @@ class PipelineDetail {
 }
 
 /// Connection details for a single pipeline of a MediaConnect Router output.
+///
+/// @nodoc
 class MediaConnectRouterOutputConnection {
   /// The ARN of the MediaConnect Router Input connected to this pipeline.
   final String? routerInputArn;
@@ -18215,6 +18729,8 @@ class MediaConnectRouterOutputConnection {
 }
 
 /// The currently selected maintenance day.
+///
+/// @nodoc
 class MaintenanceDay {
   static const monday = MaintenanceDay._('MONDAY');
   static const tuesday = MaintenanceDay._('TUESDAY');
@@ -18253,6 +18769,8 @@ class MaintenanceDay {
 }
 
 /// codec in increasing order of complexity
+///
+/// @nodoc
 class InputCodec {
   static const mpeg2 = InputCodec._('MPEG2');
   static const avc = InputCodec._('AVC');
@@ -18279,6 +18797,8 @@ class InputCodec {
 
 /// Maximum input bitrate in megabits per second. Bitrates up to 50 Mbps are
 /// supported currently.
+///
+/// @nodoc
 class InputMaximumBitrate {
   static const max_10Mbps = InputMaximumBitrate._('MAX_10_MBPS');
   static const max_20Mbps = InputMaximumBitrate._('MAX_20_MBPS');
@@ -18307,6 +18827,8 @@ class InputMaximumBitrate {
 
 /// Input resolution based on lines of vertical resolution in the input; SD is
 /// less than 720 lines, HD is 720 to 1080 lines, UHD is greater than 1080 lines
+///
+/// @nodoc
 class InputResolution {
   static const sd = InputResolution._('SD');
   static const hd = InputResolution._('HD');
@@ -18333,6 +18855,8 @@ class InputResolution {
 }
 
 /// Placeholder documentation for InputAttachment
+///
+/// @nodoc
 class InputAttachment {
   /// User-specified settings for defining what the conditions are for declaring
   /// the input unhealthy and failing over to a different input.
@@ -18400,6 +18924,8 @@ class InputAttachment {
 }
 
 /// The settings for Automatic Input Failover.
+///
+/// @nodoc
 class AutomaticInputFailoverSettings {
   /// The input ID of the secondary input in the automatic input failover pair.
   final String secondaryInputId;
@@ -18456,6 +18982,8 @@ class AutomaticInputFailoverSettings {
 
 /// Live Event input parameters. There can be multiple inputs in a single Live
 /// Event.
+///
+/// @nodoc
 class InputSettings {
   /// Used to select the audio stream to decode for inputs that have multiple
   /// available.
@@ -18581,6 +19109,8 @@ class InputSettings {
 }
 
 /// Input Deblock Filter
+///
+/// @nodoc
 class InputDeblockFilter {
   static const disabled = InputDeblockFilter._('DISABLED');
   static const enabled = InputDeblockFilter._('ENABLED');
@@ -18607,6 +19137,8 @@ class InputDeblockFilter {
 }
 
 /// Input Denoise Filter
+///
+/// @nodoc
 class InputDenoiseFilter {
   static const disabled = InputDenoiseFilter._('DISABLED');
   static const enabled = InputDenoiseFilter._('ENABLED');
@@ -18633,6 +19165,8 @@ class InputDenoiseFilter {
 }
 
 /// Input Filter
+///
+/// @nodoc
 class InputFilter {
   static const auto = InputFilter._('AUTO');
   static const disabled = InputFilter._('DISABLED');
@@ -18659,6 +19193,8 @@ class InputFilter {
 
 /// Network source to transcode. Must be accessible to the Elemental Live node
 /// that is running the live event through a network connection.
+///
+/// @nodoc
 class NetworkInputSettings {
   /// Specifies HLS input settings when the uri is for a HLS manifest.
   final HlsInputSettings? hlsInputSettings;
@@ -18709,6 +19245,8 @@ class NetworkInputSettings {
 }
 
 /// Smpte2038 Data Preference
+///
+/// @nodoc
 class Smpte2038DataPreference {
   static const ignore = Smpte2038DataPreference._('IGNORE');
   static const prefer = Smpte2038DataPreference._('PREFER');
@@ -18735,6 +19273,8 @@ class Smpte2038DataPreference {
 }
 
 /// Input Source End Behavior
+///
+/// @nodoc
 class InputSourceEndBehavior {
   static const $continue = InputSourceEndBehavior._('CONTINUE');
   static const loop = InputSourceEndBehavior._('LOOP');
@@ -18762,6 +19302,8 @@ class InputSourceEndBehavior {
 
 /// Specifies a particular video stream within an input source. An input may
 /// have only a single video selector.
+///
+/// @nodoc
 class VideoSelector {
   /// Controls how MediaLive will use the color space metadata from the source.
   /// Typically, choose FOLLOW, which means to use the color space metadata
@@ -18828,6 +19370,8 @@ class VideoSelector {
 }
 
 /// Video Selector Color Space
+///
+/// @nodoc
 class VideoSelectorColorSpace {
   static const follow = VideoSelectorColorSpace._('FOLLOW');
   static const hdr10 = VideoSelectorColorSpace._('HDR10');
@@ -18857,6 +19401,8 @@ class VideoSelectorColorSpace {
 }
 
 /// Video Selector Color Space Settings
+///
+/// @nodoc
 class VideoSelectorColorSpaceSettings {
   final Hdr10Settings? hdr10Settings;
 
@@ -18882,6 +19428,8 @@ class VideoSelectorColorSpaceSettings {
 }
 
 /// Video Selector Color Space Usage
+///
+/// @nodoc
 class VideoSelectorColorSpaceUsage {
   static const fallback = VideoSelectorColorSpaceUsage._('FALLBACK');
   static const force = VideoSelectorColorSpaceUsage._('FORCE');
@@ -18908,6 +19456,8 @@ class VideoSelectorColorSpaceUsage {
 }
 
 /// Video Selector Settings
+///
+/// @nodoc
 class VideoSelectorSettings {
   final VideoSelectorPid? videoSelectorPid;
   final VideoSelectorProgramId? videoSelectorProgramId;
@@ -18942,6 +19492,8 @@ class VideoSelectorSettings {
 }
 
 /// Video Selector Pid
+///
+/// @nodoc
 class VideoSelectorPid {
   /// Selects a specific PID from within a video source.
   final int? pid;
@@ -18965,6 +19517,8 @@ class VideoSelectorPid {
 }
 
 /// Video Selector Program Id
+///
+/// @nodoc
 class VideoSelectorProgramId {
   /// Selects a specific program from within a multi-program transport stream. If
   /// the program doesn't exist, the first program within the transport stream
@@ -18990,6 +19544,8 @@ class VideoSelectorProgramId {
 }
 
 /// Hdr10 Settings
+///
+/// @nodoc
 class Hdr10Settings {
   /// Maximum Content Light Level An integer metadata value defining the maximum
   /// light level, in nits, of any single pixel within an encoded HDR video stream
@@ -19024,6 +19580,8 @@ class Hdr10Settings {
 }
 
 /// Hls Input Settings
+///
+/// @nodoc
 class HlsInputSettings {
   /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely
   /// matches this value will be chosen, otherwise the highest bandwidth stream in
@@ -19086,6 +19644,8 @@ class HlsInputSettings {
 }
 
 /// Network Input Server Validation
+///
+/// @nodoc
 class NetworkInputServerValidation {
   static const checkCryptographyAndValidateName =
       NetworkInputServerValidation._('CHECK_CRYPTOGRAPHY_AND_VALIDATE_NAME');
@@ -19117,6 +19677,8 @@ class NetworkInputServerValidation {
 }
 
 /// Multicast-specific input settings.
+///
+/// @nodoc
 class MulticastInputSettings {
   /// Optionally, a source ip address to filter by for Source-specific Multicast
   /// (SSM)
@@ -19141,6 +19703,8 @@ class MulticastInputSettings {
 }
 
 /// Hls Scte35 Source Type
+///
+/// @nodoc
 class HlsScte35SourceType {
   static const manifest = HlsScte35SourceType._('MANIFEST');
   static const segments = HlsScte35SourceType._('SEGMENTS');
@@ -19167,6 +19731,8 @@ class HlsScte35SourceType {
 }
 
 /// Caption Selector
+///
+/// @nodoc
 class CaptionSelector {
   /// Name identifier for a caption selector. This name is used to associate this
   /// caption selector with one or more caption descriptions. Names must be unique
@@ -19210,6 +19776,8 @@ class CaptionSelector {
 }
 
 /// Caption Selector Settings
+///
+/// @nodoc
 class CaptionSelectorSettings {
   final AncillarySourceSettings? ancillarySourceSettings;
   final AribSourceSettings? aribSourceSettings;
@@ -19298,6 +19866,8 @@ class CaptionSelectorSettings {
 }
 
 /// Ancillary Source Settings
+///
+/// @nodoc
 class AncillarySourceSettings {
   /// Specifies the number (1 to 4) of the captions channel you want to extract
   /// from the ancillary captions. If you plan to convert the ancillary captions
@@ -19328,6 +19898,8 @@ class AncillarySourceSettings {
 }
 
 /// Arib Source Settings
+///
+/// @nodoc
 class AribSourceSettings {
   AribSourceSettings();
 
@@ -19341,6 +19913,8 @@ class AribSourceSettings {
 }
 
 /// Dvb Sub Source Settings
+///
+/// @nodoc
 class DvbSubSourceSettings {
   /// If you will configure a WebVTT caption description that references this
   /// caption selector, use this field to provide the language to consider when
@@ -19376,6 +19950,8 @@ class DvbSubSourceSettings {
 }
 
 /// Embedded Source Settings
+///
+/// @nodoc
 class EmbeddedSourceSettings {
   /// If upconvert, 608 data is both passed through via the "608 compatibility
   /// bytes" fields of the 708 wrapper as well as translated into 708. 708 data
@@ -19428,6 +20004,8 @@ class EmbeddedSourceSettings {
 }
 
 /// Scte20 Source Settings
+///
+/// @nodoc
 class Scte20SourceSettings {
   /// If upconvert, 608 data is both passed through via the "608 compatibility
   /// bytes" fields of the 708 wrapper as well as translated into 708. 708 data
@@ -19463,6 +20041,8 @@ class Scte20SourceSettings {
 }
 
 /// Scte27 Source Settings
+///
+/// @nodoc
 class Scte27SourceSettings {
   /// If you will configure a WebVTT caption description that references this
   /// caption selector, use this field to provide the language to consider when
@@ -19502,6 +20082,8 @@ class Scte27SourceSettings {
 }
 
 /// Teletext Source Settings
+///
+/// @nodoc
 class TeletextSourceSettings {
   /// Optionally defines a region where TTML style captions will be displayed
   final CaptionRectangle? outputRectangle;
@@ -19538,6 +20120,8 @@ class TeletextSourceSettings {
 }
 
 /// Smart Subtitle Source Settings
+///
+/// @nodoc
 class SmartSubtitleSourceSettings {
   /// Controls whether MediaLive delays video to synchronize captions with audio
   /// and video output.
@@ -19578,6 +20162,8 @@ class SmartSubtitleSourceSettings {
 /// captions are synchronized with audio and video. no_video_delay - MediaLive
 /// does not delay video for caption alignment. Captions output timing is
 /// adjusted to align with video as captions become available.
+///
+/// @nodoc
 class CaptionSynchronizationMode {
   static const noVideoDelay = CaptionSynchronizationMode._('NO_VIDEO_DELAY');
   static const videoAlignedCaptions =
@@ -19605,6 +20191,8 @@ class CaptionSynchronizationMode {
 }
 
 /// Caption Rectangle
+///
+/// @nodoc
 class CaptionRectangle {
   /// See the description in leftOffset. For height, specify the entire height of
   /// the rectangle as a percentage of the underlying frame height. For example,
@@ -19675,6 +20263,8 @@ class CaptionRectangle {
 }
 
 /// Scte27 Ocr Language
+///
+/// @nodoc
 class Scte27OcrLanguage {
   static const deu = Scte27OcrLanguage._('DEU');
   static const eng = Scte27OcrLanguage._('ENG');
@@ -19704,6 +20294,8 @@ class Scte27OcrLanguage {
 }
 
 /// Scte20 Convert608 To708
+///
+/// @nodoc
 class Scte20Convert608To708 {
   static const disabled = Scte20Convert608To708._('DISABLED');
   static const upconvert = Scte20Convert608To708._('UPCONVERT');
@@ -19730,6 +20322,8 @@ class Scte20Convert608To708 {
 }
 
 /// Embedded Convert608 To708
+///
+/// @nodoc
 class EmbeddedConvert608To708 {
   static const disabled = EmbeddedConvert608To708._('DISABLED');
   static const upconvert = EmbeddedConvert608To708._('UPCONVERT');
@@ -19756,6 +20350,8 @@ class EmbeddedConvert608To708 {
 }
 
 /// Embedded Scte20 Detection
+///
+/// @nodoc
 class EmbeddedScte20Detection {
   static const auto = EmbeddedScte20Detection._('AUTO');
   static const off = EmbeddedScte20Detection._('OFF');
@@ -19782,6 +20378,8 @@ class EmbeddedScte20Detection {
 }
 
 /// Dvb Sub Ocr Language
+///
+/// @nodoc
 class DvbSubOcrLanguage {
   static const deu = DvbSubOcrLanguage._('DEU');
   static const eng = DvbSubOcrLanguage._('ENG');
@@ -19811,6 +20409,8 @@ class DvbSubOcrLanguage {
 }
 
 /// Audio Selector
+///
+/// @nodoc
 class AudioSelector {
   /// The name of this AudioSelector. AudioDescriptions will use this name to
   /// uniquely identify this Selector. Selector names should be unique per input.
@@ -19845,6 +20445,8 @@ class AudioSelector {
 }
 
 /// Audio Selector Settings
+///
+/// @nodoc
 class AudioSelectorSettings {
   final AudioHlsRenditionSelection? audioHlsRenditionSelection;
   final AudioLanguageSelection? audioLanguageSelection;
@@ -19897,6 +20499,8 @@ class AudioSelectorSettings {
 }
 
 /// Audio Hls Rendition Selection
+///
+/// @nodoc
 class AudioHlsRenditionSelection {
   /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio
   /// rendition.
@@ -19929,6 +20533,8 @@ class AudioHlsRenditionSelection {
 }
 
 /// Audio Language Selection
+///
+/// @nodoc
 class AudioLanguageSelection {
   /// Selects a specific three-letter language code from within an audio source.
   final String languageCode;
@@ -19966,6 +20572,8 @@ class AudioLanguageSelection {
 }
 
 /// Audio Pid Selection
+///
+/// @nodoc
 class AudioPidSelection {
   /// Selects a specific PID from within a source.
   final int pid;
@@ -19989,6 +20597,8 @@ class AudioPidSelection {
 }
 
 /// Audio Track Selection
+///
+/// @nodoc
 class AudioTrackSelection {
   /// Selects one or more unique audio tracks from within a source.
   final List<AudioTrack> tracks;
@@ -20026,6 +20636,8 @@ class AudioTrackSelection {
 }
 
 /// Audio Dolby EDecode
+///
+/// @nodoc
 class AudioDolbyEDecode {
   /// Applies only to Dolby E. Enter the program ID (according to the metadata in
   /// the audio) of the Dolby E program to extract from the specified track. One
@@ -20055,6 +20667,8 @@ class AudioDolbyEDecode {
 }
 
 /// Dolby EProgram Selection
+///
+/// @nodoc
 class DolbyEProgramSelection {
   static const allChannels = DolbyEProgramSelection._('ALL_CHANNELS');
   static const program_1 = DolbyEProgramSelection._('PROGRAM_1');
@@ -20098,6 +20712,8 @@ class DolbyEProgramSelection {
 }
 
 /// Audio Track
+///
+/// @nodoc
 class AudioTrack {
   /// 1-based integer value that maps to a specific audio track
   final int track;
@@ -20121,6 +20737,8 @@ class AudioTrack {
 }
 
 /// Audio Language Selection Policy
+///
+/// @nodoc
 class AudioLanguageSelectionPolicy {
   static const loose = AudioLanguageSelectionPolicy._('LOOSE');
   static const strict = AudioLanguageSelectionPolicy._('STRICT');
@@ -20151,6 +20769,8 @@ class AudioLanguageSelectionPolicy {
 /// input will stay active as long as it is healthy. If
 /// \"PRIMARY_INPUT_PREFERRED\", then always switch back to the primary input
 /// when it is healthy.
+///
+/// @nodoc
 class InputPreference {
   static const equalInputPreference =
       InputPreference._('EQUAL_INPUT_PREFERENCE');
@@ -20179,6 +20799,8 @@ class InputPreference {
 
 /// Failover Condition settings. There can be multiple failover conditions
 /// inside AutomaticInputFailoverSettings.
+///
+/// @nodoc
 class FailoverCondition {
   /// Failover condition type-specific settings.
   final FailoverConditionSettings? failoverConditionSettings;
@@ -20206,6 +20828,8 @@ class FailoverCondition {
 }
 
 /// Settings for one failover condition.
+///
+/// @nodoc
 class FailoverConditionSettings {
   /// MediaLive will perform a failover if the specified audio selector is silent
   /// for the specified period.
@@ -20256,6 +20880,8 @@ class FailoverConditionSettings {
 }
 
 /// Placeholder documentation for AudioSilenceFailoverSettings
+///
+/// @nodoc
 class AudioSilenceFailoverSettings {
   /// The name of the audio selector in the input that MediaLive should monitor to
   /// detect silence. Select your most important rendition. If you didn't create
@@ -20292,6 +20918,8 @@ class AudioSilenceFailoverSettings {
 
 /// MediaLive will perform a failover if content is not detected in this input
 /// for the specified period.
+///
+/// @nodoc
 class InputLossFailoverSettings {
   /// The amount of time (in milliseconds) that no input is detected. After that
   /// time, an input failover will occur.
@@ -20317,6 +20945,8 @@ class InputLossFailoverSettings {
 }
 
 /// Placeholder documentation for VideoBlackFailoverSettings
+///
+/// @nodoc
 class VideoBlackFailoverSettings {
   /// A value used in calculating the threshold below which MediaLive considers a
   /// pixel to be 'black'. For the input to be considered black, every pixel in a
@@ -20358,6 +20988,8 @@ class VideoBlackFailoverSettings {
 }
 
 /// Avail Blanking
+///
+/// @nodoc
 class AvailBlanking {
   /// Blanking image to be used. Leave empty for solid black. Only bmp and png
   /// images are supported.
@@ -20393,6 +21025,8 @@ class AvailBlanking {
 }
 
 /// Avail Configuration
+///
+/// @nodoc
 class AvailConfiguration {
   /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all
   /// segmentation signals traditionally. With Time Signal APOS mode only Time
@@ -20439,6 +21073,8 @@ class AvailConfiguration {
 }
 
 /// Blackout Slate
+///
+/// @nodoc
 class BlackoutSlate {
   /// Blackout slate image to be used. Leave empty for solid black. Only bmp and
   /// png images are supported.
@@ -20508,6 +21144,8 @@ class BlackoutSlate {
 }
 
 /// Feature Activations
+///
+/// @nodoc
 class FeatureActivations {
   /// Enables the Input Prepare feature. You can create Input Prepare actions in
   /// the schedule only if this feature is enabled. If you disable the feature on
@@ -20554,6 +21192,8 @@ class FeatureActivations {
 }
 
 /// Global Configuration
+///
+/// @nodoc
 class GlobalConfiguration {
   /// Value to set the initial audio gain for the Live Event.
   final int? initialAudioGain;
@@ -20650,6 +21290,8 @@ class GlobalConfiguration {
 }
 
 /// Motion Graphics Configuration
+///
+/// @nodoc
 class MotionGraphicsConfiguration {
   /// Motion Graphics Settings
   final MotionGraphicsSettings motionGraphicsSettings;
@@ -20682,6 +21324,8 @@ class MotionGraphicsConfiguration {
 }
 
 /// Nielsen Configuration
+///
+/// @nodoc
 class NielsenConfiguration {
   /// Enter the Distributor ID assigned to your organization by Nielsen.
   final String? distributorId;
@@ -20714,6 +21358,8 @@ class NielsenConfiguration {
 }
 
 /// Timecode Config
+///
+/// @nodoc
 class TimecodeConfig {
   /// Identifies the source for the timecode that will be associated with the
   /// events outputs. -Embedded (embedded): Initialize the output timecode with
@@ -20753,6 +21399,8 @@ class TimecodeConfig {
 }
 
 /// Thumbnail Configuration
+///
+/// @nodoc
 class ThumbnailConfiguration {
   /// Enables the thumbnail feature. The feature generates thumbnails of the
   /// incoming video in each pipeline in the channel. AUTO turns the feature on,
@@ -20779,6 +21427,8 @@ class ThumbnailConfiguration {
 
 /// Property of encoderSettings. Controls color conversion when you are using 3D
 /// LUT files to perform color conversion on video.
+///
+/// @nodoc
 class ColorCorrectionSettings {
   /// An array of colorCorrections that applies when you are using 3D LUT files to
   /// perform color conversion on video. Each colorCorrection contains one 3D LUT
@@ -20814,6 +21464,8 @@ class ColorCorrectionSettings {
 /// Property of ColorCorrectionSettings. Used for custom color space conversion.
 /// The object identifies one 3D LUT file and specifies the input/output color
 /// space combination that the file will be used for.
+///
+/// @nodoc
 class ColorCorrection {
   /// The color space of the input.
   final ColorSpace inputColorSpace;
@@ -20854,6 +21506,8 @@ class ColorCorrection {
 
 /// Property of colorCorrections. When you are using 3D LUT files to perform
 /// color conversion on video, these are the supported color spaces.
+///
+/// @nodoc
 class ColorSpace {
   static const hdr10 = ColorSpace._('HDR10');
   static const hlg_2020 = ColorSpace._('HLG_2020');
@@ -20880,6 +21534,8 @@ class ColorSpace {
 }
 
 /// Thumbnail State
+///
+/// @nodoc
 class ThumbnailState {
   static const auto = ThumbnailState._('AUTO');
   static const disabled = ThumbnailState._('DISABLED');
@@ -20905,6 +21561,8 @@ class ThumbnailState {
 }
 
 /// Video settings for this stream.
+///
+/// @nodoc
 class VideoDescription {
   /// The name of this VideoDescription. Outputs will use this name to uniquely
   /// identify this Description. Description names should be unique within this
@@ -21000,6 +21658,8 @@ class VideoDescription {
 }
 
 /// Video Codec Settings
+///
+/// @nodoc
 class VideoCodecSettings {
   final Av1Settings? av1Settings;
   final FrameCaptureSettings? frameCaptureSettings;
@@ -21055,6 +21715,8 @@ class VideoCodecSettings {
 }
 
 /// Video Description Respond To Afd
+///
+/// @nodoc
 class VideoDescriptionRespondToAfd {
   static const none = VideoDescriptionRespondToAfd._('NONE');
   static const passthrough = VideoDescriptionRespondToAfd._('PASSTHROUGH');
@@ -21082,6 +21744,8 @@ class VideoDescriptionRespondToAfd {
 }
 
 /// Video Description Scaling Behavior
+///
+/// @nodoc
 class VideoDescriptionScalingBehavior {
   static const $default = VideoDescriptionScalingBehavior._('DEFAULT');
   static const stretchToOutput =
@@ -21110,6 +21774,8 @@ class VideoDescriptionScalingBehavior {
 }
 
 /// Frame Capture Settings
+///
+/// @nodoc
 class FrameCaptureSettings {
   /// The frequency at which to capture frames for inclusion in the output. May be
   /// specified in either seconds or milliseconds, as specified by
@@ -21155,6 +21821,8 @@ class FrameCaptureSettings {
 }
 
 /// H264 Settings
+///
+/// @nodoc
 class H264Settings {
   /// Enables or disables adaptive quantization (AQ), which is a technique
   /// MediaLive can apply to video on a frame-by-frame basis to produce more
@@ -21613,6 +22281,8 @@ class H264Settings {
 }
 
 /// H265 Settings
+///
+/// @nodoc
 class H265Settings {
   /// Framerate denominator.
   final int framerateDenominator;
@@ -22047,6 +22717,8 @@ class H265Settings {
 }
 
 /// Mpeg2 Settings
+///
+/// @nodoc
 class Mpeg2Settings {
   /// description": "The framerate denominator. For example, 1001. The framerate
   /// is the numerator divided by the denominator. For example, 24000 / 1001 =
@@ -22244,6 +22916,8 @@ class Mpeg2Settings {
 }
 
 /// Av1 Settings
+///
+/// @nodoc
 class Av1Settings {
   /// The denominator for the framerate. Framerate is a fraction, for example,
   /// 24000 / 1001.
@@ -22503,6 +23177,8 @@ class Av1Settings {
 }
 
 /// Afd Signaling
+///
+/// @nodoc
 class AfdSignaling {
   static const auto = AfdSignaling._('AUTO');
   static const fixed = AfdSignaling._('FIXED');
@@ -22528,6 +23204,8 @@ class AfdSignaling {
 }
 
 /// Av1 Color Space Settings
+///
+/// @nodoc
 class Av1ColorSpaceSettings {
   final ColorSpacePassthroughSettings? colorSpacePassthroughSettings;
   final Hdr10Settings? hdr10Settings;
@@ -22587,6 +23265,8 @@ class Av1ColorSpaceSettings {
 }
 
 /// Fixed Afd
+///
+/// @nodoc
 class FixedAfd {
   static const afd_0000 = FixedAfd._('AFD_0000');
   static const afd_0010 = FixedAfd._('AFD_0010');
@@ -22632,6 +23312,8 @@ class FixedAfd {
 }
 
 /// Av1 Gop Size Units
+///
+/// @nodoc
 class Av1GopSizeUnits {
   static const frames = Av1GopSizeUnits._('FRAMES');
   static const seconds = Av1GopSizeUnits._('SECONDS');
@@ -22657,6 +23339,8 @@ class Av1GopSizeUnits {
 }
 
 /// Av1 Level
+///
+/// @nodoc
 class Av1Level {
   static const av1Level_2 = Av1Level._('AV1_LEVEL_2');
   static const av1Level_2_1 = Av1Level._('AV1_LEVEL_2_1');
@@ -22710,6 +23394,8 @@ class Av1Level {
 }
 
 /// Av1 Look Ahead Rate Control
+///
+/// @nodoc
 class Av1LookAheadRateControl {
   static const high = Av1LookAheadRateControl._('HIGH');
   static const low = Av1LookAheadRateControl._('LOW');
@@ -22737,6 +23423,8 @@ class Av1LookAheadRateControl {
 }
 
 /// Av1 Scene Change Detect
+///
+/// @nodoc
 class Av1SceneChangeDetect {
   static const disabled = Av1SceneChangeDetect._('DISABLED');
   static const enabled = Av1SceneChangeDetect._('ENABLED');
@@ -22763,6 +23451,8 @@ class Av1SceneChangeDetect {
 }
 
 /// Timecode Burnin Settings
+///
+/// @nodoc
 class TimecodeBurninSettings {
   /// Choose a timecode burn-in font size
   final TimecodeBurninFontSize fontSize;
@@ -22802,6 +23492,8 @@ class TimecodeBurninSettings {
 }
 
 /// Av1 Rate Control Mode
+///
+/// @nodoc
 class Av1RateControlMode {
   static const cbr = Av1RateControlMode._('CBR');
   static const qvbr = Av1RateControlMode._('QVBR');
@@ -22828,6 +23520,8 @@ class Av1RateControlMode {
 }
 
 /// Av1 Spatial Aq
+///
+/// @nodoc
 class Av1SpatialAq {
   static const disabled = Av1SpatialAq._('DISABLED');
   static const enabled = Av1SpatialAq._('ENABLED');
@@ -22852,6 +23546,8 @@ class Av1SpatialAq {
 }
 
 /// Av1 Temporal Aq
+///
+/// @nodoc
 class Av1TemporalAq {
   static const disabled = Av1TemporalAq._('DISABLED');
   static const enabled = Av1TemporalAq._('ENABLED');
@@ -22877,6 +23573,8 @@ class Av1TemporalAq {
 }
 
 /// Av1 Timecode Insertion Behavior
+///
+/// @nodoc
 class Av1TimecodeInsertionBehavior {
   static const disabled = Av1TimecodeInsertionBehavior._('DISABLED');
   static const metadataObu = Av1TimecodeInsertionBehavior._('METADATA_OBU');
@@ -22903,6 +23601,8 @@ class Av1TimecodeInsertionBehavior {
 }
 
 /// Av1 Bit Depth
+///
+/// @nodoc
 class Av1BitDepth {
   static const depth_10 = Av1BitDepth._('DEPTH_10');
   static const depth_8 = Av1BitDepth._('DEPTH_8');
@@ -22927,6 +23627,8 @@ class Av1BitDepth {
 }
 
 /// Timecode Burnin Font Size
+///
+/// @nodoc
 class TimecodeBurninFontSize {
   static const extraSmall_10 = TimecodeBurninFontSize._('EXTRA_SMALL_10');
   static const large_48 = TimecodeBurninFontSize._('LARGE_48');
@@ -22955,6 +23657,8 @@ class TimecodeBurninFontSize {
 }
 
 /// Timecode Burnin Position
+///
+/// @nodoc
 class TimecodeBurninPosition {
   static const bottomCenter = TimecodeBurninPosition._('BOTTOM_CENTER');
   static const bottomLeft = TimecodeBurninPosition._('BOTTOM_LEFT');
@@ -22998,6 +23702,8 @@ class TimecodeBurninPosition {
 }
 
 /// Passthrough applies no color space conversion to the output
+///
+/// @nodoc
 class ColorSpacePassthroughSettings {
   ColorSpacePassthroughSettings();
 
@@ -23011,6 +23717,8 @@ class ColorSpacePassthroughSettings {
 }
 
 /// Rec601 Settings
+///
+/// @nodoc
 class Rec601Settings {
   Rec601Settings();
 
@@ -23024,6 +23732,8 @@ class Rec601Settings {
 }
 
 /// Rec709 Settings
+///
+/// @nodoc
 class Rec709Settings {
   Rec709Settings();
 
@@ -23037,6 +23747,8 @@ class Rec709Settings {
 }
 
 /// Hlg2020 Settings
+///
+/// @nodoc
 class Hlg2020Settings {
   Hlg2020Settings();
 
@@ -23050,6 +23762,8 @@ class Hlg2020Settings {
 }
 
 /// Mpeg2 Adaptive Quantization
+///
+/// @nodoc
 class Mpeg2AdaptiveQuantization {
   static const auto = Mpeg2AdaptiveQuantization._('AUTO');
   static const high = Mpeg2AdaptiveQuantization._('HIGH');
@@ -23079,6 +23793,8 @@ class Mpeg2AdaptiveQuantization {
 }
 
 /// Mpeg2 Color Metadata
+///
+/// @nodoc
 class Mpeg2ColorMetadata {
   static const ignore = Mpeg2ColorMetadata._('IGNORE');
   static const insert = Mpeg2ColorMetadata._('INSERT');
@@ -23105,6 +23821,8 @@ class Mpeg2ColorMetadata {
 }
 
 /// Mpeg2 Color Space
+///
+/// @nodoc
 class Mpeg2ColorSpace {
   static const auto = Mpeg2ColorSpace._('AUTO');
   static const passthrough = Mpeg2ColorSpace._('PASSTHROUGH');
@@ -23130,6 +23848,8 @@ class Mpeg2ColorSpace {
 }
 
 /// Mpeg2 Display Ratio
+///
+/// @nodoc
 class Mpeg2DisplayRatio {
   static const displayratio16x9 = Mpeg2DisplayRatio._('DISPLAYRATIO16X9');
   static const displayratio4x3 = Mpeg2DisplayRatio._('DISPLAYRATIO4X3');
@@ -23155,6 +23875,8 @@ class Mpeg2DisplayRatio {
 }
 
 /// Mpeg2 Filter Settings
+///
+/// @nodoc
 class Mpeg2FilterSettings {
   final TemporalFilterSettings? temporalFilterSettings;
 
@@ -23181,6 +23903,8 @@ class Mpeg2FilterSettings {
 }
 
 /// Mpeg2 Gop Size Units
+///
+/// @nodoc
 class Mpeg2GopSizeUnits {
   static const frames = Mpeg2GopSizeUnits._('FRAMES');
   static const seconds = Mpeg2GopSizeUnits._('SECONDS');
@@ -23206,6 +23930,8 @@ class Mpeg2GopSizeUnits {
 }
 
 /// Mpeg2 Scan Type
+///
+/// @nodoc
 class Mpeg2ScanType {
   static const interlaced = Mpeg2ScanType._('INTERLACED');
   static const progressive = Mpeg2ScanType._('PROGRESSIVE');
@@ -23231,6 +23957,8 @@ class Mpeg2ScanType {
 }
 
 /// Mpeg2 Sub Gop Length
+///
+/// @nodoc
 class Mpeg2SubGopLength {
   static const $dynamic = Mpeg2SubGopLength._('DYNAMIC');
   static const fixed = Mpeg2SubGopLength._('FIXED');
@@ -23256,6 +23984,8 @@ class Mpeg2SubGopLength {
 }
 
 /// Mpeg2 Timecode Insertion Behavior
+///
+/// @nodoc
 class Mpeg2TimecodeInsertionBehavior {
   static const disabled = Mpeg2TimecodeInsertionBehavior._('DISABLED');
   static const gopTimecode = Mpeg2TimecodeInsertionBehavior._('GOP_TIMECODE');
@@ -23282,6 +24012,8 @@ class Mpeg2TimecodeInsertionBehavior {
 }
 
 /// Temporal Filter Settings
+///
+/// @nodoc
 class TemporalFilterSettings {
   /// If you enable this filter, the results are the following: - If the source
   /// content is noisy (it contains excessive digital artifacts), the filter
@@ -23321,6 +24053,8 @@ class TemporalFilterSettings {
 }
 
 /// Temporal Filter Post Filter Sharpening
+///
+/// @nodoc
 class TemporalFilterPostFilterSharpening {
   static const auto = TemporalFilterPostFilterSharpening._('AUTO');
   static const disabled = TemporalFilterPostFilterSharpening._('DISABLED');
@@ -23348,6 +24082,8 @@ class TemporalFilterPostFilterSharpening {
 }
 
 /// Temporal Filter Strength
+///
+/// @nodoc
 class TemporalFilterStrength {
   static const auto = TemporalFilterStrength._('AUTO');
   static const strength_1 = TemporalFilterStrength._('STRENGTH_1');
@@ -23407,6 +24143,8 @@ class TemporalFilterStrength {
 }
 
 /// H265 Adaptive Quantization
+///
+/// @nodoc
 class H265AdaptiveQuantization {
   static const auto = H265AdaptiveQuantization._('AUTO');
   static const high = H265AdaptiveQuantization._('HIGH');
@@ -23438,6 +24176,8 @@ class H265AdaptiveQuantization {
 }
 
 /// H265 Alternative Transfer Function
+///
+/// @nodoc
 class H265AlternativeTransferFunction {
   static const insert = H265AlternativeTransferFunction._('INSERT');
   static const omit = H265AlternativeTransferFunction._('OMIT');
@@ -23464,6 +24204,8 @@ class H265AlternativeTransferFunction {
 }
 
 /// H265 Color Metadata
+///
+/// @nodoc
 class H265ColorMetadata {
   static const ignore = H265ColorMetadata._('IGNORE');
   static const insert = H265ColorMetadata._('INSERT');
@@ -23489,6 +24231,8 @@ class H265ColorMetadata {
 }
 
 /// H265 Color Space Settings
+///
+/// @nodoc
 class H265ColorSpaceSettings {
   final ColorSpacePassthroughSettings? colorSpacePassthroughSettings;
   final DolbyVision81Settings? dolbyVision81Settings;
@@ -23557,6 +24301,8 @@ class H265ColorSpaceSettings {
 }
 
 /// H265 Filter Settings
+///
+/// @nodoc
 class H265FilterSettings {
   final BandwidthReductionFilterSettings? bandwidthReductionFilterSettings;
   final TemporalFilterSettings? temporalFilterSettings;
@@ -23595,6 +24341,8 @@ class H265FilterSettings {
 }
 
 /// H265 Flicker Aq
+///
+/// @nodoc
 class H265FlickerAq {
   static const disabled = H265FlickerAq._('DISABLED');
   static const enabled = H265FlickerAq._('ENABLED');
@@ -23620,6 +24368,8 @@ class H265FlickerAq {
 }
 
 /// H265 Gop Size Units
+///
+/// @nodoc
 class H265GopSizeUnits {
   static const frames = H265GopSizeUnits._('FRAMES');
   static const seconds = H265GopSizeUnits._('SECONDS');
@@ -23645,6 +24395,8 @@ class H265GopSizeUnits {
 }
 
 /// H265 Level
+///
+/// @nodoc
 class H265Level {
   static const h265Level_1 = H265Level._('H265_LEVEL_1');
   static const h265Level_2 = H265Level._('H265_LEVEL_2');
@@ -23696,6 +24448,8 @@ class H265Level {
 }
 
 /// H265 Look Ahead Rate Control
+///
+/// @nodoc
 class H265LookAheadRateControl {
   static const high = H265LookAheadRateControl._('HIGH');
   static const low = H265LookAheadRateControl._('LOW');
@@ -23723,6 +24477,8 @@ class H265LookAheadRateControl {
 }
 
 /// H265 Profile
+///
+/// @nodoc
 class H265Profile {
   static const main = H265Profile._('MAIN');
   static const main_10bit = H265Profile._('MAIN_10BIT');
@@ -23747,6 +24503,8 @@ class H265Profile {
 }
 
 /// H265 Rate Control Mode
+///
+/// @nodoc
 class H265RateControlMode {
   static const cbr = H265RateControlMode._('CBR');
   static const multiplex = H265RateControlMode._('MULTIPLEX');
@@ -23774,6 +24532,8 @@ class H265RateControlMode {
 }
 
 /// H265 Scan Type
+///
+/// @nodoc
 class H265ScanType {
   static const interlaced = H265ScanType._('INTERLACED');
   static const progressive = H265ScanType._('PROGRESSIVE');
@@ -23798,6 +24558,8 @@ class H265ScanType {
 }
 
 /// H265 Scene Change Detect
+///
+/// @nodoc
 class H265SceneChangeDetect {
   static const disabled = H265SceneChangeDetect._('DISABLED');
   static const enabled = H265SceneChangeDetect._('ENABLED');
@@ -23824,6 +24586,8 @@ class H265SceneChangeDetect {
 }
 
 /// H265 Tier
+///
+/// @nodoc
 class H265Tier {
   static const high = H265Tier._('HIGH');
   static const main = H265Tier._('MAIN');
@@ -23848,6 +24612,8 @@ class H265Tier {
 }
 
 /// H265 Timecode Insertion Behavior
+///
+/// @nodoc
 class H265TimecodeInsertionBehavior {
   static const disabled = H265TimecodeInsertionBehavior._('DISABLED');
   static const picTimingSei = H265TimecodeInsertionBehavior._('PIC_TIMING_SEI');
@@ -23874,6 +24640,8 @@ class H265TimecodeInsertionBehavior {
 }
 
 /// H265 Mv Over Picture Boundaries
+///
+/// @nodoc
 class H265MvOverPictureBoundaries {
   static const disabled = H265MvOverPictureBoundaries._('DISABLED');
   static const enabled = H265MvOverPictureBoundaries._('ENABLED');
@@ -23900,6 +24668,8 @@ class H265MvOverPictureBoundaries {
 }
 
 /// H265 Mv Temporal Predictor
+///
+/// @nodoc
 class H265MvTemporalPredictor {
   static const disabled = H265MvTemporalPredictor._('DISABLED');
   static const enabled = H265MvTemporalPredictor._('ENABLED');
@@ -23926,6 +24696,8 @@ class H265MvTemporalPredictor {
 }
 
 /// H265 Tile Padding
+///
+/// @nodoc
 class H265TilePadding {
   static const none = H265TilePadding._('NONE');
   static const padded = H265TilePadding._('PADDED');
@@ -23951,6 +24723,8 @@ class H265TilePadding {
 }
 
 /// H265 Treeblock Size
+///
+/// @nodoc
 class H265TreeblockSize {
   static const auto = H265TreeblockSize._('AUTO');
   static const treeSize_32x32 = H265TreeblockSize._('TREE_SIZE_32X32');
@@ -23976,6 +24750,8 @@ class H265TreeblockSize {
 }
 
 /// H265 Deblocking
+///
+/// @nodoc
 class H265Deblocking {
   static const disabled = H265Deblocking._('DISABLED');
   static const enabled = H265Deblocking._('ENABLED');
@@ -24001,6 +24777,8 @@ class H265Deblocking {
 }
 
 /// H265 Gop BReference
+///
+/// @nodoc
 class H265GopBReference {
   static const disabled = H265GopBReference._('DISABLED');
   static const enabled = H265GopBReference._('ENABLED');
@@ -24026,6 +24804,8 @@ class H265GopBReference {
 }
 
 /// H265 Sub Gop Length
+///
+/// @nodoc
 class H265SubGopLength {
   static const $dynamic = H265SubGopLength._('DYNAMIC');
   static const fixed = H265SubGopLength._('FIXED');
@@ -24051,6 +24831,8 @@ class H265SubGopLength {
 }
 
 /// Bandwidth Reduction Filter Settings
+///
+/// @nodoc
 class BandwidthReductionFilterSettings {
   /// Configures the sharpening control, which is available when the bandwidth
   /// reduction filter is enabled. This control sharpens edges and contours, which
@@ -24090,6 +24872,8 @@ class BandwidthReductionFilterSettings {
 }
 
 /// Bandwidth Reduction Post Filter Sharpening
+///
+/// @nodoc
 class BandwidthReductionPostFilterSharpening {
   static const disabled = BandwidthReductionPostFilterSharpening._('DISABLED');
   static const sharpening_1 =
@@ -24121,6 +24905,8 @@ class BandwidthReductionPostFilterSharpening {
 }
 
 /// Bandwidth Reduction Filter Strength
+///
+/// @nodoc
 class BandwidthReductionFilterStrength {
   static const auto = BandwidthReductionFilterStrength._('AUTO');
   static const strength_1 = BandwidthReductionFilterStrength._('STRENGTH_1');
@@ -24150,6 +24936,8 @@ class BandwidthReductionFilterStrength {
 }
 
 /// Dolby Vision81 Settings
+///
+/// @nodoc
 class DolbyVision81Settings {
   DolbyVision81Settings();
 
@@ -24163,6 +24951,8 @@ class DolbyVision81Settings {
 }
 
 /// H264 Adaptive Quantization
+///
+/// @nodoc
 class H264AdaptiveQuantization {
   static const auto = H264AdaptiveQuantization._('AUTO');
   static const high = H264AdaptiveQuantization._('HIGH');
@@ -24194,6 +24984,8 @@ class H264AdaptiveQuantization {
 }
 
 /// H264 Color Metadata
+///
+/// @nodoc
 class H264ColorMetadata {
   static const ignore = H264ColorMetadata._('IGNORE');
   static const insert = H264ColorMetadata._('INSERT');
@@ -24219,6 +25011,8 @@ class H264ColorMetadata {
 }
 
 /// H264 Color Space Settings
+///
+/// @nodoc
 class H264ColorSpaceSettings {
   final ColorSpacePassthroughSettings? colorSpacePassthroughSettings;
   final Rec601Settings? rec601Settings;
@@ -24262,6 +25056,8 @@ class H264ColorSpaceSettings {
 }
 
 /// H264 Entropy Encoding
+///
+/// @nodoc
 class H264EntropyEncoding {
   static const cabac = H264EntropyEncoding._('CABAC');
   static const cavlc = H264EntropyEncoding._('CAVLC');
@@ -24288,6 +25084,8 @@ class H264EntropyEncoding {
 }
 
 /// H264 Filter Settings
+///
+/// @nodoc
 class H264FilterSettings {
   final BandwidthReductionFilterSettings? bandwidthReductionFilterSettings;
   final TemporalFilterSettings? temporalFilterSettings;
@@ -24326,6 +25124,8 @@ class H264FilterSettings {
 }
 
 /// H264 Flicker Aq
+///
+/// @nodoc
 class H264FlickerAq {
   static const disabled = H264FlickerAq._('DISABLED');
   static const enabled = H264FlickerAq._('ENABLED');
@@ -24351,6 +25151,8 @@ class H264FlickerAq {
 }
 
 /// H264 Force Field Pictures
+///
+/// @nodoc
 class H264ForceFieldPictures {
   static const disabled = H264ForceFieldPictures._('DISABLED');
   static const enabled = H264ForceFieldPictures._('ENABLED');
@@ -24377,6 +25179,8 @@ class H264ForceFieldPictures {
 }
 
 /// H264 Framerate Control
+///
+/// @nodoc
 class H264FramerateControl {
   static const initializeFromSource =
       H264FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -24404,6 +25208,8 @@ class H264FramerateControl {
 }
 
 /// H264 Gop BReference
+///
+/// @nodoc
 class H264GopBReference {
   static const disabled = H264GopBReference._('DISABLED');
   static const enabled = H264GopBReference._('ENABLED');
@@ -24429,6 +25235,8 @@ class H264GopBReference {
 }
 
 /// H264 Gop Size Units
+///
+/// @nodoc
 class H264GopSizeUnits {
   static const frames = H264GopSizeUnits._('FRAMES');
   static const seconds = H264GopSizeUnits._('SECONDS');
@@ -24454,6 +25262,8 @@ class H264GopSizeUnits {
 }
 
 /// H264 Level
+///
+/// @nodoc
 class H264Level {
   static const h264Level_1 = H264Level._('H264_LEVEL_1');
   static const h264Level_1_1 = H264Level._('H264_LEVEL_1_1');
@@ -24511,6 +25321,8 @@ class H264Level {
 }
 
 /// H264 Look Ahead Rate Control
+///
+/// @nodoc
 class H264LookAheadRateControl {
   static const high = H264LookAheadRateControl._('HIGH');
   static const low = H264LookAheadRateControl._('LOW');
@@ -24538,6 +25350,8 @@ class H264LookAheadRateControl {
 }
 
 /// H264 Par Control
+///
+/// @nodoc
 class H264ParControl {
   static const initializeFromSource =
       H264ParControl._('INITIALIZE_FROM_SOURCE');
@@ -24564,6 +25378,8 @@ class H264ParControl {
 }
 
 /// H264 Profile
+///
+/// @nodoc
 class H264Profile {
   static const baseline = H264Profile._('BASELINE');
   static const high = H264Profile._('HIGH');
@@ -24599,6 +25415,8 @@ class H264Profile {
 }
 
 /// H264 Quality Level
+///
+/// @nodoc
 class H264QualityLevel {
   static const enhancedQuality = H264QualityLevel._('ENHANCED_QUALITY');
   static const standardQuality = H264QualityLevel._('STANDARD_QUALITY');
@@ -24624,6 +25442,8 @@ class H264QualityLevel {
 }
 
 /// H264 Rate Control Mode
+///
+/// @nodoc
 class H264RateControlMode {
   static const cbr = H264RateControlMode._('CBR');
   static const multiplex = H264RateControlMode._('MULTIPLEX');
@@ -24652,6 +25472,8 @@ class H264RateControlMode {
 }
 
 /// H264 Scan Type
+///
+/// @nodoc
 class H264ScanType {
   static const interlaced = H264ScanType._('INTERLACED');
   static const progressive = H264ScanType._('PROGRESSIVE');
@@ -24676,6 +25498,8 @@ class H264ScanType {
 }
 
 /// H264 Scene Change Detect
+///
+/// @nodoc
 class H264SceneChangeDetect {
   static const disabled = H264SceneChangeDetect._('DISABLED');
   static const enabled = H264SceneChangeDetect._('ENABLED');
@@ -24702,6 +25526,8 @@ class H264SceneChangeDetect {
 }
 
 /// H264 Spatial Aq
+///
+/// @nodoc
 class H264SpatialAq {
   static const disabled = H264SpatialAq._('DISABLED');
   static const enabled = H264SpatialAq._('ENABLED');
@@ -24727,6 +25553,8 @@ class H264SpatialAq {
 }
 
 /// H264 Sub Gop Length
+///
+/// @nodoc
 class H264SubGopLength {
   static const $dynamic = H264SubGopLength._('DYNAMIC');
   static const fixed = H264SubGopLength._('FIXED');
@@ -24752,6 +25580,8 @@ class H264SubGopLength {
 }
 
 /// H264 Syntax
+///
+/// @nodoc
 class H264Syntax {
   static const $default = H264Syntax._('DEFAULT');
   static const rp2027 = H264Syntax._('RP2027');
@@ -24776,6 +25606,8 @@ class H264Syntax {
 }
 
 /// H264 Temporal Aq
+///
+/// @nodoc
 class H264TemporalAq {
   static const disabled = H264TemporalAq._('DISABLED');
   static const enabled = H264TemporalAq._('ENABLED');
@@ -24801,6 +25633,8 @@ class H264TemporalAq {
 }
 
 /// H264 Timecode Insertion Behavior
+///
+/// @nodoc
 class H264TimecodeInsertionBehavior {
   static const disabled = H264TimecodeInsertionBehavior._('DISABLED');
   static const picTimingSei = H264TimecodeInsertionBehavior._('PIC_TIMING_SEI');
@@ -24827,6 +25661,8 @@ class H264TimecodeInsertionBehavior {
 }
 
 /// Frame Capture Interval Unit
+///
+/// @nodoc
 class FrameCaptureIntervalUnit {
   static const milliseconds = FrameCaptureIntervalUnit._('MILLISECONDS');
   static const seconds = FrameCaptureIntervalUnit._('SECONDS');
@@ -24853,6 +25689,8 @@ class FrameCaptureIntervalUnit {
 }
 
 /// Timecode Config Source
+///
+/// @nodoc
 class TimecodeConfigSource {
   static const embedded = TimecodeConfigSource._('EMBEDDED');
   static const systemclock = TimecodeConfigSource._('SYSTEMCLOCK');
@@ -24881,6 +25719,8 @@ class TimecodeConfigSource {
 
 /// Output groups for this Live Event. Output groups contain information about
 /// where streams should be distributed.
+///
+/// @nodoc
 class OutputGroup {
   /// Settings associated with the output group.
   final OutputGroupSettings outputGroupSettings;
@@ -24921,6 +25761,8 @@ class OutputGroup {
 }
 
 /// Output Group Settings
+///
+/// @nodoc
 class OutputGroupSettings {
   final ArchiveGroupSettings? archiveGroupSettings;
   final CmafIngestGroupSettings? cmafIngestGroupSettings;
@@ -25036,6 +25878,8 @@ class OutputGroupSettings {
 }
 
 /// Output settings. There can be multiple outputs within a group.
+///
+/// @nodoc
 class Output {
   /// Output type-specific settings.
   final OutputSettings outputSettings;
@@ -25099,6 +25943,8 @@ class Output {
 }
 
 /// Output Settings
+///
+/// @nodoc
 class OutputSettings {
   final ArchiveOutputSettings? archiveOutputSettings;
   final CmafIngestOutputSettings? cmafIngestOutputSettings;
@@ -25214,6 +26060,8 @@ class OutputSettings {
 }
 
 /// Archive Output Settings
+///
+/// @nodoc
 class ArchiveOutputSettings {
   /// Container for this output. Can be auto-detected from extension field.
   final ArchiveContainerSettings containerSettings;
@@ -25255,6 +26103,8 @@ class ArchiveOutputSettings {
 }
 
 /// Frame Capture Output Settings
+///
+/// @nodoc
 class FrameCaptureOutputSettings {
   /// Required if the output group contains more than one output. This modifier
   /// forms part of the output file name.
@@ -25279,6 +26129,8 @@ class FrameCaptureOutputSettings {
 }
 
 /// Hls Output Settings
+///
+/// @nodoc
 class HlsOutputSettings {
   /// Settings regarding the underlying stream. These settings are different for
   /// audio-only outputs.
@@ -25330,6 +26182,8 @@ class HlsOutputSettings {
 }
 
 /// Media Package Output Settings
+///
+/// @nodoc
 class MediaPackageOutputSettings {
   /// Optional settings for MediaPackage V2 destinations
   final MediaPackageV2DestinationSettings? mediaPackageV2DestinationSettings;
@@ -25360,6 +26214,8 @@ class MediaPackageOutputSettings {
 }
 
 /// Ms Smooth Output Settings
+///
+/// @nodoc
 class MsSmoothOutputSettings {
   /// Only applicable when this output is referencing an H.265 video description.
   /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
@@ -25394,6 +26250,8 @@ class MsSmoothOutputSettings {
 }
 
 /// Multiplex Output Settings
+///
+/// @nodoc
 class MultiplexOutputSettings {
   /// Destination is a Multiplex.
   final OutputLocationRef destination;
@@ -25427,6 +26285,8 @@ class MultiplexOutputSettings {
 }
 
 /// Rtmp Output Settings
+///
+/// @nodoc
 class RtmpOutputSettings {
   /// The RTMP endpoint excluding the stream name (eg. rtmp://host/appname). For
   /// connection to Akamai, a username and password must be supplied. URI fields
@@ -25480,6 +26340,8 @@ class RtmpOutputSettings {
 }
 
 /// Udp Output Settings
+///
+/// @nodoc
 class UdpOutputSettings {
   final UdpContainerSettings containerSettings;
 
@@ -25535,6 +26397,8 @@ class UdpOutputSettings {
 }
 
 /// Cmaf Ingest Output Settings
+///
+/// @nodoc
 class CmafIngestOutputSettings {
   /// String concatenated to the end of the destination filename. Required for
   /// multiple outputs of the same type.
@@ -25559,6 +26423,8 @@ class CmafIngestOutputSettings {
 }
 
 /// Srt Output Settings
+///
+/// @nodoc
 class SrtOutputSettings {
   final UdpContainerSettings containerSettings;
   final OutputLocationRef destination;
@@ -25625,6 +26491,8 @@ class SrtOutputSettings {
 }
 
 /// Media Connect Router Output Settings
+///
+/// @nodoc
 class MediaConnectRouterOutputSettings {
   final MediaConnectRouterContainerSettings containerSettings;
 
@@ -25671,6 +26539,8 @@ class MediaConnectRouterOutputSettings {
 
 /// Map of MediaLive pipeline IDs to the ARNs of the MediaConnect Router Inputs
 /// to which this Output is connected.
+///
+/// @nodoc
 class MediaConnectRouterOutputConnectionMap {
   /// The ARN of the MediaConnect Router Input connected to pipeline 0.
   final String? pipeline0;
@@ -25702,6 +26572,8 @@ class MediaConnectRouterOutputConnectionMap {
 }
 
 /// Media Connect Router Container Settings
+///
+/// @nodoc
 class MediaConnectRouterContainerSettings {
   final M2tsSettings? m2tsSettings;
 
@@ -25727,6 +26599,8 @@ class MediaConnectRouterContainerSettings {
 }
 
 /// Reference to an OutputDestination ID defined in the channel
+///
+/// @nodoc
 class OutputLocationRef {
   final String? destinationRefId;
 
@@ -25749,6 +26623,8 @@ class OutputLocationRef {
 }
 
 /// M2ts Settings
+///
+/// @nodoc
 class M2tsSettings {
   /// When set to drop, output audio streams will be removed from the program if
   /// the selected input audio stream is removed from the input. This allows the
@@ -26233,6 +27109,8 @@ class M2tsSettings {
 }
 
 /// M2ts Absent Input Audio Behavior
+///
+/// @nodoc
 class M2tsAbsentInputAudioBehavior {
   static const drop = M2tsAbsentInputAudioBehavior._('DROP');
   static const encodeSilence = M2tsAbsentInputAudioBehavior._('ENCODE_SILENCE');
@@ -26259,6 +27137,8 @@ class M2tsAbsentInputAudioBehavior {
 }
 
 /// M2ts Arib
+///
+/// @nodoc
 class M2tsArib {
   static const disabled = M2tsArib._('DISABLED');
   static const enabled = M2tsArib._('ENABLED');
@@ -26283,6 +27163,8 @@ class M2tsArib {
 }
 
 /// M2ts Arib Captions Pid Control
+///
+/// @nodoc
 class M2tsAribCaptionsPidControl {
   static const auto = M2tsAribCaptionsPidControl._('AUTO');
   static const useConfigured = M2tsAribCaptionsPidControl._('USE_CONFIGURED');
@@ -26309,6 +27191,8 @@ class M2tsAribCaptionsPidControl {
 }
 
 /// M2ts Audio Buffer Model
+///
+/// @nodoc
 class M2tsAudioBufferModel {
   static const atsc = M2tsAudioBufferModel._('ATSC');
   static const dvb = M2tsAudioBufferModel._('DVB');
@@ -26335,6 +27219,8 @@ class M2tsAudioBufferModel {
 }
 
 /// M2ts Audio Stream Type
+///
+/// @nodoc
 class M2tsAudioStreamType {
   static const atsc = M2tsAudioStreamType._('ATSC');
   static const dvb = M2tsAudioStreamType._('DVB');
@@ -26361,6 +27247,8 @@ class M2tsAudioStreamType {
 }
 
 /// M2ts Buffer Model
+///
+/// @nodoc
 class M2tsBufferModel {
   static const multiplex = M2tsBufferModel._('MULTIPLEX');
   static const none = M2tsBufferModel._('NONE');
@@ -26386,6 +27274,8 @@ class M2tsBufferModel {
 }
 
 /// M2ts Cc Descriptor
+///
+/// @nodoc
 class M2tsCcDescriptor {
   static const disabled = M2tsCcDescriptor._('DISABLED');
   static const enabled = M2tsCcDescriptor._('ENABLED');
@@ -26411,6 +27301,8 @@ class M2tsCcDescriptor {
 }
 
 /// DVB Network Information Table (NIT)
+///
+/// @nodoc
 class DvbNitSettings {
   /// The numeric value placed in the Network Information Table (NIT).
   final int networkId;
@@ -26450,6 +27342,8 @@ class DvbNitSettings {
 }
 
 /// DVB Service Description Table (SDT)
+///
+/// @nodoc
 class DvbSdtSettings {
   /// Selects method of inserting SDT information into output stream. The
   /// sdtFollow setting copies SDT information from input stream to output stream.
@@ -26505,6 +27399,8 @@ class DvbSdtSettings {
 }
 
 /// DVB Time and Date Table (SDT)
+///
+/// @nodoc
 class DvbTdtSettings {
   /// The number of milliseconds between instances of this table in the output
   /// transport stream.
@@ -26529,6 +27425,8 @@ class DvbTdtSettings {
 }
 
 /// M2ts Ebif Control
+///
+/// @nodoc
 class M2tsEbifControl {
   static const none = M2tsEbifControl._('NONE');
   static const passthrough = M2tsEbifControl._('PASSTHROUGH');
@@ -26554,6 +27452,8 @@ class M2tsEbifControl {
 }
 
 /// M2ts Audio Interval
+///
+/// @nodoc
 class M2tsAudioInterval {
   static const videoAndFixedIntervals =
       M2tsAudioInterval._('VIDEO_AND_FIXED_INTERVALS');
@@ -26580,6 +27480,8 @@ class M2tsAudioInterval {
 }
 
 /// M2ts Ebp Placement
+///
+/// @nodoc
 class M2tsEbpPlacement {
   static const videoAndAudioPids = M2tsEbpPlacement._('VIDEO_AND_AUDIO_PIDS');
   static const videoPid = M2tsEbpPlacement._('VIDEO_PID');
@@ -26605,6 +27507,8 @@ class M2tsEbpPlacement {
 }
 
 /// M2ts Es Rate In Pes
+///
+/// @nodoc
 class M2tsEsRateInPes {
   static const exclude = M2tsEsRateInPes._('EXCLUDE');
   static const include = M2tsEsRateInPes._('INCLUDE');
@@ -26630,6 +27534,8 @@ class M2tsEsRateInPes {
 }
 
 /// M2ts Klv
+///
+/// @nodoc
 class M2tsKlv {
   static const none = M2tsKlv._('NONE');
   static const passthrough = M2tsKlv._('PASSTHROUGH');
@@ -26654,6 +27560,8 @@ class M2tsKlv {
 }
 
 /// M2ts Nielsen Id3 Behavior
+///
+/// @nodoc
 class M2tsNielsenId3Behavior {
   static const noPassthrough = M2tsNielsenId3Behavior._('NO_PASSTHROUGH');
   static const passthrough = M2tsNielsenId3Behavior._('PASSTHROUGH');
@@ -26680,6 +27588,8 @@ class M2tsNielsenId3Behavior {
 }
 
 /// M2ts Pcr Control
+///
+/// @nodoc
 class M2tsPcrControl {
   static const configuredPcrPeriod = M2tsPcrControl._('CONFIGURED_PCR_PERIOD');
   static const pcrEveryPesPacket = M2tsPcrControl._('PCR_EVERY_PES_PACKET');
@@ -26705,6 +27615,8 @@ class M2tsPcrControl {
 }
 
 /// M2ts Rate Mode
+///
+/// @nodoc
 class M2tsRateMode {
   static const cbr = M2tsRateMode._('CBR');
   static const vbr = M2tsRateMode._('VBR');
@@ -26729,6 +27641,8 @@ class M2tsRateMode {
 }
 
 /// M2ts Scte35 Control
+///
+/// @nodoc
 class M2tsScte35Control {
   static const none = M2tsScte35Control._('NONE');
   static const passthrough = M2tsScte35Control._('PASSTHROUGH');
@@ -26754,6 +27668,8 @@ class M2tsScte35Control {
 }
 
 /// M2ts Segmentation Markers
+///
+/// @nodoc
 class M2tsSegmentationMarkers {
   static const ebp = M2tsSegmentationMarkers._('EBP');
   static const ebpLegacy = M2tsSegmentationMarkers._('EBP_LEGACY');
@@ -26791,6 +27707,8 @@ class M2tsSegmentationMarkers {
 }
 
 /// M2ts Segmentation Style
+///
+/// @nodoc
 class M2tsSegmentationStyle {
   static const maintainCadence = M2tsSegmentationStyle._('MAINTAIN_CADENCE');
   static const resetCadence = M2tsSegmentationStyle._('RESET_CADENCE');
@@ -26817,6 +27735,8 @@ class M2tsSegmentationStyle {
 }
 
 /// M2ts Timed Metadata Behavior
+///
+/// @nodoc
 class M2tsTimedMetadataBehavior {
   static const noPassthrough = M2tsTimedMetadataBehavior._('NO_PASSTHROUGH');
   static const passthrough = M2tsTimedMetadataBehavior._('PASSTHROUGH');
@@ -26843,6 +27763,8 @@ class M2tsTimedMetadataBehavior {
 }
 
 /// Dvb Sdt Output Sdt
+///
+/// @nodoc
 class DvbSdtOutputSdt {
   static const sdtFollow = DvbSdtOutputSdt._('SDT_FOLLOW');
   static const sdtFollowIfPresent = DvbSdtOutputSdt._('SDT_FOLLOW_IF_PRESENT');
@@ -26870,6 +27792,8 @@ class DvbSdtOutputSdt {
 }
 
 /// Udp Container Settings
+///
+/// @nodoc
 class UdpContainerSettings {
   final M2tsSettings? m2tsSettings;
 
@@ -26894,6 +27818,8 @@ class UdpContainerSettings {
 }
 
 /// Srt Encryption Type
+///
+/// @nodoc
 class SrtEncryptionType {
   static const aes128 = SrtEncryptionType._('AES128');
   static const aes192 = SrtEncryptionType._('AES192');
@@ -26920,6 +27846,8 @@ class SrtEncryptionType {
 }
 
 /// Fec Output Settings
+///
+/// @nodoc
 class FecOutputSettings {
   /// Parameter D from SMPTE 2022-1. The height of the FEC protection matrix. The
   /// number of transport stream packets per column error correction packet. Must
@@ -26965,6 +27893,8 @@ class FecOutputSettings {
 }
 
 /// Fec Output Include Fec
+///
+/// @nodoc
 class FecOutputIncludeFec {
   static const column = FecOutputIncludeFec._('COLUMN');
   static const columnAndRow = FecOutputIncludeFec._('COLUMN_AND_ROW');
@@ -26991,6 +27921,8 @@ class FecOutputIncludeFec {
 }
 
 /// Rtmp Output Certificate Mode
+///
+/// @nodoc
 class RtmpOutputCertificateMode {
   static const selfSigned = RtmpOutputCertificateMode._('SELF_SIGNED');
   static const verifyAuthenticity =
@@ -27018,6 +27950,8 @@ class RtmpOutputCertificateMode {
 }
 
 /// Multiplex Container Settings
+///
+/// @nodoc
 class MultiplexContainerSettings {
   final MultiplexM2tsSettings? multiplexM2tsSettings;
 
@@ -27044,6 +27978,8 @@ class MultiplexContainerSettings {
 }
 
 /// Multiplex M2ts Settings
+///
+/// @nodoc
 class MultiplexM2tsSettings {
   /// When set to drop, output audio streams will be removed from the program if
   /// the selected input audio stream is removed from the input. This allows the
@@ -27192,6 +28128,8 @@ class MultiplexM2tsSettings {
 }
 
 /// Ms Smooth H265 Packaging Type
+///
+/// @nodoc
 class MsSmoothH265PackagingType {
   static const hev1 = MsSmoothH265PackagingType._('HEV1');
   static const hvc1 = MsSmoothH265PackagingType._('HVC1');
@@ -27218,6 +28156,8 @@ class MsSmoothH265PackagingType {
 }
 
 /// Media Package V2 Destination Settings
+///
+/// @nodoc
 class MediaPackageV2DestinationSettings {
   /// Applies only to an output that contains audio. If you want to put several
   /// audio encodes into one audio rendition group, decide on a name (ID) for the
@@ -27288,6 +28228,8 @@ class MediaPackageV2DestinationSettings {
 }
 
 /// Hls Auto Select
+///
+/// @nodoc
 class HlsAutoSelect {
   static const no = HlsAutoSelect._('NO');
   static const omit = HlsAutoSelect._('OMIT');
@@ -27314,6 +28256,8 @@ class HlsAutoSelect {
 }
 
 /// Hls Default
+///
+/// @nodoc
 class HlsDefault {
   static const no = HlsDefault._('NO');
   static const omit = HlsDefault._('OMIT');
@@ -27339,6 +28283,8 @@ class HlsDefault {
 }
 
 /// Hls H265 Packaging Type
+///
+/// @nodoc
 class HlsH265PackagingType {
   static const hev1 = HlsH265PackagingType._('HEV1');
   static const hvc1 = HlsH265PackagingType._('HVC1');
@@ -27365,6 +28311,8 @@ class HlsH265PackagingType {
 }
 
 /// Hls Settings
+///
+/// @nodoc
 class HlsSettings {
   final AudioOnlyHlsSettings? audioOnlyHlsSettings;
   final Fmp4HlsSettings? fmp4HlsSettings;
@@ -27417,6 +28365,8 @@ class HlsSettings {
 }
 
 /// Audio Only Hls Settings
+///
+/// @nodoc
 class AudioOnlyHlsSettings {
   /// Specifies the group to which the audio Rendition belongs.
   final String? audioGroupId;
@@ -27480,6 +28430,8 @@ class AudioOnlyHlsSettings {
 }
 
 /// Fmp4 Hls Settings
+///
+/// @nodoc
 class Fmp4HlsSettings {
   /// List all the audio groups that are used with the video output stream. Input
   /// all the audio GROUP-IDs that are associated to the video, separate by ','.
@@ -27526,6 +28478,8 @@ class Fmp4HlsSettings {
 }
 
 /// Frame Capture Hls Settings
+///
+/// @nodoc
 class FrameCaptureHlsSettings {
   FrameCaptureHlsSettings();
 
@@ -27539,6 +28493,8 @@ class FrameCaptureHlsSettings {
 }
 
 /// Standard Hls Settings
+///
+/// @nodoc
 class StandardHlsSettings {
   final M3u8Settings m3u8Settings;
 
@@ -27571,6 +28527,8 @@ class StandardHlsSettings {
 }
 
 /// Settings information for the .m3u8 container
+///
+/// @nodoc
 class M3u8Settings {
   /// The number of audio frames to insert for each PES packet.
   final int? audioFramesPerPes;
@@ -27751,6 +28709,8 @@ class M3u8Settings {
 }
 
 /// M3u8 Nielsen Id3 Behavior
+///
+/// @nodoc
 class M3u8NielsenId3Behavior {
   static const noPassthrough = M3u8NielsenId3Behavior._('NO_PASSTHROUGH');
   static const passthrough = M3u8NielsenId3Behavior._('PASSTHROUGH');
@@ -27777,6 +28737,8 @@ class M3u8NielsenId3Behavior {
 }
 
 /// M3u8 Pcr Control
+///
+/// @nodoc
 class M3u8PcrControl {
   static const configuredPcrPeriod = M3u8PcrControl._('CONFIGURED_PCR_PERIOD');
   static const pcrEveryPesPacket = M3u8PcrControl._('PCR_EVERY_PES_PACKET');
@@ -27802,6 +28764,8 @@ class M3u8PcrControl {
 }
 
 /// M3u8 Scte35 Behavior
+///
+/// @nodoc
 class M3u8Scte35Behavior {
   static const noPassthrough = M3u8Scte35Behavior._('NO_PASSTHROUGH');
   static const passthrough = M3u8Scte35Behavior._('PASSTHROUGH');
@@ -27828,6 +28792,8 @@ class M3u8Scte35Behavior {
 }
 
 /// M3u8 Timed Metadata Behavior
+///
+/// @nodoc
 class M3u8TimedMetadataBehavior {
   static const noPassthrough = M3u8TimedMetadataBehavior._('NO_PASSTHROUGH');
   static const passthrough = M3u8TimedMetadataBehavior._('PASSTHROUGH');
@@ -27854,6 +28820,8 @@ class M3u8TimedMetadataBehavior {
 }
 
 /// M3u8 Klv Behavior
+///
+/// @nodoc
 class M3u8KlvBehavior {
   static const noPassthrough = M3u8KlvBehavior._('NO_PASSTHROUGH');
   static const passthrough = M3u8KlvBehavior._('PASSTHROUGH');
@@ -27879,6 +28847,8 @@ class M3u8KlvBehavior {
 }
 
 /// Fmp4 Nielsen Id3 Behavior
+///
+/// @nodoc
 class Fmp4NielsenId3Behavior {
   static const noPassthrough = Fmp4NielsenId3Behavior._('NO_PASSTHROUGH');
   static const passthrough = Fmp4NielsenId3Behavior._('PASSTHROUGH');
@@ -27905,6 +28875,8 @@ class Fmp4NielsenId3Behavior {
 }
 
 /// Fmp4 Timed Metadata Behavior
+///
+/// @nodoc
 class Fmp4TimedMetadataBehavior {
   static const noPassthrough = Fmp4TimedMetadataBehavior._('NO_PASSTHROUGH');
   static const passthrough = Fmp4TimedMetadataBehavior._('PASSTHROUGH');
@@ -27931,6 +28903,8 @@ class Fmp4TimedMetadataBehavior {
 }
 
 /// Input Location
+///
+/// @nodoc
 class InputLocation {
   /// Uniform Resource Identifier - This should be a path to a file accessible to
   /// the Live system (eg. a http:// URI) depending on the output type. For
@@ -27971,6 +28945,8 @@ class InputLocation {
 }
 
 /// Audio Only Hls Track Type
+///
+/// @nodoc
 class AudioOnlyHlsTrackType {
   static const alternateAudioAutoSelect =
       AudioOnlyHlsTrackType._('ALTERNATE_AUDIO_AUTO_SELECT');
@@ -28008,6 +28984,8 @@ class AudioOnlyHlsTrackType {
 }
 
 /// Audio Only Hls Segment Type
+///
+/// @nodoc
 class AudioOnlyHlsSegmentType {
   static const aac = AudioOnlyHlsSegmentType._('AAC');
   static const fmp4 = AudioOnlyHlsSegmentType._('FMP4');
@@ -28034,6 +29012,8 @@ class AudioOnlyHlsSegmentType {
 }
 
 /// Archive Container Settings
+///
+/// @nodoc
 class ArchiveContainerSettings {
   final M2tsSettings? m2tsSettings;
   final RawSettings? rawSettings;
@@ -28065,6 +29045,8 @@ class ArchiveContainerSettings {
 }
 
 /// Raw Settings
+///
+/// @nodoc
 class RawSettings {
   RawSettings();
 
@@ -28078,6 +29060,8 @@ class RawSettings {
 }
 
 /// Archive Group Settings
+///
+/// @nodoc
 class ArchiveGroupSettings {
   /// A directory and base filename where archive files should be written.
   final OutputLocationRef destination;
@@ -28121,6 +29105,8 @@ class ArchiveGroupSettings {
 }
 
 /// Frame Capture Group Settings
+///
+/// @nodoc
 class FrameCaptureGroupSettings {
   /// The destination for the frame capture files. Either the URI for an Amazon S3
   /// bucket and object, plus a file name prefix (for example,
@@ -28164,6 +29150,8 @@ class FrameCaptureGroupSettings {
 }
 
 /// Hls Group Settings
+///
+/// @nodoc
 class HlsGroupSettings {
   /// A directory or HTTP destination for the HLS segments, manifest files, and
   /// encryption keys (if enabled).
@@ -28641,6 +29629,8 @@ class HlsGroupSettings {
 }
 
 /// Media Package Group Settings
+///
+/// @nodoc
 class MediaPackageGroupSettings {
   /// MediaPackage channel destination.
   final OutputLocationRef destination;
@@ -28679,6 +29669,8 @@ class MediaPackageGroupSettings {
 }
 
 /// Ms Smooth Group Settings
+///
+/// @nodoc
 class MsSmoothGroupSettings {
   /// Smooth Streaming publish point on an IIS server. Elemental Live acts as a
   /// "Push" encoder to IIS.
@@ -28871,6 +29863,8 @@ class MsSmoothGroupSettings {
 }
 
 /// Multiplex Group Settings
+///
+/// @nodoc
 class MultiplexGroupSettings {
   MultiplexGroupSettings();
 
@@ -28884,6 +29878,8 @@ class MultiplexGroupSettings {
 }
 
 /// Rtmp Group Settings
+///
+/// @nodoc
 class RtmpGroupSettings {
   /// Choose the ad marker type for this output group. MediaLive will create a
   /// message based on the content of each SCTE-35 message, format it for that
@@ -28989,6 +29985,8 @@ class RtmpGroupSettings {
 }
 
 /// Udp Group Settings
+///
+/// @nodoc
 class UdpGroupSettings {
   /// Specifies behavior of last resort when input video is lost, and no more
   /// backup inputs are available. When dropTs is selected the entire transport
@@ -29036,6 +30034,8 @@ class UdpGroupSettings {
 }
 
 /// Cmaf Ingest Group Settings
+///
+/// @nodoc
 class CmafIngestGroupSettings {
   /// A HTTP destination for the tracks
   final OutputLocationRef destination;
@@ -29227,6 +30227,8 @@ class CmafIngestGroupSettings {
 }
 
 /// Srt Group Settings
+///
+/// @nodoc
 class SrtGroupSettings {
   /// Specifies behavior of last resort when input video is lost, and no more
   /// backup inputs are available. When dropTs is selected the entire transport
@@ -29257,6 +30259,8 @@ class SrtGroupSettings {
 }
 
 /// Media Connect Router Group Settings
+///
+/// @nodoc
 class MediaConnectRouterGroupSettings {
   /// The names of the Availability Zones in which to write output to MediaConnect
   /// Router.
@@ -29284,6 +30288,8 @@ class MediaConnectRouterGroupSettings {
 }
 
 /// Input Loss Action For Udp Out
+///
+/// @nodoc
 class InputLossActionForUdpOut {
   static const dropProgram = InputLossActionForUdpOut._('DROP_PROGRAM');
   static const dropTs = InputLossActionForUdpOut._('DROP_TS');
@@ -29311,6 +30317,8 @@ class InputLossActionForUdpOut {
 }
 
 /// Cmaf Nielsen Id3 Behavior
+///
+/// @nodoc
 class CmafNielsenId3Behavior {
   static const noPassthrough = CmafNielsenId3Behavior._('NO_PASSTHROUGH');
   static const passthrough = CmafNielsenId3Behavior._('PASSTHROUGH');
@@ -29337,6 +30345,8 @@ class CmafNielsenId3Behavior {
 }
 
 /// Scte35 Type
+///
+/// @nodoc
 class Scte35Type {
   static const none = Scte35Type._('NONE');
   static const scte_35WithoutSegmentation =
@@ -29362,6 +30372,8 @@ class Scte35Type {
 }
 
 /// Cmaf Ingest Segment Length Units
+///
+/// @nodoc
 class CmafIngestSegmentLengthUnits {
   static const milliseconds = CmafIngestSegmentLengthUnits._('MILLISECONDS');
   static const seconds = CmafIngestSegmentLengthUnits._('SECONDS');
@@ -29388,6 +30400,8 @@ class CmafIngestSegmentLengthUnits {
 }
 
 /// Cmaf KLVBehavior
+///
+/// @nodoc
 class CmafKLVBehavior {
   static const noPassthrough = CmafKLVBehavior._('NO_PASSTHROUGH');
   static const passthrough = CmafKLVBehavior._('PASSTHROUGH');
@@ -29413,6 +30427,8 @@ class CmafKLVBehavior {
 }
 
 /// Cmaf Id3 Behavior
+///
+/// @nodoc
 class CmafId3Behavior {
   static const disabled = CmafId3Behavior._('DISABLED');
   static const enabled = CmafId3Behavior._('ENABLED');
@@ -29438,6 +30454,8 @@ class CmafId3Behavior {
 }
 
 /// Cmaf Timed Metadata Id3 Frame
+///
+/// @nodoc
 class CmafTimedMetadataId3Frame {
   static const none = CmafTimedMetadataId3Frame._('NONE');
   static const priv = CmafTimedMetadataId3Frame._('PRIV');
@@ -29465,6 +30483,8 @@ class CmafTimedMetadataId3Frame {
 }
 
 /// Cmaf Timed Metadata Passthrough
+///
+/// @nodoc
 class CmafTimedMetadataPassthrough {
   static const disabled = CmafTimedMetadataPassthrough._('DISABLED');
   static const enabled = CmafTimedMetadataPassthrough._('ENABLED');
@@ -29491,6 +30511,8 @@ class CmafTimedMetadataPassthrough {
 }
 
 /// Additional output destinations for a CMAF Ingest output group
+///
+/// @nodoc
 class AdditionalDestinations {
   /// The destination location
   final OutputLocationRef destination;
@@ -29519,6 +30541,8 @@ class AdditionalDestinations {
 /// descriptions. For example, if the first caption description is for German,
 /// then the first array item must be for German, and its caption channel must
 /// be set to 1. The second array item must be 2, and so on.
+///
+/// @nodoc
 class CmafIngestCaptionLanguageMapping {
   /// A number for the channel for this caption, 1 to 4.
   final int captionChannel;
@@ -29550,6 +30574,8 @@ class CmafIngestCaptionLanguageMapping {
 }
 
 /// Udp Timed Metadata Id3 Frame
+///
+/// @nodoc
 class UdpTimedMetadataId3Frame {
   static const none = UdpTimedMetadataId3Frame._('NONE');
   static const priv = UdpTimedMetadataId3Frame._('PRIV');
@@ -29577,6 +30603,8 @@ class UdpTimedMetadataId3Frame {
 }
 
 /// Authentication Scheme
+///
+/// @nodoc
 class AuthenticationScheme {
   static const akamai = AuthenticationScheme._('AKAMAI');
   static const common = AuthenticationScheme._('COMMON');
@@ -29603,6 +30631,8 @@ class AuthenticationScheme {
 }
 
 /// Rtmp Cache Full Behavior
+///
+/// @nodoc
 class RtmpCacheFullBehavior {
   static const disconnectImmediately =
       RtmpCacheFullBehavior._('DISCONNECT_IMMEDIATELY');
@@ -29630,6 +30660,8 @@ class RtmpCacheFullBehavior {
 }
 
 /// Rtmp Caption Data
+///
+/// @nodoc
 class RtmpCaptionData {
   static const all = RtmpCaptionData._('ALL');
   static const field1_608 = RtmpCaptionData._('FIELD1_608');
@@ -29656,6 +30688,8 @@ class RtmpCaptionData {
 }
 
 /// Input Loss Action For Rtmp Out
+///
+/// @nodoc
 class InputLossActionForRtmpOut {
   static const emitOutput = InputLossActionForRtmpOut._('EMIT_OUTPUT');
   static const pauseOutput = InputLossActionForRtmpOut._('PAUSE_OUTPUT');
@@ -29682,6 +30716,8 @@ class InputLossActionForRtmpOut {
 }
 
 /// Include Filler Nal Units
+///
+/// @nodoc
 class IncludeFillerNalUnits {
   static const auto = IncludeFillerNalUnits._('AUTO');
   static const drop = IncludeFillerNalUnits._('DROP');
@@ -29709,6 +30745,8 @@ class IncludeFillerNalUnits {
 }
 
 /// Rtmp Ad Markers
+///
+/// @nodoc
 class RtmpAdMarkers {
   static const onCuePointScte35 = RtmpAdMarkers._('ON_CUE_POINT_SCTE35');
 
@@ -29733,6 +30771,8 @@ class RtmpAdMarkers {
 }
 
 /// Smooth Group Audio Only Timecode Control
+///
+/// @nodoc
 class SmoothGroupAudioOnlyTimecodeControl {
   static const passthrough =
       SmoothGroupAudioOnlyTimecodeControl._('PASSTHROUGH');
@@ -29761,6 +30801,8 @@ class SmoothGroupAudioOnlyTimecodeControl {
 }
 
 /// Smooth Group Certificate Mode
+///
+/// @nodoc
 class SmoothGroupCertificateMode {
   static const selfSigned = SmoothGroupCertificateMode._('SELF_SIGNED');
   static const verifyAuthenticity =
@@ -29788,6 +30830,8 @@ class SmoothGroupCertificateMode {
 }
 
 /// Smooth Group Event Id Mode
+///
+/// @nodoc
 class SmoothGroupEventIdMode {
   static const noEventId = SmoothGroupEventIdMode._('NO_EVENT_ID');
   static const useConfigured = SmoothGroupEventIdMode._('USE_CONFIGURED');
@@ -29815,6 +30859,8 @@ class SmoothGroupEventIdMode {
 }
 
 /// Smooth Group Event Stop Behavior
+///
+/// @nodoc
 class SmoothGroupEventStopBehavior {
   static const none = SmoothGroupEventStopBehavior._('NONE');
   static const sendEos = SmoothGroupEventStopBehavior._('SEND_EOS');
@@ -29841,6 +30887,8 @@ class SmoothGroupEventStopBehavior {
 }
 
 /// Input Loss Action For Ms Smooth Out
+///
+/// @nodoc
 class InputLossActionForMsSmoothOut {
   static const emitOutput = InputLossActionForMsSmoothOut._('EMIT_OUTPUT');
   static const pauseOutput = InputLossActionForMsSmoothOut._('PAUSE_OUTPUT');
@@ -29867,6 +30915,8 @@ class InputLossActionForMsSmoothOut {
 }
 
 /// Smooth Group Segmentation Mode
+///
+/// @nodoc
 class SmoothGroupSegmentationMode {
   static const useInputSegmentation =
       SmoothGroupSegmentationMode._('USE_INPUT_SEGMENTATION');
@@ -29895,6 +30945,8 @@ class SmoothGroupSegmentationMode {
 }
 
 /// Smooth Group Sparse Track Type
+///
+/// @nodoc
 class SmoothGroupSparseTrackType {
   static const none = SmoothGroupSparseTrackType._('NONE');
   static const scte_35 = SmoothGroupSparseTrackType._('SCTE_35');
@@ -29923,6 +30975,8 @@ class SmoothGroupSparseTrackType {
 }
 
 /// Smooth Group Stream Manifest Behavior
+///
+/// @nodoc
 class SmoothGroupStreamManifestBehavior {
   static const doNotSend = SmoothGroupStreamManifestBehavior._('DO_NOT_SEND');
   static const send = SmoothGroupStreamManifestBehavior._('SEND');
@@ -29949,6 +31003,8 @@ class SmoothGroupStreamManifestBehavior {
 }
 
 /// Smooth Group Timestamp Offset Mode
+///
+/// @nodoc
 class SmoothGroupTimestampOffsetMode {
   static const useConfiguredOffset =
       SmoothGroupTimestampOffsetMode._('USE_CONFIGURED_OFFSET');
@@ -29977,6 +31033,8 @@ class SmoothGroupTimestampOffsetMode {
 }
 
 /// Media Package V2 Group Settings
+///
+/// @nodoc
 class MediaPackageV2GroupSettings {
   /// Optional an array of additional destinational HTTP destinations for the
   /// OutputGroup outputs
@@ -30102,6 +31160,8 @@ class MediaPackageV2GroupSettings {
 }
 
 /// Additional output destinations for a CMAF Ingest output group
+///
+/// @nodoc
 class MediaPackageAdditionalDestinations {
   /// The destination location
   final OutputLocationRef destination;
@@ -30129,6 +31189,8 @@ class MediaPackageAdditionalDestinations {
 
 /// Maps a caption channel to an ISO 693-2 language code
 /// (http://www.loc.gov/standards/iso639-2), with an optional description.
+///
+/// @nodoc
 class CaptionLanguageMapping {
   /// The closed caption channel being described by this CaptionLanguageMapping.
   /// Each channel mapping must have a unique channel number (maximum of 4)
@@ -30168,6 +31230,8 @@ class CaptionLanguageMapping {
 }
 
 /// Hls Caption Language Setting
+///
+/// @nodoc
 class HlsCaptionLanguageSetting {
   static const insert = HlsCaptionLanguageSetting._('INSERT');
   static const none = HlsCaptionLanguageSetting._('NONE');
@@ -30195,6 +31259,8 @@ class HlsCaptionLanguageSetting {
 }
 
 /// Hls Client Cache
+///
+/// @nodoc
 class HlsClientCache {
   static const disabled = HlsClientCache._('DISABLED');
   static const enabled = HlsClientCache._('ENABLED');
@@ -30220,6 +31286,8 @@ class HlsClientCache {
 }
 
 /// Hls Codec Specification
+///
+/// @nodoc
 class HlsCodecSpecification {
   static const rfc_4281 = HlsCodecSpecification._('RFC_4281');
   static const rfc_6381 = HlsCodecSpecification._('RFC_6381');
@@ -30246,6 +31314,8 @@ class HlsCodecSpecification {
 }
 
 /// Hls Directory Structure
+///
+/// @nodoc
 class HlsDirectoryStructure {
   static const singleDirectory = HlsDirectoryStructure._('SINGLE_DIRECTORY');
   static const subdirectoryPerStream =
@@ -30273,6 +31343,8 @@ class HlsDirectoryStructure {
 }
 
 /// Hls Discontinuity Tags
+///
+/// @nodoc
 class HlsDiscontinuityTags {
   static const insert = HlsDiscontinuityTags._('INSERT');
   static const neverInsert = HlsDiscontinuityTags._('NEVER_INSERT');
@@ -30299,6 +31371,8 @@ class HlsDiscontinuityTags {
 }
 
 /// Hls Encryption Type
+///
+/// @nodoc
 class HlsEncryptionType {
   static const aes128 = HlsEncryptionType._('AES128');
   static const sampleAes = HlsEncryptionType._('SAMPLE_AES');
@@ -30324,6 +31398,8 @@ class HlsEncryptionType {
 }
 
 /// Hls Cdn Settings
+///
+/// @nodoc
 class HlsCdnSettings {
   final HlsAkamaiSettings? hlsAkamaiSettings;
   final HlsBasicPutSettings? hlsBasicPutSettings;
@@ -30383,6 +31459,8 @@ class HlsCdnSettings {
 }
 
 /// State of HLS ID3 Segment Tagging
+///
+/// @nodoc
 class HlsId3SegmentTaggingState {
   static const disabled = HlsId3SegmentTaggingState._('DISABLED');
   static const enabled = HlsId3SegmentTaggingState._('ENABLED');
@@ -30411,6 +31489,8 @@ class HlsId3SegmentTaggingState {
 /// When set to "standard", an I-Frame only playlist will be written out for
 /// each video output in the output group. This I-Frame only playlist will
 /// contain byte range offsets pointing to the I-frame(s) in each segment.
+///
+/// @nodoc
 class IFrameOnlyPlaylistType {
   static const disabled = IFrameOnlyPlaylistType._('DISABLED');
   static const standard = IFrameOnlyPlaylistType._('STANDARD');
@@ -30437,6 +31517,8 @@ class IFrameOnlyPlaylistType {
 }
 
 /// Hls Incomplete Segment Behavior
+///
+/// @nodoc
 class HlsIncompleteSegmentBehavior {
   static const auto = HlsIncompleteSegmentBehavior._('AUTO');
   static const suppress = HlsIncompleteSegmentBehavior._('SUPPRESS');
@@ -30463,6 +31545,8 @@ class HlsIncompleteSegmentBehavior {
 }
 
 /// Input Loss Action For Hls Out
+///
+/// @nodoc
 class InputLossActionForHlsOut {
   static const emitOutput = InputLossActionForHlsOut._('EMIT_OUTPUT');
   static const pauseOutput = InputLossActionForHlsOut._('PAUSE_OUTPUT');
@@ -30489,6 +31573,8 @@ class InputLossActionForHlsOut {
 }
 
 /// Hls Iv In Manifest
+///
+/// @nodoc
 class HlsIvInManifest {
   static const exclude = HlsIvInManifest._('EXCLUDE');
   static const include = HlsIvInManifest._('INCLUDE');
@@ -30514,6 +31600,8 @@ class HlsIvInManifest {
 }
 
 /// Hls Iv Source
+///
+/// @nodoc
 class HlsIvSource {
   static const explicit = HlsIvSource._('EXPLICIT');
   static const followsSegmentNumber = HlsIvSource._('FOLLOWS_SEGMENT_NUMBER');
@@ -30538,6 +31626,8 @@ class HlsIvSource {
 }
 
 /// Key Provider Settings
+///
+/// @nodoc
 class KeyProviderSettings {
   final StaticKeySettings? staticKeySettings;
 
@@ -30563,6 +31653,8 @@ class KeyProviderSettings {
 }
 
 /// Hls Manifest Compression
+///
+/// @nodoc
 class HlsManifestCompression {
   static const gzip = HlsManifestCompression._('GZIP');
   static const none = HlsManifestCompression._('NONE');
@@ -30589,6 +31681,8 @@ class HlsManifestCompression {
 }
 
 /// Hls Manifest Duration Format
+///
+/// @nodoc
 class HlsManifestDurationFormat {
   static const floatingPoint = HlsManifestDurationFormat._('FLOATING_POINT');
   static const integer = HlsManifestDurationFormat._('INTEGER');
@@ -30615,6 +31709,8 @@ class HlsManifestDurationFormat {
 }
 
 /// Hls Mode
+///
+/// @nodoc
 class HlsMode {
   static const live = HlsMode._('LIVE');
   static const vod = HlsMode._('VOD');
@@ -30639,6 +31735,8 @@ class HlsMode {
 }
 
 /// Hls Output Selection
+///
+/// @nodoc
 class HlsOutputSelection {
   static const manifestsAndSegments =
       HlsOutputSelection._('MANIFESTS_AND_SEGMENTS');
@@ -30672,6 +31770,8 @@ class HlsOutputSelection {
 }
 
 /// Hls Program Date Time
+///
+/// @nodoc
 class HlsProgramDateTime {
   static const exclude = HlsProgramDateTime._('EXCLUDE');
   static const include = HlsProgramDateTime._('INCLUDE');
@@ -30698,6 +31798,8 @@ class HlsProgramDateTime {
 }
 
 /// Hls Program Date Time Clock
+///
+/// @nodoc
 class HlsProgramDateTimeClock {
   static const initializeFromOutputTimecode =
       HlsProgramDateTimeClock._('INITIALIZE_FROM_OUTPUT_TIMECODE');
@@ -30725,6 +31827,8 @@ class HlsProgramDateTimeClock {
 }
 
 /// Hls Redundant Manifest
+///
+/// @nodoc
 class HlsRedundantManifest {
   static const disabled = HlsRedundantManifest._('DISABLED');
   static const enabled = HlsRedundantManifest._('ENABLED');
@@ -30751,6 +31855,8 @@ class HlsRedundantManifest {
 }
 
 /// Hls Segmentation Mode
+///
+/// @nodoc
 class HlsSegmentationMode {
   static const useInputSegmentation =
       HlsSegmentationMode._('USE_INPUT_SEGMENTATION');
@@ -30779,6 +31885,8 @@ class HlsSegmentationMode {
 }
 
 /// Hls Stream Inf Resolution
+///
+/// @nodoc
 class HlsStreamInfResolution {
   static const exclude = HlsStreamInfResolution._('EXCLUDE');
   static const include = HlsStreamInfResolution._('INCLUDE');
@@ -30805,6 +31913,8 @@ class HlsStreamInfResolution {
 }
 
 /// Hls Timed Metadata Id3 Frame
+///
+/// @nodoc
 class HlsTimedMetadataId3Frame {
   static const none = HlsTimedMetadataId3Frame._('NONE');
   static const priv = HlsTimedMetadataId3Frame._('PRIV');
@@ -30832,6 +31942,8 @@ class HlsTimedMetadataId3Frame {
 }
 
 /// Hls Ts File Mode
+///
+/// @nodoc
 class HlsTsFileMode {
   static const segmentedFiles = HlsTsFileMode._('SEGMENTED_FILES');
   static const singleFile = HlsTsFileMode._('SINGLE_FILE');
@@ -30857,6 +31969,8 @@ class HlsTsFileMode {
 }
 
 /// Static Key Settings
+///
+/// @nodoc
 class StaticKeySettings {
   /// Static key value as a 32 character hexadecimal string.
   final String staticKeyValue;
@@ -30890,6 +32004,8 @@ class StaticKeySettings {
 }
 
 /// Hls Akamai Settings
+///
+/// @nodoc
 class HlsAkamaiSettings {
   /// Number of seconds to wait before retrying connection to the CDN if the
   /// connection is lost.
@@ -30962,6 +32078,8 @@ class HlsAkamaiSettings {
 }
 
 /// Hls Basic Put Settings
+///
+/// @nodoc
 class HlsBasicPutSettings {
   /// Number of seconds to wait before retrying connection to the CDN if the
   /// connection is lost.
@@ -31011,6 +32129,8 @@ class HlsBasicPutSettings {
 }
 
 /// Hls Media Store Settings
+///
+/// @nodoc
 class HlsMediaStoreSettings {
   /// Number of seconds to wait before retrying connection to the CDN if the
   /// connection is lost.
@@ -31070,6 +32190,8 @@ class HlsMediaStoreSettings {
 }
 
 /// Hls S3 Settings
+///
+/// @nodoc
 class HlsS3Settings {
   /// Specify the canned ACL to apply to each S3 request. Defaults to none.
   final S3CannedAcl? cannedAcl;
@@ -31093,6 +32215,8 @@ class HlsS3Settings {
 }
 
 /// Hls Webdav Settings
+///
+/// @nodoc
 class HlsWebdavSettings {
   /// Number of seconds to wait before retrying connection to the CDN if the
   /// connection is lost.
@@ -31150,6 +32274,8 @@ class HlsWebdavSettings {
 }
 
 /// Hls Webdav Http Transfer Mode
+///
+/// @nodoc
 class HlsWebdavHttpTransferMode {
   static const chunked = HlsWebdavHttpTransferMode._('CHUNKED');
   static const nonChunked = HlsWebdavHttpTransferMode._('NON_CHUNKED');
@@ -31176,6 +32302,8 @@ class HlsWebdavHttpTransferMode {
 }
 
 /// S3 Canned Acl
+///
+/// @nodoc
 class S3CannedAcl {
   static const authenticatedRead = S3CannedAcl._('AUTHENTICATED_READ');
   static const bucketOwnerFullControl =
@@ -31208,6 +32336,8 @@ class S3CannedAcl {
 }
 
 /// Hls Media Store Storage Class
+///
+/// @nodoc
 class HlsMediaStoreStorageClass {
   static const temporal = HlsMediaStoreStorageClass._('TEMPORAL');
 
@@ -31233,6 +32363,8 @@ class HlsMediaStoreStorageClass {
 }
 
 /// Hls Akamai Http Transfer Mode
+///
+/// @nodoc
 class HlsAkamaiHttpTransferMode {
   static const chunked = HlsAkamaiHttpTransferMode._('CHUNKED');
   static const nonChunked = HlsAkamaiHttpTransferMode._('NON_CHUNKED');
@@ -31259,6 +32391,8 @@ class HlsAkamaiHttpTransferMode {
 }
 
 /// Hls Ad Markers
+///
+/// @nodoc
 class HlsAdMarkers {
   static const adobe = HlsAdMarkers._('ADOBE');
   static const elemental = HlsAdMarkers._('ELEMENTAL');
@@ -31284,6 +32418,8 @@ class HlsAdMarkers {
 }
 
 /// Frame Capture Cdn Settings
+///
+/// @nodoc
 class FrameCaptureCdnSettings {
   final FrameCaptureS3Settings? frameCaptureS3Settings;
 
@@ -31310,6 +32446,8 @@ class FrameCaptureCdnSettings {
 }
 
 /// Frame Capture S3 Settings
+///
+/// @nodoc
 class FrameCaptureS3Settings {
   /// Specify the canned ACL to apply to each S3 request. Defaults to none.
   final S3CannedAcl? cannedAcl;
@@ -31333,6 +32471,8 @@ class FrameCaptureS3Settings {
 }
 
 /// Archive Cdn Settings
+///
+/// @nodoc
 class ArchiveCdnSettings {
   final ArchiveS3Settings? archiveS3Settings;
 
@@ -31358,6 +32498,8 @@ class ArchiveCdnSettings {
 }
 
 /// Archive S3 Settings
+///
+/// @nodoc
 class ArchiveS3Settings {
   /// Specify the canned ACL to apply to each S3 request. Defaults to none.
   final S3CannedAcl? cannedAcl;
@@ -31381,6 +32523,8 @@ class ArchiveS3Settings {
 }
 
 /// State of Nielsen PCM to ID3 tagging
+///
+/// @nodoc
 class NielsenPcmToId3TaggingState {
   static const disabled = NielsenPcmToId3TaggingState._('DISABLED');
   static const enabled = NielsenPcmToId3TaggingState._('ENABLED');
@@ -31407,6 +32551,8 @@ class NielsenPcmToId3TaggingState {
 }
 
 /// Motion Graphics Insertion
+///
+/// @nodoc
 class MotionGraphicsInsertion {
   static const disabled = MotionGraphicsInsertion._('DISABLED');
   static const enabled = MotionGraphicsInsertion._('ENABLED');
@@ -31433,6 +32579,8 @@ class MotionGraphicsInsertion {
 }
 
 /// Motion Graphics Settings
+///
+/// @nodoc
 class MotionGraphicsSettings {
   final HtmlMotionGraphicsSettings? htmlMotionGraphicsSettings;
 
@@ -31459,6 +32607,8 @@ class MotionGraphicsSettings {
 }
 
 /// Html Motion Graphics Settings
+///
+/// @nodoc
 class HtmlMotionGraphicsSettings {
   HtmlMotionGraphicsSettings();
 
@@ -31472,6 +32622,8 @@ class HtmlMotionGraphicsSettings {
 }
 
 /// Global Configuration Input End Action
+///
+/// @nodoc
 class GlobalConfigurationInputEndAction {
   static const none = GlobalConfigurationInputEndAction._('NONE');
   static const switchAndLoopInputs =
@@ -31499,6 +32651,8 @@ class GlobalConfigurationInputEndAction {
 }
 
 /// Input Loss Behavior
+///
+/// @nodoc
 class InputLossBehavior {
   /// Documentation update needed
   final int? blackFrameMsec;
@@ -31560,6 +32714,8 @@ class InputLossBehavior {
 }
 
 /// Global Configuration Output Locking Mode
+///
+/// @nodoc
 class GlobalConfigurationOutputLockingMode {
   static const epochLocking =
       GlobalConfigurationOutputLockingMode._('EPOCH_LOCKING');
@@ -31589,6 +32745,8 @@ class GlobalConfigurationOutputLockingMode {
 }
 
 /// Global Configuration Output Timing Source
+///
+/// @nodoc
 class GlobalConfigurationOutputTimingSource {
   static const inputClock =
       GlobalConfigurationOutputTimingSource._('INPUT_CLOCK');
@@ -31617,6 +32775,8 @@ class GlobalConfigurationOutputTimingSource {
 }
 
 /// Global Configuration Low Framerate Inputs
+///
+/// @nodoc
 class GlobalConfigurationLowFramerateInputs {
   static const disabled = GlobalConfigurationLowFramerateInputs._('DISABLED');
   static const enabled = GlobalConfigurationLowFramerateInputs._('ENABLED');
@@ -31643,6 +32803,8 @@ class GlobalConfigurationLowFramerateInputs {
 }
 
 /// Output Locking Settings
+///
+/// @nodoc
 class OutputLockingSettings {
   final DisabledLockingSettings? disabledLockingSettings;
   final EpochLockingSettings? epochLockingSettings;
@@ -31687,6 +32849,8 @@ class OutputLockingSettings {
 }
 
 /// Epoch Locking Settings
+///
+/// @nodoc
 class EpochLockingSettings {
   /// Optional. Enter a value here to use a custom epoch, instead of the standard
   /// epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of
@@ -31725,6 +32889,8 @@ class EpochLockingSettings {
 }
 
 /// Pipeline Locking Settings
+///
+/// @nodoc
 class PipelineLockingSettings {
   /// Optional. Only applies to CMAF Ingest Output Group and MediaPackage V2
   /// Output Group Only. Enter a value here to use a custom epoch, instead of the
@@ -31764,6 +32930,8 @@ class PipelineLockingSettings {
 }
 
 /// Disabled Locking Settings
+///
+/// @nodoc
 class DisabledLockingSettings {
   /// Optional. Only applies to CMAF Ingest Output Group and MediaPackage V2
   /// Output Group. Enter a value here to use a custom epoch, instead of the
@@ -31791,6 +32959,8 @@ class DisabledLockingSettings {
 }
 
 /// Pipeline Locking Method
+///
+/// @nodoc
 class PipelineLockingMethod {
   static const sourceTimecode = PipelineLockingMethod._('SOURCE_TIMECODE');
   static const videoAlignment = PipelineLockingMethod._('VIDEO_ALIGNMENT');
@@ -31817,6 +32987,8 @@ class PipelineLockingMethod {
 }
 
 /// Input Loss Image Type
+///
+/// @nodoc
 class InputLossImageType {
   static const color = InputLossImageType._('COLOR');
   static const slate = InputLossImageType._('SLATE');
@@ -31843,6 +33015,8 @@ class InputLossImageType {
 }
 
 /// Feature Activations Input Prepare Schedule Actions
+///
+/// @nodoc
 class FeatureActivationsInputPrepareScheduleActions {
   static const disabled =
       FeatureActivationsInputPrepareScheduleActions._('DISABLED');
@@ -31873,6 +33047,8 @@ class FeatureActivationsInputPrepareScheduleActions {
 }
 
 /// Feature Activations Output Static Image Overlay Schedule Actions
+///
+/// @nodoc
 class FeatureActivationsOutputStaticImageOverlayScheduleActions {
   static const disabled =
       FeatureActivationsOutputStaticImageOverlayScheduleActions._('DISABLED');
@@ -31905,6 +33081,8 @@ class FeatureActivationsOutputStaticImageOverlayScheduleActions {
 }
 
 /// Caption Description
+///
+/// @nodoc
 class CaptionDescription {
   /// Specifies which input caption selector to use as a caption source when
   /// generating output captions. This field should match a captionSelector name.
@@ -31998,6 +33176,8 @@ class CaptionDescription {
 }
 
 /// Accessibility Type
+///
+/// @nodoc
 class AccessibilityType {
   static const doesNotImplementAccessibilityFeatures =
       AccessibilityType._('DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES');
@@ -32028,6 +33208,8 @@ class AccessibilityType {
 }
 
 /// Caption Destination Settings
+///
+/// @nodoc
 class CaptionDestinationSettings {
   final AribDestinationSettings? aribDestinationSettings;
   final BurnInDestinationSettings? burnInDestinationSettings;
@@ -32176,6 +33358,8 @@ class CaptionDestinationSettings {
 }
 
 /// Dvb Dash Accessibility
+///
+/// @nodoc
 class DvbDashAccessibility {
   static const dvbdash_1VisuallyImpaired =
       DvbDashAccessibility._('DVBDASH_1_VISUALLY_IMPAIRED');
@@ -32222,6 +33406,8 @@ class DvbDashAccessibility {
 }
 
 /// Dash Role Caption
+///
+/// @nodoc
 class DashRoleCaption {
   static const alternate = DashRoleCaption._('ALTERNATE');
   static const caption = DashRoleCaption._('CAPTION');
@@ -32272,6 +33458,8 @@ class DashRoleCaption {
 }
 
 /// Arib Destination Settings
+///
+/// @nodoc
 class AribDestinationSettings {
   AribDestinationSettings();
 
@@ -32285,6 +33473,8 @@ class AribDestinationSettings {
 }
 
 /// Burn In Destination Settings
+///
+/// @nodoc
 class BurnInDestinationSettings {
   /// If no explicit xPosition or yPosition is provided, setting alignment to
   /// centered will place the captions at the bottom center of the output.
@@ -32488,6 +33678,8 @@ class BurnInDestinationSettings {
 }
 
 /// Dvb Sub Destination Settings
+///
+/// @nodoc
 class DvbSubDestinationSettings {
   /// If no explicit xPosition or yPosition is provided, setting alignment to
   /// centered will place the captions at the bottom center of the output.
@@ -32697,6 +33889,8 @@ class DvbSubDestinationSettings {
 }
 
 /// Ebu Tt DDestination Settings
+///
+/// @nodoc
 class EbuTtDDestinationSettings {
   /// Complete this field if you want to include the name of the copyright holder
   /// in the copyright tag in the captions metadata.
@@ -32776,6 +33970,8 @@ class EbuTtDDestinationSettings {
 }
 
 /// Embedded Destination Settings
+///
+/// @nodoc
 class EmbeddedDestinationSettings {
   EmbeddedDestinationSettings();
 
@@ -32789,6 +33985,8 @@ class EmbeddedDestinationSettings {
 }
 
 /// Embedded Plus Scte20 Destination Settings
+///
+/// @nodoc
 class EmbeddedPlusScte20DestinationSettings {
   EmbeddedPlusScte20DestinationSettings();
 
@@ -32803,6 +34001,8 @@ class EmbeddedPlusScte20DestinationSettings {
 }
 
 /// Rtmp Caption Info Destination Settings
+///
+/// @nodoc
 class RtmpCaptionInfoDestinationSettings {
   RtmpCaptionInfoDestinationSettings();
 
@@ -32816,6 +34016,8 @@ class RtmpCaptionInfoDestinationSettings {
 }
 
 /// Scte20 Plus Embedded Destination Settings
+///
+/// @nodoc
 class Scte20PlusEmbeddedDestinationSettings {
   Scte20PlusEmbeddedDestinationSettings();
 
@@ -32830,6 +34032,8 @@ class Scte20PlusEmbeddedDestinationSettings {
 }
 
 /// Scte27 Destination Settings
+///
+/// @nodoc
 class Scte27DestinationSettings {
   Scte27DestinationSettings();
 
@@ -32843,6 +34047,8 @@ class Scte27DestinationSettings {
 }
 
 /// Smpte Tt Destination Settings
+///
+/// @nodoc
 class SmpteTtDestinationSettings {
   SmpteTtDestinationSettings();
 
@@ -32856,6 +34062,8 @@ class SmpteTtDestinationSettings {
 }
 
 /// Teletext Destination Settings
+///
+/// @nodoc
 class TeletextDestinationSettings {
   TeletextDestinationSettings();
 
@@ -32869,6 +34077,8 @@ class TeletextDestinationSettings {
 }
 
 /// Ttml Destination Settings
+///
+/// @nodoc
 class TtmlDestinationSettings {
   /// This field is not currently supported and will not affect the output
   /// styling. Leave the default value.
@@ -32894,6 +34104,8 @@ class TtmlDestinationSettings {
 }
 
 /// Webvtt Destination Settings
+///
+/// @nodoc
 class WebvttDestinationSettings {
   /// Controls whether the color and position of the source captions is passed
   /// through to the WebVTT output captions. PASSTHROUGH - Valid only if the
@@ -32922,6 +34134,8 @@ class WebvttDestinationSettings {
 }
 
 /// Webvtt Destination Style Control
+///
+/// @nodoc
 class WebvttDestinationStyleControl {
   static const noStyleData = WebvttDestinationStyleControl._('NO_STYLE_DATA');
   static const passthrough = WebvttDestinationStyleControl._('PASSTHROUGH');
@@ -32948,6 +34162,8 @@ class WebvttDestinationStyleControl {
 }
 
 /// Ttml Destination Style Control
+///
+/// @nodoc
 class TtmlDestinationStyleControl {
   static const passthrough = TtmlDestinationStyleControl._('PASSTHROUGH');
   static const useConfigured = TtmlDestinationStyleControl._('USE_CONFIGURED');
@@ -32974,6 +34190,8 @@ class TtmlDestinationStyleControl {
 }
 
 /// Ebu Tt DFill Line Gap Control
+///
+/// @nodoc
 class EbuTtDFillLineGapControl {
   static const disabled = EbuTtDFillLineGapControl._('DISABLED');
   static const enabled = EbuTtDFillLineGapControl._('ENABLED');
@@ -33000,6 +34218,8 @@ class EbuTtDFillLineGapControl {
 }
 
 /// Ebu Tt DDestination Style Control
+///
+/// @nodoc
 class EbuTtDDestinationStyleControl {
   static const exclude = EbuTtDDestinationStyleControl._('EXCLUDE');
   static const include = EbuTtDDestinationStyleControl._('INCLUDE');
@@ -33026,6 +34246,8 @@ class EbuTtDDestinationStyleControl {
 }
 
 /// Dvb Sub Destination Alignment
+///
+/// @nodoc
 class DvbSubDestinationAlignment {
   static const centered = DvbSubDestinationAlignment._('CENTERED');
   static const left = DvbSubDestinationAlignment._('LEFT');
@@ -33053,6 +34275,8 @@ class DvbSubDestinationAlignment {
 }
 
 /// Dvb Sub Destination Background Color
+///
+/// @nodoc
 class DvbSubDestinationBackgroundColor {
   static const black = DvbSubDestinationBackgroundColor._('BLACK');
   static const none = DvbSubDestinationBackgroundColor._('NONE');
@@ -33080,6 +34304,8 @@ class DvbSubDestinationBackgroundColor {
 }
 
 /// Dvb Sub Destination Font Color
+///
+/// @nodoc
 class DvbSubDestinationFontColor {
   static const black = DvbSubDestinationFontColor._('BLACK');
   static const blue = DvbSubDestinationFontColor._('BLUE');
@@ -33110,6 +34336,8 @@ class DvbSubDestinationFontColor {
 }
 
 /// Dvb Sub Destination Outline Color
+///
+/// @nodoc
 class DvbSubDestinationOutlineColor {
   static const black = DvbSubDestinationOutlineColor._('BLACK');
   static const blue = DvbSubDestinationOutlineColor._('BLUE');
@@ -33140,6 +34368,8 @@ class DvbSubDestinationOutlineColor {
 }
 
 /// Dvb Sub Destination Shadow Color
+///
+/// @nodoc
 class DvbSubDestinationShadowColor {
   static const black = DvbSubDestinationShadowColor._('BLACK');
   static const none = DvbSubDestinationShadowColor._('NONE');
@@ -33167,6 +34397,8 @@ class DvbSubDestinationShadowColor {
 }
 
 /// Dvb Sub Destination Teletext Grid Control
+///
+/// @nodoc
 class DvbSubDestinationTeletextGridControl {
   static const fixed = DvbSubDestinationTeletextGridControl._('FIXED');
   static const scaled = DvbSubDestinationTeletextGridControl._('SCALED');
@@ -33193,6 +34425,8 @@ class DvbSubDestinationTeletextGridControl {
 }
 
 /// Dvb Sub Destination Subtitle Rows
+///
+/// @nodoc
 class DvbSubDestinationSubtitleRows {
   static const rows_16 = DvbSubDestinationSubtitleRows._('ROWS_16');
   static const rows_20 = DvbSubDestinationSubtitleRows._('ROWS_20');
@@ -33220,6 +34454,8 @@ class DvbSubDestinationSubtitleRows {
 }
 
 /// Burn In Alignment
+///
+/// @nodoc
 class BurnInAlignment {
   static const centered = BurnInAlignment._('CENTERED');
   static const left = BurnInAlignment._('LEFT');
@@ -33246,6 +34482,8 @@ class BurnInAlignment {
 }
 
 /// Burn In Background Color
+///
+/// @nodoc
 class BurnInBackgroundColor {
   static const black = BurnInBackgroundColor._('BLACK');
   static const none = BurnInBackgroundColor._('NONE');
@@ -33273,6 +34511,8 @@ class BurnInBackgroundColor {
 }
 
 /// Burn In Font Color
+///
+/// @nodoc
 class BurnInFontColor {
   static const black = BurnInFontColor._('BLACK');
   static const blue = BurnInFontColor._('BLUE');
@@ -33302,6 +34542,8 @@ class BurnInFontColor {
 }
 
 /// Burn In Outline Color
+///
+/// @nodoc
 class BurnInOutlineColor {
   static const black = BurnInOutlineColor._('BLACK');
   static const blue = BurnInOutlineColor._('BLUE');
@@ -33332,6 +34574,8 @@ class BurnInOutlineColor {
 }
 
 /// Burn In Shadow Color
+///
+/// @nodoc
 class BurnInShadowColor {
   static const black = BurnInShadowColor._('BLACK');
   static const none = BurnInShadowColor._('NONE');
@@ -33358,6 +34602,8 @@ class BurnInShadowColor {
 }
 
 /// Burn In Teletext Grid Control
+///
+/// @nodoc
 class BurnInTeletextGridControl {
   static const fixed = BurnInTeletextGridControl._('FIXED');
   static const scaled = BurnInTeletextGridControl._('SCALED');
@@ -33384,6 +34630,8 @@ class BurnInTeletextGridControl {
 }
 
 /// Burn In Destination Subtitle Rows
+///
+/// @nodoc
 class BurnInDestinationSubtitleRows {
   static const rows_16 = BurnInDestinationSubtitleRows._('ROWS_16');
   static const rows_20 = BurnInDestinationSubtitleRows._('ROWS_20');
@@ -33411,6 +34659,8 @@ class BurnInDestinationSubtitleRows {
 }
 
 /// Blackout Slate Network End Blackout
+///
+/// @nodoc
 class BlackoutSlateNetworkEndBlackout {
   static const disabled = BlackoutSlateNetworkEndBlackout._('DISABLED');
   static const enabled = BlackoutSlateNetworkEndBlackout._('ENABLED');
@@ -33437,6 +34687,8 @@ class BlackoutSlateNetworkEndBlackout {
 }
 
 /// Blackout Slate State
+///
+/// @nodoc
 class BlackoutSlateState {
   static const disabled = BlackoutSlateState._('DISABLED');
   static const enabled = BlackoutSlateState._('ENABLED');
@@ -33463,6 +34715,8 @@ class BlackoutSlateState {
 }
 
 /// Avail Settings
+///
+/// @nodoc
 class AvailSettings {
   final Esam? esam;
   final Scte35SpliceInsert? scte35SpliceInsert;
@@ -33504,6 +34758,8 @@ class AvailSettings {
 }
 
 /// Scte35 Segmentation Scope
+///
+/// @nodoc
 class Scte35SegmentationScope {
   static const allOutputGroups = Scte35SegmentationScope._('ALL_OUTPUT_GROUPS');
   static const scte35EnabledOutputGroups =
@@ -33531,6 +34787,8 @@ class Scte35SegmentationScope {
 }
 
 /// Esam
+///
+/// @nodoc
 class Esam {
   /// Sent as acquisitionPointIdentity to identify the MediaLive channel to the
   /// POIS.
@@ -33596,6 +34854,8 @@ class Esam {
 
 /// Typical configuration that applies breaks on splice inserts in addition to
 /// time signal placement opportunities, breaks, and advertisements.
+///
+/// @nodoc
 class Scte35SpliceInsert {
   /// When specified, this offset (in milliseconds) is added to the input Ad Avail
   /// PTS time. This only applies to embedded SCTE 104/35 messages and does not
@@ -33642,6 +34902,8 @@ class Scte35SpliceInsert {
 
 /// Atypical configuration that applies segment breaks only on SCTE-35 time
 /// signal placement opportunities and breaks.
+///
+/// @nodoc
 class Scte35TimeSignalApos {
   /// When specified, this offset (in milliseconds) is added to the input Ad Avail
   /// PTS time. This only applies to embedded SCTE 104/35 messages and does not
@@ -33687,6 +34949,8 @@ class Scte35TimeSignalApos {
 }
 
 /// Scte35 Apos No Regional Blackout Behavior
+///
+/// @nodoc
 class Scte35AposNoRegionalBlackoutBehavior {
   static const follow = Scte35AposNoRegionalBlackoutBehavior._('FOLLOW');
   static const ignore = Scte35AposNoRegionalBlackoutBehavior._('IGNORE');
@@ -33713,6 +34977,8 @@ class Scte35AposNoRegionalBlackoutBehavior {
 }
 
 /// Scte35 Apos Web Delivery Allowed Behavior
+///
+/// @nodoc
 class Scte35AposWebDeliveryAllowedBehavior {
   static const follow = Scte35AposWebDeliveryAllowedBehavior._('FOLLOW');
   static const ignore = Scte35AposWebDeliveryAllowedBehavior._('IGNORE');
@@ -33739,6 +35005,8 @@ class Scte35AposWebDeliveryAllowedBehavior {
 }
 
 /// Scte35 Splice Insert No Regional Blackout Behavior
+///
+/// @nodoc
 class Scte35SpliceInsertNoRegionalBlackoutBehavior {
   static const follow =
       Scte35SpliceInsertNoRegionalBlackoutBehavior._('FOLLOW');
@@ -33769,6 +35037,8 @@ class Scte35SpliceInsertNoRegionalBlackoutBehavior {
 }
 
 /// Scte35 Splice Insert Web Delivery Allowed Behavior
+///
+/// @nodoc
 class Scte35SpliceInsertWebDeliveryAllowedBehavior {
   static const follow =
       Scte35SpliceInsertWebDeliveryAllowedBehavior._('FOLLOW');
@@ -33799,6 +35069,8 @@ class Scte35SpliceInsertWebDeliveryAllowedBehavior {
 }
 
 /// Avail Blanking State
+///
+/// @nodoc
 class AvailBlankingState {
   static const disabled = AvailBlankingState._('DISABLED');
   static const enabled = AvailBlankingState._('ENABLED');
@@ -33825,6 +35097,8 @@ class AvailBlankingState {
 }
 
 /// Audio Description
+///
+/// @nodoc
 class AudioDescription {
   /// The name of the AudioSelector used as the source for this AudioDescription.
   final String audioSelectorName;
@@ -33974,6 +35248,8 @@ class AudioDescription {
 }
 
 /// Audio Normalization Settings
+///
+/// @nodoc
 class AudioNormalizationSettings {
   /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act
   /// specification, itu17702 conforms to the EBU R-128 specification.
@@ -34019,6 +35295,8 @@ class AudioNormalizationSettings {
 }
 
 /// Audio Type
+///
+/// @nodoc
 class AudioType {
   static const cleanEffects = AudioType._('CLEAN_EFFECTS');
   static const hearingImpaired = AudioType._('HEARING_IMPAIRED');
@@ -34051,6 +35329,8 @@ class AudioType {
 }
 
 /// Audio Description Audio Type Control
+///
+/// @nodoc
 class AudioDescriptionAudioTypeControl {
   static const followInput = AudioDescriptionAudioTypeControl._('FOLLOW_INPUT');
   static const useConfigured =
@@ -34078,6 +35358,8 @@ class AudioDescriptionAudioTypeControl {
 }
 
 /// Audio Watermark Settings
+///
+/// @nodoc
 class AudioWatermarkSettings {
   /// Settings to configure Nielsen Watermarks in the audio encode
   final NielsenWatermarksSettings? nielsenWatermarksSettings;
@@ -34105,6 +35387,8 @@ class AudioWatermarkSettings {
 }
 
 /// Audio Codec Settings
+///
+/// @nodoc
 class AudioCodecSettings {
   final AacSettings? aacSettings;
   final Ac3Settings? ac3Settings;
@@ -34174,6 +35458,8 @@ class AudioCodecSettings {
 }
 
 /// Audio Description Language Code Control
+///
+/// @nodoc
 class AudioDescriptionLanguageCodeControl {
   static const followInput =
       AudioDescriptionLanguageCodeControl._('FOLLOW_INPUT');
@@ -34202,6 +35488,8 @@ class AudioDescriptionLanguageCodeControl {
 }
 
 /// Remix Settings
+///
+/// @nodoc
 class RemixSettings {
   /// Mapping of input channels to output channels, with appropriate gain
   /// adjustments.
@@ -34243,6 +35531,8 @@ class RemixSettings {
 }
 
 /// Dash Role Audio
+///
+/// @nodoc
 class DashRoleAudio {
   static const alternate = DashRoleAudio._('ALTERNATE');
   static const commentary = DashRoleAudio._('COMMENTARY');
@@ -34286,6 +35576,8 @@ class DashRoleAudio {
 }
 
 /// Audio Channel Mapping
+///
+/// @nodoc
 class AudioChannelMapping {
   /// Indices and gain values for each input channel that should be remixed into
   /// this output channel.
@@ -34320,6 +35612,8 @@ class AudioChannelMapping {
 }
 
 /// Input Channel Level
+///
+/// @nodoc
 class InputChannelLevel {
   /// Remixing value. Units are in dB and acceptable values are within the range
   /// from -60 (mute) and 6 dB.
@@ -34351,6 +35645,8 @@ class InputChannelLevel {
 }
 
 /// Aac Settings
+///
+/// @nodoc
 class AacSettings {
   /// Average bitrate in bits/second. Valid values depend on rate control mode and
   /// profile.
@@ -34445,6 +35741,8 @@ class AacSettings {
 }
 
 /// Ac3 Settings
+///
+/// @nodoc
 class Ac3Settings {
   /// Applies a 3 dB attenuation to the surround channels. Applies only when the
   /// coding mode parameter is CODING_MODE_3_2_LFE.
@@ -34531,6 +35829,8 @@ class Ac3Settings {
 }
 
 /// Eac3 Atmos Settings
+///
+/// @nodoc
 class Eac3AtmosSettings {
   /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
   final double? bitrate;
@@ -34603,6 +35903,8 @@ class Eac3AtmosSettings {
 }
 
 /// Eac3 Settings
+///
+/// @nodoc
 class Eac3Settings {
   /// When set to attenuate3Db, applies a 3 dB attenuation to the surround
   /// channels. Only used for 3/2 coding mode.
@@ -34787,6 +36089,8 @@ class Eac3Settings {
 }
 
 /// Mp2 Settings
+///
+/// @nodoc
 class Mp2Settings {
   /// Average bitrate in bits/second.
   final double? bitrate;
@@ -34826,6 +36130,8 @@ class Mp2Settings {
 }
 
 /// Pass Through Settings
+///
+/// @nodoc
 class PassThroughSettings {
   PassThroughSettings();
 
@@ -34839,6 +36145,8 @@ class PassThroughSettings {
 }
 
 /// Wav Settings
+///
+/// @nodoc
 class WavSettings {
   /// Bits per sample.
   final double? bitDepth;
@@ -34878,6 +36186,8 @@ class WavSettings {
 }
 
 /// Wav Coding Mode
+///
+/// @nodoc
 class WavCodingMode {
   static const codingMode_1_0 = WavCodingMode._('CODING_MODE_1_0');
   static const codingMode_2_0 = WavCodingMode._('CODING_MODE_2_0');
@@ -34910,6 +36220,8 @@ class WavCodingMode {
 }
 
 /// Mp2 Coding Mode
+///
+/// @nodoc
 class Mp2CodingMode {
   static const codingMode_1_0 = Mp2CodingMode._('CODING_MODE_1_0');
   static const codingMode_2_0 = Mp2CodingMode._('CODING_MODE_2_0');
@@ -34935,6 +36247,8 @@ class Mp2CodingMode {
 }
 
 /// Eac3 Attenuation Control
+///
+/// @nodoc
 class Eac3AttenuationControl {
   static const attenuate_3Db = Eac3AttenuationControl._('ATTENUATE_3_DB');
   static const none = Eac3AttenuationControl._('NONE');
@@ -34961,6 +36275,8 @@ class Eac3AttenuationControl {
 }
 
 /// Eac3 Bitstream Mode
+///
+/// @nodoc
 class Eac3BitstreamMode {
   static const commentary = Eac3BitstreamMode._('COMMENTARY');
   static const completeMain = Eac3BitstreamMode._('COMPLETE_MAIN');
@@ -34995,6 +36311,8 @@ class Eac3BitstreamMode {
 }
 
 /// Eac3 Coding Mode
+///
+/// @nodoc
 class Eac3CodingMode {
   static const codingMode_1_0 = Eac3CodingMode._('CODING_MODE_1_0');
   static const codingMode_2_0 = Eac3CodingMode._('CODING_MODE_2_0');
@@ -35021,6 +36339,8 @@ class Eac3CodingMode {
 }
 
 /// Eac3 Dc Filter
+///
+/// @nodoc
 class Eac3DcFilter {
   static const disabled = Eac3DcFilter._('DISABLED');
   static const enabled = Eac3DcFilter._('ENABLED');
@@ -35045,6 +36365,8 @@ class Eac3DcFilter {
 }
 
 /// Eac3 Drc Line
+///
+/// @nodoc
 class Eac3DrcLine {
   static const filmLight = Eac3DrcLine._('FILM_LIGHT');
   static const filmStandard = Eac3DrcLine._('FILM_STANDARD');
@@ -35080,6 +36402,8 @@ class Eac3DrcLine {
 }
 
 /// Eac3 Drc Rf
+///
+/// @nodoc
 class Eac3DrcRf {
   static const filmLight = Eac3DrcRf._('FILM_LIGHT');
   static const filmStandard = Eac3DrcRf._('FILM_STANDARD');
@@ -35115,6 +36439,8 @@ class Eac3DrcRf {
 }
 
 /// Eac3 Lfe Control
+///
+/// @nodoc
 class Eac3LfeControl {
   static const lfe = Eac3LfeControl._('LFE');
   static const noLfe = Eac3LfeControl._('NO_LFE');
@@ -35140,6 +36466,8 @@ class Eac3LfeControl {
 }
 
 /// Eac3 Lfe Filter
+///
+/// @nodoc
 class Eac3LfeFilter {
   static const disabled = Eac3LfeFilter._('DISABLED');
   static const enabled = Eac3LfeFilter._('ENABLED');
@@ -35165,6 +36493,8 @@ class Eac3LfeFilter {
 }
 
 /// Eac3 Metadata Control
+///
+/// @nodoc
 class Eac3MetadataControl {
   static const followInput = Eac3MetadataControl._('FOLLOW_INPUT');
   static const useConfigured = Eac3MetadataControl._('USE_CONFIGURED');
@@ -35191,6 +36521,8 @@ class Eac3MetadataControl {
 }
 
 /// Eac3 Passthrough Control
+///
+/// @nodoc
 class Eac3PassthroughControl {
   static const noPassthrough = Eac3PassthroughControl._('NO_PASSTHROUGH');
   static const whenPossible = Eac3PassthroughControl._('WHEN_POSSIBLE');
@@ -35217,6 +36549,8 @@ class Eac3PassthroughControl {
 }
 
 /// Eac3 Phase Control
+///
+/// @nodoc
 class Eac3PhaseControl {
   static const noShift = Eac3PhaseControl._('NO_SHIFT');
   static const shift_90Degrees = Eac3PhaseControl._('SHIFT_90_DEGREES');
@@ -35242,6 +36576,8 @@ class Eac3PhaseControl {
 }
 
 /// Eac3 Stereo Downmix
+///
+/// @nodoc
 class Eac3StereoDownmix {
   static const dpl2 = Eac3StereoDownmix._('DPL2');
   static const loRo = Eac3StereoDownmix._('LO_RO');
@@ -35269,6 +36605,8 @@ class Eac3StereoDownmix {
 }
 
 /// Eac3 Surround Ex Mode
+///
+/// @nodoc
 class Eac3SurroundExMode {
   static const disabled = Eac3SurroundExMode._('DISABLED');
   static const enabled = Eac3SurroundExMode._('ENABLED');
@@ -35296,6 +36634,8 @@ class Eac3SurroundExMode {
 }
 
 /// Eac3 Surround Mode
+///
+/// @nodoc
 class Eac3SurroundMode {
   static const disabled = Eac3SurroundMode._('DISABLED');
   static const enabled = Eac3SurroundMode._('ENABLED');
@@ -35322,6 +36662,8 @@ class Eac3SurroundMode {
 }
 
 /// Eac3 Atmos Coding Mode
+///
+/// @nodoc
 class Eac3AtmosCodingMode {
   static const codingMode_5_1_4 = Eac3AtmosCodingMode._('CODING_MODE_5_1_4');
   static const codingMode_7_1_4 = Eac3AtmosCodingMode._('CODING_MODE_7_1_4');
@@ -35349,6 +36691,8 @@ class Eac3AtmosCodingMode {
 }
 
 /// Eac3 Atmos Drc Line
+///
+/// @nodoc
 class Eac3AtmosDrcLine {
   static const filmLight = Eac3AtmosDrcLine._('FILM_LIGHT');
   static const filmStandard = Eac3AtmosDrcLine._('FILM_STANDARD');
@@ -35385,6 +36729,8 @@ class Eac3AtmosDrcLine {
 }
 
 /// Eac3 Atmos Drc Rf
+///
+/// @nodoc
 class Eac3AtmosDrcRf {
   static const filmLight = Eac3AtmosDrcRf._('FILM_LIGHT');
   static const filmStandard = Eac3AtmosDrcRf._('FILM_STANDARD');
@@ -35421,6 +36767,8 @@ class Eac3AtmosDrcRf {
 }
 
 /// Ac3 Bitstream Mode
+///
+/// @nodoc
 class Ac3BitstreamMode {
   static const commentary = Ac3BitstreamMode._('COMMENTARY');
   static const completeMain = Ac3BitstreamMode._('COMPLETE_MAIN');
@@ -35461,6 +36809,8 @@ class Ac3BitstreamMode {
 }
 
 /// Ac3 Coding Mode
+///
+/// @nodoc
 class Ac3CodingMode {
   static const codingMode_1_0 = Ac3CodingMode._('CODING_MODE_1_0');
   static const codingMode_1_1 = Ac3CodingMode._('CODING_MODE_1_1');
@@ -35493,6 +36843,8 @@ class Ac3CodingMode {
 }
 
 /// Ac3 Drc Profile
+///
+/// @nodoc
 class Ac3DrcProfile {
   static const filmStandard = Ac3DrcProfile._('FILM_STANDARD');
   static const none = Ac3DrcProfile._('NONE');
@@ -35518,6 +36870,8 @@ class Ac3DrcProfile {
 }
 
 /// Ac3 Lfe Filter
+///
+/// @nodoc
 class Ac3LfeFilter {
   static const disabled = Ac3LfeFilter._('DISABLED');
   static const enabled = Ac3LfeFilter._('ENABLED');
@@ -35542,6 +36896,8 @@ class Ac3LfeFilter {
 }
 
 /// Ac3 Metadata Control
+///
+/// @nodoc
 class Ac3MetadataControl {
   static const followInput = Ac3MetadataControl._('FOLLOW_INPUT');
   static const useConfigured = Ac3MetadataControl._('USE_CONFIGURED');
@@ -35568,6 +36924,8 @@ class Ac3MetadataControl {
 }
 
 /// Ac3 Attenuation Control
+///
+/// @nodoc
 class Ac3AttenuationControl {
   static const attenuate_3Db = Ac3AttenuationControl._('ATTENUATE_3_DB');
   static const none = Ac3AttenuationControl._('NONE');
@@ -35594,6 +36952,8 @@ class Ac3AttenuationControl {
 }
 
 /// Aac Coding Mode
+///
+/// @nodoc
 class AacCodingMode {
   static const adReceiverMix = AacCodingMode._('AD_RECEIVER_MIX');
   static const codingMode_1_0 = AacCodingMode._('CODING_MODE_1_0');
@@ -35628,6 +36988,8 @@ class AacCodingMode {
 }
 
 /// Aac Input Type
+///
+/// @nodoc
 class AacInputType {
   static const broadcasterMixedAd = AacInputType._('BROADCASTER_MIXED_AD');
   static const normal = AacInputType._('NORMAL');
@@ -35652,6 +37014,8 @@ class AacInputType {
 }
 
 /// Aac Profile
+///
+/// @nodoc
 class AacProfile {
   static const hev1 = AacProfile._('HEV1');
   static const hev2 = AacProfile._('HEV2');
@@ -35677,6 +37041,8 @@ class AacProfile {
 }
 
 /// Aac Rate Control Mode
+///
+/// @nodoc
 class AacRateControlMode {
   static const cbr = AacRateControlMode._('CBR');
   static const vbr = AacRateControlMode._('VBR');
@@ -35703,6 +37069,8 @@ class AacRateControlMode {
 }
 
 /// Aac Raw Format
+///
+/// @nodoc
 class AacRawFormat {
   static const latmLoas = AacRawFormat._('LATM_LOAS');
   static const none = AacRawFormat._('NONE');
@@ -35727,6 +37095,8 @@ class AacRawFormat {
 }
 
 /// Aac Spec
+///
+/// @nodoc
 class AacSpec {
   static const mpeg2 = AacSpec._('MPEG2');
   static const mpeg4 = AacSpec._('MPEG4');
@@ -35751,6 +37121,8 @@ class AacSpec {
 }
 
 /// Aac Vbr Quality
+///
+/// @nodoc
 class AacVbrQuality {
   static const high = AacVbrQuality._('HIGH');
   static const low = AacVbrQuality._('LOW');
@@ -35778,6 +37150,8 @@ class AacVbrQuality {
 }
 
 /// Nielsen Watermarks Settings
+///
+/// @nodoc
 class NielsenWatermarksSettings {
   /// Complete these fields only if you want to insert watermarks of type Nielsen
   /// CBET
@@ -35828,6 +37202,8 @@ class NielsenWatermarksSettings {
 }
 
 /// Nielsen CBET
+///
+/// @nodoc
 class NielsenCBET {
   /// Enter the CBET check digits to use in the watermark.
   final String cbetCheckDigitString;
@@ -35867,6 +37243,8 @@ class NielsenCBET {
 }
 
 /// Nielsen Watermarks Distribution Types
+///
+/// @nodoc
 class NielsenWatermarksDistributionTypes {
   static const finalDistributor =
       NielsenWatermarksDistributionTypes._('FINAL_DISTRIBUTOR');
@@ -35895,6 +37273,8 @@ class NielsenWatermarksDistributionTypes {
 }
 
 /// Nielsen Naes Ii Nw
+///
+/// @nodoc
 class NielsenNaesIiNw {
   /// Enter the check digit string for the watermark
   final String checkDigitString;
@@ -35934,6 +37314,8 @@ class NielsenNaesIiNw {
 }
 
 /// Nielsen Watermark Timezones
+///
+/// @nodoc
 class NielsenWatermarkTimezones {
   static const americaPuertoRico =
       NielsenWatermarkTimezones._('AMERICA_PUERTO_RICO');
@@ -35980,6 +37362,8 @@ class NielsenWatermarkTimezones {
 }
 
 /// Nielsen Watermarks Cbet Stepaside
+///
+/// @nodoc
 class NielsenWatermarksCbetStepaside {
   static const disabled = NielsenWatermarksCbetStepaside._('DISABLED');
   static const enabled = NielsenWatermarksCbetStepaside._('ENABLED');
@@ -36006,6 +37390,8 @@ class NielsenWatermarksCbetStepaside {
 }
 
 /// Audio Normalization Algorithm
+///
+/// @nodoc
 class AudioNormalizationAlgorithm {
   static const itu_1770_1 = AudioNormalizationAlgorithm._('ITU_1770_1');
   static const itu_1770_2 = AudioNormalizationAlgorithm._('ITU_1770_2');
@@ -36032,6 +37418,8 @@ class AudioNormalizationAlgorithm {
 }
 
 /// Audio Normalization Algorithm Control
+///
+/// @nodoc
 class AudioNormalizationAlgorithmControl {
   static const correctAudio =
       AudioNormalizationAlgorithmControl._('CORRECT_AUDIO');
@@ -36058,6 +37446,8 @@ class AudioNormalizationAlgorithmControl {
 }
 
 /// Placeholder documentation for ChannelEgressEndpoint
+///
+/// @nodoc
 class ChannelEgressEndpoint {
   /// Public IP of where a channel's output comes from
   final String? sourceIp;
@@ -36081,6 +37471,8 @@ class ChannelEgressEndpoint {
 }
 
 /// Placeholder documentation for OutputDestination
+///
+/// @nodoc
 class OutputDestination {
   /// User-specified id. This is used in an output group or an output.
   final String? id;
@@ -36178,6 +37570,8 @@ class OutputDestination {
 
 /// Multiplex Program Input Destination Settings for outputting a Channel to a
 /// Multiplex
+///
+/// @nodoc
 class MultiplexProgramChannelDestinationSettings {
   /// The ID of the Multiplex that the encoder is providing output to. You do not
   /// need to specify the individual inputs to the Multiplex; MediaLive will
@@ -36213,6 +37607,8 @@ class MultiplexProgramChannelDestinationSettings {
 }
 
 /// MediaConnect Router Output Destination Settings
+///
+/// @nodoc
 class MediaConnectRouterOutputDestinationSettings {
   /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER
   /// encryption, you must provide the ARN of the secret used to encrypt data in
@@ -36252,6 +37648,8 @@ class MediaConnectRouterOutputDestinationSettings {
 /// encryption, you must provide the ARN of the secret used to encrypt data in
 /// transit. When using AUTOMATIC encryption, a service-managed secret will be
 /// used instead.
+///
+/// @nodoc
 class MediaConnectRouterOutputEncryptionType {
   static const automatic =
       MediaConnectRouterOutputEncryptionType._('AUTOMATIC');
@@ -36280,6 +37678,8 @@ class MediaConnectRouterOutputEncryptionType {
 }
 
 /// Placeholder documentation for SrtOutputDestinationSettings
+///
+/// @nodoc
 class SrtOutputDestinationSettings {
   /// Specifies the mode the output should use for connection establishment.
   /// CALLER mode requires URL, LISTENER mode requires port.
@@ -36336,6 +37736,8 @@ class SrtOutputDestinationSettings {
 }
 
 /// Placeholder documentation for ConnectionMode
+///
+/// @nodoc
 class ConnectionMode {
   static const caller = ConnectionMode._('CALLER');
   static const listener = ConnectionMode._('LISTENER');
@@ -36361,6 +37763,8 @@ class ConnectionMode {
 }
 
 /// Placeholder documentation for OutputDestinationSettings
+///
+/// @nodoc
 class OutputDestinationSettings {
   /// key used to extract the password from EC2 Parameter store
   final String? passwordParam;
@@ -36405,6 +37809,8 @@ class OutputDestinationSettings {
 }
 
 /// MediaPackage Output Destination Settings
+///
+/// @nodoc
 class MediaPackageOutputDestinationSettings {
   /// Endpoint 1 or 2 of the channel in MediaPackageV2. Only use if you are
   /// sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage
@@ -36472,6 +37878,8 @@ class MediaPackageOutputDestinationSettings {
 /// Maximum CDI input resolution; SD is 480i and 576i up to 30 frames-per-second
 /// (fps), HD is 720p up to 60 fps / 1080i up to 30 fps, FHD is 1080p up to 60
 /// fps, UHD is 2160p up to 60 fps
+///
+/// @nodoc
 class CdiInputResolution {
   static const sd = CdiInputResolution._('SD');
   static const hd = CdiInputResolution._('HD');
@@ -36500,6 +37908,8 @@ class CdiInputResolution {
 }
 
 /// Placeholder documentation for MaintenanceUpdateSettings
+///
+/// @nodoc
 class MaintenanceUpdateSettings {
   /// Choose one day of the week for maintenance. The chosen day is used for all
   /// future maintenance windows.
@@ -36534,6 +37944,8 @@ class MaintenanceUpdateSettings {
 }
 
 /// Placeholder documentation for ChannelEngineVersionRequest
+///
+/// @nodoc
 class ChannelEngineVersionRequest {
   /// The build identifier of the engine version to use for this channel. Specify
   /// 'DEFAULT' to reset to the default version.
@@ -36552,6 +37964,8 @@ class ChannelEngineVersionRequest {
 }
 
 /// Elemental anywhere settings
+///
+/// @nodoc
 class AnywhereSettings {
   /// The ID of the channel placement group for the channel.
   final String? channelPlacementGroupId;
@@ -36576,6 +37990,8 @@ class AnywhereSettings {
 }
 
 /// Configuration for linked channel relationships
+///
+/// @nodoc
 class LinkedChannelSettings {
   final FollowerChannelSettings? followerChannelSettings;
   final PrimaryChannelSettings? primaryChannelSettings;
@@ -36598,6 +38014,8 @@ class LinkedChannelSettings {
 }
 
 /// Configures Elemental Inference features in a channel.
+///
+/// @nodoc
 class InferenceSettings {
   /// A list of audio feed inputs that map audio selectors in the channel to feed
   /// inputs on the associated Elemental Inference feed.
@@ -36623,6 +38041,8 @@ class InferenceSettings {
 }
 
 /// Settings for a follower channel in a linked pair
+///
+/// @nodoc
 class FollowerChannelSettings {
   /// Specifies this as a follower channel
   final LinkedChannelType? linkedChannelType;
@@ -36647,6 +38067,8 @@ class FollowerChannelSettings {
 }
 
 /// Settings for a primary (leader) channel in a linked pair
+///
+/// @nodoc
 class PrimaryChannelSettings {
   /// Specifies this as a primary channel
   final LinkedChannelType? linkedChannelType;
@@ -36665,6 +38087,8 @@ class PrimaryChannelSettings {
 }
 
 /// Placeholder documentation for AccountConfiguration
+///
+/// @nodoc
 class AccountConfiguration {
   /// Specifies the KMS key to use for all features that use key encryption.
   /// Specify the ARN of a KMS key that you have created. Or leave blank to use
@@ -36690,6 +38114,8 @@ class AccountConfiguration {
 }
 
 /// Represents the latest successful monitor deployment of a signal map.
+///
+/// @nodoc
 class SuccessfulMonitorDeployment {
   /// URI associated with a signal map's monitor deployment.
   final String detailsUri;
@@ -36719,6 +38145,8 @@ class SuccessfulMonitorDeployment {
 }
 
 /// Represents the latest monitor deployment of a signal map.
+///
+/// @nodoc
 class MonitorDeployment {
   final SignalMapMonitorDeploymentStatus status;
 
@@ -36757,6 +38185,8 @@ class MonitorDeployment {
 
 /// A signal map's current status which is dependent on its lifecycle actions or
 /// associated jobs.
+///
+/// @nodoc
 class SignalMapStatus {
   static const createInProgress = SignalMapStatus._('CREATE_IN_PROGRESS');
   static const createComplete = SignalMapStatus._('CREATE_COMPLETE');
@@ -36799,6 +38229,8 @@ class SignalMapStatus {
 }
 
 /// A signal map's monitor deployment status.
+///
+/// @nodoc
 class SignalMapMonitorDeploymentStatus {
   static const notDeployed = SignalMapMonitorDeploymentStatus._('NOT_DEPLOYED');
   static const dryRunDeploymentComplete =
@@ -36853,6 +38285,8 @@ class SignalMapMonitorDeploymentStatus {
 }
 
 /// An AWS resource used in media workflows.
+///
+/// @nodoc
 class MediaResource {
   final List<MediaResourceNeighbor>? destinations;
 
@@ -36893,6 +38327,8 @@ class MediaResource {
 }
 
 /// A direct source or destination neighbor to an AWS media resource.
+///
+/// @nodoc
 class MediaResourceNeighbor {
   /// The ARN of a resource used in AWS media workflows.
   final String arn;
@@ -36923,6 +38359,8 @@ class MediaResourceNeighbor {
 }
 
 /// Property of RestartChannelPipelinesRequest
+///
+/// @nodoc
 class ChannelPipelineIdToRestart {
   static const pipeline_0 = ChannelPipelineIdToRestart._('PIPELINE_0');
   static const pipeline_1 = ChannelPipelineIdToRestart._('PIPELINE_1');
@@ -36949,6 +38387,8 @@ class ChannelPipelineIdToRestart {
 }
 
 /// Whether or not to force reboot the input device.
+///
+/// @nodoc
 class RebootInputDeviceForce {
   static const no = RebootInputDeviceForce._('NO');
   static const yes = RebootInputDeviceForce._('YES');
@@ -36975,6 +38415,8 @@ class RebootInputDeviceForce {
 }
 
 /// Placeholder documentation for SignalMapSummary
+///
+/// @nodoc
 class SignalMapSummary {
   /// A signal map's ARN (Amazon Resource Name)
   final String arn;
@@ -37048,6 +38490,8 @@ class SignalMapSummary {
 
 /// Used in CreateSdiSourceResponse, DeleteSdiSourceResponse,
 /// DescribeSdiSourceResponse, ListSdiSourcesResponse, UpdateSdiSourceResponse
+///
+/// @nodoc
 class SdiSourceSummary {
   /// The ARN of this SdiSource. It is automatically assigned when the SdiSource
   /// is created.
@@ -37117,6 +38561,8 @@ class SdiSourceSummary {
 }
 
 /// Reserved resources available for purchase
+///
+/// @nodoc
 class Offering {
   /// Unique offering ARN, e.g.
   /// 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
@@ -37220,6 +38666,8 @@ class Offering {
 }
 
 /// Placeholder documentation for DescribeNodeSummary
+///
+/// @nodoc
 class DescribeNodeSummary {
   /// The ARN of the Node. It is automatically assigned when the Node is created.
   final String? arn;
@@ -37338,6 +38786,8 @@ class DescribeNodeSummary {
 }
 
 /// Used in ListNetworksResult.
+///
+/// @nodoc
 class DescribeNetworkSummary {
   /// The ARN of this Network. It is automatically assigned when the Network is
   /// created.
@@ -37420,6 +38870,8 @@ class DescribeNetworkSummary {
 }
 
 /// Placeholder documentation for MultiplexProgramSummary
+///
+/// @nodoc
 class MultiplexProgramSummary {
   /// The MediaLive Channel associated with the program.
   final String? channelId;
@@ -37450,6 +38902,8 @@ class MultiplexProgramSummary {
 }
 
 /// Placeholder documentation for MultiplexSummary
+///
+/// @nodoc
 class MultiplexSummary {
   /// The unique arn of the multiplex.
   final String? arn;
@@ -37537,6 +38991,8 @@ class MultiplexSummary {
 }
 
 /// Contains summary configuration for a Multiplex event.
+///
+/// @nodoc
 class MultiplexSettingsSummary {
   /// Transport stream bit rate.
   final int? transportStreamBitrate;
@@ -37561,6 +39017,8 @@ class MultiplexSettingsSummary {
 }
 
 /// An alert on a multiplex
+///
+/// @nodoc
 class MultiplexAlert {
   /// The type of the alert
   final String? alertType;
@@ -37628,6 +39086,8 @@ class MultiplexAlert {
 
 /// The possible states of a multiplex alert. SET - The alert is actively
 /// happening. CLEARED - The alert is no longer happening.
+///
+/// @nodoc
 class MultiplexAlertState {
   static const set = MultiplexAlertState._('SET');
   static const cleared = MultiplexAlertState._('CLEARED');
@@ -37654,6 +39114,8 @@ class MultiplexAlertState {
 }
 
 /// Details about the input device that is being transferred.
+///
+/// @nodoc
 class TransferringInputDeviceSummary {
   /// The unique ID of the input device.
   final String? id;
@@ -37701,6 +39163,8 @@ class TransferringInputDeviceSummary {
 /// The type of device transfer. INCOMING for an input device that is being
 /// transferred to you, OUTGOING for an input device that you are transferring
 /// to another AWS account.
+///
+/// @nodoc
 class InputDeviceTransferType {
   static const outgoing = InputDeviceTransferType._('OUTGOING');
   static const incoming = InputDeviceTransferType._('INCOMING');
@@ -37727,6 +39191,8 @@ class InputDeviceTransferType {
 }
 
 /// Details of the input device.
+///
+/// @nodoc
 class InputDeviceSummary {
   /// The unique ARN of the input device.
   final String? arn;
@@ -37881,6 +39347,8 @@ class InputDeviceSummary {
 }
 
 /// Placeholder documentation for EventBridgeRuleTemplateSummary
+///
+/// @nodoc
 class EventBridgeRuleTemplateSummary {
   /// An eventbridge rule template's ARN (Amazon Resource Name)
   final String arn;
@@ -37964,6 +39432,8 @@ class EventBridgeRuleTemplateSummary {
 }
 
 /// Placeholder documentation for EventBridgeRuleTemplateGroupSummary
+///
+/// @nodoc
 class EventBridgeRuleTemplateGroupSummary {
   /// An eventbridge rule template group's ARN (Amazon Resource Name)
   final String arn;
@@ -38034,6 +39504,8 @@ class EventBridgeRuleTemplateGroupSummary {
 }
 
 /// Used in ListClustersResult.
+///
+/// @nodoc
 class DescribeClusterSummary {
   /// The ARN of this Cluster. It is automatically assigned when the Cluster is
   /// created.
@@ -38121,6 +39593,8 @@ class DescribeClusterSummary {
 }
 
 /// An alert on a cluster
+///
+/// @nodoc
 class ClusterAlert {
   /// The type of the alert
   final String? alertType;
@@ -38195,6 +39669,8 @@ class ClusterAlert {
 
 /// The possible states of a cluster alert. SET - The alert is actively
 /// happening. CLEARED - The alert is no longer happening.
+///
+/// @nodoc
 class ClusterAlertState {
   static const set = ClusterAlertState._('SET');
   static const cleared = ClusterAlertState._('CLEARED');
@@ -38220,6 +39696,8 @@ class ClusterAlertState {
 }
 
 /// Placeholder documentation for CloudWatchAlarmTemplateSummary
+///
+/// @nodoc
 class CloudWatchAlarmTemplateSummary {
   /// A cloudwatch alarm template's ARN (Amazon Resource Name)
   final String arn;
@@ -38352,6 +39830,8 @@ class CloudWatchAlarmTemplateSummary {
 }
 
 /// Placeholder documentation for CloudWatchAlarmTemplateGroupSummary
+///
+/// @nodoc
 class CloudWatchAlarmTemplateGroupSummary {
   /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
   final String arn;
@@ -38422,6 +39902,8 @@ class CloudWatchAlarmTemplateGroupSummary {
 }
 
 /// Placeholder documentation for ChannelSummary
+///
+/// @nodoc
 class ChannelSummary {
   /// AnywhereSettings settings for this channel.
   final DescribeAnywhereSettings? anywhereSettings;
@@ -38642,6 +40124,8 @@ class ChannelSummary {
 }
 
 /// Contains the response for ListChannelPlacementGroups
+///
+/// @nodoc
 class DescribeChannelPlacementGroupSummary {
   /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the
   /// ChannelPlacementGroup is created.
@@ -38716,6 +40200,8 @@ class DescribeChannelPlacementGroupSummary {
 }
 
 /// An alert on a channel
+///
+/// @nodoc
 class ChannelAlert {
   /// The type of the alert
   final String? alertType;
@@ -38783,6 +40269,8 @@ class ChannelAlert {
 
 /// The possible states of a channel alert. SET - The alert is actively
 /// happening. CLEARED - The alert is no longer happening.
+///
+/// @nodoc
 class ChannelAlertState {
   static const set = ChannelAlertState._('SET');
   static const cleared = ChannelAlertState._('CLEARED');
@@ -38808,6 +40296,8 @@ class ChannelAlertState {
 }
 
 /// Thumbnail details for one pipeline of a running channel.
+///
+/// @nodoc
 class ThumbnailDetail {
   /// Pipeline ID
   final String? pipelineId;
@@ -38841,6 +40331,8 @@ class ThumbnailDetail {
 }
 
 /// Details of a single thumbnail
+///
+/// @nodoc
 class Thumbnail {
   /// The binary data for the latest thumbnail.
   final String? body;
@@ -38886,6 +40378,8 @@ class Thumbnail {
 }
 
 /// Thumbnail type.
+///
+/// @nodoc
 class ThumbnailType {
   static const unspecified = ThumbnailType._('UNSPECIFIED');
   static const currentActive = ThumbnailType._('CURRENT_ACTIVE');
@@ -38911,6 +40405,8 @@ class ThumbnailType {
 }
 
 /// Contains information on a single schedule action.
+///
+/// @nodoc
 class ScheduleAction {
   /// The name of the action, must be unique within the schedule. This name
   /// provides the main reference to an action once it is added to the schedule. A
@@ -38956,6 +40452,8 @@ class ScheduleAction {
 }
 
 /// Holds the settings for a single schedule action.
+///
+/// @nodoc
 class ScheduleActionSettings {
   /// Action to insert ID3 metadata in every segment, in HLS output groups
   final HlsId3SegmentTaggingScheduleActionSettings?
@@ -39183,6 +40681,8 @@ class ScheduleActionSettings {
 
 /// Settings to specify when an action should occur. Only one of the options
 /// must be selected.
+///
+/// @nodoc
 class ScheduleActionStartSettings {
   /// Option for specifying the start time for an action.
   final FixedModeScheduleActionStartSettings?
@@ -39247,6 +40747,8 @@ class ScheduleActionStartSettings {
 }
 
 /// Start time for the action.
+///
+/// @nodoc
 class FixedModeScheduleActionStartSettings {
   /// Start time for the action to start in the channel. (Not the time for the
   /// action to be added to the schedule: actions are always added to the schedule
@@ -39275,6 +40777,8 @@ class FixedModeScheduleActionStartSettings {
 }
 
 /// Settings to specify if an action follows another.
+///
+/// @nodoc
 class FollowModeScheduleActionStartSettings {
   /// Identifies whether this action starts relative to the start or relative to
   /// the end of the reference action.
@@ -39308,6 +40812,8 @@ class FollowModeScheduleActionStartSettings {
 }
 
 /// Settings to configure an action so that it occurs as soon as possible.
+///
+/// @nodoc
 class ImmediateModeScheduleActionStartSettings {
   ImmediateModeScheduleActionStartSettings();
 
@@ -39322,6 +40828,8 @@ class ImmediateModeScheduleActionStartSettings {
 }
 
 /// Follow reference point.
+///
+/// @nodoc
 class FollowPoint {
   static const end = FollowPoint._('END');
   static const start = FollowPoint._('START');
@@ -39347,6 +40855,8 @@ class FollowPoint {
 
 /// Settings for the action to insert ID3 metadata in every segment, in HLS
 /// output groups.
+///
+/// @nodoc
 class HlsId3SegmentTaggingScheduleActionSettings {
   /// Complete this parameter if you want to specify the entire ID3 metadata.
   /// Enter a base64 string that contains one or more fully formed ID3 tags,
@@ -39384,6 +40894,8 @@ class HlsId3SegmentTaggingScheduleActionSettings {
 
 /// Settings for the action to insert ID3 metadata (as a one-time action) in HLS
 /// output groups.
+///
+/// @nodoc
 class HlsTimedMetadataScheduleActionSettings {
   /// Enter a base64 string that contains one or more fully formed ID3 tags.See
   /// the ID3 specification: http://id3.org/id3v2.4.0-structure
@@ -39409,6 +40921,8 @@ class HlsTimedMetadataScheduleActionSettings {
 }
 
 /// Action to prepare an input for a future immediate input switch.
+///
+/// @nodoc
 class InputPrepareScheduleActionSettings {
   /// The name of the input attachment that should be prepared by this action. If
   /// no name is provided, the action will stop the most recent prepare (if any)
@@ -39461,6 +40975,8 @@ class InputPrepareScheduleActionSettings {
 
 /// Settings for the "switch input" action: to switch from ingesting one input
 /// to ingesting another input.
+///
+/// @nodoc
 class InputSwitchScheduleActionSettings {
   /// The name of the input attachment (not the name of the input!) to switch to.
   /// The name is specified in the channel configuration.
@@ -39510,6 +41026,8 @@ class InputSwitchScheduleActionSettings {
 }
 
 /// Settings to specify the rendering of motion graphics into the video stream.
+///
+/// @nodoc
 class MotionGraphicsActivateScheduleActionSettings {
   /// Duration (in milliseconds) that motion graphics should render on to the
   /// video stream. Leaving out this property or setting to 0 will result in
@@ -39558,6 +41076,8 @@ class MotionGraphicsActivateScheduleActionSettings {
 
 /// Settings to specify the ending of rendering motion graphics into the video
 /// stream.
+///
+/// @nodoc
 class MotionGraphicsDeactivateScheduleActionSettings {
   MotionGraphicsDeactivateScheduleActionSettings();
 
@@ -39572,6 +41092,8 @@ class MotionGraphicsDeactivateScheduleActionSettings {
 }
 
 /// Settings for the action to set pause state of a channel.
+///
+/// @nodoc
 class PauseStateScheduleActionSettings {
   final List<PipelinePauseStateSettings>? pipelines;
 
@@ -39598,6 +41120,8 @@ class PauseStateScheduleActionSettings {
 }
 
 /// Scte35Input Schedule Action Settings
+///
+/// @nodoc
 class Scte35InputScheduleActionSettings {
   /// Whether the SCTE-35 input should be the active input or a fixed input.
   final Scte35InputMode mode;
@@ -39632,6 +41156,8 @@ class Scte35InputScheduleActionSettings {
 }
 
 /// Settings for a SCTE-35 return_to_network message.
+///
+/// @nodoc
 class Scte35ReturnToNetworkScheduleActionSettings {
   /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
   final int spliceEventId;
@@ -39656,6 +41182,8 @@ class Scte35ReturnToNetworkScheduleActionSettings {
 }
 
 /// Settings for a SCTE-35 splice_insert message.
+///
+/// @nodoc
 class Scte35SpliceInsertScheduleActionSettings {
   /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
   final int spliceEventId;
@@ -39692,6 +41220,8 @@ class Scte35SpliceInsertScheduleActionSettings {
 }
 
 /// Settings for a SCTE-35 time_signal.
+///
+/// @nodoc
 class Scte35TimeSignalScheduleActionSettings {
   /// The list of SCTE-35 descriptors accompanying the SCTE-35 time_signal.
   final List<Scte35Descriptor> scte35Descriptors;
@@ -39719,6 +41249,8 @@ class Scte35TimeSignalScheduleActionSettings {
 }
 
 /// Settings for the action to activate a static image.
+///
+/// @nodoc
 class StaticImageActivateScheduleActionSettings {
   /// The location and filename of the image file to overlay on the video. The
   /// file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in
@@ -39828,6 +41360,8 @@ class StaticImageActivateScheduleActionSettings {
 }
 
 /// Settings for the action to deactivate the image in a specific layer.
+///
+/// @nodoc
 class StaticImageDeactivateScheduleActionSettings {
   /// The time in milliseconds for the image to fade out. Default is 0 (no
   /// fade-out).
@@ -39860,6 +41394,8 @@ class StaticImageDeactivateScheduleActionSettings {
 }
 
 /// Settings for the action to activate a static image.
+///
+/// @nodoc
 class StaticImageOutputActivateScheduleActionSettings {
   /// The location and filename of the image file to overlay on the video. The
   /// file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in
@@ -39979,6 +41515,8 @@ class StaticImageOutputActivateScheduleActionSettings {
 }
 
 /// Settings for the action to deactivate the image in a specific layer.
+///
+/// @nodoc
 class StaticImageOutputDeactivateScheduleActionSettings {
   /// The name(s) of the output(s) the deactivation should apply to.
   final List<String> outputNames;
@@ -40022,6 +41560,8 @@ class StaticImageOutputDeactivateScheduleActionSettings {
 
 /// Settings for the action to insert ID3 metadata in every segment, in
 /// applicable output groups.
+///
+/// @nodoc
 class Id3SegmentTaggingScheduleActionSettings {
   /// Complete this parameter if you want to specify the entire ID3 metadata.
   /// Enter a base64 string that contains one or more fully formed ID3 tags,
@@ -40059,6 +41599,8 @@ class Id3SegmentTaggingScheduleActionSettings {
 
 /// Settings for the action to insert ID3 metadata (as a one-time action) in
 /// applicable output groups.
+///
+/// @nodoc
 class TimedMetadataScheduleActionSettings {
   /// Enter a base64 string that contains one or more fully formed ID3 tags.See
   /// the ID3 specification: http://id3.org/id3v2.4.0-structure
@@ -40084,6 +41626,8 @@ class TimedMetadataScheduleActionSettings {
 }
 
 /// Holds one set of SCTE-35 Descriptor Settings.
+///
+/// @nodoc
 class Scte35Descriptor {
   /// SCTE-35 Descriptor Settings.
   final Scte35DescriptorSettings scte35DescriptorSettings;
@@ -40109,6 +41653,8 @@ class Scte35Descriptor {
 }
 
 /// SCTE-35 Descriptor settings.
+///
+/// @nodoc
 class Scte35DescriptorSettings {
   /// SCTE-35 Segmentation Descriptor.
   final Scte35SegmentationDescriptor
@@ -40139,6 +41685,8 @@ class Scte35DescriptorSettings {
 }
 
 /// Corresponds to SCTE-35 segmentation_descriptor.
+///
+/// @nodoc
 class Scte35SegmentationDescriptor {
   /// Corresponds to SCTE-35 segmentation_event_cancel_indicator.
   final Scte35SegmentationCancelIndicator segmentationCancelIndicator;
@@ -40261,6 +41809,8 @@ class Scte35SegmentationDescriptor {
 /// Corresponds to SCTE-35 delivery_not_restricted_flag parameter. To declare
 /// delivery restrictions, include this element and its four "restriction"
 /// flags. To declare that there are no restrictions, omit this element.
+///
+/// @nodoc
 class Scte35DeliveryRestrictions {
   /// Corresponds to SCTE-35 archive_allowed_flag.
   final Scte35ArchiveAllowedFlag archiveAllowedFlag;
@@ -40314,6 +41864,8 @@ class Scte35DeliveryRestrictions {
 /// SEGMENTATION_EVENT_CANCELED corresponds to 1 in the SCTE-35 specification
 /// and indicates that this is a cancelation request, in which case complete
 /// this field and the existing event ID to cancel.
+///
+/// @nodoc
 class Scte35SegmentationCancelIndicator {
   static const segmentationEventNotCanceled =
       Scte35SegmentationCancelIndicator._('SEGMENTATION_EVENT_NOT_CANCELED');
@@ -40347,6 +41899,8 @@ class Scte35SegmentationCancelIndicator {
 /// Corresponds to the archive_allowed parameter. A value of ARCHIVE_NOT_ALLOWED
 /// corresponds to 0 (false) in the SCTE-35 specification. If you include one of
 /// the "restriction" flags then you must include all four of them.
+///
+/// @nodoc
 class Scte35ArchiveAllowedFlag {
   static const archiveNotAllowed =
       Scte35ArchiveAllowedFlag._('ARCHIVE_NOT_ALLOWED');
@@ -40376,6 +41930,8 @@ class Scte35ArchiveAllowedFlag {
 /// Corresponds to the device_restrictions parameter in a
 /// segmentation_descriptor. If you include one of the "restriction" flags then
 /// you must include all four of them.
+///
+/// @nodoc
 class Scte35DeviceRestrictions {
   static const none = Scte35DeviceRestrictions._('NONE');
   static const restrictGroup0 = Scte35DeviceRestrictions._('RESTRICT_GROUP0');
@@ -40407,6 +41963,8 @@ class Scte35DeviceRestrictions {
 /// REGIONAL_BLACKOUT corresponds to 0 (false) in the SCTE-35 specification. If
 /// you include one of the "restriction" flags then you must include all four of
 /// them.
+///
+/// @nodoc
 class Scte35NoRegionalBlackoutFlag {
   static const regionalBlackout =
       Scte35NoRegionalBlackoutFlag._('REGIONAL_BLACKOUT');
@@ -40438,6 +41996,8 @@ class Scte35NoRegionalBlackoutFlag {
 /// WEB_DELIVERY_NOT_ALLOWED corresponds to 0 (false) in the SCTE-35
 /// specification. If you include one of the "restriction" flags then you must
 /// include all four of them.
+///
+/// @nodoc
 class Scte35WebDeliveryAllowedFlag {
   static const webDeliveryNotAllowed =
       Scte35WebDeliveryAllowedFlag._('WEB_DELIVERY_NOT_ALLOWED');
@@ -40466,6 +42026,8 @@ class Scte35WebDeliveryAllowedFlag {
 }
 
 /// Whether the SCTE-35 input should be the active input or a fixed input.
+///
+/// @nodoc
 class Scte35InputMode {
   static const fixed = Scte35InputMode._('FIXED');
   static const followActive = Scte35InputMode._('FOLLOW_ACTIVE');
@@ -40491,6 +42053,8 @@ class Scte35InputMode {
 }
 
 /// Settings for pausing a pipeline.
+///
+/// @nodoc
 class PipelinePauseStateSettings {
   /// Pipeline ID to pause ("PIPELINE_0" or "PIPELINE_1").
   final PipelineId pipelineId;
@@ -40514,6 +42078,8 @@ class PipelinePauseStateSettings {
 }
 
 /// Pipeline ID
+///
+/// @nodoc
 class PipelineId {
   static const pipeline_0 = PipelineId._('PIPELINE_0');
   static const pipeline_1 = PipelineId._('PIPELINE_1');
@@ -40539,6 +42105,8 @@ class PipelineId {
 
 /// Settings to let you create a clip of the file input, in order to set up the
 /// input to ingest only a portion of the file.
+///
+/// @nodoc
 class InputClippingSettings {
   /// The source of the timecodes in the source being clipped.
   final InputTimecodeSource inputTimecodeSource;
@@ -40582,6 +42150,8 @@ class InputClippingSettings {
 }
 
 /// Documentation update needed
+///
+/// @nodoc
 class InputTimecodeSource {
   static const zerobased = InputTimecodeSource._('ZEROBASED');
   static const embedded = InputTimecodeSource._('EMBEDDED');
@@ -40608,6 +42178,8 @@ class InputTimecodeSource {
 }
 
 /// Settings to identify the start of the clip.
+///
+/// @nodoc
 class StartTimecode {
   /// The timecode for the frame where you want to start the clip. Optional; if
   /// not specified, the clip starts at first frame in the file. Enter the
@@ -40633,6 +42205,8 @@ class StartTimecode {
 }
 
 /// Settings to identify the end of the clip.
+///
+/// @nodoc
 class StopTimecode {
   /// If you specify a StopTimecode in an input (in order to clip the file), you
   /// can specify if you want the clip to exclude (the default) or include the
@@ -40671,6 +42245,8 @@ class StopTimecode {
 /// If you specify a StopTimecode in an input (in order to clip the file), you
 /// can specify if you want the clip to exclude (the default) or include the
 /// frame specified by the timecode.
+///
+/// @nodoc
 class LastFrameClippingBehavior {
   static const excludeLastFrame =
       LastFrameClippingBehavior._('EXCLUDE_LAST_FRAME');
@@ -40699,6 +42275,8 @@ class LastFrameClippingBehavior {
 }
 
 /// Specifies the media type of the thumbnail.
+///
+/// @nodoc
 class ContentType {
   static const imageJpeg = ContentType._('image/jpeg');
 
@@ -40722,6 +42300,8 @@ class ContentType {
 }
 
 /// The HTTP Accept header. Indicates the requested type fothe thumbnail.
+///
+/// @nodoc
 class AcceptHeader {
   static const imageJpeg = AcceptHeader._('image/jpeg');
 
@@ -40745,6 +42325,8 @@ class AcceptHeader {
 }
 
 /// Used in CreateNodeRequest.
+///
+/// @nodoc
 class NodeInterfaceMappingCreateRequest {
   /// Specify one of the logicalInterfaceNames that you created in the Cluster
   /// that this node belongs to. For example, my-Inputs-Interface.
@@ -40780,6 +42362,8 @@ class NodeInterfaceMappingCreateRequest {
 }
 
 /// Used in CreateNetworkRequest.
+///
+/// @nodoc
 class RouteCreateRequest {
   /// A CIDR block for one Route.
   final String? cidr;
@@ -40803,6 +42387,8 @@ class RouteCreateRequest {
 }
 
 /// Used in CreateNetworkRequest.
+///
+/// @nodoc
 class IpPoolCreateRequest {
   /// A CIDR block of IP addresses to reserve for MediaLive Anywhere.
   final String? cidr;
@@ -40823,6 +42409,8 @@ class IpPoolCreateRequest {
 /// destination addresses will be created in a VPC rather than with public
 /// Internet addresses. This property requires setting the roleArn property on
 /// Input creation. Not compatible with the inputSecurityGroups property.
+///
+/// @nodoc
 class InputVpcRequest {
   /// A list of 2 VPC subnet IDs from the same VPC. Subnet IDs must be mapped to
   /// two unique availability zones (AZ).
@@ -40850,6 +42438,8 @@ class InputVpcRequest {
 
 /// Settings for a Multicast input. Contains a list of multicast Urls and
 /// optional source ip addresses.
+///
+/// @nodoc
 class MulticastSettingsCreateRequest {
   final List<MulticastSourceCreateRequest>? sources;
 
@@ -40867,6 +42457,8 @@ class MulticastSettingsCreateRequest {
 
 /// This is the collection of settings that are used during the creation of a
 /// MediaConnect router input.
+///
+/// @nodoc
 class RouterSettings {
   /// Destinations for the input from MediaConnect Router. Provide one for a
   /// single-pipeline input and two for a standard input.
@@ -40895,6 +42487,8 @@ class RouterSettings {
 }
 
 /// Placeholder documentation for RouterDestinationSettings
+///
+/// @nodoc
 class RouterDestinationSettings {
   /// Availability Zone for this MediaConnect Router destination.
   final String availabilityZoneName;
@@ -40913,6 +42507,8 @@ class RouterDestinationSettings {
 
 /// Pair of multicast url and source ip address (optional) that make up a
 /// multicast source.
+///
+/// @nodoc
 class MulticastSourceCreateRequest {
   /// This represents the customer's source URL where multicast stream is pulled
   /// from.
@@ -40937,6 +42533,8 @@ class MulticastSourceCreateRequest {
 }
 
 /// Used in a CreateClusterRequest.
+///
+/// @nodoc
 class ClusterNetworkSettingsCreateRequest {
   /// Specify one network interface as the default route for traffic to and from
   /// the Node. MediaLive Anywhere uses this default when the destination for the
@@ -40974,6 +42572,8 @@ class ClusterNetworkSettingsCreateRequest {
 }
 
 /// Used in ClusterNetworkSettingsCreateRequest.
+///
+/// @nodoc
 class InterfaceMappingCreateRequest {
   /// The logical name for one interface (on every Node) that handles a specific
   /// type of traffic. We recommend that the name hints at the physical interface
@@ -41002,6 +42602,8 @@ class InterfaceMappingCreateRequest {
 }
 
 /// Placeholder documentation for MaintenanceCreateSettings
+///
+/// @nodoc
 class MaintenanceCreateSettings {
   /// Choose one day of the week for maintenance. The chosen day is used for all
   /// future maintenance windows.
@@ -41029,6 +42631,8 @@ class MaintenanceCreateSettings {
 
 /// The properties for a private VPC Output When this property is specified, the
 /// output egress addresses will be created in a user specified VPC
+///
+/// @nodoc
 class VpcOutputSettings {
   /// A list of VPC subnet IDs from the same VPC. If STANDARD channel, subnet IDs
   /// must be mapped to two unique availability zones (AZ).
@@ -41064,6 +42668,8 @@ class VpcOutputSettings {
 }
 
 /// List of actions that have been created in the schedule.
+///
+/// @nodoc
 class BatchScheduleActionCreateResult {
   /// List of actions that have been created in the schedule.
   final List<ScheduleAction> scheduleActions;
@@ -41090,6 +42696,8 @@ class BatchScheduleActionCreateResult {
 }
 
 /// List of actions that have been deleted from the schedule.
+///
+/// @nodoc
 class BatchScheduleActionDeleteResult {
   /// List of actions that have been deleted from the schedule.
   final List<ScheduleAction> scheduleActions;
@@ -41117,6 +42725,8 @@ class BatchScheduleActionDeleteResult {
 
 /// A list of schedule actions to create (in a request) or that have been
 /// created (in a response).
+///
+/// @nodoc
 class BatchScheduleActionCreateRequest {
   /// A list of schedule actions to create.
   final List<ScheduleAction> scheduleActions;
@@ -41134,6 +42744,8 @@ class BatchScheduleActionCreateRequest {
 }
 
 /// A list of schedule actions to delete.
+///
+/// @nodoc
 class BatchScheduleActionDeleteRequest {
   /// A list of schedule actions to delete.
   final List<String> actionNames;
@@ -41151,6 +42763,8 @@ class BatchScheduleActionDeleteRequest {
 }
 
 /// Details from a successful operation
+///
+/// @nodoc
 class BatchSuccessfulResultModel {
   /// ARN of the resource
   final String? arn;
@@ -41188,6 +42802,8 @@ class BatchSuccessfulResultModel {
 }
 
 /// Details from a failed operation
+///
+/// @nodoc
 class BatchFailedResultModel {
   /// ARN of the resource
   final String? arn;
@@ -41231,47 +42847,56 @@ class BatchFailedResultModel {
   }
 }
 
+/// @nodoc
 class BadGatewayException extends _s.GenericAwsException {
   BadGatewayException({String? type, String? message})
       : super(type: type, code: 'BadGatewayException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GatewayTimeoutException extends _s.GenericAwsException {
   GatewayTimeoutException({String? type, String? message})
       : super(type: type, code: 'GatewayTimeoutException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(

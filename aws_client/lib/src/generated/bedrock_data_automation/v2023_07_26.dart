@@ -966,6 +966,8 @@ class BedrockDataAutomation {
 }
 
 /// CopyBlueprintStage Response
+///
+/// @nodoc
 class CopyBlueprintStageResponse {
   CopyBlueprintStageResponse();
 
@@ -979,6 +981,8 @@ class CopyBlueprintStageResponse {
 }
 
 /// Create Blueprint Version Response
+///
+/// @nodoc
 class CreateBlueprintVersionResponse {
   final Blueprint blueprint;
 
@@ -1003,6 +1007,8 @@ class CreateBlueprintVersionResponse {
 }
 
 /// Get DataAutomationLibraryEntity Response
+///
+/// @nodoc
 class GetDataAutomationLibraryEntityResponse {
   /// Detailed information about the entity
   final EntityDetails? entity;
@@ -1029,6 +1035,8 @@ class GetDataAutomationLibraryEntityResponse {
 }
 
 /// List DataAutomationLibraryEntities Response
+///
+/// @nodoc
 class ListDataAutomationLibraryEntitiesResponse {
   /// List of entities
   final List<DataAutomationLibraryEntitySummary>? entities;
@@ -1063,6 +1071,7 @@ class ListDataAutomationLibraryEntitiesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final List<Tag>? tags;
 
@@ -1087,6 +1096,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1099,6 +1109,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1112,6 +1123,8 @@ class UntagResourceResponse {
 }
 
 /// Invoke Blueprint Optimization Async Response
+///
+/// @nodoc
 class InvokeBlueprintOptimizationAsyncResponse {
   /// ARN of the blueprint optimization job
   final String invocationArn;
@@ -1136,6 +1149,8 @@ class InvokeBlueprintOptimizationAsyncResponse {
 }
 
 /// Response of GetBlueprintOptimizationStatus API.
+///
+/// @nodoc
 class GetBlueprintOptimizationStatusResponse {
   /// Error Message.
   final String? errorMessage;
@@ -1186,6 +1201,8 @@ class GetBlueprintOptimizationStatusResponse {
 }
 
 /// Create Blueprint Response
+///
+/// @nodoc
 class CreateBlueprintResponse {
   final Blueprint blueprint;
 
@@ -1210,6 +1227,8 @@ class CreateBlueprintResponse {
 }
 
 /// Get Blueprint Response
+///
+/// @nodoc
 class GetBlueprintResponse {
   final Blueprint blueprint;
 
@@ -1234,6 +1253,8 @@ class GetBlueprintResponse {
 }
 
 /// Update Blueprint Response
+///
+/// @nodoc
 class UpdateBlueprintResponse {
   final Blueprint blueprint;
 
@@ -1258,6 +1279,8 @@ class UpdateBlueprintResponse {
 }
 
 /// Delete Blueprint Response
+///
+/// @nodoc
 class DeleteBlueprintResponse {
   DeleteBlueprintResponse();
 
@@ -1271,6 +1294,8 @@ class DeleteBlueprintResponse {
 }
 
 /// List Blueprint Response
+///
+/// @nodoc
 class ListBlueprintsResponse {
   final List<BlueprintSummary> blueprints;
   final String? nextToken;
@@ -1301,6 +1326,8 @@ class ListBlueprintsResponse {
 }
 
 /// Invoke DataAutomationLibraryIngestionJob Response
+///
+/// @nodoc
 class InvokeDataAutomationLibraryIngestionJobResponse {
   /// ARN of the DataAutomationLibraryIngestionJob
   final String? jobArn;
@@ -1325,6 +1352,8 @@ class InvokeDataAutomationLibraryIngestionJobResponse {
 }
 
 /// Get DataAutomationLibraryIngestionJob Response
+///
+/// @nodoc
 class GetDataAutomationLibraryIngestionJobResponse {
   /// Contains the information of a library ingestion job
   final DataAutomationLibraryIngestionJob? job;
@@ -1352,6 +1381,8 @@ class GetDataAutomationLibraryIngestionJobResponse {
 }
 
 /// List DataAutomationLibraryIngestionJobs Response
+///
+/// @nodoc
 class ListDataAutomationLibraryIngestionJobsResponse {
   /// List of data automation library ingestion jobs
   final List<DataAutomationLibraryIngestionJobSummary>? jobs;
@@ -1387,6 +1418,8 @@ class ListDataAutomationLibraryIngestionJobsResponse {
 }
 
 /// Create DataAutomationLibrary Response
+///
+/// @nodoc
 class CreateDataAutomationLibraryResponse {
   final String? libraryArn;
   final DataAutomationLibraryStatus? status;
@@ -1416,6 +1449,8 @@ class CreateDataAutomationLibraryResponse {
 }
 
 /// Get DataAutomationLibrary Response
+///
+/// @nodoc
 class GetDataAutomationLibraryResponse {
   final DataAutomationLibrary? library;
 
@@ -1441,6 +1476,8 @@ class GetDataAutomationLibraryResponse {
 }
 
 /// Update DataAutomationLibrary Response
+///
+/// @nodoc
 class UpdateDataAutomationLibraryResponse {
   final String? libraryArn;
   final DataAutomationLibraryStatus? status;
@@ -1470,6 +1507,8 @@ class UpdateDataAutomationLibraryResponse {
 }
 
 /// Delete DataAutomationLibrary Response
+///
+/// @nodoc
 class DeleteDataAutomationLibraryResponse {
   final String? libraryArn;
   final DataAutomationLibraryStatus? status;
@@ -1499,6 +1538,8 @@ class DeleteDataAutomationLibraryResponse {
 }
 
 /// List DataAutomationLibraries Response
+///
+/// @nodoc
 class ListDataAutomationLibrariesResponse {
   final List<DataAutomationLibrarySummary>? libraries;
   final String? nextToken;
@@ -1531,6 +1572,8 @@ class ListDataAutomationLibrariesResponse {
 }
 
 /// Create DataAutomationProject Response
+///
+/// @nodoc
 class CreateDataAutomationProjectResponse {
   final String projectArn;
   final DataAutomationProjectStage? projectStage;
@@ -1566,6 +1609,8 @@ class CreateDataAutomationProjectResponse {
 }
 
 /// Get DataAutomationProject Response
+///
+/// @nodoc
 class GetDataAutomationProjectResponse {
   final DataAutomationProject project;
 
@@ -1590,6 +1635,8 @@ class GetDataAutomationProjectResponse {
 }
 
 /// Update DataAutomationProject Response
+///
+/// @nodoc
 class UpdateDataAutomationProjectResponse {
   final String projectArn;
   final DataAutomationProjectStage? projectStage;
@@ -1625,6 +1672,8 @@ class UpdateDataAutomationProjectResponse {
 }
 
 /// Delete DataAutomationProject Response
+///
+/// @nodoc
 class DeleteDataAutomationProjectResponse {
   final String projectArn;
   final DataAutomationProjectStatus? status;
@@ -1654,6 +1703,8 @@ class DeleteDataAutomationProjectResponse {
 }
 
 /// List DataAutomationProject Response
+///
+/// @nodoc
 class ListDataAutomationProjectsResponse {
   final List<DataAutomationProjectSummary> projects;
   final String? nextToken;
@@ -1686,6 +1737,8 @@ class ListDataAutomationProjectsResponse {
 }
 
 /// Summary of a DataAutomationProject
+///
+/// @nodoc
 class DataAutomationProjectSummary {
   final DateTime creationTime;
   final String projectArn;
@@ -1730,6 +1783,8 @@ class DataAutomationProjectSummary {
 }
 
 /// Stage of the Project
+///
+/// @nodoc
 class DataAutomationProjectStage {
   static const development = DataAutomationProjectStage._('DEVELOPMENT');
   static const live = DataAutomationProjectStage._('LIVE');
@@ -1756,6 +1811,8 @@ class DataAutomationProjectStage {
 }
 
 /// Type of the DataAutomationProject
+///
+/// @nodoc
 class DataAutomationProjectType {
   static const async = DataAutomationProjectType._('ASYNC');
   static const sync = DataAutomationProjectType._('SYNC');
@@ -1782,6 +1839,8 @@ class DataAutomationProjectType {
 }
 
 /// Project Stage filter
+///
+/// @nodoc
 class DataAutomationProjectStageFilter {
   static const development = DataAutomationProjectStageFilter._('DEVELOPMENT');
   static const live = DataAutomationProjectStageFilter._('LIVE');
@@ -1809,6 +1868,8 @@ class DataAutomationProjectStageFilter {
 }
 
 /// Blueprint Filter
+///
+/// @nodoc
 class BlueprintFilter {
   final String blueprintArn;
   final BlueprintStage? blueprintStage;
@@ -1833,6 +1894,8 @@ class BlueprintFilter {
 }
 
 /// Resource Owner
+///
+/// @nodoc
 class ResourceOwner {
   static const service = ResourceOwner._('SERVICE');
   static const account = ResourceOwner._('ACCOUNT');
@@ -1858,6 +1921,8 @@ class ResourceOwner {
 }
 
 /// Data Automation Library Filter
+///
+/// @nodoc
 class DataAutomationLibraryFilter {
   final String libraryArn;
 
@@ -1874,6 +1939,8 @@ class DataAutomationLibraryFilter {
 }
 
 /// Stage of the Blueprint
+///
+/// @nodoc
 class BlueprintStage {
   static const development = BlueprintStage._('DEVELOPMENT');
   static const live = BlueprintStage._('LIVE');
@@ -1899,6 +1966,8 @@ class BlueprintStage {
 }
 
 /// Status of Data Automation Project
+///
+/// @nodoc
 class DataAutomationProjectStatus {
   static const completed = DataAutomationProjectStatus._('COMPLETED');
   static const inProgress = DataAutomationProjectStatus._('IN_PROGRESS');
@@ -1926,6 +1995,8 @@ class DataAutomationProjectStatus {
 }
 
 /// Standard output configuration
+///
+/// @nodoc
 class StandardOutputConfiguration {
   final AudioStandardOutputConfiguration? audio;
   final DocumentStandardOutputConfiguration? document;
@@ -1975,6 +2046,8 @@ class StandardOutputConfiguration {
 }
 
 /// Custom output configuration
+///
+/// @nodoc
 class CustomOutputConfiguration {
   final List<BlueprintItem>? blueprints;
   final DocumentCustomOutputConfiguration? document;
@@ -2008,6 +2081,8 @@ class CustomOutputConfiguration {
 }
 
 /// Override configuration
+///
+/// @nodoc
 class OverrideConfiguration {
   final AudioOverrideConfiguration? audio;
   final DocumentOverrideConfiguration? document;
@@ -2065,6 +2140,8 @@ class OverrideConfiguration {
 }
 
 /// DataAutomation Library configuration
+///
+/// @nodoc
 class DataAutomationLibraryConfiguration {
   final List<DataAutomationLibraryItem>? libraries;
 
@@ -2092,6 +2169,8 @@ class DataAutomationLibraryConfiguration {
 }
 
 /// KMS Encryption Configuration
+///
+/// @nodoc
 class EncryptionConfiguration {
   final String kmsKeyId;
   final Map<String, String>? kmsEncryptionContext;
@@ -2113,6 +2192,8 @@ class EncryptionConfiguration {
 }
 
 /// DataAutomationLibrary Item
+///
+/// @nodoc
 class DataAutomationLibraryItem {
   final String libraryArn;
 
@@ -2135,6 +2216,8 @@ class DataAutomationLibraryItem {
 }
 
 /// Override Configuration of Document
+///
+/// @nodoc
 class DocumentOverrideConfiguration {
   final ModalityProcessingConfiguration? modalityProcessing;
   final SensitiveDataConfiguration? sensitiveDataConfiguration;
@@ -2177,6 +2260,8 @@ class DocumentOverrideConfiguration {
 }
 
 /// Override Configuration of Image
+///
+/// @nodoc
 class ImageOverrideConfiguration {
   final ModalityProcessingConfiguration? modalityProcessing;
   final SensitiveDataConfiguration? sensitiveDataConfiguration;
@@ -2211,6 +2296,8 @@ class ImageOverrideConfiguration {
 }
 
 /// Override Configuration of Video
+///
+/// @nodoc
 class VideoOverrideConfiguration {
   final ModalityProcessingConfiguration? modalityProcessing;
   final SensitiveDataConfiguration? sensitiveDataConfiguration;
@@ -2245,6 +2332,8 @@ class VideoOverrideConfiguration {
 }
 
 /// Override Configuration of Audio
+///
+/// @nodoc
 class AudioOverrideConfiguration {
   final AudioLanguageConfiguration? languageConfiguration;
   final ModalityProcessingConfiguration? modalityProcessing;
@@ -2288,6 +2377,8 @@ class AudioOverrideConfiguration {
 }
 
 /// Configuration for routing file type to desired modality
+///
+/// @nodoc
 class ModalityRoutingConfiguration {
   final DesiredModality? jpeg;
   final DesiredModality? mov;
@@ -2325,6 +2416,8 @@ class ModalityRoutingConfiguration {
 }
 
 /// Desired Modality types
+///
+/// @nodoc
 class DesiredModality {
   static const image = DesiredModality._('IMAGE');
   static const document = DesiredModality._('DOCUMENT');
@@ -2352,6 +2445,8 @@ class DesiredModality {
 }
 
 /// Configuration to enable/disable processing of modality
+///
+/// @nodoc
 class ModalityProcessingConfiguration {
   final State? state;
 
@@ -2374,6 +2469,8 @@ class ModalityProcessingConfiguration {
 }
 
 /// Optional configuration for audio language settings
+///
+/// @nodoc
 class AudioLanguageConfiguration {
   final AudioGenerativeOutputLanguage? generativeOutputLanguage;
 
@@ -2415,6 +2512,8 @@ class AudioLanguageConfiguration {
 }
 
 /// Configuration for sensitive data detection and redaction
+///
+/// @nodoc
 class SensitiveDataConfiguration {
   /// Mode for sensitive data detection
   final SensitiveDataDetectionMode detectionMode;
@@ -2461,6 +2560,8 @@ class SensitiveDataConfiguration {
 }
 
 /// Mode for sensitive data detection
+///
+/// @nodoc
 class SensitiveDataDetectionMode {
   static const detection = SensitiveDataDetectionMode._('DETECTION');
   static const detectionAndRedaction =
@@ -2488,6 +2589,8 @@ class SensitiveDataDetectionMode {
 }
 
 /// Configuration for PII entities detection and redaction
+///
+/// @nodoc
 class PIIEntitiesConfiguration {
   /// Types of PII entities to detect
   final List<PIIEntityType>? piiEntityTypes;
@@ -2524,6 +2627,8 @@ class PIIEntitiesConfiguration {
 }
 
 /// Mode for redacting detected PII
+///
+/// @nodoc
 class PIIRedactionMaskMode {
   static const pii = PIIRedactionMaskMode._('PII');
   static const entityType = PIIRedactionMaskMode._('ENTITY_TYPE');
@@ -2551,6 +2656,8 @@ class PIIRedactionMaskMode {
 
 /// Types of PII entities that can be detected, we will support every types that
 /// Guardrails can support
+///
+/// @nodoc
 class PIIEntityType {
   static const all = PIIEntityType._('ALL');
   static const address = PIIEntityType._('ADDRESS');
@@ -2649,6 +2756,8 @@ class PIIEntityType {
 }
 
 /// Types of sensitive data detection scope
+///
+/// @nodoc
 class SensitiveDataDetectionScopeType {
   static const standard = SensitiveDataDetectionScopeType._('STANDARD');
   static const custom = SensitiveDataDetectionScopeType._('CUSTOM');
@@ -2675,6 +2784,8 @@ class SensitiveDataDetectionScopeType {
 }
 
 /// Configuration for Audio output language
+///
+/// @nodoc
 class AudioGenerativeOutputLanguage {
   static const $default = AudioGenerativeOutputLanguage._('DEFAULT');
   static const en = AudioGenerativeOutputLanguage._('EN');
@@ -2701,6 +2812,8 @@ class AudioGenerativeOutputLanguage {
 }
 
 /// Supported input languages
+///
+/// @nodoc
 class Language {
   static const en = Language._('EN');
   static const de = Language._('DE');
@@ -2734,6 +2847,8 @@ class Language {
 }
 
 /// State
+///
+/// @nodoc
 class State {
   static const enabled = State._('ENABLED');
   static const disabled = State._('DISABLED');
@@ -2758,6 +2873,8 @@ class State {
 }
 
 /// Configuration of Splitter
+///
+/// @nodoc
 class SplitterConfiguration {
   final State? state;
 
@@ -2780,6 +2897,8 @@ class SplitterConfiguration {
 }
 
 /// Custom Configuration of Document
+///
+/// @nodoc
 class DocumentCustomOutputConfiguration {
   final List<BlueprintItem>? fallbackBlueprints;
 
@@ -2806,6 +2925,8 @@ class DocumentCustomOutputConfiguration {
 }
 
 /// Blueprint Item
+///
+/// @nodoc
 class BlueprintItem {
   final String blueprintArn;
   final BlueprintStage? blueprintStage;
@@ -2839,6 +2960,8 @@ class BlueprintItem {
 }
 
 /// Standard Output Configuration of Document
+///
+/// @nodoc
 class DocumentStandardOutputConfiguration {
   final DocumentStandardExtraction? extraction;
   final DocumentStandardGenerativeField? generativeField;
@@ -2881,6 +3004,8 @@ class DocumentStandardOutputConfiguration {
 }
 
 /// Standard Output Configuration of Image
+///
+/// @nodoc
 class ImageStandardOutputConfiguration {
   final ImageStandardExtraction? extraction;
   final ImageStandardGenerativeField? generativeField;
@@ -2914,6 +3039,8 @@ class ImageStandardOutputConfiguration {
 }
 
 /// Standard Output Configuration of Video
+///
+/// @nodoc
 class VideoStandardOutputConfiguration {
   final VideoStandardExtraction? extraction;
   final VideoStandardGenerativeField? generativeField;
@@ -2947,6 +3074,8 @@ class VideoStandardOutputConfiguration {
 }
 
 /// Standard Output Configuration of Audio
+///
+/// @nodoc
 class AudioStandardOutputConfiguration {
   final AudioStandardExtraction? extraction;
   final AudioStandardGenerativeField? generativeField;
@@ -2980,6 +3109,8 @@ class AudioStandardOutputConfiguration {
 }
 
 /// Standard Extraction Configuration of Audio
+///
+/// @nodoc
 class AudioStandardExtraction {
   final AudioExtractionCategory category;
 
@@ -3004,6 +3135,8 @@ class AudioStandardExtraction {
 }
 
 /// Standard Generative Field Configuration of Audio
+///
+/// @nodoc
 class AudioStandardGenerativeField {
   final State state;
   final List<AudioStandardGenerativeFieldType>? types;
@@ -3034,6 +3167,7 @@ class AudioStandardGenerativeField {
   }
 }
 
+/// @nodoc
 class AudioStandardGenerativeFieldType {
   static const audioSummary =
       AudioStandardGenerativeFieldType._('AUDIO_SUMMARY');
@@ -3063,6 +3197,8 @@ class AudioStandardGenerativeFieldType {
 }
 
 /// Category of Audio Extraction
+///
+/// @nodoc
 class AudioExtractionCategory {
   final State state;
   final AudioExtractionCategoryTypeConfiguration? typeConfiguration;
@@ -3101,6 +3237,8 @@ class AudioExtractionCategory {
 }
 
 /// Configuration for different audio extraction category types
+///
+/// @nodoc
 class AudioExtractionCategoryTypeConfiguration {
   final TranscriptConfiguration? transcript;
 
@@ -3127,6 +3265,8 @@ class AudioExtractionCategoryTypeConfiguration {
 }
 
 /// Configuration for transcript related features
+///
+/// @nodoc
 class TranscriptConfiguration {
   final ChannelLabelingConfiguration? channelLabeling;
   final SpeakerLabelingConfiguration? speakerLabeling;
@@ -3160,6 +3300,8 @@ class TranscriptConfiguration {
 }
 
 /// Speaker labeling configuration
+///
+/// @nodoc
 class SpeakerLabelingConfiguration {
   final State state;
 
@@ -3182,6 +3324,8 @@ class SpeakerLabelingConfiguration {
 }
 
 /// Channel labeling configuration
+///
+/// @nodoc
 class ChannelLabelingConfiguration {
   final State state;
 
@@ -3203,6 +3347,7 @@ class ChannelLabelingConfiguration {
   }
 }
 
+/// @nodoc
 class AudioExtractionCategoryType {
   static const audioContentModeration =
       AudioExtractionCategoryType._('AUDIO_CONTENT_MODERATION');
@@ -3236,6 +3381,8 @@ class AudioExtractionCategoryType {
 }
 
 /// Standard Extraction Configuration of Video
+///
+/// @nodoc
 class VideoStandardExtraction {
   final VideoBoundingBox boundingBox;
   final VideoExtractionCategory category;
@@ -3267,6 +3414,8 @@ class VideoStandardExtraction {
 }
 
 /// Standard Generative Field Configuration of Video
+///
+/// @nodoc
 class VideoStandardGenerativeField {
   final State state;
   final List<VideoStandardGenerativeFieldType>? types;
@@ -3297,6 +3446,7 @@ class VideoStandardGenerativeField {
   }
 }
 
+/// @nodoc
 class VideoStandardGenerativeFieldType {
   static const videoSummary =
       VideoStandardGenerativeFieldType._('VIDEO_SUMMARY');
@@ -3326,6 +3476,8 @@ class VideoStandardGenerativeFieldType {
 }
 
 /// Category of Video Extraction
+///
+/// @nodoc
 class VideoExtractionCategory {
   final State state;
   final List<VideoExtractionCategoryType>? types;
@@ -3356,6 +3508,8 @@ class VideoExtractionCategory {
 }
 
 /// Bounding Box Configuration of Video Extraction
+///
+/// @nodoc
 class VideoBoundingBox {
   final State state;
 
@@ -3377,6 +3531,7 @@ class VideoBoundingBox {
   }
 }
 
+/// @nodoc
 class VideoExtractionCategoryType {
   static const contentModeration =
       VideoExtractionCategoryType._('CONTENT_MODERATION');
@@ -3406,6 +3561,8 @@ class VideoExtractionCategoryType {
 }
 
 /// Standard Extraction Configuration of Image
+///
+/// @nodoc
 class ImageStandardExtraction {
   final ImageBoundingBox boundingBox;
   final ImageExtractionCategory category;
@@ -3437,6 +3594,8 @@ class ImageStandardExtraction {
 }
 
 /// Standard Generative Field Configuration of Image
+///
+/// @nodoc
 class ImageStandardGenerativeField {
   final State state;
   final List<ImageStandardGenerativeFieldType>? types;
@@ -3467,6 +3626,7 @@ class ImageStandardGenerativeField {
   }
 }
 
+/// @nodoc
 class ImageStandardGenerativeFieldType {
   static const imageSummary =
       ImageStandardGenerativeFieldType._('IMAGE_SUMMARY');
@@ -3494,6 +3654,8 @@ class ImageStandardGenerativeFieldType {
 }
 
 /// Category of Image Extraction
+///
+/// @nodoc
 class ImageExtractionCategory {
   final State state;
   final List<ImageExtractionCategoryType>? types;
@@ -3524,6 +3686,8 @@ class ImageExtractionCategory {
 }
 
 /// Bounding Box Configuration of Image Extraction
+///
+/// @nodoc
 class ImageBoundingBox {
   final State state;
 
@@ -3545,6 +3709,7 @@ class ImageBoundingBox {
   }
 }
 
+/// @nodoc
 class ImageExtractionCategoryType {
   static const contentModeration =
       ImageExtractionCategoryType._('CONTENT_MODERATION');
@@ -3573,6 +3738,8 @@ class ImageExtractionCategoryType {
 }
 
 /// Standard Extraction Configuration of Document
+///
+/// @nodoc
 class DocumentStandardExtraction {
   final DocumentBoundingBox boundingBox;
   final DocumentExtractionGranularity granularity;
@@ -3604,6 +3771,8 @@ class DocumentStandardExtraction {
 }
 
 /// Standard Generative Field Configuration of Document
+///
+/// @nodoc
 class DocumentStandardGenerativeField {
   final State state;
 
@@ -3626,6 +3795,8 @@ class DocumentStandardGenerativeField {
 }
 
 /// Output Format of Document
+///
+/// @nodoc
 class DocumentOutputFormat {
   final DocumentOutputAdditionalFileFormat additionalFileFormat;
   final DocumentOutputTextFormat textFormat;
@@ -3657,6 +3828,8 @@ class DocumentOutputFormat {
 }
 
 /// Text Format of Document Output
+///
+/// @nodoc
 class DocumentOutputTextFormat {
   final List<DocumentOutputTextFormatType>? types;
 
@@ -3682,6 +3855,8 @@ class DocumentOutputTextFormat {
 }
 
 /// Additional File Format of Document Output
+///
+/// @nodoc
 class DocumentOutputAdditionalFileFormat {
   final State state;
 
@@ -3704,6 +3879,7 @@ class DocumentOutputAdditionalFileFormat {
   }
 }
 
+/// @nodoc
 class DocumentOutputTextFormatType {
   static const plainText = DocumentOutputTextFormatType._('PLAIN_TEXT');
   static const markdown = DocumentOutputTextFormatType._('MARKDOWN');
@@ -3732,6 +3908,8 @@ class DocumentOutputTextFormatType {
 }
 
 /// Granularity of Document Extraction
+///
+/// @nodoc
 class DocumentExtractionGranularity {
   final List<DocumentExtractionGranularityType>? types;
 
@@ -3758,6 +3936,8 @@ class DocumentExtractionGranularity {
 }
 
 /// Bounding Box Configuration of Document Extraction
+///
+/// @nodoc
 class DocumentBoundingBox {
   final State state;
 
@@ -3779,6 +3959,7 @@ class DocumentBoundingBox {
   }
 }
 
+/// @nodoc
 class DocumentExtractionGranularityType {
   static const document = DocumentExtractionGranularityType._('DOCUMENT');
   static const page = DocumentExtractionGranularityType._('PAGE');
@@ -3808,6 +3989,8 @@ class DocumentExtractionGranularityType {
 }
 
 /// Contains the information of a DataAutomationProject.
+///
+/// @nodoc
 class DataAutomationProject {
   final DateTime creationTime;
   final DateTime lastModifiedTime;
@@ -3922,6 +4105,8 @@ class DataAutomationProject {
 }
 
 /// Key value pair of a tag
+///
+/// @nodoc
 class Tag {
   final String key;
   final String value;
@@ -3949,6 +4134,8 @@ class Tag {
 }
 
 /// Summary of a DataAutomationLibrary
+///
+/// @nodoc
 class DataAutomationLibrarySummary {
   final DateTime creationTime;
   final String libraryArn;
@@ -3981,6 +4168,8 @@ class DataAutomationLibrarySummary {
 }
 
 /// Data Automation Project Filter
+///
+/// @nodoc
 class DataAutomationProjectFilter {
   final String projectArn;
   final DataAutomationProjectStage? projectStage;
@@ -4001,6 +4190,8 @@ class DataAutomationProjectFilter {
 }
 
 /// Status of DataAutomationLibrary
+///
+/// @nodoc
 class DataAutomationLibraryStatus {
   static const active = DataAutomationLibraryStatus._('ACTIVE');
   static const deleting = DataAutomationLibraryStatus._('DELETING');
@@ -4027,6 +4218,8 @@ class DataAutomationLibraryStatus {
 }
 
 /// Contains the information of a DataAutomationLibrary.
+///
+/// @nodoc
 class DataAutomationLibrary {
   final DateTime creationTime;
   final String libraryArn;
@@ -4091,6 +4284,8 @@ class DataAutomationLibrary {
 }
 
 /// Information about an entity type in the DataAutomationLibrary
+///
+/// @nodoc
 class EntityTypeInfo {
   final EntityType entityType;
   final String? entityMetadata;
@@ -4118,6 +4313,8 @@ class EntityTypeInfo {
 }
 
 /// Entity types supported in DataAutomationLibraries
+///
+/// @nodoc
 class EntityType {
   static const vocabulary = EntityType._('VOCABULARY');
 
@@ -4141,6 +4338,8 @@ class EntityType {
 }
 
 /// Summary of a DataAutomationLibraryIngestionJob
+///
+/// @nodoc
 class DataAutomationLibraryIngestionJobSummary {
   final DateTime creationTime;
   final EntityType entityType;
@@ -4192,6 +4391,8 @@ class DataAutomationLibraryIngestionJobSummary {
 }
 
 /// Status of DataAutomationLibraryIngestionJob
+///
+/// @nodoc
 class LibraryIngestionJobStatus {
   static const inProgress = LibraryIngestionJobStatus._('IN_PROGRESS');
   static const completed = LibraryIngestionJobStatus._('COMPLETED');
@@ -4221,6 +4422,8 @@ class LibraryIngestionJobStatus {
 }
 
 /// DataAutomationLibraryIngestionJob operation type
+///
+/// @nodoc
 class LibraryIngestionJobOperationType {
   static const upsert = LibraryIngestionJobOperationType._('UPSERT');
   static const delete = LibraryIngestionJobOperationType._('DELETE');
@@ -4247,6 +4450,8 @@ class LibraryIngestionJobOperationType {
 }
 
 /// Contains the information of a DataAutomationLibraryIngestionJob
+///
+/// @nodoc
 class DataAutomationLibraryIngestionJob {
   /// Timestamp when the DataAutomationLibraryIngestionJob was created
   final DateTime creationTime;
@@ -4332,6 +4537,8 @@ class DataAutomationLibraryIngestionJob {
 }
 
 /// Output configuration for DataAutomationLibraryIngestionJob
+///
+/// @nodoc
 class OutputConfiguration {
   /// S3 Uri
   final String s3Uri;
@@ -4355,6 +4562,8 @@ class OutputConfiguration {
 }
 
 /// Input configuration for DataAutomationLibraryIngestionJob
+///
+/// @nodoc
 class InputConfiguration {
   /// Input Payload
   final InlinePayload? inlinePayload;
@@ -4378,6 +4587,8 @@ class InputConfiguration {
 }
 
 /// Notification configuration.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// Event bridge configuration.
   final EventBridgeConfiguration eventBridgeConfiguration;
@@ -4395,6 +4606,8 @@ class NotificationConfiguration {
 }
 
 /// Event bridge configuration.
+///
+/// @nodoc
 class EventBridgeConfiguration {
   /// Event bridge flag.
   final bool eventBridgeEnabled;
@@ -4412,6 +4625,8 @@ class EventBridgeConfiguration {
 }
 
 /// S3 object
+///
+/// @nodoc
 class S3Object {
   /// S3 uri.
   final String s3Uri;
@@ -4442,6 +4657,8 @@ class S3Object {
 }
 
 /// Input payload structure definition
+///
+/// @nodoc
 class InlinePayload {
   final DeleteEntitiesInfo? deleteEntitiesInfo;
   final List<UpsertEntityInfo>? upsertEntitiesInfo;
@@ -4462,6 +4679,8 @@ class InlinePayload {
 }
 
 /// Input for entities needed to be deleted
+///
+/// @nodoc
 class DeleteEntitiesInfo {
   final List<String> entityIds;
 
@@ -4479,6 +4698,8 @@ class DeleteEntitiesInfo {
 
 /// Input configuration for upserting data in a
 /// DataAutomationLibraryIngestionJob
+///
+/// @nodoc
 class UpsertEntityInfo {
   final VocabularyEntityInfo? vocabulary;
 
@@ -4495,6 +4716,8 @@ class UpsertEntityInfo {
 }
 
 /// Vocabulary entity info with detailed information
+///
+/// @nodoc
 class VocabularyEntityInfo {
   final Language language;
   final List<Phrase> phrases;
@@ -4523,6 +4746,8 @@ class VocabularyEntityInfo {
 }
 
 /// Phrase structure for vocabulary
+///
+/// @nodoc
 class Phrase {
   final String text;
   final String? displayAsText;
@@ -4550,6 +4775,8 @@ class Phrase {
 }
 
 /// Summary of a Blueprint
+///
+/// @nodoc
 class BlueprintSummary {
   final String blueprintArn;
   final DateTime creationTime;
@@ -4599,6 +4826,8 @@ class BlueprintSummary {
 }
 
 /// Blueprint Stage filter
+///
+/// @nodoc
 class BlueprintStageFilter {
   static const development = BlueprintStageFilter._('DEVELOPMENT');
   static const live = BlueprintStageFilter._('LIVE');
@@ -4626,6 +4855,8 @@ class BlueprintStageFilter {
 }
 
 /// Contains the information of a Blueprint.
+///
+/// @nodoc
 class Blueprint {
   final String blueprintArn;
   final String blueprintName;
@@ -4714,6 +4945,8 @@ class Blueprint {
 }
 
 /// Type
+///
+/// @nodoc
 class Type {
   static const document = Type._('DOCUMENT');
   static const image = Type._('IMAGE');
@@ -4740,6 +4973,8 @@ class Type {
 }
 
 /// Blueprint Recommendation Sample
+///
+/// @nodoc
 class BlueprintOptimizationSample {
   /// S3 Object of the asset
   final S3Object assetS3Object;
@@ -4774,6 +5009,8 @@ class BlueprintOptimizationSample {
 }
 
 /// List of status supported by optimization jobs
+///
+/// @nodoc
 class BlueprintOptimizationJobStatus {
   static const created = BlueprintOptimizationJobStatus._('Created');
   static const inProgress = BlueprintOptimizationJobStatus._('InProgress');
@@ -4809,6 +5046,8 @@ class BlueprintOptimizationJobStatus {
 }
 
 /// Blueprint Optimization Output configuration.
+///
+/// @nodoc
 class BlueprintOptimizationOutputConfiguration {
   /// S3 object.
   final S3Object s3Object;
@@ -4834,6 +5073,8 @@ class BlueprintOptimizationOutputConfiguration {
 }
 
 /// Structure for single blueprint entity.
+///
+/// @nodoc
 class BlueprintOptimizationObject {
   /// Arn of blueprint.
   final String blueprintArn;
@@ -4857,6 +5098,8 @@ class BlueprintOptimizationObject {
 }
 
 /// Summarized information about an entity
+///
+/// @nodoc
 class DataAutomationLibraryEntitySummary {
   final VocabularyEntitySummary? vocabulary;
 
@@ -4883,6 +5126,8 @@ class DataAutomationLibraryEntitySummary {
 }
 
 /// Summary of a Vocabulary entity
+///
+/// @nodoc
 class VocabularyEntitySummary {
   final String? description;
   final String? entityId;
@@ -4928,6 +5173,8 @@ class VocabularyEntitySummary {
 }
 
 /// Detailed information about an entity
+///
+/// @nodoc
 class EntityDetails {
   final VocabularyEntity? vocabulary;
 
@@ -4953,6 +5200,8 @@ class EntityDetails {
 }
 
 /// Vocabulary entity with detailed information
+///
+/// @nodoc
 class VocabularyEntity {
   final String? description;
   final String? entityId;
@@ -4998,26 +5247,31 @@ class VocabularyEntity {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5026,11 +5280,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

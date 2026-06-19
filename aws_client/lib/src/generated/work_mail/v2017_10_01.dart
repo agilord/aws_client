@@ -4938,6 +4938,7 @@ class WorkMail {
   }
 }
 
+/// @nodoc
 class AssociateDelegateToResourceResponse {
   AssociateDelegateToResourceResponse();
 
@@ -4950,6 +4951,7 @@ class AssociateDelegateToResourceResponse {
   }
 }
 
+/// @nodoc
 class AssociateMemberToGroupResponse {
   AssociateMemberToGroupResponse();
 
@@ -4962,6 +4964,7 @@ class AssociateMemberToGroupResponse {
   }
 }
 
+/// @nodoc
 class AssumeImpersonationRoleResponse {
   /// The authentication token's validity, in seconds.
   final int? expiresIn;
@@ -4991,6 +4994,7 @@ class AssumeImpersonationRoleResponse {
   }
 }
 
+/// @nodoc
 class CancelMailboxExportJobResponse {
   CancelMailboxExportJobResponse();
 
@@ -5003,6 +5007,7 @@ class CancelMailboxExportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateAliasResponse {
   CreateAliasResponse();
 
@@ -5015,6 +5020,7 @@ class CreateAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateAvailabilityConfigurationResponse {
   CreateAvailabilityConfigurationResponse();
 
@@ -5028,6 +5034,7 @@ class CreateAvailabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupResponse {
   /// The identifier of the group.
   final String? groupId;
@@ -5050,6 +5057,7 @@ class CreateGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateIdentityCenterApplicationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationArn;
@@ -5073,6 +5081,7 @@ class CreateIdentityCenterApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateImpersonationRoleResponse {
   /// The new impersonation role ID.
   final String? impersonationRoleId;
@@ -5096,6 +5105,7 @@ class CreateImpersonationRoleResponse {
   }
 }
 
+/// @nodoc
 class CreateMobileDeviceAccessRuleResponse {
   /// The identifier for the newly created mobile device access rule.
   final String? mobileDeviceAccessRuleId;
@@ -5120,6 +5130,7 @@ class CreateMobileDeviceAccessRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateOrganizationResponse {
   /// The organization ID.
   final String? organizationId;
@@ -5142,6 +5153,7 @@ class CreateOrganizationResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceResponse {
   /// The identifier of the new resource.
   final String? resourceId;
@@ -5164,6 +5176,7 @@ class CreateResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The identifier for the new user.
   final String? userId;
@@ -5186,6 +5199,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessControlRuleResponse {
   DeleteAccessControlRuleResponse();
 
@@ -5198,6 +5212,7 @@ class DeleteAccessControlRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteAliasResponse {
   DeleteAliasResponse();
 
@@ -5210,6 +5225,7 @@ class DeleteAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteAvailabilityConfigurationResponse {
   DeleteAvailabilityConfigurationResponse();
 
@@ -5223,6 +5239,7 @@ class DeleteAvailabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteEmailMonitoringConfigurationResponse {
   DeleteEmailMonitoringConfigurationResponse();
 
@@ -5236,6 +5253,7 @@ class DeleteEmailMonitoringConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupResponse {
   DeleteGroupResponse();
 
@@ -5248,6 +5266,7 @@ class DeleteGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteIdentityCenterApplicationResponse {
   DeleteIdentityCenterApplicationResponse();
 
@@ -5261,6 +5280,7 @@ class DeleteIdentityCenterApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteIdentityProviderConfigurationResponse {
   DeleteIdentityProviderConfigurationResponse();
 
@@ -5274,6 +5294,7 @@ class DeleteIdentityProviderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteImpersonationRoleResponse {
   DeleteImpersonationRoleResponse();
 
@@ -5286,6 +5307,7 @@ class DeleteImpersonationRoleResponse {
   }
 }
 
+/// @nodoc
 class DeleteMailboxPermissionsResponse {
   DeleteMailboxPermissionsResponse();
 
@@ -5298,6 +5320,7 @@ class DeleteMailboxPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteMobileDeviceAccessOverrideResponse {
   DeleteMobileDeviceAccessOverrideResponse();
 
@@ -5311,6 +5334,7 @@ class DeleteMobileDeviceAccessOverrideResponse {
   }
 }
 
+/// @nodoc
 class DeleteMobileDeviceAccessRuleResponse {
   DeleteMobileDeviceAccessRuleResponse();
 
@@ -5324,6 +5348,7 @@ class DeleteMobileDeviceAccessRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteOrganizationResponse {
   /// The organization ID.
   final String? organizationId;
@@ -5353,6 +5378,7 @@ class DeleteOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DeletePersonalAccessTokenResponse {
   DeletePersonalAccessTokenResponse();
 
@@ -5365,6 +5391,7 @@ class DeletePersonalAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourceResponse {
   DeleteResourceResponse();
 
@@ -5377,6 +5404,7 @@ class DeleteResourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteRetentionPolicyResponse {
   DeleteRetentionPolicyResponse();
 
@@ -5389,6 +5417,7 @@ class DeleteRetentionPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   DeleteUserResponse();
 
@@ -5401,6 +5430,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class DeregisterFromWorkMailResponse {
   DeregisterFromWorkMailResponse();
 
@@ -5413,6 +5443,7 @@ class DeregisterFromWorkMailResponse {
   }
 }
 
+/// @nodoc
 class DeregisterMailDomainResponse {
   DeregisterMailDomainResponse();
 
@@ -5425,6 +5456,7 @@ class DeregisterMailDomainResponse {
   }
 }
 
+/// @nodoc
 class DescribeEmailMonitoringConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with
   /// the email monitoring configuration.
@@ -5457,6 +5489,7 @@ class DescribeEmailMonitoringConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntityResponse {
   /// The entity ID under which the entity exists.
   final String? entityId;
@@ -5493,6 +5526,7 @@ class DescribeEntityResponse {
   }
 }
 
+/// @nodoc
 class DescribeGroupResponse {
   /// The date and time when a user was deregistered from WorkMail, in UNIX epoch
   /// time format.
@@ -5563,6 +5597,7 @@ class DescribeGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeIdentityProviderConfigurationResponse {
   /// The authentication mode used in WorkMail.
   final IdentityProviderAuthenticationMode? authenticationMode;
@@ -5613,6 +5648,7 @@ class DescribeIdentityProviderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeInboundDmarcSettingsResponse {
   /// Lists the enforcement setting of the applied policy.
   final bool? enforced;
@@ -5636,6 +5672,7 @@ class DescribeInboundDmarcSettingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMailboxExportJobResponse {
   /// The mailbox export job description.
   final String? description;
@@ -5738,6 +5775,7 @@ class DescribeMailboxExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationResponse {
   /// The Amazon Resource Name (ARN) of the organization.
   final String? arn;
@@ -5835,6 +5873,7 @@ class DescribeOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourceResponse {
   /// The booking options for the described resource.
   final BookingOptions? bookingOptions;
@@ -5928,6 +5967,7 @@ class DescribeResourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserResponse {
   /// City where the user is located.
   final String? city;
@@ -6140,6 +6180,7 @@ class DescribeUserResponse {
   }
 }
 
+/// @nodoc
 class DisassociateDelegateFromResourceResponse {
   DisassociateDelegateFromResourceResponse();
 
@@ -6153,6 +6194,7 @@ class DisassociateDelegateFromResourceResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberFromGroupResponse {
   DisassociateMemberFromGroupResponse();
 
@@ -6165,6 +6207,7 @@ class DisassociateMemberFromGroupResponse {
   }
 }
 
+/// @nodoc
 class GetAccessControlEffectResponse {
   /// The rule effect.
   final AccessControlRuleEffect? effect;
@@ -6198,6 +6241,7 @@ class GetAccessControlEffectResponse {
   }
 }
 
+/// @nodoc
 class GetDefaultRetentionPolicyResponse {
   /// The retention policy description.
   final String? description;
@@ -6246,6 +6290,7 @@ class GetDefaultRetentionPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetImpersonationRoleResponse {
   /// The date when the impersonation role was created.
   final DateTime? dateCreated;
@@ -6315,6 +6360,7 @@ class GetImpersonationRoleResponse {
   }
 }
 
+/// @nodoc
 class GetImpersonationRoleEffectResponse {
   /// <code></code>Effect of the impersonation role on the target user based on
   /// its rules. Available effects are <code>ALLOW</code> or <code>DENY</code>.
@@ -6357,6 +6403,7 @@ class GetImpersonationRoleEffectResponse {
   }
 }
 
+/// @nodoc
 class GetMailboxDetailsResponse {
   /// The maximum allowed mailbox size, in MB, for the specified user.
   final int? mailboxQuota;
@@ -6386,6 +6433,7 @@ class GetMailboxDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetMailDomainResponse {
   /// Indicates the status of a DKIM verification.
   final DnsRecordVerificationStatus? dkimVerificationStatus;
@@ -6448,6 +6496,7 @@ class GetMailDomainResponse {
   }
 }
 
+/// @nodoc
 class GetMobileDeviceAccessEffectResponse {
   /// The effect of the simulated access, <code>ALLOW</code> or <code>DENY</code>,
   /// after evaluating mobile device access rules in the WorkMail organization for
@@ -6486,6 +6535,7 @@ class GetMobileDeviceAccessEffectResponse {
   }
 }
 
+/// @nodoc
 class GetMobileDeviceAccessOverrideResponse {
   /// The date the override was first created.
   final DateTime? dateCreated;
@@ -6546,6 +6596,7 @@ class GetMobileDeviceAccessOverrideResponse {
   }
 }
 
+/// @nodoc
 class GetPersonalAccessTokenMetadataResponse {
   /// The date when the Personal Access Token ID was created.
   final DateTime? dateCreated;
@@ -6614,6 +6665,7 @@ class GetPersonalAccessTokenMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListAccessControlRulesResponse {
   /// The access control rules.
   final List<AccessControlRule>? rules;
@@ -6639,6 +6691,7 @@ class ListAccessControlRulesResponse {
   }
 }
 
+/// @nodoc
 class ListAliasesResponse {
   /// The entity's paginated aliases.
   final List<String>? aliases;
@@ -6670,6 +6723,7 @@ class ListAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListAvailabilityConfigurationsResponse {
   /// The list of <code>AvailabilityConfiguration</code>'s that exist for the
   /// specified WorkMail organization.
@@ -6707,6 +6761,7 @@ class ListAvailabilityConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupMembersResponse {
   /// The members associated to the group.
   final List<Member>? members;
@@ -6740,6 +6795,7 @@ class ListGroupMembersResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// The overview of groups for an organization.
   final List<Group>? groups;
@@ -6773,6 +6829,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsForEntityResponse {
   /// The overview of groups in an organization.
   final List<GroupIdentifier>? groups;
@@ -6806,6 +6863,7 @@ class ListGroupsForEntityResponse {
   }
 }
 
+/// @nodoc
 class ListImpersonationRolesResponse {
   /// The token to retrieve the next page of results. The value is
   /// <code>null</code> when there are no results to return.
@@ -6839,6 +6897,7 @@ class ListImpersonationRolesResponse {
   }
 }
 
+/// @nodoc
 class ListMailboxExportJobsResponse {
   /// The mailbox export job details.
   final List<MailboxExportJob>? jobs;
@@ -6871,6 +6930,7 @@ class ListMailboxExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListMailboxPermissionsResponse {
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
@@ -6904,6 +6964,7 @@ class ListMailboxPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListMailDomainsResponse {
   /// The list of mail domain summaries, specifying domains that exist in the
   /// specified WorkMail organization, along with the information about whether
@@ -6939,6 +7000,7 @@ class ListMailDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListMobileDeviceAccessOverridesResponse {
   /// The token to use to retrieve the next page of results. The value is “null”
   /// when there are no more results to return.
@@ -6975,6 +7037,7 @@ class ListMobileDeviceAccessOverridesResponse {
   }
 }
 
+/// @nodoc
 class ListMobileDeviceAccessRulesResponse {
   /// The list of mobile device access rules that exist under the specified
   /// WorkMail organization.
@@ -7003,6 +7066,7 @@ class ListMobileDeviceAccessRulesResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationsResponse {
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
@@ -7038,6 +7102,7 @@ class ListOrganizationsResponse {
   }
 }
 
+/// @nodoc
 class ListPersonalAccessTokensResponse {
   /// The token from the previous response to query the next page.
   final String? nextToken;
@@ -7074,6 +7139,7 @@ class ListPersonalAccessTokensResponse {
   }
 }
 
+/// @nodoc
 class ListResourceDelegatesResponse {
   /// One page of the resource's delegates.
   final List<Delegate>? delegates;
@@ -7108,6 +7174,7 @@ class ListResourceDelegatesResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesResponse {
   /// The token used to paginate through all the organization's resources. While
   /// results are still available, it has an associated value. When the last page
@@ -7142,6 +7209,7 @@ class ListResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tag key-value pairs.
   final List<Tag>? tags;
@@ -7167,6 +7235,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// The token to use to retrieve the next page of results. This value is `null`
   /// when there are no more results to return.
@@ -7200,6 +7269,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class PutAccessControlRuleResponse {
   PutAccessControlRuleResponse();
 
@@ -7212,6 +7282,7 @@ class PutAccessControlRuleResponse {
   }
 }
 
+/// @nodoc
 class PutEmailMonitoringConfigurationResponse {
   PutEmailMonitoringConfigurationResponse();
 
@@ -7225,6 +7296,7 @@ class PutEmailMonitoringConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutIdentityProviderConfigurationResponse {
   PutIdentityProviderConfigurationResponse();
 
@@ -7238,6 +7310,7 @@ class PutIdentityProviderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutInboundDmarcSettingsResponse {
   PutInboundDmarcSettingsResponse();
 
@@ -7250,6 +7323,7 @@ class PutInboundDmarcSettingsResponse {
   }
 }
 
+/// @nodoc
 class PutMailboxPermissionsResponse {
   PutMailboxPermissionsResponse();
 
@@ -7262,6 +7336,7 @@ class PutMailboxPermissionsResponse {
   }
 }
 
+/// @nodoc
 class PutMobileDeviceAccessOverrideResponse {
   PutMobileDeviceAccessOverrideResponse();
 
@@ -7275,6 +7350,7 @@ class PutMobileDeviceAccessOverrideResponse {
   }
 }
 
+/// @nodoc
 class PutRetentionPolicyResponse {
   PutRetentionPolicyResponse();
 
@@ -7287,6 +7363,7 @@ class PutRetentionPolicyResponse {
   }
 }
 
+/// @nodoc
 class RegisterMailDomainResponse {
   RegisterMailDomainResponse();
 
@@ -7299,6 +7376,7 @@ class RegisterMailDomainResponse {
   }
 }
 
+/// @nodoc
 class RegisterToWorkMailResponse {
   RegisterToWorkMailResponse();
 
@@ -7311,6 +7389,7 @@ class RegisterToWorkMailResponse {
   }
 }
 
+/// @nodoc
 class ResetPasswordResponse {
   ResetPasswordResponse();
 
@@ -7323,6 +7402,7 @@ class ResetPasswordResponse {
   }
 }
 
+/// @nodoc
 class StartMailboxExportJobResponse {
   /// The job ID.
   final String? jobId;
@@ -7345,6 +7425,7 @@ class StartMailboxExportJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7357,6 +7438,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TestAvailabilityConfigurationResponse {
   /// String containing the reason for a failed test if <code>TestPassed</code> is
   /// false.
@@ -7388,6 +7470,7 @@ class TestAvailabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7400,6 +7483,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAvailabilityConfigurationResponse {
   UpdateAvailabilityConfigurationResponse();
 
@@ -7413,6 +7497,7 @@ class UpdateAvailabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateDefaultMailDomainResponse {
   UpdateDefaultMailDomainResponse();
 
@@ -7425,6 +7510,7 @@ class UpdateDefaultMailDomainResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupResponse {
   UpdateGroupResponse();
 
@@ -7437,6 +7523,7 @@ class UpdateGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateImpersonationRoleResponse {
   UpdateImpersonationRoleResponse();
 
@@ -7449,6 +7536,7 @@ class UpdateImpersonationRoleResponse {
   }
 }
 
+/// @nodoc
 class UpdateMailboxQuotaResponse {
   UpdateMailboxQuotaResponse();
 
@@ -7461,6 +7549,7 @@ class UpdateMailboxQuotaResponse {
   }
 }
 
+/// @nodoc
 class UpdateMobileDeviceAccessRuleResponse {
   UpdateMobileDeviceAccessRuleResponse();
 
@@ -7474,6 +7563,7 @@ class UpdateMobileDeviceAccessRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdatePrimaryEmailAddressResponse {
   UpdatePrimaryEmailAddressResponse();
 
@@ -7486,6 +7576,7 @@ class UpdatePrimaryEmailAddressResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceResponse {
   UpdateResourceResponse();
 
@@ -7498,6 +7589,7 @@ class UpdateResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   UpdateUserResponse();
 
@@ -7510,6 +7602,7 @@ class UpdateUserResponse {
   }
 }
 
+/// @nodoc
 class UserRole {
   static const user = UserRole._('USER');
   static const resource = UserRole._('RESOURCE');
@@ -7537,6 +7630,8 @@ class UserRole {
 
 /// At least one delegate must be associated to the resource to disable
 /// automatic replies from the resource.
+///
+/// @nodoc
 class BookingOptions {
   /// The resource's ability to automatically reply to requests. If disabled,
   /// delegates must be associated to the resource.
@@ -7578,6 +7673,7 @@ class BookingOptions {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const room = ResourceType._('ROOM');
   static const equipment = ResourceType._('EQUIPMENT');
@@ -7601,6 +7697,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class MobileDeviceAccessRuleEffect {
   static const allow = MobileDeviceAccessRuleEffect._('ALLOW');
   static const deny = MobileDeviceAccessRuleEffect._('DENY');
@@ -7626,6 +7723,7 @@ class MobileDeviceAccessRuleEffect {
   String toString() => value;
 }
 
+/// @nodoc
 class ImpersonationRoleType {
   static const fullAccess = ImpersonationRoleType._('FULL_ACCESS');
   static const readOnly = ImpersonationRoleType._('READ_ONLY');
@@ -7652,6 +7750,8 @@ class ImpersonationRoleType {
 }
 
 /// The rules for the given impersonation role.
+///
+/// @nodoc
 class ImpersonationRule {
   /// The effect of the rule when it matches the input. Allowed effect values are
   /// <code>ALLOW</code> or <code>DENY</code>.
@@ -7716,6 +7816,7 @@ class ImpersonationRule {
   }
 }
 
+/// @nodoc
 class AccessEffect {
   static const allow = AccessEffect._('ALLOW');
   static const deny = AccessEffect._('DENY');
@@ -7741,6 +7842,8 @@ class AccessEffect {
 
 /// Describes an EWS based availability provider. This is only used as input to
 /// the service.
+///
+/// @nodoc
 class EwsAvailabilityProvider {
   /// The endpoint of the remote EWS server.
   final String ewsEndpoint;
@@ -7770,6 +7873,8 @@ class EwsAvailabilityProvider {
 }
 
 /// Describes a Lambda based availability provider.
+///
+/// @nodoc
 class LambdaAvailabilityProvider {
   /// The Amazon Resource Name (ARN) of the Lambda that acts as the availability
   /// provider.
@@ -7794,6 +7899,8 @@ class LambdaAvailabilityProvider {
 }
 
 /// Describes a tag applied to a resource.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -7825,6 +7932,8 @@ class Tag {
 
 /// The configuration applied to an organization's folders by its retention
 /// policy.
+///
+/// @nodoc
 class FolderConfiguration {
   /// The action to take on the folder contents at the end of the folder
   /// configuration period.
@@ -7862,6 +7971,7 @@ class FolderConfiguration {
   }
 }
 
+/// @nodoc
 class FolderName {
   static const inbox = FolderName._('INBOX');
   static const deletedItems = FolderName._('DELETED_ITEMS');
@@ -7888,6 +7998,7 @@ class FolderName {
   String toString() => value;
 }
 
+/// @nodoc
 class RetentionAction {
   static const none = RetentionAction._('NONE');
   static const delete = RetentionAction._('DELETE');
@@ -7913,6 +8024,7 @@ class RetentionAction {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionType {
   static const fullAccess = PermissionType._('FULL_ACCESS');
   static const sendAs = PermissionType._('SEND_AS');
@@ -7938,6 +8050,7 @@ class PermissionType {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentityProviderAuthenticationMode {
   static const identityProviderOnly =
       IdentityProviderAuthenticationMode._('IDENTITY_PROVIDER_ONLY');
@@ -7966,6 +8079,8 @@ class IdentityProviderAuthenticationMode {
 }
 
 /// The IAM Identity Center configuration.
+///
+/// @nodoc
 class IdentityCenterConfiguration {
   /// The Amazon Resource Name (ARN) of IAMIdentity Center Application for
   /// WorkMail. Must be created by the WorkMail API, see
@@ -7999,6 +8114,8 @@ class IdentityCenterConfiguration {
 }
 
 /// Displays the Personal Access Token status.
+///
+/// @nodoc
 class PersonalAccessTokenConfiguration {
   /// The status of the Personal Access Token allowed for the organization.
   ///
@@ -8044,6 +8161,7 @@ class PersonalAccessTokenConfiguration {
   }
 }
 
+/// @nodoc
 class PersonalAccessTokenConfigurationStatus {
   static const active = PersonalAccessTokenConfigurationStatus._('ACTIVE');
   static const inactive = PersonalAccessTokenConfigurationStatus._('INACTIVE');
@@ -8069,6 +8187,7 @@ class PersonalAccessTokenConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessControlRuleEffect {
   static const allow = AccessControlRuleEffect._('ALLOW');
   static const deny = AccessControlRuleEffect._('DENY');
@@ -8095,6 +8214,8 @@ class AccessControlRuleEffect {
 }
 
 /// The representation of an WorkMail user.
+///
+/// @nodoc
 class User {
   /// The date indicating when the user was disabled from WorkMail use.
   final DateTime? disabledDate;
@@ -8189,6 +8310,7 @@ class User {
   }
 }
 
+/// @nodoc
 class EntityState {
   static const enabled = EntityState._('ENABLED');
   static const disabled = EntityState._('DISABLED');
@@ -8215,6 +8337,8 @@ class EntityState {
 
 /// Filtering options for <i>ListUsers</i> operation. This is only used as input
 /// to Operation.
+///
+/// @nodoc
 class ListUsersFilters {
   /// Filters only users with the provided display name prefix.
   final String? displayNamePrefix;
@@ -8257,6 +8381,8 @@ class ListUsersFilters {
 }
 
 /// The representation of a resource.
+///
+/// @nodoc
 class Resource {
   /// Resource description.
   final String? description;
@@ -8331,6 +8457,8 @@ class Resource {
 
 /// Filtering options for <i>ListResources</i> operation. This is only used as
 /// input to Operation.
+///
+/// @nodoc
 class ListResourcesFilters {
   /// Filters only resource that start with the entered name prefix .
   final String? namePrefix;
@@ -8361,6 +8489,8 @@ class ListResourcesFilters {
 
 /// The name of the attribute, which is one of the values defined in the
 /// UserAttribute enumeration.
+///
+/// @nodoc
 class Delegate {
   /// The identifier for the user or group associated as the resource's delegate.
   final String id;
@@ -8390,6 +8520,7 @@ class Delegate {
   }
 }
 
+/// @nodoc
 class MemberType {
   static const group = MemberType._('GROUP');
   static const user = MemberType._('USER');
@@ -8414,6 +8545,8 @@ class MemberType {
 }
 
 /// The summary of the Personal Access Token.
+///
+/// @nodoc
 class PersonalAccessTokenSummary {
   /// The date when the Personal Access Token was created.
   final DateTime? dateCreated;
@@ -8482,6 +8615,8 @@ class PersonalAccessTokenSummary {
 }
 
 /// The representation of an organization.
+///
+/// @nodoc
 class OrganizationSummary {
   /// The alias associated with the organization.
   final String? alias;
@@ -8535,6 +8670,8 @@ class OrganizationSummary {
 }
 
 /// A rule that controls access to mobile devices for an WorkMail group.
+///
+/// @nodoc
 class MobileDeviceAccessRule {
   /// The date and time at which an access rule was created.
   final DateTime? dateCreated;
@@ -8684,6 +8821,8 @@ class MobileDeviceAccessRule {
 }
 
 /// The override object.
+///
+/// @nodoc
 class MobileDeviceAccessOverride {
   /// The date the override was first created.
   final DateTime? dateCreated;
@@ -8744,6 +8883,8 @@ class MobileDeviceAccessOverride {
 }
 
 /// The data for a given domain.
+///
+/// @nodoc
 class MailDomainSummary {
   /// Whether the domain is default or not.
   final bool? defaultDomain;
@@ -8775,6 +8916,8 @@ class MailDomainSummary {
 
 /// Permission granted to a user, group, or resource to access a certain aspect
 /// of another user, group, or resource mailbox.
+///
+/// @nodoc
 class Permission {
   /// The identifier of the user, group, or resource to which the permissions are
   /// granted.
@@ -8824,6 +8967,8 @@ class Permission {
 /// The details of a mailbox export job, including the user or resource ID
 /// associated with the mailbox and the S3 bucket that the mailbox contents are
 /// exported to.
+///
+/// @nodoc
 class MailboxExportJob {
   /// The mailbox export job description.
   final String? description;
@@ -8902,6 +9047,7 @@ class MailboxExportJob {
   }
 }
 
+/// @nodoc
 class MailboxExportJobState {
   static const running = MailboxExportJobState._('RUNNING');
   static const completed = MailboxExportJobState._('COMPLETED');
@@ -8930,6 +9076,8 @@ class MailboxExportJobState {
 }
 
 /// An impersonation role for the given WorkMail organization.
+///
+/// @nodoc
 class ImpersonationRole {
   /// The date when the impersonation role was created.
   final DateTime? dateCreated;
@@ -8983,6 +9131,8 @@ class ImpersonationRole {
 }
 
 /// The identifier that contains the Group ID and name of a group.
+///
+/// @nodoc
 class GroupIdentifier {
   /// Group ID that matched the group.
   final String? groupId;
@@ -9014,6 +9164,8 @@ class GroupIdentifier {
 
 /// Filtering options for <i>ListGroupsForEntity</i> operation. This is only
 /// used as input to Operation.
+///
+/// @nodoc
 class ListGroupsForEntityFilters {
   /// Filters only group names that start with the provided name prefix.
   final String? groupNamePrefix;
@@ -9031,6 +9183,8 @@ class ListGroupsForEntityFilters {
 }
 
 /// The representation of an WorkMail group.
+///
+/// @nodoc
 class Group {
   /// The date indicating when the group was disabled from WorkMail use.
   final DateTime? disabledDate;
@@ -9091,6 +9245,8 @@ class Group {
 
 /// Filtering options for <i>ListGroups</i> operation. This is only used as
 /// input to Operation.
+///
+/// @nodoc
 class ListGroupsFilters {
   /// Filters only groups with the provided name prefix.
   final String? namePrefix;
@@ -9120,6 +9276,8 @@ class ListGroupsFilters {
 }
 
 /// The representation of a user or group.
+///
+/// @nodoc
 class Member {
   /// The date indicating when the member was disabled from WorkMail use.
   final DateTime? disabledDate;
@@ -9180,6 +9338,8 @@ class Member {
 
 /// List all the <code>AvailabilityConfiguration</code>'s for the given WorkMail
 /// organization.
+///
+/// @nodoc
 class AvailabilityConfiguration {
   /// The date and time at which the availability configuration was created.
   final DateTime? dateCreated;
@@ -9247,6 +9407,7 @@ class AvailabilityConfiguration {
   }
 }
 
+/// @nodoc
 class AvailabilityProviderType {
   static const ews = AvailabilityProviderType._('EWS');
   static const lambda = AvailabilityProviderType._('LAMBDA');
@@ -9274,6 +9435,8 @@ class AvailabilityProviderType {
 
 /// Describes an EWS based availability provider when returned from the service.
 /// It does not contain the password of the endpoint.
+///
+/// @nodoc
 class RedactedEwsAvailabilityProvider {
   /// The endpoint of the remote EWS server.
   final String? ewsEndpoint;
@@ -9304,6 +9467,8 @@ class RedactedEwsAvailabilityProvider {
 }
 
 /// A rule that controls access to an WorkMail organization.
+///
+/// @nodoc
 class AccessControlRule {
   /// Access protocol actions to include in the rule. Valid values include
   /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
@@ -9441,6 +9606,8 @@ class AccessControlRule {
 }
 
 /// The rule that a simulated user matches.
+///
+/// @nodoc
 class MobileDeviceAccessMatchedRule {
   /// Identifier of the rule that a simulated user matches.
   final String? mobileDeviceAccessRuleId;
@@ -9471,6 +9638,7 @@ class MobileDeviceAccessMatchedRule {
   }
 }
 
+/// @nodoc
 class DnsRecordVerificationStatus {
   static const pending = DnsRecordVerificationStatus._('PENDING');
   static const verified = DnsRecordVerificationStatus._('VERIFIED');
@@ -9498,6 +9666,8 @@ class DnsRecordVerificationStatus {
 }
 
 /// A DNS record uploaded to your DNS provider.
+///
+/// @nodoc
 class DnsRecord {
   /// The DNS hostname.- For example, <code>domain.example.com</code>.
   final String? hostname;
@@ -9536,6 +9706,8 @@ class DnsRecord {
 }
 
 /// The impersonation rule that matched the input.
+///
+/// @nodoc
 class ImpersonationMatchedRule {
   /// The ID of the rule that matched the input
   final String? impersonationRuleId;
@@ -9566,6 +9738,7 @@ class ImpersonationMatchedRule {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const group = EntityType._('GROUP');
   static const user = EntityType._('USER');
@@ -9597,6 +9770,8 @@ class EntityType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html">Adding
 /// a domain</a> in the <i>WorkMail Administrator Guide</i>.
+///
+/// @nodoc
 class Domain {
   /// The fully qualified domain name.
   final String domainName;
@@ -9620,11 +9795,13 @@ class Domain {
   }
 }
 
+/// @nodoc
 class DirectoryInUseException extends _s.GenericAwsException {
   DirectoryInUseException({String? type, String? message})
       : super(type: type, code: 'DirectoryInUseException', message: message);
 }
 
+/// @nodoc
 class DirectoryServiceAuthenticationFailedException
     extends _s.GenericAwsException {
   DirectoryServiceAuthenticationFailedException({String? type, String? message})
@@ -9634,6 +9811,7 @@ class DirectoryServiceAuthenticationFailedException
             message: message);
 }
 
+/// @nodoc
 class DirectoryUnavailableException extends _s.GenericAwsException {
   DirectoryUnavailableException({String? type, String? message})
       : super(
@@ -9642,11 +9820,13 @@ class DirectoryUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EmailAddressInUseException extends _s.GenericAwsException {
   EmailAddressInUseException({String? type, String? message})
       : super(type: type, code: 'EmailAddressInUseException', message: message);
 }
 
+/// @nodoc
 class EntityAlreadyRegisteredException extends _s.GenericAwsException {
   EntityAlreadyRegisteredException({String? type, String? message})
       : super(
@@ -9655,16 +9835,19 @@ class EntityAlreadyRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EntityNotFoundException extends _s.GenericAwsException {
   EntityNotFoundException({String? type, String? message})
       : super(type: type, code: 'EntityNotFoundException', message: message);
 }
 
+/// @nodoc
 class EntityStateException extends _s.GenericAwsException {
   EntityStateException({String? type, String? message})
       : super(type: type, code: 'EntityStateException', message: message);
 }
 
+/// @nodoc
 class InvalidConfigurationException extends _s.GenericAwsException {
   InvalidConfigurationException({String? type, String? message})
       : super(
@@ -9673,6 +9856,7 @@ class InvalidConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCustomSesConfigurationException extends _s.GenericAwsException {
   InvalidCustomSesConfigurationException({String? type, String? message})
       : super(
@@ -9681,42 +9865,50 @@ class InvalidCustomSesConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidPasswordException extends _s.GenericAwsException {
   InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MailDomainInUseException extends _s.GenericAwsException {
   MailDomainInUseException({String? type, String? message})
       : super(type: type, code: 'MailDomainInUseException', message: message);
 }
 
+/// @nodoc
 class MailDomainNotFoundException extends _s.GenericAwsException {
   MailDomainNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'MailDomainNotFoundException', message: message);
 }
 
+/// @nodoc
 class MailDomainStateException extends _s.GenericAwsException {
   MailDomainStateException({String? type, String? message})
       : super(type: type, code: 'MailDomainStateException', message: message);
 }
 
+/// @nodoc
 class NameAvailabilityException extends _s.GenericAwsException {
   NameAvailabilityException({String? type, String? message})
       : super(type: type, code: 'NameAvailabilityException', message: message);
 }
 
+/// @nodoc
 class OrganizationNotFoundException extends _s.GenericAwsException {
   OrganizationNotFoundException({String? type, String? message})
       : super(
@@ -9725,26 +9917,31 @@ class OrganizationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationStateException extends _s.GenericAwsException {
   OrganizationStateException({String? type, String? message})
       : super(type: type, code: 'OrganizationStateException', message: message);
 }
 
+/// @nodoc
 class ReservedNameException extends _s.GenericAwsException {
   ReservedNameException({String? type, String? message})
       : super(type: type, code: 'ReservedNameException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

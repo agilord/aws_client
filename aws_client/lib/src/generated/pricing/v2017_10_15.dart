@@ -431,6 +431,7 @@ class Pricing {
   }
 }
 
+/// @nodoc
 class DescribeServicesResponse {
   /// The format version of the response. For example, <code>aws_v1</code>.
   final String? formatVersion;
@@ -470,6 +471,7 @@ class DescribeServicesResponse {
   }
 }
 
+/// @nodoc
 class GetAttributeValuesResponse {
   /// The list of values for an attribute. For example, <code>Throughput Optimized
   /// HDD</code> and <code>Provisioned IOPS</code> are two available values for
@@ -504,6 +506,7 @@ class GetAttributeValuesResponse {
   }
 }
 
+/// @nodoc
 class GetPriceListFileUrlResponse {
   /// The URL to download your Price List file from.
   final String? url;
@@ -526,6 +529,7 @@ class GetPriceListFileUrlResponse {
   }
 }
 
+/// @nodoc
 class GetProductsResponse {
   /// The format version of the response. For example, aws_v1.
   final String? formatVersion;
@@ -568,6 +572,7 @@ class GetProductsResponse {
   }
 }
 
+/// @nodoc
 class ListPriceListsResponse {
   /// The pagination token that indicates the next set of results to retrieve.
   final String? nextToken;
@@ -607,6 +612,8 @@ class ListPriceListsResponse {
 /// Terms</a> (Section 1.10).</b> </i>
 ///
 /// This is the type of price list references that match your request.
+///
+/// @nodoc
 class PriceList {
   /// The three alphabetical character ISO-4217 currency code the Price List files
   /// are denominated in.
@@ -667,6 +674,8 @@ class PriceList {
 }
 
 /// The constraints that you want all returned products to match.
+///
+/// @nodoc
 class Filter {
   /// The product metadata field that you want to filter on. You can filter by
   /// just the service code to see all products for a specific service, filter by
@@ -734,6 +743,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterType {
   static const termMatch = FilterType._('TERM_MATCH');
   static const equals = FilterType._('EQUALS');
@@ -763,6 +773,8 @@ class FilterType {
 /// The values of a given attribute, such as <code>Throughput Optimized
 /// HDD</code> or <code>Provisioned IOPS</code> for the <code>Amazon EC2</code>
 /// <code>volumeType</code> attribute.
+///
+/// @nodoc
 class AttributeValue {
   /// The specific value of an <code>attributeName</code>.
   final String? value;
@@ -787,6 +799,8 @@ class AttributeValue {
 
 /// The metadata for a service, such as the service code and available attribute
 /// names.
+///
+/// @nodoc
 class Service {
   /// The code for the Amazon Web Services service.
   final String serviceCode;
@@ -819,41 +833,49 @@ class Service {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ExpiredNextTokenException extends _s.GenericAwsException {
   ExpiredNextTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredNextTokenException', message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

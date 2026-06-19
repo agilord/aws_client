@@ -1314,6 +1314,7 @@ class DirectoryServiceData {
   }
 }
 
+/// @nodoc
 class AddGroupMemberResult {
   AddGroupMemberResult();
 
@@ -1326,6 +1327,7 @@ class AddGroupMemberResult {
   }
 }
 
+/// @nodoc
 class CreateGroupResult {
   /// The identifier (ID) of the directory that's associated with the group.
   final String? directoryId;
@@ -1362,6 +1364,7 @@ class CreateGroupResult {
   }
 }
 
+/// @nodoc
 class CreateUserResult {
   /// The identifier (ID) of the directory where the address block is added.
   final String? directoryId;
@@ -1398,6 +1401,7 @@ class CreateUserResult {
   }
 }
 
+/// @nodoc
 class DeleteGroupResult {
   DeleteGroupResult();
 
@@ -1410,6 +1414,7 @@ class DeleteGroupResult {
   }
 }
 
+/// @nodoc
 class DeleteUserResult {
   DeleteUserResult();
 
@@ -1422,6 +1427,7 @@ class DeleteUserResult {
   }
 }
 
+/// @nodoc
 class DescribeGroupResult {
   /// The identifier (ID) of the directory that's associated with the group.
   final String? directoryId;
@@ -1502,6 +1508,7 @@ class DescribeGroupResult {
   }
 }
 
+/// @nodoc
 class DescribeUserResult {
   /// The identifier (ID) of the directory that's associated with the user.
   final String? directoryId;
@@ -1605,6 +1612,7 @@ class DescribeUserResult {
   }
 }
 
+/// @nodoc
 class DisableUserResult {
   DisableUserResult();
 
@@ -1617,6 +1625,7 @@ class DisableUserResult {
   }
 }
 
+/// @nodoc
 class ListGroupMembersResult {
   /// Identifier (ID) of the directory associated with the group.
   final String? directoryId;
@@ -1671,6 +1680,7 @@ class ListGroupMembersResult {
   }
 }
 
+/// @nodoc
 class ListGroupsResult {
   /// The identifier (ID) of the directory that's associated with the group.
   final String? directoryId;
@@ -1718,6 +1728,7 @@ class ListGroupsResult {
   }
 }
 
+/// @nodoc
 class ListGroupsForMemberResult {
   /// The identifier (ID) of the directory that's associated with the member.
   final String? directoryId;
@@ -1772,6 +1783,7 @@ class ListGroupsForMemberResult {
   }
 }
 
+/// @nodoc
 class ListUsersResult {
   /// The identifier (ID) of the directory that's associated with the user.
   final String? directoryId;
@@ -1819,6 +1831,7 @@ class ListUsersResult {
   }
 }
 
+/// @nodoc
 class RemoveGroupMemberResult {
   RemoveGroupMemberResult();
 
@@ -1831,6 +1844,7 @@ class RemoveGroupMemberResult {
   }
 }
 
+/// @nodoc
 class SearchGroupsResult {
   /// The identifier (ID) of the directory that's associated with the group.
   final String? directoryId;
@@ -1878,6 +1892,7 @@ class SearchGroupsResult {
   }
 }
 
+/// @nodoc
 class SearchUsersResult {
   /// The identifier (ID) of the directory where the address block is added.
   final String? directoryId;
@@ -1925,6 +1940,7 @@ class SearchUsersResult {
   }
 }
 
+/// @nodoc
 class UpdateGroupResult {
   UpdateGroupResult();
 
@@ -1937,6 +1953,7 @@ class UpdateGroupResult {
   }
 }
 
+/// @nodoc
 class UpdateUserResult {
   UpdateUserResult();
 
@@ -1949,6 +1966,7 @@ class UpdateUserResult {
   }
 }
 
+/// @nodoc
 class UpdateType {
   static const add = UpdateType._('ADD');
   static const replace = UpdateType._('REPLACE');
@@ -1978,6 +1996,8 @@ class UpdateType {
 /// itself. For a list of supported attributes, see <a
 /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ad_data_attributes.html">Directory
 /// Service Data Attributes</a>.
+///
+/// @nodoc
 class AttributeValue {
   /// Indicates that the attribute type value is a boolean. For example:
   ///
@@ -1997,8 +2017,8 @@ class AttributeValue {
   /// Indicates that the attribute type value is a string set. For example:
   ///
   /// <code>"SS":
-  /// ["sample_service_class/host.sample.com:1234/sample_service_name_1",
-  /// "sample_service_class/host.sample.com:1234/sample_service_name_2"]</code>
+  /// \["sample_service_class/host.sample.com:1234/sample_service_name_1",
+  /// "sample_service_class/host.sample.com:1234/sample_service_name_2"\]</code>
   final List<String>? ss;
 
   AttributeValue({
@@ -2031,6 +2051,7 @@ class AttributeValue {
   }
 }
 
+/// @nodoc
 class GroupType {
   static const distribution = GroupType._('Distribution');
   static const security = GroupType._('Security');
@@ -2054,6 +2075,7 @@ class GroupType {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupScope {
   static const domainLocal = GroupScope._('DomainLocal');
   static const global = GroupScope._('Global');
@@ -2081,6 +2103,8 @@ class GroupScope {
 
 /// A user object that contains identifying information and attributes for a
 /// specified user.
+///
+/// @nodoc
 class User {
   /// The name of the user.
   final String sAMAccountName;
@@ -2169,6 +2193,8 @@ class User {
 
 /// A group object that contains identifying information and attributes for a
 /// specified group.
+///
+/// @nodoc
 class Group {
   /// The name of the group.
   final String sAMAccountName;
@@ -2237,6 +2263,8 @@ class Group {
 
 /// A structure containing a subset of the fields of a user object from a
 /// directory.
+///
+/// @nodoc
 class UserSummary {
   /// Indicates whether the user account is active.
   final bool enabled;
@@ -2289,6 +2317,8 @@ class UserSummary {
 
 /// A structure containing a subset of fields of a group object from a
 /// directory.
+///
+/// @nodoc
 class GroupSummary {
   /// The scope of the AD group. For details, see <a
   /// href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups#group-scope">Active
@@ -2338,6 +2368,8 @@ class GroupSummary {
 
 /// A member object that contains identifying information for a specified
 /// member.
+///
+/// @nodoc
 class Member {
   /// The AD type of the member object.
   final MemberType memberType;
@@ -2374,6 +2406,7 @@ class Member {
   }
 }
 
+/// @nodoc
 class MemberType {
   static const user = MemberType._('USER');
   static const group = MemberType._('GROUP');
@@ -2398,16 +2431,19 @@ class MemberType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DirectoryUnavailableException extends _s.GenericAwsException {
   DirectoryUnavailableException({String? type, String? message})
       : super(
@@ -2416,21 +2452,25 @@ class DirectoryUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

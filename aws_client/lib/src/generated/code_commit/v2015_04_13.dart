@@ -4961,6 +4961,7 @@ class CodeCommit {
   }
 }
 
+/// @nodoc
 class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
   /// A list of names of the repositories that have been associated with the
   /// template.
@@ -5002,6 +5003,7 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
   }
 }
 
+/// @nodoc
 class BatchDescribeMergeConflictsOutput {
   /// A list of conflicts for each file, including the conflict metadata and the
   /// hunks of the differences between the files.
@@ -5072,6 +5074,7 @@ class BatchDescribeMergeConflictsOutput {
   }
 }
 
+/// @nodoc
 class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
   /// A list of repository names that have had their association with the template
   /// removed.
@@ -5112,6 +5115,7 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
   }
 }
 
+/// @nodoc
 class BatchGetCommitsOutput {
   /// An array of commit data type objects, each of which contains information
   /// about a specified commit.
@@ -5152,6 +5156,8 @@ class BatchGetCommitsOutput {
 }
 
 /// Represents the output of a batch get repositories operation.
+///
+/// @nodoc
 class BatchGetRepositoriesOutput {
   /// Returns information about any errors returned when attempting to retrieve
   /// information about the repositories.
@@ -5200,6 +5206,7 @@ class BatchGetRepositoriesOutput {
   }
 }
 
+/// @nodoc
 class CreateApprovalRuleTemplateOutput {
   /// The content and structure of the created approval rule template.
   final ApprovalRuleTemplate approvalRuleTemplate;
@@ -5224,6 +5231,7 @@ class CreateApprovalRuleTemplateOutput {
   }
 }
 
+/// @nodoc
 class CreateCommitOutput {
   /// The full commit ID of the commit that contains your committed file changes.
   final String? commitId;
@@ -5284,6 +5292,7 @@ class CreateCommitOutput {
   }
 }
 
+/// @nodoc
 class CreatePullRequestOutput {
   /// Information about the newly created pull request.
   final PullRequest pullRequest;
@@ -5308,6 +5317,7 @@ class CreatePullRequestOutput {
   }
 }
 
+/// @nodoc
 class CreatePullRequestApprovalRuleOutput {
   /// Information about the created approval rule.
   final ApprovalRule approvalRule;
@@ -5334,6 +5344,8 @@ class CreatePullRequestApprovalRuleOutput {
 }
 
 /// Represents the output of a create repository operation.
+///
+/// @nodoc
 class CreateRepositoryOutput {
   /// Information about the newly created repository.
   final RepositoryMetadata? repositoryMetadata;
@@ -5359,6 +5371,7 @@ class CreateRepositoryOutput {
   }
 }
 
+/// @nodoc
 class CreateUnreferencedMergeCommitOutput {
   /// The full commit ID of the commit that contains your merge results.
   final String? commitId;
@@ -5390,6 +5403,7 @@ class CreateUnreferencedMergeCommitOutput {
   }
 }
 
+/// @nodoc
 class DeleteApprovalRuleTemplateOutput {
   /// The system-generated ID of the deleted approval rule template. If the
   /// template has been previously deleted, the only response is a 200 OK.
@@ -5414,6 +5428,8 @@ class DeleteApprovalRuleTemplateOutput {
 }
 
 /// Represents the output of a delete branch operation.
+///
+/// @nodoc
 class DeleteBranchOutput {
   /// Information about the branch deleted by the operation, including the branch
   /// name and the commit ID that was the tip of the branch.
@@ -5439,6 +5455,7 @@ class DeleteBranchOutput {
   }
 }
 
+/// @nodoc
 class DeleteCommentContentOutput {
   /// Information about the comment you just deleted.
   final Comment? comment;
@@ -5463,6 +5480,7 @@ class DeleteCommentContentOutput {
   }
 }
 
+/// @nodoc
 class DeleteFileOutput {
   /// The blob ID removed from the tree as part of deleting the file.
   final String blobId;
@@ -5509,6 +5527,7 @@ class DeleteFileOutput {
   }
 }
 
+/// @nodoc
 class DeletePullRequestApprovalRuleOutput {
   /// The ID of the deleted approval rule.
   /// <note>
@@ -5537,6 +5556,8 @@ class DeletePullRequestApprovalRuleOutput {
 }
 
 /// Represents the output of a delete repository operation.
+///
+/// @nodoc
 class DeleteRepositoryOutput {
   /// The ID of the repository that was deleted.
   final String? repositoryId;
@@ -5559,6 +5580,7 @@ class DeleteRepositoryOutput {
   }
 }
 
+/// @nodoc
 class DescribeMergeConflictsOutput {
   /// Contains metadata about the conflicts found in the merge.
   final ConflictMetadata conflictMetadata;
@@ -5624,6 +5646,7 @@ class DescribeMergeConflictsOutput {
   }
 }
 
+/// @nodoc
 class DescribePullRequestEventsOutput {
   /// Information about the pull request events.
   final List<PullRequestEvent> pullRequestEvents;
@@ -5657,6 +5680,7 @@ class DescribePullRequestEventsOutput {
   }
 }
 
+/// @nodoc
 class EvaluatePullRequestApprovalRulesOutput {
   /// The result of the evaluation, including the names of the rules whose
   /// conditions have been met (if any), the names of the rules whose conditions
@@ -5686,6 +5710,7 @@ class EvaluatePullRequestApprovalRulesOutput {
   }
 }
 
+/// @nodoc
 class GetApprovalRuleTemplateOutput {
   /// The content and structure of the approval rule template.
   final ApprovalRuleTemplate approvalRuleTemplate;
@@ -5711,6 +5736,8 @@ class GetApprovalRuleTemplateOutput {
 }
 
 /// Represents the output of a get blob operation.
+///
+/// @nodoc
 class GetBlobOutput {
   /// The content of the blob, usually a file.
   final Uint8List content;
@@ -5734,6 +5761,8 @@ class GetBlobOutput {
 }
 
 /// Represents the output of a get branch operation.
+///
+/// @nodoc
 class GetBranchOutput {
   /// The name of the branch.
   final BranchInfo? branch;
@@ -5758,6 +5787,7 @@ class GetBranchOutput {
   }
 }
 
+/// @nodoc
 class GetCommentOutput {
   /// The contents of the comment.
   final Comment? comment;
@@ -5782,6 +5812,7 @@ class GetCommentOutput {
   }
 }
 
+/// @nodoc
 class GetCommentReactionsOutput {
   /// An array of reactions to the specified comment.
   final List<ReactionForComment> reactionsForComment;
@@ -5815,6 +5846,7 @@ class GetCommentReactionsOutput {
   }
 }
 
+/// @nodoc
 class GetCommentsForComparedCommitOutput {
   /// A list of comment objects on the compared commit.
   final List<CommentsForComparedCommit>? commentsForComparedCommitData;
@@ -5852,6 +5884,7 @@ class GetCommentsForComparedCommitOutput {
   }
 }
 
+/// @nodoc
 class GetCommentsForPullRequestOutput {
   /// An array of comment objects on the pull request.
   final List<CommentsForPullRequest>? commentsForPullRequestData;
@@ -5888,6 +5921,8 @@ class GetCommentsForPullRequestOutput {
 }
 
 /// Represents the output of a get commit operation.
+///
+/// @nodoc
 class GetCommitOutput {
   /// A commit data type object that contains information about the specified
   /// commit.
@@ -5912,6 +5947,7 @@ class GetCommitOutput {
   }
 }
 
+/// @nodoc
 class GetDifferencesOutput {
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
@@ -5946,6 +5982,7 @@ class GetDifferencesOutput {
   }
 }
 
+/// @nodoc
 class GetFileOutput {
   /// The blob ID of the object that represents the file content.
   final String blobId;
@@ -6013,6 +6050,7 @@ class GetFileOutput {
   }
 }
 
+/// @nodoc
 class GetFolderOutput {
   /// The full commit ID used as a reference for the returned version of the
   /// folder content.
@@ -6092,6 +6130,7 @@ class GetFolderOutput {
   }
 }
 
+/// @nodoc
 class GetMergeCommitOutput {
   /// The commit ID of the merge base.
   final String? baseCommitId;
@@ -6140,6 +6179,7 @@ class GetMergeCommitOutput {
   }
 }
 
+/// @nodoc
 class GetMergeConflictsOutput {
   /// A list of metadata for any conflicting files. If the specified merge
   /// strategy is FAST_FORWARD_MERGE, this list is always empty.
@@ -6206,6 +6246,7 @@ class GetMergeConflictsOutput {
   }
 }
 
+/// @nodoc
 class GetMergeOptionsOutput {
   /// The commit ID of the merge base.
   final String baseCommitId;
@@ -6254,6 +6295,7 @@ class GetMergeOptionsOutput {
   }
 }
 
+/// @nodoc
 class GetPullRequestOutput {
   /// Information about the specified pull request.
   final PullRequest pullRequest;
@@ -6278,6 +6320,7 @@ class GetPullRequestOutput {
   }
 }
 
+/// @nodoc
 class GetPullRequestApprovalStatesOutput {
   /// Information about users who have approved the pull request.
   final List<Approval>? approvals;
@@ -6304,6 +6347,7 @@ class GetPullRequestApprovalStatesOutput {
   }
 }
 
+/// @nodoc
 class GetPullRequestOverrideStateOutput {
   /// A Boolean value that indicates whether a pull request has had its rules set
   /// aside (TRUE) or whether all approval rules still apply (FALSE).
@@ -6337,6 +6381,8 @@ class GetPullRequestOverrideStateOutput {
 }
 
 /// Represents the output of a get repository operation.
+///
+/// @nodoc
 class GetRepositoryOutput {
   /// Information about the repository.
   final RepositoryMetadata? repositoryMetadata;
@@ -6363,6 +6409,8 @@ class GetRepositoryOutput {
 }
 
 /// Represents the output of a get repository triggers operation.
+///
+/// @nodoc
 class GetRepositoryTriggersOutput {
   /// The system-generated unique ID for the trigger.
   final String? configurationId;
@@ -6395,6 +6443,7 @@ class GetRepositoryTriggersOutput {
   }
 }
 
+/// @nodoc
 class ListApprovalRuleTemplatesOutput {
   /// The names of all the approval rule templates found in the Amazon Web
   /// Services Region for your Amazon Web Services account.
@@ -6430,6 +6479,7 @@ class ListApprovalRuleTemplatesOutput {
   }
 }
 
+/// @nodoc
 class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
   /// The names of all approval rule templates associated with the repository.
   final List<String>? approvalRuleTemplateNames;
@@ -6466,6 +6516,8 @@ class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
 }
 
 /// Represents the output of a list branches operation.
+///
+/// @nodoc
 class ListBranchesOutput {
   /// The list of branch names.
   final List<String>? branches;
@@ -6498,6 +6550,7 @@ class ListBranchesOutput {
   }
 }
 
+/// @nodoc
 class ListFileCommitHistoryResponse {
   /// An array of FileVersion objects that form a directed acyclic graph (DAG) of
   /// the changes to the file made by the commits that changed the file.
@@ -6531,6 +6584,7 @@ class ListFileCommitHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListPullRequestsOutput {
   /// The system-generated IDs of the pull requests.
   final List<String> pullRequestIds;
@@ -6565,6 +6619,8 @@ class ListPullRequestsOutput {
 }
 
 /// Represents the output of a list repositories operation.
+///
+/// @nodoc
 class ListRepositoriesOutput {
   /// An enumeration token that allows the operation to batch the results of the
   /// operation. Batch sizes are 1,000 for list repository operations. When the
@@ -6600,6 +6656,7 @@ class ListRepositoriesOutput {
   }
 }
 
+/// @nodoc
 class ListRepositoriesForApprovalRuleTemplateOutput {
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
@@ -6635,6 +6692,7 @@ class ListRepositoriesForApprovalRuleTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
@@ -6666,6 +6724,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class MergeBranchesByFastForwardOutput {
   /// The commit ID of the merge in the destination or target branch.
   final String? commitId;
@@ -6695,6 +6754,7 @@ class MergeBranchesByFastForwardOutput {
   }
 }
 
+/// @nodoc
 class MergeBranchesBySquashOutput {
   /// The commit ID of the merge in the destination or target branch.
   final String? commitId;
@@ -6724,6 +6784,7 @@ class MergeBranchesBySquashOutput {
   }
 }
 
+/// @nodoc
 class MergeBranchesByThreeWayOutput {
   /// The commit ID of the merge in the destination or target branch.
   final String? commitId;
@@ -6753,6 +6814,7 @@ class MergeBranchesByThreeWayOutput {
   }
 }
 
+/// @nodoc
 class MergePullRequestByFastForwardOutput {
   /// Information about the specified pull request, including the merge.
   final PullRequest? pullRequest;
@@ -6778,6 +6840,7 @@ class MergePullRequestByFastForwardOutput {
   }
 }
 
+/// @nodoc
 class MergePullRequestBySquashOutput {
   final PullRequest? pullRequest;
 
@@ -6801,6 +6864,7 @@ class MergePullRequestBySquashOutput {
   }
 }
 
+/// @nodoc
 class MergePullRequestByThreeWayOutput {
   final PullRequest? pullRequest;
 
@@ -6824,6 +6888,7 @@ class MergePullRequestByThreeWayOutput {
   }
 }
 
+/// @nodoc
 class PostCommentForComparedCommitOutput {
   /// In the directionality you established, the blob ID of the after blob.
   final String? afterBlobId;
@@ -6896,6 +6961,7 @@ class PostCommentForComparedCommitOutput {
   }
 }
 
+/// @nodoc
 class PostCommentForPullRequestOutput {
   /// In the directionality of the pull request, the blob ID of the after blob.
   final String? afterBlobId;
@@ -6974,6 +7040,7 @@ class PostCommentForPullRequestOutput {
   }
 }
 
+/// @nodoc
 class PostCommentReplyOutput {
   /// Information about the reply to a comment.
   final Comment? comment;
@@ -6998,6 +7065,7 @@ class PostCommentReplyOutput {
   }
 }
 
+/// @nodoc
 class PutFileOutput {
   /// The ID of the blob, which is its SHA-1 pointer.
   final String blobId;
@@ -7036,6 +7104,8 @@ class PutFileOutput {
 }
 
 /// Represents the output of a put repository triggers operation.
+///
+/// @nodoc
 class PutRepositoryTriggersOutput {
   /// The system-generated unique ID for the create or update operation.
   final String? configurationId;
@@ -7059,6 +7129,8 @@ class PutRepositoryTriggersOutput {
 }
 
 /// Represents the output of a test repository triggers operation.
+///
+/// @nodoc
 class TestRepositoryTriggersOutput {
   /// The list of triggers that were not tested. This list provides the names of
   /// the triggers that could not be tested, separated by commas.
@@ -7098,6 +7170,7 @@ class TestRepositoryTriggersOutput {
   }
 }
 
+/// @nodoc
 class UpdateApprovalRuleTemplateContentOutput {
   final ApprovalRuleTemplate approvalRuleTemplate;
 
@@ -7122,6 +7195,7 @@ class UpdateApprovalRuleTemplateContentOutput {
   }
 }
 
+/// @nodoc
 class UpdateApprovalRuleTemplateDescriptionOutput {
   /// The structure and content of the updated approval rule template.
   final ApprovalRuleTemplate approvalRuleTemplate;
@@ -7147,6 +7221,7 @@ class UpdateApprovalRuleTemplateDescriptionOutput {
   }
 }
 
+/// @nodoc
 class UpdateApprovalRuleTemplateNameOutput {
   /// The structure and content of the updated approval rule template.
   final ApprovalRuleTemplate approvalRuleTemplate;
@@ -7172,6 +7247,7 @@ class UpdateApprovalRuleTemplateNameOutput {
   }
 }
 
+/// @nodoc
 class UpdateCommentOutput {
   /// Information about the updated comment.
   final Comment? comment;
@@ -7196,6 +7272,7 @@ class UpdateCommentOutput {
   }
 }
 
+/// @nodoc
 class UpdatePullRequestApprovalRuleContentOutput {
   /// Information about the updated approval rule.
   final ApprovalRule approvalRule;
@@ -7221,6 +7298,7 @@ class UpdatePullRequestApprovalRuleContentOutput {
   }
 }
 
+/// @nodoc
 class UpdatePullRequestDescriptionOutput {
   /// Information about the updated pull request.
   final PullRequest pullRequest;
@@ -7246,6 +7324,7 @@ class UpdatePullRequestDescriptionOutput {
   }
 }
 
+/// @nodoc
 class UpdatePullRequestStatusOutput {
   /// Information about the pull request.
   final PullRequest pullRequest;
@@ -7270,6 +7349,7 @@ class UpdatePullRequestStatusOutput {
   }
 }
 
+/// @nodoc
 class UpdatePullRequestTitleOutput {
   /// Information about the updated pull request.
   final PullRequest pullRequest;
@@ -7294,6 +7374,7 @@ class UpdatePullRequestTitleOutput {
   }
 }
 
+/// @nodoc
 class UpdateRepositoryEncryptionKeyOutput {
   /// The ID of the encryption key.
   final String? kmsKeyId;
@@ -7333,6 +7414,8 @@ class UpdateRepositoryEncryptionKeyOutput {
 }
 
 /// Returns information about a pull request.
+///
+/// @nodoc
 class PullRequest {
   /// The approval rules applied to the pull request.
   final List<ApprovalRule>? approvalRules;
@@ -7444,6 +7527,7 @@ class PullRequest {
   }
 }
 
+/// @nodoc
 class PullRequestStatusEnum {
   static const open = PullRequestStatusEnum._('OPEN');
   static const closed = PullRequestStatusEnum._('CLOSED');
@@ -7470,6 +7554,8 @@ class PullRequestStatusEnum {
 }
 
 /// Returns information about an approval rule.
+///
+/// @nodoc
 class ApprovalRule {
   /// The content of the approval rule.
   final String? approvalRuleContent;
@@ -7551,6 +7637,8 @@ class ApprovalRule {
 
 /// Returns information about the template that created the approval rule for a
 /// pull request.
+///
+/// @nodoc
 class OriginApprovalRuleTemplate {
   /// The ID of the template that created the approval rule.
   final String? approvalRuleTemplateId;
@@ -7583,6 +7671,8 @@ class OriginApprovalRuleTemplate {
 }
 
 /// Returns information about a pull request target.
+///
+/// @nodoc
 class PullRequestTarget {
   /// The full commit ID that is the tip of the destination branch. This is the
   /// commit where the pull request was or will be merged.
@@ -7661,6 +7751,8 @@ class PullRequestTarget {
 
 /// Returns information about a merge or potential merge between a source
 /// reference and a destination reference in a pull request.
+///
+/// @nodoc
 class MergeMetadata {
   /// A Boolean value indicating whether the merge has been made.
   final bool? isMerged;
@@ -7705,6 +7797,7 @@ class MergeMetadata {
   }
 }
 
+/// @nodoc
 class MergeOptionTypeEnum {
   static const fastForwardMerge = MergeOptionTypeEnum._('FAST_FORWARD_MERGE');
   static const squashMerge = MergeOptionTypeEnum._('SQUASH_MERGE');
@@ -7731,6 +7824,7 @@ class MergeOptionTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ApprovalState {
   static const approve = ApprovalState._('APPROVE');
   static const revoke = ApprovalState._('REVOKE');
@@ -7756,6 +7850,8 @@ class ApprovalState {
 }
 
 /// Returns information about a specific comment.
+///
+/// @nodoc
 class Comment {
   /// The Amazon Resource Name (ARN) of the person who posted the comment.
   final String? authorArn;
@@ -7854,6 +7950,8 @@ class Comment {
 }
 
 /// Returns information about an approval rule template.
+///
+/// @nodoc
 class ApprovalRuleTemplate {
   /// The content of the approval rule template.
   final String? approvalRuleTemplateContent;
@@ -7937,6 +8035,8 @@ class ApprovalRuleTemplate {
 }
 
 /// A trigger failed to run.
+///
+/// @nodoc
 class RepositoryTriggerExecutionFailure {
   /// Message information about the trigger that did not run.
   final String? failureMessage;
@@ -7974,6 +8074,8 @@ class RepositoryTriggerExecutionFailure {
 /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-repository-email.html">Configuring
 /// notifications for repository events</a>.
 /// </note>
+///
+/// @nodoc
 class RepositoryTrigger {
   /// The ARN of the resource that is the target for a trigger (for example, the
   /// ARN of a topic in Amazon SNS).
@@ -8041,6 +8143,7 @@ class RepositoryTrigger {
   }
 }
 
+/// @nodoc
 class RepositoryTriggerEventEnum {
   static const all = RepositoryTriggerEventEnum._('all');
   static const updateReference =
@@ -8076,6 +8179,7 @@ class RepositoryTriggerEventEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class FileModeTypeEnum {
   static const executable = FileModeTypeEnum._('EXECUTABLE');
   static const normal = FileModeTypeEnum._('NORMAL');
@@ -8103,6 +8207,8 @@ class FileModeTypeEnum {
 
 /// Returns information about the location of a change or comment in the
 /// comparison between two commits or a pull request.
+///
+/// @nodoc
 class Location {
   /// The name of the file being compared, including its extension and
   /// subdirectory, if any.
@@ -8143,6 +8249,7 @@ class Location {
   }
 }
 
+/// @nodoc
 class RelativeFileVersionEnum {
   static const before = RelativeFileVersionEnum._('BEFORE');
   static const after = RelativeFileVersionEnum._('AFTER');
@@ -8168,6 +8275,7 @@ class RelativeFileVersionEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class OverrideStatus {
   static const $override = OverrideStatus._('OVERRIDE');
   static const revoke = OverrideStatus._('REVOKE');
@@ -8192,6 +8300,7 @@ class OverrideStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictDetailLevelTypeEnum {
   static const fileLevel = ConflictDetailLevelTypeEnum._('FILE_LEVEL');
   static const lineLevel = ConflictDetailLevelTypeEnum._('LINE_LEVEL');
@@ -8217,6 +8326,7 @@ class ConflictDetailLevelTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictResolutionStrategyTypeEnum {
   static const none = ConflictResolutionStrategyTypeEnum._('NONE');
   static const acceptSource =
@@ -8248,6 +8358,8 @@ class ConflictResolutionStrategyTypeEnum {
 
 /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
 /// when resolving conflicts during a merge.
+///
+/// @nodoc
 class ConflictResolution {
   /// Files to be deleted as part of the merge conflict resolution.
   final List<DeleteFileEntry>? deleteFiles;
@@ -8277,6 +8389,8 @@ class ConflictResolution {
 }
 
 /// Information about the file mode changes.
+///
+/// @nodoc
 class SetFileModeEntry {
   /// The file mode for the file.
   final FileModeTypeEnum fileMode;
@@ -8300,6 +8414,8 @@ class SetFileModeEntry {
 }
 
 /// A file that is deleted as part of a commit.
+///
+/// @nodoc
 class DeleteFileEntry {
   /// The full path of the file to be deleted, including the name of the file.
   final String filePath;
@@ -8318,6 +8434,8 @@ class DeleteFileEntry {
 
 /// Information about a replacement content entry in the conflict of a merge or
 /// pull request operation.
+///
+/// @nodoc
 class ReplaceContentEntry {
   /// The path of the conflicting file.
   final String filePath;
@@ -8353,6 +8471,7 @@ class ReplaceContentEntry {
   }
 }
 
+/// @nodoc
 class ReplacementTypeEnum {
   static const keepBase = ReplacementTypeEnum._('KEEP_BASE');
   static const keepSource = ReplacementTypeEnum._('KEEP_SOURCE');
@@ -8381,6 +8500,8 @@ class ReplacementTypeEnum {
 }
 
 /// Information about a repository name and ID.
+///
+/// @nodoc
 class RepositoryNameIdPair {
   /// The ID associated with the repository.
   final String? repositoryId;
@@ -8410,6 +8531,7 @@ class RepositoryNameIdPair {
   }
 }
 
+/// @nodoc
 class SortByEnum {
   static const repositoryName = SortByEnum._('repositoryName');
   static const lastModifiedDate = SortByEnum._('lastModifiedDate');
@@ -8433,6 +8555,7 @@ class SortByEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class OrderEnum {
   static const ascending = OrderEnum._('ascending');
   static const descending = OrderEnum._('descending');
@@ -8457,6 +8580,8 @@ class OrderEnum {
 }
 
 /// Information about a version of a file.
+///
+/// @nodoc
 class FileVersion {
   /// The blob ID of the object that represents the content of the file in this
   /// version.
@@ -8508,6 +8633,8 @@ class FileVersion {
 }
 
 /// Returns information about a specific commit.
+///
+/// @nodoc
 class Commit {
   /// Any other data associated with the specified commit.
   final String? additionalData;
@@ -8588,6 +8715,8 @@ class Commit {
 }
 
 /// Information about the user who made a specified commit.
+///
+/// @nodoc
 class UserInfo {
   /// The date when the specified commit was commited, in timestamp format with
   /// GMT offset.
@@ -8626,6 +8755,8 @@ class UserInfo {
 }
 
 /// Information about a repository.
+///
+/// @nodoc
 class RepositoryMetadata {
   /// The Amazon Resource Name (ARN) of the repository.
   final String? arn;
@@ -8723,6 +8854,8 @@ class RepositoryMetadata {
 }
 
 /// Returns information about a specific approval on a pull request.
+///
+/// @nodoc
 class Approval {
   /// The state of the approval, APPROVE or REVOKE. REVOKE states are not stored.
   final ApprovalState? approvalState;
@@ -8754,6 +8887,8 @@ class Approval {
 }
 
 /// Information about the metadata for a conflict in a merge operation.
+///
+/// @nodoc
 class ConflictMetadata {
   /// A boolean value indicating whether there are conflicts in the content of a
   /// file.
@@ -8859,6 +8994,8 @@ class ConflictMetadata {
 }
 
 /// Information about the size of files in a merge or pull request.
+///
+/// @nodoc
 class FileSizes {
   /// The size of a file in the base of a merge or pull request.
   final int? base;
@@ -8896,6 +9033,8 @@ class FileSizes {
 }
 
 /// Information about file modes in a merge or pull request.
+///
+/// @nodoc
 class FileModes {
   /// The file mode of a file in the base of a merge or pull request.
   final FileModeTypeEnum? base;
@@ -8934,6 +9073,8 @@ class FileModes {
 }
 
 /// Information about the type of an object in a merge operation.
+///
+/// @nodoc
 class ObjectTypes {
   /// The type of the object in the base commit of the merge.
   final ObjectTypeEnum? base;
@@ -8973,6 +9114,8 @@ class ObjectTypes {
 
 /// Information about whether a file is binary or textual in a merge or pull
 /// request operation.
+///
+/// @nodoc
 class IsBinaryFile {
   /// The binary or non-binary status of a file in the base of a merge or pull
   /// request.
@@ -9013,6 +9156,8 @@ class IsBinaryFile {
 }
 
 /// Information about the file operation conflicts in a merge operation.
+///
+/// @nodoc
 class MergeOperations {
   /// The operation on a file in the destination of a merge or pull request.
   final ChangeTypeEnum? destination;
@@ -9044,6 +9189,7 @@ class MergeOperations {
   }
 }
 
+/// @nodoc
 class ChangeTypeEnum {
   static const a = ChangeTypeEnum._('A');
   static const m = ChangeTypeEnum._('M');
@@ -9069,6 +9215,7 @@ class ChangeTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ObjectTypeEnum {
   static const file = ObjectTypeEnum._('FILE');
   static const directory = ObjectTypeEnum._('DIRECTORY');
@@ -9096,6 +9243,8 @@ class ObjectTypeEnum {
 }
 
 /// Returns information about a submodule reference in a repository folder.
+///
+/// @nodoc
 class SubModule {
   /// The fully qualified path to the folder that contains the reference to the
   /// submodule.
@@ -9135,6 +9284,8 @@ class SubModule {
 }
 
 /// Returns information about a symbolic link in a repository folder.
+///
+/// @nodoc
 class SymbolicLink {
   /// The fully qualified path to the folder that contains the symbolic link.
   final String? absolutePath;
@@ -9181,6 +9332,8 @@ class SymbolicLink {
 }
 
 /// Returns information about a file in a repository.
+///
+/// @nodoc
 class File {
   /// The fully qualified path to the file in the repository.
   final String? absolutePath;
@@ -9226,6 +9379,8 @@ class File {
 }
 
 /// Returns information about a folder in a repository.
+///
+/// @nodoc
 class Folder {
   /// The fully qualified path of the folder in the repository.
   final String? absolutePath;
@@ -9265,6 +9420,8 @@ class Folder {
 }
 
 /// Returns information about a set of differences for a commit specifier.
+///
+/// @nodoc
 class Difference {
   /// Information about an <code>afterBlob</code> data type object, including the
   /// ID, the file mode permission code, and the path.
@@ -9310,6 +9467,8 @@ class Difference {
 }
 
 /// Returns information about a specific Git blob object.
+///
+/// @nodoc
 class BlobMetadata {
   /// The full ID of the blob.
   final String? blobId;
@@ -9362,6 +9521,8 @@ class BlobMetadata {
 }
 
 /// Returns information about comments on a pull request.
+///
+/// @nodoc
 class CommentsForPullRequest {
   /// The full blob ID of the file on which you want to comment on the source
   /// commit.
@@ -9448,6 +9609,8 @@ class CommentsForPullRequest {
 }
 
 /// Returns information about comments on the comparison between two commits.
+///
+/// @nodoc
 class CommentsForComparedCommit {
   /// The full blob ID of the commit used to establish the after of the
   /// comparison.
@@ -9525,6 +9688,8 @@ class CommentsForComparedCommit {
 }
 
 /// Information about the reaction values provided by users on a comment.
+///
+/// @nodoc
 class ReactionForComment {
   /// The reaction for a specified comment.
   final ReactionValueFormats? reaction;
@@ -9575,6 +9740,8 @@ class ReactionForComment {
 
 /// Information about the values for reactions to a comment. CodeCommit supports
 /// a limited set of reactions.
+///
+/// @nodoc
 class ReactionValueFormats {
   /// The Emoji Version 1.0 graphic of the reaction. These graphics are
   /// interpreted slightly differently on different operating systems.
@@ -9614,6 +9781,8 @@ class ReactionValueFormats {
 }
 
 /// Returns information about a branch.
+///
+/// @nodoc
 class BranchInfo {
   /// The name of the branch.
   final String? branchName;
@@ -9645,6 +9814,8 @@ class BranchInfo {
 
 /// Returns information about the approval rules applied to a pull request and
 /// whether conditions have been met.
+///
+/// @nodoc
 class Evaluation {
   /// The names of the approval rules that have not had their conditions met.
   final List<String>? approvalRulesNotSatisfied;
@@ -9698,6 +9869,8 @@ class Evaluation {
 }
 
 /// Returns information about a pull request event.
+///
+/// @nodoc
 class PullRequestEvent {
   /// The Amazon Resource Name (ARN) of the user whose actions resulted in the
   /// event. Examples include updating the pull request with more commits or
@@ -9851,6 +10024,7 @@ class PullRequestEvent {
   }
 }
 
+/// @nodoc
 class PullRequestEventType {
   static const pullRequestCreated =
       PullRequestEventType._('PULL_REQUEST_CREATED');
@@ -9904,6 +10078,8 @@ class PullRequestEventType {
 
 /// Metadata about the pull request that is used when comparing the pull request
 /// source with its destination.
+///
+/// @nodoc
 class PullRequestCreatedEventMetadata {
   /// The commit ID of the tip of the branch specified as the destination branch
   /// when the pull request was created.
@@ -9951,6 +10127,8 @@ class PullRequestCreatedEventMetadata {
 }
 
 /// Information about a change to the status of a pull request.
+///
+/// @nodoc
 class PullRequestStatusChangedEventMetadata {
   /// The changed status of the pull request.
   final PullRequestStatusEnum? pullRequestStatus;
@@ -9977,6 +10155,8 @@ class PullRequestStatusChangedEventMetadata {
 }
 
 /// Information about an update to the source branch of a pull request.
+///
+/// @nodoc
 class PullRequestSourceReferenceUpdatedEventMetadata {
   /// The full commit ID of the commit in the source branch that was the tip of
   /// the branch at the time the pull request was updated.
@@ -10026,6 +10206,8 @@ class PullRequestSourceReferenceUpdatedEventMetadata {
 
 /// Returns information about the change in the merge state for a pull request
 /// event.
+///
+/// @nodoc
 class PullRequestMergedStateChangedEventMetadata {
   /// The name of the branch that the pull request is merged into.
   final String? destinationReference;
@@ -10068,6 +10250,8 @@ class PullRequestMergedStateChangedEventMetadata {
 }
 
 /// Returns information about an event for an approval rule.
+///
+/// @nodoc
 class ApprovalRuleEventMetadata {
   /// The content of the approval rule.
   final String? approvalRuleContent;
@@ -10106,6 +10290,8 @@ class ApprovalRuleEventMetadata {
 }
 
 /// Returns information about a change in the approval state for a pull request.
+///
+/// @nodoc
 class ApprovalStateChangedEventMetadata {
   /// The approval status for the pull request.
   final ApprovalState? approvalStatus;
@@ -10139,6 +10325,8 @@ class ApprovalStateChangedEventMetadata {
 
 /// Returns information about an override event for approval rules for a pull
 /// request.
+///
+/// @nodoc
 class ApprovalRuleOverriddenEventMetadata {
   /// The status of the override event.
   final OverrideStatus? overrideStatus;
@@ -10171,6 +10359,8 @@ class ApprovalRuleOverriddenEventMetadata {
 }
 
 /// Information about merge hunks in a merge or pull request operation.
+///
+/// @nodoc
 class MergeHunk {
   /// Information about the merge hunk in the base of a merge or pull request.
   final MergeHunkDetail? base;
@@ -10229,6 +10419,8 @@ class MergeHunk {
 
 /// Information about the details of a merge hunk that contains a conflict in a
 /// merge or pull request operation.
+///
+/// @nodoc
 class MergeHunkDetail {
   /// The end position of the hunk in the merge result.
   final int? endLine;
@@ -10267,6 +10459,8 @@ class MergeHunkDetail {
 }
 
 /// Returns information about a target for a pull request.
+///
+/// @nodoc
 class Target {
   /// The name of the repository that contains the pull request.
   final String repositoryName;
@@ -10299,6 +10493,8 @@ class Target {
 }
 
 /// A file to be added, updated, or deleted as part of a commit.
+///
+/// @nodoc
 class FileMetadata {
   /// The full path to the file to be added or updated, including the name of the
   /// file.
@@ -10338,6 +10534,8 @@ class FileMetadata {
 }
 
 /// Information about a file added or updated as part of a commit.
+///
+/// @nodoc
 class PutFileEntry {
   /// The full path to the file in the repository, including the name of the file.
   final String filePath;
@@ -10376,6 +10574,8 @@ class PutFileEntry {
 }
 
 /// Information about a source file that is part of changes made in a commit.
+///
+/// @nodoc
 class SourceFileSpecifier {
   /// The full path to the file, including the name of the file.
   final String filePath;
@@ -10399,6 +10599,8 @@ class SourceFileSpecifier {
 }
 
 /// Returns information about errors in a BatchGetRepositories operation.
+///
+/// @nodoc
 class BatchGetRepositoriesError {
   /// An error code that specifies the type of failure.
   final BatchGetRepositoriesErrorCodeEnum? errorCode;
@@ -10446,6 +10648,7 @@ class BatchGetRepositoriesError {
   }
 }
 
+/// @nodoc
 class BatchGetRepositoriesErrorCodeEnum {
   static const encryptionIntegrityChecksFailedException =
       BatchGetRepositoriesErrorCodeEnum._(
@@ -10490,6 +10693,8 @@ class BatchGetRepositoriesErrorCodeEnum {
 }
 
 /// Returns information about errors in a BatchGetCommits operation.
+///
+/// @nodoc
 class BatchGetCommitsError {
   /// A commit ID that either could not be found or was not in a valid format.
   final String? commitId;
@@ -10530,6 +10735,8 @@ class BatchGetCommitsError {
 
 /// Returns information about errors in a
 /// BatchDisassociateApprovalRuleTemplateFromRepositories operation.
+///
+/// @nodoc
 class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
   /// An error code that specifies whether the repository name was not valid or
   /// not found.
@@ -10571,6 +10778,8 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
 }
 
 /// Returns information about errors in a BatchDescribeMergeConflicts operation.
+///
+/// @nodoc
 class BatchDescribeMergeConflictsError {
   /// The name of the exception.
   final String exceptionName;
@@ -10608,6 +10817,8 @@ class BatchDescribeMergeConflictsError {
 }
 
 /// Information about conflicts in a merge operation.
+///
+/// @nodoc
 class Conflict {
   /// Metadata about a conflict in a merge operation.
   final ConflictMetadata? conflictMetadata;
@@ -10646,6 +10857,8 @@ class Conflict {
 
 /// Returns information about errors in a
 /// BatchAssociateApprovalRuleTemplateWithRepositories operation.
+///
+/// @nodoc
 class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
   /// An error code that specifies whether the repository name was not valid or
   /// not found.
@@ -10685,11 +10898,13 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
   }
 }
 
+/// @nodoc
 class ActorDoesNotExistException extends _s.GenericAwsException {
   ActorDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'ActorDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class ApprovalRuleContentRequiredException extends _s.GenericAwsException {
   ApprovalRuleContentRequiredException({String? type, String? message})
       : super(
@@ -10698,6 +10913,7 @@ class ApprovalRuleContentRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleDoesNotExistException extends _s.GenericAwsException {
   ApprovalRuleDoesNotExistException({String? type, String? message})
       : super(
@@ -10706,6 +10922,7 @@ class ApprovalRuleDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleNameAlreadyExistsException extends _s.GenericAwsException {
   ApprovalRuleNameAlreadyExistsException({String? type, String? message})
       : super(
@@ -10714,6 +10931,7 @@ class ApprovalRuleNameAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleNameRequiredException extends _s.GenericAwsException {
   ApprovalRuleNameRequiredException({String? type, String? message})
       : super(
@@ -10722,6 +10940,7 @@ class ApprovalRuleNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleTemplateContentRequiredException
     extends _s.GenericAwsException {
   ApprovalRuleTemplateContentRequiredException({String? type, String? message})
@@ -10731,6 +10950,7 @@ class ApprovalRuleTemplateContentRequiredException
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleTemplateDoesNotExistException extends _s.GenericAwsException {
   ApprovalRuleTemplateDoesNotExistException({String? type, String? message})
       : super(
@@ -10739,6 +10959,7 @@ class ApprovalRuleTemplateDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleTemplateInUseException extends _s.GenericAwsException {
   ApprovalRuleTemplateInUseException({String? type, String? message})
       : super(
@@ -10747,6 +10968,7 @@ class ApprovalRuleTemplateInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleTemplateNameAlreadyExistsException
     extends _s.GenericAwsException {
   ApprovalRuleTemplateNameAlreadyExistsException(
@@ -10757,6 +10979,7 @@ class ApprovalRuleTemplateNameAlreadyExistsException
             message: message);
 }
 
+/// @nodoc
 class ApprovalRuleTemplateNameRequiredException extends _s.GenericAwsException {
   ApprovalRuleTemplateNameRequiredException({String? type, String? message})
       : super(
@@ -10765,6 +10988,7 @@ class ApprovalRuleTemplateNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApprovalStateRequiredException extends _s.GenericAwsException {
   ApprovalStateRequiredException({String? type, String? message})
       : super(
@@ -10773,12 +10997,14 @@ class ApprovalStateRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthorDoesNotExistException extends _s.GenericAwsException {
   AuthorDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'AuthorDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class BeforeCommitIdAndAfterCommitIdAreSameException
     extends _s.GenericAwsException {
   BeforeCommitIdAndAfterCommitIdAreSameException(
@@ -10789,40 +11015,47 @@ class BeforeCommitIdAndAfterCommitIdAreSameException
             message: message);
 }
 
+/// @nodoc
 class BlobIdDoesNotExistException extends _s.GenericAwsException {
   BlobIdDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'BlobIdDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class BlobIdRequiredException extends _s.GenericAwsException {
   BlobIdRequiredException({String? type, String? message})
       : super(type: type, code: 'BlobIdRequiredException', message: message);
 }
 
+/// @nodoc
 class BranchDoesNotExistException extends _s.GenericAwsException {
   BranchDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'BranchDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class BranchNameExistsException extends _s.GenericAwsException {
   BranchNameExistsException({String? type, String? message})
       : super(type: type, code: 'BranchNameExistsException', message: message);
 }
 
+/// @nodoc
 class BranchNameIsTagNameException extends _s.GenericAwsException {
   BranchNameIsTagNameException({String? type, String? message})
       : super(
             type: type, code: 'BranchNameIsTagNameException', message: message);
 }
 
+/// @nodoc
 class BranchNameRequiredException extends _s.GenericAwsException {
   BranchNameRequiredException({String? type, String? message})
       : super(
             type: type, code: 'BranchNameRequiredException', message: message);
 }
 
+/// @nodoc
 class CannotDeleteApprovalRuleFromTemplateException
     extends _s.GenericAwsException {
   CannotDeleteApprovalRuleFromTemplateException({String? type, String? message})
@@ -10832,6 +11065,7 @@ class CannotDeleteApprovalRuleFromTemplateException
             message: message);
 }
 
+/// @nodoc
 class CannotModifyApprovalRuleFromTemplateException
     extends _s.GenericAwsException {
   CannotModifyApprovalRuleFromTemplateException({String? type, String? message})
@@ -10841,6 +11075,7 @@ class CannotModifyApprovalRuleFromTemplateException
             message: message);
 }
 
+/// @nodoc
 class ClientRequestTokenRequiredException extends _s.GenericAwsException {
   ClientRequestTokenRequiredException({String? type, String? message})
       : super(
@@ -10849,6 +11084,7 @@ class ClientRequestTokenRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommentContentRequiredException extends _s.GenericAwsException {
   CommentContentRequiredException({String? type, String? message})
       : super(
@@ -10857,6 +11093,7 @@ class CommentContentRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommentContentSizeLimitExceededException extends _s.GenericAwsException {
   CommentContentSizeLimitExceededException({String? type, String? message})
       : super(
@@ -10865,22 +11102,26 @@ class CommentContentSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommentDeletedException extends _s.GenericAwsException {
   CommentDeletedException({String? type, String? message})
       : super(type: type, code: 'CommentDeletedException', message: message);
 }
 
+/// @nodoc
 class CommentDoesNotExistException extends _s.GenericAwsException {
   CommentDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'CommentDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class CommentIdRequiredException extends _s.GenericAwsException {
   CommentIdRequiredException({String? type, String? message})
       : super(type: type, code: 'CommentIdRequiredException', message: message);
 }
 
+/// @nodoc
 class CommentNotCreatedByCallerException extends _s.GenericAwsException {
   CommentNotCreatedByCallerException({String? type, String? message})
       : super(
@@ -10889,12 +11130,14 @@ class CommentNotCreatedByCallerException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommitDoesNotExistException extends _s.GenericAwsException {
   CommitDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'CommitDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class CommitIdDoesNotExistException extends _s.GenericAwsException {
   CommitIdDoesNotExistException({String? type, String? message})
       : super(
@@ -10903,11 +11146,13 @@ class CommitIdDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommitIdRequiredException extends _s.GenericAwsException {
   CommitIdRequiredException({String? type, String? message})
       : super(type: type, code: 'CommitIdRequiredException', message: message);
 }
 
+/// @nodoc
 class CommitIdsLimitExceededException extends _s.GenericAwsException {
   CommitIdsLimitExceededException({String? type, String? message})
       : super(
@@ -10916,6 +11161,7 @@ class CommitIdsLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommitIdsListRequiredException extends _s.GenericAwsException {
   CommitIdsListRequiredException({String? type, String? message})
       : super(
@@ -10924,6 +11170,7 @@ class CommitIdsListRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommitMessageLengthExceededException extends _s.GenericAwsException {
   CommitMessageLengthExceededException({String? type, String? message})
       : super(
@@ -10932,11 +11179,13 @@ class CommitMessageLengthExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CommitRequiredException extends _s.GenericAwsException {
   CommitRequiredException({String? type, String? message})
       : super(type: type, code: 'CommitRequiredException', message: message);
 }
 
+/// @nodoc
 class ConcurrentReferenceUpdateException extends _s.GenericAwsException {
   ConcurrentReferenceUpdateException({String? type, String? message})
       : super(
@@ -10945,6 +11194,7 @@ class ConcurrentReferenceUpdateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DefaultBranchCannotBeDeletedException extends _s.GenericAwsException {
   DefaultBranchCannotBeDeletedException({String? type, String? message})
       : super(
@@ -10953,6 +11203,7 @@ class DefaultBranchCannotBeDeletedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryNameConflictsWithFileNameException
     extends _s.GenericAwsException {
   DirectoryNameConflictsWithFileNameException({String? type, String? message})
@@ -10962,6 +11213,7 @@ class DirectoryNameConflictsWithFileNameException
             message: message);
 }
 
+/// @nodoc
 class EncryptionIntegrityChecksFailedException extends _s.GenericAwsException {
   EncryptionIntegrityChecksFailedException({String? type, String? message})
       : super(
@@ -10970,6 +11222,7 @@ class EncryptionIntegrityChecksFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyAccessDeniedException extends _s.GenericAwsException {
   EncryptionKeyAccessDeniedException({String? type, String? message})
       : super(
@@ -10978,6 +11231,7 @@ class EncryptionKeyAccessDeniedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyDisabledException extends _s.GenericAwsException {
   EncryptionKeyDisabledException({String? type, String? message})
       : super(
@@ -10986,6 +11240,7 @@ class EncryptionKeyDisabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyInvalidIdException extends _s.GenericAwsException {
   EncryptionKeyInvalidIdException({String? type, String? message})
       : super(
@@ -10994,6 +11249,7 @@ class EncryptionKeyInvalidIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyInvalidUsageException extends _s.GenericAwsException {
   EncryptionKeyInvalidUsageException({String? type, String? message})
       : super(
@@ -11002,6 +11258,7 @@ class EncryptionKeyInvalidUsageException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyNotFoundException extends _s.GenericAwsException {
   EncryptionKeyNotFoundException({String? type, String? message})
       : super(
@@ -11010,6 +11267,7 @@ class EncryptionKeyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyRequiredException extends _s.GenericAwsException {
   EncryptionKeyRequiredException({String? type, String? message})
       : super(
@@ -11018,6 +11276,7 @@ class EncryptionKeyRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EncryptionKeyUnavailableException extends _s.GenericAwsException {
   EncryptionKeyUnavailableException({String? type, String? message})
       : super(
@@ -11026,6 +11285,7 @@ class EncryptionKeyUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FileContentAndSourceFileSpecifiedException
     extends _s.GenericAwsException {
   FileContentAndSourceFileSpecifiedException({String? type, String? message})
@@ -11035,12 +11295,14 @@ class FileContentAndSourceFileSpecifiedException
             message: message);
 }
 
+/// @nodoc
 class FileContentRequiredException extends _s.GenericAwsException {
   FileContentRequiredException({String? type, String? message})
       : super(
             type: type, code: 'FileContentRequiredException', message: message);
 }
 
+/// @nodoc
 class FileContentSizeLimitExceededException extends _s.GenericAwsException {
   FileContentSizeLimitExceededException({String? type, String? message})
       : super(
@@ -11049,21 +11311,25 @@ class FileContentSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FileDoesNotExistException extends _s.GenericAwsException {
   FileDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'FileDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class FileEntryRequiredException extends _s.GenericAwsException {
   FileEntryRequiredException({String? type, String? message})
       : super(type: type, code: 'FileEntryRequiredException', message: message);
 }
 
+/// @nodoc
 class FileModeRequiredException extends _s.GenericAwsException {
   FileModeRequiredException({String? type, String? message})
       : super(type: type, code: 'FileModeRequiredException', message: message);
 }
 
+/// @nodoc
 class FileNameConflictsWithDirectoryNameException
     extends _s.GenericAwsException {
   FileNameConflictsWithDirectoryNameException({String? type, String? message})
@@ -11073,6 +11339,7 @@ class FileNameConflictsWithDirectoryNameException
             message: message);
 }
 
+/// @nodoc
 class FilePathConflictsWithSubmodulePathException
     extends _s.GenericAwsException {
   FilePathConflictsWithSubmodulePathException({String? type, String? message})
@@ -11082,11 +11349,13 @@ class FilePathConflictsWithSubmodulePathException
             message: message);
 }
 
+/// @nodoc
 class FileTooLargeException extends _s.GenericAwsException {
   FileTooLargeException({String? type, String? message})
       : super(type: type, code: 'FileTooLargeException', message: message);
 }
 
+/// @nodoc
 class FolderContentSizeLimitExceededException extends _s.GenericAwsException {
   FolderContentSizeLimitExceededException({String? type, String? message})
       : super(
@@ -11095,12 +11364,14 @@ class FolderContentSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FolderDoesNotExistException extends _s.GenericAwsException {
   FolderDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'FolderDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class IdempotencyParameterMismatchException extends _s.GenericAwsException {
   IdempotencyParameterMismatchException({String? type, String? message})
       : super(
@@ -11109,11 +11380,13 @@ class IdempotencyParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidActorArnException extends _s.GenericAwsException {
   InvalidActorArnException({String? type, String? message})
       : super(type: type, code: 'InvalidActorArnException', message: message);
 }
 
+/// @nodoc
 class InvalidApprovalRuleContentException extends _s.GenericAwsException {
   InvalidApprovalRuleContentException({String? type, String? message})
       : super(
@@ -11122,6 +11395,7 @@ class InvalidApprovalRuleContentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidApprovalRuleNameException extends _s.GenericAwsException {
   InvalidApprovalRuleNameException({String? type, String? message})
       : super(
@@ -11130,6 +11404,7 @@ class InvalidApprovalRuleNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidApprovalRuleTemplateContentException
     extends _s.GenericAwsException {
   InvalidApprovalRuleTemplateContentException({String? type, String? message})
@@ -11139,6 +11414,7 @@ class InvalidApprovalRuleTemplateContentException
             message: message);
 }
 
+/// @nodoc
 class InvalidApprovalRuleTemplateDescriptionException
     extends _s.GenericAwsException {
   InvalidApprovalRuleTemplateDescriptionException(
@@ -11149,6 +11425,7 @@ class InvalidApprovalRuleTemplateDescriptionException
             message: message);
 }
 
+/// @nodoc
 class InvalidApprovalRuleTemplateNameException extends _s.GenericAwsException {
   InvalidApprovalRuleTemplateNameException({String? type, String? message})
       : super(
@@ -11157,6 +11434,7 @@ class InvalidApprovalRuleTemplateNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidApprovalStateException extends _s.GenericAwsException {
   InvalidApprovalStateException({String? type, String? message})
       : super(
@@ -11165,21 +11443,25 @@ class InvalidApprovalStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAuthorArnException extends _s.GenericAwsException {
   InvalidAuthorArnException({String? type, String? message})
       : super(type: type, code: 'InvalidAuthorArnException', message: message);
 }
 
+/// @nodoc
 class InvalidBlobIdException extends _s.GenericAwsException {
   InvalidBlobIdException({String? type, String? message})
       : super(type: type, code: 'InvalidBlobIdException', message: message);
 }
 
+/// @nodoc
 class InvalidBranchNameException extends _s.GenericAwsException {
   InvalidBranchNameException({String? type, String? message})
       : super(type: type, code: 'InvalidBranchNameException', message: message);
 }
 
+/// @nodoc
 class InvalidClientRequestTokenException extends _s.GenericAwsException {
   InvalidClientRequestTokenException({String? type, String? message})
       : super(
@@ -11188,21 +11470,25 @@ class InvalidClientRequestTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCommentIdException extends _s.GenericAwsException {
   InvalidCommentIdException({String? type, String? message})
       : super(type: type, code: 'InvalidCommentIdException', message: message);
 }
 
+/// @nodoc
 class InvalidCommitException extends _s.GenericAwsException {
   InvalidCommitException({String? type, String? message})
       : super(type: type, code: 'InvalidCommitException', message: message);
 }
 
+/// @nodoc
 class InvalidCommitIdException extends _s.GenericAwsException {
   InvalidCommitIdException({String? type, String? message})
       : super(type: type, code: 'InvalidCommitIdException', message: message);
 }
 
+/// @nodoc
 class InvalidConflictDetailLevelException extends _s.GenericAwsException {
   InvalidConflictDetailLevelException({String? type, String? message})
       : super(
@@ -11211,6 +11497,7 @@ class InvalidConflictDetailLevelException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidConflictResolutionException extends _s.GenericAwsException {
   InvalidConflictResolutionException({String? type, String? message})
       : super(
@@ -11219,6 +11506,7 @@ class InvalidConflictResolutionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidConflictResolutionStrategyException
     extends _s.GenericAwsException {
   InvalidConflictResolutionStrategyException({String? type, String? message})
@@ -11228,6 +11516,7 @@ class InvalidConflictResolutionStrategyException
             message: message);
 }
 
+/// @nodoc
 class InvalidContinuationTokenException extends _s.GenericAwsException {
   InvalidContinuationTokenException({String? type, String? message})
       : super(
@@ -11236,6 +11525,7 @@ class InvalidContinuationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeletionParameterException extends _s.GenericAwsException {
   InvalidDeletionParameterException({String? type, String? message})
       : super(
@@ -11244,12 +11534,14 @@ class InvalidDeletionParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDescriptionException extends _s.GenericAwsException {
   InvalidDescriptionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidDescriptionException', message: message);
 }
 
+/// @nodoc
 class InvalidDestinationCommitSpecifierException
     extends _s.GenericAwsException {
   InvalidDestinationCommitSpecifierException({String? type, String? message})
@@ -11259,28 +11551,33 @@ class InvalidDestinationCommitSpecifierException
             message: message);
 }
 
+/// @nodoc
 class InvalidEmailException extends _s.GenericAwsException {
   InvalidEmailException({String? type, String? message})
       : super(type: type, code: 'InvalidEmailException', message: message);
 }
 
+/// @nodoc
 class InvalidFileLocationException extends _s.GenericAwsException {
   InvalidFileLocationException({String? type, String? message})
       : super(
             type: type, code: 'InvalidFileLocationException', message: message);
 }
 
+/// @nodoc
 class InvalidFileModeException extends _s.GenericAwsException {
   InvalidFileModeException({String? type, String? message})
       : super(type: type, code: 'InvalidFileModeException', message: message);
 }
 
+/// @nodoc
 class InvalidFilePositionException extends _s.GenericAwsException {
   InvalidFilePositionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidFilePositionException', message: message);
 }
 
+/// @nodoc
 class InvalidMaxConflictFilesException extends _s.GenericAwsException {
   InvalidMaxConflictFilesException({String? type, String? message})
       : super(
@@ -11289,6 +11586,7 @@ class InvalidMaxConflictFilesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidMaxMergeHunksException extends _s.GenericAwsException {
   InvalidMaxMergeHunksException({String? type, String? message})
       : super(
@@ -11297,22 +11595,26 @@ class InvalidMaxMergeHunksException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidMaxResultsException extends _s.GenericAwsException {
   InvalidMaxResultsException({String? type, String? message})
       : super(type: type, code: 'InvalidMaxResultsException', message: message);
 }
 
+/// @nodoc
 class InvalidMergeOptionException extends _s.GenericAwsException {
   InvalidMergeOptionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidMergeOptionException', message: message);
 }
 
+/// @nodoc
 class InvalidOrderException extends _s.GenericAwsException {
   InvalidOrderException({String? type, String? message})
       : super(type: type, code: 'InvalidOrderException', message: message);
 }
 
+/// @nodoc
 class InvalidOverrideStatusException extends _s.GenericAwsException {
   InvalidOverrideStatusException({String? type, String? message})
       : super(
@@ -11321,6 +11623,7 @@ class InvalidOverrideStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParentCommitIdException extends _s.GenericAwsException {
   InvalidParentCommitIdException({String? type, String? message})
       : super(
@@ -11329,11 +11632,13 @@ class InvalidParentCommitIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPathException extends _s.GenericAwsException {
   InvalidPathException({String? type, String? message})
       : super(type: type, code: 'InvalidPathException', message: message);
 }
 
+/// @nodoc
 class InvalidPullRequestEventTypeException extends _s.GenericAwsException {
   InvalidPullRequestEventTypeException({String? type, String? message})
       : super(
@@ -11342,6 +11647,7 @@ class InvalidPullRequestEventTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPullRequestIdException extends _s.GenericAwsException {
   InvalidPullRequestIdException({String? type, String? message})
       : super(
@@ -11350,6 +11656,7 @@ class InvalidPullRequestIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPullRequestStatusException extends _s.GenericAwsException {
   InvalidPullRequestStatusException({String? type, String? message})
       : super(
@@ -11358,6 +11665,7 @@ class InvalidPullRequestStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPullRequestStatusUpdateException extends _s.GenericAwsException {
   InvalidPullRequestStatusUpdateException({String? type, String? message})
       : super(
@@ -11366,6 +11674,7 @@ class InvalidPullRequestStatusUpdateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidReactionUserArnException extends _s.GenericAwsException {
   InvalidReactionUserArnException({String? type, String? message})
       : super(
@@ -11374,6 +11683,7 @@ class InvalidReactionUserArnException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidReactionValueException extends _s.GenericAwsException {
   InvalidReactionValueException({String? type, String? message})
       : super(
@@ -11382,6 +11692,7 @@ class InvalidReactionValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidReferenceNameException extends _s.GenericAwsException {
   InvalidReferenceNameException({String? type, String? message})
       : super(
@@ -11390,6 +11701,7 @@ class InvalidReferenceNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRelativeFileVersionEnumException extends _s.GenericAwsException {
   InvalidRelativeFileVersionEnumException({String? type, String? message})
       : super(
@@ -11398,6 +11710,7 @@ class InvalidRelativeFileVersionEnumException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidReplacementContentException extends _s.GenericAwsException {
   InvalidReplacementContentException({String? type, String? message})
       : super(
@@ -11406,6 +11719,7 @@ class InvalidReplacementContentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidReplacementTypeException extends _s.GenericAwsException {
   InvalidReplacementTypeException({String? type, String? message})
       : super(
@@ -11414,6 +11728,7 @@ class InvalidReplacementTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryDescriptionException extends _s.GenericAwsException {
   InvalidRepositoryDescriptionException({String? type, String? message})
       : super(
@@ -11422,6 +11737,7 @@ class InvalidRepositoryDescriptionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryNameException extends _s.GenericAwsException {
   InvalidRepositoryNameException({String? type, String? message})
       : super(
@@ -11430,6 +11746,7 @@ class InvalidRepositoryNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryTriggerBranchNameException
     extends _s.GenericAwsException {
   InvalidRepositoryTriggerBranchNameException({String? type, String? message})
@@ -11439,6 +11756,7 @@ class InvalidRepositoryTriggerBranchNameException
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryTriggerCustomDataException
     extends _s.GenericAwsException {
   InvalidRepositoryTriggerCustomDataException({String? type, String? message})
@@ -11448,6 +11766,7 @@ class InvalidRepositoryTriggerCustomDataException
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryTriggerDestinationArnException
     extends _s.GenericAwsException {
   InvalidRepositoryTriggerDestinationArnException(
@@ -11458,6 +11777,7 @@ class InvalidRepositoryTriggerDestinationArnException
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryTriggerEventsException extends _s.GenericAwsException {
   InvalidRepositoryTriggerEventsException({String? type, String? message})
       : super(
@@ -11466,6 +11786,7 @@ class InvalidRepositoryTriggerEventsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryTriggerNameException extends _s.GenericAwsException {
   InvalidRepositoryTriggerNameException({String? type, String? message})
       : super(
@@ -11474,6 +11795,7 @@ class InvalidRepositoryTriggerNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRepositoryTriggerRegionException extends _s.GenericAwsException {
   InvalidRepositoryTriggerRegionException({String? type, String? message})
       : super(
@@ -11482,17 +11804,20 @@ class InvalidRepositoryTriggerRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidResourceArnException extends _s.GenericAwsException {
   InvalidResourceArnException({String? type, String? message})
       : super(
             type: type, code: 'InvalidResourceArnException', message: message);
 }
 
+/// @nodoc
 class InvalidRevisionIdException extends _s.GenericAwsException {
   InvalidRevisionIdException({String? type, String? message})
       : super(type: type, code: 'InvalidRevisionIdException', message: message);
 }
 
+/// @nodoc
 class InvalidRuleContentSha256Exception extends _s.GenericAwsException {
   InvalidRuleContentSha256Exception({String? type, String? message})
       : super(
@@ -11501,11 +11826,13 @@ class InvalidRuleContentSha256Exception extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSortByException extends _s.GenericAwsException {
   InvalidSortByException({String? type, String? message})
       : super(type: type, code: 'InvalidSortByException', message: message);
 }
 
+/// @nodoc
 class InvalidSourceCommitSpecifierException extends _s.GenericAwsException {
   InvalidSourceCommitSpecifierException({String? type, String? message})
       : super(
@@ -11514,6 +11841,7 @@ class InvalidSourceCommitSpecifierException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSystemTagUsageException extends _s.GenericAwsException {
   InvalidSystemTagUsageException({String? type, String? message})
       : super(
@@ -11522,44 +11850,52 @@ class InvalidSystemTagUsageException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTagKeysListException extends _s.GenericAwsException {
   InvalidTagKeysListException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagKeysListException', message: message);
 }
 
+/// @nodoc
 class InvalidTagsMapException extends _s.GenericAwsException {
   InvalidTagsMapException({String? type, String? message})
       : super(type: type, code: 'InvalidTagsMapException', message: message);
 }
 
+/// @nodoc
 class InvalidTargetBranchException extends _s.GenericAwsException {
   InvalidTargetBranchException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTargetBranchException', message: message);
 }
 
+/// @nodoc
 class InvalidTargetException extends _s.GenericAwsException {
   InvalidTargetException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetException', message: message);
 }
 
+/// @nodoc
 class InvalidTargetsException extends _s.GenericAwsException {
   InvalidTargetsException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetsException', message: message);
 }
 
+/// @nodoc
 class InvalidTitleException extends _s.GenericAwsException {
   InvalidTitleException({String? type, String? message})
       : super(type: type, code: 'InvalidTitleException', message: message);
 }
 
+/// @nodoc
 class ManualMergeRequiredException extends _s.GenericAwsException {
   ManualMergeRequiredException({String? type, String? message})
       : super(
             type: type, code: 'ManualMergeRequiredException', message: message);
 }
 
+/// @nodoc
 class MaximumBranchesExceededException extends _s.GenericAwsException {
   MaximumBranchesExceededException({String? type, String? message})
       : super(
@@ -11568,6 +11904,7 @@ class MaximumBranchesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumConflictResolutionEntriesExceededException
     extends _s.GenericAwsException {
   MaximumConflictResolutionEntriesExceededException(
@@ -11578,6 +11915,7 @@ class MaximumConflictResolutionEntriesExceededException
             message: message);
 }
 
+/// @nodoc
 class MaximumFileContentToLoadExceededException extends _s.GenericAwsException {
   MaximumFileContentToLoadExceededException({String? type, String? message})
       : super(
@@ -11586,6 +11924,7 @@ class MaximumFileContentToLoadExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumFileEntriesExceededException extends _s.GenericAwsException {
   MaximumFileEntriesExceededException({String? type, String? message})
       : super(
@@ -11594,6 +11933,7 @@ class MaximumFileEntriesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumItemsToCompareExceededException extends _s.GenericAwsException {
   MaximumItemsToCompareExceededException({String? type, String? message})
       : super(
@@ -11602,6 +11942,7 @@ class MaximumItemsToCompareExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumNumberOfApprovalsExceededException extends _s.GenericAwsException {
   MaximumNumberOfApprovalsExceededException({String? type, String? message})
       : super(
@@ -11610,6 +11951,7 @@ class MaximumNumberOfApprovalsExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumOpenPullRequestsExceededException extends _s.GenericAwsException {
   MaximumOpenPullRequestsExceededException({String? type, String? message})
       : super(
@@ -11618,6 +11960,7 @@ class MaximumOpenPullRequestsExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumRepositoryNamesExceededException extends _s.GenericAwsException {
   MaximumRepositoryNamesExceededException({String? type, String? message})
       : super(
@@ -11626,6 +11969,7 @@ class MaximumRepositoryNamesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumRepositoryTriggersExceededException
     extends _s.GenericAwsException {
   MaximumRepositoryTriggersExceededException({String? type, String? message})
@@ -11635,6 +11979,7 @@ class MaximumRepositoryTriggersExceededException
             message: message);
 }
 
+/// @nodoc
 class MaximumRuleTemplatesAssociatedWithRepositoryException
     extends _s.GenericAwsException {
   MaximumRuleTemplatesAssociatedWithRepositoryException(
@@ -11645,12 +11990,14 @@ class MaximumRuleTemplatesAssociatedWithRepositoryException
             message: message);
 }
 
+/// @nodoc
 class MergeOptionRequiredException extends _s.GenericAwsException {
   MergeOptionRequiredException({String? type, String? message})
       : super(
             type: type, code: 'MergeOptionRequiredException', message: message);
 }
 
+/// @nodoc
 class MultipleConflictResolutionEntriesException
     extends _s.GenericAwsException {
   MultipleConflictResolutionEntriesException({String? type, String? message})
@@ -11660,6 +12007,7 @@ class MultipleConflictResolutionEntriesException
             message: message);
 }
 
+/// @nodoc
 class MultipleRepositoriesInPullRequestException
     extends _s.GenericAwsException {
   MultipleRepositoriesInPullRequestException({String? type, String? message})
@@ -11669,17 +12017,20 @@ class MultipleRepositoriesInPullRequestException
             message: message);
 }
 
+/// @nodoc
 class NameLengthExceededException extends _s.GenericAwsException {
   NameLengthExceededException({String? type, String? message})
       : super(
             type: type, code: 'NameLengthExceededException', message: message);
 }
 
+/// @nodoc
 class NoChangeException extends _s.GenericAwsException {
   NoChangeException({String? type, String? message})
       : super(type: type, code: 'NoChangeException', message: message);
 }
 
+/// @nodoc
 class NumberOfRuleTemplatesExceededException extends _s.GenericAwsException {
   NumberOfRuleTemplatesExceededException({String? type, String? message})
       : super(
@@ -11688,6 +12039,7 @@ class NumberOfRuleTemplatesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NumberOfRulesExceededException extends _s.GenericAwsException {
   NumberOfRulesExceededException({String? type, String? message})
       : super(
@@ -11696,18 +12048,21 @@ class NumberOfRulesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationNotAllowedException extends _s.GenericAwsException {
   OperationNotAllowedException({String? type, String? message})
       : super(
             type: type, code: 'OperationNotAllowedException', message: message);
 }
 
+/// @nodoc
 class OverrideAlreadySetException extends _s.GenericAwsException {
   OverrideAlreadySetException({String? type, String? message})
       : super(
             type: type, code: 'OverrideAlreadySetException', message: message);
 }
 
+/// @nodoc
 class OverrideStatusRequiredException extends _s.GenericAwsException {
   OverrideStatusRequiredException({String? type, String? message})
       : super(
@@ -11716,6 +12071,7 @@ class OverrideStatusRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParentCommitDoesNotExistException extends _s.GenericAwsException {
   ParentCommitDoesNotExistException({String? type, String? message})
       : super(
@@ -11724,6 +12080,7 @@ class ParentCommitDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParentCommitIdOutdatedException extends _s.GenericAwsException {
   ParentCommitIdOutdatedException({String? type, String? message})
       : super(
@@ -11732,6 +12089,7 @@ class ParentCommitIdOutdatedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParentCommitIdRequiredException extends _s.GenericAwsException {
   ParentCommitIdRequiredException({String? type, String? message})
       : super(
@@ -11740,16 +12098,19 @@ class ParentCommitIdRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PathDoesNotExistException extends _s.GenericAwsException {
   PathDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'PathDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class PathRequiredException extends _s.GenericAwsException {
   PathRequiredException({String? type, String? message})
       : super(type: type, code: 'PathRequiredException', message: message);
 }
 
+/// @nodoc
 class PullRequestAlreadyClosedException extends _s.GenericAwsException {
   PullRequestAlreadyClosedException({String? type, String? message})
       : super(
@@ -11758,6 +12119,7 @@ class PullRequestAlreadyClosedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PullRequestApprovalRulesNotSatisfiedException
     extends _s.GenericAwsException {
   PullRequestApprovalRulesNotSatisfiedException({String? type, String? message})
@@ -11767,6 +12129,7 @@ class PullRequestApprovalRulesNotSatisfiedException
             message: message);
 }
 
+/// @nodoc
 class PullRequestCannotBeApprovedByAuthorException
     extends _s.GenericAwsException {
   PullRequestCannotBeApprovedByAuthorException({String? type, String? message})
@@ -11776,6 +12139,7 @@ class PullRequestCannotBeApprovedByAuthorException
             message: message);
 }
 
+/// @nodoc
 class PullRequestDoesNotExistException extends _s.GenericAwsException {
   PullRequestDoesNotExistException({String? type, String? message})
       : super(
@@ -11784,6 +12148,7 @@ class PullRequestDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PullRequestIdRequiredException extends _s.GenericAwsException {
   PullRequestIdRequiredException({String? type, String? message})
       : super(
@@ -11792,6 +12157,7 @@ class PullRequestIdRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PullRequestStatusRequiredException extends _s.GenericAwsException {
   PullRequestStatusRequiredException({String? type, String? message})
       : super(
@@ -11800,6 +12166,7 @@ class PullRequestStatusRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PutFileEntryConflictException extends _s.GenericAwsException {
   PutFileEntryConflictException({String? type, String? message})
       : super(
@@ -11808,6 +12175,7 @@ class PutFileEntryConflictException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReactionLimitExceededException extends _s.GenericAwsException {
   ReactionLimitExceededException({String? type, String? message})
       : super(
@@ -11816,6 +12184,7 @@ class ReactionLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReactionValueRequiredException extends _s.GenericAwsException {
   ReactionValueRequiredException({String? type, String? message})
       : super(
@@ -11824,6 +12193,7 @@ class ReactionValueRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReferenceDoesNotExistException extends _s.GenericAwsException {
   ReferenceDoesNotExistException({String? type, String? message})
       : super(
@@ -11832,6 +12202,7 @@ class ReferenceDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReferenceNameRequiredException extends _s.GenericAwsException {
   ReferenceNameRequiredException({String? type, String? message})
       : super(
@@ -11840,6 +12211,7 @@ class ReferenceNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReferenceTypeNotSupportedException extends _s.GenericAwsException {
   ReferenceTypeNotSupportedException({String? type, String? message})
       : super(
@@ -11848,6 +12220,7 @@ class ReferenceTypeNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplacementContentRequiredException extends _s.GenericAwsException {
   ReplacementContentRequiredException({String? type, String? message})
       : super(
@@ -11856,6 +12229,7 @@ class ReplacementContentRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplacementTypeRequiredException extends _s.GenericAwsException {
   ReplacementTypeRequiredException({String? type, String? message})
       : super(
@@ -11864,6 +12238,7 @@ class ReplacementTypeRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryDoesNotExistException extends _s.GenericAwsException {
   RepositoryDoesNotExistException({String? type, String? message})
       : super(
@@ -11872,6 +12247,7 @@ class RepositoryDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryLimitExceededException extends _s.GenericAwsException {
   RepositoryLimitExceededException({String? type, String? message})
       : super(
@@ -11880,6 +12256,7 @@ class RepositoryLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryNameExistsException extends _s.GenericAwsException {
   RepositoryNameExistsException({String? type, String? message})
       : super(
@@ -11888,6 +12265,7 @@ class RepositoryNameExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryNameRequiredException extends _s.GenericAwsException {
   RepositoryNameRequiredException({String? type, String? message})
       : super(
@@ -11896,6 +12274,7 @@ class RepositoryNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryNamesRequiredException extends _s.GenericAwsException {
   RepositoryNamesRequiredException({String? type, String? message})
       : super(
@@ -11904,6 +12283,7 @@ class RepositoryNamesRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryNotAssociatedWithPullRequestException
     extends _s.GenericAwsException {
   RepositoryNotAssociatedWithPullRequestException(
@@ -11914,6 +12294,7 @@ class RepositoryNotAssociatedWithPullRequestException
             message: message);
 }
 
+/// @nodoc
 class RepositoryTriggerBranchNameListRequiredException
     extends _s.GenericAwsException {
   RepositoryTriggerBranchNameListRequiredException(
@@ -11924,6 +12305,7 @@ class RepositoryTriggerBranchNameListRequiredException
             message: message);
 }
 
+/// @nodoc
 class RepositoryTriggerDestinationArnRequiredException
     extends _s.GenericAwsException {
   RepositoryTriggerDestinationArnRequiredException(
@@ -11934,6 +12316,7 @@ class RepositoryTriggerDestinationArnRequiredException
             message: message);
 }
 
+/// @nodoc
 class RepositoryTriggerEventsListRequiredException
     extends _s.GenericAwsException {
   RepositoryTriggerEventsListRequiredException({String? type, String? message})
@@ -11943,6 +12326,7 @@ class RepositoryTriggerEventsListRequiredException
             message: message);
 }
 
+/// @nodoc
 class RepositoryTriggerNameRequiredException extends _s.GenericAwsException {
   RepositoryTriggerNameRequiredException({String? type, String? message})
       : super(
@@ -11951,6 +12335,7 @@ class RepositoryTriggerNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryTriggersListRequiredException extends _s.GenericAwsException {
   RepositoryTriggersListRequiredException({String? type, String? message})
       : super(
@@ -11959,12 +12344,14 @@ class RepositoryTriggersListRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceArnRequiredException extends _s.GenericAwsException {
   ResourceArnRequiredException({String? type, String? message})
       : super(
             type: type, code: 'ResourceArnRequiredException', message: message);
 }
 
+/// @nodoc
 class RestrictedSourceFileException extends _s.GenericAwsException {
   RestrictedSourceFileException({String? type, String? message})
       : super(
@@ -11973,28 +12360,33 @@ class RestrictedSourceFileException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RevisionIdRequiredException extends _s.GenericAwsException {
   RevisionIdRequiredException({String? type, String? message})
       : super(
             type: type, code: 'RevisionIdRequiredException', message: message);
 }
 
+/// @nodoc
 class RevisionNotCurrentException extends _s.GenericAwsException {
   RevisionNotCurrentException({String? type, String? message})
       : super(
             type: type, code: 'RevisionNotCurrentException', message: message);
 }
 
+/// @nodoc
 class SameFileContentException extends _s.GenericAwsException {
   SameFileContentException({String? type, String? message})
       : super(type: type, code: 'SameFileContentException', message: message);
 }
 
+/// @nodoc
 class SamePathRequestException extends _s.GenericAwsException {
   SamePathRequestException({String? type, String? message})
       : super(type: type, code: 'SamePathRequestException', message: message);
 }
 
+/// @nodoc
 class SourceAndDestinationAreSameException extends _s.GenericAwsException {
   SourceAndDestinationAreSameException({String? type, String? message})
       : super(
@@ -12003,6 +12395,7 @@ class SourceAndDestinationAreSameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SourceFileOrContentRequiredException extends _s.GenericAwsException {
   SourceFileOrContentRequiredException({String? type, String? message})
       : super(
@@ -12011,32 +12404,38 @@ class SourceFileOrContentRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagKeysListRequiredException extends _s.GenericAwsException {
   TagKeysListRequiredException({String? type, String? message})
       : super(
             type: type, code: 'TagKeysListRequiredException', message: message);
 }
 
+/// @nodoc
 class TagPolicyException extends _s.GenericAwsException {
   TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
+/// @nodoc
 class TagsMapRequiredException extends _s.GenericAwsException {
   TagsMapRequiredException({String? type, String? message})
       : super(type: type, code: 'TagsMapRequiredException', message: message);
 }
 
+/// @nodoc
 class TargetRequiredException extends _s.GenericAwsException {
   TargetRequiredException({String? type, String? message})
       : super(type: type, code: 'TargetRequiredException', message: message);
 }
 
+/// @nodoc
 class TargetsRequiredException extends _s.GenericAwsException {
   TargetsRequiredException({String? type, String? message})
       : super(type: type, code: 'TargetsRequiredException', message: message);
 }
 
+/// @nodoc
 class TipOfSourceReferenceIsDifferentException extends _s.GenericAwsException {
   TipOfSourceReferenceIsDifferentException({String? type, String? message})
       : super(
@@ -12045,6 +12444,7 @@ class TipOfSourceReferenceIsDifferentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TipsDivergenceExceededException extends _s.GenericAwsException {
   TipsDivergenceExceededException({String? type, String? message})
       : super(
@@ -12053,11 +12453,13 @@ class TipsDivergenceExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TitleRequiredException extends _s.GenericAwsException {
   TitleRequiredException({String? type, String? message})
       : super(type: type, code: 'TitleRequiredException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

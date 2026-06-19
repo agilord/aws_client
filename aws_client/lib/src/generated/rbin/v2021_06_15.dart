@@ -119,10 +119,10 @@ class Rbin {
   /// The retention rule description.
   ///
   /// Parameter [excludeResourceTags] :
-  /// [Region-level retention rules only] Specifies the exclusion tags to use to
-  /// identify resources that are to be excluded, or ignored, by a Region-level
-  /// retention rule. Resources that have any of these tags are not retained by
-  /// the retention rule upon deletion.
+  /// \[Region-level retention rules only\] Specifies the exclusion tags to use
+  /// to identify resources that are to be excluded, or ignored, by a
+  /// Region-level retention rule. Resources that have any of these tags are not
+  /// retained by the retention rule upon deletion.
   ///
   /// You can't specify exclusion tags for tag-level retention rules.
   ///
@@ -130,7 +130,7 @@ class Rbin {
   /// Information about the retention rule lock configuration.
   ///
   /// Parameter [resourceTags] :
-  /// [Tag-level retention rules only] Specifies the resource tags to use to
+  /// \[Tag-level retention rules only\] Specifies the resource tags to use to
   /// identify resources that are to be retained by a tag-level retention rule.
   /// For tag-level retention rules, only deleted resources, of the specified
   /// resource type, that have one or more of the specified tag key and value
@@ -245,7 +245,7 @@ class Rbin {
   /// </ul>
   ///
   /// Parameter [excludeResourceTags] :
-  /// [Region-level retention rules only] Information about the exclusion tags
+  /// \[Region-level retention rules only\] Information about the exclusion tags
   /// used to identify resources that are to be excluded, or ignored, by the
   /// retention rule.
   ///
@@ -262,8 +262,8 @@ class Rbin {
   /// The token for the next page of results.
   ///
   /// Parameter [resourceTags] :
-  /// [Tag-level retention rules only] Information about the resource tags used
-  /// to identify resources that are retained by the retention rule.
+  /// \[Tag-level retention rules only\] Information about the resource tags
+  /// used to identify resources that are retained by the retention rule.
   Future<ListRulesResponse> listRules({
     required ResourceType resourceType,
     List<ResourceTag>? excludeResourceTags,
@@ -447,15 +447,15 @@ class Rbin {
   /// The retention rule description.
   ///
   /// Parameter [excludeResourceTags] :
-  /// [Region-level retention rules only] Specifies the exclusion tags to use to
-  /// identify resources that are to be excluded, or ignored, by a Region-level
-  /// retention rule. Resources that have any of these tags are not retained by
-  /// the retention rule upon deletion.
+  /// \[Region-level retention rules only\] Specifies the exclusion tags to use
+  /// to identify resources that are to be excluded, or ignored, by a
+  /// Region-level retention rule. Resources that have any of these tags are not
+  /// retained by the retention rule upon deletion.
   ///
   /// You can't specify exclusion tags for tag-level retention rules.
   ///
   /// Parameter [resourceTags] :
-  /// [Tag-level retention rules only] Specifies the resource tags to use to
+  /// \[Tag-level retention rules only\] Specifies the resource tags to use to
   /// identify resources that are to be retained by a tag-level retention rule.
   /// For tag-level retention rules, only deleted resources, of the specified
   /// resource type, that have one or more of the specified tag key and value
@@ -506,11 +506,12 @@ class Rbin {
   }
 }
 
+/// @nodoc
 class CreateRuleResponse {
   /// The retention rule description.
   final String? description;
 
-  /// [Region-level retention rules only] Information about the exclusion tags
+  /// \[Region-level retention rules only\] Information about the exclusion tags
   /// used to identify resources that are to be excluded, or ignored, by the
   /// retention rule.
   final List<ResourceTag>? excludeResourceTags;
@@ -521,7 +522,7 @@ class CreateRuleResponse {
   /// Information about the retention rule lock configuration.
   final LockConfiguration? lockConfiguration;
 
-  /// [Region-level retention rules only] The lock state for the retention rule.
+  /// \[Region-level retention rules only\] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -546,8 +547,8 @@ class CreateRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// [Tag-level retention rules only] Information about the resource tags used to
-  /// identify resources that are retained by the retention rule.
+  /// \[Tag-level retention rules only\] Information about the resource tags used
+  /// to identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -639,6 +640,7 @@ class CreateRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleResponse {
   DeleteRuleResponse();
 
@@ -651,11 +653,12 @@ class DeleteRuleResponse {
   }
 }
 
+/// @nodoc
 class GetRuleResponse {
   /// The retention rule description.
   final String? description;
 
-  /// [Region-level retention rules only] Information about the exclusion tags
+  /// \[Region-level retention rules only\] Information about the exclusion tags
   /// used to identify resources that are to be excluded, or ignored, by the
   /// retention rule.
   final List<ResourceTag>? excludeResourceTags;
@@ -671,7 +674,7 @@ class GetRuleResponse {
   /// unlock delay period.
   final DateTime? lockEndTime;
 
-  /// [Region-level retention rules only] The lock state for the retention rule.
+  /// \[Region-level retention rules only\] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -696,8 +699,8 @@ class GetRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// [Tag-level retention rules only] Information about the resource tags used to
-  /// identify resources that are retained by the retention rule.
+  /// \[Tag-level retention rules only\] Information about the resource tags used
+  /// to identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -786,6 +789,7 @@ class GetRuleResponse {
   }
 }
 
+/// @nodoc
 class ListRulesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -819,6 +823,7 @@ class ListRulesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags assigned to the retention rule.
   final List<Tag>? tags;
@@ -844,11 +849,12 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class LockRuleResponse {
   /// The retention rule description.
   final String? description;
 
-  /// [Region-level retention rules only] Information about the exclusion tags
+  /// \[Region-level retention rules only\] Information about the exclusion tags
   /// used to identify resources that are to be excluded, or ignored, by the
   /// retention rule.
   final List<ResourceTag>? excludeResourceTags;
@@ -859,7 +865,7 @@ class LockRuleResponse {
   /// Information about the retention rule lock configuration.
   final LockConfiguration? lockConfiguration;
 
-  /// [Region-level retention rules only] The lock state for the retention rule.
+  /// \[Region-level retention rules only\] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -884,8 +890,8 @@ class LockRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// [Tag-level retention rules only] Information about the resource tags used to
-  /// identify resources that are retained by the retention rule.
+  /// \[Tag-level retention rules only\] Information about the resource tags used
+  /// to identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -967,6 +973,7 @@ class LockRuleResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -979,11 +986,12 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UnlockRuleResponse {
   /// The retention rule description.
   final String? description;
 
-  /// [Region-level retention rules only] Information about the exclusion tags
+  /// \[Region-level retention rules only\] Information about the exclusion tags
   /// used to identify resources that are to be excluded, or ignored, by the
   /// retention rule.
   final List<ResourceTag>? excludeResourceTags;
@@ -999,7 +1007,7 @@ class UnlockRuleResponse {
   /// unlock delay period.
   final DateTime? lockEndTime;
 
-  /// [Region-level retention rules only] The lock state for the retention rule.
+  /// \[Region-level retention rules only\] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -1024,8 +1032,8 @@ class UnlockRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// [Tag-level retention rules only] Information about the resource tags used to
-  /// identify resources that are retained by the retention rule.
+  /// \[Tag-level retention rules only\] Information about the resource tags used
+  /// to identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -1111,6 +1119,7 @@ class UnlockRuleResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1123,11 +1132,12 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleResponse {
   /// The retention rule description.
   final String? description;
 
-  /// [Region-level retention rules only] Information about the exclusion tags
+  /// \[Region-level retention rules only\] Information about the exclusion tags
   /// used to identify resources that are to be excluded, or ignored, by the
   /// retention rule.
   final List<ResourceTag>? excludeResourceTags;
@@ -1140,7 +1150,7 @@ class UpdateRuleResponse {
   /// unlock delay period.
   final DateTime? lockEndTime;
 
-  /// [Region-level retention rules only] The lock state for the retention rule.
+  /// \[Region-level retention rules only\] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -1165,8 +1175,8 @@ class UpdateRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// [Tag-level retention rules only] Information about the resource tags used to
-  /// identify resources that are retained by the retention rule.
+  /// \[Tag-level retention rules only\] Information about the resource tags used
+  /// to identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -1247,6 +1257,8 @@ class UpdateRuleResponse {
 
 /// Information about the retention period for which the retention rule is to
 /// retain resources.
+///
+/// @nodoc
 class RetentionPeriod {
   /// The unit of time in which the retention period is measured. Currently, only
   /// <code>DAYS</code> is supported.
@@ -1288,6 +1300,7 @@ class RetentionPeriod {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const ebsSnapshot = ResourceType._('EBS_SNAPSHOT');
   static const ec2Image = ResourceType._('EC2_IMAGE');
@@ -1312,6 +1325,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleStatus {
   static const pending = RuleStatus._('pending');
   static const available = RuleStatus._('available');
@@ -1335,6 +1349,7 @@ class RuleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LockState {
   static const locked = LockState._('locked');
   static const pendingUnlock = LockState._('pending_unlock');
@@ -1359,8 +1374,10 @@ class LockState {
   String toString() => value;
 }
 
-/// [Tag-level retention rules only] Information about the resource tags used to
-/// identify resources that are retained by the retention rule.
+/// \[Tag-level retention rules only\] Information about the resource tags used
+/// to identify resources that are retained by the retention rule.
+///
+/// @nodoc
 class ResourceTag {
   /// The tag key.
   final String resourceTagKey;
@@ -1390,6 +1407,7 @@ class ResourceTag {
   }
 }
 
+/// @nodoc
 class RetentionPeriodUnit {
   static const days = RetentionPeriodUnit._('DAYS');
 
@@ -1415,6 +1433,8 @@ class RetentionPeriodUnit {
 }
 
 /// Information about a retention rule lock configuration.
+///
+/// @nodoc
 class LockConfiguration {
   /// Information about the retention rule unlock delay.
   final UnlockDelay unlockDelay;
@@ -1443,6 +1463,8 @@ class LockConfiguration {
 /// period after which a retention rule can be modified or edited after it has
 /// been unlocked by a user with the required permissions. The retention rule
 /// can't be modified or deleted during the unlock delay.
+///
+/// @nodoc
 class UnlockDelay {
   /// The unit of time in which to measure the unlock delay. Currently, the unlock
   /// delay can be measured only in days.
@@ -1475,6 +1497,7 @@ class UnlockDelay {
   }
 }
 
+/// @nodoc
 class UnlockDelayUnit {
   static const days = UnlockDelayUnit._('DAYS');
 
@@ -1499,6 +1522,8 @@ class UnlockDelayUnit {
 }
 
 /// Information about the tags to assign to the retention rule.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -1529,6 +1554,8 @@ class Tag {
 }
 
 /// Information about a Recycle Bin retention rule.
+///
+/// @nodoc
 class RuleSummary {
   /// The retention rule description.
   final String? description;
@@ -1536,7 +1563,7 @@ class RuleSummary {
   /// The unique ID of the retention rule.
   final String? identifier;
 
-  /// [Region-level retention rules only] The lock state for the retention rule.
+  /// \[Region-level retention rules only\] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -1605,21 +1632,25 @@ class RuleSummary {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1628,6 +1659,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

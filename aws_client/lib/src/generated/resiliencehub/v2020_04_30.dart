@@ -2770,8 +2770,8 @@ class Resiliencehub {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note> </li>
   /// </ul> </li>
   /// <li>
@@ -2825,8 +2825,8 @@ class Resiliencehub {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note> </li>
   /// </ul> </li>
   /// <li>
@@ -2928,8 +2928,8 @@ class Resiliencehub {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note> </li>
   /// </ul>
   Future<PutDraftAppVersionTemplateResponse> putDraftAppVersionTemplate({
@@ -3386,8 +3386,8 @@ class Resiliencehub {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note>
   Future<UpdateAppVersionResponse> updateAppVersion({
     required String appArn,
@@ -3639,6 +3639,7 @@ class Resiliencehub {
   }
 }
 
+/// @nodoc
 class AcceptResourceGroupingRecommendationsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3680,6 +3681,7 @@ class AcceptResourceGroupingRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class AddDraftAppVersionResourceMappingsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3728,6 +3730,7 @@ class AddDraftAppVersionResourceMappingsResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateRecommendationStatusResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3780,6 +3783,7 @@ class BatchUpdateRecommendationStatusResponse {
   }
 }
 
+/// @nodoc
 class CreateAppResponse {
   /// The created application returned as an object with details including
   /// compliance status, creation time, description, resiliency score, and more.
@@ -3804,6 +3808,7 @@ class CreateAppResponse {
   }
 }
 
+/// @nodoc
 class CreateAppVersionAppComponentResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3849,6 +3854,7 @@ class CreateAppVersionAppComponentResponse {
   }
 }
 
+/// @nodoc
 class CreateAppVersionResourceResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3896,6 +3902,7 @@ class CreateAppVersionResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateRecommendationTemplateResponse {
   /// The newly created recommendation template, returned as an object. This
   /// object includes the template's name, format, status, tags, Amazon S3 bucket
@@ -3925,6 +3932,7 @@ class CreateRecommendationTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateResiliencyPolicyResponse {
   /// The type of resiliency policy that was created, including the recovery time
   /// objective (RTO) and recovery point objective (RPO) in seconds.
@@ -3950,6 +3958,7 @@ class CreateResiliencyPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3978,6 +3987,7 @@ class DeleteAppResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppAssessmentResponse {
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
@@ -4013,6 +4023,7 @@ class DeleteAppAssessmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppInputSourceResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4052,6 +4063,7 @@ class DeleteAppInputSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppVersionAppComponentResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4097,6 +4109,7 @@ class DeleteAppVersionAppComponentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppVersionResourceResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4144,6 +4157,7 @@ class DeleteAppVersionResourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecommendationTemplateResponse {
   /// The Amazon Resource Name (ARN) for a recommendation template.
   final String recommendationTemplateArn;
@@ -4176,6 +4190,7 @@ class DeleteRecommendationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteResiliencyPolicyResponse {
   /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
   /// is:
@@ -4204,6 +4219,7 @@ class DeleteResiliencyPolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppResponse {
   /// The specified application, returned as an object with details including
   /// compliance status, creation time, description, resiliency score, and more.
@@ -4228,6 +4244,7 @@ class DescribeAppResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppAssessmentResponse {
   /// The assessment for an Resilience Hub application, returned as an object.
   /// This object includes Amazon Resource Names (ARNs), compliance information,
@@ -4254,6 +4271,7 @@ class DescribeAppAssessmentResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppVersionResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4305,6 +4323,7 @@ class DescribeAppVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppVersionAppComponentResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4350,6 +4369,7 @@ class DescribeAppVersionAppComponentResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppVersionResourceResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4398,6 +4418,7 @@ class DescribeAppVersionResourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppVersionResourcesResolutionStatusResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4456,6 +4477,7 @@ class DescribeAppVersionResourcesResolutionStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppVersionTemplateResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4563,8 +4585,8 @@ class DescribeAppVersionTemplateResponse {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note> </li>
   /// </ul> </li>
   /// <li>
@@ -4618,8 +4640,8 @@ class DescribeAppVersionTemplateResponse {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note> </li>
   /// </ul> </li>
   /// <li>
@@ -4721,8 +4743,8 @@ class DescribeAppVersionTemplateResponse {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note> </li>
   /// </ul>
   final String appTemplateBody;
@@ -4757,6 +4779,7 @@ class DescribeAppVersionTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeDraftAppVersionResourcesImportStatusResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4826,6 +4849,7 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetricsExportResponse {
   /// Identifier for the metrics export task.
   final String metricsExportId;
@@ -4873,6 +4897,7 @@ class DescribeMetricsExportResponse {
   }
 }
 
+/// @nodoc
 class DescribeResiliencyPolicyResponse {
   /// Information about the specific resiliency policy, returned as an object.
   /// This object includes creation time, data location constraints, its name,
@@ -4900,6 +4925,7 @@ class DescribeResiliencyPolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourceGroupingRecommendationTaskResponse {
   /// Identifier of the grouping recommendation task.
   final String groupingId;
@@ -4938,6 +4964,7 @@ class DescribeResourceGroupingRecommendationTaskResponse {
   }
 }
 
+/// @nodoc
 class ImportResourcesToDraftAppVersionResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5013,6 +5040,7 @@ class ImportResourcesToDraftAppVersionResponse {
   }
 }
 
+/// @nodoc
 class ListAlarmRecommendationsResponse {
   /// The alarm recommendations for an Resilience Hub application, returned as an
   /// object. This object includes Application Component names, descriptions,
@@ -5049,6 +5077,7 @@ class ListAlarmRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListAppAssessmentComplianceDriftsResponse {
   /// Indicates compliance drifts (recovery time objective (RTO) and recovery
   /// point objective (RPO)) detected for an assessed entity.
@@ -5083,6 +5112,7 @@ class ListAppAssessmentComplianceDriftsResponse {
   }
 }
 
+/// @nodoc
 class ListAppAssessmentResourceDriftsResponse {
   /// Indicates all the resource drifts detected for an assessed entity.
   final List<ResourceDrift> resourceDrifts;
@@ -5116,6 +5146,7 @@ class ListAppAssessmentResourceDriftsResponse {
   }
 }
 
+/// @nodoc
 class ListAppAssessmentsResponse {
   /// The summaries for the specified assessments, returned as an object. This
   /// object includes application versions, associated Amazon Resource Numbers
@@ -5150,6 +5181,7 @@ class ListAppAssessmentsResponse {
   }
 }
 
+/// @nodoc
 class ListAppComponentCompliancesResponse {
   /// The compliances for an Resilience Hub Application Component, returned as an
   /// object. This object contains the names of the Application Components,
@@ -5187,6 +5219,7 @@ class ListAppComponentCompliancesResponse {
   }
 }
 
+/// @nodoc
 class ListAppComponentRecommendationsResponse {
   /// The recommendations for an Resilience Hub Application Component, returned as
   /// an object. This object contains the names of the Application Components,
@@ -5224,6 +5257,7 @@ class ListAppComponentRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListAppInputSourcesResponse {
   /// The list of Resilience Hub application input sources.
   final List<AppInputSource> appInputSources;
@@ -5256,6 +5290,7 @@ class ListAppInputSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListAppsResponse {
   /// Summaries for the Resilience Hub application.
   final List<AppSummary> appSummaries;
@@ -5288,6 +5323,7 @@ class ListAppsResponse {
   }
 }
 
+/// @nodoc
 class ListAppVersionAppComponentsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5341,6 +5377,7 @@ class ListAppVersionAppComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListAppVersionResourceMappingsResponse {
   /// Mappings used to map logical resources from the template to physical
   /// resources. You can use the mapping type <code>CFN_STACK</code> if the
@@ -5379,6 +5416,7 @@ class ListAppVersionResourceMappingsResponse {
   }
 }
 
+/// @nodoc
 class ListAppVersionResourcesResponse {
   /// The physical resources in the application version.
   final List<PhysicalResource> physicalResources;
@@ -5418,6 +5456,7 @@ class ListAppVersionResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListAppVersionsResponse {
   /// The version of the application.
   final List<AppVersionSummary> appVersions;
@@ -5450,6 +5489,7 @@ class ListAppVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListMetricsResponse {
   /// Specifies all the list of metric values for each row of metrics.
   final List<List<String>> rows;
@@ -5482,6 +5522,7 @@ class ListMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationTemplatesResponse {
   /// Token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -5517,6 +5558,7 @@ class ListRecommendationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListResiliencyPoliciesResponse {
   /// The resiliency policies for the Resilience Hub applications.
   final List<ResiliencyPolicy> resiliencyPolicies;
@@ -5549,6 +5591,7 @@ class ListResiliencyPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListResourceGroupingRecommendationsResponse {
   /// List of resource grouping recommendations generated by Resilience Hub.
   final List<GroupingRecommendation> groupingRecommendations;
@@ -5584,6 +5627,7 @@ class ListResourceGroupingRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListSopRecommendationsResponse {
   /// The standard operating procedure (SOP) recommendations for the Resilience
   /// Hub applications.
@@ -5617,6 +5661,7 @@ class ListSopRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListSuggestedResiliencyPoliciesResponse {
   /// The suggested resiliency policies for the Resilience Hub applications.
   final List<ResiliencyPolicy> resiliencyPolicies;
@@ -5650,6 +5695,7 @@ class ListSuggestedResiliencyPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
   /// Web Services resource. Each tag consists of a key/value pair.
@@ -5674,6 +5720,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTestRecommendationsResponse {
   /// The test recommendations for the Resilience Hub application.
   final List<TestRecommendation> testRecommendations;
@@ -5706,6 +5753,7 @@ class ListTestRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListUnsupportedAppVersionResourcesResponse {
   /// The identifier for a specific resolution.
   final String resolutionId;
@@ -5747,6 +5795,7 @@ class ListUnsupportedAppVersionResourcesResponse {
   }
 }
 
+/// @nodoc
 class PublishAppVersionResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5796,6 +5845,7 @@ class PublishAppVersionResponse {
   }
 }
 
+/// @nodoc
 class PutDraftAppVersionTemplateResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5832,6 +5882,7 @@ class PutDraftAppVersionTemplateResponse {
   }
 }
 
+/// @nodoc
 class RejectResourceGroupingRecommendationsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5873,6 +5924,7 @@ class RejectResourceGroupingRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class RemoveDraftAppVersionResourceMappingsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5909,6 +5961,7 @@ class RemoveDraftAppVersionResourceMappingsResponse {
   }
 }
 
+/// @nodoc
 class ResolveAppVersionResourcesResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -5960,6 +6013,7 @@ class ResolveAppVersionResourcesResponse {
   }
 }
 
+/// @nodoc
 class StartAppAssessmentResponse {
   /// The assessment created.
   final AppAssessment assessment;
@@ -5984,6 +6038,7 @@ class StartAppAssessmentResponse {
   }
 }
 
+/// @nodoc
 class StartMetricsExportResponse {
   /// Identifier of the metrics export task.
   final String metricsExportId;
@@ -6014,6 +6069,7 @@ class StartMetricsExportResponse {
   }
 }
 
+/// @nodoc
 class StartResourceGroupingRecommendationTaskResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -6065,6 +6121,7 @@ class StartResourceGroupingRecommendationTaskResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6077,6 +6134,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6089,6 +6147,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppResponse {
   /// The specified application, returned as an object with details including
   /// compliance status, creation time, description, resiliency score, and more.
@@ -6113,6 +6172,7 @@ class UpdateAppResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppVersionResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -6164,6 +6224,7 @@ class UpdateAppVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppVersionAppComponentResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -6209,6 +6270,7 @@ class UpdateAppVersionAppComponentResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppVersionResourceResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -6256,6 +6318,7 @@ class UpdateAppVersionResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateResiliencyPolicyResponse {
   /// The resiliency policy that was updated, including the recovery time
   /// objective (RTO) and recovery point objective (RPO) in seconds.
@@ -6291,6 +6354,8 @@ class UpdateResiliencyPolicyResponse {
 /// workload RPO result will be near zero and the <b>Compliance status</b> for
 /// your application will be set to <b>Policy breached</b>.
 /// </note>
+///
+/// @nodoc
 class ResiliencyPolicy {
   /// Date and time when the resiliency policy was created.
   final DateTime? creationTime;
@@ -6386,6 +6451,7 @@ class ResiliencyPolicy {
   }
 }
 
+/// @nodoc
 class DataLocationConstraint {
   static const anyLocation = DataLocationConstraint._('AnyLocation');
   static const sameContinent = DataLocationConstraint._('SameContinent');
@@ -6412,6 +6478,7 @@ class DataLocationConstraint {
   String toString() => value;
 }
 
+/// @nodoc
 class ResiliencyPolicyTier {
   static const missionCritical = ResiliencyPolicyTier._('MissionCritical');
   static const critical = ResiliencyPolicyTier._('Critical');
@@ -6448,6 +6515,7 @@ class ResiliencyPolicyTier {
   String toString() => value;
 }
 
+/// @nodoc
 class EstimatedCostTier {
   static const l1 = EstimatedCostTier._('L1');
   static const l2 = EstimatedCostTier._('L2');
@@ -6474,6 +6542,7 @@ class EstimatedCostTier {
   String toString() => value;
 }
 
+/// @nodoc
 class DisruptionType {
   static const software = DisruptionType._('Software');
   static const hardware = DisruptionType._('Hardware');
@@ -6501,6 +6570,8 @@ class DisruptionType {
 }
 
 /// Defines a failure policy.
+///
+/// @nodoc
 class FailurePolicy {
   /// Recovery Point Objective (RPO) in seconds.
   final int rpoInSecs;
@@ -6533,6 +6604,8 @@ class FailurePolicy {
 /// Defines a physical resource. A physical resource is a resource that exists
 /// in your account. It can be identified using an Amazon Resource Name (ARN) or
 /// an Resilience Hub-native identifier.
+///
+/// @nodoc
 class PhysicalResource {
   /// Logical identifier of the resource.
   final LogicalResourceId logicalResourceId;
@@ -6554,8 +6627,8 @@ class PhysicalResource {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note>
   final Map<String, List<String>>? additionalInfo;
 
@@ -6635,6 +6708,8 @@ class PhysicalResource {
 }
 
 /// Defines a logical resource identifier.
+///
+/// @nodoc
 class LogicalResourceId {
   /// Identifier of the resource.
   final String identifier;
@@ -6691,6 +6766,8 @@ class LogicalResourceId {
 }
 
 /// Defines a physical resource identifier.
+///
+/// @nodoc
 class PhysicalResourceId {
   /// Identifier of the physical resource.
   final String identifier;
@@ -6817,6 +6894,7 @@ class PhysicalResourceId {
   }
 }
 
+/// @nodoc
 class ResourceSourceType {
   static const appTemplate = ResourceSourceType._('AppTemplate');
   static const discovered = ResourceSourceType._('Discovered');
@@ -6843,6 +6921,8 @@ class ResourceSourceType {
 }
 
 /// Defines an Application Component.
+///
+/// @nodoc
 class AppComponent {
   /// Name of the Application Component.
   final String name;
@@ -6861,8 +6941,8 @@ class AppComponent {
   ///
   /// Key: <code>"failover-regions"</code>
   ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// Value: <code>"\[{"region":"&lt;REGION&gt;",
+  /// "accounts":\[{"id":"&lt;ACCOUNT_ID&gt;"}\]}\]"</code>
   /// </note>
   final Map<String, List<String>>? additionalInfo;
 
@@ -6901,6 +6981,7 @@ class AppComponent {
   }
 }
 
+/// @nodoc
 class PhysicalIdentifierType {
   static const arn = PhysicalIdentifierType._('Arn');
   static const native = PhysicalIdentifierType._('Native');
@@ -6927,6 +7008,8 @@ class PhysicalIdentifierType {
 }
 
 /// Defines an Resilience Hub application.
+///
+/// @nodoc
 class App {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -7118,6 +7201,7 @@ class App {
   }
 }
 
+/// @nodoc
 class AppStatusType {
   static const active = AppStatusType._('Active');
   static const deleting = AppStatusType._('Deleting');
@@ -7142,6 +7226,7 @@ class AppStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class AppComplianceStatusType {
   static const policyBreached = AppComplianceStatusType._('PolicyBreached');
   static const policyMet = AppComplianceStatusType._('PolicyMet');
@@ -7178,6 +7263,7 @@ class AppComplianceStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class AppAssessmentScheduleType {
   static const disabled = AppAssessmentScheduleType._('Disabled');
   static const daily = AppAssessmentScheduleType._('Daily');
@@ -7206,6 +7292,8 @@ class AppAssessmentScheduleType {
 /// Defines the roles and credentials that Resilience Hub would use while
 /// creating the application, importing its resources, and running an
 /// assessment.
+///
+/// @nodoc
 class PermissionModel {
   /// Defines how Resilience Hub scans your resources. It can scan for the
   /// resources by using a pre-existing role in your Amazon Web Services account,
@@ -7246,7 +7334,7 @@ class PermissionModel {
   /// </li>
   /// <li>
   /// Currently, <code>invokerRoleName</code> accepts only
-  /// <code>[A-Za-z0-9_+=,.@-]</code> characters.
+  /// <code>\[A-Za-z0-9_+=,.@-\]</code> characters.
   /// </li>
   /// </ul> </note>
   final String? invokerRoleName;
@@ -7281,6 +7369,7 @@ class PermissionModel {
   }
 }
 
+/// @nodoc
 class AppDriftStatusType {
   static const notChecked = AppDriftStatusType._('NotChecked');
   static const notDetected = AppDriftStatusType._('NotDetected');
@@ -7310,6 +7399,8 @@ class AppDriftStatusType {
 /// Indicates an event you would like to subscribe and get notification for.
 /// Currently, Resilience Hub supports notifications only for <b>Drift
 /// detected</b> and <b>Scheduled assessment failure</b> events.
+///
+/// @nodoc
 class EventSubscription {
   /// The type of event you would like to subscribe and get notification for.
   /// Currently, Resilience Hub supports notifications only for <b>Drift
@@ -7355,6 +7446,7 @@ class EventSubscription {
   }
 }
 
+/// @nodoc
 class EventType {
   static const scheduledAssessmentFailure =
       EventType._('ScheduledAssessmentFailure');
@@ -7379,6 +7471,7 @@ class EventType {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionModelType {
   static const legacyIAMUser = PermissionModelType._('LegacyIAMUser');
   static const roleBased = PermissionModelType._('RoleBased');
@@ -7404,6 +7497,7 @@ class PermissionModelType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourcesGroupingRecGenStatusType {
   static const pending = ResourcesGroupingRecGenStatusType._('Pending');
   static const inProgress = ResourcesGroupingRecGenStatusType._('InProgress');
@@ -7431,6 +7525,7 @@ class ResourcesGroupingRecGenStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricsExportStatusType {
   static const pending = MetricsExportStatusType._('Pending');
   static const inProgress = MetricsExportStatusType._('InProgress');
@@ -7459,6 +7554,8 @@ class MetricsExportStatusType {
 }
 
 /// Defines an application assessment.
+///
+/// @nodoc
 class AppAssessment {
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
@@ -7646,6 +7743,7 @@ class AppAssessment {
   }
 }
 
+/// @nodoc
 class AssessmentInvoker {
   static const user = AssessmentInvoker._('User');
   static const system = AssessmentInvoker._('System');
@@ -7671,6 +7769,8 @@ class AssessmentInvoker {
 }
 
 /// Defines a cost object.
+///
+/// @nodoc
 class Cost {
   /// The cost amount.
   final double amount;
@@ -7709,6 +7809,8 @@ class Cost {
 
 /// The overall resiliency score, returned as an object that includes the
 /// disruption score and outage score.
+///
+/// @nodoc
 class ResiliencyScore {
   /// The disruption score for a valid key.
   final Map<DisruptionType, double> disruptionScore;
@@ -7758,6 +7860,7 @@ class ResiliencyScore {
   }
 }
 
+/// @nodoc
 class ComplianceStatus {
   static const policyBreached = ComplianceStatus._('PolicyBreached');
   static const policyMet = ComplianceStatus._('PolicyMet');
@@ -7789,6 +7892,7 @@ class ComplianceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AssessmentStatus {
   static const pending = AssessmentStatus._('Pending');
   static const inProgress = AssessmentStatus._('InProgress');
@@ -7816,6 +7920,8 @@ class AssessmentStatus {
 }
 
 /// A list of errors retrieving an application's resources.
+///
+/// @nodoc
 class ResourceErrorsDetails {
   /// This indicates if there are more errors not listed in the
   /// <code>resourceErrors</code> list.
@@ -7849,6 +7955,7 @@ class ResourceErrorsDetails {
   }
 }
 
+/// @nodoc
 class DriftStatus {
   static const notChecked = DriftStatus._('NotChecked');
   static const notDetected = DriftStatus._('NotDetected');
@@ -7879,6 +7986,8 @@ class DriftStatus {
 /// <note>
 /// This property is available only in the US East (N. Virginia) Region.
 /// </note>
+///
+/// @nodoc
 class AssessmentSummary {
   /// Indicates the top risks and recommendations identified by the Resilience Hub
   /// assessment, each representing a specific risk and the corresponding
@@ -7933,6 +8042,8 @@ class AssessmentSummary {
 /// </note> <note>
 /// This property is available only in the US East (N. Virginia) Region.
 /// </note>
+///
+/// @nodoc
 class AssessmentRiskRecommendation {
   /// Indicates the Application Components (AppComponents) that were assessed as
   /// part of the assessment and are associated with the identified risk and
@@ -7986,6 +8097,8 @@ class AssessmentRiskRecommendation {
 }
 
 /// Defines application resource errors.
+///
+/// @nodoc
 class ResourceError {
   /// Identifier of the logical resource.
   final String? logicalResourceId;
@@ -8023,6 +8136,8 @@ class ResourceError {
 }
 
 /// Defines the compliance against the resiliency policy for a disruption.
+///
+/// @nodoc
 class DisruptionCompliance {
   /// The current status of compliance for the resiliency policy.
   final ComplianceStatus complianceStatus;
@@ -8111,6 +8226,7 @@ class DisruptionCompliance {
   }
 }
 
+/// @nodoc
 class ResiliencyScoreType {
   static const compliance = ResiliencyScoreType._('Compliance');
   static const test = ResiliencyScoreType._('Test');
@@ -8142,6 +8258,8 @@ class ResiliencyScoreType {
 /// scoring component, see <a
 /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/calculate-score.html">Calculating
 /// resiliency score</a>.
+///
+/// @nodoc
 class ScoringComponentResiliencyScore {
   /// Number of recommendations that were excluded from the assessment.
   ///
@@ -8203,6 +8321,7 @@ class ScoringComponentResiliencyScore {
   }
 }
 
+/// @nodoc
 class CostFrequency {
   static const hourly = CostFrequency._('Hourly');
   static const daily = CostFrequency._('Daily');
@@ -8229,6 +8348,7 @@ class CostFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceResolutionStatusType {
   static const pending = ResourceResolutionStatusType._('Pending');
   static const inProgress = ResourceResolutionStatusType._('InProgress');
@@ -8257,6 +8377,8 @@ class ResourceResolutionStatusType {
 }
 
 /// Indicates the accepted grouping recommendation whose implementation failed.
+///
+/// @nodoc
 class FailedGroupingRecommendationEntry {
   /// Indicates the error that occurred while implementing a grouping
   /// recommendation.
@@ -8290,6 +8412,8 @@ class FailedGroupingRecommendationEntry {
 }
 
 /// Indicates the rejected grouping recommendation.
+///
+/// @nodoc
 class RejectGroupingRecommendationEntry {
   /// Indicates the identifier of the grouping recommendation.
   final String groupingRecommendationId;
@@ -8313,6 +8437,7 @@ class RejectGroupingRecommendationEntry {
   }
 }
 
+/// @nodoc
 class GroupingRecommendationRejectionReason {
   static const distinctBusinessPurpose =
       GroupingRecommendationRejectionReason._('DistinctBusinessPurpose');
@@ -8349,6 +8474,8 @@ class GroupingRecommendationRejectionReason {
 }
 
 /// Defines a resource that is not supported by Resilience Hub.
+///
+/// @nodoc
 class UnsupportedResource {
   /// Logical resource identifier for the unsupported resource.
   final LogicalResourceId logicalResourceId;
@@ -8398,6 +8525,8 @@ class UnsupportedResource {
 }
 
 /// Defines a test recommendation.
+///
+/// @nodoc
 class TestRecommendation {
   /// Reference identifier for the test recommendation.
   final String referenceId;
@@ -8513,6 +8642,7 @@ class TestRecommendation {
   }
 }
 
+/// @nodoc
 class TestRisk {
   static const small = TestRisk._('Small');
   static const medium = TestRisk._('Medium');
@@ -8537,6 +8667,7 @@ class TestRisk {
   String toString() => value;
 }
 
+/// @nodoc
 class TestType {
   static const software = TestType._('Software');
   static const hardware = TestType._('Hardware');
@@ -8562,6 +8693,7 @@ class TestType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationStatus {
   static const implemented = RecommendationStatus._('Implemented');
   static const inactive = RecommendationStatus._('Inactive');
@@ -8590,6 +8722,8 @@ class RecommendationStatus {
 }
 
 /// Defines a recommendation.
+///
+/// @nodoc
 class RecommendationItem {
   /// Specifies if the recommendation has already been implemented.
   final bool? alreadyImplemented;
@@ -8670,6 +8804,7 @@ class RecommendationItem {
   }
 }
 
+/// @nodoc
 class ExcludeRecommendationReason {
   static const alreadyImplemented =
       ExcludeRecommendationReason._('AlreadyImplemented');
@@ -8703,6 +8838,8 @@ class ExcludeRecommendationReason {
 }
 
 /// Indicates the FIS experiment detected while running an assessment.
+///
+/// @nodoc
 class Experiment {
   /// Amazon Resource Name (ARN) of the FIS experiment.
   final String? experimentArn;
@@ -8734,6 +8871,8 @@ class Experiment {
 }
 
 /// Indicates the Amazon CloudWatch alarm detected while running an assessment.
+///
+/// @nodoc
 class Alarm {
   /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
   final String? alarmArn;
@@ -8767,6 +8906,8 @@ class Alarm {
 }
 
 /// Defines a standard operating procedure (SOP) recommendation.
+///
+/// @nodoc
 class SopRecommendation {
   /// Identifier for the SOP recommendation.
   final String recommendationId;
@@ -8851,6 +8992,7 @@ class SopRecommendation {
   }
 }
 
+/// @nodoc
 class SopServiceType {
   static const ssm = SopServiceType._('SSM');
 
@@ -8875,6 +9017,8 @@ class SopServiceType {
 }
 
 /// Creates a new grouping recommendation.
+///
+/// @nodoc
 class GroupingRecommendation {
   /// Indicates the confidence level of Resilience Hub on the grouping
   /// recommendation.
@@ -8969,6 +9113,8 @@ class GroupingRecommendation {
 }
 
 /// Creates a new recommended Application Component (AppComponent).
+///
+/// @nodoc
 class GroupingAppComponent {
   /// Indicates the identifier of an AppComponent.
   final String appComponentId;
@@ -9005,6 +9151,7 @@ class GroupingAppComponent {
   }
 }
 
+/// @nodoc
 class GroupingRecommendationStatusType {
   static const accepted = GroupingRecommendationStatusType._('Accepted');
   static const rejected = GroupingRecommendationStatusType._('Rejected');
@@ -9032,6 +9179,7 @@ class GroupingRecommendationStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupingRecommendationConfidenceLevel {
   static const high = GroupingRecommendationConfidenceLevel._('High');
   static const medium = GroupingRecommendationConfidenceLevel._('Medium');
@@ -9059,6 +9207,8 @@ class GroupingRecommendationConfidenceLevel {
 
 /// Indicates the resource that will be grouped in the recommended Application
 /// Component (AppComponent).
+///
+/// @nodoc
 class GroupingResource {
   /// Indicates the logical identifier of the resource.
   final LogicalResourceId logicalResourceId;
@@ -9120,6 +9270,8 @@ class GroupingResource {
 
 /// Defines a recommendation template created with the
 /// <a>CreateRecommendationTemplate</a> action.
+///
+/// @nodoc
 class RecommendationTemplate {
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
@@ -9270,6 +9422,8 @@ class RecommendationTemplate {
 }
 
 /// The location of the Amazon S3 bucket.
+///
+/// @nodoc
 class S3Location {
   /// The name of the Amazon S3 bucket.
   final String? bucket;
@@ -9299,6 +9453,7 @@ class S3Location {
   }
 }
 
+/// @nodoc
 class TemplateFormat {
   static const cfnYaml = TemplateFormat._('CfnYaml');
   static const cfnJson = TemplateFormat._('CfnJson');
@@ -9323,6 +9478,7 @@ class TemplateFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationTemplateStatus {
   static const pending = RecommendationTemplateStatus._('Pending');
   static const inProgress = RecommendationTemplateStatus._('InProgress');
@@ -9350,6 +9506,7 @@ class RecommendationTemplateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RenderRecommendationType {
   static const alarm = RenderRecommendationType._('Alarm');
   static const sop = RenderRecommendationType._('Sop');
@@ -9377,6 +9534,8 @@ class RenderRecommendationType {
 }
 
 /// Indicates the sorting order of the fields in the metrics.
+///
+/// @nodoc
 class Sort {
   /// Indicates the order in which you want to sort the metrics. By default, the
   /// list is sorted in ascending order. To sort the list in descending order, set
@@ -9403,6 +9562,8 @@ class Sort {
 }
 
 /// Indicates the condition based on which you want to filter the metrics.
+///
+/// @nodoc
 class Condition {
   /// Indicates the field in the metric.
   final String field;
@@ -9432,6 +9593,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class ConditionOperatorType {
   static const equals = ConditionOperatorType._('Equals');
   static const notEquals = ConditionOperatorType._('NotEquals');
@@ -9470,6 +9632,8 @@ class ConditionOperatorType {
 
 /// Indicates the field or attribute of a resource or data structure on which a
 /// condition is being applied or evaluated.
+///
+/// @nodoc
 class Field {
   /// Name of the field.
   final String name;
@@ -9494,6 +9658,7 @@ class Field {
   }
 }
 
+/// @nodoc
 class FieldAggregationType {
   static const min = FieldAggregationType._('Min');
   static const max = FieldAggregationType._('Max');
@@ -9523,6 +9688,8 @@ class FieldAggregationType {
 }
 
 /// Version of an application.
+///
+/// @nodoc
 class AppVersionSummary {
   /// Version of an application.
   final String appVersion;
@@ -9568,6 +9735,8 @@ class AppVersionSummary {
 }
 
 /// Defines a resource mapping.
+///
+/// @nodoc
 class ResourceMapping {
   /// Specifies the type of resource mapping.
   final ResourceMappingType mappingType;
@@ -9653,6 +9822,7 @@ class ResourceMapping {
   }
 }
 
+/// @nodoc
 class ResourceMappingType {
   static const cfnStack = ResourceMappingType._('CfnStack');
   static const resource = ResourceMappingType._('Resource');
@@ -9690,6 +9860,8 @@ class ResourceMappingType {
 }
 
 /// Defines an application summary.
+///
+/// @nodoc
 class AppSummary {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -9816,6 +9988,8 @@ class AppSummary {
 }
 
 /// The list of Resilience Hub application input sources.
+///
+/// @nodoc
 class AppInputSource {
   /// The resource type of the input source.
   final ResourceMappingType importType;
@@ -9886,6 +10060,8 @@ class AppInputSource {
 }
 
 /// The Terraform s3 state file you need to import.
+///
+/// @nodoc
 class TerraformSource {
   /// The URL of the Terraform s3 state file you need to import.
   final String s3StateFileUrl;
@@ -9910,6 +10086,8 @@ class TerraformSource {
 
 /// The input source of the namespace that is located on your Amazon Elastic
 /// Kubernetes Service cluster.
+///
+/// @nodoc
 class EksSourceClusterNamespace {
   /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster.
   /// The format for this ARN is:
@@ -9949,6 +10127,8 @@ class EksSourceClusterNamespace {
 /// Defines recommendations for an Resilience Hub Application Component,
 /// returned as an object. This object contains component names, configuration
 /// recommendations, and recommendation statuses.
+///
+/// @nodoc
 class ComponentRecommendation {
   /// Name of the Application Component.
   final String appComponentName;
@@ -9990,6 +10170,7 @@ class ComponentRecommendation {
   }
 }
 
+/// @nodoc
 class RecommendationComplianceStatus {
   static const breachedUnattainable =
       RecommendationComplianceStatus._('BreachedUnattainable');
@@ -10027,6 +10208,8 @@ class RecommendationComplianceStatus {
 }
 
 /// Defines a recommendation configuration.
+///
+/// @nodoc
 class ConfigRecommendation {
   /// The name of the recommendation configuration.
   final String name;
@@ -10132,6 +10315,7 @@ class ConfigRecommendation {
   }
 }
 
+/// @nodoc
 class ConfigRecommendationOptimizationType {
   static const leastCost = ConfigRecommendationOptimizationType._('LeastCost');
   static const leastChange =
@@ -10173,6 +10357,7 @@ class ConfigRecommendationOptimizationType {
   String toString() => value;
 }
 
+/// @nodoc
 class HaArchitecture {
   static const multiSite = HaArchitecture._('MultiSite');
   static const warmStandby = HaArchitecture._('WarmStandby');
@@ -10207,6 +10392,8 @@ class HaArchitecture {
 }
 
 /// Defines a disruption compliance recommendation.
+///
+/// @nodoc
 class RecommendationDisruptionCompliance {
   /// The expected compliance status after applying the recommended configuration
   /// change.
@@ -10266,6 +10453,8 @@ class RecommendationDisruptionCompliance {
 
 /// Defines the compliance of an Application Component against the resiliency
 /// policy.
+///
+/// @nodoc
 class AppComponentCompliance {
   /// Name of the Application Component.
   final String? appComponentName;
@@ -10332,6 +10521,8 @@ class AppComponentCompliance {
 }
 
 /// Defines an application assessment summary.
+///
+/// @nodoc
 class AppAssessmentSummary {
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
@@ -10464,6 +10655,8 @@ class AppAssessmentSummary {
 
 /// Indicates the resources that have drifted in the current application
 /// version.
+///
+/// @nodoc
 class ResourceDrift {
   /// Amazon Resource Name (ARN) of the application whose resources have drifted.
   /// The format for this ARN is:
@@ -10524,6 +10717,8 @@ class ResourceDrift {
 }
 
 /// Defines a resource identifier for the drifted resource.
+///
+/// @nodoc
 class ResourceIdentifier {
   /// Logical identifier of the drifted resource.
   final LogicalResourceId? logicalResourceId;
@@ -10556,6 +10751,7 @@ class ResourceIdentifier {
   }
 }
 
+/// @nodoc
 class DifferenceType {
   static const notEqual = DifferenceType._('NotEqual');
   static const added = DifferenceType._('Added');
@@ -10583,6 +10779,8 @@ class DifferenceType {
 
 /// Indicates the compliance drifts (recovery time objective (RTO) and recovery
 /// point objective (RPO)) that were detected for an assessed entity.
+///
+/// @nodoc
 class ComplianceDrift {
   /// Assessment identifier that is associated with this drift item.
   final String? actualReferenceId;
@@ -10684,6 +10882,7 @@ class ComplianceDrift {
   }
 }
 
+/// @nodoc
 class DriftType {
   static const applicationCompliance = DriftType._('ApplicationCompliance');
   static const appComponentResiliencyComplianceStatus =
@@ -10712,6 +10911,8 @@ class DriftType {
 }
 
 /// Defines a recommendation for a CloudWatch alarm.
+///
+/// @nodoc
 class AlarmRecommendation {
   /// Name of the alarm recommendation.
   final String name;
@@ -10806,6 +11007,7 @@ class AlarmRecommendation {
   }
 }
 
+/// @nodoc
 class AlarmType {
   static const metric = AlarmType._('Metric');
   static const composite = AlarmType._('Composite');
@@ -10832,6 +11034,7 @@ class AlarmType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceImportStatusType {
   static const pending = ResourceImportStatusType._('Pending');
   static const inProgress = ResourceImportStatusType._('InProgress');
@@ -10860,6 +11063,8 @@ class ResourceImportStatusType {
 }
 
 /// The input source of the Amazon Elastic Kubernetes Service cluster.
+///
+/// @nodoc
 class EksSource {
   /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster.
   /// The format for this ARN is:
@@ -10899,6 +11104,7 @@ class EksSource {
   }
 }
 
+/// @nodoc
 class ResourceImportStrategyType {
   static const addOnly = ResourceImportStrategyType._('AddOnly');
   static const replaceAll = ResourceImportStrategyType._('ReplaceAll');
@@ -10925,6 +11131,8 @@ class ResourceImportStrategyType {
 }
 
 /// Indicates the error that was encountered while importing a resource.
+///
+/// @nodoc
 class ErrorDetail {
   /// Provides additional information about the error.
   final String? errorMessage;
@@ -10948,6 +11156,8 @@ class ErrorDetail {
 }
 
 /// List of operational recommendations that did not get included or excluded.
+///
+/// @nodoc
 class BatchUpdateRecommendationStatusFailedEntry {
   /// An identifier of an entry in this batch that is used to communicate the
   /// result.
@@ -10986,6 +11196,8 @@ class BatchUpdateRecommendationStatusFailedEntry {
 
 /// List of operational recommendations that were successfully included or
 /// excluded.
+///
+/// @nodoc
 class BatchUpdateRecommendationStatusSuccessfulEntry {
   /// An identifier for an entry in this batch that is used to communicate the
   /// result.
@@ -11054,6 +11266,8 @@ class BatchUpdateRecommendationStatusSuccessfulEntry {
 }
 
 /// Defines the operational recommendation item that needs a status update.
+///
+/// @nodoc
 class UpdateRecommendationStatusItem {
   /// Resource identifier of the operational recommendation item.
   final String? resourceId;
@@ -11092,6 +11306,8 @@ class UpdateRecommendationStatusItem {
 
 /// Defines the operational recommendation item that is to be included or
 /// excluded.
+///
+/// @nodoc
 class UpdateRecommendationStatusRequestEntry {
   /// An identifier for an entry in this batch that is used to communicate the
   /// result.
@@ -11146,6 +11362,8 @@ class UpdateRecommendationStatusRequestEntry {
 
 /// Indicates the grouping recommendation you have accepted to include in your
 /// application.
+///
+/// @nodoc
 class AcceptGroupingRecommendationEntry {
   /// Indicates the identifier of the grouping recommendation.
   final String groupingRecommendationId;
@@ -11162,26 +11380,31 @@ class AcceptGroupingRecommendationEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -11190,11 +11413,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

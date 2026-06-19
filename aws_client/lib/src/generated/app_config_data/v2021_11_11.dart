@@ -238,6 +238,7 @@ class AppConfigData {
   }
 }
 
+/// @nodoc
 class GetLatestConfigurationResponse {
   /// The data of the configuration. This may be empty if the client already has
   /// the latest version of configuration.
@@ -288,6 +289,7 @@ class GetLatestConfigurationResponse {
   }
 }
 
+/// @nodoc
 class StartConfigurationSessionResponse {
   /// Token encapsulating state about the configuration session. Provide this
   /// token to the <code>GetLatestConfiguration</code> API to retrieve
@@ -327,21 +329,25 @@ class StartConfigurationSessionResponse {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

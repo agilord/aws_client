@@ -1172,6 +1172,7 @@ class ComprehendMedical {
   }
 }
 
+/// @nodoc
 class DescribeEntitiesDetectionV2JobResponse {
   /// An object that contains the properties associated with a detection job.
   final ComprehendMedicalAsyncJobProperties?
@@ -1204,6 +1205,7 @@ class DescribeEntitiesDetectionV2JobResponse {
   }
 }
 
+/// @nodoc
 class DescribeICD10CMInferenceJobResponse {
   /// An object that contains the properties associated with a detection job.
   final ComprehendMedicalAsyncJobProperties?
@@ -1236,6 +1238,7 @@ class DescribeICD10CMInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class DescribePHIDetectionJobResponse {
   /// An object that contains the properties associated with a detection job.
   final ComprehendMedicalAsyncJobProperties?
@@ -1267,6 +1270,7 @@ class DescribePHIDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeRxNormInferenceJobResponse {
   /// An object that contains the properties associated with a detection job.
   final ComprehendMedicalAsyncJobProperties?
@@ -1299,6 +1303,7 @@ class DescribeRxNormInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeSNOMEDCTInferenceJobResponse {
   final ComprehendMedicalAsyncJobProperties?
       comprehendMedicalAsyncJobProperties;
@@ -1330,6 +1335,7 @@ class DescribeSNOMEDCTInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class DetectEntitiesResponse {
   /// The collection of medical entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
@@ -1388,6 +1394,7 @@ class DetectEntitiesResponse {
   }
 }
 
+/// @nodoc
 class DetectEntitiesV2Response {
   /// The collection of medical entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
@@ -1445,6 +1452,7 @@ class DetectEntitiesV2Response {
   }
 }
 
+/// @nodoc
 class DetectPHIResponse {
   /// The collection of PHI entities extracted from the input text and their
   /// associated information. For each entity, the response provides the entity
@@ -1491,6 +1499,7 @@ class DetectPHIResponse {
   }
 }
 
+/// @nodoc
 class InferICD10CMResponse {
   /// The medical conditions detected in the text linked to ICD-10-CM concepts. If
   /// the action is successful, the service sends back an HTTP 200 response, as
@@ -1536,6 +1545,7 @@ class InferICD10CMResponse {
   }
 }
 
+/// @nodoc
 class InferRxNormResponse {
   /// The medication entities detected in the text linked to RxNorm concepts. If
   /// the action is successful, the service sends back an HTTP 200 response, as
@@ -1581,6 +1591,7 @@ class InferRxNormResponse {
   }
 }
 
+/// @nodoc
 class InferSNOMEDCTResponse {
   /// The collection of medical concept entities extracted from the input text and
   /// their associated information. For each entity, the response provides the
@@ -1647,6 +1658,7 @@ class InferSNOMEDCTResponse {
   }
 }
 
+/// @nodoc
 class ListEntitiesDetectionV2JobsResponse {
   /// A list containing the properties of each job returned.
   final List<ComprehendMedicalAsyncJobProperties>?
@@ -1686,6 +1698,7 @@ class ListEntitiesDetectionV2JobsResponse {
   }
 }
 
+/// @nodoc
 class ListICD10CMInferenceJobsResponse {
   /// A list containing the properties of each job that is returned.
   final List<ComprehendMedicalAsyncJobProperties>?
@@ -1724,6 +1737,7 @@ class ListICD10CMInferenceJobsResponse {
   }
 }
 
+/// @nodoc
 class ListPHIDetectionJobsResponse {
   /// A list containing the properties of each job returned.
   final List<ComprehendMedicalAsyncJobProperties>?
@@ -1762,6 +1776,7 @@ class ListPHIDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListRxNormInferenceJobsResponse {
   /// The maximum number of results to return in each page. The default is 100.
   final List<ComprehendMedicalAsyncJobProperties>?
@@ -1800,6 +1815,7 @@ class ListRxNormInferenceJobsResponse {
   }
 }
 
+/// @nodoc
 class ListSNOMEDCTInferenceJobsResponse {
   /// A list containing the properties of each job that is returned.
   final List<ComprehendMedicalAsyncJobProperties>?
@@ -1839,6 +1855,7 @@ class ListSNOMEDCTInferenceJobsResponse {
   }
 }
 
+/// @nodoc
 class StartEntitiesDetectionV2JobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>DescribeEntitiesDetectionV2Job</code> operation.
@@ -1863,6 +1880,7 @@ class StartEntitiesDetectionV2JobResponse {
   }
 }
 
+/// @nodoc
 class StartICD10CMInferenceJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>StartICD10CMInferenceJob</code> operation.
@@ -1886,6 +1904,7 @@ class StartICD10CMInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class StartPHIDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the <code>DescribePHIDetectionJob</code> operation.
@@ -1909,6 +1928,7 @@ class StartPHIDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartRxNormInferenceJobResponse {
   /// The identifier of the job.
   final String? jobId;
@@ -1931,6 +1951,7 @@ class StartRxNormInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class StartSNOMEDCTInferenceJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the StartSNOMEDCTInferenceJob operation.
@@ -1955,6 +1976,7 @@ class StartSNOMEDCTInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class StopEntitiesDetectionV2JobResponse {
   /// The identifier of the medical entities detection job that was stopped.
   final String? jobId;
@@ -1978,6 +2000,7 @@ class StopEntitiesDetectionV2JobResponse {
   }
 }
 
+/// @nodoc
 class StopICD10CMInferenceJobResponse {
   /// The identifier generated for the job. To get the status of job, use this
   /// identifier with the <code>DescribeICD10CMInferenceJob</code> operation.
@@ -2001,6 +2024,7 @@ class StopICD10CMInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class StopPHIDetectionJobResponse {
   /// The identifier of the PHI detection job that was stopped.
   final String? jobId;
@@ -2023,6 +2047,7 @@ class StopPHIDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopRxNormInferenceJobResponse {
   /// The identifier generated for the job. To get the status of job, use this
   /// identifier with the <code>DescribeRxNormInferenceJob</code> operation.
@@ -2046,6 +2071,7 @@ class StopRxNormInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class StopSNOMEDCTInferenceJobResponse {
   /// The identifier generated for the job. To get the status of job, use this
   /// identifier with the DescribeSNOMEDCTInferenceJob operation.
@@ -2071,6 +2097,8 @@ class StopSNOMEDCTInferenceJobResponse {
 
 /// The input properties for an entities detection job. This includes the name
 /// of the S3 bucket and the path to the files to be analyzed.
+///
+/// @nodoc
 class InputDataConfig {
   /// The URI of the S3 bucket that contains the input data. The bucket must be in
   /// the same region as the API endpoint that you are calling.
@@ -2102,6 +2130,8 @@ class InputDataConfig {
 }
 
 /// The output properties for a detection job.
+///
+/// @nodoc
 class OutputDataConfig {
   /// When you use the <code>OutputDataConfig</code> object with asynchronous
   /// operations, you specify the Amazon S3 location where you want to write the
@@ -2137,6 +2167,7 @@ class OutputDataConfig {
   }
 }
 
+/// @nodoc
 class LanguageCode {
   static const en = LanguageCode._('en');
 
@@ -2160,6 +2191,8 @@ class LanguageCode {
 }
 
 /// Provides information about a detection job.
+///
+/// @nodoc
 class ComprehendMedicalAsyncJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read
   /// access to your input data.
@@ -2294,6 +2327,7 @@ class ComprehendMedicalAsyncJobProperties {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const inProgress = JobStatus._('IN_PROGRESS');
@@ -2331,6 +2365,8 @@ class JobStatus {
 }
 
 /// Provides information for filtering a list of detection jobs.
+///
+/// @nodoc
 class ComprehendMedicalAsyncJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -2375,6 +2411,8 @@ class ComprehendMedicalAsyncJobFilter {
 /// The information about the revision of the SNOMED-CT ontology in the
 /// response. Specifically, the details include the SNOMED-CT edition, language,
 /// and version date.
+///
+/// @nodoc
 class SNOMEDCTDetails {
   /// The edition of SNOMED-CT used. The edition used for the InferSNOMEDCT
   /// editions is the US edition.
@@ -2414,6 +2452,8 @@ class SNOMEDCTDetails {
 }
 
 /// The number of characters in the input text to be analyzed.
+///
+/// @nodoc
 class Characters {
   /// The number of characters present in the input text document as processed by
   /// Amazon Comprehend Medical.
@@ -2443,6 +2483,8 @@ class Characters {
 /// text, the entity category, where the entity text begins and ends, and the
 /// level of confidence that Amazon Comprehend Medical has in the detection and
 /// analysis. Attributes and traits of the entity are also returned.
+///
+/// @nodoc
 class SNOMEDCTEntity {
   /// An extracted segment of the text that is an attribute of an entity, or
   /// otherwise related to an entity, such as the dosage of a medication taken.
@@ -2547,6 +2589,7 @@ class SNOMEDCTEntity {
   }
 }
 
+/// @nodoc
 class SNOMEDCTEntityCategory {
   static const medicalCondition = SNOMEDCTEntityCategory._('MEDICAL_CONDITION');
   static const anatomy = SNOMEDCTEntityCategory._('ANATOMY');
@@ -2574,6 +2617,7 @@ class SNOMEDCTEntityCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class SNOMEDCTEntityType {
   static const dxName = SNOMEDCTEntityType._('DX_NAME');
   static const testName = SNOMEDCTEntityType._('TEST_NAME');
@@ -2603,6 +2647,8 @@ class SNOMEDCTEntityType {
 
 /// The SNOMED-CT concepts that the entity could refer to, along with a score
 /// indicating the likelihood of the match.
+///
+/// @nodoc
 class SNOMEDCTConcept {
   /// The numeric ID for the SNOMED-CT concept.
   final String? code;
@@ -2641,6 +2687,8 @@ class SNOMEDCTConcept {
 }
 
 /// Contextual information for an entity.
+///
+/// @nodoc
 class SNOMEDCTTrait {
   /// The name or contextual description of a detected trait.
   final SNOMEDCTTraitName? name;
@@ -2671,6 +2719,7 @@ class SNOMEDCTTrait {
   }
 }
 
+/// @nodoc
 class SNOMEDCTTraitName {
   static const negation = SNOMEDCTTraitName._('NEGATION');
   static const diagnosis = SNOMEDCTTraitName._('DIAGNOSIS');
@@ -2715,6 +2764,8 @@ class SNOMEDCTTraitName {
 /// The extracted attributes that relate to an entity. An extracted segment of
 /// the text that is an attribute of an entity, or otherwise related to an
 /// entity, such as the dosage of a medication taken.
+///
+/// @nodoc
 class SNOMEDCTAttribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
@@ -2827,6 +2878,7 @@ class SNOMEDCTAttribute {
   }
 }
 
+/// @nodoc
 class SNOMEDCTAttributeType {
   static const acuity = SNOMEDCTAttributeType._('ACUITY');
   static const quality = SNOMEDCTAttributeType._('QUALITY');
@@ -2863,6 +2915,7 @@ class SNOMEDCTAttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class SNOMEDCTRelationshipType {
   static const acuity = SNOMEDCTRelationshipType._('ACUITY');
   static const quality = SNOMEDCTRelationshipType._('QUALITY');
@@ -2907,6 +2960,8 @@ class SNOMEDCTRelationshipType {
 /// text, the entity category, where the entity text begins and ends, and the
 /// level of confidence that Amazon Comprehend Medical has in the detection and
 /// analysis. Attributes and traits of the entity are also returned.
+///
+/// @nodoc
 class RxNormEntity {
   /// The extracted attributes that relate to the entity. The attributes
   /// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
@@ -3012,6 +3067,7 @@ class RxNormEntity {
   }
 }
 
+/// @nodoc
 class RxNormEntityCategory {
   static const medication = RxNormEntityCategory._('MEDICATION');
 
@@ -3036,6 +3092,7 @@ class RxNormEntityCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class RxNormEntityType {
   static const brandName = RxNormEntityType._('BRAND_NAME');
   static const genericName = RxNormEntityType._('GENERIC_NAME');
@@ -3062,6 +3119,8 @@ class RxNormEntityType {
 
 /// The RxNorm concept that the entity could refer to, along with a score
 /// indicating the likelihood of the match.
+///
+/// @nodoc
 class RxNormConcept {
   /// RxNorm concept ID, also known as the RxCUI.
   final String? code;
@@ -3102,6 +3161,8 @@ class RxNormConcept {
 /// The contextual information for the entity. InferRxNorm recognizes the trait
 /// <code>NEGATION</code>, which is any indication that the patient is not
 /// taking a medication.
+///
+/// @nodoc
 class RxNormTrait {
   /// Provides a name or contextual description about the trait.
   final RxNormTraitName? name;
@@ -3132,6 +3193,7 @@ class RxNormTrait {
   }
 }
 
+/// @nodoc
 class RxNormTraitName {
   static const negation = RxNormTraitName._('NEGATION');
   static const pastHistory = RxNormTraitName._('PAST_HISTORY');
@@ -3160,6 +3222,8 @@ class RxNormTraitName {
 /// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
 /// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
 /// <code>ROUTE_OR_MODE</code>.
+///
+/// @nodoc
 class RxNormAttribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
@@ -3243,6 +3307,7 @@ class RxNormAttribute {
   }
 }
 
+/// @nodoc
 class RxNormAttributeType {
   static const dosage = RxNormAttributeType._('DOSAGE');
   static const duration = RxNormAttributeType._('DURATION');
@@ -3286,6 +3351,8 @@ class RxNormAttributeType {
 /// text, the entity category, where the entity text begins and ends, and the
 /// level of confidence that Amazon Comprehend Medical has in the detection and
 /// analysis. Attributes and traits of the entity are also returned.
+///
+/// @nodoc
 class ICD10CMEntity {
   /// The detected attributes that relate to the entity. An extracted segment of
   /// the text that is an attribute of an entity, or otherwise related to an
@@ -3393,6 +3460,7 @@ class ICD10CMEntity {
   }
 }
 
+/// @nodoc
 class ICD10CMEntityCategory {
   static const medicalCondition = ICD10CMEntityCategory._('MEDICAL_CONDITION');
 
@@ -3417,6 +3485,7 @@ class ICD10CMEntityCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class ICD10CMEntityType {
   static const dxName = ICD10CMEntityType._('DX_NAME');
   static const timeExpression = ICD10CMEntityType._('TIME_EXPRESSION');
@@ -3443,6 +3512,8 @@ class ICD10CMEntityType {
 
 /// The ICD-10-CM concepts that the entity could refer to, along with a score
 /// indicating the likelihood of the match.
+///
+/// @nodoc
 class ICD10CMConcept {
   /// The ICD-10-CM code that identifies the concept found in the knowledge base
   /// from the Centers for Disease Control.
@@ -3484,6 +3555,8 @@ class ICD10CMConcept {
 /// Contextual information for the entity. The traits recognized by InferICD10CM
 /// are <code>DIAGNOSIS</code>, <code>SIGN</code>, <code>SYMPTOM</code>, and
 /// <code>NEGATION</code>.
+///
+/// @nodoc
 class ICD10CMTrait {
   /// Provides a name or contextual description about the trait.
   final ICD10CMTraitName? name;
@@ -3514,6 +3587,7 @@ class ICD10CMTrait {
   }
 }
 
+/// @nodoc
 class ICD10CMTraitName {
   static const negation = ICD10CMTraitName._('NEGATION');
   static const diagnosis = ICD10CMTraitName._('DIAGNOSIS');
@@ -3556,6 +3630,8 @@ class ICD10CMTraitName {
 /// to an entity. InferICD10CM detects the following attributes:
 /// <code>Direction</code>, <code>System, Organ or Site</code>, and
 /// <code>Acuity</code>.
+///
+/// @nodoc
 class ICD10CMAttribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
@@ -3658,6 +3734,7 @@ class ICD10CMAttribute {
   }
 }
 
+/// @nodoc
 class ICD10CMAttributeType {
   static const acuity = ICD10CMAttributeType._('ACUITY');
   static const direction = ICD10CMAttributeType._('DIRECTION');
@@ -3696,6 +3773,7 @@ class ICD10CMAttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class ICD10CMRelationshipType {
   static const overlap = ICD10CMRelationshipType._('OVERLAP');
   static const systemOrganSite = ICD10CMRelationshipType._('SYSTEM_ORGAN_SITE');
@@ -3723,6 +3801,8 @@ class ICD10CMRelationshipType {
 }
 
 /// Provides information about an extracted medical entity.
+///
+/// @nodoc
 class Entity {
   /// The extracted attributes that relate to this entity.
   final List<Attribute>? attributes;
@@ -3811,6 +3891,7 @@ class Entity {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const medication = EntityType._('MEDICATION');
   static const medicalCondition = EntityType._('MEDICAL_CONDITION');
@@ -3850,6 +3931,7 @@ class EntityType {
   String toString() => value;
 }
 
+/// @nodoc
 class EntitySubType {
   static const name = EntitySubType._('NAME');
   static const dxName = EntitySubType._('DX_NAME');
@@ -3968,6 +4050,8 @@ class EntitySubType {
 /// otherwise related to an entity, such as the dosage of a medication taken. It
 /// contains information about the attribute such as id, begin and end offset
 /// within the input text, and the segment of the input text.
+///
+/// @nodoc
 class Attribute {
   /// The 0-based character offset in the input text that shows where the
   /// attribute begins. The offset returns the UTF-8 code point in the string.
@@ -4065,6 +4149,7 @@ class Attribute {
   }
 }
 
+/// @nodoc
 class RelationshipType {
   static const every = RelationshipType._('EVERY');
   static const withDosage = RelationshipType._('WITH_DOSAGE');
@@ -4133,6 +4218,8 @@ class RelationshipType {
 }
 
 /// Provides contextual information about the extracted entity.
+///
+/// @nodoc
 class Trait {
   /// Provides a name or contextual description about the trait.
   final AttributeName? name;
@@ -4163,6 +4250,7 @@ class Trait {
   }
 }
 
+/// @nodoc
 class AttributeName {
   static const sign = AttributeName._('SIGN');
   static const symptom = AttributeName._('SYMPTOM');
@@ -4206,6 +4294,8 @@ class AttributeName {
 
 /// An attribute that was extracted, but Amazon Comprehend Medical was unable to
 /// relate to an entity.
+///
+/// @nodoc
 class UnmappedAttribute {
   /// The specific attribute that has been extracted but not mapped to an entity.
   final Attribute? attribute;
@@ -4239,32 +4329,38 @@ class UnmappedAttribute {
   }
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidEncodingException extends _s.GenericAwsException {
   InvalidEncodingException({String? type, String? message})
       : super(type: type, code: 'InvalidEncodingException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TextSizeLimitExceededException extends _s.GenericAwsException {
   TextSizeLimitExceededException({String? type, String? message})
       : super(
@@ -4273,11 +4369,13 @@ class TextSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

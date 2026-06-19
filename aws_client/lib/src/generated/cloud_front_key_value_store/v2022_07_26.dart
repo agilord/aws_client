@@ -288,6 +288,8 @@ class CloudFrontKeyValueStore {
 }
 
 /// Metadata information about a Key Value Store.
+///
+/// @nodoc
 class DeleteKeyResponse {
   /// The current version identifier of the Key Value Store after the successful
   /// delete.
@@ -318,6 +320,8 @@ class DeleteKeyResponse {
 }
 
 /// Metadata information about a Key Value Store.
+///
+/// @nodoc
 class DescribeKeyValueStoreResponse {
   /// Date and time when the Key Value Store was created.
   final DateTime created;
@@ -378,6 +382,8 @@ class DescribeKeyValueStoreResponse {
 }
 
 /// A key value pair.
+///
+/// @nodoc
 class GetKeyResponse {
   /// Number of key value pairs in the Key Value Store.
   final int itemCount;
@@ -421,6 +427,7 @@ class GetKeyResponse {
   }
 }
 
+/// @nodoc
 class ListKeysResponse {
   /// Key value pairs
   final List<ListKeysResponseListItem>? items;
@@ -456,6 +463,8 @@ class ListKeysResponse {
 }
 
 /// Metadata information about a Key Value Store.
+///
+/// @nodoc
 class PutKeyResponse {
   /// The current version identifier of the Key Value Store after the successful
   /// put.
@@ -485,6 +494,8 @@ class PutKeyResponse {
 }
 
 /// Metadata information about a Key Value Store.
+///
+/// @nodoc
 class UpdateKeysResponse {
   /// The current version identifier of the Key Value Store after the successful
   /// update.
@@ -515,6 +526,8 @@ class UpdateKeysResponse {
 }
 
 /// List item for keys to delete.
+///
+/// @nodoc
 class DeleteKeyRequestListItem {
   /// The key of the key value pair to be deleted.
   final String key;
@@ -532,6 +545,8 @@ class DeleteKeyRequestListItem {
 }
 
 /// List item for key value pair to put.
+///
+/// @nodoc
 class PutKeyRequestListItem {
   /// The key of the key value pair list item to put.
   final String key;
@@ -555,6 +570,8 @@ class PutKeyRequestListItem {
 }
 
 /// A key value pair.
+///
+/// @nodoc
 class ListKeysResponseListItem {
   /// The key of the key value pair.
   final String key;
@@ -584,26 +601,31 @@ class ListKeysResponseListItem {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -612,6 +634,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

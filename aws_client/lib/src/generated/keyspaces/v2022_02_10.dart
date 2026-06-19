@@ -1673,6 +1673,7 @@ class Keyspaces {
   }
 }
 
+/// @nodoc
 class CreateKeyspaceResponse {
   /// The unique identifier of the keyspace in the format of an Amazon Resource
   /// Name (ARN).
@@ -1696,6 +1697,7 @@ class CreateKeyspaceResponse {
   }
 }
 
+/// @nodoc
 class CreateTableResponse {
   /// The unique identifier of the table in the format of an Amazon Resource Name
   /// (ARN).
@@ -1719,6 +1721,7 @@ class CreateTableResponse {
   }
 }
 
+/// @nodoc
 class CreateTypeResponse {
   /// The unique identifier of the keyspace that contains the new type in the
   /// format of an Amazon Resource Name (ARN).
@@ -1751,6 +1754,7 @@ class CreateTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteKeyspaceResponse {
   DeleteKeyspaceResponse();
 
@@ -1763,6 +1767,7 @@ class DeleteKeyspaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteTableResponse {
   DeleteTableResponse();
 
@@ -1775,6 +1780,7 @@ class DeleteTableResponse {
   }
 }
 
+/// @nodoc
 class DeleteTypeResponse {
   /// The unique identifier of the keyspace from which the type was deleted in the
   /// format of an Amazon Resource Name (ARN).
@@ -1805,6 +1811,7 @@ class DeleteTypeResponse {
   }
 }
 
+/// @nodoc
 class GetKeyspaceResponse {
   /// The name of the keyspace.
   final String keyspaceName;
@@ -1867,6 +1874,7 @@ class GetKeyspaceResponse {
   }
 }
 
+/// @nodoc
 class GetTableResponse {
   /// The name of the keyspace that the specified table is stored in.
   final String keyspaceName;
@@ -2048,6 +2056,7 @@ class GetTableResponse {
   }
 }
 
+/// @nodoc
 class GetTableAutoScalingSettingsResponse {
   /// The name of the keyspace.
   final String keyspaceName;
@@ -2109,6 +2118,7 @@ class GetTableAutoScalingSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetTypeResponse {
   /// The unique identifier of the keyspace that contains this type in the format
   /// of an Amazon Resource Name (ARN).
@@ -2199,6 +2209,7 @@ class GetTypeResponse {
   }
 }
 
+/// @nodoc
 class ListKeyspacesResponse {
   /// A list of keyspaces.
   final List<KeyspaceSummary> keyspaces;
@@ -2232,6 +2243,7 @@ class ListKeyspacesResponse {
   }
 }
 
+/// @nodoc
 class ListTablesResponse {
   /// A token to specify where to start paginating. This is the
   /// <code>NextToken</code> from a previously truncated response.
@@ -2265,6 +2277,7 @@ class ListTablesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A token to specify where to start paginating. This is the
   /// <code>NextToken</code> from a previously truncated response.
@@ -2298,6 +2311,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTypesResponse {
   /// The list of types contained in the specified keyspace.
   final List<String> types;
@@ -2331,6 +2345,7 @@ class ListTypesResponse {
   }
 }
 
+/// @nodoc
 class RestoreTableResponse {
   /// The Amazon Resource Name (ARN) of the restored table.
   final String restoredTableARN;
@@ -2353,6 +2368,7 @@ class RestoreTableResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2365,6 +2381,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2377,6 +2394,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateKeyspaceResponse {
   /// The unique identifier of the keyspace in the format of an Amazon Resource
   /// Name (ARN).
@@ -2400,6 +2418,7 @@ class UpdateKeyspaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableResponse {
   /// The Amazon Resource Name (ARN) of the modified table.
   final String resourceArn;
@@ -2439,6 +2458,8 @@ class UpdateTableResponse {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html">Read/write
 /// capacity modes</a> in the <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class CapacitySpecification {
   /// The read/write throughput capacity mode for a table. The options are:
   ///
@@ -2507,6 +2528,8 @@ class CapacitySpecification {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html">KMS
 /// management service concepts</a> in the <i>Key Management Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class EncryptionSpecification {
   /// The encryption option specified for the table. You can choose one of the
   /// following KMS keys (KMS keys):
@@ -2562,6 +2585,8 @@ class EncryptionSpecification {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html">Point-in-time
 /// recovery</a> in the <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class PointInTimeRecovery {
   /// The options are:
   ///
@@ -2593,6 +2618,8 @@ class PointInTimeRecovery {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_enabling">Enabling
 /// TTL on tables</a> in the <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class TimeToLive {
   /// Shows how to enable custom Time to Live (TTL) settings for the specified
   /// table.
@@ -2622,6 +2649,8 @@ class TimeToLive {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/client-side-timestamps-how-it-works.html">How
 /// it works: Amazon Keyspaces client-side timestamps</a> in the <i>Amazon
 /// Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class ClientSideTimestamps {
   /// Shows how to enable client-side timestamps settings for the specified table.
   final ClientSideTimestampsStatus status;
@@ -2647,6 +2676,8 @@ class ClientSideTimestamps {
 
 /// The optional auto scaling capacity settings for a table in provisioned
 /// capacity mode.
+///
+/// @nodoc
 class AutoScalingSpecification {
   /// The auto scaling settings for the table's read capacity.
   final AutoScalingSettings? readCapacityAutoScaling;
@@ -2689,6 +2720,8 @@ class AutoScalingSpecification {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/cdc.html">Working
 /// with change data capture (CDC) streams in Amazon Keyspaces</a> in the
 /// <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class CdcSpecification {
   /// The status of the CDC stream. You can enable or disable a stream for a
   /// table.
@@ -2754,6 +2787,8 @@ class CdcSpecification {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/warm-throughput.html">Pre-warm
 /// a table in Amazon Keyspaces</a> in the <i>Amazon Keyspaces Developer
 /// Guide</i>.
+///
+/// @nodoc
 class WarmThroughputSpecification {
   /// The number of read capacity units per second to pre-warm the table for read
   /// capacity throughput. The minimum value is 1.
@@ -2779,6 +2814,7 @@ class WarmThroughputSpecification {
   }
 }
 
+/// @nodoc
 class CdcStatus {
   static const enabled = CdcStatus._('ENABLED');
   static const enabling = CdcStatus._('ENABLING');
@@ -2804,6 +2840,7 @@ class CdcStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ViewType {
   static const newImage = ViewType._('NEW_IMAGE');
   static const oldImage = ViewType._('OLD_IMAGE');
@@ -2829,6 +2866,7 @@ class ViewType {
   String toString() => value;
 }
 
+/// @nodoc
 class CdcPropagateTags {
   static const table = CdcPropagateTags._('TABLE');
   static const none = CdcPropagateTags._('NONE');
@@ -2866,6 +2904,8 @@ class CdcPropagateTags {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html">Adding
 /// tags and labels to Amazon Keyspaces resources</a> in the <i>Amazon Keyspaces
 /// Developer Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces
   /// resource can only have up to one tag with the same key. If you try to add an
@@ -2917,6 +2957,8 @@ class Tag {
 /// settings for the table. (Optional)
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReplicaSpecification {
   /// The Amazon Web Services Region.
   final String region;
@@ -3012,6 +3054,8 @@ class ReplicaSpecification {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html">Managing
 /// throughput capacity automatically with Amazon Keyspaces auto scaling</a> in
 /// the <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class AutoScalingSettings {
   /// This optional parameter enables auto scaling for the table if set to
   /// <code>false</code>.
@@ -3073,6 +3117,8 @@ class AutoScalingSettings {
 /// table's ratio of consumed to provisioned capacity stays at or near the
 /// target value that you specify. You define the target value as a percentage
 /// between 20 and 90.
+///
+/// @nodoc
 class AutoScalingPolicy {
   /// Auto scaling scales up capacity automatically when traffic exceeds this
   /// target utilization rate, and then back down when it falls below the target.
@@ -3108,6 +3154,8 @@ class AutoScalingPolicy {
 
 /// The auto scaling policy that scales a table based on the ratio of consumed
 /// to provisioned capacity.
+///
+/// @nodoc
 class TargetTrackingScalingPolicyConfiguration {
   /// Specifies the target value for the target tracking auto scaling policy.
   ///
@@ -3168,6 +3216,7 @@ class TargetTrackingScalingPolicyConfiguration {
   }
 }
 
+/// @nodoc
 class ClientSideTimestampsStatus {
   static const enabled = ClientSideTimestampsStatus._('ENABLED');
 
@@ -3192,6 +3241,7 @@ class ClientSideTimestampsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TimeToLiveStatus {
   static const enabled = TimeToLiveStatus._('ENABLED');
 
@@ -3215,6 +3265,7 @@ class TimeToLiveStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PointInTimeRecoveryStatus {
   static const enabled = PointInTimeRecoveryStatus._('ENABLED');
   static const disabled = PointInTimeRecoveryStatus._('DISABLED');
@@ -3240,6 +3291,7 @@ class PointInTimeRecoveryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionType {
   static const customerManagedKmsKey =
       EncryptionType._('CUSTOMER_MANAGED_KMS_KEY');
@@ -3265,6 +3317,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ThroughputMode {
   static const payPerRequest = ThroughputMode._('PAY_PER_REQUEST');
   static const provisioned = ThroughputMode._('PROVISIONED');
@@ -3290,6 +3343,8 @@ class ThroughputMode {
 }
 
 /// The names and data types of regular columns.
+///
+/// @nodoc
 class ColumnDefinition {
   /// The name of the column.
   final String name;
@@ -3333,6 +3388,8 @@ class ColumnDefinition {
 /// <code>SINGLE_REGION</code> or <code>MULTI_REGION</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReplicationSpecification {
   /// The <code>replicationStrategy</code> of a keyspace, the required value is
   /// <code>SINGLE_REGION</code> or <code>MULTI_REGION</code>.
@@ -3357,6 +3414,7 @@ class ReplicationSpecification {
   }
 }
 
+/// @nodoc
 class Rs {
   static const singleRegion = Rs._('SINGLE_REGION');
   static const multiRegion = Rs._('MULTI_REGION');
@@ -3382,6 +3440,8 @@ class Rs {
 
 /// Returns the name of the specified table, the keyspace it is stored in, and
 /// the unique identifier in the format of an Amazon Resource Name (ARN).
+///
+/// @nodoc
 class TableSummary {
   /// The name of the keyspace that the table is stored in.
   final String keyspaceName;
@@ -3420,6 +3480,8 @@ class TableSummary {
 }
 
 /// Represents the properties of a keyspace.
+///
+/// @nodoc
 class KeyspaceSummary {
   /// The name of the keyspace.
   final String keyspaceName;
@@ -3471,6 +3533,7 @@ class KeyspaceSummary {
   }
 }
 
+/// @nodoc
 class TypeStatus {
   static const active = TypeStatus._('ACTIVE');
   static const creating = TypeStatus._('CREATING');
@@ -3497,6 +3560,8 @@ class TypeStatus {
 }
 
 /// A field definition consists out of a name and a type.
+///
+/// @nodoc
 class FieldDefinition {
   /// The identifier.
   final String name;
@@ -3533,6 +3598,8 @@ class FieldDefinition {
 
 /// The auto scaling settings of a multi-Region table in the specified Amazon
 /// Web Services Region.
+///
+/// @nodoc
 class ReplicaAutoScalingSpecification {
   /// The auto scaling settings for a multi-Region table in the specified Amazon
   /// Web Services Region.
@@ -3567,6 +3634,7 @@ class ReplicaAutoScalingSpecification {
   }
 }
 
+/// @nodoc
 class TableStatus {
   static const active = TableStatus._('ACTIVE');
   static const creating = TableStatus._('CREATING');
@@ -3605,6 +3673,8 @@ class TableStatus {
 }
 
 /// Describes the schema of the table.
+///
+/// @nodoc
 class SchemaDefinition {
   /// The regular columns of the table.
   final List<ColumnDefinition> allColumns;
@@ -3674,6 +3744,8 @@ class SchemaDefinition {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html">Read/write
 /// capacity modes</a> in the <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class CapacitySpecificationSummary {
   /// The read/write throughput capacity mode for a table. The options are:
   ///
@@ -3741,6 +3813,8 @@ class CapacitySpecificationSummary {
 }
 
 /// The point-in-time recovery status of the specified table.
+///
+/// @nodoc
 class PointInTimeRecoverySummary {
   /// Shows if point-in-time recovery is enabled or disabled for the specified
   /// table.
@@ -3777,6 +3851,8 @@ class PointInTimeRecoverySummary {
 }
 
 /// An optional comment that describes the table.
+///
+/// @nodoc
 class Comment {
   /// An optional description of the table.
   final String message;
@@ -3804,6 +3880,8 @@ class Comment {
 /// href="https://docs.aws.amazon.com/keyspaces/latest/devguide/cdc.html">Working
 /// with change data capture (CDC) streams in Amazon Keyspaces</a> in the
 /// <i>Amazon Keyspaces Developer Guide</i>.
+///
+/// @nodoc
 class CdcSpecificationSummary {
   /// The status of the CDC stream. Specifies if the table has a CDC stream.
   final CdcStatus status;
@@ -3857,6 +3935,8 @@ class CdcSpecificationSummary {
 /// Contains the current warm throughput settings for a table, including the
 /// configured capacity units and the current status of the warm throughput
 /// configuration.
+///
+/// @nodoc
 class WarmThroughputSpecificationSummary {
   /// The number of read capacity units per second currently configured for warm
   /// throughput.
@@ -3899,6 +3979,7 @@ class WarmThroughputSpecificationSummary {
   }
 }
 
+/// @nodoc
 class WarmThroughputStatus {
   static const available = WarmThroughputStatus._('AVAILABLE');
   static const updating = WarmThroughputStatus._('UPDATING');
@@ -3934,6 +4015,8 @@ class WarmThroughputStatus {
 /// multi-Region table, your write capacity units will be synced across all
 /// Amazon Web Services Regions to ensure that there is enough capacity to
 /// replicate write events across Regions.
+///
+/// @nodoc
 class ReplicaSpecificationSummary {
   final CapacitySpecificationSummary? capacitySpecification;
 
@@ -3988,6 +4071,8 @@ class ReplicaSpecificationSummary {
 
 /// The static columns of the table. Static columns store values that are shared
 /// by all rows in the same partition.
+///
+/// @nodoc
 class StaticColumn {
   /// The name of the static column.
   final String name;
@@ -4012,6 +4097,8 @@ class StaticColumn {
 
 /// The optional clustering column portion of your primary key determines how
 /// the data is clustered and sorted within each partition.
+///
+/// @nodoc
 class ClusteringKey {
   /// The name(s) of the clustering column(s).
   final String name;
@@ -4042,6 +4129,7 @@ class ClusteringKey {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -4068,6 +4156,8 @@ class SortOrder {
 /// The partition key portion of the primary key is required and determines how
 /// Amazon Keyspaces stores the data. The partition key can be a single column,
 /// or it can be a compound value composed of two or more columns.
+///
+/// @nodoc
 class PartitionKey {
   /// The name(s) of the partition key column(s).
   final String name;
@@ -4092,6 +4182,8 @@ class PartitionKey {
 
 /// This shows the summary status of the keyspace after a new Amazon Web
 /// Services Region was added.
+///
+/// @nodoc
 class ReplicationGroupStatus {
   /// The status of the keyspace.
   final KeyspaceStatus keyspaceStatus;
@@ -4132,6 +4224,7 @@ class ReplicationGroupStatus {
   }
 }
 
+/// @nodoc
 class KeyspaceStatus {
   static const active = KeyspaceStatus._('ACTIVE');
   static const creating = KeyspaceStatus._('CREATING');
@@ -4158,26 +4251,31 @@ class KeyspaceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4186,6 +4284,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -2130,7 +2130,7 @@ class Rds {
   /// command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// You can supply either <code>5.7</code> or <code>8.0</code> to use the
   /// default engine version for Aurora MySQL version 2 or version 3,
@@ -2140,19 +2140,19 @@ class Rds {
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-postgresql
-  /// --query "DBEngineVersions[].EngineVersion"</code>
+  /// --query "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for RDS for MySQL, use the
   /// following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for RDS for PostgreSQL, use
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine postgres --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// For information about a specific engine, see the following topics:
   ///
@@ -3055,13 +3055,14 @@ class Rds {
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --query
-  /// "DBEngineVersions[].DBParameterGroupFamily" --engine &lt;engine&gt;</code>
+  /// "DBEngineVersions\[\].DBParameterGroupFamily" --engine
+  /// &lt;engine&gt;</code>
   ///
   /// For example, to list all of the available parameter group families for the
   /// Aurora PostgreSQL DB engine, use the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --query
-  /// "DBEngineVersions[].DBParameterGroupFamily" --engine
+  /// "DBEngineVersions\[\].DBParameterGroupFamily" --engine
   /// aurora-postgresql</code>
   /// <note>
   /// The output contains duplicates.
@@ -5924,13 +5925,14 @@ class Rds {
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --query
-  /// "DBEngineVersions[].DBParameterGroupFamily" --engine &lt;engine&gt;</code>
+  /// "DBEngineVersions\[\].DBParameterGroupFamily" --engine
+  /// &lt;engine&gt;</code>
   ///
   /// For example, to list all of the available parameter group families for the
   /// MySQL DB engine, use the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --query
-  /// "DBEngineVersions[].DBParameterGroupFamily" --engine mysql</code>
+  /// "DBEngineVersions\[\].DBParameterGroupFamily" --engine mysql</code>
   /// <note>
   /// The output contains duplicates.
   /// </note>
@@ -14100,25 +14102,25 @@ class Rds {
   /// following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for Aurora PostgreSQL, use
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-postgresql
-  /// --query "DBEngineVersions[].EngineVersion"</code>
+  /// --query "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for RDS for MySQL, use the
   /// following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for RDS for PostgreSQL, use
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine postgres --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
   ///
@@ -17177,14 +17179,15 @@ class Rds {
   /// (for MySQL-based Aurora global databases), use the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-mysql --query
-  /// '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'</code>
+  /// '*\[\]|\[?SupportsGlobalDatabases == `true`\].\[EngineVersion\]'</code>
   ///
   /// To list all of the available engine versions for
   /// <code>aurora-postgresql</code> (for PostgreSQL-based Aurora global
   /// databases), use the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-postgresql
-  /// --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'</code>
+  /// --query '*\[\]|\[?SupportsGlobalDatabases ==
+  /// `true`\].\[EngineVersion\]'</code>
   ///
   /// Parameter [newGlobalClusterIdentifier] :
   /// The new cluster identifier for the global database cluster. This value is
@@ -18590,7 +18593,7 @@ class Rds {
   /// (Aurora MySQL), use the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// <b>Aurora MySQL</b>
   ///
@@ -19284,25 +19287,25 @@ class Rds {
   /// following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for Aurora PostgreSQL, use
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine aurora-postgresql
-  /// --query "DBEngineVersions[].EngineVersion"</code>
+  /// --query "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for RDS for MySQL, use the
   /// following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine mysql --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// To list all of the available engine versions for RDS for PostgreSQL, use
   /// the following command:
   ///
   /// <code>aws rds describe-db-engine-versions --engine postgres --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// <b>Aurora MySQL</b>
   ///
@@ -24108,6 +24111,7 @@ class Rds {
   }
 }
 
+/// @nodoc
 class AddSourceIdentifierToSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -24130,6 +24134,7 @@ class AddSourceIdentifierToSubscriptionResult {
   }
 }
 
+/// @nodoc
 class ApplyPendingMaintenanceActionResult {
   final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
 
@@ -24154,6 +24159,7 @@ class ApplyPendingMaintenanceActionResult {
   }
 }
 
+/// @nodoc
 class AuthorizeDBSecurityGroupIngressResult {
   final DBSecurityGroup? dBSecurityGroup;
 
@@ -24178,6 +24184,8 @@ class AuthorizeDBSecurityGroupIngressResult {
 
 /// This data type is used as a response element in the
 /// <code>DescribeDBClusterBacktracks</code> action.
+///
+/// @nodoc
 class DBClusterBacktrack {
   /// Contains the backtrack identifier.
   final String? backtrackIdentifier;
@@ -24267,6 +24275,8 @@ class DBClusterBacktrack {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeExportTasks</code> operation.
+///
+/// @nodoc
 class ExportTask {
   /// The data exported from the snapshot or cluster.
   ///
@@ -24453,6 +24463,7 @@ class ExportTask {
   }
 }
 
+/// @nodoc
 class CopyDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -24476,6 +24487,7 @@ class CopyDBClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CopyDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -24498,6 +24510,7 @@ class CopyDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CopyDBParameterGroupResult {
   final DBParameterGroup? dBParameterGroup;
 
@@ -24520,6 +24533,7 @@ class CopyDBParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CopyDBSnapshotResult {
   final DBSnapshot? dBSnapshot;
 
@@ -24541,6 +24555,7 @@ class CopyDBSnapshotResult {
   }
 }
 
+/// @nodoc
 class CopyOptionGroupResult {
   final OptionGroup? optionGroup;
 
@@ -24562,6 +24577,7 @@ class CopyOptionGroupResult {
   }
 }
 
+/// @nodoc
 class CreateBlueGreenDeploymentResponse {
   final BlueGreenDeployment? blueGreenDeployment;
 
@@ -24587,6 +24603,8 @@ class CreateBlueGreenDeploymentResponse {
 
 /// This data type is used as a response element in the action
 /// <code>DescribeDBEngineVersions</code>.
+///
+/// @nodoc
 class DBEngineVersion {
   /// The creation time of the DB engine version.
   final DateTime? createTime;
@@ -24999,6 +25017,7 @@ class DBEngineVersion {
   }
 }
 
+/// @nodoc
 class CreateDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -25039,6 +25058,8 @@ class CreateDBClusterResult {
 /// </ul>
 /// For the data structure that represents Amazon RDS DB instance endpoints, see
 /// <code>Endpoint</code>.
+///
+/// @nodoc
 class DBClusterEndpoint {
   /// The type associated with a custom endpoint. One of: <code>READER</code>,
   /// <code>WRITER</code>, <code>ANY</code>.
@@ -25149,6 +25170,7 @@ class DBClusterEndpoint {
   }
 }
 
+/// @nodoc
 class CreateDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -25172,6 +25194,7 @@ class CreateDBClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -25194,6 +25217,7 @@ class CreateDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -25215,6 +25239,7 @@ class CreateDBInstanceResult {
   }
 }
 
+/// @nodoc
 class CreateDBInstanceReadReplicaResult {
   final DBInstance? dBInstance;
 
@@ -25236,6 +25261,7 @@ class CreateDBInstanceReadReplicaResult {
   }
 }
 
+/// @nodoc
 class CreateDBParameterGroupResult {
   final DBParameterGroup? dBParameterGroup;
 
@@ -25258,6 +25284,7 @@ class CreateDBParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateDBProxyResponse {
   /// The <code>DBProxy</code> structure corresponding to the new proxy.
   final DBProxy? dBProxy;
@@ -25279,6 +25306,7 @@ class CreateDBProxyResponse {
   }
 }
 
+/// @nodoc
 class CreateDBProxyEndpointResponse {
   /// The <code>DBProxyEndpoint</code> object that is created by the API
   /// operation. The DB proxy endpoint that you create might provide capabilities
@@ -25305,6 +25333,7 @@ class CreateDBProxyEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateDBSecurityGroupResult {
   final DBSecurityGroup? dBSecurityGroup;
 
@@ -25328,6 +25357,8 @@ class CreateDBSecurityGroupResult {
 }
 
 /// Contains the details for an Amazon RDS DB shard group.
+///
+/// @nodoc
 class DBShardGroup {
   /// Specifies whether to create standby DB shard groups for the DB shard group.
   /// Valid values are the following:
@@ -25457,6 +25488,7 @@ class DBShardGroup {
   }
 }
 
+/// @nodoc
 class CreateDBSnapshotResult {
   final DBSnapshot? dBSnapshot;
 
@@ -25478,6 +25510,7 @@ class CreateDBSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDBSubnetGroupResult {
   final DBSubnetGroup? dBSubnetGroup;
 
@@ -25499,6 +25532,7 @@ class CreateDBSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class CreateEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -25521,6 +25555,7 @@ class CreateEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class CreateGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -25543,6 +25578,8 @@ class CreateGlobalClusterResult {
 }
 
 /// A zero-ETL integration with Amazon Redshift.
+///
+/// @nodoc
 class Integration {
   /// The encryption context for the integration. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
@@ -25665,6 +25702,7 @@ class Integration {
   }
 }
 
+/// @nodoc
 class CreateOptionGroupResult {
   final OptionGroup? optionGroup;
 
@@ -25686,6 +25724,7 @@ class CreateOptionGroupResult {
   }
 }
 
+/// @nodoc
 class CreateTenantDatabaseResult {
   final TenantDatabase? tenantDatabase;
 
@@ -25708,6 +25747,7 @@ class CreateTenantDatabaseResult {
   }
 }
 
+/// @nodoc
 class DeleteBlueGreenDeploymentResponse {
   final BlueGreenDeployment? blueGreenDeployment;
 
@@ -25731,6 +25771,7 @@ class DeleteBlueGreenDeploymentResponse {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -25751,6 +25792,7 @@ class DeleteDBClusterResult {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterAutomatedBackupResult {
   final DBClusterAutomatedBackup? dBClusterAutomatedBackup;
 
@@ -25774,6 +25816,7 @@ class DeleteDBClusterAutomatedBackupResult {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -25796,6 +25839,7 @@ class DeleteDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -25817,6 +25861,7 @@ class DeleteDBInstanceResult {
   }
 }
 
+/// @nodoc
 class DeleteDBInstanceAutomatedBackupResult {
   final DBInstanceAutomatedBackup? dBInstanceAutomatedBackup;
 
@@ -25840,6 +25885,7 @@ class DeleteDBInstanceAutomatedBackupResult {
   }
 }
 
+/// @nodoc
 class DeleteDBProxyResponse {
   /// The data structure representing the details of the DB proxy that you delete.
   final DBProxy? dBProxy;
@@ -25861,6 +25907,7 @@ class DeleteDBProxyResponse {
   }
 }
 
+/// @nodoc
 class DeleteDBProxyEndpointResponse {
   /// The data structure representing the details of the DB proxy endpoint that
   /// you delete.
@@ -25885,6 +25932,7 @@ class DeleteDBProxyEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteDBSnapshotResult {
   final DBSnapshot? dBSnapshot;
 
@@ -25906,6 +25954,7 @@ class DeleteDBSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -25928,6 +25977,7 @@ class DeleteEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class DeleteGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -25949,6 +25999,7 @@ class DeleteGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class DeleteTenantDatabaseResult {
   final TenantDatabase? tenantDatabase;
 
@@ -25971,6 +26022,7 @@ class DeleteTenantDatabaseResult {
   }
 }
 
+/// @nodoc
 class DeregisterDBProxyTargetsResponse {
   DeregisterDBProxyTargetsResponse();
   factory DeregisterDBProxyTargetsResponse.fromXml(
@@ -25985,6 +26037,8 @@ class DeregisterDBProxyTargetsResponse {
 }
 
 /// Data returned by the <b>DescribeAccountAttributes</b> action.
+///
+/// @nodoc
 class AccountAttributesMessage {
   /// A list of <code>AccountQuota</code> objects. Within this list, each quota
   /// has a name, a count of usage toward the quota maximum, and a maximum value
@@ -26009,6 +26063,7 @@ class AccountAttributesMessage {
   }
 }
 
+/// @nodoc
 class DescribeBlueGreenDeploymentsResponse {
   /// A list of blue/green deployments in the current account and Amazon Web
   /// Services Region.
@@ -26046,6 +26101,8 @@ class DescribeBlueGreenDeploymentsResponse {
 }
 
 /// Data returned by the <b>DescribeCertificates</b> action.
+///
+/// @nodoc
 class CertificateMessage {
   /// The list of <code>Certificate</code> objects for the Amazon Web Services
   /// account.
@@ -26092,6 +26149,7 @@ class CertificateMessage {
   }
 }
 
+/// @nodoc
 class DBClusterAutomatedBackupMessage {
   /// A list of <code>DBClusterAutomatedBackup</code> backups.
   final List<DBClusterAutomatedBackup>? dBClusterAutomatedBackups;
@@ -26130,6 +26188,8 @@ class DBClusterAutomatedBackupMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBClusterBacktracks</code> action.
+///
+/// @nodoc
 class DBClusterBacktrackMessage {
   /// Contains a list of backtracks for the user.
   final List<DBClusterBacktrack>? dBClusterBacktracks;
@@ -26164,6 +26224,7 @@ class DBClusterBacktrackMessage {
   }
 }
 
+/// @nodoc
 class DBClusterEndpointMessage {
   /// Contains the details of the endpoints associated with the cluster and
   /// matching any filter conditions.
@@ -26201,6 +26262,8 @@ class DBClusterEndpointMessage {
 }
 
 /// <p/>
+///
+/// @nodoc
 class DBClusterParameterGroupsMessage {
   /// A list of DB cluster parameter groups.
   final List<DBClusterParameterGroup>? dBClusterParameterGroups;
@@ -26240,6 +26303,8 @@ class DBClusterParameterGroupsMessage {
 
 /// Provides details about a DB cluster parameter group including the parameters
 /// in the DB cluster parameter group.
+///
+/// @nodoc
 class DBClusterParameterGroupDetails {
   /// An optional pagination token provided by a previous
   /// <code>DescribeDBClusterParameters</code> request. If this parameter is
@@ -26274,6 +26339,8 @@ class DBClusterParameterGroupDetails {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBClusters</code> action.
+///
+/// @nodoc
 class DBClusterMessage {
   /// Contains a list of DB clusters for the user.
   final List<DBCluster>? dBClusters;
@@ -26304,6 +26371,7 @@ class DBClusterMessage {
   }
 }
 
+/// @nodoc
 class DescribeDBClusterSnapshotAttributesResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -26331,6 +26399,8 @@ class DescribeDBClusterSnapshotAttributesResult {
 
 /// Provides a list of DB cluster snapshots for the user as the result of a call
 /// to the <code>DescribeDBClusterSnapshots</code> action.
+///
+/// @nodoc
 class DBClusterSnapshotMessage {
   /// Provides a list of DB cluster snapshots for the user.
   final List<DBClusterSnapshot>? dBClusterSnapshots;
@@ -26368,6 +26438,8 @@ class DBClusterSnapshotMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBEngineVersions</code> action.
+///
+/// @nodoc
 class DBEngineVersionMessage {
   /// A list of <code>DBEngineVersion</code> elements.
   final List<DBEngineVersion>? dBEngineVersions;
@@ -26404,6 +26476,8 @@ class DBEngineVersionMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBInstanceAutomatedBackups</code> action.
+///
+/// @nodoc
 class DBInstanceAutomatedBackupMessage {
   /// A list of <code>DBInstanceAutomatedBackup</code> instances.
   final List<DBInstanceAutomatedBackup>? dBInstanceAutomatedBackups;
@@ -26442,6 +26516,8 @@ class DBInstanceAutomatedBackupMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBInstances</code> action.
+///
+/// @nodoc
 class DBInstanceMessage {
   /// A list of <code>DBInstance</code> instances.
   final List<DBInstance>? dBInstances;
@@ -26474,6 +26550,8 @@ class DBInstanceMessage {
 }
 
 /// The response from a call to <code>DescribeDBLogFiles</code>.
+///
+/// @nodoc
 class DescribeDBLogFilesResponse {
   /// The DB log files returned.
   final List<DescribeDBLogFilesDetails>? describeDBLogFiles;
@@ -26507,6 +26585,7 @@ class DescribeDBLogFilesResponse {
   }
 }
 
+/// @nodoc
 class DescribeDBMajorEngineVersionsResponse {
   /// A list of <code>DBMajorEngineVersion</code> elements.
   final List<DBMajorEngineVersion>? dBMajorEngineVersions;
@@ -26545,6 +26624,8 @@ class DescribeDBMajorEngineVersionsResponse {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBParameterGroups</code> action.
+///
+/// @nodoc
 class DBParameterGroupsMessage {
   /// A list of <code>DBParameterGroup</code> instances.
   final List<DBParameterGroup>? dBParameterGroups;
@@ -26581,6 +26662,8 @@ class DBParameterGroupsMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBParameters</code> action.
+///
+/// @nodoc
 class DBParameterGroupDetails {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -26612,6 +26695,7 @@ class DBParameterGroupDetails {
   }
 }
 
+/// @nodoc
 class DescribeDBProxiesResponse {
   /// A return value representing an arbitrary number of <code>DBProxy</code> data
   /// structures.
@@ -26644,6 +26728,7 @@ class DescribeDBProxiesResponse {
   }
 }
 
+/// @nodoc
 class DescribeDBProxyEndpointsResponse {
   /// The list of <code>ProxyEndpoint</code> objects returned by the API
   /// operation.
@@ -26679,6 +26764,7 @@ class DescribeDBProxyEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDBProxyTargetGroupsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -26711,6 +26797,7 @@ class DescribeDBProxyTargetGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDBProxyTargetsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -26743,6 +26830,7 @@ class DescribeDBProxyTargetsResponse {
   }
 }
 
+/// @nodoc
 class DBRecommendationsMessage {
   /// A list of recommendations which is returned from
   /// <code>DescribeDBRecommendations</code> API request.
@@ -26780,6 +26868,8 @@ class DBRecommendationsMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBSecurityGroups</code> action.
+///
+/// @nodoc
 class DBSecurityGroupMessage {
   /// A list of <code>DBSecurityGroup</code> instances.
   final List<DBSecurityGroup>? dBSecurityGroups;
@@ -26814,6 +26904,7 @@ class DBSecurityGroupMessage {
   }
 }
 
+/// @nodoc
 class DescribeDBShardGroupsResponse {
   /// Contains a list of DB shard groups for the user.
   final List<DBShardGroup>? dBShardGroups;
@@ -26844,6 +26935,7 @@ class DescribeDBShardGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDBSnapshotAttributesResult {
   final DBSnapshotAttributesResult? dBSnapshotAttributesResult;
 
@@ -26869,6 +26961,8 @@ class DescribeDBSnapshotAttributesResult {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBSnapshots</code> action.
+///
+/// @nodoc
 class DBSnapshotMessage {
   /// A list of <code>DBSnapshot</code> instances.
   final List<DBSnapshot>? dBSnapshots;
@@ -26900,6 +26994,7 @@ class DBSnapshotMessage {
   }
 }
 
+/// @nodoc
 class DBSnapshotTenantDatabasesMessage {
   /// A list of DB snapshot tenant databases.
   final List<DBSnapshotTenantDatabase>? dBSnapshotTenantDatabases;
@@ -26938,6 +27033,8 @@ class DBSnapshotTenantDatabasesMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeDBSubnetGroups</code> action.
+///
+/// @nodoc
 class DBSubnetGroupMessage {
   /// A list of <code>DBSubnetGroup</code> instances.
   final List<DBSubnetGroup>? dBSubnetGroups;
@@ -26972,6 +27069,7 @@ class DBSubnetGroupMessage {
   }
 }
 
+/// @nodoc
 class DescribeEngineDefaultClusterParametersResult {
   final EngineDefaults? engineDefaults;
 
@@ -26995,6 +27093,7 @@ class DescribeEngineDefaultClusterParametersResult {
   }
 }
 
+/// @nodoc
 class DescribeEngineDefaultParametersResult {
   final EngineDefaults? engineDefaults;
 
@@ -27018,6 +27117,8 @@ class DescribeEngineDefaultParametersResult {
 }
 
 /// Data returned from the <code>DescribeEventCategories</code> operation.
+///
+/// @nodoc
 class EventCategoriesMessage {
   /// A list of <code>EventCategoriesMap</code> data types.
   final List<EventCategoriesMap>? eventCategoriesMapList;
@@ -27047,6 +27148,8 @@ class EventCategoriesMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeEvents</code> action.
+///
+/// @nodoc
 class EventsMessage {
   /// A list of <code>Event</code> instances.
   final List<Event>? events;
@@ -27079,6 +27182,8 @@ class EventsMessage {
 }
 
 /// Data returned by the <b>DescribeEventSubscriptions</b> action.
+///
+/// @nodoc
 class EventSubscriptionsMessage {
   /// A list of EventSubscriptions data types.
   final List<EventSubscription>? eventSubscriptionsList;
@@ -27116,6 +27221,7 @@ class EventSubscriptionsMessage {
   }
 }
 
+/// @nodoc
 class ExportTasksMessage {
   /// Information about an export of a snapshot or cluster to Amazon S3.
   final List<ExportTask>? exportTasks;
@@ -27148,6 +27254,7 @@ class ExportTasksMessage {
   }
 }
 
+/// @nodoc
 class GlobalClustersMessage {
   /// The list of global clusters returned by this request.
   final List<GlobalCluster>? globalClusters;
@@ -27183,6 +27290,7 @@ class GlobalClustersMessage {
   }
 }
 
+/// @nodoc
 class DescribeIntegrationsResponse {
   /// A list of integrations.
   final List<Integration>? integrations;
@@ -27214,6 +27322,8 @@ class DescribeIntegrationsResponse {
 }
 
 /// <p/>
+///
+/// @nodoc
 class OptionGroupOptionsMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -27247,6 +27357,8 @@ class OptionGroupOptionsMessage {
 }
 
 /// List of option groups.
+///
+/// @nodoc
 class OptionGroups {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -27283,6 +27395,8 @@ class OptionGroups {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeOrderableDBInstanceOptions</code> action.
+///
+/// @nodoc
 class OrderableDBInstanceOptionsMessage {
   /// An optional pagination token provided by a previous
   /// OrderableDBInstanceOptions request. If this parameter is specified, the
@@ -27322,6 +27436,8 @@ class OrderableDBInstanceOptionsMessage {
 }
 
 /// Data returned from the <b>DescribePendingMaintenanceActions</b> action.
+///
+/// @nodoc
 class PendingMaintenanceActionsMessage {
   /// An optional pagination token provided by a previous
   /// <code>DescribePendingMaintenanceActions</code> request. If this parameter is
@@ -27361,6 +27477,8 @@ class PendingMaintenanceActionsMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeReservedDBInstances</code> action.
+///
+/// @nodoc
 class ReservedDBInstanceMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -27398,6 +27516,8 @@ class ReservedDBInstanceMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeReservedDBInstancesOfferings</code> action.
+///
+/// @nodoc
 class ReservedDBInstancesOfferingMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -27436,6 +27556,8 @@ class ReservedDBInstancesOfferingMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeServerlessV2PlatformVersions</code> action.
+///
+/// @nodoc
 class ServerlessV2PlatformVersionsMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -27474,6 +27596,8 @@ class ServerlessV2PlatformVersionsMessage {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeSourceRegions</code> action.
+///
+/// @nodoc
 class SourceRegionMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -27507,6 +27631,7 @@ class SourceRegionMessage {
   }
 }
 
+/// @nodoc
 class TenantDatabasesMessage {
   /// An optional pagination token provided by a previous
   /// <code>DescribeTenantDatabases</code> request. If this parameter is
@@ -27543,6 +27668,7 @@ class TenantDatabasesMessage {
   }
 }
 
+/// @nodoc
 class DescribeValidDBInstanceModificationsResult {
   final ValidDBInstanceModificationsMessage?
       validDBInstanceModificationsMessage;
@@ -27570,6 +27696,7 @@ class DescribeValidDBInstanceModificationsResult {
   }
 }
 
+/// @nodoc
 class DisableHttpEndpointResponse {
   /// Indicates whether the HTTP endpoint is enabled or disabled for the DB
   /// cluster.
@@ -27602,6 +27729,8 @@ class DisableHttpEndpointResponse {
 
 /// This data type is used as a response element to
 /// <code>DownloadDBLogFilePortion</code>.
+///
+/// @nodoc
 class DownloadDBLogFilePortionDetails {
   /// A Boolean value that, if true, indicates there is more data to be
   /// downloaded.
@@ -27641,6 +27770,7 @@ class DownloadDBLogFilePortionDetails {
   }
 }
 
+/// @nodoc
 class EnableHttpEndpointResponse {
   /// Indicates whether the HTTP endpoint is enabled or disabled for the DB
   /// cluster.
@@ -27671,6 +27801,7 @@ class EnableHttpEndpointResponse {
   }
 }
 
+/// @nodoc
 class FailoverDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -27691,6 +27822,7 @@ class FailoverDBClusterResult {
   }
 }
 
+/// @nodoc
 class FailoverGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -27713,6 +27845,8 @@ class FailoverGlobalClusterResult {
 }
 
 /// <p/>
+///
+/// @nodoc
 class TagListMessage {
   /// List of tags returned by the <code>ListTagsForResource</code> operation.
   final List<Tag>? tagList;
@@ -27736,6 +27870,7 @@ class TagListMessage {
   }
 }
 
+/// @nodoc
 class ModifyActivityStreamResponse {
   /// Indicates whether engine-native audit fields are included in the database
   /// activity stream.
@@ -27805,6 +27940,7 @@ class ModifyActivityStreamResponse {
   }
 }
 
+/// @nodoc
 class ModifyCertificatesResult {
   final Certificate? certificate;
 
@@ -27826,6 +27962,7 @@ class ModifyCertificatesResult {
   }
 }
 
+/// @nodoc
 class DBClusterCapacityInfo {
   /// The current capacity of the DB cluster.
   final int? currentCapacity;
@@ -27882,6 +28019,7 @@ class DBClusterCapacityInfo {
   }
 }
 
+/// @nodoc
 class ModifyDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -27903,6 +28041,8 @@ class ModifyDBClusterResult {
 }
 
 /// <p/>
+///
+/// @nodoc
 class DBClusterParameterGroupNameMessage {
   /// The name of the DB cluster parameter group.
   ///
@@ -27942,6 +28082,7 @@ class DBClusterParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBClusterSnapshotAttributeResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -27966,6 +28107,7 @@ class ModifyDBClusterSnapshotAttributeResult {
   }
 }
 
+/// @nodoc
 class ModifyDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -27990,6 +28132,8 @@ class ModifyDBInstanceResult {
 /// Contains the result of a successful invocation of the
 /// <code>ModifyDBParameterGroup</code> or <code>ResetDBParameterGroup</code>
 /// operation.
+///
+/// @nodoc
 class DBParameterGroupNameMessage {
   /// The name of the DB parameter group.
   final String? dBParameterGroupName;
@@ -28013,6 +28157,7 @@ class DBParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBProxyResponse {
   /// The <code>DBProxy</code> object representing the new settings for the proxy.
   final DBProxy? dBProxy;
@@ -28034,6 +28179,7 @@ class ModifyDBProxyResponse {
   }
 }
 
+/// @nodoc
 class ModifyDBProxyEndpointResponse {
   /// The <code>DBProxyEndpoint</code> object representing the new settings for
   /// the DB proxy endpoint.
@@ -28058,6 +28204,7 @@ class ModifyDBProxyEndpointResponse {
   }
 }
 
+/// @nodoc
 class ModifyDBProxyTargetGroupResponse {
   /// The settings of the modified <code>DBProxyTarget</code>.
   final DBProxyTargetGroup? dBProxyTargetGroup;
@@ -28081,6 +28228,7 @@ class ModifyDBProxyTargetGroupResponse {
   }
 }
 
+/// @nodoc
 class DBRecommendationMessage {
   final DBRecommendation? dBRecommendation;
 
@@ -28103,6 +28251,7 @@ class DBRecommendationMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBSnapshotResult {
   final DBSnapshot? dBSnapshot;
 
@@ -28124,6 +28273,7 @@ class ModifyDBSnapshotResult {
   }
 }
 
+/// @nodoc
 class ModifyDBSnapshotAttributeResult {
   final DBSnapshotAttributesResult? dBSnapshotAttributesResult;
 
@@ -28147,6 +28297,7 @@ class ModifyDBSnapshotAttributeResult {
   }
 }
 
+/// @nodoc
 class ModifyDBSubnetGroupResult {
   final DBSubnetGroup? dBSubnetGroup;
 
@@ -28168,6 +28319,7 @@ class ModifyDBSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -28190,6 +28342,7 @@ class ModifyEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class ModifyGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -28211,6 +28364,7 @@ class ModifyGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class ModifyOptionGroupResult {
   final OptionGroup? optionGroup;
 
@@ -28232,6 +28386,7 @@ class ModifyOptionGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyTenantDatabaseResult {
   final TenantDatabase? tenantDatabase;
 
@@ -28254,6 +28409,7 @@ class ModifyTenantDatabaseResult {
   }
 }
 
+/// @nodoc
 class PromoteReadReplicaResult {
   final DBInstance? dBInstance;
 
@@ -28275,6 +28431,7 @@ class PromoteReadReplicaResult {
   }
 }
 
+/// @nodoc
 class PromoteReadReplicaDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -28295,6 +28452,7 @@ class PromoteReadReplicaDBClusterResult {
   }
 }
 
+/// @nodoc
 class PurchaseReservedDBInstancesOfferingResult {
   final ReservedDBInstance? reservedDBInstance;
 
@@ -28318,6 +28476,7 @@ class PurchaseReservedDBInstancesOfferingResult {
   }
 }
 
+/// @nodoc
 class RebootDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -28338,6 +28497,7 @@ class RebootDBClusterResult {
   }
 }
 
+/// @nodoc
 class RebootDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -28359,6 +28519,7 @@ class RebootDBInstanceResult {
   }
 }
 
+/// @nodoc
 class RegisterDBProxyTargetsResponse {
   /// One or more <code>DBProxyTarget</code> objects that are created when you
   /// register targets with a target group.
@@ -28382,6 +28543,7 @@ class RegisterDBProxyTargetsResponse {
   }
 }
 
+/// @nodoc
 class RemoveFromGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -28403,6 +28565,7 @@ class RemoveFromGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class RemoveSourceIdentifierFromSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -28426,6 +28589,7 @@ class RemoveSourceIdentifierFromSubscriptionResult {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterFromS3Result {
   final DBCluster? dBCluster;
 
@@ -28446,6 +28610,7 @@ class RestoreDBClusterFromS3Result {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterFromSnapshotResult {
   final DBCluster? dBCluster;
 
@@ -28466,6 +28631,7 @@ class RestoreDBClusterFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterToPointInTimeResult {
   final DBCluster? dBCluster;
 
@@ -28486,6 +28652,7 @@ class RestoreDBClusterToPointInTimeResult {
   }
 }
 
+/// @nodoc
 class RestoreDBInstanceFromDBSnapshotResult {
   final DBInstance? dBInstance;
 
@@ -28507,6 +28674,7 @@ class RestoreDBInstanceFromDBSnapshotResult {
   }
 }
 
+/// @nodoc
 class RestoreDBInstanceFromS3Result {
   final DBInstance? dBInstance;
 
@@ -28528,6 +28696,7 @@ class RestoreDBInstanceFromS3Result {
   }
 }
 
+/// @nodoc
 class RestoreDBInstanceToPointInTimeResult {
   final DBInstance? dBInstance;
 
@@ -28549,6 +28718,7 @@ class RestoreDBInstanceToPointInTimeResult {
   }
 }
 
+/// @nodoc
 class RevokeDBSecurityGroupIngressResult {
   final DBSecurityGroup? dBSecurityGroup;
 
@@ -28571,6 +28741,7 @@ class RevokeDBSecurityGroupIngressResult {
   }
 }
 
+/// @nodoc
 class StartActivityStreamResponse {
   /// Indicates whether or not the database activity stream will start as soon as
   /// possible, regardless of the maintenance window for the database.
@@ -28638,6 +28809,7 @@ class StartActivityStreamResponse {
   }
 }
 
+/// @nodoc
 class StartDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -28658,6 +28830,7 @@ class StartDBClusterResult {
   }
 }
 
+/// @nodoc
 class StartDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -28679,6 +28852,7 @@ class StartDBInstanceResult {
   }
 }
 
+/// @nodoc
 class StartDBInstanceAutomatedBackupsReplicationResult {
   final DBInstanceAutomatedBackup? dBInstanceAutomatedBackup;
 
@@ -28703,6 +28877,7 @@ class StartDBInstanceAutomatedBackupsReplicationResult {
   }
 }
 
+/// @nodoc
 class StopActivityStreamResponse {
   /// The name of the Amazon Kinesis data stream used for the database activity
   /// stream.
@@ -28745,6 +28920,7 @@ class StopActivityStreamResponse {
   }
 }
 
+/// @nodoc
 class StopDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -28765,6 +28941,7 @@ class StopDBClusterResult {
   }
 }
 
+/// @nodoc
 class StopDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -28786,6 +28963,7 @@ class StopDBInstanceResult {
   }
 }
 
+/// @nodoc
 class StopDBInstanceAutomatedBackupsReplicationResult {
   final DBInstanceAutomatedBackup? dBInstanceAutomatedBackup;
 
@@ -28810,6 +28988,7 @@ class StopDBInstanceAutomatedBackupsReplicationResult {
   }
 }
 
+/// @nodoc
 class SwitchoverBlueGreenDeploymentResponse {
   final BlueGreenDeployment? blueGreenDeployment;
 
@@ -28833,6 +29012,7 @@ class SwitchoverBlueGreenDeploymentResponse {
   }
 }
 
+/// @nodoc
 class SwitchoverGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -28854,6 +29034,7 @@ class SwitchoverGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class SwitchoverReadReplicaResult {
   final DBInstance? dBInstance;
 
@@ -28885,6 +29066,8 @@ class SwitchoverReadReplicaResult {
 /// <code>RestoreDBInstanceFromS3</code>,
 /// <code>RestoreDBInstanceToPointInTime</code>, <code>StartDBInstance</code>,
 /// and <code>StopDBInstance</code>.
+///
+/// @nodoc
 class DBInstance {
   /// Indicates whether engine-native audit fields are included in the database
   /// activity stream.
@@ -29398,13 +29581,13 @@ class DBInstance {
   ///
   /// <ul>
   /// <li>
-  /// [first] - Typically used for development or testing environments.
+  /// \[first\] - Typically used for development or testing environments.
   /// </li>
   /// <li>
-  /// [second] - Default order for resources not specifically configured.
+  /// \[second\] - Default order for resources not specifically configured.
   /// </li>
   /// <li>
-  /// [last] - Usually reserved for production environments.
+  /// \[last\] - Usually reserved for production environments.
   /// </li>
   /// </ul>
   final UpgradeRolloutOrder? upgradeRolloutOrder;
@@ -29970,6 +30153,8 @@ class DBInstance {
 /// </ul>
 /// For the data structure that represents Amazon Aurora DB cluster endpoints,
 /// see <code>DBClusterEndpoint</code>.
+///
+/// @nodoc
 class Endpoint {
   /// Specifies the DNS address of the DB instance.
   final String? address;
@@ -30009,6 +30194,8 @@ class Endpoint {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBSubnetGroups</code> action.
+///
+/// @nodoc
 class DBSubnetGroup {
   /// The Amazon Resource Name (ARN) for the DB subnet group.
   final String? dBSubnetGroupArn;
@@ -30098,6 +30285,7 @@ class DBSubnetGroup {
   }
 }
 
+/// @nodoc
 class UpgradeRolloutOrder {
   static const first = UpgradeRolloutOrder._('first');
   static const second = UpgradeRolloutOrder._('second');
@@ -30127,6 +30315,8 @@ class UpgradeRolloutOrder {
 /// This data type is used as a response element in the
 /// <code>ModifyDBInstance</code> operation and contains changes that will be
 /// applied during the next maintenance window.
+///
+/// @nodoc
 class PendingModifiedValues {
   /// The additional storage volume modifications that are pending for the DB
   /// instance.
@@ -30350,6 +30540,7 @@ class PendingModifiedValues {
   }
 }
 
+/// @nodoc
 class ReplicaMode {
   static const openReadOnly = ReplicaMode._('open-read-only');
   static const mounted = ReplicaMode._('mounted');
@@ -30373,6 +30564,7 @@ class ReplicaMode {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageEncryptionType {
   static const none = StorageEncryptionType._('none');
   static const sseKms = StorageEncryptionType._('sse-kms');
@@ -30399,6 +30591,7 @@ class StorageEncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class DatabaseInsightsMode {
   static const standard = DatabaseInsightsMode._('standard');
   static const advanced = DatabaseInsightsMode._('advanced');
@@ -30424,6 +30617,7 @@ class DatabaseInsightsMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AutomationMode {
   static const full = AutomationMode._('full');
   static const allPaused = AutomationMode._('all-paused');
@@ -30448,6 +30642,7 @@ class AutomationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ActivityStreamStatus {
   static const stopped = ActivityStreamStatus._('stopped');
   static const starting = ActivityStreamStatus._('starting');
@@ -30475,6 +30670,7 @@ class ActivityStreamStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ActivityStreamMode {
   static const sync = ActivityStreamMode._('sync');
   static const async = ActivityStreamMode._('async');
@@ -30500,6 +30696,7 @@ class ActivityStreamMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ActivityStreamPolicyStatus {
   static const locked = ActivityStreamPolicyStatus._('locked');
   static const unlocked = ActivityStreamPolicyStatus._('unlocked');
@@ -30537,6 +30734,8 @@ class ActivityStreamPolicyStatus {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html">
 /// Using SSL/TLS to encrypt a connection to a DB cluster</a> in the <i>Amazon
 /// Aurora User Guide</i>.
+///
+/// @nodoc
 class CertificateDetails {
   /// The CA identifier of the CA certificate used for the DB instance's server
   /// certificate.
@@ -30576,6 +30775,8 @@ class CertificateDetails {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html">Password
 /// management with Amazon Web Services Secrets Manager</a> in the <i>Amazon
 /// Aurora User Guide.</i>
+///
+/// @nodoc
 class MasterUserSecret {
   /// The Amazon Web Services KMS key identifier that is used to encrypt the
   /// secret.
@@ -30638,6 +30839,8 @@ class MasterUserSecret {
 }
 
 /// Contains information about an additional storage volume for a DB instance.
+///
+/// @nodoc
 class AdditionalStorageVolumeOutput {
   /// The amount of storage allocated for the additional storage volume, in
   /// gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
@@ -30716,6 +30919,8 @@ class AdditionalStorageVolumeOutput {
 /// Automated backups of a DB instance replicated to another Amazon Web Services
 /// Region. They consist of system backups, transaction logs, and database
 /// instance properties.
+///
+/// @nodoc
 class DBInstanceAutomatedBackupsReplication {
   /// The Amazon Resource Name (ARN) of the replicated automated backups.
   final String? dBInstanceAutomatedBackupsArn;
@@ -30747,19 +30952,21 @@ class DBInstanceAutomatedBackupsReplication {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html">Tagging
 /// Amazon Aurora and Amazon RDS resources</a> in the <i>Amazon Aurora User
 /// Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
   /// Unicode characters in length and can't be prefixed with <code>aws:</code> or
   /// <code>rds:</code>. The string can only contain only the set of Unicode
   /// letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java
-  /// regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+  /// regex: "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@\]*)$").
   final String? key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
   /// 256 Unicode characters in length and can't be prefixed with
   /// <code>aws:</code> or <code>rds:</code>. The string can only contain only the
   /// set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+',
-  /// '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+  /// '-', '@' (Java regex: "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@\]*)$").
   final String? value;
 
   Tag({
@@ -30794,6 +31001,8 @@ class Tag {
 
 /// Information about an Amazon Web Services Identity and Access Management
 /// (IAM) role that is associated with a DB instance.
+///
+/// @nodoc
 class DBInstanceRole {
   /// The name of the feature associated with the Amazon Web Services Identity and
   /// Access Management (IAM) role. For information about supported feature names,
@@ -30917,6 +31126,8 @@ class DBInstanceRole {
 /// Optimizing your RDS for SQL Server CPU</a>, and <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
 /// instance classes</a> in the <i>Amazon RDS User Guide. </i>
+///
+/// @nodoc
 class ProcessorFeature {
   /// The name of the processor feature. Valid names are <code>coreCount</code>
   /// and <code>threadsPerCore</code>.
@@ -30957,6 +31168,8 @@ class ProcessorFeature {
 
 /// An Active Directory Domain membership record associated with the DB instance
 /// or cluster.
+///
+/// @nodoc
 class DomainMembership {
   /// The ARN for the Secrets Manager secret with the credentials for the user
   /// that's a member of the domain.
@@ -31028,6 +31241,8 @@ class DomainMembership {
 }
 
 /// Provides a list of status information for a DB instance.
+///
+/// @nodoc
 class DBInstanceStatusInfo {
   /// Details of the error if there is an error for the instance. If the instance
   /// isn't in an error state, this value is blank.
@@ -31075,6 +31290,8 @@ class DBInstanceStatusInfo {
 }
 
 /// Provides information on the option groups the DB instance is a member of.
+///
+/// @nodoc
 class OptionGroupMembership {
   /// The name of the option group that the instance belongs to.
   final String? optionGroupName;
@@ -31109,6 +31326,8 @@ class OptionGroupMembership {
 
 /// A list of the log types whose configuration is still pending. In other
 /// words, these log types are in the process of being activated or deactivated.
+///
+/// @nodoc
 class PendingCloudwatchLogsExports {
   /// Log types that are in the process of being enabled. After they are enabled,
   /// these log types are exported to CloudWatch Logs.
@@ -31146,6 +31365,8 @@ class PendingCloudwatchLogsExports {
 /// Contains details about an additional storage volume for a DB instance. RDS
 /// support additional storage volumes for RDS for Oracle and RDS for SQL
 /// Server.
+///
+/// @nodoc
 class AdditionalStorageVolume {
   /// The name of the additional storage volume.
   ///
@@ -31234,6 +31455,8 @@ class AdditionalStorageVolume {
 
 /// This data type is used as a response element for the
 /// <code>DescribeDBSubnetGroups</code> operation.
+///
+/// @nodoc
 class Subnet {
   final AvailabilityZone? subnetAvailabilityZone;
 
@@ -31288,6 +31511,8 @@ class Subnet {
 ///
 /// This data type is used as an element in the
 /// <code>OrderableDBInstanceOption</code> data type.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the Availability Zone.
   final String? name;
@@ -31314,6 +31539,8 @@ class AvailabilityZone {
 /// For more information about RDS on Outposts, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Amazon
 /// RDS on Amazon Web Services Outposts</a> in the <i>Amazon RDS User Guide.</i>
+///
+/// @nodoc
 class Outpost {
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String? arn;
@@ -31359,6 +31586,8 @@ class Outpost {
 /// <code>RestoreDBInstanceFromDBSnapshot</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DBParameterGroupStatus {
   /// The name of the DB parameter group.
   final String? dBParameterGroupName;
@@ -31415,6 +31644,8 @@ class DBParameterGroupStatus {
 
 /// This data type is used as a response element for queries on VPC security
 /// group membership.
+///
+/// @nodoc
 class VpcSecurityGroupMembership {
   /// The membership status of the VPC security group.
   ///
@@ -31461,6 +31692,8 @@ class VpcSecurityGroupMembership {
 /// <code>RestoreDBInstanceToPointInTime</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DBSecurityGroupMembership {
   /// The name of the DB security group.
   final String? dBSecurityGroupName;
@@ -31492,6 +31725,8 @@ class DBSecurityGroupMembership {
 }
 
 /// A data type representing an Aurora global database.
+///
+/// @nodoc
 class GlobalCluster {
   /// The default database name within the new global database cluster.
   final String? databaseName;
@@ -31659,6 +31894,8 @@ class GlobalCluster {
 /// (Aurora global database). This data type is empty unless a switchover or
 /// failover operation is scheduled or is in progress on the Aurora global
 /// database.
+///
+/// @nodoc
 class FailoverState {
   /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently
   /// being demoted, and which is associated with this state.
@@ -31732,6 +31969,7 @@ class FailoverState {
   }
 }
 
+/// @nodoc
 class FailoverStatus {
   static const pending = FailoverStatus._('pending');
   static const failingOver = FailoverStatus._('failing-over');
@@ -31759,6 +31997,8 @@ class FailoverStatus {
 
 /// A data structure with information about any primary and secondary clusters
 /// associated with a global cluster (Aurora global database).
+///
+/// @nodoc
 class GlobalClusterMember {
   /// The Amazon Resource Name (ARN) for each Aurora DB cluster in the global
   /// cluster.
@@ -31821,6 +32061,7 @@ class GlobalClusterMember {
   }
 }
 
+/// @nodoc
 class WriteForwardingStatus {
   static const enabled = WriteForwardingStatus._('enabled');
   static const disabled = WriteForwardingStatus._('disabled');
@@ -31849,6 +32090,7 @@ class WriteForwardingStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GlobalClusterMemberSynchronizationStatus {
   static const connected =
       GlobalClusterMemberSynchronizationStatus._('connected');
@@ -31885,6 +32127,8 @@ class GlobalClusterMemberSynchronizationStatus {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html">Using
 /// Amazon RDS Blue/Green Deployments for database updates</a> in the <i>Amazon
 /// Aurora User Guide</i>.
+///
+/// @nodoc
 class BlueGreenDeployment {
   /// The unique identifier of the blue/green deployment.
   final String? blueGreenDeploymentIdentifier;
@@ -32036,6 +32280,8 @@ class BlueGreenDeployment {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html">Using
 /// Amazon RDS Blue/Green Deployments for database updates</a> in the <i>Amazon
 /// Aurora User Guide</i>.
+///
+/// @nodoc
 class BlueGreenDeploymentTask {
   /// The name of the blue/green deployment task.
   final String? name;
@@ -32090,6 +32336,8 @@ class BlueGreenDeploymentTask {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html">Using
 /// Amazon RDS Blue/Green Deployments for database updates</a> in the <i>Amazon
 /// Aurora User Guide</i>.
+///
+/// @nodoc
 class SwitchoverDetail {
   /// The Amazon Resource Name (ARN) of a resource in the blue environment.
   final String? sourceMember;
@@ -32155,6 +32403,8 @@ class SwitchoverDetail {
 /// An automated backup of a DB instance. It consists of system backups,
 /// transaction logs, and the database instance properties that existed at the
 /// time you deleted the source instance.
+///
+/// @nodoc
 class DBInstanceAutomatedBackup {
   /// The additional storage volumes associated with the automated backup.
   ///
@@ -32504,6 +32754,8 @@ class DBInstanceAutomatedBackup {
 }
 
 /// Earliest and latest time an instance can be restored to:
+///
+/// @nodoc
 class RestoreWindow {
   /// The earliest time you can restore an instance to.
   final DateTime? earliestTime;
@@ -32559,6 +32811,8 @@ class RestoreWindow {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
 /// Multi-AZ deployments with two readable standby DB instances</a> in the
 /// <i>Amazon RDS User Guide.</i>
+///
+/// @nodoc
 class DBCluster {
   /// The name of the Amazon Kinesis data stream used for the database activity
   /// stream.
@@ -33019,13 +33273,13 @@ class DBCluster {
   ///
   /// <ul>
   /// <li>
-  /// [first] - Typically used for development or testing environments.
+  /// \[first\] - Typically used for development or testing environments.
   /// </li>
   /// <li>
-  /// [second] - Default order for resources not specifically configured.
+  /// \[second\] - Default order for resources not specifically configured.
   /// </li>
   /// <li>
-  /// [last] - Usually reserved for production environments.
+  /// \[last\] - Usually reserved for production environments.
   /// </li>
   /// </ul>
   final UpgradeRolloutOrder? upgradeRolloutOrder;
@@ -33552,6 +33806,8 @@ class DBCluster {
 /// This data type is used as a response element in the
 /// <code>ModifyDBCluster</code> operation and contains changes that will be
 /// applied during the next maintenance window.
+///
+/// @nodoc
 class ClusterPendingModifiedValues {
   /// The allocated storage size in gibibytes (GiB) for all database engines
   /// except Amazon Aurora. For Aurora, <code>AllocatedStorage</code> always
@@ -33665,6 +33921,8 @@ class ClusterPendingModifiedValues {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
 /// Amazon Aurora Serverless v1</a> in the <i>Amazon Aurora User Guide</i>.
+///
+/// @nodoc
 class ScalingConfigurationInfo {
   /// Indicates whether automatic pause is allowed for the Aurora DB cluster in
   /// <code>serverless</code> DB engine mode.
@@ -33744,6 +34002,8 @@ class ScalingConfigurationInfo {
 }
 
 /// Reserved for future use.
+///
+/// @nodoc
 class RdsCustomClusterConfiguration {
   /// Reserved for future use.
   final String? interconnectSubnetId;
@@ -33805,6 +34065,8 @@ class RdsCustomClusterConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html">Using
 /// Amazon Aurora Serverless v2</a> in the <i>Amazon Aurora User Guide</i>.
+///
+/// @nodoc
 class ServerlessV2ScalingConfigurationInfo {
   /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an
   /// Aurora Serverless v2 cluster. You can specify ACU values in half-step
@@ -33860,6 +34122,7 @@ class ServerlessV2ScalingConfigurationInfo {
   }
 }
 
+/// @nodoc
 class LocalWriteForwardingStatus {
   static const enabled = LocalWriteForwardingStatus._('enabled');
   static const disabled = LocalWriteForwardingStatus._('disabled');
@@ -33889,6 +34152,8 @@ class LocalWriteForwardingStatus {
 }
 
 /// Contains details for Aurora Limitless Database.
+///
+/// @nodoc
 class LimitlessDatabase {
   /// The minimum required capacity for Aurora Limitless Database in Aurora
   /// capacity units (ACUs).
@@ -33920,6 +34185,7 @@ class LimitlessDatabase {
   }
 }
 
+/// @nodoc
 class ClusterScalabilityType {
   static const standard = ClusterScalabilityType._('standard');
   static const limitless = ClusterScalabilityType._('limitless');
@@ -33945,6 +34211,7 @@ class ClusterScalabilityType {
   String toString() => value;
 }
 
+/// @nodoc
 class LimitlessDatabaseStatus {
   static const active = LimitlessDatabaseStatus._('active');
   static const notInUse = LimitlessDatabaseStatus._('not-in-use');
@@ -33988,6 +34255,8 @@ class LimitlessDatabaseStatus {
 
 /// Describes an Amazon Web Services Identity and Access Management (IAM) role
 /// that is associated with a DB cluster.
+///
+/// @nodoc
 class DBClusterRole {
   /// The name of the feature associated with the Amazon Web Services Identity and
   /// Access Management (IAM) role. For information about supported feature names,
@@ -34044,6 +34313,8 @@ class DBClusterRole {
 }
 
 /// Contains information about an instance that is part of a DB cluster.
+///
+/// @nodoc
 class DBClusterMember {
   /// Specifies the status of the DB cluster parameter group for this member of
   /// the DB cluster.
@@ -34098,6 +34369,8 @@ class DBClusterMember {
 }
 
 /// Reserved for future use.
+///
+/// @nodoc
 class DBClusterStatusInfo {
   /// Reserved for future use.
   final String? message;
@@ -34141,6 +34414,8 @@ class DBClusterStatusInfo {
 }
 
 /// Contains status information for a DB cluster option group.
+///
+/// @nodoc
 class DBClusterOptionGroupStatus {
   /// Specifies the name of the DB cluster option group.
   final String? dBClusterOptionGroupName;
@@ -34175,6 +34450,8 @@ class DBClusterOptionGroupStatus {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBSecurityGroups</code> action.
+///
+/// @nodoc
 class DBSecurityGroup {
   /// The Amazon Resource Name (ARN) for the DB security group.
   final String? dBSecurityGroupArn;
@@ -34250,6 +34527,8 @@ class DBSecurityGroup {
 
 /// This data type is used as a response element in the
 /// <code>DescribeDBSecurityGroups</code> action.
+///
+/// @nodoc
 class IPRange {
   /// The IP range.
   final String? cidrip;
@@ -34292,6 +34571,8 @@ class IPRange {
 /// <code>RevokeDBSecurityGroupIngress</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EC2SecurityGroup {
   /// Specifies the id of the EC2 security group.
   final String? eC2SecurityGroupId;
@@ -34343,6 +34624,8 @@ class EC2SecurityGroup {
 /// The tags to apply to resources when creating or modifying a DB instance or
 /// DB cluster. When you specify a tag, you must specify the resource type to
 /// tag, otherwise the request will fail.
+///
+/// @nodoc
 class TagSpecification {
   /// The type of resource to tag on creation.
   ///
@@ -34394,6 +34677,8 @@ class TagSpecification {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html">Using
 /// Amazon Aurora Serverless v2</a> in the <i>Amazon Aurora User Guide</i>.
+///
+/// @nodoc
 class ServerlessV2ScalingConfiguration {
   /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an
   /// Aurora Serverless v2 cluster. You can specify ACU values in half-step
@@ -34454,6 +34739,8 @@ class ServerlessV2ScalingConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
 /// Amazon Aurora Serverless v1</a> in the <i>Amazon Aurora User Guide</i>.
+///
+/// @nodoc
 class ScalingConfiguration {
   /// Indicates whether to allow or disallow automatic pause for an Aurora DB
   /// cluster in <code>serverless</code> DB engine mode. A DB cluster can be
@@ -34580,6 +34867,8 @@ class ScalingConfiguration {
 /// This data type is used as a response element in the
 /// <code>DescribeEngineDefaultParameters</code> and
 /// <code>DescribeDBParameters</code> actions.
+///
+/// @nodoc
 class Parameter {
   /// Specifies the valid range of values for the parameter.
   final String? allowedValues;
@@ -34713,6 +35002,7 @@ class Parameter {
   }
 }
 
+/// @nodoc
 class ApplyMethod {
   static const immediate = ApplyMethod._('immediate');
   static const pendingReboot = ApplyMethod._('pending-reboot');
@@ -34738,6 +35028,8 @@ class ApplyMethod {
 
 /// Contains the results of a successful invocation of the
 /// <code>DescribeEventSubscriptions</code> action.
+///
+/// @nodoc
 class EventSubscription {
   /// The RDS event notification subscription Id.
   final String? custSubscriptionId;
@@ -34848,6 +35140,8 @@ class EventSubscription {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBProxyTargets</code> action.
+///
+/// @nodoc
 class DBProxyTarget {
   /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
   final String? endpoint;
@@ -34924,6 +35218,7 @@ class DBProxyTarget {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const rdsInstance = TargetType._('RDS_INSTANCE');
   static const rdsServerlessEndpoint = TargetType._('RDS_SERVERLESS_ENDPOINT');
@@ -34948,6 +35243,7 @@ class TargetType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetRole {
   static const readWrite = TargetRole._('READ_WRITE');
   static const readOnly = TargetRole._('READ_ONLY');
@@ -34973,6 +35269,8 @@ class TargetRole {
 }
 
 /// Information about the connection health of an RDS Proxy target.
+///
+/// @nodoc
 class TargetHealth {
   /// A description of the health of the RDS Proxy target. If the
   /// <code>State</code> is <code>AVAILABLE</code>, a description is not included.
@@ -35019,6 +35317,7 @@ class TargetHealth {
   }
 }
 
+/// @nodoc
 class TargetState {
   static const registering = TargetState._('REGISTERING');
   static const available = TargetState._('AVAILABLE');
@@ -35044,6 +35343,7 @@ class TargetState {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetHealthReason {
   static const unreachable = TargetHealthReason._('UNREACHABLE');
   static const connectionFailed = TargetHealthReason._('CONNECTION_FAILED');
@@ -35085,6 +35385,8 @@ class TargetHealthReason {
 /// This data type is used as a response element in the
 /// <code>DescribeReservedDBInstances</code> and
 /// <code>PurchaseReservedDBInstancesOffering</code> actions.
+///
+/// @nodoc
 class ReservedDBInstance {
   /// The currency code for the reserved DB instance.
   final String? currencyCode;
@@ -35229,6 +35531,8 @@ class ReservedDBInstance {
 /// This data type is used as a response element in the
 /// <code>DescribeReservedDBInstances</code> and
 /// <code>DescribeReservedDBInstancesOfferings</code> actions.
+///
+/// @nodoc
 class RecurringCharge {
   /// The amount of the recurring charge.
   final double? recurringChargeAmount;
@@ -35263,6 +35567,8 @@ class RecurringCharge {
 
 /// A tenant database in the DB instance. This data type is an element in the
 /// response to the <code>DescribeTenantDatabases</code> action.
+///
+/// @nodoc
 class TenantDatabase {
   /// The character set of the tenant database.
   final String? characterSetName;
@@ -35391,6 +35697,8 @@ class TenantDatabase {
 /// A response element in the <code>ModifyTenantDatabase</code> operation that
 /// describes changes that will be applied. Specific changes are identified by
 /// subelements.
+///
+/// @nodoc
 class TenantDatabasePendingModifiedValues {
   /// The master password for the tenant database.
   final String? masterUserPassword;
@@ -35420,6 +35728,8 @@ class TenantDatabasePendingModifiedValues {
 }
 
 /// <p/>
+///
+/// @nodoc
 class OptionGroup {
   /// Indicates whether this option group can be applied to both VPC and non-VPC
   /// instances. The value <code>true</code> indicates the option group can be
@@ -35528,6 +35838,8 @@ class OptionGroup {
 }
 
 /// The details of an option.
+///
+/// @nodoc
 class Option {
   /// If the option requires access to a port, then this DB security group allows
   /// access to the port.
@@ -35627,6 +35939,8 @@ class Option {
 /// option. It is used when you modify an option group or describe option
 /// groups. For example, the NATIVE_NETWORK_ENCRYPTION option has a setting
 /// called SQLNET.ENCRYPTION_SERVER that can have several different values.
+///
+/// @nodoc
 class OptionSetting {
   /// The allowed values of the option setting.
   final String? allowedValues;
@@ -35728,6 +36042,8 @@ class OptionSetting {
 }
 
 /// A list of all available options for an option group.
+///
+/// @nodoc
 class OptionConfiguration {
   /// The configuration of options to include in a group.
   final String optionName;
@@ -35817,6 +36133,8 @@ class OptionConfiguration {
 /// Manual DB snapshot attributes are used to authorize other Amazon Web
 /// Services accounts to copy or restore a manual DB snapshot. For more
 /// information, see the <code>ModifyDBSnapshotAttribute</code> API action.
+///
+/// @nodoc
 class DBSnapshotAttributesResult {
   /// The list of attributes and values for the manual DB snapshot.
   final List<DBSnapshotAttribute>? dBSnapshotAttributes;
@@ -35858,6 +36176,8 @@ class DBSnapshotAttributesResult {
 /// Manual DB snapshot attributes are used to authorize other Amazon Web
 /// Services accounts to restore a manual DB snapshot. For more information, see
 /// the <code>ModifyDBSnapshotAttribute</code> API.
+///
+/// @nodoc
 class DBSnapshotAttribute {
   /// The name of the manual DB snapshot attribute.
   ///
@@ -35902,6 +36222,8 @@ class DBSnapshotAttribute {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBSnapshots</code> action.
+///
+/// @nodoc
 class DBSnapshot {
   /// The additional storage volumes associated with the DB snapshot. RDS supports
   /// additional storage volumes for RDS for Oracle and RDS for SQL Server.
@@ -36295,6 +36617,8 @@ class DBSnapshot {
 
 /// The recommendation for your DB instances, DB clusters, and DB parameter
 /// groups.
+///
+/// @nodoc
 class DBRecommendation {
   /// Additional information about the recommendation. The information might
   /// contain markdown.
@@ -36527,6 +36851,8 @@ class DBRecommendation {
 
 /// The details of an issue with your DB instances, DB clusters, and DB
 /// parameter groups.
+///
+/// @nodoc
 class IssueDetails {
   /// A detailed description of the issue when the recommendation category is
   /// <code>performance</code>.
@@ -36553,6 +36879,8 @@ class IssueDetails {
 }
 
 /// Details of the performance issue.
+///
+/// @nodoc
 class PerformanceIssueDetails {
   /// The analysis of the performance issue. The information might contain
   /// markdown.
@@ -36598,6 +36926,8 @@ class PerformanceIssueDetails {
 }
 
 /// The representation of a metric.
+///
+/// @nodoc
 class Metric {
   /// The query to retrieve metric data points.
   final MetricQuery? metricQuery;
@@ -36644,6 +36974,8 @@ class Metric {
 }
 
 /// The query to retrieve metric data points.
+///
+/// @nodoc
 class MetricQuery {
   /// The Performance Insights query that you can use to retrieve Performance
   /// Insights metric data points.
@@ -36683,6 +37015,8 @@ class MetricQuery {
 /// Must be a valid Performance Insights query.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PerformanceInsightsMetricQuery {
   /// A specification for how to aggregate the data points from a query result.
   /// You must specify a valid dimension group. Performance Insights will return
@@ -36770,6 +37104,8 @@ class PerformanceInsightsMetricQuery {
 /// Each response element returns a maximum of 500 bytes. For larger elements,
 /// such as SQL statements, only the first 500 bytes are returned.
 /// </note>
+///
+/// @nodoc
 class PerformanceInsightsMetricDimensionGroup {
   /// A list of specific dimensions from a dimension group. If this list isn't
   /// included, then all of the dimensions in the group were requested, or are
@@ -36810,6 +37146,8 @@ class PerformanceInsightsMetricDimensionGroup {
 }
 
 /// The reference (threshold) for a metric.
+///
+/// @nodoc
 class MetricReference {
   /// The name of the metric reference.
   final String? name;
@@ -36841,6 +37179,8 @@ class MetricReference {
 }
 
 /// The reference details of a metric.
+///
+/// @nodoc
 class ReferenceDetails {
   /// The metric reference details when the reference is a scalar.
   final ScalarReferenceDetails? scalarReferenceDetails;
@@ -36866,6 +37206,8 @@ class ReferenceDetails {
 }
 
 /// The metric reference details when the reference is a scalar.
+///
+/// @nodoc
 class ScalarReferenceDetails {
   /// The value of a scalar reference.
   final double? value;
@@ -36889,6 +37231,8 @@ class ScalarReferenceDetails {
 
 /// A link to documentation that provides additional information for a
 /// recommendation.
+///
+/// @nodoc
 class DocLink {
   /// The text with the link to documentation for the recommendation.
   final String? text;
@@ -36919,6 +37263,8 @@ class DocLink {
 
 /// The recommended actions to apply to resolve the issues associated with your
 /// DB instances, DB clusters, and DB parameter groups.
+///
+/// @nodoc
 class RecommendedAction {
   /// The unique identifier of the recommended action.
   final String? actionId;
@@ -37040,6 +37386,8 @@ class RecommendedAction {
 }
 
 /// The additional attributes of <code>RecommendedAction</code> data type.
+///
+/// @nodoc
 class ContextAttribute {
   /// The key of <code>ContextAttribute</code>.
   final String? key;
@@ -37070,6 +37418,8 @@ class ContextAttribute {
 
 /// A single parameter to use with the <code>RecommendedAction</code> API
 /// operation to apply the action.
+///
+/// @nodoc
 class RecommendedActionParameter {
   /// The key of the parameter to use with the <code>RecommendedAction</code> API
   /// operation.
@@ -37101,6 +37451,8 @@ class RecommendedActionParameter {
 }
 
 /// The recommended status to update for the specified recommendation action ID.
+///
+/// @nodoc
 class RecommendedActionUpdate {
   /// A unique identifier of the updated recommendation action.
   final String actionId;
@@ -37147,6 +37499,8 @@ class RecommendedActionUpdate {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBProxyTargetGroups</code> action.
+///
+/// @nodoc
 class DBProxyTargetGroup {
   /// The settings that determine the size and behavior of the connection pool for
   /// the target group.
@@ -37231,6 +37585,8 @@ class DBProxyTargetGroup {
 
 /// Displays the settings that control the size and behavior of the connection
 /// pool associated with a <code>DBProxyTarget</code>.
+///
+/// @nodoc
 class ConnectionPoolConfigurationInfo {
   /// The number of seconds for a proxy to wait for a connection to become
   /// available in the connection pool. Only applies when the proxy has opened its
@@ -37321,6 +37677,8 @@ class ConnectionPoolConfigurationInfo {
 
 /// Specifies the settings that control the size and behavior of the connection
 /// pool associated with a <code>DBProxyTargetGroup</code>.
+///
+/// @nodoc
 class ConnectionPoolConfiguration {
   /// The number of seconds for a proxy to wait for a connection to become
   /// available in the connection pool. This setting only applies when the proxy
@@ -37474,6 +37832,8 @@ class ConnectionPoolConfiguration {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBProxyEndpoints</code> operation.
+///
+/// @nodoc
 class DBProxyEndpoint {
   /// The date and time when the DB proxy endpoint was first created.
   final DateTime? createdDate;
@@ -37613,6 +37973,7 @@ class DBProxyEndpoint {
   }
 }
 
+/// @nodoc
 class DBProxyEndpointStatus {
   static const available = DBProxyEndpointStatus._('available');
   static const modifying = DBProxyEndpointStatus._('modifying');
@@ -37651,6 +38012,7 @@ class DBProxyEndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DBProxyEndpointTargetRole {
   static const readWrite = DBProxyEndpointTargetRole._('READ_WRITE');
   static const readOnly = DBProxyEndpointTargetRole._('READ_ONLY');
@@ -37676,6 +38038,7 @@ class DBProxyEndpointTargetRole {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointNetworkType {
   static const ipv4 = EndpointNetworkType._('IPV4');
   static const ipv6 = EndpointNetworkType._('IPV6');
@@ -37706,6 +38069,8 @@ class EndpointNetworkType {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBProxies</code> action.
+///
+/// @nodoc
 class DBProxy {
   /// One or more data structures specifying the authorization mechanism to
   /// connect to the associated RDS DB instance or Aurora DB cluster.
@@ -37916,6 +38281,7 @@ class DBProxy {
   }
 }
 
+/// @nodoc
 class DBProxyStatus {
   static const available = DBProxyStatus._('available');
   static const modifying = DBProxyStatus._('modifying');
@@ -37958,6 +38324,7 @@ class DBProxyStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetConnectionNetworkType {
   static const ipv4 = TargetConnectionNetworkType._('IPV4');
   static const ipv6 = TargetConnectionNetworkType._('IPV6');
@@ -37985,6 +38352,8 @@ class TargetConnectionNetworkType {
 
 /// Returns the details of authentication used by a proxy to log in as a
 /// specific database user.
+///
+/// @nodoc
 class UserAuthConfigInfo {
   /// The type of authentication that the proxy uses for connections from the
   /// proxy to the underlying database.
@@ -38053,6 +38422,7 @@ class UserAuthConfigInfo {
   }
 }
 
+/// @nodoc
 class AuthScheme {
   static const secrets = AuthScheme._('SECRETS');
 
@@ -38075,6 +38445,7 @@ class AuthScheme {
   String toString() => value;
 }
 
+/// @nodoc
 class IAMAuthMode {
   static const disabled = IAMAuthMode._('DISABLED');
   static const required = IAMAuthMode._('REQUIRED');
@@ -38099,6 +38470,7 @@ class IAMAuthMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ClientPasswordAuthType {
   static const mysqlNativePassword =
       ClientPasswordAuthType._('MYSQL_NATIVE_PASSWORD');
@@ -38137,6 +38509,7 @@ class ClientPasswordAuthType {
   String toString() => value;
 }
 
+/// @nodoc
 class DefaultAuthScheme {
   static const iamAuth = DefaultAuthScheme._('IAM_AUTH');
   static const none = DefaultAuthScheme._('NONE');
@@ -38163,6 +38536,8 @@ class DefaultAuthScheme {
 
 /// Specifies the details of authentication used by a proxy to log in as a
 /// specific database user.
+///
+/// @nodoc
 class UserAuthConfig {
   /// The type of authentication that the proxy uses for connections from the
   /// proxy to the underlying database.
@@ -38266,6 +38641,8 @@ class UserAuthConfig {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
 /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
 /// Guide</i>.
+///
+/// @nodoc
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
   ///
@@ -38341,6 +38718,7 @@ class CloudwatchLogsExportConfiguration {
   }
 }
 
+/// @nodoc
 class MasterUserAuthenticationType {
   static const password = MasterUserAuthenticationType._('password');
   static const iamDbAuth = MasterUserAuthenticationType._('iam-db-auth');
@@ -38367,6 +38745,8 @@ class MasterUserAuthenticationType {
 }
 
 /// Contains details about the modification of an additional storage volume.
+///
+/// @nodoc
 class ModifyAdditionalStorageVolume {
   /// The name of the additional storage volume that you want to modify.
   ///
@@ -38463,6 +38843,8 @@ class ModifyAdditionalStorageVolume {
 /// Services accounts to copy or restore a manual DB cluster snapshot. For more
 /// information, see the <code>ModifyDBClusterSnapshotAttribute</code> API
 /// action.
+///
+/// @nodoc
 class DBClusterSnapshotAttributesResult {
   /// The list of attributes and values for the manual DB cluster snapshot.
   final List<DBClusterSnapshotAttribute>? dBClusterSnapshotAttributes;
@@ -38506,6 +38888,8 @@ class DBClusterSnapshotAttributesResult {
 /// Services accounts to restore a manual DB cluster snapshot. For more
 /// information, see the <code>ModifyDBClusterSnapshotAttribute</code> API
 /// action.
+///
+/// @nodoc
 class DBClusterSnapshotAttribute {
   /// The name of the manual DB cluster snapshot attribute.
   ///
@@ -38546,6 +38930,7 @@ class DBClusterSnapshotAttribute {
   }
 }
 
+/// @nodoc
 class CustomEngineVersionStatus {
   static const available = CustomEngineVersionStatus._('available');
   static const inactive = CustomEngineVersionStatus._('inactive');
@@ -38582,6 +38967,8 @@ class CustomEngineVersionStatus {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html">
 /// Using SSL/TLS to encrypt a connection to a DB cluster</a> in the <i>Amazon
 /// Aurora User Guide</i>.
+///
+/// @nodoc
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
   final String? certificateArn;
@@ -38658,6 +39045,7 @@ class Certificate {
   }
 }
 
+/// @nodoc
 class AuditPolicyState {
   static const locked = AuditPolicyState._('locked');
   static const unlocked = AuditPolicyState._('unlocked');
@@ -38714,6 +39102,8 @@ class AuditPolicyState {
 /// <code>DescribePendingMaintenanceActions</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Filter {
   /// The name of the filter. Filter names are case-sensitive.
   final String name;
@@ -38753,6 +39143,8 @@ class Filter {
 /// Contains the result of a successful call to the
 /// <code>DescribeValidDBInstanceModifications</code> action. You can use this
 /// information when you call <code>ModifyDBInstance</code>.
+///
+/// @nodoc
 class ValidDBInstanceModificationsMessage {
   /// The valid additional storage options for the DB instance.
   final ValidAdditionalStorageOptions? additionalStorage;
@@ -38809,6 +39201,8 @@ class ValidDBInstanceModificationsMessage {
 }
 
 /// Contains the valid options for additional storage volumes for a DB instance.
+///
+/// @nodoc
 class ValidAdditionalStorageOptions {
   /// Indicates whether the DB instance supports additional storage volumes.
   final bool? supportsAdditionalStorageVolumes;
@@ -38842,6 +39236,8 @@ class ValidAdditionalStorageOptions {
 }
 
 /// Contains the valid options for an additional storage volume.
+///
+/// @nodoc
 class ValidVolumeOptions {
   /// The valid storage options for the additional storage volume.
   final List<ValidStorageOptions>? storage;
@@ -38880,6 +39276,8 @@ class ValidVolumeOptions {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor">Configuring
 /// the Processor of the DB Instance Class</a> in the <i>Amazon RDS User Guide.
 /// </i>
+///
+/// @nodoc
 class AvailableProcessorFeature {
   /// The allowed values for the processor feature of the DB instance class.
   final String? allowedValues;
@@ -38919,6 +39317,8 @@ class AvailableProcessorFeature {
 /// Information about valid modifications that you can make to your DB instance.
 /// Contains the result of a successful call to the
 /// <code>DescribeValidDBInstanceModifications</code> action.
+///
+/// @nodoc
 class ValidStorageOptions {
   /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For
   /// example, 3-10, which means that provisioned IOPS can be between 3 and 10
@@ -39007,6 +39407,8 @@ class ValidStorageOptions {
 }
 
 /// A range of double values.
+///
+/// @nodoc
 class DoubleRange {
   /// The minimum value in the range.
   final double? from;
@@ -39036,6 +39438,8 @@ class DoubleRange {
 }
 
 /// A range of integer values.
+///
+/// @nodoc
 class Range {
   /// The minimum value in the range.
   final int? from;
@@ -39076,6 +39480,8 @@ class Range {
 
 /// Contains an Amazon Web Services Region name as the result of a successful
 /// call to the <code>DescribeSourceRegions</code> action.
+///
+/// @nodoc
 class SourceRegion {
   /// The endpoint for the source Amazon Web Services Region endpoint.
   final String? endpoint;
@@ -39125,6 +39531,8 @@ class SourceRegion {
 
 /// This data type is used as a response element in the action
 /// <code>DescribeServerlessV2PlatformVersions</code>.
+///
+/// @nodoc
 class ServerlessV2PlatformVersionInfo {
   /// The name of the database engine.
   final String? engine;
@@ -39211,6 +39619,8 @@ class ServerlessV2PlatformVersionInfo {
 /// upgraded DB cluster. You can also retrieve the version of an existing DB
 /// cluster and check whether that version supports certain Aurora Serverless v2
 /// features before you attempt to use those features.
+///
+/// @nodoc
 class ServerlessV2FeaturesSupport {
   /// Specifies the upper Aurora Serverless v2 capacity limit for a particular
   /// engine version or platform version. Depending on the engine version, the
@@ -39245,6 +39655,8 @@ class ServerlessV2FeaturesSupport {
 
 /// This data type is used as a response element in the
 /// <code>DescribeReservedDBInstancesOfferings</code> action.
+///
+/// @nodoc
 class ReservedDBInstancesOffering {
   /// The currency code for the reserved DB instance offering.
   final String? currencyCode;
@@ -39336,6 +39748,8 @@ class ReservedDBInstancesOffering {
 }
 
 /// Describes the pending maintenance actions for a resource.
+///
+/// @nodoc
 class ResourcePendingMaintenanceActions {
   /// A list that provides details about the pending maintenance actions for the
   /// resource.
@@ -39373,6 +39787,8 @@ class ResourcePendingMaintenanceActions {
 }
 
 /// Provides information about a pending maintenance action for a resource.
+///
+/// @nodoc
 class PendingMaintenanceAction {
   /// The type of pending maintenance action that is available for the resource.
   ///
@@ -39483,6 +39899,8 @@ class PendingMaintenanceAction {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeOrderableDBInstanceOptions</code> action.
+///
+/// @nodoc
 class OrderableDBInstanceOption {
   /// The Availability Zone group for a DB instance.
   final String? availabilityZoneGroup;
@@ -39558,9 +39976,9 @@ class OrderableDBInstanceOption {
   final String? storageType;
 
   /// The list of supported modes for Database Activity Streams. Aurora PostgreSQL
-  /// returns the value <code>[sync, async]</code>. Aurora MySQL and RDS for
-  /// Oracle return <code>[async]</code> only. If Database Activity Streams isn't
-  /// supported, the return value is an empty list.
+  /// returns the value <code>\[sync, async\]</code>. Aurora MySQL and RDS for
+  /// Oracle return <code>\[async\]</code> only. If Database Activity Streams
+  /// isn't supported, the return value is an empty list.
   final List<String>? supportedActivityStreamModes;
 
   /// A list of the supported DB engine modes.
@@ -39863,6 +40281,8 @@ class OrderableDBInstanceOption {
 
 /// Contains the available options for additional storage volumes for a DB
 /// instance class.
+///
+/// @nodoc
 class AvailableAdditionalStorageVolumesOption {
   /// The maximum number of I/O operations per second (IOPS) that the additional
   /// storage volume supports.
@@ -39980,6 +40400,8 @@ class AvailableAdditionalStorageVolumesOption {
 }
 
 /// Available option.
+///
+/// @nodoc
 class OptionGroupOption {
   /// Indicates whether the option can be copied across Amazon Web Services
   /// accounts.
@@ -40154,6 +40576,8 @@ class OptionGroupOption {
 
 /// The version for an option. Option group option versions are returned by the
 /// <code>DescribeOptionGroupOptions</code> action.
+///
+/// @nodoc
 class OptionVersion {
   /// Indicates whether the version is the default version of the option.
   final bool? isDefault;
@@ -40185,6 +40609,8 @@ class OptionVersion {
 /// Option group option settings are used to display settings available for each
 /// option with their default values and other information. These values are
 /// used with the DescribeOptionGroupOptions action.
+///
+/// @nodoc
 class OptionGroupOptionSetting {
   /// Indicates the acceptable values for the option group option.
   final String? allowedValues;
@@ -40269,6 +40695,8 @@ class OptionGroupOptionSetting {
 
 /// The minimum DB engine version required for each corresponding allowed value
 /// for an option setting.
+///
+/// @nodoc
 class MinimumEngineVersionPerAllowedValue {
   /// The allowed value for an option setting.
   final String? allowedValue;
@@ -40299,6 +40727,7 @@ class MinimumEngineVersionPerAllowedValue {
   }
 }
 
+/// @nodoc
 class ExportSourceType {
   static const snapshot = ExportSourceType._('SNAPSHOT');
   static const cluster = ExportSourceType._('CLUSTER');
@@ -40326,6 +40755,8 @@ class ExportSourceType {
 /// This data type is used as a response element in the <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>
 /// action.
+///
+/// @nodoc
 class Event {
   /// Specifies the date and time of the event.
   final DateTime? date;
@@ -40386,6 +40817,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const dbInstance = SourceType._('db-instance');
   static const dbParameterGroup = SourceType._('db-parameter-group');
@@ -40433,6 +40865,8 @@ class SourceType {
 /// Contains the results of a successful invocation of the <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEventCategories.html">DescribeEventCategories</a>
 /// operation.
+///
+/// @nodoc
 class EventCategoriesMap {
   /// The event categories for the specified source type
   final List<String>? eventCategories;
@@ -40465,6 +40899,8 @@ class EventCategoriesMap {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeEngineDefaultParameters</code> action.
+///
+/// @nodoc
 class EngineDefaults {
   /// Specifies the name of the DB parameter group family that the engine default
   /// parameters apply to.
@@ -40507,6 +40943,8 @@ class EngineDefaults {
 }
 
 /// Contains the details of a tenant database in a snapshot of a DB instance.
+///
+/// @nodoc
 class DBSnapshotTenantDatabase {
   /// The name of the character set of a tenant database.
   final String? characterSetName;
@@ -40630,6 +41068,8 @@ class DBSnapshotTenantDatabase {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBParameterGroups</code> action.
+///
+/// @nodoc
 class DBParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB parameter group.
   final String? dBParameterGroupArn;
@@ -40681,6 +41121,8 @@ class DBParameterGroup {
 
 /// This data type is used as a response element in the operation
 /// <code>DescribeDBMajorEngineVersions</code>.
+///
+/// @nodoc
 class DBMajorEngineVersion {
   /// The name of the database engine.
   final String? engine;
@@ -40732,6 +41174,8 @@ class DBMajorEngineVersion {
 /// This data type only returns information for the open source engines Amazon
 /// RDS for MariaDB, Amazon RDS for MySQL, Amazon RDS for PostgreSQL, Aurora
 /// MySQL, and Aurora PostgreSQL.
+///
+/// @nodoc
 class SupportedEngineLifecycle {
   /// The end date for the type of support returned by
   /// <code>LifecycleSupportName</code>.
@@ -40801,6 +41245,7 @@ class SupportedEngineLifecycle {
   }
 }
 
+/// @nodoc
 class LifecycleSupportName {
   static const openSourceRdsStandardSupport =
       LifecycleSupportName._('open-source-rds-standard-support');
@@ -40833,6 +41278,8 @@ class LifecycleSupportName {
 
 /// This data type is used as a response element to
 /// <code>DescribeDBLogFiles</code>.
+///
+/// @nodoc
 class DescribeDBLogFilesDetails {
   /// A POSIX timestamp when the last log entry was written.
   final int? lastWritten;
@@ -40872,6 +41319,8 @@ class DescribeDBLogFilesDetails {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBClusterSnapshots</code> action.
+///
+/// @nodoc
 class DBClusterSnapshot {
   /// The allocated storage size of the DB cluster snapshot in gibibytes (GiB).
   final int? allocatedStorage;
@@ -41163,6 +41612,8 @@ class DBClusterSnapshot {
 ///
 /// This data type is used as a response element in the
 /// <code>DescribeDBClusterParameterGroups</code> action.
+///
+/// @nodoc
 class DBClusterParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
   final String? dBClusterParameterGroupArn;
@@ -41216,6 +41667,8 @@ class DBClusterParameterGroup {
 /// An automated backup of a DB cluster. It consists of system backups,
 /// transaction logs, and the database cluster properties that existed at the
 /// time you deleted the source cluster.
+///
+/// @nodoc
 class DBClusterAutomatedBackup {
   /// For all database engines except Amazon Aurora, <code>AllocatedStorage</code>
   /// specifies the allocated storage size in gibibytes (GiB). For Aurora,
@@ -41601,6 +42054,8 @@ class DBClusterAutomatedBackup {
 /// for Amazon RDS</a> in the <i>Amazon RDS User Guide</i> and <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_Limits.html">Quotas
 /// for Amazon Aurora</a> in the <i>Amazon Aurora User Guide</i>.
+///
+/// @nodoc
 class AccountQuota {
   /// The name of the Amazon RDS quota for this Amazon Web Services account.
   final String? accountQuotaName;
@@ -41636,6 +42091,7 @@ class AccountQuota {
   }
 }
 
+/// @nodoc
 class IntegrationStatus {
   static const creating = IntegrationStatus._('creating');
   static const active = IntegrationStatus._('active');
@@ -41674,6 +42130,8 @@ class IntegrationStatus {
 }
 
 /// An error associated with a zero-ETL integration with Amazon Redshift.
+///
+/// @nodoc
 class IntegrationError {
   /// The error code associated with the integration.
   final String errorCode;
@@ -41702,6 +42160,7 @@ class IntegrationError {
   }
 }
 
+/// @nodoc
 class EngineFamily {
   static const mysql = EngineFamily._('MYSQL');
   static const postgresql = EngineFamily._('POSTGRESQL');
@@ -41728,6 +42187,8 @@ class EngineFamily {
 
 /// This data type is used as a response element in the action
 /// <code>DescribeDBEngineVersions</code>.
+///
+/// @nodoc
 class CharacterSet {
   /// The description of the character set.
   final String? characterSetDescription;
@@ -41759,6 +42220,8 @@ class CharacterSet {
 }
 
 /// A value that indicates the AMI information.
+///
+/// @nodoc
 class CustomDBEngineVersionAMI {
   /// A value that indicates the ID of the AMI.
   final String? imageId;
@@ -41791,6 +42254,8 @@ class CustomDBEngineVersionAMI {
 /// <code>DBSnapshot</code>. This data type is an element in the response to the
 /// <code>DescribeDBInstances</code>, the <code>DescribeDBSnapshots</code>, and
 /// the <code>DescribeDBEngineVersions</code> actions.
+///
+/// @nodoc
 class Timezone {
   /// The name of the time zone.
   final String? timezoneName;
@@ -41813,6 +42278,8 @@ class Timezone {
 }
 
 /// The version of the database engine that a DB instance can be upgraded to.
+///
+/// @nodoc
 class UpgradeTarget {
   /// Indicates whether the target version is applied to any source DB instances
   /// that have <code>AutoMinorVersionUpgrade</code> set to true.
@@ -41938,6 +42405,7 @@ class UpgradeTarget {
   }
 }
 
+/// @nodoc
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
   AuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -41946,11 +42414,13 @@ class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
   AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
   AuthorizationQuotaExceededFault({String? type, String? message})
       : super(
@@ -41959,11 +42429,13 @@ class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BackupPolicyNotFoundFault extends _s.GenericAwsException {
   BackupPolicyNotFoundFault({String? type, String? message})
       : super(type: type, code: 'BackupPolicyNotFoundFault', message: message);
 }
 
+/// @nodoc
 class BlueGreenDeploymentAlreadyExistsFault extends _s.GenericAwsException {
   BlueGreenDeploymentAlreadyExistsFault({String? type, String? message})
       : super(
@@ -41972,6 +42444,7 @@ class BlueGreenDeploymentAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BlueGreenDeploymentNotFoundFault extends _s.GenericAwsException {
   BlueGreenDeploymentNotFoundFault({String? type, String? message})
       : super(
@@ -41980,11 +42453,13 @@ class BlueGreenDeploymentNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CertificateNotFoundFault extends _s.GenericAwsException {
   CertificateNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CertificateNotFoundFault', message: message);
 }
 
+/// @nodoc
 class CreateCustomDBEngineVersionFault extends _s.GenericAwsException {
   CreateCustomDBEngineVersionFault({String? type, String? message})
       : super(
@@ -41993,6 +42468,7 @@ class CreateCustomDBEngineVersionFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomAvailabilityZoneNotFoundFault extends _s.GenericAwsException {
   CustomAvailabilityZoneNotFoundFault({String? type, String? message})
       : super(
@@ -42001,6 +42477,7 @@ class CustomAvailabilityZoneNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomDBEngineVersionAlreadyExistsFault extends _s.GenericAwsException {
   CustomDBEngineVersionAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42009,6 +42486,7 @@ class CustomDBEngineVersionAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomDBEngineVersionNotFoundFault extends _s.GenericAwsException {
   CustomDBEngineVersionNotFoundFault({String? type, String? message})
       : super(
@@ -42017,6 +42495,7 @@ class CustomDBEngineVersionNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomDBEngineVersionQuotaExceededFault extends _s.GenericAwsException {
   CustomDBEngineVersionQuotaExceededFault({String? type, String? message})
       : super(
@@ -42025,12 +42504,14 @@ class CustomDBEngineVersionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBClusterAutomatedBackupNotFoundFault extends _s.GenericAwsException {
   DBClusterAutomatedBackupNotFoundFault({String? type, String? message})
       : super(
@@ -42039,6 +42520,7 @@ class DBClusterAutomatedBackupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterAutomatedBackupQuotaExceededFault
     extends _s.GenericAwsException {
   DBClusterAutomatedBackupQuotaExceededFault({String? type, String? message})
@@ -42048,6 +42530,7 @@ class DBClusterAutomatedBackupQuotaExceededFault
             message: message);
 }
 
+/// @nodoc
 class DBClusterBacktrackNotFoundFault extends _s.GenericAwsException {
   DBClusterBacktrackNotFoundFault({String? type, String? message})
       : super(
@@ -42056,6 +42539,7 @@ class DBClusterBacktrackNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterEndpointAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42064,6 +42548,7 @@ class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
   DBClusterEndpointNotFoundFault({String? type, String? message})
       : super(
@@ -42072,6 +42557,7 @@ class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
   DBClusterEndpointQuotaExceededFault({String? type, String? message})
       : super(
@@ -42080,11 +42566,13 @@ class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterNotFoundFault extends _s.GenericAwsException {
   DBClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
   DBClusterParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -42093,12 +42581,14 @@ class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterQuotaExceededFault extends _s.GenericAwsException {
   DBClusterQuotaExceededFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBClusterRoleAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterRoleAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42107,11 +42597,13 @@ class DBClusterRoleAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterRoleNotFoundFault extends _s.GenericAwsException {
   DBClusterRoleNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterRoleNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterRoleQuotaExceededFault extends _s.GenericAwsException {
   DBClusterRoleQuotaExceededFault({String? type, String? message})
       : super(
@@ -42120,6 +42612,7 @@ class DBClusterRoleQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42128,6 +42621,7 @@ class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
   DBClusterSnapshotNotFoundFault({String? type, String? message})
       : super(
@@ -42136,12 +42630,14 @@ class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBInstanceAlreadyExistsFault extends _s.GenericAwsException {
   DBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBInstanceAutomatedBackupNotFoundFault extends _s.GenericAwsException {
   DBInstanceAutomatedBackupNotFoundFault({String? type, String? message})
       : super(
@@ -42150,6 +42646,7 @@ class DBInstanceAutomatedBackupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBInstanceAutomatedBackupQuotaExceededFault
     extends _s.GenericAwsException {
   DBInstanceAutomatedBackupQuotaExceededFault({String? type, String? message})
@@ -42159,16 +42656,19 @@ class DBInstanceAutomatedBackupQuotaExceededFault
             message: message);
 }
 
+/// @nodoc
 class DBInstanceNotFoundFault extends _s.GenericAwsException {
   DBInstanceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBInstanceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBInstanceNotReadyFault extends _s.GenericAwsException {
   DBInstanceNotReadyFault({String? type, String? message})
       : super(type: type, code: 'DBInstanceNotReadyFault', message: message);
 }
 
+/// @nodoc
 class DBInstanceRoleAlreadyExistsFault extends _s.GenericAwsException {
   DBInstanceRoleAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42177,12 +42677,14 @@ class DBInstanceRoleAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBInstanceRoleNotFoundFault extends _s.GenericAwsException {
   DBInstanceRoleNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceRoleNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBInstanceRoleQuotaExceededFault extends _s.GenericAwsException {
   DBInstanceRoleQuotaExceededFault({String? type, String? message})
       : super(
@@ -42191,11 +42693,13 @@ class DBInstanceRoleQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBLogFileNotFoundFault extends _s.GenericAwsException {
   DBLogFileNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBLogFileNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42204,6 +42708,7 @@ class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
   DBParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -42212,6 +42717,7 @@ class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   DBParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -42220,11 +42726,13 @@ class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBProxyAlreadyExistsFault extends _s.GenericAwsException {
   DBProxyAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'DBProxyAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBProxyEndpointAlreadyExistsFault extends _s.GenericAwsException {
   DBProxyEndpointAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42233,12 +42741,14 @@ class DBProxyEndpointAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBProxyEndpointNotFoundFault extends _s.GenericAwsException {
   DBProxyEndpointNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBProxyEndpointNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBProxyEndpointQuotaExceededFault extends _s.GenericAwsException {
   DBProxyEndpointQuotaExceededFault({String? type, String? message})
       : super(
@@ -42247,16 +42757,19 @@ class DBProxyEndpointQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBProxyNotFoundFault extends _s.GenericAwsException {
   DBProxyNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBProxyNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBProxyQuotaExceededFault extends _s.GenericAwsException {
   DBProxyQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBProxyQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBProxyTargetAlreadyRegisteredFault extends _s.GenericAwsException {
   DBProxyTargetAlreadyRegisteredFault({String? type, String? message})
       : super(
@@ -42265,6 +42778,7 @@ class DBProxyTargetAlreadyRegisteredFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBProxyTargetGroupNotFoundFault extends _s.GenericAwsException {
   DBProxyTargetGroupNotFoundFault({String? type, String? message})
       : super(
@@ -42273,11 +42787,13 @@ class DBProxyTargetGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBProxyTargetNotFoundFault extends _s.GenericAwsException {
   DBProxyTargetNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBProxyTargetNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBSecurityGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42286,12 +42802,14 @@ class DBSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSecurityGroupNotFoundFault extends _s.GenericAwsException {
   DBSecurityGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBSecurityGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSecurityGroupNotSupportedFault extends _s.GenericAwsException {
   DBSecurityGroupNotSupportedFault({String? type, String? message})
       : super(
@@ -42300,6 +42818,7 @@ class DBSecurityGroupNotSupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
   DBSecurityGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -42308,6 +42827,7 @@ class DBSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBShardGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBShardGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42316,22 +42836,26 @@ class DBShardGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBShardGroupNotFoundFault extends _s.GenericAwsException {
   DBShardGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBShardGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   DBSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBSnapshotAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotNotFoundFault extends _s.GenericAwsException {
   DBSnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSnapshotNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotTenantDatabaseNotFoundFault extends _s.GenericAwsException {
   DBSnapshotTenantDatabaseNotFoundFault({String? type, String? message})
       : super(
@@ -42340,6 +42864,7 @@ class DBSnapshotTenantDatabaseNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42348,6 +42873,7 @@ class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
   DBSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
       : super(
@@ -42356,17 +42882,20 @@ class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupNotAllowedFault extends _s.GenericAwsException {
   DBSubnetGroupNotAllowedFault({String? type, String? message})
       : super(
             type: type, code: 'DBSubnetGroupNotAllowedFault', message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupNotFoundFault extends _s.GenericAwsException {
   DBSubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   DBSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -42375,11 +42904,13 @@ class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetQuotaExceededFault extends _s.GenericAwsException {
   DBSubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
   DBUpgradeDependencyFailureFault({String? type, String? message})
       : super(
@@ -42388,11 +42919,13 @@ class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DomainNotFoundFault extends _s.GenericAwsException {
   DomainNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DomainNotFoundFault', message: message);
 }
 
+/// @nodoc
 class Ec2ImagePropertiesNotSupportedFault extends _s.GenericAwsException {
   Ec2ImagePropertiesNotSupportedFault({String? type, String? message})
       : super(
@@ -42401,6 +42934,7 @@ class Ec2ImagePropertiesNotSupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
   EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
@@ -42409,17 +42943,20 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ExportTaskAlreadyExistsFault extends _s.GenericAwsException {
   ExportTaskAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'ExportTaskAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class ExportTaskNotFoundFault extends _s.GenericAwsException {
   ExportTaskNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ExportTaskNotFoundFault', message: message);
 }
 
+/// @nodoc
 class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
   GlobalClusterAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42428,11 +42965,13 @@ class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalClusterNotFoundFault extends _s.GenericAwsException {
   GlobalClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'GlobalClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
   GlobalClusterQuotaExceededFault({String? type, String? message})
       : super(
@@ -42441,6 +42980,7 @@ class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IamRoleMissingPermissionsFault extends _s.GenericAwsException {
   IamRoleMissingPermissionsFault({String? type, String? message})
       : super(
@@ -42449,16 +42989,19 @@ class IamRoleMissingPermissionsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IamRoleNotFoundFault extends _s.GenericAwsException {
   IamRoleNotFoundFault({String? type, String? message})
       : super(type: type, code: 'IamRoleNotFoundFault', message: message);
 }
 
+/// @nodoc
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class InsufficientAvailableIPsInSubnetFault extends _s.GenericAwsException {
   InsufficientAvailableIPsInSubnetFault({String? type, String? message})
       : super(
@@ -42467,6 +43010,7 @@ class InsufficientAvailableIPsInSubnetFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
   InsufficientDBClusterCapacityFault({String? type, String? message})
       : super(
@@ -42475,6 +43019,7 @@ class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
   InsufficientDBInstanceCapacityFault({String? type, String? message})
       : super(
@@ -42483,6 +43028,7 @@ class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
   InsufficientStorageClusterCapacityFault({String? type, String? message})
       : super(
@@ -42491,6 +43037,7 @@ class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationAlreadyExistsFault extends _s.GenericAwsException {
   IntegrationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42499,6 +43046,7 @@ class IntegrationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationConflictOperationFault extends _s.GenericAwsException {
   IntegrationConflictOperationFault({String? type, String? message})
       : super(
@@ -42507,11 +43055,13 @@ class IntegrationConflictOperationFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationNotFoundFault extends _s.GenericAwsException {
   IntegrationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'IntegrationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class IntegrationQuotaExceededFault extends _s.GenericAwsException {
   IntegrationQuotaExceededFault({String? type, String? message})
       : super(
@@ -42520,6 +43070,7 @@ class IntegrationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidBlueGreenDeploymentStateFault extends _s.GenericAwsException {
   InvalidBlueGreenDeploymentStateFault({String? type, String? message})
       : super(
@@ -42528,6 +43079,7 @@ class InvalidBlueGreenDeploymentStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCustomDBEngineVersionStateFault extends _s.GenericAwsException {
   InvalidCustomDBEngineVersionStateFault({String? type, String? message})
       : super(
@@ -42536,6 +43088,7 @@ class InvalidCustomDBEngineVersionStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterAutomatedBackupStateFault extends _s.GenericAwsException {
   InvalidDBClusterAutomatedBackupStateFault({String? type, String? message})
       : super(
@@ -42544,6 +43097,7 @@ class InvalidDBClusterAutomatedBackupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterCapacityFault extends _s.GenericAwsException {
   InvalidDBClusterCapacityFault({String? type, String? message})
       : super(
@@ -42552,6 +43106,7 @@ class InvalidDBClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
   InvalidDBClusterEndpointStateFault({String? type, String? message})
       : super(
@@ -42560,6 +43115,7 @@ class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBClusterSnapshotStateFault({String? type, String? message})
       : super(
@@ -42568,11 +43124,13 @@ class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterStateFault extends _s.GenericAwsException {
   InvalidDBClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBClusterStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBInstanceAutomatedBackupStateFault
     extends _s.GenericAwsException {
   InvalidDBInstanceAutomatedBackupStateFault({String? type, String? message})
@@ -42582,12 +43140,14 @@ class InvalidDBInstanceAutomatedBackupStateFault
             message: message);
 }
 
+/// @nodoc
 class InvalidDBInstanceStateFault extends _s.GenericAwsException {
   InvalidDBInstanceStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBInstanceStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
   InvalidDBParameterGroupStateFault({String? type, String? message})
       : super(
@@ -42596,6 +43156,7 @@ class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBProxyEndpointStateFault extends _s.GenericAwsException {
   InvalidDBProxyEndpointStateFault({String? type, String? message})
       : super(
@@ -42604,11 +43165,13 @@ class InvalidDBProxyEndpointStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBProxyStateFault extends _s.GenericAwsException {
   InvalidDBProxyStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBProxyStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
   InvalidDBSecurityGroupStateFault({String? type, String? message})
       : super(
@@ -42617,6 +43180,7 @@ class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBShardGroupStateFault extends _s.GenericAwsException {
   InvalidDBShardGroupStateFault({String? type, String? message})
       : super(
@@ -42625,17 +43189,20 @@ class InvalidDBShardGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBSnapshotStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBSnapshotStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetGroupFault extends _s.GenericAwsException {
   InvalidDBSubnetGroupFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetGroupFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
   InvalidDBSubnetGroupStateFault({String? type, String? message})
       : super(
@@ -42644,11 +43211,13 @@ class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetStateFault extends _s.GenericAwsException {
   InvalidDBSubnetStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
   InvalidEventSubscriptionStateFault({String? type, String? message})
       : super(
@@ -42657,11 +43226,13 @@ class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidExportOnlyFault extends _s.GenericAwsException {
   InvalidExportOnlyFault({String? type, String? message})
       : super(type: type, code: 'InvalidExportOnlyFault', message: message);
 }
 
+/// @nodoc
 class InvalidExportSourceStateFault extends _s.GenericAwsException {
   InvalidExportSourceStateFault({String? type, String? message})
       : super(
@@ -42670,12 +43241,14 @@ class InvalidExportSourceStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidExportTaskStateFault extends _s.GenericAwsException {
   InvalidExportTaskStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidExportTaskStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
   InvalidGlobalClusterStateFault({String? type, String? message})
       : super(
@@ -42684,60 +43257,71 @@ class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidIntegrationStateFault extends _s.GenericAwsException {
   InvalidIntegrationStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidIntegrationStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidOptionGroupStateFault extends _s.GenericAwsException {
   InvalidOptionGroupStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidOptionGroupStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateFault extends _s.GenericAwsException {
   InvalidResourceStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidResourceStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidRestoreFault extends _s.GenericAwsException {
   InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
+/// @nodoc
 class InvalidS3BucketFault extends _s.GenericAwsException {
   InvalidS3BucketFault({String? type, String? message})
       : super(type: type, code: 'InvalidS3BucketFault', message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
   KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+/// @nodoc
 class MaxDBShardGroupLimitReached extends _s.GenericAwsException {
   MaxDBShardGroupLimitReached({String? type, String? message})
       : super(
             type: type, code: 'MaxDBShardGroupLimitReached', message: message);
 }
 
+/// @nodoc
 class NetworkTypeNotSupported extends _s.GenericAwsException {
   NetworkTypeNotSupported({String? type, String? message})
       : super(type: type, code: 'NetworkTypeNotSupported', message: message);
 }
 
+/// @nodoc
 class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
   OptionGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42746,11 +43330,13 @@ class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OptionGroupNotFoundFault extends _s.GenericAwsException {
   OptionGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'OptionGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class OptionGroupQuotaExceededFault extends _s.GenericAwsException {
   OptionGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -42759,6 +43345,7 @@ class OptionGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PointInTimeRestoreNotEnabledFault extends _s.GenericAwsException {
   PointInTimeRestoreNotEnabledFault({String? type, String? message})
       : super(
@@ -42767,6 +43354,7 @@ class PointInTimeRestoreNotEnabledFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
   ProvisionedIopsNotAvailableInAZFault({String? type, String? message})
       : super(
@@ -42775,6 +43363,7 @@ class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedDBInstanceAlreadyExistsFault extends _s.GenericAwsException {
   ReservedDBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42783,6 +43372,7 @@ class ReservedDBInstanceAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedDBInstanceNotFoundFault extends _s.GenericAwsException {
   ReservedDBInstanceNotFoundFault({String? type, String? message})
       : super(
@@ -42791,6 +43381,7 @@ class ReservedDBInstanceNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedDBInstanceQuotaExceededFault extends _s.GenericAwsException {
   ReservedDBInstanceQuotaExceededFault({String? type, String? message})
       : super(
@@ -42799,6 +43390,7 @@ class ReservedDBInstanceQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedDBInstancesOfferingNotFoundFault extends _s.GenericAwsException {
   ReservedDBInstancesOfferingNotFoundFault({String? type, String? message})
       : super(
@@ -42807,26 +43399,31 @@ class ReservedDBInstancesOfferingNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundFault extends _s.GenericAwsException {
   ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SNSInvalidTopicFault extends _s.GenericAwsException {
   SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
+/// @nodoc
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
   SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
+/// @nodoc
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
   SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
   SharedSnapshotQuotaExceededFault({String? type, String? message})
       : super(
@@ -42835,11 +43432,13 @@ class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
   SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class SourceClusterNotSupportedFault extends _s.GenericAwsException {
   SourceClusterNotSupportedFault({String? type, String? message})
       : super(
@@ -42848,6 +43447,7 @@ class SourceClusterNotSupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SourceDatabaseNotSupportedFault extends _s.GenericAwsException {
   SourceDatabaseNotSupportedFault({String? type, String? message})
       : super(
@@ -42856,33 +43456,39 @@ class SourceDatabaseNotSupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SourceNotFoundFault extends _s.GenericAwsException {
   SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class StorageQuotaExceededFault extends _s.GenericAwsException {
   StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class StorageTypeNotAvailableFault extends _s.GenericAwsException {
   StorageTypeNotAvailableFault({String? type, String? message})
       : super(
             type: type, code: 'StorageTypeNotAvailableFault', message: message);
 }
 
+/// @nodoc
 class StorageTypeNotSupportedFault extends _s.GenericAwsException {
   StorageTypeNotSupportedFault({String? type, String? message})
       : super(
             type: type, code: 'StorageTypeNotSupportedFault', message: message);
 }
 
+/// @nodoc
 class SubnetAlreadyInUse extends _s.GenericAwsException {
   SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
+/// @nodoc
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
   SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
@@ -42891,6 +43497,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
   SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
@@ -42899,11 +43506,13 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
   SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);
 }
 
+/// @nodoc
 class TenantDatabaseAlreadyExistsFault extends _s.GenericAwsException {
   TenantDatabaseAlreadyExistsFault({String? type, String? message})
       : super(
@@ -42912,12 +43521,14 @@ class TenantDatabaseAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TenantDatabaseNotFoundFault extends _s.GenericAwsException {
   TenantDatabaseNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'TenantDatabaseNotFoundFault', message: message);
 }
 
+/// @nodoc
 class TenantDatabaseQuotaExceededFault extends _s.GenericAwsException {
   TenantDatabaseQuotaExceededFault({String? type, String? message})
       : super(
@@ -42926,6 +43537,7 @@ class TenantDatabaseQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedDBEngineVersionFault extends _s.GenericAwsException {
   UnsupportedDBEngineVersionFault({String? type, String? message})
       : super(
@@ -42934,6 +43546,7 @@ class UnsupportedDBEngineVersionFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class VpcEncryptionControlViolationException extends _s.GenericAwsException {
   VpcEncryptionControlViolationException({String? type, String? message})
       : super(

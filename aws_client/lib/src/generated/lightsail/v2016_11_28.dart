@@ -1796,7 +1796,7 @@ class Lightsail {
   /// Parameter [instanceNames] :
   /// The names to use for your new Lightsail instances. Separate multiple
   /// values using quotation marks and commas, for example:
-  /// <code>["MyFirstInstance","MySecondInstance"]</code>
+  /// <code>\["MyFirstInstance","MySecondInstance"\]</code>
   ///
   /// Parameter [addOns] :
   /// An array of objects representing the add-ons to enable for the new
@@ -10340,6 +10340,7 @@ class Lightsail {
   }
 }
 
+/// @nodoc
 class AllocateStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10367,6 +10368,7 @@ class AllocateStaticIpResult {
   }
 }
 
+/// @nodoc
 class AttachCertificateToDistributionResult {
   /// An object that describes the result of the action, such as the status of the
   /// request, the timestamp of the request, and the resources affected by the
@@ -10394,6 +10396,7 @@ class AttachCertificateToDistributionResult {
   }
 }
 
+/// @nodoc
 class AttachDiskResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10421,6 +10424,7 @@ class AttachDiskResult {
   }
 }
 
+/// @nodoc
 class AttachInstancesToLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10449,6 +10453,7 @@ class AttachInstancesToLoadBalancerResult {
   }
 }
 
+/// @nodoc
 class AttachLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10480,6 +10485,7 @@ class AttachLoadBalancerTlsCertificateResult {
   }
 }
 
+/// @nodoc
 class AttachStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10507,6 +10513,7 @@ class AttachStaticIpResult {
   }
 }
 
+/// @nodoc
 class CloseInstancePublicPortsResult {
   /// An object that describes the result of the action, such as the status of the
   /// request, the timestamp of the request, and the resources affected by the
@@ -10533,6 +10540,7 @@ class CloseInstancePublicPortsResult {
   }
 }
 
+/// @nodoc
 class CopySnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10560,6 +10568,7 @@ class CopySnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateBucketResult {
   /// An object that describes the bucket that is created.
   final Bucket? bucket;
@@ -10596,6 +10605,7 @@ class CreateBucketResult {
   }
 }
 
+/// @nodoc
 class CreateBucketAccessKeyResult {
   /// An object that describes the access key that is created.
   final AccessKey? accessKey;
@@ -10632,6 +10642,7 @@ class CreateBucketAccessKeyResult {
   }
 }
 
+/// @nodoc
 class CreateCertificateResult {
   /// An object that describes the certificate created.
   final CertificateSummary? certificate;
@@ -10669,6 +10680,7 @@ class CreateCertificateResult {
   }
 }
 
+/// @nodoc
 class CreateCloudFormationStackResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10696,6 +10708,7 @@ class CreateCloudFormationStackResult {
   }
 }
 
+/// @nodoc
 class CreateContactMethodResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10723,6 +10736,7 @@ class CreateContactMethodResult {
   }
 }
 
+/// @nodoc
 class CreateContainerServiceResult {
   /// An object that describes a container service.
   final ContainerService? containerService;
@@ -10748,6 +10762,7 @@ class CreateContainerServiceResult {
   }
 }
 
+/// @nodoc
 class CreateContainerServiceDeploymentResult {
   /// An object that describes a container service.
   final ContainerService? containerService;
@@ -10774,6 +10789,7 @@ class CreateContainerServiceDeploymentResult {
   }
 }
 
+/// @nodoc
 class CreateContainerServiceRegistryLoginResult {
   /// An object that describes the log in information for the container service
   /// registry of your Lightsail account.
@@ -10801,6 +10817,7 @@ class CreateContainerServiceRegistryLoginResult {
   }
 }
 
+/// @nodoc
 class CreateDiskResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10828,6 +10845,7 @@ class CreateDiskResult {
   }
 }
 
+/// @nodoc
 class CreateDiskFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10855,6 +10873,7 @@ class CreateDiskFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDiskSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10882,6 +10901,7 @@ class CreateDiskSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDistributionResult {
   /// An object that describes the distribution created.
   final LightsailDistribution? distribution;
@@ -10918,6 +10938,7 @@ class CreateDistributionResult {
   }
 }
 
+/// @nodoc
 class CreateDomainResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10944,6 +10965,7 @@ class CreateDomainResult {
   }
 }
 
+/// @nodoc
 class CreateDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -10970,6 +10992,7 @@ class CreateDomainEntryResult {
   }
 }
 
+/// @nodoc
 class CreateGUISessionAccessDetailsResult {
   /// The reason the operation failed.
   final String? failureReason;
@@ -11024,6 +11047,7 @@ class CreateGUISessionAccessDetailsResult {
   }
 }
 
+/// @nodoc
 class CreateInstancesResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11051,6 +11075,7 @@ class CreateInstancesResult {
   }
 }
 
+/// @nodoc
 class CreateInstancesFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11079,6 +11104,7 @@ class CreateInstancesFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateInstanceSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11106,6 +11132,7 @@ class CreateInstanceSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateKeyPairResult {
   /// An array of key-value pairs containing information about the new key pair
   /// you just created.
@@ -11156,6 +11183,7 @@ class CreateKeyPairResult {
   }
 }
 
+/// @nodoc
 class CreateLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11183,6 +11211,7 @@ class CreateLoadBalancerResult {
   }
 }
 
+/// @nodoc
 class CreateLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11211,6 +11240,7 @@ class CreateLoadBalancerTlsCertificateResult {
   }
 }
 
+/// @nodoc
 class CreateRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11238,6 +11268,7 @@ class CreateRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class CreateRelationalDatabaseFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11266,6 +11297,7 @@ class CreateRelationalDatabaseFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateRelationalDatabaseSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11294,6 +11326,7 @@ class CreateRelationalDatabaseSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteAlarmResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11321,6 +11354,7 @@ class DeleteAlarmResult {
   }
 }
 
+/// @nodoc
 class DeleteAutoSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11348,6 +11382,7 @@ class DeleteAutoSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteBucketResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11375,6 +11410,7 @@ class DeleteBucketResult {
   }
 }
 
+/// @nodoc
 class DeleteBucketAccessKeyResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11402,6 +11438,7 @@ class DeleteBucketAccessKeyResult {
   }
 }
 
+/// @nodoc
 class DeleteCertificateResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11429,6 +11466,7 @@ class DeleteCertificateResult {
   }
 }
 
+/// @nodoc
 class DeleteContactMethodResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11456,6 +11494,7 @@ class DeleteContactMethodResult {
   }
 }
 
+/// @nodoc
 class DeleteContainerImageResult {
   DeleteContainerImageResult();
 
@@ -11468,6 +11507,7 @@ class DeleteContainerImageResult {
   }
 }
 
+/// @nodoc
 class DeleteContainerServiceResult {
   DeleteContainerServiceResult();
 
@@ -11480,6 +11520,7 @@ class DeleteContainerServiceResult {
   }
 }
 
+/// @nodoc
 class DeleteDiskResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11507,6 +11548,7 @@ class DeleteDiskResult {
   }
 }
 
+/// @nodoc
 class DeleteDiskSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11534,6 +11576,7 @@ class DeleteDiskSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteDistributionResult {
   /// An object that describes the result of the action, such as the status of the
   /// request, the timestamp of the request, and the resources affected by the
@@ -11560,6 +11603,7 @@ class DeleteDistributionResult {
   }
 }
 
+/// @nodoc
 class DeleteDomainResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11586,6 +11630,7 @@ class DeleteDomainResult {
   }
 }
 
+/// @nodoc
 class DeleteDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11612,6 +11657,7 @@ class DeleteDomainEntryResult {
   }
 }
 
+/// @nodoc
 class DeleteInstanceResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11639,6 +11685,7 @@ class DeleteInstanceResult {
   }
 }
 
+/// @nodoc
 class DeleteInstanceSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11666,6 +11713,7 @@ class DeleteInstanceSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteKeyPairResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11692,6 +11740,7 @@ class DeleteKeyPairResult {
   }
 }
 
+/// @nodoc
 class DeleteKnownHostKeysResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11719,6 +11768,7 @@ class DeleteKnownHostKeysResult {
   }
 }
 
+/// @nodoc
 class DeleteLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11746,6 +11796,7 @@ class DeleteLoadBalancerResult {
   }
 }
 
+/// @nodoc
 class DeleteLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11774,6 +11825,7 @@ class DeleteLoadBalancerTlsCertificateResult {
   }
 }
 
+/// @nodoc
 class DeleteRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11801,6 +11853,7 @@ class DeleteRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class DeleteRelationalDatabaseSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11829,6 +11882,7 @@ class DeleteRelationalDatabaseSnapshotResult {
   }
 }
 
+/// @nodoc
 class DetachCertificateFromDistributionResult {
   /// An object that describes the result of the action, such as the status of the
   /// request, the timestamp of the request, and the resources affected by the
@@ -11856,6 +11910,7 @@ class DetachCertificateFromDistributionResult {
   }
 }
 
+/// @nodoc
 class DetachDiskResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11883,6 +11938,7 @@ class DetachDiskResult {
   }
 }
 
+/// @nodoc
 class DetachInstancesFromLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11911,6 +11967,7 @@ class DetachInstancesFromLoadBalancerResult {
   }
 }
 
+/// @nodoc
 class DetachStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11938,6 +11995,7 @@ class DetachStaticIpResult {
   }
 }
 
+/// @nodoc
 class DisableAddOnResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -11965,6 +12023,7 @@ class DisableAddOnResult {
   }
 }
 
+/// @nodoc
 class DownloadDefaultKeyPairResult {
   /// The timestamp when the default key pair was created.
   final DateTime? createdAt;
@@ -12001,6 +12060,7 @@ class DownloadDefaultKeyPairResult {
   }
 }
 
+/// @nodoc
 class EnableAddOnResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -12028,6 +12088,7 @@ class EnableAddOnResult {
   }
 }
 
+/// @nodoc
 class ExportSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -12055,6 +12116,7 @@ class ExportSnapshotResult {
   }
 }
 
+/// @nodoc
 class GetActiveNamesResult {
   /// The list of active names returned by the get active names request.
   final List<String>? activeNames;
@@ -12093,6 +12155,7 @@ class GetActiveNamesResult {
   }
 }
 
+/// @nodoc
 class GetAlarmsResult {
   /// An array of objects that describe the alarms.
   final List<Alarm>? alarms;
@@ -12131,6 +12194,7 @@ class GetAlarmsResult {
   }
 }
 
+/// @nodoc
 class GetAutoSnapshotsResult {
   /// An array of objects that describe the automatic snapshots that are available
   /// for the specified source instance or disk.
@@ -12173,6 +12237,7 @@ class GetAutoSnapshotsResult {
   }
 }
 
+/// @nodoc
 class GetBlueprintsResult {
   /// An array of key-value pairs that contains information about the available
   /// blueprints.
@@ -12212,6 +12277,7 @@ class GetBlueprintsResult {
   }
 }
 
+/// @nodoc
 class GetBucketAccessKeysResult {
   /// An object that describes the access keys for the specified bucket.
   final List<AccessKey>? accessKeys;
@@ -12237,6 +12303,7 @@ class GetBucketAccessKeysResult {
   }
 }
 
+/// @nodoc
 class GetBucketBundlesResult {
   /// An object that describes bucket bundles.
   final List<BucketBundle>? bundles;
@@ -12262,6 +12329,7 @@ class GetBucketBundlesResult {
   }
 }
 
+/// @nodoc
 class GetBucketMetricDataResult {
   /// An array of objects that describe the metric data returned.
   final List<MetricDatapoint>? metricData;
@@ -12295,6 +12363,7 @@ class GetBucketMetricDataResult {
   }
 }
 
+/// @nodoc
 class GetBucketsResult {
   /// An object that describes the synchronization status of the Amazon S3
   /// account-level block public access feature for your Lightsail buckets.
@@ -12350,6 +12419,7 @@ class GetBucketsResult {
   }
 }
 
+/// @nodoc
 class GetBundlesResult {
   /// An array of key-value pairs that contains information about the available
   /// bundles.
@@ -12389,6 +12459,7 @@ class GetBundlesResult {
   }
 }
 
+/// @nodoc
 class GetCertificatesResult {
   /// An object that describes certificates.
   final List<CertificateSummary>? certificates;
@@ -12424,6 +12495,7 @@ class GetCertificatesResult {
   }
 }
 
+/// @nodoc
 class GetCloudFormationStackRecordsResult {
   /// A list of objects describing the CloudFormation stack records.
   final List<CloudFormationStackRecord>? cloudFormationStackRecords;
@@ -12465,6 +12537,7 @@ class GetCloudFormationStackRecordsResult {
   }
 }
 
+/// @nodoc
 class GetContactMethodsResult {
   /// An array of objects that describe the contact methods.
   final List<ContactMethod>? contactMethods;
@@ -12490,6 +12563,7 @@ class GetContactMethodsResult {
   }
 }
 
+/// @nodoc
 class GetContainerAPIMetadataResult {
   /// Metadata about Lightsail containers, such as the current version of the
   /// Lightsail Control (lightsailctl) plugin.
@@ -12517,6 +12591,7 @@ class GetContainerAPIMetadataResult {
   }
 }
 
+/// @nodoc
 class GetContainerImagesResult {
   /// An array of objects that describe container images that are registered to
   /// the container service.
@@ -12543,6 +12618,7 @@ class GetContainerImagesResult {
   }
 }
 
+/// @nodoc
 class GetContainerLogResult {
   /// An array of objects that describe the log events of a container.
   final List<ContainerServiceLogEvent>? logEvents;
@@ -12582,6 +12658,7 @@ class GetContainerLogResult {
   }
 }
 
+/// @nodoc
 class GetContainerServiceDeploymentsResult {
   /// An array of objects that describe deployments for a container service.
   final List<ContainerServiceDeployment>? deployments;
@@ -12609,6 +12686,7 @@ class GetContainerServiceDeploymentsResult {
   }
 }
 
+/// @nodoc
 class GetContainerServiceMetricDataResult {
   /// An array of objects that describe the metric data returned.
   final List<MetricDatapoint>? metricData;
@@ -12643,6 +12721,7 @@ class GetContainerServiceMetricDataResult {
   }
 }
 
+/// @nodoc
 class GetContainerServicePowersResult {
   /// An array of objects that describe the powers that can be specified for a
   /// container service.
@@ -12669,6 +12748,7 @@ class GetContainerServicePowersResult {
   }
 }
 
+/// @nodoc
 class ContainerServicesListResult {
   /// An array of objects that describe one or more container services.
   final List<ContainerService>? containerServices;
@@ -12694,6 +12774,7 @@ class ContainerServicesListResult {
   }
 }
 
+/// @nodoc
 class GetCostEstimateResult {
   /// Returns the estimate's forecasted cost or usage.
   final List<ResourceBudgetEstimate>? resourcesBudgetEstimate;
@@ -12721,6 +12802,7 @@ class GetCostEstimateResult {
   }
 }
 
+/// @nodoc
 class GetDiskResult {
   /// An object containing information about the disk.
   final Disk? disk;
@@ -12745,6 +12827,7 @@ class GetDiskResult {
   }
 }
 
+/// @nodoc
 class GetDisksResult {
   /// An array of objects containing information about all block storage disks.
   final List<Disk>? disks;
@@ -12783,6 +12866,7 @@ class GetDisksResult {
   }
 }
 
+/// @nodoc
 class GetDiskSnapshotResult {
   /// An object containing information about the disk snapshot.
   final DiskSnapshot? diskSnapshot;
@@ -12807,6 +12891,7 @@ class GetDiskSnapshotResult {
   }
 }
 
+/// @nodoc
 class GetDiskSnapshotsResult {
   /// An array of objects containing information about all block storage disk
   /// snapshots.
@@ -12846,6 +12931,7 @@ class GetDiskSnapshotsResult {
   }
 }
 
+/// @nodoc
 class GetDistributionBundlesResult {
   /// An object that describes a distribution bundle.
   final List<DistributionBundle>? bundles;
@@ -12871,6 +12957,7 @@ class GetDistributionBundlesResult {
   }
 }
 
+/// @nodoc
 class GetDistributionLatestCacheResetResult {
   /// The timestamp of the last cache reset (<code>1479734909.17</code>) in Unix
   /// time format.
@@ -12902,6 +12989,7 @@ class GetDistributionLatestCacheResetResult {
   }
 }
 
+/// @nodoc
 class GetDistributionMetricDataResult {
   /// An array of objects that describe the metric data returned.
   final List<MetricDatapoint>? metricData;
@@ -12935,6 +13023,7 @@ class GetDistributionMetricDataResult {
   }
 }
 
+/// @nodoc
 class GetDistributionsResult {
   /// An array of objects that describe your distributions.
   final List<LightsailDistribution>? distributions;
@@ -12973,6 +13062,7 @@ class GetDistributionsResult {
   }
 }
 
+/// @nodoc
 class GetDomainResult {
   /// An array of key-value pairs containing information about your get domain
   /// request.
@@ -12998,6 +13088,7 @@ class GetDomainResult {
   }
 }
 
+/// @nodoc
 class GetDomainsResult {
   /// An array of key-value pairs containing information about each of the domain
   /// entries in the user's account.
@@ -13037,6 +13128,7 @@ class GetDomainsResult {
   }
 }
 
+/// @nodoc
 class GetExportSnapshotRecordsResult {
   /// A list of objects describing the export snapshot records.
   final List<ExportSnapshotRecord>? exportSnapshotRecords;
@@ -13076,6 +13168,7 @@ class GetExportSnapshotRecordsResult {
   }
 }
 
+/// @nodoc
 class GetInstanceResult {
   /// An array of key-value pairs containing information about the specified
   /// instance.
@@ -13101,6 +13194,7 @@ class GetInstanceResult {
   }
 }
 
+/// @nodoc
 class GetInstanceAccessDetailsResult {
   /// An array of key-value pairs containing information about a get instance
   /// access request.
@@ -13127,6 +13221,7 @@ class GetInstanceAccessDetailsResult {
   }
 }
 
+/// @nodoc
 class GetInstanceMetricDataResult {
   /// An array of objects that describe the metric data returned.
   final List<MetricDatapoint>? metricData;
@@ -13160,6 +13255,7 @@ class GetInstanceMetricDataResult {
   }
 }
 
+/// @nodoc
 class GetInstancePortStatesResult {
   /// An array of objects that describe the firewall port states for the specified
   /// instance.
@@ -13186,6 +13282,7 @@ class GetInstancePortStatesResult {
   }
 }
 
+/// @nodoc
 class GetInstancesResult {
   /// An array of key-value pairs containing information about your instances.
   final List<Instance>? instances;
@@ -13224,6 +13321,7 @@ class GetInstancesResult {
   }
 }
 
+/// @nodoc
 class GetInstanceSnapshotResult {
   /// An array of key-value pairs containing information about the results of your
   /// get instance snapshot request.
@@ -13250,6 +13348,7 @@ class GetInstanceSnapshotResult {
   }
 }
 
+/// @nodoc
 class GetInstanceSnapshotsResult {
   /// An array of key-value pairs containing information about the results of your
   /// get instance snapshots request.
@@ -13289,6 +13388,7 @@ class GetInstanceSnapshotsResult {
   }
 }
 
+/// @nodoc
 class GetInstanceStateResult {
   /// The state of the instance.
   final InstanceState? state;
@@ -13313,6 +13413,7 @@ class GetInstanceStateResult {
   }
 }
 
+/// @nodoc
 class GetKeyPairResult {
   /// An array of key-value pairs containing information about the key pair.
   final KeyPair? keyPair;
@@ -13337,6 +13438,7 @@ class GetKeyPairResult {
   }
 }
 
+/// @nodoc
 class GetKeyPairsResult {
   /// An array of key-value pairs containing information about the key pairs.
   final List<KeyPair>? keyPairs;
@@ -13375,6 +13477,7 @@ class GetKeyPairsResult {
   }
 }
 
+/// @nodoc
 class GetLoadBalancerResult {
   /// An object containing information about your load balancer.
   final LoadBalancer? loadBalancer;
@@ -13399,6 +13502,7 @@ class GetLoadBalancerResult {
   }
 }
 
+/// @nodoc
 class GetLoadBalancerMetricDataResult {
   /// An array of objects that describe the metric data returned.
   final List<MetricDatapoint>? metricData;
@@ -13432,6 +13536,7 @@ class GetLoadBalancerMetricDataResult {
   }
 }
 
+/// @nodoc
 class GetLoadBalancersResult {
   /// An array of LoadBalancer objects describing your load balancers.
   final List<LoadBalancer>? loadBalancers;
@@ -13470,6 +13575,7 @@ class GetLoadBalancersResult {
   }
 }
 
+/// @nodoc
 class GetLoadBalancerTlsCertificatesResult {
   /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS
   /// certificates.
@@ -13498,6 +13604,7 @@ class GetLoadBalancerTlsCertificatesResult {
   }
 }
 
+/// @nodoc
 class GetLoadBalancerTlsPoliciesResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -13537,6 +13644,7 @@ class GetLoadBalancerTlsPoliciesResult {
   }
 }
 
+/// @nodoc
 class GetOperationResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -13563,6 +13671,7 @@ class GetOperationResult {
   }
 }
 
+/// @nodoc
 class GetOperationsResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -13603,6 +13712,7 @@ class GetOperationsResult {
   }
 }
 
+/// @nodoc
 class GetOperationsForResourceResult {
   /// (Discontinued) Returns the number of pages of results that remain.
   /// <note>
@@ -13655,6 +13765,7 @@ class GetOperationsForResourceResult {
   }
 }
 
+/// @nodoc
 class GetRegionsResult {
   /// An array of key-value pairs containing information about your get regions
   /// request.
@@ -13681,6 +13792,7 @@ class GetRegionsResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseResult {
   /// An object describing the specified database.
   final RelationalDatabase? relationalDatabase;
@@ -13706,6 +13818,7 @@ class GetRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseBlueprintsResult {
   /// An object describing the result of your get relational database blueprints
   /// request.
@@ -13747,6 +13860,7 @@ class GetRelationalDatabaseBlueprintsResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseBundlesResult {
   /// An object describing the result of your get relational database bundles
   /// request.
@@ -13788,6 +13902,7 @@ class GetRelationalDatabaseBundlesResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseEventsResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -13830,6 +13945,7 @@ class GetRelationalDatabaseEventsResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseLogEventsResult {
   /// A token used for advancing to the previous page of results from your get
   /// relational database log events request.
@@ -13873,6 +13989,7 @@ class GetRelationalDatabaseLogEventsResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseLogStreamsResult {
   /// An object describing the result of your get relational database log streams
   /// request.
@@ -13900,6 +14017,7 @@ class GetRelationalDatabaseLogStreamsResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseMasterUserPasswordResult {
   /// The timestamp when the specified version of the master user password was
   /// created.
@@ -13931,6 +14049,7 @@ class GetRelationalDatabaseMasterUserPasswordResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseMetricDataResult {
   /// An array of objects that describe the metric data returned.
   final List<MetricDatapoint>? metricData;
@@ -13965,6 +14084,7 @@ class GetRelationalDatabaseMetricDataResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseParametersResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -14006,6 +14126,7 @@ class GetRelationalDatabaseParametersResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabasesResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -14045,6 +14166,7 @@ class GetRelationalDatabasesResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseSnapshotResult {
   /// An object describing the specified database snapshot.
   final RelationalDatabaseSnapshot? relationalDatabaseSnapshot;
@@ -14072,6 +14194,7 @@ class GetRelationalDatabaseSnapshotResult {
   }
 }
 
+/// @nodoc
 class GetRelationalDatabaseSnapshotsResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -14115,6 +14238,7 @@ class GetRelationalDatabaseSnapshotsResult {
   }
 }
 
+/// @nodoc
 class GetSetupHistoryResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -14153,6 +14277,7 @@ class GetSetupHistoryResult {
   }
 }
 
+/// @nodoc
 class GetStaticIpResult {
   /// An array of key-value pairs containing information about the requested
   /// static IP.
@@ -14178,6 +14303,7 @@ class GetStaticIpResult {
   }
 }
 
+/// @nodoc
 class GetStaticIpsResult {
   /// The token to advance to the next page of results from your request.
   ///
@@ -14217,6 +14343,7 @@ class GetStaticIpsResult {
   }
 }
 
+/// @nodoc
 class ImportKeyPairResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14243,6 +14370,7 @@ class ImportKeyPairResult {
   }
 }
 
+/// @nodoc
 class IsVpcPeeredResult {
   /// Returns <code>true</code> if the Lightsail VPC is peered; otherwise,
   /// <code>false</code>.
@@ -14266,6 +14394,7 @@ class IsVpcPeeredResult {
   }
 }
 
+/// @nodoc
 class OpenInstancePublicPortsResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14292,6 +14421,7 @@ class OpenInstancePublicPortsResult {
   }
 }
 
+/// @nodoc
 class PeerVpcResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14318,6 +14448,7 @@ class PeerVpcResult {
   }
 }
 
+/// @nodoc
 class PutAlarmResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14345,6 +14476,7 @@ class PutAlarmResult {
   }
 }
 
+/// @nodoc
 class PutInstancePublicPortsResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14371,6 +14503,7 @@ class PutInstancePublicPortsResult {
   }
 }
 
+/// @nodoc
 class RebootInstanceResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14398,6 +14531,7 @@ class RebootInstanceResult {
   }
 }
 
+/// @nodoc
 class RebootRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14425,6 +14559,7 @@ class RebootRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class RegisterContainerImageResult {
   /// An object that describes a container image that is registered to a Lightsail
   /// container service
@@ -14451,6 +14586,7 @@ class RegisterContainerImageResult {
   }
 }
 
+/// @nodoc
 class ReleaseStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14478,6 +14614,7 @@ class ReleaseStaticIpResult {
   }
 }
 
+/// @nodoc
 class ResetDistributionCacheResult {
   /// The timestamp of the reset cache request (<code>1479734909.17</code>) in
   /// Unix time format.
@@ -14519,6 +14656,7 @@ class ResetDistributionCacheResult {
   }
 }
 
+/// @nodoc
 class SendContactMethodVerificationResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14547,6 +14685,7 @@ class SendContactMethodVerificationResult {
   }
 }
 
+/// @nodoc
 class SetIpAddressTypeResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14574,6 +14713,7 @@ class SetIpAddressTypeResult {
   }
 }
 
+/// @nodoc
 class SetResourceAccessForBucketResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14601,6 +14741,7 @@ class SetResourceAccessForBucketResult {
   }
 }
 
+/// @nodoc
 class SetupInstanceHttpsResult {
   /// The available API operations for <code>SetupInstanceHttps</code>.
   final List<Operation>? operations;
@@ -14626,6 +14767,7 @@ class SetupInstanceHttpsResult {
   }
 }
 
+/// @nodoc
 class StartGUISessionResult {
   /// The available API operations.
   final List<Operation>? operations;
@@ -14651,6 +14793,7 @@ class StartGUISessionResult {
   }
 }
 
+/// @nodoc
 class StartInstanceResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14678,6 +14821,7 @@ class StartInstanceResult {
   }
 }
 
+/// @nodoc
 class StartRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14705,6 +14849,7 @@ class StartRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class StopGUISessionResult {
   /// The available API operations.
   final List<Operation>? operations;
@@ -14730,6 +14875,7 @@ class StopGUISessionResult {
   }
 }
 
+/// @nodoc
 class StopInstanceResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14757,6 +14903,7 @@ class StopInstanceResult {
   }
 }
 
+/// @nodoc
 class StopRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14784,6 +14931,7 @@ class StopRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14811,6 +14959,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class TestAlarmResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14838,6 +14987,7 @@ class TestAlarmResult {
   }
 }
 
+/// @nodoc
 class UnpeerVpcResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14864,6 +15014,7 @@ class UnpeerVpcResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14891,6 +15042,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdateBucketResult {
   /// An object that describes the bucket that is updated.
   final Bucket? bucket;
@@ -14927,6 +15079,7 @@ class UpdateBucketResult {
   }
 }
 
+/// @nodoc
 class UpdateBucketBundleResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -14954,6 +15107,7 @@ class UpdateBucketBundleResult {
   }
 }
 
+/// @nodoc
 class UpdateContainerServiceResult {
   /// An object that describes a container service.
   final ContainerService? containerService;
@@ -14979,6 +15133,7 @@ class UpdateContainerServiceResult {
   }
 }
 
+/// @nodoc
 class UpdateDistributionResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -15005,6 +15160,7 @@ class UpdateDistributionResult {
   }
 }
 
+/// @nodoc
 class UpdateDistributionBundleResult {
   /// An object that describes the result of the action, such as the status of the
   /// request, the timestamp of the request, and the resources affected by the
@@ -15031,6 +15187,7 @@ class UpdateDistributionBundleResult {
   }
 }
 
+/// @nodoc
 class UpdateDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -15058,6 +15215,7 @@ class UpdateDomainEntryResult {
   }
 }
 
+/// @nodoc
 class UpdateInstanceMetadataOptionsResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -15085,6 +15243,7 @@ class UpdateInstanceMetadataOptionsResult {
   }
 }
 
+/// @nodoc
 class UpdateLoadBalancerAttributeResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -15113,6 +15272,7 @@ class UpdateLoadBalancerAttributeResult {
   }
 }
 
+/// @nodoc
 class UpdateRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -15140,6 +15300,7 @@ class UpdateRelationalDatabaseResult {
   }
 }
 
+/// @nodoc
 class UpdateRelationalDatabaseParametersResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -15169,6 +15330,8 @@ class UpdateRelationalDatabaseParametersResult {
 }
 
 /// Describes the API operation.
+///
+/// @nodoc
 class Operation {
   /// The timestamp when the operation was initialized
   /// (<code>1479816991.349</code>).
@@ -15274,6 +15437,7 @@ class Operation {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const containerService = ResourceType._('ContainerService');
   static const instance = ResourceType._('Instance');
@@ -15340,6 +15504,8 @@ class ResourceType {
 }
 
 /// Describes the resource location.
+///
+/// @nodoc
 class ResourceLocation {
   /// The Availability Zone. Follows the format <code>us-east-2a</code>
   /// (case-sensitive).
@@ -15370,6 +15536,7 @@ class ResourceLocation {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const deleteKnownHostKeys = OperationType._('DeleteKnownHostKeys');
   static const deleteInstance = OperationType._('DeleteInstance');
@@ -15595,6 +15762,7 @@ class OperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationStatus {
   static const notStarted = OperationStatus._('NotStarted');
   static const started = OperationStatus._('Started');
@@ -15622,6 +15790,7 @@ class OperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RegionName {
   static const usEast_1 = RegionName._('us-east-1');
   static const usEast_2 = RegionName._('us-east-2');
@@ -15679,6 +15848,8 @@ class RegionName {
 }
 
 /// Describes the parameters of a database.
+///
+/// @nodoc
 class RelationalDatabaseParameter {
   /// Specifies the valid range of values for the parameter.
   final String? allowedValues;
@@ -15752,6 +15923,7 @@ class RelationalDatabaseParameter {
   }
 }
 
+/// @nodoc
 class LoadBalancerAttributeName {
   static const healthCheckPath = LoadBalancerAttributeName._('HealthCheckPath');
   static const sessionStickinessEnabled =
@@ -15789,6 +15961,7 @@ class LoadBalancerAttributeName {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpTokens {
   static const optional = HttpTokens._('optional');
   static const required = HttpTokens._('required');
@@ -15812,6 +15985,7 @@ class HttpTokens {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpEndpoint {
   static const disabled = HttpEndpoint._('disabled');
   static const enabled = HttpEndpoint._('enabled');
@@ -15835,6 +16009,7 @@ class HttpEndpoint {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpProtocolIpv6 {
   static const disabled = HttpProtocolIpv6._('disabled');
   static const enabled = HttpProtocolIpv6._('enabled');
@@ -15860,6 +16035,8 @@ class HttpProtocolIpv6 {
 }
 
 /// Describes a domain recordset entry.
+///
+/// @nodoc
 class DomainEntry {
   /// The ID of the domain recordset entry.
   final String? id;
@@ -15976,6 +16153,8 @@ class DomainEntry {
 /// An origin can be a Lightsail instance, bucket, container service, or load
 /// balancer. A distribution pulls content from an origin, caches it, and serves
 /// it to viewers via a worldwide network of edge servers.
+///
+/// @nodoc
 class InputOrigin {
   /// The IP address type that the distribution uses when connecting to the
   /// origin.
@@ -16026,6 +16205,8 @@ class InputOrigin {
 
 /// Describes the default cache behavior of an Amazon Lightsail content delivery
 /// network (CDN) distribution.
+///
+/// @nodoc
 class CacheBehavior {
   /// The cache behavior of the distribution.
   ///
@@ -16074,6 +16255,8 @@ class CacheBehavior {
 /// These settings apply only to your distribution's <code>cacheBehaviors</code>
 /// (including the <code>defaultCacheBehavior</code>) that have a
 /// <code>behavior</code> of <code>cache</code>.
+///
+/// @nodoc
 class CacheSettings {
   /// The HTTP methods that are processed and forwarded to the distribution's
   /// origin.
@@ -16213,6 +16396,7 @@ class CacheSettings {
   }
 }
 
+/// @nodoc
 class ViewerMinimumTlsProtocolVersionEnum {
   static const tLSv1_1_2016 =
       ViewerMinimumTlsProtocolVersionEnum._('TLSv1.1_2016');
@@ -16260,6 +16444,8 @@ class ViewerMinimumTlsProtocolVersionEnum {
 /// <code>cacheBehavior</code> is <code>dont-cache</code>, then a per-path cache
 /// behavior can be used to specify a directory, file, or file type that your
 /// distribution will not cache.
+///
+/// @nodoc
 class CacheBehaviorPerPath {
   /// The cache behavior for the specified path.
   ///
@@ -16342,6 +16528,7 @@ class CacheBehaviorPerPath {
   }
 }
 
+/// @nodoc
 class BehaviorEnum {
   static const dontCache = BehaviorEnum._('dont-cache');
   static const cache = BehaviorEnum._('cache');
@@ -16370,6 +16557,8 @@ class BehaviorEnum {
 ///
 /// For the cookies that you specify, your distribution caches separate versions
 /// of the specified content based on the cookie values in viewer requests.
+///
+/// @nodoc
 class CookieObject {
   /// The specific cookies to forward to your distribution's origin.
   final List<String>? cookiesAllowList;
@@ -16416,6 +16605,8 @@ class CookieObject {
 /// based on values in the <code>product</code> header. Your distribution
 /// forwards the <code>product</code> header to the origin and caches the
 /// response from the origin once for each header value.
+///
+/// @nodoc
 class HeaderObject {
   /// The specific headers to forward to your distribution's origin.
   final List<HeaderEnum>? headersAllowList;
@@ -16471,6 +16662,8 @@ class HeaderObject {
 /// For the query strings that you specify, your distribution caches separate
 /// versions of the specified content based on the query string values in viewer
 /// requests.
+///
+/// @nodoc
 class QueryStringObject {
   /// Indicates whether the distribution forwards and caches based on query
   /// strings.
@@ -16511,6 +16704,7 @@ class QueryStringObject {
   }
 }
 
+/// @nodoc
 class ForwardValues {
   static const none = ForwardValues._('none');
   static const allowList = ForwardValues._('allow-list');
@@ -16536,6 +16730,7 @@ class ForwardValues {
   String toString() => value;
 }
 
+/// @nodoc
 class HeaderEnum {
   static const accept = HeaderEnum._('Accept');
   static const acceptCharset = HeaderEnum._('Accept-Charset');
@@ -16594,6 +16789,7 @@ class HeaderEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class OriginProtocolPolicyEnum {
   static const httpOnly = OriginProtocolPolicyEnum._('http-only');
   static const httpsOnly = OriginProtocolPolicyEnum._('https-only');
@@ -16619,6 +16815,7 @@ class OriginProtocolPolicyEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class OriginIpAddressTypeEnum {
   static const ipv4 = OriginIpAddressTypeEnum._('ipv4');
   static const ipv6 = OriginIpAddressTypeEnum._('ipv6');
@@ -16646,6 +16843,8 @@ class OriginIpAddressTypeEnum {
 }
 
 /// Describes an Amazon Lightsail container service.
+///
+/// @nodoc
 class ContainerService {
   /// The Amazon Resource Name (ARN) of the container service.
   final String? arn;
@@ -16901,6 +17100,7 @@ class ContainerService {
   }
 }
 
+/// @nodoc
 class ContainerServicePowerName {
   static const nano = ContainerServicePowerName._('nano');
   static const micro = ContainerServicePowerName._('micro');
@@ -16930,6 +17130,7 @@ class ContainerServicePowerName {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerServiceState {
   static const pending = ContainerServiceState._('PENDING');
   static const ready = ContainerServiceState._('READY');
@@ -16969,6 +17170,8 @@ class ContainerServiceState {
 }
 
 /// Describes the current state of a container service.
+///
+/// @nodoc
 class ContainerServiceStateDetail {
   /// The state code of the container service.
   ///
@@ -17062,6 +17265,8 @@ class ContainerServiceStateDetail {
 ///
 /// A deployment specifies the settings, such as the ports and launch command,
 /// of containers that are deployed to your container service.
+///
+/// @nodoc
 class ContainerServiceDeployment {
   /// An object that describes the configuration for the containers of the
   /// deployment.
@@ -17148,6 +17353,8 @@ class ContainerServiceDeployment {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
 /// access to an Amazon ECR private repository for an Amazon Lightsail container
 /// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class PrivateRegistryAccess {
   /// An object that describes the activation status of the role that you can use
   /// to grant a Lightsail container service access to Amazon ECR private
@@ -17189,6 +17396,8 @@ class PrivateRegistryAccess {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
 /// access to an Amazon ECR private repository for an Amazon Lightsail container
 /// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class ContainerServiceECRImagePullerRole {
   /// A Boolean value that indicates whether the role is activated.
   final bool? isActive;
@@ -17219,6 +17428,7 @@ class ContainerServiceECRImagePullerRole {
   }
 }
 
+/// @nodoc
 class ContainerServiceDeploymentState {
   static const activating = ContainerServiceDeploymentState._('ACTIVATING');
   static const active = ContainerServiceDeploymentState._('ACTIVE');
@@ -17248,6 +17458,8 @@ class ContainerServiceDeploymentState {
 
 /// Describes the public endpoint configuration of a deployment of an Amazon
 /// Lightsail container service.
+///
+/// @nodoc
 class ContainerServiceEndpoint {
   /// The name of the container entry of the deployment that the endpoint
   /// configuration applies to.
@@ -17290,6 +17502,8 @@ class ContainerServiceEndpoint {
 
 /// Describes the health check configuration of an Amazon Lightsail container
 /// service.
+///
+/// @nodoc
 class ContainerServiceHealthCheckConfig {
   /// The number of consecutive health checks successes required before moving the
   /// container to the <code>Healthy</code> state. The default value is
@@ -17363,6 +17577,8 @@ class ContainerServiceHealthCheckConfig {
 
 /// Describes the settings of a container that will be launched, or that is
 /// launched, to an Amazon Lightsail container service.
+///
+/// @nodoc
 class Container {
   /// The launch command for the container.
   final List<String>? command;
@@ -17424,6 +17640,7 @@ class Container {
   }
 }
 
+/// @nodoc
 class ContainerServiceProtocol {
   static const http = ContainerServiceProtocol._('HTTP');
   static const https = ContainerServiceProtocol._('HTTPS');
@@ -17451,6 +17668,7 @@ class ContainerServiceProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerServiceStateDetailCode {
   static const creatingSystemResources =
       ContainerServiceStateDetailCode._('CREATING_SYSTEM_RESOURCES');
@@ -17508,6 +17726,8 @@ class ContainerServiceStateDetailCode {
 /// For more information about tags in Lightsail, see the <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags">Amazon
 /// Lightsail Developer Guide</a>.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   ///
@@ -17551,6 +17771,8 @@ class Tag {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
 /// access to an Amazon ECR private repository for an Amazon Lightsail container
 /// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class PrivateRegistryAccessRequest {
   /// An object to describe a request to activate or deactivate the role that you
   /// can use to grant an Amazon Lightsail container service access to Amazon
@@ -17582,6 +17804,8 @@ class PrivateRegistryAccessRequest {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
 /// access to an Amazon ECR private repository for an Amazon Lightsail container
 /// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class ContainerServiceECRImagePullerRoleRequest {
   /// A Boolean value that indicates whether to activate the role.
   final bool? isActive;
@@ -17599,6 +17823,8 @@ class ContainerServiceECRImagePullerRoleRequest {
 }
 
 /// Describes an Amazon Lightsail bucket.
+///
+/// @nodoc
 class Bucket {
   /// Indicates whether the bundle that is currently applied to a bucket can be
   /// changed to another bundle.
@@ -17811,6 +18037,8 @@ class Bucket {
 /// bucket permissions in Amazon Lightsail</a> in the
 ///
 /// <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class AccessRules {
   /// A Boolean value that indicates whether the access control list (ACL)
   /// permissions that are applied to individual objects override the
@@ -17873,6 +18101,8 @@ class AccessRules {
 }
 
 /// Describes the state of an Amazon Lightsail bucket.
+///
+/// @nodoc
 class BucketState {
   /// The state code of the bucket.
   ///
@@ -17921,6 +18151,8 @@ class BucketState {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-bucket-access-logs">Logging
 /// bucket requests using access logging in Amazon Lightsail</a> in the
 /// <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class BucketAccessLogConfig {
   /// A Boolean value that indicates whether bucket access logging is enabled for
   /// the bucket.
@@ -17980,6 +18212,8 @@ class BucketAccessLogConfig {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html">Configuring
 /// cross-origin resource sharing (CORS)</a>.
+///
+/// @nodoc
 class BucketCorsConfig {
   /// A set of origins and methods (cross-origin access that you want to allow).
   /// You can add up to 20 rules to the configuration. The total size is limited
@@ -18013,6 +18247,8 @@ class BucketCorsConfig {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html">Configuring
 /// cross-origin resource sharing (CORS)</a>.
+///
+/// @nodoc
 class BucketCorsRule {
   /// The HTTP methods that are allowed when accessing the bucket from the
   /// specified origin. Each CORS rule must identify at least one origin and one
@@ -18121,6 +18357,8 @@ class BucketCorsRule {
 
 /// Describes an Amazon Lightsail instance that has access to a Lightsail
 /// bucket.
+///
+/// @nodoc
 class ResourceReceivingAccess {
   /// The name of the Lightsail instance.
   final String? name;
@@ -18150,6 +18388,7 @@ class ResourceReceivingAccess {
   }
 }
 
+/// @nodoc
 class AccessType {
   static const public = AccessType._('public');
   static const private = AccessType._('private');
@@ -18173,6 +18412,7 @@ class AccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class AlarmState {
   static const ok = AlarmState._('OK');
   static const alarm = AlarmState._('ALARM');
@@ -18197,6 +18437,7 @@ class AlarmState {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateProvider {
   static const letsEncrypt = CertificateProvider._('LetsEncrypt');
 
@@ -18221,6 +18462,7 @@ class CertificateProvider {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceBucketAccess {
   static const allow = ResourceBucketAccess._('allow');
   static const deny = ResourceBucketAccess._('deny');
@@ -18246,6 +18488,7 @@ class ResourceBucketAccess {
   String toString() => value;
 }
 
+/// @nodoc
 class IpAddressType {
   static const dualstack = IpAddressType._('dualstack');
   static const ipv4 = IpAddressType._('ipv4');
@@ -18271,6 +18514,7 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactMethodVerificationProtocol {
   static const email = ContactMethodVerificationProtocol._('Email');
 
@@ -18297,6 +18541,8 @@ class ContactMethodVerificationProtocol {
 
 /// Describes a container image that is registered to an Amazon Lightsail
 /// container service.
+///
+/// @nodoc
 class ContainerImage {
   /// The timestamp when the container image was created.
   final DateTime? createdAt;
@@ -18335,6 +18581,8 @@ class ContainerImage {
 
 /// Describes ports to open on an instance, the IP addresses allowed to connect
 /// to the instance through the ports, and the protocol.
+///
+/// @nodoc
 class PortInfo {
   /// An alias that defines access for a preconfigured range of IP addresses.
   ///
@@ -18504,6 +18752,7 @@ class PortInfo {
   }
 }
 
+/// @nodoc
 class NetworkProtocol {
   static const tcp = NetworkProtocol._('tcp');
   static const all = NetworkProtocol._('all');
@@ -18531,6 +18780,7 @@ class NetworkProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricName {
   static const cPUUtilization = MetricName._('CPUUtilization');
   static const networkIn = MetricName._('NetworkIn');
@@ -18614,6 +18864,7 @@ class MetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const greaterThanOrEqualToThreshold =
       ComparisonOperator._('GreaterThanOrEqualToThreshold');
@@ -18649,6 +18900,7 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class TreatMissingData {
   static const breaching = TreatMissingData._('breaching');
   static const notBreaching = TreatMissingData._('notBreaching');
@@ -18675,6 +18927,7 @@ class TreatMissingData {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactProtocol {
   static const email = ContactProtocol._('Email');
   static const sms = ContactProtocol._('SMS');
@@ -18700,6 +18953,8 @@ class ContactProtocol {
 }
 
 /// Describes a static IP.
+///
+/// @nodoc
 class StaticIp {
   /// The Amazon Resource Name (ARN) of the static IP
   /// (<code>arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE</code>).
@@ -18788,6 +19043,8 @@ class StaticIp {
 /// Returns a list of the commands that were ran on the target resource.
 ///
 /// The status of each command is also returned.
+///
+/// @nodoc
 class SetupHistory {
   /// Describes the full details of the request.
   final List<SetupExecutionDetails>? executionDetails;
@@ -18849,6 +19106,8 @@ class SetupHistory {
 /// Returns information that was submitted during the
 /// <code>SetupInstanceHttps</code> request. Email information is redacted for
 /// privacy.
+///
+/// @nodoc
 class SetupRequest {
   /// The Certificate Authority (CA) that issues the SSL/TLS certificate.
   final CertificateProvider? certificateProvider;
@@ -18891,6 +19150,8 @@ class SetupRequest {
 }
 
 /// The Lightsail resource that <code>SetupHistory</code> was ran on.
+///
+/// @nodoc
 class SetupHistoryResource {
   /// The Amazon Resource Name (ARN) of the Lightsail resource.
   final String? arn;
@@ -18942,6 +19203,7 @@ class SetupHistoryResource {
   }
 }
 
+/// @nodoc
 class SetupStatus {
   static const succeeded = SetupStatus._('succeeded');
   static const failed = SetupStatus._('failed');
@@ -18967,6 +19229,8 @@ class SetupStatus {
 }
 
 /// Returns details about the commands that were run.
+///
+/// @nodoc
 class SetupExecutionDetails {
   /// The command that was executed.
   final String? command;
@@ -19032,6 +19296,8 @@ class SetupExecutionDetails {
 }
 
 /// Describes a database snapshot.
+///
+/// @nodoc
 class RelationalDatabaseSnapshot {
   /// The Amazon Resource Name (ARN) of the database snapshot.
   final String? arn;
@@ -19178,6 +19444,8 @@ class RelationalDatabaseSnapshot {
 }
 
 /// Describes a database.
+///
+/// @nodoc
 class RelationalDatabase {
   /// The Amazon Resource Name (ARN) of the database.
   final String? arn;
@@ -19426,6 +19694,8 @@ class RelationalDatabase {
 }
 
 /// Describes the hardware of a database.
+///
+/// @nodoc
 class RelationalDatabaseHardware {
   /// The number of vCPUs for the database.
   final int? cpuCount;
@@ -19463,6 +19733,8 @@ class RelationalDatabaseHardware {
 }
 
 /// Describes a pending database value modification.
+///
+/// @nodoc
 class PendingModifiedRelationalDatabaseValues {
   /// A Boolean value indicating whether automated backup retention is enabled.
   final bool? backupRetentionEnabled;
@@ -19502,6 +19774,8 @@ class PendingModifiedRelationalDatabaseValues {
 }
 
 /// Describes an endpoint for a database.
+///
+/// @nodoc
 class RelationalDatabaseEndpoint {
   /// Specifies the DNS address of the database.
   final String? address;
@@ -19532,6 +19806,8 @@ class RelationalDatabaseEndpoint {
 }
 
 /// Describes a pending database maintenance action.
+///
+/// @nodoc
 class PendingMaintenanceAction {
   /// The type of pending database maintenance action.
   final String? action;
@@ -19569,6 +19845,7 @@ class PendingMaintenanceAction {
   }
 }
 
+/// @nodoc
 class RelationalDatabaseMetricName {
   static const cPUUtilization =
       RelationalDatabaseMetricName._('CPUUtilization');
@@ -19612,6 +19889,8 @@ class RelationalDatabaseMetricName {
 }
 
 /// Describes the metric data point.
+///
+/// @nodoc
 class MetricDatapoint {
   /// The average.
   final double? average;
@@ -19676,6 +19955,7 @@ class MetricDatapoint {
   }
 }
 
+/// @nodoc
 class MetricUnit {
   static const seconds = MetricUnit._('Seconds');
   static const microseconds = MetricUnit._('Microseconds');
@@ -19752,6 +20032,7 @@ class MetricUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricStatistic {
   static const minimum = MetricStatistic._('Minimum');
   static const maximum = MetricStatistic._('Maximum');
@@ -19779,6 +20060,7 @@ class MetricStatistic {
   String toString() => value;
 }
 
+/// @nodoc
 class RelationalDatabasePasswordVersion {
   static const current = RelationalDatabasePasswordVersion._('CURRENT');
   static const previous = RelationalDatabasePasswordVersion._('PREVIOUS');
@@ -19806,6 +20088,8 @@ class RelationalDatabasePasswordVersion {
 }
 
 /// Describes a database log event.
+///
+/// @nodoc
 class LogEvent {
   /// The timestamp when the database log event was created.
   final DateTime? createdAt;
@@ -19836,6 +20120,8 @@ class LogEvent {
 }
 
 /// Describes an event for a database.
+///
+/// @nodoc
 class RelationalDatabaseEvent {
   /// The timestamp when the database event was created.
   final DateTime? createdAt;
@@ -19884,6 +20170,8 @@ class RelationalDatabaseEvent {
 
 /// Describes a database bundle. A bundle describes the performance
 /// specifications of the database.
+///
+/// @nodoc
 class RelationalDatabaseBundle {
   /// The ID for the database bundle.
   final String? bundleId;
@@ -19966,6 +20254,8 @@ class RelationalDatabaseBundle {
 
 /// Describes a database image, or blueprint. A blueprint describes the major
 /// engine version of a database.
+///
+/// @nodoc
 class RelationalDatabaseBlueprint {
   /// The ID for the database blueprint.
   final String? blueprintId;
@@ -20028,6 +20318,7 @@ class RelationalDatabaseBlueprint {
   }
 }
 
+/// @nodoc
 class RelationalDatabaseEngine {
   static const mysql = RelationalDatabaseEngine._('mysql');
 
@@ -20053,6 +20344,8 @@ class RelationalDatabaseEngine {
 }
 
 /// Describes the Amazon Web Services Region.
+///
+/// @nodoc
 class Region {
   /// The Availability Zones. Follows the format <code>us-east-2a</code>
   /// (case-sensitive).
@@ -20126,6 +20419,8 @@ class Region {
 
 /// Describes an Availability Zone. This is returned only as part of a
 /// <code>GetRegions</code> request.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The state of the Availability Zone.
   final String? state;
@@ -20163,6 +20458,8 @@ class AvailabilityZone {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy">Configuring
 /// TLS security policies on your Amazon Lightsail load balancers</a> in the
 /// <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class LoadBalancerTlsPolicy {
   /// The ciphers used by the TLS security policy.
   ///
@@ -20223,6 +20520,8 @@ class LoadBalancerTlsPolicy {
 /// Describes a load balancer SSL/TLS certificate.
 ///
 /// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+///
+/// @nodoc
 class LoadBalancerTlsCertificate {
   /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
   final String? arn;
@@ -20542,6 +20841,7 @@ class LoadBalancerTlsCertificate {
   }
 }
 
+/// @nodoc
 class LoadBalancerTlsCertificateStatus {
   static const pendingValidation =
       LoadBalancerTlsCertificateStatus._('PENDING_VALIDATION');
@@ -20584,6 +20884,7 @@ class LoadBalancerTlsCertificateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LoadBalancerTlsCertificateFailureReason {
   static const noAvailableContacts =
       LoadBalancerTlsCertificateFailureReason._('NO_AVAILABLE_CONTACTS');
@@ -20656,6 +20957,8 @@ class LoadBalancerTlsCertificateFailureReason {
 /// action.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LoadBalancerTlsCertificateRenewalSummary {
   /// Contains information about the validation of each domain name in the
   /// certificate, as it pertains to Lightsail's managed renewal. This is
@@ -20724,6 +21027,7 @@ class LoadBalancerTlsCertificateRenewalSummary {
   }
 }
 
+/// @nodoc
 class LoadBalancerTlsCertificateRevocationReason {
   static const unspecified =
       LoadBalancerTlsCertificateRevocationReason._('UNSPECIFIED');
@@ -20779,6 +21083,7 @@ class LoadBalancerTlsCertificateRevocationReason {
   String toString() => value;
 }
 
+/// @nodoc
 class LoadBalancerTlsCertificateRenewalStatus {
   static const pendingAutoRenewal =
       LoadBalancerTlsCertificateRenewalStatus._('PENDING_AUTO_RENEWAL');
@@ -20815,6 +21120,8 @@ class LoadBalancerTlsCertificateRenewalStatus {
 
 /// Contains information about the domain names on an SSL/TLS certificate that
 /// you will use to validate domain ownership.
+///
+/// @nodoc
 class LoadBalancerTlsCertificateDomainValidationOption {
   /// The fully qualified domain name in the certificate request.
   final String? domainName;
@@ -20846,6 +21153,7 @@ class LoadBalancerTlsCertificateDomainValidationOption {
   }
 }
 
+/// @nodoc
 class LoadBalancerTlsCertificateDomainStatus {
   static const pendingValidation =
       LoadBalancerTlsCertificateDomainStatus._('PENDING_VALIDATION');
@@ -20875,6 +21183,8 @@ class LoadBalancerTlsCertificateDomainStatus {
 
 /// Describes the validation record of each domain name in the SSL/TLS
 /// certificate.
+///
+/// @nodoc
 class LoadBalancerTlsCertificateDomainValidationRecord {
   /// An object that describes the state of the canonical name (CNAME) records
   /// that are automatically added by Lightsail to the DNS of a domain to validate
@@ -20946,6 +21256,8 @@ class LoadBalancerTlsCertificateDomainValidationRecord {
 /// An object that describes the state of the canonical name (CNAME) records
 /// that are automatically added by Lightsail to the DNS of the domain to
 /// validate domain ownership.
+///
+/// @nodoc
 class LoadBalancerTlsCertificateDnsRecordCreationState {
   /// The status code for the automated DNS record creation.
   ///
@@ -20991,6 +21303,7 @@ class LoadBalancerTlsCertificateDnsRecordCreationState {
   }
 }
 
+/// @nodoc
 class LoadBalancerTlsCertificateDnsRecordCreationStateCode {
   static const succeeded =
       LoadBalancerTlsCertificateDnsRecordCreationStateCode._('SUCCEEDED');
@@ -21024,6 +21337,8 @@ class LoadBalancerTlsCertificateDnsRecordCreationStateCode {
 }
 
 /// Describes a load balancer.
+///
+/// @nodoc
 class LoadBalancer {
   /// The Amazon Resource Name (ARN) of the load balancer.
   final String? arn;
@@ -21220,6 +21535,7 @@ class LoadBalancer {
   }
 }
 
+/// @nodoc
 class LoadBalancerState {
   static const active = LoadBalancerState._('active');
   static const provisioning = LoadBalancerState._('provisioning');
@@ -21247,6 +21563,7 @@ class LoadBalancerState {
   String toString() => value;
 }
 
+/// @nodoc
 class LoadBalancerProtocol {
   static const httpHttps = LoadBalancerProtocol._('HTTP_HTTPS');
   static const http = LoadBalancerProtocol._('HTTP');
@@ -21273,6 +21590,8 @@ class LoadBalancerProtocol {
 }
 
 /// Provides a summary of SSL/TLS certificate metadata.
+///
+/// @nodoc
 class LoadBalancerTlsCertificateSummary {
   /// When <code>true</code>, the SSL/TLS certificate is attached to the Lightsail
   /// load balancer.
@@ -21305,6 +21624,8 @@ class LoadBalancerTlsCertificateSummary {
 }
 
 /// Describes information about the health of the instance.
+///
+/// @nodoc
 class InstanceHealthSummary {
   /// Describes the overall instance health. Valid values are below.
   final InstanceHealthState? instanceHealth;
@@ -21417,6 +21738,7 @@ class InstanceHealthSummary {
   }
 }
 
+/// @nodoc
 class InstanceHealthState {
   static const initial = InstanceHealthState._('initial');
   static const healthy = InstanceHealthState._('healthy');
@@ -21453,6 +21775,7 @@ class InstanceHealthState {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceHealthReason {
   static const lbRegistrationInProgress =
       InstanceHealthReason._('Lb.RegistrationInProgress');
@@ -21507,6 +21830,7 @@ class InstanceHealthReason {
   String toString() => value;
 }
 
+/// @nodoc
 class LoadBalancerMetricName {
   static const clientTLSNegotiationErrorCount =
       LoadBalancerMetricName._('ClientTLSNegotiationErrorCount');
@@ -21566,6 +21890,8 @@ class LoadBalancerMetricName {
 }
 
 /// Describes an SSH key pair.
+///
+/// @nodoc
 class KeyPair {
   /// The Amazon Resource Name (ARN) of the key pair
   /// (<code>arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE</code>).
@@ -21650,6 +21976,8 @@ class KeyPair {
 }
 
 /// Describes the virtual private server (or <i>instance</i>) status.
+///
+/// @nodoc
 class InstanceState {
   /// The status code for the instance.
   final int? code;
@@ -21680,6 +22008,8 @@ class InstanceState {
 }
 
 /// Describes an instance snapshot.
+///
+/// @nodoc
 class InstanceSnapshot {
   /// The Amazon Resource Name (ARN) of the snapshot
   /// (<code>arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE</code>).
@@ -21832,6 +22162,7 @@ class InstanceSnapshot {
   }
 }
 
+/// @nodoc
 class InstanceSnapshotState {
   static const pending = InstanceSnapshotState._('pending');
   static const error = InstanceSnapshotState._('error');
@@ -21859,6 +22190,8 @@ class InstanceSnapshotState {
 }
 
 /// Describes a block storage disk.
+///
+/// @nodoc
 class Disk {
   /// An array of objects representing the add-ons enabled on the disk.
   final List<AddOn>? addOns;
@@ -22029,6 +22362,7 @@ class Disk {
   }
 }
 
+/// @nodoc
 class DiskState {
   static const pending = DiskState._('pending');
   static const error = DiskState._('error');
@@ -22055,6 +22389,7 @@ class DiskState {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoMountStatus {
   static const failed = AutoMountStatus._('Failed');
   static const pending = AutoMountStatus._('Pending');
@@ -22082,6 +22417,8 @@ class AutoMountStatus {
 }
 
 /// Describes an add-on that is enabled for an Amazon Lightsail resource.
+///
+/// @nodoc
 class AddOn {
   /// The amount of idle time in minutes after which your virtual computer will
   /// automatically stop.
@@ -22160,6 +22497,8 @@ class AddOn {
 }
 
 /// Describes an instance (a virtual private server).
+///
+/// @nodoc
 class Instance {
   /// An array of objects representing the add-ons enabled on the instance.
   final List<AddOn>? addOns;
@@ -22366,6 +22705,8 @@ class Instance {
 }
 
 /// Describes the hardware for the instance.
+///
+/// @nodoc
 class InstanceHardware {
   /// The number of vCPUs the instance has.
   final int? cpuCount;
@@ -22406,6 +22747,8 @@ class InstanceHardware {
 }
 
 /// Describes monthly data transfer rates and port information for an instance.
+///
+/// @nodoc
 class InstanceNetworking {
   /// The amount of data in GB allocated for monthly data transfers.
   final MonthlyTransfer? monthlyTransfer;
@@ -22443,6 +22786,8 @@ class InstanceNetworking {
 }
 
 /// The metadata options for the instance.
+///
+/// @nodoc
 class InstanceMetadataOptions {
   /// Indicates whether the HTTP metadata endpoint on your instances is enabled or
   /// disabled.
@@ -22535,6 +22880,7 @@ class InstanceMetadataOptions {
   }
 }
 
+/// @nodoc
 class InstanceMetadataState {
   static const pending = InstanceMetadataState._('pending');
   static const applied = InstanceMetadataState._('applied');
@@ -22562,6 +22908,8 @@ class InstanceMetadataState {
 
 /// Describes the monthly data transfer in and out of your virtual private
 /// server (or <i>instance</i>).
+///
+/// @nodoc
 class MonthlyTransfer {
   /// The amount allocated per month (in GB).
   final int? gbPerMonthAllocated;
@@ -22586,6 +22934,8 @@ class MonthlyTransfer {
 }
 
 /// Describes information about ports for an Amazon Lightsail instance.
+///
+/// @nodoc
 class InstancePortInfo {
   /// The access direction (<code>inbound</code> or <code>outbound</code>).
   /// <note>
@@ -22796,6 +23146,7 @@ class InstancePortInfo {
   }
 }
 
+/// @nodoc
 class PortAccessType {
   static const public = PortAccessType._('Public');
   static const private = PortAccessType._('Private');
@@ -22820,6 +23171,7 @@ class PortAccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDirection {
   static const inbound = AccessDirection._('inbound');
   static const outbound = AccessDirection._('outbound');
@@ -22846,6 +23198,8 @@ class AccessDirection {
 
 /// Describes open ports on an instance, the IP addresses allowed to connect to
 /// the instance through the ports, and the protocol.
+///
+/// @nodoc
 class InstancePortState {
   /// An alias that defines access for a preconfigured range of IP addresses.
   ///
@@ -23032,6 +23386,7 @@ class InstancePortState {
   }
 }
 
+/// @nodoc
 class PortState {
   static const open = PortState._('open');
   static const closed = PortState._('closed');
@@ -23055,6 +23410,7 @@ class PortState {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceMetricName {
   static const cPUUtilization = InstanceMetricName._('CPUUtilization');
   static const networkIn = InstanceMetricName._('NetworkIn');
@@ -23102,6 +23458,8 @@ class InstanceMetricName {
 
 /// The parameters for gaining temporary access to one of your Amazon Lightsail
 /// instances.
+///
+/// @nodoc
 class InstanceAccessDetails {
   /// For SSH access, the public key to use when accessing your instance For
   /// OpenSSH clients (command line SSH), you should save this value to
@@ -23225,6 +23583,8 @@ class InstanceAccessDetails {
 
 /// The password data for the Windows Server-based instance, including the
 /// ciphertext and the key pair name.
+///
+/// @nodoc
 class PasswordData {
   /// The encrypted password. Ciphertext will be an empty string if access to your
   /// new instance is not ready yet. When you create an instance, it can take up
@@ -23275,6 +23635,7 @@ class PasswordData {
   }
 }
 
+/// @nodoc
 class InstanceAccessProtocol {
   static const ssh = InstanceAccessProtocol._('ssh');
   static const rdp = InstanceAccessProtocol._('rdp');
@@ -23301,6 +23662,8 @@ class InstanceAccessProtocol {
 }
 
 /// Describes the public SSH host keys or the RDP certificate.
+///
+/// @nodoc
 class HostKeyAttributes {
   /// The SSH host key algorithm or the RDP certificate format.
   ///
@@ -23402,6 +23765,8 @@ class HostKeyAttributes {
 }
 
 /// Describes an export snapshot record.
+///
+/// @nodoc
 class ExportSnapshotRecord {
   /// The Amazon Resource Name (ARN) of the export snapshot record.
   final String? arn;
@@ -23483,6 +23848,7 @@ class ExportSnapshotRecord {
   }
 }
 
+/// @nodoc
 class RecordState {
   static const started = RecordState._('Started');
   static const succeeded = RecordState._('Succeeded');
@@ -23508,6 +23874,8 @@ class RecordState {
 }
 
 /// Describes the source of an export snapshot record.
+///
+/// @nodoc
 class ExportSnapshotRecordSourceInfo {
   /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
   final String? arn;
@@ -23589,6 +23957,8 @@ class ExportSnapshotRecordSourceInfo {
 }
 
 /// Describes the destination of a record.
+///
+/// @nodoc
 class DestinationInfo {
   /// The ID of the resource created at the destination.
   final String? id;
@@ -23618,6 +23988,7 @@ class DestinationInfo {
   }
 }
 
+/// @nodoc
 class ExportSnapshotRecordSourceType {
   static const instanceSnapshot =
       ExportSnapshotRecordSourceType._('InstanceSnapshot');
@@ -23645,6 +24016,8 @@ class ExportSnapshotRecordSourceType {
 }
 
 /// Describes an instance snapshot.
+///
+/// @nodoc
 class InstanceSnapshotInfo {
   /// The blueprint ID from which the source instance
   /// (<code>amazon_linux_2023</code>).
@@ -23688,6 +24061,8 @@ class InstanceSnapshotInfo {
 }
 
 /// Describes a disk snapshot.
+///
+/// @nodoc
 class DiskSnapshotInfo {
   /// The size of the disk in GB (<code>32</code>).
   final int? sizeInGb;
@@ -23711,6 +24086,8 @@ class DiskSnapshotInfo {
 }
 
 /// Describes a disk.
+///
+/// @nodoc
 class DiskInfo {
   /// A Boolean value indicating whether this disk is a system disk (has an
   /// operating system loaded on it).
@@ -23756,6 +24133,8 @@ class DiskInfo {
 }
 
 /// Describes a domain where you are storing recordsets.
+///
+/// @nodoc
 class Domain {
   /// The Amazon Resource Name (ARN) of the domain recordset
   /// (<code>arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE</code>).
@@ -23890,6 +24269,8 @@ class Domain {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-how-to-create-dns-entry">Creating
 /// a DNS zone to manage your domain’s records in Amazon Lightsail</a> in the
 /// <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class RegisteredDomainDelegationInfo {
   /// An object that describes the state of the name server records that are
   /// automatically added to the Route 53 domain by Lightsail.
@@ -23935,6 +24316,8 @@ class RegisteredDomainDelegationInfo {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/understanding-dns-in-amazon-lightsail">DNS
 /// in Amazon Lightsail</a> in the <i>Amazon Lightsail Developer Guide</i>.
+///
+/// @nodoc
 class NameServersUpdateState {
   /// The status code for the name servers update.
   ///
@@ -23984,6 +24367,8 @@ class NameServersUpdateState {
 
 /// Describes the deletion state of an Amazon Route 53 hosted zone for a domain
 /// that is being automatically delegated to an Amazon Lightsail DNS zone.
+///
+/// @nodoc
 class R53HostedZoneDeletionState {
   /// The status code for the deletion state.
   ///
@@ -24031,6 +24416,7 @@ class R53HostedZoneDeletionState {
   }
 }
 
+/// @nodoc
 class R53HostedZoneDeletionStateCode {
   static const succeeded = R53HostedZoneDeletionStateCode._('SUCCEEDED');
   static const pending = R53HostedZoneDeletionStateCode._('PENDING');
@@ -24058,6 +24444,7 @@ class R53HostedZoneDeletionStateCode {
   String toString() => value;
 }
 
+/// @nodoc
 class NameServersUpdateStateCode {
   static const succeeded = NameServersUpdateStateCode._('SUCCEEDED');
   static const pending = NameServersUpdateStateCode._('PENDING');
@@ -24086,6 +24473,8 @@ class NameServersUpdateStateCode {
 }
 
 /// Describes an Amazon Lightsail content delivery network (CDN) distribution.
+///
+/// @nodoc
 class LightsailDistribution {
   /// Indicates whether the bundle that is currently applied to your distribution,
   /// specified using the <code>distributionName</code> parameter, can be changed
@@ -24305,6 +24694,8 @@ class LightsailDistribution {
 /// An origin can be a Lightsail instance, bucket, or load balancer. A
 /// distribution pulls content from an origin, caches it, and serves it to
 /// viewers via a worldwide network of edge servers.
+///
+/// @nodoc
 class Origin {
   /// The IP address type that the distribution uses when connecting to the
   /// origin.
@@ -24373,6 +24764,7 @@ class Origin {
   }
 }
 
+/// @nodoc
 class DistributionMetricName {
   static const requests = DistributionMetricName._('Requests');
   static const bytesDownloaded = DistributionMetricName._('BytesDownloaded');
@@ -24410,6 +24802,8 @@ class DistributionMetricName {
 }
 
 /// Describes the specifications of a distribution bundle.
+///
+/// @nodoc
 class DistributionBundle {
   /// The ID of the bundle.
   final String? bundleId;
@@ -24463,6 +24857,8 @@ class DistributionBundle {
 }
 
 /// Describes a block storage disk snapshot.
+///
+/// @nodoc
 class DiskSnapshot {
   /// The Amazon Resource Name (ARN) of the disk snapshot.
   final String? arn;
@@ -24598,6 +24994,7 @@ class DiskSnapshot {
   }
 }
 
+/// @nodoc
 class DiskSnapshotState {
   static const pending = DiskSnapshotState._('pending');
   static const completed = DiskSnapshotState._('completed');
@@ -24625,6 +25022,8 @@ class DiskSnapshotState {
 }
 
 /// Describes the estimated cost or usage that a budget tracks.
+///
+/// @nodoc
 class ResourceBudgetEstimate {
   /// The cost estimate for the specified budget.
   final List<CostEstimate>? costEstimates;
@@ -24681,6 +25080,8 @@ class ResourceBudgetEstimate {
 
 /// Describes the estimated cost for resources in your Lightsail for Research
 /// account.
+///
+/// @nodoc
 class CostEstimate {
   /// The cost estimate result that's associated with a time period.
   final List<EstimateByTime>? resultsByTime;
@@ -24715,6 +25116,8 @@ class CostEstimate {
 }
 
 /// An estimate that's associated with a time period.
+///
+/// @nodoc
 class EstimateByTime {
   /// The currency of the estimate in USD.
   final Currency? currency;
@@ -24770,6 +25173,7 @@ class EstimateByTime {
   }
 }
 
+/// @nodoc
 class PricingUnit {
   static const gb = PricingUnit._('GB');
   static const hrs = PricingUnit._('Hrs');
@@ -24796,6 +25200,7 @@ class PricingUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class Currency {
   static const usd = Currency._('USD');
 
@@ -24824,6 +25229,8 @@ class Currency {
 /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
 /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but not
 /// including <code>2017-05-01</code>.
+///
+/// @nodoc
 class TimePeriod {
   /// The end of the time period. The end date is exclusive. For example, if
   /// <code>end</code> is <code>2017-05-01</code>, Lightsail for Research
@@ -24865,6 +25272,8 @@ class TimePeriod {
 ///
 /// The power specifies the amount of RAM, the number of vCPUs, and the base
 /// price of the container service.
+///
+/// @nodoc
 class ContainerServicePower {
   /// The number of vCPUs included in the power.
   final double? cpuCount;
@@ -24923,6 +25332,7 @@ class ContainerServicePower {
   }
 }
 
+/// @nodoc
 class ContainerServiceMetricName {
   static const cPUUtilization = ContainerServiceMetricName._('CPUUtilization');
   static const memoryUtilization =
@@ -24951,6 +25361,8 @@ class ContainerServiceMetricName {
 
 /// Describes the log events of a container of an Amazon Lightsail container
 /// service.
+///
+/// @nodoc
 class ContainerServiceLogEvent {
   /// The timestamp when the container service log event was created.
   final DateTime? createdAt;
@@ -24986,6 +25398,8 @@ class ContainerServiceLogEvent {
 /// see <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications">Notifications
 /// in Amazon Lightsail</a>.
+///
+/// @nodoc
 class ContactMethod {
   /// The Amazon Resource Name (ARN) of the contact method.
   final String? arn;
@@ -25100,6 +25514,7 @@ class ContactMethod {
   }
 }
 
+/// @nodoc
 class ContactMethodStatus {
   static const pendingVerification =
       ContactMethodStatus._('PendingVerification');
@@ -25133,6 +25548,8 @@ class ContactMethodStatus {
 /// A CloudFormation stack record provides information about the AWS
 /// CloudFormation stack used to create a new Amazon Elastic Compute Cloud
 /// instance from an exported Lightsail instance snapshot.
+///
+/// @nodoc
 class CloudFormationStackRecord {
   /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
   final String? arn;
@@ -25220,6 +25637,8 @@ class CloudFormationStackRecord {
 
 /// Describes the source of a CloudFormation stack record (i.e., the export
 /// snapshot record).
+///
+/// @nodoc
 class CloudFormationStackRecordSourceInfo {
   /// The Amazon Resource Name (ARN) of the export snapshot record.
   final String? arn;
@@ -25258,6 +25677,7 @@ class CloudFormationStackRecordSourceInfo {
   }
 }
 
+/// @nodoc
 class CloudFormationStackRecordSourceType {
   static const exportSnapshotRecord =
       CloudFormationStackRecordSourceType._('ExportSnapshotRecord');
@@ -25284,6 +25704,8 @@ class CloudFormationStackRecordSourceType {
 }
 
 /// Describes an Amazon Lightsail SSL/TLS certificate.
+///
+/// @nodoc
 class CertificateSummary {
   /// The Amazon Resource Name (ARN) of the certificate.
   final String? certificateArn;
@@ -25350,6 +25772,8 @@ class CertificateSummary {
 /// The response will include only the certificate Amazon Resource Name (ARN),
 /// certificate name, domain name, and tags.
 /// </note>
+///
+/// @nodoc
 class Certificate {
   /// The Amazon Resource Name (ARN) of the certificate.
   final String? arn;
@@ -25596,6 +26020,7 @@ class Certificate {
   }
 }
 
+/// @nodoc
 class CertificateStatus {
   static const pendingValidation = CertificateStatus._('PENDING_VALIDATION');
   static const issued = CertificateStatus._('ISSUED');
@@ -25635,6 +26060,8 @@ class CertificateStatus {
 
 /// Describes the status of a SSL/TLS certificate renewal managed by Amazon
 /// Lightsail.
+///
+/// @nodoc
 class RenewalSummary {
   /// An array of objects that describe the domain validation records of the
   /// certificate.
@@ -25714,6 +26141,7 @@ class RenewalSummary {
   }
 }
 
+/// @nodoc
 class RenewalStatus {
   static const pendingAutoRenewal = RenewalStatus._('PendingAutoRenewal');
   static const pendingValidation = RenewalStatus._('PendingValidation');
@@ -25748,6 +26176,8 @@ class RenewalStatus {
 /// Describes the domain name system (DNS) records that you must add to the DNS
 /// of your registered domain to validate ownership for an Amazon Lightsail
 /// SSL/TLS certificate.
+///
+/// @nodoc
 class DomainValidationRecord {
   /// An object that describes the state of the canonical name (CNAME) records
   /// that are automatically added by Lightsail to the DNS of the domain to
@@ -25805,6 +26235,8 @@ class DomainValidationRecord {
 
 /// Describes the domain name system (DNS) records to add to your domain's DNS
 /// to validate it for an Amazon Lightsail certificate.
+///
+/// @nodoc
 class ResourceRecord {
   /// The name of the record.
   final String? name;
@@ -25856,6 +26288,8 @@ class ResourceRecord {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/verify-tls-ssl-certificate-using-dns-cname-https">Verify
 /// an SSL/TLS certificate in Amazon Lightsail</a> in the <i>Amazon Lightsail
 /// Developer Guide</i>.
+///
+/// @nodoc
 class DnsRecordCreationState {
   /// The status code for the automated DNS record creation.
   ///
@@ -25902,6 +26336,7 @@ class DnsRecordCreationState {
   }
 }
 
+/// @nodoc
 class CertificateDomainValidationStatus {
   static const pendingValidation =
       CertificateDomainValidationStatus._('PENDING_VALIDATION');
@@ -25929,6 +26364,7 @@ class CertificateDomainValidationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DnsRecordCreationStateCode {
   static const succeeded = DnsRecordCreationStateCode._('SUCCEEDED');
   static const started = DnsRecordCreationStateCode._('STARTED');
@@ -25957,6 +26393,8 @@ class DnsRecordCreationStateCode {
 
 /// Describes a bundle, which is a set of specs describing your virtual private
 /// server (or <i>instance</i>).
+///
+/// @nodoc
 class Bundle {
   /// The bundle ID (<code>micro_x_x</code>).
   final String? bundleId;
@@ -26086,6 +26524,7 @@ class Bundle {
   }
 }
 
+/// @nodoc
 class AppCategory {
   static const lfR = AppCategory._('LfR');
 
@@ -26108,6 +26547,7 @@ class AppCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class InstancePlatform {
   static const linuxUnix = InstancePlatform._('LINUX_UNIX');
   static const windows = InstancePlatform._('WINDOWS');
@@ -26150,6 +26590,8 @@ class InstancePlatform {
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-block-public-access-for-buckets">Block
 /// public access for buckets in Amazon Lightsail</a> in the <i>Amazon Lightsail
 /// Developer Guide</i>.
+///
+/// @nodoc
 class AccountLevelBpaSync {
   /// A Boolean value that indicates whether account-level block public access is
   /// affecting your Lightsail buckets.
@@ -26264,6 +26706,7 @@ class AccountLevelBpaSync {
   }
 }
 
+/// @nodoc
 class AccountLevelBpaSyncStatus {
   static const inSync = AccountLevelBpaSyncStatus._('InSync');
   static const failed = AccountLevelBpaSyncStatus._('Failed');
@@ -26291,6 +26734,7 @@ class AccountLevelBpaSyncStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BPAStatusMessage {
   static const defaultedForSlrMissing =
       BPAStatusMessage._('DEFAULTED_FOR_SLR_MISSING');
@@ -26324,6 +26768,7 @@ class BPAStatusMessage {
   String toString() => value;
 }
 
+/// @nodoc
 class BucketMetricName {
   static const bucketSizeBytes = BucketMetricName._('BucketSizeBytes');
   static const numberOfObjects = BucketMetricName._('NumberOfObjects');
@@ -26353,6 +26798,8 @@ class BucketMetricName {
 ///
 /// A bucket bundle specifies the monthly cost, storage space, and data transfer
 /// quota for a bucket.
+///
+/// @nodoc
 class BucketBundle {
   /// The ID of the bundle.
   final String? bundleId;
@@ -26429,6 +26876,8 @@ class BucketBundle {
 /// key later. If you lose the secret access key, you must create a new access
 /// key.
 /// </important>
+///
+/// @nodoc
 class AccessKey {
   /// The ID of the access key.
   final String? accessKeyId;
@@ -26494,6 +26943,7 @@ class AccessKey {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const active = StatusType._('Active');
   static const inactive = StatusType._('Inactive');
@@ -26523,6 +26973,8 @@ class StatusType {
 /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html">CreateBucketAccessKey</a>
 /// action.
 /// </note>
+///
+/// @nodoc
 class AccessKeyLastUsed {
   /// The date and time when the access key was most recently used.
   ///
@@ -26568,6 +27020,8 @@ class AccessKeyLastUsed {
 }
 
 /// Describes a blueprint (a virtual private server image).
+///
+/// @nodoc
 class Blueprint {
   /// Virtual computer blueprints that are supported by Lightsail for Research.
   /// <important>
@@ -26688,6 +27142,7 @@ class Blueprint {
   }
 }
 
+/// @nodoc
 class BlueprintType {
   static const os = BlueprintType._('os');
   static const app = BlueprintType._('app');
@@ -26713,6 +27168,8 @@ class BlueprintType {
 }
 
 /// Describes an automatic snapshot.
+///
+/// @nodoc
 class AutoSnapshotDetails {
   /// The timestamp when the automatic snapshot was created.
   final DateTime? createdAt;
@@ -26760,6 +27217,7 @@ class AutoSnapshotDetails {
   }
 }
 
+/// @nodoc
 class AutoSnapshotStatus {
   static const success = AutoSnapshotStatus._('Success');
   static const failed = AutoSnapshotStatus._('Failed');
@@ -26789,6 +27247,8 @@ class AutoSnapshotStatus {
 
 /// Describes a block storage disk that is attached to an instance, and is
 /// included in an automatic snapshot.
+///
+/// @nodoc
 class AttachedDisk {
   /// The path of the disk (<code>/dev/xvdf</code>).
   final String? path;
@@ -26824,6 +27284,8 @@ class AttachedDisk {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms">Alarms
 /// in Amazon Lightsail</a>.
+///
+/// @nodoc
 class Alarm {
   /// The Amazon Resource Name (ARN) of the alarm.
   final String? arn;
@@ -27094,6 +27556,8 @@ class Alarm {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms">Alarms
 /// in Amazon Lightsail</a>.
+///
+/// @nodoc
 class MonitoredResourceInfo {
   /// The Amazon Resource Name (ARN) of the resource being monitored.
   final String? arn;
@@ -27141,6 +27605,8 @@ class MonitoredResourceInfo {
 /// information, see the <a
 /// href="https://aws.amazon.com/lightsail/pricing/">Lightsail pricing page</a>.
 /// </note>
+///
+/// @nodoc
 class AddOnRequest {
   /// The add-on type.
   final AddOnType addOnType;
@@ -27176,6 +27642,7 @@ class AddOnRequest {
   }
 }
 
+/// @nodoc
 class AddOnType {
   static const autoSnapshot = AddOnType._('AutoSnapshot');
   static const stopInstanceOnIdle = AddOnType._('StopInstanceOnIdle');
@@ -27237,6 +27704,8 @@ class AddOnType {
 /// between your current time and the new snapshot time that you specify.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AutoSnapshotAddOnRequest {
   /// The daily time when an automatic snapshot will be created.
   ///
@@ -27273,6 +27742,8 @@ class AutoSnapshotAddOnRequest {
 /// <important>
 /// This add-on only applies to Lightsail for Research resources.
 /// </important>
+///
+/// @nodoc
 class StopInstanceOnIdleRequest {
   /// The amount of idle time in minutes after which your virtual computer will
   /// automatically stop.
@@ -27297,6 +27768,8 @@ class StopInstanceOnIdleRequest {
 }
 
 /// Describes a block storage disk mapping.
+///
+/// @nodoc
 class DiskMap {
   /// The new disk name (<code>my-new-disk</code>).
   final String? newDiskName;
@@ -27320,6 +27793,7 @@ class DiskMap {
   }
 }
 
+/// @nodoc
 class Status {
   static const startExpired = Status._('startExpired');
   static const notStarted = Status._('notStarted');
@@ -27365,6 +27839,8 @@ class Status {
 /// Describes a web-based, remote graphical user interface (GUI), Amazon DCV
 /// session. The session is used to access a virtual computer’s operating system
 /// or application.
+///
+/// @nodoc
 class Session {
   /// When true, this Boolean value indicates the primary session for the
   /// specified resource.
@@ -27404,6 +27880,8 @@ class Session {
 
 /// Describes the sign-in credentials for the container image registry of an
 /// Amazon Lightsail account.
+///
+/// @nodoc
 class ContainerServiceRegistryLogin {
   /// The timestamp of when the container image registry sign-in credentials
   /// expire.
@@ -27457,6 +27935,8 @@ class ContainerServiceRegistryLogin {
 
 /// Describes the settings of a public endpoint for an Amazon Lightsail
 /// container service.
+///
+/// @nodoc
 class EndpointRequest {
   /// The name of the container for the endpoint.
   final String containerName;
@@ -27490,6 +27970,8 @@ class EndpointRequest {
 ///
 /// A deployment specifies the settings, such as the ports and launch command,
 /// of containers that are deployed to your container service.
+///
+/// @nodoc
 class ContainerServiceDeploymentRequest {
   /// An object that describes the configuration for the containers of the
   /// deployment.
@@ -27515,6 +27997,8 @@ class ContainerServiceDeploymentRequest {
 
 /// Describes the Amazon Elastic Compute Cloud instance and related resources to
 /// be created using the <code>create cloud formation stack</code> operation.
+///
+/// @nodoc
 class InstanceEntry {
   /// The Availability Zone for the new Amazon EC2 instance.
   final String availabilityZone;
@@ -27601,6 +28085,7 @@ class InstanceEntry {
   }
 }
 
+/// @nodoc
 class PortInfoSourceType {
   static const $default = PortInfoSourceType._('DEFAULT');
   static const instance = PortInfoSourceType._('INSTANCE');
@@ -27628,11 +28113,13 @@ class PortInfoSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AccountSetupInProgressException extends _s.GenericAwsException {
   AccountSetupInProgressException({String? type, String? message})
       : super(
@@ -27641,21 +28128,25 @@ class AccountSetupInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class OperationFailureException extends _s.GenericAwsException {
   OperationFailureException({String? type, String? message})
       : super(type: type, code: 'OperationFailureException', message: message);
 }
 
+/// @nodoc
 class RegionSetupInProgressException extends _s.GenericAwsException {
   RegionSetupInProgressException({String? type, String? message})
       : super(
@@ -27664,11 +28155,13 @@ class RegionSetupInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class UnauthenticatedException extends _s.GenericAwsException {
   UnauthenticatedException({String? type, String? message})
       : super(type: type, code: 'UnauthenticatedException', message: message);

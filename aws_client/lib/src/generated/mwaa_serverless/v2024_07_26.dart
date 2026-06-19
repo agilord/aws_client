@@ -857,6 +857,7 @@ class MwaaServerless {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of tags that are associated with the resource, where each tag consists
   /// of a key-value pair.
@@ -881,6 +882,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -893,6 +895,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -905,6 +908,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class GetTaskInstanceResponse {
   /// The unique identifier of the workflow run that contains this task instance.
   final String runId;
@@ -1032,6 +1036,7 @@ class GetTaskInstanceResponse {
   }
 }
 
+/// @nodoc
 class ListTaskInstancesResponse {
   /// The pagination token you need to use to retrieve the next set of results.
   /// This value is null if there are no more results.
@@ -1065,6 +1070,7 @@ class ListTaskInstancesResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the newly created workflow. This ARN
   /// uniquely identifies the workflow resource.
@@ -1147,6 +1153,7 @@ class CreateWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the workflow.
   final String workflowArn;
@@ -1303,6 +1310,7 @@ class GetWorkflowResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the updated workflow.
   final String workflowArn;
@@ -1350,6 +1358,7 @@ class UpdateWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the deleted workflow.
   final String workflowArn;
@@ -1379,6 +1388,7 @@ class DeleteWorkflowResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// A list of workflow summaries for all workflows in your account.
   final List<WorkflowSummary> workflows;
@@ -1412,6 +1422,7 @@ class ListWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class StartWorkflowRunResponse {
   /// The unique identifier of the newly started workflow run.
   final String? runId;
@@ -1450,6 +1461,7 @@ class StartWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowRunResponse {
   /// Parameters that were overridden for this specific workflow run.
   final Map<String, Document>? overrideParameters;
@@ -1514,6 +1526,7 @@ class GetWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class StopWorkflowRunResponse {
   /// The unique identifier of the stopped workflow run.
   final String? runId;
@@ -1559,6 +1572,7 @@ class StopWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowRunsResponse {
   /// The pagination token you need to use to retrieve the next set of results.
   /// This value is null if there are no more results.
@@ -1592,6 +1606,7 @@ class ListWorkflowRunsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowVersionsResponse {
   /// The pagination token you need to use to retrieve the next set of results.
   /// This value is null if there are no more results.
@@ -1628,6 +1643,8 @@ class ListWorkflowVersionsResponse {
 
 /// Summary information about a workflow version, including identification and
 /// configuration details.
+///
+/// @nodoc
 class WorkflowVersionSummary {
   /// The Amazon Resource Name (ARN) of the workflow that contains this version.
   final String workflowArn;
@@ -1718,6 +1735,8 @@ class WorkflowVersionSummary {
 /// even if the source file is modified. The definition must be a valid YAML
 /// file that uses supported Amazon Web Services operators and Amazon Managed
 /// Workflows for Apache Airflow Serverless syntax.
+///
+/// @nodoc
 class DefinitionS3Location {
   /// The name of the Amazon S3 bucket that contains the workflow definition file.
   final String bucket;
@@ -1764,6 +1783,8 @@ class DefinitionS3Location {
 /// Workflows for Apache Airflow Serverless automatically configures the
 /// appropriate triggers and ensures only one version of a workflow has an
 /// active schedule at any time.
+///
+/// @nodoc
 class ScheduleConfiguration {
   /// A cron expression that defines when the workflow is automatically executed.
   /// Uses standard cron syntax.
@@ -1789,6 +1810,8 @@ class ScheduleConfiguration {
 
 /// Summary information about a workflow run, including basic identification and
 /// status information.
+///
+/// @nodoc
 class WorkflowRunSummary {
   /// Summary details about the workflow run execution.
   final RunDetailSummary? runDetailSummary;
@@ -1842,6 +1865,7 @@ class WorkflowRunSummary {
   }
 }
 
+/// @nodoc
 class RunType {
   static const onDemand = RunType._('ON_DEMAND');
   static const scheduled = RunType._('SCHEDULED');
@@ -1867,6 +1891,8 @@ class RunType {
 
 /// Summary information about a workflow run's execution details, including
 /// status and timing information.
+///
+/// @nodoc
 class RunDetailSummary {
   /// The timestamp when the workflow run was created, in ISO 8601 date-time
   /// format.
@@ -1913,6 +1939,7 @@ class RunDetailSummary {
   }
 }
 
+/// @nodoc
 class WorkflowRunStatus {
   static const starting = WorkflowRunStatus._('STARTING');
   static const queued = WorkflowRunStatus._('QUEUED');
@@ -1960,6 +1987,8 @@ class WorkflowRunStatus {
 /// tasks and provides detailed timing information, error diagnostics, and task
 /// instance relationships to support effective monitoring and troubleshooting
 /// of complex workflow executions.
+///
+/// @nodoc
 class WorkflowRunDetail {
   /// The timestamp when the workflow run completed execution, in ISO 8601
   /// date-time format. This value is null if the run is not complete.
@@ -2071,6 +2100,8 @@ class WorkflowRunDetail {
 
 /// Summary information about a workflow, including basic identification and
 /// metadata.
+///
+/// @nodoc
 class WorkflowSummary {
   /// The Amazon Resource Name (ARN) of the workflow.
   final String workflowArn;
@@ -2144,6 +2175,7 @@ class WorkflowSummary {
   }
 }
 
+/// @nodoc
 class WorkflowStatus {
   static const ready = WorkflowStatus._('READY');
   static const deleting = WorkflowStatus._('DELETING');
@@ -2176,6 +2208,8 @@ class WorkflowStatus {
 /// logging functionality, providing centralized observability across the
 /// distributed, multi-tenant execution environment. This enables effective
 /// debugging, monitoring, and compliance auditing of workflow executions.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// The name of the CloudWatch log group where workflow execution logs are
   /// stored.
@@ -2207,6 +2241,8 @@ class LoggingConfiguration {
 /// handles external communication while the worker container connects to your
 /// VPC for task execution. This design provides both security isolation and
 /// connectivity flexibility.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// A list of VPC security group IDs to associate with the workflow execution
   /// environment.
@@ -2252,6 +2288,8 @@ class NetworkConfiguration {
 /// audit capabilities. Encryption is applied consistently across the
 /// distributed execution environment including task containers, metadata
 /// storage, and log streams.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The type of encryption to use. Values are <code>AWS_MANAGED_KEY</code>
   /// (Amazon Web Services manages the encryption key) or
@@ -2284,6 +2322,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const awsManagedKey = EncryptionType._('AWS_MANAGED_KEY');
   static const customerManagedKey = EncryptionType._('CUSTOMER_MANAGED_KEY');
@@ -2310,6 +2349,8 @@ class EncryptionType {
 
 /// Summary information about a task instance within a workflow run, including
 /// its status and execution details.
+///
+/// @nodoc
 class TaskInstanceSummary {
   /// The duration of the task instance execution in seconds. This value is null
   /// if the task is not complete.
@@ -2376,6 +2417,7 @@ class TaskInstanceSummary {
   }
 }
 
+/// @nodoc
 class TaskInstanceStatus {
   static const queued = TaskInstanceStatus._('QUEUED');
   static const failed = TaskInstanceStatus._('FAILED');
@@ -2428,6 +2470,7 @@ class TaskInstanceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -2440,31 +2483,37 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class OperationTimeoutException extends _s.GenericAwsException {
   OperationTimeoutException({String? type, String? message})
       : super(type: type, code: 'OperationTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2473,11 +2522,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

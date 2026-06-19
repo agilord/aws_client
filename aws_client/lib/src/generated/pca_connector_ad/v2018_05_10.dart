@@ -962,6 +962,7 @@ class PcaConnectorAd {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags, if any, that are associated with your resource.
   final Map<String, String>? tags;
@@ -985,6 +986,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorResponse {
   /// If successful, the Amazon Resource Name (ARN) of the connector for Active
   /// Directory.
@@ -1008,6 +1010,7 @@ class CreateConnectorResponse {
   }
 }
 
+/// @nodoc
 class GetConnectorResponse {
   /// A structure that contains information about your connector.
   final Connector? connector;
@@ -1032,6 +1035,7 @@ class GetConnectorResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorsResponse {
   /// Summary information about each connector you have created.
   final List<ConnectorSummary>? connectors;
@@ -1066,6 +1070,7 @@ class ListConnectorsResponse {
   }
 }
 
+/// @nodoc
 class CreateDirectoryRegistrationResponse {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html">CreateDirectoryRegistration</a>.
@@ -1091,6 +1096,7 @@ class CreateDirectoryRegistrationResponse {
   }
 }
 
+/// @nodoc
 class GetDirectoryRegistrationResponse {
   /// The directory registration represents the authorization of the connector
   /// service with a directory.
@@ -1118,6 +1124,7 @@ class GetDirectoryRegistrationResponse {
   }
 }
 
+/// @nodoc
 class ListDirectoryRegistrationsResponse {
   /// Summary information about each directory registration you have created.
   final List<DirectoryRegistrationSummary>? directoryRegistrations;
@@ -1155,6 +1162,7 @@ class ListDirectoryRegistrationsResponse {
   }
 }
 
+/// @nodoc
 class GetServicePrincipalNameResponse {
   /// The service principal name that the connector uses to authenticate with
   /// Active Directory.
@@ -1182,6 +1190,7 @@ class GetServicePrincipalNameResponse {
   }
 }
 
+/// @nodoc
 class ListServicePrincipalNamesResponse {
   /// Use this parameter when paginating results in a subsequent request after you
   /// receive a response with truncated results. Set it to the value of the
@@ -1220,6 +1229,7 @@ class ListServicePrincipalNamesResponse {
   }
 }
 
+/// @nodoc
 class GetTemplateGroupAccessControlEntryResponse {
   /// An access control entry allows or denies an Active Directory group from
   /// enrolling and/or autoenrolling with a template.
@@ -1247,6 +1257,7 @@ class GetTemplateGroupAccessControlEntryResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateGroupAccessControlEntriesResponse {
   /// An access control entry grants or denies permission to an Active Directory
   /// group to enroll certificates for a template.
@@ -1285,6 +1296,7 @@ class ListTemplateGroupAccessControlEntriesResponse {
   }
 }
 
+/// @nodoc
 class CreateTemplateResponse {
   /// If successful, the Amazon Resource Name (ARN) of the template.
   final String? templateArn;
@@ -1307,6 +1319,7 @@ class CreateTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetTemplateResponse {
   /// A certificate template that the connector uses to issue certificates from a
   /// private CA.
@@ -1332,6 +1345,7 @@ class GetTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListTemplatesResponse {
   /// Use this parameter when paginating results in a subsequent request after you
   /// receive a response with truncated results. Set it to the value of the
@@ -1369,6 +1383,8 @@ class ListTemplatesResponse {
 /// An Active Directory compatible certificate template. Connectors issue
 /// certificates against these templates based on the requestor's Active
 /// Directory group membership.
+///
+/// @nodoc
 class TemplateSummary {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html">CreateTemplate</a>.
@@ -1472,6 +1488,8 @@ class TemplateSummary {
 /// Define certificate validity and renewal periods, certificate request
 /// handling and enrollment options, key usage extensions, application policies,
 /// and cryptography settings.
+///
+/// @nodoc
 class TemplateDefinition {
   /// Template configuration to define the information included in certificates.
   /// Define certificate validity and renewal periods, certificate request
@@ -1523,6 +1541,7 @@ class TemplateDefinition {
   }
 }
 
+/// @nodoc
 class TemplateStatus {
   static const active = TemplateStatus._('ACTIVE');
   static const deleting = TemplateStatus._('DELETING');
@@ -1550,6 +1569,8 @@ class TemplateStatus {
 /// The revision version of the template. Template updates will increment the
 /// minor revision. Re-enrolling all certificate holders will increment the
 /// major revision.
+///
+/// @nodoc
 class TemplateRevision {
   /// The revision version of the template. Re-enrolling all certificate holders
   /// will increment the major revision.
@@ -1582,6 +1603,8 @@ class TemplateRevision {
 }
 
 /// v2 template schema that uses Legacy Cryptographic Providers.
+///
+/// @nodoc
 class TemplateV2 {
   /// Certificate validity describes the validity and renewal periods of a
   /// certificate.
@@ -1682,6 +1705,8 @@ class TemplateV2 {
 }
 
 /// v3 template schema that uses Key Storage Providers.
+///
+/// @nodoc
 class TemplateV3 {
   /// Certificate validity describes the validity and renewal periods of a
   /// certificate.
@@ -1791,6 +1816,8 @@ class TemplateV3 {
 
 /// v4 template schema that can use either Legacy Cryptographic Providers or Key
 /// Storage Providers.
+///
+/// @nodoc
 class TemplateV4 {
   /// Certificate validity describes the validity and renewal periods of a
   /// certificate.
@@ -1910,6 +1937,8 @@ class TemplateV4 {
 /// ValidityNotBefore is also specified. For example, if Validity is set to 20
 /// days in the future, the certificate will expire 20 days from issuance time
 /// regardless of the ValidityNotBefore value.
+///
+/// @nodoc
 class CertificateValidity {
   /// Renewal period is the period of time before certificate expiration when a
   /// new certificate will be requested.
@@ -1953,6 +1982,8 @@ class CertificateValidity {
 }
 
 /// Defines the attributes of the private key.
+///
+/// @nodoc
 class PrivateKeyAttributesV4 {
   /// Defines the purpose of the private key. Set it to "KEY_EXCHANGE" or
   /// "SIGNATURE" value.
@@ -2017,6 +2048,8 @@ class PrivateKeyAttributesV4 {
 /// private key can be exported, if user input is required when using a private
 /// key, if an alternate signature algorithm should be used, and if certificates
 /// are renewed using the same private key.
+///
+/// @nodoc
 class PrivateKeyFlagsV4 {
   /// Defines the minimum client compatibility.
   final ClientCompatibilityV4 clientVersion;
@@ -2086,6 +2119,8 @@ class PrivateKeyFlagsV4 {
 }
 
 /// Template configurations for v4 template schema.
+///
+/// @nodoc
 class EnrollmentFlagsV4 {
   /// Allow renewal using the same key.
   final bool? enableKeyReuseOnNtTokenKeysetStorageFull;
@@ -2095,7 +2130,7 @@ class EnrollmentFlagsV4 {
 
   /// This flag instructs the CA to not include the security extension
   /// szOID_NTDS_CA_SECURITY_EXT (OID:1.3.6.1.4.1.311.25.2), as specified in
-  /// [MS-WCCE] sections 2.2.2.7.7.4 and 3.2.2.6.2.1.4.5.9, in the issued
+  /// \[MS-WCCE\] sections 2.2.2.7.7.4 and 3.2.2.6.2.1.4.5.9, in the issued
   /// certificate. This addresses a Windows Kerberos elevation-of-privilege
   /// vulnerability.
   final bool? noSecurityExtension;
@@ -2160,6 +2195,8 @@ class EnrollmentFlagsV4 {
 /// globally unique identifier (GUID), DNS, domain DNS, email, service principal
 /// name (SPN), and user principal name (UPN). You can leave the SAN blank. If
 /// you leave the SAN blank, then you must set a subject name.
+///
+/// @nodoc
 class SubjectNameFlagsV4 {
   /// Include the common name in the subject name.
   final bool? requireCommonName;
@@ -2250,6 +2287,8 @@ class SubjectNameFlagsV4 {
 
 /// General flags for v4 template schema that defines if the template is for a
 /// machine or a user and if the template can be issued using autoenrollment.
+///
+/// @nodoc
 class GeneralFlagsV4 {
   /// Allows certificate issuance using autoenrollment. Set to TRUE to allow
   /// autoenrollment.
@@ -2281,6 +2320,7 @@ class GeneralFlagsV4 {
   }
 }
 
+/// @nodoc
 class HashAlgorithm {
   static const sha256 = HashAlgorithm._('SHA256');
   static const sha384 = HashAlgorithm._('SHA384');
@@ -2307,6 +2347,8 @@ class HashAlgorithm {
 }
 
 /// Certificate extensions for v4 template schema
+///
+/// @nodoc
 class ExtensionsV4 {
   /// The key usage extension defines the purpose (e.g., encipherment, signature)
   /// of the key contained in the certificate.
@@ -2345,6 +2387,8 @@ class ExtensionsV4 {
 
 /// The key usage extension defines the purpose (e.g., encipherment, signature)
 /// of the key contained in the certificate.
+///
+/// @nodoc
 class KeyUsage {
   /// The key usage flags represent the purpose (e.g., encipherment, signature) of
   /// the key contained in the certificate.
@@ -2378,6 +2422,8 @@ class KeyUsage {
 }
 
 /// Application policies describe what the certificate can be used for.
+///
+/// @nodoc
 class ApplicationPolicies {
   /// Application policies describe what the certificate can be used for.
   final List<ApplicationPolicy> policies;
@@ -2411,6 +2457,8 @@ class ApplicationPolicies {
 }
 
 /// Application policies describe what the certificate can be used for.
+///
+/// @nodoc
 class ApplicationPolicy {
   /// The object identifier (OID) of an application policy.
   final String? policyObjectIdentifier;
@@ -2442,6 +2490,7 @@ class ApplicationPolicy {
   }
 }
 
+/// @nodoc
 class ApplicationPolicyType {
   static const allApplicationPolicies =
       ApplicationPolicyType._('ALL_APPLICATION_POLICIES');
@@ -2646,6 +2695,8 @@ class ApplicationPolicyType {
 
 /// The key usage flags represent the purpose (e.g., encipherment, signature) of
 /// the key contained in the certificate.
+///
+/// @nodoc
 class KeyUsageFlags {
   /// DataEncipherment is asserted when the subject public key is used for
   /// directly enciphering raw user data without the use of an intermediate
@@ -2702,6 +2753,7 @@ class KeyUsageFlags {
   }
 }
 
+/// @nodoc
 class ClientCompatibilityV4 {
   static const windowsServer_2012 =
       ClientCompatibilityV4._('WINDOWS_SERVER_2012');
@@ -2735,6 +2787,7 @@ class ClientCompatibilityV4 {
   String toString() => value;
 }
 
+/// @nodoc
 class KeySpec {
   static const keyExchange = KeySpec._('KEY_EXCHANGE');
   static const signature = KeySpec._('SIGNATURE');
@@ -2761,6 +2814,8 @@ class KeySpec {
 /// The key usage property defines the purpose of the private key contained in
 /// the certificate. You can specify specific purposes using property flags or
 /// all by using property type ALL.
+///
+/// @nodoc
 class KeyUsageProperty {
   /// You can specify key usage for encryption, key agreement, and signature. You
   /// can use property flags or property type but not both.
@@ -2796,6 +2851,7 @@ class KeyUsageProperty {
   }
 }
 
+/// @nodoc
 class PrivateKeyAlgorithm {
   static const rsa = PrivateKeyAlgorithm._('RSA');
   static const ecdhP256 = PrivateKeyAlgorithm._('ECDH_P256');
@@ -2823,6 +2879,7 @@ class PrivateKeyAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyUsagePropertyType {
   static const all = KeyUsagePropertyType._('ALL');
 
@@ -2848,6 +2905,8 @@ class KeyUsagePropertyType {
 }
 
 /// Specifies key usage.
+///
+/// @nodoc
 class KeyUsagePropertyFlags {
   /// Allows key for encryption and decryption.
   final bool? decrypt;
@@ -2893,6 +2952,8 @@ class KeyUsagePropertyFlags {
 /// unaffected when ValidityNotBefore is also specified. For example, if
 /// Validity is set to 20 days in the future, the certificate will expire 20
 /// days from issuance time regardless of the ValidityNotBefore value.
+///
+/// @nodoc
 class ValidityPeriod {
   /// The numeric value for the validity period.
   final int period;
@@ -2923,6 +2984,7 @@ class ValidityPeriod {
   }
 }
 
+/// @nodoc
 class ValidityPeriodType {
   static const hours = ValidityPeriodType._('HOURS');
   static const days = ValidityPeriodType._('DAYS');
@@ -2952,6 +3014,8 @@ class ValidityPeriodType {
 }
 
 /// Defines the attributes of the private key.
+///
+/// @nodoc
 class PrivateKeyAttributesV3 {
   /// Defines the algorithm used to generate the private key.
   final PrivateKeyAlgorithm algorithm;
@@ -3014,6 +3078,8 @@ class PrivateKeyAttributesV3 {
 /// Private key flags for v3 templates specify the client compatibility, if the
 /// private key can be exported, if user input is required when using a private
 /// key, and if an alternate signature algorithm should be used.
+///
+/// @nodoc
 class PrivateKeyFlagsV3 {
   /// Defines the minimum client compatibility.
   final ClientCompatibilityV3 clientVersion;
@@ -3066,6 +3132,8 @@ class PrivateKeyFlagsV3 {
 }
 
 /// Template configurations for v3 template schema.
+///
+/// @nodoc
 class EnrollmentFlagsV3 {
   /// Allow renewal using the same key.
   final bool? enableKeyReuseOnNtTokenKeysetStorageFull;
@@ -3075,7 +3143,7 @@ class EnrollmentFlagsV3 {
 
   /// This flag instructs the CA to not include the security extension
   /// szOID_NTDS_CA_SECURITY_EXT (OID:1.3.6.1.4.1.311.25.2), as specified in
-  /// [MS-WCCE] sections 2.2.2.7.7.4 and 3.2.2.6.2.1.4.5.9, in the issued
+  /// \[MS-WCCE\] sections 2.2.2.7.7.4 and 3.2.2.6.2.1.4.5.9, in the issued
   /// certificate. This addresses a Windows Kerberos elevation-of-privilege
   /// vulnerability.
   final bool? noSecurityExtension;
@@ -3140,6 +3208,8 @@ class EnrollmentFlagsV3 {
 /// globally unique identifier (GUID), DNS, domain DNS, email, service principal
 /// name (SPN), and user principal name (UPN). You can leave the SAN blank. If
 /// you leave the SAN blank, then you must set a subject name.
+///
+/// @nodoc
 class SubjectNameFlagsV3 {
   /// Include the common name in the subject name.
   final bool? requireCommonName;
@@ -3230,6 +3300,8 @@ class SubjectNameFlagsV3 {
 
 /// General flags for v3 template schema that defines if the template is for a
 /// machine or a user and if the template can be issued using autoenrollment.
+///
+/// @nodoc
 class GeneralFlagsV3 {
   /// Allows certificate issuance using autoenrollment. Set to TRUE to allow
   /// autoenrollment.
@@ -3262,6 +3334,8 @@ class GeneralFlagsV3 {
 }
 
 /// Certificate extensions for v3 template schema
+///
+/// @nodoc
 class ExtensionsV3 {
   /// The key usage extension defines the purpose (e.g., encipherment, signature,
   /// certificate signing) of the key contained in the certificate.
@@ -3298,6 +3372,7 @@ class ExtensionsV3 {
   }
 }
 
+/// @nodoc
 class ClientCompatibilityV3 {
   static const windowsServer_2008 =
       ClientCompatibilityV3._('WINDOWS_SERVER_2008');
@@ -3338,6 +3413,8 @@ class ClientCompatibilityV3 {
 }
 
 /// Defines the attributes of the private key.
+///
+/// @nodoc
 class PrivateKeyAttributesV2 {
   /// Defines the purpose of the private key. Set it to "KEY_EXCHANGE" or
   /// "SIGNATURE" value.
@@ -3381,6 +3458,8 @@ class PrivateKeyAttributesV2 {
 /// Private key flags for v2 templates specify the client compatibility, if the
 /// private key can be exported, and if user input is required when using a
 /// private key.
+///
+/// @nodoc
 class PrivateKeyFlagsV2 {
   /// Defines the minimum client compatibility.
   final ClientCompatibilityV2 clientVersion;
@@ -3420,6 +3499,8 @@ class PrivateKeyFlagsV2 {
 }
 
 /// Template configurations for v2 template schema.
+///
+/// @nodoc
 class EnrollmentFlagsV2 {
   /// Allow renewal using the same key.
   final bool? enableKeyReuseOnNtTokenKeysetStorageFull;
@@ -3429,7 +3510,7 @@ class EnrollmentFlagsV2 {
 
   /// This flag instructs the CA to not include the security extension
   /// szOID_NTDS_CA_SECURITY_EXT (OID:1.3.6.1.4.1.311.25.2), as specified in
-  /// [MS-WCCE] sections 2.2.2.7.7.4 and 3.2.2.6.2.1.4.5.9, in the issued
+  /// \[MS-WCCE\] sections 2.2.2.7.7.4 and 3.2.2.6.2.1.4.5.9, in the issued
   /// certificate. This addresses a Windows Kerberos elevation-of-privilege
   /// vulnerability.
   final bool? noSecurityExtension;
@@ -3494,6 +3575,8 @@ class EnrollmentFlagsV2 {
 /// globally unique identifier (GUID), DNS, domain DNS, email, service principal
 /// name (SPN), and user principal name (UPN). You can leave the SAN blank. If
 /// you leave the SAN blank, then you must set a subject name.
+///
+/// @nodoc
 class SubjectNameFlagsV2 {
   /// Include the common name in the subject name.
   final bool? requireCommonName;
@@ -3584,6 +3667,8 @@ class SubjectNameFlagsV2 {
 
 /// General flags for v2 template schema that defines if the template is for a
 /// machine or a user and if the template can be issued using autoenrollment.
+///
+/// @nodoc
 class GeneralFlagsV2 {
   /// Allows certificate issuance using autoenrollment. Set to TRUE to allow
   /// autoenrollment.
@@ -3616,6 +3701,8 @@ class GeneralFlagsV2 {
 }
 
 /// Certificate extensions for v2 template schema
+///
+/// @nodoc
 class ExtensionsV2 {
   /// The key usage extension defines the purpose (e.g., encipherment, signature,
   /// certificate signing) of the key contained in the certificate.
@@ -3652,6 +3739,7 @@ class ExtensionsV2 {
   }
 }
 
+/// @nodoc
 class ClientCompatibilityV2 {
   static const windowsServer_2003 =
       ClientCompatibilityV2._('WINDOWS_SERVER_2003');
@@ -3697,6 +3785,8 @@ class ClientCompatibilityV2 {
 /// An Active Directory compatible certificate template. Connectors issue
 /// certificates against these templates based on the requestor's Active
 /// Directory group membership.
+///
+/// @nodoc
 class Template {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html">CreateTemplate</a>.
@@ -3799,6 +3889,8 @@ class Template {
 /// Summary of group access control entries that allow or deny Active Directory
 /// groups based on their security identifiers (SIDs) from enrolling and/or
 /// autofenrolling with the template.
+///
+/// @nodoc
 class AccessControlEntrySummary {
   /// Allow or deny an Active Directory group from enrolling and autoenrolling
   /// certificates issued against a template.
@@ -3865,6 +3957,8 @@ class AccessControlEntrySummary {
 
 /// Allow or deny permissions for an Active Directory group to enroll or
 /// autoenroll certificates for a template.
+///
+/// @nodoc
 class AccessRights {
   /// Allow or deny an Active Directory group from autoenrolling certificates
   /// issued against a template. The Active Directory group must be allowed to
@@ -3897,6 +3991,7 @@ class AccessRights {
   }
 }
 
+/// @nodoc
 class AccessRight {
   static const allow = AccessRight._('ALLOW');
   static const deny = AccessRight._('DENY');
@@ -3923,6 +4018,8 @@ class AccessRight {
 /// An access control entry allows or denies Active Directory groups based on
 /// their security identifiers (SIDs) from enrolling and/or autoenrolling with
 /// the template.
+///
+/// @nodoc
 class AccessControlEntry {
   /// Permissions to allow or deny an Active Directory group to enroll or
   /// autoenroll certificates issued against a template.
@@ -3989,6 +4086,8 @@ class AccessControlEntry {
 
 /// The service principal name that the connector uses to authenticate with
 /// Active Directory.
+///
+/// @nodoc
 class ServicePrincipalNameSummary {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html">CreateConnector</a>.
@@ -4052,6 +4151,7 @@ class ServicePrincipalNameSummary {
   }
 }
 
+/// @nodoc
 class ServicePrincipalNameStatus {
   static const creating = ServicePrincipalNameStatus._('CREATING');
   static const active = ServicePrincipalNameStatus._('ACTIVE');
@@ -4079,6 +4179,7 @@ class ServicePrincipalNameStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ServicePrincipalNameStatusReason {
   static const directoryAccessDenied =
       ServicePrincipalNameStatusReason._('DIRECTORY_ACCESS_DENIED');
@@ -4123,6 +4224,8 @@ class ServicePrincipalNameStatusReason {
 
 /// The service principal name that the connector uses to authenticate with
 /// Active Directory.
+///
+/// @nodoc
 class ServicePrincipalName {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html">CreateConnector.html</a>.
@@ -4188,6 +4291,8 @@ class ServicePrincipalName {
 
 /// The directory registration represents the authorization of the connector
 /// service with the Active Directory.
+///
+/// @nodoc
 class DirectoryRegistrationSummary {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html">CreateDirectoryRegistration</a>.
@@ -4249,6 +4354,7 @@ class DirectoryRegistrationSummary {
   }
 }
 
+/// @nodoc
 class DirectoryRegistrationStatus {
   static const creating = DirectoryRegistrationStatus._('CREATING');
   static const active = DirectoryRegistrationStatus._('ACTIVE');
@@ -4276,6 +4382,7 @@ class DirectoryRegistrationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DirectoryRegistrationStatusReason {
   static const directoryAccessDenied =
       DirectoryRegistrationStatusReason._('DIRECTORY_ACCESS_DENIED');
@@ -4320,6 +4427,8 @@ class DirectoryRegistrationStatusReason {
 
 /// The directory registration represents the authorization of the connector
 /// service with a directory.
+///
+/// @nodoc
 class DirectoryRegistration {
   /// The Amazon Resource Name (ARN) that was returned when you called
   /// CreateDirectoryRegistration.
@@ -4383,6 +4492,8 @@ class DirectoryRegistration {
 
 /// Summary description of the Amazon Web Services Private CA AD connectors
 /// belonging to an Amazon Web Services account.
+///
+/// @nodoc
 class ConnectorSummary {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html">CreateConnector</a>.
@@ -4474,6 +4585,8 @@ class ConnectorSummary {
 }
 
 /// Information about your VPC and security groups used with the connector.
+///
+/// @nodoc
 class VpcInformation {
   /// The security groups used with the connector. You can use a maximum of 4
   /// security groups with a connector.
@@ -4508,6 +4621,7 @@ class VpcInformation {
   }
 }
 
+/// @nodoc
 class ConnectorStatus {
   static const creating = ConnectorStatus._('CREATING');
   static const active = ConnectorStatus._('ACTIVE');
@@ -4534,6 +4648,7 @@ class ConnectorStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorStatusReason {
   static const caCertificateRegistrationFailed =
       ConnectorStatusReason._('CA_CERTIFICATE_REGISTRATION_FAILED');
@@ -4589,6 +4704,7 @@ class ConnectorStatusReason {
   String toString() => value;
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const dualstack = IpAddressType._('DUALSTACK');
@@ -4618,6 +4734,8 @@ class IpAddressType {
 /// connector brokers the exchange of certificates from Amazon Web Services
 /// Private CA to domain-joined users and machines managed with Active
 /// Directory.
+///
+/// @nodoc
 class Connector {
   /// The Amazon Resource Name (ARN) that was returned when you called <a
   /// href="https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html">CreateConnector</a>.
@@ -4708,26 +4826,31 @@ class Connector {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4736,11 +4859,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

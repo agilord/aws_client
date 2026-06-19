@@ -3814,6 +3814,7 @@ class DataSync {
   }
 }
 
+/// @nodoc
 class CancelTaskExecutionResponse {
   CancelTaskExecutionResponse();
 
@@ -3827,6 +3828,8 @@ class CancelTaskExecutionResponse {
 }
 
 /// CreateAgentResponse
+///
+/// @nodoc
 class CreateAgentResponse {
   /// The ARN of the agent that you just activated. Use the <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html">ListAgents</a>
@@ -3852,6 +3855,7 @@ class CreateAgentResponse {
   }
 }
 
+/// @nodoc
 class CreateLocationAzureBlobResponse {
   /// The ARN of the Azure Blob Storage transfer location that you created.
   final String? locationArn;
@@ -3875,6 +3879,8 @@ class CreateLocationAzureBlobResponse {
 }
 
 /// CreateLocationEfs
+///
+/// @nodoc
 class CreateLocationEfsResponse {
   /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that
   /// you create.
@@ -3898,6 +3904,7 @@ class CreateLocationEfsResponse {
   }
 }
 
+/// @nodoc
 class CreateLocationFsxLustreResponse {
   /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location
   /// that you created.
@@ -3921,6 +3928,7 @@ class CreateLocationFsxLustreResponse {
   }
 }
 
+/// @nodoc
 class CreateLocationFsxOntapResponse {
   /// Specifies the ARN of the FSx for ONTAP file system location that you create.
   final String? locationArn;
@@ -3943,6 +3951,7 @@ class CreateLocationFsxOntapResponse {
   }
 }
 
+/// @nodoc
 class CreateLocationFsxOpenZfsResponse {
   /// The ARN of the FSx for OpenZFS file system location that you created.
   final String? locationArn;
@@ -3965,6 +3974,7 @@ class CreateLocationFsxOpenZfsResponse {
   }
 }
 
+/// @nodoc
 class CreateLocationFsxWindowsResponse {
   /// The ARN of the FSx for Windows File Server file system location you created.
   final String? locationArn;
@@ -3987,6 +3997,7 @@ class CreateLocationFsxWindowsResponse {
   }
 }
 
+/// @nodoc
 class CreateLocationHdfsResponse {
   /// The ARN of the source HDFS cluster location that you create.
   final String? locationArn;
@@ -4010,6 +4021,8 @@ class CreateLocationHdfsResponse {
 }
 
 /// CreateLocationNfsResponse
+///
+/// @nodoc
 class CreateLocationNfsResponse {
   /// The ARN of the transfer location that you created for your NFS file server.
   final String? locationArn;
@@ -4033,6 +4046,8 @@ class CreateLocationNfsResponse {
 }
 
 /// CreateLocationObjectStorageResponse
+///
+/// @nodoc
 class CreateLocationObjectStorageResponse {
   /// Specifies the ARN of the object storage system location that you create.
   final String? locationArn;
@@ -4057,6 +4072,8 @@ class CreateLocationObjectStorageResponse {
 }
 
 /// CreateLocationS3Response
+///
+/// @nodoc
 class CreateLocationS3Response {
   /// The ARN of the S3 location that you created.
   final String? locationArn;
@@ -4080,6 +4097,8 @@ class CreateLocationS3Response {
 }
 
 /// CreateLocationSmbResponse
+///
+/// @nodoc
 class CreateLocationSmbResponse {
   /// The ARN of the SMB location that you created.
   final String? locationArn;
@@ -4103,6 +4122,8 @@ class CreateLocationSmbResponse {
 }
 
 /// CreateTaskResponse
+///
+/// @nodoc
 class CreateTaskResponse {
   /// The Amazon Resource Name (ARN) of the task.
   final String? taskArn;
@@ -4125,6 +4146,7 @@ class CreateTaskResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentResponse {
   DeleteAgentResponse();
 
@@ -4137,6 +4159,7 @@ class DeleteAgentResponse {
   }
 }
 
+/// @nodoc
 class DeleteLocationResponse {
   DeleteLocationResponse();
 
@@ -4149,6 +4172,7 @@ class DeleteLocationResponse {
   }
 }
 
+/// @nodoc
 class DeleteTaskResponse {
   DeleteTaskResponse();
 
@@ -4162,6 +4186,8 @@ class DeleteTaskResponse {
 }
 
 /// DescribeAgentResponse
+///
+/// @nodoc
 class DescribeAgentResponse {
   /// The ARN of the agent.
   final String? agentArn;
@@ -4260,6 +4286,7 @@ class DescribeAgentResponse {
   }
 }
 
+/// @nodoc
 class DescribeLocationAzureBlobResponse {
   /// The access tier that you want your objects or files transferred into. This
   /// only applies when using the location as a transfer destination. For more
@@ -4383,6 +4410,8 @@ class DescribeLocationAzureBlobResponse {
 }
 
 /// DescribeLocationEfsResponse
+///
+/// @nodoc
 class DescribeLocationEfsResponse {
   /// The ARN of the access point that DataSync uses to access the Amazon EFS file
   /// system.
@@ -4462,6 +4491,7 @@ class DescribeLocationEfsResponse {
   }
 }
 
+/// @nodoc
 class DescribeLocationFsxLustreResponse {
   /// The time that the FSx for Lustre location was created.
   final DateTime? creationTime;
@@ -4512,6 +4542,7 @@ class DescribeLocationFsxLustreResponse {
   }
 }
 
+/// @nodoc
 class DescribeLocationFsxOntapResponse {
   /// The time that the location was created.
   final DateTime? creationTime;
@@ -4584,6 +4615,7 @@ class DescribeLocationFsxOntapResponse {
   }
 }
 
+/// @nodoc
 class DescribeLocationFsxOpenZfsResponse {
   /// The time that the FSx for OpenZFS location was created.
   final DateTime? creationTime;
@@ -4646,6 +4678,7 @@ class DescribeLocationFsxOpenZfsResponse {
   }
 }
 
+/// @nodoc
 class DescribeLocationFsxWindowsResponse {
   /// Describes configuration information for a DataSync-managed secret, such as a
   /// <code>Password</code> that DataSync uses to access a specific storage
@@ -4756,6 +4789,7 @@ class DescribeLocationFsxWindowsResponse {
   }
 }
 
+/// @nodoc
 class DescribeLocationHdfsResponse {
   /// The ARNs of the DataSync agents that can connect with your HDFS cluster.
   final List<String>? agentArns;
@@ -4914,6 +4948,8 @@ class DescribeLocationHdfsResponse {
 }
 
 /// DescribeLocationNfsResponse
+///
+/// @nodoc
 class DescribeLocationNfsResponse {
   /// The time when the NFS location was created.
   final DateTime? creationTime;
@@ -4969,6 +5005,8 @@ class DescribeLocationNfsResponse {
 }
 
 /// DescribeLocationObjectStorageResponse
+///
+/// @nodoc
 class DescribeLocationObjectStorageResponse {
   /// The access key (for example, a user name) required to authenticate with the
   /// object storage system.
@@ -5093,6 +5131,8 @@ class DescribeLocationObjectStorageResponse {
 }
 
 /// DescribeLocationS3Response
+///
+/// @nodoc
 class DescribeLocationS3Response {
   /// The ARNs of the DataSync agents deployed on your Outpost when using working
   /// with Amazon S3 on Outposts.
@@ -5167,6 +5207,8 @@ class DescribeLocationS3Response {
 }
 
 /// DescribeLocationSmbResponse
+///
+/// @nodoc
 class DescribeLocationSmbResponse {
   /// The ARNs of the DataSync agents that can connect with your SMB file server.
   final List<String>? agentArns;
@@ -5312,6 +5354,8 @@ class DescribeLocationSmbResponse {
 }
 
 /// DescribeTaskResponse
+///
+/// @nodoc
 class DescribeTaskResponse {
   /// The Amazon Resource Name (ARN) of an Amazon CloudWatch log group for
   /// monitoring your task.
@@ -5542,6 +5586,8 @@ class DescribeTaskResponse {
 }
 
 /// DescribeTaskExecutionResponse
+///
+/// @nodoc
 class DescribeTaskExecutionResponse {
   /// The number of physical bytes that DataSync transfers over the network after
   /// compression (if compression is possible). This number is typically less than
@@ -6095,6 +6141,8 @@ class DescribeTaskExecutionResponse {
 }
 
 /// ListAgentsResponse
+///
+/// @nodoc
 class ListAgentsResponse {
   /// A list of DataSync agents in your Amazon Web Services account in the Amazon
   /// Web Services Region specified in the request. The list is ordered by the
@@ -6131,6 +6179,8 @@ class ListAgentsResponse {
 }
 
 /// ListLocationsResponse
+///
+/// @nodoc
 class ListLocationsResponse {
   /// An array that contains a list of locations.
   final List<LocationListEntry>? locations;
@@ -6165,6 +6215,8 @@ class ListLocationsResponse {
 }
 
 /// ListTagsForResourceResponse
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The opaque string that indicates the position to begin the next list of
   /// results in the response.
@@ -6199,6 +6251,8 @@ class ListTagsForResourceResponse {
 }
 
 /// ListTaskExecutionsResponse
+///
+/// @nodoc
 class ListTaskExecutionsResponse {
   /// The opaque string that indicates the position to begin the next list of
   /// results in the response.
@@ -6234,6 +6288,8 @@ class ListTaskExecutionsResponse {
 }
 
 /// ListTasksResponse
+///
+/// @nodoc
 class ListTasksResponse {
   /// An opaque string that indicates the position at which to begin returning the
   /// next list of tasks.
@@ -6268,6 +6324,8 @@ class ListTasksResponse {
 }
 
 /// StartTaskExecutionResponse
+///
+/// @nodoc
 class StartTaskExecutionResponse {
   /// The ARN of the running task execution.
   final String? taskExecutionArn;
@@ -6290,6 +6348,7 @@ class StartTaskExecutionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6302,6 +6361,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6314,6 +6374,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentResponse {
   UpdateAgentResponse();
 
@@ -6326,6 +6387,7 @@ class UpdateAgentResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationAzureBlobResponse {
   UpdateLocationAzureBlobResponse();
 
@@ -6338,6 +6400,7 @@ class UpdateLocationAzureBlobResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationEfsResponse {
   UpdateLocationEfsResponse();
 
@@ -6350,6 +6413,7 @@ class UpdateLocationEfsResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationFsxLustreResponse {
   UpdateLocationFsxLustreResponse();
 
@@ -6362,6 +6426,7 @@ class UpdateLocationFsxLustreResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationFsxOntapResponse {
   UpdateLocationFsxOntapResponse();
 
@@ -6374,6 +6439,7 @@ class UpdateLocationFsxOntapResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationFsxOpenZfsResponse {
   UpdateLocationFsxOpenZfsResponse();
 
@@ -6386,6 +6452,7 @@ class UpdateLocationFsxOpenZfsResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationFsxWindowsResponse {
   UpdateLocationFsxWindowsResponse();
 
@@ -6398,6 +6465,7 @@ class UpdateLocationFsxWindowsResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationHdfsResponse {
   UpdateLocationHdfsResponse();
 
@@ -6410,6 +6478,7 @@ class UpdateLocationHdfsResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationNfsResponse {
   UpdateLocationNfsResponse();
 
@@ -6422,6 +6491,7 @@ class UpdateLocationNfsResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationObjectStorageResponse {
   UpdateLocationObjectStorageResponse();
 
@@ -6434,6 +6504,7 @@ class UpdateLocationObjectStorageResponse {
   }
 }
 
+/// @nodoc
 class UpdateLocationS3Response {
   UpdateLocationS3Response();
 
@@ -6446,6 +6517,7 @@ class UpdateLocationS3Response {
   }
 }
 
+/// @nodoc
 class UpdateLocationSmbResponse {
   UpdateLocationSmbResponse();
 
@@ -6458,6 +6530,7 @@ class UpdateLocationSmbResponse {
   }
 }
 
+/// @nodoc
 class UpdateTaskResponse {
   UpdateTaskResponse();
 
@@ -6470,6 +6543,7 @@ class UpdateTaskResponse {
   }
 }
 
+/// @nodoc
 class UpdateTaskExecutionResponse {
   UpdateTaskExecutionResponse();
 
@@ -6494,6 +6568,8 @@ class UpdateTaskExecutionResponse {
 /// You also can override your task options for each task execution. For
 /// example, you might want to adjust the <code>LogLevel</code> for an
 /// individual execution.
+///
+/// @nodoc
 class Options {
   /// Specifies whether to preserve metadata indicating the last time a file was
   /// read or written to.
@@ -6906,6 +6982,7 @@ class Options {
   }
 }
 
+/// @nodoc
 class VerifyMode {
   static const pointInTimeConsistent = VerifyMode._('POINT_IN_TIME_CONSISTENT');
   static const onlyFilesTransferred = VerifyMode._('ONLY_FILES_TRANSFERRED');
@@ -6930,6 +7007,7 @@ class VerifyMode {
   String toString() => value;
 }
 
+/// @nodoc
 class OverwriteMode {
   static const always = OverwriteMode._('ALWAYS');
   static const never = OverwriteMode._('NEVER');
@@ -6954,6 +7032,7 @@ class OverwriteMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Atime {
   static const none = Atime._('NONE');
   static const bestEffort = Atime._('BEST_EFFORT');
@@ -6977,6 +7056,7 @@ class Atime {
   String toString() => value;
 }
 
+/// @nodoc
 class Mtime {
   static const none = Mtime._('NONE');
   static const preserve = Mtime._('PRESERVE');
@@ -7000,6 +7080,7 @@ class Mtime {
   String toString() => value;
 }
 
+/// @nodoc
 class Uid {
   static const none = Uid._('NONE');
   static const intValue = Uid._('INT_VALUE');
@@ -7025,6 +7106,7 @@ class Uid {
   String toString() => value;
 }
 
+/// @nodoc
 class Gid {
   static const none = Gid._('NONE');
   static const intValue = Gid._('INT_VALUE');
@@ -7050,6 +7132,7 @@ class Gid {
   String toString() => value;
 }
 
+/// @nodoc
 class PreserveDeletedFiles {
   static const preserve = PreserveDeletedFiles._('PRESERVE');
   static const remove = PreserveDeletedFiles._('REMOVE');
@@ -7075,6 +7158,7 @@ class PreserveDeletedFiles {
   String toString() => value;
 }
 
+/// @nodoc
 class PreserveDevices {
   static const none = PreserveDevices._('NONE');
   static const preserve = PreserveDevices._('PRESERVE');
@@ -7099,6 +7183,7 @@ class PreserveDevices {
   String toString() => value;
 }
 
+/// @nodoc
 class PosixPermissions {
   static const none = PosixPermissions._('NONE');
   static const preserve = PosixPermissions._('PRESERVE');
@@ -7123,6 +7208,7 @@ class PosixPermissions {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskQueueing {
   static const enabled = TaskQueueing._('ENABLED');
   static const disabled = TaskQueueing._('DISABLED');
@@ -7146,6 +7232,7 @@ class TaskQueueing {
   String toString() => value;
 }
 
+/// @nodoc
 class LogLevel {
   static const off = LogLevel._('OFF');
   static const basic = LogLevel._('BASIC');
@@ -7170,6 +7257,7 @@ class LogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class TransferMode {
   static const changed = TransferMode._('CHANGED');
   static const all = TransferMode._('ALL');
@@ -7193,6 +7281,7 @@ class TransferMode {
   String toString() => value;
 }
 
+/// @nodoc
 class SmbSecurityDescriptorCopyFlags {
   static const none = SmbSecurityDescriptorCopyFlags._('NONE');
   static const ownerDacl = SmbSecurityDescriptorCopyFlags._('OWNER_DACL');
@@ -7220,6 +7309,7 @@ class SmbSecurityDescriptorCopyFlags {
   String toString() => value;
 }
 
+/// @nodoc
 class ObjectTags {
   static const preserve = ObjectTags._('PRESERVE');
   static const none = ObjectTags._('NONE');
@@ -7246,6 +7336,8 @@ class ObjectTags {
 /// Configures your DataSync task to run on a <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html">schedule</a>
 /// (at a minimum interval of 1 hour).
+///
+/// @nodoc
 class TaskSchedule {
   /// Specifies your task schedule by using a cron or rate expression.
   ///
@@ -7303,6 +7395,8 @@ class TaskSchedule {
 /// <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
 /// what DataSync transfers by using a manifest</a>.
+///
+/// @nodoc
 class ManifestConfig {
   /// Specifies what DataSync uses the manifest for.
   final ManifestAction? action;
@@ -7361,6 +7455,8 @@ class ManifestConfig {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">Task
 /// reports</a>.
+///
+/// @nodoc
 class TaskReportConfig {
   /// Specifies the Amazon S3 bucket where DataSync uploads your task report. For
   /// more information, see <a
@@ -7457,6 +7553,8 @@ class TaskReportConfig {
 /// Specifies where DataSync uploads your <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
 /// report</a>.
+///
+/// @nodoc
 class ReportDestination {
   /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
   final ReportDestinationS3? s3;
@@ -7481,6 +7579,7 @@ class ReportDestination {
   }
 }
 
+/// @nodoc
 class ReportOutputType {
   static const summaryOnly = ReportOutputType._('SUMMARY_ONLY');
   static const standard = ReportOutputType._('STANDARD');
@@ -7505,6 +7604,7 @@ class ReportOutputType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportLevel {
   static const errorsOnly = ReportLevel._('ERRORS_ONLY');
   static const successesAndErrors = ReportLevel._('SUCCESSES_AND_ERRORS');
@@ -7528,6 +7628,7 @@ class ReportLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class ObjectVersionIds {
   static const include = ObjectVersionIds._('INCLUDE');
   static const none = ObjectVersionIds._('NONE');
@@ -7555,6 +7656,8 @@ class ObjectVersionIds {
 /// The level of detail included in each aspect of your DataSync <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
 /// report</a>.
+///
+/// @nodoc
 class ReportOverrides {
   /// Specifies the level of reporting for the files, objects, and directories
   /// that DataSync attempted to delete in your destination location. This only
@@ -7616,6 +7719,8 @@ class ReportOverrides {
 /// Specifies the level of detail for a particular aspect of your DataSync <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
 /// report</a>.
+///
+/// @nodoc
 class ReportOverride {
   /// Specifies whether your task report includes errors only or successes and
   /// errors.
@@ -7651,6 +7756,8 @@ class ReportOverride {
 /// Specifies the Amazon S3 bucket where DataSync uploads your <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
 /// report</a>.
+///
+/// @nodoc
 class ReportDestinationS3 {
   /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows
   /// DataSync to upload a task report to your S3 bucket. For more information,
@@ -7691,6 +7798,7 @@ class ReportDestinationS3 {
   }
 }
 
+/// @nodoc
 class ManifestAction {
   static const transfer = ManifestAction._('TRANSFER');
 
@@ -7714,6 +7822,7 @@ class ManifestAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ManifestFormat {
   static const csv = ManifestFormat._('CSV');
 
@@ -7741,6 +7850,8 @@ class ManifestFormat {
 /// For more information and configuration examples, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
 /// what DataSync transfers by using a manifest</a>.
+///
+/// @nodoc
 class SourceManifestConfig {
   /// Specifies the S3 bucket where you're hosting your manifest.
   final S3ManifestConfig s3;
@@ -7768,6 +7879,8 @@ class SourceManifestConfig {
 /// DataSync to use. For more information and configuration examples, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
 /// what DataSync transfers by using a manifest</a>.
+///
+/// @nodoc
 class S3ManifestConfig {
   /// Specifies the Identity and Access Management (IAM) role that allows DataSync
   /// to access your manifest. For more information, see <a
@@ -7818,6 +7931,7 @@ class S3ManifestConfig {
   }
 }
 
+/// @nodoc
 class ScheduleStatus {
   static const enabled = ScheduleStatus._('ENABLED');
   static const disabled = ScheduleStatus._('DISABLED');
@@ -7844,6 +7958,8 @@ class ScheduleStatus {
 
 /// Specifies which files, folders, and objects to include or exclude when
 /// transferring files from source to destination.
+///
+/// @nodoc
 class FilterRule {
   /// The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN
   /// rule type.
@@ -7878,6 +7994,7 @@ class FilterRule {
   }
 }
 
+/// @nodoc
 class FilterType {
   static const simplePattern = FilterType._('SIMPLE_PATTERN');
 
@@ -7910,6 +8027,8 @@ class FilterType {
 /// <code>CreateLocation</code> request. Do not provide both parameters for the
 /// same request.
 /// </note>
+///
+/// @nodoc
 class CmkSecretConfig {
   /// Specifies the ARN for the customer-managed KMS key that DataSync uses to
   /// encrypt the DataSync-managed secret stored for <code>SecretArn</code>.
@@ -7955,6 +8074,8 @@ class CmkSecretConfig {
 /// <code>CreateLocation</code> request. Do not provide both parameters for the
 /// same request.
 /// </note>
+///
+/// @nodoc
 class CustomSecretConfig {
   /// Specifies the ARN for the Identity and Access Management role that DataSync
   /// uses to access the secret specified for <code>SecretArn</code>.
@@ -7988,6 +8109,8 @@ class CustomSecretConfig {
 
 /// Specifies the version of the Server Message Block (SMB) protocol that
 /// DataSync uses to access an SMB file server.
+///
+/// @nodoc
 class SmbMountOptions {
   /// By default, DataSync automatically chooses an SMB protocol version based on
   /// negotiation with your SMB file server. You also can configure DataSync to
@@ -8046,6 +8169,7 @@ class SmbMountOptions {
   }
 }
 
+/// @nodoc
 class SmbAuthenticationType {
   static const ntlm = SmbAuthenticationType._('NTLM');
   static const kerberos = SmbAuthenticationType._('KERBEROS');
@@ -8071,6 +8195,7 @@ class SmbAuthenticationType {
   String toString() => value;
 }
 
+/// @nodoc
 class SmbVersion {
   static const automatic = SmbVersion._('AUTOMATIC');
   static const smb2 = SmbVersion._('SMB2');
@@ -8097,6 +8222,7 @@ class SmbVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class S3StorageClass {
   static const standard = S3StorageClass._('STANDARD');
   static const standardIa = S3StorageClass._('STANDARD_IA');
@@ -8143,6 +8269,8 @@ class S3StorageClass {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access">Providing
 /// DataSync access to S3 buckets</a>.
+///
+/// @nodoc
 class S3Config {
   /// Specifies the ARN of the IAM role that DataSync uses to access your S3
   /// bucket.
@@ -8166,6 +8294,7 @@ class S3Config {
   }
 }
 
+/// @nodoc
 class ObjectStorageServerProtocol {
   static const https = ObjectStorageServerProtocol._('HTTPS');
   static const http = ObjectStorageServerProtocol._('HTTP');
@@ -8193,6 +8322,8 @@ class ObjectStorageServerProtocol {
 
 /// The DataSync agents that can connect to your Network File System (NFS) file
 /// server.
+///
+/// @nodoc
 class OnPremConfig {
   /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to
   /// your NFS file server.
@@ -8224,6 +8355,8 @@ class OnPremConfig {
 }
 
 /// Specifies how DataSync can access a location using the NFS protocol.
+///
+/// @nodoc
 class NfsMountOptions {
   /// Specifies the NFS version that you want DataSync to use when mounting your
   /// NFS share. If the server refuses to use the version specified, the task
@@ -8272,6 +8405,7 @@ class NfsMountOptions {
   }
 }
 
+/// @nodoc
 class NfsVersion {
   static const automatic = NfsVersion._('AUTOMATIC');
   static const nfs3 = NfsVersion._('NFS3');
@@ -8300,6 +8434,8 @@ class NfsVersion {
 /// The Quality of Protection (QOP) configuration specifies the Remote Procedure
 /// Call (RPC) and data transfer privacy settings configured on the Hadoop
 /// Distributed File System (HDFS) cluster.
+///
+/// @nodoc
 class QopConfiguration {
   /// The data transfer protection setting configured on the HDFS cluster. This
   /// setting corresponds to your <code>dfs.data.transfer.protection</code>
@@ -8336,6 +8472,7 @@ class QopConfiguration {
   }
 }
 
+/// @nodoc
 class HdfsAuthenticationType {
   static const simple = HdfsAuthenticationType._('SIMPLE');
   static const kerberos = HdfsAuthenticationType._('KERBEROS');
@@ -8361,6 +8498,7 @@ class HdfsAuthenticationType {
   String toString() => value;
 }
 
+/// @nodoc
 class HdfsRpcProtection {
   static const disabled = HdfsRpcProtection._('DISABLED');
   static const authentication = HdfsRpcProtection._('AUTHENTICATION');
@@ -8387,6 +8525,7 @@ class HdfsRpcProtection {
   String toString() => value;
 }
 
+/// @nodoc
 class HdfsDataTransferProtection {
   static const disabled = HdfsDataTransferProtection._('DISABLED');
   static const authentication = HdfsDataTransferProtection._('AUTHENTICATION');
@@ -8418,6 +8557,8 @@ class HdfsDataTransferProtection {
 /// manages the file system's namespace. The NameNode performs operations such
 /// as opening, closing, and renaming files and directories. The NameNode
 /// contains the information to map blocks of data to the DataNodes.
+///
+/// @nodoc
 class HdfsNameNode {
   /// The hostname of the NameNode in the HDFS cluster. This value is the IP
   /// address or Domain Name Service (DNS) name of the NameNode. An agent that's
@@ -8452,6 +8593,8 @@ class HdfsNameNode {
 
 /// Specifies the data transfer protocol that DataSync uses to access your
 /// Amazon FSx file system.
+///
+/// @nodoc
 class FsxProtocol {
   /// Specifies the Network File System (NFS) protocol configuration that DataSync
   /// uses to access your FSx for OpenZFS file system or FSx for ONTAP file
@@ -8491,6 +8634,8 @@ class FsxProtocol {
 /// Specifies the Network File System (NFS) protocol configuration that DataSync
 /// uses to access your FSx for OpenZFS file system or FSx for ONTAP file
 /// system's storage virtual machine (SVM).
+///
+/// @nodoc
 class FsxProtocolNfs {
   final NfsMountOptions? mountOptions;
 
@@ -8520,6 +8665,8 @@ class FsxProtocolNfs {
 /// storage virtual machine (SVM). For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access">Providing
 /// DataSync access to FSx for ONTAP file systems</a>.
+///
+/// @nodoc
 class FsxProtocolSmb {
   /// Specifies a user that can mount and access the files, folders, and metadata
   /// in your SVM.
@@ -8652,6 +8799,8 @@ class FsxProtocolSmb {
 /// an authentication token or set of credentials that DataSync uses to access a
 /// specific transfer location. DataSync uses the default Amazon Web
 /// Services-managed KMS key to encrypt this secret in Secrets Manager.
+///
+/// @nodoc
 class ManagedSecretConfig {
   /// Specifies the ARN for an Secrets Manager secret.
   final String? secretArn;
@@ -8681,6 +8830,8 @@ class ManagedSecretConfig {
 /// FSx for ONTAP locations. DataSync currently only supports NFS version 3 with
 /// this location type.
 /// </note>
+///
+/// @nodoc
 class FsxUpdateProtocol {
   final FsxProtocolNfs? nfs;
 
@@ -8709,6 +8860,8 @@ class FsxUpdateProtocol {
 /// storage virtual machine (SVM). For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access">Providing
 /// DataSync access to FSx for ONTAP file systems</a>.
+///
+/// @nodoc
 class FsxUpdateProtocolSmb {
   /// Specifies configuration information for a DataSync-managed secret, such as a
   /// <code>Password</code> or set of credentials that DataSync uses to access a
@@ -8769,6 +8922,7 @@ class FsxUpdateProtocolSmb {
   }
 }
 
+/// @nodoc
 class EfsInTransitEncryption {
   static const none = EfsInTransitEncryption._('NONE');
   static const tls1_2 = EfsInTransitEncryption._('TLS1_2');
@@ -8794,6 +8948,7 @@ class EfsInTransitEncryption {
   String toString() => value;
 }
 
+/// @nodoc
 class AzureBlobAuthenticationType {
   static const sas = AzureBlobAuthenticationType._('SAS');
   static const none = AzureBlobAuthenticationType._('NONE');
@@ -8825,6 +8980,8 @@ class AzureBlobAuthenticationType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-sas-tokens">SAS
 /// tokens</a> for accessing your Azure Blob Storage.
+///
+/// @nodoc
 class AzureBlobSasConfiguration {
   /// Specifies a SAS token that provides permissions to access your Azure Blob
   /// Storage.
@@ -8847,6 +9004,7 @@ class AzureBlobSasConfiguration {
   }
 }
 
+/// @nodoc
 class AzureBlobType {
   static const block = AzureBlobType._('BLOCK');
 
@@ -8870,6 +9028,7 @@ class AzureBlobType {
   String toString() => value;
 }
 
+/// @nodoc
 class AzureAccessTier {
   static const hot = AzureAccessTier._('HOT');
   static const cool = AzureAccessTier._('COOL');
@@ -8897,6 +9056,8 @@ class AzureAccessTier {
 
 /// A key-value pair representing a single tag that's been applied to an Amazon
 /// Web Services resource.
+///
+/// @nodoc
 class TagListEntry {
   /// The key for an Amazon Web Services resource tag.
   final String key;
@@ -8931,6 +9092,8 @@ class TagListEntry {
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTasks.html">ListTasks</a>
 /// operation is called. A task includes the source and destination file systems
 /// to sync and the options to use for the tasks.
+///
+/// @nodoc
 class TaskListEntry {
   /// The name of the task.
   final String? name;
@@ -8976,6 +9139,7 @@ class TaskListEntry {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const available = TaskStatus._('AVAILABLE');
   static const creating = TaskStatus._('CREATING');
@@ -9002,6 +9166,7 @@ class TaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskMode {
   static const basic = TaskMode._('BASIC');
   static const enhanced = TaskMode._('ENHANCED');
@@ -9034,6 +9199,8 @@ class TaskMode {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html">filtering
 /// DataSync resources</a>.
+///
+/// @nodoc
 class TaskFilter {
   /// The name of the filter being used. Each API call supports a list of filters
   /// that are available for it. For example, <code>LocationId</code> for
@@ -9066,6 +9233,7 @@ class TaskFilter {
   }
 }
 
+/// @nodoc
 class TaskFilterName {
   static const locationId = TaskFilterName._('LocationId');
   static const creationTime = TaskFilterName._('CreationTime');
@@ -9090,6 +9258,7 @@ class TaskFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class Operator {
   static const equals = Operator._('Equals');
   static const notEquals = Operator._('NotEquals');
@@ -9136,6 +9305,8 @@ class Operator {
 /// returned with the <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html">ListTaskExecutions</a>
 /// operation.
+///
+/// @nodoc
 class TaskExecutionListEntry {
   /// The status of a task execution. For more information, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
@@ -9176,6 +9347,7 @@ class TaskExecutionListEntry {
   }
 }
 
+/// @nodoc
 class TaskExecutionStatus {
   static const queued = TaskExecutionStatus._('QUEUED');
   static const cancelling = TaskExecutionStatus._('CANCELLING');
@@ -9221,6 +9393,8 @@ class TaskExecutionStatus {
 /// locations when the <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html">ListLocations</a>
 /// operation is called.
+///
+/// @nodoc
 class LocationListEntry {
   /// The Amazon Resource Name (ARN) of the location. For Network File System
   /// (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the
@@ -9282,6 +9456,8 @@ class LocationListEntry {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html">filtering
 /// resources</a>.
+///
+/// @nodoc
 class LocationFilter {
   /// The name of the filter being used. Each API call supports a list of filters
   /// that are available for it (for example, <code>LocationType</code> for
@@ -9314,6 +9490,7 @@ class LocationFilter {
   }
 }
 
+/// @nodoc
 class LocationFilterName {
   static const locationUri = LocationFilterName._('LocationUri');
   static const locationType = LocationFilterName._('LocationType');
@@ -9344,6 +9521,8 @@ class LocationFilterName {
 /// call the <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html">ListAgents</a>
 /// operation.
+///
+/// @nodoc
 class AgentListEntry {
   /// The Amazon Resource Name (ARN) of a DataSync agent.
   final String? agentArn;
@@ -9403,6 +9582,7 @@ class AgentListEntry {
   }
 }
 
+/// @nodoc
 class AgentStatus {
   static const online = AgentStatus._('ONLINE');
   static const offline = AgentStatus._('OFFLINE');
@@ -9428,6 +9608,8 @@ class AgentStatus {
 
 /// The platform-related details about the DataSync agent, such as the version
 /// number.
+///
+/// @nodoc
 class Platform {
   /// The version of the DataSync agent.
   final String? version;
@@ -9452,6 +9634,8 @@ class Platform {
 
 /// Provides detailed information about the result of your DataSync task
 /// execution.
+///
+/// @nodoc
 class TaskExecutionResultDetail {
   /// An error that DataSync encountered during your task execution. You can use
   /// this information to help <a
@@ -9575,6 +9759,8 @@ class TaskExecutionResultDetail {
 /// Indicates whether DataSync created a complete <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
 /// report</a> for your transfer.
+///
+/// @nodoc
 class ReportResult {
   /// Indicates the code associated with the error if DataSync can't create a
   /// complete report.
@@ -9619,6 +9805,8 @@ class ReportResult {
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
 /// mode tasks</a>.
 /// </note>
+///
+/// @nodoc
 class TaskExecutionFilesListedDetail {
   /// The number of files or objects that DataSync finds at your destination
   /// location. This counter is only applicable if you <a
@@ -9677,6 +9865,8 @@ class TaskExecutionFilesListedDetail {
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
 /// mode tasks</a>.
 /// </note>
+///
+/// @nodoc
 class TaskExecutionFilesFailedDetail {
   /// The number of files or objects that DataSync fails to delete during your
   /// task execution.
@@ -9730,6 +9920,8 @@ class TaskExecutionFilesFailedDetail {
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
 /// mode tasks</a>.
 /// </note>
+///
+/// @nodoc
 class TaskExecutionFoldersListedDetail {
   /// The number of directories that DataSync finds at your destination location.
   /// This counter is only applicable if you <a
@@ -9788,6 +9980,8 @@ class TaskExecutionFoldersListedDetail {
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
 /// mode tasks</a>.
 /// </note>
+///
+/// @nodoc
 class TaskExecutionFoldersFailedDetail {
   /// The number of directories that DataSync fails to delete during your task
   /// execution.
@@ -9843,6 +10037,7 @@ class TaskExecutionFoldersFailedDetail {
   }
 }
 
+/// @nodoc
 class PhaseStatus {
   static const pending = PhaseStatus._('PENDING');
   static const success = PhaseStatus._('SUCCESS');
@@ -9870,6 +10065,8 @@ class PhaseStatus {
 /// Provides information about your DataSync <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html">task
 /// schedule</a>.
+///
+/// @nodoc
 class TaskScheduleDetails {
   /// Indicates how your task schedule was disabled.
   ///
@@ -9931,6 +10128,7 @@ class TaskScheduleDetails {
   }
 }
 
+/// @nodoc
 class ScheduleDisabledBy {
   static const user = ScheduleDisabledBy._('USER');
   static const service = ScheduleDisabledBy._('SERVICE');
@@ -9960,6 +10158,8 @@ class ScheduleDisabledBy {
 /// Amazon EFS file system's <a
 /// href="https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html">mount
 /// targets</a>.
+///
+/// @nodoc
 class Ec2Config {
   /// Specifies the Amazon Resource Names (ARNs) of the security groups associated
   /// with an Amazon EFS file system's mount target.
@@ -10009,6 +10209,7 @@ class Ec2Config {
   }
 }
 
+/// @nodoc
 class EndpointType {
   static const public = EndpointType._('PUBLIC');
   static const privateLink = EndpointType._('PRIVATE_LINK');
@@ -10038,6 +10239,8 @@ class EndpointType {
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc">virtual
 /// private cloud (VPC) service endpoint</a>. An agent that uses a VPC endpoint
 /// isn't accessible over the public internet.
+///
+/// @nodoc
 class PrivateLinkConfig {
   /// Specifies the VPC endpoint provided by <a
   /// href="https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html">Amazon
@@ -10092,11 +10295,13 @@ class PrivateLinkConfig {
   }
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);

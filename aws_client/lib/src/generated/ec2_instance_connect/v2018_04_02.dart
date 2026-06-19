@@ -183,6 +183,7 @@ class Ec2InstanceConnect {
   }
 }
 
+/// @nodoc
 class SendSerialConsoleSSHPublicKeyResponse {
   /// The ID of the request. Please provide this ID when contacting AWS Support
   /// for assistance.
@@ -214,6 +215,7 @@ class SendSerialConsoleSSHPublicKeyResponse {
   }
 }
 
+/// @nodoc
 class SendSSHPublicKeyResponse {
   /// The ID of the request. Please provide this ID when contacting AWS Support
   /// for assistance.
@@ -244,17 +246,20 @@ class SendSSHPublicKeyResponse {
   }
 }
 
+/// @nodoc
 class AuthException extends _s.GenericAwsException {
   AuthException({String? type, String? message})
       : super(type: type, code: 'AuthException', message: message);
 }
 
+/// @nodoc
 class EC2InstanceNotFoundException extends _s.GenericAwsException {
   EC2InstanceNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'EC2InstanceNotFoundException', message: message);
 }
 
+/// @nodoc
 class EC2InstanceStateInvalidException extends _s.GenericAwsException {
   EC2InstanceStateInvalidException({String? type, String? message})
       : super(
@@ -263,6 +268,7 @@ class EC2InstanceStateInvalidException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EC2InstanceTypeInvalidException extends _s.GenericAwsException {
   EC2InstanceTypeInvalidException({String? type, String? message})
       : super(
@@ -271,6 +277,7 @@ class EC2InstanceTypeInvalidException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EC2InstanceUnavailableException extends _s.GenericAwsException {
   EC2InstanceUnavailableException({String? type, String? message})
       : super(
@@ -279,11 +286,13 @@ class EC2InstanceUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgsException extends _s.GenericAwsException {
   InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
 }
 
+/// @nodoc
 class SerialConsoleAccessDisabledException extends _s.GenericAwsException {
   SerialConsoleAccessDisabledException({String? type, String? message})
       : super(
@@ -292,6 +301,7 @@ class SerialConsoleAccessDisabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SerialConsoleSessionLimitExceededException
     extends _s.GenericAwsException {
   SerialConsoleSessionLimitExceededException({String? type, String? message})
@@ -301,6 +311,7 @@ class SerialConsoleSessionLimitExceededException
             message: message);
 }
 
+/// @nodoc
 class SerialConsoleSessionUnavailableException extends _s.GenericAwsException {
   SerialConsoleSessionUnavailableException({String? type, String? message})
       : super(
@@ -309,6 +320,7 @@ class SerialConsoleSessionUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SerialConsoleSessionUnsupportedException extends _s.GenericAwsException {
   SerialConsoleSessionUnsupportedException({String? type, String? message})
       : super(
@@ -317,11 +329,13 @@ class SerialConsoleSessionUnsupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

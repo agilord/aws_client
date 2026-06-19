@@ -3058,6 +3058,7 @@ class VpcLattice {
   }
 }
 
+/// @nodoc
 class BatchUpdateRuleResponse {
   /// The rules that were successfully updated.
   final List<RuleUpdateSuccess>? successful;
@@ -3093,6 +3094,7 @@ class BatchUpdateRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteAuthPolicyResponse {
   DeleteAuthPolicyResponse();
 
@@ -3105,6 +3107,7 @@ class DeleteAuthPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -3117,6 +3120,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetAuthPolicyResponse {
   /// The date and time that the auth policy was created, in ISO-8601 format.
   final DateTime? createdAt;
@@ -3166,6 +3170,7 @@ class GetAuthPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// An IAM policy.
   final String? policy;
@@ -3188,6 +3193,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListServiceNetworkVpcEndpointAssociationsResponse {
   /// Information about the association between the VPC endpoint and service
   /// network.
@@ -3224,6 +3230,7 @@ class ListServiceNetworkVpcEndpointAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -3247,6 +3254,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutAuthPolicyResponse {
   /// The auth policy. The policy string in JSON must not contain newlines or
   /// blank lines.
@@ -3283,6 +3291,7 @@ class PutAuthPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
 
@@ -3295,6 +3304,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3307,6 +3317,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3319,6 +3330,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessLogSubscriptionResponse {
   /// The Amazon Resource Name (ARN) of the access log subscription.
   final String arn;
@@ -3379,6 +3391,7 @@ class CreateAccessLogSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class GetAccessLogSubscriptionResponse {
   /// The Amazon Resource Name (ARN) of the access log subscription.
   final String arn;
@@ -3454,6 +3467,7 @@ class GetAccessLogSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccessLogSubscriptionResponse {
   /// The Amazon Resource Name (ARN) of the access log subscription.
   final String arn;
@@ -3505,6 +3519,7 @@ class UpdateAccessLogSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessLogSubscriptionResponse {
   DeleteAccessLogSubscriptionResponse();
 
@@ -3517,6 +3532,7 @@ class DeleteAccessLogSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class ListAccessLogSubscriptionsResponse {
   /// Information about the access log subscriptions.
   final List<AccessLogSubscriptionSummary> items;
@@ -3551,6 +3567,7 @@ class ListAccessLogSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class StartDomainVerificationResponse {
   /// The Amazon Resource Name (ARN) of the domain verification.
   final String arn;
@@ -3604,6 +3621,7 @@ class StartDomainVerificationResponse {
   }
 }
 
+/// @nodoc
 class GetDomainVerificationResponse {
   /// The Amazon Resource Name (ARN) of the domain verification.
   final String arn;
@@ -3682,6 +3700,7 @@ class GetDomainVerificationResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainVerificationResponse {
   DeleteDomainVerificationResponse();
 
@@ -3694,6 +3713,7 @@ class DeleteDomainVerificationResponse {
   }
 }
 
+/// @nodoc
 class ListDomainVerificationsResponse {
   /// Information about the domain verifications.
   final List<DomainVerificationSummary> items;
@@ -3727,6 +3747,7 @@ class ListDomainVerificationsResponse {
   }
 }
 
+/// @nodoc
 class CreateListenerResponse {
   /// The Amazon Resource Name (ARN) of the listener.
   final String? arn;
@@ -3800,6 +3821,7 @@ class CreateListenerResponse {
   }
 }
 
+/// @nodoc
 class GetListenerResponse {
   /// The Amazon Resource Name (ARN) of the listener.
   final String? arn;
@@ -3887,6 +3909,7 @@ class GetListenerResponse {
   }
 }
 
+/// @nodoc
 class UpdateListenerResponse {
   /// The Amazon Resource Name (ARN) of the listener.
   final String? arn;
@@ -3960,6 +3983,7 @@ class UpdateListenerResponse {
   }
 }
 
+/// @nodoc
 class DeleteListenerResponse {
   DeleteListenerResponse();
 
@@ -3972,6 +3996,7 @@ class DeleteListenerResponse {
   }
 }
 
+/// @nodoc
 class ListListenersResponse {
   /// Information about the listeners.
   final List<ListenerSummary> items;
@@ -4005,6 +4030,7 @@ class ListListenersResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceConfigurationResponse {
   /// Specifies whether the resource configuration can be associated with a
   /// sharable service network.
@@ -4197,6 +4223,7 @@ class CreateResourceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetResourceConfigurationResponse {
   /// Specifies whether the resource configuration is associated with a sharable
   /// service network.
@@ -4400,6 +4427,7 @@ class GetResourceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceConfigurationResponse {
   /// Indicates whether to add the resource configuration to service networks that
   /// are shared with other accounts.
@@ -4530,6 +4558,7 @@ class UpdateResourceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourceConfigurationResponse {
   DeleteResourceConfigurationResponse();
 
@@ -4542,6 +4571,7 @@ class DeleteResourceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListResourceConfigurationsResponse {
   /// Information about the resource configurations.
   final List<ResourceConfigurationSummary>? items;
@@ -4577,6 +4607,7 @@ class ListResourceConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourceEndpointAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -4632,6 +4663,7 @@ class DeleteResourceEndpointAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListResourceEndpointAssociationsResponse {
   /// Information about the VPC endpoint associations.
   final List<ResourceEndpointAssociationSummary> items;
@@ -4667,6 +4699,7 @@ class ListResourceEndpointAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceGatewayResponse {
   /// The Amazon Resource Name (ARN) of the resource gateway.
   final String? arn;
@@ -4765,6 +4798,7 @@ class CreateResourceGatewayResponse {
   }
 }
 
+/// @nodoc
 class GetResourceGatewayResponse {
   /// The Amazon Resource Name (ARN) of the resource gateway.
   final String? arn;
@@ -4892,6 +4926,7 @@ class GetResourceGatewayResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceGatewayResponse {
   /// The Amazon Resource Name (ARN) of the resource gateway.
   final String? arn;
@@ -4971,6 +5006,7 @@ class UpdateResourceGatewayResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourceGatewayResponse {
   /// The Amazon Resource Name (ARN) of the resource gateway.
   final String? arn;
@@ -5015,6 +5051,7 @@ class DeleteResourceGatewayResponse {
   }
 }
 
+/// @nodoc
 class ListResourceGatewaysResponse {
   /// Information about the resource gateways.
   final List<ResourceGatewaySummary>? items;
@@ -5049,6 +5086,7 @@ class ListResourceGatewaysResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleResponse {
   /// The rule action.
   final RuleAction? action;
@@ -5113,6 +5151,7 @@ class CreateRuleResponse {
   }
 }
 
+/// @nodoc
 class GetRuleResponse {
   /// The action for the default rule.
   final RuleAction? action;
@@ -5196,6 +5235,7 @@ class GetRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleResponse {
   /// Information about the action for the specified listener rule.
   final RuleAction? action;
@@ -5264,6 +5304,7 @@ class UpdateRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleResponse {
   DeleteRuleResponse();
 
@@ -5276,6 +5317,7 @@ class DeleteRuleResponse {
   }
 }
 
+/// @nodoc
 class ListRulesResponse {
   /// Information about the rules.
   final List<RuleSummary> items;
@@ -5309,6 +5351,7 @@ class ListRulesResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceResponse {
   /// The Amazon Resource Name (ARN) of the service.
   final String? arn;
@@ -5383,6 +5426,7 @@ class CreateServiceResponse {
   }
 }
 
+/// @nodoc
 class GetServiceResponse {
   /// The Amazon Resource Name (ARN) of the service.
   final String? arn;
@@ -5484,6 +5528,7 @@ class GetServiceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceResponse {
   /// The Amazon Resource Name (ARN) of the service.
   final String? arn;
@@ -5541,6 +5586,7 @@ class UpdateServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceResponse {
   /// The Amazon Resource Name (ARN) of the service.
   final String? arn;
@@ -5586,6 +5632,7 @@ class DeleteServiceResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// Information about the services.
   final List<ServiceSummary>? items;
@@ -5619,6 +5666,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceNetworkResponse {
   /// The Amazon Resource Name (ARN) of the service network.
   final String? arn;
@@ -5672,6 +5720,7 @@ class CreateServiceNetworkResponse {
   }
 }
 
+/// @nodoc
 class GetServiceNetworkResponse {
   /// The Amazon Resource Name (ARN) of the service network.
   final String? arn;
@@ -5755,6 +5804,7 @@ class GetServiceNetworkResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceNetworkResponse {
   /// The Amazon Resource Name (ARN) of the service network.
   final String? arn;
@@ -5798,6 +5848,7 @@ class UpdateServiceNetworkResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceNetworkResponse {
   DeleteServiceNetworkResponse();
 
@@ -5810,6 +5861,7 @@ class DeleteServiceNetworkResponse {
   }
 }
 
+/// @nodoc
 class ListServiceNetworksResponse {
   /// Information about the service networks.
   final List<ServiceNetworkSummary> items;
@@ -5843,6 +5895,7 @@ class ListServiceNetworksResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceNetworkResourceAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -5896,6 +5949,7 @@ class CreateServiceNetworkResourceAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetServiceNetworkResourceAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6063,6 +6117,7 @@ class GetServiceNetworkResourceAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceNetworkResourceAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6101,6 +6156,7 @@ class DeleteServiceNetworkResourceAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListServiceNetworkResourceAssociationsResponse {
   /// Information about the associations.
   final List<ServiceNetworkResourceAssociationSummary> items;
@@ -6136,6 +6192,7 @@ class ListServiceNetworkResourceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceNetworkServiceAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6197,6 +6254,7 @@ class CreateServiceNetworkServiceAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetServiceNetworkServiceAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6321,6 +6379,7 @@ class GetServiceNetworkServiceAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceNetworkServiceAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6361,6 +6420,7 @@ class DeleteServiceNetworkServiceAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListServiceNetworkServiceAssociationsResponse {
   /// Information about the associations.
   final List<ServiceNetworkServiceAssociationSummary> items;
@@ -6396,6 +6456,7 @@ class ListServiceNetworkServiceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceNetworkVpcAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6465,6 +6526,7 @@ class CreateServiceNetworkVpcAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetServiceNetworkVpcAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6592,6 +6654,7 @@ class GetServiceNetworkVpcAssociationResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceNetworkVpcAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6649,6 +6712,7 @@ class UpdateServiceNetworkVpcAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceNetworkVpcAssociationResponse {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -6689,6 +6753,7 @@ class DeleteServiceNetworkVpcAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListServiceNetworkVpcAssociationsResponse {
   /// Information about the associations.
   final List<ServiceNetworkVpcAssociationSummary> items;
@@ -6724,6 +6789,7 @@ class ListServiceNetworkVpcAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateTargetGroupResponse {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? arn;
@@ -6785,6 +6851,7 @@ class CreateTargetGroupResponse {
   }
 }
 
+/// @nodoc
 class GetTargetGroupResponse {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? arn;
@@ -6883,6 +6950,7 @@ class GetTargetGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateTargetGroupResponse {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? arn;
@@ -6942,6 +7010,7 @@ class UpdateTargetGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteTargetGroupResponse {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? arn;
@@ -6980,6 +7049,7 @@ class DeleteTargetGroupResponse {
   }
 }
 
+/// @nodoc
 class ListTargetGroupsResponse {
   /// Information about the target groups.
   final List<TargetGroupSummary>? items;
@@ -7013,6 +7083,7 @@ class ListTargetGroupsResponse {
   }
 }
 
+/// @nodoc
 class DeregisterTargetsResponse {
   /// The targets that were successfully deregistered.
   final List<Target>? successful;
@@ -7048,6 +7119,7 @@ class DeregisterTargetsResponse {
   }
 }
 
+/// @nodoc
 class ListTargetsResponse {
   /// Information about the targets.
   final List<TargetSummary> items;
@@ -7081,6 +7153,7 @@ class ListTargetsResponse {
   }
 }
 
+/// @nodoc
 class RegisterTargetsResponse {
   /// The targets that were successfully registered.
   final List<Target>? successful;
@@ -7117,6 +7190,8 @@ class RegisterTargetsResponse {
 }
 
 /// Describes a target failure.
+///
+/// @nodoc
 class TargetFailure {
   /// The failure code.
   final String? failureCode;
@@ -7166,6 +7241,8 @@ class TargetFailure {
 }
 
 /// Describes a target.
+///
+/// @nodoc
 class Target {
   /// The ID of the target. If the target group type is <code>INSTANCE</code>,
   /// this is an instance ID. If the target group type is <code>IP</code>, this is
@@ -7201,6 +7278,8 @@ class Target {
 }
 
 /// Summary information about a target.
+///
+/// @nodoc
 class TargetSummary {
   /// The ID of the target. If the target group type is <code>INSTANCE</code>,
   /// this is an instance ID. If the target group type is <code>IP</code>, this is
@@ -7273,6 +7352,7 @@ class TargetSummary {
   }
 }
 
+/// @nodoc
 class TargetStatus {
   static const draining = TargetStatus._('DRAINING');
   static const unavailable = TargetStatus._('UNAVAILABLE');
@@ -7312,6 +7392,8 @@ class TargetStatus {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html">Target
 /// groups</a> in the <i>Amazon VPC Lattice User Guide</i>.
+///
+/// @nodoc
 class TargetGroupSummary {
   /// The ARN (Amazon Resource Name) of the target group.
   final String? arn;
@@ -7430,6 +7512,7 @@ class TargetGroupSummary {
   }
 }
 
+/// @nodoc
 class TargetGroupType {
   static const ip = TargetGroupType._('IP');
   static const lambda = TargetGroupType._('LAMBDA');
@@ -7456,6 +7539,7 @@ class TargetGroupType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetGroupProtocol {
   static const http = TargetGroupProtocol._('HTTP');
   static const https = TargetGroupProtocol._('HTTPS');
@@ -7482,6 +7566,7 @@ class TargetGroupProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const ipv6 = IpAddressType._('IPV6');
@@ -7506,6 +7591,7 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetGroupStatus {
   static const createInProgress = TargetGroupStatus._('CREATE_IN_PROGRESS');
   static const active = TargetGroupStatus._('ACTIVE');
@@ -7539,6 +7625,7 @@ class TargetGroupStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaEventStructureVersion {
   static const v1 = LambdaEventStructureVersion._('V1');
   static const v2 = LambdaEventStructureVersion._('V2');
@@ -7569,6 +7656,8 @@ class LambdaEventStructureVersion {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html">Target
 /// groups</a> in the <i>Amazon VPC Lattice User Guide</i>.
+///
+/// @nodoc
 class TargetGroupConfig {
   /// The health check configuration. Not supported if the target group type is
   /// <code>LAMBDA</code> or <code>ALB</code>.
@@ -7652,6 +7741,7 @@ class TargetGroupConfig {
   }
 }
 
+/// @nodoc
 class TargetGroupProtocolVersion {
   static const http1 = TargetGroupProtocolVersion._('HTTP1');
   static const http2 = TargetGroupProtocolVersion._('HTTP2');
@@ -7681,6 +7771,8 @@ class TargetGroupProtocolVersion {
 /// Describes the health check configuration of a target group. Health check
 /// configurations aren't used for target groups of type <code>LAMBDA</code> or
 /// <code>ALB</code>.
+///
+/// @nodoc
 class HealthCheckConfig {
   /// Indicates whether health checking is enabled.
   final bool? enabled;
@@ -7788,6 +7880,7 @@ class HealthCheckConfig {
   }
 }
 
+/// @nodoc
 class HealthCheckProtocolVersion {
   static const http1 = HealthCheckProtocolVersion._('HTTP1');
   static const http2 = HealthCheckProtocolVersion._('HTTP2');
@@ -7815,6 +7908,8 @@ class HealthCheckProtocolVersion {
 
 /// Describes the codes to use when checking for a successful response from a
 /// target for health checks.
+///
+/// @nodoc
 class Matcher {
   /// The HTTP code to use when checking for a successful response from a target.
   final String? httpCode;
@@ -7839,6 +7934,8 @@ class Matcher {
 
 /// Summary information about an association between a service network and a
 /// VPC.
+///
+/// @nodoc
 class ServiceNetworkVpcAssociationSummary {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -7942,6 +8039,7 @@ class ServiceNetworkVpcAssociationSummary {
   }
 }
 
+/// @nodoc
 class ServiceNetworkVpcAssociationStatus {
   static const createInProgress =
       ServiceNetworkVpcAssociationStatus._('CREATE_IN_PROGRESS');
@@ -7987,6 +8085,8 @@ class ServiceNetworkVpcAssociationStatus {
 }
 
 /// The DNS configuration options.
+///
+/// @nodoc
 class DnsOptions {
   /// The preference for which private domains have a private hosted zone created
   /// for and associated with the specified VPC. Only supported when private DNS
@@ -8051,6 +8151,7 @@ class DnsOptions {
   }
 }
 
+/// @nodoc
 class PrivateDnsPreference {
   static const verifiedDomainsOnly =
       PrivateDnsPreference._('VERIFIED_DOMAINS_ONLY');
@@ -8088,6 +8189,8 @@ class PrivateDnsPreference {
 
 /// Summary information about an association between a service network and a
 /// service.
+///
+/// @nodoc
 class ServiceNetworkServiceAssociationSummary {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -8199,6 +8302,7 @@ class ServiceNetworkServiceAssociationSummary {
   }
 }
 
+/// @nodoc
 class ServiceNetworkServiceAssociationStatus {
   static const createInProgress =
       ServiceNetworkServiceAssociationStatus._('CREATE_IN_PROGRESS');
@@ -8238,6 +8342,8 @@ class ServiceNetworkServiceAssociationStatus {
 }
 
 /// Describes the DNS information of a service.
+///
+/// @nodoc
 class DnsEntry {
   /// The domain name of the service.
   final String? domainName;
@@ -8269,6 +8375,8 @@ class DnsEntry {
 
 /// Summary information about an association between a service network and a
 /// resource configuration.
+///
+/// @nodoc
 class ServiceNetworkResourceAssociationSummary {
   /// The Amazon Resource Name (ARN) of the association.
   final String? arn;
@@ -8410,6 +8518,7 @@ class ServiceNetworkResourceAssociationSummary {
   }
 }
 
+/// @nodoc
 class ServiceNetworkResourceAssociationStatus {
   static const createInProgress =
       ServiceNetworkResourceAssociationStatus._('CREATE_IN_PROGRESS');
@@ -8450,6 +8559,7 @@ class ServiceNetworkResourceAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VerificationStatus {
   static const verified = VerificationStatus._('VERIFIED');
   static const pending = VerificationStatus._('PENDING');
@@ -8478,6 +8588,8 @@ class VerificationStatus {
 }
 
 /// Summary information about a service network.
+///
+/// @nodoc
 class ServiceNetworkSummary {
   /// The Amazon Resource Name (ARN) of the service network.
   final String? arn;
@@ -8556,6 +8668,7 @@ class ServiceNetworkSummary {
   }
 }
 
+/// @nodoc
 class AuthType {
   static const none = AuthType._('NONE');
   static const awsIam = AuthType._('AWS_IAM');
@@ -8580,6 +8693,8 @@ class AuthType {
 }
 
 /// Specifies if the service network should be enabled for sharing.
+///
+/// @nodoc
 class SharingConfig {
   /// Specifies if the service network is enabled for sharing.
   final bool? enabled;
@@ -8603,6 +8718,8 @@ class SharingConfig {
 }
 
 /// Summary information about a service.
+///
+/// @nodoc
 class ServiceSummary {
   /// The Amazon Resource Name (ARN) of the service.
   final String? arn;
@@ -8676,6 +8793,7 @@ class ServiceSummary {
   }
 }
 
+/// @nodoc
 class ServiceStatus {
   static const active = ServiceStatus._('ACTIVE');
   static const createInProgress = ServiceStatus._('CREATE_IN_PROGRESS');
@@ -8710,6 +8828,8 @@ class ServiceStatus {
 }
 
 /// Summary information about a listener rule.
+///
+/// @nodoc
 class RuleSummary {
   /// The Amazon Resource Name (ARN) of the rule.
   final String? arn;
@@ -8776,6 +8896,8 @@ class RuleSummary {
 }
 
 /// Describes a rule match.
+///
+/// @nodoc
 class RuleMatch {
   /// The HTTP criteria that a rule must match.
   final HttpMatch? httpMatch;
@@ -8801,6 +8923,8 @@ class RuleMatch {
 }
 
 /// Describes the action for a rule.
+///
+/// @nodoc
 class RuleAction {
   /// The fixed response action. The rule returns a custom HTTP response.
   final FixedResponseAction? fixedResponse;
@@ -8838,6 +8962,8 @@ class RuleAction {
 
 /// Describes a forward action. You can use forward actions to route requests to
 /// one or more target groups.
+///
+/// @nodoc
 class ForwardAction {
   /// The target groups. Traffic matching the rule is forwarded to the specified
   /// target groups. With forward actions, you can assign a weight that controls
@@ -8873,6 +8999,8 @@ class ForwardAction {
 }
 
 /// Describes an action that returns a custom HTTP response.
+///
+/// @nodoc
 class FixedResponseAction {
   /// The HTTP response code. Only <code>404</code> and <code>500</code> status
   /// codes are supported.
@@ -8897,6 +9025,8 @@ class FixedResponseAction {
 }
 
 /// Describes the weight of a target group.
+///
+/// @nodoc
 class WeightedTargetGroup {
   /// The ID or ARN of the target group.
   final String targetGroupIdentifier;
@@ -8934,6 +9064,8 @@ class WeightedTargetGroup {
 }
 
 /// Describes criteria that can be applied to incoming requests.
+///
+/// @nodoc
 class HttpMatch {
   /// The header matches. Matches incoming requests with rule based on request
   /// header value before applying rule action.
@@ -8978,6 +9110,8 @@ class HttpMatch {
 
 /// Describes the conditions that can be applied when matching a path for
 /// incoming requests.
+///
+/// @nodoc
 class PathMatch {
   /// The type of path match.
   final PathMatchType match;
@@ -9010,6 +9144,8 @@ class PathMatch {
 
 /// Describes the constraints for a header match. Matches incoming requests with
 /// rule based on request header value before applying rule action.
+///
+/// @nodoc
 class HeaderMatch {
   /// The header match type.
   final HeaderMatchType match;
@@ -9049,6 +9185,8 @@ class HeaderMatch {
 }
 
 /// Describes a header match type.
+///
+/// @nodoc
 class HeaderMatchType {
   /// A contains type match.
   final String? contains;
@@ -9087,6 +9225,8 @@ class HeaderMatchType {
 
 /// Describes a path match type. Each rule can include only one of the following
 /// types of paths.
+///
+/// @nodoc
 class PathMatchType {
   /// An exact match of the path.
   final String? exact;
@@ -9117,6 +9257,8 @@ class PathMatchType {
 }
 
 /// Summary information about a resource gateway.
+///
+/// @nodoc
 class ResourceGatewaySummary {
   /// The Amazon Resource Name (ARN) of the resource gateway.
   final String? arn;
@@ -9231,6 +9373,7 @@ class ResourceGatewaySummary {
   }
 }
 
+/// @nodoc
 class ResourceGatewayStatus {
   static const active = ResourceGatewayStatus._('ACTIVE');
   static const createInProgress = ResourceGatewayStatus._('CREATE_IN_PROGRESS');
@@ -9269,6 +9412,7 @@ class ResourceGatewayStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceGatewayIpAddressType {
   static const ipv4 = ResourceGatewayIpAddressType._('IPV4');
   static const ipv6 = ResourceGatewayIpAddressType._('IPV6');
@@ -9295,6 +9439,7 @@ class ResourceGatewayIpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceConfigDnsResolution {
   static const inVpc = ResourceConfigDnsResolution._('IN_VPC');
   static const public = ResourceConfigDnsResolution._('PUBLIC');
@@ -9321,6 +9466,8 @@ class ResourceConfigDnsResolution {
 }
 
 /// Summary information about a VPC endpoint association.
+///
+/// @nodoc
 class ResourceEndpointAssociationSummary {
   /// The Amazon Resource Name (ARN) of the VPC endpoint association.
   final String? arn;
@@ -9405,6 +9552,8 @@ class ResourceEndpointAssociationSummary {
 }
 
 /// Summary information about a resource configuration.
+///
+/// @nodoc
 class ResourceConfigurationSummary {
   /// Indicates whether the resource configuration was created and is managed by
   /// Amazon.
@@ -9538,6 +9687,7 @@ class ResourceConfigurationSummary {
   }
 }
 
+/// @nodoc
 class ResourceConfigurationType {
   static const group = ResourceConfigurationType._('GROUP');
   static const child = ResourceConfigurationType._('CHILD');
@@ -9565,6 +9715,7 @@ class ResourceConfigurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceConfigurationStatus {
   static const active = ResourceConfigurationStatus._('ACTIVE');
   static const createInProgress =
@@ -9606,6 +9757,7 @@ class ResourceConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtocolType {
   static const tcp = ProtocolType._('TCP');
 
@@ -9629,6 +9781,8 @@ class ProtocolType {
 }
 
 /// Describes a resource configuration.
+///
+/// @nodoc
 class ResourceConfigurationDefinition {
   /// The Amazon Resource Name (ARN) of the resource.
   final ArnResource? arnResource;
@@ -9672,6 +9826,8 @@ class ResourceConfigurationDefinition {
 }
 
 /// The DNS name of the resource.
+///
+/// @nodoc
 class DnsResource {
   /// The domain name of the resource.
   final String? domainName;
@@ -9703,6 +9859,8 @@ class DnsResource {
 }
 
 /// Describes an IP resource.
+///
+/// @nodoc
 class IpResource {
   /// The IP address of the IP resource.
   final String? ipAddress;
@@ -9726,6 +9884,8 @@ class IpResource {
 }
 
 /// The Amazon Resource Name (ARN) of the resource.
+///
+/// @nodoc
 class ArnResource {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -9748,6 +9908,7 @@ class ArnResource {
   }
 }
 
+/// @nodoc
 class ResourceConfigurationIpAddressType {
   static const ipv4 = ResourceConfigurationIpAddressType._('IPV4');
   static const ipv6 = ResourceConfigurationIpAddressType._('IPV6');
@@ -9775,6 +9936,8 @@ class ResourceConfigurationIpAddressType {
 }
 
 /// Summary information about a listener.
+///
+/// @nodoc
 class ListenerSummary {
   /// The Amazon Resource Name (ARN) of the listener.
   final String? arn;
@@ -9839,6 +10002,7 @@ class ListenerSummary {
   }
 }
 
+/// @nodoc
 class ListenerProtocol {
   static const http = ListenerProtocol._('HTTP');
   static const https = ListenerProtocol._('HTTPS');
@@ -9865,6 +10029,8 @@ class ListenerProtocol {
 }
 
 /// Summary information about a domain verification.
+///
+/// @nodoc
 class DomainVerificationSummary {
   /// The Amazon Resource Name (ARN) of the domain verification.
   final String arn;
@@ -9944,6 +10110,8 @@ class DomainVerificationSummary {
 }
 
 /// Configuration for TXT record-based domain verification method.
+///
+/// @nodoc
 class TxtMethodConfig {
   /// The name of the TXT record that must be created for domain verification.
   final String name;
@@ -9974,6 +10142,8 @@ class TxtMethodConfig {
 }
 
 /// Summary information about an access log subscription.
+///
+/// @nodoc
 class AccessLogSubscriptionSummary {
   /// The Amazon Resource Name (ARN) of the access log subscription
   final String arn;
@@ -10049,6 +10219,7 @@ class AccessLogSubscriptionSummary {
   }
 }
 
+/// @nodoc
 class ServiceNetworkLogType {
   static const service = ServiceNetworkLogType._('SERVICE');
   static const resource = ServiceNetworkLogType._('RESOURCE');
@@ -10074,6 +10245,7 @@ class ServiceNetworkLogType {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthPolicyState {
   static const active = AuthPolicyState._('Active');
   static const inactive = AuthPolicyState._('Inactive');
@@ -10099,6 +10271,8 @@ class AuthPolicyState {
 }
 
 /// Describes the association between a service network and a VPC endpoint.
+///
+/// @nodoc
 class ServiceNetworkEndpointAssociation {
   /// The date and time that the association was created, in ISO-8601 format.
   final DateTime? createdAt;
@@ -10165,6 +10339,8 @@ class ServiceNetworkEndpointAssociation {
 }
 
 /// Describes a rule update that failed.
+///
+/// @nodoc
 class RuleUpdateFailure {
   /// The failure code.
   final String? failureCode;
@@ -10202,6 +10378,8 @@ class RuleUpdateFailure {
 }
 
 /// Describes a successful rule update.
+///
+/// @nodoc
 class RuleUpdateSuccess {
   /// The action for the rule.
   final RuleAction? action;
@@ -10271,6 +10449,8 @@ class RuleUpdateSuccess {
 }
 
 /// Describes a rule update.
+///
+/// @nodoc
 class RuleUpdate {
   /// The ID or ARN of the rule.
   final String ruleIdentifier;
@@ -10306,26 +10486,31 @@ class RuleUpdate {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -10334,11 +10519,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

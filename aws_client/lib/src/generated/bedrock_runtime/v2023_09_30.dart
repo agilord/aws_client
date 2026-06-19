@@ -379,7 +379,7 @@ class BedrockRuntime {
   /// <code>additionalModelResponseFields</code> field. The following is example
   /// JSON for <code>additionalModelResponseFieldPaths</code>.
   ///
-  /// <code>[ "/stop_sequence" ]</code>
+  /// <code>\[ "/stop_sequence" \]</code>
   ///
   /// For information about the JSON Pointer syntax, see the <a
   /// href="https://datatracker.ietf.org/doc/html/rfc6901">Internet Engineering
@@ -607,7 +607,7 @@ class BedrockRuntime {
   /// <code>additionalModelResponseFields</code> field. The following is example
   /// JSON for <code>additionalModelResponseFieldPaths</code>.
   ///
-  /// <code>[ "/stop_sequence" ]</code>
+  /// <code>\[ "/stop_sequence" \]</code>
   ///
   /// For information about the JSON Pointer syntax, see the <a
   /// href="https://datatracker.ietf.org/doc/html/rfc6901">Internet Engineering
@@ -1233,6 +1233,7 @@ class BedrockRuntime {
   }
 }
 
+/// @nodoc
 class GetAsyncInvokeResponse {
   /// The invocation's ARN.
   final String invocationArn;
@@ -1317,6 +1318,8 @@ class GetAsyncInvokeResponse {
 /// An internal server error occurred. For troubleshooting this error, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-internal-failure">InternalFailure</a>
 /// in the Amazon Bedrock User Guide
+///
+/// @nodoc
 class InternalServerException implements _s.AwsException {
   final String? message;
 
@@ -1342,6 +1345,8 @@ class InternalServerException implements _s.AwsException {
 /// Bedrock</i>. For troubleshooting this error, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-throttling-exception">ThrottlingException</a>
 /// in the Amazon Bedrock User Guide
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -1367,6 +1372,8 @@ class ThrottlingException implements _s.AwsException {
 /// Bedrock</i>. For troubleshooting this error, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-validation-error">ValidationError</a>
 /// in the Amazon Bedrock User Guide
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   final String? message;
 
@@ -1388,6 +1395,7 @@ class ValidationException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class ListAsyncInvokesResponse {
   /// A list of invocation summaries.
   final List<AsyncInvokeSummary>? asyncInvokeSummaries;
@@ -1422,6 +1430,7 @@ class ListAsyncInvokesResponse {
   }
 }
 
+/// @nodoc
 class StartAsyncInvokeResponse {
   /// The ARN of the invocation.
   final String invocationArn;
@@ -1448,6 +1457,8 @@ class StartAsyncInvokeResponse {
 /// <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-service-unavailable">ServiceUnavailable</a>
 /// in the Amazon Bedrock User Guide
+///
+/// @nodoc
 class ServiceUnavailableException implements _s.AwsException {
   final String? message;
 
@@ -1469,6 +1480,7 @@ class ServiceUnavailableException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class ApplyGuardrailResponse {
   /// The action taken in the response from the guardrail.
   final GuardrailAction action;
@@ -1537,6 +1549,7 @@ class ApplyGuardrailResponse {
   }
 }
 
+/// @nodoc
 class ConverseResponse {
   /// Metrics for the call to <code>Converse</code>.
   final ConverseMetrics metrics;
@@ -1629,6 +1642,8 @@ class ConverseResponse {
 
 /// The request took too long to process. Processing time exceeded the model
 /// timeout length.
+///
+/// @nodoc
 class ModelTimeoutException implements _s.AwsException {
   final String? message;
 
@@ -1650,6 +1665,7 @@ class ModelTimeoutException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class ConverseStreamResponse {
   /// The output stream that the model generated.
   final ConverseStreamOutput? stream;
@@ -1666,6 +1682,7 @@ class ConverseStreamResponse {
   }
 }
 
+/// @nodoc
 class InvokeModelResponse {
   /// Inference response from the model in the format specified in the
   /// <code>contentType</code> header. To see the format and content of the
@@ -1701,6 +1718,7 @@ class InvokeModelResponse {
   }
 }
 
+/// @nodoc
 class InvokeModelWithBidirectionalStreamResponse {
   /// Streaming response from the model in the format specified by the
   /// <code>BidirectionalOutputPayloadPart</code> header.
@@ -1719,6 +1737,8 @@ class InvokeModelWithBidirectionalStreamResponse {
 }
 
 /// An error occurred while streaming the response. Retry your request.
+///
+/// @nodoc
 class ModelStreamErrorException implements _s.AwsException {
   final String? message;
 
@@ -1754,6 +1774,7 @@ class ModelStreamErrorException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class InvokeModelWithResponseStreamResponse {
   /// Inference response from the model in the format specified by the
   /// <code>contentType</code> header. To see the format and content of this field
@@ -1789,6 +1810,7 @@ class InvokeModelWithResponseStreamResponse {
   }
 }
 
+/// @nodoc
 class CountTokensResponse {
   /// The number of tokens in the provided input according to the specified
   /// model's tokenization rules. This count represents the number of input tokens
@@ -1817,6 +1839,8 @@ class CountTokensResponse {
 
 /// The input value for token counting. The value should be either an
 /// <code>InvokeModel</code> or <code>Converse</code> request body.
+///
+/// @nodoc
 class CountTokensInput {
   /// A <code>Converse</code> request for which to count tokens. Use this field
   /// when you want to count tokens for a conversation-based input that would be
@@ -1846,6 +1870,8 @@ class CountTokensInput {
 /// The body of an <code>InvokeModel</code> API request for token counting. This
 /// structure mirrors the input format for the <code>InvokeModel</code>
 /// operation, allowing you to count tokens for raw text inference requests.
+///
+/// @nodoc
 class InvokeModelTokensRequest {
   /// The request body to count tokens for, formatted according to the model's
   /// expected input format. To learn about the input format for different models,
@@ -1871,6 +1897,8 @@ class InvokeModelTokensRequest {
 /// This structure mirrors the input format for the <code>Converse</code>
 /// operation, allowing you to count tokens for conversation-based inference
 /// requests.
+///
+/// @nodoc
 class ConverseTokensRequest {
   /// The additionalModelRequestFields of Converse input request to count tokens
   /// for. Use this field when you want to pass additional parameters that the
@@ -1915,6 +1943,8 @@ class ConverseTokensRequest {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Tool
 /// use (function calling)</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolConfiguration {
   /// An array of tools that you want to pass to a model.
   final List<Tool> tools;
@@ -1942,6 +1972,8 @@ class ToolConfiguration {
 /// see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolChoice {
   /// The model must request at least one tool (no text is generated).
   final AnyToolChoice? any;
@@ -1977,6 +2009,8 @@ class ToolChoice {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide
+///
+/// @nodoc
 class AutoToolChoice {
   AutoToolChoice();
 
@@ -1989,6 +2023,8 @@ class AutoToolChoice {
 /// example, <code>{"any" : {}}</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class AnyToolChoice {
   AnyToolChoice();
 
@@ -2004,6 +2040,8 @@ class AnyToolChoice {
 /// <note>
 /// This field is only supported by Anthropic Claude 3 models.
 /// </note>
+///
+/// @nodoc
 class SpecificToolChoice {
   /// The name of the tool that the model must request.
   final String name;
@@ -2024,6 +2062,8 @@ class SpecificToolChoice {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class Tool {
   /// CachePoint to include in the tool configuration.
   final CachePointBlock? cachePoint;
@@ -2055,6 +2095,8 @@ class Tool {
 /// The specification for the tool. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolSpecification {
   /// The input schema for the tool in JSON format.
   final ToolInputSchema inputSchema;
@@ -2091,6 +2133,8 @@ class ToolSpecification {
 
 /// Specifies a system-defined tool for the model to use. <i>System-defined
 /// tools</i> are tools that are created and provided by the model provider.
+///
+/// @nodoc
 class SystemTool {
   /// The name of the system-defined tool that you want to call.
   final String name;
@@ -2108,6 +2152,8 @@ class SystemTool {
 }
 
 /// Defines a section of content to be cached for reuse in subsequent API calls.
+///
+/// @nodoc
 class CachePointBlock {
   /// Specifies the type of cache point within the CachePointBlock.
   final CachePointType type;
@@ -2139,6 +2185,7 @@ class CachePointBlock {
   }
 }
 
+/// @nodoc
 class CachePointType {
   static const $default = CachePointType._('default');
 
@@ -2163,6 +2210,8 @@ class CachePointType {
 }
 
 /// Time-to-live duration for ephemeral cache entries
+///
+/// @nodoc
 class CacheTTL {
   static const $5m = CacheTTL._('5m');
   static const $1h = CacheTTL._('1h');
@@ -2190,6 +2239,8 @@ class CacheTTL {
 /// <code>object</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolInputSchema {
   /// The JSON schema for the tool. For more information, see <a
   /// href="https://json-schema.org/understanding-json-schema/reference">JSON
@@ -2212,6 +2263,8 @@ class ToolInputSchema {
 /// handle input. To learn more, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-call.html">Using
 /// the Converse API</a>.
+///
+/// @nodoc
 class SystemContentBlock {
   /// CachePoint to include in the system prompt.
   final CachePointBlock? cachePoint;
@@ -2253,6 +2306,8 @@ class SystemContentBlock {
 /// or <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
 /// API operations.
+///
+/// @nodoc
 class GuardrailConverseContentBlock {
   /// Image within converse content block to be evaluated by the guardrail.
   final GuardrailConverseImageBlock? image;
@@ -2291,6 +2346,8 @@ class GuardrailConverseContentBlock {
 /// A text block that contains text that you want to assess with a guardrail.
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_GuardrailConverseContentBlock.html">GuardrailConverseContentBlock</a>.
+///
+/// @nodoc
 class GuardrailConverseTextBlock {
   /// The text that you want to guard.
   final String text;
@@ -2327,6 +2384,8 @@ class GuardrailConverseTextBlock {
 
 /// An image block that contains images that you want to assess with a
 /// guardrail.
+///
+/// @nodoc
 class GuardrailConverseImageBlock {
   /// The format details for the image type of the guardrail converse image block.
   final GuardrailConverseImageFormat format;
@@ -2359,6 +2418,7 @@ class GuardrailConverseImageBlock {
   }
 }
 
+/// @nodoc
 class GuardrailConverseImageFormat {
   static const png = GuardrailConverseImageFormat._('png');
   static const jpeg = GuardrailConverseImageFormat._('jpeg');
@@ -2385,6 +2445,8 @@ class GuardrailConverseImageFormat {
 }
 
 /// The image source (image bytes) of the guardrail converse image source.
+///
+/// @nodoc
 class GuardrailConverseImageSource {
   /// The raw image bytes for the image.
   final Uint8List? bytes;
@@ -2407,6 +2469,7 @@ class GuardrailConverseImageSource {
   }
 }
 
+/// @nodoc
 class GuardrailConverseContentQualifier {
   static const groundingSource =
       GuardrailConverseContentQualifier._('grounding_source');
@@ -2439,6 +2502,8 @@ class GuardrailConverseContentQualifier {
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
 /// or <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>.
+///
+/// @nodoc
 class Message {
   /// The message content. Note the following restrictions:
   ///
@@ -2491,6 +2556,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class ConversationRole {
   static const user = ConversationRole._('user');
   static const assistant = ConversationRole._('assistant');
@@ -2522,6 +2588,8 @@ class ConversationRole {
 /// or <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
 /// API operations.
+///
+/// @nodoc
 class ContentBlock {
   /// An audio content block containing audio data in the conversation.
   final AudioBlock? audio;
@@ -2660,6 +2728,8 @@ class ContentBlock {
 }
 
 /// Image content for a message.
+///
+/// @nodoc
 class ImageBlock {
   /// The format of the image.
   final ImageFormat format;
@@ -2701,6 +2771,8 @@ class ImageBlock {
 }
 
 /// A document to include in a message.
+///
+/// @nodoc
 class DocumentBlock {
   /// A name for the document. The name can only contain the following characters:
   ///
@@ -2780,6 +2852,8 @@ class DocumentBlock {
 }
 
 /// A video block.
+///
+/// @nodoc
 class VideoBlock {
   /// The block's format.
   final VideoFormat format;
@@ -2812,6 +2886,8 @@ class VideoBlock {
 
 /// An audio content block that contains audio data in various supported
 /// formats.
+///
+/// @nodoc
 class AudioBlock {
   /// The format of the audio data, such as MP3, WAV, FLAC, or other supported
   /// audio formats.
@@ -2859,6 +2935,8 @@ class AudioBlock {
 /// response. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolUseBlock {
   /// The input to pass to the tool.
   final Document input;
@@ -2907,6 +2985,8 @@ class ToolUseBlock {
 /// model previously made. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolResultBlock {
   /// The content for tool result content block.
   final List<ToolResultContentBlock> content;
@@ -2962,6 +3042,8 @@ class ToolResultBlock {
 /// with respect to the content in the content block. Reasoning refers to a
 /// Chain of Thought (CoT) that the model generates to enhance the accuracy of
 /// its final response.
+///
+/// @nodoc
 class ReasoningContentBlock {
   /// The reasoning that the model used to return the output.
   final ReasoningTextBlock? reasoningText;
@@ -3001,6 +3083,8 @@ class ReasoningContentBlock {
 /// information. This block type is returned when document citations are
 /// enabled, providing traceability between the generated content and the source
 /// documents that informed the response.
+///
+/// @nodoc
 class CitationsContentBlock {
   /// An array of citations that reference the source documents used to generate
   /// the associated content.
@@ -3044,6 +3128,8 @@ class CitationsContentBlock {
 /// This field is only supported by Anthropic Claude Opus 4.1, Opus 4, Sonnet
 /// 4.5, Sonnet 4, Sonnet 3.7, and 3.5 Haiku models.
 /// </note>
+///
+/// @nodoc
 class SearchResultBlock {
   /// An array of search result content block.
   final List<SearchResultContentBlock> content;
@@ -3096,6 +3182,8 @@ class SearchResultBlock {
 /// Configuration settings for enabling and controlling document citations in
 /// Converse API responses. When enabled, the model can include citation
 /// information that links generated content back to specific source documents.
+///
+/// @nodoc
 class CitationsConfig {
   /// Specifies whether citations from the selected document should be used in the
   /// model's response. When set to true, the model can generate citations that
@@ -3121,6 +3209,8 @@ class CitationsConfig {
 }
 
 /// A block within a search result that contains the content.
+///
+/// @nodoc
 class SearchResultContentBlock {
   /// The actual text content
   final String text;
@@ -3146,6 +3236,8 @@ class SearchResultContentBlock {
 /// Contains information about a citation that references a specific source
 /// document. Citations provide traceability between the model's generated
 /// response and the source documents that informed that response.
+///
+/// @nodoc
 class Citation {
   /// The precise location within the source document where the cited content can
   /// be found, including character positions, page numbers, or chunk identifiers.
@@ -3199,6 +3291,8 @@ class Citation {
 /// Specifies the precise location within a source document where cited content
 /// can be found. This can include character-level positions, page numbers, or
 /// document chunks depending on the document type and indexing method.
+///
+/// @nodoc
 class CitationLocation {
   /// The character-level location within the document where the cited content is
   /// found.
@@ -3271,6 +3365,8 @@ class CitationLocation {
 
 /// Provides the URL and domain information for the website that was cited when
 /// performing a web search.
+///
+/// @nodoc
 class WebLocation {
   /// The domain that was cited when performing a web search.
   final String? domain;
@@ -3303,6 +3399,8 @@ class WebLocation {
 /// Specifies a character-level location within a document, providing precise
 /// positioning information for cited content using start and end character
 /// indices.
+///
+/// @nodoc
 class DocumentCharLocation {
   /// The index of the document within the array of documents provided in the
   /// request.
@@ -3342,6 +3440,8 @@ class DocumentCharLocation {
 
 /// Specifies a page-level location within a document, providing positioning
 /// information for cited content using page numbers.
+///
+/// @nodoc
 class DocumentPageLocation {
   /// The index of the document within the array of documents provided in the
   /// request.
@@ -3381,6 +3481,8 @@ class DocumentPageLocation {
 
 /// Specifies a chunk-level location within a document, providing positioning
 /// information for cited content using logical document segments or chunks.
+///
+/// @nodoc
 class DocumentChunkLocation {
   /// The index of the document within the array of documents provided in the
   /// request.
@@ -3423,6 +3525,8 @@ class DocumentChunkLocation {
 /// Specifies a search result location within the content array, providing
 /// positioning information for cited content using search result index and
 /// block positions.
+///
+/// @nodoc
 class SearchResultLocation {
   /// The ending position in the content array where the cited content ends.
   final int? end;
@@ -3462,6 +3566,8 @@ class SearchResultLocation {
 
 /// Contains the actual text content from a source document that is being cited
 /// or referenced in the model's response.
+///
+/// @nodoc
 class CitationSourceContent {
   /// The text content from the source document that is being cited.
   final String? text;
@@ -3486,6 +3592,8 @@ class CitationSourceContent {
 
 /// Contains the generated text content that corresponds to or is supported by a
 /// citation from a source document.
+///
+/// @nodoc
 class CitationGeneratedContent {
   /// The text content that was generated by the model and is supported by the
   /// associated citation.
@@ -3510,6 +3618,8 @@ class CitationGeneratedContent {
 }
 
 /// Contains the reasoning that the model used to return the output.
+///
+/// @nodoc
 class ReasoningTextBlock {
   /// The reasoning that the model used to return the output.
   final String text;
@@ -3541,6 +3651,7 @@ class ReasoningTextBlock {
   }
 }
 
+/// @nodoc
 class ToolResultStatus {
   static const success = ToolResultStatus._('success');
   static const error = ToolResultStatus._('error');
@@ -3568,6 +3679,8 @@ class ToolResultStatus {
 /// The tool result content block. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolResultContentBlock {
   /// A tool result that is a document.
   final DocumentBlock? document;
@@ -3640,6 +3753,7 @@ class ToolResultContentBlock {
   }
 }
 
+/// @nodoc
 class ToolUseType {
   static const serverToolUse = ToolUseType._('server_tool_use');
 
@@ -3662,6 +3776,7 @@ class ToolUseType {
   String toString() => value;
 }
 
+/// @nodoc
 class AudioFormat {
   static const mp3 = AudioFormat._('mp3');
   static const opus = AudioFormat._('opus');
@@ -3716,6 +3831,8 @@ class AudioFormat {
 
 /// The source of audio data, which can be provided either as raw bytes or a
 /// reference to an S3 location.
+///
+/// @nodoc
 class AudioSource {
   /// Audio data encoded in base64.
   final Uint8List? bytes;
@@ -3751,6 +3868,8 @@ class AudioSource {
 }
 
 /// A block containing error information when content processing fails.
+///
+/// @nodoc
 class ErrorBlock {
   /// A human-readable error message describing what went wrong during content
   /// processing.
@@ -3775,6 +3894,8 @@ class ErrorBlock {
 }
 
 /// A storage location in an Amazon S3 bucket.
+///
+/// @nodoc
 class S3Location {
   /// An object URI starting with <code>s3://</code>.
   final String uri;
@@ -3804,6 +3925,7 @@ class S3Location {
   }
 }
 
+/// @nodoc
 class VideoFormat {
   static const mkv = VideoFormat._('mkv');
   static const mov = VideoFormat._('mov');
@@ -3837,6 +3959,8 @@ class VideoFormat {
 /// A video source. You can upload a smaller video as a base64-encoded string as
 /// long as the encoded file is less than 25MB. You can also transfer videos up
 /// to 1GB in size from an S3 bucket.
+///
+/// @nodoc
 class VideoSource {
   /// Video content encoded in base64.
   final Uint8List? bytes;
@@ -3871,6 +3995,7 @@ class VideoSource {
   }
 }
 
+/// @nodoc
 class DocumentFormat {
   static const pdf = DocumentFormat._('pdf');
   static const csv = DocumentFormat._('csv');
@@ -3903,6 +4028,8 @@ class DocumentFormat {
 }
 
 /// Contains the content of a document.
+///
+/// @nodoc
 class DocumentSource {
   /// The raw bytes for the document. If you use an Amazon Web Services SDK, you
   /// don't need to encode the bytes in base64.
@@ -3958,6 +4085,8 @@ class DocumentSource {
 
 /// Contains the actual content of a document that can be processed by the model
 /// and potentially cited in the response.
+///
+/// @nodoc
 class DocumentContentBlock {
   /// The text content of the document.
   final String? text;
@@ -3980,6 +4109,7 @@ class DocumentContentBlock {
   }
 }
 
+/// @nodoc
 class ImageFormat {
   static const png = ImageFormat._('png');
   static const jpeg = ImageFormat._('jpeg');
@@ -4006,6 +4136,8 @@ class ImageFormat {
 }
 
 /// The source for an image.
+///
+/// @nodoc
 class ImageSource {
   /// The raw image bytes for the image. If you use an AWS SDK, you don't need to
   /// encode the image bytes in base64.
@@ -4042,6 +4174,8 @@ class ImageSource {
 }
 
 /// Definition of content in the response stream.
+///
+/// @nodoc
 class ResponseStream {
   /// Content included in the response.
   final PayloadPart? chunk;
@@ -4137,6 +4271,7 @@ class ResponseStream {
   }
 }
 
+/// @nodoc
 class PerformanceConfigLatency {
   static const standard = PerformanceConfigLatency._('standard');
   static const optimized = PerformanceConfigLatency._('optimized');
@@ -4162,6 +4297,7 @@ class PerformanceConfigLatency {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceTierType {
   static const priority = ServiceTierType._('priority');
   static const $default = ServiceTierType._('default');
@@ -4189,6 +4325,8 @@ class ServiceTierType {
 }
 
 /// Payload content included in the response.
+///
+/// @nodoc
 class PayloadPart {
   /// Base64-encoded bytes of payload data.
   final Uint8List? bytes;
@@ -4211,6 +4349,7 @@ class PayloadPart {
   }
 }
 
+/// @nodoc
 class Trace {
   static const enabled = Trace._('ENABLED');
   static const disabled = Trace._('DISABLED');
@@ -4236,6 +4375,8 @@ class Trace {
 }
 
 /// Output from the bidirectional stream that was used for model invocation.
+///
+/// @nodoc
 class InvokeModelWithBidirectionalStreamOutput {
   /// The speech chunk that was provided as output from the invocation step.
   final BidirectionalOutputPayloadPart? chunk;
@@ -4332,6 +4473,8 @@ class InvokeModelWithBidirectionalStreamOutput {
 
 /// Output from the bidirectional stream. The output is speech and a text
 /// transcription.
+///
+/// @nodoc
 class BidirectionalOutputPayloadPart {
   /// The speech output of the bidirectional stream.
   final Uint8List? bytes;
@@ -4356,6 +4499,8 @@ class BidirectionalOutputPayloadPart {
 
 /// Payload content, the speech chunk, for the bidirectional input of the
 /// invocation step.
+///
+/// @nodoc
 class InvokeModelWithBidirectionalStreamInput {
   /// The audio chunk that is used as input for the invocation step.
   final BidirectionalInputPayloadPart? chunk;
@@ -4373,6 +4518,8 @@ class InvokeModelWithBidirectionalStreamInput {
 }
 
 /// Payload content for the bidirectional input. The input is an audio stream.
+///
+/// @nodoc
 class BidirectionalInputPayloadPart {
   /// The audio content for the bidirectional input.
   final Uint8List? bytes;
@@ -4390,6 +4537,8 @@ class BidirectionalInputPayloadPart {
 }
 
 /// The messages output stream
+///
+/// @nodoc
 class ConverseStreamOutput {
   /// The messages output content block delta.
   final ContentBlockDeltaEvent? contentBlockDelta;
@@ -4530,6 +4679,8 @@ class ConverseStreamOutput {
 }
 
 /// The start of a message.
+///
+/// @nodoc
 class MessageStartEvent {
   /// The role for the message.
   final ConversationRole role;
@@ -4553,6 +4704,8 @@ class MessageStartEvent {
 }
 
 /// Content block start event.
+///
+/// @nodoc
 class ContentBlockStartEvent {
   /// The index for a content block start event.
   final int contentBlockIndex;
@@ -4585,6 +4738,8 @@ class ContentBlockStartEvent {
 }
 
 /// The content block delta event.
+///
+/// @nodoc
 class ContentBlockDeltaEvent {
   /// The block index for a content block delta event.
   final int contentBlockIndex;
@@ -4617,6 +4772,8 @@ class ContentBlockDeltaEvent {
 }
 
 /// A content block stop event.
+///
+/// @nodoc
 class ContentBlockStopEvent {
   /// The index for a content block.
   final int contentBlockIndex;
@@ -4640,6 +4797,8 @@ class ContentBlockStopEvent {
 }
 
 /// The stop event for a message.
+///
+/// @nodoc
 class MessageStopEvent {
   /// The reason why the model stopped generating output.
   final StopReason stopReason;
@@ -4675,6 +4834,8 @@ class MessageStopEvent {
 }
 
 /// A conversation stream metadata event.
+///
+/// @nodoc
 class ConverseStreamMetadataEvent {
   /// The metrics for the conversation stream metadata event.
   final ConverseStreamMetrics metrics;
@@ -4738,6 +4899,8 @@ class ConverseStreamMetadataEvent {
 }
 
 /// The tokens used in a message API inference call.
+///
+/// @nodoc
 class TokenUsage {
   /// The number of tokens sent in the request to the model.
   final int inputTokens;
@@ -4802,6 +4965,8 @@ class TokenUsage {
 }
 
 /// Metrics for the stream.
+///
+/// @nodoc
 class ConverseStreamMetrics {
   /// The latency for the streaming request, in milliseconds.
   final int latencyMs;
@@ -4826,6 +4991,8 @@ class ConverseStreamMetrics {
 
 /// The trace object in a response from <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>.
+///
+/// @nodoc
 class ConverseStreamTrace {
   /// The guardrail trace object.
   final GuardrailTraceAssessment? guardrail;
@@ -4862,6 +5029,8 @@ class ConverseStreamTrace {
 }
 
 /// Performance settings for a model.
+///
+/// @nodoc
 class PerformanceConfiguration {
   /// To use a latency-optimized version of the model, set to
   /// <code>optimized</code>.
@@ -4887,6 +5056,8 @@ class PerformanceConfiguration {
 }
 
 /// Specifies the processing tier configuration used for serving the request.
+///
+/// @nodoc
 class ServiceTier {
   /// Specifies the processing tier type used for serving the request.
   final ServiceTierType type;
@@ -4911,6 +5082,8 @@ class ServiceTier {
 
 /// A Top level guardrail trace object. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseTrace.html">ConverseTrace</a>.
+///
+/// @nodoc
 class GuardrailTraceAssessment {
   /// Provides the reason for the action taken when harmful content is detected.
   final String? actionReason;
@@ -4967,6 +5140,8 @@ class GuardrailTraceAssessment {
 }
 
 /// A prompt router trace.
+///
+/// @nodoc
 class PromptRouterTrace {
   /// The ID of the invoked model.
   final String? invokedModelId;
@@ -4991,6 +5166,8 @@ class PromptRouterTrace {
 
 /// A behavior assessment of the guardrail policies used in a call to the
 /// Converse API.
+///
+/// @nodoc
 class GuardrailAssessment {
   final AppliedGuardrailDetails? appliedGuardrailDetails;
 
@@ -5092,6 +5269,8 @@ class GuardrailAssessment {
 }
 
 /// A behavior assessment of a topic policy.
+///
+/// @nodoc
 class GuardrailTopicPolicyAssessment {
   /// The topics in the assessment.
   final List<GuardrailTopic> topics;
@@ -5118,6 +5297,8 @@ class GuardrailTopicPolicyAssessment {
 }
 
 /// An assessment of a content policy for a guardrail.
+///
+/// @nodoc
 class GuardrailContentPolicyAssessment {
   /// The content policy filters.
   final List<GuardrailContentFilter> filters;
@@ -5145,6 +5326,8 @@ class GuardrailContentPolicyAssessment {
 }
 
 /// The word policy assessment.
+///
+/// @nodoc
 class GuardrailWordPolicyAssessment {
   /// Custom words in the assessment.
   final List<GuardrailCustomWord> customWords;
@@ -5181,6 +5364,8 @@ class GuardrailWordPolicyAssessment {
 }
 
 /// The assessment for a Personally Identifiable Information (PII) policy.
+///
+/// @nodoc
 class GuardrailSensitiveInformationPolicyAssessment {
   /// The PII entities in the assessment.
   final List<GuardrailPiiEntityFilter> piiEntities;
@@ -5220,6 +5405,8 @@ class GuardrailSensitiveInformationPolicyAssessment {
 
 /// The policy assessment details for the guardrails contextual grounding
 /// filter.
+///
+/// @nodoc
 class GuardrailContextualGroundingPolicyAssessment {
   /// The filter details for the guardrails contextual grounding filter.
   final List<GuardrailContextualGroundingFilter>? filters;
@@ -5249,6 +5436,8 @@ class GuardrailContextualGroundingPolicyAssessment {
 
 /// Contains the results of automated reasoning policy evaluation, including
 /// logical findings about the validity of claims made in the input content.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningPolicyAssessment {
   /// List of logical validation results produced by evaluating the input content
   /// against automated reasoning policies.
@@ -5278,6 +5467,8 @@ class GuardrailAutomatedReasoningPolicyAssessment {
 }
 
 /// The invocation metrics for the guardrail.
+///
+/// @nodoc
 class GuardrailInvocationMetrics {
   /// The coverage details for the guardrail invocation metrics.
   final GuardrailCoverage? guardrailCoverage;
@@ -5323,6 +5514,8 @@ class GuardrailInvocationMetrics {
 /// Details about the specific guardrail that was applied during this
 /// assessment, including its identifier, version, ARN, origin, and ownership
 /// information.
+///
+/// @nodoc
 class AppliedGuardrailDetails {
   /// The ARN of the guardrail that was applied.
   final String? guardrailArn;
@@ -5383,6 +5576,7 @@ class AppliedGuardrailDetails {
   }
 }
 
+/// @nodoc
 class GuardrailOwnership {
   static const self = GuardrailOwnership._('SELF');
   static const crossAccount = GuardrailOwnership._('CROSS_ACCOUNT');
@@ -5408,6 +5602,7 @@ class GuardrailOwnership {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailOrigin {
   static const request = GuardrailOrigin._('REQUEST');
   static const accountEnforced = GuardrailOrigin._('ACCOUNT_ENFORCED');
@@ -5435,6 +5630,8 @@ class GuardrailOrigin {
 }
 
 /// The details on the use of the guardrail.
+///
+/// @nodoc
 class GuardrailUsage {
   /// The content policy units processed by the guardrail.
   final int contentPolicyUnits;
@@ -5525,6 +5722,8 @@ class GuardrailUsage {
 }
 
 /// The action of the guardrail coverage details.
+///
+/// @nodoc
 class GuardrailCoverage {
   /// The guardrail coverage for images (the number of images that guardrails
   /// guarded).
@@ -5562,6 +5761,8 @@ class GuardrailCoverage {
 }
 
 /// The guardrail coverage for the text characters.
+///
+/// @nodoc
 class GuardrailTextCharactersCoverage {
   /// The text characters that were guarded by the guardrail coverage.
   final int? guarded;
@@ -5592,6 +5793,8 @@ class GuardrailTextCharactersCoverage {
 }
 
 /// The details of the guardrail image coverage.
+///
+/// @nodoc
 class GuardrailImageCoverage {
   /// The count (integer) of images guardrails guarded.
   final int? guarded;
@@ -5625,6 +5828,8 @@ class GuardrailImageCoverage {
 /// Represents a logical validation result from automated reasoning policy
 /// evaluation. The finding indicates whether claims in the input are logically
 /// valid, invalid, satisfiable, impossible, or have other logical issues.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningFinding {
   /// Contains the result when the automated reasoning evaluation determines that
   /// no valid logical conclusions can be drawn due to contradictions in the
@@ -5729,6 +5934,8 @@ class GuardrailAutomatedReasoningFinding {
 
 /// Indicates that the claims are definitively true and logically implied by the
 /// premises, with no possible alternative interpretations.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningValidFinding {
   /// An example scenario demonstrating how the claims are logically true.
   final GuardrailAutomatedReasoningScenario? claimsTrueScenario;
@@ -5790,6 +5997,8 @@ class GuardrailAutomatedReasoningValidFinding {
 
 /// Indicates that the claims are logically false and contradictory to the
 /// established rules or premises.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningInvalidFinding {
   /// The automated reasoning policy rules that contradict the claims in the
   /// input.
@@ -5841,6 +6050,8 @@ class GuardrailAutomatedReasoningInvalidFinding {
 
 /// Indicates that the claims could be either true or false depending on
 /// additional assumptions not provided in the input.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningSatisfiableFinding {
   /// An example scenario demonstrating how the claims could be logically false.
   final GuardrailAutomatedReasoningScenario? claimsFalseScenario;
@@ -5901,6 +6112,8 @@ class GuardrailAutomatedReasoningSatisfiableFinding {
 
 /// Indicates that no valid claims can be made due to logical contradictions in
 /// the premises or rules.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningImpossibleFinding {
   /// The automated reasoning policy rules that contradict the claims and/or
   /// premises in the input.
@@ -5952,6 +6165,8 @@ class GuardrailAutomatedReasoningImpossibleFinding {
 
 /// Indicates that the input has multiple valid logical interpretations,
 /// requiring additional context or clarification.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningTranslationAmbiguousFinding {
   /// Scenarios showing how the different translation options differ in meaning.
   final List<GuardrailAutomatedReasoningScenario>? differenceScenarios;
@@ -5994,6 +6209,8 @@ class GuardrailAutomatedReasoningTranslationAmbiguousFinding {
 
 /// Indicates that the input exceeds the processing capacity due to the volume
 /// or complexity of the logical information.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningTooComplexFinding {
   GuardrailAutomatedReasoningTooComplexFinding();
 
@@ -6009,6 +6226,8 @@ class GuardrailAutomatedReasoningTooComplexFinding {
 
 /// Indicates that no relevant logical information could be extracted from the
 /// input for validation.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningNoTranslationsFinding {
   GuardrailAutomatedReasoningNoTranslationsFinding();
 
@@ -6024,6 +6243,8 @@ class GuardrailAutomatedReasoningNoTranslationsFinding {
 
 /// Represents a logical scenario where claims can be evaluated as true or
 /// false, containing specific logical assignments.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningScenario {
   /// List of logical assignments and statements that define this scenario.
   final List<GuardrailAutomatedReasoningStatement>? statements;
@@ -6053,6 +6274,8 @@ class GuardrailAutomatedReasoningScenario {
 
 /// A logical statement that includes both formal logic representation and
 /// natural language explanation.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningStatement {
   /// The formal logical representation of the statement.
   final String? logic;
@@ -6084,6 +6307,8 @@ class GuardrailAutomatedReasoningStatement {
 }
 
 /// Represents one possible logical interpretation of ambiguous input content.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningTranslationOption {
   /// Example translations that provide this possible interpretation of the input.
   final List<GuardrailAutomatedReasoningTranslation>? translations;
@@ -6113,6 +6338,8 @@ class GuardrailAutomatedReasoningTranslationOption {
 
 /// Contains the logical translation of natural language input into formal
 /// logical statements, including premises, claims, and confidence scores.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningTranslation {
   /// The logical statements that are being validated against the premises and
   /// policy rules.
@@ -6189,6 +6416,8 @@ class GuardrailAutomatedReasoningTranslation {
 
 /// References a portion of the original input text that corresponds to logical
 /// elements.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningInputTextReference {
   /// The specific text from the original input that this reference points to.
   final String? text;
@@ -6215,6 +6444,8 @@ class GuardrailAutomatedReasoningInputTextReference {
 /// Identifies logical issues in the translated statements that exist
 /// independent of any policy rules, such as statements that are always true or
 /// always false.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningLogicWarning {
   /// The logical statements that are validated while assuming the policy and
   /// premises.
@@ -6264,6 +6495,7 @@ class GuardrailAutomatedReasoningLogicWarning {
   }
 }
 
+/// @nodoc
 class GuardrailAutomatedReasoningLogicWarningType {
   static const alwaysFalse =
       GuardrailAutomatedReasoningLogicWarningType._('ALWAYS_FALSE');
@@ -6294,6 +6526,8 @@ class GuardrailAutomatedReasoningLogicWarningType {
 
 /// References a specific automated reasoning policy rule that was applied
 /// during evaluation.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningRule {
   /// The unique identifier of the automated reasoning rule.
   final String? identifier;
@@ -6324,6 +6558,8 @@ class GuardrailAutomatedReasoningRule {
 }
 
 /// The details for the guardrails contextual grounding filter.
+///
+/// @nodoc
 class GuardrailContextualGroundingFilter {
   /// The action performed by the guardrails contextual grounding filter.
   final GuardrailContextualGroundingPolicyAction action;
@@ -6380,6 +6616,7 @@ class GuardrailContextualGroundingFilter {
   }
 }
 
+/// @nodoc
 class GuardrailContextualGroundingFilterType {
   static const grounding =
       GuardrailContextualGroundingFilterType._('GROUNDING');
@@ -6407,6 +6644,7 @@ class GuardrailContextualGroundingFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContextualGroundingPolicyAction {
   static const blocked = GuardrailContextualGroundingPolicyAction._('BLOCKED');
   static const none = GuardrailContextualGroundingPolicyAction._('NONE');
@@ -6433,6 +6671,8 @@ class GuardrailContextualGroundingPolicyAction {
 }
 
 /// A Regex filter configured in a guardrail.
+///
+/// @nodoc
 class GuardrailRegexFilter {
   /// The region filter action.
   final GuardrailSensitiveInformationPolicyAction action;
@@ -6485,6 +6725,7 @@ class GuardrailRegexFilter {
   }
 }
 
+/// @nodoc
 class GuardrailSensitiveInformationPolicyAction {
   static const anonymized =
       GuardrailSensitiveInformationPolicyAction._('ANONYMIZED');
@@ -6515,6 +6756,8 @@ class GuardrailSensitiveInformationPolicyAction {
 
 /// A Personally Identifiable Information (PII) entity configured in a
 /// guardrail.
+///
+/// @nodoc
 class GuardrailPiiEntityFilter {
   /// The PII entity filter action.
   final GuardrailSensitiveInformationPolicyAction action;
@@ -6560,6 +6803,7 @@ class GuardrailPiiEntityFilter {
   }
 }
 
+/// @nodoc
 class GuardrailPiiEntityType {
   static const address = GuardrailPiiEntityType._('ADDRESS');
   static const age = GuardrailPiiEntityType._('AGE');
@@ -6661,6 +6905,8 @@ class GuardrailPiiEntityType {
 }
 
 /// A managed word configured in a guardrail.
+///
+/// @nodoc
 class GuardrailManagedWord {
   /// The action for the managed word.
   final GuardrailWordPolicyAction action;
@@ -6707,6 +6953,7 @@ class GuardrailManagedWord {
   }
 }
 
+/// @nodoc
 class GuardrailManagedWordType {
   static const profanity = GuardrailManagedWordType._('PROFANITY');
 
@@ -6731,6 +6978,7 @@ class GuardrailManagedWordType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailWordPolicyAction {
   static const blocked = GuardrailWordPolicyAction._('BLOCKED');
   static const none = GuardrailWordPolicyAction._('NONE');
@@ -6757,6 +7005,8 @@ class GuardrailWordPolicyAction {
 }
 
 /// A custom word configured in a guardrail.
+///
+/// @nodoc
 class GuardrailCustomWord {
   /// The action for the custom word.
   final GuardrailWordPolicyAction action;
@@ -6796,6 +7046,8 @@ class GuardrailCustomWord {
 }
 
 /// The content filter for a guardrail.
+///
+/// @nodoc
 class GuardrailContentFilter {
   /// The guardrail action.
   final GuardrailContentPolicyAction action;
@@ -6851,6 +7103,7 @@ class GuardrailContentFilter {
   }
 }
 
+/// @nodoc
 class GuardrailContentFilterType {
   static const insults = GuardrailContentFilterType._('INSULTS');
   static const hate = GuardrailContentFilterType._('HATE');
@@ -6887,6 +7140,7 @@ class GuardrailContentFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContentFilterConfidence {
   static const none = GuardrailContentFilterConfidence._('NONE');
   static const low = GuardrailContentFilterConfidence._('LOW');
@@ -6914,6 +7168,7 @@ class GuardrailContentFilterConfidence {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContentFilterStrength {
   static const none = GuardrailContentFilterStrength._('NONE');
   static const low = GuardrailContentFilterStrength._('LOW');
@@ -6941,6 +7196,7 @@ class GuardrailContentFilterStrength {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContentPolicyAction {
   static const blocked = GuardrailContentPolicyAction._('BLOCKED');
   static const none = GuardrailContentPolicyAction._('NONE');
@@ -6967,6 +7223,8 @@ class GuardrailContentPolicyAction {
 }
 
 /// Information about a topic guardrail.
+///
+/// @nodoc
 class GuardrailTopic {
   /// The action the guardrail should take when it intervenes on a topic.
   final GuardrailTopicPolicyAction action;
@@ -7013,6 +7271,7 @@ class GuardrailTopic {
   }
 }
 
+/// @nodoc
 class GuardrailTopicType {
   static const deny = GuardrailTopicType._('DENY');
 
@@ -7037,6 +7296,7 @@ class GuardrailTopicType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailTopicPolicyAction {
   static const blocked = GuardrailTopicPolicyAction._('BLOCKED');
   static const none = GuardrailTopicPolicyAction._('NONE');
@@ -7063,6 +7323,8 @@ class GuardrailTopicPolicyAction {
 }
 
 /// Cache creation metrics for a specific TTL duration
+///
+/// @nodoc
 class CacheDetail {
   /// Number of tokens written to cache with this TTL (cache creation tokens)
   final int inputTokens;
@@ -7092,6 +7354,7 @@ class CacheDetail {
   }
 }
 
+/// @nodoc
 class StopReason {
   static const endTurn = StopReason._('end_turn');
   static const toolUse = StopReason._('tool_use');
@@ -7134,6 +7397,8 @@ class StopReason {
 }
 
 /// A block of content in a streaming response.
+///
+/// @nodoc
 class ContentBlockDelta {
   /// Incremental citation information that is streamed as part of the response
   /// generation process.
@@ -7207,6 +7472,8 @@ class ContentBlockDelta {
 }
 
 /// The delta for a tool use block.
+///
+/// @nodoc
 class ToolUseBlockDelta {
   /// The input for a requested tool.
   final String input;
@@ -7233,6 +7500,8 @@ class ToolUseBlockDelta {
 /// with respect to the content in the content block. Reasoning refers to a
 /// Chain of Thought (CoT) that the model generates to enhance the accuracy of
 /// its final response.
+///
+/// @nodoc
 class ReasoningContentBlockDelta {
   /// The content in the reasoning that was encrypted by the model provider for
   /// safety reasons. The encryption doesn't affect the quality of responses.
@@ -7277,6 +7546,8 @@ class ReasoningContentBlockDelta {
 /// Contains incremental updates to citation information during streaming
 /// responses. This allows clients to build up citation data progressively as
 /// the response is generated.
+///
+/// @nodoc
 class CitationsDelta {
   /// Specifies the precise location within a source document where cited content
   /// can be found. This can include character-level positions, page numbers, or
@@ -7331,6 +7602,8 @@ class CitationsDelta {
 
 /// A streaming delta event that contains incremental image data during
 /// streaming responses.
+///
+/// @nodoc
 class ImageBlockDelta {
   /// Error information if this image delta could not be processed.
   final ErrorBlock? error;
@@ -7366,6 +7639,8 @@ class ImageBlockDelta {
 
 /// Contains incremental updates to the source content text during streaming
 /// responses, allowing clients to build up the cited content progressively.
+///
+/// @nodoc
 class CitationSourceContentDelta {
   /// An incremental update to the text content from the source document that is
   /// being cited.
@@ -7392,6 +7667,8 @@ class CitationSourceContentDelta {
 /// Contains incremental updates to tool results information during streaming
 /// responses. This allows clients to build up tool results data progressively
 /// as the response is generated.
+///
+/// @nodoc
 class ToolResultBlockDelta {
   /// The JSON schema for the tool result content block. see <a
   /// href="https://json-schema.org/understanding-json-schema/reference">JSON
@@ -7426,6 +7703,8 @@ class ToolResultBlockDelta {
 }
 
 /// Content block start information.
+///
+/// @nodoc
 class ContentBlockStart {
   /// The initial event indicating the start of a streaming image block.
   final ImageBlockStart? image;
@@ -7472,6 +7751,8 @@ class ContentBlockStart {
 /// The start of a tool use block. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolUseBlockStart {
   /// The name of the tool that the model is requesting to use.
   final String name;
@@ -7511,6 +7792,8 @@ class ToolUseBlockStart {
 /// The start of a tool result block. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Call
 /// a tool with the Converse API</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ToolResultBlockStart {
   /// The ID of the tool that was used to generate this tool result block.
   final String toolUseId;
@@ -7549,6 +7832,8 @@ class ToolResultBlockStart {
 
 /// The initial event in a streaming image block that indicates the start of
 /// image content.
+///
+/// @nodoc
 class ImageBlockStart {
   /// The format of the image data that will be streamed in subsequent delta
   /// events.
@@ -7586,6 +7871,8 @@ class ImageBlockStart {
 /// see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Model
 /// parameters</a>.
+///
+/// @nodoc
 class InferenceConfiguration {
   /// The maximum number of tokens to allow in the generated response. The default
   /// value is the maximum allowed value for the model that you are using. For
@@ -7644,6 +7931,8 @@ class InferenceConfiguration {
 /// Configuration information for a guardrail that you use with the <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
 /// action.
+///
+/// @nodoc
 class GuardrailStreamConfiguration {
   /// The identifier for the guardrail.
   final String? guardrailIdentifier;
@@ -7687,6 +7976,8 @@ class GuardrailStreamConfiguration {
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
 /// or <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>.
+///
+/// @nodoc
 class OutputConfig {
   /// Structured output parameters to control the model's text response.
   final OutputFormat? textFormat;
@@ -7704,6 +7995,8 @@ class OutputConfig {
 }
 
 /// Structured output parameters to control the model's response.
+///
+/// @nodoc
 class OutputFormat {
   /// The structure that the model's output must adhere to.
   final OutputFormatStructure structure;
@@ -7727,6 +8020,8 @@ class OutputFormat {
 }
 
 /// The type of structured output format. Available options are: json_schema.
+///
+/// @nodoc
 class OutputFormatType {
   static const jsonSchema = OutputFormatType._('json_schema');
 
@@ -7751,6 +8046,8 @@ class OutputFormatType {
 }
 
 /// The structure that the model's output must adhere to.
+///
+/// @nodoc
 class OutputFormatStructure {
   /// A JSON schema structure that the model's output must adhere to.
   final JsonSchemaDefinition? jsonSchema;
@@ -7768,6 +8065,8 @@ class OutputFormatStructure {
 }
 
 /// JSON schema structured output format options.
+///
+/// @nodoc
 class JsonSchemaDefinition {
   /// The JSON schema to constrain the model's output. For more information, see
   /// <a href="https://json-schema.org/understanding-json-schema/reference">JSON
@@ -7803,6 +8102,8 @@ class JsonSchemaDefinition {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-how.html">How
 /// Prompt management works</a>.
+///
+/// @nodoc
 class PromptVariableValues {
   /// The text value that the variable maps to.
   final String? text;
@@ -7819,6 +8120,7 @@ class PromptVariableValues {
   }
 }
 
+/// @nodoc
 class GuardrailTrace {
   static const enabled = GuardrailTrace._('enabled');
   static const disabled = GuardrailTrace._('disabled');
@@ -7844,6 +8146,7 @@ class GuardrailTrace {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailStreamProcessingMode {
   static const sync = GuardrailStreamProcessingMode._('sync');
   static const async = GuardrailStreamProcessingMode._('async');
@@ -7871,6 +8174,8 @@ class GuardrailStreamProcessingMode {
 
 /// The output from a call to <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>.
+///
+/// @nodoc
 class ConverseOutput {
   /// The message that the model generates.
   final Message? message;
@@ -7897,6 +8202,8 @@ class ConverseOutput {
 
 /// Metrics for a call to <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>.
+///
+/// @nodoc
 class ConverseMetrics {
   /// The latency of the call to <code>Converse</code>, in milliseconds.
   final int latencyMs;
@@ -7921,6 +8228,8 @@ class ConverseMetrics {
 
 /// The trace object in a response from <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>.
+///
+/// @nodoc
 class ConverseTrace {
   /// The guardrail trace object.
   final GuardrailTraceAssessment? guardrail;
@@ -7959,6 +8268,8 @@ class ConverseTrace {
 /// Configuration information for a guardrail that you use with the <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
 /// operation.
+///
+/// @nodoc
 class GuardrailConfiguration {
   /// The identifier for the guardrail.
   final String? guardrailIdentifier;
@@ -7988,6 +8299,7 @@ class GuardrailConfiguration {
   }
 }
 
+/// @nodoc
 class GuardrailAction {
   static const none = GuardrailAction._('NONE');
   static const guardrailIntervened = GuardrailAction._('GUARDRAIL_INTERVENED');
@@ -8013,6 +8325,8 @@ class GuardrailAction {
 }
 
 /// The output content produced by the guardrail.
+///
+/// @nodoc
 class GuardrailOutputContent {
   /// The specific text for the output content produced by the guardrail.
   final String? text;
@@ -8035,6 +8349,7 @@ class GuardrailOutputContent {
   }
 }
 
+/// @nodoc
 class GuardrailContentSource {
   static const input = GuardrailContentSource._('INPUT');
   static const output = GuardrailContentSource._('OUTPUT');
@@ -8060,6 +8375,7 @@ class GuardrailContentSource {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailOutputScope {
   static const interventions = GuardrailOutputScope._('INTERVENTIONS');
   static const full = GuardrailOutputScope._('FULL');
@@ -8086,6 +8402,8 @@ class GuardrailOutputScope {
 }
 
 /// The content block to be evaluated by the guardrail.
+///
+/// @nodoc
 class GuardrailContentBlock {
   /// Image within guardrail content block to be evaluated by the guardrail.
   final GuardrailImageBlock? image;
@@ -8109,6 +8427,8 @@ class GuardrailContentBlock {
 }
 
 /// The text block to be evaluated by the guardrail.
+///
+/// @nodoc
 class GuardrailTextBlock {
   /// The input text details to be evaluated by the guardrail.
   final String text;
@@ -8134,6 +8454,8 @@ class GuardrailTextBlock {
 
 /// Contain an image which user wants guarded. This block is accepted by the
 /// guardrails independent API.
+///
+/// @nodoc
 class GuardrailImageBlock {
   /// The format details for the file type of the image blocked by the guardrail.
   final GuardrailImageFormat format;
@@ -8157,6 +8479,7 @@ class GuardrailImageBlock {
   }
 }
 
+/// @nodoc
 class GuardrailImageFormat {
   static const png = GuardrailImageFormat._('png');
   static const jpeg = GuardrailImageFormat._('jpeg');
@@ -8184,6 +8507,8 @@ class GuardrailImageFormat {
 
 /// The image source (image bytes) of the guardrail image source. Object used in
 /// independent api.
+///
+/// @nodoc
 class GuardrailImageSource {
   /// The bytes details of the guardrail image source. Object used in independent
   /// api.
@@ -8201,6 +8526,7 @@ class GuardrailImageSource {
   }
 }
 
+/// @nodoc
 class GuardrailContentQualifier {
   static const groundingSource =
       GuardrailContentQualifier._('grounding_source');
@@ -8229,6 +8555,8 @@ class GuardrailContentQualifier {
 }
 
 /// Asynchronous invocation output data settings.
+///
+/// @nodoc
 class AsyncInvokeOutputDataConfig {
   /// A storage location for the output data in an S3 bucket
   final AsyncInvokeS3OutputDataConfig? s3OutputDataConfig;
@@ -8255,6 +8583,8 @@ class AsyncInvokeOutputDataConfig {
 }
 
 /// A tag.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -8278,6 +8608,8 @@ class Tag {
 }
 
 /// Asynchronous invocation output data settings.
+///
+/// @nodoc
 class AsyncInvokeS3OutputDataConfig {
   /// An object URI starting with <code>s3://</code>.
   final String s3Uri;
@@ -8315,6 +8647,8 @@ class AsyncInvokeS3OutputDataConfig {
 }
 
 /// A summary of an asynchronous invocation.
+///
+/// @nodoc
 class AsyncInvokeSummary {
   /// The invocation's ARN.
   final String invocationArn;
@@ -8396,6 +8730,7 @@ class AsyncInvokeSummary {
   }
 }
 
+/// @nodoc
 class AsyncInvokeStatus {
   static const inProgress = AsyncInvokeStatus._('InProgress');
   static const completed = AsyncInvokeStatus._('Completed');
@@ -8421,6 +8756,7 @@ class AsyncInvokeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortAsyncInvocationBy {
   static const submissionTime = SortAsyncInvocationBy._('SubmissionTime');
 
@@ -8445,6 +8781,7 @@ class SortAsyncInvocationBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -8468,6 +8805,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -8480,31 +8818,37 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ModelErrorException extends _s.GenericAwsException {
   ModelErrorException({String? type, String? message})
       : super(type: type, code: 'ModelErrorException', message: message);
 }
 
+/// @nodoc
 class ModelNotReadyException extends _s.GenericAwsException {
   ModelNotReadyException({String? type, String? message})
       : super(type: type, code: 'ModelNotReadyException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(

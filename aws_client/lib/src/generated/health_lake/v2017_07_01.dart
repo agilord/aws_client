@@ -645,6 +645,7 @@ class HealthLake {
   }
 }
 
+/// @nodoc
 class CreateFHIRDatastoreResponse {
   /// The Amazon Resource Name (ARN) for the data store.
   final String datastoreArn;
@@ -689,6 +690,7 @@ class CreateFHIRDatastoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteFHIRDatastoreResponse {
   /// The Amazon Resource Name (ARN) that grants access permission to AWS
   /// HealthLake.
@@ -734,6 +736,7 @@ class DeleteFHIRDatastoreResponse {
   }
 }
 
+/// @nodoc
 class DescribeFHIRDatastoreResponse {
   /// The data store properties.
   final DatastoreProperties datastoreProperties;
@@ -758,6 +761,7 @@ class DescribeFHIRDatastoreResponse {
   }
 }
 
+/// @nodoc
 class DescribeFHIRExportJobResponse {
   /// The export job properties.
   final ExportJobProperties exportJobProperties;
@@ -782,6 +786,7 @@ class DescribeFHIRExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeFHIRImportJobResponse {
   /// The import job properties.
   final ImportJobProperties importJobProperties;
@@ -806,6 +811,7 @@ class DescribeFHIRImportJobResponse {
   }
 }
 
+/// @nodoc
 class ListFHIRDatastoresResponse {
   /// The properties associated with all listed data stores.
   final List<DatastoreProperties> datastorePropertiesList;
@@ -839,6 +845,7 @@ class ListFHIRDatastoresResponse {
   }
 }
 
+/// @nodoc
 class ListFHIRExportJobsResponse {
   /// The properties of listed FHIR export jobs.
   final List<ExportJobProperties> exportJobPropertiesList;
@@ -872,6 +879,7 @@ class ListFHIRExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListFHIRImportJobsResponse {
   /// The properties for listed import jobs.
   final List<ImportJobProperties> importJobPropertiesList;
@@ -905,6 +913,7 @@ class ListFHIRImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Returns a list of tags associated with a data store.
   final List<Tag>? tags;
@@ -930,6 +939,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartFHIRExportJobResponse {
   /// The export job identifier.
   final String jobId;
@@ -966,6 +976,7 @@ class StartFHIRExportJobResponse {
   }
 }
 
+/// @nodoc
 class StartFHIRImportJobResponse {
   /// The import job identifier.
   final String jobId;
@@ -1002,6 +1013,7 @@ class StartFHIRImportJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1014,6 +1026,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1028,6 +1041,8 @@ class UntagResourceResponse {
 
 /// A label consisting of a user-defined key and value. The form for tags is
 /// {"Key", "Value"}
+///
+/// @nodoc
 class Tag {
   /// The key portion of a tag. Tag keys are case sensitive.
   final String key;
@@ -1057,6 +1072,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const queued = JobStatus._('QUEUED');
@@ -1100,6 +1116,8 @@ class JobStatus {
 }
 
 /// The import job input properties.
+///
+/// @nodoc
 class InputDataConfig {
   /// The <code>S3Uri</code> is the user-specified S3 location of the FHIR data to
   /// be imported into AWS HealthLake.
@@ -1124,6 +1142,8 @@ class InputDataConfig {
 }
 
 /// The output data configuration supplied when the export job was created.
+///
+/// @nodoc
 class OutputDataConfig {
   /// The output data configuration supplied when the export job was created.
   final S3Configuration? s3Configuration;
@@ -1149,6 +1169,7 @@ class OutputDataConfig {
   }
 }
 
+/// @nodoc
 class ValidationLevel {
   static const strict = ValidationLevel._('strict');
   static const structureOnly = ValidationLevel._('structure-only');
@@ -1176,6 +1197,8 @@ class ValidationLevel {
 
 /// The configuration of the S3 bucket for either an import or export job. This
 /// includes assigning access permissions.
+///
+/// @nodoc
 class S3Configuration {
   /// The Key Management Service (KMS) key ID used to access the S3 bucket.
   final String kmsKeyId;
@@ -1207,6 +1230,8 @@ class S3Configuration {
 }
 
 /// The import job properties.
+///
+/// @nodoc
 class ImportJobProperties {
   /// The data store identifier.
   final String datastoreId;
@@ -1318,6 +1343,8 @@ class ImportJobProperties {
 }
 
 /// The progress report for the import job.
+///
+/// @nodoc
 class JobProgressReport {
   /// The transaction rate the import job is processed at.
   final double? throughput;
@@ -1407,6 +1434,8 @@ class JobProgressReport {
 }
 
 /// The properties of a FHIR export job.
+///
+/// @nodoc
 class ExportJobProperties {
   /// The data store identifier from which files are being exported.
   final String datastoreId;
@@ -1488,6 +1517,8 @@ class ExportJobProperties {
 }
 
 /// The data store properties.
+///
+/// @nodoc
 class DatastoreProperties {
   /// The Amazon Resource Name (ARN) used in the creation of the data store.
   final String datastoreArn;
@@ -1597,6 +1628,7 @@ class DatastoreProperties {
   }
 }
 
+/// @nodoc
 class DatastoreStatus {
   static const creating = DatastoreStatus._('CREATING');
   static const active = DatastoreStatus._('ACTIVE');
@@ -1624,6 +1656,7 @@ class DatastoreStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FHIRVersion {
   static const r4 = FHIRVersion._('R4');
 
@@ -1648,6 +1681,8 @@ class FHIRVersion {
 
 /// The server-side encryption key configuration for a customer-provided
 /// encryption key.
+///
+/// @nodoc
 class SseConfiguration {
   /// The Key Management Service (KMS) encryption configuration used to provide
   /// details for data encryption.
@@ -1674,6 +1709,8 @@ class SseConfiguration {
 }
 
 /// The input properties for the preloaded (Synthea) data store.
+///
+/// @nodoc
 class PreloadDataConfig {
   /// The type of preloaded data. Only Synthea preloaded data is supported.
   final PreloadDataType preloadDataType;
@@ -1699,6 +1736,8 @@ class PreloadDataConfig {
 
 /// The identity provider configuration selected when the data store was
 /// created.
+///
+/// @nodoc
 class IdentityProviderConfiguration {
   /// The authorization strategy selected when the HealthLake data store is
   /// created.
@@ -1792,6 +1831,8 @@ class IdentityProviderConfiguration {
 
 /// The error information for <code>CreateFHIRDatastore</code> and
 /// <code>DeleteFHIRDatastore</code> actions.
+///
+/// @nodoc
 class ErrorCause {
   /// The error category for <code>ErrorCause</code>.
   final ErrorCategory? errorCategory;
@@ -1822,6 +1863,7 @@ class ErrorCause {
   }
 }
 
+/// @nodoc
 class ErrorCategory {
   static const retryableError = ErrorCategory._('RETRYABLE_ERROR');
   static const nonRetryableError = ErrorCategory._('NON_RETRYABLE_ERROR');
@@ -1846,6 +1888,7 @@ class ErrorCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthorizationStrategy {
   static const smartOnFhirV1 = AuthorizationStrategy._('SMART_ON_FHIR_V1');
   static const smartOnFhir = AuthorizationStrategy._('SMART_ON_FHIR');
@@ -1872,6 +1915,7 @@ class AuthorizationStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class PreloadDataType {
   static const synthea = PreloadDataType._('SYNTHEA');
 
@@ -1898,6 +1942,8 @@ class PreloadDataType {
 /// The customer-managed-key (CMK) used when creating a data store. If a
 /// customer-owned key is not specified, an AWS-owned key is used for
 /// encryption.
+///
+/// @nodoc
 class KmsEncryptionConfig {
   /// The type of customer-managed-key (CMK) used for encryption.
   final CmkType cmkType;
@@ -1928,6 +1974,7 @@ class KmsEncryptionConfig {
   }
 }
 
+/// @nodoc
 class CmkType {
   static const customerManagedKmsKey = CmkType._('CUSTOMER_MANAGED_KMS_KEY');
   static const awsOwnedKmsKey = CmkType._('AWS_OWNED_KMS_KEY');
@@ -1952,6 +1999,8 @@ class CmkType {
 }
 
 /// The filters applied to a data store query.
+///
+/// @nodoc
 class DatastoreFilter {
   /// Filter to set cutoff dates for records. All data stores created after the
   /// specified date are included in the results.
@@ -1990,31 +2039,37 @@ class DatastoreFilter {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

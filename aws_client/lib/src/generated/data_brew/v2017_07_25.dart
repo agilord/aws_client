@@ -1795,6 +1795,7 @@ class DataBrew {
   }
 }
 
+/// @nodoc
 class BatchDeleteRecipeVersionResponse {
   /// The name of the recipe that was modified.
   final String name;
@@ -1829,6 +1830,7 @@ class BatchDeleteRecipeVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The name of the dataset that you created.
   final String name;
@@ -1851,6 +1853,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateProfileJobResponse {
   /// The name of the job that was created.
   final String name;
@@ -1873,6 +1876,7 @@ class CreateProfileJobResponse {
   }
 }
 
+/// @nodoc
 class CreateProjectResponse {
   /// The name of the project that you created.
   final String name;
@@ -1895,6 +1899,7 @@ class CreateProjectResponse {
   }
 }
 
+/// @nodoc
 class CreateRecipeResponse {
   /// The name of the recipe that you created.
   final String name;
@@ -1917,6 +1922,7 @@ class CreateRecipeResponse {
   }
 }
 
+/// @nodoc
 class CreateRecipeJobResponse {
   /// The name of the job that you created.
   final String name;
@@ -1939,6 +1945,7 @@ class CreateRecipeJobResponse {
   }
 }
 
+/// @nodoc
 class CreateRulesetResponse {
   /// The unique name of the created ruleset.
   final String name;
@@ -1961,6 +1968,7 @@ class CreateRulesetResponse {
   }
 }
 
+/// @nodoc
 class CreateScheduleResponse {
   /// The name of the schedule that was created.
   final String name;
@@ -1983,6 +1991,7 @@ class CreateScheduleResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatasetResponse {
   /// The name of the dataset that you deleted.
   final String name;
@@ -2005,6 +2014,7 @@ class DeleteDatasetResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobResponse {
   /// The name of the job that you deleted.
   final String name;
@@ -2027,6 +2037,7 @@ class DeleteJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteProjectResponse {
   /// The name of the project that you deleted.
   final String name;
@@ -2049,6 +2060,7 @@ class DeleteProjectResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecipeVersionResponse {
   /// The name of the recipe that was deleted.
   final String name;
@@ -2078,6 +2090,7 @@ class DeleteRecipeVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteRulesetResponse {
   /// The name of the deleted ruleset.
   final String name;
@@ -2100,6 +2113,7 @@ class DeleteRulesetResponse {
   }
 }
 
+/// @nodoc
 class DeleteScheduleResponse {
   /// The name of the schedule that was deleted.
   final String name;
@@ -2122,6 +2136,7 @@ class DeleteScheduleResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   final Input input;
 
@@ -2229,6 +2244,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobResponse {
   /// The name of the job.
   final String name;
@@ -2467,6 +2483,7 @@ class DescribeJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobRunResponse {
   /// The name of the job being processed during this run.
   final String jobName;
@@ -2646,6 +2663,7 @@ class DescribeJobRunResponse {
   }
 }
 
+/// @nodoc
 class DescribeProjectResponse {
   /// The name of the project.
   final String name;
@@ -2775,6 +2793,7 @@ class DescribeProjectResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecipeResponse {
   /// The name of the recipe.
   final String name;
@@ -2888,6 +2907,7 @@ class DescribeRecipeResponse {
   }
 }
 
+/// @nodoc
 class DescribeRulesetResponse {
   /// The name of the ruleset.
   final String name;
@@ -2980,6 +3000,7 @@ class DescribeRulesetResponse {
   }
 }
 
+/// @nodoc
 class DescribeScheduleResponse {
   /// The name of the schedule.
   final String name;
@@ -3066,6 +3087,7 @@ class DescribeScheduleResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// A list of datasets that are defined.
   final List<Dataset> datasets;
@@ -3099,6 +3121,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListJobRunsResponse {
   /// A list of job runs that have occurred for the specified job.
   final List<JobRun> jobRuns;
@@ -3132,6 +3155,7 @@ class ListJobRunsResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// A list of jobs that are defined.
   final List<Job> jobs;
@@ -3165,6 +3189,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListProjectsResponse {
   /// A list of projects that are defined .
   final List<Project> projects;
@@ -3198,6 +3223,7 @@ class ListProjectsResponse {
   }
 }
 
+/// @nodoc
 class ListRecipesResponse {
   /// A list of recipes that are defined.
   final List<Recipe> recipes;
@@ -3231,6 +3257,7 @@ class ListRecipesResponse {
   }
 }
 
+/// @nodoc
 class ListRecipeVersionsResponse {
   /// A list of versions for the specified recipe.
   final List<Recipe> recipes;
@@ -3264,6 +3291,7 @@ class ListRecipeVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListRulesetsResponse {
   /// A list of RulesetItem. RulesetItem contains meta data of a ruleset.
   final List<RulesetItem> rulesets;
@@ -3297,6 +3325,7 @@ class ListRulesetsResponse {
   }
 }
 
+/// @nodoc
 class ListSchedulesResponse {
   /// A list of schedules that are defined.
   final List<Schedule> schedules;
@@ -3330,6 +3359,7 @@ class ListSchedulesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags associated with the DataBrew resource.
   final Map<String, String>? tags;
@@ -3353,6 +3383,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PublishRecipeResponse {
   /// The name of the recipe that you published.
   final String name;
@@ -3375,6 +3406,7 @@ class PublishRecipeResponse {
   }
 }
 
+/// @nodoc
 class SendProjectSessionActionResponse {
   /// The name of the project that was affected by the action.
   final String name;
@@ -3411,6 +3443,7 @@ class SendProjectSessionActionResponse {
   }
 }
 
+/// @nodoc
 class StartJobRunResponse {
   /// A system-generated identifier for this particular job run.
   final String runId;
@@ -3433,6 +3466,7 @@ class StartJobRunResponse {
   }
 }
 
+/// @nodoc
 class StartProjectSessionResponse {
   /// The name of the project to be acted upon.
   final String name;
@@ -3462,6 +3496,7 @@ class StartProjectSessionResponse {
   }
 }
 
+/// @nodoc
 class StopJobRunResponse {
   /// The ID of the job run that you stopped.
   final String runId;
@@ -3484,6 +3519,7 @@ class StopJobRunResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3496,6 +3532,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3508,6 +3545,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetResponse {
   /// The name of the dataset that you updated.
   final String name;
@@ -3530,6 +3568,7 @@ class UpdateDatasetResponse {
   }
 }
 
+/// @nodoc
 class UpdateProfileJobResponse {
   /// The name of the job that was updated.
   final String name;
@@ -3552,6 +3591,7 @@ class UpdateProfileJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateProjectResponse {
   /// The name of the project that you updated.
   final String name;
@@ -3582,6 +3622,7 @@ class UpdateProjectResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecipeResponse {
   /// The name of the recipe that was updated.
   final String name;
@@ -3604,6 +3645,7 @@ class UpdateRecipeResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecipeJobResponse {
   /// The name of the job that you updated.
   final String name;
@@ -3626,6 +3668,7 @@ class UpdateRecipeJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateRulesetResponse {
   /// The name of the updated ruleset.
   final String name;
@@ -3648,6 +3691,7 @@ class UpdateRulesetResponse {
   }
 }
 
+/// @nodoc
 class UpdateScheduleResponse {
   /// The name of the schedule that was updated.
   final String name;
@@ -3672,6 +3716,8 @@ class UpdateScheduleResponse {
 
 /// Represents a single data quality requirement that should be validated in the
 /// scope of this dataset.
+///
+/// @nodoc
 class Rule {
   /// The expression which includes column references, condition names followed by
   /// variable references, possibly grouped and combined with other conditions.
@@ -3763,6 +3809,8 @@ class Rule {
 /// The threshold used with a non-aggregate check expression. The non-aggregate
 /// check expression will be applied to each row in a specific column. Then the
 /// threshold will be used to determine whether the validation succeeds.
+///
+/// @nodoc
 class Threshold {
   /// The value of a threshold.
   final double value;
@@ -3803,6 +3851,8 @@ class Threshold {
 
 /// Selector of a column from a dataset for profile job configuration. One
 /// selector includes either a column name or a regular expression.
+///
+/// @nodoc
 class ColumnSelector {
   /// The name of a column from a dataset.
   final String? name;
@@ -3832,6 +3882,7 @@ class ColumnSelector {
   }
 }
 
+/// @nodoc
 class ThresholdType {
   static const greaterThanOrEqual = ThresholdType._('GREATER_THAN_OR_EQUAL');
   static const lessThanOrEqual = ThresholdType._('LESS_THAN_OR_EQUAL');
@@ -3863,6 +3914,7 @@ class ThresholdType {
   String toString() => value;
 }
 
+/// @nodoc
 class ThresholdUnit {
   static const count = ThresholdUnit._('COUNT');
   static const percentage = ThresholdUnit._('PERCENTAGE');
@@ -3887,6 +3939,7 @@ class ThresholdUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionMode {
   static const sseKms = EncryptionMode._('SSE-KMS');
   static const sseS3 = EncryptionMode._('SSE-S3');
@@ -3911,6 +3964,7 @@ class EncryptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class LogSubscription {
   static const enable = LogSubscription._('ENABLE');
   static const disable = LogSubscription._('DISABLE');
@@ -3937,6 +3991,8 @@ class LogSubscription {
 
 /// Represents a JDBC database output object which defines the output
 /// destination for a DataBrew recipe job to write into.
+///
+/// @nodoc
 class DatabaseOutput {
   /// Represents options that specify how and where DataBrew writes the database
   /// output generated by recipe jobs.
@@ -3982,6 +4038,8 @@ class DatabaseOutput {
 
 /// Represents options that specify how and where DataBrew writes the database
 /// output generated by recipe jobs.
+///
+/// @nodoc
 class DatabaseTableOutputOptions {
   /// A prefix for the name of a table DataBrew will create in the database.
   final String tableName;
@@ -4014,6 +4072,7 @@ class DatabaseTableOutputOptions {
   }
 }
 
+/// @nodoc
 class DatabaseOutputMode {
   static const newTable = DatabaseOutputMode._('NEW_TABLE');
 
@@ -4040,6 +4099,8 @@ class DatabaseOutputMode {
 
 /// Represents an Amazon S3 location (bucket name, bucket owner, and object key)
 /// where DataBrew can read input data, or write output from a job.
+///
+/// @nodoc
 class S3Location {
   /// The Amazon S3 bucket name.
   final String bucket;
@@ -4078,6 +4139,8 @@ class S3Location {
 
 /// Represents options that specify how and where in the Glue Data Catalog
 /// DataBrew writes the output generated by recipe jobs.
+///
+/// @nodoc
 class DataCatalogOutput {
   /// The name of a database in the Data Catalog.
   final String databaseName;
@@ -4147,6 +4210,8 @@ class DataCatalogOutput {
 
 /// Represents options that specify how and where DataBrew writes the Amazon S3
 /// output generated by recipe jobs.
+///
+/// @nodoc
 class S3TableOutputOptions {
   /// Represents an Amazon S3 location (bucket name and object key) where DataBrew
   /// can write output from a job.
@@ -4174,6 +4239,8 @@ class S3TableOutputOptions {
 
 /// Represents options that specify how and where in Amazon S3 DataBrew writes
 /// the output generated by recipe jobs or profile jobs.
+///
+/// @nodoc
 class Output {
   /// The location in Amazon S3 where the job writes its output.
   final S3Location location;
@@ -4251,6 +4318,7 @@ class Output {
   }
 }
 
+/// @nodoc
 class CompressionFormat {
   static const gzip = CompressionFormat._('GZIP');
   static const lz4 = CompressionFormat._('LZ4');
@@ -4292,6 +4360,7 @@ class CompressionFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputFormat {
   static const csv = OutputFormat._('CSV');
   static const json = OutputFormat._('JSON');
@@ -4332,6 +4401,8 @@ class OutputFormat {
 
 /// Represents a set of options that define the structure of comma-separated
 /// (CSV) job output.
+///
+/// @nodoc
 class OutputFormatOptions {
   /// Represents a set of options that define the structure of comma-separated
   /// value (CSV) job output.
@@ -4359,6 +4430,8 @@ class OutputFormatOptions {
 
 /// Represents a set of options that define how DataBrew will write a
 /// comma-separated value (CSV) file.
+///
+/// @nodoc
 class CsvOutputOptions {
   /// A single character that specifies the delimiter used to create CSV job
   /// output.
@@ -4383,6 +4456,8 @@ class CsvOutputOptions {
 }
 
 /// Represents a single step from a DataBrew recipe to be performed.
+///
+/// @nodoc
 class RecipeStep {
   /// The particular action to be performed in the recipe step.
   final RecipeAction action;
@@ -4425,6 +4500,8 @@ class RecipeStep {
 /// a change to a DataBrew dataset. For more information, see <a
 /// href="https://docs.aws.amazon.com/databrew/latest/dg/recipe-actions-reference.html">Recipe
 /// actions reference</a>.
+///
+/// @nodoc
 class RecipeAction {
   /// The name of a valid DataBrew transformation to be performed on the data.
   final String operation;
@@ -4464,6 +4541,8 @@ class RecipeAction {
 /// multiple <code>ConditionExpression</code> elements. Each condition is
 /// applied to the rows in a dataset first, before the recipe action is
 /// performed.
+///
+/// @nodoc
 class ConditionExpression {
   /// A specific condition to apply to a recipe action. For more information, see
   /// <a
@@ -4505,6 +4584,8 @@ class ConditionExpression {
 
 /// Represents the sample size and sampling type for DataBrew to use for
 /// interactive data analysis.
+///
+/// @nodoc
 class Sample {
   /// The way in which DataBrew obtains rows from a dataset.
   final SampleType type;
@@ -4534,6 +4615,7 @@ class Sample {
   }
 }
 
+/// @nodoc
 class SampleType {
   static const firstN = SampleType._('FIRST_N');
   static const lastN = SampleType._('LAST_N');
@@ -4562,6 +4644,8 @@ class SampleType {
 /// do evaluations, and override default parameters of evaluations. When
 /// configuration is undefined, the profile job will apply default settings to
 /// all supported columns.
+///
+/// @nodoc
 class ProfileConfiguration {
   /// List of configurations for column evaluations.
   /// ColumnStatisticsConfigurations are used to select evaluations and override
@@ -4637,6 +4721,8 @@ class ProfileConfiguration {
 /// rows on which the profile job is run. If a <code>JobSample</code> value
 /// isn't provided, the default is used. The default value is CUSTOM_ROWS for
 /// the mode parameter and 20,000 for the size parameter.
+///
+/// @nodoc
 class JobSample {
   /// A value that determines whether the profile job is run on the entire dataset
   /// or a specified number of rows. This value must be one of the following:
@@ -4681,6 +4767,7 @@ class JobSample {
   }
 }
 
+/// @nodoc
 class SampleMode {
   static const fullDataset = SampleMode._('FULL_DATASET');
   static const customRows = SampleMode._('CUSTOM_ROWS');
@@ -4707,6 +4794,8 @@ class SampleMode {
 /// Configuration for data quality validation. Used to select the Rulesets and
 /// Validation Mode to be used in the profile job. When ValidationConfiguration
 /// is null, the profile job will run without data quality validation.
+///
+/// @nodoc
 class ValidationConfiguration {
   /// The Amazon Resource Name (ARN) for the ruleset to be validated in the
   /// profile job. The TargetArn of the selected ruleset should be the same as the
@@ -4741,6 +4830,7 @@ class ValidationConfiguration {
   }
 }
 
+/// @nodoc
 class ValidationMode {
   static const checkAll = ValidationMode._('CHECK_ALL');
 
@@ -4767,6 +4857,8 @@ class ValidationMode {
 /// Configuration of evaluations for a profile job. This configuration can be
 /// used to select evaluations and override the parameters of selected
 /// evaluations.
+///
+/// @nodoc
 class StatisticsConfiguration {
   /// List of included evaluations. When the list is undefined, all supported
   /// evaluations will be included.
@@ -4805,6 +4897,8 @@ class StatisticsConfiguration {
 
 /// Configuration of entity detection for a profile job. When undefined, entity
 /// detection is disabled.
+///
+/// @nodoc
 class EntityDetectorConfiguration {
   /// Entity types to detect. Can be any of the following:
   ///
@@ -4907,6 +5001,8 @@ class EntityDetectorConfiguration {
 /// Configuration of statistics that are allowed to be run on columns that
 /// contain detected entities. When undefined, no statistics will be computed on
 /// columns that contain detected entities.
+///
+/// @nodoc
 class AllowedStatistics {
   /// One or more column statistics to allow for columns that contain detected
   /// entities.
@@ -4936,6 +5032,8 @@ class AllowedStatistics {
 /// Configuration for column evaluations for a profile job.
 /// ColumnStatisticsConfiguration can be used to select evaluations and override
 /// parameters of evaluations for particular columns.
+///
+/// @nodoc
 class ColumnStatisticsConfiguration {
   /// Configuration for evaluations. Statistics can be used to select evaluations
   /// and override parameters of evaluations.
@@ -4974,6 +5072,8 @@ class ColumnStatisticsConfiguration {
 }
 
 /// Override of a particular evaluation for a profile job.
+///
+/// @nodoc
 class StatisticOverride {
   /// A map that includes overrides of an evaluation’s parameters.
   final Map<String, String> parameters;
@@ -5005,6 +5105,7 @@ class StatisticOverride {
   }
 }
 
+/// @nodoc
 class InputFormat {
   static const csv = InputFormat._('CSV');
   static const json = InputFormat._('JSON');
@@ -5033,6 +5134,8 @@ class InputFormat {
 
 /// Represents a set of options that define the structure of either
 /// comma-separated value (CSV), Excel, or JSON input.
+///
+/// @nodoc
 class FormatOptions {
   /// Options that define how CSV input is to be interpreted by DataBrew.
   final CsvOptions? csv;
@@ -5077,6 +5180,8 @@ class FormatOptions {
 
 /// Represents information on how DataBrew can find data, in either the Glue
 /// Data Catalog or Amazon S3.
+///
+/// @nodoc
 class Input {
   /// The Glue Data Catalog parameters for the data.
   final DataCatalogInputDefinition? dataCatalogInputDefinition;
@@ -5135,6 +5240,8 @@ class Input {
 
 /// Represents a set of options that define how DataBrew selects files for a
 /// given Amazon S3 path in a dataset.
+///
+/// @nodoc
 class PathOptions {
   /// If provided, this structure imposes a limit on a number of files that should
   /// be selected.
@@ -5186,6 +5293,8 @@ class PathOptions {
 /// href="https://docs.aws.amazon.com/databrew/latest/dg/datasets.multiple-files.html#conditions.for.dynamic.datasets">Supported
 /// conditions for dynamic datasets</a> in the <i>Glue DataBrew Developer
 /// Guide</i>.
+///
+/// @nodoc
 class FilterExpression {
   /// The expression which includes condition names followed by substitution
   /// variables, possibly grouped and combined with other conditions. For example,
@@ -5223,6 +5332,8 @@ class FilterExpression {
 
 /// Represents a limit imposed on number of Amazon S3 files that should be
 /// selected for a dataset from a connected Amazon S3 path.
+///
+/// @nodoc
 class FilesLimit {
   /// The number of Amazon S3 files to select.
   final int maxFiles;
@@ -5265,6 +5376,8 @@ class FilesLimit {
 
 /// Represents a dataset parameter that defines type and conditions for a
 /// parameter in the Amazon S3 path of the dataset.
+///
+/// @nodoc
 class DatasetParameter {
   /// The name of the parameter that is used in the dataset's Amazon S3 path.
   final String name;
@@ -5324,6 +5437,7 @@ class DatasetParameter {
   }
 }
 
+/// @nodoc
 class ParameterType {
   static const datetime = ParameterType._('Datetime');
   static const number = ParameterType._('Number');
@@ -5351,6 +5465,8 @@ class ParameterType {
 
 /// Represents additional options for correct interpretation of datetime
 /// parameters used in the Amazon S3 path of a dataset.
+///
+/// @nodoc
 class DatetimeOptions {
   /// Required option, that defines the datetime format used for a date parameter
   /// in the Amazon S3 path. Should use only supported datetime specifiers and
@@ -5393,6 +5509,7 @@ class DatetimeOptions {
   }
 }
 
+/// @nodoc
 class OrderedBy {
   static const lastModifiedDate = OrderedBy._('LAST_MODIFIED_DATE');
 
@@ -5415,6 +5532,7 @@ class OrderedBy {
   String toString() => value;
 }
 
+/// @nodoc
 class Order {
   static const descending = Order._('DESCENDING');
   static const ascending = Order._('ASCENDING');
@@ -5440,6 +5558,8 @@ class Order {
 
 /// Represents how metadata stored in the Glue Data Catalog is defined in a
 /// DataBrew dataset.
+///
+/// @nodoc
 class DataCatalogInputDefinition {
   /// The name of a database in the Data Catalog.
   final String databaseName;
@@ -5488,6 +5608,8 @@ class DataCatalogInputDefinition {
 }
 
 /// Connection information for dataset input files stored in a database.
+///
+/// @nodoc
 class DatabaseInputDefinition {
   /// The Glue Connection that stores the connection information for the target
   /// database.
@@ -5534,6 +5656,8 @@ class DatabaseInputDefinition {
 }
 
 /// Contains additional resource information needed for specific datasets.
+///
+/// @nodoc
 class Metadata {
   /// The Amazon Resource Name (ARN) associated with the dataset. Currently,
   /// DataBrew only supports ARNs from Amazon AppFlow.
@@ -5559,6 +5683,8 @@ class Metadata {
 
 /// Represents the JSON-specific options that define how input is to be
 /// interpreted by Glue DataBrew.
+///
+/// @nodoc
 class JsonOptions {
   /// A value that specifies whether JSON input contains embedded new line
   /// characters.
@@ -5584,6 +5710,8 @@ class JsonOptions {
 
 /// Represents a set of options that define how DataBrew will interpret a
 /// Microsoft Excel file when creating a dataset from that file.
+///
+/// @nodoc
 class ExcelOptions {
   /// A variable that specifies whether the first row in the file is parsed as the
   /// header. If this value is false, column names are auto-generated.
@@ -5631,6 +5759,8 @@ class ExcelOptions {
 
 /// Represents a set of options that define how DataBrew will read a
 /// comma-separated value (CSV) file when creating a dataset from that file.
+///
+/// @nodoc
 class CsvOptions {
   /// A single character that specifies the delimiter being used in the CSV file.
   final String? delimiter;
@@ -5662,6 +5792,8 @@ class CsvOptions {
 }
 
 /// Represents the data being transformed during an action.
+///
+/// @nodoc
 class ViewFrame {
   /// The starting index for the range of columns to return in the view frame.
   final int startColumnIndex;
@@ -5712,6 +5844,7 @@ class ViewFrame {
   }
 }
 
+/// @nodoc
 class AnalyticsMode {
   static const enable = AnalyticsMode._('ENABLE');
   static const disable = AnalyticsMode._('DISABLE');
@@ -5737,6 +5870,8 @@ class AnalyticsMode {
 }
 
 /// Represents one or more dates and times when a job is to run.
+///
+/// @nodoc
 class Schedule {
   /// The name of the schedule.
   final String name;
@@ -5830,6 +5965,8 @@ class Schedule {
 }
 
 /// Contains metadata about the ruleset.
+///
+/// @nodoc
 class RulesetItem {
   /// The name of the ruleset.
   final String name;
@@ -5926,6 +6063,8 @@ class RulesetItem {
 }
 
 /// Represents one or more actions to be performed on a DataBrew dataset.
+///
+/// @nodoc
 class Recipe {
   /// The unique name for the recipe.
   final String name;
@@ -6055,6 +6194,8 @@ class Recipe {
 }
 
 /// Represents all of the attributes of a DataBrew project.
+///
+/// @nodoc
 class Project {
   /// The unique name of a project.
   final String name;
@@ -6176,6 +6317,8 @@ class Project {
 }
 
 /// Represents all of the attributes of a DataBrew job.
+///
+/// @nodoc
 class Job {
   /// The unique name of the job.
   final String name;
@@ -6412,6 +6555,7 @@ class Job {
   }
 }
 
+/// @nodoc
 class JobType {
   static const profile = JobType._('PROFILE');
   static const recipe = JobType._('RECIPE');
@@ -6436,6 +6580,8 @@ class JobType {
 }
 
 /// Represents the name and version of a DataBrew recipe.
+///
+/// @nodoc
 class RecipeReference {
   /// The name of the recipe.
   final String name;
@@ -6466,6 +6612,8 @@ class RecipeReference {
 }
 
 /// Represents one run of a DataBrew job.
+///
+/// @nodoc
 class JobRun {
   /// The number of times that DataBrew has attempted to run the job.
   final int? attempt;
@@ -6634,6 +6782,7 @@ class JobRun {
   }
 }
 
+/// @nodoc
 class JobRunState {
   static const starting = JobRunState._('STARTING');
   static const running = JobRunState._('RUNNING');
@@ -6671,6 +6820,8 @@ class JobRunState {
 }
 
 /// Represents a dataset that can be processed by DataBrew.
+///
+/// @nodoc
 class Dataset {
   /// Information on how DataBrew can find the dataset, in either the Glue Data
   /// Catalog or Amazon S3.
@@ -6790,6 +6941,7 @@ class Dataset {
   }
 }
 
+/// @nodoc
 class Source {
   static const s3 = Source._('S3');
   static const dataCatalog = Source._('DATA-CATALOG');
@@ -6814,6 +6966,7 @@ class Source {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionStatus {
   static const assigned = SessionStatus._('ASSIGNED');
   static const failed = SessionStatus._('FAILED');
@@ -6859,6 +7012,8 @@ class SessionStatus {
 
 /// Represents any errors encountered when attempting to delete multiple recipe
 /// versions.
+///
+/// @nodoc
 class RecipeVersionErrorDetail {
   /// The HTTP status code for the error.
   final String? errorCode;
@@ -6895,26 +7050,31 @@ class RecipeVersionErrorDetail {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6923,6 +7083,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

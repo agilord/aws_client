@@ -694,6 +694,7 @@ class MediaPackage {
   }
 }
 
+/// @nodoc
 class ConfigureLogsResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -766,6 +767,7 @@ class ConfigureLogsResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -838,6 +840,7 @@ class CreateChannelResponse {
   }
 }
 
+/// @nodoc
 class CreateHarvestJobResponse {
   /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
   final String? arn;
@@ -922,6 +925,7 @@ class CreateHarvestJobResponse {
   }
 }
 
+/// @nodoc
 class CreateOriginEndpointResponse {
   /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
   final String? arn;
@@ -1068,6 +1072,7 @@ class CreateOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelResponse {
   DeleteChannelResponse();
 
@@ -1080,6 +1085,7 @@ class DeleteChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteOriginEndpointResponse {
   DeleteOriginEndpointResponse();
 
@@ -1092,6 +1098,7 @@ class DeleteOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -1164,6 +1171,7 @@ class DescribeChannelResponse {
   }
 }
 
+/// @nodoc
 class DescribeHarvestJobResponse {
   /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
   final String? arn;
@@ -1248,6 +1256,7 @@ class DescribeHarvestJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeOriginEndpointResponse {
   /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
   final String? arn;
@@ -1394,6 +1403,7 @@ class DescribeOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// A list of Channel records.
   final List<Channel>? channels;
@@ -1427,6 +1437,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListHarvestJobsResponse {
   /// A list of HarvestJob records.
   final List<HarvestJob>? harvestJobs;
@@ -1460,6 +1471,7 @@ class ListHarvestJobsResponse {
   }
 }
 
+/// @nodoc
 class ListOriginEndpointsResponse {
   /// A token that can be used to resume pagination from the end of the
   /// collection.
@@ -1493,6 +1505,7 @@ class ListOriginEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -1515,6 +1528,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RotateChannelCredentialsResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -1587,6 +1601,7 @@ class RotateChannelCredentialsResponse {
   }
 }
 
+/// @nodoc
 class RotateIngestEndpointCredentialsResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -1660,6 +1675,7 @@ class RotateIngestEndpointCredentialsResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -1732,6 +1748,7 @@ class UpdateChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateOriginEndpointResponse {
   /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
   final String? arn;
@@ -1879,6 +1896,8 @@ class UpdateOriginEndpointResponse {
 }
 
 /// CDN Authorization credentials
+///
+/// @nodoc
 class Authorization {
   /// The Amazon Resource Name (ARN) for the secret in Secrets Manager that your
   /// Content Distribution Network (CDN) uses for authorization to access your
@@ -1912,6 +1931,8 @@ class Authorization {
 }
 
 /// A Common Media Application Format (CMAF) packaging configuration.
+///
+/// @nodoc
 class CmafPackage {
   final CmafEncryption? encryption;
 
@@ -1971,6 +1992,8 @@ class CmafPackage {
 }
 
 /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
+///
+/// @nodoc
 class DashPackage {
   final List<AdTriggersElement>? adTriggers;
   final AdsOnDeliveryRestrictions? adsOnDeliveryRestrictions;
@@ -2140,6 +2163,8 @@ class DashPackage {
 }
 
 /// An HTTP Live Streaming (HLS) packaging configuration.
+///
+/// @nodoc
 class HlsPackage {
   /// This setting controls how ad markers are included in the packaged
   /// OriginEndpoint. "NONE" will omit all SCTE-35 ad markers from the output.
@@ -2271,6 +2296,8 @@ class HlsPackage {
 }
 
 /// A Microsoft Smooth Streaming (MSS) packaging configuration.
+///
+/// @nodoc
 class MssPackage {
   final MssEncryption? encryption;
 
@@ -2318,6 +2345,7 @@ class MssPackage {
   }
 }
 
+/// @nodoc
 class Origination {
   static const allow = Origination._('ALLOW');
   static const deny = Origination._('DENY');
@@ -2342,6 +2370,8 @@ class Origination {
 }
 
 /// A Microsoft Smooth Streaming (MSS) encryption configuration.
+///
+/// @nodoc
 class MssEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -2366,6 +2396,8 @@ class MssEncryption {
 }
 
 /// A StreamSelection configuration.
+///
+/// @nodoc
 class StreamSelection {
   /// The maximum video bitrate (bps) to include in output.
   final int? maxVideoBitsPerSecond;
@@ -2405,6 +2437,7 @@ class StreamSelection {
   }
 }
 
+/// @nodoc
 class StreamOrder {
   static const original = StreamOrder._('ORIGINAL');
   static const videoBitrateAscending = StreamOrder._('VIDEO_BITRATE_ASCENDING');
@@ -2436,6 +2469,8 @@ class StreamOrder {
 
 /// A configuration for accessing an external Secure Packager and Encoder Key
 /// Exchange (SPEKE) service that will provide encryption keys.
+///
+/// @nodoc
 class SpekeKeyProvider {
   /// The resource ID to include in key requests.
   final String resourceId;
@@ -2513,6 +2548,8 @@ class SpekeKeyProvider {
 /// can be used for DASH or CMAF endpoints that use SPEKE 2.0. SPEKE 2.0 relies
 /// on the CPIX 2.3 specification. You must disable key rotation for this
 /// endpoint by setting keyRotationIntervalSeconds to 0.
+///
+/// @nodoc
 class EncryptionContractConfiguration {
   /// A collection of audio encryption presets.
   final PresetSpeke20Audio presetSpeke20Audio;
@@ -2544,6 +2581,7 @@ class EncryptionContractConfiguration {
   }
 }
 
+/// @nodoc
 class PresetSpeke20Audio {
   static const presetAudio_1 = PresetSpeke20Audio._('PRESET-AUDIO-1');
   static const presetAudio_2 = PresetSpeke20Audio._('PRESET-AUDIO-2');
@@ -2578,6 +2616,7 @@ class PresetSpeke20Audio {
   String toString() => value;
 }
 
+/// @nodoc
 class PresetSpeke20Video {
   static const presetVideo_1 = PresetSpeke20Video._('PRESET-VIDEO-1');
   static const presetVideo_2 = PresetSpeke20Video._('PRESET-VIDEO-2');
@@ -2622,6 +2661,7 @@ class PresetSpeke20Video {
   String toString() => value;
 }
 
+/// @nodoc
 class AdMarkers {
   static const none = AdMarkers._('NONE');
   static const scte35Enhanced = AdMarkers._('SCTE35_ENHANCED');
@@ -2657,6 +2697,8 @@ class AdMarkers {
 /// messages of the types specified in AdTriggers will be treated as ads. Note
 /// that Splice Insert messages do not have these flags and are always treated
 /// as ads if specified in AdTriggers.
+///
+/// @nodoc
 class AdsOnDeliveryRestrictions {
   static const none = AdsOnDeliveryRestrictions._('NONE');
   static const restricted = AdsOnDeliveryRestrictions._('RESTRICTED');
@@ -2685,6 +2727,8 @@ class AdsOnDeliveryRestrictions {
 }
 
 /// An HTTP Live Streaming (HLS) encryption configuration.
+///
+/// @nodoc
 class HlsEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -2741,6 +2785,7 @@ class HlsEncryption {
   }
 }
 
+/// @nodoc
 class PlaylistType {
   static const none = PlaylistType._('NONE');
   static const event = PlaylistType._('EVENT');
@@ -2765,6 +2810,7 @@ class PlaylistType {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionMethod {
   static const aes_128 = EncryptionMethod._('AES_128');
   static const sampleAes = EncryptionMethod._('SAMPLE_AES');
@@ -2789,6 +2835,7 @@ class EncryptionMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class AdTriggersElement {
   static const spliceInsert = AdTriggersElement._('SPLICE_INSERT');
   static const $break = AdTriggersElement._('BREAK');
@@ -2835,6 +2882,8 @@ class AdTriggersElement {
 }
 
 /// A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
+///
+/// @nodoc
 class DashEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -2866,6 +2915,7 @@ class DashEncryption {
   }
 }
 
+/// @nodoc
 class ManifestLayout {
   static const full = ManifestLayout._('FULL');
   static const compact = ManifestLayout._('COMPACT');
@@ -2891,6 +2941,7 @@ class ManifestLayout {
   String toString() => value;
 }
 
+/// @nodoc
 class Profile {
   static const none = Profile._('NONE');
   static const hbbtv_1_5 = Profile._('HBBTV_1_5');
@@ -2916,6 +2967,7 @@ class Profile {
   String toString() => value;
 }
 
+/// @nodoc
 class SegmentTemplateFormat {
   static const numberWithTimeline =
       SegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
@@ -2948,6 +3000,7 @@ class SegmentTemplateFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class UtcTiming {
   static const none = UtcTiming._('NONE');
   static const httpHead = UtcTiming._('HTTP-HEAD');
@@ -2973,6 +3026,7 @@ class UtcTiming {
   String toString() => value;
 }
 
+/// @nodoc
 class PeriodTriggersElement {
   static const ads = PeriodTriggersElement._('ADS');
 
@@ -2998,6 +3052,8 @@ class PeriodTriggersElement {
 }
 
 /// A Common Media Application Format (CMAF) encryption configuration.
+///
+/// @nodoc
 class CmafEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -3047,6 +3103,8 @@ class CmafEncryption {
 }
 
 /// A HTTP Live Streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class HlsManifest {
   /// The ID of the manifest. The ID must be unique within the OriginEndpoint and
   /// it cannot be changed after it is created.
@@ -3159,6 +3217,8 @@ class HlsManifest {
 }
 
 /// The encryption method to use.
+///
+/// @nodoc
 class CmafEncryptionMethod {
   static const sampleAes = CmafEncryptionMethod._('SAMPLE_AES');
   static const aesCtr = CmafEncryptionMethod._('AES_CTR');
@@ -3185,6 +3245,8 @@ class CmafEncryptionMethod {
 }
 
 /// A Common Media Application Format (CMAF) packaging configuration.
+///
+/// @nodoc
 class CmafPackageCreateOrUpdateParameters {
   final CmafEncryption? encryption;
 
@@ -3226,6 +3288,8 @@ class CmafPackageCreateOrUpdateParameters {
 }
 
 /// A HTTP Live Streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class HlsManifestCreateOrUpdateParameters {
   /// The ID of the manifest. The ID must be unique within the OriginEndpoint and
   /// it cannot be changed after it is created.
@@ -3311,6 +3375,8 @@ class HlsManifestCreateOrUpdateParameters {
 }
 
 /// Configure egress access logging.
+///
+/// @nodoc
 class EgressAccessLogs {
   /// Customize the log group name.
   final String? logGroupName;
@@ -3334,6 +3400,8 @@ class EgressAccessLogs {
 }
 
 /// An HTTP Live Streaming (HLS) ingest resource configuration.
+///
+/// @nodoc
 class HlsIngest {
   /// A list of endpoints to which the source stream should be sent.
   final List<IngestEndpoint>? ingestEndpoints;
@@ -3360,6 +3428,8 @@ class HlsIngest {
 }
 
 /// Configure ingress access logging.
+///
+/// @nodoc
 class IngressAccessLogs {
   /// Customize the log group name.
   final String? logGroupName;
@@ -3383,6 +3453,8 @@ class IngressAccessLogs {
 }
 
 /// An endpoint for ingesting source content for a Channel.
+///
+/// @nodoc
 class IngestEndpoint {
   /// The system generated unique identifier for the IngestEndpoint
   final String? id;
@@ -3427,6 +3499,8 @@ class IngestEndpoint {
 }
 
 /// An OriginEndpoint resource configuration.
+///
+/// @nodoc
 class OriginEndpoint {
   /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
   final String? arn;
@@ -3574,6 +3648,8 @@ class OriginEndpoint {
 }
 
 /// A HarvestJob resource configuration
+///
+/// @nodoc
 class HarvestJob {
   /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
   final String? arn;
@@ -3660,6 +3736,8 @@ class HarvestJob {
 
 /// Configuration parameters for where in an S3 bucket to place the harvested
 /// content
+///
+/// @nodoc
 class S3Destination {
   /// The name of an S3 bucket within which harvested content will be exported
   final String bucketName;
@@ -3697,6 +3775,7 @@ class S3Destination {
   }
 }
 
+/// @nodoc
 class Status {
   static const inProgress = Status._('IN_PROGRESS');
   static const succeeded = Status._('SUCCEEDED');
@@ -3722,6 +3801,8 @@ class Status {
 }
 
 /// A Channel resource configuration.
+///
+/// @nodoc
 class Channel {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;
@@ -3794,33 +3875,39 @@ class Channel {
   }
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(

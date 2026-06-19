@@ -103,6 +103,7 @@ class CloudTrailData {
   }
 }
 
+/// @nodoc
 class PutAuditEventsResponse {
   /// Lists events in the provided event payload that could not be ingested into
   /// CloudTrail, and includes the error code and error message returned for
@@ -143,6 +144,8 @@ class PutAuditEventsResponse {
 
 /// Includes the error code and error message for events that could not be
 /// ingested by CloudTrail.
+///
+/// @nodoc
 class ResultErrorEntry {
   /// The error code for events that could not be ingested by CloudTrail. Possible
   /// error codes include: <code>FieldTooLong</code>, <code>FieldNotFound</code>,
@@ -187,6 +190,8 @@ class ResultErrorEntry {
 }
 
 /// A response that includes successful and failed event results.
+///
+/// @nodoc
 class AuditEventResultEntry {
   /// The event ID assigned by CloudTrail.
   final String eventID;
@@ -218,6 +223,8 @@ class AuditEventResultEntry {
 
 /// An event from a source outside of Amazon Web Services that you want
 /// CloudTrail to log.
+///
+/// @nodoc
 class AuditEvent {
   /// The content of an audit event that comes from the event, such as
   /// <code>userIdentity</code>, <code>userAgent</code>, and
@@ -253,6 +260,7 @@ class AuditEvent {
   }
 }
 
+/// @nodoc
 class ChannelInsufficientPermission extends _s.GenericAwsException {
   ChannelInsufficientPermission({String? type, String? message})
       : super(
@@ -261,26 +269,31 @@ class ChannelInsufficientPermission extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ChannelNotFound extends _s.GenericAwsException {
   ChannelNotFound({String? type, String? message})
       : super(type: type, code: 'ChannelNotFound', message: message);
 }
 
+/// @nodoc
 class ChannelUnsupportedSchema extends _s.GenericAwsException {
   ChannelUnsupportedSchema({String? type, String? message})
       : super(type: type, code: 'ChannelUnsupportedSchema', message: message);
 }
 
+/// @nodoc
 class DuplicatedAuditEventId extends _s.GenericAwsException {
   DuplicatedAuditEventId({String? type, String? message})
       : super(type: type, code: 'DuplicatedAuditEventId', message: message);
 }
 
+/// @nodoc
 class InvalidChannelARN extends _s.GenericAwsException {
   InvalidChannelARN({String? type, String? message})
       : super(type: type, code: 'InvalidChannelARN', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

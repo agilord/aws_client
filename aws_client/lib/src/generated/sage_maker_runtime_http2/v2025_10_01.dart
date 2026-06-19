@@ -141,6 +141,7 @@ class SageMakerRuntimeHttp2 {
   }
 }
 
+/// @nodoc
 class InvokeEndpointWithBidirectionalStreamOutput {
   /// The response payload stream.
   final ResponseStreamEvent body;
@@ -163,6 +164,8 @@ class InvokeEndpointWithBidirectionalStreamOutput {
 }
 
 /// Internal stream failure that occurs during streaming.
+///
+/// @nodoc
 class InternalStreamFailure implements _s.AwsException {
   /// Error message.
   final String? message;
@@ -186,6 +189,8 @@ class InternalStreamFailure implements _s.AwsException {
 }
 
 /// Model stream error that occurs during streaming.
+///
+/// @nodoc
 class ModelStreamError implements _s.AwsException {
   /// Error code.
   final String? errorCode;
@@ -216,6 +221,8 @@ class ModelStreamError implements _s.AwsException {
 }
 
 /// Response stream event union.
+///
+/// @nodoc
 class ResponseStreamEvent {
   /// Internal stream failure event.
   final InternalStreamFailure? internalStreamFailure;
@@ -263,6 +270,8 @@ class ResponseStreamEvent {
 }
 
 /// Response payload part structure.
+///
+/// @nodoc
 class ResponsePayloadPart {
   /// The payload bytes.
   final Uint8List? bytes;
@@ -308,6 +317,8 @@ class ResponsePayloadPart {
 }
 
 /// Request stream event union.
+///
+/// @nodoc
 class RequestStreamEvent {
   /// Payload part event.
   final RequestPayloadPart? payloadPart;
@@ -325,6 +336,8 @@ class RequestStreamEvent {
 }
 
 /// Request payload part structure.
+///
+/// @nodoc
 class RequestPayloadPart {
   /// The payload bytes.
   final Uint8List? bytes;
@@ -360,21 +373,25 @@ class RequestPayloadPart {
   }
 }
 
+/// @nodoc
 class InputValidationError extends _s.GenericAwsException {
   InputValidationError({String? type, String? message})
       : super(type: type, code: 'InputValidationError', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class ModelError extends _s.GenericAwsException {
   ModelError({String? type, String? message})
       : super(type: type, code: 'ModelError', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableError extends _s.GenericAwsException {
   ServiceUnavailableError({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailableError', message: message);

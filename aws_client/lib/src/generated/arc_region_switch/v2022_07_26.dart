@@ -1085,6 +1085,7 @@ class ArcRegionSwitch {
   }
 }
 
+/// @nodoc
 class ApprovePlanExecutionStepResponse {
   ApprovePlanExecutionStepResponse();
 
@@ -1097,6 +1098,7 @@ class ApprovePlanExecutionStepResponse {
   }
 }
 
+/// @nodoc
 class CancelPlanExecutionResponse {
   CancelPlanExecutionResponse();
 
@@ -1109,6 +1111,7 @@ class CancelPlanExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetPlanEvaluationStatusResponse {
   /// The Amazon Resource Name (ARN) of the plan.
   final String planArn;
@@ -1183,6 +1186,7 @@ class GetPlanEvaluationStatusResponse {
   }
 }
 
+/// @nodoc
 class GetPlanExecutionResponse {
   /// The plan execution action. Valid values are <code>activate</code>, to
   /// activate an Amazon Web Services Region, or <code>deactivate</code>, to
@@ -1342,6 +1346,7 @@ class GetPlanExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetPlanInRegionResponse {
   /// The details of the Region switch plan.
   final Plan? plan;
@@ -1366,6 +1371,7 @@ class GetPlanInRegionResponse {
   }
 }
 
+/// @nodoc
 class ListPlanExecutionEventsResponse {
   /// The items in the plan execution event.
   final List<ExecutionEvent>? items;
@@ -1402,6 +1408,7 @@ class ListPlanExecutionEventsResponse {
   }
 }
 
+/// @nodoc
 class ListPlanExecutionsResponse {
   /// The items in the plan execution to return.
   final List<AbbreviatedExecution>? items;
@@ -1438,6 +1445,7 @@ class ListPlanExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListPlansInRegionResponse {
   /// Specifies that you want to receive the next page of results. Valid only if
   /// you received a <code>nextToken</code> response in the previous request. If
@@ -1474,6 +1482,7 @@ class ListPlansInRegionResponse {
   }
 }
 
+/// @nodoc
 class ListRoute53HealthChecksResponse {
   /// List of the health checks requested.
   final List<Route53HealthCheck>? healthChecks;
@@ -1508,6 +1517,7 @@ class ListRoute53HealthChecksResponse {
   }
 }
 
+/// @nodoc
 class ListRoute53HealthChecksInRegionResponse {
   /// List of the health checks requested.
   final List<Route53HealthCheck>? healthChecks;
@@ -1543,6 +1553,7 @@ class ListRoute53HealthChecksInRegionResponse {
   }
 }
 
+/// @nodoc
 class StartPlanExecutionResponse {
   /// The Amazon Web Services Region to activate.
   final String? activateRegion;
@@ -1593,6 +1604,7 @@ class StartPlanExecutionResponse {
   }
 }
 
+/// @nodoc
 class UpdatePlanExecutionResponse {
   UpdatePlanExecutionResponse();
 
@@ -1605,6 +1617,7 @@ class UpdatePlanExecutionResponse {
   }
 }
 
+/// @nodoc
 class UpdatePlanExecutionStepResponse {
   UpdatePlanExecutionStepResponse();
 
@@ -1617,6 +1630,7 @@ class UpdatePlanExecutionStepResponse {
   }
 }
 
+/// @nodoc
 class CreatePlanResponse {
   /// The details of the created Region switch plan.
   final Plan? plan;
@@ -1641,6 +1655,7 @@ class CreatePlanResponse {
   }
 }
 
+/// @nodoc
 class GetPlanResponse {
   /// The detailed information about the requested Region switch plan.
   final Plan? plan;
@@ -1665,6 +1680,7 @@ class GetPlanResponse {
   }
 }
 
+/// @nodoc
 class UpdatePlanResponse {
   /// The details of the updated Region switch plan.
   final Plan? plan;
@@ -1689,6 +1705,7 @@ class UpdatePlanResponse {
   }
 }
 
+/// @nodoc
 class DeletePlanResponse {
   DeletePlanResponse();
 
@@ -1701,6 +1718,7 @@ class DeletePlanResponse {
   }
 }
 
+/// @nodoc
 class ListPlansResponse {
   /// Specifies that you want to receive the next page of results. Valid only if
   /// you received a <code>nextToken</code> response in the previous request. If
@@ -1737,6 +1755,7 @@ class ListPlansResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for a resource.
   final Map<String, String>? resourceTags;
@@ -1760,6 +1779,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1772,6 +1792,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1787,6 +1808,8 @@ class UntagResourceResponse {
 /// A summarized representation of a Region switch plan. This structure contains
 /// key information about a plan without all the detailed workflow and step
 /// data.
+///
+/// @nodoc
 class AbbreviatedPlan {
   /// The Amazon Resource Name (ARN) of the Region switch plan.
   final String arn;
@@ -1894,6 +1917,7 @@ class AbbreviatedPlan {
   }
 }
 
+/// @nodoc
 class RecoveryApproach {
   static const activeActive = RecoveryApproach._('activeActive');
   static const activePassive = RecoveryApproach._('activePassive');
@@ -1920,6 +1944,8 @@ class RecoveryApproach {
 
 /// Represents a Region switch plan. A plan defines the steps required to shift
 /// traffic from one Amazon Web Services Region to another.
+///
+/// @nodoc
 class Plan {
   /// The Amazon Resource Name (ARN) of the plan.
   final String arn;
@@ -2063,6 +2089,8 @@ class Plan {
 /// configured, Region switch automatically generates a report after each plan
 /// execution that includes execution events, plan configuration, and CloudWatch
 /// alarm states.
+///
+/// @nodoc
 class ReportConfiguration {
   /// The output configuration for the report.
   final List<ReportOutputConfiguration>? reportOutput;
@@ -2090,6 +2118,8 @@ class ReportConfiguration {
 }
 
 /// Configuration for report output destinations used in a Region switch plan.
+///
+/// @nodoc
 class ReportOutputConfiguration {
   /// Configuration for delivering reports to an Amazon S3 bucket.
   final S3ReportOutputConfiguration? s3Configuration;
@@ -2116,6 +2146,8 @@ class ReportOutputConfiguration {
 }
 
 /// Configuration for delivering generated reports to an Amazon S3 bucket.
+///
+/// @nodoc
 class S3ReportOutputConfiguration {
   /// The Amazon Web Services account ID that owns the S3 bucket. Required to
   /// ensure the bucket is still owned by the same expected owner at generation
@@ -2150,6 +2182,8 @@ class S3ReportOutputConfiguration {
 
 /// Defines a condition that can automatically trigger the execution of a Region
 /// switch plan.
+///
+/// @nodoc
 class Trigger {
   /// The action to perform when the trigger fires. Valid values include
   /// <code>activate</code> and <code>deactivate</code>.
@@ -2208,6 +2242,7 @@ class Trigger {
   }
 }
 
+/// @nodoc
 class WorkflowTargetAction {
   static const activate = WorkflowTargetAction._('activate');
   static const deactivate = WorkflowTargetAction._('deactivate');
@@ -2235,6 +2270,8 @@ class WorkflowTargetAction {
 }
 
 /// Defines a condition that must be met for a trigger to fire.
+///
+/// @nodoc
 class TriggerCondition {
   /// The name of the CloudWatch alarm associated with the condition.
   final String associatedAlarmName;
@@ -2266,6 +2303,7 @@ class TriggerCondition {
   }
 }
 
+/// @nodoc
 class AlarmCondition {
   static const red = AlarmCondition._('red');
   static const green = AlarmCondition._('green');
@@ -2292,6 +2330,8 @@ class AlarmCondition {
 
 /// An Amazon CloudWatch alarm associated with a Region switch plan. These
 /// alarms can be used to trigger automatic execution of the plan.
+///
+/// @nodoc
 class AssociatedAlarm {
   /// The alarm type for an associated alarm. An associated CloudWatch alarm can
   /// be an application health alarm or a trigger alarm.
@@ -2336,6 +2376,7 @@ class AssociatedAlarm {
   }
 }
 
+/// @nodoc
 class AlarmType {
   static const applicationHealth = AlarmType._('applicationHealth');
   static const trigger = AlarmType._('trigger');
@@ -2361,6 +2402,8 @@ class AlarmType {
 
 /// Represents a workflow in a Region switch plan. A workflow defines a sequence
 /// of steps to execute during a Region switch.
+///
+/// @nodoc
 class Workflow {
   /// The action that the workflow performs. Valid values include
   /// <code>activate</code> and <code>deactivate</code>.
@@ -2413,6 +2456,8 @@ class Workflow {
 
 /// Represents a step in a Region switch plan workflow. Each step performs a
 /// specific action during the Region switch process.
+///
+/// @nodoc
 class Step {
   /// The configuration for an execution block in a workflow.
   final ExecutionBlockConfiguration executionBlockConfiguration;
@@ -2462,6 +2507,8 @@ class Step {
 /// Execution block configurations for a workflow in a Region switch plan. An
 /// execution block represents a specific type of action to perform during a
 /// Region switch.
+///
+/// @nodoc
 class ExecutionBlockConfiguration {
   /// An ARC routing control execution block.
   final ArcRoutingControlConfiguration? arcRoutingControlConfig;
@@ -2667,6 +2714,7 @@ class ExecutionBlockConfiguration {
   }
 }
 
+/// @nodoc
 class ExecutionBlockType {
   static const customActionLambda = ExecutionBlockType._('CustomActionLambda');
   static const manualApproval = ExecutionBlockType._('ManualApproval');
@@ -2735,6 +2783,8 @@ class ExecutionBlockType {
 
 /// Configuration for Amazon Web Services Lambda functions that perform custom
 /// actions during a Region switch.
+///
+/// @nodoc
 class CustomActionLambdaConfiguration {
   /// The Amazon Web Services Lambda functions for the execution block.
   final List<Lambdas> lambdas;
@@ -2798,6 +2848,8 @@ class CustomActionLambdaConfiguration {
 
 /// Configuration for increasing the capacity of Amazon EC2 Auto Scaling groups
 /// during a Region switch.
+///
+/// @nodoc
 class Ec2AsgCapacityIncreaseConfiguration {
   /// The EC2 Auto Scaling groups for the configuration.
   final List<Asg> asgs;
@@ -2861,6 +2913,8 @@ class Ec2AsgCapacityIncreaseConfiguration {
 
 /// Configuration for approval steps in a Region switch plan execution. Approval
 /// steps require manual intervention before the execution can proceed.
+///
+/// @nodoc
 class ExecutionApprovalConfiguration {
   /// The IAM approval role for the configuration.
   final String approvalRole;
@@ -2893,6 +2947,8 @@ class ExecutionApprovalConfiguration {
 /// Configuration for ARC routing controls used in a Region switch plan. Routing
 /// controls are simple on/off switches that you can use to shift traffic away
 /// from an impaired Region.
+///
+/// @nodoc
 class ArcRoutingControlConfiguration {
   /// The Region and ARC routing controls for the configuration.
   final Map<String, List<ArcRoutingControlState>> regionAndRoutingControls;
@@ -2947,6 +3003,8 @@ class ArcRoutingControlConfiguration {
 
 /// Configuration for Amazon Aurora global databases used in a Region switch
 /// plan.
+///
+/// @nodoc
 class GlobalAuroraConfiguration {
   /// The behavior for a global database, that is, only allow switchover or also
   /// allow failover.
@@ -3022,6 +3080,8 @@ class GlobalAuroraConfiguration {
 
 /// Configuration for steps that should be executed in parallel during a Region
 /// switch.
+///
+/// @nodoc
 class ParallelExecutionBlockConfiguration {
   /// The steps for a parallel execution block.
   final List<Step> steps;
@@ -3050,6 +3110,8 @@ class ParallelExecutionBlockConfiguration {
 
 /// Configuration for nested Region switch plans. This allows one Region switch
 /// plan to trigger another plan as part of its execution.
+///
+/// @nodoc
 class RegionSwitchPlanConfiguration {
   /// The Amazon Resource Name (ARN) of the plan configuration.
   final String arn;
@@ -3087,6 +3149,8 @@ class RegionSwitchPlanConfiguration {
 }
 
 /// The configuration for an Amazon Web Services ECS capacity increase.
+///
+/// @nodoc
 class EcsCapacityIncreaseConfiguration {
   /// The services specified for the configuration.
   final List<Service> services;
@@ -3147,6 +3211,8 @@ class EcsCapacityIncreaseConfiguration {
 }
 
 /// The Amazon Web Services EKS resource scaling configuration.
+///
+/// @nodoc
 class EksResourceScalingConfiguration {
   /// The Kubernetes resource type for the configuration.
   final KubernetesResourceType kubernetesResourceType;
@@ -3233,6 +3299,8 @@ class EksResourceScalingConfiguration {
 }
 
 /// The Amazon Route 53 health check configuration.
+///
+/// @nodoc
 class Route53HealthCheckConfiguration {
   /// The Amazon Route 53 health check configuration hosted zone ID.
   final String hostedZoneId;
@@ -3296,6 +3364,8 @@ class Route53HealthCheckConfiguration {
 
 /// Configuration for Amazon DocumentDB global clusters used in a Region switch
 /// plan.
+///
+/// @nodoc
 class DocumentDbConfiguration {
   /// The behavior for a global cluster, that is, only allow switchover or also
   /// allow failover.
@@ -3372,6 +3442,8 @@ class DocumentDbConfiguration {
 
 /// Configuration for promoting an Amazon RDS read replica to a standalone
 /// database instance during a Region switch.
+///
+/// @nodoc
 class RdsPromoteReadReplicaConfiguration {
   /// A map of database instance ARNs for each Region in the plan.
   final Map<String, String> dbInstanceArnMap;
@@ -3420,6 +3492,8 @@ class RdsPromoteReadReplicaConfiguration {
 
 /// Configuration for creating an Amazon RDS cross-Region read replica during
 /// post-recovery in a Region switch.
+///
+/// @nodoc
 class RdsCreateCrossRegionReplicaConfiguration {
   /// A map of database instance ARNs for each Region in the plan.
   final Map<String, String> dbInstanceArnMap;
@@ -3468,6 +3542,8 @@ class RdsCreateCrossRegionReplicaConfiguration {
 
 /// Configuration for Amazon Web Services Lambda event source mappings used in a
 /// Region switch plan.
+///
+/// @nodoc
 class LambdaEventSourceMappingConfiguration {
   /// The action to take - whether to <code>enable</code> or <code>disable</code>
   /// an event source mapping.
@@ -3524,6 +3600,8 @@ class LambdaEventSourceMappingConfiguration {
 
 /// Configuration for Amazon Aurora Serverless scaling used in a Region switch
 /// plan.
+///
+/// @nodoc
 class AuroraServerlessScalingConfiguration {
   /// The global cluster identifier for a global database.
   final String globalClusterIdentifier;
@@ -3589,6 +3667,8 @@ class AuroraServerlessScalingConfiguration {
 
 /// Configuration for Amazon Aurora provisioned cluster scaling used in a Region
 /// switch plan.
+///
+/// @nodoc
 class AuroraProvisionedScalingConfiguration {
   /// The global cluster identifier for a global database.
   final String globalClusterIdentifier;
@@ -3657,6 +3737,8 @@ class AuroraProvisionedScalingConfiguration {
 
 /// Configuration for Amazon Neptune global databases used in a Region switch
 /// plan.
+///
+/// @nodoc
 class NeptuneGlobalDatabaseConfiguration {
   /// The behavior for a global database, that is, only allow switchover or also
   /// allow failover.
@@ -3732,6 +3814,7 @@ class NeptuneGlobalDatabaseConfiguration {
   }
 }
 
+/// @nodoc
 class NeptuneDefaultBehavior {
   static const switchoverOnly = NeptuneDefaultBehavior._('switchoverOnly');
   static const failover = NeptuneDefaultBehavior._('failover');
@@ -3759,6 +3842,8 @@ class NeptuneDefaultBehavior {
 
 /// Configuration for handling failures when performing operations on Neptune
 /// global databases.
+///
+/// @nodoc
 class NeptuneUngraceful {
   /// The settings for ungraceful execution.
   final NeptuneUngracefulBehavior? ungraceful;
@@ -3782,6 +3867,7 @@ class NeptuneUngraceful {
   }
 }
 
+/// @nodoc
 class NeptuneUngracefulBehavior {
   static const failover = NeptuneUngracefulBehavior._('failover');
 
@@ -3806,6 +3892,7 @@ class NeptuneUngracefulBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class EventSourceMappingAction {
   static const enable = EventSourceMappingAction._('enable');
   static const disable = EventSourceMappingAction._('disable');
@@ -3833,6 +3920,8 @@ class EventSourceMappingAction {
 
 /// Specifies whether to skip enabling or disabling an event source mapping
 /// during an ungraceful execution.
+///
+/// @nodoc
 class LambdaEventSourceMappingUngraceful {
   /// Set to <code>skip</code> to skip executing this event source mapping step
   /// during an ungraceful execution.
@@ -3858,6 +3947,7 @@ class LambdaEventSourceMappingUngraceful {
   }
 }
 
+/// @nodoc
 class LambdaEventSourceMappingUngracefulBehavior {
   static const skip = LambdaEventSourceMappingUngracefulBehavior._('skip');
 
@@ -3885,6 +3975,8 @@ class LambdaEventSourceMappingUngracefulBehavior {
 
 /// The Amazon Web Services Lambda event source mapping configuration,
 /// containing the resource ARN and optional cross-account configuration.
+///
+/// @nodoc
 class EventSourceMapping {
   /// The Amazon Resource Name (ARN) of the Lambda event source mapping.
   final String arn;
@@ -3921,6 +4013,7 @@ class EventSourceMapping {
   }
 }
 
+/// @nodoc
 class DocumentDbDefaultBehavior {
   static const switchoverOnly = DocumentDbDefaultBehavior._('switchoverOnly');
   static const failover = DocumentDbDefaultBehavior._('failover');
@@ -3948,6 +4041,8 @@ class DocumentDbDefaultBehavior {
 
 /// Configuration for handling failures when performing operations on DocumentDB
 /// global clusters.
+///
+/// @nodoc
 class DocumentDbUngraceful {
   /// The settings for ungraceful execution.
   final DocumentDbUngracefulBehavior? ungraceful;
@@ -3971,6 +4066,7 @@ class DocumentDbUngraceful {
   }
 }
 
+/// @nodoc
 class DocumentDbUngracefulBehavior {
   static const failover = DocumentDbUngracefulBehavior._('failover');
 
@@ -3996,6 +4092,8 @@ class DocumentDbUngracefulBehavior {
 }
 
 /// The Amazon Route 53 record set.
+///
+/// @nodoc
 class Route53ResourceRecordSet {
   /// The Amazon Route 53 record set identifier.
   final String? recordSetIdentifier;
@@ -4027,6 +4125,8 @@ class Route53ResourceRecordSet {
 }
 
 /// Defines the type of Kubernetes resource to scale in an Amazon EKS cluster.
+///
+/// @nodoc
 class KubernetesResourceType {
   /// The API version type for the Kubernetes resource.
   final String apiVersion;
@@ -4057,6 +4157,8 @@ class KubernetesResourceType {
 }
 
 /// The ungraceful settings for Amazon Web Services EKS resource scaling.
+///
+/// @nodoc
 class EksResourceScalingUngraceful {
   /// The minimum success percentage for the configuration.
   final int minimumSuccessPercentage;
@@ -4079,6 +4181,7 @@ class EksResourceScalingUngraceful {
   }
 }
 
+/// @nodoc
 class EksCapacityMonitoringApproach {
   static const sampledMaxInLast24Hours =
       EksCapacityMonitoringApproach._('sampledMaxInLast24Hours');
@@ -4105,6 +4208,8 @@ class EksCapacityMonitoringApproach {
 }
 
 /// The Amazon Web Services EKS cluster execution block configuration.
+///
+/// @nodoc
 class EksCluster {
   /// The Amazon Resource Name (ARN) of an Amazon Web Services EKS cluster.
   final String clusterArn;
@@ -4142,6 +4247,8 @@ class EksCluster {
 }
 
 /// Defines a Kubernetes resource to scale in an Amazon EKS cluster.
+///
+/// @nodoc
 class KubernetesScalingResource {
   /// The name for the Kubernetes resource.
   final String name;
@@ -4179,6 +4286,8 @@ class KubernetesScalingResource {
 }
 
 /// The settings for ungraceful execution.
+///
+/// @nodoc
 class EcsUngraceful {
   /// The minimum success percentage specified for the configuration.
   final int minimumSuccessPercentage;
@@ -4201,6 +4310,7 @@ class EcsUngraceful {
   }
 }
 
+/// @nodoc
 class EcsCapacityMonitoringApproach {
   static const sampledMaxInLast24Hours =
       EcsCapacityMonitoringApproach._('sampledMaxInLast24Hours');
@@ -4232,6 +4342,8 @@ class EcsCapacityMonitoringApproach {
 }
 
 /// The service for a cross account role.
+///
+/// @nodoc
 class Service {
   /// The cluster Amazon Resource Name (ARN) for a service.
   final String? clusterArn;
@@ -4275,6 +4387,7 @@ class Service {
   }
 }
 
+/// @nodoc
 class GlobalAuroraDefaultBehavior {
   static const switchoverOnly = GlobalAuroraDefaultBehavior._('switchoverOnly');
   static const failover = GlobalAuroraDefaultBehavior._('failover');
@@ -4302,6 +4415,8 @@ class GlobalAuroraDefaultBehavior {
 
 /// Configuration for handling failures when performing operations on Aurora
 /// global databases.
+///
+/// @nodoc
 class GlobalAuroraUngraceful {
   /// The settings for ungraceful execution.
   final GlobalAuroraUngracefulBehavior? ungraceful;
@@ -4325,6 +4440,7 @@ class GlobalAuroraUngraceful {
   }
 }
 
+/// @nodoc
 class GlobalAuroraUngracefulBehavior {
   static const failover = GlobalAuroraUngracefulBehavior._('failover');
 
@@ -4350,6 +4466,8 @@ class GlobalAuroraUngracefulBehavior {
 }
 
 /// Represents the state of an ARC routing control.
+///
+/// @nodoc
 class ArcRoutingControlState {
   /// The Amazon Resource Name (ARN) of a routing control.
   final String routingControlArn;
@@ -4380,6 +4498,7 @@ class ArcRoutingControlState {
   }
 }
 
+/// @nodoc
 class RoutingControlStateChange {
   static const on = RoutingControlStateChange._('On');
   static const off = RoutingControlStateChange._('Off');
@@ -4407,6 +4526,8 @@ class RoutingControlStateChange {
 
 /// Configuration for handling failures when performing operations on EC2
 /// resources.
+///
+/// @nodoc
 class Ec2Ungraceful {
   /// The minimum success percentage that you specify for EC2 Auto Scaling groups.
   final int minimumSuccessPercentage;
@@ -4429,6 +4550,7 @@ class Ec2Ungraceful {
   }
 }
 
+/// @nodoc
 class Ec2AsgCapacityMonitoringApproach {
   static const sampledMaxInLast24Hours =
       Ec2AsgCapacityMonitoringApproach._('sampledMaxInLast24Hours');
@@ -4458,6 +4580,8 @@ class Ec2AsgCapacityMonitoringApproach {
 
 /// Configuration for an Amazon EC2 Auto Scaling group used in a Region switch
 /// plan.
+///
+/// @nodoc
 class Asg {
   /// The Amazon Resource Name (ARN) of the EC2 Auto Scaling group.
   final String? arn;
@@ -4494,6 +4618,7 @@ class Asg {
   }
 }
 
+/// @nodoc
 class RegionToRunIn {
   static const activatingRegion = RegionToRunIn._('activatingRegion');
   static const deactivatingRegion = RegionToRunIn._('deactivatingRegion');
@@ -4526,6 +4651,8 @@ class RegionToRunIn {
 }
 
 /// Configuration for handling failures when invoking Lambda functions.
+///
+/// @nodoc
 class LambdaUngraceful {
   /// The ungraceful behavior for a Lambda function, which must be set to
   /// <code>skip</code>.
@@ -4550,6 +4677,7 @@ class LambdaUngraceful {
   }
 }
 
+/// @nodoc
 class LambdaUngracefulBehavior {
   static const skip = LambdaUngracefulBehavior._('skip');
 
@@ -4576,6 +4704,8 @@ class LambdaUngracefulBehavior {
 
 /// Configuration for Amazon Web Services Lambda functions used in a Region
 /// switch plan.
+///
+/// @nodoc
 class Lambdas {
   /// The Amazon Resource Name (ARN) of the Lambda function.
   final String? arn;
@@ -4612,6 +4742,7 @@ class Lambdas {
   }
 }
 
+/// @nodoc
 class UpdatePlanExecutionStepAction {
   static const switchToUngraceful =
       UpdatePlanExecutionStepAction._('switchToUngraceful');
@@ -4638,6 +4769,7 @@ class UpdatePlanExecutionStepAction {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdatePlanExecutionAction {
   static const switchToGraceful =
       UpdatePlanExecutionAction._('switchToGraceful');
@@ -4667,6 +4799,7 @@ class UpdatePlanExecutionAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionAction {
   static const activate = ExecutionAction._('activate');
   static const deactivate = ExecutionAction._('deactivate');
@@ -4692,6 +4825,7 @@ class ExecutionAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionMode {
   static const graceful = ExecutionMode._('graceful');
   static const ungraceful = ExecutionMode._('ungraceful');
@@ -4717,6 +4851,8 @@ class ExecutionMode {
 }
 
 /// The Amazon Route 53 health check.
+///
+/// @nodoc
 class Route53HealthCheck {
   /// The Amazon Route 53 health check hosted zone ID.
   final String hostedZoneId;
@@ -4768,6 +4904,7 @@ class Route53HealthCheck {
   }
 }
 
+/// @nodoc
 class Route53HealthCheckStatus {
   static const healthy = Route53HealthCheckStatus._('healthy');
   static const unhealthy = Route53HealthCheckStatus._('unhealthy');
@@ -4796,6 +4933,8 @@ class Route53HealthCheckStatus {
 
 /// A summarized representation of a plan execution. This structure contains key
 /// information about an execution without all the detailed step data.
+///
+/// @nodoc
 class AbbreviatedExecution {
   /// The plan execution action. Valid values are <code>activate</code>, to
   /// activate an Amazon Web Services Region, or <code>deactivate</code>, to
@@ -4913,6 +5052,7 @@ class AbbreviatedExecution {
   }
 }
 
+/// @nodoc
 class ExecutionState {
   static const inProgress = ExecutionState._('inProgress');
   static const pausedByFailedStep = ExecutionState._('pausedByFailedStep');
@@ -4964,6 +5104,8 @@ class ExecutionState {
 
 /// Represents an event that occurred during a plan execution. These events
 /// provide a detailed timeline of the execution process.
+///
+/// @nodoc
 class ExecutionEvent {
   /// The event ID for an execution event.
   final String eventId;
@@ -5047,6 +5189,7 @@ class ExecutionEvent {
   }
 }
 
+/// @nodoc
 class ExecutionEventType {
   static const unknown = ExecutionEventType._('unknown');
   static const executionPending = ExecutionEventType._('executionPending');
@@ -5134,6 +5277,8 @@ class ExecutionEventType {
 }
 
 /// Information about a generated execution report.
+///
+/// @nodoc
 class GeneratedReport {
   /// The timestamp when the report was generated.
   final DateTime? reportGenerationTime;
@@ -5167,6 +5312,8 @@ class GeneratedReport {
 }
 
 /// The output location or cause of a failure in report generation.
+///
+/// @nodoc
 class ReportOutput {
   /// The details about a failed report generation.
   final FailedReportOutput? failedReportOutput;
@@ -5203,6 +5350,8 @@ class ReportOutput {
 }
 
 /// Information about a report delivered to Amazon S3.
+///
+/// @nodoc
 class S3ReportOutput {
   /// The S3 object key where the generated report is stored.
   final String? s3ObjectKey;
@@ -5226,6 +5375,8 @@ class S3ReportOutput {
 }
 
 /// Information about a report generation that failed.
+///
+/// @nodoc
 class FailedReportOutput {
   /// The error code for the failed report generation.
   final FailedReportErrorCode? errorCode;
@@ -5256,6 +5407,7 @@ class FailedReportOutput {
   }
 }
 
+/// @nodoc
 class FailedReportErrorCode {
   static const insufficientPermissions =
       FailedReportErrorCode._('insufficientPermissions');
@@ -5289,6 +5441,8 @@ class FailedReportErrorCode {
 }
 
 /// Represents the state of a step in a plan execution.
+///
+/// @nodoc
 class StepState {
   /// The timestamp when a step endeded execution.
   final DateTime? endTime;
@@ -5340,6 +5494,7 @@ class StepState {
   }
 }
 
+/// @nodoc
 class StepStatus {
   static const notStarted = StepStatus._('notStarted');
   static const running = StepStatus._('running');
@@ -5376,6 +5531,7 @@ class StepStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationStatus {
   static const passed = EvaluationStatus._('passed');
   static const actionRequired = EvaluationStatus._('actionRequired');
@@ -5403,6 +5559,8 @@ class EvaluationStatus {
 }
 
 /// Represents a warning about a resource in a Region switch plan.
+///
+/// @nodoc
 class ResourceWarning {
   /// The version for the resource warning.
   final String version;
@@ -5472,6 +5630,8 @@ class ResourceWarning {
 }
 
 /// A simplified representation of a workflow in a Region switch plan.
+///
+/// @nodoc
 class MinimalWorkflow {
   /// The action for a minimal workflow, which can be Activate or Deactivate.
   final ExecutionAction? action;
@@ -5501,6 +5661,7 @@ class MinimalWorkflow {
   }
 }
 
+/// @nodoc
 class ResourceWarningStatus {
   static const active = ResourceWarningStatus._('active');
   static const resolved = ResourceWarningStatus._('resolved');
@@ -5526,6 +5687,7 @@ class ResourceWarningStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Approval {
   static const approve = Approval._('approve');
   static const decline = Approval._('decline');
@@ -5549,26 +5711,31 @@ class Approval {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class IllegalArgumentException extends _s.GenericAwsException {
   IllegalArgumentException({String? type, String? message})
       : super(type: type, code: 'IllegalArgumentException', message: message);
 }
 
+/// @nodoc
 class IllegalStateException extends _s.GenericAwsException {
   IllegalStateException({String? type, String? message})
       : super(type: type, code: 'IllegalStateException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

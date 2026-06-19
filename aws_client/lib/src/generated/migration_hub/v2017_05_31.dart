@@ -299,7 +299,7 @@ class MigrationHub {
   /// </li>
   /// <li>
   /// <code>CreateProgressUpdateStream</code>, <code>ImportMigrationTask</code>,
-  /// <code>NotifyMigrationTaskState</code>, and all Associate[*] APIs related
+  /// <code>NotifyMigrationTaskState</code>, and all Associate\[*\] APIs related
   /// to the tasks belonging to the stream will throw "InvalidInputException" if
   /// the stream of the same name is in the process of being deleted.
   /// </li>
@@ -1326,6 +1326,7 @@ class MigrationHub {
   }
 }
 
+/// @nodoc
 class AssociateCreatedArtifactResult {
   AssociateCreatedArtifactResult();
 
@@ -1338,6 +1339,7 @@ class AssociateCreatedArtifactResult {
   }
 }
 
+/// @nodoc
 class AssociateDiscoveredResourceResult {
   AssociateDiscoveredResourceResult();
 
@@ -1350,6 +1352,7 @@ class AssociateDiscoveredResourceResult {
   }
 }
 
+/// @nodoc
 class AssociateSourceResourceResult {
   AssociateSourceResourceResult();
 
@@ -1362,6 +1365,7 @@ class AssociateSourceResourceResult {
   }
 }
 
+/// @nodoc
 class CreateProgressUpdateStreamResult {
   CreateProgressUpdateStreamResult();
 
@@ -1374,6 +1378,7 @@ class CreateProgressUpdateStreamResult {
   }
 }
 
+/// @nodoc
 class DeleteProgressUpdateStreamResult {
   DeleteProgressUpdateStreamResult();
 
@@ -1386,6 +1391,7 @@ class DeleteProgressUpdateStreamResult {
   }
 }
 
+/// @nodoc
 class DescribeApplicationStateResult {
   /// Status of the application - Not Started, In-Progress, Complete.
   final ApplicationStatus? applicationStatus;
@@ -1418,6 +1424,7 @@ class DescribeApplicationStateResult {
   }
 }
 
+/// @nodoc
 class DescribeMigrationTaskResult {
   /// Object encapsulating information about the migration task.
   final MigrationTask? migrationTask;
@@ -1443,6 +1450,7 @@ class DescribeMigrationTaskResult {
   }
 }
 
+/// @nodoc
 class DisassociateCreatedArtifactResult {
   DisassociateCreatedArtifactResult();
 
@@ -1455,6 +1463,7 @@ class DisassociateCreatedArtifactResult {
   }
 }
 
+/// @nodoc
 class DisassociateDiscoveredResourceResult {
   DisassociateDiscoveredResourceResult();
 
@@ -1468,6 +1477,7 @@ class DisassociateDiscoveredResourceResult {
   }
 }
 
+/// @nodoc
 class DisassociateSourceResourceResult {
   DisassociateSourceResourceResult();
 
@@ -1480,6 +1490,7 @@ class DisassociateSourceResourceResult {
   }
 }
 
+/// @nodoc
 class ImportMigrationTaskResult {
   ImportMigrationTaskResult();
 
@@ -1492,6 +1503,7 @@ class ImportMigrationTaskResult {
   }
 }
 
+/// @nodoc
 class ListApplicationStatesResult {
   /// A list of Applications that exist in Application Discovery Service.
   final List<ApplicationState>? applicationStateList;
@@ -1527,6 +1539,7 @@ class ListApplicationStatesResult {
   }
 }
 
+/// @nodoc
 class ListCreatedArtifactsResult {
   /// List of created artifacts up to the maximum number of results specified in
   /// the request.
@@ -1562,6 +1575,7 @@ class ListCreatedArtifactsResult {
   }
 }
 
+/// @nodoc
 class ListDiscoveredResourcesResult {
   /// Returned list of discovered resources associated with the given
   /// MigrationTask.
@@ -1597,6 +1611,7 @@ class ListDiscoveredResourcesResult {
   }
 }
 
+/// @nodoc
 class ListMigrationTasksResult {
   /// Lists the migration task's summary which includes:
   /// <code>MigrationTaskName</code>, <code>ProgressPercent</code>,
@@ -1634,6 +1649,7 @@ class ListMigrationTasksResult {
   }
 }
 
+/// @nodoc
 class ListMigrationTaskUpdatesResult {
   /// The list of migration-task updates.
   final List<MigrationTaskUpdate>? migrationTaskUpdateList;
@@ -1673,6 +1689,7 @@ class ListMigrationTaskUpdatesResult {
   }
 }
 
+/// @nodoc
 class ListProgressUpdateStreamsResult {
   /// If there are more streams created than the max result, return the next token
   /// to be passed to the next call as a bookmark of where to start from.
@@ -1711,6 +1728,7 @@ class ListProgressUpdateStreamsResult {
   }
 }
 
+/// @nodoc
 class ListSourceResourcesResult {
   /// If the response includes a <code>NextToken</code> value, that means that
   /// there are more results available. The value of <code>NextToken</code> is a
@@ -1749,6 +1767,7 @@ class ListSourceResourcesResult {
   }
 }
 
+/// @nodoc
 class NotifyApplicationStateResult {
   NotifyApplicationStateResult();
 
@@ -1761,6 +1780,7 @@ class NotifyApplicationStateResult {
   }
 }
 
+/// @nodoc
 class NotifyMigrationTaskStateResult {
   NotifyMigrationTaskStateResult();
 
@@ -1773,6 +1793,7 @@ class NotifyMigrationTaskStateResult {
   }
 }
 
+/// @nodoc
 class PutResourceAttributesResult {
   PutResourceAttributesResult();
 
@@ -1791,16 +1812,18 @@ class PutResourceAttributesResult {
 /// <dl> <dt>IPV4</dt> <dd>
 /// <code>x.x.x.x</code>
 ///
-/// <i>where x is an integer in the range [0,255]</i>
+/// <i>where x is an integer in the range \[0,255\]</i>
 /// </dd> <dt>IPV6</dt> <dd>
 /// <code>y : y : y : y : y : y : y : y</code>
 ///
-/// <i>where y is a hexadecimal between 0 and FFFF. [0, FFFF]</i>
+/// <i>where y is a hexadecimal between 0 and FFFF. \[0, FFFF\]</i>
 /// </dd> <dt>MAC_ADDRESS</dt> <dd>
-/// <code>^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$</code>
+/// <code>^(\[0-9A-Fa-f\]{2}\[:-\]){5}(\[0-9A-Fa-f\]{2})$</code>
 /// </dd> <dt>FQDN</dt> <dd>
-/// <code>^[^<>{}\\\\/?,=\\p{Cntrl}]{1,256}$</code>
+/// <code>^\[^<>{}\\\\/?,=\\p{Cntrl}\]{1,256}$</code>
 /// </dd> </dl>
+///
+/// @nodoc
 class ResourceAttribute {
   /// Type of resource.
   final ResourceAttributeType type;
@@ -1830,6 +1853,7 @@ class ResourceAttribute {
   }
 }
 
+/// @nodoc
 class ResourceAttributeType {
   static const ipv4Address = ResourceAttributeType._('IPV4_ADDRESS');
   static const ipv6Address = ResourceAttributeType._('IPV6_ADDRESS');
@@ -1877,6 +1901,8 @@ class ResourceAttributeType {
 }
 
 /// Task object encapsulating task information.
+///
+/// @nodoc
 class Task {
   /// Status of the task - Not Started, In-Progress, Complete.
   final Status status;
@@ -1915,6 +1941,7 @@ class Task {
   }
 }
 
+/// @nodoc
 class Status {
   static const notStarted = Status._('NOT_STARTED');
   static const inProgress = Status._('IN_PROGRESS');
@@ -1940,6 +1967,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const notStarted = ApplicationStatus._('NOT_STARTED');
   static const inProgress = ApplicationStatus._('IN_PROGRESS');
@@ -1967,6 +1995,8 @@ class ApplicationStatus {
 
 /// A source resource can be a source server, a migration wave, an application,
 /// or any other resource that you track.
+///
+/// @nodoc
 class SourceResource {
   /// This is the name that you want to use to identify the resource. If the
   /// resource is an AWS resource, we recommend that you set this parameter to the
@@ -2008,6 +2038,8 @@ class SourceResource {
 
 /// Summary of the AWS resource used for access control that is implicitly
 /// linked to your AWS account.
+///
+/// @nodoc
 class ProgressUpdateStreamSummary {
   /// The name of the ProgressUpdateStream. <i>Do not store personal data in this
   /// field.</i>
@@ -2033,6 +2065,8 @@ class ProgressUpdateStreamSummary {
 }
 
 /// A migration-task progress update.
+///
+/// @nodoc
 class MigrationTaskUpdate {
   final Task? migrationTaskState;
 
@@ -2071,6 +2105,7 @@ class MigrationTaskUpdate {
   }
 }
 
+/// @nodoc
 class UpdateType {
   static const migrationTaskStateUpdated =
       UpdateType._('MIGRATION_TASK_STATE_UPDATED');
@@ -2097,6 +2132,8 @@ class UpdateType {
 /// MigrationTaskSummary includes <code>MigrationTaskName</code>,
 /// <code>ProgressPercent</code>, <code>ProgressUpdateStream</code>,
 /// <code>Status</code>, and <code>UpdateDateTime</code> for each task.
+///
+/// @nodoc
 class MigrationTaskSummary {
   /// Unique identifier that references the migration task. <i>Do not store
   /// personal data in this field.</i>
@@ -2159,6 +2196,8 @@ class MigrationTaskSummary {
 }
 
 /// Object representing the on-premises resource being migrated.
+///
+/// @nodoc
 class DiscoveredResource {
   /// The configurationId in Application Discovery Service that uniquely
   /// identifies the on-premise resource.
@@ -2192,6 +2231,8 @@ class DiscoveredResource {
 
 /// An ARN of the AWS cloud resource target receiving the migration (e.g., AMI,
 /// EC2 instance, RDS instance, etc.).
+///
+/// @nodoc
 class CreatedArtifact {
   /// An ARN that uniquely identifies the result of a migration task.
   final String name;
@@ -2224,6 +2265,8 @@ class CreatedArtifact {
 
 /// The state of an application discovered through Migration Hub import, the AWS
 /// Agentless Discovery Connector, or the AWS Application Discovery Agent.
+///
+/// @nodoc
 class ApplicationState {
   /// The configurationId from the Application Discovery Service that uniquely
   /// identifies an application.
@@ -2265,6 +2308,8 @@ class ApplicationState {
 }
 
 /// Represents a migration task in a migration tool.
+///
+/// @nodoc
 class MigrationTask {
   /// Unique identifier that references the migration task. <i>Do not store
   /// personal data in this field.</i>
@@ -2326,52 +2371,62 @@ class MigrationTask {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class DryRunOperation extends _s.GenericAwsException {
   DryRunOperation({String? type, String? message})
       : super(type: type, code: 'DryRunOperation', message: message);
 }
 
+/// @nodoc
 class HomeRegionNotSetException extends _s.GenericAwsException {
   HomeRegionNotSetException({String? type, String? message})
       : super(type: type, code: 'HomeRegionNotSetException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class PolicyErrorException extends _s.GenericAwsException {
   PolicyErrorException({String? type, String? message})
       : super(type: type, code: 'PolicyErrorException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedOperation extends _s.GenericAwsException {
   UnauthorizedOperation({String? type, String? message})
       : super(type: type, code: 'UnauthorizedOperation', message: message);

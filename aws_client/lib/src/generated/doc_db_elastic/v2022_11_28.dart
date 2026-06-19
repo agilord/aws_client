@@ -967,6 +967,7 @@ class DocDBElastic {
   }
 }
 
+/// @nodoc
 class ApplyPendingMaintenanceActionOutput {
   /// The output of the pending maintenance action being applied.
   final ResourcePendingMaintenanceAction resourcePendingMaintenanceAction;
@@ -995,6 +996,7 @@ class ApplyPendingMaintenanceActionOutput {
   }
 }
 
+/// @nodoc
 class CopyClusterSnapshotOutput {
   final ClusterSnapshot snapshot;
 
@@ -1018,6 +1020,7 @@ class CopyClusterSnapshotOutput {
   }
 }
 
+/// @nodoc
 class CreateClusterOutput {
   /// The new elastic cluster that has been created.
   final Cluster cluster;
@@ -1041,6 +1044,7 @@ class CreateClusterOutput {
   }
 }
 
+/// @nodoc
 class CreateClusterSnapshotOutput {
   /// Returns information about the new elastic cluster snapshot.
   final ClusterSnapshot snapshot;
@@ -1065,6 +1069,7 @@ class CreateClusterSnapshotOutput {
   }
 }
 
+/// @nodoc
 class DeleteClusterOutput {
   /// Returns information about the newly deleted elastic cluster.
   final Cluster cluster;
@@ -1088,6 +1093,7 @@ class DeleteClusterOutput {
   }
 }
 
+/// @nodoc
 class DeleteClusterSnapshotOutput {
   /// Returns information about the newly deleted elastic cluster snapshot.
   final ClusterSnapshot snapshot;
@@ -1112,6 +1118,7 @@ class DeleteClusterSnapshotOutput {
   }
 }
 
+/// @nodoc
 class GetClusterOutput {
   /// Returns information about a specific elastic cluster.
   final Cluster cluster;
@@ -1135,6 +1142,7 @@ class GetClusterOutput {
   }
 }
 
+/// @nodoc
 class GetClusterSnapshotOutput {
   /// Returns information about a specific elastic cluster snapshot.
   final ClusterSnapshot snapshot;
@@ -1159,6 +1167,7 @@ class GetClusterSnapshotOutput {
   }
 }
 
+/// @nodoc
 class GetPendingMaintenanceActionOutput {
   /// Provides information about a pending maintenance action for a resource.
   final ResourcePendingMaintenanceAction resourcePendingMaintenanceAction;
@@ -1187,6 +1196,7 @@ class GetPendingMaintenanceActionOutput {
   }
 }
 
+/// @nodoc
 class ListClustersOutput {
   /// A list of Amazon DocumentDB elastic clusters.
   final List<ClusterInList>? clusters;
@@ -1224,6 +1234,7 @@ class ListClustersOutput {
   }
 }
 
+/// @nodoc
 class ListClusterSnapshotsOutput {
   /// A pagination token provided by a previous request. If this parameter is
   /// specified, the response includes only records beyond this token, up to the
@@ -1261,6 +1272,7 @@ class ListClusterSnapshotsOutput {
   }
 }
 
+/// @nodoc
 class ListPendingMaintenanceActionsOutput {
   /// Provides information about a pending maintenance action for a resource.
   final List<ResourcePendingMaintenanceAction>
@@ -1300,6 +1312,7 @@ class ListPendingMaintenanceActionsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags for the specified elastic cluster resource.
   final Map<String, String>? tags;
@@ -1323,6 +1336,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RestoreClusterFromSnapshotOutput {
   /// Returns information about a the restored elastic cluster.
   final Cluster cluster;
@@ -1346,6 +1360,7 @@ class RestoreClusterFromSnapshotOutput {
   }
 }
 
+/// @nodoc
 class StartClusterOutput {
   final Cluster cluster;
 
@@ -1368,6 +1383,7 @@ class StartClusterOutput {
   }
 }
 
+/// @nodoc
 class StopClusterOutput {
   final Cluster cluster;
 
@@ -1390,6 +1406,7 @@ class StopClusterOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1402,6 +1419,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1414,6 +1432,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterOutput {
   /// Returns information about the updated elastic cluster.
   final Cluster cluster;
@@ -1438,6 +1457,8 @@ class UpdateClusterOutput {
 }
 
 /// Returns information about a specific elastic cluster.
+///
+/// @nodoc
 class Cluster {
   /// The name of the elastic cluster administrator.
   final String adminUserName;
@@ -1593,6 +1614,7 @@ class Cluster {
   }
 }
 
+/// @nodoc
 class Status {
   static const creating = Status._('CREATING');
   static const active = Status._('ACTIVE');
@@ -1660,6 +1682,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class Auth {
   static const plainText = Auth._('PLAIN_TEXT');
   static const secretArn = Auth._('SECRET_ARN');
@@ -1684,6 +1707,8 @@ class Auth {
 }
 
 /// The name of the shard.
+///
+/// @nodoc
 class Shard {
   /// The time when the shard was created in Universal Coordinated Time (UTC).
   final String createTime;
@@ -1721,6 +1746,8 @@ class Shard {
 }
 
 /// Provides information about a pending maintenance action for a resource.
+///
+/// @nodoc
 class ResourcePendingMaintenanceAction {
   /// Provides information about a pending maintenance action for a resource.
   final List<PendingMaintenanceActionDetails>? pendingMaintenanceActionDetails;
@@ -1759,6 +1786,8 @@ class ResourcePendingMaintenanceAction {
 }
 
 /// Retrieves the details of maintenance actions that are pending.
+///
+/// @nodoc
 class PendingMaintenanceActionDetails {
   /// Displays the specific action of a pending maintenance action.
   final String action;
@@ -1826,6 +1855,8 @@ class PendingMaintenanceActionDetails {
 }
 
 /// A list of elastic cluster snapshots.
+///
+/// @nodoc
 class ClusterSnapshotInList {
   /// The ARN identifier of the elastic cluster.
   final String clusterArn;
@@ -1878,6 +1909,8 @@ class ClusterSnapshotInList {
 }
 
 /// A list of Amazon DocumentDB elastic clusters.
+///
+/// @nodoc
 class ClusterInList {
   /// The ARN identifier of the elastic cluster.
   final String clusterArn;
@@ -1915,6 +1948,8 @@ class ClusterInList {
 }
 
 /// Returns information about a specific elastic cluster snapshot.
+///
+/// @nodoc
 class ClusterSnapshot {
   /// The name of the elastic cluster administrator.
   final String adminUserName;
@@ -2034,6 +2069,7 @@ class ClusterSnapshot {
   }
 }
 
+/// @nodoc
 class SnapshotType {
   static const manual = SnapshotType._('MANUAL');
   static const automated = SnapshotType._('AUTOMATED');
@@ -2057,6 +2093,7 @@ class SnapshotType {
   String toString() => value;
 }
 
+/// @nodoc
 class OptInType {
   static const immediate = OptInType._('IMMEDIATE');
   static const nextMaintenance = OptInType._('NEXT_MAINTENANCE');
@@ -2082,26 +2119,31 @@ class OptInType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2110,11 +2152,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

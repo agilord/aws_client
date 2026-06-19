@@ -813,6 +813,7 @@ class LexRuntime {
   }
 }
 
+/// @nodoc
 class DeleteSessionResponse {
   /// The alias in use for the bot associated with the session data.
   final String? botAlias;
@@ -856,6 +857,7 @@ class DeleteSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// A list of active contexts for the session. A context can be set when an
   /// intent is fulfilled or by calling the <code>PostContent</code>,
@@ -929,6 +931,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class PostContentResponse {
   /// A list of active contexts for the session. A context can be set when an
   /// intent is fulfilled or by calling the <code>PostContent</code>,
@@ -1203,6 +1206,7 @@ class PostContentResponse {
   }
 }
 
+/// @nodoc
 class PostTextResponse {
   /// A list of active contexts for the session. A context can be set when an
   /// intent is fulfilled or by calling the <code>PostContent</code>,
@@ -1460,6 +1464,7 @@ class PostTextResponse {
   }
 }
 
+/// @nodoc
 class PutSessionResponse {
   /// A list of active contexts for the session.
   final Object? activeContexts;
@@ -1599,6 +1604,7 @@ class PutSessionResponse {
   }
 }
 
+/// @nodoc
 class MessageFormatType {
   static const plainText = MessageFormatType._('PlainText');
   static const customPayload = MessageFormatType._('CustomPayload');
@@ -1625,6 +1631,7 @@ class MessageFormatType {
   String toString() => value;
 }
 
+/// @nodoc
 class DialogState {
   static const elicitIntent = DialogState._('ElicitIntent');
   static const confirmIntent = DialogState._('ConfirmIntent');
@@ -1664,6 +1671,8 @@ class DialogState {
 /// takes place. Use the <code>DialogAction</code> data type to set the
 /// interaction to a specific state, or to return the interaction to a previous
 /// state.
+///
+/// @nodoc
 class DialogAction {
   /// The next action that the bot should take in its interaction with the user.
   /// The possible values are:
@@ -1794,6 +1803,8 @@ class DialogAction {
 /// automatically by Amazon Lex when an intent is fulfilled, or it can be set at
 /// runtime using the <code>PutContent</code>, <code>PutText</code>, or
 /// <code>PutSession</code> operation.
+///
+/// @nodoc
 class ActiveContext {
   /// The name of the context.
   final String name;
@@ -1836,6 +1847,8 @@ class ActiveContext {
 }
 
 /// The length of time or number of turns that a context remains active.
+///
+/// @nodoc
 class ActiveContextTimeToLive {
   /// The number of seconds that the context should be active after it is first
   /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
@@ -1873,6 +1886,8 @@ class ActiveContextTimeToLive {
 /// Provides information about the state of an intent. You can use this
 /// information to get the current state of an intent so that you can process
 /// the intent, or so that you can return the intent to its previous state.
+///
+/// @nodoc
 class IntentSummary {
   /// The next action that the bot should take in its interaction with the user.
   /// The possible values are:
@@ -2005,6 +2020,7 @@ class IntentSummary {
   }
 }
 
+/// @nodoc
 class ConfirmationStatus {
   static const none = ConfirmationStatus._('None');
   static const confirmed = ConfirmationStatus._('Confirmed');
@@ -2031,6 +2047,7 @@ class ConfirmationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DialogActionType {
   static const elicitIntent = DialogActionType._('ElicitIntent');
   static const confirmIntent = DialogActionType._('ConfirmIntent');
@@ -2064,6 +2081,7 @@ class DialogActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class FulfillmentState {
   static const fulfilled = FulfillmentState._('Fulfilled');
   static const failed = FulfillmentState._('Failed');
@@ -2091,6 +2109,8 @@ class FulfillmentState {
 
 /// Provides a score that indicates the confidence that Amazon Lex has that an
 /// intent is the one that satisfies the user's intent.
+///
+/// @nodoc
 class IntentConfidence {
   /// A score that indicates how confident Amazon Lex is that an intent satisfies
   /// the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate
@@ -2120,6 +2140,8 @@ class IntentConfidence {
 /// When the bot is configured to send utterances to Amazon Comprehend for
 /// sentiment analysis, this field structure contains the result of the
 /// analysis.
+///
+/// @nodoc
 class SentimentResponse {
   /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
   final String? sentimentLabel;
@@ -2154,6 +2176,8 @@ class SentimentResponse {
 /// then returns it. The response card can also come from a Lambda function (
 /// <code>dialogCodeHook</code> and <code>fulfillmentActivity</code> on an
 /// intent).
+///
+/// @nodoc
 class ResponseCard {
   /// The content type of the response.
   final ContentType? contentType;
@@ -2194,6 +2218,7 @@ class ResponseCard {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const applicationVndAmazonawsCardGeneric =
       ContentType._('application/vnd.amazonaws.card.generic');
@@ -2219,6 +2244,8 @@ class ContentType {
 
 /// Represents an option rendered to the user when a prompt is shown. It could
 /// be an image, a button, a link, or text.
+///
+/// @nodoc
 class GenericAttachment {
   /// The URL of an attachment to the response card.
   final String? attachmentLinkUrl;
@@ -2274,6 +2301,8 @@ class GenericAttachment {
 
 /// Represents an option to be shown on the client platform (Facebook, Slack,
 /// etc.)
+///
+/// @nodoc
 class Button {
   /// Text that is visible to the user on the button.
   final String text;
@@ -2308,6 +2337,8 @@ class Button {
 /// An intent that Amazon Lex suggests satisfies the user's intent. Includes the
 /// name of the intent, the confidence that Amazon Lex has that the user's
 /// intent is satisfied, and the slots defined for the intent.
+///
+/// @nodoc
 class PredictedIntent {
   /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
   final String? intentName;
@@ -2350,56 +2381,67 @@ class PredictedIntent {
   }
 }
 
+/// @nodoc
 class BadGatewayException extends _s.GenericAwsException {
   BadGatewayException({String? type, String? message})
       : super(type: type, code: 'BadGatewayException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DependencyFailedException extends _s.GenericAwsException {
   DependencyFailedException({String? type, String? message})
       : super(type: type, code: 'DependencyFailedException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class LoopDetectedException extends _s.GenericAwsException {
   LoopDetectedException({String? type, String? message})
       : super(type: type, code: 'LoopDetectedException', message: message);
 }
 
+/// @nodoc
 class NotAcceptableException extends _s.GenericAwsException {
   NotAcceptableException({String? type, String? message})
       : super(type: type, code: 'NotAcceptableException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class RequestTimeoutException extends _s.GenericAwsException {
   RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
+/// @nodoc
 class UnsupportedMediaTypeException extends _s.GenericAwsException {
   UnsupportedMediaTypeException({String? type, String? message})
       : super(

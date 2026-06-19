@@ -993,7 +993,7 @@ class Grafana {
   /// A description for the workspace. This is used only to help you identify
   /// this workspace.
   ///
-  /// Pattern: <code>^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$</code>
+  /// Pattern: <code>^\[\\p{L}\\p{Z}\\p{N}\\p{P}\]{0,2048}$</code>
   ///
   /// Parameter [workspaceName] :
   /// The name for the workspace. It does not have to be unique.
@@ -1342,6 +1342,7 @@ class Grafana {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags that are associated with the resource.
   final Map<String, String>? tags;
@@ -1365,6 +1366,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListVersionsResponse {
   /// The Grafana versions available to create. If a workspace ID is included in
   /// the request, the Grafana versions to which this workspace can be upgraded.
@@ -1399,6 +1401,7 @@ class ListVersionsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1411,6 +1414,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1423,6 +1427,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceApiKeyResponse {
   /// The key token. Use this value as a bearer token to authenticate HTTP
   /// requests to the workspace.
@@ -1460,6 +1465,7 @@ class CreateWorkspaceApiKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceApiKeyResponse {
   /// The name of the key that was deleted.
   final String keyName;
@@ -1489,6 +1495,7 @@ class DeleteWorkspaceApiKeyResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceAuthenticationResponse {
   /// A structure containing information about the authentication methods used in
   /// the workspace.
@@ -1515,6 +1522,7 @@ class DescribeWorkspaceAuthenticationResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceAuthenticationResponse {
   /// A structure that describes the user authentication for this workspace after
   /// the update is made.
@@ -1541,6 +1549,7 @@ class UpdateWorkspaceAuthenticationResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceConfigurationResponse {
   /// The configuration string for the workspace that you requested. For more
   /// information about the format and configuration options available, see <a
@@ -1574,6 +1583,7 @@ class DescribeWorkspaceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceConfigurationResponse {
   UpdateWorkspaceConfigurationResponse();
 
@@ -1587,6 +1597,7 @@ class UpdateWorkspaceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class AssociateLicenseResponse {
   /// A structure containing data about the workspace.
   final WorkspaceDescription workspace;
@@ -1611,6 +1622,7 @@ class AssociateLicenseResponse {
   }
 }
 
+/// @nodoc
 class DisassociateLicenseResponse {
   /// A structure containing information about the workspace.
   final WorkspaceDescription workspace;
@@ -1635,6 +1647,7 @@ class DisassociateLicenseResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionsResponse {
   /// The permissions returned by the operation.
   final List<PermissionEntry> permissions;
@@ -1668,6 +1681,7 @@ class ListPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdatePermissionsResponse {
   /// An array of structures that contain the errors from the operation, if any.
   final List<UpdateError> errors;
@@ -1693,6 +1707,7 @@ class UpdatePermissionsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceServiceAccountResponse {
   /// The permission level given to the service account.
   final Role grafanaRole;
@@ -1737,6 +1752,7 @@ class CreateWorkspaceServiceAccountResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceServiceAccountResponse {
   /// The ID of the service account deleted.
   final String serviceAccountId;
@@ -1767,6 +1783,7 @@ class DeleteWorkspaceServiceAccountResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspaceServiceAccountsResponse {
   /// An array of structures containing information about the service accounts.
   final List<ServiceAccountSummary> serviceAccounts;
@@ -1807,6 +1824,7 @@ class ListWorkspaceServiceAccountsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceServiceAccountTokenResponse {
   /// The ID of the service account where the token was created.
   final String serviceAccountId;
@@ -1847,6 +1865,7 @@ class CreateWorkspaceServiceAccountTokenResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceServiceAccountTokenResponse {
   /// The ID of the service account where the token was deleted.
   final String serviceAccountId;
@@ -1884,6 +1903,7 @@ class DeleteWorkspaceServiceAccountTokenResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspaceServiceAccountTokensResponse {
   /// The ID of the service account where the tokens reside.
   final String serviceAccountId;
@@ -1933,6 +1953,7 @@ class ListWorkspaceServiceAccountTokensResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceResponse {
   /// A structure containing data about the workspace that was created.
   final WorkspaceDescription workspace;
@@ -1957,6 +1978,7 @@ class CreateWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceResponse {
   /// A structure containing information about the workspace.
   final WorkspaceDescription workspace;
@@ -1981,6 +2003,7 @@ class DescribeWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceResponse {
   /// A structure containing data about the workspace that was created.
   final WorkspaceDescription workspace;
@@ -2005,6 +2028,7 @@ class UpdateWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceResponse {
   /// A structure containing information about the workspace that was deleted.
   final WorkspaceDescription workspace;
@@ -2029,6 +2053,7 @@ class DeleteWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspacesResponse {
   /// An array of structures that contain some information about the workspaces in
   /// the account.
@@ -2064,6 +2089,8 @@ class ListWorkspacesResponse {
 
 /// A structure that contains some information about one workspace in the
 /// account.
+///
+/// @nodoc
 class WorkspaceSummary {
   /// A structure containing information about the authentication methods used in
   /// the workspace.
@@ -2189,6 +2216,7 @@ class WorkspaceSummary {
   }
 }
 
+/// @nodoc
 class WorkspaceStatus {
   static const active = WorkspaceStatus._('ACTIVE');
   static const creating = WorkspaceStatus._('CREATING');
@@ -2244,6 +2272,8 @@ class WorkspaceStatus {
 /// A structure that describes whether the workspace uses SAML, IAM Identity
 /// Center, or both methods for user authentication, and whether that
 /// authentication is fully configured.
+///
+/// @nodoc
 class AuthenticationSummary {
   /// Specifies whether the workspace uses SAML, IAM Identity Center, or both
   /// methods for user authentication.
@@ -2280,6 +2310,7 @@ class AuthenticationSummary {
   }
 }
 
+/// @nodoc
 class LicenseType {
   static const enterprise = LicenseType._('ENTERPRISE');
   static const enterpriseFreeTrial = LicenseType._('ENTERPRISE_FREE_TRIAL');
@@ -2303,6 +2334,7 @@ class LicenseType {
   String toString() => value;
 }
 
+/// @nodoc
 class SamlConfigurationStatus {
   static const configured = SamlConfigurationStatus._('CONFIGURED');
   static const notConfigured = SamlConfigurationStatus._('NOT_CONFIGURED');
@@ -2328,6 +2360,7 @@ class SamlConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationProviderTypes {
   static const awsSso = AuthenticationProviderTypes._('AWS_SSO');
   static const saml = AuthenticationProviderTypes._('SAML');
@@ -2353,6 +2386,7 @@ class AuthenticationProviderTypes {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationDestinationType {
   static const sns = NotificationDestinationType._('SNS');
 
@@ -2379,6 +2413,8 @@ class NotificationDestinationType {
 
 /// A structure containing information about an Amazon Managed Grafana workspace
 /// in your account.
+///
+/// @nodoc
 class WorkspaceDescription {
   /// A structure that describes whether the workspace uses SAML, IAM Identity
   /// Center, or both methods for user authentication.
@@ -2687,6 +2723,7 @@ class WorkspaceDescription {
   }
 }
 
+/// @nodoc
 class AccountAccessType {
   static const currentAccount = AccountAccessType._('CURRENT_ACCOUNT');
   static const organization = AccountAccessType._('ORGANIZATION');
@@ -2711,6 +2748,7 @@ class AccountAccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionType {
   static const customerManaged = PermissionType._('CUSTOMER_MANAGED');
   static const serviceManaged = PermissionType._('SERVICE_MANAGED');
@@ -2744,6 +2782,8 @@ class PermissionType {
 /// Connecting to a private VPC is not yet available in the Asia Pacific (Seoul)
 /// Region (ap-northeast-2).
 /// </note>
+///
+/// @nodoc
 class VpcConfiguration {
   /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for
   /// your Grafana workspace to connect. Duplicates not allowed.
@@ -2801,6 +2841,8 @@ class VpcConfiguration {
 /// If both are passed as empty arrays, no traffic is allowed to the workspace,
 /// because only <i>explicitly</i> allowed connections are accepted.
 /// </note>
+///
+/// @nodoc
 class NetworkAccessConfiguration {
   /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP
   /// addresses. The IP addresses specified are allowed to access your workspace.
@@ -2830,7 +2872,7 @@ class NetworkAccessConfiguration {
   /// <note>
   /// The only VPC endpoints that can be specified here are interface VPC
   /// endpoints for Grafana workspaces (using the
-  /// <code>com.amazonaws.[region].grafana-workspace</code> service endpoint).
+  /// <code>com.amazonaws.\[region\].grafana-workspace</code> service endpoint).
   /// Other VPC endpoints are ignored.
   /// </note>
   final List<String> vpceIds;
@@ -2863,6 +2905,7 @@ class NetworkAccessConfiguration {
   }
 }
 
+/// @nodoc
 class IPAddressType {
   static const iPv4 = IPAddressType._('IPv4');
   static const dualStack = IPAddressType._('DualStack');
@@ -2887,6 +2930,7 @@ class IPAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceType {
   static const amazonOpensearchService =
       DataSourceType._('AMAZON_OPENSEARCH_SERVICE');
@@ -2930,6 +2974,8 @@ class DataSourceType {
 }
 
 /// A structure that contains the information about a service account token.
+///
+/// @nodoc
 class ServiceAccountTokenSummary {
   /// When the service account token was created.
   final DateTime createdAt;
@@ -2988,6 +3034,8 @@ class ServiceAccountTokenSummary {
 ///
 /// If you lose the key, you can delete and recreate the token, which will
 /// create a new key.
+///
+/// @nodoc
 class ServiceAccountTokenSummaryWithKey {
   /// The unique ID of the service account token.
   final String id;
@@ -3027,6 +3075,8 @@ class ServiceAccountTokenSummaryWithKey {
 }
 
 /// A structure that contains the information about one service account.
+///
+/// @nodoc
 class ServiceAccountSummary {
   /// The role of the service account, which sets the permission level used when
   /// calling Grafana APIs.
@@ -3072,6 +3122,7 @@ class ServiceAccountSummary {
   }
 }
 
+/// @nodoc
 class Role {
   static const admin = Role._('ADMIN');
   static const editor = Role._('EDITOR');
@@ -3100,6 +3151,8 @@ class Role {
 /// performing an <a
 /// href="https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html">UpdatePermissions</a>
 /// operation.
+///
+/// @nodoc
 class UpdateError {
   /// Specifies which permission update caused the error.
   final UpdateInstruction causedBy;
@@ -3141,6 +3194,8 @@ class UpdateError {
 /// Contains the instructions for one Grafana role permission update in a <a
 /// href="https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html">UpdatePermissions</a>
 /// operation.
+///
+/// @nodoc
 class UpdateInstruction {
   /// Specifies whether this update is to add or revoke role permissions.
   final UpdateAction action;
@@ -3181,6 +3236,7 @@ class UpdateInstruction {
   }
 }
 
+/// @nodoc
 class UpdateAction {
   static const add = UpdateAction._('ADD');
   static const revoke = UpdateAction._('REVOKE');
@@ -3205,11 +3261,13 @@ class UpdateAction {
 }
 
 /// A structure that specifies one user or group in the workspace.
+///
+/// @nodoc
 class User {
   /// The ID of the user or group.
   ///
   /// Pattern:
-  /// <code>^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$</code>
+  /// <code>^(\[0-9a-fA-F\]{10}-|)\[A-Fa-f0-9\]{8}-\[A-Fa-f0-9\]{4}-\[A-Fa-f0-9\]{4}-\[A-Fa-f0-9\]{4}-\[A-Fa-f0-9\]{12}$</code>
   final String id;
 
   /// Specifies whether this is a single user or a group.
@@ -3237,6 +3295,7 @@ class User {
   }
 }
 
+/// @nodoc
 class UserType {
   static const ssoUser = UserType._('SSO_USER');
   static const ssoGroup = UserType._('SSO_GROUP');
@@ -3263,6 +3322,8 @@ class UserType {
 /// A structure containing the identity of one user or group and the
 /// <code>Admin</code>, <code>Editor</code>, or <code>Viewer</code> role that
 /// they have.
+///
+/// @nodoc
 class PermissionEntry {
   /// Specifies whether the user or group has the <code>Admin</code>,
   /// <code>Editor</code>, or <code>Viewer</code> role.
@@ -3296,6 +3357,8 @@ class PermissionEntry {
 
 /// A structure containing information about the user authentication methods
 /// used by the workspace.
+///
+/// @nodoc
 class AuthenticationDescription {
   /// Specifies whether this workspace uses IAM Identity Center, SAML, or both
   /// methods to authenticate users to use the Grafana console in the Amazon
@@ -3346,6 +3409,8 @@ class AuthenticationDescription {
 }
 
 /// A structure containing information about how this workspace works with SAML.
+///
+/// @nodoc
 class SamlAuthentication {
   /// Specifies whether the workspace's SAML configuration is complete.
   final SamlConfigurationStatus status;
@@ -3381,6 +3446,8 @@ class SamlAuthentication {
 
 /// A structure containing information about how this workspace works with IAM
 /// Identity Center.
+///
+/// @nodoc
 class AwsSsoAuthentication {
   /// The ID of the IAM Identity Center-managed application that is created by
   /// Amazon Managed Grafana.
@@ -3405,6 +3472,8 @@ class AwsSsoAuthentication {
 }
 
 /// A structure containing information about how this workspace works with SAML.
+///
+/// @nodoc
 class SamlConfiguration {
   /// A structure containing the identity provider (IdP) metadata used to
   /// integrate the identity provider with this workspace.
@@ -3481,6 +3550,8 @@ class SamlConfiguration {
 /// metadata either by providing a URL to its location in the <code>url</code>
 /// parameter, or by specifying the full metadata in XML format in the
 /// <code>xml</code> parameter. Specifying both will cause an error.
+///
+/// @nodoc
 class IdpMetadata {
   /// The URL of the location containing the IdP metadata.
   final String? url;
@@ -3513,6 +3584,8 @@ class IdpMetadata {
 /// A structure that defines which attributes in the IdP assertion are to be
 /// used to define information about the users authenticated by the IdP to use
 /// the workspace.
+///
+/// @nodoc
 class AssertionAttributes {
   /// The name of the attribute within the SAML assertion to use as the email
   /// names for SAML users.
@@ -3581,6 +3654,8 @@ class AssertionAttributes {
 /// roles in the workspace. SAML authenticated users not part of
 /// <code>Admin</code> or <code>Editor</code> role groups have
 /// <code>Viewer</code> permission over the workspace.
+///
+/// @nodoc
 class RoleValues {
   /// A list of groups from the SAML assertion attribute to grant the Grafana
   /// <code>Admin</code> role to.
@@ -3614,26 +3689,31 @@ class RoleValues {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3642,11 +3722,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

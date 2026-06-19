@@ -782,6 +782,7 @@ class CloudControl {
   }
 }
 
+/// @nodoc
 class CancelResourceRequestOutput {
   final ProgressEvent? progressEvent;
 
@@ -806,6 +807,7 @@ class CancelResourceRequestOutput {
   }
 }
 
+/// @nodoc
 class CreateResourceOutput {
   /// Represents the current status of the resource creation request.
   ///
@@ -837,6 +839,7 @@ class CreateResourceOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourceOutput {
   /// Represents the current status of the resource deletion request.
   ///
@@ -868,6 +871,7 @@ class DeleteResourceOutput {
   }
 }
 
+/// @nodoc
 class GetResourceOutput {
   final ResourceDescription? resourceDescription;
 
@@ -900,6 +904,7 @@ class GetResourceOutput {
   }
 }
 
+/// @nodoc
 class GetResourceRequestStatusOutput {
   /// Lists Hook invocations for the specified target in the request. This is a
   /// list since the same target can invoke multiple Hooks.
@@ -936,6 +941,7 @@ class GetResourceRequestStatusOutput {
   }
 }
 
+/// @nodoc
 class ListResourceRequestsOutput {
   /// If the request doesn't return all of the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -974,6 +980,7 @@ class ListResourceRequestsOutput {
   }
 }
 
+/// @nodoc
 class ListResourcesOutput {
   /// If the request doesn't return all of the remaining results,
   /// <code>NextToken</code> is set to a token. To retrieve the next set of
@@ -1019,6 +1026,7 @@ class ListResourcesOutput {
   }
 }
 
+/// @nodoc
 class UpdateResourceOutput {
   /// Represents the current status of the resource update request.
   ///
@@ -1053,6 +1061,8 @@ class UpdateResourceOutput {
 /// href="https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html">Managing
 /// resource operation requests</a> in the <i>Amazon Web Services Cloud Control
 /// API User Guide</i>.
+///
+/// @nodoc
 class ProgressEvent {
   /// For requests with a status of <code>FAILED</code>, the associated error
   /// code.
@@ -1185,6 +1195,7 @@ class ProgressEvent {
   }
 }
 
+/// @nodoc
 class Operation {
   static const create = Operation._('CREATE');
   static const delete = Operation._('DELETE');
@@ -1209,6 +1220,7 @@ class Operation {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationStatus {
   static const pending = OperationStatus._('PENDING');
   static const inProgress = OperationStatus._('IN_PROGRESS');
@@ -1244,6 +1256,7 @@ class OperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HandlerErrorCode {
   static const notUpdatable = HandlerErrorCode._('NotUpdatable');
   static const invalidRequest = HandlerErrorCode._('InvalidRequest');
@@ -1304,6 +1317,8 @@ class HandlerErrorCode {
 }
 
 /// Represents information about a provisioned resource.
+///
+/// @nodoc
 class ResourceDescription {
   /// The primary identifier for the resource.
   ///
@@ -1339,6 +1354,8 @@ class ResourceDescription {
 }
 
 /// The filter criteria to use in determining the requests returned.
+///
+/// @nodoc
 class ResourceRequestStatusFilter {
   /// The operation statuses to include in the filter.
   ///
@@ -1392,6 +1409,8 @@ class ResourceRequestStatusFilter {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html">Managing
 /// resource operation requests with Amazon Web Services Cloud Control API </a>.
+///
+/// @nodoc
 class HookProgressEvent {
   /// The failure mode of the invocation. The following are the potential
   /// statuses:
@@ -1497,17 +1516,20 @@ class HookProgressEvent {
   }
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ClientTokenConflictException extends _s.GenericAwsException {
   ClientTokenConflictException({String? type, String? message})
       : super(
             type: type, code: 'ClientTokenConflictException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -1516,22 +1538,26 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentOperationException extends _s.GenericAwsException {
   ConcurrentOperationException({String? type, String? message})
       : super(
             type: type, code: 'ConcurrentOperationException', message: message);
 }
 
+/// @nodoc
 class GeneralServiceException extends _s.GenericAwsException {
   GeneralServiceException({String? type, String? message})
       : super(type: type, code: 'GeneralServiceException', message: message);
 }
 
+/// @nodoc
 class HandlerFailureException extends _s.GenericAwsException {
   HandlerFailureException({String? type, String? message})
       : super(type: type, code: 'HandlerFailureException', message: message);
 }
 
+/// @nodoc
 class HandlerInternalFailureException extends _s.GenericAwsException {
   HandlerInternalFailureException({String? type, String? message})
       : super(
@@ -1540,37 +1566,44 @@ class HandlerInternalFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCredentialsException extends _s.GenericAwsException {
   InvalidCredentialsException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCredentialsException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class NetworkFailureException extends _s.GenericAwsException {
   NetworkFailureException({String? type, String? message})
       : super(type: type, code: 'NetworkFailureException', message: message);
 }
 
+/// @nodoc
 class NotStabilizedException extends _s.GenericAwsException {
   NotStabilizedException({String? type, String? message})
       : super(type: type, code: 'NotStabilizedException', message: message);
 }
 
+/// @nodoc
 class NotUpdatableException extends _s.GenericAwsException {
   NotUpdatableException({String? type, String? message})
       : super(type: type, code: 'NotUpdatableException', message: message);
 }
 
+/// @nodoc
 class PrivateTypeException extends _s.GenericAwsException {
   PrivateTypeException({String? type, String? message})
       : super(type: type, code: 'PrivateTypeException', message: message);
 }
 
+/// @nodoc
 class RequestTokenNotFoundException extends _s.GenericAwsException {
   RequestTokenNotFoundException({String? type, String? message})
       : super(
@@ -1579,16 +1612,19 @@ class RequestTokenNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceInternalErrorException extends _s.GenericAwsException {
   ServiceInternalErrorException({String? type, String? message})
       : super(
@@ -1597,6 +1633,7 @@ class ServiceInternalErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceLimitExceededException extends _s.GenericAwsException {
   ServiceLimitExceededException({String? type, String? message})
       : super(
@@ -1605,16 +1642,19 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TypeNotFoundException extends _s.GenericAwsException {
   TypeNotFoundException({String? type, String? message})
       : super(type: type, code: 'TypeNotFoundException', message: message);
 }
 
+/// @nodoc
 class UnsupportedActionException extends _s.GenericAwsException {
   UnsupportedActionException({String? type, String? message})
       : super(type: type, code: 'UnsupportedActionException', message: message);

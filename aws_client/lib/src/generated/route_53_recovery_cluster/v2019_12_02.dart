@@ -452,6 +452,7 @@ class Route53RecoveryCluster {
   }
 }
 
+/// @nodoc
 class GetRoutingControlStateResponse {
   /// The Amazon Resource Name (ARN) of the response.
   final String routingControlArn;
@@ -489,6 +490,7 @@ class GetRoutingControlStateResponse {
   }
 }
 
+/// @nodoc
 class ListRoutingControlsResponse {
   /// The list of routing controls.
   final List<RoutingControl> routingControls;
@@ -522,6 +524,7 @@ class ListRoutingControlsResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoutingControlStateResponse {
   UpdateRoutingControlStateResponse();
 
@@ -534,6 +537,7 @@ class UpdateRoutingControlStateResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoutingControlStatesResponse {
   UpdateRoutingControlStatesResponse();
 
@@ -547,6 +551,8 @@ class UpdateRoutingControlStatesResponse {
 }
 
 /// A routing control state entry.
+///
+/// @nodoc
 class UpdateRoutingControlStateEntry {
   /// The Amazon Resource Name (ARN) for a routing control state entry.
   final String routingControlArn;
@@ -569,6 +575,7 @@ class UpdateRoutingControlStateEntry {
   }
 }
 
+/// @nodoc
 class RoutingControlState {
   static const on = RoutingControlState._('On');
   static const off = RoutingControlState._('Off');
@@ -597,6 +604,8 @@ class RoutingControlState {
 /// A routing control, which is a simple on/off switch that you can use to route
 /// traffic to cells. When a routing control state is set to ON, traffic flows
 /// to a cell. When the state is set to OFF, traffic does not flow.
+///
+/// @nodoc
 class RoutingControl {
   /// The Amazon Resource Name (ARN) of the control panel where the routing
   /// control is located.
@@ -660,16 +669,19 @@ class RoutingControl {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class EndpointTemporarilyUnavailableException extends _s.GenericAwsException {
   EndpointTemporarilyUnavailableException({String? type, String? message})
       : super(
@@ -678,16 +690,19 @@ class EndpointTemporarilyUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceLimitExceededException extends _s.GenericAwsException {
   ServiceLimitExceededException({String? type, String? message})
       : super(
@@ -696,11 +711,13 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

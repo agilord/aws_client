@@ -1673,6 +1673,7 @@ class ApplicationInsights {
   }
 }
 
+/// @nodoc
 class AddWorkloadResponse {
   /// The configuration settings of the workload. The value is the escaped JSON of
   /// the configuration.
@@ -1707,6 +1708,7 @@ class AddWorkloadResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// Information about the application.
   final ApplicationInfo? applicationInfo;
@@ -1732,6 +1734,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateComponentResponse {
   CreateComponentResponse();
 
@@ -1744,6 +1747,7 @@ class CreateComponentResponse {
   }
 }
 
+/// @nodoc
 class CreateLogPatternResponse {
   /// The successfully created log pattern.
   final LogPattern? logPattern;
@@ -1775,6 +1779,7 @@ class CreateLogPatternResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -1787,6 +1792,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteComponentResponse {
   DeleteComponentResponse();
 
@@ -1799,6 +1805,7 @@ class DeleteComponentResponse {
   }
 }
 
+/// @nodoc
 class DeleteLogPatternResponse {
   DeleteLogPatternResponse();
 
@@ -1811,6 +1818,7 @@ class DeleteLogPatternResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationResponse {
   /// Information about the application.
   final ApplicationInfo? applicationInfo;
@@ -1836,6 +1844,7 @@ class DescribeApplicationResponse {
   }
 }
 
+/// @nodoc
 class DescribeComponentResponse {
   final ApplicationComponent? applicationComponent;
 
@@ -1871,6 +1880,7 @@ class DescribeComponentResponse {
   }
 }
 
+/// @nodoc
 class DescribeComponentConfigurationResponse {
   /// The configuration settings of the component. The value is the escaped JSON
   /// of the configuration.
@@ -1912,6 +1922,7 @@ class DescribeComponentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeComponentConfigurationRecommendationResponse {
   /// The recommended configuration settings of the component. The value is the
   /// escaped JSON of the configuration.
@@ -1937,6 +1948,7 @@ class DescribeComponentConfigurationRecommendationResponse {
   }
 }
 
+/// @nodoc
 class DescribeLogPatternResponse {
   /// The Amazon Web Services account ID for the resource group owner.
   final String? accountId;
@@ -1975,6 +1987,7 @@ class DescribeLogPatternResponse {
   }
 }
 
+/// @nodoc
 class DescribeObservationResponse {
   /// Information about the observation.
   final Observation? observation;
@@ -1999,6 +2012,7 @@ class DescribeObservationResponse {
   }
 }
 
+/// @nodoc
 class DescribeProblemResponse {
   /// Information about the problem.
   final Problem? problem;
@@ -2030,6 +2044,7 @@ class DescribeProblemResponse {
   }
 }
 
+/// @nodoc
 class DescribeProblemObservationsResponse {
   /// Observations related to the problem.
   final RelatedObservations? relatedObservations;
@@ -2057,6 +2072,7 @@ class DescribeProblemObservationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkloadResponse {
   /// The configuration settings of the workload. The value is the escaped JSON of
   /// the configuration.
@@ -2099,6 +2115,7 @@ class DescribeWorkloadResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// The list of applications.
   final List<ApplicationInfo>? applicationInfoList;
@@ -2133,6 +2150,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListComponentsResponse {
   /// The list of application components.
   final List<ApplicationComponent>? applicationComponentList;
@@ -2166,6 +2184,7 @@ class ListComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationHistoryResponse {
   /// The list of configuration events and their corresponding details.
   final List<ConfigurationEvent>? eventList;
@@ -2203,6 +2222,7 @@ class ListConfigurationHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListLogPatternsResponse {
   /// The Amazon Web Services account ID for the resource group owner.
   final String? accountId;
@@ -2250,6 +2270,7 @@ class ListLogPatternsResponse {
   }
 }
 
+/// @nodoc
 class ListLogPatternSetsResponse {
   /// The Amazon Web Services account ID for the resource group owner.
   final String? accountId;
@@ -2297,6 +2318,7 @@ class ListLogPatternSetsResponse {
   }
 }
 
+/// @nodoc
 class ListProblemsResponse {
   /// The Amazon Web Services account ID for the resource group owner.
   final String? accountId;
@@ -2344,6 +2366,7 @@ class ListProblemsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array that lists all the tags that are associated with the application.
   /// Each tag consists of a required tag key (<code>Key</code>) and an associated
@@ -2371,6 +2394,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWorkloadsResponse {
   /// The token to request the next page of results.
   final String? nextToken;
@@ -2403,6 +2427,7 @@ class ListWorkloadsResponse {
   }
 }
 
+/// @nodoc
 class RemoveWorkloadResponse {
   RemoveWorkloadResponse();
 
@@ -2415,6 +2440,7 @@ class RemoveWorkloadResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2427,6 +2453,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2439,6 +2466,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// Information about the application.
   final ApplicationInfo? applicationInfo;
@@ -2464,6 +2492,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateComponentResponse {
   UpdateComponentResponse();
 
@@ -2476,6 +2505,7 @@ class UpdateComponentResponse {
   }
 }
 
+/// @nodoc
 class UpdateComponentConfigurationResponse {
   UpdateComponentConfigurationResponse();
 
@@ -2489,6 +2519,7 @@ class UpdateComponentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateLogPatternResponse {
   /// The successfully created log pattern.
   final LogPattern? logPattern;
@@ -2520,6 +2551,7 @@ class UpdateLogPatternResponse {
   }
 }
 
+/// @nodoc
 class UpdateProblemResponse {
   UpdateProblemResponse();
 
@@ -2532,6 +2564,7 @@ class UpdateProblemResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkloadResponse {
   /// The configuration settings of the workload. The value is the escaped JSON of
   /// the configuration.
@@ -2567,6 +2600,8 @@ class UpdateWorkloadResponse {
 }
 
 /// The configuration of the workload.
+///
+/// @nodoc
 class WorkloadConfiguration {
   /// The configuration settings of the workload.
   final String? configuration;
@@ -2603,6 +2638,7 @@ class WorkloadConfiguration {
   }
 }
 
+/// @nodoc
 class Tier {
   static const custom = Tier._('CUSTOM');
   static const $default = Tier._('DEFAULT');
@@ -2674,6 +2710,7 @@ class Tier {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateStatus {
   static const resolved = UpdateStatus._('RESOLVED');
 
@@ -2696,6 +2733,7 @@ class UpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Visibility {
   static const ignored = Visibility._('IGNORED');
   static const visible = Visibility._('VISIBLE');
@@ -2721,6 +2759,8 @@ class Visibility {
 
 /// An object that defines the log patterns that belongs to a
 /// <code>LogPatternSet</code>.
+///
+/// @nodoc
 class LogPattern {
   /// A regular expression that defines the log pattern. A log pattern can contain
   /// as many as 50 characters, and it cannot be empty. The pattern must be DFA
@@ -2783,6 +2823,8 @@ class LogPattern {
 }
 
 /// Describes the status of the application.
+///
+/// @nodoc
 class ApplicationInfo {
   /// The Amazon Web Services account ID for the owner of the application.
   final String? accountId;
@@ -2893,6 +2935,7 @@ class ApplicationInfo {
   }
 }
 
+/// @nodoc
 class DiscoveryType {
   static const resourceGroupBased = DiscoveryType._('RESOURCE_GROUP_BASED');
   static const accountBased = DiscoveryType._('ACCOUNT_BASED');
@@ -2945,6 +2988,8 @@ class DiscoveryType {
 /// can't edit or remove tag keys or values that use this prefix.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that defines a tag. The maximum length of a tag
   /// key is 128 characters. The minimum length is 1 character.
@@ -2979,6 +3024,8 @@ class Tag {
 }
 
 /// Describes the workloads on a component.
+///
+/// @nodoc
 class Workload {
   /// The name of the component.
   final String? componentName;
@@ -3040,6 +3087,8 @@ class Workload {
 }
 
 /// Describes a problem that is detected by correlating observations.
+///
+/// @nodoc
 class Problem {
   /// The Amazon Web Services account ID for the owner of the resource group
   /// affected by the problem.
@@ -3179,6 +3228,7 @@ class Problem {
   }
 }
 
+/// @nodoc
 class Status {
   static const ignore = Status._('IGNORE');
   static const resolved = Status._('RESOLVED');
@@ -3205,6 +3255,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class SeverityLevel {
   static const informative = SeverityLevel._('Informative');
   static const low = SeverityLevel._('Low');
@@ -3231,6 +3282,7 @@ class SeverityLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolutionMethod {
   static const manual = ResolutionMethod._('MANUAL');
   static const automatic = ResolutionMethod._('AUTOMATIC');
@@ -3256,6 +3308,7 @@ class ResolutionMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class FeedbackKey {
   static const insightsFeedback = FeedbackKey._('INSIGHTS_FEEDBACK');
 
@@ -3278,6 +3331,7 @@ class FeedbackKey {
   String toString() => value;
 }
 
+/// @nodoc
 class FeedbackValue {
   static const notSpecified = FeedbackValue._('NOT_SPECIFIED');
   static const useful = FeedbackValue._('USEFUL');
@@ -3304,6 +3358,8 @@ class FeedbackValue {
 }
 
 /// The event information.
+///
+/// @nodoc
 class ConfigurationEvent {
   /// The Amazon Web Services account ID for the owner of the application to which
   /// the configuration event belongs.
@@ -3383,6 +3439,7 @@ class ConfigurationEvent {
   }
 }
 
+/// @nodoc
 class ConfigurationEventStatus {
   static const info = ConfigurationEventStatus._('INFO');
   static const warn = ConfigurationEventStatus._('WARN');
@@ -3409,6 +3466,7 @@ class ConfigurationEventStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfigurationEventResourceType {
   static const cloudwatchAlarm =
       ConfigurationEventResourceType._('CLOUDWATCH_ALARM');
@@ -3447,6 +3505,8 @@ class ConfigurationEventResourceType {
 
 /// Describes a standalone resource or similarly grouped resources that the
 /// application is made up of.
+///
+/// @nodoc
 class ApplicationComponent {
   /// The name of the component.
   final String? componentName;
@@ -3519,6 +3579,7 @@ class ApplicationComponent {
   }
 }
 
+/// @nodoc
 class OsType {
   static const windows = OsType._('WINDOWS');
   static const linux = OsType._('LINUX');
@@ -3543,6 +3604,8 @@ class OsType {
 }
 
 /// Describes observations related to the problem.
+///
+/// @nodoc
 class RelatedObservations {
   /// The list of observations related to the problem.
   final List<Observation>? observationList;
@@ -3569,6 +3632,8 @@ class RelatedObservations {
 }
 
 /// Describes an anomaly or error with the application.
+///
+/// @nodoc
 class Observation {
   /// The detail type of the CloudWatch Event-based observation, for example,
   /// <code>EC2 Instance State-change Notification</code>.
@@ -3922,6 +3987,7 @@ class Observation {
   }
 }
 
+/// @nodoc
 class LogFilter {
   static const error = LogFilter._('ERROR');
   static const warn = LogFilter._('WARN');
@@ -3946,6 +4012,7 @@ class LogFilter {
   String toString() => value;
 }
 
+/// @nodoc
 class CloudWatchEventSource {
   static const ec2 = CloudWatchEventSource._('EC2');
   static const codeDeploy = CloudWatchEventSource._('CODE_DEPLOY');
@@ -3973,6 +4040,7 @@ class CloudWatchEventSource {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationType {
   static const infraOnly = RecommendationType._('INFRA_ONLY');
   static const workloadOnly = RecommendationType._('WORKLOAD_ONLY');
@@ -3999,6 +4067,7 @@ class RecommendationType {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupingType {
   static const accountBased = GroupingType._('ACCOUNT_BASED');
 
@@ -4021,41 +4090,49 @@ class GroupingType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TagsAlreadyExistException extends _s.GenericAwsException {
   TagsAlreadyExistException({String? type, String? message})
       : super(type: type, code: 'TagsAlreadyExistException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

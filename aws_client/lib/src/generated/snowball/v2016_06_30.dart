@@ -1713,6 +1713,7 @@ class Snowball {
   }
 }
 
+/// @nodoc
 class CancelClusterResult {
   CancelClusterResult();
 
@@ -1725,6 +1726,7 @@ class CancelClusterResult {
   }
 }
 
+/// @nodoc
 class CancelJobResult {
   CancelJobResult();
 
@@ -1737,6 +1739,7 @@ class CancelJobResult {
   }
 }
 
+/// @nodoc
 class CreateAddressResult {
   /// The automatically generated ID for a specific address. You'll use this ID
   /// when you create a job to specify which address you want the Snow device for
@@ -1761,6 +1764,7 @@ class CreateAddressResult {
   }
 }
 
+/// @nodoc
 class CreateClusterResult {
   /// The automatically generated ID for a cluster.
   final String? clusterId;
@@ -1795,6 +1799,7 @@ class CreateClusterResult {
   }
 }
 
+/// @nodoc
 class CreateJobResult {
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
@@ -1818,6 +1823,7 @@ class CreateJobResult {
   }
 }
 
+/// @nodoc
 class CreateLongTermPricingResult {
   /// The ID of the long-term pricing type for the device.
   final String? longTermPricingId;
@@ -1840,6 +1846,7 @@ class CreateLongTermPricingResult {
   }
 }
 
+/// @nodoc
 class CreateReturnShippingLabelResult {
   /// The status information of the task on a Snow device that is being returned
   /// to Amazon Web Services.
@@ -1863,6 +1870,7 @@ class CreateReturnShippingLabelResult {
   }
 }
 
+/// @nodoc
 class DescribeAddressResult {
   /// The address that you want the Snow device(s) associated with a specific job
   /// to be shipped to.
@@ -1888,6 +1896,7 @@ class DescribeAddressResult {
   }
 }
 
+/// @nodoc
 class DescribeAddressesResult {
   /// The Snow device shipping addresses that were created for this account.
   final List<Address>? addresses;
@@ -1923,6 +1932,7 @@ class DescribeAddressesResult {
   }
 }
 
+/// @nodoc
 class DescribeClusterResult {
   /// Information about a specific cluster, including shipping information,
   /// cluster status, and other important metadata.
@@ -1949,6 +1959,7 @@ class DescribeClusterResult {
   }
 }
 
+/// @nodoc
 class DescribeJobResult {
   /// Information about a specific job, including shipping information, job
   /// status, and other important metadata.
@@ -1985,6 +1996,7 @@ class DescribeJobResult {
   }
 }
 
+/// @nodoc
 class DescribeReturnShippingLabelResult {
   /// The expiration date of the current return shipping label.
   final DateTime? expirationDate;
@@ -2025,6 +2037,7 @@ class DescribeReturnShippingLabelResult {
   }
 }
 
+/// @nodoc
 class GetJobManifestResult {
   /// The Amazon S3 presigned URL for the manifest file associated with the
   /// specified <code>JobId</code> value.
@@ -2048,6 +2061,7 @@ class GetJobManifestResult {
   }
 }
 
+/// @nodoc
 class GetJobUnlockCodeResult {
   /// The <code>UnlockCode</code> value for the specified job. The
   /// <code>UnlockCode</code> value can be accessed for up to 360 days after the
@@ -2072,6 +2086,7 @@ class GetJobUnlockCodeResult {
   }
 }
 
+/// @nodoc
 class GetSnowballUsageResult {
   /// The service limit for number of Snow devices this account can have at once.
   /// The default service limit is 1 (one).
@@ -2102,6 +2117,7 @@ class GetSnowballUsageResult {
   }
 }
 
+/// @nodoc
 class GetSoftwareUpdatesResult {
   /// The Amazon S3 presigned URL for the update file associated with the
   /// specified <code>JobId</code> value. The software update will be available
@@ -2128,6 +2144,7 @@ class GetSoftwareUpdatesResult {
   }
 }
 
+/// @nodoc
 class ListClusterJobsResult {
   /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
   /// and a value that indicates whether the job is a job part, in the case of
@@ -2164,6 +2181,7 @@ class ListClusterJobsResult {
   }
 }
 
+/// @nodoc
 class ListClustersResult {
   /// Each <code>ClusterListEntry</code> object contains a cluster's state, a
   /// cluster's ID, and other important status information.
@@ -2200,6 +2218,7 @@ class ListClustersResult {
   }
 }
 
+/// @nodoc
 class ListCompatibleImagesResult {
   /// A JSON-formatted object that describes a compatible AMI, including the ID
   /// and name for a Snow device AMI.
@@ -2234,6 +2253,7 @@ class ListCompatibleImagesResult {
   }
 }
 
+/// @nodoc
 class ListJobsResult {
   /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
   /// and a value that indicates whether the job is a job part, in the case of
@@ -2271,6 +2291,7 @@ class ListJobsResult {
   }
 }
 
+/// @nodoc
 class ListLongTermPricingResult {
   /// Each <code>LongTermPricingEntry</code> object contains a status, ID, and
   /// other information about the <code>LongTermPricing</code> type.
@@ -2307,6 +2328,7 @@ class ListLongTermPricingResult {
   }
 }
 
+/// @nodoc
 class ListPickupLocationsResult {
   /// Information about the address of pickup locations.
   final List<Address>? addresses;
@@ -2342,6 +2364,7 @@ class ListPickupLocationsResult {
   }
 }
 
+/// @nodoc
 class ListServiceVersionsResult {
   /// The name of the service for which the system provided supported versions.
   final ServiceName serviceName;
@@ -2394,6 +2417,7 @@ class ListServiceVersionsResult {
   }
 }
 
+/// @nodoc
 class UpdateClusterResult {
   UpdateClusterResult();
 
@@ -2406,6 +2430,7 @@ class UpdateClusterResult {
   }
 }
 
+/// @nodoc
 class UpdateJobResult {
   UpdateJobResult();
 
@@ -2418,6 +2443,7 @@ class UpdateJobResult {
   }
 }
 
+/// @nodoc
 class UpdateJobShipmentStateResult {
   UpdateJobShipmentStateResult();
 
@@ -2430,6 +2456,7 @@ class UpdateJobShipmentStateResult {
   }
 }
 
+/// @nodoc
 class UpdateLongTermPricingResult {
   UpdateLongTermPricingResult();
 
@@ -2442,6 +2469,7 @@ class UpdateLongTermPricingResult {
   }
 }
 
+/// @nodoc
 class ShipmentState {
   static const received = ShipmentState._('RECEIVED');
   static const returned = ShipmentState._('RETURNED');
@@ -2476,6 +2504,8 @@ class ShipmentState {
 /// <code>JobStatesToNotify</code> array of strings, or you can specify that you
 /// want to have Amazon SNS notifications sent out for all job states with
 /// <code>NotifyAll</code> set to true.
+///
+/// @nodoc
 class Notification {
   /// Used to send SNS notifications for the person picking up the device
   /// (identified during job creation).
@@ -2536,6 +2566,8 @@ class Notification {
 /// Contains an array of Amazon Web Services resource objects. Each object
 /// represents an Amazon S3 bucket, an Lambda function, or an Amazon Machine
 /// Image (AMI) based on Amazon EC2 that is associated with a particular job.
+///
+/// @nodoc
 class JobResource {
   /// The Amazon Machine Images (AMIs) associated with this job.
   final List<Ec2AmiResource>? ec2AmiResources;
@@ -2583,6 +2615,8 @@ class JobResource {
 
 /// An object that represents the metadata and configuration settings for
 /// services on an Amazon Web Services Snow Family device.
+///
+/// @nodoc
 class OnDeviceServiceConfiguration {
   /// The configuration of EKS Anywhere on the Snow Family device.
   final EKSOnDeviceServiceConfiguration? eKSOnDeviceService;
@@ -2639,6 +2673,7 @@ class OnDeviceServiceConfiguration {
   }
 }
 
+/// @nodoc
 class ShippingOption {
   static const secondDay = ShippingOption._('SECOND_DAY');
   static const nextDay = ShippingOption._('NEXT_DAY');
@@ -2665,6 +2700,7 @@ class ShippingOption {
   String toString() => value;
 }
 
+/// @nodoc
 class SnowballCapacity {
   static const t50 = SnowballCapacity._('T50');
   static const t80 = SnowballCapacity._('T80');
@@ -2711,6 +2747,8 @@ class SnowballCapacity {
 }
 
 /// Information identifying the person picking up the device.
+///
+/// @nodoc
 class PickupDetails {
   /// The unique ID for a device that will be picked up.
   final String? devicePickupId;
@@ -2785,6 +2823,8 @@ class PickupDetails {
 /// An object that represents the metadata and configuration settings for the
 /// NFS (Network File System) service on an Amazon Web Services Snow Family
 /// device.
+///
+/// @nodoc
 class NFSOnDeviceServiceConfiguration {
   /// The maximum NFS storage for one Snow Family device.
   final int? storageLimit;
@@ -2820,6 +2860,8 @@ class NFSOnDeviceServiceConfiguration {
 /// An object that represents the metadata and configuration settings for the
 /// Storage Gateway service Tape Gateway type on an Amazon Web Services Snow
 /// Family device.
+///
+/// @nodoc
 class TGWOnDeviceServiceConfiguration {
   /// The maximum number of virtual tapes to store on one Snow Family device. Due
   /// to physical resource limitations, this value must be set to 80 for Snowball
@@ -2854,6 +2896,8 @@ class TGWOnDeviceServiceConfiguration {
 
 /// An object representing the metadata and configuration settings of EKS
 /// Anywhere on the Snow Family device.
+///
+/// @nodoc
 class EKSOnDeviceServiceConfiguration {
   /// The optional version of EKS Anywhere on the Snow Family device.
   final String? eKSAnywhereVersion;
@@ -2884,6 +2928,8 @@ class EKSOnDeviceServiceConfiguration {
 }
 
 /// Amazon S3 compatible storage on Snow family devices configuration items.
+///
+/// @nodoc
 class S3OnDeviceServiceConfiguration {
   /// >Fault tolerance level of the cluster. This indicates the number of nodes
   /// that can go down without degrading the performance of the cluster. This
@@ -2938,6 +2984,7 @@ class S3OnDeviceServiceConfiguration {
   }
 }
 
+/// @nodoc
 class StorageUnit {
   static const tb = StorageUnit._('TB');
 
@@ -2964,6 +3011,8 @@ class StorageUnit {
 /// (AMI), including the Amazon EC2-compatible AMI ID and the Snow device AMI
 /// ID. Each AMI has these two IDs to simplify identifying the AMI in both the
 /// Amazon Web Services Cloud and on the device.
+///
+/// @nodoc
 class Ec2AmiResource {
   /// The ID of the AMI in Amazon EC2.
   final String amiId;
@@ -2994,6 +3043,8 @@ class Ec2AmiResource {
 }
 
 /// Identifies
+///
+/// @nodoc
 class LambdaResource {
   /// The array of ARNs for <a>S3Resource</a> objects to trigger the
   /// <a>LambdaResource</a> objects associated with this job.
@@ -3030,6 +3081,8 @@ class LambdaResource {
 }
 
 /// The container for the <a>EventTriggerDefinition$EventResourceARN</a>.
+///
+/// @nodoc
 class EventTriggerDefinition {
   /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an
   /// Lambda function's event trigger associated with this job.
@@ -3059,6 +3112,8 @@ class EventTriggerDefinition {
 /// the range is defined at job creation, and has either an inclusive
 /// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
 /// Ranges are UTF-8 binary sorted.
+///
+/// @nodoc
 class S3Resource {
   /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
   final String? bucketArn;
@@ -3111,6 +3166,8 @@ class S3Resource {
 /// defined at job creation, and has either an inclusive
 /// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
 /// Ranges are UTF-8 binary sorted.
+///
+/// @nodoc
 class KeyRange {
   /// The key that starts an optional key range for an export job. Ranges are
   /// inclusive and UTF-8 binary sorted.
@@ -3145,6 +3202,8 @@ class KeyRange {
 /// An object that represents the service or services on the Snow Family device
 /// that your transferred data will be exported from or imported into. Amazon
 /// Web Services Snow Family supports Amazon S3 and NFS (Network File System).
+///
+/// @nodoc
 class TargetOnDeviceService {
   /// Specifies the name of the service on the Snow Family device that your
   /// transferred data will be exported from or imported into.
@@ -3178,6 +3237,7 @@ class TargetOnDeviceService {
   }
 }
 
+/// @nodoc
 class DeviceServiceName {
   static const nfsOnDeviceService =
       DeviceServiceName._('NFS_ON_DEVICE_SERVICE');
@@ -3203,6 +3263,7 @@ class DeviceServiceName {
   String toString() => value;
 }
 
+/// @nodoc
 class TransferOption {
   static const import = TransferOption._('IMPORT');
   static const export = TransferOption._('EXPORT');
@@ -3228,6 +3289,7 @@ class TransferOption {
   String toString() => value;
 }
 
+/// @nodoc
 class JobState {
   static const $new = JobState._('New');
   static const preparingAppliance = JobState._('PreparingAppliance');
@@ -3276,6 +3338,7 @@ class JobState {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceName {
   static const kubernetes = ServiceName._('KUBERNETES');
   static const eksAnywhere = ServiceName._('EKS_ANYWHERE');
@@ -3300,6 +3363,8 @@ class ServiceName {
 }
 
 /// The name and version of the service dependant on the requested service.
+///
+/// @nodoc
 class DependentService {
   /// The name of the dependent service.
   final ServiceName? serviceName;
@@ -3334,6 +3399,8 @@ class DependentService {
 }
 
 /// The version of the requested service.
+///
+/// @nodoc
 class ServiceVersion {
   /// The version number of the requested service.
   final String? version;
@@ -3362,6 +3429,8 @@ class ServiceVersion {
 /// region. Although no individual elements of the <code>Address</code> are
 /// required, if the address is invalid or unsupported, then an exception is
 /// thrown.
+///
+/// @nodoc
 class Address {
   /// The unique ID for an address.
   final String? addressId;
@@ -3488,6 +3557,7 @@ class Address {
   }
 }
 
+/// @nodoc
 class AddressType {
   static const custPickup = AddressType._('CUST_PICKUP');
   static const awsShip = AddressType._('AWS_SHIP');
@@ -3513,6 +3583,8 @@ class AddressType {
 
 /// Each <code>LongTermPricingListEntry</code> object contains information about
 /// a long-term pricing type.
+///
+/// @nodoc
 class LongTermPricingListEntry {
   /// The current active jobs on the device the long-term pricing type.
   final String? currentActiveJob;
@@ -3610,6 +3682,7 @@ class LongTermPricingListEntry {
   }
 }
 
+/// @nodoc
 class LongTermPricingType {
   static const oneYear = LongTermPricingType._('OneYear');
   static const threeYear = LongTermPricingType._('ThreeYear');
@@ -3636,6 +3709,7 @@ class LongTermPricingType {
   String toString() => value;
 }
 
+/// @nodoc
 class SnowballType {
   static const standard = SnowballType._('STANDARD');
   static const edge = SnowballType._('EDGE');
@@ -3681,6 +3755,8 @@ class SnowballType {
 /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
 /// and a value that indicates whether the job is a job part, in the case of an
 /// export job.
+///
+/// @nodoc
 class JobListEntry {
   /// The creation date for this job.
   final DateTime? creationDate;
@@ -3754,6 +3830,7 @@ class JobListEntry {
   }
 }
 
+/// @nodoc
 class JobType {
   static const import = JobType._('IMPORT');
   static const export = JobType._('EXPORT');
@@ -3782,6 +3859,8 @@ class JobType {
 /// (AMI), including the ID and name for a Snow device AMI. This AMI is
 /// compatible with the device's physical hardware requirements, and it should
 /// be able to be run in an SBE1 instance on the device.
+///
+/// @nodoc
 class CompatibleImage {
   /// The unique identifier for an individual Snow device AMI.
   final String? amiId;
@@ -3812,6 +3891,8 @@ class CompatibleImage {
 }
 
 /// Contains a cluster's state, a cluster's ID, and other important information.
+///
+/// @nodoc
 class ClusterListEntry {
   /// The 39-character ID for the cluster that you want to list, for example
   /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
@@ -3860,6 +3941,7 @@ class ClusterListEntry {
   }
 }
 
+/// @nodoc
 class ClusterState {
   static const awaitingQuorum = ClusterState._('AwaitingQuorum');
   static const pending = ClusterState._('Pending');
@@ -3886,6 +3968,7 @@ class ClusterState {
   String toString() => value;
 }
 
+/// @nodoc
 class ShippingLabelStatus {
   static const inProgress = ShippingLabelStatus._('InProgress');
   static const timedOut = ShippingLabelStatus._('TimedOut');
@@ -3916,6 +3999,8 @@ class ShippingLabelStatus {
 /// Contains information about a specific job including shipping information,
 /// job status, and other important metadata. This information is returned as a
 /// part of the response syntax of the <code>DescribeJob</code> action.
+///
+/// @nodoc
 class JobMetadata {
   /// The ID for the address that you want the Snow device shipped to.
   final String? addressId;
@@ -4175,6 +4260,8 @@ class JobMetadata {
 
 /// A job's shipping information, including inbound and outbound tracking
 /// numbers and shipping speed options.
+///
+/// @nodoc
 class ShippingDetails {
   /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
   /// device being returned to Amazon Web Services for a particular job.
@@ -4246,6 +4333,8 @@ class ShippingDetails {
 /// device is at Amazon Web Services. This data is only available while a job
 /// has a <code>JobState</code> value of <code>InProgress</code>, for both
 /// import and export jobs.
+///
+/// @nodoc
 class DataTransfer {
   /// The number of bytes transferred between a Snow device and Amazon S3.
   final int? bytesTransferred;
@@ -4313,6 +4402,8 @@ class DataTransfer {
 /// look at the two associated logs: a success log and a failure log. The logs
 /// are saved in comma-separated value (CSV) format, and the name of each log
 /// includes the ID of the job or job part that the log describes.
+///
+/// @nodoc
 class JobLogs {
   /// A link to an Amazon S3 presigned URL where the job completion report is
   /// located.
@@ -4352,6 +4443,8 @@ class JobLogs {
 }
 
 /// The tax documents required in your Amazon Web Services Region.
+///
+/// @nodoc
 class TaxDocuments {
   final INDTaxDocuments? ind;
 
@@ -4376,6 +4469,8 @@ class TaxDocuments {
 }
 
 /// The container for <code>SnowconeDeviceConfiguration</code>.
+///
+/// @nodoc
 class DeviceConfiguration {
   /// Returns information about the device configuration for an Snowball Edge job.
   final SnowconeDeviceConfiguration? snowconeDeviceConfiguration;
@@ -4402,6 +4497,7 @@ class DeviceConfiguration {
   }
 }
 
+/// @nodoc
 class RemoteManagement {
   static const installedOnly = RemoteManagement._('INSTALLED_ONLY');
   static const installedAutostart = RemoteManagement._('INSTALLED_AUTOSTART');
@@ -4427,6 +4523,7 @@ class RemoteManagement {
   String toString() => value;
 }
 
+/// @nodoc
 class ImpactLevel {
   static const il2 = ImpactLevel._('IL2');
   static const il4 = ImpactLevel._('IL4');
@@ -4454,6 +4551,8 @@ class ImpactLevel {
 }
 
 /// Specifies the device configuration for an Snowball Edge job.
+///
+/// @nodoc
 class SnowconeDeviceConfiguration {
   /// Configures the wireless connection for the Snowball Edge device.
   final WirelessConnection? wirelessConnection;
@@ -4480,6 +4579,8 @@ class SnowconeDeviceConfiguration {
 }
 
 /// Configures the wireless connection on an Snowball Edge device.
+///
+/// @nodoc
 class WirelessConnection {
   /// Enables the Wi-Fi adapter on an Snowball Edge device.
   final bool? isWifiEnabled;
@@ -4503,6 +4604,8 @@ class WirelessConnection {
 }
 
 /// The tax documents required in Amazon Web Services Region in India.
+///
+/// @nodoc
 class INDTaxDocuments {
   /// The Goods and Services Tax (GST) documents required in Amazon Web Services
   /// Region in India.
@@ -4528,6 +4631,8 @@ class INDTaxDocuments {
 
 /// The <code>Status</code> and <code>TrackingNumber</code> information for an
 /// inbound or outbound shipment.
+///
+/// @nodoc
 class Shipment {
   /// Status information for a shipment.
   final String? status;
@@ -4563,6 +4668,8 @@ class Shipment {
 }
 
 /// Contains metadata about a specific cluster.
+///
+/// @nodoc
 class ClusterMetadata {
   /// The automatically generated ID for a specific address.
   final String? addressId;
@@ -4734,6 +4841,7 @@ class ClusterMetadata {
   }
 }
 
+/// @nodoc
 class ClusterLimitExceededException extends _s.GenericAwsException {
   ClusterLimitExceededException({String? type, String? message})
       : super(
@@ -4742,21 +4850,25 @@ class ClusterLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class Ec2RequestFailedException extends _s.GenericAwsException {
   Ec2RequestFailedException({String? type, String? message})
       : super(type: type, code: 'Ec2RequestFailedException', message: message);
 }
 
+/// @nodoc
 class InvalidAddressException extends _s.GenericAwsException {
   InvalidAddressException({String? type, String? message})
       : super(type: type, code: 'InvalidAddressException', message: message);
 }
 
+/// @nodoc
 class InvalidInputCombinationException extends _s.GenericAwsException {
   InvalidInputCombinationException({String? type, String? message})
       : super(
@@ -4765,26 +4877,31 @@ class InvalidInputCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidJobStateException extends _s.GenericAwsException {
   InvalidJobStateException({String? type, String? message})
       : super(type: type, code: 'InvalidJobStateException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceException extends _s.GenericAwsException {
   InvalidResourceException({String? type, String? message})
       : super(type: type, code: 'InvalidResourceException', message: message);
 }
 
+/// @nodoc
 class KMSRequestFailedException extends _s.GenericAwsException {
   KMSRequestFailedException({String? type, String? message})
       : super(type: type, code: 'KMSRequestFailedException', message: message);
 }
 
+/// @nodoc
 class ReturnShippingLabelAlreadyExistsException extends _s.GenericAwsException {
   ReturnShippingLabelAlreadyExistsException({String? type, String? message})
       : super(
@@ -4793,6 +4910,7 @@ class ReturnShippingLabelAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedAddressException extends _s.GenericAwsException {
   UnsupportedAddressException({String? type, String? message})
       : super(

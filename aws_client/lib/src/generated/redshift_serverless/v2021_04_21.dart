@@ -543,11 +543,11 @@ class RedshiftServerless {
   /// The policy to create or update. For example, the following policy grants a
   /// user authorization to restore a snapshot.
   ///
-  /// <code>"{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\":
+  /// <code>"{\"Version\": \"2012-10-17\", \"Statement\" : \[{ \"Sid\":
   /// \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\":
-  /// [\"739247239426\"]}, \"Action\":
-  /// [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\"
-  /// }]}"</code>
+  /// \[\"739247239426\"\]}, \"Action\":
+  /// \[\"redshift-serverless:RestoreFromSnapshot\"\] , \"Effect\": \"Allow\"
+  /// }\]}"</code>
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the account to create or update a
@@ -1277,7 +1277,7 @@ class RedshiftServerless {
   /// The name of the Glue Data Catalog that will be associated with the
   /// namespace enabled with Amazon Redshift federated permissions.
   ///
-  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  /// Pattern: <code>^\[a-z0-9_-\]*\[a-z\]+\[a-z0-9_-\]*$</code>
   ///
   /// Parameter [dryRun] :
   /// A boolean value that, if <code>true</code>, validates the request without
@@ -3331,6 +3331,7 @@ class RedshiftServerless {
   }
 }
 
+/// @nodoc
 class CreateCustomDomainAssociationResponse {
   /// The custom domain name’s certificate Amazon resource name (ARN).
   final String? customDomainCertificateArn;
@@ -3380,6 +3381,7 @@ class CreateCustomDomainAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomDomainAssociationResponse {
   DeleteCustomDomainAssociationResponse();
 
@@ -3393,6 +3395,7 @@ class DeleteCustomDomainAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -3405,6 +3408,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetCredentialsResponse {
   /// A temporary password that authorizes the user name returned by
   /// <code>DbUser</code> to log on to the database <code>DbName</code>.
@@ -3455,6 +3459,7 @@ class GetCredentialsResponse {
   }
 }
 
+/// @nodoc
 class GetCustomDomainAssociationResponse {
   /// The custom domain name’s certificate Amazon resource name (ARN).
   final String? customDomainCertificateArn;
@@ -3504,6 +3509,7 @@ class GetCustomDomainAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetIdentityCenterAuthTokenResponse {
   /// The date and time when the Identity Center authentication token expires.
   ///
@@ -3541,6 +3547,7 @@ class GetIdentityCenterAuthTokenResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The returned resource policy.
   final ResourcePolicy? resourcePolicy;
@@ -3566,6 +3573,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetTrackResponse {
   /// The version of the specified track.
   final ServerlessTrack? track;
@@ -3590,6 +3598,7 @@ class GetTrackResponse {
   }
 }
 
+/// @nodoc
 class ListCustomDomainAssociationsResponse {
   /// A list of Association objects.
   final List<Association>? associations;
@@ -3626,6 +3635,7 @@ class ListCustomDomainAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of the key-value pairs assigned to the resource.
   final List<Tag>? tags;
@@ -3651,6 +3661,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTracksResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -3686,6 +3697,7 @@ class ListTracksResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The policy that was created or updated.
   final ResourcePolicy? resourcePolicy;
@@ -3711,6 +3723,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3723,6 +3736,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3735,6 +3749,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomDomainAssociationResponse {
   /// The custom domain name’s certificate Amazon resource name (ARN).
   final String? customDomainCertificateArn;
@@ -3784,6 +3799,7 @@ class UpdateCustomDomainAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreateEndpointAccessResponse {
   /// The created VPC endpoint.
   final EndpointAccess? endpoint;
@@ -3808,6 +3824,7 @@ class CreateEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class DeleteEndpointAccessResponse {
   /// The deleted VPC endpoint.
   final EndpointAccess? endpoint;
@@ -3832,6 +3849,7 @@ class DeleteEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class GetEndpointAccessResponse {
   /// The returned VPC endpoint.
   final EndpointAccess? endpoint;
@@ -3856,6 +3874,7 @@ class GetEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class ListEndpointAccessResponse {
   /// The returned VPC endpoints.
   final List<EndpointAccess> endpoints;
@@ -3891,6 +3910,7 @@ class ListEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointAccessResponse {
   /// The updated VPC endpoint.
   final EndpointAccess? endpoint;
@@ -3915,6 +3935,7 @@ class UpdateEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class ListManagedWorkgroupsResponse {
   /// The returned array of managed workgroups.
   final List<ManagedWorkgroupListItem>? managedWorkgroups;
@@ -3950,6 +3971,7 @@ class ListManagedWorkgroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateNamespaceResponse {
   /// The created namespace object.
   final Namespace? namespace;
@@ -3974,6 +3996,7 @@ class CreateNamespaceResponse {
   }
 }
 
+/// @nodoc
 class GetNamespaceResponse {
   /// The returned namespace object.
   final Namespace namespace;
@@ -3998,6 +4021,7 @@ class GetNamespaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateNamespaceResponse {
   /// A list of tag instances.
   final Namespace namespace;
@@ -4022,6 +4046,7 @@ class UpdateNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteNamespaceResponse {
   /// The deleted namespace object.
   final Namespace namespace;
@@ -4046,6 +4071,7 @@ class DeleteNamespaceResponse {
   }
 }
 
+/// @nodoc
 class ListNamespacesResponse {
   /// The list of returned namespaces.
   final List<Namespace> namespaces;
@@ -4081,6 +4107,7 @@ class ListNamespacesResponse {
   }
 }
 
+/// @nodoc
 class UpdateLakehouseConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the Glue Data Catalog associated with the
   /// lakehouse configuration.
@@ -4133,6 +4160,7 @@ class UpdateLakehouseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ConvertRecoveryPointToSnapshotResponse {
   /// The snapshot converted from the recovery point.
   final Snapshot? snapshot;
@@ -4158,6 +4186,7 @@ class ConvertRecoveryPointToSnapshotResponse {
   }
 }
 
+/// @nodoc
 class GetRecoveryPointResponse {
   /// The returned recovery point object.
   final RecoveryPoint? recoveryPoint;
@@ -4183,6 +4212,7 @@ class GetRecoveryPointResponse {
   }
 }
 
+/// @nodoc
 class ListRecoveryPointsResponse {
   /// If <code>nextToken</code> is returned, there are more results available. The
   /// value of <code>nextToken</code> is a unique pagination token for each page.
@@ -4217,6 +4247,7 @@ class ListRecoveryPointsResponse {
   }
 }
 
+/// @nodoc
 class RestoreFromRecoveryPointResponse {
   /// The namespace that data was restored into.
   final Namespace? namespace;
@@ -4248,6 +4279,7 @@ class RestoreFromRecoveryPointResponse {
   }
 }
 
+/// @nodoc
 class RestoreTableFromRecoveryPointResponse {
   final TableRestoreStatus? tableRestoreStatus;
 
@@ -4273,6 +4305,7 @@ class RestoreTableFromRecoveryPointResponse {
   }
 }
 
+/// @nodoc
 class CreateReservationResponse {
   /// The reservation object that the <code>CreateReservation</code> action
   /// created.
@@ -4298,6 +4331,7 @@ class CreateReservationResponse {
   }
 }
 
+/// @nodoc
 class GetReservationResponse {
   /// The returned reservation object.
   final Reservation reservation;
@@ -4322,6 +4356,7 @@ class GetReservationResponse {
   }
 }
 
+/// @nodoc
 class GetReservationOfferingResponse {
   /// The returned reservation offering. The offering determines the payment
   /// schedule for the reservation.
@@ -4347,6 +4382,7 @@ class GetReservationOfferingResponse {
   }
 }
 
+/// @nodoc
 class ListReservationOfferingsResponse {
   /// The returned list of reservation offerings.
   final List<ReservationOffering> reservationOfferingsList;
@@ -4380,6 +4416,7 @@ class ListReservationOfferingsResponse {
   }
 }
 
+/// @nodoc
 class ListReservationsResponse {
   /// The serverless reservations returned by the request.
   final List<Reservation> reservationsList;
@@ -4412,6 +4449,7 @@ class ListReservationsResponse {
   }
 }
 
+/// @nodoc
 class CreateScheduledActionResponse {
   /// The returned <code>ScheduledAction</code> object that describes the
   /// properties of a scheduled action.
@@ -4438,6 +4476,7 @@ class CreateScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class DeleteScheduledActionResponse {
   /// The deleted scheduled action object.
   final ScheduledActionResponse? scheduledAction;
@@ -4463,6 +4502,7 @@ class DeleteScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class GetScheduledActionResponse {
   /// The returned scheduled action object.
   final ScheduledActionResponse? scheduledAction;
@@ -4488,6 +4528,7 @@ class GetScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class ListScheduledActionsResponse {
   /// If nextToken is returned, there are more results available. The value of
   /// nextToken is a unique pagination token for each page. Make the call again
@@ -4523,6 +4564,7 @@ class ListScheduledActionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateScheduledActionResponse {
   /// The ScheduledAction object that was updated.
   final ScheduledActionResponse? scheduledAction;
@@ -4548,6 +4590,7 @@ class UpdateScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class CreateSnapshotResponse {
   /// The created snapshot object.
   final Snapshot? snapshot;
@@ -4572,6 +4615,7 @@ class CreateSnapshotResponse {
   }
 }
 
+/// @nodoc
 class CreateSnapshotCopyConfigurationResponse {
   /// The snapshot copy configuration object that is returned.
   final SnapshotCopyConfiguration snapshotCopyConfiguration;
@@ -4597,6 +4641,7 @@ class CreateSnapshotCopyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteSnapshotResponse {
   /// The deleted snapshot object.
   final Snapshot? snapshot;
@@ -4621,6 +4666,7 @@ class DeleteSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DeleteSnapshotCopyConfigurationResponse {
   /// The deleted snapshot copy configuration object.
   final SnapshotCopyConfiguration snapshotCopyConfiguration;
@@ -4646,6 +4692,7 @@ class DeleteSnapshotCopyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetSnapshotResponse {
   /// The returned snapshot object.
   final Snapshot? snapshot;
@@ -4670,6 +4717,7 @@ class GetSnapshotResponse {
   }
 }
 
+/// @nodoc
 class GetTableRestoreStatusResponse {
   /// The returned <code>TableRestoreStatus</code> object that contains
   /// information about the status of your <code>RestoreTableFromSnapshot</code>
@@ -4697,6 +4745,7 @@ class GetTableRestoreStatusResponse {
   }
 }
 
+/// @nodoc
 class ListSnapshotCopyConfigurationsResponse {
   /// All of the returned snapshot copy configurations.
   final List<SnapshotCopyConfiguration> snapshotCopyConfigurations;
@@ -4734,6 +4783,7 @@ class ListSnapshotCopyConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListSnapshotsResponse {
   /// If <code>nextToken</code> is returned, there are more results available. The
   /// value of <code>nextToken</code> is a unique pagination token for each page.
@@ -4768,6 +4818,7 @@ class ListSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class ListTableRestoreStatusResponse {
   /// If your initial <code>ListTableRestoreStatus</code> operation returns a
   /// <code>nextToken</code>, you can include the returned <code>nextToken</code>
@@ -4804,6 +4855,7 @@ class ListTableRestoreStatusResponse {
   }
 }
 
+/// @nodoc
 class RestoreFromSnapshotResponse {
   final Namespace? namespace;
 
@@ -4841,6 +4893,7 @@ class RestoreFromSnapshotResponse {
   }
 }
 
+/// @nodoc
 class RestoreTableFromSnapshotResponse {
   /// The TableRestoreStatus object that contains the status of the restore
   /// operation.
@@ -4867,6 +4920,7 @@ class RestoreTableFromSnapshotResponse {
   }
 }
 
+/// @nodoc
 class UpdateSnapshotResponse {
   /// The updated snapshot object.
   final Snapshot? snapshot;
@@ -4891,6 +4945,7 @@ class UpdateSnapshotResponse {
   }
 }
 
+/// @nodoc
 class UpdateSnapshotCopyConfigurationResponse {
   /// The updated snapshot copy configuration object.
   final SnapshotCopyConfiguration snapshotCopyConfiguration;
@@ -4916,6 +4971,7 @@ class UpdateSnapshotCopyConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateUsageLimitResponse {
   /// The returned usage limit object.
   final UsageLimit? usageLimit;
@@ -4940,6 +4996,7 @@ class CreateUsageLimitResponse {
   }
 }
 
+/// @nodoc
 class DeleteUsageLimitResponse {
   /// The deleted usage limit object.
   final UsageLimit? usageLimit;
@@ -4964,6 +5021,7 @@ class DeleteUsageLimitResponse {
   }
 }
 
+/// @nodoc
 class GetUsageLimitResponse {
   /// The returned usage limit object.
   final UsageLimit? usageLimit;
@@ -4988,6 +5046,7 @@ class GetUsageLimitResponse {
   }
 }
 
+/// @nodoc
 class ListUsageLimitsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -5023,6 +5082,7 @@ class ListUsageLimitsResponse {
   }
 }
 
+/// @nodoc
 class UpdateUsageLimitResponse {
   /// The updated usage limit object.
   final UsageLimit? usageLimit;
@@ -5047,6 +5107,7 @@ class UpdateUsageLimitResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkgroupResponse {
   /// The created workgroup object.
   final Workgroup? workgroup;
@@ -5071,6 +5132,7 @@ class CreateWorkgroupResponse {
   }
 }
 
+/// @nodoc
 class GetWorkgroupResponse {
   /// The returned workgroup object.
   final Workgroup workgroup;
@@ -5095,6 +5157,7 @@ class GetWorkgroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkgroupResponse {
   /// The updated workgroup object.
   final Workgroup workgroup;
@@ -5119,6 +5182,7 @@ class UpdateWorkgroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkgroupResponse {
   /// The deleted workgroup object.
   final Workgroup workgroup;
@@ -5143,6 +5207,7 @@ class DeleteWorkgroupResponse {
   }
 }
 
+/// @nodoc
 class ListWorkgroupsResponse {
   /// The returned array of workgroups.
   final List<Workgroup> workgroups;
@@ -5178,6 +5243,8 @@ class ListWorkgroupsResponse {
 }
 
 /// The collection of computing resources from which an endpoint is created.
+///
+/// @nodoc
 class Workgroup {
   /// The base data warehouse capacity of the workgroup in Redshift Processing
   /// Units (RPUs).
@@ -5438,6 +5505,7 @@ class Workgroup {
   }
 }
 
+/// @nodoc
 class WorkgroupStatus {
   static const creating = WorkgroupStatus._('CREATING');
   static const available = WorkgroupStatus._('AVAILABLE');
@@ -5465,6 +5533,8 @@ class WorkgroupStatus {
 }
 
 /// The VPC endpoint object.
+///
+/// @nodoc
 class Endpoint {
   /// The DNS address of the VPC endpoint.
   final String? address;
@@ -5506,6 +5576,8 @@ class Endpoint {
 
 /// An object that represents the price performance target settings for the
 /// workgroup.
+///
+/// @nodoc
 class PerformanceTarget {
   /// The target price performance level for the workgroup. Valid values include
   /// 1, 25, 50, 75, and 100. These correspond to the price performance levels
@@ -5538,6 +5610,7 @@ class PerformanceTarget {
   }
 }
 
+/// @nodoc
 class PerformanceTargetStatus {
   static const enabled = PerformanceTargetStatus._('ENABLED');
   static const disabled = PerformanceTargetStatus._('DISABLED');
@@ -5565,6 +5638,8 @@ class PerformanceTargetStatus {
 
 /// The connection endpoint for connecting to Amazon Redshift Serverless through
 /// the proxy.
+///
+/// @nodoc
 class VpcEndpoint {
   /// One or more network interfaces of the endpoint. Also known as an interface
   /// endpoint.
@@ -5607,6 +5682,8 @@ class VpcEndpoint {
 
 /// Contains information about a network interface in an Amazon Redshift
 /// Serverless managed VPC endpoint.
+///
+/// @nodoc
 class NetworkInterface {
   /// The availability Zone.
   final String? availabilityZone;
@@ -5659,6 +5736,8 @@ class NetworkInterface {
 
 /// An array of key-value pairs to set for advanced control over Amazon Redshift
 /// Serverless.
+///
+/// @nodoc
 class ConfigParameter {
   /// The key of the parameter. The options are <code>auto_mv</code>,
   /// <code>datestyle</code>, <code>enable_case_sensitive_identifier</code>,
@@ -5701,6 +5780,8 @@ class ConfigParameter {
 }
 
 /// A map of key-value pairs.
+///
+/// @nodoc
 class Tag {
   /// The key to use in the tag.
   final String key;
@@ -5731,6 +5812,8 @@ class Tag {
 }
 
 /// The usage limit object.
+///
+/// @nodoc
 class UsageLimit {
   /// The limit amount. If time-based, this amount is in RPUs consumed per hour.
   /// If data-based, this amount is in terabytes (TB). The value must be a
@@ -5802,6 +5885,7 @@ class UsageLimit {
   }
 }
 
+/// @nodoc
 class UsageLimitUsageType {
   static const serverlessCompute = UsageLimitUsageType._('serverless-compute');
   static const crossRegionDatasharing =
@@ -5828,6 +5912,7 @@ class UsageLimitUsageType {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageLimitPeriod {
   static const daily = UsageLimitPeriod._('daily');
   static const weekly = UsageLimitPeriod._('weekly');
@@ -5853,6 +5938,7 @@ class UsageLimitPeriod {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageLimitBreachAction {
   static const log = UsageLimitBreachAction._('log');
   static const emitMetric = UsageLimitBreachAction._('emit-metric');
@@ -5881,6 +5967,8 @@ class UsageLimitBreachAction {
 
 /// The object that you configure to copy snapshots from one namespace to a
 /// namespace in another Amazon Web Services Region.
+///
+/// @nodoc
 class SnapshotCopyConfiguration {
   /// The ID of the KMS key to use to encrypt your snapshots in the destination
   /// Amazon Web Services Region.
@@ -5948,6 +6036,8 @@ class SnapshotCopyConfiguration {
 }
 
 /// A snapshot object that contains databases.
+///
+/// @nodoc
 class Snapshot {
   /// All of the Amazon Web Services accounts that have access to restore a
   /// snapshot to a provisioned cluster.
@@ -6154,6 +6244,7 @@ class Snapshot {
   }
 }
 
+/// @nodoc
 class SnapshotStatus {
   static const available = SnapshotStatus._('AVAILABLE');
   static const creating = SnapshotStatus._('CREATING');
@@ -6190,6 +6281,8 @@ class SnapshotStatus {
 }
 
 /// Contains information about a table restore request.
+///
+/// @nodoc
 class TableRestoreStatus {
   /// A message that explains the returned status. For example, if the status of
   /// the operation is <code>FAILED</code>, the message explains why the operation
@@ -6326,6 +6419,8 @@ class TableRestoreStatus {
 }
 
 /// A collection of database objects and users.
+///
+/// @nodoc
 class Namespace {
   /// The Amazon Resource Name (ARN) for the namespace's admin user credentials
   /// secret.
@@ -6471,6 +6566,7 @@ class Namespace {
   }
 }
 
+/// @nodoc
 class NamespaceStatus {
   static const available = NamespaceStatus._('AVAILABLE');
   static const modifying = NamespaceStatus._('MODIFYING');
@@ -6496,6 +6592,7 @@ class NamespaceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LogExport {
   static const useractivitylog = LogExport._('useractivitylog');
   static const userlog = LogExport._('userlog');
@@ -6521,6 +6618,8 @@ class LogExport {
 }
 
 /// The returned scheduled action object.
+///
+/// @nodoc
 class ScheduledActionResponse {
   /// The end time of
   final DateTime? endTime;
@@ -6650,6 +6749,8 @@ class ScheduledActionResponse {
 
 /// The schedule of when Amazon Redshift Serverless should run the scheduled
 /// action.
+///
+/// @nodoc
 class Schedule {
   /// The timestamp of when Amazon Redshift Serverless should run the scheduled
   /// action. Timestamp is in UTC. Format of at expression is
@@ -6690,6 +6791,7 @@ class Schedule {
   }
 }
 
+/// @nodoc
 class State {
   static const active = State._('ACTIVE');
   static const disabled = State._('DISABLED');
@@ -6719,6 +6821,8 @@ class State {
 /// <code>"{"CreateSnapshot": {"NamespaceName":
 /// "sampleNamespace","SnapshotName": "sampleSnapshot", "retentionPeriod":
 /// "1"}}"</code>
+///
+/// @nodoc
 class TargetAction {
   final CreateSnapshotScheduleActionParameters? createSnapshot;
 
@@ -6748,6 +6852,8 @@ class TargetAction {
 /// action</a> to create a snapshot. For more information about creating a
 /// scheduled action, see <a
 /// href="https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html">CreateScheduledAction</a>.
+///
+/// @nodoc
 class CreateSnapshotScheduleActionParameters {
   /// The name of the namespace for which you want to configure a scheduled action
   /// to create a snapshot.
@@ -6801,6 +6907,8 @@ class CreateSnapshotScheduleActionParameters {
 }
 
 /// Contains names of objects associated with a scheduled action.
+///
+/// @nodoc
 class ScheduledActionAssociation {
   /// Name of associated Amazon Redshift Serverless namespace.
   final String? namespaceName;
@@ -6834,6 +6942,8 @@ class ScheduledActionAssociation {
 /// Represents an Amazon Redshift Serverless reservation, which gives you the
 /// option to commit to a specified number of Redshift Processing Units (RPUs)
 /// for a year at a discount from Serverless on-demand (OD) rates.
+///
+/// @nodoc
 class Reservation {
   /// The number of Redshift Processing Units (RPUs) to reserve.
   final int? capacity;
@@ -6922,6 +7032,8 @@ class Reservation {
 
 /// The class of offering for the reservation. The offering class determines the
 /// payment schedule for the reservation.
+///
+/// @nodoc
 class ReservationOffering {
   /// The currency code for the offering.
   final String? currencyCode;
@@ -6980,6 +7092,7 @@ class ReservationOffering {
   }
 }
 
+/// @nodoc
 class OfferingType {
   static const allUpfront = OfferingType._('ALL_UPFRONT');
   static const noUpfront = OfferingType._('NO_UPFRONT');
@@ -7005,6 +7118,8 @@ class OfferingType {
 
 /// The automatically created recovery point of a namespace. Recovery points are
 /// created every 30 minutes and kept for 24 hours.
+///
+/// @nodoc
 class RecoveryPoint {
   /// The Amazon Resource Name (ARN) of the namespace the recovery point is
   /// associated with.
@@ -7066,6 +7181,7 @@ class RecoveryPoint {
   }
 }
 
+/// @nodoc
 class LakehouseRegistration {
   static const register = LakehouseRegistration._('Register');
   static const deregister = LakehouseRegistration._('Deregister');
@@ -7091,6 +7207,7 @@ class LakehouseRegistration {
   String toString() => value;
 }
 
+/// @nodoc
 class LakehouseIdcRegistration {
   static const associate = LakehouseIdcRegistration._('Associate');
   static const disassociate = LakehouseIdcRegistration._('Disassociate');
@@ -7117,6 +7234,8 @@ class LakehouseIdcRegistration {
 }
 
 /// A collection of Amazon Redshift compute resources managed by Glue.
+///
+/// @nodoc
 class ManagedWorkgroupListItem {
   /// The creation date of the managed workgroup.
   final DateTime? creationDate;
@@ -7170,6 +7289,7 @@ class ManagedWorkgroupListItem {
   }
 }
 
+/// @nodoc
 class ManagedWorkgroupStatus {
   static const creating = ManagedWorkgroupStatus._('CREATING');
   static const deleting = ManagedWorkgroupStatus._('DELETING');
@@ -7205,6 +7325,8 @@ class ManagedWorkgroupStatus {
 }
 
 /// Information about an Amazon Redshift Serverless VPC endpoint.
+///
+/// @nodoc
 class EndpointAccess {
   /// The DNS address of the endpoint.
   final String? address;
@@ -7303,6 +7425,8 @@ class EndpointAccess {
 }
 
 /// Describes the members of a VPC security group.
+///
+/// @nodoc
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
   final String? status;
@@ -7334,6 +7458,8 @@ class VpcSecurityGroupMembership {
 
 /// The resource policy object. Currently, you can use policies to share
 /// snapshots across Amazon Web Services accounts.
+///
+/// @nodoc
 class ResourcePolicy {
   /// The resource policy.
   final String? policy;
@@ -7368,6 +7494,8 @@ class ResourcePolicy {
 /// <code>current</code>, the workgroup is updated to the most recently
 /// certified release. If the value is <code>trailing</code>, the workgroup is
 /// updated to the previously certified release.
+///
+/// @nodoc
 class ServerlessTrack {
   /// The name of the track. Valid values are <code>current</code> and
   /// <code>trailing</code>.
@@ -7409,6 +7537,8 @@ class ServerlessTrack {
 }
 
 /// A track that you can switch the current track to.
+///
+/// @nodoc
 class UpdateTarget {
   /// The name of the new track.
   final String? trackName;
@@ -7439,6 +7569,8 @@ class UpdateTarget {
 }
 
 /// An object that represents the custom domain name association.
+///
+/// @nodoc
 class Association {
   /// The custom domain name’s certificate Amazon resource name (ARN).
   final String? customDomainCertificateArn;
@@ -7487,21 +7619,25 @@ class Association {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DryRunException extends _s.GenericAwsException {
   DryRunException({String? type, String? message})
       : super(type: type, code: 'DryRunException', message: message);
 }
 
+/// @nodoc
 class InsufficientCapacityException extends _s.GenericAwsException {
   InsufficientCapacityException({String? type, String? message})
       : super(
@@ -7510,16 +7646,19 @@ class InsufficientCapacityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationException extends _s.GenericAwsException {
   InvalidPaginationException({String? type, String? message})
       : super(type: type, code: 'InvalidPaginationException', message: message);
 }
 
+/// @nodoc
 class Ipv6CidrBlockNotFoundException extends _s.GenericAwsException {
   Ipv6CidrBlockNotFoundException({String? type, String? message})
       : super(
@@ -7528,11 +7667,13 @@ class Ipv6CidrBlockNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7541,16 +7682,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

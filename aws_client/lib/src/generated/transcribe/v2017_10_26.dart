@@ -3341,6 +3341,7 @@ class Transcribe {
   }
 }
 
+/// @nodoc
 class CreateCallAnalyticsCategoryResponse {
   /// Provides you with the properties of your new category, including its
   /// associated rules.
@@ -3368,6 +3369,7 @@ class CreateCallAnalyticsCategoryResponse {
   }
 }
 
+/// @nodoc
 class CreateLanguageModelResponse {
   /// The Amazon Transcribe standard language model, or base model, you specified
   /// when creating your custom language model.
@@ -3428,6 +3430,7 @@ class CreateLanguageModelResponse {
   }
 }
 
+/// @nodoc
 class CreateMedicalVocabularyResponse {
   /// If <code>VocabularyState</code> is <code>FAILED</code>,
   /// <code>FailureReason</code> contains information about why the medical
@@ -3493,6 +3496,7 @@ class CreateMedicalVocabularyResponse {
   }
 }
 
+/// @nodoc
 class CreateVocabularyResponse {
   /// If <code>VocabularyState</code> is <code>FAILED</code>,
   /// <code>FailureReason</code> contains information about why the custom
@@ -3556,6 +3560,7 @@ class CreateVocabularyResponse {
   }
 }
 
+/// @nodoc
 class CreateVocabularyFilterResponse {
   /// The language code you selected for your custom vocabulary filter.
   final LanguageCode? languageCode;
@@ -3599,6 +3604,7 @@ class CreateVocabularyFilterResponse {
   }
 }
 
+/// @nodoc
 class DeleteCallAnalyticsCategoryResponse {
   DeleteCallAnalyticsCategoryResponse();
 
@@ -3611,6 +3617,7 @@ class DeleteCallAnalyticsCategoryResponse {
   }
 }
 
+/// @nodoc
 class DeleteCallAnalyticsJobResponse {
   DeleteCallAnalyticsJobResponse();
 
@@ -3623,6 +3630,7 @@ class DeleteCallAnalyticsJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeLanguageModelResponse {
   /// Provides information about the specified custom language model.
   ///
@@ -3657,6 +3665,7 @@ class DescribeLanguageModelResponse {
   }
 }
 
+/// @nodoc
 class GetCallAnalyticsCategoryResponse {
   /// Provides you with the properties of the Call Analytics category you
   /// specified in your <code>GetCallAnalyticsCategory</code> request.
@@ -3683,6 +3692,7 @@ class GetCallAnalyticsCategoryResponse {
   }
 }
 
+/// @nodoc
 class GetCallAnalyticsJobResponse {
   /// Provides detailed information about the specified Call Analytics job,
   /// including job status and, if applicable, failure reason.
@@ -3709,6 +3719,7 @@ class GetCallAnalyticsJobResponse {
   }
 }
 
+/// @nodoc
 class GetMedicalScribeJobResponse {
   /// Provides detailed information about the specified Medical Scribe job,
   /// including job status and, if applicable, failure reason
@@ -3735,6 +3746,7 @@ class GetMedicalScribeJobResponse {
   }
 }
 
+/// @nodoc
 class GetMedicalTranscriptionJobResponse {
   /// Provides detailed information about the specified medical transcription job,
   /// including job status and, if applicable, failure reason.
@@ -3763,6 +3775,7 @@ class GetMedicalTranscriptionJobResponse {
   }
 }
 
+/// @nodoc
 class GetMedicalVocabularyResponse {
   /// The Amazon S3 location where the specified custom medical vocabulary is
   /// stored; use this URI to view or download the custom vocabulary.
@@ -3836,6 +3849,7 @@ class GetMedicalVocabularyResponse {
   }
 }
 
+/// @nodoc
 class GetTranscriptionJobResponse {
   /// Provides detailed information about the specified transcription job,
   /// including job status and, if applicable, failure reason.
@@ -3862,6 +3876,7 @@ class GetTranscriptionJobResponse {
   }
 }
 
+/// @nodoc
 class GetVocabularyResponse {
   /// The Amazon S3 location where the custom vocabulary is stored; use this URI
   /// to view or download the custom vocabulary.
@@ -3933,6 +3948,7 @@ class GetVocabularyResponse {
   }
 }
 
+/// @nodoc
 class GetVocabularyFilterResponse {
   /// The Amazon S3 location where the custom vocabulary filter is stored; use
   /// this URI to view or download the custom vocabulary filter.
@@ -3984,6 +4000,7 @@ class GetVocabularyFilterResponse {
   }
 }
 
+/// @nodoc
 class ListCallAnalyticsCategoriesResponse {
   /// Provides detailed information about your Call Analytics categories,
   /// including all the rules associated with each category.
@@ -4022,6 +4039,7 @@ class ListCallAnalyticsCategoriesResponse {
   }
 }
 
+/// @nodoc
 class ListCallAnalyticsJobsResponse {
   /// Provides a summary of information about each result.
   final List<CallAnalyticsJobSummary>? callAnalyticsJobSummaries;
@@ -4069,6 +4087,7 @@ class ListCallAnalyticsJobsResponse {
   }
 }
 
+/// @nodoc
 class ListLanguageModelsResponse {
   /// Provides information about the custom language models that match the
   /// criteria specified in your request.
@@ -4106,6 +4125,7 @@ class ListLanguageModelsResponse {
   }
 }
 
+/// @nodoc
 class ListMedicalScribeJobsResponse {
   /// Provides a summary of information about each result.
   final List<MedicalScribeJobSummary>? medicalScribeJobSummaries;
@@ -4153,6 +4173,7 @@ class ListMedicalScribeJobsResponse {
   }
 }
 
+/// @nodoc
 class ListMedicalTranscriptionJobsResponse {
   /// Provides a summary of information about each result.
   final List<MedicalTranscriptionJobSummary>? medicalTranscriptionJobSummaries;
@@ -4203,6 +4224,7 @@ class ListMedicalTranscriptionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListMedicalVocabulariesResponse {
   /// If <code>NextToken</code> is present in your response, it indicates that not
   /// all results are displayed. To view the next set of results, copy the string
@@ -4249,6 +4271,7 @@ class ListMedicalVocabulariesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The Amazon Resource Name (ARN) specified in your request.
   final String? resourceArn;
@@ -4282,6 +4305,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTranscriptionJobsResponse {
   /// If <code>NextToken</code> is present in your response, it indicates that not
   /// all results are displayed. To view the next set of results, copy the string
@@ -4329,6 +4353,7 @@ class ListTranscriptionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListVocabulariesResponse {
   /// If <code>NextToken</code> is present in your response, it indicates that not
   /// all results are displayed. To view the next set of results, copy the string
@@ -4375,6 +4400,7 @@ class ListVocabulariesResponse {
   }
 }
 
+/// @nodoc
 class ListVocabularyFiltersResponse {
   /// If <code>NextToken</code> is present in your response, it indicates that not
   /// all results are displayed. To view the next set of results, copy the string
@@ -4412,6 +4438,7 @@ class ListVocabularyFiltersResponse {
   }
 }
 
+/// @nodoc
 class StartCallAnalyticsJobResponse {
   /// Provides detailed information about the current Call Analytics job,
   /// including job status and, if applicable, failure reason.
@@ -4438,6 +4465,7 @@ class StartCallAnalyticsJobResponse {
   }
 }
 
+/// @nodoc
 class StartMedicalScribeJobResponse {
   /// Provides detailed information about the current Medical Scribe job,
   /// including job status and, if applicable, failure reason.
@@ -4464,6 +4492,7 @@ class StartMedicalScribeJobResponse {
   }
 }
 
+/// @nodoc
 class StartMedicalTranscriptionJobResponse {
   /// Provides detailed information about the current medical transcription job,
   /// including job status and, if applicable, failure reason.
@@ -4492,6 +4521,7 @@ class StartMedicalTranscriptionJobResponse {
   }
 }
 
+/// @nodoc
 class StartTranscriptionJobResponse {
   /// Provides detailed information about the current transcription job, including
   /// job status and, if applicable, failure reason.
@@ -4518,6 +4548,7 @@ class StartTranscriptionJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4530,6 +4561,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4542,6 +4574,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCallAnalyticsCategoryResponse {
   /// Provides you with the properties of the Call Analytics category you
   /// specified in your <code>UpdateCallAnalyticsCategory</code> request.
@@ -4569,6 +4602,7 @@ class UpdateCallAnalyticsCategoryResponse {
   }
 }
 
+/// @nodoc
 class UpdateMedicalVocabularyResponse {
   /// The language code you selected for your custom medical vocabulary. US
   /// English (<code>en-US</code>) is the only language supported with Amazon
@@ -4623,6 +4657,7 @@ class UpdateMedicalVocabularyResponse {
   }
 }
 
+/// @nodoc
 class UpdateVocabularyResponse {
   /// The language code you selected for your custom vocabulary.
   final LanguageCode? languageCode;
@@ -4675,6 +4710,7 @@ class UpdateVocabularyResponse {
   }
 }
 
+/// @nodoc
 class UpdateVocabularyFilterResponse {
   /// The language code you selected for your custom vocabulary filter.
   final LanguageCode? languageCode;
@@ -4718,6 +4754,7 @@ class UpdateVocabularyFilterResponse {
   }
 }
 
+/// @nodoc
 class LanguageCode {
   static const afZa = LanguageCode._('af-ZA');
   static const arAe = LanguageCode._('ar-AE');
@@ -4974,6 +5011,7 @@ class LanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class VocabularyState {
   static const pending = VocabularyState._('PENDING');
   static const ready = VocabularyState._('READY');
@@ -5002,6 +5040,8 @@ class VocabularyState {
 /// Provides you with the properties of the Call Analytics category you
 /// specified in your request. This includes the list of rules that define the
 /// specified category.
+///
+/// @nodoc
 class CategoryProperties {
   /// The name of the Call Analytics category. Category names are case sensitive
   /// and must be unique within an Amazon Web Services account.
@@ -5080,6 +5120,7 @@ class CategoryProperties {
   }
 }
 
+/// @nodoc
 class InputType {
   static const realTime = InputType._('REAL_TIME');
   static const postCall = InputType._('POST_CALL');
@@ -5112,6 +5153,8 @@ class InputType {
 /// To learn more about tagging, see <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html">Tagging
 /// resources</a>.
+///
+/// @nodoc
 class Tag {
   /// The first part of a key:value pair that forms a tag associated with a given
   /// resource. For example, in the tag <code>Department:Sales</code>, the key is
@@ -5163,6 +5206,8 @@ class Tag {
 /// To learn more about Call Analytics, see <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html">Analyzing
 /// call center audio with Call Analytics</a>.
+///
+/// @nodoc
 class Rule {
   /// Flag the presence or absence of interruptions in your Call Analytics
   /// transcription output. Refer to for more detail.
@@ -5238,6 +5283,8 @@ class Rule {
 /// See <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
 /// criteria for post-call categories</a> for usage examples.
+///
+/// @nodoc
 class NonTalkTimeFilter {
   /// Makes it possible to specify a time range (in milliseconds) in your audio,
   /// during which you want to search for a period of silence. See for more
@@ -5316,6 +5363,8 @@ class NonTalkTimeFilter {
 /// See <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
 /// criteria for post-call categories</a> for usage examples.
+///
+/// @nodoc
 class InterruptionFilter {
   /// Makes it possible to specify a time range (in milliseconds) in your audio,
   /// during which you want to search for an interruption. See for more detail.
@@ -5402,6 +5451,8 @@ class InterruptionFilter {
 /// criteria for post-call categories</a> and <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html#tca-rules-stream">Rule
 /// criteria for streaming categories</a> for usage examples.
+///
+/// @nodoc
 class TranscriptFilter {
   /// Specify the phrases that you want to flag.
   final List<String> targets;
@@ -5509,6 +5560,8 @@ class TranscriptFilter {
 /// See <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
 /// criteria for post-call categories</a> for usage examples.
+///
+/// @nodoc
 class SentimentFilter {
   /// Specify the sentiments that you want to flag.
   final List<SentimentValue> sentiments;
@@ -5595,6 +5648,8 @@ class SentimentFilter {
 /// independently of each other.
 ///
 /// If you prefer to use percentage instead of milliseconds, see .
+///
+/// @nodoc
 class AbsoluteTimeRange {
   /// The time, in milliseconds, when Amazon Transcribe stops searching for the
   /// specified criteria in your audio. If you include <code>EndTime</code> in
@@ -5661,6 +5716,8 @@ class AbsoluteTimeRange {
 /// in the audio contained in the first 10 percent of the media file.
 ///
 /// If you prefer to use milliseconds instead of percentage, see .
+///
+/// @nodoc
 class RelativeTimeRange {
   /// The time, in percentage, when Amazon Transcribe stops searching for the
   /// specified criteria in your media file. If you include
@@ -5714,6 +5771,7 @@ class RelativeTimeRange {
   }
 }
 
+/// @nodoc
 class ParticipantRole {
   static const agent = ParticipantRole._('AGENT');
   static const customer = ParticipantRole._('CUSTOMER');
@@ -5738,6 +5796,7 @@ class ParticipantRole {
   String toString() => value;
 }
 
+/// @nodoc
 class SentimentValue {
   static const positive = SentimentValue._('POSITIVE');
   static const negative = SentimentValue._('NEGATIVE');
@@ -5764,6 +5823,7 @@ class SentimentValue {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscriptFilterType {
   static const exact = TranscriptFilterType._('EXACT');
 
@@ -5799,6 +5859,8 @@ class TranscriptFilterType {
 ///
 /// If you enabled content redaction, the redacted transcript can be found at
 /// the location specified in <code>RedactedTranscriptFileUri</code>.
+///
+/// @nodoc
 class TranscriptionJob {
   /// The date and time the specified transcription job finished processing.
   ///
@@ -6122,6 +6184,7 @@ class TranscriptionJob {
   }
 }
 
+/// @nodoc
 class TranscriptionJobStatus {
   static const queued = TranscriptionJobStatus._('QUEUED');
   static const inProgress = TranscriptionJobStatus._('IN_PROGRESS');
@@ -6149,6 +6212,7 @@ class TranscriptionJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MediaFormat {
   static const mp3 = MediaFormat._('mp3');
   static const mp4 = MediaFormat._('mp4');
@@ -6185,6 +6249,8 @@ class MediaFormat {
 /// <code>MediaFormat</code> parameter or the <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio">Media
 /// formats</a> section in the Amazon S3 Developer Guide.
+///
+/// @nodoc
 class Media {
   /// The Amazon S3 location of the media file you want to transcribe. For
   /// example:
@@ -6246,6 +6312,8 @@ class Media {
 }
 
 /// Provides you with the Amazon S3 URI you can use to access your transcript.
+///
+/// @nodoc
 class Transcript {
   /// The Amazon S3 location of your redacted transcript. You can use this URI to
   /// access or download your transcript.
@@ -6313,6 +6381,8 @@ class Transcript {
 /// Allows additional optional settings in your request, including channel
 /// identification, alternative transcriptions, and speaker partitioning. You
 /// can use that to apply custom vocabularies to your transcription job.
+///
+/// @nodoc
 class Settings {
   /// Enables channel identification in multi-channel audio.
   ///
@@ -6456,6 +6526,8 @@ class Settings {
 /// sub-parameter if you're <b>not</b> using automatic language identification
 /// (<code></code>). If using <code>LanguageIdSettings</code> in your request,
 /// this parameter contains a <code>LanguageModelName</code> sub-parameter.
+///
+/// @nodoc
 class ModelSettings {
   /// The name of the custom language model you want to use when processing your
   /// transcription job. Note that custom language model names are case sensitive.
@@ -6492,6 +6564,8 @@ class ModelSettings {
 /// If you include <code>JobExecutionSettings</code> in your request, you must
 /// also include the sub-parameters: <code>AllowDeferredExecution</code> and
 /// <code>DataAccessRoleArn</code>.
+///
+/// @nodoc
 class JobExecutionSettings {
   /// Makes it possible to enable job queuing when your concurrent request limit
   /// is exceeded. When <code>AllowDeferredExecution</code> is set to
@@ -6550,6 +6624,8 @@ class JobExecutionSettings {
 /// <code>RedactionOutput</code> and <code>RedactionType</code>. You can
 /// optionally include <code>PiiEntityTypes</code> to choose which types of PII
 /// you want to redact.
+///
+/// @nodoc
 class ContentRedaction {
   /// Specify if you want only a redacted transcript, or if you want a redacted
   /// and an unredacted transcript.
@@ -6608,6 +6684,8 @@ class ContentRedaction {
 
 /// Provides information about your subtitle file, including format, start
 /// index, and Amazon S3 location.
+///
+/// @nodoc
 class SubtitlesOutput {
   /// Provides the format of your subtitle files. If your request included both
   /// WebVTT (<code>vtt</code>) and SubRip (<code>srt</code>) formats, both
@@ -6676,6 +6754,8 @@ class SubtitlesOutput {
 /// Contains <code>ToxicityCategories</code>, which is a required parameter if
 /// you want to enable toxicity detection (<code>ToxicityDetection</code>) in
 /// your transcription request.
+///
+/// @nodoc
 class ToxicityDetectionSettings {
   /// If you include <code>ToxicityDetection</code> in your transcription request,
   /// you must also include <code>ToxicityCategories</code>. The only accepted
@@ -6703,6 +6783,7 @@ class ToxicityDetectionSettings {
   }
 }
 
+/// @nodoc
 class ToxicityCategory {
   static const all = ToxicityCategory._('ALL');
 
@@ -6757,6 +6838,8 @@ class ToxicityCategory {
 /// automatic language identification, use instead the <code></code> parameter
 /// with the <code>VocabularyName</code> or <code>VocabularyFilterName</code>
 /// (or both) sub-parameter.
+///
+/// @nodoc
 class LanguageIdSettings {
   /// The name of the custom language model you want to use when processing your
   /// transcription job. Note that custom language model names are case sensitive.
@@ -6815,6 +6898,7 @@ class LanguageIdSettings {
   }
 }
 
+/// @nodoc
 class SubtitleFormat {
   static const vtt = SubtitleFormat._('vtt');
   static const srt = SubtitleFormat._('srt');
@@ -6843,6 +6927,8 @@ class SubtitleFormat {
 /// multi-language identification is enabled in your request. This utterance
 /// represents a block of speech consisting of one language, preceded or
 /// followed by a block of speech in a different language.
+///
+/// @nodoc
 class LanguageCodeItem {
   /// Provides the total time, in seconds, each identified language is spoken in
   /// your media.
@@ -6874,6 +6960,7 @@ class LanguageCodeItem {
   }
 }
 
+/// @nodoc
 class RedactionType {
   static const pii = RedactionType._('PII');
 
@@ -6897,6 +6984,7 @@ class RedactionType {
   String toString() => value;
 }
 
+/// @nodoc
 class RedactionOutput {
   static const redacted = RedactionOutput._('redacted');
   static const redactedAndUnredacted =
@@ -6922,6 +7010,7 @@ class RedactionOutput {
   String toString() => value;
 }
 
+/// @nodoc
 class PiiEntityType {
   static const bankAccountNumber = PiiEntityType._('BANK_ACCOUNT_NUMBER');
   static const bankRouting = PiiEntityType._('BANK_ROUTING');
@@ -6969,6 +7058,7 @@ class PiiEntityType {
   String toString() => value;
 }
 
+/// @nodoc
 class VocabularyFilterMethod {
   static const remove = VocabularyFilterMethod._('remove');
   static const mask = VocabularyFilterMethod._('mask');
@@ -7002,6 +7092,8 @@ class VocabularyFilterMethod {
 ///
 /// Note that your subtitle files are placed in the same location as your
 /// transcription output.
+///
+/// @nodoc
 class Subtitles {
   /// Specify the output format for your subtitle file; if you select both WebVTT
   /// (<code>vtt</code>) and SubRip (<code>srt</code>) formats, two output files
@@ -7039,6 +7131,8 @@ class Subtitles {
 /// the location specified in <code>TranscriptFileUri</code>. If the status is
 /// <code>FAILED</code>, <code>FailureReason</code> provides details on why your
 /// transcription job failed.
+///
+/// @nodoc
 class MedicalTranscriptionJob {
   /// The date and time the specified medical transcription job finished
   /// processing.
@@ -7267,6 +7361,8 @@ class MedicalTranscriptionJob {
 }
 
 /// Provides you with the Amazon S3 URI you can use to access your transcript.
+///
+/// @nodoc
 class MedicalTranscript {
   /// The Amazon S3 location of your transcript. You can use this URI to access or
   /// download your transcript.
@@ -7296,6 +7392,8 @@ class MedicalTranscript {
 /// Allows additional optional settings in your request, including channel
 /// identification, alternative transcriptions, and speaker partitioning. You
 /// can use that to apply custom vocabularies to your medical transcription job.
+///
+/// @nodoc
 class MedicalTranscriptionSetting {
   /// Enables channel identification in multi-channel audio.
   ///
@@ -7408,6 +7506,7 @@ class MedicalTranscriptionSetting {
   }
 }
 
+/// @nodoc
 class MedicalContentIdentificationType {
   static const phi = MedicalContentIdentificationType._('PHI');
 
@@ -7432,6 +7531,7 @@ class MedicalContentIdentificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class Specialty {
   static const primarycare = Specialty._('PRIMARYCARE');
 
@@ -7454,6 +7554,7 @@ class Specialty {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const conversation = Type._('CONVERSATION');
   static const dictation = Type._('DICTATION');
@@ -7485,6 +7586,8 @@ class Type {
 /// the locations specified in <code>MedicalScribeOutput</code>. If the status
 /// is <code>FAILED</code>, <code>FailureReason</code> provides details on why
 /// your Medical Scribe job failed.
+///
+/// @nodoc
 class MedicalScribeJob {
   /// Makes it possible to specify which speaker is on which channel. For example,
   /// if the clinician is the first participant to speak, you would set
@@ -7684,6 +7787,7 @@ class MedicalScribeJob {
   }
 }
 
+/// @nodoc
 class MedicalScribeJobStatus {
   static const queued = MedicalScribeJobStatus._('QUEUED');
   static const inProgress = MedicalScribeJobStatus._('IN_PROGRESS');
@@ -7711,6 +7815,7 @@ class MedicalScribeJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MedicalScribeLanguageCode {
   static const enUs = MedicalScribeLanguageCode._('en-US');
 
@@ -7739,6 +7844,8 @@ class MedicalScribeLanguageCode {
 /// <code>ClinicalDocumentUri</code> holds the Amazon S3 URI for the Clinical
 /// Document and <code>TranscriptFileUri</code> holds the Amazon S3 URI for the
 /// Transcript.
+///
+/// @nodoc
 class MedicalScribeOutput {
   /// Holds the Amazon S3 URI for the Clinical Document.
   final String clinicalDocumentUri;
@@ -7780,6 +7887,8 @@ class MedicalScribeOutput {
 /// filter or both using <code>VocabularyName</code>,
 /// <code>VocabularyFilterName</code>. <code>VocabularyFilterMethod</code> must
 /// be specified if <code>VocabularyFilterName</code> is set.
+///
+/// @nodoc
 class MedicalScribeSettings {
   /// Enables channel identification in multi-channel audio.
   ///
@@ -7889,6 +7998,8 @@ class MedicalScribeSettings {
 
 /// Indicates which speaker is on which channel. The options are
 /// <code>CLINICIAN</code> and <code>PATIENT</code>
+///
+/// @nodoc
 class MedicalScribeChannelDefinition {
   /// Specify the audio channel you want to define.
   final int channelId;
@@ -7920,6 +8031,7 @@ class MedicalScribeChannelDefinition {
   }
 }
 
+/// @nodoc
 class MedicalScribeParticipantRole {
   static const patient = MedicalScribeParticipantRole._('PATIENT');
   static const clinician = MedicalScribeParticipantRole._('CLINICIAN');
@@ -7946,6 +8058,8 @@ class MedicalScribeParticipantRole {
 }
 
 /// The output configuration for clinical note generation.
+///
+/// @nodoc
 class ClinicalNoteGenerationSettings {
   /// Specify one of the following templates to use for the clinical note summary.
   /// The default is <code>HISTORY_AND_PHYSICAL</code>.
@@ -8004,6 +8118,7 @@ class ClinicalNoteGenerationSettings {
   }
 }
 
+/// @nodoc
 class MedicalScribeNoteTemplate {
   static const historyAndPhysical =
       MedicalScribeNoteTemplate._('HISTORY_AND_PHYSICAL');
@@ -8045,6 +8160,8 @@ class MedicalScribeNoteTemplate {
 
 /// The <code>MedicalScribeContext</code> object that contains contextual
 /// information used to generate customized clinical notes.
+///
+/// @nodoc
 class MedicalScribeContext {
   /// Contains patient-specific information.
   final MedicalScribePatientContext? patientContext;
@@ -8063,6 +8180,8 @@ class MedicalScribeContext {
 
 /// Contains patient-specific information used to customize the clinical note
 /// generation.
+///
+/// @nodoc
 class MedicalScribePatientContext {
   /// The patient's preferred pronouns that the user wants to provide as a context
   /// for clinical note generation.
@@ -8080,6 +8199,7 @@ class MedicalScribePatientContext {
   }
 }
 
+/// @nodoc
 class Pronouns {
   static const heHim = Pronouns._('HE_HIM');
   static const sheHer = Pronouns._('SHE_HER');
@@ -8119,6 +8239,8 @@ class Pronouns {
 /// If you chose to redact the audio in your media file, you can find your
 /// redacted media file at the location specified in the
 /// <code>RedactedMediaFileUri</code> field of your response.
+///
+/// @nodoc
 class CallAnalyticsJob {
   /// Provides detailed information about a call analytics job, including
   /// information about skipped analytics features.
@@ -8367,6 +8489,7 @@ class CallAnalyticsJob {
   }
 }
 
+/// @nodoc
 class CallAnalyticsJobStatus {
   static const queued = CallAnalyticsJobStatus._('QUEUED');
   static const inProgress = CallAnalyticsJobStatus._('IN_PROGRESS');
@@ -8396,6 +8519,8 @@ class CallAnalyticsJobStatus {
 
 /// Contains details about a call analytics job, including information about
 /// skipped analytics features.
+///
+/// @nodoc
 class CallAnalyticsJobDetails {
   /// Contains information about any skipped analytics features during the
   /// analysis of a call analytics job.
@@ -8429,6 +8554,8 @@ class CallAnalyticsJobDetails {
 /// Provides additional optional settings for your request, including content
 /// redaction, automatic language identification; allows you to apply custom
 /// language models, custom vocabulary filters, and custom vocabularies.
+///
+/// @nodoc
 class CallAnalyticsJobSettings {
   final ContentRedaction? contentRedaction;
 
@@ -8588,6 +8715,8 @@ class CallAnalyticsJobSettings {
 /// <code>ChannelId</code> to <code>0</code> (to indicate the first channel) and
 /// <code>ParticipantRole</code> to <code>AGENT</code> (to indicate that it's
 /// the agent speaking).
+///
+/// @nodoc
 class ChannelDefinition {
   /// Specify the audio channel you want to define.
   final int? channelId;
@@ -8622,6 +8751,8 @@ class ChannelDefinition {
 /// Contains <code>GenerateAbstractiveSummary</code>, which is a required
 /// parameter if you want to enable Generative call summarization in your Call
 /// Analytics request.
+///
+/// @nodoc
 class Summarization {
   /// Enables Generative call summarization in your Call Analytics request
   ///
@@ -8663,6 +8794,8 @@ class Summarization {
 ///
 /// The <code>ReasonCode</code> field provides a code indicating the reason why
 /// the analytics feature was skipped.
+///
+/// @nodoc
 class CallAnalyticsSkippedFeature {
   /// Indicates the type of analytics feature that was skipped during the analysis
   /// of a call analytics job.
@@ -8704,6 +8837,7 @@ class CallAnalyticsSkippedFeature {
   }
 }
 
+/// @nodoc
 class CallAnalyticsFeature {
   static const generativeSummarization =
       CallAnalyticsFeature._('GENERATIVE_SUMMARIZATION');
@@ -8729,6 +8863,7 @@ class CallAnalyticsFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class CallAnalyticsSkippedReasonCode {
   static const insufficientConversationContent =
       CallAnalyticsSkippedReasonCode._('INSUFFICIENT_CONVERSATION_CONTENT');
@@ -8761,6 +8896,8 @@ class CallAnalyticsSkippedReasonCode {
 
 /// Provides information about a custom vocabulary filter, including the
 /// language of the filter, when it was last modified, and its name.
+///
+/// @nodoc
 class VocabularyFilterInfo {
   /// The language code that represents the language of the entries in your
   /// vocabulary filter. Each custom vocabulary filter must contain terms in only
@@ -8821,6 +8958,8 @@ class VocabularyFilterInfo {
 /// Provides information about a custom vocabulary, including the language of
 /// the custom vocabulary, when it was last modified, its name, and the
 /// processing state.
+///
+/// @nodoc
 class VocabularyInfo {
   /// The language code used to create your custom vocabulary. Each custom
   /// vocabulary must contain terms in only one language.
@@ -8882,6 +9021,8 @@ class VocabularyInfo {
 }
 
 /// Provides detailed information about a specific transcription job.
+///
+/// @nodoc
 class TranscriptionJobSummary {
   /// The date and time the specified transcription job finished processing.
   ///
@@ -9068,6 +9209,7 @@ class TranscriptionJobSummary {
   }
 }
 
+/// @nodoc
 class OutputLocationType {
   static const customerBucket = OutputLocationType._('CUSTOMER_BUCKET');
   static const serviceBucket = OutputLocationType._('SERVICE_BUCKET');
@@ -9094,6 +9236,8 @@ class OutputLocationType {
 }
 
 /// Provides detailed information about a specific medical transcription job.
+///
+/// @nodoc
 class MedicalTranscriptionJobSummary {
   /// The date and time the specified medical transcription job finished
   /// processing.
@@ -9238,6 +9382,8 @@ class MedicalTranscriptionJobSummary {
 }
 
 /// Provides detailed information about a specific Medical Scribe job.
+///
+/// @nodoc
 class MedicalScribeJobSummary {
   /// The date and time the specified Medical Scribe job finished processing.
   ///
@@ -9361,6 +9507,8 @@ class MedicalScribeJobSummary {
 /// Any available upgrades for the base model
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LanguageModel {
   /// The Amazon Transcribe standard language model, or base model, used to create
   /// your custom language model.
@@ -9486,6 +9634,7 @@ class LanguageModel {
   }
 }
 
+/// @nodoc
 class CLMLanguageCode {
   static const enUs = CLMLanguageCode._('en-US');
   static const hiIn = CLMLanguageCode._('hi-IN');
@@ -9515,6 +9664,7 @@ class CLMLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class BaseModelName {
   static const narrowBand = BaseModelName._('NarrowBand');
   static const wideBand = BaseModelName._('WideBand');
@@ -9539,6 +9689,7 @@ class BaseModelName {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelStatus {
   static const inProgress = ModelStatus._('IN_PROGRESS');
   static const failed = ModelStatus._('FAILED');
@@ -9569,6 +9720,8 @@ class ModelStatus {
 /// When using <code>InputDataConfig</code>, you must include these
 /// sub-parameters: <code>S3Uri</code> and <code>DataAccessRoleArn</code>. You
 /// can optionally include <code>TuningDataS3Uri</code>.
+///
+/// @nodoc
 class InputDataConfig {
   /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
   /// the Amazon S3 bucket that contains your input files. If the role that you
@@ -9625,6 +9778,8 @@ class InputDataConfig {
 }
 
 /// Provides detailed information about a specific Call Analytics job.
+///
+/// @nodoc
 class CallAnalyticsJobSummary {
   /// Provides detailed information about a call analytics job, including
   /// information about skipped analytics features.
@@ -9730,26 +9885,31 @@ class CallAnalyticsJobSummary {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);

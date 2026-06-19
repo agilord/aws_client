@@ -259,6 +259,7 @@ class FreeTier {
   }
 }
 
+/// @nodoc
 class GetAccountActivityResponse {
   /// A unique identifier that identifies the activity.
   final String activityId;
@@ -353,6 +354,7 @@ class GetAccountActivityResponse {
   }
 }
 
+/// @nodoc
 class GetAccountPlanStateResponse {
   /// A unique identifier that identifies the account.
   final String accountId;
@@ -411,6 +413,7 @@ class GetAccountPlanStateResponse {
   }
 }
 
+/// @nodoc
 class GetFreeTierUsageResponse {
   /// The list of Free Tier usage objects that meet your filter expression.
   final List<FreeTierUsage> freeTierUsages;
@@ -443,6 +446,7 @@ class GetFreeTierUsageResponse {
   }
 }
 
+/// @nodoc
 class ListAccountActivitiesResponse {
   /// A brief information about the activities.
   final List<ActivitySummary> activities;
@@ -476,6 +480,7 @@ class ListAccountActivitiesResponse {
   }
 }
 
+/// @nodoc
 class UpgradeAccountPlanResponse {
   /// A unique identifier that identifies the account.
   final String accountId;
@@ -514,6 +519,7 @@ class UpgradeAccountPlanResponse {
   }
 }
 
+/// @nodoc
 class AccountPlanType {
   static const free = AccountPlanType._('FREE');
   static const paid = AccountPlanType._('PAID');
@@ -538,6 +544,7 @@ class AccountPlanType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountPlanStatus {
   static const notStarted = AccountPlanStatus._('NOT_STARTED');
   static const active = AccountPlanStatus._('ACTIVE');
@@ -564,6 +571,8 @@ class AccountPlanStatus {
 }
 
 /// The summary of activities.
+///
+/// @nodoc
 class ActivitySummary {
   /// A unique identifier that identifies the activity.
   final String activityId;
@@ -610,6 +619,8 @@ class ActivitySummary {
 }
 
 /// The summary of the rewards granted as a result of activities completed.
+///
+/// @nodoc
 class ActivityReward {
   /// The credits gained by activity rewards.
   final MonetaryAmount? credit;
@@ -634,6 +645,7 @@ class ActivityReward {
   }
 }
 
+/// @nodoc
 class ActivityStatus {
   static const notStarted = ActivityStatus._('NOT_STARTED');
   static const inProgress = ActivityStatus._('IN_PROGRESS');
@@ -661,6 +673,8 @@ class ActivityStatus {
 }
 
 /// The monetary amount of the credit.
+///
+/// @nodoc
 class MonetaryAmount {
   /// The aggregated monetary amount of credits earned.
   final double amount;
@@ -690,6 +704,7 @@ class MonetaryAmount {
   }
 }
 
+/// @nodoc
 class CurrencyCode {
   static const usd = CurrencyCode._('USD');
 
@@ -712,6 +727,7 @@ class CurrencyCode {
   String toString() => value;
 }
 
+/// @nodoc
 class LanguageCode {
   static const enUs = LanguageCode._('en-US');
   static const enGb = LanguageCode._('en-GB');
@@ -762,6 +778,8 @@ class LanguageCode {
 
 /// Consists of a Amazon Web Services Free Tier offer’s metadata and your data
 /// usage for the offer.
+///
+/// @nodoc
 class FreeTierUsage {
   /// Describes the actual usage accrued month-to-day (MTD) that you've used so
   /// far.
@@ -878,8 +896,8 @@ class FreeTierUsage {
 /// REGION==us-west-1</code>.
 ///
 /// The corresponding <code>Expression</code> appears like the following:
-/// <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
-/// "us-west-1" ], "MatchOptions": ["EQUALS"] } }</code>
+/// <code>{ "Dimensions": { "Key": "REGION", "Values": \[ "us-east-1",
+/// "us-west-1" \], "MatchOptions": \["EQUALS"\] } }</code>
 ///
 /// As shown in the previous example, lists of dimension values are combined
 /// with <code>OR</code> when you apply the filter.
@@ -894,14 +912,16 @@ class FreeTierUsage {
 /// DataTransfer)</code>.
 ///
 /// The corresponding <code>Expression</code> appears like the following:
-/// <code>{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
-/// "us-east-1", "us-west-1" ], "MatchOptions": ["EQUALS"] }}, {"Dimensions": {
-/// "Key": "SERVICE", "Values": ["AWSLambda"], "MatchOptions": ["CONTAINS"] } }
-/// ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values":
-/// ["DataTransfer"], "MatchOptions": ["CONTAINS"] }}} ] }</code>
+/// <code>{ "And": \[ {"Or": \[ {"Dimensions": { "Key": "REGION", "Values": \[
+/// "us-east-1", "us-west-1" \], "MatchOptions": \["EQUALS"\] }}, {"Dimensions":
+/// { "Key": "SERVICE", "Values": \["AWSLambda"\], "MatchOptions":
+/// \["CONTAINS"\] } } \]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE",
+/// "Values": \["DataTransfer"\], "MatchOptions": \["CONTAINS"\] }}} \] }</code>
 ///
 /// In the following <b>Contents</b>, you must specify exactly one of the
 /// following root operators.
+///
+/// @nodoc
 class Expression {
   /// Return results that match all <code>Expressions</code> that you specified in
   /// the array.
@@ -940,6 +960,8 @@ class Expression {
 }
 
 /// Contains the specifications for the filters to use for your request.
+///
+/// @nodoc
 class DimensionValues {
   /// The name of the dimension that you want to filter on.
   final Dimension key;
@@ -970,6 +992,7 @@ class DimensionValues {
   }
 }
 
+/// @nodoc
 class Dimension {
   static const service = Dimension._('SERVICE');
   static const operation = Dimension._('OPERATION');
@@ -1006,6 +1029,7 @@ class Dimension {
   String toString() => value;
 }
 
+/// @nodoc
 class MatchOption {
   static const equals = MatchOption._('EQUALS');
   static const startsWith = MatchOption._('STARTS_WITH');
@@ -1038,26 +1062,31 @@ class MatchOption {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

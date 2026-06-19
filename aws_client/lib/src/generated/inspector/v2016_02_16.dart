@@ -265,9 +265,9 @@ class Inspector {
   ///
   /// Parameter [resourceGroupTags] :
   /// A collection of keys and an array of possible values,
-  /// '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'.
+  /// '\[{"key":"key1","values":\["Value1","Value2"\]},{"key":"Key2","values":\["Value3"\]}\]'.
   ///
-  /// For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
+  /// For example,'\[{"key":"Name","values":\["TestEC2Instance"\]}\]'.
   Future<CreateResourceGroupResponse> createResourceGroup({
     required List<ResourceGroupTag> resourceGroupTags,
   }) async {
@@ -1569,6 +1569,7 @@ class Inspector {
   }
 }
 
+/// @nodoc
 class AddAttributesToFindingsResponse {
   /// Attribute details that cannot be described. An error code is provided for
   /// each failed item.
@@ -1595,6 +1596,7 @@ class AddAttributesToFindingsResponse {
   }
 }
 
+/// @nodoc
 class CreateAssessmentTargetResponse {
   /// The ARN that specifies the assessment target that is created.
   final String assessmentTargetArn;
@@ -1617,6 +1619,7 @@ class CreateAssessmentTargetResponse {
   }
 }
 
+/// @nodoc
 class CreateAssessmentTemplateResponse {
   /// The ARN that specifies the assessment template that is created.
   final String assessmentTemplateArn;
@@ -1639,6 +1642,7 @@ class CreateAssessmentTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateExclusionsPreviewResponse {
   /// Specifies the unique identifier of the requested exclusions preview. You can
   /// use the unique identifier to retrieve the exclusions preview when running
@@ -1663,6 +1667,7 @@ class CreateExclusionsPreviewResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceGroupResponse {
   /// The ARN that specifies the resource group that is created.
   final String resourceGroupArn;
@@ -1685,6 +1690,7 @@ class CreateResourceGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssessmentRunsResponse {
   /// Information about the assessment run.
   final List<AssessmentRun> assessmentRuns;
@@ -1721,6 +1727,7 @@ class DescribeAssessmentRunsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssessmentTargetsResponse {
   /// Information about the assessment targets.
   final List<AssessmentTarget> assessmentTargets;
@@ -1758,6 +1765,7 @@ class DescribeAssessmentTargetsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssessmentTemplatesResponse {
   /// Information about the assessment templates.
   final List<AssessmentTemplate> assessmentTemplates;
@@ -1795,6 +1803,7 @@ class DescribeAssessmentTemplatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeCrossAccountAccessRoleResponse {
   /// The date when the cross-account access role was registered.
   final DateTime registeredAt;
@@ -1834,6 +1843,7 @@ class DescribeCrossAccountAccessRoleResponse {
   }
 }
 
+/// @nodoc
 class DescribeExclusionsResponse {
   /// Information about the exclusions.
   final Map<String, Exclusion> exclusions;
@@ -1870,6 +1880,7 @@ class DescribeExclusionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFindingsResponse {
   /// Finding details that cannot be described. An error code is provided for each
   /// failed item.
@@ -1906,6 +1917,7 @@ class DescribeFindingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourceGroupsResponse {
   /// Resource group details that cannot be described. An error code is provided
   /// for each failed item.
@@ -1942,6 +1954,7 @@ class DescribeResourceGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRulesPackagesResponse {
   /// Rules package details that cannot be described. An error code is provided
   /// for each failed item.
@@ -1978,6 +1991,7 @@ class DescribeRulesPackagesResponse {
   }
 }
 
+/// @nodoc
 class GetAssessmentReportResponse {
   /// Specifies the status of the request to generate an assessment report.
   final ReportStatus status;
@@ -2008,6 +2022,7 @@ class GetAssessmentReportResponse {
   }
 }
 
+/// @nodoc
 class GetExclusionsPreviewResponse {
   /// Specifies the status of the request to generate an exclusions preview.
   final PreviewStatus previewStatus;
@@ -2051,6 +2066,7 @@ class GetExclusionsPreviewResponse {
   }
 }
 
+/// @nodoc
 class GetTelemetryMetadataResponse {
   /// Telemetry details.
   final List<TelemetryMetadata> telemetryMetadata;
@@ -2076,6 +2092,7 @@ class GetTelemetryMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentRunAgentsResponse {
   /// A list of ARNs that specifies the agents returned by the action.
   final List<AssessmentRunAgent> assessmentRunAgents;
@@ -2111,6 +2128,7 @@ class ListAssessmentRunAgentsResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentRunsResponse {
   /// A list of ARNs that specifies the assessment runs that are returned by the
   /// action.
@@ -2147,6 +2165,7 @@ class ListAssessmentRunsResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentTargetsResponse {
   /// A list of ARNs that specifies the assessment targets that are returned by
   /// the action.
@@ -2184,6 +2203,7 @@ class ListAssessmentTargetsResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentTemplatesResponse {
   /// A list of ARNs that specifies the assessment templates returned by the
   /// action.
@@ -2221,6 +2241,7 @@ class ListAssessmentTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListEventSubscriptionsResponse {
   /// Details of the returned event subscriptions.
   final List<Subscription> subscriptions;
@@ -2256,6 +2277,7 @@ class ListEventSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class ListExclusionsResponse {
   /// A list of exclusions' ARNs returned by the action.
   final List<String> exclusionArns;
@@ -2291,6 +2313,7 @@ class ListExclusionsResponse {
   }
 }
 
+/// @nodoc
 class ListFindingsResponse {
   /// A list of ARNs that specifies the findings returned by the action.
   final List<String> findingArns;
@@ -2326,6 +2349,7 @@ class ListFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListRulesPackagesResponse {
   /// The list of ARNs that specifies the rules packages returned by the action.
   final List<String> rulesPackageArns;
@@ -2361,6 +2385,7 @@ class ListRulesPackagesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A collection of key and value pairs.
   final List<Tag> tags;
@@ -2386,6 +2411,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PreviewAgentsResponse {
   /// The resulting list of agents.
   final List<AgentPreview> agentPreviews;
@@ -2421,6 +2447,7 @@ class PreviewAgentsResponse {
   }
 }
 
+/// @nodoc
 class RemoveAttributesFromFindingsResponse {
   /// Attributes details that cannot be described. An error code is provided for
   /// each failed item.
@@ -2448,6 +2475,7 @@ class RemoveAttributesFromFindingsResponse {
   }
 }
 
+/// @nodoc
 class StartAssessmentRunResponse {
   /// The ARN of the assessment run that has been started.
   final String assessmentRunArn;
@@ -2470,6 +2498,7 @@ class StartAssessmentRunResponse {
   }
 }
 
+/// @nodoc
 class InspectorEvent {
   static const assessmentRunStarted =
       InspectorEvent._('ASSESSMENT_RUN_STARTED');
@@ -2506,6 +2535,7 @@ class InspectorEvent {
   String toString() => value;
 }
 
+/// @nodoc
 class StopAction {
   static const startEvaluation = StopAction._('START_EVALUATION');
   static const skipEvaluation = StopAction._('SKIP_EVALUATION');
@@ -2532,6 +2562,8 @@ class StopAction {
 /// A key and value pair. This data type is used as a request parameter in the
 /// <a>SetTagsForResource</a> action and a response element in the
 /// <a>ListTagsForResource</a> action.
+///
+/// @nodoc
 class Tag {
   /// A tag key.
   final String key;
@@ -2562,6 +2594,8 @@ class Tag {
 }
 
 /// Includes details about the failed items.
+///
+/// @nodoc
 class FailedItemDetails {
   /// The status code of a failed item.
   final FailedItemErrorCode failureCode;
@@ -2593,6 +2627,7 @@ class FailedItemDetails {
   }
 }
 
+/// @nodoc
 class FailedItemErrorCode {
   static const invalidArn = FailedItemErrorCode._('INVALID_ARN');
   static const duplicateArn = FailedItemErrorCode._('DUPLICATE_ARN');
@@ -2630,6 +2665,8 @@ class FailedItemErrorCode {
 }
 
 /// Used as a response element in the <a>PreviewAgents</a> action.
+///
+/// @nodoc
 class AgentPreview {
   /// The ID of the EC2 instance where the agent is installed.
   final String agentId;
@@ -2706,6 +2743,7 @@ class AgentPreview {
   }
 }
 
+/// @nodoc
 class AgentHealth {
   static const healthy = AgentHealth._('HEALTHY');
   static const unhealthy = AgentHealth._('UNHEALTHY');
@@ -2732,6 +2770,8 @@ class AgentHealth {
 
 /// This data type is used as a request parameter in the <a>ListFindings</a>
 /// action.
+///
+/// @nodoc
 class FindingFilter {
   /// For a record to match a filter, one of the values that is specified for this
   /// data type property must be the exact match of the value of the
@@ -2806,6 +2846,8 @@ class FindingFilter {
 }
 
 /// This data type is used in the <a>AssessmentRunFilter</a> data type.
+///
+/// @nodoc
 class TimestampRange {
   /// The minimum value of the timestamp range.
   final DateTime? beginDate;
@@ -2830,6 +2872,8 @@ class TimestampRange {
 
 /// This data type is used as a request parameter in the
 /// <a>AddAttributesToFindings</a> and <a>CreateAssessmentTemplate</a> actions.
+///
+/// @nodoc
 class Attribute {
   /// The attribute key.
   final String key;
@@ -2859,6 +2903,7 @@ class Attribute {
   }
 }
 
+/// @nodoc
 class Severity {
   static const low = Severity._('Low');
   static const medium = Severity._('Medium');
@@ -2887,6 +2932,8 @@ class Severity {
 
 /// This data type is used as a response element in the
 /// <a>ListEventSubscriptions</a> action.
+///
+/// @nodoc
 class Subscription {
   /// The list of existing event subscriptions.
   final List<EventSubscription> eventSubscriptions;
@@ -2929,6 +2976,8 @@ class Subscription {
 }
 
 /// This data type is used in the <a>Subscription</a> data type.
+///
+/// @nodoc
 class EventSubscription {
   /// The event for which Amazon Simple Notification Service (SNS) notifications
   /// are sent.
@@ -2960,6 +3009,8 @@ class EventSubscription {
 }
 
 /// Used as the request parameter in the <a>ListAssessmentTemplates</a> action.
+///
+/// @nodoc
 class AssessmentTemplateFilter {
   /// For a record to match a filter, the value specified for this data type
   /// property must inclusively match any value between the specified minimum and
@@ -2997,6 +3048,8 @@ class AssessmentTemplateFilter {
 }
 
 /// This data type is used in the <a>AssessmentTemplateFilter</a> data type.
+///
+/// @nodoc
 class DurationRange {
   /// The maximum value of the duration range. Must be less than or equal to
   /// 604800 seconds (1 week).
@@ -3021,6 +3074,8 @@ class DurationRange {
 }
 
 /// Used as the request parameter in the <a>ListAssessmentTargets</a> action.
+///
+/// @nodoc
 class AssessmentTargetFilter {
   /// For a record to match a filter, an explicit value or a string that contains
   /// a wildcard that is specified for this data type property must match the
@@ -3042,6 +3097,8 @@ class AssessmentTargetFilter {
 }
 
 /// Used as the request parameter in the <a>ListAssessmentRuns</a> action.
+///
+/// @nodoc
 class AssessmentRunFilter {
   /// For a record to match a filter, the value that is specified for this data
   /// type property must inclusively match any value between the specified minimum
@@ -3114,6 +3171,7 @@ class AssessmentRunFilter {
   }
 }
 
+/// @nodoc
 class AssessmentRunState {
   static const created = AssessmentRunState._('CREATED');
   static const startDataCollectionPending =
@@ -3171,6 +3229,8 @@ class AssessmentRunState {
 
 /// Contains information about an Amazon Inspector agent. This data type is used
 /// as a response element in the <a>ListAssessmentRunAgents</a> action.
+///
+/// @nodoc
 class AssessmentRunAgent {
   /// The current health state of the agent.
   final AgentHealth agentHealth;
@@ -3242,6 +3302,7 @@ class AssessmentRunAgent {
   }
 }
 
+/// @nodoc
 class AgentHealthCode {
   static const idle = AgentHealthCode._('IDLE');
   static const running = AgentHealthCode._('RUNNING');
@@ -3280,6 +3341,8 @@ class AgentHealthCode {
 /// The metadata about the Amazon Inspector application data metrics collected
 /// by the agent. This data type is used as the response element in the
 /// <a>GetTelemetryMetadata</a> action.
+///
+/// @nodoc
 class TelemetryMetadata {
   /// The count of messages that the agent sends to the Amazon Inspector service.
   final int count;
@@ -3319,6 +3382,8 @@ class TelemetryMetadata {
 
 /// Contains information about an Amazon Inspector agent. This data type is used
 /// as a request parameter in the <a>ListAssessmentRunAgents</a> action.
+///
+/// @nodoc
 class AgentFilter {
   /// The detailed health state of the agent. Values can be set to <b>IDLE</b>,
   /// <b>RUNNING</b>, <b>SHUTDOWN</b>, <b>UNHEALTHY</b>, <b>THROTTLED</b>, and
@@ -3344,6 +3409,7 @@ class AgentFilter {
   }
 }
 
+/// @nodoc
 class PreviewStatus {
   static const workInProgress = PreviewStatus._('WORK_IN_PROGRESS');
   static const completed = PreviewStatus._('COMPLETED');
@@ -3370,6 +3436,8 @@ class PreviewStatus {
 
 /// Contains information about what is excluded from an assessment run given the
 /// current state of the assessment template.
+///
+/// @nodoc
 class ExclusionPreview {
   /// The description of the exclusion preview.
   final String description;
@@ -3428,6 +3496,8 @@ class ExclusionPreview {
 
 /// This data type contains key-value pairs that identify various Amazon
 /// resources.
+///
+/// @nodoc
 class Scope {
   /// The type of the scope.
   final ScopeType? key;
@@ -3457,6 +3527,7 @@ class Scope {
   }
 }
 
+/// @nodoc
 class ScopeType {
   static const instanceId = ScopeType._('INSTANCE_ID');
   static const rulesPackageArn = ScopeType._('RULES_PACKAGE_ARN');
@@ -3480,6 +3551,7 @@ class ScopeType {
   String toString() => value;
 }
 
+/// @nodoc
 class Locale {
   static const enUs = Locale._('EN_US');
 
@@ -3502,6 +3574,7 @@ class Locale {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportStatus {
   static const workInProgress = ReportStatus._('WORK_IN_PROGRESS');
   static const failed = ReportStatus._('FAILED');
@@ -3526,6 +3599,7 @@ class ReportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportFileFormat {
   static const html = ReportFileFormat._('HTML');
   static const pdf = ReportFileFormat._('PDF');
@@ -3550,6 +3624,7 @@ class ReportFileFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportType {
   static const finding = ReportType._('FINDING');
   static const full = ReportType._('FULL');
@@ -3575,6 +3650,8 @@ class ReportType {
 
 /// Contains information about an Amazon Inspector rules package. This data type
 /// is used as the response element in the <a>DescribeRulesPackages</a> action.
+///
+/// @nodoc
 class RulesPackage {
   /// The ARN of the rules package.
   final String arn;
@@ -3629,6 +3706,8 @@ class RulesPackage {
 /// set of tags that, when queried, identify the AWS resources that make up the
 /// assessment target. This data type is used as the response element in the
 /// <a>DescribeResourceGroups</a> action.
+///
+/// @nodoc
 class ResourceGroup {
   /// The ARN of the resource group.
   final String arn;
@@ -3671,6 +3750,8 @@ class ResourceGroup {
 
 /// This data type is used as one of the elements of the <a>ResourceGroup</a>
 /// data type.
+///
+/// @nodoc
 class ResourceGroupTag {
   /// A tag key.
   final String key;
@@ -3702,6 +3783,8 @@ class ResourceGroupTag {
 
 /// Contains information about an Amazon Inspector finding. This data type is
 /// used as the response element in the <a>DescribeFindings</a> action.
+///
+/// @nodoc
 class Finding {
   /// The ARN that specifies the finding.
   final String arn;
@@ -3858,6 +3941,8 @@ class Finding {
 }
 
 /// This data type is used in the <a>Finding</a> data type.
+///
+/// @nodoc
 class InspectorServiceAttributes {
   /// The schema version of this data type.
   final int schemaVersion;
@@ -3894,6 +3979,7 @@ class InspectorServiceAttributes {
   }
 }
 
+/// @nodoc
 class AssetType {
   static const ec2Instance = AssetType._('ec2-instance');
 
@@ -3917,6 +4003,8 @@ class AssetType {
 }
 
 /// A collection of attributes of the host from which the finding is generated.
+///
+/// @nodoc
 class AssetAttributes {
   /// The schema version of this data type.
   final int schemaVersion;
@@ -4004,6 +4092,8 @@ class AssetAttributes {
 /// Contains information about the network interfaces interacting with an EC2
 /// instance. This data type is used as one of the elements of the
 /// <a>AssetAttributes</a> data type.
+///
+/// @nodoc
 class NetworkInterface {
   /// The IP addresses associated with the network interface.
   final List<String>? ipv6Addresses;
@@ -4103,6 +4193,8 @@ class NetworkInterface {
 /// Contains information about a security group associated with a network
 /// interface. This data type is used as one of the elements of the
 /// <a>NetworkInterface</a> data type.
+///
+/// @nodoc
 class SecurityGroup {
   /// The ID of the security group.
   final String? groupId;
@@ -4135,6 +4227,8 @@ class SecurityGroup {
 /// Contains information about a private IP address associated with a network
 /// interface. This data type is used as a response element in the
 /// <a>DescribeFindings</a> action.
+///
+/// @nodoc
 class PrivateIp {
   /// The DNS name of the private IP address.
   final String? privateDnsName;
@@ -4165,6 +4259,8 @@ class PrivateIp {
 }
 
 /// Contains information about what was excluded from an assessment run.
+///
+/// @nodoc
 class Exclusion {
   /// The ARN that specifies the exclusion.
   final String arn;
@@ -4231,6 +4327,8 @@ class Exclusion {
 /// Contains information about an Amazon Inspector assessment template. This
 /// data type is used as the response element in the
 /// <a>DescribeAssessmentTemplates</a> action.
+///
+/// @nodoc
 class AssessmentTemplate {
   /// The ARN of the assessment template.
   final String arn;
@@ -4327,6 +4425,8 @@ class AssessmentTemplate {
 /// Contains information about an Amazon Inspector application. This data type
 /// is used as the response element in the <a>DescribeAssessmentTargets</a>
 /// action.
+///
+/// @nodoc
 class AssessmentTarget {
   /// The ARN that specifies the Amazon Inspector assessment target.
   final String arn;
@@ -4382,6 +4482,8 @@ class AssessmentTarget {
 /// of the assessment run .
 ///
 /// Used as the response element in the <a>DescribeAssessmentRuns</a> action.
+///
+/// @nodoc
 class AssessmentRun {
   /// The ARN of the assessment run.
   final String arn;
@@ -4524,6 +4626,8 @@ class AssessmentRun {
 }
 
 /// Used as one of the elements of the <a>AssessmentRun</a> data type.
+///
+/// @nodoc
 class AssessmentRunNotification {
   /// The date of the notification.
   final DateTime date;
@@ -4584,6 +4688,7 @@ class AssessmentRunNotification {
   }
 }
 
+/// @nodoc
 class AssessmentRunNotificationSnsStatusCode {
   static const success = AssessmentRunNotificationSnsStatusCode._('SUCCESS');
   static const topicDoesNotExist =
@@ -4620,6 +4725,8 @@ class AssessmentRunNotificationSnsStatusCode {
 }
 
 /// Used as one of the elements of the <a>AssessmentRun</a> data type.
+///
+/// @nodoc
 class AssessmentRunStateChange {
   /// The assessment run state.
   final AssessmentRunState state;
@@ -4649,11 +4756,13 @@ class AssessmentRunStateChange {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AgentsAlreadyRunningAssessmentException extends _s.GenericAwsException {
   AgentsAlreadyRunningAssessmentException({String? type, String? message})
       : super(
@@ -4662,6 +4771,7 @@ class AgentsAlreadyRunningAssessmentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AssessmentRunInProgressException extends _s.GenericAwsException {
   AssessmentRunInProgressException({String? type, String? message})
       : super(
@@ -4670,11 +4780,13 @@ class AssessmentRunInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidCrossAccountRoleException extends _s.GenericAwsException {
   InvalidCrossAccountRoleException({String? type, String? message})
       : super(
@@ -4683,21 +4795,25 @@ class InvalidCrossAccountRoleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NoSuchEntityException extends _s.GenericAwsException {
   NoSuchEntityException({String? type, String? message})
       : super(type: type, code: 'NoSuchEntityException', message: message);
 }
 
+/// @nodoc
 class PreviewGenerationInProgressException extends _s.GenericAwsException {
   PreviewGenerationInProgressException({String? type, String? message})
       : super(
@@ -4706,6 +4822,7 @@ class PreviewGenerationInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceTemporarilyUnavailableException extends _s.GenericAwsException {
   ServiceTemporarilyUnavailableException({String? type, String? message})
       : super(
@@ -4714,6 +4831,7 @@ class ServiceTemporarilyUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedFeatureException extends _s.GenericAwsException {
   UnsupportedFeatureException({String? type, String? message})
       : super(

@@ -121,6 +121,7 @@ class ConnectContactLens {
   }
 }
 
+/// @nodoc
 class ListRealtimeContactAnalysisSegmentsResponse {
   /// An analyzed transcript or category.
   final List<RealtimeContactAnalysisSegment> segments;
@@ -172,6 +173,8 @@ class ListRealtimeContactAnalysisSegmentsResponse {
 }
 
 /// An analyzed segment for a real-time analysis session.
+///
+/// @nodoc
 class RealtimeContactAnalysisSegment {
   /// The matched category rules.
   final Categories? categories;
@@ -216,6 +219,8 @@ class RealtimeContactAnalysisSegment {
 }
 
 /// A list of messages in the session.
+///
+/// @nodoc
 class Transcript {
   /// The beginning offset in the contact for this transcript.
   final int beginOffsetMillis;
@@ -292,6 +297,8 @@ class Transcript {
 
 /// Provides the category rules that are used to automatically categorize
 /// contacts based on uttered keywords and phrases.
+///
+/// @nodoc
 class Categories {
   /// The category rules that have been matched in the analyzed segment.
   final List<String> matchedCategories;
@@ -328,6 +335,8 @@ class Categories {
 }
 
 /// Information about the post-contact summary.
+///
+/// @nodoc
 class PostContactSummary {
   /// Whether the summary was successfully COMPLETED or FAILED to be generated.
   final PostContactSummaryStatus status;
@@ -392,6 +401,7 @@ class PostContactSummary {
   }
 }
 
+/// @nodoc
 class PostContactSummaryStatus {
   static const failed = PostContactSummaryStatus._('FAILED');
   static const completed = PostContactSummaryStatus._('COMPLETED');
@@ -417,6 +427,7 @@ class PostContactSummaryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PostContactSummaryFailureCode {
   static const quotaExceeded =
       PostContactSummaryFailureCode._('QUOTA_EXCEEDED');
@@ -457,6 +468,8 @@ class PostContactSummaryFailureCode {
 }
 
 /// Provides information about the category rule that was matched.
+///
+/// @nodoc
 class CategoryDetails {
   /// The section of audio where the category rule was detected.
   final List<PointOfInterest> pointsOfInterest;
@@ -483,6 +496,8 @@ class CategoryDetails {
 }
 
 /// The section of the contact audio where that category rule was detected.
+///
+/// @nodoc
 class PointOfInterest {
   /// The beginning offset in milliseconds where the category rule was detected.
   final int beginOffsetMillis;
@@ -512,6 +527,7 @@ class PointOfInterest {
   }
 }
 
+/// @nodoc
 class SentimentValue {
   static const positive = SentimentValue._('POSITIVE');
   static const neutral = SentimentValue._('NEUTRAL');
@@ -539,6 +555,8 @@ class SentimentValue {
 
 /// Potential issues that are detected based on an artificial intelligence
 /// analysis of each turn in the conversation.
+///
+/// @nodoc
 class IssueDetected {
   /// The offset for when the issue was detected in the segment.
   final CharacterOffsets characterOffsets;
@@ -565,6 +583,8 @@ class IssueDetected {
 
 /// For characters that were detected as issues, where they occur in the
 /// transcript.
+///
+/// @nodoc
 class CharacterOffsets {
   /// The beginning of the issue.
   final int beginOffsetChar;
@@ -594,26 +614,31 @@ class CharacterOffsets {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

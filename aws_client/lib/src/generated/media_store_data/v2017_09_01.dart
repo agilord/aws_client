@@ -327,6 +327,7 @@ class MediaStoreData {
   }
 }
 
+/// @nodoc
 class DeleteObjectResponse {
   DeleteObjectResponse();
 
@@ -339,6 +340,7 @@ class DeleteObjectResponse {
   }
 }
 
+/// @nodoc
 class DescribeObjectResponse {
   /// An optional <code>CacheControl</code> header that allows the caller to
   /// control the object's cache behavior. Headers can be passed in as specified
@@ -378,6 +380,7 @@ class DescribeObjectResponse {
   }
 }
 
+/// @nodoc
 class GetObjectResponse {
   /// The HTML status code of the request. Status codes ranging from 200 to 299
   /// indicate success. All other status codes indicate the type of error that
@@ -436,6 +439,7 @@ class GetObjectResponse {
   }
 }
 
+/// @nodoc
 class ListItemsResponse {
   /// The metadata entries for the folders and objects at the requested path.
   final List<Item>? items;
@@ -472,6 +476,7 @@ class ListItemsResponse {
   }
 }
 
+/// @nodoc
 class PutObjectResponse {
   /// The SHA256 digest of the object that is persisted.
   final String? contentSHA256;
@@ -510,6 +515,7 @@ class PutObjectResponse {
   }
 }
 
+/// @nodoc
 class StorageClass {
   static const temporal = StorageClass._('TEMPORAL');
 
@@ -532,6 +538,7 @@ class StorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class UploadAvailability {
   static const standard = UploadAvailability._('STANDARD');
   static const streaming = UploadAvailability._('STREAMING');
@@ -558,6 +565,8 @@ class UploadAvailability {
 }
 
 /// A metadata entry for a folder or object.
+///
+/// @nodoc
 class Item {
   /// The length of the item in bytes.
   final int? contentLength;
@@ -616,6 +625,7 @@ class Item {
   }
 }
 
+/// @nodoc
 class ItemType {
   static const object = ItemType._('OBJECT');
   static const folder = ItemType._('FOLDER');
@@ -639,21 +649,25 @@ class ItemType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerNotFoundException extends _s.GenericAwsException {
   ContainerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ContainerNotFoundException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class ObjectNotFoundException extends _s.GenericAwsException {
   ObjectNotFoundException({String? type, String? message})
       : super(type: type, code: 'ObjectNotFoundException', message: message);
 }
 
+/// @nodoc
 class RequestedRangeNotSatisfiableException extends _s.GenericAwsException {
   RequestedRangeNotSatisfiableException({String? type, String? message})
       : super(

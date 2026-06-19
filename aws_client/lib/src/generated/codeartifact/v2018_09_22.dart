@@ -3087,7 +3087,7 @@ class Codeartifact {
   /// Parameter [assetName] :
   /// The name of the asset to publish. Asset names can include Unicode letters
   /// and numbers, and the following special characters: <code>~ ! @ ^ & ( ) - `
-  /// _ + [ ] { } ; , . `</code>
+  /// _ + \[ \] { } ; , . `</code>
   ///
   /// Parameter [assetSHA256] :
   /// The SHA256 hash of the <code>assetContent</code> to publish. This value
@@ -3749,6 +3749,7 @@ class Codeartifact {
   }
 }
 
+/// @nodoc
 class AssociateExternalConnectionResult {
   /// Information about the connected repository after processing the request.
   final RepositoryDescription? repository;
@@ -3775,6 +3776,7 @@ class AssociateExternalConnectionResult {
   }
 }
 
+/// @nodoc
 class CopyPackageVersionsResult {
   /// A map of package versions that failed to copy and their error codes. The
   /// possible error codes are in the <code>PackageVersionError</code> data type.
@@ -3834,6 +3836,7 @@ class CopyPackageVersionsResult {
   }
 }
 
+/// @nodoc
 class CreateDomainResult {
   /// Contains information about the created domain after processing the request.
   final DomainDescription? domain;
@@ -3858,6 +3861,7 @@ class CreateDomainResult {
   }
 }
 
+/// @nodoc
 class CreatePackageGroupResult {
   /// Information about the created package group after processing the request.
   final PackageGroupDescription? packageGroup;
@@ -3883,6 +3887,7 @@ class CreatePackageGroupResult {
   }
 }
 
+/// @nodoc
 class CreateRepositoryResult {
   /// Information about the created repository after processing the request.
   final RepositoryDescription? repository;
@@ -3908,6 +3913,7 @@ class CreateRepositoryResult {
   }
 }
 
+/// @nodoc
 class DeleteDomainResult {
   /// Contains information about the deleted domain after processing the request.
   final DomainDescription? domain;
@@ -3932,6 +3938,7 @@ class DeleteDomainResult {
   }
 }
 
+/// @nodoc
 class DeleteDomainPermissionsPolicyResult {
   /// Information about the deleted resource policy after processing the request.
   final ResourcePolicy? policy;
@@ -3957,6 +3964,7 @@ class DeleteDomainPermissionsPolicyResult {
   }
 }
 
+/// @nodoc
 class DeletePackageResult {
   final PackageSummary? deletedPackage;
 
@@ -3981,6 +3989,7 @@ class DeletePackageResult {
   }
 }
 
+/// @nodoc
 class DeletePackageGroupResult {
   /// Information about the deleted package group after processing the request.
   final PackageGroupDescription? packageGroup;
@@ -4006,6 +4015,7 @@ class DeletePackageGroupResult {
   }
 }
 
+/// @nodoc
 class DeletePackageVersionsResult {
   /// A <code>PackageVersionError</code> object that contains a map of errors
   /// codes for the deleted package that failed. The possible error codes are:
@@ -4064,6 +4074,7 @@ class DeletePackageVersionsResult {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryResult {
   /// Information about the deleted repository after processing the request.
   final RepositoryDescription? repository;
@@ -4089,6 +4100,7 @@ class DeleteRepositoryResult {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryPermissionsPolicyResult {
   /// Information about the deleted policy after processing the request.
   final ResourcePolicy? policy;
@@ -4114,6 +4126,7 @@ class DeleteRepositoryPermissionsPolicyResult {
   }
 }
 
+/// @nodoc
 class DescribeDomainResult {
   final DomainDescription? domain;
 
@@ -4137,6 +4150,7 @@ class DescribeDomainResult {
   }
 }
 
+/// @nodoc
 class DescribePackageResult {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html">PackageDescription</a>
@@ -4163,6 +4177,7 @@ class DescribePackageResult {
   }
 }
 
+/// @nodoc
 class DescribePackageGroupResult {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageGroupDescription.html">PackageGroupDescription</a>
@@ -4190,6 +4205,7 @@ class DescribePackageGroupResult {
   }
 }
 
+/// @nodoc
 class DescribePackageVersionResult {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">PackageVersionDescription</a>
@@ -4216,6 +4232,7 @@ class DescribePackageVersionResult {
   }
 }
 
+/// @nodoc
 class DescribeRepositoryResult {
   /// A <code>RepositoryDescription</code> object that contains the requested
   /// repository information.
@@ -4242,6 +4259,7 @@ class DescribeRepositoryResult {
   }
 }
 
+/// @nodoc
 class DisassociateExternalConnectionResult {
   /// The repository associated with the removed external connection.
   final RepositoryDescription? repository;
@@ -4268,6 +4286,7 @@ class DisassociateExternalConnectionResult {
   }
 }
 
+/// @nodoc
 class DisposePackageVersionsResult {
   /// A <code>PackageVersionError</code> object that contains a map of errors
   /// codes for the disposed package versions that failed. The possible error
@@ -4326,6 +4345,7 @@ class DisposePackageVersionsResult {
   }
 }
 
+/// @nodoc
 class GetAssociatedPackageGroupResult {
   /// Describes the strength of the association between the package and package
   /// group. A strong match is also known as an exact match, and a weak match is
@@ -4361,6 +4381,7 @@ class GetAssociatedPackageGroupResult {
   }
 }
 
+/// @nodoc
 class GetAuthorizationTokenResult {
   /// The returned authentication token.
   final String? authorizationToken;
@@ -4391,6 +4412,7 @@ class GetAuthorizationTokenResult {
   }
 }
 
+/// @nodoc
 class GetDomainPermissionsPolicyResult {
   /// The returned resource policy.
   final ResourcePolicy? policy;
@@ -4415,6 +4437,7 @@ class GetDomainPermissionsPolicyResult {
   }
 }
 
+/// @nodoc
 class GetPackageVersionAssetResult {
   /// The binary file, or asset, that is downloaded.
   final Uint8List? asset;
@@ -4447,6 +4470,7 @@ class GetPackageVersionAssetResult {
   }
 }
 
+/// @nodoc
 class GetPackageVersionReadmeResult {
   /// The format of the package with the requested readme file.
   final PackageFormat? format;
@@ -4523,6 +4547,7 @@ class GetPackageVersionReadmeResult {
   }
 }
 
+/// @nodoc
 class GetRepositoryEndpointResult {
   /// A string that specifies the URL of the returned endpoint.
   final String? repositoryEndpoint;
@@ -4545,6 +4570,7 @@ class GetRepositoryEndpointResult {
   }
 }
 
+/// @nodoc
 class GetRepositoryPermissionsPolicyResult {
   /// The returned resource policy.
   final ResourcePolicy? policy;
@@ -4570,6 +4596,7 @@ class GetRepositoryPermissionsPolicyResult {
   }
 }
 
+/// @nodoc
 class ListAllowedRepositoriesForGroupResult {
   /// The list of allowed repositories for the package group and origin
   /// configuration restriction type.
@@ -4606,6 +4633,7 @@ class ListAllowedRepositoriesForGroupResult {
   }
 }
 
+/// @nodoc
 class ListAssociatedPackagesResult {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
@@ -4639,6 +4667,7 @@ class ListAssociatedPackagesResult {
   }
 }
 
+/// @nodoc
 class ListDomainsResult {
   /// The returned list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainSummary.html">DomainSummary</a>
@@ -4674,6 +4703,7 @@ class ListDomainsResult {
   }
 }
 
+/// @nodoc
 class ListPackageGroupsResult {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
@@ -4707,6 +4737,7 @@ class ListPackageGroupsResult {
   }
 }
 
+/// @nodoc
 class ListPackagesResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -4742,6 +4773,7 @@ class ListPackagesResult {
   }
 }
 
+/// @nodoc
 class ListPackageVersionAssetsResult {
   /// The returned list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html">AssetSummary</a>
@@ -4832,6 +4864,7 @@ class ListPackageVersionAssetsResult {
   }
 }
 
+/// @nodoc
 class ListPackageVersionDependenciesResult {
   /// The returned list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html">PackageDependency</a>
@@ -4928,6 +4961,7 @@ class ListPackageVersionDependenciesResult {
   }
 }
 
+/// @nodoc
 class ListPackageVersionsResult {
   /// The default package version to display. This depends on the package format:
   ///
@@ -5023,6 +5057,7 @@ class ListPackageVersionsResult {
   }
 }
 
+/// @nodoc
 class ListRepositoriesResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -5058,6 +5093,7 @@ class ListRepositoriesResult {
   }
 }
 
+/// @nodoc
 class ListRepositoriesInDomainResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -5091,6 +5127,7 @@ class ListRepositoriesInDomainResult {
   }
 }
 
+/// @nodoc
 class ListSubPackageGroupsResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -5124,6 +5161,7 @@ class ListSubPackageGroupsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// A list of tag key and value pairs associated with the specified resource.
   final List<Tag>? tags;
@@ -5149,6 +5187,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class PublishPackageVersionResult {
   /// An <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html">AssetSummary</a>
@@ -5220,6 +5259,7 @@ class PublishPackageVersionResult {
   }
 }
 
+/// @nodoc
 class PutDomainPermissionsPolicyResult {
   /// The resource policy that was set after processing the request.
   final ResourcePolicy? policy;
@@ -5244,6 +5284,7 @@ class PutDomainPermissionsPolicyResult {
   }
 }
 
+/// @nodoc
 class PutPackageOriginConfigurationResult {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html">PackageOriginConfiguration</a>
@@ -5277,6 +5318,7 @@ class PutPackageOriginConfigurationResult {
   }
 }
 
+/// @nodoc
 class PutRepositoryPermissionsPolicyResult {
   /// The resource policy that was set after processing the request.
   final ResourcePolicy? policy;
@@ -5302,6 +5344,7 @@ class PutRepositoryPermissionsPolicyResult {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   TagResourceResult();
 
@@ -5314,6 +5357,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   UntagResourceResult();
 
@@ -5326,6 +5370,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdatePackageGroupResult {
   /// The package group and information about it after the request has been
   /// processed.
@@ -5352,6 +5397,7 @@ class UpdatePackageGroupResult {
   }
 }
 
+/// @nodoc
 class UpdatePackageGroupOriginConfigurationResult {
   /// Information about the updated allowed repositories after processing the
   /// request.
@@ -5396,6 +5442,7 @@ class UpdatePackageGroupOriginConfigurationResult {
   }
 }
 
+/// @nodoc
 class UpdatePackageVersionsStatusResult {
   /// A list of <code>SuccessfulPackageVersionInfo</code> objects, one for each
   /// package version with a status that successfully updated.
@@ -5434,6 +5481,7 @@ class UpdatePackageVersionsStatusResult {
   }
 }
 
+/// @nodoc
 class UpdateRepositoryResult {
   /// The updated repository.
   final RepositoryDescription? repository;
@@ -5466,6 +5514,8 @@ class UpdateRepositoryResult {
 /// fetching and publishing packages using tools like the <code>npm</code> CLI,
 /// the Maven CLI (<code>mvn</code>), and <code>pip</code>. You can create up to
 /// 100 repositories per Amazon Web Services account.
+///
+/// @nodoc
 class RepositoryDescription {
   /// The 12-digit account number of the Amazon Web Services account that manages
   /// the repository.
@@ -5562,6 +5612,8 @@ class RepositoryDescription {
 }
 
 /// Contains information about the external connection of a repository.
+///
+/// @nodoc
 class RepositoryExternalConnectionInfo {
   /// The name of the external connection associated with a repository.
   final String? externalConnectionName;
@@ -5631,6 +5683,7 @@ class RepositoryExternalConnectionInfo {
   }
 }
 
+/// @nodoc
 class PackageFormat {
   static const npm = PackageFormat._('npm');
   static const pypi = PackageFormat._('pypi');
@@ -5661,6 +5714,7 @@ class PackageFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ExternalConnectionStatus {
   static const available = ExternalConnectionStatus._('Available');
 
@@ -5686,6 +5740,8 @@ class ExternalConnectionStatus {
 }
 
 /// Information about an upstream repository.
+///
+/// @nodoc
 class UpstreamRepositoryInfo {
   /// The name of an upstream repository.
   final String? repositoryName;
@@ -5713,6 +5769,8 @@ class UpstreamRepositoryInfo {
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_CreateRepository.html">CreateRepository</a>
 /// and <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdateRepository.html">UpdateRepository</a>.
+///
+/// @nodoc
 class UpstreamRepository {
   /// The name of an upstream repository.
   final String repositoryName;
@@ -5730,6 +5788,8 @@ class UpstreamRepository {
 }
 
 /// l An error associated with package.
+///
+/// @nodoc
 class PackageVersionError {
   /// The error code associated with the error. Valid error codes are:
   ///
@@ -5781,6 +5841,7 @@ class PackageVersionError {
   }
 }
 
+/// @nodoc
 class PackageVersionErrorCode {
   static const alreadyExists = PackageVersionErrorCode._('ALREADY_EXISTS');
   static const mismatchedRevision =
@@ -5820,6 +5881,8 @@ class PackageVersionErrorCode {
 }
 
 /// Contains the revision and status of a package version.
+///
+/// @nodoc
 class SuccessfulPackageVersionInfo {
   /// The revision of a package version.
   final String? revision;
@@ -5849,6 +5912,7 @@ class SuccessfulPackageVersionInfo {
   }
 }
 
+/// @nodoc
 class PackageVersionStatus {
   static const published = PackageVersionStatus._('Published');
   static const unfinished = PackageVersionStatus._('Unfinished');
@@ -5886,6 +5950,8 @@ class PackageVersionStatus {
 }
 
 /// The description of the package group.
+///
+/// @nodoc
 class PackageGroupDescription {
   /// The ARN of the package group.
   final String? arn;
@@ -5974,6 +6040,7 @@ class PackageGroupDescription {
   }
 }
 
+/// @nodoc
 class PackageGroupOriginRestrictionType {
   static const externalUpstream =
       PackageGroupOriginRestrictionType._('EXTERNAL_UPSTREAM');
@@ -6002,6 +6069,7 @@ class PackageGroupOriginRestrictionType {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageGroupAllowedRepositoryUpdateType {
   static const added = PackageGroupAllowedRepositoryUpdateType._('ADDED');
   static const removed = PackageGroupAllowedRepositoryUpdateType._('REMOVED');
@@ -6029,6 +6097,8 @@ class PackageGroupAllowedRepositoryUpdateType {
 
 /// The package group origin configuration that determines how package versions
 /// can enter repositories.
+///
+/// @nodoc
 class PackageGroupOriginConfiguration {
   /// The origin configuration settings that determine how package versions can
   /// enter repositories.
@@ -6059,6 +6129,8 @@ class PackageGroupOriginConfiguration {
 }
 
 /// Information about the identifiers of a package group.
+///
+/// @nodoc
 class PackageGroupReference {
   /// The ARN of the package group.
   final String? arn;
@@ -6092,6 +6164,8 @@ class PackageGroupReference {
 
 /// Contains information about the configured restrictions of the origin
 /// controls of a package group.
+///
+/// @nodoc
 class PackageGroupOriginRestriction {
   /// The effective package group origin restriction setting. If the value of
   /// <code>mode</code> is <code>ALLOW</code>,
@@ -6153,6 +6227,7 @@ class PackageGroupOriginRestriction {
   }
 }
 
+/// @nodoc
 class PackageGroupOriginRestrictionMode {
   static const allow = PackageGroupOriginRestrictionMode._('ALLOW');
   static const allowSpecificRepositories =
@@ -6183,6 +6258,8 @@ class PackageGroupOriginRestrictionMode {
 
 /// Details about an allowed repository for a package group, including its name
 /// and origin configuration.
+///
+/// @nodoc
 class PackageGroupAllowedRepository {
   /// The origin configuration restriction type of the allowed repository.
   final PackageGroupOriginRestrictionType? originRestrictionType;
@@ -6208,6 +6285,8 @@ class PackageGroupAllowedRepository {
 
 /// A tag is a key-value pair that can be used to manage, search for, or filter
 /// resources in CodeArtifact.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -6239,6 +6318,8 @@ class Tag {
 
 /// An CodeArtifact resource policy that contains a resource ARN, document
 /// details, and a revision.
+///
+/// @nodoc
 class ResourcePolicy {
   /// The resource policy formatted in JSON.
   final String? document;
@@ -6276,6 +6357,8 @@ class ResourcePolicy {
 }
 
 /// Details about the package origin configuration of a package.
+///
+/// @nodoc
 class PackageOriginConfiguration {
   /// A <code>PackageOriginRestrictions</code> object that contains information
   /// about the upstream and publish package origin configuration for the package.
@@ -6305,6 +6388,8 @@ class PackageOriginConfiguration {
 /// Details about the origin restrictions set on the package. The package origin
 /// restrictions determine how new versions of a package can be added to a
 /// specific repository.
+///
+/// @nodoc
 class PackageOriginRestrictions {
   /// The package origin configuration that determines if new versions of the
   /// package can be published directly to the repository.
@@ -6337,6 +6422,7 @@ class PackageOriginRestrictions {
   }
 }
 
+/// @nodoc
 class AllowPublish {
   static const allow = AllowPublish._('ALLOW');
   static const block = AllowPublish._('BLOCK');
@@ -6360,6 +6446,7 @@ class AllowPublish {
   String toString() => value;
 }
 
+/// @nodoc
 class AllowUpstream {
   static const allow = AllowUpstream._('ALLOW');
   static const block = AllowUpstream._('BLOCK');
@@ -6385,6 +6472,8 @@ class AllowUpstream {
 }
 
 /// Contains details about a package version asset.
+///
+/// @nodoc
 class AssetSummary {
   /// The name of the asset.
   final String name;
@@ -6422,6 +6511,7 @@ class AssetSummary {
   }
 }
 
+/// @nodoc
 class HashAlgorithm {
   static const md5 = HashAlgorithm._('MD5');
   static const sha_1 = HashAlgorithm._('SHA-1');
@@ -6449,6 +6539,8 @@ class HashAlgorithm {
 }
 
 /// Details about a package group.
+///
+/// @nodoc
 class PackageGroupSummary {
   /// The ARN of the package group.
   final String? arn;
@@ -6540,6 +6632,8 @@ class PackageGroupSummary {
 /// description, and domain information. The <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListRepositories.html">ListRepositories</a>
 /// operation returns a list of <code>RepositorySummary</code> objects.
+///
+/// @nodoc
 class RepositorySummary {
   /// The Amazon Web Services account ID that manages the repository.
   final String? administratorAccount;
@@ -6610,6 +6704,8 @@ class RepositorySummary {
 /// revision. The <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">ListPackageVersions</a>
 /// operation returns a list of <code>PackageVersionSummary</code> objects.
+///
+/// @nodoc
 class PackageVersionSummary {
   /// A string that contains the status of the package version. It can be one of
   /// the following:
@@ -6662,6 +6758,8 @@ class PackageVersionSummary {
 }
 
 /// Information about how a package version was added to a repository.
+///
+/// @nodoc
 class PackageVersionOrigin {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainEntryPoint.html">DomainEntryPoint</a>
@@ -6713,6 +6811,8 @@ class PackageVersionOrigin {
 /// version's <code>DomainEntryPoint</code> will not change from the original
 /// package version's value.
 /// </note>
+///
+/// @nodoc
 class DomainEntryPoint {
   /// The name of the external connection that a package was ingested from.
   final String? externalConnectionName;
@@ -6743,6 +6843,7 @@ class DomainEntryPoint {
   }
 }
 
+/// @nodoc
 class PackageVersionOriginType {
   static const internal = PackageVersionOriginType._('INTERNAL');
   static const external = PackageVersionOriginType._('EXTERNAL');
@@ -6769,6 +6870,7 @@ class PackageVersionOriginType {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageVersionSortType {
   static const publishedTime = PackageVersionSortType._('PUBLISHED_TIME');
 
@@ -6794,6 +6896,8 @@ class PackageVersionSortType {
 }
 
 /// Details about a package dependency.
+///
+/// @nodoc
 class PackageDependency {
   /// The type of a package dependency. The possible values depend on the package
   /// type.
@@ -6883,6 +6987,8 @@ class PackageDependency {
 }
 
 /// Details about a package, including its format, namespace, and name.
+///
+/// @nodoc
 class PackageSummary {
   /// The format of the package.
   final PackageFormat? format;
@@ -6957,6 +7063,8 @@ class PackageSummary {
 /// and status. The <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListDomains.html">ListDomains</a>
 /// operation returns a list of <code>DomainSummary</code> objects.
+///
+/// @nodoc
 class DomainSummary {
   /// The ARN of the domain.
   final String? arn;
@@ -7015,6 +7123,7 @@ class DomainSummary {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const active = DomainStatus._('Active');
   static const deleted = DomainStatus._('Deleted');
@@ -7039,6 +7148,8 @@ class DomainStatus {
 }
 
 /// A package associated with a package group.
+///
+/// @nodoc
 class AssociatedPackage {
   /// Describes the strength of the association between the package and package
   /// group. A strong match can be thought of as an exact match, and a weak match
@@ -7108,6 +7219,7 @@ class AssociatedPackage {
   }
 }
 
+/// @nodoc
 class PackageGroupAssociationType {
   static const strong = PackageGroupAssociationType._('STRONG');
   static const weak = PackageGroupAssociationType._('WEAK');
@@ -7133,6 +7245,7 @@ class PackageGroupAssociationType {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointType {
   static const dualstack = EndpointType._('dualstack');
   static const ipv4 = EndpointType._('ipv4');
@@ -7157,6 +7270,8 @@ class EndpointType {
 }
 
 /// Details about a package version.
+///
+/// @nodoc
 class PackageVersionDescription {
   /// The name of the package that is displayed. The <code>displayName</code>
   /// varies depending on the package version's format. For example, if an npm
@@ -7301,6 +7416,8 @@ class PackageVersionDescription {
 }
 
 /// Details of the license data.
+///
+/// @nodoc
 class LicenseInfo {
   /// Name of the license.
   final String? name;
@@ -7331,6 +7448,8 @@ class LicenseInfo {
 }
 
 /// Details about a package.
+///
+/// @nodoc
 class PackageDescription {
   /// A format that specifies the type of the package.
   final PackageFormat? format;
@@ -7398,6 +7517,8 @@ class PackageDescription {
 
 /// Information about a domain. A domain is a container for repositories. When
 /// you create a domain, it is empty until you add one or more repositories.
+///
+/// @nodoc
 class DomainDescription {
   /// The Amazon Resource Name (ARN) of the domain.
   final String? arn;
@@ -7477,26 +7598,31 @@ class DomainDescription {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7505,11 +7631,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

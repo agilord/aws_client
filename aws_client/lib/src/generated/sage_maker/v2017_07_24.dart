@@ -2644,16 +2644,16 @@ class SageMaker {
   /// Option 2: For granting a limited access to an IAM role, paste the
   /// following Action elements manually into the JSON file of the IAM role:
   ///
-  /// <code>"Action": ["sagemaker:CreateEndpoint",
-  /// "sagemaker:CreateEndpointConfig"]</code>
+  /// <code>"Action": \["sagemaker:CreateEndpoint",
+  /// "sagemaker:CreateEndpointConfig"\]</code>
   ///
-  /// <code>"Resource": [</code>
+  /// <code>"Resource": \[</code>
   ///
   /// <code>"arn:aws:sagemaker:region:account-id:endpoint/endpointName"</code>
   ///
   /// <code>"arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName"</code>
   ///
-  /// <code>]</code>
+  /// <code>\]</code>
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html">SageMaker
@@ -3693,8 +3693,8 @@ class SageMaker {
   /// The registry path of the container image to use as the starting point for
   /// this version. The path is an Amazon ECR URI in the following format:
   ///
-  /// <code>&lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag]
-  /// or [@digest]&gt;</code>
+  /// <code>&lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name\[:tag\]
+  /// or \[@digest\]&gt;</code>
   ///
   /// Parameter [imageName] :
   /// The <code>ImageName</code> of the <code>Image</code> to create a version
@@ -4447,8 +4447,8 @@ class SageMaker {
   ///
   /// <code>"document-version": "2018-11-28",</code>
   ///
-  /// <code>"labels": [{"label": "label_1"},{"label": "label_2"},...{"label":
-  /// "label_n"}]</code>
+  /// <code>"labels": \[{"label": "label_1"},{"label": "label_2"},...{"label":
+  /// "label_n"}\]</code>
   ///
   /// <code>}</code>
   ///
@@ -5776,7 +5776,7 @@ class SageMaker {
   ///
   /// View Amazon CloudWatch Logs for notebook instance lifecycle configurations
   /// in log group <code>/aws/sagemaker/NotebookInstances</code> in log stream
-  /// <code>[notebook-instance-name]/[LifecycleConfigHook]</code>.
+  /// <code>\[notebook-instance-name\]/\[LifecycleConfigHook\]</code>.
   ///
   /// Lifecycle configuration scripts cannot run for longer than 5 minutes. If a
   /// script runs for longer than 5 minutes, it fails and the notebook instance
@@ -24133,6 +24133,7 @@ class SageMaker {
   }
 }
 
+/// @nodoc
 class AddAssociationResponse {
   /// The Amazon Resource Name (ARN) of the destination.
   final String? destinationArn;
@@ -24162,6 +24163,7 @@ class AddAssociationResponse {
   }
 }
 
+/// @nodoc
 class AddTagsOutput {
   /// A list of tags associated with the SageMaker resource.
   final List<Tag>? tags;
@@ -24187,6 +24189,7 @@ class AddTagsOutput {
   }
 }
 
+/// @nodoc
 class AssociateTrialComponentResponse {
   /// The Amazon Resource Name (ARN) of the trial.
   final String? trialArn;
@@ -24216,6 +24219,7 @@ class AssociateTrialComponentResponse {
   }
 }
 
+/// @nodoc
 class AttachClusterNodeVolumeResponse {
   /// The timestamp when the volume attachment operation was initiated by the
   /// SageMaker HyperPod service.
@@ -24276,6 +24280,7 @@ class AttachClusterNodeVolumeResponse {
   }
 }
 
+/// @nodoc
 class BatchAddClusterNodesResponse {
   /// A list of errors that occurred during the node addition operation. Each
   /// entry includes the instance group name, error code, number of failed
@@ -24319,6 +24324,7 @@ class BatchAddClusterNodesResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteClusterNodesResponse {
   /// A list of errors encountered when deleting the specified nodes.
   final List<BatchDeleteClusterNodesError>? failed;
@@ -24381,6 +24387,7 @@ class BatchDeleteClusterNodesResponse {
   }
 }
 
+/// @nodoc
 class BatchDescribeModelPackageOutput {
   /// A map of the resource and BatchDescribeModelPackageError objects reporting
   /// the error associated with describing the model package.
@@ -24425,6 +24432,7 @@ class BatchDescribeModelPackageOutput {
   }
 }
 
+/// @nodoc
 class BatchRebootClusterNodesResponse {
   /// A list of errors encountered for EC2 instance IDs that could not be
   /// rebooted. Each error includes the instance ID, an error code, and a
@@ -24492,6 +24500,7 @@ class BatchRebootClusterNodesResponse {
   }
 }
 
+/// @nodoc
 class BatchReplaceClusterNodesResponse {
   /// A list of errors encountered for EC2 instance IDs that could not be
   /// replaced. Each error includes the instance ID, an error code, and a
@@ -24559,6 +24568,7 @@ class BatchReplaceClusterNodesResponse {
   }
 }
 
+/// @nodoc
 class CreateActionResponse {
   /// The Amazon Resource Name (ARN) of the action.
   final String? actionArn;
@@ -24581,6 +24591,7 @@ class CreateActionResponse {
   }
 }
 
+/// @nodoc
 class CreateAIBenchmarkJobResponse {
   /// The Amazon Resource Name (ARN) of the created benchmark job.
   final String aIBenchmarkJobArn;
@@ -24603,6 +24614,7 @@ class CreateAIBenchmarkJobResponse {
   }
 }
 
+/// @nodoc
 class CreateAIRecommendationJobResponse {
   /// The Amazon Resource Name (ARN) of the created recommendation job.
   final String aIRecommendationJobArn;
@@ -24626,6 +24638,7 @@ class CreateAIRecommendationJobResponse {
   }
 }
 
+/// @nodoc
 class CreateAIWorkloadConfigResponse {
   /// The Amazon Resource Name (ARN) of the created AI workload configuration.
   final String aIWorkloadConfigArn;
@@ -24648,6 +24661,7 @@ class CreateAIWorkloadConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateAlgorithmOutput {
   /// The Amazon Resource Name (ARN) of the new algorithm.
   final String algorithmArn;
@@ -24670,6 +24684,7 @@ class CreateAlgorithmOutput {
   }
 }
 
+/// @nodoc
 class CreateAppResponse {
   /// The Amazon Resource Name (ARN) of the app.
   final String? appArn;
@@ -24692,6 +24707,7 @@ class CreateAppResponse {
   }
 }
 
+/// @nodoc
 class CreateAppImageConfigResponse {
   /// The ARN of the AppImageConfig.
   final String? appImageConfigArn;
@@ -24714,6 +24730,7 @@ class CreateAppImageConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateArtifactResponse {
   /// The Amazon Resource Name (ARN) of the artifact.
   final String? artifactArn;
@@ -24736,6 +24753,7 @@ class CreateArtifactResponse {
   }
 }
 
+/// @nodoc
 class CreateAutoMLJobResponse {
   /// The unique ARN assigned to the AutoML job when it is created.
   final String autoMLJobArn;
@@ -24758,6 +24776,7 @@ class CreateAutoMLJobResponse {
   }
 }
 
+/// @nodoc
 class CreateAutoMLJobV2Response {
   /// The unique ARN assigned to the AutoMLJob when it is created.
   final String autoMLJobArn;
@@ -24780,6 +24799,7 @@ class CreateAutoMLJobV2Response {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String clusterArn;
@@ -24802,6 +24822,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterSchedulerConfigResponse {
   /// ARN of the cluster policy.
   final String clusterSchedulerConfigArn;
@@ -24834,6 +24855,7 @@ class CreateClusterSchedulerConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateCodeRepositoryOutput {
   /// The Amazon Resource Name (ARN) of the new repository.
   final String codeRepositoryArn;
@@ -24856,6 +24878,7 @@ class CreateCodeRepositoryOutput {
   }
 }
 
+/// @nodoc
 class CreateCompilationJobResponse {
   /// If the action is successful, the service sends back an HTTP 200 response.
   /// Amazon SageMaker AI returns the following data in JSON format:
@@ -24886,6 +24909,7 @@ class CreateCompilationJobResponse {
   }
 }
 
+/// @nodoc
 class CreateComputeQuotaResponse {
   /// ARN of the compute allocation definition.
   final String computeQuotaArn;
@@ -24915,6 +24939,7 @@ class CreateComputeQuotaResponse {
   }
 }
 
+/// @nodoc
 class CreateContextResponse {
   /// The Amazon Resource Name (ARN) of the context.
   final String? contextArn;
@@ -24937,6 +24962,7 @@ class CreateContextResponse {
   }
 }
 
+/// @nodoc
 class CreateDataQualityJobDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the job definition.
   final String jobDefinitionArn;
@@ -24960,6 +24986,7 @@ class CreateDataQualityJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainResponse {
   /// The Amazon Resource Name (ARN) of the created domain.
   final String? domainArn;
@@ -24996,6 +25023,7 @@ class CreateDomainResponse {
   }
 }
 
+/// @nodoc
 class CreateEdgeDeploymentPlanResponse {
   /// The ARN of the edge deployment plan.
   final String edgeDeploymentPlanArn;
@@ -25018,6 +25046,7 @@ class CreateEdgeDeploymentPlanResponse {
   }
 }
 
+/// @nodoc
 class CreateEndpointOutput {
   /// The Amazon Resource Name (ARN) of the endpoint.
   final String endpointArn;
@@ -25040,6 +25069,7 @@ class CreateEndpointOutput {
   }
 }
 
+/// @nodoc
 class CreateEndpointConfigOutput {
   /// The Amazon Resource Name (ARN) of the endpoint configuration.
   final String endpointConfigArn;
@@ -25062,6 +25092,7 @@ class CreateEndpointConfigOutput {
   }
 }
 
+/// @nodoc
 class CreateExperimentResponse {
   /// The Amazon Resource Name (ARN) of the experiment.
   final String? experimentArn;
@@ -25084,6 +25115,7 @@ class CreateExperimentResponse {
   }
 }
 
+/// @nodoc
 class CreateFeatureGroupResponse {
   /// The Amazon Resource Name (ARN) of the <code>FeatureGroup</code>. This is a
   /// unique identifier for the feature group.
@@ -25107,6 +25139,7 @@ class CreateFeatureGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the flow definition you create.
   final String flowDefinitionArn;
@@ -25129,6 +25162,7 @@ class CreateFlowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateHubResponse {
   /// The Amazon Resource Name (ARN) of the hub.
   final String hubArn;
@@ -25151,6 +25185,7 @@ class CreateHubResponse {
   }
 }
 
+/// @nodoc
 class CreateHubContentPresignedUrlsResponse {
   /// An array of authorized URL configurations, each containing a presigned URL
   /// and its corresponding local file path for proper file organization during
@@ -25189,6 +25224,7 @@ class CreateHubContentPresignedUrlsResponse {
   }
 }
 
+/// @nodoc
 class CreateHubContentReferenceResponse {
   /// The ARN of the hub that the hub content reference was added to.
   final String hubArn;
@@ -25219,6 +25255,7 @@ class CreateHubContentReferenceResponse {
   }
 }
 
+/// @nodoc
 class CreateHumanTaskUiResponse {
   /// The Amazon Resource Name (ARN) of the human review workflow user interface
   /// you create.
@@ -25242,6 +25279,7 @@ class CreateHumanTaskUiResponse {
   }
 }
 
+/// @nodoc
 class CreateHyperParameterTuningJobResponse {
   /// The Amazon Resource Name (ARN) of the tuning job. SageMaker assigns an ARN
   /// to a hyperparameter tuning job when you create it.
@@ -25267,6 +25305,7 @@ class CreateHyperParameterTuningJobResponse {
   }
 }
 
+/// @nodoc
 class CreateImageResponse {
   /// The ARN of the image.
   final String? imageArn;
@@ -25289,6 +25328,7 @@ class CreateImageResponse {
   }
 }
 
+/// @nodoc
 class CreateImageVersionResponse {
   /// The ARN of the image version.
   final String? imageVersionArn;
@@ -25311,6 +25351,7 @@ class CreateImageVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateInferenceComponentOutput {
   /// The Amazon Resource Name (ARN) of the inference component.
   final String inferenceComponentArn;
@@ -25333,6 +25374,7 @@ class CreateInferenceComponentOutput {
   }
 }
 
+/// @nodoc
 class CreateInferenceExperimentResponse {
   /// The ARN for your inference experiment.
   final String inferenceExperimentArn;
@@ -25356,6 +25398,7 @@ class CreateInferenceExperimentResponse {
   }
 }
 
+/// @nodoc
 class CreateInferenceRecommendationsJobResponse {
   /// The Amazon Resource Name (ARN) of the recommendation job.
   final String jobArn;
@@ -25379,6 +25422,7 @@ class CreateInferenceRecommendationsJobResponse {
   }
 }
 
+/// @nodoc
 class CreateJobResponse {
   /// The Amazon Resource Name (ARN) of the job.
   final String jobArn;
@@ -25401,6 +25445,7 @@ class CreateJobResponse {
   }
 }
 
+/// @nodoc
 class CreateLabelingJobResponse {
   /// The Amazon Resource Name (ARN) of the labeling job. You use this ARN to
   /// identify the labeling job.
@@ -25424,6 +25469,7 @@ class CreateLabelingJobResponse {
   }
 }
 
+/// @nodoc
 class CreateMlflowAppResponse {
   /// The ARN of the MLflow App.
   final String? arn;
@@ -25446,6 +25492,7 @@ class CreateMlflowAppResponse {
   }
 }
 
+/// @nodoc
 class CreateMlflowTrackingServerResponse {
   /// The ARN of the tracking server.
   final String? trackingServerArn;
@@ -25469,6 +25516,7 @@ class CreateMlflowTrackingServerResponse {
   }
 }
 
+/// @nodoc
 class CreateModelOutput {
   /// The ARN of the model created in SageMaker.
   final String modelArn;
@@ -25491,6 +25539,7 @@ class CreateModelOutput {
   }
 }
 
+/// @nodoc
 class CreateModelBiasJobDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the model bias job.
   final String jobDefinitionArn;
@@ -25514,6 +25563,7 @@ class CreateModelBiasJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateModelCardResponse {
   /// The Amazon Resource Name (ARN) of the successfully created model card.
   final String modelCardArn;
@@ -25536,6 +25586,7 @@ class CreateModelCardResponse {
   }
 }
 
+/// @nodoc
 class CreateModelCardExportJobResponse {
   /// The Amazon Resource Name (ARN) of the model card export job.
   final String modelCardExportJobArn;
@@ -25558,6 +25609,7 @@ class CreateModelCardExportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateModelExplainabilityJobDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the model explainability job.
   final String jobDefinitionArn;
@@ -25581,6 +25633,7 @@ class CreateModelExplainabilityJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateModelPackageOutput {
   /// The Amazon Resource Name (ARN) of the new model package.
   final String modelPackageArn;
@@ -25603,6 +25656,7 @@ class CreateModelPackageOutput {
   }
 }
 
+/// @nodoc
 class CreateModelPackageGroupOutput {
   /// The Amazon Resource Name (ARN) of the model group.
   final String modelPackageGroupArn;
@@ -25625,6 +25679,7 @@ class CreateModelPackageGroupOutput {
   }
 }
 
+/// @nodoc
 class CreateModelQualityJobDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the model quality monitoring job.
   final String jobDefinitionArn;
@@ -25648,6 +25703,7 @@ class CreateModelQualityJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateMonitoringScheduleResponse {
   /// The Amazon Resource Name (ARN) of the monitoring schedule.
   final String monitoringScheduleArn;
@@ -25670,6 +25726,7 @@ class CreateMonitoringScheduleResponse {
   }
 }
 
+/// @nodoc
 class CreateNotebookInstanceOutput {
   /// The Amazon Resource Name (ARN) of the notebook instance.
   final String? notebookInstanceArn;
@@ -25693,6 +25750,7 @@ class CreateNotebookInstanceOutput {
   }
 }
 
+/// @nodoc
 class CreateNotebookInstanceLifecycleConfigOutput {
   /// The Amazon Resource Name (ARN) of the lifecycle configuration.
   final String? notebookInstanceLifecycleConfigArn;
@@ -25720,6 +25778,7 @@ class CreateNotebookInstanceLifecycleConfigOutput {
   }
 }
 
+/// @nodoc
 class CreateOptimizationJobResponse {
   /// The Amazon Resource Name (ARN) of the optimization job.
   final String optimizationJobArn;
@@ -25742,6 +25801,7 @@ class CreateOptimizationJobResponse {
   }
 }
 
+/// @nodoc
 class CreatePartnerAppResponse {
   /// The ARN of the SageMaker Partner AI App.
   final String? arn;
@@ -25764,6 +25824,7 @@ class CreatePartnerAppResponse {
   }
 }
 
+/// @nodoc
 class CreatePartnerAppPresignedUrlResponse {
   /// The presigned URL that you can use to access the SageMaker Partner AI App.
   final String? url;
@@ -25787,6 +25848,7 @@ class CreatePartnerAppPresignedUrlResponse {
   }
 }
 
+/// @nodoc
 class CreatePipelineResponse {
   /// The Amazon Resource Name (ARN) of the created pipeline.
   final String? pipelineArn;
@@ -25809,6 +25871,7 @@ class CreatePipelineResponse {
   }
 }
 
+/// @nodoc
 class CreatePresignedDomainUrlResponse {
   /// The presigned URL.
   final String? authorizedUrl;
@@ -25831,6 +25894,7 @@ class CreatePresignedDomainUrlResponse {
   }
 }
 
+/// @nodoc
 class CreatePresignedMlflowAppUrlResponse {
   /// A presigned URL with an authorization token.
   final String? authorizedUrl;
@@ -25854,6 +25918,7 @@ class CreatePresignedMlflowAppUrlResponse {
   }
 }
 
+/// @nodoc
 class CreatePresignedMlflowTrackingServerUrlResponse {
   /// A presigned URL with an authorization token.
   final String? authorizedUrl;
@@ -25877,6 +25942,7 @@ class CreatePresignedMlflowTrackingServerUrlResponse {
   }
 }
 
+/// @nodoc
 class CreatePresignedNotebookInstanceUrlOutput {
   /// A JSON object that contains the URL string.
   final String? authorizedUrl;
@@ -25900,6 +25966,7 @@ class CreatePresignedNotebookInstanceUrlOutput {
   }
 }
 
+/// @nodoc
 class CreateProcessingJobResponse {
   /// The Amazon Resource Name (ARN) of the processing job.
   final String processingJobArn;
@@ -25922,6 +25989,7 @@ class CreateProcessingJobResponse {
   }
 }
 
+/// @nodoc
 class CreateProjectOutput {
   /// The Amazon Resource Name (ARN) of the project.
   final String projectArn;
@@ -25951,6 +26019,7 @@ class CreateProjectOutput {
   }
 }
 
+/// @nodoc
 class CreateSpaceResponse {
   /// The space's Amazon Resource Name (ARN).
   final String? spaceArn;
@@ -25973,6 +26042,7 @@ class CreateSpaceResponse {
   }
 }
 
+/// @nodoc
 class CreateStudioLifecycleConfigResponse {
   /// The ARN of your created Lifecycle Configuration.
   final String? studioLifecycleConfigArn;
@@ -25997,6 +26067,7 @@ class CreateStudioLifecycleConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateTrainingJobResponse {
   /// The Amazon Resource Name (ARN) of the training job.
   final String trainingJobArn;
@@ -26019,6 +26090,7 @@ class CreateTrainingJobResponse {
   }
 }
 
+/// @nodoc
 class CreateTrainingPlanResponse {
   /// The Amazon Resource Name (ARN); of the created training plan.
   final String trainingPlanArn;
@@ -26041,6 +26113,7 @@ class CreateTrainingPlanResponse {
   }
 }
 
+/// @nodoc
 class CreateTransformJobResponse {
   /// The Amazon Resource Name (ARN) of the transform job.
   final String transformJobArn;
@@ -26063,6 +26136,7 @@ class CreateTransformJobResponse {
   }
 }
 
+/// @nodoc
 class CreateTrialResponse {
   /// The Amazon Resource Name (ARN) of the trial.
   final String? trialArn;
@@ -26085,6 +26159,7 @@ class CreateTrialResponse {
   }
 }
 
+/// @nodoc
 class CreateTrialComponentResponse {
   /// The Amazon Resource Name (ARN) of the trial component.
   final String? trialComponentArn;
@@ -26107,6 +26182,7 @@ class CreateTrialComponentResponse {
   }
 }
 
+/// @nodoc
 class CreateUserProfileResponse {
   /// The user profile Amazon Resource Name (ARN).
   final String? userProfileArn;
@@ -26129,6 +26205,7 @@ class CreateUserProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkforceResponse {
   /// The Amazon Resource Name (ARN) of the workforce.
   final String workforceArn;
@@ -26151,6 +26228,7 @@ class CreateWorkforceResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkteamResponse {
   /// The Amazon Resource Name (ARN) of the work team. You can use this ARN to
   /// identify the work team.
@@ -26174,6 +26252,7 @@ class CreateWorkteamResponse {
   }
 }
 
+/// @nodoc
 class DeleteActionResponse {
   /// The Amazon Resource Name (ARN) of the action.
   final String? actionArn;
@@ -26196,6 +26275,7 @@ class DeleteActionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIBenchmarkJobResponse {
   /// The Amazon Resource Name (ARN) of the deleted benchmark job.
   final String? aIBenchmarkJobArn;
@@ -26218,6 +26298,7 @@ class DeleteAIBenchmarkJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIRecommendationJobResponse {
   /// The Amazon Resource Name (ARN) of the deleted recommendation job.
   final String? aIRecommendationJobArn;
@@ -26242,6 +26323,7 @@ class DeleteAIRecommendationJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIWorkloadConfigResponse {
   /// The Amazon Resource Name (ARN) of the deleted AI workload configuration.
   final String? aIWorkloadConfigArn;
@@ -26265,6 +26347,7 @@ class DeleteAIWorkloadConfigResponse {
   }
 }
 
+/// @nodoc
 class DeleteArtifactResponse {
   /// The Amazon Resource Name (ARN) of the artifact.
   final String? artifactArn;
@@ -26287,6 +26370,7 @@ class DeleteArtifactResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssociationResponse {
   /// The Amazon Resource Name (ARN) of the destination.
   final String? destinationArn;
@@ -26316,6 +26400,7 @@ class DeleteAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete.
   final String clusterArn;
@@ -26338,6 +26423,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteContextResponse {
   /// The Amazon Resource Name (ARN) of the context.
   final String? contextArn;
@@ -26360,6 +26446,7 @@ class DeleteContextResponse {
   }
 }
 
+/// @nodoc
 class DeleteExperimentResponse {
   /// The Amazon Resource Name (ARN) of the experiment that is being deleted.
   final String? experimentArn;
@@ -26382,6 +26469,7 @@ class DeleteExperimentResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowDefinitionResponse {
   DeleteFlowDefinitionResponse();
 
@@ -26394,6 +26482,7 @@ class DeleteFlowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteHumanTaskUiResponse {
   DeleteHumanTaskUiResponse();
 
@@ -26406,6 +26495,7 @@ class DeleteHumanTaskUiResponse {
   }
 }
 
+/// @nodoc
 class DeleteImageResponse {
   DeleteImageResponse();
 
@@ -26418,6 +26508,7 @@ class DeleteImageResponse {
   }
 }
 
+/// @nodoc
 class DeleteImageVersionResponse {
   DeleteImageVersionResponse();
 
@@ -26430,6 +26521,7 @@ class DeleteImageVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteInferenceExperimentResponse {
   /// The ARN of the deleted inference experiment.
   final String inferenceExperimentArn;
@@ -26453,6 +26545,7 @@ class DeleteInferenceExperimentResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobResponse {
   DeleteJobResponse();
 
@@ -26465,6 +26558,7 @@ class DeleteJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteMlflowAppResponse {
   /// The ARN of the deleted MLflow App.
   final String? arn;
@@ -26487,6 +26581,7 @@ class DeleteMlflowAppResponse {
   }
 }
 
+/// @nodoc
 class DeleteMlflowTrackingServerResponse {
   /// A <code>TrackingServerArn</code> object, the ARN of the tracking server that
   /// is deleted if successfully found.
@@ -26511,6 +26606,7 @@ class DeleteMlflowTrackingServerResponse {
   }
 }
 
+/// @nodoc
 class DeletePartnerAppResponse {
   /// The ARN of the SageMaker Partner AI App that was deleted.
   final String? arn;
@@ -26533,6 +26629,7 @@ class DeletePartnerAppResponse {
   }
 }
 
+/// @nodoc
 class DeletePipelineResponse {
   /// The Amazon Resource Name (ARN) of the pipeline to delete.
   final String? pipelineArn;
@@ -26555,6 +26652,7 @@ class DeletePipelineResponse {
   }
 }
 
+/// @nodoc
 class DeleteTagsOutput {
   DeleteTagsOutput();
 
@@ -26567,6 +26665,7 @@ class DeleteTagsOutput {
   }
 }
 
+/// @nodoc
 class DeleteTrialResponse {
   /// The Amazon Resource Name (ARN) of the trial that is being deleted.
   final String? trialArn;
@@ -26589,6 +26688,7 @@ class DeleteTrialResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrialComponentResponse {
   /// The Amazon Resource Name (ARN) of the component is being deleted.
   final String? trialComponentArn;
@@ -26611,6 +26711,7 @@ class DeleteTrialComponentResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkforceResponse {
   DeleteWorkforceResponse();
 
@@ -26623,6 +26724,7 @@ class DeleteWorkforceResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkteamResponse {
   /// Returns <code>true</code> if the work team was successfully deleted;
   /// otherwise, returns <code>false</code>.
@@ -26646,6 +26748,7 @@ class DeleteWorkteamResponse {
   }
 }
 
+/// @nodoc
 class DescribeActionResponse {
   /// The Amazon Resource Name (ARN) of the action.
   final String? actionArn;
@@ -26758,6 +26861,7 @@ class DescribeActionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAIBenchmarkJobResponse {
   /// The Amazon Resource Name (ARN) of the AI benchmark job.
   final String aIBenchmarkJobArn;
@@ -26878,6 +26982,7 @@ class DescribeAIBenchmarkJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeAIRecommendationJobResponse {
   /// The Amazon Resource Name (ARN) of the AI recommendation job.
   final String aIRecommendationJobArn;
@@ -27040,6 +27145,7 @@ class DescribeAIRecommendationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeAIWorkloadConfigResponse {
   /// The Amazon Resource Name (ARN) of the AI workload configuration.
   final String aIWorkloadConfigArn;
@@ -27106,6 +27212,7 @@ class DescribeAIWorkloadConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeAlgorithmOutput {
   /// The Amazon Resource Name (ARN) of the algorithm.
   final String algorithmArn;
@@ -27215,6 +27322,7 @@ class DescribeAlgorithmOutput {
   }
 }
 
+/// @nodoc
 class DescribeAppResponse {
   /// The Amazon Resource Name (ARN) of the app.
   final String? appArn;
@@ -27367,6 +27475,7 @@ class DescribeAppResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppImageConfigResponse {
   /// The ARN of the AppImageConfig.
   final String? appImageConfigArn;
@@ -27445,6 +27554,7 @@ class DescribeAppImageConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeArtifactResponse {
   /// The Amazon Resource Name (ARN) of the artifact.
   final String? artifactArn;
@@ -27543,6 +27653,7 @@ class DescribeArtifactResponse {
   }
 }
 
+/// @nodoc
 class DescribeAutoMLJobResponse {
   /// Returns the ARN of the AutoML job.
   final String autoMLJobArn;
@@ -27752,6 +27863,7 @@ class DescribeAutoMLJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeAutoMLJobV2Response {
   /// Returns the Amazon Resource Name (ARN) of the AutoML job V2.
   final String autoMLJobArn;
@@ -27983,6 +28095,7 @@ class DescribeAutoMLJobV2Response {
   }
 }
 
+/// @nodoc
 class DescribeClusterResponse {
   /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
   final String clusterArn;
@@ -28138,6 +28251,7 @@ class DescribeClusterResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterEventResponse {
   /// Detailed information about the requested cluster event, including event
   /// metadata for various resource types such as <code>Cluster</code>,
@@ -28166,6 +28280,7 @@ class DescribeClusterEventResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterNodeResponse {
   /// The details of the SageMaker HyperPod cluster node.
   final ClusterNodeDetails nodeDetails;
@@ -28190,6 +28305,7 @@ class DescribeClusterNodeResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterSchedulerConfigResponse {
   /// ARN of the cluster policy.
   final String clusterSchedulerConfigArn;
@@ -28320,6 +28436,7 @@ class DescribeClusterSchedulerConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeCodeRepositoryOutput {
   /// The Amazon Resource Name (ARN) of the Git repository.
   final String codeRepositoryArn;
@@ -28376,6 +28493,7 @@ class DescribeCodeRepositoryOutput {
   }
 }
 
+/// @nodoc
 class DescribeCompilationJobResponse {
   /// The Amazon Resource Name (ARN) of the model compilation job.
   final String compilationJobArn;
@@ -28563,6 +28681,7 @@ class DescribeCompilationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeComputeQuotaResponse {
   /// ARN of the compute allocation definition.
   final String computeQuotaArn;
@@ -28695,6 +28814,7 @@ class DescribeComputeQuotaResponse {
   }
 }
 
+/// @nodoc
 class DescribeContextResponse {
   /// The Amazon Resource Name (ARN) of the context.
   final String? contextArn;
@@ -28792,6 +28912,7 @@ class DescribeContextResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataQualityJobDefinitionResponse {
   /// The time that the data quality monitoring job definition was created.
   final DateTime creationTime;
@@ -28901,6 +29022,7 @@ class DescribeDataQualityJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeviceResponse {
   /// The name of the fleet the device belongs to.
   final String deviceFleetName;
@@ -29000,6 +29122,7 @@ class DescribeDeviceResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeviceFleetResponse {
   /// Timestamp of when the device fleet was created.
   final DateTime creationTime;
@@ -29076,6 +29199,7 @@ class DescribeDeviceFleetResponse {
   }
 }
 
+/// @nodoc
 class DescribeDomainResponse {
   /// Specifies the VPC used for non-EFS traffic. The default value is
   /// <code>PublicInternetOnly</code>.
@@ -29313,6 +29437,7 @@ class DescribeDomainResponse {
   }
 }
 
+/// @nodoc
 class DescribeEdgeDeploymentPlanResponse {
   /// The device fleet used for this edge deployment plan.
   final String deviceFleetName;
@@ -29420,6 +29545,7 @@ class DescribeEdgeDeploymentPlanResponse {
   }
 }
 
+/// @nodoc
 class DescribeEdgePackagingJobResponse {
   /// The Amazon Resource Name (ARN) of the edge packaging job.
   final String edgePackagingJobArn;
@@ -29555,6 +29681,7 @@ class DescribeEdgePackagingJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointOutput {
   /// A timestamp that shows when the endpoint was created.
   final DateTime creationTime;
@@ -29777,6 +29904,7 @@ class DescribeEndpointOutput {
   }
 }
 
+/// @nodoc
 class DescribeEndpointConfigOutput {
   /// A timestamp that shows when the endpoint configuration was created.
   final DateTime creationTime;
@@ -29911,6 +30039,7 @@ class DescribeEndpointConfigOutput {
   }
 }
 
+/// @nodoc
 class DescribeExperimentResponse {
   /// Who created the experiment.
   final UserContext? createdBy;
@@ -29998,6 +30127,7 @@ class DescribeExperimentResponse {
   }
 }
 
+/// @nodoc
 class DescribeFeatureGroupResponse {
   /// A timestamp indicating when SageMaker created the <code>FeatureGroup</code>.
   final DateTime creationTime;
@@ -30206,6 +30336,7 @@ class DescribeFeatureGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeFeatureMetadataResponse {
   /// A timestamp indicating when the feature was created.
   final DateTime creationTime;
@@ -30285,6 +30416,7 @@ class DescribeFeatureMetadataResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowDefinitionResponse {
   /// The timestamp when the flow definition was created.
   final DateTime creationTime;
@@ -30388,6 +30520,7 @@ class DescribeFlowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeHubResponse {
   /// The date and time that the hub was created.
   final DateTime creationTime;
@@ -30480,6 +30613,7 @@ class DescribeHubResponse {
   }
 }
 
+/// @nodoc
 class DescribeHubContentResponse {
   /// The date and time that hub content was created.
   final DateTime creationTime;
@@ -30655,6 +30789,7 @@ class DescribeHubContentResponse {
   }
 }
 
+/// @nodoc
 class DescribeHumanTaskUiResponse {
   /// The timestamp when the human task user interface was created.
   final DateTime creationTime;
@@ -30709,6 +30844,7 @@ class DescribeHumanTaskUiResponse {
   }
 }
 
+/// @nodoc
 class DescribeHyperParameterTuningJobResponse {
   /// The date and time that the tuning job started.
   final DateTime creationTime;
@@ -30919,6 +31055,7 @@ class DescribeHyperParameterTuningJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeImageResponse {
   /// When the image was created.
   final DateTime? creationTime;
@@ -31002,6 +31139,7 @@ class DescribeImageResponse {
   }
 }
 
+/// @nodoc
 class DescribeImageVersionResponse {
   /// The registry path of the container image on which this image version is
   /// based.
@@ -31178,6 +31316,7 @@ class DescribeImageVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeInferenceComponentOutput {
   /// The time when the inference component was created.
   final DateTime creationTime;
@@ -31308,6 +31447,7 @@ class DescribeInferenceComponentOutput {
   }
 }
 
+/// @nodoc
 class DescribeInferenceExperimentResponse {
   /// The ARN of the inference experiment being described.
   final String arn;
@@ -31505,6 +31645,7 @@ class DescribeInferenceExperimentResponse {
   }
 }
 
+/// @nodoc
 class DescribeInferenceRecommendationsJobResponse {
   /// A timestamp that shows when the job was created.
   final DateTime creationTime;
@@ -31642,6 +31783,7 @@ class DescribeInferenceRecommendationsJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobResponse {
   /// The date and time that the job was created.
   final DateTime creationTime;
@@ -31770,6 +31912,7 @@ class DescribeJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobSchemaVersionResponse {
   /// The category of the job schema.
   final JobCategory jobCategory;
@@ -31808,6 +31951,7 @@ class DescribeJobSchemaVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeLabelingJobResponse {
   /// The date and time that the labeling job was created.
   final DateTime creationTime;
@@ -31873,7 +32017,7 @@ class DescribeLabelingJobResponse {
   ///
   /// <code> "document-version": "2018-11-28"</code>
   ///
-  /// <code> "labels": [</code>
+  /// <code> "labels": \[</code>
   ///
   /// <code> {</code>
   ///
@@ -31895,7 +32039,7 @@ class DescribeLabelingJobResponse {
   ///
   /// <code> }</code>
   ///
-  /// <code> ]</code>
+  /// <code> \]</code>
   ///
   /// <code>}</code>
   final String? labelCategoryConfigS3Uri;
@@ -32027,6 +32171,7 @@ class DescribeLabelingJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeLineageGroupResponse {
   final UserContext? createdBy;
 
@@ -32101,6 +32246,7 @@ class DescribeLineageGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeMlflowAppResponse {
   /// Indicates whether this MLflow app is the default for the entire account.
   final AccountDefaultStatus? accountDefaultStatus;
@@ -32238,6 +32384,7 @@ class DescribeMlflowAppResponse {
   }
 }
 
+/// @nodoc
 class DescribeMlflowTrackingServerResponse {
   /// The S3 URI of the general purpose bucket used as the MLflow Tracking Server
   /// artifact store.
@@ -32406,6 +32553,7 @@ class DescribeMlflowTrackingServerResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelOutput {
   /// A timestamp that shows when the model was created.
   final DateTime creationTime;
@@ -32518,6 +32666,7 @@ class DescribeModelOutput {
   }
 }
 
+/// @nodoc
 class DescribeModelBiasJobDefinitionResponse {
   /// The time at which the model bias job was created.
   final DateTime creationTime;
@@ -32626,6 +32775,7 @@ class DescribeModelBiasJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelCardResponse {
   /// The content of the model card. Content is provided as a string in the <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema">model
@@ -32796,6 +32946,7 @@ class DescribeModelCardResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelCardExportJobResponse {
   /// The date and time that the model export job was created.
   final DateTime createdAt;
@@ -32903,6 +33054,7 @@ class DescribeModelCardExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelExplainabilityJobDefinitionResponse {
   /// The time at which the model explainability job was created.
   final DateTime creationTime;
@@ -33021,6 +33173,7 @@ class DescribeModelExplainabilityJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelPackageOutput {
   /// A timestamp specifying when the model package was created.
   final DateTime creationTime;
@@ -33377,6 +33530,7 @@ class DescribeModelPackageOutput {
   }
 }
 
+/// @nodoc
 class DescribeModelPackageGroupOutput {
   final UserContext createdBy;
 
@@ -33449,6 +33603,7 @@ class DescribeModelPackageGroupOutput {
   }
 }
 
+/// @nodoc
 class DescribeModelQualityJobDefinitionResponse {
   /// The time at which the model quality job was created.
   final DateTime creationTime;
@@ -33556,6 +33711,7 @@ class DescribeModelQualityJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeMonitoringScheduleResponse {
   /// The time at which the monitoring job was created.
   final DateTime creationTime;
@@ -33673,6 +33829,7 @@ class DescribeMonitoringScheduleResponse {
   }
 }
 
+/// @nodoc
 class DescribeNotebookInstanceOutput {
   /// This parameter is no longer supported. Elastic Inference (EI) is no longer
   /// available.
@@ -33929,6 +34086,7 @@ class DescribeNotebookInstanceOutput {
   }
 }
 
+/// @nodoc
 class DescribeNotebookInstanceLifecycleConfigOutput {
   /// A timestamp that tells when the lifecycle configuration was created.
   final DateTime? creationTime;
@@ -34006,6 +34164,7 @@ class DescribeNotebookInstanceLifecycleConfigOutput {
   }
 }
 
+/// @nodoc
 class DescribeOptimizationJobResponse {
   /// The time when you created the optimization job.
   final DateTime creationTime;
@@ -34171,6 +34330,7 @@ class DescribeOptimizationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribePartnerAppResponse {
   /// Configuration settings for the SageMaker Partner AI App.
   final PartnerAppConfig? applicationConfig;
@@ -34380,6 +34540,7 @@ class DescribePartnerAppResponse {
   }
 }
 
+/// @nodoc
 class DescribePipelineResponse {
   final UserContext? createdBy;
 
@@ -34512,6 +34673,7 @@ class DescribePipelineResponse {
   }
 }
 
+/// @nodoc
 class DescribePipelineDefinitionForExecutionResponse {
   /// The time when the pipeline was created.
   final DateTime? creationTime;
@@ -34543,6 +34705,7 @@ class DescribePipelineDefinitionForExecutionResponse {
   }
 }
 
+/// @nodoc
 class DescribePipelineExecutionResponse {
   final UserContext? createdBy;
 
@@ -34687,6 +34850,7 @@ class DescribePipelineExecutionResponse {
   }
 }
 
+/// @nodoc
 class DescribeProcessingJobResponse {
   /// Configures the processing job to run a specified container image.
   final AppSpecification appSpecification;
@@ -34882,6 +35046,7 @@ class DescribeProcessingJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeProjectOutput {
   /// The time when the project was created.
   final DateTime creationTime;
@@ -35007,6 +35172,7 @@ class DescribeProjectOutput {
   }
 }
 
+/// @nodoc
 class DescribeReservedCapacityResponse {
   /// The Amazon EC2 instance type used in the reserved capacity.
   final ReservedCapacityInstanceType instanceType;
@@ -35124,6 +35290,7 @@ class DescribeReservedCapacityResponse {
   }
 }
 
+/// @nodoc
 class DescribeSpaceResponse {
   /// The creation time.
   final DateTime? creationTime;
@@ -35262,6 +35429,7 @@ class DescribeSpaceResponse {
   }
 }
 
+/// @nodoc
 class DescribeStudioLifecycleConfigResponse {
   /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
   final DateTime? creationTime;
@@ -35332,6 +35500,7 @@ class DescribeStudioLifecycleConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeSubscribedWorkteamResponse {
   /// A <code>Workteam</code> instance that contains information about the work
   /// team.
@@ -35358,6 +35527,7 @@ class DescribeSubscribedWorkteamResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrainingJobResponse {
   /// A timestamp that indicates when the training job was created.
   final DateTime creationTime;
@@ -35995,6 +36165,7 @@ class DescribeTrainingJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrainingPlanResponse {
   /// The current status of the training plan (e.g., Pending, Active, Expired). To
   /// see the complete list of status values available for a training plan, refer
@@ -36179,6 +36350,7 @@ class DescribeTrainingPlanResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrainingPlanExtensionHistoryResponse {
   /// A list of extensions for the specified training plan.
   final List<TrainingPlanExtension> trainingPlanExtensions;
@@ -36213,6 +36385,7 @@ class DescribeTrainingPlanExtensionHistoryResponse {
   }
 }
 
+/// @nodoc
 class DescribeTransformJobResponse {
   /// A timestamp that shows when the transform Job was created.
   final DateTime creationTime;
@@ -36418,6 +36591,7 @@ class DescribeTransformJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrialResponse {
   /// Who created the trial.
   final UserContext? createdBy;
@@ -36513,6 +36687,7 @@ class DescribeTrialResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrialComponentResponse {
   /// Who created the trial component.
   final UserContext? createdBy;
@@ -36696,6 +36871,7 @@ class DescribeTrialComponentResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserProfileResponse {
   /// The creation time.
   final DateTime? creationTime;
@@ -36795,6 +36971,7 @@ class DescribeUserProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkforceResponse {
   /// A single private workforce, which is automatically created when you create
   /// your first private work team. You can create one private work force in each
@@ -36825,6 +37002,7 @@ class DescribeWorkforceResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkteamResponse {
   /// A <code>Workteam</code> instance that contains information about the work
   /// team.
@@ -36849,6 +37027,7 @@ class DescribeWorkteamResponse {
   }
 }
 
+/// @nodoc
 class DetachClusterNodeVolumeResponse {
   /// The original timestamp when your volume was initially attached to the node.
   final DateTime attachTime;
@@ -36909,6 +37088,7 @@ class DetachClusterNodeVolumeResponse {
   }
 }
 
+/// @nodoc
 class DisableSagemakerServicecatalogPortfolioOutput {
   DisableSagemakerServicecatalogPortfolioOutput();
 
@@ -36922,6 +37102,7 @@ class DisableSagemakerServicecatalogPortfolioOutput {
   }
 }
 
+/// @nodoc
 class DisassociateTrialComponentResponse {
   /// The Amazon Resource Name (ARN) of the trial.
   final String? trialArn;
@@ -36952,6 +37133,7 @@ class DisassociateTrialComponentResponse {
   }
 }
 
+/// @nodoc
 class EnableSagemakerServicecatalogPortfolioOutput {
   EnableSagemakerServicecatalogPortfolioOutput();
 
@@ -36965,6 +37147,7 @@ class EnableSagemakerServicecatalogPortfolioOutput {
   }
 }
 
+/// @nodoc
 class ExtendTrainingPlanResponse {
   /// The list of extensions for the training plan, including the newly created
   /// extension.
@@ -36992,6 +37175,7 @@ class ExtendTrainingPlanResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceFleetReportResponse {
   /// The Amazon Resource Name (ARN) of the device.
   final String deviceFleetArn;
@@ -37075,6 +37259,7 @@ class GetDeviceFleetReportResponse {
   }
 }
 
+/// @nodoc
 class GetLineageGroupPolicyResponse {
   /// The Amazon Resource Name (ARN) of the lineage group.
   final String? lineageGroupArn;
@@ -37105,6 +37290,7 @@ class GetLineageGroupPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetModelPackageGroupPolicyOutput {
   /// The resource policy for the model group.
   final String resourcePolicy;
@@ -37127,6 +37313,7 @@ class GetModelPackageGroupPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetSagemakerServicecatalogPortfolioStatusOutput {
   /// Whether Service Catalog is enabled or disabled in SageMaker.
   final SagemakerServicecatalogStatus? status;
@@ -37151,6 +37338,7 @@ class GetSagemakerServicecatalogPortfolioStatusOutput {
   }
 }
 
+/// @nodoc
 class GetScalingConfigurationRecommendationResponse {
   /// An object with the recommended values for you to specify when creating an
   /// autoscaling policy.
@@ -37235,6 +37423,7 @@ class GetScalingConfigurationRecommendationResponse {
   }
 }
 
+/// @nodoc
 class GetSearchSuggestionsResponse {
   /// A list of property names for a <code>Resource</code> that match a
   /// <code>SuggestionQuery</code>.
@@ -37263,6 +37452,7 @@ class GetSearchSuggestionsResponse {
   }
 }
 
+/// @nodoc
 class ImportHubContentResponse {
   /// The ARN of the hub that the content was imported into.
   final String hubArn;
@@ -37292,6 +37482,7 @@ class ImportHubContentResponse {
   }
 }
 
+/// @nodoc
 class ListActionsResponse {
   /// A list of actions and their properties.
   final List<ActionSummary>? actionSummaries;
@@ -37324,6 +37515,7 @@ class ListActionsResponse {
   }
 }
 
+/// @nodoc
 class ListAIBenchmarkJobsResponse {
   /// An array of <code>AIBenchmarkJobSummary</code> objects, one for each
   /// benchmark job that matches the specified filters.
@@ -37358,6 +37550,7 @@ class ListAIBenchmarkJobsResponse {
   }
 }
 
+/// @nodoc
 class ListAIRecommendationJobsResponse {
   /// An array of <code>AIRecommendationJobSummary</code> objects, one for each
   /// recommendation job that matches the specified filters.
@@ -37394,6 +37587,7 @@ class ListAIRecommendationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListAIWorkloadConfigsResponse {
   /// An array of <code>AIWorkloadConfigSummary</code> objects, one for each AI
   /// workload configuration that matches the specified filters.
@@ -37429,6 +37623,7 @@ class ListAIWorkloadConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListAlgorithmsOutput {
   /// &gt;An array of <code>AlgorithmSummary</code> objects, each of which lists
   /// an algorithm.
@@ -37464,6 +37659,7 @@ class ListAlgorithmsOutput {
   }
 }
 
+/// @nodoc
 class ListAliasesResponse {
   /// A token for getting the next set of aliases, if more aliases exist.
   final String? nextToken;
@@ -37498,6 +37694,7 @@ class ListAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListAppImageConfigsResponse {
   /// A list of AppImageConfigs and their properties.
   final List<AppImageConfigDetails>? appImageConfigs;
@@ -37530,6 +37727,7 @@ class ListAppImageConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListAppsResponse {
   /// The list of apps.
   final List<AppDetails>? apps;
@@ -37563,6 +37761,7 @@ class ListAppsResponse {
   }
 }
 
+/// @nodoc
 class ListArtifactsResponse {
   /// A list of artifacts and their properties.
   final List<ArtifactSummary>? artifactSummaries;
@@ -37595,6 +37794,7 @@ class ListArtifactsResponse {
   }
 }
 
+/// @nodoc
 class ListAssociationsResponse {
   /// A list of associations and their properties.
   final List<AssociationSummary>? associationSummaries;
@@ -37628,6 +37828,7 @@ class ListAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListAutoMLJobsResponse {
   /// Returns a summary list of jobs.
   final List<AutoMLJobSummary> autoMLJobSummaries;
@@ -37661,6 +37862,7 @@ class ListAutoMLJobsResponse {
   }
 }
 
+/// @nodoc
 class ListCandidatesForAutoMLJobResponse {
   /// Summaries about the <code>AutoMLCandidates</code>.
   final List<AutoMLCandidate> candidates;
@@ -37695,6 +37897,7 @@ class ListCandidatesForAutoMLJobResponse {
   }
 }
 
+/// @nodoc
 class ListClusterEventsResponse {
   /// A list of event summaries matching the specified criteria.
   final List<ClusterEventSummary>? events;
@@ -37728,6 +37931,7 @@ class ListClusterEventsResponse {
   }
 }
 
+/// @nodoc
 class ListClusterNodesResponse {
   /// The summaries of listed instances in a SageMaker HyperPod cluster
   final List<ClusterNodeSummary> clusterNodeSummaries;
@@ -37762,6 +37966,7 @@ class ListClusterNodesResponse {
   }
 }
 
+/// @nodoc
 class ListClustersResponse {
   /// The summaries of listed SageMaker HyperPod clusters.
   final List<ClusterSummary> clusterSummaries;
@@ -37796,6 +38001,7 @@ class ListClustersResponse {
   }
 }
 
+/// @nodoc
 class ListClusterSchedulerConfigsResponse {
   /// Summaries of the cluster policies.
   final List<ClusterSchedulerConfigSummary>? clusterSchedulerConfigSummaries;
@@ -37834,6 +38040,7 @@ class ListClusterSchedulerConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListCodeRepositoriesOutput {
   /// Gets a list of summaries of the Git repositories. Each summary specifies the
   /// following values for the repository:
@@ -37891,6 +38098,7 @@ class ListCodeRepositoriesOutput {
   }
 }
 
+/// @nodoc
 class ListCompilationJobsResponse {
   /// An array of <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CompilationJobSummary.html">CompilationJobSummary</a>
@@ -37928,6 +38136,7 @@ class ListCompilationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListComputeQuotasResponse {
   /// Summaries of the compute allocation definitions.
   final List<ComputeQuotaSummary>? computeQuotaSummaries;
@@ -37962,6 +38171,7 @@ class ListComputeQuotasResponse {
   }
 }
 
+/// @nodoc
 class ListContextsResponse {
   /// A list of contexts and their properties.
   final List<ContextSummary>? contextSummaries;
@@ -37994,6 +38204,7 @@ class ListContextsResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityJobDefinitionsResponse {
   /// A list of data quality monitoring job definitions.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
@@ -38032,6 +38243,7 @@ class ListDataQualityJobDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListDeviceFleetsResponse {
   /// Summary of the device fleet.
   final List<DeviceFleetSummary> deviceFleetSummaries;
@@ -38066,6 +38278,7 @@ class ListDeviceFleetsResponse {
   }
 }
 
+/// @nodoc
 class ListDevicesResponse {
   /// Summary of devices.
   final List<DeviceSummary> deviceSummaries;
@@ -38099,6 +38312,7 @@ class ListDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListDomainsResponse {
   /// The list of domains.
   final List<DomainDetails>? domains;
@@ -38132,6 +38346,7 @@ class ListDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListEdgeDeploymentPlansResponse {
   /// List of summaries of edge deployment plans.
   final List<EdgeDeploymentPlanSummary> edgeDeploymentPlanSummaries;
@@ -38166,6 +38381,7 @@ class ListEdgeDeploymentPlansResponse {
   }
 }
 
+/// @nodoc
 class ListEdgePackagingJobsResponse {
   /// Summaries of edge packaging jobs.
   final List<EdgePackagingJobSummary> edgePackagingJobSummaries;
@@ -38200,6 +38416,7 @@ class ListEdgePackagingJobsResponse {
   }
 }
 
+/// @nodoc
 class ListEndpointConfigsOutput {
   /// An array of endpoint configurations.
   final List<EndpointConfigSummary> endpointConfigs;
@@ -38233,6 +38450,7 @@ class ListEndpointConfigsOutput {
   }
 }
 
+/// @nodoc
 class ListEndpointsOutput {
   /// An array or endpoint objects.
   final List<EndpointSummary> endpoints;
@@ -38266,6 +38484,7 @@ class ListEndpointsOutput {
   }
 }
 
+/// @nodoc
 class ListExperimentsResponse {
   /// A list of the summaries of your experiments.
   final List<ExperimentSummary>? experimentSummaries;
@@ -38299,6 +38518,7 @@ class ListExperimentsResponse {
   }
 }
 
+/// @nodoc
 class ListFeatureGroupsResponse {
   /// A summary of feature groups.
   final List<FeatureGroupSummary> featureGroupSummaries;
@@ -38332,6 +38552,7 @@ class ListFeatureGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListFlowDefinitionsResponse {
   /// An array of objects describing the flow definitions.
   final List<FlowDefinitionSummary> flowDefinitionSummaries;
@@ -38365,6 +38586,7 @@ class ListFlowDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListHubContentsResponse {
   /// The summaries of the listed hub content.
   final List<HubContentInfo> hubContentSummaries;
@@ -38398,6 +38620,7 @@ class ListHubContentsResponse {
   }
 }
 
+/// @nodoc
 class ListHubContentVersionsResponse {
   /// The summaries of the listed hub content versions.
   final List<HubContentInfo> hubContentSummaries;
@@ -38431,6 +38654,7 @@ class ListHubContentVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListHubsResponse {
   /// The summaries of the listed hubs.
   final List<HubInfo> hubSummaries;
@@ -38464,6 +38688,7 @@ class ListHubsResponse {
   }
 }
 
+/// @nodoc
 class ListHumanTaskUisResponse {
   /// An array of objects describing the human task user interfaces.
   final List<HumanTaskUiSummary> humanTaskUiSummaries;
@@ -38497,6 +38722,7 @@ class ListHumanTaskUisResponse {
   }
 }
 
+/// @nodoc
 class ListHyperParameterTuningJobsResponse {
   /// A list of <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobSummary.html">HyperParameterTuningJobSummary</a>
@@ -38538,6 +38764,7 @@ class ListHyperParameterTuningJobsResponse {
   }
 }
 
+/// @nodoc
 class ListImagesResponse {
   /// A list of images and their properties.
   final List<Image>? images;
@@ -38570,6 +38797,7 @@ class ListImagesResponse {
   }
 }
 
+/// @nodoc
 class ListImageVersionsResponse {
   /// A list of versions and their properties.
   final List<ImageVersion>? imageVersions;
@@ -38602,6 +38830,7 @@ class ListImageVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceComponentsOutput {
   /// A list of inference components and their properties that matches any of the
   /// filters you specified in the request.
@@ -38637,6 +38866,7 @@ class ListInferenceComponentsOutput {
   }
 }
 
+/// @nodoc
 class ListInferenceExperimentsResponse {
   /// List of inference experiments.
   final List<InferenceExperimentSummary>? inferenceExperiments;
@@ -38671,6 +38901,7 @@ class ListInferenceExperimentsResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceRecommendationsJobsResponse {
   /// The recommendations created from the Amazon SageMaker Inference Recommender
   /// job.
@@ -38708,6 +38939,7 @@ class ListInferenceRecommendationsJobsResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceRecommendationsJobStepsResponse {
   /// A token that you can specify in your next request to return more results
   /// from the list.
@@ -38743,6 +38975,7 @@ class ListInferenceRecommendationsJobStepsResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// An array of <code>JobSummary</code> objects that provide summary information
   /// about the jobs.
@@ -38776,6 +39009,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListJobSchemaVersionsResponse {
   /// An array of <code>JobConfigSchemaVersionSummary</code> objects listing the
   /// available schema versions.
@@ -38810,6 +39044,7 @@ class ListJobSchemaVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListLabelingJobsResponse {
   /// An array of <code>LabelingJobSummary</code> objects, each describing a
   /// labeling job.
@@ -38845,6 +39080,7 @@ class ListLabelingJobsResponse {
   }
 }
 
+/// @nodoc
 class ListLabelingJobsForWorkteamResponse {
   /// An array of <code>LabelingJobSummary</code> objects, each describing a
   /// labeling job.
@@ -38882,6 +39118,7 @@ class ListLabelingJobsForWorkteamResponse {
   }
 }
 
+/// @nodoc
 class ListLineageGroupsResponse {
   /// A list of lineage groups and their properties.
   final List<LineageGroupSummary>? lineageGroupSummaries;
@@ -38916,6 +39153,7 @@ class ListLineageGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListMlflowAppsResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -38949,6 +39187,7 @@ class ListMlflowAppsResponse {
   }
 }
 
+/// @nodoc
 class ListMlflowTrackingServersResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -38984,6 +39223,7 @@ class ListMlflowTrackingServersResponse {
   }
 }
 
+/// @nodoc
 class ListModelBiasJobDefinitionsResponse {
   /// A JSON array in which each element is a summary for a model bias jobs.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
@@ -39020,6 +39260,7 @@ class ListModelBiasJobDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListModelCardExportJobsResponse {
   /// The summaries of the listed model card export jobs.
   final List<ModelCardExportJobSummary> modelCardExportJobSummaries;
@@ -39055,6 +39296,7 @@ class ListModelCardExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListModelCardsResponse {
   /// The summaries of the listed model cards.
   final List<ModelCardSummary> modelCardSummaries;
@@ -39088,6 +39330,7 @@ class ListModelCardsResponse {
   }
 }
 
+/// @nodoc
 class ListModelCardVersionsResponse {
   /// The summaries of the listed versions of the model card.
   final List<ModelCardVersionSummary> modelCardVersionSummaryList;
@@ -39123,6 +39366,7 @@ class ListModelCardVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListModelExplainabilityJobDefinitionsResponse {
   /// A JSON array in which each element is a summary for a explainability bias
   /// jobs.
@@ -39160,6 +39404,7 @@ class ListModelExplainabilityJobDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListModelMetadataResponse {
   /// A structure that holds model metadata.
   final List<ModelMetadataSummary> modelMetadataSummaries;
@@ -39193,6 +39438,7 @@ class ListModelMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListModelPackageGroupsOutput {
   /// A list of summaries of the model groups in your Amazon Web Services account.
   final List<ModelPackageGroupSummary> modelPackageGroupSummaryList;
@@ -39228,6 +39474,7 @@ class ListModelPackageGroupsOutput {
   }
 }
 
+/// @nodoc
 class ListModelPackagesOutput {
   /// An array of <code>ModelPackageSummary</code> objects, each of which lists a
   /// model package.
@@ -39263,6 +39510,7 @@ class ListModelPackagesOutput {
   }
 }
 
+/// @nodoc
 class ListModelQualityJobDefinitionsResponse {
   /// A list of summaries of model quality monitoring job definitions.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
@@ -39300,6 +39548,7 @@ class ListModelQualityJobDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListModelsOutput {
   /// An array of <code>ModelSummary</code> objects, each of which lists a model.
   final List<ModelSummary> models;
@@ -39333,6 +39582,7 @@ class ListModelsOutput {
   }
 }
 
+/// @nodoc
 class ListMonitoringAlertHistoryResponse {
   /// An alert history for a model monitoring schedule.
   final List<MonitoringAlertHistorySummary>? monitoringAlertHistory;
@@ -39369,6 +39619,7 @@ class ListMonitoringAlertHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListMonitoringAlertsResponse {
   /// A JSON array where each element is a summary for a monitoring alert.
   final List<MonitoringAlertSummary>? monitoringAlertSummaries;
@@ -39404,6 +39655,7 @@ class ListMonitoringAlertsResponse {
   }
 }
 
+/// @nodoc
 class ListMonitoringExecutionsResponse {
   /// A JSON array in which each element is a summary for a monitoring execution.
   final List<MonitoringExecutionSummary> monitoringExecutionSummaries;
@@ -39440,6 +39692,7 @@ class ListMonitoringExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListMonitoringSchedulesResponse {
   /// A JSON array in which each element is a summary for a monitoring schedule.
   final List<MonitoringScheduleSummary> monitoringScheduleSummaries;
@@ -39475,6 +39728,7 @@ class ListMonitoringSchedulesResponse {
   }
 }
 
+/// @nodoc
 class ListNotebookInstanceLifecycleConfigsOutput {
   /// If the response is truncated, SageMaker AI returns this token. To get the
   /// next set of lifecycle configurations, use it in the next request.
@@ -39515,6 +39769,7 @@ class ListNotebookInstanceLifecycleConfigsOutput {
   }
 }
 
+/// @nodoc
 class ListNotebookInstancesOutput {
   /// If the response to the previous <code>ListNotebookInstances</code> request
   /// was truncated, SageMaker AI returns this token. To retrieve the next set of
@@ -39551,6 +39806,7 @@ class ListNotebookInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListOptimizationJobsResponse {
   /// A list of optimization jobs and their properties that matches any of the
   /// filters you specified in the request.
@@ -39587,6 +39843,7 @@ class ListOptimizationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListPartnerAppsResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -39621,6 +39878,7 @@ class ListPartnerAppsResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineExecutionsResponse {
   /// If the result of the previous <code>ListPipelineExecutions</code> request
   /// was truncated, the response includes a <code>NextToken</code>. To retrieve
@@ -39660,6 +39918,7 @@ class ListPipelineExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineExecutionStepsResponse {
   /// If the result of the previous <code>ListPipelineExecutionSteps</code>
   /// request was truncated, the response includes a <code>NextToken</code>. To
@@ -39700,6 +39959,7 @@ class ListPipelineExecutionStepsResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineParametersForExecutionResponse {
   /// If the result of the previous
   /// <code>ListPipelineParametersForExecution</code> request was truncated, the
@@ -39736,6 +39996,7 @@ class ListPipelineParametersForExecutionResponse {
   }
 }
 
+/// @nodoc
 class ListPipelinesResponse {
   /// If the result of the previous <code>ListPipelines</code> request was
   /// truncated, the response includes a <code>NextToken</code>. To retrieve the
@@ -39774,6 +40035,7 @@ class ListPipelinesResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineVersionsResponse {
   /// If the result of the previous <code>ListPipelineVersions</code> request was
   /// truncated, the response includes a <code>NextToken</code>. To retrieve the
@@ -39813,6 +40075,7 @@ class ListPipelineVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListProcessingJobsResponse {
   /// An array of <code>ProcessingJobSummary</code> objects, each listing a
   /// processing job.
@@ -39848,6 +40111,7 @@ class ListProcessingJobsResponse {
   }
 }
 
+/// @nodoc
 class ListProjectsOutput {
   /// A list of summaries of projects.
   final List<ProjectSummary> projectSummaryList;
@@ -39882,6 +40146,7 @@ class ListProjectsOutput {
   }
 }
 
+/// @nodoc
 class ListResourceCatalogsResponse {
   /// A token to resume pagination of <code>ListResourceCatalogs</code> results.
   final String? nextToken;
@@ -39914,6 +40179,7 @@ class ListResourceCatalogsResponse {
   }
 }
 
+/// @nodoc
 class ListSpacesResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -39947,6 +40213,7 @@ class ListSpacesResponse {
   }
 }
 
+/// @nodoc
 class ListStageDevicesResponse {
   /// List of summaries of devices allocated to the stage.
   final List<DeviceDeploymentSummary> deviceDeploymentSummaries;
@@ -39981,6 +40248,7 @@ class ListStageDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListStudioLifecycleConfigsResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -40017,6 +40285,7 @@ class ListStudioLifecycleConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListSubscribedWorkteamsResponse {
   /// An array of <code>Workteam</code> objects, each describing a work team.
   final List<SubscribedWorkteam> subscribedWorkteams;
@@ -40050,6 +40319,7 @@ class ListSubscribedWorkteamsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsOutput {
   /// If response is truncated, SageMaker includes a token in the response. You
   /// can use this token in your subsequent request to fetch next set of tokens.
@@ -40083,6 +40353,7 @@ class ListTagsOutput {
   }
 }
 
+/// @nodoc
 class ListTrainingJobsResponse {
   /// An array of <code>TrainingJobSummary</code> objects, each listing a training
   /// job.
@@ -40118,6 +40389,7 @@ class ListTrainingJobsResponse {
   }
 }
 
+/// @nodoc
 class ListTrainingJobsForHyperParameterTuningJobResponse {
   /// A list of <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingJobSummary.html">TrainingJobSummary</a>
@@ -40159,6 +40431,7 @@ class ListTrainingJobsForHyperParameterTuningJobResponse {
   }
 }
 
+/// @nodoc
 class ListTrainingPlansResponse {
   /// A list of summary information for the training plans.
   final List<TrainingPlanSummary> trainingPlanSummaries;
@@ -40192,6 +40465,7 @@ class ListTrainingPlansResponse {
   }
 }
 
+/// @nodoc
 class ListTransformJobsResponse {
   /// An array of <code>TransformJobSummary</code> objects.
   final List<TransformJobSummary> transformJobSummaries;
@@ -40226,6 +40500,7 @@ class ListTransformJobsResponse {
   }
 }
 
+/// @nodoc
 class ListTrialComponentsResponse {
   /// A token for getting the next set of components, if there are any.
   final String? nextToken;
@@ -40259,6 +40534,7 @@ class ListTrialComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListTrialsResponse {
   /// A token for getting the next set of trials, if there are any.
   final String? nextToken;
@@ -40291,6 +40567,7 @@ class ListTrialsResponse {
   }
 }
 
+/// @nodoc
 class ListUltraServersByReservedCapacityResponse {
   /// A list of UltraServers that are part of the specified reserved capacity.
   final List<UltraServer> ultraServers;
@@ -40325,6 +40602,7 @@ class ListUltraServersByReservedCapacityResponse {
   }
 }
 
+/// @nodoc
 class ListUserProfilesResponse {
   /// If the previous response was truncated, you will receive this token. Use it
   /// in your next request to receive the next set of results.
@@ -40358,6 +40636,7 @@ class ListUserProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListWorkforcesResponse {
   /// A list containing information about your workforce.
   final List<Workforce> workforces;
@@ -40390,6 +40669,7 @@ class ListWorkforcesResponse {
   }
 }
 
+/// @nodoc
 class ListWorkteamsResponse {
   /// An array of <code>Workteam</code> objects, each describing a work team.
   final List<Workteam> workteams;
@@ -40423,6 +40703,7 @@ class ListWorkteamsResponse {
   }
 }
 
+/// @nodoc
 class PutModelPackageGroupPolicyOutput {
   /// The Amazon Resource Name (ARN) of the model package group.
   final String modelPackageGroupArn;
@@ -40445,6 +40726,7 @@ class PutModelPackageGroupPolicyOutput {
   }
 }
 
+/// @nodoc
 class QueryLineageResponse {
   /// A list of edges that connect vertices in the response.
   final List<Edge>? edges;
@@ -40489,6 +40771,7 @@ class QueryLineageResponse {
   }
 }
 
+/// @nodoc
 class RenderUiTemplateResponse {
   /// A list of one or more <code>RenderingError</code> objects if any were
   /// encountered while rendering the template. If there were no errors, the list
@@ -40523,6 +40806,7 @@ class RenderUiTemplateResponse {
   }
 }
 
+/// @nodoc
 class RetryPipelineExecutionResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -40546,6 +40830,7 @@ class RetryPipelineExecutionResponse {
   }
 }
 
+/// @nodoc
 class SearchResponse {
   /// If the result of the previous <code>Search</code> request was truncated, the
   /// response includes a NextToken. To retrieve the next set of results, use the
@@ -40589,6 +40874,7 @@ class SearchResponse {
   }
 }
 
+/// @nodoc
 class SearchTrainingPlanOfferingsResponse {
   /// A list of training plan offerings that match the search criteria.
   final List<TrainingPlanOffering> trainingPlanOfferings;
@@ -40632,6 +40918,7 @@ class SearchTrainingPlanOfferingsResponse {
   }
 }
 
+/// @nodoc
 class SendPipelineExecutionStepFailureResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -40656,6 +40943,7 @@ class SendPipelineExecutionStepFailureResponse {
   }
 }
 
+/// @nodoc
 class SendPipelineExecutionStepSuccessResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -40680,6 +40968,7 @@ class SendPipelineExecutionStepSuccessResponse {
   }
 }
 
+/// @nodoc
 class StartClusterHealthCheckResponse {
   /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which
   /// the deep health checks were initiated.
@@ -40703,6 +40992,7 @@ class StartClusterHealthCheckResponse {
   }
 }
 
+/// @nodoc
 class StartInferenceExperimentResponse {
   /// The ARN of the started inference experiment to start.
   final String inferenceExperimentArn;
@@ -40725,6 +41015,7 @@ class StartInferenceExperimentResponse {
   }
 }
 
+/// @nodoc
 class StartMlflowTrackingServerResponse {
   /// The ARN of the started tracking server.
   final String? trackingServerArn;
@@ -40748,6 +41039,7 @@ class StartMlflowTrackingServerResponse {
   }
 }
 
+/// @nodoc
 class StartPipelineExecutionResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -40771,6 +41063,7 @@ class StartPipelineExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartSessionResponse {
   /// A unique identifier for the established remote connection session.
   final String? sessionId;
@@ -40808,6 +41101,7 @@ class StartSessionResponse {
   }
 }
 
+/// @nodoc
 class StopAIBenchmarkJobResponse {
   /// The Amazon Resource Name (ARN) of the stopped benchmark job.
   final String aIBenchmarkJobArn;
@@ -40830,6 +41124,7 @@ class StopAIBenchmarkJobResponse {
   }
 }
 
+/// @nodoc
 class StopAIRecommendationJobResponse {
   /// The Amazon Resource Name (ARN) of the stopped recommendation job.
   final String aIRecommendationJobArn;
@@ -40852,6 +41147,7 @@ class StopAIRecommendationJobResponse {
   }
 }
 
+/// @nodoc
 class StopInferenceExperimentResponse {
   /// The ARN of the stopped inference experiment.
   final String inferenceExperimentArn;
@@ -40874,6 +41170,7 @@ class StopInferenceExperimentResponse {
   }
 }
 
+/// @nodoc
 class StopJobResponse {
   StopJobResponse();
 
@@ -40886,6 +41183,7 @@ class StopJobResponse {
   }
 }
 
+/// @nodoc
 class StopMlflowTrackingServerResponse {
   /// The ARN of the stopped tracking server.
   final String? trackingServerArn;
@@ -40908,6 +41206,7 @@ class StopMlflowTrackingServerResponse {
   }
 }
 
+/// @nodoc
 class StopPipelineExecutionResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -40931,6 +41230,7 @@ class StopPipelineExecutionResponse {
   }
 }
 
+/// @nodoc
 class UpdateActionResponse {
   /// The Amazon Resource Name (ARN) of the action.
   final String? actionArn;
@@ -40953,6 +41253,7 @@ class UpdateActionResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppImageConfigResponse {
   /// The ARN for the AppImageConfig.
   final String? appImageConfigArn;
@@ -40975,6 +41276,7 @@ class UpdateAppImageConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateArtifactResponse {
   /// The Amazon Resource Name (ARN) of the artifact.
   final String? artifactArn;
@@ -40997,6 +41299,7 @@ class UpdateArtifactResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterResponse {
   /// The Amazon Resource Name (ARN) of the updated SageMaker HyperPod cluster.
   final String clusterArn;
@@ -41019,6 +41322,7 @@ class UpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterSchedulerConfigResponse {
   /// ARN of the cluster policy.
   final String clusterSchedulerConfigArn;
@@ -41051,6 +41355,7 @@ class UpdateClusterSchedulerConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterSoftwareResponse {
   /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster being
   /// updated for security patching.
@@ -41074,6 +41379,7 @@ class UpdateClusterSoftwareResponse {
   }
 }
 
+/// @nodoc
 class UpdateCodeRepositoryOutput {
   /// The ARN of the Git repository.
   final String codeRepositoryArn;
@@ -41096,6 +41402,7 @@ class UpdateCodeRepositoryOutput {
   }
 }
 
+/// @nodoc
 class UpdateComputeQuotaResponse {
   /// ARN of the compute allocation definition.
   final String computeQuotaArn;
@@ -41125,6 +41432,7 @@ class UpdateComputeQuotaResponse {
   }
 }
 
+/// @nodoc
 class UpdateContextResponse {
   /// The Amazon Resource Name (ARN) of the context.
   final String? contextArn;
@@ -41147,6 +41455,7 @@ class UpdateContextResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainResponse {
   /// The Amazon Resource Name (ARN) of the domain.
   final String? domainArn;
@@ -41169,6 +41478,7 @@ class UpdateDomainResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointOutput {
   /// The Amazon Resource Name (ARN) of the endpoint.
   final String endpointArn;
@@ -41191,6 +41501,7 @@ class UpdateEndpointOutput {
   }
 }
 
+/// @nodoc
 class UpdateEndpointWeightsAndCapacitiesOutput {
   /// The Amazon Resource Name (ARN) of the updated endpoint.
   final String endpointArn;
@@ -41214,6 +41525,7 @@ class UpdateEndpointWeightsAndCapacitiesOutput {
   }
 }
 
+/// @nodoc
 class UpdateExperimentResponse {
   /// The Amazon Resource Name (ARN) of the experiment.
   final String? experimentArn;
@@ -41236,6 +41548,7 @@ class UpdateExperimentResponse {
   }
 }
 
+/// @nodoc
 class UpdateFeatureGroupResponse {
   /// The Amazon Resource Number (ARN) of the feature group that you're updating.
   final String featureGroupArn;
@@ -41258,6 +41571,7 @@ class UpdateFeatureGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateHubResponse {
   /// The Amazon Resource Name (ARN) of the updated hub.
   final String hubArn;
@@ -41280,6 +41594,7 @@ class UpdateHubResponse {
   }
 }
 
+/// @nodoc
 class UpdateHubContentResponse {
   /// The ARN of the private model hub that contains the updated hub content.
   final String hubArn;
@@ -41309,6 +41624,7 @@ class UpdateHubContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateHubContentReferenceResponse {
   /// The ARN of the private model hub that contains the updated hub content.
   final String hubArn;
@@ -41339,6 +41655,7 @@ class UpdateHubContentReferenceResponse {
   }
 }
 
+/// @nodoc
 class UpdateImageResponse {
   /// The ARN of the image.
   final String? imageArn;
@@ -41361,6 +41678,7 @@ class UpdateImageResponse {
   }
 }
 
+/// @nodoc
 class UpdateImageVersionResponse {
   /// The ARN of the image version.
   final String? imageVersionArn;
@@ -41383,6 +41701,7 @@ class UpdateImageVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateInferenceComponentOutput {
   /// The Amazon Resource Name (ARN) of the inference component.
   final String inferenceComponentArn;
@@ -41405,6 +41724,7 @@ class UpdateInferenceComponentOutput {
   }
 }
 
+/// @nodoc
 class UpdateInferenceComponentRuntimeConfigOutput {
   /// The Amazon Resource Name (ARN) of the inference component.
   final String inferenceComponentArn;
@@ -41428,6 +41748,7 @@ class UpdateInferenceComponentRuntimeConfigOutput {
   }
 }
 
+/// @nodoc
 class UpdateInferenceExperimentResponse {
   /// The ARN of the updated inference experiment.
   final String inferenceExperimentArn;
@@ -41451,6 +41772,7 @@ class UpdateInferenceExperimentResponse {
   }
 }
 
+/// @nodoc
 class UpdateMlflowAppResponse {
   /// The ARN of the updated MLflow App.
   final String? arn;
@@ -41473,6 +41795,7 @@ class UpdateMlflowAppResponse {
   }
 }
 
+/// @nodoc
 class UpdateMlflowTrackingServerResponse {
   /// The ARN of the updated MLflow Tracking Server.
   final String? trackingServerArn;
@@ -41496,6 +41819,7 @@ class UpdateMlflowTrackingServerResponse {
   }
 }
 
+/// @nodoc
 class UpdateModelCardResponse {
   /// The Amazon Resource Name (ARN) of the updated model card.
   final String modelCardArn;
@@ -41518,6 +41842,7 @@ class UpdateModelCardResponse {
   }
 }
 
+/// @nodoc
 class UpdateModelPackageOutput {
   /// The Amazon Resource Name (ARN) of the model.
   final String modelPackageArn;
@@ -41540,6 +41865,7 @@ class UpdateModelPackageOutput {
   }
 }
 
+/// @nodoc
 class UpdateMonitoringAlertResponse {
   /// The Amazon Resource Name (ARN) of the monitoring schedule.
   final String monitoringScheduleArn;
@@ -41570,6 +41896,7 @@ class UpdateMonitoringAlertResponse {
   }
 }
 
+/// @nodoc
 class UpdateMonitoringScheduleResponse {
   /// The Amazon Resource Name (ARN) of the monitoring schedule.
   final String monitoringScheduleArn;
@@ -41592,6 +41919,7 @@ class UpdateMonitoringScheduleResponse {
   }
 }
 
+/// @nodoc
 class UpdateNotebookInstanceOutput {
   UpdateNotebookInstanceOutput();
 
@@ -41604,6 +41932,7 @@ class UpdateNotebookInstanceOutput {
   }
 }
 
+/// @nodoc
 class UpdateNotebookInstanceLifecycleConfigOutput {
   UpdateNotebookInstanceLifecycleConfigOutput();
 
@@ -41617,6 +41946,7 @@ class UpdateNotebookInstanceLifecycleConfigOutput {
   }
 }
 
+/// @nodoc
 class UpdatePartnerAppResponse {
   /// The ARN of the SageMaker Partner AI App that was updated.
   final String? arn;
@@ -41639,6 +41969,7 @@ class UpdatePartnerAppResponse {
   }
 }
 
+/// @nodoc
 class UpdatePipelineResponse {
   /// The Amazon Resource Name (ARN) of the updated pipeline.
   final String? pipelineArn;
@@ -41668,6 +41999,7 @@ class UpdatePipelineResponse {
   }
 }
 
+/// @nodoc
 class UpdatePipelineExecutionResponse {
   /// The Amazon Resource Name (ARN) of the updated pipeline execution.
   final String? pipelineExecutionArn;
@@ -41691,6 +42023,7 @@ class UpdatePipelineExecutionResponse {
   }
 }
 
+/// @nodoc
 class UpdatePipelineVersionResponse {
   /// The Amazon Resource Name (ARN) of the pipeline.
   final String? pipelineArn;
@@ -41720,6 +42053,7 @@ class UpdatePipelineVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateProjectOutput {
   /// The Amazon Resource Name (ARN) of the project.
   final String projectArn;
@@ -41742,6 +42076,7 @@ class UpdateProjectOutput {
   }
 }
 
+/// @nodoc
 class UpdateSpaceResponse {
   /// The space's Amazon Resource Name (ARN).
   final String? spaceArn;
@@ -41764,6 +42099,7 @@ class UpdateSpaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrainingJobResponse {
   /// The Amazon Resource Name (ARN) of the training job.
   final String trainingJobArn;
@@ -41786,6 +42122,7 @@ class UpdateTrainingJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrialResponse {
   /// The Amazon Resource Name (ARN) of the trial.
   final String? trialArn;
@@ -41808,6 +42145,7 @@ class UpdateTrialResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrialComponentResponse {
   /// The Amazon Resource Name (ARN) of the trial component.
   final String? trialComponentArn;
@@ -41830,6 +42168,7 @@ class UpdateTrialComponentResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserProfileResponse {
   /// The user profile Amazon Resource Name (ARN).
   final String? userProfileArn;
@@ -41852,6 +42191,7 @@ class UpdateUserProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkforceResponse {
   /// A single private workforce. You can create one private work force in each
   /// Amazon Web Services Region. By default, any workforce-related API operation
@@ -41881,6 +42221,7 @@ class UpdateWorkforceResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkteamResponse {
   /// A <code>Workteam</code> object that describes the updated work team.
   final Workteam workteam;
@@ -41905,6 +42246,8 @@ class UpdateWorkteamResponse {
 }
 
 /// Provides details about a labeling work team.
+///
+/// @nodoc
 class Workteam {
   /// A description of the work team.
   final String description;
@@ -42023,6 +42366,8 @@ class Workteam {
 
 /// Configures Amazon SNS notifications of available or expiring work items for
 /// work teams.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// The ARN for the Amazon SNS topic to which notifications should be published.
   final String? notificationTopicArn;
@@ -42050,6 +42395,8 @@ class NotificationConfiguration {
 /// based on the IP address using supported IAM global condition keys. The
 /// Amazon S3 resource is accessed in the worker portal using a Amazon S3
 /// presigned URL.
+///
+/// @nodoc
 class WorkerAccessConfiguration {
   /// Defines any Amazon S3 resource constraints.
   final S3Presign? s3Presign;
@@ -42081,6 +42428,8 @@ class WorkerAccessConfiguration {
 /// To learn more about how custom templates are created, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-custom-templates.html">Create
 /// custom worker task templates</a>.
+///
+/// @nodoc
 class S3Presign {
   /// Use this parameter to specify the allowed request source. Possible sources
   /// are either <code>SourceIp</code> or <code>VpcSourceIp</code>.
@@ -42110,6 +42459,8 @@ class S3Presign {
 
 /// Use this parameter to specify a supported global condition key that is added
 /// to the IAM policy.
+///
+/// @nodoc
 class IamPolicyConstraints {
   /// When <code>SourceIp</code> is <code>Enabled</code> the worker's IP address
   /// when a task is rendered in the worker portal is added to the IAM policy as a
@@ -42153,6 +42504,7 @@ class IamPolicyConstraints {
   }
 }
 
+/// @nodoc
 class EnabledOrDisabled {
   static const enabled = EnabledOrDisabled._('Enabled');
   static const disabled = EnabledOrDisabled._('Disabled');
@@ -42179,6 +42531,8 @@ class EnabledOrDisabled {
 
 /// Defines an Amazon Cognito or your own OIDC IdP user group that is part of a
 /// work team.
+///
+/// @nodoc
 class MemberDefinition {
   /// The Amazon Cognito user group that is part of the work team.
   final CognitoMemberDefinition? cognitoMemberDefinition;
@@ -42222,6 +42576,8 @@ class MemberDefinition {
 
 /// Identifies a Amazon Cognito user group. A user group can be used in on or
 /// more work teams.
+///
+/// @nodoc
 class CognitoMemberDefinition {
   /// An identifier for an application client. You must create the app client ID
   /// using Amazon Cognito.
@@ -42265,6 +42621,8 @@ class CognitoMemberDefinition {
 /// a user group to the list of <code>Groups</code>, you can add that user group
 /// to one or more private work teams. If you add a user group to a private work
 /// team, all workers in that user group are added to the work team.
+///
+/// @nodoc
 class OidcMemberDefinition {
   /// A list of comma seperated strings that identifies user groups in your OIDC
   /// IdP. Each user group is made up of a group of private workers.
@@ -42296,6 +42654,8 @@ class OidcMemberDefinition {
 /// region. To learn how to create a private workforce, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private.html">Create
 /// a Private Workforce</a>.
+///
+/// @nodoc
 class Workforce {
   /// The Amazon Resource Name (ARN) of the private workforce.
   final String workforceArn;
@@ -42427,6 +42787,8 @@ class Workforce {
 /// Workers will only be able to log in to their worker portal from an IP
 /// address within this range. By default, a workforce isn't restricted to
 /// specific IP addresses.
+///
+/// @nodoc
 class SourceIpConfig {
   /// A list of one to ten <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Classless
@@ -42464,6 +42826,8 @@ class SourceIpConfig {
 /// Cognito workforce is created using and corresponds to a single <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html">
 /// Amazon Cognito user pool</a>.
+///
+/// @nodoc
 class CognitoConfig {
   /// The client ID for your Amazon Cognito user pool.
   final String clientId;
@@ -42499,6 +42863,8 @@ class CognitoConfig {
 }
 
 /// Your OIDC IdP workforce configuration.
+///
+/// @nodoc
 class OidcConfigForResponse {
   /// A string to string map of identifiers specific to the custom identity
   /// provider (IdP) being used.
@@ -42589,6 +42955,8 @@ class OidcConfigForResponse {
 
 /// A VpcConfig object that specifies the VPC that you want your workforce to
 /// connect to.
+///
+/// @nodoc
 class WorkforceVpcConfigResponse {
   /// The VPC security group IDs, in the form sg-xxxxxxxx. The security groups
   /// must be for the same VPC as specified in the subnet.
@@ -42640,6 +43008,7 @@ class WorkforceVpcConfigResponse {
   }
 }
 
+/// @nodoc
 class WorkforceStatus {
   static const initializing = WorkforceStatus._('Initializing');
   static const updating = WorkforceStatus._('Updating');
@@ -42667,6 +43036,7 @@ class WorkforceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkforceIpAddressType {
   static const ipv4 = WorkforceIpAddressType._('ipv4');
   static const dualstack = WorkforceIpAddressType._('dualstack');
@@ -42693,6 +43063,8 @@ class WorkforceIpAddressType {
 }
 
 /// Use this parameter to configure your OIDC Identity Provider (IdP).
+///
+/// @nodoc
 class OidcConfig {
   /// The OIDC IdP authorization endpoint used to configure your private
   /// workforce.
@@ -42771,6 +43143,8 @@ class OidcConfig {
 }
 
 /// The VPC object you use to create or update a workforce.
+///
+/// @nodoc
 class WorkforceVpcConfigRequest {
   /// The VPC security group IDs, in the form <code>sg-xxxxxxxx</code>. The
   /// security groups must be for the same VPC as specified in the subnet.
@@ -42809,6 +43183,8 @@ class WorkforceVpcConfigRequest {
 /// all other settings in <code>UserSettings</code>, the values specified in
 /// <code>CreateUserProfile</code> take precedence over those specified in
 /// <code>CreateDomain</code>.
+///
+/// @nodoc
 class UserSettings {
   /// Indicates whether auto-mounting of an EFS volume is supported for the user
   /// profile. The <code>DefaultAsDomain</code> value is only supported for user
@@ -43079,6 +43455,8 @@ class UserSettings {
 /// <code>UserSettings</code> when the <code>CreateUserProfile</code> API is
 /// called. When <code>SharingSettings</code> is not specified, notebook sharing
 /// isn't allowed.
+///
+/// @nodoc
 class SharingSettings {
   /// Whether to include the notebook cell output when sharing the notebook. The
   /// default is <code>Disabled</code>.
@@ -43122,6 +43500,8 @@ class SharingSettings {
 }
 
 /// The JupyterServer app settings.
+///
+/// @nodoc
 class JupyterServerAppSettings {
   /// A list of Git repositories that SageMaker AI automatically displays to users
   /// for cloning in the JupyterServer application.
@@ -43180,6 +43560,8 @@ class JupyterServerAppSettings {
 }
 
 /// The KernelGateway app settings.
+///
+/// @nodoc
 class KernelGatewayAppSettings {
   /// A list of custom SageMaker AI images that are configured to run as a
   /// KernelGateway app.
@@ -43255,6 +43637,8 @@ class KernelGatewayAppSettings {
 }
 
 /// The TensorBoard app settings.
+///
+/// @nodoc
 class TensorBoardAppSettings {
   /// The default instance type and the Amazon Resource Name (ARN) of the
   /// SageMaker AI image created on the instance.
@@ -43284,6 +43668,8 @@ class TensorBoardAppSettings {
 
 /// A collection of settings that configure user interaction with the
 /// <code>RStudioServerPro</code> app.
+///
+/// @nodoc
 class RStudioServerProAppSettings {
   /// Indicates whether the current user has access to the
   /// <code>RStudioServerPro</code> app.
@@ -43320,6 +43706,8 @@ class RStudioServerProAppSettings {
 }
 
 /// A collection of settings that apply to an <code>RSessionGateway</code> app.
+///
+/// @nodoc
 class RSessionAppSettings {
   /// A list of custom SageMaker AI images that are configured to run as a
   /// RSession app.
@@ -43356,6 +43744,8 @@ class RSessionAppSettings {
 }
 
 /// The SageMaker Canvas application settings.
+///
+/// @nodoc
 class CanvasAppSettings {
   /// The model deployment settings for the SageMaker Canvas application.
   final DirectDeploySettings? directDeploySettings;
@@ -43466,6 +43856,8 @@ class CanvasAppSettings {
 /// For more information about Code Editor, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/code-editor.html">Get
 /// started with Code Editor in Amazon SageMaker</a>.
+///
+/// @nodoc
 class CodeEditorAppSettings {
   /// Settings that are used to configure and manage the lifecycle of CodeEditor
   /// applications.
@@ -43536,6 +43928,8 @@ class CodeEditorAppSettings {
 }
 
 /// The settings for the JupyterLab application.
+///
+/// @nodoc
 class JupyterLabAppSettings {
   /// Indicates whether idle shutdown is activated for JupyterLab applications.
   final AppLifecycleManagement? appLifecycleManagement;
@@ -43630,6 +44024,8 @@ class JupyterLabAppSettings {
 }
 
 /// The default storage settings for a space.
+///
+/// @nodoc
 class DefaultSpaceStorageSettings {
   /// The default EBS storage settings for a space.
   final DefaultEbsStorageSettings? defaultEbsStorageSettings;
@@ -43656,6 +44052,7 @@ class DefaultSpaceStorageSettings {
   }
 }
 
+/// @nodoc
 class StudioWebPortal {
   static const enabled = StudioWebPortal._('ENABLED');
   static const disabled = StudioWebPortal._('DISABLED');
@@ -43681,6 +44078,8 @@ class StudioWebPortal {
 }
 
 /// Details about the POSIX identity that is used for file system operations.
+///
+/// @nodoc
 class CustomPosixUserConfig {
   /// The POSIX group ID.
   final int gid;
@@ -43712,6 +44111,8 @@ class CustomPosixUserConfig {
 
 /// Studio settings. If these settings are applied on a user level, they take
 /// priority over the settings applied on a domain level.
+///
+/// @nodoc
 class StudioWebPortalSettings {
   /// The execution role session name mode. If this value is set to
   /// <code>USER_IDENTITY</code>, the session name of the execution role
@@ -43794,6 +44195,7 @@ class StudioWebPortalSettings {
   }
 }
 
+/// @nodoc
 class AutoMountHomeEFS {
   static const enabled = AutoMountHomeEFS._('Enabled');
   static const disabled = AutoMountHomeEFS._('Disabled');
@@ -43819,6 +44221,7 @@ class AutoMountHomeEFS {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionRoleSessionNameMode {
   static const static = ExecutionRoleSessionNameMode._('STATIC');
   static const userIdentity = ExecutionRoleSessionNameMode._('USER_IDENTITY');
@@ -43846,6 +44249,8 @@ class ExecutionRoleSessionNameMode {
 
 /// The SageMaker images that are hidden from the Studio user interface. You
 /// must specify the SageMaker image name and version aliases.
+///
+/// @nodoc
 class HiddenSageMakerImage {
   /// The SageMaker image name that you are hiding from the Studio user interface.
   final SageMakerImageName? sageMakerImageName;
@@ -43880,6 +44285,7 @@ class HiddenSageMakerImage {
   }
 }
 
+/// @nodoc
 class SageMakerImageName {
   static const sagemakerDistribution =
       SageMakerImageName._('sagemaker_distribution');
@@ -43905,6 +44311,7 @@ class SageMakerImageName {
   String toString() => value;
 }
 
+/// @nodoc
 class AppInstanceType {
   static const system = AppInstanceType._('system');
   static const mlT3Micro = AppInstanceType._('ml.t3.micro');
@@ -44257,6 +44664,7 @@ class AppInstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AppType {
   static const jupyterServer = AppType._('JupyterServer');
   static const kernelGateway = AppType._('KernelGateway');
@@ -44297,6 +44705,7 @@ class AppType {
   String toString() => value;
 }
 
+/// @nodoc
 class MlTools {
   static const dataWrangler = MlTools._('DataWrangler');
   static const featureStore = MlTools._('FeatureStore');
@@ -44368,6 +44777,8 @@ class MlTools {
 /// The settings for assigning a custom file system to a user profile or space
 /// for an Amazon SageMaker AI Domain. Permitted users can access this file
 /// system in Amazon SageMaker AI Studio.
+///
+/// @nodoc
 class CustomFileSystemConfig {
   /// The settings for a custom Amazon EFS file system.
   final EFSFileSystemConfig? eFSFileSystemConfig;
@@ -44417,6 +44828,8 @@ class CustomFileSystemConfig {
 
 /// The settings for assigning a custom Amazon EFS file system to a user profile
 /// or space for an Amazon SageMaker AI Domain.
+///
+/// @nodoc
 class EFSFileSystemConfig {
   /// The ID of your Amazon EFS file system.
   final String fileSystemId;
@@ -44449,6 +44862,8 @@ class EFSFileSystemConfig {
 
 /// The settings for assigning a custom Amazon FSx for Lustre file system to a
 /// user profile or space for an Amazon SageMaker Domain.
+///
+/// @nodoc
 class FSxLustreFileSystemConfig {
   /// The globally unique, 17-digit, ID of the file system, assigned by Amazon FSx
   /// for Lustre.
@@ -44481,6 +44896,8 @@ class FSxLustreFileSystemConfig {
 }
 
 /// Configuration for the custom Amazon S3 file system.
+///
+/// @nodoc
 class S3FileSystemConfig {
   /// The Amazon S3 URI of the S3 file system configuration.
   final String s3Uri;
@@ -44513,6 +44930,8 @@ class S3FileSystemConfig {
 
 /// A collection of default EBS storage settings that apply to spaces created
 /// within a domain or user profile.
+///
+/// @nodoc
 class DefaultEbsStorageSettings {
   /// The default size of the EBS storage volume for a space.
   final int defaultEbsVolumeSizeInGb;
@@ -44554,6 +44973,8 @@ class DefaultEbsStorageSettings {
 /// always takes precedence. To clear the value set for
 /// <code>SageMakerImageVersionArn</code>, pass <code>None</code> as the value.
 /// </note>
+///
+/// @nodoc
 class ResourceSpec {
   /// The instance type that the image version runs on.
   /// <note>
@@ -44634,6 +45055,8 @@ class ResourceSpec {
 
 /// Settings that are used to configure and manage the lifecycle of Amazon
 /// SageMaker Studio applications.
+///
+/// @nodoc
 class AppLifecycleManagement {
   /// Settings related to idle shutdown of Studio applications.
   final IdleSettings? idleSettings;
@@ -44663,6 +45086,8 @@ class AppLifecycleManagement {
 /// job execution environments (execution roles or runtime roles) to manage and
 /// access resources required for running Amazon EMR clusters or Amazon EMR
 /// Serverless applications.
+///
+/// @nodoc
 class EmrSettings {
   /// An array of Amazon Resource Names (ARNs) of the IAM roles that the execution
   /// role of SageMaker can assume for performing operations or tasks related to
@@ -44712,6 +45137,8 @@ class EmrSettings {
 }
 
 /// Settings related to idle shutdown of Studio applications.
+///
+/// @nodoc
 class IdleSettings {
   /// The time that SageMaker waits after the application becomes idle before
   /// shutting it down.
@@ -44763,6 +45190,7 @@ class IdleSettings {
   }
 }
 
+/// @nodoc
 class LifecycleManagement {
   static const enabled = LifecycleManagement._('ENABLED');
   static const disabled = LifecycleManagement._('DISABLED');
@@ -44790,6 +45218,8 @@ class LifecycleManagement {
 
 /// A Git repository that SageMaker AI automatically displays to users for
 /// cloning in the JupyterServer application.
+///
+/// @nodoc
 class CodeRepository {
   /// The URL of the Git repository.
   final String repositoryUrl;
@@ -44815,6 +45245,8 @@ class CodeRepository {
 /// A custom SageMaker AI image. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html">Bring
 /// your own SageMaker AI image</a>.
+///
+/// @nodoc
 class CustomImage {
   /// The name of the AppImageConfig.
   final String appImageConfigName;
@@ -44852,6 +45284,8 @@ class CustomImage {
 }
 
 /// Time series forecast settings for the SageMaker Canvas application.
+///
+/// @nodoc
 class TimeSeriesForecastingSettings {
   /// The IAM role that Canvas passes to Amazon Forecast for time series
   /// forecasting. By default, Canvas uses the execution role specified in the
@@ -44894,6 +45328,8 @@ class TimeSeriesForecastingSettings {
 }
 
 /// The model registry settings for the SageMaker Canvas application.
+///
+/// @nodoc
 class ModelRegisterSettings {
   /// The Amazon Resource Name (ARN) of the SageMaker model registry account.
   /// Required only to register model versions created by a different SageMaker
@@ -44931,6 +45367,8 @@ class ModelRegisterSettings {
 }
 
 /// The workspace settings for the SageMaker Canvas application.
+///
+/// @nodoc
 class WorkspaceSettings {
   /// The Amazon S3 bucket used to store artifacts generated by Canvas. Updating
   /// the Amazon S3 location impacts existing configuration settings, and Canvas
@@ -44972,6 +45410,8 @@ class WorkspaceSettings {
 /// can also turn on model deployment permissions through the SageMaker Domain's
 /// or user profile's settings in the SageMaker console.
 /// </note>
+///
+/// @nodoc
 class DirectDeploySettings {
   /// Describes whether model deployment permissions are enabled or disabled in
   /// the Canvas application.
@@ -44997,6 +45437,8 @@ class DirectDeploySettings {
 
 /// The Amazon SageMaker Canvas application setting where you configure document
 /// querying.
+///
+/// @nodoc
 class KendraSettings {
   /// Describes whether the document querying feature is enabled or disabled in
   /// the Canvas application.
@@ -45026,6 +45468,8 @@ class KendraSettings {
 /// foundation models. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/canvas-fm-chat.html">
 /// Use generative AI with foundation models</a>.
+///
+/// @nodoc
 class GenerativeAiSettings {
   /// The ARN of an Amazon Web Services IAM role that allows fine-tuning of large
   /// language models (LLMs) in Amazon Bedrock. The IAM role should have Amazon S3
@@ -45053,6 +45497,8 @@ class GenerativeAiSettings {
 }
 
 /// The settings for running Amazon EMR Serverless jobs in SageMaker Canvas.
+///
+/// @nodoc
 class EmrServerlessSettings {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM role that is
   /// assumed for running Amazon EMR Serverless jobs in SageMaker Canvas. This
@@ -45086,6 +45532,7 @@ class EmrServerlessSettings {
   }
 }
 
+/// @nodoc
 class FeatureStatus {
   static const enabled = FeatureStatus._('ENABLED');
   static const disabled = FeatureStatus._('DISABLED');
@@ -45112,6 +45559,8 @@ class FeatureStatus {
 
 /// The Amazon SageMaker Canvas application setting where you configure OAuth
 /// for connecting to an external data source, such as Snowflake.
+///
+/// @nodoc
 class IdentityProviderOAuthSetting {
   /// The name of the data source that you're connecting to. Canvas currently
   /// supports OAuth for Snowflake and Salesforce Data Cloud.
@@ -45153,6 +45602,7 @@ class IdentityProviderOAuthSetting {
   }
 }
 
+/// @nodoc
 class DataSourceName {
   static const salesforceGenie = DataSourceName._('SalesforceGenie');
   static const snowflake = DataSourceName._('Snowflake');
@@ -45177,6 +45627,7 @@ class DataSourceName {
   String toString() => value;
 }
 
+/// @nodoc
 class RStudioServerProAccessStatus {
   static const enabled = RStudioServerProAccessStatus._('ENABLED');
   static const disabled = RStudioServerProAccessStatus._('DISABLED');
@@ -45202,6 +45653,7 @@ class RStudioServerProAccessStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RStudioServerProUserGroup {
   static const rStudioAdmin = RStudioServerProUserGroup._('R_STUDIO_ADMIN');
   static const rStudioUser = RStudioServerProUserGroup._('R_STUDIO_USER');
@@ -45227,6 +45679,7 @@ class RStudioServerProUserGroup {
   String toString() => value;
 }
 
+/// @nodoc
 class NotebookOutputOption {
   static const allowed = NotebookOutputOption._('Allowed');
   static const disabled = NotebookOutputOption._('Disabled');
@@ -45253,6 +45706,8 @@ class NotebookOutputOption {
 }
 
 /// The status of the trial component.
+///
+/// @nodoc
 class TrialComponentStatus {
   /// If the component failed, a message describing why.
   final String? message;
@@ -45293,6 +45748,8 @@ class TrialComponentStatus {
 /// Examples of input artifacts are datasets, algorithms, hyperparameters,
 /// source code, and instance types. Examples of output artifacts are metrics,
 /// snapshots, logs, and images.
+///
+/// @nodoc
 class TrialComponentArtifact {
   /// The location of the artifact.
   final String value;
@@ -45332,6 +45789,8 @@ class TrialComponentArtifact {
 /// This object is specified in the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrialComponent.html">CreateTrialComponent</a>
 /// request.
+///
+/// @nodoc
 class TrialComponentParameterValue {
   /// The numeric value of a numeric hyperparameter. If you specify a value for
   /// this parameter, you can't specify the <code>StringValue</code> parameter.
@@ -45363,6 +45822,7 @@ class TrialComponentParameterValue {
   }
 }
 
+/// @nodoc
 class TrialComponentPrimaryStatus {
   static const inProgress = TrialComponentPrimaryStatus._('InProgress');
   static const completed = TrialComponentPrimaryStatus._('Completed');
@@ -45393,6 +45853,8 @@ class TrialComponentPrimaryStatus {
 
 /// Configuration information for updating the Amazon SageMaker Debugger profile
 /// parameters, system and framework metrics configurations, and storage paths.
+///
+/// @nodoc
 class ProfilerConfigForUpdate {
   /// To turn off Amazon SageMaker Debugger monitoring and profiling while a
   /// training job is in progress, set to <code>True</code>.
@@ -45445,6 +45907,8 @@ class ProfilerConfigForUpdate {
 /// The <code>ResourceConfig</code> to update
 /// <code>KeepAlivePeriodInSeconds</code>. Other fields in the
 /// <code>ResourceConfig</code> cannot be updated.
+///
+/// @nodoc
 class ResourceConfigForUpdate {
   /// The <code>KeepAlivePeriodInSeconds</code> value specified in the
   /// <code>ResourceConfig</code> to update.
@@ -45469,6 +45933,8 @@ class ResourceConfigForUpdate {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
 /// a training container through Amazon Web Services Systems Manager (SSM) for
 /// remote debugging</a>.
+///
+/// @nodoc
 class RemoteDebugConfigForUpdate {
   /// If set to True, enables remote debugging.
   final bool? enableRemoteDebug;
@@ -45486,6 +45952,8 @@ class RemoteDebugConfigForUpdate {
 }
 
 /// Configuration information for profiling rules.
+///
+/// @nodoc
 class ProfilerRuleConfiguration {
   /// The name of the rule configuration. It must be unique relative to other rule
   /// configuration names.
@@ -45555,6 +46023,7 @@ class ProfilerRuleConfiguration {
   }
 }
 
+/// @nodoc
 class ProcessingInstanceType {
   static const mlT3Medium = ProcessingInstanceType._('ml.t3.medium');
   static const mlT3Large = ProcessingInstanceType._('ml.t3.large');
@@ -45834,6 +46303,8 @@ class ProcessingInstanceType {
 }
 
 /// A collection of space settings.
+///
+/// @nodoc
 class SpaceSettings {
   /// The type of app created within the space.
   ///
@@ -45953,6 +46424,8 @@ class SpaceSettings {
 }
 
 /// The application settings for a Code Editor space.
+///
+/// @nodoc
 class SpaceCodeEditorAppSettings {
   /// Settings that are used to configure and manage the lifecycle of CodeEditor
   /// applications in a space.
@@ -45990,6 +46463,8 @@ class SpaceCodeEditorAppSettings {
 }
 
 /// The settings for the JupyterLab application within a space.
+///
+/// @nodoc
 class SpaceJupyterLabAppSettings {
   /// Settings that are used to configure and manage the lifecycle of JupyterLab
   /// applications in a space.
@@ -46038,6 +46513,8 @@ class SpaceJupyterLabAppSettings {
 }
 
 /// The storage settings for a space.
+///
+/// @nodoc
 class SpaceStorageSettings {
   /// A collection of EBS storage settings for a space.
   final EbsStorageSettings? ebsStorageSettings;
@@ -46066,6 +46543,8 @@ class SpaceStorageSettings {
 /// A file system, created by you, that you assign to a user profile or space
 /// for an Amazon SageMaker AI Domain. Permitted users can access this file
 /// system in Amazon SageMaker AI Studio.
+///
+/// @nodoc
 class CustomFileSystem {
   /// A custom file system in Amazon EFS.
   final EFSFileSystem? eFSFileSystem;
@@ -46115,6 +46594,8 @@ class CustomFileSystem {
 /// A file system, created by you in Amazon EFS, that you assign to a user
 /// profile or space for an Amazon SageMaker AI Domain. Permitted users can
 /// access this file system in Amazon SageMaker AI Studio.
+///
+/// @nodoc
 class EFSFileSystem {
   /// The ID of your Amazon EFS file system.
   final String fileSystemId;
@@ -46138,6 +46619,8 @@ class EFSFileSystem {
 }
 
 /// A custom file system in Amazon FSx for Lustre.
+///
+/// @nodoc
 class FSxLustreFileSystem {
   /// Amazon FSx for Lustre file system ID.
   final String fileSystemId;
@@ -46162,6 +46645,8 @@ class FSxLustreFileSystem {
 
 /// A custom file system in Amazon S3. This is only supported in Amazon
 /// SageMaker Unified Studio.
+///
+/// @nodoc
 class S3FileSystem {
   /// The Amazon S3 URI that specifies the location in S3 where files are stored,
   /// which is mounted within the Studio environment. For example:
@@ -46188,6 +46673,8 @@ class S3FileSystem {
 
 /// A collection of EBS storage settings that apply to both private and shared
 /// spaces.
+///
+/// @nodoc
 class EbsStorageSettings {
   /// The size of an EBS storage volume for a space.
   final int ebsVolumeSizeInGb;
@@ -46212,6 +46699,8 @@ class EbsStorageSettings {
 
 /// Settings that are used to configure and manage the lifecycle of Amazon
 /// SageMaker Studio applications in a space.
+///
+/// @nodoc
 class SpaceAppLifecycleManagement {
   /// Settings related to idle shutdown of Studio applications.
   final SpaceIdleSettings? idleSettings;
@@ -46238,6 +46727,8 @@ class SpaceAppLifecycleManagement {
 }
 
 /// Settings related to idle shutdown of Studio applications in a space.
+///
+/// @nodoc
 class SpaceIdleSettings {
   /// The time that SageMaker waits after the application becomes idle before
   /// shutting it down.
@@ -46266,6 +46757,8 @@ class SpaceIdleSettings {
 /// information about service catalog, see <a
 /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
 /// is Amazon Web Services Service Catalog</a>.
+///
+/// @nodoc
 class ServiceCatalogProvisioningUpdateDetails {
   /// The ID of the provisioning artifact.
   final String? provisioningArtifactId;
@@ -46292,6 +46785,8 @@ class ServiceCatalogProvisioningUpdateDetails {
 
 /// Contains configuration details for updating an existing template provider in
 /// the project.
+///
+/// @nodoc
 class UpdateTemplateProvider {
   /// The CloudFormation template provider configuration to update.
   final CfnUpdateTemplateProvider? cfnTemplateProvider;
@@ -46311,6 +46806,8 @@ class UpdateTemplateProvider {
 
 /// Contains configuration details for updating an existing CloudFormation
 /// template provider in the project.
+///
+/// @nodoc
 class CfnUpdateTemplateProvider {
   /// The unique identifier of the template to update within the project.
   final String templateName;
@@ -46340,6 +46837,8 @@ class CfnUpdateTemplateProvider {
 }
 
 /// A key-value pair representing a parameter used in the CloudFormation stack.
+///
+/// @nodoc
 class CfnStackUpdateParameter {
   /// The name of the CloudFormation parameter.
   final String key;
@@ -46379,6 +46878,8 @@ class CfnStackUpdateParameter {
 /// href="https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf">Tagging
 /// Best Practices: Implement an Effective Amazon Web Services Resource Tagging
 /// Strategy</a>.
+///
+/// @nodoc
 class Tag {
   /// The tag key. Tag keys must be unique per resource.
   final String key;
@@ -46412,6 +46913,8 @@ class Tag {
 /// product. For information, see <a
 /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
 /// is Amazon Web Services Service Catalog</a>.
+///
+/// @nodoc
 class ProvisioningParameter {
   /// The key that identifies a provisioning parameter.
   final String? key;
@@ -46444,6 +46947,8 @@ class ProvisioningParameter {
 /// Configuration that controls the parallelism of the pipeline. By default, the
 /// parallelism configuration specified applies to all executions of the
 /// pipeline unless overridden.
+///
+/// @nodoc
 class ParallelismConfiguration {
   /// The max number of steps that can be executed in parallel.
   final int maxParallelExecutionSteps;
@@ -46468,6 +46973,8 @@ class ParallelismConfiguration {
 }
 
 /// The location of the pipeline definition stored in Amazon S3.
+///
+/// @nodoc
 class PipelineDefinitionS3Location {
   /// Name of the S3 bucket.
   final String bucket;
@@ -46498,6 +47005,8 @@ class PipelineDefinitionS3Location {
 }
 
 /// Maintenance configuration settings for the SageMaker Partner AI App.
+///
+/// @nodoc
 class PartnerAppMaintenanceConfig {
   /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour
   /// standard time that weekly maintenance updates are scheduled. This value must
@@ -46525,6 +47034,8 @@ class PartnerAppMaintenanceConfig {
 }
 
 /// Configuration settings for the SageMaker Partner AI App.
+///
+/// @nodoc
 class PartnerAppConfig {
   /// The list of users that are given admin access to the SageMaker Partner AI
   /// App.
@@ -46596,6 +47107,8 @@ class PartnerAppConfig {
 /// Defines the mapping between an in-app role and the Amazon Web Services IAM
 /// Identity Center group patterns that should be assigned to that role within
 /// the SageMaker Partner AI App.
+///
+/// @nodoc
 class RoleGroupAssignment {
   /// A list of Amazon Web Services IAM Identity Center group patterns that should
   /// be assigned to the specified role. Group patterns support wildcard matching
@@ -46640,7 +47153,7 @@ class RoleGroupAssignment {
 ///
 /// View Amazon CloudWatch Logs for notebook instance lifecycle configurations
 /// in log group <code>/aws/sagemaker/NotebookInstances</code> in log stream
-/// <code>[notebook-instance-name]/[LifecycleConfigHook]</code>.
+/// <code>\[notebook-instance-name\]/\[LifecycleConfigHook\]</code>.
 ///
 /// Lifecycle configuration scripts cannot run for longer than 5 minutes. If a
 /// script runs for longer than 5 minutes, it fails and the notebook instance is
@@ -46649,6 +47162,8 @@ class RoleGroupAssignment {
 /// For information about notebook instance lifestyle configurations, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html">Step
 /// 2.1: (Optional) Customize a Notebook Instance</a>.
+///
+/// @nodoc
 class NotebookInstanceLifecycleHook {
   /// A base64-encoded string that contains a shell script for a notebook instance
   /// lifecycle configuration.
@@ -46672,6 +47187,7 @@ class NotebookInstanceLifecycleHook {
   }
 }
 
+/// @nodoc
 class InstanceType {
   static const mlT2Medium = InstanceType._('ml.t2.medium');
   static const mlT2Large = InstanceType._('ml.t2.large');
@@ -47044,6 +47560,7 @@ class InstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class IPAddressType {
   static const ipv4 = IPAddressType._('ipv4');
   static const dualstack = IPAddressType._('dualstack');
@@ -47068,6 +47585,7 @@ class IPAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class RootAccess {
   static const enabled = RootAccess._('Enabled');
   static const disabled = RootAccess._('Disabled');
@@ -47092,6 +47610,8 @@ class RootAccess {
 }
 
 /// Information on the IMDS configuration of the notebook instance
+///
+/// @nodoc
 class InstanceMetadataServiceConfiguration {
   /// Indicates the minimum IMDS version that the notebook instance supports. When
   /// passed as part of <code>CreateNotebookInstance</code>, if no value is
@@ -47122,6 +47642,7 @@ class InstanceMetadataServiceConfiguration {
   }
 }
 
+/// @nodoc
 class NotebookInstanceAcceleratorType {
   static const mlEia1Medium =
       NotebookInstanceAcceleratorType._('ml.eia1.medium');
@@ -47163,6 +47684,8 @@ class NotebookInstanceAcceleratorType {
 }
 
 /// Configures the monitoring schedule and defines the monitoring job.
+///
+/// @nodoc
 class MonitoringScheduleConfig {
   /// Defines the monitoring job.
   final MonitoringJobDefinition? monitoringJobDefinition;
@@ -47217,6 +47740,8 @@ class MonitoringScheduleConfig {
 }
 
 /// Configuration details about the monitoring schedule.
+///
+/// @nodoc
 class ScheduleConfig {
   /// A cron expression that describes details about the monitoring schedule.
   ///
@@ -47231,7 +47756,7 @@ class ScheduleConfig {
   /// <li>
   /// If you want to start the job daily:
   ///
-  /// <code>cron(0 [00-23] ? * * *)</code>
+  /// <code>cron(0 \[00-23\] ? * * *)</code>
   /// </li>
   /// <li>
   /// If you want to run the job one time, immediately, use the following keyword:
@@ -47251,7 +47776,7 @@ class ScheduleConfig {
   /// </ul>
   /// To support running every 6, 12 hours, the following are also supported:
   ///
-  /// <code>cron(0 [00-23]/[01-24] ? * * *)</code>
+  /// <code>cron(0 \[00-23\]/\[01-24\] ? * * *)</code>
   ///
   /// For example, the following are valid cron expressions:
   ///
@@ -47337,6 +47862,8 @@ class ScheduleConfig {
 }
 
 /// Defines the monitoring job.
+///
+/// @nodoc
 class MonitoringJobDefinition {
   /// Configures the monitoring job to run a specified Docker container image.
   final MonitoringAppSpecification monitoringAppSpecification;
@@ -47439,6 +47966,7 @@ class MonitoringJobDefinition {
   }
 }
 
+/// @nodoc
 class MonitoringType {
   static const dataQuality = MonitoringType._('DataQuality');
   static const modelQuality = MonitoringType._('ModelQuality');
@@ -47473,6 +48001,8 @@ class MonitoringType {
 /// Configuration for monitoring constraints and monitoring statistics. These
 /// baseline resources are compared against the results of the current job from
 /// the series of jobs scheduled to collect data periodically.
+///
+/// @nodoc
 class MonitoringBaselineConfig {
   /// The name of the job that performs baselining for the monitoring job.
   final String? baseliningJobName;
@@ -47519,6 +48049,8 @@ class MonitoringBaselineConfig {
 }
 
 /// The output configuration for monitoring jobs.
+///
+/// @nodoc
 class MonitoringOutputConfig {
   /// Monitoring outputs for monitoring jobs. This is where the output of the
   /// periodic monitoring jobs is uploaded.
@@ -47554,6 +48086,8 @@ class MonitoringOutputConfig {
 }
 
 /// Identifies the resources to deploy for a monitoring job.
+///
+/// @nodoc
 class MonitoringResources {
   /// The configuration for the cluster resources used to run the processing job.
   final MonitoringClusterConfig clusterConfig;
@@ -47579,6 +48113,8 @@ class MonitoringResources {
 }
 
 /// Container image configuration object for the monitoring job.
+///
+/// @nodoc
 class MonitoringAppSpecification {
   /// The container image to be run by the monitoring job.
   final String imageUri;
@@ -47647,6 +48183,8 @@ class MonitoringAppSpecification {
 
 /// A time limit for how long the monitoring job is allowed to run before
 /// stopping.
+///
+/// @nodoc
 class MonitoringStoppingCondition {
   /// The maximum runtime allowed in seconds.
   /// <note>
@@ -47679,6 +48217,8 @@ class MonitoringStoppingCondition {
 /// containers, whether to allow inbound and outbound network calls to and from
 /// containers, and the VPC subnets and security groups to use for VPC-enabled
 /// jobs.
+///
+/// @nodoc
 class NetworkConfig {
   /// Whether to encrypt all communications between distributed processing jobs.
   /// Choose <code>True</code> to encrypt communications. Encryption provides
@@ -47730,6 +48270,8 @@ class NetworkConfig {
 /// <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html">Give
 /// SageMaker Access to Resources in your Amazon VPC</a>.
+///
+/// @nodoc
 class VpcConfig {
   /// The VPC security group IDs, in the form <code>sg-xxxxxxxx</code>. Specify
   /// the security groups for the VPC that is specified in the
@@ -47772,6 +48314,8 @@ class VpcConfig {
 }
 
 /// Configuration for the cluster used to run model monitoring jobs.
+///
+/// @nodoc
 class MonitoringClusterConfig {
   /// The number of ML compute instances to use in the model monitoring job. For
   /// distributed processing jobs, specify a value greater than 1. The default
@@ -47822,6 +48366,8 @@ class MonitoringClusterConfig {
 }
 
 /// The output object for a monitoring job.
+///
+/// @nodoc
 class MonitoringOutput {
   /// The Amazon S3 storage location where the results of a monitoring job are
   /// saved.
@@ -47849,6 +48395,8 @@ class MonitoringOutput {
 
 /// Information about where and how you want to store the results of a
 /// monitoring job.
+///
+/// @nodoc
 class MonitoringS3Output {
   /// The local path to the Amazon S3 storage location where Amazon SageMaker AI
   /// saves the results of a monitoring job. LocalPath is an absolute path for the
@@ -47890,6 +48438,7 @@ class MonitoringS3Output {
   }
 }
 
+/// @nodoc
 class ProcessingS3UploadMode {
   static const continuous = ProcessingS3UploadMode._('Continuous');
   static const endOfJob = ProcessingS3UploadMode._('EndOfJob');
@@ -47916,6 +48465,8 @@ class ProcessingS3UploadMode {
 }
 
 /// The inputs for a monitoring job.
+///
+/// @nodoc
 class MonitoringInput {
   /// Input object for the batch transform job.
   final BatchTransformInput? batchTransformInput;
@@ -47953,6 +48504,8 @@ class MonitoringInput {
 }
 
 /// Input object for the endpoint
+///
+/// @nodoc
 class EndpointInput {
   /// An endpoint in customer's account which has enabled
   /// <code>DataCaptureConfig</code> enabled.
@@ -48067,6 +48620,8 @@ class EndpointInput {
 }
 
 /// Input object for the batch transform job.
+///
+/// @nodoc
 class BatchTransformInput {
   /// The Amazon S3 location being used to capture the data.
   final String dataCapturedDestinationS3Uri;
@@ -48190,6 +48745,8 @@ class BatchTransformInput {
 }
 
 /// Represents the dataset format used when running a monitoring job.
+///
+/// @nodoc
 class MonitoringDatasetFormat {
   /// The CSV dataset used in the monitoring job.
   final MonitoringCsvDatasetFormat? csv;
@@ -48235,6 +48792,7 @@ class MonitoringDatasetFormat {
   }
 }
 
+/// @nodoc
 class ProcessingS3InputMode {
   static const pipe = ProcessingS3InputMode._('Pipe');
   static const file = ProcessingS3InputMode._('File');
@@ -48260,6 +48818,7 @@ class ProcessingS3InputMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ProcessingS3DataDistributionType {
   static const fullyReplicated =
       ProcessingS3DataDistributionType._('FullyReplicated');
@@ -48288,6 +48847,8 @@ class ProcessingS3DataDistributionType {
 }
 
 /// Represents the CSV dataset format used when running a monitoring job.
+///
+/// @nodoc
 class MonitoringCsvDatasetFormat {
   /// Indicates if the CSV data has a header.
   final bool? header;
@@ -48311,6 +48872,8 @@ class MonitoringCsvDatasetFormat {
 }
 
 /// Represents the JSON dataset format used when running a monitoring job.
+///
+/// @nodoc
 class MonitoringJsonDatasetFormat {
   /// Indicates if the file should be read as a JSON object per line.
   final bool? line;
@@ -48334,6 +48897,8 @@ class MonitoringJsonDatasetFormat {
 }
 
 /// Represents the Parquet dataset format used when running a monitoring job.
+///
+/// @nodoc
 class MonitoringParquetDatasetFormat {
   MonitoringParquetDatasetFormat();
 
@@ -48347,6 +48912,8 @@ class MonitoringParquetDatasetFormat {
 }
 
 /// The constraints resource for a monitoring job.
+///
+/// @nodoc
 class MonitoringConstraintsResource {
   /// The Amazon S3 URI for the constraints resource.
   final String? s3Uri;
@@ -48370,6 +48937,8 @@ class MonitoringConstraintsResource {
 }
 
 /// The statistics resource for a monitoring job.
+///
+/// @nodoc
 class MonitoringStatisticsResource {
   /// The Amazon S3 URI for the statistics resource.
   final String? s3Uri;
@@ -48392,6 +48961,7 @@ class MonitoringStatisticsResource {
   }
 }
 
+/// @nodoc
 class ModelApprovalStatus {
   static const approved = ModelApprovalStatus._('Approved');
   static const rejected = ModelApprovalStatus._('Rejected');
@@ -48419,6 +48989,7 @@ class ModelApprovalStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelPackageRegistrationType {
   static const logged = ModelPackageRegistrationType._('Logged');
   static const registered = ModelPackageRegistrationType._('Registered');
@@ -48445,6 +49016,8 @@ class ModelPackageRegistrationType {
 }
 
 /// Defines how to perform inference generation after a training job is run.
+///
+/// @nodoc
 class InferenceSpecification {
   /// The Amazon ECR registry path of the Docker image that contains the inference
   /// code.
@@ -48546,6 +49119,8 @@ class InferenceSpecification {
 /// associated with the model package, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
 /// the Details of a Model Version</a>.
+///
+/// @nodoc
 class ModelPackageModelCard {
   /// The content of the model card. The content must follow the schema described
   /// in <a
@@ -48599,6 +49174,8 @@ class ModelPackageModelCard {
 }
 
 /// A structure describing the current state of the model in its life cycle.
+///
+/// @nodoc
 class ModelLifeCycle {
   /// The current stage in the model life cycle.
   final String stage;
@@ -48635,6 +49212,7 @@ class ModelLifeCycle {
   }
 }
 
+/// @nodoc
 class ModelCardStatus {
   static const draft = ModelCardStatus._('Draft');
   static const pendingReview = ModelCardStatus._('PendingReview');
@@ -48661,6 +49239,7 @@ class ModelCardStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ProductionVariantInstanceType {
   static const mlT2Medium = ProductionVariantInstanceType._('ml.t2.medium');
   static const mlT2Large = ProductionVariantInstanceType._('ml.t2.large');
@@ -49408,6 +49987,7 @@ class ProductionVariantInstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class TransformInstanceType {
   static const mlM4Xlarge = TransformInstanceType._('ml.m4.xlarge');
   static const mlM4_2xlarge = TransformInstanceType._('ml.m4.2xlarge');
@@ -49649,6 +50229,8 @@ class TransformInstanceType {
 }
 
 /// Describes the Docker container for the model package.
+///
+/// @nodoc
 class ModelPackageContainerDefinition {
   /// Data sources that are available to your model in addition to the one that
   /// you specify for <code>ModelDataSource</code> when you use the
@@ -49682,8 +50264,8 @@ class ModelPackageContainerDefinition {
   ///
   /// If you are using your own custom algorithm instead of an algorithm provided
   /// by SageMaker, the inference code must meet SageMaker requirements. SageMaker
-  /// supports both <code>registry/repository[:tag]</code> and
-  /// <code>registry/repository[@digest]</code> image path formats. For more
+  /// supports both <code>registry/repository\[:tag\]</code> and
+  /// <code>registry/repository\[@digest\]</code> image path formats. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
   /// Your Own Algorithms with Amazon SageMaker</a>.
@@ -49819,6 +50401,8 @@ class ModelPackageContainerDefinition {
 
 /// Specifies the location of ML model data to deploy. If specified, you must
 /// specify one and only one of the available data sources.
+///
+/// @nodoc
 class ModelDataSource {
   /// Specifies the S3 location of ML model data to deploy.
   final S3ModelDataSource? s3DataSource;
@@ -49845,6 +50429,8 @@ class ModelDataSource {
 }
 
 /// Input object for the model.
+///
+/// @nodoc
 class ModelInput {
   /// The input configuration object for the model.
   final String dataInputConfig;
@@ -49869,6 +50455,8 @@ class ModelInput {
 
 /// A data source used for training or inference that is in addition to the
 /// input dataset or model data.
+///
+/// @nodoc
 class AdditionalS3DataSource {
   /// The data type of the additional data source that you specify for use in
   /// inference or training.
@@ -49920,6 +50508,8 @@ class AdditionalS3DataSource {
 
 /// Identifies the foundation model that was used as the starting point for
 /// model customization.
+///
+/// @nodoc
 class BaseModel {
   /// The hub content name of the base model.
   final String? hubContentName;
@@ -49956,6 +50546,7 @@ class BaseModel {
   }
 }
 
+/// @nodoc
 class AdditionalS3DataSourceDataType {
   static const s3Object = AdditionalS3DataSourceDataType._('S3Object');
   static const s3Prefix = AdditionalS3DataSourceDataType._('S3Prefix');
@@ -49981,6 +50572,7 @@ class AdditionalS3DataSourceDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class CompressionType {
   static const none = CompressionType._('None');
   static const gzip = CompressionType._('Gzip');
@@ -50008,6 +50600,8 @@ class CompressionType {
 /// Data sources that are available to your model in addition to the one that
 /// you specify for <code>ModelDataSource</code> when you use the
 /// <code>CreateModel</code> action.
+///
+/// @nodoc
 class AdditionalModelDataSource {
   /// A custom name for this <code>AdditionalModelDataSource</code> object.
   final String channelName;
@@ -50038,6 +50632,8 @@ class AdditionalModelDataSource {
 }
 
 /// Specifies the S3 location of ML model data to deploy.
+///
+/// @nodoc
 class S3ModelDataSource {
   /// Specifies how the ML model data is prepared.
   ///
@@ -50204,6 +50800,7 @@ class S3ModelDataSource {
   }
 }
 
+/// @nodoc
 class S3ModelDataType {
   static const s3Prefix = S3ModelDataType._('S3Prefix');
   static const s3Object = S3ModelDataType._('S3Object');
@@ -50228,6 +50825,7 @@ class S3ModelDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelCompressionType {
   static const none = ModelCompressionType._('None');
   static const gzip = ModelCompressionType._('Gzip');
@@ -50272,6 +50870,8 @@ class ModelCompressionType {
 /// API</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ModelAccessConfig {
   /// Specifies agreement to the model end-user license agreement (EULA). The
   /// <code>AcceptEula</code> value must be explicitly defined as
@@ -50301,6 +50901,8 @@ class ModelAccessConfig {
 
 /// Configuration information specifying which hub contents have accessible
 /// deployment options.
+///
+/// @nodoc
 class InferenceHubAccessConfig {
   /// The ARN of the hub content for which deployment access is allowed.
   final String hubContentArn;
@@ -50326,6 +50928,8 @@ class InferenceHubAccessConfig {
 /// A structure of additional Inference Specification. Additional Inference
 /// Specification specifies details about inference jobs that can be run with
 /// models based on this model package
+///
+/// @nodoc
 class AdditionalInferenceSpecificationDefinition {
   /// The Amazon ECR registry path of the Docker image that contains the inference
   /// code.
@@ -50425,6 +51029,7 @@ class AdditionalInferenceSpecificationDefinition {
   }
 }
 
+/// @nodoc
 class TrackingServerSize {
   static const small = TrackingServerSize._('Small');
   static const medium = TrackingServerSize._('Medium');
@@ -50451,6 +51056,7 @@ class TrackingServerSize {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelRegistrationMode {
   static const autoModelRegistrationEnabled =
       ModelRegistrationMode._('AutoModelRegistrationEnabled');
@@ -50481,6 +51087,7 @@ class ModelRegistrationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountDefaultStatus {
   static const enabled = AccountDefaultStatus._('ENABLED');
   static const disabled = AccountDefaultStatus._('DISABLED');
@@ -50510,6 +51117,8 @@ class AccountDefaultStatus {
 ///
 /// The maximum duration that you can set for an inference experiment is 30
 /// days.
+///
+/// @nodoc
 class InferenceExperimentSchedule {
   /// The timestamp at which the inference experiment ended or will end.
   final DateTime? endTime;
@@ -50541,6 +51150,8 @@ class InferenceExperimentSchedule {
 
 /// The Amazon S3 location and configuration for storing inference request and
 /// response data.
+///
+/// @nodoc
 class InferenceExperimentDataStorageConfig {
   /// The Amazon S3 bucket where the inference request and response data is
   /// stored.
@@ -50587,6 +51198,8 @@ class InferenceExperimentDataStorageConfig {
 /// a shadow variant to which Amazon SageMaker replicates a percentage of the
 /// inference requests. For the shadow variant it also specifies the percentage
 /// of requests that Amazon SageMaker replicates.
+///
+/// @nodoc
 class ShadowModeConfig {
   /// List of shadow variant configurations.
   final List<ShadowModelVariantConfig> shadowModelVariants;
@@ -50621,6 +51234,8 @@ class ShadowModeConfig {
 }
 
 /// The name and sampling percentage of a shadow variant.
+///
+/// @nodoc
 class ShadowModelVariantConfig {
   /// The percentage of inference requests that Amazon SageMaker replicates from
   /// the production variant to the shadow variant.
@@ -50654,6 +51269,8 @@ class ShadowModelVariantConfig {
 /// Configuration specifying how to treat different headers. If no headers are
 /// specified Amazon SageMaker AI will by default base64 encode when capturing
 /// the data.
+///
+/// @nodoc
 class CaptureContentTypeHeader {
   /// The list of all content type headers that Amazon SageMaker AI will treat as
   /// CSV and capture accordingly.
@@ -50692,6 +51309,8 @@ class CaptureContentTypeHeader {
 }
 
 /// Contains information about the deployment options of a model.
+///
+/// @nodoc
 class ModelVariantConfig {
   /// The configuration for the infrastructure that the model will be deployed to.
   final ModelInfrastructureConfig infrastructureConfig;
@@ -50721,6 +51340,8 @@ class ModelVariantConfig {
 }
 
 /// The configuration for the infrastructure that the model will be deployed to.
+///
+/// @nodoc
 class ModelInfrastructureConfig {
   /// The inference option to which to deploy your model. Possible values are the
   /// following:
@@ -50761,6 +51382,7 @@ class ModelInfrastructureConfig {
   }
 }
 
+/// @nodoc
 class ModelInfrastructureType {
   static const realTimeInference =
       ModelInfrastructureType._('RealTimeInference');
@@ -50788,6 +51410,8 @@ class ModelInfrastructureType {
 
 /// The infrastructure configuration for deploying the model to a real-time
 /// inference endpoint.
+///
+/// @nodoc
 class RealTimeInferenceConfig {
   /// The number of instances of the type specified by <code>InstanceType</code>.
   final int instanceCount;
@@ -50819,6 +51443,8 @@ class RealTimeInferenceConfig {
 }
 
 /// Runtime settings for a model that is deployed with an inference component.
+///
+/// @nodoc
 class InferenceComponentRuntimeConfig {
   /// The number of runtime copies of the model container to deploy with the
   /// inference component. Each copy can serve inference requests.
@@ -50838,6 +51464,8 @@ class InferenceComponentRuntimeConfig {
 
 /// Details about the resources to deploy with this inference component,
 /// including the model, container, and compute resources.
+///
+/// @nodoc
 class InferenceComponentSpecification {
   /// The name of an existing inference component that is to contain the inference
   /// component that you're creating with your request.
@@ -50931,6 +51559,8 @@ class InferenceComponentSpecification {
 /// The deployment configuration for an endpoint that hosts inference
 /// components. The configuration includes the desired deployment strategy and
 /// rollback settings.
+///
+/// @nodoc
 class InferenceComponentDeploymentConfig {
   /// Specifies a rolling deployment strategy for updating a SageMaker AI
   /// endpoint.
@@ -50968,6 +51598,8 @@ class InferenceComponentDeploymentConfig {
 
 /// Specifies a rolling deployment strategy for updating a SageMaker AI
 /// inference component.
+///
+/// @nodoc
 class InferenceComponentRollingUpdatePolicy {
   /// The batch size for each rolling step in the deployment process. For each
   /// step, SageMaker AI provisions capacity on the new endpoint fleet, routes
@@ -51032,6 +51664,8 @@ class InferenceComponentRollingUpdatePolicy {
 
 /// Automatic rollback configuration for handling endpoint deployment failures
 /// and recovery.
+///
+/// @nodoc
 class AutoRollbackConfig {
   /// List of CloudWatch alarms in your account that are configured to monitor
   /// metrics on an endpoint. If any alarms are tripped during a deployment,
@@ -51060,6 +51694,8 @@ class AutoRollbackConfig {
 }
 
 /// An Amazon CloudWatch alarm configured to monitor metrics on an endpoint.
+///
+/// @nodoc
 class Alarm {
   /// The name of a CloudWatch alarm in your account.
   final String? alarmName;
@@ -51097,6 +51733,8 @@ class Alarm {
 /// For a rollback strategy, if you don't specify the fields in this object, or
 /// if you set the <code>Value</code> parameter to 100%, then SageMaker AI uses
 /// a blue/green rollback strategy and rolls all traffic back to the blue fleet.
+///
+/// @nodoc
 class InferenceComponentCapacitySize {
   /// Specifies the endpoint capacity type.
   /// <dl> <dt>COPY_COUNT</dt> <dd>
@@ -51133,6 +51771,7 @@ class InferenceComponentCapacitySize {
   }
 }
 
+/// @nodoc
 class InferenceComponentCapacitySizeType {
   static const copyCount = InferenceComponentCapacitySizeType._('COPY_COUNT');
   static const capacityPercent =
@@ -51161,6 +51800,8 @@ class InferenceComponentCapacitySizeType {
 
 /// Defines a container that provides the runtime environment for a model that
 /// you deploy with an inference component.
+///
+/// @nodoc
 class InferenceComponentContainerSpecification {
   /// The Amazon S3 path where the model artifacts, which result from model
   /// training, are stored. This path must point to a single gzip compressed tar
@@ -51195,6 +51836,8 @@ class InferenceComponentContainerSpecification {
 }
 
 /// Settings that take effect while the model container starts up.
+///
+/// @nodoc
 class InferenceComponentStartupParameters {
   /// The timeout value, in seconds, for your inference container to pass health
   /// check by Amazon S3 Hosting. For more information about health check, see <a
@@ -51240,6 +51883,8 @@ class InferenceComponentStartupParameters {
 /// Defines the compute resources to allocate to run a model, plus any adapter
 /// models, that you assign to an inference component. These resources include
 /// CPU cores, accelerators, and memory.
+///
+/// @nodoc
 class InferenceComponentComputeResourceRequirements {
   /// The minimum MB of memory to allocate to run a model that you assign to an
   /// inference component.
@@ -51296,6 +51941,8 @@ class InferenceComponentComputeResourceRequirements {
 }
 
 /// Settings that affect how the inference component caches data.
+///
+/// @nodoc
 class InferenceComponentDataCacheConfig {
   /// Sets whether the endpoint that hosts the inference component caches the
   /// model artifacts and container image.
@@ -51321,6 +51968,8 @@ class InferenceComponentDataCacheConfig {
 
 /// The scheduling configuration that determines how inference component copies
 /// are placed across available instances when copies are added or removed.
+///
+/// @nodoc
 class InferenceComponentSchedulingConfig {
   /// The strategy for placing inference component copies across available
   /// instances. If you also set <code>AvailabilityZoneBalance</code>, this
@@ -51364,6 +52013,7 @@ class InferenceComponentSchedulingConfig {
   }
 }
 
+/// @nodoc
 class InferenceComponentPlacementStrategy {
   static const spread = InferenceComponentPlacementStrategy._('SPREAD');
   static const binpack = InferenceComponentPlacementStrategy._('BINPACK');
@@ -51391,6 +52041,8 @@ class InferenceComponentPlacementStrategy {
 
 /// Configuration for balancing inference component copies across Availability
 /// Zones.
+///
+/// @nodoc
 class InferenceComponentAvailabilityZoneBalance {
   /// Determines how strictly the Availability Zone balance constraint is
   /// enforced.
@@ -51434,6 +52086,7 @@ class InferenceComponentAvailabilityZoneBalance {
   }
 }
 
+/// @nodoc
 class AvailabilityZoneBalanceEnforcementMode {
   static const permissive =
       AvailabilityZoneBalanceEnforcementMode._('PERMISSIVE');
@@ -51459,6 +52112,7 @@ class AvailabilityZoneBalanceEnforcementMode {
   String toString() => value;
 }
 
+/// @nodoc
 class VendorGuidance {
   static const notProvided = VendorGuidance._('NOT_PROVIDED');
   static const stable = VendorGuidance._('STABLE');
@@ -51485,6 +52139,7 @@ class VendorGuidance {
   String toString() => value;
 }
 
+/// @nodoc
 class JobType {
   static const training = JobType._('TRAINING');
   static const inference = JobType._('INFERENCE');
@@ -51509,6 +52164,7 @@ class JobType {
   String toString() => value;
 }
 
+/// @nodoc
 class Processor {
   static const cpu = Processor._('CPU');
   static const gpu = Processor._('GPU');
@@ -51532,6 +52188,7 @@ class Processor {
   String toString() => value;
 }
 
+/// @nodoc
 class HubContentType {
   static const model = HubContentType._('Model');
   static const notebook = HubContentType._('Notebook');
@@ -51559,6 +52216,7 @@ class HubContentType {
   String toString() => value;
 }
 
+/// @nodoc
 class HubContentSupportStatus {
   static const supported = HubContentSupportStatus._('Supported');
   static const deprecated = HubContentSupportStatus._('Deprecated');
@@ -51586,6 +52244,8 @@ class HubContentSupportStatus {
 }
 
 /// A key-value pair that you specify to describe the feature.
+///
+/// @nodoc
 class FeatureParameter {
   /// A key that must contain a value to describe the feature.
   final String? key;
@@ -51616,6 +52276,8 @@ class FeatureParameter {
 }
 
 /// Updates the feature group online store configuration.
+///
+/// @nodoc
 class OnlineStoreConfigUpdate {
   /// Time to live duration, where the record is hard deleted after the expiration
   /// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
@@ -51640,6 +52302,8 @@ class OnlineStoreConfigUpdate {
 /// between on-demand and provisioned modes or update the read / write capacity
 /// of provisioned feature groups. You can switch a feature group to on-demand
 /// only once in a 24 hour period.
+///
+/// @nodoc
 class ThroughputConfigUpdate {
   /// For provisioned feature groups with online store enabled, this indicates the
   /// read throughput you are billed for and can consume without throttling.
@@ -51676,6 +52340,7 @@ class ThroughputConfigUpdate {
   }
 }
 
+/// @nodoc
 class ThroughputMode {
   static const onDemand = ThroughputMode._('OnDemand');
   static const provisioned = ThroughputMode._('Provisioned');
@@ -51705,6 +52370,8 @@ class ThroughputMode {
 /// <code>TtlDuration</code>. For information on HardDelete, see the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
 /// API in the Amazon SageMaker API Reference guide.
+///
+/// @nodoc
 class TtlDuration {
   /// <code>TtlDuration</code> time unit.
   final TtlDurationUnit? unit;
@@ -51734,6 +52401,7 @@ class TtlDuration {
   }
 }
 
+/// @nodoc
 class TtlDurationUnit {
   static const seconds = TtlDurationUnit._('Seconds');
   static const minutes = TtlDurationUnit._('Minutes');
@@ -51764,6 +52432,8 @@ class TtlDurationUnit {
 /// A list of features. You must include <code>FeatureName</code> and
 /// <code>FeatureType</code>. Valid feature <code>FeatureType</code>s are
 /// <code>Integral</code>, <code>Fractional</code> and <code>String</code>.
+///
+/// @nodoc
 class FeatureDefinition {
   /// The name of a feature. The type must be a string. <code>FeatureName</code>
   /// cannot be any of the following: <code>is_deleted</code>,
@@ -51843,6 +52513,7 @@ class FeatureDefinition {
   }
 }
 
+/// @nodoc
 class FeatureType {
   static const integral = FeatureType._('Integral');
   static const fractional = FeatureType._('Fractional');
@@ -51867,6 +52538,7 @@ class FeatureType {
   String toString() => value;
 }
 
+/// @nodoc
 class CollectionType {
   static const list = CollectionType._('List');
   static const set = CollectionType._('Set');
@@ -51893,6 +52565,8 @@ class CollectionType {
 }
 
 /// Configuration for your collection.
+///
+/// @nodoc
 class CollectionConfig {
   /// Configuration for your vector collection type.
   ///
@@ -51924,6 +52598,8 @@ class CollectionConfig {
 }
 
 /// Configuration for your vector collection type.
+///
+/// @nodoc
 class VectorConfig {
   /// The number of elements in your vector.
   final int dimension;
@@ -51947,6 +52623,8 @@ class VectorConfig {
 }
 
 /// Specifies weight and capacity values for a production variant.
+///
+/// @nodoc
 class DesiredWeightAndCapacity {
   /// The name of the variant to update.
   final String variantName;
@@ -51986,6 +52664,8 @@ class DesiredWeightAndCapacity {
 
 /// Specifies the serverless update concurrency configuration for an endpoint
 /// variant.
+///
+/// @nodoc
 class ProductionVariantServerlessUpdateConfig {
   /// The updated maximum number of concurrent invocations your serverless
   /// endpoint can process.
@@ -52013,6 +52693,8 @@ class ProductionVariantServerlessUpdateConfig {
 
 /// The deployment configuration for an endpoint, which contains the desired
 /// deployment strategy and rollback configurations.
+///
+/// @nodoc
 class DeploymentConfig {
   /// Automatic rollback configuration for handling endpoint deployment failures
   /// and recovery.
@@ -52075,6 +52757,8 @@ class DeploymentConfig {
 /// policy should be used in the deployment configuration. If no update policy
 /// is specified, SageMaker uses a blue/green deployment strategy with all at
 /// once traffic shifting by default.
+///
+/// @nodoc
 class BlueGreenUpdatePolicy {
   /// Defines the traffic routing strategy to shift traffic from the old fleet to
   /// the new fleet during an endpoint deployment.
@@ -52123,6 +52807,8 @@ class BlueGreenUpdatePolicy {
 }
 
 /// Specifies a rolling deployment strategy for updating a SageMaker endpoint.
+///
+/// @nodoc
 class RollingUpdatePolicy {
   /// Batch size for each rolling step to provision capacity and turn on traffic
   /// on the new endpoint fleet, and terminate capacity on the old endpoint fleet.
@@ -52191,6 +52877,8 @@ class RollingUpdatePolicy {
 /// For a rollback strategy, if you don't specify the fields in this object, or
 /// if you set the <code>Value</code> to 100%, then SageMaker uses a blue/green
 /// rollback strategy and rolls all traffic back to the blue fleet.
+///
+/// @nodoc
 class CapacitySize {
   /// Specifies the endpoint capacity type.
   ///
@@ -52232,6 +52920,7 @@ class CapacitySize {
   }
 }
 
+/// @nodoc
 class CapacitySizeType {
   static const instanceCount = CapacitySizeType._('INSTANCE_COUNT');
   static const capacityPercent = CapacitySizeType._('CAPACITY_PERCENT');
@@ -52258,6 +52947,8 @@ class CapacitySizeType {
 
 /// Defines the traffic routing strategy during an endpoint deployment to shift
 /// traffic from the old fleet to the new fleet.
+///
+/// @nodoc
 class TrafficRoutingConfig {
   /// Traffic routing strategy type.
   ///
@@ -52327,6 +53018,7 @@ class TrafficRoutingConfig {
   }
 }
 
+/// @nodoc
 class TrafficRoutingConfigType {
   static const allAtOnce = TrafficRoutingConfigType._('ALL_AT_ONCE');
   static const canary = TrafficRoutingConfigType._('CANARY');
@@ -52362,6 +53054,8 @@ class TrafficRoutingConfigType {
 /// the <code>ExcludeRetainedVariantProperties</code> parameter of <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html">UpdateEndpointInput</a>
 /// override the existing variant properties of the endpoint.
+///
+/// @nodoc
 class VariantProperty {
   /// The type of variant property. The supported values are:
   ///
@@ -52396,6 +53090,7 @@ class VariantProperty {
   }
 }
 
+/// @nodoc
 class VariantPropertyType {
   static const desiredInstanceCount =
       VariantPropertyType._('DesiredInstanceCount');
@@ -52428,6 +53123,8 @@ class VariantPropertyType {
 }
 
 /// A collection of <code>Domain</code> configuration settings to update.
+///
+/// @nodoc
 class DomainSettingsForUpdate {
   /// A collection of settings that configure the Amazon Q experience within the
   /// domain.
@@ -52510,6 +53207,7 @@ class DomainSettingsForUpdate {
   }
 }
 
+/// @nodoc
 class AppSecurityGroupManagement {
   static const service = AppSecurityGroupManagement._('Service');
   static const customer = AppSecurityGroupManagement._('Customer');
@@ -52539,6 +53237,8 @@ class AppSecurityGroupManagement {
 ///
 /// SageMaker applies these settings only to shared spaces. It doesn't apply
 /// them to private spaces.
+///
+/// @nodoc
 class DefaultSpaceSettings {
   /// The settings for assigning a custom file system to a domain. Permitted users
   /// can access this file system in Amazon SageMaker AI Studio.
@@ -52630,6 +53330,7 @@ class DefaultSpaceSettings {
   }
 }
 
+/// @nodoc
 class AppNetworkAccessType {
   static const publicInternetOnly =
       AppNetworkAccessType._('PublicInternetOnly');
@@ -52656,6 +53357,7 @@ class AppNetworkAccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class TagPropagation {
   static const enabled = TagPropagation._('ENABLED');
   static const disabled = TagPropagation._('DISABLED');
@@ -52681,6 +53383,8 @@ class TagPropagation {
 }
 
 /// Indicates whether a home EFS file system is created for the domain.
+///
+/// @nodoc
 class HomeEfsFileSystemCreation {
   static const enabled = HomeEfsFileSystemCreation._('Enabled');
   static const disabled = HomeEfsFileSystemCreation._('Disabled');
@@ -52708,6 +53412,8 @@ class HomeEfsFileSystemCreation {
 
 /// A collection of settings that update the current configuration for the
 /// <code>RStudioServerPro</code> Domain-level app.
+///
+/// @nodoc
 class RStudioServerProDomainSettingsForUpdate {
   /// The execution role for the <code>RStudioServerPro</code> Domain-level app.
   final String domainExecutionRoleArn;
@@ -52742,6 +53448,7 @@ class RStudioServerProDomainSettingsForUpdate {
   }
 }
 
+/// @nodoc
 class ExecutionRoleIdentityConfig {
   static const userProfileName =
       ExecutionRoleIdentityConfig._('USER_PROFILE_NAME');
@@ -52771,6 +53478,8 @@ class ExecutionRoleIdentityConfig {
 /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain.
 /// These settings determine how user identities from IAM Identity Center are
 /// propagated through the domain to TIP enabled Amazon Web Services services.
+///
+/// @nodoc
 class TrustedIdentityPropagationSettings {
   /// The status of Trusted Identity Propagation (TIP) at the SageMaker domain
   /// level.
@@ -52811,6 +53520,8 @@ class TrustedIdentityPropagationSettings {
 }
 
 /// A collection of settings that configure the domain's Docker interaction.
+///
+/// @nodoc
 class DockerSettings {
   /// Indicates whether the domain can access Docker.
   final FeatureStatus? enableDockerAccess;
@@ -52857,6 +53568,8 @@ class DockerSettings {
 
 /// A collection of settings that configure the Amazon Q experience within the
 /// domain.
+///
+/// @nodoc
 class AmazonQSettings {
   /// The ARN of the Amazon Q profile used within the domain.
   final String? qProfileArn;
@@ -52888,6 +53601,8 @@ class AmazonQSettings {
 
 /// The settings that apply to an Amazon SageMaker AI domain when you use it in
 /// Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class UnifiedStudioSettings {
   /// The ID of the Amazon Web Services account that has the Amazon SageMaker
   /// Unified Studio domain. The default value, if you don't specify an ID, is the
@@ -52983,6 +53698,8 @@ class UnifiedStudioSettings {
 }
 
 /// Information of a particular device.
+///
+/// @nodoc
 class Device {
   /// The name of the device.
   final String deviceName;
@@ -53012,6 +53729,8 @@ class Device {
 }
 
 /// The output configuration.
+///
+/// @nodoc
 class EdgeOutputConfig {
   /// The Amazon Simple Storage (S3) bucker URI.
   final String s3OutputLocation;
@@ -53097,6 +53816,7 @@ class EdgeOutputConfig {
   }
 }
 
+/// @nodoc
 class EdgePresetDeploymentType {
   static const greengrassV2Component =
       EdgePresetDeploymentType._('GreengrassV2Component');
@@ -53125,6 +53845,8 @@ class EdgePresetDeploymentType {
 /// Configuration of the compute allocation definition for an entity. This
 /// includes the resource sharing option and the setting to preempt low priority
 /// tasks.
+///
+/// @nodoc
 class ComputeQuotaConfig {
   /// Allocate compute resources by instance types.
   final List<ComputeQuotaResourceConfig>? computeQuotaResources;
@@ -53177,6 +53899,8 @@ class ComputeQuotaConfig {
 }
 
 /// The target entity to allocate compute resources to.
+///
+/// @nodoc
 class ComputeQuotaTarget {
   /// Name of the team to allocate compute resources to.
   final String teamName;
@@ -53211,6 +53935,7 @@ class ComputeQuotaTarget {
   }
 }
 
+/// @nodoc
 class ActivationState {
   static const enabled = ActivationState._('Enabled');
   static const disabled = ActivationState._('Disabled');
@@ -53236,6 +53961,8 @@ class ActivationState {
 }
 
 /// Resource sharing configuration.
+///
+/// @nodoc
 class ResourceSharingConfig {
   /// The strategy of how idle compute is shared within the cluster. The following
   /// are the options of strategies.
@@ -53300,6 +54027,7 @@ class ResourceSharingConfig {
   }
 }
 
+/// @nodoc
 class PreemptTeamTasks {
   static const never = PreemptTeamTasks._('Never');
   static const lowerPriority = PreemptTeamTasks._('LowerPriority');
@@ -53324,6 +54052,7 @@ class PreemptTeamTasks {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceSharingStrategy {
   static const lend = ResourceSharingStrategy._('Lend');
   static const dontLend = ResourceSharingStrategy._('DontLend');
@@ -53351,6 +54080,8 @@ class ResourceSharingStrategy {
 }
 
 /// Configuration of the resources used for the compute allocation definition.
+///
+/// @nodoc
 class ComputeQuotaResourceConfig {
   /// The instance type of the instance group for the cluster.
   final ClusterInstanceType instanceType;
@@ -53426,6 +54157,7 @@ class ComputeQuotaResourceConfig {
   }
 }
 
+/// @nodoc
 class ClusterInstanceType {
   static const mlP4d_24xlarge = ClusterInstanceType._('ml.p4d.24xlarge');
   static const mlP4de_24xlarge = ClusterInstanceType._('ml.p4de.24xlarge');
@@ -53698,6 +54430,8 @@ class ClusterInstanceType {
 }
 
 /// Configuration for allocating accelerator partitions.
+///
+/// @nodoc
 class AcceleratorPartitionConfig {
   /// The number of accelerator partitions to allocate with the specified
   /// partition type. If you don't specify a value for vCPU and MemoryInGiB,
@@ -53733,6 +54467,7 @@ class AcceleratorPartitionConfig {
   }
 }
 
+/// @nodoc
 class MIGProfileType {
   static const mig_1g_5gb = MIGProfileType._('mig-1g.5gb');
   static const mig_1g_10gb = MIGProfileType._('mig-1g.10gb');
@@ -53814,6 +54549,8 @@ class MIGProfileType {
 
 /// Specifies configuration details for a Git repository when the repository is
 /// updated.
+///
+/// @nodoc
 class GitConfigForUpdate {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret that contains the credentials used to access the git repository. The
@@ -53836,6 +54573,8 @@ class GitConfigForUpdate {
 }
 
 /// The configuration to use when updating the AMI versions.
+///
+/// @nodoc
 class DeploymentConfiguration {
   /// An array that contains the alarms that SageMaker monitors to know whether to
   /// roll back the AMI update.
@@ -53885,6 +54624,8 @@ class DeploymentConfiguration {
 }
 
 /// The configurations that SageMaker uses when updating the AMI versions.
+///
+/// @nodoc
 class RollingDeploymentPolicy {
   /// The maximum amount of instances in the cluster that SageMaker can update at
   /// a time.
@@ -53923,6 +54664,8 @@ class RollingDeploymentPolicy {
 }
 
 /// The details of the alarm to monitor during the AMI update.
+///
+/// @nodoc
 class AlarmDetails {
   /// The name of the alarm.
   final String alarmName;
@@ -53948,6 +54691,8 @@ class AlarmDetails {
 /// The configuration of the size measurements of the AMI update. Using this
 /// configuration, you can specify whether SageMaker should update your instance
 /// group by an amount or percentage of instances.
+///
+/// @nodoc
 class CapacitySizeConfig {
   /// Specifies whether SageMaker should process the update by amount or
   /// percentage of instances.
@@ -53978,6 +54723,7 @@ class CapacitySizeConfig {
   }
 }
 
+/// @nodoc
 class NodeUnavailabilityType {
   static const instanceCount = NodeUnavailabilityType._('INSTANCE_COUNT');
   static const capacityPercentage =
@@ -54006,6 +54752,8 @@ class NodeUnavailabilityType {
 
 /// The configuration that describes specifications of the instance groups to
 /// update.
+///
+/// @nodoc
 class UpdateClusterSoftwareInstanceGroupSpecification {
   /// The name of the instance group to update.
   final String instanceGroupName;
@@ -54025,6 +54773,8 @@ class UpdateClusterSoftwareInstanceGroupSpecification {
 /// Cluster policy configuration. This policy is used for task prioritization
 /// and fair-share allocation. This helps prioritize critical workloads and
 /// distributes idle compute across entities.
+///
+/// @nodoc
 class SchedulerConfig {
   /// When enabled, entities borrow idle compute based on their assigned
   /// <code>FairShareWeight</code>.
@@ -54076,6 +54826,7 @@ class SchedulerConfig {
   }
 }
 
+/// @nodoc
 class FairShare {
   static const enabled = FairShare._('Enabled');
   static const disabled = FairShare._('Disabled');
@@ -54099,6 +54850,7 @@ class FairShare {
   String toString() => value;
 }
 
+/// @nodoc
 class IdleResourceSharing {
   static const enabled = IdleResourceSharing._('Enabled');
   static const disabled = IdleResourceSharing._('Disabled');
@@ -54126,6 +54878,8 @@ class IdleResourceSharing {
 
 /// Priority class configuration. When included in <code>PriorityClasses</code>,
 /// these class configurations define how tasks are queued.
+///
+/// @nodoc
 class PriorityClass {
   /// Name of the priority class.
   final String name;
@@ -54161,6 +54915,8 @@ class PriorityClass {
 
 /// The configuration for the restricted instance groups (RIG) in the SageMaker
 /// HyperPod cluster.
+///
+/// @nodoc
 class ClusterRestrictedInstanceGroupsConfig {
   /// The shared environment configuration for the restricted instance groups
   /// (RIG).
@@ -54184,6 +54940,8 @@ class ClusterRestrictedInstanceGroupsConfig {
 /// fault tolerance for large-scale model training. The system automatically
 /// saves checkpoints at high frequency to memory and periodically persists them
 /// to durable storage, like Amazon S3.
+///
+/// @nodoc
 class ClusterTieredStorageConfig {
   /// Specifies whether managed tier checkpointing is enabled or disabled for the
   /// HyperPod cluster. When set to <code>Enable</code>, the system installs a
@@ -54221,6 +54979,7 @@ class ClusterTieredStorageConfig {
   }
 }
 
+/// @nodoc
 class ClusterNodeRecovery {
   static const automatic = ClusterNodeRecovery._('Automatic');
   static const none = ClusterNodeRecovery._('None');
@@ -54246,6 +55005,7 @@ class ClusterNodeRecovery {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterNodeProvisioningMode {
   static const continuous = ClusterNodeProvisioningMode._('Continuous');
 
@@ -54271,6 +55031,8 @@ class ClusterNodeProvisioningMode {
 }
 
 /// Specifies the autoscaling configuration for a HyperPod cluster.
+///
+/// @nodoc
 class ClusterAutoScalingConfig {
   /// Describes whether autoscaling is enabled or disabled for the cluster. Valid
   /// values are <code>Enable</code> and <code>Disable</code>.
@@ -54296,6 +55058,8 @@ class ClusterAutoScalingConfig {
 }
 
 /// The type of orchestrator used for the SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterOrchestrator {
   /// The Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod
   /// cluster.
@@ -54334,6 +55098,8 @@ class ClusterOrchestrator {
 
 /// The configuration settings for the Amazon EKS cluster used as the
 /// orchestrator for the SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterOrchestratorEksConfig {
   /// The Amazon Resource Name (ARN) of the Amazon EKS cluster associated with the
   /// SageMaker HyperPod cluster.
@@ -54359,6 +55125,8 @@ class ClusterOrchestratorEksConfig {
 
 /// The configuration settings for the Slurm orchestrator used with the
 /// SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterOrchestratorSlurmConfig {
   /// The strategy for managing partitions for the Slurm configuration. Valid
   /// values are <code>Managed</code>, <code>Overwrite</code>, and
@@ -54385,6 +55153,7 @@ class ClusterOrchestratorSlurmConfig {
   }
 }
 
+/// @nodoc
 class ClusterSlurmConfigStrategy {
   static const overwrite = ClusterSlurmConfigStrategy._('Overwrite');
   static const managed = ClusterSlurmConfigStrategy._('Managed');
@@ -54411,6 +55180,7 @@ class ClusterSlurmConfigStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterAutoScalingMode {
   static const enable = ClusterAutoScalingMode._('Enable');
   static const disable = ClusterAutoScalingMode._('Disable');
@@ -54436,6 +55206,7 @@ class ClusterAutoScalingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterAutoScalerType {
   static const karpenter = ClusterAutoScalerType._('Karpenter');
 
@@ -54460,6 +55231,7 @@ class ClusterAutoScalerType {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterConfigMode {
   static const enable = ClusterConfigMode._('Enable');
   static const disable = ClusterConfigMode._('Disable');
@@ -54486,6 +55258,8 @@ class ClusterConfigMode {
 
 /// The shared environment configuration for the restricted instance groups
 /// (RIG).
+///
+/// @nodoc
 class ClusterSharedEnvironmentConfig {
   /// Configuration settings for an Amazon FSx for Lustre file system in the
   /// shared environment.
@@ -54512,6 +55286,8 @@ class ClusterSharedEnvironmentConfig {
 
 /// The deletion policy for the Amazon FSx for Lustre file system used in the
 /// shared environment of restricted instance groups (RIG).
+///
+/// @nodoc
 class ClusterFSxLustreDeletionPolicy {
   static const deleteIfNotUsed =
       ClusterFSxLustreDeletionPolicy._('DeleteIfNotUsed');
@@ -54540,6 +55316,8 @@ class ClusterFSxLustreDeletionPolicy {
 
 /// Configuration settings for an Amazon FSx for Lustre file system to be used
 /// with the cluster.
+///
+/// @nodoc
 class FSxLustreConfig {
   /// The throughput capacity of the Amazon FSx for Lustre file system, measured
   /// in MB/s per TiB of storage.
@@ -54572,6 +55350,8 @@ class FSxLustreConfig {
 }
 
 /// The specifications of a restricted instance group that you need to define.
+///
+/// @nodoc
 class ClusterRestrictedInstanceGroupSpecification {
   /// Specifies an IAM execution role to be assumed by the restricted instance
   /// group.
@@ -54665,6 +55445,8 @@ class ClusterRestrictedInstanceGroupSpecification {
 
 /// The configuration object of the schedule that SageMaker follows when
 /// updating the AMI.
+///
+/// @nodoc
 class ScheduledUpdateConfig {
   /// A cron expression that specifies the schedule that SageMaker follows when
   /// updating the AMI.
@@ -54699,6 +55481,8 @@ class ScheduledUpdateConfig {
 }
 
 /// The configuration for the restricted instance groups (RIG) environment.
+///
+/// @nodoc
 class EnvironmentConfig {
   /// Configuration settings for an Amazon FSx for Lustre file system to be used
   /// with the cluster.
@@ -54716,6 +55500,7 @@ class EnvironmentConfig {
   }
 }
 
+/// @nodoc
 class DeepHealthCheckType {
   static const instanceStress = DeepHealthCheckType._('InstanceStress');
   static const instanceConnectivity =
@@ -54746,6 +55531,8 @@ class DeepHealthCheckType {
 /// in the SageMaker HyperPod cluster instance group. To learn more, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620">SageMaker
 /// HyperPod release notes: June 20, 2024</a>.
+///
+/// @nodoc
 class ClusterInstanceStorageConfig {
   /// Defines the configuration for attaching additional Amazon Elastic Block
   /// Store (EBS) volumes to the instances in the SageMaker HyperPod cluster
@@ -54802,6 +55589,8 @@ class ClusterInstanceStorageConfig {
 /// instance group. To learn more, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620">SageMaker
 /// HyperPod release notes: June 20, 2024</a>.
+///
+/// @nodoc
 class ClusterEbsVolumeConfig {
   /// Specifies whether the configuration is for the cluster's root or secondary
   /// Amazon EBS volume. You can specify two <code>ClusterEbsVolumeConfig</code>
@@ -54879,6 +55668,8 @@ class ClusterEbsVolumeConfig {
 
 /// Defines the configuration for attaching an Amazon FSx for Lustre file system
 /// to instances in a SageMaker HyperPod cluster instance group.
+///
+/// @nodoc
 class ClusterFsxLustreConfig {
   /// The DNS name of the Amazon FSx for Lustre file system.
   final String dnsName;
@@ -54918,6 +55709,8 @@ class ClusterFsxLustreConfig {
 
 /// Defines the configuration for attaching an Amazon FSx for OpenZFS file
 /// system to instances in a SageMaker HyperPod cluster instance group.
+///
+/// @nodoc
 class ClusterFsxOpenZfsConfig {
   /// The DNS name of the Amazon FSx for OpenZFS file system.
   final String dnsName;
@@ -54949,6 +55742,8 @@ class ClusterFsxOpenZfsConfig {
 }
 
 /// The specifications of an instance group that you need to define.
+///
+/// @nodoc
 class ClusterInstanceGroupSpecification {
   /// Specifies an IAM execution role to be assumed by the instance group.
   final String executionRole;
@@ -55184,6 +55979,8 @@ class ClusterInstanceGroupSpecification {
 /// multiple instance types that the instance group can use. The order of
 /// instance types in the list determines the priority for instance
 /// provisioning.
+///
+/// @nodoc
 class ClusterInstanceRequirements {
   /// The list of instance types that the instance group can use. The order of
   /// instance types determines the priority—HyperPod attempts to provision
@@ -55204,6 +56001,8 @@ class ClusterInstanceRequirements {
 }
 
 /// The lifecycle configuration for a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterLifeCycleConfig {
   /// The file name of the entrypoint script of lifecycle scripts under
   /// <code>SourceS3Uri</code>. This entrypoint script runs during cluster
@@ -55256,6 +56055,8 @@ class ClusterLifeCycleConfig {
 
 /// Kubernetes configuration that specifies labels and taints to be applied to
 /// cluster nodes in an instance group.
+///
+/// @nodoc
 class ClusterKubernetesConfig {
   /// Key-value pairs of labels to be applied to cluster nodes.
   final Map<String, String>? labels;
@@ -55280,6 +56081,8 @@ class ClusterKubernetesConfig {
 
 /// The Slurm configuration for an instance group in a SageMaker HyperPod
 /// cluster.
+///
+/// @nodoc
 class ClusterSlurmConfig {
   /// The type of Slurm node for the instance group. Valid values are
   /// <code>Controller</code>, <code>Worker</code>, and <code>Login</code>.
@@ -55305,6 +56108,8 @@ class ClusterSlurmConfig {
 
 /// Defines the instance capacity requirements for an instance group, including
 /// configurations for both Spot and On-Demand capacity types.
+///
+/// @nodoc
 class ClusterCapacityRequirements {
   /// Configuration options specific to On-Demand instances.
   final ClusterOnDemandOptions? onDemand;
@@ -55341,6 +56146,8 @@ class ClusterCapacityRequirements {
 
 /// The network interface configuration for a Amazon SageMaker HyperPod cluster
 /// instance group.
+///
+/// @nodoc
 class ClusterNetworkInterface {
   /// The type of network interface for the instance group. Valid values:
   ///
@@ -55372,6 +56179,7 @@ class ClusterNetworkInterface {
   }
 }
 
+/// @nodoc
 class ClusterInterfaceType {
   static const efa = ClusterInterfaceType._('efa');
   static const efaOnly = ClusterInterfaceType._('efa-only');
@@ -55398,6 +56206,8 @@ class ClusterInterfaceType {
 }
 
 /// Configuration options specific to Spot instances.
+///
+/// @nodoc
 class ClusterSpotOptions {
   ClusterSpotOptions();
 
@@ -55411,6 +56221,8 @@ class ClusterSpotOptions {
 }
 
 /// Configuration options specific to On-Demand instances.
+///
+/// @nodoc
 class ClusterOnDemandOptions {
   ClusterOnDemandOptions();
 
@@ -55423,6 +56235,7 @@ class ClusterOnDemandOptions {
   }
 }
 
+/// @nodoc
 class ClusterSlurmNodeType {
   static const controller = ClusterSlurmNodeType._('Controller');
   static const login = ClusterSlurmNodeType._('Login');
@@ -55450,6 +56263,8 @@ class ClusterSlurmNodeType {
 }
 
 /// A Kubernetes taint that can be applied to cluster nodes.
+///
+/// @nodoc
 class ClusterKubernetesTaint {
   /// The effect of the taint. Valid values are <code>NoSchedule</code>,
   /// <code>PreferNoSchedule</code>, and <code>NoExecute</code>.
@@ -55488,6 +56303,7 @@ class ClusterKubernetesTaint {
   }
 }
 
+/// @nodoc
 class ClusterKubernetesTaintEffect {
   static const noSchedule = ClusterKubernetesTaintEffect._('NoSchedule');
   static const preferNoSchedule =
@@ -55517,6 +56333,8 @@ class ClusterKubernetesTaintEffect {
 
 /// The configuration for the file system and kernels in a SageMaker AI image
 /// running as a KernelGateway app.
+///
+/// @nodoc
 class KernelGatewayImageConfig {
   /// The specification of the Jupyter kernels in the image.
   final List<KernelSpec> kernelSpecs;
@@ -55556,6 +56374,8 @@ class KernelGatewayImageConfig {
 /// The configuration for the file system and kernels in a SageMaker AI image
 /// running as a JupyterLab app. The <code>FileSystemConfig</code> object is not
 /// supported.
+///
+/// @nodoc
 class JupyterLabAppImageConfig {
   final ContainerConfig? containerConfig;
   final FileSystemConfig? fileSystemConfig;
@@ -55591,6 +56411,8 @@ class JupyterLabAppImageConfig {
 /// The configuration for the file system and kernels in a SageMaker image
 /// running as a Code Editor app. The <code>FileSystemConfig</code> object is
 /// not supported.
+///
+/// @nodoc
 class CodeEditorAppImageConfig {
   final ContainerConfig? containerConfig;
   final FileSystemConfig? fileSystemConfig;
@@ -55625,6 +56447,8 @@ class CodeEditorAppImageConfig {
 
 /// The Amazon Elastic File System storage configuration for a SageMaker AI
 /// image.
+///
+/// @nodoc
 class FileSystemConfig {
   /// The default POSIX group ID (GID). If not specified, defaults to
   /// <code>100</code>.
@@ -55666,6 +56490,8 @@ class FileSystemConfig {
 }
 
 /// The configuration used to run the application image container.
+///
+/// @nodoc
 class ContainerConfig {
   /// The arguments for the container when you're running the application.
   final List<String>? containerArguments;
@@ -55713,6 +56539,8 @@ class ContainerConfig {
 }
 
 /// The specification of a Jupyter kernel.
+///
+/// @nodoc
 class KernelSpec {
   /// The name of the Jupyter kernel in the image. This value is case sensitive.
   final String name;
@@ -55742,6 +56570,7 @@ class KernelSpec {
   }
 }
 
+/// @nodoc
 class ActionStatus {
   static const unknown = ActionStatus._('Unknown');
   static const inProgress = ActionStatus._('InProgress');
@@ -55776,6 +56605,7 @@ class ActionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class JobCategory {
   static const agentRFT = JobCategory._('AgentRFT');
   static const agentRFTEvaluation = JobCategory._('AgentRFTEvaluation');
@@ -55799,6 +56629,7 @@ class JobCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class InferenceExperimentStopDesiredState {
   static const completed = InferenceExperimentStopDesiredState._('Completed');
   static const cancelled = InferenceExperimentStopDesiredState._('Cancelled');
@@ -55824,6 +56655,7 @@ class InferenceExperimentStopDesiredState {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelVariantAction {
   static const retain = ModelVariantAction._('Retain');
   static const remove = ModelVariantAction._('Remove');
@@ -55851,6 +56683,8 @@ class ModelVariantAction {
 }
 
 /// The selective execution configuration applied to the pipeline run.
+///
+/// @nodoc
 class SelectiveExecutionConfig {
   /// A list of pipeline steps to run. All step(s) in all path(s) between two
   /// selected steps should be included.
@@ -55894,6 +56728,8 @@ class SelectiveExecutionConfig {
 }
 
 /// A step selected to run in selective execution mode.
+///
+/// @nodoc
 class SelectedStep {
   /// The name of the pipeline step.
   final String stepName;
@@ -55917,6 +56753,8 @@ class SelectedStep {
 }
 
 /// Assigns a value to a named Pipeline parameter.
+///
+/// @nodoc
 class Parameter {
   /// The name of the parameter to assign a value to. This parameter name must
   /// match a named parameter in the pipeline definition.
@@ -55952,6 +56790,8 @@ class Parameter {
 /// Overlapping deep health check configurations will be merged into a single
 /// operation.
 /// </note>
+///
+/// @nodoc
 class InstanceGroupHealthCheckConfiguration {
   /// A list of deep health checks to be performed.
   final List<DeepHealthCheckType> deepHealthChecks;
@@ -55986,6 +56826,8 @@ class InstanceGroupHealthCheckConfiguration {
 }
 
 /// An output parameter of a pipeline step.
+///
+/// @nodoc
 class OutputParameter {
   /// The name of the output parameter.
   final String name;
@@ -56019,6 +56861,8 @@ class OutputParameter {
 /// offering ID with the <code> <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ExtendTrainingPlan.html">ExtendTrainingPlan</a>
 /// </code> API to extend a training plan.
+///
+/// @nodoc
 class TrainingPlanExtensionOffering {
   /// The unique identifier for this extension offering.
   final String trainingPlanExtensionOfferingId;
@@ -56091,6 +56935,8 @@ class TrainingPlanExtensionOffering {
 /// HyperPod clusters using Amazon SageMaker Training Plan, see <code> <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html">CreateTrainingPlan</a>
 /// </code>.
+///
+/// @nodoc
 class TrainingPlanOffering {
   /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod,
   /// SageMaker Endpoints, Studio apps) for this training plan offering.
@@ -56213,6 +57059,8 @@ class TrainingPlanOffering {
 /// HyperPod clusters using Amazon SageMaker Training Plan, see <code> <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html">CreateTrainingPlan</a>
 /// </code>.
+///
+/// @nodoc
 class ReservedCapacityOffering {
   /// The number of instances in the reserved capacity offering.
   final int instanceCount;
@@ -56320,6 +57168,7 @@ class ReservedCapacityOffering {
   }
 }
 
+/// @nodoc
 class ReservedCapacityType {
   static const ultraServer = ReservedCapacityType._('UltraServer');
   static const instance = ReservedCapacityType._('Instance');
@@ -56345,6 +57194,7 @@ class ReservedCapacityType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReservedCapacityInstanceType {
   static const mlP4d_24xlarge =
       ReservedCapacityInstanceType._('ml.p4d.24xlarge');
@@ -56400,6 +57250,7 @@ class ReservedCapacityInstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class SageMakerResourceName {
   static const trainingJob = SageMakerResourceName._('training-job');
   static const hyperpodCluster = SageMakerResourceName._('hyperpod-cluster');
@@ -56434,6 +57285,8 @@ class SageMakerResourceName {
 /// estimated. The <code>Relation</code> field indicates whether it's an exact
 /// figure or a lower bound. This helps understand the full scope of search
 /// results, especially when dealing with large result sets.
+///
+/// @nodoc
 class TotalHits {
   /// Indicates the relationship between the returned <code>Value</code> and the
   /// actual total number of matching results. Possible values are:
@@ -56476,6 +57329,7 @@ class TotalHits {
   }
 }
 
+/// @nodoc
 class Relation {
   static const equalTo = Relation._('EqualTo');
   static const greaterThanOrEqualTo = Relation._('GreaterThanOrEqualTo');
@@ -56502,6 +57356,8 @@ class Relation {
 /// A single resource returned as part of the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html">Search</a>
 /// API response.
+///
+/// @nodoc
 class SearchRecord {
   final Endpoint? endpoint;
 
@@ -56664,6 +57520,8 @@ class SearchRecord {
 }
 
 /// Contains information about a training job.
+///
+/// @nodoc
 class TrainingJob {
   /// Information about the algorithm used for training, and algorithm metadata.
   final AlgorithmSpecification? algorithmSpecification;
@@ -57185,6 +58043,8 @@ class TrainingJob {
 /// API. For information about experiments, see the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateExperiment.html">CreateExperiment</a>
 /// API.
+///
+/// @nodoc
 class Experiment {
   /// Who created the experiment.
   final UserContext? createdBy;
@@ -57283,6 +58143,8 @@ class Experiment {
 /// The properties of a trial as returned by the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html">Search</a>
 /// API.
+///
+/// @nodoc
 class Trial {
   /// Who created the trial.
   final UserContext? createdBy;
@@ -57402,6 +58264,8 @@ class Trial {
 /// The properties of a trial component as returned by the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html">Search</a>
 /// API.
+///
+/// @nodoc
 class TrialComponent {
   /// Who created the trial component.
   final UserContext? createdBy;
@@ -57600,6 +58464,8 @@ class TrialComponent {
 }
 
 /// A hosted endpoint for real-time inference.
+///
+/// @nodoc
 class Endpoint {
   /// The time that the endpoint was created.
   final DateTime creationTime;
@@ -57744,6 +58610,8 @@ class Endpoint {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html">
 /// <code>CreateModelPackage</code> </a>.
+///
+/// @nodoc
 class ModelPackage {
   /// An array of additional Inference Specification objects.
   final List<AdditionalInferenceSpecificationDefinition>?
@@ -58109,6 +58977,8 @@ class ModelPackage {
 }
 
 /// A group of versioned models in the Model Registry.
+///
+/// @nodoc
 class ModelPackageGroup {
   final UserContext? createdBy;
 
@@ -58211,6 +59081,8 @@ class ModelPackageGroup {
 }
 
 /// A SageMaker Model Building Pipeline instance.
+///
+/// @nodoc
 class Pipeline {
   final UserContext? createdBy;
 
@@ -58331,6 +59203,8 @@ class Pipeline {
 }
 
 /// An execution of a pipeline.
+///
+/// @nodoc
 class PipelineExecution {
   final UserContext? createdBy;
 
@@ -58483,6 +59357,8 @@ class PipelineExecution {
 }
 
 /// The version of the pipeline.
+///
+/// @nodoc
 class PipelineVersion {
   final UserContext? createdBy;
 
@@ -58600,6 +59476,8 @@ class PipelineVersion {
 /// with a unique identifier for each row where each column in the table is a
 /// feature. In principle, a Feature Group is composed of features and values
 /// per features.
+///
+/// @nodoc
 class FeatureGroup {
   /// The time a <code>FeatureGroup</code> was created.
   final DateTime? creationTime;
@@ -58771,6 +59649,8 @@ class FeatureGroup {
 
 /// The metadata for a feature. It can either be metadata that you specify, or
 /// metadata that is updated automatically.
+///
+/// @nodoc
 class FeatureMetadata {
   /// A timestamp indicating when the feature was created.
   final DateTime? creationTime;
@@ -58849,6 +59729,8 @@ class FeatureMetadata {
 }
 
 /// The properties of a project as returned by the Search API.
+///
+/// @nodoc
 class Project {
   /// Who created the project.
   final UserContext? createdBy;
@@ -58987,6 +59869,8 @@ class Project {
 /// An entity returned by the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchRecord.html">SearchRecord</a>
 /// API containing the properties of a hyperparameter tuning job.
+///
+/// @nodoc
 class HyperParameterTuningJobSearchEntity {
   final HyperParameterTrainingJobSummary? bestTrainingJob;
 
@@ -59173,6 +60057,8 @@ class HyperParameterTuningJobSearchEntity {
 }
 
 /// An Amazon SageMaker Model Card.
+///
+/// @nodoc
 class ModelCard {
   /// The content of the model card. Content uses the <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema">model
@@ -59322,6 +60208,8 @@ class ModelCard {
 }
 
 /// A model displayed in the Amazon SageMaker Model Dashboard.
+///
+/// @nodoc
 class ModelDashboardModel {
   /// The endpoints that host a model.
   final List<ModelDashboardEndpoint>? endpoints;
@@ -59390,6 +60278,8 @@ class ModelDashboardModel {
 
 /// Search shape for Job. Mirrors DescribeJobResponse fields. If you update
 /// DescribeJobResponse, update this structure as well.
+///
+/// @nodoc
 class Job {
   /// The date and time that the job was created.
   final DateTime? creationTime;
@@ -59518,6 +60408,7 @@ class Job {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const inProgress = JobStatus._('InProgress');
   static const completed = JobStatus._('Completed');
@@ -59554,6 +60445,7 @@ class JobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class JobSecondaryStatus {
   static const starting = JobSecondaryStatus._('Starting');
   static const downloading = JobSecondaryStatus._('Downloading');
@@ -59612,6 +60504,8 @@ class JobSecondaryStatus {
 /// multiple secondary statuses during execution. Each transition records the
 /// status, start time, optional end time, and an optional message with
 /// additional details.
+///
+/// @nodoc
 class JobSecondaryStatusTransition {
   /// The date and time that the status transition started.
   final DateTime startTime;
@@ -59658,6 +60552,8 @@ class JobSecondaryStatusTransition {
 /// The properties of a model as returned by the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html">Search</a>
 /// API.
+///
+/// @nodoc
 class Model {
   /// The containers in the inference pipeline.
   final List<ContainerDefinition>? containers;
@@ -59775,6 +60671,8 @@ class Model {
 /// <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html">Use
 /// Batch Transform</a>.
+///
+/// @nodoc
 class TransformJob {
   /// The Amazon Resource Name (ARN) of the AutoML job that created the transform
   /// job.
@@ -60009,6 +60907,8 @@ class TransformJob {
 
 /// The model card for a model displayed in the Amazon SageMaker Model
 /// Dashboard.
+///
+/// @nodoc
 class ModelDashboardModelCard {
   final UserContext? createdBy;
 
@@ -60121,6 +61021,8 @@ class ModelDashboardModelCard {
 }
 
 /// Configure the security settings to protect model card data.
+///
+/// @nodoc
 class ModelCardSecurityConfig {
   /// A Key Management Service <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id">key
@@ -60146,6 +61048,8 @@ class ModelCardSecurityConfig {
 }
 
 /// Information about the user who created or modified a SageMaker resource.
+///
+/// @nodoc
 class UserContext {
   /// The domain associated with the user.
   final String? domainId;
@@ -60196,6 +61100,8 @@ class UserContext {
 /// The IAM Identity details associated with the user. These details are
 /// associated with model package groups, model packages and project entities
 /// only.
+///
+/// @nodoc
 class IamIdentity {
   /// The Amazon Resource Name (ARN) of the IAM identity.
   final String? arn;
@@ -60234,6 +61140,8 @@ class IamIdentity {
 
 /// A monitoring schedule for a model displayed in the Amazon SageMaker Model
 /// Dashboard.
+///
+/// @nodoc
 class ModelDashboardMonitoringSchedule {
   final BatchTransformInput? batchTransformInput;
 
@@ -60353,6 +61261,7 @@ class ModelDashboardMonitoringSchedule {
   }
 }
 
+/// @nodoc
 class ScheduleStatus {
   static const pending = ScheduleStatus._('Pending');
   static const failed = ScheduleStatus._('Failed');
@@ -60380,6 +61289,8 @@ class ScheduleStatus {
 }
 
 /// Summary of information about the last monitoring job to run.
+///
+/// @nodoc
 class MonitoringExecutionSummary {
   /// The time at which the monitoring job was created.
   final DateTime creationTime;
@@ -60470,6 +61381,7 @@ class MonitoringExecutionSummary {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const pending = ExecutionStatus._('Pending');
   static const completed = ExecutionStatus._('Completed');
@@ -60509,6 +61421,8 @@ class ExecutionStatus {
 }
 
 /// Provides summary information about a monitor alert.
+///
+/// @nodoc
 class MonitoringAlertSummary {
   /// A list of alert actions taken in response to an alert going into
   /// <code>InAlert</code> status.
@@ -60580,6 +61494,7 @@ class MonitoringAlertSummary {
   }
 }
 
+/// @nodoc
 class MonitoringAlertStatus {
   static const inAlert = MonitoringAlertStatus._('InAlert');
   static const ok = MonitoringAlertStatus._('OK');
@@ -60607,6 +61522,8 @@ class MonitoringAlertStatus {
 
 /// A list of alert actions taken in response to an alert going into
 /// <code>InAlert</code> status.
+///
+/// @nodoc
 class MonitoringAlertActions {
   /// An alert action taken to light up an icon on the Model Dashboard when an
   /// alert goes into <code>InAlert</code> status.
@@ -60636,6 +61553,8 @@ class MonitoringAlertActions {
 
 /// An alert action taken to light up an icon on the Amazon SageMaker Model
 /// Dashboard when an alert goes into <code>InAlert</code> status.
+///
+/// @nodoc
 class ModelDashboardIndicatorAction {
   /// Indicates whether the alert action is turned on.
   final bool? enabled;
@@ -60658,6 +61577,7 @@ class ModelDashboardIndicatorAction {
   }
 }
 
+/// @nodoc
 class TransformJobStatus {
   static const inProgress = TransformJobStatus._('InProgress');
   static const completed = TransformJobStatus._('Completed');
@@ -60688,6 +61608,8 @@ class TransformJobStatus {
 
 /// Configures the timeout and maximum number of retries for processing a
 /// transform job invocation.
+///
+/// @nodoc
 class ModelClientConfig {
   /// The maximum number of retries when invocation requests are failing. The
   /// default value is 3.
@@ -60721,6 +61643,7 @@ class ModelClientConfig {
   }
 }
 
+/// @nodoc
 class BatchStrategy {
   static const multiRecord = BatchStrategy._('MultiRecord');
   static const singleRecord = BatchStrategy._('SingleRecord');
@@ -60747,6 +61670,8 @@ class BatchStrategy {
 
 /// Describes the input source of a transform job and the way the transform job
 /// consumes it.
+///
+/// @nodoc
 class TransformInput {
   /// Describes the location of the channel data, which is, the S3 location of the
   /// input data that the model can consume.
@@ -60838,6 +61763,8 @@ class TransformInput {
 }
 
 /// Describes the results of a transform job.
+///
+/// @nodoc
 class TransformOutput {
   /// The Amazon S3 path where you want Amazon SageMaker to store the results of
   /// the transform job. For example,
@@ -60938,6 +61865,8 @@ class TransformOutput {
 
 /// Configuration to control how SageMaker captures inference data for batch
 /// transform jobs.
+///
+/// @nodoc
 class BatchDataCaptureConfig {
   /// The Amazon S3 location being used to capture the data.
   final String destinationS3Uri;
@@ -60998,6 +61927,8 @@ class BatchDataCaptureConfig {
 
 /// Describes the resources, including ML instance types and ML instance count,
 /// to use for transform job.
+///
+/// @nodoc
 class TransformResources {
   /// The number of ML compute instances to use in the transform job. The default
   /// value is <code>1</code>, and the maximum is <code>100</code>. For
@@ -61109,6 +62040,8 @@ class TransformResources {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html">Associate
 /// Prediction Results with their Corresponding Input Records</a>.
+///
+/// @nodoc
 class DataProcessing {
   /// A <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html#data-processing-operators">JSONPath</a>
@@ -61118,7 +62051,8 @@ class DataProcessing {
   /// entire input dataset to the algorithm, accept the default value
   /// <code>$</code>.
   ///
-  /// Examples: <code>"$"</code>, <code>"$[1:]"</code>, <code>"$.features"</code>
+  /// Examples: <code>"$"</code>, <code>"$\[1:\]"</code>,
+  /// <code>"$.features"</code>
   final String? inputFilter;
 
   /// Specifies the source of the data to join with the transformed data. The
@@ -61156,8 +62090,8 @@ class DataProcessing {
   /// <code>$</code>. If you specify indexes that aren't within the dimension size
   /// of the joined dataset, you get an error.
   ///
-  /// Examples: <code>"$"</code>, <code>"$[0,5:]"</code>,
-  /// <code>"$['id','SageMakerOutput']"</code>
+  /// Examples: <code>"$"</code>, <code>"$\[0,5:\]"</code>,
+  /// <code>"$\['id','SageMakerOutput'\]"</code>
   final String? outputFilter;
 
   DataProcessing({
@@ -61203,6 +62137,8 @@ class DataProcessing {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTransformJob.html">CreateTransformJob</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ExperimentConfig {
   /// The name of an existing experiment to associate with the trial component.
   final String? experimentName;
@@ -61249,6 +62185,7 @@ class ExperimentConfig {
   }
 }
 
+/// @nodoc
 class JoinSource {
   static const input = JoinSource._('Input');
   static const none = JoinSource._('None');
@@ -61272,6 +62209,7 @@ class JoinSource {
   String toString() => value;
 }
 
+/// @nodoc
 class AssemblyType {
   static const none = AssemblyType._('None');
   static const line = AssemblyType._('Line');
@@ -61296,6 +62234,8 @@ class AssemblyType {
 }
 
 /// Describes the location of the channel data.
+///
+/// @nodoc
 class TransformDataSource {
   /// The S3 location of the data source that is associated with a channel.
   final TransformS3DataSource s3DataSource;
@@ -61320,6 +62260,7 @@ class TransformDataSource {
   }
 }
 
+/// @nodoc
 class SplitType {
   static const none = SplitType._('None');
   static const line = SplitType._('Line');
@@ -61346,6 +62287,8 @@ class SplitType {
 }
 
 /// Describes the S3 data source.
+///
+/// @nodoc
 class TransformS3DataSource {
   /// If you choose <code>S3Prefix</code>, <code>S3Uri</code> identifies a key
   /// name prefix. Amazon SageMaker uses all objects with the specified key name
@@ -61375,7 +62318,7 @@ class TransformS3DataSource {
   ///
   /// The manifest is an S3 object which is a JSON file with the following format:
   ///
-  /// <code>[ {"prefix": "s3://customer_bucket/some/prefix/"},</code>
+  /// <code>\[ {"prefix": "s3://customer_bucket/some/prefix/"},</code>
   ///
   /// <code>"relative/path/to/custdata-1",</code>
   ///
@@ -61385,7 +62328,7 @@ class TransformS3DataSource {
   ///
   /// <code>"relative/path/custdata-N"</code>
   ///
-  /// <code>]</code>
+  /// <code>\]</code>
   ///
   /// The preceding JSON matches the following <code>S3Uris</code>:
   ///
@@ -61427,6 +62370,7 @@ class TransformS3DataSource {
   }
 }
 
+/// @nodoc
 class S3DataType {
   static const manifestFile = S3DataType._('ManifestFile');
   static const s3Prefix = S3DataType._('S3Prefix');
@@ -61459,6 +62403,8 @@ class S3DataType {
 
 /// An endpoint that hosts a model displayed in the Amazon SageMaker Model
 /// Dashboard.
+///
+/// @nodoc
 class ModelDashboardEndpoint {
   /// A timestamp that indicates when the endpoint was created.
   final DateTime creationTime;
@@ -61511,6 +62457,7 @@ class ModelDashboardEndpoint {
   }
 }
 
+/// @nodoc
 class EndpointStatus {
   static const outOfService = EndpointStatus._('OutOfService');
   static const creating = EndpointStatus._('Creating');
@@ -61553,6 +62500,8 @@ class EndpointStatus {
 }
 
 /// Describes the container, as part of model definition.
+///
+/// @nodoc
 class ContainerDefinition {
   /// Data sources that are available to your model in addition to the one that
   /// you specify for <code>ModelDataSource</code> when you use the
@@ -61591,8 +62540,8 @@ class ContainerDefinition {
   /// VPC that you configure for your endpoint. If you are using your own custom
   /// algorithm instead of an algorithm provided by SageMaker, the inference code
   /// must meet SageMaker requirements. SageMaker supports both
-  /// <code>registry/repository[:tag]</code> and
-  /// <code>registry/repository[@digest]</code> image path formats. For more
+  /// <code>registry/repository\[:tag\]</code> and
+  /// <code>registry/repository\[@digest\]</code> image path formats. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
   /// Your Own Algorithms with Amazon SageMaker</a>.
@@ -61738,6 +62687,8 @@ class ContainerDefinition {
 
 /// Specifies details about how containers in a multi-container endpoint are
 /// run.
+///
+/// @nodoc
 class InferenceExecutionConfig {
   /// How containers in a multi-container are run. The following values are valid.
   ///
@@ -61773,6 +62724,8 @@ class InferenceExecutionConfig {
 /// advanced recommendations, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateInferenceRecommendationsJob.html">CreateInferenceRecommendationsJob</a>
 /// to create an inference recommendation job.
+///
+/// @nodoc
 class DeploymentRecommendation {
   /// Status of the deployment recommendation. The status
   /// <code>NOT_APPLICABLE</code> means that SageMaker is unable to provide a
@@ -61816,6 +62769,7 @@ class DeploymentRecommendation {
   }
 }
 
+/// @nodoc
 class RecommendationStatus {
   static const inProgress = RecommendationStatus._('IN_PROGRESS');
   static const completed = RecommendationStatus._('COMPLETED');
@@ -61844,6 +62798,8 @@ class RecommendationStatus {
 }
 
 /// The recommended configuration to use for Real-Time Inference.
+///
+/// @nodoc
 class RealTimeInferenceRecommendation {
   /// The recommended instance type for Real-Time Inference.
   final ProductionVariantInstanceType instanceType;
@@ -61883,6 +62839,7 @@ class RealTimeInferenceRecommendation {
   }
 }
 
+/// @nodoc
 class InferenceExecutionMode {
   static const serial = InferenceExecutionMode._('Serial');
   static const direct = InferenceExecutionMode._('Direct');
@@ -61910,6 +62867,8 @@ class InferenceExecutionMode {
 
 /// Specifies whether the model container is in Amazon ECR or a private Docker
 /// registry accessible from your Amazon Virtual Private Cloud (VPC).
+///
+/// @nodoc
 class ImageConfig {
   /// Set this to one of the following values:
   ///
@@ -61958,6 +62917,7 @@ class ImageConfig {
   }
 }
 
+/// @nodoc
 class ContainerMode {
   static const singleModel = ContainerMode._('SingleModel');
   static const multiModel = ContainerMode._('MultiModel');
@@ -61983,6 +62943,8 @@ class ContainerMode {
 }
 
 /// Specifies additional configuration for hosting multi-model endpoints.
+///
+/// @nodoc
 class MultiModelConfig {
   /// Whether to cache models for a multi-model endpoint. By default, multi-model
   /// endpoints cache models so that a model does not have to be loaded into
@@ -62013,6 +62975,7 @@ class MultiModelConfig {
   }
 }
 
+/// @nodoc
 class ModelCacheSetting {
   static const enabled = ModelCacheSetting._('Enabled');
   static const disabled = ModelCacheSetting._('Disabled');
@@ -62037,6 +63000,7 @@ class ModelCacheSetting {
   String toString() => value;
 }
 
+/// @nodoc
 class RepositoryAccessMode {
   static const platform = RepositoryAccessMode._('Platform');
   static const vpc = RepositoryAccessMode._('Vpc');
@@ -62068,6 +63032,8 @@ class RepositoryAccessMode {
 /// <code>RepositoryAccessMode</code> field of the <code>ImageConfig</code>
 /// object that you passed to a call to <code>CreateModel</code> and the private
 /// Docker registry where the model image is hosted requires authentication.
+///
+/// @nodoc
 class RepositoryAuthConfig {
   /// The Amazon Resource Name (ARN) of an Amazon Web Services Lambda function
   /// that provides credentials to authenticate to the private Docker registry
@@ -62099,6 +63065,8 @@ class RepositoryAuthConfig {
 }
 
 /// Configures a hyperparameter tuning job.
+///
+/// @nodoc
 class HyperParameterTuningJobConfig {
   /// The <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceLimits.html">ResourceLimits</a>
@@ -62228,6 +63196,8 @@ class HyperParameterTuningJobConfig {
 }
 
 /// Defines the training jobs launched by a hyperparameter tuning job.
+///
+/// @nodoc
 class HyperParameterTrainingJobDefinition {
   /// The <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterAlgorithmSpecification.html">HyperParameterAlgorithmSpecification</a>
@@ -62470,6 +63440,7 @@ class HyperParameterTrainingJobDefinition {
   }
 }
 
+/// @nodoc
 class HyperParameterTuningJobStatus {
   static const completed = HyperParameterTuningJobStatus._('Completed');
   static const inProgress = HyperParameterTuningJobStatus._('InProgress');
@@ -62510,6 +63481,8 @@ class HyperParameterTuningJobStatus {
 
 /// The numbers of training jobs launched by a hyperparameter tuning job,
 /// categorized by status.
+///
+/// @nodoc
 class TrainingJobStatusCounters {
   /// The number of completed training jobs launched by the hyperparameter tuning
   /// job.
@@ -62571,6 +63544,8 @@ class TrainingJobStatusCounters {
 /// metric status shows whether the final objective metric for the training job
 /// has been evaluated by the tuning job and used in the hyperparameter tuning
 /// process.
+///
+/// @nodoc
 class ObjectiveStatusCounters {
   /// The number of training jobs whose final objective metric was not evaluated
   /// and used in the hyperparameter tuning process. This typically occurs when
@@ -62612,6 +63587,8 @@ class ObjectiveStatusCounters {
 }
 
 /// The container for the summary information about a training job.
+///
+/// @nodoc
 class HyperParameterTrainingJobSummary {
   /// The date and time that the training job was created.
   final DateTime creationTime;
@@ -62770,6 +63747,8 @@ class HyperParameterTrainingJobSummary {
 /// hyperparameter tuning jobs count against the limit of training jobs for the
 /// tuning job.
 /// </note>
+///
+/// @nodoc
 class HyperParameterTuningJobWarmStartConfig {
   /// An array of hyperparameter tuning jobs that are used as the starting point
   /// for the new hyperparameter tuning job. For more information about warm
@@ -62839,6 +63818,8 @@ class HyperParameterTuningJobWarmStartConfig {
 
 /// A structure that contains runtime information about both current and
 /// completed hyperparameter tuning jobs.
+///
+/// @nodoc
 class HyperParameterTuningJobCompletionDetails {
   /// The time in timestamp format that AMT detected model convergence, as defined
   /// by a lack of significant improvement over time based on criteria developed
@@ -62880,6 +63861,8 @@ class HyperParameterTuningJobCompletionDetails {
 }
 
 /// The total resources consumed by your hyperparameter tuning job.
+///
+/// @nodoc
 class HyperParameterTuningJobConsumedResources {
   /// The wall clock runtime in seconds used by your hyperparameter tuning job.
   final int? runtimeInSeconds;
@@ -62903,6 +63886,7 @@ class HyperParameterTuningJobConsumedResources {
   }
 }
 
+/// @nodoc
 class HyperParameterTuningJobWarmStartType {
   static const identicalDataAndAlgorithm =
       HyperParameterTuningJobWarmStartType._('IdenticalDataAndAlgorithm');
@@ -62932,6 +63916,8 @@ class HyperParameterTuningJobWarmStartType {
 
 /// A previously completed or stopped hyperparameter tuning job to be used as a
 /// starting point for a new hyperparameter tuning job.
+///
+/// @nodoc
 class ParentHyperParameterTuningJob {
   /// The name of the hyperparameter tuning job to be used as a starting point for
   /// a new hyperparameter tuning job.
@@ -62957,6 +63943,7 @@ class ParentHyperParameterTuningJob {
   }
 }
 
+/// @nodoc
 class TrainingJobStatus {
   static const inProgress = TrainingJobStatus._('InProgress');
   static const completed = TrainingJobStatus._('Completed');
@@ -62996,6 +63983,8 @@ class TrainingJobStatus {
 /// launched by a hyperparameter tuning job. You define the objective metric in
 /// the <code>HyperParameterTuningJobObjective</code> parameter of <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html">HyperParameterTuningJobConfig</a>.
+///
+/// @nodoc
 class FinalHyperParameterTuningJobObjectiveMetric {
   /// The name of the objective metric. For SageMaker built-in algorithms, metrics
   /// are defined per algorithm. See the <a
@@ -63041,6 +64030,7 @@ class FinalHyperParameterTuningJobObjectiveMetric {
   }
 }
 
+/// @nodoc
 class ObjectiveStatus {
   static const succeeded = ObjectiveStatus._('Succeeded');
   static const pending = ObjectiveStatus._('Pending');
@@ -63066,6 +64056,7 @@ class ObjectiveStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HyperParameterTuningJobObjectiveType {
   static const maximize = HyperParameterTuningJobObjectiveType._('Maximize');
   static const minimize = HyperParameterTuningJobObjectiveType._('Minimize');
@@ -63099,6 +64090,8 @@ class HyperParameterTuningJobObjectiveType {
 /// metric, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-metrics-variables.html">Define
 /// metrics and environment variables</a>.
+///
+/// @nodoc
 class HyperParameterTuningJobObjective {
   /// The name of the metric to use for the objective metric.
   final String metricName;
@@ -63142,6 +64135,8 @@ class HyperParameterTuningJobObjective {
 /// hyperparameters for all the ranges can't exceed the maximum number
 /// specified.
 /// </note>
+///
+/// @nodoc
 class ParameterRanges {
   /// A list containing hyperparameter names and example values to be used by
   /// Autotune to determine optimal ranges for your tuning job.
@@ -63214,6 +64209,8 @@ class ParameterRanges {
 
 /// Specifies which training algorithm to use for training jobs that a
 /// hyperparameter tuning job launches and the metrics to monitor.
+///
+/// @nodoc
 class HyperParameterAlgorithmSpecification {
   final TrainingInputMode trainingInputMode;
 
@@ -63231,8 +64228,8 @@ class HyperParameterAlgorithmSpecification {
   /// For information about Docker registry paths for built-in algorithms, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-algo-docker-registry-paths.html">Algorithms
   /// Provided by Amazon SageMaker: Common Parameters</a>. SageMaker supports both
-  /// <code>registry/repository[:tag]</code> and
-  /// <code>registry/repository[@digest]</code> image path formats. For more
+  /// <code>registry/repository\[:tag\]</code> and
+  /// <code>registry/repository\[@digest\]</code> image path formats. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
   /// Your Own Algorithms with Amazon SageMaker</a>.
@@ -63275,6 +64272,8 @@ class HyperParameterAlgorithmSpecification {
 
 /// Provides information about how to store model training results (model
 /// artifacts).
+///
+/// @nodoc
 class OutputDataConfig {
   /// Identifies the S3 path where you want SageMaker to store the model
   /// artifacts. For example, <code>s3://bucket-name/key-name-prefix</code>.
@@ -63359,6 +64358,8 @@ class OutputDataConfig {
 
 /// Describes the resources, including machine learning (ML) compute instances
 /// and ML storage volumes, to use for model training.
+///
+/// @nodoc
 class ResourceConfig {
   /// The number of ML compute instances to use. For distributed training, provide
   /// a value greater than 1.
@@ -63521,6 +64522,8 @@ class ResourceConfig {
 /// <code>KeepAlivePeriodInSeconds</code>. Hyperparameter tuning jobs use warm
 /// pools by default, which reuse clusters between training jobs.
 /// </note>
+///
+/// @nodoc
 class HyperParameterTuningResourceConfig {
   /// The strategy that determines the order of preference for resources specified
   /// in <code>InstanceConfigs</code> used in hyperparameter optimization.
@@ -63663,6 +64666,8 @@ class HyperParameterTuningResourceConfig {
 /// model artifacts. When training NTMs, make sure that the maximum runtime is
 /// sufficient for the training job to complete.
 /// </note>
+///
+/// @nodoc
 class StoppingCondition {
   /// The maximum length of time, in seconds, that a training or compilation job
   /// can be pending before it is stopped.
@@ -63749,6 +64754,8 @@ class StoppingCondition {
 
 /// Contains information about the output location for managed spot training
 /// checkpoint data.
+///
+/// @nodoc
 class CheckpointConfig {
   /// Identifies the S3 path where you want SageMaker to store checkpoints. For
   /// example, <code>s3://bucket-name/key-name-prefix</code>.
@@ -63786,6 +64793,8 @@ class CheckpointConfig {
 /// <code>CreateHyperParameterTuningJob</code> requests. You can add the
 /// <code>StoppingCondition</code> parameter to the request to limit the
 /// training time for the complete job.
+///
+/// @nodoc
 class RetryStrategy {
   /// The number of times to retry the job. When the job is retried, it's
   /// <code>SecondaryStatus</code> is changed to <code>STARTING</code>.
@@ -63809,6 +64818,7 @@ class RetryStrategy {
   }
 }
 
+/// @nodoc
 class TrainingInstanceType {
   static const mlM4Xlarge = TrainingInstanceType._('ml.m4.xlarge');
   static const mlM4_2xlarge = TrainingInstanceType._('ml.m4.2xlarge');
@@ -64126,6 +65136,7 @@ class TrainingInstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class HyperParameterTuningAllocationStrategy {
   static const prioritized =
       HyperParameterTuningAllocationStrategy._('Prioritized');
@@ -64155,6 +65166,8 @@ class HyperParameterTuningAllocationStrategy {
 /// jobs launched by the tuning job. These resources include compute instances
 /// and storage volumes. Specify one or more compute instance configurations and
 /// allocation strategies to select resources (optional).
+///
+/// @nodoc
 class HyperParameterTuningInstanceConfig {
   /// The number of instances of the type specified by <code>InstanceType</code>.
   /// Choose an instance count larger than 1 for distributed training algorithms.
@@ -64207,6 +65220,8 @@ class HyperParameterTuningInstanceConfig {
 
 /// Configuration for how instances are placed and allocated within
 /// UltraServers. This is only applicable for UltraServer capacity.
+///
+/// @nodoc
 class InstancePlacementConfig {
   /// If set to true, allows multiple jobs to share the same UltraServer
   /// instances. If set to false, ensures this job's instances are placed on an
@@ -64246,6 +65261,8 @@ class InstancePlacementConfig {
 }
 
 /// Specifies how instances should be placed on a specific UltraServer.
+///
+/// @nodoc
 class PlacementSpecification {
   /// The number of ML compute instances required to be placed together on the
   /// same UltraServer. Minimum value of 1.
@@ -64280,6 +65297,8 @@ class PlacementSpecification {
 /// requesting a training job using the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html">CreateTrainingJob</a>
 /// API, you can configure multiple instance groups .
+///
+/// @nodoc
 class InstanceGroup {
   /// Specifies the number of instances of the instance group.
   final int instanceCount;
@@ -64317,6 +65336,7 @@ class InstanceGroup {
   }
 }
 
+/// @nodoc
 class OutputCompressionType {
   static const gzip = OutputCompressionType._('GZIP');
   static const none = OutputCompressionType._('NONE');
@@ -64343,6 +65363,8 @@ class OutputCompressionType {
 }
 
 /// A channel is a named input source that training algorithms can consume.
+///
+/// @nodoc
 class Channel {
   /// The name of the channel.
   final String channelName;
@@ -64455,6 +65477,8 @@ class Channel {
 }
 
 /// Describes the location of the channel data.
+///
+/// @nodoc
 class DataSource {
   /// The dataset resource that's associated with a channel.
   final DatasetSource? datasetSource;
@@ -64500,6 +65524,7 @@ class DataSource {
   }
 }
 
+/// @nodoc
 class RecordWrapper {
   static const none = RecordWrapper._('None');
   static const recordIO = RecordWrapper._('RecordIO');
@@ -64561,6 +65586,8 @@ class RecordWrapper {
 /// <code>FastFile</code> mode works best when the data is read sequentially.
 /// Augmented manifest files aren't supported. The startup time is lower when
 /// there are fewer files in the S3 bucket provided.
+///
+/// @nodoc
 class TrainingInputMode {
   static const pipe = TrainingInputMode._('Pipe');
   static const file = TrainingInputMode._('File');
@@ -64602,6 +65629,8 @@ class TrainingInputMode {
 /// <code>S3DataDistributionType</code> of <code>ShardedByS3Key</code>, the data
 /// is shuffled across nodes so that the content sent to a particular node on
 /// the first epoch might be sent to a different node on the second epoch.
+///
+/// @nodoc
 class ShuffleConfig {
   /// Determines the shuffling order in <code>ShuffleConfig</code> value.
   final int seed;
@@ -64628,6 +65657,8 @@ class ShuffleConfig {
 ///
 /// Your input bucket must be in the same Amazon Web Services region as your
 /// training job.
+///
+/// @nodoc
 class S3DataSource {
   /// If you choose <code>S3Prefix</code>, <code>S3Uri</code> identifies a key
   /// name prefix. SageMaker uses all objects that match the specified key name
@@ -64670,7 +65701,7 @@ class S3DataSource {
   ///
   /// The following code example shows a valid manifest format:
   ///
-  /// <code>[ {"prefix": "s3://customer_bucket/some/prefix/"},</code>
+  /// <code>\[ {"prefix": "s3://customer_bucket/some/prefix/"},</code>
   ///
   /// <code> "relative/path/to/custdata-1",</code>
   ///
@@ -64680,7 +65711,7 @@ class S3DataSource {
   ///
   /// <code> "relative/path/custdata-N"</code>
   ///
-  /// <code>]</code>
+  /// <code>\]</code>
   ///
   /// This JSON is equivalent to the following <code>S3Uri</code> list:
   ///
@@ -64794,6 +65825,8 @@ class S3DataSource {
 }
 
 /// Specifies a file system data source for a channel.
+///
+/// @nodoc
 class FileSystemDataSource {
   /// The full path to the directory to associate with the channel.
   final String directoryPath;
@@ -64842,6 +65875,8 @@ class FileSystemDataSource {
 }
 
 /// Specifies a dataset source for a channel.
+///
+/// @nodoc
 class DatasetSource {
   /// The Amazon Resource Name (ARN) of the dataset resource.
   final String datasetArn;
@@ -64864,6 +65899,7 @@ class DatasetSource {
   }
 }
 
+/// @nodoc
 class FileSystemAccessMode {
   static const rw = FileSystemAccessMode._('rw');
   static const ro = FileSystemAccessMode._('ro');
@@ -64889,6 +65925,7 @@ class FileSystemAccessMode {
   String toString() => value;
 }
 
+/// @nodoc
 class FileSystemType {
   static const efs = FileSystemType._('EFS');
   static const fSxLustre = FileSystemType._('FSxLustre');
@@ -64913,6 +65950,7 @@ class FileSystemType {
   String toString() => value;
 }
 
+/// @nodoc
 class S3DataDistribution {
   static const fullyReplicated = S3DataDistribution._('FullyReplicated');
   static const shardedByS3Key = S3DataDistribution._('ShardedByS3Key');
@@ -64944,6 +65982,8 @@ class S3DataDistribution {
 /// For more information about private hubs, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs.html">Private
 /// curated hubs for foundation model access control in JumpStart</a>.
+///
+/// @nodoc
 class HubAccessConfig {
   /// The ARN of your private model hub content. This should be a
   /// <code>ModelReference</code> resource type that points to a SageMaker
@@ -64976,6 +66016,8 @@ class HubAccessConfig {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html#sagemaker-Type-HyperParameterTrainingJobDefinition-TuningObjective">TuningObjective</a>
 /// parameter in the <code>HyperParameterTrainingJobDefinition</code> API to
 /// evaluate job performance during hyperparameter tuning.
+///
+/// @nodoc
 class MetricDefinition {
   /// The name of the metric.
   final String name;
@@ -65013,6 +66055,8 @@ class MetricDefinition {
 /// Autotune. If Automatic model tuning (AMT) determines that your
 /// hyperparameter is eligible for Autotune, an optimal hyperparameter range is
 /// selected for you.
+///
+/// @nodoc
 class AutoParameter {
   /// The name of the hyperparameter to optimize using Autotune.
   final String name;
@@ -65043,6 +66087,8 @@ class AutoParameter {
 }
 
 /// A list of categorical hyperparameters to tune.
+///
+/// @nodoc
 class CategoricalParameterRange {
   /// The name of the categorical hyperparameter to tune.
   final String name;
@@ -65076,6 +66122,8 @@ class CategoricalParameterRange {
 }
 
 /// A list of continuous hyperparameters to tune.
+///
+/// @nodoc
 class ContinuousParameterRange {
   /// The maximum value for the hyperparameter. The tuning job uses floating-point
   /// values between <code>MinValue</code> value and this value for tuning.
@@ -65144,6 +66192,7 @@ class ContinuousParameterRange {
   }
 }
 
+/// @nodoc
 class HyperParameterScalingType {
   static const auto = HyperParameterScalingType._('Auto');
   static const linear = HyperParameterScalingType._('Linear');
@@ -65174,6 +66223,8 @@ class HyperParameterScalingType {
 
 /// For a hyperparameter of the integer type, specifies the range that a
 /// hyperparameter tuning job searches.
+///
+/// @nodoc
 class IntegerParameterRange {
   /// The maximum value of the hyperparameter to search.
   final String maxValue;
@@ -65236,6 +66287,8 @@ class IntegerParameterRange {
 
 /// The strategy hyperparameter tuning uses to find the best combination of
 /// hyperparameters for your model.
+///
+/// @nodoc
 class HyperParameterTuningJobStrategyType {
   static const bayesian = HyperParameterTuningJobStrategyType._('Bayesian');
   static const random = HyperParameterTuningJobStrategyType._('Random');
@@ -65271,6 +66324,8 @@ class HyperParameterTuningJobStrategyType {
 /// <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-how-it-works.html">How
 /// Hyperparameter Tuning Works</a>.
+///
+/// @nodoc
 class HyperParameterTuningJobStrategyConfig {
   /// The configuration for the object that specifies the <code>Hyperband</code>
   /// strategy. This parameter is only supported for the <code>Hyperband</code>
@@ -65303,6 +66358,8 @@ class HyperParameterTuningJobStrategyConfig {
 
 /// Specifies the maximum number of training jobs and parallel training jobs
 /// that a hyperparameter tuning job can launch.
+///
+/// @nodoc
 class ResourceLimits {
   /// The maximum number of concurrent training jobs that a hyperparameter tuning
   /// job can launch.
@@ -65343,6 +66400,7 @@ class ResourceLimits {
   }
 }
 
+/// @nodoc
 class TrainingJobEarlyStoppingType {
   static const off = TrainingJobEarlyStoppingType._('Off');
   static const auto = TrainingJobEarlyStoppingType._('Auto');
@@ -65369,6 +66427,8 @@ class TrainingJobEarlyStoppingType {
 }
 
 /// The job completion criteria.
+///
+/// @nodoc
 class TuningJobCompletionCriteria {
   /// A flag to stop your hyperparameter tuning job if model performance fails to
   /// improve as evaluated against an objective function.
@@ -65420,6 +66480,8 @@ class TuningJobCompletionCriteria {
 /// A structure that keeps track of which training jobs launched by your
 /// hyperparameter tuning job are not improving model performance as evaluated
 /// against an objective function.
+///
+/// @nodoc
 class BestObjectiveNotImproving {
   /// The number of training jobs that have failed to improve model performance by
   /// 1% or greater over prior training jobs as evaluated against an objective
@@ -65451,6 +66513,8 @@ class BestObjectiveNotImproving {
 /// A flag to indicating that automatic model tuning (AMT) has detected model
 /// convergence, defined as a lack of significant improvement (1% or less)
 /// against an objective metric.
+///
+/// @nodoc
 class ConvergenceDetected {
   /// A flag to stop a tuning job once AMT has detected that the job has
   /// converged.
@@ -65476,6 +66540,7 @@ class ConvergenceDetected {
   }
 }
 
+/// @nodoc
 class CompleteOnConvergence {
   static const disabled = CompleteOnConvergence._('Disabled');
   static const enabled = CompleteOnConvergence._('Enabled');
@@ -65508,6 +66573,8 @@ class CompleteOnConvergence {
 /// under-performing configurations. This parameter should be provided only if
 /// <code>Hyperband</code> is selected as the <code>StrategyConfig</code> under
 /// the <code>HyperParameterTuningJobConfig</code> API.
+///
+/// @nodoc
 class HyperbandStrategyConfig {
   /// The maximum number of resources (such as epochs) that can be used by a
   /// training job launched by a hyperparameter tuning job. Once a job reaches the
@@ -65580,6 +66647,8 @@ class HyperbandStrategyConfig {
 /// information about service catalog, see <a
 /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
 /// is Amazon Web Services Service Catalog</a>.
+///
+/// @nodoc
 class ServiceCatalogProvisioningDetails {
   /// The ID of the product to provision.
   final String productId;
@@ -65634,6 +66703,8 @@ class ServiceCatalogProvisioningDetails {
 /// service catalog, see <a
 /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html">What
 /// is Amazon Web Services Service Catalog</a>.
+///
+/// @nodoc
 class ServiceCatalogProvisionedProductDetails {
   /// The ID of the provisioned product.
   final String? provisionedProductId;
@@ -65697,6 +66768,7 @@ class ServiceCatalogProvisionedProductDetails {
   }
 }
 
+/// @nodoc
 class ProjectStatus {
   static const pending = ProjectStatus._('Pending');
   static const createInProgress = ProjectStatus._('CreateInProgress');
@@ -65742,6 +66814,8 @@ class ProjectStatus {
 
 /// Details about a template provider configuration and associated provisioning
 /// information.
+///
+/// @nodoc
 class TemplateProviderDetail {
   /// Details about a CloudFormation template provider configuration and
   /// associated provisioning information.
@@ -65771,6 +66845,8 @@ class TemplateProviderDetail {
 
 /// Details about a CloudFormation template provider configuration and
 /// associated provisioning information.
+///
+/// @nodoc
 class CfnTemplateProviderDetail {
   /// The unique identifier of the template within the project.
   final String templateName;
@@ -65827,6 +66903,8 @@ class CfnTemplateProviderDetail {
 }
 
 /// Details about the CloudFormation stack.
+///
+/// @nodoc
 class CfnStackDetail {
   /// A human-readable message about the stack's current status.
   final String statusMessage;
@@ -65864,6 +66942,8 @@ class CfnStackDetail {
 }
 
 /// A key-value pair representing a parameter used in the CloudFormation stack.
+///
+/// @nodoc
 class CfnStackParameter {
   /// The name of the CloudFormation parameter.
   final String key;
@@ -65899,6 +66979,8 @@ class CfnStackParameter {
 /// <code>EnableOnlineStore</code> flag at General Assembly.
 ///
 /// The default value is <code>False</code>.
+///
+/// @nodoc
 class OnlineStoreConfig {
   /// Turn <code>OnlineStore</code> off by specifying <code>False</code> for the
   /// <code>EnableOnlineStore</code> flag. Turn <code>OnlineStore</code> on by
@@ -65976,6 +67058,8 @@ class OnlineStoreConfig {
 /// To encrypt an <code>OfflineStore</code> using at rest data encryption,
 /// specify Amazon Web Services Key Management Service (KMS) key ID, or
 /// <code>KMSKeyId</code>, in <code>S3StorageConfig</code>.
+///
+/// @nodoc
 class OfflineStoreConfig {
   /// The Amazon Simple Storage (Amazon S3) location of <code>OfflineStore</code>.
   final S3StorageConfig s3StorageConfig;
@@ -66049,6 +67133,7 @@ class OfflineStoreConfig {
   }
 }
 
+/// @nodoc
 class FeatureGroupStatus {
   static const creating = FeatureGroupStatus._('Creating');
   static const created = FeatureGroupStatus._('Created');
@@ -66084,6 +67169,8 @@ class FeatureGroupStatus {
 }
 
 /// The status of <code>OfflineStore</code>.
+///
+/// @nodoc
 class OfflineStoreStatus {
   /// An <code>OfflineStore</code> status.
   final OfflineStoreStatusValue status;
@@ -66115,6 +67202,8 @@ class OfflineStoreStatus {
 }
 
 /// A value that indicates whether the update was successful.
+///
+/// @nodoc
 class LastUpdateStatus {
   /// A value that indicates whether the update was made successful.
   final LastUpdateStatusValue status;
@@ -66145,6 +67234,7 @@ class LastUpdateStatus {
   }
 }
 
+/// @nodoc
 class LastUpdateStatusValue {
   static const successful = LastUpdateStatusValue._('Successful');
   static const failed = LastUpdateStatusValue._('Failed');
@@ -66171,6 +67261,7 @@ class LastUpdateStatusValue {
   String toString() => value;
 }
 
+/// @nodoc
 class OfflineStoreStatusValue {
   static const active = OfflineStoreStatusValue._('Active');
   static const blocked = OfflineStoreStatusValue._('Blocked');
@@ -66199,6 +67290,8 @@ class OfflineStoreStatusValue {
 
 /// The Amazon Simple Storage (Amazon S3) location and security configuration
 /// for <code>OfflineStore</code>.
+///
+/// @nodoc
 class S3StorageConfig {
   /// The S3 URI, or location in Amazon S3, of <code>OfflineStore</code>.
   ///
@@ -66253,6 +67346,8 @@ class S3StorageConfig {
 
 /// The meta data of the Glue table which serves as data catalog for the
 /// <code>OfflineStore</code>.
+///
+/// @nodoc
 class DataCatalogConfig {
   /// The name of the Glue table catalog.
   final String catalog;
@@ -66289,6 +67384,7 @@ class DataCatalogConfig {
   }
 }
 
+/// @nodoc
 class TableFormat {
   static const $default = TableFormat._('Default');
   static const glue = TableFormat._('Glue');
@@ -66314,6 +67410,8 @@ class TableFormat {
 }
 
 /// The security configuration for <code>OnlineStore</code>.
+///
+/// @nodoc
 class OnlineStoreSecurityConfig {
   /// The Amazon Web Services Key Management Service (KMS) key ARN that SageMaker
   /// Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3
@@ -66387,6 +67485,7 @@ class OnlineStoreSecurityConfig {
   }
 }
 
+/// @nodoc
 class StorageType {
   static const standard = StorageType._('Standard');
   static const inMemory = StorageType._('InMemory');
@@ -66410,6 +67509,7 @@ class StorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class PipelineExecutionStatus {
   static const executing = PipelineExecutionStatus._('Executing');
   static const stopping = PipelineExecutionStatus._('Stopping');
@@ -66439,6 +67539,8 @@ class PipelineExecutionStatus {
 }
 
 /// Specifies the names of the experiment and trial created by a pipeline.
+///
+/// @nodoc
 class PipelineExperimentConfig {
   /// The name of the experiment.
   final String? experimentName;
@@ -66468,6 +67570,7 @@ class PipelineExperimentConfig {
   }
 }
 
+/// @nodoc
 class PipelineStatus {
   static const active = PipelineStatus._('Active');
   static const deleting = PipelineStatus._('Deleting');
@@ -66492,6 +67595,7 @@ class PipelineStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelPackageGroupStatus {
   static const pending = ModelPackageGroupStatus._('Pending');
   static const inProgress = ModelPackageGroupStatus._('InProgress');
@@ -66529,6 +67633,8 @@ class ModelPackageGroupStatus {
 }
 
 /// A list of algorithms that were used to create a model package.
+///
+/// @nodoc
 class SourceAlgorithmSpecification {
   /// A list of the algorithms that were used to create a model package.
   final List<SourceAlgorithm> sourceAlgorithms;
@@ -66556,6 +67662,8 @@ class SourceAlgorithmSpecification {
 
 /// Specifies batch transform jobs that SageMaker runs to validate your model
 /// package.
+///
+/// @nodoc
 class ModelPackageValidationSpecification {
   /// An array of <code>ModelPackageValidationProfile</code> objects, each of
   /// which specifies a batch transform job that SageMaker runs to validate your
@@ -66592,6 +67700,7 @@ class ModelPackageValidationSpecification {
   }
 }
 
+/// @nodoc
 class ModelPackageStatus {
   static const pending = ModelPackageStatus._('Pending');
   static const inProgress = ModelPackageStatus._('InProgress');
@@ -66621,6 +67730,8 @@ class ModelPackageStatus {
 }
 
 /// Specifies the validation and image scan statuses of the model package.
+///
+/// @nodoc
 class ModelPackageStatusDetails {
   /// The validation status of the model package.
   final List<ModelPackageStatusItem> validationStatuses;
@@ -66659,6 +67770,8 @@ class ModelPackageStatusDetails {
 }
 
 /// Metadata properties of the tracking entity, trial, or trial component.
+///
+/// @nodoc
 class MetadataProperties {
   /// The commit ID.
   final String? commitId;
@@ -66703,6 +67816,8 @@ class MetadataProperties {
 }
 
 /// Contains metrics captured from a model.
+///
+/// @nodoc
 class ModelMetrics {
   /// Metrics that measure bias in a model.
   final Bias? bias;
@@ -66759,6 +67874,8 @@ class ModelMetrics {
 /// An optional Key Management Service key to encrypt, decrypt, and re-encrypt
 /// model package information for regulated workloads with highly sensitive
 /// data.
+///
+/// @nodoc
 class ModelPackageSecurityConfig {
   /// The KMS Key ID (<code>KMSKeyId</code>) used for encryption of model package
   /// information.
@@ -66784,6 +67901,8 @@ class ModelPackageSecurityConfig {
 
 /// Represents the drift check baselines that can be used when the model monitor
 /// is set using the model package.
+///
+/// @nodoc
 class DriftCheckBaselines {
   /// Represents the drift check bias baselines that can be used when the model
   /// monitor is set using the model package.
@@ -66842,6 +67961,7 @@ class DriftCheckBaselines {
   }
 }
 
+/// @nodoc
 class SkipModelValidation {
   static const all = SkipModelValidation._('All');
   static const none = SkipModelValidation._('None');
@@ -66869,6 +67989,8 @@ class SkipModelValidation {
 
 /// Represents the drift check bias baselines that can be used when the model
 /// monitor is set using the model package.
+///
+/// @nodoc
 class DriftCheckBias {
   /// The bias config file for a model.
   final FileSource? configFile;
@@ -66917,6 +68039,8 @@ class DriftCheckBias {
 
 /// Represents the drift check explainability baselines that can be used when
 /// the model monitor is set using the model package.
+///
+/// @nodoc
 class DriftCheckExplainability {
   /// The explainability config file for the model.
   final FileSource? configFile;
@@ -66952,6 +68076,8 @@ class DriftCheckExplainability {
 
 /// Represents the drift check model quality baselines that can be used when the
 /// model monitor is set using the model package.
+///
+/// @nodoc
 class DriftCheckModelQuality {
   /// The drift check model quality constraints.
   final MetricsSource? constraints;
@@ -66987,6 +68113,8 @@ class DriftCheckModelQuality {
 
 /// Represents the drift check data quality baselines that can be used when the
 /// model monitor is set using the model package.
+///
+/// @nodoc
 class DriftCheckModelDataQuality {
   /// The drift check model data quality constraints.
   final MetricsSource? constraints;
@@ -67021,6 +68149,8 @@ class DriftCheckModelDataQuality {
 }
 
 /// Details about the metrics source.
+///
+/// @nodoc
 class MetricsSource {
   /// The metric source content type.
   final String contentType;
@@ -67058,6 +68188,8 @@ class MetricsSource {
 }
 
 /// Contains details regarding the file source.
+///
+/// @nodoc
 class FileSource {
   /// The Amazon S3 URI for the file source.
   final String s3Uri;
@@ -67095,6 +68227,8 @@ class FileSource {
 }
 
 /// Model quality statistics and constraints.
+///
+/// @nodoc
 class ModelQuality {
   /// Model quality constraints.
   final MetricsSource? constraints;
@@ -67129,6 +68263,8 @@ class ModelQuality {
 }
 
 /// Data quality constraints and statistics for a model.
+///
+/// @nodoc
 class ModelDataQuality {
   /// Data quality constraints for a model.
   final MetricsSource? constraints;
@@ -67163,6 +68299,8 @@ class ModelDataQuality {
 }
 
 /// Contains bias metrics for a model.
+///
+/// @nodoc
 class Bias {
   /// The post-training bias report for a model.
   final MetricsSource? postTrainingReport;
@@ -67208,6 +68346,8 @@ class Bias {
 }
 
 /// Contains explainability metrics for a model.
+///
+/// @nodoc
 class Explainability {
   /// The explainability report for a model.
   final MetricsSource? report;
@@ -67233,6 +68373,8 @@ class Explainability {
 }
 
 /// Represents the overall status of a model package.
+///
+/// @nodoc
 class ModelPackageStatusItem {
   /// The name of the model package for which the overall status is being
   /// reported.
@@ -67271,6 +68413,7 @@ class ModelPackageStatusItem {
   }
 }
 
+/// @nodoc
 class DetailedModelPackageStatus {
   static const notStarted = DetailedModelPackageStatus._('NotStarted');
   static const inProgress = DetailedModelPackageStatus._('InProgress');
@@ -67303,6 +68446,8 @@ class DetailedModelPackageStatus {
 ///
 /// The data provided in the validation profile is made available to your buyers
 /// on Amazon Web Services Marketplace.
+///
+/// @nodoc
 class ModelPackageValidationProfile {
   /// The name of the profile for the model package.
   final String profileName;
@@ -67337,6 +68482,8 @@ class ModelPackageValidationProfile {
 
 /// Defines the input needed to run a transform job using the inference
 /// specification specified in the algorithm.
+///
+/// @nodoc
 class TransformJobDefinition {
   /// A description of the input source and the way the transform job consumes it.
   final TransformInput transformInput;
@@ -67422,6 +68569,8 @@ class TransformJobDefinition {
 /// Specifies an algorithm that was used to create the model package. The
 /// algorithm must be either an algorithm resource in your SageMaker account or
 /// an algorithm in Amazon Web Services Marketplace that you are subscribed to.
+///
+/// @nodoc
 class SourceAlgorithm {
   /// The name of an algorithm that was used to create the model package. The
   /// algorithm must be either an algorithm resource in your SageMaker account or
@@ -67477,6 +68626,8 @@ class SourceAlgorithm {
 }
 
 /// The currently active data capture configuration used by your Endpoint.
+///
+/// @nodoc
 class DataCaptureConfigSummary {
   /// Whether data capture is currently functional.
   final CaptureStatus captureStatus;
@@ -67533,6 +68684,8 @@ class DataCaptureConfigSummary {
 /// see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html">Amazon
 /// SageMaker Model Monitor</a>.
+///
+/// @nodoc
 class MonitoringSchedule {
   /// The time that the monitoring schedule was created.
   final DateTime? creationTime;
@@ -67660,6 +68813,7 @@ class MonitoringSchedule {
   }
 }
 
+/// @nodoc
 class CaptureStatus {
   static const started = CaptureStatus._('Started');
   static const stopped = CaptureStatus._('Stopped');
@@ -67688,6 +68842,8 @@ class CaptureStatus {
 /// endpoint. If you sent a request to the
 /// <code>UpdateEndpointWeightsAndCapacities</code> API and the endpoint status
 /// is <code>Updating</code>, you get different desired and current values.
+///
+/// @nodoc
 class ProductionVariantSummary {
   /// The name of the variant.
   final String variantName;
@@ -67835,6 +68991,8 @@ class ProductionVariantSummary {
 }
 
 /// Specifies the serverless configuration for an endpoint variant.
+///
+/// @nodoc
 class ProductionVariantServerlessConfig {
   /// The maximum number of concurrent invocations your serverless endpoint can
   /// process.
@@ -67884,6 +69042,8 @@ class ProductionVariantServerlessConfig {
 
 /// Settings that control the range in the number of instances that the endpoint
 /// provisions as it scales up or down to accommodate traffic.
+///
+/// @nodoc
 class ProductionVariantManagedInstanceScaling {
   /// The maximum number of instances that the endpoint can provision when it
   /// scales up to accommodate an increase in traffic.
@@ -67936,6 +69096,8 @@ class ProductionVariantManagedInstanceScaling {
 
 /// Settings that control how the endpoint routes incoming traffic to the
 /// instances that the endpoint hosts.
+///
+/// @nodoc
 class ProductionVariantRoutingConfig {
   /// Sets how the endpoint routes incoming traffic:
   ///
@@ -67971,6 +69133,8 @@ class ProductionVariantRoutingConfig {
 }
 
 /// Details about an ML capacity reservation.
+///
+/// @nodoc
 class ProductionVariantCapacityReservationSummary {
   /// The number of instances that are currently available in the ML capacity
   /// reservation.
@@ -68048,6 +69212,7 @@ class ProductionVariantCapacityReservationSummary {
   }
 }
 
+/// @nodoc
 class CapacityReservationPreference {
   static const capacityReservationsOnly =
       CapacityReservationPreference._('capacity-reservations-only');
@@ -68074,6 +69239,8 @@ class CapacityReservationPreference {
 }
 
 /// The EC2 capacity reservations that are shared to an ML capacity reservation.
+///
+/// @nodoc
 class Ec2CapacityReservation {
   /// The number of instances that are currently available in the EC2 capacity
   /// reservation.
@@ -68123,6 +69290,7 @@ class Ec2CapacityReservation {
   }
 }
 
+/// @nodoc
 class RoutingStrategy {
   static const leastOutstandingRequests =
       RoutingStrategy._('LEAST_OUTSTANDING_REQUESTS');
@@ -68148,6 +69316,7 @@ class RoutingStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ManagedInstanceScalingStatus {
   static const enabled = ManagedInstanceScalingStatus._('ENABLED');
   static const disabled = ManagedInstanceScalingStatus._('DISABLED');
@@ -68174,6 +69343,8 @@ class ManagedInstanceScalingStatus {
 }
 
 /// Configures the scale-in behavior for managed instance scaling.
+///
+/// @nodoc
 class ProductionVariantManagedInstanceScalingScaleInPolicy {
   /// The strategy for scaling in instances.
   /// <dl> <dt>IDLE_RELEASE</dt> <dd>
@@ -68227,6 +69398,7 @@ class ProductionVariantManagedInstanceScalingScaleInPolicy {
   }
 }
 
+/// @nodoc
 class ManagedInstanceScalingScaleInStrategy {
   static const idleRelease =
       ManagedInstanceScalingScaleInStrategy._('IDLE_RELEASE');
@@ -68255,6 +69427,8 @@ class ManagedInstanceScalingScaleInStrategy {
 }
 
 /// Describes the status of the production variant.
+///
+/// @nodoc
 class ProductionVariantStatus {
   /// The endpoint variant status which describes the current deployment stage
   /// status or operational status.
@@ -68314,6 +69488,7 @@ class ProductionVariantStatus {
   }
 }
 
+/// @nodoc
 class VariantStatus {
   static const creating = VariantStatus._('Creating');
   static const updating = VariantStatus._('Updating');
@@ -68349,6 +69524,8 @@ class VariantStatus {
 
 /// A summary of an instance pool for a production variant, including the
 /// instance type and the current number of instances.
+///
+/// @nodoc
 class InstancePoolSummary {
   /// The current number of instances of this type in the instance pool.
   final int currentInstanceCount;
@@ -68383,14 +69560,16 @@ class InstancePoolSummary {
 /// that is hosted in this <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html">ProductionVariant</a>.
 ///
-/// If you used the <code>registry/repository[:tag]</code> form to specify the
+/// If you used the <code>registry/repository\[:tag\]</code> form to specify the
 /// image path of the primary container when you created the model hosted in
 /// this <code>ProductionVariant</code>, the path resolves to a path of the form
-/// <code>registry/repository[@digest]</code>. A digest is a hash value that
+/// <code>registry/repository\[@digest\]</code>. A digest is a hash value that
 /// identifies a specific version of an image. For information about Amazon ECR
 /// paths, see <a
 /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html">Pulling
 /// an Image</a> in the <i>Amazon ECR User Guide</i>.
+///
+/// @nodoc
 class DeployedImage {
   /// The date and time when the image path for the model resolved to the
   /// <code>ResolvedImage</code>
@@ -68432,6 +69611,8 @@ class DeployedImage {
 
 /// The Amazon Resource Name (ARN) and job type of the source of a trial
 /// component.
+///
+/// @nodoc
 class TrialComponentSource {
   /// The source Amazon Resource Name (ARN).
   final String sourceArn;
@@ -68463,6 +69644,8 @@ class TrialComponentSource {
 
 /// Detailed information about the source of a trial component. Either
 /// <code>ProcessingJob</code> or <code>TrainingJob</code> is returned.
+///
+/// @nodoc
 class TrialComponentSourceDetail {
   /// Information about a processing job that's the source of a trial component.
   final ProcessingJob? processingJob;
@@ -68516,6 +69699,8 @@ class TrialComponentSourceDetail {
 /// The trial that a trial component is associated with and the experiment the
 /// trial is part of. A component might not be associated with a trial. A
 /// component can be associated with multiple trials.
+///
+/// @nodoc
 class Parent {
   /// The name of the experiment.
   final String? experimentName;
@@ -68549,6 +69734,8 @@ class Parent {
 /// models. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/processing-job.html">Process
 /// Data and Evaluate Models</a>.
+///
+/// @nodoc
 class ProcessingJob {
   final AppSpecification? appSpecification;
 
@@ -68749,6 +69936,8 @@ class ProcessingJob {
 }
 
 /// Configuration for uploading output from the processing container.
+///
+/// @nodoc
 class ProcessingOutputConfig {
   /// An array of outputs configuring the data to upload from the processing
   /// container.
@@ -68788,6 +69977,8 @@ class ProcessingOutputConfig {
 /// Identifies the resources, ML compute instances, and ML storage volumes to
 /// deploy for a processing job. In distributed training, you specify more than
 /// one instance.
+///
+/// @nodoc
 class ProcessingResources {
   /// The configuration for the resources in a cluster used to run the processing
   /// job.
@@ -68816,6 +70007,8 @@ class ProcessingResources {
 /// Configures conditions under which the processing job should be stopped, such
 /// as how long the processing job has been running. After the condition is met,
 /// the processing job is stopped.
+///
+/// @nodoc
 class ProcessingStoppingCondition {
   /// Specifies the maximum runtime in seconds.
   final int maxRuntimeInSeconds;
@@ -68839,6 +70032,8 @@ class ProcessingStoppingCondition {
 }
 
 /// Configuration to run a processing job in a specified container image.
+///
+/// @nodoc
 class AppSpecification {
   /// The container image to be run by the processing job.
   final String imageUri;
@@ -68882,6 +70077,7 @@ class AppSpecification {
   }
 }
 
+/// @nodoc
 class ProcessingJobStatus {
   static const inProgress = ProcessingJobStatus._('InProgress');
   static const completed = ProcessingJobStatus._('Completed');
@@ -68911,6 +70107,8 @@ class ProcessingJobStatus {
 }
 
 /// Configuration for the cluster used to run a processing job.
+///
+/// @nodoc
 class ProcessingClusterConfig {
   /// The number of ML compute instances to use in the processing job. For
   /// distributed processing jobs, specify a value greater than 1. The default
@@ -68989,6 +70187,8 @@ class ProcessingClusterConfig {
 /// Describes the results of a processing job. The processing output must
 /// specify exactly one of either <code>S3Output</code> or
 /// <code>FeatureStoreOutput</code> types.
+///
+/// @nodoc
 class ProcessingOutput {
   /// The name for the processing job output.
   final String outputName;
@@ -69044,6 +70244,8 @@ class ProcessingOutput {
 
 /// Configuration for uploading output data to Amazon S3 from the processing
 /// container.
+///
+/// @nodoc
 class ProcessingS3Output {
   /// Whether to upload the results of the processing job continuously or after
   /// the job completes.
@@ -69087,6 +70289,8 @@ class ProcessingS3Output {
 }
 
 /// Configuration for processing job outputs in Amazon SageMaker Feature Store.
+///
+/// @nodoc
 class ProcessingFeatureStoreOutput {
   /// The name of the Amazon SageMaker FeatureGroup to use as the destination for
   /// processing job output. Note that your processing script is responsible for
@@ -69113,6 +70317,8 @@ class ProcessingFeatureStoreOutput {
 
 /// The inputs for a processing job. The processing input must specify exactly
 /// one of either <code>S3Input</code> or <code>DatasetDefinition</code> types.
+///
+/// @nodoc
 class ProcessingInput {
   /// The name for the processing job input.
   final String inputName;
@@ -69166,6 +70372,8 @@ class ProcessingInput {
 
 /// Configuration for downloading input data from Amazon S3 into the processing
 /// container.
+///
+/// @nodoc
 class ProcessingS3Input {
   /// Whether you use an <code>S3Prefix</code> or a <code>ManifestFile</code> for
   /// the data type. If you choose <code>S3Prefix</code>, <code>S3Uri</code>
@@ -69255,6 +70463,8 @@ class ProcessingS3Input {
 /// Configuration for Dataset Definition inputs. The Dataset Definition input
 /// must specify exactly one of either <code>AthenaDatasetDefinition</code> or
 /// <code>RedshiftDatasetDefinition</code> types.
+///
+/// @nodoc
 class DatasetDefinition {
   final AthenaDatasetDefinition? athenaDatasetDefinition;
 
@@ -69322,6 +70532,8 @@ class DatasetDefinition {
 }
 
 /// Configuration for Athena Dataset Definition input.
+///
+/// @nodoc
 class AthenaDatasetDefinition {
   final String catalog;
   final String database;
@@ -69388,6 +70600,8 @@ class AthenaDatasetDefinition {
 }
 
 /// Configuration for Redshift Dataset Definition input.
+///
+/// @nodoc
 class RedshiftDatasetDefinition {
   final String clusterId;
 
@@ -69460,6 +70674,7 @@ class RedshiftDatasetDefinition {
   }
 }
 
+/// @nodoc
 class DataDistributionType {
   static const fullyReplicated = DataDistributionType._('FullyReplicated');
   static const shardedByS3Key = DataDistributionType._('ShardedByS3Key');
@@ -69485,6 +70700,7 @@ class DataDistributionType {
   String toString() => value;
 }
 
+/// @nodoc
 class InputMode {
   static const pipe = InputMode._('Pipe');
   static const file = InputMode._('File');
@@ -69509,6 +70725,8 @@ class InputMode {
 }
 
 /// The data storage format for Redshift query results.
+///
+/// @nodoc
 class RedshiftResultFormat {
   static const parquet = RedshiftResultFormat._('PARQUET');
   static const csv = RedshiftResultFormat._('CSV');
@@ -69535,6 +70753,8 @@ class RedshiftResultFormat {
 }
 
 /// The compression used for Redshift query results.
+///
+/// @nodoc
 class RedshiftResultCompressionType {
   static const none = RedshiftResultCompressionType._('None');
   static const gzip = RedshiftResultCompressionType._('GZIP');
@@ -69564,6 +70784,8 @@ class RedshiftResultCompressionType {
 }
 
 /// The data storage format for Athena query results.
+///
+/// @nodoc
 class AthenaResultFormat {
   static const parquet = AthenaResultFormat._('PARQUET');
   static const orc = AthenaResultFormat._('ORC');
@@ -69593,6 +70815,8 @@ class AthenaResultFormat {
 }
 
 /// The compression used for Athena query results.
+///
+/// @nodoc
 class AthenaResultCompressionType {
   static const gzip = AthenaResultCompressionType._('GZIP');
   static const snappy = AthenaResultCompressionType._('SNAPPY');
@@ -69619,6 +70843,7 @@ class AthenaResultCompressionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProcessingS3DataType {
   static const manifestFile = ProcessingS3DataType._('ManifestFile');
   static const s3Prefix = ProcessingS3DataType._('S3Prefix');
@@ -69644,6 +70869,7 @@ class ProcessingS3DataType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProcessingS3CompressionType {
   static const none = ProcessingS3CompressionType._('None');
   static const gzip = ProcessingS3CompressionType._('Gzip');
@@ -69670,6 +70896,8 @@ class ProcessingS3CompressionType {
 }
 
 /// A summary of the metrics of a trial component.
+///
+/// @nodoc
 class TrialComponentMetricSummary {
   /// The average value of the metric.
   final double? avg;
@@ -69749,6 +70977,8 @@ class TrialComponentMetricSummary {
 }
 
 /// The source of the trial.
+///
+/// @nodoc
 class TrialSource {
   /// The Amazon Resource Name (ARN) of the source.
   final String sourceArn;
@@ -69779,6 +71009,8 @@ class TrialSource {
 }
 
 /// A short summary of a trial component.
+///
+/// @nodoc
 class TrialComponentSimpleSummary {
   final UserContext? createdBy;
 
@@ -69834,6 +71066,8 @@ class TrialComponentSimpleSummary {
 }
 
 /// The source of the experiment.
+///
+/// @nodoc
 class ExperimentSource {
   /// The Amazon Resource Name (ARN) of the source.
   final String sourceArn;
@@ -69872,6 +71106,8 @@ class ExperimentSource {
 /// your trained model artifacts in the <code>/opt/ml/model</code> directory.
 /// After training has completed, by default, these artifacts are uploaded to
 /// your Amazon S3 bucket as compressed files.
+///
+/// @nodoc
 class ModelArtifacts {
   /// The path of the S3 object that contains the model artifacts. For example,
   /// <code>s3://bucket-name/keynameprefix/model.tar.gz</code>.
@@ -69895,6 +71131,7 @@ class ModelArtifacts {
   }
 }
 
+/// @nodoc
 class SecondaryStatus {
   static const starting = SecondaryStatus._('Starting');
   static const launchingMLInstances = SecondaryStatus._('LaunchingMLInstances');
@@ -69969,6 +71206,8 @@ class SecondaryStatus {
 /// For information about using your own algorithms, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
 /// Your Own Algorithms with Amazon SageMaker</a>.
+///
+/// @nodoc
 class AlgorithmSpecification {
   final TrainingInputMode trainingInputMode;
 
@@ -70044,8 +71283,8 @@ class AlgorithmSpecification {
   /// algorithms, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-algo-docker-registry-paths.html">Docker
   /// Registry Paths and Example Code</a> in the <i>Amazon SageMaker developer
-  /// guide</i>. SageMaker supports both <code>registry/repository[:tag]</code>
-  /// and <code>registry/repository[@digest]</code> image path formats. For more
+  /// guide</i>. SageMaker supports both <code>registry/repository\[:tag\]</code>
+  /// and <code>registry/repository\[@digest\]</code> image path formats. For more
   /// information about using your custom training container, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
   /// Your Own Algorithms with Amazon SageMaker</a>.
@@ -70128,6 +71367,8 @@ class AlgorithmSpecification {
 }
 
 /// Status and billing information about the warm pool.
+///
+/// @nodoc
 class WarmPoolStatus {
   /// The status of the warm pool.
   ///
@@ -70202,6 +71443,8 @@ class WarmPoolStatus {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-createtrainingjob-api.html">Use
 /// the SageMaker and Debugger Configuration API Operations to Create, Update,
 /// and Debug Your Training Job</a>.
+///
+/// @nodoc
 class DebugHookConfig {
   /// Path to Amazon S3 storage location for metrics and tensors.
   final String s3OutputPath;
@@ -70259,6 +71502,8 @@ class DebugHookConfig {
 
 /// Configuration of storage locations for the Amazon SageMaker Debugger
 /// TensorBoard output data.
+///
+/// @nodoc
 class TensorBoardOutputConfig {
   /// Path to Amazon S3 storage location for TensorBoard output.
   final String s3OutputPath;
@@ -70290,6 +71535,8 @@ class TensorBoardOutputConfig {
 }
 
 /// The configuration for the Model package.
+///
+/// @nodoc
 class ModelPackageConfig {
   /// The Amazon Resource Name (ARN) of the model package group of output model
   /// package.
@@ -70324,6 +71571,8 @@ class ModelPackageConfig {
 
 /// Configuration information for Amazon SageMaker Debugger system monitoring,
 /// framework profiling, and storage paths.
+///
+/// @nodoc
 class ProfilerConfig {
   /// Configuration to turn off Amazon SageMaker Debugger's system monitoring and
   /// profiling functionality. To turn it off, set to <code>True</code>.
@@ -70386,6 +71635,8 @@ class ProfilerConfig {
 }
 
 /// Information about the status of the rule evaluation.
+///
+/// @nodoc
 class DebugRuleEvaluationStatus {
   /// Timestamp when the rule evaluation status was last modified.
   final DateTime? lastModifiedTime;
@@ -70441,6 +71692,7 @@ class DebugRuleEvaluationStatus {
   }
 }
 
+/// @nodoc
 class RuleEvaluationStatus {
   static const inProgress = RuleEvaluationStatus._('InProgress');
   static const noIssuesFound = RuleEvaluationStatus._('NoIssuesFound');
@@ -70483,6 +71735,8 @@ class RuleEvaluationStatus {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-createtrainingjob-api.html">Use
 /// the SageMaker and Debugger Configuration API Operations to Create, Update,
 /// and Debug Your Training Job</a>.
+///
+/// @nodoc
 class DebugRuleConfiguration {
   /// The name of the rule configuration. It must be unique relative to other rule
   /// configuration names.
@@ -70554,6 +71808,8 @@ class DebugRuleConfiguration {
 
 /// Configuration information for the Amazon SageMaker Debugger output tensor
 /// collections.
+///
+/// @nodoc
 class CollectionConfiguration {
   /// The name of the tensor collection. The name must be unique relative to other
   /// rule configuration names.
@@ -70592,6 +71848,8 @@ class CollectionConfiguration {
 
 /// The name, value, and date and time of a metric that was emitted to Amazon
 /// CloudWatch.
+///
+/// @nodoc
 class MetricData {
   /// The name of the metric.
   final String? metricName;
@@ -70638,6 +71896,8 @@ class MetricData {
 /// instances. These transitional states are referred to as the job's secondary
 /// status.
 /// <p/>
+///
+/// @nodoc
 class SecondaryStatusTransition {
   /// A timestamp that shows when the training job transitioned to the current
   /// secondary status state.
@@ -70790,6 +72050,7 @@ class SecondaryStatusTransition {
   }
 }
 
+/// @nodoc
 class WarmPoolResourceStatus {
   static const available = WarmPoolResourceStatus._('Available');
   static const terminated = WarmPoolResourceStatus._('Terminated');
@@ -70819,6 +72080,8 @@ class WarmPoolResourceStatus {
 
 /// The configuration to use an image from a private Docker registry for a
 /// training job.
+///
+/// @nodoc
 class TrainingImageConfig {
   /// The method that your training job will use to gain access to the images in
   /// your private Docker registry. For access to an image in a private Docker
@@ -70856,6 +72119,7 @@ class TrainingImageConfig {
   }
 }
 
+/// @nodoc
 class TrainingRepositoryAccessMode {
   static const platform = TrainingRepositoryAccessMode._('Platform');
   static const vpc = TrainingRepositoryAccessMode._('Vpc');
@@ -70883,6 +72147,8 @@ class TrainingRepositoryAccessMode {
 
 /// An object containing authentication information for a private Docker
 /// registry.
+///
+/// @nodoc
 class TrainingRepositoryAuthConfig {
   /// The Amazon Resource Name (ARN) of an Amazon Web Services Lambda function
   /// used to give SageMaker access credentials to your private Docker registry.
@@ -70909,6 +72175,7 @@ class TrainingRepositoryAuthConfig {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const trainingJob = ResourceType._('TrainingJob');
   static const experiment = ResourceType._('Experiment');
@@ -70999,6 +72266,8 @@ class ResourceType {
 /// A Boolean operator: <code>And</code> or <code>Or</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SearchExpression {
   /// A list of filter objects.
   final List<Filter>? filters;
@@ -71037,6 +72306,7 @@ class SearchExpression {
   }
 }
 
+/// @nodoc
 class SearchSortOrder {
   static const ascending = SearchSortOrder._('Ascending');
   static const descending = SearchSortOrder._('Descending');
@@ -71061,6 +72331,7 @@ class SearchSortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class CrossAccountFilterOption {
   static const sameAccount = CrossAccountFilterOption._('SameAccount');
   static const crossAccount = CrossAccountFilterOption._('CrossAccount');
@@ -71092,6 +72363,8 @@ class CrossAccountFilterOption {
 /// value you specified. If the value doesn't match, the result is excluded from
 /// the search response. Any resources that don't have a key from the list that
 /// you've provided will also be included in the search response.
+///
+/// @nodoc
 class VisibilityConditions {
   /// The key that specifies the tag that you're using to filter the search
   /// results. It must be in the following format: <code>Tags.&lt;key&gt;</code>.
@@ -71115,6 +72388,7 @@ class VisibilityConditions {
   }
 }
 
+/// @nodoc
 class BooleanOperator {
   static const and = BooleanOperator._('And');
   static const or = BooleanOperator._('Or');
@@ -71160,6 +72434,8 @@ class BooleanOperator {
 /// "Operator":"Contains", "Value":"mybucket/catdata"}'</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NestedFilters {
   /// A list of filters. Each filter acts on a property. Filters must contain at
   /// least one <code>Filters</code> value. For example, a
@@ -71235,6 +72511,8 @@ class NestedFilters {
 /// To define a tag filter, enter a value with the form
 /// <code>Tags.&lt;key&gt;</code>.
 /// </dd> </dl>
+///
+/// @nodoc
 class Filter {
   /// A resource property name. For example, <code>TrainingJobName</code>. For
   /// valid property names, see <a
@@ -71343,6 +72621,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class Operator {
   static const equals = Operator._('Equals');
   static const notEquals = Operator._('NotEquals');
@@ -71386,6 +72665,8 @@ class Operator {
 }
 
 /// A description of an error that occurred while rendering the template.
+///
+/// @nodoc
 class RenderingError {
   /// A unique identifier for a specific class of errors.
   final String code;
@@ -71416,6 +72697,8 @@ class RenderingError {
 }
 
 /// The Liquid template for the worker user interface.
+///
+/// @nodoc
 class UiTemplate {
   /// The content of the Liquid template for the worker user interface.
   final String content;
@@ -71433,6 +72716,8 @@ class UiTemplate {
 }
 
 /// Contains input values for a task.
+///
+/// @nodoc
 class RenderableTask {
   /// A JSON object that contains values for the variables defined in the
   /// template. It is made available to the template under the substitution
@@ -71454,6 +72739,8 @@ class RenderableTask {
 }
 
 /// A directed edge connecting two lineage entities.
+///
+/// @nodoc
 class Edge {
   /// The type of the Association(Edge) between the source and destination. For
   /// example <code>ContributedTo</code>, <code>Produced</code>, or
@@ -71495,6 +72782,7 @@ class Edge {
   }
 }
 
+/// @nodoc
 class AssociationEdgeType {
   static const contributedTo = AssociationEdgeType._('ContributedTo');
   static const associatedWith = AssociationEdgeType._('AssociatedWith');
@@ -71530,6 +72818,8 @@ class AssociationEdgeType {
 }
 
 /// A lineage entity connected to the starting entity(ies).
+///
+/// @nodoc
 class Vertex {
   /// The Amazon Resource Name (ARN) of the lineage entity resource.
   final String? arn;
@@ -71568,6 +72858,7 @@ class Vertex {
   }
 }
 
+/// @nodoc
 class LineageType {
   static const trialComponent = LineageType._('TrialComponent');
   static const artifact = LineageType._('Artifact');
@@ -71593,6 +72884,7 @@ class LineageType {
   String toString() => value;
 }
 
+/// @nodoc
 class Direction {
   static const both = Direction._('Both');
   static const ascendants = Direction._('Ascendants');
@@ -71620,6 +72912,8 @@ class Direction {
 /// A set of filters to narrow the set of lineage entities connected to the
 /// <code>StartArn</code>(s) returned by the <code>QueryLineage</code> API
 /// action.
+///
+/// @nodoc
 class QueryFilters {
   /// Filter the lineage entities connected to the <code>StartArn</code>(s) after
   /// the create date.
@@ -71686,6 +72980,7 @@ class QueryFilters {
   }
 }
 
+/// @nodoc
 class ListWorkteamsSortByOptions {
   static const name = ListWorkteamsSortByOptions._('Name');
   static const createDate = ListWorkteamsSortByOptions._('CreateDate');
@@ -71711,6 +73006,7 @@ class ListWorkteamsSortByOptions {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -71734,6 +73030,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class ListWorkforcesSortByOptions {
   static const name = ListWorkforcesSortByOptions._('Name');
   static const createDate = ListWorkforcesSortByOptions._('CreateDate');
@@ -71760,6 +73057,8 @@ class ListWorkforcesSortByOptions {
 }
 
 /// The user profile details.
+///
+/// @nodoc
 class UserProfileDetails {
   /// The creation time.
   final DateTime? creationTime;
@@ -71812,6 +73111,7 @@ class UserProfileDetails {
   }
 }
 
+/// @nodoc
 class UserProfileStatus {
   static const deleting = UserProfileStatus._('Deleting');
   static const failed = UserProfileStatus._('Failed');
@@ -71849,6 +73149,7 @@ class UserProfileStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UserProfileSortKey {
   static const creationTime = UserProfileSortKey._('CreationTime');
   static const lastModifiedTime = UserProfileSortKey._('LastModifiedTime');
@@ -71877,6 +73178,8 @@ class UserProfileSortKey {
 /// Represents a high-performance compute server used for distributed training
 /// in SageMaker AI. An UltraServer consists of multiple instances within a
 /// shared NVLink interconnect domain.
+///
+/// @nodoc
 class UltraServer {
   /// The name of the Availability Zone where the UltraServer is provisioned.
   final String availabilityZone;
@@ -71978,6 +73281,7 @@ class UltraServer {
   }
 }
 
+/// @nodoc
 class UltraServerHealthStatus {
   static const ok = UltraServerHealthStatus._('OK');
   static const impaired = UltraServerHealthStatus._('Impaired');
@@ -72009,6 +73313,8 @@ class UltraServerHealthStatus {
 /// properties, call the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrial.html">DescribeTrial</a>
 /// API and provide the <code>TrialName</code>.
+///
+/// @nodoc
 class TrialSummary {
   /// When the trial was created.
   final DateTime? creationTime;
@@ -72069,6 +73375,7 @@ class TrialSummary {
   }
 }
 
+/// @nodoc
 class SortTrialsBy {
   static const name = SortTrialsBy._('Name');
   static const creationTime = SortTrialsBy._('CreationTime');
@@ -72096,6 +73403,8 @@ class SortTrialsBy {
 /// call the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrialComponent.html">DescribeTrialComponent</a>
 /// API and provide the <code>TrialComponentName</code>.
+///
+/// @nodoc
 class TrialComponentSummary {
   /// Who created the trial component.
   final UserContext? createdBy;
@@ -72212,6 +73521,7 @@ class TrialComponentSummary {
   }
 }
 
+/// @nodoc
 class SortTrialComponentsBy {
   static const name = SortTrialComponentsBy._('Name');
   static const creationTime = SortTrialComponentsBy._('CreationTime');
@@ -72242,6 +73552,8 @@ class SortTrialComponentsBy {
 /// response to a <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTransformJobs.html">ListTransformJobs</a>
 /// call.
+///
+/// @nodoc
 class TransformJobSummary {
   /// A timestamp that shows when the transform Job was created.
   final DateTime creationTime;
@@ -72312,6 +73624,7 @@ class TransformJobSummary {
   }
 }
 
+/// @nodoc
 class SortBy {
   static const name = SortBy._('Name');
   static const creationTime = SortBy._('CreationTime');
@@ -72342,6 +73655,8 @@ class SortBy {
 /// HyperPod clusters using Amazon SageMaker Training Plan, see <code> <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html">CreateTrainingPlan</a>
 /// </code>.
+///
+/// @nodoc
 class TrainingPlanSummary {
   /// The current status of the training plan (e.g., Pending, Active, Expired). To
   /// see the complete list of status values available for a training plan, refer
@@ -72509,6 +73824,7 @@ class TrainingPlanSummary {
   }
 }
 
+/// @nodoc
 class TrainingPlanStatus {
   static const pending = TrainingPlanStatus._('Pending');
   static const active = TrainingPlanStatus._('Active');
@@ -72543,6 +73859,8 @@ class TrainingPlanStatus {
 /// HyperPod clusters using Amazon SageMaker Training Plan, see <code> <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html">CreateTrainingPlan</a>
 /// </code>.
+///
+/// @nodoc
 class ReservedCapacitySummary {
   /// The instance type for the reserved capacity.
   final ReservedCapacityInstanceType instanceType;
@@ -72655,6 +73973,7 @@ class ReservedCapacitySummary {
   }
 }
 
+/// @nodoc
 class ReservedCapacityStatus {
   static const pending = ReservedCapacityStatus._('Pending');
   static const active = ReservedCapacityStatus._('Active');
@@ -72683,6 +74002,7 @@ class ReservedCapacityStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TrainingPlanSortBy {
   static const trainingPlanName = TrainingPlanSortBy._('TrainingPlanName');
   static const startTime = TrainingPlanSortBy._('StartTime');
@@ -72709,6 +74029,7 @@ class TrainingPlanSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class TrainingPlanSortOrder {
   static const ascending = TrainingPlanSortOrder._('Ascending');
   static const descending = TrainingPlanSortOrder._('Descending');
@@ -72740,6 +74061,8 @@ class TrainingPlanSortOrder {
 /// HyperPod clusters using Amazon SageMaker Training Plan, see <code> <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html">CreateTrainingPlan</a>
 /// </code>.
+///
+/// @nodoc
 class TrainingPlanFilter {
   /// The name of the filter field (e.g., Status, InstanceType).
   final TrainingPlanFilterName name;
@@ -72762,6 +74085,7 @@ class TrainingPlanFilter {
   }
 }
 
+/// @nodoc
 class TrainingPlanFilterName {
   static const status = TrainingPlanFilterName._('Status');
 
@@ -72786,6 +74110,7 @@ class TrainingPlanFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class TrainingJobSortByOptions {
   static const name = TrainingJobSortByOptions._('Name');
   static const creationTime = TrainingJobSortByOptions._('CreationTime');
@@ -72815,6 +74140,8 @@ class TrainingJobSortByOptions {
 }
 
 /// Provides summary information about a training job.
+///
+/// @nodoc
 class TrainingJobSummary {
   /// A timestamp that shows when the training job was created.
   final DateTime creationTime;
@@ -72909,6 +74236,8 @@ class TrainingJobSummary {
 }
 
 /// Describes a work team of a vendor that does the labelling job.
+///
+/// @nodoc
 class SubscribedWorkteam {
   /// The Amazon Resource Name (ARN) of the vendor that you have subscribed.
   final String workteamArn;
@@ -72961,6 +74290,8 @@ class SubscribedWorkteam {
 }
 
 /// Details of the Amazon SageMaker AI Studio Lifecycle Configuration.
+///
+/// @nodoc
 class StudioLifecycleConfigDetails {
   /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
   final DateTime? creationTime;
@@ -73019,6 +74350,7 @@ class StudioLifecycleConfigDetails {
   }
 }
 
+/// @nodoc
 class StudioLifecycleConfigAppType {
   static const jupyterServer = StudioLifecycleConfigAppType._('JupyterServer');
   static const kernelGateway = StudioLifecycleConfigAppType._('KernelGateway');
@@ -73046,6 +74378,7 @@ class StudioLifecycleConfigAppType {
   String toString() => value;
 }
 
+/// @nodoc
 class StudioLifecycleConfigSortKey {
   static const creationTime = StudioLifecycleConfigSortKey._('CreationTime');
   static const lastModifiedTime =
@@ -73074,6 +74407,8 @@ class StudioLifecycleConfigSortKey {
 }
 
 /// Contains information summarizing device details and deployment status.
+///
+/// @nodoc
 class DeviceDeploymentSummary {
   /// The ARN of the device.
   final String deviceArn;
@@ -73171,6 +74506,7 @@ class DeviceDeploymentSummary {
   }
 }
 
+/// @nodoc
 class DeviceDeploymentStatus {
   static const readytodeploy = DeviceDeploymentStatus._('READYTODEPLOY');
   static const inprogress = DeviceDeploymentStatus._('INPROGRESS');
@@ -73208,6 +74544,8 @@ class DeviceDeploymentStatus {
 }
 
 /// The space's details.
+///
+/// @nodoc
 class SpaceDetails {
   /// The creation time.
   final DateTime? creationTime;
@@ -73300,6 +74638,7 @@ class SpaceDetails {
   }
 }
 
+/// @nodoc
 class SpaceStatus {
   static const deleting = SpaceStatus._('Deleting');
   static const failed = SpaceStatus._('Failed');
@@ -73337,6 +74676,8 @@ class SpaceStatus {
 }
 
 /// Specifies summary information about the space settings.
+///
+/// @nodoc
 class SpaceSettingsSummary {
   /// The type of app created within the space.
   final AppType? appType;
@@ -73380,6 +74721,8 @@ class SpaceSettingsSummary {
 }
 
 /// Specifies summary information about the space sharing settings.
+///
+/// @nodoc
 class SpaceSharingSettingsSummary {
   /// Specifies the sharing type of the space.
   final SharingType? sharingType;
@@ -73404,6 +74747,8 @@ class SpaceSharingSettingsSummary {
 }
 
 /// Specifies summary information about the ownership settings.
+///
+/// @nodoc
 class OwnershipSettingsSummary {
   /// The user profile who is the owner of the space.
   final String? ownerUserProfileName;
@@ -73427,6 +74772,7 @@ class OwnershipSettingsSummary {
   }
 }
 
+/// @nodoc
 class SharingType {
   static const private = SharingType._('Private');
   static const shared = SharingType._('Shared');
@@ -73450,6 +74796,7 @@ class SharingType {
   String toString() => value;
 }
 
+/// @nodoc
 class SpaceSortKey {
   static const creationTime = SpaceSortKey._('CreationTime');
   static const lastModifiedTime = SpaceSortKey._('LastModifiedTime');
@@ -73479,6 +74826,8 @@ class SpaceSortKey {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/feature-store-cross-account-discoverability-share-sagemaker-catalog.html">Share
 /// Amazon SageMaker Catalog resource type</a> in the Amazon SageMaker Developer
 /// Guide.
+///
+/// @nodoc
 class ResourceCatalog {
   /// The time the <code>ResourceCatalog</code> was created.
   final DateTime creationTime;
@@ -73522,6 +74871,7 @@ class ResourceCatalog {
   }
 }
 
+/// @nodoc
 class ResourceCatalogSortOrder {
   static const ascending = ResourceCatalogSortOrder._('Ascending');
   static const descending = ResourceCatalogSortOrder._('Descending');
@@ -73547,6 +74897,7 @@ class ResourceCatalogSortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceCatalogSortBy {
   static const creationTime = ResourceCatalogSortBy._('CreationTime');
 
@@ -73572,6 +74923,8 @@ class ResourceCatalogSortBy {
 }
 
 /// Information about a project.
+///
+/// @nodoc
 class ProjectSummary {
   /// The time that the project was created.
   final DateTime creationTime;
@@ -73630,6 +74983,7 @@ class ProjectSummary {
   }
 }
 
+/// @nodoc
 class ProjectSortBy {
   static const name = ProjectSortBy._('Name');
   static const creationTime = ProjectSortBy._('CreationTime');
@@ -73654,6 +75008,7 @@ class ProjectSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ProjectSortOrder {
   static const ascending = ProjectSortOrder._('Ascending');
   static const descending = ProjectSortOrder._('Descending');
@@ -73679,6 +75034,8 @@ class ProjectSortOrder {
 }
 
 /// Summary of information about a processing job.
+///
+/// @nodoc
 class ProcessingJobSummary {
   /// The time at which the processing job was created.
   final DateTime creationTime;
@@ -73756,6 +75113,8 @@ class ProcessingJobSummary {
 }
 
 /// The summary of the pipeline version.
+///
+/// @nodoc
 class PipelineVersionSummary {
   /// The creation time of the pipeline version.
   final DateTime? creationTime;
@@ -73821,6 +75180,8 @@ class PipelineVersionSummary {
 }
 
 /// A summary of a pipeline.
+///
+/// @nodoc
 class PipelineSummary {
   /// The creation time of the pipeline.
   final DateTime? creationTime;
@@ -73897,6 +75258,7 @@ class PipelineSummary {
   }
 }
 
+/// @nodoc
 class SortPipelinesBy {
   static const name = SortPipelinesBy._('Name');
   static const creationTime = SortPipelinesBy._('CreationTime');
@@ -73922,6 +75284,8 @@ class SortPipelinesBy {
 }
 
 /// An execution of a step in a pipeline.
+///
+/// @nodoc
 class PipelineExecutionStep {
   /// The current attempt of the execution step. For more information, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines-retry-policy.html">Retry
@@ -74028,6 +75392,7 @@ class PipelineExecutionStep {
   }
 }
 
+/// @nodoc
 class StepStatus {
   static const starting = StepStatus._('Starting');
   static const executing = StepStatus._('Executing');
@@ -74063,6 +75428,8 @@ class StepStatus {
 }
 
 /// Details on the cache hit of a pipeline execution step.
+///
+/// @nodoc
 class CacheHitResult {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? sourcePipelineExecutionArn;
@@ -74087,6 +75454,8 @@ class CacheHitResult {
 }
 
 /// Metadata for a step execution.
+///
+/// @nodoc
 class PipelineExecutionStepMetadata {
   /// The Amazon Resource Name (ARN) of the AutoML job that was run by this step.
   final AutoMLJobStepMetadata? autoMLJob;
@@ -74406,6 +75775,8 @@ class PipelineExecutionStepMetadata {
 }
 
 /// The ARN from an execution of the current pipeline.
+///
+/// @nodoc
 class SelectiveExecutionResult {
   /// The ARN from an execution of the current pipeline.
   final String? sourcePipelineExecutionArn;
@@ -74430,6 +75801,8 @@ class SelectiveExecutionResult {
 }
 
 /// Metadata for a training job step.
+///
+/// @nodoc
 class TrainingJobStepMetadata {
   /// The Amazon Resource Name (ARN) of the training job that was run by this step
   /// execution.
@@ -74454,6 +75827,8 @@ class TrainingJobStepMetadata {
 }
 
 /// Metadata for a processing job step.
+///
+/// @nodoc
 class ProcessingJobStepMetadata {
   /// The Amazon Resource Name (ARN) of the processing job.
   final String? arn;
@@ -74477,6 +75852,8 @@ class ProcessingJobStepMetadata {
 }
 
 /// Metadata for a transform job step.
+///
+/// @nodoc
 class TransformJobStepMetadata {
   /// The Amazon Resource Name (ARN) of the transform job that was run by this
   /// step execution.
@@ -74501,6 +75878,8 @@ class TransformJobStepMetadata {
 }
 
 /// Metadata for a tuning step.
+///
+/// @nodoc
 class TuningJobStepMetaData {
   /// The Amazon Resource Name (ARN) of the tuning job that was run by this step
   /// execution.
@@ -74525,6 +75904,8 @@ class TuningJobStepMetaData {
 }
 
 /// Metadata for Model steps.
+///
+/// @nodoc
 class ModelStepMetadata {
   /// The Amazon Resource Name (ARN) of the created model.
   final String? arn;
@@ -74548,6 +75929,8 @@ class ModelStepMetadata {
 }
 
 /// Metadata for a register model job step.
+///
+/// @nodoc
 class RegisterModelStepMetadata {
   /// The Amazon Resource Name (ARN) of the model package.
   final String? arn;
@@ -74571,6 +75954,8 @@ class RegisterModelStepMetadata {
 }
 
 /// Metadata for a Condition step.
+///
+/// @nodoc
 class ConditionStepMetadata {
   /// The outcome of the Condition step evaluation.
   final ConditionOutcome? outcome;
@@ -74594,6 +75979,8 @@ class ConditionStepMetadata {
 }
 
 /// Metadata about a callback step.
+///
+/// @nodoc
 class CallbackStepMetadata {
   /// The pipeline generated token from the Amazon SQS queue.
   final String? callbackToken;
@@ -74635,6 +76022,8 @@ class CallbackStepMetadata {
 }
 
 /// Metadata for a Lambda step.
+///
+/// @nodoc
 class LambdaStepMetadata {
   /// The Amazon Resource Name (ARN) of the Lambda function that was run by this
   /// step execution.
@@ -74669,6 +76058,8 @@ class LambdaStepMetadata {
 }
 
 /// The configurations and outcomes of an Amazon EMR step execution.
+///
+/// @nodoc
 class EMRStepMetadata {
   /// The identifier of the EMR cluster.
   final String? clusterId;
@@ -74717,6 +76108,8 @@ class EMRStepMetadata {
 /// see the topic on <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html#step-type-quality-check">QualityCheck
 /// step</a> in the <i>Amazon SageMaker Developer Guide</i>.
+///
+/// @nodoc
 class QualityCheckStepMetadata {
   /// The Amazon S3 URI of the baseline constraints file used for the drift check.
   final String? baselineUsedForDriftCheckConstraints;
@@ -74829,6 +76222,8 @@ class QualityCheckStepMetadata {
 /// information, see the topic on <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html#step-type-clarify-check">ClarifyCheck
 /// step</a> in the <i>Amazon SageMaker Developer Guide</i>.
+///
+/// @nodoc
 class ClarifyCheckStepMetadata {
   /// The Amazon S3 URI of baseline constraints file to be used for the drift
   /// check.
@@ -74918,6 +76313,8 @@ class ClarifyCheckStepMetadata {
 }
 
 /// The container for the metadata for Fail step.
+///
+/// @nodoc
 class FailStepMetadata {
   /// A message that you define and then is processed and rendered by the Fail
   /// step when the error occurs.
@@ -74942,6 +76339,8 @@ class FailStepMetadata {
 }
 
 /// Metadata for an AutoML job step.
+///
+/// @nodoc
 class AutoMLJobStepMetadata {
   /// The Amazon Resource Name (ARN) of the AutoML job.
   final String? arn;
@@ -74965,6 +76364,8 @@ class AutoMLJobStepMetadata {
 }
 
 /// Metadata for an endpoint step.
+///
+/// @nodoc
 class EndpointStepMetadata {
   /// The Amazon Resource Name (ARN) of the endpoint in the step.
   final String? arn;
@@ -74988,6 +76389,8 @@ class EndpointStepMetadata {
 }
 
 /// Metadata for an endpoint configuration step.
+///
+/// @nodoc
 class EndpointConfigStepMetadata {
   /// The Amazon Resource Name (ARN) of the endpoint configuration used in the
   /// step.
@@ -75012,6 +76415,8 @@ class EndpointConfigStepMetadata {
 }
 
 /// The metadata of the Amazon Bedrock custom model.
+///
+/// @nodoc
 class BedrockCustomModelMetadata {
   /// The Amazon Resource Name (ARN) of the Amazon Bedrock custom model.
   final String? arn;
@@ -75035,6 +76440,8 @@ class BedrockCustomModelMetadata {
 }
 
 /// The metadata of the Amazon Bedrock custom model deployment.
+///
+/// @nodoc
 class BedrockCustomModelDeploymentMetadata {
   /// The Amazon Resource Name (ARN) for the Amazon Bedrock custom model
   /// deployment.
@@ -75060,6 +76467,8 @@ class BedrockCustomModelDeploymentMetadata {
 }
 
 /// The metadata of the Amazon Bedrock provisioned model throughput.
+///
+/// @nodoc
 class BedrockProvisionedModelThroughputMetadata {
   /// The Amazon Resource Name (ARN) of the Amazon Bedrock provisioned model
   /// throughput.
@@ -75085,6 +76494,8 @@ class BedrockProvisionedModelThroughputMetadata {
 }
 
 /// The metadata of the Amazon Bedrock model import.
+///
+/// @nodoc
 class BedrockModelImportMetadata {
   /// The Amazon Resource Name (ARN) of the Amazon Bedrock model import.
   final String? arn;
@@ -75108,6 +76519,8 @@ class BedrockModelImportMetadata {
 }
 
 /// The metadata of the inference component.
+///
+/// @nodoc
 class InferenceComponentMetadata {
   /// The Amazon Resource Name (ARN) of the inference component.
   final String? arn;
@@ -75132,6 +76545,8 @@ class InferenceComponentMetadata {
 
 /// The metadata that tracks relationships between ML artifacts, actions, and
 /// contexts.
+///
+/// @nodoc
 class LineageMetadata {
   /// The Amazon Resource Name (ARN) of the lineage action.
   final Map<String, String>? actionArns;
@@ -75182,6 +76597,8 @@ class LineageMetadata {
 }
 
 /// Metadata for a SageMaker job step.
+///
+/// @nodoc
 class JobStepMetadata {
   /// The Amazon Resource Name (ARN) of the SageMaker job that was run by this
   /// step execution.
@@ -75206,6 +76623,8 @@ class JobStepMetadata {
 }
 
 /// The data type used to describe the relationship between different sources.
+///
+/// @nodoc
 class AssociationInfo {
   /// The Amazon Resource Name (ARN) of the <code>AssociationInfo</code>
   /// destination.
@@ -75236,6 +76655,7 @@ class AssociationInfo {
   }
 }
 
+/// @nodoc
 class ConditionOutcome {
   static const $true = ConditionOutcome._('True');
   static const $false = ConditionOutcome._('False');
@@ -75261,6 +76681,8 @@ class ConditionOutcome {
 }
 
 /// A pipeline execution summary.
+///
+/// @nodoc
 class PipelineExecutionSummary {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -75328,6 +76750,7 @@ class PipelineExecutionSummary {
   }
 }
 
+/// @nodoc
 class SortPipelineExecutionsBy {
   static const creationTime = SortPipelineExecutionsBy._('CreationTime');
   static const pipelineExecutionArn =
@@ -75357,6 +76780,8 @@ class SortPipelineExecutionsBy {
 /// A subset of information related to a SageMaker Partner AI App. This
 /// information is used as part of the <code>ListPartnerApps</code> API
 /// response.
+///
+/// @nodoc
 class PartnerAppSummary {
   /// The ARN of the SageMaker Partner AI App.
   final String? arn;
@@ -75410,6 +76835,7 @@ class PartnerAppSummary {
   }
 }
 
+/// @nodoc
 class PartnerAppType {
   static const lakeraGuard = PartnerAppType._('lakera-guard');
   static const comet = PartnerAppType._('comet');
@@ -75437,6 +76863,7 @@ class PartnerAppType {
   String toString() => value;
 }
 
+/// @nodoc
 class PartnerAppStatus {
   static const creating = PartnerAppStatus._('Creating');
   static const updating = PartnerAppStatus._('Updating');
@@ -75475,6 +76902,8 @@ class PartnerAppStatus {
 }
 
 /// Summarizes an optimization job by providing some of its key properties.
+///
+/// @nodoc
 class OptimizationJobSummary {
   /// The time when you created the optimization job.
   final DateTime creationTime;
@@ -75569,6 +76998,7 @@ class OptimizationJobSummary {
   }
 }
 
+/// @nodoc
 class OptimizationJobStatus {
   static const inprogress = OptimizationJobStatus._('INPROGRESS');
   static const completed = OptimizationJobStatus._('COMPLETED');
@@ -75605,6 +77035,7 @@ class OptimizationJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OptimizationJobDeploymentInstanceType {
   static const mlP4d_24xlarge =
       OptimizationJobDeploymentInstanceType._('ml.p4d.24xlarge');
@@ -75755,6 +77186,7 @@ class OptimizationJobDeploymentInstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ListOptimizationJobsSortBy {
   static const name = ListOptimizationJobsSortBy._('Name');
   static const creationTime = ListOptimizationJobsSortBy._('CreationTime');
@@ -75782,6 +77214,8 @@ class ListOptimizationJobsSortBy {
 }
 
 /// Provides summary information for an SageMaker AI notebook instance.
+///
+/// @nodoc
 class NotebookInstanceSummary {
   /// The Amazon Resource Name (ARN) of the notebook instance.
   final String notebookInstanceArn;
@@ -75903,6 +77337,7 @@ class NotebookInstanceSummary {
   }
 }
 
+/// @nodoc
 class NotebookInstanceStatus {
   static const pending = NotebookInstanceStatus._('Pending');
   static const inService = NotebookInstanceStatus._('InService');
@@ -75941,6 +77376,7 @@ class NotebookInstanceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NotebookInstanceSortKey {
   static const name = NotebookInstanceSortKey._('Name');
   static const creationTime = NotebookInstanceSortKey._('CreationTime');
@@ -75967,6 +77403,7 @@ class NotebookInstanceSortKey {
   String toString() => value;
 }
 
+/// @nodoc
 class NotebookInstanceSortOrder {
   static const ascending = NotebookInstanceSortOrder._('Ascending');
   static const descending = NotebookInstanceSortOrder._('Descending');
@@ -75993,6 +77430,8 @@ class NotebookInstanceSortOrder {
 }
 
 /// Provides a summary of a notebook instance lifecycle configuration.
+///
+/// @nodoc
 class NotebookInstanceLifecycleConfigSummary {
   /// The Amazon Resource Name (ARN) of the lifecycle configuration.
   final String notebookInstanceLifecycleConfigArn;
@@ -76044,6 +77483,7 @@ class NotebookInstanceLifecycleConfigSummary {
   }
 }
 
+/// @nodoc
 class NotebookInstanceLifecycleConfigSortKey {
   static const name = NotebookInstanceLifecycleConfigSortKey._('Name');
   static const creationTime =
@@ -76072,6 +77512,7 @@ class NotebookInstanceLifecycleConfigSortKey {
   String toString() => value;
 }
 
+/// @nodoc
 class NotebookInstanceLifecycleConfigSortOrder {
   static const ascending =
       NotebookInstanceLifecycleConfigSortOrder._('Ascending');
@@ -76100,6 +77541,8 @@ class NotebookInstanceLifecycleConfigSortOrder {
 }
 
 /// Summarizes the monitoring schedule.
+///
+/// @nodoc
 class MonitoringScheduleSummary {
   /// The creation time of the monitoring schedule.
   final DateTime creationTime;
@@ -76176,6 +77619,7 @@ class MonitoringScheduleSummary {
   }
 }
 
+/// @nodoc
 class MonitoringScheduleSortKey {
   static const name = MonitoringScheduleSortKey._('Name');
   static const creationTime = MonitoringScheduleSortKey._('CreationTime');
@@ -76202,6 +77646,7 @@ class MonitoringScheduleSortKey {
   String toString() => value;
 }
 
+/// @nodoc
 class MonitoringExecutionSortKey {
   static const creationTime = MonitoringExecutionSortKey._('CreationTime');
   static const scheduledTime = MonitoringExecutionSortKey._('ScheduledTime');
@@ -76229,6 +77674,8 @@ class MonitoringExecutionSortKey {
 }
 
 /// Provides summary information of an alert's history.
+///
+/// @nodoc
 class MonitoringAlertHistorySummary {
   /// The current alert status of an alert.
   final MonitoringAlertStatus alertStatus;
@@ -76275,6 +77722,7 @@ class MonitoringAlertHistorySummary {
   }
 }
 
+/// @nodoc
 class MonitoringAlertHistorySortKey {
   static const creationTime = MonitoringAlertHistorySortKey._('CreationTime');
   static const status = MonitoringAlertHistorySortKey._('Status');
@@ -76301,6 +77749,8 @@ class MonitoringAlertHistorySortKey {
 }
 
 /// Provides summary information about a model.
+///
+/// @nodoc
 class ModelSummary {
   /// A timestamp that indicates when the model was created.
   final DateTime creationTime;
@@ -76337,6 +77787,7 @@ class ModelSummary {
   }
 }
 
+/// @nodoc
 class ModelSortKey {
   static const name = ModelSortKey._('Name');
   static const creationTime = ModelSortKey._('CreationTime');
@@ -76360,6 +77811,7 @@ class ModelSortKey {
   String toString() => value;
 }
 
+/// @nodoc
 class OrderKey {
   static const ascending = OrderKey._('Ascending');
   static const descending = OrderKey._('Descending');
@@ -76384,6 +77836,8 @@ class OrderKey {
 }
 
 /// Summary information about a monitoring job.
+///
+/// @nodoc
 class MonitoringJobDefinitionSummary {
   /// The time that the monitoring job was created.
   final DateTime creationTime;
@@ -76429,6 +77883,7 @@ class MonitoringJobDefinitionSummary {
   }
 }
 
+/// @nodoc
 class MonitoringJobDefinitionSortKey {
   static const name = MonitoringJobDefinitionSortKey._('Name');
   static const creationTime = MonitoringJobDefinitionSortKey._('CreationTime');
@@ -76455,6 +77910,8 @@ class MonitoringJobDefinitionSortKey {
 }
 
 /// Provides summary information about a model package.
+///
+/// @nodoc
 class ModelPackageSummary {
   /// A timestamp that shows when the model package was created.
   final DateTime creationTime;
@@ -76564,6 +78021,7 @@ class ModelPackageSummary {
   }
 }
 
+/// @nodoc
 class ModelPackageType {
   static const versioned = ModelPackageType._('Versioned');
   static const unversioned = ModelPackageType._('Unversioned');
@@ -76589,6 +78047,7 @@ class ModelPackageType {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelPackageSortBy {
   static const name = ModelPackageSortBy._('Name');
   static const creationTime = ModelPackageSortBy._('CreationTime');
@@ -76615,6 +78074,8 @@ class ModelPackageSortBy {
 }
 
 /// Summary information about a model group.
+///
+/// @nodoc
 class ModelPackageGroupSummary {
   /// The time that the model group was created.
   final DateTime creationTime;
@@ -76680,6 +78141,8 @@ class ModelPackageGroupSummary {
 }
 
 /// The managed configuration of a model package group.
+///
+/// @nodoc
 class ManagedConfiguration {
   /// The storage type of the model package.
   final ManagedStorageType? managedStorageType;
@@ -76704,6 +78167,7 @@ class ManagedConfiguration {
   }
 }
 
+/// @nodoc
 class ManagedStorageType {
   static const restricted = ManagedStorageType._('Restricted');
 
@@ -76728,6 +78192,7 @@ class ManagedStorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelPackageGroupSortBy {
   static const name = ModelPackageGroupSortBy._('Name');
   static const creationTime = ModelPackageGroupSortBy._('CreationTime');
@@ -76754,6 +78219,8 @@ class ModelPackageGroupSortBy {
 }
 
 /// A summary of the model metadata.
+///
+/// @nodoc
 class ModelMetadataSummary {
   /// The machine learning domain of the model.
   final String domain;
@@ -76807,6 +78274,8 @@ class ModelMetadataSummary {
 /// One or more filters that searches for the specified resource or resources in
 /// a search. All resource objects that satisfy the expression's condition are
 /// included in the search results
+///
+/// @nodoc
 class ModelMetadataSearchExpression {
   /// A list of filter objects.
   final List<ModelMetadataFilter>? filters;
@@ -76825,6 +78294,8 @@ class ModelMetadataSearchExpression {
 
 /// Part of the search expression. You can specify the name and value (domain,
 /// task, framework, framework version, task, and model).
+///
+/// @nodoc
 class ModelMetadataFilter {
   /// The name of the of the model to filter by.
   final ModelMetadataFilterType name;
@@ -76847,6 +78318,7 @@ class ModelMetadataFilter {
   }
 }
 
+/// @nodoc
 class ModelMetadataFilterType {
   static const domain = ModelMetadataFilterType._('Domain');
   static const framework = ModelMetadataFilterType._('Framework');
@@ -76875,6 +78347,8 @@ class ModelMetadataFilterType {
 }
 
 /// A summary of a specific version of the model card.
+///
+/// @nodoc
 class ModelCardVersionSummary {
   /// The date and time that the model card version was created.
   final DateTime creationTime;
@@ -76952,6 +78426,7 @@ class ModelCardVersionSummary {
   }
 }
 
+/// @nodoc
 class ModelCardVersionSortBy {
   static const version = ModelCardVersionSortBy._('Version');
 
@@ -76976,6 +78451,7 @@ class ModelCardVersionSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelCardSortOrder {
   static const ascending = ModelCardSortOrder._('Ascending');
   static const descending = ModelCardSortOrder._('Descending');
@@ -77002,6 +78478,8 @@ class ModelCardSortOrder {
 }
 
 /// A summary of the model card.
+///
+/// @nodoc
 class ModelCardSummary {
   /// The date and time that the model card was created.
   final DateTime creationTime;
@@ -77072,6 +78550,7 @@ class ModelCardSummary {
   }
 }
 
+/// @nodoc
 class ModelCardSortBy {
   static const name = ModelCardSortBy._('Name');
   static const creationTime = ModelCardSortBy._('CreationTime');
@@ -77097,6 +78576,8 @@ class ModelCardSortBy {
 }
 
 /// The summary of the Amazon SageMaker Model Card export job.
+///
+/// @nodoc
 class ModelCardExportJobSummary {
   /// The date and time that the model card export job was created.
   final DateTime createdAt;
@@ -77162,6 +78643,7 @@ class ModelCardExportJobSummary {
   }
 }
 
+/// @nodoc
 class ModelCardExportJobStatus {
   static const inProgress = ModelCardExportJobStatus._('InProgress');
   static const completed = ModelCardExportJobStatus._('Completed');
@@ -77189,6 +78671,8 @@ class ModelCardExportJobStatus {
 }
 
 /// Attribute by which to sort returned export jobs.
+///
+/// @nodoc
 class ModelCardExportJobSortBy {
   static const name = ModelCardExportJobSortBy._('Name');
   static const creationTime = ModelCardExportJobSortBy._('CreationTime');
@@ -77215,6 +78699,7 @@ class ModelCardExportJobSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelCardExportJobSortOrder {
   static const ascending = ModelCardExportJobSortOrder._('Ascending');
   static const descending = ModelCardExportJobSortOrder._('Descending');
@@ -77241,6 +78726,8 @@ class ModelCardExportJobSortOrder {
 }
 
 /// The summary of the tracking server to list.
+///
+/// @nodoc
 class TrackingServerSummary {
   /// The creation time of a listed tracking server.
   final DateTime? creationTime;
@@ -77310,6 +78797,7 @@ class TrackingServerSummary {
   }
 }
 
+/// @nodoc
 class TrackingServerStatus {
   static const creating = TrackingServerStatus._('Creating');
   static const created = TrackingServerStatus._('Created');
@@ -77370,6 +78858,7 @@ class TrackingServerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IsTrackingServerActive {
   static const active = IsTrackingServerActive._('Active');
   static const inactive = IsTrackingServerActive._('Inactive');
@@ -77395,6 +78884,7 @@ class IsTrackingServerActive {
   String toString() => value;
 }
 
+/// @nodoc
 class SortTrackingServerBy {
   static const name = SortTrackingServerBy._('Name');
   static const creationTime = SortTrackingServerBy._('CreationTime');
@@ -77422,6 +78912,8 @@ class SortTrackingServerBy {
 }
 
 /// The summary of the Mlflow App to list.
+///
+/// @nodoc
 class MlflowAppSummary {
   /// The ARN of a listed MLflow App.
   final String? arn;
@@ -77481,6 +78973,7 @@ class MlflowAppSummary {
   }
 }
 
+/// @nodoc
 class MlflowAppStatus {
   static const creating = MlflowAppStatus._('Creating');
   static const created = MlflowAppStatus._('Created');
@@ -77522,6 +79015,7 @@ class MlflowAppStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortMlflowAppBy {
   static const name = SortMlflowAppBy._('Name');
   static const creationTime = SortMlflowAppBy._('CreationTime');
@@ -77549,6 +79043,8 @@ class SortMlflowAppBy {
 
 /// Lists a summary of the properties of a lineage group. A lineage group
 /// provides a group of shareable lineage entity resources.
+///
+/// @nodoc
 class LineageGroupSummary {
   /// The creation time of the lineage group summary.
   final DateTime? creationTime;
@@ -77601,6 +79097,7 @@ class LineageGroupSummary {
   }
 }
 
+/// @nodoc
 class SortLineageGroupsBy {
   static const name = SortLineageGroupsBy._('Name');
   static const creationTime = SortLineageGroupsBy._('CreationTime');
@@ -77627,6 +79124,8 @@ class SortLineageGroupsBy {
 }
 
 /// Provides summary information for a work team.
+///
+/// @nodoc
 class LabelingJobForWorkteamSummary {
   /// The date and time that the labeling job was created.
   final DateTime creationTime;
@@ -77693,6 +79192,8 @@ class LabelingJobForWorkteamSummary {
 }
 
 /// Provides counts for human-labeled tasks in the labeling job.
+///
+/// @nodoc
 class LabelCountersForWorkteam {
   /// The total number of data objects labeled by a human worker.
   final int? humanLabeled;
@@ -77729,6 +79230,7 @@ class LabelCountersForWorkteam {
   }
 }
 
+/// @nodoc
 class ListLabelingJobsForWorkteamSortByOptions {
   static const creationTime =
       ListLabelingJobsForWorkteamSortByOptions._('CreationTime');
@@ -77755,6 +79257,8 @@ class ListLabelingJobsForWorkteamSortByOptions {
 }
 
 /// Provides summary information about a labeling job.
+///
+/// @nodoc
 class LabelingJobSummary {
   /// The date and time that the job was created (timestamp).
   final DateTime creationTime;
@@ -77875,6 +79379,7 @@ class LabelingJobSummary {
   }
 }
 
+/// @nodoc
 class LabelingJobStatus {
   static const initializing = LabelingJobStatus._('Initializing');
   static const inProgress = LabelingJobStatus._('InProgress');
@@ -77911,6 +79416,8 @@ class LabelingJobStatus {
 }
 
 /// Provides a breakdown of the number of objects labeled.
+///
+/// @nodoc
 class LabelCounters {
   /// The total number of objects that could not be labeled due to an error.
   final int? failedNonRetryableError;
@@ -77963,6 +79470,8 @@ class LabelCounters {
 }
 
 /// Specifies the location of the output produced by the labeling job.
+///
+/// @nodoc
 class LabelingJobOutput {
   /// The Amazon S3 bucket location of the manifest file for labeled data.
   final String outputDatasetS3Uri;
@@ -77996,6 +79505,8 @@ class LabelingJobOutput {
 }
 
 /// Input configuration information for a labeling job.
+///
+/// @nodoc
 class LabelingJobInputConfig {
   /// The location of the input data.
   final LabelingJobDataSource dataSource;
@@ -78043,6 +79554,8 @@ class LabelingJobInputConfig {
 /// streaming and one-time labeling jobs. Adding an <code>S3DataSource</code> is
 /// optional if you use <code>SnsDataSource</code> to create a streaming
 /// labeling job.
+///
+/// @nodoc
 class LabelingJobDataSource {
   /// The Amazon S3 location of the input data objects.
   final LabelingJobS3DataSource? s3DataSource;
@@ -78083,6 +79596,8 @@ class LabelingJobDataSource {
 
 /// Attributes of the data specified by the customer. Use these to describe the
 /// data to be labeled.
+///
+/// @nodoc
 class LabelingJobDataAttributes {
   /// Declares that your content is free of personally identifiable information or
   /// adult content. SageMaker may restrict the Amazon Mechanical Turk workers
@@ -78111,6 +79626,7 @@ class LabelingJobDataAttributes {
   }
 }
 
+/// @nodoc
 class ContentClassifier {
   static const freeOfPersonallyIdentifiableInformation =
       ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
@@ -78140,6 +79656,8 @@ class ContentClassifier {
 }
 
 /// The Amazon S3 location of the input data objects.
+///
+/// @nodoc
 class LabelingJobS3DataSource {
   /// The Amazon S3 location of the manifest file that describes the input data
   /// objects.
@@ -78184,6 +79702,8 @@ class LabelingJobS3DataSource {
 }
 
 /// An Amazon SNS data source used for streaming labeling jobs.
+///
+/// @nodoc
 class LabelingJobSnsDataSource {
   /// The Amazon SNS input topic Amazon Resource Name (ARN). Specify the ARN of
   /// the input topic you will use to send new data objects to a streaming
@@ -78209,6 +79729,8 @@ class LabelingJobSnsDataSource {
 }
 
 /// Provides summary information about a job configuration schema version.
+///
+/// @nodoc
 class JobConfigSchemaVersionSummary {
   /// The version of the job configuration schema.
   final String jobConfigSchemaVersion;
@@ -78234,6 +79756,8 @@ class JobConfigSchemaVersionSummary {
 /// Provides summary information about a job, returned by the
 /// <code>ListJobs</code> operation. Use <code>DescribeJob</code> to get full
 /// details for a specific job.
+///
+/// @nodoc
 class JobSummary {
   /// The date and time that the job was created.
   final DateTime creationTime;
@@ -78312,6 +79836,8 @@ class JobSummary {
 /// A returned array object for the <code>Steps</code> response field in the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListInferenceRecommendationsJobSteps.html">ListInferenceRecommendationsJobSteps</a>
 /// API command.
+///
+/// @nodoc
 class InferenceRecommendationsJobStep {
   /// The name of the Inference Recommender job.
   final String jobName;
@@ -78363,6 +79889,7 @@ class InferenceRecommendationsJobStep {
   }
 }
 
+/// @nodoc
 class RecommendationStepType {
   static const benchmark = RecommendationStepType._('BENCHMARK');
 
@@ -78387,6 +79914,7 @@ class RecommendationStepType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationJobStatus {
   static const pending = RecommendationJobStatus._('PENDING');
   static const inProgress = RecommendationJobStatus._('IN_PROGRESS');
@@ -78428,6 +79956,8 @@ class RecommendationJobStatus {
 }
 
 /// The details for a specific benchmark from an Inference Recommender job.
+///
+/// @nodoc
 class RecommendationJobInferenceBenchmark {
   final ModelConfiguration modelConfiguration;
   final EndpointOutputConfiguration? endpointConfiguration;
@@ -78501,6 +80031,8 @@ class RecommendationJobInferenceBenchmark {
 }
 
 /// The metrics of recommendations.
+///
+/// @nodoc
 class RecommendationMetrics {
   /// Defines the cost per hour for the instance.
   final double? costPerHour;
@@ -78578,6 +80110,8 @@ class RecommendationMetrics {
 
 /// The metrics for an existing endpoint compared in an Inference Recommender
 /// job.
+///
+/// @nodoc
 class InferenceMetrics {
   /// The expected maximum number of requests per minute for the instance.
   final int maxInvocations;
@@ -78610,6 +80144,8 @@ class InferenceMetrics {
 
 /// The endpoint configuration made by Inference Recommender during a
 /// recommendation job.
+///
+/// @nodoc
 class EndpointOutputConfiguration {
   /// The name of the endpoint made during a recommendation job.
   final String endpointName;
@@ -78666,6 +80202,8 @@ class EndpointOutputConfiguration {
 
 /// Defines the model configuration. Includes the specification name and
 /// environment parameters.
+///
+/// @nodoc
 class ModelConfiguration {
   /// The name of the compilation job used to create the recommended model
   /// artifacts.
@@ -78711,6 +80249,8 @@ class ModelConfiguration {
 
 /// A list of environment parameters suggested by the Amazon SageMaker Inference
 /// Recommender.
+///
+/// @nodoc
 class EnvironmentParameter {
   /// The environment key suggested by the Amazon SageMaker Inference Recommender.
   final String key;
@@ -78748,6 +80288,8 @@ class EnvironmentParameter {
 }
 
 /// A structure that contains a list of recommendation jobs.
+///
+/// @nodoc
 class InferenceRecommendationsJob {
   /// A timestamp that shows when the job was created.
   final DateTime creationTime;
@@ -78862,6 +80404,7 @@ class InferenceRecommendationsJob {
   }
 }
 
+/// @nodoc
 class RecommendationJobType {
   static const $default = RecommendationJobType._('Default');
   static const advanced = RecommendationJobType._('Advanced');
@@ -78887,6 +80430,7 @@ class RecommendationJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class ListInferenceRecommendationsJobsSortBy {
   static const name = ListInferenceRecommendationsJobsSortBy._('Name');
   static const creationTime =
@@ -78915,6 +80459,8 @@ class ListInferenceRecommendationsJobsSortBy {
 }
 
 /// Lists a summary of properties of an inference experiment.
+///
+/// @nodoc
 class InferenceExperimentSummary {
   /// The timestamp at which the inference experiment was created.
   final DateTime creationTime;
@@ -79011,6 +80557,7 @@ class InferenceExperimentSummary {
   }
 }
 
+/// @nodoc
 class InferenceExperimentType {
   static const shadowMode = InferenceExperimentType._('ShadowMode');
 
@@ -79035,6 +80582,7 @@ class InferenceExperimentType {
   String toString() => value;
 }
 
+/// @nodoc
 class InferenceExperimentStatus {
   static const creating = InferenceExperimentStatus._('Creating');
   static const created = InferenceExperimentStatus._('Created');
@@ -79075,6 +80623,7 @@ class InferenceExperimentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortInferenceExperimentsBy {
   static const name = SortInferenceExperimentsBy._('Name');
   static const creationTime = SortInferenceExperimentsBy._('CreationTime');
@@ -79102,6 +80651,8 @@ class SortInferenceExperimentsBy {
 }
 
 /// A summary of the properties of an inference component.
+///
+/// @nodoc
 class InferenceComponentSummary {
   /// The time when the inference component was created.
   final DateTime creationTime;
@@ -79177,6 +80728,7 @@ class InferenceComponentSummary {
   }
 }
 
+/// @nodoc
 class InferenceComponentStatus {
   static const inService = InferenceComponentStatus._('InService');
   static const creating = InferenceComponentStatus._('Creating');
@@ -79205,6 +80757,7 @@ class InferenceComponentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InferenceComponentSortKey {
   static const name = InferenceComponentSortKey._('Name');
   static const creationTime = InferenceComponentSortKey._('CreationTime');
@@ -79233,6 +80786,8 @@ class InferenceComponentSortKey {
 
 /// A version of a SageMaker AI <code>Image</code>. A version represents an
 /// existing container image.
+///
+/// @nodoc
 class ImageVersion {
   /// When the version was created.
   final DateTime creationTime;
@@ -79299,6 +80854,7 @@ class ImageVersion {
   }
 }
 
+/// @nodoc
 class ImageVersionStatus {
   static const creating = ImageVersionStatus._('CREATING');
   static const created = ImageVersionStatus._('CREATED');
@@ -79333,6 +80889,7 @@ class ImageVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageVersionSortBy {
   static const creationTime = ImageVersionSortBy._('CREATION_TIME');
   static const lastModifiedTime = ImageVersionSortBy._('LAST_MODIFIED_TIME');
@@ -79359,6 +80916,7 @@ class ImageVersionSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageVersionSortOrder {
   static const ascending = ImageVersionSortOrder._('ASCENDING');
   static const descending = ImageVersionSortOrder._('DESCENDING');
@@ -79387,6 +80945,8 @@ class ImageVersionSortOrder {
 /// A SageMaker AI image. A SageMaker AI image represents a set of container
 /// images that are derived from a common base container image. Each of these
 /// container images is represented by a SageMaker AI <code>ImageVersion</code>.
+///
+/// @nodoc
 class Image {
   /// When the image was created.
   final DateTime creationTime;
@@ -79461,6 +81021,7 @@ class Image {
   }
 }
 
+/// @nodoc
 class ImageStatus {
   static const creating = ImageStatus._('CREATING');
   static const created = ImageStatus._('CREATED');
@@ -79497,6 +81058,7 @@ class ImageStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSortBy {
   static const creationTime = ImageSortBy._('CREATION_TIME');
   static const lastModifiedTime = ImageSortBy._('LAST_MODIFIED_TIME');
@@ -79521,6 +81083,7 @@ class ImageSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSortOrder {
   static const ascending = ImageSortOrder._('ASCENDING');
   static const descending = ImageSortOrder._('DESCENDING');
@@ -79546,6 +81109,8 @@ class ImageSortOrder {
 }
 
 /// Provides summary information about a hyperparameter tuning job.
+///
+/// @nodoc
 class HyperParameterTuningJobSummary {
   /// The date and time that the tuning job was created.
   final DateTime creationTime;
@@ -79656,6 +81221,7 @@ class HyperParameterTuningJobSummary {
   }
 }
 
+/// @nodoc
 class HyperParameterTuningJobSortByOptions {
   static const name = HyperParameterTuningJobSortByOptions._('Name');
   static const status = HyperParameterTuningJobSortByOptions._('Status');
@@ -79684,6 +81250,8 @@ class HyperParameterTuningJobSortByOptions {
 }
 
 /// Container for human task user interface information.
+///
+/// @nodoc
 class HumanTaskUiSummary {
   /// A timestamp when SageMaker created the human task user interface.
   final DateTime creationTime;
@@ -79721,6 +81289,8 @@ class HumanTaskUiSummary {
 }
 
 /// Information about a hub.
+///
+/// @nodoc
 class HubInfo {
   /// The date and time that the hub was created.
   final DateTime creationTime;
@@ -79796,6 +81366,7 @@ class HubInfo {
   }
 }
 
+/// @nodoc
 class HubStatus {
   static const inService = HubStatus._('InService');
   static const creating = HubStatus._('Creating');
@@ -79832,6 +81403,7 @@ class HubStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HubSortBy {
   static const hubName = HubSortBy._('HubName');
   static const creationTime = HubSortBy._('CreationTime');
@@ -79858,6 +81430,8 @@ class HubSortBy {
 }
 
 /// Information about hub content.
+///
+/// @nodoc
 class HubContentInfo {
   /// The date and time that the hub content was created.
   final DateTime creationTime;
@@ -79977,6 +81551,7 @@ class HubContentInfo {
   }
 }
 
+/// @nodoc
 class HubContentStatus {
   static const available = HubContentStatus._('Available');
   static const importing = HubContentStatus._('Importing');
@@ -80014,6 +81589,7 @@ class HubContentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HubContentSortBy {
   static const hubContentName = HubContentSortBy._('HubContentName');
   static const creationTime = HubContentSortBy._('CreationTime');
@@ -80040,6 +81616,8 @@ class HubContentSortBy {
 }
 
 /// Contains summary information about the flow definition.
+///
+/// @nodoc
 class FlowDefinitionSummary {
   /// The timestamp when SageMaker created the flow definition.
   final DateTime creationTime;
@@ -80092,6 +81670,7 @@ class FlowDefinitionSummary {
   }
 }
 
+/// @nodoc
 class FlowDefinitionStatus {
   static const initializing = FlowDefinitionStatus._('Initializing');
   static const active = FlowDefinitionStatus._('Active');
@@ -80122,6 +81701,8 @@ class FlowDefinitionStatus {
 /// The name, ARN, <code>CreationTime</code>, <code>FeatureGroup</code> values,
 /// <code>LastUpdatedTime</code> and <code>EnableOnlineStorage</code> status of
 /// a <code>FeatureGroup</code>.
+///
+/// @nodoc
 class FeatureGroupSummary {
   /// A timestamp indicating the time of creation time of the
   /// <code>FeatureGroup</code>.
@@ -80181,6 +81762,7 @@ class FeatureGroupSummary {
   }
 }
 
+/// @nodoc
 class FeatureGroupSortOrder {
   static const ascending = FeatureGroupSortOrder._('Ascending');
   static const descending = FeatureGroupSortOrder._('Descending');
@@ -80206,6 +81788,7 @@ class FeatureGroupSortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class FeatureGroupSortBy {
   static const name = FeatureGroupSortBy._('Name');
   static const featureGroupStatus = FeatureGroupSortBy._('FeatureGroupStatus');
@@ -80242,6 +81825,8 @@ class FeatureGroupSortBy {
 /// properties, call the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeExperiment.html">DescribeExperiment</a>
 /// API and provide the <code>ExperimentName</code>.
+///
+/// @nodoc
 class ExperimentSummary {
   /// When the experiment was created.
   final DateTime? creationTime;
@@ -80303,6 +81888,7 @@ class ExperimentSummary {
   }
 }
 
+/// @nodoc
 class SortExperimentsBy {
   static const name = SortExperimentsBy._('Name');
   static const creationTime = SortExperimentsBy._('CreationTime');
@@ -80328,6 +81914,8 @@ class SortExperimentsBy {
 }
 
 /// Provides summary information for an endpoint.
+///
+/// @nodoc
 class EndpointSummary {
   /// A timestamp that shows when the endpoint was created.
   final DateTime creationTime;
@@ -80435,6 +82023,7 @@ class EndpointSummary {
   }
 }
 
+/// @nodoc
 class EndpointSortKey {
   static const name = EndpointSortKey._('Name');
   static const creationTime = EndpointSortKey._('CreationTime');
@@ -80461,6 +82050,8 @@ class EndpointSortKey {
 }
 
 /// Provides summary information for an endpoint configuration.
+///
+/// @nodoc
 class EndpointConfigSummary {
   /// A timestamp that shows when the endpoint configuration was created.
   final DateTime creationTime;
@@ -80497,6 +82088,7 @@ class EndpointConfigSummary {
   }
 }
 
+/// @nodoc
 class EndpointConfigSortKey {
   static const name = EndpointConfigSortKey._('Name');
   static const creationTime = EndpointConfigSortKey._('CreationTime');
@@ -80523,6 +82115,8 @@ class EndpointConfigSortKey {
 }
 
 /// Summary of edge packaging job.
+///
+/// @nodoc
 class EdgePackagingJobSummary {
   /// The Amazon Resource Name (ARN) of the edge packaging job.
   final String edgePackagingJobArn;
@@ -80597,6 +82191,7 @@ class EdgePackagingJobSummary {
   }
 }
 
+/// @nodoc
 class EdgePackagingJobStatus {
   static const starting = EdgePackagingJobStatus._('STARTING');
   static const inprogress = EdgePackagingJobStatus._('INPROGRESS');
@@ -80633,6 +82228,7 @@ class EdgePackagingJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ListEdgePackagingJobsSortBy {
   static const name = ListEdgePackagingJobsSortBy._('NAME');
   static const modelName = ListEdgePackagingJobsSortBy._('MODEL_NAME');
@@ -80669,6 +82265,8 @@ class ListEdgePackagingJobsSortBy {
 }
 
 /// Contains information summarizing an edge deployment plan.
+///
+/// @nodoc
 class EdgeDeploymentPlanSummary {
   /// The name of the device fleet used for the deployment.
   final String deviceFleetName;
@@ -80742,6 +82340,7 @@ class EdgeDeploymentPlanSummary {
   }
 }
 
+/// @nodoc
 class ListEdgeDeploymentPlansSortBy {
   static const name = ListEdgeDeploymentPlansSortBy._('NAME');
   static const deviceFleetName =
@@ -80772,6 +82371,8 @@ class ListEdgeDeploymentPlansSortBy {
 }
 
 /// The domain's details.
+///
+/// @nodoc
 class DomainDetails {
   /// The creation time.
   final DateTime? creationTime;
@@ -80838,6 +82439,7 @@ class DomainDetails {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const deleting = DomainStatus._('Deleting');
   static const failed = DomainStatus._('Failed');
@@ -80875,6 +82477,8 @@ class DomainStatus {
 }
 
 /// Summary of the device.
+///
+/// @nodoc
 class DeviceSummary {
   /// Amazon Resource Name (ARN) of the device.
   final String deviceArn;
@@ -80960,6 +82564,8 @@ class DeviceSummary {
 }
 
 /// Summary of model on edge device.
+///
+/// @nodoc
 class EdgeModelSummary {
   /// The name of the model.
   final String modelName;
@@ -80990,6 +82596,8 @@ class EdgeModelSummary {
 }
 
 /// Summary of the device fleet.
+///
+/// @nodoc
 class DeviceFleetSummary {
   /// Amazon Resource Name (ARN) of the device fleet.
   final String deviceFleetArn;
@@ -81035,6 +82643,7 @@ class DeviceFleetSummary {
   }
 }
 
+/// @nodoc
 class ListDeviceFleetsSortBy {
   static const name = ListDeviceFleetsSortBy._('NAME');
   static const creationTime = ListDeviceFleetsSortBy._('CREATION_TIME');
@@ -81064,6 +82673,8 @@ class ListDeviceFleetsSortBy {
 
 /// Lists a summary of the properties of a context. A context provides a logical
 /// grouping of other entities.
+///
+/// @nodoc
 class ContextSummary {
   /// The Amazon Resource Name (ARN) of the context.
   final String? contextArn;
@@ -81126,6 +82737,8 @@ class ContextSummary {
 }
 
 /// A structure describing the source of a context.
+///
+/// @nodoc
 class ContextSource {
   /// The URI of the source.
   final String sourceUri;
@@ -81162,6 +82775,7 @@ class ContextSource {
   }
 }
 
+/// @nodoc
 class SortContextsBy {
   static const name = SortContextsBy._('Name');
   static const creationTime = SortContextsBy._('CreationTime');
@@ -81187,6 +82801,8 @@ class SortContextsBy {
 }
 
 /// Summary of the compute allocation definition.
+///
+/// @nodoc
 class ComputeQuotaSummary {
   /// ARN of the compute allocation definition.
   final String computeQuotaArn;
@@ -81292,6 +82908,7 @@ class ComputeQuotaSummary {
   }
 }
 
+/// @nodoc
 class SchedulerResourceStatus {
   static const creating = SchedulerResourceStatus._('Creating');
   static const createFailed = SchedulerResourceStatus._('CreateFailed');
@@ -81343,6 +82960,7 @@ class SchedulerResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortQuotaBy {
   static const name = SortQuotaBy._('Name');
   static const creationTime = SortQuotaBy._('CreationTime');
@@ -81369,6 +82987,8 @@ class SortQuotaBy {
 }
 
 /// A summary of a model compilation job.
+///
+/// @nodoc
 class CompilationJobSummary {
   /// The Amazon Resource Name (ARN) of the model compilation job.
   final String compilationJobArn;
@@ -81482,6 +83102,7 @@ class CompilationJobSummary {
   }
 }
 
+/// @nodoc
 class TargetDevice {
   static const lambda = TargetDevice._('lambda');
   static const mlM4 = TargetDevice._('ml_m4');
@@ -81578,6 +83199,7 @@ class TargetDevice {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetPlatformOs {
   static const android = TargetPlatformOs._('ANDROID');
   static const linux = TargetPlatformOs._('LINUX');
@@ -81602,6 +83224,7 @@ class TargetPlatformOs {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetPlatformArch {
   static const x86_64 = TargetPlatformArch._('X86_64');
   static const x86 = TargetPlatformArch._('X86');
@@ -81630,6 +83253,7 @@ class TargetPlatformArch {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetPlatformAccelerator {
   static const intelGraphics = TargetPlatformAccelerator._('INTEL_GRAPHICS');
   static const mali = TargetPlatformAccelerator._('MALI');
@@ -81657,6 +83281,7 @@ class TargetPlatformAccelerator {
   String toString() => value;
 }
 
+/// @nodoc
 class CompilationJobStatus {
   static const inprogress = CompilationJobStatus._('INPROGRESS');
   static const completed = CompilationJobStatus._('COMPLETED');
@@ -81693,6 +83318,7 @@ class CompilationJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ListCompilationJobsSortBy {
   static const name = ListCompilationJobsSortBy._('Name');
   static const creationTime = ListCompilationJobsSortBy._('CreationTime');
@@ -81720,6 +83346,8 @@ class ListCompilationJobsSortBy {
 }
 
 /// Specifies summary information about a Git repository.
+///
+/// @nodoc
 class CodeRepositorySummary {
   /// The Amazon Resource Name (ARN) of the Git repository.
   final String codeRepositoryArn;
@@ -81777,6 +83405,8 @@ class CodeRepositorySummary {
 
 /// Specifies configuration details for a Git repository in your Amazon Web
 /// Services account.
+///
+/// @nodoc
 class GitConfig {
   /// The URL where the Git repository is located.
   final String repositoryUrl;
@@ -81818,6 +83448,7 @@ class GitConfig {
   }
 }
 
+/// @nodoc
 class CodeRepositorySortBy {
   static const name = CodeRepositorySortBy._('Name');
   static const creationTime = CodeRepositorySortBy._('CreationTime');
@@ -81844,6 +83475,7 @@ class CodeRepositorySortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class CodeRepositorySortOrder {
   static const ascending = CodeRepositorySortOrder._('Ascending');
   static const descending = CodeRepositorySortOrder._('Descending');
@@ -81870,6 +83502,8 @@ class CodeRepositorySortOrder {
 }
 
 /// Summary of the cluster policy.
+///
+/// @nodoc
 class ClusterSchedulerConfigSummary {
   /// ARN of the cluster policy.
   final String clusterSchedulerConfigArn;
@@ -81947,6 +83581,7 @@ class ClusterSchedulerConfigSummary {
   }
 }
 
+/// @nodoc
 class SortClusterSchedulerConfigBy {
   static const name = SortClusterSchedulerConfigBy._('Name');
   static const creationTime = SortClusterSchedulerConfigBy._('CreationTime');
@@ -81974,6 +83609,8 @@ class SortClusterSchedulerConfigBy {
 }
 
 /// Lists a summary of the properties of a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterSummary {
   /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
   final String clusterArn;
@@ -82034,6 +83671,7 @@ class ClusterSummary {
   }
 }
 
+/// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('Creating');
   static const deleting = ClusterStatus._('Deleting');
@@ -82071,6 +83709,7 @@ class ClusterStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterSortBy {
   static const creationTime = ClusterSortBy._('CREATION_TIME');
   static const name = ClusterSortBy._('NAME');
@@ -82097,6 +83736,8 @@ class ClusterSortBy {
 
 /// Lists a summary of the properties of an instance (also called a <i>node</i>
 /// interchangeably) of a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterNodeSummary {
   /// The name of the instance group in which the instance is.
   final String instanceGroupName;
@@ -82197,6 +83838,8 @@ class ClusterNodeSummary {
 }
 
 /// Details of an instance in a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterInstanceStatusDetails {
   /// The status of an instance in a SageMaker HyperPod cluster.
   final ClusterInstanceStatus status;
@@ -82228,6 +83871,8 @@ class ClusterInstanceStatusDetails {
 }
 
 /// Contains information about the UltraServer object.
+///
+/// @nodoc
 class UltraServerInfo {
   /// The unique identifier of the UltraServer.
   final String? id;
@@ -82272,6 +83917,8 @@ class UltraServerInfo {
 /// resource.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ClusterImageVersionStatus {
   static const upToDate = ClusterImageVersionStatus._('UpToDate');
   static const updateAvailable = ClusterImageVersionStatus._('UpdateAvailable');
@@ -82297,6 +83944,7 @@ class ClusterImageVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterInstanceStatus {
   static const running = ClusterInstanceStatus._('Running');
   static const failure = ClusterInstanceStatus._('Failure');
@@ -82337,6 +83985,8 @@ class ClusterInstanceStatus {
 }
 
 /// A summary of an event in a HyperPod cluster.
+///
+/// @nodoc
 class ClusterEventSummary {
   /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the
   /// event.
@@ -82421,6 +84071,7 @@ class ClusterEventSummary {
   }
 }
 
+/// @nodoc
 class ClusterEventResourceType {
   static const cluster = ClusterEventResourceType._('Cluster');
   static const instanceGroup = ClusterEventResourceType._('InstanceGroup');
@@ -82448,6 +84099,8 @@ class ClusterEventResourceType {
 }
 
 /// The severity level for a HyperPod cluster event.
+///
+/// @nodoc
 class ClusterEventLevel {
   static const info = ClusterEventLevel._('Info');
   static const warn = ClusterEventLevel._('Warn');
@@ -82473,6 +84126,7 @@ class ClusterEventLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class EventSortBy {
   static const eventTime = EventSortBy._('EventTime');
 
@@ -82497,6 +84151,8 @@ class EventSortBy {
 
 /// Information about a candidate produced by an AutoML training job, including
 /// its status, steps, and other properties.
+///
+/// @nodoc
 class AutoMLCandidate {
   /// The name of the candidate.
   final String candidateName;
@@ -82630,6 +84286,8 @@ class AutoMLCandidate {
 }
 
 /// The best candidate result from an AutoML training job.
+///
+/// @nodoc
 class FinalAutoMLJobObjectiveMetric {
   /// The name of the metric with the best result. For a description of the
   /// possible objective metrics, see <a
@@ -82681,6 +84339,7 @@ class FinalAutoMLJobObjectiveMetric {
   }
 }
 
+/// @nodoc
 class CandidateStatus {
   static const completed = CandidateStatus._('Completed');
   static const inProgress = CandidateStatus._('InProgress');
@@ -82709,6 +84368,8 @@ class CandidateStatus {
 }
 
 /// The properties of an AutoML candidate job.
+///
+/// @nodoc
 class CandidateProperties {
   /// The Amazon S3 prefix to the artifacts generated for an AutoML candidate.
   final CandidateArtifactLocations? candidateArtifactLocations;
@@ -82745,6 +84406,7 @@ class CandidateProperties {
   }
 }
 
+/// @nodoc
 class AutoMLProcessingUnit {
   static const cpu = AutoMLProcessingUnit._('CPU');
   static const gpu = AutoMLProcessingUnit._('GPU');
@@ -82771,6 +84433,8 @@ class AutoMLProcessingUnit {
 }
 
 /// The location of artifacts for an AutoML candidate job.
+///
+/// @nodoc
 class CandidateArtifactLocations {
   /// The Amazon S3 prefix to the explainability artifacts generated for the
   /// AutoML candidate.
@@ -82812,6 +84476,8 @@ class CandidateArtifactLocations {
 }
 
 /// Information about the metric for a candidate produced by an AutoML job.
+///
+/// @nodoc
 class MetricDatum {
   /// The name of the metric.
   final AutoMLMetricEnum? metricName;
@@ -82863,6 +84529,7 @@ class MetricDatum {
   }
 }
 
+/// @nodoc
 class AutoMLMetricEnum {
   static const accuracy = AutoMLMetricEnum._('Accuracy');
   static const mse = AutoMLMetricEnum._('MSE');
@@ -82921,6 +84588,7 @@ class AutoMLMetricEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoMLMetricExtendedEnum {
   static const accuracy = AutoMLMetricExtendedEnum._('Accuracy');
   static const mse = AutoMLMetricExtendedEnum._('MSE');
@@ -83000,6 +84668,7 @@ class AutoMLMetricExtendedEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricSetSource {
   static const train = MetricSetSource._('Train');
   static const validation = MetricSetSource._('Validation');
@@ -83029,6 +84698,8 @@ class MetricSetSource {
 /// make up an AutoML candidate. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ContainerDefinition.html">
 /// ContainerDefinition</a>.
+///
+/// @nodoc
 class AutoMLContainerDefinition {
   /// The Amazon Elastic Container Registry (Amazon ECR) path of the container.
   /// For more information, see <a
@@ -83075,6 +84746,8 @@ class AutoMLContainerDefinition {
 }
 
 /// Information about the steps for a candidate and what step it is working on.
+///
+/// @nodoc
 class AutoMLCandidateStep {
   /// The ARN for the candidate's step.
   final String candidateStepArn;
@@ -83112,6 +84785,7 @@ class AutoMLCandidateStep {
   }
 }
 
+/// @nodoc
 class CandidateStepType {
   static const awsSageMakerTrainingJob =
       CandidateStepType._('AWS::SageMaker::TrainingJob');
@@ -83144,6 +84818,7 @@ class CandidateStepType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoMLJobObjectiveType {
   static const maximize = AutoMLJobObjectiveType._('Maximize');
   static const minimize = AutoMLJobObjectiveType._('Minimize');
@@ -83169,6 +84844,7 @@ class AutoMLJobObjectiveType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoMLSortOrder {
   static const ascending = AutoMLSortOrder._('Ascending');
   static const descending = AutoMLSortOrder._('Descending');
@@ -83193,6 +84869,7 @@ class AutoMLSortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class CandidateSortBy {
   static const creationTime = CandidateSortBy._('CreationTime');
   static const status = CandidateSortBy._('Status');
@@ -83220,6 +84897,8 @@ class CandidateSortBy {
 }
 
 /// Provides a summary about an AutoML job.
+///
+/// @nodoc
 class AutoMLJobSummary {
   /// The ARN of the AutoML job.
   final String autoMLJobArn;
@@ -83306,6 +84985,7 @@ class AutoMLJobSummary {
   }
 }
 
+/// @nodoc
 class AutoMLJobStatus {
   static const completed = AutoMLJobStatus._('Completed');
   static const inProgress = AutoMLJobStatus._('InProgress');
@@ -83333,6 +85013,7 @@ class AutoMLJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoMLJobSecondaryStatus {
   static const starting = AutoMLJobSecondaryStatus._('Starting');
   static const maxCandidatesReached =
@@ -83405,6 +85086,8 @@ class AutoMLJobSecondaryStatus {
 }
 
 /// The reason for a partial failure of an AutoML job.
+///
+/// @nodoc
 class AutoMLPartialFailureReason {
   /// The message containing the reason for a partial failure of an AutoML job.
   final String? partialFailureMessage;
@@ -83428,6 +85111,7 @@ class AutoMLPartialFailureReason {
   }
 }
 
+/// @nodoc
 class AutoMLSortBy {
   static const name = AutoMLSortBy._('Name');
   static const creationTime = AutoMLSortBy._('CreationTime');
@@ -83455,6 +85139,8 @@ class AutoMLSortBy {
 /// Lists a summary of the properties of an association. An association is an
 /// entity that links other lineage or experiment entities. An example would be
 /// an association between a training job and a model.
+///
+/// @nodoc
 class AssociationSummary {
   /// The type of the association.
   final AssociationEdgeType? associationType;
@@ -83535,6 +85221,7 @@ class AssociationSummary {
   }
 }
 
+/// @nodoc
 class SortAssociationsBy {
   static const sourceArn = SortAssociationsBy._('SourceArn');
   static const destinationArn = SortAssociationsBy._('DestinationArn');
@@ -83571,6 +85258,8 @@ class SortAssociationsBy {
 
 /// Lists a summary of the properties of an artifact. An artifact represents a
 /// URI addressable object or data. Some examples are a dataset and a model.
+///
+/// @nodoc
 class ArtifactSummary {
   /// The Amazon Resource Name (ARN) of the artifact.
   final String? artifactArn;
@@ -83633,6 +85322,8 @@ class ArtifactSummary {
 }
 
 /// A structure describing the source of an artifact.
+///
+/// @nodoc
 class ArtifactSource {
   /// The URI of the source.
   final String sourceUri;
@@ -83666,6 +85357,8 @@ class ArtifactSource {
 }
 
 /// The ID and ID type of an artifact source.
+///
+/// @nodoc
 class ArtifactSourceType {
   /// The type of ID.
   final ArtifactSourceIdType sourceIdType;
@@ -83696,6 +85389,7 @@ class ArtifactSourceType {
   }
 }
 
+/// @nodoc
 class ArtifactSourceIdType {
   static const mD5Hash = ArtifactSourceIdType._('MD5Hash');
   static const s3ETag = ArtifactSourceIdType._('S3ETag');
@@ -83723,6 +85417,7 @@ class ArtifactSourceIdType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortArtifactsBy {
   static const creationTime = SortArtifactsBy._('CreationTime');
 
@@ -83747,6 +85442,8 @@ class SortArtifactsBy {
 }
 
 /// Details about an Amazon SageMaker AI app.
+///
+/// @nodoc
 class AppDetails {
   /// The name of the app.
   final String? appName;
@@ -83819,6 +85516,7 @@ class AppDetails {
   }
 }
 
+/// @nodoc
 class AppStatus {
   static const deleted = AppStatus._('Deleted');
   static const deleting = AppStatus._('Deleting');
@@ -83845,6 +85543,7 @@ class AppStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AppSortKey {
   static const creationTime = AppSortKey._('CreationTime');
 
@@ -83868,6 +85567,8 @@ class AppSortKey {
 }
 
 /// The configuration for running a SageMaker AI image as a KernelGateway app.
+///
+/// @nodoc
 class AppImageConfigDetails {
   /// The ARN of the AppImageConfig.
   final String? appImageConfigArn;
@@ -83948,6 +85649,7 @@ class AppImageConfigDetails {
   }
 }
 
+/// @nodoc
 class AppImageConfigSortKey {
   static const creationTime = AppImageConfigSortKey._('CreationTime');
   static const lastModifiedTime = AppImageConfigSortKey._('LastModifiedTime');
@@ -83975,6 +85677,8 @@ class AppImageConfigSortKey {
 }
 
 /// Provides summary information about an algorithm.
+///
+/// @nodoc
 class AlgorithmSummary {
   /// The Amazon Resource Name (ARN) of the algorithm.
   final String algorithmArn;
@@ -84027,6 +85731,7 @@ class AlgorithmSummary {
   }
 }
 
+/// @nodoc
 class AlgorithmStatus {
   static const pending = AlgorithmStatus._('Pending');
   static const inProgress = AlgorithmStatus._('InProgress');
@@ -84054,6 +85759,7 @@ class AlgorithmStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AlgorithmSortBy {
   static const name = AlgorithmSortBy._('Name');
   static const creationTime = AlgorithmSortBy._('CreationTime');
@@ -84079,6 +85785,8 @@ class AlgorithmSortBy {
 }
 
 /// Summary information about an AI workload configuration.
+///
+/// @nodoc
 class AIWorkloadConfigSummary {
   /// The Amazon Resource Name (ARN) of the AI workload configuration.
   final String aIWorkloadConfigArn;
@@ -84115,6 +85823,7 @@ class AIWorkloadConfigSummary {
   }
 }
 
+/// @nodoc
 class ListAIWorkloadConfigsSortBy {
   static const name = ListAIWorkloadConfigsSortBy._('Name');
   static const creationTime = ListAIWorkloadConfigsSortBy._('CreationTime');
@@ -84141,6 +85850,8 @@ class ListAIWorkloadConfigsSortBy {
 }
 
 /// Summary information about an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendationJobSummary {
   /// The Amazon Resource Name (ARN) of the recommendation job.
   final String aIRecommendationJobArn;
@@ -84193,6 +85904,7 @@ class AIRecommendationJobSummary {
   }
 }
 
+/// @nodoc
 class AIRecommendationJobStatus {
   static const inProgress = AIRecommendationJobStatus._('InProgress');
   static const completed = AIRecommendationJobStatus._('Completed');
@@ -84221,6 +85933,7 @@ class AIRecommendationJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ListAIRecommendationJobsSortBy {
   static const name = ListAIRecommendationJobsSortBy._('Name');
   static const creationTime = ListAIRecommendationJobsSortBy._('CreationTime');
@@ -84248,6 +85961,8 @@ class ListAIRecommendationJobsSortBy {
 }
 
 /// Summary information about an AI benchmark job.
+///
+/// @nodoc
 class AIBenchmarkJobSummary {
   /// The Amazon Resource Name (ARN) of the benchmark job.
   final String aIBenchmarkJobArn;
@@ -84307,6 +86022,7 @@ class AIBenchmarkJobSummary {
   }
 }
 
+/// @nodoc
 class AIBenchmarkJobStatus {
   static const inProgress = AIBenchmarkJobStatus._('InProgress');
   static const completed = AIBenchmarkJobStatus._('Completed');
@@ -84335,6 +86051,7 @@ class AIBenchmarkJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ListAIBenchmarkJobsSortBy {
   static const name = ListAIBenchmarkJobsSortBy._('Name');
   static const creationTime = ListAIBenchmarkJobsSortBy._('CreationTime');
@@ -84365,6 +86082,8 @@ class ListAIBenchmarkJobsSortBy {
 /// activity. Some examples are a workflow step and a model deployment.
 /// Generally, an action involves at least one input artifact or output
 /// artifact.
+///
+/// @nodoc
 class ActionSummary {
   /// The Amazon Resource Name (ARN) of the action.
   final String? actionArn;
@@ -84434,6 +86153,8 @@ class ActionSummary {
 }
 
 /// A structure describing the source of an action.
+///
+/// @nodoc
 class ActionSource {
   /// The URI of the source.
   final String sourceUri;
@@ -84470,6 +86191,7 @@ class ActionSource {
   }
 }
 
+/// @nodoc
 class SortActionsBy {
   static const name = SortActionsBy._('Name');
   static const creationTime = SortActionsBy._('CreationTime');
@@ -84496,6 +86218,8 @@ class SortActionsBy {
 
 /// A property name returned from a <code>GetSearchSuggestions</code> call that
 /// specifies a value in the <code>PropertyNameQuery</code> field.
+///
+/// @nodoc
 class PropertyNameSuggestion {
   /// A suggested property name based on what you entered in the search textbox in
   /// the SageMaker console.
@@ -84522,6 +86246,8 @@ class PropertyNameSuggestion {
 /// Specified in the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_GetSearchSuggestions.html">GetSearchSuggestions</a>
 /// request. Limits the property names that are included in the response.
+///
+/// @nodoc
 class SuggestionQuery {
   /// Defines a property name hint. Only property names that begin with the
   /// specified hint are included in the response.
@@ -84541,6 +86267,8 @@ class SuggestionQuery {
 
 /// Part of the <code>SuggestionQuery</code> type. Specifies a hint for
 /// retrieving property names that begin with the specified text.
+///
+/// @nodoc
 class PropertyNameQuery {
   /// Text that begins a property's name.
   final String propertyNameHint;
@@ -84558,6 +86286,8 @@ class PropertyNameQuery {
 }
 
 /// An object where you specify the anticipated traffic pattern for an endpoint.
+///
+/// @nodoc
 class ScalingPolicyObjective {
   /// The maximum number of expected requests to your endpoint per minute.
   final int? maxInvocationsPerMinute;
@@ -84590,6 +86320,8 @@ class ScalingPolicyObjective {
 }
 
 /// The metric for a scaling policy.
+///
+/// @nodoc
 class ScalingPolicyMetric {
   /// The number of invocations sent to a model, normalized by
   /// <code>InstanceCount</code> in each ProductionVariant.
@@ -84629,6 +86361,8 @@ class ScalingPolicyMetric {
 
 /// An object with the recommended values for you to specify when creating an
 /// autoscaling policy.
+///
+/// @nodoc
 class DynamicScalingConfiguration {
   /// The recommended maximum capacity to specify for your autoscaling policy.
   final int? maxCapacity;
@@ -84683,6 +86417,8 @@ class DynamicScalingConfiguration {
 }
 
 /// An object containing a recommended scaling policy.
+///
+/// @nodoc
 class ScalingPolicy {
   /// A target tracking scaling policy. Includes support for predefined or
   /// customized metrics.
@@ -84716,6 +86452,8 @@ class ScalingPolicy {
 /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_PutScalingPolicy.html">PutScalingPolicy</a>
 /// API, this parameter is required when you are creating a policy with the
 /// policy type <code>TargetTrackingScaling</code>.
+///
+/// @nodoc
 class TargetTrackingScalingPolicyConfiguration {
   /// An object containing information about a metric.
   final MetricSpecification? metricSpecification;
@@ -84752,6 +86490,8 @@ class TargetTrackingScalingPolicyConfiguration {
 }
 
 /// An object containing information about a metric.
+///
+/// @nodoc
 class MetricSpecification {
   /// Information about a customized metric.
   final CustomizedMetricSpecification? customized;
@@ -84788,6 +86528,8 @@ class MetricSpecification {
 }
 
 /// A specification for a predefined metric.
+///
+/// @nodoc
 class PredefinedMetricSpecification {
   /// The metric type. You can only apply SageMaker metric types to SageMaker
   /// endpoints.
@@ -84813,6 +86555,8 @@ class PredefinedMetricSpecification {
 }
 
 /// A customized metric.
+///
+/// @nodoc
 class CustomizedMetricSpecification {
   /// The name of the customized metric.
   final String? metricName;
@@ -84849,6 +86593,7 @@ class CustomizedMetricSpecification {
   }
 }
 
+/// @nodoc
 class Statistic {
   static const average = Statistic._('Average');
   static const minimum = Statistic._('Minimum');
@@ -84875,6 +86620,7 @@ class Statistic {
   String toString() => value;
 }
 
+/// @nodoc
 class SagemakerServicecatalogStatus {
   static const enabled = SagemakerServicecatalogStatus._('Enabled');
   static const disabled = SagemakerServicecatalogStatus._('Disabled');
@@ -84901,6 +86647,8 @@ class SagemakerServicecatalogStatus {
 }
 
 /// Status of devices.
+///
+/// @nodoc
 class DeviceStats {
   /// The number of devices connected with a heartbeat.
   final int connectedDeviceCount;
@@ -84931,6 +86679,8 @@ class DeviceStats {
 }
 
 /// Status of edge devices with this model.
+///
+/// @nodoc
 class EdgeModelStat {
   /// The number of devices that have this model version, a heart beat, and are
   /// currently running.
@@ -84991,6 +86741,8 @@ class EdgeModelStat {
 }
 
 /// Edge Manager agent version.
+///
+/// @nodoc
 class AgentVersion {
   /// The number of Edge Manager agents.
   final int agentCount;
@@ -85022,6 +86774,8 @@ class AgentVersion {
 
 /// Details about an extension to a training plan, including the offering ID,
 /// dates, status, and cost information.
+///
+/// @nodoc
 class TrainingPlanExtension {
   /// The unique identifier of the extension offering that was used to create this
   /// extension.
@@ -85118,6 +86872,7 @@ class TrainingPlanExtension {
   }
 }
 
+/// @nodoc
 class VolumeAttachmentStatus {
   static const attaching = VolumeAttachmentStatus._('attaching');
   static const attached = VolumeAttachmentStatus._('attached');
@@ -85146,6 +86901,7 @@ class VolumeAttachmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ProfilingStatus {
   static const enabled = ProfilingStatus._('Enabled');
   static const disabled = ProfilingStatus._('Disabled');
@@ -85177,6 +86933,8 @@ class ProfilingStatus {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html">Access
 /// a training container through Amazon Web Services Systems Manager (SSM) for
 /// remote debugging</a>.
+///
+/// @nodoc
 class RemoteDebugConfig {
   /// If set to True, enables remote debugging.
   final bool? enableRemoteDebug;
@@ -85202,6 +86960,8 @@ class RemoteDebugConfig {
 /// Configuration information for the infrastructure health check of a training
 /// job. A SageMaker-provided health check tests the health of instance hardware
 /// and cluster network connectivity.
+///
+/// @nodoc
 class InfraCheckConfig {
   /// Enables an infrastructure health check.
   final bool? enableInfraCheck;
@@ -85225,6 +86985,8 @@ class InfraCheckConfig {
 }
 
 /// The configuration for the serverless training job.
+///
+/// @nodoc
 class ServerlessJobConfig {
   /// The base model Amazon Resource Name (ARN) in <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-foundation-models-use.html">SageMaker
@@ -85305,6 +87067,8 @@ class ServerlessJobConfig {
 }
 
 /// The MLflow configuration using SageMaker managed MLflow.
+///
+/// @nodoc
 class MlflowConfig {
   /// The Amazon Resource Name (ARN) of the MLflow resource.
   final String mlflowResourceArn;
@@ -85343,6 +87107,8 @@ class MlflowConfig {
 }
 
 /// The MLflow details of this job.
+///
+/// @nodoc
 class MlflowDetails {
   /// The MLflow experiment ID used for this job.
   final String? mlflowExperimentId;
@@ -85373,6 +87139,8 @@ class MlflowDetails {
 }
 
 /// The serverless training job progress information.
+///
+/// @nodoc
 class TrainingProgressInfo {
   /// The current epoch number.
   final int? currentEpoch;
@@ -85417,6 +87185,7 @@ class TrainingProgressInfo {
   }
 }
 
+/// @nodoc
 class ServerlessJobType {
   static const fineTuning = ServerlessJobType._('FineTuning');
   static const evaluation = ServerlessJobType._('Evaluation');
@@ -85441,6 +87210,7 @@ class ServerlessJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomizationTechnique {
   static const sft = CustomizationTechnique._('SFT');
   static const dpo = CustomizationTechnique._('DPO');
@@ -85468,6 +87238,7 @@ class CustomizationTechnique {
   String toString() => value;
 }
 
+/// @nodoc
 class Peft {
   static const lora = Peft._('LORA');
 
@@ -85490,6 +87261,7 @@ class Peft {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationType {
   static const lLMAJEvaluation = EvaluationType._('LLMAJEvaluation');
   static const customScorerEvaluation =
@@ -85521,6 +87293,8 @@ class EvaluationType {
 }
 
 /// Information about the status of the rule evaluation.
+///
+/// @nodoc
 class ProfilerRuleEvaluationStatus {
   /// Timestamp when the rule evaluation status was last modified.
   final DateTime? lastModifiedTime;
@@ -85577,6 +87351,8 @@ class ProfilerRuleEvaluationStatus {
 }
 
 /// The collection of ownership settings for a space.
+///
+/// @nodoc
 class OwnershipSettings {
   /// The user profile who is the owner of the space.
   final String ownerUserProfileName;
@@ -85600,6 +87376,8 @@ class OwnershipSettings {
 }
 
 /// A collection of space sharing settings.
+///
+/// @nodoc
 class SpaceSharingSettings {
   /// Specifies the sharing type of the space.
   final SharingType sharingType;
@@ -85624,6 +87402,8 @@ class SpaceSharingSettings {
 }
 
 /// A summary of UltraServer resources and their current status.
+///
+/// @nodoc
 class UltraServerSummary {
   /// The Amazon EC2 instance type used in the UltraServer.
   final ReservedCapacityInstanceType instanceType;
@@ -85679,6 +87459,8 @@ class UltraServerSummary {
 }
 
 /// The MLflow configuration.
+///
+/// @nodoc
 class MLflowConfiguration {
   /// The name of the MLflow configuration.
   final String? mlflowExperimentName;
@@ -85709,6 +87491,7 @@ class MLflowConfiguration {
   }
 }
 
+/// @nodoc
 class PartnerAppAuthType {
   static const iam = PartnerAppAuthType._('IAM');
 
@@ -85735,6 +87518,8 @@ class PartnerAppAuthType {
 
 /// This is an error field object that contains the error code and the reason
 /// for an operation failure.
+///
+/// @nodoc
 class ErrorInfo {
   /// The error code for an invalid or failed operation.
   final String? code;
@@ -85766,6 +87551,8 @@ class ErrorInfo {
 
 /// Contains information about an available upgrade for a SageMaker Partner AI
 /// App, including the version number and release notes.
+///
+/// @nodoc
 class AvailableUpgrade {
   /// A list of release notes describing the changes and improvements included in
   /// the available upgrade version.
@@ -85801,6 +87588,8 @@ class AvailableUpgrade {
 }
 
 /// The location of the source model to optimize with an optimization job.
+///
+/// @nodoc
 class OptimizationJobModelSource {
   /// The Amazon S3 location of a source model to optimize with an optimization
   /// job.
@@ -85840,6 +87629,8 @@ class OptimizationJobModelSource {
 
 /// Details for where to store the optimized model that you create with the
 /// optimization job.
+///
+/// @nodoc
 class OptimizationJobOutputConfig {
   /// The Amazon S3 URI for where to store the optimized model that you create
   /// with an optimization job.
@@ -85884,6 +87675,8 @@ class OptimizationJobOutputConfig {
 }
 
 /// Output values produced by an optimization job.
+///
+/// @nodoc
 class OptimizationOutput {
   /// The image that SageMaker recommends that you use to host the optimized model
   /// that you created with an optimization job.
@@ -85913,6 +87706,8 @@ class OptimizationOutput {
 /// configuring a VPC. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html">Give
 /// SageMaker Access to Resources in your Amazon VPC</a>.
+///
+/// @nodoc
 class OptimizationVpcConfig {
   /// The VPC security group IDs, in the form <code>sg-xxxxxxxx</code>. Specify
   /// the security groups for the VPC that is specified in the
@@ -85953,6 +87748,8 @@ class OptimizationVpcConfig {
 
 /// A SageMaker model to use as the source or destination for an optimization
 /// job.
+///
+/// @nodoc
 class OptimizationSageMakerModel {
   /// The name of a SageMaker model.
   final String? modelName;
@@ -85977,6 +87774,8 @@ class OptimizationSageMakerModel {
 
 /// Settings for an optimization technique that you apply with a model
 /// optimization job.
+///
+/// @nodoc
 class OptimizationConfig {
   /// Settings for the model compilation technique that's applied by a model
   /// optimization job.
@@ -86043,6 +87842,8 @@ class OptimizationConfig {
 
 /// Settings for the model quantization technique that's applied by a model
 /// optimization job.
+///
+/// @nodoc
 class ModelQuantizationConfig {
   /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the
   /// optimization.
@@ -86078,6 +87879,8 @@ class ModelQuantizationConfig {
 
 /// Settings for the model compilation technique that's applied by a model
 /// optimization job.
+///
+/// @nodoc
 class ModelCompilationConfig {
   /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the
   /// optimization.
@@ -86113,6 +87916,8 @@ class ModelCompilationConfig {
 
 /// Settings for the model sharding technique that's applied by a model
 /// optimization job.
+///
+/// @nodoc
 class ModelShardingConfig {
   /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the
   /// optimization.
@@ -86148,6 +87953,8 @@ class ModelShardingConfig {
 
 /// Settings for the model speculative decoding technique that's applied by a
 /// model optimization job.
+///
+/// @nodoc
 class ModelSpeculativeDecodingConfig {
   /// The speculative decoding technique to apply during model optimization.
   final ModelSpeculativeDecodingTechnique technique;
@@ -86184,6 +87991,7 @@ class ModelSpeculativeDecodingConfig {
   }
 }
 
+/// @nodoc
 class ModelSpeculativeDecodingTechnique {
   static const eagle = ModelSpeculativeDecodingTechnique._('EAGLE');
 
@@ -86210,6 +88018,8 @@ class ModelSpeculativeDecodingTechnique {
 
 /// Contains information about the training data source for speculative
 /// decoding.
+///
+/// @nodoc
 class ModelSpeculativeDecodingTrainingDataSource {
   /// The type of data stored in the Amazon S3 location. Valid values are
   /// <code>S3Prefix</code> or <code>ManifestFile</code>.
@@ -86242,6 +88052,7 @@ class ModelSpeculativeDecodingTrainingDataSource {
   }
 }
 
+/// @nodoc
 class ModelSpeculativeDecodingS3DataType {
   static const s3Prefix = ModelSpeculativeDecodingS3DataType._('S3Prefix');
   static const manifestFile =
@@ -86270,6 +88081,8 @@ class ModelSpeculativeDecodingS3DataType {
 
 /// The Amazon S3 location of a source model to optimize with an optimization
 /// job.
+///
+/// @nodoc
 class OptimizationJobModelSourceS3 {
   /// The access configuration settings for the source ML model for an
   /// optimization job, where you can accept the model end-user license agreement
@@ -86308,6 +88121,8 @@ class OptimizationJobModelSourceS3 {
 /// The access configuration settings for the source ML model for an
 /// optimization job, where you can accept the model end-user license agreement
 /// (EULA).
+///
+/// @nodoc
 class OptimizationModelAccessConfig {
   /// Specifies agreement to the model end-user license agreement (EULA). The
   /// <code>AcceptEula</code> value must be explicitly defined as
@@ -86335,6 +88150,7 @@ class OptimizationModelAccessConfig {
   }
 }
 
+/// @nodoc
 class DirectInternetAccess {
   static const enabled = DirectInternetAccess._('Enabled');
   static const disabled = DirectInternetAccess._('Disabled');
@@ -86363,6 +88179,8 @@ class DirectInternetAccess {
 /// Configuration for monitoring constraints and monitoring statistics. These
 /// baseline resources are compared against the results of the current job from
 /// the series of jobs scheduled to collect data periodically.
+///
+/// @nodoc
 class ModelQualityBaselineConfig {
   /// The name of the job that performs baselining for the monitoring job.
   final String? baseliningJobName;
@@ -86395,6 +88213,8 @@ class ModelQualityBaselineConfig {
 }
 
 /// Container image configuration object for the monitoring job.
+///
+/// @nodoc
 class ModelQualityAppSpecification {
   /// The address of the container image that the monitoring job runs.
   final String imageUri;
@@ -86481,6 +88301,8 @@ class ModelQualityAppSpecification {
 
 /// The input for the model quality monitoring job. Currently endpoints are
 /// supported for input for model quality monitoring jobs.
+///
+/// @nodoc
 class ModelQualityJobInput {
   /// The ground truth label provided for the model.
   final MonitoringGroundTruthS3Input groundTruthS3Input;
@@ -86525,6 +88347,8 @@ class ModelQualityJobInput {
 }
 
 /// The networking configuration for the monitoring job.
+///
+/// @nodoc
 class MonitoringNetworkConfig {
   /// Whether to encrypt all communications between the instances used for the
   /// monitoring jobs. Choose <code>True</code> to encrypt communications.
@@ -86571,6 +88395,8 @@ class MonitoringNetworkConfig {
 }
 
 /// The ground truth labels for the dataset used for the monitoring job.
+///
+/// @nodoc
 class MonitoringGroundTruthS3Input {
   /// The address of the Amazon S3 location of the ground truth labels.
   final String? s3Uri;
@@ -86593,6 +88419,7 @@ class MonitoringGroundTruthS3Input {
   }
 }
 
+/// @nodoc
 class MonitoringProblemType {
   static const binaryClassification =
       MonitoringProblemType._('BinaryClassification');
@@ -86625,6 +88452,7 @@ class MonitoringProblemType {
   String toString() => value;
 }
 
+/// @nodoc
 class IncludedData {
   static const allData = IncludedData._('AllData');
   static const metadataOnly = IncludedData._('MetadataOnly');
@@ -86649,6 +88477,8 @@ class IncludedData {
 }
 
 /// The configuration for a baseline model explainability job.
+///
+/// @nodoc
 class ModelExplainabilityBaselineConfig {
   /// The name of the baseline model explainability job.
   final String? baseliningJobName;
@@ -86683,6 +88513,8 @@ class ModelExplainabilityBaselineConfig {
 
 /// Docker container image configuration object for the model explainability
 /// job.
+///
+/// @nodoc
 class ModelExplainabilityAppSpecification {
   /// JSON formatted Amazon S3 file that defines explainability parameters. For
   /// more information on this JSON configuration file, see <a
@@ -86725,6 +88557,8 @@ class ModelExplainabilityAppSpecification {
 }
 
 /// Inputs for the model explainability job.
+///
+/// @nodoc
 class ModelExplainabilityJobInput {
   /// Input object for the batch transform job.
   final BatchTransformInput? batchTransformInput;
@@ -86760,6 +88594,8 @@ class ModelExplainabilityJobInput {
 }
 
 /// Configure the export output details for an Amazon SageMaker Model Card.
+///
+/// @nodoc
 class ModelCardExportOutputConfig {
   /// The Amazon S3 output path to export your model card PDF.
   final String s3OutputPath;
@@ -86783,6 +88619,8 @@ class ModelCardExportOutputConfig {
 }
 
 /// The artifacts of the model card export job.
+///
+/// @nodoc
 class ModelCardExportArtifacts {
   /// The Amazon S3 URI of the exported model artifacts.
   final String s3ExportArtifacts;
@@ -86805,6 +88643,7 @@ class ModelCardExportArtifacts {
   }
 }
 
+/// @nodoc
 class ModelCardProcessingStatus {
   static const deleteInProgress =
       ModelCardProcessingStatus._('DeleteInProgress');
@@ -86844,6 +88683,8 @@ class ModelCardProcessingStatus {
 }
 
 /// The configuration for a baseline model bias job.
+///
+/// @nodoc
 class ModelBiasBaselineConfig {
   /// The name of the baseline model bias job.
   final String? baseliningJobName;
@@ -86876,6 +88717,8 @@ class ModelBiasBaselineConfig {
 }
 
 /// Docker container image configuration object for the model bias job.
+///
+/// @nodoc
 class ModelBiasAppSpecification {
   /// JSON formatted S3 file that defines bias parameters. For more information on
   /// this JSON configuration file, see <a
@@ -86917,6 +88760,8 @@ class ModelBiasAppSpecification {
 }
 
 /// Inputs for the model bias job.
+///
+/// @nodoc
 class ModelBiasJobInput {
   /// Location of ground truth labels to use in model bias job.
   final MonitoringGroundTruthS3Input groundTruthS3Input;
@@ -86960,6 +88805,7 @@ class ModelBiasJobInput {
   }
 }
 
+/// @nodoc
 class TrackingServerMaintenanceStatus {
   static const maintenanceInProgress =
       TrackingServerMaintenanceStatus._('MaintenanceInProgress');
@@ -86993,6 +88839,7 @@ class TrackingServerMaintenanceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MaintenanceStatus {
   static const maintenanceInProgress =
       MaintenanceStatus._('MaintenanceInProgress');
@@ -87024,6 +88871,8 @@ class MaintenanceStatus {
 }
 
 /// Output configuration information for a labeling job.
+///
+/// @nodoc
 class LabelingJobOutputConfig {
   /// The Amazon S3 location to write output data.
   final String s3OutputPath;
@@ -87095,6 +88944,8 @@ class LabelingJobOutputConfig {
 /// <note>
 /// Labeling jobs fail after 30 days with an appropriate client error message.
 /// </note>
+///
+/// @nodoc
 class LabelingJobStoppingConditions {
   /// The maximum number of objects that can be labeled by human workers.
   final int? maxHumanLabeledObjectCount;
@@ -87132,6 +88983,8 @@ class LabelingJobStoppingConditions {
 /// Provides configuration information for auto-labeling of your data objects. A
 /// <code>LabelingJobAlgorithmsConfig</code> object must be supplied in order to
 /// use auto-labeling.
+///
+/// @nodoc
 class LabelingJobAlgorithmsConfig {
   /// Specifies the Amazon Resource Name (ARN) of the algorithm used for
   /// auto-labeling. You must select one of the following ARNs:
@@ -87205,6 +89058,8 @@ class LabelingJobAlgorithmsConfig {
 }
 
 /// Information required for human workers to complete a labeling task.
+///
+/// @nodoc
 class HumanTaskConfig {
   /// The number of human workers that will label an object.
   final int numberOfHumanWorkersPerDataObject;
@@ -88374,6 +90229,8 @@ class HumanTaskConfig {
 /// For all other Ground Truth built-in task types and custom task types, use
 /// <code>UiTemplateS3Uri</code> to specify the location of a worker task
 /// template in Amazon S3.
+///
+/// @nodoc
 class UiConfig {
   /// The ARN of the worker task template used to render the worker UI and tools
   /// for labeling job tasks.
@@ -88471,6 +90328,8 @@ class UiConfig {
 
 /// Configures how labels are consolidated across human workers and processes
 /// output data.
+///
+/// @nodoc
 class AnnotationConsolidationConfig {
   /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for
   /// <a
@@ -89797,6 +91656,8 @@ class AnnotationConsolidationConfig {
 /// 0.012
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PublicWorkforceTaskPrice {
   /// Defines the amount of money paid to an Amazon Mechanical Turk worker in
   /// United States dollars.
@@ -89823,6 +91684,8 @@ class PublicWorkforceTaskPrice {
 }
 
 /// Represents an amount of money in United States dollars.
+///
+/// @nodoc
 class USD {
   /// The fractional portion, in cents, of the amount.
   final int? cents;
@@ -89862,6 +91725,8 @@ class USD {
 
 /// Configure encryption on the storage volume attached to the ML compute
 /// instance used to run automated data labeling model training and inference.
+///
+/// @nodoc
 class LabelingJobResourceConfig {
   /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
   /// that Amazon SageMaker uses to encrypt data on the storage volume attached to
@@ -89919,6 +91784,8 @@ class LabelingJobResourceConfig {
 }
 
 /// The input configuration of the recommendation job.
+///
+/// @nodoc
 class RecommendationJobInputConfig {
   /// Specifies mandatory fields for running an Inference Recommender job. The
   /// fields specified in <code>ContainerConfig</code> override the corresponding
@@ -90071,6 +91938,8 @@ class RecommendationJobInputConfig {
 
 /// Specifies conditions for stopping a job. When a job reaches a stopping
 /// condition limit, SageMaker ends the job.
+///
+/// @nodoc
 class RecommendationJobStoppingConditions {
   /// Stops a load test when the number of invocations (TPS) peaks and flattens,
   /// which means that the instance has reached capacity. The default value is
@@ -90121,6 +91990,8 @@ class RecommendationJobStoppingConditions {
 
 /// The performance results from running an Inference Recommender job on an
 /// existing endpoint.
+///
+/// @nodoc
 class EndpointPerformance {
   final EndpointInfo endpointInfo;
 
@@ -90155,6 +92026,8 @@ class EndpointPerformance {
 
 /// Details about a customer endpoint that was compared in an Inference
 /// Recommender job.
+///
+/// @nodoc
 class EndpointInfo {
   /// The name of a customer's endpoint.
   final String? endpointName;
@@ -90178,6 +92051,8 @@ class EndpointInfo {
 }
 
 /// A list of recommendations made by Amazon SageMaker Inference Recommender.
+///
+/// @nodoc
 class InferenceRecommendation {
   /// Defines the endpoint configuration parameters.
   final EndpointOutputConfiguration endpointConfiguration;
@@ -90244,6 +92119,7 @@ class InferenceRecommendation {
   }
 }
 
+/// @nodoc
 class FlatInvocations {
   static const $continue = FlatInvocations._('Continue');
   static const stop = FlatInvocations._('Stop');
@@ -90269,6 +92145,8 @@ class FlatInvocations {
 }
 
 /// The model latency threshold.
+///
+/// @nodoc
 class ModelLatencyThreshold {
   /// The model latency percentile threshold. Acceptable values are
   /// <code>P95</code> and <code>P99</code>. For custom load tests, specify the
@@ -90302,6 +92180,8 @@ class ModelLatencyThreshold {
 }
 
 /// Defines the traffic pattern of the load test.
+///
+/// @nodoc
 class TrafficPattern {
   /// Defines the phases traffic specification.
   final List<Phase>? phases;
@@ -90347,6 +92227,8 @@ class TrafficPattern {
 
 /// Specifies the maximum number of jobs that can run in parallel and the
 /// maximum number of jobs that can run.
+///
+/// @nodoc
 class RecommendationJobResourceLimit {
   /// Defines the maximum number of load tests.
   final int? maxNumberOfTests;
@@ -90383,6 +92265,8 @@ class RecommendationJobResourceLimit {
 /// corresponding fields in the model package. Use <code>ContainerConfig</code>
 /// if you want to specify these fields for the recommendation job but don't
 /// want to edit them in your model package.
+///
+/// @nodoc
 class RecommendationJobContainerConfig {
   /// Specifies the name and shape of the expected data inputs for your trained
   /// model with a JSON dictionary form. This field is used for optimizing your
@@ -90508,6 +92392,8 @@ class RecommendationJobContainerConfig {
 
 /// Inference Recommender provisions SageMaker endpoints with access to VPC in
 /// the inference recommendation job.
+///
+/// @nodoc
 class RecommendationJobVpcConfig {
   /// The VPC security group IDs. IDs have the form of <code>sg-xxxxxxxx</code>.
   /// Specify the security groups for the VPC that is specified in the
@@ -90546,6 +92432,8 @@ class RecommendationJobVpcConfig {
 }
 
 /// The configuration for the payload for a recommendation job.
+///
+/// @nodoc
 class RecommendationJobPayloadConfig {
   /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload
   /// is stored. This path must point to a single gzip compressed tar archive
@@ -90581,6 +92469,7 @@ class RecommendationJobPayloadConfig {
   }
 }
 
+/// @nodoc
 class RecommendationJobSupportedEndpointType {
   static const realTime = RecommendationJobSupportedEndpointType._('RealTime');
   static const serverless =
@@ -90608,6 +92497,8 @@ class RecommendationJobSupportedEndpointType {
 }
 
 /// The endpoint configuration for the load test.
+///
+/// @nodoc
 class EndpointInputConfiguration {
   /// The parameter you want to benchmark against.
   final EnvironmentParameterRanges? environmentParameterRanges;
@@ -90659,6 +92550,8 @@ class EndpointInputConfiguration {
 }
 
 /// Specifies the range of environment parameters
+///
+/// @nodoc
 class EnvironmentParameterRanges {
   /// Specified a list of parameters for each category.
   final List<CategoricalParameter>? categoricalParameterRanges;
@@ -90686,6 +92579,8 @@ class EnvironmentParameterRanges {
 }
 
 /// Environment parameters you want to benchmark your load test against.
+///
+/// @nodoc
 class CategoricalParameter {
   /// The Name of the environment variable.
   final String name;
@@ -90718,6 +92613,7 @@ class CategoricalParameter {
   }
 }
 
+/// @nodoc
 class TrafficType {
   static const phases = TrafficType._('PHASES');
   static const stairs = TrafficType._('STAIRS');
@@ -90746,6 +92642,8 @@ class TrafficType {
 /// increases at each step.
 ///
 /// Specify either the stairs or phases traffic pattern.
+///
+/// @nodoc
 class Stairs {
   /// Defines how long each traffic step should be.
   final int? durationInSeconds;
@@ -90783,6 +92681,8 @@ class Stairs {
 }
 
 /// Defines the traffic pattern.
+///
+/// @nodoc
 class Phase {
   /// Specifies how long a traffic phase should be. For custom load tests, the
   /// value should be between 120 and 3600. This value should not exceed
@@ -90824,6 +92724,8 @@ class Phase {
 }
 
 /// The metadata of the endpoint.
+///
+/// @nodoc
 class EndpointMetadata {
   /// The name of the endpoint.
   final String endpointName;
@@ -90873,6 +92775,8 @@ class EndpointMetadata {
 }
 
 /// Summary of the deployment configuration of a model.
+///
+/// @nodoc
 class ModelVariantConfigSummary {
   /// The configuration of the infrastructure that the model has been deployed to.
   final ModelInfrastructureConfig infrastructureConfig;
@@ -90942,6 +92846,7 @@ class ModelVariantConfigSummary {
   }
 }
 
+/// @nodoc
 class ModelVariantStatus {
   static const creating = ModelVariantStatus._('Creating');
   static const updating = ModelVariantStatus._('Updating');
@@ -90971,6 +92876,8 @@ class ModelVariantStatus {
 }
 
 /// Details about the resources that are deployed with this inference component.
+///
+/// @nodoc
 class InferenceComponentSpecificationSummary {
   /// The name of the base inference component that contains this inference
   /// component.
@@ -91070,6 +92977,8 @@ class InferenceComponentSpecificationSummary {
 
 /// Details about the runtime settings for the model that is deployed with the
 /// inference component.
+///
+/// @nodoc
 class InferenceComponentRuntimeConfigSummary {
   /// The number of runtime copies of the model container that are currently
   /// deployed.
@@ -91117,6 +93026,8 @@ class InferenceComponentRuntimeConfigSummary {
 /// The placement status of an inference component on a specific instance type.
 /// Shows the number of inference component copies currently placed on instances
 /// of a given type.
+///
+/// @nodoc
 class InferenceComponentPlacementStatus {
   /// The number of inference component copies currently placed on instances of
   /// this type.
@@ -91151,6 +93062,8 @@ class InferenceComponentPlacementStatus {
 }
 
 /// Details about the resources that are deployed with this inference component.
+///
+/// @nodoc
 class InferenceComponentContainerSpecificationSummary {
   /// The Amazon S3 path where the model artifacts are stored.
   final String? artifactUrl;
@@ -91191,6 +93104,8 @@ class InferenceComponentContainerSpecificationSummary {
 }
 
 /// Settings that affect how the inference component caches data.
+///
+/// @nodoc
 class InferenceComponentDataCacheConfigSummary {
   /// Indicates whether the inference component caches model artifacts as part of
   /// the auto scaling process.
@@ -91256,6 +93171,8 @@ class InferenceComponentDataCacheConfigSummary {
 /// convergence.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Autotune {
   /// Set <code>Mode</code> to <code>Enabled</code> if you want to use Autotune.
   final AutotuneMode mode;
@@ -91278,6 +93195,7 @@ class Autotune {
   }
 }
 
+/// @nodoc
 class AutotuneMode {
   static const enabled = AutotuneMode._('Enabled');
 
@@ -91300,6 +93218,7 @@ class AutotuneMode {
   String toString() => value;
 }
 
+/// @nodoc
 class HumanTaskUiStatus {
   static const active = HumanTaskUiStatus._('Active');
   static const deleting = HumanTaskUiStatus._('Deleting');
@@ -91325,6 +93244,8 @@ class HumanTaskUiStatus {
 }
 
 /// Container for user interface template information.
+///
+/// @nodoc
 class UiTemplateInfo {
   /// The SHA-256 digest of the contents of the template.
   final String? contentSha256;
@@ -91356,6 +93277,8 @@ class UiTemplateInfo {
 
 /// Any dependencies related to hub content, such as scripts, model artifacts,
 /// datasets, or notebooks.
+///
+/// @nodoc
 class HubContentDependency {
   /// The hub content dependency copy path.
   final String? dependencyCopyPath;
@@ -91387,6 +93310,8 @@ class HubContentDependency {
 }
 
 /// The Amazon S3 storage configuration of a hub.
+///
+/// @nodoc
 class HubS3StorageConfig {
   /// The Amazon S3 bucket prefix for hosting hub content.
   final String? s3OutputPath;
@@ -91410,6 +93335,8 @@ class HubS3StorageConfig {
 }
 
 /// Container for configuring the source of human task requests.
+///
+/// @nodoc
 class HumanLoopRequestSource {
   /// Specifies whether Amazon Rekognition or Amazon Textract are used as the
   /// integration source. The default field settings and JSON parsing rules are
@@ -91441,6 +93368,8 @@ class HumanLoopRequestSource {
 /// Provides information about how and under what conditions SageMaker creates a
 /// human loop. If <code>HumanLoopActivationConfig</code> is not given, then all
 /// requests go to humans.
+///
+/// @nodoc
 class HumanLoopActivationConfig {
   /// Container structure for defining under what conditions SageMaker creates a
   /// human loop.
@@ -91471,6 +93400,8 @@ class HumanLoopActivationConfig {
 }
 
 /// Describes the work to be performed by human workers.
+///
+/// @nodoc
 class HumanLoopConfig {
   /// The Amazon Resource Name (ARN) of the human task user interface.
   ///
@@ -91580,6 +93511,8 @@ class HumanLoopConfig {
 }
 
 /// Contains information about where human output will be stored.
+///
+/// @nodoc
 class FlowDefinitionOutputConfig {
   /// The Amazon S3 path where the object containing human output will be made
   /// available.
@@ -91619,6 +93552,8 @@ class FlowDefinitionOutputConfig {
 /// See <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HumanLoopActivationConditionsConfig.html">HumanLoopActivationConditionsConfig</a>
 /// for the required format of activation conditions.
+///
+/// @nodoc
 class HumanLoopActivationConditionsConfig {
   /// JSON expressing use-case specific conditions declaratively. If any condition
   /// is matched, atomic tasks are created against the configured work team. The
@@ -91650,6 +93585,7 @@ class HumanLoopActivationConditionsConfig {
   }
 }
 
+/// @nodoc
 class AwsManagedHumanLoopRequestSource {
   static const awsRekognitionDetectModerationLabelsImageV3 =
       AwsManagedHumanLoopRequestSource._(
@@ -91697,6 +93633,8 @@ class AwsManagedHumanLoopRequestSource {
 /// groups that are offline-only, or use the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OnlineStoreConfig.html#sagemaker-Type-OnlineStoreConfig-StorageType">
 /// <code>Standard</code> </a> tier online store.
+///
+/// @nodoc
 class ThroughputConfigDescription {
   /// The mode used for your feature group throughput: <code>ON_DEMAND</code> or
   /// <code>PROVISIONED</code>.
@@ -91746,6 +93684,8 @@ class ThroughputConfigDescription {
 }
 
 /// Configuration to control how SageMaker AI captures inference data.
+///
+/// @nodoc
 class DataCaptureConfig {
   /// Specifies data Model Monitor will capture. You can configure whether to
   /// collect only input, only output, or both
@@ -91837,6 +93777,8 @@ class DataCaptureConfig {
 }
 
 /// Specifies configuration for how an endpoint performs asynchronous inference.
+///
+/// @nodoc
 class AsyncInferenceConfig {
   /// Specifies the configuration for asynchronous inference invocation outputs.
   final AsyncInferenceOutputConfig outputConfig;
@@ -91873,6 +93815,8 @@ class AsyncInferenceConfig {
 }
 
 /// A parameter to activate explainers.
+///
+/// @nodoc
 class ExplainerConfig {
   /// A member of <code>ExplainerConfig</code> that contains configuration
   /// parameters for the SageMaker Clarify explainer.
@@ -91901,6 +93845,8 @@ class ExplainerConfig {
 }
 
 /// The configuration for Utilization metrics.
+///
+/// @nodoc
 class MetricsConfig {
   /// Specifies whether to enable enhanced metrics for the endpoint. Enhanced
   /// metrics provide utilization and invocation data at instance and container
@@ -91946,6 +93892,8 @@ class MetricsConfig {
 }
 
 /// The configuration parameters for the SageMaker Clarify explainer.
+///
+/// @nodoc
 class ClarifyExplainerConfig {
   /// The configuration for SHAP analysis.
   final ClarifyShapConfig shapConfig;
@@ -91991,12 +93939,14 @@ class ClarifyExplainerConfig {
 }
 
 /// The inference configuration parameter for the model container.
+///
+/// @nodoc
 class ClarifyInferenceConfig {
   /// A template string used to format a JSON record into an acceptable model
   /// container input. For example, a <code>ContentTemplate</code> string
   /// <code>'{"myfeatures":$features}'</code> will format a list of features
-  /// <code>[1,2,3]</code> into the record string
-  /// <code>'{"myfeatures":[1,2,3]}'</code>. Required only when the model
+  /// <code>\[1,2,3\]</code> into the record string
+  /// <code>'{"myfeatures":\[1,2,3\]}'</code>. Required only when the model
   /// container input is in JSON Lines format.
   final String? contentTemplate;
 
@@ -92010,7 +93960,7 @@ class ClarifyInferenceConfig {
 
   /// A list of data types of the features (optional). Applicable only to NLP
   /// explainability. If provided, <code>FeatureTypes</code> must have at least
-  /// one <code>'text'</code> string (for example, <code>['text']</code>). If
+  /// one <code>'text'</code> string (for example, <code>\['text'\]</code>). If
   /// <code>FeatureTypes</code> is not provided, the explainer infers the feature
   /// types based on the baseline data. The feature types are included in the
   /// endpoint response payload. For additional information see the <a
@@ -92023,17 +93973,17 @@ class ClarifyInferenceConfig {
   /// container input in JSON Lines format. For example, if
   /// <code>FeaturesAttribute</code> is the JMESPath expression
   /// <code>'myfeatures'</code>, it extracts a list of features
-  /// <code>[1,2,3]</code> from request data
-  /// <code>'{"myfeatures":[1,2,3]}'</code>.
+  /// <code>\[1,2,3\]</code> from request data
+  /// <code>'{"myfeatures":\[1,2,3\]}'</code>.
   final String? featuresAttribute;
 
   /// A JMESPath expression used to locate the list of label headers in the model
   /// container output.
   ///
   /// <b>Example</b>: If the model container output of a batch request is
-  /// <code>'{"labels":["cat","dog","fish"],"probability":[0.6,0.3,0.1]}'</code>,
+  /// <code>'{"labels":\["cat","dog","fish"\],"probability":\[0.6,0.3,0.1\]}'</code>,
   /// then set <code>LabelAttribute</code> to <code>'labels'</code> to extract the
-  /// list of label headers <code>["cat","dog","fish"]</code>
+  /// list of label headers <code>\["cat","dog","fish"\]</code>
   final String? labelAttribute;
 
   /// For multiclass classification problems, the label headers are the names of
@@ -92051,9 +94001,9 @@ class ClarifyInferenceConfig {
   ///
   /// <b>Example for a multiclass model:</b> If the model container output
   /// consists of label headers followed by probabilities:
-  /// <code>'"[\'cat\',\'dog\',\'fish\']","[0.1,0.6,0.3]"'</code>, set
+  /// <code>'"\[\'cat\',\'dog\',\'fish\'\]","\[0.1,0.6,0.3\]"'</code>, set
   /// <code>LabelIndex</code> to <code>0</code> to select the label headers
-  /// <code>['cat','dog','fish']</code>.
+  /// <code>\['cat','dog','fish'\]</code>.
   final int? labelIndex;
 
   /// The maximum payload size (MB) allowed of a request from the explainer to the
@@ -92092,9 +94042,9 @@ class ClarifyInferenceConfig {
   ///
   /// <b>Example for a multiclass model:</b> If the model container output
   /// consists of a string-formatted prediction label followed by its probability:
-  /// <code>'"[\'cat\',\'dog\',\'fish\']","[0.1,0.6,0.3]"'</code>, set
+  /// <code>'"\[\'cat\',\'dog\',\'fish\'\]","\[0.1,0.6,0.3\]"'</code>, set
   /// <code>ProbabilityIndex</code> to <code>1</code> to select the probability
-  /// values <code>[0.1,0.6,0.3]</code>.
+  /// values <code>\[0.1,0.6,0.3\]</code>.
   final int? probabilityIndex;
 
   ClarifyInferenceConfig({
@@ -92167,6 +94117,8 @@ class ClarifyInferenceConfig {
 }
 
 /// The configuration for SHAP analysis using SageMaker Clarify Explainer.
+///
+/// @nodoc
 class ClarifyShapConfig {
   /// The configuration for the SHAP baseline of the Kernal SHAP algorithm.
   final ClarifyShapBaselineConfig shapBaselineConfig;
@@ -92253,6 +94205,8 @@ class ClarifyShapConfig {
 /// baseline.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class ClarifyShapBaselineConfig {
   /// The MIME type of the baseline data. Choose from <code>'text/csv'</code> or
   /// <code>'application/jsonlines'</code>. Defaults to <code>'text/csv'</code>.
@@ -92315,6 +94269,8 @@ class ClarifyShapBaselineConfig {
 /// A parameter used to configure the SageMaker Clarify explainer to treat text
 /// features as text so that explanations are provided for individual units of
 /// text. Required only for natural language processing (NLP) explainability.
+///
+/// @nodoc
 class ClarifyTextConfig {
   /// The unit of granularity for the analysis of text features. For example, if
   /// the unit is <code>'token'</code>, then each token (like a word in English)
@@ -92355,6 +94311,7 @@ class ClarifyTextConfig {
   }
 }
 
+/// @nodoc
 class ClarifyTextLanguage {
   static const af = ClarifyTextLanguage._('af');
   static const sq = ClarifyTextLanguage._('sq');
@@ -92499,6 +94456,7 @@ class ClarifyTextLanguage {
   String toString() => value;
 }
 
+/// @nodoc
 class ClarifyTextGranularity {
   static const token = ClarifyTextGranularity._('token');
   static const sentence = ClarifyTextGranularity._('sentence');
@@ -92525,6 +94483,7 @@ class ClarifyTextGranularity {
   String toString() => value;
 }
 
+/// @nodoc
 class ClarifyFeatureType {
   static const numerical = ClarifyFeatureType._('numerical');
   static const categorical = ClarifyFeatureType._('categorical');
@@ -92553,6 +94512,8 @@ class ClarifyFeatureType {
 
 /// Configures the behavior of the client used by SageMaker to interact with the
 /// model container during asynchronous inference.
+///
+/// @nodoc
 class AsyncInferenceClientConfig {
   /// The maximum number of concurrent requests sent by the SageMaker client to
   /// the model container. If no value is provided, SageMaker chooses an optimal
@@ -92582,6 +94543,8 @@ class AsyncInferenceClientConfig {
 }
 
 /// Specifies the configuration for asynchronous inference invocation outputs.
+///
+/// @nodoc
 class AsyncInferenceOutputConfig {
   /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
   /// that SageMaker uses to encrypt the asynchronous inference output in Amazon
@@ -92634,6 +94597,8 @@ class AsyncInferenceOutputConfig {
 
 /// Specifies the configuration for notifications of inference results for
 /// asynchronous inference.
+///
+/// @nodoc
 class AsyncInferenceNotificationConfig {
   /// Amazon SNS topic to post a notification to when inference fails. If no topic
   /// is provided, no notification is sent on failure.
@@ -92681,6 +94646,7 @@ class AsyncInferenceNotificationConfig {
   }
 }
 
+/// @nodoc
 class AsyncNotificationTopicTypes {
   static const successNotificationTopic =
       AsyncNotificationTopicTypes._('SUCCESS_NOTIFICATION_TOPIC');
@@ -92709,6 +94675,8 @@ class AsyncNotificationTopicTypes {
 }
 
 /// Specifies data Model Monitor will capture.
+///
+/// @nodoc
 class CaptureOption {
   /// Specify the boundary of data to capture.
   final CaptureMode captureMode;
@@ -92732,6 +94700,7 @@ class CaptureOption {
   }
 }
 
+/// @nodoc
 class CaptureMode {
   static const input = CaptureMode._('Input');
   static const output = CaptureMode._('Output');
@@ -92762,6 +94731,8 @@ class CaptureMode {
 /// information on production variants, check <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html">
 /// Production variants</a>.
+///
+/// @nodoc
 class ProductionVariant {
   /// The name of the production variant.
   final String variantName;
@@ -93048,6 +95019,7 @@ class ProductionVariant {
   }
 }
 
+/// @nodoc
 class ProductionVariantAcceleratorType {
   static const mlEia1Medium =
       ProductionVariantAcceleratorType._('ml.eia1.medium');
@@ -93092,6 +95064,8 @@ class ProductionVariantAcceleratorType {
 
 /// Specifies configuration for a core dump from the model container when the
 /// process crashes.
+///
+/// @nodoc
 class ProductionVariantCoreDumpConfig {
   /// The Amazon S3 bucket to send the core dump to.
   final String destinationS3Uri;
@@ -93166,6 +95140,7 @@ class ProductionVariantCoreDumpConfig {
   }
 }
 
+/// @nodoc
 class ProductionVariantInferenceAmiVersion {
   static const al2AmiSagemakerInferenceGpu_2 =
       ProductionVariantInferenceAmiVersion._(
@@ -93212,6 +95187,8 @@ class ProductionVariantInferenceAmiVersion {
 
 /// Settings for the capacity reservation for the compute instances that
 /// SageMaker AI reserves for an endpoint.
+///
+/// @nodoc
 class ProductionVariantCapacityReservationConfig {
   /// Options that you can choose for the capacity reservation. SageMaker AI
   /// supports the following options:
@@ -93255,6 +95232,8 @@ class ProductionVariantCapacityReservationConfig {
 /// Use instance pools to configure a production variant with multiple instance
 /// types, enabling the endpoint to provision instances across different types
 /// based on priority.
+///
+/// @nodoc
 class InstancePool {
   /// The ML compute instance type for the instance pool.
   final ProductionVariantInstanceType instanceType;
@@ -93301,6 +95280,8 @@ class InstancePool {
 
 /// The summary of an in-progress deployment when an endpoint is creating or
 /// updating with a new endpoint configuration.
+///
+/// @nodoc
 class PendingDeploymentSummary {
   /// The name of the endpoint configuration used in the deployment.
   final String endpointConfigName;
@@ -93367,6 +95348,8 @@ class PendingDeploymentSummary {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html">UpdateEndpoint</a>
 /// operations. Describes the <code>VariantStatus </code>, weight and capacity
 /// for a production variant associated with an endpoint.
+///
+/// @nodoc
 class PendingProductionVariantSummary {
   /// The name of the variant.
   final String variantName;
@@ -93529,6 +95512,8 @@ class PendingProductionVariantSummary {
 }
 
 /// The output of a SageMaker Edge Manager deployable resource.
+///
+/// @nodoc
 class EdgePresetDeploymentOutput {
   /// The deployment type created by SageMaker Edge Manager. Currently only
   /// supports Amazon Web Services IoT Greengrass Version 2 components.
@@ -93575,6 +95560,7 @@ class EdgePresetDeploymentOutput {
   }
 }
 
+/// @nodoc
 class EdgePresetDeploymentStatus {
   static const completed = EdgePresetDeploymentStatus._('COMPLETED');
   static const failed = EdgePresetDeploymentStatus._('FAILED');
@@ -93601,6 +95587,8 @@ class EdgePresetDeploymentStatus {
 }
 
 /// Contains information summarizing the deployment stage results.
+///
+/// @nodoc
 class DeploymentStageStatusSummary {
   /// Configuration of the deployment details.
   final EdgeDeploymentConfig deploymentConfig;
@@ -93651,6 +95639,8 @@ class DeploymentStageStatusSummary {
 }
 
 /// Contains information about the configurations of selected devices.
+///
+/// @nodoc
 class DeviceSelectionConfig {
   /// Type of device subsets to deploy to the current stage.
   final DeviceSubsetType deviceSubsetType;
@@ -93699,6 +95689,8 @@ class DeviceSelectionConfig {
 }
 
 /// Contains information about the configuration of a deployment.
+///
+/// @nodoc
 class EdgeDeploymentConfig {
   /// Toggle that determines whether to rollback to previous configuration if the
   /// current deployment fails. By default this is turned on. You may turn this
@@ -93725,6 +95717,8 @@ class EdgeDeploymentConfig {
 }
 
 /// Contains information summarizing the deployment stage results.
+///
+/// @nodoc
 class EdgeDeploymentStatus {
   /// The number of edge devices that failed the deployment in current stage.
   final int edgeDeploymentFailedInStage;
@@ -93793,6 +95787,7 @@ class EdgeDeploymentStatus {
   }
 }
 
+/// @nodoc
 class StageStatus {
   static const creating = StageStatus._('CREATING');
   static const readytodeploy = StageStatus._('READYTODEPLOY');
@@ -93831,6 +95826,7 @@ class StageStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FailureHandlingPolicy {
   static const rollbackOnFailure =
       FailureHandlingPolicy._('ROLLBACK_ON_FAILURE');
@@ -93857,6 +95853,7 @@ class FailureHandlingPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceSubsetType {
   static const percentage = DeviceSubsetType._('PERCENTAGE');
   static const selection = DeviceSubsetType._('SELECTION');
@@ -93883,6 +95880,8 @@ class DeviceSubsetType {
 }
 
 /// Contains information about the configuration of a model in a deployment.
+///
+/// @nodoc
 class EdgeDeploymentModelConfig {
   /// The edge packaging job associated with this deployment.
   final String edgePackagingJobName;
@@ -93912,6 +95911,7 @@ class EdgeDeploymentModelConfig {
   }
 }
 
+/// @nodoc
 class AuthMode {
   static const sso = AuthMode._('SSO');
   static const iam = AuthMode._('IAM');
@@ -93937,6 +95937,8 @@ class AuthMode {
 
 /// A collection of settings that apply to the <code>SageMaker Domain</code>.
 /// These settings are specified through the <code>CreateDomain</code> API call.
+///
+/// @nodoc
 class DomainSettings {
   /// A collection of settings that configure the Amazon Q experience within the
   /// domain. The <code>AuthMode</code> that you use to create the domain must be
@@ -94054,6 +96056,8 @@ class DomainSettings {
 
 /// A collection of settings that configure the <code>RStudioServerPro</code>
 /// Domain-level app.
+///
+/// @nodoc
 class RStudioServerProDomainSettings {
   /// The ARN of the execution role for the <code>RStudioServerPro</code>
   /// Domain-level app.
@@ -94102,6 +96106,8 @@ class RStudioServerProDomainSettings {
 }
 
 /// The model on the edge device.
+///
+/// @nodoc
 class EdgeModel {
   /// The name of the model.
   final String modelName;
@@ -94150,6 +96156,8 @@ class EdgeModel {
 /// Configuration for monitoring constraints and monitoring statistics. These
 /// baseline resources are compared against the results of the current job from
 /// the series of jobs scheduled to collect data periodically.
+///
+/// @nodoc
 class DataQualityBaselineConfig {
   /// The name of the job that performs baselining for the data quality monitoring
   /// job.
@@ -94191,6 +96199,8 @@ class DataQualityBaselineConfig {
 }
 
 /// Information about the container that a data quality monitoring job runs.
+///
+/// @nodoc
 class DataQualityAppSpecification {
   /// The container image that the data quality monitoring job runs.
   final String imageUri;
@@ -94268,6 +96278,8 @@ class DataQualityAppSpecification {
 
 /// The input for the data quality monitoring job. Currently endpoints are
 /// supported for input.
+///
+/// @nodoc
 class DataQualityJobInput {
   /// Input object for the batch transform job.
   final BatchTransformInput? batchTransformInput;
@@ -94303,6 +96315,8 @@ class DataQualityJobInput {
 }
 
 /// Provides information to verify the integrity of stored model artifacts.
+///
+/// @nodoc
 class ModelDigests {
   /// Provides a hash value that uniquely identifies the stored model artifacts.
   final String? artifactDigest;
@@ -94328,6 +96342,8 @@ class ModelDigests {
 /// Contains information about the location of input model artifacts, the name
 /// and shape of the expected data inputs, and the framework in which the model
 /// was trained.
+///
+/// @nodoc
 class InputConfig {
   /// Identifies the framework in which the model was trained. For example:
   /// TENSORFLOW.
@@ -94355,10 +96371,10 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"input":[1,1024,1024,3]}</code>
+  /// If using the console, <code>{"input":\[1,1024,1024,3\]}</code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"input\":[1,1024,1024,3]}</code>
+  /// If using the CLI, <code>{\"input\":\[1,1024,1024,3\]}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94366,12 +96382,12 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"data1": [1,28,28,1],
-  /// "data2":[1,28,28,1]}</code>
+  /// If using the console, <code>{"data1": \[1,28,28,1\],
+  /// "data2":\[1,28,28,1\]}</code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"data1\": [1,28,28,1],
-  /// \"data2\":[1,28,28,1]}</code>
+  /// If using the CLI, <code>{\"data1\": \[1,28,28,1\],
+  /// \"data2\":\[1,28,28,1\]}</code>
   /// </li>
   /// </ul> </li>
   /// </ul> </li>
@@ -94389,10 +96405,10 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"input_1":[1,3,224,224]}</code>
+  /// If using the console, <code>{"input_1":\[1,3,224,224\]}</code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"input_1\":[1,3,224,224]}</code>
+  /// If using the CLI, <code>{\"input_1\":\[1,3,224,224\]}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94400,12 +96416,12 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"input_1": [1,3,224,224],
-  /// "input_2":[1,3,224,224]} </code>
+  /// If using the console, <code>{"input_1": \[1,3,224,224\],
+  /// "input_2":\[1,3,224,224\]} </code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"input_1\": [1,3,224,224],
-  /// \"input_2\":[1,3,224,224]}</code>
+  /// If using the CLI, <code>{\"input_1\": \[1,3,224,224\],
+  /// \"input_2\":\[1,3,224,224\]}</code>
   /// </li>
   /// </ul> </li>
   /// </ul> </li>
@@ -94421,10 +96437,10 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"data":[1,3,1024,1024]}</code>
+  /// If using the console, <code>{"data":\[1,3,1024,1024\]}</code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"data\":[1,3,1024,1024]}</code>
+  /// If using the CLI, <code>{\"data\":\[1,3,1024,1024\]}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94432,11 +96448,12 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"var1": [1,1,28,28], "var2":[1,1,28,28]}
+  /// If using the console, <code>{"var1": \[1,1,28,28\], "var2":\[1,1,28,28\]}
   /// </code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}</code>
+  /// If using the CLI, <code>{\"var1\": \[1,1,28,28\],
+  /// \"var2\":\[1,1,28,28\]}</code>
   /// </li>
   /// </ul> </li>
   /// </ul> </li>
@@ -94453,31 +96470,31 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"input0":[1,3,224,224]}</code>
+  /// If using the console, <code>{"input0":\[1,3,224,224\]}</code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"input0\":[1,3,224,224]}</code>
+  /// If using the CLI, <code>{\"input0\":\[1,3,224,224\]}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Example for one input in list format: <code>[[1,3,224,224]]</code>
+  /// Example for one input in list format: <code>\[\[1,3,224,224\]\]</code>
   /// </li>
   /// <li>
   /// Examples for two inputs in dictionary format:
   ///
   /// <ul>
   /// <li>
-  /// If using the console, <code>{"input0":[1,3,224,224],
-  /// "input1":[1,3,224,224]}</code>
+  /// If using the console, <code>{"input0":\[1,3,224,224\],
+  /// "input1":\[1,3,224,224\]}</code>
   /// </li>
   /// <li>
-  /// If using the CLI, <code>{\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}
-  /// </code>
+  /// If using the CLI, <code>{\"input0\":\[1,3,224,224\],
+  /// \"input1\":\[1,3,224,224\]} </code>
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Example for two inputs in list format: <code>[[1,3,224,224],
-  /// [1,3,224,224]]</code>
+  /// Example for two inputs in list format: <code>\[\[1,3,224,224\],
+  /// \[1,3,224,224\]\]</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94490,27 +96507,27 @@ class InputConfig {
   /// <ul>
   /// <li>
   /// <code>shape</code>: Input shape, for example <code>{"input_1": {"shape":
-  /// [1,224,224,3]}}</code>. In addition to static input shapes, CoreML converter
-  /// supports Flexible input shapes:
+  /// \[1,224,224,3\]}}</code>. In addition to static input shapes, CoreML
+  /// converter supports Flexible input shapes:
   ///
   /// <ul>
   /// <li>
   /// Range Dimension. You can use the Range Dimension feature if you know the
   /// input shape will be within some specific interval in that dimension, for
-  /// example: <code>{"input_1": {"shape": ["1..10", 224, 224, 3]}}</code>
+  /// example: <code>{"input_1": {"shape": \["1..10", 224, 224, 3\]}}</code>
   /// </li>
   /// <li>
   /// Enumerated shapes. Sometimes, the models are trained to work only on a
   /// select set of inputs. You can enumerate all supported input shapes, for
-  /// example: <code>{"input_1": {"shape": [[1, 224, 224, 3], [1, 160, 160,
-  /// 3]]}}</code>
+  /// example: <code>{"input_1": {"shape": \[\[1, 224, 224, 3\], \[1, 160, 160,
+  /// 3\]\]}}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
   /// <code>default_shape</code>: Default input shape. You can set a default shape
   /// during conversion for both Range Dimension and Enumerated Shapes. For
-  /// example <code>{"input_1": {"shape": ["1..10", 224, 224, 3], "default_shape":
-  /// [1, 224, 224, 3]}}</code>
+  /// example <code>{"input_1": {"shape": \["1..10", 224, 224, 3\],
+  /// "default_shape": \[1, 224, 224, 3\]}}</code>
   /// </li>
   /// <li>
   /// <code>type</code>: Input type. Allowed values: <code>Image</code> and
@@ -94539,8 +96556,8 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>"DataInputConfig": {"input_1": {"shape": [[1,224,224,3],
-  /// [1,160,160,3]], "default_shape": [1,224,224,3]}}</code>
+  /// <code>"DataInputConfig": {"input_1": {"shape": \[\[1,224,224,3\],
+  /// \[1,160,160,3\]\], "default_shape": \[1,224,224,3\]}}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94548,8 +96565,8 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>"DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]],
-  /// "default_shape": [1,3,224,224]}]</code>
+  /// <code>"DataInputConfig": \[{"shape": \[\[1,3,224,224\], \[1,3,160,160\]\],
+  /// "default_shape": \[1,3,224,224\]}\]</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94557,9 +96574,9 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>"DataInputConfig": {"input_1": {"shape": [[1,224,224,3],
-  /// [1,160,160,3]], "default_shape": [1,224,224,3], "type": "Image", "bias":
-  /// [-1,-1,-1], "scale": 0.007843137255}}</code>
+  /// <code>"DataInputConfig": {"input_1": {"shape": \[\[1,224,224,3\],
+  /// \[1,160,160,3\]\], "default_shape": \[1,224,224,3\], "type": "Image",
+  /// "bias": \[-1,-1,-1\], "scale": 0.007843137255}}</code>
   /// </li>
   /// <li>
   /// <code>"CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}</code>
@@ -94570,9 +96587,9 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>"DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]],
-  /// "default_shape": [1,3,224,224], "type": "Image", "bias": [-1,-1,-1],
-  /// "scale": 0.007843137255}]</code>
+  /// <code>"DataInputConfig": \[{"shape": \[\[1,3,224,224\], \[1,3,160,160\]\],
+  /// "default_shape": \[1,3,224,224\], "type": "Image", "bias": \[-1,-1,-1\],
+  /// "scale": 0.007843137255}\]</code>
   /// </li>
   /// <li>
   /// <code>"CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}</code>
@@ -94595,7 +96612,7 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>"DataInputConfig": {"inputs": [1, 224, 224, 3]}</code>
+  /// <code>"DataInputConfig": {"inputs": \[1, 224, 224, 3\]}</code>
   /// </li>
   /// <li>
   /// <code>"CompilerOptions": {"signature_def_key": "serving_custom"}</code>
@@ -94610,10 +96627,10 @@ class InputConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>"DataInputConfig": {"input_tensor:0": [1, 224, 224, 3]}</code>
+  /// <code>"DataInputConfig": {"input_tensor:0": \[1, 224, 224, 3\]}</code>
   /// </li>
   /// <li>
-  /// <code>"CompilerOptions": {"output_names": ["output_tensor:0"]}</code>
+  /// <code>"CompilerOptions": {"output_names": \["output_tensor:0"\]}</code>
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -94668,6 +96685,8 @@ class InputConfig {
 /// use <code>TargetPlatform</code> to describe the platform of your edge device
 /// and <code>CompilerOptions</code> if there are specific settings that are
 /// required or recommended to use for particular TargetPlatform.
+///
+/// @nodoc
 class OutputConfig {
   /// Identifies the S3 bucket where you want Amazon SageMaker AI to store the
   /// model artifacts. For example, <code>s3://bucket-name/key-name-prefix</code>.
@@ -94706,8 +96725,8 @@ class OutputConfig {
   /// 'skylake-avx512'}</code>
   /// </li>
   /// <li>
-  /// <code>mattr</code>: CPU flags. For example, <code>{'mattr': ['+neon',
-  /// '+vfpv4']}</code>
+  /// <code>mattr</code>: CPU flags. For example, <code>{'mattr': \['+neon',
+  /// '+vfpv4'\]}</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -94718,7 +96737,7 @@ class OutputConfig {
   /// <code>NEON</code>: NEON is an implementation of the Advanced SIMD extension
   /// used in ARMv7 processors.
   ///
-  /// For example, add <code>{'mattr': ['+neon']}</code> to the compiler options
+  /// For example, add <code>{'mattr': \['+neon'\]}</code> to the compiler options
   /// if compiling for ARM 32-bit platform with the NEON support.
   /// </li>
   /// </ul> </li>
@@ -94751,7 +96770,7 @@ class OutputConfig {
   /// 28}</code>.
   /// </li>
   /// <li>
-  /// <code>mattr</code>: Add <code>{'mattr': ['+neon']}</code> to compiler
+  /// <code>mattr</code>: Add <code>{'mattr': \['+neon'\]}</code> to compiler
   /// options if compiling for ARM 32-bit platform with NEON support.
   /// </li>
   /// </ul> </li>
@@ -94833,7 +96852,7 @@ class OutputConfig {
   ///
   /// <code>"TargetPlatform": {"Os": "LINUX", "Arch": "ARM_EABIHF"},</code>
   ///
-  /// <code> "CompilerOptions": {'mattr': ['+neon']}</code>
+  /// <code> "CompilerOptions": {'mattr': \['+neon'\]}</code>
   /// </li>
   /// <li>
   /// Jetson TX2
@@ -94864,7 +96883,7 @@ class OutputConfig {
   /// <code>"TargetPlatform": {"Os": "ANDROID", "Arch": "ARM_EABI"},</code>
   ///
   /// <code> "CompilerOptions": {'ANDROID_PLATFORM': 25, 'mattr':
-  /// ['+neon']}</code>
+  /// \['+neon'\]}</code>
   /// </li>
   /// <li>
   /// ARMv8 phone (CPU)
@@ -94922,6 +96941,8 @@ class OutputConfig {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html">Give
 /// Amazon SageMaker AI Compilation Jobs Access to Resources in Your Amazon
 /// VPC</a>.
+///
+/// @nodoc
 class NeoVpcConfig {
   /// The VPC security group IDs. IDs have the form of <code>sg-xxxxxxxx</code>.
   /// Specify the security groups for the VPC that is specified in the
@@ -94961,6 +96982,8 @@ class NeoVpcConfig {
 }
 
 /// Information that SageMaker Neo automatically derived about the model.
+///
+/// @nodoc
 class DerivedInformation {
   /// The data input configuration that SageMaker Neo automatically derived for
   /// the model. When SageMaker Neo derives this information, you don't need to
@@ -94989,6 +97012,8 @@ class DerivedInformation {
 /// Contains information about a target platform that you want your model to run
 /// on, such as OS, architecture, and accelerators. It is an alternative of
 /// <code>TargetDevice</code>.
+///
+/// @nodoc
 class TargetPlatform {
   /// Specifies a target platform architecture.
   ///
@@ -95070,6 +97095,7 @@ class TargetPlatform {
   }
 }
 
+/// @nodoc
 class Framework {
   static const tensorflow = Framework._('TENSORFLOW');
   static const keras = Framework._('KERAS');
@@ -95110,6 +97136,7 @@ class Framework {
   String toString() => value;
 }
 
+/// @nodoc
 class SchedulerConfigComponent {
   static const priorityClasses = SchedulerConfigComponent._('PriorityClasses');
   static const fairShare = SchedulerConfigComponent._('FairShare');
@@ -95139,6 +97166,8 @@ class SchedulerConfigComponent {
 
 /// Details of an instance (also called a <i>node</i> interchangeably) in a
 /// SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterNodeDetails {
   /// The capacity type of the node. Valid values are <code>OnDemand</code> and
   /// <code>Spot</code>. When set to <code>OnDemand</code>, the node is launched
@@ -95356,6 +97385,8 @@ class ClusterNodeDetails {
 /// Specifies the placement details for the node in the SageMaker HyperPod
 /// cluster, including the Availability Zone and the unique identifier (ID) of
 /// the Availability Zone.
+///
+/// @nodoc
 class ClusterInstancePlacement {
   /// The Availability Zone where the node in the SageMaker HyperPod cluster is
   /// launched.
@@ -95389,6 +97420,8 @@ class ClusterInstancePlacement {
 
 /// Node-specific Kubernetes configuration showing both current and desired
 /// state of labels and taints for an individual cluster node.
+///
+/// @nodoc
 class ClusterKubernetesConfigNodeDetails {
   /// The current labels applied to the cluster node.
   final Map<String, String>? currentLabels;
@@ -95443,6 +97476,7 @@ class ClusterKubernetesConfigNodeDetails {
   }
 }
 
+/// @nodoc
 class ClusterCapacityType {
   static const spot = ClusterCapacityType._('Spot');
   static const onDemand = ClusterCapacityType._('OnDemand');
@@ -95470,6 +97504,8 @@ class ClusterCapacityType {
 
 /// The network interface configuration details for a Amazon SageMaker HyperPod
 /// cluster instance group.
+///
+/// @nodoc
 class ClusterNetworkInterfaceDetails {
   /// The type of network interface for the instance group. Valid values are
   /// <code>efa</code> and <code>efa-only</code>.
@@ -95495,6 +97531,8 @@ class ClusterNetworkInterfaceDetails {
 }
 
 /// Detailed information about a specific event in a HyperPod cluster.
+///
+/// @nodoc
 class ClusterEventDetail {
   /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the
   /// event.
@@ -95588,6 +97626,8 @@ class ClusterEventDetail {
 }
 
 /// Detailed information about a specific event, including event metadata.
+///
+/// @nodoc
 class EventDetails {
   /// Metadata specific to the event, which may include information about the
   /// cluster, instance group, or instance involved.
@@ -95616,6 +97656,8 @@ class EventDetails {
 
 /// Metadata associated with a cluster event, which may include details about
 /// various resource types.
+///
+/// @nodoc
 class EventMetadata {
   /// Metadata specific to cluster-level events.
   final ClusterMetadata? cluster;
@@ -95672,6 +97714,8 @@ class EventMetadata {
 
 /// Metadata information about a HyperPod cluster showing information about the
 /// cluster level operations, such as creating, updating, and deleting.
+///
+/// @nodoc
 class ClusterMetadata {
   /// A list of Amazon EKS IAM role ARNs associated with the cluster. This is
   /// created by HyperPod on your behalf and only applies for EKS orchestrated
@@ -95717,6 +97761,8 @@ class ClusterMetadata {
 }
 
 /// Metadata information about an instance group in a HyperPod cluster.
+///
+/// @nodoc
 class InstanceGroupMetadata {
   /// If you use a custom Amazon Machine Image (AMI) for the instance group, this
   /// field shows the ID of the custom AMI.
@@ -95784,6 +97830,8 @@ class InstanceGroupMetadata {
 }
 
 /// Metadata information about scaling operations for an instance group.
+///
+/// @nodoc
 class InstanceGroupScalingMetadata {
   /// An error message describing why the scaling operation failed, if applicable.
   final String? failureMessage;
@@ -95828,6 +97876,8 @@ class InstanceGroupScalingMetadata {
 }
 
 /// Metadata information about an instance in a HyperPod cluster.
+///
+/// @nodoc
 class InstanceMetadata {
   /// Information about additional Elastic Network Interfaces (ENIs) associated
   /// with the instance.
@@ -95916,6 +97966,8 @@ class InstanceMetadata {
 
 /// Information about additional Elastic Network Interfaces (ENIs) associated
 /// with an instance.
+///
+/// @nodoc
 class AdditionalEnis {
   /// A list of Elastic Fabric Adapter (EFA) ENIs associated with the instance.
   final List<String>? efaEnis;
@@ -95941,6 +97993,8 @@ class AdditionalEnis {
 
 /// Information about the Capacity Reservation used by an instance or instance
 /// group.
+///
+/// @nodoc
 class CapacityReservation {
   /// The Amazon Resource Name (ARN) of the Capacity Reservation.
   final String? arn;
@@ -95972,6 +98026,7 @@ class CapacityReservation {
   }
 }
 
+/// @nodoc
 class CapacityReservationType {
   static const odcr = CapacityReservationType._('ODCR');
   static const crg = CapacityReservationType._('CRG');
@@ -95999,6 +98054,8 @@ class CapacityReservationType {
 
 /// The customer ENI and additional ENIs associated with a network interface
 /// category.
+///
+/// @nodoc
 class InstanceRequirementsEniConfiguration {
   /// Information about additional Elastic Network Interfaces (ENIs) associated
   /// with the instance type category.
@@ -96036,6 +98093,8 @@ class InstanceRequirementsEniConfiguration {
 
 /// The output configuration for the restricted instance groups (RIG) in the
 /// SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterRestrictedInstanceGroupsConfigOutput {
   /// The shared environment configuration details for the restricted instance
   /// groups (RIG).
@@ -96063,6 +98122,8 @@ class ClusterRestrictedInstanceGroupsConfigOutput {
 }
 
 /// The autoscaling configuration and status information for a HyperPod cluster.
+///
+/// @nodoc
 class ClusterAutoScalingConfigOutput {
   /// Describes whether autoscaling is enabled or disabled for the cluster.
   final ClusterAutoScalingMode mode;
@@ -96111,6 +98172,7 @@ class ClusterAutoScalingConfigOutput {
   }
 }
 
+/// @nodoc
 class ClusterAutoScalingStatus {
   static const inService = ClusterAutoScalingStatus._('InService');
   static const failed = ClusterAutoScalingStatus._('Failed');
@@ -96140,6 +98202,8 @@ class ClusterAutoScalingStatus {
 
 /// The shared environment configuration details for the restricted instance
 /// groups (RIG).
+///
+/// @nodoc
 class ClusterSharedEnvironmentConfigDetails {
   /// The current Amazon FSx for Lustre file system configuration in the shared
   /// environment.
@@ -96203,6 +98267,8 @@ class ClusterSharedEnvironmentConfigDetails {
 }
 
 /// The instance group details of the restricted instance group (RIG).
+///
+/// @nodoc
 class ClusterRestrictedInstanceGroupDetails {
   /// The number of instances that are currently in the restricted instance group
   /// of a SageMaker HyperPod cluster.
@@ -96374,6 +98440,7 @@ class ClusterRestrictedInstanceGroupDetails {
   }
 }
 
+/// @nodoc
 class InstanceGroupStatus {
   static const inService = InstanceGroupStatus._('InService');
   static const creating = InstanceGroupStatus._('Creating');
@@ -96414,6 +98481,8 @@ class InstanceGroupStatus {
 
 /// The configuration details for the restricted instance groups (RIG)
 /// environment.
+///
+/// @nodoc
 class EnvironmentConfigDetails {
   /// Configuration settings for an Amazon FSx for Lustre file system to be used
   /// with the cluster.
@@ -96449,6 +98518,8 @@ class EnvironmentConfigDetails {
 }
 
 /// Details of an instance group in a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class ClusterInstanceGroupDetails {
   /// A map indicating active operations currently in progress for the instance
   /// group of a SageMaker HyperPod cluster. When there is a scaling operation in
@@ -96802,6 +98873,8 @@ class ClusterInstanceGroupDetails {
 
 /// The instance requirement details for a flexible instance group, including
 /// the current and desired instance types.
+///
+/// @nodoc
 class ClusterInstanceRequirementDetails {
   /// The instance types currently in use by the instance group.
   final List<ClusterInstanceType>? currentInstanceTypes;
@@ -96845,6 +98918,8 @@ class ClusterInstanceRequirementDetails {
 
 /// Detailed Kubernetes configuration showing both the current and desired state
 /// of labels and taints for cluster nodes.
+///
+/// @nodoc
 class ClusterKubernetesConfigDetails {
   /// The current labels applied to cluster nodes of an instance group.
   final Map<String, String>? currentLabels;
@@ -96898,6 +98973,7 @@ class ClusterKubernetesConfigDetails {
   }
 }
 
+/// @nodoc
 class SoftwareUpdateStatus {
   static const pending = SoftwareUpdateStatus._('Pending');
   static const inProgress = SoftwareUpdateStatus._('InProgress');
@@ -96937,6 +99013,8 @@ class SoftwareUpdateStatus {
 
 /// The Slurm configuration details for an instance group in a SageMaker
 /// HyperPod cluster.
+///
+/// @nodoc
 class ClusterSlurmConfigDetails {
   /// The type of Slurm node for the instance group. Valid values are
   /// <code>Controller</code>, <code>Worker</code>, and <code>Login</code>.
@@ -96971,6 +99049,7 @@ class ClusterSlurmConfigDetails {
   }
 }
 
+/// @nodoc
 class ActiveClusterOperationName {
   static const scaling = ActiveClusterOperationName._('Scaling');
 
@@ -96997,6 +99076,8 @@ class ActiveClusterOperationName {
 
 /// Details about a specific instance type within a flexible instance group,
 /// including the count and configuration.
+///
+/// @nodoc
 class ClusterInstanceTypeDetail {
   /// The number of instances of this type currently running in the instance
   /// group.
@@ -97036,6 +99117,8 @@ class ClusterInstanceTypeDetail {
 }
 
 /// The output data configuration.
+///
+/// @nodoc
 class AutoMLOutputDataConfig {
   /// The Amazon S3 output path. Must be 512 characters or less.
   final String s3OutputPath;
@@ -97067,6 +99150,8 @@ class AutoMLOutputDataConfig {
 
 /// Specifies a metric to minimize or maximize as the objective of an AutoML
 /// job.
+///
+/// @nodoc
 class AutoMLJobObjective {
   /// The name of the objective metric used to measure the predictive quality of a
   /// machine learning system. During training, the model's parameters are updated
@@ -97188,6 +99273,8 @@ class AutoMLJobObjective {
 
 /// A collection of settings specific to the problem type used to configure an
 /// AutoML job V2. There must be one and only one config of the following type.
+///
+/// @nodoc
 class AutoMLProblemTypeConfig {
   /// Settings used to configure an AutoML job V2 for the image classification
   /// problem type.
@@ -97270,6 +99357,7 @@ class AutoMLProblemTypeConfig {
   }
 }
 
+/// @nodoc
 class AutoMLProblemTypeConfigName {
   static const imageClassification =
       AutoMLProblemTypeConfigName._('ImageClassification');
@@ -97308,6 +99396,8 @@ class AutoMLProblemTypeConfigName {
 }
 
 /// The artifacts that are generated during an AutoML job.
+///
+/// @nodoc
 class AutoMLJobArtifacts {
   /// The URL of the notebook location.
   final String? candidateDefinitionNotebookLocation;
@@ -97345,6 +99435,8 @@ class AutoMLJobArtifacts {
 }
 
 /// The resolved attributes used to configure an AutoML job V2.
+///
+/// @nodoc
 class AutoMLResolvedAttributes {
   final AutoMLJobObjective? autoMLJobObjective;
 
@@ -97395,6 +99487,8 @@ class AutoMLResolvedAttributes {
 
 /// Specifies how to generate the endpoint name for an automatic one-click
 /// Autopilot model deployment.
+///
+/// @nodoc
 class ModelDeployConfig {
   /// Set to <code>True</code> to automatically generate an endpoint name for a
   /// one-click Autopilot model deployment; set to <code>False</code> otherwise.
@@ -97438,6 +99532,8 @@ class ModelDeployConfig {
 }
 
 /// Provides information about the endpoint of the model deployment.
+///
+/// @nodoc
 class ModelDeployResult {
   /// The name of the endpoint to which the model has been deployed.
   /// <note>
@@ -97469,6 +99565,8 @@ class ModelDeployResult {
 /// The validation and training datasets must contain the same headers. For jobs
 /// created by calling <code>CreateAutoMLJob</code>, the validation dataset must
 /// be less than 2 GB in size.
+///
+/// @nodoc
 class AutoMLDataSplitConfig {
   /// The validation fraction (optional) is a float that specifies the portion of
   /// the training dataset to be used for validation. The default value is 0.2,
@@ -97495,6 +99593,8 @@ class AutoMLDataSplitConfig {
 }
 
 /// Security options.
+///
+/// @nodoc
 class AutoMLSecurityConfig {
   /// Whether to use traffic encryption between the container layers.
   final bool? enableInterContainerTrafficEncryption;
@@ -97542,6 +99642,8 @@ class AutoMLSecurityConfig {
 /// cannot be used in other contexts at the moment.
 /// </note>
 /// Specifies the compute configuration for an AutoML job V2.
+///
+/// @nodoc
 class AutoMLComputeConfig {
   /// The configuration for using <a
   /// href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/emr-serverless.html">
@@ -97589,6 +99691,8 @@ class AutoMLComputeConfig {
 /// cannot be used in other contexts at the moment.
 /// </note>
 /// Specifies the compute configuration for the EMR Serverless job.
+///
+/// @nodoc
 class EmrServerlessComputeConfig {
   /// The ARN of the IAM role granting the AutoML job V2 the necessary permissions
   /// access policies to list, connect to, or manage EMR Serverless jobs. For
@@ -97622,6 +99726,8 @@ class EmrServerlessComputeConfig {
 
 /// How long a job is allowed to run, or how many candidates a job is allowed to
 /// generate.
+///
+/// @nodoc
 class AutoMLJobCompletionCriteria {
   /// The maximum runtime, in seconds, an AutoML job has to complete.
   ///
@@ -97687,6 +99793,8 @@ class AutoMLJobCompletionCriteria {
 }
 
 /// Stores resolved attributes specific to the problem type of an AutoML job V2.
+///
+/// @nodoc
 class AutoMLProblemTypeResolvedAttributes {
   /// The resolved attributes for the tabular problem type.
   final TabularResolvedAttributes? tabularResolvedAttributes;
@@ -97729,6 +99837,8 @@ class AutoMLProblemTypeResolvedAttributes {
 }
 
 /// The resolved attributes specific to the tabular problem type.
+///
+/// @nodoc
 class TabularResolvedAttributes {
   /// The type of supervised learning problem available for the model candidates
   /// of the AutoML job V2 (Binary Classification, Multiclass Classification,
@@ -97757,6 +99867,8 @@ class TabularResolvedAttributes {
 }
 
 /// The resolved attributes specific to the text generation problem type.
+///
+/// @nodoc
 class TextGenerationResolvedAttributes {
   /// The name of the base model to fine-tune.
   final String? baseModelName;
@@ -97779,6 +99891,7 @@ class TextGenerationResolvedAttributes {
   }
 }
 
+/// @nodoc
 class ProblemType {
   static const binaryClassification = ProblemType._('BinaryClassification');
   static const multiclassClassification =
@@ -97810,6 +99923,8 @@ class ProblemType {
 
 /// The collection of settings used by an AutoML job V2 for the image
 /// classification problem type.
+///
+/// @nodoc
 class ImageClassificationJobConfig {
   /// How long a job is allowed to run, or how many candidates a job is allowed to
   /// generate.
@@ -97838,6 +99953,8 @@ class ImageClassificationJobConfig {
 
 /// The collection of settings used by an AutoML job V2 for the text
 /// classification problem type.
+///
+/// @nodoc
 class TextClassificationJobConfig {
   /// The name of the column used to provide the sentences to be classified. It
   /// should not be the same as the target column.
@@ -97882,6 +99999,8 @@ class TextClassificationJobConfig {
 
 /// The collection of settings used by an AutoML job V2 for the time-series
 /// forecasting problem type.
+///
+/// @nodoc
 class TimeSeriesForecastingJobConfig {
   /// The frequency of predictions in a forecast.
   ///
@@ -97936,7 +100055,7 @@ class TimeSeriesForecastingJobConfig {
   /// You can input <code>FeatureAttributeNames</code> (optional) in JSON format
   /// as shown below:
   ///
-  /// <code>{ "FeatureAttributeNames":["col1", "col2", ...] }</code>.
+  /// <code>{ "FeatureAttributeNames":\["col1", "col2", ...\] }</code>.
   ///
   /// You can also specify the data type of the feature (optional) in the format
   /// shown below:
@@ -98039,6 +100158,8 @@ class TimeSeriesForecastingJobConfig {
 
 /// The collection of settings used by an AutoML job V2 for the tabular problem
 /// type.
+///
+/// @nodoc
 class TabularJobConfig {
   /// The name of the target variable in supervised learning, usually represented
   /// by 'y'.
@@ -98052,7 +100173,7 @@ class TabularJobConfig {
   /// input data source to run an Autopilot job V2. You can input
   /// <code>FeatureAttributeNames</code> (optional) in JSON format as shown below:
   ///
-  /// <code>{ "FeatureAttributeNames":["col1", "col2", ...] }</code>.
+  /// <code>{ "FeatureAttributeNames":\["col1", "col2", ...\] }</code>.
   ///
   /// You can also specify the data type of the feature (optional) in the format
   /// shown below:
@@ -98077,7 +100198,7 @@ class TabularJobConfig {
   /// provided in <code>FeatureAttributeNames</code>.
   ///
   /// The key name <code>FeatureAttributeNames</code> is fixed. The values listed
-  /// in <code>["col1", "col2", ...]</code> are case sensitive and should be a
+  /// in <code>\["col1", "col2", ...\]</code> are case sensitive and should be a
   /// list of strings containing unique values that are a subset of the column
   /// names in the input data. The list of columns provided must not include the
   /// target column.
@@ -98211,6 +100332,8 @@ class TabularJobConfig {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/canvas.html">full list
 /// of its supported Regions</a>.
 /// </note>
+///
+/// @nodoc
 class TextGenerationJobConfig {
   /// The name of the base model to fine-tune. Autopilot supports fine-tuning a
   /// variety of large language models. For information on the list of supported
@@ -98306,6 +100429,8 @@ class TextGenerationJobConfig {
 
 /// Stores the configuration information for how model candidates are generated
 /// using an AutoML job V2.
+///
+/// @nodoc
 class CandidateGenerationConfig {
   /// Your Autopilot job trains a default set of algorithms on your dataset. For
   /// tabular and time-series data, you can customize the algorithm list by
@@ -98402,6 +100527,7 @@ class CandidateGenerationConfig {
   }
 }
 
+/// @nodoc
 class AutoMLMode {
   static const auto = AutoMLMode._('AUTO');
   static const ensembling = AutoMLMode._('ENSEMBLING');
@@ -98428,6 +100554,8 @@ class AutoMLMode {
 
 /// The selection of algorithms trained on your dataset to generate the model
 /// candidates for an Autopilot job.
+///
+/// @nodoc
 class AutoMLAlgorithmConfig {
   /// The selection of algorithms trained on your dataset to generate the model
   /// candidates for an Autopilot job.
@@ -98540,6 +100668,7 @@ class AutoMLAlgorithmConfig {
   }
 }
 
+/// @nodoc
 class AutoMLAlgorithm {
   static const xgboost = AutoMLAlgorithm._('xgboost');
   static const linearLearner = AutoMLAlgorithm._('linear-learner');
@@ -98598,6 +100727,8 @@ class AutoMLAlgorithm {
 /// specifies how to add values to missing values in the dataset.
 /// <code>Aggregation</code> defines how to aggregate data that does not align
 /// with forecast frequency.
+///
+/// @nodoc
 class TimeSeriesTransformations {
   /// A key value pair defining the aggregation method for a column, where the key
   /// is the column name and the value is the aggregation method.
@@ -98672,6 +100803,8 @@ class TimeSeriesTransformations {
 }
 
 /// The collection of components that defines the time-series.
+///
+/// @nodoc
 class TimeSeriesConfig {
   /// The name of the column that represents the set of item identifiers for which
   /// you want to predict the target value.
@@ -98728,6 +100861,8 @@ class TimeSeriesConfig {
 /// Stores the holiday featurization attributes applicable to each item of
 /// time-series datasets during the training of a forecasting model. This allows
 /// the model to identify patterns associated with specific holidays.
+///
+/// @nodoc
 class HolidayConfigAttributes {
   /// The country code for the holiday calendar.
   ///
@@ -98754,6 +100889,7 @@ class HolidayConfigAttributes {
   }
 }
 
+/// @nodoc
 class AggregationTransformationValue {
   static const sum = AggregationTransformationValue._('sum');
   static const avg = AggregationTransformationValue._('avg');
@@ -98782,6 +100918,7 @@ class AggregationTransformationValue {
   String toString() => value;
 }
 
+/// @nodoc
 class FillingType {
   static const frontfill = FillingType._('frontfill');
   static const middlefill = FillingType._('middlefill');
@@ -98823,6 +100960,8 @@ class FillingType {
 /// A channel is a named input source that training algorithms can consume. This
 /// channel is used for AutoML jobs V2 (jobs created by calling <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>).
+///
+/// @nodoc
 class AutoMLJobChannel {
   /// The type of channel. Defines whether the data are used for training or
   /// validation. The default value is <code>training</code>. Channels for
@@ -98910,6 +101049,7 @@ class AutoMLJobChannel {
   }
 }
 
+/// @nodoc
 class AutoMLChannelType {
   static const training = AutoMLChannelType._('training');
   static const validation = AutoMLChannelType._('validation');
@@ -98935,6 +101075,8 @@ class AutoMLChannelType {
 }
 
 /// The data source for the Autopilot job.
+///
+/// @nodoc
 class AutoMLDataSource {
   /// The Amazon S3 location of the input data.
   final AutoMLS3DataSource s3DataSource;
@@ -98960,6 +101102,8 @@ class AutoMLDataSource {
 }
 
 /// Describes the Amazon S3 data source.
+///
+/// @nodoc
 class AutoMLS3DataSource {
   /// The data type.
   ///
@@ -98980,14 +101124,14 @@ class AutoMLS3DataSource {
   ///
   /// A <code>ManifestFile</code> should have the format shown below:
   ///
-  /// <code>[ {"prefix":
+  /// <code>\[ {"prefix":
   /// "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, </code>
   ///
   /// <code>"DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1",</code>
   ///
   /// <code>"DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",</code>
   ///
-  /// <code>... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]</code>
+  /// <code>... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" \]</code>
   /// </li>
   /// <li>
   /// If you choose <code>AugmentedManifestFile</code>, <code>S3Uri</code>
@@ -99038,6 +101182,7 @@ class AutoMLS3DataSource {
   }
 }
 
+/// @nodoc
 class AutoMLS3DataType {
   static const manifestFile = AutoMLS3DataType._('ManifestFile');
   static const s3Prefix = AutoMLS3DataType._('S3Prefix');
@@ -99065,6 +101210,8 @@ class AutoMLS3DataType {
 }
 
 /// A collection of settings used for an AutoML job.
+///
+/// @nodoc
 class AutoMLJobConfig {
   /// The configuration for generating a candidate for an AutoML job (optional).
   final AutoMLCandidateGenerationConfig? candidateGenerationConfig;
@@ -99155,6 +101302,8 @@ class AutoMLJobConfig {
 }
 
 /// The resolved attributes.
+///
+/// @nodoc
 class ResolvedAttributes {
   final AutoMLJobObjective? autoMLJobObjective;
   final AutoMLJobCompletionCriteria? completionCriteria;
@@ -99197,6 +101346,8 @@ class ResolvedAttributes {
 
 /// Stores the configuration information for how a candidate is generated
 /// (optional).
+///
+/// @nodoc
 class AutoMLCandidateGenerationConfig {
   /// Stores the configuration information for the selection of algorithms trained
   /// on tabular data.
@@ -99239,7 +101390,7 @@ class AutoMLCandidateGenerationConfig {
   /// input data source to run an Autopilot job. You can input
   /// <code>FeatureAttributeNames</code> (optional) in JSON format as shown below:
   ///
-  /// <code>{ "FeatureAttributeNames":["col1", "col2", ...] }</code>.
+  /// <code>{ "FeatureAttributeNames":\["col1", "col2", ...\] }</code>.
   ///
   /// You can also specify the data type of the feature (optional) in the format
   /// shown below:
@@ -99264,7 +101415,7 @@ class AutoMLCandidateGenerationConfig {
   /// provided in <code>FeatureAttributeNames</code>.
   ///
   /// The key name <code>FeatureAttributeNames</code> is fixed. The values listed
-  /// in <code>["col1", "col2", ...]</code> are case sensitive and should be a
+  /// in <code>\["col1", "col2", ...\]</code> are case sensitive and should be a
   /// list of strings containing unique values that are a subset of the column
   /// names in the input data. The list of columns provided must not include the
   /// target column.
@@ -99304,6 +101455,8 @@ class AutoMLCandidateGenerationConfig {
 /// <note>
 /// A validation dataset must contain the same headers as the training dataset.
 /// </note> <p/>
+///
+/// @nodoc
 class AutoMLChannel {
   /// The name of the target variable in supervised learning, usually represented
   /// by 'y'.
@@ -99393,6 +101546,8 @@ class AutoMLChannel {
 }
 
 /// Defines how the algorithm is used for a training job.
+///
+/// @nodoc
 class TrainingSpecification {
   /// A list of the instance types that this algorithm can use for training.
   final List<TrainingInstanceType> supportedTrainingInstanceTypes;
@@ -99512,6 +101667,8 @@ class TrainingSpecification {
 
 /// Specifies configurations for one or more training jobs that SageMaker runs
 /// to test the algorithm.
+///
+/// @nodoc
 class AlgorithmValidationSpecification {
   /// An array of <code>AlgorithmValidationProfile</code> objects, each of which
   /// specifies a training job and batch transform job that SageMaker runs to
@@ -99548,6 +101705,8 @@ class AlgorithmValidationSpecification {
 }
 
 /// Specifies the validation and image scan statuses of the algorithm.
+///
+/// @nodoc
 class AlgorithmStatusDetails {
   /// The status of the scan of the algorithm's Docker image container.
   final List<AlgorithmStatusItem>? imageScanStatuses;
@@ -99584,6 +101743,8 @@ class AlgorithmStatusDetails {
 }
 
 /// Represents the overall status of an algorithm.
+///
+/// @nodoc
 class AlgorithmStatusItem {
   /// The name of the algorithm for which the overall status is being reported.
   final String name;
@@ -99621,6 +101782,7 @@ class AlgorithmStatusItem {
   }
 }
 
+/// @nodoc
 class DetailedAlgorithmStatus {
   static const notStarted = DetailedAlgorithmStatus._('NotStarted');
   static const inProgress = DetailedAlgorithmStatus._('InProgress');
@@ -99653,6 +101815,8 @@ class DetailedAlgorithmStatus {
 ///
 /// The data provided in the validation profile is made available to your buyers
 /// on Amazon Web Services Marketplace.
+///
+/// @nodoc
 class AlgorithmValidationProfile {
   /// The name of the profile for the algorithm. The name must have 1 to 63
   /// characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
@@ -99699,6 +101863,8 @@ class AlgorithmValidationProfile {
 }
 
 /// Defines the input needed to run a training job using the algorithm.
+///
+/// @nodoc
 class TrainingJobDefinition {
   /// An array of <code>Channel</code> objects, each of which specifies an input
   /// source.
@@ -99776,6 +101942,8 @@ class TrainingJobDefinition {
 }
 
 /// Defines a named input source, called a channel, to be used by an algorithm.
+///
+/// @nodoc
 class ChannelSpecification {
   /// The name of the channel.
   final String name;
@@ -99853,6 +102021,8 @@ class ChannelSpecification {
 }
 
 /// Defines a hyperparameter to be used by an algorithm.
+///
+/// @nodoc
 class HyperParameterSpecification {
   /// The name of this hyperparameter. The name must be unique.
   final String name;
@@ -99923,6 +102093,7 @@ class HyperParameterSpecification {
   }
 }
 
+/// @nodoc
 class ParameterType {
   static const integer = ParameterType._('Integer');
   static const continuous = ParameterType._('Continuous');
@@ -99951,6 +102122,8 @@ class ParameterType {
 
 /// Defines the possible values for categorical, continuous, and integer
 /// hyperparameters to be used by an algorithm.
+///
+/// @nodoc
 class ParameterRange {
   /// A <code>CategoricalParameterRangeSpecification</code> object that defines
   /// the possible values for a categorical hyperparameter.
@@ -100017,6 +102190,8 @@ class ParameterRange {
 }
 
 /// Defines the possible values for an integer hyperparameter.
+///
+/// @nodoc
 class IntegerParameterRangeSpecification {
   /// The maximum integer value allowed.
   final String maxValue;
@@ -100048,6 +102223,8 @@ class IntegerParameterRangeSpecification {
 }
 
 /// Defines the possible values for a continuous hyperparameter.
+///
+/// @nodoc
 class ContinuousParameterRangeSpecification {
   /// The maximum floating-point value allowed.
   final String maxValue;
@@ -100079,6 +102256,8 @@ class ContinuousParameterRangeSpecification {
 }
 
 /// Defines the possible values for a categorical hyperparameter.
+///
+/// @nodoc
 class CategoricalParameterRangeSpecification {
   /// The allowed categories for the hyperparameter.
   final List<String> values;
@@ -100107,6 +102286,8 @@ class CategoricalParameterRangeSpecification {
 
 /// The dataset configuration for an AI workload. This is a union type — specify
 /// one of the members.
+///
+/// @nodoc
 class AIDatasetConfig {
   /// An array of input data channel configurations for the workload.
   final List<AIWorkloadInputDataConfig>? inputDataConfig;
@@ -100134,6 +102315,8 @@ class AIDatasetConfig {
 }
 
 /// The benchmark tool configuration for an AI workload.
+///
+/// @nodoc
 class AIWorkloadConfigs {
   /// The workload specification that defines benchmark parameters.
   final WorkloadSpec workloadSpec;
@@ -100160,6 +102343,8 @@ class AIWorkloadConfigs {
 
 /// The workload specification for benchmark tool configuration. Provide an
 /// inline YAML or JSON string.
+///
+/// @nodoc
 class WorkloadSpec {
   /// An inline YAML or JSON string that defines benchmark parameters.
   final String? inline;
@@ -100184,6 +102369,8 @@ class WorkloadSpec {
 
 /// A channel of input data for an AI workload configuration. Each channel has a
 /// name and a data source.
+///
+/// @nodoc
 class AIWorkloadInputDataConfig {
   /// The logical name for the data channel.
   final String channelName;
@@ -100216,6 +102403,8 @@ class AIWorkloadInputDataConfig {
 }
 
 /// The data source for an AI workload input data channel.
+///
+/// @nodoc
 class AIWorkloadDataSource {
   /// The Amazon S3 data source configuration.
   final AIWorkloadS3DataSource? s3DataSource;
@@ -100242,6 +102431,8 @@ class AIWorkloadDataSource {
 }
 
 /// The Amazon S3 data source for an AI workload.
+///
+/// @nodoc
 class AIWorkloadS3DataSource {
   /// The Amazon S3 URI of the data.
   final String s3Uri;
@@ -100265,6 +102456,8 @@ class AIWorkloadS3DataSource {
 }
 
 /// The source of the model for an AI recommendation job. This is a union type.
+///
+/// @nodoc
 class AIModelSource {
   /// The Amazon S3 location of the model artifacts.
   final AIModelSourceS3? s3;
@@ -100291,6 +102484,8 @@ class AIModelSource {
 
 /// The output configuration for an AI recommendation job, including the S3
 /// location for results and the model package group for deployment.
+///
+/// @nodoc
 class AIRecommendationOutputResult {
   /// The Amazon S3 URI where the recommendation job writes its output results.
   final String s3OutputLocation;
@@ -100334,6 +102529,8 @@ class AIRecommendationOutputResult {
 }
 
 /// The inference framework for an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendationInferenceSpecification {
   /// The inference framework. Valid values are <code>LMI</code> and
   /// <code>VLLM</code>.
@@ -100360,6 +102557,8 @@ class AIRecommendationInferenceSpecification {
 }
 
 /// The performance targets for an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendationPerformanceTarget {
   /// An array of performance constraints that define the optimization objectives.
   final List<AIRecommendationConstraint> constraints;
@@ -100388,6 +102587,8 @@ class AIRecommendationPerformanceTarget {
 }
 
 /// The compute resource specification for an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendationComputeSpec {
   /// The capacity reservation configuration.
   final AICapacityReservationConfig? capacityReservationConfig;
@@ -100427,6 +102628,8 @@ class AIRecommendationComputeSpec {
 }
 
 /// The capacity reservation configuration for an AI recommendation job.
+///
+/// @nodoc
 class AICapacityReservationConfig {
   /// The capacity reservation preference. The only valid value is
   /// <code>capacity-reservations-only</code>.
@@ -100463,6 +102666,7 @@ class AICapacityReservationConfig {
   }
 }
 
+/// @nodoc
 class AICapacityReservationPreference {
   static const capacityReservationsOnly =
       AICapacityReservationPreference._('capacity-reservations-only');
@@ -100488,6 +102692,7 @@ class AICapacityReservationPreference {
   String toString() => value;
 }
 
+/// @nodoc
 class AIRecommendationInstanceType {
   static const mlG5Xlarge = AIRecommendationInstanceType._('ml.g5.xlarge');
   static const mlG5_2xlarge = AIRecommendationInstanceType._('ml.g5.2xlarge');
@@ -100605,6 +102810,8 @@ class AIRecommendationInstanceType {
 }
 
 /// An optimization recommendation generated by an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendation {
   /// The Amazon Resource Name (ARN) of the benchmark job associated with this
   /// recommendation.
@@ -100683,6 +102890,8 @@ class AIRecommendation {
 }
 
 /// Details about the model package in a recommendation.
+///
+/// @nodoc
 class AIRecommendationModelDetails {
   /// The name of the inference specification within the model package.
   final String? inferenceSpecificationName;
@@ -100726,6 +102935,8 @@ class AIRecommendationModelDetails {
 }
 
 /// The deployment configuration for a recommendation.
+///
+/// @nodoc
 class AIRecommendationDeploymentConfiguration {
   /// The number of model copies per instance.
   final int? copyCountPerInstance;
@@ -100794,6 +103005,8 @@ class AIRecommendationDeploymentConfiguration {
 }
 
 /// An expected performance metric for a recommendation.
+///
+/// @nodoc
 class AIRecommendationPerformanceMetric {
   /// The name of the performance metric.
   final String metric;
@@ -100840,6 +103053,8 @@ class AIRecommendationPerformanceMetric {
 
 /// An Amazon S3 data channel for a recommended deployment configuration,
 /// containing model artifacts or optimized model outputs.
+///
+/// @nodoc
 class AIRecommendationDeploymentS3Channel {
   /// A custom name for this Amazon S3 data channel.
   final String? channelName;
@@ -100871,6 +103086,8 @@ class AIRecommendationDeploymentS3Channel {
 }
 
 /// Instance details for a recommendation.
+///
+/// @nodoc
 class AIRecommendationInstanceDetail {
   /// The number of model copies per instance.
   final int? copyCountPerInstance;
@@ -100910,6 +103127,8 @@ class AIRecommendationInstanceDetail {
 }
 
 /// Details about an optimization technique applied in a recommendation.
+///
+/// @nodoc
 class AIRecommendationOptimizationDetail {
   /// The type of optimization. Valid values are <code>SpeculativeDecoding</code>
   /// and <code>KernelTuning</code>.
@@ -100943,6 +103162,7 @@ class AIRecommendationOptimizationDetail {
   }
 }
 
+/// @nodoc
 class AIRecommendationOptimizationType {
   static const speculativeDecoding =
       AIRecommendationOptimizationType._('SpeculativeDecoding');
@@ -100971,6 +103191,8 @@ class AIRecommendationOptimizationType {
 }
 
 /// A performance constraint for an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendationConstraint {
   /// The performance metric. Valid values are <code>ttft-ms</code> (time to first
   /// token in milliseconds), <code>throughput</code>, and <code>cost</code>.
@@ -100995,6 +103217,7 @@ class AIRecommendationConstraint {
   }
 }
 
+/// @nodoc
 class AIRecommendationMetric {
   static const ttftMs = AIRecommendationMetric._('ttft-ms');
   static const throughput = AIRecommendationMetric._('throughput');
@@ -101021,6 +103244,7 @@ class AIRecommendationMetric {
   String toString() => value;
 }
 
+/// @nodoc
 class AIRecommendationInferenceFramework {
   static const lmi = AIRecommendationInferenceFramework._('LMI');
   static const vllm = AIRecommendationInferenceFramework._('VLLM');
@@ -101048,6 +103272,8 @@ class AIRecommendationInferenceFramework {
 
 /// The MLflow tracking configuration for logging metrics and parameters to a
 /// SageMaker managed MLflow tracking server.
+///
+/// @nodoc
 class AIMlflowConfig {
   /// The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource.
   final String mlflowResourceArn;
@@ -101086,6 +103312,8 @@ class AIMlflowConfig {
 }
 
 /// The Amazon S3 model source configuration.
+///
+/// @nodoc
 class AIModelSourceS3 {
   /// The Amazon S3 URI of the model artifacts.
   final String? s3Uri;
@@ -101110,6 +103338,8 @@ class AIModelSourceS3 {
 
 /// The target for an AI benchmark job. This is a union type — specify one of
 /// the members.
+///
+/// @nodoc
 class AIBenchmarkTarget {
   /// The SageMaker endpoint to benchmark.
   final AIBenchmarkEndpoint? endpoint;
@@ -101137,6 +103367,8 @@ class AIBenchmarkTarget {
 
 /// The output result of an AI benchmark job, including the Amazon S3 location
 /// and CloudWatch log information.
+///
+/// @nodoc
 class AIBenchmarkOutputResult {
   /// The Amazon S3 URI where benchmark results are stored.
   final String s3OutputLocation;
@@ -101180,6 +103412,8 @@ class AIBenchmarkOutputResult {
 }
 
 /// The network configuration for an AI benchmark job.
+///
+/// @nodoc
 class AIBenchmarkNetworkConfig {
   /// The VPC configuration, including security group IDs and subnet IDs.
   final VpcConfig? vpcConfig;
@@ -101205,6 +103439,8 @@ class AIBenchmarkNetworkConfig {
 }
 
 /// CloudWatch log information for an AI benchmark or recommendation job.
+///
+/// @nodoc
 class AICloudWatchLogs {
   /// The Amazon Resource Name (ARN) of the CloudWatch log group.
   final String? logGroupArn;
@@ -101235,6 +103471,8 @@ class AICloudWatchLogs {
 }
 
 /// The SageMaker endpoint configuration for benchmarking.
+///
+/// @nodoc
 class AIBenchmarkEndpoint {
   /// The name or Amazon Resource Name (ARN) of the SageMaker endpoint to
   /// benchmark.
@@ -101280,6 +103518,8 @@ class AIBenchmarkEndpoint {
 }
 
 /// An inference component to benchmark.
+///
+/// @nodoc
 class AIBenchmarkInferenceComponent {
   /// The name or Amazon Resource Name (ARN) of the inference component.
   final String identifier;
@@ -101304,6 +103544,8 @@ class AIBenchmarkInferenceComponent {
 
 /// The retention policy for data stored on an Amazon Elastic File System
 /// volume.
+///
+/// @nodoc
 class RetentionPolicy {
   /// The default is <code>Retain</code>, which specifies to keep the data stored
   /// on the Amazon EFS volume.
@@ -101325,6 +103567,7 @@ class RetentionPolicy {
   }
 }
 
+/// @nodoc
 class RetentionType {
   static const retain = RetentionType._('Retain');
   static const delete = RetentionType._('Delete');
@@ -101355,6 +103598,8 @@ class RetentionType {
 /// credentials to tenants. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-access-training-data.html#model-access-training-data-abac">Attribute-based
 /// access control (ABAC) for multi-tenancy training</a>.
+///
+/// @nodoc
 class SessionChainingConfig {
   /// Set to <code>True</code> to allow SageMaker to extract session tags from a
   /// training job creation role and reuse these tags when assuming the training
@@ -101376,6 +103621,8 @@ class SessionChainingConfig {
 
 /// Contains configuration details for a template provider. Only one type of
 /// template provider can be specified.
+///
+/// @nodoc
 class CreateTemplateProvider {
   /// The CloudFormation template provider configuration for creating
   /// infrastructure resources.
@@ -101396,6 +103643,8 @@ class CreateTemplateProvider {
 
 /// The CloudFormation template provider configuration for creating
 /// infrastructure resources.
+///
+/// @nodoc
 class CfnCreateTemplateProvider {
   /// A unique identifier for the template within the project.
   final String templateName;
@@ -101431,6 +103680,8 @@ class CfnCreateTemplateProvider {
 }
 
 /// A key-value pair that represents a parameter for the CloudFormation stack.
+///
+/// @nodoc
 class CfnStackCreateParameter {
   /// The name of the CloudFormation parameter.
   final String key;
@@ -101454,6 +103705,8 @@ class CfnStackCreateParameter {
 }
 
 /// Provides information about the output configuration for the compiled model.
+///
+/// @nodoc
 class RecommendationJobOutputConfig {
   /// Provides information about the output configuration for the compiled model.
   final RecommendationJobCompiledOutputConfig? compiledOutputConfig;
@@ -101510,6 +103763,8 @@ class RecommendationJobOutputConfig {
 }
 
 /// Provides information about the output configuration for the compiled model.
+///
+/// @nodoc
 class RecommendationJobCompiledOutputConfig {
   /// Identifies the Amazon S3 bucket where you want SageMaker to store the
   /// compiled model artifacts.
@@ -101529,6 +103784,8 @@ class RecommendationJobCompiledOutputConfig {
 
 /// Contains a presigned URL and its associated local file path for downloading
 /// hub content artifacts.
+///
+/// @nodoc
 class AuthorizedUrl {
   /// The recommended local file path where the downloaded file should be stored
   /// to maintain proper directory structure and file organization.
@@ -101562,6 +103819,8 @@ class AuthorizedUrl {
 
 /// Configuration for accessing hub content through presigned URLs, including
 /// license agreement acceptance and URL validation settings.
+///
+/// @nodoc
 class PresignedUrlAccessConfig {
   /// Indicates acceptance of the End User License Agreement (EULA) for gated
   /// models. Set to true to acknowledge acceptance of the license terms required
@@ -101603,6 +103862,8 @@ class PresignedUrlAccessConfig {
 /// groups that are offline-only, or use the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OnlineStoreConfig.html#sagemaker-Type-OnlineStoreConfig-StorageType">
 /// <code>Standard</code> </a> tier online store.
+///
+/// @nodoc
 class ThroughputConfig {
   /// The mode used for your feature group throughput: <code>ON_DEMAND</code> or
   /// <code>PROVISIONED</code>.
@@ -101641,6 +103902,8 @@ class ThroughputConfig {
 }
 
 /// Contains information about a stage in an edge deployment plan.
+///
+/// @nodoc
 class DeploymentStage {
   /// Configuration of the devices in the stage.
   final DeviceSelectionConfig deviceSelectionConfig;
@@ -101670,6 +103933,8 @@ class DeploymentStage {
 }
 
 /// The output configuration for an AI recommendation job.
+///
+/// @nodoc
 class AIRecommendationOutputConfig {
   /// The MLflow tracking configuration for the job. If you don't specify this
   /// parameter, MLflow tracking is disabled.
@@ -101702,6 +103967,8 @@ class AIRecommendationOutputConfig {
 }
 
 /// The output configuration for an AI benchmark job.
+///
+/// @nodoc
 class AIBenchmarkOutputConfig {
   /// The Amazon S3 URI where benchmark results are stored.
   final String s3OutputLocation;
@@ -101727,6 +103994,8 @@ class AIBenchmarkOutputConfig {
 
 /// Represents an error encountered when replacing a node (identified by its
 /// logical node ID) in a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class BatchReplaceClusterNodeLogicalIdsError {
   /// The error code associated with the error encountered when replacing a node
   /// by logical node ID.
@@ -101790,6 +104059,7 @@ class BatchReplaceClusterNodeLogicalIdsError {
   }
 }
 
+/// @nodoc
 class BatchReplaceClusterNodesErrorCode {
   static const instanceIdNotFound =
       BatchReplaceClusterNodesErrorCode._('InstanceIdNotFound');
@@ -101828,6 +104098,8 @@ class BatchReplaceClusterNodesErrorCode {
 
 /// Represents an error encountered when replacing a node in a SageMaker
 /// HyperPod cluster.
+///
+/// @nodoc
 class BatchReplaceClusterNodesError {
   /// The error code associated with the error encountered when replacing a node.
   ///
@@ -101891,6 +104163,8 @@ class BatchReplaceClusterNodesError {
 
 /// Represents an error encountered when rebooting a node (identified by its
 /// logical node ID) from a SageMaker HyperPod cluster.
+///
+/// @nodoc
 class BatchRebootClusterNodeLogicalIdsError {
   /// The error code associated with the error encountered when rebooting a node
   /// by logical node ID.
@@ -101954,6 +104228,7 @@ class BatchRebootClusterNodeLogicalIdsError {
   }
 }
 
+/// @nodoc
 class BatchRebootClusterNodesErrorCode {
   static const instanceIdNotFound =
       BatchRebootClusterNodesErrorCode._('InstanceIdNotFound');
@@ -101992,6 +104267,8 @@ class BatchRebootClusterNodesErrorCode {
 
 /// Represents an error encountered when rebooting a node from a SageMaker
 /// HyperPod cluster.
+///
+/// @nodoc
 class BatchRebootClusterNodesError {
   /// The error code associated with the error encountered when rebooting a node.
   ///
@@ -102054,6 +104331,8 @@ class BatchRebootClusterNodesError {
 }
 
 /// The error code and error description associated with the resource.
+///
+/// @nodoc
 class BatchDescribeModelPackageError {
   /// <p/>
   final String errorCode;
@@ -102084,6 +104363,8 @@ class BatchDescribeModelPackageError {
 }
 
 /// Provides summary information about the model package.
+///
+/// @nodoc
 class BatchDescribeModelPackageSummary {
   /// The creation time of the mortgage package summary.
   final DateTime creationTime;
@@ -102172,6 +104453,8 @@ class BatchDescribeModelPackageSummary {
 
 /// Information about an error that occurred when attempting to delete a node
 /// identified by its <code>NodeLogicalId</code>.
+///
+/// @nodoc
 class BatchDeleteClusterNodeLogicalIdsError {
   /// The error code associated with the failure. Possible values include
   /// <code>NodeLogicalIdNotFound</code>, <code>InvalidNodeStatus</code>, and
@@ -102212,6 +104495,7 @@ class BatchDeleteClusterNodeLogicalIdsError {
   }
 }
 
+/// @nodoc
 class BatchDeleteClusterNodesErrorCode {
   static const nodeIdNotFound =
       BatchDeleteClusterNodesErrorCode._('NodeIdNotFound');
@@ -102242,6 +104526,8 @@ class BatchDeleteClusterNodesErrorCode {
 
 /// Represents an error encountered when deleting a node from a SageMaker
 /// HyperPod cluster.
+///
+/// @nodoc
 class BatchDeleteClusterNodesError {
   /// The error code associated with the error encountered when deleting a node.
   ///
@@ -102284,6 +104570,8 @@ class BatchDeleteClusterNodesError {
 }
 
 /// Information about an error that occurred during the node addition operation.
+///
+/// @nodoc
 class BatchAddClusterNodesError {
   /// The error code associated with the failure. Possible values include
   /// <code>InstanceGroupNotFound</code> and
@@ -102351,6 +104639,7 @@ class BatchAddClusterNodesError {
   }
 }
 
+/// @nodoc
 class BatchAddClusterNodesErrorCode {
   static const instanceGroupNotFound =
       BatchAddClusterNodesErrorCode._('InstanceGroupNotFound');
@@ -102388,6 +104677,8 @@ class BatchAddClusterNodesErrorCode {
 }
 
 /// Information about a node that was successfully added to the cluster.
+///
+/// @nodoc
 class NodeAdditionResult {
   /// The name of the instance group to which the node was added.
   final String instanceGroupName;
@@ -102451,6 +104742,8 @@ class NodeAdditionResult {
 }
 
 /// Specifies an instance group and the number of nodes to add to it.
+///
+/// @nodoc
 class AddClusterNodeSpecification {
   /// The number of nodes to add to the specified instance group. The total number
   /// of nodes across all instance groups in a single request cannot exceed 50.
@@ -102489,21 +104782,25 @@ class AddClusterNodeSpecification {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceInUse extends _s.GenericAwsException {
   ResourceInUse({String? type, String? message})
       : super(type: type, code: 'ResourceInUse', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceeded extends _s.GenericAwsException {
   ResourceLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ResourceLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ResourceNotFound extends _s.GenericAwsException {
   ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);

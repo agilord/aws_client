@@ -19500,7 +19500,7 @@ class S3 {
   /// <code>GetObject</code> call. Cannot be used with a successful
   /// <code>StatusCode</code> header or when the transformed object is provided
   /// in the body. All error codes from S3 are sentence-cased. The regular
-  /// expression (regex) value is <code>"^[A-Z][a-zA-Z]+$"</code>.
+  /// expression (regex) value is <code>"^\[A-Z\]\[a-zA-Z\]+$"</code>.
   ///
   /// Parameter [errorMessage] :
   /// Contains a generic description of the error condition. Returned in the
@@ -19797,6 +19797,7 @@ class S3 {
   }
 }
 
+/// @nodoc
 class AbortMultipartUploadOutput {
   final RequestCharged? requestCharged;
 
@@ -19810,6 +19811,7 @@ class AbortMultipartUploadOutput {
   }
 }
 
+/// @nodoc
 class CompleteMultipartUploadOutput {
   /// The name of the bucket that contains the newly created object. Does not
   /// return the access point ARN or access point alias if used.
@@ -20027,6 +20029,7 @@ class CompleteMultipartUploadOutput {
   }
 }
 
+/// @nodoc
 class CopyObjectOutput {
   /// Indicates whether the copied object uses an S3 Bucket Key for server-side
   /// encryption with Key Management Service (KMS) keys (SSE-KMS).
@@ -20123,6 +20126,7 @@ class CopyObjectOutput {
   }
 }
 
+/// @nodoc
 class CreateBucketOutput {
   /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify
   /// Amazon Web Services resources across all of Amazon Web Services.
@@ -20149,6 +20153,7 @@ class CreateBucketOutput {
   }
 }
 
+/// @nodoc
 class CreateMultipartUploadOutput {
   /// If the bucket has a lifecycle rule configured with an action to abort
   /// incomplete multipart uploads and the prefix in the lifecycle rule matches
@@ -20277,6 +20282,7 @@ class CreateMultipartUploadOutput {
   }
 }
 
+/// @nodoc
 class CreateSessionOutput {
   /// The established temporary security credentials for the created session.
   final SessionCredentials credentials;
@@ -20327,6 +20333,7 @@ class CreateSessionOutput {
   }
 }
 
+/// @nodoc
 class DeleteObjectOutput {
   /// Indicates whether the specified object version that was permanently deleted
   /// was (true) or was not (false) a delete marker before deletion. In a simple
@@ -20362,6 +20369,7 @@ class DeleteObjectOutput {
   }
 }
 
+/// @nodoc
 class DeleteObjectsOutput {
   /// Container element for a successful delete. It identifies the object that was
   /// successfully deleted.
@@ -20389,6 +20397,7 @@ class DeleteObjectsOutput {
   }
 }
 
+/// @nodoc
 class DeleteObjectTaggingOutput {
   /// The versionId of the object the tag-set was removed from.
   final String? versionId;
@@ -20403,6 +20412,7 @@ class DeleteObjectTaggingOutput {
   }
 }
 
+/// @nodoc
 class GetBucketAbacOutput {
   /// The ABAC status of the general purpose bucket.
   final AbacStatus? abacStatus;
@@ -20419,6 +20429,7 @@ class GetBucketAbacOutput {
   }
 }
 
+/// @nodoc
 class GetBucketAccelerateConfigurationOutput {
   final RequestCharged? requestCharged;
 
@@ -20439,6 +20450,7 @@ class GetBucketAccelerateConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketAclOutput {
   /// A list of grants.
   final List<Grant>? grants;
@@ -20468,6 +20480,7 @@ class GetBucketAclOutput {
   }
 }
 
+/// @nodoc
 class GetBucketAnalyticsConfigurationOutput {
   /// The configuration and any analyses for the analytics filter.
   final AnalyticsConfiguration? analyticsConfiguration;
@@ -20485,6 +20498,7 @@ class GetBucketAnalyticsConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketCorsOutput {
   /// A set of origins and methods (cross-origin access that you want to allow).
   /// You can add up to 100 rules to the configuration.
@@ -20507,6 +20521,7 @@ class GetBucketCorsOutput {
   }
 }
 
+/// @nodoc
 class GetBucketEncryptionOutput {
   final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
 
@@ -20524,6 +20539,7 @@ class GetBucketEncryptionOutput {
   }
 }
 
+/// @nodoc
 class GetBucketIntelligentTieringConfigurationOutput {
   /// Container for S3 Intelligent-Tiering configuration.
   final IntelligentTieringConfiguration? intelligentTieringConfiguration;
@@ -20542,6 +20558,7 @@ class GetBucketIntelligentTieringConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketInventoryConfigurationOutput {
   /// Specifies the inventory configuration.
   final InventoryConfiguration? inventoryConfiguration;
@@ -20559,6 +20576,7 @@ class GetBucketInventoryConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketLifecycleConfigurationOutput {
   /// Container for a lifecycle rule.
   final List<LifecycleRule>? rules;
@@ -20602,6 +20620,7 @@ class GetBucketLifecycleConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketLocationOutput {
   /// Specifies the Region where the bucket resides. For a list of all the Amazon
   /// S3 supported location constraints by Region, see <a
@@ -20633,6 +20652,7 @@ class GetBucketLocationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketLoggingOutput {
   final LoggingEnabled? loggingEnabled;
 
@@ -20655,6 +20675,7 @@ class GetBucketLoggingOutput {
   }
 }
 
+/// @nodoc
 class GetBucketMetadataConfigurationOutput {
   /// The metadata configuration for the general purpose bucket.
   final GetBucketMetadataConfigurationResult?
@@ -20675,6 +20696,7 @@ class GetBucketMetadataConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketMetadataTableConfigurationOutput {
   /// The metadata table configuration for the general purpose bucket.
   final GetBucketMetadataTableConfigurationResult?
@@ -20695,6 +20717,7 @@ class GetBucketMetadataTableConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketMetricsConfigurationOutput {
   /// Specifies the metrics configuration.
   final MetricsConfiguration? metricsConfiguration;
@@ -20714,6 +20737,8 @@ class GetBucketMetricsConfigurationOutput {
 
 /// A container for specifying the notification configuration of the bucket. If
 /// this element is empty, notifications are turned off for the bucket.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// Enables delivery of events to Amazon EventBridge.
   final EventBridgeConfiguration? eventBridgeConfiguration;
@@ -20800,6 +20825,7 @@ class NotificationConfiguration {
   }
 }
 
+/// @nodoc
 class GetBucketOwnershipControlsOutput {
   /// The <code>OwnershipControls</code> (BucketOwnerEnforced,
   /// BucketOwnerPreferred, or ObjectWriter) currently in effect for this Amazon
@@ -20818,6 +20844,7 @@ class GetBucketOwnershipControlsOutput {
   }
 }
 
+/// @nodoc
 class GetBucketPolicyOutput {
   /// The bucket policy as a JSON document.
   final String? policy;
@@ -20834,6 +20861,7 @@ class GetBucketPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetBucketPolicyStatusOutput {
   /// The policy status for the specified bucket.
   final PolicyStatus? policyStatus;
@@ -20850,6 +20878,7 @@ class GetBucketPolicyStatusOutput {
   }
 }
 
+/// @nodoc
 class GetBucketReplicationOutput {
   final ReplicationConfiguration? replicationConfiguration;
 
@@ -20866,6 +20895,7 @@ class GetBucketReplicationOutput {
   }
 }
 
+/// @nodoc
 class GetBucketRequestPaymentOutput {
   /// Specifies who pays for the download and request fees.
   final Payer? payer;
@@ -20887,6 +20917,7 @@ class GetBucketRequestPaymentOutput {
   }
 }
 
+/// @nodoc
 class GetBucketTaggingOutput {
   /// Contains the tag set.
   final List<Tag> tagSet;
@@ -20912,6 +20943,7 @@ class GetBucketTaggingOutput {
   }
 }
 
+/// @nodoc
 class GetBucketVersioningOutput {
   /// Specifies whether MFA delete is enabled in the bucket versioning
   /// configuration. This element is only returned if the bucket has been
@@ -20947,6 +20979,7 @@ class GetBucketVersioningOutput {
   }
 }
 
+/// @nodoc
 class GetBucketWebsiteOutput {
   /// The object key name of the website error document to use for 4XX class
   /// errors.
@@ -20998,6 +21031,7 @@ class GetBucketWebsiteOutput {
   }
 }
 
+/// @nodoc
 class GetObjectOutput {
   /// Indicates that a range of bytes was specified in the request.
   final String? acceptRanges;
@@ -21366,6 +21400,7 @@ class GetObjectOutput {
   }
 }
 
+/// @nodoc
 class GetObjectAclOutput {
   /// A list of grants.
   final List<Grant>? grants;
@@ -21391,6 +21426,7 @@ class GetObjectAclOutput {
   }
 }
 
+/// @nodoc
 class GetObjectAttributesOutput {
   /// The checksum or digest of the object.
   final Checksum? checksum;
@@ -21472,6 +21508,7 @@ class GetObjectAttributesOutput {
   }
 }
 
+/// @nodoc
 class GetObjectLegalHoldOutput {
   /// The current legal hold status for the specified object.
   final ObjectLockLegalHold? legalHold;
@@ -21488,6 +21525,7 @@ class GetObjectLegalHoldOutput {
   }
 }
 
+/// @nodoc
 class GetObjectLockConfigurationOutput {
   /// The specified bucket's Object Lock configuration.
   final ObjectLockConfiguration? objectLockConfiguration;
@@ -21505,6 +21543,7 @@ class GetObjectLockConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetObjectRetentionOutput {
   /// The container element for an object's retention settings.
   final ObjectLockRetention? retention;
@@ -21521,6 +21560,7 @@ class GetObjectRetentionOutput {
   }
 }
 
+/// @nodoc
 class GetObjectTaggingOutput {
   /// Contains the tag set.
   final List<Tag> tagSet;
@@ -21542,6 +21582,7 @@ class GetObjectTaggingOutput {
   }
 }
 
+/// @nodoc
 class GetObjectTorrentOutput {
   /// A Bencoded dictionary as defined by the BitTorrent specification
   final Uint8List? body;
@@ -21561,6 +21602,7 @@ class GetObjectTorrentOutput {
   }
 }
 
+/// @nodoc
 class GetPublicAccessBlockOutput {
   /// The <code>PublicAccessBlock</code> configuration currently in effect for
   /// this Amazon S3 bucket.
@@ -21579,6 +21621,7 @@ class GetPublicAccessBlockOutput {
   }
 }
 
+/// @nodoc
 class HeadBucketOutput {
   /// Indicates whether the bucket name used in the request is an access point
   /// alias.
@@ -21634,6 +21677,7 @@ class HeadBucketOutput {
   }
 }
 
+/// @nodoc
 class HeadObjectOutput {
   /// Indicates that a range of bytes was specified.
   final String? acceptRanges;
@@ -22074,6 +22118,7 @@ class HeadObjectOutput {
   }
 }
 
+/// @nodoc
 class ListBucketAnalyticsConfigurationsOutput {
   /// The list of analytics configurations for a bucket.
   final List<AnalyticsConfiguration>? analyticsConfigurationList;
@@ -22128,6 +22173,7 @@ class ListBucketAnalyticsConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListBucketIntelligentTieringConfigurationsOutput {
   /// The <code>ContinuationToken</code> that represents a placeholder from where
   /// this request should begin.
@@ -22186,6 +22232,7 @@ class ListBucketIntelligentTieringConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListBucketInventoryConfigurationsOutput {
   /// If sent in the request, the marker that is used as a starting point for this
   /// inventory configuration list response.
@@ -22240,6 +22287,7 @@ class ListBucketInventoryConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListBucketMetricsConfigurationsOutput {
   /// The marker that is used as a starting point for this metrics configuration
   /// list response. This value is present if it was sent in the request.
@@ -22294,6 +22342,7 @@ class ListBucketMetricsConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListBucketsOutput {
   /// The list of buckets owned by the requester.
   final List<Bucket>? buckets;
@@ -22345,6 +22394,7 @@ class ListBucketsOutput {
   }
 }
 
+/// @nodoc
 class ListDirectoryBucketsOutput {
   /// The list of buckets owned by the requester.
   final List<Bucket>? buckets;
@@ -22376,6 +22426,7 @@ class ListDirectoryBucketsOutput {
   }
 }
 
+/// @nodoc
 class ListMultipartUploadsOutput {
   /// The name of the bucket to which the multipart upload was initiated. Does not
   /// return the access point ARN or access point alias if used.
@@ -22504,6 +22555,7 @@ class ListMultipartUploadsOutput {
   }
 }
 
+/// @nodoc
 class ListObjectsOutput {
   /// All of the keys (up to 1,000) rolled up in a common prefix count as a single
   /// return when calculating the number of returns.
@@ -22626,6 +22678,7 @@ class ListObjectsOutput {
   }
 }
 
+/// @nodoc
 class ListObjectsV2Output {
   /// All of the keys (up to 1,000) that share the same prefix are grouped
   /// together. When counting the total numbers of returns by this API operation,
@@ -22782,6 +22835,7 @@ class ListObjectsV2Output {
   }
 }
 
+/// @nodoc
 class ListObjectVersionsOutput {
   /// All of the keys rolled up into a common prefix count as a single return when
   /// calculating the number of returns.
@@ -22901,6 +22955,7 @@ class ListObjectVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListPartsOutput {
   /// If the bucket has a lifecycle rule configured with an action to abort
   /// incomplete multipart uploads and the prefix in the lifecycle rule matches
@@ -23050,6 +23105,7 @@ class ListPartsOutput {
   }
 }
 
+/// @nodoc
 class PutBucketLifecycleConfigurationOutput {
   /// Indicates which default minimum object size behavior is applied to the
   /// lifecycle configuration.
@@ -23086,6 +23142,7 @@ class PutBucketLifecycleConfigurationOutput {
   }
 }
 
+/// @nodoc
 class PutObjectOutput {
   /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side
   /// encryption with Key Management Service (KMS) keys (SSE-KMS).
@@ -23329,6 +23386,7 @@ class PutObjectOutput {
   }
 }
 
+/// @nodoc
 class PutObjectAclOutput {
   final RequestCharged? requestCharged;
 
@@ -23342,6 +23400,7 @@ class PutObjectAclOutput {
   }
 }
 
+/// @nodoc
 class PutObjectLegalHoldOutput {
   final RequestCharged? requestCharged;
 
@@ -23355,6 +23414,7 @@ class PutObjectLegalHoldOutput {
   }
 }
 
+/// @nodoc
 class PutObjectLockConfigurationOutput {
   final RequestCharged? requestCharged;
 
@@ -23368,6 +23428,7 @@ class PutObjectLockConfigurationOutput {
   }
 }
 
+/// @nodoc
 class PutObjectRetentionOutput {
   final RequestCharged? requestCharged;
 
@@ -23381,6 +23442,7 @@ class PutObjectRetentionOutput {
   }
 }
 
+/// @nodoc
 class PutObjectTaggingOutput {
   /// The versionId of the object the tag-set was added to.
   final String? versionId;
@@ -23395,6 +23457,7 @@ class PutObjectTaggingOutput {
   }
 }
 
+/// @nodoc
 class RenameObjectOutput {
   RenameObjectOutput();
   factory RenameObjectOutput.fromXml(
@@ -23408,6 +23471,7 @@ class RenameObjectOutput {
   }
 }
 
+/// @nodoc
 class RestoreObjectOutput {
   final RequestCharged? requestCharged;
 
@@ -23442,6 +23506,8 @@ class RestoreObjectOutput {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html">S3Select
 /// API Documentation</a>.
+///
+/// @nodoc
 class SelectObjectContentRequest {
   /// The S3 bucket.
   final String bucket;
@@ -23585,6 +23651,7 @@ class SelectObjectContentRequest {
   }
 }
 
+/// @nodoc
 class SelectObjectContentOutput {
   /// The array of results.
   final SelectObjectContentEventStream? payload;
@@ -23601,6 +23668,7 @@ class SelectObjectContentOutput {
   }
 }
 
+/// @nodoc
 class UpdateObjectEncryptionResponse {
   final RequestCharged? requestCharged;
 
@@ -23614,6 +23682,7 @@ class UpdateObjectEncryptionResponse {
   }
 }
 
+/// @nodoc
 class UploadPartOutput {
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with Key Management Service (KMS) keys (SSE-KMS).
@@ -23764,6 +23833,7 @@ class UploadPartOutput {
   }
 }
 
+/// @nodoc
 class UploadPartCopyOutput {
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with Key Management Service (KMS) keys (SSE-KMS).
@@ -23836,6 +23906,7 @@ class UploadPartCopyOutput {
   }
 }
 
+/// @nodoc
 class ObjectLockMode {
   static const governance = ObjectLockMode._('GOVERNANCE');
   static const compliance = ObjectLockMode._('COMPLIANCE');
@@ -23860,6 +23931,7 @@ class ObjectLockMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ObjectLockLegalHoldStatus {
   static const on = ObjectLockLegalHoldStatus._('ON');
   static const off = ObjectLockLegalHoldStatus._('OFF');
@@ -23885,6 +23957,7 @@ class ObjectLockLegalHoldStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationStatus {
   static const complete = ReplicationStatus._('COMPLETE');
   static const pending = ReplicationStatus._('PENDING');
@@ -23920,6 +23993,8 @@ class ReplicationStatus {
 /// <note>
 /// This functionality is not supported for directory buckets.
 /// </note>
+///
+/// @nodoc
 class RequestCharged {
   static const requester = RequestCharged._('requester');
 
@@ -23943,6 +24018,7 @@ class RequestCharged {
   String toString() => value;
 }
 
+/// @nodoc
 class ServerSideEncryption {
   static const aes256 = ServerSideEncryption._('AES256');
   static const awsFsx = ServerSideEncryption._('aws:fsx');
@@ -23970,6 +24046,7 @@ class ServerSideEncryption {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageClass {
   static const standard = StorageClass._('STANDARD');
   static const reducedRedundancy = StorageClass._('REDUCED_REDUNDANCY');
@@ -24019,6 +24096,8 @@ class StorageClass {
 }
 
 /// Container for all response elements.
+///
+/// @nodoc
 class CopyPartResult {
   /// The Base64 encoded, 32-bit <code>CRC32</code> checksum of the part. This
   /// checksum is present if the multipart upload request was created with the
@@ -24167,6 +24246,8 @@ class CopyPartResult {
 /// <note>
 /// This functionality is not supported for directory buckets.
 /// </note>
+///
+/// @nodoc
 class RequestPayer {
   static const requester = RequestPayer._('requester');
 
@@ -24189,6 +24270,7 @@ class RequestPayer {
   String toString() => value;
 }
 
+/// @nodoc
 class ChecksumAlgorithm {
   static const crc32 = ChecksumAlgorithm._('CRC32');
   static const crc32c = ChecksumAlgorithm._('CRC32C');
@@ -24237,6 +24319,8 @@ class ChecksumAlgorithm {
 /// SSE-KMS encryption types.
 ///
 /// Valid Values: <code>SSES3</code> | <code>SSEKMS</code>
+///
+/// @nodoc
 class ObjectEncryption {
   /// Specifies to update the object encryption type to server-side encryption
   /// with Key Management Service (KMS) keys (SSE-KMS).
@@ -24273,6 +24357,8 @@ class ObjectEncryption {
 /// data type specifies the Amazon Web Services KMS key Amazon Resource Name
 /// (ARN) to use and whether to use an S3 Bucket Key for server-side encryption
 /// using Key Management Service (KMS) keys (SSE-KMS).
+///
+/// @nodoc
 class SSEKMSEncryption {
   /// Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use
   /// for the updated server-side encryption type. Required if
@@ -24281,7 +24367,8 @@ class SSEKMSEncryption {
   /// You must specify the full Amazon Web Services KMS key ARN. The KMS key ID
   /// and KMS key alias aren't supported.
   /// </note>
-  /// Pattern: (<code>arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+</code>)
+  /// Pattern:
+  /// (<code>arn:aws\[-a-z0-9\]*:kms:\[-a-z0-9\]*:\[0-9\]{12}:key/.+</code>)
   final String kMSKeyArn;
 
   /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
@@ -24330,6 +24417,8 @@ class SSEKMSEncryption {
 }
 
 /// The specified updates to the S3 Metadata journal table configuration.
+///
+/// @nodoc
 class JournalTableConfigurationUpdates {
   /// The journal table record expiration settings for the journal table.
   final RecordExpiration recordExpiration;
@@ -24363,6 +24452,8 @@ class JournalTableConfigurationUpdates {
 
 /// The journal table record expiration settings for a journal table in an S3
 /// Metadata configuration.
+///
+/// @nodoc
 class RecordExpiration {
   /// Specifies whether journal table record expiration is enabled or disabled.
   final ExpirationState expiration;
@@ -24415,6 +24506,7 @@ class RecordExpiration {
   }
 }
 
+/// @nodoc
 class ExpirationState {
   static const enabled = ExpirationState._('ENABLED');
   static const disabled = ExpirationState._('DISABLED');
@@ -24440,6 +24532,8 @@ class ExpirationState {
 }
 
 /// The specified updates to the S3 Metadata inventory table configuration.
+///
+/// @nodoc
 class InventoryTableConfigurationUpdates {
   /// The configuration state of the inventory table, indicating whether the
   /// inventory table is enabled or disabled.
@@ -24482,6 +24576,7 @@ class InventoryTableConfigurationUpdates {
   }
 }
 
+/// @nodoc
 class InventoryConfigurationState {
   static const enabled = InventoryConfigurationState._('ENABLED');
   static const disabled = InventoryConfigurationState._('DISABLED');
@@ -24509,6 +24604,8 @@ class InventoryConfigurationState {
 
 /// The encryption settings for an S3 Metadata journal table or inventory table
 /// configuration.
+///
+/// @nodoc
 class MetadataTableEncryptionConfiguration {
   /// The encryption type specified for a metadata table. To specify server-side
   /// encryption with Key Management Service (KMS) keys (SSE-KMS), use the
@@ -24555,6 +24652,7 @@ class MetadataTableEncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class TableSseAlgorithm {
   static const awsKms = TableSseAlgorithm._('aws:kms');
   static const aes256 = TableSseAlgorithm._('AES256');
@@ -24580,6 +24678,8 @@ class TableSseAlgorithm {
 }
 
 /// The container for selecting objects from a content event stream.
+///
+/// @nodoc
 class SelectObjectContentEventStream {
   /// The Continuation Event.
   final ContinuationEvent? cont;
@@ -24631,6 +24731,8 @@ class SelectObjectContentEventStream {
 }
 
 /// The container for the records event.
+///
+/// @nodoc
 class RecordsEvent {
   /// The byte array of partial, one or more result records. S3 Select doesn't
   /// guarantee that a record will be self-contained in one record frame. To
@@ -24660,6 +24762,8 @@ class RecordsEvent {
 }
 
 /// Container for the Stats Event.
+///
+/// @nodoc
 class StatsEvent {
   /// The Stats event details.
   final Stats? details;
@@ -24683,6 +24787,8 @@ class StatsEvent {
 
 /// This data type contains information about the progress event of an
 /// operation.
+///
+/// @nodoc
 class ProgressEvent {
   /// The Progress event details.
   final Progress? details;
@@ -24705,6 +24811,8 @@ class ProgressEvent {
 }
 
 ///
+///
+/// @nodoc
 class ContinuationEvent {
   ContinuationEvent();
   factory ContinuationEvent.fromXml(
@@ -24721,6 +24829,8 @@ class ContinuationEvent {
 /// A message that indicates the request is complete and no more messages will
 /// be sent. You should not assume that the request is complete until the client
 /// receives an <code>EndEvent</code>.
+///
+/// @nodoc
 class EndEvent {
   EndEvent();
   factory EndEvent.fromXml(
@@ -24735,6 +24845,8 @@ class EndEvent {
 }
 
 /// This data type contains information about progress of an operation.
+///
+/// @nodoc
 class Progress {
   /// The current number of uncompressed object bytes processed.
   final int? bytesProcessed;
@@ -24771,6 +24883,8 @@ class Progress {
 }
 
 /// Container for the stats details.
+///
+/// @nodoc
 class Stats {
   /// The total number of uncompressed object bytes processed.
   final int? bytesProcessed;
@@ -24806,6 +24920,7 @@ class Stats {
   }
 }
 
+/// @nodoc
 class ExpressionType {
   static const sql = ExpressionType._('SQL');
 
@@ -24831,6 +24946,8 @@ class ExpressionType {
 
 /// Container for specifying if periodic <code>QueryProgress</code> messages
 /// should be sent.
+///
+/// @nodoc
 class RequestProgress {
   /// Specifies whether periodic QueryProgress frames should be sent. Valid
   /// values: TRUE, FALSE. Default value: FALSE.
@@ -24864,6 +24981,8 @@ class RequestProgress {
 }
 
 /// Describes the serialization format of the object.
+///
+/// @nodoc
 class InputSerialization {
   /// Describes the serialization of a CSV-encoded object.
   final CSVInput? csv;
@@ -24922,6 +25041,8 @@ class InputSerialization {
 }
 
 /// Describes how results of the Select job are serialized.
+///
+/// @nodoc
 class OutputSerialization {
   /// Describes the serialization of CSV-encoded Select results.
   final CSVOutput? csv;
@@ -24965,6 +25086,8 @@ class OutputSerialization {
 /// processed when its first byte is contained by the range. This parameter is
 /// optional, but when specified, it must not be empty. See RFC 2616, Section
 /// 14.35.1 about how to specify the start and end of the range.
+///
+/// @nodoc
 class ScanRange {
   /// Specifies the end of the byte range. This parameter is optional. Valid
   /// values: non-negative integers. The default value is one less than the size
@@ -25015,6 +25138,8 @@ class ScanRange {
 
 /// Describes how uncompressed comma-separated values (CSV)-formatted results
 /// are formatted.
+///
+/// @nodoc
 class CSVOutput {
   /// The value used to separate individual fields in a record. You can specify an
   /// arbitrary delimiter.
@@ -25099,6 +25224,8 @@ class CSVOutput {
 }
 
 /// Specifies JSON as request's output serialization format.
+///
+/// @nodoc
 class JSONOutput {
   /// The value used to separate individual records in the output. If no value is
   /// specified, Amazon S3 uses a newline character ('\n').
@@ -25132,6 +25259,7 @@ class JSONOutput {
   }
 }
 
+/// @nodoc
 class QuoteFields {
   static const always = QuoteFields._('ALWAYS');
   static const asneeded = QuoteFields._('ASNEEDED');
@@ -25157,6 +25285,8 @@ class QuoteFields {
 
 /// Describes how an uncompressed comma-separated values (CSV)-formatted input
 /// object is formatted.
+///
+/// @nodoc
 class CSVInput {
   /// Specifies that CSV field values may contain quoted record delimiters and
   /// such records should be allowed. Default value is FALSE. Setting this value
@@ -25280,6 +25410,7 @@ class CSVInput {
   }
 }
 
+/// @nodoc
 class CompressionType {
   static const none = CompressionType._('NONE');
   static const gzip = CompressionType._('GZIP');
@@ -25306,6 +25437,8 @@ class CompressionType {
 }
 
 /// Specifies JSON as object's input serialization format.
+///
+/// @nodoc
 class JSONInput {
   /// The type of JSON. Valid values: Document, Lines.
   final JSONType? type;
@@ -25338,6 +25471,8 @@ class JSONInput {
 }
 
 /// Container for Parquet.
+///
+/// @nodoc
 class ParquetInput {
   ParquetInput();
 
@@ -25358,6 +25493,7 @@ class ParquetInput {
   }
 }
 
+/// @nodoc
 class JSONType {
   static const document = JSONType._('DOCUMENT');
   static const lines = JSONType._('LINES');
@@ -25381,6 +25517,7 @@ class JSONType {
   String toString() => value;
 }
 
+/// @nodoc
 class FileHeaderInfo {
   static const use = FileHeaderInfo._('USE');
   static const ignore = FileHeaderInfo._('IGNORE');
@@ -25407,6 +25544,8 @@ class FileHeaderInfo {
 }
 
 /// Container for restore job parameters.
+///
+/// @nodoc
 class RestoreRequest {
   /// Lifetime of the active copy in days. Do not use with restores that specify
   /// <code>OutputLocation</code>.
@@ -25507,6 +25646,8 @@ class RestoreRequest {
 }
 
 /// Container for S3 Glacier job parameters.
+///
+/// @nodoc
 class GlacierJobParameters {
   /// Retrieval tier at which the restore will be processed.
   final Tier tier;
@@ -25538,6 +25679,7 @@ class GlacierJobParameters {
   }
 }
 
+/// @nodoc
 class RestoreRequestType {
   static const select = RestoreRequestType._('SELECT');
 
@@ -25562,6 +25704,7 @@ class RestoreRequestType {
   String toString() => value;
 }
 
+/// @nodoc
 class Tier {
   static const standard = Tier._('Standard');
   static const bulk = Tier._('Bulk');
@@ -25601,6 +25744,8 @@ class Tier {
 /// Athena</a>, <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html">S3
 /// Object Lambda</a>, or client-side filtering.
+///
+/// @nodoc
 class SelectParameters {
   /// <important>
   /// Amazon S3 Select is no longer available to new customers. Existing customers
@@ -25663,6 +25808,8 @@ class SelectParameters {
 }
 
 /// Describes the location where the restore job's output is stored.
+///
+/// @nodoc
 class OutputLocation {
   /// Describes an S3 location that will receive the results of the restore
   /// request.
@@ -25697,6 +25844,8 @@ class OutputLocation {
 
 /// Describes an Amazon S3 location that will receive the results of the restore
 /// request.
+///
+/// @nodoc
 class S3Location {
   /// The name of the bucket where the restore results will be placed.
   final String bucketName;
@@ -25789,6 +25938,8 @@ class S3Location {
 }
 
 /// Contains the type of server-side encryption used.
+///
+/// @nodoc
 class Encryption {
   /// The server-side encryption algorithm used when storing job results in Amazon
   /// S3 (for example, AES256, <code>aws:kms</code>).
@@ -25844,6 +25995,7 @@ class Encryption {
   }
 }
 
+/// @nodoc
 class ObjectCannedACL {
   static const private = ObjectCannedACL._('private');
   static const publicRead = ObjectCannedACL._('public-read');
@@ -25883,6 +26035,8 @@ class ObjectCannedACL {
 }
 
 /// Container for <code>TagSet</code> elements.
+///
+/// @nodoc
 class Tagging {
   /// A collection for a set of tags
   final List<Tag> tagSet;
@@ -25916,6 +26070,8 @@ class Tagging {
 }
 
 /// A metadata key-value pair to store with an object.
+///
+/// @nodoc
 class MetadataEntry {
   /// Name of the object.
   final String? name;
@@ -25956,6 +26112,8 @@ class MetadataEntry {
 }
 
 /// A container of a key value name pair.
+///
+/// @nodoc
 class Tag {
   /// Name of the object key.
   final String key;
@@ -26002,6 +26160,8 @@ class Tag {
 }
 
 /// Container for grant information.
+///
+/// @nodoc
 class Grant {
   /// The person being granted permissions.
   final Grantee? grantee;
@@ -26051,6 +26211,8 @@ class Grant {
 }
 
 /// Container for the person being granted permissions.
+///
+/// @nodoc
 class Grantee {
   /// Type of grantee
   final Type type;
@@ -26126,6 +26288,7 @@ class Grantee {
   }
 }
 
+/// @nodoc
 class Permission {
   static const fullControl = Permission._('FULL_CONTROL');
   static const write = Permission._('WRITE');
@@ -26152,6 +26315,7 @@ class Permission {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const canonicalUser = Type._('CanonicalUser');
   static const amazonCustomerByEmail = Type._('AmazonCustomerByEmail');
@@ -26183,6 +26347,8 @@ class Type {
 /// Amazon S3 considers a bucket or object public, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
 /// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class PublicAccessBlockConfiguration {
   /// Specifies whether Amazon S3 should block public access control lists (ACLs)
   /// for this bucket and objects in this bucket. Setting this element to
@@ -26286,6 +26452,8 @@ class PublicAccessBlockConfiguration {
 }
 
 /// A Retention configuration for an object.
+///
+/// @nodoc
 class ObjectLockRetention {
   /// Indicates the Retention mode for the specified object.
   final ObjectLockRetentionMode? mode;
@@ -26337,6 +26505,7 @@ class ObjectLockRetention {
   }
 }
 
+/// @nodoc
 class ObjectLockRetentionMode {
   static const governance = ObjectLockRetentionMode._('GOVERNANCE');
   static const compliance = ObjectLockRetentionMode._('COMPLIANCE');
@@ -26363,6 +26532,8 @@ class ObjectLockRetentionMode {
 }
 
 /// The container element for Object Lock configuration parameters.
+///
+/// @nodoc
 class ObjectLockConfiguration {
   /// Indicates whether this bucket has an Object Lock configuration enabled.
   /// Enable <code>ObjectLockEnabled</code> when you apply
@@ -26418,6 +26589,7 @@ class ObjectLockConfiguration {
   }
 }
 
+/// @nodoc
 class ObjectLockEnabled {
   static const enabled = ObjectLockEnabled._('Enabled');
 
@@ -26442,6 +26614,8 @@ class ObjectLockEnabled {
 }
 
 /// The container element for an Object Lock rule.
+///
+/// @nodoc
 class ObjectLockRule {
   /// The default Object Lock retention mode and period that you want to apply to
   /// new objects placed in the specified bucket. Bucket settings require both a
@@ -26497,6 +26671,8 @@ class ObjectLockRule {
 /// <code>Days</code> and <code>Years</code> at the same time.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class DefaultRetention {
   /// The number of days that you want to specify for the default retention
   /// period. Must be used with <code>Mode</code>.
@@ -26558,6 +26734,8 @@ class DefaultRetention {
 }
 
 /// A legal hold configuration for an object.
+///
+/// @nodoc
 class ObjectLockLegalHold {
   /// Indicates whether the specified object has a legal hold in place.
   final ObjectLockLegalHoldStatus? status;
@@ -26598,6 +26776,8 @@ class ObjectLockLegalHold {
 
 /// Contains the elements that set the ACL permissions for an object per
 /// grantee.
+///
+/// @nodoc
 class AccessControlPolicy {
   /// A list of grants.
   final List<Grant>? grants;
@@ -26640,6 +26820,8 @@ class AccessControlPolicy {
 }
 
 /// Container for the owner's display name and ID.
+///
+/// @nodoc
 class Owner {
   ///
   final String? displayName;
@@ -26686,6 +26868,7 @@ class Owner {
   }
 }
 
+/// @nodoc
 class ChecksumType {
   static const composite = ChecksumType._('COMPOSITE');
   static const fullObject = ChecksumType._('FULL_OBJECT');
@@ -26710,6 +26893,8 @@ class ChecksumType {
 }
 
 /// Specifies website configuration parameters for an Amazon S3 bucket.
+///
+/// @nodoc
 class WebsiteConfiguration {
   /// The name of the error document for the website.
   final ErrorDocument? errorDocument;
@@ -26773,6 +26958,8 @@ class WebsiteConfiguration {
 }
 
 /// The error information.
+///
+/// @nodoc
 class ErrorDocument {
   /// The object key name to use when a 4XX class error occurs.
   /// <important>
@@ -26816,6 +27003,8 @@ class ErrorDocument {
 }
 
 /// Container for the <code>Suffix</code> element.
+///
+/// @nodoc
 class IndexDocument {
   /// A suffix that is appended to a request that is for a directory on the
   /// website endpoint. (For example, if the suffix is <code>index.html</code> and
@@ -26865,6 +27054,8 @@ class IndexDocument {
 
 /// Specifies the redirect behavior of all requests to a website endpoint of an
 /// Amazon S3 bucket.
+///
+/// @nodoc
 class RedirectAllRequestsTo {
   /// Name of the host where requests are redirected.
   final String hostName;
@@ -26916,6 +27107,8 @@ class RedirectAllRequestsTo {
 /// information about routing rules, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html#advanced-conditional-redirects">Configuring
 /// advanced conditional redirects</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class RoutingRule {
   /// Container for redirect information. You can redirect requests to another
   /// host, to another page, or with another protocol. In the event of an error,
@@ -26972,6 +27165,8 @@ class RoutingRule {
 /// <code>/docs</code> folder, redirect to the <code>/documents</code> folder.
 /// 2. If request results in HTTP error 4xx, redirect request to another host
 /// where you might process the error.
+///
+/// @nodoc
 class Condition {
   /// The HTTP error code when the redirect is applied. In the event of an error,
   /// if the error code equals this value, then the specified redirect is applied.
@@ -27041,6 +27236,8 @@ class Condition {
 
 /// Specifies how requests are redirected. In the event of an error, you can
 /// specify a different error code to return.
+///
+/// @nodoc
 class Redirect {
   /// The host name to use in the redirect request.
   final String? hostName;
@@ -27142,6 +27339,7 @@ class Redirect {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const http = Protocol._('http');
   static const https = Protocol._('https');
@@ -27169,6 +27367,8 @@ class Protocol {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTVersioningStatus.html">PUT
 /// Bucket versioning</a> in the <i>Amazon S3 API Reference</i>.
+///
+/// @nodoc
 class VersioningConfiguration {
   /// Specifies whether MFA delete is enabled in the bucket versioning
   /// configuration. This element is only returned if the bucket has been
@@ -27212,6 +27412,7 @@ class VersioningConfiguration {
   }
 }
 
+/// @nodoc
 class MFADelete {
   static const enabled = MFADelete._('Enabled');
   static const disabled = MFADelete._('Disabled');
@@ -27235,6 +27436,7 @@ class MFADelete {
   String toString() => value;
 }
 
+/// @nodoc
 class BucketVersioningStatus {
   static const enabled = BucketVersioningStatus._('Enabled');
   static const suspended = BucketVersioningStatus._('Suspended');
@@ -27261,6 +27463,8 @@ class BucketVersioningStatus {
 }
 
 /// Container for Payer.
+///
+/// @nodoc
 class RequestPaymentConfiguration {
   /// Specifies who pays for the download and request fees.
   final Payer payer;
@@ -27292,6 +27496,7 @@ class RequestPaymentConfiguration {
   }
 }
 
+/// @nodoc
 class Payer {
   static const requester = Payer._('Requester');
   static const bucketOwner = Payer._('BucketOwner');
@@ -27317,6 +27522,8 @@ class Payer {
 
 /// A container for replication rules. You can add up to 1,000 rules. The
 /// maximum size of a replication configuration is 2 MB.
+///
+/// @nodoc
 class ReplicationConfiguration {
   /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   /// role that Amazon S3 assumes when replicating objects. For more information,
@@ -27369,6 +27576,8 @@ class ReplicationConfiguration {
 
 /// Specifies which Amazon S3 objects to replicate and where to store the
 /// replicas.
+///
+/// @nodoc
 class ReplicationRule {
   /// A container for information about the replication destination and its
   /// configurations including enabling the S3 Replication Time Control (S3 RTC).
@@ -27522,6 +27731,8 @@ class ReplicationRule {
 /// A filter that identifies the subset of objects to which the replication rule
 /// applies. A <code>Filter</code> must specify exactly one <code>Prefix</code>,
 /// <code>Tag</code>, or an <code>And</code> child element.
+///
+/// @nodoc
 class ReplicationRuleFilter {
   /// A container for specifying rule filters. The filters determine the subset of
   /// objects to which the rule applies. This element is required only if you
@@ -27600,6 +27811,7 @@ class ReplicationRuleFilter {
   }
 }
 
+/// @nodoc
 class ReplicationRuleStatus {
   static const enabled = ReplicationRuleStatus._('Enabled');
   static const disabled = ReplicationRuleStatus._('Disabled');
@@ -27631,6 +27843,8 @@ class ReplicationRuleStatus {
 /// that you can specify for objects created with server-side encryption using a
 /// customer managed key stored in Amazon Web Services Key Management Service
 /// (SSE-KMS).
+///
+/// @nodoc
 class SourceSelectionCriteria {
   /// A filter that you can specify for selections for modifications on replicas.
   /// Amazon S3 doesn't replicate replica modifications by default. In the latest
@@ -27703,6 +27917,8 @@ class SourceSelectionCriteria {
 /// existing objects with S3 Batch Replication</a> in the <i>Amazon S3 User
 /// Guide</i>.
 /// </note>
+///
+/// @nodoc
 class ExistingObjectReplication {
   /// Specifies whether Amazon S3 replicates existing source bucket objects.
   final ExistingObjectReplicationStatus status;
@@ -27743,6 +27959,8 @@ class ExistingObjectReplication {
 
 /// Specifies information about where to publish analysis or configuration
 /// results for an Amazon S3 bucket and S3 Replication Time Control (S3 RTC).
+///
+/// @nodoc
 class Destination {
   /// The Amazon Resource Name (ARN) of the bucket where you want Amazon S3 to
   /// store the results.
@@ -27892,6 +28110,8 @@ class Destination {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations">Backward
 /// Compatibility</a>.
 /// </note>
+///
+/// @nodoc
 class DeleteMarkerReplication {
   /// Indicates whether to replicate delete markers.
   /// <note>
@@ -27933,6 +28153,7 @@ class DeleteMarkerReplication {
   }
 }
 
+/// @nodoc
 class DeleteMarkerReplicationStatus {
   static const enabled = DeleteMarkerReplicationStatus._('Enabled');
   static const disabled = DeleteMarkerReplicationStatus._('Disabled');
@@ -27959,6 +28180,8 @@ class DeleteMarkerReplicationStatus {
 }
 
 /// A container for information about access control for replicas.
+///
+/// @nodoc
 class AccessControlTranslation {
   /// Specifies the replica ownership. For default and valid values, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html">PUT
@@ -28008,6 +28231,8 @@ class AccessControlTranslation {
 /// that's encrypted with a KMS key that belongs to the requester, and not the
 /// bucket owner.
 /// </note>
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// Specifies the ID (Key ARN or Alias ARN) of the customer managed Amazon Web
   /// Services KMS key stored in Amazon Web Services Key Management Service (KMS)
@@ -28056,6 +28281,8 @@ class EncryptionConfiguration {
 /// information, including whether S3 RTC is enabled and the time when all
 /// objects and operations on objects must be replicated. Must be specified
 /// together with a <code>Metrics</code> block.
+///
+/// @nodoc
 class ReplicationTime {
   /// Specifies whether the replication time is enabled.
   final ReplicationTimeStatus status;
@@ -28106,6 +28333,8 @@ class ReplicationTime {
 
 /// A container specifying replication metrics-related settings enabling
 /// replication metrics and events.
+///
+/// @nodoc
 class Metrics {
   /// Specifies whether the replication metrics are enabled.
   final MetricsStatus status;
@@ -28156,6 +28385,7 @@ class Metrics {
   }
 }
 
+/// @nodoc
 class MetricsStatus {
   static const enabled = MetricsStatus._('Enabled');
   static const disabled = MetricsStatus._('Disabled');
@@ -28182,6 +28412,8 @@ class MetricsStatus {
 
 /// A container specifying the time value for S3 Replication Time Control (S3
 /// RTC) and replication metrics <code>EventThreshold</code>.
+///
+/// @nodoc
 class ReplicationTimeValue {
   /// Contains an integer specifying time in minutes.
   ///
@@ -28220,6 +28452,7 @@ class ReplicationTimeValue {
   }
 }
 
+/// @nodoc
 class ReplicationTimeStatus {
   static const enabled = ReplicationTimeStatus._('Enabled');
   static const disabled = ReplicationTimeStatus._('Disabled');
@@ -28245,6 +28478,7 @@ class ReplicationTimeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OwnerOverride {
   static const destination = OwnerOverride._('Destination');
 
@@ -28268,6 +28502,7 @@ class OwnerOverride {
   String toString() => value;
 }
 
+/// @nodoc
 class ExistingObjectReplicationStatus {
   static const enabled = ExistingObjectReplicationStatus._('Enabled');
   static const disabled = ExistingObjectReplicationStatus._('Disabled');
@@ -28295,6 +28530,8 @@ class ExistingObjectReplicationStatus {
 
 /// A container for filter information for the selection of S3 objects encrypted
 /// with Amazon Web Services KMS.
+///
+/// @nodoc
 class SseKmsEncryptedObjects {
   /// Specifies whether Amazon S3 replicates objects created with server-side
   /// encryption using an Amazon Web Services KMS key stored in Amazon Web
@@ -28345,6 +28582,8 @@ class SseKmsEncryptedObjects {
 /// the replication configuration is the earlier version, V1. In the earlier
 /// version, this element is not allowed.
 /// </note>
+///
+/// @nodoc
 class ReplicaModifications {
   /// Specifies whether Amazon S3 replicates modifications on replicas.
   final ReplicaModificationsStatus status;
@@ -28383,6 +28622,7 @@ class ReplicaModifications {
   }
 }
 
+/// @nodoc
 class ReplicaModificationsStatus {
   static const enabled = ReplicaModificationsStatus._('Enabled');
   static const disabled = ReplicaModificationsStatus._('Disabled');
@@ -28408,6 +28648,7 @@ class ReplicaModificationsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SseKmsEncryptedObjectsStatus {
   static const enabled = SseKmsEncryptedObjectsStatus._('Enabled');
   static const disabled = SseKmsEncryptedObjectsStatus._('Disabled');
@@ -28449,6 +28690,8 @@ class SseKmsEncryptedObjectsStatus {
 /// elements in an <code>And</code> tag.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReplicationRuleAndOperator {
   /// An object key name prefix that identifies the subset of objects to which the
   /// rule applies.
@@ -28496,6 +28739,8 @@ class ReplicationRuleAndOperator {
 }
 
 /// The container element for a bucket's ownership controls.
+///
+/// @nodoc
 class OwnershipControls {
   /// The container element for an ownership control rule.
   final List<OwnershipControlsRule> rules;
@@ -28534,6 +28779,8 @@ class OwnershipControls {
 }
 
 /// The container element for an ownership control rule.
+///
+/// @nodoc
 class OwnershipControlsRule {
   final ObjectOwnership objectOwnership;
 
@@ -28601,6 +28848,8 @@ class OwnershipControlsRule {
 /// This functionality is not supported for directory buckets. Directory buckets
 /// use the bucket owner enforced setting for S3 Object Ownership.
 /// </note>
+///
+/// @nodoc
 class ObjectOwnership {
   static const bucketOwnerPreferred = ObjectOwnership._('BucketOwnerPreferred');
   static const objectWriter = ObjectOwnership._('ObjectWriter');
@@ -28636,6 +28885,8 @@ class ObjectOwnership {
 /// replacement of the existing metrics configuration. If you don't include the
 /// elements you want to keep, they are erased. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTMetricConfiguration.html">PutBucketMetricsConfiguration</a>.
+///
+/// @nodoc
 class MetricsConfiguration {
   /// The ID used to identify the metrics configuration. The ID has a 64 character
   /// limit and can only contain letters, numbers, periods, dashes, and
@@ -28694,6 +28945,8 @@ class MetricsConfiguration {
 /// an object tag, an access point ARN, or a conjunction (MetricsAndOperator).
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>.
+///
+/// @nodoc
 class MetricsFilter {
   /// The access point ARN used when evaluating a metrics filter.
   final String? accessPointArn;
@@ -28766,6 +29019,8 @@ class MetricsFilter {
 /// A conjunction (logical AND) of predicates, which is used in evaluating a
 /// metrics filter. The operator must have at least two predicates, and an
 /// object must match all of the predicates in order for the filter to apply.
+///
+/// @nodoc
 class MetricsAndOperator {
   /// The access point ARN used when evaluating an <code>AND</code> predicate.
   final String? accessPointArn;
@@ -28825,6 +29080,8 @@ class MetricsAndOperator {
 }
 
 /// Container for logging status information.
+///
+/// @nodoc
 class BucketLoggingStatus {
   final LoggingEnabled? loggingEnabled;
 
@@ -28859,6 +29116,8 @@ class BucketLoggingStatus {
 /// log object keys for a bucket. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlogging.html">PUT
 /// Bucket logging</a> in the <i>Amazon S3 API Reference</i>.
+///
+/// @nodoc
 class LoggingEnabled {
   /// Specifies the bucket where you want Amazon S3 to store server access logs.
   /// You can have your logs delivered to any bucket that you own, including the
@@ -28943,6 +29202,8 @@ class LoggingEnabled {
 
 /// Amazon S3 key format for log objects. Only one format, PartitionedPrefix or
 /// SimplePrefix, is allowed.
+///
+/// @nodoc
 class TargetObjectKeyFormat {
   /// Partitioned S3 key for log objects.
   final PartitionedPrefix? partitionedPrefix;
@@ -28996,7 +29257,9 @@ class TargetObjectKeyFormat {
 /// To use simple format for S3 keys for log objects, set SimplePrefix to an
 /// empty object.
 ///
-/// <code>[DestinationPrefix][YYYY]-[MM]-[DD]-[hh]-[mm]-[ss]-[UniqueString]</code>
+/// <code>\[DestinationPrefix\]\[YYYY\]-\[MM\]-\[DD\]-\[hh\]-\[mm\]-\[ss\]-\[UniqueString\]</code>
+///
+/// @nodoc
 class SimplePrefix {
   SimplePrefix();
   factory SimplePrefix.fromXml(
@@ -29024,10 +29287,12 @@ class SimplePrefix {
 
 /// Amazon S3 keys for log objects are partitioned in the following format:
 ///
-/// <code>[DestinationPrefix][SourceAccountId]/[SourceRegion]/[SourceBucket]/[YYYY]/[MM]/[DD]/[YYYY]-[MM]-[DD]-[hh]-[mm]-[ss]-[UniqueString]</code>
+/// <code>\[DestinationPrefix\]\[SourceAccountId\]/\[SourceRegion\]/\[SourceBucket\]/\[YYYY\]/\[MM\]/\[DD\]/\[YYYY\]-\[MM\]-\[DD\]-\[hh\]-\[mm\]-\[ss\]-\[UniqueString\]</code>
 ///
 /// PartitionedPrefix defaults to EventTime delivery when server access logs are
 /// delivered.
+///
+/// @nodoc
 class PartitionedPrefix {
   /// Specifies the partition date source for the partitioned prefix.
   /// <code>PartitionDateSource</code> can be <code>EventTime</code> or
@@ -29078,6 +29343,7 @@ class PartitionedPrefix {
   }
 }
 
+/// @nodoc
 class PartitionDateSource {
   static const eventTime = PartitionDateSource._('EventTime');
   static const deliveryTime = PartitionDateSource._('DeliveryTime');
@@ -29109,6 +29375,8 @@ class PartitionDateSource {
 /// don't support target grants. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general">Permissions
 /// server access log delivery</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class TargetGrant {
   /// Container for the person being granted permissions.
   final Grantee? grantee;
@@ -29157,6 +29425,7 @@ class TargetGrant {
   }
 }
 
+/// @nodoc
 class BucketLogsPermission {
   static const fullControl = BucketLogsPermission._('FULL_CONTROL');
   static const read = BucketLogsPermission._('READ');
@@ -29183,6 +29452,7 @@ class BucketLogsPermission {
   String toString() => value;
 }
 
+/// @nodoc
 class TransitionDefaultMinimumObjectSize {
   static const variesByStorageClass =
       TransitionDefaultMinimumObjectSize._('varies_by_storage_class');
@@ -29214,6 +29484,8 @@ class TransitionDefaultMinimumObjectSize {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
 /// Lifecycle Management</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class BucketLifecycleConfiguration {
   /// A lifecycle rule for individual objects in an Amazon S3 bucket.
   final List<LifecycleRule> rules;
@@ -29250,6 +29522,8 @@ class BucketLifecycleConfiguration {
 /// For more information see, <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html">Managing
 /// your storage lifecycle</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class LifecycleRule {
   /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule
   /// is not currently being applied.
@@ -29415,6 +29689,8 @@ class LifecycleRule {
 /// For more information see, <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html">Managing
 /// your storage lifecycle</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class LifecycleExpiration {
   /// Indicates at what date the object is to be moved or deleted. The date value
   /// must conform to the ISO 8601 format. The time is always midnight UTC.
@@ -29494,6 +29770,8 @@ class LifecycleExpiration {
 /// <code>ObjectSizeLessThan</code>, or <code>And</code> specified. If the
 /// <code>Filter</code> element is left empty, the Lifecycle Rule applies to all
 /// objects in the bucket.
+///
+/// @nodoc
 class LifecycleRuleFilter {
   final LifecycleRuleAndOperator? and;
 
@@ -29581,6 +29859,7 @@ class LifecycleRuleFilter {
   }
 }
 
+/// @nodoc
 class ExpirationStatus {
   static const enabled = ExpirationStatus._('Enabled');
   static const disabled = ExpirationStatus._('Disabled');
@@ -29614,6 +29893,8 @@ class ExpirationStatus {
 /// This parameter applies to general purpose buckets only. It is not supported
 /// for directory bucket lifecycle configurations.
 /// </note>
+///
+/// @nodoc
 class NoncurrentVersionExpiration {
   /// Specifies how many noncurrent versions Amazon S3 will retain. You can
   /// specify up to 100 noncurrent versions to retain. Amazon S3 will permanently
@@ -29688,6 +29969,8 @@ class NoncurrentVersionExpiration {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">
 /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle
 /// Configuration</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AbortIncompleteMultipartUpload {
   /// Specifies the number of days after which Amazon S3 aborts an incomplete
   /// multipart upload.
@@ -29737,6 +30020,8 @@ class AbortIncompleteMultipartUpload {
 /// <code>INTELLIGENT_TIERING</code>, <code>GLACIER_IR</code>,
 /// <code>GLACIER</code>, or <code>DEEP_ARCHIVE</code> storage class at a
 /// specific period in the object's lifetime.
+///
+/// @nodoc
 class NoncurrentVersionTransition {
   /// Specifies how many noncurrent versions Amazon S3 will retain in the same
   /// storage class before transitioning objects. You can specify up to 100
@@ -29810,6 +30095,7 @@ class NoncurrentVersionTransition {
   }
 }
 
+/// @nodoc
 class TransitionStorageClass {
   static const glacier = TransitionStorageClass._('GLACIER');
   static const standardIa = TransitionStorageClass._('STANDARD_IA');
@@ -29851,6 +30137,8 @@ class TransitionStorageClass {
 /// information about Amazon S3 lifecycle configuration rules, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">Transitioning
 /// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class Transition {
   /// Indicates when objects are transitioned to the specified storage class. The
   /// date value must be in ISO 8601 format. The time is always midnight UTC.
@@ -29926,6 +30214,8 @@ class Transition {
 /// This is used in a Lifecycle Rule Filter to apply a logical AND to two or
 /// more predicates. The Lifecycle Rule will apply to any object matching all of
 /// the predicates configured inside the And operator.
+///
+/// @nodoc
 class LifecycleRuleAndOperator {
   /// Minimum object size to which the rule applies.
   final int? objectSizeGreaterThan;
@@ -29998,6 +30288,8 @@ class LifecycleRuleAndOperator {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETInventoryConfig.html">GET
 /// Bucket inventory</a> in the <i>Amazon S3 API Reference</i>.
+///
+/// @nodoc
 class InventoryConfiguration {
   /// Contains information about where to publish the inventory results.
   final InventoryDestination destination;
@@ -30118,6 +30410,8 @@ class InventoryConfiguration {
 }
 
 /// Specifies the S3 Inventory configuration for an Amazon S3 bucket.
+///
+/// @nodoc
 class InventoryDestination {
   /// Contains the bucket name, file format, bucket owner (optional), and prefix
   /// (optional) where inventory results are published.
@@ -30158,6 +30452,8 @@ class InventoryDestination {
 
 /// Specifies an S3 Inventory filter. The inventory only includes objects that
 /// meet the filter's criteria.
+///
+/// @nodoc
 class InventoryFilter {
   /// The prefix that an object must have to be included in the inventory results.
   final String prefix;
@@ -30194,6 +30490,7 @@ class InventoryFilter {
   }
 }
 
+/// @nodoc
 class InventoryIncludedObjectVersions {
   static const all = InventoryIncludedObjectVersions._('All');
   static const current = InventoryIncludedObjectVersions._('Current');
@@ -30220,6 +30517,8 @@ class InventoryIncludedObjectVersions {
 }
 
 /// Specifies the schedule for generating S3 Inventory results.
+///
+/// @nodoc
 class InventorySchedule {
   /// Specifies how frequently inventory results are produced.
   final InventoryFrequency frequency;
@@ -30258,6 +30557,7 @@ class InventorySchedule {
   }
 }
 
+/// @nodoc
 class InventoryFrequency {
   static const daily = InventoryFrequency._('Daily');
   static const weekly = InventoryFrequency._('Weekly');
@@ -30283,6 +30583,7 @@ class InventoryFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class InventoryOptionalField {
   static const size = InventoryOptionalField._('Size');
   static const lastModifiedDate = InventoryOptionalField._('LastModifiedDate');
@@ -30349,6 +30650,8 @@ class InventoryOptionalField {
 
 /// Contains the bucket name, file format, bucket owner (optional), and prefix
 /// (optional) where S3 Inventory results are published.
+///
+/// @nodoc
 class InventoryS3BucketDestination {
   /// The Amazon Resource Name (ARN) of the bucket where inventory results will be
   /// published.
@@ -30432,6 +30735,7 @@ class InventoryS3BucketDestination {
   }
 }
 
+/// @nodoc
 class InventoryFormat {
   static const csv = InventoryFormat._('CSV');
   static const orc = InventoryFormat._('ORC');
@@ -30459,6 +30763,8 @@ class InventoryFormat {
 
 /// Contains the type of server-side encryption used to encrypt the S3 Inventory
 /// results.
+///
+/// @nodoc
 class InventoryEncryption {
   /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
   final SSEKMS? ssekms;
@@ -30505,6 +30811,8 @@ class InventoryEncryption {
 }
 
 /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
+///
+/// @nodoc
 class SSES3 {
   SSES3();
   factory SSES3.fromXml(
@@ -30531,6 +30839,8 @@ class SSES3 {
 }
 
 /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
+///
+/// @nodoc
 class SSEKMS {
   /// Specifies the ID of the Key Management Service (KMS) symmetric encryption
   /// customer managed key to use for encrypting inventory reports.
@@ -30574,6 +30884,8 @@ class SSEKMS {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
 /// class for automatically optimizing frequently and infrequently accessed
 /// objects</a>.
+///
+/// @nodoc
 class IntelligentTieringConfiguration {
   /// The ID used to identify the S3 Intelligent-Tiering configuration.
   final String id;
@@ -30645,6 +30957,8 @@ class IntelligentTieringConfiguration {
 
 /// The <code>Filter</code> is used to identify objects that the S3
 /// Intelligent-Tiering configuration applies to.
+///
+/// @nodoc
 class IntelligentTieringFilter {
   /// A conjunction (logical AND) of predicates, which is used in evaluating a
   /// metrics filter. The operator must have at least two predicates, and an
@@ -30708,6 +31022,7 @@ class IntelligentTieringFilter {
   }
 }
 
+/// @nodoc
 class IntelligentTieringStatus {
   static const enabled = IntelligentTieringStatus._('Enabled');
   static const disabled = IntelligentTieringStatus._('Disabled');
@@ -30736,6 +31051,8 @@ class IntelligentTieringStatus {
 /// The S3 Intelligent-Tiering storage class is designed to optimize storage
 /// costs by automatically moving data to the most cost-effective storage access
 /// tier, without additional operational overhead.
+///
+/// @nodoc
 class Tiering {
   /// S3 Intelligent-Tiering access tier. See <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
@@ -30791,6 +31108,7 @@ class Tiering {
   }
 }
 
+/// @nodoc
 class IntelligentTieringAccessTier {
   static const archiveAccess = IntelligentTieringAccessTier._('ARCHIVE_ACCESS');
   static const deepArchiveAccess =
@@ -30819,6 +31137,8 @@ class IntelligentTieringAccessTier {
 
 /// A container for specifying S3 Intelligent-Tiering filters. The filters
 /// determine the subset of objects to which the rule applies.
+///
+/// @nodoc
 class IntelligentTieringAndOperator {
   /// An object key name prefix that identifies the subset of objects to which the
   /// configuration applies.
@@ -30867,6 +31187,8 @@ class IntelligentTieringAndOperator {
 }
 
 /// Specifies the default server-side-encryption configuration.
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// Container for information about a particular server-side encryption
   /// configuration rule.
@@ -30924,6 +31246,8 @@ class ServerSideEncryptionConfiguration {
 /// the key ID or key ARN. The key alias format of the KMS key isn't supported.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class ServerSideEncryptionRule {
   /// Specifies the default server-side encryption to apply to new objects in the
   /// bucket. If a PUT Object request doesn't specify any server-side encryption,
@@ -31063,6 +31387,8 @@ class ServerSideEncryptionRule {
 /// supported options for server-side encryption: SSE-S3 and SSE-KMS.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class ServerSideEncryptionByDefault {
   /// Server-side encryption algorithm to use for the default encryption.
   /// <note>
@@ -31205,6 +31531,8 @@ class ServerSideEncryptionByDefault {
 /// You must have the <code>s3:GetEncryptionConfiguration</code> permission to
 /// view a bucket's encryption type.
 /// </dd> </dl>
+///
+/// @nodoc
 class BlockedEncryptionTypes {
   /// The object encryption type that you want to block or unblock for an Amazon
   /// S3 general purpose bucket.
@@ -31255,6 +31583,7 @@ class BlockedEncryptionTypes {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const none = EncryptionType._('NONE');
   static const sseC = EncryptionType._('SSE-C');
@@ -31283,6 +31612,8 @@ class EncryptionType {
 /// bucket. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
 /// Cross-Origin Resource Sharing</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class CORSConfiguration {
   /// A set of origins and methods (cross-origin access that you want to allow).
   /// You can add up to 100 rules to the configuration.
@@ -31316,6 +31647,8 @@ class CORSConfiguration {
 }
 
 /// Specifies a cross-origin access rule for an Amazon S3 bucket.
+///
+/// @nodoc
 class CORSRule {
   /// An HTTP method that you allow the origin to execute. Valid values are
   /// <code>GET</code>, <code>PUT</code>, <code>HEAD</code>, <code>POST</code>,
@@ -31412,6 +31745,8 @@ class CORSRule {
 
 /// Specifies the configuration and any analyses for the analytics filter of an
 /// Amazon S3 bucket.
+///
+/// @nodoc
 class AnalyticsConfiguration {
   /// The ID that identifies the analytics configuration.
   final String id;
@@ -31473,6 +31808,8 @@ class AnalyticsConfiguration {
 /// The filter used to describe a set of objects for analyses. A filter must
 /// have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator).
 /// If no filter is provided, all objects will be considered in any analysis.
+///
+/// @nodoc
 class AnalyticsFilter {
   /// A conjunction (logical AND) of predicates, which is used in evaluating an
   /// analytics filter. The operator must have at least two predicates.
@@ -31531,6 +31868,8 @@ class AnalyticsFilter {
 /// Specifies data related to access patterns to be collected and made available
 /// to analyze the tradeoffs between different storage classes for an Amazon S3
 /// bucket.
+///
+/// @nodoc
 class StorageClassAnalysis {
   /// Specifies how data related to the storage class analysis for an Amazon S3
   /// bucket should be exported.
@@ -31572,6 +31911,8 @@ class StorageClassAnalysis {
 
 /// Container for data related to the storage class analysis for an Amazon S3
 /// bucket for export.
+///
+/// @nodoc
 class StorageClassAnalysisDataExport {
   /// The place to store the data for an analysis.
   final AnalyticsExportDestination destination;
@@ -31621,6 +31962,7 @@ class StorageClassAnalysisDataExport {
   }
 }
 
+/// @nodoc
 class StorageClassAnalysisSchemaVersion {
   static const v_1 = StorageClassAnalysisSchemaVersion._('V_1');
 
@@ -31646,6 +31988,8 @@ class StorageClassAnalysisSchemaVersion {
 }
 
 /// Where to publish the analytics results.
+///
+/// @nodoc
 class AnalyticsExportDestination {
   /// A destination signifying output to an S3 bucket.
   final AnalyticsS3BucketDestination s3BucketDestination;
@@ -31684,6 +32028,8 @@ class AnalyticsExportDestination {
 }
 
 /// Contains information about where to publish the analytics results.
+///
+/// @nodoc
 class AnalyticsS3BucketDestination {
   /// The Amazon Resource Name (ARN) of the bucket to which data is exported.
   final String bucket;
@@ -31756,6 +32102,7 @@ class AnalyticsS3BucketDestination {
   }
 }
 
+/// @nodoc
 class AnalyticsS3ExportFileFormat {
   static const csv = AnalyticsS3ExportFileFormat._('CSV');
 
@@ -31784,6 +32131,8 @@ class AnalyticsS3ExportFileFormat {
 /// metrics filter. The operator must have at least two predicates in any
 /// combination, and an object must match all of the predicates for the filter
 /// to apply.
+///
+/// @nodoc
 class AnalyticsAndOperator {
   /// The prefix to use when evaluating an AND predicate: The prefix that an
   /// object must have to be included in the metrics results.
@@ -31830,6 +32179,7 @@ class AnalyticsAndOperator {
   }
 }
 
+/// @nodoc
 class BucketCannedACL {
   static const private = BucketCannedACL._('private');
   static const publicRead = BucketCannedACL._('public-read');
@@ -31865,6 +32215,8 @@ class BucketCannedACL {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Amazon
 /// S3 Transfer Acceleration</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AccelerateConfiguration {
   /// Specifies the transfer acceleration status of the bucket.
   final BucketAccelerateStatus? status;
@@ -31896,6 +32248,7 @@ class AccelerateConfiguration {
   }
 }
 
+/// @nodoc
 class BucketAccelerateStatus {
   static const enabled = BucketAccelerateStatus._('Enabled');
   static const suspended = BucketAccelerateStatus._('Suspended');
@@ -31928,6 +32281,8 @@ class BucketAccelerateStatus {
 /// purposes. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html">Using
 /// tags with S3 general purpose buckets</a>.
+///
+/// @nodoc
 class AbacStatus {
   /// The ABAC status of the general purpose bucket.
   final BucketAbacStatus? status;
@@ -31966,6 +32321,7 @@ class AbacStatus {
   }
 }
 
+/// @nodoc
 class BucketAbacStatus {
   static const enabled = BucketAbacStatus._('Enabled');
   static const disabled = BucketAbacStatus._('Disabled');
@@ -31991,6 +32347,8 @@ class BucketAbacStatus {
 }
 
 /// Container element that identifies who initiated the multipart upload.
+///
+/// @nodoc
 class Initiator {
   ///
   /// <note>
@@ -32030,6 +32388,8 @@ class Initiator {
 }
 
 /// Container for elements related to a part.
+///
+/// @nodoc
 class Part {
   /// The Base64 encoded, 32-bit <code>CRC32</code> checksum of the part. This
   /// checksum is present if the object was uploaded with the <code>CRC32</code>
@@ -32202,6 +32562,8 @@ class Part {
 /// For example, the object <code>test_file(3).png</code> will appear as
 /// <code>test_file%283%29.png</code>.
 /// </note>
+///
+/// @nodoc
 class EncodingType {
   static const url = EncodingType._('url');
 
@@ -32229,6 +32591,8 @@ class EncodingType {
 /// that act like subdirectories in the directory specified by Prefix. For
 /// example, if the prefix is notes/ and the delimiter is a slash (/) as in
 /// notes/summer/july, the common prefix is notes/summer/.
+///
+/// @nodoc
 class CommonPrefix {
   /// Container for the specified common prefix.
   final String? prefix;
@@ -32251,6 +32615,8 @@ class CommonPrefix {
 }
 
 /// Information about the delete marker.
+///
+/// @nodoc
 class DeleteMarkerEntry {
   /// Specifies whether the object is (true) or is not (false) the latest version
   /// of an object.
@@ -32302,6 +32668,8 @@ class DeleteMarkerEntry {
 }
 
 /// The version of an object.
+///
+/// @nodoc
 class ObjectVersion {
   /// The algorithm that was used to create a checksum of the object.
   final List<ChecksumAlgorithm>? checksumAlgorithm;
@@ -32410,6 +32778,7 @@ class ObjectVersion {
   }
 }
 
+/// @nodoc
 class ObjectVersionStorageClass {
   static const standard = ObjectVersionStorageClass._('STANDARD');
 
@@ -32445,6 +32814,8 @@ class ObjectVersionStorageClass {
 /// class) in Availability Zones and <code>ONEZONE_IA</code> (the S3 One
 /// Zone-Infrequent Access storage class) in Dedicated Local Zones.
 /// </note>
+///
+/// @nodoc
 class RestoreStatus {
   /// Specifies whether the object is currently being restored. If the object
   /// restoration is in progress, the header returns the value <code>TRUE</code>.
@@ -32491,6 +32862,7 @@ class RestoreStatus {
   }
 }
 
+/// @nodoc
 class OptionalObjectAttributes {
   static const restoreStatus = OptionalObjectAttributes._('RestoreStatus');
 
@@ -32516,6 +32888,8 @@ class OptionalObjectAttributes {
 }
 
 /// An object consists of data and its descriptive metadata.
+///
+/// @nodoc
 class Object {
   /// The algorithm that was used to create a checksum of the object.
   final List<ChecksumAlgorithm>? checksumAlgorithm;
@@ -32651,6 +33025,7 @@ class Object {
   }
 }
 
+/// @nodoc
 class ObjectStorageClass {
   static const standard = ObjectStorageClass._('STANDARD');
   static const reducedRedundancy = ObjectStorageClass._('REDUCED_REDUNDANCY');
@@ -32702,6 +33077,8 @@ class ObjectStorageClass {
 }
 
 /// Container for the <code>MultipartUpload</code> for the Amazon S3 object.
+///
+/// @nodoc
 class MultipartUpload {
   /// The algorithm that was used to create a checksum of the object.
   final ChecksumAlgorithm? checksumAlgorithm;
@@ -32793,6 +33170,8 @@ class MultipartUpload {
 }
 
 /// In terms of implementation, a Bucket is a resource.
+///
+/// @nodoc
 class Bucket {
   /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify
   /// Amazon Web Services resources across all of Amazon Web Services.
@@ -32845,6 +33224,7 @@ class Bucket {
   }
 }
 
+/// @nodoc
 class ArchiveStatus {
   static const archiveAccess = ArchiveStatus._('ARCHIVE_ACCESS');
   static const deepArchiveAccess = ArchiveStatus._('DEEP_ARCHIVE_ACCESS');
@@ -32869,6 +33249,7 @@ class ArchiveStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ChecksumMode {
   static const enabled = ChecksumMode._('ENABLED');
 
@@ -32891,6 +33272,7 @@ class ChecksumMode {
   String toString() => value;
 }
 
+/// @nodoc
 class LocationType {
   static const availabilityZone = LocationType._('AvailabilityZone');
   static const localZone = LocationType._('LocalZone');
@@ -32915,6 +33297,8 @@ class LocationType {
 }
 
 /// Contains all the possible checksum or digest values for an object.
+///
+/// @nodoc
 class Checksum {
   /// The Base64 encoded, 32-bit <code>CRC32 checksum</code> of the object. This
   /// checksum is only present if the checksum was uploaded with the object. When
@@ -33071,6 +33455,8 @@ class Checksum {
 }
 
 /// A collection of parts associated with a multipart upload.
+///
+/// @nodoc
 class GetObjectAttributesParts {
   /// Indicates whether the returned list of parts is truncated. A value of
   /// <code>true</code> indicates that the list was truncated. A list can be
@@ -33151,6 +33537,8 @@ class GetObjectAttributesParts {
 }
 
 /// A container for elements related to an individual part.
+///
+/// @nodoc
 class ObjectPart {
   /// The Base64 encoded, 32-bit <code>CRC32</code> checksum of the part. This
   /// checksum is present if the multipart upload request was created with the
@@ -33293,6 +33681,7 @@ class ObjectPart {
   }
 }
 
+/// @nodoc
 class ObjectAttributes {
   static const eTag = ObjectAttributes._('ETag');
   static const checksum = ObjectAttributes._('Checksum');
@@ -33320,6 +33709,7 @@ class ObjectAttributes {
   String toString() => value;
 }
 
+/// @nodoc
 class MFADeleteStatus {
   static const enabled = MFADeleteStatus._('Enabled');
   static const disabled = MFADeleteStatus._('Disabled');
@@ -33345,6 +33735,8 @@ class MFADeleteStatus {
 }
 
 /// The container element for a bucket's policy status.
+///
+/// @nodoc
 class PolicyStatus {
   /// The policy status for this bucket. <code>TRUE</code> indicates that this
   /// bucket is public. <code>FALSE</code> indicates that the bucket is not
@@ -33369,6 +33761,8 @@ class PolicyStatus {
 }
 
 /// A container for specifying the configuration for Amazon EventBridge.
+///
+/// @nodoc
 class EventBridgeConfiguration {
   EventBridgeConfiguration();
   factory EventBridgeConfiguration.fromXml(
@@ -33395,6 +33789,8 @@ class EventBridgeConfiguration {
 }
 
 /// A container for specifying the configuration for Lambda notifications.
+///
+/// @nodoc
 class LambdaFunctionConfiguration {
   /// The Amazon S3 bucket event for which to invoke the Lambda function. For more
   /// information, see <a
@@ -33468,6 +33864,8 @@ class LambdaFunctionConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/notification-how-to-filtering.html">Configuring
 /// event notifications using object key name filtering</a> in the <i>Amazon S3
 /// User Guide</i>.
+///
+/// @nodoc
 class NotificationConfigurationFilter {
   final S3KeyFilter? key;
 
@@ -33504,6 +33902,8 @@ class NotificationConfigurationFilter {
 }
 
 /// A container for object key name prefix and suffix filtering rules.
+///
+/// @nodoc
 class S3KeyFilter {
   final List<FilterRule>? filterRules;
 
@@ -33550,6 +33950,8 @@ class S3KeyFilter {
 /// objects in a bucket with key names that have the same prefix. A suffix is
 /// similar to a prefix, but it is at the end of the object key name instead of
 /// at the beginning.
+///
+/// @nodoc
 class FilterRule {
   /// The object key name prefix or suffix identifying one or more objects to
   /// which the filtering rule applies. The maximum length is 1,024 characters.
@@ -33602,6 +34004,7 @@ class FilterRule {
   }
 }
 
+/// @nodoc
 class FilterRuleName {
   static const prefix = FilterRuleName._('prefix');
   static const suffix = FilterRuleName._('suffix');
@@ -33627,6 +34030,8 @@ class FilterRuleName {
 }
 
 /// The bucket event for which to send notifications.
+///
+/// @nodoc
 class Event {
   static const s3ReducedRedundancyLostObject =
       Event._('s3:ReducedRedundancyLostObject');
@@ -33714,6 +34119,8 @@ class Event {
 
 /// Specifies the configuration for publishing messages to an Amazon Simple
 /// Queue Service (Amazon SQS) queue when Amazon S3 detects specified events.
+///
+/// @nodoc
 class QueueConfiguration {
   /// A collection of bucket events for which to send notifications
   final List<Event> events;
@@ -33782,6 +34189,8 @@ class QueueConfiguration {
 /// A container for specifying the configuration for publication of messages to
 /// an Amazon Simple Notification Service (Amazon SNS) topic when Amazon S3
 /// detects specified events.
+///
+/// @nodoc
 class TopicConfiguration {
   /// The Amazon S3 bucket event about which to send notifications. For more
   /// information, see <a
@@ -33858,6 +34267,8 @@ class TopicConfiguration {
 /// so that you can expire journal table records and create a live inventory
 /// table.
 /// </note>
+///
+/// @nodoc
 class GetBucketMetadataTableConfigurationResult {
   /// The V1 S3 Metadata configuration for a general purpose bucket.
   final MetadataTableConfigurationResult metadataTableConfigurationResult;
@@ -33927,6 +34338,8 @@ class GetBucketMetadataTableConfigurationResult {
 /// so that you can expire journal table records and create a live inventory
 /// table.
 /// </note>
+///
+/// @nodoc
 class MetadataTableConfigurationResult {
   /// The destination information for the metadata table configuration. The
   /// destination table bucket must be in the same Region and Amazon Web Services
@@ -33964,6 +34377,8 @@ class MetadataTableConfigurationResult {
 /// so that you can expire journal table records and create a live inventory
 /// table.
 /// </note>
+///
+/// @nodoc
 class ErrorDetails {
   /// If the V1 <code>CreateBucketMetadataTableConfiguration</code> request
   /// succeeds, but S3 Metadata was unable to create the table, this structure
@@ -34220,6 +34635,8 @@ class ErrorDetails {
 /// so that you can expire journal table records and create a live inventory
 /// table.
 /// </note>
+///
+/// @nodoc
 class S3TablesDestinationResult {
   /// The Amazon Resource Name (ARN) for the metadata table in the metadata table
   /// configuration. The specified metadata table name must be unique within the
@@ -34271,6 +34688,8 @@ class S3TablesDestinationResult {
 }
 
 /// The S3 Metadata configuration for a general purpose bucket.
+///
+/// @nodoc
 class GetBucketMetadataConfigurationResult {
   /// The metadata configuration for a general purpose bucket.
   final MetadataConfigurationResult metadataConfigurationResult;
@@ -34294,6 +34713,8 @@ class GetBucketMetadataConfigurationResult {
 }
 
 /// The S3 Metadata configuration for a general purpose bucket.
+///
+/// @nodoc
 class MetadataConfigurationResult {
   /// The destination settings for a metadata configuration.
   final DestinationResult destinationResult;
@@ -34339,6 +34760,8 @@ class MetadataConfigurationResult {
 }
 
 /// The destination information for the S3 Metadata configuration.
+///
+/// @nodoc
 class DestinationResult {
   /// The Amazon Resource Name (ARN) of the table bucket where the metadata
   /// configuration is stored.
@@ -34384,6 +34807,8 @@ class DestinationResult {
 }
 
 /// The journal table configuration for the S3 Metadata configuration.
+///
+/// @nodoc
 class JournalTableConfigurationResult {
   /// The journal table record expiration settings for the journal table.
   final RecordExpiration recordExpiration;
@@ -34448,6 +34873,8 @@ class JournalTableConfigurationResult {
 }
 
 /// The inventory table configuration for an S3 Metadata configuration.
+///
+/// @nodoc
 class InventoryTableConfigurationResult {
   /// The configuration state of the inventory table, indicating whether the
   /// inventory table is enabled or disabled.
@@ -34525,6 +34952,7 @@ class InventoryTableConfigurationResult {
   }
 }
 
+/// @nodoc
 class S3TablesBucketType {
   static const aws = S3TablesBucketType._('aws');
   static const customer = S3TablesBucketType._('customer');
@@ -34550,6 +34978,7 @@ class S3TablesBucketType {
   String toString() => value;
 }
 
+/// @nodoc
 class BucketLocationConstraint {
   static const afSouth_1 = BucketLocationConstraint._('af-south-1');
   static const apEast_1 = BucketLocationConstraint._('ap-east-1');
@@ -34651,6 +35080,8 @@ class BucketLocationConstraint {
 }
 
 /// Container for all error elements.
+///
+/// @nodoc
 class Error {
   /// The error code is a string that uniquely identifies an error condition. It
   /// is meant to be read and understood by programs that detect and handle errors
@@ -36102,6 +36533,8 @@ class Error {
 }
 
 /// Information about the deleted object.
+///
+/// @nodoc
 class DeletedObject {
   /// Indicates whether the specified object version that was permanently deleted
   /// was (true) or was not (false) a delete marker before deletion. In a simple
@@ -36164,6 +36597,8 @@ class DeletedObject {
 }
 
 /// Container for the objects to delete.
+///
+/// @nodoc
 class Delete {
   /// The object to delete.
   /// <note>
@@ -36212,6 +36647,8 @@ class Delete {
 }
 
 /// Object Identifier is unique value to identify objects.
+///
+/// @nodoc
 class ObjectIdentifier {
   /// Key name of the object.
   /// <important>
@@ -36307,6 +36744,8 @@ class ObjectIdentifier {
 /// the authentication and authorization of Zonal endpoint API operations on
 /// directory buckets.
 /// </note>
+///
+/// @nodoc
 class SessionCredentials {
   /// A unique identifier that's associated with a secret access key. The access
   /// key ID and the secret access key are used together to sign programmatic
@@ -36358,6 +36797,7 @@ class SessionCredentials {
   }
 }
 
+/// @nodoc
 class SessionMode {
   static const readOnly = SessionMode._('ReadOnly');
   static const readWrite = SessionMode._('ReadWrite');
@@ -36389,6 +36829,8 @@ class SessionMode {
 /// so that you can expire journal table records and create a live inventory
 /// table.
 /// </note>
+///
+/// @nodoc
 class MetadataTableConfiguration {
   /// The destination information for the metadata table configuration. The
   /// destination table bucket must be in the same Region and Amazon Web Services
@@ -36436,6 +36878,8 @@ class MetadataTableConfiguration {
 /// so that you can expire journal table records and create a live inventory
 /// table.
 /// </note>
+///
+/// @nodoc
 class S3TablesDestination {
   /// The Amazon Resource Name (ARN) for the table bucket that's specified as the
   /// destination in the metadata table configuration. The destination table
@@ -36481,6 +36925,8 @@ class S3TablesDestination {
 }
 
 /// The S3 Metadata configuration for a general purpose bucket.
+///
+/// @nodoc
 class MetadataConfiguration {
   /// The journal table configuration for a metadata configuration.
   final JournalTableConfiguration journalTableConfiguration;
@@ -36523,6 +36969,8 @@ class MetadataConfiguration {
 }
 
 /// The journal table configuration for an S3 Metadata configuration.
+///
+/// @nodoc
 class JournalTableConfiguration {
   /// The journal table record expiration settings for the journal table.
   final RecordExpiration recordExpiration;
@@ -36565,6 +37013,8 @@ class JournalTableConfiguration {
 }
 
 /// The inventory table configuration for an S3 Metadata configuration.
+///
+/// @nodoc
 class InventoryTableConfiguration {
   /// The configuration state of the inventory table, indicating whether the
   /// inventory table is enabled or disabled.
@@ -36608,6 +37058,8 @@ class InventoryTableConfiguration {
 }
 
 /// The configuration information for the bucket.
+///
+/// @nodoc
 class CreateBucketConfiguration {
   /// Specifies the information about the bucket that will be created.
   /// <note>
@@ -36708,6 +37160,7 @@ class CreateBucketConfiguration {
   }
 }
 
+/// @nodoc
 class BucketNamespace {
   static const accountRegional = BucketNamespace._('account-regional');
   static const global = BucketNamespace._('global');
@@ -36741,6 +37194,8 @@ class BucketNamespace {
 /// <note>
 /// This functionality is only supported by directory buckets.
 /// </note>
+///
+/// @nodoc
 class LocationInfo {
   /// The name of the location where the bucket will be created.
   ///
@@ -36791,6 +37246,8 @@ class LocationInfo {
 /// <note>
 /// This functionality is only supported by directory buckets.
 /// </note>
+///
+/// @nodoc
 class BucketInfo {
   /// The number of Zone (Availability Zone or Local Zone) that's used for
   /// redundancy for the bucket.
@@ -36832,6 +37289,7 @@ class BucketInfo {
   }
 }
 
+/// @nodoc
 class DataRedundancy {
   static const singleAvailabilityZone =
       DataRedundancy._('SingleAvailabilityZone');
@@ -36857,6 +37315,7 @@ class DataRedundancy {
   String toString() => value;
 }
 
+/// @nodoc
 class BucketType {
   static const directory = BucketType._('Directory');
 
@@ -36880,6 +37339,8 @@ class BucketType {
 }
 
 /// Container for all response elements.
+///
+/// @nodoc
 class CopyObjectResult {
   /// The Base64 encoded, 32-bit <code>CRC32</code> checksum of the object. This
   /// checksum is only present if the object was uploaded with the object. For
@@ -37034,6 +37495,7 @@ class CopyObjectResult {
   }
 }
 
+/// @nodoc
 class MetadataDirective {
   static const copy = MetadataDirective._('COPY');
   static const replace = MetadataDirective._('REPLACE');
@@ -37058,6 +37520,7 @@ class MetadataDirective {
   String toString() => value;
 }
 
+/// @nodoc
 class TaggingDirective {
   static const copy = TaggingDirective._('COPY');
   static const replace = TaggingDirective._('REPLACE');
@@ -37083,6 +37546,8 @@ class TaggingDirective {
 }
 
 /// The container for the completed multipart upload details.
+///
+/// @nodoc
 class CompletedMultipartUpload {
   /// Array of CompletedPart data types.
   ///
@@ -37118,6 +37583,8 @@ class CompletedMultipartUpload {
 }
 
 /// Details of the parts that were uploaded.
+///
+/// @nodoc
 class CompletedPart {
   /// The Base64 encoded, 32-bit <code>CRC32</code> checksum of the part. This
   /// checksum is present if the multipart upload request was created with the
@@ -37305,67 +37772,80 @@ class CompletedPart {
   }
 }
 
+/// @nodoc
 class AccessDenied extends _s.GenericAwsException {
   AccessDenied({String? type, String? message})
       : super(type: type, code: 'AccessDenied', message: message);
 }
 
+/// @nodoc
 class BucketAlreadyExists extends _s.GenericAwsException {
   BucketAlreadyExists({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyExists', message: message);
 }
 
+/// @nodoc
 class BucketAlreadyOwnedByYou extends _s.GenericAwsException {
   BucketAlreadyOwnedByYou({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyOwnedByYou', message: message);
 }
 
+/// @nodoc
 class EncryptionTypeMismatch extends _s.GenericAwsException {
   EncryptionTypeMismatch({String? type, String? message})
       : super(type: type, code: 'EncryptionTypeMismatch', message: message);
 }
 
+/// @nodoc
 class IdempotencyParameterMismatch extends _s.GenericAwsException {
   IdempotencyParameterMismatch({String? type, String? message})
       : super(
             type: type, code: 'IdempotencyParameterMismatch', message: message);
 }
 
+/// @nodoc
 class InvalidObjectState extends _s.GenericAwsException {
   InvalidObjectState({String? type, String? message})
       : super(type: type, code: 'InvalidObjectState', message: message);
 }
 
+/// @nodoc
 class InvalidRequest extends _s.GenericAwsException {
   InvalidRequest({String? type, String? message})
       : super(type: type, code: 'InvalidRequest', message: message);
 }
 
+/// @nodoc
 class InvalidWriteOffset extends _s.GenericAwsException {
   InvalidWriteOffset({String? type, String? message})
       : super(type: type, code: 'InvalidWriteOffset', message: message);
 }
 
+/// @nodoc
 class NoSuchBucket extends _s.GenericAwsException {
   NoSuchBucket({String? type, String? message})
       : super(type: type, code: 'NoSuchBucket', message: message);
 }
 
+/// @nodoc
 class NoSuchKey extends _s.GenericAwsException {
   NoSuchKey({String? type, String? message})
       : super(type: type, code: 'NoSuchKey', message: message);
 }
 
+/// @nodoc
 class NoSuchUpload extends _s.GenericAwsException {
   NoSuchUpload({String? type, String? message})
       : super(type: type, code: 'NoSuchUpload', message: message);
 }
 
+/// @nodoc
 class NotFound extends _s.GenericAwsException {
   NotFound({String? type, String? message})
       : super(type: type, code: 'NotFound', message: message);
 }
 
+/// @nodoc
 class ObjectAlreadyInActiveTierError extends _s.GenericAwsException {
   ObjectAlreadyInActiveTierError({String? type, String? message})
       : super(
@@ -37374,11 +37854,13 @@ class ObjectAlreadyInActiveTierError extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ObjectNotInActiveTierError extends _s.GenericAwsException {
   ObjectNotInActiveTierError({String? type, String? message})
       : super(type: type, code: 'ObjectNotInActiveTierError', message: message);
 }
 
+/// @nodoc
 class TooManyParts extends _s.GenericAwsException {
   TooManyParts({String? type, String? message})
       : super(type: type, code: 'TooManyParts', message: message);

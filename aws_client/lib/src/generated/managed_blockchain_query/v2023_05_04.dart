@@ -557,6 +557,7 @@ class ManagedBlockchainQuery {
   }
 }
 
+/// @nodoc
 class BatchGetTokenBalanceOutput {
   /// An array of <code>BatchGetTokenBalanceErrorItem</code> objects returned from
   /// the request.
@@ -596,6 +597,7 @@ class BatchGetTokenBalanceOutput {
   }
 }
 
+/// @nodoc
 class GetAssetContractOutput {
   /// Contains the blockchain address and network information about the contract.
   final ContractIdentifier contractIdentifier;
@@ -642,6 +644,7 @@ class GetAssetContractOutput {
   }
 }
 
+/// @nodoc
 class GetTokenBalanceOutput {
   final BlockchainInstant atBlockchainInstant;
 
@@ -696,6 +699,7 @@ class GetTokenBalanceOutput {
   }
 }
 
+/// @nodoc
 class GetTransactionOutput {
   /// Contains the details of the transaction.
   final Transaction transaction;
@@ -720,6 +724,7 @@ class GetTransactionOutput {
   }
 }
 
+/// @nodoc
 class ListAssetContractsOutput {
   /// An array of contract objects that contain the properties for each contract.
   final List<AssetContract> contracts;
@@ -752,6 +757,7 @@ class ListAssetContractsOutput {
   }
 }
 
+/// @nodoc
 class ListFilteredTransactionEventsOutput {
   /// The transaction events returned by the request.
   final List<TransactionEvent> events;
@@ -785,6 +791,7 @@ class ListFilteredTransactionEventsOutput {
   }
 }
 
+/// @nodoc
 class ListTokenBalancesOutput {
   /// An array of <code>TokenBalance</code> objects. Each object contains details
   /// about the token balance.
@@ -818,6 +825,7 @@ class ListTokenBalancesOutput {
   }
 }
 
+/// @nodoc
 class ListTransactionEventsOutput {
   /// An array of <code>TransactionEvent</code> objects. Each object contains
   /// details about the transaction events.
@@ -851,6 +859,7 @@ class ListTransactionEventsOutput {
   }
 }
 
+/// @nodoc
 class ListTransactionsOutput {
   /// The array of transactions returned by the request.
   final List<TransactionOutputItem> transactions;
@@ -884,6 +893,8 @@ class ListTransactionsOutput {
 }
 
 /// The container of the transaction output.
+///
+/// @nodoc
 class TransactionOutputItem {
   /// The blockchain network where the transaction occurred.
   final QueryNetwork network;
@@ -938,6 +949,7 @@ class TransactionOutputItem {
   }
 }
 
+/// @nodoc
 class QueryNetwork {
   static const ethereumMainnet = QueryNetwork._('ETHEREUM_MAINNET');
   static const ethereumSepoliaTestnet =
@@ -969,6 +981,7 @@ class QueryNetwork {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfirmationStatus {
   static const $final = ConfirmationStatus._('FINAL');
   static const nonfinal = ConfirmationStatus._('NONFINAL');
@@ -995,6 +1008,8 @@ class ConfirmationStatus {
 }
 
 /// The container for time.
+///
+/// @nodoc
 class BlockchainInstant {
   /// The container of the <code>Timestamp</code> of the blockchain instant.
   /// <note>
@@ -1022,6 +1037,8 @@ class BlockchainInstant {
 
 /// The container for determining how the list transaction result will be
 /// sorted.
+///
+/// @nodoc
 class ListTransactionsSort {
   /// Defaults to the value <code>TRANSACTION_TIMESTAMP</code>.
   final ListTransactionsSortBy? sortBy;
@@ -1051,6 +1068,8 @@ class ListTransactionsSort {
 /// the <a
 /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">
 /// <i>finality</i> </a> of the results.
+///
+/// @nodoc
 class ConfirmationStatusFilter {
   /// The container to determine whether to list results that have only reached <a
   /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">
@@ -1070,6 +1089,7 @@ class ConfirmationStatusFilter {
   }
 }
 
+/// @nodoc
 class ListTransactionsSortBy {
   static const transactionTimestamp =
       ListTransactionsSortBy._('TRANSACTION_TIMESTAMP');
@@ -1095,6 +1115,7 @@ class ListTransactionsSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -1119,6 +1140,8 @@ class SortOrder {
 }
 
 /// The container for the properties of a transaction event.
+///
+/// @nodoc
 class TransactionEvent {
   /// The type of transaction event.
   final QueryTransactionEventType eventType;
@@ -1269,6 +1292,7 @@ class TransactionEvent {
   }
 }
 
+/// @nodoc
 class QueryTransactionEventType {
   static const erc20Transfer = QueryTransactionEventType._('ERC20_TRANSFER');
   static const erc20Mint = QueryTransactionEventType._('ERC20_MINT');
@@ -1319,6 +1343,8 @@ class QueryTransactionEventType {
 }
 
 /// The balance of the token.
+///
+/// @nodoc
 class TokenBalance {
   /// The time for when the TokenBalance is requested or the current time if a
   /// time is not provided in the request.
@@ -1387,6 +1413,8 @@ class TokenBalance {
 }
 
 /// The container for the owner identifier.
+///
+/// @nodoc
 class OwnerIdentifier {
   /// The contract or wallet address for the owner.
   final String address;
@@ -1415,6 +1443,8 @@ class OwnerIdentifier {
 /// Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155
 /// token standards are supported.
 /// </note>
+///
+/// @nodoc
 class TokenIdentifier {
   /// The blockchain network of the token.
   final QueryNetwork network;
@@ -1458,6 +1488,8 @@ class TokenIdentifier {
 }
 
 /// The container for the owner information to filter by.
+///
+/// @nodoc
 class OwnerFilter {
   /// The contract or wallet address.
   final String address;
@@ -1481,6 +1513,8 @@ class OwnerFilter {
 /// You must always specify the network property of this container when using
 /// this operation.
 /// </note>
+///
+/// @nodoc
 class TokenFilter {
   /// The blockchain network of the token.
   final QueryNetwork network;
@@ -1510,6 +1544,8 @@ class TokenFilter {
 }
 
 /// This is the container for the unique public address on the blockchain.
+///
+/// @nodoc
 class AddressIdentifierFilter {
   /// The container for the recipient address of the transaction.
   final List<String> transactionEventToAddress;
@@ -1527,6 +1563,8 @@ class AddressIdentifierFilter {
 }
 
 /// This container is used to specify a time frame.
+///
+/// @nodoc
 class TimeFilter {
   final BlockchainInstant? from;
   final BlockchainInstant? to;
@@ -1548,6 +1586,8 @@ class TimeFilter {
 
 /// This container specifies filtering attributes related to
 /// <code>BITCOIN_VOUT</code> event types
+///
+/// @nodoc
 class VoutFilter {
   /// Specifies if the transaction output is spent or unspent.
   final bool voutSpent;
@@ -1568,6 +1608,8 @@ class VoutFilter {
 /// <note>
 /// This operation is only supported on the Bitcoin blockchain networks.
 /// </note>
+///
+/// @nodoc
 class ListFilteredTransactionEventsSort {
   /// Container on how the results will be sorted by?
   final ListFilteredTransactionEventsSortBy? sortBy;
@@ -1593,6 +1635,7 @@ class ListFilteredTransactionEventsSort {
   }
 }
 
+/// @nodoc
 class ListFilteredTransactionEventsSortBy {
   static const blockchainInstant =
       ListFilteredTransactionEventsSortBy._('blockchainInstant');
@@ -1619,6 +1662,8 @@ class ListFilteredTransactionEventsSortBy {
 }
 
 /// This container contains information about an contract.
+///
+/// @nodoc
 class AssetContract {
   /// The container for the contract identifier containing its blockchain network
   /// and address.
@@ -1661,6 +1706,8 @@ class AssetContract {
 
 /// Container for the blockchain address and network information about a
 /// contract.
+///
+/// @nodoc
 class ContractIdentifier {
   /// Container for the blockchain address about a contract.
   final String contractAddress;
@@ -1690,6 +1737,7 @@ class ContractIdentifier {
   }
 }
 
+/// @nodoc
 class QueryTokenStandard {
   static const erc20 = QueryTokenStandard._('ERC20');
   static const erc721 = QueryTokenStandard._('ERC721');
@@ -1717,6 +1765,8 @@ class QueryTokenStandard {
 }
 
 /// The contract or wallet address by which to filter the request.
+///
+/// @nodoc
 class ContractFilter {
   /// The network address of the deployer.
   final String deployerAddress;
@@ -1758,6 +1808,8 @@ class ContractFilter {
 /// must be credited. This state-changing action occurs within a transaction.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Transaction {
   /// The blockchain network where the transaction occurred.
   final QueryNetwork network;
@@ -1922,6 +1974,7 @@ class Transaction {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const failed = ExecutionStatus._('FAILED');
   static const succeeded = ExecutionStatus._('SUCCEEDED');
@@ -1947,6 +2000,8 @@ class ExecutionStatus {
 }
 
 /// The metadata of the contract.
+///
+/// @nodoc
 class ContractMetadata {
   /// The decimals used by the token contract.
   final int? decimals;
@@ -1984,6 +2039,8 @@ class ContractMetadata {
 }
 
 /// Error generated from a failed <code>BatchGetTokenBalance</code> request.
+///
+/// @nodoc
 class BatchGetTokenBalanceErrorItem {
   /// The error code associated with the error.
   final String errorCode;
@@ -2045,6 +2102,7 @@ class BatchGetTokenBalanceErrorItem {
   }
 }
 
+/// @nodoc
 class ErrorType {
   static const validationException = ErrorType._('VALIDATION_EXCEPTION');
   static const resourceNotFoundException =
@@ -2070,6 +2128,8 @@ class ErrorType {
 }
 
 /// The container for the properties of a token balance output.
+///
+/// @nodoc
 class BatchGetTokenBalanceOutputItem {
   final BlockchainInstant atBlockchainInstant;
 
@@ -2125,6 +2185,8 @@ class BatchGetTokenBalanceOutputItem {
 }
 
 /// The container for the input for getting a token balance.
+///
+/// @nodoc
 class BatchGetTokenBalanceInputItem {
   final OwnerIdentifier ownerIdentifier;
   final TokenIdentifier tokenIdentifier;
@@ -2149,21 +2211,25 @@ class BatchGetTokenBalanceInputItem {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2172,11 +2238,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1156,6 +1156,7 @@ class Pcs {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// 1 or more tags added to the resource. Each tag consists of a tag key and tag
   /// value. The tag value is optional and can be an empty string.
@@ -1180,6 +1181,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1192,6 +1194,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1204,6 +1207,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The cluster resource.
   final Cluster? cluster;
@@ -1228,6 +1232,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterResponse {
   final Cluster? cluster;
 
@@ -1251,6 +1256,7 @@ class UpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   DeleteClusterResponse();
 
@@ -1263,6 +1269,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class GetClusterResponse {
   /// The cluster resource.
   final Cluster? cluster;
@@ -1287,6 +1294,7 @@ class GetClusterResponse {
   }
 }
 
+/// @nodoc
 class RegisterComputeNodeGroupInstanceResponse {
   /// The list of endpoints available for interaction with the scheduler.
   final List<Endpoint> endpoints;
@@ -1328,6 +1336,7 @@ class RegisterComputeNodeGroupInstanceResponse {
   }
 }
 
+/// @nodoc
 class ListClustersResponse {
   /// The list of clusters.
   final List<ClusterSummary> clusters;
@@ -1365,6 +1374,7 @@ class ListClustersResponse {
   }
 }
 
+/// @nodoc
 class CreateComputeNodeGroupResponse {
   final ComputeNodeGroup? computeNodeGroup;
 
@@ -1389,6 +1399,7 @@ class CreateComputeNodeGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateComputeNodeGroupResponse {
   final ComputeNodeGroup? computeNodeGroup;
 
@@ -1413,6 +1424,7 @@ class UpdateComputeNodeGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteComputeNodeGroupResponse {
   DeleteComputeNodeGroupResponse();
 
@@ -1425,6 +1437,7 @@ class DeleteComputeNodeGroupResponse {
   }
 }
 
+/// @nodoc
 class GetComputeNodeGroupResponse {
   final ComputeNodeGroup? computeNodeGroup;
 
@@ -1449,6 +1462,7 @@ class GetComputeNodeGroupResponse {
   }
 }
 
+/// @nodoc
 class ListComputeNodeGroupsResponse {
   /// The list of compute node groups for the cluster.
   final List<ComputeNodeGroupSummary> computeNodeGroups;
@@ -1487,6 +1501,7 @@ class ListComputeNodeGroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateQueueResponse {
   final Queue? queue;
 
@@ -1510,6 +1525,7 @@ class CreateQueueResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueueResponse {
   final Queue? queue;
 
@@ -1533,6 +1549,7 @@ class UpdateQueueResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueueResponse {
   DeleteQueueResponse();
 
@@ -1545,6 +1562,7 @@ class DeleteQueueResponse {
   }
 }
 
+/// @nodoc
 class GetQueueResponse {
   final Queue? queue;
 
@@ -1568,6 +1586,7 @@ class GetQueueResponse {
   }
 }
 
+/// @nodoc
 class ListQueuesResponse {
   /// The list of queues associated with the cluster.
   final List<QueueSummary> queues;
@@ -1606,6 +1625,8 @@ class ListQueuesResponse {
 }
 
 /// The object returned by the <code>ListQueues</code> API action.
+///
+/// @nodoc
 class QueueSummary {
   /// The unique Amazon Resource Name (ARN) of the queue.
   final String arn;
@@ -1683,6 +1704,7 @@ class QueueSummary {
   }
 }
 
+/// @nodoc
 class QueueStatus {
   static const creating = QueueStatus._('CREATING');
   static const active = QueueStatus._('ACTIVE');
@@ -1726,6 +1748,8 @@ class QueueStatus {
 }
 
 /// A queue resource.
+///
+/// @nodoc
 class Queue {
   /// The unique Amazon Resource Name (ARN) of the queue.
   final String arn;
@@ -1838,6 +1862,8 @@ class Queue {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class QueueSlurmConfiguration {
   /// Additional Slurm-specific configuration that directly maps to Slurm
   /// settings.
@@ -1866,6 +1892,8 @@ class QueueSlurmConfiguration {
 }
 
 /// An error that occurred during resource creation.
+///
+/// @nodoc
 class ErrorInfo {
   /// The short-form error code.
   final String? code;
@@ -1901,6 +1929,8 @@ class ErrorInfo {
 /// href="https://docs.aws.amazon.com/pcs/latest/userguide/slurm-custom-settings.html">Configuring
 /// custom Slurm settings in PCS</a> in the <i>PCS User Guide</i>.
 /// </important>
+///
+/// @nodoc
 class SlurmCustomSetting {
   /// PCS supports custom Slurm settings for clusters, compute node groups, and
   /// queues. For more information, see <a
@@ -1934,6 +1964,8 @@ class SlurmCustomSetting {
 }
 
 /// The compute node group configuration for a queue.
+///
+/// @nodoc
 class ComputeNodeGroupConfiguration {
   /// The compute node group ID for the compute node group configuration.
   final String? computeNodeGroupId;
@@ -1957,6 +1989,8 @@ class ComputeNodeGroupConfiguration {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class UpdateQueueSlurmConfigurationRequest {
   /// Additional Slurm-specific configuration that directly maps to Slurm
   /// settings.
@@ -1976,6 +2010,8 @@ class UpdateQueueSlurmConfigurationRequest {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class QueueSlurmConfigurationRequest {
   /// Additional Slurm-specific configuration that directly maps to Slurm
   /// settings.
@@ -1995,6 +2031,8 @@ class QueueSlurmConfigurationRequest {
 }
 
 /// The object returned by the <code>ListComputeNodeGroups</code> API action.
+///
+/// @nodoc
 class ComputeNodeGroupSummary {
   /// The unique Amazon Resource Name (ARN) of the compute node group.
   final String arn;
@@ -2074,6 +2112,7 @@ class ComputeNodeGroupSummary {
   }
 }
 
+/// @nodoc
 class ComputeNodeGroupStatus {
   static const creating = ComputeNodeGroupStatus._('CREATING');
   static const active = ComputeNodeGroupStatus._('ACTIVE');
@@ -2121,6 +2160,8 @@ class ComputeNodeGroupStatus {
 }
 
 /// A compute node group associated with a cluster.
+///
+/// @nodoc
 class ComputeNodeGroup {
   /// The unique Amazon Resource Name (ARN) of the compute node group.
   final String arn;
@@ -2309,6 +2350,7 @@ class ComputeNodeGroup {
   }
 }
 
+/// @nodoc
 class PurchaseOption {
   static const ondemand = PurchaseOption._('ONDEMAND');
   static const spot = PurchaseOption._('SPOT');
@@ -2342,6 +2384,8 @@ class PurchaseOption {
 }
 
 /// An Amazon EC2 launch template PCS uses to launch compute nodes.
+///
+/// @nodoc
 class CustomLaunchTemplate {
   /// The ID of the EC2 launch template to use to provision instances.
   ///
@@ -2374,6 +2418,8 @@ class CustomLaunchTemplate {
 }
 
 /// Specifies the boundaries of the compute node group auto scaling.
+///
+/// @nodoc
 class ScalingConfiguration {
   /// The upper bound of the number of instances allowed in the compute fleet.
   final int maxInstanceCount;
@@ -2406,6 +2452,8 @@ class ScalingConfiguration {
 /// Additional configuration when you specify <code>SPOT</code> as the
 /// <code>purchaseOption</code> for the <code>CreateComputeNodeGroup</code> API
 /// action.
+///
+/// @nodoc
 class SpotOptions {
   /// The Amazon EC2 allocation strategy PCS uses to provision EC2 instances. PCS
   /// supports <b>lowest price</b>, <b>capacity optimized</b>, and <b>price
@@ -2438,6 +2486,8 @@ class SpotOptions {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class ComputeNodeGroupSlurmConfiguration {
   /// The time (in seconds) before an idle node is scaled down. If not specified,
   /// the cluster-level setting applies. This overrides the cluster-level
@@ -2478,6 +2528,7 @@ class ComputeNodeGroupSlurmConfiguration {
   }
 }
 
+/// @nodoc
 class SpotAllocationStrategy {
   static const lowestPrice = SpotAllocationStrategy._('lowest-price');
   static const capacityOptimized =
@@ -2511,6 +2562,8 @@ class SpotAllocationStrategy {
 }
 
 /// An EC2 instance configuration PCS uses to launch compute nodes.
+///
+/// @nodoc
 class InstanceConfig {
   /// The EC2 instance type that PCS can provision in the compute node group.
   ///
@@ -2536,6 +2589,8 @@ class InstanceConfig {
 }
 
 /// Specifies the boundaries of the compute node group auto scaling.
+///
+/// @nodoc
 class ScalingConfigurationRequest {
   /// The upper bound of the number of instances allowed in the compute fleet.
   final int maxInstanceCount;
@@ -2559,6 +2614,8 @@ class ScalingConfigurationRequest {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class UpdateComputeNodeGroupSlurmConfigurationRequest {
   /// The time (in seconds) before an idle node is scaled down. If not specified,
   /// the cluster-level setting applies. This overrides the cluster-level
@@ -2589,6 +2646,8 @@ class UpdateComputeNodeGroupSlurmConfigurationRequest {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class ComputeNodeGroupSlurmConfigurationRequest {
   /// The time (in seconds) before an idle node is scaled down. If not specified,
   /// the cluster-level setting applies. This overrides the cluster-level
@@ -2619,6 +2678,8 @@ class ComputeNodeGroupSlurmConfigurationRequest {
 }
 
 /// The object returned by the <code>ListClusters</code> API action.
+///
+/// @nodoc
 class ClusterSummary {
   /// The unique Amazon Resource Name (ARN) of the cluster.
   final String arn;
@@ -2689,6 +2750,7 @@ class ClusterSummary {
   }
 }
 
+/// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('CREATING');
   static const active = ClusterStatus._('ACTIVE');
@@ -2733,6 +2795,8 @@ class ClusterStatus {
 }
 
 /// An endpoint available for interaction with the scheduler.
+///
+/// @nodoc
 class Endpoint {
   /// The endpoint's connection port number.
   ///
@@ -2793,6 +2857,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class EndpointType {
   static const slurmctld = EndpointType._('SLURMCTLD');
   static const slurmdbd = EndpointType._('SLURMDBD');
@@ -2818,6 +2883,8 @@ class EndpointType {
 }
 
 /// The cluster resource and configuration.
+///
+/// @nodoc
 class Cluster {
   /// The unique Amazon Resource Name (ARN) of the cluster.
   final String arn;
@@ -2953,6 +3020,8 @@ class Cluster {
 
 /// The cluster management and job scheduling software associated with the
 /// cluster.
+///
+/// @nodoc
 class Scheduler {
   /// The software PCS uses to manage cluster scaling and job scheduling.
   final SchedulerType type;
@@ -2987,6 +3056,7 @@ class Scheduler {
   }
 }
 
+/// @nodoc
 class Size {
   static const small = Size._('SMALL');
   static const medium = Size._('MEDIUM');
@@ -3012,6 +3082,8 @@ class Size {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class ClusterSlurmConfiguration {
   /// The accounting configuration includes configurable settings for Slurm
   /// accounting.
@@ -3112,6 +3184,8 @@ class ClusterSlurmConfiguration {
 }
 
 /// The networking configuration for the cluster's control plane.
+///
+/// @nodoc
 class Networking {
   /// The IP address version the cluster uses. The default is <code>IPV4</code>.
   final NetworkType? networkType;
@@ -3208,6 +3282,7 @@ class Networking {
   }
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const ipv6 = NetworkType._('IPV6');
@@ -3233,6 +3308,8 @@ class NetworkType {
 
 /// The shared Slurm key for authentication, also known as the <b>cluster
 /// secret</b>.
+///
+/// @nodoc
 class SlurmAuthKey {
   /// The Amazon Resource Name (ARN) of the shared Slurm key.
   final String secretArn;
@@ -3263,6 +3340,8 @@ class SlurmAuthKey {
 }
 
 /// The JWT authentication configuration for Slurm REST API access.
+///
+/// @nodoc
 class JwtAuth {
   /// The JWT key for Slurm REST API authentication.
   final JwtKey? jwtKey;
@@ -3289,6 +3368,8 @@ class JwtAuth {
 
 /// The accounting configuration includes configurable settings for Slurm
 /// accounting. It's a property of the <b>ClusterSlurmConfiguration</b> object.
+///
+/// @nodoc
 class Accounting {
   /// The default value for <code>mode</code> is <code>NONE</code>. A value of
   /// <code>STANDARD</code> means Slurm accounting is enabled.
@@ -3335,6 +3416,8 @@ class Accounting {
 /// The Slurm REST API configuration includes settings for enabling and
 /// configuring the Slurm REST API. It's a property of the
 /// <b>ClusterSlurmConfiguration</b> object.
+///
+/// @nodoc
 class SlurmRest {
   /// The default value for <code>mode</code> is <code>NONE</code>. A value of
   /// <code>STANDARD</code> means the Slurm REST API is enabled.
@@ -3358,6 +3441,7 @@ class SlurmRest {
   }
 }
 
+/// @nodoc
 class SlurmRestMode {
   static const standard = SlurmRestMode._('STANDARD');
   static const none = SlurmRestMode._('NONE');
@@ -3382,6 +3466,7 @@ class SlurmRestMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountingMode {
   static const standard = AccountingMode._('STANDARD');
   static const none = AccountingMode._('NONE');
@@ -3408,6 +3493,8 @@ class AccountingMode {
 
 /// The JWT key stored in Amazon Web Services Secrets Manager for Slurm REST API
 /// authentication.
+///
+/// @nodoc
 class JwtKey {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret containing the JWT key.
@@ -3445,6 +3532,8 @@ class JwtKey {
 /// href="https://docs.aws.amazon.com/pcs/latest/userguide/cgroup-custom-settings.html">Configuring
 /// custom Cgroup settings in PCS</a> in the <i>PCS User Guide</i>.
 /// </important>
+///
+/// @nodoc
 class CgroupCustomSetting {
   /// PCS supports custom Cgroup settings for clusters. For more information, see
   /// <a
@@ -3483,6 +3572,8 @@ class CgroupCustomSetting {
 /// href="https://docs.aws.amazon.com/pcs/latest/userguide/slurmdbd-custom-settings.html">Configuring
 /// custom SlurmDBD settings in PCS</a> in the <i>PCS User Guide</i>.
 /// </important>
+///
+/// @nodoc
 class SlurmdbdCustomSetting {
   /// PCS supports custom SlurmDBD settings for clusters. For more information,
   /// see <a
@@ -3515,6 +3606,7 @@ class SlurmdbdCustomSetting {
   }
 }
 
+/// @nodoc
 class SchedulerType {
   static const slurm = SchedulerType._('SLURM');
 
@@ -3539,6 +3631,8 @@ class SchedulerType {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class UpdateClusterSlurmConfigurationRequest {
   /// The accounting configuration includes configurable settings for Slurm
   /// accounting.
@@ -3597,6 +3691,8 @@ class UpdateClusterSlurmConfigurationRequest {
 
 /// The accounting configuration includes configurable settings for Slurm
 /// accounting.
+///
+/// @nodoc
 class UpdateAccountingRequest {
   /// The default value for all purge settings for <code>slurmdbd.conf</code>. For
   /// more information, see the <a
@@ -3635,6 +3731,8 @@ class UpdateAccountingRequest {
 
 /// The Slurm REST API configuration includes settings for enabling and
 /// configuring the Slurm REST API.
+///
+/// @nodoc
 class UpdateSlurmRestRequest {
   /// The default value for <code>mode</code> is <code>NONE</code>. A value of
   /// <code>STANDARD</code> means the Slurm REST API is enabled.
@@ -3654,6 +3752,8 @@ class UpdateSlurmRestRequest {
 
 /// The cluster management and job scheduling software associated with the
 /// cluster.
+///
+/// @nodoc
 class SchedulerRequest {
   /// The software PCS uses to manage cluster scaling and job scheduling.
   final SchedulerType type;
@@ -3682,6 +3782,8 @@ class SchedulerRequest {
 }
 
 /// The networking configuration for the cluster's control plane.
+///
+/// @nodoc
 class NetworkingRequest {
   /// The IP address version the cluster uses. The default is <code>IPV4</code>.
   final NetworkType? networkType;
@@ -3720,6 +3822,8 @@ class NetworkingRequest {
 }
 
 /// Additional options related to the Slurm scheduler.
+///
+/// @nodoc
 class ClusterSlurmConfigurationRequest {
   /// The accounting configuration includes configurable settings for Slurm
   /// accounting.
@@ -3778,6 +3882,8 @@ class ClusterSlurmConfigurationRequest {
 
 /// The accounting configuration includes configurable settings for Slurm
 /// accounting. It's a property of the <b>ClusterSlurmConfiguration</b> object.
+///
+/// @nodoc
 class AccountingRequest {
   /// The default value for <code>mode</code> is <code>NONE</code>. A value of
   /// <code>STANDARD</code> means Slurm accounting is enabled.
@@ -3817,6 +3923,8 @@ class AccountingRequest {
 /// The Slurm REST API configuration includes settings for enabling and
 /// configuring the Slurm REST API. It's a property of the
 /// <b>ClusterSlurmConfiguration</b> object.
+///
+/// @nodoc
 class SlurmRestRequest {
   /// The default value for <code>mode</code> is <code>NONE</code>. A value of
   /// <code>STANDARD</code> means the Slurm REST API is enabled.
@@ -3834,26 +3942,31 @@ class SlurmRestRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3862,11 +3975,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

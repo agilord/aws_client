@@ -109,6 +109,7 @@ class BcmRecommendedActions {
   }
 }
 
+/// @nodoc
 class ListRecommendedActionsResponse {
   /// The list of recommended actions that satisfy the filter criteria.
   final List<RecommendedAction> recommendedActions;
@@ -143,6 +144,8 @@ class ListRecommendedActionsResponse {
 }
 
 /// Describes a specific recommended action.
+///
+/// @nodoc
 class RecommendedAction {
   /// The account that the recommended action is for.
   final String? accountId;
@@ -219,6 +222,7 @@ class RecommendedAction {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const addAlternateBillingContact =
       ActionType._('ADD_ALTERNATE_BILLING_CONTACT');
@@ -292,6 +296,7 @@ class ActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class Severity {
   static const info = Severity._('INFO');
   static const warning = Severity._('WARNING');
@@ -316,6 +321,7 @@ class Severity {
   String toString() => value;
 }
 
+/// @nodoc
 class Feature {
   static const account = Feature._('ACCOUNT');
   static const budgets = Feature._('BUDGETS');
@@ -361,6 +367,8 @@ class Feature {
 /// Enables filtering of results based on specified action criteria. You can
 /// define multiple action filters to refine results using combinations of
 /// feature type, severity level, and recommendation type.
+///
+/// @nodoc
 class RequestFilter {
   /// A list of action filters that define criteria for filtering results. Each
   /// filter specifies a key, match option, and corresponding values to filter on.
@@ -379,6 +387,8 @@ class RequestFilter {
 }
 
 /// Describes a filter that returns a more specific list of recommended actions.
+///
+/// @nodoc
 class ActionFilter {
   /// The category to filter on. Valid values are <code>FEATURE</code> for feature
   /// type, <code>SEVERITY</code> for severity level, and <code>TYPE</code> for
@@ -410,6 +420,7 @@ class ActionFilter {
   }
 }
 
+/// @nodoc
 class FilterName {
   static const feature = FilterName._('FEATURE');
   static const severity = FilterName._('SEVERITY');
@@ -434,6 +445,7 @@ class FilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class MatchOption {
   static const equals = MatchOption._('EQUALS');
   static const notEquals = MatchOption._('NOT_EQUALS');
@@ -457,21 +469,25 @@ class MatchOption {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

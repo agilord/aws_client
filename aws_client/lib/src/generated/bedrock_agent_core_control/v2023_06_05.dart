@@ -6867,6 +6867,7 @@ class BedrockAgentCoreControl {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -6879,6 +6880,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The resource policy associated with the specified resource.
   final String? policy;
@@ -6901,6 +6903,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetTokenVaultResponse {
   /// The KMS configuration for the token vault.
   final KmsConfiguration kmsConfiguration;
@@ -6940,6 +6943,7 @@ class GetTokenVaultResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final Map<String, String>? tags;
@@ -6963,6 +6967,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The resource policy that was created or updated.
   final String policy;
@@ -6985,6 +6990,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class SetTokenVaultCMKResponse {
   /// The KMS configuration for the token vault.
   final KmsConfiguration kmsConfiguration;
@@ -7024,6 +7030,7 @@ class SetTokenVaultCMKResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7036,6 +7043,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7048,6 +7056,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentRuntimeEndpointResponse {
   /// The Amazon Resource Name (ARN) of the AgentCore Runtime.
   final String agentRuntimeArn;
@@ -7115,6 +7124,7 @@ class CreateAgentRuntimeEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetAgentRuntimeEndpointResponse {
   /// The Amazon Resource Name (ARN) of the AgentCore Runtime.
   final String agentRuntimeArn;
@@ -7210,6 +7220,7 @@ class GetAgentRuntimeEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentRuntimeEndpointResponse {
   /// The Amazon Resource Name (ARN) of the AgentCore Runtime.
   final String agentRuntimeArn;
@@ -7277,6 +7288,7 @@ class UpdateAgentRuntimeEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentRuntimeEndpointResponse {
   /// The current status of the AgentCore Runtime endpoint deletion.
   final AgentRuntimeEndpointStatus status;
@@ -7315,6 +7327,7 @@ class DeleteAgentRuntimeEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListAgentRuntimeEndpointsResponse {
   /// The list of AgentCore Runtime endpoints.
   final List<AgentRuntimeEndpoint> runtimeEndpoints;
@@ -7348,6 +7361,7 @@ class ListAgentRuntimeEndpointsResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentRuntimeResponse {
   /// The Amazon Resource Name (ARN) of the AgentCore Runtime.
   final String agentRuntimeArn;
@@ -7409,6 +7423,7 @@ class CreateAgentRuntimeResponse {
   }
 }
 
+/// @nodoc
 class GetAgentRuntimeResponse {
   /// The Amazon Resource Name (ARN) of the AgentCore Runtime.
   final String agentRuntimeArn;
@@ -7600,6 +7615,7 @@ class GetAgentRuntimeResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentRuntimeResponse {
   /// The Amazon Resource Name (ARN) of the updated AgentCore Runtime.
   final String agentRuntimeArn;
@@ -7668,6 +7684,7 @@ class UpdateAgentRuntimeResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentRuntimeResponse {
   /// The current status of the AgentCore Runtime deletion.
   final AgentRuntimeStatus status;
@@ -7697,6 +7714,7 @@ class DeleteAgentRuntimeResponse {
   }
 }
 
+/// @nodoc
 class ListAgentRuntimesResponse {
   /// The list of AgentCore Runtime resources.
   final List<AgentRuntime> agentRuntimes;
@@ -7729,6 +7747,7 @@ class ListAgentRuntimesResponse {
   }
 }
 
+/// @nodoc
 class ListAgentRuntimeVersionsResponse {
   /// The list of AgentCore Runtime versions.
   final List<AgentRuntime> agentRuntimes;
@@ -7761,6 +7780,7 @@ class ListAgentRuntimeVersionsResponse {
   }
 }
 
+/// @nodoc
 class CreateApiKeyCredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the secret containing the API key.
   final Secret apiKeySecretArn;
@@ -7820,6 +7840,7 @@ class CreateApiKeyCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class GetApiKeyCredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.
   final Secret apiKeySecretArn;
@@ -7894,6 +7915,7 @@ class GetApiKeyCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateApiKeyCredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.
   final Secret apiKeySecretArn;
@@ -7968,6 +7990,7 @@ class UpdateApiKeyCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class DeleteApiKeyCredentialProviderResponse {
   DeleteApiKeyCredentialProviderResponse();
 
@@ -7981,6 +8004,7 @@ class DeleteApiKeyCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class ListApiKeyCredentialProvidersResponse {
   /// The list of API key credential providers.
   final List<ApiKeyCredentialProviderItem> credentialProviders;
@@ -8015,6 +8039,7 @@ class ListApiKeyCredentialProvidersResponse {
   }
 }
 
+/// @nodoc
 class CreateBrowserProfileResponse {
   /// The timestamp when the browser profile was created.
   final DateTime createdAt;
@@ -8059,6 +8084,7 @@ class CreateBrowserProfileResponse {
   }
 }
 
+/// @nodoc
 class GetBrowserProfileResponse {
   /// The timestamp when the browser profile was created.
   final DateTime createdAt;
@@ -8148,6 +8174,7 @@ class GetBrowserProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteBrowserProfileResponse {
   /// The timestamp when the browser profile was last updated.
   final DateTime lastUpdatedAt;
@@ -8200,6 +8227,7 @@ class DeleteBrowserProfileResponse {
   }
 }
 
+/// @nodoc
 class ListBrowserProfilesResponse {
   /// The list of browser profile summaries.
   final List<BrowserProfileSummary> profileSummaries;
@@ -8232,6 +8260,7 @@ class ListBrowserProfilesResponse {
   }
 }
 
+/// @nodoc
 class CreateBrowserResponse {
   /// The Amazon Resource Name (ARN) of the created browser.
   final String browserArn;
@@ -8275,6 +8304,7 @@ class CreateBrowserResponse {
   }
 }
 
+/// @nodoc
 class GetBrowserResponse {
   /// The Amazon Resource Name (ARN) of the browser.
   final String browserArn;
@@ -8399,6 +8429,7 @@ class GetBrowserResponse {
   }
 }
 
+/// @nodoc
 class DeleteBrowserResponse {
   /// The unique identifier of the deleted browser.
   final String browserId;
@@ -8435,6 +8466,7 @@ class DeleteBrowserResponse {
   }
 }
 
+/// @nodoc
 class ListBrowsersResponse {
   /// The list of browser summaries.
   final List<BrowserSummary> browserSummaries;
@@ -8467,6 +8499,7 @@ class ListBrowsersResponse {
   }
 }
 
+/// @nodoc
 class CreateCodeInterpreterResponse {
   /// The Amazon Resource Name (ARN) of the created code interpreter.
   final String codeInterpreterArn;
@@ -8511,6 +8544,7 @@ class CreateCodeInterpreterResponse {
   }
 }
 
+/// @nodoc
 class GetCodeInterpreterResponse {
   /// The Amazon Resource Name (ARN) of the code interpreter.
   final String codeInterpreterArn;
@@ -8607,6 +8641,7 @@ class GetCodeInterpreterResponse {
   }
 }
 
+/// @nodoc
 class DeleteCodeInterpreterResponse {
   /// The unique identifier of the deleted code interpreter.
   final String codeInterpreterId;
@@ -8644,6 +8679,7 @@ class DeleteCodeInterpreterResponse {
   }
 }
 
+/// @nodoc
 class ListCodeInterpretersResponse {
   /// The list of code interpreter summaries.
   final List<CodeInterpreterSummary> codeInterpreterSummaries;
@@ -8678,6 +8714,7 @@ class ListCodeInterpretersResponse {
   }
 }
 
+/// @nodoc
 class CreateConfigurationBundleResponse {
   /// The Amazon Resource Name (ARN) of the created configuration bundle.
   final String bundleArn;
@@ -8722,6 +8759,7 @@ class CreateConfigurationBundleResponse {
   }
 }
 
+/// @nodoc
 class GetConfigurationBundleResponse {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -8807,6 +8845,7 @@ class GetConfigurationBundleResponse {
   }
 }
 
+/// @nodoc
 class UpdateConfigurationBundleResponse {
   /// The Amazon Resource Name (ARN) of the updated configuration bundle.
   final String bundleArn;
@@ -8851,6 +8890,7 @@ class UpdateConfigurationBundleResponse {
   }
 }
 
+/// @nodoc
 class DeleteConfigurationBundleResponse {
   /// The unique identifier of the deleted configuration bundle.
   final String bundleId;
@@ -8882,6 +8922,7 @@ class DeleteConfigurationBundleResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationBundlesResponse {
   /// The list of configuration bundle summaries.
   final List<ConfigurationBundleSummary> bundles;
@@ -8917,6 +8958,7 @@ class ListConfigurationBundlesResponse {
   }
 }
 
+/// @nodoc
 class GetConfigurationBundleVersionResponse {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -9004,6 +9046,7 @@ class GetConfigurationBundleVersionResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationBundleVersionsResponse {
   /// The list of configuration bundle version summaries.
   final List<ConfigurationBundleVersionSummary> versions;
@@ -9040,6 +9083,7 @@ class ListConfigurationBundleVersionsResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The timestamp when the dataset was created.
   final DateTime createdAt;
@@ -9084,6 +9128,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class GetDatasetResponse {
   /// The timestamp when the dataset was created.
   final DateTime createdAt;
@@ -9219,6 +9264,7 @@ class GetDatasetResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetResponse {
   /// The Amazon Resource Name (ARN) of the updated dataset.
   final String datasetArn;
@@ -9255,6 +9301,7 @@ class UpdateDatasetResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String datasetArn;
@@ -9305,6 +9352,7 @@ class DeleteDatasetResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// The list of datasets.
   final List<DatasetSummary> datasets;
@@ -9338,6 +9386,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class AddDatasetExamplesResponse {
   /// The number of examples added.
   final int addedCount;
@@ -9398,6 +9447,7 @@ class AddDatasetExamplesResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetVersionResponse {
   /// The timestamp when the version creation was initiated.
   final DateTime createdAt;
@@ -9449,6 +9499,7 @@ class CreateDatasetVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatasetExamplesResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String datasetArn;
@@ -9499,6 +9550,7 @@ class DeleteDatasetExamplesResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetExamplesResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String datasetArn;
@@ -9551,6 +9603,7 @@ class ListDatasetExamplesResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetVersionsResponse {
   /// The list of published dataset versions.
   final List<DatasetVersionSummary> versions;
@@ -9584,6 +9637,7 @@ class ListDatasetVersionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetExamplesResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String datasetArn;
@@ -9634,6 +9688,7 @@ class UpdateDatasetExamplesResponse {
   }
 }
 
+/// @nodoc
 class CreateEvaluatorResponse {
   /// The timestamp when the evaluator was created.
   final DateTime createdAt;
@@ -9677,6 +9732,7 @@ class CreateEvaluatorResponse {
   }
 }
 
+/// @nodoc
 class GetEvaluatorResponse {
   /// The timestamp when the evaluator was created.
   final DateTime createdAt;
@@ -9777,6 +9833,7 @@ class GetEvaluatorResponse {
   }
 }
 
+/// @nodoc
 class UpdateEvaluatorResponse {
   /// The Amazon Resource Name (ARN) of the updated evaluator.
   final String evaluatorArn;
@@ -9820,6 +9877,7 @@ class UpdateEvaluatorResponse {
   }
 }
 
+/// @nodoc
 class DeleteEvaluatorResponse {
   /// The Amazon Resource Name (ARN) of the deleted evaluator.
   final String evaluatorArn;
@@ -9856,6 +9914,7 @@ class DeleteEvaluatorResponse {
   }
 }
 
+/// @nodoc
 class ListEvaluatorsResponse {
   /// The list of evaluator summaries containing basic information about each
   /// evaluator.
@@ -9890,6 +9949,7 @@ class ListEvaluatorsResponse {
   }
 }
 
+/// @nodoc
 class CreateGatewayResponse {
   /// The type of authorizer used by the gateway.
   final AuthorizerType authorizerType;
@@ -10077,6 +10137,7 @@ class CreateGatewayResponse {
   }
 }
 
+/// @nodoc
 class DeleteGatewayResponse {
   /// The unique identifier of the deleted gateway.
   final String gatewayId;
@@ -10116,6 +10177,7 @@ class DeleteGatewayResponse {
   }
 }
 
+/// @nodoc
 class GetGatewayResponse {
   /// Authorizer type for the gateway.
   final AuthorizerType authorizerType;
@@ -10300,6 +10362,7 @@ class GetGatewayResponse {
   }
 }
 
+/// @nodoc
 class ListGatewaysResponse {
   /// The list of gateway summaries.
   final List<GatewaySummary> items;
@@ -10334,6 +10397,7 @@ class ListGatewaysResponse {
   }
 }
 
+/// @nodoc
 class UpdateGatewayResponse {
   /// The updated authorizer type for the gateway.
   final AuthorizerType authorizerType;
@@ -10518,6 +10582,7 @@ class UpdateGatewayResponse {
   }
 }
 
+/// @nodoc
 class CreateGatewayRuleResponse {
   /// The actions to take when the rule conditions are met.
   final List<Action> actions;
@@ -10605,6 +10670,7 @@ class CreateGatewayRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteGatewayRuleResponse {
   /// The unique identifier of the deleted rule.
   final String ruleId;
@@ -10636,6 +10702,8 @@ class DeleteGatewayRuleResponse {
 
 /// Create response excludes updatedAt (redundant on create). Get/Update
 /// responses include it via their own output structures.
+///
+/// @nodoc
 class GetGatewayRuleResponse {
   /// The actions to take when the rule conditions are met.
   final List<Action> actions;
@@ -10730,6 +10798,7 @@ class GetGatewayRuleResponse {
   }
 }
 
+/// @nodoc
 class ListGatewayRulesResponse {
   /// The list of gateway rules.
   final List<GatewayRuleDetail> gatewayRules;
@@ -10764,6 +10833,8 @@ class ListGatewayRulesResponse {
 
 /// Create response excludes updatedAt (redundant on create). Get/Update
 /// responses include it via their own output structures.
+///
+/// @nodoc
 class UpdateGatewayRuleResponse {
   /// The actions to take when the rule conditions are met.
   final List<Action> actions;
@@ -10858,6 +10929,7 @@ class UpdateGatewayRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateGatewayTargetResponse {
   /// The timestamp when the target was created.
   final DateTime createdAt;
@@ -11018,6 +11090,7 @@ class CreateGatewayTargetResponse {
   }
 }
 
+/// @nodoc
 class DeleteGatewayTargetResponse {
   /// The Amazon Resource Name (ARN) of the gateway.
   final String gatewayArn;
@@ -11064,6 +11137,7 @@ class DeleteGatewayTargetResponse {
   }
 }
 
+/// @nodoc
 class GetGatewayTargetResponse {
   /// The timestamp when the gateway target was created.
   final DateTime createdAt;
@@ -11223,6 +11297,7 @@ class GetGatewayTargetResponse {
   }
 }
 
+/// @nodoc
 class ListGatewayTargetsResponse {
   /// The list of gateway target summaries.
   final List<TargetSummary> items;
@@ -11257,6 +11332,7 @@ class ListGatewayTargetsResponse {
   }
 }
 
+/// @nodoc
 class SynchronizeGatewayTargetsResponse {
   /// The gateway targets for synchronization.
   final List<GatewayTarget>? targets;
@@ -11283,6 +11359,7 @@ class SynchronizeGatewayTargetsResponse {
   }
 }
 
+/// @nodoc
 class UpdateGatewayTargetResponse {
   /// The timestamp when the gateway target was created.
   final DateTime createdAt;
@@ -11441,6 +11518,7 @@ class UpdateGatewayTargetResponse {
   }
 }
 
+/// @nodoc
 class CreateHarnessResponse {
   /// The harness that was created.
   final Harness harness;
@@ -11464,6 +11542,7 @@ class CreateHarnessResponse {
   }
 }
 
+/// @nodoc
 class DeleteHarnessResponse {
   /// The harness that was deleted.
   final Harness? harness;
@@ -11488,6 +11567,7 @@ class DeleteHarnessResponse {
   }
 }
 
+/// @nodoc
 class GetHarnessResponse {
   /// The harness resource.
   final Harness harness;
@@ -11511,6 +11591,7 @@ class GetHarnessResponse {
   }
 }
 
+/// @nodoc
 class ListHarnessesResponse {
   /// The list of harness summaries.
   final List<HarnessSummary> harnesses;
@@ -11543,6 +11624,7 @@ class ListHarnessesResponse {
   }
 }
 
+/// @nodoc
 class UpdateHarnessResponse {
   /// The updated harness.
   final Harness harness;
@@ -11566,6 +11648,7 @@ class UpdateHarnessResponse {
   }
 }
 
+/// @nodoc
 class CreateMemoryOutput {
   /// The details of the created memory, including its ID, ARN, name, description,
   /// and configuration settings.
@@ -11591,6 +11674,7 @@ class CreateMemoryOutput {
   }
 }
 
+/// @nodoc
 class GetMemoryOutput {
   /// The retrieved AgentCore Memory resource details.
   final Memory memory;
@@ -11614,6 +11698,7 @@ class GetMemoryOutput {
   }
 }
 
+/// @nodoc
 class UpdateMemoryOutput {
   /// The updated AgentCore Memory resource details.
   final Memory? memory;
@@ -11638,6 +11723,7 @@ class UpdateMemoryOutput {
   }
 }
 
+/// @nodoc
 class DeleteMemoryOutput {
   /// The unique identifier of the deleted AgentCore Memory resource.
   final String memoryId;
@@ -11667,6 +11753,7 @@ class DeleteMemoryOutput {
   }
 }
 
+/// @nodoc
 class ListMemoriesOutput {
   /// The list of AgentCore Memory resource summaries.
   final List<MemorySummary> memories;
@@ -11699,6 +11786,7 @@ class ListMemoriesOutput {
   }
 }
 
+/// @nodoc
 class CreateOauth2CredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
   final Secret clientSecretArn;
@@ -11783,6 +11871,7 @@ class CreateOauth2CredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class GetOauth2CredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
   final Secret clientSecretArn;
@@ -11898,6 +11987,7 @@ class GetOauth2CredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateOauth2CredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
   final Secret clientSecretArn;
@@ -12005,6 +12095,7 @@ class UpdateOauth2CredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class DeleteOauth2CredentialProviderResponse {
   DeleteOauth2CredentialProviderResponse();
 
@@ -12018,6 +12109,7 @@ class DeleteOauth2CredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class ListOauth2CredentialProvidersResponse {
   /// The list of OAuth2 credential providers.
   final List<Oauth2CredentialProviderItem> credentialProviders;
@@ -12052,6 +12144,7 @@ class ListOauth2CredentialProvidersResponse {
   }
 }
 
+/// @nodoc
 class CreateOnlineEvaluationConfigResponse {
   /// The timestamp when the online evaluation configuration was created.
   final DateTime createdAt;
@@ -12124,6 +12217,7 @@ class CreateOnlineEvaluationConfigResponse {
   }
 }
 
+/// @nodoc
 class GetOnlineEvaluationConfigResponse {
   /// The timestamp when the online evaluation configuration was created.
   final DateTime createdAt;
@@ -12257,6 +12351,7 @@ class GetOnlineEvaluationConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateOnlineEvaluationConfigResponse {
   /// The execution status indicating whether the online evaluation is currently
   /// running.
@@ -12322,6 +12417,7 @@ class UpdateOnlineEvaluationConfigResponse {
   }
 }
 
+/// @nodoc
 class DeleteOnlineEvaluationConfigResponse {
   /// The Amazon Resource Name (ARN) of the deleted online evaluation
   /// configuration.
@@ -12363,6 +12459,7 @@ class DeleteOnlineEvaluationConfigResponse {
   }
 }
 
+/// @nodoc
 class ListOnlineEvaluationConfigsResponse {
   /// The list of online evaluation configuration summaries containing basic
   /// information about each configuration.
@@ -12400,6 +12497,7 @@ class ListOnlineEvaluationConfigsResponse {
   }
 }
 
+/// @nodoc
 class CreatePaymentCredentialProviderResponse {
   /// The Amazon Resource Name (ARN) of the created payment credential provider.
   final String credentialProviderArn;
@@ -12447,6 +12545,7 @@ class CreatePaymentCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class GetPaymentCredentialProviderResponse {
   /// The timestamp when the payment credential provider was created.
   final DateTime createdTime;
@@ -12517,6 +12616,7 @@ class GetPaymentCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdatePaymentCredentialProviderResponse {
   /// The timestamp when the payment credential provider was created.
   final DateTime createdTime;
@@ -12579,6 +12679,7 @@ class UpdatePaymentCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class DeletePaymentCredentialProviderResponse {
   DeletePaymentCredentialProviderResponse();
 
@@ -12592,6 +12693,7 @@ class DeletePaymentCredentialProviderResponse {
   }
 }
 
+/// @nodoc
 class ListPaymentCredentialProvidersResponse {
   /// The list of payment credential providers.
   final List<PaymentCredentialProviderItem> credentialProviders;
@@ -12626,6 +12728,7 @@ class ListPaymentCredentialProvidersResponse {
   }
 }
 
+/// @nodoc
 class CreatePaymentManagerResponse {
   /// The type of authorizer for the created payment manager.
   final PaymentsAuthorizerType authorizerType;
@@ -12722,6 +12825,7 @@ class CreatePaymentManagerResponse {
   }
 }
 
+/// @nodoc
 class GetPaymentManagerResponse {
   /// The type of authorizer used by the payment manager.
   ///
@@ -12842,6 +12946,7 @@ class GetPaymentManagerResponse {
   }
 }
 
+/// @nodoc
 class UpdatePaymentManagerResponse {
   /// The type of authorizer for the updated payment manager.
   final PaymentsAuthorizerType authorizerType;
@@ -12921,6 +13026,7 @@ class UpdatePaymentManagerResponse {
   }
 }
 
+/// @nodoc
 class DeletePaymentManagerResponse {
   /// The current status of the payment manager, set to <code>DELETING</code> when
   /// deletion is initiated. Possible values include <code>CREATING</code>,
@@ -12955,6 +13061,7 @@ class DeletePaymentManagerResponse {
   }
 }
 
+/// @nodoc
 class ListPaymentManagersResponse {
   /// The list of payment manager summaries. For details about the fields in each
   /// summary, see the <code>PaymentManagerSummary</code> data type.
@@ -12990,6 +13097,7 @@ class ListPaymentManagersResponse {
   }
 }
 
+/// @nodoc
 class CreatePaymentConnectorResponse {
   /// The timestamp when the payment connector was created.
   final DateTime createdAt;
@@ -13064,6 +13172,7 @@ class CreatePaymentConnectorResponse {
   }
 }
 
+/// @nodoc
 class GetPaymentConnectorResponse {
   /// The timestamp when the payment connector was created.
   final DateTime createdAt;
@@ -13146,6 +13255,7 @@ class GetPaymentConnectorResponse {
   }
 }
 
+/// @nodoc
 class UpdatePaymentConnectorResponse {
   /// The credential provider configurations for the updated payment connector.
   final List<CredentialsProviderConfiguration> credentialProviderConfigurations;
@@ -13220,6 +13330,7 @@ class UpdatePaymentConnectorResponse {
   }
 }
 
+/// @nodoc
 class DeletePaymentConnectorResponse {
   /// The current status of the payment connector, set to <code>DELETING</code>
   /// when deletion is initiated. Possible values include <code>CREATING</code>,
@@ -13254,6 +13365,7 @@ class DeletePaymentConnectorResponse {
   }
 }
 
+/// @nodoc
 class ListPaymentConnectorsResponse {
   /// The list of payment connector summaries. For details about the fields in
   /// each summary, see the <code>PaymentConnectorSummary</code> data type.
@@ -13290,6 +13402,7 @@ class ListPaymentConnectorsResponse {
   }
 }
 
+/// @nodoc
 class CreatePolicyEngineResponse {
   /// The timestamp when the policy engine was created. This is automatically set
   /// by the service and used for auditing and lifecycle management.
@@ -13382,6 +13495,7 @@ class CreatePolicyEngineResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyEngineResponse {
   /// The timestamp when the policy engine was originally created.
   final DateTime createdAt;
@@ -13472,6 +13586,7 @@ class GetPolicyEngineResponse {
   }
 }
 
+/// @nodoc
 class UpdatePolicyEngineResponse {
   /// The original creation timestamp of the policy engine.
   final DateTime createdAt;
@@ -13554,6 +13669,7 @@ class UpdatePolicyEngineResponse {
   }
 }
 
+/// @nodoc
 class DeletePolicyEngineResponse {
   /// The timestamp when the deleted policy engine was originally created.
   final DateTime createdAt;
@@ -13643,6 +13759,7 @@ class DeletePolicyEngineResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyEnginesResponse {
   /// An array of policy engine objects that exist in the account. Each policy
   /// engine object contains the engine metadata, status, and key identifiers for
@@ -13680,6 +13797,7 @@ class ListPolicyEnginesResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyEngineSummaryResponse {
   /// The timestamp when the policy engine was originally created.
   final DateTime createdAt;
@@ -13745,6 +13863,7 @@ class GetPolicyEngineSummaryResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyEngineSummariesResponse {
   /// An array of policy engine summary objects that exist in the account. Each
   /// summary contains resource identifiers, status, and timestamps without
@@ -13783,6 +13902,7 @@ class ListPolicyEngineSummariesResponse {
   }
 }
 
+/// @nodoc
 class StartPolicyGenerationResponse {
   /// The timestamp when the policy generation request was created.
   final DateTime createdAt;
@@ -13875,6 +13995,7 @@ class StartPolicyGenerationResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyGenerationResponse {
   /// The timestamp when the policy generation request was created. This is used
   /// for tracking and auditing generation operations and their lifecycle.
@@ -13980,6 +14101,7 @@ class GetPolicyGenerationResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyGenerationsResponse {
   /// An array of policy generation objects that match the specified criteria.
   final List<PolicyGeneration> policyGenerations;
@@ -14013,6 +14135,7 @@ class ListPolicyGenerationsResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyGenerationSummaryResponse {
   /// The timestamp when the policy generation request was created.
   final DateTime createdAt;
@@ -14094,6 +14217,7 @@ class GetPolicyGenerationSummaryResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyGenerationAssetsResponse {
   /// A pagination token that can be used in subsequent <a
   /// href="https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyGenerationAssets.html">ListPolicyGenerationAssets</a>
@@ -14134,6 +14258,7 @@ class ListPolicyGenerationAssetsResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyGenerationSummariesResponse {
   /// An array of policy generation summary objects that match the specified
   /// criteria. Each summary contains resource identifiers, status, timestamps,
@@ -14173,6 +14298,7 @@ class ListPolicyGenerationSummariesResponse {
   }
 }
 
+/// @nodoc
 class CreatePolicyResponse {
   /// The timestamp when the policy was created. This is automatically set by the
   /// service and used for auditing and lifecycle management.
@@ -14277,6 +14403,7 @@ class CreatePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// The timestamp when the policy was originally created.
   final DateTime createdAt;
@@ -14377,6 +14504,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdatePolicyResponse {
   /// The original creation timestamp of the policy.
   final DateTime createdAt;
@@ -14467,6 +14595,7 @@ class UpdatePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeletePolicyResponse {
   /// The timestamp when the deleted policy was originally created.
   final DateTime createdAt;
@@ -14564,6 +14693,7 @@ class DeletePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesResponse {
   /// An array of policy objects that match the specified criteria. Each policy
   /// object contains the policy metadata, status, and key identifiers for further
@@ -14600,6 +14730,7 @@ class ListPoliciesResponse {
   }
 }
 
+/// @nodoc
 class GetPolicySummaryResponse {
   /// The timestamp when the policy was originally created.
   final DateTime createdAt;
@@ -14664,6 +14795,7 @@ class GetPolicySummaryResponse {
   }
 }
 
+/// @nodoc
 class ListPolicySummariesResponse {
   /// An array of policy summary objects that match the specified criteria. Each
   /// summary contains resource identifiers, status, and timestamps without
@@ -14701,6 +14833,7 @@ class ListPolicySummariesResponse {
   }
 }
 
+/// @nodoc
 class CreateRegistryRecordResponse {
   /// The Amazon Resource Name (ARN) of the created registry record.
   final String recordArn;
@@ -14732,6 +14865,7 @@ class CreateRegistryRecordResponse {
   }
 }
 
+/// @nodoc
 class GetRegistryRecordResponse {
   /// The timestamp when the registry record was created.
   final DateTime createdAt;
@@ -14868,6 +15002,7 @@ class GetRegistryRecordResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegistryRecordResponse {
   /// The timestamp when the registry record was created.
   final DateTime createdAt;
@@ -14999,6 +15134,7 @@ class UpdateRegistryRecordResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegistryRecordResponse {
   DeleteRegistryRecordResponse();
 
@@ -15011,6 +15147,7 @@ class DeleteRegistryRecordResponse {
   }
 }
 
+/// @nodoc
 class ListRegistryRecordsResponse {
   /// The list of registry record summaries. For details about the fields in each
   /// summary, see the <code>RegistryRecordSummary</code> data type.
@@ -15046,6 +15183,7 @@ class ListRegistryRecordsResponse {
   }
 }
 
+/// @nodoc
 class SubmitRegistryRecordForApprovalResponse {
   /// The Amazon Resource Name (ARN) of the registry record.
   final String recordArn;
@@ -15098,6 +15236,7 @@ class SubmitRegistryRecordForApprovalResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegistryRecordStatusResponse {
   /// The Amazon Resource Name (ARN) of the registry record.
   final String recordArn;
@@ -15157,6 +15296,7 @@ class UpdateRegistryRecordStatusResponse {
   }
 }
 
+/// @nodoc
 class CreateRegistryResponse {
   /// The Amazon Resource Name (ARN) of the created registry.
   final String registryArn;
@@ -15179,6 +15319,7 @@ class CreateRegistryResponse {
   }
 }
 
+/// @nodoc
 class GetRegistryResponse {
   /// The timestamp when the registry was created.
   final DateTime createdAt;
@@ -15297,6 +15438,7 @@ class GetRegistryResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegistryResponse {
   /// The timestamp when the registry was created.
   final DateTime createdAt;
@@ -15414,6 +15556,7 @@ class UpdateRegistryResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegistryResponse {
   /// The current status of the registry, set to <code>DELETING</code> when
   /// deletion is initiated. For a list of all possible registry statuses, see the
@@ -15438,6 +15581,7 @@ class DeleteRegistryResponse {
   }
 }
 
+/// @nodoc
 class ListRegistriesResponse {
   /// The list of registry summaries. For details about the fields in each
   /// summary, see the <code>RegistrySummary</code> data type.
@@ -15473,6 +15617,7 @@ class ListRegistriesResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkloadIdentityResponse {
   /// The name of the workload identity.
   final String name;
@@ -15516,6 +15661,7 @@ class CreateWorkloadIdentityResponse {
   }
 }
 
+/// @nodoc
 class GetWorkloadIdentityResponse {
   /// The timestamp when the workload identity was created.
   final DateTime createdTime;
@@ -15574,6 +15720,7 @@ class GetWorkloadIdentityResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkloadIdentityResponse {
   /// The timestamp when the workload identity was created.
   final DateTime createdTime;
@@ -15632,6 +15779,7 @@ class UpdateWorkloadIdentityResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkloadIdentityResponse {
   DeleteWorkloadIdentityResponse();
 
@@ -15644,6 +15792,7 @@ class DeleteWorkloadIdentityResponse {
   }
 }
 
+/// @nodoc
 class ListWorkloadIdentitiesResponse {
   /// The list of workload identities.
   final List<WorkloadIdentityType> workloadIdentities;
@@ -15677,6 +15826,8 @@ class ListWorkloadIdentitiesResponse {
 }
 
 /// Contains information about a workload identity.
+///
+/// @nodoc
 class WorkloadIdentityType {
   /// The name of the workload identity.
   final String name;
@@ -15707,6 +15858,8 @@ class WorkloadIdentityType {
 }
 
 /// Contains summary information about a registry.
+///
+/// @nodoc
 class RegistrySummary {
   /// The timestamp when the registry was created.
   final DateTime createdAt;
@@ -15801,6 +15954,7 @@ class RegistrySummary {
   }
 }
 
+/// @nodoc
 class RegistryAuthorizerType {
   static const customJwt = RegistryAuthorizerType._('CUSTOM_JWT');
   static const awsIam = RegistryAuthorizerType._('AWS_IAM');
@@ -15826,6 +15980,7 @@ class RegistryAuthorizerType {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistryStatus {
   static const creating = RegistryStatus._('CREATING');
   static const ready = RegistryStatus._('READY');
@@ -15865,6 +16020,8 @@ class RegistryStatus {
 
 /// Represents inbound authorization configuration options used to authenticate
 /// incoming requests.
+///
+/// @nodoc
 class AuthorizerConfiguration {
   /// The inbound JWT-based authorization, specifying how incoming requests should
   /// be authenticated.
@@ -15895,6 +16052,8 @@ class AuthorizerConfiguration {
 /// Configuration for the registry record approval workflow. Controls whether
 /// records added to the registry require explicit approval before becoming
 /// active.
+///
+/// @nodoc
 class ApprovalConfiguration {
   /// Whether registry records are auto-approved. When set to <code>true</code>,
   /// records are automatically approved upon creation. When set to
@@ -15922,6 +16081,8 @@ class ApprovalConfiguration {
 
 /// Configuration for inbound JWT-based authorization, specifying how incoming
 /// requests should be authenticated.
+///
+/// @nodoc
 class CustomJWTAuthorizerConfiguration {
   /// This URL is used to fetch OpenID Connect configuration or authorization
   /// server metadata for validating incoming tokens.
@@ -16011,6 +16172,8 @@ class CustomJWTAuthorizerConfiguration {
 
 /// The private endpoint configuration for a gateway target. Defines how the
 /// gateway connects to private resources in your VPC.
+///
+/// @nodoc
 class PrivateEndpoint {
   /// Configuration for connecting to a private resource using a managed VPC
   /// Lattice resource. The gateway creates and manages the VPC Lattice resources
@@ -16052,6 +16215,8 @@ class PrivateEndpoint {
 
 /// A mapping of a specific domain to a private endpoint for secure connectivity
 /// through a VPC Lattice resource configuration.
+///
+/// @nodoc
 class PrivateEndpointOverride {
   /// The domain to override with a private endpoint.
   final String domain;
@@ -16086,6 +16251,8 @@ class PrivateEndpointOverride {
 /// Configuration for a self-managed VPC Lattice resource. You create and manage
 /// the VPC Lattice resource gateway and resource configuration, then provide
 /// the resource configuration identifier.
+///
+/// @nodoc
 class SelfManagedLatticeResource {
   /// The ARN or ID of the VPC Lattice resource configuration.
   final String? resourceConfigurationIdentifier;
@@ -16114,6 +16281,8 @@ class SelfManagedLatticeResource {
 /// Configuration for a managed VPC Lattice resource. The gateway creates and
 /// manages the VPC Lattice resource gateway and resource configuration on your
 /// behalf using a service-linked role.
+///
+/// @nodoc
 class ManagedVpcResource {
   /// The IP address type for the resource configuration endpoint.
   final EndpointIpAddressType endpointIpAddressType;
@@ -16128,8 +16297,8 @@ class ManagedVpcResource {
   /// An intermediate domain to use as the resource configuration endpoint instead
   /// of the actual target domain. Use this when you want to route traffic through
   /// an intermediate component such as a VPC endpoint or internal load balancer.
-  /// For more information, see xref:lattice-vpc-egress-routing-domain[Route
-  /// traffic through an intermediate domain].
+  /// For more information, see xref:lattice-vpc-egress-routing-domain\[Route
+  /// traffic through an intermediate domain\].
   final String? routingDomain;
 
   /// The security group IDs to associate with the VPC Lattice resource gateway.
@@ -16185,6 +16354,7 @@ class ManagedVpcResource {
   }
 }
 
+/// @nodoc
 class EndpointIpAddressType {
   static const ipv4 = EndpointIpAddressType._('IPV4');
   static const ipv6 = EndpointIpAddressType._('IPV6');
@@ -16212,6 +16382,8 @@ class EndpointIpAddressType {
 
 /// Defines the name of a custom claim field and rules for finding matches to
 /// authenticate its value.
+///
+/// @nodoc
 class CustomClaimValidationType {
   /// Defines the value or values to match for and the relationship of the match.
   final AuthorizingClaimMatchValueType authorizingClaimMatchValue;
@@ -16262,6 +16434,7 @@ class CustomClaimValidationType {
   }
 }
 
+/// @nodoc
 class InboundTokenClaimValueType {
   static const string = InboundTokenClaimValueType._('STRING');
   static const stringArray = InboundTokenClaimValueType._('STRING_ARRAY');
@@ -16288,6 +16461,8 @@ class InboundTokenClaimValueType {
 }
 
 /// Defines the value or values to match for and the relationship of the match.
+///
+/// @nodoc
 class AuthorizingClaimMatchValueType {
   /// Defines the relationship between the claim field value and the value or
   /// values you're matching for.
@@ -16343,6 +16518,8 @@ class AuthorizingClaimMatchValueType {
 /// </li>
 /// </ul> </li>
 /// </ul>
+///
+/// @nodoc
 class ClaimMatchValueType {
   /// The string value to match for.
   final String? matchValueString;
@@ -16376,6 +16553,7 @@ class ClaimMatchValueType {
   }
 }
 
+/// @nodoc
 class ClaimMatchOperatorType {
   static const equals = ClaimMatchOperatorType._('EQUALS');
   static const contains = ClaimMatchOperatorType._('CONTAINS');
@@ -16406,6 +16584,8 @@ class ClaimMatchOperatorType {
 /// When present in an update request, the description is replaced with
 /// optionalValue. When absent, the description is left unchanged. To unset the
 /// description, include the wrapper with optionalValue not specified.
+///
+/// @nodoc
 class UpdatedDescription {
   /// Represents an optional value that is used to update the human-readable
   /// description of the resource. If not specified, it will clear the current
@@ -16429,6 +16609,8 @@ class UpdatedDescription {
 /// is replaced with optionalValue. When absent, the authorizer configuration is
 /// left unchanged. To unset, include the wrapper with optionalValue not
 /// specified.
+///
+/// @nodoc
 class UpdatedAuthorizerConfiguration {
   /// The updated authorizer configuration value. If not specified, it will clear
   /// the current authorizer configuration of the resource.
@@ -16450,6 +16632,8 @@ class UpdatedAuthorizerConfiguration {
 /// semantics. When present in an update request, the approval configuration is
 /// replaced with the provided value. When absent, the approval configuration is
 /// left unchanged.
+///
+/// @nodoc
 class UpdatedApprovalConfiguration {
   /// The updated approval configuration value. Set to <code>null</code> to unset
   /// the approval configuration.
@@ -16467,6 +16651,7 @@ class UpdatedApprovalConfiguration {
   }
 }
 
+/// @nodoc
 class RegistryRecordStatus {
   static const draft = RegistryRecordStatus._('DRAFT');
   static const pendingApproval = RegistryRecordStatus._('PENDING_APPROVAL');
@@ -16510,6 +16695,8 @@ class RegistryRecordStatus {
 }
 
 /// Contains summary information about a registry record.
+///
+/// @nodoc
 class RegistryRecordSummary {
   /// The timestamp when the registry record was created.
   final DateTime createdAt;
@@ -16603,6 +16790,7 @@ class RegistryRecordSummary {
   }
 }
 
+/// @nodoc
 class DescriptorType {
   static const mcp = DescriptorType._('MCP');
   static const a2a = DescriptorType._('A2A');
@@ -16632,6 +16820,8 @@ class DescriptorType {
 /// Contains descriptor-type-specific configurations for a registry record. Only
 /// the descriptor matching the record's <code>descriptorType</code> should be
 /// populated.
+///
+/// @nodoc
 class Descriptors {
   /// The Agent-to-Agent (A2A) protocol descriptor configuration. Use this when
   /// the <code>descriptorType</code> is <code>A2A</code>.
@@ -16688,6 +16878,7 @@ class Descriptors {
   }
 }
 
+/// @nodoc
 class SynchronizationType {
   static const url = SynchronizationType._('URL');
 
@@ -16714,6 +16905,8 @@ class SynchronizationType {
 
 /// Configuration for synchronizing registry record metadata from an external
 /// source.
+///
+/// @nodoc
 class SynchronizationConfiguration {
   /// Configuration for synchronizing from a URL-based source.
   final FromUrlSynchronizationConfiguration? fromUrl;
@@ -16740,6 +16933,8 @@ class SynchronizationConfiguration {
 }
 
 /// Configuration for synchronizing from a URL-based MCP server.
+///
+/// @nodoc
 class FromUrlSynchronizationConfiguration {
   /// The HTTPS URL of the MCP server to synchronize from.
   final String url;
@@ -16783,6 +16978,8 @@ class FromUrlSynchronizationConfiguration {
 
 /// A pairing of a credential provider type with its corresponding provider
 /// details for authenticating with external sources.
+///
+/// @nodoc
 class RegistryRecordCredentialProviderConfiguration {
   /// The credential provider configuration details. The structure depends on the
   /// <code>credentialProviderType</code>.
@@ -16827,6 +17024,7 @@ class RegistryRecordCredentialProviderConfiguration {
   }
 }
 
+/// @nodoc
 class RegistryRecordCredentialProviderType {
   static const oauth = RegistryRecordCredentialProviderType._('OAUTH');
   static const iam = RegistryRecordCredentialProviderType._('IAM');
@@ -16854,6 +17052,8 @@ class RegistryRecordCredentialProviderType {
 
 /// Union of supported credential provider types for registry record
 /// synchronization.
+///
+/// @nodoc
 class RegistryRecordCredentialProviderUnion {
   /// The IAM credential provider configuration for authenticating with the
   /// external source using SigV4 signing.
@@ -16896,6 +17096,8 @@ class RegistryRecordCredentialProviderUnion {
 
 /// OAuth credential provider configuration for authenticating with an external
 /// source during synchronization.
+///
+/// @nodoc
 class RegistryRecordOAuthCredentialProvider {
   /// The Amazon Resource Name (ARN) of the OAuth credential provider resource.
   final String providerArn;
@@ -16946,6 +17148,8 @@ class RegistryRecordOAuthCredentialProvider {
 
 /// IAM credential provider configuration for authenticating with an external
 /// source using SigV4 signing during synchronization.
+///
+/// @nodoc
 class RegistryRecordIamCredentialProvider {
   /// The Amazon Web Services region for SigV4 signing (for example,
   /// <code>us-west-2</code>). If not specified, the region is extracted from the
@@ -16986,6 +17190,7 @@ class RegistryRecordIamCredentialProvider {
   }
 }
 
+/// @nodoc
 class RegistryRecordOAuthGrantType {
   static const clientCredentials =
       RegistryRecordOAuthGrantType._('CLIENT_CREDENTIALS');
@@ -17014,6 +17219,8 @@ class RegistryRecordOAuthGrantType {
 /// The Model Context Protocol (MCP) descriptor for a registry record. Contains
 /// the server definition and tools definition for an MCP-compatible server. The
 /// schema is validated against the MCP protocol specification.
+///
+/// @nodoc
 class McpDescriptor {
   /// The MCP server definition, containing the server configuration and schema as
   /// defined by the MCP protocol specification.
@@ -17051,6 +17258,8 @@ class McpDescriptor {
 
 /// The Agent-to-Agent (A2A) protocol descriptor for a registry record. Contains
 /// the agent card definition as defined by the A2A protocol specification.
+///
+/// @nodoc
 class A2aDescriptor {
   /// The agent card definition for the A2A agent, as defined by the A2A protocol
   /// specification.
@@ -17080,6 +17289,8 @@ class A2aDescriptor {
 /// A custom descriptor for a registry record. Use this for resources such as
 /// APIs, Lambda functions, or servers that do not conform to a standard
 /// protocol like MCP or A2A.
+///
+/// @nodoc
 class CustomDescriptor {
   /// The custom descriptor content as a valid JSON document. You can define any
   /// custom schema that describes your resource.
@@ -17106,6 +17317,8 @@ class CustomDescriptor {
 /// The agent skills descriptor for a registry record. Contains an optional
 /// skill markdown definition in human-readable format and an optional
 /// structured skill definition.
+///
+/// @nodoc
 class AgentSkillsDescriptor {
   /// The structured skill definition with schema version and content.
   final SkillDefinition? skillDefinition;
@@ -17142,6 +17355,8 @@ class AgentSkillsDescriptor {
 }
 
 /// The skill markdown definition for an agent skills descriptor.
+///
+/// @nodoc
 class SkillMdDefinition {
   /// The markdown content describing the agent's skills in a human-readable
   /// format.
@@ -17166,6 +17381,8 @@ class SkillMdDefinition {
 }
 
 /// The structured skill definition with schema version and content.
+///
+/// @nodoc
 class SkillDefinition {
   /// The JSON content containing the structured skill definition.
   final String? inlineContent;
@@ -17197,6 +17414,8 @@ class SkillDefinition {
 
 /// The agent card definition for an A2A descriptor. Contains the schema version
 /// and inline content for the agent card.
+///
+/// @nodoc
 class AgentCardDefinition {
   /// The JSON content containing the A2A agent card definition, conforming to the
   /// A2A protocol specification.
@@ -17230,6 +17449,8 @@ class AgentCardDefinition {
 
 /// The server definition for an MCP descriptor. Contains the schema version and
 /// inline content for the MCP server configuration.
+///
+/// @nodoc
 class ServerDefinition {
   /// The JSON content containing the MCP server definition, conforming to the MCP
   /// protocol specification.
@@ -17264,6 +17485,8 @@ class ServerDefinition {
 
 /// The tools definition for an MCP descriptor. Contains the protocol version
 /// and inline content describing the available tools.
+///
+/// @nodoc
 class ToolsDefinition {
   /// The JSON content containing the MCP tools definition, conforming to the MCP
   /// protocol specification.
@@ -17300,6 +17523,8 @@ class ToolsDefinition {
 /// When present with a value, individual descriptors can be updated. When
 /// present with a null value, all descriptors are unset. When absent,
 /// descriptors are left unchanged.
+///
+/// @nodoc
 class UpdatedDescriptors {
   /// The updated descriptors value. Contains per-descriptor-type wrappers that
   /// are each independently updatable.
@@ -17319,6 +17544,8 @@ class UpdatedDescriptors {
 
 /// Wrapper for updating the synchronization type with PATCH semantics. Must be
 /// matched with <code>UpdatedSynchronizationConfiguration</code>.
+///
+/// @nodoc
 class UpdatedSynchronizationType {
   /// The updated synchronization type value.
   final SynchronizationType? optionalValue;
@@ -17337,6 +17564,8 @@ class UpdatedSynchronizationType {
 
 /// Wrapper for updating the synchronization configuration with PATCH semantics.
 /// Must be matched with <code>UpdatedSynchronizationType</code>.
+///
+/// @nodoc
 class UpdatedSynchronizationConfiguration {
   /// The updated synchronization configuration value.
   final SynchronizationConfiguration? optionalValue;
@@ -17355,6 +17584,8 @@ class UpdatedSynchronizationConfiguration {
 
 /// Contains per-descriptor-type wrappers for updating descriptors. Each
 /// descriptor type can be updated independently.
+///
+/// @nodoc
 class UpdatedDescriptorsUnion {
   /// The updated A2A descriptor.
   final UpdatedA2aDescriptor? a2a;
@@ -17393,6 +17624,8 @@ class UpdatedDescriptorsUnion {
 /// with a value, individual MCP fields can be updated independently. When
 /// present with a null value, the entire MCP descriptor is unset. When absent,
 /// the MCP descriptor is left unchanged.
+///
+/// @nodoc
 class UpdatedMcpDescriptor {
   /// The updated MCP descriptor fields.
   final UpdatedMcpDescriptorFields? optionalValue;
@@ -17413,6 +17646,8 @@ class UpdatedMcpDescriptor {
 /// the A2A descriptor is replaced with the provided value. When absent, the A2A
 /// descriptor is left unchanged. To unset, include the wrapper with the value
 /// set to null.
+///
+/// @nodoc
 class UpdatedA2aDescriptor {
   /// The updated A2A descriptor value.
   final A2aDescriptor? optionalValue;
@@ -17433,6 +17668,8 @@ class UpdatedA2aDescriptor {
 /// the custom descriptor is replaced with the provided value. When absent, the
 /// custom descriptor is left unchanged. To unset, include the wrapper with the
 /// value set to null.
+///
+/// @nodoc
 class UpdatedCustomDescriptor {
   /// The updated custom descriptor value.
   final CustomDescriptor? optionalValue;
@@ -17453,6 +17690,8 @@ class UpdatedCustomDescriptor {
 /// present with a value, individual fields can be updated independently. When
 /// present with a null value, the entire agent skills descriptor is unset. When
 /// absent, the agent skills descriptor is left unchanged.
+///
+/// @nodoc
 class UpdatedAgentSkillsDescriptor {
   /// The updated agent skills descriptor fields.
   final UpdatedAgentSkillsDescriptorFields? optionalValue;
@@ -17470,6 +17709,8 @@ class UpdatedAgentSkillsDescriptor {
 }
 
 /// Individual agent skills descriptor fields that can be updated independently.
+///
+/// @nodoc
 class UpdatedAgentSkillsDescriptorFields {
   /// The updated skill definition.
   final UpdatedSkillDefinition? skillDefinition;
@@ -17493,6 +17734,8 @@ class UpdatedAgentSkillsDescriptorFields {
 }
 
 /// Wrapper for updating a skill markdown definition with PATCH semantics.
+///
+/// @nodoc
 class UpdatedSkillMdDefinition {
   /// The updated skill markdown definition value.
   final SkillMdDefinition? optionalValue;
@@ -17510,6 +17753,8 @@ class UpdatedSkillMdDefinition {
 }
 
 /// Wrapper for updating a skill definition with PATCH semantics.
+///
+/// @nodoc
 class UpdatedSkillDefinition {
   /// The updated skill definition value.
   final SkillDefinition? optionalValue;
@@ -17527,6 +17772,8 @@ class UpdatedSkillDefinition {
 }
 
 /// Individual MCP descriptor fields that can be updated independently.
+///
+/// @nodoc
 class UpdatedMcpDescriptorFields {
   /// The updated server definition for the MCP descriptor.
   final UpdatedServerDefinition? server;
@@ -17553,6 +17800,8 @@ class UpdatedMcpDescriptorFields {
 /// the server definition is replaced with the provided value. When absent, the
 /// server definition is left unchanged. To unset, include the wrapper with the
 /// value set to null.
+///
+/// @nodoc
 class UpdatedServerDefinition {
   /// The updated server definition value.
   final ServerDefinition? optionalValue;
@@ -17573,6 +17822,8 @@ class UpdatedServerDefinition {
 /// the tools definition is replaced with the provided value. When absent, the
 /// tools definition is left unchanged. To unset, include the wrapper with the
 /// value set to null.
+///
+/// @nodoc
 class UpdatedToolsDefinition {
   /// The updated tools definition value.
   final ToolsDefinition? optionalValue;
@@ -17594,6 +17845,8 @@ class UpdatedToolsDefinition {
 /// customer-encrypted fields such as definition, description, or status
 /// reasons. Policy summaries are returned by operations that do not require
 /// access to the customer's KMS key.
+///
+/// @nodoc
 class PolicySummary {
   /// The timestamp when the policy was originally created.
   final DateTime createdAt;
@@ -17658,6 +17911,7 @@ class PolicySummary {
   }
 }
 
+/// @nodoc
 class PolicyStatus {
   static const creating = PolicyStatus._('CREATING');
   static const active = PolicyStatus._('ACTIVE');
@@ -17705,6 +17959,8 @@ class PolicyStatus {
 /// conditions for attribute-based access control. Multiple policies can apply
 /// to a single request, with Cedar's forbid-wins semantics ensuring that
 /// security restrictions are never accidentally overridden.
+///
+/// @nodoc
 class Policy {
   /// The timestamp when the policy was originally created. This is automatically
   /// set by the service and used for auditing and lifecycle management.
@@ -17812,6 +18068,8 @@ class Policy {
 /// Represents the definition structure for policies within the AgentCore Policy
 /// system. This structure encapsulates different policy formats and languages
 /// that can be used to define access control rules.
+///
+/// @nodoc
 class PolicyDefinition {
   /// The Cedar policy definition within the policy definition structure. This
   /// contains the Cedar policy statement that defines the authorization logic
@@ -17864,6 +18122,8 @@ class PolicyDefinition {
 /// Cedar is a policy language designed for authorization that provides
 /// human-readable, analyzable, and high-performance policy evaluation for
 /// controlling agent behavior and access decisions.
+///
+/// @nodoc
 class CedarPolicy {
   /// The Cedar policy statement that defines the authorization logic. This
   /// statement follows Cedar syntax and specifies principals, actions, resources,
@@ -17893,6 +18153,8 @@ class CedarPolicy {
 /// Each asset contains a Cedar policy statement generated from natural language
 /// input, along with associated metadata and analysis findings to help users
 /// evaluate and select the most appropriate policy option.
+///
+/// @nodoc
 class PolicyGenerationDetails {
   /// The unique identifier for this generated policy asset within the policy
   /// generation request.
@@ -17924,6 +18186,7 @@ class PolicyGenerationDetails {
   }
 }
 
+/// @nodoc
 class PolicyValidationMode {
   static const failOnAnyFindings =
       PolicyValidationMode._('FAIL_ON_ANY_FINDINGS');
@@ -17956,6 +18219,8 @@ class PolicyValidationMode {
 /// without customer-encrypted fields such as status reasons. Policy generation
 /// summaries are returned by operations that do not require access to the
 /// customer's KMS key.
+///
+/// @nodoc
 class PolicyGenerationSummary {
   /// The timestamp when this policy generation request was created.
   final DateTime createdAt;
@@ -18039,6 +18304,8 @@ class PolicyGenerationSummary {
 /// Represents a resource within the AgentCore Policy system. Resources are the
 /// targets of policy evaluation. Currently, only AgentCore Gateways are
 /// supported as resources for policy enforcement.
+///
+/// @nodoc
 class Resource {
   /// The Amazon Resource Name (ARN) of the resource. This globally unique
   /// identifier specifies the exact resource that policies will be evaluated
@@ -18063,6 +18330,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class PolicyGenerationStatus {
   static const generating = PolicyGenerationStatus._('GENERATING');
   static const generated = PolicyGenerationStatus._('GENERATED');
@@ -18095,6 +18363,8 @@ class PolicyGenerationStatus {
 /// policy statement generated from natural language input, along with
 /// associated metadata and analysis findings to help users evaluate and select
 /// the most appropriate policy option.
+///
+/// @nodoc
 class PolicyGenerationAsset {
   /// Analysis findings and insights related to this specific generated policy
   /// asset. These findings may include validation results, potential issues, or
@@ -18167,6 +18437,8 @@ class PolicyGenerationAsset {
 /// DENY_NONE (policy would deny no actions, ineffective). Review all findings
 /// before creating policies from generated assets to ensure they match your
 /// security requirements.
+///
+/// @nodoc
 class Finding {
   /// A human-readable description of the finding. This provides detailed
   /// information about the issue, recommendation, or validation result to help
@@ -18200,6 +18472,7 @@ class Finding {
   }
 }
 
+/// @nodoc
 class FindingType {
   static const valid = FindingType._('VALID');
   static const invalid = FindingType._('INVALID');
@@ -18247,6 +18520,8 @@ class FindingType {
 /// issues. Generated policy assets remain available for one week after
 /// successful generation, allowing time to review and create policies from the
 /// generated options.
+///
+/// @nodoc
 class PolicyGeneration {
   /// The timestamp when this policy generation request was created.
   final DateTime createdAt;
@@ -18340,6 +18615,8 @@ class PolicyGeneration {
 /// Represents content input for policy generation operations. This structure
 /// encapsulates the natural language descriptions or other content formats that
 /// are used as input for AI-powered policy generation.
+///
+/// @nodoc
 class Content {
   /// The raw text content containing natural language descriptions of desired
   /// policy behavior. This text is processed by AI to generate corresponding
@@ -18363,6 +18640,8 @@ class Content {
 /// customer-encrypted fields such as description or status reasons. Policy
 /// engine summaries are returned by operations that do not require access to
 /// the customer's KMS key.
+///
+/// @nodoc
 class PolicyEngineSummary {
   /// The timestamp when the policy engine was originally created.
   final DateTime createdAt;
@@ -18428,6 +18707,7 @@ class PolicyEngineSummary {
   }
 }
 
+/// @nodoc
 class PolicyEngineStatus {
   static const creating = PolicyEngineStatus._('CREATING');
   static const active = PolicyEngineStatus._('ACTIVE');
@@ -18478,6 +18758,8 @@ class PolicyEngineStatus {
 /// associating with a Gateway: log-only mode for testing (evaluates decisions
 /// without blocking) and enforce mode for production (actively allows or denies
 /// based on policy evaluation).
+///
+/// @nodoc
 class PolicyEngine {
   /// The timestamp when the policy engine was originally created. This is
   /// automatically set by the service and used for auditing and lifecycle
@@ -18573,6 +18855,8 @@ class PolicyEngine {
 }
 
 /// Contains summary information about a payment connector.
+///
+/// @nodoc
 class PaymentConnectorSummary {
   /// The timestamp when the payment connector was last updated.
   final DateTime lastUpdatedAt;
@@ -18628,6 +18912,7 @@ class PaymentConnectorSummary {
   }
 }
 
+/// @nodoc
 class PaymentConnectorType {
   static const coinbaseCDP = PaymentConnectorType._('CoinbaseCDP');
   static const stripePrivy = PaymentConnectorType._('StripePrivy');
@@ -18653,6 +18938,7 @@ class PaymentConnectorType {
   String toString() => value;
 }
 
+/// @nodoc
 class PaymentConnectorStatus {
   static const creating = PaymentConnectorStatus._('CREATING');
   static const updating = PaymentConnectorStatus._('UPDATING');
@@ -18693,6 +18979,8 @@ class PaymentConnectorStatus {
 
 /// The credential provider configuration for a payment connector. Specifies the
 /// payment provider type and its associated credential provider.
+///
+/// @nodoc
 class CredentialsProviderConfiguration {
   /// The credential provider configuration for a Coinbase CDP payment connector.
   final PaymentCredentialProviderConfiguration? coinbaseCDP;
@@ -18730,6 +19018,8 @@ class CredentialsProviderConfiguration {
 
 /// Configuration for a payment credential provider that stores authentication
 /// credentials for a payment provider.
+///
+/// @nodoc
 class PaymentCredentialProviderConfiguration {
   /// The Amazon Resource Name (ARN) of the credential provider that stores the
   /// authentication credentials for the payment provider.
@@ -18755,6 +19045,8 @@ class PaymentCredentialProviderConfiguration {
 }
 
 /// Contains summary information about a payment manager.
+///
+/// @nodoc
 class PaymentManagerSummary {
   /// The type of authorizer used by the payment manager.
   ///
@@ -18849,6 +19141,7 @@ class PaymentManagerSummary {
   }
 }
 
+/// @nodoc
 class PaymentsAuthorizerType {
   static const customJwt = PaymentsAuthorizerType._('CUSTOM_JWT');
   static const awsIam = PaymentsAuthorizerType._('AWS_IAM');
@@ -18874,6 +19167,7 @@ class PaymentsAuthorizerType {
   String toString() => value;
 }
 
+/// @nodoc
 class PaymentManagerStatus {
   static const creating = PaymentManagerStatus._('CREATING');
   static const updating = PaymentManagerStatus._('UPDATING');
@@ -18913,6 +19207,8 @@ class PaymentManagerStatus {
 }
 
 /// The information about the workload identity.
+///
+/// @nodoc
 class WorkloadIdentityDetails {
   /// The ARN associated with the workload identity.
   final String workloadIdentityArn;
@@ -18936,6 +19232,8 @@ class WorkloadIdentityDetails {
 }
 
 /// Contains summary information about a payment credential provider.
+///
+/// @nodoc
 class PaymentCredentialProviderItem {
   /// The timestamp when the payment credential provider was created.
   final DateTime createdTime;
@@ -18990,6 +19288,8 @@ class PaymentCredentialProviderItem {
 
 /// Supported vendor types for payment providers using non-standard auth
 /// protocols.
+///
+/// @nodoc
 class PaymentCredentialProviderVendorType {
   static const coinbaseCDP =
       PaymentCredentialProviderVendorType._('CoinbaseCDP');
@@ -19019,6 +19319,8 @@ class PaymentCredentialProviderVendorType {
 
 /// Provider configuration output — no raw secrets, only ARNs. Varies by vendor
 /// type.
+///
+/// @nodoc
 class PaymentProviderConfigurationOutput {
   /// The Coinbase CDP configuration.
   final CoinbaseCdpConfigurationOutput? coinbaseCdpConfiguration;
@@ -19058,6 +19360,8 @@ class PaymentProviderConfigurationOutput {
 }
 
 /// Coinbase CDP configuration output with secret ARNs.
+///
+/// @nodoc
 class CoinbaseCdpConfigurationOutput {
   /// The API key identifier provided by Coinbase Developer Platform.
   final String apiKeyId;
@@ -19135,6 +19439,8 @@ class CoinbaseCdpConfigurationOutput {
 }
 
 /// Stripe Privy configuration output with secret ARNs.
+///
+/// @nodoc
 class StripePrivyConfigurationOutput {
   /// The app ID provided by Privy.
   final String appId;
@@ -19219,6 +19525,8 @@ class StripePrivyConfigurationOutput {
 }
 
 /// Contains information about a secret in AWS Secrets Manager.
+///
+/// @nodoc
 class Secret {
   /// The Amazon Resource Name (ARN) of the secret in AWS Secrets Manager.
   final String secretArn;
@@ -19241,6 +19549,7 @@ class Secret {
   }
 }
 
+/// @nodoc
 class SecretSourceType {
   static const managed = SecretSourceType._('MANAGED');
   static const external = SecretSourceType._('EXTERNAL');
@@ -19267,6 +19576,8 @@ class SecretSourceType {
 
 /// Provider configuration input — contains secrets for creation and update.
 /// Varies by vendor type.
+///
+/// @nodoc
 class PaymentProviderConfigurationInput {
   /// The Coinbase CDP configuration.
   final CoinbaseCdpConfigurationInput? coinbaseCdpConfiguration;
@@ -19293,6 +19604,8 @@ class PaymentProviderConfigurationInput {
 
 /// Coinbase CDP configuration — credentials provided by Coinbase Developer
 /// Platform.
+///
+/// @nodoc
 class CoinbaseCdpConfigurationInput {
   /// The API key identifier provided by Coinbase Developer Platform.
   final String apiKeyId;
@@ -19360,6 +19673,8 @@ class CoinbaseCdpConfigurationInput {
 }
 
 /// Stripe Privy configuration — credentials provided by Stripe and Privy.
+///
+/// @nodoc
 class StripePrivyConfigurationInput {
   /// The app ID provided by Privy.
   final String appId;
@@ -19432,6 +19747,8 @@ class StripePrivyConfigurationInput {
 }
 
 /// Contains a reference to a secret stored in AWS Secrets Manager.
+///
+/// @nodoc
 class SecretReference {
   /// The JSON key used to extract the secret value from the AWS Secrets Manager
   /// secret.
@@ -19457,6 +19774,8 @@ class SecretReference {
 
 /// The summary information about an online evaluation configuration, including
 /// basic metadata and execution status.
+///
+/// @nodoc
 class OnlineEvaluationConfigSummary {
   /// The timestamp when the online evaluation configuration was created.
   final DateTime createdAt;
@@ -19542,6 +19861,7 @@ class OnlineEvaluationConfigSummary {
   }
 }
 
+/// @nodoc
 class OnlineEvaluationConfigStatus {
   static const active = OnlineEvaluationConfigStatus._('ACTIVE');
   static const creating = OnlineEvaluationConfigStatus._('CREATING');
@@ -19580,6 +19900,7 @@ class OnlineEvaluationConfigStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OnlineEvaluationExecutionStatus {
   static const enabled = OnlineEvaluationExecutionStatus._('ENABLED');
   static const disabled = OnlineEvaluationExecutionStatus._('DISABLED');
@@ -19607,6 +19928,8 @@ class OnlineEvaluationExecutionStatus {
 
 /// The evaluation rule that defines sampling configuration, filtering criteria,
 /// and session detection settings for online evaluation.
+///
+/// @nodoc
 class Rule {
   /// The sampling configuration that determines what percentage of agent traces
   /// to evaluate.
@@ -19656,6 +19979,8 @@ class Rule {
 
 /// The configuration that specifies where to read agent traces for online
 /// evaluation.
+///
+/// @nodoc
 class DataSourceConfig {
   /// The CloudWatch logs configuration for reading agent traces from log groups.
   final CloudWatchLogsInputConfig? cloudWatchLogs;
@@ -19683,6 +20008,8 @@ class DataSourceConfig {
 
 /// The reference to an evaluator used in online evaluation configurations,
 /// containing the evaluator identifier.
+///
+/// @nodoc
 class EvaluatorReference {
   /// The unique identifier of the evaluator. Can reference builtin evaluators
   /// (e.g., Builtin.Helpfulness) or custom evaluators.
@@ -19708,6 +20035,8 @@ class EvaluatorReference {
 
 /// The configuration for reading agent traces from CloudWatch logs as input for
 /// online evaluation.
+///
+/// @nodoc
 class CloudWatchLogsInputConfig {
   /// The list of CloudWatch log group names to monitor for agent traces.
   final List<String> logGroupNames;
@@ -19746,6 +20075,8 @@ class CloudWatchLogsInputConfig {
 
 /// The configuration that controls what percentage of agent traces are sampled
 /// for evaluation to manage evaluation volume and costs.
+///
+/// @nodoc
 class SamplingConfig {
   /// The percentage of agent traces to sample for evaluation, ranging from 0.01%
   /// to 100%.
@@ -19771,6 +20102,8 @@ class SamplingConfig {
 
 /// The configuration that defines how agent sessions are detected and when they
 /// are considered complete for evaluation.
+///
+/// @nodoc
 class SessionConfig {
   /// The number of minutes of inactivity after which an agent session is
   /// considered complete and ready for evaluation. Default is 15 minutes.
@@ -19796,6 +20129,8 @@ class SessionConfig {
 
 /// The filter that applies conditions to agent traces during online evaluation
 /// to determine which traces should be evaluated.
+///
+/// @nodoc
 class Filter {
   /// The key or field name to filter on within the agent trace data.
   final String key;
@@ -19833,6 +20168,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterOperator {
   static const equals = FilterOperator._('Equals');
   static const notEquals = FilterOperator._('NotEquals');
@@ -19874,6 +20210,8 @@ class FilterOperator {
 
 /// The value used in filter comparisons, supporting different data types for
 /// flexible filtering criteria.
+///
+/// @nodoc
 class FilterValue {
   /// The boolean value for true/false filtering conditions.
   final bool? booleanValue;
@@ -19912,6 +20250,8 @@ class FilterValue {
 
 /// The configuration that specifies where evaluation results should be written
 /// for monitoring and analysis.
+///
+/// @nodoc
 class OutputConfig {
   /// The CloudWatch configuration for writing evaluation results to CloudWatch
   /// logs with embedded metric format.
@@ -19939,6 +20279,8 @@ class OutputConfig {
 
 /// The configuration for writing evaluation results to CloudWatch logs with
 /// embedded metric format (EMF) for monitoring.
+///
+/// @nodoc
 class CloudWatchOutputConfig {
   /// The name of the CloudWatch log group where evaluation results will be
   /// written. The log group will be created if it doesn't exist.
@@ -19963,6 +20305,8 @@ class CloudWatchOutputConfig {
 }
 
 /// Contains information about an OAuth2 credential provider.
+///
+/// @nodoc
 class Oauth2CredentialProviderItem {
   /// The timestamp when the OAuth2 credential provider was created.
   final DateTime createdTime;
@@ -20015,6 +20359,7 @@ class Oauth2CredentialProviderItem {
   }
 }
 
+/// @nodoc
 class CredentialProviderVendorType {
   static const googleOauth2 = CredentialProviderVendorType._('GoogleOauth2');
   static const githubOauth2 = CredentialProviderVendorType._('GithubOauth2');
@@ -20098,6 +20443,8 @@ class CredentialProviderVendorType {
 }
 
 /// Contains the output configuration for an OAuth2 provider.
+///
+/// @nodoc
 class Oauth2ProviderConfigOutput {
   /// The configuration details for the Atlassian OAuth2 provider.
   final AtlassianOauth2ProviderConfigOutput? atlassianOauth2ProviderConfig;
@@ -20217,6 +20564,7 @@ class Oauth2ProviderConfigOutput {
   }
 }
 
+/// @nodoc
 class Status {
   static const creating = Status._('CREATING');
   static const createFailed = Status._('CREATE_FAILED');
@@ -20254,6 +20602,8 @@ class Status {
 }
 
 /// Output configuration for a custom OAuth2 provider.
+///
+/// @nodoc
 class CustomOauth2ProviderConfigOutput {
   /// The OAuth2 discovery information for the custom provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20332,6 +20682,8 @@ class CustomOauth2ProviderConfigOutput {
 }
 
 /// Output configuration for a Google OAuth2 provider.
+///
+/// @nodoc
 class GoogleOauth2ProviderConfigOutput {
   /// The OAuth2 discovery information for the Google provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20364,6 +20716,8 @@ class GoogleOauth2ProviderConfigOutput {
 }
 
 /// Output configuration for a GitHub OAuth2 provider.
+///
+/// @nodoc
 class GithubOauth2ProviderConfigOutput {
   /// The OAuth2 discovery information for the GitHub provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20396,6 +20750,8 @@ class GithubOauth2ProviderConfigOutput {
 }
 
 /// Output configuration for a Slack OAuth2 provider.
+///
+/// @nodoc
 class SlackOauth2ProviderConfigOutput {
   /// The OAuth2 discovery information for the Slack provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20428,6 +20784,8 @@ class SlackOauth2ProviderConfigOutput {
 }
 
 /// Output configuration for a Salesforce OAuth2 provider.
+///
+/// @nodoc
 class SalesforceOauth2ProviderConfigOutput {
   /// The OAuth2 discovery information for the Salesforce provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20461,6 +20819,8 @@ class SalesforceOauth2ProviderConfigOutput {
 }
 
 /// Output configuration for a Microsoft OAuth2 provider.
+///
+/// @nodoc
 class MicrosoftOauth2ProviderConfigOutput {
   /// The OAuth2 discovery information for the Microsoft provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20495,6 +20855,8 @@ class MicrosoftOauth2ProviderConfigOutput {
 
 /// The configuration details returned for an Atlassian OAuth2 provider,
 /// including the client ID and OAuth2 discovery information.
+///
+/// @nodoc
 class AtlassianOauth2ProviderConfigOutput {
   final Oauth2Discovery oauthDiscovery;
 
@@ -20528,6 +20890,8 @@ class AtlassianOauth2ProviderConfigOutput {
 
 /// The configuration details returned for a LinkedIn OAuth2 provider, including
 /// the client ID and OAuth2 discovery information.
+///
+/// @nodoc
 class LinkedinOauth2ProviderConfigOutput {
   final Oauth2Discovery oauthDiscovery;
 
@@ -20561,6 +20925,8 @@ class LinkedinOauth2ProviderConfigOutput {
 
 /// The configuration details returned for a supported OAuth2 provider,
 /// including client credentials and OAuth2 discovery information.
+///
+/// @nodoc
 class IncludedOauth2ProviderConfigOutput {
   final Oauth2Discovery oauthDiscovery;
 
@@ -20593,6 +20959,8 @@ class IncludedOauth2ProviderConfigOutput {
 }
 
 /// Contains the discovery information for an OAuth2 provider.
+///
+/// @nodoc
 class Oauth2Discovery {
   /// The authorization server metadata for the OAuth2 provider.
   final Oauth2AuthorizationServerMetadata? authorizationServerMetadata;
@@ -20627,6 +20995,8 @@ class Oauth2Discovery {
 }
 
 /// Contains the authorization server metadata for an OAuth2 provider.
+///
+/// @nodoc
 class Oauth2AuthorizationServerMetadata {
   /// The authorization endpoint URL for the OAuth2 authorization server.
   final String authorizationEndpoint;
@@ -20688,6 +21058,8 @@ class Oauth2AuthorizationServerMetadata {
 }
 
 /// Configuration for on-behalf-of token exchange.
+///
+/// @nodoc
 class OnBehalfOfTokenExchangeConfigType {
   /// The grant type for the on-behalf-of token exchange.
   final OnBehalfOfTokenExchangeGrantTypeType grantType;
@@ -20723,6 +21095,7 @@ class OnBehalfOfTokenExchangeConfigType {
   }
 }
 
+/// @nodoc
 class ClientAuthenticationMethodType {
   static const clientSecretBasic =
       ClientAuthenticationMethodType._('CLIENT_SECRET_BASIC');
@@ -20752,6 +21125,7 @@ class ClientAuthenticationMethodType {
   String toString() => value;
 }
 
+/// @nodoc
 class OnBehalfOfTokenExchangeGrantTypeType {
   static const tokenExchange =
       OnBehalfOfTokenExchangeGrantTypeType._('TOKEN_EXCHANGE');
@@ -20780,6 +21154,8 @@ class OnBehalfOfTokenExchangeGrantTypeType {
 }
 
 /// Configuration for RFC 8693 token exchange.
+///
+/// @nodoc
 class TokenExchangeGrantTypeConfigType {
   /// The content type for the actor token in the token exchange.
   final ActorTokenContentType actorTokenContent;
@@ -20813,6 +21189,7 @@ class TokenExchangeGrantTypeConfigType {
   }
 }
 
+/// @nodoc
 class ActorTokenContentType {
   static const none = ActorTokenContentType._('NONE');
   static const m2m = ActorTokenContentType._('M2M');
@@ -20841,6 +21218,8 @@ class ActorTokenContentType {
 }
 
 /// Contains the input configuration for an OAuth2 provider.
+///
+/// @nodoc
 class Oauth2ProviderConfigInput {
   /// Configuration settings for Atlassian OAuth2 provider integration.
   final AtlassianOauth2ProviderConfigInput? atlassianOauth2ProviderConfig;
@@ -20916,6 +21295,8 @@ class Oauth2ProviderConfigInput {
 }
 
 /// Input configuration for a custom OAuth2 provider.
+///
+/// @nodoc
 class CustomOauth2ProviderConfigInput {
   /// The OAuth2 discovery information for the custom provider.
   final Oauth2Discovery oauthDiscovery;
@@ -20994,6 +21375,8 @@ class CustomOauth2ProviderConfigInput {
 }
 
 /// Input configuration for a Google OAuth2 provider.
+///
+/// @nodoc
 class GoogleOauth2ProviderConfigInput {
   /// The client ID for the Google OAuth2 provider.
   final String clientId;
@@ -21035,6 +21418,8 @@ class GoogleOauth2ProviderConfigInput {
 }
 
 /// Input configuration for a GitHub OAuth2 provider.
+///
+/// @nodoc
 class GithubOauth2ProviderConfigInput {
   /// The client ID for the GitHub OAuth2 provider.
   final String clientId;
@@ -21076,6 +21461,8 @@ class GithubOauth2ProviderConfigInput {
 }
 
 /// Input configuration for a Slack OAuth2 provider.
+///
+/// @nodoc
 class SlackOauth2ProviderConfigInput {
   /// The client ID for the Slack OAuth2 provider.
   final String clientId;
@@ -21117,6 +21504,8 @@ class SlackOauth2ProviderConfigInput {
 }
 
 /// Input configuration for a Salesforce OAuth2 provider.
+///
+/// @nodoc
 class SalesforceOauth2ProviderConfigInput {
   /// The client ID for the Salesforce OAuth2 provider.
   final String clientId;
@@ -21158,6 +21547,8 @@ class SalesforceOauth2ProviderConfigInput {
 }
 
 /// Input configuration for a Microsoft OAuth2 provider.
+///
+/// @nodoc
 class MicrosoftOauth2ProviderConfigInput {
   /// The client ID for the Microsoft OAuth2 provider.
   final String clientId;
@@ -21209,6 +21600,8 @@ class MicrosoftOauth2ProviderConfigInput {
 /// Configuration settings for connecting to Atlassian services using OAuth2
 /// authentication. This includes the client credentials required to
 /// authenticate with Atlassian's OAuth2 authorization server.
+///
+/// @nodoc
 class AtlassianOauth2ProviderConfigInput {
   /// The client ID for the Atlassian OAuth2 provider. This identifier is assigned
   /// by Atlassian when you register your application.
@@ -21256,6 +21649,8 @@ class AtlassianOauth2ProviderConfigInput {
 /// Configuration settings for connecting to LinkedIn services using OAuth2
 /// authentication. This includes the client credentials required to
 /// authenticate with LinkedIn's OAuth2 authorization server.
+///
+/// @nodoc
 class LinkedinOauth2ProviderConfigInput {
   /// The client ID for the LinkedIn OAuth2 provider. This identifier is assigned
   /// by LinkedIn when you register your application.
@@ -21302,6 +21697,8 @@ class LinkedinOauth2ProviderConfigInput {
 /// Configuration settings for connecting to a supported OAuth2 provider. This
 /// includes client credentials and OAuth2 discovery information for providers
 /// that have built-in support.
+///
+/// @nodoc
 class IncludedOauth2ProviderConfigInput {
   /// The client ID for the supported OAuth2 provider. This identifier is assigned
   /// by the OAuth2 provider when you register your application.
@@ -21369,6 +21766,8 @@ class IncludedOauth2ProviderConfigInput {
 }
 
 /// Contains summary information about a memory resource.
+///
+/// @nodoc
 class MemorySummary {
   /// The timestamp when the memory was created.
   final DateTime createdAt;
@@ -21419,6 +21818,7 @@ class MemorySummary {
   }
 }
 
+/// @nodoc
 class MemoryStatus {
   static const creating = MemoryStatus._('CREATING');
   static const active = MemoryStatus._('ACTIVE');
@@ -21445,6 +21845,8 @@ class MemoryStatus {
 }
 
 /// Contains information about a memory resource.
+///
+/// @nodoc
 class Memory {
   /// The Amazon Resource Name (ARN) of the memory.
   final String arn;
@@ -21571,6 +21973,8 @@ class Memory {
 }
 
 /// Configuration for streaming memory record data to external resources.
+///
+/// @nodoc
 class StreamDeliveryResources {
   /// List of stream delivery resource configurations.
   final List<StreamDeliveryResource> resources;
@@ -21598,6 +22002,8 @@ class StreamDeliveryResources {
 }
 
 /// Supported stream delivery resource types.
+///
+/// @nodoc
 class StreamDeliveryResource {
   /// Kinesis Data Stream configuration.
   final KinesisResource? kinesis;
@@ -21623,6 +22029,8 @@ class StreamDeliveryResource {
 }
 
 /// Configuration for Kinesis Data Stream delivery.
+///
+/// @nodoc
 class KinesisResource {
   /// Content configurations for stream delivery.
   final List<ContentConfiguration> contentConfigurations;
@@ -21657,6 +22065,8 @@ class KinesisResource {
 }
 
 /// Defines what content to stream and at what level of detail.
+///
+/// @nodoc
 class ContentConfiguration {
   /// Type of content to stream.
   final ContentType type;
@@ -21686,6 +22096,7 @@ class ContentConfiguration {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const memoryRecords = ContentType._('MEMORY_RECORDS');
 
@@ -21708,6 +22119,7 @@ class ContentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentLevel {
   static const metadataOnly = ContentLevel._('METADATA_ONLY');
   static const fullContent = ContentLevel._('FULL_CONTENT');
@@ -21732,6 +22144,8 @@ class ContentLevel {
 }
 
 /// A metadata key indexed for filtering.
+///
+/// @nodoc
 class IndexedKey {
   /// The metadata key name to index.
   final String key;
@@ -21761,6 +22175,7 @@ class IndexedKey {
   }
 }
 
+/// @nodoc
 class MetadataValueType {
   static const string = MetadataValueType._('STRING');
   static const stringlist = MetadataValueType._('STRINGLIST');
@@ -21787,6 +22202,8 @@ class MetadataValueType {
 }
 
 /// Contains information about a memory strategy.
+///
+/// @nodoc
 class MemoryStrategy {
   /// The name of the memory strategy.
   final String name;
@@ -21893,6 +22310,8 @@ class MemoryStrategy {
 }
 
 /// Contains configuration information for a memory strategy.
+///
+/// @nodoc
 class StrategyConfiguration {
   /// The consolidation configuration for the memory strategy.
   final ConsolidationConfiguration? consolidation;
@@ -21956,6 +22375,7 @@ class StrategyConfiguration {
   }
 }
 
+/// @nodoc
 class MemoryStrategyType {
   static const semantic = MemoryStrategyType._('SEMANTIC');
   static const summarization = MemoryStrategyType._('SUMMARIZATION');
@@ -21990,6 +22410,7 @@ class MemoryStrategyType {
   String toString() => value;
 }
 
+/// @nodoc
 class MemoryStrategyStatus {
   static const creating = MemoryStrategyStatus._('CREATING');
   static const active = MemoryStrategyStatus._('ACTIVE');
@@ -22018,6 +22439,8 @@ class MemoryStrategyStatus {
 }
 
 /// Schema for metadata on memory records generated by a strategy.
+///
+/// @nodoc
 class MemoryRecordSchema {
   /// The metadata field definitions for this strategy.
   final List<MetadataSchemaEntry>? metadataSchema;
@@ -22044,6 +22467,8 @@ class MemoryRecordSchema {
 }
 
 /// A metadata field definition within a strategy's schema.
+///
+/// @nodoc
 class MetadataSchemaEntry {
   /// The metadata field name. Must match an indexed key to be queryable via
   /// metadata filters.
@@ -22086,6 +22511,8 @@ class MetadataSchemaEntry {
 }
 
 /// Configuration for metadata extraction from conversational content.
+///
+/// @nodoc
 class ExtractionConfig {
   /// Model-based extraction using a definition and instructions.
   final LlmExtractionConfig? llmExtractionConfig;
@@ -22113,6 +22540,8 @@ class ExtractionConfig {
 }
 
 /// Model-based metadata extraction configuration.
+///
+/// @nodoc
 class LlmExtractionConfig {
   /// Description of what this metadata field represents.
   final String definition;
@@ -22155,6 +22584,8 @@ class LlmExtractionConfig {
 
 /// Validation rules for extracted metadata values. Only one type can be
 /// specified, matching the field's data type.
+///
+/// @nodoc
 class Validation {
   final NumberValidation? numberValidation;
   final StringListValidation? stringListValidation;
@@ -22197,6 +22628,8 @@ class Validation {
 }
 
 /// Validation for STRING fields.
+///
+/// @nodoc
 class StringValidation {
   /// Allowed values for this STRING field.
   final List<String> allowedValues;
@@ -22223,6 +22656,8 @@ class StringValidation {
 }
 
 /// Validation for STRINGLIST fields.
+///
+/// @nodoc
 class StringListValidation {
   /// Allowed values for items in this STRINGLIST field.
   final List<String>? allowedValues;
@@ -22256,6 +22691,8 @@ class StringListValidation {
 }
 
 /// Validation for NUMBER fields.
+///
+/// @nodoc
 class NumberValidation {
   /// Maximum allowed value.
   final double? maxValue;
@@ -22285,6 +22722,7 @@ class NumberValidation {
   }
 }
 
+/// @nodoc
 class OverrideType {
   static const semanticOverride = OverrideType._('SEMANTIC_OVERRIDE');
   static const summaryOverride = OverrideType._('SUMMARY_OVERRIDE');
@@ -22319,6 +22757,8 @@ class OverrideType {
 }
 
 /// Contains extraction configuration information for a memory strategy.
+///
+/// @nodoc
 class ExtractionConfiguration {
   /// The custom extraction configuration.
   final CustomExtractionConfiguration? customExtractionConfiguration;
@@ -22347,6 +22787,8 @@ class ExtractionConfiguration {
 }
 
 /// Contains consolidation configuration information for a memory strategy.
+///
+/// @nodoc
 class ConsolidationConfiguration {
   /// The custom consolidation configuration.
   final CustomConsolidationConfiguration? customConsolidationConfiguration;
@@ -22377,6 +22819,8 @@ class ConsolidationConfiguration {
 }
 
 /// Contains reflection configuration information for a memory strategy.
+///
+/// @nodoc
 class ReflectionConfiguration {
   /// The configuration for a custom reflection strategy.
   final CustomReflectionConfiguration? customReflectionConfiguration;
@@ -22419,6 +22863,8 @@ class ReflectionConfiguration {
 }
 
 /// A configuration for a self-managed memory strategy.
+///
+/// @nodoc
 class SelfManagedConfiguration {
   /// The number of historical messages to include in processing context.
   final int historicalContextWindowSize;
@@ -22462,6 +22908,8 @@ class SelfManagedConfiguration {
 }
 
 /// The configuration to invoke a self-managed memory processing pipeline with.
+///
+/// @nodoc
 class InvocationConfiguration {
   /// The S3 bucket name for event payload delivery.
   final String payloadDeliveryBucketName;
@@ -22493,6 +22941,8 @@ class InvocationConfiguration {
 }
 
 /// Condition that triggers memory processing.
+///
+/// @nodoc
 class TriggerCondition {
   /// Message based trigger configuration.
   final MessageBasedTrigger? messageBasedTrigger;
@@ -22540,6 +22990,8 @@ class TriggerCondition {
 }
 
 /// The trigger configuration based on a message.
+///
+/// @nodoc
 class MessageBasedTrigger {
   /// The number of messages that trigger memory processing.
   final int? messageCount;
@@ -22563,6 +23015,8 @@ class MessageBasedTrigger {
 }
 
 /// Trigger configuration based on tokens.
+///
+/// @nodoc
 class TokenBasedTrigger {
   /// Number of tokens that trigger memory processing.
   final int? tokenCount;
@@ -22586,6 +23040,8 @@ class TokenBasedTrigger {
 }
 
 /// Trigger configuration based on time.
+///
+/// @nodoc
 class TimeBasedTrigger {
   /// Idle session timeout (seconds) that triggers memory processing.
   final int? idleSessionTimeout;
@@ -22609,6 +23065,8 @@ class TimeBasedTrigger {
 }
 
 /// Contains configurations for a custom reflection strategy.
+///
+/// @nodoc
 class CustomReflectionConfiguration {
   /// The configuration for a reflection strategy to override the default one.
   final EpisodicReflectionOverride? episodicReflectionOverride;
@@ -22637,6 +23095,8 @@ class CustomReflectionConfiguration {
 
 /// The configuration for the reflections created with the episodic memory
 /// strategy.
+///
+/// @nodoc
 class EpisodicReflectionConfiguration {
   /// "Schema for metadata fields on records generated by reflections.
   final MemoryRecordSchema? memoryRecordSchema;
@@ -22687,6 +23147,8 @@ class EpisodicReflectionConfiguration {
 
 /// Contains configurations to override the default reflection step for the
 /// episodic memory strategy.
+///
+/// @nodoc
 class EpisodicReflectionOverride {
   /// The text appended to the prompt for the reflection step of the episodic
   /// memory strategy.
@@ -22750,6 +23212,8 @@ class EpisodicReflectionOverride {
 }
 
 /// Contains custom consolidation configuration information.
+///
+/// @nodoc
 class CustomConsolidationConfiguration {
   /// The configurations to override the default consolidation step for the
   /// episodic memory strategy.
@@ -22818,6 +23282,8 @@ class CustomConsolidationConfiguration {
 }
 
 /// Contains semantic consolidation override configuration.
+///
+/// @nodoc
 class SemanticConsolidationOverride {
   /// The text to append to the prompt for semantic consolidation.
   final String appendToPrompt;
@@ -22848,6 +23314,8 @@ class SemanticConsolidationOverride {
 }
 
 /// Contains summary consolidation override configuration.
+///
+/// @nodoc
 class SummaryConsolidationOverride {
   /// The text to append to the prompt for summary consolidation.
   final String appendToPrompt;
@@ -22878,6 +23346,8 @@ class SummaryConsolidationOverride {
 }
 
 /// Contains user preference consolidation override configuration.
+///
+/// @nodoc
 class UserPreferenceConsolidationOverride {
   /// The text to append to the prompt for user preference consolidation.
   final String appendToPrompt;
@@ -22910,6 +23380,8 @@ class UserPreferenceConsolidationOverride {
 
 /// Contains configurations to override the default consolidation step for the
 /// episodic memory strategy.
+///
+/// @nodoc
 class EpisodicConsolidationOverride {
   /// The text appended to the prompt for the consolidation step of the episodic
   /// memory strategy.
@@ -22942,6 +23414,8 @@ class EpisodicConsolidationOverride {
 }
 
 /// Contains custom extraction configuration information.
+///
+/// @nodoc
 class CustomExtractionConfiguration {
   /// The configurations to override the default extraction step for the episodic
   /// memory strategy.
@@ -22995,6 +23469,8 @@ class CustomExtractionConfiguration {
 }
 
 /// Contains semantic extraction override configuration.
+///
+/// @nodoc
 class SemanticExtractionOverride {
   /// The text to append to the prompt for semantic extraction.
   final String appendToPrompt;
@@ -23025,6 +23501,8 @@ class SemanticExtractionOverride {
 }
 
 /// Contains user preference extraction override configuration.
+///
+/// @nodoc
 class UserPreferenceExtractionOverride {
   /// The text to append to the prompt for user preference extraction.
   final String appendToPrompt;
@@ -23056,6 +23534,8 @@ class UserPreferenceExtractionOverride {
 
 /// Contains configurations to override the default extraction step for the
 /// episodic memory strategy.
+///
+/// @nodoc
 class EpisodicExtractionOverride {
   /// The text appended to the prompt for the extraction step of the episodic
   /// memory strategy.
@@ -23087,6 +23567,8 @@ class EpisodicExtractionOverride {
 }
 
 /// Contains information for modifying memory strategies.
+///
+/// @nodoc
 class ModifyMemoryStrategies {
   /// The list of memory strategies to add.
   final List<MemoryStrategyInput>? addMemoryStrategies;
@@ -23119,6 +23601,8 @@ class ModifyMemoryStrategies {
 }
 
 /// Input for deleting a memory strategy.
+///
+/// @nodoc
 class DeleteMemoryStrategyInput {
   /// The unique identifier of the memory strategy to delete.
   final String memoryStrategyId;
@@ -23136,6 +23620,8 @@ class DeleteMemoryStrategyInput {
 }
 
 /// Input for modifying a memory strategy.
+///
+/// @nodoc
 class ModifyMemoryStrategyInput {
   /// The unique identifier of the memory strategy to modify.
   final String memoryStrategyId;
@@ -23184,6 +23670,8 @@ class ModifyMemoryStrategyInput {
 }
 
 /// Contains information for modifying a strategy configuration.
+///
+/// @nodoc
 class ModifyStrategyConfiguration {
   /// The updated consolidation configuration.
   final ModifyConsolidationConfiguration? consolidation;
@@ -23220,6 +23708,8 @@ class ModifyStrategyConfiguration {
 }
 
 /// Contains information for modifying an extraction configuration.
+///
+/// @nodoc
 class ModifyExtractionConfiguration {
   /// The updated custom extraction configuration.
   final CustomExtractionConfigurationInput? customExtractionConfiguration;
@@ -23238,6 +23728,8 @@ class ModifyExtractionConfiguration {
 }
 
 /// Contains information for modifying a consolidation configuration.
+///
+/// @nodoc
 class ModifyConsolidationConfiguration {
   /// The updated custom consolidation configuration.
   final CustomConsolidationConfigurationInput? customConsolidationConfiguration;
@@ -23257,6 +23749,8 @@ class ModifyConsolidationConfiguration {
 }
 
 /// Contains information for modifying a reflection configuration.
+///
+/// @nodoc
 class ModifyReflectionConfiguration {
   /// The updated custom reflection configuration.
   final CustomReflectionConfigurationInput? customReflectionConfiguration;
@@ -23283,6 +23777,8 @@ class ModifyReflectionConfiguration {
 }
 
 /// The configuration for updating the self-managed memory strategy.
+///
+/// @nodoc
 class ModifySelfManagedConfiguration {
   /// The updated number of historical messages to include in processing context.
   final int? historicalContextWindowSize;
@@ -23314,6 +23810,8 @@ class ModifySelfManagedConfiguration {
 }
 
 /// The configuration for updating invocation settings.
+///
+/// @nodoc
 class ModifyInvocationConfigurationInput {
   /// The updated S3 bucket name for event payload delivery.
   final String? payloadDeliveryBucketName;
@@ -23338,6 +23836,8 @@ class ModifyInvocationConfigurationInput {
 }
 
 /// Condition that triggers memory processing.
+///
+/// @nodoc
 class TriggerConditionInput {
   /// Message based trigger configuration.
   final MessageBasedTriggerInput? messageBasedTrigger;
@@ -23368,6 +23868,8 @@ class TriggerConditionInput {
 }
 
 /// The trigger configuration based on a message.
+///
+/// @nodoc
 class MessageBasedTriggerInput {
   /// The number of messages that trigger memory processing.
   final int? messageCount;
@@ -23385,6 +23887,8 @@ class MessageBasedTriggerInput {
 }
 
 /// Trigger configuration based on tokens.
+///
+/// @nodoc
 class TokenBasedTriggerInput {
   /// Number of tokens that trigger memory processing.
   final int? tokenCount;
@@ -23402,6 +23906,8 @@ class TokenBasedTriggerInput {
 }
 
 /// Trigger configuration based on time.
+///
+/// @nodoc
 class TimeBasedTriggerInput {
   /// Idle session timeout (seconds) that triggers memory processing.
   final int? idleSessionTimeout;
@@ -23419,6 +23925,8 @@ class TimeBasedTriggerInput {
 }
 
 /// An episodic reflection configuration input.
+///
+/// @nodoc
 class EpisodicReflectionConfigurationInput {
   /// Schema for metadata fields on records generated by reflections.
   final MemoryRecordSchema? memoryRecordSchema;
@@ -23451,6 +23959,8 @@ class EpisodicReflectionConfigurationInput {
 }
 
 /// Input for a custom reflection configuration.
+///
+/// @nodoc
 class CustomReflectionConfigurationInput {
   /// The reflection override configuration input.
   final EpisodicOverrideReflectionConfigurationInput?
@@ -23471,6 +23981,8 @@ class CustomReflectionConfigurationInput {
 
 /// Configurations for overriding the reflection step of the episodic memory
 /// strategy.
+///
+/// @nodoc
 class EpisodicOverrideReflectionConfigurationInput {
   /// The text to append to the prompt for reflection step of the episodic memory
   /// strategy.
@@ -23516,6 +24028,8 @@ class EpisodicOverrideReflectionConfigurationInput {
 }
 
 /// Input for a custom consolidation configuration.
+///
+/// @nodoc
 class CustomConsolidationConfigurationInput {
   /// Configurations to override the consolidation step of the episodic strategy.
   final EpisodicOverrideConsolidationConfigurationInput?
@@ -23562,6 +24076,8 @@ class CustomConsolidationConfigurationInput {
 
 /// Input for semantic override consolidation configuration in a memory
 /// strategy.
+///
+/// @nodoc
 class SemanticOverrideConsolidationConfigurationInput {
   /// The text to append to the prompt for semantic consolidation.
   final String appendToPrompt;
@@ -23585,6 +24101,8 @@ class SemanticOverrideConsolidationConfigurationInput {
 }
 
 /// Input for summary override consolidation configuration in a memory strategy.
+///
+/// @nodoc
 class SummaryOverrideConsolidationConfigurationInput {
   /// The text to append to the prompt for summary consolidation.
   final String appendToPrompt;
@@ -23609,6 +24127,8 @@ class SummaryOverrideConsolidationConfigurationInput {
 
 /// Input for user preference override consolidation configuration in a memory
 /// strategy.
+///
+/// @nodoc
 class UserPreferenceOverrideConsolidationConfigurationInput {
   /// The text to append to the prompt for user preference consolidation.
   final String appendToPrompt;
@@ -23633,6 +24153,8 @@ class UserPreferenceOverrideConsolidationConfigurationInput {
 
 /// Configurations for overriding the consolidation step of the episodic memory
 /// strategy.
+///
+/// @nodoc
 class EpisodicOverrideConsolidationConfigurationInput {
   /// The text to append to the prompt for the consolidation step of the episodic
   /// memory strategy.
@@ -23658,6 +24180,8 @@ class EpisodicOverrideConsolidationConfigurationInput {
 }
 
 /// Input for a custom extraction configuration.
+///
+/// @nodoc
 class CustomExtractionConfigurationInput {
   /// Configurations to override the extraction step of the episodic strategy.
   final EpisodicOverrideExtractionConfigurationInput?
@@ -23694,6 +24218,8 @@ class CustomExtractionConfigurationInput {
 }
 
 /// Input for semantic override extraction configuration in a memory strategy.
+///
+/// @nodoc
 class SemanticOverrideExtractionConfigurationInput {
   /// The text to append to the prompt for semantic extraction.
   final String appendToPrompt;
@@ -23718,6 +24244,8 @@ class SemanticOverrideExtractionConfigurationInput {
 
 /// Input for user preference override extraction configuration in a memory
 /// strategy.
+///
+/// @nodoc
 class UserPreferenceOverrideExtractionConfigurationInput {
   /// The text to append to the prompt for user preference extraction.
   final String appendToPrompt;
@@ -23742,6 +24270,8 @@ class UserPreferenceOverrideExtractionConfigurationInput {
 
 /// Configurations for overriding the extraction step of the episodic memory
 /// strategy.
+///
+/// @nodoc
 class EpisodicOverrideExtractionConfigurationInput {
   /// The text to append to the prompt for the extraction step of the episodic
   /// memory strategy.
@@ -23766,6 +24296,8 @@ class EpisodicOverrideExtractionConfigurationInput {
 }
 
 /// Contains input information for creating a memory strategy.
+///
+/// @nodoc
 class MemoryStrategyInput {
   /// Input for creating a custom memory strategy.
   final CustomMemoryStrategyInput? customMemoryStrategy;
@@ -23812,6 +24344,8 @@ class MemoryStrategyInput {
 }
 
 /// Input for creating a semantic memory strategy.
+///
+/// @nodoc
 class SemanticMemoryStrategyInput {
   /// The name of the semantic memory strategy.
   final String name;
@@ -23852,6 +24386,8 @@ class SemanticMemoryStrategyInput {
 }
 
 /// Input for creating a summary memory strategy.
+///
+/// @nodoc
 class SummaryMemoryStrategyInput {
   /// The name of the summary memory strategy.
   final String name;
@@ -23894,6 +24430,8 @@ class SummaryMemoryStrategyInput {
 }
 
 /// Input for creating a user preference memory strategy.
+///
+/// @nodoc
 class UserPreferenceMemoryStrategyInput {
   /// The name of the user preference memory strategy.
   final String name;
@@ -23936,6 +24474,8 @@ class UserPreferenceMemoryStrategyInput {
 }
 
 /// Input for creating a custom memory strategy.
+///
+/// @nodoc
 class CustomMemoryStrategyInput {
   /// The name of the custom memory strategy.
   final String name;
@@ -23984,6 +24524,8 @@ class CustomMemoryStrategyInput {
 }
 
 /// Input for creating an episodic memory strategy.
+///
+/// @nodoc
 class EpisodicMemoryStrategyInput {
   /// The name of the episodic memory strategy.
   final String name;
@@ -24034,6 +24576,8 @@ class EpisodicMemoryStrategyInput {
 }
 
 /// Input for custom configuration of a memory strategy.
+///
+/// @nodoc
 class CustomConfigurationInput {
   /// The episodic memory strategy override configuration for a custom memory
   /// strategy.
@@ -24078,6 +24622,8 @@ class CustomConfigurationInput {
 }
 
 /// Input for semantic override configuration in a memory strategy.
+///
+/// @nodoc
 class SemanticOverrideConfigurationInput {
   /// The consolidation configuration for a semantic override.
   final SemanticOverrideConsolidationConfigurationInput? consolidation;
@@ -24101,6 +24647,8 @@ class SemanticOverrideConfigurationInput {
 }
 
 /// Input for summary override configuration in a memory strategy.
+///
+/// @nodoc
 class SummaryOverrideConfigurationInput {
   /// The consolidation configuration for a summary override.
   final SummaryOverrideConsolidationConfigurationInput? consolidation;
@@ -24118,6 +24666,8 @@ class SummaryOverrideConfigurationInput {
 }
 
 /// Input for user preference override configuration in a memory strategy.
+///
+/// @nodoc
 class UserPreferenceOverrideConfigurationInput {
   /// The consolidation configuration for a user preference override.
   final UserPreferenceOverrideConsolidationConfigurationInput? consolidation;
@@ -24141,6 +24691,8 @@ class UserPreferenceOverrideConfigurationInput {
 }
 
 /// Input for the configuration to override the episodic memory strategy.
+///
+/// @nodoc
 class EpisodicOverrideConfigurationInput {
   /// Contains configurations for overriding the consolidation step of the
   /// episodic memory strategy.
@@ -24173,6 +24725,8 @@ class EpisodicOverrideConfigurationInput {
 }
 
 /// Input configuration for a self-managed memory strategy.
+///
+/// @nodoc
 class SelfManagedConfigurationInput {
   /// Configuration to invoke a self-managed memory processing pipeline with.
   final InvocationConfigurationInput invocationConfiguration;
@@ -24203,6 +24757,8 @@ class SelfManagedConfigurationInput {
 }
 
 /// The configuration to invoke a self-managed memory processing pipeline with.
+///
+/// @nodoc
 class InvocationConfigurationInput {
   /// The S3 bucket name for event payload delivery.
   final String payloadDeliveryBucketName;
@@ -24225,6 +24781,7 @@ class InvocationConfigurationInput {
   }
 }
 
+/// @nodoc
 class MemoryView {
   static const full = MemoryView._('full');
   static const withoutDecryption = MemoryView._('without_decryption');
@@ -24249,6 +24806,8 @@ class MemoryView {
 }
 
 /// Representation of a Harness.
+///
+/// @nodoc
 class Harness {
   /// The allowed tools of the Harness. All tools are allowed by default.
   final List<String> allowedTools;
@@ -24452,6 +25011,7 @@ class Harness {
   }
 }
 
+/// @nodoc
 class HarnessStatus {
   static const creating = HarnessStatus._('CREATING');
   static const createFailed = HarnessStatus._('CREATE_FAILED');
@@ -24490,6 +25050,8 @@ class HarnessStatus {
 }
 
 /// Specification of which model to use.
+///
+/// @nodoc
 class HarnessModelConfiguration {
   /// Configuration for an Amazon Bedrock model.
   final HarnessBedrockModelConfig? bedrockModelConfig;
@@ -24548,6 +25110,8 @@ class HarnessModelConfiguration {
 
 /// Configuration for truncating conversation context when it exceeds model
 /// limits.
+///
+/// @nodoc
 class HarnessTruncationConfiguration {
   /// The truncation strategy to use.
   final HarnessTruncationStrategy strategy;
@@ -24582,6 +25146,8 @@ class HarnessTruncationConfiguration {
 }
 
 /// The environment provider for a harness.
+///
+/// @nodoc
 class HarnessEnvironmentProvider {
   /// The AgentCore Runtime environment configuration.
   final HarnessAgentCoreRuntimeEnvironment? agentCoreRuntimeEnvironment;
@@ -24610,6 +25176,8 @@ class HarnessEnvironmentProvider {
 
 /// The environment artifact for a harness, such as a container image containing
 /// custom dependencies.
+///
+/// @nodoc
 class HarnessEnvironmentArtifact {
   final ContainerConfiguration? containerConfiguration;
 
@@ -24636,6 +25204,8 @@ class HarnessEnvironmentArtifact {
 }
 
 /// The memory configuration for a harness.
+///
+/// @nodoc
 class HarnessMemoryConfiguration {
   /// The AgentCore Memory configuration.
   final HarnessAgentCoreMemoryConfiguration? agentCoreMemoryConfiguration;
@@ -24663,6 +25233,8 @@ class HarnessMemoryConfiguration {
 }
 
 /// Configuration for AgentCore Memory integration.
+///
+/// @nodoc
 class HarnessAgentCoreMemoryConfiguration {
   /// The ARN of the AgentCore Memory resource.
   final String arn;
@@ -24713,6 +25285,8 @@ class HarnessAgentCoreMemoryConfiguration {
 }
 
 /// Configuration for memory retrieval within a namespace.
+///
+/// @nodoc
 class HarnessAgentCoreMemoryRetrievalConfig {
   /// The minimum relevance score for retrieved memories.
   final double? relevanceScore;
@@ -24751,6 +25325,8 @@ class HarnessAgentCoreMemoryRetrievalConfig {
 }
 
 /// Representation of a container configuration.
+///
+/// @nodoc
 class ContainerConfiguration {
   /// The ECR URI of the container.
   final String containerUri;
@@ -24774,6 +25350,8 @@ class ContainerConfiguration {
 }
 
 /// The AgentCore Runtime environment for a harness.
+///
+/// @nodoc
 class HarnessAgentCoreRuntimeEnvironment {
   /// The ARN of the underlying AgentCore Runtime.
   final String agentRuntimeArn;
@@ -24841,6 +25419,8 @@ class HarnessAgentCoreRuntimeEnvironment {
 /// resources in AgentCore Runtime. This configuration helps optimize resource
 /// utilization by automatically cleaning up idle sessions and preventing
 /// long-running instances from consuming resources indefinitely.
+///
+/// @nodoc
 class LifecycleConfiguration {
   /// Timeout in seconds for idle runtime sessions. When a session remains idle
   /// for this duration, it will be automatically terminated. Default: 900 seconds
@@ -24875,6 +25455,8 @@ class LifecycleConfiguration {
 }
 
 /// SecurityConfig for the Agent.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// The network mode for the AgentCore Runtime.
   final NetworkMode networkMode;
@@ -24910,6 +25492,8 @@ class NetworkConfiguration {
 
 /// Configuration for a filesystem that can be mounted into the AgentCore
 /// Runtime.
+///
+/// @nodoc
 class FilesystemConfiguration {
   /// Configuration for an Amazon EFS access point to mount into the AgentCore
   /// Runtime.
@@ -24961,6 +25545,8 @@ class FilesystemConfiguration {
 /// Configuration for a session storage filesystem mounted into the AgentCore
 /// Runtime. Session storage provides persistent storage that is preserved
 /// across AgentCore Runtime session invocations.
+///
+/// @nodoc
 class SessionStorageConfiguration {
   /// The mount path for the session storage filesystem inside the AgentCore
   /// Runtime. The path must be under <code>/mnt</code> with exactly one
@@ -24988,6 +25574,8 @@ class SessionStorageConfiguration {
 /// Configuration for an Amazon S3 Files access point filesystem mounted into
 /// the AgentCore Runtime. S3 Files access points provide shared file storage
 /// accessible from your AgentCore Runtime sessions.
+///
+/// @nodoc
 class S3FilesAccessPointConfiguration {
   /// The ARN of the S3 Files access point to mount into the AgentCore Runtime.
   final String accessPointArn;
@@ -25022,6 +25610,8 @@ class S3FilesAccessPointConfiguration {
 /// Configuration for an Amazon EFS access point filesystem mounted into the
 /// AgentCore Runtime. EFS access points provide shared file storage accessible
 /// from your AgentCore Runtime sessions.
+///
+/// @nodoc
 class EfsAccessPointConfiguration {
   /// The ARN of the EFS access point to mount into the AgentCore Runtime.
   final String accessPointArn;
@@ -25053,6 +25643,7 @@ class EfsAccessPointConfiguration {
   }
 }
 
+/// @nodoc
 class NetworkMode {
   static const public = NetworkMode._('PUBLIC');
   static const vpc = NetworkMode._('VPC');
@@ -25077,6 +25668,8 @@ class NetworkMode {
 }
 
 /// VpcConfig for the Agent.
+///
+/// @nodoc
 class VpcConfig {
   /// The security groups associated with the VPC configuration.
   final List<String> securityGroups;
@@ -25149,6 +25742,7 @@ class VpcConfig {
   }
 }
 
+/// @nodoc
 class HarnessTruncationStrategy {
   static const slidingWindow = HarnessTruncationStrategy._('sliding_window');
   static const summarization = HarnessTruncationStrategy._('summarization');
@@ -25176,6 +25770,8 @@ class HarnessTruncationStrategy {
 }
 
 /// Strategy-specific truncation configuration.
+///
+/// @nodoc
 class HarnessTruncationStrategyConfiguration {
   /// Configuration for sliding window truncation.
   final HarnessSlidingWindowConfiguration? slidingWindow;
@@ -25213,6 +25809,8 @@ class HarnessTruncationStrategyConfiguration {
 }
 
 /// Configuration for sliding window truncation strategy.
+///
+/// @nodoc
 class HarnessSlidingWindowConfiguration {
   /// The number of recent messages to retain in the context window.
   final int? messagesCount;
@@ -25237,6 +25835,8 @@ class HarnessSlidingWindowConfiguration {
 }
 
 /// Configuration for summarization-based truncation strategy.
+///
+/// @nodoc
 class HarnessSummarizationConfiguration {
   /// The number of recent messages to preserve without summarization.
   final int? preserveRecentMessages;
@@ -25277,6 +25877,8 @@ class HarnessSummarizationConfiguration {
 }
 
 /// A skill available to the agent.
+///
+/// @nodoc
 class HarnessSkill {
   /// A git repository containing the skill.
   final HarnessSkillGitSource? git;
@@ -25318,6 +25920,8 @@ class HarnessSkill {
 }
 
 /// An S3 source for a skill.
+///
+/// @nodoc
 class HarnessSkillS3Source {
   /// The S3 URI pointing to the skill directory (e.g.,
   /// s3://bucket/skills/my-skill/).
@@ -25342,6 +25946,8 @@ class HarnessSkillS3Source {
 }
 
 /// A git repository source for a skill.
+///
+/// @nodoc
 class HarnessSkillGitSource {
   /// The HTTPS URL of the git repository.
   final String url;
@@ -25381,6 +25987,8 @@ class HarnessSkillGitSource {
 }
 
 /// Authentication configuration for accessing a private git repository.
+///
+/// @nodoc
 class HarnessSkillGitAuth {
   /// The ARN of the credential in AgentCore Identity containing the password or
   /// personal access token.
@@ -25412,6 +26020,8 @@ class HarnessSkillGitAuth {
 }
 
 /// A tool available to the agent loop.
+///
+/// @nodoc
 class HarnessTool {
   /// The type of tool.
   final HarnessToolType type;
@@ -25452,6 +26062,7 @@ class HarnessTool {
   }
 }
 
+/// @nodoc
 class HarnessToolType {
   static const remoteMcp = HarnessToolType._('remote_mcp');
   static const agentcoreBrowser = HarnessToolType._('agentcore_browser');
@@ -25487,6 +26098,8 @@ class HarnessToolType {
 }
 
 /// Configuration union for different tool types.
+///
+/// @nodoc
 class HarnessToolConfiguration {
   /// Configuration for AgentCore Browser.
   final HarnessAgentCoreBrowserConfig? agentCoreBrowser;
@@ -25554,6 +26167,8 @@ class HarnessToolConfiguration {
 }
 
 /// Configuration for connecting to a remote MCP server.
+///
+/// @nodoc
 class HarnessRemoteMcpConfig {
   /// URL of the MCP endpoint.
   final String url;
@@ -25585,6 +26200,8 @@ class HarnessRemoteMcpConfig {
 }
 
 /// Configuration for AgentCore Browser.
+///
+/// @nodoc
 class HarnessAgentCoreBrowserConfig {
   /// If not populated, the built-in Browser ARN is used.
   final String? browserArn;
@@ -25608,6 +26225,8 @@ class HarnessAgentCoreBrowserConfig {
 }
 
 /// Configuration for AgentCore Gateway.
+///
+/// @nodoc
 class HarnessAgentCoreGatewayConfig {
   /// The ARN of the desired AgentCore Gateway.
   final String gatewayArn;
@@ -25643,6 +26262,8 @@ class HarnessAgentCoreGatewayConfig {
 
 /// Configuration for an inline function tool. When the agent calls this tool,
 /// the tool call is returned to the caller for external execution.
+///
+/// @nodoc
 class HarnessInlineFunctionConfig {
   /// Description of what the tool does, provided to the model.
   final String description;
@@ -25673,6 +26294,8 @@ class HarnessInlineFunctionConfig {
 }
 
 /// Configuration for AgentCore Code Interpreter.
+///
+/// @nodoc
 class HarnessAgentCoreCodeInterpreterConfig {
   /// If not populated, the built-in Code Interpreter ARN is used.
   final String? codeInterpreterArn;
@@ -25697,6 +26320,8 @@ class HarnessAgentCoreCodeInterpreterConfig {
 }
 
 /// Authentication method for calling a Gateway.
+///
+/// @nodoc
 class HarnessGatewayOutboundAuth {
   /// SigV4-sign requests using the agent's execution role.
   final Unit? awsIam;
@@ -25743,6 +26368,8 @@ class HarnessGatewayOutboundAuth {
 /// An OAuth credential provider for gateway authentication. This structure
 /// contains the configuration for authenticating with the target endpoint using
 /// OAuth.
+///
+/// @nodoc
 class OAuthCredentialProvider {
   /// The Amazon Resource Name (ARN) of the OAuth credential provider. This ARN
   /// identifies the provider in Amazon Web Services.
@@ -25816,6 +26443,7 @@ class OAuthCredentialProvider {
   }
 }
 
+/// @nodoc
 class OAuthGrantType {
   static const clientCredentials = OAuthGrantType._('CLIENT_CREDENTIALS');
   static const authorizationCode = OAuthGrantType._('AUTHORIZATION_CODE');
@@ -25842,6 +26470,8 @@ class OAuthGrantType {
 }
 
 /// A content block in the system prompt.
+///
+/// @nodoc
 class HarnessSystemContentBlock {
   /// The text content of the system prompt block.
   final String? text;
@@ -25865,6 +26495,8 @@ class HarnessSystemContentBlock {
 }
 
 /// Configuration for an Amazon Bedrock model provider.
+///
+/// @nodoc
 class HarnessBedrockModelConfig {
   /// The Bedrock model ID.
   final String modelId;
@@ -25928,6 +26560,8 @@ class HarnessBedrockModelConfig {
 
 /// Configuration for an OpenAI model provider. Requires an API key stored in
 /// AgentCore Identity.
+///
+/// @nodoc
 class HarnessOpenAiModelConfig {
   /// The ARN of your OpenAI API key on AgentCore Identity.
   final String apiKeyArn;
@@ -25998,6 +26632,8 @@ class HarnessOpenAiModelConfig {
 
 /// Configuration for a Google Gemini model provider. Requires an API key stored
 /// in AgentCore Identity.
+///
+/// @nodoc
 class HarnessGeminiModelConfig {
   /// The ARN of your Gemini API key on AgentCore Identity.
   final String apiKeyArn;
@@ -26058,6 +26694,8 @@ class HarnessGeminiModelConfig {
 
 /// Configuration for a LiteLLM model provider, enabling connection to
 /// third-party model providers.
+///
+/// @nodoc
 class HarnessLiteLlmModelConfig {
   /// The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
   final String modelId;
@@ -26126,6 +26764,7 @@ class HarnessLiteLlmModelConfig {
   }
 }
 
+/// @nodoc
 class HarnessOpenAiApiFormat {
   static const chatCompletions = HarnessOpenAiApiFormat._('chat_completions');
   static const responses = HarnessOpenAiApiFormat._('responses');
@@ -26151,6 +26790,7 @@ class HarnessOpenAiApiFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class HarnessBedrockApiFormat {
   static const converseStream = HarnessBedrockApiFormat._('converse_stream');
   static const responses = HarnessBedrockApiFormat._('responses');
@@ -26178,6 +26818,8 @@ class HarnessBedrockApiFormat {
 }
 
 /// The environment provider request configuration.
+///
+/// @nodoc
 class HarnessEnvironmentProviderRequest {
   /// The AgentCore Runtime environment configuration.
   final HarnessAgentCoreRuntimeEnvironmentRequest? agentCoreRuntimeEnvironment;
@@ -26196,6 +26838,8 @@ class HarnessEnvironmentProviderRequest {
 }
 
 /// Wrapper for updating the environment artifact configuration.
+///
+/// @nodoc
 class UpdatedHarnessEnvironmentArtifact {
   /// The updated environment artifact value, or null to clear the existing
   /// configuration.
@@ -26214,6 +26858,8 @@ class UpdatedHarnessEnvironmentArtifact {
 }
 
 /// Wrapper for updating the memory configuration.
+///
+/// @nodoc
 class UpdatedHarnessMemoryConfiguration {
   /// The updated memory configuration value, or null to clear the existing
   /// configuration.
@@ -26232,6 +26878,8 @@ class UpdatedHarnessMemoryConfiguration {
 }
 
 /// The AgentCore Runtime environment request configuration.
+///
+/// @nodoc
 class HarnessAgentCoreRuntimeEnvironmentRequest {
   /// The filesystem configurations for the runtime environment.
   final List<FilesystemConfiguration>? filesystemConfigurations;
@@ -26260,6 +26908,8 @@ class HarnessAgentCoreRuntimeEnvironmentRequest {
 }
 
 /// Summary information about a harness.
+///
+/// @nodoc
 class HarnessSummary {
   /// The ARN of the harness.
   final String arn;
@@ -26317,6 +26967,7 @@ class HarnessSummary {
   }
 }
 
+/// @nodoc
 class TargetStatus {
   static const creating = TargetStatus._('CREATING');
   static const updating = TargetStatus._('UPDATING');
@@ -26365,6 +27016,8 @@ class TargetStatus {
 
 /// The configuration for a gateway target. This structure defines how the
 /// gateway connects to and interacts with the target endpoint.
+///
+/// @nodoc
 class TargetConfiguration {
   /// The HTTP target configuration. Use this to route gateway requests to an
   /// HTTP-based endpoint such as an AgentCore Runtime.
@@ -26404,6 +27057,8 @@ class TargetConfiguration {
 
 /// Configuration for HTTP header and query parameter propagation between the
 /// gateway and target servers.
+///
+/// @nodoc
 class MetadataConfiguration {
   /// A list of URL query parameters that are allowed to be propagated from
   /// incoming gateway URL to the target.
@@ -26458,6 +27113,8 @@ class MetadataConfiguration {
 /// Contains the authorization data that is returned when a gateway target is
 /// configured with a credential provider with authorization code grant type and
 /// requires user federation.
+///
+/// @nodoc
 class AuthorizationData {
   /// OAuth2 authorization data for the gateway target.
   final OAuth2AuthorizationData? oauth2;
@@ -26483,6 +27140,7 @@ class AuthorizationData {
   }
 }
 
+/// @nodoc
 class TargetProtocolType {
   static const mcp = TargetProtocolType._('MCP');
   static const http = TargetProtocolType._('HTTP');
@@ -26510,6 +27168,8 @@ class TargetProtocolType {
 
 /// OAuth2-specific authorization data, including the authorization URL and user
 /// identifier for the authorization session.
+///
+/// @nodoc
 class OAuth2AuthorizationData {
   /// The URL to initiate the authorization process. This URL is provided when the
   /// OAuth2 access token requires user authorization.
@@ -26543,6 +27203,8 @@ class OAuth2AuthorizationData {
 
 /// Details of a resource created and managed by the gateway for private
 /// endpoint connectivity.
+///
+/// @nodoc
 class ManagedResourceDetails {
   /// The domain associated with this managed resource.
   final String? domain;
@@ -26582,6 +27244,8 @@ class ManagedResourceDetails {
 
 /// The configuration for a credential provider. This structure defines how the
 /// gateway authenticates with the target endpoint.
+///
+/// @nodoc
 class CredentialProviderConfiguration {
   /// The type of credential provider. This field specifies which authentication
   /// method the gateway uses.
@@ -26617,6 +27281,7 @@ class CredentialProviderConfiguration {
   }
 }
 
+/// @nodoc
 class CredentialProviderType {
   static const gatewayIamRole = CredentialProviderType._('GATEWAY_IAM_ROLE');
   static const oauth = CredentialProviderType._('OAUTH');
@@ -26654,6 +27319,8 @@ class CredentialProviderType {
 
 /// A credential provider for gateway authentication. This structure contains
 /// the configuration for authenticating with the target endpoint.
+///
+/// @nodoc
 class CredentialProvider {
   /// The API key credential provider. This provider uses an API key to
   /// authenticate with the target endpoint.
@@ -26708,6 +27375,8 @@ class CredentialProvider {
 /// An API key credential provider for gateway authentication. This structure
 /// contains the configuration for authenticating with the target endpoint using
 /// an API key.
+///
+/// @nodoc
 class GatewayApiKeyCredentialProvider {
   /// The Amazon Resource Name (ARN) of the API key credential provider. This ARN
   /// identifies the provider in Amazon Web Services.
@@ -26761,6 +27430,8 @@ class GatewayApiKeyCredentialProvider {
 /// An IAM credential provider for gateway authentication. This structure
 /// contains the configuration for authenticating with the target endpoint using
 /// IAM credentials and SigV4 signing.
+///
+/// @nodoc
 class IamCredentialProvider {
   /// The target Amazon Web Services service name used for SigV4 signing. This
   /// value identifies the service that the gateway authenticates with when making
@@ -26793,6 +27464,7 @@ class IamCredentialProvider {
   }
 }
 
+/// @nodoc
 class ApiKeyCredentialLocation {
   static const header = ApiKeyCredentialLocation._('HEADER');
   static const queryParameter = ApiKeyCredentialLocation._('QUERY_PARAMETER');
@@ -26820,6 +27492,8 @@ class ApiKeyCredentialLocation {
 
 /// The Model Context Protocol (MCP) configuration for a target. This structure
 /// defines how the gateway uses MCP to communicate with the target.
+///
+/// @nodoc
 class McpTargetConfiguration {
   /// The configuration for an Amazon API Gateway target.
   final ApiGatewayTargetConfiguration? apiGateway;
@@ -26891,6 +27565,8 @@ class McpTargetConfiguration {
 
 /// The HTTP target configuration for a gateway target. Contains the
 /// configuration for HTTP-based target endpoints.
+///
+/// @nodoc
 class HttpTargetConfiguration {
   /// The AgentCore Runtime target configuration for HTTP-based communication with
   /// an agent runtime.
@@ -26919,6 +27595,8 @@ class HttpTargetConfiguration {
 
 /// Configuration for an AgentCore Runtime target. Specifies the agent runtime
 /// to route requests to via HTTP.
+///
+/// @nodoc
 class RuntimeTargetConfiguration {
   /// The Amazon Resource Name (ARN) of the AgentCore Runtime to route requests
   /// to.
@@ -26951,6 +27629,8 @@ class RuntimeTargetConfiguration {
 }
 
 /// Configuration for API schema.
+///
+/// @nodoc
 class ApiSchemaConfiguration {
   /// The inline payload containing the API schema definition.
   final String? inlinePayload;
@@ -26983,6 +27663,8 @@ class ApiSchemaConfiguration {
 /// The Lambda configuration for a Model Context Protocol target. This structure
 /// defines how the gateway uses a Lambda function to communicate with the
 /// target.
+///
+/// @nodoc
 class McpLambdaTargetConfiguration {
   /// The Amazon Resource Name (ARN) of the Lambda function. This function is
   /// invoked by the gateway to communicate with the target.
@@ -27017,6 +27699,8 @@ class McpLambdaTargetConfiguration {
 }
 
 /// The target configuration for the MCP server.
+///
+/// @nodoc
 class McpServerTargetConfiguration {
   /// The endpoint for the MCP server target configuration.
   final String endpoint;
@@ -27072,6 +27756,8 @@ class McpServerTargetConfiguration {
 }
 
 /// The configuration for an Amazon API Gateway target.
+///
+/// @nodoc
 class ApiGatewayTargetConfiguration {
   /// The configuration for defining REST API tool filters and overrides for the
   /// gateway target.
@@ -27113,6 +27799,8 @@ class ApiGatewayTargetConfiguration {
 
 /// The configuration for defining REST API tool filters and overrides for the
 /// gateway target.
+///
+/// @nodoc
 class ApiGatewayToolConfiguration {
   /// A list of path and method patterns to expose as tools using metadata from
   /// the REST API's OpenAPI specification.
@@ -27154,6 +27842,8 @@ class ApiGatewayToolConfiguration {
 /// Specifies which operations from an API Gateway REST API are exposed as
 /// tools. Tool names and descriptions are derived from the operationId and
 /// description fields in the API's exported OpenAPI specification.
+///
+/// @nodoc
 class ApiGatewayToolFilter {
   /// Resource path to match in the REST API. Supports exact paths (for example,
   /// <code>/pets</code>) or wildcard paths (for example, <code>/pets/*</code> to
@@ -27189,6 +27879,7 @@ class ApiGatewayToolFilter {
   }
 }
 
+/// @nodoc
 class RestApiMethod {
   static const get = RestApiMethod._('GET');
   static const delete = RestApiMethod._('DELETE');
@@ -27219,6 +27910,8 @@ class RestApiMethod {
 }
 
 /// Settings to override configurations for a tool.
+///
+/// @nodoc
 class ApiGatewayToolOverride {
   /// The HTTP method to expose for the specified path.
   final RestApiMethod method;
@@ -27267,6 +27960,8 @@ class ApiGatewayToolOverride {
 
 /// The MCP tool schema configuration for an MCP server target. The tool schema
 /// must be aligned with the MCP specification.
+///
+/// @nodoc
 class McpToolSchemaConfiguration {
   /// The inline payload containing the MCP tool schema definition.
   final String? inlinePayload;
@@ -27299,6 +27994,7 @@ class McpToolSchemaConfiguration {
   }
 }
 
+/// @nodoc
 class ListingMode {
   static const $default = ListingMode._('DEFAULT');
   static const $dynamic = ListingMode._('DYNAMIC');
@@ -27324,6 +28020,8 @@ class ListingMode {
 
 /// The Amazon S3 configuration for a gateway. This structure defines how the
 /// gateway accesses files in Amazon S3.
+///
+/// @nodoc
 class S3Configuration {
   /// The account ID of the Amazon S3 bucket owner. This ID is used for
   /// cross-account access to the bucket.
@@ -27358,6 +28056,8 @@ class S3Configuration {
 
 /// A tool schema for a gateway target. This structure defines the schema for a
 /// tool that the target exposes through the Model Context Protocol.
+///
+/// @nodoc
 class ToolSchema {
   /// The inline payload of the tool schema. This payload contains the schema
   /// definition directly in the request.
@@ -27396,6 +28096,8 @@ class ToolSchema {
 
 /// A tool definition for a gateway target. This structure defines a tool that
 /// the target exposes through the Model Context Protocol.
+///
+/// @nodoc
 class ToolDefinition {
   /// The description of the tool. This description provides information about the
   /// purpose and usage of the tool.
@@ -27450,6 +28152,8 @@ class ToolDefinition {
 
 /// A schema definition for a gateway target. This structure defines the
 /// structure of the API that the target exposes.
+///
+/// @nodoc
 class SchemaDefinition {
   /// The type of the schema definition. This field specifies the data type of the
   /// schema.
@@ -27511,6 +28215,7 @@ class SchemaDefinition {
   }
 }
 
+/// @nodoc
 class SchemaType {
   static const string = SchemaType._('string');
   static const number = SchemaType._('number');
@@ -27539,6 +28244,8 @@ class SchemaType {
 }
 
 /// The gateway target.
+///
+/// @nodoc
 class GatewayTarget {
   /// The date and time at which the target was created.
   final DateTime createdAt;
@@ -27699,6 +28406,8 @@ class GatewayTarget {
 
 /// Contains summary information about a gateway target. A target represents an
 /// endpoint that the gateway can connect to.
+///
+/// @nodoc
 class TargetSummary {
   /// The timestamp when the target was created.
   final DateTime createdAt;
@@ -27764,6 +28473,7 @@ class TargetSummary {
   }
 }
 
+/// @nodoc
 class GatewayRuleStatus {
   static const creating = GatewayRuleStatus._('CREATING');
   static const active = GatewayRuleStatus._('ACTIVE');
@@ -27792,6 +28502,8 @@ class GatewayRuleStatus {
 
 /// System-managed metadata for rules created by automated processes such as A/B
 /// tests.
+///
+/// @nodoc
 class SystemManagedBlock {
   /// The identifier of the system or process that manages this rule.
   final String managedBy;
@@ -27815,6 +28527,8 @@ class SystemManagedBlock {
 }
 
 /// An action to take when a gateway rule's conditions are met.
+///
+/// @nodoc
 class Action {
   /// An action that applies a configuration bundle override to the request.
   final ConfigurationBundleAction? configurationBundle;
@@ -27853,6 +28567,8 @@ class Action {
 
 /// An action that applies a configuration bundle override, either as a static
 /// override or a weighted split for A/B testing.
+///
+/// @nodoc
 class ConfigurationBundleAction {
   /// A static configuration bundle override that applies a single bundle version
   /// to all matching requests.
@@ -27892,6 +28608,8 @@ class ConfigurationBundleAction {
 
 /// An action that routes requests to a gateway target, either statically or
 /// with weighted traffic splitting.
+///
+/// @nodoc
 class RouteToTargetAction {
   /// A static route that sends all matching requests to a single target.
   final StaticRoute? staticRoute;
@@ -27927,6 +28645,8 @@ class RouteToTargetAction {
 }
 
 /// A static route to a single gateway target.
+///
+/// @nodoc
 class StaticRoute {
   /// The name of the target to route requests to.
   final String targetName;
@@ -27950,6 +28670,8 @@ class StaticRoute {
 }
 
 /// A weighted route that splits traffic between multiple gateway targets.
+///
+/// @nodoc
 class WeightedRoute {
   /// The traffic split entries defining how traffic is distributed between
   /// targets.
@@ -27978,6 +28700,8 @@ class WeightedRoute {
 }
 
 /// An entry in a target traffic split configuration.
+///
+/// @nodoc
 class TargetTrafficSplitEntry {
   /// The name of this traffic split variant.
   final String name;
@@ -28030,6 +28754,8 @@ class TargetTrafficSplitEntry {
 }
 
 /// A static configuration bundle override.
+///
+/// @nodoc
 class StaticOverride {
   /// The Amazon Resource Name (ARN) of the configuration bundle to apply.
   final String bundleArn;
@@ -28061,6 +28787,8 @@ class StaticOverride {
 
 /// A weighted configuration bundle override that splits traffic between
 /// multiple bundle versions.
+///
+/// @nodoc
 class WeightedOverride {
   /// The traffic split entries defining how traffic is distributed between
   /// configuration bundle versions.
@@ -28089,6 +28817,8 @@ class WeightedOverride {
 
 /// An entry in a traffic split configuration, defining a named variant with a
 /// weight and configuration bundle reference.
+///
+/// @nodoc
 class TrafficSplitEntry {
   /// The configuration bundle reference for this variant.
   final ConfigurationBundleReference configurationBundle;
@@ -28144,6 +28874,8 @@ class TrafficSplitEntry {
 }
 
 /// A reference to a specific version of a configuration bundle.
+///
+/// @nodoc
 class ConfigurationBundleReference {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -28175,6 +28907,8 @@ class ConfigurationBundleReference {
 
 /// A condition that determines when a gateway rule applies. Conditions can
 /// match on principals or request paths.
+///
+/// @nodoc
 class Condition {
   /// A condition that matches on the request path.
   final MatchPaths? matchPaths;
@@ -28210,6 +28944,8 @@ class Condition {
 }
 
 /// A condition that matches requests based on the caller's identity.
+///
+/// @nodoc
 class MatchPrincipals {
   /// A list of principal entries. The condition is met if any of the entries
   /// match the caller's identity.
@@ -28237,6 +28973,8 @@ class MatchPrincipals {
 }
 
 /// A condition that matches requests based on the request path.
+///
+/// @nodoc
 class MatchPaths {
   /// A list of path patterns. The condition is met if the request path matches
   /// any of the patterns.
@@ -28265,6 +29003,8 @@ class MatchPaths {
 
 /// Union for principal matching. Currently supports IAM principal ARN glob
 /// matching.
+///
+/// @nodoc
 class MatchPrincipalEntry {
   /// An IAM principal to match against, specified by ARN.
   final IamPrincipal? iamPrincipal;
@@ -28290,6 +29030,8 @@ class MatchPrincipalEntry {
 }
 
 /// An IAM principal specification for rule matching.
+///
+/// @nodoc
 class IamPrincipal {
   /// The Amazon Resource Name (ARN) of the IAM principal. Supports user, role,
   /// and assumed-role ARNs. Wildcards can be used with the
@@ -28324,6 +29066,7 @@ class IamPrincipal {
   }
 }
 
+/// @nodoc
 class PrincipalMatchOperator {
   static const stringEquals = PrincipalMatchOperator._('StringEquals');
   static const stringLike = PrincipalMatchOperator._('StringLike');
@@ -28350,6 +29093,8 @@ class PrincipalMatchOperator {
 }
 
 /// Detailed information about a gateway rule.
+///
+/// @nodoc
 class GatewayRuleDetail {
   /// The actions to take when the rule conditions are met.
   final List<Action> actions;
@@ -28444,6 +29189,7 @@ class GatewayRuleDetail {
   }
 }
 
+/// @nodoc
 class GatewayStatus {
   static const creating = GatewayStatus._('CREATING');
   static const updating = GatewayStatus._('UPDATING');
@@ -28479,6 +29225,7 @@ class GatewayStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GatewayProtocolType {
   static const mcp = GatewayProtocolType._('MCP');
 
@@ -28505,6 +29252,8 @@ class GatewayProtocolType {
 
 /// The configuration for a gateway protocol. This structure defines how the
 /// gateway communicates with external services.
+///
+/// @nodoc
 class GatewayProtocolConfiguration {
   /// The configuration for the Model Context Protocol (MCP). This protocol
   /// enables communication between Amazon Bedrock Agent and external tools.
@@ -28531,6 +29280,7 @@ class GatewayProtocolConfiguration {
   }
 }
 
+/// @nodoc
 class AuthorizerType {
   static const customJwt = AuthorizerType._('CUSTOM_JWT');
   static const awsIam = AuthorizerType._('AWS_IAM');
@@ -28562,6 +29312,8 @@ class AuthorizerType {
 /// calls. When associated with a gateway, the policy engine intercepts all
 /// agent requests and determines whether to allow or deny each action based on
 /// the defined policies.
+///
+/// @nodoc
 class GatewayPolicyEngineConfiguration {
   /// The ARN of the policy engine. The policy engine contains Cedar policies that
   /// define fine-grained authorization rules specifying who can perform what
@@ -28609,6 +29361,7 @@ class GatewayPolicyEngineConfiguration {
   }
 }
 
+/// @nodoc
 class ExceptionLevel {
   static const debug = ExceptionLevel._('DEBUG');
 
@@ -28632,6 +29385,7 @@ class ExceptionLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class GatewayPolicyEngineMode {
   static const logOnly = GatewayPolicyEngineMode._('LOG_ONLY');
   static const enforce = GatewayPolicyEngineMode._('ENFORCE');
@@ -28660,6 +29414,8 @@ class GatewayPolicyEngineMode {
 /// The configuration for an interceptor on a gateway. This structure defines
 /// settings for an interceptor that will be invoked during the invocation of
 /// the gateway.
+///
+/// @nodoc
 class GatewayInterceptorConfiguration {
   /// The supported points of interception. This field specifies which points
   /// during the gateway invocation to invoke the interceptor
@@ -28708,6 +29464,8 @@ class GatewayInterceptorConfiguration {
 }
 
 /// The interceptor configuration.
+///
+/// @nodoc
 class InterceptorConfiguration {
   /// The details of the lambda function used for the interceptor.
   final LambdaInterceptorConfiguration? lambda;
@@ -28734,6 +29492,8 @@ class InterceptorConfiguration {
 }
 
 /// The input configuration of the interceptor.
+///
+/// @nodoc
 class InterceptorInputConfiguration {
   /// Indicates whether to pass request headers as input into the interceptor.
   /// When set to true, request headers will be passed.
@@ -28757,6 +29517,7 @@ class InterceptorInputConfiguration {
   }
 }
 
+/// @nodoc
 class GatewayInterceptionPoint {
   static const request = GatewayInterceptionPoint._('REQUEST');
   static const response = GatewayInterceptionPoint._('RESPONSE');
@@ -28783,6 +29544,8 @@ class GatewayInterceptionPoint {
 }
 
 /// The lambda configuration for the interceptor
+///
+/// @nodoc
 class LambdaInterceptorConfiguration {
   /// The arn of the lambda function to be invoked for the interceptor.
   final String arn;
@@ -28807,6 +29570,8 @@ class LambdaInterceptorConfiguration {
 
 /// The configuration for a Model Context Protocol (MCP) gateway. This structure
 /// defines how the gateway implements the MCP protocol.
+///
+/// @nodoc
 class MCPGatewayConfiguration {
   /// The instructions for using the Model Context Protocol gateway. These
   /// instructions provide guidance on how to interact with the gateway.
@@ -28873,6 +29638,7 @@ class MCPGatewayConfiguration {
   }
 }
 
+/// @nodoc
 class SearchType {
   static const semantic = SearchType._('SEMANTIC');
 
@@ -28897,6 +29663,8 @@ class SearchType {
 
 /// The session configuration for an MCP gateway. This structure defines
 /// settings that control session behavior.
+///
+/// @nodoc
 class SessionConfiguration {
   /// The session timeout in seconds. After this timeout, the session expires and
   /// subsequent requests to this session will receive an error. The minimum value
@@ -28925,6 +29693,8 @@ class SessionConfiguration {
 
 /// The streaming configuration for an MCP gateway. This structure defines
 /// settings that control response streaming behavior.
+///
+/// @nodoc
 class StreamingConfiguration {
   /// Indicates whether response streaming is enabled for the gateway. When set to
   /// <code>true</code>, the gateway streams responses from targets back to the
@@ -28951,6 +29721,8 @@ class StreamingConfiguration {
 }
 
 /// Contains summary information about a gateway.
+///
+/// @nodoc
 class GatewaySummary {
   /// The type of authorizer used by the gateway.
   final AuthorizerType authorizerType;
@@ -29026,6 +29798,8 @@ class GatewaySummary {
 
 /// The summary information about an evaluator, including basic metadata and
 /// status information.
+///
+/// @nodoc
 class EvaluatorSummary {
   /// The timestamp when the evaluator was created.
   final DateTime createdAt;
@@ -29125,6 +29899,7 @@ class EvaluatorSummary {
   }
 }
 
+/// @nodoc
 class EvaluatorType {
   static const builtin = EvaluatorType._('Builtin');
   static const custom = EvaluatorType._('Custom');
@@ -29150,6 +29925,7 @@ class EvaluatorType {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluatorLevel {
   static const toolCall = EvaluatorLevel._('TOOL_CALL');
   static const trace = EvaluatorLevel._('TRACE');
@@ -29175,6 +29951,7 @@ class EvaluatorLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluatorStatus {
   static const active = EvaluatorStatus._('ACTIVE');
   static const creating = EvaluatorStatus._('CREATING');
@@ -29212,6 +29989,8 @@ class EvaluatorStatus {
 
 /// The configuration that defines how an evaluator assesses agent performance,
 /// including the evaluation method and parameters.
+///
+/// @nodoc
 class EvaluatorConfig {
   /// Configuration for a code-based evaluator that uses a customer-managed Lambda
   /// function to programmatically assess agent performance.
@@ -29251,6 +30030,8 @@ class EvaluatorConfig {
 
 /// The configuration for LLM-as-a-Judge evaluation that uses a language model
 /// to assess agent performance based on custom instructions and rating scales.
+///
+/// @nodoc
 class LlmAsAJudgeEvaluatorConfig {
   /// The evaluation instructions that guide the language model in assessing agent
   /// performance, including criteria and evaluation guidelines.
@@ -29296,6 +30077,8 @@ class LlmAsAJudgeEvaluatorConfig {
 
 /// Configuration for a code-based evaluator. Specify the Lambda function to use
 /// for evaluation.
+///
+/// @nodoc
 class CodeBasedEvaluatorConfig {
   /// The Lambda function configuration for code-based evaluation.
   final LambdaEvaluatorConfig? lambdaConfig;
@@ -29322,6 +30105,8 @@ class CodeBasedEvaluatorConfig {
 }
 
 /// Configuration for a Lambda function used as a code-based evaluator.
+///
+/// @nodoc
 class LambdaEvaluatorConfig {
   /// The Amazon Resource Name (ARN) of the Lambda function that implements the
   /// evaluation logic.
@@ -29356,6 +30141,8 @@ class LambdaEvaluatorConfig {
 
 /// The rating scale that defines how evaluators should score agent performance,
 /// supporting both numerical and categorical scales.
+///
+/// @nodoc
 class RatingScale {
   /// The categorical rating scale with named categories and definitions for
   /// qualitative evaluation.
@@ -29397,6 +30184,8 @@ class RatingScale {
 
 /// The model configuration that specifies which foundation model to use for
 /// evaluation and how to configure it.
+///
+/// @nodoc
 class EvaluatorModelConfig {
   /// The Amazon Bedrock model configuration for evaluation.
   final BedrockEvaluatorModelConfig? bedrockEvaluatorModelConfig;
@@ -29425,6 +30214,8 @@ class EvaluatorModelConfig {
 
 /// The configuration for using Amazon Bedrock models in evaluator assessments,
 /// including model selection and inference parameters.
+///
+/// @nodoc
 class BedrockEvaluatorModelConfig {
   /// The identifier of the Amazon Bedrock model to use for evaluation. Must be a
   /// supported foundation model available in your region.
@@ -29470,6 +30261,8 @@ class BedrockEvaluatorModelConfig {
 
 /// The configuration parameters that control how the foundation model behaves
 /// during evaluation, including response generation settings.
+///
+/// @nodoc
 class InferenceConfiguration {
   /// The maximum number of tokens to generate in the model response during
   /// evaluation.
@@ -29522,6 +30315,8 @@ class InferenceConfiguration {
 
 /// The definition of a categorical rating scale option that provides a named
 /// category with its description for evaluation scoring.
+///
+/// @nodoc
 class CategoricalScaleDefinition {
   /// The description that explains what this categorical rating represents and
   /// when it should be used.
@@ -29554,6 +30349,8 @@ class CategoricalScaleDefinition {
 
 /// The definition of a numerical rating scale option that provides a numeric
 /// value with its description for evaluation scoring.
+///
+/// @nodoc
 class NumericalScaleDefinition {
   /// The description that explains what this numerical rating represents and when
   /// it should be used.
@@ -29591,6 +30388,7 @@ class NumericalScaleDefinition {
   }
 }
 
+/// @nodoc
 class IncludedData {
   static const allData = IncludedData._('ALL_DATA');
   static const metadataOnly = IncludedData._('METADATA_ONLY');
@@ -29632,17 +30430,19 @@ class IncludedData {
 /// | UPDATE_FAILED CreateDatasetVersion → UPDATING → ACTIVE
 /// (draftStatus=UNMODIFIED) | UPDATE_FAILED DeleteDataset (version-specific) →
 /// DELETING → ACTIVE (draftStatus unchanged) | DELETE_FAILED DeleteDataset
-/// (full) → DELETING → (record deleted) | DELETE_FAILED [auto Sev-2] Operation
-/// guards (ConflictException codes): GetDataset / ListDatasetExamples: —
-/// Allowed for all statuses (no guard) UpdateDataset, AddDatasetExamples,
-/// DeleteDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING,
-/// DELETING} — DATASET_IN_FAILED_STATE if status == DELETE_FAILED
-/// UpdateDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING,
-/// DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED,
-/// DELETE_FAILED} CreateDatasetVersion: — DATASET_NOT_READY if status in
+/// (full) → DELETING → (record deleted) | DELETE_FAILED \[auto Sev-2\]
+/// Operation guards (ConflictException codes): GetDataset /
+/// ListDatasetExamples: — Allowed for all statuses (no guard) UpdateDataset,
+/// AddDatasetExamples, DeleteDatasetExamples: — DATASET_NOT_READY if status in
+/// {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status ==
+/// DELETE_FAILED UpdateDatasetExamples: — DATASET_NOT_READY if status in
 /// {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in
-/// {CREATE_FAILED, DELETE_FAILED} DeleteDataset: — DATASET_NOT_READY if status
-/// in {CREATING, UPDATING, DELETING}
+/// {CREATE_FAILED, DELETE_FAILED} CreateDatasetVersion: — DATASET_NOT_READY if
+/// status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status
+/// in {CREATE_FAILED, DELETE_FAILED} DeleteDataset: — DATASET_NOT_READY if
+/// status in {CREATING, UPDATING, DELETING}
+///
+/// @nodoc
 class DatasetStatus {
   static const creating = DatasetStatus._('CREATING');
   static const updating = DatasetStatus._('UPDATING');
@@ -29681,6 +30481,8 @@ class DatasetStatus {
 }
 
 /// Summary information about a published dataset version.
+///
+/// @nodoc
 class DatasetVersionSummary {
   /// The timestamp when this version was published.
   final DateTime createdAt;
@@ -29716,6 +30518,8 @@ class DatasetVersionSummary {
 }
 
 /// Source of examples to add to the dataset.
+///
+/// @nodoc
 class DataSourceType {
   /// Inline examples provided directly in the request body.
   final InlineExamplesSource? inlineExamples;
@@ -29740,6 +30544,8 @@ class DataSourceType {
 }
 
 /// Inline examples provided directly in the request body.
+///
+/// @nodoc
 class InlineExamplesSource {
   /// Examples to add. Each example is assigned an auto-generated UUID.
   final List<Object> examples;
@@ -29757,6 +30563,8 @@ class InlineExamplesSource {
 }
 
 /// S3 location of a JSONL file containing dataset examples.
+///
+/// @nodoc
 class S3Source {
   /// S3 URI of the JSONL file (e.g. s3://my-bucket/path/to/examples.jsonl).
   final String s3Uri;
@@ -29774,6 +30582,8 @@ class S3Source {
 }
 
 /// Summary information about a dataset.
+///
+/// @nodoc
 class DatasetSummary {
   /// The timestamp when the dataset was created.
   final DateTime createdAt;
@@ -29868,6 +30678,8 @@ class DatasetSummary {
 /// with no published version yet) Add/Update/DeleteExamples succeed → MODIFIED
 /// (DRAFT differs from last published version) CreateDatasetVersion succeeds →
 /// UNMODIFIED (DRAFT matches the version just published)
+///
+/// @nodoc
 class DraftStatus {
   static const modified = DraftStatus._('MODIFIED');
   static const unmodified = DraftStatus._('UNMODIFIED');
@@ -29894,7 +30706,7 @@ class DraftStatus {
 /// Format of a customer-provided source file. **JSONL** (JSON Lines, one object
 /// per line) is the service's native ingestion and storage format — it can be
 /// streamed line-by-line without loading the entire file into memory, which is
-/// important as the row-count cap is extended. **JSON array (`[{...},{...}]`)
+/// important as the row-count cap is extended. **JSON array (`\[{...},{...}\]`)
 /// is intentionally not supported** at launch: it cannot be streamed (requires
 /// loading the full file into memory to parse), and all major eval frameworks
 /// (LangSmith, Ragas, DeepEval, Arize Phoenix) export as JSONL or CSV — not
@@ -29905,6 +30717,8 @@ class DraftStatus {
 /// Dataset is immutable after creation. When a framework changes its format, a
 /// new version is added (e.g., RAGAS_V2) without breaking existing datasets
 /// using the old version. Content is always stored as-is.
+///
+/// @nodoc
 class DatasetSchemaType {
   static const agentcoreEvaluationPredefinedV1 =
       DatasetSchemaType._('AGENTCORE_EVALUATION_PREDEFINED_V1');
@@ -29935,6 +30749,8 @@ class DatasetSchemaType {
 }
 
 /// Summary information about a configuration bundle version.
+///
+/// @nodoc
 class ConfigurationBundleVersionSummary {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -29993,6 +30809,8 @@ class ConfigurationBundleVersionSummary {
 
 /// The version lineage metadata that tracks parent versions and creation
 /// source. Supports git-like two-parent merges for branch management.
+///
+/// @nodoc
 class VersionLineageMetadata {
   /// The branch name for this version. If not specified, inherits the parent's
   /// branch or defaults to <code>mainline</code>.
@@ -30046,6 +30864,8 @@ class VersionLineageMetadata {
 }
 
 /// The source that created a configuration bundle version.
+///
+/// @nodoc
 class VersionCreatedBySource {
   /// The name of the source (for example, <code>user</code>,
   /// <code>optimization-job</code>, or <code>system</code>).
@@ -30078,6 +30898,8 @@ class VersionCreatedBySource {
 }
 
 /// A filter for listing configuration bundle versions.
+///
+/// @nodoc
 class VersionFilter {
   /// Filter by branch name.
   final String? branchName;
@@ -30110,6 +30932,8 @@ class VersionFilter {
 
 /// The configuration for a component within a configuration bundle. The
 /// component type is inferred from the component identifier ARN.
+///
+/// @nodoc
 class ComponentConfiguration {
   /// The configuration values as a flexible JSON document.
   final Document configuration;
@@ -30135,6 +30959,8 @@ class ComponentConfiguration {
 }
 
 /// Summary information about a configuration bundle.
+///
+/// @nodoc
 class ConfigurationBundleSummary {
   /// The Amazon Resource Name (ARN) of the configuration bundle.
   final String bundleArn;
@@ -30185,6 +31011,7 @@ class ConfigurationBundleSummary {
   }
 }
 
+/// @nodoc
 class ConfigurationBundleStatus {
   static const active = ConfigurationBundleStatus._('ACTIVE');
   static const creating = ConfigurationBundleStatus._('CREATING');
@@ -30225,6 +31052,8 @@ class ConfigurationBundleStatus {
 
 /// Contains summary information about a code interpreter. A code interpreter
 /// enables Amazon Bedrock AgentCore Agent to execute code.
+///
+/// @nodoc
 class CodeInterpreterSummary {
   /// The Amazon Resource Name (ARN) of the code interpreter.
   final String codeInterpreterArn;
@@ -30290,6 +31119,7 @@ class CodeInterpreterSummary {
   }
 }
 
+/// @nodoc
 class CodeInterpreterStatus {
   static const creating = CodeInterpreterStatus._('CREATING');
   static const createFailed = CodeInterpreterStatus._('CREATE_FAILED');
@@ -30326,6 +31156,7 @@ class CodeInterpreterStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const system = ResourceType._('SYSTEM');
   static const custom = ResourceType._('CUSTOM');
@@ -30351,6 +31182,8 @@ class ResourceType {
 
 /// The network configuration for a code interpreter. This structure defines how
 /// the code interpreter connects to the network.
+///
+/// @nodoc
 class CodeInterpreterNetworkConfiguration {
   /// The network mode for the code interpreter. This field specifies how the code
   /// interpreter connects to the network.
@@ -30387,6 +31220,8 @@ class CodeInterpreterNetworkConfiguration {
 }
 
 /// A certificate to install in the browser or code interpreter.
+///
+/// @nodoc
 class Certificate {
   /// The location of the certificate.
   final CertificateLocation location;
@@ -30412,6 +31247,8 @@ class Certificate {
 }
 
 /// The location from which to retrieve a certificate.
+///
+/// @nodoc
 class CertificateLocation {
   /// The Amazon Web Services Secrets Manager location of the certificate.
   final SecretsManagerLocation? secretsManager;
@@ -30438,6 +31275,8 @@ class CertificateLocation {
 }
 
 /// The Amazon Web Services Secrets Manager location configuration.
+///
+/// @nodoc
 class SecretsManagerLocation {
   /// The ARN of the Amazon Web Services Secrets Manager secret containing the
   /// certificate.
@@ -30461,6 +31300,7 @@ class SecretsManagerLocation {
   }
 }
 
+/// @nodoc
 class CodeInterpreterNetworkMode {
   static const public = CodeInterpreterNetworkMode._('PUBLIC');
   static const sandbox = CodeInterpreterNetworkMode._('SANDBOX');
@@ -30489,6 +31329,8 @@ class CodeInterpreterNetworkMode {
 
 /// Contains summary information about a browser. A browser enables Amazon
 /// Bedrock AgentCore Agent to interact with web content.
+///
+/// @nodoc
 class BrowserSummary {
   /// The Amazon Resource Name (ARN) of the browser.
   final String browserArn;
@@ -30553,6 +31395,7 @@ class BrowserSummary {
   }
 }
 
+/// @nodoc
 class BrowserStatus {
   static const creating = BrowserStatus._('CREATING');
   static const createFailed = BrowserStatus._('CREATE_FAILED');
@@ -30590,6 +31433,8 @@ class BrowserStatus {
 
 /// The network configuration for a browser. This structure defines how the
 /// browser connects to the network.
+///
+/// @nodoc
 class BrowserNetworkConfiguration {
   /// The network mode for the browser. This field specifies how the browser
   /// connects to the network.
@@ -30626,6 +31471,8 @@ class BrowserNetworkConfiguration {
 
 /// The recording configuration for a browser. This structure defines how
 /// browser sessions are recorded.
+///
+/// @nodoc
 class RecordingConfig {
   /// Indicates whether recording is enabled for the browser. When set to true,
   /// browser sessions are recorded.
@@ -30661,6 +31508,8 @@ class RecordingConfig {
 
 /// The current browser signing configuration that shows whether cryptographic
 /// agent identification is enabled for web bot authentication.
+///
+/// @nodoc
 class BrowserSigningConfigOutput {
   /// Indicates whether browser signing is currently enabled for cryptographic
   /// agent identification using HTTP message signatures.
@@ -30685,6 +31534,8 @@ class BrowserSigningConfigOutput {
 }
 
 /// Browser enterprise policy configuration.
+///
+/// @nodoc
 class BrowserEnterprisePolicy {
   /// The location of the enterprise policy file.
   final ResourceLocation location;
@@ -30719,6 +31570,8 @@ class BrowserEnterprisePolicy {
 }
 
 /// The location of a resource.
+///
+/// @nodoc
 class ResourceLocation {
   final S3Location? s3;
 
@@ -30742,6 +31595,7 @@ class ResourceLocation {
   }
 }
 
+/// @nodoc
 class BrowserEnterprisePolicyType {
   static const managed = BrowserEnterprisePolicyType._('MANAGED');
   static const recommended = BrowserEnterprisePolicyType._('RECOMMENDED');
@@ -30769,6 +31623,8 @@ class BrowserEnterprisePolicyType {
 
 /// The Amazon S3 location for storing data. This structure defines where in
 /// Amazon S3 data is stored.
+///
+/// @nodoc
 class S3Location {
   /// The name of the Amazon S3 bucket. This bucket contains the stored data.
   final String bucket;
@@ -30807,6 +31663,7 @@ class S3Location {
   }
 }
 
+/// @nodoc
 class BrowserNetworkMode {
   static const public = BrowserNetworkMode._('PUBLIC');
   static const vpc = BrowserNetworkMode._('VPC');
@@ -30835,6 +31692,8 @@ class BrowserNetworkMode {
 /// Configuration for enabling browser signing capabilities that allow agents to
 /// cryptographically identify themselves to websites using HTTP message
 /// signatures.
+///
+/// @nodoc
 class BrowserSigningConfigInput {
   /// Specifies whether browser signing is enabled. When enabled, the browser will
   /// cryptographically sign HTTP requests to identify itself as an AI agent to
@@ -30855,6 +31714,8 @@ class BrowserSigningConfigInput {
 
 /// Contains summary information about a browser profile. A browser profile
 /// stores persistent browser data that can be reused across browser sessions.
+///
+/// @nodoc
 class BrowserProfileSummary {
   /// The timestamp when the browser profile was created.
   final DateTime createdAt;
@@ -30946,6 +31807,8 @@ class BrowserProfileSummary {
 }
 
 /// The status of a browser profile.
+///
+/// @nodoc
 class BrowserProfileStatus {
   static const ready = BrowserProfileStatus._('READY');
   static const deleting = BrowserProfileStatus._('DELETING');
@@ -30974,6 +31837,8 @@ class BrowserProfileStatus {
 }
 
 /// Contains information about an API key credential provider.
+///
+/// @nodoc
 class ApiKeyCredentialProviderItem {
   /// The timestamp when the API key credential provider was created.
   final DateTime createdTime;
@@ -31020,6 +31885,8 @@ class ApiKeyCredentialProviderItem {
 
 /// Contains information about an agent runtime. An agent runtime is the
 /// execution environment for a Amazon Bedrock AgentCore Agent.
+///
+/// @nodoc
 class AgentRuntime {
   /// The Amazon Resource Name (ARN) of the agent runtime.
   final String agentRuntimeArn;
@@ -31084,6 +31951,7 @@ class AgentRuntime {
   }
 }
 
+/// @nodoc
 class AgentRuntimeStatus {
   static const creating = AgentRuntimeStatus._('CREATING');
   static const createFailed = AgentRuntimeStatus._('CREATE_FAILED');
@@ -31121,6 +31989,8 @@ class AgentRuntimeStatus {
 }
 
 /// The artifact of the agent.
+///
+/// @nodoc
 class AgentRuntimeArtifact {
   /// The code configuration for the agent runtime artifact, including the source
   /// code location and execution settings.
@@ -31160,6 +32030,8 @@ class AgentRuntimeArtifact {
 
 /// Configuration for HTTP request headers that will be passed through to the
 /// runtime.
+///
+/// @nodoc
 class RequestHeaderConfiguration {
   /// A list of HTTP request headers that are allowed to be passed through to the
   /// runtime.
@@ -31189,6 +32061,8 @@ class RequestHeaderConfiguration {
 
 /// The protocol configuration for an agent runtime. This structure defines how
 /// the agent runtime communicates with clients.
+///
+/// @nodoc
 class ProtocolConfiguration {
   /// The server protocol for the agent runtime. This field specifies which
   /// protocol the agent runtime uses to communicate with clients.
@@ -31214,6 +32088,8 @@ class ProtocolConfiguration {
 }
 
 /// Configuration for microVM metadata service settings.
+///
+/// @nodoc
 class RuntimeMetadataConfiguration {
   /// Enables MMDSv2 (microVM Metadata Service Version 2) requirement for the
   /// agent runtime. When set to <code>true</code>, the runtime microVM will only
@@ -31238,6 +32114,7 @@ class RuntimeMetadataConfiguration {
   }
 }
 
+/// @nodoc
 class ServerProtocol {
   static const mcp = ServerProtocol._('MCP');
   static const http = ServerProtocol._('HTTP');
@@ -31267,6 +32144,8 @@ class ServerProtocol {
 /// The configuration for the source code that defines how the agent runtime
 /// code should be executed, including the code location, runtime environment,
 /// and entry point.
+///
+/// @nodoc
 class CodeConfiguration {
   /// The source code location and configuration details.
   final Code code;
@@ -31313,6 +32192,8 @@ class CodeConfiguration {
 
 /// The source code configuration that specifies the location and details of the
 /// code to be executed.
+///
+/// @nodoc
 class Code {
   /// The Amazon Amazon S3 object that contains the source code for the agent
   /// runtime.
@@ -31338,6 +32219,7 @@ class Code {
   }
 }
 
+/// @nodoc
 class AgentManagedRuntimeType {
   static const python_3_10 = AgentManagedRuntimeType._('PYTHON_3_10');
   static const python_3_11 = AgentManagedRuntimeType._('PYTHON_3_11');
@@ -31376,6 +32258,8 @@ class AgentManagedRuntimeType {
 
 /// Contains information about an agent runtime endpoint. An endpoint provides a
 /// way to connect to and interact with an agent runtime.
+///
+/// @nodoc
 class AgentRuntimeEndpoint {
   /// The Amazon Resource Name (ARN) of the agent runtime associated with the
   /// endpoint.
@@ -31466,6 +32350,7 @@ class AgentRuntimeEndpoint {
   }
 }
 
+/// @nodoc
 class AgentRuntimeEndpointStatus {
   static const creating = AgentRuntimeEndpointStatus._('CREATING');
   static const createFailed = AgentRuntimeEndpointStatus._('CREATE_FAILED');
@@ -31503,6 +32388,8 @@ class AgentRuntimeEndpointStatus {
 }
 
 /// Contains the KMS configuration for a resource.
+///
+/// @nodoc
 class KmsConfiguration {
   /// The type of KMS key (CustomerManagedKey or ServiceManagedKey).
   final KeyType keyType;
@@ -31532,6 +32419,7 @@ class KmsConfiguration {
   }
 }
 
+/// @nodoc
 class KeyType {
   static const customerManagedKey = KeyType._('CustomerManagedKey');
   static const serviceManagedKey = KeyType._('ServiceManagedKey');
@@ -31555,6 +32443,7 @@ class KeyType {
   String toString() => value;
 }
 
+/// @nodoc
 class Unit {
   Unit();
 
@@ -31567,6 +32456,7 @@ class Unit {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -31579,11 +32469,13 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -31592,26 +32484,31 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DecryptionFailure extends _s.GenericAwsException {
   DecryptionFailure({String? type, String? message})
       : super(type: type, code: 'DecryptionFailure', message: message);
 }
 
+/// @nodoc
 class EncryptionFailure extends _s.GenericAwsException {
   EncryptionFailure({String? type, String? message})
       : super(type: type, code: 'EncryptionFailure', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -31620,16 +32517,19 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -31638,21 +32538,25 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottledException extends _s.GenericAwsException {
   ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

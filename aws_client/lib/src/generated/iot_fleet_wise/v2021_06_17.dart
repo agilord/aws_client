@@ -3103,6 +3103,7 @@ class IoTFleetWise {
   }
 }
 
+/// @nodoc
 class BatchCreateVehicleResponse {
   /// A list of information about creation errors, or an empty list if there
   /// aren't any errors.
@@ -3141,6 +3142,7 @@ class BatchCreateVehicleResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateVehicleResponse {
   /// A list of information about errors returned while updating a batch of
   /// vehicles, or, if there aren't any errors, an empty list.
@@ -3181,6 +3183,7 @@ class BatchUpdateVehicleResponse {
   }
 }
 
+/// @nodoc
 class GetEncryptionConfigurationResponse {
   /// The encryption status.
   final EncryptionStatus encryptionStatus;
@@ -3250,6 +3253,7 @@ class GetEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetLoggingOptionsResponse {
   /// Returns information about log delivery to Amazon CloudWatch Logs.
   final CloudWatchLogDeliveryOptions cloudWatchLogDelivery;
@@ -3274,6 +3278,7 @@ class GetLoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class GetRegisterAccountStatusResponse {
   /// The status of registering your account and resources. The status can be one
   /// of:
@@ -3361,6 +3366,7 @@ class GetRegisterAccountStatusResponse {
   }
 }
 
+/// @nodoc
 class GetVehicleStatusResponse {
   /// Lists information about the state of the vehicle with deployed campaigns.
   final List<VehicleStatus>? campaigns;
@@ -3394,6 +3400,7 @@ class GetVehicleStatusResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags assigned to the resource.
   final List<Tag>? tags;
@@ -3419,6 +3426,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutEncryptionConfigurationResponse {
   /// The encryption status.
   final EncryptionStatus encryptionStatus;
@@ -3462,6 +3470,7 @@ class PutEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutLoggingOptionsResponse {
   PutLoggingOptionsResponse();
 
@@ -3474,6 +3483,7 @@ class PutLoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class RegisterAccountResponse {
   /// The time the account was registered, in seconds since epoch (January 1, 1970
   /// at midnight UTC time).
@@ -3534,6 +3544,7 @@ class RegisterAccountResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3546,6 +3557,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3558,6 +3570,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCampaignResponse {
   /// The ARN of the created campaign.
   final String? arn;
@@ -3587,6 +3600,7 @@ class CreateCampaignResponse {
   }
 }
 
+/// @nodoc
 class GetCampaignResponse {
   /// The Amazon Resource Name (ARN) of the campaign.
   final String? arn;
@@ -3802,6 +3816,7 @@ class GetCampaignResponse {
   }
 }
 
+/// @nodoc
 class UpdateCampaignResponse {
   /// The Amazon Resource Name (ARN) of the campaign.
   final String? arn;
@@ -3857,6 +3872,7 @@ class UpdateCampaignResponse {
   }
 }
 
+/// @nodoc
 class DeleteCampaignResponse {
   /// The Amazon Resource Name (ARN) of the deleted campaign.
   /// <note>
@@ -3889,6 +3905,7 @@ class DeleteCampaignResponse {
   }
 }
 
+/// @nodoc
 class ListCampaignsResponse {
   /// A summary of information about each campaign.
   final List<CampaignSummary>? campaignSummaries;
@@ -3922,6 +3939,7 @@ class ListCampaignsResponse {
   }
 }
 
+/// @nodoc
 class CreateDecoderManifestResponse {
   /// The ARN of the created decoder manifest.
   final String arn;
@@ -3951,6 +3969,7 @@ class CreateDecoderManifestResponse {
   }
 }
 
+/// @nodoc
 class GetDecoderManifestResponse {
   /// The Amazon Resource Name (ARN) of the decoder manifest.
   final String arn;
@@ -4030,6 +4049,7 @@ class GetDecoderManifestResponse {
   }
 }
 
+/// @nodoc
 class UpdateDecoderManifestResponse {
   /// The Amazon Resource Name (ARN) of the updated decoder manifest.
   final String arn;
@@ -4059,6 +4079,7 @@ class UpdateDecoderManifestResponse {
   }
 }
 
+/// @nodoc
 class DeleteDecoderManifestResponse {
   /// The Amazon Resource Name (ARN) of the deleted decoder manifest.
   final String arn;
@@ -4088,6 +4109,7 @@ class DeleteDecoderManifestResponse {
   }
 }
 
+/// @nodoc
 class ListDecoderManifestsResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4122,6 +4144,7 @@ class ListDecoderManifestsResponse {
   }
 }
 
+/// @nodoc
 class ImportDecoderManifestResponse {
   /// The Amazon Resource Name (ARN) of the decoder manifest that was imported.
   final String arn;
@@ -4151,6 +4174,7 @@ class ImportDecoderManifestResponse {
   }
 }
 
+/// @nodoc
 class ListDecoderManifestNetworkInterfacesResponse {
   /// A list of information about network interfaces.
   final List<NetworkInterface>? networkInterfaces;
@@ -4185,6 +4209,7 @@ class ListDecoderManifestNetworkInterfacesResponse {
   }
 }
 
+/// @nodoc
 class ListDecoderManifestSignalsResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4219,6 +4244,7 @@ class ListDecoderManifestSignalsResponse {
   }
 }
 
+/// @nodoc
 class CreateFleetResponse {
   /// The ARN of the created fleet.
   final String arn;
@@ -4248,6 +4274,7 @@ class CreateFleetResponse {
   }
 }
 
+/// @nodoc
 class GetFleetResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String arn;
@@ -4308,6 +4335,7 @@ class GetFleetResponse {
   }
 }
 
+/// @nodoc
 class UpdateFleetResponse {
   /// The Amazon Resource Name (ARN) of the updated fleet.
   final String? arn;
@@ -4337,6 +4365,7 @@ class UpdateFleetResponse {
   }
 }
 
+/// @nodoc
 class DeleteFleetResponse {
   /// The Amazon Resource Name (ARN) of the deleted fleet.
   final String? arn;
@@ -4366,6 +4395,7 @@ class DeleteFleetResponse {
   }
 }
 
+/// @nodoc
 class ListFleetsResponse {
   /// A list of information for each fleet.
   final List<FleetSummary>? fleetSummaries;
@@ -4399,6 +4429,7 @@ class ListFleetsResponse {
   }
 }
 
+/// @nodoc
 class ListVehiclesInFleetResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4432,6 +4463,7 @@ class ListVehiclesInFleetResponse {
   }
 }
 
+/// @nodoc
 class CreateModelManifestResponse {
   /// The ARN of the created vehicle model.
   final String arn;
@@ -4461,6 +4493,7 @@ class CreateModelManifestResponse {
   }
 }
 
+/// @nodoc
 class GetModelManifestResponse {
   /// The Amazon Resource Name (ARN) of the vehicle model.
   final String arn;
@@ -4529,6 +4562,7 @@ class GetModelManifestResponse {
   }
 }
 
+/// @nodoc
 class UpdateModelManifestResponse {
   /// The Amazon Resource Name (ARN) of the updated vehicle model.
   final String arn;
@@ -4558,6 +4592,7 @@ class UpdateModelManifestResponse {
   }
 }
 
+/// @nodoc
 class DeleteModelManifestResponse {
   /// The Amazon Resource Name (ARN) of the deleted model manifest.
   final String arn;
@@ -4587,6 +4622,7 @@ class DeleteModelManifestResponse {
   }
 }
 
+/// @nodoc
 class ListModelManifestsResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4620,6 +4656,7 @@ class ListModelManifestsResponse {
   }
 }
 
+/// @nodoc
 class ListModelManifestNodesResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4653,6 +4690,7 @@ class ListModelManifestNodesResponse {
   }
 }
 
+/// @nodoc
 class CreateSignalCatalogResponse {
   /// The ARN of the created signal catalog.
   final String arn;
@@ -4682,6 +4720,7 @@ class CreateSignalCatalogResponse {
   }
 }
 
+/// @nodoc
 class GetSignalCatalogResponse {
   /// The Amazon Resource Name (ARN) of the signal catalog.
   final String arn;
@@ -4743,6 +4782,7 @@ class GetSignalCatalogResponse {
   }
 }
 
+/// @nodoc
 class UpdateSignalCatalogResponse {
   /// The ARN of the updated signal catalog.
   final String arn;
@@ -4772,6 +4812,7 @@ class UpdateSignalCatalogResponse {
   }
 }
 
+/// @nodoc
 class DeleteSignalCatalogResponse {
   /// The Amazon Resource Name (ARN) of the deleted signal catalog.
   final String arn;
@@ -4801,6 +4842,7 @@ class DeleteSignalCatalogResponse {
   }
 }
 
+/// @nodoc
 class ListSignalCatalogsResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4834,6 +4876,7 @@ class ListSignalCatalogsResponse {
   }
 }
 
+/// @nodoc
 class ImportSignalCatalogResponse {
   /// The Amazon Resource Name (ARN) of the imported signal catalog.
   final String arn;
@@ -4863,6 +4906,7 @@ class ImportSignalCatalogResponse {
   }
 }
 
+/// @nodoc
 class ListSignalCatalogNodesResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -4896,6 +4940,7 @@ class ListSignalCatalogNodesResponse {
   }
 }
 
+/// @nodoc
 class CreateStateTemplateResponse {
   /// The Amazon Resource Name (ARN) of the state template.
   final String? arn;
@@ -4932,6 +4977,7 @@ class CreateStateTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetStateTemplateResponse {
   /// The Amazon Resource Name (ARN) of the state template.
   final String? arn;
@@ -5040,6 +5086,7 @@ class GetStateTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateStateTemplateResponse {
   /// The Amazon Resource Name (ARN) of the state template.
   final String? arn;
@@ -5076,6 +5123,7 @@ class UpdateStateTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteStateTemplateResponse {
   /// The Amazon Resource Name (ARN) of the state template.
   final String? arn;
@@ -5112,6 +5160,7 @@ class DeleteStateTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListStateTemplatesResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -5145,6 +5194,7 @@ class ListStateTemplatesResponse {
   }
 }
 
+/// @nodoc
 class CreateVehicleResponse {
   /// The ARN of the created vehicle.
   final String? arn;
@@ -5181,6 +5231,7 @@ class CreateVehicleResponse {
   }
 }
 
+/// @nodoc
 class GetVehicleResponse {
   /// The Amazon Resource Name (ARN) of the vehicle to retrieve information about.
   final String? arn;
@@ -5263,6 +5314,7 @@ class GetVehicleResponse {
   }
 }
 
+/// @nodoc
 class UpdateVehicleResponse {
   /// The ARN of the updated vehicle.
   final String? arn;
@@ -5292,6 +5344,7 @@ class UpdateVehicleResponse {
   }
 }
 
+/// @nodoc
 class DeleteVehicleResponse {
   /// The Amazon Resource Name (ARN) of the deleted vehicle.
   final String arn;
@@ -5321,6 +5374,7 @@ class DeleteVehicleResponse {
   }
 }
 
+/// @nodoc
 class ListVehiclesResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
@@ -5354,6 +5408,7 @@ class ListVehiclesResponse {
   }
 }
 
+/// @nodoc
 class AssociateVehicleFleetResponse {
   AssociateVehicleFleetResponse();
 
@@ -5366,6 +5421,7 @@ class AssociateVehicleFleetResponse {
   }
 }
 
+/// @nodoc
 class DisassociateVehicleFleetResponse {
   DisassociateVehicleFleetResponse();
 
@@ -5378,6 +5434,7 @@ class DisassociateVehicleFleetResponse {
   }
 }
 
+/// @nodoc
 class ListFleetsForVehicleResponse {
   /// A list of fleet IDs that the vehicle is associated with.
   final List<String>? fleets;
@@ -5413,6 +5470,8 @@ class ListFleetsForVehicleResponse {
 ///
 /// To return this information about vehicles in your account, you can use the
 /// API operation.
+///
+/// @nodoc
 class VehicleSummary {
   /// The Amazon Resource Name (ARN) of the vehicle.
   final String arn;
@@ -5483,6 +5542,7 @@ class VehicleSummary {
   }
 }
 
+/// @nodoc
 class ListResponseScope {
   static const metadataOnly = ListResponseScope._('METADATA_ONLY');
 
@@ -5506,6 +5566,7 @@ class ListResponseScope {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateMode {
   static const overwrite = UpdateMode._('Overwrite');
   static const merge = UpdateMode._('Merge');
@@ -5540,6 +5601,8 @@ class UpdateMode {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class StateTemplateAssociation {
   /// The unique ID of the state template.
   final String identifier;
@@ -5579,6 +5642,8 @@ class StateTemplateAssociation {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class StateTemplateUpdateStrategy {
   final OnChangeStateTemplateUpdateStrategy? onChange;
   final PeriodicStateTemplateUpdateStrategy? periodic;
@@ -5613,6 +5678,8 @@ class StateTemplateUpdateStrategy {
 
 /// Vehicles associated with the state template will stream telemetry data
 /// during a specified time period.
+///
+/// @nodoc
 class PeriodicStateTemplateUpdateStrategy {
   final TimePeriod stateTemplateUpdateRate;
 
@@ -5639,6 +5706,8 @@ class PeriodicStateTemplateUpdateStrategy {
 
 /// Vehicles associated with the state template will stream telemetry data when
 /// there is a change.
+///
+/// @nodoc
 class OnChangeStateTemplateUpdateStrategy {
   OnChangeStateTemplateUpdateStrategy();
 
@@ -5652,6 +5721,8 @@ class OnChangeStateTemplateUpdateStrategy {
 }
 
 /// The length of time between state template updates.
+///
+/// @nodoc
 class TimePeriod {
   /// A unit of time.
   final TimeUnit unit;
@@ -5681,6 +5752,7 @@ class TimePeriod {
   }
 }
 
+/// @nodoc
 class TimeUnit {
   static const millisecond = TimeUnit._('MILLISECOND');
   static const second = TimeUnit._('SECOND');
@@ -5706,6 +5778,7 @@ class TimeUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class VehicleAssociationBehavior {
   static const createIotThing = VehicleAssociationBehavior._('CreateIotThing');
   static const validateIotThingExists =
@@ -5733,6 +5806,8 @@ class VehicleAssociationBehavior {
 }
 
 /// A set of key/value pairs that are used to manage the resource.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -5770,6 +5845,8 @@ class Tag {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class StateTemplateSummary {
   /// The Amazon Resource Name (ARN) of the state template.
   final String? arn;
@@ -5841,6 +5918,8 @@ class StateTemplateSummary {
 
 /// A general abstraction of a signal. A node can be specified as an actuator,
 /// attribute, branch, or sensor.
+///
+/// @nodoc
 class Node {
   /// Information about a node specified as an actuator.
   /// <note>
@@ -5919,6 +5998,8 @@ class Node {
 }
 
 /// A group of signals that are defined in a hierarchical structure.
+///
+/// @nodoc
 class Branch {
   /// The fully qualified name of the branch. For example, the fully qualified
   /// name of a branch might be <code>Vehicle.Body.Engine</code>.
@@ -5969,6 +6050,8 @@ class Branch {
 /// You can collect data about fluid levels, temperatures, vibrations, or
 /// battery voltage from sensors.
 /// </note>
+///
+/// @nodoc
 class Sensor {
   /// The specified data type of the sensor.
   final NodeDataType dataType;
@@ -6070,6 +6153,8 @@ class Sensor {
 /// Updating actuator data can change the state of a device. For example, you
 /// can turn on or off the heater by updating its actuator data.
 /// </note>
+///
+/// @nodoc
 class Actuator {
   /// The specified data type of the actuator.
   final NodeDataType dataType;
@@ -6173,6 +6258,8 @@ class Actuator {
 
 /// A signal that represents static information about the vehicle, such as
 /// engine type or manufacturing date.
+///
+/// @nodoc
 class Attribute {
   /// The specified data type of the attribute.
   final NodeDataType dataType;
@@ -6271,6 +6358,8 @@ class Attribute {
 }
 
 /// The custom structure represents a complex or higher-order data structure.
+///
+/// @nodoc
 class CustomStruct {
   /// The fully qualified name of the custom structure. For example, the fully
   /// qualified name of a custom structure might be
@@ -6319,6 +6408,8 @@ class CustomStruct {
 
 /// Represents a member of the complex data structure. The data type of the
 /// property can be either primitive or another <code>struct</code>.
+///
+/// @nodoc
 class CustomProperty {
   /// The data type for the custom property.
   final NodeDataType dataType;
@@ -6390,6 +6481,7 @@ class CustomProperty {
   }
 }
 
+/// @nodoc
 class NodeDataType {
   static const int8 = NodeDataType._('INT8');
   static const uint8 = NodeDataType._('UINT8');
@@ -6470,6 +6562,7 @@ class NodeDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeDataEncoding {
   static const binary = NodeDataEncoding._('BINARY');
   static const typed = NodeDataEncoding._('TYPED');
@@ -6494,6 +6587,7 @@ class NodeDataEncoding {
   String toString() => value;
 }
 
+/// @nodoc
 class SignalNodeType {
   static const sensor = SignalNodeType._('SENSOR');
   static const actuator = SignalNodeType._('ACTUATOR');
@@ -6534,6 +6628,8 @@ class SignalNodeType {
 /// Signal Specification (VSS)</a> is a precise language used to describe and
 /// model signals in vehicle networks. The JSON file collects signal
 /// specificiations in a VSS format.
+///
+/// @nodoc
 class FormattedVss {
   /// Provides the VSS in JSON format.
   final String? vssJson;
@@ -6552,6 +6648,8 @@ class FormattedVss {
 
 /// Information about a collection of standardized signals, which can be
 /// attributes, branches, sensors, or actuators.
+///
+/// @nodoc
 class SignalCatalogSummary {
   /// The Amazon Resource Name (ARN) of the signal catalog.
   final String? arn;
@@ -6600,6 +6698,8 @@ class SignalCatalogSummary {
 }
 
 /// Information about the number of nodes and node types in a vehicle network.
+///
+/// @nodoc
 class NodeCounts {
   /// The total number of nodes in a vehicle network that represent actuators.
   final int? totalActuators;
@@ -6666,6 +6766,8 @@ class NodeCounts {
 
 /// Information about a vehicle model (model manifest). You can use the API
 /// operation to return this information about multiple vehicle models.
+///
+/// @nodoc
 class ModelManifestSummary {
   /// The time the vehicle model was created, in seconds since epoch (January 1,
   /// 1970 at midnight UTC time).
@@ -6735,6 +6837,7 @@ class ModelManifestSummary {
   }
 }
 
+/// @nodoc
 class ManifestStatus {
   static const active = ManifestStatus._('ACTIVE');
   static const draft = ManifestStatus._('DRAFT');
@@ -6765,6 +6868,8 @@ class ManifestStatus {
 ///
 /// You can use the API operation to return this information about multiple
 /// fleets.
+///
+/// @nodoc
 class FleetSummary {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String arn;
@@ -6826,6 +6931,8 @@ class FleetSummary {
 }
 
 /// Information about a signal decoder.
+///
+/// @nodoc
 class SignalDecoder {
   /// The fully qualified name of a signal decoder as defined in a vehicle model.
   final String fullyQualifiedName;
@@ -6917,6 +7024,7 @@ class SignalDecoder {
   }
 }
 
+/// @nodoc
 class SignalDecoderType {
   static const canSignal = SignalDecoderType._('CAN_SIGNAL');
   static const obdSignal = SignalDecoderType._('OBD_SIGNAL');
@@ -6951,6 +7059,8 @@ class SignalDecoderType {
 
 /// Information about a single controller area network (CAN) signal and the
 /// messages it receives and transmits.
+///
+/// @nodoc
 class CanSignal {
   /// A multiplier used to decode the CAN message.
   final double factor;
@@ -7044,6 +7154,8 @@ class CanSignal {
 
 /// Information about signal messages using the on-board diagnostics (OBD) II
 /// protocol in a vehicle.
+///
+/// @nodoc
 class ObdSignal {
   /// The length of a message.
   final int byteLength;
@@ -7145,6 +7257,8 @@ class ObdSignal {
 
 /// The decoding information for a specific message which support higher order
 /// data types.
+///
+/// @nodoc
 class MessageSignal {
   /// The structured message for the message signal. It can be defined with either
   /// a <code>primitiveMessageDefinition</code>,
@@ -7188,6 +7302,8 @@ class MessageSignal {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class CustomDecodingSignal {
   /// The ID of the signal.
   final String id;
@@ -7214,6 +7330,8 @@ class CustomDecodingSignal {
 /// a <code>primitiveMessageDefinition</code>,
 /// <code>structuredMessageListDefinition</code>, or
 /// <code>structuredMessageDefinition</code> recursively.
+///
+/// @nodoc
 class StructuredMessage {
   /// Represents a primitive type node of the complex data structure.
   final PrimitiveMessageDefinition? primitiveMessageDefinition;
@@ -7269,6 +7387,8 @@ class StructuredMessage {
 }
 
 /// Represents a primitive type node of the complex data structure.
+///
+/// @nodoc
 class PrimitiveMessageDefinition {
   /// Information about a <code>PrimitiveMessage</code> using a ROS 2 compliant
   /// primitive type message of the complex data structure.
@@ -7298,6 +7418,8 @@ class PrimitiveMessageDefinition {
 }
 
 /// Represents a list type node of the complex data structure.
+///
+/// @nodoc
 class StructuredMessageListDefinition {
   /// The type of list of the structured message list definition.
   final StructuredMessageListType listType;
@@ -7347,6 +7469,8 @@ class StructuredMessageListDefinition {
 
 /// Represents a <code>StructureMessageName</code> to <code>DataType</code> map
 /// element.
+///
+/// @nodoc
 class StructuredMessageFieldNameAndDataTypePair {
   /// The data type.
   final StructuredMessage dataType;
@@ -7380,6 +7504,7 @@ class StructuredMessageFieldNameAndDataTypePair {
   }
 }
 
+/// @nodoc
 class StructuredMessageListType {
   static const fixedCapacity = StructuredMessageListType._('FIXED_CAPACITY');
   static const dynamicUnboundedCapacity =
@@ -7414,6 +7539,8 @@ class StructuredMessageListType {
 
 /// Represents a ROS 2 compliant primitive type message of the complex data
 /// structure.
+///
+/// @nodoc
 class ROS2PrimitiveMessageDefinition {
   /// The primitive type (integer, floating point, boolean, etc.) for the ROS 2
   /// primitive message definition.
@@ -7461,6 +7588,7 @@ class ROS2PrimitiveMessageDefinition {
   }
 }
 
+/// @nodoc
 class ROS2PrimitiveType {
   static const $bool = ROS2PrimitiveType._('BOOL');
   static const byte = ROS2PrimitiveType._('BYTE');
@@ -7514,6 +7642,7 @@ class ROS2PrimitiveType {
   String toString() => value;
 }
 
+/// @nodoc
 class SignalValueType {
   static const integer = SignalValueType._('INTEGER');
   static const floatingPoint = SignalValueType._('FLOATING_POINT');
@@ -7543,6 +7672,8 @@ class SignalValueType {
 ///
 /// To return this information about all the network interfaces specified in a
 /// decoder manifest, use the API operation.
+///
+/// @nodoc
 class NetworkInterface {
   /// The ID of the network interface.
   final String interfaceId;
@@ -7619,6 +7750,7 @@ class NetworkInterface {
   }
 }
 
+/// @nodoc
 class NetworkInterfaceType {
   static const canInterface = NetworkInterfaceType._('CAN_INTERFACE');
   static const obdInterface = NetworkInterfaceType._('OBD_INTERFACE');
@@ -7653,6 +7785,8 @@ class NetworkInterfaceType {
 }
 
 /// A single controller area network (CAN) device interface.
+///
+/// @nodoc
 class CanInterface {
   /// The unique name of the interface.
   final String name;
@@ -7691,6 +7825,8 @@ class CanInterface {
 
 /// A network interface that specifies the on-board diagnostic (OBD) II network
 /// protocol.
+///
+/// @nodoc
 class ObdInterface {
   /// The name of the interface.
   final String name;
@@ -7759,6 +7895,8 @@ class ObdInterface {
 
 /// The vehicle middleware defined as a type of network interface. Examples of
 /// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
+///
+/// @nodoc
 class VehicleMiddleware {
   /// The name of the vehicle middleware.
   final String name;
@@ -7797,6 +7935,8 @@ class VehicleMiddleware {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class CustomDecodingInterface {
   /// The name of the interface.
   final String name;
@@ -7819,6 +7959,7 @@ class CustomDecodingInterface {
   }
 }
 
+/// @nodoc
 class VehicleMiddlewareProtocol {
   static const ros_2 = VehicleMiddlewareProtocol._('ROS_2');
 
@@ -7844,6 +7985,8 @@ class VehicleMiddlewareProtocol {
 }
 
 /// Specifications for defining a vehicle network.
+///
+/// @nodoc
 class NetworkFileDefinition {
   /// Information, including CAN DBC files, about the configurations used to
   /// create a decoder manifest.
@@ -7862,6 +8005,8 @@ class NetworkFileDefinition {
 }
 
 /// Configurations used to create a decoder manifest.
+///
+/// @nodoc
 class CanDbcDefinition {
   /// A list of DBC files. You can upload only one DBC file for each network
   /// interface and specify up to five (inclusive) files in the list. The DBC file
@@ -7894,6 +8039,8 @@ class CanDbcDefinition {
 
 /// Information about a created decoder manifest. You can use the API operation
 /// to return this information about multiple decoder manifests.
+///
+/// @nodoc
 class DecoderManifestSummary {
   /// The time the decoder manifest was created in seconds since epoch (January 1,
   /// 1970 at midnight UTC time).
@@ -7974,6 +8121,7 @@ class DecoderManifestSummary {
   }
 }
 
+/// @nodoc
 class DefaultForUnmappedSignalsType {
   static const customDecoding =
       DefaultForUnmappedSignalsType._('CUSTOM_DECODING');
@@ -8003,6 +8151,8 @@ class DefaultForUnmappedSignalsType {
 ///
 /// You can use the API operation to return this information about multiple
 /// created campaigns.
+///
+/// @nodoc
 class CampaignSummary {
   /// The time the campaign was created.
   final DateTime creationTime;
@@ -8095,6 +8245,7 @@ class CampaignSummary {
   }
 }
 
+/// @nodoc
 class CampaignStatus {
   static const creating = CampaignStatus._('CREATING');
   static const waitingForApproval = CampaignStatus._('WAITING_FOR_APPROVAL');
@@ -8121,6 +8272,7 @@ class CampaignStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateCampaignAction {
   static const approve = UpdateCampaignAction._('APPROVE');
   static const suspend = UpdateCampaignAction._('SUSPEND');
@@ -8148,6 +8300,7 @@ class UpdateCampaignAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DiagnosticsMode {
   static const off = DiagnosticsMode._('OFF');
   static const sendActiveDtcs = DiagnosticsMode._('SEND_ACTIVE_DTCS');
@@ -8172,6 +8325,7 @@ class DiagnosticsMode {
   String toString() => value;
 }
 
+/// @nodoc
 class SpoolingMode {
   static const off = SpoolingMode._('OFF');
   static const toDisk = SpoolingMode._('TO_DISK');
@@ -8195,6 +8349,7 @@ class SpoolingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Compression {
   static const off = Compression._('OFF');
   static const snappy = Compression._('SNAPPY');
@@ -8219,6 +8374,8 @@ class Compression {
 }
 
 /// Specifies what data to collect and how often or when to collect it.
+///
+/// @nodoc
 class CollectionScheme {
   /// Information about a collection scheme that uses a simple logical expression
   /// to recognize what data to collect.
@@ -8267,6 +8424,8 @@ class CollectionScheme {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class SignalFetchInformation {
   /// The actions to be performed by the signal fetch.
   final List<String> actions;
@@ -8324,6 +8483,8 @@ class SignalFetchInformation {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class SignalFetchConfig {
   /// The configuration of a condition-based signal fetch operation.
   final ConditionBasedSignalFetchConfig? conditionBased;
@@ -8360,6 +8521,8 @@ class SignalFetchConfig {
 }
 
 /// Used to configure a frequency-based vehicle signal fetch.
+///
+/// @nodoc
 class TimeBasedSignalFetchConfig {
   /// The frequency with which the signal fetch will be executed.
   final int executionFrequencyMs;
@@ -8383,6 +8546,8 @@ class TimeBasedSignalFetchConfig {
 }
 
 /// Specifies the condition under which a signal fetch occurs.
+///
+/// @nodoc
 class ConditionBasedSignalFetchConfig {
   /// The condition that must be satisfied to trigger a signal fetch.
   final String conditionExpression;
@@ -8413,6 +8578,7 @@ class ConditionBasedSignalFetchConfig {
   }
 }
 
+/// @nodoc
 class TriggerMode {
   static const always = TriggerMode._('ALWAYS');
   static const risingEdge = TriggerMode._('RISING_EDGE');
@@ -8446,6 +8612,8 @@ class TriggerMode {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class DataPartition {
   /// The ID of the data partition. The data partition ID must be unique within a
   /// campaign. You can establish a data partition as the default partition for a
@@ -8490,6 +8658,8 @@ class DataPartition {
 }
 
 /// Size, time, and location options for the data partition.
+///
+/// @nodoc
 class DataPartitionStorageOptions {
   /// The maximum storage size of the data stored in the data partition.
   /// <note>
@@ -8559,6 +8729,8 @@ class DataPartitionStorageOptions {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class DataPartitionUploadOptions {
   /// The logical expression used to recognize what data to collect. For example,
   /// <code>$variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0</code>.
@@ -8599,6 +8771,8 @@ class DataPartitionUploadOptions {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class StorageMaximumSize {
   /// The data type of the data to store.
   final StorageMaximumSizeUnit unit;
@@ -8636,6 +8810,8 @@ class StorageMaximumSize {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class StorageMinimumTimeToLive {
   /// The time increment type.
   final StorageMinimumTimeToLiveUnit unit;
@@ -8666,6 +8842,7 @@ class StorageMinimumTimeToLive {
   }
 }
 
+/// @nodoc
 class StorageMinimumTimeToLiveUnit {
   static const hours = StorageMinimumTimeToLiveUnit._('HOURS');
   static const days = StorageMinimumTimeToLiveUnit._('DAYS');
@@ -8692,6 +8869,7 @@ class StorageMinimumTimeToLiveUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageMaximumSizeUnit {
   static const mb = StorageMaximumSizeUnit._('MB');
   static const gb = StorageMaximumSizeUnit._('GB');
@@ -8720,6 +8898,8 @@ class StorageMaximumSizeUnit {
 
 /// The destination where the campaign sends data. You can send data to an MQTT
 /// topic, or store it in Amazon S3 or Amazon Timestream.
+///
+/// @nodoc
 class DataDestinationConfig {
   /// The MQTT topic to which the Amazon Web Services IoT FleetWise campaign
   /// routes data.
@@ -8779,6 +8959,8 @@ class DataDestinationConfig {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
 /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
 /// Storage Service User Guide</i>.
+///
+/// @nodoc
 class S3Config {
   /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
   final String bucketArn;
@@ -8854,6 +9036,8 @@ class S3Config {
 /// processing time and to reduce storage costs. For more information, see <a
 /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/data-modeling.html">Data
 /// modeling</a> in the <i>Amazon Timestream Developer Guide</i>.
+///
+/// @nodoc
 class TimestreamConfig {
   /// The Amazon Resource Name (ARN) of the task execution role that grants Amazon
   /// Web Services IoT FleetWise permission to deliver data to the Amazon
@@ -8897,6 +9081,8 @@ class TimestreamConfig {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class MqttTopicConfig {
   /// The ARN of the role that grants Amazon Web Services IoT FleetWise permission
   /// to access and act on messages sent to the MQTT topic.
@@ -8927,6 +9113,7 @@ class MqttTopicConfig {
   }
 }
 
+/// @nodoc
 class DataFormat {
   static const json = DataFormat._('JSON');
   static const parquet = DataFormat._('PARQUET');
@@ -8950,6 +9137,7 @@ class DataFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageCompressionFormat {
   static const none = StorageCompressionFormat._('NONE');
   static const gzip = StorageCompressionFormat._('GZIP');
@@ -8977,6 +9165,8 @@ class StorageCompressionFormat {
 
 /// Information about a collection scheme that uses a time period to decide how
 /// often to collect data.
+///
+/// @nodoc
 class TimeBasedCollectionScheme {
   /// The time period (in milliseconds) to decide how often to collect data. For
   /// example, if the time period is <code>60000</code>, the Edge Agent software
@@ -9003,6 +9193,8 @@ class TimeBasedCollectionScheme {
 
 /// Information about a collection scheme that uses a simple logical expression
 /// to recognize what data to collect.
+///
+/// @nodoc
 class ConditionBasedCollectionScheme {
   /// The logical expression used to recognize what data to collect. For example,
   /// <code>$variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0</code>.
@@ -9059,6 +9251,8 @@ class ConditionBasedCollectionScheme {
 }
 
 /// Information about a signal.
+///
+/// @nodoc
 class SignalInformation {
   /// The name of the signal.
   final String name;
@@ -9122,6 +9316,7 @@ class SignalInformation {
   }
 }
 
+/// @nodoc
 class RegistrationStatus {
   static const registrationPending =
       RegistrationStatus._('REGISTRATION_PENDING');
@@ -9157,6 +9352,8 @@ class RegistrationStatus {
 
 /// The registered Amazon Timestream resources that Amazon Web Services IoT
 /// FleetWise edge agent software can transfer your vehicle data to.
+///
+/// @nodoc
 class TimestreamResources {
   /// The name of the registered Amazon Timestream database.
   final String timestreamDatabaseName;
@@ -9192,6 +9389,8 @@ class TimestreamResources {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
 /// roles</a> in the <i>Identity and Access Management User Guide</i>.
+///
+/// @nodoc
 class IamResources {
   /// The Amazon Resource Name (ARN) of the IAM resource that allows Amazon Web
   /// Services IoT FleetWise to send data to Amazon Timestream. For example,
@@ -9217,6 +9416,8 @@ class IamResources {
 }
 
 /// The log delivery option to send data to Amazon CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchLogDeliveryOptions {
   /// The type of log to send data to Amazon CloudWatch Logs.
   final LogType logType;
@@ -9246,6 +9447,7 @@ class CloudWatchLogDeliveryOptions {
   }
 }
 
+/// @nodoc
 class LogType {
   static const off = LogType._('OFF');
   static const error = LogType._('ERROR');
@@ -9269,6 +9471,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionStatus {
   static const pending = EncryptionStatus._('PENDING');
   static const success = EncryptionStatus._('SUCCESS');
@@ -9294,6 +9497,7 @@ class EncryptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionType {
   static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
   static const fleetwiseDefaultEncryption =
@@ -9320,6 +9524,8 @@ class EncryptionType {
 }
 
 /// Information about a campaign associated with a vehicle.
+///
+/// @nodoc
 class VehicleStatus {
   /// The name of a campaign.
   final String? campaignName;
@@ -9380,6 +9586,7 @@ class VehicleStatus {
   }
 }
 
+/// @nodoc
 class VehicleState {
   static const created = VehicleState._('CREATED');
   static const ready = VehicleState._('READY');
@@ -9416,6 +9623,8 @@ class VehicleState {
 
 /// Information about the registered Amazon Timestream resources or errors, if
 /// any.
+///
+/// @nodoc
 class TimestreamRegistrationResponse {
   /// The status of registering your Amazon Timestream resources. The status can
   /// be one of <code>REGISTRATION_SUCCESS</code>,
@@ -9480,6 +9689,8 @@ class TimestreamRegistrationResponse {
 /// Information about registering an Identity and Access Management (IAM)
 /// resource so Amazon Web Services IoT FleetWise edge agent software can
 /// transfer your vehicle data to Amazon Timestream.
+///
+/// @nodoc
 class IamRegistrationResponse {
   /// The status of registering your IAM resource. The status can be one of
   /// <code>REGISTRATION_SUCCESS</code>, <code>REGISTRATION_PENDING</code>,
@@ -9520,6 +9731,8 @@ class IamRegistrationResponse {
 }
 
 /// An HTTP error resulting from updating the description for a vehicle.
+///
+/// @nodoc
 class UpdateVehicleError {
   /// The relevant HTTP error code (400+).
   final int? code;
@@ -9557,6 +9770,8 @@ class UpdateVehicleError {
 }
 
 /// Information about the updated vehicle.
+///
+/// @nodoc
 class UpdateVehicleResponseItem {
   /// The Amazon Resource Name (ARN) of the updated vehicle.
   final String? arn;
@@ -9594,6 +9809,8 @@ class UpdateVehicleResponseItem {
 /// Web Services Region and feature availability</a> in the <i>Amazon Web
 /// Services IoT FleetWise Developer Guide</i>.
 /// </important>
+///
+/// @nodoc
 class UpdateVehicleRequestItem {
   /// The unique ID of the vehicle to update.
   final String vehicleName;
@@ -9669,6 +9886,8 @@ class UpdateVehicleRequestItem {
 }
 
 /// An HTTP error resulting from creating a vehicle.
+///
+/// @nodoc
 class CreateVehicleError {
   /// An HTTP error code.
   final String? code;
@@ -9706,6 +9925,8 @@ class CreateVehicleError {
 }
 
 /// Information about a created vehicle.
+///
+/// @nodoc
 class CreateVehicleResponseItem {
   /// The ARN of the created vehicle.
   final String? arn;
@@ -9743,6 +9964,8 @@ class CreateVehicleResponseItem {
 }
 
 /// Information about the vehicle to create.
+///
+/// @nodoc
 class CreateVehicleRequestItem {
   /// The Amazon Resource Name (ARN) of a decoder manifest associated with the
   /// vehicle to create.
@@ -9800,16 +10023,19 @@ class CreateVehicleRequestItem {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DecoderManifestValidationException extends _s.GenericAwsException {
   DecoderManifestValidationException({String? type, String? message})
       : super(
@@ -9818,36 +10044,43 @@ class DecoderManifestValidationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidNodeException extends _s.GenericAwsException {
   InvalidNodeException({String? type, String? message})
       : super(type: type, code: 'InvalidNodeException', message: message);
 }
 
+/// @nodoc
 class InvalidSignalsException extends _s.GenericAwsException {
   InvalidSignalsException({String? type, String? message})
       : super(type: type, code: 'InvalidSignalsException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

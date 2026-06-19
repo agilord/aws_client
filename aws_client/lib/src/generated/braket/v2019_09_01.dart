@@ -813,6 +813,7 @@ class Braket {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Displays the key, value pairs of tags associated with this resource.
   final Map<String, String>? tags;
@@ -836,6 +837,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -848,6 +850,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -860,6 +863,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceResponse {
   /// The ARN of the device.
   final String deviceArn;
@@ -929,6 +933,7 @@ class GetDeviceResponse {
   }
 }
 
+/// @nodoc
 class SearchDevicesResponse {
   /// An array of <code>DeviceSummary</code> objects for devices that match the
   /// specified filter values.
@@ -964,6 +969,7 @@ class SearchDevicesResponse {
   }
 }
 
+/// @nodoc
 class CreateJobResponse {
   /// The ARN of the Amazon Braket hybrid job created.
   final String jobArn;
@@ -986,6 +992,7 @@ class CreateJobResponse {
   }
 }
 
+/// @nodoc
 class GetJobResponse {
   /// Definition of the Amazon Braket hybrid job created. Provides information
   /// about the container image used, and the Python scripts used for training.
@@ -1190,6 +1197,7 @@ class GetJobResponse {
   }
 }
 
+/// @nodoc
 class CancelJobResponse {
   /// The status of the hybrid job.
   final CancellationStatus cancellationStatus;
@@ -1220,6 +1228,7 @@ class CancelJobResponse {
   }
 }
 
+/// @nodoc
 class SearchJobsResponse {
   /// An array of <code>JobSummary</code> objects for devices that match the
   /// specified filter values.
@@ -1255,6 +1264,7 @@ class SearchJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateQuantumTaskResponse {
   /// The ARN of the quantum task created by the request.
   final String quantumTaskArn;
@@ -1277,6 +1287,7 @@ class CreateQuantumTaskResponse {
   }
 }
 
+/// @nodoc
 class GetQuantumTaskResponse {
   /// The time at which the quantum task was created.
   final DateTime createdAt;
@@ -1431,6 +1442,7 @@ class GetQuantumTaskResponse {
   }
 }
 
+/// @nodoc
 class CancelQuantumTaskResponse {
   /// The status of the quantum task.
   final CancellationStatus cancellationStatus;
@@ -1461,6 +1473,7 @@ class CancelQuantumTaskResponse {
   }
 }
 
+/// @nodoc
 class SearchQuantumTasksResponse {
   /// An array of <code>QuantumTaskSummary</code> objects for quantum tasks that
   /// match the specified filters.
@@ -1496,6 +1509,7 @@ class SearchQuantumTasksResponse {
   }
 }
 
+/// @nodoc
 class CreateSpendingLimitResponse {
   /// The Amazon Resource Name (ARN) of the created spending limit.
   final String spendingLimitArn;
@@ -1518,6 +1532,7 @@ class CreateSpendingLimitResponse {
   }
 }
 
+/// @nodoc
 class UpdateSpendingLimitResponse {
   UpdateSpendingLimitResponse();
 
@@ -1530,6 +1545,7 @@ class UpdateSpendingLimitResponse {
   }
 }
 
+/// @nodoc
 class DeleteSpendingLimitResponse {
   DeleteSpendingLimitResponse();
 
@@ -1542,6 +1558,7 @@ class DeleteSpendingLimitResponse {
   }
 }
 
+/// @nodoc
 class SearchSpendingLimitsResponse {
   /// An array of spending limit summaries that match the specified filters.
   final List<SpendingLimitSummary> spendingLimits;
@@ -1577,6 +1594,8 @@ class SearchSpendingLimitsResponse {
 
 /// Contains summary information about a spending limit, including current
 /// spending status and configuration details.
+///
+/// @nodoc
 class SpendingLimitSummary {
   /// The date and time when the spending limit was created, in epoch seconds.
   final DateTime createdAt;
@@ -1665,6 +1684,8 @@ class SpendingLimitSummary {
 
 /// Defines a time range for spending limits, specifying when the limit is
 /// active.
+///
+/// @nodoc
 class TimePeriod {
   /// The end date and time for the spending limit period, in epoch seconds.
   final DateTime endAt;
@@ -1696,6 +1717,8 @@ class TimePeriod {
 
 /// Specifies filter criteria for searching spending limits. Use filters to
 /// narrow down results based on specific attributes.
+///
+/// @nodoc
 class SearchSpendingLimitsFilter {
   /// The name of the field to filter on. Currently only supports
   /// <code>deviceArn</code>.
@@ -1725,6 +1748,7 @@ class SearchSpendingLimitsFilter {
   }
 }
 
+/// @nodoc
 class SearchSpendingLimitsFilterOperator {
   static const equal = SearchSpendingLimitsFilterOperator._('EQUAL');
 
@@ -1750,6 +1774,8 @@ class SearchSpendingLimitsFilterOperator {
 }
 
 /// Includes information about a quantum task.
+///
+/// @nodoc
 class QuantumTaskSummary {
   /// The time at which the quantum task was created.
   final DateTime createdAt;
@@ -1829,6 +1855,7 @@ class QuantumTaskSummary {
   }
 }
 
+/// @nodoc
 class QuantumTaskStatus {
   static const created = QuantumTaskStatus._('CREATED');
   static const queued = QuantumTaskStatus._('QUEUED');
@@ -1867,6 +1894,8 @@ class QuantumTaskStatus {
 }
 
 /// A filter used to search for quantum tasks.
+///
+/// @nodoc
 class SearchQuantumTasksFilter {
   /// The name of the quantum task parameter to filter based on. Filter name can
   /// be either <code>quantumTaskArn</code>, <code>deviceArn</code>,
@@ -1898,6 +1927,7 @@ class SearchQuantumTasksFilter {
   }
 }
 
+/// @nodoc
 class SearchQuantumTasksFilterOperator {
   static const lt = SearchQuantumTasksFilterOperator._('LT');
   static const lte = SearchQuantumTasksFilterOperator._('LTE');
@@ -1927,6 +1957,7 @@ class SearchQuantumTasksFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class CancellationStatus {
   static const cancelling = CancellationStatus._('CANCELLING');
   static const cancelled = CancellationStatus._('CANCELLED');
@@ -1953,6 +1984,8 @@ class CancellationStatus {
 }
 
 /// The queue information for the specified quantum task.
+///
+/// @nodoc
 class QuantumTaskQueueInfo {
   /// Current position of the quantum task in the quantum tasks queue.
   final String position;
@@ -2002,6 +2035,8 @@ class QuantumTaskQueueInfo {
 
 /// Contains metadata about the quantum task action, including the action type
 /// and program statistics.
+///
+/// @nodoc
 class ActionMetadata {
   /// The type of action associated with the quantum task.
   final String actionType;
@@ -2043,6 +2078,8 @@ class ActionMetadata {
 /// Enabled experimental capabilities for quantum hardware. Note that the use of
 /// these features may impact device capabilities and performance beyond its
 /// standard specifications.
+///
+/// @nodoc
 class ExperimentalCapabilities {
   /// Enabled experimental capabilities.
   final ExperimentalCapabilitiesEnablementType? enabled;
@@ -2066,6 +2103,7 @@ class ExperimentalCapabilities {
   }
 }
 
+/// @nodoc
 class ExperimentalCapabilitiesEnablementType {
   static const all = ExperimentalCapabilitiesEnablementType._('ALL');
   static const none = ExperimentalCapabilitiesEnablementType._('NONE');
@@ -2092,6 +2130,8 @@ class ExperimentalCapabilitiesEnablementType {
 }
 
 /// The Amazon Braket resource and the association type.
+///
+/// @nodoc
 class Association {
   /// The Amazon Braket resource arn.
   final String arn;
@@ -2121,6 +2161,7 @@ class Association {
   }
 }
 
+/// @nodoc
 class AssociationType {
   static const reservationTimeWindowArn =
       AssociationType._('RESERVATION_TIME_WINDOW_ARN');
@@ -2145,6 +2186,7 @@ class AssociationType {
   String toString() => value;
 }
 
+/// @nodoc
 class QueueName {
   static const quantumTasksQueue = QueueName._('QUANTUM_TASKS_QUEUE');
   static const jobsQueue = QueueName._('JOBS_QUEUE');
@@ -2168,6 +2210,7 @@ class QueueName {
   String toString() => value;
 }
 
+/// @nodoc
 class QueuePriority {
   static const normal = QueuePriority._('Normal');
   static const priority = QueuePriority._('Priority');
@@ -2192,6 +2235,7 @@ class QueuePriority {
   String toString() => value;
 }
 
+/// @nodoc
 class QuantumTaskAdditionalAttributeName {
   static const queueInfo = QuantumTaskAdditionalAttributeName._('QueueInfo');
 
@@ -2217,6 +2261,8 @@ class QuantumTaskAdditionalAttributeName {
 }
 
 /// Provides summary information about an Amazon Braket hybrid job.
+///
+/// @nodoc
 class JobSummary {
   /// The time at which the Amazon Braket hybrid job was created.
   final DateTime createdAt;
@@ -2289,6 +2335,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class JobPrimaryStatus {
   static const queued = JobPrimaryStatus._('QUEUED');
   static const running = JobPrimaryStatus._('RUNNING');
@@ -2325,6 +2372,8 @@ class JobPrimaryStatus {
 }
 
 /// A filter used to search for Amazon Braket hybrid jobs.
+///
+/// @nodoc
 class SearchJobsFilter {
   /// The name of the hybrid job parameter to filter based on. Filter name can be
   /// either <code>jobArn</code> or <code>createdAt</code>.
@@ -2354,6 +2403,7 @@ class SearchJobsFilter {
   }
 }
 
+/// @nodoc
 class SearchJobsFilterOperator {
   static const lt = SearchJobsFilterOperator._('LT');
   static const lte = SearchJobsFilterOperator._('LTE');
@@ -2386,6 +2436,8 @@ class SearchJobsFilterOperator {
 
 /// Specifies the path to the S3 location where you want to store hybrid job
 /// artifacts and the encryption key used to store them.
+///
+/// @nodoc
 class JobOutputDataConfig {
   /// Identifies the S3 path where you want Amazon Braket to store the hybrid job
   /// training artifacts. For example,
@@ -2420,6 +2472,8 @@ class JobOutputDataConfig {
 }
 
 /// Specifies limits for how long an Amazon Braket hybrid job can run.
+///
+/// @nodoc
 class JobStoppingCondition {
   /// The maximum length of time, in seconds, that an Amazon Braket hybrid job can
   /// run.
@@ -2446,6 +2500,8 @@ class JobStoppingCondition {
 
 /// Contains information about the output locations for hybrid job checkpoint
 /// data.
+///
+/// @nodoc
 class JobCheckpointConfig {
   /// Identifies the S3 path where you want Amazon Braket to store checkpoint
   /// data. For example, <code>s3://bucket-name/key-name-prefix</code>.
@@ -2480,6 +2536,8 @@ class JobCheckpointConfig {
 /// Defines the Amazon Braket hybrid job to be created. Specifies the container
 /// image the job uses and the paths to the Python scripts used for entry and
 /// training.
+///
+/// @nodoc
 class AlgorithmSpecification {
   /// The container image used to create an Amazon Braket hybrid job.
   final ContainerImage? containerImage;
@@ -2517,6 +2575,8 @@ class AlgorithmSpecification {
 
 /// Configures the resource instances to use while running the Amazon Braket
 /// hybrid job on Amazon Braket.
+///
+/// @nodoc
 class InstanceConfig {
   /// Configures the type of resource instances to use while running an Amazon
   /// Braket hybrid job.
@@ -2558,6 +2618,8 @@ class InstanceConfig {
 
 /// Configures the primary device used to create and run an Amazon Braket hybrid
 /// job.
+///
+/// @nodoc
 class DeviceConfig {
   /// The primary device ARN used to create and run an Amazon Braket hybrid job.
   final String device;
@@ -2581,6 +2643,8 @@ class DeviceConfig {
 }
 
 /// Information about the queue for a specified hybrid job.
+///
+/// @nodoc
 class HybridJobQueueInfo {
   /// Current position of the hybrid job in the jobs queue.
   final String position;
@@ -2621,6 +2685,8 @@ class HybridJobQueueInfo {
 
 /// Details about the type and time events that occurred related to the Amazon
 /// Braket hybrid job.
+///
+/// @nodoc
 class JobEventDetails {
   /// The type of event that occurred related to the Amazon Braket hybrid job.
   final JobEventType? eventType;
@@ -2658,6 +2724,7 @@ class JobEventDetails {
   }
 }
 
+/// @nodoc
 class JobEventType {
   static const waitingForPriority = JobEventType._('WAITING_FOR_PRIORITY');
   static const queuedForExecution = JobEventType._('QUEUED_FOR_EXECUTION');
@@ -2703,6 +2770,7 @@ class JobEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceType {
   static const mlT3Large = InstanceType._('ml.t3.large');
   static const mlT3Xlarge = InstanceType._('ml.t3.xlarge');
@@ -2843,6 +2911,8 @@ class InstanceType {
 
 /// Contains information about algorithm scripts used for the Amazon Braket
 /// hybrid job.
+///
+/// @nodoc
 class ScriptModeConfig {
   /// The entry point in the algorithm scripts from where the execution begins in
   /// the hybrid job.
@@ -2884,6 +2954,8 @@ class ScriptModeConfig {
 }
 
 /// The container image used to create an Amazon Braket hybrid job.
+///
+/// @nodoc
 class ContainerImage {
   /// The URI locating the container image.
   final String uri;
@@ -2906,6 +2978,7 @@ class ContainerImage {
   }
 }
 
+/// @nodoc
 class CompressionType {
   static const none = CompressionType._('NONE');
   static const gzip = CompressionType._('GZIP');
@@ -2932,6 +3005,8 @@ class CompressionType {
 
 /// A list of parameters that specify the input channels, type of input data,
 /// and where it is located.
+///
+/// @nodoc
 class InputFileConfig {
   /// A named input source that an Amazon Braket hybrid job can consume.
   final String channelName;
@@ -2972,6 +3047,8 @@ class InputFileConfig {
 
 /// Information about the source of the input data used by the Amazon Braket
 /// hybrid job.
+///
+/// @nodoc
 class DataSource {
   /// Amazon S3 path of the input data used by the hybrid job.
   final S3DataSource s3DataSource;
@@ -2998,6 +3075,8 @@ class DataSource {
 
 /// Information about the Amazon S3 storage used by the Amazon Braket hybrid
 /// job.
+///
+/// @nodoc
 class S3DataSource {
   /// Depending on the value specified for the <code>S3DataType</code>, identifies
   /// either a key name prefix or a manifest that locates the S3 data source.
@@ -3021,6 +3100,7 @@ class S3DataSource {
   }
 }
 
+/// @nodoc
 class HybridJobAdditionalAttributeName {
   static const queueInfo = HybridJobAdditionalAttributeName._('QueueInfo');
 
@@ -3046,6 +3126,8 @@ class HybridJobAdditionalAttributeName {
 }
 
 /// Includes information about the device.
+///
+/// @nodoc
 class DeviceSummary {
   /// The ARN of the device.
   final String deviceArn;
@@ -3097,6 +3179,7 @@ class DeviceSummary {
   }
 }
 
+/// @nodoc
 class DeviceType {
   static const qpu = DeviceType._('QPU');
   static const simulator = DeviceType._('SIMULATOR');
@@ -3120,6 +3203,7 @@ class DeviceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceStatus {
   static const online = DeviceStatus._('ONLINE');
   static const offline = DeviceStatus._('OFFLINE');
@@ -3145,6 +3229,8 @@ class DeviceStatus {
 }
 
 /// The filter used to search for devices.
+///
+/// @nodoc
 class SearchDevicesFilter {
   /// The name of the device parameter to filter based on. Only
   /// <code>deviceArn</code> filter name is currently supported.
@@ -3169,6 +3255,8 @@ class SearchDevicesFilter {
 }
 
 /// Information about quantum tasks and hybrid jobs queued on a device.
+///
+/// @nodoc
 class DeviceQueueInfo {
   /// The name of the queue.
   final QueueName queue;
@@ -3207,36 +3295,43 @@ class DeviceQueueInfo {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DeviceOfflineException extends _s.GenericAwsException {
   DeviceOfflineException({String? type, String? message})
       : super(type: type, code: 'DeviceOfflineException', message: message);
 }
 
+/// @nodoc
 class DeviceRetiredException extends _s.GenericAwsException {
   DeviceRetiredException({String? type, String? message})
       : super(type: type, code: 'DeviceRetiredException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3245,11 +3340,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

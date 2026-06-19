@@ -1678,6 +1678,7 @@ class GroundStation {
   }
 }
 
+/// @nodoc
 class GetAgentTaskResponseUrlResponse {
   /// UUID of the agent.
   final String agentId;
@@ -1715,6 +1716,8 @@ class GetAgentTaskResponseUrlResponse {
 }
 
 /// Output for the <code>GetMinuteUsage</code> operation.
+///
+/// @nodoc
 class GetMinuteUsageResponse {
   /// Estimated number of minutes remaining for an account, specific to the month
   /// being requested.
@@ -1777,6 +1780,8 @@ class GetMinuteUsageResponse {
 }
 
 /// Output for the <code>ListTagsForResource</code> operation.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags assigned to a resource.
   final Map<String, String>? tags;
@@ -1801,6 +1806,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Output for the <code>TagResource</code> operation.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1814,6 +1821,8 @@ class TagResourceResponse {
 }
 
 /// Output for the <code>UntagResource</code> operation.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1826,6 +1835,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterAgentResponse {
   /// UUID of registered agent.
   final String? agentId;
@@ -1848,6 +1858,7 @@ class RegisterAgentResponse {
   }
 }
 
+/// @nodoc
 class GetAgentConfigurationResponse {
   /// UUID of agent.
   final String? agentId;
@@ -1877,6 +1888,7 @@ class GetAgentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentStatusResponse {
   /// UUID of updated agent.
   final String agentId;
@@ -1900,6 +1912,8 @@ class UpdateAgentStatusResponse {
 }
 
 /// Response containing the ARN, ID, and type of a <code>Config</code>.
+///
+/// @nodoc
 class ConfigIdResponse {
   /// ARN of a <code>Config</code>.
   final String? configArn;
@@ -1938,6 +1952,8 @@ class ConfigIdResponse {
 }
 
 /// Output for the <code>GetConfig</code> operation.
+///
+/// @nodoc
 class GetConfigResponse {
   /// ARN of a <code>Config</code>
   final String configArn;
@@ -2000,6 +2016,8 @@ class GetConfigResponse {
 }
 
 /// Output for the <code>ListConfigs</code> operation.
+///
+/// @nodoc
 class ListConfigsResponse {
   /// List of <code>Config</code> items.
   final List<ConfigListItem>? configList;
@@ -2034,6 +2052,8 @@ class ListConfigsResponse {
 }
 
 /// Response containing the ID of a contact.
+///
+/// @nodoc
 class ContactIdResponse {
   /// UUID of a contact.
   final String? contactId;
@@ -2064,6 +2084,8 @@ class ContactIdResponse {
 }
 
 /// Output for the <code>DescribeContact</code> operation.
+///
+/// @nodoc
 class DescribeContactResponse {
   /// UUID of a contact.
   final String? contactId;
@@ -2242,6 +2264,7 @@ class DescribeContactResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactResponse {
   /// UUID of a contact.
   final String? contactId;
@@ -2272,6 +2295,8 @@ class UpdateContactResponse {
 }
 
 /// Output for the <code>ListContacts</code> operation.
+///
+/// @nodoc
 class ListContactsResponse {
   /// List of contacts.
   final List<ContactData>? contactList;
@@ -2305,6 +2330,7 @@ class ListContactsResponse {
   }
 }
 
+/// @nodoc
 class DescribeContactVersionResponse {
   /// UUID of a contact.
   final String? contactId;
@@ -2486,6 +2512,7 @@ class DescribeContactVersionResponse {
   }
 }
 
+/// @nodoc
 class ListContactVersionsResponse {
   /// List of contact versions.
   final List<ContactVersion>? contactVersionsList;
@@ -2521,6 +2548,8 @@ class ListContactVersionsResponse {
 }
 
 /// Response containing the ID of a dataflow endpoint group.
+///
+/// @nodoc
 class DataflowEndpointGroupIdResponse {
   /// UUID of a dataflow endpoint group.
   final String? dataflowEndpointGroupId;
@@ -2545,6 +2574,8 @@ class DataflowEndpointGroupIdResponse {
 }
 
 /// Output for the <code>GetDataflowEndpointGroup</code> operation.
+///
+/// @nodoc
 class GetDataflowEndpointGroupResponse {
   /// Amount of time, in seconds, after a contact ends that the Ground Station
   /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground
@@ -2619,6 +2650,8 @@ class GetDataflowEndpointGroupResponse {
 }
 
 /// Output for the <code>ListDataflowEndpointGroups</code> operation.
+///
+/// @nodoc
 class ListDataflowEndpointGroupsResponse {
   /// A list of dataflow endpoint groups.
   final List<DataflowEndpointListItem>? dataflowEndpointGroupList;
@@ -2656,6 +2689,7 @@ class ListDataflowEndpointGroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateDataflowEndpointGroupV2Response {
   /// Dataflow endpoint group ID
   final String? dataflowEndpointGroupId;
@@ -2680,6 +2714,7 @@ class CreateDataflowEndpointGroupV2Response {
   }
 }
 
+/// @nodoc
 class EphemerisIdResponse {
   /// The AWS Ground Station ephemeris ID.
   final String? ephemerisId;
@@ -2702,6 +2737,7 @@ class EphemerisIdResponse {
   }
 }
 
+/// @nodoc
 class DescribeEphemerisResponse {
   /// The time the ephemeris was uploaded in UTC.
   final DateTime? creationTime;
@@ -2810,6 +2846,7 @@ class DescribeEphemerisResponse {
   }
 }
 
+/// @nodoc
 class ListEphemeridesResponse {
   /// List of ephemerides.
   final List<EphemerisItem>? ephemerides;
@@ -2843,6 +2880,8 @@ class ListEphemeridesResponse {
 }
 
 /// Output for the <code>ListGroundStations</code> operation.
+///
+/// @nodoc
 class ListGroundStationsResponse {
   /// List of ground stations.
   final List<GroundStationData>? groundStationList;
@@ -2876,6 +2915,7 @@ class ListGroundStationsResponse {
   }
 }
 
+/// @nodoc
 class ListAntennasResponse {
   /// List of antennas.
   final List<AntennaListItem> antennaList;
@@ -2909,6 +2949,7 @@ class ListAntennasResponse {
   }
 }
 
+/// @nodoc
 class ListGroundStationReservationsResponse {
   /// List of ground station reservations.
   final List<GroundStationReservationListItem> reservationList;
@@ -2946,6 +2987,8 @@ class ListGroundStationReservationsResponse {
 }
 
 /// Response containing the ID of a mission profile.
+///
+/// @nodoc
 class MissionProfileIdResponse {
   /// UUID of a mission profile.
   final String? missionProfileId;
@@ -2969,6 +3012,8 @@ class MissionProfileIdResponse {
 }
 
 /// Output for the <code>GetMissionProfile</code> operation.
+///
+/// @nodoc
 class GetMissionProfileResponse {
   /// Amount of time after a contact ends that you'd like to receive a CloudWatch
   /// event indicating the pass has finished.
@@ -3096,6 +3141,8 @@ class GetMissionProfileResponse {
 }
 
 /// Output for the <code>ListMissionProfiles</code> operation.
+///
+/// @nodoc
 class ListMissionProfilesResponse {
   /// List of mission profiles.
   final List<MissionProfileListItem>? missionProfileList;
@@ -3131,6 +3178,8 @@ class ListMissionProfilesResponse {
 }
 
 /// Output for the <code>GetSatellite</code> operation.
+///
+/// @nodoc
 class GetSatelliteResponse {
   /// The current ephemeris being used to compute the trajectory of the satellite.
   final EphemerisMetaData? currentEphemeris;
@@ -3188,6 +3237,8 @@ class GetSatelliteResponse {
 }
 
 /// Output for the <code>ListSatellites</code> operation.
+///
+/// @nodoc
 class ListSatellitesResponse {
   /// Next token that can be supplied in the next call to get the next page of
   /// satellites.
@@ -3222,6 +3273,8 @@ class ListSatellitesResponse {
 }
 
 /// Item in a list of satellites.
+///
+/// @nodoc
 class SatelliteListItem {
   /// The current ephemeris being used to compute the trajectory of the satellite.
   final EphemerisMetaData? currentEphemeris;
@@ -3279,6 +3332,8 @@ class SatelliteListItem {
 }
 
 /// Metadata describing a particular ephemeris.
+///
+/// @nodoc
 class EphemerisMetaData {
   /// The <code>EphemerisSource</code> that generated a given ephemeris.
   final EphemerisSource source;
@@ -3330,6 +3385,7 @@ class EphemerisMetaData {
   }
 }
 
+/// @nodoc
 class EphemerisSource {
   static const customerProvided = EphemerisSource._('CUSTOMER_PROVIDED');
   static const spaceTrack = EphemerisSource._('SPACE_TRACK');
@@ -3355,6 +3411,8 @@ class EphemerisSource {
 }
 
 /// Item in a list of mission profiles.
+///
+/// @nodoc
 class MissionProfileListItem {
   /// ARN of a mission profile.
   final String? missionProfileArn;
@@ -3399,6 +3457,8 @@ class MissionProfileListItem {
 }
 
 /// KMS key info.
+///
+/// @nodoc
 class KmsKey {
   /// KMS Alias Arn.
   final String? kmsAliasArn;
@@ -3436,6 +3496,8 @@ class KmsKey {
 }
 
 /// Item in a list of ground station reservations.
+///
+/// @nodoc
 class GroundStationReservationListItem {
   /// Name of an antenna.
   final String antennaName;
@@ -3496,6 +3558,7 @@ class GroundStationReservationListItem {
   }
 }
 
+/// @nodoc
 class ReservationType {
   static const maintenance = ReservationType._('MAINTENANCE');
   static const contact = ReservationType._('CONTACT');
@@ -3521,6 +3584,8 @@ class ReservationType {
 }
 
 /// Details of a ground station reservation.
+///
+/// @nodoc
 class ReservationDetails {
   /// Details of a contact reservation.
   final ContactReservationDetails? contact;
@@ -3557,6 +3622,8 @@ class ReservationDetails {
 }
 
 /// Details of a maintenance reservation.
+///
+/// @nodoc
 class MaintenanceReservationDetails {
   /// Type of maintenance.
   final MaintenanceType maintenanceType;
@@ -3581,6 +3648,8 @@ class MaintenanceReservationDetails {
 }
 
 /// Details of a contact reservation.
+///
+/// @nodoc
 class ContactReservationDetails {
   /// UUID of a contact.
   final String? contactId;
@@ -3603,6 +3672,7 @@ class ContactReservationDetails {
   }
 }
 
+/// @nodoc
 class MaintenanceType {
   static const planned = MaintenanceType._('PLANNED');
   static const unplanned = MaintenanceType._('UNPLANNED');
@@ -3628,6 +3698,8 @@ class MaintenanceType {
 }
 
 /// An antenna at a ground station.
+///
+/// @nodoc
 class AntennaListItem {
   /// Name of the antenna.
   final String antennaName;
@@ -3665,6 +3737,8 @@ class AntennaListItem {
 }
 
 /// Information about the ground station data.
+///
+/// @nodoc
 class GroundStationData {
   /// ID of a ground station.
   final String? groundStationId;
@@ -3702,6 +3776,8 @@ class GroundStationData {
 }
 
 /// Ephemeris item.
+///
+/// @nodoc
 class EphemerisItem {
   /// The time the ephemeris was uploaded in UTC.
   final DateTime? creationTime;
@@ -3780,6 +3856,7 @@ class EphemerisItem {
   }
 }
 
+/// @nodoc
 class EphemerisType {
   static const tle = EphemerisType._('TLE');
   static const oem = EphemerisType._('OEM');
@@ -3806,6 +3883,7 @@ class EphemerisType {
   String toString() => value;
 }
 
+/// @nodoc
 class EphemerisStatus {
   static const validating = EphemerisStatus._('VALIDATING');
   static const invalid = EphemerisStatus._('INVALID');
@@ -3842,6 +3920,8 @@ class EphemerisStatus {
 }
 
 /// Object stored in Amazon S3 containing ephemeris data.
+///
+/// @nodoc
 class S3Object {
   /// An Amazon S3 Bucket name.
   final String? bucket;
@@ -3879,6 +3959,8 @@ class S3Object {
 }
 
 /// <p/>
+///
+/// @nodoc
 class EphemerisTypeDescription {
   final EphemerisDescription? azEl;
   final EphemerisDescription? oem;
@@ -3916,6 +3998,7 @@ class EphemerisTypeDescription {
   }
 }
 
+/// @nodoc
 class EphemerisInvalidReason {
   static const metadataInvalid = EphemerisInvalidReason._('METADATA_INVALID');
   static const timeRangeInvalid =
@@ -3956,6 +4039,8 @@ class EphemerisInvalidReason {
 ///
 /// Provides an error code and descriptive message to help diagnose and resolve
 /// validation issues.
+///
+/// @nodoc
 class EphemerisErrorReason {
   /// The error code identifying the type of validation failure.
   ///
@@ -3993,6 +4078,7 @@ class EphemerisErrorReason {
   }
 }
 
+/// @nodoc
 class EphemerisErrorCode {
   static const internalError = EphemerisErrorCode._('INTERNAL_ERROR');
   static const mismatchedSatcatId =
@@ -4124,6 +4210,8 @@ class EphemerisErrorCode {
 }
 
 /// Description of ephemeris.
+///
+/// @nodoc
 class EphemerisDescription {
   /// Supplied ephemeris data.
   final String? ephemerisData;
@@ -4156,6 +4244,8 @@ class EphemerisDescription {
 }
 
 /// Ephemeris data.
+///
+/// @nodoc
 class EphemerisData {
   final AzElEphemeris? azEl;
   final OEMEphemeris? oem;
@@ -4185,6 +4275,8 @@ class EphemerisData {
 /// see the <a
 /// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-tle-ephemeris-data.html">TLE
 /// section</a> of the AWS Ground Station user guide.
+///
+/// @nodoc
 class TLEEphemeris {
   /// The Amazon S3 object that contains the ephemeris data.
   final S3Object? s3Object;
@@ -4215,6 +4307,8 @@ class TLEEphemeris {
 /// the OEM format that AWS Ground Station supports, see <a
 /// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format">OEM
 /// ephemeris format</a> in the AWS Ground Station user guide.
+///
+/// @nodoc
 class OEMEphemeris {
   /// OEM data that you provide directly instead of using an Amazon S3 object.
   final String? oemData;
@@ -4256,6 +4350,8 @@ class OEMEphemeris {
 /// Station, see the <a
 /// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-azimuth-elevation-ephemeris-data.html">azimuth
 /// elevation ephemeris section</a> of the AWS Ground Station User Guide.
+///
+/// @nodoc
 class AzElEphemeris {
   /// Azimuth elevation segment data.
   ///
@@ -4288,6 +4384,8 @@ class AzElEphemeris {
 ///
 /// Specify either <a>AzElSegmentsData$s3Object</a> to reference data in Amazon
 /// S3, or <a>AzElSegmentsData$azElData</a> to provide data inline.
+///
+/// @nodoc
 class AzElSegmentsData {
   /// Azimuth elevation segment data provided directly in the request.
   ///
@@ -4320,6 +4418,8 @@ class AzElSegmentsData {
 ///
 /// Contains five or more time-ordered segments that define antenna pointing
 /// angles over the ephemeris validity period.
+///
+/// @nodoc
 class AzElSegments {
   /// The unit of measure for azimuth and elevation angles. All angles in all
   /// segments must use the same unit.
@@ -4346,6 +4446,7 @@ class AzElSegments {
   }
 }
 
+/// @nodoc
 class AngleUnits {
   static const degreeAngle = AngleUnits._('DEGREE_ANGLE');
   static const radian = AngleUnits._('RADIAN');
@@ -4374,6 +4475,8 @@ class AngleUnits {
 /// Each segment defines a continuous time period with pointing angle data
 /// points. AWS Ground Station uses 4th order Lagrange interpolation between the
 /// provided points, so each segment must contain at least five data points.
+///
+/// @nodoc
 class AzElSegment {
   /// List of time-tagged azimuth elevation data points.
   ///
@@ -4416,6 +4519,8 @@ class AzElSegment {
 }
 
 /// Time range specified using ISO 8601 format timestamps.
+///
+/// @nodoc
 class ISO8601TimeRange {
   /// End time in ISO 8601 format in Coordinated Universal Time (UTC).
   ///
@@ -4446,6 +4551,8 @@ class ISO8601TimeRange {
 ///
 /// Specifies the antenna pointing direction at a specific time offset from the
 /// segment's reference epoch.
+///
+/// @nodoc
 class TimeAzEl {
   /// Azimuth angle at the specified time.
   ///
@@ -4517,6 +4624,8 @@ class TimeAzEl {
 }
 
 /// Two-line element set (TLE) data.
+///
+/// @nodoc
 class TLEData {
   /// First line of two-line element set (TLE) data.
   final String tleLine1;
@@ -4547,6 +4656,8 @@ class TLEData {
 }
 
 /// A time range with a start and end time.
+///
+/// @nodoc
 class TimeRange {
   /// Unix epoch timestamp in UTC at which the time range ends.
   final DateTime endTime;
@@ -4570,6 +4681,8 @@ class TimeRange {
 }
 
 /// Endpoint definition used for creating a dataflow endpoint
+///
+/// @nodoc
 class CreateEndpointDetails {
   /// Definition for a downlink agent endpoint
   final DownlinkAwsGroundStationAgentEndpoint?
@@ -4601,6 +4714,8 @@ class CreateEndpointDetails {
 }
 
 /// Definition for an uplink agent endpoint
+///
+/// @nodoc
 class UplinkAwsGroundStationAgentEndpoint {
   /// Dataflow details for the uplink endpoint
   final UplinkDataflowDetails dataflowDetails;
@@ -4624,6 +4739,8 @@ class UplinkAwsGroundStationAgentEndpoint {
 }
 
 /// Definition for a downlink agent endpoint
+///
+/// @nodoc
 class DownlinkAwsGroundStationAgentEndpoint {
   /// Dataflow details for the downlink endpoint
   final DownlinkDataflowDetails dataflowDetails;
@@ -4647,6 +4764,8 @@ class DownlinkAwsGroundStationAgentEndpoint {
 }
 
 /// Dataflow details for a downlink endpoint
+///
+/// @nodoc
 class DownlinkDataflowDetails {
   /// Downlink connection details for customer to Agent and Agent to Ground
   /// Station
@@ -4675,6 +4794,8 @@ class DownlinkDataflowDetails {
 }
 
 /// Connection details for Ground Station to Agent and Agent to customer
+///
+/// @nodoc
 class DownlinkConnectionDetails {
   final RangedConnectionDetails agentIpAndPortAddress;
   final ConnectionDetails egressAddressAndPort;
@@ -4706,6 +4827,8 @@ class DownlinkConnectionDetails {
 }
 
 /// Ingress address of AgentEndpoint with a port range and an optional mtu.
+///
+/// @nodoc
 class RangedConnectionDetails {
   /// A ranged socket address.
   final RangedSocketAddress socketAddress;
@@ -4738,6 +4861,8 @@ class RangedConnectionDetails {
 }
 
 /// Egress address of AgentEndpoint with an optional mtu.
+///
+/// @nodoc
 class ConnectionDetails {
   /// A socket address.
   final SocketAddress socketAddress;
@@ -4770,6 +4895,8 @@ class ConnectionDetails {
 }
 
 /// Information about the socket address.
+///
+/// @nodoc
 class SocketAddress {
   /// Name of a socket address.
   final String name;
@@ -4800,6 +4927,8 @@ class SocketAddress {
 }
 
 /// A socket address with a port range.
+///
+/// @nodoc
 class RangedSocketAddress {
   /// IPv4 socket address.
   final String name;
@@ -4832,6 +4961,8 @@ class RangedSocketAddress {
 }
 
 /// An integer range that has a minimum and maximum value.
+///
+/// @nodoc
 class IntegerRange {
   /// A maximum value.
   final int maximum;
@@ -4862,6 +4993,8 @@ class IntegerRange {
 }
 
 /// Dataflow details for an uplink endpoint
+///
+/// @nodoc
 class UplinkDataflowDetails {
   /// Uplink connection details for customer to Agent and Agent to Ground Station
   final UplinkConnectionDetails? agentConnectionDetails;
@@ -4889,6 +5022,8 @@ class UplinkDataflowDetails {
 }
 
 /// Connection details for customer to Agent and Agent to Ground Station
+///
+/// @nodoc
 class UplinkConnectionDetails {
   final RangedConnectionDetails agentIpAndPortAddress;
   final ConnectionDetails ingressAddressAndPort;
@@ -4920,6 +5055,8 @@ class UplinkConnectionDetails {
 }
 
 /// Item in a list of <code>DataflowEndpoint</code> groups.
+///
+/// @nodoc
 class DataflowEndpointListItem {
   /// ARN of a dataflow endpoint group.
   final String? dataflowEndpointGroupArn;
@@ -4952,6 +5089,8 @@ class DataflowEndpointListItem {
 }
 
 /// Information about the endpoint details.
+///
+/// @nodoc
 class EndpointDetails {
   /// An agent endpoint.
   final AwsGroundStationAgentEndpoint? awsGroundStationAgentEndpoint;
@@ -5053,6 +5192,8 @@ class EndpointDetails {
 }
 
 /// Information about endpoints.
+///
+/// @nodoc
 class SecurityDetails {
   /// ARN to a role needed for connecting streams to your instances.
   final String roleArn;
@@ -5097,6 +5238,8 @@ class SecurityDetails {
 }
 
 /// Information about a dataflow endpoint.
+///
+/// @nodoc
 class DataflowEndpoint {
   /// Socket address of a dataflow endpoint.
   final SocketAddress? address;
@@ -5143,6 +5286,8 @@ class DataflowEndpoint {
 }
 
 /// Information about AwsGroundStationAgentEndpoint.
+///
+/// @nodoc
 class AwsGroundStationAgentEndpoint {
   /// The egress address of AgentEndpoint.
   final ConnectionDetails egressAddress;
@@ -5201,6 +5346,8 @@ class AwsGroundStationAgentEndpoint {
 }
 
 /// Details for an uplink agent endpoint
+///
+/// @nodoc
 class UplinkAwsGroundStationAgentEndpointDetails {
   /// Dataflow details for the uplink endpoint
   final UplinkDataflowDetails dataflowDetails;
@@ -5250,6 +5397,8 @@ class UplinkAwsGroundStationAgentEndpointDetails {
 }
 
 /// Details for a downlink agent endpoint
+///
+/// @nodoc
 class DownlinkAwsGroundStationAgentEndpointDetails {
   /// Dataflow details for the downlink endpoint
   final DownlinkDataflowDetails dataflowDetails;
@@ -5298,6 +5447,7 @@ class DownlinkAwsGroundStationAgentEndpointDetails {
   }
 }
 
+/// @nodoc
 class CapabilityHealth {
   static const healthy = CapabilityHealth._('HEALTHY');
   static const unhealthy = CapabilityHealth._('UNHEALTHY');
@@ -5322,6 +5472,7 @@ class CapabilityHealth {
   String toString() => value;
 }
 
+/// @nodoc
 class CapabilityHealthReason {
   static const noRegisteredAgent =
       CapabilityHealthReason._('NO_REGISTERED_AGENT');
@@ -5365,6 +5516,7 @@ class CapabilityHealthReason {
   String toString() => value;
 }
 
+/// @nodoc
 class AgentStatus {
   static const success = AgentStatus._('SUCCESS');
   static const failed = AgentStatus._('FAILED');
@@ -5390,6 +5542,7 @@ class AgentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AuditResults {
   static const healthy = AuditResults._('HEALTHY');
   static const unhealthy = AuditResults._('UNHEALTHY');
@@ -5413,6 +5566,7 @@ class AuditResults {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointStatus {
   static const created = EndpointStatus._('created');
   static const creating = EndpointStatus._('creating');
@@ -5441,6 +5595,8 @@ class EndpointStatus {
 }
 
 /// Version information for a contact.
+///
+/// @nodoc
 class ContactVersion {
   /// Time the contact version was activated in UTC. A version is activated when
   /// it becomes the current active version of the contact.
@@ -5518,6 +5674,7 @@ class ContactVersion {
   }
 }
 
+/// @nodoc
 class VersionStatus {
   static const updating = VersionStatus._('UPDATING');
   static const active = VersionStatus._('ACTIVE');
@@ -5544,6 +5701,7 @@ class VersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VersionFailureReasonCode {
   static const internalError = VersionFailureReasonCode._('INTERNAL_ERROR');
   static const invalidSatelliteArn =
@@ -5603,6 +5761,7 @@ class VersionFailureReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactStatus {
   static const scheduling = ContactStatus._('SCHEDULING');
   static const failedToSchedule = ContactStatus._('FAILED_TO_SCHEDULE');
@@ -5653,6 +5812,8 @@ class ContactStatus {
 }
 
 /// Elevation angle of the satellite in the sky during a contact.
+///
+/// @nodoc
 class Elevation {
   /// Elevation angle units.
   final AngleUnits unit;
@@ -5683,6 +5844,8 @@ class Elevation {
 }
 
 /// Overrides the default tracking configuration on an antenna during a contact.
+///
+/// @nodoc
 class TrackingOverrides {
   /// Program track settings to override for antenna tracking during the contact.
   final ProgramTrackSettings? programTrackSettings;
@@ -5710,6 +5873,8 @@ class TrackingOverrides {
 }
 
 /// Ephemeris data for a contact.
+///
+/// @nodoc
 class EphemerisResponseData {
   /// Type of ephemeris.
   final EphemerisType ephemerisType;
@@ -5741,6 +5906,8 @@ class EphemerisResponseData {
 }
 
 /// Program track settings for an antenna during a contact.
+///
+/// @nodoc
 class ProgramTrackSettings {
   /// Program track settings for <a>AzElEphemeris</a>.
   final AzElProgramTrackSettings? azEl;
@@ -5787,6 +5954,8 @@ class ProgramTrackSettings {
 }
 
 /// Program track settings for <a>AzElEphemeris</a>.
+///
+/// @nodoc
 class AzElProgramTrackSettings {
   /// Unique identifier of the azimuth elevation ephemeris.
   final String ephemerisId;
@@ -5810,6 +5979,8 @@ class AzElProgramTrackSettings {
 }
 
 /// Program track settings for <a>OEMEphemeris</a>.
+///
+/// @nodoc
 class OemProgramTrackSettings {
   /// Unique identifier of the OEM ephemeris.
   final String ephemerisId;
@@ -5833,6 +6004,8 @@ class OemProgramTrackSettings {
 }
 
 /// Program track settings for <a>TLEEphemeris</a>.
+///
+/// @nodoc
 class TleProgramTrackSettings {
   /// Unique identifier of the TLE ephemeris.
   final String ephemerisId;
@@ -5856,6 +6029,8 @@ class TleProgramTrackSettings {
 }
 
 /// Information about a dataflow edge used in a contact.
+///
+/// @nodoc
 class DataflowDetail {
   final Destination? destination;
 
@@ -5894,6 +6069,8 @@ class DataflowDetail {
 }
 
 /// Dataflow details for the source side.
+///
+/// @nodoc
 class Source {
   /// Additional details for a <code>Config</code>, if type is
   /// <code>dataflow-endpoint</code> or <code>antenna-downlink-demod-decode</code>
@@ -5944,6 +6121,8 @@ class Source {
 }
 
 /// Dataflow details for the destination side.
+///
+/// @nodoc
 class Destination {
   /// Additional details for a <code>Config</code>, if type is dataflow endpoint
   /// or antenna demod decode.
@@ -5993,6 +6172,7 @@ class Destination {
   }
 }
 
+/// @nodoc
 class ConfigCapabilityType {
   static const antennaDownlink = ConfigCapabilityType._('antenna-downlink');
   static const antennaDownlinkDemodDecode =
@@ -6035,6 +6215,8 @@ class ConfigCapabilityType {
 }
 
 /// Details for certain <code>Config</code> object types in a contact.
+///
+/// @nodoc
 class ConfigDetails {
   /// Details for antenna demod decode <code>Config</code> in a contact.
   final AntennaDemodDecodeDetails? antennaDemodDecodeDetails;
@@ -6080,6 +6262,8 @@ class ConfigDetails {
 }
 
 /// Details about an antenna demod decode <code>Config</code> used in a contact.
+///
+/// @nodoc
 class AntennaDemodDecodeDetails {
   /// Name of an antenna demod decode output node used in a contact.
   final String? outputNode;
@@ -6103,6 +6287,8 @@ class AntennaDemodDecodeDetails {
 }
 
 /// Details about an S3 recording <code>Config</code> used in a contact.
+///
+/// @nodoc
 class S3RecordingDetails {
   /// ARN of the bucket used.
   final String? bucketArn;
@@ -6133,6 +6319,8 @@ class S3RecordingDetails {
 }
 
 /// Data describing a contact.
+///
+/// @nodoc
 class ContactData {
   /// UUID of a contact.
   final String? contactId;
@@ -6293,6 +6481,8 @@ class ContactData {
 }
 
 /// Filter for selecting contacts that use a specific ephemeris".
+///
+/// @nodoc
 class EphemerisFilter {
   /// Filter for <a>AzElEphemeris</a>.
   final AzElEphemerisFilter? azEl;
@@ -6310,6 +6500,8 @@ class EphemerisFilter {
 }
 
 /// Filter for selecting contacts that use a specific <a>AzElEphemeris</a>.
+///
+/// @nodoc
 class AzElEphemerisFilter {
   /// Unique identifier of the azimuth elevation ephemeris.
   final String id;
@@ -6327,6 +6519,8 @@ class AzElEphemerisFilter {
 }
 
 /// An item in a list of <code>Config</code> objects.
+///
+/// @nodoc
 class ConfigListItem {
   /// ARN of a <code>Config</code>.
   final String? configArn;
@@ -6375,6 +6569,8 @@ class ConfigListItem {
 ///
 /// See the subtype definitions for what each type of <code>Config</code>
 /// contains.
+///
+/// @nodoc
 class ConfigTypeData {
   /// Information about how AWS Ground Station should configure an antenna for
   /// downlink during a contact.
@@ -6488,6 +6684,8 @@ class ConfigTypeData {
 
 /// Information about how AWS Ground Station should configure an antenna for
 /// downlink during a contact.
+///
+/// @nodoc
 class AntennaDownlinkConfig {
   /// Object that describes a spectral <code>Config</code>.
   final SpectrumConfig spectrumConfig;
@@ -6514,6 +6712,8 @@ class AntennaDownlinkConfig {
 
 /// Object that determines whether tracking should be used during a contact
 /// executed with this <code>Config</code> in the mission profile.
+///
+/// @nodoc
 class TrackingConfig {
   /// Current setting for autotrack.
   final Criticality autotrack;
@@ -6537,6 +6737,8 @@ class TrackingConfig {
 }
 
 /// Information about the dataflow endpoint <code>Config</code>.
+///
+/// @nodoc
 class DataflowEndpointConfig {
   /// Name of a dataflow endpoint.
   final String dataflowEndpointName;
@@ -6569,6 +6771,8 @@ class DataflowEndpointConfig {
 
 /// Information about how AWS Ground Station should conﬁgure an antenna for
 /// downlink demod decode during a contact.
+///
+/// @nodoc
 class AntennaDownlinkDemodDecodeConfig {
   /// Information about the decode <code>Config</code>.
   final DecodeConfig decodeConfig;
@@ -6612,6 +6816,8 @@ class AntennaDownlinkDemodDecodeConfig {
 }
 
 /// Information about the uplink <code>Config</code> of an antenna.
+///
+/// @nodoc
 class AntennaUplinkConfig {
   /// Information about the uplink spectral <code>Config</code>.
   final UplinkSpectrumConfig spectrumConfig;
@@ -6656,6 +6862,8 @@ class AntennaUplinkConfig {
 /// Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the
 /// specified <code> AntennaUplinkConfigArn</code>, are used when this
 /// <code>UplinkEchoConfig</code> is used in a contact.
+///
+/// @nodoc
 class UplinkEchoConfig {
   /// ARN of an uplink <code>Config</code>.
   final String antennaUplinkConfigArn;
@@ -6686,6 +6894,8 @@ class UplinkEchoConfig {
 }
 
 /// Information about an S3 recording <code>Config</code>.
+///
+/// @nodoc
 class S3RecordingConfig {
   /// ARN of the bucket to record to.
   final String bucketArn;
@@ -6723,6 +6933,8 @@ class S3RecordingConfig {
 }
 
 /// Information about a telemetry sink <code>Config</code>.
+///
+/// @nodoc
 class TelemetrySinkConfig {
   /// Information about the telemetry sink specified by the
   /// <code>telemetrySinkType</code>.
@@ -6756,6 +6968,7 @@ class TelemetrySinkConfig {
   }
 }
 
+/// @nodoc
 class TelemetrySinkType {
   static const kinesisDataStream = TelemetrySinkType._('KINESIS_DATA_STREAM');
 
@@ -6780,6 +6993,8 @@ class TelemetrySinkType {
 }
 
 /// Information about a telemetry sink.
+///
+/// @nodoc
 class TelemetrySinkData {
   /// Information about a telemetry sink of type <code>KINESIS_DATA_STREAM</code>.
   final KinesisDataStreamData? kinesisDataStreamData;
@@ -6807,6 +7022,8 @@ class TelemetrySinkData {
 }
 
 /// Information for telemetry delivery to Kinesis Data Streams.
+///
+/// @nodoc
 class KinesisDataStreamData {
   /// ARN of the Kinesis Data Stream to deliver telemetry to.
   final String kinesisDataStreamArn;
@@ -6837,6 +7054,8 @@ class KinesisDataStreamData {
 }
 
 /// Information about the uplink spectral <code>Config</code>.
+///
+/// @nodoc
 class UplinkSpectrumConfig {
   /// Center frequency of an uplink spectral <code>Config</code>. Valid values are
   /// between 2025 to 2120 MHz.
@@ -6873,6 +7092,8 @@ class UplinkSpectrumConfig {
 }
 
 /// Object that represents EIRP.
+///
+/// @nodoc
 class Eirp {
   /// Units of an EIRP.
   final EirpUnits units;
@@ -6902,6 +7123,7 @@ class Eirp {
   }
 }
 
+/// @nodoc
 class EirpUnits {
   static const dbw = EirpUnits._('dBW');
 
@@ -6925,6 +7147,8 @@ class EirpUnits {
 }
 
 /// Object that describes the frequency.
+///
+/// @nodoc
 class Frequency {
   /// Frequency units.
   final FrequencyUnits units;
@@ -6955,6 +7179,7 @@ class Frequency {
   }
 }
 
+/// @nodoc
 class Polarization {
   static const rightHand = Polarization._('RIGHT_HAND');
   static const leftHand = Polarization._('LEFT_HAND');
@@ -6979,6 +7204,7 @@ class Polarization {
   String toString() => value;
 }
 
+/// @nodoc
 class FrequencyUnits {
   static const gHz = FrequencyUnits._('GHz');
   static const mHz = FrequencyUnits._('MHz');
@@ -7005,6 +7231,8 @@ class FrequencyUnits {
 }
 
 /// Object that describes a spectral <code>Config</code>.
+///
+/// @nodoc
 class SpectrumConfig {
   /// Bandwidth of a spectral <code>Config</code>. AWS Ground Station currently
   /// has the following bandwidth limitations:
@@ -7067,6 +7295,8 @@ class SpectrumConfig {
 }
 
 /// Information about the demodulation <code>Config</code>.
+///
+/// @nodoc
 class DemodulationConfig {
   /// Unvalidated JSON of a demodulation <code>Config</code>.
   final String unvalidatedJSON;
@@ -7090,6 +7320,8 @@ class DemodulationConfig {
 }
 
 /// Information about the decode <code>Config</code>.
+///
+/// @nodoc
 class DecodeConfig {
   /// Unvalidated JSON of a decode <code>Config</code>.
   final String unvalidatedJSON;
@@ -7113,6 +7345,8 @@ class DecodeConfig {
 }
 
 /// Object that describes the frequency bandwidth.
+///
+/// @nodoc
 class FrequencyBandwidth {
   /// Frequency bandwidth units.
   final BandwidthUnits units;
@@ -7158,6 +7392,7 @@ class FrequencyBandwidth {
   }
 }
 
+/// @nodoc
 class BandwidthUnits {
   static const gHz = BandwidthUnits._('GHz');
   static const mHz = BandwidthUnits._('MHz');
@@ -7183,6 +7418,7 @@ class BandwidthUnits {
   String toString() => value;
 }
 
+/// @nodoc
 class Criticality {
   static const required = Criticality._('REQUIRED');
   static const preferred = Criticality._('PREFERRED');
@@ -7208,6 +7444,8 @@ class Criticality {
 }
 
 /// Aggregate status of Agent components.
+///
+/// @nodoc
 class AggregateStatus {
   /// Aggregate status.
   final AgentStatus status;
@@ -7231,6 +7469,8 @@ class AggregateStatus {
 }
 
 /// Data on the status of agent components.
+///
+/// @nodoc
 class ComponentStatusData {
   /// Capability ARN of the component.
   final String capabilityArn;
@@ -7284,6 +7524,8 @@ class ComponentStatusData {
 }
 
 /// Data for agent discovery.
+///
+/// @nodoc
 class DiscoveryData {
   /// List of capabilities to associate with agent.
   final List<String> capabilityArns;
@@ -7313,6 +7555,8 @@ class DiscoveryData {
 }
 
 /// Detailed information about the agent.
+///
+/// @nodoc
 class AgentDetails {
   /// Current agent version.
   final String agentVersion;
@@ -7364,6 +7608,8 @@ class AgentDetails {
 }
 
 /// Version information for agent components.
+///
+/// @nodoc
 class ComponentVersion {
   /// Component type.
   final String componentType;
@@ -7386,21 +7632,25 @@ class ComponentVersion {
   }
 }
 
+/// @nodoc
 class DependencyException extends _s.GenericAwsException {
   DependencyException({String? type, String? message})
       : super(type: type, code: 'DependencyException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -7409,11 +7659,13 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(

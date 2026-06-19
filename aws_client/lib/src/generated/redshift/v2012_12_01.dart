@@ -864,7 +864,7 @@ class Redshift {
   /// and hyphens (-).
   /// </li>
   /// </ul>
-  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  /// Pattern: <code>^\[a-z0-9_-\]*\[a-z\]+\[a-z0-9_-\]*$</code>
   ///
   /// Example: <code>my-catalog_01</code>
   ///
@@ -8148,7 +8148,7 @@ class Redshift {
   /// and hyphens (-).
   /// </li>
   /// </ul>
-  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  /// Pattern: <code>^\[a-z0-9_-\]*\[a-z\]+\[a-z0-9_-\]*$</code>
   ///
   /// Example: <code>my-catalog_01</code>
   ///
@@ -9023,7 +9023,7 @@ class Redshift {
   /// and hyphens (-).
   /// </li>
   /// </ul>
-  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  /// Pattern: <code>^\[a-z0-9_-\]*\[a-z\]+\[a-z0-9_-\]*$</code>
   ///
   /// Example: <code>my-catalog_01</code>
   ///
@@ -9749,6 +9749,7 @@ class Redshift {
   }
 }
 
+/// @nodoc
 class AcceptReservedNodeExchangeOutputMessage {
   ///
   final ReservedNode? exchangedReservedNode;
@@ -9773,6 +9774,7 @@ class AcceptReservedNodeExchangeOutputMessage {
   }
 }
 
+/// @nodoc
 class PartnerIntegrationOutputMessage {
   /// The name of the database that receives data from the partner.
   final String? databaseName;
@@ -9801,6 +9803,7 @@ class PartnerIntegrationOutputMessage {
   }
 }
 
+/// @nodoc
 class DataShare {
   /// A value that specifies whether the datashare can be shared to a publicly
   /// accessible cluster.
@@ -9870,6 +9873,7 @@ class DataShare {
   }
 }
 
+/// @nodoc
 class AuthorizeClusterSecurityGroupIngressResult {
   final ClusterSecurityGroup? clusterSecurityGroup;
 
@@ -9896,6 +9900,8 @@ class AuthorizeClusterSecurityGroupIngressResult {
 
 /// Describes an endpoint authorization for authorizing Redshift-managed VPC
 /// endpoint access to a cluster across Amazon Web Services accounts.
+///
+/// @nodoc
 class EndpointAuthorization {
   /// Indicates whether all VPCs in the grantee account are allowed access to the
   /// cluster.
@@ -9978,6 +9984,7 @@ class EndpointAuthorization {
   }
 }
 
+/// @nodoc
 class AuthorizeSnapshotAccessResult {
   final Snapshot? snapshot;
 
@@ -9998,6 +10005,7 @@ class AuthorizeSnapshotAccessResult {
   }
 }
 
+/// @nodoc
 class BatchDeleteClusterSnapshotsResult {
   /// A list of any errors returned.
   final List<SnapshotErrorMessage>? errors;
@@ -10031,6 +10039,7 @@ class BatchDeleteClusterSnapshotsResult {
   }
 }
 
+/// @nodoc
 class BatchModifyClusterSnapshotsOutputMessage {
   /// A list of any errors returned.
   final List<SnapshotErrorMessage>? errors;
@@ -10065,6 +10074,8 @@ class BatchModifyClusterSnapshotsOutputMessage {
 }
 
 /// Describes the result of a cluster resize operation.
+///
+/// @nodoc
 class ResizeProgressMessage {
   /// The average rate of the resize operation over the last few minutes, measured
   /// in megabytes per second. After the resize operation completes, this value
@@ -10246,6 +10257,7 @@ class ResizeProgressMessage {
   }
 }
 
+/// @nodoc
 class CopyClusterSnapshotResult {
   final Snapshot? snapshot;
 
@@ -10266,6 +10278,7 @@ class CopyClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateAuthenticationProfileResult {
   /// The content of the authentication profile in JSON format.
   final String? authenticationProfileContent;
@@ -10298,6 +10311,7 @@ class CreateAuthenticationProfileResult {
   }
 }
 
+/// @nodoc
 class CreateClusterResult {
   final Cluster? cluster;
 
@@ -10318,6 +10332,7 @@ class CreateClusterResult {
   }
 }
 
+/// @nodoc
 class CreateClusterParameterGroupResult {
   final ClusterParameterGroup? clusterParameterGroup;
 
@@ -10341,6 +10356,7 @@ class CreateClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateClusterSecurityGroupResult {
   final ClusterSecurityGroup? clusterSecurityGroup;
 
@@ -10364,6 +10380,7 @@ class CreateClusterSecurityGroupResult {
   }
 }
 
+/// @nodoc
 class CreateClusterSnapshotResult {
   final Snapshot? snapshot;
 
@@ -10384,6 +10401,7 @@ class CreateClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateClusterSubnetGroupResult {
   final ClusterSubnetGroup? clusterSubnetGroup;
 
@@ -10406,6 +10424,7 @@ class CreateClusterSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class CreateCustomDomainAssociationResult {
   /// The identifier of the cluster that the custom domain is associated with.
   final String? clusterIdentifier;
@@ -10454,6 +10473,8 @@ class CreateCustomDomainAssociationResult {
 }
 
 /// Describes a Redshift-managed VPC endpoint.
+///
+/// @nodoc
 class EndpointAccess {
   /// The DNS address of the endpoint.
   final String? address;
@@ -10543,6 +10564,7 @@ class EndpointAccess {
   }
 }
 
+/// @nodoc
 class CreateEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -10565,6 +10587,7 @@ class CreateEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class CreateHsmClientCertificateResult {
   final HsmClientCertificate? hsmClientCertificate;
 
@@ -10588,6 +10611,7 @@ class CreateHsmClientCertificateResult {
   }
 }
 
+/// @nodoc
 class CreateHsmConfigurationResult {
   final HsmConfiguration? hsmConfiguration;
 
@@ -10610,6 +10634,7 @@ class CreateHsmConfigurationResult {
   }
 }
 
+/// @nodoc
 class Integration {
   /// The encryption context for the integration. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
@@ -10726,6 +10751,7 @@ class Integration {
   }
 }
 
+/// @nodoc
 class CreateRedshiftIdcApplicationResult {
   final RedshiftIdcApplication? redshiftIdcApplication;
 
@@ -10752,6 +10778,8 @@ class CreateRedshiftIdcApplicationResult {
 /// Describes a scheduled action. You can use a scheduled action to trigger some
 /// Amazon Redshift API operations on a schedule. For information about which
 /// API operations can be scheduled, see <a>ScheduledActionType</a>.
+///
+/// @nodoc
 class ScheduledAction {
   /// The end time in UTC when the schedule is no longer active. After this time,
   /// the scheduled action does not trigger.
@@ -10863,6 +10891,7 @@ class ScheduledAction {
   }
 }
 
+/// @nodoc
 class CreateSnapshotCopyGrantResult {
   final SnapshotCopyGrant? snapshotCopyGrant;
 
@@ -10887,6 +10916,8 @@ class CreateSnapshotCopyGrantResult {
 
 /// Describes a snapshot schedule. You can set a regular interval for creating
 /// snapshots of a cluster. You can also schedule snapshots for specific dates.
+///
+/// @nodoc
 class SnapshotSchedule {
   /// The number of clusters associated with the schedule.
   final int? associatedClusterCount;
@@ -10966,6 +10997,8 @@ class SnapshotSchedule {
 }
 
 /// Describes a usage limit object for a cluster.
+///
+/// @nodoc
 class UsageLimit {
   /// The limit amount. If time-based, this amount is in minutes. If data-based,
   /// this amount is in terabytes (TB).
@@ -11062,6 +11095,7 @@ class UsageLimit {
   }
 }
 
+/// @nodoc
 class DeleteAuthenticationProfileResult {
   /// The name of the authentication profile that was deleted.
   final String? authenticationProfileName;
@@ -11085,6 +11119,7 @@ class DeleteAuthenticationProfileResult {
   }
 }
 
+/// @nodoc
 class DeleteClusterResult {
   final Cluster? cluster;
 
@@ -11106,6 +11141,8 @@ class DeleteClusterResult {
 }
 
 ///
+///
+/// @nodoc
 class DeleteClusterSnapshotMessage {
   /// The unique identifier of the manual snapshot to be deleted.
   ///
@@ -11147,6 +11184,7 @@ class DeleteClusterSnapshotMessage {
   }
 }
 
+/// @nodoc
 class DeleteClusterSnapshotResult {
   final Snapshot? snapshot;
 
@@ -11167,6 +11205,7 @@ class DeleteClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeregisterNamespaceOutputMessage {
   /// The registration status of the cluster or serverless namespace.
   final NamespaceRegistrationStatus? status;
@@ -11190,6 +11229,7 @@ class DeregisterNamespaceOutputMessage {
   }
 }
 
+/// @nodoc
 class AccountAttributeList {
   /// A list of attributes assigned to an account.
   final List<AccountAttribute>? accountAttributes;
@@ -11215,6 +11255,7 @@ class AccountAttributeList {
   }
 }
 
+/// @nodoc
 class DescribeAuthenticationProfilesResult {
   /// The list of authentication profiles.
   final List<AuthenticationProfile>? authenticationProfiles;
@@ -11242,6 +11283,7 @@ class DescribeAuthenticationProfilesResult {
   }
 }
 
+/// @nodoc
 class ClusterDbRevisionsMessage {
   /// A list of revisions.
   final List<ClusterDbRevision>? clusterDbRevisions;
@@ -11279,6 +11321,8 @@ class ClusterDbRevisionsMessage {
 }
 
 /// Contains the output from the <a>DescribeClusterParameterGroups</a> action.
+///
+/// @nodoc
 class ClusterParameterGroupsMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -11318,6 +11362,8 @@ class ClusterParameterGroupsMessage {
 }
 
 /// Contains the output from the <a>DescribeClusterParameters</a> action.
+///
+/// @nodoc
 class ClusterParameterGroupDetails {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -11354,6 +11400,8 @@ class ClusterParameterGroupDetails {
 }
 
 /// Contains the output from the <a>DescribeClusters</a> action.
+///
+/// @nodoc
 class ClustersMessage {
   /// A list of <code>Cluster</code> objects, where each object describes one
   /// cluster.
@@ -11390,6 +11438,8 @@ class ClustersMessage {
 }
 
 ///
+///
+/// @nodoc
 class ClusterSecurityGroupMessage {
   /// A list of <a>ClusterSecurityGroup</a> instances.
   final List<ClusterSecurityGroup>? clusterSecurityGroups;
@@ -11430,6 +11480,8 @@ class ClusterSecurityGroupMessage {
 }
 
 /// Contains the output from the <a>DescribeClusterSnapshots</a> action.
+///
+/// @nodoc
 class SnapshotMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -11465,6 +11517,8 @@ class SnapshotMessage {
 }
 
 /// Contains the output from the <a>DescribeClusterSubnetGroups</a> action.
+///
+/// @nodoc
 class ClusterSubnetGroupMessage {
   /// A list of <a>ClusterSubnetGroup</a> instances.
   final List<ClusterSubnetGroup>? clusterSubnetGroups;
@@ -11503,6 +11557,7 @@ class ClusterSubnetGroupMessage {
   }
 }
 
+/// @nodoc
 class TrackListMessage {
   /// A list of maintenance tracks output by the
   /// <code>DescribeClusterTracks</code> operation.
@@ -11539,6 +11594,8 @@ class TrackListMessage {
 }
 
 /// Contains the output from the <a>DescribeClusterVersions</a> action.
+///
+/// @nodoc
 class ClusterVersionsMessage {
   /// A list of <code>Version</code> elements.
   final List<ClusterVersion>? clusterVersions;
@@ -11576,6 +11633,7 @@ class ClusterVersionsMessage {
   }
 }
 
+/// @nodoc
 class CustomDomainAssociationsMessage {
   /// The associations for the custom domain.
   final List<Association>? associations;
@@ -11605,6 +11663,7 @@ class CustomDomainAssociationsMessage {
   }
 }
 
+/// @nodoc
 class DescribeDataSharesResult {
   /// The results returned from describing datashares.
   final List<DataShare>? dataShares;
@@ -11639,6 +11698,7 @@ class DescribeDataSharesResult {
   }
 }
 
+/// @nodoc
 class DescribeDataSharesForConsumerResult {
   /// Shows the results of datashares available for consumers.
   final List<DataShare>? dataShares;
@@ -11673,6 +11733,7 @@ class DescribeDataSharesForConsumerResult {
   }
 }
 
+/// @nodoc
 class DescribeDataSharesForProducerResult {
   /// Shows the results of datashares available for producers.
   final List<DataShare>? dataShares;
@@ -11707,6 +11768,7 @@ class DescribeDataSharesForProducerResult {
   }
 }
 
+/// @nodoc
 class DescribeDefaultClusterParametersResult {
   final DefaultClusterParameters? defaultClusterParameters;
 
@@ -11730,6 +11792,7 @@ class DescribeDefaultClusterParametersResult {
   }
 }
 
+/// @nodoc
 class EndpointAccessList {
   /// The list of endpoints with access to the cluster.
   final List<EndpointAccess>? endpointAccessList;
@@ -11763,6 +11826,7 @@ class EndpointAccessList {
   }
 }
 
+/// @nodoc
 class EndpointAuthorizationList {
   /// The authorizations to an endpoint.
   final List<EndpointAuthorization>? endpointAuthorizationList;
@@ -11801,6 +11865,8 @@ class EndpointAuthorizationList {
 }
 
 ///
+///
+/// @nodoc
 class EventCategoriesMessage {
   /// A list of event categories descriptions.
   final List<EventCategoriesMap>? eventCategoriesMapList;
@@ -11829,6 +11895,8 @@ class EventCategoriesMessage {
 }
 
 ///
+///
+/// @nodoc
 class EventsMessage {
   /// A list of <code>Event</code> instances.
   final List<Event>? events;
@@ -11864,6 +11932,8 @@ class EventsMessage {
 }
 
 ///
+///
+/// @nodoc
 class EventSubscriptionsMessage {
   /// A list of event subscriptions.
   final List<EventSubscription>? eventSubscriptionsList;
@@ -11904,6 +11974,8 @@ class EventSubscriptionsMessage {
 }
 
 ///
+///
+/// @nodoc
 class HsmClientCertificateMessage {
   /// A list of the identifiers for one or more HSM client certificates used by
   /// Amazon Redshift clusters to store and retrieve database encryption keys in
@@ -11946,6 +12018,8 @@ class HsmClientCertificateMessage {
 }
 
 ///
+///
+/// @nodoc
 class HsmConfigurationMessage {
   /// A list of <code>HsmConfiguration</code> objects.
   final List<HsmConfiguration>? hsmConfigurations;
@@ -11983,6 +12057,7 @@ class HsmConfigurationMessage {
   }
 }
 
+/// @nodoc
 class InboundIntegrationsMessage {
   /// A list of <a>InboundIntegration</a> instances.
   final List<InboundIntegration>? inboundIntegrations;
@@ -12021,6 +12096,7 @@ class InboundIntegrationsMessage {
   }
 }
 
+/// @nodoc
 class IntegrationsMessage {
   /// List of integrations that are described.
   final List<Integration>? integrations;
@@ -12056,6 +12132,8 @@ class IntegrationsMessage {
 }
 
 /// Describes the status of logging for a cluster.
+///
+/// @nodoc
 class LoggingStatus {
   /// The name of the S3 bucket where the log files are stored.
   final String? bucketName;
@@ -12137,6 +12215,7 @@ class LoggingStatus {
   }
 }
 
+/// @nodoc
 class NodeConfigurationOptionsMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12177,6 +12256,8 @@ class NodeConfigurationOptionsMessage {
 }
 
 /// Contains the output from the <a>DescribeOrderableClusterOptions</a> action.
+///
+/// @nodoc
 class OrderableClusterOptionsMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12217,6 +12298,7 @@ class OrderableClusterOptionsMessage {
   }
 }
 
+/// @nodoc
 class DescribePartnersOutputMessage {
   /// A list of partner integrations.
   final List<PartnerIntegrationInfo>? partnerIntegrationInfoList;
@@ -12244,6 +12326,7 @@ class DescribePartnersOutputMessage {
   }
 }
 
+/// @nodoc
 class DescribeRedshiftIdcApplicationsResult {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12282,6 +12365,7 @@ class DescribeRedshiftIdcApplicationsResult {
   }
 }
 
+/// @nodoc
 class DescribeReservedNodeExchangeStatusOutputMessage {
   /// A pagination token provided by a previous
   /// <code>DescribeReservedNodeExchangeStatus</code> request.
@@ -12321,6 +12405,8 @@ class DescribeReservedNodeExchangeStatusOutputMessage {
 }
 
 ///
+///
+/// @nodoc
 class ReservedNodeOfferingsMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12361,6 +12447,8 @@ class ReservedNodeOfferingsMessage {
 }
 
 ///
+///
+/// @nodoc
 class ReservedNodesMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12395,6 +12483,7 @@ class ReservedNodesMessage {
   }
 }
 
+/// @nodoc
 class ScheduledActionsMessage {
   /// An optional parameter that specifies the starting point to return a set of
   /// response records. When the results of a <a>DescribeScheduledActions</a>
@@ -12433,6 +12522,8 @@ class ScheduledActionsMessage {
 }
 
 ///
+///
+/// @nodoc
 class SnapshotCopyGrantMessage {
   /// An optional parameter that specifies the starting point to return a set of
   /// response records. When the results of a
@@ -12474,6 +12565,7 @@ class SnapshotCopyGrantMessage {
   }
 }
 
+/// @nodoc
 class DescribeSnapshotSchedulesOutputMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12511,6 +12603,7 @@ class DescribeSnapshotSchedulesOutputMessage {
   }
 }
 
+/// @nodoc
 class CustomerStorageMessage {
   /// The total amount of storage currently used for snapshots.
   final double? totalBackupSizeInMegaBytes;
@@ -12546,6 +12639,8 @@ class CustomerStorageMessage {
 }
 
 ///
+///
+/// @nodoc
 class TableRestoreStatusMessage {
   /// A pagination token that can be used in a subsequent
   /// <a>DescribeTableRestoreStatus</a> request.
@@ -12582,6 +12677,8 @@ class TableRestoreStatusMessage {
 }
 
 ///
+///
+/// @nodoc
 class TaggedResourceListMessage {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12619,6 +12716,7 @@ class TaggedResourceListMessage {
   }
 }
 
+/// @nodoc
 class UsageLimitList {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12653,6 +12751,7 @@ class UsageLimitList {
   }
 }
 
+/// @nodoc
 class DisableSnapshotCopyResult {
   final Cluster? cluster;
 
@@ -12673,6 +12772,7 @@ class DisableSnapshotCopyResult {
   }
 }
 
+/// @nodoc
 class EnableSnapshotCopyResult {
   final Cluster? cluster;
 
@@ -12693,6 +12793,7 @@ class EnableSnapshotCopyResult {
   }
 }
 
+/// @nodoc
 class FailoverPrimaryComputeResult {
   final Cluster? cluster;
 
@@ -12715,6 +12816,8 @@ class FailoverPrimaryComputeResult {
 
 /// Temporary credentials with authorization to log on to an Amazon Redshift
 /// database.
+///
+/// @nodoc
 class ClusterCredentials {
   /// A temporary password that authorizes the user name returned by
   /// <code>DbUser</code> to log on to the database <code>DbName</code>.
@@ -12757,6 +12860,7 @@ class ClusterCredentials {
   }
 }
 
+/// @nodoc
 class ClusterExtendedCredentials {
   /// A temporary password that you provide when you connect to a database.
   final String? dbPassword;
@@ -12804,6 +12908,8 @@ class ClusterExtendedCredentials {
 
 /// The response from GetIdentityCenterAuthToken containing the encrypted
 /// authentication token and expiration time.
+///
+/// @nodoc
 class GetIdentityCenterAuthTokenResponse {
   /// The time (UTC) when the token expires. After this timestamp, the token will
   /// no longer be valid for authentication.
@@ -12838,6 +12944,7 @@ class GetIdentityCenterAuthTokenResponse {
   }
 }
 
+/// @nodoc
 class GetReservedNodeExchangeConfigurationOptionsOutputMessage {
   /// A pagination token provided by a previous
   /// <code>GetReservedNodeExchangeConfigurationOptions</code> request.
@@ -12880,6 +12987,7 @@ class GetReservedNodeExchangeConfigurationOptionsOutputMessage {
   }
 }
 
+/// @nodoc
 class GetReservedNodeExchangeOfferingsOutputMessage {
   /// An optional parameter that specifies the starting point for returning a set
   /// of response records. When the results of a
@@ -12921,6 +13029,7 @@ class GetReservedNodeExchangeOfferingsOutputMessage {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResult {
   /// The content of the resource policy.
   final ResourcePolicy? resourcePolicy;
@@ -12944,6 +13053,7 @@ class GetResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class ListRecommendationsResult {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -12980,6 +13090,7 @@ class ListRecommendationsResult {
   }
 }
 
+/// @nodoc
 class ModifyAquaOutputMessage {
   /// This parameter is retired. Amazon Redshift automatically determines whether
   /// to use AQUA (Advanced Query Accelerator).
@@ -13004,6 +13115,7 @@ class ModifyAquaOutputMessage {
   }
 }
 
+/// @nodoc
 class ModifyAuthenticationProfileResult {
   /// The updated content of the authentication profile in JSON format.
   final String? authenticationProfileContent;
@@ -13036,6 +13148,7 @@ class ModifyAuthenticationProfileResult {
   }
 }
 
+/// @nodoc
 class ModifyClusterResult {
   final Cluster? cluster;
 
@@ -13056,6 +13169,7 @@ class ModifyClusterResult {
   }
 }
 
+/// @nodoc
 class ModifyClusterDbRevisionResult {
   final Cluster? cluster;
 
@@ -13076,6 +13190,7 @@ class ModifyClusterDbRevisionResult {
   }
 }
 
+/// @nodoc
 class ModifyClusterIamRolesResult {
   final Cluster? cluster;
 
@@ -13096,6 +13211,7 @@ class ModifyClusterIamRolesResult {
   }
 }
 
+/// @nodoc
 class ModifyClusterMaintenanceResult {
   final Cluster? cluster;
 
@@ -13117,6 +13233,8 @@ class ModifyClusterMaintenanceResult {
 }
 
 ///
+///
+/// @nodoc
 class ClusterParameterGroupNameMessage {
   /// The name of the cluster parameter group.
   final String? parameterGroupName;
@@ -13149,6 +13267,7 @@ class ClusterParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyClusterSnapshotResult {
   final Snapshot? snapshot;
 
@@ -13169,6 +13288,7 @@ class ModifyClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class ModifyClusterSubnetGroupResult {
   final ClusterSubnetGroup? clusterSubnetGroup;
 
@@ -13191,6 +13311,7 @@ class ModifyClusterSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyCustomDomainAssociationResult {
   /// The identifier of the cluster associated with the result for the changed
   /// custom domain association.
@@ -13241,6 +13362,7 @@ class ModifyCustomDomainAssociationResult {
   }
 }
 
+/// @nodoc
 class ModifyEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -13265,6 +13387,8 @@ class ModifyEventSubscriptionResult {
 
 /// Contains configuration information for lakehouse integration, including the
 /// cluster identifier, catalog ARN, and registration status.
+///
+/// @nodoc
 class LakehouseConfiguration {
   /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the
   /// lakehouse configuration.
@@ -13316,6 +13440,7 @@ class LakehouseConfiguration {
   }
 }
 
+/// @nodoc
 class ModifyRedshiftIdcApplicationResult {
   final RedshiftIdcApplication? redshiftIdcApplication;
 
@@ -13339,6 +13464,7 @@ class ModifyRedshiftIdcApplicationResult {
   }
 }
 
+/// @nodoc
 class ModifySnapshotCopyRetentionPeriodResult {
   final Cluster? cluster;
 
@@ -13361,6 +13487,8 @@ class ModifySnapshotCopyRetentionPeriodResult {
 
 /// Describes a pause cluster operation. For example, a scheduled action to run
 /// the <code>PauseCluster</code> API operation.
+///
+/// @nodoc
 class PauseClusterMessage {
   /// The identifier of the cluster to be paused.
   final String clusterIdentifier;
@@ -13389,6 +13517,7 @@ class PauseClusterMessage {
   }
 }
 
+/// @nodoc
 class PauseClusterResult {
   final Cluster? cluster;
 
@@ -13409,6 +13538,7 @@ class PauseClusterResult {
   }
 }
 
+/// @nodoc
 class PurchaseReservedNodeOfferingResult {
   final ReservedNode? reservedNode;
 
@@ -13430,6 +13560,7 @@ class PurchaseReservedNodeOfferingResult {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResult {
   /// The content of the updated resource policy.
   final ResourcePolicy? resourcePolicy;
@@ -13453,6 +13584,7 @@ class PutResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class RebootClusterResult {
   final Cluster? cluster;
 
@@ -13473,6 +13605,7 @@ class RebootClusterResult {
   }
 }
 
+/// @nodoc
 class RegisterNamespaceOutputMessage {
   /// The registration status of the cluster or serverless namespace.
   final NamespaceRegistrationStatus? status;
@@ -13498,6 +13631,8 @@ class RegisterNamespaceOutputMessage {
 
 /// Describes a resize cluster operation. For example, a scheduled action to run
 /// the <code>ResizeCluster</code> API operation.
+///
+/// @nodoc
 class ResizeClusterMessage {
   /// The unique identifier for the cluster to resize.
   final String clusterIdentifier;
@@ -13587,6 +13722,7 @@ class ResizeClusterMessage {
   }
 }
 
+/// @nodoc
 class ResizeClusterResult {
   final Cluster? cluster;
 
@@ -13607,6 +13743,7 @@ class ResizeClusterResult {
   }
 }
 
+/// @nodoc
 class RestoreFromClusterSnapshotResult {
   final Cluster? cluster;
 
@@ -13627,6 +13764,7 @@ class RestoreFromClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class RestoreTableFromClusterSnapshotResult {
   final TableRestoreStatus? tableRestoreStatus;
 
@@ -13651,6 +13789,8 @@ class RestoreTableFromClusterSnapshotResult {
 
 /// Describes a resume cluster operation. For example, a scheduled action to run
 /// the <code>ResumeCluster</code> API operation.
+///
+/// @nodoc
 class ResumeClusterMessage {
   /// The identifier of the cluster to be resumed.
   final String clusterIdentifier;
@@ -13679,6 +13819,7 @@ class ResumeClusterMessage {
   }
 }
 
+/// @nodoc
 class ResumeClusterResult {
   final Cluster? cluster;
 
@@ -13699,6 +13840,7 @@ class ResumeClusterResult {
   }
 }
 
+/// @nodoc
 class RevokeClusterSecurityGroupIngressResult {
   final ClusterSecurityGroup? clusterSecurityGroup;
 
@@ -13722,6 +13864,7 @@ class RevokeClusterSecurityGroupIngressResult {
   }
 }
 
+/// @nodoc
 class RevokeSnapshotAccessResult {
   final Snapshot? snapshot;
 
@@ -13742,6 +13885,7 @@ class RevokeSnapshotAccessResult {
   }
 }
 
+/// @nodoc
 class RotateEncryptionKeyResult {
   final Cluster? cluster;
 
@@ -13762,6 +13906,7 @@ class RotateEncryptionKeyResult {
   }
 }
 
+/// @nodoc
 class PartnerIntegrationStatus {
   static const active = PartnerIntegrationStatus._('Active');
   static const inactive = PartnerIntegrationStatus._('Inactive');
@@ -13791,6 +13936,8 @@ class PartnerIntegrationStatus {
 }
 
 /// Describes a cluster.
+///
+/// @nodoc
 class Cluster {
   /// A boolean value that, if <code>true</code>, indicates that major version
   /// upgrades will be applied automatically to the cluster during the maintenance
@@ -14524,6 +14671,8 @@ class Cluster {
 }
 
 /// Describes a connection endpoint.
+///
+/// @nodoc
 class Endpoint {
   /// The DNS address of the Cluster.
   final String? address;
@@ -14562,6 +14711,8 @@ class Endpoint {
 
 /// Describes cluster attributes that are in a pending state. A change to one or
 /// more the attributes was requested and is in progress or will be applied.
+///
+/// @nodoc
 class PendingModifiedValues {
   /// The pending or in-progress change of the automated snapshot retention
   /// period.
@@ -14672,6 +14823,8 @@ class PendingModifiedValues {
 
 /// Describes the status of a cluster restore action. Returns null if the
 /// cluster was not created by restoring a snapshot.
+///
+/// @nodoc
 class RestoreStatus {
   /// The number of megabytes per second being transferred from the backup
   /// storage. Returns the average rate for a completed backup. This field is only
@@ -14751,6 +14904,8 @@ class RestoreStatus {
 
 /// Describes the status of a cluster while it is in the process of resizing
 /// with an incremental resize.
+///
+/// @nodoc
 class DataTransferProgress {
   /// Describes the data transfer rate in MB's per second.
   final double? currentRateInMegaBytesPerSecond;
@@ -14821,6 +14976,8 @@ class DataTransferProgress {
 }
 
 /// Describes the status of changes to HSM settings.
+///
+/// @nodoc
 class HsmStatus {
   /// Specifies the name of the HSM client certificate the Amazon Redshift cluster
   /// uses to retrieve the data encryption keys stored in an HSM.
@@ -14867,6 +15024,8 @@ class HsmStatus {
 
 /// Returns the destination region and retention period that are configured for
 /// cross-region snapshot copy.
+///
+/// @nodoc
 class ClusterSnapshotCopyStatus {
   /// The destination region that snapshots are automatically copied to when
   /// cross-region snapshot copy is enabled.
@@ -14920,6 +15079,8 @@ class ClusterSnapshotCopyStatus {
 }
 
 /// Describes the status of the elastic IP (EIP) address.
+///
+/// @nodoc
 class ElasticIpStatus {
   /// The elastic IP (EIP) address for the cluster.
   final String? elasticIp;
@@ -14948,6 +15109,7 @@ class ElasticIpStatus {
   }
 }
 
+/// @nodoc
 class ScheduleState {
   static const modifying = ScheduleState._('MODIFYING');
   static const active = ScheduleState._('ACTIVE');
@@ -14974,6 +15136,8 @@ class ScheduleState {
 }
 
 /// Describes a resize operation.
+///
+/// @nodoc
 class ResizeInfo {
   /// A boolean value indicating if the resize operation can be cancelled.
   final bool? allowCancelResize;
@@ -15004,6 +15168,8 @@ class ResizeInfo {
 
 /// The operation that uses this structure is retired. Amazon Redshift
 /// automatically determines whether to use AQUA (Advanced Query Accelerator).
+///
+/// @nodoc
 class AquaConfiguration {
   /// This field is retired. Amazon Redshift automatically determines whether to
   /// use AQUA (Advanced Query Accelerator).
@@ -15042,6 +15208,8 @@ class AquaConfiguration {
 /// Reserved-node status details, such as the source reserved-node identifier,
 /// the target reserved-node identifier, the node type, the node count, and
 /// other details.
+///
+/// @nodoc
 class ReservedNodeExchangeStatus {
   /// A date and time that indicate when the reserved-node exchange was requested.
   final DateTime? requestTime;
@@ -15138,6 +15306,8 @@ class ReservedNodeExchangeStatus {
 
 /// The AvailabilityZone and ClusterNodes information of the secondary compute
 /// unit.
+///
+/// @nodoc
 class SecondaryClusterInfo {
   /// The name of the Availability Zone in which the secondary compute unit of the
   /// cluster is located.
@@ -15168,6 +15338,7 @@ class SecondaryClusterInfo {
   }
 }
 
+/// @nodoc
 class ReservedNodeExchangeStatusType {
   static const requested = ReservedNodeExchangeStatusType._('REQUESTED');
   static const pending = ReservedNodeExchangeStatusType._('PENDING');
@@ -15204,6 +15375,7 @@ class ReservedNodeExchangeStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class AquaStatus {
   static const enabled = AquaStatus._('enabled');
   static const disabled = AquaStatus._('disabled');
@@ -15228,6 +15400,7 @@ class AquaStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AquaConfigurationStatus {
   static const enabled = AquaConfigurationStatus._('enabled');
   static const disabled = AquaConfigurationStatus._('disabled');
@@ -15255,6 +15428,8 @@ class AquaConfigurationStatus {
 }
 
 /// Describes a deferred maintenance window
+///
+/// @nodoc
 class DeferredMaintenanceWindow {
   /// A timestamp for the end of the time period when we defer maintenance.
   final DateTime? deferMaintenanceEndTime;
@@ -15299,6 +15474,8 @@ class DeferredMaintenanceWindow {
 /// An Identity and Access Management (IAM) role that can be used by the
 /// associated Amazon Redshift cluster to access other Amazon Web Services
 /// services.
+///
+/// @nodoc
 class ClusterIamRole {
   /// A value that describes the status of the IAM role's association with an
   /// Amazon Redshift cluster.
@@ -15346,6 +15523,8 @@ class ClusterIamRole {
 }
 
 /// A tag consisting of a name/value pair for a resource.
+///
+/// @nodoc
 class Tag {
   /// The key, or name, for the resource tag.
   final String? key;
@@ -15384,6 +15563,8 @@ class Tag {
 }
 
 /// The identifier of a node in a cluster.
+///
+/// @nodoc
 class ClusterNode {
   /// Whether the node is a leader node or a compute node.
   final String? nodeRole;
@@ -15420,6 +15601,8 @@ class ClusterNode {
 }
 
 /// Describes the status of a parameter group.
+///
+/// @nodoc
 class ClusterParameterGroupStatus {
   /// The list of parameter statuses.
   ///
@@ -15469,6 +15652,8 @@ class ClusterParameterGroupStatus {
 }
 
 /// Describes the status of a parameter group.
+///
+/// @nodoc
 class ClusterParameterStatus {
   /// The error that prevented the parameter from being applied to the database.
   final String? parameterApplyErrorDescription;
@@ -15542,6 +15727,8 @@ class ClusterParameterStatus {
 }
 
 /// Describes the members of a VPC security group.
+///
+/// @nodoc
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
   final String? status;
@@ -15571,6 +15758,8 @@ class VpcSecurityGroupMembership {
 }
 
 /// Describes a cluster security group.
+///
+/// @nodoc
 class ClusterSecurityGroupMembership {
   /// The name of the cluster security group.
   final String? clusterSecurityGroupName;
@@ -15603,6 +15792,8 @@ class ClusterSecurityGroupMembership {
 
 /// The connection endpoint for connecting to an Amazon Redshift cluster through
 /// the proxy.
+///
+/// @nodoc
 class VpcEndpoint {
   /// One or more network interfaces of the endpoint. Also known as an interface
   /// endpoint.
@@ -15645,6 +15836,8 @@ class VpcEndpoint {
 }
 
 /// Describes a network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// The Availability Zone.
   final String? availabilityZone;
@@ -15695,6 +15888,8 @@ class NetworkInterface {
 }
 
 /// Describes a snapshot.
+///
+/// @nodoc
 class Snapshot {
   /// A list of the Amazon Web Services accounts authorized to restore the
   /// snapshot. Returns <code>null</code> if no accounts are authorized. Visible
@@ -16053,6 +16248,8 @@ class Snapshot {
 }
 
 /// Describes an Amazon Web Services account authorized to restore a snapshot.
+///
+/// @nodoc
 class AccountWithRestoreAccess {
   /// The identifier of an Amazon Web Services support account authorized to
   /// restore a snapshot. For Amazon Web Services Support, the identifier is
@@ -16085,6 +16282,8 @@ class AccountWithRestoreAccess {
 }
 
 /// Describes a security group.
+///
+/// @nodoc
 class ClusterSecurityGroup {
   /// The name of the cluster security group to which the operation was applied.
   final String? clusterSecurityGroupName;
@@ -16146,6 +16345,8 @@ class ClusterSecurityGroup {
 }
 
 /// Describes an IP range used in a security group.
+///
+/// @nodoc
 class IPRange {
   /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
   final String? cidrip;
@@ -16184,6 +16385,8 @@ class IPRange {
 }
 
 /// Describes an Amazon EC2 security group.
+///
+/// @nodoc
 class EC2SecurityGroup {
   /// The name of the EC2 Security Group.
   final String? eC2SecurityGroupName;
@@ -16234,6 +16437,8 @@ class EC2SecurityGroup {
 }
 
 /// Describes the status of a <a>RestoreTableFromClusterSnapshot</a> operation.
+///
+/// @nodoc
 class TableRestoreStatus {
   /// The identifier of the Amazon Redshift cluster that the table is being
   /// restored to.
@@ -16359,6 +16564,7 @@ class TableRestoreStatus {
   }
 }
 
+/// @nodoc
 class TableRestoreStatusType {
   static const pending = TableRestoreStatusType._('PENDING');
   static const inProgress = TableRestoreStatusType._('IN_PROGRESS');
@@ -16388,6 +16594,8 @@ class TableRestoreStatusType {
 }
 
 /// Describes a parameter in a cluster parameter group.
+///
+/// @nodoc
 class Parameter {
   /// The valid range of values for the parameter.
   final String? allowedValues;
@@ -16502,6 +16710,7 @@ class Parameter {
   }
 }
 
+/// @nodoc
 class ParameterApplyType {
   static const static = ParameterApplyType._('static');
   static const $dynamic = ParameterApplyType._('dynamic');
@@ -16527,6 +16736,7 @@ class ParameterApplyType {
   String toString() => value;
 }
 
+/// @nodoc
 class NamespaceRegistrationStatus {
   static const registering = NamespaceRegistrationStatus._('Registering');
   static const deregistering = NamespaceRegistrationStatus._('Deregistering');
@@ -16554,6 +16764,8 @@ class NamespaceRegistrationStatus {
 
 /// Object to store union of values for a provisioned cluster or serverless
 /// namespace’s identifier.
+///
+/// @nodoc
 class NamespaceIdentifierUnion {
   /// The identifier for a provisioned cluster.
   final ProvisionedIdentifier? provisionedIdentifier;
@@ -16592,6 +16804,8 @@ class NamespaceIdentifierUnion {
 }
 
 /// The identifier for a serverless namespace.
+///
+/// @nodoc
 class ServerlessIdentifier {
   /// The unique identifier for the serverless namespace.
   final String namespaceIdentifier;
@@ -16625,6 +16839,8 @@ class ServerlessIdentifier {
 }
 
 /// The identifier for a provisioned cluster.
+///
+/// @nodoc
 class ProvisionedIdentifier {
   /// The unique identifier for the provisioned cluster.
   final String clusterIdentifier;
@@ -16649,6 +16865,8 @@ class ProvisionedIdentifier {
 }
 
 /// The policy that is attached to a resource.
+///
+/// @nodoc
 class ResourcePolicy {
   /// The content of a resource policy.
   final String? policy;
@@ -16680,6 +16898,8 @@ class ResourcePolicy {
 /// Describes a reserved node. You can call the
 /// <a>DescribeReservedNodeOfferings</a> API to obtain the available reserved
 /// node offerings.
+///
+/// @nodoc
 class ReservedNode {
   /// The currency code for the reserved cluster.
   final String? currencyCode;
@@ -16818,6 +17038,7 @@ class ReservedNode {
   }
 }
 
+/// @nodoc
 class ReservedNodeOfferingType {
   static const regular = ReservedNodeOfferingType._('Regular');
   static const upgradable = ReservedNodeOfferingType._('Upgradable');
@@ -16844,6 +17065,8 @@ class ReservedNodeOfferingType {
 }
 
 /// Describes a recurring charge.
+///
+/// @nodoc
 class RecurringCharge {
   /// The amount charged per the period of time specified by the recurring charge
   /// frequency.
@@ -16877,6 +17100,7 @@ class RecurringCharge {
   }
 }
 
+/// @nodoc
 class UsageLimitBreachAction {
   static const log = UsageLimitBreachAction._('log');
   static const emitMetric = UsageLimitBreachAction._('emit-metric');
@@ -16905,6 +17129,8 @@ class UsageLimitBreachAction {
 
 /// The action type that specifies an Amazon Redshift API operation that is
 /// supported by the Amazon Redshift scheduler.
+///
+/// @nodoc
 class ScheduledActionType {
   /// An action that runs a <code>PauseCluster</code> API operation.
   final PauseClusterMessage? pauseCluster;
@@ -16964,6 +17190,8 @@ class ScheduledActionType {
 }
 
 /// Contains properties for the Redshift IDC application.
+///
+/// @nodoc
 class RedshiftIdcApplication {
   /// The type of application being created. Valid values are <code>None</code> or
   /// <code>Lakehouse</code>. Use <code>Lakehouse</code> to enable Amazon Redshift
@@ -17104,6 +17332,7 @@ class RedshiftIdcApplication {
   }
 }
 
+/// @nodoc
 class ApplicationType {
   static const none = ApplicationType._('None');
   static const lakehouse = ApplicationType._('Lakehouse');
@@ -17129,6 +17358,8 @@ class ApplicationType {
 }
 
 /// A list of service integrations.
+///
+/// @nodoc
 class ServiceIntegrationsUnion {
   /// A list of scopes set up for Lake Formation integration.
   final List<LakeFormationScopeUnion>? lakeFormation;
@@ -17205,6 +17436,8 @@ class ServiceIntegrationsUnion {
 /// A union structure that defines the scope of Amazon Redshift service
 /// integrations. Contains configuration for different integration types such as
 /// Amazon Redshift.
+///
+/// @nodoc
 class RedshiftScopeUnion {
   /// The Amazon Redshift connect integration scope configuration. Defines
   /// authorization settings for Amazon Redshift connect service integration.
@@ -17238,6 +17471,8 @@ class RedshiftScopeUnion {
 
 /// A structure that defines the Amazon Redshift connect service integration
 /// scope.
+///
+/// @nodoc
 class Connect {
   /// Determines whether the Amazon Redshift connect integration is enabled or
   /// disabled for the application.
@@ -17269,6 +17504,7 @@ class Connect {
   }
 }
 
+/// @nodoc
 class ServiceAuthorization {
   static const enabled = ServiceAuthorization._('Enabled');
   static const disabled = ServiceAuthorization._('Disabled');
@@ -17295,6 +17531,8 @@ class ServiceAuthorization {
 }
 
 /// A list of scopes set up for S3 Access Grants integration.
+///
+/// @nodoc
 class S3AccessGrantsScopeUnion {
   /// The S3 Access Grants scope.
   final ReadWriteAccess? readWriteAccess;
@@ -17328,6 +17566,8 @@ class S3AccessGrantsScopeUnion {
 }
 
 /// The S3 Access Grants scope.
+///
+/// @nodoc
 class ReadWriteAccess {
   /// Determines whether the read/write scope is enabled or disabled.
   final ServiceAuthorization authorization;
@@ -17359,6 +17599,8 @@ class ReadWriteAccess {
 }
 
 /// A list of scopes set up for Lake Formation integration.
+///
+/// @nodoc
 class LakeFormationScopeUnion {
   /// The Lake Formation scope.
   final LakeFormationQuery? lakeFormationQuery;
@@ -17392,6 +17634,8 @@ class LakeFormationScopeUnion {
 }
 
 /// The Lake Formation scope.
+///
+/// @nodoc
 class LakeFormationQuery {
   /// Determines whether the query scope is enabled or disabled.
   final ServiceAuthorization authorization;
@@ -17424,6 +17668,8 @@ class LakeFormationQuery {
 
 /// The authorized token issuer for the Amazon Redshift IAM Identity Center
 /// application.
+///
+/// @nodoc
 class AuthorizedTokenIssuer {
   /// The list of audiences for the authorized token issuer for integrating Amazon
   /// Redshift with IDC Identity Center.
@@ -17475,6 +17721,7 @@ class AuthorizedTokenIssuer {
   }
 }
 
+/// @nodoc
 class LakehouseRegistration {
   static const register = LakehouseRegistration._('Register');
   static const deregister = LakehouseRegistration._('Deregister');
@@ -17500,6 +17747,7 @@ class LakehouseRegistration {
   String toString() => value;
 }
 
+/// @nodoc
 class LakehouseIdcRegistration {
   static const associate = LakehouseIdcRegistration._('Associate');
   static const disassociate = LakehouseIdcRegistration._('Disassociate');
@@ -17526,6 +17774,8 @@ class LakehouseIdcRegistration {
 }
 
 /// Describes event subscriptions.
+///
+/// @nodoc
 class EventSubscription {
   /// The name of the Amazon Redshift event notification subscription.
   final String? custSubscriptionId;
@@ -17653,6 +17903,8 @@ class EventSubscription {
 }
 
 /// Describes a subnet group.
+///
+/// @nodoc
 class ClusterSubnetGroup {
   /// The name of the cluster subnet group.
   final String? clusterSubnetGroupName;
@@ -17727,6 +17979,8 @@ class ClusterSubnetGroup {
 }
 
 /// Describes a subnet.
+///
+/// @nodoc
 class Subnet {
   ///
   final AvailabilityZone? subnetAvailabilityZone;
@@ -17766,6 +18020,8 @@ class Subnet {
 }
 
 /// Describes an availability zone.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the availability zone.
   final String? name;
@@ -17799,6 +18055,8 @@ class AvailabilityZone {
 }
 
 /// A list of supported platforms for orderable clusters.
+///
+/// @nodoc
 class SupportedPlatform {
   ///
   final String? name;
@@ -17822,6 +18080,8 @@ class SupportedPlatform {
 
 /// An Amazon Redshift Advisor recommended action on the Amazon Redshift
 /// cluster.
+///
+/// @nodoc
 class Recommendation {
   /// The unique identifier of the cluster for which the recommendation is
   /// returned.
@@ -17933,6 +18193,7 @@ class Recommendation {
   }
 }
 
+/// @nodoc
 class ImpactRankingType {
   static const high = ImpactRankingType._('HIGH');
   static const medium = ImpactRankingType._('MEDIUM');
@@ -17960,6 +18221,8 @@ class ImpactRankingType {
 
 /// A link to an Amazon Redshift Advisor reference for more information about a
 /// recommendation.
+///
+/// @nodoc
 class ReferenceLink {
   /// The URL address to find more information.
   final String? link;
@@ -17989,6 +18252,8 @@ class ReferenceLink {
 }
 
 /// The recommended action from the Amazon Redshift Advisor recommendation.
+///
+/// @nodoc
 class RecommendedAction {
   /// The command to run.
   final String? command;
@@ -18034,6 +18299,7 @@ class RecommendedAction {
   }
 }
 
+/// @nodoc
 class RecommendedActionType {
   static const sql = RecommendedActionType._('SQL');
   static const cli = RecommendedActionType._('CLI');
@@ -18060,6 +18326,8 @@ class RecommendedActionType {
 }
 
 /// Describes a reserved node offering.
+///
+/// @nodoc
 class ReservedNodeOffering {
   /// The currency code for the compute nodes offering.
   final String? currencyCode;
@@ -18153,6 +18421,8 @@ class ReservedNodeOffering {
 
 /// Details for a reserved-node exchange. Examples include the node type for a
 /// reserved node, the price for a node, the node's state, and other details.
+///
+/// @nodoc
 class ReservedNodeConfigurationOption {
   final ReservedNode? sourceReservedNode;
 
@@ -18192,6 +18462,7 @@ class ReservedNodeConfigurationOption {
   }
 }
 
+/// @nodoc
 class ReservedNodeExchangeActionType {
   static const restoreCluster =
       ReservedNodeExchangeActionType._('restore-cluster');
@@ -18219,6 +18490,7 @@ class ReservedNodeExchangeActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogDestinationType {
   static const s3 = LogDestinationType._('s3');
   static const cloudwatch = LogDestinationType._('cloudwatch');
@@ -18244,6 +18516,7 @@ class LogDestinationType {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageLimitFeatureType {
   static const spectrum = UsageLimitFeatureType._('spectrum');
   static const concurrencyScaling =
@@ -18280,6 +18553,8 @@ class UsageLimitFeatureType {
 }
 
 /// A tag and its associated resource.
+///
+/// @nodoc
 class TaggedResource {
   /// The Amazon Resource Name (ARN) with which the tag is associated, for
   /// example: <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
@@ -18360,6 +18635,8 @@ class TaggedResource {
 /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
 /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster
 /// Management Guide</i>.
+///
+/// @nodoc
 class SnapshotCopyGrant {
   /// The unique identifier of the encrypted symmetric key in Amazon Web Services
   /// KMS to which Amazon Redshift is granted permission.
@@ -18400,6 +18677,7 @@ class SnapshotCopyGrant {
   }
 }
 
+/// @nodoc
 class ScheduledActionTypeValues {
   static const resizeCluster = ScheduledActionTypeValues._('ResizeCluster');
   static const pauseCluster = ScheduledActionTypeValues._('PauseCluster');
@@ -18427,6 +18705,8 @@ class ScheduledActionTypeValues {
 }
 
 /// A set of elements to filter the returned scheduled actions.
+///
+/// @nodoc
 class ScheduledActionFilter {
   /// The type of element to filter.
   final ScheduledActionFilterName name;
@@ -18463,6 +18743,7 @@ class ScheduledActionFilter {
   }
 }
 
+/// @nodoc
 class ScheduledActionFilterName {
   static const clusterIdentifier =
       ScheduledActionFilterName._('cluster-identifier');
@@ -18490,6 +18771,8 @@ class ScheduledActionFilterName {
 }
 
 /// Describes a partner integration.
+///
+/// @nodoc
 class PartnerIntegrationInfo {
   /// The date (UTC) that the partner integration was created.
   final DateTime? createdAt;
@@ -18550,6 +18833,8 @@ class PartnerIntegrationInfo {
 }
 
 /// Describes an orderable cluster option.
+///
+/// @nodoc
 class OrderableClusterOption {
   /// A list of availability zones for the orderable cluster.
   final List<AvailabilityZone>? availabilityZones;
@@ -18597,6 +18882,8 @@ class OrderableClusterOption {
 }
 
 /// A list of node configurations.
+///
+/// @nodoc
 class NodeConfigurationOption {
   /// The estimated disk utilizaton percentage.
   final double? estimatedDiskUtilizationPercent;
@@ -18642,6 +18929,7 @@ class NodeConfigurationOption {
   }
 }
 
+/// @nodoc
 class Mode {
   static const standard = Mode._('standard');
   static const highPerformance = Mode._('high-performance');
@@ -18665,6 +18953,7 @@ class Mode {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionType {
   static const restoreCluster = ActionType._('restore-cluster');
   static const recommendNodeConfig = ActionType._('recommend-node-config');
@@ -18690,6 +18979,8 @@ class ActionType {
 }
 
 /// A set of elements to filter the returned node configurations.
+///
+/// @nodoc
 class NodeConfigurationOptionsFilter {
   /// The name of the element to filter.
   final NodeConfigurationOptionsFilterName? name;
@@ -18740,6 +19031,7 @@ class NodeConfigurationOptionsFilter {
   }
 }
 
+/// @nodoc
 class NodeConfigurationOptionsFilterName {
   static const nodeType = NodeConfigurationOptionsFilterName._('NodeType');
   static const numberOfNodes =
@@ -18774,6 +19066,7 @@ class NodeConfigurationOptionsFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class OperatorType {
   static const eq = OperatorType._('eq');
   static const lt = OperatorType._('lt');
@@ -18803,6 +19096,8 @@ class OperatorType {
 }
 
 /// A set of elements to filter the returned integrations.
+///
+/// @nodoc
 class DescribeIntegrationsFilter {
   /// Specifies the type of integration filter.
   final DescribeIntegrationsFilterName name;
@@ -18838,6 +19133,7 @@ class DescribeIntegrationsFilter {
   }
 }
 
+/// @nodoc
 class DescribeIntegrationsFilterName {
   static const integrationArn =
       DescribeIntegrationsFilterName._('integration-arn');
@@ -18867,6 +19163,8 @@ class DescribeIntegrationsFilterName {
 }
 
 /// The content of an inbound integration.
+///
+/// @nodoc
 class InboundIntegration {
   /// The creation time of an inbound integration.
   final DateTime? createTime;
@@ -18929,6 +19227,7 @@ class InboundIntegration {
   }
 }
 
+/// @nodoc
 class ZeroETLIntegrationStatus {
   static const creating = ZeroETLIntegrationStatus._('creating');
   static const active = ZeroETLIntegrationStatus._('active');
@@ -18968,6 +19267,8 @@ class ZeroETLIntegrationStatus {
 }
 
 /// The error of an inbound integration.
+///
+/// @nodoc
 class IntegrationError {
   /// The error code of an inbound integration error.
   final String errorCode;
@@ -18999,6 +19300,8 @@ class IntegrationError {
 /// Returns information about an HSM configuration, which is an object that
 /// describes to Amazon Redshift clusters the information they require to
 /// connect to an HSM where they can store database encryption keys.
+///
+/// @nodoc
 class HsmConfiguration {
   /// A text description of the HSM configuration.
   final String? description;
@@ -19056,6 +19359,8 @@ class HsmConfiguration {
 /// Returns information about an HSM client certificate. The certificate is
 /// stored in a secure Hardware Storage Module (HSM), and used by the Amazon
 /// Redshift cluster to encrypt data files.
+///
+/// @nodoc
 class HsmClientCertificate {
   /// The identifier of the HSM client certificate.
   final String? hsmClientCertificateIdentifier;
@@ -19099,6 +19404,8 @@ class HsmClientCertificate {
 }
 
 /// Describes an event.
+///
+/// @nodoc
 class Event {
   /// The date and time of the event.
   final DateTime? date;
@@ -19170,6 +19477,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const cluster = SourceType._('cluster');
   static const clusterParameterGroup = SourceType._('cluster-parameter-group');
@@ -19203,6 +19511,8 @@ class SourceType {
 }
 
 /// Describes event categories.
+///
+/// @nodoc
 class EventCategoriesMap {
   /// The events in the event category.
   final List<EventInfoMap>? events;
@@ -19234,6 +19544,8 @@ class EventCategoriesMap {
 }
 
 /// Describes event information.
+///
+/// @nodoc
 class EventInfoMap {
   /// The category of an Amazon Redshift event.
   final List<String>? eventCategories;
@@ -19281,6 +19593,8 @@ class EventInfoMap {
 }
 
 /// Describes the default cluster parameters for a parameter group family.
+///
+/// @nodoc
 class DefaultClusterParameters {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -19325,6 +19639,7 @@ class DefaultClusterParameters {
   }
 }
 
+/// @nodoc
 class DataShareStatusForProducer {
   static const active = DataShareStatusForProducer._('ACTIVE');
   static const authorized = DataShareStatusForProducer._('AUTHORIZED');
@@ -19360,6 +19675,7 @@ class DataShareStatusForProducer {
   String toString() => value;
 }
 
+/// @nodoc
 class DataShareStatusForConsumer {
   static const active = DataShareStatusForConsumer._('ACTIVE');
   static const available = DataShareStatusForConsumer._('AVAILABLE');
@@ -19386,6 +19702,8 @@ class DataShareStatusForConsumer {
 }
 
 /// Contains information about the custom domain name association.
+///
+/// @nodoc
 class Association {
   /// A list of all associated clusters and domain names tied to a specific
   /// certificate.
@@ -19437,6 +19755,8 @@ class Association {
 
 /// A cluster ID and custom domain name tied to a specific certificate. These
 /// are typically returned in a list.
+///
+/// @nodoc
 class CertificateAssociation {
   /// The cluster identifier for the certificate association.
   final String? clusterIdentifier;
@@ -19467,6 +19787,8 @@ class CertificateAssociation {
 
 /// Describes a cluster version, including the parameter group family and
 /// description of the version.
+///
+/// @nodoc
 class ClusterVersion {
   /// The name of the cluster parameter group family for the cluster.
   final String? clusterParameterGroupFamily;
@@ -19510,6 +19832,8 @@ class ClusterVersion {
 /// updated to the most recently certified maintenance release. If the value is
 /// <code>trailing</code>, the cluster is updated to the previously certified
 /// maintenance release.
+///
+/// @nodoc
 class MaintenanceTrack {
   /// The version number for the cluster release.
   final String? databaseVersion;
@@ -19551,6 +19875,8 @@ class MaintenanceTrack {
 }
 
 /// A maintenance track that you can switch the current track to.
+///
+/// @nodoc
 class UpdateTarget {
   /// The cluster version for the new maintenance track.
   final String? databaseVersion;
@@ -19594,6 +19920,8 @@ class UpdateTarget {
 }
 
 /// Describes the operations that are allowed on a maintenance track.
+///
+/// @nodoc
 class SupportedOperation {
   /// A list of the supported operations.
   final String? operationName;
@@ -19616,6 +19944,8 @@ class SupportedOperation {
 }
 
 /// Describes a sorting entity
+///
+/// @nodoc
 class SnapshotSortingEntity {
   /// The category for sorting the snapshots.
   final SnapshotAttributeToSortBy attribute;
@@ -19647,6 +19977,7 @@ class SnapshotSortingEntity {
   }
 }
 
+/// @nodoc
 class SnapshotAttributeToSortBy {
   static const sourceType = SnapshotAttributeToSortBy._('SOURCE_TYPE');
   static const totalSize = SnapshotAttributeToSortBy._('TOTAL_SIZE');
@@ -19673,6 +20004,7 @@ class SnapshotAttributeToSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortByOrder {
   static const asc = SortByOrder._('ASC');
   static const desc = SortByOrder._('DESC');
@@ -19697,6 +20029,8 @@ class SortByOrder {
 }
 
 /// Describes a parameter group.
+///
+/// @nodoc
 class ClusterParameterGroup {
   /// The description of the parameter group.
   final String? description;
@@ -19745,6 +20079,8 @@ class ClusterParameterGroup {
 }
 
 /// Describes a <code>ClusterDbRevision</code>.
+///
+/// @nodoc
 class ClusterDbRevision {
   /// The unique identifier of the cluster.
   final String? clusterIdentifier;
@@ -19798,6 +20134,8 @@ class ClusterDbRevision {
 }
 
 /// Describes a <code>RevisionTarget</code>.
+///
+/// @nodoc
 class RevisionTarget {
   /// A unique string that identifies the version to update the cluster to. You
   /// can use this value in <a>ModifyClusterDbRevision</a>.
@@ -19839,6 +20177,8 @@ class RevisionTarget {
 }
 
 /// Describes an authentication profile.
+///
+/// @nodoc
 class AuthenticationProfile {
   /// The content of the authentication profile in JSON format. The maximum length
   /// of the JSON string is determined by a quota for your account.
@@ -19873,6 +20213,8 @@ class AuthenticationProfile {
 }
 
 /// A name value pair that describes an aspect of an account.
+///
+/// @nodoc
 class AccountAttribute {
   /// The name of the attribute.
   final String? attributeName;
@@ -19906,6 +20248,8 @@ class AccountAttribute {
 }
 
 /// Describes an attribute value.
+///
+/// @nodoc
 class AttributeValueTarget {
   /// The value of the attribute.
   final String? attributeValue;
@@ -19927,6 +20271,7 @@ class AttributeValueTarget {
   }
 }
 
+/// @nodoc
 class UsageLimitLimitType {
   static const time = UsageLimitLimitType._('time');
   static const dataScanned = UsageLimitLimitType._('data-scanned');
@@ -19952,6 +20297,7 @@ class UsageLimitLimitType {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageLimitPeriod {
   static const daily = UsageLimitPeriod._('daily');
   static const weekly = UsageLimitPeriod._('weekly');
@@ -19978,6 +20324,8 @@ class UsageLimitPeriod {
 }
 
 ///
+///
+/// @nodoc
 class ClusterAssociatedToSchedule {
   ///
   final String? clusterIdentifier;
@@ -20009,6 +20357,7 @@ class ClusterAssociatedToSchedule {
   }
 }
 
+/// @nodoc
 class ScheduledActionState {
   static const active = ScheduledActionState._('ACTIVE');
   static const disabled = ScheduledActionState._('DISABLED');
@@ -20035,6 +20384,8 @@ class ScheduledActionState {
 }
 
 /// Describes the errors returned by a snapshot.
+///
+/// @nodoc
 class SnapshotErrorMessage {
   /// The failure code for the error.
   final String? failureCode;
@@ -20079,6 +20430,7 @@ class SnapshotErrorMessage {
   }
 }
 
+/// @nodoc
 class AuthorizationStatus {
   static const authorized = AuthorizationStatus._('Authorized');
   static const revoking = AuthorizationStatus._('Revoking');
@@ -20104,6 +20456,7 @@ class AuthorizationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DataShareType {
   static const internal = DataShareType._('INTERNAL');
 
@@ -20128,6 +20481,8 @@ class DataShareType {
 }
 
 /// The association of a datashare from a producer account with a data consumer.
+///
+/// @nodoc
 class DataShareAssociation {
   /// Specifies whether write operations were allowed during data share
   /// association.
@@ -20202,6 +20557,7 @@ class DataShareAssociation {
   }
 }
 
+/// @nodoc
 class DataShareStatus {
   static const active = DataShareStatus._('ACTIVE');
   static const pendingAuthorization =
@@ -20238,17 +20594,20 @@ class DataShareStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessToClusterDeniedFault extends _s.GenericAwsException {
   AccessToClusterDeniedFault({String? type, String? message})
       : super(type: type, code: 'AccessToClusterDeniedFault', message: message);
 }
 
+/// @nodoc
 class AccessToSnapshotDeniedFault extends _s.GenericAwsException {
   AccessToSnapshotDeniedFault({String? type, String? message})
       : super(
             type: type, code: 'AccessToSnapshotDeniedFault', message: message);
 }
 
+/// @nodoc
 class AuthenticationProfileAlreadyExistsFault extends _s.GenericAwsException {
   AuthenticationProfileAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20257,6 +20616,7 @@ class AuthenticationProfileAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthenticationProfileNotFoundFault extends _s.GenericAwsException {
   AuthenticationProfileNotFoundFault({String? type, String? message})
       : super(
@@ -20265,6 +20625,7 @@ class AuthenticationProfileNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthenticationProfileQuotaExceededFault extends _s.GenericAwsException {
   AuthenticationProfileQuotaExceededFault({String? type, String? message})
       : super(
@@ -20273,6 +20634,7 @@ class AuthenticationProfileQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
   AuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20281,11 +20643,13 @@ class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
   AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
   AuthorizationQuotaExceededFault({String? type, String? message})
       : super(
@@ -20294,6 +20658,7 @@ class AuthorizationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BatchDeleteRequestSizeExceededFault extends _s.GenericAwsException {
   BatchDeleteRequestSizeExceededFault({String? type, String? message})
       : super(
@@ -20302,6 +20667,7 @@ class BatchDeleteRequestSizeExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class BatchModifyClusterSnapshotsLimitExceededFault
     extends _s.GenericAwsException {
   BatchModifyClusterSnapshotsLimitExceededFault({String? type, String? message})
@@ -20311,27 +20677,32 @@ class BatchModifyClusterSnapshotsLimitExceededFault
             message: message);
 }
 
+/// @nodoc
 class BucketNotFoundFault extends _s.GenericAwsException {
   BucketNotFoundFault({String? type, String? message})
       : super(type: type, code: 'BucketNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ClusterAlreadyExistsFault extends _s.GenericAwsException {
   ClusterAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ClusterAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class ClusterNotFoundFault extends _s.GenericAwsException {
   ClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ClusterOnLatestRevisionFault extends _s.GenericAwsException {
   ClusterOnLatestRevisionFault({String? type, String? message})
       : super(
             type: type, code: 'ClusterOnLatestRevisionFault', message: message);
 }
 
+/// @nodoc
 class ClusterParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   ClusterParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20340,6 +20711,7 @@ class ClusterParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
   ClusterParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -20348,6 +20720,7 @@ class ClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   ClusterParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -20356,11 +20729,13 @@ class ClusterParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterQuotaExceededFault extends _s.GenericAwsException {
   ClusterQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'ClusterQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class ClusterSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
   ClusterSecurityGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20369,6 +20744,7 @@ class ClusterSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSecurityGroupNotFoundFault extends _s.GenericAwsException {
   ClusterSecurityGroupNotFoundFault({String? type, String? message})
       : super(
@@ -20377,6 +20753,7 @@ class ClusterSecurityGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
   ClusterSecurityGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -20385,6 +20762,7 @@ class ClusterSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   ClusterSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20393,12 +20771,14 @@ class ClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSnapshotNotFoundFault extends _s.GenericAwsException {
   ClusterSnapshotNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ClusterSnapshotNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ClusterSnapshotQuotaExceededFault extends _s.GenericAwsException {
   ClusterSnapshotQuotaExceededFault({String? type, String? message})
       : super(
@@ -20407,6 +20787,7 @@ class ClusterSnapshotQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   ClusterSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20415,6 +20796,7 @@ class ClusterSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSubnetGroupNotFoundFault extends _s.GenericAwsException {
   ClusterSubnetGroupNotFoundFault({String? type, String? message})
       : super(
@@ -20423,6 +20805,7 @@ class ClusterSubnetGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   ClusterSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -20431,6 +20814,7 @@ class ClusterSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterSubnetQuotaExceededFault extends _s.GenericAwsException {
   ClusterSubnetQuotaExceededFault({String? type, String? message})
       : super(
@@ -20439,22 +20823,26 @@ class ClusterSubnetQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictPolicyUpdateFault extends _s.GenericAwsException {
   ConflictPolicyUpdateFault({String? type, String? message})
       : super(type: type, code: 'ConflictPolicyUpdateFault', message: message);
 }
 
+/// @nodoc
 class CopyToRegionDisabledFault extends _s.GenericAwsException {
   CopyToRegionDisabledFault({String? type, String? message})
       : super(type: type, code: 'CopyToRegionDisabledFault', message: message);
 }
 
+/// @nodoc
 class CustomCnameAssociationFault extends _s.GenericAwsException {
   CustomCnameAssociationFault({String? type, String? message})
       : super(
             type: type, code: 'CustomCnameAssociationFault', message: message);
 }
 
+/// @nodoc
 class CustomDomainAssociationNotFoundFault extends _s.GenericAwsException {
   CustomDomainAssociationNotFoundFault({String? type, String? message})
       : super(
@@ -20463,6 +20851,7 @@ class CustomDomainAssociationNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DependentServiceAccessDeniedFault extends _s.GenericAwsException {
   DependentServiceAccessDeniedFault({String? type, String? message})
       : super(
@@ -20471,6 +20860,7 @@ class DependentServiceAccessDeniedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DependentServiceRequestThrottlingFault extends _s.GenericAwsException {
   DependentServiceRequestThrottlingFault({String? type, String? message})
       : super(
@@ -20479,6 +20869,7 @@ class DependentServiceRequestThrottlingFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DependentServiceUnavailableFault extends _s.GenericAwsException {
   DependentServiceUnavailableFault({String? type, String? message})
       : super(
@@ -20487,11 +20878,13 @@ class DependentServiceUnavailableFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EndpointAlreadyExistsFault extends _s.GenericAwsException {
   EndpointAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'EndpointAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class EndpointAuthorizationAlreadyExistsFault extends _s.GenericAwsException {
   EndpointAuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20500,6 +20893,7 @@ class EndpointAuthorizationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EndpointAuthorizationNotFoundFault extends _s.GenericAwsException {
   EndpointAuthorizationNotFoundFault({String? type, String? message})
       : super(
@@ -20508,6 +20902,7 @@ class EndpointAuthorizationNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EndpointAuthorizationsPerClusterLimitExceededFault
     extends _s.GenericAwsException {
   EndpointAuthorizationsPerClusterLimitExceededFault(
@@ -20518,11 +20913,13 @@ class EndpointAuthorizationsPerClusterLimitExceededFault
             message: message);
 }
 
+/// @nodoc
 class EndpointNotFoundFault extends _s.GenericAwsException {
   EndpointNotFoundFault({String? type, String? message})
       : super(type: type, code: 'EndpointNotFoundFault', message: message);
 }
 
+/// @nodoc
 class EndpointsPerAuthorizationLimitExceededFault
     extends _s.GenericAwsException {
   EndpointsPerAuthorizationLimitExceededFault({String? type, String? message})
@@ -20532,6 +20929,7 @@ class EndpointsPerAuthorizationLimitExceededFault
             message: message);
 }
 
+/// @nodoc
 class EndpointsPerClusterLimitExceededFault extends _s.GenericAwsException {
   EndpointsPerClusterLimitExceededFault({String? type, String? message})
       : super(
@@ -20540,6 +20938,7 @@ class EndpointsPerClusterLimitExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
   EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
@@ -20548,6 +20947,7 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HsmClientCertificateAlreadyExistsFault extends _s.GenericAwsException {
   HsmClientCertificateAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20556,6 +20956,7 @@ class HsmClientCertificateAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HsmClientCertificateNotFoundFault extends _s.GenericAwsException {
   HsmClientCertificateNotFoundFault({String? type, String? message})
       : super(
@@ -20564,6 +20965,7 @@ class HsmClientCertificateNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HsmClientCertificateQuotaExceededFault extends _s.GenericAwsException {
   HsmClientCertificateQuotaExceededFault({String? type, String? message})
       : super(
@@ -20572,6 +20974,7 @@ class HsmClientCertificateQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HsmConfigurationAlreadyExistsFault extends _s.GenericAwsException {
   HsmConfigurationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20580,6 +20983,7 @@ class HsmConfigurationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HsmConfigurationNotFoundFault extends _s.GenericAwsException {
   HsmConfigurationNotFoundFault({String? type, String? message})
       : super(
@@ -20588,6 +20992,7 @@ class HsmConfigurationNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HsmConfigurationQuotaExceededFault extends _s.GenericAwsException {
   HsmConfigurationQuotaExceededFault({String? type, String? message})
       : super(
@@ -20596,6 +21001,7 @@ class HsmConfigurationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InProgressTableRestoreQuotaExceededFault extends _s.GenericAwsException {
   InProgressTableRestoreQuotaExceededFault({String? type, String? message})
       : super(
@@ -20604,12 +21010,14 @@ class InProgressTableRestoreQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IncompatibleOrderableOptions extends _s.GenericAwsException {
   IncompatibleOrderableOptions({String? type, String? message})
       : super(
             type: type, code: 'IncompatibleOrderableOptions', message: message);
 }
 
+/// @nodoc
 class InsufficientClusterCapacityFault extends _s.GenericAwsException {
   InsufficientClusterCapacityFault({String? type, String? message})
       : super(
@@ -20618,6 +21026,7 @@ class InsufficientClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientS3BucketPolicyFault extends _s.GenericAwsException {
   InsufficientS3BucketPolicyFault({String? type, String? message})
       : super(
@@ -20626,6 +21035,7 @@ class InsufficientS3BucketPolicyFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationAlreadyExistsFault extends _s.GenericAwsException {
   IntegrationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20634,6 +21044,7 @@ class IntegrationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationConflictOperationFault extends _s.GenericAwsException {
   IntegrationConflictOperationFault({String? type, String? message})
       : super(
@@ -20642,6 +21053,7 @@ class IntegrationConflictOperationFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationConflictStateFault extends _s.GenericAwsException {
   IntegrationConflictStateFault({String? type, String? message})
       : super(
@@ -20650,11 +21062,13 @@ class IntegrationConflictStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationNotFoundFault extends _s.GenericAwsException {
   IntegrationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'IntegrationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class IntegrationQuotaExceededFault extends _s.GenericAwsException {
   IntegrationQuotaExceededFault({String? type, String? message})
       : super(
@@ -20663,6 +21077,7 @@ class IntegrationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationSourceNotFoundFault extends _s.GenericAwsException {
   IntegrationSourceNotFoundFault({String? type, String? message})
       : super(
@@ -20671,6 +21086,7 @@ class IntegrationSourceNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationTargetNotFoundFault extends _s.GenericAwsException {
   IntegrationTargetNotFoundFault({String? type, String? message})
       : super(
@@ -20679,6 +21095,7 @@ class IntegrationTargetNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAuthenticationProfileRequestFault extends _s.GenericAwsException {
   InvalidAuthenticationProfileRequestFault({String? type, String? message})
       : super(
@@ -20687,6 +21104,7 @@ class InvalidAuthenticationProfileRequestFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAuthorizationStateFault extends _s.GenericAwsException {
   InvalidAuthorizationStateFault({String? type, String? message})
       : super(
@@ -20695,6 +21113,7 @@ class InvalidAuthorizationStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterParameterGroupStateFault extends _s.GenericAwsException {
   InvalidClusterParameterGroupStateFault({String? type, String? message})
       : super(
@@ -20703,6 +21122,7 @@ class InvalidClusterParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterSecurityGroupStateFault extends _s.GenericAwsException {
   InvalidClusterSecurityGroupStateFault({String? type, String? message})
       : super(
@@ -20711,6 +21131,7 @@ class InvalidClusterSecurityGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterSnapshotScheduleStateFault extends _s.GenericAwsException {
   InvalidClusterSnapshotScheduleStateFault({String? type, String? message})
       : super(
@@ -20719,6 +21140,7 @@ class InvalidClusterSnapshotScheduleStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterSnapshotStateFault extends _s.GenericAwsException {
   InvalidClusterSnapshotStateFault({String? type, String? message})
       : super(
@@ -20727,11 +21149,13 @@ class InvalidClusterSnapshotStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterStateFault extends _s.GenericAwsException {
   InvalidClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidClusterSubnetGroupStateFault extends _s.GenericAwsException {
   InvalidClusterSubnetGroupStateFault({String? type, String? message})
       : super(
@@ -20740,6 +21164,7 @@ class InvalidClusterSubnetGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterSubnetStateFault extends _s.GenericAwsException {
   InvalidClusterSubnetStateFault({String? type, String? message})
       : super(
@@ -20748,26 +21173,31 @@ class InvalidClusterSubnetStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClusterTrackFault extends _s.GenericAwsException {
   InvalidClusterTrackFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterTrackFault', message: message);
 }
 
+/// @nodoc
 class InvalidDataShareFault extends _s.GenericAwsException {
   InvalidDataShareFault({String? type, String? message})
       : super(type: type, code: 'InvalidDataShareFault', message: message);
 }
 
+/// @nodoc
 class InvalidElasticIpFault extends _s.GenericAwsException {
   InvalidElasticIpFault({String? type, String? message})
       : super(type: type, code: 'InvalidElasticIpFault', message: message);
 }
 
+/// @nodoc
 class InvalidEndpointStateFault extends _s.GenericAwsException {
   InvalidEndpointStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidHsmClientCertificateStateFault extends _s.GenericAwsException {
   InvalidHsmClientCertificateStateFault({String? type, String? message})
       : super(
@@ -20776,6 +21206,7 @@ class InvalidHsmClientCertificateStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidHsmConfigurationStateFault extends _s.GenericAwsException {
   InvalidHsmConfigurationStateFault({String? type, String? message})
       : super(
@@ -20784,16 +21215,19 @@ class InvalidHsmConfigurationStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNamespaceFault extends _s.GenericAwsException {
   InvalidNamespaceFault({String? type, String? message})
       : super(type: type, code: 'InvalidNamespaceFault', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyFault extends _s.GenericAwsException {
   InvalidPolicyFault({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyFault', message: message);
 }
 
+/// @nodoc
 class InvalidReservedNodeStateFault extends _s.GenericAwsException {
   InvalidReservedNodeStateFault({String? type, String? message})
       : super(
@@ -20802,38 +21236,45 @@ class InvalidReservedNodeStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRestoreFault extends _s.GenericAwsException {
   InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
+/// @nodoc
 class InvalidRetentionPeriodFault extends _s.GenericAwsException {
   InvalidRetentionPeriodFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidRetentionPeriodFault', message: message);
 }
 
+/// @nodoc
 class InvalidS3BucketNameFault extends _s.GenericAwsException {
   InvalidS3BucketNameFault({String? type, String? message})
       : super(type: type, code: 'InvalidS3BucketNameFault', message: message);
 }
 
+/// @nodoc
 class InvalidS3KeyPrefixFault extends _s.GenericAwsException {
   InvalidS3KeyPrefixFault({String? type, String? message})
       : super(type: type, code: 'InvalidS3KeyPrefixFault', message: message);
 }
 
+/// @nodoc
 class InvalidScheduleFault extends _s.GenericAwsException {
   InvalidScheduleFault({String? type, String? message})
       : super(type: type, code: 'InvalidScheduleFault', message: message);
 }
 
+/// @nodoc
 class InvalidScheduledActionFault extends _s.GenericAwsException {
   InvalidScheduledActionFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidScheduledActionFault', message: message);
 }
 
+/// @nodoc
 class InvalidSnapshotCopyGrantStateFault extends _s.GenericAwsException {
   InvalidSnapshotCopyGrantStateFault({String? type, String? message})
       : super(
@@ -20842,11 +21283,13 @@ class InvalidSnapshotCopyGrantStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidSubscriptionStateFault extends _s.GenericAwsException {
   InvalidSubscriptionStateFault({String? type, String? message})
       : super(
@@ -20855,6 +21298,7 @@ class InvalidSubscriptionStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTableRestoreArgumentFault extends _s.GenericAwsException {
   InvalidTableRestoreArgumentFault({String? type, String? message})
       : super(
@@ -20863,32 +21307,38 @@ class InvalidTableRestoreArgumentFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTagFault extends _s.GenericAwsException {
   InvalidTagFault({String? type, String? message})
       : super(type: type, code: 'InvalidTagFault', message: message);
 }
 
+/// @nodoc
 class InvalidUsageLimitFault extends _s.GenericAwsException {
   InvalidUsageLimitFault({String? type, String? message})
       : super(type: type, code: 'InvalidUsageLimitFault', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class Ipv6CidrBlockNotFoundFault extends _s.GenericAwsException {
   Ipv6CidrBlockNotFoundFault({String? type, String? message})
       : super(type: type, code: 'Ipv6CidrBlockNotFoundFault', message: message);
 }
 
+/// @nodoc
 class LimitExceededFault extends _s.GenericAwsException {
   LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
+/// @nodoc
 class NumberOfNodesPerClusterLimitExceededFault extends _s.GenericAwsException {
   NumberOfNodesPerClusterLimitExceededFault({String? type, String? message})
       : super(
@@ -20897,6 +21347,7 @@ class NumberOfNodesPerClusterLimitExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NumberOfNodesQuotaExceededFault extends _s.GenericAwsException {
   NumberOfNodesQuotaExceededFault({String? type, String? message})
       : super(
@@ -20905,11 +21356,13 @@ class NumberOfNodesQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PartnerNotFoundFault extends _s.GenericAwsException {
   PartnerNotFoundFault({String? type, String? message})
       : super(type: type, code: 'PartnerNotFoundFault', message: message);
 }
 
+/// @nodoc
 class RedshiftIdcApplicationAlreadyExistsFault extends _s.GenericAwsException {
   RedshiftIdcApplicationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20918,6 +21371,7 @@ class RedshiftIdcApplicationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RedshiftIdcApplicationNotExistsFault extends _s.GenericAwsException {
   RedshiftIdcApplicationNotExistsFault({String? type, String? message})
       : super(
@@ -20926,6 +21380,7 @@ class RedshiftIdcApplicationNotExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RedshiftIdcApplicationQuotaExceededFault extends _s.GenericAwsException {
   RedshiftIdcApplicationQuotaExceededFault({String? type, String? message})
       : super(
@@ -20934,6 +21389,7 @@ class RedshiftIdcApplicationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RedshiftInvalidParameterFault extends _s.GenericAwsException {
   RedshiftInvalidParameterFault({String? type, String? message})
       : super(
@@ -20942,6 +21398,7 @@ class RedshiftInvalidParameterFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
   ReservedNodeAlreadyExistsFault({String? type, String? message})
       : super(
@@ -20950,6 +21407,7 @@ class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeAlreadyMigratedFault extends _s.GenericAwsException {
   ReservedNodeAlreadyMigratedFault({String? type, String? message})
       : super(
@@ -20958,6 +21416,7 @@ class ReservedNodeAlreadyMigratedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeExchangeNotFoundFault extends _s.GenericAwsException {
   ReservedNodeExchangeNotFoundFault({String? type, String? message})
       : super(
@@ -20966,11 +21425,13 @@ class ReservedNodeExchangeNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeNotFoundFault extends _s.GenericAwsException {
   ReservedNodeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ReservedNodeNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ReservedNodeOfferingNotFoundFault extends _s.GenericAwsException {
   ReservedNodeOfferingNotFoundFault({String? type, String? message})
       : super(
@@ -20979,6 +21440,7 @@ class ReservedNodeOfferingNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeQuotaExceededFault extends _s.GenericAwsException {
   ReservedNodeQuotaExceededFault({String? type, String? message})
       : super(
@@ -20987,31 +21449,37 @@ class ReservedNodeQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResizeNotFoundFault extends _s.GenericAwsException {
   ResizeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResizeNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundFault extends _s.GenericAwsException {
   ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SNSInvalidTopicFault extends _s.GenericAwsException {
   SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
+/// @nodoc
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
   SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
+/// @nodoc
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
   SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ScheduleDefinitionTypeUnsupportedFault extends _s.GenericAwsException {
   ScheduleDefinitionTypeUnsupportedFault({String? type, String? message})
       : super(
@@ -21020,6 +21488,7 @@ class ScheduleDefinitionTypeUnsupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ScheduledActionAlreadyExistsFault extends _s.GenericAwsException {
   ScheduledActionAlreadyExistsFault({String? type, String? message})
       : super(
@@ -21028,12 +21497,14 @@ class ScheduledActionAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ScheduledActionNotFoundFault extends _s.GenericAwsException {
   ScheduledActionNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ScheduledActionNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ScheduledActionQuotaExceededFault extends _s.GenericAwsException {
   ScheduledActionQuotaExceededFault({String? type, String? message})
       : super(
@@ -21042,6 +21513,7 @@ class ScheduledActionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ScheduledActionTypeUnsupportedFault extends _s.GenericAwsException {
   ScheduledActionTypeUnsupportedFault({String? type, String? message})
       : super(
@@ -21050,6 +21522,7 @@ class ScheduledActionTypeUnsupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotCopyAlreadyDisabledFault extends _s.GenericAwsException {
   SnapshotCopyAlreadyDisabledFault({String? type, String? message})
       : super(
@@ -21058,6 +21531,7 @@ class SnapshotCopyAlreadyDisabledFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotCopyAlreadyEnabledFault extends _s.GenericAwsException {
   SnapshotCopyAlreadyEnabledFault({String? type, String? message})
       : super(
@@ -21066,11 +21540,13 @@ class SnapshotCopyAlreadyEnabledFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotCopyDisabledFault extends _s.GenericAwsException {
   SnapshotCopyDisabledFault({String? type, String? message})
       : super(type: type, code: 'SnapshotCopyDisabledFault', message: message);
 }
 
+/// @nodoc
 class SnapshotCopyGrantAlreadyExistsFault extends _s.GenericAwsException {
   SnapshotCopyGrantAlreadyExistsFault({String? type, String? message})
       : super(
@@ -21079,6 +21555,7 @@ class SnapshotCopyGrantAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotCopyGrantNotFoundFault extends _s.GenericAwsException {
   SnapshotCopyGrantNotFoundFault({String? type, String? message})
       : super(
@@ -21087,6 +21564,7 @@ class SnapshotCopyGrantNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotCopyGrantQuotaExceededFault extends _s.GenericAwsException {
   SnapshotCopyGrantQuotaExceededFault({String? type, String? message})
       : super(
@@ -21095,6 +21573,7 @@ class SnapshotCopyGrantQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotScheduleAlreadyExistsFault extends _s.GenericAwsException {
   SnapshotScheduleAlreadyExistsFault({String? type, String? message})
       : super(
@@ -21103,6 +21582,7 @@ class SnapshotScheduleAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotScheduleNotFoundFault extends _s.GenericAwsException {
   SnapshotScheduleNotFoundFault({String? type, String? message})
       : super(
@@ -21111,6 +21591,7 @@ class SnapshotScheduleNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotScheduleQuotaExceededFault extends _s.GenericAwsException {
   SnapshotScheduleQuotaExceededFault({String? type, String? message})
       : super(
@@ -21119,6 +21600,7 @@ class SnapshotScheduleQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotScheduleUpdateInProgressFault extends _s.GenericAwsException {
   SnapshotScheduleUpdateInProgressFault({String? type, String? message})
       : super(
@@ -21127,16 +21609,19 @@ class SnapshotScheduleUpdateInProgressFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SourceNotFoundFault extends _s.GenericAwsException {
   SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SubnetAlreadyInUse extends _s.GenericAwsException {
   SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
+/// @nodoc
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
   SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
@@ -21145,6 +21630,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
   SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
@@ -21153,6 +21639,7 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionEventIdNotFoundFault extends _s.GenericAwsException {
   SubscriptionEventIdNotFoundFault({String? type, String? message})
       : super(
@@ -21161,11 +21648,13 @@ class SubscriptionEventIdNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
   SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SubscriptionSeverityNotFoundFault extends _s.GenericAwsException {
   SubscriptionSeverityNotFoundFault({String? type, String? message})
       : super(
@@ -21174,26 +21663,31 @@ class SubscriptionSeverityNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TableLimitExceededFault extends _s.GenericAwsException {
   TableLimitExceededFault({String? type, String? message})
       : super(type: type, code: 'TableLimitExceededFault', message: message);
 }
 
+/// @nodoc
 class TableRestoreNotFoundFault extends _s.GenericAwsException {
   TableRestoreNotFoundFault({String? type, String? message})
       : super(type: type, code: 'TableRestoreNotFoundFault', message: message);
 }
 
+/// @nodoc
 class TagLimitExceededFault extends _s.GenericAwsException {
   TagLimitExceededFault({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededFault', message: message);
 }
 
+/// @nodoc
 class UnauthorizedOperation extends _s.GenericAwsException {
   UnauthorizedOperation({String? type, String? message})
       : super(type: type, code: 'UnauthorizedOperation', message: message);
 }
 
+/// @nodoc
 class UnauthorizedPartnerIntegrationFault extends _s.GenericAwsException {
   UnauthorizedPartnerIntegrationFault({String? type, String? message})
       : super(
@@ -21202,6 +21696,7 @@ class UnauthorizedPartnerIntegrationFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnknownSnapshotCopyRegionFault extends _s.GenericAwsException {
   UnknownSnapshotCopyRegionFault({String? type, String? message})
       : super(
@@ -21210,22 +21705,26 @@ class UnknownSnapshotCopyRegionFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationFault extends _s.GenericAwsException {
   UnsupportedOperationFault({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperationFault', message: message);
 }
 
+/// @nodoc
 class UnsupportedOptionFault extends _s.GenericAwsException {
   UnsupportedOptionFault({String? type, String? message})
       : super(type: type, code: 'UnsupportedOptionFault', message: message);
 }
 
+/// @nodoc
 class UsageLimitAlreadyExistsFault extends _s.GenericAwsException {
   UsageLimitAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'UsageLimitAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class UsageLimitNotFoundFault extends _s.GenericAwsException {
   UsageLimitNotFoundFault({String? type, String? message})
       : super(type: type, code: 'UsageLimitNotFoundFault', message: message);

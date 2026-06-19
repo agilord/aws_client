@@ -407,7 +407,7 @@ class SecretsManager {
   /// A list of tags to attach to the secret. Each tag is a key and value pair
   /// of strings in a JSON text string, for example:
   ///
-  /// <code>[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]</code>
+  /// <code>\[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}\]</code>
   ///
   /// Secrets Manager tag key names are case sensitive. A tag with the key "ABC"
   /// is a different tag from one with key "abc".
@@ -700,7 +700,7 @@ class SecretsManager {
   /// length and include every character type that the system you are generating
   /// a password for can support. By default, Secrets Manager uses uppercase and
   /// lowercase letters, numbers, and the following characters in passwords:
-  /// <code>!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~</code>
+  /// <code>!\"#$%&'()*+,-./:;<=>?@\[\\\]^_`{|}~</code>
   ///
   /// Secrets Manager generates a CloudTrail log entry when you call this
   /// action.
@@ -730,8 +730,8 @@ class SecretsManager {
   ///
   /// Parameter [excludePunctuation] :
   /// Specifies whether to exclude the following punctuation characters from the
-  /// password: <code>! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` {
-  /// | } ~</code>. If you don't include this switch, the password can contain
+  /// password: <code>! " # $ % & ' ( ) * + , - . / : ; < = > ? @ \[ \ \] ^ _ `
+  /// { | } ~</code>. If you don't include this switch, the password can contain
   /// punctuation.
   ///
   /// Parameter [excludeUppercase] :
@@ -2337,6 +2337,7 @@ class SecretsManager {
   }
 }
 
+/// @nodoc
 class BatchGetSecretValueResponse {
   /// A list of errors Secrets Manager encountered while attempting to retrieve
   /// individual secrets.
@@ -2384,6 +2385,7 @@ class BatchGetSecretValueResponse {
   }
 }
 
+/// @nodoc
 class CancelRotateSecretResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -2425,6 +2427,7 @@ class CancelRotateSecretResponse {
   }
 }
 
+/// @nodoc
 class CreateSecretResponse {
   /// The ARN of the new secret. The ARN includes the name of the secret followed
   /// by six random characters. This ensures that if you create a new secret with
@@ -2487,6 +2490,7 @@ class CreateSecretResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   /// The ARN of the secret that the resource-based policy was deleted for.
   final String? arn;
@@ -2516,6 +2520,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteSecretResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -2556,6 +2561,7 @@ class DeleteSecretResponse {
   }
 }
 
+/// @nodoc
 class DescribeSecretResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -2827,6 +2833,7 @@ class DescribeSecretResponse {
   }
 }
 
+/// @nodoc
 class GetRandomPasswordResponse {
   /// A string with the password.
   final String? randomPassword;
@@ -2849,6 +2856,7 @@ class GetRandomPasswordResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The ARN of the secret that the resource-based policy was retrieved for.
   final String? arn;
@@ -2888,6 +2896,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetSecretValueResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -2978,6 +2987,7 @@ class GetSecretValueResponse {
   }
 }
 
+/// @nodoc
 class ListSecretsResponse {
   /// Secrets Manager includes this value if there's more output available than
   /// what is included in the current response. This can occur even when the
@@ -3014,6 +3024,7 @@ class ListSecretsResponse {
   }
 }
 
+/// @nodoc
 class ListSecretVersionIdsResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -3065,6 +3076,7 @@ class ListSecretVersionIdsResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -3094,6 +3106,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutSecretValueResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -3142,6 +3155,7 @@ class PutSecretValueResponse {
   }
 }
 
+/// @nodoc
 class RemoveRegionsFromReplicationResponse {
   /// The ARN of the primary secret.
   final String? arn;
@@ -3175,6 +3189,7 @@ class RemoveRegionsFromReplicationResponse {
   }
 }
 
+/// @nodoc
 class ReplicateSecretToRegionsResponse {
   /// The ARN of the primary secret.
   final String? arn;
@@ -3207,6 +3222,7 @@ class ReplicateSecretToRegionsResponse {
   }
 }
 
+/// @nodoc
 class RestoreSecretResponse {
   /// The ARN of the secret that was restored.
   final String? arn;
@@ -3236,6 +3252,7 @@ class RestoreSecretResponse {
   }
 }
 
+/// @nodoc
 class RotateSecretResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -3272,6 +3289,7 @@ class RotateSecretResponse {
   }
 }
 
+/// @nodoc
 class StopReplicationToReplicaResponse {
   /// The ARN of the promoted secret. The ARN is the same as the original primary
   /// secret except the Region is changed.
@@ -3295,6 +3313,7 @@ class StopReplicationToReplicaResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecretResponse {
   /// The ARN of the secret that was updated.
   final String? arn;
@@ -3333,6 +3352,7 @@ class UpdateSecretResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecretVersionStageResponse {
   /// The ARN of the secret that was updated.
   final String? arn;
@@ -3362,6 +3382,7 @@ class UpdateSecretVersionStageResponse {
   }
 }
 
+/// @nodoc
 class ValidateResourcePolicyResponse {
   /// True if your policy passes validation, otherwise false.
   final bool? policyValidationPassed;
@@ -3396,6 +3417,8 @@ class ValidateResourcePolicyResponse {
 }
 
 /// Displays errors that occurred during validation of the resource policy.
+///
+/// @nodoc
 class ValidationErrorsEntry {
   /// Checks the name of the policy.
   final String? checkName;
@@ -3427,6 +3450,8 @@ class ValidationErrorsEntry {
 }
 
 /// A structure that contains information about a tag.
+///
+/// @nodoc
 class Tag {
   /// The key identifier, or name, of the tag.
   final String? key;
@@ -3457,6 +3482,8 @@ class Tag {
 }
 
 /// A structure that defines the rotation configuration for the secret.
+///
+/// @nodoc
 class RotationRulesType {
   /// The number of days between rotations of the secret. You can use this value
   /// to check that your secret meets your compliance guidelines for how often
@@ -3548,6 +3575,8 @@ class RotationRulesType {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
 /// external secret partners</a>.
+///
+/// @nodoc
 class ExternalSecretRotationMetadataItem {
   /// The key that identifies the item.
   final String? key;
@@ -3580,6 +3609,8 @@ class ExternalSecretRotationMetadataItem {
 
 /// A replication object consisting of a <code>RegionReplicationStatus</code>
 /// object and includes a Region, KMSKeyId, status, and status message.
+///
+/// @nodoc
 class ReplicationStatusType {
   /// Can be an <code>ARN</code>, <code>Key ID</code>, or <code>Alias</code>.
   final String? kmsKeyId;
@@ -3634,6 +3665,7 @@ class ReplicationStatusType {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const inSync = StatusType._('InSync');
   static const failed = StatusType._('Failed');
@@ -3660,6 +3692,8 @@ class StatusType {
 
 /// A custom type that specifies a <code>Region</code> and the
 /// <code>KmsKeyId</code> for a replica secret.
+///
+/// @nodoc
 class ReplicaRegionType {
   /// The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't
   /// include this field, Secrets Manager uses <code>aws/secretsmanager</code>.
@@ -3686,6 +3720,8 @@ class ReplicaRegionType {
 }
 
 /// A structure that contains information about one version of a secret.
+///
+/// @nodoc
 class SecretVersionsListEntry {
   /// The date and time this version of the secret was created.
   final DateTime? createdDate;
@@ -3750,6 +3786,8 @@ class SecretVersionsListEntry {
 /// values. To get those values, use <a
 /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html">GetSecretValue</a>
 /// .
+///
+/// @nodoc
 class SecretListEntry {
   /// The Amazon Resource Name (ARN) of the secret.
   final String? arn;
@@ -3967,6 +4005,7 @@ class SecretListEntry {
   }
 }
 
+/// @nodoc
 class SortOrderType {
   static const asc = SortOrderType._('asc');
   static const desc = SortOrderType._('desc');
@@ -3991,6 +4030,7 @@ class SortOrderType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortByType {
   static const createdDate = SortByType._('created-date');
   static const lastAccessedDate = SortByType._('last-accessed-date');
@@ -4020,6 +4060,8 @@ class SortByType {
 /// Manager. For more information, see <a
 /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
 /// secrets in Secrets Manager</a>.
+///
+/// @nodoc
 class Filter {
   /// The following are keys you can use:
   ///
@@ -4070,6 +4112,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterNameStringType {
   static const description = FilterNameStringType._('description');
   static const name = FilterNameStringType._('name');
@@ -4110,6 +4153,8 @@ class FilterNameStringType {
 
 /// The error Secrets Manager encountered while retrieving an individual secret
 /// as part of <a>BatchGetSecretValue</a>.
+///
+/// @nodoc
 class APIErrorType {
   /// The error Secrets Manager encountered while retrieving an individual secret
   /// as part of <a>BatchGetSecretValue</a>, for example
@@ -4151,6 +4196,8 @@ class APIErrorType {
 }
 
 /// A structure that contains the secret value and other details for a secret.
+///
+/// @nodoc
 class SecretValueEntry {
   /// The Amazon Resource Name (ARN) of the secret.
   final String? arn;
@@ -4224,41 +4271,49 @@ class SecretValueEntry {
   }
 }
 
+/// @nodoc
 class DecryptionFailure extends _s.GenericAwsException {
   DecryptionFailure({String? type, String? message})
       : super(type: type, code: 'DecryptionFailure', message: message);
 }
 
+/// @nodoc
 class EncryptionFailure extends _s.GenericAwsException {
   EncryptionFailure({String? type, String? message})
       : super(type: type, code: 'EncryptionFailure', message: message);
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -4267,22 +4322,26 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PreconditionNotMetException extends _s.GenericAwsException {
   PreconditionNotMetException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionNotMetException', message: message);
 }
 
+/// @nodoc
 class PublicPolicyException extends _s.GenericAwsException {
   PublicPolicyException({String? type, String? message})
       : super(type: type, code: 'PublicPolicyException', message: message);
 }
 
+/// @nodoc
 class ResourceExistsException extends _s.GenericAwsException {
   ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

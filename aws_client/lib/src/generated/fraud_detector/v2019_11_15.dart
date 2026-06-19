@@ -3596,6 +3596,7 @@ class FraudDetector {
   }
 }
 
+/// @nodoc
 class BatchCreateVariableResult {
   /// Provides the errors for the <code>BatchCreateVariable</code> request.
   final List<BatchCreateVariableError>? errors;
@@ -3622,6 +3623,7 @@ class BatchCreateVariableResult {
   }
 }
 
+/// @nodoc
 class BatchGetVariableResult {
   /// The errors from the request.
   final List<BatchGetVariableError>? errors;
@@ -3657,6 +3659,7 @@ class BatchGetVariableResult {
   }
 }
 
+/// @nodoc
 class CancelBatchImportJobResult {
   CancelBatchImportJobResult();
 
@@ -3669,6 +3672,7 @@ class CancelBatchImportJobResult {
   }
 }
 
+/// @nodoc
 class CancelBatchPredictionJobResult {
   CancelBatchPredictionJobResult();
 
@@ -3681,6 +3685,7 @@ class CancelBatchPredictionJobResult {
   }
 }
 
+/// @nodoc
 class CreateBatchImportJobResult {
   CreateBatchImportJobResult();
 
@@ -3693,6 +3698,7 @@ class CreateBatchImportJobResult {
   }
 }
 
+/// @nodoc
 class CreateBatchPredictionJobResult {
   CreateBatchPredictionJobResult();
 
@@ -3705,6 +3711,7 @@ class CreateBatchPredictionJobResult {
   }
 }
 
+/// @nodoc
 class CreateDetectorVersionResult {
   /// The ID for the created version's parent detector.
   final String? detectorId;
@@ -3742,6 +3749,7 @@ class CreateDetectorVersionResult {
   }
 }
 
+/// @nodoc
 class CreateListResult {
   CreateListResult();
 
@@ -3754,6 +3762,7 @@ class CreateListResult {
   }
 }
 
+/// @nodoc
 class CreateModelResult {
   CreateModelResult();
 
@@ -3766,6 +3775,7 @@ class CreateModelResult {
   }
 }
 
+/// @nodoc
 class CreateModelVersionResult {
   /// The model ID.
   final String? modelId;
@@ -3809,6 +3819,7 @@ class CreateModelVersionResult {
   }
 }
 
+/// @nodoc
 class CreateRuleResult {
   /// The created rule.
   final Rule? rule;
@@ -3833,6 +3844,7 @@ class CreateRuleResult {
   }
 }
 
+/// @nodoc
 class CreateVariableResult {
   CreateVariableResult();
 
@@ -3845,6 +3857,7 @@ class CreateVariableResult {
   }
 }
 
+/// @nodoc
 class DeleteBatchImportJobResult {
   DeleteBatchImportJobResult();
 
@@ -3857,6 +3870,7 @@ class DeleteBatchImportJobResult {
   }
 }
 
+/// @nodoc
 class DeleteBatchPredictionJobResult {
   DeleteBatchPredictionJobResult();
 
@@ -3869,6 +3883,7 @@ class DeleteBatchPredictionJobResult {
   }
 }
 
+/// @nodoc
 class DeleteDetectorResult {
   DeleteDetectorResult();
 
@@ -3881,6 +3896,7 @@ class DeleteDetectorResult {
   }
 }
 
+/// @nodoc
 class DeleteDetectorVersionResult {
   DeleteDetectorVersionResult();
 
@@ -3893,6 +3909,7 @@ class DeleteDetectorVersionResult {
   }
 }
 
+/// @nodoc
 class DeleteEntityTypeResult {
   DeleteEntityTypeResult();
 
@@ -3905,6 +3922,7 @@ class DeleteEntityTypeResult {
   }
 }
 
+/// @nodoc
 class DeleteEventResult {
   DeleteEventResult();
 
@@ -3917,6 +3935,7 @@ class DeleteEventResult {
   }
 }
 
+/// @nodoc
 class DeleteEventsByEventTypeResult {
   /// Name of event type for which to delete the events.
   final String? eventTypeName;
@@ -3947,6 +3966,7 @@ class DeleteEventsByEventTypeResult {
   }
 }
 
+/// @nodoc
 class DeleteEventTypeResult {
   DeleteEventTypeResult();
 
@@ -3959,6 +3979,7 @@ class DeleteEventTypeResult {
   }
 }
 
+/// @nodoc
 class DeleteExternalModelResult {
   DeleteExternalModelResult();
 
@@ -3971,6 +3992,7 @@ class DeleteExternalModelResult {
   }
 }
 
+/// @nodoc
 class DeleteLabelResult {
   DeleteLabelResult();
 
@@ -3983,6 +4005,7 @@ class DeleteLabelResult {
   }
 }
 
+/// @nodoc
 class DeleteListResult {
   DeleteListResult();
 
@@ -3995,6 +4018,7 @@ class DeleteListResult {
   }
 }
 
+/// @nodoc
 class DeleteModelResult {
   DeleteModelResult();
 
@@ -4007,6 +4031,7 @@ class DeleteModelResult {
   }
 }
 
+/// @nodoc
 class DeleteModelVersionResult {
   DeleteModelVersionResult();
 
@@ -4019,6 +4044,7 @@ class DeleteModelVersionResult {
   }
 }
 
+/// @nodoc
 class DeleteOutcomeResult {
   DeleteOutcomeResult();
 
@@ -4031,6 +4057,7 @@ class DeleteOutcomeResult {
   }
 }
 
+/// @nodoc
 class DeleteRuleResult {
   DeleteRuleResult();
 
@@ -4043,6 +4070,7 @@ class DeleteRuleResult {
   }
 }
 
+/// @nodoc
 class DeleteVariableResult {
   DeleteVariableResult();
 
@@ -4055,6 +4083,7 @@ class DeleteVariableResult {
   }
 }
 
+/// @nodoc
 class DescribeDetectorResult {
   /// The detector ARN.
   final String? arn;
@@ -4103,6 +4132,7 @@ class DescribeDetectorResult {
   }
 }
 
+/// @nodoc
 class DescribeModelVersionsResult {
   /// The model version details.
   final List<ModelVersionDetail>? modelVersionDetails;
@@ -4136,6 +4166,7 @@ class DescribeModelVersionsResult {
   }
 }
 
+/// @nodoc
 class GetBatchImportJobsResult {
   /// An array containing the details of each batch import job.
   final List<BatchImport>? batchImports;
@@ -4168,6 +4199,7 @@ class GetBatchImportJobsResult {
   }
 }
 
+/// @nodoc
 class GetBatchPredictionJobsResult {
   /// An array containing the details of each batch prediction job.
   final List<BatchPrediction>? batchPredictions;
@@ -4200,6 +4232,7 @@ class GetBatchPredictionJobsResult {
   }
 }
 
+/// @nodoc
 class GetDeleteEventsByEventTypeStatusResult {
   /// The event type name.
   final String? eventTypeName;
@@ -4232,6 +4265,7 @@ class GetDeleteEventsByEventTypeStatusResult {
   }
 }
 
+/// @nodoc
 class GetDetectorsResult {
   /// The detectors.
   final List<Detector>? detectors;
@@ -4264,6 +4298,7 @@ class GetDetectorsResult {
   }
 }
 
+/// @nodoc
 class GetDetectorVersionResult {
   /// The detector version ARN.
   final String? arn;
@@ -4378,6 +4413,7 @@ class GetDetectorVersionResult {
   }
 }
 
+/// @nodoc
 class GetEntityTypesResult {
   /// An array of entity types.
   final List<EntityType>? entityTypes;
@@ -4410,6 +4446,7 @@ class GetEntityTypesResult {
   }
 }
 
+/// @nodoc
 class GetEventResult {
   /// The details of the event.
   final Event? event;
@@ -4434,6 +4471,7 @@ class GetEventResult {
   }
 }
 
+/// @nodoc
 class GetEventPredictionResult {
   /// The model scores for Amazon SageMaker models.
   final List<ExternalModelOutputs>? externalModelOutputs;
@@ -4484,6 +4522,7 @@ class GetEventPredictionResult {
   }
 }
 
+/// @nodoc
 class GetEventPredictionMetadataResult {
   /// The detector ID.
   final String? detectorId;
@@ -4629,6 +4668,7 @@ class GetEventPredictionMetadataResult {
   }
 }
 
+/// @nodoc
 class GetEventTypesResult {
   /// An array of event types.
   final List<EventType>? eventTypes;
@@ -4661,6 +4701,7 @@ class GetEventTypesResult {
   }
 }
 
+/// @nodoc
 class GetExternalModelsResult {
   /// Gets the Amazon SageMaker models.
   final List<ExternalModel>? externalModels;
@@ -4693,6 +4734,7 @@ class GetExternalModelsResult {
   }
 }
 
+/// @nodoc
 class GetKMSEncryptionKeyResult {
   /// The KMS encryption key.
   final KMSKey? kmsKey;
@@ -4717,6 +4759,7 @@ class GetKMSEncryptionKeyResult {
   }
 }
 
+/// @nodoc
 class GetLabelsResult {
   /// An array of labels.
   final List<Label>? labels;
@@ -4749,6 +4792,7 @@ class GetLabelsResult {
   }
 }
 
+/// @nodoc
 class GetListElementsResult {
   /// The list elements.
   final List<String>? elements;
@@ -4781,6 +4825,7 @@ class GetListElementsResult {
   }
 }
 
+/// @nodoc
 class GetListsMetadataResult {
   /// The metadata of the specified list or all lists under the account.
   final List<AllowDenyList>? lists;
@@ -4813,6 +4858,7 @@ class GetListsMetadataResult {
   }
 }
 
+/// @nodoc
 class GetModelsResult {
   /// The array of models.
   final List<Model>? models;
@@ -4845,6 +4891,7 @@ class GetModelsResult {
   }
 }
 
+/// @nodoc
 class GetModelVersionResult {
   /// The model version ARN.
   final String? arn;
@@ -4972,6 +5019,7 @@ class GetModelVersionResult {
   }
 }
 
+/// @nodoc
 class GetOutcomesResult {
   /// The next page token for subsequent requests.
   final String? nextToken;
@@ -5004,6 +5052,7 @@ class GetOutcomesResult {
   }
 }
 
+/// @nodoc
 class GetRulesResult {
   /// The next page token to be used in subsequent requests.
   final String? nextToken;
@@ -5036,6 +5085,7 @@ class GetRulesResult {
   }
 }
 
+/// @nodoc
 class GetVariablesResult {
   /// The next page token to be used in subsequent requests.
   final String? nextToken;
@@ -5068,6 +5118,7 @@ class GetVariablesResult {
   }
 }
 
+/// @nodoc
 class ListEventPredictionsResult {
   /// The summary of the past predictions.
   final List<EventPredictionSummary>? eventPredictionSummaries;
@@ -5104,6 +5155,7 @@ class ListEventPredictionsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// The next token for subsequent requests.
   final String? nextToken;
@@ -5136,6 +5188,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class PutDetectorResult {
   PutDetectorResult();
 
@@ -5148,6 +5201,7 @@ class PutDetectorResult {
   }
 }
 
+/// @nodoc
 class PutEntityTypeResult {
   PutEntityTypeResult();
 
@@ -5160,6 +5214,7 @@ class PutEntityTypeResult {
   }
 }
 
+/// @nodoc
 class PutEventTypeResult {
   PutEventTypeResult();
 
@@ -5172,6 +5227,7 @@ class PutEventTypeResult {
   }
 }
 
+/// @nodoc
 class PutExternalModelResult {
   PutExternalModelResult();
 
@@ -5184,6 +5240,7 @@ class PutExternalModelResult {
   }
 }
 
+/// @nodoc
 class PutKMSEncryptionKeyResult {
   PutKMSEncryptionKeyResult();
 
@@ -5196,6 +5253,7 @@ class PutKMSEncryptionKeyResult {
   }
 }
 
+/// @nodoc
 class PutLabelResult {
   PutLabelResult();
 
@@ -5208,6 +5266,7 @@ class PutLabelResult {
   }
 }
 
+/// @nodoc
 class PutOutcomeResult {
   PutOutcomeResult();
 
@@ -5220,6 +5279,7 @@ class PutOutcomeResult {
   }
 }
 
+/// @nodoc
 class SendEventResult {
   SendEventResult();
 
@@ -5232,6 +5292,7 @@ class SendEventResult {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   TagResourceResult();
 
@@ -5244,6 +5305,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   UntagResourceResult();
 
@@ -5256,6 +5318,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdateDetectorVersionResult {
   UpdateDetectorVersionResult();
 
@@ -5268,6 +5331,7 @@ class UpdateDetectorVersionResult {
   }
 }
 
+/// @nodoc
 class UpdateDetectorVersionMetadataResult {
   UpdateDetectorVersionMetadataResult();
 
@@ -5280,6 +5344,7 @@ class UpdateDetectorVersionMetadataResult {
   }
 }
 
+/// @nodoc
 class UpdateDetectorVersionStatusResult {
   UpdateDetectorVersionStatusResult();
 
@@ -5292,6 +5357,7 @@ class UpdateDetectorVersionStatusResult {
   }
 }
 
+/// @nodoc
 class UpdateEventLabelResult {
   UpdateEventLabelResult();
 
@@ -5304,6 +5370,7 @@ class UpdateEventLabelResult {
   }
 }
 
+/// @nodoc
 class UpdateListResult {
   UpdateListResult();
 
@@ -5316,6 +5383,7 @@ class UpdateListResult {
   }
 }
 
+/// @nodoc
 class UpdateModelResult {
   UpdateModelResult();
 
@@ -5328,6 +5396,7 @@ class UpdateModelResult {
   }
 }
 
+/// @nodoc
 class UpdateModelVersionResult {
   /// The model ID.
   final String? modelId;
@@ -5371,6 +5440,7 @@ class UpdateModelVersionResult {
   }
 }
 
+/// @nodoc
 class UpdateModelVersionStatusResult {
   UpdateModelVersionStatusResult();
 
@@ -5383,6 +5453,7 @@ class UpdateModelVersionStatusResult {
   }
 }
 
+/// @nodoc
 class UpdateRuleMetadataResult {
   UpdateRuleMetadataResult();
 
@@ -5395,6 +5466,7 @@ class UpdateRuleMetadataResult {
   }
 }
 
+/// @nodoc
 class UpdateRuleVersionResult {
   /// The new rule version that was created.
   final Rule? rule;
@@ -5419,6 +5491,7 @@ class UpdateRuleVersionResult {
   }
 }
 
+/// @nodoc
 class UpdateVariableResult {
   UpdateVariableResult();
 
@@ -5432,6 +5505,8 @@ class UpdateVariableResult {
 }
 
 /// A rule.
+///
+/// @nodoc
 class Rule {
   /// The detector for which the rule is associated.
   final String detectorId;
@@ -5468,6 +5543,7 @@ class Rule {
   }
 }
 
+/// @nodoc
 class Language {
   static const detectorpl = Language._('DETECTORPL');
 
@@ -5491,6 +5567,8 @@ class Language {
 }
 
 /// A key and value pair.
+///
+/// @nodoc
 class Tag {
   /// A tag key.
   final String key;
@@ -5520,6 +5598,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ModelTypeEnum {
   static const onlineFraudInsights = ModelTypeEnum._('ONLINE_FRAUD_INSIGHTS');
   static const transactionFraudInsights =
@@ -5551,6 +5630,7 @@ class ModelTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelVersionStatus {
   static const active = ModelVersionStatus._('ACTIVE');
   static const inactive = ModelVersionStatus._('INACTIVE');
@@ -5578,6 +5658,8 @@ class ModelVersionStatus {
 }
 
 /// Details for the external events data used for model version training.
+///
+/// @nodoc
 class ExternalEventsDetail {
   /// The ARN of the role that provides Amazon Fraud Detector access to the data
   /// location.
@@ -5609,6 +5691,8 @@ class ExternalEventsDetail {
 }
 
 /// The details of the ingested event.
+///
+/// @nodoc
 class IngestedEventsDetail {
   /// The start and stop time of the ingested events.
   final IngestedEventsTimeWindow ingestedEventsTimeWindow;
@@ -5634,6 +5718,8 @@ class IngestedEventsDetail {
 }
 
 /// The start and stop time of the ingested events.
+///
+/// @nodoc
 class IngestedEventsTimeWindow {
   /// Timestamp of the final ingested event.
   final String endTime;
@@ -5663,6 +5749,7 @@ class IngestedEventsTimeWindow {
   }
 }
 
+/// @nodoc
 class ListUpdateMode {
   static const replace = ListUpdateMode._('REPLACE');
   static const append = ListUpdateMode._('APPEND');
@@ -5688,6 +5775,7 @@ class ListUpdateMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DetectorVersionStatus {
   static const draft = DetectorVersionStatus._('DRAFT');
   static const active = DetectorVersionStatus._('ACTIVE');
@@ -5714,6 +5802,7 @@ class DetectorVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleExecutionMode {
   static const allMatched = RuleExecutionMode._('ALL_MATCHED');
   static const firstMatched = RuleExecutionMode._('FIRST_MATCHED');
@@ -5739,6 +5828,8 @@ class RuleExecutionMode {
 }
 
 /// The model version.
+///
+/// @nodoc
 class ModelVersion {
   /// The model ID.
   final String modelId;
@@ -5783,6 +5874,8 @@ class ModelVersion {
 }
 
 /// The entity details.
+///
+/// @nodoc
 class Entity {
   /// The entity ID. If you do not know the <code>entityId</code>, you can pass
   /// <code>unknown</code>, which is areserved string literal.
@@ -5813,6 +5906,7 @@ class Entity {
   }
 }
 
+/// @nodoc
 class ModelSource {
   static const sagemaker = ModelSource._('SAGEMAKER');
 
@@ -5836,6 +5930,8 @@ class ModelSource {
 }
 
 /// The Amazon SageMaker model input configuration.
+///
+/// @nodoc
 class ModelInputConfiguration {
   /// The event variables.
   final bool useEventVariables;
@@ -5893,6 +5989,8 @@ class ModelInputConfiguration {
 }
 
 /// Provides the Amazon Sagemaker model output configuration.
+///
+/// @nodoc
 class ModelOutputConfiguration {
   /// The format of the model output configuration.
   final ModelOutputDataFormat format;
@@ -5938,6 +6036,7 @@ class ModelOutputConfiguration {
   }
 }
 
+/// @nodoc
 class ModelEndpointStatus {
   static const associated = ModelEndpointStatus._('ASSOCIATED');
   static const dissociated = ModelEndpointStatus._('DISSOCIATED');
@@ -5963,6 +6062,7 @@ class ModelEndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelOutputDataFormat {
   static const textCsv = ModelOutputDataFormat._('TEXT_CSV');
   static const applicationJsonlines =
@@ -5989,6 +6089,7 @@ class ModelOutputDataFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelInputDataFormat {
   static const textCsv = ModelInputDataFormat._('TEXT_CSV');
   static const applicationJson = ModelInputDataFormat._('APPLICATION_JSON');
@@ -6014,6 +6115,7 @@ class ModelInputDataFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class EventIngestion {
   static const enabled = EventIngestion._('ENABLED');
   static const disabled = EventIngestion._('DISABLED');
@@ -6039,6 +6141,8 @@ class EventIngestion {
 }
 
 /// The event orchestration status.
+///
+/// @nodoc
 class EventOrchestration {
   /// Specifies if event orchestration is enabled through Amazon EventBridge.
   final bool eventBridgeEnabled;
@@ -6062,6 +6166,8 @@ class EventOrchestration {
 }
 
 /// Information about the summary of an event prediction.
+///
+/// @nodoc
 class EventPredictionSummary {
   /// The detector ID.
   final String? detectorId;
@@ -6121,6 +6227,8 @@ class EventPredictionSummary {
 }
 
 /// A conditional statement for filtering a list of past predictions.
+///
+/// @nodoc
 class FilterCondition {
   /// A statement containing a resource property and a value to specify filter
   /// condition.
@@ -6139,6 +6247,8 @@ class FilterCondition {
 }
 
 /// The time period for when the predictions were generated.
+///
+/// @nodoc
 class PredictionTimeRange {
   /// The end time of the time period for when the predictions were generated.
   final String endTime;
@@ -6162,6 +6272,8 @@ class PredictionTimeRange {
 }
 
 /// The variable.
+///
+/// @nodoc
 class Variable {
   /// The ARN of the variable.
   final String? arn;
@@ -6251,6 +6363,7 @@ class Variable {
   }
 }
 
+/// @nodoc
 class DataType {
   static const string = DataType._('STRING');
   static const integer = DataType._('INTEGER');
@@ -6277,6 +6390,7 @@ class DataType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSource {
   static const event = DataSource._('EVENT');
   static const modelScore = DataSource._('MODEL_SCORE');
@@ -6302,6 +6416,8 @@ class DataSource {
 }
 
 /// The details of the rule.
+///
+/// @nodoc
 class RuleDetail {
   /// The rule ARN.
   final String? arn;
@@ -6391,6 +6507,8 @@ class RuleDetail {
 }
 
 /// The outcome.
+///
+/// @nodoc
 class Outcome {
   /// The outcome ARN.
   final String? arn;
@@ -6441,6 +6559,7 @@ class Outcome {
   }
 }
 
+/// @nodoc
 class TrainingDataSourceEnum {
   static const externalEvents = TrainingDataSourceEnum._('EXTERNAL_EVENTS');
   static const ingestedEvents = TrainingDataSourceEnum._('INGESTED_EVENTS');
@@ -6467,6 +6586,8 @@ class TrainingDataSourceEnum {
 }
 
 /// The training data schema.
+///
+/// @nodoc
 class TrainingDataSchema {
   /// The training data schema variables.
   final List<String> modelVariables;
@@ -6500,17 +6621,19 @@ class TrainingDataSchema {
 }
 
 /// The label schema.
+///
+/// @nodoc
 class LabelSchema {
   /// The label mapper maps the Amazon Fraud Detector supported model
   /// classification labels (<code>FRAUD</code>, <code>LEGIT</code>) to the
   /// appropriate event type labels. For example, if "<code>FRAUD</code>" and
   /// "<code>LEGIT</code>" are Amazon Fraud Detector supported labels, this mapper
-  /// could be: <code>{"FRAUD" => ["0"]</code>, <code>"LEGIT" => ["1"]}</code> or
-  /// <code>{"FRAUD" => ["false"]</code>, <code>"LEGIT" => ["true"]}</code> or
-  /// <code>{"FRAUD" => ["fraud", "abuse"]</code>, <code>"LEGIT" => ["legit",
-  /// "safe"]}</code>. The value part of the mapper is a list, because you may
-  /// have multiple label variants from your event type for a single Amazon Fraud
-  /// Detector label.
+  /// could be: <code>{"FRAUD" => \["0"\]</code>, <code>"LEGIT" => \["1"\]}</code>
+  /// or <code>{"FRAUD" => \["false"\]</code>, <code>"LEGIT" => \["true"\]}</code>
+  /// or <code>{"FRAUD" => \["fraud", "abuse"\]</code>, <code>"LEGIT" =>
+  /// \["legit", "safe"\]}</code>. The value part of the mapper is a list, because
+  /// you may have multiple label variants from your event type for a single
+  /// Amazon Fraud Detector label.
   final Map<String, List<String>>? labelMapper;
 
   /// The action to take for unlabeled events.
@@ -6564,6 +6687,7 @@ class LabelSchema {
   }
 }
 
+/// @nodoc
 class UnlabeledEventsTreatment {
   static const ignore = UnlabeledEventsTreatment._('IGNORE');
   static const fraud = UnlabeledEventsTreatment._('FRAUD');
@@ -6592,6 +6716,8 @@ class UnlabeledEventsTreatment {
 }
 
 /// The model.
+///
+/// @nodoc
 class Model {
   /// The ARN of the model.
   final String? arn;
@@ -6657,6 +6783,8 @@ class Model {
 }
 
 /// The metadata of a list.
+///
+/// @nodoc
 class AllowDenyList {
   /// The name of the list.
   final String name;
@@ -6715,6 +6843,8 @@ class AllowDenyList {
 }
 
 /// The label details.
+///
+/// @nodoc
 class Label {
   /// The label ARN.
   final String? arn;
@@ -6766,6 +6896,8 @@ class Label {
 }
 
 /// The KMS key details.
+///
+/// @nodoc
 class KMSKey {
   /// The encryption key ARN.
   final String? kmsEncryptionKeyArn;
@@ -6790,6 +6922,8 @@ class KMSKey {
 }
 
 /// The Amazon SageMaker model.
+///
+/// @nodoc
 class ExternalModel {
   /// The model ARN.
   final String? arn;
@@ -6880,6 +7014,8 @@ class ExternalModel {
 }
 
 /// The event type details.
+///
+/// @nodoc
 class EventType {
   /// The entity type ARN.
   final String? arn;
@@ -6992,6 +7128,8 @@ class EventType {
 }
 
 /// Data about the stored events.
+///
+/// @nodoc
 class IngestedEventStatistics {
   /// The total size of the stored events.
   final int? eventDataSizeInBytes;
@@ -7045,6 +7183,8 @@ class IngestedEventStatistics {
 
 /// The details of the external (Amazon Sagemaker) model evaluated for
 /// generating predictions.
+///
+/// @nodoc
 class EvaluatedExternalModel {
   /// Input variables use for generating predictions.
   final Map<String, String>? inputVariables;
@@ -7091,6 +7231,8 @@ class EvaluatedExternalModel {
 }
 
 /// The model version evaluated for generating prediction.
+///
+/// @nodoc
 class EvaluatedModelVersion {
   /// Evaluations generated for the model version.
   final List<ModelVersionEvaluation>? evaluations;
@@ -7142,6 +7284,8 @@ class EvaluatedModelVersion {
 }
 
 /// The model version evalutions.
+///
+/// @nodoc
 class ModelVersionEvaluation {
   /// The evaluation score generated for the model version.
   final String? evaluationScore;
@@ -7184,6 +7328,8 @@ class ModelVersionEvaluation {
 
 /// The prediction explanations that provide insight into how each event
 /// variable impacted the model version's fraud prediction score.
+///
+/// @nodoc
 class PredictionExplanations {
   /// The details of the aggregated variables impact on the prediction score.
   ///
@@ -7242,6 +7388,8 @@ class PredictionExplanations {
 /// times an user has logged in using the same IP address. In this case, event
 /// variables used to derive the aggregated variables are <code>IP
 /// address</code> and <code>user</code>.
+///
+/// @nodoc
 class AggregatedVariablesImpactExplanation {
   /// The names of all the event variables that were used to derive the aggregated
   /// variables.
@@ -7296,6 +7444,8 @@ class AggregatedVariablesImpactExplanation {
 }
 
 /// The details of the event variable's impact on the prediction score.
+///
+/// @nodoc
 class VariableImpactExplanation {
   /// The event variable name.
   final String? eventVariableName;
@@ -7347,6 +7497,8 @@ class VariableImpactExplanation {
 }
 
 /// The details of the rule used for evaluating variable values.
+///
+/// @nodoc
 class EvaluatedRule {
   /// Indicates whether the rule was evaluated.
   final bool? evaluated;
@@ -7417,6 +7569,8 @@ class EvaluatedRule {
 
 /// Information about the summary of an event variable that was evaluated for
 /// generating prediction.
+///
+/// @nodoc
 class EventVariableSummary {
   /// The event variable name.
   final String? name;
@@ -7454,6 +7608,8 @@ class EventVariableSummary {
 }
 
 /// The fraud prediction scores from Amazon SageMaker model.
+///
+/// @nodoc
 class ExternalModelOutputs {
   /// The Amazon SageMaker model.
   final ExternalModelSummary? externalModel;
@@ -7488,6 +7644,8 @@ class ExternalModelOutputs {
 }
 
 /// The Amazon SageMaker model.
+///
+/// @nodoc
 class ExternalModelSummary {
   /// The endpoint of the Amazon SageMaker model.
   final String? modelEndpoint;
@@ -7519,6 +7677,8 @@ class ExternalModelSummary {
 }
 
 /// The rule results.
+///
+/// @nodoc
 class RuleResult {
   /// The outcomes of the matched rule, based on the rule execution mode.
   final List<String>? outcomes;
@@ -7552,6 +7712,8 @@ class RuleResult {
 }
 
 /// The fraud prediction scores.
+///
+/// @nodoc
 class ModelScores {
   /// The model version.
   final ModelVersion? modelVersion;
@@ -7587,6 +7749,8 @@ class ModelScores {
 /// A pre-formed Amazon SageMaker model input you can include if your detector
 /// version includes an imported Amazon SageMaker model endpoint with
 /// pass-through input configuration.
+///
+/// @nodoc
 class ModelEndpointDataBlob {
   /// The byte buffer of the Amazon SageMaker model endpoint input data blob.
   final Uint8List? byteBuffer;
@@ -7610,6 +7774,8 @@ class ModelEndpointDataBlob {
 }
 
 /// The event details.
+///
+/// @nodoc
 class Event {
   /// The label associated with the event.
   final String? currentLabel;
@@ -7683,6 +7849,8 @@ class Event {
 }
 
 /// The entity type details.
+///
+/// @nodoc
 class EntityType {
   /// The entity type ARN.
   final String? arn;
@@ -7734,6 +7902,8 @@ class EntityType {
 }
 
 /// The detector.
+///
+/// @nodoc
 class Detector {
   /// The detector ARN.
   final String? arn;
@@ -7791,6 +7961,7 @@ class Detector {
   }
 }
 
+/// @nodoc
 class AsyncJobStatus {
   static const inProgressInitializing =
       AsyncJobStatus._('IN_PROGRESS_INITIALIZING');
@@ -7828,6 +7999,8 @@ class AsyncJobStatus {
 }
 
 /// The batch prediction details.
+///
+/// @nodoc
 class BatchPrediction {
   /// The ARN of batch prediction job.
   final String? arn;
@@ -7951,6 +8124,8 @@ class BatchPrediction {
 }
 
 /// The batch import job details.
+///
+/// @nodoc
 class BatchImport {
   /// The ARN of the batch import job.
   final String? arn;
@@ -8059,6 +8234,8 @@ class BatchImport {
 }
 
 /// The details of the model version.
+///
+/// @nodoc
 class ModelVersionDetail {
   /// The model version ARN.
   final String? arn;
@@ -8190,6 +8367,8 @@ class ModelVersionDetail {
 }
 
 /// The training result details.
+///
+/// @nodoc
 class TrainingResult {
   /// The validation metrics.
   final DataValidationMetrics? dataValidationMetrics;
@@ -8238,6 +8417,8 @@ class TrainingResult {
 }
 
 /// The training result details.
+///
+/// @nodoc
 class TrainingResultV2 {
   /// The variable importance metrics of the aggregated variables.
   ///
@@ -8305,6 +8486,8 @@ class TrainingResultV2 {
 }
 
 /// The model training data validation metrics.
+///
+/// @nodoc
 class DataValidationMetrics {
   /// The field-specific model training validation messages.
   final List<FieldValidationMessage>? fieldLevelMessages;
@@ -8342,6 +8525,8 @@ class DataValidationMetrics {
 }
 
 /// The training metrics details.
+///
+/// @nodoc
 class TrainingMetricsV2 {
   /// The Account Takeover Insights (ATI) model training metric details.
   final ATITrainingMetricsValue? ati;
@@ -8388,6 +8573,8 @@ class TrainingMetricsV2 {
 }
 
 /// The variable importance metrics details.
+///
+/// @nodoc
 class VariableImportanceMetrics {
   /// List of variable metrics.
   final List<LogOddsMetric>? logOddsMetrics;
@@ -8421,6 +8608,8 @@ class VariableImportanceMetrics {
 /// calculate the number of times an user has logged in using the same IP
 /// address. In this case, event variables used to derive the aggregated
 /// variables are <code>IP address</code> and <code>user</code>.
+///
+/// @nodoc
 class AggregatedVariablesImportanceMetrics {
   /// List of variables' metrics.
   final List<AggregatedLogOddsMetric>? logOddsMetrics;
@@ -8456,6 +8645,8 @@ class AggregatedVariablesImportanceMetrics {
 /// calculate the number of times an user has logged in using the same IP
 /// address. In this case, event variables used to derive the aggregated
 /// variables are <code>IP address</code> and <code>user</code>.
+///
+/// @nodoc
 class AggregatedLogOddsMetric {
   /// The relative importance of the variables in the list to the other event
   /// variable.
@@ -8491,6 +8682,8 @@ class AggregatedLogOddsMetric {
 }
 
 /// The log odds metric details.
+///
+/// @nodoc
 class LogOddsMetric {
   /// The relative importance of the variable. For more information, see <a
   /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/model-variable-importance.html">Model
@@ -8530,6 +8723,8 @@ class LogOddsMetric {
 }
 
 /// The Online Fraud Insights (OFI) model training metric details.
+///
+/// @nodoc
 class OFITrainingMetricsValue {
   /// The model's performance metrics data points.
   final List<OFIMetricDataPoint>? metricDataPoints;
@@ -8566,6 +8761,8 @@ class OFITrainingMetricsValue {
 }
 
 /// The Transaction Fraud Insights (TFI) model training metric details.
+///
+/// @nodoc
 class TFITrainingMetricsValue {
   /// The model's performance metrics data points.
   final List<TFIMetricDataPoint>? metricDataPoints;
@@ -8602,6 +8799,8 @@ class TFITrainingMetricsValue {
 }
 
 /// The Account Takeover Insights (ATI) model training metric details.
+///
+/// @nodoc
 class ATITrainingMetricsValue {
   /// The model's performance metrics data points.
   final List<ATIMetricDataPoint>? metricDataPoints;
@@ -8638,6 +8837,8 @@ class ATITrainingMetricsValue {
 }
 
 /// The Account Takeover Insights (ATI) model performance score.
+///
+/// @nodoc
 class ATIModelPerformance {
   /// The anomaly separation index (ASI) score. This metric summarizes the overall
   /// ability of the model to separate anomalous activities from the normal
@@ -8667,6 +8868,8 @@ class ATIModelPerformance {
 }
 
 /// The Account Takeover Insights (ATI) model performance metrics data points.
+///
+/// @nodoc
 class ATIMetricDataPoint {
   /// The anomaly discovery rate. This metric quantifies the percentage of
   /// anomalies that can be detected by the model at the selected score threshold.
@@ -8723,6 +8926,8 @@ class ATIMetricDataPoint {
 }
 
 /// The Transaction Fraud Insights (TFI) model performance score.
+///
+/// @nodoc
 class TFIModelPerformance {
   /// The area under the curve (auc). This summarizes the total positive rate
   /// (tpr) and false positive rate (FPR) across all possible model score
@@ -8761,6 +8966,8 @@ class TFIModelPerformance {
 /// Range of area under curve (auc) expected from the model. A range greater
 /// than 0.1 indicates higher model uncertainity. A range is the difference
 /// between upper and lower bound of auc.
+///
+/// @nodoc
 class UncertaintyRange {
   /// The lower bound value of the area under curve (auc).
   final double lowerBoundValue;
@@ -8792,6 +8999,8 @@ class UncertaintyRange {
 
 /// The performance metrics data points for Transaction Fraud Insights (TFI)
 /// model.
+///
+/// @nodoc
 class TFIMetricDataPoint {
   /// The false positive rate. This is the percentage of total legitimate events
   /// that are incorrectly predicted as fraud.
@@ -8841,6 +9050,8 @@ class TFIMetricDataPoint {
 }
 
 /// The Online Fraud Insights (OFI) model performance score.
+///
+/// @nodoc
 class OFIModelPerformance {
   /// The area under the curve (auc). This summarizes the total positive rate
   /// (tpr) and false positive rate (FPR) across all possible model score
@@ -8877,6 +9088,8 @@ class OFIModelPerformance {
 }
 
 /// The Online Fraud Insights (OFI) model performance metrics data points.
+///
+/// @nodoc
 class OFIMetricDataPoint {
   /// The false positive rate. This is the percentage of total legitimate events
   /// that are incorrectly predicted as fraud.
@@ -8926,6 +9139,8 @@ class OFIMetricDataPoint {
 }
 
 /// The message details.
+///
+/// @nodoc
 class FieldValidationMessage {
   /// The message content.
   final String? content;
@@ -8977,6 +9192,8 @@ class FieldValidationMessage {
 }
 
 /// The message details.
+///
+/// @nodoc
 class FileValidationMessage {
   /// The message content.
   final String? content;
@@ -9014,6 +9231,8 @@ class FileValidationMessage {
 }
 
 /// The training metric details.
+///
+/// @nodoc
 class TrainingMetrics {
   /// The area under the curve. This summarizes true positive rate (TPR) and false
   /// positive rate (FPR) across all possible model score thresholds. A model with
@@ -9050,6 +9269,8 @@ class TrainingMetrics {
 }
 
 /// Model performance metrics data points.
+///
+/// @nodoc
 class MetricDataPoint {
   /// The false positive rate. This is the percentage of total legitimate events
   /// that are incorrectly predicted as fraud.
@@ -9099,6 +9320,8 @@ class MetricDataPoint {
 }
 
 /// The summary of the detector version.
+///
+/// @nodoc
 class DetectorVersionSummary {
   /// The detector version description.
   final String? description;
@@ -9144,6 +9367,8 @@ class DetectorVersionSummary {
 }
 
 /// Provides the error of the batch get variable API.
+///
+/// @nodoc
 class BatchGetVariableError {
   /// The error code.
   final int? code;
@@ -9181,6 +9406,8 @@ class BatchGetVariableError {
 }
 
 /// Provides the error of the batch create variable API.
+///
+/// @nodoc
 class BatchCreateVariableError {
   /// The error code.
   final int? code;
@@ -9218,6 +9445,8 @@ class BatchCreateVariableError {
 }
 
 /// A variable in the list of variables for the batch create variable request.
+///
+/// @nodoc
 class VariableEntry {
   /// The data source of the variable.
   final String? dataSource;
@@ -9275,37 +9504,44 @@ class VariableEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

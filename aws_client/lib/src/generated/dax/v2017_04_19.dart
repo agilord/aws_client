@@ -1207,6 +1207,7 @@ class Dax {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// A description of the DAX cluster that you have created.
   final Cluster? cluster;
@@ -1231,6 +1232,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateParameterGroupResponse {
   /// Represents the output of a <i>CreateParameterGroup</i> action.
   final ParameterGroup? parameterGroup;
@@ -1256,6 +1258,7 @@ class CreateParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateSubnetGroupResponse {
   /// Represents the output of a <i>CreateSubnetGroup</i> operation.
   final SubnetGroup? subnetGroup;
@@ -1280,6 +1283,7 @@ class CreateSubnetGroupResponse {
   }
 }
 
+/// @nodoc
 class DecreaseReplicationFactorResponse {
   /// A description of the DAX cluster, after you have decreased its replication
   /// factor.
@@ -1306,6 +1310,7 @@ class DecreaseReplicationFactorResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// A description of the DAX cluster that is being deleted.
   final Cluster? cluster;
@@ -1330,6 +1335,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteParameterGroupResponse {
   /// A user-specified message for this action (i.e., a reason for deleting the
   /// parameter group).
@@ -1353,6 +1359,7 @@ class DeleteParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteSubnetGroupResponse {
   /// A user-specified message for this action (i.e., a reason for deleting the
   /// subnet group).
@@ -1376,6 +1383,7 @@ class DeleteSubnetGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeClustersResponse {
   /// The descriptions of your DAX clusters, in response to a
   /// <i>DescribeClusters</i> request.
@@ -1409,6 +1417,7 @@ class DescribeClustersResponse {
   }
 }
 
+/// @nodoc
 class DescribeDefaultParametersResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? nextToken;
@@ -1442,6 +1451,7 @@ class DescribeDefaultParametersResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventsResponse {
   /// An array of events. Each element in the array represents one event.
   final List<Event>? events;
@@ -1474,6 +1484,7 @@ class DescribeEventsResponse {
   }
 }
 
+/// @nodoc
 class DescribeParameterGroupsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? nextToken;
@@ -1507,6 +1518,7 @@ class DescribeParameterGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeParametersResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? nextToken;
@@ -1540,6 +1552,7 @@ class DescribeParametersResponse {
   }
 }
 
+/// @nodoc
 class DescribeSubnetGroupsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? nextToken;
@@ -1573,6 +1586,7 @@ class DescribeSubnetGroupsResponse {
   }
 }
 
+/// @nodoc
 class IncreaseReplicationFactorResponse {
   /// A description of the DAX cluster, with its new replication factor.
   final Cluster? cluster;
@@ -1598,6 +1612,7 @@ class IncreaseReplicationFactorResponse {
   }
 }
 
+/// @nodoc
 class ListTagsResponse {
   /// If this value is present, there are additional results to be displayed. To
   /// retrieve them, call <code>ListTags</code> again, with <code>NextToken</code>
@@ -1632,6 +1647,7 @@ class ListTagsResponse {
   }
 }
 
+/// @nodoc
 class RebootNodeResponse {
   /// A description of the DAX cluster after a node has been rebooted.
   final Cluster? cluster;
@@ -1656,6 +1672,7 @@ class RebootNodeResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   /// The list of tags that are associated with the DAX resource.
   final List<Tag>? tags;
@@ -1681,6 +1698,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   /// The tag keys that have been removed from the cluster.
   final List<Tag>? tags;
@@ -1706,6 +1724,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterResponse {
   /// A description of the DAX cluster, after it has been modified.
   final Cluster? cluster;
@@ -1730,6 +1749,7 @@ class UpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class UpdateParameterGroupResponse {
   /// The parameter group that has been modified.
   final ParameterGroup? parameterGroup;
@@ -1755,6 +1775,7 @@ class UpdateParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubnetGroupResponse {
   /// The subnet group that has been modified.
   final SubnetGroup? subnetGroup;
@@ -1789,6 +1810,8 @@ class UpdateSubnetGroupResponse {
 /// <i>ModifySubnetGroup</i>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SubnetGroup {
   /// The description of the subnet group.
   final String? description;
@@ -1850,6 +1873,7 @@ class SubnetGroup {
   }
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('ipv4');
   static const ipv6 = NetworkType._('ipv6');
@@ -1877,6 +1901,8 @@ class NetworkType {
 /// Represents the subnet associated with a DAX cluster. This parameter refers
 /// to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used
 /// with DAX.
+///
+/// @nodoc
 class Subnet {
   /// The Availability Zone (AZ) for the subnet.
   final String? subnetAvailabilityZone;
@@ -1923,6 +1949,8 @@ class Subnet {
 
 /// A named set of parameters that are applied to all of the nodes in a DAX
 /// cluster.
+///
+/// @nodoc
 class ParameterGroup {
   /// A description of the parameter group.
   final String? description;
@@ -1953,6 +1981,8 @@ class ParameterGroup {
 }
 
 /// An individual DAX parameter.
+///
+/// @nodoc
 class ParameterNameValue {
   /// The name of the parameter.
   final String? parameterName;
@@ -1976,6 +2006,8 @@ class ParameterNameValue {
 }
 
 /// Contains all of the attributes of a specific DAX cluster.
+///
+/// @nodoc
 class Cluster {
   /// The number of nodes in the cluster that are active (i.e., capable of serving
   /// requests).
@@ -2188,6 +2220,8 @@ class Cluster {
 
 /// Represents the information required for client programs to connect to the
 /// endpoint for a DAX cluster.
+///
+/// @nodoc
 class Endpoint {
   /// The DNS hostname of the endpoint.
   final String? address;
@@ -2228,6 +2262,8 @@ class Endpoint {
 /// Describes a notification topic and its status. Notification topics are used
 /// for publishing DAX events to subscribers using Amazon Simple Notification
 /// Service (SNS).
+///
+/// @nodoc
 class NotificationConfiguration {
   /// The Amazon Resource Name (ARN) that identifies the topic.
   final String? topicArn;
@@ -2260,6 +2296,8 @@ class NotificationConfiguration {
 }
 
 /// The status of a parameter group.
+///
+/// @nodoc
 class ParameterGroupStatus {
   /// The node IDs of one or more nodes to be rebooted.
   final List<String>? nodeIdsToReboot;
@@ -2302,6 +2340,8 @@ class ParameterGroupStatus {
 
 /// The description of the server-side encryption status on the specified DAX
 /// cluster.
+///
+/// @nodoc
 class SSEDescription {
   /// The current state of server-side encryption:
   ///
@@ -2339,6 +2379,7 @@ class SSEDescription {
   }
 }
 
+/// @nodoc
 class ClusterEndpointEncryptionType {
   static const none = ClusterEndpointEncryptionType._('NONE');
   static const tls = ClusterEndpointEncryptionType._('TLS');
@@ -2364,6 +2405,7 @@ class ClusterEndpointEncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class SSEStatus {
   static const enabling = SSEStatus._('ENABLING');
   static const enabled = SSEStatus._('ENABLED');
@@ -2390,6 +2432,8 @@ class SSEStatus {
 }
 
 /// An individual VPC security group and its status.
+///
+/// @nodoc
 class SecurityGroupMembership {
   /// The unique ID for this security group.
   final String? securityGroupIdentifier;
@@ -2421,6 +2465,8 @@ class SecurityGroupMembership {
 }
 
 /// Represents an individual node within a DAX cluster.
+///
+/// @nodoc
 class Node {
   /// The Availability Zone (AZ) in which the node has been deployed.
   final String? availabilityZone;
@@ -2495,6 +2541,8 @@ class Node {
 /// User-assigned tag names have the prefix <code>user:</code>.
 ///
 /// You cannot backdate the application of a tag.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only
   /// have one tag with the same key. If you try to add an existing tag (same
@@ -2527,6 +2575,8 @@ class Tag {
 }
 
 /// Describes an individual setting that controls some aspect of DAX behavior.
+///
+/// @nodoc
 class Parameter {
   /// A range of values within which the parameter can be set.
   final String? allowedValues;
@@ -2622,6 +2672,7 @@ class Parameter {
   }
 }
 
+/// @nodoc
 class ParameterType {
   static const $default = ParameterType._('DEFAULT');
   static const nodeTypeSpecific = ParameterType._('NODE_TYPE_SPECIFIC');
@@ -2646,6 +2697,7 @@ class ParameterType {
   String toString() => value;
 }
 
+/// @nodoc
 class IsModifiable {
   static const $true = IsModifiable._('TRUE');
   static const $false = IsModifiable._('FALSE');
@@ -2670,6 +2722,7 @@ class IsModifiable {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeType {
   static const immediate = ChangeType._('IMMEDIATE');
   static const requiresReboot = ChangeType._('REQUIRES_REBOOT');
@@ -2694,6 +2747,8 @@ class ChangeType {
 }
 
 /// Represents a parameter value that is applicable to a particular node type.
+///
+/// @nodoc
 class NodeTypeSpecificValue {
   /// A node type to which the parameter value applies.
   final String? nodeType;
@@ -2726,6 +2781,8 @@ class NodeTypeSpecificValue {
 /// Represents a single occurrence of something interesting within the system.
 /// Some examples of events are creating a DAX cluster, adding or removing a
 /// node, or rebooting a node.
+///
+/// @nodoc
 class Event {
   /// The date and time when the event occurred.
   final DateTime? date;
@@ -2771,6 +2828,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const cluster = SourceType._('CLUSTER');
   static const parameterGroup = SourceType._('PARAMETER_GROUP');
@@ -2796,6 +2854,8 @@ class SourceType {
 }
 
 /// Represents the settings used to enable server-side encryption.
+///
+/// @nodoc
 class SSESpecification {
   /// Indicates whether server-side encryption is enabled (true) or disabled
   /// (false) on the cluster.
@@ -2813,16 +2873,19 @@ class SSESpecification {
   }
 }
 
+/// @nodoc
 class ClusterAlreadyExistsFault extends _s.GenericAwsException {
   ClusterAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ClusterAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class ClusterNotFoundFault extends _s.GenericAwsException {
   ClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
   ClusterQuotaForCustomerExceededFault({String? type, String? message})
       : super(
@@ -2831,6 +2894,7 @@ class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientClusterCapacityFault extends _s.GenericAwsException {
   InsufficientClusterCapacityFault({String? type, String? message})
       : super(
@@ -2839,16 +2903,19 @@ class InsufficientClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidARNFault extends _s.GenericAwsException {
   InvalidARNFault({String? type, String? message})
       : super(type: type, code: 'InvalidARNFault', message: message);
 }
 
+/// @nodoc
 class InvalidClusterStateFault extends _s.GenericAwsException {
   InvalidClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -2857,6 +2924,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterGroupStateFault extends _s.GenericAwsException {
   InvalidParameterGroupStateFault({String? type, String? message})
       : super(
@@ -2865,6 +2933,7 @@ class InvalidParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -2873,22 +2942,26 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class NodeNotFoundFault extends _s.GenericAwsException {
   NodeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'NodeNotFoundFault', message: message);
 }
 
+/// @nodoc
 class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
   NodeQuotaForClusterExceededFault({String? type, String? message})
       : super(
@@ -2897,6 +2970,7 @@ class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
   NodeQuotaForCustomerExceededFault({String? type, String? message})
       : super(
@@ -2905,6 +2979,7 @@ class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   ParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -2913,12 +2988,14 @@ class ParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterGroupNotFoundFault extends _s.GenericAwsException {
   ParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ParameterGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   ParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -2927,6 +3004,7 @@ class ParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
   ServiceLinkedRoleNotFoundFault({String? type, String? message})
       : super(
@@ -2935,6 +3013,7 @@ class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2943,6 +3022,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   SubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -2951,16 +3031,19 @@ class SubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubnetGroupInUseFault extends _s.GenericAwsException {
   SubnetGroupInUseFault({String? type, String? message})
       : super(type: type, code: 'SubnetGroupInUseFault', message: message);
 }
 
+/// @nodoc
 class SubnetGroupNotFoundFault extends _s.GenericAwsException {
   SubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubnetGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   SubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -2969,26 +3052,31 @@ class SubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubnetInUse extends _s.GenericAwsException {
   SubnetInUse({String? type, String? message})
       : super(type: type, code: 'SubnetInUse', message: message);
 }
 
+/// @nodoc
 class SubnetNotAllowedFault extends _s.GenericAwsException {
   SubnetNotAllowedFault({String? type, String? message})
       : super(type: type, code: 'SubnetNotAllowedFault', message: message);
 }
 
+/// @nodoc
 class SubnetQuotaExceededFault extends _s.GenericAwsException {
   SubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SubnetQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class TagNotFoundFault extends _s.GenericAwsException {
   TagNotFoundFault({String? type, String? message})
       : super(type: type, code: 'TagNotFoundFault', message: message);
 }
 
+/// @nodoc
 class TagQuotaPerResourceExceeded extends _s.GenericAwsException {
   TagQuotaPerResourceExceeded({String? type, String? message})
       : super(

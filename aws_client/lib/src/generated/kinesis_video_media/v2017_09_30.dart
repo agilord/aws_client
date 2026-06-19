@@ -149,6 +149,7 @@ class KinesisVideoMedia {
   }
 }
 
+/// @nodoc
 class GetMediaOutput {
   /// The content type of the requested media.
   final String? contentType;
@@ -261,6 +262,8 @@ class GetMediaOutput {
 /// starting where the last API ended.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class StartSelector {
   /// Identifies the fragment on the Kinesis video stream where you want to start
   /// getting the data from.
@@ -329,6 +332,7 @@ class StartSelector {
   }
 }
 
+/// @nodoc
 class StartSelectorType {
   static const fragmentNumber = StartSelectorType._('FRAGMENT_NUMBER');
   static const serverTimestamp = StartSelectorType._('SERVER_TIMESTAMP');
@@ -364,12 +368,14 @@ class StartSelectorType {
   String toString() => value;
 }
 
+/// @nodoc
 class ClientLimitExceededException extends _s.GenericAwsException {
   ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ConnectionLimitExceededException extends _s.GenericAwsException {
   ConnectionLimitExceededException({String? type, String? message})
       : super(
@@ -378,21 +384,25 @@ class ConnectionLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidEndpointException extends _s.GenericAwsException {
   InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

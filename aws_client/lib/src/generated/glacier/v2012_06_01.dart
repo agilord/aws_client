@@ -2177,6 +2177,8 @@ class Glacier {
 /// Archive</a>. For conceptual information, see <a
 /// href="https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html">Working
 /// with Archives in Amazon Glacier</a>.
+///
+/// @nodoc
 class ArchiveCreationOutput {
   /// The ID of the archive. This value is also included as part of the location.
   final String? archiveId;
@@ -2202,6 +2204,8 @@ class ArchiveCreationOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class CreateVaultOutput {
   /// The URI of the vault that was created.
   final String? location;
@@ -2217,6 +2221,8 @@ class CreateVaultOutput {
 }
 
 /// Contains the description of an Amazon S3 Glacier job.
+///
+/// @nodoc
 class GlacierJobDescription {
   /// The job type. This value is either <code>ArchiveRetrieval</code>,
   /// <code>InventoryRetrieval</code>, or <code>Select</code>.
@@ -2442,6 +2448,8 @@ class GlacierJobDescription {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class DescribeVaultOutput {
   /// The Universal Coordinated Time (UTC) date when the vault was created. This
   /// value should be a string in the ISO 8601 date format, for example
@@ -2509,6 +2517,8 @@ class DescribeVaultOutput {
 
 /// Contains the Amazon Glacier response to the
 /// <code>GetDataRetrievalPolicy</code> request.
+///
+/// @nodoc
 class GetDataRetrievalPolicyOutput {
   /// Contains the returned data retrieval policy in JSON format.
   final DataRetrievalPolicy? policy;
@@ -2534,6 +2544,8 @@ class GetDataRetrievalPolicyOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class GetJobOutputOutput {
   /// Indicates the range units accepted. For more information, see <a
   /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">RFC2616</a>.
@@ -2611,6 +2623,8 @@ class GetJobOutputOutput {
 }
 
 /// Output for GetVaultAccessPolicy.
+///
+/// @nodoc
 class GetVaultAccessPolicyOutput {
   /// Contains the returned vault access policy as a JSON string.
   final VaultAccessPolicy? policy;
@@ -2628,6 +2642,8 @@ class GetVaultAccessPolicyOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class GetVaultLockOutput {
   /// The UTC date and time at which the vault lock was put into the
   /// <code>InProgress</code> state.
@@ -2675,6 +2691,8 @@ class GetVaultLockOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class GetVaultNotificationsOutput {
   /// Returns the notification configuration set on the vault.
   final VaultNotificationConfig? vaultNotificationConfig;
@@ -2693,6 +2711,8 @@ class GetVaultNotificationsOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class InitiateJobOutput {
   /// The ID of the job.
   final String? jobId;
@@ -2718,6 +2738,8 @@ class InitiateJobOutput {
 }
 
 /// The Amazon Glacier response to your request.
+///
+/// @nodoc
 class InitiateMultipartUploadOutput {
   /// The relative URI path of the multipart upload ID Amazon Glacier created.
   final String? location;
@@ -2739,6 +2761,8 @@ class InitiateMultipartUploadOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class InitiateVaultLockOutput {
   /// The lock ID, which is used to complete the vault locking process.
   final String? lockId;
@@ -2754,6 +2778,8 @@ class InitiateVaultLockOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class ListJobsOutput {
   /// A list of job objects. Each job object contains metadata describing the job.
   final List<GlacierJobDescription>? jobList;
@@ -2791,6 +2817,8 @@ class ListJobsOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class ListMultipartUploadsOutput {
   /// An opaque string that represents where to continue pagination of the
   /// results. You use the marker in a new List Multipart Uploads request to
@@ -2827,6 +2855,8 @@ class ListMultipartUploadsOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class ListPartsOutput {
   /// The description of the archive that was specified in the Initiate Multipart
   /// Upload request.
@@ -2901,6 +2931,7 @@ class ListPartsOutput {
   }
 }
 
+/// @nodoc
 class ListProvisionedCapacityOutput {
   /// The response body contains the following JSON fields.
   final List<ProvisionedCapacityDescription>? provisionedCapacityList;
@@ -2929,6 +2960,8 @@ class ListProvisionedCapacityOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class ListTagsForVaultOutput {
   /// The tags attached to the vault. Each tag is composed of a key and a value.
   final Map<String, String>? tags;
@@ -2953,6 +2986,8 @@ class ListTagsForVaultOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class ListVaultsOutput {
   /// The vault ARN at which to continue pagination of the results. You use the
   /// marker in another List Vaults request to obtain more vaults in the list.
@@ -2986,6 +3021,7 @@ class ListVaultsOutput {
   }
 }
 
+/// @nodoc
 class PurchaseProvisionedCapacityOutput {
   /// The ID that identifies the provisioned capacity unit.
   final String? capacityId;
@@ -3001,6 +3037,8 @@ class PurchaseProvisionedCapacityOutput {
 }
 
 /// Contains the Amazon Glacier response to your request.
+///
+/// @nodoc
 class UploadMultipartPartOutput {
   /// The SHA256 tree hash that Amazon Glacier computed for the uploaded part.
   final String? checksum;
@@ -3016,6 +3054,8 @@ class UploadMultipartPartOutput {
 }
 
 /// Represents a vault's notification configuration.
+///
+/// @nodoc
 class VaultNotificationConfig {
   /// A list of one or more events for which Amazon Glacier will send a
   /// notification to the specified Amazon SNS topic.
@@ -3049,6 +3089,8 @@ class VaultNotificationConfig {
 }
 
 /// Contains the vault access policy.
+///
+/// @nodoc
 class VaultAccessPolicy {
   /// The vault access policy.
   final String? policy;
@@ -3072,6 +3114,8 @@ class VaultAccessPolicy {
 }
 
 /// Data retrieval policy.
+///
+/// @nodoc
 class DataRetrievalPolicy {
   /// The policy rule. Although this is a list type, currently there must be only
   /// one rule, which contains a Strategy field and optionally a BytesPerHour
@@ -3100,6 +3144,8 @@ class DataRetrievalPolicy {
 }
 
 /// Data retrieval policy rule.
+///
+/// @nodoc
 class DataRetrievalRule {
   /// The maximum number of bytes that can be retrieved in an hour.
   ///
@@ -3137,6 +3183,8 @@ class DataRetrievalRule {
 }
 
 /// The definition for a provisioned capacity unit.
+///
+/// @nodoc
 class ProvisionedCapacityDescription {
   /// The ID that identifies the provisioned capacity unit.
   final String? capacityId;
@@ -3176,6 +3224,8 @@ class ProvisionedCapacityDescription {
 }
 
 /// A list of the part sizes of the multipart upload.
+///
+/// @nodoc
 class PartListElement {
   /// The byte range of a part, inclusive of the upper value of the range.
   final String? rangeInBytes;
@@ -3207,6 +3257,8 @@ class PartListElement {
 }
 
 /// A list of in-progress multipart uploads for a vault.
+///
+/// @nodoc
 class UploadListElement {
   /// The description of the archive that was specified in the Initiate Multipart
   /// Upload request.
@@ -3261,6 +3313,8 @@ class UploadListElement {
 }
 
 /// Contains the vault lock policy.
+///
+/// @nodoc
 class VaultLockPolicy {
   /// The vault lock policy.
   final String? policy;
@@ -3278,6 +3332,8 @@ class VaultLockPolicy {
 }
 
 /// Provides options for defining a job.
+///
+/// @nodoc
 class JobParameters {
   /// The ID of the archive that you want to retrieve. This field is required only
   /// if <code>Type</code> is set to <code>select</code> or
@@ -3377,6 +3433,8 @@ class JobParameters {
 }
 
 /// Provides options for specifying a range inventory retrieval job.
+///
+/// @nodoc
 class InventoryRetrievalJobInput {
   /// The end of the date range in UTC for vault inventory retrieval that includes
   /// archives created before this date. This value should be a string in the ISO
@@ -3421,6 +3479,8 @@ class InventoryRetrievalJobInput {
 }
 
 /// Contains information about the parameters used for a select.
+///
+/// @nodoc
 class SelectParameters {
   /// The expression that is used to select the object.
   final String? expression;
@@ -3474,6 +3534,8 @@ class SelectParameters {
 
 /// Contains information about the location where the select job results are
 /// stored.
+///
+/// @nodoc
 class OutputLocation {
   /// Describes an S3 location that will receive the results of the job request.
   final S3Location? s3;
@@ -3500,6 +3562,8 @@ class OutputLocation {
 
 /// Contains information about the location in Amazon S3 where the select job
 /// results are stored.
+///
+/// @nodoc
 class S3Location {
   /// A list of grants that control access to the staged results.
   final List<Grant>? accessControlList;
@@ -3582,6 +3646,8 @@ class S3Location {
 
 /// Contains information about the encryption used to store the job results in
 /// Amazon S3.
+///
+/// @nodoc
 class Encryption {
   /// The server-side encryption algorithm used when storing job results in Amazon
   /// S3, for example <code>AES256</code> or <code>aws:kms</code>.
@@ -3623,6 +3689,7 @@ class Encryption {
   }
 }
 
+/// @nodoc
 class CannedACL {
   static const private = CannedACL._('private');
   static const publicRead = CannedACL._('public-read');
@@ -3660,6 +3727,7 @@ class CannedACL {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageClass {
   static const standard = StorageClass._('STANDARD');
   static const reducedRedundancy = StorageClass._('REDUCED_REDUNDANCY');
@@ -3685,6 +3753,8 @@ class StorageClass {
 }
 
 /// Contains information about a grant.
+///
+/// @nodoc
 class Grant {
   /// The grantee.
   final Grantee? grantee;
@@ -3717,6 +3787,8 @@ class Grant {
 }
 
 /// Contains information about the grantee.
+///
+/// @nodoc
 class Grantee {
   /// Type of grantee
   final Type type;
@@ -3767,6 +3839,7 @@ class Grantee {
   }
 }
 
+/// @nodoc
 class Permission {
   static const fullControl = Permission._('FULL_CONTROL');
   static const write = Permission._('WRITE');
@@ -3793,6 +3866,7 @@ class Permission {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const amazonCustomerByEmail = Type._('AmazonCustomerByEmail');
   static const canonicalUser = Type._('CanonicalUser');
@@ -3817,6 +3891,7 @@ class Type {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionType {
   static const awsKms = EncryptionType._('aws:kms');
   static const aes256 = EncryptionType._('AES256');
@@ -3842,6 +3917,8 @@ class EncryptionType {
 }
 
 /// Describes how the archive is serialized.
+///
+/// @nodoc
 class InputSerialization {
   /// Describes the serialization of a CSV-encoded object.
   final CSVInput? csv;
@@ -3866,6 +3943,7 @@ class InputSerialization {
   }
 }
 
+/// @nodoc
 class ExpressionType {
   static const sql = ExpressionType._('SQL');
 
@@ -3890,6 +3968,8 @@ class ExpressionType {
 }
 
 /// Describes how the select output is serialized.
+///
+/// @nodoc
 class OutputSerialization {
   /// Describes the serialization of CSV-encoded query results.
   final CSVOutput? csv;
@@ -3916,6 +3996,8 @@ class OutputSerialization {
 
 /// Contains information about the comma-separated value (CSV) file that the job
 /// results are stored in.
+///
+/// @nodoc
 class CSVOutput {
   /// A value used to separate individual fields from each other within a record.
   final String? fieldDelimiter;
@@ -3971,6 +4053,7 @@ class CSVOutput {
   }
 }
 
+/// @nodoc
 class QuoteFields {
   static const always = QuoteFields._('ALWAYS');
   static const asneeded = QuoteFields._('ASNEEDED');
@@ -3996,6 +4079,8 @@ class QuoteFields {
 
 /// Contains information about the comma-separated value (CSV) file to select
 /// from.
+///
+/// @nodoc
 class CSVInput {
   /// A single character used to indicate that a row should be ignored when the
   /// character is present at the start of that row.
@@ -4059,6 +4144,7 @@ class CSVInput {
   }
 }
 
+/// @nodoc
 class FileHeaderInfo {
   static const use = FileHeaderInfo._('USE');
   static const ignore = FileHeaderInfo._('IGNORE');
@@ -4084,6 +4170,7 @@ class FileHeaderInfo {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionCode {
   static const archiveRetrieval = ActionCode._('ArchiveRetrieval');
   static const inventoryRetrieval = ActionCode._('InventoryRetrieval');
@@ -4108,6 +4195,7 @@ class ActionCode {
   String toString() => value;
 }
 
+/// @nodoc
 class StatusCode {
   static const inProgress = StatusCode._('InProgress');
   static const succeeded = StatusCode._('Succeeded');
@@ -4133,6 +4221,8 @@ class StatusCode {
 }
 
 /// Describes the options for a range inventory retrieval job.
+///
+/// @nodoc
 class InventoryRetrievalJobDescription {
   /// The end of the date range in UTC for vault inventory retrieval that includes
   /// archives created before this date. This value should be a string in the ISO
@@ -4197,6 +4287,7 @@ class InventoryRetrievalJobDescription {
   }
 }
 
+/// @nodoc
 class InsufficientCapacityException extends _s.GenericAwsException {
   InsufficientCapacityException({String? type, String? message})
       : super(
@@ -4205,6 +4296,7 @@ class InsufficientCapacityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -4213,11 +4305,13 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MissingParameterValueException extends _s.GenericAwsException {
   MissingParameterValueException({String? type, String? message})
       : super(
@@ -4226,26 +4320,31 @@ class MissingParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoLongerSupportedException extends _s.GenericAwsException {
   NoLongerSupportedException({String? type, String? message})
       : super(type: type, code: 'NoLongerSupportedException', message: message);
 }
 
+/// @nodoc
 class PolicyEnforcedException extends _s.GenericAwsException {
   PolicyEnforcedException({String? type, String? message})
       : super(type: type, code: 'PolicyEnforcedException', message: message);
 }
 
+/// @nodoc
 class RequestTimeoutException extends _s.GenericAwsException {
   RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(

@@ -37,7 +37,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// <li>
 /// It is the prefix before IAM policy actions for Amazon EMR Serverless. For
-/// example, <code>"Action": ["emr-serverless:StartJobRun"]</code>. For more
+/// example, <code>"Action": \["emr-serverless:StartJobRun"\]</code>. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-actions">Policy
 /// actions for Amazon EMR Serverless</a>.
@@ -1136,6 +1136,7 @@ class EmrServerless {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -1159,6 +1160,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1171,6 +1173,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1183,6 +1186,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The output contains the application ID.
   final String applicationId;
@@ -1219,6 +1223,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The output displays information about the specified application.
   final Application application;
@@ -1243,6 +1248,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// Information about the updated application.
   final Application application;
@@ -1267,6 +1273,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -1279,6 +1286,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// The output lists the specified applications.
   final List<ApplicationSummary> applications;
@@ -1313,6 +1321,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class GetResourceDashboardResponse {
   /// A URL to the resource dashboard. For an active resource, this URL opens the
   /// live application UI. For a terminated resource, this URL opens the
@@ -1338,6 +1347,7 @@ class GetResourceDashboardResponse {
   }
 }
 
+/// @nodoc
 class StartApplicationResponse {
   StartApplicationResponse();
 
@@ -1350,6 +1360,7 @@ class StartApplicationResponse {
   }
 }
 
+/// @nodoc
 class StopApplicationResponse {
   StopApplicationResponse();
 
@@ -1362,6 +1373,7 @@ class StopApplicationResponse {
   }
 }
 
+/// @nodoc
 class StartJobRunResponse {
   /// This output displays the application ID on which the job run was submitted.
   final String applicationId;
@@ -1398,6 +1410,7 @@ class StartJobRunResponse {
   }
 }
 
+/// @nodoc
 class GetJobRunResponse {
   /// The output displays information about the job run.
   final JobRun jobRun;
@@ -1421,6 +1434,7 @@ class GetJobRunResponse {
   }
 }
 
+/// @nodoc
 class CancelJobRunResponse {
   /// The output contains the application ID on which the job run is cancelled.
   final String applicationId;
@@ -1450,6 +1464,7 @@ class CancelJobRunResponse {
   }
 }
 
+/// @nodoc
 class ListJobRunsResponse {
   /// The output lists information about the specified job runs.
   final List<JobRunSummary> jobRuns;
@@ -1484,6 +1499,7 @@ class ListJobRunsResponse {
   }
 }
 
+/// @nodoc
 class GetDashboardForJobRunResponse {
   /// The URL to view job run's dashboard.
   final String? url;
@@ -1506,6 +1522,7 @@ class GetDashboardForJobRunResponse {
   }
 }
 
+/// @nodoc
 class ListJobRunAttemptsResponse {
   /// The array of the listed job run attempt objects.
   final List<JobRunAttemptSummary> jobRunAttempts;
@@ -1540,6 +1557,7 @@ class ListJobRunAttemptsResponse {
   }
 }
 
+/// @nodoc
 class StartSessionResponse {
   /// The output contains the application ID on which the session was started.
   final String applicationId;
@@ -1576,6 +1594,7 @@ class StartSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The output displays information about the session.
   final Session session;
@@ -1599,6 +1618,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class TerminateSessionResponse {
   /// The output contains the application ID on which the session was terminated.
   final String applicationId;
@@ -1628,6 +1648,7 @@ class TerminateSessionResponse {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// The output lists information about the specified sessions.
   final List<SessionSummary> sessions;
@@ -1662,6 +1683,7 @@ class ListSessionsResponse {
   }
 }
 
+/// @nodoc
 class GetSessionEndpointResponse {
   /// The output contains the ID of the application.
   final String applicationId;
@@ -1716,6 +1738,8 @@ class GetSessionEndpointResponse {
 }
 
 /// The summary of attributes associated with a session.
+///
+/// @nodoc
 class SessionSummary {
   /// The ID of the application that the session belongs to.
   final String applicationId;
@@ -1808,6 +1832,7 @@ class SessionSummary {
   }
 }
 
+/// @nodoc
 class SessionState {
   static const submitted = SessionState._('SUBMITTED');
   static const starting = SessionState._('STARTING');
@@ -1848,6 +1873,8 @@ class SessionState {
 
 /// Information about a session, including the session state, configuration, and
 /// timestamps.
+///
+/// @nodoc
 class Session {
   /// The ID of the application that the session belongs to.
   final String applicationId;
@@ -2037,6 +2064,8 @@ class Session {
 }
 
 /// The configuration overrides for a session.
+///
+/// @nodoc
 class SessionConfigurationOverrides {
   /// The runtime configuration for the session. Contains Spark configuration
   /// properties specified at session creation time.
@@ -2065,6 +2094,8 @@ class SessionConfigurationOverrides {
 }
 
 /// The network configuration for customer VPC connectivity.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// The array of security group Ids for customer VPC connectivity.
   final List<String>? securityGroupIds;
@@ -2103,6 +2134,8 @@ class NetworkConfiguration {
 /// The aggregate vCPU, memory, and storage resources used from the time job
 /// start executing till the time job is terminated, rounded up to the nearest
 /// second.
+///
+/// @nodoc
 class TotalResourceUtilization {
   /// The aggregated memory used per hour from the time job start executing till
   /// the time job is terminated.
@@ -2143,6 +2176,8 @@ class TotalResourceUtilization {
 }
 
 /// The resource utilization for memory, storage, and vCPU for jobs.
+///
+/// @nodoc
 class ResourceUtilization {
   /// The aggregated memory used per hour from the time the job starts executing
   /// until the job is terminated.
@@ -2187,6 +2222,8 @@ class ResourceUtilization {
 /// configurations. A classification refers to an application-specific
 /// configuration file. Properties are the settings you want to change in that
 /// file.
+///
+/// @nodoc
 class Configuration {
   /// The classification within a configuration.
   final String classification;
@@ -2228,6 +2265,8 @@ class Configuration {
 }
 
 /// The summary of attributes associated with a job run attempt.
+///
+/// @nodoc
 class JobRunAttemptSummary {
   /// The ID of the application the job is running on.
   final String applicationId;
@@ -2348,6 +2387,7 @@ class JobRunAttemptSummary {
   }
 }
 
+/// @nodoc
 class JobRunMode {
   static const batch = JobRunMode._('BATCH');
   static const streaming = JobRunMode._('STREAMING');
@@ -2371,6 +2411,7 @@ class JobRunMode {
   String toString() => value;
 }
 
+/// @nodoc
 class JobRunState {
   static const submitted = JobRunState._('SUBMITTED');
   static const pending = JobRunState._('PENDING');
@@ -2412,6 +2453,8 @@ class JobRunState {
 }
 
 /// The summary of attributes associated with a job run.
+///
+/// @nodoc
 class JobRunSummary {
   /// The ID of the application the job is running on.
   final String applicationId;
@@ -2545,6 +2588,8 @@ class JobRunSummary {
 /// Information about a job run. A job run is a unit of work, such as a Spark
 /// JAR, Hive query, or SparkSQL query, that you submit to an Amazon EMR
 /// Serverless application.
+///
+/// @nodoc
 class JobRun {
   /// The ID of the application the job is running on.
   final String applicationId;
@@ -2816,6 +2861,8 @@ class JobRun {
 /// Optional IAM policy. The resulting job IAM role permissions will be an
 /// intersection of the policies passed and the policy associated with your job
 /// execution role.
+///
+/// @nodoc
 class JobRunExecutionIamPolicy {
   /// An IAM inline policy to use as an execution IAM policy.
   final String? policy;
@@ -2850,6 +2897,8 @@ class JobRunExecutionIamPolicy {
 
 /// A configuration specification to be used to override existing
 /// configurations.
+///
+/// @nodoc
 class ConfigurationOverrides {
   /// The override configurations for the application.
   final List<Configuration>? applicationConfiguration;
@@ -2899,6 +2948,8 @@ class ConfigurationOverrides {
 }
 
 /// The driver that the job runs on.
+///
+/// @nodoc
 class JobDriver {
   /// The job driver parameters specified for Hive.
   final Hive? hive;
@@ -2933,12 +2984,14 @@ class JobDriver {
 }
 
 /// The retry policy to use for a job run.
+///
+/// @nodoc
 class RetryPolicy {
   /// Maximum number of attempts for the job run. This parameter is only
   /// applicable for <code>BATCH</code> mode.
   final int? maxAttempts;
 
-  /// Maximum number of failed attempts per hour. This [arameter is only
+  /// Maximum number of failed attempts per hour. This \[arameter is only
   /// applicable for <code>STREAMING</code> mode.
   final int? maxFailedAttemptsPerHour;
 
@@ -2966,6 +3019,8 @@ class RetryPolicy {
 }
 
 /// The applied image configuration.
+///
+/// @nodoc
 class ImageConfiguration {
   /// The image URI.
   final String imageUri;
@@ -3012,6 +3067,8 @@ class ImageConfiguration {
 }
 
 /// The specifications for a worker type.
+///
+/// @nodoc
 class WorkerTypeSpecification {
   /// The image configuration for a worker type.
   final ImageConfiguration? imageConfiguration;
@@ -3038,6 +3095,8 @@ class WorkerTypeSpecification {
 }
 
 /// The configurations for the Spark submit job driver.
+///
+/// @nodoc
 class SparkSubmit {
   /// The entry point for the Spark submit job run.
   final String entryPoint;
@@ -3080,6 +3139,8 @@ class SparkSubmit {
 }
 
 /// The configurations for the Hive job driver.
+///
+/// @nodoc
 class Hive {
   /// The query for the Hive job run.
   final String query;
@@ -3117,6 +3178,8 @@ class Hive {
 }
 
 /// The configuration setting for monitoring.
+///
+/// @nodoc
 class MonitoringConfiguration {
   /// The Amazon CloudWatch configuration for monitoring logs. You can configure
   /// your jobs to send log information to CloudWatch.
@@ -3188,6 +3251,8 @@ class MonitoringConfiguration {
 }
 
 /// The configuration object that allows encrypting local disks.
+///
+/// @nodoc
 class DiskEncryptionConfiguration {
   /// Specifies the optional encryption context that will be used when encrypting
   /// the data. An encryption context is a collection of non-secret key-value
@@ -3222,6 +3287,8 @@ class DiskEncryptionConfiguration {
 
 /// The Amazon S3 configuration for monitoring log publishing. You can configure
 /// your jobs to send log information to Amazon S3.
+///
+/// @nodoc
 class S3MonitoringConfiguration {
   /// The KMS key ARN to encrypt the logs published to the given Amazon S3
   /// destination.
@@ -3253,6 +3320,8 @@ class S3MonitoringConfiguration {
 }
 
 /// The managed log persistence configuration for a job run.
+///
+/// @nodoc
 class ManagedPersistenceMonitoringConfiguration {
   /// Enables managed logging and defaults to true. If set to false, managed
   /// logging will be turned off.
@@ -3286,6 +3355,8 @@ class ManagedPersistenceMonitoringConfiguration {
 
 /// The Amazon CloudWatch configuration for monitoring logs. You can configure
 /// your jobs to send log information to CloudWatch.
+///
+/// @nodoc
 class CloudWatchLoggingConfiguration {
   /// Enables CloudWatch logging.
   final bool enabled;
@@ -3358,6 +3429,8 @@ class CloudWatchLoggingConfiguration {
 
 /// The monitoring configuration object you can configure to send metrics to
 /// Amazon Managed Service for Prometheus for a job run.
+///
+/// @nodoc
 class PrometheusMonitoringConfiguration {
   /// The remote write URL in the Amazon Managed Service for Prometheus workspace
   /// to send metrics to.
@@ -3382,6 +3455,7 @@ class PrometheusMonitoringConfiguration {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const session = ResourceType._('SESSION');
 
@@ -3405,6 +3479,8 @@ class ResourceType {
 }
 
 /// The summary of attributes associated with an application.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The ARN of the application.
   final String arn;
@@ -3491,6 +3567,7 @@ class ApplicationSummary {
   }
 }
 
+/// @nodoc
 class ApplicationState {
   static const creating = ApplicationState._('CREATING');
   static const created = ApplicationState._('CREATED');
@@ -3528,6 +3605,7 @@ class ApplicationState {
   String toString() => value;
 }
 
+/// @nodoc
 class Architecture {
   static const arm64 = Architecture._('ARM64');
   static const x86_64 = Architecture._('X86_64');
@@ -3553,6 +3631,8 @@ class Architecture {
 
 /// Information about an application. Amazon EMR Serverless uses applications to
 /// run jobs.
+///
+/// @nodoc
 class Application {
   /// The ID of the application.
   final String applicationId;
@@ -3817,6 +3897,8 @@ class Application {
 
 /// The maximum allowed cumulative resources for an application. No new
 /// resources will be created once the limit is hit.
+///
+/// @nodoc
 class MaximumAllowedResources {
   /// The maximum allowed CPU for an application.
   final String cpu;
@@ -3855,6 +3937,8 @@ class MaximumAllowedResources {
 
 /// The configuration for an application to automatically start on job
 /// submission.
+///
+/// @nodoc
 class AutoStartConfig {
   /// Enables the application to automatically start on job submission. Defaults
   /// to true.
@@ -3880,6 +3964,8 @@ class AutoStartConfig {
 
 /// The configuration for an application to automatically stop after a certain
 /// amount of time being idle.
+///
+/// @nodoc
 class AutoStopConfig {
   /// Enables the application to automatically stop after a certain amount of time
   /// being idle. Defaults to true.
@@ -3913,6 +3999,8 @@ class AutoStopConfig {
 
 /// The configuration to use to enable the different types of interactive use
 /// cases in an application.
+///
+/// @nodoc
 class InteractiveConfiguration {
   /// Enables an Apache Livy endpoint that you can connect to and run interactive
   /// jobs.
@@ -3956,6 +4044,8 @@ class InteractiveConfiguration {
 
 /// The scheduler configuration for batch and streaming jobs running on this
 /// application. Supported with release labels emr-7.0.0 and above.
+///
+/// @nodoc
 class SchedulerConfiguration {
   /// The maximum concurrent job runs on this application. If scheduler
   /// configuration is enabled on your application, the default value is 15. The
@@ -3994,6 +4084,8 @@ class SchedulerConfiguration {
 /// parameter required to enable trusted identity propagation. This
 /// configuration allows identity propagation between integrated services and
 /// the Identity Center instance.
+///
+/// @nodoc
 class IdentityCenterConfiguration {
   /// The ARN of the EMR Serverless created IAM Identity Center Application that
   /// provides trusted-identity propagation.
@@ -4039,6 +4131,8 @@ class IdentityCenterConfiguration {
 }
 
 /// The configuration object that enables job level cost allocation.
+///
+/// @nodoc
 class JobLevelCostAllocationConfiguration {
   /// Enables job level cost allocation for the application.
   final bool? enabled;
@@ -4063,6 +4157,8 @@ class JobLevelCostAllocationConfiguration {
 }
 
 /// The initial capacity configuration per worker.
+///
+/// @nodoc
 class InitialCapacityConfig {
   /// The number of workers in the initial capacity configuration.
   final int workerCount;
@@ -4098,6 +4194,8 @@ class InitialCapacityConfig {
 
 /// The cumulative configuration requirements for every worker instance of the
 /// worker type.
+///
+/// @nodoc
 class WorkerResourceConfig {
   /// The CPU requirements for every worker instance of the worker type.
   final String cpu;
@@ -4144,6 +4242,8 @@ class WorkerResourceConfig {
 }
 
 /// The image configuration.
+///
+/// @nodoc
 class ImageConfigurationInput {
   /// Boolean value indicating if the digest resolution is application level or
   /// workload level. If true, a custom image URI is resolved at application start
@@ -4177,6 +4277,8 @@ class ImageConfigurationInput {
 /// parameter required to enable trusted identity propagation. This
 /// configuration allows identity propagation between integrated services and
 /// the Identity Center instance.
+///
+/// @nodoc
 class IdentityCenterConfigurationInput {
   /// The ARN of the IAM Identity Center instance.
   final String? identityCenterInstanceArn;
@@ -4204,6 +4306,8 @@ class IdentityCenterConfigurationInput {
 }
 
 /// The specifications for a worker type.
+///
+/// @nodoc
 class WorkerTypeSpecificationInput {
   /// The image configuration for a worker type.
   final ImageConfigurationInput? imageConfiguration;
@@ -4220,21 +4324,25 @@ class WorkerTypeSpecificationInput {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4243,6 +4351,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

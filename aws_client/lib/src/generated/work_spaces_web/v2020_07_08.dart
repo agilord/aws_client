@@ -3187,6 +3187,7 @@ class WorkSpacesWeb {
   }
 }
 
+/// @nodoc
 class ExpireSessionResponse {
   ExpireSessionResponse();
 
@@ -3199,6 +3200,7 @@ class ExpireSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The sessions in a list.
   final Session? session;
@@ -3223,6 +3225,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// The sessions in a list.
   final List<SessionSummary> sessions;
@@ -3256,6 +3259,7 @@ class ListSessionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags of the resource.
   final List<Tag>? tags;
@@ -3281,6 +3285,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3293,6 +3298,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3305,6 +3311,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateBrowserSettingsResponse {
   /// The ARN of the browser settings.
   final String browserSettingsArn;
@@ -3327,6 +3334,7 @@ class CreateBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetBrowserSettingsResponse {
   /// The browser settings.
   final BrowserSettings? browserSettings;
@@ -3352,6 +3360,7 @@ class GetBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrowserSettingsResponse {
   /// The browser settings.
   final BrowserSettings browserSettings;
@@ -3376,6 +3385,7 @@ class UpdateBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteBrowserSettingsResponse {
   DeleteBrowserSettingsResponse();
 
@@ -3388,6 +3398,7 @@ class DeleteBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListBrowserSettingsResponse {
   /// The browser settings.
   final List<BrowserSettingsSummary>? browserSettings;
@@ -3422,6 +3433,7 @@ class ListBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreateDataProtectionSettingsResponse {
   /// The ARN of the data protection settings resource.
   final String dataProtectionSettingsArn;
@@ -3446,6 +3458,7 @@ class CreateDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetDataProtectionSettingsResponse {
   /// The data protection settings.
   final DataProtectionSettings? dataProtectionSettings;
@@ -3473,6 +3486,7 @@ class GetDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataProtectionSettingsResponse {
   /// The data protection settings.
   final DataProtectionSettings dataProtectionSettings;
@@ -3498,6 +3512,7 @@ class UpdateDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataProtectionSettingsResponse {
   DeleteDataProtectionSettingsResponse();
 
@@ -3511,6 +3526,7 @@ class DeleteDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListDataProtectionSettingsResponse {
   /// The data protection settings.
   final List<DataProtectionSettingsSummary>? dataProtectionSettings;
@@ -3547,6 +3563,7 @@ class ListDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreateIdentityProviderResponse {
   /// The ARN of the identity provider.
   final String identityProviderArn;
@@ -3569,6 +3586,7 @@ class CreateIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class GetIdentityProviderResponse {
   /// The identity provider.
   final IdentityProvider? identityProvider;
@@ -3594,6 +3612,7 @@ class GetIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateIdentityProviderResponse {
   /// The identity provider.
   final IdentityProvider identityProvider;
@@ -3618,6 +3637,7 @@ class UpdateIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class DeleteIdentityProviderResponse {
   DeleteIdentityProviderResponse();
 
@@ -3630,6 +3650,7 @@ class DeleteIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class ListIdentityProvidersResponse {
   /// The identity providers.
   final List<IdentityProviderSummary>? identityProviders;
@@ -3664,6 +3685,7 @@ class ListIdentityProvidersResponse {
   }
 }
 
+/// @nodoc
 class CreateIpAccessSettingsResponse {
   /// The ARN of the IP access settings resource.
   final String ipAccessSettingsArn;
@@ -3686,6 +3708,7 @@ class CreateIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetIpAccessSettingsResponse {
   /// The IP access settings.
   final IpAccessSettings? ipAccessSettings;
@@ -3711,6 +3734,7 @@ class GetIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateIpAccessSettingsResponse {
   /// The IP access settings.
   final IpAccessSettings ipAccessSettings;
@@ -3735,6 +3759,7 @@ class UpdateIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteIpAccessSettingsResponse {
   DeleteIpAccessSettingsResponse();
 
@@ -3747,6 +3772,7 @@ class DeleteIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListIpAccessSettingsResponse {
   /// The IP access settings.
   final List<IpAccessSettingsSummary>? ipAccessSettings;
@@ -3781,6 +3807,7 @@ class ListIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreateNetworkSettingsResponse {
   /// The ARN of the network settings.
   final String networkSettingsArn;
@@ -3803,6 +3830,7 @@ class CreateNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkSettingsResponse {
   /// The network settings.
   final NetworkSettings? networkSettings;
@@ -3828,6 +3856,7 @@ class GetNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateNetworkSettingsResponse {
   /// The network settings.
   final NetworkSettings networkSettings;
@@ -3852,6 +3881,7 @@ class UpdateNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteNetworkSettingsResponse {
   DeleteNetworkSettingsResponse();
 
@@ -3864,6 +3894,7 @@ class DeleteNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListNetworkSettingsResponse {
   /// The network settings.
   final List<NetworkSettingsSummary>? networkSettings;
@@ -3898,6 +3929,7 @@ class ListNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreatePortalResponse {
   /// The ARN of the web portal.
   final String portalArn;
@@ -3928,6 +3960,7 @@ class CreatePortalResponse {
   }
 }
 
+/// @nodoc
 class GetPortalResponse {
   /// The web portal.
   final Portal? portal;
@@ -3952,6 +3985,7 @@ class GetPortalResponse {
   }
 }
 
+/// @nodoc
 class UpdatePortalResponse {
   /// The web portal.
   final Portal? portal;
@@ -3976,6 +4010,7 @@ class UpdatePortalResponse {
   }
 }
 
+/// @nodoc
 class DeletePortalResponse {
   DeletePortalResponse();
 
@@ -3988,6 +4023,7 @@ class DeletePortalResponse {
   }
 }
 
+/// @nodoc
 class ListPortalsResponse {
   /// The pagination token used to retrieve the next page of results for this
   /// operation.
@@ -4021,6 +4057,7 @@ class ListPortalsResponse {
   }
 }
 
+/// @nodoc
 class AssociateBrowserSettingsResponse {
   /// The ARN of the browser settings.
   final String browserSettingsArn;
@@ -4050,6 +4087,7 @@ class AssociateBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class AssociateDataProtectionSettingsResponse {
   /// The ARN of the data protection settings resource.
   final String dataProtectionSettingsArn;
@@ -4081,6 +4119,7 @@ class AssociateDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class AssociateIpAccessSettingsResponse {
   /// The ARN of the IP access settings resource.
   final String ipAccessSettingsArn;
@@ -4111,6 +4150,7 @@ class AssociateIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class AssociateNetworkSettingsResponse {
   /// The ARN of the network settings.
   final String networkSettingsArn;
@@ -4140,6 +4180,7 @@ class AssociateNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class AssociateSessionLoggerResponse {
   /// The ARN of the portal.
   final String portalArn;
@@ -4169,6 +4210,7 @@ class AssociateSessionLoggerResponse {
   }
 }
 
+/// @nodoc
 class AssociateTrustStoreResponse {
   /// The ARN of the web portal.
   final String portalArn;
@@ -4198,6 +4240,7 @@ class AssociateTrustStoreResponse {
   }
 }
 
+/// @nodoc
 class AssociateUserAccessLoggingSettingsResponse {
   /// The ARN of the web portal.
   final String portalArn;
@@ -4229,6 +4272,7 @@ class AssociateUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class AssociateUserSettingsResponse {
   /// The ARN of the web portal.
   final String portalArn;
@@ -4258,6 +4302,7 @@ class AssociateUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateBrowserSettingsResponse {
   DisassociateBrowserSettingsResponse();
 
@@ -4270,6 +4315,7 @@ class DisassociateBrowserSettingsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateDataProtectionSettingsResponse {
   DisassociateDataProtectionSettingsResponse();
 
@@ -4283,6 +4329,7 @@ class DisassociateDataProtectionSettingsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateIpAccessSettingsResponse {
   DisassociateIpAccessSettingsResponse();
 
@@ -4296,6 +4343,7 @@ class DisassociateIpAccessSettingsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateNetworkSettingsResponse {
   DisassociateNetworkSettingsResponse();
 
@@ -4308,6 +4356,7 @@ class DisassociateNetworkSettingsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSessionLoggerResponse {
   DisassociateSessionLoggerResponse();
 
@@ -4320,6 +4369,7 @@ class DisassociateSessionLoggerResponse {
   }
 }
 
+/// @nodoc
 class DisassociateTrustStoreResponse {
   DisassociateTrustStoreResponse();
 
@@ -4332,6 +4382,7 @@ class DisassociateTrustStoreResponse {
   }
 }
 
+/// @nodoc
 class DisassociateUserAccessLoggingSettingsResponse {
   DisassociateUserAccessLoggingSettingsResponse();
 
@@ -4345,6 +4396,7 @@ class DisassociateUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateUserSettingsResponse {
   DisassociateUserSettingsResponse();
 
@@ -4357,6 +4409,7 @@ class DisassociateUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetPortalServiceProviderMetadataResponse {
   /// The ARN of the web portal.
   final String portalArn;
@@ -4389,6 +4442,7 @@ class GetPortalServiceProviderMetadataResponse {
   }
 }
 
+/// @nodoc
 class CreateSessionLoggerResponse {
   /// The ARN of the session logger.
   final String sessionLoggerArn;
@@ -4411,6 +4465,7 @@ class CreateSessionLoggerResponse {
   }
 }
 
+/// @nodoc
 class GetSessionLoggerResponse {
   /// The session logger details.
   final SessionLogger? sessionLogger;
@@ -4436,6 +4491,7 @@ class GetSessionLoggerResponse {
   }
 }
 
+/// @nodoc
 class UpdateSessionLoggerResponse {
   /// The updated details of the session logger.
   final SessionLogger sessionLogger;
@@ -4460,6 +4516,7 @@ class UpdateSessionLoggerResponse {
   }
 }
 
+/// @nodoc
 class DeleteSessionLoggerResponse {
   DeleteSessionLoggerResponse();
 
@@ -4472,6 +4529,7 @@ class DeleteSessionLoggerResponse {
   }
 }
 
+/// @nodoc
 class ListSessionLoggersResponse {
   /// The pagination token used to retrieve the next page of results for this
   /// operation.
@@ -4505,6 +4563,7 @@ class ListSessionLoggersResponse {
   }
 }
 
+/// @nodoc
 class CreateTrustStoreResponse {
   /// The ARN of the trust store.
   final String trustStoreArn;
@@ -4527,6 +4586,7 @@ class CreateTrustStoreResponse {
   }
 }
 
+/// @nodoc
 class GetTrustStoreResponse {
   /// The trust store.
   final TrustStore? trustStore;
@@ -4551,6 +4611,7 @@ class GetTrustStoreResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrustStoreResponse {
   /// The ARN of the trust store.
   final String trustStoreArn;
@@ -4573,6 +4634,7 @@ class UpdateTrustStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrustStoreResponse {
   DeleteTrustStoreResponse();
 
@@ -4585,6 +4647,7 @@ class DeleteTrustStoreResponse {
   }
 }
 
+/// @nodoc
 class ListTrustStoresResponse {
   /// The pagination token used to retrieve the next page of results for this
   /// operation.
@@ -4618,6 +4681,7 @@ class ListTrustStoresResponse {
   }
 }
 
+/// @nodoc
 class GetTrustStoreCertificateResponse {
   /// The ARN of the trust store certificate.
   final String trustStoreArn;
@@ -4649,6 +4713,7 @@ class GetTrustStoreCertificateResponse {
   }
 }
 
+/// @nodoc
 class ListTrustStoreCertificatesResponse {
   /// The ARN of the trust store.
   final String trustStoreArn;
@@ -4690,6 +4755,7 @@ class ListTrustStoreCertificatesResponse {
   }
 }
 
+/// @nodoc
 class CreateUserAccessLoggingSettingsResponse {
   /// The ARN of the user access logging settings.
   final String userAccessLoggingSettingsArn;
@@ -4714,6 +4780,7 @@ class CreateUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetUserAccessLoggingSettingsResponse {
   /// The user access logging settings.
   final UserAccessLoggingSettings? userAccessLoggingSettings;
@@ -4741,6 +4808,7 @@ class GetUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserAccessLoggingSettingsResponse {
   /// The user access logging settings.
   final UserAccessLoggingSettings userAccessLoggingSettings;
@@ -4766,6 +4834,7 @@ class UpdateUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserAccessLoggingSettingsResponse {
   DeleteUserAccessLoggingSettingsResponse();
 
@@ -4779,6 +4848,7 @@ class DeleteUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListUserAccessLoggingSettingsResponse {
   /// The pagination token used to retrieve the next page of results for this
   /// operation.
@@ -4815,6 +4885,7 @@ class ListUserAccessLoggingSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreateUserSettingsResponse {
   /// The ARN of the user settings.
   final String userSettingsArn;
@@ -4837,6 +4908,7 @@ class CreateUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetUserSettingsResponse {
   /// The user settings.
   final UserSettings? userSettings;
@@ -4861,6 +4933,7 @@ class GetUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserSettingsResponse {
   /// The user settings.
   final UserSettings userSettings;
@@ -4885,6 +4958,7 @@ class UpdateUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserSettingsResponse {
   DeleteUserSettingsResponse();
 
@@ -4897,6 +4971,7 @@ class DeleteUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListUserSettingsResponse {
   /// The pagination token used to retrieve the next page of results for this
   /// operation.
@@ -4931,6 +5006,8 @@ class ListUserSettingsResponse {
 }
 
 /// The summary of user settings.
+///
+/// @nodoc
 class UserSettingsSummary {
   /// The ARN of the user settings.
   final String userSettingsArn;
@@ -5078,6 +5155,7 @@ class UserSettingsSummary {
   }
 }
 
+/// @nodoc
 class EnabledType {
   static const disabled = EnabledType._('Disabled');
   static const enabled = EnabledType._('Enabled');
@@ -5103,6 +5181,8 @@ class EnabledType {
 
 /// The configuration that specifies which cookies should be synchronized from
 /// the end user's local browser to the remote browser.
+///
+/// @nodoc
 class CookieSynchronizationConfiguration {
   /// The list of cookie specifications that are allowed to be synchronized to the
   /// remote browser.
@@ -5146,6 +5226,8 @@ class CookieSynchronizationConfiguration {
 /// and choose which items are visible to end users during their sessions. If
 /// administrators do not modify these settings, end users retain control over
 /// their toolbar preferences.
+///
+/// @nodoc
 class ToolbarConfiguration {
   /// The list of toolbar items to be hidden.
   final List<ToolbarItem>? hiddenToolbarItems;
@@ -5198,6 +5280,8 @@ class ToolbarConfiguration {
 
 /// The branding configuration output including custom images metadata,
 /// localized strings, color theme, and terms of service.
+///
+/// @nodoc
 class BrandingConfiguration {
   /// The color theme for components on the web portal.
   final ColorTheme colorTheme;
@@ -5269,6 +5353,8 @@ class BrandingConfiguration {
 }
 
 /// Metadata information about an uploaded image file.
+///
+/// @nodoc
 class ImageMetadata {
   /// The file extension of the image.
   final String fileExtension;
@@ -5306,6 +5392,7 @@ class ImageMetadata {
   }
 }
 
+/// @nodoc
 class ColorTheme {
   static const light = ColorTheme._('Light');
   static const dark = ColorTheme._('Dark');
@@ -5329,6 +5416,7 @@ class ColorTheme {
   String toString() => value;
 }
 
+/// @nodoc
 class Locale {
   static const deDe = Locale._('de-DE');
   static const enUs = Locale._('en-US');
@@ -5375,6 +5463,8 @@ class Locale {
 
 /// Localized text strings for a specific language that customize the web
 /// portal.
+///
+/// @nodoc
 class LocalizedBrandingStrings {
   /// The text displayed in the browser tab title.
   final String browserTabTitle;
@@ -5453,6 +5543,7 @@ class LocalizedBrandingStrings {
   }
 }
 
+/// @nodoc
 class MimeType {
   static const imagePng = MimeType._('image/png');
   static const imageJpeg = MimeType._('image/jpeg');
@@ -5477,6 +5568,7 @@ class MimeType {
   String toString() => value;
 }
 
+/// @nodoc
 class ToolbarType {
   static const floating = ToolbarType._('Floating');
   static const docked = ToolbarType._('Docked');
@@ -5500,6 +5592,7 @@ class ToolbarType {
   String toString() => value;
 }
 
+/// @nodoc
 class VisualMode {
   static const dark = VisualMode._('Dark');
   static const light = VisualMode._('Light');
@@ -5523,6 +5616,7 @@ class VisualMode {
   String toString() => value;
 }
 
+/// @nodoc
 class MaxDisplayResolution {
   static const size4096X2160 = MaxDisplayResolution._('size4096X2160');
   static const size3840X2160 = MaxDisplayResolution._('size3840X2160');
@@ -5563,6 +5657,7 @@ class MaxDisplayResolution {
   String toString() => value;
 }
 
+/// @nodoc
 class ToolbarItem {
   static const windows = ToolbarItem._('Windows');
   static const dualMonitor = ToolbarItem._('DualMonitor');
@@ -5590,6 +5685,8 @@ class ToolbarItem {
 }
 
 /// Specifies a single cookie or set of cookies in an end user's browser.
+///
+/// @nodoc
 class CookieSpecification {
   /// The domain of the cookie.
   final String domain;
@@ -5629,6 +5726,8 @@ class CookieSpecification {
 /// A user settings resource that can be associated with a web portal. Once
 /// associated with a web portal, user settings control how users can transfer
 /// data between a streaming session and the their local devices.
+///
+/// @nodoc
 class UserSettings {
   /// The ARN of the user settings.
   final String userSettingsArn;
@@ -5807,6 +5906,8 @@ class UserSettings {
 
 /// The input configuration for updating branding settings. All fields are
 /// optional when updating existing branding.
+///
+/// @nodoc
 class BrandingConfigurationUpdateInput {
   /// The color theme for components on the web portal. Choose <code>Light</code>
   /// if you upload a dark wallpaper, or <code>Dark</code> for a light wallpaper.
@@ -5866,6 +5967,8 @@ class BrandingConfigurationUpdateInput {
 /// The input for an icon image (logo or favicon). Provide either a binary image
 /// file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG,
 /// or ICO format.
+///
+/// @nodoc
 class IconImageInput {
   /// The image provided as a binary image file.
   final Uint8List? blob;
@@ -5892,6 +5995,8 @@ class IconImageInput {
 
 /// The input for a wallpaper image. Provide the image as either a binary image
 /// file or an S3 URI. Maximum 5 MB in JPEG or PNG format.
+///
+/// @nodoc
 class WallpaperImageInput {
   /// The image provided as a binary image file.
   final Uint8List? blob;
@@ -5917,6 +6022,8 @@ class WallpaperImageInput {
 }
 
 /// The input configuration for creating branding settings.
+///
+/// @nodoc
 class BrandingConfigurationCreateInput {
   /// The color theme for components on the web portal. Choose <code>Light</code>
   /// if you upload a dark wallpaper, or <code>Dark</code> for a light wallpaper.
@@ -5973,6 +6080,8 @@ class BrandingConfigurationCreateInput {
 }
 
 /// The tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -6003,6 +6112,8 @@ class Tag {
 }
 
 /// The summary of user access logging settings.
+///
+/// @nodoc
 class UserAccessLoggingSettingsSummary {
   /// The ARN of the user access logging settings.
   final String userAccessLoggingSettingsArn;
@@ -6035,6 +6146,8 @@ class UserAccessLoggingSettingsSummary {
 
 /// A user access logging settings resource that can be associated with a web
 /// portal.
+///
+/// @nodoc
 class UserAccessLoggingSettings {
   /// The ARN of the user access logging settings.
   final String userAccessLoggingSettingsArn;
@@ -6078,6 +6191,8 @@ class UserAccessLoggingSettings {
 }
 
 /// The summary of the certificate.
+///
+/// @nodoc
 class CertificateSummary {
   /// The entity that issued the certificate.
   final String? issuer;
@@ -6131,6 +6246,8 @@ class CertificateSummary {
 }
 
 /// The certificate.
+///
+/// @nodoc
 class Certificate {
   /// The body of the certificate.
   final Uint8List? body;
@@ -6191,6 +6308,8 @@ class Certificate {
 }
 
 /// The summary of the trust store.
+///
+/// @nodoc
 class TrustStoreSummary {
   /// The ARN of the trust store.
   final String? trustStoreArn;
@@ -6219,6 +6338,8 @@ class TrustStoreSummary {
 /// have been issued using any of the CAs in the trust store. If your
 /// organization has internal websites that use certificates issued by private
 /// CAs, you should add the private CA certificate to the trust store.
+///
+/// @nodoc
 class TrustStore {
   /// The ARN of the trust store.
   final String trustStoreArn;
@@ -6253,6 +6374,8 @@ class TrustStore {
 }
 
 /// The summary of the session logger resource.
+///
+/// @nodoc
 class SessionLoggerSummary {
   /// The ARN of the session logger resource.
   final String sessionLoggerArn;
@@ -6301,6 +6424,8 @@ class SessionLoggerSummary {
 }
 
 /// The configuration of the log.
+///
+/// @nodoc
 class LogConfiguration {
   /// The configuration for delivering the logs to S3.
   final S3LogConfiguration? s3;
@@ -6326,6 +6451,8 @@ class LogConfiguration {
 }
 
 /// The S3 log configuration.
+///
+/// @nodoc
 class S3LogConfiguration {
   /// The S3 bucket name where logs are delivered.
   final String bucket;
@@ -6380,6 +6507,7 @@ class S3LogConfiguration {
   }
 }
 
+/// @nodoc
 class LogFileFormat {
   static const jSONLines = LogFileFormat._('JSONLines');
   static const json = LogFileFormat._('Json');
@@ -6404,6 +6532,7 @@ class LogFileFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class FolderStructure {
   static const flat = FolderStructure._('Flat');
   static const nestedByDate = FolderStructure._('NestedByDate');
@@ -6429,6 +6558,8 @@ class FolderStructure {
 }
 
 /// The session logger resource.
+///
+/// @nodoc
 class SessionLogger {
   /// The ARN of the session logger resource.
   final String sessionLoggerArn;
@@ -6514,6 +6645,8 @@ class SessionLogger {
 }
 
 /// The filter that specifies the events to monitor.
+///
+/// @nodoc
 class EventFilter {
   /// The filter that monitors all of the available events, including any new
   /// events emitted in the future.
@@ -6550,6 +6683,7 @@ class EventFilter {
   }
 }
 
+/// @nodoc
 class Event {
   static const websiteInteract = Event._('WebsiteInteract');
   static const fileDownloadFromSecureBrowserToRemoteDisk =
@@ -6612,6 +6746,8 @@ class Event {
 }
 
 /// The summary of the portal.
+///
+/// @nodoc
 class PortalSummary {
   /// The ARN of the web portal.
   final String portalArn;
@@ -6786,6 +6922,7 @@ class PortalSummary {
   }
 }
 
+/// @nodoc
 class RendererType {
   static const appStream = RendererType._('AppStream');
 
@@ -6808,6 +6945,7 @@ class RendererType {
   String toString() => value;
 }
 
+/// @nodoc
 class BrowserType {
   static const chrome = BrowserType._('Chrome');
 
@@ -6830,6 +6968,7 @@ class BrowserType {
   String toString() => value;
 }
 
+/// @nodoc
 class PortalStatus {
   static const incomplete = PortalStatus._('Incomplete');
   static const pending = PortalStatus._('Pending');
@@ -6854,6 +6993,7 @@ class PortalStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationType {
   static const standard = AuthenticationType._('Standard');
   static const iamIdentityCenter = AuthenticationType._('IAM_Identity_Center');
@@ -6879,6 +7019,7 @@ class AuthenticationType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceType {
   static const standardRegular = InstanceType._('standard.regular');
   static const standardLarge = InstanceType._('standard.large');
@@ -6904,6 +7045,8 @@ class InstanceType {
 }
 
 /// The web portal.
+///
+/// @nodoc
 class Portal {
   /// The ARN of the web portal.
   final String portalArn;
@@ -7104,6 +7247,8 @@ class Portal {
 }
 
 /// The summary of network settings.
+///
+/// @nodoc
 class NetworkSettingsSummary {
   /// The ARN of the network settings.
   final String networkSettingsArn;
@@ -7136,6 +7281,8 @@ class NetworkSettingsSummary {
 /// A network settings resource that can be associated with a web portal. Once
 /// associated with a web portal, network settings define how streaming
 /// instances will connect with your specified VPC.
+///
+/// @nodoc
 class NetworkSettings {
   /// The ARN of the network settings.
   final String networkSettingsArn;
@@ -7200,6 +7347,8 @@ class NetworkSettings {
 }
 
 /// The summary of IP access settings.
+///
+/// @nodoc
 class IpAccessSettingsSummary {
   /// The ARN of IP access settings.
   final String ipAccessSettingsArn;
@@ -7245,6 +7394,8 @@ class IpAccessSettingsSummary {
 }
 
 /// The IP access settings resource that can be associated with a web portal.
+///
+/// @nodoc
 class IpAccessSettings {
   /// The ARN of the IP access settings resource.
   final String ipAccessSettingsArn;
@@ -7330,6 +7481,8 @@ class IpAccessSettings {
 }
 
 /// The IP rules of the IP access settings.
+///
+/// @nodoc
 class IpRule {
   /// The IP range of the IP rule.
   final String ipRange;
@@ -7360,6 +7513,8 @@ class IpRule {
 }
 
 /// The summary of the identity provider.
+///
+/// @nodoc
 class IdentityProviderSummary {
   /// The ARN of the identity provider.
   final String identityProviderArn;
@@ -7399,6 +7554,7 @@ class IdentityProviderSummary {
   }
 }
 
+/// @nodoc
 class IdentityProviderType {
   static const saml = IdentityProviderType._('SAML');
   static const facebook = IdentityProviderType._('Facebook');
@@ -7436,6 +7592,8 @@ class IdentityProviderType {
 }
 
 /// The identity provider.
+///
+/// @nodoc
 class IdentityProvider {
   /// The ARN of the identity provider.
   final String identityProviderArn;
@@ -7598,6 +7756,8 @@ class IdentityProvider {
 }
 
 /// The summary of the data protection settings.
+///
+/// @nodoc
 class DataProtectionSettingsSummary {
   /// The ARN of the data protection settings.
   final String dataProtectionSettingsArn;
@@ -7645,6 +7805,8 @@ class DataProtectionSettingsSummary {
 
 /// The data protection settings resource that can be associated with a web
 /// portal.
+///
+/// @nodoc
 class DataProtectionSettings {
   /// The ARN of the data protection settings resource.
   final String dataProtectionSettingsArn;
@@ -7732,6 +7894,8 @@ class DataProtectionSettings {
 }
 
 /// The configuration for in-session inline redaction.
+///
+/// @nodoc
 class InlineRedactionConfiguration {
   /// The inline redaction patterns to be enabled for the inline redaction
   /// configuration.
@@ -7801,6 +7965,8 @@ class InlineRedactionConfiguration {
 }
 
 /// The set of patterns that determine the data types redacted in session.
+///
+/// @nodoc
 class InlineRedactionPattern {
   /// The redaction placeholder that will replace the redacted text in session for
   /// the inline redaction pattern.
@@ -7883,6 +8049,8 @@ class InlineRedactionPattern {
 }
 
 /// The pattern configuration for redacting custom data types in session.
+///
+/// @nodoc
 class CustomPattern {
   /// The pattern name for the custom pattern.
   final String patternName;
@@ -7935,6 +8103,8 @@ class CustomPattern {
 }
 
 /// The redaction placeholder that will replace the redacted text in session.
+///
+/// @nodoc
 class RedactionPlaceHolder {
   /// The redaction placeholder type that will replace the redacted text in
   /// session.
@@ -7968,6 +8138,7 @@ class RedactionPlaceHolder {
   }
 }
 
+/// @nodoc
 class RedactionPlaceHolderType {
   static const customText = RedactionPlaceHolderType._('CustomText');
 
@@ -7993,6 +8164,8 @@ class RedactionPlaceHolderType {
 }
 
 /// The summary for browser settings.
+///
+/// @nodoc
 class BrowserSettingsSummary {
   /// The ARN of the browser settings.
   final String browserSettingsArn;
@@ -8018,6 +8191,8 @@ class BrowserSettingsSummary {
 /// The browser settings resource that can be associated with a web portal. Once
 /// associated with a web portal, browser settings control how the browser will
 /// behave once a user starts a streaming session for the web portal.
+///
+/// @nodoc
 class BrowserSettings {
   /// The ARN of the browser settings.
   final String browserSettingsArn;
@@ -8093,6 +8268,8 @@ class BrowserSettings {
 /// The policy that specifies which URLs end users are allowed to access or
 /// which URLs or domain categories they are restricted from accessing for
 /// enhanced security.
+///
+/// @nodoc
 class WebContentFilteringPolicy {
   /// URLs and domains that are always accessible to end users.
   final List<String>? allowedUrls;
@@ -8139,6 +8316,7 @@ class WebContentFilteringPolicy {
   }
 }
 
+/// @nodoc
 class Category {
   static const cults = Category._('Cults');
   static const gambling = Category._('Gambling');
@@ -8217,6 +8395,8 @@ class Category {
 }
 
 /// Summary information about a secure browser session.
+///
+/// @nodoc
 class SessionSummary {
   /// The end time of the session.
   final DateTime? endTime;
@@ -8274,6 +8454,7 @@ class SessionSummary {
   }
 }
 
+/// @nodoc
 class SessionStatus {
   static const active = SessionStatus._('Active');
   static const terminated = SessionStatus._('Terminated');
@@ -8298,6 +8479,7 @@ class SessionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionSortBy {
   static const startTimeAscending = SessionSortBy._('StartTimeAscending');
   static const startTimeDescending = SessionSortBy._('StartTimeDescending');
@@ -8323,6 +8505,8 @@ class SessionSortBy {
 }
 
 /// Information about a secure browser session.
+///
+/// @nodoc
 class Session {
   /// The IP address of the client.
   final List<String>? clientIpAddresses;
@@ -8390,6 +8574,7 @@ class Session {
   }
 }
 
+/// @nodoc
 class Unit {
   Unit();
 
@@ -8402,26 +8587,31 @@ class Unit {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8430,16 +8620,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

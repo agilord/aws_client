@@ -5868,6 +5868,7 @@ class Deadline {
   }
 }
 
+/// @nodoc
 class BatchGetJobResponse {
   /// A list of errors for jobs that could not be retrieved.
   final List<BatchGetJobError> errors;
@@ -5903,6 +5904,7 @@ class BatchGetJobResponse {
   }
 }
 
+/// @nodoc
 class BatchGetSessionResponse {
   /// A list of errors for sessions that could not be retrieved.
   final List<BatchGetSessionError> errors;
@@ -5938,6 +5940,7 @@ class BatchGetSessionResponse {
   }
 }
 
+/// @nodoc
 class BatchGetSessionActionResponse {
   /// A list of errors for session actions that could not be retrieved.
   final List<BatchGetSessionActionError> errors;
@@ -5975,6 +5978,7 @@ class BatchGetSessionActionResponse {
   }
 }
 
+/// @nodoc
 class BatchGetStepResponse {
   /// A list of errors for steps that could not be retrieved.
   final List<BatchGetStepError> errors;
@@ -6010,6 +6014,7 @@ class BatchGetStepResponse {
   }
 }
 
+/// @nodoc
 class BatchGetTaskResponse {
   /// A list of errors for tasks that could not be retrieved.
   final List<BatchGetTaskError> errors;
@@ -6045,6 +6050,7 @@ class BatchGetTaskResponse {
   }
 }
 
+/// @nodoc
 class BatchGetWorkerResponse {
   /// A list of errors for workers that could not be retrieved.
   final List<BatchGetWorkerError> errors;
@@ -6080,6 +6086,7 @@ class BatchGetWorkerResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateJobResponse {
   /// A list of errors for jobs that could not be updated.
   final List<BatchUpdateJobError> errors;
@@ -6105,6 +6112,7 @@ class BatchUpdateJobResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateTaskResponse {
   /// A list of errors for tasks that could not be updated.
   final List<BatchUpdateTaskError> errors;
@@ -6130,6 +6138,7 @@ class BatchUpdateTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateQueueFleetAssociationResponse {
   CreateQueueFleetAssociationResponse();
 
@@ -6142,6 +6151,7 @@ class CreateQueueFleetAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreateQueueLimitAssociationResponse {
   CreateQueueLimitAssociationResponse();
 
@@ -6154,6 +6164,7 @@ class CreateQueueLimitAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueueFleetAssociationResponse {
   DeleteQueueFleetAssociationResponse();
 
@@ -6166,6 +6177,7 @@ class DeleteQueueFleetAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueueLimitAssociationResponse {
   DeleteQueueLimitAssociationResponse();
 
@@ -6180,6 +6192,8 @@ class DeleteQueueLimitAssociationResponse {
 
 /// Domain fields for QueueFleetAssociation summary/response shapes, ordered
 /// before timestamps.
+///
+/// @nodoc
 class GetQueueFleetAssociationResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -6247,6 +6261,8 @@ class GetQueueFleetAssociationResponse {
 
 /// Domain fields for QueueLimitAssociation summary/response shapes, ordered
 /// before timestamps.
+///
+/// @nodoc
 class GetQueueLimitAssociationResponse {
   /// The Unix timestamp of the date and time that the association was created.
   final DateTime createdAt;
@@ -6314,6 +6330,8 @@ class GetQueueLimitAssociationResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class GetSessionsStatisticsAggregationResponse {
   /// The status of the aggregated results. An aggregation may fail or time out if
   /// the results are too large. If this happens, you can call the
@@ -6378,6 +6396,8 @@ class GetSessionsStatisticsAggregationResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListAvailableMeteredProductsResponse {
   /// The metered products.
   final List<MeteredProductSummary> meteredProducts;
@@ -6419,6 +6439,8 @@ class ListAvailableMeteredProductsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListQueueFleetAssociationsResponse {
   /// The queue-fleet associations on the list.
   final List<QueueFleetAssociationSummary> queueFleetAssociations;
@@ -6462,6 +6484,8 @@ class ListQueueFleetAssociationsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListQueueLimitAssociationsResponse {
   /// A list of associations between limits and queues in the farm specified in
   /// the request.
@@ -6505,6 +6529,7 @@ class ListQueueLimitAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Each tag consists of a tag key and a tag value. Tag keys and values are both
   /// required, but tag values can be empty strings.
@@ -6531,6 +6556,8 @@ class ListTagsForResourceResponse {
 
 /// Shared output fields for all Search operations (nextItemOffset,
 /// totalResults).
+///
+/// @nodoc
 class SearchJobsResponse {
   /// The jobs in the search.
   final List<JobSearchSummary> jobs;
@@ -6572,6 +6599,8 @@ class SearchJobsResponse {
 
 /// Shared output fields for all Search operations (nextItemOffset,
 /// totalResults).
+///
+/// @nodoc
 class SearchStepsResponse {
   /// The steps in the search.
   final List<StepSearchSummary> steps;
@@ -6613,6 +6642,8 @@ class SearchStepsResponse {
 
 /// Shared output fields for all Search operations (nextItemOffset,
 /// totalResults).
+///
+/// @nodoc
 class SearchTasksResponse {
   /// Tasks in the search.
   final List<TaskSearchSummary> tasks;
@@ -6654,6 +6685,8 @@ class SearchTasksResponse {
 
 /// Shared output fields for all Search operations (nextItemOffset,
 /// totalResults).
+///
+/// @nodoc
 class SearchWorkersResponse {
   /// The total number of results in the search.
   final int totalResults;
@@ -6693,6 +6726,7 @@ class SearchWorkersResponse {
   }
 }
 
+/// @nodoc
 class StartSessionsStatisticsAggregationResponse {
   /// A unique identifier for the aggregated statistics. Use this identifier with
   /// the <code>GetAggregatedStatisticsForSessions</code> operation to return the
@@ -6718,6 +6752,7 @@ class StartSessionsStatisticsAggregationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6730,6 +6765,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6742,6 +6778,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueueFleetAssociationResponse {
   UpdateQueueFleetAssociationResponse();
 
@@ -6754,6 +6791,7 @@ class UpdateQueueFleetAssociationResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueueLimitAssociationResponse {
   UpdateQueueLimitAssociationResponse();
 
@@ -6768,6 +6806,8 @@ class UpdateQueueLimitAssociationResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateFarmResponse {
   /// The farm ID.
   final String farmId;
@@ -6792,6 +6832,8 @@ class CreateFarmResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetFarmResponse {
   /// A multiplier applied to the farm's calculated costs for usage data and
   /// budget tracking. A value less than 1 represents a discount, a value greater
@@ -6882,6 +6924,7 @@ class GetFarmResponse {
   }
 }
 
+/// @nodoc
 class UpdateFarmResponse {
   UpdateFarmResponse();
 
@@ -6894,6 +6937,7 @@ class UpdateFarmResponse {
   }
 }
 
+/// @nodoc
 class DeleteFarmResponse {
   DeleteFarmResponse();
 
@@ -6907,6 +6951,8 @@ class DeleteFarmResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListFarmsResponse {
   /// Farms on the list.
   final List<FarmSummary> farms;
@@ -6946,6 +6992,7 @@ class ListFarmsResponse {
   }
 }
 
+/// @nodoc
 class AssociateMemberToFarmResponse {
   AssociateMemberToFarmResponse();
 
@@ -6958,6 +7005,7 @@ class AssociateMemberToFarmResponse {
   }
 }
 
+/// @nodoc
 class CreateLimitResponse {
   /// A unique identifier for the limit. Use this identifier in other operations,
   /// such as <code>CreateQueueLimitAssociation</code> and
@@ -6982,6 +7030,7 @@ class CreateLimitResponse {
   }
 }
 
+/// @nodoc
 class CreateStorageProfileResponse {
   /// The storage profile ID.
   final String storageProfileId;
@@ -7004,6 +7053,7 @@ class CreateStorageProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteLimitResponse {
   DeleteLimitResponse();
 
@@ -7016,6 +7066,7 @@ class DeleteLimitResponse {
   }
 }
 
+/// @nodoc
 class DeleteStorageProfileResponse {
   DeleteStorageProfileResponse();
 
@@ -7028,6 +7079,7 @@ class DeleteStorageProfileResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberFromFarmResponse {
   DisassociateMemberFromFarmResponse();
 
@@ -7041,6 +7093,8 @@ class DisassociateMemberFromFarmResponse {
 }
 
 /// Domain fields for Limit summary/response shapes, ordered before timestamps.
+///
+/// @nodoc
 class GetLimitResponse {
   /// The value that you specify as the <code>name</code> in the
   /// <code>amounts</code> field of the <code>hostRequirements</code> in a step of
@@ -7152,6 +7206,7 @@ class GetLimitResponse {
   }
 }
 
+/// @nodoc
 class GetStorageProfileResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -7234,6 +7289,8 @@ class GetStorageProfileResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListFarmMembersResponse {
   /// The members on the list.
   final List<FarmMember> members;
@@ -7274,6 +7331,8 @@ class ListFarmMembersResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListLimitsResponse {
   /// A list of limits that the farm contains.
   final List<LimitSummary> limits;
@@ -7314,6 +7373,8 @@ class ListLimitsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListStorageProfilesResponse {
   /// The storage profiles.
   final List<StorageProfileSummary> storageProfiles;
@@ -7353,6 +7414,7 @@ class ListStorageProfilesResponse {
   }
 }
 
+/// @nodoc
 class UpdateLimitResponse {
   UpdateLimitResponse();
 
@@ -7365,6 +7427,7 @@ class UpdateLimitResponse {
   }
 }
 
+/// @nodoc
 class UpdateStorageProfileResponse {
   UpdateStorageProfileResponse();
 
@@ -7379,6 +7442,8 @@ class UpdateStorageProfileResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateBudgetResponse {
   /// The budget ID.
   final String budgetId;
@@ -7403,6 +7468,8 @@ class CreateBudgetResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetBudgetResponse {
   /// The budget actions for the budget.
   final List<ResponseBudgetAction> actions;
@@ -7546,6 +7613,7 @@ class GetBudgetResponse {
   }
 }
 
+/// @nodoc
 class UpdateBudgetResponse {
   UpdateBudgetResponse();
 
@@ -7558,6 +7626,7 @@ class UpdateBudgetResponse {
   }
 }
 
+/// @nodoc
 class DeleteBudgetResponse {
   DeleteBudgetResponse();
 
@@ -7571,6 +7640,8 @@ class DeleteBudgetResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListBudgetsResponse {
   /// The budgets to include on the list.
   final List<BudgetSummary> budgets;
@@ -7612,6 +7683,8 @@ class ListBudgetsResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateFleetResponse {
   /// The fleet ID.
   final String fleetId;
@@ -7636,6 +7709,8 @@ class CreateFleetResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetFleetResponse {
   /// The configuration setting for the fleet.
   final FleetConfiguration configuration;
@@ -7807,6 +7882,7 @@ class GetFleetResponse {
   }
 }
 
+/// @nodoc
 class UpdateFleetResponse {
   UpdateFleetResponse();
 
@@ -7819,6 +7895,7 @@ class UpdateFleetResponse {
   }
 }
 
+/// @nodoc
 class DeleteFleetResponse {
   DeleteFleetResponse();
 
@@ -7832,6 +7909,8 @@ class DeleteFleetResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListFleetsResponse {
   /// The fleets on the list.
   final List<FleetSummary> fleets;
@@ -7871,6 +7950,7 @@ class ListFleetsResponse {
   }
 }
 
+/// @nodoc
 class AssociateMemberToFleetResponse {
   AssociateMemberToFleetResponse();
 
@@ -7887,6 +7967,8 @@ class AssociateMemberToFleetResponse {
 /// required. AssumeQueueRoleForWorkerResponse is excluded because credentials
 /// is optional there because Queue.roleArn is optional, so the mixin's
 /// @required trait would be incorrect.
+///
+/// @nodoc
 class AssumeFleetRoleForReadResponse {
   /// The credentials for the fleet role.
   final AwsCredentials credentials;
@@ -7911,6 +7993,7 @@ class AssumeFleetRoleForReadResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberFromFleetResponse {
   DisassociateMemberFromFleetResponse();
 
@@ -7924,6 +8007,8 @@ class DisassociateMemberFromFleetResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListFleetMembersResponse {
   /// The members on the list.
   final List<FleetMember> members;
@@ -7965,6 +8050,8 @@ class ListFleetMembersResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetVolumeResponse {
   /// The Availability Zone ID of the volume.
   final String availabilityZoneId;
@@ -8081,6 +8168,7 @@ class GetVolumeResponse {
   }
 }
 
+/// @nodoc
 class DeleteVolumeResponse {
   DeleteVolumeResponse();
 
@@ -8094,6 +8182,8 @@ class DeleteVolumeResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListVolumesResponse {
   /// The volumes on the list.
   final List<VolumeSummary> volumes;
@@ -8135,6 +8225,8 @@ class ListVolumesResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateWorkerResponse {
   /// The worker ID.
   final String workerId;
@@ -8159,6 +8251,8 @@ class CreateWorkerResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetWorkerResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -8249,6 +8343,7 @@ class GetWorkerResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkerResponse {
   /// The script that runs as a worker is starting up that you can use to provide
   /// additional configuration for workers in your fleet.
@@ -8284,6 +8379,7 @@ class UpdateWorkerResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkerResponse {
   DeleteWorkerResponse();
 
@@ -8297,6 +8393,8 @@ class DeleteWorkerResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListWorkersResponse {
   /// The workers on the list.
   final List<WorkerSummary> workers;
@@ -8340,6 +8438,8 @@ class ListWorkersResponse {
 /// required. AssumeQueueRoleForWorkerResponse is excluded because credentials
 /// is optional there because Queue.roleArn is optional, so the mixin's
 /// @required trait would be incorrect.
+///
+/// @nodoc
 class AssumeFleetRoleForWorkerResponse {
   /// The credentials for the worker.
   final AwsCredentials credentials;
@@ -8364,6 +8464,7 @@ class AssumeFleetRoleForWorkerResponse {
   }
 }
 
+/// @nodoc
 class AssumeQueueRoleForWorkerResponse {
   /// The Amazon Web Services credentials for the role that the worker is
   /// assuming.
@@ -8389,6 +8490,7 @@ class AssumeQueueRoleForWorkerResponse {
   }
 }
 
+/// @nodoc
 class BatchGetJobEntityResponse {
   /// A list of the job entities, or details, in the batch.
   final List<JobEntity> entities;
@@ -8425,6 +8527,8 @@ class BatchGetJobEntityResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListSessionsForWorkerResponse {
   /// The sessions in the response.
   final List<WorkerSessionSummary> sessions;
@@ -8458,6 +8562,7 @@ class ListSessionsForWorkerResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkerScheduleResponse {
   /// The assigned sessions to update.
   final Map<String, AssignedSession> assignedSessions;
@@ -8512,6 +8617,8 @@ class UpdateWorkerScheduleResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateQueueResponse {
   /// The queue ID.
   final String queueId;
@@ -8536,6 +8643,8 @@ class CreateQueueResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetQueueResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -8716,6 +8825,7 @@ class GetQueueResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueueResponse {
   UpdateQueueResponse();
 
@@ -8728,6 +8838,7 @@ class UpdateQueueResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueueResponse {
   DeleteQueueResponse();
 
@@ -8741,6 +8852,8 @@ class DeleteQueueResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListQueuesResponse {
   /// The queues on the list.
   final List<QueueSummary> queues;
@@ -8780,6 +8893,7 @@ class ListQueuesResponse {
   }
 }
 
+/// @nodoc
 class AssociateMemberToQueueResponse {
   AssociateMemberToQueueResponse();
 
@@ -8796,6 +8910,8 @@ class AssociateMemberToQueueResponse {
 /// required. AssumeQueueRoleForWorkerResponse is excluded because credentials
 /// is optional there because Queue.roleArn is optional, so the mixin's
 /// @required trait would be incorrect.
+///
+/// @nodoc
 class AssumeQueueRoleForReadResponse {
   /// The credentials for the queue role.
   final AwsCredentials credentials;
@@ -8824,6 +8940,8 @@ class AssumeQueueRoleForReadResponse {
 /// required. AssumeQueueRoleForWorkerResponse is excluded because credentials
 /// is optional there because Queue.roleArn is optional, so the mixin's
 /// @required trait would be incorrect.
+///
+/// @nodoc
 class AssumeQueueRoleForUserResponse {
   /// The credentials for the queue role that a user has access to.
   final AwsCredentials credentials;
@@ -8848,6 +8966,7 @@ class AssumeQueueRoleForUserResponse {
   }
 }
 
+/// @nodoc
 class CreateQueueEnvironmentResponse {
   /// The queue environment ID.
   final String queueEnvironmentId;
@@ -8870,6 +8989,7 @@ class CreateQueueEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueueEnvironmentResponse {
   DeleteQueueEnvironmentResponse();
 
@@ -8882,6 +9002,7 @@ class DeleteQueueEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberFromQueueResponse {
   DisassociateMemberFromQueueResponse();
 
@@ -8894,6 +9015,7 @@ class DisassociateMemberFromQueueResponse {
   }
 }
 
+/// @nodoc
 class GetQueueEnvironmentResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -8973,6 +9095,7 @@ class GetQueueEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetStorageProfileForQueueResponse {
   /// The display name of the storage profile connected to a queue.
   /// <important>
@@ -9028,6 +9151,8 @@ class GetStorageProfileForQueueResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListQueueEnvironmentsResponse {
   /// The environments to include in the queue environments list.
   final List<QueueEnvironmentSummary> environments;
@@ -9069,6 +9194,8 @@ class ListQueueEnvironmentsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListQueueMembersResponse {
   /// The members on the list.
   final List<QueueMember> members;
@@ -9109,6 +9236,8 @@ class ListQueueMembersResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListStorageProfilesForQueueResponse {
   /// The storage profiles in the queue.
   final List<StorageProfileSummary> storageProfiles;
@@ -9149,6 +9278,7 @@ class ListStorageProfilesForQueueResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueueEnvironmentResponse {
   UpdateQueueEnvironmentResponse();
 
@@ -9163,6 +9293,8 @@ class UpdateQueueEnvironmentResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateJobResponse {
   /// The job ID.
   final String jobId;
@@ -9187,6 +9319,8 @@ class CreateJobResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetJobResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -9388,6 +9522,7 @@ class GetJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateJobResponse {
   UpdateJobResponse();
 
@@ -9401,6 +9536,8 @@ class UpdateJobResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListJobsResponse {
   /// The jobs on the list.
   final List<JobSummary> jobs;
@@ -9440,6 +9577,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class AssociateMemberToJobResponse {
   AssociateMemberToJobResponse();
 
@@ -9452,6 +9590,7 @@ class AssociateMemberToJobResponse {
   }
 }
 
+/// @nodoc
 class CopyJobTemplateResponse {
   /// The format of the job template, either <code>JSON</code> or
   /// <code>YAML</code>.
@@ -9476,6 +9615,7 @@ class CopyJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberFromJobResponse {
   DisassociateMemberFromJobResponse();
 
@@ -9489,6 +9629,8 @@ class DisassociateMemberFromJobResponse {
 }
 
 /// Session lifecycle/status fields, ordered after IDs in session shapes.
+///
+/// @nodoc
 class GetSessionResponse {
   /// The fleet ID for the session.
   final String fleetId;
@@ -9597,6 +9739,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionActionResponse {
   /// The session action definition.
   final SessionActionDefinition definition;
@@ -9710,6 +9853,7 @@ class GetSessionActionResponse {
   }
 }
 
+/// @nodoc
 class GetStepResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -9876,6 +10020,7 @@ class GetStepResponse {
   }
 }
 
+/// @nodoc
 class GetTaskResponse {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -9979,6 +10124,8 @@ class GetTaskResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListJobMembersResponse {
   /// The members on the list.
   final List<JobMember> members;
@@ -10019,6 +10166,8 @@ class ListJobMembersResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListJobParameterDefinitionsResponse {
   /// Lists parameter definitions of a job.
   final List<Object> jobParameterDefinitions;
@@ -10060,6 +10209,8 @@ class ListJobParameterDefinitionsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListSessionActionsResponse {
   /// The session actions.
   final List<SessionActionSummary> sessionActions;
@@ -10100,6 +10251,8 @@ class ListSessionActionsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListSessionsResponse {
   /// The sessions on the list.
   final List<SessionSummary> sessions;
@@ -10140,6 +10293,8 @@ class ListSessionsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListStepConsumersResponse {
   /// The consumers on the list.
   final List<StepConsumer> consumers;
@@ -10180,6 +10335,8 @@ class ListStepConsumersResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListStepDependenciesResponse {
   /// The dependencies on the list.
   final List<StepDependency> dependencies;
@@ -10220,6 +10377,8 @@ class ListStepDependenciesResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListStepsResponse {
   /// The steps on the list.
   final List<StepSummary> steps;
@@ -10260,6 +10419,8 @@ class ListStepsResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListTasksResponse {
   /// Tasks for the job.
   final List<TaskSummary> tasks;
@@ -10299,6 +10460,7 @@ class ListTasksResponse {
   }
 }
 
+/// @nodoc
 class UpdateSessionResponse {
   UpdateSessionResponse();
 
@@ -10311,6 +10473,7 @@ class UpdateSessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateStepResponse {
   UpdateStepResponse();
 
@@ -10323,6 +10486,7 @@ class UpdateStepResponse {
   }
 }
 
+/// @nodoc
 class UpdateTaskResponse {
   UpdateTaskResponse();
 
@@ -10337,6 +10501,8 @@ class UpdateTaskResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateLicenseEndpointResponse {
   /// The license endpoint ID.
   final String licenseEndpointId;
@@ -10361,6 +10527,8 @@ class CreateLicenseEndpointResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetLicenseEndpointResponse {
   /// The license endpoint ID.
   final String licenseEndpointId;
@@ -10432,6 +10600,7 @@ class GetLicenseEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseEndpointResponse {
   DeleteLicenseEndpointResponse();
 
@@ -10445,6 +10614,8 @@ class DeleteLicenseEndpointResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListLicenseEndpointsResponse {
   /// The license endpoints.
   final List<LicenseEndpointSummary> licenseEndpoints;
@@ -10485,6 +10656,7 @@ class ListLicenseEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DeleteMeteredProductResponse {
   DeleteMeteredProductResponse();
 
@@ -10498,6 +10670,8 @@ class DeleteMeteredProductResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListMeteredProductsResponse {
   /// The metered products to list.
   final List<MeteredProductSummary> meteredProducts;
@@ -10537,6 +10711,7 @@ class ListMeteredProductsResponse {
   }
 }
 
+/// @nodoc
 class PutMeteredProductResponse {
   PutMeteredProductResponse();
 
@@ -10551,6 +10726,8 @@ class PutMeteredProductResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class CreateMonitorResponse {
   /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
   final String identityCenterApplicationArn;
@@ -10583,6 +10760,8 @@ class CreateMonitorResponse {
 
 /// Mixin that adds an optional ARN field to response structures. Apply to
 /// SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+///
+/// @nodoc
 class GetMonitorResponse {
   /// The UNIX timestamp of the date and time that the monitor was created.
   final DateTime createdAt;
@@ -10695,6 +10874,7 @@ class GetMonitorResponse {
   }
 }
 
+/// @nodoc
 class UpdateMonitorResponse {
   UpdateMonitorResponse();
 
@@ -10707,6 +10887,7 @@ class UpdateMonitorResponse {
   }
 }
 
+/// @nodoc
 class DeleteMonitorResponse {
   DeleteMonitorResponse();
 
@@ -10720,6 +10901,8 @@ class DeleteMonitorResponse {
 }
 
 /// Shared pagination field for List operation outputs (nextToken).
+///
+/// @nodoc
 class ListMonitorsResponse {
   /// A list of <code>MonitorSummary</code> objects that describe your monitors in
   /// the Deadline Cloud.
@@ -10760,6 +10943,7 @@ class ListMonitorsResponse {
   }
 }
 
+/// @nodoc
 class GetMonitorSettingsResponse {
   /// The monitor settings as key-value pairs.
   final Map<String, String> settings;
@@ -10784,6 +10968,7 @@ class GetMonitorSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateMonitorSettingsResponse {
   UpdateMonitorSettingsResponse();
 
@@ -10797,6 +10982,8 @@ class UpdateMonitorSettingsResponse {
 }
 
 /// Provides information about a monitor in Deadline Cloud.
+///
+/// @nodoc
 class MonitorSummary {
   /// The UNIX timestamp of the date and time that the monitor was created.
   final DateTime createdAt;
@@ -10910,6 +11097,8 @@ class MonitorSummary {
 }
 
 /// The details of a metered product.
+///
+/// @nodoc
 class MeteredProductSummary {
   /// The family to which the metered product belongs.
   final String family;
@@ -10954,6 +11143,8 @@ class MeteredProductSummary {
 }
 
 /// The details for a license endpoint.
+///
+/// @nodoc
 class LicenseEndpointSummary {
   /// The license endpoint ID.
   final String? licenseEndpointId;
@@ -10998,6 +11189,7 @@ class LicenseEndpointSummary {
   }
 }
 
+/// @nodoc
 class LicenseEndpointStatus {
   static const createInProgress = LicenseEndpointStatus._('CREATE_IN_PROGRESS');
   static const deleteInProgress = LicenseEndpointStatus._('DELETE_IN_PROGRESS');
@@ -11025,6 +11217,7 @@ class LicenseEndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TaskTargetRunStatus {
   static const ready = TaskTargetRunStatus._('READY');
   static const failed = TaskTargetRunStatus._('FAILED');
@@ -11061,6 +11254,7 @@ class TaskTargetRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StepTargetTaskRunStatus {
   static const ready = StepTargetTaskRunStatus._('READY');
   static const failed = StepTargetTaskRunStatus._('FAILED');
@@ -11097,6 +11291,7 @@ class StepTargetTaskRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionLifecycleTargetStatus {
   static const ended = SessionLifecycleTargetStatus._('ENDED');
 
@@ -11122,6 +11317,8 @@ class SessionLifecycleTargetStatus {
 }
 
 /// The details of a task.
+///
+/// @nodoc
 class TaskSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -11224,6 +11421,7 @@ class TaskSummary {
   }
 }
 
+/// @nodoc
 class TaskRunStatus {
   static const pending = TaskRunStatus._('PENDING');
   static const ready = TaskRunStatus._('READY');
@@ -11272,6 +11470,8 @@ class TaskRunStatus {
 }
 
 /// The data types for the task parameters.
+///
+/// @nodoc
 class TaskParameterValue {
   /// A range (for example 1-10) or selection of specific (for example 1,3,7,8,10)
   /// integers represented as a string.
@@ -11324,6 +11524,8 @@ class TaskParameterValue {
 }
 
 /// The details for a step.
+///
+/// @nodoc
 class StepSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -11490,6 +11692,7 @@ class StepSummary {
   }
 }
 
+/// @nodoc
 class StepLifecycleStatus {
   static const createComplete = StepLifecycleStatus._('CREATE_COMPLETE');
   static const updateInProgress = StepLifecycleStatus._('UPDATE_IN_PROGRESS');
@@ -11523,6 +11726,8 @@ class StepLifecycleStatus {
 }
 
 /// The number of dependencies for the consumer.
+///
+/// @nodoc
 class DependencyCounts {
   /// The number of consumers resolved.
   final int consumersResolved;
@@ -11567,6 +11772,8 @@ class DependencyCounts {
 }
 
 /// The details of step dependency.
+///
+/// @nodoc
 class StepDependency {
   /// The step dependency status.
   final DependencyConsumerResolutionStatus status;
@@ -11597,6 +11804,7 @@ class StepDependency {
   }
 }
 
+/// @nodoc
 class DependencyConsumerResolutionStatus {
   static const resolved = DependencyConsumerResolutionStatus._('RESOLVED');
   static const unresolved = DependencyConsumerResolutionStatus._('UNRESOLVED');
@@ -11623,6 +11831,8 @@ class DependencyConsumerResolutionStatus {
 }
 
 /// The details of a step consumer.
+///
+/// @nodoc
 class StepConsumer {
   /// The step consumer status.
   final DependencyConsumerResolutionStatus status;
@@ -11654,6 +11864,8 @@ class StepConsumer {
 }
 
 /// The summary of a session.
+///
+/// @nodoc
 class SessionSummary {
   /// The fleet ID.
   final String fleetId;
@@ -11735,6 +11947,7 @@ class SessionSummary {
   }
 }
 
+/// @nodoc
 class SessionLifecycleStatus {
   static const started = SessionLifecycleStatus._('STARTED');
   static const updateInProgress =
@@ -11771,6 +11984,8 @@ class SessionLifecycleStatus {
 }
 
 /// The details of a session action.
+///
+/// @nodoc
 class SessionActionSummary {
   /// The session action definition.
   final SessionActionDefinitionSummary definition;
@@ -11851,6 +12066,7 @@ class SessionActionSummary {
   }
 }
 
+/// @nodoc
 class SessionActionStatus {
   static const assigned = SessionActionStatus._('ASSIGNED');
   static const running = SessionActionStatus._('RUNNING');
@@ -11898,6 +12114,8 @@ class SessionActionStatus {
 }
 
 /// The details of a session action definition.
+///
+/// @nodoc
 class SessionActionDefinitionSummary {
   /// The environment to enter into.
   final EnvironmentEnterSessionActionDefinitionSummary? envEnter;
@@ -11956,6 +12174,8 @@ class SessionActionDefinitionSummary {
 }
 
 /// Defines the environment a session action enters in.
+///
+/// @nodoc
 class EnvironmentEnterSessionActionDefinitionSummary {
   /// The environment ID.
   final String environmentId;
@@ -11980,6 +12200,8 @@ class EnvironmentEnterSessionActionDefinitionSummary {
 }
 
 /// A summary of the environment details for which a session action to exits.
+///
+/// @nodoc
 class EnvironmentExitSessionActionDefinitionSummary {
   /// The environment ID.
   final String environmentId;
@@ -12004,6 +12226,8 @@ class EnvironmentExitSessionActionDefinitionSummary {
 }
 
 /// The details of a task run in a session action.
+///
+/// @nodoc
 class TaskRunSessionActionDefinitionSummary {
   /// The step ID.
   final String stepId;
@@ -12044,6 +12268,8 @@ class TaskRunSessionActionDefinitionSummary {
 
 /// The summary of the session action definition for syncing input job
 /// attachments.
+///
+/// @nodoc
 class SyncInputJobAttachmentsSessionActionDefinitionSummary {
   /// The step ID for the sync input job attachments session action summary.
   final String? stepId;
@@ -12069,6 +12295,8 @@ class SyncInputJobAttachmentsSessionActionDefinitionSummary {
 
 /// The manifest properties for a task run, corresponding to the manifest
 /// properties in the job.
+///
+/// @nodoc
 class TaskRunManifestPropertiesResponse {
   /// The hash value of the file.
   final String? outputManifestHash;
@@ -12100,6 +12328,8 @@ class TaskRunManifestPropertiesResponse {
 }
 
 /// The details for a job member.
+///
+/// @nodoc
 class JobMember {
   /// The farm ID.
   final String farmId;
@@ -12166,6 +12396,7 @@ class JobMember {
   }
 }
 
+/// @nodoc
 class DeadlinePrincipalType {
   static const user = DeadlinePrincipalType._('USER');
   static const group = DeadlinePrincipalType._('GROUP');
@@ -12191,6 +12422,7 @@ class DeadlinePrincipalType {
   String toString() => value;
 }
 
+/// @nodoc
 class MembershipLevel {
   static const viewer = MembershipLevel._('VIEWER');
   static const contributor = MembershipLevel._('CONTRIBUTOR');
@@ -12218,6 +12450,8 @@ class MembershipLevel {
 }
 
 /// The details of required step capabilities.
+///
+/// @nodoc
 class StepRequiredCapabilities {
   /// The capability amounts that the step requires.
   final List<StepAmountCapability> amounts;
@@ -12255,6 +12489,8 @@ class StepRequiredCapabilities {
 }
 
 /// The details of a search for two or more step parameters.
+///
+/// @nodoc
 class ParameterSpace {
   /// The parameters to search for.
   final List<StepParameter> parameters;
@@ -12288,6 +12524,8 @@ class ParameterSpace {
 }
 
 /// The details of a step parameter.
+///
+/// @nodoc
 class StepParameter {
   /// The name of the parameter.
   final String name;
@@ -12326,6 +12564,7 @@ class StepParameter {
   }
 }
 
+/// @nodoc
 class StepParameterType {
   static const $int = StepParameterType._('INT');
   static const float = StepParameterType._('FLOAT');
@@ -12354,6 +12593,8 @@ class StepParameterType {
 }
 
 /// Defines how a step parameter range should be divided into chunks.
+///
+/// @nodoc
 class StepParameterChunks {
   /// The number of tasks to combine into a single chunk by default.
   final int defaultTaskCount;
@@ -12393,6 +12634,7 @@ class StepParameterChunks {
   }
 }
 
+/// @nodoc
 class RangeConstraint {
   static const contiguous = RangeConstraint._('CONTIGUOUS');
   static const noncontiguous = RangeConstraint._('NONCONTIGUOUS');
@@ -12418,6 +12660,8 @@ class RangeConstraint {
 }
 
 /// The details outlining the minimum and maximum capability of a step.
+///
+/// @nodoc
 class StepAmountCapability {
   /// The name of the step.
   final String name;
@@ -12462,6 +12706,8 @@ class StepAmountCapability {
 }
 
 /// The list of step attributes.
+///
+/// @nodoc
 class StepAttributeCapability {
   /// The name of the step attribute.
   final String name;
@@ -12501,6 +12747,8 @@ class StepAttributeCapability {
 }
 
 /// The definition of the session action.
+///
+/// @nodoc
 class SessionActionDefinition {
   /// The environment to enter into.
   final EnvironmentEnterSessionActionDefinition? envEnter;
@@ -12558,6 +12806,8 @@ class SessionActionDefinition {
 }
 
 /// The environment ID to use to enter a session action.
+///
+/// @nodoc
 class EnvironmentEnterSessionActionDefinition {
   /// The environment ID.
   final String environmentId;
@@ -12582,6 +12832,8 @@ class EnvironmentEnterSessionActionDefinition {
 }
 
 /// Defines the environment a session action exits from.
+///
+/// @nodoc
 class EnvironmentExitSessionActionDefinition {
   /// The environment ID.
   final String environmentId;
@@ -12606,6 +12858,8 @@ class EnvironmentExitSessionActionDefinition {
 }
 
 /// The task, step, and parameters for the task run in the session action.
+///
+/// @nodoc
 class TaskRunSessionActionDefinition {
   /// The task parameters.
   final Map<String, TaskParameterValue> parameters;
@@ -12646,6 +12900,8 @@ class TaskRunSessionActionDefinition {
 }
 
 /// The session action definition for syncing input job attachments.
+///
+/// @nodoc
 class SyncInputJobAttachmentsSessionActionDefinition {
   /// The step ID for the sync input job attachments session action.
   final String? stepId;
@@ -12670,6 +12926,8 @@ class SyncInputJobAttachmentsSessionActionDefinition {
 }
 
 /// Provides information about the number of resources used.
+///
+/// @nodoc
 class AcquiredLimit {
   /// The number of limit resources used.
   final int count;
@@ -12700,6 +12958,8 @@ class AcquiredLimit {
 }
 
 /// Log configuration details.
+///
+/// @nodoc
 class LogConfiguration {
   /// The log drivers for worker related logs.
   final String logDriver;
@@ -12746,6 +13006,8 @@ class LogConfiguration {
 }
 
 /// The host property details.
+///
+/// @nodoc
 class HostPropertiesResponse {
   /// The ARN of the host EC2 instance.
   final String? ec2InstanceArn;
@@ -12792,6 +13054,8 @@ class HostPropertiesResponse {
 }
 
 /// The IP addresses for a host.
+///
+/// @nodoc
 class IpAddresses {
   /// The IpV4 address of the network.
   final List<String>? ipV4Addresses;
@@ -12827,6 +13091,7 @@ class IpAddresses {
   }
 }
 
+/// @nodoc
 class JobTemplateType {
   static const json = JobTemplateType._('JSON');
   static const yaml = JobTemplateType._('YAML');
@@ -12852,6 +13117,8 @@ class JobTemplateType {
 }
 
 /// The Amazon S3 location information.
+///
+/// @nodoc
 class S3Location {
   /// The name of the Amazon S3 bucket.
   final String bucketName;
@@ -12875,6 +13142,8 @@ class S3Location {
 }
 
 /// A summary of job details.
+///
+/// @nodoc
 class JobSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -13075,6 +13344,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class JobLifecycleStatus {
   static const createInProgress = JobLifecycleStatus._('CREATE_IN_PROGRESS');
   static const createFailed = JobLifecycleStatus._('CREATE_FAILED');
@@ -13117,6 +13387,7 @@ class JobLifecycleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class JobTargetTaskRunStatus {
   static const ready = JobTargetTaskRunStatus._('READY');
   static const failed = JobTargetTaskRunStatus._('FAILED');
@@ -13153,6 +13424,7 @@ class JobTargetTaskRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateJobLifecycleStatus {
   static const archived = UpdateJobLifecycleStatus._('ARCHIVED');
 
@@ -13178,6 +13450,8 @@ class UpdateJobLifecycleStatus {
 }
 
 /// The job attachments.
+///
+/// @nodoc
 class Attachments {
   /// The manifest properties for the attachments.
   final List<ManifestProperties> manifests;
@@ -13211,6 +13485,7 @@ class Attachments {
   }
 }
 
+/// @nodoc
 class JobAttachmentsFileSystem {
   static const copied = JobAttachmentsFileSystem._('COPIED');
   static const virtual = JobAttachmentsFileSystem._('VIRTUAL');
@@ -13237,6 +13512,8 @@ class JobAttachmentsFileSystem {
 }
 
 /// The details of the manifest that links a job's source information.
+///
+/// @nodoc
 class ManifestProperties {
   /// The file's root path.
   final String rootPath;
@@ -13300,6 +13577,7 @@ class ManifestProperties {
   }
 }
 
+/// @nodoc
 class PathFormat {
   static const windows = PathFormat._('windows');
   static const posix = PathFormat._('posix');
@@ -13324,6 +13602,8 @@ class PathFormat {
 }
 
 /// The details of job parameters.
+///
+/// @nodoc
 class JobParameter {
   /// A double precision IEEE-754 floating point number represented as a string.
   final String? float;
@@ -13367,6 +13647,7 @@ class JobParameter {
   }
 }
 
+/// @nodoc
 class CreateJobTargetTaskRunStatus {
   static const ready = CreateJobTargetTaskRunStatus._('READY');
   static const suspended = CreateJobTargetTaskRunStatus._('SUSPENDED');
@@ -13392,6 +13673,7 @@ class CreateJobTargetTaskRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentTemplateType {
   static const json = EnvironmentTemplateType._('JSON');
   static const yaml = EnvironmentTemplateType._('YAML');
@@ -13418,6 +13700,8 @@ class EnvironmentTemplateType {
 }
 
 /// The details of a storage profile.
+///
+/// @nodoc
 class StorageProfileSummary {
   /// The display name of the storage profile summary to update.
   /// <important>
@@ -13460,6 +13744,7 @@ class StorageProfileSummary {
   }
 }
 
+/// @nodoc
 class StorageProfileOperatingSystemFamily {
   static const windows = StorageProfileOperatingSystemFamily._('WINDOWS');
   static const linux = StorageProfileOperatingSystemFamily._('LINUX');
@@ -13487,6 +13772,8 @@ class StorageProfileOperatingSystemFamily {
 }
 
 /// The details of a queue member.
+///
+/// @nodoc
 class QueueMember {
   /// The farm ID.
   final String farmId;
@@ -13547,6 +13834,8 @@ class QueueMember {
 }
 
 /// The summary of a queue environment.
+///
+/// @nodoc
 class QueueEnvironmentSummary {
   /// The name of the queue environment.
   final String name;
@@ -13584,6 +13873,8 @@ class QueueEnvironmentSummary {
 }
 
 /// The details of the file system location for the resource.
+///
+/// @nodoc
 class FileSystemLocation {
   /// The location name.
   final String name;
@@ -13620,6 +13911,7 @@ class FileSystemLocation {
   }
 }
 
+/// @nodoc
 class FileSystemLocationType {
   static const shared = FileSystemLocationType._('SHARED');
   static const local = FileSystemLocationType._('LOCAL');
@@ -13646,6 +13938,8 @@ class FileSystemLocationType {
 }
 
 /// The Identity and Access Management credentials.
+///
+/// @nodoc
 class AwsCredentials {
   /// The IAM access key ID.
   final String accessKeyId;
@@ -13690,6 +13984,8 @@ class AwsCredentials {
 }
 
 /// The details of a queue summary.
+///
+/// @nodoc
 class QueueSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -13782,6 +14078,7 @@ class QueueSummary {
   }
 }
 
+/// @nodoc
 class QueueStatus {
   static const idle = QueueStatus._('IDLE');
   static const scheduling = QueueStatus._('SCHEDULING');
@@ -13806,6 +14103,7 @@ class QueueStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DefaultQueueBudgetAction {
   static const none = DefaultQueueBudgetAction._('NONE');
   static const stopSchedulingAndCompleteTasks =
@@ -13838,6 +14136,7 @@ class DefaultQueueBudgetAction {
   String toString() => value;
 }
 
+/// @nodoc
 class QueueBlockedReason {
   static const noBudgetConfigured =
       QueueBlockedReason._('NO_BUDGET_CONFIGURED');
@@ -13867,6 +14166,8 @@ class QueueBlockedReason {
 
 /// The job attachment settings. These are the Amazon S3 bucket name and the
 /// Amazon S3 prefix.
+///
+/// @nodoc
 class JobAttachmentSettings {
   /// The root prefix.
   final String rootPrefix;
@@ -13897,6 +14198,8 @@ class JobAttachmentSettings {
 }
 
 /// Identifies the user for a job.
+///
+/// @nodoc
 class JobRunAsUser {
   /// Specifies whether the job should run using the queue's system user or if the
   /// job should run using the worker agent system user.
@@ -13940,6 +14243,8 @@ class JobRunAsUser {
 
 /// The scheduling configuration for a queue. Defines the strategy used to
 /// assign workers to jobs.
+///
+/// @nodoc
 class SchedulingConfiguration {
   /// Workers are distributed evenly across all jobs at the highest priority
   /// level. When workers cannot be evenly divided, the extra workers are assigned
@@ -13997,6 +14302,8 @@ class SchedulingConfiguration {
 /// Configuration for priority first-in, first-out (FIFO) scheduling. Workers
 /// are assigned to the highest-priority job first. When multiple jobs share the
 /// same priority, the job submitted earliest receives workers first.
+///
+/// @nodoc
 class PriorityFifoSchedulingConfiguration {
   PriorityFifoSchedulingConfiguration();
 
@@ -14011,6 +14318,8 @@ class PriorityFifoSchedulingConfiguration {
 
 /// Configuration for priority balanced scheduling. Workers are distributed
 /// evenly across all jobs at the highest priority level.
+///
+/// @nodoc
 class PriorityBalancedSchedulingConfiguration {
   /// The rendering task buffer controls worker stickiness. A worker only switches
   /// from its current job to another job at the same priority if the other job
@@ -14047,6 +14356,8 @@ class PriorityBalancedSchedulingConfiguration {
 ///
 /// The job with the highest calculated weight is scheduled first. Workers are
 /// distributed evenly amongst jobs with the same weight.
+///
+/// @nodoc
 class WeightedBalancedSchedulingConfiguration {
   /// The weight applied to the number of errors on a job. A negative value means
   /// jobs without errors are scheduled first. A value of <code>0</code> means
@@ -14145,6 +14456,8 @@ class WeightedBalancedSchedulingConfiguration {
 
 /// Defines the override behavior for jobs at the maximum priority (100) in
 /// weighted balanced scheduling.
+///
+/// @nodoc
 class SchedulingMaxPriorityOverride {
   /// Jobs at the maximum priority (100) are always scheduled before other jobs,
   /// regardless of the weighted scheduling formula. If multiple jobs have
@@ -14175,6 +14488,8 @@ class SchedulingMaxPriorityOverride {
 
 /// Defines the override behavior for jobs at the minimum priority (0) in
 /// weighted balanced scheduling.
+///
+/// @nodoc
 class SchedulingMinPriorityOverride {
   /// Jobs at the minimum priority (0) are always scheduled after all other jobs,
   /// regardless of the weighted scheduling formula. If multiple jobs have
@@ -14203,6 +14518,8 @@ class SchedulingMinPriorityOverride {
 }
 
 /// Specifies that jobs at the minimum priority (0) are always scheduled last.
+///
+/// @nodoc
 class SchedulingMinPriorityOverrideAlwaysScheduleLast {
   SchedulingMinPriorityOverrideAlwaysScheduleLast();
 
@@ -14218,6 +14535,8 @@ class SchedulingMinPriorityOverrideAlwaysScheduleLast {
 
 /// Specifies that jobs at the maximum priority (100) are always scheduled
 /// first.
+///
+/// @nodoc
 class SchedulingMaxPriorityOverrideAlwaysScheduleFirst {
   SchedulingMaxPriorityOverrideAlwaysScheduleFirst();
 
@@ -14232,6 +14551,8 @@ class SchedulingMaxPriorityOverrideAlwaysScheduleFirst {
 }
 
 /// The POSIX user.
+///
+/// @nodoc
 class PosixUser {
   /// The name of the POSIX user's group.
   final String group;
@@ -14262,6 +14583,8 @@ class PosixUser {
 }
 
 /// The Windows user details.
+///
+/// @nodoc
 class WindowsUser {
   /// The password ARN for the Windows user.
   final String passwordArn;
@@ -14291,6 +14614,7 @@ class WindowsUser {
   }
 }
 
+/// @nodoc
 class RunAs {
   static const queueConfiguredUser = RunAs._('QUEUE_CONFIGURED_USER');
   static const workerAgentUser = RunAs._('WORKER_AGENT_USER');
@@ -14314,6 +14638,7 @@ class RunAs {
   String toString() => value;
 }
 
+/// @nodoc
 class DesiredWorkerStatus {
   static const stopped = DesiredWorkerStatus._('STOPPED');
 
@@ -14339,6 +14664,8 @@ class DesiredWorkerStatus {
 }
 
 /// The assigned session for the worker.
+///
+/// @nodoc
 class AssignedSession {
   /// The job ID for the assigned session.
   final String jobId;
@@ -14388,6 +14715,8 @@ class AssignedSession {
 }
 
 /// The action for a session defined by the session action ID.
+///
+/// @nodoc
 class AssignedSessionAction {
   /// The definition of the assigned session action.
   final AssignedSessionActionDefinition definition;
@@ -14420,6 +14749,8 @@ class AssignedSessionAction {
 }
 
 /// The definition of the assigned session action.
+///
+/// @nodoc
 class AssignedSessionActionDefinition {
   /// The environment a session starts on.
   final AssignedEnvironmentEnterSessionActionDefinition? envEnter;
@@ -14478,6 +14809,8 @@ class AssignedSessionActionDefinition {
 }
 
 /// The assigned starting environment for a worker during session.
+///
+/// @nodoc
 class AssignedEnvironmentEnterSessionActionDefinition {
   /// The environment ID of the assigned environment at the start of a session.
   final String environmentId;
@@ -14502,6 +14835,8 @@ class AssignedEnvironmentEnterSessionActionDefinition {
 }
 
 /// The assigned environment when a worker exits a session.
+///
+/// @nodoc
 class AssignedEnvironmentExitSessionActionDefinition {
   /// The environment ID of the assigned environment when exiting a session.
   final String environmentId;
@@ -14526,6 +14861,8 @@ class AssignedEnvironmentExitSessionActionDefinition {
 }
 
 /// The specific task, step, and parameters to include.
+///
+/// @nodoc
 class AssignedTaskRunSessionActionDefinition {
   /// The parameters to include.
   final Map<String, TaskParameterValue> parameters;
@@ -14567,6 +14904,8 @@ class AssignedTaskRunSessionActionDefinition {
 }
 
 /// The assigned session action definition for syncing input job attachments.
+///
+/// @nodoc
 class AssignedSyncInputJobAttachmentsSessionActionDefinition {
   /// The step ID for the assigned sync input job attachments session action.
   final String? stepId;
@@ -14592,6 +14931,8 @@ class AssignedSyncInputJobAttachmentsSessionActionDefinition {
 
 /// The updated session action information as it relates to completion and
 /// progress of the session.
+///
+/// @nodoc
 class UpdatedSessionActionInfo {
   /// The status of the session upon completion.
   final CompletedStatus? completedStatus;
@@ -14652,6 +14993,7 @@ class UpdatedSessionActionInfo {
   }
 }
 
+/// @nodoc
 class CompletedStatus {
   static const succeeded = CompletedStatus._('SUCCEEDED');
   static const failed = CompletedStatus._('FAILED');
@@ -14687,6 +15029,8 @@ class CompletedStatus {
 
 /// The output manifest properties reported by the worker agent for a completed
 /// task run.
+///
+/// @nodoc
 class TaskRunManifestPropertiesRequest {
   /// The hash value of the file.
   final String? outputManifestHash;
@@ -14710,6 +15054,8 @@ class TaskRunManifestPropertiesRequest {
 }
 
 /// Summarizes the session for a particular worker.
+///
+/// @nodoc
 class WorkerSessionSummary {
   /// The job ID for the job associated with the worker's session.
   final String jobId;
@@ -14778,6 +15124,8 @@ class WorkerSessionSummary {
 }
 
 /// The error for the job entity.
+///
+/// @nodoc
 class GetJobEntityError {
   /// The environment details for the failed job entity.
   final EnvironmentDetailsError? environmentDetails;
@@ -14834,6 +15182,8 @@ class GetJobEntityError {
 }
 
 /// The details of a job error.
+///
+/// @nodoc
 class JobDetailsError {
   /// The error code.
   final JobEntityErrorCode code;
@@ -14871,6 +15221,8 @@ class JobDetailsError {
 }
 
 /// The error details for job attachments.
+///
+/// @nodoc
 class JobAttachmentDetailsError {
   /// The error code.
   final JobEntityErrorCode code;
@@ -14908,6 +15260,8 @@ class JobAttachmentDetailsError {
 }
 
 /// The details of the step error.
+///
+/// @nodoc
 class StepDetailsError {
   /// The error code.
   final JobEntityErrorCode code;
@@ -14952,6 +15306,8 @@ class StepDetailsError {
 }
 
 /// The error details for the environment.
+///
+/// @nodoc
 class EnvironmentDetailsError {
   /// The error code.
   final JobEntityErrorCode code;
@@ -14995,6 +15351,7 @@ class EnvironmentDetailsError {
   }
 }
 
+/// @nodoc
 class JobEntityErrorCode {
   static const accessDeniedException =
       JobEntityErrorCode._('AccessDeniedException');
@@ -15037,6 +15394,8 @@ class JobEntityErrorCode {
 }
 
 /// The details of a job entity.
+///
+/// @nodoc
 class JobEntity {
   /// The environment details for the job entity.
   final EnvironmentDetailsEntity? environmentDetails;
@@ -15094,6 +15453,8 @@ class JobEntity {
 }
 
 /// The job details for a specific job.
+///
+/// @nodoc
 class JobDetailsEntity {
   /// The job ID.
   final String jobId;
@@ -15176,6 +15537,8 @@ class JobDetailsEntity {
 }
 
 /// The job attachments.
+///
+/// @nodoc
 class JobAttachmentDetailsEntity {
   /// The job attachments.
   final Attachments attachments;
@@ -15208,6 +15571,8 @@ class JobAttachmentDetailsEntity {
 }
 
 /// The details of a step entity.
+///
+/// @nodoc
 class StepDetailsEntity {
   /// The dependencies for a step.
   final List<String> dependencies;
@@ -15262,6 +15627,8 @@ class StepDetailsEntity {
 }
 
 /// The details of a specified environment.
+///
+/// @nodoc
 class EnvironmentDetailsEntity {
   /// The environment ID.
   final String environmentId;
@@ -15306,6 +15673,8 @@ class EnvironmentDetailsEntity {
 }
 
 /// The details of a source and destination path.
+///
+/// @nodoc
 class PathMappingRule {
   /// The destination path.
   final String destinationPath;
@@ -15344,6 +15713,8 @@ class PathMappingRule {
 }
 
 /// The details of a job entity identifier.
+///
+/// @nodoc
 class JobEntityIdentifiersUnion {
   /// The environment details.
   final EnvironmentDetailsIdentifiers? environmentDetails;
@@ -15380,6 +15751,8 @@ class JobEntityIdentifiersUnion {
 }
 
 /// The identifiers for a job.
+///
+/// @nodoc
 class JobDetailsIdentifiers {
   /// The job ID.
   final String jobId;
@@ -15397,6 +15770,8 @@ class JobDetailsIdentifiers {
 }
 
 /// Identifier details for job attachments.
+///
+/// @nodoc
 class JobAttachmentDetailsIdentifiers {
   /// The job ID.
   final String jobId;
@@ -15414,6 +15789,8 @@ class JobAttachmentDetailsIdentifiers {
 }
 
 /// The details of identifiers for a step.
+///
+/// @nodoc
 class StepDetailsIdentifiers {
   /// The job ID.
   final String jobId;
@@ -15437,6 +15814,8 @@ class StepDetailsIdentifiers {
 }
 
 /// The IDs of the job and environment.
+///
+/// @nodoc
 class EnvironmentDetailsIdentifiers {
   /// The environment ID.
   final String environmentId;
@@ -15460,6 +15839,8 @@ class EnvironmentDetailsIdentifiers {
 }
 
 /// The summary of details for a worker.
+///
+/// @nodoc
 class WorkerSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -15550,6 +15931,7 @@ class WorkerSummary {
   }
 }
 
+/// @nodoc
 class WorkerStatus {
   static const created = WorkerStatus._('CREATED');
   static const started = WorkerStatus._('STARTED');
@@ -15595,6 +15977,8 @@ class WorkerStatus {
 /// href="https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html">UpdateFleet</a>
 /// operation with the <code>hostConfiguration</code> <code>scriptBody</code>
 /// parameter set to an empty string ("").
+///
+/// @nodoc
 class HostConfiguration {
   /// The text of the script that runs as a worker is starting up that you can use
   /// to provide additional configuration for workers in your fleet. The script
@@ -15645,6 +16029,7 @@ class HostConfiguration {
   }
 }
 
+/// @nodoc
 class UpdatedWorkerStatus {
   static const started = UpdatedWorkerStatus._('STARTED');
   static const stopping = UpdatedWorkerStatus._('STOPPING');
@@ -15672,6 +16057,8 @@ class UpdatedWorkerStatus {
 }
 
 /// The details for worker capabilities.
+///
+/// @nodoc
 class WorkerCapabilities {
   /// The worker capabilities amounts on a list of worker capabilities.
   final List<WorkerAmountCapability> amounts;
@@ -15695,6 +16082,8 @@ class WorkerCapabilities {
 }
 
 /// The host property details.
+///
+/// @nodoc
 class HostPropertiesRequest {
   /// The host name.
   final String? hostName;
@@ -15718,6 +16107,8 @@ class HostPropertiesRequest {
 }
 
 /// The details of the worker attribute capability.
+///
+/// @nodoc
 class WorkerAttributeCapability {
   /// The name of the worker attribute capability.
   final String name;
@@ -15741,6 +16132,8 @@ class WorkerAttributeCapability {
 }
 
 /// The details of the worker amount capability.
+///
+/// @nodoc
 class WorkerAmountCapability {
   /// The name of the worker amount capability.
   final String name;
@@ -15764,6 +16157,8 @@ class WorkerAmountCapability {
 }
 
 /// The summary of a persistent volume.
+///
+/// @nodoc
 class VolumeSummary {
   /// The Availability Zone ID of the volume.
   final String availabilityZoneId;
@@ -15829,6 +16224,8 @@ class VolumeSummary {
 }
 
 /// The state of a persistent volume.
+///
+/// @nodoc
 class VolumeState {
   static const pendingCreation = VolumeState._('PENDING_CREATION');
   static const pendingAttachment = VolumeState._('PENDING_ATTACHMENT');
@@ -15862,6 +16259,8 @@ class VolumeState {
 }
 
 /// The EBS volume type.
+///
+/// @nodoc
 class EbsVolumeType {
   static const gp3 = EbsVolumeType._('gp3');
 
@@ -15886,6 +16285,8 @@ class EbsVolumeType {
 }
 
 /// The fleet member.
+///
+/// @nodoc
 class FleetMember {
   /// The farm ID.
   final String farmId;
@@ -15946,6 +16347,8 @@ class FleetMember {
 }
 
 /// The details of a fleet.
+///
+/// @nodoc
 class FleetSummary {
   /// The configuration details for the fleet.
   final FleetConfiguration configuration;
@@ -16075,6 +16478,7 @@ class FleetSummary {
   }
 }
 
+/// @nodoc
 class FleetStatus {
   static const active = FleetStatus._('ACTIVE');
   static const createInProgress = FleetStatus._('CREATE_IN_PROGRESS');
@@ -16109,6 +16513,7 @@ class FleetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoScalingStatus {
   static const growing = AutoScalingStatus._('GROWING');
   static const steady = AutoScalingStatus._('STEADY');
@@ -16135,6 +16540,8 @@ class AutoScalingStatus {
 }
 
 /// Fleet configuration details.
+///
+/// @nodoc
 class FleetConfiguration {
   /// The customer managed fleets within a fleet configuration.
   final CustomerManagedFleetConfiguration? customerManaged;
@@ -16171,6 +16578,8 @@ class FleetConfiguration {
 }
 
 /// The configuration details for a customer managed fleet.
+///
+/// @nodoc
 class CustomerManagedFleetConfiguration {
   /// The Auto Scaling mode for the customer managed fleet.
   final AutoScalingMode mode;
@@ -16231,6 +16640,8 @@ class CustomerManagedFleetConfiguration {
 }
 
 /// The configuration details for a service managed EC2 fleet.
+///
+/// @nodoc
 class ServiceManagedEc2FleetConfiguration {
   /// The instance capabilities for the service managed EC2 fleet.
   final ServiceManagedEc2InstanceCapabilities instanceCapabilities;
@@ -16306,6 +16717,8 @@ class ServiceManagedEc2FleetConfiguration {
 }
 
 /// The Amazon EC2 instance capabilities.
+///
+/// @nodoc
 class ServiceManagedEc2InstanceCapabilities {
   /// The CPU architecture type.
   final CpuArchitectureType cpuArchitectureType;
@@ -16422,6 +16835,8 @@ class ServiceManagedEc2InstanceCapabilities {
 
 /// The details of the Amazon EC2 instance market options for a service managed
 /// fleet.
+///
+/// @nodoc
 class ServiceManagedEc2InstanceMarketOptions {
   /// The Amazon EC2 instance type.
   final Ec2MarketType type;
@@ -16446,6 +16861,8 @@ class ServiceManagedEc2InstanceMarketOptions {
 }
 
 /// The configuration options for a service managed fleet's VPC.
+///
+/// @nodoc
 class VpcConfiguration {
   /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
   final List<String>? resourceConfigurationArns;
@@ -16474,6 +16891,8 @@ class VpcConfiguration {
 
 /// Specifies the persistent EBS volume configuration for workers in a service
 /// managed fleet.
+///
+/// @nodoc
 class PersistentVolumeConfiguration {
   /// The file system path where the persistent volume is mounted on the worker
   /// instance.
@@ -16527,6 +16946,8 @@ class PersistentVolumeConfiguration {
 }
 
 /// The auto scaling configuration settings for a service managed EC2 fleet.
+///
+/// @nodoc
 class ServiceManagedEc2AutoScalingConfiguration {
   /// The number of workers that can be added per minute to the fleet. The default
   /// is 10 workers per minute.
@@ -16569,6 +16990,7 @@ class ServiceManagedEc2AutoScalingConfiguration {
   }
 }
 
+/// @nodoc
 class Ec2MarketType {
   static const onDemand = Ec2MarketType._('on-demand');
   static const spot = Ec2MarketType._('spot');
@@ -16595,6 +17017,8 @@ class Ec2MarketType {
 }
 
 /// The allowable range of vCPU processing power for the fleet.
+///
+/// @nodoc
 class VCpuCountRange {
   /// The minimum amount of vCPU.
   final int min;
@@ -16625,6 +17049,8 @@ class VCpuCountRange {
 }
 
 /// The range of memory in MiB.
+///
+/// @nodoc
 class MemoryMiBRange {
   /// The minimum amount of memory (in MiB).
   final int min;
@@ -16654,6 +17080,7 @@ class MemoryMiBRange {
   }
 }
 
+/// @nodoc
 class ServiceManagedFleetOperatingSystemFamily {
   static const windows = ServiceManagedFleetOperatingSystemFamily._('WINDOWS');
   static const linux = ServiceManagedFleetOperatingSystemFamily._('LINUX');
@@ -16679,6 +17106,7 @@ class ServiceManagedFleetOperatingSystemFamily {
   String toString() => value;
 }
 
+/// @nodoc
 class CpuArchitectureType {
   static const x86_64 = CpuArchitectureType._('x86_64');
   static const arm64 = CpuArchitectureType._('arm64');
@@ -16705,6 +17133,8 @@ class CpuArchitectureType {
 }
 
 /// Specifies the EBS volume.
+///
+/// @nodoc
 class Ec2EbsVolume {
   /// The IOPS per volume.
   final int? iops;
@@ -16767,6 +17197,8 @@ class Ec2EbsVolume {
 /// <code>rtx-pro-server-6000</code>: Uses G7e instance family
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class AcceleratorCapabilities {
   /// A list of accelerator capabilities requested for this fleet. Only Amazon
   /// Elastic Compute Cloud instances that provide these capabilities will be
@@ -16827,6 +17259,8 @@ class AcceleratorCapabilities {
 }
 
 /// Defines the fleet's capability name, minimum, and maximum.
+///
+/// @nodoc
 class FleetAttributeCapability {
   /// The name of the fleet attribute capability for the worker.
   final String name;
@@ -16860,6 +17294,8 @@ class FleetAttributeCapability {
 }
 
 /// The fleet amount and attribute capabilities.
+///
+/// @nodoc
 class FleetAmountCapability {
   /// The minimum amount of fleet worker capability.
   final double min;
@@ -16898,6 +17334,8 @@ class FleetAmountCapability {
 
 /// Defines the maximum and minimum number of GPU accelerators required for a
 /// worker instance..
+///
+/// @nodoc
 class AcceleratorCountRange {
   /// The minimum number of GPU accelerators in the worker host.
   final int min;
@@ -16929,6 +17367,8 @@ class AcceleratorCountRange {
 
 /// Describes a specific GPU accelerator required for an Amazon Elastic Compute
 /// Cloud worker host.
+///
+/// @nodoc
 class AcceleratorSelection {
   /// The name of the chip used by the GPU accelerator.
   ///
@@ -17031,6 +17471,7 @@ class AcceleratorSelection {
   }
 }
 
+/// @nodoc
 class AcceleratorName {
   static const t4 = AcceleratorName._('t4');
   static const a10g = AcceleratorName._('a10g');
@@ -17058,6 +17499,7 @@ class AcceleratorName {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoScalingMode {
   static const noScaling = AutoScalingMode._('NO_SCALING');
   static const eventBasedAutoScaling =
@@ -17084,6 +17526,8 @@ class AutoScalingMode {
 }
 
 /// The auto scaling configuration settings for a customer managed fleet.
+///
+/// @nodoc
 class CustomerManagedAutoScalingConfiguration {
   /// The number of workers that can be added per minute to the fleet. The default
   /// is 10 workers per minute.
@@ -17127,6 +17571,8 @@ class CustomerManagedAutoScalingConfiguration {
 }
 
 /// The worker capabilities for a customer managed workflow.
+///
+/// @nodoc
 class CustomerManagedWorkerCapabilities {
   /// The CPU architecture type for the customer managed worker capabilities.
   final CpuArchitectureType cpuArchitectureType;
@@ -17230,6 +17676,7 @@ class CustomerManagedWorkerCapabilities {
   }
 }
 
+/// @nodoc
 class TagPropagationMode {
   static const noPropagation = TagPropagationMode._('NO_PROPAGATION');
   static const propagateTagsToWorkersAtLaunch =
@@ -17258,6 +17705,8 @@ class TagPropagationMode {
 
 /// Defines the maximum and minimum amount of memory, in MiB, to use for the
 /// accelerator.
+///
+/// @nodoc
 class AcceleratorTotalMemoryMiBRange {
   /// The minimum amount of memory to use for the accelerator, measured in MiB.
   final int min;
@@ -17287,6 +17736,7 @@ class AcceleratorTotalMemoryMiBRange {
   }
 }
 
+/// @nodoc
 class CustomerManagedFleetOperatingSystemFamily {
   static const windows = CustomerManagedFleetOperatingSystemFamily._('WINDOWS');
   static const linux = CustomerManagedFleetOperatingSystemFamily._('LINUX');
@@ -17314,6 +17764,7 @@ class CustomerManagedFleetOperatingSystemFamily {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceleratorType {
   static const gpu = AcceleratorType._('gpu');
 
@@ -17338,6 +17789,8 @@ class AcceleratorType {
 }
 
 /// The amounts and attributes of fleets.
+///
+/// @nodoc
 class FleetCapabilities {
   /// Amount capabilities of the fleet.
   final List<FleetAmountCapability>? amounts;
@@ -17375,6 +17828,8 @@ class FleetCapabilities {
 }
 
 /// The budget summary.
+///
+/// @nodoc
 class BudgetSummary {
   /// The approximate dollar limit of the budget.
   final double approximateDollarLimit;
@@ -17492,6 +17947,8 @@ class BudgetSummary {
 }
 
 /// The usage details of the allotted budget.
+///
+/// @nodoc
 class UsageTrackingResource {
   /// The queue ID.
   final String? queueId;
@@ -17514,6 +17971,7 @@ class UsageTrackingResource {
   }
 }
 
+/// @nodoc
 class BudgetStatus {
   static const active = BudgetStatus._('ACTIVE');
   static const inactive = BudgetStatus._('INACTIVE');
@@ -17538,6 +17996,8 @@ class BudgetStatus {
 }
 
 /// The consumed usage for the resource.
+///
+/// @nodoc
 class ConsumedUsages {
   /// The amount of the budget consumed.
   final double approximateDollarUsage;
@@ -17561,6 +18021,8 @@ class ConsumedUsages {
 }
 
 /// The start and end time of the budget.
+///
+/// @nodoc
 class BudgetSchedule {
   /// The fixed start and end time of the budget's schedule.
   final FixedBudgetSchedule? fixed;
@@ -17586,6 +18048,8 @@ class BudgetSchedule {
 }
 
 /// The details of a fixed budget schedule.
+///
+/// @nodoc
 class FixedBudgetSchedule {
   /// When the budget ends.
   final DateTime endTime;
@@ -17616,6 +18080,8 @@ class FixedBudgetSchedule {
 }
 
 /// The budget action to remove.
+///
+/// @nodoc
 class BudgetActionToRemove {
   /// The percentage threshold for the budget action to remove.
   final double thresholdPercentage;
@@ -17638,6 +18104,7 @@ class BudgetActionToRemove {
   }
 }
 
+/// @nodoc
 class BudgetActionType {
   static const stopSchedulingAndCompleteTasks =
       BudgetActionType._('STOP_SCHEDULING_AND_COMPLETE_TASKS');
@@ -17668,6 +18135,8 @@ class BudgetActionType {
 }
 
 /// The budget action to add.
+///
+/// @nodoc
 class BudgetActionToAdd {
   /// The percentage threshold for the budget action to add.
   final double thresholdPercentage;
@@ -17702,6 +18171,8 @@ class BudgetActionToAdd {
 }
 
 /// The details of a budget action.
+///
+/// @nodoc
 class ResponseBudgetAction {
   /// The percentage threshold for the budget.
   final double thresholdPercentage;
@@ -17744,6 +18215,8 @@ class ResponseBudgetAction {
 }
 
 /// Provides information about a specific limit.
+///
+/// @nodoc
 class LimitSummary {
   /// The value that you specify as the <code>name</code> in the
   /// <code>amounts</code> field of the <code>hostRequirements</code> in a step of
@@ -17844,6 +18317,8 @@ class LimitSummary {
 }
 
 /// The member of a farm.
+///
+/// @nodoc
 class FarmMember {
   /// The farm ID of the farm member.
   final String farmId;
@@ -17897,6 +18372,8 @@ class FarmMember {
 }
 
 /// The summary of details for a farm.
+///
+/// @nodoc
 class FarmSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -17966,6 +18443,7 @@ class FarmSummary {
   }
 }
 
+/// @nodoc
 class UpdateQueueLimitAssociationStatus {
   static const active = UpdateQueueLimitAssociationStatus._('ACTIVE');
   static const stopLimitUsageAndCompleteTasks =
@@ -17999,6 +18477,7 @@ class UpdateQueueLimitAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateQueueFleetAssociationStatus {
   static const active = UpdateQueueFleetAssociationStatus._('ACTIVE');
   static const stopSchedulingAndCompleteTasks =
@@ -18033,6 +18512,8 @@ class UpdateQueueFleetAssociationStatus {
 
 /// Specifies the fleet IDs or queue IDs to return statistics. You can specify
 /// only fleet IDs or queue IDS, not both.
+///
+/// @nodoc
 class SessionsStatisticsResources {
   /// One to 10 fleet IDs that specify the fleets to return statistics for. If you
   /// specify the <code>fleetIds</code> field, you can't specify the
@@ -18059,6 +18540,7 @@ class SessionsStatisticsResources {
   }
 }
 
+/// @nodoc
 class Period {
   static const hourly = Period._('HOURLY');
   static const daily = Period._('DAILY');
@@ -18084,6 +18566,7 @@ class Period {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageStatistic {
   static const sum = UsageStatistic._('SUM');
   static const min = UsageStatistic._('MIN');
@@ -18110,6 +18593,7 @@ class UsageStatistic {
   String toString() => value;
 }
 
+/// @nodoc
 class UsageGroupByField {
   static const queueId = UsageGroupByField._('QUEUE_ID');
   static const fleetId = UsageGroupByField._('FLEET_ID');
@@ -18148,6 +18632,8 @@ class UsageGroupByField {
 }
 
 /// The details of a worker search.
+///
+/// @nodoc
 class WorkerSearchSummary {
   /// The date and time the resource was created.
   final DateTime? createdAt;
@@ -18223,6 +18709,8 @@ class WorkerSearchSummary {
 }
 
 /// The search terms for a resource.
+///
+/// @nodoc
 class SearchGroupedFilterExpressions {
   /// The filters to use for the search.
   final List<SearchFilterExpression> filters;
@@ -18246,6 +18734,8 @@ class SearchGroupedFilterExpressions {
 }
 
 /// The resources to search.
+///
+/// @nodoc
 class SearchSortExpression {
   /// Options for sorting by a field.
   final FieldSortExpression? fieldSort;
@@ -18275,6 +18765,8 @@ class SearchSortExpression {
 }
 
 /// Allows setting a specific user's job to run first.
+///
+/// @nodoc
 class UserJobsFirst {
   /// The user's ID.
   final String userIdentityId;
@@ -18292,6 +18784,8 @@ class UserJobsFirst {
 }
 
 /// The field sorting order and name of the field.
+///
+/// @nodoc
 class FieldSortExpression {
   /// The name of the field.
   final String name;
@@ -18315,6 +18809,8 @@ class FieldSortExpression {
 }
 
 /// Organizes parameters according to your specifications.
+///
+/// @nodoc
 class ParameterSortExpression {
   /// The parameter name to sort by.
   final String name;
@@ -18337,6 +18833,7 @@ class ParameterSortExpression {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -18360,6 +18857,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class LogicalOperator {
   static const and = LogicalOperator._('AND');
   static const or = LogicalOperator._('OR');
@@ -18385,6 +18883,8 @@ class LogicalOperator {
 }
 
 /// The type of search filter to apply.
+///
+/// @nodoc
 class SearchFilterExpression {
   /// Filters based on date and time.
   final DateTimeFilterExpression? dateTimeFilter;
@@ -18432,6 +18932,8 @@ class SearchFilterExpression {
 }
 
 /// The time stamp in date-time format.
+///
+/// @nodoc
 class DateTimeFilterExpression {
   /// The date and time.
   final DateTime dateTime;
@@ -18461,6 +18963,8 @@ class DateTimeFilterExpression {
 }
 
 /// The details of a filtered search for parameters.
+///
+/// @nodoc
 class ParameterFilterExpression {
   /// The name of the parameter to filter on.
   final String name;
@@ -18490,6 +18994,8 @@ class ParameterFilterExpression {
 }
 
 /// Searches for a particular search term.
+///
+/// @nodoc
 class SearchTermFilterExpression {
   /// The term to search for.
   final String searchTerm;
@@ -18526,6 +19032,8 @@ class SearchTermFilterExpression {
 }
 
 /// Searches for a particular string.
+///
+/// @nodoc
 class StringFilterExpression {
   /// The field name to search.
   final String name;
@@ -18555,6 +19063,8 @@ class StringFilterExpression {
 }
 
 /// Searches for a particular list of strings.
+///
+/// @nodoc
 class StringListFilterExpression {
   /// The field name to search.
   final String name;
@@ -18583,6 +19093,7 @@ class StringListFilterExpression {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const equal = ComparisonOperator._('EQUAL');
   static const notEqual = ComparisonOperator._('NOT_EQUAL');
@@ -18624,6 +19135,7 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchTermMatchingType {
   static const fuzzyMatch = SearchTermMatchingType._('FUZZY_MATCH');
   static const contains = SearchTermMatchingType._('CONTAINS');
@@ -18650,6 +19162,8 @@ class SearchTermMatchingType {
 }
 
 /// The details of a task search.
+///
+/// @nodoc
 class TaskSearchSummary {
   /// The date and time the resource ended running.
   final DateTime? endedAt;
@@ -18760,6 +19274,8 @@ class TaskSearchSummary {
 }
 
 /// The details of a step search.
+///
+/// @nodoc
 class StepSearchSummary {
   /// The date and time the resource was created.
   final DateTime? createdAt;
@@ -18941,6 +19457,8 @@ class StepSearchSummary {
 }
 
 /// The details of a job search.
+///
+/// @nodoc
 class JobSearchSummary {
   /// The date and time the resource was created.
   final DateTime? createdAt;
@@ -19159,6 +19677,8 @@ class JobSearchSummary {
 }
 
 /// Provides information about the association between a queue and a limit.
+///
+/// @nodoc
 class QueueLimitAssociationSummary {
   /// The Unix timestamp of the date and time that the association was created.
   final DateTime createdAt;
@@ -19242,6 +19762,7 @@ class QueueLimitAssociationSummary {
   }
 }
 
+/// @nodoc
 class QueueLimitAssociationStatus {
   static const active = QueueLimitAssociationStatus._('ACTIVE');
   static const stopLimitUsageAndCompleteTasks =
@@ -19277,6 +19798,8 @@ class QueueLimitAssociationStatus {
 }
 
 /// The details of a queue-fleet association.
+///
+/// @nodoc
 class QueueFleetAssociationSummary {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -19359,6 +19882,7 @@ class QueueFleetAssociationSummary {
   }
 }
 
+/// @nodoc
 class QueueFleetAssociationStatus {
   static const active = QueueFleetAssociationStatus._('ACTIVE');
   static const stopSchedulingAndCompleteTasks =
@@ -19393,6 +19917,7 @@ class QueueFleetAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionsStatisticsAggregationStatus {
   static const inProgress =
       SessionsStatisticsAggregationStatus._('IN_PROGRESS');
@@ -19422,6 +19947,8 @@ class SessionsStatisticsAggregationStatus {
 }
 
 /// A list of statistics for a session.
+///
+/// @nodoc
 class Statistics {
   /// How the statistics should appear in USD. Options include: minimum, maximum,
   /// average or sum.
@@ -19534,6 +20061,7 @@ class Statistics {
   }
 }
 
+/// @nodoc
 class UsageType {
   static const compute = UsageType._('COMPUTE');
   static const license = UsageType._('LICENSE');
@@ -19558,6 +20086,8 @@ class UsageType {
 }
 
 /// The minimum, maximum, average, and sum.
+///
+/// @nodoc
 class Stats {
   /// The average of the usage statistics.
   final double? avg;
@@ -19603,6 +20133,8 @@ class Stats {
 
 /// The error details for a task that could not be updated in a batch update
 /// operation.
+///
+/// @nodoc
 class BatchUpdateTaskError {
   /// The error code.
   final BatchUpdateTaskErrorCode code;
@@ -19668,6 +20200,7 @@ class BatchUpdateTaskError {
   }
 }
 
+/// @nodoc
 class BatchUpdateTaskErrorCode {
   static const conflictException =
       BatchUpdateTaskErrorCode._('ConflictException');
@@ -19711,6 +20244,8 @@ class BatchUpdateTaskErrorCode {
 }
 
 /// The details of a task to update in a batch update operation.
+///
+/// @nodoc
 class BatchUpdateTaskItem {
   /// The farm ID of the task to update.
   final String farmId;
@@ -19759,6 +20294,8 @@ class BatchUpdateTaskItem {
 
 /// The error details for a job that could not be updated in a batch update
 /// operation.
+///
+/// @nodoc
 class BatchUpdateJobError {
   /// The error code.
   final BatchUpdateJobErrorCode code;
@@ -19809,6 +20346,7 @@ class BatchUpdateJobError {
   }
 }
 
+/// @nodoc
 class BatchUpdateJobErrorCode {
   static const conflictException =
       BatchUpdateJobErrorCode._('ConflictException');
@@ -19852,6 +20390,8 @@ class BatchUpdateJobErrorCode {
 }
 
 /// The details of a job to update in a batch update operation.
+///
+/// @nodoc
 class BatchUpdateJobItem {
   /// The farm ID of the job to update.
   final String farmId;
@@ -19938,6 +20478,8 @@ class BatchUpdateJobItem {
 
 /// The error details for a worker that could not be retrieved in a batch get
 /// operation.
+///
+/// @nodoc
 class BatchGetWorkerError {
   /// The error code.
   final BatchGetWorkerErrorCode code;
@@ -19988,6 +20530,7 @@ class BatchGetWorkerError {
   }
 }
 
+/// @nodoc
 class BatchGetWorkerErrorCode {
   static const internalServerErrorException =
       BatchGetWorkerErrorCode._('InternalServerErrorException');
@@ -20022,6 +20565,8 @@ class BatchGetWorkerErrorCode {
 }
 
 /// The details of a worker returned in a batch get operation.
+///
+/// @nodoc
 class BatchGetWorkerItem {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -20113,6 +20658,8 @@ class BatchGetWorkerItem {
 }
 
 /// The identifiers for a worker.
+///
+/// @nodoc
 class BatchGetWorkerIdentifier {
   /// The farm ID of the worker.
   final String farmId;
@@ -20143,6 +20690,8 @@ class BatchGetWorkerIdentifier {
 
 /// The error details for a task that could not be retrieved in a batch get
 /// operation.
+///
+/// @nodoc
 class BatchGetTaskError {
   /// The error code.
   final BatchGetTaskErrorCode code;
@@ -20207,6 +20756,7 @@ class BatchGetTaskError {
   }
 }
 
+/// @nodoc
 class BatchGetTaskErrorCode {
   static const internalServerErrorException =
       BatchGetTaskErrorCode._('InternalServerErrorException');
@@ -20247,6 +20797,8 @@ class BatchGetTaskErrorCode {
 }
 
 /// The details of a task returned in a batch get operation.
+///
+/// @nodoc
 class BatchGetTaskItem {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -20378,6 +20930,8 @@ class BatchGetTaskItem {
 }
 
 /// The identifiers for a task.
+///
+/// @nodoc
 class BatchGetTaskIdentifier {
   /// The farm ID of the task.
   final String farmId;
@@ -20420,6 +20974,8 @@ class BatchGetTaskIdentifier {
 
 /// The error details for a step that could not be retrieved in a batch get
 /// operation.
+///
+/// @nodoc
 class BatchGetStepError {
   /// The error code.
   final BatchGetStepErrorCode code;
@@ -20477,6 +21033,7 @@ class BatchGetStepError {
   }
 }
 
+/// @nodoc
 class BatchGetStepErrorCode {
   static const internalServerErrorException =
       BatchGetStepErrorCode._('InternalServerErrorException');
@@ -20517,6 +21074,8 @@ class BatchGetStepErrorCode {
 }
 
 /// The details of a step returned in a batch get operation.
+///
+/// @nodoc
 class BatchGetStepItem {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -20700,6 +21259,8 @@ class BatchGetStepItem {
 }
 
 /// The identifiers for a step.
+///
+/// @nodoc
 class BatchGetStepIdentifier {
   /// The farm ID of the step.
   final String farmId;
@@ -20736,6 +21297,8 @@ class BatchGetStepIdentifier {
 
 /// The error details for a session action that could not be retrieved in a
 /// batch get operation.
+///
+/// @nodoc
 class BatchGetSessionActionError {
   /// The error code.
   final BatchGetSessionActionErrorCode code;
@@ -20794,6 +21357,7 @@ class BatchGetSessionActionError {
   }
 }
 
+/// @nodoc
 class BatchGetSessionActionErrorCode {
   static const internalServerErrorException =
       BatchGetSessionActionErrorCode._('InternalServerErrorException');
@@ -20828,6 +21392,8 @@ class BatchGetSessionActionErrorCode {
 }
 
 /// The details of a session action returned in a batch get operation.
+///
+/// @nodoc
 class BatchGetSessionActionItem {
   /// The session action definition.
   final SessionActionDefinition definition;
@@ -20959,6 +21525,8 @@ class BatchGetSessionActionItem {
 }
 
 /// The identifiers for a session action.
+///
+/// @nodoc
 class BatchGetSessionActionIdentifier {
   /// The farm ID of the session action.
   final String farmId;
@@ -20995,6 +21563,8 @@ class BatchGetSessionActionIdentifier {
 
 /// The error details for a session that could not be retrieved in a batch get
 /// operation.
+///
+/// @nodoc
 class BatchGetSessionError {
   /// The error code.
   final BatchGetSessionErrorCode code;
@@ -21053,6 +21623,7 @@ class BatchGetSessionError {
   }
 }
 
+/// @nodoc
 class BatchGetSessionErrorCode {
   static const internalServerErrorException =
       BatchGetSessionErrorCode._('InternalServerErrorException');
@@ -21087,6 +21658,8 @@ class BatchGetSessionErrorCode {
 }
 
 /// The details of a session returned in a batch get operation.
+///
+/// @nodoc
 class BatchGetSessionItem {
   /// The farm ID of the session.
   final String farmId;
@@ -21217,6 +21790,8 @@ class BatchGetSessionItem {
 }
 
 /// The identifiers for a session.
+///
+/// @nodoc
 class BatchGetSessionIdentifier {
   /// The farm ID of the session.
   final String farmId;
@@ -21253,6 +21828,8 @@ class BatchGetSessionIdentifier {
 
 /// The error details for a job that could not be retrieved in a batch get
 /// operation.
+///
+/// @nodoc
 class BatchGetJobError {
   /// The error code.
   final BatchGetJobErrorCode code;
@@ -21303,6 +21880,7 @@ class BatchGetJobError {
   }
 }
 
+/// @nodoc
 class BatchGetJobErrorCode {
   static const internalServerErrorException =
       BatchGetJobErrorCode._('InternalServerErrorException');
@@ -21343,6 +21921,8 @@ class BatchGetJobErrorCode {
 }
 
 /// The details of a job returned in a batch get operation.
+///
+/// @nodoc
 class BatchGetJobItem {
   /// The date and time the resource was created.
   final DateTime createdAt;
@@ -21548,6 +22128,8 @@ class BatchGetJobItem {
 }
 
 /// The identifiers for a job.
+///
+/// @nodoc
 class BatchGetJobIdentifier {
   /// The farm ID of the job.
   final String farmId;
@@ -21576,27 +22158,32 @@ class BatchGetJobIdentifier {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -21605,11 +22192,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

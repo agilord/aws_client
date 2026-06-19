@@ -797,6 +797,7 @@ class MigrationHubStrategy {
   }
 }
 
+/// @nodoc
 class GetApplicationComponentDetailsResponse {
   /// Detailed information about an application component.
   final ApplicationComponentDetail? applicationComponentDetail;
@@ -857,6 +858,7 @@ class GetApplicationComponentDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationComponentStrategiesResponse {
   /// A list of application component strategy recommendations.
   final List<ApplicationComponentStrategy>? applicationComponentStrategies;
@@ -886,6 +888,7 @@ class GetApplicationComponentStrategiesResponse {
   }
 }
 
+/// @nodoc
 class GetAssessmentResponse {
   /// List of criteria for assessment.
   final List<AssessmentTarget>? assessmentTargets;
@@ -929,6 +932,7 @@ class GetAssessmentResponse {
   }
 }
 
+/// @nodoc
 class GetImportFileTaskResponse {
   /// The time that the import task completed.
   final DateTime? completionTime;
@@ -1027,6 +1031,7 @@ class GetImportFileTaskResponse {
   }
 }
 
+/// @nodoc
 class GetLatestAssessmentIdResponse {
   /// The latest ID for the specific assessment task.
   final String? id;
@@ -1049,6 +1054,7 @@ class GetLatestAssessmentIdResponse {
   }
 }
 
+/// @nodoc
 class GetPortfolioPreferencesResponse {
   /// The classification for application component types.
   final ApplicationMode? applicationMode;
@@ -1105,6 +1111,7 @@ class GetPortfolioPreferencesResponse {
   }
 }
 
+/// @nodoc
 class GetPortfolioSummaryResponse {
   /// An assessment summary for the portfolio including the number of servers to
   /// rehost and the overall number of anti-patterns.
@@ -1131,6 +1138,7 @@ class GetPortfolioSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationReportDetailsResponse {
   /// The ID of the recommendation report generation task. See the response of
   /// <a>StartRecommendationReportGeneration</a>.
@@ -1166,6 +1174,7 @@ class GetRecommendationReportDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetServerDetailsResponse {
   /// The associated application group the server belongs to, as defined in AWS
   /// Application Discovery Service.
@@ -1210,6 +1219,7 @@ class GetServerDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetServerStrategiesResponse {
   /// A list of strategy recommendations for the server.
   final List<ServerStrategy>? serverStrategies;
@@ -1236,6 +1246,8 @@ class GetServerStrategiesResponse {
 }
 
 /// Represents output for ListAnalyzableServers operation.
+///
+/// @nodoc
 class ListAnalyzableServersResponse {
   /// The list of analyzable servers with summary information about each server.
   final List<AnalyzableServerSummary>? analyzableServers;
@@ -1270,6 +1282,7 @@ class ListAnalyzableServersResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationComponentsResponse {
   /// The list of application components with detailed information about each
   /// component.
@@ -1307,6 +1320,7 @@ class ListApplicationComponentsResponse {
   }
 }
 
+/// @nodoc
 class ListCollectorsResponse {
   /// The list of all the installed collectors.
   final List<Collector>? collectors;
@@ -1340,6 +1354,7 @@ class ListCollectorsResponse {
   }
 }
 
+/// @nodoc
 class ListImportFileTaskResponse {
   /// The token you use to retrieve the next set of results, or null if there are
   /// no more results.
@@ -1374,6 +1389,7 @@ class ListImportFileTaskResponse {
   }
 }
 
+/// @nodoc
 class ListServersResponse {
   /// The token you use to retrieve the next set of results, or null if there are
   /// no more results.
@@ -1407,6 +1423,7 @@ class ListServersResponse {
   }
 }
 
+/// @nodoc
 class PutPortfolioPreferencesResponse {
   PutPortfolioPreferencesResponse();
 
@@ -1419,6 +1436,7 @@ class PutPortfolioPreferencesResponse {
   }
 }
 
+/// @nodoc
 class StartAssessmentResponse {
   /// The ID of the assessment.
   final String? assessmentId;
@@ -1441,6 +1459,7 @@ class StartAssessmentResponse {
   }
 }
 
+/// @nodoc
 class StartImportFileTaskResponse {
   /// The ID for a specific import task. The ID is unique within an AWS account.
   final String? id;
@@ -1463,6 +1482,7 @@ class StartImportFileTaskResponse {
   }
 }
 
+/// @nodoc
 class StartRecommendationReportGenerationResponse {
   /// The ID of the recommendation report generation task.
   final String? id;
@@ -1486,6 +1506,7 @@ class StartRecommendationReportGenerationResponse {
   }
 }
 
+/// @nodoc
 class StopAssessmentResponse {
   StopAssessmentResponse();
 
@@ -1498,6 +1519,7 @@ class StopAssessmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationComponentConfigResponse {
   UpdateApplicationComponentConfigResponse();
 
@@ -1511,6 +1533,7 @@ class UpdateApplicationComponentConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateServerConfigResponse {
   UpdateServerConfigResponse();
 
@@ -1525,6 +1548,8 @@ class UpdateServerConfigResponse {
 
 /// Information about all the available strategy options for migrating and
 /// modernizing an application component.
+///
+/// @nodoc
 class StrategyOption {
   /// Indicates if a specific strategy is preferred for the application component.
   final bool? isPreferred;
@@ -1562,6 +1587,7 @@ class StrategyOption {
   }
 }
 
+/// @nodoc
 class Strategy {
   static const rehost = Strategy._('Rehost');
   static const retirement = Strategy._('Retirement');
@@ -1598,6 +1624,7 @@ class Strategy {
   String toString() => value;
 }
 
+/// @nodoc
 class TransformationToolName {
   static const app2Container = TransformationToolName._('App2Container');
   static const portingAssistantForNet =
@@ -1651,6 +1678,7 @@ class TransformationToolName {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetDestination {
   static const noneSpecified = TargetDestination._('None specified');
   static const awsElasticBeanStalk =
@@ -1710,6 +1738,7 @@ class TargetDestination {
   String toString() => value;
 }
 
+/// @nodoc
 class InclusionStatus {
   static const excludeFromAssessment =
       InclusionStatus._('excludeFromAssessment');
@@ -1735,6 +1764,7 @@ class InclusionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AppType {
   static const dotNetFramework = AppType._('DotNetFramework');
   static const java = AppType._('Java');
@@ -1803,6 +1833,8 @@ class AppType {
 
 /// Object containing source code information that is linked to an application
 /// component.
+///
+/// @nodoc
 class SourceCode {
   /// The repository name for the source code.
   final String? location;
@@ -1837,6 +1869,7 @@ class SourceCode {
   }
 }
 
+/// @nodoc
 class VersionControl {
   static const github = VersionControl._('GITHUB');
   static const githubEnterprise = VersionControl._('GITHUB_ENTERPRISE');
@@ -1862,6 +1895,7 @@ class VersionControl {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputFormat {
   static const excel = OutputFormat._('Excel');
   static const json = OutputFormat._('Json');
@@ -1887,6 +1921,8 @@ class OutputFormat {
 
 /// The object containing information about distinct imports or groups for
 /// Strategy Recommendations.
+///
+/// @nodoc
 class Group {
   /// The key of the specific import group.
   final GroupName? name;
@@ -1909,6 +1945,7 @@ class Group {
   }
 }
 
+/// @nodoc
 class GroupName {
   static const externalId = GroupName._('ExternalId');
   static const externalSourceType = GroupName._('ExternalSourceType');
@@ -1932,6 +1969,7 @@ class GroupName {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceType {
   static const applicationDiscoveryService =
       DataSourceType._('ApplicationDiscoveryService');
@@ -1965,6 +2003,7 @@ class DataSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssessmentDataSourceType {
   static const strategyRecommendationsApplicationDataCollector =
       AssessmentDataSourceType._(
@@ -1999,6 +2038,8 @@ class AssessmentDataSourceType {
 }
 
 /// Defines the criteria of assessment.
+///
+/// @nodoc
 class AssessmentTarget {
   /// Condition of an assessment.
   final Condition condition;
@@ -2038,6 +2079,7 @@ class AssessmentTarget {
   }
 }
 
+/// @nodoc
 class Condition {
   static const equals = Condition._('EQUALS');
   static const notEquals = Condition._('NOT_EQUALS');
@@ -2064,6 +2106,8 @@ class Condition {
 }
 
 /// Rank of business goals based on priority.
+///
+/// @nodoc
 class PrioritizeBusinessGoals {
   /// Rank of business goals based on priority.
   final BusinessGoals? businessGoals;
@@ -2090,6 +2134,8 @@ class PrioritizeBusinessGoals {
 }
 
 /// Application preferences that you specify.
+///
+/// @nodoc
 class ApplicationPreferences {
   /// Application preferences that you specify to prefer managed environment.
   final ManagementPreference? managementPreference;
@@ -2117,6 +2163,8 @@ class ApplicationPreferences {
 }
 
 /// Preferences on managing your databases on AWS.
+///
+/// @nodoc
 class DatabasePreferences {
   /// Specifies whether you're interested in self-managed databases or databases
   /// managed by AWS.
@@ -2154,6 +2202,7 @@ class DatabasePreferences {
   }
 }
 
+/// @nodoc
 class ApplicationMode {
   static const all = ApplicationMode._('ALL');
   static const known = ApplicationMode._('KNOWN');
@@ -2179,6 +2228,7 @@ class ApplicationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DatabaseManagementPreference {
   static const awsManaged = DatabaseManagementPreference._('AWS-managed');
   static const selfManage = DatabaseManagementPreference._('Self-manage');
@@ -2206,6 +2256,8 @@ class DatabaseManagementPreference {
 }
 
 /// Preferences for migrating a database to AWS.
+///
+/// @nodoc
 class DatabaseMigrationPreference {
   /// Indicates whether you are interested in moving from one type of database to
   /// another. For example, from SQL Server to Amazon Aurora MySQL-Compatible
@@ -2255,6 +2307,8 @@ class DatabaseMigrationPreference {
 }
 
 /// The object containing details about heterogeneous database preferences.
+///
+/// @nodoc
 class Heterogeneous {
   /// The target database engine for heterogeneous database migration preference.
   final List<HeterogeneousTargetDatabaseEngine> targetDatabaseEngine;
@@ -2283,6 +2337,8 @@ class Heterogeneous {
 }
 
 /// The object containing details about homogeneous database preferences.
+///
+/// @nodoc
 class Homogeneous {
   /// The target database engine for homogeneous database migration preferences.
   final List<HomogeneousTargetDatabaseEngine>? targetDatabaseEngine;
@@ -2312,6 +2368,8 @@ class Homogeneous {
 
 /// The object containing details about database migration preferences, when you
 /// have no particular preference.
+///
+/// @nodoc
 class NoDatabaseMigrationPreference {
   /// The target database engine for database migration preference that you
   /// specify.
@@ -2339,6 +2397,7 @@ class NoDatabaseMigrationPreference {
   }
 }
 
+/// @nodoc
 class TargetDatabaseEngine {
   static const noneSpecified = TargetDatabaseEngine._('None specified');
   static const amazonAurora = TargetDatabaseEngine._('Amazon Aurora');
@@ -2384,6 +2443,7 @@ class TargetDatabaseEngine {
   String toString() => value;
 }
 
+/// @nodoc
 class HomogeneousTargetDatabaseEngine {
   static const noneSpecified =
       HomogeneousTargetDatabaseEngine._('None specified');
@@ -2409,6 +2469,7 @@ class HomogeneousTargetDatabaseEngine {
   String toString() => value;
 }
 
+/// @nodoc
 class HeterogeneousTargetDatabaseEngine {
   static const noneSpecified =
       HeterogeneousTargetDatabaseEngine._('None specified');
@@ -2459,6 +2520,8 @@ class HeterogeneousTargetDatabaseEngine {
 }
 
 /// Preferences for migrating an application to AWS.
+///
+/// @nodoc
 class ManagementPreference {
   /// Indicates interest in solutions that are managed by AWS.
   final AwsManagedResources? awsManagedResources;
@@ -2507,6 +2570,8 @@ class ManagementPreference {
 }
 
 /// Object containing the choice of application destination that you specify.
+///
+/// @nodoc
 class AwsManagedResources {
   /// The choice of application destination that you specify.
   final List<AwsManagedTargetDestination> targetDestination;
@@ -2533,6 +2598,8 @@ class AwsManagedResources {
 }
 
 /// Self-managed resources.
+///
+/// @nodoc
 class SelfManageResources {
   /// Self-managed resources target destination.
   final List<SelfManageTargetDestination> targetDestination;
@@ -2559,6 +2626,8 @@ class SelfManageResources {
 }
 
 /// Object containing the choice of application destination that you specify.
+///
+/// @nodoc
 class NoManagementPreference {
   /// The choice of application destination that you specify.
   final List<NoPreferenceTargetDestination> targetDestination;
@@ -2584,6 +2653,7 @@ class NoManagementPreference {
   }
 }
 
+/// @nodoc
 class NoPreferenceTargetDestination {
   static const noneSpecified =
       NoPreferenceTargetDestination._('None specified');
@@ -2626,6 +2696,7 @@ class NoPreferenceTargetDestination {
   String toString() => value;
 }
 
+/// @nodoc
 class SelfManageTargetDestination {
   static const noneSpecified = SelfManageTargetDestination._('None specified');
   static const amazonElasticCloudComputeEc2 =
@@ -2661,6 +2732,7 @@ class SelfManageTargetDestination {
   String toString() => value;
 }
 
+/// @nodoc
 class AwsManagedTargetDestination {
   static const noneSpecified = AwsManagedTargetDestination._('None specified');
   static const awsElasticBeanStalk =
@@ -2689,6 +2761,8 @@ class AwsManagedTargetDestination {
 }
 
 /// Business goals that you specify.
+///
+/// @nodoc
 class BusinessGoals {
   /// Business goal to reduce license costs.
   final int? licenseCostReduction;
@@ -2744,6 +2818,8 @@ class BusinessGoals {
 }
 
 /// Detailed information about a server.
+///
+/// @nodoc
 class ServerDetail {
   /// The S3 bucket name and Amazon S3 key name for anti-pattern report.
   final S3Object? antipatternReportS3Object;
@@ -2890,6 +2966,8 @@ class ServerDetail {
 }
 
 /// Contains a recommendation set.
+///
+/// @nodoc
 class RecommendationSet {
   /// The recommended strategy.
   final Strategy? strategy;
@@ -2931,6 +3009,7 @@ class RecommendationSet {
   }
 }
 
+/// @nodoc
 class RunTimeAssessmentStatus {
   static const dataCollectionTaskToBeScheduled =
       RunTimeAssessmentStatus._('dataCollectionTaskToBeScheduled');
@@ -2977,6 +3056,8 @@ class RunTimeAssessmentStatus {
 }
 
 /// Information about the server that hosts application components.
+///
+/// @nodoc
 class SystemInfo {
   /// CPU architecture type for the server.
   final String? cpuArchitecture;
@@ -3026,6 +3107,8 @@ class SystemInfo {
 }
 
 /// Contains the S3 bucket name and the Amazon S3 key name.
+///
+/// @nodoc
 class S3Object {
   /// The S3 bucket name.
   final String? s3Bucket;
@@ -3055,6 +3138,7 @@ class S3Object {
   }
 }
 
+/// @nodoc
 class AntipatternReportStatus {
   static const failed = AntipatternReportStatus._('FAILED');
   static const inProgress = AntipatternReportStatus._('IN_PROGRESS');
@@ -3082,6 +3166,8 @@ class AntipatternReportStatus {
 }
 
 /// The error in server analysis.
+///
+/// @nodoc
 class ServerError {
   /// The error category of server analysis.
   final ServerErrorCategory? serverErrorCategory;
@@ -3106,6 +3192,7 @@ class ServerError {
   }
 }
 
+/// @nodoc
 class ServerErrorCategory {
   static const connectivityError = ServerErrorCategory._('CONNECTIVITY_ERROR');
   static const credentialError = ServerErrorCategory._('CREDENTIAL_ERROR');
@@ -3141,6 +3228,8 @@ class ServerErrorCategory {
 }
 
 /// Object containing the summary of the strategy recommendations.
+///
+/// @nodoc
 class StrategySummary {
   /// The count of recommendations per strategy.
   final int? count;
@@ -3171,6 +3260,8 @@ class StrategySummary {
 }
 
 /// Information about the operating system.
+///
+/// @nodoc
 class OSInfo {
   /// Information about the type of operating system.
   final OSType? type;
@@ -3201,6 +3292,8 @@ class OSInfo {
 }
 
 /// Information about the server's network for which the assessment was run.
+///
+/// @nodoc
 class NetworkInfo {
   /// Information about the name of the interface of the server for which the
   /// assessment was run.
@@ -3248,6 +3341,7 @@ class NetworkInfo {
   }
 }
 
+/// @nodoc
 class OSType {
   static const linux = OSType._('LINUX');
   static const windows = OSType._('WINDOWS');
@@ -3272,6 +3366,8 @@ class OSType {
 }
 
 /// Contains the summary of anti-patterns and their severity.
+///
+/// @nodoc
 class AntipatternSeveritySummary {
   /// Contains the count of anti-patterns.
   final int? count;
@@ -3301,6 +3397,7 @@ class AntipatternSeveritySummary {
   }
 }
 
+/// @nodoc
 class Severity {
   static const high = Severity._('HIGH');
   static const medium = Severity._('MEDIUM');
@@ -3327,6 +3424,8 @@ class Severity {
 
 /// Information of the transformation tool that can be used to migrate and
 /// modernize the application.
+///
+/// @nodoc
 class TransformationTool {
   /// Description of the tool.
   final String? description;
@@ -3366,6 +3465,7 @@ class TransformationTool {
   }
 }
 
+/// @nodoc
 class ServerCriteria {
   static const notDefined = ServerCriteria._('NOT_DEFINED');
   static const osName = ServerCriteria._('OS_NAME');
@@ -3403,6 +3503,7 @@ class ServerCriteria {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -3427,6 +3528,8 @@ class SortOrder {
 }
 
 /// Information about the import file tasks you request.
+///
+/// @nodoc
 class ImportFileTaskInformation {
   /// The time that the import task completes.
   final DateTime? completionTime;
@@ -3524,6 +3627,7 @@ class ImportFileTaskInformation {
   }
 }
 
+/// @nodoc
 class ImportFileTaskStatus {
   static const importInProgress = ImportFileTaskStatus._('ImportInProgress');
   static const importFailed = ImportFileTaskStatus._('ImportFailed');
@@ -3567,6 +3671,8 @@ class ImportFileTaskStatus {
 }
 
 /// Process data collector that runs in the environment that you specify.
+///
+/// @nodoc
 class Collector {
   /// Indicates the health of a collector.
   final CollectorHealth? collectorHealth;
@@ -3646,6 +3752,7 @@ class Collector {
   }
 }
 
+/// @nodoc
 class CollectorHealth {
   static const collectorHealthy = CollectorHealth._('COLLECTOR_HEALTHY');
   static const collectorUnhealthy = CollectorHealth._('COLLECTOR_UNHEALTHY');
@@ -3671,6 +3778,8 @@ class CollectorHealth {
 }
 
 /// Summary of the collector configuration.
+///
+/// @nodoc
 class ConfigurationSummary {
   /// IP address based configurations.
   final List<IPAddressBasedRemoteInfo>? ipAddressBasedRemoteInfoList;
@@ -3748,6 +3857,8 @@ class ConfigurationSummary {
 }
 
 /// Information about the server configured for source code analysis.
+///
+/// @nodoc
 class RemoteSourceCodeAnalysisServerInfo {
   /// The time when the remote source code server was configured.
   final String? remoteSourceCodeAnalysisServerConfigurationTimestamp;
@@ -3777,6 +3888,8 @@ class RemoteSourceCodeAnalysisServerInfo {
 }
 
 /// Detailed information of the pipeline.
+///
+/// @nodoc
 class PipelineInfo {
   /// The time when the pipeline info was configured.
   final String? pipelineConfigurationTimeStamp;
@@ -3809,6 +3922,7 @@ class PipelineInfo {
   }
 }
 
+/// @nodoc
 class PipelineType {
   static const azureDevops = PipelineType._('AZURE_DEVOPS');
 
@@ -3832,6 +3946,8 @@ class PipelineType {
 }
 
 /// Details about the version control configuration.
+///
+/// @nodoc
 class VersionControlInfo {
   /// The time when the version control system was last configured.
   final String? versionControlConfigurationTimeStamp;
@@ -3867,6 +3983,7 @@ class VersionControlInfo {
   }
 }
 
+/// @nodoc
 class VersionControlType {
   static const github = VersionControlType._('GITHUB');
   static const githubEnterprise = VersionControlType._('GITHUB_ENTERPRISE');
@@ -3894,6 +4011,8 @@ class VersionControlType {
 }
 
 /// IP address based configurations.
+///
+/// @nodoc
 class IPAddressBasedRemoteInfo {
   /// The type of authorization.
   final AuthType? authType;
@@ -3933,6 +4052,7 @@ class IPAddressBasedRemoteInfo {
   }
 }
 
+/// @nodoc
 class AuthType {
   static const ntlm = AuthType._('NTLM');
   static const ssh = AuthType._('SSH');
@@ -3958,6 +4078,8 @@ class AuthType {
 }
 
 /// Details about the server in vCenter.
+///
+/// @nodoc
 class VcenterBasedRemoteInfo {
   /// The type of the operating system.
   final OSType? osType;
@@ -3990,6 +4112,8 @@ class VcenterBasedRemoteInfo {
 }
 
 /// Contains detailed information about an application component.
+///
+/// @nodoc
 class ApplicationComponentDetail {
   /// The status of analysis, if the application component has source code or an
   /// associated database.
@@ -4207,6 +4331,7 @@ class ApplicationComponentDetail {
   }
 }
 
+/// @nodoc
 class SrcCodeOrDbAnalysisStatus {
   static const analysisToBeScheduled =
       SrcCodeOrDbAnalysisStatus._('ANALYSIS_TO_BE_SCHEDULED');
@@ -4250,6 +4375,8 @@ class SrcCodeOrDbAnalysisStatus {
 }
 
 /// Configuration information used for assessing databases.
+///
+/// @nodoc
 class DatabaseConfigDetail {
   /// AWS Secrets Manager key that holds the credentials that you use to connect
   /// to a database.
@@ -4273,6 +4400,7 @@ class DatabaseConfigDetail {
   }
 }
 
+/// @nodoc
 class ResourceSubType {
   static const database = ResourceSubType._('Database');
   static const process = ResourceSubType._('Process');
@@ -4298,6 +4426,7 @@ class ResourceSubType {
   String toString() => value;
 }
 
+/// @nodoc
 class RuntimeAnalysisStatus {
   static const analysisToBeScheduled =
       RuntimeAnalysisStatus._('ANALYSIS_TO_BE_SCHEDULED');
@@ -4332,6 +4461,8 @@ class RuntimeAnalysisStatus {
 }
 
 /// Error in the analysis of the application unit.
+///
+/// @nodoc
 class AppUnitError {
   /// The category of the error.
   final AppUnitErrorCategory? appUnitErrorCategory;
@@ -4357,6 +4488,8 @@ class AppUnitError {
 }
 
 /// The error in server analysis.
+///
+/// @nodoc
 class Result {
   /// The error in server analysis.
   final AnalysisStatusUnion? analysisStatus;
@@ -4410,6 +4543,7 @@ class Result {
   }
 }
 
+/// @nodoc
 class AnalysisType {
   static const sourceCodeAnalysis = AnalysisType._('SOURCE_CODE_ANALYSIS');
   static const databaseAnalysis = AnalysisType._('DATABASE_ANALYSIS');
@@ -4441,6 +4575,8 @@ class AnalysisType {
 }
 
 /// A combination of existing analysis statuses.
+///
+/// @nodoc
 class AnalysisStatusUnion {
   /// The status of the analysis.
   final RuntimeAnalysisStatus? runtimeAnalysisStatus;
@@ -4475,6 +4611,8 @@ class AnalysisStatusUnion {
 }
 
 /// The anti-pattern report result.
+///
+/// @nodoc
 class AntipatternReportResult {
   /// The analyzer name.
   final AnalyzerNameUnion? analyzerName;
@@ -4528,6 +4666,8 @@ class AntipatternReportResult {
 }
 
 /// The combination of the existing analyzers.
+///
+/// @nodoc
 class AnalyzerNameUnion {
   /// The binary analyzer names.
   final BinaryAnalyzerName? binaryAnalyzerName;
@@ -4570,6 +4710,7 @@ class AnalyzerNameUnion {
   }
 }
 
+/// @nodoc
 class BinaryAnalyzerName {
   static const dllAnalyzer = BinaryAnalyzerName._('DLL_ANALYZER');
   static const bytecodeAnalyzer = BinaryAnalyzerName._('BYTECODE_ANALYZER');
@@ -4595,6 +4736,7 @@ class BinaryAnalyzerName {
   String toString() => value;
 }
 
+/// @nodoc
 class RunTimeAnalyzerName {
   static const a2cAnalyzer = RunTimeAnalyzerName._('A2C_ANALYZER');
   static const rehostAnalyzer = RunTimeAnalyzerName._('REHOST_ANALYZER');
@@ -4629,6 +4771,7 @@ class RunTimeAnalyzerName {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceCodeAnalyzerName {
   static const csharpAnalyzer = SourceCodeAnalyzerName._('CSHARP_ANALYZER');
   static const javaAnalyzer = SourceCodeAnalyzerName._('JAVA_ANALYZER');
@@ -4661,6 +4804,7 @@ class SourceCodeAnalyzerName {
   String toString() => value;
 }
 
+/// @nodoc
 class AppUnitErrorCategory {
   static const credentialError = AppUnitErrorCategory._('CREDENTIAL_ERROR');
   static const connectivityError = AppUnitErrorCategory._('CONNECTIVITY_ERROR');
@@ -4697,6 +4841,8 @@ class AppUnitErrorCategory {
 
 /// Object containing source code information that is linked to an application
 /// component.
+///
+/// @nodoc
 class SourceCodeRepository {
   /// The branch of the source code.
   final String? branch;
@@ -4740,6 +4886,7 @@ class SourceCodeRepository {
   }
 }
 
+/// @nodoc
 class ApplicationComponentCriteria {
   static const notDefined = ApplicationComponentCriteria._('NOT_DEFINED');
   static const appName = ApplicationComponentCriteria._('APP_NAME');
@@ -4782,6 +4929,8 @@ class ApplicationComponentCriteria {
 }
 
 /// Summary information about an analyzable server.
+///
+/// @nodoc
 class AnalyzableServerSummary {
   /// The host name of the analyzable server.
   final String? hostname;
@@ -4826,6 +4975,8 @@ class AnalyzableServerSummary {
 }
 
 /// Contains information about a strategy recommendation for a server.
+///
+/// @nodoc
 class ServerStrategy {
   /// Set to true if the recommendation is set as preferred.
   final bool? isPreferred;
@@ -4876,6 +5027,7 @@ class ServerStrategy {
   }
 }
 
+/// @nodoc
 class StrategyRecommendation {
   static const recommended = StrategyRecommendation._('recommended');
   static const viableOption = StrategyRecommendation._('viableOption');
@@ -4905,6 +5057,8 @@ class StrategyRecommendation {
 
 /// Object containing details about applications as defined in Application
 /// Discovery Service.
+///
+/// @nodoc
 class AssociatedApplication {
   /// ID of the application as defined in Application Discovery Service.
   final String? id;
@@ -4935,6 +5089,8 @@ class AssociatedApplication {
 }
 
 /// Contains detailed information about a recommendation report.
+///
+/// @nodoc
 class RecommendationReportDetails {
   /// The time that the recommendation report generation task completes.
   final DateTime? completionTime;
@@ -4995,6 +5151,7 @@ class RecommendationReportDetails {
   }
 }
 
+/// @nodoc
 class RecommendationReportStatus {
   static const failed = RecommendationReportStatus._('FAILED');
   static const inProgress = RecommendationReportStatus._('IN_PROGRESS');
@@ -5022,6 +5179,8 @@ class RecommendationReportStatus {
 }
 
 /// Contains the summary of the assessment results.
+///
+/// @nodoc
 class AssessmentSummary {
   /// The Amazon S3 object containing the anti-pattern report.
   final S3Object? antipatternReportS3Object;
@@ -5164,6 +5323,8 @@ class AssessmentSummary {
 }
 
 /// The status summary of the server analysis.
+///
+/// @nodoc
 class ServerStatusSummary {
   /// The number of servers successfully analyzed, partially successful or failed
   /// analysis.
@@ -5197,6 +5358,8 @@ class ServerStatusSummary {
 }
 
 /// Summary of the analysis status of the application component.
+///
+/// @nodoc
 class ApplicationComponentStatusSummary {
   /// The number of application components successfully analyzed, partially
   /// successful or failed analysis.
@@ -5232,6 +5395,8 @@ class ApplicationComponentStatusSummary {
 
 /// Object containing details about the servers imported by Application
 /// Discovery Service
+///
+/// @nodoc
 class ServerSummary {
   /// Type of operating system for the servers.
   final ServerOsType? serverOsType;
@@ -5262,6 +5427,7 @@ class ServerSummary {
   }
 }
 
+/// @nodoc
 class ServerOsType {
   static const windowsServer = ServerOsType._('WindowsServer');
   static const amazonLinux = ServerOsType._('AmazonLinux');
@@ -5296,6 +5462,8 @@ class ServerOsType {
 }
 
 /// Contains the summary of application components.
+///
+/// @nodoc
 class ApplicationComponentSummary {
   /// Contains the name of application types.
   final AppType? appType;
@@ -5326,6 +5494,8 @@ class ApplicationComponentSummary {
 }
 
 /// Detailed information about an assessment.
+///
+/// @nodoc
 class DataCollectionDetails {
   /// The time the assessment completes.
   final DateTime? completionTime;
@@ -5398,6 +5568,7 @@ class DataCollectionDetails {
   }
 }
 
+/// @nodoc
 class AssessmentStatus {
   static const inProgress = AssessmentStatus._('IN_PROGRESS');
   static const complete = AssessmentStatus._('COMPLETE');
@@ -5426,6 +5597,8 @@ class AssessmentStatus {
 
 /// Contains information about a strategy recommendation for an application
 /// component.
+///
+/// @nodoc
 class ApplicationComponentStrategy {
   /// Set to true if the recommendation is set as preferred.
   final bool? isPreferred;
@@ -5466,31 +5639,37 @@ class ApplicationComponentStrategy {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DependencyException extends _s.GenericAwsException {
   DependencyException({String? type, String? message})
       : super(type: type, code: 'DependencyException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceLinkedRoleLockClientException extends _s.GenericAwsException {
   ServiceLinkedRoleLockClientException({String? type, String? message})
       : super(
@@ -5499,6 +5678,7 @@ class ServiceLinkedRoleLockClientException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5507,11 +5687,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

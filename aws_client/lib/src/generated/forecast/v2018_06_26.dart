@@ -1173,7 +1173,7 @@ class Forecast {
   ///
   /// The default quantiles are the quantiles you specified during predictor
   /// creation. If you didn't specify quantiles, the default values are
-  /// <code>["0.1", "0.5", "0.9"]</code>.
+  /// <code>\["0.1", "0.5", "0.9"\]</code>.
   ///
   /// Parameter [tags] :
   /// The optional metadata that you apply to the forecast to help you
@@ -1581,7 +1581,7 @@ class Forecast {
   /// by increments of 0.01 or higher. You can also specify the mean forecast
   /// with <code>mean</code>.
   ///
-  /// The default value is <code>["0.10", "0.50", "0.9"]</code>.
+  /// The default value is <code>\["0.10", "0.50", "0.9"\]</code>.
   ///
   /// Parameter [hPOConfig] :
   /// Provides hyperparameter override values for the algorithm. If you don't
@@ -3347,8 +3347,8 @@ class Forecast {
   /// For example, to list all dataset import jobs whose status is ACTIVE, you
   /// specify the following filter:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE"
-  /// } ]</code>
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "Status", "Value":
+  /// "ACTIVE" } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -3615,9 +3615,9 @@ class Forecast {
   /// For example, to list all jobs that export a forecast named
   /// <i>electricityforecast</i>, specify the following filter:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value":
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "ForecastArn", "Value":
   /// "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityforecast" }
-  /// ]</code>
+  /// \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -3695,8 +3695,8 @@ class Forecast {
   /// For example, to list all forecasts whose status is not ACTIVE, you would
   /// specify:
   ///
-  /// <code>"Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value":
-  /// "ACTIVE" } ]</code>
+  /// <code>"Filters": \[ { "Condition": "IS_NOT", "Key": "Status", "Value":
+  /// "ACTIVE" } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -3778,8 +3778,8 @@ class Forecast {
   /// For example, to list only successful monitor evaluations, you would
   /// specify:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "EvaluationState", "Value":
-  /// "SUCCESS" } ]</code>
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "EvaluationState",
+  /// "Value": "SUCCESS" } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of monitoring results to return.
@@ -3856,8 +3856,8 @@ class Forecast {
   /// For example, to list all monitors who's status is ACTIVE, you would
   /// specify:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE"
-  /// } ]</code>
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "Status", "Value":
+  /// "ACTIVE" } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of monitors to include in the response.
@@ -4012,8 +4012,8 @@ class Forecast {
   /// For example, to list all predictors whose status is ACTIVE, you would
   /// specify:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE"
-  /// } ]</code>
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "Status", "Value":
+  /// "ACTIVE" } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -4119,9 +4119,9 @@ class Forecast {
   /// For example, to list all jobs that export a forecast named
   /// <i>electricityWhatIf</i>, specify the following filter:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "WhatIfAnalysisArn",
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "WhatIfAnalysisArn",
   /// "Value": "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWhatIf"
-  /// } ]</code>
+  /// } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -4198,10 +4198,10 @@ class Forecast {
   /// For example, to list all jobs that export a forecast named
   /// <i>electricityWIFExport</i>, specify the following filter:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastExportArn",
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "WhatIfForecastExportArn",
   /// "Value":
   /// "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWIFExport" }
-  /// ]</code>
+  /// \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -4278,10 +4278,10 @@ class Forecast {
   /// For example, to list all jobs that export a forecast named
   /// <i>electricityWhatIfForecast</i>, specify the following filter:
   ///
-  /// <code>"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastArn",
+  /// <code>"Filters": \[ { "Condition": "IS", "Key": "WhatIfForecastArn",
   /// "Value":
   /// "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWhatIfForecast"
-  /// } ]</code>
+  /// } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -4555,6 +4555,7 @@ class Forecast {
   }
 }
 
+/// @nodoc
 class CreateAutoPredictorResponse {
   /// The Amazon Resource Name (ARN) of the predictor.
   final String? predictorArn;
@@ -4577,6 +4578,7 @@ class CreateAutoPredictorResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -4599,6 +4601,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetGroupResponse {
   /// The Amazon Resource Name (ARN) of the dataset group.
   final String? datasetGroupArn;
@@ -4621,6 +4624,7 @@ class CreateDatasetGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetImportJobResponse {
   /// The Amazon Resource Name (ARN) of the dataset import job.
   final String? datasetImportJobArn;
@@ -4644,6 +4648,7 @@ class CreateDatasetImportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateExplainabilityResponse {
   /// The Amazon Resource Name (ARN) of the Explainability.
   final String? explainabilityArn;
@@ -4666,6 +4671,7 @@ class CreateExplainabilityResponse {
   }
 }
 
+/// @nodoc
 class CreateExplainabilityExportResponse {
   /// The Amazon Resource Name (ARN) of the export.
   final String? explainabilityExportArn;
@@ -4690,6 +4696,7 @@ class CreateExplainabilityExportResponse {
   }
 }
 
+/// @nodoc
 class CreateForecastResponse {
   /// The Amazon Resource Name (ARN) of the forecast.
   final String? forecastArn;
@@ -4712,6 +4719,7 @@ class CreateForecastResponse {
   }
 }
 
+/// @nodoc
 class CreateForecastExportJobResponse {
   /// The Amazon Resource Name (ARN) of the export job.
   final String? forecastExportJobArn;
@@ -4735,6 +4743,7 @@ class CreateForecastExportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateMonitorResponse {
   /// The Amazon Resource Name (ARN) of the monitor resource.
   final String? monitorArn;
@@ -4757,6 +4766,7 @@ class CreateMonitorResponse {
   }
 }
 
+/// @nodoc
 class CreatePredictorResponse {
   /// The Amazon Resource Name (ARN) of the predictor.
   final String? predictorArn;
@@ -4779,6 +4789,7 @@ class CreatePredictorResponse {
   }
 }
 
+/// @nodoc
 class CreatePredictorBacktestExportJobResponse {
   /// The Amazon Resource Name (ARN) of the predictor backtest export job that you
   /// want to export.
@@ -4805,6 +4816,7 @@ class CreatePredictorBacktestExportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateWhatIfAnalysisResponse {
   /// The Amazon Resource Name (ARN) of the what-if analysis.
   final String? whatIfAnalysisArn;
@@ -4827,6 +4839,7 @@ class CreateWhatIfAnalysisResponse {
   }
 }
 
+/// @nodoc
 class CreateWhatIfForecastResponse {
   /// The Amazon Resource Name (ARN) of the what-if forecast.
   final String? whatIfForecastArn;
@@ -4849,6 +4862,7 @@ class CreateWhatIfForecastResponse {
   }
 }
 
+/// @nodoc
 class CreateWhatIfForecastExportResponse {
   /// The Amazon Resource Name (ARN) of the what-if forecast.
   final String? whatIfForecastExportArn;
@@ -4873,6 +4887,7 @@ class CreateWhatIfForecastExportResponse {
   }
 }
 
+/// @nodoc
 class DescribeAutoPredictorResponse {
   /// The timestamp of the CreateAutoPredictor request.
   final DateTime? creationTime;
@@ -4909,7 +4924,7 @@ class DescribeAutoPredictorResponse {
   final int? forecastHorizon;
 
   /// The forecast types used during predictor training. Default value is
-  /// ["0.1","0.5","0.9"].
+  /// \["0.1","0.5","0.9"\].
   final List<String>? forecastTypes;
 
   /// The last time the resource was modified. The timestamp depends on the status
@@ -5103,6 +5118,7 @@ class DescribeAutoPredictorResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   /// When the dataset was created.
   final DateTime? creationTime;
@@ -5238,6 +5254,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetGroupResponse {
   /// When the dataset group was created.
   final DateTime? creationTime;
@@ -5337,6 +5354,7 @@ class DescribeDatasetGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetImportJobResponse {
   /// When the dataset import job was created.
   final DateTime? creationTime;
@@ -5544,6 +5562,7 @@ class DescribeDatasetImportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeExplainabilityResponse {
   /// When the Explainability resource was created.
   final DateTime? creationTime;
@@ -5709,6 +5728,7 @@ class DescribeExplainabilityResponse {
   }
 }
 
+/// @nodoc
 class DescribeExplainabilityExportResponse {
   /// When the Explainability export was created.
   final DateTime? creationTime;
@@ -5830,6 +5850,7 @@ class DescribeExplainabilityExportResponse {
   }
 }
 
+/// @nodoc
 class DescribeForecastResponse {
   /// When the forecast creation task was created.
   final DateTime? creationTime;
@@ -5974,6 +5995,7 @@ class DescribeForecastResponse {
   }
 }
 
+/// @nodoc
 class DescribeForecastExportJobResponse {
   /// When the forecast export job was created.
   final DateTime? creationTime;
@@ -6101,6 +6123,7 @@ class DescribeForecastExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeMonitorResponse {
   /// Metrics you can use as a baseline for comparison purposes. Use these values
   /// you interpret monitoring results for an auto predictor.
@@ -6205,6 +6228,7 @@ class DescribeMonitorResponse {
   }
 }
 
+/// @nodoc
 class DescribePredictorResponse {
   /// The Amazon Resource Name (ARN) of the algorithm used for model training.
   final String? algorithmArn;
@@ -6254,7 +6278,7 @@ class DescribePredictorResponse {
   final int? forecastHorizon;
 
   /// The forecast types used during predictor training. Default value is
-  /// <code>["0.1","0.5","0.9"]</code>
+  /// <code>\["0.1","0.5","0.9"\]</code>
   final List<String>? forecastTypes;
 
   /// The hyperparameter override values for the algorithm.
@@ -6494,6 +6518,7 @@ class DescribePredictorResponse {
   }
 }
 
+/// @nodoc
 class DescribePredictorBacktestExportJobResponse {
   /// When the predictor backtest export job was created.
   final DateTime? creationTime;
@@ -6618,6 +6643,7 @@ class DescribePredictorBacktestExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeWhatIfAnalysisResponse {
   /// When the what-if analysis was created.
   final DateTime? creationTime;
@@ -6742,6 +6768,7 @@ class DescribeWhatIfAnalysisResponse {
   }
 }
 
+/// @nodoc
 class DescribeWhatIfForecastResponse {
   /// When the what-if forecast was created.
   final DateTime? creationTime;
@@ -6752,7 +6779,7 @@ class DescribeWhatIfForecastResponse {
   /// The quantiles at which probabilistic forecasts are generated. You can
   /// specify up to five quantiles per what-if forecast in the
   /// <a>CreateWhatIfForecast</a> operation. If you didn't specify quantiles, the
-  /// default values are <code>["0.1", "0.5", "0.9"]</code>.
+  /// default values are <code>\["0.1", "0.5", "0.9"\]</code>.
   final List<String>? forecastTypes;
 
   /// The last time the resource was modified. The timestamp depends on the status
@@ -6901,6 +6928,7 @@ class DescribeWhatIfForecastResponse {
   }
 }
 
+/// @nodoc
 class DescribeWhatIfForecastExportResponse {
   /// When the what-if forecast export was created.
   final DateTime? creationTime;
@@ -7040,6 +7068,7 @@ class DescribeWhatIfForecastExportResponse {
   }
 }
 
+/// @nodoc
 class GetAccuracyMetricsResponse {
   /// <note>
   /// The <code>LatencyOptimized</code> AutoML override strategy is only available
@@ -7100,6 +7129,7 @@ class GetAccuracyMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetGroupsResponse {
   /// An array of objects that summarize each dataset group's properties.
   final List<DatasetGroupSummary>? datasetGroups;
@@ -7133,6 +7163,7 @@ class ListDatasetGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetImportJobsResponse {
   /// An array of objects that summarize each dataset import job's properties.
   final List<DatasetImportJobSummary>? datasetImportJobs;
@@ -7167,6 +7198,7 @@ class ListDatasetImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// An array of objects that summarize each dataset's properties.
   final List<DatasetSummary>? datasets;
@@ -7200,6 +7232,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListExplainabilitiesResponse {
   /// An array of objects that summarize the properties of each Explainability
   /// resource.
@@ -7234,6 +7267,7 @@ class ListExplainabilitiesResponse {
   }
 }
 
+/// @nodoc
 class ListExplainabilityExportsResponse {
   /// An array of objects that summarize the properties of each Explainability
   /// export.
@@ -7271,6 +7305,7 @@ class ListExplainabilityExportsResponse {
   }
 }
 
+/// @nodoc
 class ListForecastExportJobsResponse {
   /// An array of objects that summarize each export job's properties.
   final List<ForecastExportJobSummary>? forecastExportJobs;
@@ -7305,6 +7340,7 @@ class ListForecastExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListForecastsResponse {
   /// An array of objects that summarize each forecast's properties.
   final List<ForecastSummary>? forecasts;
@@ -7338,6 +7374,7 @@ class ListForecastsResponse {
   }
 }
 
+/// @nodoc
 class ListMonitorEvaluationsResponse {
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request. Tokens
@@ -7383,6 +7420,7 @@ class ListMonitorEvaluationsResponse {
   }
 }
 
+/// @nodoc
 class ListMonitorsResponse {
   /// An array of objects that summarize each monitor's properties.
   final List<MonitorSummary>? monitors;
@@ -7416,6 +7454,7 @@ class ListMonitorsResponse {
   }
 }
 
+/// @nodoc
 class ListPredictorBacktestExportJobsResponse {
   /// Returns this token if the response is truncated. To retrieve the next set of
   /// results, use the token in the next request.
@@ -7454,6 +7493,7 @@ class ListPredictorBacktestExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListPredictorsResponse {
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
@@ -7487,6 +7527,7 @@ class ListPredictorsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final List<Tag>? tags;
@@ -7512,6 +7553,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWhatIfAnalysesResponse {
   /// If the response is truncated, Forecast returns this token. To retrieve the
   /// next set of results, use the token in the next request.
@@ -7546,6 +7588,7 @@ class ListWhatIfAnalysesResponse {
   }
 }
 
+/// @nodoc
 class ListWhatIfForecastExportsResponse {
   /// If the response is truncated, Forecast returns this token. To retrieve the
   /// next set of results, use the token in the next request.
@@ -7583,6 +7626,7 @@ class ListWhatIfForecastExportsResponse {
   }
 }
 
+/// @nodoc
 class ListWhatIfForecastsResponse {
   /// If the result of the previous request was truncated, the response includes a
   /// <code>NextToken</code>. To retrieve the next set of results, use the token
@@ -7618,6 +7662,7 @@ class ListWhatIfForecastsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7630,6 +7675,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7642,6 +7688,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetGroupResponse {
   UpdateDatasetGroupResponse();
 
@@ -7693,6 +7740,8 @@ class UpdateDatasetGroupResponse {
 /// <code>aws</code> do not count against your tags per resource limit.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
@@ -7728,6 +7777,8 @@ class Tag {
 /// <a>ListWhatIfForecasts</a> operation. To get the complete set of properties,
 /// call the <a>DescribeWhatIfForecast</a> operation, and provide the
 /// <code>WhatIfForecastArn</code> that is listed in the summary.
+///
+/// @nodoc
 class WhatIfForecastSummary {
   /// When the what-if forecast was created.
   final DateTime? creationTime;
@@ -7840,6 +7891,8 @@ class WhatIfForecastSummary {
 /// or <code>IS_NOT</code>, which specifies whether to include or exclude the
 /// objects that match the statement, respectively. The match statement consists
 /// of a key and a value.
+///
+/// @nodoc
 class Filter {
   /// The condition to apply. To include the objects that match the statement,
   /// specify <code>IS</code>. To exclude matching objects, specify
@@ -7870,6 +7923,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterConditionString {
   static const $is = FilterConditionString._('IS');
   static const isNot = FilterConditionString._('IS_NOT');
@@ -7900,6 +7954,8 @@ class FilterConditionString {
 /// properties, call the <a>DescribeWhatIfForecastExport</a> operation, and
 /// provide the <code>WhatIfForecastExportArn</code> that is listed in the
 /// summary.
+///
+/// @nodoc
 class WhatIfForecastExportSummary {
   /// When the what-if forecast export was created.
   final DateTime? creationTime;
@@ -8026,6 +8082,8 @@ class WhatIfForecastExportSummary {
 /// The destination for an export job. Provide an S3 path, an Identity and
 /// Access Management (IAM) role that allows Amazon Forecast to access the
 /// location, and an Key Management Service (KMS) key (optional).
+///
+/// @nodoc
 class DataDestination {
   /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with
   /// the credentials to access the bucket.
@@ -8056,6 +8114,8 @@ class DataDestination {
 /// Management Service (KMS) key. This object is part of the <a>DataSource</a>
 /// object that is submitted in the <a>CreateDatasetImportJob</a> request, and
 /// part of the <a>DataDestination</a> object.
+///
+/// @nodoc
 class S3Config {
   /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s)
   /// in an Amazon S3 bucket.
@@ -8104,6 +8164,8 @@ class S3Config {
 /// <a>ListWhatIfAnalyses</a> operation. To get the complete set of properties,
 /// call the <a>DescribeWhatIfAnalysis</a> operation, and provide the
 /// <code>WhatIfAnalysisArn</code> that is listed in the summary.
+///
+/// @nodoc
 class WhatIfAnalysisSummary {
   /// When the what-if analysis was created.
   final DateTime? creationTime;
@@ -8215,6 +8277,8 @@ class WhatIfAnalysisSummary {
 /// <a>ListPredictors</a> operation. To get the complete set of properties, call
 /// the <a>DescribePredictor</a> operation, and provide the listed
 /// <code>PredictorArn</code>.
+///
+/// @nodoc
 class PredictorSummary {
   /// When the model training task was created.
   final DateTime? creationTime;
@@ -8343,6 +8407,8 @@ class PredictorSummary {
 
 /// Provides a summary of the reference predictor used when retraining or
 /// upgrading a predictor.
+///
+/// @nodoc
 class ReferencePredictorSummary {
   /// The ARN of the reference predictor.
   final String? arn;
@@ -8373,6 +8439,7 @@ class ReferencePredictorSummary {
   }
 }
 
+/// @nodoc
 class State {
   static const active = State._('Active');
   static const deleted = State._('Deleted');
@@ -8400,6 +8467,8 @@ class State {
 /// the <a>ListPredictorBacktestExportJobs</a> operation. To get a complete set
 /// of properties, call the <a>DescribePredictorBacktestExportJob</a> operation,
 /// and provide the listed <code>PredictorBacktestExportJobArn</code>.
+///
+/// @nodoc
 class PredictorBacktestExportJobSummary {
   /// When the predictor backtest export job was created.
   final DateTime? creationTime;
@@ -8514,6 +8583,8 @@ class PredictorBacktestExportJobSummary {
 /// operation. To get a complete set of properties, call the
 /// <a>DescribeMonitor</a> operation, and provide the listed
 /// <code>MonitorArn</code>.
+///
+/// @nodoc
 class MonitorSummary {
   /// When the monitor resource was created.
   final DateTime? creationTime;
@@ -8611,6 +8682,8 @@ class MonitorSummary {
 }
 
 /// Describes the results of a monitor evaluation.
+///
+/// @nodoc
 class PredictorMonitorEvaluation {
   /// The status of the monitor evaluation. The state can be <code>SUCCESS</code>
   /// or <code>FAILURE</code>.
@@ -8722,6 +8795,8 @@ class PredictorMonitorEvaluation {
 }
 
 /// Provides details about a predictor event, such as a retraining.
+///
+/// @nodoc
 class PredictorEvent {
   /// The timestamp for when the event occurred.
   final DateTime? datetime;
@@ -8755,6 +8830,8 @@ class PredictorEvent {
 }
 
 /// The source of the data the monitor used during the evaluation.
+///
+/// @nodoc
 class MonitorDataSource {
   /// The Amazon Resource Name (ARN) of the dataset import job used to import the
   /// data that initiated the monitor evaluation.
@@ -8801,6 +8878,8 @@ class MonitorDataSource {
 /// For more information about metrics generated by Forecast see <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">Evaluating
 /// Predictor Accuracy</a>
+///
+/// @nodoc
 class MetricResult {
   /// The name of the metric.
   final String? metricName;
@@ -8834,6 +8913,8 @@ class MetricResult {
 /// <a>ListForecasts</a> operation. To get the complete set of properties, call
 /// the <a>DescribeForecast</a> operation, and provide the
 /// <code>ForecastArn</code> that is listed in the summary.
+///
+/// @nodoc
 class ForecastSummary {
   /// Whether the Forecast was created from an AutoPredictor.
   final bool? createdUsingAutoPredictor;
@@ -8960,6 +9041,8 @@ class ForecastSummary {
 /// <a>ListForecastExportJobs</a> operation. To get the complete set of
 /// properties, call the <a>DescribeForecastExportJob</a> operation, and provide
 /// the listed <code>ForecastExportJobArn</code>.
+///
+/// @nodoc
 class ForecastExportJobSummary {
   /// When the forecast export job was created.
   final DateTime? creationTime;
@@ -9076,6 +9159,8 @@ class ForecastExportJobSummary {
 /// <a>ListExplainabilityExports</a> operation. To get a complete set of
 /// properties, call the <a>DescribeExplainabilityExport</a> operation, and
 /// provide the <code>ExplainabilityExportArn</code>.
+///
+/// @nodoc
 class ExplainabilityExportSummary {
   /// When the Explainability was created.
   final DateTime? creationTime;
@@ -9187,6 +9272,8 @@ class ExplainabilityExportSummary {
 /// <a>ListExplainabilities</a> operation. To get a complete set of properties,
 /// call the <a>DescribeExplainability</a> operation, and provide the listed
 /// <code>ExplainabilityArn</code>.
+///
+/// @nodoc
 class ExplainabilitySummary {
   /// When the Explainability was created.
   final DateTime? creationTime;
@@ -9315,6 +9402,8 @@ class ExplainabilitySummary {
 /// If you provide a forecast ARN for <code>ResourceArn</code>, you can set
 /// <code>TimePointGranularity</code> and <code>TimeSeriesGranularity</code> to
 /// either “ALL” or “Specific”.
+///
+/// @nodoc
 class ExplainabilityConfig {
   /// To create an Explainability for all time points in your forecast horizon,
   /// use <code>ALL</code>. To create an Explainability for specific time points
@@ -9357,6 +9446,7 @@ class ExplainabilityConfig {
   }
 }
 
+/// @nodoc
 class TimeSeriesGranularity {
   static const all = TimeSeriesGranularity._('ALL');
   static const specific = TimeSeriesGranularity._('SPECIFIC');
@@ -9382,6 +9472,7 @@ class TimeSeriesGranularity {
   String toString() => value;
 }
 
+/// @nodoc
 class TimePointGranularity {
   static const all = TimePointGranularity._('ALL');
   static const specific = TimePointGranularity._('SPECIFIC');
@@ -9412,6 +9503,8 @@ class TimePointGranularity {
 /// operation. To get the complete set of properties, call the <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
 /// operation, and provide the <code>DatasetArn</code>.
+///
+/// @nodoc
 class DatasetSummary {
   /// When the dataset was created.
   final DateTime? creationTime;
@@ -9478,6 +9571,7 @@ class DatasetSummary {
   }
 }
 
+/// @nodoc
 class DatasetType {
   static const targetTimeSeries = DatasetType._('TARGET_TIME_SERIES');
   static const relatedTimeSeries = DatasetType._('RELATED_TIME_SERIES');
@@ -9502,6 +9596,7 @@ class DatasetType {
   String toString() => value;
 }
 
+/// @nodoc
 class Domain {
   static const retail = Domain._('RETAIL');
   static const custom = Domain._('CUSTOM');
@@ -9543,6 +9638,8 @@ class Domain {
 /// operation. To get the complete set of properties, call the <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
 /// operation, and provide the <code>DatasetImportJobArn</code>.
+///
+/// @nodoc
 class DatasetImportJobSummary {
   /// When the dataset import job was created.
   final DateTime? creationTime;
@@ -9665,6 +9762,8 @@ class DatasetImportJobSummary {
 /// The source of your data, an Identity and Access Management (IAM) role that
 /// allows Amazon Forecast to access the data and, optionally, an Key Management
 /// Service (KMS) key.
+///
+/// @nodoc
 class DataSource {
   /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3)
   /// bucket along with the credentials to access the data.
@@ -9689,6 +9788,7 @@ class DataSource {
   }
 }
 
+/// @nodoc
 class ImportMode {
   static const full = ImportMode._('FULL');
   static const incremental = ImportMode._('INCREMENTAL');
@@ -9717,6 +9817,8 @@ class ImportMode {
 /// operation. To get the complete set of properties, call the <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
 /// operation, and provide the <code>DatasetGroupArn</code>.
+///
+/// @nodoc
 class DatasetGroupSummary {
   /// When the dataset group was created.
   final DateTime? creationTime;
@@ -9766,6 +9868,7 @@ class DatasetGroupSummary {
   }
 }
 
+/// @nodoc
 class AutoMLOverrideStrategy {
   static const latencyOptimized = AutoMLOverrideStrategy._('LatencyOptimized');
   static const accuracyOptimized =
@@ -9792,6 +9895,7 @@ class AutoMLOverrideStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class OptimizationMetric {
   static const wape = OptimizationMetric._('WAPE');
   static const rmse = OptimizationMetric._('RMSE');
@@ -9823,6 +9927,8 @@ class OptimizationMetric {
 
 /// The results of evaluating an algorithm. Returned as part of the
 /// <a>GetAccuracyMetrics</a> response.
+///
+/// @nodoc
 class EvaluationResult {
   /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
   final String? algorithmArn;
@@ -9863,6 +9969,8 @@ class EvaluationResult {
 /// The <code>TestWindowStart</code> and <code>TestWindowEnd</code> parameters
 /// are determined by the <code>BackTestWindowOffset</code> parameter of the
 /// <a>EvaluationParameters</a> object.
+///
+/// @nodoc
 class WindowSummary {
   /// The type of evaluation.
   ///
@@ -9927,6 +10035,7 @@ class WindowSummary {
   }
 }
 
+/// @nodoc
 class EvaluationType {
   static const summary = EvaluationType._('SUMMARY');
   static const computed = EvaluationType._('COMPUTED');
@@ -9953,6 +10062,8 @@ class EvaluationType {
 
 /// Provides metrics that are used to evaluate the performance of a predictor.
 /// This object is part of the <a>WindowSummary</a> object.
+///
+/// @nodoc
 class Metrics {
   /// The average value of all weighted quantile losses.
   final double? averageWeightedQuantileLoss;
@@ -10011,6 +10122,8 @@ class Metrics {
 
 /// Provides detailed error metrics to evaluate the performance of a predictor.
 /// This object is part of the <a>Metrics</a> object.
+///
+/// @nodoc
 class ErrorMetric {
   /// The Forecast type used to compute WAPE, MAPE, MASE, and RMSE.
   final String? forecastType;
@@ -10063,6 +10176,8 @@ class ErrorMetric {
 
 /// The weighted loss value for a quantile. This object is part of the
 /// <a>Metrics</a> object.
+///
+/// @nodoc
 class WeightedQuantileLoss {
   /// The difference between the predicted value and the actual value over the
   /// quantile, weighted (normalized) by dividing by the sum over all quantiles.
@@ -10102,6 +10217,8 @@ class WeightedQuantileLoss {
 /// changed time series. This dataset is merged with the baseline related time
 /// series to create a transformed dataset that is used for the what-if
 /// forecast.
+///
+/// @nodoc
 class TimeSeriesReplacementsDataSource {
   final S3Config s3Config;
   final Schema schema;
@@ -10145,6 +10262,8 @@ class TimeSeriesReplacementsDataSource {
 }
 
 /// Defines the fields of a dataset.
+///
+/// @nodoc
 class Schema {
   /// An array of attributes specifying the name and type of each field in a
   /// dataset.
@@ -10175,6 +10294,8 @@ class Schema {
 /// is required for every field in a dataset. The <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_Schema.html">Schema</a>
 /// object contains an array of <code>SchemaAttribute</code> objects.
+///
+/// @nodoc
 class SchemaAttribute {
   /// The name of the dataset field.
   final String? attributeName;
@@ -10209,6 +10330,7 @@ class SchemaAttribute {
   }
 }
 
+/// @nodoc
 class AttributeType {
   static const string = AttributeType._('string');
   static const integer = AttributeType._('integer');
@@ -10242,6 +10364,8 @@ class AttributeType {
 /// All conditions are joined with an AND operation, meaning that all conditions
 /// must be true for the transformation to be applied. Transformations are
 /// applied in the order that they are listed.
+///
+/// @nodoc
 class TimeSeriesTransformation {
   /// An array of actions that define a time series and how it is transformed.
   /// These transformations create a new time series that is used for the what-if
@@ -10288,6 +10412,8 @@ class TimeSeriesTransformation {
 /// with the <a>TimeSeriesCondition</a> operation within the
 /// <a>CreateWhatIfForecastRequest$TimeSeriesTransformations</a> operation to
 /// define a subset of attribute items that are modified.
+///
+/// @nodoc
 class Action {
   /// The related time series that you are modifying. This value is case
   /// insensitive.
@@ -10351,6 +10477,8 @@ class Action {
 /// "LESS_THAN"</code>. Pair this operation with the <a>Action</a> operation
 /// within the <a>CreateWhatIfForecastRequest$TimeSeriesTransformations</a>
 /// operation to define how the attribute is modified.
+///
+/// @nodoc
 class TimeSeriesCondition {
   /// The item_id, dimension name, IM name, or timestamp that you are modifying.
   final String attributeName;
@@ -10389,6 +10517,7 @@ class TimeSeriesCondition {
   }
 }
 
+/// @nodoc
 class Condition {
   static const equals = Condition._('EQUALS');
   static const notEquals = Condition._('NOT_EQUALS');
@@ -10414,6 +10543,7 @@ class Condition {
   String toString() => value;
 }
 
+/// @nodoc
 class Operation {
   static const add = Operation._('ADD');
   static const subtract = Operation._('SUBTRACT');
@@ -10456,6 +10586,8 @@ class Operation {
 /// <code>Schema</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TimeSeriesSelector {
   /// Details about the import file that contains the time series for which you
   /// want to create forecasts.
@@ -10485,6 +10617,8 @@ class TimeSeriesSelector {
 
 /// Details about the import file that contains the time series for which you
 /// want to create forecasts.
+///
+/// @nodoc
 class TimeSeriesIdentifiers {
   final DataSource? dataSource;
 
@@ -10526,6 +10660,8 @@ class TimeSeriesIdentifiers {
 /// data, and the number of iterations to perform. These parameters are
 /// specified in the predefined algorithms but you can override them in the
 /// <a>CreatePredictor</a> request.
+///
+/// @nodoc
 class EvaluationParameters {
   /// The point from the end of the dataset where you want to split the data for
   /// model training and testing (evaluation). Specify the value as the number of
@@ -10580,6 +10716,8 @@ class EvaluationParameters {
 /// accomplishes this by running many training jobs over a range of
 /// hyperparameter values. The optimum set of values depends on the algorithm,
 /// the training data, and the specified metric objective.
+///
+/// @nodoc
 class HyperParameterTuningJobConfig {
   /// Specifies the ranges of valid values for the hyperparameters.
   final ParameterRanges? parameterRanges;
@@ -10612,6 +10750,8 @@ class HyperParameterTuningJobConfig {
 /// The data used to train a predictor. The data includes a dataset group and
 /// any supplementary features. You specify this object in the
 /// <a>CreatePredictor</a> request.
+///
+/// @nodoc
 class InputDataConfig {
   /// The Amazon Resource Name (ARN) of the dataset group.
   final String datasetGroupArn;
@@ -10665,6 +10805,8 @@ class InputDataConfig {
 /// You can create multiple featurization configurations. For example, you might
 /// call the <code>CreatePredictor</code> operation twice by specifying
 /// different featurization configurations.
+///
+/// @nodoc
 class FeaturizationConfig {
   /// The frequency of predictions in a forecast.
   ///
@@ -10760,6 +10902,8 @@ class FeaturizationConfig {
 /// (IAM) role that Amazon Forecast can assume to access the key. You can
 /// specify this optional object in the <a>CreateDataset</a> and
 /// <a>CreatePredictor</a> requests.
+///
+/// @nodoc
 class EncryptionConfig {
   /// The Amazon Resource Name (ARN) of the KMS key.
   final String kMSKeyArn;
@@ -10798,6 +10942,8 @@ class EncryptionConfig {
 /// predictor. The tests are returned in descending order of accuracy, with the
 /// most accurate backtest appearing first. You specify the number of backtests
 /// to perform when you call the operation.
+///
+/// @nodoc
 class PredictorExecutionDetails {
   /// An array of the backtests performed to evaluate the accuracy of the
   /// predictor against a particular algorithm. The
@@ -10828,6 +10974,8 @@ class PredictorExecutionDetails {
 }
 
 /// The algorithm used to perform a backtest and the status of those tests.
+///
+/// @nodoc
 class PredictorExecution {
   /// The ARN of the algorithm used to test the predictor.
   final String? algorithmArn;
@@ -10864,6 +11012,8 @@ class PredictorExecution {
 
 /// The status, start time, and end time of a backtest, as well as a failure
 /// reason if applicable.
+///
+/// @nodoc
 class TestWindowSummary {
   /// If the test failed, the reason why it failed.
   final String? message;
@@ -10934,16 +11084,18 @@ class TestWindowSummary {
 ///
 /// <code>"AttributeName": "demand",</code>
 ///
-/// <code>FeaturizationPipeline [ {</code>
+/// <code>FeaturizationPipeline \[ {</code>
 ///
 /// <code>"FeaturizationMethodName": "filling",</code>
 ///
 /// <code>"FeaturizationMethodParameters": {"aggregation": "avg", "backfill":
 /// "nan"}</code>
 ///
-/// <code>} ]</code>
+/// <code>} \]</code>
 ///
 /// <code>}</code>
+///
+/// @nodoc
 class Featurization {
   /// The name of the schema attribute that specifies the data field to be
   /// featurized. Amazon Forecast supports the target field of the
@@ -10999,6 +11151,8 @@ class Featurization {
 /// "zero", "backfill": "zero"}</code>
 ///
 /// <code>}</code>
+///
+/// @nodoc
 class FeaturizationMethod {
   /// The name of the method. The "filling" method is the only supported method.
   final FeaturizationMethodName featurizationMethodName;
@@ -11079,6 +11233,7 @@ class FeaturizationMethod {
   }
 }
 
+/// @nodoc
 class FeaturizationMethodName {
   static const filling = FeaturizationMethodName._('filling');
 
@@ -11132,6 +11287,8 @@ class FeaturizationMethodName {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/holidays.html">Holidays
 /// Featurization</a>.
+///
+/// @nodoc
 class SupplementaryFeature {
   /// The name of the feature. Valid values: <code>"holiday"</code> and
   /// <code>"weather"</code>.
@@ -11375,6 +11532,8 @@ class SupplementaryFeature {
 /// values that a hyperparameter tuning job can choose for the specified
 /// hyperparameter. This object is part of the
 /// <a>HyperParameterTuningJobConfig</a> object.
+///
+/// @nodoc
 class ParameterRanges {
   /// Specifies the tunable range for each categorical hyperparameter.
   final List<CategoricalParameterRange>? categoricalParameterRanges;
@@ -11427,6 +11586,8 @@ class ParameterRanges {
 
 /// Specifies an integer hyperparameter and it's range of tunable values. This
 /// object is part of the <a>ParameterRanges</a> object.
+///
+/// @nodoc
 class IntegerParameterRange {
   /// The maximum tunable value of the hyperparameter.
   final int maxValue;
@@ -11492,6 +11653,7 @@ class IntegerParameterRange {
   }
 }
 
+/// @nodoc
 class ScalingType {
   static const auto = ScalingType._('Auto');
   static const linear = ScalingType._('Linear');
@@ -11519,6 +11681,8 @@ class ScalingType {
 
 /// Specifies a continuous hyperparameter and it's range of tunable values. This
 /// object is part of the <a>ParameterRanges</a> object.
+///
+/// @nodoc
 class ContinuousParameterRange {
   /// The maximum tunable value of the hyperparameter.
   final double maxValue;
@@ -11587,6 +11751,8 @@ class ContinuousParameterRange {
 
 /// Specifies a categorical hyperparameter and it's range of tunable values.
 /// This object is part of the <a>ParameterRanges</a> object.
+///
+/// @nodoc
 class CategoricalParameterRange {
   /// The name of the categorical hyperparameter to tune.
   final String name;
@@ -11621,6 +11787,8 @@ class CategoricalParameterRange {
 
 /// Metrics you can use as a baseline for comparison purposes. Use these metrics
 /// when you interpret monitoring results for an auto predictor.
+///
+/// @nodoc
 class Baseline {
   /// The initial <a
   /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
@@ -11652,6 +11820,8 @@ class Baseline {
 
 /// Metrics you can use as a baseline for comparison purposes. Use these metrics
 /// when you interpret monitoring results for an auto predictor.
+///
+/// @nodoc
 class PredictorBaseline {
   /// The initial <a
   /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
@@ -11682,6 +11852,8 @@ class PredictorBaseline {
 
 /// An individual metric that you can use for comparison as you evaluate your
 /// monitoring results.
+///
+/// @nodoc
 class BaselineMetric {
   /// The name of the metric.
   final String? name;
@@ -11715,6 +11887,8 @@ class BaselineMetric {
 /// dataset with the <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
 /// operation.
+///
+/// @nodoc
 class Statistics {
   /// For a numeric field, the average value in the field.
   final double? avg;
@@ -11826,6 +12000,8 @@ class Statistics {
 }
 
 /// The data configuration for your dataset group and any additional datasets.
+///
+/// @nodoc
 class DataConfig {
   /// The ARN of the dataset group used to train the predictor.
   final String datasetGroupArn;
@@ -11869,6 +12045,8 @@ class DataConfig {
 }
 
 /// Provides information about the Explainability resource.
+///
+/// @nodoc
 class ExplainabilityInfo {
   /// The Amazon Resource Name (ARN) of the Explainability.
   final String? explainabilityArn;
@@ -11916,6 +12094,8 @@ class ExplainabilityInfo {
 }
 
 /// Provides information about the monitor resource.
+///
+/// @nodoc
 class MonitorInfo {
   /// The Amazon Resource Name (ARN) of the monitor resource.
   final String? monitorArn;
@@ -11978,6 +12158,8 @@ class MonitorInfo {
 /// setting a custom time boundary, see <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#specifying-time-boundary">Specifying
 /// a Time Boundary</a>.
+///
+/// @nodoc
 class TimeAlignmentBoundary {
   /// The day of the month to use for time alignment during aggregation.
   final int? dayOfMonth;
@@ -12023,6 +12205,7 @@ class TimeAlignmentBoundary {
   }
 }
 
+/// @nodoc
 class Month {
   static const january = Month._('JANUARY');
   static const february = Month._('FEBRUARY');
@@ -12069,6 +12252,7 @@ class Month {
   String toString() => value;
 }
 
+/// @nodoc
 class DayOfWeek {
   static const monday = DayOfWeek._('MONDAY');
   static const tuesday = DayOfWeek._('TUESDAY');
@@ -12127,6 +12311,8 @@ class DayOfWeek {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/holidays.html">Holidays
 /// Featurization</a>.
+///
+/// @nodoc
 class AdditionalDataset {
   /// The name of the additional dataset. Valid names: <code>"holiday"</code> and
   /// <code>"weather"</code>.
@@ -12382,6 +12568,8 @@ class AdditionalDataset {
 /// "backfill": "zero"}</code>
 ///
 /// <code>}</code>
+///
+/// @nodoc
 class AttributeConfig {
   /// The name of the attribute as specified in the schema. Amazon Forecast
   /// supports the target field of the target time series and the related time
@@ -12464,6 +12652,8 @@ class AttributeConfig {
 }
 
 /// The configuration details for the predictor monitor.
+///
+/// @nodoc
 class MonitorConfig {
   /// The name of the monitor resource.
   final String monitorName;
@@ -12480,21 +12670,25 @@ class MonitorConfig {
   }
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -12503,11 +12697,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

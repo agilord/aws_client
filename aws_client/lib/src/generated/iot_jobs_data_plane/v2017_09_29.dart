@@ -374,6 +374,7 @@ class IoTJobsDataPlane {
   }
 }
 
+/// @nodoc
 class DescribeJobExecutionResponse {
   /// Contains data about a job execution.
   final JobExecution? execution;
@@ -398,6 +399,7 @@ class DescribeJobExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetPendingJobExecutionsResponse {
   /// A list of JobExecutionSummary objects with status IN_PROGRESS.
   final List<JobExecutionSummary>? inProgressJobs;
@@ -433,6 +435,7 @@ class GetPendingJobExecutionsResponse {
   }
 }
 
+/// @nodoc
 class StartCommandExecutionResponse {
   /// A unique identifier for the command execution.
   final String? executionId;
@@ -455,6 +458,7 @@ class StartCommandExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartNextPendingJobExecutionResponse {
   /// A JobExecution object.
   final JobExecution? execution;
@@ -480,6 +484,7 @@ class StartNextPendingJobExecutionResponse {
   }
 }
 
+/// @nodoc
 class UpdateJobExecutionResponse {
   /// A JobExecutionState object.
   final JobExecutionState? executionState;
@@ -513,6 +518,8 @@ class UpdateJobExecutionResponse {
 }
 
 /// Contains data about the state of a job execution.
+///
+/// @nodoc
 class JobExecutionState {
   /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS",
   /// "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
@@ -555,6 +562,7 @@ class JobExecutionState {
   }
 }
 
+/// @nodoc
 class JobExecutionStatus {
   static const queued = JobExecutionStatus._('QUEUED');
   static const inProgress = JobExecutionStatus._('IN_PROGRESS');
@@ -596,6 +604,8 @@ class JobExecutionStatus {
 }
 
 /// Contains data about a job execution.
+///
+/// @nodoc
 class JobExecution {
   /// The estimated number of seconds that remain before the job execution status
   /// will be changed to <code>TIMED_OUT</code>. The actual job execution timeout
@@ -703,6 +713,8 @@ class JobExecution {
 }
 
 /// The list of values used to describe a specific command parameter.
+///
+/// @nodoc
 class CommandParameterValue {
   /// An attribute of type Boolean. For example:
   ///
@@ -760,6 +772,8 @@ class CommandParameterValue {
 }
 
 /// Contains a subset of information about a job execution.
+///
+/// @nodoc
 class JobExecutionSummary {
   /// A number that identifies a particular job execution on a particular device.
   final int? executionNumber;
@@ -819,6 +833,7 @@ class JobExecutionSummary {
   }
 }
 
+/// @nodoc
 class CertificateValidationException extends _s.GenericAwsException {
   CertificateValidationException({String? type, String? message})
       : super(
@@ -827,21 +842,25 @@ class CertificateValidationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidStateTransitionException extends _s.GenericAwsException {
   InvalidStateTransitionException({String? type, String? message})
       : super(
@@ -850,11 +869,13 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -863,22 +884,26 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TerminalStateException extends _s.GenericAwsException {
   TerminalStateException({String? type, String? message})
       : super(type: type, code: 'TerminalStateException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

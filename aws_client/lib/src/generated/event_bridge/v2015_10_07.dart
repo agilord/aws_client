@@ -3343,6 +3343,7 @@ class EventBridge {
   }
 }
 
+/// @nodoc
 class CancelReplayResponse {
   /// The ARN of the replay to cancel.
   final String? replayArn;
@@ -3379,6 +3380,7 @@ class CancelReplayResponse {
   }
 }
 
+/// @nodoc
 class CreateApiDestinationResponse {
   /// The ARN of the API destination that was created by the request.
   final String? apiDestinationArn;
@@ -3426,6 +3428,7 @@ class CreateApiDestinationResponse {
   }
 }
 
+/// @nodoc
 class CreateArchiveResponse {
   /// The ARN of the archive that was created.
   final String? archiveArn;
@@ -3470,6 +3473,7 @@ class CreateArchiveResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectionResponse {
   /// The ARN of the connection that was created by the request.
   final String? connectionArn;
@@ -3516,6 +3520,7 @@ class CreateConnectionResponse {
   }
 }
 
+/// @nodoc
 class CreateEndpointResponse {
   /// The ARN of the endpoint that was created by this request.
   final String? arn;
@@ -3589,6 +3594,7 @@ class CreateEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateEventBusResponse {
   final DeadLetterConfig? deadLetterConfig;
 
@@ -3652,6 +3658,7 @@ class CreateEventBusResponse {
   }
 }
 
+/// @nodoc
 class CreatePartnerEventSourceResponse {
   /// The ARN of the partner event source.
   final String? eventSourceArn;
@@ -3674,6 +3681,7 @@ class CreatePartnerEventSourceResponse {
   }
 }
 
+/// @nodoc
 class DeauthorizeConnectionResponse {
   /// The ARN of the connection that authorization was removed from.
   final String? connectionArn;
@@ -3728,6 +3736,7 @@ class DeauthorizeConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteApiDestinationResponse {
   DeleteApiDestinationResponse();
 
@@ -3740,6 +3749,7 @@ class DeleteApiDestinationResponse {
   }
 }
 
+/// @nodoc
 class DeleteArchiveResponse {
   DeleteArchiveResponse();
 
@@ -3752,6 +3762,7 @@ class DeleteArchiveResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionResponse {
   /// The ARN of the connection that was deleted.
   final String? connectionArn;
@@ -3808,6 +3819,7 @@ class DeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteEndpointResponse {
   DeleteEndpointResponse();
 
@@ -3820,6 +3832,7 @@ class DeleteEndpointResponse {
   }
 }
 
+/// @nodoc
 class DescribeApiDestinationResponse {
   /// The ARN of the API destination retrieved.
   final String? apiDestinationArn;
@@ -3918,6 +3931,7 @@ class DescribeApiDestinationResponse {
   }
 }
 
+/// @nodoc
 class DescribeArchiveResponse {
   /// The ARN of the archive.
   final String? archiveArn;
@@ -4023,6 +4037,7 @@ class DescribeArchiveResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectionResponse {
   /// The parameters to use for authorization for the connection.
   final ConnectionAuthResponseParameters? authParameters;
@@ -4157,6 +4172,7 @@ class DescribeConnectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointResponse {
   /// The ARN of the endpoint you asked for information about.
   final String? arn;
@@ -4276,6 +4292,7 @@ class DescribeEndpointResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventBusResponse {
   /// The Amazon Resource Name (ARN) of the account permitted to write events to
   /// the current account.
@@ -4369,6 +4386,7 @@ class DescribeEventBusResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventSourceResponse {
   /// The ARN of the partner event source.
   final String? arn;
@@ -4433,6 +4451,7 @@ class DescribeEventSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribePartnerEventSourceResponse {
   /// The ARN of the event source.
   final String? arn;
@@ -4463,6 +4482,7 @@ class DescribePartnerEventSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeReplayResponse {
   /// The description of the replay.
   final String? description;
@@ -4571,6 +4591,7 @@ class DescribeReplayResponse {
   }
 }
 
+/// @nodoc
 class DescribeRuleResponse {
   /// The Amazon Resource Name (ARN) of the rule.
   final String? arn;
@@ -4665,6 +4686,7 @@ class DescribeRuleResponse {
   }
 }
 
+/// @nodoc
 class ListApiDestinationsResponse {
   /// An array that includes information about each API destination.
   final List<ApiDestination>? apiDestinations;
@@ -4705,6 +4727,7 @@ class ListApiDestinationsResponse {
   }
 }
 
+/// @nodoc
 class ListArchivesResponse {
   /// An array of <code>Archive</code> objects that include details about an
   /// archive.
@@ -4746,6 +4769,7 @@ class ListArchivesResponse {
   }
 }
 
+/// @nodoc
 class ListConnectionsResponse {
   /// An array of connections objects that include details about the connections.
   final List<Connection>? connections;
@@ -4786,6 +4810,7 @@ class ListConnectionsResponse {
   }
 }
 
+/// @nodoc
 class ListEndpointsResponse {
   /// The endpoints returned by the call.
   final List<Endpoint>? endpoints;
@@ -4826,6 +4851,7 @@ class ListEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListEventBusesResponse {
   /// This list of event buses.
   final List<EventBus>? eventBuses;
@@ -4866,6 +4892,7 @@ class ListEventBusesResponse {
   }
 }
 
+/// @nodoc
 class ListEventSourcesResponse {
   /// The list of event sources.
   final List<EventSource>? eventSources;
@@ -4906,6 +4933,7 @@ class ListEventSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListPartnerEventSourceAccountsResponse {
   /// A token indicating there are more results available. If there are no more
   /// results, no token is included in the response.
@@ -4949,6 +4977,7 @@ class ListPartnerEventSourceAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListPartnerEventSourcesResponse {
   /// A token indicating there are more results available. If there are no more
   /// results, no token is included in the response.
@@ -4990,6 +5019,7 @@ class ListPartnerEventSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListReplaysResponse {
   /// A token indicating there are more results available. If there are no more
   /// results, no token is included in the response.
@@ -5031,6 +5061,7 @@ class ListReplaysResponse {
   }
 }
 
+/// @nodoc
 class ListRuleNamesByTargetResponse {
   /// A token indicating there are more results available. If there are no more
   /// results, no token is included in the response.
@@ -5071,6 +5102,7 @@ class ListRuleNamesByTargetResponse {
   }
 }
 
+/// @nodoc
 class ListRulesResponse {
   /// A token indicating there are more results available. If there are no more
   /// results, no token is included in the response.
@@ -5111,6 +5143,7 @@ class ListRulesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tag keys and values associated with the resource you specified
   final List<Tag>? tags;
@@ -5136,6 +5169,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTargetsByRuleResponse {
   /// A token indicating there are more results available. If there are no more
   /// results, no token is included in the response.
@@ -5176,6 +5210,7 @@ class ListTargetsByRuleResponse {
   }
 }
 
+/// @nodoc
 class PutEventsResponse {
   /// The successfully and unsuccessfully ingested events results. If the
   /// ingestion was successful, the entry has the event ID in it. Otherwise, you
@@ -5214,6 +5249,7 @@ class PutEventsResponse {
   }
 }
 
+/// @nodoc
 class PutPartnerEventsResponse {
   /// The results for each event entry the partner submitted in this request. If
   /// the event was successfully submitted, the entry has the event ID in it.
@@ -5254,6 +5290,7 @@ class PutPartnerEventsResponse {
   }
 }
 
+/// @nodoc
 class PutRuleResponse {
   /// The Amazon Resource Name (ARN) of the rule.
   final String? ruleArn;
@@ -5276,6 +5313,7 @@ class PutRuleResponse {
   }
 }
 
+/// @nodoc
 class PutTargetsResponse {
   /// The failed target entries.
   final List<PutTargetsResultEntry>? failedEntries;
@@ -5308,6 +5346,7 @@ class PutTargetsResponse {
   }
 }
 
+/// @nodoc
 class RemoveTargetsResponse {
   /// The failed target entries.
   final List<RemoveTargetsResultEntry>? failedEntries;
@@ -5341,6 +5380,7 @@ class RemoveTargetsResponse {
   }
 }
 
+/// @nodoc
 class StartReplayResponse {
   /// The ARN of the replay.
   final String? replayArn;
@@ -5385,6 +5425,7 @@ class StartReplayResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5397,6 +5438,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TestEventPatternResponse {
   /// Indicates whether the event matches the event pattern.
   final bool? result;
@@ -5419,6 +5461,7 @@ class TestEventPatternResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5431,6 +5474,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApiDestinationResponse {
   /// The ARN of the API destination that was updated.
   final String? apiDestinationArn;
@@ -5478,6 +5522,7 @@ class UpdateApiDestinationResponse {
   }
 }
 
+/// @nodoc
 class UpdateArchiveResponse {
   /// The ARN of the archive.
   final String? archiveArn;
@@ -5522,6 +5567,7 @@ class UpdateArchiveResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectionResponse {
   /// The ARN of the connection that was updated.
   final String? connectionArn;
@@ -5576,6 +5622,7 @@ class UpdateConnectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointResponse {
   /// The ARN of the endpoint you updated in this request.
   final String? arn;
@@ -5666,6 +5713,7 @@ class UpdateEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventBusResponse {
   /// The event bus Amazon Resource Name (ARN).
   final String? arn;
@@ -5742,6 +5790,8 @@ class UpdateEventBusResponse {
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq">Using
 /// dead-letter queues to process undelivered events</a> in the <i>EventBridge
 /// User Guide</i>.
+///
+/// @nodoc
 class DeadLetterConfig {
   /// The ARN of the SQS queue specified as the target for the dead-letter queue.
   final String? arn;
@@ -5769,6 +5819,8 @@ class DeadLetterConfig {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/eb-event-bus-logs.html">Configuring logs
 /// for event buses</a> in the <i>EventBridge User Guide</i>.
+///
+/// @nodoc
 class LogConfig {
   /// Whether EventBridge include detailed event information in the records it
   /// generates. Detailed data can be useful for troubleshooting and debugging.
@@ -5811,6 +5863,7 @@ class LogConfig {
   }
 }
 
+/// @nodoc
 class IncludeDetail {
   static const none = IncludeDetail._('NONE');
   static const full = IncludeDetail._('FULL');
@@ -5835,6 +5888,7 @@ class IncludeDetail {
   String toString() => value;
 }
 
+/// @nodoc
 class Level {
   static const off = Level._('OFF');
   static const error = Level._('ERROR');
@@ -5861,6 +5915,8 @@ class Level {
 }
 
 /// The routing configuration of the endpoint.
+///
+/// @nodoc
 class RoutingConfig {
   /// The failover configuration for an endpoint. This includes what triggers
   /// failover and what happens when it's triggered.
@@ -5887,6 +5943,8 @@ class RoutingConfig {
 }
 
 /// Endpoints can replicate all events to the secondary Region.
+///
+/// @nodoc
 class ReplicationConfig {
   /// The state of event replication.
   final ReplicationState? state;
@@ -5909,6 +5967,7 @@ class ReplicationConfig {
   }
 }
 
+/// @nodoc
 class EndpointState {
   static const active = EndpointState._('ACTIVE');
   static const creating = EndpointState._('CREATING');
@@ -5947,6 +6006,8 @@ class EndpointState {
 }
 
 /// The event buses the endpoint is associated with.
+///
+/// @nodoc
 class EndpointEventBus {
   /// The ARN of the event bus the endpoint is associated with.
   final String eventBusArn;
@@ -5969,6 +6030,7 @@ class EndpointEventBus {
   }
 }
 
+/// @nodoc
 class ReplicationState {
   static const enabled = ReplicationState._('ENABLED');
   static const disabled = ReplicationState._('DISABLED');
@@ -5995,6 +6057,8 @@ class ReplicationState {
 
 /// The failover configuration for an endpoint. This includes what triggers
 /// failover and what happens when it's triggered.
+///
+/// @nodoc
 class FailoverConfig {
   /// The main Region of the endpoint.
   final Primary primary;
@@ -6029,6 +6093,8 @@ class FailoverConfig {
 }
 
 /// The primary Region of the endpoint.
+///
+/// @nodoc
 class Primary {
   /// The ARN of the health check used by the endpoint to determine whether
   /// failover is triggered.
@@ -6054,6 +6120,8 @@ class Primary {
 
 /// The secondary Region that processes events when failover is triggered or
 /// replication is enabled.
+///
+/// @nodoc
 class Secondary {
   /// Defines the secondary Region.
   final String route;
@@ -6076,6 +6144,7 @@ class Secondary {
   }
 }
 
+/// @nodoc
 class ConnectionState {
   static const creating = ConnectionState._('CREATING');
   static const updating = ConnectionState._('UPDATING');
@@ -6117,6 +6186,7 @@ class ConnectionState {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionAuthorizationType {
   static const basic = ConnectionAuthorizationType._('BASIC');
   static const oauthClientCredentials =
@@ -6145,6 +6215,8 @@ class ConnectionAuthorizationType {
 }
 
 /// Contains the additional parameters to use for the connection.
+///
+/// @nodoc
 class UpdateConnectionAuthRequestParameters {
   /// The authorization parameters for API key authorization.
   final UpdateConnectionApiKeyAuthRequestParameters? apiKeyAuthParameters;
@@ -6196,6 +6268,8 @@ class UpdateConnectionAuthRequestParameters {
 }
 
 /// The parameters for EventBridge to use when invoking the resource endpoint.
+///
+/// @nodoc
 class ConnectivityResourceParameters {
   /// The parameters for EventBridge to use when invoking the resource endpoint.
   final ConnectivityResourceConfigurationArn resourceParameters;
@@ -6214,6 +6288,8 @@ class ConnectivityResourceParameters {
 
 /// The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource
 /// configuration for the resource endpoint.
+///
+/// @nodoc
 class ConnectivityResourceConfigurationArn {
   /// The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource
   /// configuration for the resource endpoint.
@@ -6232,6 +6308,8 @@ class ConnectivityResourceConfigurationArn {
 }
 
 /// The Basic authorization parameters for the connection.
+///
+/// @nodoc
 class UpdateConnectionBasicAuthRequestParameters {
   /// The password associated with the user name to use for Basic authorization.
   final String? password;
@@ -6255,6 +6333,8 @@ class UpdateConnectionBasicAuthRequestParameters {
 }
 
 /// The OAuth request parameters to use for the connection.
+///
+/// @nodoc
 class UpdateConnectionOAuthRequestParameters {
   /// The URL to the authorization endpoint when OAuth is specified as the
   /// authorization type.
@@ -6295,6 +6375,8 @@ class UpdateConnectionOAuthRequestParameters {
 
 /// Contains the API key authorization parameters to use to update the
 /// connection.
+///
+/// @nodoc
 class UpdateConnectionApiKeyAuthRequestParameters {
   /// The name of the API key to use for authorization.
   final String? apiKeyName;
@@ -6318,6 +6400,8 @@ class UpdateConnectionApiKeyAuthRequestParameters {
 }
 
 /// Any additional parameters for the connection.
+///
+/// @nodoc
 class ConnectionHttpParameters {
   /// Any additional body string parameters for the connection.
   final List<ConnectionBodyParameter>? bodyParameters;
@@ -6370,6 +6454,8 @@ class ConnectionHttpParameters {
 /// Additional parameter included in the body. You can include up to 100
 /// additional body parameters per request. An event payload cannot exceed 64
 /// KB.
+///
+/// @nodoc
 class ConnectionBodyParameter {
   /// Specifies whether the value is secret.
   final bool? isValueSecret;
@@ -6409,6 +6495,8 @@ class ConnectionBodyParameter {
 /// Any additional query string parameter for the connection. You can include up
 /// to 100 additional query string parameters per request. Each additional
 /// parameter counts towards the event payload size, which cannot exceed 64 KB.
+///
+/// @nodoc
 class ConnectionQueryStringParameter {
   /// Specifies whether the value is secret.
   final bool? isValueSecret;
@@ -6448,6 +6536,8 @@ class ConnectionQueryStringParameter {
 /// Additional parameter included in the header. You can include up to 100
 /// additional header parameters per request. An event payload cannot exceed 64
 /// KB.
+///
+/// @nodoc
 class ConnectionHeaderParameter {
   /// Specifies whether the value is a secret.
   final bool? isValueSecret;
@@ -6485,6 +6575,8 @@ class ConnectionHeaderParameter {
 }
 
 /// The OAuth authorization parameters to use for the connection.
+///
+/// @nodoc
 class UpdateConnectionOAuthClientRequestParameters {
   /// The client ID to use for OAuth authorization.
   final String? clientID;
@@ -6508,6 +6600,7 @@ class UpdateConnectionOAuthClientRequestParameters {
   }
 }
 
+/// @nodoc
 class ConnectionOAuthHttpMethod {
   static const get = ConnectionOAuthHttpMethod._('GET');
   static const post = ConnectionOAuthHttpMethod._('POST');
@@ -6534,6 +6627,7 @@ class ConnectionOAuthHttpMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class ArchiveState {
   static const enabled = ArchiveState._('ENABLED');
   static const disabled = ArchiveState._('DISABLED');
@@ -6568,6 +6662,7 @@ class ArchiveState {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiDestinationState {
   static const active = ApiDestinationState._('ACTIVE');
   static const inactive = ApiDestinationState._('INACTIVE');
@@ -6593,6 +6688,7 @@ class ApiDestinationState {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiDestinationHttpMethod {
   static const post = ApiDestinationHttpMethod._('POST');
   static const get = ApiDestinationHttpMethod._('GET');
@@ -6625,6 +6721,8 @@ class ApiDestinationHttpMethod {
 
 /// A key-value pair associated with an Amazon Web Services resource. In
 /// EventBridge, rules and event buses support tagging.
+///
+/// @nodoc
 class Tag {
   /// A string you can use to assign a value. The combination of tag keys and
   /// values can help you organize and categorize your resources.
@@ -6655,6 +6753,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ReplayState {
   static const starting = ReplayState._('STARTING');
   static const running = ReplayState._('RUNNING');
@@ -6691,6 +6790,8 @@ class ReplayState {
 
 /// A <code>ReplayDestination</code> object that contains details about a
 /// replay.
+///
+/// @nodoc
 class ReplayDestination {
   /// The ARN of the event bus to replay event to. You can replay events only to
   /// the event bus specified to create the archive.
@@ -6725,6 +6826,8 @@ class ReplayDestination {
 }
 
 /// Represents a target that failed to be removed from a rule.
+///
+/// @nodoc
 class RemoveTargetsResultEntry {
   /// The error code that indicates why the target removal failed. If the value is
   /// <code>ConcurrentModificationException</code>, too many requests were made at
@@ -6764,6 +6867,8 @@ class RemoveTargetsResultEntry {
 }
 
 /// Represents a target that failed to be added to a rule.
+///
+/// @nodoc
 class PutTargetsResultEntry {
   /// The error code that indicates why the target addition failed. If the value
   /// is <code>ConcurrentModificationException</code>, too many requests were made
@@ -6814,6 +6919,8 @@ class PutTargetsResultEntry {
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html">Sending
 /// and Receiving Events Between Amazon Web Services Accounts</a> in the
 /// <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class Target {
   /// The Amazon Resource Name (ARN) of the target.
   final String arn;
@@ -7033,6 +7140,8 @@ class Target {
 
 /// Contains the parameters needed for you to provide custom input to a target
 /// based on one or more pieces of data extracted from the event.
+///
+/// @nodoc
 class InputTransformer {
   /// Input template where you specify placeholders that will be filled with the
   /// values of the keys from <code>InputPathsMap</code> to customize the data
@@ -7130,6 +7239,8 @@ class InputTransformer {
 /// control the shard to which the event goes. If you do not include this
 /// parameter, the default is to use the <code>eventId</code> as the partition
 /// key.
+///
+/// @nodoc
 class KinesisParameters {
   /// The JSON path to be extracted from the event and used as the partition key.
   /// For more information, see <a
@@ -7158,6 +7269,8 @@ class KinesisParameters {
 
 /// This parameter contains the criteria (either InstanceIds or a tag) used to
 /// specify which EC2 instances are to be sent the command.
+///
+/// @nodoc
 class RunCommandParameters {
   /// Currently, we support including only one RunCommandTarget block, which
   /// specifies either an array of InstanceIds or a tag.
@@ -7185,6 +7298,8 @@ class RunCommandParameters {
 }
 
 /// The custom parameters to be used when the target is an Amazon ECS task.
+///
+/// @nodoc
 class EcsParameters {
   /// The ARN of the task definition to use if the event target is an Amazon ECS
   /// task.
@@ -7368,6 +7483,8 @@ class EcsParameters {
 }
 
 /// The custom parameters to be used when the target is an Batch job.
+///
+/// @nodoc
 class BatchParameters {
   /// The ARN or name of the job definition to use if the event target is an Batch
   /// job. This job definition must already exist.
@@ -7427,6 +7544,8 @@ class BatchParameters {
 
 /// This structure includes the custom parameter to be used when the target is
 /// an SQS FIFO queue.
+///
+/// @nodoc
 class SqsParameters {
   /// The FIFO message group ID to use as the target.
   final String? messageGroupId;
@@ -7453,6 +7572,8 @@ class SqsParameters {
 /// or EventBridge ApiDestinations. In the latter case, these are merged with
 /// any InvocationParameters specified on the Connection, with any values from
 /// the Connection taking precedence.
+///
+/// @nodoc
 class HttpParameters {
   /// The headers that need to be sent as part of request invoking the API Gateway
   /// API or EventBridge ApiDestination.
@@ -7503,6 +7624,8 @@ class HttpParameters {
 /// These are custom parameters to be used when the target is a Amazon Redshift
 /// cluster to invoke the Amazon Redshift Data API ExecuteStatement based on
 /// EventBridge events.
+///
+/// @nodoc
 class RedshiftDataParameters {
   /// The name of the database. Required when authenticating using temporary
   /// credentials.
@@ -7578,6 +7701,8 @@ class RedshiftDataParameters {
 
 /// These are custom parameters to use when the target is a SageMaker AI Model
 /// Building Pipeline that starts based on EventBridge events.
+///
+/// @nodoc
 class SageMakerPipelineParameters {
   /// List of Parameter names and values for SageMaker AI Model Building Pipeline
   /// execution.
@@ -7608,6 +7733,8 @@ class SageMakerPipelineParameters {
 
 /// A <code>RetryPolicy</code> object that includes information about the retry
 /// policy settings.
+///
+/// @nodoc
 class RetryPolicy {
   /// The maximum amount of time, in seconds, to continue to make retry attempts.
   final int? maximumEventAgeInSeconds;
@@ -7643,6 +7770,8 @@ class RetryPolicy {
 
 /// Contains the GraphQL operation to be parsed and executed, if the event
 /// target is an AppSync API.
+///
+/// @nodoc
 class AppSyncParameters {
   /// The GraphQL operation; that is, the query, mutation, or subscription to be
   /// parsed and executed by the GraphQL service.
@@ -7672,6 +7801,8 @@ class AppSyncParameters {
 
 /// Name/Value pair of a parameter to start execution of a SageMaker AI Model
 /// Building Pipeline.
+///
+/// @nodoc
 class SageMakerPipelineParameter {
   /// Name of parameter to start execution of a SageMaker AI Model Building
   /// Pipeline.
@@ -7707,6 +7838,8 @@ class SageMakerPipelineParameter {
 /// The array size can be between 2 and 10,000. If you specify array properties
 /// for a job, it becomes an array job. This parameter is used only if the
 /// target is an Batch job.
+///
+/// @nodoc
 class BatchArrayProperties {
   /// The size of the array, if this is an array batch job. Valid values are
   /// integers between 2 and 10,000.
@@ -7733,6 +7866,8 @@ class BatchArrayProperties {
 /// The retry strategy to use for failed jobs, if the target is an Batch job. If
 /// you specify a retry strategy here, it overrides the retry strategy defined
 /// in the job definition.
+///
+/// @nodoc
 class BatchRetryStrategy {
   /// The number of times to attempt to retry, if the job fails. Valid values are
   /// 1–10.
@@ -7756,6 +7891,7 @@ class BatchRetryStrategy {
   }
 }
 
+/// @nodoc
 class LaunchType {
   static const ec2 = LaunchType._('EC2');
   static const fargate = LaunchType._('FARGATE');
@@ -7781,6 +7917,8 @@ class LaunchType {
 }
 
 /// This structure specifies the network configuration for an ECS task.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// Use this structure to specify the VPC subnets and security groups for the
   /// task, and whether a public IP address is to be used. This structure is
@@ -7809,6 +7947,7 @@ class NetworkConfiguration {
   }
 }
 
+/// @nodoc
 class PropagateTags {
   static const taskDefinition = PropagateTags._('TASK_DEFINITION');
 
@@ -7836,6 +7975,8 @@ class PropagateTags {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html">Task
 /// Placement Strategies</a> in the Amazon Elastic Container Service Service
 /// Developer Guide.
+///
+/// @nodoc
 class PlacementStrategy {
   /// The field to apply the placement strategy against. For the spread placement
   /// strategy, valid values are instanceId (or host, which has the same effect),
@@ -7877,6 +8018,7 @@ class PlacementStrategy {
   }
 }
 
+/// @nodoc
 class PlacementStrategyType {
   static const random = PlacementStrategyType._('random');
   static const spread = PlacementStrategyType._('spread');
@@ -7907,6 +8049,8 @@ class PlacementStrategyType {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html">Task
 /// Placement Constraints</a> in the Amazon Elastic Container Service Developer
 /// Guide.
+///
+/// @nodoc
 class PlacementConstraint {
   /// A cluster query language expression to apply to the constraint. You cannot
   /// specify an expression if the constraint type is
@@ -7942,6 +8086,7 @@ class PlacementConstraint {
   }
 }
 
+/// @nodoc
 class PlacementConstraintType {
   static const distinctInstance = PlacementConstraintType._('distinctInstance');
   static const memberOf = PlacementConstraintType._('memberOf');
@@ -7970,6 +8115,8 @@ class PlacementConstraintType {
 /// The details of a capacity provider strategy. To learn more, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CapacityProviderStrategyItem.html">CapacityProviderStrategyItem</a>
 /// in the Amazon ECS API Reference.
+///
+/// @nodoc
 class CapacityProviderStrategyItem {
   /// The short name of the capacity provider.
   final String capacityProvider;
@@ -8015,6 +8162,8 @@ class CapacityProviderStrategyItem {
 /// This structure specifies the VPC subnets and security groups for the task,
 /// and whether a public IP address is to be used. This structure is relevant
 /// only for ECS tasks that use the <code>awsvpc</code> network mode.
+///
+/// @nodoc
 class AwsVpcConfiguration {
   /// Specifies the subnets associated with the task. These subnets must all be in
   /// the same VPC. You can specify as many as 16 subnets.
@@ -8065,6 +8214,7 @@ class AwsVpcConfiguration {
   }
 }
 
+/// @nodoc
 class AssignPublicIp {
   static const enabled = AssignPublicIp._('ENABLED');
   static const disabled = AssignPublicIp._('DISABLED');
@@ -8092,6 +8242,8 @@ class AssignPublicIp {
 /// Information about the EC2 instances that are to be sent the command,
 /// specified as key-value pairs. Each <code>RunCommandTarget</code> block can
 /// include only one key, but this key may specify multiple values.
+///
+/// @nodoc
 class RunCommandTarget {
   /// Can be either <code>tag:</code> <i>tag-key</i> or <code>InstanceIds</code>.
   final String key;
@@ -8126,6 +8278,7 @@ class RunCommandTarget {
   }
 }
 
+/// @nodoc
 class RuleState {
   static const enabled = RuleState._('ENABLED');
   static const disabled = RuleState._('DISABLED');
@@ -8165,6 +8318,8 @@ class RuleState {
 ///
 /// <code>'{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value":
 /// "o-1234567890"}'</code>
+///
+/// @nodoc
 class Condition {
   /// Specifies the key for the condition. Currently the only supported key is
   /// <code>aws:PrincipalOrgID</code>.
@@ -8200,6 +8355,8 @@ class Condition {
 /// event was successfully submitted, the entry has the event ID in it.
 /// Otherwise, you can use the error code and error message to identify the
 /// problem with the entry.
+///
+/// @nodoc
 class PutPartnerEventsResultEntry {
   /// The error code that indicates why the event submission failed.
   final String? errorCode;
@@ -8237,6 +8394,8 @@ class PutPartnerEventsResultEntry {
 }
 
 /// The details about an event generated by an SaaS partner.
+///
+/// @nodoc
 class PutPartnerEventsRequestEntry {
   /// A valid JSON string. There is no other schema imposed. The JSON string may
   /// contain fields and nested sub-objects.
@@ -8314,6 +8473,8 @@ class PutPartnerEventsRequestEntry {
 /// For information about the errors that are common to all actions, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/CommonErrors.html">Common
 /// Errors</a>.
+///
+/// @nodoc
 class PutEventsResultEntry {
   /// The error code that indicates why the event submission failed.
   ///
@@ -8414,6 +8575,8 @@ class PutEventsResultEntry {
 }
 
 /// Represents an event to be submitted.
+///
+/// @nodoc
 class PutEventsRequestEntry {
   /// A valid JSON object. There is no other schema imposed. The JSON object may
   /// contain fields and nested sub-objects.
@@ -8513,6 +8676,8 @@ class PutEventsRequestEntry {
 }
 
 /// Contains information about a rule in Amazon EventBridge.
+///
+/// @nodoc
 class Rule {
   /// The Amazon Resource Name (ARN) of the rule.
   final String? arn;
@@ -8643,6 +8808,8 @@ class Rule {
 }
 
 /// A <code>Replay</code> object that contains details about a replay.
+///
+/// @nodoc
 class Replay {
   /// A time stamp for the time to start replaying events. Any event with a
   /// creation time prior to the <code>EventEndTime</code> specified is replayed.
@@ -8732,6 +8899,8 @@ class Replay {
 /// A partner event source is created by an SaaS partner. If a customer creates
 /// a partner event bus that matches this event source, that Amazon Web Services
 /// account can receive events from the partner's applications or services.
+///
+/// @nodoc
 class PartnerEventSource {
   /// The ARN of the partner event source.
   final String? arn;
@@ -8763,6 +8932,8 @@ class PartnerEventSource {
 
 /// The Amazon Web Services account that a partner event source has been offered
 /// to.
+///
+/// @nodoc
 class PartnerEventSourceAccount {
   /// The Amazon Web Services account ID that the partner event source was offered
   /// to.
@@ -8814,6 +8985,7 @@ class PartnerEventSourceAccount {
   }
 }
 
+/// @nodoc
 class EventSourceState {
   static const pending = EventSourceState._('PENDING');
   static const active = EventSourceState._('ACTIVE');
@@ -8842,6 +9014,8 @@ class EventSourceState {
 /// A partner event source is created by an SaaS partner. If a customer creates
 /// a partner event bus that matches this event source, that Amazon Web Services
 /// account can receive events from the partner's applications or services.
+///
+/// @nodoc
 class EventSource {
   /// The ARN of the event source.
   final String? arn;
@@ -8913,6 +9087,8 @@ class EventSource {
 /// your custom applications and services. A partner event bus receives events
 /// from an event source created by an SaaS partner. These events come from the
 /// partners services or applications.
+///
+/// @nodoc
 class EventBus {
   /// The ARN of the event bus.
   final String? arn;
@@ -8979,6 +9155,8 @@ class EventBus {
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html">Making
 /// applications Regional-fault tolerant with global endpoints and event
 /// replication</a> in the <i> <i>Amazon EventBridge User Guide</i> </i>.
+///
+/// @nodoc
 class Endpoint {
   /// The ARN of the endpoint.
   final String? arn;
@@ -9102,6 +9280,8 @@ class Endpoint {
 }
 
 /// Contains information about a connection.
+///
+/// @nodoc
 class Connection {
   /// The authorization type specified for the connection.
   /// <note>
@@ -9183,6 +9363,8 @@ class Connection {
 }
 
 /// An <code>Archive</code> object that contains details about an archive.
+///
+/// @nodoc
 class Archive {
   /// The name of the archive.
   final String? archiveName;
@@ -9257,6 +9439,8 @@ class Archive {
 }
 
 /// Contains details about an API destination.
+///
+/// @nodoc
 class ApiDestination {
   /// The ARN of the API destination.
   final String? apiDestinationArn;
@@ -9349,6 +9533,8 @@ class ApiDestination {
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-auth.html">Authorization
 /// methods for connections</a> in the <i> <i>Amazon EventBridge User Guide</i>
 /// </i>.
+///
+/// @nodoc
 class DescribeConnectionConnectivityParameters {
   /// The parameters for EventBridge to use when invoking the resource endpoint.
   final DescribeConnectionResourceParameters resourceParameters;
@@ -9375,6 +9561,8 @@ class DescribeConnectionConnectivityParameters {
 }
 
 /// Tthe authorization parameters to use for the connection.
+///
+/// @nodoc
 class ConnectionAuthResponseParameters {
   /// The API Key parameters to use for authorization.
   final ConnectionApiKeyAuthResponseParameters? apiKeyAuthParameters;
@@ -9453,6 +9641,8 @@ class ConnectionAuthResponseParameters {
 
 /// The authorization parameters for the connection if Basic is specified as the
 /// authorization type.
+///
+/// @nodoc
 class ConnectionBasicAuthResponseParameters {
   /// The user name to use for Basic authorization.
   final String? username;
@@ -9477,6 +9667,8 @@ class ConnectionBasicAuthResponseParameters {
 }
 
 /// The response parameters when OAuth is specified as the authorization type.
+///
+/// @nodoc
 class ConnectionOAuthResponseParameters {
   /// The URL to the HTTP endpoint that authorized the request.
   final String? authorizationEndpoint;
@@ -9533,6 +9725,8 @@ class ConnectionOAuthResponseParameters {
 
 /// Contains the authorization parameters for the connection if API Key is
 /// specified as the authorization type.
+///
+/// @nodoc
 class ConnectionApiKeyAuthResponseParameters {
   /// The name of the header to use for the <code>APIKeyValue</code> used for
   /// authorization.
@@ -9559,6 +9753,8 @@ class ConnectionApiKeyAuthResponseParameters {
 
 /// The client response parameters for the connection when OAuth is specified as
 /// the authorization type.
+///
+/// @nodoc
 class ConnectionOAuthClientResponseParameters {
   /// The client ID associated with the response to the connection request.
   final String? clientID;
@@ -9583,6 +9779,8 @@ class ConnectionOAuthClientResponseParameters {
 }
 
 /// The parameters for EventBridge to use when invoking the resource endpoint.
+///
+/// @nodoc
 class DescribeConnectionResourceParameters {
   /// For connections to private APIs, the Amazon Resource Name (ARN) of the
   /// resource association EventBridge created between the connection and the
@@ -9626,6 +9824,8 @@ class DescribeConnectionResourceParameters {
 ///
 /// You must include only authorization parameters for the
 /// <code>AuthorizationType</code> you specify.
+///
+/// @nodoc
 class CreateConnectionAuthRequestParameters {
   /// The API key authorization parameters to use for the connection.
   final CreateConnectionApiKeyAuthRequestParameters? apiKeyAuthParameters;
@@ -9680,6 +9880,8 @@ class CreateConnectionAuthRequestParameters {
 }
 
 /// Contains the Basic authorization parameters to use for the connection.
+///
+/// @nodoc
 class CreateConnectionBasicAuthRequestParameters {
   /// The password associated with the user name to use for Basic authorization.
   final String password;
@@ -9703,6 +9905,8 @@ class CreateConnectionBasicAuthRequestParameters {
 }
 
 /// Contains the OAuth authorization parameters to use for the connection.
+///
+/// @nodoc
 class CreateConnectionOAuthRequestParameters {
   /// The URL to the authorization endpoint when OAuth is specified as the
   /// authorization type.
@@ -9740,6 +9944,8 @@ class CreateConnectionOAuthRequestParameters {
 }
 
 /// The API key authorization parameters for the connection.
+///
+/// @nodoc
 class CreateConnectionApiKeyAuthRequestParameters {
   /// The name of the API key to use for authorization.
   final String apiKeyName;
@@ -9763,6 +9969,8 @@ class CreateConnectionApiKeyAuthRequestParameters {
 }
 
 /// The Basic authorization parameters to use for the connection.
+///
+/// @nodoc
 class CreateConnectionOAuthClientRequestParameters {
   /// The client ID to use for OAuth authorization for the connection.
   final String clientID;
@@ -9786,11 +9994,13 @@ class CreateConnectionOAuthClientRequestParameters {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -9799,42 +10009,50 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IllegalStatusException extends _s.GenericAwsException {
   IllegalStatusException({String? type, String? message})
       : super(type: type, code: 'IllegalStatusException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidEventPatternException extends _s.GenericAwsException {
   InvalidEventPatternException({String? type, String? message})
       : super(
             type: type, code: 'InvalidEventPatternException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ManagedRuleException extends _s.GenericAwsException {
   ManagedRuleException({String? type, String? message})
       : super(type: type, code: 'ManagedRuleException', message: message);
 }
 
+/// @nodoc
 class OperationDisabledException extends _s.GenericAwsException {
   OperationDisabledException({String? type, String? message})
       : super(type: type, code: 'OperationDisabledException', message: message);
 }
 
+/// @nodoc
 class PolicyLengthExceededException extends _s.GenericAwsException {
   PolicyLengthExceededException({String? type, String? message})
       : super(
@@ -9843,6 +10061,7 @@ class PolicyLengthExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -9851,11 +10070,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

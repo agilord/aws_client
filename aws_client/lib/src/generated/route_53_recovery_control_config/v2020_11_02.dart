@@ -875,6 +875,7 @@ class Route53RecoveryControlConfig {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The cluster that was created.
   final Cluster? cluster;
@@ -899,6 +900,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateControlPanelResponse {
   /// Information about a control panel.
   final ControlPanel? controlPanel;
@@ -923,6 +925,7 @@ class CreateControlPanelResponse {
   }
 }
 
+/// @nodoc
 class CreateRoutingControlResponse {
   /// The routing control that is created.
   final RoutingControl? routingControl;
@@ -948,6 +951,7 @@ class CreateRoutingControlResponse {
   }
 }
 
+/// @nodoc
 class CreateSafetyRuleResponse {
   /// The assertion rule created.
   final AssertionRule? assertionRule;
@@ -982,6 +986,7 @@ class CreateSafetyRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   DeleteClusterResponse();
 
@@ -994,6 +999,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteControlPanelResponse {
   DeleteControlPanelResponse();
 
@@ -1006,6 +1012,7 @@ class DeleteControlPanelResponse {
   }
 }
 
+/// @nodoc
 class DeleteRoutingControlResponse {
   DeleteRoutingControlResponse();
 
@@ -1018,6 +1025,7 @@ class DeleteRoutingControlResponse {
   }
 }
 
+/// @nodoc
 class DeleteSafetyRuleResponse {
   DeleteSafetyRuleResponse();
 
@@ -1030,6 +1038,7 @@ class DeleteSafetyRuleResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterResponse {
   /// The cluster for the DescribeCluster request.
   final Cluster? cluster;
@@ -1054,6 +1063,7 @@ class DescribeClusterResponse {
   }
 }
 
+/// @nodoc
 class DescribeControlPanelResponse {
   /// Information about the control panel.
   final ControlPanel? controlPanel;
@@ -1078,6 +1088,7 @@ class DescribeControlPanelResponse {
   }
 }
 
+/// @nodoc
 class DescribeRoutingControlResponse {
   /// Information about the routing control.
   final RoutingControl? routingControl;
@@ -1103,6 +1114,7 @@ class DescribeRoutingControlResponse {
   }
 }
 
+/// @nodoc
 class DescribeSafetyRuleResponse {
   /// The assertion rule in the response.
   final AssertionRule? assertionRule;
@@ -1137,6 +1149,7 @@ class DescribeSafetyRuleResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The resource policy.
   final String? policy;
@@ -1159,6 +1172,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedRoute53HealthChecksResponse {
   /// Identifiers for the health checks.
   final List<String>? healthCheckIds;
@@ -1192,6 +1206,7 @@ class ListAssociatedRoute53HealthChecksResponse {
   }
 }
 
+/// @nodoc
 class ListClustersResponse {
   /// An array of the clusters in an account.
   final List<Cluster>? clusters;
@@ -1224,6 +1239,7 @@ class ListClustersResponse {
   }
 }
 
+/// @nodoc
 class ListControlPanelsResponse {
   /// The result of a successful ListControlPanel request.
   final List<ControlPanel>? controlPanels;
@@ -1256,6 +1272,7 @@ class ListControlPanelsResponse {
   }
 }
 
+/// @nodoc
 class ListRoutingControlsResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1288,6 +1305,7 @@ class ListRoutingControlsResponse {
   }
 }
 
+/// @nodoc
 class ListSafetyRulesResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1320,6 +1338,7 @@ class ListSafetyRulesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final Map<String, String>? tags;
@@ -1343,6 +1362,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1355,6 +1375,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1367,6 +1388,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterResponse {
   /// The cluster that was updated.
   final Cluster? cluster;
@@ -1391,6 +1413,7 @@ class UpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class UpdateControlPanelResponse {
   /// The control panel to update.
   final ControlPanel? controlPanel;
@@ -1415,6 +1438,7 @@ class UpdateControlPanelResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoutingControlResponse {
   /// The routing control that was updated.
   final RoutingControl? routingControl;
@@ -1440,6 +1464,7 @@ class UpdateRoutingControlResponse {
   }
 }
 
+/// @nodoc
 class UpdateSafetyRuleResponse {
   /// The assertion rule updated.
   final AssertionRule? assertionRule;
@@ -1480,6 +1505,8 @@ class UpdateSafetyRuleResponse {
 /// might be that at least one routing control state is On after the transaction
 /// so that traffic continues to flow to at least one cell for the application.
 /// This ensures that you avoid a fail-open scenario.
+///
+/// @nodoc
 class AssertionRule {
   /// The routing controls that are part of transactions that are evaluated to
   /// determine if a request to change a routing control state is allowed. For
@@ -1579,6 +1606,8 @@ class AssertionRule {
 /// gating control "switch" to be "On". When you do that, then you can update
 /// the routing control states for the target routing controls that you specify
 /// in the gating rule.
+///
+/// @nodoc
 class GatingRule {
   /// The Amazon Resource Name (ARN) of the control panel.
   final String controlPanelArn;
@@ -1683,6 +1712,8 @@ class GatingRule {
 /// The rule configuration for an assertion rule. That is, the criteria that you
 /// set for specific assertion controls (routing controls) that specify how many
 /// control states must be ON after a transaction completes.
+///
+/// @nodoc
 class RuleConfig {
   /// Logical negation of the rule. If the rule would usually evaluate true, it's
   /// evaluated as false, and vice versa.
@@ -1730,6 +1761,8 @@ class RuleConfig {
 ///
 /// PENDING_DELETION: Amazon Route 53 Application Recovery Controller is
 /// deleting the resource.
+///
+/// @nodoc
 class Status {
   static const pending = Status._('PENDING');
   static const deployed = Status._('DEPLOYED');
@@ -1765,6 +1798,8 @@ class Status {
 ///
 /// OR - Any control must be set. This is a shortcut for "At least N," where N
 /// is 1.
+///
+/// @nodoc
 class RuleType {
   static const atleast = RuleType._('ATLEAST');
   static const and = RuleType._('AND');
@@ -1792,6 +1827,8 @@ class RuleType {
 /// An update to an assertion rule. You can update the name or the evaluation
 /// period (wait period). If you don't specify one of the items to update, the
 /// item is unchanged.
+///
+/// @nodoc
 class AssertionRuleUpdate {
   /// The name of the assertion rule. You can use any non-white space character in
   /// the name.
@@ -1827,6 +1864,8 @@ class AssertionRuleUpdate {
 /// Update to a gating rule. You can update the name or the evaluation period
 /// (wait period). If you don't specify one of the items to update, the item is
 /// unchanged.
+///
+/// @nodoc
 class GatingRuleUpdate {
   /// The name for the gating rule. You can use any non-white space character in
   /// the name.
@@ -1862,6 +1901,8 @@ class GatingRuleUpdate {
 /// A routing control has one of two states: ON and OFF. You can map the routing
 /// control state to the state of an Amazon Route 53 health check, which can be
 /// used to control traffic routing.
+///
+/// @nodoc
 class RoutingControl {
   /// The Amazon Resource Name (ARN) of the control panel that includes the
   /// routing control.
@@ -1916,6 +1957,8 @@ class RoutingControl {
 
 /// A control panel represents a group of routing controls that can be changed
 /// together in a single transaction.
+///
+/// @nodoc
 class ControlPanel {
   /// The Amazon Resource Name (ARN) of the cluster that includes the control
   /// panel.
@@ -1992,6 +2035,8 @@ class ControlPanel {
 /// A set of five redundant Regional endpoints against which you can execute API
 /// calls to update or get the state of routing controls. You can host multiple
 /// control panels and routing controls on one cluster.
+///
+/// @nodoc
 class Cluster {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -2064,6 +2109,8 @@ class Cluster {
 /// IPV4: Cluster endpoints support IPv4 only.
 ///
 /// DUALSTACK: Cluster endpoints support both IPv4 and IPv6.
+///
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const dualstack = NetworkType._('DUALSTACK');
@@ -2089,6 +2136,8 @@ class NetworkType {
 
 /// A cluster endpoint. Specify an endpoint when you want to set or retrieve a
 /// routing control state in the cluster.
+///
+/// @nodoc
 class ClusterEndpoint {
   /// A cluster endpoint. Specify an endpoint and Amazon Web Services Region when
   /// you want to set or retrieve a routing control state in the cluster.
@@ -2123,6 +2172,8 @@ class ClusterEndpoint {
 }
 
 /// A safety rule. A safety rule can be an assertion rule or a gating rule.
+///
+/// @nodoc
 class Rule {
   /// An assertion rule enforces that, when a routing control state is changed,
   /// the criteria set by the rule configuration is met. Otherwise, the change to
@@ -2171,6 +2222,8 @@ class Rule {
 }
 
 /// A new assertion rule for a control panel.
+///
+/// @nodoc
 class NewAssertionRule {
   /// The routing controls that are part of transactions that are evaluated to
   /// determine if a request to change a routing control state is allowed. For
@@ -2224,6 +2277,8 @@ class NewAssertionRule {
 }
 
 /// A new gating rule for a control panel.
+///
+/// @nodoc
 class NewGatingRule {
   /// The Amazon Resource Name (ARN) of the control panel.
   final String controlPanelArn;
@@ -2285,26 +2340,31 @@ class NewGatingRule {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2313,11 +2373,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

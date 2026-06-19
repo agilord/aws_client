@@ -777,6 +777,7 @@ class Oam {
   }
 }
 
+/// @nodoc
 class CreateLinkOutput {
   /// The ARN of the link that is newly created.
   final String? arn;
@@ -861,6 +862,7 @@ class CreateLinkOutput {
   }
 }
 
+/// @nodoc
 class CreateSinkOutput {
   /// The ARN of the sink that is newly created.
   final String? arn;
@@ -906,6 +908,7 @@ class CreateSinkOutput {
   }
 }
 
+/// @nodoc
 class DeleteLinkOutput {
   DeleteLinkOutput();
 
@@ -918,6 +921,7 @@ class DeleteLinkOutput {
   }
 }
 
+/// @nodoc
 class DeleteSinkOutput {
   DeleteSinkOutput();
 
@@ -930,6 +934,7 @@ class DeleteSinkOutput {
   }
 }
 
+/// @nodoc
 class GetLinkOutput {
   /// The ARN of the link.
   final String? arn;
@@ -1013,6 +1018,7 @@ class GetLinkOutput {
   }
 }
 
+/// @nodoc
 class GetSinkOutput {
   /// The ARN of the sink.
   final String? arn;
@@ -1058,6 +1064,7 @@ class GetSinkOutput {
   }
 }
 
+/// @nodoc
 class GetSinkPolicyOutput {
   /// The policy that you specified, in JSON format.
   final String? policy;
@@ -1095,6 +1102,7 @@ class GetSinkPolicyOutput {
   }
 }
 
+/// @nodoc
 class ListAttachedLinksOutput {
   /// An array of structures that contain the information about the attached
   /// links.
@@ -1128,6 +1136,7 @@ class ListAttachedLinksOutput {
   }
 }
 
+/// @nodoc
 class ListLinksOutput {
   /// An array of structures that contain the information about the returned
   /// links.
@@ -1161,6 +1170,7 @@ class ListLinksOutput {
   }
 }
 
+/// @nodoc
 class ListSinksOutput {
   /// An array of structures that contain the information about the returned
   /// sinks.
@@ -1194,6 +1204,7 @@ class ListSinksOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags associated with the requested resource.&gt;
   final Map<String, String>? tags;
@@ -1217,6 +1228,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutSinkPolicyOutput {
   /// The policy that you specified.
   final String? policy;
@@ -1254,6 +1266,7 @@ class PutSinkPolicyOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1266,6 +1279,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1278,6 +1292,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateLinkOutput {
   /// The ARN of the link that you have updated.
   final String? arn;
@@ -1364,6 +1379,8 @@ class UpdateLinkOutput {
 /// Use this structure to optionally create filters that specify that only some
 /// metric namespaces or log groups are to be shared from the source account to
 /// the monitoring account.
+///
+/// @nodoc
 class LinkConfiguration {
   /// Use this structure to filter which log groups are to send log events from
   /// the source account to the monitoring account.
@@ -1406,6 +1423,8 @@ class LinkConfiguration {
 /// This structure contains the <code>Filter</code> parameter which you can use
 /// to specify which log groups are to share log events from this source account
 /// to the monitoring account.
+///
+/// @nodoc
 class LogGroupConfiguration {
   /// Use this field to specify which log groups are to share their log events
   /// with the monitoring account. Use the term <code>LogGroupName</code> and one
@@ -1480,6 +1499,8 @@ class LogGroupConfiguration {
 /// This structure contains the <code>Filter</code> parameter which you can use
 /// to specify which metric namespaces are to be shared from this source account
 /// to the monitoring account.
+///
+/// @nodoc
 class MetricConfiguration {
   /// Use this field to specify which metrics are to be shared with the monitoring
   /// account. Use the term <code>Namespace</code> and one or more of the
@@ -1547,6 +1568,7 @@ class MetricConfiguration {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const awsCloudWatchMetric = ResourceType._('AWS::CloudWatch::Metric');
   static const awsLogsLogGroup = ResourceType._('AWS::Logs::LogGroup');
@@ -1589,6 +1611,8 @@ class ResourceType {
 
 /// A structure that contains information about one of this monitoring account's
 /// sinks.
+///
+/// @nodoc
 class ListSinksItem {
   /// The ARN of the sink.
   final String? arn;
@@ -1628,6 +1652,8 @@ class ListSinksItem {
 
 /// A structure that contains information about one of this source account's
 /// links to a monitoring account.
+///
+/// @nodoc
 class ListLinksItem {
   /// The ARN of the link.
   final String? arn;
@@ -1685,6 +1711,8 @@ class ListLinksItem {
 
 /// A structure that contains information about one link attached to this
 /// monitoring account sink.
+///
+/// @nodoc
 class ListAttachedLinksItem {
   /// The label that was assigned to this link at creation, with the variables
   /// resolved to their actual values.
@@ -1725,21 +1753,25 @@ class ListAttachedLinksItem {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceFault extends _s.GenericAwsException {
   InternalServiceFault({String? type, String? message})
       : super(type: type, code: 'InternalServiceFault', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class MissingRequiredParameterException extends _s.GenericAwsException {
   MissingRequiredParameterException({String? type, String? message})
       : super(
@@ -1748,11 +1780,13 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1761,11 +1795,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

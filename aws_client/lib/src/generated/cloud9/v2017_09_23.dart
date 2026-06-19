@@ -851,6 +851,7 @@ class Cloud9 {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentEC2Result {
   /// The ID of the environment that was created.
   final String? environmentId;
@@ -873,6 +874,7 @@ class CreateEnvironmentEC2Result {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentMembershipResult {
   /// Information about the environment member that was added.
   final EnvironmentMember membership;
@@ -898,6 +900,7 @@ class CreateEnvironmentMembershipResult {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentResult {
   DeleteEnvironmentResult();
 
@@ -910,6 +913,7 @@ class DeleteEnvironmentResult {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentMembershipResult {
   DeleteEnvironmentMembershipResult();
 
@@ -922,6 +926,7 @@ class DeleteEnvironmentMembershipResult {
   }
 }
 
+/// @nodoc
 class DescribeEnvironmentMembershipsResult {
   /// Information about the environment members for the environment.
   final List<EnvironmentMember>? memberships;
@@ -958,6 +963,7 @@ class DescribeEnvironmentMembershipsResult {
   }
 }
 
+/// @nodoc
 class DescribeEnvironmentsResult {
   /// Information about the environments that are returned.
   final List<Environment>? environments;
@@ -983,6 +989,7 @@ class DescribeEnvironmentsResult {
   }
 }
 
+/// @nodoc
 class DescribeEnvironmentStatusResult {
   /// Any informational message about the status of the environment.
   final String message;
@@ -1036,6 +1043,7 @@ class DescribeEnvironmentStatusResult {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResult {
   /// The list of environment identifiers.
   final List<String>? environmentIds;
@@ -1071,6 +1079,7 @@ class ListEnvironmentsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags associated with the Cloud9 development environment.
   final List<Tag>? tags;
@@ -1096,6 +1105,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1108,6 +1118,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1120,6 +1131,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentResult {
   UpdateEnvironmentResult();
 
@@ -1132,6 +1144,7 @@ class UpdateEnvironmentResult {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentMembershipResult {
   /// Information about the environment member whose settings were changed.
   final EnvironmentMember? membership;
@@ -1160,6 +1173,8 @@ class UpdateEnvironmentMembershipResult {
 
 /// Information about an environment member for an Cloud9 development
 /// environment.
+///
+/// @nodoc
 class EnvironmentMember {
   /// The ID of the environment for the environment member.
   final String environmentId;
@@ -1226,6 +1241,7 @@ class EnvironmentMember {
   }
 }
 
+/// @nodoc
 class Permissions {
   static const owner = Permissions._('owner');
   static const readWrite = Permissions._('read-write');
@@ -1250,6 +1266,7 @@ class Permissions {
   String toString() => value;
 }
 
+/// @nodoc
 class MemberPermissions {
   static const readWrite = MemberPermissions._('read-write');
   static const readOnly = MemberPermissions._('read-only');
@@ -1274,6 +1291,7 @@ class MemberPermissions {
   String toString() => value;
 }
 
+/// @nodoc
 class ManagedCredentialsAction {
   static const enable = ManagedCredentialsAction._('ENABLE');
   static const disable = ManagedCredentialsAction._('DISABLE');
@@ -1305,6 +1323,8 @@ class ManagedCredentialsAction {
 /// <i>system tags</i>. A user tag is created by the user. A system tag is
 /// automatically created by Amazon Web Services services. A system tag is
 /// prefixed with <code>"aws:"</code> and cannot be modified by the user.
+///
+/// @nodoc
 class Tag {
   /// The <b>name</b> part of a tag.
   final String key;
@@ -1334,6 +1354,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class EnvironmentStatus {
   static const error = EnvironmentStatus._('error');
   static const creating = EnvironmentStatus._('creating');
@@ -1372,6 +1393,8 @@ class EnvironmentStatus {
 }
 
 /// Information about an Cloud9 development environment.
+///
+/// @nodoc
 class Environment {
   /// The Amazon Resource Name (ARN) of the environment.
   final String arn;
@@ -1501,6 +1524,7 @@ class Environment {
   }
 }
 
+/// @nodoc
 class EnvironmentType {
   static const ssh = EnvironmentType._('ssh');
   static const ec2 = EnvironmentType._('ec2');
@@ -1525,6 +1549,7 @@ class EnvironmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionType {
   static const connectSsh = ConnectionType._('CONNECT_SSH');
   static const connectSsm = ConnectionType._('CONNECT_SSM');
@@ -1551,6 +1576,8 @@ class ConnectionType {
 
 /// Information about the current creation or deletion lifecycle state of an
 /// Cloud9 development environment.
+///
+/// @nodoc
 class EnvironmentLifecycle {
   /// If the environment failed to delete, the Amazon Resource Name (ARN) of the
   /// related Amazon Web Services resource.
@@ -1607,6 +1634,7 @@ class EnvironmentLifecycle {
   }
 }
 
+/// @nodoc
 class ManagedCredentialsStatus {
   static const enabledOnCreate =
       ManagedCredentialsStatus._('ENABLED_ON_CREATE');
@@ -1663,6 +1691,7 @@ class ManagedCredentialsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentLifecycleStatus {
   static const creating = EnvironmentLifecycleStatus._('CREATING');
   static const created = EnvironmentLifecycleStatus._('CREATED');
@@ -1697,42 +1726,50 @@ class EnvironmentLifecycleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConcurrentAccessException extends _s.GenericAwsException {
   ConcurrentAccessException({String? type, String? message})
       : super(type: type, code: 'ConcurrentAccessException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

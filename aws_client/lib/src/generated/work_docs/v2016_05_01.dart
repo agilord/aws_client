@@ -2450,6 +2450,7 @@ class WorkDocs {
   }
 }
 
+/// @nodoc
 class ActivateUserResponse {
   /// The user information.
   final User? user;
@@ -2474,6 +2475,7 @@ class ActivateUserResponse {
   }
 }
 
+/// @nodoc
 class AddResourcePermissionsResponse {
   /// The share results.
   final List<ShareResult>? shareResults;
@@ -2499,6 +2501,7 @@ class AddResourcePermissionsResponse {
   }
 }
 
+/// @nodoc
 class CreateCommentResponse {
   /// The comment that has been created.
   final Comment? comment;
@@ -2523,6 +2526,7 @@ class CreateCommentResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomMetadataResponse {
   CreateCustomMetadataResponse();
 
@@ -2535,6 +2539,7 @@ class CreateCustomMetadataResponse {
   }
 }
 
+/// @nodoc
 class CreateFolderResponse {
   /// The metadata of the folder.
   final FolderMetadata? metadata;
@@ -2559,6 +2564,7 @@ class CreateFolderResponse {
   }
 }
 
+/// @nodoc
 class CreateLabelsResponse {
   CreateLabelsResponse();
 
@@ -2571,6 +2577,7 @@ class CreateLabelsResponse {
   }
 }
 
+/// @nodoc
 class CreateNotificationSubscriptionResponse {
   /// The subscription.
   final Subscription? subscription;
@@ -2596,6 +2603,7 @@ class CreateNotificationSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The user information.
   final User? user;
@@ -2620,6 +2628,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomMetadataResponse {
   DeleteCustomMetadataResponse();
 
@@ -2632,6 +2641,7 @@ class DeleteCustomMetadataResponse {
   }
 }
 
+/// @nodoc
 class DeleteLabelsResponse {
   DeleteLabelsResponse();
 
@@ -2644,6 +2654,7 @@ class DeleteLabelsResponse {
   }
 }
 
+/// @nodoc
 class DescribeActivitiesResponse {
   /// The marker for the next set of results.
   final String? marker;
@@ -2676,6 +2687,7 @@ class DescribeActivitiesResponse {
   }
 }
 
+/// @nodoc
 class DescribeCommentsResponse {
   /// The list of comments for the specified document version.
   final List<Comment>? comments;
@@ -2709,6 +2721,7 @@ class DescribeCommentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDocumentVersionsResponse {
   /// The document versions.
   final List<DocumentVersionMetadata>? documentVersions;
@@ -2743,6 +2756,7 @@ class DescribeDocumentVersionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFolderContentsResponse {
   /// The documents in the specified folder.
   final List<DocumentMetadata>? documents;
@@ -2786,6 +2800,7 @@ class DescribeFolderContentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeGroupsResponse {
   /// The list of groups.
   final List<GroupMetadata>? groups;
@@ -2819,6 +2834,7 @@ class DescribeGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeNotificationSubscriptionsResponse {
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
@@ -2853,6 +2869,7 @@ class DescribeNotificationSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePermissionsResponse {
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
@@ -2887,6 +2904,7 @@ class DescribeResourcePermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRootFoldersResponse {
   /// The user's special folders.
   final List<FolderMetadata>? folders;
@@ -2919,6 +2937,7 @@ class DescribeRootFoldersResponse {
   }
 }
 
+/// @nodoc
 class DescribeUsersResponse {
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
@@ -2959,6 +2978,7 @@ class DescribeUsersResponse {
   }
 }
 
+/// @nodoc
 class GetCurrentUserResponse {
   /// Metadata of the user.
   final User? user;
@@ -2983,6 +3003,7 @@ class GetCurrentUserResponse {
   }
 }
 
+/// @nodoc
 class GetDocumentResponse {
   /// The custom metadata on the document.
   final Map<String, String>? customMetadata;
@@ -3015,6 +3036,7 @@ class GetDocumentResponse {
   }
 }
 
+/// @nodoc
 class GetDocumentPathResponse {
   /// The path information.
   final ResourcePath? path;
@@ -3039,6 +3061,7 @@ class GetDocumentPathResponse {
   }
 }
 
+/// @nodoc
 class GetDocumentVersionResponse {
   /// The custom metadata on the document version.
   final Map<String, String>? customMetadata;
@@ -3072,6 +3095,7 @@ class GetDocumentVersionResponse {
   }
 }
 
+/// @nodoc
 class GetFolderResponse {
   /// The custom metadata on the folder.
   final Map<String, String>? customMetadata;
@@ -3104,6 +3128,7 @@ class GetFolderResponse {
   }
 }
 
+/// @nodoc
 class GetFolderPathResponse {
   /// The path information.
   final ResourcePath? path;
@@ -3128,6 +3153,7 @@ class GetFolderPathResponse {
   }
 }
 
+/// @nodoc
 class GetResourcesResponse {
   /// The documents in the specified collection.
   final List<DocumentMetadata>? documents;
@@ -3171,6 +3197,7 @@ class GetResourcesResponse {
   }
 }
 
+/// @nodoc
 class InitiateDocumentVersionUploadResponse {
   /// The document metadata.
   final DocumentMetadata? metadata;
@@ -3206,6 +3233,7 @@ class InitiateDocumentVersionUploadResponse {
   }
 }
 
+/// @nodoc
 class SearchResourcesResponse {
   /// List of Documents, Folders, Comments, and Document Versions matching the
   /// query.
@@ -3240,6 +3268,7 @@ class SearchResourcesResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The user information.
   final User? user;
@@ -3265,6 +3294,8 @@ class UpdateUserResponse {
 }
 
 /// Describes a user.
+///
+/// @nodoc
 class User {
   /// The time when the user was created.
   final DateTime? createdTimestamp;
@@ -3390,6 +3421,7 @@ class User {
   }
 }
 
+/// @nodoc
 class UserStatusType {
   static const active = UserStatusType._('ACTIVE');
   static const inactive = UserStatusType._('INACTIVE');
@@ -3415,6 +3447,7 @@ class UserStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class UserType {
   static const user = UserType._('USER');
   static const admin = UserType._('ADMIN');
@@ -3441,6 +3474,7 @@ class UserType {
   String toString() => value;
 }
 
+/// @nodoc
 class LocaleType {
   static const en = LocaleType._('en');
   static const fr = LocaleType._('fr');
@@ -3486,6 +3520,8 @@ class LocaleType {
 }
 
 /// Describes the storage for a user.
+///
+/// @nodoc
 class UserStorageMetadata {
   /// The storage for a user.
   final StorageRuleType? storageRule;
@@ -3520,6 +3556,8 @@ class UserStorageMetadata {
 }
 
 /// Describes the storage for a user.
+///
+/// @nodoc
 class StorageRuleType {
   /// The amount of storage allocated, in bytes.
   final int? storageAllocatedInBytes;
@@ -3551,6 +3589,7 @@ class StorageRuleType {
   }
 }
 
+/// @nodoc
 class StorageType {
   static const unlimited = StorageType._('UNLIMITED');
   static const quota = StorageType._('QUOTA');
@@ -3574,6 +3613,7 @@ class StorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class BooleanEnumType {
   static const $true = BooleanEnumType._('TRUE');
   static const $false = BooleanEnumType._('FALSE');
@@ -3598,6 +3638,7 @@ class BooleanEnumType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceStateType {
   static const active = ResourceStateType._('ACTIVE');
   static const restoring = ResourceStateType._('RESTORING');
@@ -3624,6 +3665,7 @@ class ResourceStateType {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentVersionStatus {
   static const active = DocumentVersionStatus._('ACTIVE');
 
@@ -3650,6 +3692,8 @@ class DocumentVersionStatus {
 
 /// List of Documents, Folders, Comments, and Document Versions matching the
 /// query.
+///
+/// @nodoc
 class ResponseItem {
   /// The comment that matches the query.
   final CommentMetadata? commentMetadata;
@@ -3721,6 +3765,7 @@ class ResponseItem {
   }
 }
 
+/// @nodoc
 class ResponseItemType {
   static const document = ResponseItemType._('DOCUMENT');
   static const folder = ResponseItemType._('FOLDER');
@@ -3748,6 +3793,8 @@ class ResponseItemType {
 }
 
 /// Describes the document.
+///
+/// @nodoc
 class DocumentMetadata {
   /// The time when the document was created.
   final DateTime? createdTimestamp;
@@ -3828,6 +3875,8 @@ class DocumentMetadata {
 }
 
 /// Describes a folder.
+///
+/// @nodoc
 class FolderMetadata {
   /// The time when the folder was created.
   final DateTime? createdTimestamp;
@@ -3926,6 +3975,8 @@ class FolderMetadata {
 }
 
 /// Describes the metadata of a comment.
+///
+/// @nodoc
 class CommentMetadata {
   /// The ID of the comment.
   final String? commentId;
@@ -3988,6 +4039,8 @@ class CommentMetadata {
 }
 
 /// Describes a version of a document.
+///
+/// @nodoc
 class DocumentVersionMetadata {
   /// The timestamp when the content of the document was originally created.
   final DateTime? contentCreatedTimestamp;
@@ -4104,6 +4157,7 @@ class DocumentVersionMetadata {
   }
 }
 
+/// @nodoc
 class DocumentStatusType {
   static const initialized = DocumentStatusType._('INITIALIZED');
   static const active = DocumentStatusType._('ACTIVE');
@@ -4129,6 +4183,7 @@ class DocumentStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentSourceType {
   static const original = DocumentSourceType._('ORIGINAL');
   static const withComments = DocumentSourceType._('WITH_COMMENTS');
@@ -4154,6 +4209,7 @@ class DocumentSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentThumbnailType {
   static const small = DocumentThumbnailType._('SMALL');
   static const smallHq = DocumentThumbnailType._('SMALL_HQ');
@@ -4180,6 +4236,7 @@ class DocumentThumbnailType {
   String toString() => value;
 }
 
+/// @nodoc
 class CommentStatusType {
   static const draft = CommentStatusType._('DRAFT');
   static const published = CommentStatusType._('PUBLISHED');
@@ -4206,6 +4263,8 @@ class CommentStatusType {
 }
 
 /// Filters results based on entity metadata.
+///
+/// @nodoc
 class Filters {
   /// Filter based on resource’s path.
   final List<String>? ancestorIds;
@@ -4282,6 +4341,8 @@ class Filters {
 }
 
 /// The result of the sort operation.
+///
+/// @nodoc
 class SearchSortResult {
   /// Sort search results based on this field name.
   final OrderByFieldType? field;
@@ -4304,6 +4365,7 @@ class SearchSortResult {
   }
 }
 
+/// @nodoc
 class OrderByFieldType {
   static const relevance = OrderByFieldType._('RELEVANCE');
   static const name = OrderByFieldType._('NAME');
@@ -4337,6 +4399,7 @@ class OrderByFieldType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -4361,6 +4424,8 @@ class SortOrder {
 }
 
 /// Filter based on size (in bytes).
+///
+/// @nodoc
 class LongRangeType {
   /// The size end range (in bytes).
   final int? endValue;
@@ -4384,6 +4449,8 @@ class LongRangeType {
 }
 
 /// Filters results based on timestamp range (in epochs).
+///
+/// @nodoc
 class DateRangeType {
   /// Timestamp range end value (in epochs).
   final DateTime? endValue;
@@ -4406,6 +4473,7 @@ class DateRangeType {
   }
 }
 
+/// @nodoc
 class SearchCollectionType {
   static const owned = SearchCollectionType._('OWNED');
   static const sharedWithMe = SearchCollectionType._('SHARED_WITH_ME');
@@ -4432,6 +4500,8 @@ class SearchCollectionType {
 }
 
 /// Filter based on UserIds or GroupIds.
+///
+/// @nodoc
 class SearchPrincipalType {
   /// UserIds or GroupIds.
   final String id;
@@ -4454,6 +4524,7 @@ class SearchPrincipalType {
   }
 }
 
+/// @nodoc
 class PrincipalRoleType {
   static const viewer = PrincipalRoleType._('VIEWER');
   static const contributor = PrincipalRoleType._('CONTRIBUTOR');
@@ -4480,6 +4551,7 @@ class PrincipalRoleType {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchResourceType {
   static const folder = SearchResourceType._('FOLDER');
   static const document = SearchResourceType._('DOCUMENT');
@@ -4507,6 +4579,7 @@ class SearchResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentCategoryType {
   static const image = ContentCategoryType._('IMAGE');
   static const document = ContentCategoryType._('DOCUMENT');
@@ -4549,6 +4622,7 @@ class ContentCategoryType {
   String toString() => value;
 }
 
+/// @nodoc
 class LanguageCodeType {
   static const ar = LanguageCodeType._('AR');
   static const bg = LanguageCodeType._('BG');
@@ -4634,6 +4708,7 @@ class LanguageCodeType {
   String toString() => value;
 }
 
+/// @nodoc
 class AdditionalResponseFieldType {
   static const weburl = AdditionalResponseFieldType._('WEBURL');
 
@@ -4658,6 +4733,7 @@ class AdditionalResponseFieldType {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchQueryScopeType {
   static const name = SearchQueryScopeType._('NAME');
   static const content = SearchQueryScopeType._('CONTENT');
@@ -4683,6 +4759,7 @@ class SearchQueryScopeType {
   String toString() => value;
 }
 
+/// @nodoc
 class PrincipalType {
   static const user = PrincipalType._('USER');
   static const group = PrincipalType._('GROUP');
@@ -4711,6 +4788,8 @@ class PrincipalType {
 }
 
 /// Describes the upload.
+///
+/// @nodoc
 class UploadMetadata {
   /// The signed headers.
   final Map<String, String>? signedHeaders;
@@ -4741,6 +4820,7 @@ class UploadMetadata {
   }
 }
 
+/// @nodoc
 class ResourceCollectionType {
   static const sharedWithMe = ResourceCollectionType._('SHARED_WITH_ME');
 
@@ -4766,6 +4846,8 @@ class ResourceCollectionType {
 }
 
 /// Describes the path information of a resource.
+///
+/// @nodoc
 class ResourcePath {
   /// The components of the resource path.
   final List<ResourcePathComponent>? components;
@@ -4792,6 +4874,8 @@ class ResourcePath {
 }
 
 /// Describes the resource path.
+///
+/// @nodoc
 class ResourcePathComponent {
   /// The ID of the resource path.
   final String? id;
@@ -4821,6 +4905,7 @@ class ResourcePathComponent {
   }
 }
 
+/// @nodoc
 class UserFilterType {
   static const all = UserFilterType._('ALL');
   static const activePending = UserFilterType._('ACTIVE_PENDING');
@@ -4845,6 +4930,7 @@ class UserFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class OrderType {
   static const ascending = OrderType._('ASCENDING');
   static const descending = OrderType._('DESCENDING');
@@ -4868,6 +4954,7 @@ class OrderType {
   String toString() => value;
 }
 
+/// @nodoc
 class UserSortType {
   static const userName = UserSortType._('USER_NAME');
   static const fullName = UserSortType._('FULL_NAME');
@@ -4901,6 +4988,8 @@ class UserSortType {
 }
 
 /// Describes a resource.
+///
+/// @nodoc
 class Principal {
   /// The ID of the resource.
   final String? id;
@@ -4941,6 +5030,8 @@ class Principal {
 }
 
 /// Describes the permissions.
+///
+/// @nodoc
 class PermissionInfo {
   /// The role of the user.
   final RoleType? role;
@@ -4970,6 +5061,7 @@ class PermissionInfo {
   }
 }
 
+/// @nodoc
 class RoleType {
   static const viewer = RoleType._('VIEWER');
   static const contributor = RoleType._('CONTRIBUTOR');
@@ -4995,6 +5087,7 @@ class RoleType {
   String toString() => value;
 }
 
+/// @nodoc
 class RolePermissionType {
   static const direct = RolePermissionType._('DIRECT');
   static const inherited = RolePermissionType._('INHERITED');
@@ -5021,6 +5114,8 @@ class RolePermissionType {
 }
 
 /// Describes a subscription.
+///
+/// @nodoc
 class Subscription {
   /// The endpoint of the subscription.
   final String? endPoint;
@@ -5058,6 +5153,7 @@ class Subscription {
   }
 }
 
+/// @nodoc
 class SubscriptionProtocolType {
   static const https = SubscriptionProtocolType._('HTTPS');
   static const sqs = SubscriptionProtocolType._('SQS');
@@ -5084,6 +5180,8 @@ class SubscriptionProtocolType {
 }
 
 /// Describes the metadata of a user group.
+///
+/// @nodoc
 class GroupMetadata {
   /// The ID of the user group.
   final String? id;
@@ -5113,6 +5211,7 @@ class GroupMetadata {
   }
 }
 
+/// @nodoc
 class ResourceSortType {
   static const date = ResourceSortType._('DATE');
   static const name = ResourceSortType._('NAME');
@@ -5137,6 +5236,7 @@ class ResourceSortType {
   String toString() => value;
 }
 
+/// @nodoc
 class FolderContentType {
   static const all = FolderContentType._('ALL');
   static const document = FolderContentType._('DOCUMENT');
@@ -5163,6 +5263,8 @@ class FolderContentType {
 }
 
 /// Describes a comment.
+///
+/// @nodoc
 class Comment {
   /// The ID of the comment.
   final String commentId;
@@ -5249,6 +5351,7 @@ class Comment {
   }
 }
 
+/// @nodoc
 class CommentVisibilityType {
   static const public = CommentVisibilityType._('PUBLIC');
   static const private = CommentVisibilityType._('PRIVATE');
@@ -5275,6 +5378,8 @@ class CommentVisibilityType {
 }
 
 /// Describes the activity information.
+///
+/// @nodoc
 class Activity {
   /// Metadata of the commenting activity. This is an optional field and is filled
   /// for commenting activities.
@@ -5373,6 +5478,7 @@ class Activity {
   }
 }
 
+/// @nodoc
 class ActivityType {
   static const documentCheckedIn = ActivityType._('DOCUMENT_CHECKED_IN');
   static const documentCheckedOut = ActivityType._('DOCUMENT_CHECKED_OUT');
@@ -5477,6 +5583,8 @@ class ActivityType {
 }
 
 /// Describes the metadata of the user.
+///
+/// @nodoc
 class UserMetadata {
   /// The email address of the user.
   final String? emailAddress;
@@ -5528,6 +5636,8 @@ class UserMetadata {
 }
 
 /// Describes the users or user groups.
+///
+/// @nodoc
 class Participants {
   /// The list of user groups.
   final List<GroupMetadata>? groups;
@@ -5564,6 +5674,8 @@ class Participants {
 }
 
 /// Describes the metadata of a resource.
+///
+/// @nodoc
 class ResourceMetadata {
   /// The ID of the resource.
   final String? id;
@@ -5631,6 +5743,7 @@ class ResourceMetadata {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const folder = ResourceType._('FOLDER');
   static const document = ResourceType._('DOCUMENT');
@@ -5654,6 +5767,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionType {
   static const all = SubscriptionType._('ALL');
 
@@ -5678,6 +5792,8 @@ class SubscriptionType {
 }
 
 /// Describes the share results of a resource.
+///
+/// @nodoc
 class ShareResult {
   /// The ID of the invited user.
   final String? inviteePrincipalId;
@@ -5735,6 +5851,7 @@ class ShareResult {
   }
 }
 
+/// @nodoc
 class ShareStatusType {
   static const success = ShareStatusType._('SUCCESS');
   static const failure = ShareStatusType._('FAILURE');
@@ -5760,6 +5877,8 @@ class ShareStatusType {
 }
 
 /// Set of options which defines notification preferences of given action.
+///
+/// @nodoc
 class NotificationOptions {
   /// Text value to be included in the email body.
   final String? emailMessage;
@@ -5784,6 +5903,8 @@ class NotificationOptions {
 }
 
 /// Describes the recipient type and ID, if available.
+///
+/// @nodoc
 class SharePrincipal {
   /// The ID of the recipient.
   final String id;
@@ -5812,6 +5933,7 @@ class SharePrincipal {
   }
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -5820,6 +5942,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictingOperationException extends _s.GenericAwsException {
   ConflictingOperationException({String? type, String? message})
       : super(
@@ -5828,6 +5951,7 @@ class ConflictingOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomMetadataLimitExceededException extends _s.GenericAwsException {
   CustomMetadataLimitExceededException({String? type, String? message})
       : super(
@@ -5836,6 +5960,7 @@ class CustomMetadataLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeactivatingLastSystemUserException extends _s.GenericAwsException {
   DeactivatingLastSystemUserException({String? type, String? message})
       : super(
@@ -5844,6 +5969,7 @@ class DeactivatingLastSystemUserException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DocumentLockedForCommentsException extends _s.GenericAwsException {
   DocumentLockedForCommentsException({String? type, String? message})
       : super(
@@ -5852,6 +5978,7 @@ class DocumentLockedForCommentsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DraftUploadOutOfSyncException extends _s.GenericAwsException {
   DraftUploadOutOfSyncException({String? type, String? message})
       : super(
@@ -5860,32 +5987,38 @@ class DraftUploadOutOfSyncException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EntityAlreadyExistsException extends _s.GenericAwsException {
   EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class EntityNotExistsException extends _s.GenericAwsException {
   EntityNotExistsException({String? type, String? message})
       : super(type: type, code: 'EntityNotExistsException', message: message);
 }
 
+/// @nodoc
 class FailedDependencyException extends _s.GenericAwsException {
   FailedDependencyException({String? type, String? message})
       : super(type: type, code: 'FailedDependencyException', message: message);
 }
 
+/// @nodoc
 class IllegalUserStateException extends _s.GenericAwsException {
   IllegalUserStateException({String? type, String? message})
       : super(type: type, code: 'IllegalUserStateException', message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidCommentOperationException extends _s.GenericAwsException {
   InvalidCommentOperationException({String? type, String? message})
       : super(
@@ -5894,26 +6027,31 @@ class InvalidCommentOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidPasswordException extends _s.GenericAwsException {
   InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ProhibitedStateException extends _s.GenericAwsException {
   ProhibitedStateException({String? type, String? message})
       : super(type: type, code: 'ProhibitedStateException', message: message);
 }
 
+/// @nodoc
 class RequestedEntityTooLargeException extends _s.GenericAwsException {
   RequestedEntityTooLargeException({String? type, String? message})
       : super(
@@ -5922,6 +6060,7 @@ class RequestedEntityTooLargeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyCheckedOutException extends _s.GenericAwsException {
   ResourceAlreadyCheckedOutException({String? type, String? message})
       : super(
@@ -5930,12 +6069,14 @@ class ResourceAlreadyCheckedOutException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class StorageLimitExceededException extends _s.GenericAwsException {
   StorageLimitExceededException({String? type, String? message})
       : super(
@@ -5944,6 +6085,7 @@ class StorageLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StorageLimitWillExceedException extends _s.GenericAwsException {
   StorageLimitWillExceedException({String? type, String? message})
       : super(
@@ -5952,11 +6094,13 @@ class StorageLimitWillExceedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyLabelsException extends _s.GenericAwsException {
   TooManyLabelsException({String? type, String? message})
       : super(type: type, code: 'TooManyLabelsException', message: message);
 }
 
+/// @nodoc
 class TooManySubscriptionsException extends _s.GenericAwsException {
   TooManySubscriptionsException({String? type, String? message})
       : super(
@@ -5965,6 +6109,7 @@ class TooManySubscriptionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnauthorizedOperationException extends _s.GenericAwsException {
   UnauthorizedOperationException({String? type, String? message})
       : super(
@@ -5973,6 +6118,7 @@ class UnauthorizedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnauthorizedResourceAccessException extends _s.GenericAwsException {
   UnauthorizedResourceAccessException({String? type, String? message})
       : super(

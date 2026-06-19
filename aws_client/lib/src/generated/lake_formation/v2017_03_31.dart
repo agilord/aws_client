@@ -2785,6 +2785,7 @@ class LakeFormation {
   }
 }
 
+/// @nodoc
 class AddLFTagsToResourceResponse {
   /// A list of failures to tag the resource.
   final List<LFTagError>? failures;
@@ -2810,6 +2811,7 @@ class AddLFTagsToResourceResponse {
   }
 }
 
+/// @nodoc
 class AssumeDecoratedRoleWithSAMLResponse {
   /// The access key ID for the temporary credentials. (The access key consists of
   /// an access key ID and a secret key).
@@ -2856,6 +2858,7 @@ class AssumeDecoratedRoleWithSAMLResponse {
   }
 }
 
+/// @nodoc
 class BatchGrantPermissionsResponse {
   /// A list of failures to grant permissions to the resources.
   final List<BatchPermissionsFailureEntry>? failures;
@@ -2882,6 +2885,7 @@ class BatchGrantPermissionsResponse {
   }
 }
 
+/// @nodoc
 class BatchRevokePermissionsResponse {
   /// A list of failures to revoke permissions to the resources.
   final List<BatchPermissionsFailureEntry>? failures;
@@ -2908,6 +2912,7 @@ class BatchRevokePermissionsResponse {
   }
 }
 
+/// @nodoc
 class CancelTransactionResponse {
   CancelTransactionResponse();
 
@@ -2920,6 +2925,7 @@ class CancelTransactionResponse {
   }
 }
 
+/// @nodoc
 class CommitTransactionResponse {
   /// The status of the transaction.
   final TransactionStatus? transactionStatus;
@@ -2944,6 +2950,7 @@ class CommitTransactionResponse {
   }
 }
 
+/// @nodoc
 class CreateDataCellsFilterResponse {
   CreateDataCellsFilterResponse();
 
@@ -2956,6 +2963,7 @@ class CreateDataCellsFilterResponse {
   }
 }
 
+/// @nodoc
 class CreateLakeFormationIdentityCenterConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the Lake Formation application integrated
   /// with IAM Identity Center.
@@ -2980,6 +2988,7 @@ class CreateLakeFormationIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateLakeFormationOptInResponse {
   CreateLakeFormationOptInResponse();
 
@@ -2992,6 +3001,7 @@ class CreateLakeFormationOptInResponse {
   }
 }
 
+/// @nodoc
 class CreateLFTagResponse {
   CreateLFTagResponse();
 
@@ -3004,6 +3014,7 @@ class CreateLFTagResponse {
   }
 }
 
+/// @nodoc
 class CreateLFTagExpressionResponse {
   CreateLFTagExpressionResponse();
 
@@ -3016,6 +3027,7 @@ class CreateLFTagExpressionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataCellsFilterResponse {
   DeleteDataCellsFilterResponse();
 
@@ -3028,6 +3040,7 @@ class DeleteDataCellsFilterResponse {
   }
 }
 
+/// @nodoc
 class DeleteLakeFormationIdentityCenterConfigurationResponse {
   DeleteLakeFormationIdentityCenterConfigurationResponse();
 
@@ -3041,6 +3054,7 @@ class DeleteLakeFormationIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteLakeFormationOptInResponse {
   DeleteLakeFormationOptInResponse();
 
@@ -3053,6 +3067,7 @@ class DeleteLakeFormationOptInResponse {
   }
 }
 
+/// @nodoc
 class DeleteLFTagResponse {
   DeleteLFTagResponse();
 
@@ -3065,6 +3080,7 @@ class DeleteLFTagResponse {
   }
 }
 
+/// @nodoc
 class DeleteLFTagExpressionResponse {
   DeleteLFTagExpressionResponse();
 
@@ -3077,6 +3093,7 @@ class DeleteLFTagExpressionResponse {
   }
 }
 
+/// @nodoc
 class DeleteObjectsOnCancelResponse {
   DeleteObjectsOnCancelResponse();
 
@@ -3089,6 +3106,7 @@ class DeleteObjectsOnCancelResponse {
   }
 }
 
+/// @nodoc
 class DeregisterResourceResponse {
   DeregisterResourceResponse();
 
@@ -3101,6 +3119,7 @@ class DeregisterResourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeLakeFormationIdentityCenterConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the Lake Formation application integrated
   /// with IAM Identity Center.
@@ -3191,6 +3210,7 @@ class DescribeLakeFormationIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourceResponse {
   /// A structure containing information about an Lake Formation resource.
   final ResourceInfo? resourceInfo;
@@ -3215,6 +3235,7 @@ class DescribeResourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeTransactionResponse {
   /// Returns a <code>TransactionDescription</code> object containing information
   /// about the transaction.
@@ -3242,6 +3263,7 @@ class DescribeTransactionResponse {
   }
 }
 
+/// @nodoc
 class ExtendTransactionResponse {
   ExtendTransactionResponse();
 
@@ -3254,6 +3276,7 @@ class ExtendTransactionResponse {
   }
 }
 
+/// @nodoc
 class GetDataCellsFilterResponse {
   /// A structure that describes certain columns on certain rows.
   final DataCellsFilter? dataCellsFilter;
@@ -3279,6 +3302,7 @@ class GetDataCellsFilterResponse {
   }
 }
 
+/// @nodoc
 class GetDataLakePrincipalResponse {
   /// A unique identifier of the invoking principal.
   final String? identity;
@@ -3301,6 +3325,7 @@ class GetDataLakePrincipalResponse {
   }
 }
 
+/// @nodoc
 class GetDataLakeSettingsResponse {
   /// A structure representing a list of Lake Formation principals designated as
   /// data lake administrators.
@@ -3327,6 +3352,7 @@ class GetDataLakeSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetEffectivePermissionsForPathResponse {
   /// A continuation token, if this is not the first call to retrieve this list.
   final String? nextToken;
@@ -3362,6 +3388,7 @@ class GetEffectivePermissionsForPathResponse {
   }
 }
 
+/// @nodoc
 class GetLFTagResponse {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
@@ -3404,6 +3431,7 @@ class GetLFTagResponse {
   }
 }
 
+/// @nodoc
 class GetLFTagExpressionResponse {
   /// The identifier for the Data Catalog. By default, the account ID in which the
   /// LF-Tag expression is saved.
@@ -3453,6 +3481,8 @@ class GetLFTagExpressionResponse {
 }
 
 /// A structure for the output.
+///
+/// @nodoc
 class GetQueryStateResponse {
   /// The state of a query previously submitted. The possible states are:
   ///
@@ -3499,6 +3529,7 @@ class GetQueryStateResponse {
   }
 }
 
+/// @nodoc
 class GetQueryStatisticsResponse {
   /// An <code>ExecutionStatistics</code> structure containing execution
   /// statistics.
@@ -3545,6 +3576,7 @@ class GetQueryStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetResourceLFTagsResponse {
   /// A list of LF-tags applied to a database resource.
   final List<LFTagPair>? lFTagOnDatabase;
@@ -3590,6 +3622,7 @@ class GetResourceLFTagsResponse {
   }
 }
 
+/// @nodoc
 class GetTableObjectsResponse {
   /// A continuation token indicating whether additional data is available.
   final String? nextToken;
@@ -3622,6 +3655,7 @@ class GetTableObjectsResponse {
   }
 }
 
+/// @nodoc
 class GetTemporaryDataLocationCredentialsResponse {
   /// Refers to the Amazon S3 locations that can be accessed through the
   /// <code>GetTemporaryCredentialsForLocation</code> API operation.
@@ -3676,6 +3710,7 @@ class GetTemporaryDataLocationCredentialsResponse {
   }
 }
 
+/// @nodoc
 class GetTemporaryGluePartitionCredentialsResponse {
   /// The access key ID for the temporary credentials.
   final String? accessKeyId;
@@ -3720,6 +3755,7 @@ class GetTemporaryGluePartitionCredentialsResponse {
   }
 }
 
+/// @nodoc
 class GetTemporaryGlueTableCredentialsResponse {
   /// The access key ID for the temporary credentials.
   final String? accessKeyId;
@@ -3775,6 +3811,8 @@ class GetTemporaryGlueTableCredentialsResponse {
 }
 
 /// A structure for the output.
+///
+/// @nodoc
 class GetWorkUnitResultsResponse {
   /// Rows returned from the <code>GetWorkUnitResults</code> operation as a stream
   /// of Apache Arrow v1.0 messages.
@@ -3793,6 +3831,8 @@ class GetWorkUnitResultsResponse {
 }
 
 /// A structure for the output.
+///
+/// @nodoc
 class GetWorkUnitsResponse {
   /// The ID of the plan query operation.
   final String queryId;
@@ -3834,6 +3874,7 @@ class GetWorkUnitsResponse {
   }
 }
 
+/// @nodoc
 class GrantPermissionsResponse {
   GrantPermissionsResponse();
 
@@ -3846,6 +3887,7 @@ class GrantPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListDataCellsFilterResponse {
   /// A list of <code>DataCellFilter</code> structures.
   final List<DataCellsFilter>? dataCellsFilters;
@@ -3879,6 +3921,7 @@ class ListDataCellsFilterResponse {
   }
 }
 
+/// @nodoc
 class ListLakeFormationOptInsResponse {
   /// A list of principal-resource pairs that have Lake Formation permissins
   /// enforced.
@@ -3915,6 +3958,7 @@ class ListLakeFormationOptInsResponse {
   }
 }
 
+/// @nodoc
 class ListLFTagExpressionsResponse {
   /// Logical expressions composed of one more LF-Tag key-value pairs.
   final List<LFTagExpression>? lFTagExpressions;
@@ -3947,6 +3991,7 @@ class ListLFTagExpressionsResponse {
   }
 }
 
+/// @nodoc
 class ListLFTagsResponse {
   /// A list of LF-tags that the requested has permission to view.
   final List<LFTagPair>? lFTags;
@@ -3979,6 +4024,7 @@ class ListLFTagsResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionsResponse {
   /// A continuation token, if this is not the first call to retrieve this list.
   final String? nextToken;
@@ -4015,6 +4061,7 @@ class ListPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesResponse {
   /// A continuation token, if this is not the first call to retrieve these
   /// resources.
@@ -4048,6 +4095,7 @@ class ListResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListTableStorageOptimizersResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
@@ -4083,6 +4131,7 @@ class ListTableStorageOptimizersResponse {
   }
 }
 
+/// @nodoc
 class ListTransactionsResponse {
   /// A continuation token indicating whether additional data is available.
   final String? nextToken;
@@ -4117,6 +4166,7 @@ class ListTransactionsResponse {
   }
 }
 
+/// @nodoc
 class PutDataLakeSettingsResponse {
   PutDataLakeSettingsResponse();
 
@@ -4129,6 +4179,7 @@ class PutDataLakeSettingsResponse {
   }
 }
 
+/// @nodoc
 class RegisterResourceResponse {
   RegisterResourceResponse();
 
@@ -4141,6 +4192,7 @@ class RegisterResourceResponse {
   }
 }
 
+/// @nodoc
 class RemoveLFTagsFromResourceResponse {
   /// A list of failures to untag a resource.
   final List<LFTagError>? failures;
@@ -4166,6 +4218,7 @@ class RemoveLFTagsFromResourceResponse {
   }
 }
 
+/// @nodoc
 class RevokePermissionsResponse {
   RevokePermissionsResponse();
 
@@ -4178,6 +4231,7 @@ class RevokePermissionsResponse {
   }
 }
 
+/// @nodoc
 class SearchDatabasesByLFTagsResponse {
   /// A list of databases that meet the LF-tag conditions.
   final List<TaggedDatabase>? databaseList;
@@ -4210,6 +4264,7 @@ class SearchDatabasesByLFTagsResponse {
   }
 }
 
+/// @nodoc
 class SearchTablesByLFTagsResponse {
   /// A continuation token, present if the current list segment is not the last.
   /// On the first run, if you include a not null (a value) token you can get
@@ -4245,6 +4300,8 @@ class SearchTablesByLFTagsResponse {
 }
 
 /// A structure for the output.
+///
+/// @nodoc
 class StartQueryPlanningResponse {
   /// The ID of the plan query operation can be used to fetch the actual work unit
   /// descriptors that are produced as the result of the operation. The ID is also
@@ -4270,6 +4327,7 @@ class StartQueryPlanningResponse {
   }
 }
 
+/// @nodoc
 class StartTransactionResponse {
   /// An opaque identifier for the transaction.
   final String? transactionId;
@@ -4292,6 +4350,7 @@ class StartTransactionResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataCellsFilterResponse {
   UpdateDataCellsFilterResponse();
 
@@ -4304,6 +4363,7 @@ class UpdateDataCellsFilterResponse {
   }
 }
 
+/// @nodoc
 class UpdateLakeFormationIdentityCenterConfigurationResponse {
   UpdateLakeFormationIdentityCenterConfigurationResponse();
 
@@ -4317,6 +4377,7 @@ class UpdateLakeFormationIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateLFTagResponse {
   UpdateLFTagResponse();
 
@@ -4329,6 +4390,7 @@ class UpdateLFTagResponse {
   }
 }
 
+/// @nodoc
 class UpdateLFTagExpressionResponse {
   UpdateLFTagExpressionResponse();
 
@@ -4341,6 +4403,7 @@ class UpdateLFTagExpressionResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceResponse {
   UpdateResourceResponse();
 
@@ -4353,6 +4416,7 @@ class UpdateResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableObjectsResponse {
   UpdateTableObjectsResponse();
 
@@ -4365,6 +4429,7 @@ class UpdateTableObjectsResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableStorageOptimizerResponse {
   /// A response indicating the success of failure of the operation.
   final String? result;
@@ -4388,6 +4453,7 @@ class UpdateTableStorageOptimizerResponse {
   }
 }
 
+/// @nodoc
 class OptimizerType {
   static const compaction = OptimizerType._('COMPACTION');
   static const garbageCollection = OptimizerType._('GARBAGE_COLLECTION');
@@ -4414,6 +4480,8 @@ class OptimizerType {
 }
 
 /// Defines an object to add to or delete from a governed table.
+///
+/// @nodoc
 class WriteOperation {
   /// A new object to add to the governed table.
   final AddObjectInput? addObject;
@@ -4437,6 +4505,8 @@ class WriteOperation {
 }
 
 /// A new object to add to the governed table.
+///
+/// @nodoc
 class AddObjectInput {
   /// The Amazon S3 ETag of the object. Returned by <code>GetTableObjects</code>
   /// for validation and used to identify changes to the underlying data.
@@ -4478,6 +4548,8 @@ class AddObjectInput {
 }
 
 /// An object to delete from the governed table.
+///
+/// @nodoc
 class DeleteObjectInput {
   /// The Amazon S3 location of the object to delete.
   final String uri;
@@ -4511,6 +4583,8 @@ class DeleteObjectInput {
 /// A structure that allows an admin to grant user permissions on certain
 /// conditions. For example, granting a role access to all columns that do not
 /// have the LF-tag 'PII' in tables that have the LF-tag 'Prod'.
+///
+/// @nodoc
 class LFTag {
   /// The key-name for the LF-tag.
   final String tagKey;
@@ -4547,6 +4621,7 @@ class LFTag {
   }
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const enabled = ApplicationStatus._('ENABLED');
   static const disabled = ApplicationStatus._('DISABLED');
@@ -4573,6 +4648,8 @@ class ApplicationStatus {
 
 /// Configuration for enabling external data filtering for third-party
 /// applications to access data managed by Lake Formation .
+///
+/// @nodoc
 class ExternalFilteringConfiguration {
   /// List of third-party application <code>ARNs</code> integrated with Lake
   /// Formation.
@@ -4607,6 +4684,7 @@ class ExternalFilteringConfiguration {
   }
 }
 
+/// @nodoc
 class EnableStatus {
   static const enabled = EnableStatus._('ENABLED');
   static const disabled = EnableStatus._('DISABLED');
@@ -4631,6 +4709,8 @@ class EnableStatus {
 }
 
 /// A union structure representing different service integration types.
+///
+/// @nodoc
 class ServiceIntegrationUnion {
   /// Redshift service integration configuration.
   final List<RedshiftScopeUnion>? redshift;
@@ -4657,6 +4737,8 @@ class ServiceIntegrationUnion {
 }
 
 /// A union structure representing different Redshift integration scopes.
+///
+/// @nodoc
 class RedshiftScopeUnion {
   /// Configuration for Redshift Connect integration.
   final RedshiftConnect? redshiftConnect;
@@ -4684,6 +4766,8 @@ class RedshiftScopeUnion {
 
 /// Configuration for enabling trusted identity propagation with Redshift
 /// Connect.
+///
+/// @nodoc
 class RedshiftConnect {
   /// The authorization status for Redshift Connect. Valid values are ENABLED or
   /// DISABLED.
@@ -4710,6 +4794,8 @@ class RedshiftConnect {
 
 /// Authorization status for service integrations. Specify a value of
 /// <code>ENABLED</code> or <code>DISABLED</code>.
+///
+/// @nodoc
 class ServiceAuthorization {
   static const enabled = ServiceAuthorization._('ENABLED');
   static const disabled = ServiceAuthorization._('DISABLED');
@@ -4737,6 +4823,8 @@ class ServiceAuthorization {
 
 /// The Lake Formation principal. Supported principals are IAM users or IAM
 /// roles.
+///
+/// @nodoc
 class DataLakePrincipal {
   /// An identifier for the Lake Formation principal.
   final String? dataLakePrincipalIdentifier;
@@ -4762,6 +4850,8 @@ class DataLakePrincipal {
 }
 
 /// A structure that describes certain columns on certain rows.
+///
+/// @nodoc
 class DataCellsFilter {
   /// A database in the Glue Data Catalog.
   final String databaseName;
@@ -4848,6 +4938,8 @@ class DataCellsFilter {
 }
 
 /// A PartiQL predicate.
+///
+/// @nodoc
 class RowFilter {
   /// A wildcard for all rows.
   final AllRowsWildcard? allRowsWildcard;
@@ -4882,6 +4974,8 @@ class RowFilter {
 
 /// A wildcard object, consisting of an optional list of excluded column names
 /// or indexes.
+///
+/// @nodoc
 class ColumnWildcard {
   /// Excludes column names. Any column with this name will be excluded.
   final List<String>? excludedColumnNames;
@@ -4909,6 +5003,8 @@ class ColumnWildcard {
 }
 
 /// A structure that you pass to indicate you want all rows in a filter.
+///
+/// @nodoc
 class AllRowsWildcard {
   AllRowsWildcard();
 
@@ -4921,6 +5017,7 @@ class AllRowsWildcard {
   }
 }
 
+/// @nodoc
 class TransactionType {
   static const readAndWrite = TransactionType._('READ_AND_WRITE');
   static const readOnly = TransactionType._('READ_ONLY');
@@ -4946,6 +5043,8 @@ class TransactionType {
 }
 
 /// A structure containing information about the query plan.
+///
+/// @nodoc
 class QueryPlanningContext {
   /// The database containing the table.
   final String databaseName;
@@ -4995,6 +5094,8 @@ class QueryPlanningContext {
 }
 
 /// A structure describing a table resource with LF-tags.
+///
+/// @nodoc
 class TaggedTable {
   /// A list of LF-tags attached to the database where the table resides.
   final List<LFTagPair>? lFTagOnDatabase;
@@ -5052,6 +5153,8 @@ class TaggedTable {
 /// A structure for the table object. A table is a metadata definition that
 /// represents your data. You can Grant and Revoke table privileges to a
 /// principal.
+///
+/// @nodoc
 class TableResource {
   /// The name of the database for the table. Unique to a Data Catalog. A database
   /// is a set of associated table definitions organized into a logical group. You
@@ -5106,6 +5209,8 @@ class TableResource {
 
 /// A structure containing the name of a column resource and the LF-tags
 /// attached to it.
+///
+/// @nodoc
 class ColumnLFTag {
   /// The LF-tags attached to a column resource.
   final List<LFTagPair>? lFTags;
@@ -5139,6 +5244,8 @@ class ColumnLFTag {
 }
 
 /// A structure containing an LF-tag key-value pair.
+///
+/// @nodoc
 class LFTagPair {
   /// The key-name for the LF-tag.
   final String tagKey;
@@ -5182,6 +5289,8 @@ class LFTagPair {
 }
 
 /// A wildcard object representing every table under a database.
+///
+/// @nodoc
 class TableWildcard {
   TableWildcard();
 
@@ -5195,6 +5304,8 @@ class TableWildcard {
 }
 
 /// A structure describing a database resource with LF-tags.
+///
+/// @nodoc
 class TaggedDatabase {
   /// A database that has LF-tags attached to it.
   final DatabaseResource? database;
@@ -5230,6 +5341,8 @@ class TaggedDatabase {
 }
 
 /// A structure for the database object.
+///
+/// @nodoc
 class DatabaseResource {
   /// The name of the database resource. Unique to the Data Catalog.
   final String name;
@@ -5261,6 +5374,8 @@ class DatabaseResource {
 }
 
 /// A structure for the resource.
+///
+/// @nodoc
 class Resource {
   /// The identifier for the Data Catalog. By default, the account ID. The Data
   /// Catalog is the persistent metadata store. It contains database definitions,
@@ -5374,6 +5489,8 @@ class Resource {
 
 /// A Lake Formation condition, which applies to permissions and opt-ins that
 /// contain an expression.
+///
+/// @nodoc
 class Condition {
   /// An expression written based on the Cedar Policy Language used to match the
   /// principal attributes.
@@ -5397,6 +5514,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class Permission {
   static const all = Permission._('ALL');
   static const select = Permission._('SELECT');
@@ -5453,6 +5571,8 @@ class Permission {
 }
 
 /// A structure for the catalog object.
+///
+/// @nodoc
 class CatalogResource {
   /// An identifier for the catalog resource.
   final String? id;
@@ -5480,6 +5600,8 @@ class CatalogResource {
 ///
 /// This object must take a value for at least one of <code>ColumnsNames</code>,
 /// <code>ColumnsIndexes</code>, or <code>ColumnsWildcard</code>.
+///
+/// @nodoc
 class TableWithColumnsResource {
   /// The name of the database for the table with columns resource. Unique to the
   /// Data Catalog. A database is a set of associated table definitions organized
@@ -5546,6 +5668,8 @@ class TableWithColumnsResource {
 
 /// A structure for a data location object where permissions are granted or
 /// revoked.
+///
+/// @nodoc
 class DataLocationResource {
   /// The Amazon Resource Name (ARN) that uniquely identifies the data location
   /// resource.
@@ -5578,6 +5702,8 @@ class DataLocationResource {
 }
 
 /// A structure for a data cells filter resource.
+///
+/// @nodoc
 class DataCellsFilterResource {
   /// A database in the Glue Data Catalog.
   final String? databaseName;
@@ -5622,6 +5748,8 @@ class DataCellsFilterResource {
 }
 
 /// A structure containing an LF-tag key and values for a resource.
+///
+/// @nodoc
 class LFTagKeyResource {
   /// The key-name for the LF-tag.
   final String tagKey;
@@ -5666,6 +5794,8 @@ class LFTagKeyResource {
 
 /// A structure containing a list of LF-tag conditions or saved LF-Tag
 /// expressions that apply to a resource's LF-tag policy.
+///
+/// @nodoc
 class LFTagPolicyResource {
   /// The resource type for which the LF-tag policy applies.
   final ResourceType resourceType;
@@ -5720,6 +5850,8 @@ class LFTagPolicyResource {
 }
 
 /// A structure containing a LF-Tag expression (keys and values).
+///
+/// @nodoc
 class LFTagExpressionResource {
   /// The name of the LF-Tag expression to grant permissions on.
   final String name;
@@ -5749,6 +5881,7 @@ class LFTagExpressionResource {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const database = ResourceType._('DATABASE');
   static const table = ResourceType._('TABLE');
@@ -5774,6 +5907,8 @@ class ResourceType {
 
 /// A structure containing an error related to a <code>TagResource</code> or
 /// <code>UnTagResource</code> operation.
+///
+/// @nodoc
 class LFTagError {
   /// An error that occurred with the attachment or detachment of the LF-tag.
   final ErrorDetail? error;
@@ -5808,6 +5943,8 @@ class LFTagError {
 }
 
 /// Contains details about an error.
+///
+/// @nodoc
 class ErrorDetail {
   /// The code associated with this error.
   final String? errorCode;
@@ -5840,6 +5977,8 @@ class ErrorDetail {
 /// A structure representing a list of Lake Formation principals designated as
 /// data lake administrators and lists of principal permission entries for
 /// default create database and default create table permissions.
+///
+/// @nodoc
 class DataLakeSettings {
   /// Whether to allow Amazon EMR clusters to access data managed by Lake
   /// Formation.
@@ -6032,6 +6171,8 @@ class DataLakeSettings {
 }
 
 /// Permissions granted to a principal.
+///
+/// @nodoc
 class PrincipalPermissions {
   /// The permissions that are granted to the principal.
   final List<Permission>? permissions;
@@ -6069,6 +6210,8 @@ class PrincipalPermissions {
 }
 
 /// A structure that contains information about a transaction.
+///
+/// @nodoc
 class TransactionDescription {
   /// The time when the transaction committed or aborted, if it is not currently
   /// active.
@@ -6117,6 +6260,7 @@ class TransactionDescription {
   }
 }
 
+/// @nodoc
 class TransactionStatus {
   static const active = TransactionStatus._('ACTIVE');
   static const committed = TransactionStatus._('COMMITTED');
@@ -6143,6 +6287,7 @@ class TransactionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TransactionStatusFilter {
   static const all = TransactionStatusFilter._('ALL');
   static const completed = TransactionStatusFilter._('COMPLETED');
@@ -6172,6 +6317,8 @@ class TransactionStatusFilter {
 }
 
 /// A structure describing the configuration and details of a storage optimizer.
+///
+/// @nodoc
 class StorageOptimizer {
   /// A map of the storage optimizer configuration. Currently contains only one
   /// key-value pair: <code>is_enabled</code> indicates true or false for
@@ -6236,6 +6383,8 @@ class StorageOptimizer {
 }
 
 /// A structure containing information about an Lake Formation resource.
+///
+/// @nodoc
 class ResourceInfo {
   /// The Amazon Web Services account that owns the Glue tables associated with
   /// specific Amazon S3 locations.
@@ -6335,6 +6484,7 @@ class ResourceInfo {
   }
 }
 
+/// @nodoc
 class VerificationStatus {
   static const verified = VerificationStatus._('VERIFIED');
   static const verificationFailed = VerificationStatus._('VERIFICATION_FAILED');
@@ -6363,6 +6513,8 @@ class VerificationStatus {
 
 /// This structure describes the filtering of columns in a table based on a
 /// filter condition.
+///
+/// @nodoc
 class FilterCondition {
   /// The comparison operator used in the filter condition.
   final ComparisonOperator? comparisonOperator;
@@ -6392,6 +6544,7 @@ class FilterCondition {
   }
 }
 
+/// @nodoc
 class FieldNameString {
   static const resourceArn = FieldNameString._('RESOURCE_ARN');
   static const roleArn = FieldNameString._('ROLE_ARN');
@@ -6417,6 +6570,7 @@ class FieldNameString {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const eq = ComparisonOperator._('EQ');
   static const ne = ComparisonOperator._('NE');
@@ -6464,6 +6618,8 @@ class ComparisonOperator {
 }
 
 /// The permissions granted or revoked on a resource.
+///
+/// @nodoc
 class PrincipalResourcePermissions {
   /// This attribute can be used to return any additional details of
   /// <code>PrincipalResourcePermissions</code>. Currently returns only as a RAM
@@ -6564,6 +6720,8 @@ class PrincipalResourcePermissions {
 ///
 /// If a catalog resource is shared through Resource Access Manager (RAM), then
 /// there will exist a corresponding RAM resource share ARN.
+///
+/// @nodoc
 class DetailsMap {
   /// A resource share ARN for a catalog resource shared through RAM.
   final List<String>? resourceShare;
@@ -6589,6 +6747,7 @@ class DetailsMap {
   }
 }
 
+/// @nodoc
 class DataLakeResourceType {
   static const catalog = DataLakeResourceType._('CATALOG');
   static const database = DataLakeResourceType._('DATABASE');
@@ -6633,6 +6792,7 @@ class DataLakeResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceShareType {
   static const foreign = ResourceShareType._('FOREIGN');
   static const all = ResourceShareType._('ALL');
@@ -6658,6 +6818,8 @@ class ResourceShareType {
 }
 
 /// A structure consists LF-Tag expression name and catalog ID.
+///
+/// @nodoc
 class LFTagExpression {
   /// The identifier for the Data Catalog. By default, the account ID.
   final String? catalogId;
@@ -6706,6 +6868,8 @@ class LFTagExpression {
 
 /// A single principal-resource pair that has Lake Formation permissins
 /// enforced.
+///
+/// @nodoc
 class LakeFormationOptInsInfo {
   /// A Lake Formation condition, which applies to permissions and opt-ins that
   /// contain an expression.
@@ -6762,6 +6926,8 @@ class LakeFormationOptInsInfo {
 }
 
 /// Defines the valid range of work unit IDs for querying the execution service.
+///
+/// @nodoc
 class WorkUnitRange {
   /// Defines the maximum work unit ID in the range. The maximum value is
   /// inclusive.
@@ -6800,6 +6966,8 @@ class WorkUnitRange {
 }
 
 /// A structure used to include auditing information on the privileged API.
+///
+/// @nodoc
 class AuditContext {
   /// The filter engine can populate the 'AdditionalAuditContext' information with
   /// the request ID for you to track. This information will be displayed in
@@ -6827,6 +6995,8 @@ class AuditContext {
 /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/api-overview.html">Lake
 /// Formation workflow for application integration API operations</a> in the
 /// developer guide.
+///
+/// @nodoc
 class QuerySessionContext {
   /// An opaque string-string map passed by the query engine.
   final Map<String, String>? additionalContext;
@@ -6870,6 +7040,7 @@ class QuerySessionContext {
   }
 }
 
+/// @nodoc
 class PermissionType {
   static const columnPermission = PermissionType._('COLUMN_PERMISSION');
   static const cellFilterPermission =
@@ -6904,6 +7075,8 @@ class PermissionType {
 }
 
 /// Contains a list of values defining partitions.
+///
+/// @nodoc
 class PartitionValueList {
   /// The list of partition values.
   final List<String> values;
@@ -6928,6 +7101,8 @@ class PartitionValueList {
 /// token. The access key consists of an access key ID and a secret key. When
 /// the credentials are created, they are associated with an IAM access control
 /// policy that limits what the user can do when using the credentials.
+///
+/// @nodoc
 class TemporaryCredentials {
   /// The access key ID for the temporary credentials.
   final String? accessKeyId;
@@ -6971,6 +7146,7 @@ class TemporaryCredentials {
   }
 }
 
+/// @nodoc
 class CredentialsScope {
   static const read = CredentialsScope._('READ');
   static const readwrite = CredentialsScope._('READWRITE');
@@ -6996,6 +7172,8 @@ class CredentialsScope {
 }
 
 /// A structure containing a list of partition values and table objects.
+///
+/// @nodoc
 class PartitionObjects {
   /// A list of table objects
   final List<TableObject>? objects;
@@ -7032,6 +7210,8 @@ class PartitionObjects {
 }
 
 /// Specifies the details of a governed table.
+///
+/// @nodoc
 class TableObject {
   /// The Amazon S3 ETag of the object. Returned by <code>GetTableObjects</code>
   /// for validation and used to identify changes to the underlying data.
@@ -7070,6 +7250,8 @@ class TableObject {
 }
 
 /// Statistics related to the processing of a query statement.
+///
+/// @nodoc
 class ExecutionStatistics {
   /// The average time the request took to be executed.
   final int? averageExecutionTimeMillis;
@@ -7109,6 +7291,8 @@ class ExecutionStatistics {
 }
 
 /// Statistics related to the processing of a query statement.
+///
+/// @nodoc
 class PlanningStatistics {
   /// An estimate of the data that was scanned in bytes.
   final int? estimatedDataToScanBytes;
@@ -7154,6 +7338,7 @@ class PlanningStatistics {
   }
 }
 
+/// @nodoc
 class QueryStateString {
   static const pending = QueryStateString._('PENDING');
   static const workunitsAvailable = QueryStateString._('WORKUNITS_AVAILABLE');
@@ -7184,6 +7369,8 @@ class QueryStateString {
 /// An object that defines an Amazon S3 object to be deleted if a transaction
 /// cancels, provided that <code>VirtualPut</code> was called before writing the
 /// object.
+///
+/// @nodoc
 class VirtualObject {
   /// The path to the Amazon S3 object. Must start with s3://
   final String uri;
@@ -7207,6 +7394,8 @@ class VirtualObject {
 }
 
 /// A list of failures when performing a batch grant or batch revoke operation.
+///
+/// @nodoc
 class BatchPermissionsFailureEntry {
   /// An error message that applies to the failure of the entry.
   final ErrorDetail? error;
@@ -7242,6 +7431,8 @@ class BatchPermissionsFailureEntry {
 }
 
 /// A permission to a resource granted by batch operation to the principal.
+///
+/// @nodoc
 class BatchPermissionsRequestEntry {
   /// A unique identifier for the batch permissions request entry.
   final String id;
@@ -7313,16 +7504,19 @@ class BatchPermissionsRequestEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -7331,41 +7525,49 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class EntityNotFoundException extends _s.GenericAwsException {
   EntityNotFoundException({String? type, String? message})
       : super(type: type, code: 'EntityNotFoundException', message: message);
 }
 
+/// @nodoc
 class ExpiredException extends _s.GenericAwsException {
   ExpiredException({String? type, String? message})
       : super(type: type, code: 'ExpiredException', message: message);
 }
 
+/// @nodoc
 class GlueEncryptionException extends _s.GenericAwsException {
   GlueEncryptionException({String? type, String? message})
       : super(type: type, code: 'GlueEncryptionException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class OperationTimeoutException extends _s.GenericAwsException {
   OperationTimeoutException({String? type, String? message})
       : super(type: type, code: 'OperationTimeoutException', message: message);
 }
 
+/// @nodoc
 class PermissionTypeMismatchException extends _s.GenericAwsException {
   PermissionTypeMismatchException({String? type, String? message})
       : super(
@@ -7374,11 +7576,13 @@ class PermissionTypeMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotReadyException extends _s.GenericAwsException {
   ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+/// @nodoc
 class ResourceNumberLimitExceededException extends _s.GenericAwsException {
   ResourceNumberLimitExceededException({String? type, String? message})
       : super(
@@ -7387,6 +7591,7 @@ class ResourceNumberLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StatisticsNotReadyYetException extends _s.GenericAwsException {
   StatisticsNotReadyYetException({String? type, String? message})
       : super(
@@ -7395,17 +7600,20 @@ class StatisticsNotReadyYetException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottledException extends _s.GenericAwsException {
   ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
+/// @nodoc
 class TransactionCanceledException extends _s.GenericAwsException {
   TransactionCanceledException({String? type, String? message})
       : super(
             type: type, code: 'TransactionCanceledException', message: message);
 }
 
+/// @nodoc
 class TransactionCommitInProgressException extends _s.GenericAwsException {
   TransactionCommitInProgressException({String? type, String? message})
       : super(
@@ -7414,6 +7622,7 @@ class TransactionCommitInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TransactionCommittedException extends _s.GenericAwsException {
   TransactionCommittedException({String? type, String? message})
       : super(
@@ -7422,6 +7631,7 @@ class TransactionCommittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WorkUnitsNotReadyYetException extends _s.GenericAwsException {
   WorkUnitsNotReadyYetException({String? type, String? message})
       : super(

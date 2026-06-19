@@ -460,6 +460,7 @@ class LicenseManagerLinuxSubscriptions {
   }
 }
 
+/// @nodoc
 class DeregisterSubscriptionProviderResponse {
   DeregisterSubscriptionProviderResponse();
 
@@ -473,6 +474,7 @@ class DeregisterSubscriptionProviderResponse {
   }
 }
 
+/// @nodoc
 class GetRegisteredSubscriptionProviderResponse {
   /// The timestamp from the last time License Manager retrieved subscription
   /// details from your registered third-party Linux subscription provider.
@@ -549,6 +551,7 @@ class GetRegisteredSubscriptionProviderResponse {
   }
 }
 
+/// @nodoc
 class GetServiceSettingsResponse {
   /// The Region in which License Manager displays the aggregated data for Linux
   /// subscriptions.
@@ -619,6 +622,7 @@ class GetServiceSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListLinuxSubscriptionInstancesResponse {
   /// An array that contains instance objects.
   final List<Instance>? instances;
@@ -655,6 +659,7 @@ class ListLinuxSubscriptionInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListLinuxSubscriptionsResponse {
   /// The next token used for paginated responses. When this field isn't empty,
   /// there are additional elements that the service hasn't included in this
@@ -690,6 +695,7 @@ class ListLinuxSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class ListRegisteredSubscriptionProvidersResponse {
   /// The next token used for paginated responses. When this field isn't empty,
   /// there are additional elements that the service hasn't included in this
@@ -731,6 +737,7 @@ class ListRegisteredSubscriptionProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The metadata tags for the requested resource.
   final Map<String, String>? tags;
@@ -754,6 +761,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterSubscriptionProviderResponse {
   /// The Amazon Resource Name (ARN) of the Linux subscription provider resource
   /// that you registered.
@@ -800,6 +808,7 @@ class RegisterSubscriptionProviderResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -812,6 +821,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -824,6 +834,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceSettingsResponse {
   /// The Region in which License Manager displays the aggregated data for Linux
   /// subscriptions.
@@ -894,6 +905,7 @@ class UpdateServiceSettingsResponse {
   }
 }
 
+/// @nodoc
 class LinuxSubscriptionsDiscovery {
   static const enabled = LinuxSubscriptionsDiscovery._('Enabled');
   static const disabled = LinuxSubscriptionsDiscovery._('Disabled');
@@ -920,6 +932,8 @@ class LinuxSubscriptionsDiscovery {
 }
 
 /// Lists the settings defined for discovering Linux subscriptions.
+///
+/// @nodoc
 class LinuxSubscriptionsDiscoverySettings {
   /// Details if you have enabled resource discovery across your accounts in
   /// Organizations.
@@ -955,6 +969,7 @@ class LinuxSubscriptionsDiscoverySettings {
   }
 }
 
+/// @nodoc
 class Status {
   static const inProgress = Status._('InProgress');
   static const completed = Status._('Completed');
@@ -980,6 +995,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class OrganizationIntegration {
   static const enabled = OrganizationIntegration._('Enabled');
   static const disabled = OrganizationIntegration._('Disabled');
@@ -1005,6 +1021,7 @@ class OrganizationIntegration {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionProviderSource {
   static const redHat = SubscriptionProviderSource._('RedHat');
 
@@ -1029,6 +1046,7 @@ class SubscriptionProviderSource {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionProviderStatus {
   static const active = SubscriptionProviderStatus._('ACTIVE');
   static const invalid = SubscriptionProviderStatus._('INVALID');
@@ -1059,6 +1077,8 @@ class SubscriptionProviderStatus {
 /// license subscriptions, such as Red Hat. When you register a third-party
 /// Linux subscription provider, License Manager can get subscription data from
 /// the registered provider.
+///
+/// @nodoc
 class RegisteredSubscriptionProvider {
   /// The timestamp from the last time that License Manager accessed third-party
   /// subscription data for your account from your registered Linux subscription
@@ -1139,6 +1159,8 @@ class RegisteredSubscriptionProvider {
 }
 
 /// An object which details a discovered Linux subscription.
+///
+/// @nodoc
 class Subscription {
   /// The total amount of running instances using this subscription.
   final int? instanceCount;
@@ -1182,6 +1204,8 @@ class Subscription {
 /// A filter object that is used to return more specific results from a describe
 /// operation. Filters can be used to match a set of resources by specific
 /// criteria.
+///
+/// @nodoc
 class Filter {
   /// The type of name to filter by.
   final String? name;
@@ -1210,6 +1234,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class Operator {
   static const equal = Operator._('Equal');
   static const notEqual = Operator._('NotEqual');
@@ -1236,6 +1261,8 @@ class Operator {
 
 /// Details discovered information about a running instance using Linux
 /// subscriptions.
+///
+/// @nodoc
 class Instance {
   /// The account ID which owns the instance.
   final String? accountID;
@@ -1377,21 +1404,25 @@ class Instance {
   }
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

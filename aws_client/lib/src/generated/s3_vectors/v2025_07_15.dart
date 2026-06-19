@@ -1095,6 +1095,7 @@ class S3Vectors {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The user-defined tags that are applied to the S3 Vectors resource. For more
   /// information, see <a
@@ -1122,6 +1123,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1134,6 +1136,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1146,6 +1149,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateVectorBucketOutput {
   /// The Amazon Resource Name (ARN) of the newly created vector bucket.
   final String vectorBucketArn;
@@ -1168,6 +1172,7 @@ class CreateVectorBucketOutput {
   }
 }
 
+/// @nodoc
 class DeleteVectorBucketOutput {
   DeleteVectorBucketOutput();
 
@@ -1180,6 +1185,7 @@ class DeleteVectorBucketOutput {
   }
 }
 
+/// @nodoc
 class DeleteVectorBucketPolicyOutput {
   DeleteVectorBucketPolicyOutput();
 
@@ -1192,6 +1198,7 @@ class DeleteVectorBucketPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetVectorBucketOutput {
   /// The attributes of the vector bucket.
   final VectorBucket vectorBucket;
@@ -1216,6 +1223,7 @@ class GetVectorBucketOutput {
   }
 }
 
+/// @nodoc
 class GetVectorBucketPolicyOutput {
   /// The <code>JSON</code> that defines the policy.
   final String? policy;
@@ -1238,6 +1246,7 @@ class GetVectorBucketPolicyOutput {
   }
 }
 
+/// @nodoc
 class ListVectorBucketsOutput {
   /// The list of vector buckets owned by the requester.
   final List<VectorBucketSummary> vectorBuckets;
@@ -1271,6 +1280,7 @@ class ListVectorBucketsOutput {
   }
 }
 
+/// @nodoc
 class PutVectorBucketPolicyOutput {
   PutVectorBucketPolicyOutput();
 
@@ -1283,6 +1293,7 @@ class PutVectorBucketPolicyOutput {
   }
 }
 
+/// @nodoc
 class CreateIndexOutput {
   /// The Amazon Resource Name (ARN) of the newly created vector index.
   final String indexArn;
@@ -1305,6 +1316,7 @@ class CreateIndexOutput {
   }
 }
 
+/// @nodoc
 class DeleteIndexOutput {
   DeleteIndexOutput();
 
@@ -1317,6 +1329,7 @@ class DeleteIndexOutput {
   }
 }
 
+/// @nodoc
 class GetIndexOutput {
   /// The attributes of the vector index.
   final Index index;
@@ -1340,6 +1353,7 @@ class GetIndexOutput {
   }
 }
 
+/// @nodoc
 class ListIndexesOutput {
   /// The attributes of the vector indexes
   final List<IndexSummary> indexes;
@@ -1372,6 +1386,7 @@ class ListIndexesOutput {
   }
 }
 
+/// @nodoc
 class DeleteVectorsOutput {
   DeleteVectorsOutput();
 
@@ -1384,6 +1399,7 @@ class DeleteVectorsOutput {
   }
 }
 
+/// @nodoc
 class GetVectorsOutput {
   /// The attributes of the vectors.
   final List<GetOutputVector> vectors;
@@ -1409,6 +1425,7 @@ class GetVectorsOutput {
   }
 }
 
+/// @nodoc
 class ListVectorsOutput {
   /// Vectors in the current segment.
   final List<ListOutputVector> vectors;
@@ -1442,6 +1459,7 @@ class ListVectorsOutput {
   }
 }
 
+/// @nodoc
 class PutVectorsOutput {
   PutVectorsOutput();
 
@@ -1454,6 +1472,7 @@ class PutVectorsOutput {
   }
 }
 
+/// @nodoc
 class QueryVectorsOutput {
   /// The distance metric that was used for the similarity search calculation.
   /// This is the same distance metric that was configured for the vector index
@@ -1489,6 +1508,7 @@ class QueryVectorsOutput {
   }
 }
 
+/// @nodoc
 class DistanceMetric {
   static const euclidean = DistanceMetric._('euclidean');
   static const cosine = DistanceMetric._('cosine');
@@ -1514,6 +1534,8 @@ class DistanceMetric {
 }
 
 /// The attributes of a vector in the approximate nearest neighbor search.
+///
+/// @nodoc
 class QueryOutputVector {
   /// The key of the vector in the approximate nearest neighbor search.
   final String key;
@@ -1552,6 +1574,8 @@ class QueryOutputVector {
 }
 
 /// The vector data in different formats.
+///
+/// @nodoc
 class VectorData {
   /// The vector data as 32-bit floating point numbers. The number of elements in
   /// this array must exactly match the dimension of the vector index where the
@@ -1578,6 +1602,8 @@ class VectorData {
 }
 
 /// The attributes of a vector to add to a vector index.
+///
+/// @nodoc
 class PutInputVector {
   /// The vector data of the vector.
   ///
@@ -1625,6 +1651,8 @@ class PutInputVector {
 
 /// The attributes of a vector returned by the <code>ListVectors</code>
 /// operation.
+///
+/// @nodoc
 class ListOutputVector {
   /// The name of the vector.
   final String key;
@@ -1665,6 +1693,8 @@ class ListOutputVector {
 
 /// The attributes of a vector returned by the <code>GetVectors</code>
 /// operation.
+///
+/// @nodoc
 class GetOutputVector {
   /// The name of the vector.
   final String key;
@@ -1704,6 +1734,8 @@ class GetOutputVector {
 }
 
 /// Summary information about a vector index.
+///
+/// @nodoc
 class IndexSummary {
   /// Date and time when the vector index was created.
   final DateTime creationTime;
@@ -1748,6 +1780,8 @@ class IndexSummary {
 }
 
 /// The attributes of a vector index.
+///
+/// @nodoc
 class Index {
   /// Date and time when the vector index was created.
   final DateTime creationTime;
@@ -1837,6 +1871,7 @@ class Index {
   }
 }
 
+/// @nodoc
 class DataType {
   static const float32 = DataType._('float32');
 
@@ -1860,6 +1895,8 @@ class DataType {
 }
 
 /// The metadata configuration for a vector index.
+///
+/// @nodoc
 class MetadataConfiguration {
   /// Non-filterable metadata keys allow you to enrich vectors with additional
   /// context during storage and retrieval. Unlike default metadata keys, these
@@ -1901,6 +1938,8 @@ class MetadataConfiguration {
 /// <code>AES256</code>. You can optionally override bucket level encryption
 /// settings, and set a specific encryption configuration for a vector index at
 /// the time of index creation.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// Amazon Web Services Key Management Service (KMS) customer managed key ID to
   /// use for the encryption configuration. This parameter is allowed if and only
@@ -1941,6 +1980,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class SseType {
   static const aes256 = SseType._('AES256');
   static const awsKms = SseType._('aws:kms');
@@ -1965,6 +2005,8 @@ class SseType {
 }
 
 /// Summary information about a vector bucket.
+///
+/// @nodoc
 class VectorBucketSummary {
   /// Date and time when the vector bucket was created.
   final DateTime creationTime;
@@ -2002,6 +2044,8 @@ class VectorBucketSummary {
 }
 
 /// The attributes of a vector bucket.
+///
+/// @nodoc
 class VectorBucket {
   /// Date and time when the vector bucket was created.
   final DateTime creationTime;
@@ -2049,6 +2093,7 @@ class VectorBucket {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -2057,42 +2102,50 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class KmsDisabledException extends _s.GenericAwsException {
   KmsDisabledException({String? type, String? message})
       : super(type: type, code: 'KmsDisabledException', message: message);
 }
 
+/// @nodoc
 class KmsInvalidKeyUsageException extends _s.GenericAwsException {
   KmsInvalidKeyUsageException({String? type, String? message})
       : super(
             type: type, code: 'KmsInvalidKeyUsageException', message: message);
 }
 
+/// @nodoc
 class KmsInvalidStateException extends _s.GenericAwsException {
   KmsInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KmsInvalidStateException', message: message);
 }
 
+/// @nodoc
 class KmsNotFoundException extends _s.GenericAwsException {
   KmsNotFoundException({String? type, String? message})
       : super(type: type, code: 'KmsNotFoundException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2101,6 +2154,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(

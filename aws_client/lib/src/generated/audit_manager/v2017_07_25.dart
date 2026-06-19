@@ -2557,6 +2557,7 @@ class AuditManager {
   }
 }
 
+/// @nodoc
 class AssociateAssessmentReportEvidenceFolderResponse {
   AssociateAssessmentReportEvidenceFolderResponse();
 
@@ -2570,6 +2571,7 @@ class AssociateAssessmentReportEvidenceFolderResponse {
   }
 }
 
+/// @nodoc
 class BatchAssociateAssessmentReportEvidenceResponse {
   /// A list of errors that the
   /// <code>BatchAssociateAssessmentReportEvidence</code> API returned.
@@ -2608,6 +2610,7 @@ class BatchAssociateAssessmentReportEvidenceResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateDelegationByAssessmentResponse {
   /// The delegations that are associated with the assessment.
   final List<Delegation>? delegations;
@@ -2646,6 +2649,7 @@ class BatchCreateDelegationByAssessmentResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteDelegationByAssessmentResponse {
   /// A list of errors that the <code>BatchDeleteDelegationByAssessment</code> API
   /// returned.
@@ -2674,6 +2678,7 @@ class BatchDeleteDelegationByAssessmentResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateAssessmentReportEvidenceResponse {
   /// A list of errors that the
   /// <code>BatchDisassociateAssessmentReportEvidence</code> API returned.
@@ -2712,6 +2717,7 @@ class BatchDisassociateAssessmentReportEvidenceResponse {
   }
 }
 
+/// @nodoc
 class BatchImportEvidenceToAssessmentControlResponse {
   /// A list of errors that the
   /// <code>BatchImportEvidenceToAssessmentControl</code> API returned.
@@ -2740,6 +2746,7 @@ class BatchImportEvidenceToAssessmentControlResponse {
   }
 }
 
+/// @nodoc
 class CreateAssessmentResponse {
   final Assessment? assessment;
 
@@ -2763,6 +2770,7 @@ class CreateAssessmentResponse {
   }
 }
 
+/// @nodoc
 class CreateAssessmentFrameworkResponse {
   /// The new framework object that the <code>CreateAssessmentFramework</code> API
   /// returned.
@@ -2789,6 +2797,7 @@ class CreateAssessmentFrameworkResponse {
   }
 }
 
+/// @nodoc
 class CreateAssessmentReportResponse {
   /// The new assessment report that the <code>CreateAssessmentReport</code> API
   /// returned.
@@ -2815,6 +2824,7 @@ class CreateAssessmentReportResponse {
   }
 }
 
+/// @nodoc
 class CreateControlResponse {
   /// The new control that the <code>CreateControl</code> API returned.
   final Control? control;
@@ -2839,6 +2849,7 @@ class CreateControlResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssessmentResponse {
   DeleteAssessmentResponse();
 
@@ -2851,6 +2862,7 @@ class DeleteAssessmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssessmentFrameworkResponse {
   DeleteAssessmentFrameworkResponse();
 
@@ -2863,6 +2875,7 @@ class DeleteAssessmentFrameworkResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssessmentFrameworkShareResponse {
   DeleteAssessmentFrameworkShareResponse();
 
@@ -2876,6 +2889,7 @@ class DeleteAssessmentFrameworkShareResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssessmentReportResponse {
   DeleteAssessmentReportResponse();
 
@@ -2888,6 +2902,7 @@ class DeleteAssessmentReportResponse {
   }
 }
 
+/// @nodoc
 class DeleteControlResponse {
   DeleteControlResponse();
 
@@ -2900,6 +2915,7 @@ class DeleteControlResponse {
   }
 }
 
+/// @nodoc
 class DeregisterAccountResponse {
   /// The registration status of the account.
   final AccountStatus? status;
@@ -2922,6 +2938,7 @@ class DeregisterAccountResponse {
   }
 }
 
+/// @nodoc
 class DeregisterOrganizationAdminAccountResponse {
   DeregisterOrganizationAdminAccountResponse();
 
@@ -2935,6 +2952,7 @@ class DeregisterOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAssessmentReportEvidenceFolderResponse {
   DisassociateAssessmentReportEvidenceFolderResponse();
 
@@ -2948,6 +2966,7 @@ class DisassociateAssessmentReportEvidenceFolderResponse {
   }
 }
 
+/// @nodoc
 class GetAccountStatusResponse {
   /// The status of the Amazon Web Services account.
   final AccountStatus? status;
@@ -2970,6 +2989,7 @@ class GetAccountStatusResponse {
   }
 }
 
+/// @nodoc
 class GetAssessmentResponse {
   final Assessment? assessment;
   final Role? userRole;
@@ -3000,6 +3020,7 @@ class GetAssessmentResponse {
   }
 }
 
+/// @nodoc
 class GetAssessmentFrameworkResponse {
   /// The framework that the <code>GetAssessmentFramework</code> API returned.
   /// <note>
@@ -3029,6 +3050,7 @@ class GetAssessmentFrameworkResponse {
   }
 }
 
+/// @nodoc
 class GetAssessmentReportUrlResponse {
   final URL? preSignedUrl;
 
@@ -3052,6 +3074,7 @@ class GetAssessmentReportUrlResponse {
   }
 }
 
+/// @nodoc
 class GetChangeLogsResponse {
   /// The list of user activity for the control.
   final List<ChangeLog>? changeLogs;
@@ -3084,6 +3107,7 @@ class GetChangeLogsResponse {
   }
 }
 
+/// @nodoc
 class GetControlResponse {
   /// The details of the control that the <code>GetControl</code> API returned.
   final Control? control;
@@ -3108,6 +3132,7 @@ class GetControlResponse {
   }
 }
 
+/// @nodoc
 class GetDelegationsResponse {
   /// The list of delegations that the <code>GetDelegations</code> API returned.
   final List<DelegationMetadata>? delegations;
@@ -3140,6 +3165,7 @@ class GetDelegationsResponse {
   }
 }
 
+/// @nodoc
 class GetEvidenceResponse {
   /// The evidence that the <code>GetEvidence</code> API returned.
   final Evidence? evidence;
@@ -3164,6 +3190,7 @@ class GetEvidenceResponse {
   }
 }
 
+/// @nodoc
 class GetEvidenceByEvidenceFolderResponse {
   /// The list of evidence that the <code>GetEvidenceByEvidenceFolder</code> API
   /// returned.
@@ -3198,6 +3225,7 @@ class GetEvidenceByEvidenceFolderResponse {
   }
 }
 
+/// @nodoc
 class GetEvidenceFileUploadUrlResponse {
   /// The name of the uploaded manual evidence file that the presigned URL was
   /// generated for.
@@ -3228,6 +3256,7 @@ class GetEvidenceFileUploadUrlResponse {
   }
 }
 
+/// @nodoc
 class GetEvidenceFolderResponse {
   /// The folder that the evidence is stored in.
   final AssessmentEvidenceFolder? evidenceFolder;
@@ -3253,6 +3282,7 @@ class GetEvidenceFolderResponse {
   }
 }
 
+/// @nodoc
 class GetEvidenceFoldersByAssessmentResponse {
   /// The list of evidence folders that the
   /// <code>GetEvidenceFoldersByAssessment</code> API returned.
@@ -3288,6 +3318,7 @@ class GetEvidenceFoldersByAssessmentResponse {
   }
 }
 
+/// @nodoc
 class GetEvidenceFoldersByAssessmentControlResponse {
   /// The list of evidence folders that the
   /// <code>GetEvidenceFoldersByAssessmentControl</code> API returned.
@@ -3323,6 +3354,7 @@ class GetEvidenceFoldersByAssessmentControlResponse {
   }
 }
 
+/// @nodoc
 class GetInsightsResponse {
   /// The analytics data that the <code>GetInsights</code> API returned.
   final Insights? insights;
@@ -3347,6 +3379,7 @@ class GetInsightsResponse {
   }
 }
 
+/// @nodoc
 class GetInsightsByAssessmentResponse {
   /// The assessment analytics data that the <code>GetInsightsByAssessment</code>
   /// API returned.
@@ -3373,6 +3406,7 @@ class GetInsightsByAssessmentResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationAdminAccountResponse {
   /// The identifier for the administrator account.
   final String? adminAccountId;
@@ -3403,6 +3437,7 @@ class GetOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class GetServicesInScopeResponse {
   /// The metadata that's associated with the Amazon Web Services service.
   final List<ServiceMetadata>? serviceMetadata;
@@ -3428,6 +3463,7 @@ class GetServicesInScopeResponse {
   }
 }
 
+/// @nodoc
 class GetSettingsResponse {
   /// The settings object that holds all supported Audit Manager settings.
   final Settings? settings;
@@ -3452,6 +3488,7 @@ class GetSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentControlInsightsByControlDomainResponse {
   /// The assessment control analytics data that the
   /// <code>ListAssessmentControlInsightsByControlDomain</code> API returned.
@@ -3490,6 +3527,7 @@ class ListAssessmentControlInsightsByControlDomainResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentFrameworksResponse {
   /// A list of metadata that the <code>ListAssessmentFrameworks</code> API
   /// returns for each framework.
@@ -3525,6 +3563,7 @@ class ListAssessmentFrameworksResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentFrameworkShareRequestsResponse {
   /// The list of share requests that the
   /// <code>ListAssessmentFrameworkShareRequests</code> API returned.
@@ -3563,6 +3602,7 @@ class ListAssessmentFrameworkShareRequestsResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentReportsResponse {
   /// The list of assessment reports that the <code>ListAssessmentReports</code>
   /// API returned.
@@ -3597,6 +3637,7 @@ class ListAssessmentReportsResponse {
   }
 }
 
+/// @nodoc
 class ListAssessmentsResponse {
   /// The metadata that the <code>ListAssessments</code> API returns for each
   /// assessment.
@@ -3631,6 +3672,7 @@ class ListAssessmentsResponse {
   }
 }
 
+/// @nodoc
 class ListControlDomainInsightsResponse {
   /// The control domain analytics data that the
   /// <code>ListControlDomainInsights</code> API returned.
@@ -3666,6 +3708,7 @@ class ListControlDomainInsightsResponse {
   }
 }
 
+/// @nodoc
 class ListControlDomainInsightsByAssessmentResponse {
   /// The control domain analytics data that the
   /// <code>ListControlDomainInsightsByAssessment</code> API returned.
@@ -3701,6 +3744,7 @@ class ListControlDomainInsightsByAssessmentResponse {
   }
 }
 
+/// @nodoc
 class ListControlInsightsByControlDomainResponse {
   /// The control analytics data that the
   /// <code>ListControlInsightsByControlDomain</code> API returned.
@@ -3737,6 +3781,7 @@ class ListControlInsightsByControlDomainResponse {
   }
 }
 
+/// @nodoc
 class ListControlsResponse {
   /// A list of metadata that the <code>ListControls</code> API returns for each
   /// control.
@@ -3771,6 +3816,7 @@ class ListControlsResponse {
   }
 }
 
+/// @nodoc
 class ListKeywordsForDataSourceResponse {
   /// The list of keywords for the control mapping source.
   final List<String>? keywords;
@@ -3804,6 +3850,7 @@ class ListKeywordsForDataSourceResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationsResponse {
   /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
@@ -3836,6 +3883,7 @@ class ListNotificationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags that the <code>ListTagsForResource</code> API returned.
   final Map<String, String>? tags;
@@ -3859,6 +3907,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterAccountResponse {
   /// The status of the account registration request.
   final AccountStatus? status;
@@ -3881,6 +3930,7 @@ class RegisterAccountResponse {
   }
 }
 
+/// @nodoc
 class RegisterOrganizationAdminAccountResponse {
   /// The identifier for the delegated administrator account.
   final String? adminAccountId;
@@ -3911,6 +3961,7 @@ class RegisterOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class StartAssessmentFrameworkShareResponse {
   /// The share request that's created by the
   /// <code>StartAssessmentFrameworkShare</code> API.
@@ -3942,6 +3993,7 @@ class StartAssessmentFrameworkShareResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3954,6 +4006,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3966,6 +4019,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssessmentResponse {
   /// The response object for the <code>UpdateAssessment</code> API. This is the
   /// name of the updated assessment.
@@ -3991,6 +4045,7 @@ class UpdateAssessmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssessmentControlResponse {
   /// The name of the updated control set that the
   /// <code>UpdateAssessmentControl</code> API returned.
@@ -4016,6 +4071,7 @@ class UpdateAssessmentControlResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssessmentControlSetStatusResponse {
   /// The name of the updated control set that the
   /// <code>UpdateAssessmentControlSetStatus</code> API returned.
@@ -4043,6 +4099,7 @@ class UpdateAssessmentControlSetStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssessmentFrameworkResponse {
   /// The framework object.
   final Framework? framework;
@@ -4068,6 +4125,7 @@ class UpdateAssessmentFrameworkResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssessmentFrameworkShareResponse {
   /// The updated share request that's returned by the
   /// <code>UpdateAssessmentFrameworkShare</code> operation.
@@ -4099,6 +4157,7 @@ class UpdateAssessmentFrameworkShareResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssessmentStatusResponse {
   /// The name of the updated assessment that the
   /// <code>UpdateAssessmentStatus</code> API returned.
@@ -4124,6 +4183,7 @@ class UpdateAssessmentStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateControlResponse {
   /// The name of the updated control set that the <code>UpdateControl</code> API
   /// returned.
@@ -4149,6 +4209,7 @@ class UpdateControlResponse {
   }
 }
 
+/// @nodoc
 class UpdateSettingsResponse {
   /// The current list of settings.
   final Settings? settings;
@@ -4173,6 +4234,7 @@ class UpdateSettingsResponse {
   }
 }
 
+/// @nodoc
 class ValidateAssessmentReportIntegrityResponse {
   /// The signature algorithm that's used to code sign the assessment report file.
   final String? signatureAlgorithm;
@@ -4229,6 +4291,8 @@ class ValidateAssessmentReportIntegrityResponse {
 }
 
 /// The settings object that holds all supported Audit Manager settings.
+///
+/// @nodoc
 class Settings {
   /// The default S3 destination bucket for storing assessment reports.
   final AssessmentReportsDestination? defaultAssessmentReportsDestination;
@@ -4328,6 +4392,8 @@ class Settings {
 
 /// The location where Audit Manager saves assessment reports for the given
 /// assessment.
+///
+/// @nodoc
 class AssessmentReportsDestination {
   /// The destination bucket where Audit Manager stores assessment reports.
   final String? destination;
@@ -4361,6 +4427,8 @@ class AssessmentReportsDestination {
 /// The settings object that specifies whether evidence finder is enabled. This
 /// object also describes the related event data store, and the backfill status
 /// for populating the event data store with evidence data.
+///
+/// @nodoc
 class EvidenceFinderEnablement {
   /// The current status of the evidence data backfill process.
   ///
@@ -4474,6 +4542,8 @@ class EvidenceFinderEnablement {
 /// controls, and custom frameworks. Your data will not be available if you
 /// re-register Audit Manager in the future.
 /// </important>
+///
+/// @nodoc
 class DeregistrationPolicy {
   /// Specifies which Audit Manager data will be deleted when you deregister Audit
   /// Manager.
@@ -4514,6 +4584,8 @@ class DeregistrationPolicy {
 
 /// The default s3 bucket where Audit Manager saves the files that you export
 /// from evidence finder.
+///
+/// @nodoc
 class DefaultExportDestination {
   /// The destination bucket where Audit Manager stores exported files.
   final String? destination;
@@ -4544,6 +4616,7 @@ class DefaultExportDestination {
   }
 }
 
+/// @nodoc
 class ExportDestinationType {
   static const s3 = ExportDestinationType._('S3');
 
@@ -4568,6 +4641,7 @@ class ExportDestinationType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeleteResources {
   static const all = DeleteResources._('ALL');
   static const $default = DeleteResources._('DEFAULT');
@@ -4592,6 +4666,7 @@ class DeleteResources {
   String toString() => value;
 }
 
+/// @nodoc
 class EvidenceFinderEnablementStatus {
   static const enabled = EvidenceFinderEnablementStatus._('ENABLED');
   static const disabled = EvidenceFinderEnablementStatus._('DISABLED');
@@ -4626,6 +4701,7 @@ class EvidenceFinderEnablementStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EvidenceFinderBackfillStatus {
   static const notStarted = EvidenceFinderBackfillStatus._('NOT_STARTED');
   static const inProgress = EvidenceFinderBackfillStatus._('IN_PROGRESS');
@@ -4654,6 +4730,8 @@ class EvidenceFinderBackfillStatus {
 
 /// The wrapper that contains the Audit Manager role information of the current
 /// user. This includes the role type and IAM Amazon Resource Name (ARN).
+///
+/// @nodoc
 class Role {
   /// The Amazon Resource Name (ARN) of the IAM role.
   final String roleArn;
@@ -4693,6 +4771,7 @@ class Role {
   }
 }
 
+/// @nodoc
 class RoleType {
   static const processOwner = RoleType._('PROCESS_OWNER');
   static const resourceOwner = RoleType._('RESOURCE_OWNER');
@@ -4716,6 +4795,7 @@ class RoleType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssessmentReportDestinationType {
   static const s3 = AssessmentReportDestinationType._('S3');
 
@@ -4741,6 +4821,8 @@ class AssessmentReportDestinationType {
 }
 
 /// A control in Audit Manager.
+///
+/// @nodoc
 class Control {
   /// The recommended actions to carry out if the control isn't fulfilled.
   final String? actionPlanInstructions;
@@ -4880,6 +4962,7 @@ class Control {
   }
 }
 
+/// @nodoc
 class ControlType {
   static const standard = ControlType._('Standard');
   static const custom = ControlType._('Custom');
@@ -4904,6 +4987,7 @@ class ControlType {
   String toString() => value;
 }
 
+/// @nodoc
 class ControlState {
   static const active = ControlState._('ACTIVE');
   static const endOfSupport = ControlState._('END_OF_SUPPORT');
@@ -4929,6 +5013,8 @@ class ControlState {
 
 /// The data source that determines where Audit Manager collects evidence from
 /// for the control.
+///
+/// @nodoc
 class ControlMappingSource {
   /// The description of the source.
   final String? sourceDescription;
@@ -5022,6 +5108,7 @@ class ControlMappingSource {
   }
 }
 
+/// @nodoc
 class SourceSetUpOption {
   static const systemControlsMapping =
       SourceSetUpOption._('System_Controls_Mapping');
@@ -5048,6 +5135,7 @@ class SourceSetUpOption {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceType {
   static const awsCloudtrail = SourceType._('AWS_Cloudtrail');
   static const awsConfig = SourceType._('AWS_Config');
@@ -5118,6 +5206,8 @@ class SourceType {
 /// event names supported by Audit Manager</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SourceKeyword {
   /// The input method for the keyword.
   ///
@@ -5298,6 +5388,7 @@ class SourceKeyword {
   }
 }
 
+/// @nodoc
 class SourceFrequency {
   static const daily = SourceFrequency._('DAILY');
   static const weekly = SourceFrequency._('WEEKLY');
@@ -5323,6 +5414,7 @@ class SourceFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class KeywordInputType {
   static const selectFromList = KeywordInputType._('SELECT_FROM_LIST');
   static const uploadFile = KeywordInputType._('UPLOAD_FILE');
@@ -5351,6 +5443,8 @@ class KeywordInputType {
 /// An entity that defines the scope of audit evidence collected by Audit
 /// Manager. An Audit Manager assessment is an implementation of an Audit
 /// Manager framework.
+///
+/// @nodoc
 class Assessment {
   /// The Amazon Resource Name (ARN) of the assessment.
   final String? arn;
@@ -5412,6 +5506,8 @@ class Assessment {
 
 /// The wrapper of Amazon Web Services account details, such as account ID or
 /// email address.
+///
+/// @nodoc
 class AWSAccount {
   /// The email address that's associated with the Amazon Web Services account.
   final String? emailAddress;
@@ -5449,6 +5545,8 @@ class AWSAccount {
 }
 
 /// The metadata that's associated with the specified assessment.
+///
+/// @nodoc
 class AssessmentMetadata {
   /// The destination that evidence reports are stored in for the assessment.
   final AssessmentReportsDestination? assessmentReportsDestination;
@@ -5558,6 +5656,8 @@ class AssessmentMetadata {
 
 /// The file used to structure and automate Audit Manager assessments for a
 /// given compliance standard.
+///
+/// @nodoc
 class AssessmentFramework {
   /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
@@ -5605,6 +5705,8 @@ class AssessmentFramework {
 }
 
 /// The metadata of a framework, such as the name, ID, or description.
+///
+/// @nodoc
 class FrameworkMetadata {
   /// The compliance standard that's associated with the framework. For example,
   /// this could be PCI DSS or HIPAA.
@@ -5650,6 +5752,8 @@ class FrameworkMetadata {
 }
 
 /// Represents a set of controls in an Audit Manager assessment.
+///
+/// @nodoc
 class AssessmentControlSet {
   /// The list of controls that's contained with the control set.
   final List<AssessmentControl>? controls;
@@ -5735,6 +5839,7 @@ class AssessmentControlSet {
   }
 }
 
+/// @nodoc
 class ControlSetStatus {
   static const active = ControlSetStatus._('ACTIVE');
   static const underReview = ControlSetStatus._('UNDER_REVIEW');
@@ -5761,6 +5866,8 @@ class ControlSetStatus {
 }
 
 /// The assignment of a control set to a delegate for review.
+///
+/// @nodoc
 class Delegation {
   /// The identifier for the assessment that's associated with the delegation.
   final String? assessmentId;
@@ -5864,6 +5971,7 @@ class Delegation {
   }
 }
 
+/// @nodoc
 class DelegationStatus {
   static const inProgress = DelegationStatus._('IN_PROGRESS');
   static const underReview = DelegationStatus._('UNDER_REVIEW');
@@ -5891,6 +5999,8 @@ class DelegationStatus {
 
 /// The control entity that represents a standard control or a custom control in
 /// an Audit Manager assessment.
+///
+/// @nodoc
 class AssessmentControl {
   /// The amount of evidence in the assessment report.
   final int? assessmentReportEvidenceCount;
@@ -5977,6 +6087,7 @@ class AssessmentControl {
   }
 }
 
+/// @nodoc
 class ControlStatus {
   static const underReview = ControlStatus._('UNDER_REVIEW');
   static const reviewed = ControlStatus._('REVIEWED');
@@ -6002,6 +6113,7 @@ class ControlStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ControlResponse {
   static const manual = ControlResponse._('MANUAL');
   static const automate = ControlResponse._('AUTOMATE');
@@ -6030,6 +6142,8 @@ class ControlResponse {
 
 /// A comment that's posted by a user on a control. This includes the author's
 /// name, the comment text, and a timestamp.
+///
+/// @nodoc
 class ControlComment {
   /// The name of the user who authored the comment.
   final String? authorName;
@@ -6066,6 +6180,7 @@ class ControlComment {
   }
 }
 
+/// @nodoc
 class AssessmentStatus {
   static const active = AssessmentStatus._('ACTIVE');
   static const inactive = AssessmentStatus._('INACTIVE');
@@ -6105,6 +6220,8 @@ class AssessmentStatus {
 /// comprehensive evidence about all of the relevant services in your AWS
 /// environment.
 /// </note>
+///
+/// @nodoc
 class Scope {
   /// The Amazon Web Services accounts that are included in the scope of the
   /// assessment.
@@ -6164,6 +6281,8 @@ class Scope {
 /// an Amazon Web Services service name in your assessment scope</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AWSService {
   /// The name of the Amazon Web Services service.
   final String? serviceName;
@@ -6187,6 +6306,8 @@ class AWSService {
 }
 
 /// Represents a share request for a custom framework in Audit Manager.
+///
+/// @nodoc
 class AssessmentFrameworkShareRequest {
   /// An optional comment from the sender about the share request.
   final String? comment;
@@ -6314,6 +6435,7 @@ class AssessmentFrameworkShareRequest {
   }
 }
 
+/// @nodoc
 class ShareRequestStatus {
   static const active = ShareRequestStatus._('ACTIVE');
   static const replicating = ShareRequestStatus._('REPLICATING');
@@ -6354,6 +6476,7 @@ class ShareRequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ShareRequestType {
   static const sent = ShareRequestType._('SENT');
   static const received = ShareRequestType._('RECEIVED');
@@ -6378,6 +6501,7 @@ class ShareRequestType {
   String toString() => value;
 }
 
+/// @nodoc
 class ShareRequestAction {
   static const accept = ShareRequestAction._('ACCEPT');
   static const decline = ShareRequestAction._('DECLINE');
@@ -6406,6 +6530,8 @@ class ShareRequestAction {
 
 /// The file that's used to structure and automate Audit Manager assessments for
 /// a given compliance standard.
+///
+/// @nodoc
 class Framework {
   /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
@@ -6533,6 +6659,7 @@ class Framework {
   }
 }
 
+/// @nodoc
 class FrameworkType {
   static const standard = FrameworkType._('Standard');
   static const custom = FrameworkType._('Custom');
@@ -6558,6 +6685,8 @@ class FrameworkType {
 }
 
 /// A set of controls in Audit Manager.
+///
+/// @nodoc
 class ControlSet {
   /// The list of controls within the control set.
   final List<Control>? controls;
@@ -6600,6 +6729,8 @@ class ControlSet {
 
 /// A <code>controlSet</code> entity that represents a collection of controls in
 /// Audit Manager. This doesn't contain the control set ID.
+///
+/// @nodoc
 class UpdateAssessmentFrameworkControlSet {
   /// The list of controls that are contained within the control set.
   final List<CreateAssessmentFrameworkControl> controls;
@@ -6630,6 +6761,8 @@ class UpdateAssessmentFrameworkControlSet {
 
 /// The control entity attributes that uniquely identify an existing control to
 /// be added to a framework in Audit Manager.
+///
+/// @nodoc
 class CreateAssessmentFrameworkControl {
   /// The unique identifier of the control.
   final String id;
@@ -6646,6 +6779,7 @@ class CreateAssessmentFrameworkControl {
   }
 }
 
+/// @nodoc
 class AccountStatus {
   static const active = AccountStatus._('ACTIVE');
   static const inactive = AccountStatus._('INACTIVE');
@@ -6674,6 +6808,8 @@ class AccountStatus {
 /// The notification that informs a user of an update in Audit Manager. For
 /// example, this includes the notification that's sent when a control set is
 /// delegated for review.
+///
+/// @nodoc
 class Notification {
   /// The identifier for the assessment.
   final String? assessmentId;
@@ -6745,6 +6881,7 @@ class Notification {
   }
 }
 
+/// @nodoc
 class DataSourceType {
   static const awsCloudtrail = DataSourceType._('AWS_Cloudtrail');
   static const awsConfig = DataSourceType._('AWS_Config');
@@ -6779,6 +6916,8 @@ class DataSourceType {
 }
 
 /// The metadata that's associated with the standard control or custom control.
+///
+/// @nodoc
 class ControlMetadata {
   /// The Amazon Resource Name (ARN) of the control.
   final String? arn;
@@ -6843,6 +6982,8 @@ class ControlMetadata {
 /// This data reflects the total counts for the specified control across all
 /// active assessments. Control insights are grouped by control domain, and
 /// ranked by the highest total count of non-compliant evidence.
+///
+/// @nodoc
 class ControlInsightsMetadataItem {
   /// A breakdown of the compliance check status for the evidence that’s
   /// associated with the control.
@@ -6892,6 +7033,8 @@ class ControlInsightsMetadataItem {
 
 /// A breakdown of the latest compliance check status for the evidence in your
 /// Audit Manager assessments.
+///
+/// @nodoc
 class EvidenceInsights {
   /// The number of compliance check evidence that Audit Manager classified as
   /// compliant. This includes evidence that was collected from Security Hub CSPM
@@ -6950,6 +7093,8 @@ class EvidenceInsights {
 ///
 /// Control domain insights are grouped by control domain, and ranked by the
 /// highest total count of non-compliant evidence.
+///
+/// @nodoc
 class ControlDomainInsights {
   /// The number of controls in the control domain that collected non-compliant
   /// evidence on the <code>lastUpdated</code> date.
@@ -7023,6 +7168,8 @@ class ControlDomainInsights {
 }
 
 /// A metadata object that's associated with an assessment in Audit Manager.
+///
+/// @nodoc
 class AssessmentMetadataItem {
   /// The name of the compliance standard that's related to the assessment, such
   /// as PCI-DSS.
@@ -7104,6 +7251,8 @@ class AssessmentMetadataItem {
 
 /// The metadata objects that are associated with the specified assessment
 /// report.
+///
+/// @nodoc
 class AssessmentReportMetadata {
   /// The unique identifier for the associated assessment.
   final String? assessmentId;
@@ -7177,6 +7326,7 @@ class AssessmentReportMetadata {
   }
 }
 
+/// @nodoc
 class AssessmentReportStatus {
   static const complete = AssessmentReportStatus._('COMPLETE');
   static const inProgress = AssessmentReportStatus._('IN_PROGRESS');
@@ -7205,6 +7355,8 @@ class AssessmentReportStatus {
 
 /// The metadata that's associated with a standard framework or a custom
 /// framework.
+///
+/// @nodoc
 class AssessmentFrameworkMetadata {
   /// The Amazon Resource Name (ARN) of the framework.
   final String? arn;
@@ -7304,6 +7456,8 @@ class AssessmentFrameworkMetadata {
 ///
 /// Control insights are grouped by control domain, and ranked by the highest
 /// total count of non-compliant evidence.
+///
+/// @nodoc
 class ControlInsightsMetadataByAssessmentItem {
   /// The name of the control set that the assessment control belongs to.
   final String? controlSetName;
@@ -7359,6 +7513,7 @@ class ControlInsightsMetadataByAssessmentItem {
   }
 }
 
+/// @nodoc
 class SettingAttribute {
   static const all = SettingAttribute._('ALL');
   static const isAwsOrgEnabled = SettingAttribute._('IS_AWS_ORG_ENABLED');
@@ -7404,6 +7559,8 @@ class SettingAttribute {
 }
 
 /// The metadata that's associated with the Amazon Web Services service.
+///
+/// @nodoc
 class ServiceMetadata {
   /// The category that the Amazon Web Services service belongs to, such as
   /// compute, storage, or database.
@@ -7477,6 +7634,8 @@ class ServiceMetadata {
 /// <code>InsightsByAssessment</code> counts for that day.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class InsightsByAssessment {
   /// The number of assessment controls that collected non-compliant evidence on
   /// the <code>lastUpdated</code> date.
@@ -7587,6 +7746,8 @@ class InsightsByAssessment {
 /// <code>InsightsByAssessment</code> counts for that day.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class Insights {
   /// The number of active assessments in Audit Manager.
   final int? activeAssessmentsCount;
@@ -7677,6 +7838,8 @@ class Insights {
 }
 
 /// The folder where Audit Manager stores evidence for an assessment.
+///
+/// @nodoc
 class AssessmentEvidenceFolder {
   /// The identifier for the assessment.
   final String? assessmentId;
@@ -7850,6 +8013,8 @@ class AssessmentEvidenceFolder {
 /// A record that contains the information needed to demonstrate compliance with
 /// the requirements specified by a control. Examples of evidence include change
 /// activity invoked by a user, or a system configuration snapshot.
+///
+/// @nodoc
 class Evidence {
   /// Specifies whether the evidence is included in the assessment report.
   final String? assessmentReportSelection;
@@ -8001,6 +8166,8 @@ class Evidence {
 }
 
 /// A system asset that's evaluated in an Audit Manager assessment.
+///
+/// @nodoc
 class Resource {
   /// The Amazon Resource Name (ARN) for the resource.
   final String? arn;
@@ -8060,6 +8227,8 @@ class Resource {
 }
 
 /// The metadata that's associated with the delegation.
+///
+/// @nodoc
 class DelegationMetadata {
   /// The unique identifier for the assessment.
   final String? assessmentId;
@@ -8127,6 +8296,8 @@ class DelegationMetadata {
 
 /// The record of a change within Audit Manager. For example, this could be the
 /// status change of an assessment or the delegation of a control set.
+///
+/// @nodoc
 class ChangeLog {
   /// The action that was performed.
   final ActionEnum? action;
@@ -8179,6 +8350,7 @@ class ChangeLog {
   }
 }
 
+/// @nodoc
 class ObjectTypeEnum {
   static const assessment = ObjectTypeEnum._('ASSESSMENT');
   static const controlSet = ObjectTypeEnum._('CONTROL_SET');
@@ -8212,6 +8384,7 @@ class ObjectTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionEnum {
   static const create = ActionEnum._('CREATE');
   static const updateMetadata = ActionEnum._('UPDATE_METADATA');
@@ -8252,6 +8425,8 @@ class ActionEnum {
 
 /// Short for uniform resource locator. A URL is used as a unique identifier to
 /// locate a resource on the internet.
+///
+/// @nodoc
 class URL {
   /// The name or word that's used as a hyperlink to the URL.
   final String? hyperlinkName;
@@ -8284,6 +8459,8 @@ class URL {
 /// The mapping attributes that determine the evidence source for a given
 /// control, along with related parameters and metadata. This doesn't contain
 /// <code>mappingID</code>.
+///
+/// @nodoc
 class CreateControlMappingSource {
   /// The description of the data source that determines where Audit Manager
   /// collects evidence from for the control.
@@ -8359,6 +8536,8 @@ class CreateControlMappingSource {
 /// audit, and link to the relevant evidence folders. These evidence folders are
 /// named and organized according to the controls that are specified in your
 /// assessment.
+///
+/// @nodoc
 class AssessmentReport {
   /// The identifier for the specified assessment.
   final String? assessmentId;
@@ -8441,6 +8620,8 @@ class AssessmentReport {
 
 /// A <code>controlSet</code> entity that represents a collection of controls in
 /// Audit Manager. This doesn't contain the control set ID.
+///
+/// @nodoc
 class CreateAssessmentFrameworkControlSet {
   /// The name of the control set.
   final String name;
@@ -8467,6 +8648,8 @@ class CreateAssessmentFrameworkControlSet {
 /// An error entity for the <code>BatchImportEvidenceToAssessmentControl</code>
 /// API. This is used to provide more meaningful errors than a simple string
 /// message.
+///
+/// @nodoc
 class BatchImportEvidenceToAssessmentControlError {
   /// The error code that the <code>BatchImportEvidenceToAssessmentControl</code>
   /// API returned.
@@ -8513,6 +8696,8 @@ class BatchImportEvidenceToAssessmentControlError {
 /// <code>manualEvidence</code> can be one of the following:
 /// <code>evidenceFileName</code>, <code>s3ResourcePath</code>, or
 /// <code>textResponse</code>.
+///
+/// @nodoc
 class ManualEvidence {
   /// The name of the file that's uploaded as manual evidence. This name is
   /// populated using the <code>evidenceFileName</code> value from the <a
@@ -8554,6 +8739,8 @@ class ManualEvidence {
 
 /// An error entity for assessment report evidence errors. This is used to
 /// provide more meaningful errors than a simple string message.
+///
+/// @nodoc
 class AssessmentReportEvidenceError {
   /// The error code that was returned.
   final String? errorCode;
@@ -8592,6 +8779,8 @@ class AssessmentReportEvidenceError {
 
 /// An error entity for the <code>BatchDeleteDelegationByAssessment</code> API.
 /// This is used to provide more meaningful errors than a simple string message.
+///
+/// @nodoc
 class BatchDeleteDelegationByAssessmentError {
   /// The identifier for the delegation.
   final String? delegationId;
@@ -8633,6 +8822,8 @@ class BatchDeleteDelegationByAssessmentError {
 
 /// An error entity for the <code>BatchCreateDelegationByAssessment</code> API.
 /// This is used to provide more meaningful errors than a simple string message.
+///
+/// @nodoc
 class BatchCreateDelegationByAssessmentError {
   /// The API request to batch create delegations in Audit Manager.
   final CreateDelegationRequest? createDelegationRequest;
@@ -8678,6 +8869,8 @@ class BatchCreateDelegationByAssessmentError {
 
 /// A collection of attributes that's used to create a delegation for an
 /// assessment in Audit Manager.
+///
+/// @nodoc
 class CreateDelegationRequest {
   /// A comment that's related to the delegation request.
   final String? comment;
@@ -8731,21 +8924,25 @@ class CreateDelegationRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8754,11 +8951,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

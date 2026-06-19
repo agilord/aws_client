@@ -1576,6 +1576,7 @@ class MediaConvert {
   }
 }
 
+/// @nodoc
 class AssociateCertificateResponse {
   AssociateCertificateResponse();
 
@@ -1588,6 +1589,7 @@ class AssociateCertificateResponse {
   }
 }
 
+/// @nodoc
 class CancelJobResponse {
   CancelJobResponse();
 
@@ -1600,6 +1602,7 @@ class CancelJobResponse {
   }
 }
 
+/// @nodoc
 class CreateJobResponse {
   /// Each job converts an input file into an output file or files. For more
   /// information, see the User Guide at
@@ -1626,6 +1629,7 @@ class CreateJobResponse {
   }
 }
 
+/// @nodoc
 class CreateJobTemplateResponse {
   /// A job template is a pre-made set of encoding instructions that you can use
   /// to quickly create a job.
@@ -1651,6 +1655,7 @@ class CreateJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreatePresetResponse {
   /// A preset is a collection of preconfigured media conversion settings that you
   /// want MediaConvert to apply to the output during the conversion process.
@@ -1676,6 +1681,7 @@ class CreatePresetResponse {
   }
 }
 
+/// @nodoc
 class CreateQueueResponse {
   /// You can use queues to manage the resources that are available to your AWS
   /// account for running multiple transcoding jobs at the same time. If you don't
@@ -1704,6 +1710,7 @@ class CreateQueueResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceShareResponse {
   CreateResourceShareResponse();
 
@@ -1716,6 +1723,7 @@ class CreateResourceShareResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobTemplateResponse {
   DeleteJobTemplateResponse();
 
@@ -1728,6 +1736,7 @@ class DeleteJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeletePolicyResponse {
   DeletePolicyResponse();
 
@@ -1740,6 +1749,7 @@ class DeletePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeletePresetResponse {
   DeletePresetResponse();
 
@@ -1752,6 +1762,7 @@ class DeletePresetResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueueResponse {
   DeleteQueueResponse();
 
@@ -1764,6 +1775,7 @@ class DeleteQueueResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointsResponse {
   /// List of endpoints
   final List<Endpoint>? endpoints;
@@ -1796,6 +1808,7 @@ class DescribeEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateCertificateResponse {
   DisassociateCertificateResponse();
 
@@ -1808,6 +1821,7 @@ class DisassociateCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetJobResponse {
   /// Each job converts an input file into an output file or files. For more
   /// information, see the User Guide at
@@ -1834,6 +1848,7 @@ class GetJobResponse {
   }
 }
 
+/// @nodoc
 class GetJobsQueryResultsResponse {
   /// List of jobs.
   final List<Job>? jobs;
@@ -1874,6 +1889,7 @@ class GetJobsQueryResultsResponse {
   }
 }
 
+/// @nodoc
 class GetJobTemplateResponse {
   /// A job template is a pre-made set of encoding instructions that you can use
   /// to quickly create a job.
@@ -1899,6 +1915,7 @@ class GetJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// A policy configures behavior that you allow or disallow for your account.
   /// For information about MediaConvert policies, see the user guide at
@@ -1925,6 +1942,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetPresetResponse {
   /// A preset is a collection of preconfigured media conversion settings that you
   /// want MediaConvert to apply to the output during the conversion process.
@@ -1950,6 +1968,7 @@ class GetPresetResponse {
   }
 }
 
+/// @nodoc
 class GetQueueResponse {
   /// You can use queues to manage the resources that are available to your AWS
   /// account for running multiple transcoding jobs at the same time. If you don't
@@ -1978,6 +1997,7 @@ class GetQueueResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// List of jobs
   final List<Job>? jobs;
@@ -2010,6 +2030,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListJobTemplatesResponse {
   /// List of Job templates.
   final List<JobTemplate>? jobTemplates;
@@ -2042,6 +2063,7 @@ class ListJobTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListPresetsResponse {
   /// Use this string to request the next batch of presets.
   final String? nextToken;
@@ -2074,6 +2096,7 @@ class ListPresetsResponse {
   }
 }
 
+/// @nodoc
 class ListQueuesResponse {
   /// Use this string to request the next batch of queues.
   final String? nextToken;
@@ -2125,6 +2148,7 @@ class ListQueuesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert
   /// resource.
@@ -2150,6 +2174,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListVersionsResponse {
   /// Optional. Use this string, provided with the response to a previous request,
   /// to request the next batch of Job engine versions.
@@ -2184,6 +2209,7 @@ class ListVersionsResponse {
   }
 }
 
+/// @nodoc
 class ProbeResponse {
   /// Probe results for your media file.
   final List<ProbeResult>? probeResults;
@@ -2209,6 +2235,7 @@ class ProbeResponse {
   }
 }
 
+/// @nodoc
 class PutPolicyResponse {
   /// A policy configures behavior that you allow or disallow for your account.
   /// For information about MediaConvert policies, see the user guide at
@@ -2235,6 +2262,7 @@ class PutPolicyResponse {
   }
 }
 
+/// @nodoc
 class SearchJobsResponse {
   /// List of jobs.
   final List<Job>? jobs;
@@ -2267,6 +2295,7 @@ class SearchJobsResponse {
   }
 }
 
+/// @nodoc
 class StartJobsQueryResponse {
   /// The ID of the jobs query.
   final String? id;
@@ -2289,6 +2318,7 @@ class StartJobsQueryResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2301,6 +2331,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2313,6 +2344,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateJobTemplateResponse {
   /// A job template is a pre-made set of encoding instructions that you can use
   /// to quickly create a job.
@@ -2338,6 +2370,7 @@ class UpdateJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdatePresetResponse {
   /// A preset is a collection of preconfigured media conversion settings that you
   /// want MediaConvert to apply to the output during the conversion process.
@@ -2363,6 +2396,7 @@ class UpdatePresetResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueueResponse {
   /// You can use queues to manage the resources that are available to your AWS
   /// account for running multiple transcoding jobs at the same time. If you don't
@@ -2396,6 +2430,8 @@ class UpdateQueueResponse {
 /// specify a queue, the service sends all jobs through the default queue. For
 /// more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
+///
+/// @nodoc
 class Queue {
   /// A name that you create for each queue. Each name must be unique within your
   /// account.
@@ -2536,6 +2572,8 @@ class Queue {
 /// reserved, you pay for the transcoding capacity of the entire queue,
 /// regardless of how much or how little you use it. Reserved pricing requires a
 /// 12-month commitment.
+///
+/// @nodoc
 class PricingPlan {
   static const onDemand = PricingPlan._('ON_DEMAND');
   static const reserved = PricingPlan._('RESERVED');
@@ -2561,6 +2599,8 @@ class PricingPlan {
 
 /// Details about the pricing plan for your reserved queue. Required for
 /// reserved queues and not applicable to on-demand queues.
+///
+/// @nodoc
 class ReservationPlan {
   /// The length of the term of your reserved queue pricing plan commitment.
   final Commitment? commitment;
@@ -2633,6 +2673,8 @@ class ReservationPlan {
 /// Queues can be ACTIVE or PAUSED. If you pause a queue, jobs in that queue
 /// won't begin. Jobs that are running when you pause a queue continue to run
 /// until they finish or result in an error.
+///
+/// @nodoc
 class QueueStatus {
   static const active = QueueStatus._('ACTIVE');
   static const paused = QueueStatus._('PAUSED');
@@ -2656,6 +2698,7 @@ class QueueStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const system = Type._('SYSTEM');
   static const custom = Type._('CUSTOM');
@@ -2682,6 +2725,8 @@ class Type {
 /// A service override applied by MediaConvert to the settings that you have
 /// configured. If you see any overrides, we recommend that you contact AWS
 /// Support.
+///
+/// @nodoc
 class ServiceOverride {
   /// Details about the service override that MediaConvert has applied.
   final String? message;
@@ -2727,6 +2772,8 @@ class ServiceOverride {
 }
 
 /// The length of the term of your reserved queue pricing plan commitment.
+///
+/// @nodoc
 class Commitment {
   static const oneYear = Commitment._('ONE_YEAR');
 
@@ -2752,6 +2799,8 @@ class Commitment {
 /// Specifies whether the term of your reserved queue pricing plan is
 /// automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the
 /// term.
+///
+/// @nodoc
 class RenewalType {
   static const autoRenew = RenewalType._('AUTO_RENEW');
   static const expire = RenewalType._('EXPIRE');
@@ -2777,6 +2826,8 @@ class RenewalType {
 
 /// Specifies whether the pricing plan for your reserved queue is ACTIVE or
 /// EXPIRED.
+///
+/// @nodoc
 class ReservationPlanStatus {
   static const active = ReservationPlanStatus._('ACTIVE');
   static const expired = ReservationPlanStatus._('EXPIRED');
@@ -2804,6 +2855,8 @@ class ReservationPlanStatus {
 
 /// Details about the pricing plan for your reserved queue. Required for
 /// reserved queues and not applicable to on-demand queues.
+///
+/// @nodoc
 class ReservationPlanSettings {
   /// The length of the term of your reserved queue pricing plan commitment.
   final Commitment commitment;
@@ -2844,6 +2897,8 @@ class ReservationPlanSettings {
 
 /// A preset is a collection of preconfigured media conversion settings that you
 /// want MediaConvert to apply to the output during the conversion process.
+///
+/// @nodoc
 class Preset {
   /// A name you create for each preset. Each name must be unique within your
   /// account.
@@ -2920,6 +2975,8 @@ class Preset {
 }
 
 /// Settings for preset
+///
+/// @nodoc
 class PresetSettings {
   /// Contains groups of audio encoding settings organized by audio codec. Include
   /// one instance of per output. Can contain multiple groups of encoding
@@ -2983,6 +3040,8 @@ class PresetSettings {
 }
 
 /// Container specific settings.
+///
+/// @nodoc
 class ContainerSettings {
   /// These settings relate to the fragmented MP4 container for the segments in
   /// your CMAF outputs.
@@ -3094,6 +3153,8 @@ class ContainerSettings {
 
 /// Settings related to video encoding of your output. The specific video
 /// settings depend on the video codec that you choose.
+///
+/// @nodoc
 class VideoDescription {
   /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD
   /// signaling to specify whether the service includes AFD values in the output
@@ -3325,6 +3386,8 @@ class VideoDescription {
 /// from this output. * Choose Fixed to ignore input AFD values and instead
 /// encode the value specified in the job. * Choose Auto to calculate output AFD
 /// values based on the input AFD scaler data.
+///
+/// @nodoc
 class AfdSignaling {
   static const none = AfdSignaling._('NONE');
   static const auto = AfdSignaling._('AUTO');
@@ -3352,6 +3415,8 @@ class AfdSignaling {
 /// The anti-alias filter is automatically applied to all outputs. The service
 /// no longer accepts the value DISABLED for AntiAlias. If you specify that in
 /// your job, the service will ignore the setting.
+///
+/// @nodoc
 class AntiAlias {
   static const disabled = AntiAlias._('DISABLED');
   static const enabled = AntiAlias._('ENABLED');
@@ -3380,6 +3445,8 @@ class AntiAlias {
 /// recommend that you keep the default value, Auto. To specify center
 /// positioning: Choose Force center. To specify top left positioning: Choose
 /// Force top left.
+///
+/// @nodoc
 class ChromaPositionMode {
   static const auto = ChromaPositionMode._('AUTO');
   static const forceCenter = ChromaPositionMode._('FORCE_CENTER');
@@ -3415,6 +3482,8 @@ class ChromaPositionMode {
 /// * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings *
 /// UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings *
 /// VP9, Vp9Settings * XAVC, XavcSettings
+///
+/// @nodoc
 class VideoCodecSettings {
   /// Required when you set Codec, under VideoDescription>CodecSettings to the
   /// value AV1.
@@ -3587,6 +3656,8 @@ class VideoCodecSettings {
 /// Choose Insert for this setting to include color metadata in this output.
 /// Choose Ignore to exclude color metadata from this output. If you don't
 /// specify a value, the service sets this to Insert by default.
+///
+/// @nodoc
 class ColorMetadata {
   static const ignore = ColorMetadata._('IGNORE');
   static const insert = ColorMetadata._('INSERT');
@@ -3612,6 +3683,8 @@ class ColorMetadata {
 }
 
 /// Use Rectangle to identify a specific area of the video frame.
+///
+/// @nodoc
 class Rectangle {
   /// Height of rectangle in pixels. Specify only even numbers.
   final int? height;
@@ -3662,6 +3735,8 @@ class Rectangle {
 /// drop-frame timecode, the system will fall back to non-drop-frame. This
 /// setting is enabled by default when Timecode insertion or Timecode track is
 /// enabled.
+///
+/// @nodoc
 class DropFrameTimecode {
   static const disabled = DropFrameTimecode._('DISABLED');
   static const enabled = DropFrameTimecode._('ENABLED');
@@ -3694,6 +3769,8 @@ class DropFrameTimecode {
 /// implementation of this workflow is to set RespondToAfd to and set
 /// AfdSignaling to AUTO. * Choose None to remove all input AFD values from this
 /// output.
+///
+/// @nodoc
 class RespondToAfd {
   static const none = RespondToAfd._('NONE');
   static const respond = RespondToAfd._('RESPOND');
@@ -3724,6 +3801,8 @@ class RespondToAfd {
 /// Smart Cropping using Elemental Inference as your scaling behavior to have
 /// Elemental Inference automatically crop your video. Smart Crop requires a
 /// vertical output aspect ratio (1:1 is the widest aspect ratio supported).
+///
+/// @nodoc
 class ScalingBehavior {
   static const $default = ScalingBehavior._('DEFAULT');
   static const stretchToOutput = ScalingBehavior._('STRETCH_TO_OUTPUT');
@@ -3771,6 +3850,8 @@ class ScalingBehavior {
 /// configuration. Note - Timecode source under input settings does not affect
 /// the timecodes that are inserted in the output. Source under Job settings >
 /// Timecode configuration does.
+///
+/// @nodoc
 class VideoTimecodeInsertion {
   static const disabled = VideoTimecodeInsertion._('DISABLED');
   static const picTimingSei = VideoTimecodeInsertion._('PIC_TIMING_SEI');
@@ -3801,6 +3882,8 @@ class VideoTimecodeInsertion {
 /// timecode text formatting information. You can also specify dropframe or
 /// non-dropframe timecode under the Drop Frame Timecode setting. To not include
 /// a timecode track: Keep the default value, Disabled.
+///
+/// @nodoc
 class TimecodeTrack {
   static const disabled = TimecodeTrack._('DISABLED');
   static const enabled = TimecodeTrack._('ENABLED');
@@ -3828,6 +3911,8 @@ class TimecodeTrack {
 /// Find additional transcoding features under Preprocessors. Enable the
 /// features at each output individually. These features are disabled by
 /// default.
+///
+/// @nodoc
 class VideoPreprocessor {
   /// Use these settings to convert the color space or to modify properties such
   /// as hue and contrast for this output. For more information, see
@@ -3934,6 +4019,8 @@ class VideoPreprocessor {
 }
 
 /// Settings for color correction.
+///
+/// @nodoc
 class ColorCorrector {
   /// Brightness level.
   final int? brightness;
@@ -4096,6 +4183,8 @@ class ColorCorrector {
 }
 
 /// Settings for deinterlacer
+///
+/// @nodoc
 class Deinterlacer {
   /// Only applies when you set Deinterlace mode to Deinterlace or Adaptive.
   /// Interpolate produces sharper pictures, while blend produces smoother motion.
@@ -4150,6 +4239,8 @@ class Deinterlacer {
 }
 
 /// Create Dolby Vision Profile 5 or Profile 8.1 compatible video output.
+///
+/// @nodoc
 class DolbyVision {
   /// When you set Compatibility mapping to Duplicate Stream, DolbyVision streams
   /// that have a backward compatible base layer (e.g., DolbyVision 8.1) will
@@ -4226,6 +4317,8 @@ class DolbyVision {
 }
 
 /// Setting for HDR10+ metadata insertion
+///
+/// @nodoc
 class Hdr10Plus {
   /// Specify the HDR10+ mastering display normalized peak luminance, in nits.
   /// This is the normalized actual peak luminance of the mastering display, as
@@ -4265,6 +4358,8 @@ class Hdr10Plus {
 /// more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/graphic-overlay.html.
 /// This setting is disabled by default.
+///
+/// @nodoc
 class ImageInserter {
   /// Specify the images that you want to overlay on your video. The images must
   /// be PNG or TGA files.
@@ -4308,6 +4403,8 @@ class ImageInserter {
 /// setting is disabled by default. When you enable Noise reducer, you must also
 /// select a value for Noise reducer filter. For AVC outputs, when you include
 /// Noise reducer, you cannot include the Bandwidth reduction filter.
+///
+/// @nodoc
 class NoiseReducer {
   /// Use Noise reducer filter to select one of the following spatial image
   /// filtering functions. To use this setting, you must also enable Noise
@@ -4371,6 +4468,8 @@ class NoiseReducer {
 /// If you work with a third party video watermarking partner, use the group of
 /// settings that correspond with your watermarking partner to include
 /// watermarks in your output.
+///
+/// @nodoc
 class PartnerWatermarking {
   /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File
   /// Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2)
@@ -4401,6 +4500,8 @@ class PartnerWatermarking {
 
 /// Settings for burning the output timecode and specified prefix into the
 /// output.
+///
+/// @nodoc
 class TimecodeBurnin {
   /// Use Font size to set the font size of any burned-in timecode. Valid values
   /// are 10, 16, 32, 48.
@@ -4447,6 +4548,8 @@ class TimecodeBurnin {
 
 /// Use Position under Timecode burn-in to specify the location the burned-in
 /// timecode on output video.
+///
+/// @nodoc
 class TimecodeBurninPosition {
   static const topCenter = TimecodeBurninPosition._('TOP_CENTER');
   static const topLeft = TimecodeBurninPosition._('TOP_LEFT');
@@ -4492,6 +4595,8 @@ class TimecodeBurninPosition {
 /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File
 /// Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2)
 /// and OTT Streaming workflows.
+///
+/// @nodoc
 class NexGuardFileMarkerSettings {
   /// Use the base64 license string that Nagra provides you. Enter it directly in
   /// your JSON job specification or in the console. Required when you include
@@ -4555,6 +4660,8 @@ class NexGuardFileMarkerSettings {
 /// Optional. Ignore this setting unless Nagra support directs you to specify a
 /// value. When you don't specify a value here, the Nagra NexGuard library uses
 /// its default value.
+///
+/// @nodoc
 class WatermarkingStrength {
   static const lightest = WatermarkingStrength._('LIGHTEST');
   static const lighter = WatermarkingStrength._('LIGHTER');
@@ -4590,6 +4697,8 @@ class WatermarkingStrength {
 /// Conserve does min/max noise reduction. * Spatial does frequency-domain
 /// filtering based on JND principles. * Temporal optimizes video quality for
 /// complex motion.
+///
+/// @nodoc
 class NoiseReducerFilter {
   static const bilateral = NoiseReducerFilter._('BILATERAL');
   static const mean = NoiseReducerFilter._('MEAN');
@@ -4631,6 +4740,8 @@ class NoiseReducerFilter {
 }
 
 /// Settings for a noise reducer filter
+///
+/// @nodoc
 class NoiseReducerFilterSettings {
   /// Relative strength of noise reducing filter. Higher values produce stronger
   /// filtering.
@@ -4655,6 +4766,8 @@ class NoiseReducerFilterSettings {
 }
 
 /// Noise reducer filter settings for spatial filter.
+///
+/// @nodoc
 class NoiseReducerSpatialFilterSettings {
   /// Specify strength of post noise reduction sharpening filter, with 0 disabling
   /// the filter and 3 enabling it at maximum strength.
@@ -4697,6 +4810,8 @@ class NoiseReducerSpatialFilterSettings {
 }
 
 /// Noise reducer filter settings for temporal filter.
+///
+/// @nodoc
 class NoiseReducerTemporalFilterSettings {
   /// Use Aggressive mode for content that has complex motion. Higher values
   /// produce stronger temporal filtering. This filters highly complex scenes more
@@ -4781,6 +4896,8 @@ class NoiseReducerTemporalFilterSettings {
 /// temporal sharpening to Enabled, specify how much sharpening is applied using
 /// Post temporal sharpening strength. Set Post temporal sharpening to Disabled
 /// to not apply sharpening.
+///
+/// @nodoc
 class NoiseFilterPostTemporalSharpening {
   static const disabled = NoiseFilterPostTemporalSharpening._('DISABLED');
   static const enabled = NoiseFilterPostTemporalSharpening._('ENABLED');
@@ -4810,6 +4927,8 @@ class NoiseFilterPostTemporalSharpening {
 /// Use Post temporal sharpening strength to define the amount of sharpening the
 /// transcoder applies to your output. Set Post temporal sharpening strength to
 /// Low, Medium, or High to indicate the amount of sharpening.
+///
+/// @nodoc
 class NoiseFilterPostTemporalSharpeningStrength {
   static const low = NoiseFilterPostTemporalSharpeningStrength._('LOW');
   static const medium = NoiseFilterPostTemporalSharpeningStrength._('MEDIUM');
@@ -4839,6 +4958,8 @@ class NoiseFilterPostTemporalSharpeningStrength {
 
 /// These settings apply to a specific graphic overlay. You can include multiple
 /// overlays in your job.
+///
+/// @nodoc
 class InsertableImage {
   /// Specify the time, in milliseconds, for the image to remain on the output
   /// video. This duration includes fade-in time but not fade-out time.
@@ -4960,6 +5081,8 @@ class InsertableImage {
 /// DolbyVision streams that have a backward compatible base layer (e.g.,
 /// DolbyVision 8.1) will cause the associate stream in the manifest to include
 /// a SUPPLEMENTAL_CODECS property.
+///
+/// @nodoc
 class DolbyVisionCompatibility {
   static const duplicateStream = DolbyVisionCompatibility._('DUPLICATE_STREAM');
   static const supplementalCodecs =
@@ -4988,6 +5111,8 @@ class DolbyVisionCompatibility {
 
 /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override
 /// the MaxCLL and MaxFALL values in your input with new values.
+///
+/// @nodoc
 class DolbyVisionLevel6Metadata {
   /// Maximum Content Light Level. Static HDR metadata that corresponds to the
   /// brightest pixel in the entire stream. Measured in nits.
@@ -5021,6 +5146,8 @@ class DolbyVisionLevel6Metadata {
 
 /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision
 /// MaxCLL and MaxFALL properies.
+///
+/// @nodoc
 class DolbyVisionLevel6Mode {
   static const passthrough = DolbyVisionLevel6Mode._('PASSTHROUGH');
   static const recalculate = DolbyVisionLevel6Mode._('RECALCULATE');
@@ -5056,6 +5183,8 @@ class DolbyVisionLevel6Mode {
 /// This mode is speed-optimized for PQ10 sources with metadata that is created
 /// from analysis. For graded Dolby Vision content, be aware that creative
 /// intent might not be guaranteed with extreme 1,000 nits trims.
+///
+/// @nodoc
 class DolbyVisionMapping {
   static const hdr10Nomap = DolbyVisionMapping._('HDR10_NOMAP');
   static const hdr10_1000 = DolbyVisionMapping._('HDR10_1000');
@@ -5086,6 +5215,8 @@ class DolbyVisionMapping {
 /// include Dolby Vision metadata or an HDR10 YUV color space. Use Profile 8.1
 /// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
 /// your output. Your input must include Dolby Vision metadata.
+///
+/// @nodoc
 class DolbyVisionProfile {
   static const profile_5 = DolbyVisionProfile._('PROFILE_5');
   static const profile_8_1 = DolbyVisionProfile._('PROFILE_8_1');
@@ -5117,6 +5248,8 @@ class DolbyVisionProfile {
 /// bottom of the frame: Choose Interpolate ticker or Blend ticker. To apply
 /// field doubling: Choose Linear interpolation. Note that Linear interpolation
 /// may introduce video artifacts into your output.
+///
+/// @nodoc
 class DeinterlaceAlgorithm {
   static const interpolate = DeinterlaceAlgorithm._('INTERPOLATE');
   static const interpolateTicker = DeinterlaceAlgorithm._('INTERPOLATE_TICKER');
@@ -5160,6 +5293,8 @@ class DeinterlaceAlgorithm {
 /// chance that the metadata has tagged frames as progressive when they are not
 /// progressive. Do not turn on otherwise; processing frames that are already
 /// progressive into progressive will probably result in lower quality video.
+///
+/// @nodoc
 class DeinterlacerControl {
   static const forceAllFrames = DeinterlacerControl._('FORCE_ALL_FRAMES');
   static const normal = DeinterlacerControl._('NORMAL');
@@ -5189,6 +5324,8 @@ class DeinterlacerControl {
 /// Deinterlace. - Deinterlace converts interlaced to progressive. - Inverse
 /// telecine converts Hard Telecine 29.97i to progressive 23.976p. - Adaptive
 /// auto-detects and converts to progressive.
+///
+/// @nodoc
 class DeinterlacerMode {
   static const deinterlace = DeinterlacerMode._('DEINTERLACE');
   static const inverseTelecine = DeinterlacerMode._('INVERSE_TELECINE');
@@ -5216,6 +5353,8 @@ class DeinterlacerMode {
 
 /// Specify YUV limits and RGB tolerances when you set Sample range conversion
 /// to Limited range clip.
+///
+/// @nodoc
 class ClipLimits {
   /// Specify the Maximum RGB color sample range tolerance for your output.
   /// MediaConvert corrects any YUV values that, when converted to RGB, would be
@@ -5294,6 +5433,8 @@ class ClipLimits {
 /// BT.2020, HLG, BT.2020 non-constant * P3DCI (Theater): DCIP3, SMPTE 428M,
 /// BT.709 * P3D65 (SDR): Display P3, sRGB, BT.709 * P3D65 (HDR): Display P3,
 /// PQ, BT.709
+///
+/// @nodoc
 class ColorSpaceConversion {
   static const none = ColorSpaceConversion._('NONE');
   static const force_601 = ColorSpaceConversion._('FORCE_601');
@@ -5339,6 +5480,8 @@ class ColorSpaceConversion {
 /// encoded in the video stream. They are intended to help the downstream video
 /// player display content in a way that reflects the intentions of the the
 /// content creator.
+///
+/// @nodoc
 class Hdr10Metadata {
   /// HDR Master Display Information must be provided by a color grader, using
   /// color grading tools. Range is 0 to 50,000, each increment represents 0.00002
@@ -5482,6 +5625,8 @@ class Hdr10Metadata {
 /// is mastered for 1000 nits. You may notice loss of details in bright or
 /// saturated areas of your output. HDR to SDR tone mapping has no effect when
 /// your input is SDR.
+///
+/// @nodoc
 class HDRToSDRToneMapper {
   static const preserveDetails = HDRToSDRToneMapper._('PRESERVE_DETAILS');
   static const vibrant = HDRToSDRToneMapper._('VIBRANT');
@@ -5522,6 +5667,8 @@ class HDRToSDRToneMapper {
 /// bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance.
 /// With either limited range conversion, MediaConvert writes the sample range
 /// metadata in the output.
+///
+/// @nodoc
 class SampleRangeConversion {
   static const limitedRangeSqueeze =
       SampleRangeConversion._('LIMITED_RANGE_SQUEEZE');
@@ -5551,6 +5698,8 @@ class SampleRangeConversion {
 
 /// Required when you set Codec, under VideoDescription>CodecSettings to the
 /// value AV1.
+///
+/// @nodoc
 class Av1Settings {
   /// Specify the strength of any adaptive quantization filters that you enable.
   /// The value that you choose here applies to Spatial adaptive quantization.
@@ -5780,6 +5929,8 @@ class Av1Settings {
 /// https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in
 /// AVC-Intra, see
 /// https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
+///
+/// @nodoc
 class AvcIntraSettings {
   /// Specify the AVC-Intra class of your output. The AVC-Intra class selection
   /// determines the output video bit rate depending on the frame rate of the
@@ -5973,6 +6124,8 @@ class AvcIntraSettings {
 }
 
 /// Type of video codec
+///
+/// @nodoc
 class VideoCodec {
   static const av1 = VideoCodec._('AV1');
   static const avcIntra = VideoCodec._('AVC_INTRA');
@@ -6024,6 +6177,8 @@ class VideoCodec {
 }
 
 /// Required when you set Codec to the value FRAME_CAPTURE.
+///
+/// @nodoc
 class FrameCaptureSettings {
   /// Frame capture will encode the first frame of the output stream, then one
   /// frame every framerateDenominator/framerateNumerator seconds. For example,
@@ -6080,6 +6235,8 @@ class FrameCaptureSettings {
 
 /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
 /// the value GIF
+///
+/// @nodoc
 class GifSettings {
   /// If you are using the console, use the Framerate setting to specify the frame
   /// rate for this output. If you want to keep the same frame rate as the input
@@ -6154,6 +6311,8 @@ class GifSettings {
 }
 
 /// Required when you set Codec to the value H_264.
+///
+/// @nodoc
 class H264Settings {
   /// Keep the default value, Auto, for this setting to have MediaConvert
   /// automatically apply the best types of quantization for your video content.
@@ -6829,6 +6988,8 @@ class H264Settings {
 }
 
 /// Settings for H265 codec
+///
+/// @nodoc
 class H265Settings {
   /// When you set Adaptive Quantization to Auto, or leave blank, MediaConvert
   /// automatically applies quantization to improve the video quality of your
@@ -6863,8 +7024,8 @@ class H265Settings {
   final H265CodecLevel? codecLevel;
 
   /// Represents the Profile and Tier, per the HEVC (H.265) specification.
-  /// Selections are grouped as [Profile] / [Tier], so "Main/High" represents Main
-  /// Profile with High Tier. 4:2:2 profiles are only available with the HEVC
+  /// Selections are grouped as \[Profile\] / \[Tier\], so "Main/High" represents
+  /// Main Profile with High Tier. 4:2:2 profiles are only available with the HEVC
   /// 4:2:2 License.
   final H265CodecProfile? codecProfile;
 
@@ -7527,6 +7688,8 @@ class H265Settings {
 }
 
 /// Required when you set Codec to the value MPEG2.
+///
+/// @nodoc
 class Mpeg2Settings {
   /// Specify the strength of any adaptive quantization filters that you enable.
   /// The value that you choose here applies to the following settings: Spatial
@@ -7996,6 +8159,8 @@ class Mpeg2Settings {
 }
 
 /// Optional settings when you set Codec to the value Passthrough.
+///
+/// @nodoc
 class PassthroughSettings {
   /// Choose how MediaConvert handles start and end times for input clipping with
   /// video passthrough. Your input video codec must be H.264 or H.265 to use
@@ -8044,6 +8209,8 @@ class PassthroughSettings {
 }
 
 /// Required when you set Codec to the value PRORES.
+///
+/// @nodoc
 class ProresSettings {
   /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you
   /// create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4
@@ -8276,6 +8443,8 @@ class ProresSettings {
 
 /// Required when you set Codec, under VideoDescription>CodecSettings to the
 /// value UNCOMPRESSED.
+///
+/// @nodoc
 class UncompressedSettings {
   /// The four character code for the uncompressed video.
   final UncompressedFourcc? fourcc;
@@ -8416,6 +8585,8 @@ class UncompressedSettings {
 }
 
 /// Required when you set Codec to the value VC3
+///
+/// @nodoc
 class Vc3Settings {
   /// If you are using the console, use the Framerate setting to specify the frame
   /// rate for this output. If you want to keep the same frame rate as the input
@@ -8561,6 +8732,8 @@ class Vc3Settings {
 }
 
 /// Required when you set Codec to the value VP8.
+///
+/// @nodoc
 class Vp8Settings {
   /// Target bitrate in bits/second. For example, enter five megabits per second
   /// as 5000000.
@@ -8731,6 +8904,8 @@ class Vp8Settings {
 }
 
 /// Required when you set Codec to the value VP9.
+///
+/// @nodoc
 class Vp9Settings {
   /// Target bitrate in bits/second. For example, enter five megabits per second
   /// as 5000000.
@@ -8898,6 +9073,8 @@ class Vp9Settings {
 }
 
 /// Required when you set Codec to the value XAVC.
+///
+/// @nodoc
 class XavcSettings {
   /// Keep the default value, Auto, for this setting to have MediaConvert
   /// automatically apply the best types of quantization for your video content.
@@ -9194,6 +9371,8 @@ class XavcSettings {
 /// that you choose here applies to the following settings: Flicker adaptive
 /// quantization (flickerAdaptiveQuantization), Spatial adaptive quantization,
 /// and Temporal adaptive quantization.
+///
+/// @nodoc
 class XavcAdaptiveQuantization {
   static const off = XavcAdaptiveQuantization._('OFF');
   static const auto = XavcAdaptiveQuantization._('AUTO');
@@ -9228,6 +9407,8 @@ class XavcAdaptiveQuantization {
 /// override XAVC recommendations. If you choose the value auto, MediaConvert
 /// uses the mode that the XAVC file format specifies given this output's
 /// operating point.
+///
+/// @nodoc
 class XavcEntropyEncoding {
   static const auto = XavcEntropyEncoding._('AUTO');
   static const cabac = XavcEntropyEncoding._('CABAC');
@@ -9259,6 +9440,8 @@ class XavcEntropyEncoding {
 /// input video, choose Follow source. If you want to do frame rate conversion,
 /// choose a frame rate from the dropdown list. The framerates shown in the
 /// dropdown list are decimal approximations of fractions.
+///
+/// @nodoc
 class XavcFramerateControl {
   static const initializeFromSource =
       XavcFramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -9301,6 +9484,8 @@ class XavcFramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class XavcFramerateConversionAlgorithm {
   static const duplicateDrop =
       XavcFramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -9339,6 +9524,8 @@ class XavcFramerateConversionAlgorithm {
 /// documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't
 /// support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To
 /// create an interlaced XAVC output, choose the profile XAVC_HD.
+///
+/// @nodoc
 class XavcProfile {
   static const xavcHdIntraCbg = XavcProfile._('XAVC_HD_INTRA_CBG');
   static const xavc_4kIntraCbg = XavcProfile._('XAVC_4K_INTRA_CBG');
@@ -9376,6 +9563,8 @@ class XavcProfile {
 /// video frames and resampling your audio. Note that enabling this setting will
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Frame rate to 25.
+///
+/// @nodoc
 class XavcSlowPal {
   static const disabled = XavcSlowPal._('DISABLED');
   static const enabled = XavcSlowPal._('ENABLED');
@@ -9419,6 +9608,8 @@ class XavcSlowPal {
 /// your content. For homogeneous content, such as cartoons and video games, set
 /// it to Low. For content with a wider variety of textures, set it to High or
 /// Higher.
+///
+/// @nodoc
 class XavcSpatialAdaptiveQuantization {
   static const disabled = XavcSpatialAdaptiveQuantization._('DISABLED');
   static const enabled = XavcSpatialAdaptiveQuantization._('ENABLED');
@@ -9462,6 +9653,8 @@ class XavcSpatialAdaptiveQuantization {
 /// might choose to disable this feature. Related setting: When you enable
 /// temporal adaptive quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
+///
+/// @nodoc
 class XavcTemporalAdaptiveQuantization {
   static const disabled = XavcTemporalAdaptiveQuantization._('DISABLED');
   static const enabled = XavcTemporalAdaptiveQuantization._('ENABLED');
@@ -9488,6 +9681,8 @@ class XavcTemporalAdaptiveQuantization {
 }
 
 /// Required when you set Profile to the value XAVC_4K_INTRA_CBG.
+///
+/// @nodoc
 class Xavc4kIntraCbgProfileSettings {
   /// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output.
   /// Outputs of the same class have similar image quality over the operating
@@ -9514,6 +9709,8 @@ class Xavc4kIntraCbgProfileSettings {
 }
 
 /// Required when you set Profile to the value XAVC_4K_INTRA_VBR.
+///
+/// @nodoc
 class Xavc4kIntraVbrProfileSettings {
   /// Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your output.
   /// Outputs of the same class have similar image quality over the operating
@@ -9540,6 +9737,8 @@ class Xavc4kIntraVbrProfileSettings {
 }
 
 /// Required when you set Profile to the value XAVC_4K.
+///
+/// @nodoc
 class Xavc4kProfileSettings {
   /// Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of your
   /// output. Outputs of the same class have similar image quality over the
@@ -9651,6 +9850,8 @@ class Xavc4kProfileSettings {
 }
 
 /// Required when you set Profile to the value XAVC_HD_INTRA_CBG.
+///
+/// @nodoc
 class XavcHdIntraCbgProfileSettings {
   /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output.
   /// Outputs of the same class have similar image quality over the operating
@@ -9677,6 +9878,8 @@ class XavcHdIntraCbgProfileSettings {
 }
 
 /// Required when you set Profile to the value XAVC_HD.
+///
+/// @nodoc
 class XavcHdProfileSettings {
   /// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your
   /// output. Outputs of the same class have similar image quality over the
@@ -9809,6 +10012,8 @@ class XavcHdProfileSettings {
 /// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your
 /// output. Outputs of the same class have similar image quality over the
 /// operating points that are valid for that class.
+///
+/// @nodoc
 class XavcHdProfileBitrateClass {
   static const bitrateClass_25 =
       XavcHdProfileBitrateClass._('BITRATE_CLASS_25');
@@ -9852,6 +10057,8 @@ class XavcHdProfileBitrateClass {
 /// Adaptive quantization to a value other than Off or Auto. Use Adaptive
 /// quantization to adjust the degree of smoothing that Flicker adaptive
 /// quantization provides.
+///
+/// @nodoc
 class XavcFlickerAdaptiveQuantization {
   static const disabled = XavcFlickerAdaptiveQuantization._('DISABLED');
   static const enabled = XavcFlickerAdaptiveQuantization._('ENABLED');
@@ -9881,6 +10088,8 @@ class XavcFlickerAdaptiveQuantization {
 /// pictures in the same GOP. Choose Allow to allow the encoder to use B-frames
 /// as reference frames. Choose Don't allow to prevent the encoder from using
 /// B-frames as reference frames.
+///
+/// @nodoc
 class XavcGopBReference {
   static const disabled = XavcGopBReference._('DISABLED');
   static const enabled = XavcGopBReference._('ENABLED');
@@ -9916,6 +10125,8 @@ class XavcGopBReference {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
+///
+/// @nodoc
 class XavcInterlaceMode {
   static const progressive = XavcInterlaceMode._('PROGRESSIVE');
   static const topField = XavcInterlaceMode._('TOP_FIELD');
@@ -9952,6 +10163,8 @@ class XavcInterlaceMode {
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
+///
+/// @nodoc
 class XavcHdProfileQualityTuningLevel {
   static const singlePass = XavcHdProfileQualityTuningLevel._('SINGLE_PASS');
   static const singlePassHq =
@@ -9983,6 +10196,8 @@ class XavcHdProfileQualityTuningLevel {
 /// framerateDenominator) to 29.970. If your input framerate is 23.976, choose
 /// Hard. Otherwise, keep the default value None. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
+///
+/// @nodoc
 class XavcHdProfileTelecine {
   static const none = XavcHdProfileTelecine._('NONE');
   static const hard = XavcHdProfileTelecine._('HARD');
@@ -10011,6 +10226,8 @@ class XavcHdProfileTelecine {
 /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
+///
+/// @nodoc
 class XavcHdIntraCbgProfileClass {
   static const class_50 = XavcHdIntraCbgProfileClass._('CLASS_50');
   static const class_100 = XavcHdIntraCbgProfileClass._('CLASS_100');
@@ -10040,6 +10257,8 @@ class XavcHdIntraCbgProfileClass {
 /// Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of your
 /// output. Outputs of the same class have similar image quality over the
 /// operating points that are valid for that class.
+///
+/// @nodoc
 class Xavc4kProfileBitrateClass {
   static const bitrateClass_100 =
       Xavc4kProfileBitrateClass._('BITRATE_CLASS_100');
@@ -10072,6 +10291,8 @@ class Xavc4kProfileBitrateClass {
 /// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH)
 /// or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T
 /// H.264.
+///
+/// @nodoc
 class Xavc4kProfileCodecProfile {
   static const high = Xavc4kProfileCodecProfile._('HIGH');
   static const high_422 = Xavc4kProfileCodecProfile._('HIGH_422');
@@ -10100,6 +10321,8 @@ class Xavc4kProfileCodecProfile {
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
+///
+/// @nodoc
 class Xavc4kProfileQualityTuningLevel {
   static const singlePass = Xavc4kProfileQualityTuningLevel._('SINGLE_PASS');
   static const singlePassHq =
@@ -10130,6 +10353,8 @@ class Xavc4kProfileQualityTuningLevel {
 /// Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
+///
+/// @nodoc
 class Xavc4kIntraVbrProfileClass {
   static const class_100 = Xavc4kIntraVbrProfileClass._('CLASS_100');
   static const class_300 = Xavc4kIntraVbrProfileClass._('CLASS_300');
@@ -10159,6 +10384,8 @@ class Xavc4kIntraVbrProfileClass {
 /// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output.
 /// Outputs of the same class have similar image quality over the operating
 /// points that are valid for that class.
+///
+/// @nodoc
 class Xavc4kIntraCbgProfileClass {
   static const class_100 = Xavc4kIntraCbgProfileClass._('CLASS_100');
   static const class_300 = Xavc4kIntraCbgProfileClass._('CLASS_300');
@@ -10191,6 +10418,8 @@ class Xavc4kIntraCbgProfileClass {
 /// Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is
 /// only available when your output uses the QVBR rate control mode. *
 /// SHOT_CHANGE: Shot Changes
+///
+/// @nodoc
 class FrameMetricType {
   static const psnr = FrameMetricType._('PSNR');
   static const ssim = FrameMetricType._('SSIM');
@@ -10226,6 +10455,8 @@ class FrameMetricType {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class Vp9FramerateControl {
   static const initializeFromSource =
       Vp9FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -10268,6 +10499,8 @@ class Vp9FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class Vp9FramerateConversionAlgorithm {
   static const duplicateDrop =
       Vp9FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -10308,6 +10541,8 @@ class Vp9FramerateConversionAlgorithm {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
+///
+/// @nodoc
 class Vp9ParControl {
   static const initializeFromSource = Vp9ParControl._('INITIALIZE_FROM_SOURCE');
   static const specified = Vp9ParControl._('SPECIFIED');
@@ -10335,6 +10570,8 @@ class Vp9ParControl {
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, multi-pass encoding.
+///
+/// @nodoc
 class Vp9QualityTuningLevel {
   static const multiPass = Vp9QualityTuningLevel._('MULTI_PASS');
   static const multiPassHq = Vp9QualityTuningLevel._('MULTI_PASS_HQ');
@@ -10362,6 +10599,8 @@ class Vp9QualityTuningLevel {
 
 /// With the VP9 codec, you can use only the variable bitrate (VBR) rate control
 /// mode.
+///
+/// @nodoc
 class Vp9RateControlMode {
   static const vbr = Vp9RateControlMode._('VBR');
 
@@ -10392,6 +10631,8 @@ class Vp9RateControlMode {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class Vp8FramerateControl {
   static const initializeFromSource =
       Vp8FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -10434,6 +10675,8 @@ class Vp8FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class Vp8FramerateConversionAlgorithm {
   static const duplicateDrop =
       Vp8FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -10474,6 +10717,8 @@ class Vp8FramerateConversionAlgorithm {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
+///
+/// @nodoc
 class Vp8ParControl {
   static const initializeFromSource = Vp8ParControl._('INITIALIZE_FROM_SOURCE');
   static const specified = Vp8ParControl._('SPECIFIED');
@@ -10501,6 +10746,8 @@ class Vp8ParControl {
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, multi-pass encoding.
+///
+/// @nodoc
 class Vp8QualityTuningLevel {
   static const multiPass = Vp8QualityTuningLevel._('MULTI_PASS');
   static const multiPassHq = Vp8QualityTuningLevel._('MULTI_PASS_HQ');
@@ -10528,6 +10775,8 @@ class Vp8QualityTuningLevel {
 
 /// With the VP8 codec, you can use only the variable bitrate (VBR) rate control
 /// mode.
+///
+/// @nodoc
 class Vp8RateControlMode {
   static const vbr = Vp8RateControlMode._('VBR');
 
@@ -10558,6 +10807,8 @@ class Vp8RateControlMode {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class Vc3FramerateControl {
   static const initializeFromSource =
       Vc3FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -10600,6 +10851,8 @@ class Vc3FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class Vc3FramerateConversionAlgorithm {
   static const duplicateDrop =
       Vc3FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -10636,6 +10889,8 @@ class Vc3FramerateConversionAlgorithm {
 
 /// Optional. Choose the scan line type for this output. If you don't specify a
 /// value, MediaConvert will create a progressive output.
+///
+/// @nodoc
 class Vc3InterlaceMode {
   static const interlaced = Vc3InterlaceMode._('INTERLACED');
   static const progressive = Vc3InterlaceMode._('PROGRESSIVE');
@@ -10672,6 +10927,8 @@ class Vc3InterlaceMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class Vc3ScanTypeConversionMode {
   static const interlaced = Vc3ScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -10703,6 +10960,8 @@ class Vc3ScanTypeConversionMode {
 /// video frames and resampling your audio. Note that enabling this setting will
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Framerate to 25.
+///
+/// @nodoc
 class Vc3SlowPal {
   static const disabled = Vc3SlowPal._('DISABLED');
   static const enabled = Vc3SlowPal._('ENABLED');
@@ -10731,6 +10990,8 @@ class Vc3SlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
+///
+/// @nodoc
 class Vc3Telecine {
   static const none = Vc3Telecine._('NONE');
   static const hard = Vc3Telecine._('HARD');
@@ -10762,6 +11023,8 @@ class Vc3Telecine {
 /// of approximately 145 Mbps and Class 220 gives you and output with a bitrate
 /// of approximately 220 Mbps. VC3 class also specifies the color bit depth of
 /// your output.
+///
+/// @nodoc
 class Vc3Class {
   static const class_145_8bit = Vc3Class._('CLASS_145_8BIT');
   static const class_220_8bit = Vc3Class._('CLASS_220_8BIT');
@@ -10787,6 +11050,8 @@ class Vc3Class {
 }
 
 /// The four character code for the uncompressed video.
+///
+/// @nodoc
 class UncompressedFourcc {
   static const i420 = UncompressedFourcc._('I420');
   static const i422 = UncompressedFourcc._('I422');
@@ -10819,6 +11084,8 @@ class UncompressedFourcc {
 /// dropdown list or choose Custom. The framerates shown in the dropdown list
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
+///
+/// @nodoc
 class UncompressedFramerateControl {
   static const initializeFromSource =
       UncompressedFramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -10861,6 +11128,8 @@ class UncompressedFramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class UncompressedFramerateConversionAlgorithm {
   static const duplicateDrop =
       UncompressedFramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -10899,6 +11168,8 @@ class UncompressedFramerateConversionAlgorithm {
 
 /// Optional. Choose the scan line type for this output. If you don't specify a
 /// value, MediaConvert will create a progressive output.
+///
+/// @nodoc
 class UncompressedInterlaceMode {
   static const interlaced = UncompressedInterlaceMode._('INTERLACED');
   static const progressive = UncompressedInterlaceMode._('PROGRESSIVE');
@@ -10936,6 +11207,8 @@ class UncompressedInterlaceMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class UncompressedScanTypeConversionMode {
   static const interlaced = UncompressedScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -10967,6 +11240,8 @@ class UncompressedScanTypeConversionMode {
 /// video frames and resampling your audio. Note that enabling this setting will
 /// slightly reduce the duration of your video. Related settings: You must also
 /// set Framerate to 25.
+///
+/// @nodoc
 class UncompressedSlowPal {
   static const disabled = UncompressedSlowPal._('DISABLED');
   static const enabled = UncompressedSlowPal._('ENABLED');
@@ -10997,6 +11272,8 @@ class UncompressedSlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
+///
+/// @nodoc
 class UncompressedTelecine {
   static const none = UncompressedTelecine._('NONE');
   static const hard = UncompressedTelecine._('HARD');
@@ -11032,6 +11309,8 @@ class UncompressedTelecine {
 /// 4444 XQ. Note that when you choose Preserve 4:4:4 sampling, you cannot
 /// include any of the following Preprocessors: Dolby Vision, HDR10+, or Noise
 /// reducer.
+///
+/// @nodoc
 class ProresChromaSampling {
   static const preserve_444Sampling =
       ProresChromaSampling._('PRESERVE_444_SAMPLING');
@@ -11060,6 +11339,8 @@ class ProresChromaSampling {
 
 /// Use Profile to specify the type of Apple ProRes codec to use for this
 /// output.
+///
+/// @nodoc
 class ProresCodecProfile {
   static const appleProres_422 = ProresCodecProfile._('APPLE_PRORES_422');
   static const appleProres_422Hq = ProresCodecProfile._('APPLE_PRORES_422_HQ');
@@ -11104,6 +11385,8 @@ class ProresCodecProfile {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class ProresFramerateControl {
   static const initializeFromSource =
       ProresFramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -11146,6 +11429,8 @@ class ProresFramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class ProresFramerateConversionAlgorithm {
   static const duplicateDrop =
       ProresFramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -11193,6 +11478,8 @@ class ProresFramerateConversionAlgorithm {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
+///
+/// @nodoc
 class ProresInterlaceMode {
   static const progressive = ProresInterlaceMode._('PROGRESSIVE');
   static const topField = ProresInterlaceMode._('TOP_FIELD');
@@ -11232,6 +11519,8 @@ class ProresInterlaceMode {
 /// input video for your output. To specify a different PAR, choose any value
 /// other than Follow source. When you choose SPECIFIED for this setting, you
 /// must also specify values for the parNumerator and parDenominator settings.
+///
+/// @nodoc
 class ProresParControl {
   static const initializeFromSource =
       ProresParControl._('INITIALIZE_FROM_SOURCE');
@@ -11269,6 +11558,8 @@ class ProresParControl {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class ProresScanTypeConversionMode {
   static const interlaced = ProresScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -11301,6 +11592,8 @@ class ProresScanTypeConversionMode {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
+///
+/// @nodoc
 class ProresSlowPal {
   static const disabled = ProresSlowPal._('DISABLED');
   static const enabled = ProresSlowPal._('ENABLED');
@@ -11330,6 +11623,8 @@ class ProresSlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
+///
+/// @nodoc
 class ProresTelecine {
   static const none = ProresTelecine._('NONE');
   static const hard = ProresTelecine._('HARD');
@@ -11365,6 +11660,8 @@ class ProresTelecine {
 /// input clip duration. We only recommend this setting for special workflows,
 /// and when you choose this setting your output may not be compatible with most
 /// players.
+///
+/// @nodoc
 class FrameControl {
   static const nearestIdrframe = FrameControl._('NEAREST_IDRFRAME');
   static const nearestIframe = FrameControl._('NEAREST_IFRAME');
@@ -11394,6 +11691,8 @@ class FrameControl {
 /// video selector type): REMUX_ALL will only remux all streams selected, and
 /// AUTO will use the highest bitrate video stream among the selected streams as
 /// source.
+///
+/// @nodoc
 class VideoSelectorMode {
   static const auto = VideoSelectorMode._('AUTO');
   static const remuxAll = VideoSelectorMode._('REMUX_ALL');
@@ -11421,6 +11720,8 @@ class VideoSelectorMode {
 /// Specify the strength of any adaptive quantization filters that you enable.
 /// The value that you choose here applies to the following settings: Spatial
 /// adaptive quantization, and Temporal adaptive quantization.
+///
+/// @nodoc
 class Mpeg2AdaptiveQuantization {
   static const off = Mpeg2AdaptiveQuantization._('OFF');
   static const low = Mpeg2AdaptiveQuantization._('LOW');
@@ -11449,6 +11750,8 @@ class Mpeg2AdaptiveQuantization {
 }
 
 /// Use Level to set the MPEG-2 level for the video output.
+///
+/// @nodoc
 class Mpeg2CodecLevel {
   static const auto = Mpeg2CodecLevel._('AUTO');
   static const low = Mpeg2CodecLevel._('LOW');
@@ -11477,6 +11780,8 @@ class Mpeg2CodecLevel {
 }
 
 /// Use Profile to set the MPEG-2 profile for the video output.
+///
+/// @nodoc
 class Mpeg2CodecProfile {
   static const main = Mpeg2CodecProfile._('MAIN');
   static const profile_422 = Mpeg2CodecProfile._('PROFILE_422');
@@ -11506,6 +11811,8 @@ class Mpeg2CodecProfile {
 /// based on other frames) for high-motion portions of the video and more
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
+///
+/// @nodoc
 class Mpeg2DynamicSubGop {
   static const adaptive = Mpeg2DynamicSubGop._('ADAPTIVE');
   static const static = Mpeg2DynamicSubGop._('STATIC');
@@ -11537,6 +11844,8 @@ class Mpeg2DynamicSubGop {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class Mpeg2FramerateControl {
   static const initializeFromSource =
       Mpeg2FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -11579,6 +11888,8 @@ class Mpeg2FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class Mpeg2FramerateConversionAlgorithm {
   static const duplicateDrop =
       Mpeg2FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -11615,6 +11926,8 @@ class Mpeg2FramerateConversionAlgorithm {
 
 /// Specify the units for GOP size. If you don't specify a value here, by
 /// default the encoder measures GOP size in frames.
+///
+/// @nodoc
 class Mpeg2GopSizeUnits {
   static const frames = Mpeg2GopSizeUnits._('FRAMES');
   static const seconds = Mpeg2GopSizeUnits._('SECONDS');
@@ -11650,6 +11963,8 @@ class Mpeg2GopSizeUnits {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
+///
+/// @nodoc
 class Mpeg2InterlaceMode {
   static const progressive = Mpeg2InterlaceMode._('PROGRESSIVE');
   static const topField = Mpeg2InterlaceMode._('TOP_FIELD');
@@ -11687,6 +12002,8 @@ class Mpeg2InterlaceMode {
 /// Use Intra DC precision to set quantization precision for intra-block DC
 /// coefficients. If you choose the value auto, the service will automatically
 /// select the precision based on the per-frame compression ratio.
+///
+/// @nodoc
 class Mpeg2IntraDcPrecision {
   static const auto = Mpeg2IntraDcPrecision._('AUTO');
   static const intraDcPrecision_8 =
@@ -11731,6 +12048,8 @@ class Mpeg2IntraDcPrecision {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
+///
+/// @nodoc
 class Mpeg2ParControl {
   static const initializeFromSource =
       Mpeg2ParControl._('INITIALIZE_FROM_SOURCE');
@@ -11759,6 +12078,8 @@ class Mpeg2ParControl {
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
+///
+/// @nodoc
 class Mpeg2QualityTuningLevel {
   static const singlePass = Mpeg2QualityTuningLevel._('SINGLE_PASS');
   static const multiPass = Mpeg2QualityTuningLevel._('MULTI_PASS');
@@ -11786,6 +12107,8 @@ class Mpeg2QualityTuningLevel {
 
 /// Use Rate control mode to specify whether the bitrate is variable (vbr) or
 /// constant (cbr).
+///
+/// @nodoc
 class Mpeg2RateControlMode {
   static const vbr = Mpeg2RateControlMode._('VBR');
   static const cbr = Mpeg2RateControlMode._('CBR');
@@ -11823,6 +12146,8 @@ class Mpeg2RateControlMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class Mpeg2ScanTypeConversionMode {
   static const interlaced = Mpeg2ScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -11852,6 +12177,8 @@ class Mpeg2ScanTypeConversionMode {
 /// Enable this setting to insert I-frames at scene changes that the service
 /// automatically detects. This improves video quality and is enabled by
 /// default.
+///
+/// @nodoc
 class Mpeg2SceneChangeDetect {
   static const disabled = Mpeg2SceneChangeDetect._('DISABLED');
   static const enabled = Mpeg2SceneChangeDetect._('ENABLED');
@@ -11883,6 +12210,8 @@ class Mpeg2SceneChangeDetect {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
+///
+/// @nodoc
 class Mpeg2SlowPal {
   static const disabled = Mpeg2SlowPal._('DISABLED');
   static const enabled = Mpeg2SlowPal._('ENABLED');
@@ -11921,6 +12250,8 @@ class Mpeg2SlowPal {
 /// depending on your content. For homogeneous content, such as cartoons and
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
+///
+/// @nodoc
 class Mpeg2SpatialAdaptiveQuantization {
   static const disabled = Mpeg2SpatialAdaptiveQuantization._('DISABLED');
   static const enabled = Mpeg2SpatialAdaptiveQuantization._('ENABLED');
@@ -11949,6 +12280,8 @@ class Mpeg2SpatialAdaptiveQuantization {
 /// Specify whether this output's video uses the D10 syntax. Keep the default
 /// value to not use the syntax. Related settings: When you choose D10 for your
 /// MXF profile, you must also set this value to D10.
+///
+/// @nodoc
 class Mpeg2Syntax {
   static const $default = Mpeg2Syntax._('DEFAULT');
   static const d_10 = Mpeg2Syntax._('D_10');
@@ -11980,6 +12313,8 @@ class Mpeg2Syntax {
 /// play back. When you keep the default value, None, MediaConvert does a
 /// standard frame rate conversion to 29.97 without doing anything with the
 /// field polarity to create a smoother picture.
+///
+/// @nodoc
 class Mpeg2Telecine {
   static const none = Mpeg2Telecine._('NONE');
   static const soft = Mpeg2Telecine._('SOFT');
@@ -12018,6 +12353,8 @@ class Mpeg2Telecine {
 /// faces, you might choose to disable this feature. Related setting: When you
 /// enable temporal quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
+///
+/// @nodoc
 class Mpeg2TemporalAdaptiveQuantization {
   static const disabled = Mpeg2TemporalAdaptiveQuantization._('DISABLED');
   static const enabled = Mpeg2TemporalAdaptiveQuantization._('ENABLED');
@@ -12051,6 +12388,8 @@ class Mpeg2TemporalAdaptiveQuantization {
 /// Quantization, and Flicker Adaptive Quantization, to further control the
 /// quantization filter. Set Adaptive Quantization to Off to apply no
 /// quantization to your output.
+///
+/// @nodoc
 class H265AdaptiveQuantization {
   static const off = H265AdaptiveQuantization._('OFF');
   static const low = H265AdaptiveQuantization._('LOW');
@@ -12083,6 +12422,8 @@ class H265AdaptiveQuantization {
 
 /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log
 /// Gamma (HLG) Electro-Optical Transfer Function (EOTF).
+///
+/// @nodoc
 class H265AlternateTransferFunctionSei {
   static const disabled = H265AlternateTransferFunctionSei._('DISABLED');
   static const enabled = H265AlternateTransferFunctionSei._('ENABLED');
@@ -12116,6 +12457,8 @@ class H265AlternateTransferFunctionSei {
 /// your input is low quality or noisy. Outputs that use this feature incur
 /// pro-tier pricing. When you include Bandwidth reduction filter, you cannot
 /// include the Noise reducer preprocessor.
+///
+/// @nodoc
 class BandwidthReductionFilter {
   /// Optionally specify the level of sharpening to apply when you use the
   /// Bandwidth reduction filter. Sharpening adds contrast to the edges of your
@@ -12157,6 +12500,8 @@ class BandwidthReductionFilter {
 }
 
 /// H.265 Level.
+///
+/// @nodoc
 class H265CodecLevel {
   static const auto = H265CodecLevel._('AUTO');
   static const level_1 = H265CodecLevel._('LEVEL_1');
@@ -12209,9 +12554,11 @@ class H265CodecLevel {
 }
 
 /// Represents the Profile and Tier, per the HEVC (H.265) specification.
-/// Selections are grouped as [Profile] / [Tier], so "Main/High" represents Main
-/// Profile with High Tier. 4:2:2 profiles are only available with the HEVC
+/// Selections are grouped as \[Profile\] / \[Tier\], so "Main/High" represents
+/// Main Profile with High Tier. 4:2:2 profiles are only available with the HEVC
 /// 4:2:2 License.
+///
+/// @nodoc
 class H265CodecProfile {
   static const mainMain = H265CodecProfile._('MAIN_MAIN');
   static const mainHigh = H265CodecProfile._('MAIN_HIGH');
@@ -12257,6 +12604,8 @@ class H265CodecProfile {
 /// Keep the default value, Enabled. To not apply any deblocking: Choose
 /// Disabled. Visible block edge artifacts might appear in the output,
 /// especially at lower bitrates.
+///
+/// @nodoc
 class H265Deblocking {
   static const enabled = H265Deblocking._('ENABLED');
   static const disabled = H265Deblocking._('DISABLED');
@@ -12286,6 +12635,8 @@ class H265Deblocking {
 /// based on other frames) for high-motion portions of the video and more
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
+///
+/// @nodoc
 class H265DynamicSubGop {
   static const adaptive = H265DynamicSubGop._('ADAPTIVE');
   static const static = H265DynamicSubGop._('STATIC');
@@ -12315,6 +12666,8 @@ class H265DynamicSubGop {
 /// or keep the default value, Include. To not include end of stream markers:
 /// Choose Suppress. This is useful when your output will be inserted into
 /// another stream.
+///
+/// @nodoc
 class H265EndOfStreamMarkers {
   static const include = H265EndOfStreamMarkers._('INCLUDE');
   static const suppress = H265EndOfStreamMarkers._('SUPPRESS');
@@ -12347,6 +12700,8 @@ class H265EndOfStreamMarkers {
 /// macroblocks slightly more often to smooth out the flicker. This setting is
 /// disabled by default. Related setting: In addition to enabling this setting,
 /// you must also set adaptiveQuantization to a value other than Off.
+///
+/// @nodoc
 class H265FlickerAdaptiveQuantization {
   static const disabled = H265FlickerAdaptiveQuantization._('DISABLED');
   static const enabled = H265FlickerAdaptiveQuantization._('ENABLED');
@@ -12378,6 +12733,8 @@ class H265FlickerAdaptiveQuantization {
 /// dropdown list or choose Custom. The framerates shown in the dropdown list
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
+///
+/// @nodoc
 class H265FramerateControl {
   static const initializeFromSource =
       H265FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -12420,6 +12777,8 @@ class H265FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class H265FramerateConversionAlgorithm {
   static const duplicateDrop =
       H265FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -12459,6 +12818,8 @@ class H265FramerateConversionAlgorithm {
 /// blank or keep the default value Enabled. We recommend that you choose
 /// Enabled to help improve the video quality of your output relative to its
 /// bitrate. To not use reference B-frames: Choose Disabled.
+///
+/// @nodoc
 class H265GopBReference {
   static const disabled = H265GopBReference._('DISABLED');
   static const enabled = H265GopBReference._('ENABLED');
@@ -12492,6 +12853,8 @@ class H265GopBReference {
 /// GOP size blank in each output in your output group. To explicitly specify
 /// the GOP length, choose Specified, frames or Specified, seconds and then
 /// provide the GOP length in the related setting GOP size.
+///
+/// @nodoc
 class H265GopSizeUnits {
   static const frames = H265GopSizeUnits._('FRAMES');
   static const seconds = H265GopSizeUnits._('SECONDS');
@@ -12528,6 +12891,8 @@ class H265GopSizeUnits {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
+///
+/// @nodoc
 class H265InterlaceMode {
   static const progressive = H265InterlaceMode._('PROGRESSIVE');
   static const topField = H265InterlaceMode._('TOP_FIELD');
@@ -12563,6 +12928,8 @@ class H265InterlaceMode {
 
 /// If you are setting up the picture as a tile, you must set this to
 /// "disabled". In all other configurations, you typically enter "enabled".
+///
+/// @nodoc
 class H265MvOverPictureBoundaries {
   static const enabled = H265MvOverPictureBoundaries._('ENABLED');
   static const disabled = H265MvOverPictureBoundaries._('DISABLED');
@@ -12590,6 +12957,8 @@ class H265MvOverPictureBoundaries {
 
 /// If you are setting up the picture as a tile, you must set this to
 /// "disabled". In other configurations, you typically enter "enabled".
+///
+/// @nodoc
 class H265MvTemporalPredictor {
   static const enabled = H265MvTemporalPredictor._('ENABLED');
   static const disabled = H265MvTemporalPredictor._('DISABLED');
@@ -12620,6 +12989,8 @@ class H265MvTemporalPredictor {
 /// input video for your output. To specify a different PAR, choose any value
 /// other than Follow source. When you choose SPECIFIED for this setting, you
 /// must also specify values for the parNumerator and parDenominator settings.
+///
+/// @nodoc
 class H265ParControl {
   static const initializeFromSource =
       H265ParControl._('INITIALIZE_FROM_SOURCE');
@@ -12648,6 +13019,8 @@ class H265ParControl {
 /// Optional. Use Quality tuning level to choose how you want to trade off
 /// encoding speed for output video quality. The default behavior is faster,
 /// lower quality, single-pass encoding.
+///
+/// @nodoc
 class H265QualityTuningLevel {
   static const singlePass = H265QualityTuningLevel._('SINGLE_PASS');
   static const singlePassHq = H265QualityTuningLevel._('SINGLE_PASS_HQ');
@@ -12676,6 +13049,8 @@ class H265QualityTuningLevel {
 
 /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
 /// Use these settings only when you set QVBR for Rate control mode.
+///
+/// @nodoc
 class H265QvbrSettings {
   /// Use this setting only when Rate control mode is QVBR and Quality tuning
   /// level is Multi-pass HQ. For Max average bitrate values suited to the
@@ -12736,6 +13111,8 @@ class H265QvbrSettings {
 
 /// Use this setting to specify whether this output has a variable bitrate
 /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
+///
+/// @nodoc
 class H265RateControlMode {
   static const vbr = H265RateControlMode._('VBR');
   static const cbr = H265RateControlMode._('CBR');
@@ -12764,6 +13141,8 @@ class H265RateControlMode {
 
 /// Specify Sample Adaptive Offset (SAO) filter strength. Adaptive mode
 /// dynamically selects best strength based on content
+///
+/// @nodoc
 class H265SampleAdaptiveOffsetFilterMode {
   static const $default = H265SampleAdaptiveOffsetFilterMode._('DEFAULT');
   static const adaptive = H265SampleAdaptiveOffsetFilterMode._('ADAPTIVE');
@@ -12802,6 +13181,8 @@ class H265SampleAdaptiveOffsetFilterMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class H265ScanTypeConversionMode {
   static const interlaced = H265ScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -12833,6 +13214,8 @@ class H265ScanTypeConversionMode {
 /// default. If this output uses QVBR, choose Transition detection for further
 /// video quality improvement. For more information about QVBR, see
 /// https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+///
+/// @nodoc
 class H265SceneChangeDetect {
   static const disabled = H265SceneChangeDetect._('DISABLED');
   static const enabled = H265SceneChangeDetect._('ENABLED');
@@ -12866,6 +13249,8 @@ class H265SceneChangeDetect {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
+///
+/// @nodoc
 class H265SlowPal {
   static const disabled = H265SlowPal._('DISABLED');
   static const enabled = H265SlowPal._('ENABLED');
@@ -12904,6 +13289,8 @@ class H265SlowPal {
 /// depending on your content. For homogeneous content, such as cartoons and
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
+///
+/// @nodoc
 class H265SpatialAdaptiveQuantization {
   static const disabled = H265SpatialAdaptiveQuantization._('DISABLED');
   static const enabled = H265SpatialAdaptiveQuantization._('ENABLED');
@@ -12935,6 +13322,8 @@ class H265SpatialAdaptiveQuantization {
 /// identify the scan type for the output: Progressive, Interlaced, Hard
 /// Telecine or Soft Telecine. - Hard: produces 29.97i output from 23.976 input.
 /// - Soft: produces 23.976; the player converts this output to 29.97i.
+///
+/// @nodoc
 class H265Telecine {
   static const none = H265Telecine._('NONE');
   static const soft = H265Telecine._('SOFT');
@@ -12972,6 +13361,8 @@ class H265Telecine {
 /// faces, you might choose to disable this feature. Related setting: When you
 /// enable temporal quantization, adjust the strength of the filter with the
 /// setting Adaptive quantization.
+///
+/// @nodoc
 class H265TemporalAdaptiveQuantization {
   static const disabled = H265TemporalAdaptiveQuantization._('DISABLED');
   static const enabled = H265TemporalAdaptiveQuantization._('ENABLED');
@@ -13005,6 +13396,8 @@ class H265TemporalAdaptiveQuantization {
 /// with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a
 /// decoder could decode all the frames for full frame rate output or only the I
 /// and P frames (lowest temporal layer) for a half frame rate output.
+///
+/// @nodoc
 class H265TemporalIds {
   static const disabled = H265TemporalIds._('DISABLED');
   static const enabled = H265TemporalIds._('ENABLED');
@@ -13033,6 +13426,8 @@ class H265TemporalIds {
 /// a frame that is a whole multiple of the tile size. If you are setting up the
 /// picture as a tile, you must enter "padded". In all other configurations, you
 /// typically enter "none".
+///
+/// @nodoc
 class H265TilePadding {
   static const none = H265TilePadding._('NONE');
   static const padded = H265TilePadding._('PADDED');
@@ -13059,6 +13454,8 @@ class H265TilePadding {
 
 /// Enable use of tiles, allowing horizontal as well as vertical subdivision of
 /// the encoded pictures.
+///
+/// @nodoc
 class H265Tiles {
   static const disabled = H265Tiles._('DISABLED');
   static const enabled = H265Tiles._('ENABLED');
@@ -13086,6 +13483,8 @@ class H265Tiles {
 /// encoder will pick the best size. If you are setting up the picture as a
 /// tile, you must set this to 32x32. In all other configurations, you typically
 /// enter "auto".
+///
+/// @nodoc
 class H265TreeBlockSize {
   static const auto = H265TreeBlockSize._('AUTO');
   static const treeSize_32x32 = H265TreeBlockSize._('TREE_SIZE_32X32');
@@ -13111,6 +13510,8 @@ class H265TreeBlockSize {
 }
 
 /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
+///
+/// @nodoc
 class H265UnregisteredSeiTimecode {
   static const disabled = H265UnregisteredSeiTimecode._('DISABLED');
   static const enabled = H265UnregisteredSeiTimecode._('ENABLED');
@@ -13147,6 +13548,8 @@ class H265UnregisteredSeiTimecode {
 /// downstream systems and video players. The service defaults to marking your
 /// output as HEV1. For these outputs, the service writes parameter set NAL
 /// units directly into the samples.
+///
+/// @nodoc
 class H265WriteMp4PackagingType {
   static const hvc1 = H265WriteMp4PackagingType._('HVC1');
   static const hev1 = H265WriteMp4PackagingType._('HEV1');
@@ -13177,6 +13580,8 @@ class H265WriteMp4PackagingType {
 /// video content and can reduce softness. Keep the default value Off to apply
 /// no sharpening. Set Sharpening strength to Low to apply a minimal amount of
 /// sharpening, or High to apply a maximum amount of sharpening.
+///
+/// @nodoc
 class BandwidthReductionFilterSharpening {
   static const low = BandwidthReductionFilterSharpening._('LOW');
   static const medium = BandwidthReductionFilterSharpening._('MEDIUM');
@@ -13210,6 +13615,8 @@ class BandwidthReductionFilterSharpening {
 /// high bitrate outputs, choose Low. For the most bandwidth reduction, choose
 /// High. We recommend that you choose High for low bitrate outputs. Note that
 /// High may incur a slight increase in the softness of your output.
+///
+/// @nodoc
 class BandwidthReductionFilterStrength {
   static const low = BandwidthReductionFilterStrength._('LOW');
   static const medium = BandwidthReductionFilterStrength._('MEDIUM');
@@ -13248,6 +13655,8 @@ class BandwidthReductionFilterStrength {
 /// that you choose here applies to the following settings:
 /// H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and
 /// H264TemporalAdaptiveQuantization.
+///
+/// @nodoc
 class H264AdaptiveQuantization {
   static const off = H264AdaptiveQuantization._('OFF');
   static const auto = H264AdaptiveQuantization._('AUTO');
@@ -13280,6 +13689,8 @@ class H264AdaptiveQuantization {
 
 /// Specify an H.264 level that is consistent with your output video settings.
 /// If you aren't sure what level to specify, choose Auto.
+///
+/// @nodoc
 class H264CodecLevel {
   static const auto = H264CodecLevel._('AUTO');
   static const level_1 = H264CodecLevel._('LEVEL_1');
@@ -13339,6 +13750,8 @@ class H264CodecLevel {
 
 /// H.264 Profile. High 4:2:2 and 10-bit profiles are only available with the
 /// AVC-I License.
+///
+/// @nodoc
 class H264CodecProfile {
   static const baseline = H264CodecProfile._('BASELINE');
   static const high = H264CodecProfile._('HIGH');
@@ -13379,6 +13792,8 @@ class H264CodecProfile {
 /// based on other frames) for high-motion portions of the video and more
 /// B-frames for low-motion portions. The maximum number of B-frames is limited
 /// by the value you provide for the setting B frames between reference frames.
+///
+/// @nodoc
 class H264DynamicSubGop {
   static const adaptive = H264DynamicSubGop._('ADAPTIVE');
   static const static = H264DynamicSubGop._('STATIC');
@@ -13408,6 +13823,8 @@ class H264DynamicSubGop {
 /// or keep the default value, Include. To not include end of stream markers:
 /// Choose Suppress. This is useful when your output will be inserted into
 /// another stream.
+///
+/// @nodoc
 class H264EndOfStreamMarkers {
   static const include = H264EndOfStreamMarkers._('INCLUDE');
   static const suppress = H264EndOfStreamMarkers._('SUPPRESS');
@@ -13434,6 +13851,8 @@ class H264EndOfStreamMarkers {
 }
 
 /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
+///
+/// @nodoc
 class H264EntropyEncoding {
   static const cabac = H264EntropyEncoding._('CABAC');
   static const cavlc = H264EntropyEncoding._('CAVLC');
@@ -13464,6 +13883,8 @@ class H264EntropyEncoding {
 /// Choose Force field to disable PAFF encoding and create separate interlaced
 /// fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF
 /// encoding for interlaced outputs.
+///
+/// @nodoc
 class H264FieldEncoding {
   static const paff = H264FieldEncoding._('PAFF');
   static const forceField = H264FieldEncoding._('FORCE_FIELD');
@@ -13503,6 +13924,8 @@ class H264FieldEncoding {
 /// out the flicker. To manually enable or disable
 /// H264FlickerAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
+///
+/// @nodoc
 class H264FlickerAdaptiveQuantization {
   static const disabled = H264FlickerAdaptiveQuantization._('DISABLED');
   static const enabled = H264FlickerAdaptiveQuantization._('ENABLED');
@@ -13534,6 +13957,8 @@ class H264FlickerAdaptiveQuantization {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class H264FramerateControl {
   static const initializeFromSource =
       H264FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -13576,6 +14001,8 @@ class H264FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class H264FramerateConversionAlgorithm {
   static const duplicateDrop =
       H264FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -13615,6 +14042,8 @@ class H264FramerateConversionAlgorithm {
 /// blank or keep the default value Enabled. We recommend that you choose
 /// Enabled to help improve the video quality of your output relative to its
 /// bitrate. To not use reference B-frames: Choose Disabled.
+///
+/// @nodoc
 class H264GopBReference {
   static const disabled = H264GopBReference._('DISABLED');
   static const enabled = H264GopBReference._('ENABLED');
@@ -13648,6 +14077,8 @@ class H264GopBReference {
 /// GOP size blank in each output in your output group. To explicitly specify
 /// the GOP length, choose Specified, frames or Specified, seconds and then
 /// provide the GOP length in the related setting GOP size.
+///
+/// @nodoc
 class H264GopSizeUnits {
   static const frames = H264GopSizeUnits._('FRAMES');
   static const seconds = H264GopSizeUnits._('SECONDS');
@@ -13684,6 +14115,8 @@ class H264GopSizeUnits {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
+///
+/// @nodoc
 class H264InterlaceMode {
   static const progressive = H264InterlaceMode._('PROGRESSIVE');
   static const topField = H264InterlaceMode._('TOP_FIELD');
@@ -13723,6 +14156,8 @@ class H264InterlaceMode {
 /// choose any value other than Follow source. When you choose SPECIFIED for
 /// this setting, you must also specify values for the parNumerator and
 /// parDenominator settings.
+///
+/// @nodoc
 class H264ParControl {
   static const initializeFromSource =
       H264ParControl._('INITIALIZE_FROM_SOURCE');
@@ -13756,6 +14191,8 @@ class H264ParControl {
 /// encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass
 /// on your input followed by an encoding pass. Outputs that use this feature
 /// incur pro-tier pricing.
+///
+/// @nodoc
 class H264QualityTuningLevel {
   static const singlePass = H264QualityTuningLevel._('SINGLE_PASS');
   static const singlePassHq = H264QualityTuningLevel._('SINGLE_PASS_HQ');
@@ -13784,6 +14221,8 @@ class H264QualityTuningLevel {
 
 /// Settings for quality-defined variable bitrate encoding with the H.264 codec.
 /// Use these settings only when you set QVBR for Rate control mode.
+///
+/// @nodoc
 class H264QvbrSettings {
   /// Use this setting only when Rate control mode is QVBR and Quality tuning
   /// level is Multi-pass HQ. For Max average bitrate values suited to the
@@ -13844,6 +14283,8 @@ class H264QvbrSettings {
 
 /// Use this setting to specify whether this output has a variable bitrate
 /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
+///
+/// @nodoc
 class H264RateControlMode {
   static const vbr = H264RateControlMode._('VBR');
   static const cbr = H264RateControlMode._('CBR');
@@ -13871,6 +14312,8 @@ class H264RateControlMode {
 }
 
 /// Places a PPS header on each encoded picture, even if repeated.
+///
+/// @nodoc
 class H264RepeatPps {
   static const disabled = H264RepeatPps._('DISABLED');
   static const enabled = H264RepeatPps._('ENABLED');
@@ -13904,6 +14347,8 @@ class H264RepeatPps {
 /// encoding will only apply to outputs that are 720p or higher in resolution.
 /// To not apply saliency aware encoding, prioritizing encoding speed over
 /// perceptual video quality: Choose Disabled.
+///
+/// @nodoc
 class H264SaliencyAwareEncoding {
   static const disabled = H264SaliencyAwareEncoding._('DISABLED');
   static const preferred = H264SaliencyAwareEncoding._('PREFERRED');
@@ -13941,6 +14386,8 @@ class H264SaliencyAwareEncoding {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class H264ScanTypeConversionMode {
   static const interlaced = H264ScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -13972,6 +14419,8 @@ class H264ScanTypeConversionMode {
 /// default. If this output uses QVBR, choose Transition detection for further
 /// video quality improvement. For more information about QVBR, see
 /// https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+///
+/// @nodoc
 class H264SceneChangeDetect {
   static const disabled = H264SceneChangeDetect._('DISABLED');
   static const enabled = H264SceneChangeDetect._('ENABLED');
@@ -14005,6 +14454,8 @@ class H264SceneChangeDetect {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
+///
+/// @nodoc
 class H264SlowPal {
   static const disabled = H264SlowPal._('DISABLED');
   static const enabled = H264SlowPal._('ENABLED');
@@ -14052,6 +14503,8 @@ class H264SlowPal {
 /// textures, set it to High or Higher. To manually enable or disable
 /// H264SpatialAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
+///
+/// @nodoc
 class H264SpatialAdaptiveQuantization {
   static const disabled = H264SpatialAdaptiveQuantization._('DISABLED');
   static const enabled = H264SpatialAdaptiveQuantization._('ENABLED');
@@ -14078,6 +14531,8 @@ class H264SpatialAdaptiveQuantization {
 }
 
 /// Produces a bitstream compliant with SMPTE RP-2027.
+///
+/// @nodoc
 class H264Syntax {
   static const $default = H264Syntax._('DEFAULT');
   static const rp2027 = H264Syntax._('RP2027');
@@ -14109,6 +14564,8 @@ class H264Syntax {
 /// play back. When you keep the default value, None, MediaConvert does a
 /// standard frame rate conversion to 29.97 without doing anything with the
 /// field polarity to create a smoother picture.
+///
+/// @nodoc
 class H264Telecine {
   static const none = H264Telecine._('NONE');
   static const soft = H264Telecine._('SOFT');
@@ -14155,6 +14612,8 @@ class H264Telecine {
 /// setting Adaptive quantization. To manually enable or disable
 /// H264TemporalAdaptiveQuantization, you must set Adaptive quantization to a
 /// value other than AUTO.
+///
+/// @nodoc
 class H264TemporalAdaptiveQuantization {
   static const disabled = H264TemporalAdaptiveQuantization._('DISABLED');
   static const enabled = H264TemporalAdaptiveQuantization._('ENABLED');
@@ -14181,6 +14640,8 @@ class H264TemporalAdaptiveQuantization {
 }
 
 /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
+///
+/// @nodoc
 class H264UnregisteredSeiTimecode {
   static const disabled = H264UnregisteredSeiTimecode._('DISABLED');
   static const enabled = H264UnregisteredSeiTimecode._('ENABLED');
@@ -14213,6 +14674,8 @@ class H264UnregisteredSeiTimecode {
 /// samples directly). To write SPS and PPS NAL units directly into samples (but
 /// not in the 'stsd' box): Choose AVC3. When you do, note that your output
 /// might not play properly with some downstream systems or players.
+///
+/// @nodoc
 class H264WriteMp4PackagingType {
   static const avc1 = H264WriteMp4PackagingType._('AVC1');
   static const avc3 = H264WriteMp4PackagingType._('AVC3');
@@ -14250,6 +14713,8 @@ class H264WriteMp4PackagingType {
 /// use the frame rate from the input. Choose SPECIFIED if you want the service
 /// to use the frame rate you specify in the settings FramerateNumerator and
 /// FramerateDenominator.
+///
+/// @nodoc
 class GifFramerateControl {
   static const initializeFromSource =
       GifFramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -14280,6 +14745,8 @@ class GifFramerateControl {
 /// default behavior is to use Drop duplicate (DUPLICATE_DROP) conversion. When
 /// you choose Interpolate (INTERPOLATE) instead, the conversion produces
 /// smoother motion.
+///
+/// @nodoc
 class GifFramerateConversionAlgorithm {
   static const duplicateDrop =
       GifFramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -14311,6 +14778,8 @@ class GifFramerateConversionAlgorithm {
 /// output. Outputs with higher class values have higher bitrates and improved
 /// image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2
 /// chroma subsampling.
+///
+/// @nodoc
 class AvcIntraClass {
   static const class_50 = AvcIntraClass._('CLASS_50');
   static const class_100 = AvcIntraClass._('CLASS_100');
@@ -14339,6 +14808,8 @@ class AvcIntraClass {
 
 /// Optional when you set AVC-Intra class to Class 4K/2K. When you set AVC-Intra
 /// class to a different value, this object isn't allowed.
+///
+/// @nodoc
 class AvcIntraUhdSettings {
   /// Optional. Use Quality tuning level to choose how many transcoding passes
   /// MediaConvert does with your video. When you choose Multi-pass, your video
@@ -14374,6 +14845,8 @@ class AvcIntraUhdSettings {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction.
+///
+/// @nodoc
 class AvcIntraFramerateControl {
   static const initializeFromSource =
       AvcIntraFramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -14416,6 +14889,8 @@ class AvcIntraFramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class AvcIntraFramerateConversionAlgorithm {
   static const duplicateDrop =
       AvcIntraFramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -14463,6 +14938,8 @@ class AvcIntraFramerateConversionAlgorithm {
 /// interlaced with the same polarity as the source. If the source is
 /// progressive, the output will be interlaced with top field bottom field
 /// first, depending on which of the Follow options you choose.
+///
+/// @nodoc
 class AvcIntraInterlaceMode {
   static const progressive = AvcIntraInterlaceMode._('PROGRESSIVE');
   static const topField = AvcIntraInterlaceMode._('TOP_FIELD');
@@ -14510,6 +14987,8 @@ class AvcIntraInterlaceMode {
 /// Required settings: To use optimized interlacing, you must set Telecine to
 /// None or Soft. You can't use optimized interlacing for hard telecine outputs.
 /// You must also set Interlace mode to a value other than Progressive.
+///
+/// @nodoc
 class AvcIntraScanTypeConversionMode {
   static const interlaced = AvcIntraScanTypeConversionMode._('INTERLACED');
   static const interlacedOptimize =
@@ -14542,6 +15021,8 @@ class AvcIntraScanTypeConversionMode {
 /// your audio to keep it synchronized with the video. Note that enabling this
 /// setting will slightly reduce the duration of your video. Required settings:
 /// You must also set Framerate to 25.
+///
+/// @nodoc
 class AvcIntraSlowPal {
   static const disabled = AvcIntraSlowPal._('DISABLED');
   static const enabled = AvcIntraSlowPal._('ENABLED');
@@ -14571,6 +15052,8 @@ class AvcIntraSlowPal {
 /// enable hard telecine to create a smoother picture. When you keep the default
 /// value, None, MediaConvert does a standard frame rate conversion to 29.97
 /// without doing anything with the field polarity to create a smoother picture.
+///
+/// @nodoc
 class AvcIntraTelecine {
   static const none = AvcIntraTelecine._('NONE');
   static const hard = AvcIntraTelecine._('HARD');
@@ -14601,6 +15084,8 @@ class AvcIntraTelecine {
 /// actual bitrate of your output is closer to the target bitrate defined in the
 /// specification. When you choose Single-pass, your encoding time is faster.
 /// The default behavior is Single-pass.
+///
+/// @nodoc
 class AvcIntraUhdQualityTuningLevel {
   static const singlePass = AvcIntraUhdQualityTuningLevel._('SINGLE_PASS');
   static const multiPass = AvcIntraUhdQualityTuningLevel._('MULTI_PASS');
@@ -14628,6 +15113,8 @@ class AvcIntraUhdQualityTuningLevel {
 
 /// Specify the strength of any adaptive quantization filters that you enable.
 /// The value that you choose here applies to Spatial adaptive quantization.
+///
+/// @nodoc
 class Av1AdaptiveQuantization {
   static const off = Av1AdaptiveQuantization._('OFF');
   static const low = Av1AdaptiveQuantization._('LOW');
@@ -14658,6 +15145,8 @@ class Av1AdaptiveQuantization {
 }
 
 /// Specify the Bit depth. You can choose 8-bit or 10-bit.
+///
+/// @nodoc
 class Av1BitDepth {
   static const bit_8 = Av1BitDepth._('BIT_8');
   static const bit_10 = Av1BitDepth._('BIT_10');
@@ -14687,6 +15176,8 @@ class Av1BitDepth {
 /// outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep
 /// the default value, Disabled. When you include Film grain synthesis, you
 /// cannot include the Noise reducer preprocessor.
+///
+/// @nodoc
 class Av1FilmGrainSynthesis {
   static const disabled = Av1FilmGrainSynthesis._('DISABLED');
   static const enabled = Av1FilmGrainSynthesis._('ENABLED');
@@ -14718,6 +15209,8 @@ class Av1FilmGrainSynthesis {
 /// dropdown list or choose Custom. The framerates shown in the dropdown list
 /// are decimal approximations of fractions. If you choose Custom, specify your
 /// frame rate as a fraction.
+///
+/// @nodoc
 class Av1FramerateControl {
   static const initializeFromSource =
       Av1FramerateControl._('INITIALIZE_FROM_SOURCE');
@@ -14760,6 +15253,8 @@ class Av1FramerateControl {
 /// add, or otherwise change the frame count from your input to your output.
 /// Note that since the frame count is maintained, the duration of your output
 /// will become shorter at higher frame rates and longer at lower frame rates.
+///
+/// @nodoc
 class Av1FramerateConversionAlgorithm {
   static const duplicateDrop =
       Av1FramerateConversionAlgorithm._('DUPLICATE_DROP');
@@ -14796,6 +15291,8 @@ class Av1FramerateConversionAlgorithm {
 
 /// Settings for quality-defined variable bitrate encoding with the AV1 codec.
 /// Use these settings only when you set QVBR for Rate control mode.
+///
+/// @nodoc
 class Av1QvbrSettings {
   /// Use this setting only when you set Rate control mode to QVBR. Specify the
   /// target quality level for this output. MediaConvert determines the right
@@ -14844,6 +15341,8 @@ class Av1QvbrSettings {
 
 /// 'With AV1 outputs, for rate control mode, MediaConvert supports only
 /// quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
+///
+/// @nodoc
 class Av1RateControlMode {
   static const qvbr = Av1RateControlMode._('QVBR');
 
@@ -14883,6 +15382,8 @@ class Av1RateControlMode {
 /// depending on your content. For homogeneous content, such as cartoons and
 /// video games, set it to Low. For content with a wider variety of textures,
 /// set it to High or Higher.
+///
+/// @nodoc
 class Av1SpatialAdaptiveQuantization {
   static const disabled = Av1SpatialAdaptiveQuantization._('DISABLED');
   static const enabled = Av1SpatialAdaptiveQuantization._('ENABLED');
@@ -14910,6 +15411,8 @@ class Av1SpatialAdaptiveQuantization {
 
 /// These settings relate to the fragmented MP4 container for the segments in
 /// your CMAF outputs.
+///
+/// @nodoc
 class CmfcSettings {
   /// Specify this setting only when your output will be consumed by a downstream
   /// repackaging workflow that is sensitive to very small duration differences
@@ -15170,6 +15673,8 @@ class CmfcSettings {
 
 /// Container for this output. Some containers require a container settings
 /// object. If not specified, the default object will be created.
+///
+/// @nodoc
 class ContainerType {
   static const f4v = ContainerType._('F4V');
   static const gif = ContainerType._('GIF');
@@ -15222,6 +15727,8 @@ class ContainerType {
 }
 
 /// Settings for F4v container
+///
+/// @nodoc
 class F4vSettings {
   /// To place the MOOV atom at the beginning of your output, which is useful for
   /// progressive downloading: Leave blank or choose Progressive download. To
@@ -15257,6 +15764,8 @@ class F4vSettings {
 /// their PID. Downstream systems and players use the program map table to look
 /// up the PID for each type of data it accesses and then uses the PIDs to
 /// locate specific data within the asset.
+///
+/// @nodoc
 class M2tsSettings {
   /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
   final M2tsAudioBufferModel? audioBufferModel;
@@ -15721,6 +16230,8 @@ class M2tsSettings {
 
 /// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container
 /// for the MPEG2-TS segments in your HLS outputs.
+///
+/// @nodoc
 class M3u8Settings {
   /// Specify this setting only when your output will be consumed by a downstream
   /// repackaging workflow that is sensitive to very small duration differences
@@ -15950,6 +16461,8 @@ class M3u8Settings {
 }
 
 /// These settings relate to your QuickTime MOV output container.
+///
+/// @nodoc
 class MovSettings {
   /// When enabled, include 'clap' atom if appropriate for the video output
   /// settings.
@@ -16018,6 +16531,8 @@ class MovSettings {
 /// These settings relate to your MP4 output container. You can create audio
 /// only outputs with this container. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/supported-codecs-containers-audio-only.html#output-codecs-and-containers-supported-for-audio-only.
+///
+/// @nodoc
 class Mp4Settings {
   /// Specify this setting only when your output will be consumed by a downstream
   /// repackaging workflow that is sensitive to very small duration differences
@@ -16137,6 +16652,8 @@ class Mp4Settings {
 
 /// These settings relate to the fragmented MP4 container for the segments in
 /// your DASH outputs.
+///
+/// @nodoc
 class MpdSettings {
   /// Optional. Choose Include to have MediaConvert mark up your DASH manifest
   /// with <Accessibility> elements for embedded 608 captions. This markup isn't
@@ -16331,6 +16848,8 @@ class MpdSettings {
 }
 
 /// These settings relate to your MXF output container.
+///
+/// @nodoc
 class MxfSettings {
   /// Optional. When you have AFD signaling set up in your output video stream,
   /// use this setting to choose whether to also include it in the MXF wrapper.
@@ -16407,6 +16926,8 @@ class MxfSettings {
 /// to include or exclude AFD values, see AfdSignaling, under VideoDescription.
 /// On the console, find AFD signaling under the output's video encoding
 /// settings.
+///
+/// @nodoc
 class MxfAfdSignaling {
   static const noCopy = MxfAfdSignaling._('NO_COPY');
   static const copyFromVideo = MxfAfdSignaling._('COPY_FROM_VIDEO');
@@ -16437,6 +16958,8 @@ class MxfAfdSignaling {
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html.
 /// For more information about the automatic selection behavior, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
+///
+/// @nodoc
 class MxfProfile {
   static const d_10 = MxfProfile._('D_10');
   static const xdcam = MxfProfile._('XDCAM');
@@ -16467,6 +16990,8 @@ class MxfProfile {
 /// (default): Uses codec-appropriate defaults - BWF for H.264/AVC, AES3 for
 /// MPEG2/XDCAM. AES3: Use AES3 frame wrapping with SMPTE-compliant descriptors.
 /// This setting only takes effect when the MXF profile is OP1a.
+///
+/// @nodoc
 class MxfUncompressedAudioWrapping {
   static const auto = MxfUncompressedAudioWrapping._('AUTO');
   static const aes3 = MxfUncompressedAudioWrapping._('AES3');
@@ -16494,6 +17019,8 @@ class MxfUncompressedAudioWrapping {
 
 /// Specify the XAVC profile settings for MXF outputs when you set your MXF
 /// profile to XAVC.
+///
+/// @nodoc
 class MxfXavcProfileSettings {
   /// To create an output that complies with the XAVC file format guidelines for
   /// interoperability, keep the default value, Drop frames for compliance. To
@@ -16541,6 +17068,8 @@ class MxfXavcProfileSettings {
 /// Allow any duration. The number of frames that MediaConvert excludes when you
 /// set this to Drop frames for compliance depends on the output frame rate and
 /// duration.
+///
+/// @nodoc
 class MxfXavcDurationMode {
   static const allowAnyDuration = MxfXavcDurationMode._('ALLOW_ANY_DURATION');
   static const dropFramesForCompliance =
@@ -16574,6 +17103,8 @@ class MxfXavcDurationMode {
 /// elements out. When you enable this setting, this is the markup that
 /// MediaConvert includes in your manifest: <Accessibility
 /// schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng"/>
+///
+/// @nodoc
 class MpdAccessibilityCaptionHints {
   static const include = MpdAccessibilityCaptionHints._('INCLUDE');
   static const exclude = MpdAccessibilityCaptionHints._('EXCLUDE');
@@ -16612,6 +17143,8 @@ class MpdAccessibilityCaptionHints {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
+///
+/// @nodoc
 class MpdAudioDuration {
   static const defaultCodecDuration =
       MpdAudioDuration._('DEFAULT_CODEC_DURATION');
@@ -16640,6 +17173,8 @@ class MpdAudioDuration {
 /// When enabled, a C2PA compliant manifest will be generated, signed and
 /// embeded in the output. For more information on C2PA, see
 /// https://c2pa.org/specifications/specifications/2.1/index.html
+///
+/// @nodoc
 class MpdC2paManifest {
   static const include = MpdC2paManifest._('INCLUDE');
   static const exclude = MpdC2paManifest._('EXCLUDE');
@@ -16670,6 +17205,8 @@ class MpdC2paManifest {
 /// container. Choose Fragmented MPEG-4 for captions in XML format contained
 /// within fragmented MP4 files. This set of fragmented MP4 files is separate
 /// from your video and audio fragmented MP4 files.
+///
+/// @nodoc
 class MpdCaptionContainerType {
   static const raw = MpdCaptionContainerType._('RAW');
   static const fragmentedMp4 = MpdCaptionContainerType._('FRAGMENTED_MP4');
@@ -16700,6 +17237,8 @@ class MpdCaptionContainerType {
 /// input and writes each instance to a separate event message box in the
 /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
 /// metadata insertion to None or leave blank.
+///
+/// @nodoc
 class MpdKlvMetadata {
   static const none = MpdKlvMetadata._('NONE');
   static const passthrough = MpdKlvMetadata._('PASSTHROUGH');
@@ -16733,6 +17272,8 @@ class MpdKlvMetadata {
 /// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
 /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
 /// SCTE-35 to insert, or ID3 metadata to Passthrough.
+///
+/// @nodoc
 class MpdManifestMetadataSignaling {
   static const enabled = MpdManifestMetadataSignaling._('ENABLED');
   static const disabled = MpdManifestMetadataSignaling._('DISABLED');
@@ -16762,6 +17303,8 @@ class MpdManifestMetadataSignaling {
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
 /// XML.
+///
+/// @nodoc
 class MpdScte35Esam {
   static const insert = MpdScte35Esam._('INSERT');
   static const none = MpdScte35Esam._('NONE');
@@ -16790,6 +17333,8 @@ class MpdScte35Esam {
 /// file. Choose Passthrough if you want SCTE-35 markers that appear in your
 /// input to also appear in this output. Choose None if you don't want those
 /// SCTE-35 markers in this output.
+///
+/// @nodoc
 class MpdScte35Source {
   static const passthrough = MpdScte35Source._('PASSTHROUGH');
   static const none = MpdScte35Source._('NONE');
@@ -16818,6 +17363,8 @@ class MpdScte35Source {
 /// Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert
 /// writes each instance of ID3 metadata in a separate Event Message (eMSG) box.
 /// To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
+///
+/// @nodoc
 class MpdTimedMetadata {
   static const passthrough = MpdTimedMetadata._('PASSTHROUGH');
   static const none = MpdTimedMetadata._('NONE');
@@ -16846,6 +17393,8 @@ class MpdTimedMetadata {
 /// output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3
 /// Syntax. Leave blank to use the default value Version 0. When you specify
 /// Version 1, you must also set ID3 metadata to Passthrough.
+///
+/// @nodoc
 class MpdTimedMetadataBoxVersion {
   static const version_0 = MpdTimedMetadataBoxVersion._('VERSION_0');
   static const version_1 = MpdTimedMetadataBoxVersion._('VERSION_1');
@@ -16884,6 +17433,8 @@ class MpdTimedMetadataBoxVersion {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
+///
+/// @nodoc
 class CmfcAudioDuration {
   static const defaultCodecDuration =
       CmfcAudioDuration._('DEFAULT_CODEC_DURATION');
@@ -16912,6 +17463,8 @@ class CmfcAudioDuration {
 /// When enabled, a C2PA compliant manifest will be generated, signed and
 /// embeded in the output. For more information on C2PA, see
 /// https://c2pa.org/specifications/specifications/2.1/index.html
+///
+/// @nodoc
 class Mp4C2paManifest {
   static const include = Mp4C2paManifest._('INCLUDE');
   static const exclude = Mp4C2paManifest._('EXCLUDE');
@@ -16941,6 +17494,8 @@ class Mp4C2paManifest {
 /// negative, and a 'cslg' (composition shift least greatest) box will be
 /// included per 14496-1 amendment 1. This improves compatibility with Apple
 /// players and tools.
+///
+/// @nodoc
 class Mp4CslgAtom {
   static const include = Mp4CslgAtom._('INCLUDE');
   static const exclude = Mp4CslgAtom._('EXCLUDE');
@@ -16965,6 +17520,8 @@ class Mp4CslgAtom {
 }
 
 /// Inserts a free-space box immediately after the moov box.
+///
+/// @nodoc
 class Mp4FreeSpaceBox {
   static const include = Mp4FreeSpaceBox._('INCLUDE');
   static const exclude = Mp4FreeSpaceBox._('EXCLUDE');
@@ -16992,6 +17549,8 @@ class Mp4FreeSpaceBox {
 /// To place the MOOV atom at the beginning of your output, which is useful for
 /// progressive downloading: Leave blank or choose Progressive download. To
 /// place the MOOV at the end of your output: Choose Normal.
+///
+/// @nodoc
 class Mp4MoovPlacement {
   static const progressiveDownload = Mp4MoovPlacement._('PROGRESSIVE_DOWNLOAD');
   static const normal = Mp4MoovPlacement._('NORMAL');
@@ -17018,6 +17577,8 @@ class Mp4MoovPlacement {
 
 /// When enabled, include 'clap' atom if appropriate for the video output
 /// settings.
+///
+/// @nodoc
 class MovClapAtom {
   static const include = MovClapAtom._('INCLUDE');
   static const exclude = MovClapAtom._('EXCLUDE');
@@ -17046,6 +17607,8 @@ class MovClapAtom {
 /// negative, and a 'cslg' (composition shift least greatest) box will be
 /// included per 14496-1 amendment 1. This improves compatibility with Apple
 /// players and tools.
+///
+/// @nodoc
 class MovCslgAtom {
   static const include = MovCslgAtom._('INCLUDE');
   static const exclude = MovCslgAtom._('EXCLUDE');
@@ -17073,6 +17636,8 @@ class MovCslgAtom {
 /// XDCAM fourcc codes. This increases compatibility with Apple editors and
 /// players, but may decrease compatibility with other players. Only applicable
 /// when the video codec is MPEG2.
+///
+/// @nodoc
 class MovMpeg2FourCCControl {
   static const xdcam = MovMpeg2FourCCControl._('XDCAM');
   static const mpeg = MovMpeg2FourCCControl._('MPEG');
@@ -17103,6 +17668,8 @@ class MovMpeg2FourCCControl {
 /// increases the length of the 'elst' edit list atom. Note that this might
 /// cause file rejections when a recipient of the output file doesn't expect
 /// this extra padding.
+///
+/// @nodoc
 class MovPaddingControl {
   static const omneon = MovPaddingControl._('OMNEON');
   static const none = MovPaddingControl._('NONE');
@@ -17128,6 +17695,8 @@ class MovPaddingControl {
 }
 
 /// Always keep the default value (SELF_CONTAINED) for this setting.
+///
+/// @nodoc
 class MovReference {
   static const selfContained = MovReference._('SELF_CONTAINED');
   static const external = MovReference._('EXTERNAL');
@@ -17164,6 +17733,8 @@ class MovReference {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
+///
+/// @nodoc
 class M3u8AudioDuration {
   static const defaultCodecDuration =
       M3u8AudioDuration._('DEFAULT_CODEC_DURATION');
@@ -17193,6 +17764,8 @@ class M3u8AudioDuration {
 /// with Presentation Timestamp (PTS) values greater than or equal to the first
 /// video packet PTS (MediaConvert drops captions and data packets with lesser
 /// PTS values). Keep the default value AUTO to allow all PTS values.
+///
+/// @nodoc
 class M3u8DataPtsControl {
   static const auto = M3u8DataPtsControl._('AUTO');
   static const alignToVideo = M3u8DataPtsControl._('ALIGN_TO_VIDEO');
@@ -17220,6 +17793,8 @@ class M3u8DataPtsControl {
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
+///
+/// @nodoc
 class M3u8NielsenId3 {
   static const insert = M3u8NielsenId3._('INSERT');
   static const none = M3u8NielsenId3._('NONE');
@@ -17248,6 +17823,8 @@ class M3u8NielsenId3 {
 /// for every Packetized Elementary Stream (PES) header. This parameter is
 /// effective only when the PCR PID is the same as the video or audio elementary
 /// stream.
+///
+/// @nodoc
 class M3u8PcrControl {
   static const pcrEveryPesPacket = M3u8PcrControl._('PCR_EVERY_PES_PACKET');
   static const configuredPcrPeriod = M3u8PcrControl._('CONFIGURED_PCR_PERIOD');
@@ -17280,6 +17857,8 @@ class M3u8PcrControl {
 /// buffer initial fill percentage. To manually specify an initial PTS offset:
 /// Choose Seconds or Milliseconds. Then specify the number of seconds or
 /// milliseconds with PTS offset.
+///
+/// @nodoc
 class TsPtsOffset {
   static const auto = TsPtsOffset._('AUTO');
   static const seconds = TsPtsOffset._('SECONDS');
@@ -17311,6 +17890,8 @@ class TsPtsOffset {
 /// Choose Passthrough and choose Ad markers if you do want manifest
 /// conditioning. In both cases, also provide the ESAM XML as a string in the
 /// setting Signal processing notification XML.
+///
+/// @nodoc
 class M3u8Scte35Source {
   static const passthrough = M3u8Scte35Source._('PASSTHROUGH');
   static const none = M3u8Scte35Source._('NONE');
@@ -17339,6 +17920,8 @@ class M3u8Scte35Source {
 /// includes ID3 metadata from the following features: ID3 timestamp period, and
 /// Custom ID3 metadata inserter. To exclude this ID3 metadata in this output:
 /// set ID3 metadata to None or leave blank.
+///
+/// @nodoc
 class TimedMetadata {
   static const passthrough = TimedMetadata._('PASSTHROUGH');
   static const none = TimedMetadata._('NONE');
@@ -17364,6 +17947,8 @@ class TimedMetadata {
 }
 
 /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
+///
+/// @nodoc
 class M2tsAudioBufferModel {
   static const dvb = M2tsAudioBufferModel._('DVB');
   static const atsc = M2tsAudioBufferModel._('ATSC');
@@ -17402,6 +17987,8 @@ class M2tsAudioBufferModel {
 /// adds padding only to the end of the file. When you keep the default value,
 /// any minor discrepancies between audio and video duration will depend on your
 /// output audio codec.
+///
+/// @nodoc
 class M2tsAudioDuration {
   static const defaultCodecDuration =
       M2tsAudioDuration._('DEFAULT_CODEC_DURATION');
@@ -17431,6 +18018,8 @@ class M2tsAudioDuration {
 /// MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to
 /// lower latency, but low-memory devices may not be able to play back the
 /// stream without interruptions.
+///
+/// @nodoc
 class M2tsBufferModel {
   static const multiplex = M2tsBufferModel._('MULTIPLEX');
   static const none = M2tsBufferModel._('NONE');
@@ -17459,6 +18048,8 @@ class M2tsBufferModel {
 /// with Presentation Timestamp (PTS) values greater than or equal to the first
 /// video packet PTS (MediaConvert drops captions and data packets with lesser
 /// PTS values). Keep the default value to allow all PTS values.
+///
+/// @nodoc
 class M2tsDataPtsControl {
   static const auto = M2tsDataPtsControl._('AUTO');
   static const alignToVideo = M2tsDataPtsControl._('ALIGN_TO_VIDEO');
@@ -17486,6 +18077,8 @@ class M2tsDataPtsControl {
 
 /// Use these settings to insert a DVB Network Information Table (NIT) in the
 /// transport stream of this output.
+///
+/// @nodoc
 class DvbNitSettings {
   /// The numeric value placed in the Network Information Table (NIT).
   final int? networkId;
@@ -17526,6 +18119,8 @@ class DvbNitSettings {
 
 /// Use these settings to insert a DVB Service Description Table (SDT) in the
 /// transport stream of this output.
+///
+/// @nodoc
 class DvbSdtSettings {
   /// Selects method of inserting SDT information into output stream. "Follow
   /// input SDT" copies SDT information from input stream to output stream.
@@ -17581,6 +18176,8 @@ class DvbSdtSettings {
 
 /// Use these settings to insert a DVB Time and Date Table (TDT) in the
 /// transport stream of this output.
+///
+/// @nodoc
 class DvbTdtSettings {
   /// The number of milliseconds between instances of this table in the output
   /// transport stream.
@@ -17610,6 +18207,8 @@ class DvbTdtSettings {
 /// set to VIDEO_INTERVAL, these additional markers will not be inserted. Only
 /// applicable when EBP segmentation markers are is selected
 /// (segmentationMarkers is EBP or EBP_LEGACY).
+///
+/// @nodoc
 class M2tsEbpAudioInterval {
   static const videoAndFixedIntervals =
       M2tsEbpAudioInterval._('VIDEO_AND_FIXED_INTERVALS');
@@ -17640,6 +18239,8 @@ class M2tsEbpAudioInterval {
 /// on the video PID, or on both the video PID and all audio PIDs. Only
 /// applicable when EBP segmentation markers are is selected
 /// (segmentationMarkers is EBP or EBP_LEGACY).
+///
+/// @nodoc
 class M2tsEbpPlacement {
   static const videoAndAudioPids = M2tsEbpPlacement._('VIDEO_AND_AUDIO_PIDS');
   static const videoPid = M2tsEbpPlacement._('VIDEO_PID');
@@ -17665,6 +18266,8 @@ class M2tsEbpPlacement {
 }
 
 /// Controls whether to include the ES Rate field in the PES header.
+///
+/// @nodoc
 class M2tsEsRateInPes {
   static const include = M2tsEsRateInPes._('INCLUDE');
   static const exclude = M2tsEsRateInPes._('EXCLUDE');
@@ -17692,6 +18295,8 @@ class M2tsEsRateInPes {
 /// Keep the default value unless you know that your audio EBP markers are
 /// incorrectly appearing before your video EBP markers. To correct this
 /// problem, set this value to Force.
+///
+/// @nodoc
 class M2tsForceTsVideoEbpOrder {
   static const force = M2tsForceTsVideoEbpOrder._('FORCE');
   static const $default = M2tsForceTsVideoEbpOrder._('DEFAULT');
@@ -17721,6 +18326,8 @@ class M2tsForceTsVideoEbpOrder {
 /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
 /// input and passes it through to the output transport stream. To exclude this
 /// KLV metadata: Set KLV metadata insertion to None or leave blank.
+///
+/// @nodoc
 class M2tsKlvMetadata {
   static const passthrough = M2tsKlvMetadata._('PASSTHROUGH');
   static const none = M2tsKlvMetadata._('NONE');
@@ -17747,6 +18354,8 @@ class M2tsKlvMetadata {
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
+///
+/// @nodoc
 class M2tsNielsenId3 {
   static const insert = M2tsNielsenId3._('INSERT');
   static const none = M2tsNielsenId3._('NONE');
@@ -17775,6 +18384,8 @@ class M2tsNielsenId3 {
 /// inserted for every Packetized Elementary Stream (PES) header. This is
 /// effective only when the PCR PID is the same as the video or audio elementary
 /// stream.
+///
+/// @nodoc
 class M2tsPcrControl {
   static const pcrEveryPesPacket = M2tsPcrControl._('PCR_EVERY_PES_PACKET');
   static const configuredPcrPeriod = M2tsPcrControl._('CONFIGURED_PCR_PERIOD');
@@ -17807,6 +18418,8 @@ class M2tsPcrControl {
 /// output, when possible: Choose Enabled. Note that if MediaConvert prevents a
 /// decoder buffer underflow in your output, output video quality is reduced and
 /// your job will take longer to complete.
+///
+/// @nodoc
 class M2tsPreventBufferUnderflow {
   static const disabled = M2tsPreventBufferUnderflow._('DISABLED');
   static const enabled = M2tsPreventBufferUnderflow._('ENABLED');
@@ -17835,6 +18448,8 @@ class M2tsPreventBufferUnderflow {
 /// When set to CBR, inserts null packets into transport stream to fill
 /// specified bitrate. When set to VBR, the bitrate setting acts as the maximum
 /// bitrate, but the output will not be padded up to that bitrate.
+///
+/// @nodoc
 class M2tsRateMode {
   static const vbr = M2tsRateMode._('VBR');
   static const cbr = M2tsRateMode._('CBR');
@@ -17862,6 +18477,8 @@ class M2tsRateMode {
 /// put SCTE-35 markers in your HLS and transport stream outputs at the
 /// insertion points that you specify in an ESAM XML document. Provide the
 /// document in the setting SCC XML.
+///
+/// @nodoc
 class M2tsScte35Esam {
   /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream
   /// generated by ESAM.
@@ -17891,6 +18508,8 @@ class M2tsScte35Esam {
 /// an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in
 /// the setting Signal processing notification XML. Also enable ESAM SCTE-35
 /// (include the property scte35Esam).
+///
+/// @nodoc
 class M2tsScte35Source {
   static const passthrough = M2tsScte35Source._('PASSTHROUGH');
   static const none = M2tsScte35Source._('NONE');
@@ -17922,6 +18541,8 @@ class M2tsScte35Source {
 /// Encoder Boundary Point information to the adaptation field as per OpenCable
 /// specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point
 /// information to the adaptation field using a legacy proprietary format.
+///
+/// @nodoc
 class M2tsSegmentationMarkers {
   static const none = M2tsSegmentationMarkers._('NONE');
   static const raiSegstart = M2tsSegmentationMarkers._('RAI_SEGSTART');
@@ -17970,6 +18591,8 @@ class M2tsSegmentationMarkers {
 /// segment will likely be truncated as well. However, all segments after that
 /// will have a duration of $segmentation_time seconds. Note that EBP lookahead
 /// is a slight exception to this rule.
+///
+/// @nodoc
 class M2tsSegmentationStyle {
   static const maintainCadence = M2tsSegmentationStyle._('MAINTAIN_CADENCE');
   static const resetCadence = M2tsSegmentationStyle._('RESET_CADENCE');
@@ -18002,6 +18625,8 @@ class M2tsSegmentationStyle {
 /// fall back on the user-defined values. Enter "SDT Manually" means user will
 /// enter the SDT information. "No SDT" means output stream will not contain SDT
 /// information.
+///
+/// @nodoc
 class OutputSdt {
   static const sdtFollow = OutputSdt._('SDT_FOLLOW');
   static const sdtFollowIfPresent = OutputSdt._('SDT_FOLLOW_IF_PRESENT');
@@ -18030,6 +18655,8 @@ class OutputSdt {
 /// To place the MOOV atom at the beginning of your output, which is useful for
 /// progressive downloading: Leave blank or choose Progressive download. To
 /// place the MOOV at the end of your output: Choose Normal.
+///
+/// @nodoc
 class F4vMoovPlacement {
   static const progressiveDownload = F4vMoovPlacement._('PROGRESSIVE_DOWNLOAD');
   static const normal = F4vMoovPlacement._('NORMAL');
@@ -18072,6 +18699,8 @@ class F4vMoovPlacement {
 /// MediaConvert defaults to Alternate audio, auto select, default. When there
 /// is more than one variant in your output group, you must explicitly choose a
 /// value for this setting.
+///
+/// @nodoc
 class CmfcAudioTrackType {
   static const alternateAudioAutoSelectDefault =
       CmfcAudioTrackType._('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT');
@@ -18111,6 +18740,8 @@ class CmfcAudioTrackType {
 /// When enabled, a C2PA compliant manifest will be generated, signed and
 /// embeded in the output. For more information on C2PA, see
 /// https://c2pa.org/specifications/specifications/2.1/index.html
+///
+/// @nodoc
 class CmfcC2paManifest {
   static const include = CmfcC2paManifest._('INCLUDE');
   static const exclude = CmfcC2paManifest._('EXCLUDE');
@@ -18142,6 +18773,8 @@ class CmfcC2paManifest {
 /// flag, MediaConvert leaves this parameter out. The DVS flag can help with
 /// accessibility on Apple devices. For more information, see the Apple
 /// documentation.
+///
+/// @nodoc
 class CmfcDescriptiveVideoServiceFlag {
   static const dontFlag = CmfcDescriptiveVideoServiceFlag._('DONT_FLAG');
   static const flag = CmfcDescriptiveVideoServiceFlag._('FLAG');
@@ -18174,6 +18807,8 @@ class CmfcDescriptiveVideoServiceFlag {
 /// both the I-frame only child manifest and the regular child manifest to the
 /// parent manifest. When you don't need the I-frame only child manifest, keep
 /// the default value Exclude.
+///
+/// @nodoc
 class CmfcIFrameOnlyManifest {
   static const include = CmfcIFrameOnlyManifest._('INCLUDE');
   static const exclude = CmfcIFrameOnlyManifest._('EXCLUDE');
@@ -18204,6 +18839,8 @@ class CmfcIFrameOnlyManifest {
 /// input and writes each instance to a separate event message box in the
 /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
 /// metadata insertion to None or leave blank.
+///
+/// @nodoc
 class CmfcKlvMetadata {
   static const passthrough = CmfcKlvMetadata._('PASSTHROUGH');
   static const none = CmfcKlvMetadata._('NONE');
@@ -18237,6 +18874,8 @@ class CmfcKlvMetadata {
 /// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
 /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
 /// SCTE-35 to insert, or ID3 metadata to Passthrough.
+///
+/// @nodoc
 class CmfcManifestMetadataSignaling {
   static const enabled = CmfcManifestMetadataSignaling._('ENABLED');
   static const disabled = CmfcManifestMetadataSignaling._('DISABLED');
@@ -18266,6 +18905,8 @@ class CmfcManifestMetadataSignaling {
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
 /// XML.
+///
+/// @nodoc
 class CmfcScte35Esam {
   static const insert = CmfcScte35Esam._('INSERT');
   static const none = CmfcScte35Esam._('NONE');
@@ -18294,6 +18935,8 @@ class CmfcScte35Esam {
 /// file. Choose Passthrough if you want SCTE-35 markers that appear in your
 /// input to also appear in this output. Choose None if you don't want those
 /// SCTE-35 markers in this output.
+///
+/// @nodoc
 class CmfcScte35Source {
   static const passthrough = CmfcScte35Source._('PASSTHROUGH');
   static const none = CmfcScte35Source._('NONE');
@@ -18322,6 +18965,8 @@ class CmfcScte35Source {
 /// Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert
 /// writes each instance of ID3 metadata in a separate Event Message (eMSG) box.
 /// To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
+///
+/// @nodoc
 class CmfcTimedMetadata {
   static const passthrough = CmfcTimedMetadata._('PASSTHROUGH');
   static const none = CmfcTimedMetadata._('NONE');
@@ -18350,6 +18995,8 @@ class CmfcTimedMetadata {
 /// output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3
 /// Syntax. Leave blank to use the default value Version 0. When you specify
 /// Version 1, you must also set ID3 metadata to Passthrough.
+///
+/// @nodoc
 class CmfcTimedMetadataBoxVersion {
   static const version_0 = CmfcTimedMetadataBoxVersion._('VERSION_0');
   static const version_1 = CmfcTimedMetadataBoxVersion._('VERSION_1');
@@ -18376,6 +19023,8 @@ class CmfcTimedMetadataBoxVersion {
 }
 
 /// Caption Description for preset
+///
+/// @nodoc
 class CaptionDescriptionPreset {
   /// Specify the language for this captions output track. For most captions
   /// output formats, the encoder puts this language information in the output
@@ -18450,6 +19099,8 @@ class CaptionDescriptionPreset {
 /// output captions format, one tab might correspond to a set of output captions
 /// tracks. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
+///
+/// @nodoc
 class CaptionDestinationSettings {
   /// Burn-in is a captions delivery method, rather than a captions format.
   /// Burn-in writes the captions directly on your video frames, replacing pixels
@@ -18611,6 +19262,8 @@ class CaptionDestinationSettings {
 /// Specify the language, using an ISO 639-2 three-letter code in all capital
 /// letters. You can find a list of codes at:
 /// https://www.loc.gov/standards/iso639-2/php/code_list.php
+///
+/// @nodoc
 class LanguageCode {
   static const eng = LanguageCode._('ENG');
   static const spa = LanguageCode._('SPA');
@@ -19022,6 +19675,8 @@ class LanguageCode {
 /// of video content with the captions. Set up burn-in captions in the same
 /// output as your video. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
+///
+/// @nodoc
 class BurninDestinationSettings {
   /// Specify the alignment of your captions. If no explicit x_position is
   /// provided, setting alignment to centered will placethe captions at the bottom
@@ -19322,6 +19977,8 @@ class BurninDestinationSettings {
 /// If you are using SCTE-20 and you want to create an output that complies with
 /// the SCTE-43 spec, choose SCTE-20 plus embedded. To create a non-compliant
 /// output where the embedded captions come first, choose Embedded plus SCTE-20.
+///
+/// @nodoc
 class CaptionDestinationType {
   static const burnIn = CaptionDestinationType._('BURN_IN');
   static const dvbSub = CaptionDestinationType._('DVB_SUB');
@@ -19375,6 +20032,8 @@ class CaptionDestinationType {
 /// Settings related to DVB-Sub captions. Set up DVB-Sub captions in the same
 /// output as your video. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
+///
+/// @nodoc
 class DvbSubDestinationSettings {
   /// Specify the alignment of your captions. If no explicit x_position is
   /// provided, setting alignment to centered will placethe captions at the bottom
@@ -19756,6 +20415,8 @@ class DvbSubDestinationSettings {
 /// ancillary) captions. Set up embedded captions in the same output as your
 /// video. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
+///
+/// @nodoc
 class EmbeddedDestinationSettings {
   /// Ignore this setting unless your input captions are SCC format and your
   /// output captions are embedded in the video stream. Specify a CC number for
@@ -19805,6 +20466,8 @@ class EmbeddedDestinationSettings {
 /// captions in the same output group, but different output from your video. For
 /// more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+///
+/// @nodoc
 class ImscDestinationSettings {
   /// If the IMSC captions track is intended to provide accessibility for people
   /// who are deaf or hard of hearing: Set Accessibility subtitles to Enabled.
@@ -19856,6 +20519,8 @@ class ImscDestinationSettings {
 /// captions in the same output group, but different output from your video. For
 /// more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
+///
+/// @nodoc
 class SccDestinationSettings {
   /// Set Framerate to make sure that the captions and the video are synchronized
   /// in the output. Specify a frame rate that matches the frame rate of the
@@ -19886,6 +20551,8 @@ class SccDestinationSettings {
 /// Settings related to SRT captions. SRT is a sidecar format that holds
 /// captions in a file that is separate from the video container. Set up sidecar
 /// captions in the same output group, but different output from your video.
+///
+/// @nodoc
 class SrtDestinationSettings {
   /// Set Style passthrough to ENABLED to use the available style, color, and
   /// position information from your input captions. MediaConvert uses default
@@ -19917,6 +20584,8 @@ class SrtDestinationSettings {
 /// Settings related to teletext captions. Set up teletext captions in the same
 /// output as your video. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
+///
+/// @nodoc
 class TeletextDestinationSettings {
   /// Set pageNumber to the Teletext page number for the destination captions for
   /// this output. This value must be a three-digit hexadecimal string; strings
@@ -19962,6 +20631,8 @@ class TeletextDestinationSettings {
 /// captions in the same output group, but different output from your video. For
 /// more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+///
+/// @nodoc
 class TtmlDestinationSettings {
   /// Pass through style and position information from a TTML-like input source
   /// (TTML, IMSC, SMPTE-TT) to the TTML output.
@@ -19991,6 +20662,8 @@ class TtmlDestinationSettings {
 /// captions in the same output group, but different output from your video. For
 /// more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+///
+/// @nodoc
 class WebvttDestinationSettings {
   /// If the WebVTT captions track is intended to provide accessibility for people
   /// who are deaf or hard of hearing: Set Accessibility subtitles to Enabled.
@@ -20059,6 +20732,8 @@ class WebvttDestinationSettings {
 /// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
 /// following in the adaptation set for this track: <Role
 /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
+///
+/// @nodoc
 class WebvttAccessibilitySubs {
   static const disabled = WebvttAccessibilitySubs._('DISABLED');
   static const enabled = WebvttAccessibilitySubs._('ENABLED');
@@ -20097,6 +20772,8 @@ class WebvttAccessibilitySubs {
 /// information from your input captions, while merging cues with identical time
 /// ranges: Choose merge. This setting can help prevent positioning overlaps for
 /// certain players that expect a single single cue for any given time range.
+///
+/// @nodoc
 class WebvttStylePassthrough {
   static const enabled = WebvttStylePassthrough._('ENABLED');
   static const disabled = WebvttStylePassthrough._('DISABLED');
@@ -20126,6 +20803,8 @@ class WebvttStylePassthrough {
 
 /// Pass through style and position information from a TTML-like input source
 /// (TTML, IMSC, SMPTE-TT) to the TTML output.
+///
+/// @nodoc
 class TtmlStylePassthrough {
   static const enabled = TtmlStylePassthrough._('ENABLED');
   static const disabled = TtmlStylePassthrough._('DISABLED');
@@ -20152,6 +20831,8 @@ class TtmlStylePassthrough {
 }
 
 /// A page type as defined in the standard ETSI EN 300 468, Table 94
+///
+/// @nodoc
 class TeletextPageType {
   static const pageTypeInitial = TeletextPageType._('PAGE_TYPE_INITIAL');
   static const pageTypeSubtitle = TeletextPageType._('PAGE_TYPE_SUBTITLE');
@@ -20193,6 +20874,8 @@ class TeletextPageType {
 /// captions. Set Style passthrough to DISABLED, or leave blank, to ignore the
 /// style and position information from your input captions and use simplified
 /// output captions.
+///
+/// @nodoc
 class SrtStylePassthrough {
   static const enabled = SrtStylePassthrough._('ENABLED');
   static const disabled = SrtStylePassthrough._('DISABLED');
@@ -20223,6 +20906,8 @@ class SrtStylePassthrough {
 /// associated video. If the video frame rate is 29.97, choose 29.97 dropframe
 /// only if the video has video_insertion=true and drop_frame_timecode=true;
 /// otherwise, choose 29.97 non-dropframe.
+///
+/// @nodoc
 class SccDestinationFramerate {
   static const framerate_23_97 = SccDestinationFramerate._('FRAMERATE_23_97');
   static const framerate_24 = SccDestinationFramerate._('FRAMERATE_24');
@@ -20272,6 +20957,8 @@ class SccDestinationFramerate {
 /// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
 /// following in the adaptation set for this track: <Role
 /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
+///
+/// @nodoc
 class ImscAccessibilitySubs {
   static const disabled = ImscAccessibilitySubs._('DISABLED');
   static const enabled = ImscAccessibilitySubs._('ENABLED');
@@ -20301,6 +20988,8 @@ class ImscAccessibilitySubs {
 /// position information from the captions source in the output. This option is
 /// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
 /// this setting for simplified output captions.
+///
+/// @nodoc
 class ImscStylePassthrough {
   static const enabled = ImscStylePassthrough._('ENABLED');
   static const disabled = ImscStylePassthrough._('DISABLED');
@@ -20333,6 +21022,8 @@ class ImscStylePassthrough {
 /// conjunction with the alignment parameter, the font will be justified (either
 /// left or centered) relative to those coordinates. Within your job settings,
 /// all of your DVB-Sub settings must be identical.
+///
+/// @nodoc
 class DvbSubtitleAlignment {
   static const centered = DvbSubtitleAlignment._('CENTERED');
   static const left = DvbSubtitleAlignment._('LEFT');
@@ -20367,6 +21058,8 @@ class DvbSubtitleAlignment {
 /// input captions have red and white text, your output captions will have red
 /// and yellow text. When you choose ALL_TEXT, your font color setting applies
 /// to all of your output captions text.
+///
+/// @nodoc
 class DvbSubtitleApplyFontColor {
   static const whiteTextOnly = DvbSubtitleApplyFontColor._('WHITE_TEXT_ONLY');
   static const allText = DvbSubtitleApplyFontColor._('ALL_TEXT');
@@ -20395,6 +21088,8 @@ class DvbSubtitleApplyFontColor {
 /// Specify the color of the rectangle behind the captions. Leave background
 /// color blank and set Style passthrough to enabled to use the background color
 /// data from your input captions, if present.
+///
+/// @nodoc
 class DvbSubtitleBackgroundColor {
   static const none = DvbSubtitleBackgroundColor._('NONE');
   static const black = DvbSubtitleBackgroundColor._('BLACK');
@@ -20438,6 +21133,8 @@ class DvbSubtitleBackgroundColor {
 /// supports resolutions higher than 1080p while maintaining full DVB-Sub
 /// compatibility. When you do, also specify the offset coordinates of the
 /// display window with DDS x-coordinate and DDS y-coordinate.
+///
+/// @nodoc
 class DvbddsHandling {
   static const none = DvbddsHandling._('NONE');
   static const specified = DvbddsHandling._('SPECIFIED');
@@ -20472,6 +21169,8 @@ class DvbddsHandling {
 /// MediaConvert matches each font with the supported font that matches best.
 /// When you explicitly choose a replacement font, MediaConvert uses that font
 /// to replace all unsupported fonts from your input.
+///
+/// @nodoc
 class DvbSubSubtitleFallbackFont {
   static const bestMatch = DvbSubSubtitleFallbackFont._('BEST_MATCH');
   static const monospacedSansserif =
@@ -20514,6 +21213,8 @@ class DvbSubSubtitleFallbackFont {
 /// passthrough to enabled to use the font color data from your input captions,
 /// if present. Within your job settings, all of your DVB-Sub settings must be
 /// identical.
+///
+/// @nodoc
 class DvbSubtitleFontColor {
   static const white = DvbSubtitleFontColor._('WHITE');
   static const black = DvbSubtitleFontColor._('BLACK');
@@ -20548,6 +21249,8 @@ class DvbSubtitleFontColor {
 /// Provide the font script, using an ISO 15924 script code, if the LanguageCode
 /// is not sufficient for determining the script type. Where LanguageCode or
 /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset.
+///
+/// @nodoc
 class FontScript {
   static const automatic = FontScript._('AUTOMATIC');
   static const hans = FontScript._('HANS');
@@ -20576,6 +21279,8 @@ class FontScript {
 /// passthrough to enabled to use the font outline color data from your input
 /// captions, if present. Within your job settings, all of your DVB-Sub settings
 /// must be identical.
+///
+/// @nodoc
 class DvbSubtitleOutlineColor {
   static const black = DvbSubtitleOutlineColor._('BLACK');
   static const white = DvbSubtitleOutlineColor._('WHITE');
@@ -20610,6 +21315,8 @@ class DvbSubtitleOutlineColor {
 /// blank and set Style passthrough to enabled to use the shadow color data from
 /// your input captions, if present. Within your job settings, all of your
 /// DVB-Sub settings must be identical.
+///
+/// @nodoc
 class DvbSubtitleShadowColor {
   static const none = DvbSubtitleShadowColor._('NONE');
   static const black = DvbSubtitleShadowColor._('BLACK');
@@ -20647,6 +21354,8 @@ class DvbSubtitleShadowColor {
 /// passthrough to enabled or not, you can also choose to manually override any
 /// of the individual style and position settings. You can also override any
 /// fonts by manually specifying custom font files.
+///
+/// @nodoc
 class DvbSubtitleStylePassthrough {
   static const enabled = DvbSubtitleStylePassthrough._('ENABLED');
   static const disabled = DvbSubtitleStylePassthrough._('DISABLED');
@@ -20675,6 +21384,8 @@ class DvbSubtitleStylePassthrough {
 /// Specify whether your DVB subtitles are standard or for hearing impaired.
 /// Choose hearing impaired if your subtitles include audio descriptions and
 /// dialogue. Choose standard if your subtitles include only dialogue.
+///
+/// @nodoc
 class DvbSubtitlingType {
   static const hearingImpaired = DvbSubtitlingType._('HEARING_IMPAIRED');
   static const standard = DvbSubtitlingType._('STANDARD');
@@ -20704,6 +21415,8 @@ class DvbSubtitlingType {
 /// the spacing specified in the captions file more accurately. Choose
 /// proportional to make the text easier to read for closed captions. Within
 /// your job settings, all of your DVB-Sub settings must be identical.
+///
+/// @nodoc
 class DvbSubtitleTeletextSpacing {
   static const fixedGrid = DvbSubtitleTeletextSpacing._('FIXED_GRID');
   static const proportional = DvbSubtitleTeletextSpacing._('PROPORTIONAL');
@@ -20736,6 +21449,8 @@ class DvbSubtitleTeletextSpacing {
 /// to the bottom left of the output. If x and y positions are given in
 /// conjunction with the alignment parameter, the font will be justified (either
 /// left or centered) relative to those coordinates.
+///
+/// @nodoc
 class BurninSubtitleAlignment {
   static const centered = BurninSubtitleAlignment._('CENTERED');
   static const left = BurninSubtitleAlignment._('LEFT');
@@ -20770,6 +21485,8 @@ class BurninSubtitleAlignment {
 /// input captions have red and white text, your output captions will have red
 /// and yellow text. When you choose ALL_TEXT, your font color setting applies
 /// to all of your output captions text.
+///
+/// @nodoc
 class BurninSubtitleApplyFontColor {
   static const whiteTextOnly =
       BurninSubtitleApplyFontColor._('WHITE_TEXT_ONLY');
@@ -20799,6 +21516,8 @@ class BurninSubtitleApplyFontColor {
 /// Specify the color of the rectangle behind the captions. Leave background
 /// color blank and set Style passthrough to enabled to use the background color
 /// data from your input captions, if present.
+///
+/// @nodoc
 class BurninSubtitleBackgroundColor {
   static const none = BurninSubtitleBackgroundColor._('NONE');
   static const black = BurninSubtitleBackgroundColor._('BLACK');
@@ -20834,6 +21553,8 @@ class BurninSubtitleBackgroundColor {
 /// MediaConvert matches each font with the supported font that matches best.
 /// When you explicitly choose a replacement font, MediaConvert uses that font
 /// to replace all unsupported fonts from your input.
+///
+/// @nodoc
 class BurninSubtitleFallbackFont {
   static const bestMatch = BurninSubtitleFallbackFont._('BEST_MATCH');
   static const monospacedSansserif =
@@ -20875,6 +21596,8 @@ class BurninSubtitleFallbackFont {
 /// Specify the color of the burned-in captions text. Leave Font color blank and
 /// set Style passthrough to enabled to use the font color data from your input
 /// captions, if present.
+///
+/// @nodoc
 class BurninSubtitleFontColor {
   static const white = BurninSubtitleFontColor._('WHITE');
   static const black = BurninSubtitleFontColor._('BLACK');
@@ -20909,6 +21632,8 @@ class BurninSubtitleFontColor {
 /// Specify font outline color. Leave Outline color blank and set Style
 /// passthrough to enabled to use the font outline color data from your input
 /// captions, if present.
+///
+/// @nodoc
 class BurninSubtitleOutlineColor {
   static const black = BurninSubtitleOutlineColor._('BLACK');
   static const white = BurninSubtitleOutlineColor._('WHITE');
@@ -20944,6 +21669,8 @@ class BurninSubtitleOutlineColor {
 /// if your vertical Japanese output captions have alignment issues. To remove
 /// ruby reserve attributes when present: Choose Enabled. To not remove any ruby
 /// reserve attributes: Keep the default value, Disabled.
+///
+/// @nodoc
 class RemoveRubyReserveAttributes {
   static const disabled = RemoveRubyReserveAttributes._('DISABLED');
   static const enabled = RemoveRubyReserveAttributes._('ENABLED');
@@ -20972,6 +21699,8 @@ class RemoveRubyReserveAttributes {
 /// Specify the color of the shadow cast by the captions. Leave Shadow color
 /// blank and set Style passthrough to enabled to use the shadow color data from
 /// your input captions, if present.
+///
+/// @nodoc
 class BurninSubtitleShadowColor {
   static const none = BurninSubtitleShadowColor._('NONE');
   static const black = BurninSubtitleShadowColor._('BLACK');
@@ -21009,6 +21738,8 @@ class BurninSubtitleShadowColor {
 /// passthrough to enabled or not, you can also choose to manually override any
 /// of the individual style and position settings. You can also override any
 /// fonts by manually specifying custom font files.
+///
+/// @nodoc
 class BurnInSubtitleStylePassthrough {
   static const enabled = BurnInSubtitleStylePassthrough._('ENABLED');
   static const disabled = BurnInSubtitleStylePassthrough._('DISABLED');
@@ -21038,6 +21769,8 @@ class BurnInSubtitleStylePassthrough {
 /// grid, or varies depending on letter width. Choose fixed grid to conform to
 /// the spacing specified in the captions file more accurately. Choose
 /// proportional to make the text easier to read for closed captions.
+///
+/// @nodoc
 class BurninSubtitleTeletextSpacing {
   static const fixedGrid = BurninSubtitleTeletextSpacing._('FIXED_GRID');
   static const proportional = BurninSubtitleTeletextSpacing._('PROPORTIONAL');
@@ -21070,6 +21803,8 @@ class BurninSubtitleTeletextSpacing {
 /// Depending on how you set up your input audio selectors and whether you use
 /// audio selector groups, one audio tab can correspond to a group of output
 /// audio tracks.
+///
+/// @nodoc
 class AudioDescription {
   /// Specify the QuickTime audio channel layout tags for the audio channels in
   /// this audio track. When you don't specify a value, MediaConvert labels your
@@ -21244,6 +21979,8 @@ class AudioDescription {
 /// track as Center (C) by default. To use Audio layout tagging, your output
 /// must be in a QuickTime (MOV) container and your audio codec must be AAC,
 /// WAV, or AIFF.
+///
+/// @nodoc
 class AudioChannelTaggingSettings {
   /// Specify the QuickTime audio channel layout tags for the audio channels in
   /// this audio track. Enter channel layout tags in the same order as your
@@ -21290,6 +22027,8 @@ class AudioChannelTaggingSettings {
 
 /// Advanced audio normalization settings. Ignore these settings unless you need
 /// to comply with a loudness standard.
+///
+/// @nodoc
 class AudioNormalizationSettings {
   /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1:
   /// Ungated loudness. A measurement of ungated average loudness for an entire
@@ -21380,6 +22119,8 @@ class AudioNormalizationSettings {
 }
 
 /// Settings for audio pitch correction during framerate conversion.
+///
+/// @nodoc
 class AudioPitchCorrectionSettings {
   /// Use Slow PAL pitch correction to compensate for audio pitch changes during
   /// slow PAL frame rate conversion. This setting only applies when Slow PAL is
@@ -21415,6 +22156,8 @@ class AudioPitchCorrectionSettings {
 /// value in Audio Type is included in the output. Note that this field and
 /// audioType are both ignored if audioDescriptionBroadcasterMix is set to
 /// BROADCASTER_MIXED_AD.
+///
+/// @nodoc
 class AudioTypeControl {
   static const followInput = AudioTypeControl._('FOLLOW_INPUT');
   static const useConfigured = AudioTypeControl._('USE_CONFIGURED');
@@ -21441,6 +22184,8 @@ class AudioTypeControl {
 
 /// Settings related to audio encoding. The settings in this group vary
 /// depending on the value that you choose for your audio codec.
+///
+/// @nodoc
 class AudioCodecSettings {
   /// Required when you set Codec to the value AAC. The service accepts one of two
   /// mutually exclusive groups of AAC settings--VBR and CBR. To select one of
@@ -21598,6 +22343,8 @@ class AudioCodecSettings {
 /// track, the service uses the code that you specify in the setting Language
 /// code. When you choose Use configured, the service uses the language code
 /// that you specify.
+///
+/// @nodoc
 class AudioLanguageCodeControl {
   static const followInput = AudioLanguageCodeControl._('FOLLOW_INPUT');
   static const useConfigured = AudioLanguageCodeControl._('USE_CONFIGURED');
@@ -21626,6 +22373,8 @@ class AudioLanguageCodeControl {
 /// Use Manual audio remixing to adjust audio levels for each audio channel in
 /// each output of your job. With audio remixing, you can output more or fewer
 /// audio channels than your input audio source provides.
+///
+/// @nodoc
 class RemixSettings {
   /// Optionally specify the channel in your input that contains your audio
   /// description audio signal. MediaConvert mixes your audio signal across all
@@ -21724,6 +22473,8 @@ class RemixSettings {
 /// unchanged to the output channel (no attenuation or amplification). Use
 /// InputChannels or InputChannelsFineTune to specify your remix values. Don't
 /// use both.
+///
+/// @nodoc
 class ChannelMapping {
   /// In your JSON job specification, include one child of OutputChannels for each
   /// audio channel that you want in your output. Each child should contain one
@@ -21752,6 +22503,8 @@ class ChannelMapping {
 }
 
 /// OutputChannel mapping settings.
+///
+/// @nodoc
 class OutputChannelMapping {
   /// Use this setting to specify your remix values when they are integers, such
   /// as -10, 0, or 4.
@@ -21797,6 +22550,8 @@ class OutputChannelMapping {
 /// mode, you control the audio quality with the setting VBR quality. In CBR
 /// mode, you use the setting Bitrate. Defaults and valid values depend on the
 /// rate control mode.
+///
+/// @nodoc
 class AacSettings {
   /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio +
   /// audio description (AD) as a stereo pair. The value for AudioType will be set
@@ -21961,6 +22716,8 @@ class AacSettings {
 }
 
 /// Required when you set Codec to the value AC3.
+///
+/// @nodoc
 class Ac3Settings {
   /// Specify the average bitrate in bits per second. The bitrate that you specify
   /// must be a multiple of 8000 within the allowed minimum and maximum values.
@@ -22093,6 +22850,8 @@ class Ac3Settings {
 }
 
 /// Required when you set Codec to the value AC4.
+///
+/// @nodoc
 class Ac4Settings {
   /// Specify the average bitrate in bits per second. Leave blank to use the
   /// default bitrate for the coding mode you select according to ETSI TS 103 190.
@@ -22285,6 +23044,8 @@ class Ac4Settings {
 }
 
 /// Required when you set Codec to the value AIFF.
+///
+/// @nodoc
 class AiffSettings {
   /// Specify Bit depth, in bits per sample, to choose the encoding quality for
   /// this audio track.
@@ -22336,6 +23097,8 @@ class AiffSettings {
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only
 /// and
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
+///
+/// @nodoc
 class AudioCodec {
   static const aac = AudioCodec._('AAC');
   static const mp2 = AudioCodec._('MP2');
@@ -22385,6 +23148,8 @@ class AudioCodec {
 }
 
 /// Required when you set Codec to the value EAC3_ATMOS.
+///
+/// @nodoc
 class Eac3AtmosSettings {
   /// Specify the average bitrate for this output in bits per second. Valid
   /// values: 384k, 448k, 576k, 640k, 768k, 1024k Default value: 448k Note that
@@ -22606,6 +23371,8 @@ class Eac3AtmosSettings {
 }
 
 /// Required when you set Codec to the value EAC3.
+///
+/// @nodoc
 class Eac3Settings {
   /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround
   /// channels. Only used for 3/2 coding mode.
@@ -22853,6 +23620,8 @@ class Eac3Settings {
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
 /// value FLAC.
+///
+/// @nodoc
 class FlacSettings {
   /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding
   /// quality for this audio track.
@@ -22893,6 +23662,8 @@ class FlacSettings {
 }
 
 /// Required when you set Codec to the value MP2.
+///
+/// @nodoc
 class Mp2Settings {
   /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio +
   /// audio description (AD) as a stereo pair. The value for AudioType will be set
@@ -22951,6 +23722,8 @@ class Mp2Settings {
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
 /// value MP3.
+///
+/// @nodoc
 class Mp3Settings {
   /// Specify the average bitrate in bits per second.
   final int? bitrate;
@@ -23009,6 +23782,8 @@ class Mp3Settings {
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
 /// value OPUS.
+///
+/// @nodoc
 class OpusSettings {
   /// Optional. Specify the average bitrate in bits per second. Valid values are
   /// multiples of 8000, from 32000 through 192000. The default value is 96000,
@@ -23053,6 +23828,8 @@ class OpusSettings {
 
 /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
 /// value Vorbis.
+///
+/// @nodoc
 class VorbisSettings {
   /// Optional. Specify the number of channels in this output audio track.
   /// Choosing Follow input will use the number of channels found in the audio
@@ -23098,6 +23875,8 @@ class VorbisSettings {
 }
 
 /// Required when you set Codec to the value WAV.
+///
+/// @nodoc
 class WavSettings {
   /// Specify Bit depth, in bits per sample, to choose the encoding quality for
   /// this audio track.
@@ -23154,6 +23933,8 @@ class WavSettings {
 /// exceed 4GB in file size, or if you otherwise need the extended support of
 /// the RF64 format: Choose RF64. If your player only supports the extensible
 /// wave format: Choose Extensible.
+///
+/// @nodoc
 class WavFormat {
   static const riff = WavFormat._('RIFF');
   static const rf64 = WavFormat._('RF64');
@@ -23180,6 +23961,8 @@ class WavFormat {
 
 /// Specify whether the service encodes this MP3 audio output with a constant
 /// bitrate (CBR) or a variable bitrate (VBR).
+///
+/// @nodoc
 class Mp3RateControlMode {
   static const cbr = Mp3RateControlMode._('CBR');
   static const vbr = Mp3RateControlMode._('VBR');
@@ -23214,6 +23997,8 @@ class Mp3RateControlMode {
 /// AudioType and FollowInputAudioType. Choose NONE when the input does not
 /// contain pre-mixed audio + audio description (AD). In this case, the encoder
 /// will use any values you provide for AudioType and FollowInputAudioType.
+///
+/// @nodoc
 class Mp2AudioDescriptionMix {
   static const broadcasterMixedAd =
       Mp2AudioDescriptionMix._('BROADCASTER_MIXED_AD');
@@ -23242,6 +24027,8 @@ class Mp2AudioDescriptionMix {
 
 /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround
 /// channels. Only used for 3/2 coding mode.
+///
+/// @nodoc
 class Eac3AttenuationControl {
   static const attenuate_3Db = Eac3AttenuationControl._('ATTENUATE_3_DB');
   static const none = Eac3AttenuationControl._('NONE');
@@ -23270,6 +24057,8 @@ class Eac3AttenuationControl {
 /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
 /// more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex
 /// E).
+///
+/// @nodoc
 class Eac3BitstreamMode {
   static const completeMain = Eac3BitstreamMode._('COMPLETE_MAIN');
   static const commentary = Eac3BitstreamMode._('COMMENTARY');
@@ -23304,6 +24093,8 @@ class Eac3BitstreamMode {
 }
 
 /// Dolby Digital Plus coding mode. Determines number of channels.
+///
+/// @nodoc
 class Eac3CodingMode {
   static const codingMode_1_0 = Eac3CodingMode._('CODING_MODE_1_0');
   static const codingMode_2_0 = Eac3CodingMode._('CODING_MODE_2_0');
@@ -23336,6 +24127,8 @@ class Eac3CodingMode {
 }
 
 /// Activates a DC highpass filter for all input channels.
+///
+/// @nodoc
 class Eac3DcFilter {
   static const enabled = Eac3DcFilter._('ENABLED');
   static const disabled = Eac3DcFilter._('DISABLED');
@@ -23367,6 +24160,8 @@ class Eac3DcFilter {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+///
+/// @nodoc
 class Eac3DynamicRangeCompressionLine {
   static const none = Eac3DynamicRangeCompressionLine._('NONE');
   static const filmStandard =
@@ -23413,6 +24208,8 @@ class Eac3DynamicRangeCompressionLine {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+///
+/// @nodoc
 class Eac3DynamicRangeCompressionRf {
   static const none = Eac3DynamicRangeCompressionRf._('NONE');
   static const filmStandard = Eac3DynamicRangeCompressionRf._('FILM_STANDARD');
@@ -23451,6 +24248,8 @@ class Eac3DynamicRangeCompressionRf {
 }
 
 /// When encoding 3/2 audio, controls whether the LFE channel is enabled
+///
+/// @nodoc
 class Eac3LfeControl {
   static const lfe = Eac3LfeControl._('LFE');
   static const noLfe = Eac3LfeControl._('NO_LFE');
@@ -23477,6 +24276,8 @@ class Eac3LfeControl {
 
 /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
 /// valid with 3_2_LFE coding mode.
+///
+/// @nodoc
 class Eac3LfeFilter {
   static const enabled = Eac3LfeFilter._('ENABLED');
   static const disabled = Eac3LfeFilter._('DISABLED');
@@ -23504,6 +24305,8 @@ class Eac3LfeFilter {
 /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+,
 /// or DolbyE decoder that supplied this audio data. If audio was not supplied
 /// from one of these streams, then the static metadata settings will be used.
+///
+/// @nodoc
 class Eac3MetadataControl {
   static const followInput = Eac3MetadataControl._('FOLLOW_INPUT');
   static const useConfigured = Eac3MetadataControl._('USE_CONFIGURED');
@@ -23534,6 +24337,8 @@ class Eac3MetadataControl {
 /// transcode. Inputs that alternate between DD+ and non-DD+ content will have a
 /// consistent DD+ output as the system alternates between passthrough and
 /// encoding.
+///
+/// @nodoc
 class Eac3PassthroughControl {
   static const whenPossible = Eac3PassthroughControl._('WHEN_POSSIBLE');
   static const noPassthrough = Eac3PassthroughControl._('NO_PASSTHROUGH');
@@ -23561,6 +24366,8 @@ class Eac3PassthroughControl {
 
 /// Controls the amount of phase-shift applied to the surround channels. Only
 /// used for 3/2 coding mode.
+///
+/// @nodoc
 class Eac3PhaseControl {
   static const shift_90Degrees = Eac3PhaseControl._('SHIFT_90_DEGREES');
   static const noShift = Eac3PhaseControl._('NO_SHIFT');
@@ -23589,6 +24396,8 @@ class Eac3PhaseControl {
 /// you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding
 /// mode. If you choose a different value for Coding mode, the service ignores
 /// Stereo downmix.
+///
+/// @nodoc
 class Eac3StereoDownmix {
   static const notIndicated = Eac3StereoDownmix._('NOT_INDICATED');
   static const loRo = Eac3StereoDownmix._('LO_RO');
@@ -23617,6 +24426,8 @@ class Eac3StereoDownmix {
 
 /// When encoding 3/2 audio, sets whether an extra center back surround channel
 /// is matrix encoded into the left and right surround channels.
+///
+/// @nodoc
 class Eac3SurroundExMode {
   static const notIndicated = Eac3SurroundExMode._('NOT_INDICATED');
   static const enabled = Eac3SurroundExMode._('ENABLED');
@@ -23645,6 +24456,8 @@ class Eac3SurroundExMode {
 
 /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into
 /// the two channels.
+///
+/// @nodoc
 class Eac3SurroundMode {
   static const notIndicated = Eac3SurroundMode._('NOT_INDICATED');
   static const enabled = Eac3SurroundMode._('ENABLED');
@@ -23673,6 +24486,8 @@ class Eac3SurroundMode {
 /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
 /// more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex
 /// E).
+///
+/// @nodoc
 class Eac3AtmosBitstreamMode {
   static const completeMain = Eac3AtmosBitstreamMode._('COMPLETE_MAIN');
 
@@ -23698,6 +24513,8 @@ class Eac3AtmosBitstreamMode {
 }
 
 /// The coding mode for Dolby Digital Plus JOC (Atmos).
+///
+/// @nodoc
 class Eac3AtmosCodingMode {
   static const codingModeAuto = Eac3AtmosCodingMode._('CODING_MODE_AUTO');
   static const codingMode_5_1_4 = Eac3AtmosCodingMode._('CODING_MODE_5_1_4');
@@ -23732,6 +24549,8 @@ class Eac3AtmosCodingMode {
 
 /// Enable Dolby Dialogue Intelligence to adjust loudness based on dialogue
 /// analysis.
+///
+/// @nodoc
 class Eac3AtmosDialogueIntelligence {
   static const enabled = Eac3AtmosDialogueIntelligence._('ENABLED');
   static const disabled = Eac3AtmosDialogueIntelligence._('DISABLED');
@@ -23765,6 +24584,8 @@ class Eac3AtmosDialogueIntelligence {
 /// center, Left only/Right only center, and Stereo downmix. When you keep
 /// Custom for Downmix control and you don't specify values for the related
 /// settings, MediaConvert uses default values for those settings.
+///
+/// @nodoc
 class Eac3AtmosDownmixControl {
   static const specified = Eac3AtmosDownmixControl._('SPECIFIED');
   static const initializeFromSource =
@@ -23800,6 +24621,8 @@ class Eac3AtmosDownmixControl {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+///
+/// @nodoc
 class Eac3AtmosDynamicRangeCompressionLine {
   static const none = Eac3AtmosDynamicRangeCompressionLine._('NONE');
   static const filmStandard =
@@ -23848,6 +24671,8 @@ class Eac3AtmosDynamicRangeCompressionLine {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+///
+/// @nodoc
 class Eac3AtmosDynamicRangeCompressionRf {
   static const none = Eac3AtmosDynamicRangeCompressionRf._('NONE');
   static const filmStandard =
@@ -23894,6 +24719,8 @@ class Eac3AtmosDynamicRangeCompressionRf {
 /// Dynamic range compression RF. When you keep the value Custom for Dynamic
 /// range control and you don't specify values for the related settings,
 /// MediaConvert uses default values for those settings.
+///
+/// @nodoc
 class Eac3AtmosDynamicRangeControl {
   static const specified = Eac3AtmosDynamicRangeControl._('SPECIFIED');
   static const initializeFromSource =
@@ -23921,6 +24748,8 @@ class Eac3AtmosDynamicRangeControl {
 }
 
 /// Choose how the service meters the loudness of your audio.
+///
+/// @nodoc
 class Eac3AtmosMeteringMode {
   static const leqA = Eac3AtmosMeteringMode._('LEQ_A');
   static const ituBs_1770_1 = Eac3AtmosMeteringMode._('ITU_BS_1770_1');
@@ -23959,6 +24788,8 @@ class Eac3AtmosMeteringMode {
 /// Related setting: To have MediaConvert use this value, keep the default
 /// value, Custom for the setting Downmix control. Otherwise, MediaConvert
 /// ignores Stereo downmix.
+///
+/// @nodoc
 class Eac3AtmosStereoDownmix {
   static const notIndicated = Eac3AtmosStereoDownmix._('NOT_INDICATED');
   static const stereo = Eac3AtmosStereoDownmix._('STEREO');
@@ -23988,6 +24819,8 @@ class Eac3AtmosStereoDownmix {
 
 /// Specify whether your input audio has an additional center rear surround
 /// channel matrix encoded into your left and right surround channels.
+///
+/// @nodoc
 class Eac3AtmosSurroundExMode {
   static const notIndicated = Eac3AtmosSurroundExMode._('NOT_INDICATED');
   static const enabled = Eac3AtmosSurroundExMode._('ENABLED');
@@ -24018,6 +24851,8 @@ class Eac3AtmosSurroundExMode {
 /// more information about the AC-4 bitstream mode, see ETSI TS 103 190. Maps to
 /// dlb_paec_ac4_bed_classifier in the encoder implementation. - COMPLETE_MAIN:
 /// Complete Main (standard mix) - EMERGENCY: Stereo Emergency content
+///
+/// @nodoc
 class Ac4BitstreamMode {
   static const completeMain = Ac4BitstreamMode._('COMPLETE_MAIN');
   static const emergency = Ac4BitstreamMode._('EMERGENCY');
@@ -24048,6 +24883,8 @@ class Ac4BitstreamMode {
 /// CODING_MODE_3_2_LFE: 5.1 surround - maps to
 /// DLB_PAEC_AC4_BED_CHANNEL_CONFIG_51 - CODING_MODE_5_1_4: 5.1.4 immersive -
 /// maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_514
+///
+/// @nodoc
 class Ac4CodingMode {
   static const codingMode_2_0 = Ac4CodingMode._('CODING_MODE_2_0');
   static const codingMode_3_2Lfe = Ac4CodingMode._('CODING_MODE_3_2_LFE');
@@ -24077,6 +24914,8 @@ class Ac4CodingMode {
 /// uses when encoding the metadata in the Dolby AC-4 stream for the specified
 /// decoder mode. For information about the Dolby AC-4 DRC profiles, see the
 /// Dolby AC-4 specification.
+///
+/// @nodoc
 class Ac4DynamicRangeCompressionDrcProfile {
   static const none = Ac4DynamicRangeCompressionDrcProfile._('NONE');
   static const filmStandard =
@@ -24118,6 +24957,8 @@ class Ac4DynamicRangeCompressionDrcProfile {
 
 /// Choose the preferred stereo downmix method. This setting tells the decoder
 /// how to downmix multi-channel audio to stereo during playback.
+///
+/// @nodoc
 class Ac4StereoDownmix {
   static const notIndicated = Ac4StereoDownmix._('NOT_INDICATED');
   static const loRo = Ac4StereoDownmix._('LO_RO');
@@ -24146,6 +24987,8 @@ class Ac4StereoDownmix {
 
 /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For
 /// more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
+///
+/// @nodoc
 class Ac3BitstreamMode {
   static const completeMain = Ac3BitstreamMode._('COMPLETE_MAIN');
   static const commentary = Ac3BitstreamMode._('COMMENTARY');
@@ -24186,6 +25029,8 @@ class Ac3BitstreamMode {
 }
 
 /// Dolby Digital coding mode. Determines number of channels.
+///
+/// @nodoc
 class Ac3CodingMode {
   static const codingMode_1_0 = Ac3CodingMode._('CODING_MODE_1_0');
   static const codingMode_1_1 = Ac3CodingMode._('CODING_MODE_1_1');
@@ -24227,6 +25072,8 @@ class Ac3CodingMode {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+///
+/// @nodoc
 class Ac3DynamicRangeCompressionLine {
   static const filmStandard = Ac3DynamicRangeCompressionLine._('FILM_STANDARD');
   static const filmLight = Ac3DynamicRangeCompressionLine._('FILM_LIGHT');
@@ -24273,6 +25120,8 @@ class Ac3DynamicRangeCompressionLine {
 /// settings. If you do use this setting instead of the mode-specific settings,
 /// choose None to leave out DRC signaling. Keep the default Film standard to
 /// set the profile to Dolby's film standard profile for all operating modes.
+///
+/// @nodoc
 class Ac3DynamicRangeCompressionProfile {
   static const filmStandard =
       Ac3DynamicRangeCompressionProfile._('FILM_STANDARD');
@@ -24307,6 +25156,8 @@ class Ac3DynamicRangeCompressionProfile {
 /// profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide
 /// at
 /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+///
+/// @nodoc
 class Ac3DynamicRangeCompressionRf {
   static const filmStandard = Ac3DynamicRangeCompressionRf._('FILM_STANDARD');
   static const filmLight = Ac3DynamicRangeCompressionRf._('FILM_LIGHT');
@@ -24345,6 +25196,8 @@ class Ac3DynamicRangeCompressionRf {
 
 /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
 /// valid with 3_2_LFE coding mode.
+///
+/// @nodoc
 class Ac3LfeFilter {
   static const enabled = Ac3LfeFilter._('ENABLED');
   static const disabled = Ac3LfeFilter._('DISABLED');
@@ -24371,6 +25224,8 @@ class Ac3LfeFilter {
 /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+,
 /// or DolbyE decoder that supplied this audio data. If audio was not supplied
 /// from one of these streams, then the static metadata settings will be used.
+///
+/// @nodoc
 class Ac3MetadataControl {
   static const followInput = Ac3MetadataControl._('FOLLOW_INPUT');
   static const useConfigured = Ac3MetadataControl._('USE_CONFIGURED');
@@ -24405,6 +25260,8 @@ class Ac3MetadataControl {
 /// AudioType and FollowInputAudioType. Choose NORMAL when the input does not
 /// contain pre-mixed audio + audio description (AD). In this case, the encoder
 /// will use any values you provide for AudioType and FollowInputAudioType.
+///
+/// @nodoc
 class AacAudioDescriptionBroadcasterMix {
   static const broadcasterMixedAd =
       AacAudioDescriptionBroadcasterMix._('BROADCASTER_MIXED_AD');
@@ -24439,6 +25296,8 @@ class AacAudioDescriptionBroadcasterMix {
 /// encoding stereo audio at very low bitrates. For improved audio quality at
 /// lower bitrates, adaptive audio bitrate switching, and loudness control:
 /// Choose XHE.
+///
+/// @nodoc
 class AacCodecProfile {
   static const lc = AacCodecProfile._('LC');
   static const hev1 = AacCodecProfile._('HEV1');
@@ -24475,6 +25334,8 @@ class AacCodecProfile {
 /// R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE. To follow the number
 /// of channels from your input audio, choose CODING_MODE_AUTO, and the service
 /// will automatically choose from one of the coding modes above.
+///
+/// @nodoc
 class AacCodingMode {
   static const adReceiverMix = AacCodingMode._('AD_RECEIVER_MIX');
   static const codingMode_1_0 = AacCodingMode._('CODING_MODE_1_0');
@@ -24515,6 +25376,8 @@ class AacCodingMode {
 /// speech or other content: We recommend that you choose Anchor. When you do,
 /// MediaConvert optimizes the loudness of your output for clarify by applying
 /// speech gates.
+///
+/// @nodoc
 class AacLoudnessMeasurementMode {
   static const program = AacLoudnessMeasurementMode._('PROGRAM');
   static const anchor = AacLoudnessMeasurementMode._('ANCHOR');
@@ -24545,6 +25408,8 @@ class AacLoudnessMeasurementMode {
 /// For a variable bitrate: Choose VBR. Your AAC output bitrate will vary
 /// according to your audio content and the value that you choose for Bitrate
 /// quality.
+///
+/// @nodoc
 class AacRateControlMode {
   static const cbr = AacRateControlMode._('CBR');
   static const vbr = AacRateControlMode._('VBR');
@@ -24572,6 +25437,8 @@ class AacRateControlMode {
 
 /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an
 /// output, you must choose "No container" for the output container.
+///
+/// @nodoc
 class AacRawFormat {
   static const latmLoas = AacRawFormat._('LATM_LOAS');
   static const none = AacRawFormat._('NONE');
@@ -24597,6 +25464,8 @@ class AacRawFormat {
 
 /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport
 /// Stream containers.
+///
+/// @nodoc
 class AacSpecification {
   static const mpeg2 = AacSpecification._('MPEG2');
   static const mpeg4 = AacSpecification._('MPEG4');
@@ -24624,6 +25493,8 @@ class AacSpecification {
 /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of
 /// approximate VBR bitrates, see:
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
+///
+/// @nodoc
 class AacVbrQuality {
   static const low = AacVbrQuality._('LOW');
   static const mediumLow = AacVbrQuality._('MEDIUM_LOW');
@@ -24656,6 +25527,8 @@ class AacVbrQuality {
 /// pitch correction: Choose Enabled. MediaConvert automatically applies a pitch
 /// correction to your output to match the original content's audio pitch. To
 /// not apply audio pitch correction: Keep the default value, Disabled.
+///
+/// @nodoc
 class SlowPalPitchCorrection {
   static const disabled = SlowPalPitchCorrection._('DISABLED');
   static const enabled = SlowPalPitchCorrection._('ENABLED');
@@ -24691,6 +25564,8 @@ class SlowPalPitchCorrection {
 /// with an updated true peak measurement. ITU-R BS.1770-4: Higher channel
 /// count. Allows for more audio channels than the other algorithms, including
 /// configurations such as 7.1.
+///
+/// @nodoc
 class AudioNormalizationAlgorithm {
   static const ituBs_1770_1 = AudioNormalizationAlgorithm._('ITU_BS_1770_1');
   static const ituBs_1770_2 = AudioNormalizationAlgorithm._('ITU_BS_1770_2');
@@ -24725,6 +25600,8 @@ class AudioNormalizationAlgorithm {
 
 /// When enabled the output audio is corrected using the chosen algorithm. If
 /// disabled, the audio will be measured but not adjusted.
+///
+/// @nodoc
 class AudioNormalizationAlgorithmControl {
   static const correctAudio =
       AudioNormalizationAlgorithmControl._('CORRECT_AUDIO');
@@ -24753,6 +25630,8 @@ class AudioNormalizationAlgorithmControl {
 }
 
 /// If set to LOG, log each output's audio track loudness to a CSV file.
+///
+/// @nodoc
 class AudioNormalizationLoudnessLogging {
   static const log = AudioNormalizationLoudnessLogging._('LOG');
   static const dontLog = AudioNormalizationLoudnessLogging._('DONT_LOG');
@@ -24780,6 +25659,8 @@ class AudioNormalizationLoudnessLogging {
 
 /// If set to TRUE_PEAK, calculate and log the TruePeak for each output's audio
 /// track loudness.
+///
+/// @nodoc
 class AudioNormalizationPeakCalculation {
   static const truePeak = AudioNormalizationPeakCalculation._('TRUE_PEAK');
   static const none = AudioNormalizationPeakCalculation._('NONE');
@@ -24811,6 +25692,8 @@ class AudioNormalizationPeakCalculation {
 /// left and a right channel, enter Left (L) for the first channel and Right (R)
 /// for the second. If your output has multiple single-channel audio tracks,
 /// enter a single channel layout tag for each track.
+///
+/// @nodoc
 class AudioChannelTag {
   static const l = AudioChannelTag._('L');
   static const r = AudioChannelTag._('R');
@@ -24892,6 +25775,8 @@ class AudioChannelTag {
 
 /// A job template is a pre-made set of encoding instructions that you can use
 /// to quickly create a job.
+///
+/// @nodoc
 class JobTemplate {
   /// A name you create for each job template. Each name must be unique within
   /// your account.
@@ -25020,6 +25905,8 @@ class JobTemplate {
 
 /// Accelerated transcoding can significantly speed up jobs with long, visually
 /// complex content.
+///
+/// @nodoc
 class AccelerationSettings {
   /// Specify the conditions when the service will run your job with accelerated
   /// transcoding.
@@ -25045,6 +25932,8 @@ class AccelerationSettings {
 
 /// JobTemplateSettings contains all the transcode settings saved in the
 /// template that will be applied to jobs created from it.
+///
+/// @nodoc
 class JobTemplateSettings {
   /// When specified, this offset (in milliseconds) is added to the input Ad Avail
   /// PTS time.
@@ -25111,8 +26000,8 @@ class JobTemplateSettings {
   /// also need to set up your cloud TIC server. These settings apply to every
   /// output in your job. The MediaConvert implementation is currently with the
   /// following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM
-  /// Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC]
-  /// Version [7.0.0]
+  /// Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator \[SID_TIC\]
+  /// Version \[7.0.0\]
   final NielsenNonLinearWatermarkSettings? nielsenNonLinearWatermark;
 
   /// Contains one group of settings for each set of outputs that share a common
@@ -25253,6 +26142,8 @@ class JobTemplateSettings {
 /// MediaConvert sends an update at this interval from the time the service
 /// begins processing your job to the time it completes the transcode or
 /// encounters an error.
+///
+/// @nodoc
 class StatusUpdateInterval {
   static const seconds_10 = StatusUpdateInterval._('SECONDS_10');
   static const seconds_12 = StatusUpdateInterval._('SECONDS_12');
@@ -25312,6 +26203,8 @@ class StatusUpdateInterval {
 /// MediaConvert also removes any audio and embedded captions during the ad
 /// avail. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ad-avail-blanking.html.
+///
+/// @nodoc
 class AvailBlanking {
   /// Blanking image to be used. Leave empty for solid black. Only bmp and png
   /// images are supported.
@@ -25337,6 +26230,8 @@ class AvailBlanking {
 
 /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad
 /// insertion, you can ignore these settings.
+///
+/// @nodoc
 class EsamSettings {
   /// Specifies an ESAM ManifestConfirmConditionNotification XML as per
   /// OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning
@@ -25400,6 +26295,8 @@ class EsamSettings {
 /// (XDS) packets. You can choose to pass through XDS packets, or remove them
 /// from the output. For more information about XDS, see EIA-608 Line Data
 /// Services, section 9.5.1.5 05h Content Advisory.
+///
+/// @nodoc
 class ExtendedDataServices {
   /// The action to take on copy and redistribution control XDS packets. If you
   /// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
@@ -25442,6 +26339,8 @@ class ExtendedDataServices {
 /// to specifying these values, you also need to store your Kantar credentials
 /// in AWS Secrets Manager. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
+///
+/// @nodoc
 class KantarWatermarkSettings {
   /// Provide an audio channel name from your Kantar audio license.
   final String? channelName;
@@ -25577,6 +26476,8 @@ class KantarWatermarkSettings {
 /// specify here appear on all outputs in all output groups. For more
 /// information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
+///
+/// @nodoc
 class MotionImageInserter {
   /// If your motion graphic asset is a .mov file, keep this setting unspecified.
   /// If your motion graphic asset is a series of .png files, specify the frame
@@ -25675,6 +26576,8 @@ class MotionImageInserter {
 /// Settings for your Nielsen configuration. If you don't do Nielsen measurement
 /// and analytics, ignore these settings. When you enable Nielsen configuration,
 /// MediaConvert enables PCM to ID3 tagging for all outputs in the job.
+///
+/// @nodoc
 class NielsenConfiguration {
   /// Nielsen has discontinued the use of breakout code functionality. If you must
   /// include this property, set the value to zero.
@@ -25712,8 +26615,10 @@ class NielsenConfiguration {
 /// also need to set up your cloud TIC server. These settings apply to every
 /// output in your job. The MediaConvert implementation is currently with the
 /// following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM
-/// Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC]
-/// Version [7.0.0]
+/// Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator \[SID_TIC\]
+/// Version \[7.0.0\]
+///
+/// @nodoc
 class NielsenNonLinearWatermarkSettings {
   /// Choose the type of Nielsen watermarks that you want in your outputs. When
   /// you choose NAES 2 and NW, you must provide a value for the setting SID. When
@@ -25851,6 +26756,8 @@ class NielsenNonLinearWatermarkSettings {
 
 /// These settings control how the service handles timecodes throughout the job.
 /// These settings don't affect input clipping.
+///
+/// @nodoc
 class TimecodeConfig {
   /// If you use an editing platform that relies on an anchor timecode, use Anchor
   /// Timecode to specify a timecode that will match the input video frame to the
@@ -25923,6 +26830,8 @@ class TimecodeConfig {
 /// Insert user-defined custom ID3 metadata at timecodes that you specify. In
 /// each output that you want to include this metadata, you must set ID3
 /// metadata to Passthrough.
+///
+/// @nodoc
 class TimedMetadataInsertion {
   /// Id3Insertions contains the array of Id3Insertion instances.
   final List<Id3Insertion>? id3Insertions;
@@ -25952,6 +26861,8 @@ class TimedMetadataInsertion {
 /// specify the base 64 encoded string and use Timecode to specify the time when
 /// the tag should be inserted. To insert multiple ID3 tags in your output,
 /// create multiple instances of ID3 insertion.
+///
+/// @nodoc
 class Id3Insertion {
   /// Use ID3 tag to provide a fully formed ID3 tag in base64-encode format.
   final String? id3;
@@ -25991,6 +26902,8 @@ class Id3Insertion {
 /// timecode of the initial frame to 00:00:00:00. * Specified Start - Set the
 /// timecode of the initial frame to a value other than zero. You use Start
 /// timecode to provide this value.
+///
+/// @nodoc
 class TimecodeSource {
   static const embedded = TimecodeSource._('EMBEDDED');
   static const zerobased = TimecodeSource._('ZEROBASED');
@@ -26017,6 +26930,8 @@ class TimecodeSource {
 }
 
 /// Group of outputs
+///
+/// @nodoc
 class OutputGroup {
   /// Use automated encoding to have MediaConvert choose your encoding settings
   /// for you, based on characteristics of your input video.
@@ -26085,6 +27000,8 @@ class OutputGroup {
 
 /// Use automated encoding to have MediaConvert choose your encoding settings
 /// for you, based on characteristics of your input video.
+///
+/// @nodoc
 class AutomatedEncodingSettings {
   /// Use automated ABR to have MediaConvert set up the renditions in your ABR
   /// package for you automatically, based on characteristics of your input video.
@@ -26114,6 +27031,8 @@ class AutomatedEncodingSettings {
 }
 
 /// Output Group settings, including type
+///
+/// @nodoc
 class OutputGroupSettings {
   /// Settings related to your CMAF output package. For more information, see
   /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
@@ -26228,6 +27147,8 @@ class OutputGroupSettings {
 /// want MediaConvert to encode a single output file or stream. For more
 /// information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/create-outputs.html.
+///
+/// @nodoc
 class Output {
   /// Contains groups of audio encoding settings organized by audio codec. Include
   /// one instance of per output. Can contain multiple groups of encoding
@@ -26334,6 +27255,8 @@ class Output {
 }
 
 /// Specific settings for this type of output.
+///
+/// @nodoc
 class OutputSettings {
   /// Settings for HLS output groups
   final HlsSettings? hlsSettings;
@@ -26359,6 +27282,8 @@ class OutputSettings {
 }
 
 /// Settings for HLS output groups
+///
+/// @nodoc
 class HlsSettings {
   /// Specifies the group to which the audio rendition belongs.
   final String? audioGroupId;
@@ -26469,6 +27394,8 @@ class HlsSettings {
 /// Automatic to create a raw audio-only file with no container. Regardless of
 /// the value that you specify here, if this output has video, the service will
 /// place outputs into an MPEG2-TS container.
+///
+/// @nodoc
 class HlsAudioOnlyContainer {
   static const automatic = HlsAudioOnlyContainer._('AUTOMATIC');
   static const m2ts = HlsAudioOnlyContainer._('M2TS');
@@ -26505,6 +27432,8 @@ class HlsAudioOnlyContainer {
 /// DEFAULT=NO, AUTOSELECT=YES Alternate Audio, not Auto Select Alternate
 /// rendition that the client will not try to play back by default. Represented
 /// as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
+///
+/// @nodoc
 class HlsAudioTrackType {
   static const alternateAudioAutoSelectDefault =
       HlsAudioTrackType._('ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT');
@@ -26547,6 +27476,8 @@ class HlsAudioTrackType {
 /// flag, MediaConvert leaves this parameter out. The DVS flag can help with
 /// accessibility on Apple devices. For more information, see the Apple
 /// documentation.
+///
+/// @nodoc
 class HlsDescriptiveVideoServiceFlag {
   static const dontFlag = HlsDescriptiveVideoServiceFlag._('DONT_FLAG');
   static const flag = HlsDescriptiveVideoServiceFlag._('FLAG');
@@ -26581,6 +27512,8 @@ class HlsDescriptiveVideoServiceFlag {
 /// MediaConvert output I-frames as single frame TS files and a corresponding
 /// variant manifest that references them: Choose Include as TS. When you don't
 /// need the I-frame only variant manifest: Keep the default value, Exclude.
+///
+/// @nodoc
 class HlsIFrameOnlyManifest {
   static const include = HlsIFrameOnlyManifest._('INCLUDE');
   static const includeAsTs = HlsIFrameOnlyManifest._('INCLUDE_AS_TS');
@@ -26609,6 +27542,8 @@ class HlsIFrameOnlyManifest {
 
 /// This object holds groups of settings related to captions for one output. For
 /// each output that has captions, include one instance of CaptionDescriptions.
+///
+/// @nodoc
 class CaptionDescription {
   /// Specifies which "Caption Selector":#inputs-caption_selector to use from each
   /// input when generating captions. The name should be of the format "Caption
@@ -26691,6 +27626,8 @@ class CaptionDescription {
 
 /// Settings related to your CMAF output package. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+///
+/// @nodoc
 class CmafGroupSettings {
   /// By default, the service creates one top-level .m3u8 HLS manifest and one top
   /// -level .mpd DASH manifest for each CMAF output group in your job. These
@@ -27101,6 +28038,8 @@ class CmafGroupSettings {
 
 /// Settings related to your DASH output package. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+///
+/// @nodoc
 class DashIsoGroupSettings {
   /// By default, the service creates one .mpd DASH manifest for each DASH ISO
   /// output group in your job. This default manifest references every output in
@@ -27450,6 +28389,8 @@ class DashIsoGroupSettings {
 /// Settings related to your File output group. MediaConvert uses this group of
 /// settings to generate a single standalone file, rather than a streaming
 /// package.
+///
+/// @nodoc
 class FileGroupSettings {
   /// Use Destination to specify the S3 output location and the output filename
   /// base. Destination accepts format identifiers. If you do not specify the base
@@ -27490,6 +28431,8 @@ class FileGroupSettings {
 
 /// Settings related to your HLS output package. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+///
+/// @nodoc
 class HlsGroupSettings {
   /// Choose one or more ad marker types to decorate your Apple HLS manifest. This
   /// setting does not determine whether SCTE-35 markers appear in the outputs
@@ -27920,6 +28863,8 @@ class HlsGroupSettings {
 /// Settings related to your Microsoft Smooth Streaming output package. For more
 /// information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+///
+/// @nodoc
 class MsSmoothGroupSettings {
   /// By default, the service creates one .ism Microsoft Smooth Streaming manifest
   /// for each Microsoft Smooth Streaming output group in your job. This default
@@ -28029,6 +28974,8 @@ class MsSmoothGroupSettings {
 
 /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth
 /// Streaming, CMAF)
+///
+/// @nodoc
 class OutputGroupType {
   static const hlsGroupSettings = OutputGroupType._('HLS_GROUP_SETTINGS');
   static const dashIsoGroupSettings =
@@ -28066,6 +29013,8 @@ class OutputGroupType {
 
 /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across
 /// a Microsoft Smooth output group into a single audio stream.
+///
+/// @nodoc
 class MsSmoothAudioDeduplication {
   static const combineDuplicateStreams =
       MsSmoothAudioDeduplication._('COMBINE_DUPLICATE_STREAMS');
@@ -28094,6 +29043,8 @@ class MsSmoothAudioDeduplication {
 
 /// Settings associated with the destination. Will vary based on the type of
 /// destination
+///
+/// @nodoc
 class DestinationSettings {
   /// Settings associated with S3 destination
   final S3DestinationSettings? s3Settings;
@@ -28120,6 +29071,8 @@ class DestinationSettings {
 }
 
 /// If you are using DRM, set DRM System to specify the value SpekeKeyProvider.
+///
+/// @nodoc
 class MsSmoothEncryptionSettings {
   /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
   /// settings when doing DRM encryption with a SPEKE-compliant key provider. If
@@ -28153,6 +29106,8 @@ class MsSmoothEncryptionSettings {
 /// setting Fragment length. This might result in extra I-frames. Choose
 /// Multiple of GOP to have the encoder round up the segment lengths to match
 /// the next GOP boundary.
+///
+/// @nodoc
 class MsSmoothFragmentLengthControl {
   static const exact = MsSmoothFragmentLengthControl._('EXACT');
   static const gopMultiple = MsSmoothFragmentLengthControl._('GOP_MULTIPLE');
@@ -28180,6 +29135,8 @@ class MsSmoothFragmentLengthControl {
 
 /// Use Manifest encoding to specify the encoding format for the server and
 /// client manifest. Valid options are utf8 and utf16.
+///
+/// @nodoc
 class MsSmoothManifestEncoding {
   static const utf8 = MsSmoothManifestEncoding._('UTF8');
   static const utf16 = MsSmoothManifestEncoding._('UTF16');
@@ -28209,6 +29166,8 @@ class MsSmoothManifestEncoding {
 /// settings when doing DRM encryption with a SPEKE-compliant key provider. If
 /// your output group type is CMAF, use the SpekeKeyProviderCmaf settings
 /// instead.
+///
+/// @nodoc
 class SpekeKeyProvider {
   /// If you want your key provider to encrypt the content keys that it provides
   /// to MediaConvert, set up a certificate with a master key using AWS
@@ -28286,6 +29245,8 @@ class SpekeKeyProvider {
 /// https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html
 /// To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0
 /// video preset and a SPEKE v2.0 audio preset.
+///
+/// @nodoc
 class EncryptionContractConfiguration {
   /// Specify which SPEKE version 2.0 audio preset MediaConvert uses to request
   /// content keys from your SPEKE server. For more information, see:
@@ -28346,6 +29307,8 @@ class EncryptionContractConfiguration {
 /// your audio outputs: Choose Unencrypted. When you do, to encrypt your video
 /// outputs, you must also specify a SPEKE v2.0 video preset (other than Shared
 /// or Unencrypted).
+///
+/// @nodoc
 class PresetSpeke20Audio {
   static const presetAudio_1 = PresetSpeke20Audio._('PRESET_AUDIO_1');
   static const presetAudio_2 = PresetSpeke20Audio._('PRESET_AUDIO_2');
@@ -28391,6 +29354,8 @@ class PresetSpeke20Audio {
 /// encrypt your video outputs: Choose Unencrypted. When you do, to encrypt your
 /// audio outputs, you must also specify a SPEKE v2.0 audio preset (other than
 /// Shared or Unencrypted).
+///
+/// @nodoc
 class PresetSpeke20Video {
   static const presetVideo_1 = PresetSpeke20Video._('PRESET_VIDEO_1');
   static const presetVideo_2 = PresetSpeke20Video._('PRESET_VIDEO_2');
@@ -28436,6 +29401,8 @@ class PresetSpeke20Video {
 }
 
 /// Settings associated with S3 destination
+///
+/// @nodoc
 class S3DestinationSettings {
   /// Optional. Have MediaConvert automatically apply Amazon S3 access control for
   /// the outputs in this output group. When you don't use this setting, S3
@@ -28488,6 +29455,8 @@ class S3DestinationSettings {
 /// Optional. Have MediaConvert automatically apply Amazon S3 access control for
 /// the outputs in this output group. When you don't use this setting, S3
 /// automatically applies the default access control list PRIVATE.
+///
+/// @nodoc
 class S3DestinationAccessControl {
   /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
   final S3ObjectCannedAcl? cannedAcl;
@@ -28513,6 +29482,8 @@ class S3DestinationAccessControl {
 
 /// Settings for how your job outputs are encrypted as they are uploaded to
 /// Amazon S3.
+///
+/// @nodoc
 class S3EncryptionSettings {
   /// Specify how you want your data keys managed. AWS uses data keys to encrypt
   /// your content. AWS also encrypts the data keys themselves, using a customer
@@ -28575,6 +29546,8 @@ class S3EncryptionSettings {
 /// destination's default storage class: Keep the default value, Not set. For
 /// more information about S3 storage classes, see
 /// https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
+///
+/// @nodoc
 class S3StorageClass {
   static const standard = S3StorageClass._('STANDARD');
   static const reducedRedundancy = S3StorageClass._('REDUCED_REDUNDANCY');
@@ -28622,6 +29595,8 @@ class S3StorageClass {
 /// associated with Amazon S3 to encrypt your data keys. You can optionally
 /// choose to specify a different, customer managed CMK. Do so by specifying the
 /// Amazon Resource Name (ARN) of the key for the setting KMS ARN.
+///
+/// @nodoc
 class S3ServerSideEncryptionType {
   static const serverSideEncryptionS3 =
       S3ServerSideEncryptionType._('SERVER_SIDE_ENCRYPTION_S3');
@@ -28650,6 +29625,8 @@ class S3ServerSideEncryptionType {
 }
 
 /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
+///
+/// @nodoc
 class S3ObjectCannedAcl {
   static const publicRead = S3ObjectCannedAcl._('PUBLIC_READ');
   static const authenticatedRead = S3ObjectCannedAcl._('AUTHENTICATED_READ');
@@ -28685,6 +29662,8 @@ class S3ObjectCannedAcl {
 /// Specify the details for each additional Microsoft Smooth Streaming manifest
 /// that you want the service to generate for this output group. Each manifest
 /// can reference a different subset of outputs in the group.
+///
+/// @nodoc
 class MsSmoothAdditionalManifest {
   /// Specify a name modifier that the service adds to the name of this manifest
   /// to make it different from the file names of the other main manifests in the
@@ -28728,6 +29707,8 @@ class MsSmoothAdditionalManifest {
 /// you encounter playback issues. Keep the default value, Include, to output
 /// audio-only headers. Choose Exclude to remove the audio-only headers from
 /// your audio segments.
+///
+/// @nodoc
 class HlsAudioOnlyHeader {
   static const include = HlsAudioOnlyHeader._('INCLUDE');
   static const exclude = HlsAudioOnlyHeader._('EXCLUDE');
@@ -28762,6 +29743,8 @@ class HlsAudioOnlyHeader {
 /// Otherwise, languages in the manifest will not match up properly with the
 /// output captions. None: Include CLOSED-CAPTIONS=NONE line in the manifest.
 /// Omit: Omit any CLOSED-CAPTIONS line from the manifest.
+///
+/// @nodoc
 class HlsCaptionLanguageSetting {
   static const insert = HlsCaptionLanguageSetting._('INSERT');
   static const omit = HlsCaptionLanguageSetting._('OMIT');
@@ -28793,6 +29776,8 @@ class HlsCaptionLanguageSetting {
 /// output group. For example, if the video segments are 2 seconds long, your
 /// WebVTT segments will also be 2 seconds long. Keep the default setting, Large
 /// segments to create caption segments that are 300 seconds long.
+///
+/// @nodoc
 class HlsCaptionSegmentLengthControl {
   static const largeSegments =
       HlsCaptionSegmentLengthControl._('LARGE_SEGMENTS');
@@ -28823,6 +29808,8 @@ class HlsCaptionSegmentLengthControl {
 /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled and
 /// control caching in your video distribution set up. For example, use the
 /// Cache-Control http header.
+///
+/// @nodoc
 class HlsClientCache {
   static const disabled = HlsClientCache._('DISABLED');
   static const enabled = HlsClientCache._('ENABLED');
@@ -28849,6 +29836,8 @@ class HlsClientCache {
 
 /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist
 /// generation.
+///
+/// @nodoc
 class HlsCodecSpecification {
   static const rfc_6381 = HlsCodecSpecification._('RFC_6381');
   static const rfc_4281 = HlsCodecSpecification._('RFC_4281');
@@ -28875,6 +29864,8 @@ class HlsCodecSpecification {
 }
 
 /// Indicates whether segments should be placed in subdirectories.
+///
+/// @nodoc
 class HlsDirectoryStructure {
   static const singleDirectory = HlsDirectoryStructure._('SINGLE_DIRECTORY');
   static const subdirectoryPerStream =
@@ -28902,6 +29893,8 @@ class HlsDirectoryStructure {
 }
 
 /// Settings for HLS encryption
+///
+/// @nodoc
 class HlsEncryptionSettings {
   /// This is a 128-bit, 16-byte hex value represented by a 32-character text
   /// string. If this parameter is not set then the Initialization Vector will
@@ -29003,6 +29996,8 @@ class HlsEncryptionSettings {
 /// thumbnails and full-frame images that MediaConvert creates with this feature
 /// are compatible with this Roku specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+///
+/// @nodoc
 class HlsImageBasedTrickPlay {
   static const none = HlsImageBasedTrickPlay._('NONE');
   static const thumbnail = HlsImageBasedTrickPlay._('THUMBNAIL');
@@ -29039,6 +30034,8 @@ class HlsImageBasedTrickPlay {
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+///
+/// @nodoc
 class HlsImageBasedTrickPlaySettings {
   /// The cadence MediaConvert follows for generating thumbnails. If set to
   /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
@@ -29115,6 +30112,8 @@ class HlsImageBasedTrickPlaySettings {
 }
 
 /// When set to GZIP, compresses HLS playlist.
+///
+/// @nodoc
 class HlsManifestCompression {
   static const gzip = HlsManifestCompression._('GZIP');
   static const none = HlsManifestCompression._('NONE');
@@ -29142,6 +30141,8 @@ class HlsManifestCompression {
 
 /// Indicates whether the output manifest should use floating point values for
 /// segment duration.
+///
+/// @nodoc
 class HlsManifestDurationFormat {
   static const floatingPoint = HlsManifestDurationFormat._('FLOATING_POINT');
   static const integer = HlsManifestDurationFormat._('INTEGER');
@@ -29169,6 +30170,8 @@ class HlsManifestDurationFormat {
 
 /// Indicates whether the .m3u8 manifest file should be generated for this HLS
 /// output group.
+///
+/// @nodoc
 class HlsOutputSelection {
   static const manifestsAndSegments =
       HlsOutputSelection._('MANIFESTS_AND_SEGMENTS');
@@ -29200,6 +30203,8 @@ class HlsOutputSelection {
 /// initialized using the input timecode source, or the time is initialized
 /// using the input timecode source and the date is initialized using the
 /// timestamp_offset.
+///
+/// @nodoc
 class HlsProgramDateTime {
   static const include = HlsProgramDateTime._('INCLUDE');
   static const exclude = HlsProgramDateTime._('EXCLUDE');
@@ -29236,6 +30241,8 @@ class HlsProgramDateTime {
 /// available media segment. When your job completes, the final child playlists
 /// include an EXT-X-ENDLIST tag. To generate HLS manifests only when your job
 /// completes: Choose Disabled.
+///
+/// @nodoc
 class HlsProgressiveWriteHlsManifest {
   static const enabled = HlsProgressiveWriteHlsManifest._('ENABLED');
   static const disabled = HlsProgressiveWriteHlsManifest._('DISABLED');
@@ -29263,6 +30270,8 @@ class HlsProgressiveWriteHlsManifest {
 
 /// When set to SINGLE_FILE, emits program as a single media resource (.ts)
 /// file, uses #EXT-X-BYTERANGE tags to index segment for playback.
+///
+/// @nodoc
 class HlsSegmentControl {
   static const singleFile = HlsSegmentControl._('SINGLE_FILE');
   static const segmentedFiles = HlsSegmentControl._('SEGMENTED_FILES');
@@ -29304,6 +30313,8 @@ class HlsSegmentControl {
 /// 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an
 /// integer multiple.) - Output audio codec: Specify Advanced Audio Coding
 /// (AAC). - Output sample rate: Choose 48kHz.
+///
+/// @nodoc
 class HlsSegmentLengthControl {
   static const exact = HlsSegmentLengthControl._('EXACT');
   static const gopMultiple = HlsSegmentLengthControl._('GOP_MULTIPLE');
@@ -29332,6 +30343,8 @@ class HlsSegmentLengthControl {
 
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
+///
+/// @nodoc
 class HlsStreamInfResolution {
   static const include = HlsStreamInfResolution._('INCLUDE');
   static const exclude = HlsStreamInfResolution._('EXCLUDE');
@@ -29366,6 +30379,8 @@ class HlsStreamInfResolution {
 /// the actual duration of the segment. Some older players may experience
 /// interrupted playback when the actual duration of a track in a segment is
 /// longer than the target duration.
+///
+/// @nodoc
 class HlsTargetDurationCompatibilityMode {
   static const legacy = HlsTargetDurationCompatibilityMode._('LEGACY');
   static const specCompliant =
@@ -29396,6 +30411,8 @@ class HlsTargetDurationCompatibilityMode {
 /// To include ID3 timestamps: Specify PRIV or TDRL and set ID3 metadata to
 /// Passthrough. To exclude ID3 timestamps: Set ID3 timestamp frame type to
 /// None.
+///
+/// @nodoc
 class HlsTimedMetadataId3Frame {
   static const none = HlsTimedMetadataId3Frame._('NONE');
   static const priv = HlsTimedMetadataId3Frame._('PRIV');
@@ -29424,6 +30441,8 @@ class HlsTimedMetadataId3Frame {
 
 /// Settings for one image-based trick play variant. Each variant produces its
 /// own set of JPEG tile images and corresponding manifest entries.
+///
+/// @nodoc
 class HlsImageBasedTrickPlayVariant {
   /// The cadence MediaConvert follows for generating thumbnails. If set to
   /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
@@ -29506,6 +30525,8 @@ class HlsImageBasedTrickPlayVariant {
 /// thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates
 /// thumbnail playlist entries that align exactly with video segment boundaries.
 /// FOLLOW_SEGMENTATION requires 1x1 tiling.
+///
+/// @nodoc
 class HlsIntervalCadence {
   static const followIframe = HlsIntervalCadence._('FOLLOW_IFRAME');
   static const followCustom = HlsIntervalCadence._('FOLLOW_CUSTOM');
@@ -29534,6 +30555,8 @@ class HlsIntervalCadence {
 
 /// Encrypts the segments with the given encryption scheme. Leave blank to
 /// disable. Selecting 'Disabled' in the web interface also disables encryption.
+///
+/// @nodoc
 class HlsEncryptionType {
   static const aes128 = HlsEncryptionType._('AES128');
   static const sampleAes = HlsEncryptionType._('SAMPLE_AES');
@@ -29562,6 +30585,8 @@ class HlsEncryptionType {
 /// key for encrypting blocks. If set to INCLUDE, Initialization Vector is
 /// listed in the manifest. Otherwise Initialization Vector is not in the
 /// manifest.
+///
+/// @nodoc
 class HlsInitializationVectorInManifest {
   static const include = HlsInitializationVectorInManifest._('INCLUDE');
   static const exclude = HlsInitializationVectorInManifest._('EXCLUDE');
@@ -29589,6 +30614,8 @@ class HlsInitializationVectorInManifest {
 
 /// Enable this setting to insert the EXT-X-SESSION-KEY element into the master
 /// playlist. This allows for offline Apple HLS FairPlay content protection.
+///
+/// @nodoc
 class HlsOfflineEncrypted {
   static const enabled = HlsOfflineEncrypted._('ENABLED');
   static const disabled = HlsOfflineEncrypted._('DISABLED');
@@ -29615,6 +30642,8 @@ class HlsOfflineEncrypted {
 }
 
 /// Use these settings to set up encryption with a static key provider.
+///
+/// @nodoc
 class StaticKeyProvider {
   /// Relates to DRM implementation. Sets the value of the KEYFORMAT attribute.
   /// Must be 'identity' or a reverse DNS string. May be omitted to indicate an
@@ -29666,6 +30695,8 @@ class StaticKeyProvider {
 /// Specify whether your DRM encryption key is static or from a key provider
 /// that follows the SPEKE standard. For more information about SPEKE, see
 /// https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
+///
+/// @nodoc
 class HlsKeyProviderType {
   static const speke = HlsKeyProviderType._('SPEKE');
   static const staticKey = HlsKeyProviderType._('STATIC_KEY');
@@ -29692,6 +30723,8 @@ class HlsKeyProviderType {
 }
 
 /// Caption Language Mapping
+///
+/// @nodoc
 class HlsCaptionLanguageMapping {
   /// Caption channel.
   final int? captionChannel;
@@ -29744,6 +30777,8 @@ class HlsCaptionLanguageMapping {
 /// Specify the details for each additional HLS manifest that you want the
 /// service to generate for this output group. Each manifest can reference a
 /// different subset of outputs in the group.
+///
+/// @nodoc
 class HlsAdditionalManifest {
   /// Specify a name modifier that the service adds to the name of this manifest
   /// to make it different from the file names of the other main manifests in the
@@ -29787,6 +30822,8 @@ class HlsAdditionalManifest {
 }
 
 /// Ad marker for Apple HLS manifest.
+///
+/// @nodoc
 class HlsAdMarkers {
   static const elemental = HlsAdMarkers._('ELEMENTAL');
   static const elementalScte35 = HlsAdMarkers._('ELEMENTAL_SCTE35');
@@ -29819,6 +30856,8 @@ class HlsAdMarkers {
 /// MediaConvert write this: urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose
 /// Dolby channel configuration to have MediaConvert write this instead:
 /// tag:dolby.com,2014:dash:audio_channel_configuration:2011.
+///
+/// @nodoc
 class DashIsoGroupAudioChannelConfigSchemeIdUri {
   static const mpegChannelConfiguration =
       DashIsoGroupAudioChannelConfigSchemeIdUri._('MPEG_CHANNEL_CONFIGURATION');
@@ -29858,6 +30897,8 @@ class DashIsoGroupAudioChannelConfigSchemeIdUri {
 /// To write a video AdaptationSet for each different output framerate, and a
 /// common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a
 /// SegmentTimeline in each AdaptationSet: Choose Full.
+///
+/// @nodoc
 class DashManifestStyle {
   static const basic = DashManifestStyle._('BASIC');
   static const compact = DashManifestStyle._('COMPACT');
@@ -29885,6 +30926,8 @@ class DashManifestStyle {
 }
 
 /// Specifies DRM settings for DASH outputs.
+///
+/// @nodoc
 class DashIsoEncryptionSettings {
   /// This setting can improve the compatibility of your output with video players
   /// on obsolete devices. It applies only to DASH H.264 outputs with DRM
@@ -29929,6 +30972,8 @@ class DashIsoEncryptionSettings {
 }
 
 /// Supports HbbTV specification as indicated
+///
+/// @nodoc
 class DashIsoHbbtvCompliance {
   static const hbbtv_1_5 = DashIsoHbbtvCompliance._('HBBTV_1_5');
   static const none = DashIsoHbbtvCompliance._('NONE');
@@ -29966,6 +31011,8 @@ class DashIsoHbbtvCompliance {
 /// MediaConvert creates with this feature are compatible with this Roku
 /// specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+///
+/// @nodoc
 class DashIsoImageBasedTrickPlay {
   static const none = DashIsoImageBasedTrickPlay._('NONE');
   static const thumbnail = DashIsoImageBasedTrickPlay._('THUMBNAIL');
@@ -30002,6 +31049,8 @@ class DashIsoImageBasedTrickPlay {
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+///
+/// @nodoc
 class DashIsoImageBasedTrickPlaySettings {
   /// The cadence MediaConvert follows for generating thumbnails. If set to
   /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
@@ -30084,6 +31133,8 @@ class DashIsoImageBasedTrickPlaySettings {
 /// configuration. Max: Use the same value that you specify for Max bitrate in
 /// the video output, in bits per second. Average: Use the calculated average
 /// bitrate of the encoded video output, in bits per second.
+///
+/// @nodoc
 class DashIsoMpdManifestBandwidthType {
   static const average = DashIsoMpdManifestBandwidthType._('AVERAGE');
   static const max = DashIsoMpdManifestBandwidthType._('MAX');
@@ -30115,6 +31166,8 @@ class DashIsoMpdManifestBandwidthType {
 /// urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose
 /// On-demand, you must also set the output group setting Segment control to
 /// Single file.
+///
+/// @nodoc
 class DashIsoMpdProfile {
   static const mainProfile = DashIsoMpdProfile._('MAIN_PROFILE');
   static const onDemandProfile = DashIsoMpdProfile._('ON_DEMAND_PROFILE');
@@ -30148,6 +31201,8 @@ class DashIsoMpdProfile {
 /// the video stream and instead write the initial time stamp as zero in the
 /// manifest. For outputs that don't have B-frames, the time stamps in your DASH
 /// manifests start at zero regardless of your choice here.
+///
+/// @nodoc
 class DashIsoPtsOffsetHandlingForBFrames {
   static const zeroBased = DashIsoPtsOffsetHandlingForBFrames._('ZERO_BASED');
   static const matchInitialPts =
@@ -30177,6 +31232,8 @@ class DashIsoPtsOffsetHandlingForBFrames {
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
+///
+/// @nodoc
 class DashIsoSegmentControl {
   static const singleFile = DashIsoSegmentControl._('SINGLE_FILE');
   static const segmentedFiles = DashIsoSegmentControl._('SEGMENTED_FILES');
@@ -30219,6 +31276,8 @@ class DashIsoSegmentControl {
 /// 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an
 /// integer multiple.) - Output audio codec: Specify Advanced Audio Coding
 /// (AAC). - Output sample rate: Choose 48kHz.
+///
+/// @nodoc
 class DashIsoSegmentLengthControl {
   static const exact = DashIsoSegmentLengthControl._('EXACT');
   static const gopMultiple = DashIsoSegmentLengthControl._('GOP_MULTIPLE');
@@ -30252,6 +31311,8 @@ class DashIsoSegmentLengthControl {
 /// integers. For strict fMP4 video and audio timing, set Video composition
 /// offsets to Signed. The earliest presentation time will be equal to zero, and
 /// sample composition time offsets will increment using signed integers.
+///
+/// @nodoc
 class DashIsoVideoCompositionOffsets {
   static const signed = DashIsoVideoCompositionOffsets._('SIGNED');
   static const unsigned = DashIsoVideoCompositionOffsets._('UNSIGNED');
@@ -30283,6 +31344,8 @@ class DashIsoVideoCompositionOffsets {
 /// Representation level. When this feature isn't enabled, the segment durations
 /// in your DASH manifest are approximate. The segment duration information
 /// appears in the duration attribute of the SegmentTemplate element.
+///
+/// @nodoc
 class DashIsoWriteSegmentTimelineInRepresentation {
   static const enabled =
       DashIsoWriteSegmentTimelineInRepresentation._('ENABLED');
@@ -30313,6 +31376,8 @@ class DashIsoWriteSegmentTimelineInRepresentation {
 
 /// Settings for one image-based trick play variant. Each variant produces its
 /// own set of JPEG tile images and corresponding manifest entries.
+///
+/// @nodoc
 class DashIsoImageBasedTrickPlayVariant {
   /// The cadence MediaConvert follows for generating thumbnails. If set to
   /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
@@ -30396,6 +31461,8 @@ class DashIsoImageBasedTrickPlayVariant {
 /// thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates
 /// thumbnail playlist entries that align exactly with video segment boundaries.
 /// FOLLOW_SEGMENTATION requires 1x1 tiling.
+///
+/// @nodoc
 class DashIsoIntervalCadence {
   static const followIframe = DashIsoIntervalCadence._('FOLLOW_IFRAME');
   static const followCustom = DashIsoIntervalCadence._('FOLLOW_CUSTOM');
@@ -30429,6 +31496,8 @@ class DashIsoIntervalCadence {
 /// older devices. Otherwise, keep the default setting CENC v1. If you choose
 /// Unencrypted SEI, for that output, the service will exclude the access unit
 /// delimiter and will leave the SEI NAL units unencrypted.
+///
+/// @nodoc
 class DashIsoPlaybackDeviceCompatibility {
   static const cencV1 = DashIsoPlaybackDeviceCompatibility._('CENC_V1');
   static const unencryptedSei =
@@ -30458,6 +31527,8 @@ class DashIsoPlaybackDeviceCompatibility {
 /// Specify the details for each additional DASH manifest that you want the
 /// service to generate for this output group. Each manifest can reference a
 /// different subset of outputs in the group.
+///
+/// @nodoc
 class DashAdditionalManifest {
   /// Specify a name modifier that the service adds to the name of this manifest
   /// to make it different from the file names of the other main manifests in the
@@ -30501,6 +31572,8 @@ class DashAdditionalManifest {
 /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled and
 /// control caching in your video distribution set up. For example, use the
 /// Cache-Control http header.
+///
+/// @nodoc
 class CmafClientCache {
   static const disabled = CmafClientCache._('DISABLED');
   static const enabled = CmafClientCache._('ENABLED');
@@ -30527,6 +31600,8 @@ class CmafClientCache {
 
 /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist
 /// generation.
+///
+/// @nodoc
 class CmafCodecSpecification {
   static const rfc_6381 = CmafCodecSpecification._('RFC_6381');
   static const rfc_4281 = CmafCodecSpecification._('RFC_4281');
@@ -30553,6 +31628,8 @@ class CmafCodecSpecification {
 }
 
 /// Settings for CMAF encryption
+///
+/// @nodoc
 class CmafEncryptionSettings {
   /// Reduce video startup latency by leaving initial segments unencrypted while
   /// DRM license retrieval occurs in parallel. This optimization allows immediate
@@ -30666,6 +31743,8 @@ class CmafEncryptionSettings {
 /// MediaConvert creates with this feature are compatible with this Roku
 /// specification:
 /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+///
+/// @nodoc
 class CmafImageBasedTrickPlay {
   static const none = CmafImageBasedTrickPlay._('NONE');
   static const thumbnail = CmafImageBasedTrickPlay._('THUMBNAIL');
@@ -30702,6 +31781,8 @@ class CmafImageBasedTrickPlay {
 }
 
 /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+///
+/// @nodoc
 class CmafImageBasedTrickPlaySettings {
   /// The cadence MediaConvert follows for generating thumbnails. If set to
   /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
@@ -30778,6 +31859,8 @@ class CmafImageBasedTrickPlaySettings {
 }
 
 /// When set to GZIP, compresses HLS playlist.
+///
+/// @nodoc
 class CmafManifestCompression {
   static const gzip = CmafManifestCompression._('GZIP');
   static const none = CmafManifestCompression._('NONE');
@@ -30805,6 +31888,8 @@ class CmafManifestCompression {
 
 /// Indicates whether the output manifest should use floating point values for
 /// segment duration.
+///
+/// @nodoc
 class CmafManifestDurationFormat {
   static const floatingPoint = CmafManifestDurationFormat._('FLOATING_POINT');
   static const integer = CmafManifestDurationFormat._('INTEGER');
@@ -30836,6 +31921,8 @@ class CmafManifestDurationFormat {
 /// configuration. Max: Use the same value that you specify for Max bitrate in
 /// the video output, in bits per second. Average: Use the calculated average
 /// bitrate of the encoded video output, in bits per second.
+///
+/// @nodoc
 class CmafMpdManifestBandwidthType {
   static const average = CmafMpdManifestBandwidthType._('AVERAGE');
   static const max = CmafMpdManifestBandwidthType._('MAX');
@@ -30867,6 +31954,8 @@ class CmafMpdManifestBandwidthType {
 /// urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose
 /// On-demand, you must also set the output group setting Segment control to
 /// Single file.
+///
+/// @nodoc
 class CmafMpdProfile {
   static const mainProfile = CmafMpdProfile._('MAIN_PROFILE');
   static const onDemandProfile = CmafMpdProfile._('ON_DEMAND_PROFILE');
@@ -30900,6 +31989,8 @@ class CmafMpdProfile {
 /// the video stream and instead write the initial time stamp as zero in the
 /// manifest. For outputs that don't have B-frames, the time stamps in your DASH
 /// manifests start at zero regardless of your choice here.
+///
+/// @nodoc
 class CmafPtsOffsetHandlingForBFrames {
   static const zeroBased = CmafPtsOffsetHandlingForBFrames._('ZERO_BASED');
   static const matchInitialPts =
@@ -30929,6 +32020,8 @@ class CmafPtsOffsetHandlingForBFrames {
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
+///
+/// @nodoc
 class CmafSegmentControl {
   static const singleFile = CmafSegmentControl._('SINGLE_FILE');
   static const segmentedFiles = CmafSegmentControl._('SEGMENTED_FILES');
@@ -30971,6 +32064,8 @@ class CmafSegmentControl {
 /// 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an
 /// integer multiple.) - Output audio codec: Specify Advanced Audio Coding
 /// (AAC). - Output sample rate: Choose 48kHz.
+///
+/// @nodoc
 class CmafSegmentLengthControl {
   static const exact = CmafSegmentLengthControl._('EXACT');
   static const gopMultiple = CmafSegmentLengthControl._('GOP_MULTIPLE');
@@ -30999,6 +32094,8 @@ class CmafSegmentLengthControl {
 
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
+///
+/// @nodoc
 class CmafStreamInfResolution {
   static const include = CmafStreamInfResolution._('INCLUDE');
   static const exclude = CmafStreamInfResolution._('EXCLUDE');
@@ -31033,6 +32130,8 @@ class CmafStreamInfResolution {
 /// the actual duration of the segment. Some older players may experience
 /// interrupted playback when the actual duration of a track in a segment is
 /// longer than the target duration.
+///
+/// @nodoc
 class CmafTargetDurationCompatibilityMode {
   static const legacy = CmafTargetDurationCompatibilityMode._('LEGACY');
   static const specCompliant =
@@ -31066,6 +32165,8 @@ class CmafTargetDurationCompatibilityMode {
 /// integers. For strict fMP4 video and audio timing, set Video composition
 /// offsets to Signed. The earliest presentation time will be equal to zero, and
 /// sample composition time offsets will increment using signed integers.
+///
+/// @nodoc
 class CmafVideoCompositionOffsets {
   static const signed = CmafVideoCompositionOffsets._('SIGNED');
   static const unsigned = CmafVideoCompositionOffsets._('UNSIGNED');
@@ -31092,6 +32193,8 @@ class CmafVideoCompositionOffsets {
 }
 
 /// When set to ENABLED, a DASH MPD manifest will be generated for this output.
+///
+/// @nodoc
 class CmafWriteDASHManifest {
   static const disabled = CmafWriteDASHManifest._('DISABLED');
   static const enabled = CmafWriteDASHManifest._('ENABLED');
@@ -31119,6 +32222,8 @@ class CmafWriteDASHManifest {
 
 /// When set to ENABLED, an Apple HLS manifest will be generated for this
 /// output.
+///
+/// @nodoc
 class CmafWriteHLSManifest {
   static const disabled = CmafWriteHLSManifest._('DISABLED');
   static const enabled = CmafWriteHLSManifest._('ENABLED');
@@ -31150,6 +32255,8 @@ class CmafWriteHLSManifest {
 /// Representation level. When this feature isn't enabled, the segment durations
 /// in your DASH manifest are approximate. The segment duration information
 /// appears in the duration attribute of the SegmentTemplate element.
+///
+/// @nodoc
 class CmafWriteSegmentTimelineInRepresentation {
   static const enabled = CmafWriteSegmentTimelineInRepresentation._('ENABLED');
   static const disabled =
@@ -31178,6 +32285,8 @@ class CmafWriteSegmentTimelineInRepresentation {
 
 /// Settings for one image-based trick play variant. Each variant produces its
 /// own set of JPEG tile images and corresponding manifest entries.
+///
+/// @nodoc
 class CmafImageBasedTrickPlayVariant {
   /// The cadence MediaConvert follows for generating thumbnails. If set to
   /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
@@ -31260,6 +32369,8 @@ class CmafImageBasedTrickPlayVariant {
 /// thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates
 /// thumbnail playlist entries that align exactly with video segment boundaries.
 /// FOLLOW_SEGMENTATION requires 1x1 tiling.
+///
+/// @nodoc
 class CmafIntervalCadence {
   static const followIframe = CmafIntervalCadence._('FOLLOW_IFRAME');
   static const followCustom = CmafIntervalCadence._('FOLLOW_CUSTOM');
@@ -31289,6 +32400,8 @@ class CmafIntervalCadence {
 
 /// Specify the encryption scheme that you want the service to use when
 /// encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
+///
+/// @nodoc
 class CmafEncryptionType {
   static const sampleAes = CmafEncryptionType._('SAMPLE_AES');
   static const aesCtr = CmafEncryptionType._('AES_CTR');
@@ -31316,6 +32429,8 @@ class CmafEncryptionType {
 
 /// When you use DRM with CMAF outputs, choose whether the service writes the
 /// 128-bit encryption initialization vector in the HLS and DASH manifests.
+///
+/// @nodoc
 class CmafInitializationVectorInManifest {
   static const include = CmafInitializationVectorInManifest._('INCLUDE');
   static const exclude = CmafInitializationVectorInManifest._('EXCLUDE');
@@ -31344,6 +32459,8 @@ class CmafInitializationVectorInManifest {
 /// If your output group type is CMAF, use these settings when doing DRM
 /// encryption with a SPEKE-compliant key provider. If your output group type is
 /// HLS, DASH, or Microsoft Smooth, use the SpekeKeyProvider settings instead.
+///
+/// @nodoc
 class SpekeKeyProviderCmaf {
   /// If you want your key provider to encrypt the content keys that it provides
   /// to MediaConvert, set up a certificate with a master key using AWS
@@ -31433,6 +32550,8 @@ class SpekeKeyProviderCmaf {
 /// Specify whether your DRM encryption key is static or from a key provider
 /// that follows the SPEKE standard. For more information about SPEKE, see
 /// https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
+///
+/// @nodoc
 class CmafKeyProviderType {
   static const speke = CmafKeyProviderType._('SPEKE');
   static const staticKey = CmafKeyProviderType._('STATIC_KEY');
@@ -31461,6 +32580,8 @@ class CmafKeyProviderType {
 /// Specify the details for each pair of HLS and DASH additional manifests that
 /// you want the service to generate for this CMAF output group. Each pair of
 /// manifests can reference a different subset of outputs in the group.
+///
+/// @nodoc
 class CmafAdditionalManifest {
   /// Specify a name modifier that the service adds to the name of this manifest
   /// to make it different from the file names of the other main manifests in the
@@ -31507,6 +32628,8 @@ class CmafAdditionalManifest {
 /// package for you automatically, based on characteristics of your input video.
 /// This feature optimizes video quality while minimizing the overall size of
 /// your ABR package.
+///
+/// @nodoc
 class AutomatedAbrSettings {
   /// Specify the maximum average bitrate for MediaConvert to use in your
   /// automated ABR stack. If you don't specify a value, MediaConvert uses
@@ -31585,6 +32708,8 @@ class AutomatedAbrSettings {
 
 /// Specify one or more Automated ABR rule types. Note: Force include and
 /// Allowed renditions are mutually exclusive.
+///
+/// @nodoc
 class AutomatedAbrRule {
   /// When customer adds the allowed renditions rule for auto ABR ladder, they are
   /// required to add at leat one rendition to allowedRenditions list
@@ -31706,6 +32831,8 @@ class AutomatedAbrRule {
 /// greater than to 640x360. * If you specify a Min top rendition size rule, the
 /// value that you specify for Min bottom rendition size must be less than, or
 /// equal to, Min top rendition size.
+///
+/// @nodoc
 class MinBottomRenditionSize {
   /// Use Height to define the video resolution height, in pixels, for this rule.
   final int? height;
@@ -31742,6 +32869,8 @@ class MinBottomRenditionSize {
 /// to or greater than 1280x720. * If you specify a value for Max resolution,
 /// the value that you specify for Min top rendition size must be less than, or
 /// equal to, Max resolution.
+///
+/// @nodoc
 class MinTopRenditionSize {
   /// Use Height to define the video resolution height, in pixels, for this rule.
   final int? height;
@@ -31805,6 +32934,8 @@ class MinTopRenditionSize {
 /// in Min top rendition size or Min bottom rendition size. * If you specify
 /// Allowed renditions, you must not specify a separate rule for Force include
 /// renditions.
+///
+/// @nodoc
 class RuleType {
   static const minTopRenditionSize = RuleType._('MIN_TOP_RENDITION_SIZE');
   static const minBottomRenditionSize = RuleType._('MIN_BOTTOM_RENDITION_SIZE');
@@ -31846,6 +32977,8 @@ class RuleType {
 /// renditions rule, do not specify a separate rule for Allowed renditions. *
 /// Note: The ABR stack may include other resolutions that you do not specify
 /// here, depending on the Max renditions setting.
+///
+/// @nodoc
 class ForceIncludeRenditionSize {
   /// Use Height to define the video resolution height, in pixels, for this rule.
   final int? height;
@@ -31884,6 +33017,8 @@ class ForceIncludeRenditionSize {
 /// rendition size or Min bottom rendition size. * If you specify Allowed
 /// renditions, you must not specify a separate rule for Force include
 /// renditions.
+///
+/// @nodoc
 class AllowedRenditionSize {
   /// Use Height to define the video resolution height, in pixels, for this rule.
   final int? height;
@@ -31921,6 +33056,8 @@ class AllowedRenditionSize {
 }
 
 /// Set to ENABLED to force a rendition to be included.
+///
+/// @nodoc
 class RequiredFlag {
   static const enabled = RequiredFlag._('ENABLED');
   static const disabled = RequiredFlag._('DISABLED');
@@ -31949,6 +33086,8 @@ class RequiredFlag {
 /// you choose CBET, you must provide a value for the setting CSID. When you
 /// choose NAES 2, NW, and CBET, you must provide values for both of these
 /// settings.
+///
+/// @nodoc
 class NielsenActiveWatermarkProcessType {
   static const naes2AndNw = NielsenActiveWatermarkProcessType._('NAES2_AND_NW');
   static const cbet = NielsenActiveWatermarkProcessType._('CBET');
@@ -31980,6 +33119,8 @@ class NielsenActiveWatermarkProcessType {
 /// non-linear watermarks. When you set this value to Watermarked, the service
 /// fails the job. Nielsen requires that you add non-linear watermarking to only
 /// clean content that doesn't already have non-linear Nielsen watermarks.
+///
+/// @nodoc
 class NielsenSourceWatermarkStatusType {
   static const clean = NielsenSourceWatermarkStatusType._('CLEAN');
   static const watermarked = NielsenSourceWatermarkStatusType._('WATERMARKED');
@@ -32008,6 +33149,8 @@ class NielsenSourceWatermarkStatusType {
 /// To create assets that have the same TIC values in each audio track, keep the
 /// default value Share TICs. To create assets that have unique TIC values for
 /// each audio track, choose Use unique TICs.
+///
+/// @nodoc
 class NielsenUniqueTicPerAudioTrackType {
   static const reserveUniqueTicsPerTrack =
       NielsenUniqueTicPerAudioTrackType._('RESERVE_UNIQUE_TICS_PER_TRACK');
@@ -32039,6 +33182,8 @@ class NielsenUniqueTicPerAudioTrackType {
 /// rate of the overlay in frames per second, as a fraction. For example,
 /// specify 24 fps as 24/1. The overlay frame rate doesn't need to match the
 /// frame rate of the underlying video.
+///
+/// @nodoc
 class MotionImageInsertionFramerate {
   /// The bottom of the fraction that expresses your overlay frame rate. For
   /// example, if your frame rate is 24 fps, set this value to 1.
@@ -32073,6 +33218,8 @@ class MotionImageInsertionFramerate {
 
 /// Choose the type of motion graphic asset that you are providing for your
 /// overlay. You can choose either a .mov file or a series of .png files.
+///
+/// @nodoc
 class MotionImageInsertionMode {
   static const mov = MotionImageInsertionMode._('MOV');
   static const png = MotionImageInsertionMode._('PNG');
@@ -32100,6 +33247,8 @@ class MotionImageInsertionMode {
 
 /// Specify the offset between the upper-left corner of the video frame and the
 /// top left corner of the overlay.
+///
+/// @nodoc
 class MotionImageInsertionOffset {
   /// Set the distance, in pixels, between the overlay and the left edge of the
   /// video frame.
@@ -32133,6 +33282,8 @@ class MotionImageInsertionOffset {
 
 /// Specify whether your motion graphic overlay repeats on a loop or plays only
 /// once.
+///
+/// @nodoc
 class MotionImagePlayback {
   static const once = MotionImagePlayback._('ONCE');
   static const repeat = MotionImagePlayback._('REPEAT');
@@ -32159,6 +33310,8 @@ class MotionImagePlayback {
 }
 
 /// Specified video input in a template.
+///
+/// @nodoc
 class InputTemplate {
   /// Use to remove noise, blocking, blurriness, or ringing from your input as a
   /// pre-filter step before encoding. The Advanced input filter removes more
@@ -32483,6 +33636,8 @@ class InputTemplate {
 /// this feature incur pro-tier pricing. To not apply advanced input filtering:
 /// Choose Disabled. Note that you can still apply basic filtering with Deblock
 /// and Denoise.
+///
+/// @nodoc
 class AdvancedInputFilter {
   static const enabled = AdvancedInputFilter._('ENABLED');
   static const disabled = AdvancedInputFilter._('DISABLED');
@@ -32510,6 +33665,8 @@ class AdvancedInputFilter {
 
 /// Optional settings for Advanced input filter when you set Advanced input
 /// filter to Enabled.
+///
+/// @nodoc
 class AdvancedInputFilterSettings {
   /// Add texture and detail to areas of your input video content that were lost
   /// after applying the Advanced input filter. To adaptively add texture and
@@ -32553,6 +33710,8 @@ class AdvancedInputFilterSettings {
 /// Enable Deblock to produce smoother motion in the output. Default is
 /// disabled. Only manually controllable for MPEG2 and uncompressed video
 /// inputs.
+///
+/// @nodoc
 class InputDeblockFilter {
   static const enabled = InputDeblockFilter._('ENABLED');
   static const disabled = InputDeblockFilter._('DISABLED');
@@ -32580,6 +33739,8 @@ class InputDeblockFilter {
 
 /// Enable Denoise to filter noise from the input. Default is disabled. Only
 /// applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
+///
+/// @nodoc
 class InputDenoiseFilter {
   static const enabled = InputDenoiseFilter._('ENABLED');
   static const disabled = InputDenoiseFilter._('DISABLED');
@@ -32610,6 +33771,8 @@ class InputDenoiseFilter {
 /// Choose Auto. To apply no filtering: Choose Disable. To apply filtering
 /// regardless of your input type and quality: Choose Force. When you do, you
 /// must also specify a value for Filter strength.
+///
+/// @nodoc
 class InputFilterEnable {
   static const auto = InputFilterEnable._('AUTO');
   static const disable = InputFilterEnable._('DISABLE');
@@ -32642,6 +33805,8 @@ class InputFilterEnable {
 /// don't specify, the default value is Auto. Auto is the correct setting for
 /// all inputs that are not PsF. Don't set this value to PsF when your input is
 /// interlaced. Doing so creates horizontal interlacing artifacts.
+///
+/// @nodoc
 class InputScanType {
   static const auto = InputScanType._('AUTO');
   static const psf = InputScanType._('PSF');
@@ -32669,6 +33834,8 @@ class InputScanType {
 /// Set PSI control for transport stream inputs to specify which data the demux
 /// process to scans. * Ignore PSI - Scan all PIDs for audio and video. * Use
 /// PSI - Scan only PSI data.
+///
+/// @nodoc
 class InputPsiControl {
   static const ignorePsi = InputPsiControl._('IGNORE_PSI');
   static const usePsi = InputPsiControl._('USE_PSI');
@@ -32703,6 +33870,8 @@ class InputPsiControl {
 /// don't specify a value for Timecode source, the service will use Embedded by
 /// default. For more information about timecodes, see
 /// https://docs.aws.amazon.com/console/mediaconvert/timecode.
+///
+/// @nodoc
 class InputTimecodeSource {
   static const embedded = InputTimecodeSource._('EMBEDDED');
   static const zerobased = InputTimecodeSource._('ZEROBASED');
@@ -32731,6 +33900,8 @@ class InputTimecodeSource {
 
 /// Input video selectors contain the video settings for the input. Each of your
 /// inputs can have up to one video selector.
+///
+/// @nodoc
 class VideoSelector {
   /// Ignore this setting unless this input is a QuickTime animation with an alpha
   /// channel. Use this setting to create separate Key and Fill outputs. In each
@@ -32935,6 +34106,8 @@ class VideoSelector {
 /// setting at the default value DISCARD to delete the alpha channel and
 /// preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the
 /// alpha channel to the luma channel of your outputs.
+///
+/// @nodoc
 class AlphaBehavior {
   static const discard = AlphaBehavior._('DISCARD');
   static const remapToLuma = AlphaBehavior._('REMAP_TO_LUMA');
@@ -32975,6 +34148,8 @@ class AlphaBehavior {
 /// BT.2020, HLG, BT.2020 non-constant * P3DCI (Theater): DCIP3, SMPTE 428M,
 /// BT.709 * P3D65 (SDR): Display P3, sRGB, BT.709 * P3D65 (HDR): Display P3,
 /// PQ, BT.709
+///
+/// @nodoc
 class ColorSpace {
   static const follow = ColorSpace._('FOLLOW');
   static const rec_601 = ColorSpace._('REC_601');
@@ -33021,6 +34196,8 @@ class ColorSpace {
 /// FALLBACK - Choose Fallback to use color metadata from the source when it is
 /// present. If there's no color metadata in your input file, the service
 /// defaults to using values you specify in the input settings.
+///
+/// @nodoc
 class ColorSpaceUsage {
   static const force = ColorSpaceUsage._('FORCE');
   static const fallback = ColorSpaceUsage._('FALLBACK');
@@ -33050,6 +34227,8 @@ class ColorSpaceUsage {
 /// we recommend you also set Timecode source to Embedded. Leave Embedded
 /// timecode override blank, or set to None, when your input does not contain
 /// MDPM timecode.
+///
+/// @nodoc
 class EmbeddedTimecodeOverride {
   static const none = EmbeddedTimecodeOverride._('NONE');
   static const useMdpm = EmbeddedTimecodeOverride._('USE_MDPM');
@@ -33083,6 +34262,8 @@ class EmbeddedTimecodeOverride {
 /// video frames are added at the beginning or end, depending on your input. To
 /// keep the default behavior and not generate black video, set Pad video to
 /// Disabled or leave blank.
+///
+/// @nodoc
 class PadVideo {
   static const disabled = PadVideo._('DISABLED');
   static const black = PadVideo._('BLACK');
@@ -33116,6 +34297,8 @@ class PadVideo {
 /// will default to no rotation. By default, the service does no rotation, even
 /// if your input video has rotation metadata. The service doesn't pass through
 /// rotation metadata.
+///
+/// @nodoc
 class InputRotate {
   static const degree_0 = InputRotate._('DEGREE_0');
   static const degrees_90 = InputRotate._('DEGREES_90');
@@ -33151,6 +34334,8 @@ class InputRotate {
 /// MediaConvert uses the input sample range or the sample range that you
 /// specify, MediaConvert uses the sample range for transcoding and also writes
 /// it to the output metadata.
+///
+/// @nodoc
 class InputSampleRange {
   static const follow = InputSampleRange._('FOLLOW');
   static const fullRange = InputSampleRange._('FULL_RANGE');
@@ -33182,6 +34367,8 @@ class InputSampleRange {
 /// the default value, Auto. To manually specify a rendition: Choose Stream.
 /// Then enter the unique stream number in the Streams array, starting at 1,
 /// corresponding to the stream order in the manifest.
+///
+/// @nodoc
 class VideoSelectorType {
   static const auto = VideoSelectorType._('AUTO');
   static const stream = VideoSelectorType._('STREAM');
@@ -33208,6 +34395,8 @@ class VideoSelectorType {
 
 /// Overlay one or more videos on top of your input video. For more information,
 /// see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-overlays.html
+///
+/// @nodoc
 class VideoOverlay {
   /// Specify a rectangle of content to crop and use from your video overlay's
   /// input video. When you do, MediaConvert uses the cropped dimensions that you
@@ -33317,6 +34506,8 @@ class VideoOverlay {
 /// Specify a rectangle of content to crop and use from your video overlay's
 /// input video. When you do, MediaConvert uses the cropped dimensions that you
 /// specify under X offset, Y offset, Width, and Height.
+///
+/// @nodoc
 class VideoOverlayCrop {
   /// Specify the height of the video overlay cropping rectangle. To use the same
   /// height as your overlay input video: Keep blank, or enter 0. To specify a
@@ -33400,6 +34591,8 @@ class VideoOverlayCrop {
 }
 
 /// position of video overlay
+///
+/// @nodoc
 class VideoOverlayPosition {
   /// To scale your video overlay to the same height as the base input video:
   /// Leave blank. To scale the height of your video overlay to a different
@@ -33494,6 +34687,8 @@ class VideoOverlayPosition {
 
 /// Input settings for Video overlay. You can include one or more video overlays
 /// in sequence at different times that you specify.
+///
+/// @nodoc
 class VideoOverlayInput {
   /// Use Audio selectors to specify audio to use during your Video overlay. You
   /// can use multiple Audio selectors per Video overlay. When you include an
@@ -33574,6 +34769,8 @@ class VideoOverlayInput {
 /// will repeat for the duration of the base input video. To playback your video
 /// overlay only once: Choose Once. With either option, you can end playback at
 /// a time that you specify by entering a value for End timecode.
+///
+/// @nodoc
 class VideoOverlayPlayBackMode {
   static const once = VideoOverlayPlayBackMode._('ONCE');
   static const repeat = VideoOverlayPlayBackMode._('REPEAT');
@@ -33604,6 +34801,8 @@ class VideoOverlayPlayBackMode {
 /// size for the duration of your video overlay: Leave blank. To specify a
 /// Transition: Enter a value for Start timecode, End Timecode, X Position, Y
 /// Position, Width, Height, or Opacity
+///
+/// @nodoc
 class VideoOverlayTransition {
   /// Specify the ending position for this transition, relative to the base input
   /// video's frame. Your video overlay will move smoothly to this position,
@@ -33654,6 +34853,8 @@ class VideoOverlayTransition {
 
 /// To transcode only portions of your video overlay, include one input clip for
 /// each part of your video overlay that you want in your output.
+///
+/// @nodoc
 class VideoOverlayInputClipping {
   /// Specify the timecode of the last frame to include in your video overlay's
   /// clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is
@@ -33692,6 +34893,8 @@ class VideoOverlayInputClipping {
 /// Specify the Unit type to use when you enter a value for X position, Y
 /// position, Width, or Height. You can choose Pixels or Percentage. Leave blank
 /// to use the default value, Pixels.
+///
+/// @nodoc
 class VideoOverlayUnit {
   static const pixels = VideoOverlayUnit._('PIXELS');
   static const percentage = VideoOverlayUnit._('PERCENTAGE');
@@ -33722,6 +34925,8 @@ class VideoOverlayUnit {
 /// MediaConvert encodes both views into a single MV-HEVC output codec. When you
 /// add MultiViewSettings to your job, you can only produce Multi View outputs.
 /// Adding any other codec output to the same job is not supported.
+///
+/// @nodoc
 class MultiViewSettings {
   /// Input settings for MultiView Settings. You can include exactly one input as
   /// enhancement layer.
@@ -33749,6 +34954,8 @@ class MultiViewSettings {
 
 /// Input settings for MultiView Settings. You can include exactly one input as
 /// enhancement layer.
+///
+/// @nodoc
 class MultiViewInput {
   /// Specify the input file S3, HTTP, or HTTPS URL for your right eye view video.
   final String? fileInput;
@@ -33776,6 +34983,8 @@ class MultiViewInput {
 /// specify will be included in every output of the job. For more information,
 /// see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html.
+///
+/// @nodoc
 class InputClipping {
   /// Set End timecode to the end of the portion of the input you are clipping.
   /// The frame corresponding to the End timecode value is included in the clip.
@@ -33826,6 +35035,8 @@ class InputClipping {
 /// within that output for each dynamically selected track. Note that when you
 /// include a Dynamic audio selector for two or more inputs, each input must
 /// have the same number of audio tracks and audio channels.
+///
+/// @nodoc
 class DynamicAudioSelector {
   /// Apply audio timing corrections to help synchronize audio and video in your
   /// output. To apply timing corrections, your input must meet the following
@@ -33924,6 +35135,8 @@ class DynamicAudioSelector {
 /// Frame depending on your input, regardless of the accuracy of your input's
 /// STTS table. Your output audio and video may not be aligned or it may contain
 /// audio artifacts.
+///
+/// @nodoc
 class AudioDurationCorrection {
   static const disabled = AudioDurationCorrection._('DISABLED');
   static const auto = AudioDurationCorrection._('AUTO');
@@ -33957,6 +35170,8 @@ class AudioDurationCorrection {
 /// tracks with a specific language code: Choose Language code. When you do, you
 /// must also specify a language code under the Language code setting. If there
 /// is no matching Language code in your source, then no track will be selected.
+///
+/// @nodoc
 class DynamicAudioSelectorType {
   static const allTracks = DynamicAudioSelectorType._('ALL_TRACKS');
   static const languageCode = DynamicAudioSelectorType._('LANGUAGE_CODE');
@@ -33984,6 +35199,8 @@ class DynamicAudioSelectorType {
 
 /// Use captions selectors to specify the captions data from your input that you
 /// use in your outputs. You can use up to 100 captions selectors per input.
+///
+/// @nodoc
 class CaptionSelector {
   /// The specific language to extract from source, using the ISO 639-2 or ISO
   /// 639-3 three-letter language code. If input is SCTE-27, complete this field
@@ -34042,6 +35259,8 @@ class CaptionSelector {
 /// specify the URI of the input captions source file. If your input captions
 /// are IMSC in an IMF package, use TrackSourceSettings instead of
 /// FileSoureSettings.
+///
+/// @nodoc
 class CaptionSourceSettings {
   /// Settings for ancillary captions source.
   final AncillarySourceSettings? ancillarySourceSettings;
@@ -34157,6 +35376,8 @@ class CaptionSourceSettings {
 }
 
 /// Settings for ancillary captions source.
+///
+/// @nodoc
 class AncillarySourceSettings {
   /// Specify whether this set of input captions appears in your outputs in both
   /// 608 and 708 format. If you choose Upconvert, MediaConvert includes the
@@ -34206,6 +35427,8 @@ class AncillarySourceSettings {
 }
 
 /// DVB Sub Source Settings
+///
+/// @nodoc
 class DvbSubSourceSettings {
   /// When using DVB-Sub with Burn-in, use this PID for the source content. Unused
   /// for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless
@@ -34231,6 +35454,8 @@ class DvbSubSourceSettings {
 }
 
 /// Settings for embedded captions Source
+///
+/// @nodoc
 class EmbeddedSourceSettings {
   /// Specify whether this set of input captions appears in your outputs in both
   /// 608 and 708 format. If you choose Upconvert, MediaConvert includes the
@@ -34291,6 +35516,8 @@ class EmbeddedSourceSettings {
 /// an xml file, specify the URI of the input caption source file. If your
 /// caption source is IMSC in an IMF package, use TrackSourceSettings instead of
 /// FileSoureSettings.
+///
+/// @nodoc
 class FileSourceSettings {
   /// Choose whether to limit the byte rate at which your SCC input captions are
   /// inserted into your output. To not limit the caption rate: We recommend that
@@ -34414,6 +35641,8 @@ class FileSourceSettings {
 
 /// Use Source to identify the format of your input captions. The service cannot
 /// auto-detect caption format.
+///
+/// @nodoc
 class CaptionSourceType {
   static const ancillary = CaptionSourceType._('ANCILLARY');
   static const dvbSub = CaptionSourceType._('DVB_SUB');
@@ -34468,6 +35697,8 @@ class CaptionSourceType {
 }
 
 /// Settings specific to Teletext caption sources, including Page number.
+///
+/// @nodoc
 class TeletextSourceSettings {
   /// Use Page Number to specify the three-digit hexadecimal page number that will
   /// be used for Teletext captions. Do not use this setting if you are passing
@@ -34496,6 +35727,8 @@ class TeletextSourceSettings {
 /// Currently, this is only IMSC captions in an IMF package. If your caption
 /// source is IMSC 1.1 in a separate xml file, use FileSourceSettings instead of
 /// TrackSourceSettings.
+///
+/// @nodoc
 class TrackSourceSettings {
   /// Use this setting to select a single captions track from a source. Stream
   /// numbers include all tracks in the source file, regardless of type, and
@@ -34551,6 +35784,8 @@ class TrackSourceSettings {
 /// be left empty and the default subtitle track will be chosen. If your caption
 /// source is a sidecar file, use FileSourceSettings instead of
 /// WebvttHlsSourceSettings.
+///
+/// @nodoc
 class WebvttHlsSourceSettings {
   /// Optional. Specify alternative group ID
   final String? renditionGroupId;
@@ -34600,6 +35835,8 @@ class WebvttHlsSourceSettings {
 /// if your downstream systems require a maximum of 2 caption bytes per frame.
 /// Note that this setting has no effect when your output frame rate is 30 or
 /// 60.
+///
+/// @nodoc
 class CaptionSourceByteRateLimit {
   static const enabled = CaptionSourceByteRateLimit._('ENABLED');
   static const disabled = CaptionSourceByteRateLimit._('DISABLED');
@@ -34630,6 +35867,8 @@ class CaptionSourceByteRateLimit {
 /// captions data in two ways: it passes the 608 data through using the 608
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
+///
+/// @nodoc
 class FileSourceConvert608To708 {
   static const upconvert = FileSourceConvert608To708._('UPCONVERT');
   static const disabled = FileSourceConvert608To708._('DISABLED');
@@ -34660,6 +35899,8 @@ class FileSourceConvert608To708 {
 /// convert paint-on captions to pop-on: Choose Enabled. We also recommend that
 /// you choose Enabled if you notice additional repeated lines in your output
 /// captions.
+///
+/// @nodoc
 class CaptionSourceConvertPaintOnToPopOn {
   static const enabled = CaptionSourceConvertPaintOnToPopOn._('ENABLED');
   static const disabled = CaptionSourceConvertPaintOnToPopOn._('DISABLED');
@@ -34690,6 +35931,8 @@ class CaptionSourceConvertPaintOnToPopOn {
 /// input video, specify the frame rate of the captions file. Specify this value
 /// as a fraction. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for
 /// 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
+///
+/// @nodoc
 class CaptionSourceFramerate {
   /// Specify the denominator of the fraction that represents the frame rate for
   /// the setting Caption source frame rate. Use this setting along with the
@@ -34728,6 +35971,8 @@ class CaptionSourceFramerate {
 /// captions and your video, use this setting to specify the units for the delta
 /// that you specify. When you don't specify a value for Time delta units,
 /// MediaConvert uses seconds by default.
+///
+/// @nodoc
 class FileSourceTimeDeltaUnits {
   static const seconds = FileSourceTimeDeltaUnits._('SECONDS');
   static const milliseconds = FileSourceTimeDeltaUnits._('MILLISECONDS');
@@ -34758,6 +36003,8 @@ class FileSourceTimeDeltaUnits {
 /// captions data in two ways: it passes the STL data through using the Teletext
 /// compatibility bytes fields of the Teletext wrapper, and it also translates
 /// the STL data into Teletext.
+///
+/// @nodoc
 class CaptionSourceUpconvertSTLToTeletext {
   static const upconvert = CaptionSourceUpconvertSTLToTeletext._('UPCONVERT');
   static const disabled = CaptionSourceUpconvertSTLToTeletext._('DISABLED');
@@ -34788,6 +36035,8 @@ class CaptionSourceUpconvertSTLToTeletext {
 /// captions data in two ways: it passes the 608 data through using the 608
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
+///
+/// @nodoc
 class EmbeddedConvert608To708 {
   static const upconvert = EmbeddedConvert608To708._('UPCONVERT');
   static const disabled = EmbeddedConvert608To708._('DISABLED');
@@ -34816,6 +36065,8 @@ class EmbeddedConvert608To708 {
 /// By default, the service terminates any unterminated captions at the end of
 /// each input. If you want the caption to continue onto your next input,
 /// disable this setting.
+///
+/// @nodoc
 class EmbeddedTerminateCaptions {
   static const endOfInput = EmbeddedTerminateCaptions._('END_OF_INPUT');
   static const disabled = EmbeddedTerminateCaptions._('DISABLED');
@@ -34846,6 +36097,8 @@ class EmbeddedTerminateCaptions {
 /// captions data in two ways: it passes the 608 data through using the 608
 /// compatibility bytes fields of the 708 wrapper, and it also translates the
 /// 608 data into 708.
+///
+/// @nodoc
 class AncillaryConvert608To708 {
   static const upconvert = AncillaryConvert608To708._('UPCONVERT');
   static const disabled = AncillaryConvert608To708._('DISABLED');
@@ -34874,6 +36127,8 @@ class AncillaryConvert608To708 {
 /// By default, the service terminates any unterminated captions at the end of
 /// each input. If you want the caption to continue onto your next input,
 /// disable this setting.
+///
+/// @nodoc
 class AncillaryTerminateCaptions {
   static const endOfInput = AncillaryTerminateCaptions._('END_OF_INPUT');
   static const disabled = AncillaryTerminateCaptions._('DISABLED');
@@ -34902,6 +36157,8 @@ class AncillaryTerminateCaptions {
 /// Use Audio selectors to specify a track or set of tracks from the input that
 /// you will use in your outputs. You can use multiple Audio selectors per
 /// input.
+///
+/// @nodoc
 class AudioSelector {
   /// Apply audio timing corrections to help synchronize audio and video in your
   /// output. To apply timing corrections, your input must meet the following
@@ -35112,6 +36369,8 @@ class AudioSelector {
 /// (Unchecked in the MediaConvert console): MediaConvert will not fallback from
 /// any missing audio selector. Any output specifying a missing audio selector
 /// will be silent.
+///
+/// @nodoc
 class AudioDefaultSelection {
   static const $default = AudioDefaultSelection._('DEFAULT');
   static const notDefault = AudioDefaultSelection._('NOT_DEFAULT');
@@ -35145,6 +36404,8 @@ class AudioDefaultSelection {
 /// If no properties in hlsRenditionGroupSettings are specified, the default
 /// audio track within the video segment is chosen. If there is no audio within
 /// video segment, the alternative audio with DEFAULT=YES is chosen instead.
+///
+/// @nodoc
 class HlsRenditionGroupSettings {
   /// Optional. Specify alternative group ID
   final String? renditionGroupId;
@@ -35209,6 +36470,8 @@ class HlsRenditionGroupSettings {
 /// which is not recognized by the service, then the corresponding stream number
 /// will still be reserved for future use. If more types of audio data get
 /// recognized in the future, these numberings will not shift.
+///
+/// @nodoc
 class AudioSelectorType {
   static const pid = AudioSelectorType._('PID');
   static const track = AudioSelectorType._('TRACK');
@@ -35248,6 +36511,8 @@ class AudioSelectorType {
 /// you can assign them to a single output audio tab. Note that, if you're
 /// working with embedded audio, it's simpler to assign multiple input tracks
 /// into a single audio selector rather than use an audio selector group.
+///
+/// @nodoc
 class AudioSelectorGroup {
   /// Name of an Audio Selector within the same input to include in the group.
   /// Audio selector names are standardized, based on their order within the input
@@ -35282,6 +36547,8 @@ class AudioSelectorGroup {
 /// value, Disabled. We recommend that you choose Disabled for input video
 /// content that doesn't have texture, including screen recordings, computer
 /// graphics, or cartoons.
+///
+/// @nodoc
 class AdvancedInputFilterAddTexture {
   static const enabled = AdvancedInputFilterAddTexture._('ENABLED');
   static const disabled = AdvancedInputFilterAddTexture._('DISABLED');
@@ -35312,6 +36579,8 @@ class AdvancedInputFilterAddTexture {
 /// content and can reduce softness. To apply no sharpening: Keep the default
 /// value, Off. To apply a minimal amount of sharpening choose Low, or for the
 /// maximum choose High.
+///
+/// @nodoc
 class AdvancedInputFilterSharpen {
   static const off = AdvancedInputFilterSharpen._('OFF');
   static const low = AdvancedInputFilterSharpen._('LOW');
@@ -35341,6 +36610,8 @@ class AdvancedInputFilterSharpen {
 /// The action to take on copy and redistribution control XDS packets. If you
 /// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
 /// packets will be removed in output captions.
+///
+/// @nodoc
 class CopyProtectionAction {
   static const passthrough = CopyProtectionAction._('PASSTHROUGH');
   static const strip = CopyProtectionAction._('STRIP');
@@ -35369,6 +36640,8 @@ class CopyProtectionAction {
 /// The action to take on content advisory XDS packets. If you select
 /// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
 /// will be removed in output captions.
+///
+/// @nodoc
 class VchipAction {
   static const passthrough = VchipAction._('PASSTHROUGH');
   static const strip = VchipAction._('STRIP');
@@ -35394,6 +36667,8 @@ class VchipAction {
 
 /// ESAM ManifestConfirmConditionNotification defined by
 /// OC-SP-ESAM-API-I03-131025.
+///
+/// @nodoc
 class EsamManifestConfirmConditionNotification {
   /// Provide your ESAM ManifestConfirmConditionNotification XML document inside
   /// your JSON job settings. Form the XML document as per
@@ -35421,6 +36696,8 @@ class EsamManifestConfirmConditionNotification {
 }
 
 /// ESAM SignalProcessingNotification data defined by OC-SP-ESAM-API-I03-131025.
+///
+/// @nodoc
 class EsamSignalProcessingNotification {
   /// Provide your ESAM SignalProcessingNotification XML document inside your JSON
   /// job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The
@@ -35450,6 +36727,8 @@ class EsamSignalProcessingNotification {
 }
 
 /// Custom 3D lut settings
+///
+/// @nodoc
 class ColorConversion3DLUTSetting {
   /// Specify the input file S3, HTTP, or HTTPS URL for your 3D LUT .cube file.
   /// Note that MediaConvert accepts 3D LUT files up to 8MB in size.
@@ -35515,6 +36794,8 @@ class ColorConversion3DLUTSetting {
 
 /// Optional. Configuration for a destination queue to which the job can hop
 /// once a customer-defined minimum wait time has passed.
+///
+/// @nodoc
 class HopDestination {
   /// Optional. When you set up a job to use queue hopping, you can specify a
   /// different relative priority for the job in the destination queue. If you
@@ -35567,6 +36848,8 @@ class HopDestination {
 /// transcoding. Choose PREFERRED if you want your job to run with accelerated
 /// transcoding if the job is compatible with the feature and to run at standard
 /// speed if it's not.
+///
+/// @nodoc
 class AccelerationMode {
   static const disabled = AccelerationMode._('DISABLED');
   static const enabled = AccelerationMode._('ENABLED');
@@ -35594,6 +36877,8 @@ class AccelerationMode {
 
 /// Optional. When you request lists of resources, you can specify whether they
 /// are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+///
+/// @nodoc
 class Order {
   static const ascending = Order._('ASCENDING');
   static const descending = Order._('DESCENDING');
@@ -35619,6 +36904,8 @@ class Order {
 
 /// Provide one or more JobsQueryFilter objects, each containing a Key with an
 /// associated Values array. Note that MediaConvert queries jobs using OR logic.
+///
+/// @nodoc
 class JobsQueryFilter {
   /// Specify job details to filter for while performing a jobs query. You specify
   /// these filters as part of a key-value pair within the JobsQueryFilter array.
@@ -35668,6 +36955,8 @@ class JobsQueryFilter {
 /// OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 |
 /// AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES |
 /// UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)
+///
+/// @nodoc
 class JobsQueryFilterKey {
   static const queue = JobsQueryFilterKey._('queue');
   static const status = JobsQueryFilterKey._('status');
@@ -35711,6 +37000,8 @@ class JobsQueryFilterKey {
 /// Each job converts an input file into an output file or files. For more
 /// information, see the User Guide at
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+///
+/// @nodoc
 class Job {
   /// The IAM role you use for creating this job. For details about permissions,
   /// see the User Guide topic at the User Guide at
@@ -36058,6 +37349,8 @@ class Job {
 /// accelerated transcoding, depending on how you set Acceleration
 /// (AccelerationMode). When the service runs your job without accelerated
 /// transcoding, AccelerationStatus is NOT_ACCELERATED.
+///
+/// @nodoc
 class AccelerationStatus {
   static const notApplicable = AccelerationStatus._('NOT_APPLICABLE');
   static const inProgress = AccelerationStatus._('IN_PROGRESS');
@@ -36092,6 +37385,8 @@ class AccelerationStatus {
 
 /// The tag type that AWS Billing and Cost Management will use to sort your AWS
 /// Elemental MediaConvert costs on any billing report that you set up.
+///
+/// @nodoc
 class BillingTagsSource {
   static const queue = BillingTagsSource._('QUEUE');
   static const preset = BillingTagsSource._('PRESET');
@@ -36119,6 +37414,8 @@ class BillingTagsSource {
 }
 
 /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
+///
+/// @nodoc
 class JobPhase {
   static const probing = JobPhase._('PROBING');
   static const transcoding = JobPhase._('TRANSCODING');
@@ -36144,6 +37441,8 @@ class JobPhase {
 }
 
 /// The Elemental Inference configuration used in this job.
+///
+/// @nodoc
 class ElementalInferenceConfiguration {
   /// A list of Elemental Inference features used in this job.
   final List<ElementalInferenceFeature>? features;
@@ -36182,6 +37481,8 @@ class ElementalInferenceConfiguration {
 
 /// Provides messages from the service about jobs that you have already
 /// successfully submitted.
+///
+/// @nodoc
 class JobMessages {
   /// List of messages that are informational only and don't indicate a problem
   /// with your job.
@@ -36215,6 +37516,8 @@ class JobMessages {
 }
 
 /// JobSettings contains all the transcode settings for a job.
+///
+/// @nodoc
 class JobSettings {
   /// When specified, this offset (in milliseconds) is added to the input Ad Avail
   /// PTS time.
@@ -36281,8 +37584,8 @@ class JobSettings {
   /// also need to set up your cloud TIC server. These settings apply to every
   /// output in your job. The MediaConvert implementation is currently with the
   /// following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM
-  /// Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC]
-  /// Version [7.0.0]
+  /// Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator \[SID_TIC\]
+  /// Version \[7.0.0\]
   final NielsenNonLinearWatermarkSettings? nielsenNonLinearWatermark;
 
   /// Contains one group of settings for each set of outputs that share a common
@@ -36418,6 +37721,7 @@ class JobSettings {
   }
 }
 
+/// @nodoc
 class ShareStatus {
   static const notShared = ShareStatus._('NOT_SHARED');
   static const initiated = ShareStatus._('INITIATED');
@@ -36446,6 +37750,8 @@ class ShareStatus {
 /// transcoding slots (RTS) you need. When this is enabled, MediaConvert runs
 /// your job from an on-demand queue with similar performance to what you will
 /// see with one RTS in a reserved queue. This setting is disabled by default.
+///
+/// @nodoc
 class SimulateReservedQueue {
   static const disabled = SimulateReservedQueue._('DISABLED');
   static const enabled = SimulateReservedQueue._('ENABLED');
@@ -36472,6 +37778,8 @@ class SimulateReservedQueue {
 }
 
 /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
+///
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const progressing = JobStatus._('PROGRESSING');
@@ -36500,6 +37808,8 @@ class JobStatus {
 
 /// Information about when jobs are submitted, started, and finished is
 /// specified in Unix epoch format in seconds.
+///
+/// @nodoc
 class Timing {
   /// The time, in Unix epoch format, that the transcoding job finished
   final DateTime? finishTime;
@@ -36537,6 +37847,8 @@ class Timing {
 }
 
 /// Contains any warning codes and their count for the job.
+///
+/// @nodoc
 class WarningGroup {
   /// Warning code that identifies a specific warning in the job. For more
   /// information, see
@@ -36574,6 +37886,8 @@ class WarningGroup {
 /// You can use multiple video inputs to do input stitching. For more
 /// information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html
+///
+/// @nodoc
 class Input {
   /// Use to remove noise, blocking, blurriness, or ringing from your input as a
   /// pre-filter step before encoding. The Advanced input filter removes more
@@ -36735,8 +38049,8 @@ class Input {
   /// Provide a list of any necessary supplemental IMPs. You need supplemental
   /// IMPs if the CPL that you're using for your input is in an incomplete IMP.
   /// Specify either the supplemental IMP directories with a trailing slash or the
-  /// ASSETMAP.xml files. For example ["s3://bucket/ov/",
-  /// "s3://bucket/vf2/ASSETMAP.xml"]. You don't need to specify the IMP that
+  /// ASSETMAP.xml files. For example \["s3://bucket/ov/",
+  /// "s3://bucket/vf2/ASSETMAP.xml"\]. You don't need to specify the IMP that
   /// contains your input CPL, because the service automatically detects it.
   final List<String>? supplementalImps;
 
@@ -36973,6 +38287,8 @@ class Input {
 /// them to Amazon S3. MediaConvert can decrypt files only when you use AWS Key
 /// Management Service (KMS) to encrypt the data key that you use to encrypt
 /// your content.
+///
+/// @nodoc
 class InputDecryptionSettings {
   /// Specify the encryption mode that you used to encrypt your input files.
   final DecryptionMode? decryptionMode;
@@ -37040,6 +38356,8 @@ class InputDecryptionSettings {
 /// TAMS-compliant server 2. Specify the server URL in the Input file URL field
 /// 3. Provide the required SourceId and Timerange parameters 4. Configure
 /// authentication, if your TAMS server requires it
+///
+/// @nodoc
 class InputTamsSettings {
   /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to
   /// authenticate with your TAMS server. The EventBridge Connection stores your
@@ -37077,8 +38395,8 @@ class InputTamsSettings {
   /// format specified by your TAMS server implementation. This must be two
   /// timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated
   /// by an underscore, surrounded by either parentheses or square brackets.
-  /// Example: [15:0_35:0) This setting is required when you include TAMS settings
-  /// in your job.
+  /// Example: \[15:0_35:0) This setting is required when you include TAMS
+  /// settings in your job.
   final String? timerange;
 
   InputTamsSettings({
@@ -37118,6 +38436,8 @@ class InputTamsSettings {
 /// specify Video generator, or you can specify an Input file, but you cannot
 /// specify both. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
+///
+/// @nodoc
 class InputVideoGenerator {
   /// Specify the number of audio channels to include in your video generator
   /// input. MediaConvert creates these audio channels as silent audio within a
@@ -37218,6 +38538,8 @@ class InputVideoGenerator {
 /// timeline continuity but adds black frames where content is missing. * Hold
 /// last frame - Repeat the last frame before a gap until the next segment
 /// begins. This maintains visual continuity during gaps.
+///
+/// @nodoc
 class TamsGapHandling {
   static const skipGaps = TamsGapHandling._('SKIP_GAPS');
   static const fillWithBlack = TamsGapHandling._('FILL_WITH_BLACK');
@@ -37244,6 +38566,8 @@ class TamsGapHandling {
 }
 
 /// Specify the encryption mode that you used to encrypt your input files.
+///
+/// @nodoc
 class DecryptionMode {
   static const aesCtr = DecryptionMode._('AES_CTR');
   static const aesCbc = DecryptionMode._('AES_CBC');
@@ -37271,6 +38595,8 @@ class DecryptionMode {
 
 /// Description of the source and destination queues between which the job has
 /// moved, along with the timestamp of the move
+///
+/// @nodoc
 class QueueTransition {
   /// The queue that the job was on after the transition.
   final String? destinationQueue;
@@ -37309,6 +38635,8 @@ class QueueTransition {
 }
 
 /// Contains details about the output groups specified in the job settings.
+///
+/// @nodoc
 class OutputGroupDetail {
   /// Details about the output
   final List<OutputDetail>? outputDetails;
@@ -37335,6 +38663,8 @@ class OutputGroupDetail {
 }
 
 /// Details regarding output
+///
+/// @nodoc
 class OutputDetail {
   /// Duration in milliseconds
   final int? durationInMs;
@@ -37367,6 +38697,8 @@ class OutputDetail {
 }
 
 /// Contains details about the output's video stream
+///
+/// @nodoc
 class VideoDetail {
   /// Height in pixels for the output
   final int? heightInPx;
@@ -37397,6 +38729,8 @@ class VideoDetail {
 }
 
 /// Elemental Inference Feed.
+///
+/// @nodoc
 class ElementalInferenceFeed {
   /// Feed ARN.
   final String? arn;
@@ -37429,6 +38763,8 @@ class ElementalInferenceFeed {
 }
 
 /// Elemental Inference Feed management state.
+///
+/// @nodoc
 class ElementalInferenceFeedManagementState {
   static const created = ElementalInferenceFeedManagementState._('CREATED');
   static const associated =
@@ -37459,6 +38795,8 @@ class ElementalInferenceFeedManagementState {
 }
 
 /// Elemental Inference feature.
+///
+/// @nodoc
 class ElementalInferenceFeature {
   static const smartCrop = ElementalInferenceFeature._('SMART_CROP');
 
@@ -37486,6 +38824,8 @@ class ElementalInferenceFeature {
 /// A policy configures behavior that you allow or disallow for your account.
 /// For information about MediaConvert policies, see the user guide at
 /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+///
+/// @nodoc
 class Policy {
   /// Allow or disallow jobs that specify HTTP inputs.
   final InputPolicy? httpInputs;
@@ -37525,6 +38865,8 @@ class Policy {
 
 /// An input policy allows or disallows a job you submit to run based on the
 /// conditions that you specify.
+///
+/// @nodoc
 class InputPolicy {
   static const allowed = InputPolicy._('ALLOWED');
   static const disallowed = InputPolicy._('DISALLOWED');
@@ -37549,6 +38891,8 @@ class InputPolicy {
 }
 
 /// Probe results for your media file.
+///
+/// @nodoc
 class ProbeResult {
   /// The container of your media file. This information helps you understand the
   /// overall structure and details of your media, including format, duration, and
@@ -37597,6 +38941,8 @@ class ProbeResult {
 /// The container of your media file. This information helps you understand the
 /// overall structure and details of your media, including format, duration, and
 /// track layout.
+///
+/// @nodoc
 class Container {
   /// The total duration of your media file, in seconds.
   final double? duration;
@@ -37649,6 +38995,8 @@ class Container {
 }
 
 /// Metadata and other file information.
+///
+/// @nodoc
 class Metadata {
   /// The entity tag (ETag) of the file.
   final String? eTag;
@@ -37694,6 +39042,8 @@ class Metadata {
 }
 
 /// An array containing track mapping information.
+///
+/// @nodoc
 class TrackMapping {
   /// The index numbers of the audio tracks in your media file.
   final List<int>? audioTrackIndexes;
@@ -37739,6 +39089,7 @@ class TrackMapping {
   }
 }
 
+/// @nodoc
 class Format {
   static const mp4 = Format._('mp4');
   static const quicktime = Format._('quicktime');
@@ -37780,6 +39131,8 @@ class Format {
 }
 
 /// Details about each track (video, audio, or data) in the media file.
+///
+/// @nodoc
 class Track {
   /// Details about the media file's audio track.
   final AudioProperties? audioProperties;
@@ -37854,6 +39207,8 @@ class Track {
 }
 
 /// Details about the media file's audio track.
+///
+/// @nodoc
 class AudioProperties {
   /// The bit depth of the audio track.
   final int? bitDepth;
@@ -37924,6 +39279,7 @@ class AudioProperties {
   }
 }
 
+/// @nodoc
 class Codec {
   static const unknown = Codec._('UNKNOWN');
   static const aac = Codec._('AAC');
@@ -38003,6 +39359,8 @@ class Codec {
 }
 
 /// Details about the media file's data track.
+///
+/// @nodoc
 class DataProperties {
   /// The language code of the data track, in three character ISO 639-3 format.
   final String? languageCode;
@@ -38025,6 +39383,7 @@ class DataProperties {
   }
 }
 
+/// @nodoc
 class TrackType {
   static const video = TrackType._('video');
   static const audio = TrackType._('audio');
@@ -38050,6 +39409,8 @@ class TrackType {
 }
 
 /// Details about the media file's video track.
+///
+/// @nodoc
 class VideoProperties {
   /// The number of bits used per color component such as 8, 10, or 12 bits.
   /// Standard range (SDR) video typically uses 8-bit, while 10-bit is common for
@@ -38178,6 +39539,8 @@ class VideoProperties {
 /// was encoded, including profile settings, resolution details, and color space
 /// information that can help you understand the source video characteristics
 /// and make informed encoding decisions.
+///
+/// @nodoc
 class CodecMetadata {
   /// The number of bits used per color component in the video essence such as 8,
   /// 10, or 12 bits. Standard range (SDR) video typically uses 8-bit, while
@@ -38322,6 +39685,8 @@ class CodecMetadata {
 /// The color space primaries of the video track, defining the red, green, and
 /// blue color coordinates used for the video. This information helps ensure
 /// accurate color reproduction during playback and transcoding.
+///
+/// @nodoc
 class ColorPrimaries {
   static const itu_709 = ColorPrimaries._('ITU_709');
   static const unspecified = ColorPrimaries._('UNSPECIFIED');
@@ -38379,6 +39744,8 @@ class ColorPrimaries {
 
 /// The frame rate of the video or audio track, expressed as a fraction with
 /// numerator and denominator values.
+///
+/// @nodoc
 class FrameRate {
   /// The denominator, or bottom number, in the fractional frame rate. For
   /// example, if your frame rate is 24000 / 1001 (23.976 frames per second), then
@@ -38415,6 +39782,8 @@ class FrameRate {
 /// HDR (High Dynamic Range) metadata extracted from the container, including
 /// mastering display color volume and content light level information. This
 /// metadata is present in HDR10 and similar HDR content.
+///
+/// @nodoc
 class HdrMetadata {
   /// Content light level information (CTA-861.3). Describes the light level
   /// characteristics of the content.
@@ -38457,6 +39826,8 @@ class HdrMetadata {
 /// The color space matrix coefficients of the video track, defining how RGB
 /// color values are converted to and from YUV color space. This affects color
 /// accuracy during encoding and decoding processes.
+///
+/// @nodoc
 class MatrixCoefficients {
   static const rgb = MatrixCoefficients._('RGB');
   static const itu_709 = MatrixCoefficients._('ITU_709');
@@ -38520,6 +39891,8 @@ class MatrixCoefficients {
 /// The color space transfer characteristics of the video track, defining the
 /// relationship between linear light values and the encoded signal values. This
 /// affects brightness and contrast reproduction.
+///
+/// @nodoc
 class TransferCharacteristics {
   static const itu_709 = TransferCharacteristics._('ITU_709');
   static const unspecified = TransferCharacteristics._('UNSPECIFIED');
@@ -38584,6 +39957,8 @@ class TransferCharacteristics {
 
 /// Content light level information (CTA-861.3). Describes the light level
 /// characteristics of the content.
+///
+/// @nodoc
 class ContentLightLevel {
   /// Maximum content light level (MaxCLL), in cd/m².
   final int? maxContentLightLevel;
@@ -38618,6 +39993,8 @@ class ContentLightLevel {
 /// Mastering display color volume metadata (SMPTE ST 2086). Describes the color
 /// volume of the display used to master the content. Chromaticity coordinates
 /// are in units of 0.00002. Luminance values are in units of 0.0001 cd/m².
+///
+/// @nodoc
 class MasteringDisplayColorVolume {
   /// Blue primary chromaticity x coordinate, in units of 0.00002.
   final int? bluePrimaryX;
@@ -38704,6 +40081,8 @@ class MasteringDisplayColorVolume {
 }
 
 /// The input file that needs to be analyzed.
+///
+/// @nodoc
 class ProbeInputFile {
   /// Specify the S3, HTTP, or HTTPS URL for your media file.
   final String? fileUrl;
@@ -38723,6 +40102,8 @@ class ProbeInputFile {
 /// Use Job engine versions to run jobs for your production workflow on one
 /// version, while you test and validate the latest version. Job engine versions
 /// are in a YYYY-MM-DD format.
+///
+/// @nodoc
 class JobEngineVersion {
   /// The date that this Job engine version expires. Requests to create jobs with
   /// an expired version result in a regular job, as if no specific Job engine
@@ -38762,6 +40143,8 @@ class JobEngineVersion {
 
 /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert
 /// resource.
+///
+/// @nodoc
 class ResourceTags {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -38795,6 +40178,8 @@ class ResourceTags {
 /// Optional. When you request a list of queues, you can choose to list them
 /// alphabetically by NAME or chronologically by CREATION_DATE. If you don't
 /// specify, the service will list them by creation date.
+///
+/// @nodoc
 class QueueListBy {
   static const name = QueueListBy._('NAME');
   static const creationDate = QueueListBy._('CREATION_DATE');
@@ -38821,6 +40206,8 @@ class QueueListBy {
 /// Optional. When you request a list of presets, you can choose to list them
 /// alphabetically by NAME or chronologically by CREATION_DATE. If you don't
 /// specify, the service will list them by name.
+///
+/// @nodoc
 class PresetListBy {
   static const name = PresetListBy._('NAME');
   static const creationDate = PresetListBy._('CREATION_DATE');
@@ -38848,6 +40235,8 @@ class PresetListBy {
 /// Optional. When you request a list of job templates, you can choose to list
 /// them alphabetically by NAME or chronologically by CREATION_DATE. If you
 /// don't specify, the service will list them by name.
+///
+/// @nodoc
 class JobTemplateListBy {
   static const name = JobTemplateListBy._('NAME');
   static const creationDate = JobTemplateListBy._('CREATION_DATE');
@@ -38874,6 +40263,8 @@ class JobTemplateListBy {
 }
 
 /// A job query's status can be SUBMITTED, PROGRESSING, COMPLETE, or ERROR.
+///
+/// @nodoc
 class JobsQueryStatus {
   static const submitted = JobsQueryStatus._('SUBMITTED');
   static const progressing = JobsQueryStatus._('PROGRESSING');
@@ -38901,6 +40292,8 @@ class JobsQueryStatus {
 }
 
 /// Describes an account-specific API endpoint.
+///
+/// @nodoc
 class Endpoint {
   /// URL of endpoint
   final String? url;
@@ -38927,6 +40320,8 @@ class Endpoint {
 /// return your endpoints if any exist, or to create an endpoint for you and
 /// return it if one doesn't already exist. Specify GET_ONLY to return your
 /// endpoints if any exist, or an empty list if none exist.
+///
+/// @nodoc
 class DescribeEndpointsMode {
   static const $default = DescribeEndpointsMode._('DEFAULT');
   static const getOnly = DescribeEndpointsMode._('GET_ONLY');
@@ -38952,32 +40347,38 @@ class DescribeEndpointsMode {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -38986,6 +40387,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

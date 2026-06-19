@@ -1671,6 +1671,7 @@ class AccessAnalyzer {
   }
 }
 
+/// @nodoc
 class CancelPolicyGenerationResponse {
   CancelPolicyGenerationResponse();
 
@@ -1683,6 +1684,7 @@ class CancelPolicyGenerationResponse {
   }
 }
 
+/// @nodoc
 class CheckAccessNotGrantedResponse {
   /// The message indicating whether the specified access is allowed.
   final String? message;
@@ -1727,6 +1729,7 @@ class CheckAccessNotGrantedResponse {
   }
 }
 
+/// @nodoc
 class CheckNoNewAccessResponse {
   /// The message indicating whether the updated policy allows new access.
   final String? message;
@@ -1769,6 +1772,7 @@ class CheckNoNewAccessResponse {
   }
 }
 
+/// @nodoc
 class CheckNoPublicAccessResponse {
   /// The message indicating whether the specified policy allows public access to
   /// resources.
@@ -1814,6 +1818,7 @@ class CheckNoPublicAccessResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessPreviewResponse {
   /// The unique ID for the access preview.
   final String id;
@@ -1837,6 +1842,8 @@ class CreateAccessPreviewResponse {
 }
 
 /// The response to the request to create a service-linked analyzer.
+///
+/// @nodoc
 class CreateServiceLinkedAnalyzerResponse {
   /// The ARN of the service-linked analyzer that was created by the request. The
   /// analyzer name follows the format
@@ -1863,6 +1870,7 @@ class CreateServiceLinkedAnalyzerResponse {
   }
 }
 
+/// @nodoc
 class GetAccessPreviewResponse {
   /// An object that contains information about the access preview.
   final AccessPreview accessPreview;
@@ -1888,6 +1896,8 @@ class GetAccessPreviewResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class GetAnalyzedResourceResponse {
   /// An <code>AnalyzedResource</code> object that contains information that IAM
   /// Access Analyzer found when it analyzed the resource.
@@ -1914,6 +1924,8 @@ class GetAnalyzedResourceResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class GetFindingResponse {
   /// A <code>finding</code> object that contains finding details.
   final Finding? finding;
@@ -1938,6 +1950,7 @@ class GetFindingResponse {
   }
 }
 
+/// @nodoc
 class GetFindingRecommendationResponse {
   /// The type of recommendation for the finding.
   final RecommendationType recommendationType;
@@ -2016,6 +2029,7 @@ class GetFindingRecommendationResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsStatisticsResponse {
   /// A group of external access or unused access findings statistics.
   final List<FindingsStatistics>? findingsStatistics;
@@ -2050,6 +2064,7 @@ class GetFindingsStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetFindingV2Response {
   /// The time at which the resource-based policy or IAM entity that generated the
   /// finding was analyzed.
@@ -2160,6 +2175,7 @@ class GetFindingV2Response {
   }
 }
 
+/// @nodoc
 class GetGeneratedPolicyResponse {
   /// A <code>GeneratedPolicyResult</code> object that contains the generated
   /// policies and associated details.
@@ -2195,6 +2211,7 @@ class GetGeneratedPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListAccessPreviewFindingsResponse {
   /// A list of access preview findings that match the specified filter criteria.
   final List<AccessPreviewFinding> findings;
@@ -2228,6 +2245,7 @@ class ListAccessPreviewFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListAccessPreviewsResponse {
   /// A list of access previews retrieved for the analyzer.
   final List<AccessPreviewSummary> accessPreviews;
@@ -2261,6 +2279,8 @@ class ListAccessPreviewsResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class ListAnalyzedResourcesResponse {
   /// A list of resources that were analyzed.
   final List<AnalyzedResourceSummary> analyzedResources;
@@ -2295,6 +2315,8 @@ class ListAnalyzedResourcesResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class ListFindingsResponse {
   /// A list of findings retrieved from the analyzer that match the filter
   /// criteria specified, if any.
@@ -2328,6 +2350,7 @@ class ListFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListFindingsV2Response {
   /// A list of findings retrieved from the analyzer that match the filter
   /// criteria specified, if any.
@@ -2361,6 +2384,7 @@ class ListFindingsV2Response {
   }
 }
 
+/// @nodoc
 class ListPolicyGenerationsResponse {
   /// A <code>PolicyGeneration</code> object that contains details about the
   /// generated policy.
@@ -2395,6 +2419,8 @@ class ListPolicyGenerationsResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags that are applied to the specified resource.
   final Map<String, String>? tags;
@@ -2418,6 +2444,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartPolicyGenerationResponse {
   /// The <code>JobId</code> that is returned by the
   /// <code>StartPolicyGeneration</code> operation. The <code>JobId</code> can be
@@ -2445,6 +2472,8 @@ class StartPolicyGenerationResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2458,6 +2487,8 @@ class TagResourceResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2470,6 +2501,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class ValidatePolicyResponse {
   /// The list of findings in a policy returned by IAM Access Analyzer based on
   /// its suite of policy checks.
@@ -2504,6 +2536,8 @@ class ValidatePolicyResponse {
 }
 
 /// The response to the request to create an analyzer.
+///
+/// @nodoc
 class CreateAnalyzerResponse {
   /// The ARN of the analyzer that was created by the request.
   final String? arn;
@@ -2527,6 +2561,8 @@ class CreateAnalyzerResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class GetAnalyzerResponse {
   /// An <code>AnalyzerSummary</code> object that contains information about the
   /// analyzer.
@@ -2552,6 +2588,7 @@ class GetAnalyzerResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnalyzerResponse {
   final AnalyzerConfiguration? configuration;
 
@@ -2577,6 +2614,8 @@ class UpdateAnalyzerResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class ListAnalyzersResponse {
   /// The analyzers retrieved.
   final List<AnalyzerSummary> analyzers;
@@ -2610,6 +2649,8 @@ class ListAnalyzersResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class GetArchiveRuleResponse {
   final ArchiveRuleSummary archiveRule;
 
@@ -2634,6 +2675,8 @@ class GetArchiveRuleResponse {
 }
 
 /// The response to the request.
+///
+/// @nodoc
 class ListArchiveRulesResponse {
   /// A list of archive rules created for the specified analyzer.
   final List<ArchiveRuleSummary> archiveRules;
@@ -2669,6 +2712,8 @@ class ListArchiveRulesResponse {
 /// Contains information about an archive rule. Archive rules automatically
 /// archive new findings that meet the criteria you define when you create the
 /// rule.
+///
+/// @nodoc
 class ArchiveRuleSummary {
   /// The time at which the archive rule was created.
   final DateTime createdAt;
@@ -2719,6 +2764,8 @@ class ArchiveRuleSummary {
 /// information on available filter keys, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html">IAM
 /// Access Analyzer filter keys</a>.
+///
+/// @nodoc
 class Criterion {
   /// A "contains" operator to match for the filter used to create the rule.
   final List<String>? contains;
@@ -2766,6 +2813,8 @@ class Criterion {
 }
 
 /// Contains information about the analyzer.
+///
+/// @nodoc
 class AnalyzerSummary {
   /// The ARN of the analyzer.
   final String arn;
@@ -2893,6 +2942,7 @@ class AnalyzerSummary {
   }
 }
 
+/// @nodoc
 class Type {
   static const account = Type._('ACCOUNT');
   static const organization = Type._('ORGANIZATION');
@@ -2928,6 +2978,7 @@ class Type {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalyzerStatus {
   static const active = AnalyzerStatus._('ACTIVE');
   static const creating = AnalyzerStatus._('CREATING');
@@ -2959,6 +3010,8 @@ class AnalyzerStatus {
 /// returned. For an analyzer with organization as the type, this failure can be
 /// due to an issue with creating the service-linked roles required in the
 /// member accounts of the Amazon Web Services organization.
+///
+/// @nodoc
 class StatusReason {
   /// The reason code for the current status of the analyzer.
   final ReasonCode code;
@@ -2983,6 +3036,8 @@ class StatusReason {
 
 /// Contains information about the configuration of an analyzer for an Amazon
 /// Web Services organization or account.
+///
+/// @nodoc
 class AnalyzerConfiguration {
   /// Specifies the configuration of an internal access analyzer for an Amazon Web
   /// Services organization or account. This configuration determines how the
@@ -3022,6 +3077,8 @@ class AnalyzerConfiguration {
 }
 
 /// Contains information about an unused access analyzer.
+///
+/// @nodoc
 class UnusedAccessConfiguration {
   final AnalysisRule? analysisRule;
 
@@ -3060,6 +3117,8 @@ class UnusedAccessConfiguration {
 /// Services organization or account. This configuration determines how the
 /// analyzer evaluates internal access within your Amazon Web Services
 /// environment.
+///
+/// @nodoc
 class InternalAccessConfiguration {
   /// Contains information about analysis rules for the internal access analyzer.
   /// These rules determine which resources and access patterns will be analyzed.
@@ -3089,6 +3148,8 @@ class InternalAccessConfiguration {
 /// Contains information about analysis rules for the internal access analyzer.
 /// Analysis rules determine which entities will generate findings based on the
 /// criteria you define when you create the rule.
+///
+/// @nodoc
 class InternalAccessAnalysisRule {
   /// A list of rules for the internal access analyzer containing criteria to
   /// include in analysis. Only resources that meet the rule criteria will
@@ -3118,6 +3179,8 @@ class InternalAccessAnalysisRule {
 }
 
 /// The criteria for an analysis rule for an internal access analyzer.
+///
+/// @nodoc
 class InternalAccessAnalysisRuleCriteria {
   /// A list of Amazon Web Services account IDs to apply to the internal access
   /// analysis rule criteria. Account IDs can only be applied to the analysis rule
@@ -3193,6 +3256,7 @@ class InternalAccessAnalysisRuleCriteria {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const awsS3Bucket = ResourceType._('AWS::S3::Bucket');
   static const awsIamRole = ResourceType._('AWS::IAM::Role');
@@ -3256,6 +3320,8 @@ class ResourceType {
 /// Contains information about analysis rules for the analyzer. Analysis rules
 /// determine which entities will generate findings based on the criteria you
 /// define when you create the rule.
+///
+/// @nodoc
 class AnalysisRule {
   /// A list of rules for the analyzer containing criteria to exclude from
   /// analysis. Entities that meet the rule criteria will not generate findings.
@@ -3284,6 +3350,8 @@ class AnalysisRule {
 
 /// The criteria for an analysis rule for an analyzer. The criteria determine
 /// which entities will generate findings.
+///
+/// @nodoc
 class AnalysisRuleCriteria {
   /// A list of Amazon Web Services account IDs to apply to the analysis rule
   /// criteria. The accounts cannot include the organization analyzer owner
@@ -3333,6 +3401,7 @@ class AnalysisRuleCriteria {
   }
 }
 
+/// @nodoc
 class ReasonCode {
   static const awsServiceAccessDisabled =
       ReasonCode._('AWS_SERVICE_ACCESS_DISABLED');
@@ -3368,6 +3437,8 @@ class ReasonCode {
 
 /// An criterion statement in an archive rule. Each archive rule may have
 /// multiple criteria.
+///
+/// @nodoc
 class InlineArchiveRule {
   /// The condition and values for a criterion.
   final Map<String, Criterion> filter;
@@ -3392,6 +3463,8 @@ class InlineArchiveRule {
 
 /// A finding in a policy. Each finding is an actionable recommendation that can
 /// be used to improve the policy.
+///
+/// @nodoc
 class ValidatePolicyFinding {
   /// A localized message that explains the finding and provides guidance on how
   /// to address it.
@@ -3461,6 +3534,7 @@ class ValidatePolicyFinding {
   }
 }
 
+/// @nodoc
 class ValidatePolicyFindingType {
   static const error = ValidatePolicyFindingType._('ERROR');
   static const securityWarning =
@@ -3491,6 +3565,8 @@ class ValidatePolicyFindingType {
 
 /// A location in a policy that is represented as a path through the JSON
 /// representation and a corresponding span.
+///
+/// @nodoc
 class Location {
   /// A path in a policy, represented as a sequence of path elements.
   final List<PathElement> path;
@@ -3526,6 +3602,8 @@ class Location {
 
 /// A span in a policy. The span consists of a start position (inclusive) and
 /// end position (exclusive).
+///
+/// @nodoc
 class Span {
   /// The end position of the span (exclusive).
   final Position end;
@@ -3558,6 +3636,8 @@ class Span {
 }
 
 /// A position in a policy.
+///
+/// @nodoc
 class Position {
   /// The column of the position, starting from 0.
   final int column;
@@ -3596,6 +3676,8 @@ class Position {
 }
 
 /// A single element in a path through the JSON representation of a policy.
+///
+/// @nodoc
 class PathElement {
   /// Refers to an index in a JSON array.
   final int? index;
@@ -3642,6 +3724,8 @@ class PathElement {
 }
 
 /// A reference to a substring of a literal string in a JSON document.
+///
+/// @nodoc
 class Substring {
   /// The length of the substring.
   final int length;
@@ -3671,6 +3755,7 @@ class Substring {
   }
 }
 
+/// @nodoc
 class Locale {
   static const de = Locale._('DE');
   static const en = Locale._('EN');
@@ -3702,6 +3787,7 @@ class Locale {
   String toString() => value;
 }
 
+/// @nodoc
 class PolicyType {
   static const identityPolicy = PolicyType._('IDENTITY_POLICY');
   static const resourcePolicy = PolicyType._('RESOURCE_POLICY');
@@ -3732,6 +3818,7 @@ class PolicyType {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidatePolicyResourceType {
   static const awsS3Bucket = ValidatePolicyResourceType._('AWS::S3::Bucket');
   static const awsS3AccessPoint =
@@ -3773,6 +3860,7 @@ class ValidatePolicyResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingStatusUpdate {
   static const active = FindingStatusUpdate._('ACTIVE');
   static const archived = FindingStatusUpdate._('ARCHIVED');
@@ -3800,6 +3888,8 @@ class FindingStatusUpdate {
 
 /// Contains the ARN details about the IAM entity for which the policy is
 /// generated.
+///
+/// @nodoc
 class PolicyGenerationDetails {
   /// The ARN of the IAM entity (user or role) for which you are generating a
   /// policy.
@@ -3818,6 +3908,8 @@ class PolicyGenerationDetails {
 }
 
 /// Contains information about CloudTrail access.
+///
+/// @nodoc
 class CloudTrailDetails {
   /// The ARN of the service role that IAM Access Analyzer uses to access your
   /// CloudTrail trail and service last accessed information.
@@ -3860,6 +3952,8 @@ class CloudTrailDetails {
 
 /// Contains details about the CloudTrail trail being analyzed to generate a
 /// policy.
+///
+/// @nodoc
 class Trail {
   /// Specifies the ARN of the trail. The format of a trail ARN is
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>.
@@ -3893,6 +3987,8 @@ class Trail {
 }
 
 /// Contains details about the policy generation status and properties.
+///
+/// @nodoc
 class PolicyGeneration {
   /// The <code>JobId</code> that is returned by the
   /// <code>StartPolicyGeneration</code> operation. The <code>JobId</code> can be
@@ -3948,6 +4044,7 @@ class PolicyGeneration {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const inProgress = JobStatus._('IN_PROGRESS');
   static const succeeded = JobStatus._('SUCCEEDED');
@@ -3974,6 +4071,8 @@ class JobStatus {
 }
 
 /// Contains information about a finding.
+///
+/// @nodoc
 class FindingSummaryV2 {
   /// The time at which the resource-based policy or IAM entity that generated the
   /// finding was analyzed.
@@ -4066,6 +4165,7 @@ class FindingSummaryV2 {
   }
 }
 
+/// @nodoc
 class FindingStatus {
   static const active = FindingStatus._('ACTIVE');
   static const archived = FindingStatus._('ARCHIVED');
@@ -4091,6 +4191,7 @@ class FindingStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingType {
   static const externalAccess = FindingType._('ExternalAccess');
   static const unusedIAMRole = FindingType._('UnusedIAMRole');
@@ -4126,6 +4227,8 @@ class FindingType {
 }
 
 /// The criteria used to sort.
+///
+/// @nodoc
 class SortCriteria {
   /// The name of the attribute to sort on.
   final String? attributeName;
@@ -4148,6 +4251,7 @@ class SortCriteria {
   }
 }
 
+/// @nodoc
 class OrderBy {
   static const asc = OrderBy._('ASC');
   static const desc = OrderBy._('DESC');
@@ -4172,6 +4276,8 @@ class OrderBy {
 }
 
 /// Contains information about a finding.
+///
+/// @nodoc
 class FindingSummary {
   /// The time at which the resource-based policy that generated the finding was
   /// analyzed.
@@ -4311,6 +4417,7 @@ class FindingSummary {
   }
 }
 
+/// @nodoc
 class ResourceControlPolicyRestriction {
   static const applicable = ResourceControlPolicyRestriction._('APPLICABLE');
   static const failedToEvaluateRcp =
@@ -4347,6 +4454,8 @@ class ResourceControlPolicyRestriction {
 
 /// The source of the finding. This indicates how the access that generated the
 /// finding is granted. It is populated for Amazon S3 bucket findings.
+///
+/// @nodoc
 class FindingSource {
   /// Indicates the type of access that generated the finding.
   final FindingSourceType type;
@@ -4379,6 +4488,7 @@ class FindingSource {
   }
 }
 
+/// @nodoc
 class FindingSourceType {
   static const policy = FindingSourceType._('POLICY');
   static const bucketAcl = FindingSourceType._('BUCKET_ACL');
@@ -4413,6 +4523,8 @@ class FindingSourceType {
 
 /// Includes details about how the access that generated the finding is granted.
 /// This is populated for Amazon S3 bucket findings.
+///
+/// @nodoc
 class FindingSourceDetail {
   /// The account of the cross-account access point that generated the finding.
   final String? accessPointAccount;
@@ -4445,6 +4557,8 @@ class FindingSourceDetail {
 }
 
 /// Contains the ARN of the analyzed resource.
+///
+/// @nodoc
 class AnalyzedResourceSummary {
   /// The ARN of the analyzed resource.
   final String resourceArn;
@@ -4483,6 +4597,8 @@ class AnalyzedResourceSummary {
 }
 
 /// Contains a summary of information about an access preview.
+///
+/// @nodoc
 class AccessPreviewSummary {
   /// The ARN of the analyzer used to generate the access preview.
   final String analyzerArn;
@@ -4547,6 +4663,7 @@ class AccessPreviewSummary {
   }
 }
 
+/// @nodoc
 class AccessPreviewStatus {
   static const completed = AccessPreviewStatus._('COMPLETED');
   static const creating = AccessPreviewStatus._('CREATING');
@@ -4577,6 +4694,8 @@ class AccessPreviewStatus {
 /// example, if the creation of the access preview fails, a <code>Failed</code>
 /// status is returned. This failure can be due to an internal issue with the
 /// analysis or due to an invalid proposed resource configuration.
+///
+/// @nodoc
 class AccessPreviewStatusReason {
   /// The reason code for the current status of the access preview.
   final AccessPreviewStatusReasonCode code;
@@ -4600,6 +4719,7 @@ class AccessPreviewStatusReason {
   }
 }
 
+/// @nodoc
 class AccessPreviewStatusReasonCode {
   static const internalError =
       AccessPreviewStatusReasonCode._('INTERNAL_ERROR');
@@ -4628,6 +4748,8 @@ class AccessPreviewStatusReasonCode {
 }
 
 /// An access preview finding generated by the access preview.
+///
+/// @nodoc
 class AccessPreviewFinding {
   /// Provides context on how the access preview finding compares to existing
   /// access identified in IAM Access Analyzer.
@@ -4804,6 +4926,7 @@ class AccessPreviewFinding {
   }
 }
 
+/// @nodoc
 class FindingChangeType {
   static const changed = FindingChangeType._('CHANGED');
   static const $new = FindingChangeType._('NEW');
@@ -4830,6 +4953,8 @@ class FindingChangeType {
 }
 
 /// Contains details about the policy generation request.
+///
+/// @nodoc
 class JobDetails {
   /// The <code>JobId</code> that is returned by the
   /// <code>StartPolicyGeneration</code> operation. The <code>JobId</code> can be
@@ -4887,6 +5012,8 @@ class JobDetails {
 }
 
 /// Contains the text for the generated policy and its details.
+///
+/// @nodoc
 class GeneratedPolicyResult {
   /// A <code>GeneratedPolicyProperties</code> object that contains properties of
   /// the generated policy.
@@ -4926,6 +5053,8 @@ class GeneratedPolicyResult {
 }
 
 /// Contains the generated policy details.
+///
+/// @nodoc
 class GeneratedPolicyProperties {
   /// The ARN of the IAM entity (user or role) for which you are generating a
   /// policy.
@@ -4970,6 +5099,8 @@ class GeneratedPolicyProperties {
 }
 
 /// Contains the text for the generated policy.
+///
+/// @nodoc
 class GeneratedPolicy {
   /// The text to use as the content for the new policy. The policy is created
   /// using the <a
@@ -4996,6 +5127,8 @@ class GeneratedPolicy {
 }
 
 /// Contains information about CloudTrail access.
+///
+/// @nodoc
 class CloudTrailProperties {
   /// The end of the time range for which IAM Access Analyzer reviews your
   /// CloudTrail events. Events with a timestamp after this time are not
@@ -5043,6 +5176,8 @@ class CloudTrailProperties {
 
 /// Contains details about the CloudTrail trail being analyzed to generate a
 /// policy.
+///
+/// @nodoc
 class TrailProperties {
   /// Specifies the ARN of the trail. The format of a trail ARN is
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>.
@@ -5085,6 +5220,8 @@ class TrailProperties {
 }
 
 /// Contains the details about the policy generation error.
+///
+/// @nodoc
 class JobError {
   /// The job error code.
   final JobErrorCode code;
@@ -5115,6 +5252,7 @@ class JobError {
   }
 }
 
+/// @nodoc
 class JobErrorCode {
   static const authorizationError = JobErrorCode._('AUTHORIZATION_ERROR');
   static const resourceNotFoundError =
@@ -5149,6 +5287,8 @@ class JobErrorCode {
 
 /// Contains information about an external access or unused access finding. Only
 /// one parameter can be used in a <code>FindingDetails</code> object.
+///
+/// @nodoc
 class FindingDetails {
   /// The details for an external access analyzer finding.
   final ExternalAccessDetails? externalAccessDetails;
@@ -5240,6 +5380,8 @@ class FindingDetails {
 /// Contains information about an internal access finding. This includes details
 /// about the access that was identified within your Amazon Web Services
 /// organization or account.
+///
+/// @nodoc
 class InternalAccessDetails {
   /// The type of internal access identified in the finding. This indicates how
   /// the access is granted within your Amazon Web Services environment.
@@ -5400,6 +5542,8 @@ class InternalAccessDetails {
 }
 
 /// Contains information about an external access finding.
+///
+/// @nodoc
 class ExternalAccessDetails {
   /// The condition in the analyzed policy statement that resulted in an external
   /// access finding.
@@ -5504,6 +5648,8 @@ class ExternalAccessDetails {
 /// IAM roles and users analyzed per month. For more details on pricing, see <a
 /// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
 /// Analyzer pricing</a>.
+///
+/// @nodoc
 class UnusedPermissionDetails {
   /// The namespace of the Amazon Web Services service that contains the unused
   /// actions.
@@ -5550,6 +5696,8 @@ class UnusedPermissionDetails {
 /// pricing, see <a
 /// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
 /// Analyzer pricing</a>.
+///
+/// @nodoc
 class UnusedIamUserAccessKeyDetails {
   /// The ID of the access key for which the unused access finding was generated.
   final String accessKeyId;
@@ -5584,6 +5732,8 @@ class UnusedIamUserAccessKeyDetails {
 /// IAM roles and users analyzed per month. For more details on pricing, see <a
 /// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
 /// Analyzer pricing</a>.
+///
+/// @nodoc
 class UnusedIamRoleDetails {
   /// The time at which the role was last accessed.
   final DateTime? lastAccessed;
@@ -5612,6 +5762,8 @@ class UnusedIamRoleDetails {
 /// pricing, see <a
 /// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
 /// Analyzer pricing</a>.
+///
+/// @nodoc
 class UnusedIamUserPasswordDetails {
   /// The time at which the password was last accessed.
   final DateTime? lastAccessed;
@@ -5639,6 +5791,8 @@ class UnusedIamUserPasswordDetails {
 /// IAM roles and users analyzed per month. For more details on pricing, see <a
 /// href="https://aws.amazon.com/iam/access-analyzer/pricing">IAM Access
 /// Analyzer pricing</a>.
+///
+/// @nodoc
 class UnusedAction {
   /// The action for which the unused access finding was generated.
   final String action;
@@ -5668,6 +5822,7 @@ class UnusedAction {
   }
 }
 
+/// @nodoc
 class InternalAccessType {
   static const intraAccount = InternalAccessType._('INTRA_ACCOUNT');
   static const intraOrg = InternalAccessType._('INTRA_ORG');
@@ -5693,6 +5848,7 @@ class InternalAccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class PrincipalType {
   static const iamRole = PrincipalType._('IAM_ROLE');
   static const iamUser = PrincipalType._('IAM_USER');
@@ -5717,6 +5873,7 @@ class PrincipalType {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceControlPolicyRestriction {
   static const applicable = ServiceControlPolicyRestriction._('APPLICABLE');
   static const failedToEvaluateScp =
@@ -5754,6 +5911,8 @@ class ServiceControlPolicyRestriction {
 /// Contains information about the aggregate statistics for an external or
 /// unused access analyzer. Only one parameter can be used in a
 /// <code>FindingsStatistics</code> object.
+///
+/// @nodoc
 class FindingsStatistics {
   /// The aggregate statistics for an external access analyzer.
   final ExternalAccessFindingsStatistics? externalAccessFindingsStatistics;
@@ -5813,6 +5972,8 @@ class FindingsStatistics {
 
 /// Provides aggregate statistics about the findings for the specified external
 /// access analyzer.
+///
+/// @nodoc
 class ExternalAccessFindingsStatistics {
   /// The total number of active cross-account and public findings for each
   /// resource type of the specified external access analyzer.
@@ -5868,6 +6029,8 @@ class ExternalAccessFindingsStatistics {
 /// Provides aggregate statistics about the findings for the specified internal
 /// access analyzer. This includes counts of active, archived, and resolved
 /// findings.
+///
+/// @nodoc
 class InternalAccessFindingsStatistics {
   /// The total number of active findings for each resource type of the specified
   /// internal access analyzer.
@@ -5925,6 +6088,8 @@ class InternalAccessFindingsStatistics {
 
 /// Provides aggregate statistics about the findings for the specified unused
 /// access analyzer.
+///
+/// @nodoc
 class UnusedAccessFindingsStatistics {
   /// A list of one to ten Amazon Web Services accounts that have the most active
   /// findings for the unused access analyzer.
@@ -5991,6 +6156,8 @@ class UnusedAccessFindingsStatistics {
 
 /// Contains information about the findings for an Amazon Web Services account
 /// in an organization unused access analyzer.
+///
+/// @nodoc
 class FindingAggregationAccountDetails {
   /// The ID of the Amazon Web Services account for which unused access finding
   /// details are provided.
@@ -6034,6 +6201,8 @@ class FindingAggregationAccountDetails {
 
 /// Contains information about the total number of findings for a type of unused
 /// access.
+///
+/// @nodoc
 class UnusedAccessTypeStatistics {
   /// The total number of findings for the specified unused access type.
   final int? total;
@@ -6065,6 +6234,8 @@ class UnusedAccessTypeStatistics {
 
 /// Contains information about the total number of active, archived, and
 /// resolved findings for a resource type of an internal access analyzer.
+///
+/// @nodoc
 class InternalAccessResourceTypeDetails {
   /// The total number of active findings for the resource type in the internal
   /// access analyzer.
@@ -6110,6 +6281,8 @@ class InternalAccessResourceTypeDetails {
 
 /// Contains information about the total number of active cross-account and
 /// public findings for a resource type of an external access analyzer.
+///
+/// @nodoc
 class ResourceTypeDetails {
   /// The total number of active cross-account findings for the resource type.
   final int? totalActiveCrossAccount;
@@ -6149,6 +6322,8 @@ class ResourceTypeDetails {
 
 /// Contains information about the reason that the retrieval of a recommendation
 /// for a finding failed.
+///
+/// @nodoc
 class RecommendationError {
   /// The error code for a failed retrieval of a recommendation for a finding.
   final String code;
@@ -6178,6 +6353,7 @@ class RecommendationError {
   }
 }
 
+/// @nodoc
 class RecommendationType {
   static const unusedPermissionRecommendation =
       RecommendationType._('UnusedPermissionRecommendation');
@@ -6203,6 +6379,7 @@ class RecommendationType {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const succeeded = Status._('SUCCEEDED');
   static const failed = Status._('FAILED');
@@ -6229,6 +6406,8 @@ class Status {
 
 /// Contains information about a recommended step for an unused access analyzer
 /// finding.
+///
+/// @nodoc
 class RecommendedStep {
   /// A recommended step for an unused permissions finding.
   final UnusedPermissionsRecommendedStep? unusedPermissionsRecommendedStep;
@@ -6260,6 +6439,8 @@ class RecommendedStep {
 
 /// Contains information about the action to take for a policy in an unused
 /// permissions finding.
+///
+/// @nodoc
 class UnusedPermissionsRecommendedStep {
   /// A recommendation of whether to create or detach a policy for an unused
   /// permissions finding.
@@ -6310,6 +6491,7 @@ class UnusedPermissionsRecommendedStep {
   }
 }
 
+/// @nodoc
 class RecommendedRemediationAction {
   static const createPolicy = RecommendedRemediationAction._('CREATE_POLICY');
   static const detachPolicy = RecommendedRemediationAction._('DETACH_POLICY');
@@ -6336,6 +6518,8 @@ class RecommendedRemediationAction {
 }
 
 /// Contains information about a finding.
+///
+/// @nodoc
 class Finding {
   /// The time at which the resource was analyzed.
   final DateTime analyzedAt;
@@ -6475,6 +6659,8 @@ class Finding {
 }
 
 /// Contains details about the analyzed resource.
+///
+/// @nodoc
 class AnalyzedResource {
   /// The time at which the resource was analyzed.
   final DateTime analyzedAt;
@@ -6576,6 +6762,8 @@ class AnalyzedResource {
 }
 
 /// Contains information about an access preview.
+///
+/// @nodoc
 class AccessPreview {
   /// The ARN of the analyzer used to generate the access preview.
   final String analyzerArn;
@@ -6660,6 +6848,8 @@ class AccessPreview {
 /// Access control configuration structures for your resource. You specify the
 /// configuration as a type-value pair. You can specify only one type of access
 /// control configuration.
+///
+/// @nodoc
 class Configuration {
   /// The access control configuration is for a DynamoDB stream.
   final DynamodbStreamConfiguration? dynamodbStream;
@@ -6822,6 +7012,8 @@ class Configuration {
 /// Amazon EBS volume snapshot that you own by specifying the user IDs, groups,
 /// and optional KMS encryption key. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html">ModifySnapshotAttribute</a>.
+///
+/// @nodoc
 class EbsSnapshotConfiguration {
   /// The groups that have access to the Amazon EBS volume snapshot. If the value
   /// <code>all</code> is specified, then the Amazon EBS volume snapshot is
@@ -6935,6 +7127,8 @@ class EbsSnapshotConfiguration {
 /// specify an empty string for the Amazon ECR policy.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EcrRepositoryConfiguration {
   /// The JSON repository policy text to apply to the Amazon ECR repository. For
   /// more information, see <a
@@ -6970,6 +7164,8 @@ class EcrRepositoryConfiguration {
 /// policy limits, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
 /// and STS quotas</a>.
+///
+/// @nodoc
 class IamRoleConfiguration {
   /// The proposed trust policy for the IAM role.
   final String? trustPolicy;
@@ -7015,6 +7211,8 @@ class IamRoleConfiguration {
 /// specify an empty string for the Amazon EFS policy.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EfsFileSystemConfiguration {
   /// The JSON policy definition to apply to the Amazon EFS file system. For more
   /// information on the elements that make up a file system policy, see <a
@@ -7053,6 +7251,8 @@ class EfsFileSystemConfiguration {
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/resource-limits.html">Resource
 /// quotas</a>.
 /// <p/>
+///
+/// @nodoc
 class KmsKeyConfiguration {
   /// A list of proposed grant configurations for the KMS key. If the proposed
   /// grant configuration is for an existing key, the access preview uses the
@@ -7098,6 +7298,8 @@ class KmsKeyConfiguration {
 /// <code>RdsDbClusterSnapshotAttributeValue</code> and optional KMS encryption
 /// key. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBClusterSnapshotAttribute.html">ModifyDBClusterSnapshotAttribute</a>.
+///
+/// @nodoc
 class RdsDbClusterSnapshotConfiguration {
   /// The names and values of manual DB cluster snapshot attributes. Manual DB
   /// cluster snapshot attributes are used to authorize other Amazon Web Services
@@ -7157,6 +7359,8 @@ class RdsDbClusterSnapshotConfiguration {
 /// <code>RdsDbSnapshotAttributeValue</code> and optional KMS encryption key.
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBSnapshotAttribute.html">ModifyDBSnapshotAttribute</a>.
+///
+/// @nodoc
 class RdsDbSnapshotConfiguration {
   /// The names and values of manual DB snapshot attributes. Manual DB snapshot
   /// attributes are used to authorize other Amazon Web Services accounts to
@@ -7223,6 +7427,8 @@ class RdsDbSnapshotConfiguration {
 /// limits, see <a
 /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_limits.html">Quotas
 /// for Secrets Manager.</a>.
+///
+/// @nodoc
 class SecretsManagerSecretConfiguration {
   /// The proposed ARN, key ID, or alias of the KMS key.
   final String? kmsKeyId;
@@ -7266,6 +7472,8 @@ class SecretsManagerSecretConfiguration {
 /// more information about bucket policy limits, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html">Bucket
 /// Policy Examples</a>.
+///
+/// @nodoc
 class S3BucketConfiguration {
   /// The configuration of Amazon S3 access points or multi-region access points
   /// for the bucket. You can propose up to 10 new access points per bucket.
@@ -7334,6 +7542,8 @@ class S3BucketConfiguration {
 /// deletion of an existing Amazon SNS topic policy, you can specify an empty
 /// string for the Amazon SNS policy. For more information, see <a
 /// href="https://docs.aws.amazon.com/sns/latest/api/API_Topic.html">Topic</a>.
+///
+/// @nodoc
 class SnsTopicConfiguration {
   /// The JSON policy text that defines who can access an Amazon SNS topic. For
   /// more information, see <a
@@ -7372,6 +7582,8 @@ class SnsTopicConfiguration {
 /// SQS policy limits, see <a
 /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/quotas-policies.html">Quotas
 /// related to policies</a>.
+///
+/// @nodoc
 class SqsQueueConfiguration {
   /// The proposed resource policy for the Amazon SQS queue.
   final String? queuePolicy;
@@ -7408,6 +7620,8 @@ class SqsQueueConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html">Example
 /// bucket policies for directory buckets</a> in the Amazon Simple Storage
 /// Service User Guide.
+///
+/// @nodoc
 class S3ExpressDirectoryBucketConfiguration {
   /// The proposed access points for the Amazon S3 directory bucket.
   final Map<String, S3ExpressDirectoryAccessPointConfiguration>? accessPoints;
@@ -7463,6 +7677,8 @@ class S3ExpressDirectoryBucketConfiguration {
 /// an empty string for the DynamoDB policy.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DynamodbStreamConfiguration {
   /// The proposed resource policy defining who can access or manage the DynamoDB
   /// stream.
@@ -7507,6 +7723,8 @@ class DynamodbStreamConfiguration {
 /// specify an empty string for the DynamoDB policy.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DynamodbTableConfiguration {
   /// The proposed resource policy defining who can access or manage the DynamoDB
   /// table.
@@ -7540,6 +7758,8 @@ class DynamodbTableConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
 /// access to directory buckets with access points</a> in the Amazon Simple
 /// Storage Service User Guide.
+///
+/// @nodoc
 class S3ExpressDirectoryAccessPointConfiguration {
   /// The proposed access point policy for an Amazon S3 directory bucket access
   /// point.
@@ -7580,6 +7800,8 @@ class S3ExpressDirectoryAccessPointConfiguration {
 /// network configuration. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/creating-access-points.html">Creating
 /// access points</a>.
+///
+/// @nodoc
 class NetworkOriginConfiguration {
   /// The configuration for the Amazon S3 access point or multi-region access
   /// point with an <code>Internet</code> origin.
@@ -7619,6 +7841,8 @@ class NetworkOriginConfiguration {
 /// access point. VPC configuration does not apply to multi-region access
 /// points. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_VpcConfiguration.html">VpcConfiguration</a>.
+///
+/// @nodoc
 class VpcConfiguration {
   /// If this field is specified, this access point will only allow connections
   /// from the specified VPC ID.
@@ -7644,6 +7868,8 @@ class VpcConfiguration {
 
 /// This configuration sets the network origin for the Amazon S3 access point or
 /// multi-region access point to <code>Internet</code>.
+///
+/// @nodoc
 class InternetConfiguration {
   InternetConfiguration();
 
@@ -7665,6 +7891,8 @@ class InternetConfiguration {
 /// access point and the access point BPA configuration is not specified, the
 /// access preview uses <code>true</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html">PublicAccessBlockConfiguration</a>.
+///
+/// @nodoc
 class S3PublicAccessBlockConfiguration {
   /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and
   /// objects in this bucket.
@@ -7708,6 +7936,8 @@ class S3PublicAccessBlockConfiguration {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points-restrictions-limitations.html">Access
 /// points restrictions and limitations</a>.
+///
+/// @nodoc
 class S3AccessPointConfiguration {
   /// The access point or multi-region access point policy.
   final String? accessPointPolicy;
@@ -7761,6 +7991,8 @@ class S3AccessPointConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#setting-acls">How
 /// to Specify an ACL</a>.
+///
+/// @nodoc
 class S3BucketAclGrantConfiguration {
   /// The grantee to whom you’re assigning access rights.
   final AclGrantee grantee;
@@ -7792,6 +8024,7 @@ class S3BucketAclGrantConfiguration {
   }
 }
 
+/// @nodoc
 class AclPermission {
   static const read = AclPermission._('READ');
   static const write = AclPermission._('WRITE');
@@ -7822,6 +8055,8 @@ class AclPermission {
 /// You specify each grantee as a type-value pair using one of these types. You
 /// can specify only one type of grantee. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAcl.html">PutBucketAcl</a>.
+///
+/// @nodoc
 class AclGrantee {
   /// The value specified is the canonical user ID of an Amazon Web Services
   /// account.
@@ -7855,6 +8090,8 @@ class AclGrantee {
 /// The name and values of a manual Amazon RDS DB snapshot attribute. Manual DB
 /// snapshot attributes are used to authorize other Amazon Web Services accounts
 /// to restore a manual DB snapshot.
+///
+/// @nodoc
 class RdsDbSnapshotAttributeValue {
   /// The Amazon Web Services account IDs that have access to the manual Amazon
   /// RDS DB snapshot. If the value <code>all</code> is specified, then the Amazon
@@ -7904,6 +8141,8 @@ class RdsDbSnapshotAttributeValue {
 }
 
 /// The values for a manual Amazon RDS DB cluster snapshot attribute.
+///
+/// @nodoc
 class RdsDbClusterSnapshotAttributeValue {
   /// The Amazon Web Services account IDs that have access to the manual Amazon
   /// RDS DB cluster snapshot. If the value <code>all</code> is specified, then
@@ -7955,6 +8194,8 @@ class RdsDbClusterSnapshotAttributeValue {
 
 /// A proposed grant configuration for a KMS key. For more information, see <a
 /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html">CreateGrant</a>.
+///
+/// @nodoc
 class KmsGrantConfiguration {
   /// The principal that is given permission to perform the operations that the
   /// grant permits.
@@ -8029,6 +8270,8 @@ class KmsGrantConfiguration {
 /// context</a>. You can specify only one type of encryption context. An empty
 /// map is treated as not specified. For more information, see <a
 /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_GrantConstraints.html">GrantConstraints</a>.
+///
+/// @nodoc
 class KmsGrantConstraints {
   /// A list of key-value pairs that must match the encryption context in the <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
@@ -8074,6 +8317,7 @@ class KmsGrantConstraints {
   }
 }
 
+/// @nodoc
 class KmsGrantOperation {
   static const createGrant = KmsGrantOperation._('CreateGrant');
   static const decrypt = KmsGrantOperation._('Decrypt');
@@ -8127,6 +8371,7 @@ class KmsGrantOperation {
   String toString() => value;
 }
 
+/// @nodoc
 class CheckNoPublicAccessResult {
   static const pass = CheckNoPublicAccessResult._('PASS');
   static const fail = CheckNoPublicAccessResult._('FAIL');
@@ -8154,6 +8399,8 @@ class CheckNoPublicAccessResult {
 
 /// Contains information about the reasoning why a check for access passed or
 /// failed.
+///
+/// @nodoc
 class ReasonSummary {
   /// A description of the reasoning of a result of checking for access.
   final String? description;
@@ -8190,6 +8437,7 @@ class ReasonSummary {
   }
 }
 
+/// @nodoc
 class AccessCheckResourceType {
   static const awsDynamoDBTable =
       AccessCheckResourceType._('AWS::DynamoDB::Table');
@@ -8287,6 +8535,7 @@ class AccessCheckResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class CheckNoNewAccessResult {
   static const pass = CheckNoNewAccessResult._('PASS');
   static const fail = CheckNoNewAccessResult._('FAIL');
@@ -8312,6 +8561,7 @@ class CheckNoNewAccessResult {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessCheckPolicyType {
   static const identityPolicy = AccessCheckPolicyType._('IDENTITY_POLICY');
   static const resourcePolicy = AccessCheckPolicyType._('RESOURCE_POLICY');
@@ -8337,6 +8587,7 @@ class AccessCheckPolicyType {
   String toString() => value;
 }
 
+/// @nodoc
 class CheckAccessNotGrantedResult {
   static const pass = CheckAccessNotGrantedResult._('PASS');
   static const fail = CheckAccessNotGrantedResult._('FAIL');
@@ -8364,6 +8615,8 @@ class CheckAccessNotGrantedResult {
 
 /// Contains information about actions and resources that define permissions to
 /// check against a policy.
+///
+/// @nodoc
 class Access {
   /// A list of actions for the access permissions. Any strings that can be used
   /// as an action in an IAM policy can be used in the list of actions to check.
@@ -8390,31 +8643,37 @@ class Access {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8423,17 +8682,20 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnprocessableEntityException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -6041,6 +6041,7 @@ class LexModelsV2 {
   }
 }
 
+/// @nodoc
 class BatchCreateCustomVocabularyItemResponse {
   /// The identifier of the bot associated with this custom vocabulary.
   final String? botId;
@@ -6106,6 +6107,7 @@ class BatchCreateCustomVocabularyItemResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteCustomVocabularyItemResponse {
   /// The identifier of the bot associated with this custom vocabulary.
   final String? botId;
@@ -6170,6 +6172,7 @@ class BatchDeleteCustomVocabularyItemResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateCustomVocabularyItemResponse {
   /// The identifier of the bot associated with this custom vocabulary.
   final String? botId;
@@ -6235,6 +6238,7 @@ class BatchUpdateCustomVocabularyItemResponse {
   }
 }
 
+/// @nodoc
 class BuildBotLocaleResponse {
   /// The identifier of the specified bot.
   final String? botId;
@@ -6294,6 +6298,7 @@ class BuildBotLocaleResponse {
   }
 }
 
+/// @nodoc
 class CreateBotResponse {
   /// A unique identifier for a particular bot. You use this to identify the bot
   /// when you call other Amazon Lex API operations.
@@ -6417,6 +6422,7 @@ class CreateBotResponse {
   }
 }
 
+/// @nodoc
 class CreateBotAliasResponse {
   /// The unique identifier of the bot alias.
   final String? botAliasId;
@@ -6527,6 +6533,7 @@ class CreateBotAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateBotLocaleResponse {
   /// The audio filler settings configured for the created bot locale.
   final AudioFillerSettings? audioFillerSettings;
@@ -6680,6 +6687,7 @@ class CreateBotLocaleResponse {
   }
 }
 
+/// @nodoc
 class CreateBotReplicaResponse {
   /// The unique bot ID of the replicated bot generated.
   final String? botId;
@@ -6732,6 +6740,7 @@ class CreateBotReplicaResponse {
   }
 }
 
+/// @nodoc
 class CreateBotVersionResponse {
   /// The bot identifier specified in the request.
   final String? botId;
@@ -6797,6 +6806,7 @@ class CreateBotVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateExportResponse {
   /// The date and time that the request to export a bot was created.
   final DateTime? creationDateTime;
@@ -6859,6 +6869,7 @@ class CreateExportResponse {
   }
 }
 
+/// @nodoc
 class CreateIntentResponse {
   /// The identifier of the bot associated with the intent.
   final String? botId;
@@ -7059,6 +7070,7 @@ class CreateIntentResponse {
   }
 }
 
+/// @nodoc
 class CreateResourcePolicyResponse {
   /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   /// policy was attached to.
@@ -7092,6 +7104,7 @@ class CreateResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateResourcePolicyStatementResponse {
   /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   /// policy is attached to.
@@ -7126,6 +7139,7 @@ class CreateResourcePolicyStatementResponse {
   }
 }
 
+/// @nodoc
 class CreateSlotResponse {
   /// The unique identifier of the bot associated with the slot.
   final String? botId;
@@ -7250,6 +7264,7 @@ class CreateSlotResponse {
   }
 }
 
+/// @nodoc
 class CreateSlotTypeResponse {
   /// The identifier for the bot associated with the slot type.
   final String? botId;
@@ -7369,6 +7384,7 @@ class CreateSlotTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateTestSetDiscrepancyReportResponse {
   /// The creation date and time for the test set discrepancy report.
   final DateTime? creationDateTime;
@@ -7418,6 +7434,7 @@ class CreateTestSetDiscrepancyReportResponse {
   }
 }
 
+/// @nodoc
 class CreateUploadUrlResponse {
   /// An identifier for a unique import job. Use it when you call the <a
   /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_StartImport.html">StartImport</a>
@@ -7450,6 +7467,7 @@ class CreateUploadUrlResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotResponse {
   /// The unique identifier of the bot that Amazon Lex is deleting.
   final String? botId;
@@ -7480,6 +7498,7 @@ class DeleteBotResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotAliasResponse {
   /// The unique identifier of the bot alias to delete.
   final String? botAliasId;
@@ -7520,6 +7539,7 @@ class DeleteBotAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotAnalyzerRecommendationResponse {
   DeleteBotAnalyzerRecommendationResponse();
 
@@ -7533,6 +7553,7 @@ class DeleteBotAnalyzerRecommendationResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotLocaleResponse {
   /// The identifier of the bot that contained the deleted locale.
   final String? botId;
@@ -7579,6 +7600,7 @@ class DeleteBotLocaleResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotReplicaResponse {
   /// The unique bot ID of the replicated bot generated.
   final String? botId;
@@ -7616,6 +7638,7 @@ class DeleteBotReplicaResponse {
   }
 }
 
+/// @nodoc
 class DeleteBotVersionResponse {
   /// The identifier of the bot that is being deleted.
   final String? botId;
@@ -7652,6 +7675,7 @@ class DeleteBotVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomVocabularyResponse {
   /// The identifier of the bot that the custom vocabulary was removed from.
   final String? botId;
@@ -7698,6 +7722,7 @@ class DeleteCustomVocabularyResponse {
   }
 }
 
+/// @nodoc
 class DeleteExportResponse {
   /// The unique identifier of the deleted export.
   final String? exportId;
@@ -7733,6 +7758,7 @@ class DeleteExportResponse {
   }
 }
 
+/// @nodoc
 class DeleteImportResponse {
   /// The unique identifier of the deleted import.
   final String? importId;
@@ -7768,6 +7794,7 @@ class DeleteImportResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   /// policy was deleted from.
@@ -7801,6 +7828,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyStatementResponse {
   /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   /// policy statement was removed from.
@@ -7835,6 +7863,7 @@ class DeleteResourcePolicyStatementResponse {
   }
 }
 
+/// @nodoc
 class DeleteUtterancesResponse {
   DeleteUtterancesResponse();
 
@@ -7847,6 +7876,7 @@ class DeleteUtterancesResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotResponse {
   /// The unique identifier of the bot.
   final String? botId;
@@ -7973,6 +8003,7 @@ class DescribeBotResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotAliasResponse {
   /// A list of events that affect a bot alias. For example, an event is recorded
   /// when the version that the alias points to changes.
@@ -8102,6 +8133,7 @@ class DescribeBotAliasResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotAnalyzerRecommendationResponse {
   /// A list of recommendations for optimizing your bot configuration. Each
   /// recommendation includes the issue location, priority, description, and
@@ -8182,6 +8214,7 @@ class DescribeBotAnalyzerRecommendationResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotLocaleResponse {
   /// The audio filler settings configured for the bot locale.
   final AudioFillerSettings? audioFillerSettings;
@@ -8393,6 +8426,7 @@ class DescribeBotLocaleResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotRecommendationResponse {
   /// The identifier of the bot associated with the bot recommendation.
   final String? botId;
@@ -8512,6 +8546,7 @@ class DescribeBotRecommendationResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotReplicaResponse {
   /// The unique bot ID of the replicated bot being monitored.
   final String? botId;
@@ -8574,6 +8609,7 @@ class DescribeBotReplicaResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotResourceGenerationResponse {
   /// The unique identifier of the bot for which the generation request was made.
   final String? botId;
@@ -8676,6 +8712,7 @@ class DescribeBotResourceGenerationResponse {
   }
 }
 
+/// @nodoc
 class DescribeBotVersionResponse {
   /// The identifier of the bot that contains the version.
   final String? botId;
@@ -8799,6 +8836,7 @@ class DescribeBotVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomVocabularyMetadataResponse {
   /// The identifier of the bot that contains the custom vocabulary.
   final String? botId;
@@ -8862,6 +8900,7 @@ class DescribeCustomVocabularyMetadataResponse {
   }
 }
 
+/// @nodoc
 class DescribeExportResponse {
   /// The date and time that the export was created.
   final DateTime? creationDateTime;
@@ -8948,6 +8987,7 @@ class DescribeExportResponse {
   }
 }
 
+/// @nodoc
 class DescribeImportResponse {
   /// The date and time that the import was created.
   final DateTime? creationDateTime;
@@ -9044,6 +9084,7 @@ class DescribeImportResponse {
   }
 }
 
+/// @nodoc
 class DescribeIntentResponse {
   /// The identifier of the bot associated with the intent.
   final String? botId;
@@ -9269,6 +9310,7 @@ class DescribeIntentResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePolicyResponse {
   /// The JSON structure that contains the resource policy. For more information
   /// about the contents of a JSON policy document, see <a
@@ -9312,6 +9354,7 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeSlotResponse {
   /// The identifier of the bot associated with the slot.
   final String? botId;
@@ -9447,6 +9490,7 @@ class DescribeSlotResponse {
   }
 }
 
+/// @nodoc
 class DescribeSlotTypeResponse {
   /// The identifier of the bot associated with the slot type.
   final String? botId;
@@ -9571,6 +9615,7 @@ class DescribeSlotTypeResponse {
   }
 }
 
+/// @nodoc
 class DescribeTestExecutionResponse {
   /// Indicates whether we use streaming or non-streaming APIs are used for the
   /// test set execution. For streaming, <code>StartConversation</code> Amazon Lex
@@ -9672,6 +9717,7 @@ class DescribeTestExecutionResponse {
   }
 }
 
+/// @nodoc
 class DescribeTestSetResponse {
   /// The creation date and time for the test set data.
   final DateTime? creationDateTime;
@@ -9763,6 +9809,7 @@ class DescribeTestSetResponse {
   }
 }
 
+/// @nodoc
 class DescribeTestSetDiscrepancyReportResponse {
   /// The time and date of creation for the test set discrepancy report.
   final DateTime? creationDateTime;
@@ -9860,6 +9907,7 @@ class DescribeTestSetDiscrepancyReportResponse {
   }
 }
 
+/// @nodoc
 class DescribeTestSetGenerationResponse {
   /// The creation date and time for the test set generation.
   final DateTime? creationDateTime;
@@ -9968,6 +10016,7 @@ class DescribeTestSetGenerationResponse {
   }
 }
 
+/// @nodoc
 class GenerateBotElementResponse {
   /// The unique bot Id for the bot which received the response.
   final String? botId;
@@ -10021,6 +10070,7 @@ class GenerateBotElementResponse {
   }
 }
 
+/// @nodoc
 class GetTestExecutionArtifactsUrlResponse {
   /// The pre-signed Amazon S3 URL to download completed test execution.
   final String? downloadArtifactsUrl;
@@ -10052,6 +10102,7 @@ class GetTestExecutionArtifactsUrlResponse {
   }
 }
 
+/// @nodoc
 class ListAggregatedUtterancesResponse {
   /// Summaries of the aggregated utterance data. Each response contains
   /// information about the number of times that the utterance was seen during the
@@ -10183,6 +10234,7 @@ class ListAggregatedUtterancesResponse {
   }
 }
 
+/// @nodoc
 class ListBotAliasesResponse {
   /// Summary information for the bot aliases that meet the filter criteria
   /// specified in the request. The length of the list is specified in the
@@ -10230,6 +10282,7 @@ class ListBotAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListBotAliasReplicasResponse {
   /// The summary information of the replicated bot created from the source bot
   /// alias.
@@ -10287,6 +10340,7 @@ class ListBotAliasReplicasResponse {
   }
 }
 
+/// @nodoc
 class ListBotAnalyzerHistoryResponse {
   /// A list of historical analysis executions, ordered by creation date with the
   /// most recent first.
@@ -10344,6 +10398,7 @@ class ListBotAnalyzerHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListBotLocalesResponse {
   /// The identifier of the bot to list locales for.
   final String? botId;
@@ -10398,6 +10453,7 @@ class ListBotLocalesResponse {
   }
 }
 
+/// @nodoc
 class ListBotRecommendationsResponse {
   /// The unique identifier of the bot that contains the bot recommendation list.
   final String? botId;
@@ -10460,6 +10516,7 @@ class ListBotRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListBotReplicasResponse {
   /// the unique bot IDs in the list of replicated bots.
   final String? botId;
@@ -10500,6 +10557,7 @@ class ListBotReplicasResponse {
   }
 }
 
+/// @nodoc
 class ListBotResourceGenerationsResponse {
   /// The unique identifier of the bot for which the generation requests were
   /// made.
@@ -10560,6 +10618,7 @@ class ListBotResourceGenerationsResponse {
   }
 }
 
+/// @nodoc
 class ListBotsResponse {
   /// Summary information for the bots that meet the filter criteria specified in
   /// the request. The length of the list is specified in the
@@ -10600,6 +10659,7 @@ class ListBotsResponse {
   }
 }
 
+/// @nodoc
 class ListBotVersionReplicasResponse {
   /// The unique ID of the bots in the list of replicated bots.
   final String? botId;
@@ -10656,6 +10716,7 @@ class ListBotVersionReplicasResponse {
   }
 }
 
+/// @nodoc
 class ListBotVersionsResponse {
   /// The identifier of the bot to list versions for.
   final String? botId;
@@ -10704,6 +10765,7 @@ class ListBotVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListBuiltInIntentsResponse {
   /// Summary information for the built-in intents that meet the filter criteria
   /// specified in the request. The length of the list is specified in the
@@ -10752,6 +10814,7 @@ class ListBuiltInIntentsResponse {
   }
 }
 
+/// @nodoc
 class ListBuiltInSlotTypesResponse {
   /// Summary information for the built-in slot types that meet the filter
   /// criteria specified in the request. The length of the list is specified in
@@ -10801,6 +10864,7 @@ class ListBuiltInSlotTypesResponse {
   }
 }
 
+/// @nodoc
 class ListCustomVocabularyItemsResponse {
   /// The identifier of the bot associated with this custom vocabulary.
   final String? botId;
@@ -10861,6 +10925,7 @@ class ListCustomVocabularyItemsResponse {
   }
 }
 
+/// @nodoc
 class ListExportsResponse {
   /// The unique identifier assigned to the bot by Amazon Lex.
   final String? botId;
@@ -10922,6 +10987,7 @@ class ListExportsResponse {
   }
 }
 
+/// @nodoc
 class ListImportsResponse {
   /// The unique identifier assigned by Amazon Lex to the bot.
   final String? botId;
@@ -10984,6 +11050,7 @@ class ListImportsResponse {
   }
 }
 
+/// @nodoc
 class ListIntentMetricsResponse {
   /// The identifier for the bot for which you retrieved intent metrics.
   final String? botId;
@@ -11030,6 +11097,7 @@ class ListIntentMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListIntentPathsResponse {
   /// A list of objects, each of which contains information about a node in the
   /// intent path for which you requested metrics.
@@ -11057,6 +11125,7 @@ class ListIntentPathsResponse {
   }
 }
 
+/// @nodoc
 class ListIntentsResponse {
   /// The identifier of the bot that contains the intent.
   final String? botId;
@@ -11118,6 +11187,7 @@ class ListIntentsResponse {
   }
 }
 
+/// @nodoc
 class ListIntentStageMetricsResponse {
   /// The identifier for the bot for which you retrieved intent stage metrics.
   final String? botId;
@@ -11165,6 +11235,7 @@ class ListIntentStageMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendedIntentsResponse {
   /// The unique identifier of the bot associated with the recommended intent.
   final String? botId;
@@ -11237,6 +11308,7 @@ class ListRecommendedIntentsResponse {
   }
 }
 
+/// @nodoc
 class ListSessionAnalyticsDataResponse {
   /// The unique identifier of the bot that the sessions belong to.
   final String? botId;
@@ -11284,6 +11356,7 @@ class ListSessionAnalyticsDataResponse {
   }
 }
 
+/// @nodoc
 class ListSessionMetricsResponse {
   /// The identifier for the bot for which you retrieved session metrics.
   final String? botId;
@@ -11331,6 +11404,7 @@ class ListSessionMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListSlotsResponse {
   /// The identifier of the bot that contains the slots.
   final String? botId;
@@ -11399,6 +11473,7 @@ class ListSlotsResponse {
   }
 }
 
+/// @nodoc
 class ListSlotTypesResponse {
   /// The identifier of the bot that contains the slot types.
   final String? botId;
@@ -11460,6 +11535,7 @@ class ListSlotTypesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with a resource.
   final Map<String, String>? tags;
@@ -11483,6 +11559,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTestExecutionResultItemsResponse {
   /// A token that indicates whether there are more results to return in a
   /// response to the <code>ListTestExecutionResultItems</code> operation. If the
@@ -11522,6 +11599,7 @@ class ListTestExecutionResultItemsResponse {
   }
 }
 
+/// @nodoc
 class ListTestExecutionsResponse {
   /// A token that indicates whether there are more results to return in a
   /// response to the ListTestExecutions operation. If the nextToken field is
@@ -11557,6 +11635,7 @@ class ListTestExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListTestSetRecordsResponse {
   /// A token that indicates whether there are more records to return in a
   /// response to the ListTestSetRecords operation. If the nextToken field is
@@ -11592,6 +11671,7 @@ class ListTestSetRecordsResponse {
   }
 }
 
+/// @nodoc
 class ListTestSetsResponse {
   /// A token that indicates whether there are more results to return in a
   /// response to the ListTestSets operation. If the nextToken field is present,
@@ -11627,6 +11707,7 @@ class ListTestSetsResponse {
   }
 }
 
+/// @nodoc
 class ListUtteranceAnalyticsDataResponse {
   /// The unique identifier of the bot that the utterances belong to.
   final String? botId;
@@ -11676,6 +11757,7 @@ class ListUtteranceAnalyticsDataResponse {
   }
 }
 
+/// @nodoc
 class ListUtteranceMetricsResponse {
   /// The identifier for the bot for which you retrieved utterance metrics.
   final String? botId;
@@ -11723,6 +11805,7 @@ class ListUtteranceMetricsResponse {
   }
 }
 
+/// @nodoc
 class SearchAssociatedTranscriptsResponse {
   /// The object that contains the associated transcript that meet the criteria
   /// you specified.
@@ -11803,6 +11886,7 @@ class SearchAssociatedTranscriptsResponse {
   }
 }
 
+/// @nodoc
 class StartBotAnalyzerResponse {
   /// A unique identifier for this analysis request. Use this identifier to check
   /// the status and retrieve results.
@@ -11869,6 +11953,7 @@ class StartBotAnalyzerResponse {
   }
 }
 
+/// @nodoc
 class StartBotRecommendationResponse {
   /// The unique identifier of the bot containing the bot recommendation.
   final String? botId;
@@ -11961,6 +12046,7 @@ class StartBotRecommendationResponse {
   }
 }
 
+/// @nodoc
 class StartBotResourceGenerationResponse {
   /// The unique identifier of the bot for which the generation request was made.
   final String? botId;
@@ -12029,6 +12115,7 @@ class StartBotResourceGenerationResponse {
   }
 }
 
+/// @nodoc
 class StartImportResponse {
   /// The date and time that the import request was created.
   final DateTime? creationDateTime;
@@ -12090,6 +12177,7 @@ class StartImportResponse {
   }
 }
 
+/// @nodoc
 class StartTestExecutionResponse {
   /// Indicates whether we use streaming or non-streaming APIs for the test set
   /// execution. For streaming, StartConversation Amazon Lex Runtime API is used.
@@ -12156,6 +12244,7 @@ class StartTestExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartTestSetGenerationResponse {
   /// The creation date and time for the test set generation.
   final DateTime? creationDateTime;
@@ -12247,6 +12336,7 @@ class StartTestSetGenerationResponse {
   }
 }
 
+/// @nodoc
 class StopBotAnalyzerResponse {
   /// The unique identifier of the analysis request.
   final String? botAnalyzerRequestId;
@@ -12304,6 +12394,7 @@ class StopBotAnalyzerResponse {
   }
 }
 
+/// @nodoc
 class StopBotRecommendationResponse {
   /// The unique identifier of the bot containing the bot recommendation that is
   /// being stopped.
@@ -12362,6 +12453,7 @@ class StopBotRecommendationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -12374,6 +12466,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -12386,6 +12479,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateBotResponse {
   /// The unique identifier of the bot that was updated.
   final String? botId;
@@ -12501,6 +12595,7 @@ class UpdateBotResponse {
   }
 }
 
+/// @nodoc
 class UpdateBotAliasResponse {
   /// The identifier of the updated bot alias.
   final String? botAliasId;
@@ -12608,6 +12703,7 @@ class UpdateBotAliasResponse {
   }
 }
 
+/// @nodoc
 class UpdateBotLocaleResponse {
   /// The updated audio filler settings for the bot locale.
   final AudioFillerSettings? audioFillerSettings;
@@ -12784,6 +12880,7 @@ class UpdateBotLocaleResponse {
   }
 }
 
+/// @nodoc
 class UpdateBotRecommendationResponse {
   /// The unique identifier of the bot containing the bot recommendation that has
   /// been updated.
@@ -12887,6 +12984,7 @@ class UpdateBotRecommendationResponse {
   }
 }
 
+/// @nodoc
 class UpdateExportResponse {
   /// The date and time that the export was created.
   final DateTime? creationDateTime;
@@ -12956,6 +13054,7 @@ class UpdateExportResponse {
   }
 }
 
+/// @nodoc
 class UpdateIntentResponse {
   /// The identifier of the bot that contains the intent.
   final String? botId;
@@ -13182,6 +13281,7 @@ class UpdateIntentResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourcePolicyResponse {
   /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   /// policy is attached to.
@@ -13215,6 +13315,7 @@ class UpdateResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateSlotResponse {
   /// The identifier of the bot that contains the slot.
   final String? botId;
@@ -13348,6 +13449,7 @@ class UpdateSlotResponse {
   }
 }
 
+/// @nodoc
 class UpdateSlotTypeResponse {
   /// The identifier of the bot that contains the slot type.
   final String? botId;
@@ -13473,6 +13575,7 @@ class UpdateSlotTypeResponse {
   }
 }
 
+/// @nodoc
 class UpdateTestSetResponse {
   /// The creation date and time for the updated test set.
   final DateTime? creationDateTime;
@@ -13564,6 +13667,7 @@ class UpdateTestSetResponse {
   }
 }
 
+/// @nodoc
 class TestSetModality {
   static const text = TestSetModality._('Text');
   static const audio = TestSetModality._('Audio');
@@ -13588,6 +13692,7 @@ class TestSetModality {
   String toString() => value;
 }
 
+/// @nodoc
 class TestSetStatus {
   static const importing = TestSetStatus._('Importing');
   static const pendingAnnotation = TestSetStatus._('PendingAnnotation');
@@ -13622,6 +13727,8 @@ class TestSetStatus {
 }
 
 /// Contains information about the location in which the test set is stored.
+///
+/// @nodoc
 class TestSetStorageLocation {
   /// The name of the Amazon S3 bucket in which the test set is stored.
   final String s3BucketName;
@@ -13660,6 +13767,8 @@ class TestSetStorageLocation {
 }
 
 /// Contains settings used by Amazon Lex to select a slot value.
+///
+/// @nodoc
 class SlotValueSelectionSetting {
   /// Determines the slot resolution strategy that Amazon Lex uses to return slot
   /// type values. The field can be set to one of the following values:
@@ -13723,6 +13832,8 @@ class SlotValueSelectionSetting {
 
 /// Provides information about the external source of the slot type's
 /// definition.
+///
+/// @nodoc
 class ExternalSourceSetting {
   /// Settings required for a slot type based on a grammar that you provide.
   final GrammarSlotTypeSetting? grammarSlotTypeSetting;
@@ -13751,6 +13862,8 @@ class ExternalSourceSetting {
 
 /// A composite slot is a combination of two or more slots that capture multiple
 /// pieces of information in a single user input.
+///
+/// @nodoc
 class CompositeSlotTypeSetting {
   /// Subslots in the composite slot.
   final List<SubSlotTypeComposition>? subSlots;
@@ -13778,6 +13891,8 @@ class CompositeSlotTypeSetting {
 }
 
 /// Subslot type composition.
+///
+/// @nodoc
 class SubSlotTypeComposition {
   /// Name of a constituent sub slot inside a composite slot.
   final String name;
@@ -13809,6 +13924,8 @@ class SubSlotTypeComposition {
 }
 
 /// Settings requried for a slot type based on a grammar that you provide.
+///
+/// @nodoc
 class GrammarSlotTypeSetting {
   /// The source of the grammar used to create the slot type.
   final GrammarSlotTypeSource? source;
@@ -13836,6 +13953,8 @@ class GrammarSlotTypeSetting {
 
 /// Describes the Amazon S3 bucket name and location for the grammar that is the
 /// source for the slot type.
+///
+/// @nodoc
 class GrammarSlotTypeSource {
   /// The name of the Amazon S3 bucket that contains the grammar source.
   final String s3BucketName;
@@ -13872,6 +13991,7 @@ class GrammarSlotTypeSource {
   }
 }
 
+/// @nodoc
 class SlotValueResolutionStrategy {
   static const originalValue = SlotValueResolutionStrategy._('OriginalValue');
   static const topResolution = SlotValueResolutionStrategy._('TopResolution');
@@ -13899,6 +14019,8 @@ class SlotValueResolutionStrategy {
 }
 
 /// Provides a regular expression used to validate the value of a slot.
+///
+/// @nodoc
 class SlotValueRegexFilter {
   /// A regular expression used to validate the value of a slot.
   ///
@@ -13950,6 +14072,8 @@ class SlotValueRegexFilter {
 }
 
 /// Provides settings that enable advanced recognition settings for slot values.
+///
+/// @nodoc
 class AdvancedRecognitionSetting {
   /// Enables using the slot values as a custom vocabulary for recognizing user
   /// utterances.
@@ -13975,6 +14099,7 @@ class AdvancedRecognitionSetting {
   }
 }
 
+/// @nodoc
 class AudioRecognitionStrategy {
   static const useSlotValuesAsCustomVocabulary =
       AudioRecognitionStrategy._('UseSlotValuesAsCustomVocabulary');
@@ -14002,6 +14127,8 @@ class AudioRecognitionStrategy {
 
 /// Each slot type can have a set of values. Each <code>SlotTypeValue</code>
 /// represents a value that the slot type can take.
+///
+/// @nodoc
 class SlotTypeValue {
   /// The value of the slot type entry.
   final SampleValue? sampleValue;
@@ -14037,6 +14164,8 @@ class SlotTypeValue {
 }
 
 /// Defines one of the values for a slot type.
+///
+/// @nodoc
 class SampleValue {
   /// The value that can be used for a slot type.
   final String value;
@@ -14060,6 +14189,8 @@ class SampleValue {
 }
 
 /// Specifies the elicitation setting details eliciting a slot.
+///
+/// @nodoc
 class SlotValueElicitationSetting {
   /// Specifies whether the slot is required or optional.
   final SlotConstraint slotConstraint;
@@ -14153,6 +14284,8 @@ class SlotValueElicitationSetting {
 }
 
 /// Determines whether Amazon Lex obscures slot values in conversation logs.
+///
+/// @nodoc
 class ObfuscationSetting {
   /// Value that determines whether Amazon Lex obscures slot values in
   /// conversation logs. The default is to obscure the values.
@@ -14178,6 +14311,8 @@ class ObfuscationSetting {
 }
 
 /// Indicates whether a slot can return multiple values.
+///
+/// @nodoc
 class MultipleValuesSetting {
   /// Indicates whether a slot can return multiple values. When <code>true</code>,
   /// the slot may return more than one value in a response. When
@@ -14212,6 +14347,8 @@ class MultipleValuesSetting {
 
 /// Specifications for the constituent sub slots and the expression for the
 /// composite slot.
+///
+/// @nodoc
 class SubSlotSetting {
   /// The expression text for defining the constituent sub slots in the composite
   /// slot using logical AND and OR operators.
@@ -14245,6 +14382,8 @@ class SubSlotSetting {
 }
 
 /// Subslot specifications.
+///
+/// @nodoc
 class Specifications {
   /// The unique identifier assigned to the slot type.
   final String slotTypeId;
@@ -14288,6 +14427,8 @@ class Specifications {
 /// <code>PromptSpecification</code> is the prompt that Amazon Lex uses to
 /// elicit the sub slot value from the user. This is similar to
 /// <code>PromptSpecification</code> for slots.
+///
+/// @nodoc
 class SubSlotValueElicitationSetting {
   final PromptSpecification promptSpecification;
   final SlotDefaultValueSpecification? defaultValueSpecification;
@@ -14345,6 +14486,8 @@ class SubSlotValueElicitationSetting {
 
 /// Defines a list of values that Amazon Lex should use as the default value for
 /// a slot.
+///
+/// @nodoc
 class SlotDefaultValueSpecification {
   /// A list of default values. Amazon Lex chooses the default value to use in the
   /// order that they are presented in the list.
@@ -14373,6 +14516,8 @@ class SlotDefaultValueSpecification {
 
 /// Specifies a list of message groups that Amazon Lex sends to a user to elicit
 /// a response.
+///
+/// @nodoc
 class PromptSpecification {
   /// The maximum number of times the bot tries to elicit a response from the user
   /// using this prompt.
@@ -14438,6 +14583,8 @@ class PromptSpecification {
 
 /// Specifies the prompts that Amazon Lex uses while a bot is waiting for
 /// customer input.
+///
+/// @nodoc
 class WaitAndContinueSpecification {
   /// The response that Amazon Lex sends to indicate that the bot is ready to
   /// continue the conversation.
@@ -14496,6 +14643,8 @@ class WaitAndContinueSpecification {
 
 /// Specifies a list of message groups that Amazon Lex uses to respond the user
 /// input.
+///
+/// @nodoc
 class ResponseSpecification {
   /// A collection of responses that Amazon Lex can send to the user. Amazon Lex
   /// chooses the actual response to send at runtime.
@@ -14531,6 +14680,8 @@ class ResponseSpecification {
 
 /// Defines the messages that Amazon Lex sends to a user to remind them that the
 /// bot is waiting for a response.
+///
+/// @nodoc
 class StillWaitingResponseSpecification {
   /// How often a message should be sent to the user. Minimum of 1 second, maximum
   /// of 5 minutes.
@@ -14583,6 +14734,8 @@ class StillWaitingResponseSpecification {
 }
 
 /// Provides one or more messages that Amazon Lex should send to the user.
+///
+/// @nodoc
 class MessageGroup {
   /// The primary message that Amazon Lex should send to the user.
   final Message message;
@@ -14619,6 +14772,8 @@ class MessageGroup {
 }
 
 /// The object that provides message text and its type.
+///
+/// @nodoc
 class Message {
   /// A message in a custom format defined by the client application.
   final CustomPayload? customPayload;
@@ -14675,6 +14830,8 @@ class Message {
 }
 
 /// Defines an ASCII text message to send to the user.
+///
+/// @nodoc
 class PlainTextMessage {
   /// The message to send to the user.
   final String value;
@@ -14699,6 +14856,8 @@ class PlainTextMessage {
 
 /// A custom response string that Amazon Lex sends to your application. You
 /// define the content and structure the string.
+///
+/// @nodoc
 class CustomPayload {
   /// The string that is sent to your application.
   final String value;
@@ -14722,6 +14881,8 @@ class CustomPayload {
 }
 
 /// Defines a Speech Synthesis Markup Language (SSML) prompt.
+///
+/// @nodoc
 class SSMLMessage {
   /// The SSML text that defines the prompt.
   final String value;
@@ -14749,6 +14910,8 @@ class SSMLMessage {
 ///
 /// When you use a response card, the response from the user is constrained to
 /// the text associated with a button on the card.
+///
+/// @nodoc
 class ImageResponseCard {
   /// The title to display on the response card. The format of the title is
   /// determined by the platform displaying the response card.
@@ -14803,6 +14966,8 @@ class ImageResponseCard {
 
 /// Describes a button to use on a response card used to gather slot values from
 /// a user.
+///
+/// @nodoc
 class Button {
   /// The text that appears on the button. Use this to tell the user what value is
   /// returned when they choose this button.
@@ -14836,6 +15001,8 @@ class Button {
 
 /// A sample utterance that invokes an intent or respond to a slot elicitation
 /// prompt.
+///
+/// @nodoc
 class SampleUtterance {
   /// The sample utterance that Amazon Lex uses to build its machine-learning
   /// model to recognize intents.
@@ -14859,6 +15026,7 @@ class SampleUtterance {
   }
 }
 
+/// @nodoc
 class MessageSelectionStrategy {
   static const random = MessageSelectionStrategy._('Random');
   static const ordered = MessageSelectionStrategy._('Ordered');
@@ -14885,6 +15053,8 @@ class MessageSelectionStrategy {
 }
 
 /// The attempt name of attempts of a prompt.
+///
+/// @nodoc
 class PromptAttempt {
   static const initial = PromptAttempt._('Initial');
   static const retry1 = PromptAttempt._('Retry1');
@@ -14914,6 +15084,8 @@ class PromptAttempt {
 }
 
 /// Specifies the settings on a prompt attempt.
+///
+/// @nodoc
 class PromptAttemptSpecification {
   /// Indicates the allowed input types of the prompt attempt.
   final AllowedInputTypes allowedInputTypes;
@@ -14970,6 +15142,8 @@ class PromptAttemptSpecification {
 }
 
 /// Specifies the allowed input types.
+///
+/// @nodoc
 class AllowedInputTypes {
   /// Indicates whether audio input is allowed.
   final bool allowAudioInput;
@@ -15000,6 +15174,8 @@ class AllowedInputTypes {
 }
 
 /// Specifies the audio and DTMF input specification.
+///
+/// @nodoc
 class AudioAndDTMFInputSpecification {
   /// Time for which a bot waits before assuming that the customer isn't going to
   /// speak or press a key. This timeout is shared between Audio and DTMF inputs.
@@ -15044,6 +15220,8 @@ class AudioAndDTMFInputSpecification {
 }
 
 /// Specifies the text input specifications.
+///
+/// @nodoc
 class TextInputSpecification {
   /// Time for which a bot waits before re-prompting a customer for text input.
   final int startTimeoutMs;
@@ -15067,6 +15245,8 @@ class TextInputSpecification {
 }
 
 /// Specifies the audio input specifications.
+///
+/// @nodoc
 class AudioSpecification {
   /// Time for which a bot waits after the customer stops speaking to assume the
   /// utterance is finished.
@@ -15099,6 +15279,8 @@ class AudioSpecification {
 }
 
 /// Specifies the DTMF input specifications.
+///
+/// @nodoc
 class DTMFSpecification {
   /// The DTMF character that clears the accumulated DTMF digits and immediately
   /// ends the input.
@@ -15147,6 +15329,8 @@ class DTMFSpecification {
 
 /// Specifies the default value to use when a user doesn't provide a value for a
 /// slot.
+///
+/// @nodoc
 class SlotDefaultValue {
   /// The default value to use when a user doesn't provide a value for a slot.
   final String defaultValue;
@@ -15169,6 +15353,7 @@ class SlotDefaultValue {
   }
 }
 
+/// @nodoc
 class ObfuscationSettingType {
   static const none = ObfuscationSettingType._('None');
   static const defaultObfuscation =
@@ -15195,6 +15380,7 @@ class ObfuscationSettingType {
   String toString() => value;
 }
 
+/// @nodoc
 class SlotConstraint {
   static const required = SlotConstraint._('Required');
   static const optional = SlotConstraint._('Optional');
@@ -15221,6 +15407,8 @@ class SlotConstraint {
 
 /// Settings used when Amazon Lex successfully captures a slot value from a
 /// user.
+///
+/// @nodoc
 class SlotCaptureSetting {
   /// A list of conditional branches to evaluate after the slot value is captured.
   final ConditionalSpecification? captureConditional;
@@ -15318,6 +15506,8 @@ class SlotCaptureSetting {
 
 /// Contains information about whether assisted slot resolution is turned on for
 /// the slot or not.
+///
+/// @nodoc
 class SlotResolutionSetting {
   /// Specifies whether assisted slot resolution is turned on for the slot or not.
   /// If the value is <code>EnhancedFallback</code>, assisted slot resolution is
@@ -15345,6 +15535,7 @@ class SlotResolutionSetting {
   }
 }
 
+/// @nodoc
 class SlotResolutionStrategy {
   static const enhancedFallback = SlotResolutionStrategy._('EnhancedFallback');
   static const $default = SlotResolutionStrategy._('Default');
@@ -15371,6 +15562,8 @@ class SlotResolutionStrategy {
 }
 
 /// The current state of the conversation with the user.
+///
+/// @nodoc
 class DialogState {
   final DialogAction? dialogAction;
   final IntentOverride? intent;
@@ -15416,6 +15609,8 @@ class DialogState {
 /// evaluates to true is executed. The last branch in the list is the default
 /// branch. The default branch should not have any condition expression. The
 /// default branch is executed if no other branch has a matching condition.
+///
+/// @nodoc
 class ConditionalSpecification {
   /// Determines whether a conditional branch is active. When <code>active</code>
   /// is false, the conditions are not evaluated.
@@ -15464,6 +15659,8 @@ class ConditionalSpecification {
 
 /// Settings that specify the dialog code hook that is called by Amazon Lex at a
 /// step of the conversation.
+///
+/// @nodoc
 class DialogCodeHookInvocationSetting {
   /// Determines whether a dialog code hook is used when the intent is activated.
   final bool active;
@@ -15515,6 +15712,8 @@ class DialogCodeHookInvocationSetting {
 
 /// Settings that specify the dialog code hook that is called by Amazon Lex
 /// between eliciting slot values.
+///
+/// @nodoc
 class ElicitationCodeHookInvocationSetting {
   /// Indicates whether a Lambda function should be invoked for the dialog.
   final bool enableCodeHookInvocation;
@@ -15548,6 +15747,8 @@ class ElicitationCodeHookInvocationSetting {
 }
 
 /// Specifies next steps to run after the dialog code hook finishes.
+///
+/// @nodoc
 class PostDialogCodeHookInvocationSpecification {
   /// A list of conditional branches to evaluate after the dialog code hook throws
   /// an exception or returns with the <code>State</code> field of the
@@ -15656,6 +15857,8 @@ class PostDialogCodeHookInvocationSpecification {
 
 /// A set of actions that Amazon Lex should run if none of the other conditions
 /// are met.
+///
+/// @nodoc
 class DefaultConditionalBranch {
   /// The next step in the conversation.
   final DialogState? nextStep;
@@ -15689,6 +15892,8 @@ class DefaultConditionalBranch {
 }
 
 /// A set of actions that Amazon Lex should run if the condition is matched.
+///
+/// @nodoc
 class ConditionalBranch {
   /// Contains the expression to evaluate. If the condition is true, the branch's
   /// actions are taken.
@@ -15739,6 +15944,8 @@ class ConditionalBranch {
 }
 
 /// Provides an expression that evaluates to true or false.
+///
+/// @nodoc
 class Condition {
   /// The expression string that is evaluated.
   final String expressionString;
@@ -15763,6 +15970,8 @@ class Condition {
 
 /// Defines the action that the bot executes at runtime when the conversation
 /// reaches this step.
+///
+/// @nodoc
 class DialogAction {
   /// The action that the bot should execute.
   final DialogActionType type;
@@ -15802,6 +16011,8 @@ class DialogAction {
 }
 
 /// Override settings to configure the intent state.
+///
+/// @nodoc
 class IntentOverride {
   /// The name of the intent. Only required when you're switching intents.
   final String? name;
@@ -15836,6 +16047,8 @@ class IntentOverride {
 
 /// The slot values that Amazon Lex uses when it sets slot values in a dialog
 /// step.
+///
+/// @nodoc
 class SlotValueOverride {
   /// When the shape value is <code>List</code>, it indicates that the
   /// <code>values</code> field contains a list of slot values. When the value is
@@ -15882,6 +16095,7 @@ class SlotValueOverride {
   }
 }
 
+/// @nodoc
 class SlotShape {
   static const scalar = SlotShape._('Scalar');
   static const list = SlotShape._('List');
@@ -15906,6 +16120,8 @@ class SlotShape {
 }
 
 /// The value to set in a slot.
+///
+/// @nodoc
 class SlotValue {
   /// The value that Amazon Lex determines for the slot. The actual value depends
   /// on the setting of the value selection strategy for the bot. You can choose
@@ -15931,6 +16147,7 @@ class SlotValue {
   }
 }
 
+/// @nodoc
 class DialogActionType {
   static const elicitIntent = DialogActionType._('ElicitIntent');
   static const startIntent = DialogActionType._('StartIntent');
@@ -15975,6 +16192,8 @@ class DialogActionType {
 
 /// Settings that determine the Lambda function that Amazon Lex uses for
 /// processing user responses.
+///
+/// @nodoc
 class DialogCodeHookSettings {
   /// Enables the dialog code hook so that it processes user requests.
   final bool enabled;
@@ -15998,6 +16217,8 @@ class DialogCodeHookSettings {
 }
 
 /// Determines if a Lambda function should be invoked for a specific intent.
+///
+/// @nodoc
 class FulfillmentCodeHookSettings {
   /// Indicates whether a Lambda function should be invoked to fulfill a specific
   /// intent.
@@ -16064,6 +16285,8 @@ class FulfillmentCodeHookSettings {
 
 /// Provides a prompt for making sure that the user is ready for the intent to
 /// be fulfilled.
+///
+/// @nodoc
 class IntentConfirmationSetting {
   /// Prompts the user to confirm the intent. This question should have a yes or
   /// no answer.
@@ -16226,6 +16449,8 @@ class IntentConfirmationSetting {
 
 /// Provides a statement the Amazon Lex conveys to the user when the intent is
 /// successfully fulfilled.
+///
+/// @nodoc
 class IntentClosingSetting {
   /// Specifies whether an intent's closing response is used. When this field is
   /// false, the closing response isn't sent to the user. If the
@@ -16286,6 +16511,8 @@ class IntentClosingSetting {
 /// <code>AMAZON.KendraSearchIntent</code> intent. When you use this intent,
 /// Amazon Lex searches the specified Amazon Kendra index and returns documents
 /// from the index that match the user's utterance.
+///
+/// @nodoc
 class KendraConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the
   /// <code>AMAZON.KendraSearchIntent</code> intent to search. The index must be
@@ -16332,6 +16559,8 @@ class KendraConfiguration {
 
 /// Configuration setting for a response sent to the user before Amazon Lex
 /// starts eliciting slots.
+///
+/// @nodoc
 class InitialResponseSetting {
   final DialogCodeHookInvocationSetting? codeHook;
   final ConditionalSpecification? conditional;
@@ -16383,6 +16612,8 @@ class InitialResponseSetting {
 
 /// Details about the the configuration of the built-in
 /// <code>Amazon.QnAIntent</code>.
+///
+/// @nodoc
 class QnAIntentConfiguration {
   final BedrockModelSpecification? bedrockModelConfiguration;
 
@@ -16421,6 +16652,8 @@ class QnAIntentConfiguration {
 }
 
 /// The configuration details of the Qinconnect intent.
+///
+/// @nodoc
 class QInConnectIntentConfiguration {
   /// The Qinconnect assistant configuration details of the Qinconnect intent.
   final QInConnectAssistantConfiguration? qInConnectAssistantConfiguration;
@@ -16451,6 +16684,8 @@ class QInConnectIntentConfiguration {
 }
 
 /// The configuration details of the Qinconnect assistant.
+///
+/// @nodoc
 class QInConnectAssistantConfiguration {
   /// The assistant Arn details of the Qinconnect assistant configuration.
   final String assistantArn;
@@ -16476,6 +16711,8 @@ class QInConnectAssistantConfiguration {
 /// Contains details about the configuration of the knowledge store used for the
 /// <code>AMAZON.QnAIntent</code>. You must have already created the knowledge
 /// store and indexed the documents within it.
+///
+/// @nodoc
 class DataSourceConfiguration {
   /// Contains details about the configuration of the Amazon Bedrock knowledge
   /// base used for the <code>AMAZON.QnAIntent</code>. To set up a knowledge base,
@@ -16542,6 +16779,8 @@ class DataSourceConfiguration {
 
 /// Contains information about the Amazon Bedrock model used to interpret the
 /// prompt used in descriptive bot building.
+///
+/// @nodoc
 class BedrockModelSpecification {
   /// The ARN of the foundation model used in descriptive bot building.
   final String modelArn;
@@ -16590,6 +16829,8 @@ class BedrockModelSpecification {
 }
 
 /// The details on the Bedrock guardrail configuration.
+///
+/// @nodoc
 class BedrockGuardrailConfiguration {
   /// The unique guardrail id for the Bedrock guardrail configuration.
   final String identifier;
@@ -16619,6 +16860,7 @@ class BedrockGuardrailConfiguration {
   }
 }
 
+/// @nodoc
 class BedrockTraceStatus {
   static const enabled = BedrockTraceStatus._('ENABLED');
   static const disabled = BedrockTraceStatus._('DISABLED');
@@ -16646,6 +16888,8 @@ class BedrockTraceStatus {
 
 /// Contains details about the configuration of the Amazon OpenSearch Service
 /// database used for the <code>AMAZON.QnAIntent</code>.
+///
+/// @nodoc
 class OpensearchConfiguration {
   /// The endpoint of the Amazon OpenSearch Service domain.
   final String domainEndpoint;
@@ -16707,6 +16951,8 @@ class OpensearchConfiguration {
 
 /// Contains details about the configuration of the Amazon Kendra index used for
 /// the <code>AMAZON.QnAIntent</code>.
+///
+/// @nodoc
 class QnAKendraConfiguration {
   /// The ARN of the Amazon Kendra index to use.
   final String kendraIndex;
@@ -16760,6 +17006,8 @@ class QnAKendraConfiguration {
 }
 
 /// Contains details about the configuration of a Amazon Bedrock knowledge base.
+///
+/// @nodoc
 class BedrockKnowledgeStoreConfiguration {
   /// The base ARN of the knowledge base used.
   final String bedrockKnowledgeBaseArn;
@@ -16804,6 +17052,8 @@ class BedrockKnowledgeStoreConfiguration {
 }
 
 /// The exact response fields given by the Bedrock knowledge store.
+///
+/// @nodoc
 class BedrockKnowledgeStoreExactResponseFields {
   /// The answer field used for an exact response from Bedrock Knowledge Store.
   final String? answerField;
@@ -16828,6 +17078,8 @@ class BedrockKnowledgeStoreExactResponseFields {
 }
 
 /// Contains the names of the fields used for an exact response to the user.
+///
+/// @nodoc
 class ExactResponseFields {
   /// The name of the field that contains the answer to the query made to the
   /// OpenSearch Service database.
@@ -16860,6 +17112,8 @@ class ExactResponseFields {
 }
 
 /// Describes a session context that is activated when an intent is fulfilled.
+///
+/// @nodoc
 class OutputContext {
   /// The name of the output context.
   final String name;
@@ -16901,6 +17155,8 @@ class OutputContext {
 }
 
 /// A context that must be active for an intent to be selected by Amazon Lex.
+///
+/// @nodoc
 class InputContext {
   /// The name of the context.
   final String name;
@@ -16925,6 +17181,8 @@ class InputContext {
 
 /// Sets the priority that Amazon Lex should use when eliciting slot values from
 /// a user.
+///
+/// @nodoc
 class SlotPriority {
   /// The priority that Amazon Lex should apply to the slot.
   final int priority;
@@ -16957,6 +17215,8 @@ class SlotPriority {
 /// Provides a setting that determines whether the post-fulfillment response is
 /// sent to the user. For more information, see <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete">https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete</a>
+///
+/// @nodoc
 class PostFulfillmentStatusSpecification {
   /// A list of conditional branches to evaluate after the fulfillment code hook
   /// throws an exception or returns with the <code>State</code> field of the
@@ -17067,6 +17327,8 @@ class PostFulfillmentStatusSpecification {
 
 /// Provides information for updating the user on the progress of fulfilling an
 /// intent.
+///
+/// @nodoc
 class FulfillmentUpdatesSpecification {
   /// Determines whether fulfillment updates are sent to the user. When this field
   /// is true, updates are sent.
@@ -17126,6 +17388,8 @@ class FulfillmentUpdatesSpecification {
 
 /// Provides settings for a message that is sent to the user when a fulfillment
 /// Lambda function starts running.
+///
+/// @nodoc
 class FulfillmentStartResponseSpecification {
   /// The delay between when the Lambda fulfillment function starts running and
   /// the start message is played. If the Lambda function returns before the delay
@@ -17172,6 +17436,8 @@ class FulfillmentStartResponseSpecification {
 
 /// Provides settings for a message that is sent periodically to the user while
 /// a fulfillment Lambda function is running.
+///
+/// @nodoc
 class FulfillmentUpdateResponseSpecification {
   /// The frequency that a message is sent to the user. When the period ends,
   /// Amazon Lex chooses a message from the message groups and plays it to the
@@ -17220,6 +17486,8 @@ class FulfillmentUpdateResponseSpecification {
 /// Provides information about the bot or bot locale that you want to export.
 /// You can specify the <code>botExportSpecification</code> or the
 /// <code>botLocaleExportSpecification</code>, but not both.
+///
+/// @nodoc
 class ExportResourceSpecification {
   /// Parameters for exporting a bot.
   final BotExportSpecification? botExportSpecification;
@@ -17284,6 +17552,7 @@ class ExportResourceSpecification {
   }
 }
 
+/// @nodoc
 class ImportExportFileFormat {
   static const lexJson = ImportExportFileFormat._('LexJson');
   static const tsv = ImportExportFileFormat._('TSV');
@@ -17310,6 +17579,7 @@ class ImportExportFileFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportStatus {
   static const inProgress = ExportStatus._('InProgress');
   static const completed = ExportStatus._('Completed');
@@ -17336,6 +17606,8 @@ class ExportStatus {
 }
 
 /// Provides the identity of a the bot that was exported.
+///
+/// @nodoc
 class BotExportSpecification {
   /// The identifier of the bot assigned by Amazon Lex.
   final String botId;
@@ -17367,6 +17639,8 @@ class BotExportSpecification {
 }
 
 /// Provides the bot locale parameters required for exporting a bot locale.
+///
+/// @nodoc
 class BotLocaleExportSpecification {
   /// The identifier of the bot to create the locale for.
   final String botId;
@@ -17405,6 +17679,8 @@ class BotLocaleExportSpecification {
 }
 
 /// Provides the parameters required for exporting a custom vocabulary.
+///
+/// @nodoc
 class CustomVocabularyExportSpecification {
   /// The identifier of the bot that contains the custom vocabulary to export.
   final String botId;
@@ -17443,6 +17719,8 @@ class CustomVocabularyExportSpecification {
 }
 
 /// Contains information about the test set that is exported.
+///
+/// @nodoc
 class TestSetExportSpecification {
   /// The unique identifier of the test set.
   final String testSetId;
@@ -17465,6 +17743,7 @@ class TestSetExportSpecification {
   }
 }
 
+/// @nodoc
 class BotRecommendationStatus {
   static const processing = BotRecommendationStatus._('Processing');
   static const deleting = BotRecommendationStatus._('Deleting');
@@ -17508,6 +17787,8 @@ class BotRecommendationStatus {
 }
 
 /// Indicates the setting of the location where the transcript is stored.
+///
+/// @nodoc
 class TranscriptSourceSetting {
   /// Indicates the setting of the Amazon S3 bucket where the transcript is
   /// stored.
@@ -17538,6 +17819,8 @@ class TranscriptSourceSetting {
 /// The object representing the passwords that were used to encrypt the data
 /// related to the bot recommendation, as well as the KMS key ARN used to
 /// encrypt the associated metadata.
+///
+/// @nodoc
 class EncryptionSetting {
   /// The password used to encrypt the associated transcript file.
   final String? associatedTranscriptsPassword;
@@ -17580,6 +17863,8 @@ class EncryptionSetting {
 
 /// The object representing the Amazon S3 bucket containing the transcript, as
 /// well as the associated metadata.
+///
+/// @nodoc
 class S3BucketTranscriptSource {
   /// The name of the bucket containing the transcript and the associated
   /// metadata.
@@ -17648,6 +17933,8 @@ class S3BucketTranscriptSource {
 /// The object that contains a path format that will be applied when Amazon Lex
 /// reads the transcript file in the bucket you provide. Specify this object if
 /// you only want Lex to read a subset of files in your Amazon S3 bucket.
+///
+/// @nodoc
 class PathFormat {
   /// A list of Amazon S3 prefixes that points to sub-folders in the Amazon S3
   /// bucket. Specify this list if you only want Lex to read the files under this
@@ -17675,6 +17962,7 @@ class PathFormat {
   }
 }
 
+/// @nodoc
 class TranscriptFormat {
   static const lex = TranscriptFormat._('Lex');
 
@@ -17700,6 +17988,8 @@ class TranscriptFormat {
 
 /// The object representing the filter that Amazon Lex will use to select the
 /// appropriate transcript.
+///
+/// @nodoc
 class TranscriptFilter {
   /// The object representing the filter that Amazon Lex will use to select the
   /// appropriate transcript when the transcript format is the Amazon Lex format.
@@ -17729,6 +18019,8 @@ class TranscriptFilter {
 
 /// The object that contains transcript filter details that are associated with
 /// a bot recommendation.
+///
+/// @nodoc
 class LexTranscriptFilter {
   /// The object that contains a date range filter that will be applied to the
   /// transcript. Specify this object if you want Amazon Lex to only read the
@@ -17758,6 +18050,8 @@ class LexTranscriptFilter {
 
 /// The object used for specifying the data range that the customer wants Amazon
 /// Lex to read through in the input transcripts.
+///
+/// @nodoc
 class DateRangeFilter {
   /// A timestamp indicating the end date for the date range filter.
   final DateTime endDateTime;
@@ -17805,6 +18099,8 @@ class DateRangeFilter {
 /// <code>generative</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class VoiceSettings {
   /// The identifier of the Amazon Polly voice to use.
   final String voiceId;
@@ -17842,6 +18138,8 @@ class VoiceSettings {
 
 /// Unified configuration settings that combine speech recognition and synthesis
 /// capabilities.
+///
+/// @nodoc
 class UnifiedSpeechSettings {
   /// The foundation model configuration to use for unified speech processing
   /// capabilities.
@@ -17874,6 +18172,8 @@ class UnifiedSpeechSettings {
 /// Audio filler requires <code>unifiedSpeechSettings</code> (speech-to-speech)
 /// to be enabled on the bot locale when <code>enabled</code> is
 /// <code>true</code>.
+///
+/// @nodoc
 class AudioFillerSettings {
   /// The identifier of the audio filler to play while Amazon Lex processes the
   /// user's input. This field is required when <code>enabled</code> is
@@ -17948,6 +18248,8 @@ class AudioFillerSettings {
 
 /// Settings that control how Amazon Lex processes and recognizes speech input
 /// from users.
+///
+/// @nodoc
 class SpeechRecognitionSettings {
   /// Configuration settings for the selected speech-to-text model.
   final SpeechModelConfig? speechModelConfig;
@@ -17982,6 +18284,7 @@ class SpeechRecognitionSettings {
   }
 }
 
+/// @nodoc
 class BotLocaleStatus {
   static const creating = BotLocaleStatus._('Creating');
   static const building = BotLocaleStatus._('Building');
@@ -18025,6 +18328,8 @@ class BotLocaleStatus {
 
 /// Contains specifications about the generative AI capabilities from Amazon
 /// Bedrock that you can turn on for your bot.
+///
+/// @nodoc
 class GenerativeAISettings {
   final BuildtimeSettings? buildtimeSettings;
   final RuntimeSettings? runtimeSettings;
@@ -18077,6 +18382,8 @@ class GenerativeAISettings {
 /// background noise
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SpeechDetectionSensitivity {
   static const $default = SpeechDetectionSensitivity._('Default');
   static const highNoiseTolerance =
@@ -18107,6 +18414,8 @@ class SpeechDetectionSensitivity {
 
 /// Contains specifications about the Amazon Lex runtime generative AI
 /// capabilities from Amazon Bedrock that you can turn on for your bot.
+///
+/// @nodoc
 class RuntimeSettings {
   /// An object containing specifications for the Assisted NLU feature within the
   /// bot's runtime settings. These settings determine how the bot processes and
@@ -18148,6 +18457,8 @@ class RuntimeSettings {
 
 /// Contains specifications about the Amazon Lex build time generative AI
 /// capabilities from Amazon Bedrock that you can turn on for your bot.
+///
+/// @nodoc
 class BuildtimeSettings {
   /// An object containing specifications for the descriptive bot building
   /// feature.
@@ -18187,6 +18498,8 @@ class BuildtimeSettings {
 }
 
 /// Contains specifications for the descriptive bot building feature.
+///
+/// @nodoc
 class DescriptiveBotBuilderSpecification {
   /// Specifies whether the descriptive bot building feature is activated or not.
   final bool enabled;
@@ -18223,6 +18536,8 @@ class DescriptiveBotBuilderSpecification {
 }
 
 /// Contains specifications for the sample utterance generation feature.
+///
+/// @nodoc
 class SampleUtteranceGenerationSpecification {
   /// Specifies whether to enable sample utterance generation or not.
   final bool enabled;
@@ -18256,6 +18571,8 @@ class SampleUtteranceGenerationSpecification {
 }
 
 /// Contains specifications for the assisted slot resolution feature.
+///
+/// @nodoc
 class SlotResolutionImprovementSpecification {
   /// Specifies whether assisted slot resolution is turned on or off.
   final bool enabled;
@@ -18294,6 +18611,8 @@ class SlotResolutionImprovementSpecification {
 /// Configures the Assisted Natural Language Understanding (NLU) feature for
 /// your bot. This specification determines whether enhanced intent recognition
 /// and utterance understanding capabilities are active.
+///
+/// @nodoc
 class NluImprovementSpecification {
   /// Determines whether the Assisted NLU feature is enabled for the bot. When set
   /// to <code>true</code>, Amazon Lex uses advanced models to improve intent
@@ -18344,6 +18663,8 @@ class NluImprovementSpecification {
 /// Defines the operational mode for Assisted Natural Language Understanding.
 /// This enum determines how the enhanced NLU capabilities integrate with
 /// standard intent recognition.
+///
+/// @nodoc
 class AssistedNluMode {
   static const primary = AssistedNluMode._('Primary');
   static const fallback = AssistedNluMode._('Fallback');
@@ -18372,6 +18693,8 @@ class AssistedNluMode {
 /// user inputs when multiple intents could match. When enabled, the system
 /// presents clarifying questions to users, helping them specify their exact
 /// intent for improved conversation accuracy.
+///
+/// @nodoc
 class IntentDisambiguationSettings {
   /// Determines whether the Intent Disambiguation feature is enabled. When set to
   /// <code>true</code>, Amazon Lex will present disambiguation options to users
@@ -18420,6 +18743,7 @@ class IntentDisambiguationSettings {
   }
 }
 
+/// @nodoc
 class SpeechModelPreference {
   static const standard = SpeechModelPreference._('Standard');
   static const neural = SpeechModelPreference._('Neural');
@@ -18448,6 +18772,8 @@ class SpeechModelPreference {
 
 /// Configuration settings that define which speech-to-text model to use for
 /// processing speech input.
+///
+/// @nodoc
 class SpeechModelConfig {
   /// Configuration settings for using Deepgram as the speech-to-text provider.
   final DeepgramSpeechModelConfig? deepgramConfig;
@@ -18475,6 +18801,8 @@ class SpeechModelConfig {
 
 /// Configuration settings for integrating Deepgram speech-to-text models with
 /// Amazon Lex.
+///
+/// @nodoc
 class DeepgramSpeechModelConfig {
   /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains
   /// the Deepgram API token.
@@ -18512,6 +18840,8 @@ class DeepgramSpeechModelConfig {
 /// <code>MELODY_RISING_RIPPLE</code>, <code>MELODY_PATIENT_PING</code>,
 /// <code>MELODY_PONDERING_PONG</code>, <code>TYPING_KINETIC_KEYS</code>, and
 /// <code>TYPING_QUIET_QWERTY</code>.
+///
+/// @nodoc
 class AudioFillerType {
   static const melodyChipperChime = AudioFillerType._('MELODY_CHIPPER_CHIME');
   static const melodyCuriousCrawl = AudioFillerType._('MELODY_CURIOUS_CRAWL');
@@ -18551,6 +18881,8 @@ class AudioFillerType {
 
 /// Configuration for a foundation model used for speech synthesis and
 /// recognition capabilities.
+///
+/// @nodoc
 class SpeechFoundationModel {
   /// The Amazon Resource Name (ARN) of the foundation model used for speech
   /// processing.
@@ -18582,6 +18914,7 @@ class SpeechFoundationModel {
   }
 }
 
+/// @nodoc
 class VoiceEngine {
   static const standard = VoiceEngine._('standard');
   static const neural = VoiceEngine._('neural');
@@ -18609,6 +18942,8 @@ class VoiceEngine {
 
 /// Configures conversation logging that saves audio, text, and metadata for the
 /// conversations with your users.
+///
+/// @nodoc
 class ConversationLogSettings {
   /// The Amazon S3 settings for logging audio to an S3 bucket.
   final List<AudioLogSetting>? audioLogSettings;
@@ -18646,6 +18981,8 @@ class ConversationLogSettings {
 
 /// Determines whether Amazon Lex will use Amazon Comprehend to detect the
 /// sentiment of user utterances.
+///
+/// @nodoc
 class SentimentAnalysisSettings {
   /// Sets whether Amazon Lex uses Amazon Comprehend to detect the sentiment of
   /// user utterances.
@@ -18669,6 +19006,7 @@ class SentimentAnalysisSettings {
   }
 }
 
+/// @nodoc
 class BotAliasStatus {
   static const creating = BotAliasStatus._('Creating');
   static const available = BotAliasStatus._('Available');
@@ -18698,6 +19036,8 @@ class BotAliasStatus {
 /// Settings for logging audio of conversations between Amazon Lex and a user.
 /// You specify whether to log audio and the Amazon S3 bucket where the audio
 /// file is stored.
+///
+/// @nodoc
 class AudioLogSetting {
   final AudioLogDestination destination;
 
@@ -18738,6 +19078,8 @@ class AudioLogSetting {
 
 /// The location of audio log files collected when conversation logging is
 /// enabled for a bot.
+///
+/// @nodoc
 class AudioLogDestination {
   /// The Amazon S3 bucket where the audio log files are stored. The IAM role
   /// specified in the <code>roleArn</code> parameter of the <a
@@ -18766,6 +19108,8 @@ class AudioLogDestination {
 }
 
 /// Specifies an Amazon S3 bucket for logging audio conversations
+///
+/// @nodoc
 class S3BucketLogDestination {
   /// The S3 prefix to assign to audio log files.
   final String logPrefix;
@@ -18805,6 +19149,8 @@ class S3BucketLogDestination {
 }
 
 /// Defines settings to enable text conversation logs.
+///
+/// @nodoc
 class TextLogSetting {
   final TextLogDestination destination;
 
@@ -18845,6 +19191,8 @@ class TextLogSetting {
 
 /// Defines the Amazon CloudWatch Logs destination log group for conversation
 /// text logs.
+///
+/// @nodoc
 class TextLogDestination {
   /// Defines the Amazon CloudWatch Logs log group where text and metadata logs
   /// are delivered.
@@ -18872,6 +19220,8 @@ class TextLogDestination {
 
 /// The Amazon CloudWatch Logs log group where the text and metadata logs are
 /// delivered. The log group must exist before you enable logging.
+///
+/// @nodoc
 class CloudWatchLogGroupLogDestination {
   /// The Amazon Resource Name (ARN) of the log group where text and metadata logs
   /// are delivered.
@@ -18904,6 +19254,8 @@ class CloudWatchLogGroupLogDestination {
 
 /// Specifies settings that are unique to a locale. For example, you can use
 /// different Lambda function depending on the bot's locale.
+///
+/// @nodoc
 class BotAliasLocaleSettings {
   /// Determines whether the locale is enabled for the bot. If the value is
   /// <code>false</code>, the locale isn't available for use.
@@ -18940,6 +19292,8 @@ class BotAliasLocaleSettings {
 
 /// Contains information about code hooks that Amazon Lex calls during a
 /// conversation.
+///
+/// @nodoc
 class CodeHookSpecification {
   final LambdaCodeHook lambdaCodeHook;
 
@@ -18965,6 +19319,8 @@ class CodeHookSpecification {
 
 /// Specifies a Lambda function that verifies requests to a bot or fulfills the
 /// user's request to a bot.
+///
+/// @nodoc
 class LambdaCodeHook {
   /// The version of the request-response that you want Amazon Lex to use to
   /// invoke your Lambda function.
@@ -18999,6 +19355,8 @@ class LambdaCodeHook {
 /// By default, data stored by Amazon Lex is encrypted. The
 /// <code>DataPrivacy</code> structure provides settings that determine how
 /// Amazon Lex handles special cases of securing the data for your bot.
+///
+/// @nodoc
 class DataPrivacy {
   /// For each Amazon Lex bot created with the Amazon Lex Model Building Service,
   /// you must specify whether your use of Amazon Lex is related to a website,
@@ -19044,6 +19402,7 @@ class DataPrivacy {
   }
 }
 
+/// @nodoc
 class BotStatus {
   static const creating = BotStatus._('Creating');
   static const available = BotStatus._('Available');
@@ -19082,6 +19441,7 @@ class BotStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BotType {
   static const bot = BotType._('Bot');
   static const botNetwork = BotType._('BotNetwork');
@@ -19106,6 +19466,8 @@ class BotType {
 }
 
 /// Settings parameters for the error logs, whether it is enabled or disabled.
+///
+/// @nodoc
 class ErrorLogSettings {
   /// Settings parameters for the error logs, when it is enabled.
   final bool enabled;
@@ -19129,6 +19491,8 @@ class ErrorLogSettings {
 }
 
 /// A bot that is a member of a network of bots.
+///
+/// @nodoc
 class BotMember {
   /// The alias ID of a bot that is a member of this network of bots.
   final String botMemberAliasId;
@@ -19200,6 +19564,8 @@ class BotMember {
 /// <code>Stopped</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BotAnalyzerStatus {
   static const processing = BotAnalyzerStatus._('Processing');
   static const available = BotAnalyzerStatus._('Available');
@@ -19227,6 +19593,7 @@ class BotAnalyzerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TestSetGenerationStatus {
   static const generating = TestSetGenerationStatus._('Generating');
   static const ready = TestSetGenerationStatus._('Ready');
@@ -19256,6 +19623,8 @@ class TestSetGenerationStatus {
 
 /// Contains information about the data source from which the test set is
 /// generated.
+///
+/// @nodoc
 class TestSetGenerationDataSource {
   /// Contains information about the bot from which the conversation logs are
   /// sourced.
@@ -19284,6 +19653,8 @@ class TestSetGenerationDataSource {
 }
 
 /// The data source that uses conversation logs.
+///
+/// @nodoc
 class ConversationLogsDataSource {
   /// The bot alias Id from the conversation logs.
   final String botAliasId;
@@ -19330,6 +19701,8 @@ class ConversationLogsDataSource {
 }
 
 /// The selected data source to filter the conversation log.
+///
+/// @nodoc
 class ConversationLogsDataSourceFilterBy {
   /// The end time for the conversation log.
   final DateTime endTime;
@@ -19368,6 +19741,7 @@ class ConversationLogsDataSourceFilterBy {
   }
 }
 
+/// @nodoc
 class ConversationLogsInputModeFilter {
   static const speech = ConversationLogsInputModeFilter._('Speech');
   static const text = ConversationLogsInputModeFilter._('Text');
@@ -19394,6 +19768,8 @@ class ConversationLogsInputModeFilter {
 }
 
 /// Contains information about the bot used for the test execution.
+///
+/// @nodoc
 class TestExecutionTarget {
   /// Contains information about the bot alias used for the test execution.
   final BotAliasTestExecutionTarget? botAliasTarget;
@@ -19419,6 +19795,7 @@ class TestExecutionTarget {
   }
 }
 
+/// @nodoc
 class TestExecutionApiMode {
   static const streaming = TestExecutionApiMode._('Streaming');
   static const nonStreaming = TestExecutionApiMode._('NonStreaming');
@@ -19444,6 +19821,7 @@ class TestExecutionApiMode {
   String toString() => value;
 }
 
+/// @nodoc
 class TestExecutionModality {
   static const text = TestExecutionModality._('Text');
   static const audio = TestExecutionModality._('Audio');
@@ -19470,6 +19848,8 @@ class TestExecutionModality {
 }
 
 /// The target Amazon S3 location for the test set execution using a bot alias.
+///
+/// @nodoc
 class BotAliasTestExecutionTarget {
   /// The bot alias Id of the bot alias used in the test set execution.
   final String botAliasId;
@@ -19509,6 +19889,8 @@ class BotAliasTestExecutionTarget {
 /// Provides information about the bot or bot locale that you want to import.
 /// You can specify the <code>botImportSpecification</code> or the
 /// <code>botLocaleImportSpecification</code>, but not both.
+///
+/// @nodoc
 class ImportResourceSpecification {
   /// Parameters for importing a bot.
   final BotImportSpecification? botImportSpecification;
@@ -19575,6 +19957,7 @@ class ImportResourceSpecification {
   }
 }
 
+/// @nodoc
 class MergeStrategy {
   static const overwrite = MergeStrategy._('Overwrite');
   static const failOnConflict = MergeStrategy._('FailOnConflict');
@@ -19600,6 +19983,7 @@ class MergeStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportStatus {
   static const inProgress = ImportStatus._('InProgress');
   static const completed = ImportStatus._('Completed');
@@ -19626,6 +20010,8 @@ class ImportStatus {
 }
 
 /// Provides the bot parameters required for importing a bot.
+///
+/// @nodoc
 class BotImportSpecification {
   /// The name that Amazon Lex should use for the bot.
   final String botName;
@@ -19711,6 +20097,8 @@ class BotImportSpecification {
 }
 
 /// Provides the bot locale parameters required for importing a bot locale.
+///
+/// @nodoc
 class BotLocaleImportSpecification {
   /// The identifier of the bot to import the locale to.
   final String botId;
@@ -19846,6 +20234,8 @@ class BotLocaleImportSpecification {
 }
 
 /// Provides the parameters required for importing a custom vocabulary.
+///
+/// @nodoc
 class CustomVocabularyImportSpecification {
   /// The identifier of the bot to import the custom vocabulary to.
   final String botId;
@@ -19885,6 +20275,8 @@ class CustomVocabularyImportSpecification {
 }
 
 /// Contains information about the test set that is imported.
+///
+/// @nodoc
 class TestSetImportResourceSpecification {
   /// Contains information about the input location from where test-set should be
   /// imported.
@@ -19964,6 +20356,8 @@ class TestSetImportResourceSpecification {
 
 /// Contains information about the Amazon S3 location from which the test set is
 /// imported.
+///
+/// @nodoc
 class TestSetImportInputLocation {
   /// The name of the Amazon S3 bucket.
   final String s3BucketName;
@@ -19993,6 +20387,7 @@ class TestSetImportInputLocation {
   }
 }
 
+/// @nodoc
 class GenerationStatus {
   static const failed = GenerationStatus._('Failed');
   static const complete = GenerationStatus._('Complete');
@@ -20027,6 +20422,8 @@ class GenerationStatus {
 /// <code>BotLocale</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AnalysisScope {
   static const botLocale = AnalysisScope._('BotLocale');
 
@@ -20052,6 +20449,8 @@ class AnalysisScope {
 
 /// The object containing information that associates the recommended
 /// intent/slot type with a conversation.
+///
+/// @nodoc
 class AssociatedTranscript {
   /// The content of the transcript that meets the search filter criteria. For the
   /// JSON format of the transcript, see <a
@@ -20077,6 +20476,7 @@ class AssociatedTranscript {
   }
 }
 
+/// @nodoc
 class SearchOrder {
   static const ascending = SearchOrder._('Ascending');
   static const descending = SearchOrder._('Descending');
@@ -20101,6 +20501,8 @@ class SearchOrder {
 }
 
 /// Filters to search for the associated transcript.
+///
+/// @nodoc
 class AssociatedTranscriptFilter {
   /// The name of the field to use for filtering. The allowed names are IntentId
   /// and SlotTypeId.
@@ -20124,6 +20526,7 @@ class AssociatedTranscriptFilter {
   }
 }
 
+/// @nodoc
 class AssociatedTranscriptFilterName {
   static const intentId = AssociatedTranscriptFilterName._('IntentId');
   static const slotTypeId = AssociatedTranscriptFilterName._('SlotTypeId');
@@ -20151,6 +20554,8 @@ class AssociatedTranscriptFilterName {
 
 /// An object containing the results for the utterance metrics you requested and
 /// the bin and/or group(s) they refer to, if applicable.
+///
+/// @nodoc
 class AnalyticsUtteranceResult {
   /// A list of objects containing information about the last used intent at the
   /// time of an utterance.
@@ -20215,6 +20620,8 @@ class AnalyticsUtteranceResult {
 }
 
 /// An object containing the intent that the bot mapped the utterance to.
+///
+/// @nodoc
 class AnalyticsUtteranceAttributeResult {
   /// The intent that the bot mapped the utterance to.
   final String? lastUsedIntent;
@@ -20239,6 +20646,8 @@ class AnalyticsUtteranceAttributeResult {
 }
 
 /// An object containing the results for the utterance metric you requested.
+///
+/// @nodoc
 class AnalyticsUtteranceMetricResult {
   /// The metric that you requested.
   ///
@@ -20309,6 +20718,7 @@ class AnalyticsUtteranceMetricResult {
   }
 }
 
+/// @nodoc
 class AnalyticsUtteranceMetricName {
   static const count = AnalyticsUtteranceMetricName._('Count');
   static const missed = AnalyticsUtteranceMetricName._('Missed');
@@ -20337,6 +20747,7 @@ class AnalyticsUtteranceMetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalyticsMetricStatistic {
   static const sum = AnalyticsMetricStatistic._('Sum');
   static const avg = AnalyticsMetricStatistic._('Avg');
@@ -20365,6 +20776,8 @@ class AnalyticsMetricStatistic {
 
 /// Contains the category by which the utterance analytics were grouped and the
 /// values for that category.
+///
+/// @nodoc
 class AnalyticsUtteranceGroupByKey {
   /// The category by which the utterance analytics were grouped.
   final AnalyticsUtteranceField? name;
@@ -20394,6 +20807,7 @@ class AnalyticsUtteranceGroupByKey {
   }
 }
 
+/// @nodoc
 class AnalyticsUtteranceField {
   static const utteranceText = AnalyticsUtteranceField._('UtteranceText');
   static const utteranceState = AnalyticsUtteranceField._('UtteranceState');
@@ -20421,6 +20835,8 @@ class AnalyticsUtteranceField {
 
 /// An object containing the criterion by which to bin the results and the value
 /// that defines that bin.
+///
+/// @nodoc
 class AnalyticsBinKey {
   /// The criterion by which to bin the results.
   final AnalyticsBinByName? name;
@@ -20450,6 +20866,7 @@ class AnalyticsBinKey {
   }
 }
 
+/// @nodoc
 class AnalyticsBinByName {
   static const conversationStartTime =
       AnalyticsBinByName._('ConversationStartTime');
@@ -20520,6 +20937,8 @@ class AnalyticsBinByName {
 /// <code>UtteranceText</code> – <code>EQ</code>, <code>CO</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AnalyticsUtteranceFilter {
   /// The category by which to filter the utterances. The descriptions for each
   /// option are as follows:
@@ -20613,7 +21032,7 @@ class AnalyticsUtteranceFilter {
   /// values, you filter for results that equal/contain any of the values. For
   /// example, if the <code>name</code>, <code>operator</code>, and
   /// <code>values</code> fields are <code>Modality</code>, <code>EQ</code>, and
-  /// <code>[Speech, Text]</code>, the operation filters for results where the
+  /// <code>\[Speech, Text\]</code>, the operation filters for results where the
   /// modality was either <code>Speech</code> or <code>Text</code>.
   final List<String> values;
 
@@ -20635,6 +21054,7 @@ class AnalyticsUtteranceFilter {
   }
 }
 
+/// @nodoc
 class AnalyticsUtteranceFilterName {
   static const botAliasId = AnalyticsUtteranceFilterName._('BotAliasId');
   static const botVersion = AnalyticsUtteranceFilterName._('BotVersion');
@@ -20679,6 +21099,7 @@ class AnalyticsUtteranceFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalyticsFilterOperator {
   static const eq = AnalyticsFilterOperator._('EQ');
   static const gt = AnalyticsFilterOperator._('GT');
@@ -20707,6 +21128,8 @@ class AnalyticsFilterOperator {
 
 /// An object that specifies the last used intent at the time of the utterance
 /// as an attribute to return.
+///
+/// @nodoc
 class AnalyticsUtteranceAttribute {
   /// An attribute to return. The only available attribute is the intent that the
   /// bot mapped the utterance to.
@@ -20724,6 +21147,7 @@ class AnalyticsUtteranceAttribute {
   }
 }
 
+/// @nodoc
 class AnalyticsUtteranceAttributeName {
   static const lastUsedIntent =
       AnalyticsUtteranceAttributeName._('LastUsedIntent');
@@ -20750,6 +21174,8 @@ class AnalyticsUtteranceAttributeName {
 }
 
 /// Contains the category by which to group the utterances.
+///
+/// @nodoc
 class AnalyticsUtteranceGroupBySpecification {
   /// Specifies whether to group the utterances by their text or their state.
   final AnalyticsUtteranceField name;
@@ -20768,6 +21194,8 @@ class AnalyticsUtteranceGroupBySpecification {
 
 /// Contains the time metric, interval, and method by which to bin the analytics
 /// data.
+///
+/// @nodoc
 class AnalyticsBinBySpecification {
   /// Specifies the interval of time by which to bin the analytics data.
   final AnalyticsInterval interval;
@@ -20798,6 +21226,7 @@ class AnalyticsBinBySpecification {
   }
 }
 
+/// @nodoc
 class AnalyticsInterval {
   static const oneHour = AnalyticsInterval._('OneHour');
   static const oneDay = AnalyticsInterval._('OneDay');
@@ -20822,6 +21251,7 @@ class AnalyticsInterval {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalyticsSortOrder {
   static const ascending = AnalyticsSortOrder._('Ascending');
   static const descending = AnalyticsSortOrder._('Descending');
@@ -20850,6 +21280,8 @@ class AnalyticsSortOrder {
 /// Contains the metric and the summary statistic you want to calculate, and the
 /// order in which to sort the results, for the utterances across the user
 /// sessions with the bot.
+///
+/// @nodoc
 class AnalyticsUtteranceMetric {
   /// The metric for which you want to get utterance summary statistics.
   ///
@@ -20911,6 +21343,8 @@ class AnalyticsUtteranceMetric {
 }
 
 /// An object containing information about a specific utterance.
+///
+/// @nodoc
 class UtteranceSpecification {
   /// The name of the intent that the utterance is associated to.
   final String? associatedIntentName;
@@ -21168,6 +21602,7 @@ class UtteranceSpecification {
   }
 }
 
+/// @nodoc
 class AnalyticsModality {
   static const speech = AnalyticsModality._('Speech');
   static const text = AnalyticsModality._('Text');
@@ -21194,6 +21629,7 @@ class AnalyticsModality {
   String toString() => value;
 }
 
+/// @nodoc
 class IntentState {
   static const failed = IntentState._('Failed');
   static const fulfilled = IntentState._('Fulfilled');
@@ -21229,6 +21665,8 @@ class IntentState {
 }
 
 /// An object that contains a response to the utterance from the bot.
+///
+/// @nodoc
 class UtteranceBotResponse {
   /// The text of the response to the utterance from the bot.
   final String? content;
@@ -21287,6 +21725,7 @@ class UtteranceBotResponse {
   }
 }
 
+/// @nodoc
 class UtteranceContentType {
   static const plainText = UtteranceContentType._('PlainText');
   static const customPayload = UtteranceContentType._('CustomPayload');
@@ -21316,6 +21755,8 @@ class UtteranceContentType {
 
 /// An object specifying the measure and method by which to sort the utterance
 /// data.
+///
+/// @nodoc
 class UtteranceDataSortBy {
   /// The measure by which to sort the utterance analytics data.
   ///
@@ -21347,6 +21788,7 @@ class UtteranceDataSortBy {
   }
 }
 
+/// @nodoc
 class AnalyticsUtteranceSortByName {
   static const utteranceTimestamp =
       AnalyticsUtteranceSortByName._('UtteranceTimestamp');
@@ -21373,6 +21815,8 @@ class AnalyticsUtteranceSortByName {
 }
 
 /// Contains summary information about the test set.
+///
+/// @nodoc
 class TestSetSummary {
   /// The date and time at which the test set was created.
   final DateTime? creationDateTime;
@@ -21465,6 +21909,8 @@ class TestSetSummary {
 }
 
 /// Contains information about the methods by which to sort the test set.
+///
+/// @nodoc
 class TestSetSortBy {
   /// Specifies whether to sort the test sets by name or by the time they were
   /// last updated.
@@ -21488,6 +21934,7 @@ class TestSetSortBy {
   }
 }
 
+/// @nodoc
 class TestSetSortAttribute {
   static const testSetName = TestSetSortAttribute._('TestSetName');
   static const lastUpdatedDateTime =
@@ -21514,6 +21961,7 @@ class TestSetSortAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -21538,6 +21986,8 @@ class SortOrder {
 }
 
 /// Contains information about a turn in a test set.
+///
+/// @nodoc
 class TestSetTurnRecord {
   /// The record number associated with the turn.
   final int recordNumber;
@@ -21585,6 +22035,8 @@ class TestSetTurnRecord {
 }
 
 /// Contains information about the messages in the turn.
+///
+/// @nodoc
 class TurnSpecification {
   /// Contains information about the agent messages in the turn.
   final AgentTurnSpecification? agentTurn;
@@ -21621,6 +22073,8 @@ class TurnSpecification {
 }
 
 /// The specification of an agent turn.
+///
+/// @nodoc
 class AgentTurnSpecification {
   /// The agent prompt for the agent turn in a test set.
   final String agentPrompt;
@@ -21644,6 +22098,8 @@ class AgentTurnSpecification {
 }
 
 /// Contains information about the expected and input values for the user turn.
+///
+/// @nodoc
 class UserTurnSpecification {
   /// Contains results about the expected output for the user turn.
   final UserTurnOutputSpecification expected;
@@ -21678,6 +22134,8 @@ class UserTurnSpecification {
 }
 
 /// Contains information about the user messages in the turn in the input.
+///
+/// @nodoc
 class UserTurnInputSpecification {
   /// The utterance input in the user turn.
   final UtteranceInputSpecification utteranceInput;
@@ -21721,6 +22179,8 @@ class UserTurnInputSpecification {
 }
 
 /// Contains results that are output for the user turn by the test execution.
+///
+/// @nodoc
 class UserTurnOutputSpecification {
   /// Contains information about the intent.
   final UserTurnIntentOutput intent;
@@ -21764,6 +22224,8 @@ class UserTurnOutputSpecification {
 
 /// Contains information about the intent that is output for the turn by the
 /// test execution.
+///
+/// @nodoc
 class UserTurnIntentOutput {
   /// The name of the intent.
   final String name;
@@ -21795,6 +22257,8 @@ class UserTurnIntentOutput {
 }
 
 /// The active context used in the test execution.
+///
+/// @nodoc
 class ActiveContext {
   /// The name of active context.
   final String name;
@@ -21818,6 +22282,8 @@ class ActiveContext {
 }
 
 /// Contains information about a slot output by the test set execution.
+///
+/// @nodoc
 class UserTurnSlotOutput {
   /// A list of items mapping the name of the subslots to information about those
   /// subslots.
@@ -21860,6 +22326,8 @@ class UserTurnSlotOutput {
 }
 
 /// Contains information about input of an utterance.
+///
+/// @nodoc
 class UtteranceInputSpecification {
   /// Contains information about the audio input for an utterance.
   final UtteranceAudioInputSpecification? audioInput;
@@ -21895,6 +22363,8 @@ class UtteranceInputSpecification {
 
 /// Specifications for the current state of the dialog between the user and the
 /// bot in the test set.
+///
+/// @nodoc
 class InputSessionStateSpecification {
   /// Active contexts for the session state.
   final List<ActiveContext>? activeContexts;
@@ -21948,6 +22418,8 @@ class InputSessionStateSpecification {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html">Using
 /// runtime hints to improve recognition of slot values</a>.
+///
+/// @nodoc
 class RuntimeHints {
   /// A list of the slots in the intent that should have runtime hints added, and
   /// the phrases that should be added for each slot.
@@ -21985,6 +22457,8 @@ class RuntimeHints {
 
 /// Provides an array of phrases that should be given preference when resolving
 /// values for a slot.
+///
+/// @nodoc
 class RuntimeHintDetails {
   /// One or more strings that Amazon Lex should look for in the input to the bot.
   /// Each phrase is given preference when deciding on slot values.
@@ -22027,6 +22501,8 @@ class RuntimeHintDetails {
 
 /// Provides the phrase that Amazon Lex should look for in the user's input to
 /// the bot.
+///
+/// @nodoc
 class RuntimeHintValue {
   /// The phrase that Amazon Lex should look for in the user's input to the bot.
   final String phrase;
@@ -22050,6 +22526,8 @@ class RuntimeHintValue {
 }
 
 /// Contains information about the audio for an utterance.
+///
+/// @nodoc
 class UtteranceAudioInputSpecification {
   /// Amazon S3 file pointing to the audio.
   final String audioFileS3Location;
@@ -22073,6 +22551,8 @@ class UtteranceAudioInputSpecification {
 }
 
 /// Summarizes metadata about the test execution.
+///
+/// @nodoc
 class TestExecutionSummary {
   /// Specifies whether the API mode for the test execution is streaming or
   /// non-streaming.
@@ -22161,6 +22641,7 @@ class TestExecutionSummary {
   }
 }
 
+/// @nodoc
 class TestExecutionStatus {
   static const pending = TestExecutionStatus._('Pending');
   static const waiting = TestExecutionStatus._('Waiting');
@@ -22201,6 +22682,8 @@ class TestExecutionStatus {
 
 /// Contains information about the method by which to sort the instances of test
 /// executions you have carried out.
+///
+/// @nodoc
 class TestExecutionSortBy {
   /// Specifies whether to sort the test set executions by the date and time at
   /// which the test sets were created.
@@ -22224,6 +22707,7 @@ class TestExecutionSortBy {
   }
 }
 
+/// @nodoc
 class TestExecutionSortAttribute {
   static const testSetName = TestExecutionSortAttribute._('TestSetName');
   static const creationDateTime =
@@ -22255,6 +22739,8 @@ class TestExecutionSortAttribute {
 /// href="https://docs.aws.amazon.com/lexv2/latest/dg/test-results-details-test-set.html">Test
 /// result details">Test results details</a> for details about different types
 /// of results.
+///
+/// @nodoc
 class TestExecutionResultItems {
   /// Results related to conversations in the test set, including metrics about
   /// success and failure of conversations and intent and slot failures.
@@ -22339,6 +22825,8 @@ class TestExecutionResultItems {
 }
 
 /// Information about the overall test results.
+///
+/// @nodoc
 class OverallTestResults {
   /// A list of the overall test results.
   final List<OverallTestResultItem> items;
@@ -22365,6 +22853,8 @@ class OverallTestResults {
 }
 
 /// The test set results data at the conversation level.
+///
+/// @nodoc
 class ConversationLevelTestResults {
   /// The item list in the test set results data at the conversation level.
   final List<ConversationLevelTestResultItem> items;
@@ -22392,6 +22882,8 @@ class ConversationLevelTestResults {
 }
 
 /// Information for the results of the intent classification test.
+///
+/// @nodoc
 class IntentClassificationTestResults {
   /// A list of the results for the intent classification test.
   final List<IntentClassificationTestResultItem> items;
@@ -22419,6 +22911,8 @@ class IntentClassificationTestResults {
 }
 
 /// Indicates the success or failure of slots at the intent level.
+///
+/// @nodoc
 class IntentLevelSlotResolutionTestResults {
   /// Indicates the items for the slot level resolution for the intents.
   final List<IntentLevelSlotResolutionTestResultItem> items;
@@ -22448,6 +22942,8 @@ class IntentLevelSlotResolutionTestResults {
 
 /// Contains information about the utterances in the results of the test set
 /// execution.
+///
+/// @nodoc
 class UtteranceLevelTestResults {
   /// Contains information about an utterance in the results of the test set
   /// execution.
@@ -22477,6 +22973,8 @@ class UtteranceLevelTestResults {
 
 /// Contains information about multiple utterances in the results of a test set
 /// execution.
+///
+/// @nodoc
 class UtteranceLevelTestResultItem {
   /// The record number of the result.
   final int recordNumber;
@@ -22517,6 +23015,8 @@ class UtteranceLevelTestResultItem {
 
 /// Contains information about the results of the analysis of a turn in the test
 /// set.
+///
+/// @nodoc
 class TestSetTurnResult {
   /// Contains information about the agent messages in the turn.
   final AgentTurnResult? agent;
@@ -22551,6 +23051,8 @@ class TestSetTurnResult {
 }
 
 /// The information about the agent turn in a test set execution.
+///
+/// @nodoc
 class AgentTurnResult {
   /// The expected agent prompt for the agent turn in a test set execution.
   final String expectedAgentPrompt;
@@ -22603,6 +23105,8 @@ class AgentTurnResult {
 }
 
 /// Contains the results for the user turn by the test execution.
+///
+/// @nodoc
 class UserTurnResult {
   /// Contains information about the expected output for the user turn.
   final UserTurnOutputSpecification expectedOutput;
@@ -22703,6 +23207,8 @@ class UserTurnResult {
 }
 
 /// Details about an error in an execution of a test set.
+///
+/// @nodoc
 class ExecutionErrorDetails {
   /// The error code for the error.
   final String errorCode;
@@ -22732,6 +23238,7 @@ class ExecutionErrorDetails {
   }
 }
 
+/// @nodoc
 class TestResultMatchStatus {
   static const matched = TestResultMatchStatus._('Matched');
   static const mismatched = TestResultMatchStatus._('Mismatched');
@@ -22759,6 +23266,8 @@ class TestResultMatchStatus {
 }
 
 /// The conversation level details of the conversation used in the test set.
+///
+/// @nodoc
 class ConversationLevelResultDetail {
   /// The success or failure of the streaming of the conversation.
   final TestResultMatchStatus endToEndResult;
@@ -22792,6 +23301,8 @@ class ConversationLevelResultDetail {
 }
 
 /// Information about intent-level slot resolution in a test result.
+///
+/// @nodoc
 class IntentLevelSlotResolutionTestResultItem {
   /// The name of the intent that was recognized.
   final String intentName;
@@ -22836,6 +23347,8 @@ class IntentLevelSlotResolutionTestResultItem {
 
 /// Information about the success and failure rate of slot resolution in the
 /// results of a test execution.
+///
+/// @nodoc
 class SlotResolutionTestResultItem {
   /// A result for slot resolution in the results of a test execution.
   final SlotResolutionTestResultItemCounts resultCounts;
@@ -22869,6 +23382,8 @@ class SlotResolutionTestResultItem {
 
 /// Information about the counts for a slot resolution in the results of a test
 /// execution.
+///
+/// @nodoc
 class SlotResolutionTestResultItemCounts {
   /// The number of matched and mismatched results for slot resolution for the
   /// slot.
@@ -22920,6 +23435,8 @@ class SlotResolutionTestResultItemCounts {
 }
 
 /// Information for an intent that is classified by the test workbench.
+///
+/// @nodoc
 class IntentClassificationTestResultItem {
   /// The name of the intent.
   final String intentName;
@@ -22960,6 +23477,8 @@ class IntentClassificationTestResultItem {
 }
 
 /// The number of items in the intent classification test.
+///
+/// @nodoc
 class IntentClassificationTestResultItemCounts {
   /// The number of matched and mismatched results for intent recognition for the
   /// intent.
@@ -23011,6 +23530,8 @@ class IntentClassificationTestResultItemCounts {
 }
 
 /// The test result evaluation item at the conversation level.
+///
+/// @nodoc
 class ConversationLevelTestResultItem {
   /// The conversation Id of the test result evaluation item.
   final String conversationId;
@@ -23078,6 +23599,8 @@ class ConversationLevelTestResultItem {
 }
 
 /// The slots used for the slot resolution in the conversation.
+///
+/// @nodoc
 class ConversationLevelSlotResolutionResultItem {
   /// The intents used in the slots list for the slot resolution details.
   final String intentName;
@@ -23118,6 +23641,8 @@ class ConversationLevelSlotResolutionResultItem {
 }
 
 /// The item listing the evaluation of intent level success or failure.
+///
+/// @nodoc
 class ConversationLevelIntentClassificationResultItem {
   /// The intent name used in the evaluation of intent level success or failure.
   final String intentName;
@@ -23151,6 +23676,8 @@ class ConversationLevelIntentClassificationResultItem {
 }
 
 /// Information about the overall results for a test execution result.
+///
+/// @nodoc
 class OverallTestResultItem {
   /// The number of results that succeeded.
   final Map<TestResultMatchStatus, int> endToEndResultCounts;
@@ -23207,6 +23734,8 @@ class OverallTestResultItem {
 
 /// Contains information about the method by which to filter the results of the
 /// test execution.
+///
+/// @nodoc
 class TestExecutionResultFilterBy {
   /// Specifies which results to filter. See <a
   /// href="https://docs.aws.amazon.com/lexv2/latest/dg/test-results-details-test-set.html">Test
@@ -23237,6 +23766,7 @@ class TestExecutionResultFilterBy {
   }
 }
 
+/// @nodoc
 class TestResultTypeFilter {
   static const overallTestResults =
       TestResultTypeFilter._('OverallTestResults');
@@ -23277,6 +23807,8 @@ class TestResultTypeFilter {
 }
 
 /// The selection to filter the test set results data at the conversation level.
+///
+/// @nodoc
 class ConversationLevelTestResultsFilterBy {
   /// The selection of matched or mismatched end-to-end status to filter test set
   /// results data at the conversation level.
@@ -23295,6 +23827,8 @@ class ConversationLevelTestResultsFilterBy {
 }
 
 /// Provides summary information about a slot type.
+///
+/// @nodoc
 class SlotTypeSummary {
   /// The description of the slot type.
   final String? description;
@@ -23378,6 +23912,7 @@ class SlotTypeSummary {
   }
 }
 
+/// @nodoc
 class SlotTypeCategory {
   static const custom = SlotTypeCategory._('Custom');
   static const extended = SlotTypeCategory._('Extended');
@@ -23405,6 +23940,8 @@ class SlotTypeCategory {
 }
 
 /// Specifies attributes for sorting a list of slot types.
+///
+/// @nodoc
 class SlotTypeSortBy {
   /// The attribute to use to sort the list of slot types.
   final SlotTypeSortAttribute attribute;
@@ -23428,6 +23965,8 @@ class SlotTypeSortBy {
 }
 
 /// Filters the response from the <code>ListSlotTypes</code> operation.
+///
+/// @nodoc
 class SlotTypeFilter {
   /// The name of the field to use for filtering.
   final SlotTypeFilterName name;
@@ -23460,6 +23999,7 @@ class SlotTypeFilter {
   }
 }
 
+/// @nodoc
 class SlotTypeFilterName {
   static const slotTypeName = SlotTypeFilterName._('SlotTypeName');
   static const externalSourceType = SlotTypeFilterName._('ExternalSourceType');
@@ -23485,6 +24025,7 @@ class SlotTypeFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class SlotTypeFilterOperator {
   static const co = SlotTypeFilterOperator._('CO');
   static const eq = SlotTypeFilterOperator._('EQ');
@@ -23510,6 +24051,7 @@ class SlotTypeFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SlotTypeSortAttribute {
   static const slotTypeName = SlotTypeSortAttribute._('SlotTypeName');
   static const lastUpdatedDateTime =
@@ -23538,6 +24080,8 @@ class SlotTypeSortAttribute {
 
 /// Summary information about a slot, a value that the bot elicits from the
 /// user.
+///
+/// @nodoc
 class SlotSummary {
   /// The description of the slot.
   final String? description;
@@ -23615,6 +24159,8 @@ class SlotSummary {
 }
 
 /// Specifies attributes for sorting a list of bots.
+///
+/// @nodoc
 class SlotSortBy {
   /// The attribute to use to sort the list.
   final SlotSortAttribute attribute;
@@ -23638,6 +24184,8 @@ class SlotSortBy {
 }
 
 /// Filters the response from the <code>ListSlots</code> operation.
+///
+/// @nodoc
 class SlotFilter {
   /// The name of the field to use for filtering.
   final SlotFilterName name;
@@ -23669,6 +24217,7 @@ class SlotFilter {
   }
 }
 
+/// @nodoc
 class SlotFilterName {
   static const slotName = SlotFilterName._('SlotName');
 
@@ -23692,6 +24241,7 @@ class SlotFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class SlotFilterOperator {
   static const co = SlotFilterOperator._('CO');
   static const eq = SlotFilterOperator._('EQ');
@@ -23717,6 +24267,7 @@ class SlotFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SlotSortAttribute {
   static const slotName = SlotSortAttribute._('SlotName');
   static const lastUpdatedDateTime = SlotSortAttribute._('LastUpdatedDateTime');
@@ -23743,6 +24294,8 @@ class SlotSortAttribute {
 
 /// An object containing the results for the session metrics you requested and
 /// the bin and/or group(s) they refer to, if applicable.
+///
+/// @nodoc
 class AnalyticsSessionResult {
   /// A list of objects containing the criteria you requested for binning results
   /// and the values of the bins.
@@ -23795,6 +24348,8 @@ class AnalyticsSessionResult {
 }
 
 /// An object containing the results for a session metric you requested.
+///
+/// @nodoc
 class AnalyticsSessionMetricResult {
   /// The metric that you requested.
   ///
@@ -23873,6 +24428,7 @@ class AnalyticsSessionMetricResult {
   }
 }
 
+/// @nodoc
 class AnalyticsSessionMetricName {
   static const count = AnalyticsSessionMetricName._('Count');
   static const success = AnalyticsSessionMetricName._('Success');
@@ -23914,6 +24470,8 @@ class AnalyticsSessionMetricName {
 
 /// Contains the category by which the session analytics were grouped and a
 /// member of that category.
+///
+/// @nodoc
 class AnalyticsSessionGroupByKey {
   /// The category by which the session analytics were grouped.
   final AnalyticsSessionField? name;
@@ -23943,6 +24501,7 @@ class AnalyticsSessionGroupByKey {
   }
 }
 
+/// @nodoc
 class AnalyticsSessionField {
   static const conversationEndState =
       AnalyticsSessionField._('ConversationEndState');
@@ -24015,6 +24574,8 @@ class AnalyticsSessionField {
 /// <code>IntentPath</code> – <code>EQ</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AnalyticsSessionFilter {
   /// The category by which to filter the sessions. The descriptions for each
   /// option are as follows:
@@ -24114,7 +24675,7 @@ class AnalyticsSessionFilter {
   /// values, you filter for results that equal/contain any of the values. For
   /// example, if the <code>name</code>, <code>operator</code>, and
   /// <code>values</code> fields are <code>Modality</code>, <code>EQ</code>, and
-  /// <code>[Speech, Text]</code>, the operation filters for results where the
+  /// <code>\[Speech, Text\]</code>, the operation filters for results where the
   /// modality was either <code>Speech</code> or <code>Text</code>.
   final List<String> values;
 
@@ -24136,6 +24697,7 @@ class AnalyticsSessionFilter {
   }
 }
 
+/// @nodoc
 class AnalyticsSessionFilterName {
   static const botAliasId = AnalyticsSessionFilterName._('BotAliasId');
   static const botVersion = AnalyticsSessionFilterName._('BotVersion');
@@ -24183,6 +24745,8 @@ class AnalyticsSessionFilterName {
 }
 
 /// Contains the category by which to group the sessions.
+///
+/// @nodoc
 class AnalyticsSessionGroupBySpecification {
   /// Specifies whether to group the session by their end state or their locale.
   final AnalyticsSessionField name;
@@ -24201,6 +24765,8 @@ class AnalyticsSessionGroupBySpecification {
 
 /// Contains the metric and the summary statistic you want to calculate, and the
 /// order in which to sort the results, for the user sessions with the bot.
+///
+/// @nodoc
 class AnalyticsSessionMetric {
   /// The metric for which you want to get session summary statistics.
   ///
@@ -24270,6 +24836,8 @@ class AnalyticsSessionMetric {
 }
 
 /// An object containing information about a specific session.
+///
+/// @nodoc
 class SessionSpecification {
   /// The identifier of the alias of the bot that the session was held with.
   final String? botAliasId;
@@ -24410,6 +24978,7 @@ class SessionSpecification {
   }
 }
 
+/// @nodoc
 class ConversationEndState {
   static const success = ConversationEndState._('Success');
   static const failure = ConversationEndState._('Failure');
@@ -24437,6 +25006,8 @@ class ConversationEndState {
 }
 
 /// An object containing the name of an intent that was invoked.
+///
+/// @nodoc
 class InvokedIntentSample {
   /// The name of an intent that was invoked.
   final String? intentName;
@@ -24461,6 +25032,8 @@ class InvokedIntentSample {
 
 /// An object specifying the measure and method by which to sort the session
 /// analytics data.
+///
+/// @nodoc
 class SessionDataSortBy {
   /// The measure by which to sort the session analytics data.
   ///
@@ -24498,6 +25071,7 @@ class SessionDataSortBy {
   }
 }
 
+/// @nodoc
 class AnalyticsSessionSortByName {
   static const conversationStartTime =
       AnalyticsSessionSortByName._('ConversationStartTime');
@@ -24526,6 +25100,8 @@ class AnalyticsSessionSortByName {
 }
 
 /// An object that contains a summary of a recommended intent.
+///
+/// @nodoc
 class RecommendedIntentSummary {
   /// The unique identifier of a recommended intent associated with the bot
   /// recommendation.
@@ -24567,6 +25143,8 @@ class RecommendedIntentSummary {
 
 /// An object containing the results for the intent stage metrics you requested
 /// and the bin and/or group they refer to, if applicable.
+///
+/// @nodoc
 class AnalyticsIntentStageResult {
   /// A list of objects containing the criteria you requested for binning results
   /// and the values of the bins.
@@ -24619,6 +25197,8 @@ class AnalyticsIntentStageResult {
 }
 
 /// An object containing the results for an intent stage metric you requested.
+///
+/// @nodoc
 class AnalyticsIntentStageMetricResult {
   /// The metric that you requested.
   ///
@@ -24692,6 +25272,7 @@ class AnalyticsIntentStageMetricResult {
   }
 }
 
+/// @nodoc
 class AnalyticsIntentStageMetricName {
   static const count = AnalyticsIntentStageMetricName._('Count');
   static const success = AnalyticsIntentStageMetricName._('Success');
@@ -24722,6 +25303,8 @@ class AnalyticsIntentStageMetricName {
 
 /// Contains the category by which the intent stage analytics and the values for
 /// that category were grouped.
+///
+/// @nodoc
 class AnalyticsIntentStageGroupByKey {
   /// A category by which the intent stage analytics were grouped.
   final AnalyticsIntentStageField? name;
@@ -24752,6 +25335,7 @@ class AnalyticsIntentStageGroupByKey {
   }
 }
 
+/// @nodoc
 class AnalyticsIntentStageField {
   static const intentStageName = AnalyticsIntentStageField._('IntentStageName');
   static const switchedToIntent =
@@ -24822,6 +25406,8 @@ class AnalyticsIntentStageField {
 /// <code>IntentStageName</code> – <code>EQ</code>, <code>CO</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AnalyticsIntentStageFilter {
   /// The category by which to filter the intent stages. The descriptions for each
   /// option are as follows:
@@ -24915,7 +25501,7 @@ class AnalyticsIntentStageFilter {
   /// values, you filter for results that equal/contain any of the values. For
   /// example, if the <code>name</code>, <code>operator</code>, and
   /// <code>values</code> fields are <code>Modality</code>, <code>EQ</code>, and
-  /// <code>[Speech, Text]</code>, the operation filters for results where the
+  /// <code>\[Speech, Text\]</code>, the operation filters for results where the
   /// modality was either <code>Speech</code> or <code>Text</code>.
   final List<String> values;
 
@@ -24937,6 +25523,7 @@ class AnalyticsIntentStageFilter {
   }
 }
 
+/// @nodoc
 class AnalyticsIntentStageFilterName {
   static const botAliasId = AnalyticsIntentStageFilterName._('BotAliasId');
   static const botVersion = AnalyticsIntentStageFilterName._('BotVersion');
@@ -24982,6 +25569,8 @@ class AnalyticsIntentStageFilterName {
 }
 
 /// Contains the category by which to group the intent stages.
+///
+/// @nodoc
 class AnalyticsIntentStageGroupBySpecification {
   /// Specifies whether to group the intent stages by their name or the intent to
   /// which the session was switched.
@@ -25002,6 +25591,8 @@ class AnalyticsIntentStageGroupBySpecification {
 /// Contains the metric and the summary statistic you want to calculate, and the
 /// order in which to sort the results, for the intent stages across the user
 /// sessions with the bot.
+///
+/// @nodoc
 class AnalyticsIntentStageMetric {
   /// The metric for which you want to get intent stage summary statistics. See <a
   /// href="https://docs.aws.amazon.com/lexv2/latest/dg/analytics-key-definitions.html">Key
@@ -25070,6 +25661,8 @@ class AnalyticsIntentStageMetric {
 
 /// Summary information about an intent returned by the <code>ListIntents</code>
 /// operation.
+///
+/// @nodoc
 class IntentSummary {
   /// The description of the intent.
   final String? description;
@@ -25153,6 +25746,8 @@ class IntentSummary {
 }
 
 /// Specifies attributes for sorting a list of intents.
+///
+/// @nodoc
 class IntentSortBy {
   /// The attribute to use to sort the list of intents.
   final IntentSortAttribute attribute;
@@ -25176,6 +25771,8 @@ class IntentSortBy {
 }
 
 /// Filters the response from the <code>ListIntents</code> operation.
+///
+/// @nodoc
 class IntentFilter {
   /// The name of the field to use for the filter.
   final IntentFilterName name;
@@ -25207,6 +25804,7 @@ class IntentFilter {
   }
 }
 
+/// @nodoc
 class IntentFilterName {
   static const intentName = IntentFilterName._('IntentName');
 
@@ -25230,6 +25828,7 @@ class IntentFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class IntentFilterOperator {
   static const co = IntentFilterOperator._('CO');
   static const eq = IntentFilterOperator._('EQ');
@@ -25255,6 +25854,7 @@ class IntentFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class IntentSortAttribute {
   static const intentName = IntentSortAttribute._('IntentName');
   static const lastUpdatedDateTime =
@@ -25282,6 +25882,8 @@ class IntentSortAttribute {
 }
 
 /// An object containing information about the requested path.
+///
+/// @nodoc
 class AnalyticsIntentNodeSummary {
   /// The total number of sessions that follow the given path to the given intent.
   final int? intentCount;
@@ -25334,6 +25936,7 @@ class AnalyticsIntentNodeSummary {
   }
 }
 
+/// @nodoc
 class AnalyticsNodeType {
   static const inner = AnalyticsNodeType._('Inner');
   static const exit = AnalyticsNodeType._('Exit');
@@ -25389,6 +25992,8 @@ class AnalyticsNodeType {
 /// <code>Channel</code> – <code>EQ</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AnalyticsPathFilter {
   /// The category by which to filter the intent paths. The descriptions for each
   /// option are as follows:
@@ -25457,7 +26062,7 @@ class AnalyticsPathFilter {
   /// values, you filter for results that equal/contain any of the values. For
   /// example, if the <code>name</code>, <code>operator</code>, and
   /// <code>values</code> fields are <code>Modality</code>, <code>EQ</code>, and
-  /// <code>[Speech, Text]</code>, the operation filters for results where the
+  /// <code>\[Speech, Text\]</code>, the operation filters for results where the
   /// modality was either <code>Speech</code> or <code>Text</code>.
   final List<String> values;
 
@@ -25479,6 +26084,7 @@ class AnalyticsPathFilter {
   }
 }
 
+/// @nodoc
 class AnalyticsCommonFilterName {
   static const botAliasId = AnalyticsCommonFilterName._('BotAliasId');
   static const botVersion = AnalyticsCommonFilterName._('BotVersion');
@@ -25509,6 +26115,8 @@ class AnalyticsCommonFilterName {
 
 /// An object containing the results for the intent metrics you requested and
 /// the bin and/or group(s) they refer to, if applicable.
+///
+/// @nodoc
 class AnalyticsIntentResult {
   /// A list of objects containing the criteria you requested for binning results
   /// and the values of the bins.
@@ -25561,6 +26169,8 @@ class AnalyticsIntentResult {
 }
 
 /// An object containing the results for the intent metric you requested.
+///
+/// @nodoc
 class AnalyticsIntentMetricResult {
   /// The metric that you requested. See <a
   /// href="https://docs.aws.amazon.com/lexv2/latest/dg/analytics-key-definitions.html">Key
@@ -25635,6 +26245,7 @@ class AnalyticsIntentMetricResult {
   }
 }
 
+/// @nodoc
 class AnalyticsIntentMetricName {
   static const count = AnalyticsIntentMetricName._('Count');
   static const success = AnalyticsIntentMetricName._('Success');
@@ -25665,6 +26276,8 @@ class AnalyticsIntentMetricName {
 
 /// Contains the category by which the intent analytics were grouped and a
 /// member of that category.
+///
+/// @nodoc
 class AnalyticsIntentGroupByKey {
   /// A category by which the intent analytics were grouped.
   final AnalyticsIntentField? name;
@@ -25694,6 +26307,7 @@ class AnalyticsIntentGroupByKey {
   }
 }
 
+/// @nodoc
 class AnalyticsIntentField {
   static const intentName = AnalyticsIntentField._('IntentName');
   static const intentEndState = AnalyticsIntentField._('IntentEndState');
@@ -25764,6 +26378,8 @@ class AnalyticsIntentField {
 /// <code>IntentEndState</code> – <code>EQ</code>, <code>CO</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AnalyticsIntentFilter {
   /// The category by which to filter the intents. The descriptions for each
   /// option are as follows:
@@ -25857,7 +26473,7 @@ class AnalyticsIntentFilter {
   /// values, you filter for results that equal/contain any of the values. For
   /// example, if the <code>name</code>, <code>operator</code>, and
   /// <code>values</code> fields are <code>Modality</code>, <code>EQ</code>, and
-  /// <code>[Speech, Text]</code>, the operation filters for results where the
+  /// <code>\[Speech, Text\]</code>, the operation filters for results where the
   /// modality was either <code>Speech</code> or <code>Text</code>.
   final List<String> values;
 
@@ -25879,6 +26495,7 @@ class AnalyticsIntentFilter {
   }
 }
 
+/// @nodoc
 class AnalyticsIntentFilterName {
   static const botAliasId = AnalyticsIntentFilterName._('BotAliasId');
   static const botVersion = AnalyticsIntentFilterName._('BotVersion');
@@ -25923,6 +26540,8 @@ class AnalyticsIntentFilterName {
 }
 
 /// Contains the category by which to group the intents.
+///
+/// @nodoc
 class AnalyticsIntentGroupBySpecification {
   /// Specifies whether to group the intent stages by their name or their end
   /// state.
@@ -25942,6 +26561,8 @@ class AnalyticsIntentGroupBySpecification {
 
 /// Contains the metric and the summary statistic you want to calculate, and the
 /// order in which to sort the results, for the intents in the bot.
+///
+/// @nodoc
 class AnalyticsIntentMetric {
   /// The metric for which you want to get intent summary statistics.
   ///
@@ -26005,6 +26626,8 @@ class AnalyticsIntentMetric {
 }
 
 /// Provides summary information about an import in an import list.
+///
+/// @nodoc
 class ImportSummary {
   /// The date and time that the import was created.
   final DateTime? creationDateTime;
@@ -26085,6 +26708,7 @@ class ImportSummary {
   }
 }
 
+/// @nodoc
 class ImportResourceType {
   static const bot = ImportResourceType._('Bot');
   static const botLocale = ImportResourceType._('BotLocale');
@@ -26113,6 +26737,8 @@ class ImportResourceType {
 }
 
 /// Provides information for sorting a list of imports.
+///
+/// @nodoc
 class ImportSortBy {
   /// The export field to use for sorting.
   final ImportSortAttribute attribute;
@@ -26138,6 +26764,8 @@ class ImportSortBy {
 /// Filters the response from the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListImports.html">ListImports</a>
 /// operation.
+///
+/// @nodoc
 class ImportFilter {
   /// The name of the field to use for filtering.
   final ImportFilterName name;
@@ -26170,6 +26798,7 @@ class ImportFilter {
   }
 }
 
+/// @nodoc
 class ImportFilterName {
   static const importResourceType = ImportFilterName._('ImportResourceType');
 
@@ -26193,6 +26822,7 @@ class ImportFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportFilterOperator {
   static const co = ImportFilterOperator._('CO');
   static const eq = ImportFilterOperator._('EQ');
@@ -26218,6 +26848,7 @@ class ImportFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportSortAttribute {
   static const lastUpdatedDateTime =
       ImportSortAttribute._('LastUpdatedDateTime');
@@ -26244,6 +26875,8 @@ class ImportSortAttribute {
 }
 
 /// Provides summary information about an export in an export list.
+///
+/// @nodoc
 class ExportSummary {
   /// The date and time that the export was created.
   final DateTime? creationDateTime;
@@ -26311,6 +26944,8 @@ class ExportSummary {
 }
 
 /// Provides information about sorting a list of exports.
+///
+/// @nodoc
 class ExportSortBy {
   /// The export field to use for sorting.
   final ExportSortAttribute attribute;
@@ -26336,6 +26971,8 @@ class ExportSortBy {
 /// Filters the response form the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html">ListExports</a>
 /// operation
+///
+/// @nodoc
 class ExportFilter {
   /// The name of the field to use for filtering.
   final ExportFilterName name;
@@ -26368,6 +27005,7 @@ class ExportFilter {
   }
 }
 
+/// @nodoc
 class ExportFilterName {
   static const exportResourceType = ExportFilterName._('ExportResourceType');
 
@@ -26391,6 +27029,7 @@ class ExportFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportFilterOperator {
   static const co = ExportFilterOperator._('CO');
   static const eq = ExportFilterOperator._('EQ');
@@ -26416,6 +27055,7 @@ class ExportFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportSortAttribute {
   static const lastUpdatedDateTime =
       ExportSortAttribute._('LastUpdatedDateTime');
@@ -26442,6 +27082,8 @@ class ExportSortAttribute {
 }
 
 /// The unique custom vocabulary item from the custom vocabulary list.
+///
+/// @nodoc
 class CustomVocabularyItem {
   /// The unique item identifer for the custom vocabulary item from the custom
   /// vocabulary list.
@@ -26492,6 +27134,8 @@ class CustomVocabularyItem {
 /// Provides summary information about a built-in slot type for the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInSlotTypes.html">
 /// ListBuiltInSlotTypes </a> operation.
+///
+/// @nodoc
 class BuiltInSlotTypeSummary {
   /// The description of the built-in slot type.
   final String? description;
@@ -26523,6 +27167,8 @@ class BuiltInSlotTypeSummary {
 }
 
 /// Specifies attributes for sorting a list of built-in slot types.
+///
+/// @nodoc
 class BuiltInSlotTypeSortBy {
   /// The attribute to use to sort the list of built-in intents.
   final BuiltInSlotTypeSortAttribute attribute;
@@ -26545,6 +27191,7 @@ class BuiltInSlotTypeSortBy {
   }
 }
 
+/// @nodoc
 class BuiltInSlotTypeSortAttribute {
   static const slotTypeSignature =
       BuiltInSlotTypeSortAttribute._('SlotTypeSignature');
@@ -26573,6 +27220,8 @@ class BuiltInSlotTypeSortAttribute {
 /// Provides summary information about a built-in intent for the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInIntents.html">
 /// ListBuiltInIntents </a> operation.
+///
+/// @nodoc
 class BuiltInIntentSummary {
   /// The description of the intent.
   final String? description;
@@ -26604,6 +27253,8 @@ class BuiltInIntentSummary {
 }
 
 /// Specifies attributes for sorting a list of built-in intents.
+///
+/// @nodoc
 class BuiltInIntentSortBy {
   /// The attribute to use to sort the list of built-in intents.
   final BuiltInIntentSortAttribute attribute;
@@ -26626,6 +27277,7 @@ class BuiltInIntentSortBy {
   }
 }
 
+/// @nodoc
 class BuiltInIntentSortAttribute {
   static const intentSignature =
       BuiltInIntentSortAttribute._('IntentSignature');
@@ -26654,6 +27306,8 @@ class BuiltInIntentSortAttribute {
 /// Summary information about a bot version returned by the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotVersions.html">ListBotVersions</a>
 /// operation.
+///
+/// @nodoc
 class BotVersionSummary {
   /// The name of the bot associated with the version.
   final String? botName;
@@ -26708,6 +27362,8 @@ class BotVersionSummary {
 }
 
 /// Specifies attributes for sorting a list of bot versions.
+///
+/// @nodoc
 class BotVersionSortBy {
   /// The attribute to use to sort the list of versions.
   final BotVersionSortAttribute attribute;
@@ -26730,6 +27386,7 @@ class BotVersionSortBy {
   }
 }
 
+/// @nodoc
 class BotVersionSortAttribute {
   static const botVersion = BotVersionSortAttribute._('BotVersion');
 
@@ -26756,6 +27413,8 @@ class BotVersionSortAttribute {
 
 /// Contains summary information for all the version replication statuses
 /// applicable for Global resiliency.
+///
+/// @nodoc
 class BotVersionReplicaSummary {
   /// The bot version for the summary information for all the version replication
   /// statuses.
@@ -26810,6 +27469,8 @@ class BotVersionReplicaSummary {
 
 /// The status of the operation to replicate the bot version. Values: Creating,
 /// Available, Deleting, Failed.
+///
+/// @nodoc
 class BotVersionReplicationStatus {
   static const creating = BotVersionReplicationStatus._('Creating');
   static const available = BotVersionReplicationStatus._('Available');
@@ -26838,6 +27499,8 @@ class BotVersionReplicationStatus {
 }
 
 /// The sort category for the version replicated bots.
+///
+/// @nodoc
 class BotVersionReplicaSortBy {
   /// The attribute of the sort category for the version replicated bots.
   final BotVersionReplicaSortAttribute attribute;
@@ -26860,6 +27523,7 @@ class BotVersionReplicaSortBy {
   }
 }
 
+/// @nodoc
 class BotVersionReplicaSortAttribute {
   static const botVersion = BotVersionReplicaSortAttribute._('BotVersion');
 
@@ -26887,6 +27551,8 @@ class BotVersionReplicaSortAttribute {
 /// Summary information about a bot returned by the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBots.html">ListBots</a>
 /// operation.
+///
+/// @nodoc
 class BotSummary {
   /// The unique identifier assigned to the bot. Use this ID to get detailed
   /// information about the bot with the <a
@@ -26957,6 +27623,8 @@ class BotSummary {
 }
 
 /// Specifies attributes for sorting a list of bots.
+///
+/// @nodoc
 class BotSortBy {
   /// The attribute to use to sort the list of bots.
   final BotSortAttribute attribute;
@@ -26980,6 +27648,8 @@ class BotSortBy {
 }
 
 /// Filters the responses returned by the <code>ListBots</code> operation.
+///
+/// @nodoc
 class BotFilter {
   /// The name of the field to filter the list of bots.
   final BotFilterName name;
@@ -27011,6 +27681,7 @@ class BotFilter {
   }
 }
 
+/// @nodoc
 class BotFilterName {
   static const botName = BotFilterName._('BotName');
   static const botType = BotFilterName._('BotType');
@@ -27035,6 +27706,7 @@ class BotFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class BotFilterOperator {
   static const co = BotFilterOperator._('CO');
   static const eq = BotFilterOperator._('EQ');
@@ -27060,6 +27732,7 @@ class BotFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class BotSortAttribute {
   static const botName = BotSortAttribute._('BotName');
 
@@ -27084,6 +27757,8 @@ class BotSortAttribute {
 }
 
 /// Contains information about a generation request made for the bot locale.
+///
+/// @nodoc
 class GenerationSummary {
   /// The date and time at which the generation request was made.
   final DateTime? creationDateTime;
@@ -27132,6 +27807,8 @@ class GenerationSummary {
 
 /// Specifies the attribute and method by which to sort the generation request
 /// information.
+///
+/// @nodoc
 class GenerationSortBy {
   /// The attribute by which to sort the generation request information. You can
   /// sort by the following attributes.
@@ -27166,6 +27843,7 @@ class GenerationSortBy {
   }
 }
 
+/// @nodoc
 class GenerationSortByAttribute {
   static const creationStartTime =
       GenerationSortByAttribute._('creationStartTime');
@@ -27194,6 +27872,8 @@ class GenerationSortByAttribute {
 
 /// Contains summary information about all the replication statuses applicable
 /// for global resiliency.
+///
+/// @nodoc
 class BotReplicaSummary {
   /// The operation status for the replicated bot applicable.
   final BotReplicaStatus? botReplicaStatus;
@@ -27244,6 +27924,8 @@ class BotReplicaSummary {
 
 /// The status of the operation to replicate the bot. Values: Enabling, Enabled,
 /// Deleting, Failed.
+///
+/// @nodoc
 class BotReplicaStatus {
   static const enabling = BotReplicaStatus._('Enabling');
   static const enabled = BotReplicaStatus._('Enabled');
@@ -27271,6 +27953,8 @@ class BotReplicaStatus {
 }
 
 /// A summary of the bot recommendation.
+///
+/// @nodoc
 class BotRecommendationSummary {
   /// The unique identifier of the bot recommendation to be updated.
   final String botRecommendationId;
@@ -27324,6 +28008,8 @@ class BotRecommendationSummary {
 /// Summary information about bot locales returned by the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotLocales.html">ListBotLocales</a>
 /// operation.
+///
+/// @nodoc
 class BotLocaleSummary {
   /// The current status of the bot locale. When the status is <code>Built</code>
   /// the locale is ready for use.
@@ -27388,6 +28074,8 @@ class BotLocaleSummary {
 }
 
 /// Specifies attributes for sorting a list of bot locales.
+///
+/// @nodoc
 class BotLocaleSortBy {
   /// The bot locale attribute to sort by.
   final BotLocaleSortAttribute attribute;
@@ -27411,6 +28099,8 @@ class BotLocaleSortBy {
 }
 
 /// Filters responses returned by the <code>ListBotLocales</code> operation.
+///
+/// @nodoc
 class BotLocaleFilter {
   /// The name of the field to filter the list of bots.
   final BotLocaleFilterName name;
@@ -27443,6 +28133,7 @@ class BotLocaleFilter {
   }
 }
 
+/// @nodoc
 class BotLocaleFilterName {
   static const botLocaleName = BotLocaleFilterName._('BotLocaleName');
 
@@ -27467,6 +28158,7 @@ class BotLocaleFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class BotLocaleFilterOperator {
   static const co = BotLocaleFilterOperator._('CO');
   static const eq = BotLocaleFilterOperator._('EQ');
@@ -27492,6 +28184,7 @@ class BotLocaleFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class BotLocaleSortAttribute {
   static const botLocaleName = BotLocaleSortAttribute._('BotLocaleName');
 
@@ -27517,6 +28210,8 @@ class BotLocaleSortAttribute {
 }
 
 /// Contains summary information about a historical bot analysis execution.
+///
+/// @nodoc
 class BotAnalyzerHistorySummary {
   /// The unique identifier for the analysis request.
   final String botAnalyzerRequestId;
@@ -27560,6 +28255,8 @@ class BotAnalyzerHistorySummary {
 
 /// Contains information about all the aliases replication statuses applicable
 /// for global resiliency.
+///
+/// @nodoc
 class BotAliasReplicaSummary {
   /// The bot alias ID for all the alias bot replications.
   final String? botAliasId;
@@ -27626,6 +28323,8 @@ class BotAliasReplicaSummary {
 
 /// The status of the operation to replicate the bot alias. Values: Creating,
 /// Updating, Available, Deleting, Failed.
+///
+/// @nodoc
 class BotAliasReplicationStatus {
   static const creating = BotAliasReplicationStatus._('Creating');
   static const updating = BotAliasReplicationStatus._('Updating');
@@ -27657,6 +28356,8 @@ class BotAliasReplicationStatus {
 /// Summary information about bot aliases returned from the <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotAliases.html">ListBotAliases</a>
 /// operation.
+///
+/// @nodoc
 class BotAliasSummary {
   /// The unique identifier assigned to the bot alias. You can use this ID to get
   /// detailed information about the alias using the <a
@@ -27730,6 +28431,8 @@ class BotAliasSummary {
 
 /// Provides parameters for setting the time window and duration for aggregating
 /// utterance data.
+///
+/// @nodoc
 class UtteranceAggregationDuration {
   /// The desired time window for aggregating utterances.
   final RelativeAggregationDuration relativeAggregationDuration;
@@ -27757,6 +28460,8 @@ class UtteranceAggregationDuration {
 /// Provides summary information for aggregated utterances. The
 /// <code>ListAggregatedUtterances</code> operations combines all instances of
 /// the same utterance into a single aggregated summary.
+///
+/// @nodoc
 class AggregatedUtterancesSummary {
   /// Aggregated utterance data may contain utterances from versions of your bot
   /// that have since been deleted. When the aggregated contains this kind of
@@ -27861,6 +28566,8 @@ class AggregatedUtterancesSummary {
 /// week time windows.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RelativeAggregationDuration {
   /// The type of time period that the <code>timeValue</code> field represents.
   final TimeDimension timeDimension;
@@ -27904,6 +28611,7 @@ class RelativeAggregationDuration {
   }
 }
 
+/// @nodoc
 class TimeDimension {
   static const hours = TimeDimension._('Hours');
   static const days = TimeDimension._('Days');
@@ -27930,6 +28638,8 @@ class TimeDimension {
 }
 
 /// Specifies attributes for sorting a list of utterances.
+///
+/// @nodoc
 class AggregatedUtterancesSortBy {
   /// The utterance attribute to sort by.
   final AggregatedUtterancesSortAttribute attribute;
@@ -27955,6 +28665,8 @@ class AggregatedUtterancesSortBy {
 
 /// Filters responses returned by the <code>ListAggregatedUtterances</code>
 /// operation.
+///
+/// @nodoc
 class AggregatedUtterancesFilter {
   /// The name of the field to filter the utterance list.
   final AggregatedUtterancesFilterName name;
@@ -27987,6 +28699,7 @@ class AggregatedUtterancesFilter {
   }
 }
 
+/// @nodoc
 class AggregatedUtterancesFilterName {
   static const utterance = AggregatedUtterancesFilterName._('Utterance');
 
@@ -28011,6 +28724,7 @@ class AggregatedUtterancesFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregatedUtterancesFilterOperator {
   static const co = AggregatedUtterancesFilterOperator._('CO');
   static const eq = AggregatedUtterancesFilterOperator._('EQ');
@@ -28036,6 +28750,7 @@ class AggregatedUtterancesFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregatedUtterancesSortAttribute {
   static const hitCount = AggregatedUtterancesSortAttribute._('HitCount');
   static const missedCount = AggregatedUtterancesSortAttribute._('MissedCount');
@@ -28063,6 +28778,8 @@ class AggregatedUtterancesSortAttribute {
 
 /// Contains information about the resource used for the test set discrepancy
 /// report.
+///
+/// @nodoc
 class TestSetDiscrepancyReportResourceTarget {
   /// Contains information about the bot alias used as the resource for the test
   /// set discrepancy report.
@@ -28090,6 +28807,7 @@ class TestSetDiscrepancyReportResourceTarget {
   }
 }
 
+/// @nodoc
 class TestSetDiscrepancyReportStatus {
   static const inProgress = TestSetDiscrepancyReportStatus._('InProgress');
   static const completed = TestSetDiscrepancyReportStatus._('Completed');
@@ -28117,6 +28835,8 @@ class TestSetDiscrepancyReportStatus {
 }
 
 /// Contains details about the errors in the test set discrepancy report
+///
+/// @nodoc
 class TestSetDiscrepancyErrors {
   /// Contains information about discrepancies found for intents between the test
   /// set and the bot.
@@ -28158,6 +28878,8 @@ class TestSetDiscrepancyErrors {
 
 /// Contains information about discrepancy in a slot information between the
 /// test set and the bot.
+///
+/// @nodoc
 class TestSetSlotDiscrepancyItem {
   /// The error message for a discrepancy for an intent between the test set and
   /// the bot.
@@ -28197,6 +28919,8 @@ class TestSetSlotDiscrepancyItem {
 
 /// Contains information about discrepancy in an intent information between the
 /// test set and the bot.
+///
+/// @nodoc
 class TestSetIntentDiscrepancyItem {
   /// The error message for a discrepancy for an intent between the test set and
   /// the bot.
@@ -28229,6 +28953,8 @@ class TestSetIntentDiscrepancyItem {
 
 /// Contains information about the bot alias used for the test set discrepancy
 /// report.
+///
+/// @nodoc
 class TestSetDiscrepancyReportBotAliasTarget {
   /// The unique identifier for the bot associated with the bot alias.
   final String botAliasId;
@@ -28266,6 +28992,7 @@ class TestSetDiscrepancyReportBotAliasTarget {
   }
 }
 
+/// @nodoc
 class CustomVocabularyStatus {
   static const ready = CustomVocabularyStatus._('Ready');
   static const deleting = CustomVocabularyStatus._('Deleting');
@@ -28295,6 +29022,8 @@ class CustomVocabularyStatus {
 }
 
 /// A network of bots.
+///
+/// @nodoc
 class ParentBotNetwork {
   /// The identifier of the network of bots assigned by Amazon Lex.
   final String botId;
@@ -28327,6 +29056,8 @@ class ParentBotNetwork {
 /// The object representing the URL of the bot definition, the URL of the
 /// associated transcript, and a statistical summary of the bot recommendation
 /// results.
+///
+/// @nodoc
 class BotRecommendationResults {
   /// The presigned url link of the associated transcript.
   final String? associatedTranscriptsUrl;
@@ -28368,6 +29099,8 @@ class BotRecommendationResults {
 }
 
 /// A statistical summary of the bot recommendation results.
+///
+/// @nodoc
 class BotRecommendationResultStatistics {
   /// Statistical information about about the intents associated with the bot
   /// recommendation results.
@@ -28407,6 +29140,8 @@ class BotRecommendationResultStatistics {
 
 /// The object that contains the statistical summary of recommended intents
 /// associated with the bot recommendation.
+///
+/// @nodoc
 class IntentStatistics {
   /// The number of recommended intents associated with the bot recommendation.
   final int? discoveredIntentCount;
@@ -28432,6 +29167,8 @@ class IntentStatistics {
 
 /// The object that contains the statistical summary of the recommended slot
 /// type associated with the bot recommendation.
+///
+/// @nodoc
 class SlotTypeStatistics {
   /// The number of recommended slot types associated with the bot recommendation.
   final int? discoveredSlotTypeCount;
@@ -28456,6 +29193,8 @@ class SlotTypeStatistics {
 }
 
 /// Provides information about an event that occurred affecting the bot locale.
+///
+/// @nodoc
 class BotLocaleHistoryEvent {
   /// A description of the event that occurred.
   final String event;
@@ -28487,6 +29226,8 @@ class BotLocaleHistoryEvent {
 
 /// Contains a recommendation for bot optimization identified by the Bot
 /// Analyzer.
+///
+/// @nodoc
 class BotAnalyzerRecommendation {
   /// A detailed description of the identified configuration issue.
   final String issueDescription;
@@ -28536,6 +29277,8 @@ class BotAnalyzerRecommendation {
 }
 
 /// Specifies the location of an identified issue within the bot configuration.
+///
+/// @nodoc
 class IssueLocation {
   /// The locale identifier where the issue was found.
   final String? botLocale;
@@ -28587,6 +29330,8 @@ class IssueLocation {
 /// <code>Low</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Priority {
   static const high = Priority._('High');
   static const medium = Priority._('Medium');
@@ -28613,6 +29358,8 @@ class Priority {
 
 /// Provides a record of an event that affects a bot alias. For example, when
 /// the version of a bot that the alias points to changes.
+///
+/// @nodoc
 class BotAliasHistoryEvent {
   /// The version of the bot that was used in the event.
   final String? botVersion;
@@ -28649,6 +29396,7 @@ class BotAliasHistoryEvent {
   }
 }
 
+/// @nodoc
 class Effect {
   static const allow = Effect._('Allow');
   static const deny = Effect._('Deny');
@@ -28677,6 +29425,8 @@ class Effect {
 /// not both in the same statement. For more information, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">
 /// AWS JSON policy elements: Principal </a>.
+///
+/// @nodoc
 class Principal {
   /// The Amazon Resource Name (ARN) of the principal.
   final String? arn;
@@ -28701,6 +29451,8 @@ class Principal {
 }
 
 /// The version of a bot used for a bot locale.
+///
+/// @nodoc
 class BotVersionLocaleDetails {
   /// The version of a bot used for a bot locale.
   final String sourceBotVersion;
@@ -28724,6 +29476,8 @@ class BotVersionLocaleDetails {
 }
 
 /// The unique failed custom vocabulary item from the custom vocabulary list.
+///
+/// @nodoc
 class FailedCustomVocabularyItem {
   /// The unique error code for the failed custom vocabulary item from the custom
   /// vocabulary list.
@@ -28763,6 +29517,7 @@ class FailedCustomVocabularyItem {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const duplicateInput = ErrorCode._('DUPLICATE_INPUT');
   static const resourceDoesNotExist = ErrorCode._('RESOURCE_DOES_NOT_EXIST');
@@ -28794,6 +29549,8 @@ class ErrorCode {
 }
 
 /// The unique entry identifier for the custom vocabulary items.
+///
+/// @nodoc
 class CustomVocabularyEntryId {
   /// The unique item identifier for the custom vocabulary items.
   final String itemId;
@@ -28811,6 +29568,8 @@ class CustomVocabularyEntryId {
 }
 
 /// The new custom vocabulary item from the custom vocabulary list.
+///
+/// @nodoc
 class NewCustomVocabularyItem {
   /// The unique phrase for the new custom vocabulary item from the custom
   /// vocabulary list.
@@ -28842,27 +29601,32 @@ class NewCustomVocabularyItem {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -28871,11 +29635,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1100,7 +1100,7 @@ class ResourceGroups {
   /// formatted like the following CLI parameter example:
   ///
   /// <code>--resource-query
-  /// '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'</code>
+  /// '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":\[\"AWS::AllSupported\"\],\"TagFilters\":\[{\"Key\":\"Stage\",\"Values\":\[\"Test\"\]}\]}"}'</code>
   ///
   /// In the preceding example, all of the double quote characters in the value
   /// part of the <code>Query</code> element must be escaped because the value
@@ -1114,8 +1114,8 @@ class ResourceGroups {
   /// you can use with Resource Groups and Tag Editor</a> in the <i>Resource
   /// Groups User Guide</i>. For example:
   ///
-  /// <code>"ResourceTypeFilters":["AWS::S3::Bucket",
-  /// "AWS::EC2::Instance"]</code>
+  /// <code>"ResourceTypeFilters":\["AWS::S3::Bucket",
+  /// "AWS::EC2::Instance"\]</code>
   ///
   /// Parameter [tagKey] :
   /// The tag key. Resources tagged with this tag key-value pair will be added
@@ -1459,6 +1459,7 @@ class ResourceGroups {
   }
 }
 
+/// @nodoc
 class CreateGroupOutput {
   /// The description of the resource group.
   final Group? group;
@@ -1517,6 +1518,7 @@ class CreateGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteGroupOutput {
   /// A full description of the deleted resource group.
   final Group? group;
@@ -1541,6 +1543,7 @@ class DeleteGroupOutput {
   }
 }
 
+/// @nodoc
 class GetAccountSettingsOutput {
   /// The current settings for the optional features in Resource Groups.
   final AccountSettings? accountSettings;
@@ -1566,6 +1569,7 @@ class GetAccountSettingsOutput {
   }
 }
 
+/// @nodoc
 class GetGroupOutput {
   /// A structure that contains the metadata details for the specified resource
   /// group. Use <a>GetGroupQuery</a> and <a>GetGroupConfiguration</a> to get
@@ -1592,6 +1596,7 @@ class GetGroupOutput {
   }
 }
 
+/// @nodoc
 class GetGroupConfigurationOutput {
   /// A structure that describes the service configuration attached with the
   /// specified group. For details about the service configuration syntax, see <a
@@ -1620,6 +1625,7 @@ class GetGroupConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetGroupQueryOutput {
   /// The resource query associated with the specified group. For more information
   /// about resource queries, see <a
@@ -1647,6 +1653,7 @@ class GetGroupQueryOutput {
   }
 }
 
+/// @nodoc
 class GetTagsOutput {
   /// TheAmazon resource name (ARN) of the tagged resource group.
   final String? arn;
@@ -1677,6 +1684,7 @@ class GetTagsOutput {
   }
 }
 
+/// @nodoc
 class GetTagSyncTaskOutput {
   /// The timestamp of when the tag-sync task was created.
   final DateTime? createdAt;
@@ -1785,6 +1793,7 @@ class GetTagSyncTaskOutput {
   }
 }
 
+/// @nodoc
 class GroupResourcesOutput {
   /// A list of Amazon resource names (ARNs) of any resources that this operation
   /// failed to add to the group.
@@ -1837,6 +1846,7 @@ class GroupResourcesOutput {
   }
 }
 
+/// @nodoc
 class ListGroupingStatusesOutput {
   /// The application group identifier, expressed as an Amazon resource name (ARN)
   /// or the application group name.
@@ -1882,6 +1892,7 @@ class ListGroupingStatusesOutput {
   }
 }
 
+/// @nodoc
 class ListGroupResourcesOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1949,6 +1960,7 @@ class ListGroupResourcesOutput {
   }
 }
 
+/// @nodoc
 class ListGroupsOutput {
   /// A list of <a>GroupIdentifier</a> objects. Each identifier is an object that
   /// contains both the <code>Name</code> and the <code>GroupArn</code>.
@@ -1999,6 +2011,7 @@ class ListGroupsOutput {
   }
 }
 
+/// @nodoc
 class ListTagSyncTasksOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -2035,6 +2048,7 @@ class ListTagSyncTasksOutput {
   }
 }
 
+/// @nodoc
 class PutGroupConfigurationOutput {
   PutGroupConfigurationOutput();
 
@@ -2047,6 +2061,7 @@ class PutGroupConfigurationOutput {
   }
 }
 
+/// @nodoc
 class SearchResourcesOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -2110,6 +2125,7 @@ class SearchResourcesOutput {
   }
 }
 
+/// @nodoc
 class StartTagSyncTaskOutput {
   /// The Amazon resource name (ARN) of the application group for which you want
   /// to add or remove resources.
@@ -2177,6 +2193,7 @@ class StartTagSyncTaskOutput {
   }
 }
 
+/// @nodoc
 class TagOutput {
   /// The Amazon resource name (ARN) of the tagged resource.
   final String? arn;
@@ -2207,6 +2224,7 @@ class TagOutput {
   }
 }
 
+/// @nodoc
 class UngroupResourcesOutput {
   /// A list of any resources that failed to be removed from the group by this
   /// operation.
@@ -2258,6 +2276,7 @@ class UngroupResourcesOutput {
   }
 }
 
+/// @nodoc
 class UntagOutput {
   /// The Amazon resource name (ARN) of the resource group from which tags have
   /// been removed.
@@ -2288,6 +2307,7 @@ class UntagOutput {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsOutput {
   /// A structure that displays the status of the optional features in the
   /// account.
@@ -2314,6 +2334,7 @@ class UpdateAccountSettingsOutput {
   }
 }
 
+/// @nodoc
 class UpdateGroupOutput {
   /// The update description of the resource group.
   final Group? group;
@@ -2338,6 +2359,7 @@ class UpdateGroupOutput {
   }
 }
 
+/// @nodoc
 class UpdateGroupQueryOutput {
   /// The updated resource query associated with the resource group after the
   /// update.
@@ -2365,6 +2387,8 @@ class UpdateGroupQueryOutput {
 
 /// A mapping of a query attached to a resource group that determines the Amazon
 /// Web Services resources that are members of the group.
+///
+/// @nodoc
 class GroupQuery {
   /// The name of the resource group that is associated with the specified
   /// resource query.
@@ -2414,7 +2438,7 @@ class GroupQuery {
 /// formatted like the following CLI parameter example:
 ///
 /// <code>--resource-query
-/// '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'</code>
+/// '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":\[\"AWS::AllSupported\"\],\"TagFilters\":\[{\"Key\":\"Stage\",\"Values\":\[\"Test\"\]}\]}"}'</code>
 ///
 /// In the preceding example, all of the double quote characters in the value
 /// part of the <code>Query</code> element must be escaped because the value
@@ -2428,7 +2452,10 @@ class GroupQuery {
 /// you can use with Resource Groups and Tag Editor</a> in the <i>Resource
 /// Groups User Guide</i>. For example:
 ///
-/// <code>"ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]</code>
+/// <code>"ResourceTypeFilters":\["AWS::S3::Bucket",
+/// "AWS::EC2::Instance"\]</code>
+///
+/// @nodoc
 class ResourceQuery {
   /// The query that defines a group or a search. The contents depends on the
   /// value of the <code>Type</code> element.
@@ -2454,9 +2481,9 @@ class ResourceQuery {
   /// Groups User Guide</i>.
   /// </li>
   /// </ul>
-  /// Example: <code>"ResourceTypeFilters": ["AWS::AllSupported"]</code> or
-  /// <code>"ResourceTypeFilters": ["AWS::EC2::Instance",
-  /// "AWS::S3::Bucket"]</code>
+  /// Example: <code>"ResourceTypeFilters": \["AWS::AllSupported"\]</code> or
+  /// <code>"ResourceTypeFilters": \["AWS::EC2::Instance",
+  /// "AWS::S3::Bucket"\]</code>
   /// </li>
   /// <li>
   /// <code>TagFilters</code> – applicable only if <code>Type</code> =
@@ -2477,7 +2504,7 @@ class ResourceQuery {
   /// For example, consider the following sample query for resources that have two
   /// tags, <code>Stage</code> and <code>Version</code>, with two values each:
   ///
-  /// <code>[{"Stage":["Test","Deploy"]},{"Version":["1","2"]}]</code>
+  /// <code>\[{"Stage":\["Test","Deploy"\]},{"Version":\["1","2"\]}\]</code>
   ///
   /// The results of this resource query could include the following.
   ///
@@ -2511,8 +2538,8 @@ class ResourceQuery {
   /// filter.
   /// </li>
   /// </ul>
-  /// Example: <code>"TagFilters": [ { "Key": "Stage", "Values": [ "Gamma", "Beta"
-  /// ] }</code>
+  /// Example: <code>"TagFilters": \[ { "Key": "Stage", "Values": \[ "Gamma",
+  /// "Beta" \] }</code>
   /// </li>
   /// <li>
   /// <code>StackIdentifier</code> – applicable only if <code>Type</code> =
@@ -2561,6 +2588,7 @@ class ResourceQuery {
   }
 }
 
+/// @nodoc
 class QueryType {
   static const tagFilters_1_0 = QueryType._('TAG_FILTERS_1_0');
   static const cloudformationStack_1_0 =
@@ -2603,6 +2631,8 @@ class QueryType {
 /// resource types can be included in the group.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Group {
   /// The Amazon resource name (ARN) of the resource group.
   final String groupArn;
@@ -2672,6 +2702,8 @@ class Group {
 }
 
 /// The Resource Groups settings for this Amazon Web Services account.
+///
+/// @nodoc
 class AccountSettings {
   /// The desired target status of the group lifecycle events feature. If
   final GroupLifecycleEventsDesiredStatus? groupLifecycleEventsDesiredStatus;
@@ -2720,6 +2752,7 @@ class AccountSettings {
   }
 }
 
+/// @nodoc
 class GroupLifecycleEventsDesiredStatus {
   static const active = GroupLifecycleEventsDesiredStatus._('ACTIVE');
   static const inactive = GroupLifecycleEventsDesiredStatus._('INACTIVE');
@@ -2745,6 +2778,7 @@ class GroupLifecycleEventsDesiredStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupLifecycleEventsStatus {
   static const active = GroupLifecycleEventsStatus._('ACTIVE');
   static const inactive = GroupLifecycleEventsStatus._('INACTIVE');
@@ -2775,6 +2809,8 @@ class GroupLifecycleEventsStatus {
 /// A structure that identifies a resource that is currently pending addition to
 /// the group as a member. Adding a resource to a resource group happens
 /// asynchronously as a background task and this one isn't completed yet.
+///
+/// @nodoc
 class PendingResource {
   /// The Amazon resource name (ARN) of the resource that's in a pending state.
   final String? resourceArn;
@@ -2798,6 +2834,8 @@ class PendingResource {
 }
 
 /// A resource that failed to be added to or removed from a group.
+///
+/// @nodoc
 class FailedResource {
   /// The error code associated with the failure.
   final String? errorCode;
@@ -2837,6 +2875,8 @@ class FailedResource {
 
 /// A two-part error structure that can occur in <code>ListGroupResources</code>
 /// or <code>SearchResources</code>.
+///
+/// @nodoc
 class QueryError {
   /// Specifies the error code that was raised.
   final QueryErrorCode? errorCode;
@@ -2866,6 +2906,7 @@ class QueryError {
   }
 }
 
+/// @nodoc
 class QueryErrorCode {
   static const cloudformationStackInactive =
       QueryErrorCode._('CLOUDFORMATION_STACK_INACTIVE');
@@ -2902,6 +2943,8 @@ class QueryErrorCode {
 }
 
 /// A structure that contains the ARN of a resource and its resource type.
+///
+/// @nodoc
 class ResourceIdentifier {
   /// The Amazon resource name (ARN) of a resource.
   final String? resourceArn;
@@ -2935,6 +2978,8 @@ class ResourceIdentifier {
 /// or more items. For details about group service configuration syntax, see <a
 /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
 /// configurations for resource groups</a>.
+///
+/// @nodoc
 class GroupConfigurationItem {
   /// Specifies the type of group configuration item. Each item must have a unique
   /// value for <code>type</code>. For the list of types that you can specify for
@@ -2979,6 +3024,8 @@ class GroupConfigurationItem {
 /// configuration syntax, see <a
 /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
 /// configurations for resource groups</a>.
+///
+/// @nodoc
 class GroupConfigurationParameter {
   /// The name of the group configuration parameter. For the list of parameters
   /// that you can use with each configuration item type, see <a
@@ -3016,6 +3063,8 @@ class GroupConfigurationParameter {
 }
 
 /// The Amazon resource name (ARN) of the tag-sync task.
+///
+/// @nodoc
 class TagSyncTaskItem {
   /// The timestamp of when the tag-sync task was created.
   final DateTime? createdAt;
@@ -3120,6 +3169,7 @@ class TagSyncTaskItem {
   }
 }
 
+/// @nodoc
 class TagSyncTaskStatus {
   static const active = TagSyncTaskStatus._('ACTIVE');
   static const error = TagSyncTaskStatus._('ERROR');
@@ -3146,6 +3196,8 @@ class TagSyncTaskStatus {
 
 /// Returns tag-sync tasks filtered by the Amazon resource name (ARN) or name of
 /// a specified application group.
+///
+/// @nodoc
 class ListTagSyncTasksFilter {
   /// The Amazon resource name (ARN) of the application group.
   final String? groupArn;
@@ -3169,6 +3221,8 @@ class ListTagSyncTasksFilter {
 }
 
 /// The unique identifiers for a resource group.
+///
+/// @nodoc
 class GroupIdentifier {
   /// The critical rank of the application group on a scale of 1 to 10, with a
   /// rank of 1 being the most critical, and a rank of 10 being least critical.
@@ -3230,6 +3284,8 @@ class GroupIdentifier {
 
 /// A filter collection that you can use to restrict the results from a
 /// <code>List</code> operation to only those you want to include.
+///
+/// @nodoc
 class GroupFilter {
   /// The name of the filter. Filter names are case-sensitive.
   final GroupFilterName name;
@@ -3253,6 +3309,7 @@ class GroupFilter {
   }
 }
 
+/// @nodoc
 class GroupFilterName {
   static const resourceType = GroupFilterName._('resource-type');
   static const configurationType = GroupFilterName._('configuration-type');
@@ -3289,6 +3346,8 @@ class GroupFilterName {
 /// A structure returned by the <a>ListGroupResources</a> operation that
 /// contains identity and group membership status information for one of the
 /// resources in the group.
+///
+/// @nodoc
 class ListGroupResourcesItem {
   final ResourceIdentifier? identifier;
 
@@ -3331,6 +3390,8 @@ class ListGroupResourcesItem {
 /// resource. Adding a resource to a resource group is performed asynchronously
 /// as a background task. A <code>PENDING</code> status indicates, for this
 /// resource, that the process isn't completed yet.
+///
+/// @nodoc
 class ResourceStatus {
   /// The current status.
   final ResourceStatusValue? name;
@@ -3353,6 +3414,7 @@ class ResourceStatus {
   }
 }
 
+/// @nodoc
 class ResourceStatusValue {
   static const pending = ResourceStatusValue._('PENDING');
 
@@ -3379,6 +3441,8 @@ class ResourceStatusValue {
 
 /// A filter name and value pair that is used to obtain more specific results
 /// from a list of resources.
+///
+/// @nodoc
 class ResourceFilter {
   /// The name of the filter. Filter names are case-sensitive.
   final ResourceFilterName name;
@@ -3402,6 +3466,7 @@ class ResourceFilter {
   }
 }
 
+/// @nodoc
 class ResourceFilterName {
   static const resourceType = ResourceFilterName._('resource-type');
 
@@ -3427,6 +3492,8 @@ class ResourceFilterName {
 }
 
 /// The information about a grouping or ungrouping resource action.
+///
+/// @nodoc
 class GroupingStatusesItem {
   /// Describes the resource grouping action with values of <code>GROUP</code> or
   /// <code>UNGROUP</code>.
@@ -3486,6 +3553,7 @@ class GroupingStatusesItem {
   }
 }
 
+/// @nodoc
 class GroupingType {
   static const group = GroupingType._('GROUP');
   static const ungroup = GroupingType._('UNGROUP');
@@ -3509,6 +3577,7 @@ class GroupingType {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupingStatus {
   static const success = GroupingStatus._('SUCCESS');
   static const failed = GroupingStatus._('FAILED');
@@ -3537,6 +3606,8 @@ class GroupingStatus {
 
 /// A filter name and value pair that is used to obtain more specific results
 /// from the list of grouping statuses.
+///
+/// @nodoc
 class ListGroupingStatusesFilter {
   /// The name of the filter. Filter names are case-sensitive.
   final ListGroupingStatusesFilterName name;
@@ -3560,6 +3631,7 @@ class ListGroupingStatusesFilter {
   }
 }
 
+/// @nodoc
 class ListGroupingStatusesFilterName {
   static const status = ListGroupingStatusesFilterName._('status');
   static const resourceArn = ListGroupingStatusesFilterName._('resource-arn');
@@ -3593,6 +3665,8 @@ class ListGroupingStatusesFilterName {
 /// operation. For details about group service configuration syntax, see <a
 /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
 /// configurations for resource groups</a>.
+///
+/// @nodoc
 class GroupConfiguration {
   /// The configuration currently associated with the group and in effect.
   final List<GroupConfigurationItem>? configuration;
@@ -3648,6 +3722,7 @@ class GroupConfiguration {
   }
 }
 
+/// @nodoc
 class GroupConfigurationStatus {
   static const updating = GroupConfigurationStatus._('UPDATING');
   static const updateComplete = GroupConfigurationStatus._('UPDATE_COMPLETE');
@@ -3674,37 +3749,44 @@ class GroupConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class MethodNotAllowedException extends _s.GenericAwsException {
   MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

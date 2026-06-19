@@ -909,6 +909,7 @@ class PartnerCentralChannel {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Key-value pairs associated with the resource.
   final List<Tag>? tags;
@@ -934,6 +935,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -946,6 +948,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -958,6 +961,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelHandshakeResponse {
   /// Details of the created channel handshake.
   final CreateChannelHandshakeDetail? channelHandshakeDetail;
@@ -984,6 +988,7 @@ class CreateChannelHandshakeResponse {
   }
 }
 
+/// @nodoc
 class ListChannelHandshakesResponse {
   /// List of channel handshakes matching the criteria.
   final List<ChannelHandshakeSummary>? items;
@@ -1017,6 +1022,7 @@ class ListChannelHandshakesResponse {
   }
 }
 
+/// @nodoc
 class AcceptChannelHandshakeResponse {
   /// Details of the accepted channel handshake.
   final AcceptChannelHandshakeDetail? channelHandshakeDetail;
@@ -1043,6 +1049,7 @@ class AcceptChannelHandshakeResponse {
   }
 }
 
+/// @nodoc
 class CancelChannelHandshakeResponse {
   /// Details of the canceled channel handshake.
   final CancelChannelHandshakeDetail? channelHandshakeDetail;
@@ -1069,6 +1076,7 @@ class CancelChannelHandshakeResponse {
   }
 }
 
+/// @nodoc
 class RejectChannelHandshakeResponse {
   /// Details of the rejected channel handshake.
   final RejectChannelHandshakeDetail? channelHandshakeDetail;
@@ -1095,6 +1103,7 @@ class RejectChannelHandshakeResponse {
   }
 }
 
+/// @nodoc
 class CreateProgramManagementAccountResponse {
   /// Details of the created program management account.
   final CreateProgramManagementAccountDetail? programManagementAccountDetail;
@@ -1123,6 +1132,7 @@ class CreateProgramManagementAccountResponse {
   }
 }
 
+/// @nodoc
 class UpdateProgramManagementAccountResponse {
   /// Details of the updated program management account.
   final UpdateProgramManagementAccountDetail? programManagementAccountDetail;
@@ -1151,6 +1161,7 @@ class UpdateProgramManagementAccountResponse {
   }
 }
 
+/// @nodoc
 class DeleteProgramManagementAccountResponse {
   DeleteProgramManagementAccountResponse();
 
@@ -1164,6 +1175,7 @@ class DeleteProgramManagementAccountResponse {
   }
 }
 
+/// @nodoc
 class ListProgramManagementAccountsResponse {
   /// List of program management accounts matching the criteria.
   final List<ProgramManagementAccountSummary>? items;
@@ -1198,6 +1210,7 @@ class ListProgramManagementAccountsResponse {
   }
 }
 
+/// @nodoc
 class CreateRelationshipResponse {
   /// Details of the created relationship.
   final CreateRelationshipDetail? relationshipDetail;
@@ -1223,6 +1236,7 @@ class CreateRelationshipResponse {
   }
 }
 
+/// @nodoc
 class GetRelationshipResponse {
   /// Details of the requested relationship.
   final RelationshipDetail? relationshipDetail;
@@ -1248,6 +1262,7 @@ class GetRelationshipResponse {
   }
 }
 
+/// @nodoc
 class UpdateRelationshipResponse {
   /// Details of the updated relationship.
   final UpdateRelationshipDetail? relationshipDetail;
@@ -1273,6 +1288,7 @@ class UpdateRelationshipResponse {
   }
 }
 
+/// @nodoc
 class DeleteRelationshipResponse {
   DeleteRelationshipResponse();
 
@@ -1285,6 +1301,7 @@ class DeleteRelationshipResponse {
   }
 }
 
+/// @nodoc
 class ListRelationshipsResponse {
   /// List of relationships matching the criteria.
   final List<RelationshipSummary>? items;
@@ -1318,6 +1335,8 @@ class ListRelationshipsResponse {
 }
 
 /// Summary information about a partner relationship.
+///
+/// @nodoc
 class RelationshipSummary {
   /// The Amazon Resource Name (ARN) of the relationship.
   final String? arn;
@@ -1420,6 +1439,7 @@ class RelationshipSummary {
   }
 }
 
+/// @nodoc
 class AssociationType {
   static const downstreamSeller = AssociationType._('DOWNSTREAM_SELLER');
   static const endCustomer = AssociationType._('END_CUSTOMER');
@@ -1445,6 +1465,7 @@ class AssociationType {
   String toString() => value;
 }
 
+/// @nodoc
 class Sector {
   static const commercial = Sector._('COMMERCIAL');
   static const government = Sector._('GOVERNMENT');
@@ -1470,6 +1491,8 @@ class Sector {
 }
 
 /// Base sorting configuration for relationships.
+///
+/// @nodoc
 class ListRelationshipsSortBase {
   /// The field to sort by.
   final ListRelationshipsSortName sortBy;
@@ -1492,6 +1515,7 @@ class ListRelationshipsSortBase {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -1515,6 +1539,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class ListRelationshipsSortName {
   static const updatedAt = ListRelationshipsSortName._('UpdatedAt');
 
@@ -1540,6 +1565,8 @@ class ListRelationshipsSortName {
 }
 
 /// Contains details about an updated relationship.
+///
+/// @nodoc
 class UpdateRelationshipDetail {
   /// The Amazon Resource Name (ARN) of the updated relationship.
   final String? arn;
@@ -1584,6 +1611,8 @@ class UpdateRelationshipDetail {
 }
 
 /// Configuration for different types of support plans.
+///
+/// @nodoc
 class SupportPlan {
   /// Configuration for partner-led support plans.
   final PartnerLedSupport? partnerLedSupport;
@@ -1614,6 +1643,8 @@ class SupportPlan {
 }
 
 /// Configuration for resold enterprise support plans.
+///
+/// @nodoc
 class ResoldEnterprise {
   /// The coverage level for resold enterprise support.
   final Coverage coverage;
@@ -1643,6 +1674,8 @@ class ResoldEnterprise {
 }
 
 /// Configuration for partner-led support plans.
+///
+/// @nodoc
 class PartnerLedSupport {
   /// The coverage level for partner-led support.
   final Coverage coverage;
@@ -1672,6 +1705,8 @@ class PartnerLedSupport {
 }
 
 /// Configuration for resold unified operations support plans.
+///
+/// @nodoc
 class ResoldUnifiedOperations {
   /// The coverage level for resold unified operations support.
   final Coverage coverage;
@@ -1700,6 +1735,7 @@ class ResoldUnifiedOperations {
   }
 }
 
+/// @nodoc
 class Coverage {
   static const entireOrganization = Coverage._('ENTIRE_ORGANIZATION');
   static const managementAccountOnly = Coverage._('MANAGEMENT_ACCOUNT_ONLY');
@@ -1723,6 +1759,7 @@ class Coverage {
   String toString() => value;
 }
 
+/// @nodoc
 class Provider {
   static const distributor = Provider._('DISTRIBUTOR');
   static const distributionSeller = Provider._('DISTRIBUTION_SELLER');
@@ -1747,6 +1784,8 @@ class Provider {
 }
 
 /// Detailed information about a partner relationship.
+///
+/// @nodoc
 class RelationshipDetail {
   /// The Amazon Resource Name (ARN) of the relationship.
   final String? arn;
@@ -1858,6 +1897,7 @@ class RelationshipDetail {
   }
 }
 
+/// @nodoc
 class ResaleAccountModel {
   static const distributor = ResaleAccountModel._('DISTRIBUTOR');
   static const endCustomer = ResaleAccountModel._('END_CUSTOMER');
@@ -1885,6 +1925,8 @@ class ResaleAccountModel {
 }
 
 /// Contains details about a newly created relationship.
+///
+/// @nodoc
 class CreateRelationshipDetail {
   /// The Amazon Resource Name (ARN) of the created relationship.
   final String? arn;
@@ -1915,6 +1957,8 @@ class CreateRelationshipDetail {
 }
 
 /// A key-value pair that can be associated with a resource.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -1945,6 +1989,8 @@ class Tag {
 }
 
 /// Summary information about a program management account.
+///
+/// @nodoc
 class ProgramManagementAccountSummary {
   /// The AWS account ID associated with the program management account.
   final String? accountId;
@@ -2038,6 +2084,7 @@ class ProgramManagementAccountSummary {
   }
 }
 
+/// @nodoc
 class Program {
   static const solutionProvider = Program._('SOLUTION_PROVIDER');
   static const distribution = Program._('DISTRIBUTION');
@@ -2062,6 +2109,7 @@ class Program {
   String toString() => value;
 }
 
+/// @nodoc
 class ProgramManagementAccountStatus {
   static const pending = ProgramManagementAccountStatus._('PENDING');
   static const active = ProgramManagementAccountStatus._('ACTIVE');
@@ -2089,6 +2137,8 @@ class ProgramManagementAccountStatus {
 }
 
 /// Base sorting configuration for program management accounts.
+///
+/// @nodoc
 class ListProgramManagementAccountsSortBase {
   /// The field to sort by.
   final ListProgramManagementAccountsSortName sortBy;
@@ -2111,6 +2161,7 @@ class ListProgramManagementAccountsSortBase {
   }
 }
 
+/// @nodoc
 class ListProgramManagementAccountsSortName {
   static const updatedAt = ListProgramManagementAccountsSortName._('UpdatedAt');
 
@@ -2136,6 +2187,8 @@ class ListProgramManagementAccountsSortName {
 }
 
 /// Contains details about an updated program management account.
+///
+/// @nodoc
 class UpdateProgramManagementAccountDetail {
   /// The Amazon Resource Name (ARN) of the updated program management account.
   final String? arn;
@@ -2181,6 +2234,8 @@ class UpdateProgramManagementAccountDetail {
 }
 
 /// Contains details about a newly created program management account.
+///
+/// @nodoc
 class CreateProgramManagementAccountDetail {
   /// The Amazon Resource Name (ARN) of the created program management account.
   final String? arn;
@@ -2212,6 +2267,8 @@ class CreateProgramManagementAccountDetail {
 }
 
 /// Contains details about a rejected channel handshake.
+///
+/// @nodoc
 class RejectChannelHandshakeDetail {
   /// The Amazon Resource Name (ARN) of the rejected handshake.
   final String? arn;
@@ -2248,6 +2305,7 @@ class RejectChannelHandshakeDetail {
   }
 }
 
+/// @nodoc
 class HandshakeStatus {
   static const pending = HandshakeStatus._('PENDING');
   static const accepted = HandshakeStatus._('ACCEPTED');
@@ -2276,6 +2334,8 @@ class HandshakeStatus {
 }
 
 /// Contains details about a canceled channel handshake.
+///
+/// @nodoc
 class CancelChannelHandshakeDetail {
   /// The Amazon Resource Name (ARN) of the canceled handshake.
   final String? arn;
@@ -2313,6 +2373,8 @@ class CancelChannelHandshakeDetail {
 }
 
 /// Contains details about an accepted channel handshake.
+///
+/// @nodoc
 class AcceptChannelHandshakeDetail {
   /// The Amazon Resource Name (ARN) of the accepted handshake.
   final String? arn;
@@ -2350,6 +2412,8 @@ class AcceptChannelHandshakeDetail {
 }
 
 /// Summary information about a channel handshake.
+///
+/// @nodoc
 class ChannelHandshakeSummary {
   /// The Amazon Resource Name (ARN) of the handshake.
   final String? arn;
@@ -2460,6 +2524,7 @@ class ChannelHandshakeSummary {
   }
 }
 
+/// @nodoc
 class HandshakeType {
   static const startServicePeriod = HandshakeType._('START_SERVICE_PERIOD');
   static const revokeServicePeriod = HandshakeType._('REVOKE_SERVICE_PERIOD');
@@ -2491,6 +2556,8 @@ class HandshakeType {
 }
 
 /// Contains detailed information about different types of handshakes.
+///
+/// @nodoc
 class HandshakeDetail {
   /// Details for a program management account handshake.
   final ProgramManagementAccountHandshakeDetail?
@@ -2552,6 +2619,8 @@ class HandshakeDetail {
 }
 
 /// Details specific to start service period handshakes.
+///
+/// @nodoc
 class StartServicePeriodHandshakeDetail {
   /// The end date of the service period.
   final DateTime? endDate;
@@ -2606,6 +2675,8 @@ class StartServicePeriodHandshakeDetail {
 }
 
 /// Details specific to revoke service period handshakes.
+///
+/// @nodoc
 class RevokeServicePeriodHandshakeDetail {
   /// The end date of the service period being revoked.
   final DateTime? endDate;
@@ -2660,6 +2731,8 @@ class RevokeServicePeriodHandshakeDetail {
 }
 
 /// Details specific to program management account handshakes.
+///
+/// @nodoc
 class ProgramManagementAccountHandshakeDetail {
   /// The program associated with the handshake.
   final Program? program;
@@ -2683,6 +2756,7 @@ class ProgramManagementAccountHandshakeDetail {
   }
 }
 
+/// @nodoc
 class ServicePeriodType {
   static const minimumNoticePeriod =
       ServicePeriodType._('MINIMUM_NOTICE_PERIOD');
@@ -2709,6 +2783,7 @@ class ServicePeriodType {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantType {
   static const sender = ParticipantType._('SENDER');
   static const receiver = ParticipantType._('RECEIVER');
@@ -2734,6 +2809,8 @@ class ParticipantType {
 }
 
 /// Type-specific filters for listing channel handshakes.
+///
+/// @nodoc
 class ListChannelHandshakesTypeFilters {
   /// Filters specific to program management account handshakes.
   final ProgramManagementAccountTypeFilters?
@@ -2769,6 +2846,8 @@ class ListChannelHandshakesTypeFilters {
 }
 
 /// Type-specific sorting options for listing channel handshakes.
+///
+/// @nodoc
 class ListChannelHandshakesTypeSort {
   /// Sorting options specific to program management account handshakes.
   final ProgramManagementAccountTypeSort? programManagementAccountTypeSort;
@@ -2802,6 +2881,8 @@ class ListChannelHandshakesTypeSort {
 }
 
 /// Sorting options specific to start service period handshakes.
+///
+/// @nodoc
 class StartServicePeriodTypeSort {
   /// The field to sort by.
   final StartServicePeriodTypeSortName sortBy;
@@ -2825,6 +2906,8 @@ class StartServicePeriodTypeSort {
 }
 
 /// Sorting options specific to revoke service period handshakes.
+///
+/// @nodoc
 class RevokeServicePeriodTypeSort {
   /// The field to sort by.
   final RevokeServicePeriodTypeSortName sortBy;
@@ -2848,6 +2931,8 @@ class RevokeServicePeriodTypeSort {
 }
 
 /// Type-specific sorting options for program management accounts.
+///
+/// @nodoc
 class ProgramManagementAccountTypeSort {
   /// The field to sort by.
   final ProgramManagementAccountTypeSortName sortBy;
@@ -2870,6 +2955,7 @@ class ProgramManagementAccountTypeSort {
   }
 }
 
+/// @nodoc
 class ProgramManagementAccountTypeSortName {
   static const updatedAt = ProgramManagementAccountTypeSortName._('UpdatedAt');
 
@@ -2894,6 +2980,7 @@ class ProgramManagementAccountTypeSortName {
   String toString() => value;
 }
 
+/// @nodoc
 class RevokeServicePeriodTypeSortName {
   static const updatedAt = RevokeServicePeriodTypeSortName._('UpdatedAt');
 
@@ -2918,6 +3005,7 @@ class RevokeServicePeriodTypeSortName {
   String toString() => value;
 }
 
+/// @nodoc
 class StartServicePeriodTypeSortName {
   static const updatedAt = StartServicePeriodTypeSortName._('UpdatedAt');
 
@@ -2943,6 +3031,8 @@ class StartServicePeriodTypeSortName {
 }
 
 /// Filters specific to start service period handshakes.
+///
+/// @nodoc
 class StartServicePeriodTypeFilters {
   /// Filter by service period types.
   final List<ServicePeriodType>? servicePeriodTypes;
@@ -2961,6 +3051,8 @@ class StartServicePeriodTypeFilters {
 }
 
 /// Filters specific to revoke service period handshakes.
+///
+/// @nodoc
 class RevokeServicePeriodTypeFilters {
   /// Filter by service period types.
   final List<ServicePeriodType>? servicePeriodTypes;
@@ -2979,6 +3071,8 @@ class RevokeServicePeriodTypeFilters {
 }
 
 /// Type-specific filters for program management accounts.
+///
+/// @nodoc
 class ProgramManagementAccountTypeFilters {
   /// Filter by program types.
   final List<Program>? programs;
@@ -2996,6 +3090,8 @@ class ProgramManagementAccountTypeFilters {
 }
 
 /// Contains details about a newly created channel handshake.
+///
+/// @nodoc
 class CreateChannelHandshakeDetail {
   /// The Amazon Resource Name (ARN) of the created handshake.
   final String? arn;
@@ -3026,6 +3122,8 @@ class CreateChannelHandshakeDetail {
 }
 
 /// Contains the payload data for different types of channel handshakes.
+///
+/// @nodoc
 class ChannelHandshakePayload {
   /// Payload for revoking a service period handshake.
   final RevokeServicePeriodPayload? revokeServicePeriodPayload;
@@ -3051,6 +3149,8 @@ class ChannelHandshakePayload {
 }
 
 /// Payload for start service period handshake requests.
+///
+/// @nodoc
 class StartServicePeriodPayload {
   /// The identifier of the program management account.
   final String programManagementAccountIdentifier;
@@ -3093,6 +3193,8 @@ class StartServicePeriodPayload {
 }
 
 /// Payload for revoke service period handshake requests.
+///
+/// @nodoc
 class RevokeServicePeriodPayload {
   /// The identifier of the program management account.
   final String programManagementAccountIdentifier;
@@ -3116,26 +3218,31 @@ class RevokeServicePeriodPayload {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3144,11 +3251,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

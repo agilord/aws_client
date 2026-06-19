@@ -554,6 +554,7 @@ class MediaPackageVod {
   }
 }
 
+/// @nodoc
 class ConfigureLogsResponse {
   /// The ARN of the PackagingGroup.
   final String? arn;
@@ -619,6 +620,7 @@ class ConfigureLogsResponse {
   }
 }
 
+/// @nodoc
 class CreateAssetResponse {
   /// The ARN of the Asset.
   final String? arn;
@@ -699,6 +701,7 @@ class CreateAssetResponse {
   }
 }
 
+/// @nodoc
 class CreatePackagingConfigurationResponse {
   /// The ARN of the PackagingConfiguration.
   final String? arn;
@@ -777,6 +780,7 @@ class CreatePackagingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreatePackagingGroupResponse {
   /// The ARN of the PackagingGroup.
   final String? arn;
@@ -842,6 +846,7 @@ class CreatePackagingGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssetResponse {
   DeleteAssetResponse();
 
@@ -854,6 +859,7 @@ class DeleteAssetResponse {
   }
 }
 
+/// @nodoc
 class DeletePackagingConfigurationResponse {
   DeletePackagingConfigurationResponse();
 
@@ -867,6 +873,7 @@ class DeletePackagingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePackagingGroupResponse {
   DeletePackagingGroupResponse();
 
@@ -879,6 +886,7 @@ class DeletePackagingGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetResponse {
   /// The ARN of the Asset.
   final String? arn;
@@ -959,6 +967,7 @@ class DescribeAssetResponse {
   }
 }
 
+/// @nodoc
 class DescribePackagingConfigurationResponse {
   /// The ARN of the PackagingConfiguration.
   final String? arn;
@@ -1037,6 +1046,7 @@ class DescribePackagingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribePackagingGroupResponse {
   /// The approximate asset count of the PackagingGroup.
   final int? approximateAssetCount;
@@ -1110,6 +1120,7 @@ class DescribePackagingGroupResponse {
   }
 }
 
+/// @nodoc
 class ListAssetsResponse {
   /// A list of MediaPackage VOD Asset resources.
   final List<AssetShallow>? assets;
@@ -1143,6 +1154,7 @@ class ListAssetsResponse {
   }
 }
 
+/// @nodoc
 class ListPackagingConfigurationsResponse {
   /// A token that can be used to resume pagination from the end of the
   /// collection.
@@ -1179,6 +1191,7 @@ class ListPackagingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListPackagingGroupsResponse {
   /// A token that can be used to resume pagination from the end of the
   /// collection.
@@ -1212,6 +1225,7 @@ class ListPackagingGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A collection of tags associated with a resource
   final Map<String, String>? tags;
@@ -1235,6 +1249,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdatePackagingGroupResponse {
   /// The approximate asset count of the PackagingGroup.
   final int? approximateAssetCount;
@@ -1309,6 +1324,8 @@ class UpdatePackagingGroupResponse {
 }
 
 /// CDN Authorization credentials
+///
+/// @nodoc
 class Authorization {
   /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is
   /// used for CDN authorization.
@@ -1341,6 +1358,8 @@ class Authorization {
 }
 
 /// Configure egress access logging.
+///
+/// @nodoc
 class EgressAccessLogs {
   /// Customize the log group name.
   final String? logGroupName;
@@ -1364,6 +1383,8 @@ class EgressAccessLogs {
 }
 
 /// A MediaPackage VOD PackagingGroup resource.
+///
+/// @nodoc
 class PackagingGroup {
   /// The approximate asset count of the PackagingGroup.
   final int? approximateAssetCount;
@@ -1438,6 +1459,8 @@ class PackagingGroup {
 }
 
 /// A MediaPackage VOD PackagingConfiguration resource.
+///
+/// @nodoc
 class PackagingConfiguration {
   /// The ARN of the PackagingConfiguration.
   final String? arn;
@@ -1516,6 +1539,8 @@ class PackagingConfiguration {
 }
 
 /// A CMAF packaging configuration.
+///
+/// @nodoc
 class CmafPackage {
   /// A list of HLS manifest configurations.
   final List<HlsManifest> hlsManifests;
@@ -1573,6 +1598,8 @@ class CmafPackage {
 }
 
 /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
+///
+/// @nodoc
 class DashPackage {
   /// A list of DASH manifest configurations.
   final List<DashManifest> dashManifests;
@@ -1667,6 +1694,8 @@ class DashPackage {
 }
 
 /// An HTTP Live Streaming (HLS) packaging configuration.
+///
+/// @nodoc
 class HlsPackage {
   /// A list of HLS manifest configurations.
   final List<HlsManifest> hlsManifests;
@@ -1727,6 +1756,8 @@ class HlsPackage {
 }
 
 /// A Microsoft Smooth Streaming (MSS) PackagingConfiguration.
+///
+/// @nodoc
 class MssPackage {
   /// A list of MSS manifest configurations.
   final List<MssManifest> mssManifests;
@@ -1768,6 +1799,8 @@ class MssPackage {
 }
 
 /// A Microsoft Smooth Streaming (MSS) encryption configuration.
+///
+/// @nodoc
 class MssEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -1792,6 +1825,8 @@ class MssEncryption {
 }
 
 /// A Microsoft Smooth Streaming (MSS) manifest configuration.
+///
+/// @nodoc
 class MssManifest {
   /// An optional string to include in the name of the manifest.
   final String? manifestName;
@@ -1823,6 +1858,8 @@ class MssManifest {
 }
 
 /// A StreamSelection configuration.
+///
+/// @nodoc
 class StreamSelection {
   /// The maximum video bitrate (bps) to include in output.
   final int? maxVideoBitsPerSecond;
@@ -1862,6 +1899,7 @@ class StreamSelection {
   }
 }
 
+/// @nodoc
 class StreamOrder {
   static const original = StreamOrder._('ORIGINAL');
   static const videoBitrateAscending = StreamOrder._('VIDEO_BITRATE_ASCENDING');
@@ -1893,6 +1931,8 @@ class StreamOrder {
 
 /// A configuration for accessing an external Secure Packager and Encoder Key
 /// Exchange (SPEKE) service that will provide encryption keys.
+///
+/// @nodoc
 class SpekeKeyProvider {
   /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental MediaPackage
   /// will assume when accessing the key provider service.
@@ -1954,6 +1994,8 @@ class SpekeKeyProvider {
 /// can be used for DASH endpoints that use SPEKE 2.0. SPEKE 2.0 relies on the
 /// CPIX 2.3 specification. You must disable key rotation for this endpoint by
 /// setting keyRotationIntervalSeconds to 0.
+///
+/// @nodoc
 class EncryptionContractConfiguration {
   /// A collection of audio encryption presets.
   final PresetSpeke20Audio presetSpeke20Audio;
@@ -1985,6 +2027,7 @@ class EncryptionContractConfiguration {
   }
 }
 
+/// @nodoc
 class PresetSpeke20Audio {
   static const presetAudio_1 = PresetSpeke20Audio._('PRESET-AUDIO-1');
   static const presetAudio_2 = PresetSpeke20Audio._('PRESET-AUDIO-2');
@@ -2019,6 +2062,7 @@ class PresetSpeke20Audio {
   String toString() => value;
 }
 
+/// @nodoc
 class PresetSpeke20Video {
   static const presetVideo_1 = PresetSpeke20Video._('PRESET-VIDEO-1');
   static const presetVideo_2 = PresetSpeke20Video._('PRESET-VIDEO-2');
@@ -2064,6 +2108,8 @@ class PresetSpeke20Video {
 }
 
 /// An HTTP Live Streaming (HLS) encryption configuration.
+///
+/// @nodoc
 class HlsEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -2106,6 +2152,8 @@ class HlsEncryption {
 }
 
 /// An HTTP Live Streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class HlsManifest {
   /// This setting controls how ad markers are included in the packaged
   /// OriginEndpoint. "NONE" will omit all SCTE-35 ad markers from the output.
@@ -2179,6 +2227,7 @@ class HlsManifest {
   }
 }
 
+/// @nodoc
 class AdMarkers {
   static const none = AdMarkers._('NONE');
   static const scte35Enhanced = AdMarkers._('SCTE35_ENHANCED');
@@ -2203,6 +2252,7 @@ class AdMarkers {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionMethod {
   static const aes_128 = EncryptionMethod._('AES_128');
   static const sampleAes = EncryptionMethod._('SAMPLE_AES');
@@ -2228,6 +2278,8 @@ class EncryptionMethod {
 }
 
 /// A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
+///
+/// @nodoc
 class DashEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -2251,6 +2303,7 @@ class DashEncryption {
   }
 }
 
+/// @nodoc
 class SegmentTemplateFormat {
   static const numberWithTimeline =
       SegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
@@ -2283,6 +2336,7 @@ class SegmentTemplateFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class PeriodTriggersElement {
   static const ads = PeriodTriggersElement._('ADS');
 
@@ -2308,6 +2362,8 @@ class PeriodTriggersElement {
 }
 
 /// A DASH manifest configuration.
+///
+/// @nodoc
 class DashManifest {
   /// Determines the position of some tags in the Media Presentation Description
   /// (MPD). When set to FULL, elements like SegmentTemplate and ContentProtection
@@ -2377,6 +2433,7 @@ class DashManifest {
   }
 }
 
+/// @nodoc
 class ManifestLayout {
   static const full = ManifestLayout._('FULL');
   static const compact = ManifestLayout._('COMPACT');
@@ -2401,6 +2458,7 @@ class ManifestLayout {
   String toString() => value;
 }
 
+/// @nodoc
 class Profile {
   static const none = Profile._('NONE');
   static const hbbtv_1_5 = Profile._('HBBTV_1_5');
@@ -2424,6 +2482,7 @@ class Profile {
   String toString() => value;
 }
 
+/// @nodoc
 class ScteMarkersSource {
   static const segments = ScteMarkersSource._('SEGMENTS');
   static const manifest = ScteMarkersSource._('MANIFEST');
@@ -2449,6 +2508,8 @@ class ScteMarkersSource {
 }
 
 /// A CMAF encryption configuration.
+///
+/// @nodoc
 class CmafEncryption {
   final SpekeKeyProvider spekeKeyProvider;
 
@@ -2484,6 +2545,8 @@ class CmafEncryption {
 }
 
 /// A MediaPackage VOD Asset resource.
+///
+/// @nodoc
 class AssetShallow {
   /// The ARN of the Asset.
   final String? arn;
@@ -2555,6 +2618,8 @@ class AssetShallow {
 }
 
 /// The endpoint URL used to access an Asset using one PackagingConfiguration.
+///
+/// @nodoc
 class EgressEndpoint {
   /// The ID of the PackagingConfiguration being applied to the Asset.
   final String? packagingConfigurationId;
@@ -2595,33 +2660,39 @@ class EgressEndpoint {
   }
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(

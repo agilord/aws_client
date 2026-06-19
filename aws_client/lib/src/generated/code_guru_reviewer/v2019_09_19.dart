@@ -368,7 +368,7 @@ class CodeGuruReviewer {
   ///
   /// Parameter [providerTypes] :
   /// List of provider types for filtering that needs to be applied before
-  /// displaying the result. For example, <code>providerTypes=[GitHub]</code>
+  /// displaying the result. For example, <code>providerTypes=\[GitHub\]</code>
   /// lists code reviews from GitHub.
   ///
   /// Parameter [repositoryNames] :
@@ -377,8 +377,8 @@ class CodeGuruReviewer {
   ///
   /// Parameter [states] :
   /// List of states for filtering that needs to be applied before displaying
-  /// the result. For example, <code>states=[Pending]</code> lists code reviews
-  /// in the Pending state.
+  /// the result. For example, <code>states=\[Pending\]</code> lists code
+  /// reviews in the Pending state.
   ///
   /// The valid code review states are:
   ///
@@ -816,6 +816,7 @@ class CodeGuruReviewer {
   }
 }
 
+/// @nodoc
 class AssociateRepositoryResponse {
   /// Information about the repository association.
   final RepositoryAssociation? repositoryAssociation;
@@ -865,6 +866,7 @@ class AssociateRepositoryResponse {
   }
 }
 
+/// @nodoc
 class CreateCodeReviewResponse {
   final CodeReview? codeReview;
 
@@ -888,6 +890,7 @@ class CreateCodeReviewResponse {
   }
 }
 
+/// @nodoc
 class DescribeCodeReviewResponse {
   /// Information about the code review.
   final CodeReview? codeReview;
@@ -912,6 +915,7 @@ class DescribeCodeReviewResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecommendationFeedbackResponse {
   /// The recommendation feedback given by the user.
   final RecommendationFeedback? recommendationFeedback;
@@ -939,6 +943,7 @@ class DescribeRecommendationFeedbackResponse {
   }
 }
 
+/// @nodoc
 class DescribeRepositoryAssociationResponse {
   /// Information about the repository association.
   final RepositoryAssociation? repositoryAssociation;
@@ -989,6 +994,7 @@ class DescribeRepositoryAssociationResponse {
   }
 }
 
+/// @nodoc
 class DisassociateRepositoryResponse {
   /// Information about the disassociated repository.
   final RepositoryAssociation? repositoryAssociation;
@@ -1038,6 +1044,7 @@ class DisassociateRepositoryResponse {
   }
 }
 
+/// @nodoc
 class ListCodeReviewsResponse {
   /// A list of code reviews that meet the criteria of the request.
   final List<CodeReviewSummary>? codeReviewSummaries;
@@ -1071,6 +1078,7 @@ class ListCodeReviewsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationFeedbackResponse {
   /// If <code>nextToken</code> is returned, there are more results available. The
   /// value of <code>nextToken</code> is a unique pagination token for each page.
@@ -1111,6 +1119,7 @@ class ListRecommendationFeedbackResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationsResponse {
   /// Pagination token.
   final String? nextToken;
@@ -1144,6 +1153,7 @@ class ListRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListRepositoryAssociationsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListRecommendations</code> request. When the results of a
@@ -1184,6 +1194,7 @@ class ListRepositoryAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array of key-value pairs used to tag an associated repository. A tag is a
   /// custom attribute label with two parts:
@@ -1222,6 +1233,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutRecommendationFeedbackResponse {
   PutRecommendationFeedbackResponse();
 
@@ -1234,6 +1246,7 @@ class PutRecommendationFeedbackResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1246,6 +1259,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1258,6 +1272,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class Reaction {
   static const thumbsUp = Reaction._('ThumbsUp');
   static const thumbsDown = Reaction._('ThumbsDown');
@@ -1285,6 +1300,8 @@ class Reaction {
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">ListRepositoryAssociations</a>
 /// operation returns a list of <code>RepositoryAssociationSummary</code>
 /// objects.
+///
+/// @nodoc
 class RepositoryAssociationSummary {
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html">RepositoryAssociation</a>
@@ -1417,6 +1434,7 @@ class RepositoryAssociationSummary {
   }
 }
 
+/// @nodoc
 class ProviderType {
   static const codeCommit = ProviderType._('CodeCommit');
   static const gitHub = ProviderType._('GitHub');
@@ -1450,6 +1468,7 @@ class ProviderType {
   String toString() => value;
 }
 
+/// @nodoc
 class RepositoryAssociationState {
   static const associated = RepositoryAssociationState._('Associated');
   static const associating = RepositoryAssociationState._('Associating');
@@ -1485,6 +1504,8 @@ class RepositoryAssociationState {
 }
 
 /// Information about recommendations.
+///
+/// @nodoc
 class RecommendationSummary {
   /// A description of the recommendation generated by CodeGuru Reviewer for the
   /// lines of code between the start line and the end line.
@@ -1568,6 +1589,7 @@ class RecommendationSummary {
   }
 }
 
+/// @nodoc
 class RecommendationCategory {
   static const awsBestPractices = RecommendationCategory._('AWSBestPractices');
   static const awsCloudFormationIssues =
@@ -1624,6 +1646,8 @@ class RecommendationCategory {
 /// and a short and long description. CodeGuru Reviewer uses rules to analyze
 /// code. A rule's recommendation is included in analysis results if code is
 /// detected that violates the rule.
+///
+/// @nodoc
 class RuleMetadata {
   /// A long description of the rule.
   final String? longDescription;
@@ -1677,6 +1701,7 @@ class RuleMetadata {
   }
 }
 
+/// @nodoc
 class Severity {
   static const info = Severity._('Info');
   static const low = Severity._('Low');
@@ -1704,6 +1729,8 @@ class Severity {
 }
 
 /// Information about recommendation feedback summaries.
+///
+/// @nodoc
 class RecommendationFeedbackSummary {
   /// List for storing reactions. Reactions are utf-8 text code for emojis.
   final List<Reaction>? reactions;
@@ -1753,6 +1780,8 @@ class RecommendationFeedbackSummary {
 }
 
 /// Information about the summary of the code review.
+///
+/// @nodoc
 class CodeReviewSummary {
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">CodeReview</a>
@@ -1885,6 +1914,7 @@ class CodeReviewSummary {
   }
 }
 
+/// @nodoc
 class JobState {
   static const completed = JobState._('Completed');
   static const pending = JobState._('Pending');
@@ -1910,6 +1940,7 @@ class JobState {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const pullRequest = Type._('PullRequest');
   static const repositoryAnalysis = Type._('RepositoryAnalysis');
@@ -1934,6 +1965,8 @@ class Type {
 }
 
 /// Information about metrics summaries.
+///
+/// @nodoc
 class MetricsSummary {
   /// Total number of recommendations found in the code review.
   final int? findingsCount;
@@ -1998,6 +2031,8 @@ class MetricsSummary {
 }
 
 /// Specifies the source code that is analyzed in a code review.
+///
+/// @nodoc
 class SourceCodeType {
   /// A type of <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">SourceCodeType</a>
@@ -2081,6 +2116,8 @@ class SourceCodeType {
 /// that specifies the commit diff for a pull request on an associated
 /// repository. The <code>SourceCommit</code> and <code>DestinationCommit</code>
 /// fields are required to do a pull request code review.
+///
+/// @nodoc
 class CommitDiffSourceCodeType {
   /// The SHA of the destination commit used to generate a commit diff. This field
   /// is required for a pull request code review.
@@ -2122,6 +2159,8 @@ class CommitDiffSourceCodeType {
 /// A <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">SourceCodeType</a>
 /// that specifies the tip of a branch in an associated repository.
+///
+/// @nodoc
 class RepositoryHeadSourceCodeType {
   /// The name of the branch in an associated repository. The
   /// <code>RepositoryHeadSourceCodeType</code> specifies the tip of this branch.
@@ -2149,6 +2188,8 @@ class RepositoryHeadSourceCodeType {
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">SourceCodeType</a>
 /// that specifies a code diff between a source and destination branch in an
 /// associated repository.
+///
+/// @nodoc
 class BranchDiffSourceCodeType {
   /// The destination branch for a diff in an associated repository.
   final String destinationBranchName;
@@ -2181,6 +2222,8 @@ class BranchDiffSourceCodeType {
 /// Information about an associated repository in an S3 bucket. The associated
 /// repository contains a source code .zip file and a build artifacts .zip file
 /// that contains .jar or .class files.
+///
+/// @nodoc
 class S3BucketRepository {
   /// The name of the repository when the <code>ProviderType</code> is
   /// <code>S3Bucket</code>.
@@ -2219,6 +2262,8 @@ class S3BucketRepository {
 
 /// Metadata that is associated with a code review. This applies to both pull
 /// request and repository analysis code reviews.
+///
+/// @nodoc
 class RequestMetadata {
   /// Information about the event associated with a code review.
   final EventInfo? eventInfo;
@@ -2274,6 +2319,8 @@ class RequestMetadata {
 
 /// Information about an event. The event might be a push, pull request,
 /// scheduled request, or another type of event.
+///
+/// @nodoc
 class EventInfo {
   /// The name of the event. The possible names are <code>pull_request</code>,
   /// <code>workflow_dispatch</code>, <code>schedule</code>, and <code>push</code>
@@ -2304,6 +2351,7 @@ class EventInfo {
   }
 }
 
+/// @nodoc
 class VendorName {
   static const gitHub = VendorName._('GitHub');
   static const gitLab = VendorName._('GitLab');
@@ -2331,6 +2379,8 @@ class VendorName {
 /// Specifies the name of an S3 bucket and a <code>CodeArtifacts</code> object
 /// that contains the S3 object keys for a source code .zip file and for a build
 /// artifacts .zip file that contains .jar or .class files.
+///
+/// @nodoc
 class S3RepositoryDetails {
   /// The name of the S3 bucket used for associating a new S3 repository. It must
   /// begin with <code>codeguru-reviewer-</code>.
@@ -2378,6 +2428,8 @@ class S3RepositoryDetails {
 /// Build artifacts are .jar or .class files that are compressed in a .zip file.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CodeArtifacts {
   /// The S3 object key for a source code .zip file. This is required for all code
   /// reviews.
@@ -2418,6 +2470,8 @@ class CodeArtifacts {
 /// Information about a repository association. The <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_DescribeRepositoryAssociation.html">DescribeRepositoryAssociation</a>
 /// operation returns a <code>RepositoryAssociation</code> object.
+///
+/// @nodoc
 class RepositoryAssociation {
   /// The Amazon Resource Name (ARN) identifying the repository association.
   final String? associationArn;
@@ -2609,6 +2663,8 @@ class RepositoryAssociation {
 /// repository association.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KMSKeyDetails {
   /// The encryption option for a repository association. It is either owned by
   /// Amazon Web Services Key Management Service (KMS)
@@ -2643,6 +2699,7 @@ class KMSKeyDetails {
   }
 }
 
+/// @nodoc
 class EncryptionOption {
   static const awsOwnedCmk = EncryptionOption._('AWS_OWNED_CMK');
   static const customerManagedCmk = EncryptionOption._('CUSTOMER_MANAGED_CMK');
@@ -2668,6 +2725,8 @@ class EncryptionOption {
 }
 
 /// Information about the recommendation feedback.
+///
+/// @nodoc
 class RecommendationFeedback {
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">CodeReview</a>
@@ -2744,6 +2803,8 @@ class RecommendationFeedback {
 
 /// Information about a code review. A code review belongs to the associated
 /// repository that contains the reviewed code.
+///
+/// @nodoc
 class CodeReview {
   /// The types of analysis performed during a repository analysis or a pull
   /// request review. You can specify either <code>Security</code>,
@@ -2919,6 +2980,8 @@ class CodeReview {
 }
 
 /// Information about the statistics from the code review.
+///
+/// @nodoc
 class Metrics {
   /// Total number of recommendations found in the code review.
   final int? findingsCount;
@@ -2964,6 +3027,7 @@ class Metrics {
   }
 }
 
+/// @nodoc
 class ConfigFileState {
   static const present = ConfigFileState._('Present');
   static const absent = ConfigFileState._('Absent');
@@ -2989,6 +3053,7 @@ class ConfigFileState {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalysisType {
   static const security = AnalysisType._('Security');
   static const codeQuality = AnalysisType._('CodeQuality');
@@ -3026,6 +3091,8 @@ class AnalysisType {
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview">CreateCodeReview</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CodeReviewType {
   /// A code review that analyzes all code under a specified branch in an
   /// associated repository. The associated repository is specified using its ARN
@@ -3058,6 +3125,8 @@ class CodeReviewType {
 /// associated repository. The associated repository is specified using its ARN
 /// when you call <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview">CreateCodeReview</a>.
+///
+/// @nodoc
 class RepositoryAnalysis {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">SourceCodeType</a>
@@ -3084,6 +3153,8 @@ class RepositoryAnalysis {
 /// an associated repository that is managed by Amazon Web Services CodeStar
 /// Connections (for example, Bitbucket). This <code>Repository</code> object is
 /// not used if your source code is in an associated GitHub repository.
+///
+/// @nodoc
 class Repository {
   /// Information about a Bitbucket repository.
   final ThirdPartySourceRepository? bitbucket;
@@ -3121,6 +3192,8 @@ class Repository {
 /// CodeCommit repository must be in the same Amazon Web Services Region and
 /// Amazon Web Services account where its CodeGuru Reviewer code reviews are
 /// configured.
+///
+/// @nodoc
 class CodeCommitRepository {
   /// The name of the Amazon Web Services CodeCommit repository. For more
   /// information, see <a
@@ -3142,6 +3215,8 @@ class CodeCommitRepository {
 
 /// Information about a third-party source repository connected to CodeGuru
 /// Reviewer.
+///
+/// @nodoc
 class ThirdPartySourceRepository {
   /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar
   /// Connections connection. Its format is
@@ -3179,6 +3254,8 @@ class ThirdPartySourceRepository {
 }
 
 /// Information about a repository in an S3 bucket.
+///
+/// @nodoc
 class S3Repository {
   /// The name of the S3 bucket used for associating a new S3 repository. It must
   /// begin with <code>codeguru-reviewer-</code>.
@@ -3202,36 +3279,43 @@ class S3Repository {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

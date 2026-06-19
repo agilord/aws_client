@@ -329,7 +329,7 @@ class CloudWatchLogs {
   ///
   /// Only some Amazon Web Services services support being configured as a
   /// delivery source using this operation. These services are listed as
-  /// <b>Supported [V2 Permissions]</b> in the table at <a
+  /// <b>Supported \[V2 Permissions\]</b> in the table at <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
   /// logging from Amazon Web Services services.</a>
   ///
@@ -604,21 +604,21 @@ class CloudWatchLogs {
   /// </ul>
   /// Example IAM policy for provided import role:
   ///
-  /// <code>[ { "Effect": "Allow", "Action": "iam:PassRole", "Resource":
+  /// <code>\[ { "Effect": "Allow", "Action": "iam:PassRole", "Resource":
   /// "arn:aws:iam::123456789012:role/apiCallerCredentials", "Condition": {
   /// "StringLike": { "iam:AssociatedResourceARN":
   /// "arn:aws:logs:us-east-1:123456789012:log-group:aws/cloudtrail/f1d45bff-d0e3-4868-b5d9-2eb678aa32fb:*"
-  /// } } }, { "Effect": "Allow", "Action": [ "cloudtrail:GetEventDataStoreData"
-  /// ], "Resource": [
+  /// } } }, { "Effect": "Allow", "Action": \[
+  /// "cloudtrail:GetEventDataStoreData" \], "Resource": \[
   /// "arn:aws:cloudtrail:us-east-1:123456789012:eventdatastore/f1d45bff-d0e3-4868-b5d9-2eb678aa32fb"
-  /// ] }, { "Effect": "Allow", "Action": [ "logs:CreateImportTask",
-  /// "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutResourcePolicy" ],
-  /// "Resource": [
-  /// "arn:aws:logs:us-east-1:123456789012:log-group:/aws/cloudtrail/*" ] }, {
-  /// "Effect": "Allow", "Action": [ "kms:Decrypt", "kms:GenerateDataKey" ],
-  /// "Resource": [
+  /// \] }, { "Effect": "Allow", "Action": \[ "logs:CreateImportTask",
+  /// "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutResourcePolicy"
+  /// \], "Resource": \[
+  /// "arn:aws:logs:us-east-1:123456789012:log-group:/aws/cloudtrail/*" \] }, {
+  /// "Effect": "Allow", "Action": \[ "kms:Decrypt", "kms:GenerateDataKey" \],
+  /// "Resource": \[
   /// "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
-  /// ] } ]</code>
+  /// \] } \]</code>
   /// </li>
   /// <li>
   /// If the import source has a customer managed key, the
@@ -702,9 +702,9 @@ class CloudWatchLogs {
   ///
   /// The following is an example of a pattern:
   ///
-  /// <code>[INFO] Request time: <*> ms</code>
+  /// <code>\[INFO\] Request time: <*> ms</code>
   ///
-  /// This pattern represents log events like <code>[INFO] Request time: 327
+  /// This pattern represents log events like <code>\[INFO\] Request time: 327
   /// ms</code> and other similar log events that differ only by the number, in
   /// this csse 327. When the pattern is displayed, the different numbers are
   /// replaced by <code><*></code>
@@ -4011,12 +4011,13 @@ class CloudWatchLogs {
   /// fields. Each field is truncated as needed to keep the total event size as
   /// close to 1MB as possible. The excess portions are stored as Large Log
   /// Objects (LLOs) and these fields are processed separately and LLO reference
-  /// system fields (in the format <code>@ptr.$[path.to.field]</code>) are
+  /// system fields (in the format <code>@ptr.$\[path.to.field\]</code>) are
   /// added. The path in the reference field reflects the original JSON
   /// structure where the large field was located. For example, this could be
-  /// <code>@ptr.$['input']['message']</code>,
-  /// <code>@ptr.$['AAA']['BBB']['CCC']['DDD']</code>,
-  /// <code>@ptr.$['AAA']</code>, or any other path matching your log structure.
+  /// <code>@ptr.$\['input'\]\['message'\]</code>,
+  /// <code>@ptr.$\['AAA'\]\['BBB'\]\['CCC'\]\['DDD'\]</code>,
+  /// <code>@ptr.$\['AAA'\]</code>, or any other path matching your log
+  /// structure.
   /// <note>
   /// The <code>GetLogObject</code> API routes requests using SDK host prefix
   /// injection. SDK versions released before April 1, 2026 route to
@@ -5200,7 +5201,7 @@ class CloudWatchLogs {
   /// For example, suppose you have created a field index for
   /// <code>requestId</code>. Then, any CloudWatch Logs Insights query on that
   /// log group that includes <code>requestId = <i>value</i> </code> or
-  /// <code>requestId in [<i>value</i>, <i>value</i>, ...]</code> will attempt
+  /// <code>requestId in \[<i>value</i>, <i>value</i>, ...\]</code> will attempt
   /// to process only the log events where the indexed field matches the
   /// specified value.
   ///
@@ -5377,8 +5378,8 @@ class CloudWatchLogs {
   /// CloudWatch Application Signals. To prevent turning off those features by
   /// accident, we recommend that you exclude the underlying log-groups through
   /// a selection-criteria such as <code>LogGroupNamePrefix NOT IN
-  /// ["/aws/containerinsights", "/aws/ecs/containerinsights",
-  /// "/aws/application-signals/data"]</code>.
+  /// \["/aws/containerinsights", "/aws/ecs/containerinsights",
+  /// "/aws/application-signals/data"\]</code>.
   /// </important>
   /// Each account can have either one account-level metric extraction policy
   /// that applies to all log groups, or up to 5 policies that are each scoped
@@ -5390,17 +5391,17 @@ class CloudWatchLogs {
   ///
   /// The selection criteria can be specified in these formats:
   ///
-  /// <code>LogGroupName IN ["log-group-1", "log-group-2"]</code>
+  /// <code>LogGroupName IN \["log-group-1", "log-group-2"\]</code>
   ///
-  /// <code>LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"]</code>
+  /// <code>LogGroupNamePrefix NOT IN \["/aws/prefix1", "/aws/prefix2"\]</code>
   ///
   /// If you have multiple account-level metric extraction policies with
   /// selection criteria, no two of them can have overlapping criteria. For
   /// example, if you have one policy with selection criteria
-  /// <code>LogGroupNamePrefix IN ["my-log"]</code>, you can't have another
+  /// <code>LogGroupNamePrefix IN \["my-log"\]</code>, you can't have another
   /// metric extraction policy with selection criteria <code>LogGroupNamePrefix
-  /// IN ["/my-log-prod"]</code> or <code>LogGroupNamePrefix IN
-  /// ["/my-logging"]</code>, as the set of log groups matching these prefixes
+  /// IN \["/my-log-prod"\]</code> or <code>LogGroupNamePrefix IN
+  /// \["/my-logging"\]</code>, as the set of log groups matching these prefixes
   /// would be a subset of the log groups matching the first policy's prefix,
   /// creating an overlap.
   ///
@@ -5561,7 +5562,7 @@ class CloudWatchLogs {
   /// The following is an example of an index policy document that creates
   /// indexes with different types.
   ///
-  /// <code>"policyDocument": "{ \"Fields\": [ \"TransactionId\" ],
+  /// <code>"policyDocument": "{ \"Fields\": \[ \"TransactionId\" \],
   /// \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\":
   /// {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}"</code>
   ///
@@ -5595,7 +5596,7 @@ class CloudWatchLogs {
   /// <li>
   /// If <code>policyType</code> is <code>SUBSCRIPTION_FILTER_POLICY</code>, the
   /// only supported <code>selectionCriteria</code> filter is <code>LogGroupName
-  /// NOT IN []</code>
+  /// NOT IN \[\]</code>
   /// </li>
   /// <li>
   /// If <code>policyType</code> is <code>TRANSFORMER_POLICY</code>, the only
@@ -5686,7 +5687,7 @@ class CloudWatchLogs {
   ///
   /// Length Constraints: Minimum length of 1. Maximum length of 512.
   ///
-  /// Pattern: <code>[\.\-_/#A-Za-z0-9]+</code>
+  /// Pattern: <code>\[\.\-_/#A-Za-z0-9\]+</code>
   ///
   /// Required: Yes
   Future<void> putBearerTokenAuthentication({
@@ -5862,8 +5863,8 @@ class CloudWatchLogs {
   /// delivery destination.
   ///
   /// Only some Amazon Web Services services support being configured as a
-  /// delivery source. These services are listed as <b>Supported [V2
-  /// Permissions]</b> in the table at <a
+  /// delivery source. These services are listed as <b>Supported \[V2
+  /// Permissions\]</b> in the table at <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
   /// logging from Amazon Web Services services.</a>
   ///
@@ -5984,8 +5985,8 @@ class CloudWatchLogs {
   /// </li>
   /// </ul>
   /// Only some Amazon Web Services services support being configured as a
-  /// delivery source. These services are listed as <b>Supported [V2
-  /// Permissions]</b> in the table at <a
+  /// delivery source. These services are listed as <b>Supported \[V2
+  /// Permissions\]</b> in the table at <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
   /// logging from Amazon Web Services services.</a>
   ///
@@ -6066,8 +6067,8 @@ class CloudWatchLogs {
   /// delivery destination.
   ///
   /// Only some Amazon Web Services services support being configured as a
-  /// delivery source. These services are listed as <b>Supported [V2
-  /// Permissions]</b> in the table at <a
+  /// delivery source. These services are listed as <b>Supported \[V2
+  /// Permissions\]</b> in the table at <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
   /// logging from Amazon Web Services services.</a>
   ///
@@ -6406,7 +6407,7 @@ class CloudWatchLogs {
   /// For example, suppose you have created a field index for
   /// <code>requestId</code>. Then, any CloudWatch Logs Insights query on that
   /// log group that includes <code>requestId = <i>value</i> </code> or
-  /// <code>requestId IN [<i>value</i>, <i>value</i>, ...]</code> will process
+  /// <code>requestId IN \[<i>value</i>, <i>value</i>, ...\]</code> will process
   /// fewer log events to reduce costs, and have improved performance.
   ///
   /// CloudWatch Logs provides default field indexes for all log groups in the
@@ -6474,7 +6475,7 @@ class CloudWatchLogs {
   /// The index policy document, in JSON format. The following is an example of
   /// an index policy document that creates indexes with different types.
   ///
-  /// <code>"policyDocument": "{"Fields": [ "TransactionId" ], "FieldsV2":
+  /// <code>"policyDocument": "{"Fields": \[ "TransactionId" \], "FieldsV2":
   /// {"RequestId": {"type": "FIELD_INDEX"}, "APIName": {"type": "FACET"},
   /// "StatusCode": {"type": "FACET"}}}"</code>
   ///
@@ -6711,7 +6712,7 @@ class CloudWatchLogs {
   ///
   /// Length Constraints: Minimum length of 1. Maximum length of 512.
   ///
-  /// Pattern: <code>[\.\-_/#A-Za-z0-9]+</code>
+  /// Pattern: <code>\[\.\-_/#A-Za-z0-9\]+</code>
   ///
   /// Required: Yes
   Future<void> putLogGroupDeletionProtection({
@@ -6813,8 +6814,8 @@ class CloudWatchLogs {
   /// source region. Uses selection criteria syntax with operators like
   /// <code>=</code>, <code>!=</code>, <code>AND</code>, <code>OR</code>,
   /// <code>IN</code>, <code>NOT IN</code>. Example: <code>@aws.region =
-  /// "us-east-1"</code> or <code>@aws.account IN ["123456789012",
-  /// "987654321098"]</code>. Maximum length: 2000 characters.
+  /// "us-east-1"</code> or <code>@aws.account IN \["123456789012",
+  /// "987654321098"\]</code>. Maximum length: 2000 characters.
   Future<void> putMetricFilter({
     required String filterName,
     required String filterPattern,
@@ -7015,12 +7016,12 @@ class CloudWatchLogs {
   ///
   ///
   ///
-  /// <code>{ "Version": "2012-10-17", "Statement": [ { "Sid":
+  /// <code>{ "Version": "2012-10-17", "Statement": \[ { "Sid":
   /// "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": {
-  /// "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents",
+  /// "Service": \[ "route53.amazonaws.com" \] }, "Action": "logs:PutLogEvents",
   /// "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn":
   /// "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount":
-  /// "myAwsAccountId" } } } ] }</code>
+  /// "myAwsAccountId" } } } \] }</code>
   ///
   /// Parameter [policyName] :
   /// Name of the new policy. This parameter is required.
@@ -7232,7 +7233,7 @@ class CloudWatchLogs {
   /// source region. Uses selection criteria syntax with operators like
   /// <code>=</code>, <code>!=</code>, <code>AND</code>, <code>OR</code>,
   /// <code>IN</code>, <code>NOT IN</code>. Example: <code>@aws.region NOT IN
-  /// ["cn-north-1"]</code> or <code>@aws.account = "123456789012" AND
+  /// \["cn-north-1"\]</code> or <code>@aws.account = "123456789012" AND
   /// @aws.region = "us-east-1"</code>. Maximum length: 2000 characters.
   ///
   /// Parameter [roleArn] :
@@ -8377,6 +8378,7 @@ class CloudWatchLogs {
   }
 }
 
+/// @nodoc
 class AssociateSourceToS3TableIntegrationResponse {
   /// The unique identifier for the association between the data source and S3
   /// Table Integration.
@@ -8401,6 +8403,7 @@ class AssociateSourceToS3TableIntegrationResponse {
   }
 }
 
+/// @nodoc
 class CancelImportTaskResponse {
   /// The timestamp when the import task was created, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -8457,6 +8460,7 @@ class CancelImportTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateDeliveryResponse {
   /// A structure that contains information about the delivery that you just
   /// created.
@@ -8482,6 +8486,7 @@ class CreateDeliveryResponse {
   }
 }
 
+/// @nodoc
 class CreateExportTaskResponse {
   /// The ID of the export task.
   final String? taskId;
@@ -8504,6 +8509,7 @@ class CreateExportTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateImportTaskResponse {
   /// The timestamp when the import task was created, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -8543,6 +8549,7 @@ class CreateImportTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateLogAnomalyDetectorResponse {
   /// The ARN of the log anomaly detector that you just created.
   final String? anomalyDetectorArn;
@@ -8565,6 +8572,7 @@ class CreateLogAnomalyDetectorResponse {
   }
 }
 
+/// @nodoc
 class CreateLookupTableResponse {
   /// The time when the lookup table was created, expressed as the number of
   /// milliseconds after <code>Jan 1, 1970 00:00:00 UTC</code>.
@@ -8595,6 +8603,7 @@ class CreateLookupTableResponse {
   }
 }
 
+/// @nodoc
 class CreateScheduledQueryResponse {
   /// The ARN of the created scheduled query.
   final String? scheduledQueryArn;
@@ -8624,6 +8633,7 @@ class CreateScheduledQueryResponse {
   }
 }
 
+/// @nodoc
 class DeleteIndexPolicyResponse {
   DeleteIndexPolicyResponse();
 
@@ -8636,6 +8646,7 @@ class DeleteIndexPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteIntegrationResponse {
   DeleteIntegrationResponse();
 
@@ -8648,6 +8659,7 @@ class DeleteIntegrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueryDefinitionResponse {
   /// A value of TRUE indicates that the operation succeeded. FALSE indicates that
   /// the operation failed.
@@ -8671,6 +8683,7 @@ class DeleteQueryDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteScheduledQueryResponse {
   DeleteScheduledQueryResponse();
 
@@ -8683,6 +8696,7 @@ class DeleteScheduledQueryResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountPoliciesResponse {
   /// An array of structures that contain information about the CloudWatch Logs
   /// account policies that match the specified filters.
@@ -8717,6 +8731,7 @@ class DescribeAccountPoliciesResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationTemplatesResponse {
   /// An array of objects, where each object describes one configuration template
   /// that matches the filters that you specified in the request.
@@ -8750,6 +8765,7 @@ class DescribeConfigurationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeliveriesResponse {
   /// An array of structures. Each structure contains information about one
   /// delivery in the account.
@@ -8781,6 +8797,7 @@ class DescribeDeliveriesResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeliveryDestinationsResponse {
   /// An array of structures. Each structure contains information about one
   /// delivery destination in the account.
@@ -8814,6 +8831,7 @@ class DescribeDeliveryDestinationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeliverySourcesResponse {
   /// An array of structures. Each structure contains information about one
   /// delivery source in the account.
@@ -8845,6 +8863,7 @@ class DescribeDeliverySourcesResponse {
   }
 }
 
+/// @nodoc
 class DescribeDestinationsResponse {
   /// The destinations.
   final List<Destination>? destinations;
@@ -8875,6 +8894,7 @@ class DescribeDestinationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeExportTasksResponse {
   /// The export tasks.
   final List<ExportTask>? exportTasks;
@@ -8905,6 +8925,7 @@ class DescribeExportTasksResponse {
   }
 }
 
+/// @nodoc
 class DescribeFieldIndexesResponse {
   /// An array containing the field index information.
   final List<FieldIndex>? fieldIndexes;
@@ -8935,6 +8956,7 @@ class DescribeFieldIndexesResponse {
   }
 }
 
+/// @nodoc
 class DescribeImportTaskBatchesResponse {
   /// The list of import batches that match the request filters.
   final List<ImportBatch>? importBatches;
@@ -8983,6 +9005,7 @@ class DescribeImportTaskBatchesResponse {
   }
 }
 
+/// @nodoc
 class DescribeImportTasksResponse {
   /// The list of import tasks that match the request filters.
   final List<Import>? imports;
@@ -9016,6 +9039,7 @@ class DescribeImportTasksResponse {
   }
 }
 
+/// @nodoc
 class DescribeIndexPoliciesResponse {
   /// An array containing the field index policies.
   final List<IndexPolicy>? indexPolicies;
@@ -9046,6 +9070,7 @@ class DescribeIndexPoliciesResponse {
   }
 }
 
+/// @nodoc
 class DescribeLogGroupsResponse {
   /// An array of structures, where each structure contains the information about
   /// one log group.
@@ -9077,6 +9102,7 @@ class DescribeLogGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeLogStreamsResponse {
   /// The log streams.
   final List<LogStream>? logStreams;
@@ -9107,6 +9133,7 @@ class DescribeLogStreamsResponse {
   }
 }
 
+/// @nodoc
 class DescribeLookupTablesResponse {
   /// An array of structures, where each structure contains metadata about one
   /// lookup table.
@@ -9140,6 +9167,7 @@ class DescribeLookupTablesResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetricFiltersResponse {
   /// The metric filters.
   final List<MetricFilter>? metricFilters;
@@ -9170,6 +9198,7 @@ class DescribeMetricFiltersResponse {
   }
 }
 
+/// @nodoc
 class DescribeQueriesResponse {
   final String? nextToken;
 
@@ -9201,6 +9230,7 @@ class DescribeQueriesResponse {
   }
 }
 
+/// @nodoc
 class DescribeQueryDefinitionsResponse {
   final String? nextToken;
 
@@ -9232,6 +9262,7 @@ class DescribeQueryDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePoliciesResponse {
   final String? nextToken;
 
@@ -9263,6 +9294,7 @@ class DescribeResourcePoliciesResponse {
   }
 }
 
+/// @nodoc
 class DescribeSubscriptionFiltersResponse {
   final String? nextToken;
 
@@ -9296,6 +9328,7 @@ class DescribeSubscriptionFiltersResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSourceFromS3TableIntegrationResponse {
   /// The unique identifier of the association that was removed.
   final String? identifier;
@@ -9319,6 +9352,7 @@ class DisassociateSourceFromS3TableIntegrationResponse {
   }
 }
 
+/// @nodoc
 class FilterLogEventsResponse {
   /// The matched events.
   final List<FilteredLogEvent>? events;
@@ -9369,6 +9403,7 @@ class FilterLogEventsResponse {
   }
 }
 
+/// @nodoc
 class GetDataProtectionPolicyResponse {
   /// The date and time that this policy was most recently updated.
   final int? lastUpdatedTime;
@@ -9405,6 +9440,7 @@ class GetDataProtectionPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetDeliveryResponse {
   /// A structure that contains information about the delivery.
   final Delivery? delivery;
@@ -9429,6 +9465,7 @@ class GetDeliveryResponse {
   }
 }
 
+/// @nodoc
 class GetDeliveryDestinationResponse {
   /// A structure containing information about the delivery destination.
   final DeliveryDestination? deliveryDestination;
@@ -9455,6 +9492,7 @@ class GetDeliveryDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetDeliveryDestinationPolicyResponse {
   /// The IAM policy for this delivery destination.
   final Policy? policy;
@@ -9480,6 +9518,7 @@ class GetDeliveryDestinationPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetDeliverySourceResponse {
   /// A structure containing information about the delivery source.
   final DeliverySource? deliverySource;
@@ -9505,6 +9544,7 @@ class GetDeliverySourceResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationResponse {
   /// A structure that contains information about the integration configuration.
   /// For an integration with OpenSearch Service, this includes information about
@@ -9558,6 +9598,7 @@ class GetIntegrationResponse {
   }
 }
 
+/// @nodoc
 class GetLogAnomalyDetectorResponse {
   /// Specifies whether the anomaly detector is currently active. To change its
   /// status, use the <code>enabled</code> parameter in the <a
@@ -9653,6 +9694,7 @@ class GetLogAnomalyDetectorResponse {
   }
 }
 
+/// @nodoc
 class GetLogEventsResponse {
   /// The events.
   final List<OutputLogEvent>? events;
@@ -9696,6 +9738,7 @@ class GetLogEventsResponse {
   }
 }
 
+/// @nodoc
 class GetLogFieldsResponse {
   /// The list of log fields for the specified data source, including field names
   /// and their data types.
@@ -9722,6 +9765,7 @@ class GetLogFieldsResponse {
   }
 }
 
+/// @nodoc
 class GetLogGroupFieldsResponse {
   /// The array of fields found in the query. Each object in the array contains
   /// the name of the field, along with the percentage of time it appeared in the
@@ -9750,6 +9794,8 @@ class GetLogGroupFieldsResponse {
 }
 
 /// The response from the GetLogObject operation.
+///
+/// @nodoc
 class GetLogObjectResponse {
   /// A stream of structured log data returned by the GetLogObject operation. This
   /// stream contains log events with their associated metadata and extracted
@@ -9777,6 +9823,7 @@ class GetLogObjectResponse {
   }
 }
 
+/// @nodoc
 class GetLogRecordResponse {
   /// The requested log event, as a JSON string.
   final Map<String, String>? logRecord;
@@ -9800,6 +9847,7 @@ class GetLogRecordResponse {
   }
 }
 
+/// @nodoc
 class GetLookupTableResponse {
   /// The description of the lookup table.
   final String? description;
@@ -9865,6 +9913,7 @@ class GetLookupTableResponse {
   }
 }
 
+/// @nodoc
 class GetQueryResultsResponse {
   /// If you associated an KMS key with the CloudWatch Logs Insights query results
   /// in this account, this field displays the ARN of the key that's used to
@@ -9956,6 +10005,7 @@ class GetQueryResultsResponse {
   }
 }
 
+/// @nodoc
 class GetScheduledQueryResponse {
   /// The timestamp when the scheduled query was created.
   final int? creationTime;
@@ -10108,6 +10158,7 @@ class GetScheduledQueryResponse {
   }
 }
 
+/// @nodoc
 class GetScheduledQueryHistoryResponse {
   /// The name of the scheduled query.
   final String? name;
@@ -10152,6 +10203,7 @@ class GetScheduledQueryHistoryResponse {
   }
 }
 
+/// @nodoc
 class GetTransformerResponse {
   /// The creation time of the transformer, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -10200,6 +10252,7 @@ class GetTransformerResponse {
   }
 }
 
+/// @nodoc
 class ListAggregateLogGroupSummariesResponse {
   /// The list of aggregate log group summaries grouped by the specified data
   /// source characteristics.
@@ -10234,6 +10287,7 @@ class ListAggregateLogGroupSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListAnomaliesResponse {
   /// An array of structures, where each structure contains information about one
   /// anomaly that a log anomaly detector has found.
@@ -10265,6 +10319,7 @@ class ListAnomaliesResponse {
   }
 }
 
+/// @nodoc
 class ListIntegrationsResponse {
   /// An array, where each object in the array contains information about one
   /// CloudWatch Logs integration in this account.
@@ -10292,6 +10347,7 @@ class ListIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class ListLogAnomalyDetectorsResponse {
   /// An array of structures, where each structure in the array contains
   /// information about one anomaly detector.
@@ -10323,6 +10379,7 @@ class ListLogAnomalyDetectorsResponse {
   }
 }
 
+/// @nodoc
 class ListLogGroupsResponse {
   /// An array of structures, where each structure contains the information about
   /// one log group.
@@ -10354,6 +10411,7 @@ class ListLogGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListLogGroupsForQueryResponse {
   /// An array of the names and ARNs of the log groups that were processed in the
   /// query.
@@ -10386,6 +10444,7 @@ class ListLogGroupsForQueryResponse {
   }
 }
 
+/// @nodoc
 class ListScheduledQueriesResponse {
   final String? nextToken;
 
@@ -10417,6 +10476,7 @@ class ListScheduledQueriesResponse {
   }
 }
 
+/// @nodoc
 class ListSourcesForS3TableIntegrationResponse {
   final String? nextToken;
 
@@ -10450,6 +10510,7 @@ class ListSourcesForS3TableIntegrationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags associated with the requested resource.>
   final Map<String, String>? tags;
@@ -10473,6 +10534,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTagsLogGroupResponse {
   /// The tags for the log group.
   final Map<String, String>? tags;
@@ -10496,6 +10558,7 @@ class ListTagsLogGroupResponse {
   }
 }
 
+/// @nodoc
 class PutAccountPolicyResponse {
   /// The account policy that you created.
   final AccountPolicy? accountPolicy;
@@ -10521,6 +10584,7 @@ class PutAccountPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutDataProtectionPolicyResponse {
   /// The date and time that this policy was most recently updated.
   final int? lastUpdatedTime;
@@ -10557,6 +10621,7 @@ class PutDataProtectionPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutDeliveryDestinationResponse {
   /// A structure containing information about the delivery destination that you
   /// just created or updated.
@@ -10584,6 +10649,7 @@ class PutDeliveryDestinationResponse {
   }
 }
 
+/// @nodoc
 class PutDeliveryDestinationPolicyResponse {
   /// The contents of the policy that you just created.
   final Policy? policy;
@@ -10609,6 +10675,7 @@ class PutDeliveryDestinationPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutDeliverySourceResponse {
   /// A structure containing information about the delivery source that was just
   /// created or updated.
@@ -10635,6 +10702,7 @@ class PutDeliverySourceResponse {
   }
 }
 
+/// @nodoc
 class PutDestinationResponse {
   /// The destination.
   final Destination? destination;
@@ -10659,6 +10727,7 @@ class PutDestinationResponse {
   }
 }
 
+/// @nodoc
 class PutIndexPolicyResponse {
   /// The index policy that you just created or updated.
   final IndexPolicy? indexPolicy;
@@ -10683,6 +10752,7 @@ class PutIndexPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutIntegrationResponse {
   /// The name of the integration that you just created.
   final String? integrationName;
@@ -10717,6 +10787,7 @@ class PutIntegrationResponse {
   }
 }
 
+/// @nodoc
 class PutLogEventsResponse {
   /// The next sequence token.
   /// <important>
@@ -10774,6 +10845,7 @@ class PutLogEventsResponse {
   }
 }
 
+/// @nodoc
 class PutQueryDefinitionResponse {
   /// The ID of the query definition.
   final String? queryDefinitionId;
@@ -10796,6 +10868,7 @@ class PutQueryDefinitionResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The new policy.
   final ResourcePolicy? resourcePolicy;
@@ -10829,6 +10902,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class StartLiveTailResponse {
   /// An object that includes the stream returned by your request. It can include
   /// both log events and exceptions.
@@ -10855,6 +10929,7 @@ class StartLiveTailResponse {
   }
 }
 
+/// @nodoc
 class StartQueryResponse {
   /// The unique ID of the query.
   final String? queryId;
@@ -10877,6 +10952,7 @@ class StartQueryResponse {
   }
 }
 
+/// @nodoc
 class StopQueryResponse {
   /// This is true if the query was stopped by the <code>StopQuery</code>
   /// operation.
@@ -10900,6 +10976,7 @@ class StopQueryResponse {
   }
 }
 
+/// @nodoc
 class TestMetricFilterResponse {
   /// The matched events.
   final List<MetricFilterMatchRecord>? matches;
@@ -10926,6 +11003,7 @@ class TestMetricFilterResponse {
   }
 }
 
+/// @nodoc
 class TestTransformerResponse {
   /// An array where each member of the array includes both the original version
   /// and the transformed version of one of the log events that you input.
@@ -10952,6 +11030,7 @@ class TestTransformerResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeliveryConfigurationResponse {
   UpdateDeliveryConfigurationResponse();
 
@@ -10964,6 +11043,7 @@ class UpdateDeliveryConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateLookupTableResponse {
   /// The time when the lookup table was last updated, expressed as the number of
   /// milliseconds after <code>Jan 1, 1970 00:00:00 UTC</code>.
@@ -10994,6 +11074,7 @@ class UpdateLookupTableResponse {
   }
 }
 
+/// @nodoc
 class UpdateScheduledQueryResponse {
   /// The timestamp when the scheduled query was originally created.
   final int? creationTime;
@@ -11146,6 +11227,7 @@ class UpdateScheduledQueryResponse {
   }
 }
 
+/// @nodoc
 class QueryLanguage {
   static const cwli = QueryLanguage._('CWLI');
   static const sql = QueryLanguage._('SQL');
@@ -11173,6 +11255,8 @@ class QueryLanguage {
 
 /// Configuration for where to deliver scheduled query results. Specifies the
 /// destination type and associated settings for result delivery.
+///
+/// @nodoc
 class DestinationConfiguration {
   /// Configuration for delivering query results to Amazon S3.
   final S3Configuration s3Configuration;
@@ -11197,6 +11281,7 @@ class DestinationConfiguration {
   }
 }
 
+/// @nodoc
 class ScheduledQueryState {
   static const enabled = ScheduledQueryState._('ENABLED');
   static const disabled = ScheduledQueryState._('DISABLED');
@@ -11222,6 +11307,7 @@ class ScheduledQueryState {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const running = ExecutionStatus._('Running');
   static const invalidQuery = ExecutionStatus._('InvalidQuery');
@@ -11251,6 +11337,8 @@ class ExecutionStatus {
 
 /// Configuration for Amazon S3 destination where scheduled query results are
 /// delivered.
+///
+/// @nodoc
 class S3Configuration {
   /// The Amazon S3 URI where query results are delivered. Must be a valid S3 URI
   /// format.
@@ -11297,6 +11385,7 @@ class S3Configuration {
   }
 }
 
+/// @nodoc
 class EvaluationFrequency {
   static const oneMin = EvaluationFrequency._('ONE_MIN');
   static const fiveMin = EvaluationFrequency._('FIVE_MIN');
@@ -11335,6 +11424,8 @@ class EvaluationFrequency {
 
 /// This structure contains delivery configurations that apply only when the
 /// delivery destination resource is an S3 bucket.
+///
+/// @nodoc
 class S3DeliveryConfiguration {
   /// This parameter causes the S3 objects that contain delivered logs to use a
   /// prefix structure that allows for integration with Apache Hive.
@@ -11372,6 +11463,7 @@ class S3DeliveryConfiguration {
   }
 }
 
+/// @nodoc
 class SuppressionType {
   static const limited = SuppressionType._('LIMITED');
   static const infinite = SuppressionType._('INFINITE');
@@ -11398,6 +11490,8 @@ class SuppressionType {
 
 /// If you are suppressing an anomaly temporariliy, this structure defines how
 /// long the suppression period is to be.
+///
+/// @nodoc
 class SuppressionPeriod {
   /// Specifies whether the value of <code>value</code> is in seconds, minutes, or
   /// hours.
@@ -11422,6 +11516,7 @@ class SuppressionPeriod {
   }
 }
 
+/// @nodoc
 class SuppressionUnit {
   static const seconds = SuppressionUnit._('SECONDS');
   static const minutes = SuppressionUnit._('MINUTES');
@@ -11449,6 +11544,8 @@ class SuppressionUnit {
 
 /// This structure contains information for one log event that has been
 /// processed by a log transformer.
+///
+/// @nodoc
 class TransformedLogRecord {
   /// The original log event message before it was transformed.
   final String? eventMessage;
@@ -11488,6 +11585,8 @@ class TransformedLogRecord {
 
 /// This structure contains the information about one processor in a log
 /// transformer.
+///
+/// @nodoc
 class Processor {
   /// Use this parameter to include the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-addKeys">
@@ -11783,6 +11882,8 @@ class Processor {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-addKeys">
 /// addKeys</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class AddKeys {
   /// An array of objects, where each object contains the information about one
   /// key to add to the log event.
@@ -11818,6 +11919,8 @@ class AddKeys {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-copyValue">
 /// copyValue</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class CopyValue {
   /// An array of <code>CopyValueEntry</code> objects, where each object contains
   /// the information about one field value to copy.
@@ -11850,11 +11953,13 @@ class CopyValue {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-csv">
 /// csv</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class CSV {
   /// An array of names to use for the columns in the transformed log event.
   ///
-  /// If you omit this, default column names (<code>[column_1, column_2
-  /// ...]</code>) are used.
+  /// If you omit this, default column names (<code>\[column_1, column_2
+  /// ...\]</code>) are used.
   final List<String>? columns;
 
   /// The character used to separate each column in the original comma-separated
@@ -11914,6 +12019,8 @@ class CSV {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-datetimeConverter">
 /// datetimeConverter</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class DateTimeConverter {
   /// A list of patterns to match against the <code>source</code> field.
   final List<String> matchPatterns;
@@ -11993,6 +12100,8 @@ class DateTimeConverter {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-deleteKeys">
 /// deleteKeys</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class DeleteKeys {
   /// The list of keys to delete.
   final List<String> withKeys;
@@ -12024,6 +12133,8 @@ class DeleteKeys {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Configurable.html#CloudWatch-Logs-Transformation-Grok">grok</a>
 /// in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class Grok {
   /// The grok pattern to match against the log event. For a list of supported
   /// grok patterns, see <a
@@ -12063,6 +12174,8 @@ class Grok {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#CloudWatch-Logs-Transformation-listToMap">
 /// listToMap</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class ListToMap {
   /// The key of the field to be extracted as keys in the generated map
   final String key;
@@ -12136,6 +12249,8 @@ class ListToMap {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-lowerCaseString">
 /// lowerCaseString</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class LowerCaseString {
   /// The array caontaining the keys of the fields to convert to lowercase.
   final List<String> withKeys;
@@ -12167,6 +12282,8 @@ class LowerCaseString {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-moveKeys">
 /// moveKeys</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class MoveKeys {
   /// An array of objects, where each object contains the information about one
   /// key to move.
@@ -12206,6 +12323,8 @@ class MoveKeys {
 ///
 /// If you use this processor, it must be the first processor in your
 /// transformer.
+///
+/// @nodoc
 class ParseCloudfront {
   /// Omit this parameter and the whole log message will be processed by this
   /// processor. No other value than <code>@message</code> is allowed for
@@ -12241,6 +12360,8 @@ class ParseCloudfront {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseJSON">
 /// parseJSON</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class ParseJSON {
   /// The location to put the parsed key value pair into. If you omit this
   /// parameter, it is placed under the root node.
@@ -12278,6 +12399,8 @@ class ParseJSON {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseKeyValue">
 /// parseKeyValue</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class ParseKeyValue {
   /// The destination field to put the extracted key-value pairs into
   final String? destination;
@@ -12360,6 +12483,8 @@ class ParseKeyValue {
 /// If you use this processor, it must be the first processor in your
 /// transformer.
 /// </important>
+///
+/// @nodoc
 class ParseRoute53 {
   /// Omit this parameter and the whole log message will be processed by this
   /// processor. No other value than <code>@message</code> is allowed for
@@ -12390,6 +12515,8 @@ class ParseRoute53 {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF">parseToOCSF</a>
 /// in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class ParseToOCSF {
   /// Specify the service or process that produces the log events that will be
   /// converted with this processor.
@@ -12452,6 +12579,8 @@ class ParseToOCSF {
 /// If you use this processor, it must be the first processor in your
 /// transformer.
 /// </important>
+///
+/// @nodoc
 class ParsePostgres {
   /// Omit this parameter and the whole log message will be processed by this
   /// processor. No other value than <code>@message</code> is allowed for
@@ -12491,6 +12620,8 @@ class ParsePostgres {
 /// If you use this processor, it must be the first processor in your
 /// transformer.
 /// </important>
+///
+/// @nodoc
 class ParseVPC {
   /// Omit this parameter and the whole log message will be processed by this
   /// processor. No other value than <code>@message</code> is allowed for
@@ -12529,6 +12660,8 @@ class ParseVPC {
 /// If you use this processor, it must be the first processor in your
 /// transformer.
 /// </important>
+///
+/// @nodoc
 class ParseWAF {
   /// Omit this parameter and the whole log message will be processed by this
   /// processor. No other value than <code>@message</code> is allowed for
@@ -12558,6 +12691,8 @@ class ParseWAF {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-renameKeys">
 /// renameKeys</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class RenameKeys {
   /// An array of <code>RenameKeyEntry</code> objects, where each object contains
   /// the information about a single key to rename.
@@ -12590,6 +12725,8 @@ class RenameKeys {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-splitString">
 /// splitString</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class SplitString {
   /// An array of <code>SplitStringEntry</code> objects, where each object
   /// contains the information about one field to split.
@@ -12622,6 +12759,8 @@ class SplitString {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-substituteString">
 /// substituteString</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class SubstituteString {
   /// An array of objects, where each object contains the information about one
   /// key to match and replace.
@@ -12653,6 +12792,8 @@ class SubstituteString {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-trimString">
 /// trimString</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class TrimString {
   /// The array containing the keys of the fields to trim.
   final List<String> withKeys;
@@ -12687,6 +12828,8 @@ class TrimString {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-trimString">
 /// trimString</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class TypeConverter {
   /// An array of <code>TypeConverterEntry</code> objects, where each object
   /// contains the information about one field to change the type of.
@@ -12718,6 +12861,8 @@ class TypeConverter {
 /// For more information about this processor including examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-upperCaseString">
 /// upperCaseString</a> in the <i>CloudWatch Logs User Guide</i>.
+///
+/// @nodoc
 class UpperCaseString {
   /// The array of containing the keys of the field to convert to uppercase.
   final List<String> withKeys;
@@ -12746,6 +12891,8 @@ class UpperCaseString {
 /// This object defines one value type that will be converted using the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-typeConverter">
 /// typeConverter</a> processor.
+///
+/// @nodoc
 class TypeConverterEntry {
   /// The key with the value that is to be converted to a different type.
   final String key;
@@ -12777,6 +12924,7 @@ class TypeConverterEntry {
   }
 }
 
+/// @nodoc
 class Type {
   static const boolean = Type._('boolean');
   static const integer = Type._('integer');
@@ -12805,10 +12953,12 @@ class Type {
 /// This object defines one log field key that will be replaced using the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-substituteString">
 /// substituteString</a> processor.
+///
+/// @nodoc
 class SubstituteStringEntry {
   /// The regular expression string to be replaced. Special regex characters such
-  /// as [ and ] must be escaped using \\ when using double quotes and with \ when
-  /// using single quotes. For more information, see <a
+  /// as \[ and \] must be escaped using \\ when using double quotes and with \
+  /// when using single quotes. For more information, see <a
   /// href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/regex/Pattern.html">
   /// Class Pattern</a> on the Oracle web site.
   final String from;
@@ -12848,6 +12998,8 @@ class SubstituteStringEntry {
 /// This object defines one log field that will be split with the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-splitString">
 /// splitString</a> processor.
+///
+/// @nodoc
 class SplitStringEntry {
   /// The separator characters to split the string entry on.
   final String delimiter;
@@ -12880,6 +13032,8 @@ class SplitStringEntry {
 /// This object defines one key that will be renamed with the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-renameKey">
 /// renameKey</a> processor.
+///
+/// @nodoc
 class RenameKeyEntry {
   /// The key to rename
   final String key;
@@ -12917,6 +13071,7 @@ class RenameKeyEntry {
   }
 }
 
+/// @nodoc
 class EventSource {
   static const cloudTrail = EventSource._('CloudTrail');
   static const route53Resolver = EventSource._('Route53Resolver');
@@ -12949,6 +13104,7 @@ class EventSource {
   String toString() => value;
 }
 
+/// @nodoc
 class OCSFVersion {
   static const v1_1 = OCSFVersion._('V1.1');
   static const v1_5 = OCSFVersion._('V1.5');
@@ -12975,6 +13131,8 @@ class OCSFVersion {
 /// This object defines one key that will be moved with the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-moveKey">
 /// moveKey</a> processor.
+///
+/// @nodoc
 class MoveKeyEntry {
   /// The key to move.
   final String source;
@@ -13012,6 +13170,7 @@ class MoveKeyEntry {
   }
 }
 
+/// @nodoc
 class FlattenedElement {
   static const first = FlattenedElement._('first');
   static const last = FlattenedElement._('last');
@@ -13039,6 +13198,8 @@ class FlattenedElement {
 /// This object defines one value to be copied with the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-copoyValue">
 /// copyValue</a> processor.
+///
+/// @nodoc
 class CopyValueEntry {
   /// The key to copy.
   final String source;
@@ -13079,6 +13240,8 @@ class CopyValueEntry {
 /// This object defines one key that will be added with the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-addKey">
 /// addKeys</a> processor.
+///
+/// @nodoc
 class AddKeyEntry {
   /// The key of the new entry to be added to the log event
   final String key;
@@ -13117,6 +13280,8 @@ class AddKeyEntry {
 }
 
 /// Represents a matched event.
+///
+/// @nodoc
 class MetricFilterMatchRecord {
   /// The raw event data.
   final String? eventMessage;
@@ -13157,6 +13322,8 @@ class MetricFilterMatchRecord {
 /// This object includes the stream returned by your <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTail.html">StartLiveTail</a>
 /// request.
+///
+/// @nodoc
 class StartLiveTailResponseStream {
   /// This exception is returned if an unknown error occurs.
   final SessionStreamingException? sessionStreamingException;
@@ -13218,6 +13385,8 @@ class StartLiveTailResponseStream {
 
 /// This object contains information about this Live Tail session, including the
 /// log groups included and the log stream filters, if any.
+///
+/// @nodoc
 class LiveTailSessionStart {
   /// An optional pattern to filter the results to include only log events that
   /// match the pattern. For example, a filter pattern of <code>error 404</code>
@@ -13303,6 +13472,8 @@ class LiveTailSessionStart {
 }
 
 /// This object contains the log events and metadata for a Live Tail session.
+///
+/// @nodoc
 class LiveTailSessionUpdate {
   /// This object contains the session metadata for a Live Tail session.
   final LiveTailSessionMetadata? sessionMetadata;
@@ -13347,6 +13518,8 @@ class LiveTailSessionUpdate {
 
 /// This exception is returned in a Live Tail stream when the Live Tail session
 /// times out. Live Tail sessions time out after three hours.
+///
+/// @nodoc
 class SessionTimeoutException implements _s.AwsException {
   final String? message;
 
@@ -13370,6 +13543,8 @@ class SessionTimeoutException implements _s.AwsException {
 
 /// This exception is returned if an unknown error occurs during a Live Tail
 /// session.
+///
+/// @nodoc
 class SessionStreamingException implements _s.AwsException {
   final String? message;
 
@@ -13395,6 +13570,8 @@ class SessionStreamingException implements _s.AwsException {
 /// structure. It indicates whether that update includes only a sample of 500
 /// log events out of a larger number of ingested log events, or if it contains
 /// all of the matching log events ingested during that second of time.
+///
+/// @nodoc
 class LiveTailSessionMetadata {
   /// If this is <code>true</code>, then more than 500 log events matched the
   /// request for this update, and the <code>sessionResults</code> includes a
@@ -13426,6 +13603,8 @@ class LiveTailSessionMetadata {
 
 /// This object contains the information for one log event returned in a Live
 /// Tail stream.
+///
+/// @nodoc
 class LiveTailSessionLogEvent {
   /// The timestamp specifying when this log event was ingested into the log
   /// group.
@@ -13479,6 +13658,8 @@ class LiveTailSessionLogEvent {
 
 /// The method used to distribute log data to the destination, which can be
 /// either random or grouped by log stream.
+///
+/// @nodoc
 class Distribution {
   static const random = Distribution._('Random');
   static const byLogStream = Distribution._('ByLogStream');
@@ -13504,6 +13685,8 @@ class Distribution {
 
 /// A policy enabling one or more entities to put logs to a log group in this
 /// account.
+///
+/// @nodoc
 class ResourcePolicy {
   /// Timestamp showing when this policy was last updated, expressed as the number
   /// of milliseconds after <code>Jan 1, 1970 00:00:00 UTC</code>.
@@ -13566,6 +13749,7 @@ class ResourcePolicy {
   }
 }
 
+/// @nodoc
 class PolicyScope {
   static const account = PolicyScope._('ACCOUNT');
   static const resource = PolicyScope._('RESOURCE');
@@ -13594,6 +13778,8 @@ class PolicyScope {
 /// Insights QL queries. They are placeholder variables that you can reference
 /// in a query string using the <code>{{parameterName}}</code> syntax. Each
 /// parameter can include a default value and a description.
+///
+/// @nodoc
 class QueryParameter {
   /// The name of the query parameter. A query parameter name must start with a
   /// letter or underscore, and contain only letters, digits, and underscores.
@@ -13635,6 +13821,8 @@ class QueryParameter {
 
 /// Indicates how to transform ingested log events to metric data in a
 /// CloudWatch metric.
+///
+/// @nodoc
 class MetricTransformation {
   /// The name of the CloudWatch metric.
   final String metricName;
@@ -13716,6 +13904,7 @@ class MetricTransformation {
   }
 }
 
+/// @nodoc
 class StandardUnit {
   static const seconds = StandardUnit._('Seconds');
   static const microseconds = StandardUnit._('Microseconds');
@@ -13793,6 +13982,8 @@ class StandardUnit {
 }
 
 /// Represents the rejected events.
+///
+/// @nodoc
 class RejectedLogEventsInfo {
   /// The expired log events.
   final int? expiredLogEventEndIndex;
@@ -13834,6 +14025,8 @@ class RejectedLogEventsInfo {
 
 /// If an entity is rejected when a <code>PutLogEvents</code> request was made,
 /// this includes details about the reason for the rejection.
+///
+/// @nodoc
 class RejectedEntityInfo {
   /// The type of error that caused the rejection of the entity when calling
   /// <code>PutLogEvents</code>.
@@ -13858,6 +14051,7 @@ class RejectedEntityInfo {
   }
 }
 
+/// @nodoc
 class EntityRejectionErrorType {
   static const invalidEntity = EntityRejectionErrorType._('InvalidEntity');
   static const invalidTypeValue =
@@ -13904,6 +14098,8 @@ class EntityRejectionErrorType {
 
 /// The entity associated with the log events in a <code>PutLogEvents</code>
 /// call.
+///
+/// @nodoc
 class Entity {
   /// Additional attributes of the entity that are not used to specify the
   /// identity of the entity. A list of key-value pairs.
@@ -13945,6 +14141,8 @@ class Entity {
 
 /// Represents a log event, which is a record of activity that was recorded by
 /// the application or resource being monitored.
+///
+/// @nodoc
 class InputLogEvent {
   /// The raw event message. Each log event can be no larger than 1 MB.
   final String message;
@@ -13968,6 +14166,7 @@ class InputLogEvent {
   }
 }
 
+/// @nodoc
 class IntegrationStatus {
   static const provisioning = IntegrationStatus._('PROVISIONING');
   static const active = IntegrationStatus._('ACTIVE');
@@ -13995,6 +14194,8 @@ class IntegrationStatus {
 
 /// This structure contains configuration details about an integration between
 /// CloudWatch Logs and another entity.
+///
+/// @nodoc
 class ResourceConfig {
   /// This structure contains configuration details about an integration between
   /// CloudWatch Logs and OpenSearch Service.
@@ -14013,6 +14214,7 @@ class ResourceConfig {
   }
 }
 
+/// @nodoc
 class IntegrationType {
   static const opensearch = IntegrationType._('OPENSEARCH');
 
@@ -14038,6 +14240,8 @@ class IntegrationType {
 
 /// This structure contains configuration details about an integration between
 /// CloudWatch Logs and OpenSearch Service.
+///
+/// @nodoc
 class OpenSearchResourceConfig {
   /// Specify the ARNs of IAM roles and IAM users who you want to grant permission
   /// to for viewing the dashboards.
@@ -14100,6 +14304,8 @@ class OpenSearchResourceConfig {
 
 /// This structure contains information about one field index policy in this
 /// account.
+///
+/// @nodoc
 class IndexPolicy {
   /// The date and time that this index policy was most recently updated.
   final int? lastUpdateTime;
@@ -14152,6 +14358,7 @@ class IndexPolicy {
   }
 }
 
+/// @nodoc
 class IndexSource {
   static const account = IndexSource._('ACCOUNT');
   static const logGroup = IndexSource._('LOG_GROUP');
@@ -14177,6 +14384,8 @@ class IndexSource {
 
 /// Represents a cross-account destination that receives subscription log
 /// events.
+///
+/// @nodoc
 class Destination {
   /// An IAM policy document that governs which Amazon Web Services accounts can
   /// create subscription filters against this destination.
@@ -14243,8 +14452,8 @@ class Destination {
 /// CloudWatch Logs, Amazon S3, or Firehose.
 ///
 /// Only some Amazon Web Services services support being configured as a
-/// delivery source. These services are listed as <b>Supported [V2
-/// Permissions]</b> in the table at <a
+/// delivery source. These services are listed as <b>Supported \[V2
+/// Permissions\]</b> in the table at <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enabling
 /// logging from Amazon Web Services services.</a>
 ///
@@ -14278,6 +14487,8 @@ class Destination {
 /// destinations by creating multiple deliveries. You can also create multiple
 /// deliveries to configure multiple delivery sources to send logs to the same
 /// delivery destination.
+///
+/// @nodoc
 class DeliverySource {
   /// The Amazon Resource Name (ARN) that uniquely identifies this delivery
   /// source.
@@ -14373,6 +14584,7 @@ class DeliverySource {
   }
 }
 
+/// @nodoc
 class DeliverySourceStatus {
   static const active = DeliverySourceStatus._('ACTIVE');
   static const inactive = DeliverySourceStatus._('INACTIVE');
@@ -14398,6 +14610,7 @@ class DeliverySourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DeliverySourceStatusReason {
   static const resourceDeleted =
       DeliverySourceStatusReason._('RESOURCE_DELETED');
@@ -14424,6 +14637,8 @@ class DeliverySourceStatusReason {
 }
 
 /// A structure that contains information about one delivery destination policy.
+///
+/// @nodoc
 class Policy {
   /// The contents of the delivery destination policy.
   final String? deliveryDestinationPolicy;
@@ -14482,6 +14697,8 @@ class Policy {
 /// destinations by creating multiple deliveries. You can also create multiple
 /// deliveries to configure multiple delivery sources to send logs to the same
 /// delivery destination.
+///
+/// @nodoc
 class DeliveryDestination {
   /// The Amazon Resource Name (ARN) that uniquely identifies this delivery
   /// destination.
@@ -14553,6 +14770,7 @@ class DeliveryDestination {
   }
 }
 
+/// @nodoc
 class DeliveryDestinationType {
   static const s3 = DeliveryDestinationType._('S3');
   static const cwl = DeliveryDestinationType._('CWL');
@@ -14580,6 +14798,7 @@ class DeliveryDestinationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputFormat {
   static const json = OutputFormat._('json');
   static const plain = OutputFormat._('plain');
@@ -14607,6 +14826,8 @@ class OutputFormat {
 }
 
 /// A structure that contains information about one logs delivery destination.
+///
+/// @nodoc
 class DeliveryDestinationConfiguration {
   /// The ARN of the Amazon Web Services destination that this delivery
   /// destination represents. That Amazon Web Services destination can be a log
@@ -14634,6 +14855,8 @@ class DeliveryDestinationConfiguration {
 
 /// A structure that contains information about one CloudWatch Logs account
 /// policy.
+///
+/// @nodoc
 class AccountPolicy {
   /// The Amazon Web Services account ID that the policy applies to.
   final String? accountId;
@@ -14701,6 +14924,7 @@ class AccountPolicy {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const dataProtectionPolicy = PolicyType._('DATA_PROTECTION_POLICY');
   static const subscriptionFilterPolicy =
@@ -14735,6 +14959,7 @@ class PolicyType {
   String toString() => value;
 }
 
+/// @nodoc
 class Scope {
   static const all = Scope._('ALL');
 
@@ -14759,6 +14984,8 @@ class Scope {
 
 /// Represents a data source association with an S3 Table Integration, including
 /// its status and metadata.
+///
+/// @nodoc
 class S3TableIntegrationSource {
   /// The timestamp when the data source association was created.
   final int? createdTimeStamp;
@@ -14823,6 +15050,8 @@ class S3TableIntegrationSource {
 /// Represents a data source that categorizes logs by originating service and
 /// log type, providing service-based organization complementing traditional log
 /// groups.
+///
+/// @nodoc
 class DataSource {
   /// The name of the data source.
   final String name;
@@ -14852,6 +15081,7 @@ class DataSource {
   }
 }
 
+/// @nodoc
 class S3TableIntegrationSourceStatus {
   static const active = S3TableIntegrationSourceStatus._('ACTIVE');
   static const unhealthy = S3TableIntegrationSourceStatus._('UNHEALTHY');
@@ -14882,6 +15112,8 @@ class S3TableIntegrationSourceStatus {
 
 /// Summary information about a scheduled query, including basic configuration
 /// and execution status.
+///
+/// @nodoc
 class ScheduledQuerySummary {
   /// The timestamp when the scheduled query was created.
   final int? creationTime;
@@ -14974,6 +15206,8 @@ class ScheduledQuerySummary {
 }
 
 /// This structure contains information about one log group in your account.
+///
+/// @nodoc
 class LogGroupSummary {
   /// The Amazon Resource Name (ARN) of the log group.
   final String? logGroupArn;
@@ -15014,6 +15248,7 @@ class LogGroupSummary {
   }
 }
 
+/// @nodoc
 class LogGroupClass {
   static const standard = LogGroupClass._('STANDARD');
   static const infrequentAccess = LogGroupClass._('INFREQUENT_ACCESS');
@@ -15041,6 +15276,8 @@ class LogGroupClass {
 
 /// A tag filter that specifies a tag key and optional tag values for filtering
 /// log groups by tags.
+///
+/// @nodoc
 class TagFilter {
   /// The tag key to filter on.
   final String key;
@@ -15089,6 +15326,8 @@ class TagFilter {
 
 /// Filter criteria for data sources, used to specify which data sources to
 /// include in operations based on name and type.
+///
+/// @nodoc
 class DataSourceFilter {
   /// The name pattern to filter data sources by.
   final String name;
@@ -15112,6 +15351,8 @@ class DataSourceFilter {
 }
 
 /// Contains information about one anomaly detector in the account.
+///
+/// @nodoc
 class AnomalyDetector {
   /// The ARN of the anomaly detector.
   final String? anomalyDetectorArn;
@@ -15209,6 +15450,7 @@ class AnomalyDetector {
   }
 }
 
+/// @nodoc
 class AnomalyDetectorStatus {
   static const initializing = AnomalyDetectorStatus._('INITIALIZING');
   static const training = AnomalyDetectorStatus._('TRAINING');
@@ -15249,6 +15491,8 @@ class AnomalyDetectorStatus {
 /// This structure is returned by a <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListIntegrations.html">ListIntegrations</a>
 /// operation.
+///
+/// @nodoc
 class IntegrationSummary {
   /// The name of this integration.
   final String? integrationName;
@@ -15294,6 +15538,8 @@ class IntegrationSummary {
 ///
 /// For more information about patterns and anomalies, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html">CreateLogAnomalyDetector</a>.
+///
+/// @nodoc
 class Anomaly {
   /// Specifies whether this anomaly is still ongoing.
   final bool active;
@@ -15481,6 +15727,7 @@ class Anomaly {
   }
 }
 
+/// @nodoc
 class State {
   static const active = State._('Active');
   static const suppressed = State._('Suppressed');
@@ -15510,6 +15757,8 @@ class State {
 ///
 /// For more information about patterns and tokens, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html">CreateLogAnomalyDetector</a>.
+///
+/// @nodoc
 class PatternToken {
   /// For a dynamic token, this indicates where in the pattern that this token
   /// appears, related to other dynamic tokens. The dynamic token that appears
@@ -15579,6 +15828,8 @@ class PatternToken {
 
 /// This structure contains the information for one sample log event that is
 /// associated with an anomaly found by a log anomaly detector.
+///
+/// @nodoc
 class LogEvent {
   /// The message content of the log event.
   final String? message;
@@ -15608,6 +15859,7 @@ class LogEvent {
   }
 }
 
+/// @nodoc
 class SuppressionState {
   static const suppressed = SuppressionState._('SUPPRESSED');
   static const unsuppressed = SuppressionState._('UNSUPPRESSED');
@@ -15635,6 +15887,8 @@ class SuppressionState {
 /// Contains an aggregate summary of log groups grouped by data source
 /// characteristics, including the count of log groups and their grouping
 /// identifiers.
+///
+/// @nodoc
 class AggregateLogGroupSummary {
   /// An array of key-value pairs that identify the data source characteristics
   /// used to group the log groups.
@@ -15674,6 +15928,8 @@ class AggregateLogGroupSummary {
 
 /// A key-value pair that identifies how log groups are grouped in aggregate
 /// summaries.
+///
+/// @nodoc
 class GroupingIdentifier {
   /// The key that identifies the grouping characteristic. The format of the key
   /// uses dot notation. Examples are, <code>dataSource.Name</code>,
@@ -15706,6 +15962,7 @@ class GroupingIdentifier {
   }
 }
 
+/// @nodoc
 class ListAggregateLogGroupSummariesGroupBy {
   static const dataSourceNameTypeAndFormat =
       ListAggregateLogGroupSummariesGroupBy._(
@@ -15736,6 +15993,8 @@ class ListAggregateLogGroupSummariesGroupBy {
 
 /// A record of a scheduled query execution, including execution status,
 /// timestamp, and destination processing results.
+///
+/// @nodoc
 class TriggerHistoryRecord {
   /// Information about destination processing for this query execution.
   final List<ScheduledQueryDestination>? destinations;
@@ -15793,6 +16052,8 @@ class TriggerHistoryRecord {
 
 /// Information about a destination where scheduled query results are processed,
 /// including processing status and any error messages.
+///
+/// @nodoc
 class ScheduledQueryDestination {
   /// The identifier for the destination where results are delivered.
   final String? destinationIdentifier;
@@ -15846,6 +16107,7 @@ class ScheduledQueryDestination {
   }
 }
 
+/// @nodoc
 class ScheduledQueryDestinationType {
   static const s3 = ScheduledQueryDestinationType._('S3');
 
@@ -15870,6 +16132,7 @@ class ScheduledQueryDestinationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionStatus {
   static const inProgress = ActionStatus._('IN_PROGRESS');
   static const clientError = ActionStatus._('CLIENT_ERROR');
@@ -15905,6 +16168,8 @@ class ActionStatus {
 /// reduces scan volume and improves performance. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html">Create
 /// field indexes to improve query performance and reduce scan volume</a>.
+///
+/// @nodoc
 class QueryStatistics {
   /// The total number of bytes in the log events scanned during the query.
   final double? bytesScanned;
@@ -15972,6 +16237,7 @@ class QueryStatistics {
   }
 }
 
+/// @nodoc
 class QueryStatus {
   static const scheduled = QueryStatus._('Scheduled');
   static const running = QueryStatus._('Running');
@@ -16015,6 +16281,8 @@ class QueryStatus {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html">Supported
 /// Logs and Discovered Fields</a>.
+///
+/// @nodoc
 class ResultField {
   /// The log event field.
   final String? field;
@@ -16047,6 +16315,8 @@ class ResultField {
 /// A stream of structured log data returned by the GetLogObject operation. This
 /// stream contains log events with their associated metadata and extracted
 /// fields.
+///
+/// @nodoc
 class GetLogObjectResponseStream {
   /// An internal error occurred during the streaming of log data. This exception
   /// is thrown when there's an issue with the internal streaming mechanism used
@@ -16085,6 +16355,8 @@ class GetLogObjectResponseStream {
 /// A structure containing the extracted fields from a log event. These fields
 /// are extracted based on the log format and can be used for structured
 /// querying and analysis.
+///
+/// @nodoc
 class FieldsData {
   /// The actual log data content returned in the streaming response. This
   /// contains the fields and values of the log event in a structured format that
@@ -16112,6 +16384,8 @@ class FieldsData {
 /// An internal error occurred during the streaming of log data. This exception
 /// is thrown when there's an issue with the internal streaming mechanism used
 /// by the GetLogObject operation.
+///
+/// @nodoc
 class InternalStreamingException implements _s.AwsException {
   final String? message;
 
@@ -16136,6 +16410,8 @@ class InternalStreamingException implements _s.AwsException {
 /// The fields contained in log events found by a <code>GetLogGroupFields</code>
 /// operation, along with the percentage of queried log events in which each
 /// field appears.
+///
+/// @nodoc
 class LogGroupField {
   /// The name of a log field.
   final String? name;
@@ -16167,6 +16443,8 @@ class LogGroupField {
 
 /// Represents a log field with its name and data type information for a
 /// specific data source.
+///
+/// @nodoc
 class LogFieldsListItem {
   /// The name of the log field.
   final String? logFieldName;
@@ -16200,6 +16478,8 @@ class LogFieldsListItem {
 
 /// Defines the data type structure for a log field, including the type, element
 /// information, and nested fields for complex types.
+///
+/// @nodoc
 class LogFieldType {
   /// For array or collection types, specifies the element type information.
   final LogFieldType? element;
@@ -16242,6 +16522,8 @@ class LogFieldType {
 }
 
 /// Represents a log event.
+///
+/// @nodoc
 class OutputLogEvent {
   /// The time the event was ingested, expressed as the number of milliseconds
   /// after <code>Jan 1, 1970 00:00:00 UTC</code>.
@@ -16288,6 +16570,8 @@ class OutputLogEvent {
 /// This structure is returned by a <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetIntegration.html">GetIntegration</a>
 /// operation.
+///
+/// @nodoc
 class IntegrationDetails {
   /// This structure contains complete information about one integration between
   /// CloudWatch Logs and OpenSearch Service.
@@ -16319,6 +16603,8 @@ class IntegrationDetails {
 /// integration. This structure is returned by a <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetIntegration.html">GetIntegration</a>
 /// operation.
+///
+/// @nodoc
 class OpenSearchIntegrationDetails {
   /// This structure contains information about the OpenSearch Service data access
   /// policy used for this integration. The access policy defines the access
@@ -16469,6 +16755,8 @@ class OpenSearchIntegrationDetails {
 /// For more information about OpenSearch Service data sources , see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html">Creating
 /// OpenSearch Service data source integrations with Amazon S3.</a>
+///
+/// @nodoc
 class OpenSearchDataSource {
   /// The name of the OpenSearch Service data source.
   final String? dataSourceName;
@@ -16506,6 +16794,8 @@ class OpenSearchDataSource {
 /// used for this integration. An OpenSearch Service application is the web
 /// application created by the integration with CloudWatch Logs. It hosts the
 /// vended logs dashboards.
+///
+/// @nodoc
 class OpenSearchApplication {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationArn;
@@ -16560,6 +16850,8 @@ class OpenSearchApplication {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-collections.html">Creating
 /// and managing OpenSearch Service Serverless collections</a>.
+///
+/// @nodoc
 class OpenSearchCollection {
   /// The ARN of the collection.
   final String? collectionArn;
@@ -16607,6 +16899,8 @@ class OpenSearchCollection {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html">Centralized
 /// OpenSearch user interface (Dashboards) with OpenSearch Service</a>.
+///
+/// @nodoc
 class OpenSearchWorkspace {
   /// This structure contains information about the status of an OpenSearch
   /// Service resource.
@@ -16645,6 +16939,8 @@ class OpenSearchWorkspace {
 /// automatically when you created the integration. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html#serverless-encryption-policies">Encryption
 /// policies</a> in the OpenSearch Service Developer Guide.
+///
+/// @nodoc
 class OpenSearchEncryptionPolicy {
   /// The name of the encryption policy.
   final String? policyName;
@@ -16683,6 +16979,8 @@ class OpenSearchEncryptionPolicy {
 /// settings to collections. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html#serverless-network-policies">Network
 /// policies</a> in the OpenSearch Service Developer Guide.
+///
+/// @nodoc
 class OpenSearchNetworkPolicy {
   /// The name of the network policy.
   final String? policyName;
@@ -16724,6 +17022,8 @@ class OpenSearchNetworkPolicy {
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html">Data
 /// access control for Amazon OpenSearch Serverless</a> in the OpenSearch
 /// Service Developer Guide.
+///
+/// @nodoc
 class OpenSearchDataAccessPolicy {
   /// The name of the data access policy.
   final String? policyName;
@@ -16766,6 +17066,8 @@ class OpenSearchDataAccessPolicy {
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html">Using
 /// data lifecycle policies with OpenSearch Service Serverless</a> in the
 /// OpenSearch Service Developer Guide.
+///
+/// @nodoc
 class OpenSearchLifecyclePolicy {
   /// The name of the lifecycle policy.
   final String? policyName;
@@ -16801,6 +17103,8 @@ class OpenSearchLifecyclePolicy {
 
 /// This structure contains information about the status of an OpenSearch
 /// Service resource.
+///
+/// @nodoc
 class OpenSearchResourceStatus {
   /// The current status of this resource.
   final OpenSearchResourceStatusType? status;
@@ -16831,6 +17135,7 @@ class OpenSearchResourceStatus {
   }
 }
 
+/// @nodoc
 class OpenSearchResourceStatusType {
   static const active = OpenSearchResourceStatusType._('ACTIVE');
   static const notFound = OpenSearchResourceStatusType._('NOT_FOUND');
@@ -16868,6 +17173,8 @@ class OpenSearchResourceStatusType {
 ///
 /// To update an existing delivery configuration, use <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html">UpdateDeliveryConfiguration</a>.
+///
+/// @nodoc
 class Delivery {
   /// The Amazon Resource Name (ARN) that uniquely identifies this delivery.
   final String? arn;
@@ -16962,6 +17269,8 @@ class Delivery {
 }
 
 /// Represents the search status of a log stream.
+///
+/// @nodoc
 class SearchedLogStream {
   /// The name of the log stream.
   final String? logStreamName;
@@ -16992,6 +17301,8 @@ class SearchedLogStream {
 }
 
 /// Represents a matched event.
+///
+/// @nodoc
 class FilteredLogEvent {
   /// The ID of the event.
   final String? eventId;
@@ -17045,6 +17356,8 @@ class FilteredLogEvent {
 }
 
 /// Represents a subscription filter.
+///
+/// @nodoc
 class SubscriptionFilter {
   /// This parameter is valid only for log groups that have an active log
   /// transformer. For more information about log transformers, see <a
@@ -17146,6 +17459,8 @@ class SubscriptionFilter {
 
 /// This structure contains details about a saved CloudWatch Logs Insights query
 /// definition.
+///
+/// @nodoc
 class QueryDefinition {
   /// The date that the query definition was most recently modified.
   final int? lastModified;
@@ -17226,6 +17541,8 @@ class QueryDefinition {
 
 /// Information about one CloudWatch Logs Insights query that matches the
 /// request in a <code>DescribeQueries</code> operation.
+///
+/// @nodoc
 class QueryInfo {
   /// The total number of bytes scanned by the query. This indicates the cost
   /// associated with the query.
@@ -17314,6 +17631,8 @@ class QueryInfo {
 /// Metric filters express how CloudWatch Logs would extract metric observations
 /// from ingested log events and transform them into metric data in a CloudWatch
 /// metric.
+///
+/// @nodoc
 class MetricFilter {
   /// This parameter is valid only for log groups that have an active log
   /// transformer. For more information about log transformers, see <a
@@ -17407,6 +17726,8 @@ class MetricFilter {
 
 /// Contains metadata about a lookup table returned by
 /// <code>DescribeLookupTables</code>.
+///
+/// @nodoc
 class LookupTable {
   /// The description of the lookup table.
   final String? description;
@@ -17484,6 +17805,8 @@ class LookupTable {
 
 /// Represents a log stream, which is a sequence of log events from a single
 /// emitter of logs.
+///
+/// @nodoc
 class LogStream {
   /// The Amazon Resource Name (ARN) of the log stream.
   final String? arn;
@@ -17577,6 +17900,7 @@ class LogStream {
   }
 }
 
+/// @nodoc
 class OrderBy {
   static const logStreamName = OrderBy._('LogStreamName');
   static const lastEventTime = OrderBy._('LastEventTime');
@@ -17601,6 +17925,8 @@ class OrderBy {
 }
 
 /// Represents a log group.
+///
+/// @nodoc
 class LogGroup {
   /// The Amazon Resource Name (ARN) of the log group. This version of the ARN
   /// includes a trailing <code>:*</code> after the log group name.
@@ -17780,6 +18106,7 @@ class LogGroup {
   }
 }
 
+/// @nodoc
 class DataProtectionStatus {
   static const activated = DataProtectionStatus._('ACTIVATED');
   static const deleted = DataProtectionStatus._('DELETED');
@@ -17807,6 +18134,7 @@ class DataProtectionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InheritedProperty {
   static const accountDataProtection =
       InheritedProperty._('ACCOUNT_DATA_PROTECTION');
@@ -17832,6 +18160,8 @@ class InheritedProperty {
 }
 
 /// An import job to move data from CloudTrail Event Data Store to CloudWatch.
+///
+/// @nodoc
 class Import {
   /// The timestamp when the import task was created, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -17921,6 +18251,7 @@ class Import {
   }
 }
 
+/// @nodoc
 class ImportStatus {
   static const inProgress = ImportStatus._('IN_PROGRESS');
   static const cancelled = ImportStatus._('CANCELLED');
@@ -17947,6 +18278,8 @@ class ImportStatus {
 }
 
 /// Statistics about the import progress
+///
+/// @nodoc
 class ImportStatistics {
   /// The total number of bytes that have been imported to the managed log group.
   final int? bytesImported;
@@ -17970,6 +18303,8 @@ class ImportStatistics {
 }
 
 /// The filter criteria used for import tasks
+///
+/// @nodoc
 class ImportFilter {
   /// The end of the time range for events to import, expressed as the number of
   /// milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -18002,6 +18337,8 @@ class ImportFilter {
 }
 
 /// A collection of events being imported to CloudWatch
+///
+/// @nodoc
 class ImportBatch {
   /// The unique identifier of the import batch.
   final String batchId;
@@ -18042,6 +18379,8 @@ class ImportBatch {
 
 /// This structure describes one log event field that is used as an index in at
 /// least one index policy in this account.
+///
+/// @nodoc
 class FieldIndex {
   /// The string that this field index matches.
   final String? fieldIndexName;
@@ -18106,6 +18445,7 @@ class FieldIndex {
   }
 }
 
+/// @nodoc
 class IndexType {
   static const facet = IndexType._('FACET');
   static const fieldIndex = IndexType._('FIELD_INDEX');
@@ -18130,6 +18470,8 @@ class IndexType {
 }
 
 /// Represents an export task.
+///
+/// @nodoc
 class ExportTask {
   /// The name of the S3 bucket to which the log data was exported.
   final String? destination;
@@ -18219,6 +18561,8 @@ class ExportTask {
 }
 
 /// Represents the status of an export task.
+///
+/// @nodoc
 class ExportTaskStatus {
   /// The status code of the export task.
   final ExportTaskStatusCode? code;
@@ -18249,6 +18593,8 @@ class ExportTaskStatus {
 }
 
 /// Represents the status of an export task.
+///
+/// @nodoc
 class ExportTaskExecutionInfo {
   /// The completion time of the export task, expressed as the number of
   /// milliseconds after <code>Jan 1, 1970 00:00:00 UTC</code>.
@@ -18280,6 +18626,7 @@ class ExportTaskExecutionInfo {
   }
 }
 
+/// @nodoc
 class ExportTaskStatusCode {
   static const cancelled = ExportTaskStatusCode._('CANCELLED');
   static const completed = ExportTaskStatusCode._('COMPLETED');
@@ -18322,6 +18669,8 @@ class ExportTaskStatusCode {
 /// or a <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeliveryDestination.html">delivery
 /// destination</a>.
+///
+/// @nodoc
 class ConfigurationTemplate {
   /// The action permissions that a caller needs to have to be able to
   /// successfully create a delivery source on the desired resource type when
@@ -18488,6 +18837,8 @@ class ConfigurationTemplate {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
 /// to create a deliver under the current service type, resource type, and log
 /// type.
+///
+/// @nodoc
 class ConfigurationTemplateDeliveryConfigValues {
   /// The default field delimiter that is used in a <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
@@ -18542,6 +18893,8 @@ class ConfigurationTemplateDeliveryConfigValues {
 
 /// Contains information about the S3 Tables integration configuration for a
 /// configuration template.
+///
+/// @nodoc
 class S3TablesIntegration {
   /// The name of the S3 Tables datasource.
   final String? datasourceName;
@@ -18573,6 +18926,8 @@ class S3TablesIntegration {
 
 /// A structure that describes a single configuration for a log type, including
 /// its name, value type, default value, and the range of supported values.
+///
+/// @nodoc
 class DeliverySourceConfigurationSchema {
   /// The default value of the configuration that is used when a value is not
   /// specified in a <a
@@ -18643,6 +18998,7 @@ class DeliverySourceConfigurationSchema {
   }
 }
 
+/// @nodoc
 class DeliverySourceConfigurationSchemaValueType {
   static const string = DeliverySourceConfigurationSchemaValueType._('string');
   static const boolean =
@@ -18675,6 +19031,8 @@ class DeliverySourceConfigurationSchemaValueType {
 
 /// A structure that represents a valid record field header and whether it is
 /// mandatory.
+///
+/// @nodoc
 class RecordField {
   /// If this is <code>true</code>, the record field must be present in the
   /// <code>recordFields</code> parameter provided to a <a
@@ -18713,37 +19071,44 @@ class RecordField {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DataAlreadyAcceptedException extends _s.GenericAwsException {
   DataAlreadyAcceptedException({String? type, String? message})
       : super(
             type: type, code: 'DataAlreadyAcceptedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidSequenceTokenException extends _s.GenericAwsException {
   InvalidSequenceTokenException({String? type, String? message})
       : super(
@@ -18752,21 +19117,25 @@ class InvalidSequenceTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MalformedQueryException extends _s.GenericAwsException {
   MalformedQueryException({String? type, String? message})
       : super(type: type, code: 'MalformedQueryException', message: message);
 }
 
+/// @nodoc
 class OperationAbortedException extends _s.GenericAwsException {
   OperationAbortedException({String? type, String? message})
       : super(type: type, code: 'OperationAbortedException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -18775,11 +19144,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -18788,28 +19159,33 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnrecognizedClientException extends _s.GenericAwsException {
   UnrecognizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnrecognizedClientException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

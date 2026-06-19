@@ -269,6 +269,7 @@ class SageMakerA2iRuntime {
   }
 }
 
+/// @nodoc
 class DeleteHumanLoopResponse {
   DeleteHumanLoopResponse();
 
@@ -281,6 +282,7 @@ class DeleteHumanLoopResponse {
   }
 }
 
+/// @nodoc
 class DescribeHumanLoopResponse {
   /// The creation time when Amazon Augmented AI created the human loop.
   final DateTime creationTime;
@@ -362,6 +364,7 @@ class DescribeHumanLoopResponse {
   }
 }
 
+/// @nodoc
 class ListHumanLoopsResponse {
   /// An array of objects that contain information about the human loops.
   final List<HumanLoopSummary> humanLoopSummaries;
@@ -394,6 +397,7 @@ class ListHumanLoopsResponse {
   }
 }
 
+/// @nodoc
 class StartHumanLoopResponse {
   /// The Amazon Resource Name (ARN) of the human loop.
   final String? humanLoopArn;
@@ -416,6 +420,7 @@ class StartHumanLoopResponse {
   }
 }
 
+/// @nodoc
 class StopHumanLoopResponse {
   StopHumanLoopResponse();
 
@@ -429,6 +434,8 @@ class StopHumanLoopResponse {
 }
 
 /// An object containing the human loop input in JSON format.
+///
+/// @nodoc
 class HumanLoopInput {
   /// Serialized input from the human loop. The input must be a string
   /// representation of a file in JSON format.
@@ -448,6 +455,8 @@ class HumanLoopInput {
 
 /// Attributes of the data specified by the customer. Use these to describe the
 /// data to be labeled.
+///
+/// @nodoc
 class HumanLoopDataAttributes {
   /// Declares that your content is free of personally identifiable information or
   /// adult content.
@@ -468,6 +477,7 @@ class HumanLoopDataAttributes {
   }
 }
 
+/// @nodoc
 class ContentClassifier {
   static const freeOfPersonallyIdentifiableInformation =
       ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
@@ -497,6 +507,8 @@ class ContentClassifier {
 }
 
 /// Summary information about the human loop.
+///
+/// @nodoc
 class HumanLoopSummary {
   /// When Amazon Augmented AI created the human loop.
   final DateTime? creationTime;
@@ -550,6 +562,7 @@ class HumanLoopSummary {
   }
 }
 
+/// @nodoc
 class HumanLoopStatus {
   static const inProgress = HumanLoopStatus._('InProgress');
   static const failed = HumanLoopStatus._('Failed');
@@ -577,6 +590,7 @@ class HumanLoopStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -601,6 +615,8 @@ class SortOrder {
 }
 
 /// Information about where the human output will be stored.
+///
+/// @nodoc
 class HumanLoopOutput {
   /// The location of the Amazon S3 object where Amazon Augmented AI stores your
   /// human loop output.
@@ -624,21 +640,25 @@ class HumanLoopOutput {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -647,11 +667,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

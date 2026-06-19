@@ -413,7 +413,7 @@ class IoTSiteWise {
   /// With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have
   /// a timestamp of no more than 7 days in the past and no more than 10 minutes
   /// in the future. IoT SiteWise rejects timestamps outside of the inclusive
-  /// range of [-7 days, +10 minutes] and returns a
+  /// range of \[-7 days, +10 minutes\] and returns a
   /// <code>TimestampOutOfRangeException</code> error.
   ///
   /// For each asset property, IoT SiteWise overwrites TQVs with duplicate
@@ -5924,6 +5924,8 @@ class IoTSiteWise {
 
 /// Your request has conflicting operations. This can occur if you're trying to
 /// perform more than one operation on the same resource at the same time.
+///
+/// @nodoc
 class ConflictingOperationException implements _s.AwsException {
   final String? message;
 
@@ -5960,6 +5962,8 @@ class ConflictingOperationException implements _s.AwsException {
 }
 
 /// IoT SiteWise can't process your request right now. Try again later.
+///
+/// @nodoc
 class InternalFailureException implements _s.AwsException {
   final String? message;
 
@@ -5983,6 +5987,8 @@ class InternalFailureException implements _s.AwsException {
 
 /// The request isn't valid. This can occur if your request contains malformed
 /// JSON or unsupported characters. Check your request and try again.
+///
+/// @nodoc
 class InvalidRequestException implements _s.AwsException {
   final String? message;
 
@@ -6012,6 +6018,8 @@ class InvalidRequestException implements _s.AwsException {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas</a>
 /// in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class LimitExceededException implements _s.AwsException {
   final String? message;
 
@@ -6034,6 +6042,8 @@ class LimitExceededException implements _s.AwsException {
 }
 
 /// The requested resource can't be found.
+///
+/// @nodoc
 class ResourceNotFoundException implements _s.AwsException {
   final String? message;
 
@@ -6062,6 +6072,8 @@ class ResourceNotFoundException implements _s.AwsException {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas</a>
 /// in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -6083,6 +6095,7 @@ class ThrottlingException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class BatchAssociateProjectAssetsResponse {
   /// A list of associated error information, if any.
   final List<AssetErrorDetails>? errors;
@@ -6109,6 +6122,7 @@ class BatchAssociateProjectAssetsResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateProjectAssetsResponse {
   /// A list of associated error information, if any.
   final List<AssetErrorDetails>? errors;
@@ -6135,6 +6149,7 @@ class BatchDisassociateProjectAssetsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAssetPropertyAggregatesResponse {
   /// A list of the errors (if any) associated with the batch request. Each error
   /// entry contains the <code>entryId</code> of the entry that failed.
@@ -6198,6 +6213,7 @@ class BatchGetAssetPropertyAggregatesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAssetPropertyValueResponse {
   /// A list of the errors (if any) associated with the batch request. Each error
   /// entry contains the <code>entryId</code> of the entry that failed.
@@ -6261,6 +6277,7 @@ class BatchGetAssetPropertyValueResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAssetPropertyValueHistoryResponse {
   /// A list of the errors (if any) associated with the batch request. Each error
   /// entry contains the <code>entryId</code> of the entry that failed.
@@ -6324,6 +6341,7 @@ class BatchGetAssetPropertyValueHistoryResponse {
   }
 }
 
+/// @nodoc
 class BatchPutAssetPropertyValueResponse {
   /// A list of the errors (if any) associated with the batch put request. Each
   /// error entry contains the <code>entryId</code> of the entry that failed.
@@ -6352,6 +6370,7 @@ class BatchPutAssetPropertyValueResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessPolicyResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6385,6 +6404,7 @@ class CreateAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateAssetResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6429,6 +6449,7 @@ class CreateAssetResponse {
   }
 }
 
+/// @nodoc
 class CreateAssetModelResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6473,6 +6494,7 @@ class CreateAssetModelResponse {
   }
 }
 
+/// @nodoc
 class CreateAssetModelCompositeModelResponse {
   /// The ID of the composed asset model. You can use this ID when you call other
   /// IoT SiteWise APIs.
@@ -6517,6 +6539,7 @@ class CreateAssetModelCompositeModelResponse {
   }
 }
 
+/// @nodoc
 class CreateBulkImportJobResponse {
   /// The ID of the job.
   final String jobId;
@@ -6581,6 +6604,7 @@ class CreateBulkImportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateComputationModelResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6624,6 +6648,7 @@ class CreateComputationModelResponse {
   }
 }
 
+/// @nodoc
 class CreateDashboardResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6657,6 +6682,7 @@ class CreateDashboardResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
@@ -6701,6 +6727,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateGatewayResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6735,6 +6762,7 @@ class CreateGatewayResponse {
   }
 }
 
+/// @nodoc
 class CreatePortalResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6796,6 +6824,7 @@ class CreatePortalResponse {
   }
 }
 
+/// @nodoc
 class CreateProjectResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6829,6 +6858,7 @@ class CreateProjectResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessPolicyResponse {
   DeleteAccessPolicyResponse();
 
@@ -6841,6 +6871,7 @@ class DeleteAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssetResponse {
   /// The status of the asset, which contains a state (<code>DELETING</code> after
   /// successfully calling this operation) and any error message.
@@ -6866,6 +6897,7 @@ class DeleteAssetResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssetModelResponse {
   /// The status of the asset model, which contains a state (<code>DELETING</code>
   /// after successfully calling this operation) and any error message.
@@ -6891,6 +6923,7 @@ class DeleteAssetModelResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssetModelCompositeModelResponse {
   final AssetModelStatus assetModelStatus;
 
@@ -6915,6 +6948,7 @@ class DeleteAssetModelCompositeModelResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssetModelInterfaceRelationshipResponse {
   /// The ARN of the asset model, which has the following format.
   /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
@@ -6960,6 +6994,7 @@ class DeleteAssetModelInterfaceRelationshipResponse {
   }
 }
 
+/// @nodoc
 class DeleteComputationModelResponse {
   /// The status of the computation model. It contains a state (DELETING after
   /// successfully calling this operation) and any error messages.
@@ -6985,6 +7020,7 @@ class DeleteComputationModelResponse {
   }
 }
 
+/// @nodoc
 class DeleteDashboardResponse {
   DeleteDashboardResponse();
 
@@ -6997,6 +7033,7 @@ class DeleteDashboardResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatasetResponse {
   /// The status of the dataset. This contains the state and any error messages.
   /// State is <code>DELETING</code> after a successfull call to this API, and any
@@ -7023,6 +7060,7 @@ class DeleteDatasetResponse {
   }
 }
 
+/// @nodoc
 class DeletePortalResponse {
   /// The status of the portal, which contains a state (<code>DELETING</code>
   /// after successfully calling this operation) and any error message.
@@ -7048,6 +7086,7 @@ class DeletePortalResponse {
   }
 }
 
+/// @nodoc
 class DeleteProjectResponse {
   DeleteProjectResponse();
 
@@ -7060,6 +7099,7 @@ class DeleteProjectResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccessPolicyResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -7139,6 +7179,7 @@ class DescribeAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeActionResponse {
   /// The ID of the action definition.
   final String actionDefinitionId;
@@ -7202,6 +7243,7 @@ class DescribeActionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -7339,6 +7381,7 @@ class DescribeAssetResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetCompositeModelResponse {
   /// A description for the composite model.
   final String assetCompositeModelDescription;
@@ -7456,6 +7499,7 @@ class DescribeAssetCompositeModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetModelResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -7603,6 +7647,7 @@ class DescribeAssetModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetModelCompositeModelResponse {
   /// The description for the composite model.
   final String assetModelCompositeModelDescription;
@@ -7734,6 +7779,7 @@ class DescribeAssetModelCompositeModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetModelInterfaceRelationshipResponse {
   /// The ID of the asset model.
   final String assetModelId;
@@ -7786,6 +7832,7 @@ class DescribeAssetModelInterfaceRelationshipResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetPropertyResponse {
   /// The ID of the asset, in UUID format.
   final String assetId;
@@ -7855,6 +7902,7 @@ class DescribeAssetPropertyResponse {
   }
 }
 
+/// @nodoc
 class DescribeBulkImportJobResponse {
   /// The Amazon S3 destination where errors associated with the job creation
   /// request are saved.
@@ -7992,6 +8040,7 @@ class DescribeBulkImportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeComputationModelResponse {
   /// The available actions for this computation model.
   final List<ActionDefinition> actionDefinitions;
@@ -8112,6 +8161,7 @@ class DescribeComputationModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeComputationModelExecutionSummaryResponse {
   /// Contains the execution summary of the computation model.
   final Map<String, String> computationModelExecutionSummary;
@@ -8156,6 +8206,7 @@ class DescribeComputationModelExecutionSummaryResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -8236,6 +8287,7 @@ class DescribeDashboardResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
@@ -8326,6 +8378,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeDefaultEncryptionConfigurationResponse {
   /// The status of the account configuration. This contains the
   /// <code>ConfigurationState</code>. If there's an error, it also contains the
@@ -8369,6 +8422,7 @@ class DescribeDefaultEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeExecutionResponse {
   /// The ID of the execution.
   final String executionId;
@@ -8487,6 +8541,7 @@ class DescribeExecutionResponse {
   }
 }
 
+/// @nodoc
 class DescribeGatewayResponse {
   /// The date the gateway was created, in Unix epoch time.
   final DateTime creationDate;
@@ -8575,6 +8630,7 @@ class DescribeGatewayResponse {
   }
 }
 
+/// @nodoc
 class DescribeGatewayCapabilityConfigurationResponse {
   /// The JSON document that defines the gateway capability's configuration. For
   /// more information, see <a
@@ -8646,6 +8702,7 @@ class DescribeGatewayCapabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeLoggingOptionsResponse {
   /// The current logging options.
   final LoggingOptions loggingOptions;
@@ -8670,6 +8727,7 @@ class DescribeLoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class DescribePortalResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -8843,6 +8901,7 @@ class DescribePortalResponse {
   }
 }
 
+/// @nodoc
 class DescribeProjectResponse {
   /// The ID of the portal that the project is in.
   final String portalId;
@@ -8913,6 +8972,7 @@ class DescribeProjectResponse {
   }
 }
 
+/// @nodoc
 class DescribeStorageConfigurationResponse {
   final ConfigurationStatus configurationStatus;
 
@@ -9046,6 +9106,7 @@ class DescribeStorageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeTimeSeriesResponse {
   /// The data type of the time series.
   ///
@@ -9141,6 +9202,7 @@ class DescribeTimeSeriesResponse {
   }
 }
 
+/// @nodoc
 class ExecuteActionResponse {
   /// The ID of the action.
   final String actionId;
@@ -9163,6 +9225,7 @@ class ExecuteActionResponse {
   }
 }
 
+/// @nodoc
 class ExecuteQueryResponse {
   /// Represents a single column in the query results.
   final List<ColumnInfo>? columns;
@@ -9206,6 +9269,8 @@ class ExecuteQueryResponse {
 }
 
 /// Access is denied.
+///
+/// @nodoc
 class AccessDeniedException implements _s.AwsException {
   final String? message;
 
@@ -9227,6 +9292,7 @@ class AccessDeniedException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class GetAssetPropertyAggregatesResponse {
   /// The requested aggregated values.
   final List<AggregatedValue> aggregatedValues;
@@ -9261,6 +9327,7 @@ class GetAssetPropertyAggregatesResponse {
   }
 }
 
+/// @nodoc
 class GetAssetPropertyValueResponse {
   /// The current asset property value.
   final AssetPropertyValue? propertyValue;
@@ -9286,6 +9353,7 @@ class GetAssetPropertyValueResponse {
   }
 }
 
+/// @nodoc
 class GetAssetPropertyValueHistoryResponse {
   /// The asset property's value history.
   final List<AssetPropertyValue> assetPropertyValueHistory;
@@ -9322,6 +9390,7 @@ class GetAssetPropertyValueHistoryResponse {
   }
 }
 
+/// @nodoc
 class GetInterpolatedAssetPropertyValuesResponse {
   /// The requested interpolated values.
   final List<InterpolatedAssetPropertyValue> interpolatedAssetPropertyValues;
@@ -9359,6 +9428,7 @@ class GetInterpolatedAssetPropertyValuesResponse {
   }
 }
 
+/// @nodoc
 class InvokeAssistantResponse {
   final ResponseStream body;
 
@@ -9380,6 +9450,7 @@ class InvokeAssistantResponse {
   }
 }
 
+/// @nodoc
 class ListAccessPoliciesResponse {
   /// A list that summarizes each access policy.
   final List<AccessPolicySummary> accessPolicySummaries;
@@ -9414,6 +9485,7 @@ class ListAccessPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListActionsResponse {
   /// A list that summarizes the actions associated with the specified asset.
   final List<ActionSummary> actionSummaries;
@@ -9447,6 +9519,7 @@ class ListActionsResponse {
   }
 }
 
+/// @nodoc
 class ListAssetModelCompositeModelsResponse {
   /// A list that summarizes each composite model.
   final List<AssetModelCompositeModelSummary> assetModelCompositeModelSummaries;
@@ -9484,6 +9557,7 @@ class ListAssetModelCompositeModelsResponse {
   }
 }
 
+/// @nodoc
 class ListAssetModelPropertiesResponse {
   /// A list that summarizes the properties associated with the specified asset
   /// model.
@@ -9520,6 +9594,7 @@ class ListAssetModelPropertiesResponse {
   }
 }
 
+/// @nodoc
 class ListAssetModelsResponse {
   /// A list that summarizes each asset model.
   final List<AssetModelSummary> assetModelSummaries;
@@ -9553,6 +9628,7 @@ class ListAssetModelsResponse {
   }
 }
 
+/// @nodoc
 class ListAssetPropertiesResponse {
   /// A list that summarizes the properties associated with the specified asset.
   final List<AssetPropertySummary> assetPropertySummaries;
@@ -9587,6 +9663,7 @@ class ListAssetPropertiesResponse {
   }
 }
 
+/// @nodoc
 class ListAssetRelationshipsResponse {
   /// A list that summarizes each asset relationship.
   final List<AssetRelationshipSummary> assetRelationshipSummaries;
@@ -9622,6 +9699,7 @@ class ListAssetRelationshipsResponse {
   }
 }
 
+/// @nodoc
 class ListAssetsResponse {
   /// A list that summarizes each asset.
   final List<AssetSummary> assetSummaries;
@@ -9655,6 +9733,7 @@ class ListAssetsResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedAssetsResponse {
   /// A list that summarizes the associated assets.
   final List<AssociatedAssetsSummary> assetSummaries;
@@ -9689,6 +9768,7 @@ class ListAssociatedAssetsResponse {
   }
 }
 
+/// @nodoc
 class ListBulkImportJobsResponse {
   /// One or more job summaries to list.
   final List<JobSummary> jobSummaries;
@@ -9722,6 +9802,7 @@ class ListBulkImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListCompositionRelationshipsResponse {
   /// A list that summarizes each composition relationship.
   final List<CompositionRelationshipSummary> compositionRelationshipSummaries;
@@ -9759,6 +9840,7 @@ class ListCompositionRelationshipsResponse {
   }
 }
 
+/// @nodoc
 class ListComputationModelDataBindingUsagesResponse {
   /// A list of summaries describing the data binding usages across computation
   /// models. Each summary includes the computation model IDs and the matched data
@@ -9797,6 +9879,7 @@ class ListComputationModelDataBindingUsagesResponse {
   }
 }
 
+/// @nodoc
 class ListComputationModelResolveToResourcesResponse {
   /// A list of summaries describing the distinct resources that this computation
   /// model resolves to when actions were executed.
@@ -9838,6 +9921,7 @@ class ListComputationModelResolveToResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListComputationModelsResponse {
   /// A list summarizing each computation model.
   final List<ComputationModelSummary> computationModelSummaries;
@@ -9873,6 +9957,7 @@ class ListComputationModelsResponse {
   }
 }
 
+/// @nodoc
 class ListDashboardsResponse {
   /// A list that summarizes each dashboard in the project.
   final List<DashboardSummary> dashboardSummaries;
@@ -9906,6 +9991,7 @@ class ListDashboardsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// A list that summarizes the dataset response.
   final List<DatasetSummary> datasetSummaries;
@@ -9939,6 +10025,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListExecutionsResponse {
   /// Contains the list of execution summaries of the computation models.
   final List<ExecutionSummary> executionSummaries;
@@ -9972,6 +10059,7 @@ class ListExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListGatewaysResponse {
   /// A list that summarizes each gateway.
   final List<GatewaySummary> gatewaySummaries;
@@ -10005,6 +10093,7 @@ class ListGatewaysResponse {
   }
 }
 
+/// @nodoc
 class ListInterfaceRelationshipsResponse {
   /// A list that summarizes each interface relationship.
   final List<InterfaceRelationshipSummary> interfaceRelationshipSummaries;
@@ -10042,6 +10131,7 @@ class ListInterfaceRelationshipsResponse {
   }
 }
 
+/// @nodoc
 class ListPortalsResponse {
   /// The token for the next set of results, or null if there are no additional
   /// results.
@@ -10075,6 +10165,7 @@ class ListPortalsResponse {
   }
 }
 
+/// @nodoc
 class ListProjectAssetsResponse {
   /// A list that contains the IDs of each asset associated with the project.
   final List<String> assetIds;
@@ -10108,6 +10199,7 @@ class ListProjectAssetsResponse {
   }
 }
 
+/// @nodoc
 class ListProjectsResponse {
   /// A list that summarizes each project in the portal.
   final List<ProjectSummary> projectSummaries;
@@ -10141,6 +10233,7 @@ class ListProjectsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of key-value pairs that contain metadata for the resource. For more
   /// information, see <a
@@ -10167,6 +10260,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTimeSeriesResponse {
   /// One or more time series summaries to list.
   final List<TimeSeriesSummary> timeSeriesSummaries;
@@ -10200,6 +10294,7 @@ class ListTimeSeriesResponse {
   }
 }
 
+/// @nodoc
 class PutAssetModelInterfaceRelationshipResponse {
   /// The ARN of the asset model, which has the following format.
   /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
@@ -10245,6 +10340,7 @@ class PutAssetModelInterfaceRelationshipResponse {
   }
 }
 
+/// @nodoc
 class PutDefaultEncryptionConfigurationResponse {
   /// The status of the account configuration. This contains the
   /// <code>ConfigurationState</code>. If there is an error, it also contains the
@@ -10288,6 +10384,7 @@ class PutDefaultEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutLoggingOptionsResponse {
   PutLoggingOptionsResponse();
 
@@ -10300,6 +10397,7 @@ class PutLoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class PutStorageConfigurationResponse {
   final ConfigurationStatus configurationStatus;
 
@@ -10421,6 +10519,7 @@ class PutStorageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -10433,6 +10532,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -10445,6 +10545,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccessPolicyResponse {
   UpdateAccessPolicyResponse();
 
@@ -10457,6 +10558,7 @@ class UpdateAccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssetResponse {
   /// The status of the asset, which contains a state (<code>UPDATING</code> after
   /// successfully calling this operation) and any error message.
@@ -10482,6 +10584,7 @@ class UpdateAssetResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssetModelResponse {
   /// The status of the asset model, which contains a state (<code>UPDATING</code>
   /// after successfully calling this operation) and any error message.
@@ -10507,6 +10610,7 @@ class UpdateAssetModelResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssetModelCompositeModelResponse {
   /// The path to the composite model listing the parent composite models.
   final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
@@ -10542,6 +10646,7 @@ class UpdateAssetModelCompositeModelResponse {
   }
 }
 
+/// @nodoc
 class UpdateComputationModelResponse {
   /// The status of the computation model. It contains a state (UPDATING after
   /// successfully calling this operation) and an error message if any.
@@ -10567,6 +10672,7 @@ class UpdateComputationModelResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardResponse {
   UpdateDashboardResponse();
 
@@ -10579,6 +10685,7 @@ class UpdateDashboardResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
@@ -10624,6 +10731,7 @@ class UpdateDatasetResponse {
   }
 }
 
+/// @nodoc
 class UpdateGatewayCapabilityConfigurationResponse {
   /// The namespace of the gateway capability.
   final String capabilityNamespace;
@@ -10680,6 +10788,7 @@ class UpdateGatewayCapabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePortalResponse {
   /// The status of the portal, which contains a state (<code>UPDATING</code>
   /// after successfully calling this operation) and any error message.
@@ -10705,6 +10814,7 @@ class UpdatePortalResponse {
   }
 }
 
+/// @nodoc
 class UpdateProjectResponse {
   UpdateProjectResponse();
 
@@ -10718,6 +10828,8 @@ class UpdateProjectResponse {
 }
 
 /// Contains information about the current status of a portal.
+///
+/// @nodoc
 class PortalStatus {
   /// The current state of the portal.
   final PortalState state;
@@ -10749,6 +10861,7 @@ class PortalStatus {
   }
 }
 
+/// @nodoc
 class PortalState {
   static const creating = PortalState._('CREATING');
   static const pending = PortalState._('PENDING');
@@ -10777,6 +10890,8 @@ class PortalState {
 }
 
 /// Contains IoT SiteWise Monitor error details.
+///
+/// @nodoc
 class MonitorErrorDetails {
   /// The error code.
   final MonitorErrorCode? code;
@@ -10806,6 +10921,7 @@ class MonitorErrorDetails {
   }
 }
 
+/// @nodoc
 class MonitorErrorCode {
   static const internalFailure = MonitorErrorCode._('INTERNAL_FAILURE');
   static const validationError = MonitorErrorCode._('VALIDATION_ERROR');
@@ -10841,6 +10957,8 @@ class MonitorErrorCode {
 /// The ID of an existing image. Choose this option to keep an existing image.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Image {
   final ImageFile? file;
 
@@ -10869,6 +10987,8 @@ class Image {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html">Monitoring
 /// with alarms</a> in the <i>IoT SiteWise Application Guide</i>.
+///
+/// @nodoc
 class Alarms {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -10907,6 +11027,7 @@ class Alarms {
   }
 }
 
+/// @nodoc
 class PortalType {
   static const sitewisePortalV1 = PortalType._('SITEWISE_PORTAL_V1');
   static const sitewisePortalV2 = PortalType._('SITEWISE_PORTAL_V2');
@@ -10933,6 +11054,8 @@ class PortalType {
 /// The configuration entry associated with the specific portal type. The
 /// <code>portalTypeConfiguration</code> is a map of the
 /// <code>portalTypeKey</code> to the <code>PortalTypeEntry</code>.
+///
+/// @nodoc
 class PortalTypeEntry {
   /// The array of tools associated with the specified portal type. The possible
   /// values are <code>ASSISTANT</code> and <code>DASHBOARD</code>.
@@ -10960,6 +11083,8 @@ class PortalTypeEntry {
 }
 
 /// Contains an image file.
+///
+/// @nodoc
 class ImageFile {
   /// The image file contents, represented as a base64-encoded string. The file
   /// size must be less than 1 MB.
@@ -10983,6 +11108,7 @@ class ImageFile {
   }
 }
 
+/// @nodoc
 class ImageFileType {
   static const png = ImageFileType._('PNG');
 
@@ -11006,6 +11132,7 @@ class ImageFileType {
   String toString() => value;
 }
 
+/// @nodoc
 class CapabilitySyncStatus {
   static const inSync = CapabilitySyncStatus._('IN_SYNC');
   static const outOfSync = CapabilitySyncStatus._('OUT_OF_SYNC');
@@ -11036,6 +11163,8 @@ class CapabilitySyncStatus {
 
 /// The status of the dataset. This contains the state and any error messages.
 /// The state is <code>ACTIVE</code> when ready to use.
+///
+/// @nodoc
 class DatasetStatus {
   /// The current status of the dataset.
   final DatasetState state;
@@ -11065,6 +11194,7 @@ class DatasetStatus {
   }
 }
 
+/// @nodoc
 class DatasetState {
   static const creating = DatasetState._('CREATING');
   static const active = DatasetState._('ACTIVE');
@@ -11092,6 +11222,8 @@ class DatasetState {
 }
 
 /// Contains the details of an IoT SiteWise error.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error code.
   final ErrorCode code;
@@ -11131,6 +11263,7 @@ class ErrorDetails {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const validationError = ErrorCode._('VALIDATION_ERROR');
   static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
@@ -11155,6 +11288,8 @@ class ErrorCode {
 }
 
 /// Contains detailed error information.
+///
+/// @nodoc
 class DetailedError {
   /// The error code.
   final DetailedErrorCode code;
@@ -11184,6 +11319,7 @@ class DetailedError {
   }
 }
 
+/// @nodoc
 class DetailedErrorCode {
   static const incompatibleComputeLocation =
       DetailedErrorCode._('INCOMPATIBLE_COMPUTE_LOCATION');
@@ -11214,6 +11350,8 @@ class DetailedErrorCode {
 }
 
 /// The data source for the dataset.
+///
+/// @nodoc
 class DatasetSource {
   /// The format of the dataset source associated with the dataset.
   final DatasetSourceFormat sourceFormat;
@@ -11254,6 +11392,7 @@ class DatasetSource {
   }
 }
 
+/// @nodoc
 class DatasetSourceType {
   static const kendra = DatasetSourceType._('KENDRA');
 
@@ -11277,6 +11416,7 @@ class DatasetSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DatasetSourceFormat {
   static const knowledgeBase = DatasetSourceFormat._('KNOWLEDGE_BASE');
 
@@ -11302,6 +11442,8 @@ class DatasetSourceFormat {
 }
 
 /// The details of the dataset source associated with the dataset.
+///
+/// @nodoc
 class SourceDetail {
   /// Contains details about the Kendra dataset source.
   final KendraSourceDetail? kendra;
@@ -11327,6 +11469,8 @@ class SourceDetail {
 }
 
 /// The source details for the Kendra dataset source.
+///
+/// @nodoc
 class KendraSourceDetail {
   /// The <code>knowledgeBaseArn</code> details for the Kendra dataset source.
   final String knowledgeBaseArn;
@@ -11357,6 +11501,8 @@ class KendraSourceDetail {
 }
 
 /// Contains current status information for a computation model.
+///
+/// @nodoc
 class ComputationModelStatus {
   /// The current state of the computation model.
   final ComputationModelState state;
@@ -11386,6 +11532,7 @@ class ComputationModelStatus {
   }
 }
 
+/// @nodoc
 class ComputationModelState {
   static const creating = ComputationModelState._('CREATING');
   static const active = ComputationModelState._('ACTIVE');
@@ -11415,6 +11562,8 @@ class ComputationModelState {
 }
 
 /// The configuration for the computation model.
+///
+/// @nodoc
 class ComputationModelConfiguration {
   /// The configuration for the anomaly detection type of computation model.
   final ComputationModelAnomalyDetectionConfiguration? anomalyDetection;
@@ -11442,6 +11591,8 @@ class ComputationModelConfiguration {
 
 /// Contains computation model data binding value information, which can be one
 /// of <code>assetModelProperty</code>, <code>list</code>.
+///
+/// @nodoc
 class ComputationModelDataBindingValue {
   /// Specifies an asset model property data binding value.
   final AssetModelPropertyBindingValue? assetModelProperty;
@@ -11489,6 +11640,8 @@ class ComputationModelDataBindingValue {
 }
 
 /// Contains information about an <code>assetModelProperty</code> binding value.
+///
+/// @nodoc
 class AssetModelPropertyBindingValue {
   /// The ID of the asset model, in UUID format.
   final String assetModelId;
@@ -11521,6 +11674,8 @@ class AssetModelPropertyBindingValue {
 /// Represents a data binding value referencing a specific asset property. It's
 /// used to bind computation model variables to actual asset property values for
 /// processing.
+///
+/// @nodoc
 class AssetPropertyBindingValue {
   /// The ID of the asset containing the property. This identifies the specific
   /// asset instance's property value used in the computation model.
@@ -11554,6 +11709,8 @@ class AssetPropertyBindingValue {
 
 /// Contains the configuration of the type of anomaly detection computation
 /// model.
+///
+/// @nodoc
 class ComputationModelAnomalyDetectionConfiguration {
   /// Define the variable name associated with input properties, with the
   /// following format <code>${VariableName}</code>.
@@ -11586,6 +11743,7 @@ class ComputationModelAnomalyDetectionConfiguration {
   }
 }
 
+/// @nodoc
 class PropertyNotificationState {
   static const enabled = PropertyNotificationState._('ENABLED');
   static const disabled = PropertyNotificationState._('DISABLED');
@@ -11615,6 +11773,8 @@ class PropertyNotificationState {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html">Asset
 /// and model states</a> in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class AssetModelStatus {
   /// The current state of the asset model.
   final AssetModelState state;
@@ -11646,6 +11806,7 @@ class AssetModelStatus {
   }
 }
 
+/// @nodoc
 class AssetModelState {
   static const creating = AssetModelState._('CREATING');
   static const active = AssetModelState._('ACTIVE');
@@ -11683,6 +11844,8 @@ class AssetModelState {
 
 /// Represents one level between a composite model and the root of the asset
 /// model.
+///
+/// @nodoc
 class AssetModelCompositeModelPathSegment {
   /// The ID of the path segment.
   final String? id;
@@ -11713,6 +11876,7 @@ class AssetModelCompositeModelPathSegment {
   }
 }
 
+/// @nodoc
 class AssetModelVersionType {
   static const latest = AssetModelVersionType._('LATEST');
   static const active = AssetModelVersionType._('ACTIVE');
@@ -11739,6 +11903,8 @@ class AssetModelVersionType {
 }
 
 /// Contains information about an asset model property.
+///
+/// @nodoc
 class AssetModelProperty {
   /// The data type of the asset model property.
   ///
@@ -11852,6 +12018,7 @@ class AssetModelProperty {
   }
 }
 
+/// @nodoc
 class PropertyDataType {
   static const string = PropertyDataType._('STRING');
   static const integer = PropertyDataType._('INTEGER');
@@ -11881,6 +12048,8 @@ class PropertyDataType {
 
 /// Contains a property type, which can be one of <code>attribute</code>,
 /// <code>measurement</code>, <code>metric</code>, or <code>transform</code>.
+///
+/// @nodoc
 class PropertyType {
   /// Specifies an asset attribute property. An attribute generally contains
   /// static information, such as the serial number of an <a
@@ -11943,6 +12112,8 @@ class PropertyType {
 }
 
 /// Represents one level between a property and the root of the asset model.
+///
+/// @nodoc
 class AssetModelPropertyPathSegment {
   /// The ID of the path segment.
   final String? id;
@@ -11975,6 +12146,8 @@ class AssetModelPropertyPathSegment {
 /// Contains an asset attribute property. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#attributes">Attributes</a>
 /// in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class Attribute {
   /// The default value of the asset model property attribute. All assets that you
   /// create from the asset model contain this attribute value. You can update an
@@ -12004,6 +12177,8 @@ class Attribute {
 /// Contains an asset measurement property. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#measurements">Measurements</a>
 /// in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class Measurement {
   /// The processing configuration for the given measurement property. You can
   /// configure measurements to be kept at the edge or forwarded to the Amazon Web
@@ -12041,6 +12216,8 @@ class Measurement {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#transforms">Transforms</a>
 /// in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class Transform {
   /// The mathematical expression that defines the transformation function. You
   /// can specify up to 10 variables per expression. You can specify up to 10
@@ -12105,6 +12282,8 @@ class Transform {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics">Metrics</a>
 /// in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class Metric {
   /// The window (time interval) over which IoT SiteWise computes the metric's
   /// aggregation expression. IoT SiteWise computes one data point per
@@ -12167,6 +12346,8 @@ class Metric {
 
 /// Contains a time interval window used for data aggregate computations (for
 /// example, average, sum, count, and so on).
+///
+/// @nodoc
 class MetricWindow {
   /// The tumbling time interval window.
   final TumblingWindow? tumbling;
@@ -12194,6 +12375,8 @@ class MetricWindow {
 /// The processing configuration for the given metric property. You can
 /// configure metrics to be computed at the edge or in the Amazon Web Services
 /// Cloud. By default, metrics are forwarded to the cloud.
+///
+/// @nodoc
 class MetricProcessingConfig {
   /// The compute location for the given metric property.
   final ComputeLocation computeLocation;
@@ -12217,6 +12400,7 @@ class MetricProcessingConfig {
   }
 }
 
+/// @nodoc
 class ComputeLocation {
   static const edge = ComputeLocation._('EDGE');
   static const cloud = ComputeLocation._('CLOUD');
@@ -12255,6 +12439,8 @@ class ComputeLocation {
 /// href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 format</a>. For
 /// example, <code>PT5S</code> represents 5 seconds, <code>PT5M</code>
 /// represents 5 minutes, and <code>PT5H</code> represents 5 hours.
+///
+/// @nodoc
 class TumblingWindow {
   /// The time interval for the tumbling window. The interval time must be between
   /// 1 minute and 1 week.
@@ -12358,6 +12544,8 @@ class TumblingWindow {
 }
 
 /// Contains expression variable information.
+///
+/// @nodoc
 class ExpressionVariable {
   /// The friendly name of the variable to be used in the expression.
   final String name;
@@ -12389,6 +12577,8 @@ class ExpressionVariable {
 }
 
 /// Identifies a property value used in an expression.
+///
+/// @nodoc
 class VariableValue {
   /// The ID of the hierarchy to query for the property ID. You can use the
   /// hierarchy's name instead of the hierarchy's ID. If the hierarchy has an
@@ -12450,6 +12640,8 @@ class VariableValue {
 /// configure transforms to be kept at the edge or forwarded to the Amazon Web
 /// Services Cloud. You can also configure transforms to be computed at the edge
 /// or in the cloud.
+///
+/// @nodoc
 class TransformProcessingConfig {
   /// The compute location for the given transform property.
   final ComputeLocation computeLocation;
@@ -12482,6 +12674,8 @@ class TransformProcessingConfig {
 }
 
 /// The forwarding configuration for a given property.
+///
+/// @nodoc
 class ForwardingConfig {
   /// The forwarding state for the given property.
   final ForwardingConfigState state;
@@ -12504,6 +12698,7 @@ class ForwardingConfig {
   }
 }
 
+/// @nodoc
 class ForwardingConfigState {
   static const disabled = ForwardingConfigState._('DISABLED');
   static const enabled = ForwardingConfigState._('ENABLED');
@@ -12532,6 +12727,8 @@ class ForwardingConfigState {
 /// The processing configuration for the given measurement property. You can
 /// configure measurements to be kept at the edge or forwarded to the Amazon Web
 /// Services Cloud. By default, measurements are forwarded to the cloud.
+///
+/// @nodoc
 class MeasurementProcessingConfig {
   /// The forwarding configuration for the given measurement property.
   final ForwardingConfig forwardingConfig;
@@ -12559,6 +12756,8 @@ class MeasurementProcessingConfig {
 /// Contains information about a composite model in an asset model. This object
 /// contains the asset property definitions that you define in the composite
 /// model.
+///
+/// @nodoc
 class AssetModelCompositeModel {
   /// The name of the composite model.
   final String name;
@@ -12626,6 +12825,8 @@ class AssetModelCompositeModel {
 /// Describes an asset hierarchy that contains a hierarchy's name, ID, and child
 /// asset model ID that specifies the type of asset that can be in this
 /// hierarchy.
+///
+/// @nodoc
 class AssetModelHierarchy {
   /// The ID of the asset model, in UUID format. All assets in this hierarchy must
   /// be instances of the <code>childAssetModelId</code> asset model. IoT SiteWise
@@ -12715,6 +12916,8 @@ class AssetModelHierarchy {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html">Asset
 /// and model states</a> in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class AssetStatus {
   /// The current status of the asset.
   final AssetState state;
@@ -12746,6 +12949,7 @@ class AssetStatus {
   }
 }
 
+/// @nodoc
 class AssetState {
   static const creating = AssetState._('CREATING');
   static const active = AssetState._('ACTIVE');
@@ -12780,6 +12984,8 @@ class AssetState {
 /// href="https://console.aws.amazon.com/singlesignon">IAM Identity Center
 /// console</a>.
 /// </note>
+///
+/// @nodoc
 class Identity {
   /// An IAM Identity Center group identity.
   final GroupIdentity? group;
@@ -12832,6 +13038,8 @@ class Identity {
 }
 
 /// Contains an IoT SiteWise Monitor resource ID for a portal or project.
+///
+/// @nodoc
 class Resource {
   /// A portal resource.
   final PortalResource? portal;
@@ -12865,6 +13073,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class Permission {
   static const administrator = Permission._('ADMINISTRATOR');
   static const viewer = Permission._('VIEWER');
@@ -12889,6 +13098,8 @@ class Permission {
 }
 
 /// Identifies an IoT SiteWise Monitor portal.
+///
+/// @nodoc
 class PortalResource {
   /// The ID of the portal.
   final String id;
@@ -12912,6 +13123,8 @@ class PortalResource {
 }
 
 /// Identifies a specific IoT SiteWise Monitor project.
+///
+/// @nodoc
 class ProjectResource {
   /// The ID of the project.
   final String id;
@@ -12935,6 +13148,8 @@ class ProjectResource {
 }
 
 /// Contains information for a user identity in an access policy.
+///
+/// @nodoc
 class UserIdentity {
   /// The IAM Identity Center ID of the user.
   final String id;
@@ -12958,6 +13173,8 @@ class UserIdentity {
 }
 
 /// Contains information for a group identity in an access policy.
+///
+/// @nodoc
 class GroupIdentity {
   /// The IAM Identity Center ID of the group.
   final String id;
@@ -12981,6 +13198,8 @@ class GroupIdentity {
 }
 
 /// Contains information about an Identity and Access Management user.
+///
+/// @nodoc
 class IAMUserIdentity {
   /// The ARN of the IAM user. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
@@ -13014,6 +13233,8 @@ class IAMUserIdentity {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
 /// roles</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class IAMRoleIdentity {
   /// The ARN of the IAM role. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
@@ -13038,6 +13259,7 @@ class IAMRoleIdentity {
   }
 }
 
+/// @nodoc
 class StorageType {
   static const sitewiseDefaultStorage =
       StorageType._('SITEWISE_DEFAULT_STORAGE');
@@ -13063,6 +13285,8 @@ class StorageType {
 }
 
 /// Contains information about the storage destination.
+///
+/// @nodoc
 class MultiLayerStorage {
   /// Contains information about a customer managed Amazon S3 bucket.
   final CustomerManagedS3Storage customerManagedS3Storage;
@@ -13087,6 +13311,7 @@ class MultiLayerStorage {
   }
 }
 
+/// @nodoc
 class DisassociatedDataStorageState {
   static const enabled = DisassociatedDataStorageState._('ENABLED');
   static const disabled = DisassociatedDataStorageState._('DISABLED');
@@ -13114,6 +13339,8 @@ class DisassociatedDataStorageState {
 
 /// The number of days your data is kept in the hot tier. By default, your data
 /// is kept indefinitely in the hot tier.
+///
+/// @nodoc
 class RetentionPeriod {
   /// The number of days that your data is kept.
   /// <note>
@@ -13152,6 +13379,8 @@ class RetentionPeriod {
 }
 
 /// Contains current status information for the configuration.
+///
+/// @nodoc
 class ConfigurationStatus {
   /// The current state of the configuration.
   final ConfigurationState state;
@@ -13184,6 +13413,7 @@ class ConfigurationStatus {
   }
 }
 
+/// @nodoc
 class WarmTierState {
   static const enabled = WarmTierState._('ENABLED');
   static const disabled = WarmTierState._('DISABLED');
@@ -13210,6 +13440,8 @@ class WarmTierState {
 
 /// Set this period to specify how long your data is stored in the warm tier
 /// before it is deleted. You can set this only if cold tier is enabled.
+///
+/// @nodoc
 class WarmTierRetentionPeriod {
   /// The number of days the data is stored in the warm tier.
   final int? numberOfDays;
@@ -13239,6 +13471,7 @@ class WarmTierRetentionPeriod {
   }
 }
 
+/// @nodoc
 class ConfigurationState {
   static const active = ConfigurationState._('ACTIVE');
   static const updateInProgress = ConfigurationState._('UPDATE_IN_PROGRESS');
@@ -13266,6 +13499,8 @@ class ConfigurationState {
 }
 
 /// Contains the details of an IoT SiteWise configuration error.
+///
+/// @nodoc
 class ConfigurationErrorDetails {
   /// The error code.
   final ErrorCode code;
@@ -13296,6 +13531,8 @@ class ConfigurationErrorDetails {
 }
 
 /// Contains information about a customer managed Amazon S3 bucket.
+///
+/// @nodoc
 class CustomerManagedS3Storage {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -13334,6 +13571,8 @@ class CustomerManagedS3Storage {
 }
 
 /// Contains logging options.
+///
+/// @nodoc
 class LoggingOptions {
   /// The IoT SiteWise logging verbosity level.
   final LoggingLevel level;
@@ -13356,6 +13595,7 @@ class LoggingOptions {
   }
 }
 
+/// @nodoc
 class LoggingLevel {
   static const error = LoggingLevel._('ERROR');
   static const info = LoggingLevel._('INFO');
@@ -13380,6 +13620,7 @@ class LoggingLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionType {
   static const sitewiseDefaultEncryption =
       EncryptionType._('SITEWISE_DEFAULT_ENCRYPTION');
@@ -13407,6 +13648,8 @@ class EncryptionType {
 
 /// Contains configuration options for mapping properties from an interface
 /// asset model to an asset model where the interface is applied.
+///
+/// @nodoc
 class PropertyMappingConfiguration {
   /// If true, missing properties from the interface asset model are automatically
   /// created in the asset model where the interface is applied.
@@ -13442,6 +13685,8 @@ class PropertyMappingConfiguration {
 
 /// Maps a property from an interface asset model to a property in the asset
 /// model where the interface is applied.
+///
+/// @nodoc
 class PropertyMapping {
   /// The ID of the property in the asset model where the interface is applied.
   final String assetModelPropertyId;
@@ -13473,6 +13718,8 @@ class PropertyMapping {
 }
 
 /// Contains a summary of a time series (data stream).
+///
+/// @nodoc
 class TimeSeriesSummary {
   /// The data type of the time series.
   ///
@@ -13568,6 +13815,7 @@ class TimeSeriesSummary {
   }
 }
 
+/// @nodoc
 class ListTimeSeriesType {
   static const associated = ListTimeSeriesType._('ASSOCIATED');
   static const disassociated = ListTimeSeriesType._('DISASSOCIATED');
@@ -13594,6 +13842,8 @@ class ListTimeSeriesType {
 }
 
 /// Contains project summary information.
+///
+/// @nodoc
 class ProjectSummary {
   /// The ID of the project.
   final String id;
@@ -13647,6 +13897,8 @@ class ProjectSummary {
 }
 
 /// Contains a portal summary.
+///
+/// @nodoc
 class PortalSummary {
   /// The ID of the portal.
   final String id;
@@ -13741,6 +13993,8 @@ class PortalSummary {
 /// how an interface is applied to an asset model. This summary provides the
 /// essential identifiers needed to retrieve detailed information about the
 /// relationship.
+///
+/// @nodoc
 class InterfaceRelationshipSummary {
   /// The ID of the asset model that has the interface applied to it.
   final String id;
@@ -13764,6 +14018,8 @@ class InterfaceRelationshipSummary {
 }
 
 /// Contains a summary of a gateway.
+///
+/// @nodoc
 class GatewaySummary {
   /// The date the gateway was created, in Unix epoch time.
   final DateTime creationDate;
@@ -13852,6 +14108,8 @@ class GatewaySummary {
 ///
 /// For Siemens Industrial Edge gateways, specify the <code>siemensIE</code>
 /// parameter with a valid IoT Core thing name.
+///
+/// @nodoc
 class GatewayPlatform {
   /// A gateway that runs on IoT Greengrass.
   final Greengrass? greengrass;
@@ -13895,6 +14153,8 @@ class GatewayPlatform {
 }
 
 /// Contains a summary of a gateway capability configuration.
+///
+/// @nodoc
 class GatewayCapabilitySummary {
   /// The namespace of the capability configuration. For example, if you configure
   /// OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability
@@ -13955,6 +14215,8 @@ class GatewayCapabilitySummary {
 /// permissions to upload data to IoT SiteWise. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html">Ingesting
 /// data using a gateway</a> in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class Greengrass {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -13992,6 +14254,8 @@ class Greengrass {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html">Using
 /// IoT SiteWise at the edge</a> in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class GreengrassV2 {
   /// The name of the IoT thing for your IoT Greengrass V2 core device.
   final String coreDeviceThingName;
@@ -14028,6 +14292,8 @@ class GreengrassV2 {
 
 /// Contains details for a SiteWise Edge gateway that runs on a Siemens
 /// Industrial Edge Device.
+///
+/// @nodoc
 class SiemensIE {
   /// The name of the IoT Thing for your SiteWise Edge gateway.
   final String iotCoreThingName;
@@ -14050,6 +14316,7 @@ class SiemensIE {
   }
 }
 
+/// @nodoc
 class CoreDeviceOperatingSystem {
   static const linuxAarch64 = CoreDeviceOperatingSystem._('LINUX_AARCH64');
   static const linuxAmd64 = CoreDeviceOperatingSystem._('LINUX_AMD64');
@@ -14077,6 +14344,8 @@ class CoreDeviceOperatingSystem {
 }
 
 /// Contains the execution summary of the computation model.
+///
+/// @nodoc
 class ExecutionSummary {
   /// The ID of the execution.
   final String executionId;
@@ -14164,6 +14433,8 @@ class ExecutionSummary {
 
 /// The resource the action will be taken on. This can include asset-based
 /// resources and computation model resources.
+///
+/// @nodoc
 class TargetResource {
   /// The ID of the asset, in UUID format.
   final String? assetId;
@@ -14194,6 +14465,8 @@ class TargetResource {
 }
 
 /// The detailed resource this execution summary resolves to.
+///
+/// @nodoc
 class ResolveTo {
   /// The ID of the asset that the resource resolves to.
   final String assetId;
@@ -14217,6 +14490,8 @@ class ResolveTo {
 }
 
 /// The status of the execution.
+///
+/// @nodoc
 class ExecutionStatus {
   /// The current state of the computation model.
   final ExecutionState state;
@@ -14239,6 +14514,7 @@ class ExecutionStatus {
   }
 }
 
+/// @nodoc
 class ExecutionState {
   static const running = ExecutionState._('RUNNING');
   static const completed = ExecutionState._('COMPLETED');
@@ -14264,6 +14540,7 @@ class ExecutionState {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetResourceType {
   static const asset = TargetResourceType._('ASSET');
   static const computationModel = TargetResourceType._('COMPUTATION_MODEL');
@@ -14289,6 +14566,7 @@ class TargetResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolveToResourceType {
   static const asset = ResolveToResourceType._('ASSET');
 
@@ -14314,6 +14592,8 @@ class ResolveToResourceType {
 }
 
 /// The summary details for the dataset.
+///
+/// @nodoc
 class DatasetSummary {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
@@ -14385,6 +14665,8 @@ class DatasetSummary {
 }
 
 /// Contains a dashboard summary.
+///
+/// @nodoc
 class DashboardSummary {
   /// The ID of the dashboard.
   final String id;
@@ -14438,6 +14720,8 @@ class DashboardSummary {
 }
 
 /// Contains a summary of a computation model.
+///
+/// @nodoc
 class ComputationModelSummary {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -14522,6 +14806,7 @@ class ComputationModelSummary {
   }
 }
 
+/// @nodoc
 class ComputationModelType {
   static const anomalyDetection = ComputationModelType._('ANOMALY_DETECTION');
 
@@ -14547,6 +14832,8 @@ class ComputationModelType {
 }
 
 /// A summary of the resource that a computation model resolves to.
+///
+/// @nodoc
 class ComputationModelResolveToResourceSummary {
   final ResolveTo? resolveTo;
 
@@ -14574,6 +14861,8 @@ class ComputationModelResolveToResourceSummary {
 /// A summary of how a specific data binding is used across computation models.
 /// This tracks dependencies between data sources and computation models,
 /// allowing you to understand the impact of changes to data sources.
+///
+/// @nodoc
 class ComputationModelDataBindingUsageSummary {
   /// The list of computation model IDs that use this data binding. This allows
   /// identification of all computation models affected by changes to the
@@ -14613,6 +14902,8 @@ class ComputationModelDataBindingUsageSummary {
 }
 
 /// Represents a data binding that matches the specified filter criteria.
+///
+/// @nodoc
 class MatchedDataBinding {
   /// The value of the matched data binding.
   final DataBindingValue value;
@@ -14639,6 +14930,8 @@ class MatchedDataBinding {
 
 /// Represents a value used in a data binding. It can be an asset property or an
 /// asset model property.
+///
+/// @nodoc
 class DataBindingValue {
   final AssetModelPropertyBindingValue? assetModelProperty;
 
@@ -14676,6 +14969,8 @@ class DataBindingValue {
 /// A filter used to match specific data binding values based on criteria. This
 /// filter allows searching for data bindings by asset, asset model, asset
 /// property, or asset model property.
+///
+/// @nodoc
 class DataBindingValueFilter {
   /// Filter criteria for matching data bindings based on a specific asset. Used
   /// to list all data bindings referencing a particular asset or its properties.
@@ -14720,6 +15015,8 @@ class DataBindingValueFilter {
 /// A filter used to match data bindings based on a specific asset. This filter
 /// identifies all computation models referencing a particular asset in their
 /// data bindings.
+///
+/// @nodoc
 class AssetBindingValueFilter {
   /// The ID of the asset to filter data bindings by. Only data bindings
   /// referencing this specific asset are matched.
@@ -14740,6 +15037,8 @@ class AssetBindingValueFilter {
 /// A filter used to match data bindings based on a specific asset model. This
 /// filter identifies all computation models referencing a particular asset
 /// model in their data bindings.
+///
+/// @nodoc
 class AssetModelBindingValueFilter {
   /// The ID of the asset model to filter data bindings by. Only data bindings
   /// referemncing this specific asset model are matched.
@@ -14760,6 +15059,8 @@ class AssetModelBindingValueFilter {
 /// A filter used to match data bindings based on a specific asset property.
 /// This filter helps identify all computation models referencing a particular
 /// property of an asset in their data bindings.
+///
+/// @nodoc
 class AssetPropertyBindingValueFilter {
   /// The ID of the asset containing the property to filter by. This identifies
   /// the specific asset instance containing the property of interest.
@@ -14787,6 +15088,8 @@ class AssetPropertyBindingValueFilter {
 /// A filter used to match data bindings based on a specific asset model
 /// property. This filter identifies all computation models that reference a
 /// particular property of an asset model in their data bindings.
+///
+/// @nodoc
 class AssetModelPropertyBindingValueFilter {
   /// The ID of the asset model containing the filter property. This identifies
   /// the specific asset model that contains the property of interest.
@@ -14813,6 +15116,8 @@ class AssetModelPropertyBindingValueFilter {
 }
 
 /// Contains a summary of the components of the composite model.
+///
+/// @nodoc
 class CompositionRelationshipSummary {
   /// The ID of a composite model on this asset model.
   final String assetModelCompositeModelId;
@@ -14853,6 +15158,8 @@ class CompositionRelationshipSummary {
 }
 
 /// Contains the job summary information.
+///
+/// @nodoc
 class JobSummary {
   /// The ID of the job.
   final String id;
@@ -14917,6 +15224,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const pending = JobStatus._('PENDING');
   static const cancelled = JobStatus._('CANCELLED');
@@ -14951,6 +15259,7 @@ class JobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ListBulkImportJobsFilter {
   static const all = ListBulkImportJobsFilter._('ALL');
   static const pending = ListBulkImportJobsFilter._('PENDING');
@@ -14991,6 +15300,8 @@ class ListBulkImportJobsFilter {
 }
 
 /// Contains a summary of an associated asset.
+///
+/// @nodoc
 class AssociatedAssetsSummary {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -15088,6 +15399,8 @@ class AssociatedAssetsSummary {
 }
 
 /// Describes an asset hierarchy that contains a hierarchy's name and ID.
+///
+/// @nodoc
 class AssetHierarchy {
   /// The hierarchy name provided in the <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
@@ -15133,6 +15446,7 @@ class AssetHierarchy {
   }
 }
 
+/// @nodoc
 class TraversalDirection {
   static const parent = TraversalDirection._('PARENT');
   static const child = TraversalDirection._('CHILD');
@@ -15159,6 +15473,8 @@ class TraversalDirection {
 }
 
 /// Contains a summary of an asset.
+///
+/// @nodoc
 class AssetSummary {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -15255,6 +15571,7 @@ class AssetSummary {
   }
 }
 
+/// @nodoc
 class ListAssetsFilter {
   static const all = ListAssetsFilter._('ALL');
   static const topLevel = ListAssetsFilter._('TOP_LEVEL');
@@ -15280,6 +15597,8 @@ class ListAssetsFilter {
 }
 
 /// Contains information about assets that are related to one another.
+///
+/// @nodoc
 class AssetRelationshipSummary {
   /// The relationship type of the assets in this relationship. This value is one
   /// of the following:
@@ -15327,6 +15646,8 @@ class AssetRelationshipSummary {
 
 /// Contains information about a parent asset and a child asset that are related
 /// through an asset hierarchy.
+///
+/// @nodoc
 class AssetHierarchyInfo {
   /// The ID of the child asset in this asset relationship.
   final String? childAssetId;
@@ -15356,6 +15677,7 @@ class AssetHierarchyInfo {
   }
 }
 
+/// @nodoc
 class AssetRelationshipType {
   static const hierarchy = AssetRelationshipType._('HIERARCHY');
 
@@ -15380,6 +15702,7 @@ class AssetRelationshipType {
   String toString() => value;
 }
 
+/// @nodoc
 class TraversalType {
   static const pathToRoot = TraversalType._('PATH_TO_ROOT');
 
@@ -15404,6 +15727,8 @@ class TraversalType {
 }
 
 /// Contains a summary of a property associated with an asset.
+///
+/// @nodoc
 class AssetPropertySummary {
   /// The ID of the property.
   final String id;
@@ -15486,6 +15811,8 @@ class AssetPropertySummary {
 /// to a unique MQTT topic. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html">Interacting
 /// with other services</a> in the <i>IoT SiteWise User Guide</i>.
+///
+/// @nodoc
 class PropertyNotification {
   /// The current notification state.
   final PropertyNotificationState state;
@@ -15518,6 +15845,8 @@ class PropertyNotification {
 }
 
 /// Represents one level between a property and the root of the asset.
+///
+/// @nodoc
 class AssetPropertyPathSegment {
   /// The ID of the path segment.
   final String? id;
@@ -15547,6 +15876,7 @@ class AssetPropertyPathSegment {
   }
 }
 
+/// @nodoc
 class ListAssetPropertiesFilter {
   static const all = ListAssetPropertiesFilter._('ALL');
   static const base = ListAssetPropertiesFilter._('BASE');
@@ -15573,6 +15903,8 @@ class ListAssetPropertiesFilter {
 }
 
 /// Contains a summary of an asset model.
+///
+/// @nodoc
 class AssetModelSummary {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -15679,6 +16011,7 @@ class AssetModelSummary {
   }
 }
 
+/// @nodoc
 class AssetModelType {
   static const assetModel = AssetModelType._('ASSET_MODEL');
   static const componentModel = AssetModelType._('COMPONENT_MODEL');
@@ -15706,6 +16039,8 @@ class AssetModelType {
 
 /// Contains a summary of a property associated with a model. This includes
 /// information about which interfaces the property belongs to, if any.
+///
+/// @nodoc
 class AssetModelPropertySummary {
   /// The data type of the property.
   final PropertyDataType dataType;
@@ -15805,6 +16140,8 @@ class AssetModelPropertySummary {
 }
 
 /// Contains summary information about an interface that a property belongs to.
+///
+/// @nodoc
 class InterfaceSummary {
   /// The ID of the interface asset model that contains this property.
   final String interfaceAssetModelId;
@@ -15836,6 +16173,7 @@ class InterfaceSummary {
   }
 }
 
+/// @nodoc
 class ListAssetModelPropertiesFilter {
   static const all = ListAssetModelPropertiesFilter._('ALL');
   static const base = ListAssetModelPropertiesFilter._('BASE');
@@ -15862,6 +16200,8 @@ class ListAssetModelPropertiesFilter {
 }
 
 /// Contains a summary of the composite model.
+///
+/// @nodoc
 class AssetModelCompositeModelSummary {
   /// The ID of the composite model that this summary describes..
   final String id;
@@ -15929,6 +16269,8 @@ class AssetModelCompositeModelSummary {
 
 /// Contains the summary of the actions, including information about where the
 /// action resolves to.
+///
+/// @nodoc
 class ActionSummary {
   /// The ID of the action definition.
   final String? actionDefinitionId;
@@ -15979,6 +16321,8 @@ class ActionSummary {
 
 /// Contains an access policy that defines an identity's access to an IoT
 /// SiteWise Monitor resource.
+///
+/// @nodoc
 class AccessPolicySummary {
   /// The ID of the access policy.
   final String id;
@@ -16042,6 +16386,7 @@ class AccessPolicySummary {
   }
 }
 
+/// @nodoc
 class IdentityType {
   static const user = IdentityType._('USER');
   static const group = IdentityType._('GROUP');
@@ -16066,6 +16411,7 @@ class IdentityType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const portal = ResourceType._('PORTAL');
   static const project = ResourceType._('PROJECT');
@@ -16090,6 +16436,8 @@ class ResourceType {
 }
 
 /// Contains the response, citation, and trace from the SiteWise Assistant.
+///
+/// @nodoc
 class ResponseStream {
   final AccessDeniedException? accessDeniedException;
   final ConflictingOperationException? conflictingOperationException;
@@ -16191,6 +16539,8 @@ class ResponseStream {
 
 /// Contains tracing information of the SiteWise Assistant's reasoning and data
 /// access.
+///
+/// @nodoc
 class Trace {
   /// The cited text from the data source.
   final String? text;
@@ -16215,6 +16565,8 @@ class Trace {
 
 /// This contains the SiteWise Assistant's response and the corresponding
 /// citation.
+///
+/// @nodoc
 class InvocationOutput {
   /// A list of citations, and related information for the SiteWise Assistant's
   /// response.
@@ -16250,6 +16602,8 @@ class InvocationOutput {
 
 /// Contains text content to which the SiteWise Assistant refers to, and
 /// generate the final response. It also contains information about the source.
+///
+/// @nodoc
 class Citation {
   /// Contains the cited text from the data source.
   final Content? content;
@@ -16284,6 +16638,8 @@ class Citation {
 }
 
 /// Contains the reference information.
+///
+/// @nodoc
 class Reference {
   /// Contains the dataset reference information.
   final DataSetReference? dataset;
@@ -16309,6 +16665,8 @@ class Reference {
 }
 
 /// Contains the cited text from the data source.
+///
+/// @nodoc
 class Content {
   /// The cited text from the data source.
   final String? text;
@@ -16332,6 +16690,8 @@ class Content {
 }
 
 /// Contains information about the dataset use and it's source.
+///
+/// @nodoc
 class DataSetReference {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
@@ -16367,6 +16727,8 @@ class DataSetReference {
 }
 
 /// The data source for the dataset.
+///
+/// @nodoc
 class Source {
   /// Contains the ARN of the dataset. If the source is Kendra, it's the ARN of
   /// the Kendra index.
@@ -16402,6 +16764,8 @@ class Source {
 }
 
 /// Contains location information about the cited text and where it's stored.
+///
+/// @nodoc
 class Location {
   /// The URI of the location.
   final String? uri;
@@ -16425,6 +16789,8 @@ class Location {
 }
 
 /// Contains information about an interpolated asset property value.
+///
+/// @nodoc
 class InterpolatedAssetPropertyValue {
   final TimeInNanos timestamp;
   final Variant value;
@@ -16455,6 +16821,8 @@ class InterpolatedAssetPropertyValue {
 }
 
 /// Contains a timestamp with optional nanosecond granularity.
+///
+/// @nodoc
 class TimeInNanos {
   /// The timestamp date, in seconds, in the Unix epoch format. Fractional
   /// nanosecond data is provided by <code>offsetInNanos</code>.
@@ -16486,6 +16854,8 @@ class TimeInNanos {
 }
 
 /// Contains an asset property value (of a single type only).
+///
+/// @nodoc
 class Variant {
   /// Asset property data of type Boolean (true or false).
   final bool? booleanValue;
@@ -16501,7 +16871,7 @@ class Variant {
   final PropertyValueNullValue? nullValue;
 
   /// Asset property data of type string (sequence of characters). The allowed
-  /// pattern: "^$|[^\u0000-\u001F\u007F]+". The max length is 1024.
+  /// pattern: "^$|\[^\u0000-\u001F\u007F\]+". The max length is 1024.
   final String? stringValue;
 
   Variant({
@@ -16542,6 +16912,8 @@ class Variant {
 }
 
 /// The value type of null asset property data with BAD and UNCERTAIN qualities.
+///
+/// @nodoc
 class PropertyValueNullValue {
   /// The type of null asset property data.
   final RawValueType valueType;
@@ -16564,6 +16936,7 @@ class PropertyValueNullValue {
   }
 }
 
+/// @nodoc
 class RawValueType {
   static const d = RawValueType._('D');
   static const b = RawValueType._('B');
@@ -16590,6 +16963,7 @@ class RawValueType {
   String toString() => value;
 }
 
+/// @nodoc
 class Quality {
   static const good = Quality._('GOOD');
   static const bad = Quality._('BAD');
@@ -16615,6 +16989,8 @@ class Quality {
 }
 
 /// Contains asset property value information.
+///
+/// @nodoc
 class AssetPropertyValue {
   /// The timestamp of the asset property value.
   final TimeInNanos timestamp;
@@ -16654,6 +17030,7 @@ class AssetPropertyValue {
   }
 }
 
+/// @nodoc
 class TimeOrdering {
   static const ascending = TimeOrdering._('ASCENDING');
   static const descending = TimeOrdering._('DESCENDING');
@@ -16679,6 +17056,8 @@ class TimeOrdering {
 
 /// Contains aggregated asset property values (for example, average, minimum,
 /// and maximum).
+///
+/// @nodoc
 class AggregatedValue {
   /// The date the aggregating computations occurred, in Unix epoch time.
   final DateTime timestamp;
@@ -16717,6 +17096,8 @@ class AggregatedValue {
 }
 
 /// Contains the (pre-calculated) aggregate values for an asset property.
+///
+/// @nodoc
 class Aggregates {
   /// The average (mean) value of the time series over a time interval window.
   final double? average;
@@ -16774,6 +17155,7 @@ class Aggregates {
   }
 }
 
+/// @nodoc
 class AggregateType {
   static const average = AggregateType._('AVERAGE');
   static const count = AggregateType._('COUNT');
@@ -16810,6 +17192,8 @@ class AggregateType {
 }
 
 /// Represents a single row in the query results.
+///
+/// @nodoc
 class Row {
   /// List of data points in a single row of the result set.
   final List<Datum> data;
@@ -16836,6 +17220,8 @@ class Row {
 }
 
 /// Represents a single data point in a query result.
+///
+/// @nodoc
 class Datum {
   /// Indicates if the data point is an array.
   final List<Datum>? arrayValue;
@@ -16886,6 +17272,8 @@ class Datum {
 }
 
 /// A description of the column in the query results.
+///
+/// @nodoc
 class ColumnInfo {
   /// The name of the column description.
   final String? name;
@@ -16918,6 +17306,8 @@ class ColumnInfo {
 }
 
 /// The data type of the column.
+///
+/// @nodoc
 class ColumnType {
   /// The allowed data types that the column has as it's value.
   final ScalarType? scalarType;
@@ -16940,6 +17330,7 @@ class ColumnType {
   }
 }
 
+/// @nodoc
 class ScalarType {
   static const boolean = ScalarType._('BOOLEAN');
   static const $int = ScalarType._('INT');
@@ -16967,6 +17358,8 @@ class ScalarType {
 }
 
 /// The JSON payload of the action.
+///
+/// @nodoc
 class ActionPayload {
   /// The payload of the action in a JSON string.
   final String stringValue;
@@ -16990,6 +17383,8 @@ class ActionPayload {
 }
 
 /// Contains an image that is uploaded to IoT SiteWise and available at a URL.
+///
+/// @nodoc
 class ImageLocation {
   /// The ID of the image.
   final String id;
@@ -17020,6 +17415,7 @@ class ImageLocation {
   }
 }
 
+/// @nodoc
 class AuthMode {
   static const iam = AuthMode._('IAM');
   static const sso = AuthMode._('SSO');
@@ -17044,6 +17440,8 @@ class AuthMode {
 }
 
 /// Contains a definition for an action.
+///
+/// @nodoc
 class ActionDefinition {
   /// The ID of the action definition.
   final String actionDefinitionId;
@@ -17082,6 +17480,8 @@ class ActionDefinition {
 
 /// The Amazon S3 destination where errors associated with the job creation
 /// request are saved.
+///
+/// @nodoc
 class ErrorReportLocation {
   /// The name of the Amazon S3 bucket to which errors associated with the bulk
   /// import job are sent.
@@ -17120,6 +17520,8 @@ class ErrorReportLocation {
 
 /// Contains the configuration information of a job, such as the file format
 /// used to save data in Amazon S3.
+///
+/// @nodoc
 class JobConfiguration {
   /// The file format of the data in S3.
   final FileFormat fileFormat;
@@ -17145,6 +17547,8 @@ class JobConfiguration {
 }
 
 /// The file format of the data in S3.
+///
+/// @nodoc
 class FileFormat {
   /// The file is in .CSV format.
   final Csv? csv;
@@ -17179,6 +17583,8 @@ class FileFormat {
 }
 
 /// A .CSV file.
+///
+/// @nodoc
 class Csv {
   /// The column names specified in the .csv file.
   final List<ColumnName> columnNames;
@@ -17205,6 +17611,8 @@ class Csv {
 }
 
 /// A parquet file.
+///
+/// @nodoc
 class Parquet {
   Parquet();
 
@@ -17217,6 +17625,7 @@ class Parquet {
   }
 }
 
+/// @nodoc
 class ColumnName {
   static const alias = ColumnName._('ALIAS');
   static const assetId = ColumnName._('ASSET_ID');
@@ -17256,6 +17665,8 @@ class ColumnName {
 }
 
 /// The file in Amazon S3 where your data is saved.
+///
+/// @nodoc
 class File {
   /// The name of the Amazon S3 bucket from which data is imported.
   final String bucket;
@@ -17295,6 +17706,8 @@ class File {
 }
 
 /// Contains asset property information.
+///
+/// @nodoc
 class Property {
   /// The property data type.
   final PropertyDataType dataType;
@@ -17395,6 +17808,8 @@ class Property {
 }
 
 /// Contains information about a composite model property on an asset.
+///
+/// @nodoc
 class CompositeModelProperty {
   final Property assetProperty;
 
@@ -17451,6 +17866,8 @@ class CompositeModelProperty {
 
 /// Maps a hierarchy from an interface asset model to a hierarchy in the asset
 /// model where the interface is applied.
+///
+/// @nodoc
 class HierarchyMapping {
   /// The ID of the hierarchy in the asset model where the interface is applied.
   final String assetModelHierarchyId;
@@ -17485,6 +17902,8 @@ class HierarchyMapping {
 /// <code>composedAssetModelId</code> in <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">
 /// <code>CreateAssetModelCompositeModel</code> </a>.
+///
+/// @nodoc
 class CompositionDetails {
   /// An array detailing the composition relationship for this composite model.
   final List<CompositionRelationshipItem>? compositionRelationship;
@@ -17514,6 +17933,8 @@ class CompositionDetails {
 
 /// Represents a composite model that composed an asset model of type
 /// <code>COMPONENT_MODEL</code>.
+///
+/// @nodoc
 class CompositionRelationshipItem {
   /// The ID of the component.
   final String? id;
@@ -17538,6 +17959,8 @@ class CompositionRelationshipItem {
 
 /// Contains information about the relationship between an asset model and an
 /// interface asset model that is applied to it.
+///
+/// @nodoc
 class InterfaceRelationship {
   /// The ID of the asset model that has the interface applied to it.
   final String id;
@@ -17561,6 +17984,8 @@ class InterfaceRelationship {
 }
 
 /// Contains a summary of the composite model for a specific asset.
+///
+/// @nodoc
 class AssetCompositeModelSummary {
   /// A description of the composite model that this summary describes.
   final String description;
@@ -17640,6 +18065,8 @@ class AssetCompositeModelSummary {
 }
 
 /// Contains asset property information.
+///
+/// @nodoc
 class AssetProperty {
   /// The data type of the asset property.
   final PropertyDataType dataType;
@@ -17738,6 +18165,8 @@ class AssetProperty {
 }
 
 /// Represents one level between a composite model and the root of the asset.
+///
+/// @nodoc
 class AssetCompositeModelPathSegment {
   /// The ID of the path segment.
   final String? id;
@@ -17769,6 +18198,8 @@ class AssetCompositeModelPathSegment {
 
 /// Contains information about a composite model in an asset. This object
 /// contains the asset's properties that you define in the composite model.
+///
+/// @nodoc
 class AssetCompositeModel {
   /// The name of the composite model.
   final String name;
@@ -17834,6 +18265,8 @@ class AssetCompositeModel {
 
 /// Contains an asset model property definition. This property definition is
 /// applied to all assets created from the asset model.
+///
+/// @nodoc
 class AssetModelPropertyDefinition {
   /// The data type of the property definition.
   ///
@@ -17907,6 +18340,8 @@ class AssetModelPropertyDefinition {
 
 /// Contains a composite model definition in an asset model. This composite
 /// model definition is applied to all assets created from the asset model.
+///
+/// @nodoc
 class AssetModelCompositeModelDefinition {
   /// The name of the composite model.
   final String name;
@@ -17965,6 +18400,8 @@ class AssetModelCompositeModelDefinition {
 /// Contains an asset model hierarchy used in asset model creation. An asset
 /// model hierarchy determines the kind (or type) of asset that can belong to a
 /// hierarchy.
+///
+/// @nodoc
 class AssetModelHierarchyDefinition {
   /// The ID of an asset model for this hierarchy. This can be either the actual
   /// ID in UUID format, or else <code>externalId:</code> followed by the external
@@ -18019,6 +18456,8 @@ class AssetModelHierarchyDefinition {
 /// associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html">BatchPutAssetPropertyValue</a>
 /// API.
+///
+/// @nodoc
 class BatchPutAssetPropertyErrorEntry {
   /// The ID of the failed entry.
   final String entryId;
@@ -18053,6 +18492,8 @@ class BatchPutAssetPropertyErrorEntry {
 }
 
 /// Contains error information from updating a batch of asset property values.
+///
+/// @nodoc
 class BatchPutAssetPropertyError {
   /// The error code.
   final BatchPutAssetPropertyValueErrorCode errorCode;
@@ -18093,6 +18534,7 @@ class BatchPutAssetPropertyError {
   }
 }
 
+/// @nodoc
 class BatchPutAssetPropertyValueErrorCode {
   static const resourceNotFoundException =
       BatchPutAssetPropertyValueErrorCode._('ResourceNotFoundException');
@@ -18148,6 +18590,8 @@ class BatchPutAssetPropertyValueErrorCode {
 /// entries consumed by the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html">BatchPutAssetPropertyValue</a>
 /// API operation.
+///
+/// @nodoc
 class PutAssetPropertyValueEntry {
   /// The user specified ID for the entry. You can use this ID to identify which
   /// entries failed.
@@ -18198,6 +18642,8 @@ class PutAssetPropertyValueEntry {
 /// Contains information for an entry that has been processed by the previous <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
 /// request.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueHistorySkippedEntry {
   /// The completion status of each entry that is associated with the <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValueHistory.html">BatchGetAssetPropertyValueHistory</a>
@@ -18241,6 +18687,7 @@ class BatchGetAssetPropertyValueHistorySkippedEntry {
   }
 }
 
+/// @nodoc
 class BatchEntryCompletionStatus {
   static const success = BatchEntryCompletionStatus._('SUCCESS');
   static const error = BatchEntryCompletionStatus._('ERROR');
@@ -18267,6 +18714,8 @@ class BatchEntryCompletionStatus {
 }
 
 /// The error information, such as the error code and the timestamp.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueHistoryErrorInfo {
   /// The error code.
   final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
@@ -18298,6 +18747,7 @@ class BatchGetAssetPropertyValueHistoryErrorInfo {
   }
 }
 
+/// @nodoc
 class BatchGetAssetPropertyValueHistoryErrorCode {
   static const resourceNotFoundException =
       BatchGetAssetPropertyValueHistoryErrorCode._('ResourceNotFoundException');
@@ -18335,6 +18785,8 @@ class BatchGetAssetPropertyValueHistoryErrorCode {
 /// Contains success information for an entry that is associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
 /// API.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueHistorySuccessEntry {
   /// The requested historical values for the specified asset property.
   final List<AssetPropertyValue> assetPropertyValueHistory;
@@ -18372,6 +18824,8 @@ class BatchGetAssetPropertyValueHistorySuccessEntry {
 
 /// A list of the errors (if any) associated with the batch request. Each error
 /// entry contains the <code>entryId</code> of the entry that failed.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueHistoryErrorEntry {
   /// The ID of the entry.
   final String entryId;
@@ -18428,6 +18882,8 @@ class BatchGetAssetPropertyValueHistoryErrorEntry {
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BatchGetAssetPropertyValueHistoryEntry {
   /// The ID of the entry.
   final String entryId;
@@ -18499,6 +18955,8 @@ class BatchGetAssetPropertyValueHistoryEntry {
 /// Contains information for an entry that has been processed by the previous <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
 /// request.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueSkippedEntry {
   /// The completion status of each entry that is associated with the <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
@@ -18543,6 +19001,8 @@ class BatchGetAssetPropertyValueSkippedEntry {
 }
 
 /// The error information, such as the error code and the timestamp.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueErrorInfo {
   /// The error code.
   final BatchGetAssetPropertyValueErrorCode errorCode;
@@ -18574,6 +19034,7 @@ class BatchGetAssetPropertyValueErrorInfo {
   }
 }
 
+/// @nodoc
 class BatchGetAssetPropertyValueErrorCode {
   static const resourceNotFoundException =
       BatchGetAssetPropertyValueErrorCode._('ResourceNotFoundException');
@@ -18610,6 +19071,8 @@ class BatchGetAssetPropertyValueErrorCode {
 /// Contains success information for an entry that is associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
 /// API.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueSuccessEntry {
   /// The ID of the entry.
   final String entryId;
@@ -18645,6 +19108,8 @@ class BatchGetAssetPropertyValueSuccessEntry {
 /// associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
 /// API.
+///
+/// @nodoc
 class BatchGetAssetPropertyValueErrorEntry {
   /// The ID of the entry.
   final String entryId;
@@ -18701,6 +19166,8 @@ class BatchGetAssetPropertyValueErrorEntry {
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BatchGetAssetPropertyValueEntry {
   /// The ID of the entry.
   final String entryId;
@@ -18743,6 +19210,8 @@ class BatchGetAssetPropertyValueEntry {
 /// Contains information for an entry that has been processed by the previous <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
 /// request.
+///
+/// @nodoc
 class BatchGetAssetPropertyAggregatesSkippedEntry {
   /// The completion status of each entry that is associated with the <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
@@ -18790,6 +19259,8 @@ class BatchGetAssetPropertyAggregatesSkippedEntry {
 /// entry that is associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
 /// API.
+///
+/// @nodoc
 class BatchGetAssetPropertyAggregatesErrorInfo {
   /// The error code.
   final BatchGetAssetPropertyAggregatesErrorCode errorCode;
@@ -18821,6 +19292,7 @@ class BatchGetAssetPropertyAggregatesErrorInfo {
   }
 }
 
+/// @nodoc
 class BatchGetAssetPropertyAggregatesErrorCode {
   static const resourceNotFoundException =
       BatchGetAssetPropertyAggregatesErrorCode._('ResourceNotFoundException');
@@ -18857,6 +19329,8 @@ class BatchGetAssetPropertyAggregatesErrorCode {
 /// Contains success information for an entry that is associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
 /// API.
+///
+/// @nodoc
 class BatchGetAssetPropertyAggregatesSuccessEntry {
   /// The requested aggregated asset property values (for example, average,
   /// minimum, and maximum).
@@ -18895,6 +19369,8 @@ class BatchGetAssetPropertyAggregatesSuccessEntry {
 /// associated with the <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
 /// API.
+///
+/// @nodoc
 class BatchGetAssetPropertyAggregatesErrorEntry {
   /// The ID of the entry.
   final String entryId;
@@ -18951,6 +19427,8 @@ class BatchGetAssetPropertyAggregatesErrorEntry {
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BatchGetAssetPropertyAggregatesEntry {
   /// The data aggregating function.
   final List<AggregateType> aggregateTypes;
@@ -19032,6 +19510,8 @@ class BatchGetAssetPropertyAggregatesEntry {
 }
 
 /// Contains error details for the requested associate project asset action.
+///
+/// @nodoc
 class AssetErrorDetails {
   /// The ID of the asset, in UUID format.
   final String assetId;
@@ -19068,6 +19548,7 @@ class AssetErrorDetails {
   }
 }
 
+/// @nodoc
 class AssetErrorCode {
   static const internalFailure = AssetErrorCode._('INTERNAL_FAILURE');
 
@@ -19091,17 +19572,20 @@ class AssetErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class QueryTimeoutException extends _s.GenericAwsException {
   QueryTimeoutException({String? type, String? message})
       : super(type: type, code: 'QueryTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -19110,22 +19594,26 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -207,6 +207,7 @@ class Sustainability {
   }
 }
 
+/// @nodoc
 class GetEstimatedCarbonEmissionsResponse {
   /// The result of the requested inputs.
   final List<EstimatedCarbonEmissions> results;
@@ -242,6 +243,7 @@ class GetEstimatedCarbonEmissionsResponse {
   }
 }
 
+/// @nodoc
 class GetEstimatedCarbonEmissionsDimensionValuesResponse {
   /// The pagination token indicating there are additional pages available. You
   /// can use the token in a following request to fetch the next set of results.
@@ -277,6 +279,8 @@ class GetEstimatedCarbonEmissionsDimensionValuesResponse {
 }
 
 /// Represents a dimension and its corresponding value.
+///
+/// @nodoc
 class DimensionEntry {
   /// The dimension type that categorizes this entry.
   final Dimension dimension;
@@ -310,6 +314,8 @@ class DimensionEntry {
 
 /// Specifies the dimensions available for grouping and filtering emissions
 /// data.
+///
+/// @nodoc
 class Dimension {
   static const usageAccountId = Dimension._('USAGE_ACCOUNT_ID');
   static const region = Dimension._('REGION');
@@ -335,6 +341,8 @@ class Dimension {
 }
 
 /// Represents a duration of time defined by start and end timestamps.
+///
+/// @nodoc
 class TimePeriod {
   /// The end (exclusive) of the time period. ISO-8601 formatted timestamp, for
   /// example: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>
@@ -368,6 +376,8 @@ class TimePeriod {
 
 /// Contains estimated carbon emissions data for a specific time period and
 /// dimension grouping.
+///
+/// @nodoc
 class EstimatedCarbonEmissions {
   /// The dimensions used to group emissions values.
   final Map<Dimension, String> dimensionsValues;
@@ -429,6 +439,8 @@ class EstimatedCarbonEmissions {
 }
 
 /// Specifies the types of carbon emissions calculations available.
+///
+/// @nodoc
 class EmissionsType {
   static const totalLbmCarbonEmissions =
       EmissionsType._('TOTAL_LBM_CARBON_EMISSIONS');
@@ -475,6 +487,8 @@ class EmissionsType {
 
 /// Represents a carbon emissions quantity with its value and unit of
 /// measurement.
+///
+/// @nodoc
 class Emissions {
   /// The unit of measurement for the emissions value.
   final EmissionsUnit unit;
@@ -505,6 +519,8 @@ class Emissions {
 }
 
 /// Specifies the unit of measurement for emissions.
+///
+/// @nodoc
 class EmissionsUnit {
   static const mTCO2e = EmissionsUnit._('MTCO2e');
 
@@ -529,6 +545,8 @@ class EmissionsUnit {
 }
 
 /// Filters emission values by specific dimension values.
+///
+/// @nodoc
 class FilterExpression {
   /// Filters emission values by specific dimension values.
   final Map<Dimension, List<String>>? dimensions;
@@ -547,6 +565,8 @@ class FilterExpression {
 }
 
 /// Specifies the time period over which emissions data is aggregated.
+///
+/// @nodoc
 class TimeGranularity {
   static const yearlyCalendar = TimeGranularity._('YEARLY_CALENDAR');
   static const yearlyFiscal = TimeGranularity._('YEARLY_FISCAL');
@@ -582,6 +602,8 @@ class TimeGranularity {
 
 /// Contains configuration for the fiscal year granularities (e.g.,
 /// <code>YEARLY_FISCAL</code>, <code>QUARTERLY_FISCAL</code>.
+///
+/// @nodoc
 class GranularityConfiguration {
   /// The month (1-12) when the fiscal year begins. Used for
   /// <code>YEARLY_FISCAL</code> and <code>QUARTERLY_FISCAL</code> granularity.
@@ -601,21 +623,25 @@ class GranularityConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

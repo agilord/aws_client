@@ -454,6 +454,7 @@ class KendraRanking {
   }
 }
 
+/// @nodoc
 class CreateRescoreExecutionPlanResponse {
   /// The Amazon Resource Name (ARN) of the rescore execution plan.
   final String arn;
@@ -484,6 +485,7 @@ class CreateRescoreExecutionPlanResponse {
   }
 }
 
+/// @nodoc
 class DescribeRescoreExecutionPlanResponse {
   /// The Amazon Resource Name (ARN) of the rescore execution plan.
   final String? arn;
@@ -576,6 +578,7 @@ class DescribeRescoreExecutionPlanResponse {
   }
 }
 
+/// @nodoc
 class ListRescoreExecutionPlansResponse {
   /// If the response is truncated, Amazon Kendra Intelligent Ranking returns a
   /// pagination token in the response.
@@ -612,6 +615,8 @@ class ListRescoreExecutionPlansResponse {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags associated with the rescore execution plan.
   final List<Tag>? tags;
@@ -637,6 +642,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RescoreResult {
   /// The identifier associated with the scores that Amazon Kendra Intelligent
   /// Ranking gives to the results. Amazon Kendra Intelligent Ranking rescores or
@@ -674,6 +680,8 @@ class RescoreResult {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -688,6 +696,8 @@ class TagResourceResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -704,6 +714,8 @@ class UntagResourceResponse {
 /// rescore execution plan is an Amazon Kendra Intelligent Ranking resource used
 /// for provisioning the <code>Rescore</code> API. You can add and remove
 /// capacity units to fit your usage requirements.
+///
+/// @nodoc
 class CapacityUnitsConfiguration {
   /// The amount of extra capacity for your rescore execution plan.
   ///
@@ -735,6 +747,8 @@ class CapacityUnitsConfiguration {
 /// help control access to a rescore execution plan. A tag key and value can
 /// consist of Unicode letters, digits, white space, and any of the following
 /// symbols: _ . : / = + - @.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. Keys are not case sensitive and must be unique.
   final String key;
@@ -766,6 +780,8 @@ class Tag {
 }
 
 /// A result item for a document with a new relevancy score.
+///
+/// @nodoc
 class RescoreResultItem {
   /// The identifier of the document from the search service.
   final String? documentId;
@@ -799,6 +815,8 @@ class RescoreResultItem {
 /// Information about a document from a search service such as OpenSearch (self
 /// managed). Amazon Kendra Intelligent Ranking uses this information to rank
 /// and score on.
+///
+/// @nodoc
 class Document {
   /// The identifier of the document from the search service.
   final String id;
@@ -862,6 +880,8 @@ class Document {
 /// Summary information for a rescore execution plan. A rescore execution plan
 /// is an Amazon Kendra Intelligent Ranking resource used for provisioning the
 /// <code>Rescore</code> API.
+///
+/// @nodoc
 class RescoreExecutionPlanSummary {
   /// The Unix timestamp when the rescore execution plan was created.
   final DateTime? createdAt;
@@ -914,6 +934,7 @@ class RescoreExecutionPlanSummary {
   }
 }
 
+/// @nodoc
 class RescoreExecutionPlanStatus {
   static const creating = RescoreExecutionPlanStatus._('CREATING');
   static const updating = RescoreExecutionPlanStatus._('UPDATING');
@@ -942,32 +963,38 @@ class RescoreExecutionPlanStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -976,11 +1003,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -4430,6 +4430,7 @@ class Kendra {
   }
 }
 
+/// @nodoc
 class AssociateEntitiesToExperienceResponse {
   /// Lists the users or groups in your IAM Identity Center identity source that
   /// failed to properly configure with your Amazon Kendra experience.
@@ -4457,6 +4458,7 @@ class AssociateEntitiesToExperienceResponse {
   }
 }
 
+/// @nodoc
 class AssociatePersonasToEntitiesResponse {
   /// Lists the users or groups in your IAM Identity Center identity source that
   /// failed to properly configure with your Amazon Kendra experience.
@@ -4484,6 +4486,7 @@ class AssociatePersonasToEntitiesResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteDocumentResponse {
   /// A list of documents that could not be removed from the index. Each entry
   /// contains an error message that indicates why the document couldn't be
@@ -4512,6 +4515,7 @@ class BatchDeleteDocumentResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteFeaturedResultsSetResponse {
   /// The list of errors for the featured results set IDs, explaining why they
   /// couldn't be removed from the index.
@@ -4540,6 +4544,7 @@ class BatchDeleteFeaturedResultsSetResponse {
   }
 }
 
+/// @nodoc
 class BatchGetDocumentStatusResponse {
   /// The status of documents. The status indicates if the document is waiting to
   /// be indexed, is in the process of indexing, has completed indexing, or failed
@@ -4580,6 +4585,7 @@ class BatchGetDocumentStatusResponse {
   }
 }
 
+/// @nodoc
 class BatchPutDocumentResponse {
   /// A list of documents that were not added to the index because the document
   /// failed a validation check. Each document contains an error message that
@@ -4613,6 +4619,7 @@ class BatchPutDocumentResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessControlConfigurationResponse {
   /// The identifier of the access control configuration for your documents in an
   /// index.
@@ -4637,6 +4644,7 @@ class CreateAccessControlConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSourceResponse {
   /// The identifier of the data source connector.
   final String id;
@@ -4659,6 +4667,7 @@ class CreateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class CreateExperienceResponse {
   /// The identifier of your Amazon Kendra experience.
   final String id;
@@ -4681,6 +4690,7 @@ class CreateExperienceResponse {
   }
 }
 
+/// @nodoc
 class CreateFaqResponse {
   /// The identifier of the FAQ.
   final String? id;
@@ -4703,6 +4713,7 @@ class CreateFaqResponse {
   }
 }
 
+/// @nodoc
 class CreateFeaturedResultsSetResponse {
   /// Information on the set of featured results. This includes the identifier of
   /// the featured results set, whether the featured results set is active or
@@ -4730,6 +4741,7 @@ class CreateFeaturedResultsSetResponse {
   }
 }
 
+/// @nodoc
 class CreateIndexResponse {
   /// The identifier of the index. Use this identifier when you query an index,
   /// set up a data source, or index a document.
@@ -4753,6 +4765,7 @@ class CreateIndexResponse {
   }
 }
 
+/// @nodoc
 class CreateQuerySuggestionsBlockListResponse {
   /// The identifier of the block list.
   final String? id;
@@ -4776,6 +4789,7 @@ class CreateQuerySuggestionsBlockListResponse {
   }
 }
 
+/// @nodoc
 class CreateThesaurusResponse {
   /// The identifier of the thesaurus.
   final String? id;
@@ -4798,6 +4812,7 @@ class CreateThesaurusResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessControlConfigurationResponse {
   DeleteAccessControlConfigurationResponse();
 
@@ -4811,6 +4826,7 @@ class DeleteAccessControlConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteExperienceResponse {
   DeleteExperienceResponse();
 
@@ -4823,6 +4839,7 @@ class DeleteExperienceResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccessControlConfigurationResponse {
   /// The name for the access control configuration.
   final String name;
@@ -4889,6 +4906,7 @@ class DescribeAccessControlConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataSourceResponse {
   /// Configuration details for the data source connector. This shows how the data
   /// source is configured. The configuration options for a data source depend on
@@ -5046,6 +5064,7 @@ class DescribeDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeExperienceResponse {
   /// Shows the configuration information for your Amazon Kendra experience. This
   /// includes <code>ContentSourceConfiguration</code>, which specifies the data
@@ -5155,6 +5174,7 @@ class DescribeExperienceResponse {
   }
 }
 
+/// @nodoc
 class DescribeFaqResponse {
   /// The Unix timestamp when the FAQ was created.
   final DateTime? createdAt;
@@ -5262,6 +5282,7 @@ class DescribeFaqResponse {
   }
 }
 
+/// @nodoc
 class DescribeFeaturedResultsSetResponse {
   /// The Unix timestamp when the set of the featured results was created.
   final int? creationTimestamp;
@@ -5377,6 +5398,7 @@ class DescribeFeaturedResultsSetResponse {
   }
 }
 
+/// @nodoc
 class DescribeIndexResponse {
   /// For Enterprise Edition indexes, you can choose to use additional capacity to
   /// meet the needs of your application. This contains the capacity units used
@@ -5555,6 +5577,7 @@ class DescribeIndexResponse {
   }
 }
 
+/// @nodoc
 class DescribePrincipalMappingResponse {
   /// Shows the identifier of the data source to see information on the processing
   /// of <code>PUT</code> and <code>DELETE</code> actions for mapping users to
@@ -5631,6 +5654,7 @@ class DescribePrincipalMappingResponse {
   }
 }
 
+/// @nodoc
 class DescribeQuerySuggestionsBlockListResponse {
   /// The Unix timestamp when a block list for query suggestions was created.
   final DateTime? createdAt;
@@ -5747,6 +5771,7 @@ class DescribeQuerySuggestionsBlockListResponse {
   }
 }
 
+/// @nodoc
 class DescribeQuerySuggestionsConfigResponse {
   /// Configuration information for the document fields/attributes that you want
   /// to base query suggestions on.
@@ -5884,6 +5909,7 @@ class DescribeQuerySuggestionsConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeThesaurusResponse {
   /// The Unix timestamp when the thesaurus was created.
   final DateTime? createdAt;
@@ -6000,6 +6026,7 @@ class DescribeThesaurusResponse {
   }
 }
 
+/// @nodoc
 class DisassociateEntitiesFromExperienceResponse {
   /// Lists the users or groups in your IAM Identity Center identity source that
   /// failed to properly remove access to your Amazon Kendra experience.
@@ -6027,6 +6054,7 @@ class DisassociateEntitiesFromExperienceResponse {
   }
 }
 
+/// @nodoc
 class DisassociatePersonasFromEntitiesResponse {
   /// Lists the users or groups in your IAM Identity Center identity source that
   /// failed to properly remove access to your Amazon Kendra experience.
@@ -6054,6 +6082,7 @@ class DisassociatePersonasFromEntitiesResponse {
   }
 }
 
+/// @nodoc
 class GetQuerySuggestionsResponse {
   /// The identifier for a list of query suggestions for an index.
   final String? querySuggestionsId;
@@ -6086,6 +6115,7 @@ class GetQuerySuggestionsResponse {
   }
 }
 
+/// @nodoc
 class GetSnapshotsResponse {
   /// If the response is truncated, Amazon Kendra returns this token, which you
   /// can use in a later request to retrieve the next set of search metrics data.
@@ -6142,6 +6172,7 @@ class GetSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class ListAccessControlConfigurationsResponse {
   /// The details of your access control configurations.
   final List<AccessControlConfigurationSummary> accessControlConfigurations;
@@ -6179,6 +6210,7 @@ class ListAccessControlConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourcesResponse {
   /// If the response is truncated, Amazon Kendra returns this token that you can
   /// use in the subsequent request to retrieve the next set of data source
@@ -6213,6 +6245,7 @@ class ListDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourceSyncJobsResponse {
   /// A history of synchronization jobs for the data source connector.
   final List<DataSourceSyncJob>? history;
@@ -6246,6 +6279,7 @@ class ListDataSourceSyncJobsResponse {
   }
 }
 
+/// @nodoc
 class ListEntityPersonasResponse {
   /// If the response is truncated, Amazon Kendra returns this token, which you
   /// can use in a later request to retrieve the next set of users or groups.
@@ -6279,6 +6313,7 @@ class ListEntityPersonasResponse {
   }
 }
 
+/// @nodoc
 class ListExperienceEntitiesResponse {
   /// If the response is truncated, Amazon Kendra returns this token, which you
   /// can use in a later request to retrieve the next set of users or groups.
@@ -6313,6 +6348,7 @@ class ListExperienceEntitiesResponse {
   }
 }
 
+/// @nodoc
 class ListExperiencesResponse {
   /// If the response is truncated, Amazon Kendra returns this token, which you
   /// can use in a later request to retrieve the next set of Amazon Kendra
@@ -6347,6 +6383,7 @@ class ListExperiencesResponse {
   }
 }
 
+/// @nodoc
 class ListFaqsResponse {
   /// Summary information about the FAQs for a specified index.
   final List<FaqSummary>? faqSummaryItems;
@@ -6380,6 +6417,7 @@ class ListFaqsResponse {
   }
 }
 
+/// @nodoc
 class ListFeaturedResultsSetsResponse {
   /// An array of summary information for one or more featured results sets.
   final List<FeaturedResultsSetSummary>? featuredResultsSetSummaryItems;
@@ -6416,6 +6454,7 @@ class ListFeaturedResultsSetsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsOlderThanOrderingIdResponse {
   /// Summary information for list of groups that are mapped to users before a
   /// given ordering or timestamp identifier.
@@ -6452,6 +6491,7 @@ class ListGroupsOlderThanOrderingIdResponse {
   }
 }
 
+/// @nodoc
 class ListIndicesResponse {
   /// An array of summary information on the configuration of one or more indexes.
   final List<IndexConfigurationSummary>? indexConfigurationSummaryItems;
@@ -6488,6 +6528,7 @@ class ListIndicesResponse {
   }
 }
 
+/// @nodoc
 class ListQuerySuggestionsBlockListsResponse {
   /// Summary items for a block list.
   ///
@@ -6532,6 +6573,7 @@ class ListQuerySuggestionsBlockListsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags associated with the index, FAQ, data source, or other
   /// resource.
@@ -6558,6 +6600,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListThesauriResponse {
   /// If the response is truncated, Amazon Kendra returns this token that you can
   /// use in the subsequent request to retrieve the next set of thesauri.
@@ -6592,6 +6635,7 @@ class ListThesauriResponse {
   }
 }
 
+/// @nodoc
 class QueryResult {
   /// Contains the facet results. A <code>FacetResult</code> contains the counts
   /// for each field/attribute key that was specified in the <code>Facets</code>
@@ -6690,6 +6734,7 @@ class QueryResult {
   }
 }
 
+/// @nodoc
 class RetrieveResult {
   /// The identifier of query used for the search. You also use
   /// <code>QueryId</code> to identify the search when using the <a
@@ -6725,6 +6770,7 @@ class RetrieveResult {
   }
 }
 
+/// @nodoc
 class StartDataSourceSyncJobResponse {
   /// Identifies a particular synchronization job.
   final String? executionId;
@@ -6747,6 +6793,7 @@ class StartDataSourceSyncJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6759,6 +6806,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6771,6 +6819,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccessControlConfigurationResponse {
   UpdateAccessControlConfigurationResponse();
 
@@ -6784,6 +6833,7 @@ class UpdateAccessControlConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateFeaturedResultsSetResponse {
   /// Information on the set of featured results. This includes the identifier of
   /// the featured results set, whether the featured results set is active or
@@ -6812,6 +6862,8 @@ class UpdateFeaturedResultsSetResponse {
 }
 
 /// Information required to find a specific file in an Amazon S3 bucket.
+///
+/// @nodoc
 class S3Path {
   /// The name of the S3 bucket that contains the file.
   final String bucket;
@@ -6841,6 +6893,7 @@ class S3Path {
   }
 }
 
+/// @nodoc
 class Mode {
   static const enabled = Mode._('ENABLED');
   static const learnOnly = Mode._('LEARN_ONLY');
@@ -6875,6 +6928,8 @@ class Mode {
 /// If you set to <code>QUERY</code>, then Amazon Kendra uses the query history
 /// to base suggestions on. If you set to <code>DOCUMENT_ATTRIBUTES</code>, then
 /// Amazon Kendra uses the contents of document fields to base suggestions on.
+///
+/// @nodoc
 class AttributeSuggestionsUpdateConfig {
   /// You can set the mode to <code>ACTIVE</code> or <code>INACTIVE</code>. You
   /// must also set <code>SuggestionTypes</code> as either <code>QUERY</code> or
@@ -6910,6 +6965,7 @@ class AttributeSuggestionsUpdateConfig {
   }
 }
 
+/// @nodoc
 class AttributeSuggestionsMode {
   static const active = AttributeSuggestionsMode._('ACTIVE');
   static const inactive = AttributeSuggestionsMode._('INACTIVE');
@@ -6937,6 +6993,8 @@ class AttributeSuggestionsMode {
 
 /// Provides the configuration information for a document field/attribute that
 /// you want to base query suggestions on.
+///
+/// @nodoc
 class SuggestableConfig {
   /// The name of the document field/attribute.
   final String? attributeName;
@@ -6969,6 +7027,8 @@ class SuggestableConfig {
 
 /// Specifies additional capacity units configured for your Enterprise Edition
 /// index. You can add and remove capacity units to fit your usage requirements.
+///
+/// @nodoc
 class CapacityUnitsConfiguration {
   /// The amount of extra query capacity for an index and <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>
@@ -7015,6 +7075,7 @@ class CapacityUnitsConfiguration {
   }
 }
 
+/// @nodoc
 class UserContextPolicy {
   static const attributeFilter = UserContextPolicy._('ATTRIBUTE_FILTER');
   static const userToken = UserContextPolicy._('USER_TOKEN');
@@ -7065,6 +7126,8 @@ class UserContextPolicy {
 /// If you're using an Amazon Kendra Gen AI Enterprise Edition index,
 /// <code>UserGroupResolutionConfiguration</code> isn't supported.
 /// </important>
+///
+/// @nodoc
 class UserGroupResolutionConfiguration {
   /// The identity store provider (mode) you want to use to get users and groups.
   /// IAM Identity Center is currently the only available mode. Your users and
@@ -7091,6 +7154,7 @@ class UserGroupResolutionConfiguration {
   }
 }
 
+/// @nodoc
 class UserGroupResolutionMode {
   static const awsSso = UserGroupResolutionMode._('AWS_SSO');
   static const none = UserGroupResolutionMode._('NONE');
@@ -7122,6 +7186,8 @@ class UserGroupResolutionMode {
 /// to use <code>UserTokenConfigurations</code> to configure user context
 /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
 /// </important>
+///
+/// @nodoc
 class UserTokenConfiguration {
   /// Information about the JSON token type configuration.
   final JsonTokenTypeConfiguration? jsonTokenTypeConfiguration;
@@ -7160,6 +7226,8 @@ class UserTokenConfiguration {
 }
 
 /// Provides the configuration information for the JWT token type.
+///
+/// @nodoc
 class JwtTokenTypeConfiguration {
   /// The location of the key.
   final KeyLocation keyLocation;
@@ -7228,6 +7296,8 @@ class JwtTokenTypeConfiguration {
 }
 
 /// Provides the configuration information for the JSON token type.
+///
+/// @nodoc
 class JsonTokenTypeConfiguration {
   /// The group attribute field.
   final String groupAttributeField;
@@ -7257,6 +7327,7 @@ class JsonTokenTypeConfiguration {
   }
 }
 
+/// @nodoc
 class KeyLocation {
   static const url = KeyLocation._('URL');
   static const secretManager = KeyLocation._('SECRET_MANAGER');
@@ -7282,6 +7353,8 @@ class KeyLocation {
 
 /// Specifies the properties, such as relevance tuning and searchability, of an
 /// index field.
+///
+/// @nodoc
 class DocumentMetadataConfiguration {
   /// The name of the index field.
   final String name;
@@ -7331,6 +7404,7 @@ class DocumentMetadataConfiguration {
   }
 }
 
+/// @nodoc
 class DocumentAttributeValueType {
   static const stringValue = DocumentAttributeValueType._('STRING_VALUE');
   static const stringListValue =
@@ -7362,6 +7436,8 @@ class DocumentAttributeValueType {
 /// Provides information for tuning the relevance of a field in a search. When a
 /// query includes terms that match the field, the results are given a boost in
 /// the response based on these tuning parameters.
+///
+/// @nodoc
 class Relevance {
   /// Specifies the time period that the boost applies to. For example, to make
   /// the boost apply to documents with the field value within the last month, you
@@ -7446,6 +7522,8 @@ class Relevance {
 }
 
 /// Provides information about how a custom index field is used during a search.
+///
+/// @nodoc
 class Search {
   /// Determines whether the field is returned in the query response. The default
   /// is <code>true</code>.
@@ -7498,6 +7576,7 @@ class Search {
   }
 }
 
+/// @nodoc
 class Order {
   static const ascending = Order._('ASCENDING');
   static const descending = Order._('DESCENDING');
@@ -7525,6 +7604,8 @@ class Order {
 /// results. Featured results are placed above all other results for certain
 /// queries. If there's an exact match of a query, then one or more specific
 /// documents are featured in the search results.
+///
+/// @nodoc
 class FeaturedResultsSet {
   /// The Unix timestamp when the set of featured results was created.
   final int? creationTimestamp;
@@ -7637,6 +7718,7 @@ class FeaturedResultsSet {
   }
 }
 
+/// @nodoc
 class FeaturedResultsSetStatus {
   static const active = FeaturedResultsSetStatus._('ACTIVE');
   static const inactive = FeaturedResultsSetStatus._('INACTIVE');
@@ -7666,6 +7748,8 @@ class FeaturedResultsSetStatus {
 /// results page, placed above all other results for certain queries. If there's
 /// an exact match of a query, then the document is featured in the search
 /// results.
+///
+/// @nodoc
 class FeaturedDocument {
   /// The identifier of the document to feature in the search results. You can use
   /// the <a
@@ -7695,6 +7779,8 @@ class FeaturedDocument {
 /// Provides the configuration information for your Amazon Kendra experience.
 /// This includes the data source IDs and/or FAQ IDs, and user or group
 /// information to grant access to your Amazon Kendra experience.
+///
+/// @nodoc
 class ExperienceConfiguration {
   /// The identifiers of your data sources and FAQs. Or, you can specify that you
   /// want to use documents indexed via the <code>BatchPutDocument</code> API.
@@ -7738,6 +7824,8 @@ class ExperienceConfiguration {
 /// Provides the configuration information for your content sources, such as
 /// data sources, FAQs, and content indexed directly via <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html">BatchPutDocument</a>.
+///
+/// @nodoc
 class ContentSourceConfiguration {
   /// The identifier of the data sources you want to use for your Amazon Kendra
   /// experience.
@@ -7782,6 +7870,8 @@ class ContentSourceConfiguration {
 }
 
 /// Provides the configuration information for the identifiers of your users.
+///
+/// @nodoc
 class UserIdentityConfiguration {
   /// The IAM Identity Center field name that contains the identifiers of your
   /// users, such as their emails. This is used for <a
@@ -7814,6 +7904,8 @@ class UserIdentityConfiguration {
 }
 
 /// Provides the configuration information for an Amazon Kendra data source.
+///
+/// @nodoc
 class DataSourceConfiguration {
   /// Provides the configuration information to connect to Alfresco as your data
   /// source.
@@ -8111,6 +8203,8 @@ class DataSourceConfiguration {
 }
 
 /// Provides the configuration information to connect to an Amazon VPC.
+///
+/// @nodoc
 class DataSourceVpcConfiguration {
   /// A list of identifiers of security groups within your Amazon VPC. The
   /// security groups should enable Amazon Kendra to connect to the data source.
@@ -8155,6 +8249,8 @@ class DataSourceVpcConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
 /// document metadata during the ingestion process</a>.
+///
+/// @nodoc
 class CustomDocumentEnrichmentConfiguration {
   /// Configuration information to alter document attributes or metadata fields
   /// and content when ingesting documents into Amazon Kendra.
@@ -8246,6 +8342,8 @@ class CustomDocumentEnrichmentConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
 /// document metadata during the ingestion process</a>.
+///
+/// @nodoc
 class HookConfiguration {
   /// The Amazon Resource Name (ARN) of an IAM role with permission to run a
   /// Lambda function during ingestion. For more information, see <a
@@ -8311,6 +8409,8 @@ class HookConfiguration {
 /// created as an index field. After you create your index field, you can create
 /// a document metadata field using <code>DocumentAttributeTarget</code>. Amazon
 /// Kendra then will map your newly created metadata field to your index field.
+///
+/// @nodoc
 class DocumentAttributeCondition {
   /// The identifier of the document attribute used for the condition.
   ///
@@ -8363,6 +8463,7 @@ class DocumentAttributeCondition {
   }
 }
 
+/// @nodoc
 class ConditionOperator {
   static const greaterThan = ConditionOperator._('GreaterThan');
   static const greaterThanOrEquals = ConditionOperator._('GreaterThanOrEquals');
@@ -8410,6 +8511,8 @@ class ConditionOperator {
 
 /// The value of a document attribute. You can only provide one value for a
 /// document attribute.
+///
+/// @nodoc
 class DocumentAttributeValue {
   /// A date expressed as an ISO 8601 string.
   ///
@@ -8470,6 +8573,8 @@ class DocumentAttributeValue {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
 /// document metadata during the ingestion process</a>.
+///
+/// @nodoc
 class InlineCustomDocumentEnrichmentConfiguration {
   /// Configuration of the condition used for the target document attribute or
   /// metadata field when ingesting documents into Amazon Kendra.
@@ -8534,6 +8639,8 @@ class InlineCustomDocumentEnrichmentConfiguration {
 ///
 /// You can also use this with <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeCondition.html">DocumentAttributeCondition</a>.
+///
+/// @nodoc
 class DocumentAttributeTarget {
   /// The identifier of the target document attribute or metadata field.
   ///
@@ -8607,6 +8714,8 @@ class DocumentAttributeTarget {
 /// Support for connectors configured using the older architecture is scheduled
 /// to end by June 2024.
 /// </note>
+///
+/// @nodoc
 class S3DataSourceConfiguration {
   /// The name of the bucket that contains the documents.
   final String bucketName;
@@ -8766,6 +8875,8 @@ class S3DataSourceConfiguration {
 
 /// Provides the configuration information to connect to Microsoft SharePoint as
 /// your data source.
+///
+/// @nodoc
 class SharePointConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the user name and password required to connect to the SharePoint instance.
@@ -8964,6 +9075,8 @@ class SharePointConfiguration {
 /// Provides the configuration information to an <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html">Amazon
 /// Kendra supported database</a>.
+///
+/// @nodoc
 class DatabaseConfiguration {
   /// Information about where the index should get the document information from
   /// the database.
@@ -9038,6 +9151,8 @@ class DatabaseConfiguration {
 
 /// Provides the configuration information to connect to Salesforce as your data
 /// source.
+///
+/// @nodoc
 class SalesforceConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the
   /// key/value pairs required to connect to your Salesforce instance. The secret
@@ -9198,6 +9313,8 @@ class SalesforceConfiguration {
 
 /// Provides the configuration information to connect to OneDrive as your data
 /// source.
+///
+/// @nodoc
 class OneDriveConfiguration {
   /// A list of user accounts whose documents should be indexed.
   final OneDriveUsers oneDriveUsers;
@@ -9297,6 +9414,8 @@ class OneDriveConfiguration {
 
 /// Provides the configuration information to connect to ServiceNow as your data
 /// source.
+///
+/// @nodoc
 class ServiceNowConfiguration {
   /// The ServiceNow instance that the data source connects to. The host endpoint
   /// should look like the following: <i>{instance}.service-now.com.</i>
@@ -9389,6 +9508,8 @@ class ServiceNowConfiguration {
 
 /// Provides the configuration information to connect to Confluence as your data
 /// source.
+///
+/// @nodoc
 class ConfluenceConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the user name and password required to connect to the Confluence instance.
@@ -9558,6 +9679,8 @@ class ConfluenceConfiguration {
 
 /// Provides the configuration information to connect to Google Drive as your
 /// data source.
+///
+/// @nodoc
 class GoogleDriveConfiguration {
   /// The Amazon Resource Name (ARN) of a Secrets Managersecret that contains the
   /// credentials required to connect to Google Drive. For more information, see
@@ -9672,6 +9795,8 @@ class GoogleDriveConfiguration {
 
 /// Provides the configuration information required for Amazon Kendra Web
 /// Crawler.
+///
+/// @nodoc
 class WebCrawlerConfiguration {
   /// Specifies the seed or starting point URLs of the websites or the sitemap
   /// URLs of the websites you want to crawl.
@@ -9835,6 +9960,8 @@ class WebCrawlerConfiguration {
 ///
 /// WorkDocs connector is available in Oregon, North Virginia, Sydney, Singapore
 /// and Ireland regions.
+///
+/// @nodoc
 class WorkDocsConfiguration {
   /// The identifier of the directory corresponding to your WorkDocs site
   /// repository.
@@ -9950,6 +10077,8 @@ class WorkDocsConfiguration {
 /// Support for connectors configured using the older architecture is scheduled
 /// to end by June 2024.
 /// </note>
+///
+/// @nodoc
 class FsxConfiguration {
   /// The identifier of the Amazon FSx file system.
   ///
@@ -10084,6 +10213,8 @@ class FsxConfiguration {
 /// Support for connectors configured using the older architecture is scheduled
 /// to end by June 2024.
 /// </note>
+///
+/// @nodoc
 class SlackConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the key-value pairs required to connect to your Slack workspace team. The
@@ -10276,6 +10407,8 @@ class SlackConfiguration {
 
 /// Provides the configuration information to connect to Box as your data
 /// source.
+///
+/// @nodoc
 class BoxConfiguration {
   /// The identifier of the Box Enterprise platform. You can find the enterprise
   /// ID in the Box Developer Console settings or when you create an app in Box
@@ -10480,6 +10613,8 @@ class BoxConfiguration {
 
 /// Provides the configuration information to connect to Quip as your data
 /// source.
+///
+/// @nodoc
 class QuipConfiguration {
   /// The Quip site domain. For example,
   /// <i>https://quip-company.quipdomain.com/browse</i>. The domain in this
@@ -10653,6 +10788,8 @@ class QuipConfiguration {
 
 /// Provides the configuration information to connect to Jira as your data
 /// source.
+///
+/// @nodoc
 class JiraConfiguration {
   /// The URL of the Jira account. For example, <i>company.atlassian.net</i>.
   final String jiraAccountUrl;
@@ -10898,6 +11035,8 @@ class JiraConfiguration {
 /// Support for connectors configured using the older architecture is scheduled
 /// to end by June 2024.
 /// </note>
+///
+/// @nodoc
 class GitHubConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the key-value pairs required to connect to your GitHub. The secret must
@@ -11292,6 +11431,8 @@ class GitHubConfiguration {
 /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
 /// API.
 /// </note>
+///
+/// @nodoc
 class AlfrescoConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
   /// the key-value pairs required to connect to your Alfresco data source. The
@@ -11477,6 +11618,8 @@ class AlfrescoConfiguration {
 
 /// Provides a template for the configuration information to connect to your
 /// data source.
+///
+/// @nodoc
 class TemplateConfiguration {
   /// The template schema used for the data source, where templates schemas are
   /// supported.
@@ -11515,6 +11658,8 @@ class TemplateConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
 /// data source fields</a>.
+///
+/// @nodoc
 class DataSourceToIndexFieldMapping {
   /// The name of the field in the data source. You must first create the index
   /// field using the <code>UpdateIndex</code> API.
@@ -11555,6 +11700,7 @@ class DataSourceToIndexFieldMapping {
   }
 }
 
+/// @nodoc
 class AlfrescoEntity {
   static const wiki = AlfrescoEntity._('wiki');
   static const blog = AlfrescoEntity._('blog');
@@ -11582,6 +11728,8 @@ class AlfrescoEntity {
 
 /// Provides the configuration information to connect to GitHub Enterprise Cloud
 /// (SaaS).
+///
+/// @nodoc
 class SaaSConfiguration {
   /// The GitHub host URL or API endpoint URL. For example,
   /// <i>https://api.github.com</i>.
@@ -11617,6 +11765,8 @@ class SaaSConfiguration {
 
 /// Provides the configuration information to connect to GitHub Enterprise
 /// Server (on premises).
+///
+/// @nodoc
 class OnPremiseConfiguration {
   /// The GitHub host URL or API endpoint URL. For example,
   /// <i>https://on-prem-host-url/api/v3/</i>
@@ -11666,6 +11816,7 @@ class OnPremiseConfiguration {
   }
 }
 
+/// @nodoc
 class Type {
   static const saas = Type._('SAAS');
   static const onPremise = Type._('ON_PREMISE');
@@ -11692,6 +11843,8 @@ class Type {
 /// Provides the configuration information to include certain types of GitHub
 /// content. You can configure to index repository files only, or also include
 /// issues and pull requests, comments, and comment attachments.
+///
+/// @nodoc
 class GitHubDocumentCrawlProperties {
   /// <code>TRUE</code> to index all issues within a repository.
   final bool? crawlIssue;
@@ -11762,6 +11915,7 @@ class GitHubDocumentCrawlProperties {
   }
 }
 
+/// @nodoc
 class IssueSubEntity {
   static const comments = IssueSubEntity._('COMMENTS');
   static const attachments = IssueSubEntity._('ATTACHMENTS');
@@ -11787,6 +11941,7 @@ class IssueSubEntity {
   String toString() => value;
 }
 
+/// @nodoc
 class SlackEntity {
   static const publicChannel = SlackEntity._('PUBLIC_CHANNEL');
   static const privateChannel = SlackEntity._('PRIVATE_CHANNEL');
@@ -11817,6 +11972,7 @@ class SlackEntity {
   String toString() => value;
 }
 
+/// @nodoc
 class FsxFileSystemType {
   static const windows = FsxFileSystemType._('WINDOWS');
 
@@ -11851,6 +12007,8 @@ class FsxFileSystemType {
 /// other Amazon terms. Remember that you must only use Amazon Kendra Web
 /// Crawler to index your own web pages, or web pages that you have
 /// authorization to index.</i>
+///
+/// @nodoc
 class Urls {
   /// Configuration of the seed or starting point URLs of the websites you want to
   /// crawl.
@@ -11900,6 +12058,8 @@ class Urls {
 
 /// Provides the configuration information for a web proxy to connect to website
 /// hosts.
+///
+/// @nodoc
 class ProxyConfiguration {
   /// The name of the website host you want to connect to via a web proxy server.
   ///
@@ -11953,6 +12113,8 @@ class ProxyConfiguration {
 
 /// Provides the configuration information to connect to websites that require
 /// user authentication.
+///
+/// @nodoc
 class AuthenticationConfiguration {
   /// The list of configuration information that's required to connect to and
   /// crawl a website host using basic authentication credentials.
@@ -11985,6 +12147,8 @@ class AuthenticationConfiguration {
 
 /// Provides the configuration information to connect to websites that require
 /// basic user authentication.
+///
+/// @nodoc
 class BasicAuthenticationConfiguration {
   /// The Amazon Resource Name (ARN) of an Secrets Manager secret. You create a
   /// secret to store your credentials in <a
@@ -12043,6 +12207,8 @@ class BasicAuthenticationConfiguration {
 /// other Amazon terms. Remember that you must only use Amazon Kendra Web
 /// Crawler to index your own web pages, or web pages that you have
 /// authorization to index.</i>
+///
+/// @nodoc
 class SeedUrlConfiguration {
   /// The list of seed or starting point URLs of the websites you want to crawl.
   ///
@@ -12103,6 +12269,8 @@ class SeedUrlConfiguration {
 /// other Amazon terms. Remember that you must only use Amazon Kendra Web
 /// Crawler to index your own web pages, or web pages that you have
 /// authorization to index.</i>
+///
+/// @nodoc
 class SiteMapsConfiguration {
   /// The list of sitemap URLs of the websites you want to crawl.
   ///
@@ -12130,6 +12298,7 @@ class SiteMapsConfiguration {
   }
 }
 
+/// @nodoc
 class WebCrawlerMode {
   static const hostOnly = WebCrawlerMode._('HOST_ONLY');
   static const subdomains = WebCrawlerMode._('SUBDOMAINS');
@@ -12155,6 +12324,7 @@ class WebCrawlerMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfluenceVersion {
   static const cloud = ConfluenceVersion._('CLOUD');
   static const server = ConfluenceVersion._('SERVER');
@@ -12180,6 +12350,8 @@ class ConfluenceVersion {
 }
 
 /// Configuration information for indexing Confluence spaces.
+///
+/// @nodoc
 class ConfluenceSpaceConfiguration {
   /// <code>TRUE</code> to index archived spaces.
   final bool? crawlArchivedSpaces;
@@ -12264,6 +12436,8 @@ class ConfluenceSpaceConfiguration {
 }
 
 /// Configuration of the page settings for the Confluence data source.
+///
+/// @nodoc
 class ConfluencePageConfiguration {
   /// Maps attributes or field names of Confluence pages to Amazon Kendra index
   /// field names. To create custom fields, use the <code>UpdateIndex</code> API
@@ -12302,6 +12476,8 @@ class ConfluencePageConfiguration {
 /// always indexed unless filtered from the index by the
 /// <code>ExclusionPatterns</code> or <code>InclusionPatterns</code> fields in
 /// the <code>ConfluenceConfiguration</code> object.
+///
+/// @nodoc
 class ConfluenceBlogConfiguration {
   /// Maps attributes or field names of Confluence blogs to Amazon Kendra index
   /// field names. To create custom fields, use the <code>UpdateIndex</code> API
@@ -12339,6 +12515,8 @@ class ConfluenceBlogConfiguration {
 /// Configuration of attachment settings for the Confluence data source.
 /// Attachment settings are optional, if you don't specify settings attachments,
 /// Amazon Kendra won't index them.
+///
+/// @nodoc
 class ConfluenceAttachmentConfiguration {
   /// Maps attributes or field names of Confluence attachments to Amazon Kendra
   /// index field names. To create custom fields, use the <code>UpdateIndex</code>
@@ -12382,6 +12560,7 @@ class ConfluenceAttachmentConfiguration {
   }
 }
 
+/// @nodoc
 class ConfluenceAuthenticationType {
   static const httpBasic = ConfluenceAuthenticationType._('HTTP_BASIC');
   static const pat = ConfluenceAuthenticationType._('PAT');
@@ -12413,6 +12592,8 @@ class ConfluenceAuthenticationType {
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
 /// data source fields</a>. The Confuence data source field names must exist in
 /// your Confluence custom metadata.
+///
+/// @nodoc
 class ConfluenceAttachmentToIndexFieldMapping {
   /// The name of the field in the data source.
   ///
@@ -12458,6 +12639,7 @@ class ConfluenceAttachmentToIndexFieldMapping {
   }
 }
 
+/// @nodoc
 class ConfluenceAttachmentFieldName {
   static const author = ConfluenceAttachmentFieldName._('AUTHOR');
   static const contentType = ConfluenceAttachmentFieldName._('CONTENT_TYPE');
@@ -12510,6 +12692,8 @@ class ConfluenceAttachmentFieldName {
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
 /// data source fields</a>. The Confluence data source field names must exist in
 /// your Confluence custom metadata.
+///
+/// @nodoc
 class ConfluenceBlogToIndexFieldMapping {
   /// The name of the field in the data source.
   final ConfluenceBlogFieldName? dataSourceFieldName;
@@ -12552,6 +12736,7 @@ class ConfluenceBlogToIndexFieldMapping {
   }
 }
 
+/// @nodoc
 class ConfluenceBlogFieldName {
   static const author = ConfluenceBlogFieldName._('AUTHOR');
   static const displayUrl = ConfluenceBlogFieldName._('DISPLAY_URL');
@@ -12600,6 +12785,8 @@ class ConfluenceBlogFieldName {
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
 /// data source fields</a>. The Confluence data source field names must exist in
 /// your Confluence custom metadata.
+///
+/// @nodoc
 class ConfluencePageToIndexFieldMapping {
   /// The name of the field in the data source.
   final ConfluencePageFieldName? dataSourceFieldName;
@@ -12642,6 +12829,7 @@ class ConfluencePageToIndexFieldMapping {
   }
 }
 
+/// @nodoc
 class ConfluencePageFieldName {
   static const author = ConfluencePageFieldName._('AUTHOR');
   static const contentStatus = ConfluencePageFieldName._('CONTENT_STATUS');
@@ -12696,6 +12884,8 @@ class ConfluencePageFieldName {
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
 /// data source fields</a>. The Confluence data source field names must exist in
 /// your Confluence custom metadata.
+///
+/// @nodoc
 class ConfluenceSpaceToIndexFieldMapping {
   /// The name of the field in the data source.
   final ConfluenceSpaceFieldName? dataSourceFieldName;
@@ -12738,6 +12928,7 @@ class ConfluenceSpaceToIndexFieldMapping {
   }
 }
 
+/// @nodoc
 class ConfluenceSpaceFieldName {
   static const displayUrl = ConfluenceSpaceFieldName._('DISPLAY_URL');
   static const itemType = ConfluenceSpaceFieldName._('ITEM_TYPE');
@@ -12765,6 +12956,7 @@ class ConfluenceSpaceFieldName {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceNowBuildVersionType {
   static const london = ServiceNowBuildVersionType._('LONDON');
   static const others = ServiceNowBuildVersionType._('OTHERS');
@@ -12792,6 +12984,8 @@ class ServiceNowBuildVersionType {
 
 /// Provides the configuration information for crawling knowledge articles in
 /// the ServiceNow site.
+///
+/// @nodoc
 class ServiceNowKnowledgeArticleConfiguration {
   /// The name of the ServiceNow field that is mapped to the index document
   /// contents field in the Amazon Kendra index.
@@ -12896,6 +13090,8 @@ class ServiceNowKnowledgeArticleConfiguration {
 
 /// Provides the configuration information for crawling service catalog items in
 /// the ServiceNow site
+///
+/// @nodoc
 class ServiceNowServiceCatalogConfiguration {
   /// The name of the ServiceNow field that is mapped to the index document
   /// contents field in the Amazon Kendra index.
@@ -12988,6 +13184,7 @@ class ServiceNowServiceCatalogConfiguration {
   }
 }
 
+/// @nodoc
 class ServiceNowAuthenticationType {
   static const httpBasic = ServiceNowAuthenticationType._('HTTP_BASIC');
   static const oauth2 = ServiceNowAuthenticationType._('OAUTH2');
@@ -13014,6 +13211,8 @@ class ServiceNowAuthenticationType {
 }
 
 /// User accounts whose documents should be indexed.
+///
+/// @nodoc
 class OneDriveUsers {
   /// A list of users whose documents should be indexed. Specify the user names in
   /// email format, for example, <code>username@tenantdomain</code>. If you need
@@ -13057,6 +13256,8 @@ class OneDriveUsers {
 /// Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and
 /// the standard fields of knowledge articles, or the custom fields of custom
 /// knowledge articles, but not both
+///
+/// @nodoc
 class SalesforceKnowledgeArticleConfiguration {
   /// Specifies the document states that should be included when Amazon Kendra
   /// indexes knowledge articles. You must specify at least one state.
@@ -13119,6 +13320,8 @@ class SalesforceKnowledgeArticleConfiguration {
 
 /// The configuration information for syncing a Salesforce chatter feed. The
 /// contents of the object comes from the Salesforce FeedItem table.
+///
+/// @nodoc
 class SalesforceChatterFeedConfiguration {
   /// The name of the column in the Salesforce FeedItem table that contains the
   /// content to index. Typically this is the <code>Body</code> column.
@@ -13181,6 +13384,8 @@ class SalesforceChatterFeedConfiguration {
 
 /// Provides the configuration information for processing attachments to
 /// Salesforce standard objects.
+///
+/// @nodoc
 class SalesforceStandardObjectAttachmentConfiguration {
   /// The name of the field used for the document title.
   final String? documentTitleFieldName;
@@ -13217,6 +13422,7 @@ class SalesforceStandardObjectAttachmentConfiguration {
   }
 }
 
+/// @nodoc
 class SalesforceChatterFeedIncludeFilterType {
   static const activeUser =
       SalesforceChatterFeedIncludeFilterType._('ACTIVE_USER');
@@ -13246,6 +13452,8 @@ class SalesforceChatterFeedIncludeFilterType {
 
 /// Provides the configuration information for standard Salesforce knowledge
 /// articles.
+///
+/// @nodoc
 class SalesforceStandardKnowledgeArticleTypeConfiguration {
   /// The name of the field that contains the document data to index.
   final String documentDataFieldName;
@@ -13295,6 +13503,8 @@ class SalesforceStandardKnowledgeArticleTypeConfiguration {
 
 /// Provides the configuration information for indexing Salesforce custom
 /// articles.
+///
+/// @nodoc
 class SalesforceCustomKnowledgeArticleTypeConfiguration {
   /// The name of the field in the custom knowledge article that contains the
   /// document data to index.
@@ -13352,6 +13562,7 @@ class SalesforceCustomKnowledgeArticleTypeConfiguration {
   }
 }
 
+/// @nodoc
 class SalesforceKnowledgeArticleState {
   static const draft = SalesforceKnowledgeArticleState._('DRAFT');
   static const published = SalesforceKnowledgeArticleState._('PUBLISHED');
@@ -13380,6 +13591,8 @@ class SalesforceKnowledgeArticleState {
 
 /// Provides the configuration information for indexing a single standard
 /// object.
+///
+/// @nodoc
 class SalesforceStandardObjectConfiguration {
   /// The name of the field in the standard object table that contains the
   /// document contents.
@@ -13437,6 +13650,7 @@ class SalesforceStandardObjectConfiguration {
   }
 }
 
+/// @nodoc
 class SalesforceStandardObjectName {
   static const account = SalesforceStandardObjectName._('ACCOUNT');
   static const campaign = SalesforceStandardObjectName._('CAMPAIGN');
@@ -13495,6 +13709,7 @@ class SalesforceStandardObjectName {
   String toString() => value;
 }
 
+/// @nodoc
 class DatabaseEngineType {
   static const rdsAuroraMysql = DatabaseEngineType._('RDS_AURORA_MYSQL');
   static const rdsAuroraPostgresql =
@@ -13530,6 +13745,8 @@ class DatabaseEngineType {
 
 /// Provides the configuration information that's required to connect to a
 /// database.
+///
+/// @nodoc
 class ConnectionConfiguration {
   /// The name of the host for the database. Can be either a string
   /// (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
@@ -13590,6 +13807,8 @@ class ConnectionConfiguration {
 
 /// Provides information about how Amazon Kendra should use the columns of a
 /// database in an index.
+///
+/// @nodoc
 class ColumnConfiguration {
   /// One to five columns that indicate when a document in the database has
   /// changed.
@@ -13654,6 +13873,8 @@ class ColumnConfiguration {
 
 /// Provides information about the column that should be used for filtering the
 /// query response by groups.
+///
+/// @nodoc
 class AclConfiguration {
   /// A list of groups, separated by semi-colons, that filters a query response
   /// based on user context. The document is only returned to users that are in
@@ -13681,6 +13902,8 @@ class AclConfiguration {
 }
 
 /// Provides the configuration information to use a SQL database.
+///
+/// @nodoc
 class SqlConfiguration {
   /// Determines whether Amazon Kendra encloses SQL identifiers for tables and
   /// column names in double quotes (") when making a database query.
@@ -13721,6 +13944,7 @@ class SqlConfiguration {
   }
 }
 
+/// @nodoc
 class QueryIdentifiersEnclosingOption {
   static const doubleQuotes =
       QueryIdentifiersEnclosingOption._('DOUBLE_QUOTES');
@@ -13747,6 +13971,7 @@ class QueryIdentifiersEnclosingOption {
   String toString() => value;
 }
 
+/// @nodoc
 class SharePointVersion {
   static const sharepoint_2013 = SharePointVersion._('SHAREPOINT_2013');
   static const sharepoint_2016 = SharePointVersion._('SHAREPOINT_2016');
@@ -13778,6 +14003,7 @@ class SharePointVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class SharePointOnlineAuthenticationType {
   static const httpBasic = SharePointOnlineAuthenticationType._('HTTP_BASIC');
   static const oauth2 = SharePointOnlineAuthenticationType._('OAUTH2');
@@ -13806,6 +14032,8 @@ class SharePointOnlineAuthenticationType {
 /// Document metadata files that contain information such as the document access
 /// control information, source URI, document author, and custom attributes.
 /// Each metadata file contains metadata about a single document.
+///
+/// @nodoc
 class DocumentsMetadataConfiguration {
   /// A prefix used to filter metadata configuration files in the Amazon Web
   /// Services S3 bucket. The S3 bucket might contain multiple metadata files. Use
@@ -13834,6 +14062,8 @@ class DocumentsMetadataConfiguration {
 /// of the file, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
 /// control for S3 data sources</a>.
+///
+/// @nodoc
 class AccessControlListConfiguration {
   /// Path to the Amazon S3 bucket that contains the ACL files.
   final String? keyPath;
@@ -13858,6 +14088,8 @@ class AccessControlListConfiguration {
 
 /// Information to define the hierarchy for which documents users should have
 /// access to.
+///
+/// @nodoc
 class HierarchicalPrincipal {
   /// A list of <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html">principal</a>
@@ -13890,6 +14122,8 @@ class HierarchicalPrincipal {
 /// Provides user and group information for <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">user
 /// context filtering</a>.
+///
+/// @nodoc
 class Principal {
   /// Whether to allow or deny document access to the principal.
   final ReadAccessType access;
@@ -13934,6 +14168,7 @@ class Principal {
   }
 }
 
+/// @nodoc
 class PrincipalType {
   static const user = PrincipalType._('USER');
   static const group = PrincipalType._('GROUP');
@@ -13958,6 +14193,7 @@ class PrincipalType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReadAccessType {
   static const allow = ReadAccessType._('ALLOW');
   static const deny = ReadAccessType._('DENY');
@@ -13985,6 +14221,8 @@ class ReadAccessType {
 /// A key-value pair that identifies or categorizes an index, FAQ, data source,
 /// or other resource. TA tag key and value can consist of Unicode letters,
 /// digits, white space, and any of the following symbols: _ . : / = + - @.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. Keys are not case sensitive and must be unique for the
   /// index, FAQ, data source, or other resource.
@@ -14019,6 +14257,8 @@ class Tag {
 /// Provides feedback on how relevant a document is to a search. Your
 /// application uses the <code>SubmitFeedback</code> API to provide relevance
 /// information.
+///
+/// @nodoc
 class RelevanceFeedback {
   /// Whether the document was relevant or not relevant to the search.
   final RelevanceType relevanceValue;
@@ -14042,6 +14282,7 @@ class RelevanceFeedback {
   }
 }
 
+/// @nodoc
 class RelevanceType {
   static const relevant = RelevanceType._('RELEVANT');
   static const notRelevant = RelevanceType._('NOT_RELEVANT');
@@ -14069,6 +14310,8 @@ class RelevanceType {
 /// Gathers information about when a particular result was clicked by a user.
 /// Your application uses the <code>SubmitFeedback</code> API to provide click
 /// information.
+///
+/// @nodoc
 class ClickFeedback {
   /// The Unix timestamp when the result was clicked.
   final DateTime clickTime;
@@ -14092,6 +14335,8 @@ class ClickFeedback {
 }
 
 /// A single retrieved relevant passage result.
+///
+/// @nodoc
 class RetrieveResultItem {
   /// The contents of the relevant passage.
   final String? content;
@@ -14168,6 +14413,8 @@ class RetrieveResultItem {
 
 /// Provides a relative ranking that indicates how confident Amazon Kendra is
 /// that the response is relevant to the query.
+///
+/// @nodoc
 class ScoreAttributes {
   /// A relative ranking for how relevant the response is to the query.
   final ScoreConfidence? scoreConfidence;
@@ -14192,6 +14439,8 @@ class ScoreAttributes {
 }
 
 /// Enumeration for query score confidence.
+///
+/// @nodoc
 class ScoreConfidence {
   static const veryHigh = ScoreConfidence._('VERY_HIGH');
   static const high = ScoreConfidence._('HIGH');
@@ -14223,6 +14472,8 @@ class ScoreConfidence {
 /// attributes, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-attributes.html">Custom
 /// attributes</a>.
+///
+/// @nodoc
 class DocumentAttribute {
   /// The identifier for the attribute.
   final String key;
@@ -14277,7 +14528,7 @@ class DocumentAttribute {
 ///
 /// <ul>
 /// <li>
-/// <code>ContainsAny</code>: "Project Name", ["new hires", "new hiring"]
+/// <code>ContainsAny</code>: "Project Name", \["new hires", "new hiring"\]
 /// </li>
 /// </ul> </li>
 /// </ul>
@@ -14296,6 +14547,8 @@ class DocumentAttribute {
 /// For examples of using <code>AttributeFilter</code>, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering">Using
 /// document attributes to filter search results</a>.
+///
+/// @nodoc
 class AttributeFilter {
   /// Performs a logical <code>AND</code> operation on all filters that you
   /// specify.
@@ -14419,6 +14672,8 @@ class AttributeFilter {
 /// Edition index, Amazon Kendra returns a <code>ValidationException</code>
 /// error if the <code>Token</code> field has a non-null value.
 /// </important>
+///
+/// @nodoc
 class UserContext {
   /// The list of data source groups you want to filter search results based on
   /// groups' access to documents in that data source.
@@ -14458,6 +14713,8 @@ class UserContext {
 }
 
 /// Data source information for user context filtering.
+///
+/// @nodoc
 class DataSourceGroup {
   /// The identifier of the data source group you want to add to your list of data
   /// source groups. This is for filtering search results based on the groups'
@@ -14484,6 +14741,8 @@ class DataSourceGroup {
 }
 
 /// Overrides the document relevance properties of a custom index field.
+///
+/// @nodoc
 class DocumentRelevanceConfiguration {
   /// The name of the index field.
   final String name;
@@ -14512,6 +14771,8 @@ class DocumentRelevanceConfiguration {
 /// the search results page, placed above all other results for certain queries.
 /// If there's an exact match of a query, then certain documents are featured in
 /// the search results.
+///
+/// @nodoc
 class FeaturedResultsItem {
   /// One or more additional attributes associated with the featured result.
   final List<AdditionalResultAttribute>? additionalAttributes;
@@ -14607,6 +14868,7 @@ class FeaturedResultsItem {
   }
 }
 
+/// @nodoc
 class QueryResultType {
   static const document = QueryResultType._('DOCUMENT');
   static const questionAnswer = QueryResultType._('QUESTION_ANSWER');
@@ -14633,6 +14895,8 @@ class QueryResultType {
 }
 
 /// Provides text and information about where to highlight the text.
+///
+/// @nodoc
 class TextWithHighlights {
   /// The beginning and end of the text that should be highlighted.
   final List<Highlight>? highlights;
@@ -14667,6 +14931,8 @@ class TextWithHighlights {
 
 /// Provides information that you can use to highlight a search result so that
 /// your users can quickly identify terms in the response.
+///
+/// @nodoc
 class Highlight {
   /// The zero-based location in the response string where the highlight starts.
   final int beginOffset;
@@ -14711,6 +14977,7 @@ class Highlight {
   }
 }
 
+/// @nodoc
 class HighlightType {
   static const standard = HighlightType._('STANDARD');
   static const thesaurusSynonym = HighlightType._('THESAURUS_SYNONYM');
@@ -14736,6 +15003,8 @@ class HighlightType {
 }
 
 /// An attribute returned from an index query.
+///
+/// @nodoc
 class AdditionalResultAttribute {
   /// The key that identifies the attribute.
   final String key;
@@ -14775,6 +15044,7 @@ class AdditionalResultAttribute {
   }
 }
 
+/// @nodoc
 class AdditionalResultAttributeValueType {
   static const textWithHighlightsValue =
       AdditionalResultAttributeValueType._('TEXT_WITH_HIGHLIGHTS_VALUE');
@@ -14801,6 +15071,8 @@ class AdditionalResultAttributeValueType {
 }
 
 /// An attribute returned with a document from a search.
+///
+/// @nodoc
 class AdditionalResultAttributeValue {
   /// The text associated with the attribute and information about the highlight
   /// to apply to the text.
@@ -14829,6 +15101,8 @@ class AdditionalResultAttributeValue {
 }
 
 /// A query with suggested spell corrections.
+///
+/// @nodoc
 class SpellCorrectedQuery {
   /// The corrected misspelled word or words in a query.
   final List<Correction>? corrections;
@@ -14862,6 +15136,8 @@ class SpellCorrectedQuery {
 }
 
 /// A corrected misspelled word in a query.
+///
+/// @nodoc
 class Correction {
   /// The zero-based location in the response string or text where the corrected
   /// word starts.
@@ -14908,6 +15184,8 @@ class Correction {
 }
 
 /// The warning code and message that explains a problem with a query.
+///
+/// @nodoc
 class Warning {
   /// The code used to show the type of warning for the query.
   final WarningCode? code;
@@ -14937,6 +15215,7 @@ class Warning {
   }
 }
 
+/// @nodoc
 class WarningCode {
   static const queryLanguageInvalidSyntax =
       WarningCode._('QUERY_LANGUAGE_INVALID_SYNTAX');
@@ -14961,6 +15240,8 @@ class WarningCode {
 }
 
 /// The facet values for the documents in the response.
+///
+/// @nodoc
 class FacetResult {
   /// The key for the facet values. This is the same as the
   /// <code>DocumentAttributeKey</code> provided in the query.
@@ -15013,6 +15294,8 @@ class FacetResult {
 
 /// Provides the count of documents that match a particular document attribute
 /// or field when doing a faceted search.
+///
+/// @nodoc
 class DocumentAttributeValueCountPair {
   /// The number of documents in the response that have the attribute/field value
   /// for the key.
@@ -15077,6 +15360,8 @@ class DocumentAttributeValueCountPair {
 /// This includes the original location of the document, a list of attributes
 /// assigned to the document, and relevant text from the document that satisfies
 /// the query.
+///
+/// @nodoc
 class QueryResultItem {
   /// One or more additional fields/attributes associated with the query result.
   final List<AdditionalResultAttribute>? additionalAttributes;
@@ -15230,6 +15515,7 @@ class QueryResultItem {
   }
 }
 
+/// @nodoc
 class QueryResultFormat {
   static const table = QueryResultFormat._('TABLE');
   static const text = QueryResultFormat._('TEXT');
@@ -15259,6 +15545,8 @@ class QueryResultFormat {
 /// to the query and how many columns are available in the original table. The
 /// top most relevant cell is displayed in the table excerpt, along with the
 /// next most relevant cells.
+///
+/// @nodoc
 class TableExcerpt {
   /// A list of rows in the table excerpt.
   final List<TableRow>? rows;
@@ -15292,6 +15580,8 @@ class TableExcerpt {
 }
 
 /// Provides details about a collapsed group of search results.
+///
+/// @nodoc
 class CollapsedResultDetail {
   /// The value of the document attribute that results are collapsed on.
   final DocumentAttribute documentAttribute;
@@ -15332,6 +15622,8 @@ class CollapsedResultDetail {
 /// document within a collapsed group of search results. This includes the
 /// original location of the document, a list of attributes assigned to the
 /// document, and relevant text from the document that satisfies the query.
+///
+/// @nodoc
 class ExpandedResultItem {
   /// An array of document attributes assigned to a document in the search
   /// results. For example, the document author ("_author") or the source URI
@@ -15397,6 +15689,8 @@ class ExpandedResultItem {
 }
 
 /// Information about a row in a table excerpt.
+///
+/// @nodoc
 class TableRow {
   /// A list of table cells in a row.
   final List<TableCell>? cells;
@@ -15423,6 +15717,8 @@ class TableRow {
 }
 
 /// Provides information about a table cell in a table excerpt.
+///
+/// @nodoc
 class TableCell {
   /// <code>TRUE</code> means that the table cell should be treated as a header.
   final bool? header;
@@ -15495,6 +15791,8 @@ class TableCell {
 /// String list value
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SortingConfiguration {
   /// The name of the document attribute used to sort the response. You can use
   /// any field that has the <code>Sortable</code> flag set to true.
@@ -15551,6 +15849,8 @@ class SortingConfiguration {
 /// <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/query-spell-check.html">Spell
 /// Checker documentation</a>.
+///
+/// @nodoc
 class SpellCorrectionConfiguration {
   /// <code>TRUE</code> to suggest spell corrections for queries.
   final bool includeQuerySpellCheckSuggestions;
@@ -15571,6 +15871,8 @@ class SpellCorrectionConfiguration {
 /// Specifies how to group results by document attribute value, and how to
 /// display them collapsed/expanded under a designated primary document for each
 /// group.
+///
+/// @nodoc
 class CollapseConfiguration {
   /// The document attribute used to group search results. You can use any
   /// attribute that has the <code>Sortable</code> flag set to true. You can also
@@ -15637,6 +15939,7 @@ class CollapseConfiguration {
   }
 }
 
+/// @nodoc
 class MissingAttributeKeyStrategy {
   static const ignore = MissingAttributeKeyStrategy._('IGNORE');
   static const collapse = MissingAttributeKeyStrategy._('COLLAPSE');
@@ -15665,6 +15968,8 @@ class MissingAttributeKeyStrategy {
 
 /// Specifies the configuration information needed to customize how collapsed
 /// search result groups expand.
+///
+/// @nodoc
 class ExpandConfiguration {
   /// The number of expanded results to show per collapsed primary document. For
   /// instance, if you set this value to 3, then at most 3 results per collapsed
@@ -15693,6 +15998,7 @@ class ExpandConfiguration {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const desc = SortOrder._('DESC');
   static const asc = SortOrder._('ASC');
@@ -15726,6 +16032,8 @@ class SortOrder {
 /// You can display up to 10 facet values per facet for a query. If you want to
 /// increase this limit, contact <a
 /// href="http://aws.amazon.com/contact-us/">Support</a>.
+///
+/// @nodoc
 class Facet {
   /// The unique key for the document attribute.
   final String? documentAttributeKey;
@@ -15772,6 +16080,8 @@ class Facet {
 /// A list of users that belong to a group. This is useful for user context
 /// filtering, where search results are filtered based on the user or their
 /// group access to documents.
+///
+/// @nodoc
 class GroupMembers {
   /// A list of users that belong to a group. This can also include sub groups.
   /// For example, the sub groups "Research", "Engineering", and "Sales and
@@ -15816,6 +16126,8 @@ class GroupMembers {
 }
 
 /// The users that belong to a group.
+///
+/// @nodoc
 class MemberUser {
   /// The identifier of the user you want to map to a group.
   final String userId;
@@ -15833,6 +16145,8 @@ class MemberUser {
 }
 
 /// The sub groups that belong to a group.
+///
+/// @nodoc
 class MemberGroup {
   /// The identifier of the sub group you want to map to a group.
   final String groupId;
@@ -15857,6 +16171,8 @@ class MemberGroup {
 }
 
 /// An array of summary information for a thesaurus or multiple thesauri.
+///
+/// @nodoc
 class ThesaurusSummary {
   /// The Unix timestamp when the thesaurus was created.
   final DateTime? createdAt;
@@ -15907,6 +16223,7 @@ class ThesaurusSummary {
   }
 }
 
+/// @nodoc
 class ThesaurusStatus {
   static const creating = ThesaurusStatus._('CREATING');
   static const active = ThesaurusStatus._('ACTIVE');
@@ -15952,6 +16269,8 @@ class ThesaurusStatus {
 /// For information on the current quota limits for block lists, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/quotas.html">Quotas for
 /// Amazon Kendra</a>.
+///
+/// @nodoc
 class QuerySuggestionsBlockListSummary {
   /// The Unix timestamp when the block list was created.
   final DateTime? createdAt;
@@ -16010,6 +16329,7 @@ class QuerySuggestionsBlockListSummary {
   }
 }
 
+/// @nodoc
 class QuerySuggestionsBlockListStatus {
   static const active = QuerySuggestionsBlockListStatus._('ACTIVE');
   static const creating = QuerySuggestionsBlockListStatus._('CREATING');
@@ -16048,6 +16368,8 @@ class QuerySuggestionsBlockListStatus {
 }
 
 /// Summary information on the configuration of an index.
+///
+/// @nodoc
 class IndexConfigurationSummary {
   /// The Unix timestamp when the index was created.
   final DateTime createdAt;
@@ -16109,6 +16431,7 @@ class IndexConfigurationSummary {
   }
 }
 
+/// @nodoc
 class IndexEdition {
   static const developerEdition = IndexEdition._('DEVELOPER_EDITION');
   static const enterpriseEdition = IndexEdition._('ENTERPRISE_EDITION');
@@ -16138,6 +16461,7 @@ class IndexEdition {
   String toString() => value;
 }
 
+/// @nodoc
 class IndexStatus {
   static const creating = IndexStatus._('CREATING');
   static const active = IndexStatus._('ACTIVE');
@@ -16173,6 +16497,8 @@ class IndexStatus {
 }
 
 /// Summary information for groups.
+///
+/// @nodoc
 class GroupSummary {
   /// The identifier of the group you want group summary information on.
   final String? groupId;
@@ -16207,6 +16533,8 @@ class GroupSummary {
 /// placed above all other results for certain queries. If there's an exact
 /// match of a query, then one or more specific documents are featured in the
 /// search results.
+///
+/// @nodoc
 class FeaturedResultsSetSummary {
   /// The Unix timestamp when the set of featured results was created.
   final int? creationTimestamp;
@@ -16271,6 +16599,8 @@ class FeaturedResultsSetSummary {
 
 /// Summary information for frequently asked questions and answers included in
 /// an index.
+///
+/// @nodoc
 class FaqSummary {
   /// The Unix timestamp when the FAQ was created.
   final DateTime? createdAt;
@@ -16342,6 +16672,7 @@ class FaqSummary {
   }
 }
 
+/// @nodoc
 class FaqStatus {
   static const creating = FaqStatus._('CREATING');
   static const updating = FaqStatus._('UPDATING');
@@ -16368,6 +16699,7 @@ class FaqStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FaqFileFormat {
   static const csv = FaqFileFormat._('CSV');
   static const csvWithHeader = FaqFileFormat._('CSV_WITH_HEADER');
@@ -16398,6 +16730,8 @@ class FaqFileFormat {
 /// on creating a search application experience, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
 /// a search experience with no code</a>.
+///
+/// @nodoc
 class ExperiencesSummary {
   /// The Unix timestamp when your Amazon Kendra experience was created.
   final DateTime? createdAt;
@@ -16452,6 +16786,7 @@ class ExperiencesSummary {
   }
 }
 
+/// @nodoc
 class ExperienceStatus {
   static const creating = ExperienceStatus._('CREATING');
   static const active = ExperienceStatus._('ACTIVE');
@@ -16480,6 +16815,8 @@ class ExperienceStatus {
 
 /// Provides the configuration information for the endpoint for your Amazon
 /// Kendra experience.
+///
+/// @nodoc
 class ExperienceEndpoint {
   /// The endpoint of your Amazon Kendra experience.
   final String? endpoint;
@@ -16512,6 +16849,7 @@ class ExperienceEndpoint {
   }
 }
 
+/// @nodoc
 class EndpointType {
   static const home = EndpointType._('HOME');
 
@@ -16540,6 +16878,8 @@ class EndpointType {
 /// information on creating a search application experience, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
 /// a search experience with no code</a>.
+///
+/// @nodoc
 class ExperienceEntitiesSummary {
   /// Information about the user entity.
   final EntityDisplayData? displayData;
@@ -16580,6 +16920,7 @@ class ExperienceEntitiesSummary {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const user = EntityType._('USER');
   static const group = EntityType._('GROUP');
@@ -16604,6 +16945,8 @@ class EntityType {
 }
 
 /// Information about the user entity.
+///
+/// @nodoc
 class EntityDisplayData {
   /// The first name of the user.
   final String? firstName;
@@ -16661,6 +17004,8 @@ class EntityDisplayData {
 /// information on creating a search application experience, see <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
 /// a search experience with no code</a>.
+///
+/// @nodoc
 class PersonasSummary {
   /// The Unix timestamp when the summary information was created.
   final DateTime? createdAt;
@@ -16710,6 +17055,7 @@ class PersonasSummary {
   }
 }
 
+/// @nodoc
 class Persona {
   static const owner = Persona._('OWNER');
   static const viewer = Persona._('VIEWER');
@@ -16734,6 +17080,8 @@ class Persona {
 }
 
 /// Provides information about a data source synchronization job.
+///
+/// @nodoc
 class DataSourceSyncJob {
   /// If the reason that the synchronization failed is due to an error with the
   /// underlying data source, this field contains a code that identifies the
@@ -16822,6 +17170,7 @@ class DataSourceSyncJob {
   }
 }
 
+/// @nodoc
 class DataSourceSyncJobStatus {
   static const failed = DataSourceSyncJobStatus._('FAILED');
   static const succeeded = DataSourceSyncJobStatus._('SUCCEEDED');
@@ -16860,6 +17209,7 @@ class DataSourceSyncJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorCode {
   static const internalError = ErrorCode._('InternalError');
   static const invalidRequest = ErrorCode._('InvalidRequest');
@@ -16886,6 +17236,8 @@ class ErrorCode {
 /// Maps a batch delete document request to a specific data source sync job.
 /// This is optional and should only be supplied when documents are deleted by a
 /// data source connector.
+///
+/// @nodoc
 class DataSourceSyncJobMetrics {
   /// The number of documents added from the data source up to now in the data
   /// source sync.
@@ -16942,6 +17294,8 @@ class DataSourceSyncJobMetrics {
 }
 
 /// Provides a range of time.
+///
+/// @nodoc
 class TimeRange {
   /// The Unix timestamp for the end of the time range.
   final DateTime? endTime;
@@ -16972,6 +17326,8 @@ class TimeRange {
 }
 
 /// Summary information for a Amazon Kendra data source.
+///
+/// @nodoc
 class DataSourceSummary {
   /// The Unix timestamp when the data source connector was created.
   final DateTime? createdAt;
@@ -17041,6 +17397,7 @@ class DataSourceSummary {
   }
 }
 
+/// @nodoc
 class DataSourceType {
   static const s3 = DataSourceType._('S3');
   static const sharepoint = DataSourceType._('SHAREPOINT');
@@ -17102,6 +17459,7 @@ class DataSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceStatus {
   static const creating = DataSourceStatus._('CREATING');
   static const deleting = DataSourceStatus._('DELETING');
@@ -17131,6 +17489,8 @@ class DataSourceStatus {
 
 /// Summary information on an access control configuration that you created for
 /// your documents in an index.
+///
+/// @nodoc
 class AccessControlConfigurationSummary {
   /// The identifier of the access control configuration.
   final String id;
@@ -17154,6 +17514,7 @@ class AccessControlConfigurationSummary {
   }
 }
 
+/// @nodoc
 class Interval {
   static const thisMonth = Interval._('THIS_MONTH');
   static const thisWeek = Interval._('THIS_WEEK');
@@ -17188,6 +17549,7 @@ class Interval {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricType {
   static const queriesByCount = MetricType._('QUERIES_BY_COUNT');
   static const queriesByZeroClickRate =
@@ -17225,6 +17587,8 @@ class MetricType {
 }
 
 /// A single query suggestion.
+///
+/// @nodoc
 class Suggestion {
   /// The UUID (universally unique identifier) of a single query suggestion.
   final String? id;
@@ -17272,6 +17636,8 @@ class Suggestion {
 }
 
 /// The <code>SuggestionTextWithHighlights</code> structure information.
+///
+/// @nodoc
 class SuggestionValue {
   /// The <code>SuggestionTextWithHighlights</code> structure that contains the
   /// query suggestion text and highlights.
@@ -17300,6 +17666,8 @@ class SuggestionValue {
 
 /// The document ID and its fields/attributes that are used for a query
 /// suggestion, if document fields set to use for query suggestions.
+///
+/// @nodoc
 class SourceDocument {
   /// The additional fields/attributes to include in the response. You can use
   /// additional fields to provide extra information in the response. Additional
@@ -17348,6 +17716,8 @@ class SourceDocument {
 
 /// Provides text and information about where to highlight the query suggestion
 /// text.
+///
+/// @nodoc
 class SuggestionTextWithHighlights {
   /// The beginning and end of the query suggestion text that should be
   /// highlighted.
@@ -17382,6 +17752,8 @@ class SuggestionTextWithHighlights {
 }
 
 /// The text highlights for a single query suggestion.
+///
+/// @nodoc
 class SuggestionHighlight {
   /// The zero-based location in the response string where the highlight starts.
   final int? beginOffset;
@@ -17413,6 +17785,8 @@ class SuggestionHighlight {
 
 /// Provides the configuration information for the document fields/attributes
 /// that you want to base query suggestions on.
+///
+/// @nodoc
 class AttributeSuggestionsGetConfig {
   /// The list of additional document field/attribute keys or field names to
   /// include in the response. You can use additional fields to provide extra
@@ -17456,6 +17830,7 @@ class AttributeSuggestionsGetConfig {
   }
 }
 
+/// @nodoc
 class SuggestionType {
   static const query = SuggestionType._('QUERY');
   static const documentAttributes = SuggestionType._('DOCUMENT_ATTRIBUTES');
@@ -17482,6 +17857,8 @@ class SuggestionType {
 
 /// Information on the users or groups in your IAM Identity Center identity
 /// source that failed to properly configure with your Amazon Kendra experience.
+///
+/// @nodoc
 class FailedEntity {
   /// The identifier of the user or group in your IAM Identity Center identity
   /// source. For example, a user ID could be an email.
@@ -17516,6 +17893,8 @@ class FailedEntity {
 /// Provides the configuration information for users or groups in your IAM
 /// Identity Center identity source to grant access your Amazon Kendra
 /// experience.
+///
+/// @nodoc
 class EntityConfiguration {
   /// The identifier of a user or group in your IAM Identity Center identity
   /// source. For example, a user ID could be an email.
@@ -17540,6 +17919,7 @@ class EntityConfiguration {
   }
 }
 
+/// @nodoc
 class QuerySuggestionsStatus {
   static const active = QuerySuggestionsStatus._('ACTIVE');
   static const updating = QuerySuggestionsStatus._('UPDATING');
@@ -17570,6 +17950,8 @@ class QuerySuggestionsStatus {
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_AttributeSuggestionsUpdateConfig.html">AttributeSuggestionsUpdateConfig</a>
 /// and then call <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>.
+///
+/// @nodoc
 class AttributeSuggestionsDescribeConfig {
   /// The mode is set to either <code>ACTIVE</code> or <code>INACTIVE</code>. If
   /// the <code>Mode</code> for query history is set to <code>ENABLED</code> when
@@ -17616,6 +17998,8 @@ class AttributeSuggestionsDescribeConfig {
 
 /// Summary information on the processing of <code>PUT</code> and
 /// <code>DELETE</code> actions for mapping users to their groups.
+///
+/// @nodoc
 class GroupOrderingIdSummary {
   /// The reason an action could not be processed. An action can be a
   /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
@@ -17678,6 +18062,7 @@ class GroupOrderingIdSummary {
   }
 }
 
+/// @nodoc
 class PrincipalMappingStatus {
   static const failed = PrincipalMappingStatus._('FAILED');
   static const succeeded = PrincipalMappingStatus._('SUCCEEDED');
@@ -17708,6 +18093,8 @@ class PrincipalMappingStatus {
 
 /// Provides the identifier of the KMS key used to encrypt data indexed by
 /// Amazon Kendra. Amazon Kendra doesn't support asymmetric keys.
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric
   /// keys.
@@ -17734,6 +18121,8 @@ class ServerSideEncryptionConfiguration {
 
 /// Provides information about the number of documents and the number of
 /// questions and answers in an index.
+///
+/// @nodoc
 class IndexStatistics {
   /// The number of question and answer topics in the index.
   final FaqStatistics faqStatistics;
@@ -17769,6 +18158,8 @@ class IndexStatistics {
 
 /// Provides statistical information about the FAQ questions and answers for an
 /// index.
+///
+/// @nodoc
 class FaqStatistics {
   /// The total number of FAQ questions and answers for an index.
   final int indexedQuestionAnswersCount;
@@ -17793,6 +18184,8 @@ class FaqStatistics {
 }
 
 /// Provides information about text documents indexed in an index.
+///
+/// @nodoc
 class TextDocumentStatistics {
   /// The total size, in bytes, of the indexed documents.
   final int indexedTextBytes;
@@ -17829,6 +18222,8 @@ class TextDocumentStatistics {
 /// with status errors using the <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchGetDocumentStatus.html">BatchGetDocumentStatus</a>
 /// API.
+///
+/// @nodoc
 class FeaturedDocumentMissing {
   /// The identifier of the document that doesn't exist but you have specified as
   /// a featured document.
@@ -17856,6 +18251,8 @@ class FeaturedDocumentMissing {
 /// displayed at the top of the search results page, placed above all other
 /// results for certain queries. If there's an exact match of a query, then the
 /// document is featured in the search results.
+///
+/// @nodoc
 class FeaturedDocumentWithMetadata {
   /// The identifier of the featured document with its metadata. You can use the
   /// <a
@@ -17897,6 +18294,8 @@ class FeaturedDocumentWithMetadata {
 }
 
 /// Provides information about a document that could not be indexed.
+///
+/// @nodoc
 class BatchPutDocumentResponseFailedDocument {
   /// The identifier of the data source connector that the failed document belongs
   /// to.
@@ -17943,6 +18342,8 @@ class BatchPutDocumentResponseFailedDocument {
 }
 
 /// A document in an index.
+///
+/// @nodoc
 class Document {
   /// A identifier of the document in the index.
   ///
@@ -18038,6 +18439,7 @@ class Document {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const pdf = ContentType._('PDF');
   static const html = ContentType._('HTML');
@@ -18085,6 +18487,8 @@ class ContentType {
 }
 
 /// Provides information about the status of documents submitted for indexing.
+///
+/// @nodoc
 class Status {
   /// The identifier of the document.
   final String? documentId;
@@ -18134,6 +18538,7 @@ class Status {
   }
 }
 
+/// @nodoc
 class DocumentStatus {
   static const notFound = DocumentStatus._('NOT_FOUND');
   static const processing = DocumentStatus._('PROCESSING');
@@ -18170,6 +18575,8 @@ class DocumentStatus {
 }
 
 /// Provides a response when the status of a document could not be retrieved.
+///
+/// @nodoc
 class BatchGetDocumentStatusResponseError {
   /// The identifier of the data source connector that the failed document belongs
   /// to.
@@ -18217,6 +18624,8 @@ class BatchGetDocumentStatusResponseError {
 }
 
 /// Identifies a document for which to retrieve status information
+///
+/// @nodoc
 class DocumentInfo {
   /// The identifier of the document.
   final String documentId;
@@ -18273,6 +18682,8 @@ class DocumentInfo {
 /// removed from an index by the <a
 /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteFeaturedResultsSet.html">BatchDeleteFeaturedResultsSet</a>
 /// API.
+///
+/// @nodoc
 class BatchDeleteFeaturedResultsSetError {
   /// The error code for why the set of featured results couldn't be removed from
   /// the index.
@@ -18315,6 +18726,8 @@ class BatchDeleteFeaturedResultsSetError {
 
 /// Provides information about documents that could not be removed from an index
 /// by the <code>BatchDeleteDocument</code> API.
+///
+/// @nodoc
 class BatchDeleteDocumentResponseFailedDocument {
   /// The identifier of the data source connector that the document belongs to.
   final String? dataSourceId;
@@ -18360,6 +18773,8 @@ class BatchDeleteDocumentResponseFailedDocument {
 }
 
 /// Maps a particular data source sync job to a particular data source.
+///
+/// @nodoc
 class DataSourceSyncJobMetricTarget {
   /// The ID of the data source that is running the sync job.
   final String dataSourceId;
@@ -18395,6 +18810,8 @@ class DataSourceSyncJobMetricTarget {
 /// Identity Center identity source for access to your Amazon Kendra experience.
 /// Specific permissions are defined for each user or group once they are
 /// granted access to your Amazon Kendra experience.
+///
+/// @nodoc
 class EntityPersonaConfiguration {
   /// The identifier of a user or group in your IAM Identity Center identity
   /// source. For example, a user ID could be an email.
@@ -18423,16 +18840,19 @@ class EntityPersonaConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class FeaturedResultsConflictException extends _s.GenericAwsException {
   FeaturedResultsConflictException({String? type, String? message})
       : super(
@@ -18441,16 +18861,19 @@ class FeaturedResultsConflictException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistException extends _s.GenericAwsException {
   ResourceAlreadyExistException({String? type, String? message})
       : super(
@@ -18459,22 +18882,26 @@ class ResourceAlreadyExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -18483,11 +18910,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

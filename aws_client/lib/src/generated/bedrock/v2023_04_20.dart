@@ -5220,6 +5220,8 @@ class Bedrock {
 }
 
 /// Batch Delete Advanced Prompt Optimization Jobs Response
+///
+/// @nodoc
 class BatchDeleteAdvancedPromptOptimizationJobResponse {
   /// A list of successfully deleted advanced prompt optimization jobs.
   final List<BatchDeleteAdvancedPromptOptimizationJobItem>
@@ -5261,6 +5263,8 @@ class BatchDeleteAdvancedPromptOptimizationJobResponse {
 }
 
 /// Create Advanced Prompt Optimization Job Response
+///
+/// @nodoc
 class CreateAdvancedPromptOptimizationJobResponse {
   /// The Amazon Resource Name (ARN) of the created advanced prompt optimization
   /// job.
@@ -5286,6 +5290,8 @@ class CreateAdvancedPromptOptimizationJobResponse {
 }
 
 /// Get Advanced Prompt Optimization Job Response
+///
+/// @nodoc
 class GetAdvancedPromptOptimizationJobResponse {
   /// The time at which the advanced prompt optimization job was created.
   final DateTime creationTime;
@@ -5390,6 +5396,8 @@ class GetAdvancedPromptOptimizationJobResponse {
 }
 
 /// List Advanced Prompt Optimization Jobs Response
+///
+/// @nodoc
 class ListAdvancedPromptOptimizationJobsResponse {
   /// A list of advanced prompt optimization job summaries.
   final List<AdvancedPromptOptimizationJobSummary>? jobSummaries;
@@ -5427,6 +5435,8 @@ class ListAdvancedPromptOptimizationJobsResponse {
 }
 
 /// Stop Advanced Prompt Optimization Job Response
+///
+/// @nodoc
 class StopAdvancedPromptOptimizationJobResponse {
   StopAdvancedPromptOptimizationJobResponse();
 
@@ -5440,6 +5450,7 @@ class StopAdvancedPromptOptimizationJobResponse {
   }
 }
 
+/// @nodoc
 class GetUseCaseForModelAccessResponse {
   /// Get customer profile Response.
   final Uint8List formData;
@@ -5462,6 +5473,7 @@ class GetUseCaseForModelAccessResponse {
   }
 }
 
+/// @nodoc
 class PutUseCaseForModelAccessResponse {
   PutUseCaseForModelAccessResponse();
 
@@ -5474,6 +5486,7 @@ class PutUseCaseForModelAccessResponse {
   }
 }
 
+/// @nodoc
 class CreateAutomatedReasoningPolicyResponse {
   /// The timestamp when the policy was created.
   final DateTime createdAt;
@@ -5542,6 +5555,7 @@ class CreateAutomatedReasoningPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyResponse {
   /// The hash of the policy definition used as a concurrency token.
   final String definitionHash;
@@ -5624,6 +5638,7 @@ class GetAutomatedReasoningPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutomatedReasoningPolicyResponse {
   /// The hash of the updated policy definition.
   final String definitionHash;
@@ -5668,6 +5683,7 @@ class UpdateAutomatedReasoningPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteAutomatedReasoningPolicyResponse {
   DeleteAutomatedReasoningPolicyResponse();
 
@@ -5681,6 +5697,7 @@ class DeleteAutomatedReasoningPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListAutomatedReasoningPoliciesResponse {
   /// A list of Automated Reasoning policy summaries.
   final List<AutomatedReasoningPolicySummary> automatedReasoningPolicySummaries;
@@ -5718,6 +5735,7 @@ class ListAutomatedReasoningPoliciesResponse {
   }
 }
 
+/// @nodoc
 class CancelAutomatedReasoningPolicyBuildWorkflowResponse {
   CancelAutomatedReasoningPolicyBuildWorkflowResponse();
 
@@ -5731,6 +5749,7 @@ class CancelAutomatedReasoningPolicyBuildWorkflowResponse {
   }
 }
 
+/// @nodoc
 class CreateAutomatedReasoningPolicyTestCaseResponse {
   /// The Amazon Resource Name (ARN) of the policy for which the test was created.
   final String policyArn;
@@ -5761,6 +5780,7 @@ class CreateAutomatedReasoningPolicyTestCaseResponse {
   }
 }
 
+/// @nodoc
 class CreateAutomatedReasoningPolicyVersionResponse {
   /// The timestamp when the policy version was created.
   final DateTime createdAt;
@@ -5819,6 +5839,7 @@ class CreateAutomatedReasoningPolicyVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAutomatedReasoningPolicyBuildWorkflowResponse {
   DeleteAutomatedReasoningPolicyBuildWorkflowResponse();
 
@@ -5832,6 +5853,7 @@ class DeleteAutomatedReasoningPolicyBuildWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DeleteAutomatedReasoningPolicyTestCaseResponse {
   DeleteAutomatedReasoningPolicyTestCaseResponse();
 
@@ -5845,6 +5867,7 @@ class DeleteAutomatedReasoningPolicyTestCaseResponse {
   }
 }
 
+/// @nodoc
 class ExportAutomatedReasoningPolicyVersionResponse {
   /// The exported policy definition containing the formal logic rules, variables,
   /// and custom variable types.
@@ -5862,6 +5885,7 @@ class ExportAutomatedReasoningPolicyVersionResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyAnnotationsResponse {
   /// A hash value representing the current state of the annotations. This is used
   /// for optimistic concurrency control when updating annotations.
@@ -5927,6 +5951,7 @@ class GetAutomatedReasoningPolicyAnnotationsResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyBuildWorkflowResponse {
   /// The unique identifier of the build workflow.
   final String buildWorkflowId;
@@ -6014,6 +6039,7 @@ class GetAutomatedReasoningPolicyBuildWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
   /// The unique identifier of the build workflow.
   final String buildWorkflowId;
@@ -6057,6 +6083,7 @@ class GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyNextScenarioResponse {
   /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
   final String policyArn;
@@ -6091,6 +6118,7 @@ class GetAutomatedReasoningPolicyNextScenarioResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyTestCaseResponse {
   /// The Amazon Resource Name (ARN) of the policy that contains the test.
   final String policyArn;
@@ -6124,6 +6152,7 @@ class GetAutomatedReasoningPolicyTestCaseResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedReasoningPolicyTestResultResponse {
   /// The test result containing validation findings, execution status, and
   /// detailed analysis.
@@ -6150,6 +6179,7 @@ class GetAutomatedReasoningPolicyTestResultResponse {
   }
 }
 
+/// @nodoc
 class ListAutomatedReasoningPolicyBuildWorkflowsResponse {
   /// A list of build workflow summaries, each containing key information about a
   /// build workflow including its status and timestamps.
@@ -6191,6 +6221,7 @@ class ListAutomatedReasoningPolicyBuildWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class ListAutomatedReasoningPolicyTestCasesResponse {
   /// A list of tests for the specified policy.
   final List<AutomatedReasoningPolicyTestCase> testCases;
@@ -6226,6 +6257,7 @@ class ListAutomatedReasoningPolicyTestCasesResponse {
   }
 }
 
+/// @nodoc
 class ListAutomatedReasoningPolicyTestResultsResponse {
   /// A list of test results, each containing information about how the policy
   /// performed on specific test scenarios.
@@ -6262,6 +6294,7 @@ class ListAutomatedReasoningPolicyTestResultsResponse {
   }
 }
 
+/// @nodoc
 class StartAutomatedReasoningPolicyBuildWorkflowResponse {
   /// The unique identifier of the newly started build workflow. Use this ID to
   /// track the workflow's progress and retrieve its results.
@@ -6293,6 +6326,7 @@ class StartAutomatedReasoningPolicyBuildWorkflowResponse {
   }
 }
 
+/// @nodoc
 class StartAutomatedReasoningPolicyTestWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the policy for which the test workflow was
   /// started.
@@ -6317,6 +6351,7 @@ class StartAutomatedReasoningPolicyTestWorkflowResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutomatedReasoningPolicyAnnotationsResponse {
   /// The new hash value representing the updated state of the annotations.
   final String annotationSetHash;
@@ -6361,6 +6396,7 @@ class UpdateAutomatedReasoningPolicyAnnotationsResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutomatedReasoningPolicyTestCaseResponse {
   /// The Amazon Resource Name (ARN) of the policy that contains the updated test.
   final String policyArn;
@@ -6391,6 +6427,7 @@ class UpdateAutomatedReasoningPolicyTestCaseResponse {
   }
 }
 
+/// @nodoc
 class CreateMarketplaceModelEndpointResponse {
   /// Details about the created endpoint.
   final MarketplaceModelEndpoint marketplaceModelEndpoint;
@@ -6416,6 +6453,7 @@ class CreateMarketplaceModelEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteMarketplaceModelEndpointResponse {
   DeleteMarketplaceModelEndpointResponse();
 
@@ -6429,6 +6467,7 @@ class DeleteMarketplaceModelEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeregisterMarketplaceModelEndpointResponse {
   DeregisterMarketplaceModelEndpointResponse();
 
@@ -6442,6 +6481,7 @@ class DeregisterMarketplaceModelEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetMarketplaceModelEndpointResponse {
   /// Details about the requested endpoint.
   final MarketplaceModelEndpoint? marketplaceModelEndpoint;
@@ -6469,6 +6509,7 @@ class GetMarketplaceModelEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListMarketplaceModelEndpointsResponse {
   /// An array of endpoint summaries.
   final List<MarketplaceModelEndpointSummary>? marketplaceModelEndpoints;
@@ -6505,6 +6546,7 @@ class ListMarketplaceModelEndpointsResponse {
   }
 }
 
+/// @nodoc
 class RegisterMarketplaceModelEndpointResponse {
   /// Details about the registered endpoint.
   final MarketplaceModelEndpoint marketplaceModelEndpoint;
@@ -6530,6 +6572,7 @@ class RegisterMarketplaceModelEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateMarketplaceModelEndpointResponse {
   /// Details about the updated endpoint.
   final MarketplaceModelEndpoint marketplaceModelEndpoint;
@@ -6555,6 +6598,7 @@ class UpdateMarketplaceModelEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomModelDeploymentResponse {
   /// The Amazon Resource Name (ARN) of the custom model deployment. Use this ARN
   /// as the <code>modelId</code> parameter when invoking the model with the
@@ -6581,6 +6625,7 @@ class CreateCustomModelDeploymentResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomModelDeploymentResponse {
   DeleteCustomModelDeploymentResponse();
 
@@ -6593,6 +6638,7 @@ class DeleteCustomModelDeploymentResponse {
   }
 }
 
+/// @nodoc
 class GetCustomModelDeploymentResponse {
   /// The date and time when the custom model deployment was created.
   final DateTime createdAt;
@@ -6694,6 +6740,7 @@ class GetCustomModelDeploymentResponse {
   }
 }
 
+/// @nodoc
 class ListCustomModelDeploymentsResponse {
   /// A list of custom model deployment summaries.
   final List<CustomModelDeploymentSummary>? modelDeploymentSummaries;
@@ -6730,6 +6777,7 @@ class ListCustomModelDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomModelDeploymentResponse {
   /// ARN of the custom model deployment being updated.
   final String customModelDeploymentArn;
@@ -6754,6 +6802,7 @@ class UpdateCustomModelDeploymentResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomModelResponse {
   /// The Amazon Resource Name (ARN) of the new custom model.
   final String modelArn;
@@ -6776,6 +6825,7 @@ class CreateCustomModelResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomModelResponse {
   DeleteCustomModelResponse();
 
@@ -6788,6 +6838,7 @@ class DeleteCustomModelResponse {
   }
 }
 
+/// @nodoc
 class GetCustomModelResponse {
   /// Creation time of the model.
   final DateTime creationTime;
@@ -6967,6 +7018,7 @@ class GetCustomModelResponse {
   }
 }
 
+/// @nodoc
 class ListCustomModelsResponse {
   /// Model summaries.
   final List<CustomModelSummary>? modelSummaries;
@@ -7001,6 +7053,7 @@ class ListCustomModelsResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnforcedGuardrailConfigurationResponse {
   DeleteEnforcedGuardrailConfigurationResponse();
 
@@ -7014,6 +7067,7 @@ class DeleteEnforcedGuardrailConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListEnforcedGuardrailsConfigurationResponse {
   /// Array of AccountEnforcedGuardrailOutputConfiguration objects.
   final List<AccountEnforcedGuardrailOutputConfiguration> guardrailsConfig;
@@ -7048,6 +7102,7 @@ class ListEnforcedGuardrailsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutEnforcedGuardrailConfigurationResponse {
   /// Unique ID for the account enforced configuration.
   final String? configId;
@@ -7085,6 +7140,7 @@ class PutEnforcedGuardrailConfigurationResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteEvaluationJobResponse {
   /// A JSON object containing the HTTP status codes and the ARNs of evaluation
   /// jobs that failed to be deleted.
@@ -7123,6 +7179,7 @@ class BatchDeleteEvaluationJobResponse {
   }
 }
 
+/// @nodoc
 class CreateEvaluationJobResponse {
   /// The Amazon Resource Name (ARN) of the evaluation job.
   final String jobArn;
@@ -7145,6 +7202,7 @@ class CreateEvaluationJobResponse {
   }
 }
 
+/// @nodoc
 class GetEvaluationJobResponse {
   /// The time the evaluation job was created.
   final DateTime creationTime;
@@ -7276,6 +7334,7 @@ class GetEvaluationJobResponse {
   }
 }
 
+/// @nodoc
 class ListEvaluationJobsResponse {
   /// A list of summaries of the evaluation jobs.
   final List<EvaluationSummary>? jobSummaries;
@@ -7309,6 +7368,7 @@ class ListEvaluationJobsResponse {
   }
 }
 
+/// @nodoc
 class StopEvaluationJobResponse {
   StopEvaluationJobResponse();
 
@@ -7321,6 +7381,7 @@ class StopEvaluationJobResponse {
   }
 }
 
+/// @nodoc
 class CreateGuardrailResponse {
   /// The time at which the guardrail was created.
   final DateTime createdAt;
@@ -7365,6 +7426,7 @@ class CreateGuardrailResponse {
   }
 }
 
+/// @nodoc
 class GetGuardrailResponse {
   /// The message that the guardrail returns when it blocks a prompt.
   final String blockedInputMessaging;
@@ -7557,6 +7619,7 @@ class GetGuardrailResponse {
   }
 }
 
+/// @nodoc
 class UpdateGuardrailResponse {
   /// The ARN of the guardrail.
   final String guardrailArn;
@@ -7600,6 +7663,7 @@ class UpdateGuardrailResponse {
   }
 }
 
+/// @nodoc
 class DeleteGuardrailResponse {
   DeleteGuardrailResponse();
 
@@ -7612,6 +7676,7 @@ class DeleteGuardrailResponse {
   }
 }
 
+/// @nodoc
 class ListGuardrailsResponse {
   /// A list of objects, each of which contains details about a guardrail.
   final List<GuardrailSummary> guardrails;
@@ -7646,6 +7711,7 @@ class ListGuardrailsResponse {
   }
 }
 
+/// @nodoc
 class CreateGuardrailVersionResponse {
   /// The unique identifier of the guardrail.
   final String guardrailId;
@@ -7675,6 +7741,7 @@ class CreateGuardrailVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateInferenceProfileResponse {
   /// The ARN of the inference profile that you created.
   final String inferenceProfileArn;
@@ -7706,6 +7773,7 @@ class CreateInferenceProfileResponse {
   }
 }
 
+/// @nodoc
 class GetInferenceProfileResponse {
   /// The Amazon Resource Name (ARN) of the inference profile.
   final String inferenceProfileArn;
@@ -7803,6 +7871,7 @@ class GetInferenceProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteInferenceProfileResponse {
   DeleteInferenceProfileResponse();
 
@@ -7815,6 +7884,7 @@ class DeleteInferenceProfileResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceProfilesResponse {
   /// A list of information about each inference profile that you can use.
   final List<InferenceProfileSummary>? inferenceProfileSummaries;
@@ -7851,6 +7921,7 @@ class ListInferenceProfilesResponse {
   }
 }
 
+/// @nodoc
 class DeleteModelInvocationLoggingConfigurationResponse {
   DeleteModelInvocationLoggingConfigurationResponse();
 
@@ -7864,6 +7935,7 @@ class DeleteModelInvocationLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetModelInvocationLoggingConfigurationResponse {
   /// The current configuration values.
   final LoggingConfig? loggingConfig;
@@ -7890,6 +7962,7 @@ class GetModelInvocationLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutModelInvocationLoggingConfigurationResponse {
   PutModelInvocationLoggingConfigurationResponse();
 
@@ -7903,6 +7976,7 @@ class PutModelInvocationLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateModelCopyJobResponse {
   /// The Amazon Resource Name (ARN) of the model copy job.
   final String jobArn;
@@ -7925,6 +7999,7 @@ class CreateModelCopyJobResponse {
   }
 }
 
+/// @nodoc
 class GetModelCopyJobResponse {
   /// The time at which the model copy job was created.
   final DateTime creationTime;
@@ -8022,6 +8097,7 @@ class GetModelCopyJobResponse {
   }
 }
 
+/// @nodoc
 class ListModelCopyJobsResponse {
   /// A list of information about each model copy job.
   final List<ModelCopyJobSummary>? modelCopyJobSummaries;
@@ -8057,6 +8133,7 @@ class ListModelCopyJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateModelImportJobResponse {
   /// The Amazon Resource Name (ARN) of the model import job.
   final String jobArn;
@@ -8079,6 +8156,7 @@ class CreateModelImportJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteImportedModelResponse {
   DeleteImportedModelResponse();
 
@@ -8091,6 +8169,7 @@ class DeleteImportedModelResponse {
   }
 }
 
+/// @nodoc
 class GetImportedModelResponse {
   /// Creation time of the imported model.
   final DateTime? creationTime;
@@ -8182,6 +8261,7 @@ class GetImportedModelResponse {
   }
 }
 
+/// @nodoc
 class GetModelImportJobResponse {
   /// The time the resource was created.
   final DateTime? creationTime;
@@ -8297,6 +8377,7 @@ class GetModelImportJobResponse {
   }
 }
 
+/// @nodoc
 class ListImportedModelsResponse {
   /// Model summaries.
   final List<ImportedModelSummary>? modelSummaries;
@@ -8331,6 +8412,7 @@ class ListImportedModelsResponse {
   }
 }
 
+/// @nodoc
 class ListModelImportJobsResponse {
   /// Import job summaries.
   final List<ModelImportJobSummary>? modelImportJobSummaries;
@@ -8367,6 +8449,7 @@ class ListModelImportJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateModelInvocationJobResponse {
   /// The Amazon Resource Name (ARN) of the batch inference job.
   final String jobArn;
@@ -8389,6 +8472,7 @@ class CreateModelInvocationJobResponse {
   }
 }
 
+/// @nodoc
 class GetModelInvocationJobResponse {
   /// Details about the location of the input to the batch inference job.
   final ModelInvocationJobInputDataConfig inputDataConfig;
@@ -8636,6 +8720,7 @@ class GetModelInvocationJobResponse {
   }
 }
 
+/// @nodoc
 class ListModelInvocationJobsResponse {
   /// A list of items, each of which contains a summary about a batch inference
   /// job.
@@ -8673,6 +8758,7 @@ class ListModelInvocationJobsResponse {
   }
 }
 
+/// @nodoc
 class StopModelInvocationJobResponse {
   StopModelInvocationJobResponse();
 
@@ -8685,6 +8771,7 @@ class StopModelInvocationJobResponse {
   }
 }
 
+/// @nodoc
 class GetFoundationModelResponse {
   /// Information about the foundation model.
   final FoundationModelDetails? modelDetails;
@@ -8710,6 +8797,7 @@ class GetFoundationModelResponse {
   }
 }
 
+/// @nodoc
 class ListFoundationModelsResponse {
   /// A list of Amazon Bedrock foundation models.
   final List<FoundationModelSummary>? modelSummaries;
@@ -8736,6 +8824,7 @@ class ListFoundationModelsResponse {
   }
 }
 
+/// @nodoc
 class CreatePromptRouterResponse {
   /// The Amazon Resource Name (ARN) that uniquely identifies the prompt router.
   final String? promptRouterArn;
@@ -8758,6 +8847,7 @@ class CreatePromptRouterResponse {
   }
 }
 
+/// @nodoc
 class GetPromptRouterResponse {
   /// The router's fallback model.
   final PromptRouterTargetModel fallbackModel;
@@ -8851,6 +8941,7 @@ class GetPromptRouterResponse {
   }
 }
 
+/// @nodoc
 class DeletePromptRouterResponse {
   DeletePromptRouterResponse();
 
@@ -8863,6 +8954,7 @@ class DeletePromptRouterResponse {
   }
 }
 
+/// @nodoc
 class ListPromptRoutersResponse {
   /// Specify the pagination token from a previous request to retrieve the next
   /// page of results.
@@ -8897,6 +8989,7 @@ class ListPromptRoutersResponse {
   }
 }
 
+/// @nodoc
 class CreateProvisionedModelThroughputResponse {
   /// The Amazon Resource Name (ARN) for this Provisioned Throughput.
   final String provisionedModelArn;
@@ -8920,6 +9013,7 @@ class CreateProvisionedModelThroughputResponse {
   }
 }
 
+/// @nodoc
 class DeleteProvisionedModelThroughputResponse {
   DeleteProvisionedModelThroughputResponse();
 
@@ -8933,6 +9027,7 @@ class DeleteProvisionedModelThroughputResponse {
   }
 }
 
+/// @nodoc
 class GetProvisionedModelThroughputResponse {
   /// The timestamp of the creation time for this Provisioned Throughput.
   final DateTime creationTime;
@@ -9055,6 +9150,7 @@ class GetProvisionedModelThroughputResponse {
   }
 }
 
+/// @nodoc
 class ListProvisionedModelThroughputsResponse {
   /// If there are more results than the number you specified in the
   /// <code>maxResults</code> field, this value is returned. To see the next batch
@@ -9093,6 +9189,7 @@ class ListProvisionedModelThroughputsResponse {
   }
 }
 
+/// @nodoc
 class UpdateProvisionedModelThroughputResponse {
   UpdateProvisionedModelThroughputResponse();
 
@@ -9106,6 +9203,7 @@ class UpdateProvisionedModelThroughputResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -9118,6 +9216,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The JSON string representing the Bedrock resource policy.
   final String? resourcePolicy;
@@ -9140,6 +9239,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The ARN of the Bedrock resource to which this resource policy applies.
   final String? resourceArn;
@@ -9162,6 +9262,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateFoundationModelAgreementResponse {
   /// Model Id of the model for the access request.
   final String modelId;
@@ -9185,6 +9286,7 @@ class CreateFoundationModelAgreementResponse {
   }
 }
 
+/// @nodoc
 class DeleteFoundationModelAgreementResponse {
   DeleteFoundationModelAgreementResponse();
 
@@ -9198,6 +9300,7 @@ class DeleteFoundationModelAgreementResponse {
   }
 }
 
+/// @nodoc
 class GetFoundationModelAvailabilityResponse {
   /// Agreement availability.
   final AgreementAvailability agreementAvailability;
@@ -9254,6 +9357,7 @@ class GetFoundationModelAvailabilityResponse {
   }
 }
 
+/// @nodoc
 class ListFoundationModelAgreementOffersResponse {
   /// Model Id of the foundation model.
   final String modelId;
@@ -9287,6 +9391,7 @@ class ListFoundationModelAgreementOffersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array of the tags associated with this resource.
   final List<Tag>? tags;
@@ -9312,6 +9417,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9324,6 +9430,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -9336,6 +9443,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateModelCustomizationJobResponse {
   /// Amazon Resource Name (ARN) of the fine tuning job
   final String jobArn;
@@ -9359,6 +9467,7 @@ class CreateModelCustomizationJobResponse {
   }
 }
 
+/// @nodoc
 class GetModelCustomizationJobResponse {
   /// Amazon Resource Name (ARN) of the base model.
   final String baseModelArn;
@@ -9570,6 +9679,7 @@ class GetModelCustomizationJobResponse {
   }
 }
 
+/// @nodoc
 class ListModelCustomizationJobsResponse {
   /// Job summaries.
   final List<ModelCustomizationJobSummary>? modelCustomizationJobSummaries;
@@ -9608,6 +9718,7 @@ class ListModelCustomizationJobsResponse {
   }
 }
 
+/// @nodoc
 class StopModelCustomizationJobResponse {
   StopModelCustomizationJobResponse();
 
@@ -9621,6 +9732,8 @@ class StopModelCustomizationJobResponse {
 }
 
 /// Information about one customization job
+///
+/// @nodoc
 class ModelCustomizationJobSummary {
   /// Amazon Resource Name (ARN) of the base model.
   final String baseModelArn;
@@ -9723,6 +9836,7 @@ class ModelCustomizationJobSummary {
   }
 }
 
+/// @nodoc
 class ModelCustomizationJobStatus {
   static const inProgress = ModelCustomizationJobStatus._('InProgress');
   static const completed = ModelCustomizationJobStatus._('Completed');
@@ -9774,6 +9888,8 @@ class ModelCustomizationJobStatus {
 /// Failed
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class StatusDetails {
   /// The status details for the data processing sub-task of the job.
   final DataProcessingDetails? dataProcessingDetails;
@@ -9820,6 +9936,7 @@ class StatusDetails {
   }
 }
 
+/// @nodoc
 class CustomizationType {
   static const fineTuning = CustomizationType._('FINE_TUNING');
   static const continuedPreTraining =
@@ -9857,6 +9974,8 @@ class CustomizationType {
 
 /// For a Distillation job, the status details for the validation sub-task of
 /// the job.
+///
+/// @nodoc
 class ValidationDetails {
   /// The start time of the validation sub-task of the job.
   final DateTime? creationTime;
@@ -9896,6 +10015,8 @@ class ValidationDetails {
 
 /// For a Distillation job, the status details for the data processing sub-task
 /// of the job.
+///
+/// @nodoc
 class DataProcessingDetails {
   /// The start time of the data processing sub-task of the job.
   final DateTime? creationTime;
@@ -9935,6 +10056,8 @@ class DataProcessingDetails {
 
 /// For a Distillation job, the status details for the training sub-task of the
 /// job.
+///
+/// @nodoc
 class TrainingDetails {
   /// The start time of the training sub-task of the job.
   final DateTime? creationTime;
@@ -9972,6 +10095,7 @@ class TrainingDetails {
   }
 }
 
+/// @nodoc
 class JobStatusDetails {
   static const inProgress = JobStatusDetails._('InProgress');
   static const completed = JobStatusDetails._('Completed');
@@ -10007,6 +10131,7 @@ class JobStatusDetails {
   String toString() => value;
 }
 
+/// @nodoc
 class FineTuningJobStatus {
   static const inProgress = FineTuningJobStatus._('InProgress');
   static const completed = FineTuningJobStatus._('Completed');
@@ -10035,6 +10160,7 @@ class FineTuningJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortJobsBy {
   static const creationTime = SortJobsBy._('CreationTime');
 
@@ -10057,6 +10183,7 @@ class SortJobsBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('Ascending');
   static const descending = SortOrder._('Descending');
@@ -10081,6 +10208,8 @@ class SortOrder {
 }
 
 /// S3 Location of the training data.
+///
+/// @nodoc
 class TrainingDataConfig {
   /// Settings for using invocation logs to customize a model.
   final InvocationLogsConfig? invocationLogsConfig;
@@ -10115,6 +10244,8 @@ class TrainingDataConfig {
 }
 
 /// Array of up to 10 validators.
+///
+/// @nodoc
 class ValidationDataConfig {
   /// Information about the validators.
   final List<Validator> validators;
@@ -10141,6 +10272,8 @@ class ValidationDataConfig {
 }
 
 /// S3 Location of the output data.
+///
+/// @nodoc
 class OutputDataConfig {
   /// The S3 URI where the output data is stored.
   final String s3Uri;
@@ -10164,6 +10297,8 @@ class OutputDataConfig {
 }
 
 /// Metrics associated with the custom job.
+///
+/// @nodoc
 class TrainingMetrics {
   /// Loss metric associated with the custom job.
   final double? trainingLoss;
@@ -10191,6 +10326,8 @@ class TrainingMetrics {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/usingVPC.html">Protect
 /// your data using Amazon Virtual Private Cloud and Amazon Web Services
 /// PrivateLink</a>.
+///
+/// @nodoc
 class VpcConfig {
   /// An array of IDs for each security group in the VPC to use.
   final List<String> securityGroupIds;
@@ -10227,6 +10364,8 @@ class VpcConfig {
 }
 
 /// A model customization configuration
+///
+/// @nodoc
 class CustomizationConfig {
   /// The Distillation configuration for the custom model.
   final DistillationConfig? distillationConfig;
@@ -10264,6 +10403,8 @@ class CustomizationConfig {
 
 /// Settings for distilling a foundation model into a smaller and more efficient
 /// model.
+///
+/// @nodoc
 class DistillationConfig {
   /// The teacher model configuration.
   final TeacherModelConfig teacherModelConfig;
@@ -10290,6 +10431,8 @@ class DistillationConfig {
 
 /// Configuration settings for reinforcement fine-tuning (RFT), including grader
 /// configuration and training hyperparameters.
+///
+/// @nodoc
 class RFTConfig {
   /// Configuration for the grader that evaluates model responses and provides
   /// reward signals during RFT training.
@@ -10328,6 +10471,8 @@ class RFTConfig {
 
 /// Configuration for the grader used in reinforcement fine-tuning to evaluate
 /// model responses and provide reward signals.
+///
+/// @nodoc
 class GraderConfig {
   /// Configuration for using an AWS Lambda function as the grader for evaluating
   /// model responses and provide reward signals in reinforcement fine-tuning.
@@ -10356,6 +10501,8 @@ class GraderConfig {
 
 /// Hyperparameters for controlling the reinforcement fine-tuning training
 /// process, including learning settings and evaluation intervals.
+///
+/// @nodoc
 class RFTHyperParameters {
   /// Number of training samples processed in each batch during reinforcement
   /// fine-tuning (RFT) training. Larger batches may improve training stability.
@@ -10438,6 +10585,7 @@ class RFTHyperParameters {
   }
 }
 
+/// @nodoc
 class ReasoningEffort {
   static const low = ReasoningEffort._('low');
   static const medium = ReasoningEffort._('medium');
@@ -10465,6 +10613,8 @@ class ReasoningEffort {
 
 /// Configuration for using an AWS Lambda function to grade model responses
 /// during reinforcement fine-tuning training.
+///
+/// @nodoc
 class LambdaGraderConfig {
   /// ARN of the AWS Lambda function that will evaluate model responses and return
   /// reward scores for RFT training.
@@ -10489,6 +10639,8 @@ class LambdaGraderConfig {
 }
 
 /// Details about a teacher model used for model customization.
+///
+/// @nodoc
 class TeacherModelConfig {
   /// The identifier of the teacher model.
   final String teacherModelIdentifier;
@@ -10522,6 +10674,8 @@ class TeacherModelConfig {
 }
 
 /// The metric for the validator.
+///
+/// @nodoc
 class ValidatorMetric {
   /// The validation loss associated with this validator.
   final double? validationLoss;
@@ -10545,6 +10699,8 @@ class ValidatorMetric {
 }
 
 /// Information about a validator.
+///
+/// @nodoc
 class Validator {
   /// The S3 URI where the validation data is stored.
   final String s3Uri;
@@ -10568,6 +10724,8 @@ class Validator {
 }
 
 /// Settings for using invocation logs to customize a model.
+///
+/// @nodoc
 class InvocationLogsConfig {
   /// The source of the invocation logs.
   final InvocationLogSource invocationLogSource;
@@ -10612,6 +10770,8 @@ class InvocationLogsConfig {
 }
 
 /// A storage location for invocation logs.
+///
+/// @nodoc
 class InvocationLogSource {
   /// The URI of an invocation log in a bucket.
   final String? s3Uri;
@@ -10638,6 +10798,8 @@ class InvocationLogSource {
 /// key to a value that it should or should not equal (a base filter), or a list
 /// of base filters that are all applied with <code>AND</code> or
 /// <code>OR</code> logical operators
+///
+/// @nodoc
 class RequestMetadataFilters {
   /// Include results where all of the based filters match.
   final List<RequestMetadataBaseFilters>? andAll;
@@ -10692,6 +10854,8 @@ class RequestMetadataFilters {
 }
 
 /// A mapping of a metadata key to a value that it should or should not equal.
+///
+/// @nodoc
 class RequestMetadataBaseFilters {
   /// Include results where the key equals the value.
   final Map<String, String>? equals;
@@ -10724,6 +10888,8 @@ class RequestMetadataBaseFilters {
 }
 
 /// Definition of the key/value pair for a tag.
+///
+/// @nodoc
 class Tag {
   /// Key for the tag.
   final String key;
@@ -10754,6 +10920,8 @@ class Tag {
 }
 
 /// An offer dictates usage terms for the model.
+///
+/// @nodoc
 class Offer {
   /// Offer token.
   final String offerToken;
@@ -10793,6 +10961,8 @@ class Offer {
 }
 
 /// Describes the usage terms of an offer.
+///
+/// @nodoc
 class TermDetails {
   /// Describes the legal terms.
   final LegalTerm legalTerm;
@@ -10843,6 +11013,8 @@ class TermDetails {
 }
 
 /// Describes the usage-based pricing term.
+///
+/// @nodoc
 class PricingTerm {
   /// Describes a usage price for each dimension.
   final List<DimensionalPriceRate> rateCard;
@@ -10869,6 +11041,8 @@ class PricingTerm {
 }
 
 /// The legal term of the agreement.
+///
+/// @nodoc
 class LegalTerm {
   /// URL to the legal term document.
   final String? url;
@@ -10892,6 +11066,8 @@ class LegalTerm {
 }
 
 /// Describes a support term.
+///
+/// @nodoc
 class SupportTerm {
   /// Describes the refund policy.
   final String? refundPolicyDescription;
@@ -10916,6 +11092,8 @@ class SupportTerm {
 }
 
 /// Describes the validity terms.
+///
+/// @nodoc
 class ValidityTerm {
   /// Describes the agreement duration.
   final String? agreementDuration;
@@ -10939,6 +11117,8 @@ class ValidityTerm {
 }
 
 /// Dimensional price rate.
+///
+/// @nodoc
 class DimensionalPriceRate {
   /// Description of the price rate.
   final String? description;
@@ -10982,6 +11162,7 @@ class DimensionalPriceRate {
   }
 }
 
+/// @nodoc
 class OfferType {
   static const all = OfferType._('ALL');
   static const public = OfferType._('PUBLIC');
@@ -11006,6 +11187,8 @@ class OfferType {
 }
 
 /// Information about the agreement availability
+///
+/// @nodoc
 class AgreementAvailability {
   /// Status of the agreement.
   final AgreementStatus status;
@@ -11035,6 +11218,7 @@ class AgreementAvailability {
   }
 }
 
+/// @nodoc
 class AuthorizationStatus {
   static const authorized = AuthorizationStatus._('AUTHORIZED');
   static const notAuthorized = AuthorizationStatus._('NOT_AUTHORIZED');
@@ -11060,6 +11244,7 @@ class AuthorizationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EntitlementAvailability {
   static const available = EntitlementAvailability._('AVAILABLE');
   static const notAvailable = EntitlementAvailability._('NOT_AVAILABLE');
@@ -11085,6 +11270,7 @@ class EntitlementAvailability {
   String toString() => value;
 }
 
+/// @nodoc
 class RegionAvailability {
   static const available = RegionAvailability._('AVAILABLE');
   static const notAvailable = RegionAvailability._('NOT_AVAILABLE');
@@ -11110,6 +11296,7 @@ class RegionAvailability {
   String toString() => value;
 }
 
+/// @nodoc
 class AgreementStatus {
   static const available = AgreementStatus._('AVAILABLE');
   static const pending = AgreementStatus._('PENDING');
@@ -11147,6 +11334,8 @@ class AgreementStatus {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ProvisionedModelSummary {
   /// The time that the Provisioned Throughput was created.
   final DateTime creationTime;
@@ -11259,6 +11448,7 @@ class ProvisionedModelSummary {
   }
 }
 
+/// @nodoc
 class ProvisionedModelStatus {
   static const creating = ProvisionedModelStatus._('Creating');
   static const inService = ProvisionedModelStatus._('InService');
@@ -11286,6 +11476,7 @@ class ProvisionedModelStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CommitmentDuration {
   static const oneMonth = CommitmentDuration._('OneMonth');
   static const sixMonths = CommitmentDuration._('SixMonths');
@@ -11311,6 +11502,7 @@ class CommitmentDuration {
   String toString() => value;
 }
 
+/// @nodoc
 class SortByProvisionedModels {
   static const creationTime = SortByProvisionedModels._('CreationTime');
 
@@ -11336,6 +11528,8 @@ class SortByProvisionedModels {
 }
 
 /// Details about a prompt router.
+///
+/// @nodoc
 class PromptRouterSummary {
   /// The router's fallback model.
   final PromptRouterTargetModel fallbackModel;
@@ -11430,6 +11624,8 @@ class PromptRouterSummary {
 }
 
 /// Routing criteria for a prompt router.
+///
+/// @nodoc
 class RoutingCriteria {
   /// The criteria's response quality difference.
   final double responseQualityDifference;
@@ -11454,6 +11650,8 @@ class RoutingCriteria {
 }
 
 /// The target model for a prompt router.
+///
+/// @nodoc
 class PromptRouterTargetModel {
   /// The target model's ARN.
   final String modelArn;
@@ -11476,6 +11674,7 @@ class PromptRouterTargetModel {
   }
 }
 
+/// @nodoc
 class PromptRouterStatus {
   static const available = PromptRouterStatus._('AVAILABLE');
 
@@ -11500,6 +11699,7 @@ class PromptRouterStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PromptRouterType {
   static const custom = PromptRouterType._('custom');
   static const $default = PromptRouterType._('default');
@@ -11525,6 +11725,8 @@ class PromptRouterType {
 }
 
 /// Summary information for a foundation model.
+///
+/// @nodoc
 class FoundationModelSummary {
   /// The Amazon Resource Name (ARN) of the foundation model.
   final String modelArn;
@@ -11633,6 +11835,8 @@ class FoundationModelSummary {
 }
 
 /// Details about whether a model version is available or deprecated.
+///
+/// @nodoc
 class FoundationModelLifecycle {
   /// Specifies whether a model version is available (<code>ACTIVE</code>) or
   /// deprecated (<code>LEGACY</code>.
@@ -11691,6 +11895,7 @@ class FoundationModelLifecycle {
   }
 }
 
+/// @nodoc
 class FoundationModelLifecycleStatus {
   static const active = FoundationModelLifecycleStatus._('ACTIVE');
   static const legacy = FoundationModelLifecycleStatus._('LEGACY');
@@ -11716,6 +11921,7 @@ class FoundationModelLifecycleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InferenceType {
   static const onDemand = InferenceType._('ON_DEMAND');
   static const provisioned = InferenceType._('PROVISIONED');
@@ -11740,6 +11946,7 @@ class InferenceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelCustomization {
   static const fineTuning = ModelCustomization._('FINE_TUNING');
   static const continuedPreTraining =
@@ -11767,6 +11974,7 @@ class ModelCustomization {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelModality {
   static const text = ModelModality._('TEXT');
   static const image = ModelModality._('IMAGE');
@@ -11793,6 +12001,8 @@ class ModelModality {
 }
 
 /// Information about a foundation model.
+///
+/// @nodoc
 class FoundationModelDetails {
   /// The model Amazon Resource Name (ARN).
   final String modelArn;
@@ -11901,6 +12111,8 @@ class FoundationModelDetails {
 }
 
 /// A summary of a batch inference job.
+///
+/// @nodoc
 class ModelInvocationJobSummary {
   /// Details about the location of the input to the batch inference job.
   final ModelInvocationJobInputDataConfig inputDataConfig;
@@ -12148,6 +12360,7 @@ class ModelInvocationJobSummary {
   }
 }
 
+/// @nodoc
 class ModelInvocationJobStatus {
   static const submitted = ModelInvocationJobStatus._('Submitted');
   static const inProgress = ModelInvocationJobStatus._('InProgress');
@@ -12194,6 +12407,8 @@ class ModelInvocationJobStatus {
 }
 
 /// Details about the location of the input to the batch inference job.
+///
+/// @nodoc
 class ModelInvocationJobInputDataConfig {
   /// Contains the configuration of the S3 location of the input data.
   final ModelInvocationJobS3InputDataConfig? s3InputDataConfig;
@@ -12221,6 +12436,8 @@ class ModelInvocationJobInputDataConfig {
 }
 
 /// Contains the configuration of the S3 location of the output data.
+///
+/// @nodoc
 class ModelInvocationJobOutputDataConfig {
   /// Contains the configuration of the S3 location of the output data.
   final ModelInvocationJobS3OutputDataConfig? s3OutputDataConfig;
@@ -12247,6 +12464,7 @@ class ModelInvocationJobOutputDataConfig {
   }
 }
 
+/// @nodoc
 class ModelInvocationType {
   static const invokeModel = ModelInvocationType._('InvokeModel');
   static const converse = ModelInvocationType._('Converse');
@@ -12273,6 +12491,8 @@ class ModelInvocationType {
 }
 
 /// Contains the configuration of the S3 location of the output data.
+///
+/// @nodoc
 class ModelInvocationJobS3OutputDataConfig {
   /// The S3 location of the output data.
   final String s3Uri;
@@ -12313,6 +12533,8 @@ class ModelInvocationJobS3OutputDataConfig {
 }
 
 /// Contains the configuration of the S3 location of the input data.
+///
+/// @nodoc
 class ModelInvocationJobS3InputDataConfig {
   /// The S3 location of the input data.
   final String s3Uri;
@@ -12352,6 +12574,7 @@ class ModelInvocationJobS3InputDataConfig {
   }
 }
 
+/// @nodoc
 class S3InputFormat {
   static const jsonl = S3InputFormat._('JSONL');
 
@@ -12376,6 +12599,8 @@ class S3InputFormat {
 }
 
 /// Information about the import job.
+///
+/// @nodoc
 class ModelImportJobSummary {
   /// The time import job was created.
   final DateTime creationTime;
@@ -12449,6 +12674,7 @@ class ModelImportJobSummary {
   }
 }
 
+/// @nodoc
 class ModelImportJobStatus {
   static const inProgress = ModelImportJobStatus._('InProgress');
   static const completed = ModelImportJobStatus._('Completed');
@@ -12476,6 +12702,8 @@ class ModelImportJobStatus {
 }
 
 /// Information about the imported model.
+///
+/// @nodoc
 class ImportedModelSummary {
   /// Creation time of the imported model.
   final DateTime creationTime;
@@ -12526,6 +12754,7 @@ class ImportedModelSummary {
   }
 }
 
+/// @nodoc
 class SortModelsBy {
   static const creationTime = SortModelsBy._('CreationTime');
 
@@ -12549,6 +12778,8 @@ class SortModelsBy {
 }
 
 /// The data source of the model to import.
+///
+/// @nodoc
 class ModelDataSource {
   /// The Amazon S3 data source of the model to import.
   final S3DataSource? s3DataSource;
@@ -12574,6 +12805,8 @@ class ModelDataSource {
 }
 
 /// The Amazon S3 data source of the model to import.
+///
+/// @nodoc
 class S3DataSource {
   /// The URI of the Amazon S3 data source.
   final String s3Uri;
@@ -12606,6 +12839,8 @@ class S3DataSource {
 /// You can use <code>CustomModelUnits</code> to estimate the cost of running
 /// your custom model. For more information, see Calculate the cost of running a
 /// custom model in the Amazon Bedrock user guide.
+///
+/// @nodoc
 class CustomModelUnits {
   /// The number of custom model units used to host a model copy.
   final int? customModelUnitsPerModelCopy;
@@ -12650,6 +12885,8 @@ class CustomModelUnits {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ModelCopyJobSummary {
   /// The time that the model copy job was created.
   final DateTime creationTime;
@@ -12749,6 +12986,7 @@ class ModelCopyJobSummary {
   }
 }
 
+/// @nodoc
 class ModelCopyJobStatus {
   static const inProgress = ModelCopyJobStatus._('InProgress');
   static const completed = ModelCopyJobStatus._('Completed');
@@ -12776,6 +13014,8 @@ class ModelCopyJobStatus {
 }
 
 /// Configuration fields for invocation logging.
+///
+/// @nodoc
 class LoggingConfig {
   /// Set to include audio data in the log delivery.
   final bool? audioDataDeliveryEnabled;
@@ -12852,6 +13092,8 @@ class LoggingConfig {
 }
 
 /// CloudWatch logging configuration.
+///
+/// @nodoc
 class CloudWatchConfig {
   /// The log group name.
   final String logGroupName;
@@ -12893,6 +13135,8 @@ class CloudWatchConfig {
 }
 
 /// S3 configuration for storing log data.
+///
+/// @nodoc
 class S3Config {
   /// S3 bucket name.
   final String bucketName;
@@ -12923,6 +13167,8 @@ class S3Config {
 }
 
 /// Contains information about an inference profile.
+///
+/// @nodoc
 class InferenceProfileSummary {
   /// The Amazon Resource Name (ARN) of the inference profile.
   final String inferenceProfileArn;
@@ -13020,6 +13266,7 @@ class InferenceProfileSummary {
   }
 }
 
+/// @nodoc
 class InferenceProfileStatus {
   static const active = InferenceProfileStatus._('ACTIVE');
 
@@ -13044,6 +13291,7 @@ class InferenceProfileStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InferenceProfileType {
   static const systemDefined = InferenceProfileType._('SYSTEM_DEFINED');
   static const application = InferenceProfileType._('APPLICATION');
@@ -13070,6 +13318,8 @@ class InferenceProfileType {
 }
 
 /// Contains information about a model.
+///
+/// @nodoc
 class InferenceProfileModel {
   /// The Amazon Resource Name (ARN) of the model.
   final String? modelArn;
@@ -13094,6 +13344,8 @@ class InferenceProfileModel {
 
 /// Contains information about the model or system-defined inference profile
 /// that is the source for an inference profile..
+///
+/// @nodoc
 class InferenceProfileModelSource {
   /// The ARN of the model or system-defined inference profile that is the source
   /// for the inference profile.
@@ -13122,6 +13374,8 @@ class InferenceProfileModelSource {
 /// response body</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GuardrailSummary {
   /// The ARN of the guardrail.
   final String arn;
@@ -13205,6 +13459,7 @@ class GuardrailSummary {
   }
 }
 
+/// @nodoc
 class GuardrailStatus {
   static const creating = GuardrailStatus._('CREATING');
   static const updating = GuardrailStatus._('UPDATING');
@@ -13246,6 +13501,8 @@ class GuardrailStatus {
 /// For more information, see the <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html">Amazon
 /// Bedrock User Guide</a>.
+///
+/// @nodoc
 class GuardrailCrossRegionDetails {
   /// The Amazon Resource Name (ARN) of the guardrail profile that you're using
   /// with your guardrail.
@@ -13282,6 +13539,8 @@ class GuardrailCrossRegionDetails {
 }
 
 /// Contains details about topics that the guardrail should identify and deny.
+///
+/// @nodoc
 class GuardrailTopicPolicyConfig {
   /// A list of policies related to topics that the guardrail should deny.
   final List<GuardrailTopicConfig> topicsConfig;
@@ -13305,6 +13564,8 @@ class GuardrailTopicPolicyConfig {
 }
 
 /// Contains details about how to handle harmful content.
+///
+/// @nodoc
 class GuardrailContentPolicyConfig {
   /// Contains the type of the content filter and how strongly it should apply to
   /// prompts and model responses.
@@ -13329,6 +13590,8 @@ class GuardrailContentPolicyConfig {
 }
 
 /// Contains details about the word policy to configured for the guardrail.
+///
+/// @nodoc
 class GuardrailWordPolicyConfig {
   /// A list of managed words to configure for the guardrail.
   final List<GuardrailManagedWordsConfig>? managedWordListsConfig;
@@ -13354,6 +13617,8 @@ class GuardrailWordPolicyConfig {
 
 /// Contains details about PII entities and regular expressions to configure for
 /// the guardrail.
+///
+/// @nodoc
 class GuardrailSensitiveInformationPolicyConfig {
   /// A list of PII entities to configure to the guardrail.
   final List<GuardrailPiiEntityConfig>? piiEntitiesConfig;
@@ -13378,6 +13643,8 @@ class GuardrailSensitiveInformationPolicyConfig {
 
 /// The policy configuration details for the guardrails contextual grounding
 /// policy.
+///
+/// @nodoc
 class GuardrailContextualGroundingPolicyConfig {
   /// The filter configuration details for the guardrails contextual grounding
   /// policy.
@@ -13397,6 +13664,8 @@ class GuardrailContextualGroundingPolicyConfig {
 
 /// Configuration settings for integrating Automated Reasoning policies with
 /// Amazon Bedrock Guardrails.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningPolicyConfig {
   /// The list of Automated Reasoning policy ARNs to include in the guardrail
   /// configuration.
@@ -13431,6 +13700,8 @@ class GuardrailAutomatedReasoningPolicyConfig {
 /// For more information, see the <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html">Amazon
 /// Bedrock User Guide</a>.
+///
+/// @nodoc
 class GuardrailCrossRegionConfig {
   /// The ID or Amazon Resource Name (ARN) of the guardrail profile that your
   /// guardrail is using. Guardrail profile availability depends on your current
@@ -13453,6 +13724,8 @@ class GuardrailCrossRegionConfig {
 
 /// The filter configuration details for the guardrails contextual grounding
 /// filter.
+///
+/// @nodoc
 class GuardrailContextualGroundingFilterConfig {
   /// The threshold details for the guardrails contextual grounding filter.
   final double threshold;
@@ -13501,6 +13774,7 @@ class GuardrailContextualGroundingFilterConfig {
   }
 }
 
+/// @nodoc
 class GuardrailContextualGroundingFilterType {
   static const grounding =
       GuardrailContextualGroundingFilterType._('GROUNDING');
@@ -13528,6 +13802,7 @@ class GuardrailContextualGroundingFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContextualGroundingAction {
   static const block = GuardrailContextualGroundingAction._('BLOCK');
   static const none = GuardrailContextualGroundingAction._('NONE');
@@ -13554,6 +13829,8 @@ class GuardrailContextualGroundingAction {
 }
 
 /// The regular expression to configure for the guardrail.
+///
+/// @nodoc
 class GuardrailRegexConfig {
   /// The guardrail action to configure when matching regular expression is
   /// detected.
@@ -13641,6 +13918,7 @@ class GuardrailRegexConfig {
   }
 }
 
+/// @nodoc
 class GuardrailSensitiveInformationAction {
   static const block = GuardrailSensitiveInformationAction._('BLOCK');
   static const anonymize = GuardrailSensitiveInformationAction._('ANONYMIZE');
@@ -13668,6 +13946,8 @@ class GuardrailSensitiveInformationAction {
 }
 
 /// The PII entity to configure for the guardrail.
+///
+/// @nodoc
 class GuardrailPiiEntityConfig {
   /// Configure guardrail action when the PII entity is detected.
   final GuardrailSensitiveInformationAction action;
@@ -14010,6 +14290,7 @@ class GuardrailPiiEntityConfig {
   }
 }
 
+/// @nodoc
 class GuardrailPiiEntityType {
   static const address = GuardrailPiiEntityType._('ADDRESS');
   static const age = GuardrailPiiEntityType._('AGE');
@@ -14111,6 +14392,8 @@ class GuardrailPiiEntityType {
 }
 
 /// The managed word list to configure for the guardrail.
+///
+/// @nodoc
 class GuardrailManagedWordsConfig {
   /// The managed word type to configure for the guardrail.
   final GuardrailManagedWordsType type;
@@ -14179,6 +14462,7 @@ class GuardrailManagedWordsConfig {
   }
 }
 
+/// @nodoc
 class GuardrailManagedWordsType {
   static const profanity = GuardrailManagedWordsType._('PROFANITY');
 
@@ -14203,6 +14487,7 @@ class GuardrailManagedWordsType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailWordAction {
   static const block = GuardrailWordAction._('BLOCK');
   static const none = GuardrailWordAction._('NONE');
@@ -14229,6 +14514,8 @@ class GuardrailWordAction {
 }
 
 /// A word to configure for the guardrail.
+///
+/// @nodoc
 class GuardrailWordConfig {
   /// Text of the word configured for the guardrail to block.
   final String text;
@@ -14300,6 +14587,8 @@ class GuardrailWordConfig {
 /// The tier that your guardrail uses for content filters. Consider using a tier
 /// that balances performance, accuracy, and compatibility with your existing
 /// generative AI workflows.
+///
+/// @nodoc
 class GuardrailContentFiltersTierConfig {
   /// The tier that your guardrail uses for content filters. Valid values include:
   ///
@@ -14330,6 +14619,7 @@ class GuardrailContentFiltersTierConfig {
   }
 }
 
+/// @nodoc
 class GuardrailContentFiltersTierName {
   static const classic = GuardrailContentFiltersTierName._('CLASSIC');
   static const standard = GuardrailContentFiltersTierName._('STANDARD');
@@ -14396,6 +14686,8 @@ class GuardrailContentFiltersTierName {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html">Guardrails
 /// content filters</a>.
+///
+/// @nodoc
 class GuardrailContentFilterConfig {
   /// The strength of the content filter to apply to prompts. As you increase the
   /// filter strength, the likelihood of filtering harmful content increases and
@@ -14497,6 +14789,7 @@ class GuardrailContentFilterConfig {
   }
 }
 
+/// @nodoc
 class GuardrailContentFilterType {
   static const sexual = GuardrailContentFilterType._('SEXUAL');
   static const violence = GuardrailContentFilterType._('VIOLENCE');
@@ -14533,6 +14826,7 @@ class GuardrailContentFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailFilterStrength {
   static const none = GuardrailFilterStrength._('NONE');
   static const low = GuardrailFilterStrength._('LOW');
@@ -14560,6 +14854,7 @@ class GuardrailFilterStrength {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContentFilterAction {
   static const block = GuardrailContentFilterAction._('BLOCK');
   static const none = GuardrailContentFilterAction._('NONE');
@@ -14585,6 +14880,7 @@ class GuardrailContentFilterAction {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailModality {
   static const text = GuardrailModality._('TEXT');
   static const image = GuardrailModality._('IMAGE');
@@ -14612,6 +14908,8 @@ class GuardrailModality {
 /// The tier that your guardrail uses for denied topic filters. Consider using a
 /// tier that balances performance, accuracy, and compatibility with your
 /// existing generative AI workflows.
+///
+/// @nodoc
 class GuardrailTopicsTierConfig {
   /// The tier that your guardrail uses for denied topic filters. Valid values
   /// include:
@@ -14643,6 +14941,7 @@ class GuardrailTopicsTierConfig {
   }
 }
 
+/// @nodoc
 class GuardrailTopicsTierName {
   static const classic = GuardrailTopicsTierName._('CLASSIC');
   static const standard = GuardrailTopicsTierName._('STANDARD');
@@ -14669,6 +14968,8 @@ class GuardrailTopicsTierName {
 }
 
 /// Details about topics for the guardrail to identify and deny.
+///
+/// @nodoc
 class GuardrailTopicConfig {
   /// A definition of the topic to deny.
   final String definition;
@@ -14756,6 +15057,7 @@ class GuardrailTopicConfig {
   }
 }
 
+/// @nodoc
 class GuardrailTopicType {
   static const deny = GuardrailTopicType._('DENY');
 
@@ -14780,6 +15082,7 @@ class GuardrailTopicType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailTopicAction {
   static const block = GuardrailTopicAction._('BLOCK');
   static const none = GuardrailTopicAction._('NONE');
@@ -14816,6 +15119,8 @@ class GuardrailTopicAction {
 /// response body</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GuardrailTopicPolicy {
   /// A list of policies related to topics that the guardrail should deny.
   final List<GuardrailTopic> topics;
@@ -14861,6 +15166,8 @@ class GuardrailTopicPolicy {
 /// response body</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GuardrailContentPolicy {
   /// Contains the type of the content filter and how strongly it should apply to
   /// prompts and model responses.
@@ -14899,6 +15206,8 @@ class GuardrailContentPolicy {
 }
 
 /// Contains details about the word policy configured for the guardrail.
+///
+/// @nodoc
 class GuardrailWordPolicy {
   /// A list of managed words configured for the guardrail.
   final List<GuardrailManagedWords>? managedWordLists;
@@ -14936,6 +15245,8 @@ class GuardrailWordPolicy {
 
 /// Contains details about PII entities and regular expressions configured for
 /// the guardrail.
+///
+/// @nodoc
 class GuardrailSensitiveInformationPolicy {
   /// The list of PII entities configured for the guardrail.
   final List<GuardrailPiiEntity>? piiEntities;
@@ -14973,6 +15284,8 @@ class GuardrailSensitiveInformationPolicy {
 }
 
 /// The details for the guardrails contextual grounding policy.
+///
+/// @nodoc
 class GuardrailContextualGroundingPolicy {
   /// The filter details for the guardrails contextual grounding policy.
   final List<GuardrailContextualGroundingFilter> filters;
@@ -15003,6 +15316,8 @@ class GuardrailContextualGroundingPolicy {
 /// Represents the configuration of Automated Reasoning policies within a Amazon
 /// Bedrock Guardrail, including the policies to apply and confidence
 /// thresholds.
+///
+/// @nodoc
 class GuardrailAutomatedReasoningPolicy {
   /// The list of Automated Reasoning policy ARNs that should be applied as part
   /// of this guardrail configuration.
@@ -15040,6 +15355,8 @@ class GuardrailAutomatedReasoningPolicy {
 }
 
 /// The details for the guardrails contextual grounding filter.
+///
+/// @nodoc
 class GuardrailContextualGroundingFilter {
   /// The threshold details for the guardrails contextual grounding filter.
   final double threshold;
@@ -15101,6 +15418,8 @@ class GuardrailContextualGroundingFilter {
 }
 
 /// The regular expression configured for the guardrail.
+///
+/// @nodoc
 class GuardrailRegex {
   /// The action taken when a match to the regular expression is detected.
   final GuardrailSensitiveInformationAction action;
@@ -15204,6 +15523,8 @@ class GuardrailRegex {
 }
 
 /// The PII entity configured for the guardrail.
+///
+/// @nodoc
 class GuardrailPiiEntity {
   /// The configured guardrail action when PII entity is detected.
   final GuardrailSensitiveInformationAction action;
@@ -15302,6 +15623,8 @@ class GuardrailPiiEntity {
 
 /// The managed word list that was configured for the guardrail. (This is a list
 /// of words that are pre-defined and managed by guardrails only.)
+///
+/// @nodoc
 class GuardrailManagedWords {
   /// ManagedWords$type The managed word type that was configured for the
   /// guardrail. (For now, we only offer profanity word list)
@@ -15385,6 +15708,8 @@ class GuardrailManagedWords {
 }
 
 /// A word configured for the guardrail.
+///
+/// @nodoc
 class GuardrailWord {
   /// Text of the word configured for the guardrail to block.
   final String text;
@@ -15466,6 +15791,8 @@ class GuardrailWord {
 }
 
 /// The tier that your guardrail uses for content filters.
+///
+/// @nodoc
 class GuardrailContentFiltersTier {
   /// The tier that your guardrail uses for content filters. Valid values include:
   ///
@@ -15554,6 +15881,8 @@ class GuardrailContentFiltersTier {
 /// response body</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GuardrailContentFilter {
   /// The strength of the content filter to apply to prompts. As you increase the
   /// filter strength, the likelihood of filtering harmful content increases and
@@ -15679,6 +16008,8 @@ class GuardrailContentFilter {
 }
 
 /// The tier that your guardrail uses for denied topic filters.
+///
+/// @nodoc
 class GuardrailTopicsTier {
   /// The tier that your guardrail uses for denied topic filters. Valid values
   /// include:
@@ -15728,6 +16059,8 @@ class GuardrailTopicsTier {
 /// response body</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GuardrailTopic {
   /// A definition of the topic to deny.
   final String definition;
@@ -15834,6 +16167,8 @@ class GuardrailTopic {
 }
 
 /// Summary information of an evaluation job.
+///
+/// @nodoc
 class EvaluationSummary {
   /// The time the evaluation job was created.
   final DateTime creationTime;
@@ -15964,6 +16299,7 @@ class EvaluationSummary {
   }
 }
 
+/// @nodoc
 class EvaluationJobStatus {
   static const inProgress = EvaluationJobStatus._('InProgress');
   static const completed = EvaluationJobStatus._('Completed');
@@ -16000,6 +16336,7 @@ class EvaluationJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationJobType {
   static const human = EvaluationJobType._('Human');
   static const automated = EvaluationJobType._('Automated');
@@ -16026,6 +16363,8 @@ class EvaluationJobType {
 
 /// Identifies the models, Knowledge Bases, or other RAG sources evaluated in a
 /// model or Knowledge Base evaluation job.
+///
+/// @nodoc
 class EvaluationInferenceConfigSummary {
   /// A summary of the models used in an Amazon Bedrock model evaluation job.
   /// These resources can be models in Amazon Bedrock or models outside of Amazon
@@ -16066,6 +16405,7 @@ class EvaluationInferenceConfigSummary {
   }
 }
 
+/// @nodoc
 class ApplicationType {
   static const modelEvaluation = ApplicationType._('ModelEvaluation');
   static const ragEvaluation = ApplicationType._('RagEvaluation');
@@ -16093,6 +16433,8 @@ class ApplicationType {
 /// A summary of the models used in an Amazon Bedrock model evaluation job.
 /// These resources can be models in Amazon Bedrock or models outside of Amazon
 /// Bedrock that you use to generate your own inference response data.
+///
+/// @nodoc
 class EvaluationModelConfigSummary {
   /// The Amazon Resource Names (ARNs) of the models used for the evaluation job.
   final List<String>? bedrockModelIdentifiers;
@@ -16138,6 +16480,8 @@ class EvaluationModelConfigSummary {
 /// evaluation job. These resources can be Knowledge Bases in Amazon Bedrock or
 /// RAG sources outside of Amazon Bedrock that you use to generate your own
 /// inference response data.
+///
+/// @nodoc
 class EvaluationRagConfigSummary {
   /// The Amazon Resource Names (ARNs) of the Knowledge Base resources used for a
   /// Knowledge Base evaluation job where Amazon Bedrock invokes the Knowledge
@@ -16182,6 +16526,7 @@ class EvaluationRagConfigSummary {
   }
 }
 
+/// @nodoc
 class EvaluationTaskType {
   static const summarization = EvaluationTaskType._('Summarization');
   static const classification = EvaluationTaskType._('Classification');
@@ -16218,6 +16563,8 @@ class EvaluationTaskType {
 
 /// The configuration details of either an automated or human-based evaluation
 /// job.
+///
+/// @nodoc
 class EvaluationConfig {
   /// Contains the configuration details of an automated evaluation job that
   /// computes metrics.
@@ -16261,6 +16608,8 @@ class EvaluationConfig {
 ///
 /// For human-based model evaluation jobs, your annotator can compare the
 /// responses for up to two different models.
+///
+/// @nodoc
 class EvaluationInferenceConfig {
   /// Specifies the inference models.
   final List<EvaluationModelConfig>? models;
@@ -16299,6 +16648,8 @@ class EvaluationInferenceConfig {
 }
 
 /// The Amazon S3 location where the results of your evaluation job are saved.
+///
+/// @nodoc
 class EvaluationOutputDataConfig {
   /// The Amazon S3 URI where the results of the evaluation job are saved.
   final String s3Uri;
@@ -16323,6 +16674,8 @@ class EvaluationOutputDataConfig {
 
 /// Contains configuration details for retrieval of information and response
 /// generation.
+///
+/// @nodoc
 class RAGConfig {
   /// Contains configuration details for knowledge base retrieval and response
   /// generation.
@@ -16364,6 +16717,8 @@ class RAGConfig {
 
 /// The configuration details for retrieving information from a knowledge base
 /// and generating responses.
+///
+/// @nodoc
 class KnowledgeBaseConfig {
   /// Contains configuration details for retrieving information from a knowledge
   /// base and generating responses.
@@ -16404,6 +16759,8 @@ class KnowledgeBaseConfig {
 
 /// A summary of a RAG source used for a Knowledge Base evaluation job where you
 /// provide your own inference response data.
+///
+/// @nodoc
 class EvaluationPrecomputedRagSourceConfig {
   /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base
   /// evaluation job where you provide your own inference response data.
@@ -16450,6 +16807,8 @@ class EvaluationPrecomputedRagSourceConfig {
 
 /// A summary of a RAG source used for a retrieve-only Knowledge Base evaluation
 /// job where you provide your own inference response data.
+///
+/// @nodoc
 class EvaluationPrecomputedRetrieveSourceConfig {
   /// A label that identifies the RAG source used for a retrieve-only Knowledge
   /// Base evaluation job where you provide your own inference response data.
@@ -16476,6 +16835,8 @@ class EvaluationPrecomputedRetrieveSourceConfig {
 
 /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base
 /// evaluation job where you provide your own inference response data.
+///
+/// @nodoc
 class EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
   /// A label that identifies the RAG source used for a retrieve-and-generate
   /// Knowledge Base evaluation job where you provide your own inference response
@@ -16502,6 +16863,8 @@ class EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
 }
 
 /// The configuration details for retrieving information from a knowledge base.
+///
+/// @nodoc
 class RetrieveConfig {
   /// The unique identifier of the knowledge base.
   final String knowledgeBaseId;
@@ -16539,6 +16902,8 @@ class RetrieveConfig {
 
 /// Contains configuration details for a knowledge base retrieval and response
 /// generation.
+///
+/// @nodoc
 class RetrieveAndGenerateConfiguration {
   /// The type of resource that contains your data for retrieving information and
   /// generating responses.
@@ -16591,6 +16956,7 @@ class RetrieveAndGenerateConfiguration {
   }
 }
 
+/// @nodoc
 class RetrieveAndGenerateType {
   static const knowledgeBase = RetrieveAndGenerateType._('KNOWLEDGE_BASE');
   static const externalSources = RetrieveAndGenerateType._('EXTERNAL_SOURCES');
@@ -16618,6 +16984,8 @@ class RetrieveAndGenerateType {
 
 /// Contains configuration details for retrieving information from a knowledge
 /// base and generating responses.
+///
+/// @nodoc
 class KnowledgeBaseRetrieveAndGenerateConfiguration {
   /// The unique identifier of the knowledge base.
   final String knowledgeBaseId;
@@ -16687,6 +17055,8 @@ class KnowledgeBaseRetrieveAndGenerateConfiguration {
 
 /// The configuration of the external source wrapper object in the
 /// <code>retrieveAndGenerate</code> function.
+///
+/// @nodoc
 class ExternalSourcesRetrieveAndGenerateConfiguration {
   /// The Amazon Resource Name (ARN) of the foundation model or <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html">inference
@@ -16736,6 +17106,8 @@ class ExternalSourcesRetrieveAndGenerateConfiguration {
 }
 
 /// The response generation configuration of the external source wrapper object.
+///
+/// @nodoc
 class ExternalSourcesGenerationConfiguration {
   /// Additional model parameters and their corresponding values not included in
   /// the text inference configuration for an external source. Takes in custom
@@ -16799,6 +17171,8 @@ class ExternalSourcesGenerationConfiguration {
 
 /// The template for the prompt that's sent to the model for response
 /// generation.
+///
+/// @nodoc
 class PromptTemplate {
   /// The template for the prompt that's sent to the model for response
   /// generation. You can include prompt placeholders, which become replaced
@@ -16832,6 +17206,8 @@ class PromptTemplate {
 }
 
 /// The configuration details for the guardrail.
+///
+/// @nodoc
 class GuardrailConfiguration {
   /// The unique identifier for the guardrail.
   final String guardrailId;
@@ -16863,6 +17239,8 @@ class GuardrailConfiguration {
 
 /// Contains configuration details of the inference for knowledge base retrieval
 /// and response generation.
+///
+/// @nodoc
 class KbInferenceConfig {
   /// Contains configuration details for text generation using a language model
   /// via the <code>RetrieveAndGenerate</code> function.
@@ -16892,6 +17270,8 @@ class KbInferenceConfig {
 
 /// The configuration details for text generation using a language model via the
 /// <code>RetrieveAndGenerate</code> function.
+///
+/// @nodoc
 class TextInferenceConfig {
   /// The maximum number of tokens to generate in the output text. Do not use the
   /// minimum of 0 or the maximum of 65536. The limit values described here are
@@ -16952,6 +17332,8 @@ class TextInferenceConfig {
 }
 
 /// The unique external source of the content contained in the wrapper object.
+///
+/// @nodoc
 class ExternalSource {
   /// The source type of the external source wrapper object.
   final ExternalSourceType sourceType;
@@ -16994,6 +17376,7 @@ class ExternalSource {
   }
 }
 
+/// @nodoc
 class ExternalSourceType {
   static const s3 = ExternalSourceType._('S3');
   static const byteContent = ExternalSourceType._('BYTE_CONTENT');
@@ -17020,6 +17403,8 @@ class ExternalSourceType {
 }
 
 /// The unique wrapper object of the document from the S3 location.
+///
+/// @nodoc
 class S3ObjectDoc {
   /// The S3 URI location for the wrapper object of the document.
   final String uri;
@@ -17044,6 +17429,8 @@ class S3ObjectDoc {
 
 /// Contains the document contained in the wrapper object, along with its
 /// attributes/fields.
+///
+/// @nodoc
 class ByteContentDoc {
   /// The MIME type of the document contained in the wrapper object.
   final String contentType;
@@ -17082,6 +17469,8 @@ class ByteContentDoc {
 
 /// Contains configuration details for retrieving information from a knowledge
 /// base.
+///
+/// @nodoc
 class KnowledgeBaseRetrievalConfiguration {
   /// Contains configuration details for returning the results from the vector
   /// search.
@@ -17111,6 +17500,8 @@ class KnowledgeBaseRetrievalConfiguration {
 
 /// The configuration details for response generation based on retrieved text
 /// chunks.
+///
+/// @nodoc
 class GenerationConfiguration {
   /// Additional model parameters and corresponding values not included in the
   /// <code>textInferenceConfig</code> structure for a knowledge base. This allows
@@ -17174,6 +17565,8 @@ class GenerationConfiguration {
 
 /// The configuration details for the model to process the prompt prior to
 /// retrieval and response generation.
+///
+/// @nodoc
 class OrchestrationConfiguration {
   /// Contains configuration details for transforming the prompt.
   final QueryTransformationConfiguration queryTransformationConfiguration;
@@ -17202,6 +17595,8 @@ class OrchestrationConfiguration {
 }
 
 /// The configuration details for transforming the prompt.
+///
+/// @nodoc
 class QueryTransformationConfiguration {
   /// The type of transformation to apply to the prompt.
   final QueryTransformationType type;
@@ -17224,6 +17619,7 @@ class QueryTransformationConfiguration {
   }
 }
 
+/// @nodoc
 class QueryTransformationType {
   static const queryDecomposition =
       QueryTransformationType._('QUERY_DECOMPOSITION');
@@ -17251,6 +17647,8 @@ class QueryTransformationType {
 
 /// The configuration details for returning the results from the knowledge base
 /// vector search.
+///
+/// @nodoc
 class KnowledgeBaseVectorSearchConfiguration {
   /// Specifies the filters to use on the metadata fields in the knowledge base
   /// data sources before returning results.
@@ -17324,6 +17722,7 @@ class KnowledgeBaseVectorSearchConfiguration {
   }
 }
 
+/// @nodoc
 class SearchType {
   static const hybrid = SearchType._('HYBRID');
   static const semantic = SearchType._('SEMANTIC');
@@ -17349,6 +17748,8 @@ class SearchType {
 
 /// Specifies the filters to use on the metadata attributes/fields in the
 /// knowledge base data sources before returning results.
+///
+/// @nodoc
 class RetrievalFilter {
   /// Knowledge base data sources are returned if their metadata attributes
   /// fulfill all the filter conditions inside this list.
@@ -17387,7 +17788,7 @@ class RetrievalFilter {
   ///
   /// The following example would return data sources with an animal attribute
   /// that is either 'cat' or 'dog': <code>"in": { "key": "animal", "value":
-  /// ["cat", "dog"] }</code>
+  /// \["cat", "dog"\] }</code>
   final FilterAttribute? inValue;
 
   /// Knowledge base data sources are returned if they contain a metadata
@@ -17413,8 +17814,8 @@ class RetrievalFilter {
   /// the value as one of its members.
   ///
   /// The following example would return data sources with an animals attribute
-  /// that is a list containing a cat member (for example, <code>["dog",
-  /// "cat"]</code>): <code>"listContains": { "key": "animals", "value": "cat"
+  /// that is a list containing a cat member (for example, <code>\["dog",
+  /// "cat"\]</code>): <code>"listContains": { "key": "animals", "value": "cat"
   /// }</code>
   final FilterAttribute? listContains;
 
@@ -17432,8 +17833,8 @@ class RetrievalFilter {
   /// specified in the value in this object.
   ///
   /// The following example would return data sources whose animal attribute is
-  /// neither 'cat' nor 'dog': <code>"notIn": { "key": "animal", "value": ["cat",
-  /// "dog"] }</code>
+  /// neither 'cat' nor 'dog': <code>"notIn": { "key": "animal", "value": \["cat",
+  /// "dog"\] }</code>
   final FilterAttribute? notIn;
 
   /// Knowledge base data sources are returned if their metadata attributes
@@ -17462,7 +17863,7 @@ class RetrievalFilter {
   /// A list with a member that contains the value as a substring. The following
   /// example would return data sources with an animals attribute that is a list
   /// containing a member that contains the substring at (for example,
-  /// <code>["dog", "cat"]</code>): <code>"stringContains": { "key": "animals",
+  /// <code>\["dog", "cat"\]</code>): <code>"stringContains": { "key": "animals",
   /// "value": "at" }</code>
   final FilterAttribute? stringContains;
 
@@ -17570,6 +17971,8 @@ class RetrievalFilter {
 /// Implicit filtering allows you to automatically filter search results based
 /// on metadata attributes without requiring explicit filter expressions in each
 /// query.
+///
+/// @nodoc
 class ImplicitFilterConfiguration {
   /// A list of metadata attribute schemas that define the structure and
   /// properties of metadata fields used for implicit filtering. Each attribute
@@ -17610,6 +18013,8 @@ class ImplicitFilterConfiguration {
 /// Configuration for reranking vector search results to improve relevance.
 /// Reranking applies additional relevance models to reorder the initial vector
 /// search results based on more sophisticated criteria.
+///
+/// @nodoc
 class VectorSearchRerankingConfiguration {
   /// The type of reranking to apply to vector search results. Currently, the only
   /// supported value is BEDROCK, which uses Amazon Bedrock foundation models for
@@ -17650,6 +18055,7 @@ class VectorSearchRerankingConfiguration {
   }
 }
 
+/// @nodoc
 class VectorSearchRerankingConfigurationType {
   static const bedrockRerankingModel =
       VectorSearchRerankingConfigurationType._('BEDROCK_RERANKING_MODEL');
@@ -17678,6 +18084,8 @@ class VectorSearchRerankingConfigurationType {
 /// Configuration for using Amazon Bedrock foundation models to rerank Knowledge
 /// Base vector search results. This enables more sophisticated relevance
 /// ranking using large language models.
+///
+/// @nodoc
 class VectorSearchBedrockRerankingConfiguration {
   /// Configuration for the Amazon Bedrock foundation model used for reranking.
   /// This includes the model ARN and any additional request fields required by
@@ -17732,6 +18140,8 @@ class VectorSearchBedrockRerankingConfiguration {
 /// Configuration for the Amazon Bedrock foundation model used for reranking
 /// vector search results. This specifies which model to use and any additional
 /// parameters required by the model.
+///
+/// @nodoc
 class VectorSearchBedrockRerankingModelConfiguration {
   /// The Amazon Resource Name (ARN) of the foundation model to use for reranking.
   /// This model processes the query and search results to determine a more
@@ -17772,6 +18182,8 @@ class VectorSearchBedrockRerankingModelConfiguration {
 /// Configuration for how metadata should be used during the reranking process
 /// in Knowledge Base vector searches. This determines which metadata fields are
 /// included or excluded when reordering search results.
+///
+/// @nodoc
 class MetadataConfigurationForReranking {
   /// The mode for selecting which metadata fields to include in the reranking
   /// process. Valid values are ALL (use all available metadata fields) or
@@ -17811,6 +18223,7 @@ class MetadataConfigurationForReranking {
   }
 }
 
+/// @nodoc
 class RerankingMetadataSelectionMode {
   static const selective = RerankingMetadataSelectionMode._('SELECTIVE');
   static const all = RerankingMetadataSelectionMode._('ALL');
@@ -17839,6 +18252,8 @@ class RerankingMetadataSelectionMode {
 /// Configuration for selectively including or excluding metadata fields during
 /// the reranking process. This allows you to control which metadata attributes
 /// are considered when reordering search results.
+///
+/// @nodoc
 class RerankingMetadataSelectiveModeConfiguration {
   /// A list of metadata field names to explicitly exclude from the reranking
   /// process. All metadata fields except these will be considered when reordering
@@ -17882,6 +18297,8 @@ class RerankingMetadataSelectiveModeConfiguration {
 /// Specifies a field to be used during the reranking process in a Knowledge
 /// Base vector search. This structure identifies metadata fields that should be
 /// considered when reordering search results to improve relevance.
+///
+/// @nodoc
 class FieldForReranking {
   /// The name of the metadata field to be used during the reranking process.
   final String fieldName;
@@ -17907,6 +18324,8 @@ class FieldForReranking {
 /// Defines the schema for a metadata attribute used in Knowledge Base vector
 /// searches. Metadata attributes provide additional context for documents and
 /// can be used for filtering and reranking search results.
+///
+/// @nodoc
 class MetadataAttributeSchema {
   /// An optional description of the metadata attribute that provides additional
   /// context about its purpose and usage.
@@ -17946,6 +18365,7 @@ class MetadataAttributeSchema {
   }
 }
 
+/// @nodoc
 class AttributeType {
   static const string = AttributeType._('STRING');
   static const number = AttributeType._('NUMBER');
@@ -17975,6 +18395,8 @@ class AttributeType {
 /// Specifies the name of the metadata attribute/field to apply filters. You
 /// must match the name of the attribute/field in your data source/document
 /// metadata.
+///
+/// @nodoc
 class FilterAttribute {
   /// The name of metadata attribute/field, which must match the name in your data
   /// source/document metadata.
@@ -18006,6 +18428,8 @@ class FilterAttribute {
 }
 
 /// Defines the models used in the model evaluation job.
+///
+/// @nodoc
 class EvaluationModelConfig {
   /// Defines the Amazon Bedrock model or inference profile and inference
   /// parameters you want used.
@@ -18057,6 +18481,8 @@ class EvaluationModelConfig {
 /// For example, <code>"temperature":"0.25"</code> key value pair would need to
 /// be formatted as <code>\"temperature\":\"0.25\"</code> to successfully
 /// accepted in the request.
+///
+/// @nodoc
 class EvaluationBedrockModel {
   /// The ARN of the Amazon Bedrock model or inference profile specified.
   final String modelIdentifier;
@@ -18099,6 +18525,8 @@ class EvaluationBedrockModel {
 
 /// A summary of a model used for a model evaluation job where you provide your
 /// own inference response data.
+///
+/// @nodoc
 class EvaluationPrecomputedInferenceSource {
   /// A label that identifies a model used in a model evaluation job where you
   /// provide your own inference response data.
@@ -18125,6 +18553,8 @@ class EvaluationPrecomputedInferenceSource {
 }
 
 /// Contains performance settings for a model.
+///
+/// @nodoc
 class PerformanceConfiguration {
   /// Specifies whether to use the latency-optimized or standard version of a
   /// model or inference profile.
@@ -18149,6 +18579,7 @@ class PerformanceConfiguration {
   }
 }
 
+/// @nodoc
 class PerformanceConfigLatency {
   static const standard = PerformanceConfigLatency._('standard');
   static const optimized = PerformanceConfigLatency._('optimized');
@@ -18177,6 +18608,8 @@ class PerformanceConfigLatency {
 /// The configuration details of an automated evaluation job. The
 /// <code>EvaluationDatasetMetricConfig</code> object is used to specify the
 /// prompt datasets, task type, and metric names.
+///
+/// @nodoc
 class AutomatedEvaluationConfig {
   /// Configuration details of the prompt datasets and metrics you want to use for
   /// your evaluation job.
@@ -18244,8 +18677,10 @@ class AutomatedEvaluationConfig {
 /// <code>HumanEvaluationCustomMetric</code> array your specified the names
 /// <code>"accuracy", "toxicity", "readability"</code> as custom metrics
 /// <i>then</i> the <code>metricNames</code> array would need to look like the
-/// following <code>["accuracy", "toxicity", "readability"]</code> in
+/// following <code>\["accuracy", "toxicity", "readability"\]</code> in
 /// <code>EvaluationDatasetMetricConfig</code>.
+///
+/// @nodoc
 class HumanEvaluationConfig {
   /// Use to specify the metrics, task, and prompt dataset to be used in your
   /// model evaluation job.
@@ -18299,6 +18734,8 @@ class HumanEvaluationConfig {
 
 /// Contains <code>SageMakerFlowDefinition</code> object. The object is used to
 /// specify the prompt dataset, task type, rating method and metric names.
+///
+/// @nodoc
 class HumanWorkflowConfig {
   /// The Amazon Resource Number (ARN) for the flow definition
   final String flowDefinitionArn;
@@ -18330,6 +18767,8 @@ class HumanWorkflowConfig {
 
 /// Defines the prompt datasets, built-in metric names and custom metric names,
 /// and the task type.
+///
+/// @nodoc
 class EvaluationDatasetMetricConfig {
   /// Specifies the prompt dataset.
   final EvaluationDataset dataset;
@@ -18404,6 +18843,8 @@ class EvaluationDatasetMetricConfig {
 
 /// Used to specify the name of a built-in prompt dataset and optionally, the
 /// Amazon S3 bucket where a custom prompt dataset is saved.
+///
+/// @nodoc
 class EvaluationDataset {
   /// Used to specify supported built-in prompt datasets. Valid values are
   /// <code>Builtin.Bold</code>, <code>Builtin.BoolQ</code>,
@@ -18444,6 +18885,8 @@ class EvaluationDataset {
 }
 
 /// The location in Amazon S3 where your prompt dataset is stored.
+///
+/// @nodoc
 class EvaluationDatasetLocation {
   /// The S3 URI of the S3 bucket specified in the job.
   final String? s3Uri;
@@ -18469,6 +18912,8 @@ class EvaluationDatasetLocation {
 /// In a model evaluation job that uses human workers you must define the name
 /// of the metric, and how you want that metric rated <code>ratingMethod</code>,
 /// and an optional description of the metric.
+///
+/// @nodoc
 class HumanEvaluationCustomMetric {
   /// The name of the metric. Your human evaluators will see this name in the
   /// evaluation UI.
@@ -18514,6 +18959,8 @@ class HumanEvaluationCustomMetric {
 /// <code>EvaluatorModelConfig</code> is required for evaluation jobs that use a
 /// knowledge base or in model evaluation job that use a model as judge. This
 /// model computes all evaluation related metrics.
+///
+/// @nodoc
 class EvaluatorModelConfig {
   /// The evaluator model used in knowledge base evaluation job or in model
   /// evaluation job that use a model as judge. This model computes all evaluation
@@ -18549,6 +18996,8 @@ class EvaluatorModelConfig {
 /// a prompt for a custom metrics (LLM-as-a-judge model evaluations)</a> and <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-evaluation-custom-metrics-prompt-formats.html">Create
 /// a prompt for a custom metrics (RAG evaluations)</a>.
+///
+/// @nodoc
 class AutomatedEvaluationCustomMetricConfig {
   /// Defines a list of custom metrics to be used in an Amazon Bedrock evaluation
   /// job.
@@ -18589,6 +19038,8 @@ class AutomatedEvaluationCustomMetricConfig {
 
 /// Configuration of the evaluator model you want to use to evaluate custom
 /// metrics in an Amazon Bedrock evaluation job.
+///
+/// @nodoc
 class CustomMetricEvaluatorModelConfig {
   /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock
   /// evaluation job.
@@ -18619,6 +19070,8 @@ class CustomMetricEvaluatorModelConfig {
 
 /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock
 /// evaluation job.
+///
+/// @nodoc
 class CustomMetricBedrockEvaluatorModel {
   /// The Amazon Resource Name (ARN) of the evaluator model for custom metrics.
   /// For a list of supported evaluator models, see <a
@@ -18649,6 +19102,8 @@ class CustomMetricBedrockEvaluatorModel {
 
 /// An array item definining a single custom metric for use in an Amazon Bedrock
 /// evaluation job.
+///
+/// @nodoc
 class AutomatedEvaluationCustomMetricSource {
   /// The definition of a custom metric for use in an Amazon Bedrock evaluation
   /// job.
@@ -18689,6 +19144,8 @@ class AutomatedEvaluationCustomMetricSource {
 /// a prompt for a custom metrics (LLM-as-a-judge model evaluations)</a> and <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-evaluation-custom-metrics-prompt-formats.html">Create
 /// a prompt for a custom metrics (RAG evaluations)</a>.
+///
+/// @nodoc
 class CustomMetricDefinition {
   /// The prompt for a custom metric that instructs the evaluator model how to
   /// rate the model or RAG source under evaluation.
@@ -18738,6 +19195,8 @@ class CustomMetricDefinition {
 
 /// Defines the value and corresponding definition for one rating in a custom
 /// metric rating scale.
+///
+/// @nodoc
 class RatingScaleItem {
   /// Defines the definition for one rating in a custom metric rating scale.
   final String definition;
@@ -18770,6 +19229,8 @@ class RatingScaleItem {
 }
 
 /// Defines the value for one rating in a custom metric rating scale.
+///
+/// @nodoc
 class RatingScaleItemValue {
   /// A floating point number representing the value for a rating in a custom
   /// metric rating scale.
@@ -18804,6 +19265,8 @@ class RatingScaleItemValue {
 /// The evaluator model used in knowledge base evaluation job or in model
 /// evaluation job that use a model as judge. This model computes all evaluation
 /// related metrics.
+///
+/// @nodoc
 class BedrockEvaluatorModel {
   /// The Amazon Resource Name (ARN) of the evaluator model used used in knowledge
   /// base evaluation job or in model evaluation job that use a model as judge.
@@ -18828,6 +19291,8 @@ class BedrockEvaluatorModel {
 }
 
 /// An evaluation job for deletion, and it’s current status.
+///
+/// @nodoc
 class BatchDeleteEvaluationJobItem {
   /// The Amazon Resource Name (ARN) of the evaluation job for deletion.
   final String jobIdentifier;
@@ -18859,6 +19324,8 @@ class BatchDeleteEvaluationJobItem {
 }
 
 /// A JSON array that provides the status of the evaluation jobs being deleted.
+///
+/// @nodoc
 class BatchDeleteEvaluationJobError {
   /// A HTTP status code of the evaluation job being deleted.
   final String code;
@@ -18896,6 +19363,8 @@ class BatchDeleteEvaluationJobError {
 }
 
 /// Account-level enforced guardrail input configuration.
+///
+/// @nodoc
 class AccountEnforcedGuardrailInferenceInputConfiguration {
   /// Identifier for the guardrail, could be the ID or the ARN.
   final String guardrailIdentifier;
@@ -18933,6 +19402,8 @@ class AccountEnforcedGuardrailInferenceInputConfiguration {
 }
 
 /// Selective content guarding controls for enforced guardrails.
+///
+/// @nodoc
 class SelectiveContentGuarding {
   /// Selective guarding mode for user messages.
   final SelectiveGuardingMode? messages;
@@ -18965,6 +19436,8 @@ class SelectiveContentGuarding {
 }
 
 /// Model-specific information for the enforced guardrail configuration.
+///
+/// @nodoc
 class ModelEnforcement {
   /// Models to exclude from enforcement of the guardrail.
   final List<String> excludedModels;
@@ -19000,6 +19473,7 @@ class ModelEnforcement {
   }
 }
 
+/// @nodoc
 class SelectiveGuardingMode {
   static const selective = SelectiveGuardingMode._('SELECTIVE');
   static const comprehensive = SelectiveGuardingMode._('COMPREHENSIVE');
@@ -19026,6 +19500,8 @@ class SelectiveGuardingMode {
 }
 
 /// Account enforced guardrail output configuration.
+///
+/// @nodoc
 class AccountEnforcedGuardrailOutputConfiguration {
   /// Unique ID for the account enforced configuration.
   final String? configId;
@@ -19133,6 +19609,7 @@ class AccountEnforcedGuardrailOutputConfiguration {
   }
 }
 
+/// @nodoc
 class InputTags {
   static const honor = InputTags._('HONOR');
   static const ignore = InputTags._('IGNORE');
@@ -19156,6 +19633,7 @@ class InputTags {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfigurationOwner {
   static const account = ConfigurationOwner._('ACCOUNT');
 
@@ -19181,6 +19659,8 @@ class ConfigurationOwner {
 }
 
 /// Summary information for a custom model.
+///
+/// @nodoc
 class CustomModelSummary {
   /// The base model Amazon Resource Name (ARN).
   final String baseModelArn;
@@ -19271,6 +19751,7 @@ class CustomModelSummary {
   }
 }
 
+/// @nodoc
 class ModelStatus {
   static const active = ModelStatus._('Active');
   static const creating = ModelStatus._('Creating');
@@ -19304,6 +19785,8 @@ class ModelStatus {
 /// package as the data source.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CustomModelDataSource {
   /// A SageMaker AI model package ARN as the data source for the custom model.
   /// When you specify a model package ARN, Amazon Bedrock resolves the model
@@ -19325,6 +19808,8 @@ class CustomModelDataSource {
 
 /// Contains the Amazon Resource Name (ARN) of a SageMaker AI model package to
 /// use as the data source for a custom model.
+///
+/// @nodoc
 class ModelPackageArnDataSource {
   /// The Amazon Resource Name (ARN) of the SageMaker AI model package. The ARN
   /// must be for a model package of <code>restricted</code> type.
@@ -19349,6 +19834,8 @@ class ModelPackageArnDataSource {
 
 /// Contains summary information about a custom model deployment, including its
 /// ARN, name, status, and associated custom model.
+///
+/// @nodoc
 class CustomModelDeploymentSummary {
   /// The date and time when the custom model deployment was created.
   final DateTime createdAt;
@@ -19419,6 +19906,7 @@ class CustomModelDeploymentSummary {
   }
 }
 
+/// @nodoc
 class CustomModelDeploymentStatus {
   static const creating = CustomModelDeploymentStatus._('Creating');
   static const active = CustomModelDeploymentStatus._('Active');
@@ -19447,6 +19935,8 @@ class CustomModelDeploymentStatus {
 
 /// Details about an update to a custom model deployment, including the new
 /// custom model resource ARN and current update status.
+///
+/// @nodoc
 class CustomModelDeploymentUpdateDetails {
   /// ARN of the new custom model being deployed as part of the update.
   final String modelArn;
@@ -19478,6 +19968,7 @@ class CustomModelDeploymentUpdateDetails {
   }
 }
 
+/// @nodoc
 class CustomModelDeploymentUpdateStatus {
   static const updating = CustomModelDeploymentUpdateStatus._('Updating');
   static const updateCompleted =
@@ -19508,6 +19999,8 @@ class CustomModelDeploymentUpdateStatus {
 
 /// Contains details about an endpoint for a model from Amazon Bedrock
 /// Marketplace.
+///
+/// @nodoc
 class MarketplaceModelEndpoint {
   /// The timestamp when the endpoint was registered.
   final DateTime createdAt;
@@ -19593,6 +20086,7 @@ class MarketplaceModelEndpoint {
   }
 }
 
+/// @nodoc
 class Status {
   static const registered = Status._('REGISTERED');
   static const incompatibleEndpoint = Status._('INCOMPATIBLE_ENDPOINT');
@@ -19617,6 +20111,8 @@ class Status {
 }
 
 /// Specifies the configuration for the endpoint.
+///
+/// @nodoc
 class EndpointConfig {
   /// The configuration specific to Amazon SageMaker for the endpoint.
   final SageMakerEndpoint? sageMaker;
@@ -19643,6 +20139,8 @@ class EndpointConfig {
 }
 
 /// Specifies the configuration for a Amazon SageMaker endpoint.
+///
+/// @nodoc
 class SageMakerEndpoint {
   /// The ARN of the IAM role that Amazon SageMaker can assume to access model
   /// artifacts and docker image for deployment on Amazon EC2 compute instances or
@@ -19702,6 +20200,8 @@ class SageMakerEndpoint {
 
 /// Provides a summary of an endpoint for a model from Amazon Bedrock
 /// Marketplace.
+///
+/// @nodoc
 class MarketplaceModelEndpointSummary {
   /// The timestamp when the endpoint was created.
   final DateTime createdAt;
@@ -19760,6 +20260,7 @@ class MarketplaceModelEndpointSummary {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningCheckResult {
   static const valid = AutomatedReasoningCheckResult._('VALID');
   static const invalid = AutomatedReasoningCheckResult._('INVALID');
@@ -19803,6 +20304,8 @@ class AutomatedReasoningCheckResult {
 /// Contains the various operations that can be performed on an Automated
 /// Reasoning policy, including adding, updating, and deleting rules, variables,
 /// and types.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAnnotation {
   /// An operation to add a new logical rule to the policy using formal
   /// mathematical expressions.
@@ -19971,6 +20474,8 @@ class AutomatedReasoningPolicyAnnotation {
 
 /// An annotation for adding a new custom type to an Automated Reasoning policy,
 /// defining a set of possible values for variables.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddTypeAnnotation {
   /// A description of what the custom type represents and how it should be used
   /// in the policy.
@@ -20017,6 +20522,8 @@ class AutomatedReasoningPolicyAddTypeAnnotation {
 
 /// An annotation for modifying an existing custom type in an Automated
 /// Reasoning policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateTypeAnnotation {
   /// The current name of the custom type to update.
   final String name;
@@ -20068,6 +20575,8 @@ class AutomatedReasoningPolicyUpdateTypeAnnotation {
 }
 
 /// An annotation for removing a custom type from an Automated Reasoning policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteTypeAnnotation {
   /// The name of the custom type to delete from the policy. The type must not be
   /// referenced by any variables or rules.
@@ -20094,6 +20603,8 @@ class AutomatedReasoningPolicyDeleteTypeAnnotation {
 
 /// An annotation for adding a new variable to an Automated Reasoning policy,
 /// which can be used in rule expressions.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddVariableAnnotation {
   /// A description of what the variable represents and how it should be used in
   /// rules.
@@ -20136,6 +20647,8 @@ class AutomatedReasoningPolicyAddVariableAnnotation {
 
 /// An annotation for modifying an existing variable in an Automated Reasoning
 /// policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateVariableAnnotation {
   /// The current name of the variable to update.
   final String name;
@@ -20175,6 +20688,8 @@ class AutomatedReasoningPolicyUpdateVariableAnnotation {
 }
 
 /// An annotation for removing a variable from an Automated Reasoning policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteVariableAnnotation {
   /// The name of the variable to delete from the policy. The variable must not be
   /// referenced by any rules.
@@ -20201,6 +20716,8 @@ class AutomatedReasoningPolicyDeleteVariableAnnotation {
 
 /// An annotation for adding a new rule to an Automated Reasoning policy using a
 /// formal logical expression.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddRuleAnnotation {
   /// The formal logical expression that defines the rule, using mathematical
   /// notation and referencing policy variables and types.
@@ -20227,6 +20744,8 @@ class AutomatedReasoningPolicyAddRuleAnnotation {
 
 /// An annotation for modifying an existing rule in an Automated Reasoning
 /// policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateRuleAnnotation {
   /// The new formal logical expression for the rule, replacing the previous
   /// expression.
@@ -20259,6 +20778,8 @@ class AutomatedReasoningPolicyUpdateRuleAnnotation {
 }
 
 /// An annotation for removing a rule from an Automated Reasoning policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteRuleAnnotation {
   /// The unique identifier of the rule to delete from the policy.
   final String ruleId;
@@ -20284,6 +20805,8 @@ class AutomatedReasoningPolicyDeleteRuleAnnotation {
 
 /// An annotation for adding a new rule to the policy by converting a natural
 /// language description into a formal logical expression.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation {
   /// The natural language description of the rule that should be converted into a
   /// formal logical expression.
@@ -20310,6 +20833,8 @@ class AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation {
 
 /// An annotation for updating the policy based on feedback about how specific
 /// rules performed during testing or real-world usage.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation {
   /// The feedback information about rule performance, including suggestions for
   /// improvements or corrections.
@@ -20344,6 +20869,8 @@ class AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation {
 
 /// An annotation for updating the policy based on feedback about how it
 /// performed on specific test scenarios.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation {
   /// The logical expression that defines the test scenario that generated this
   /// feedback.
@@ -20387,6 +20914,8 @@ class AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation {
 
 /// An annotation for processing and incorporating new content into an Automated
 /// Reasoning policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyIngestContentAnnotation {
   /// The new content to be analyzed and incorporated into the policy, such as
   /// additional documents or rule descriptions.
@@ -20413,6 +20942,8 @@ class AutomatedReasoningPolicyIngestContentAnnotation {
 
 /// An annotation for managing values within custom types, including adding,
 /// updating, or removing specific type values.
+///
+/// @nodoc
 class AutomatedReasoningPolicyTypeValueAnnotation {
   /// An operation to add a new value to an existing custom type.
   final AutomatedReasoningPolicyAddTypeValue? addTypeValue;
@@ -20461,6 +20992,8 @@ class AutomatedReasoningPolicyTypeValueAnnotation {
 
 /// Represents a single value that can be added to an existing custom type in
 /// the policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddTypeValue {
   /// The identifier or name of the new value to add to the type.
   final String value;
@@ -20493,6 +21026,8 @@ class AutomatedReasoningPolicyAddTypeValue {
 }
 
 /// Represents a modification to a value within an existing custom type.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateTypeValue {
   /// The current identifier or name of the type value to update.
   final String value;
@@ -20531,6 +21066,8 @@ class AutomatedReasoningPolicyUpdateTypeValue {
 }
 
 /// Represents a value to be removed from an existing custom type in the policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteTypeValue {
   /// The identifier or name of the value to remove from the type.
   final String value;
@@ -20556,6 +21093,8 @@ class AutomatedReasoningPolicyDeleteTypeValue {
 
 /// Represents a single value within a custom type definition, including its
 /// identifier and description.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionTypeValue {
   /// The actual value or identifier for this type value.
   final String value;
@@ -20587,6 +21126,7 @@ class AutomatedReasoningPolicyDefinitionTypeValue {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyBuildWorkflowType {
   static const ingestContent =
       AutomatedReasoningPolicyBuildWorkflowType._('INGEST_CONTENT');
@@ -20635,6 +21175,8 @@ class AutomatedReasoningPolicyBuildWorkflowType {
 
 /// Defines the source content for a policy build workflow, which can include
 /// documents, repair instructions, or other input materials.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildWorkflowSource {
   /// An existing policy definition that serves as the starting point for the
   /// build workflow, typically used in policy repair or update scenarios.
@@ -20663,6 +21205,8 @@ class AutomatedReasoningPolicyBuildWorkflowSource {
 /// define an Automated Reasoning policy. The policy definition specifies the
 /// constraints used to validate foundation model responses for accuracy and
 /// logical consistency.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinition {
   /// The formal logic rules extracted from the source document. Rules define the
   /// logical constraints that determine whether model responses are valid,
@@ -20727,6 +21271,8 @@ class AutomatedReasoningPolicyDefinition {
 
 /// Defines the content and configuration for different types of policy build
 /// workflows.
+///
+/// @nodoc
 class AutomatedReasoningPolicyWorkflowTypeContent {
   /// The list of documents to be processed in a document ingestion workflow.
   final List<AutomatedReasoningPolicyBuildWorkflowDocument>? documents;
@@ -20772,6 +21318,8 @@ class AutomatedReasoningPolicyWorkflowTypeContent {
 
 /// Contains content and instructions for repairing or improving an existing
 /// Automated Reasoning policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildWorkflowRepairContent {
   /// Specific annotations or modifications to apply during the policy repair
   /// process, such as rule corrections or variable updates.
@@ -20792,6 +21340,8 @@ class AutomatedReasoningPolicyBuildWorkflowRepairContent {
 /// Configuration for generating a fidelity report, which can either analyze new
 /// documents or update an existing fidelity report with a new policy
 /// definition.
+///
+/// @nodoc
 class AutomatedReasoningPolicyGenerateFidelityReportContent {
   /// Source documents to analyze for generating a new fidelity report. The
   /// documents will be processed to create atomic statements and grounding
@@ -20812,6 +21362,8 @@ class AutomatedReasoningPolicyGenerateFidelityReportContent {
 
 /// Configuration for an iterative policy refinement workflow, including source
 /// documents to process and optional feedback to guide the refinement.
+///
+/// @nodoc
 class AutomatedReasoningPolicyIterativeRefinementContent {
   /// Source documents used for iterative policy refinement. These documents
   /// provide context for refining the policy definition.
@@ -20838,6 +21390,8 @@ class AutomatedReasoningPolicyIterativeRefinementContent {
 
 /// Represents a source document used in the policy build workflow, containing
 /// the content and metadata needed for policy generation.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildWorkflowDocument {
   /// The actual content of the source document that will be analyzed to extract
   /// policy rules and concepts.
@@ -20877,6 +21431,7 @@ class AutomatedReasoningPolicyBuildWorkflowDocument {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyBuildDocumentContentType {
   static const pdf = AutomatedReasoningPolicyBuildDocumentContentType._('pdf');
   static const txt = AutomatedReasoningPolicyBuildDocumentContentType._('txt');
@@ -20907,6 +21462,8 @@ class AutomatedReasoningPolicyBuildDocumentContentType {
 
 /// Represents a variable in an Automated Reasoning policy. Variables represent
 /// concepts that can have values assigned during natural language translation.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionVariable {
   /// The description of the variable that explains what it represents and how
   /// users might refer to it. Clear and comprehensive descriptions are essential
@@ -20951,6 +21508,8 @@ class AutomatedReasoningPolicyDefinitionVariable {
 /// Represents a formal logic rule in an Automated Reasoning policy. For
 /// example, rules can be expressed as if-then statements that define logical
 /// constraints.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionRule {
   /// The formal logic expression of the rule.
   final String expression;
@@ -20993,6 +21552,8 @@ class AutomatedReasoningPolicyDefinitionRule {
 /// Represents a custom user-defined viarble type in an Automated Reasoning
 /// policy. Types are enum-based and provide additional context beyond
 /// predefined variable types.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionType {
   /// The name of the custom type.
   final String name;
@@ -21036,6 +21597,8 @@ class AutomatedReasoningPolicyDefinitionType {
 
 /// Contains the results of testing an Automated Reasoning policy against
 /// various scenarios and validation checks.
+///
+/// @nodoc
 class AutomatedReasoningPolicyTestResult {
   /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that was
   /// tested.
@@ -21119,6 +21682,8 @@ class AutomatedReasoningPolicyTestResult {
 
 /// Represents a test for validating an Automated Reasoning policy. tests
 /// contain sample inputs and expected outcomes to verify policy behavior.
+///
+/// @nodoc
 class AutomatedReasoningPolicyTestCase {
   /// The timestamp when the test was created.
   final DateTime createdAt;
@@ -21192,6 +21757,7 @@ class AutomatedReasoningPolicyTestCase {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyTestRunStatus {
   static const notStarted =
       AutomatedReasoningPolicyTestRunStatus._('NOT_STARTED');
@@ -21222,6 +21788,7 @@ class AutomatedReasoningPolicyTestRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyTestRunResult {
   static const passed = AutomatedReasoningPolicyTestRunResult._('PASSED');
   static const failed = AutomatedReasoningPolicyTestRunResult._('FAILED');
@@ -21250,6 +21817,8 @@ class AutomatedReasoningPolicyTestRunResult {
 /// Represents the result of an Automated Reasoning validation check, indicating
 /// whether the content is logically valid, invalid, or falls into other
 /// categories based on the policy rules.
+///
+/// @nodoc
 class AutomatedReasoningCheckFinding {
   /// Indicates that Automated Reasoning cannot make a statement about the claims.
   /// This can happen if the premises are logically incorrect, or if there is a
@@ -21354,6 +21923,8 @@ class AutomatedReasoningCheckFinding {
 
 /// Indicates that the claims are definitively true and logically implied by the
 /// premises, with no possible alternative interpretations.
+///
+/// @nodoc
 class AutomatedReasoningCheckValidFinding {
   /// An example scenario demonstrating how the claims are logically true.
   final AutomatedReasoningCheckScenario? claimsTrueScenario;
@@ -21415,6 +21986,8 @@ class AutomatedReasoningCheckValidFinding {
 
 /// Indicates that the claims are logically false and contradictory to the
 /// established rules or premises.
+///
+/// @nodoc
 class AutomatedReasoningCheckInvalidFinding {
   /// The automated reasoning policy rules that contradict the claims in the
   /// input.
@@ -21466,6 +22039,8 @@ class AutomatedReasoningCheckInvalidFinding {
 
 /// Indicates that the claims could be either true or false depending on
 /// additional assumptions not provided in the input.
+///
+/// @nodoc
 class AutomatedReasoningCheckSatisfiableFinding {
   /// An example scenario demonstrating how the claims could be logically false.
   final AutomatedReasoningCheckScenario? claimsFalseScenario;
@@ -21526,6 +22101,8 @@ class AutomatedReasoningCheckSatisfiableFinding {
 
 /// Indicates that no valid claims can be made due to logical contradictions in
 /// the premises or rules.
+///
+/// @nodoc
 class AutomatedReasoningCheckImpossibleFinding {
   /// The automated reasoning policy rules that contradict the claims and/or
   /// premises in the input.
@@ -21577,6 +22154,8 @@ class AutomatedReasoningCheckImpossibleFinding {
 
 /// Indicates that the input has multiple valid logical interpretations,
 /// requiring additional context or clarification.
+///
+/// @nodoc
 class AutomatedReasoningCheckTranslationAmbiguousFinding {
   /// Scenarios showing how the different translation options differ in meaning.
   final List<AutomatedReasoningCheckScenario>? differenceScenarios;
@@ -21619,6 +22198,8 @@ class AutomatedReasoningCheckTranslationAmbiguousFinding {
 
 /// Indicates that the input exceeds the processing capacity due to the volume
 /// or complexity of the logical information.
+///
+/// @nodoc
 class AutomatedReasoningCheckTooComplexFinding {
   AutomatedReasoningCheckTooComplexFinding();
 
@@ -21634,6 +22215,8 @@ class AutomatedReasoningCheckTooComplexFinding {
 
 /// Indicates that no relevant logical information could be extracted from the
 /// input for validation.
+///
+/// @nodoc
 class AutomatedReasoningCheckNoTranslationsFinding {
   AutomatedReasoningCheckNoTranslationsFinding();
 
@@ -21649,6 +22232,8 @@ class AutomatedReasoningCheckNoTranslationsFinding {
 
 /// Represents a logical scenario where claims can be evaluated as true or
 /// false, containing specific logical assignments.
+///
+/// @nodoc
 class AutomatedReasoningCheckScenario {
   /// List of logical assignments and statements that define this scenario.
   final List<AutomatedReasoningLogicStatement>? statements;
@@ -21678,6 +22263,8 @@ class AutomatedReasoningCheckScenario {
 /// Represents a logical statement that can be expressed both in formal logic
 /// notation and natural language, providing dual representations for better
 /// understanding and validation.
+///
+/// @nodoc
 class AutomatedReasoningLogicStatement {
   /// The formal logic representation of the statement using mathematical notation
   /// and logical operators.
@@ -21710,6 +22297,8 @@ class AutomatedReasoningLogicStatement {
 }
 
 /// Represents one possible logical interpretation of ambiguous input content.
+///
+/// @nodoc
 class AutomatedReasoningCheckTranslationOption {
   /// Different logical interpretations that were detected during translation of
   /// the input.
@@ -21740,6 +22329,8 @@ class AutomatedReasoningCheckTranslationOption {
 
 /// Contains the logical translation of natural language input into formal
 /// logical statements, including premises, claims, and confidence scores.
+///
+/// @nodoc
 class AutomatedReasoningCheckTranslation {
   /// The logical statements that are being validated against the premises and
   /// policy rules.
@@ -21815,6 +22406,8 @@ class AutomatedReasoningCheckTranslation {
 
 /// References a portion of the original input text that corresponds to logical
 /// elements.
+///
+/// @nodoc
 class AutomatedReasoningCheckInputTextReference {
   /// The specific text from the original input that this reference points to.
   final String? text;
@@ -21841,6 +22434,8 @@ class AutomatedReasoningCheckInputTextReference {
 /// Identifies logical issues in the translated statements that exist
 /// independent of any policy rules, such as statements that are always true or
 /// always false.
+///
+/// @nodoc
 class AutomatedReasoningCheckLogicWarning {
   /// The logical statements that are validated while assuming the policy and
   /// premises.
@@ -21890,6 +22485,7 @@ class AutomatedReasoningCheckLogicWarning {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningCheckLogicWarningType {
   static const alwaysTrue =
       AutomatedReasoningCheckLogicWarningType._('ALWAYS_TRUE');
@@ -21919,6 +22515,8 @@ class AutomatedReasoningCheckLogicWarningType {
 
 /// References a specific automated reasoning policy rule that was applied
 /// during evaluation.
+///
+/// @nodoc
 class AutomatedReasoningCheckRule {
   /// The unique identifier of the automated reasoning rule.
   final String? id;
@@ -21950,6 +22548,8 @@ class AutomatedReasoningCheckRule {
 
 /// Provides a summary of a policy build workflow, including its current status,
 /// timing information, and key identifiers.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildWorkflowSummary {
   /// The unique identifier of the build workflow.
   final String buildWorkflowId;
@@ -22012,6 +22612,7 @@ class AutomatedReasoningPolicyBuildWorkflowSummary {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyBuildWorkflowStatus {
   static const scheduled =
       AutomatedReasoningPolicyBuildWorkflowStatus._('SCHEDULED');
@@ -22062,6 +22663,8 @@ class AutomatedReasoningPolicyBuildWorkflowStatus {
 
 /// Represents a test scenario used to validate an Automated Reasoning policy,
 /// including the test conditions and expected outcomes.
+///
+/// @nodoc
 class AutomatedReasoningPolicyScenario {
   /// An alternative way to express the same test scenario, used for validation
   /// and comparison purposes.
@@ -22115,6 +22718,8 @@ class AutomatedReasoningPolicyScenario {
 /// Contains the various assets generated during a policy build workflow,
 /// including logs, quality reports, test cases, and the final policy
 /// definition.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildResultAssets {
   /// A manifest listing all available artifacts produced by the build workflow.
   /// This provides a catalog of all assets that can be retrieved, including their
@@ -22227,6 +22832,8 @@ class AutomatedReasoningPolicyBuildResultAssets {
 /// Provides a comprehensive analysis of the quality and completeness of an
 /// Automated Reasoning policy definition, highlighting potential issues and
 /// optimization opportunities.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionQualityReport {
   /// A list of rules that may conflict with each other, potentially leading to
   /// inconsistent policy behavior.
@@ -22323,6 +22930,8 @@ class AutomatedReasoningPolicyDefinitionQualityReport {
 
 /// Contains detailed logging information about the policy build process,
 /// including steps taken, decisions made, and any issues encountered.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildLog {
   /// A list of log entries documenting each step in the policy build process,
   /// including timestamps, status, and detailed messages.
@@ -22352,6 +22961,8 @@ class AutomatedReasoningPolicyBuildLog {
 
 /// Contains a comprehensive test suite generated by the build workflow,
 /// providing validation capabilities for automated reasoning policies.
+///
+/// @nodoc
 class AutomatedReasoningPolicyGeneratedTestCases {
   /// Represents a collection of generated test cases.
   final List<AutomatedReasoningPolicyGeneratedTestCase> generatedTestCases;
@@ -22382,6 +22993,8 @@ class AutomatedReasoningPolicyGeneratedTestCases {
 /// Contains a comprehensive entity encompassing all the scenarios generated by
 /// the build workflow, which can be used to validate an Automated Reasoning
 /// policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyScenarios {
   /// Represents a collection of generated policy scenarios.
   final List<AutomatedReasoningPolicyScenario> policyScenarios;
@@ -22412,6 +23025,8 @@ class AutomatedReasoningPolicyScenarios {
 /// A catalog of all artifacts produced by a build workflow, providing a
 /// comprehensive list of available assets including their types and
 /// identifiers.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildResultAssetManifest {
   /// The list of asset entries in the manifest, each describing an available
   /// artifact that can be retrieved.
@@ -22443,6 +23058,8 @@ class AutomatedReasoningPolicyBuildResultAssetManifest {
 
 /// Represents a source document that was processed during a build workflow.
 /// Contains the document content, metadata, and a hash for verification.
+///
+/// @nodoc
 class AutomatedReasoningPolicySourceDocument {
   /// The raw content of the source document as a binary blob.
   final Uint8List document;
@@ -22503,6 +23120,8 @@ class AutomatedReasoningPolicySourceDocument {
 /// policy represents the source documents. The report includes coverage and
 /// accuracy scores, detailed grounding information linking policy elements to
 /// source statements, and annotated document content.
+///
+/// @nodoc
 class AutomatedReasoningPolicyFidelityReport {
   /// A score from 0.0 to 1.0 indicating how accurate the policy rules are
   /// relative to the source documents. A higher score means the policy rules more
@@ -22579,6 +23198,8 @@ class AutomatedReasoningPolicyFidelityReport {
 /// Represents a source document that was analyzed during fidelity report
 /// generation, including the document's metadata and its content broken down
 /// into atomic statements.
+///
+/// @nodoc
 class AutomatedReasoningPolicyReportSourceDocument {
   /// The list of atomic statements extracted from this document, representing the
   /// fundamental units of meaning used for grounding.
@@ -22643,6 +23264,8 @@ class AutomatedReasoningPolicyReportSourceDocument {
 
 /// Represents a portion of a source document with line number annotations.
 /// Chunks help organize document content for easier navigation and reference.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAnnotatedChunk {
   /// The lines of text contained within this chunk, each annotated with its line
   /// number.
@@ -22682,6 +23305,8 @@ class AutomatedReasoningPolicyAnnotatedChunk {
 /// Represents a content element within an annotated chunk. This union type
 /// allows for different types of content elements to be included in document
 /// chunks, such as individual lines of text with their line numbers.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAnnotatedContent {
   /// An annotated line of text from the source document, including both the line
   /// number and the text content.
@@ -22711,6 +23336,8 @@ class AutomatedReasoningPolicyAnnotatedContent {
 
 /// Represents a single line of text from a source document, annotated with its
 /// line number for precise referencing.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAnnotatedLine {
   /// The line number of this text within the source document.
   final int? lineNumber;
@@ -22744,6 +23371,8 @@ class AutomatedReasoningPolicyAnnotatedLine {
 /// Represents a single, indivisible statement extracted from a source document.
 /// Atomic statements are the fundamental units used to ground policy rules and
 /// variables to their source material.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAtomicStatement {
   /// A unique identifier for this atomic statement within the fidelity report.
   final String id;
@@ -22787,6 +23416,8 @@ class AutomatedReasoningPolicyAtomicStatement {
 
 /// Describes the location of a statement within a source document using line
 /// numbers.
+///
+/// @nodoc
 class AutomatedReasoningPolicyStatementLocation {
   /// The line numbers in the source document where this statement appears.
   final List<int> lines;
@@ -22816,6 +23447,8 @@ class AutomatedReasoningPolicyStatementLocation {
 /// Provides detailed fidelity analysis for a specific policy variable,
 /// including which source document statements support it and how accurate the
 /// variable definition is.
+///
+/// @nodoc
 class AutomatedReasoningPolicyVariableReport {
   /// The name of the policy variable being analyzed in this report.
   final String policyVariable;
@@ -22883,6 +23516,8 @@ class AutomatedReasoningPolicyVariableReport {
 
 /// References a specific atomic statement within a source document, used to
 /// link policy elements back to their source material.
+///
+/// @nodoc
 class AutomatedReasoningPolicyStatementReference {
   /// The unique identifier of the document containing the referenced statement.
   final String documentId;
@@ -22915,6 +23550,8 @@ class AutomatedReasoningPolicyStatementReference {
 
 /// Provides detailed fidelity analysis for a specific policy rule, including
 /// which source document statements support it and how accurate the rule is.
+///
+/// @nodoc
 class AutomatedReasoningPolicyRuleReport {
   /// The identifier of the policy rule being analyzed in this report.
   final String rule;
@@ -22982,6 +23619,8 @@ class AutomatedReasoningPolicyRuleReport {
 
 /// Represents a single entry in the asset manifest, describing one artifact
 /// produced by the build workflow.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildResultAssetManifestEntry {
   /// The type of asset (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION,
   /// GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT, ASSET_MANIFEST,
@@ -23024,6 +23663,7 @@ class AutomatedReasoningPolicyBuildResultAssetManifestEntry {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyBuildResultAssetType {
   static const buildLog =
       AutomatedReasoningPolicyBuildResultAssetType._('BUILD_LOG');
@@ -23076,6 +23716,8 @@ class AutomatedReasoningPolicyBuildResultAssetType {
 
 /// Represents a generated test case, consisting of query content, guard
 /// content, and expected results.
+///
+/// @nodoc
 class AutomatedReasoningPolicyGeneratedTestCase {
   /// The expected results of the generated test case. Possible values include:
   ///
@@ -23148,6 +23790,8 @@ class AutomatedReasoningPolicyGeneratedTestCase {
 
 /// Represents a single entry in the policy build log, containing information
 /// about a specific step or event in the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildLogEntry {
   /// The annotation or operation that was being processed when this log entry was
   /// created.
@@ -23194,6 +23838,7 @@ class AutomatedReasoningPolicyBuildLogEntry {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyAnnotationStatus {
   static const applied = AutomatedReasoningPolicyAnnotationStatus._('APPLIED');
   static const failed = AutomatedReasoningPolicyAnnotationStatus._('FAILED');
@@ -23221,6 +23866,8 @@ class AutomatedReasoningPolicyAnnotationStatus {
 
 /// Represents a single step in the policy build process, containing context
 /// about what was being processed and any messages or results.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildStep {
   /// Contextual information about what was being processed during this build
   /// step, such as the type of operation or the source material being analyzed.
@@ -23272,6 +23919,8 @@ class AutomatedReasoningPolicyBuildStep {
 
 /// Provides context about what type of operation was being performed during a
 /// build step.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildStepContext {
   /// Indicates that this build step involved modifying the policy structure, such
   /// as adding or updating rules, variables, or types.
@@ -23312,6 +23961,8 @@ class AutomatedReasoningPolicyBuildStepContext {
 
 /// Represents a single element in an Automated Reasoning policy definition,
 /// such as a rule, variable, or type definition.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionElement {
   /// A rule element within the policy definition that contains a formal logical
   /// expression used for validation.
@@ -23366,6 +24017,8 @@ class AutomatedReasoningPolicyDefinitionElement {
 
 /// Represents a message generated during a build step, providing information
 /// about what happened or any issues encountered.
+///
+/// @nodoc
 class AutomatedReasoningPolicyBuildStepMessage {
   /// The content of the message, describing what occurred during the build step.
   final String message;
@@ -23398,6 +24051,7 @@ class AutomatedReasoningPolicyBuildStepMessage {
   }
 }
 
+/// @nodoc
 class AutomatedReasoningPolicyBuildMessageType {
   static const info = AutomatedReasoningPolicyBuildMessageType._('INFO');
   static const warning = AutomatedReasoningPolicyBuildMessageType._('WARNING');
@@ -23426,6 +24080,8 @@ class AutomatedReasoningPolicyBuildMessageType {
 
 /// Represents the planning phase of policy build workflow, where the system
 /// analyzes source content and determines what operations to perform.
+///
+/// @nodoc
 class AutomatedReasoningPolicyPlanning {
   AutomatedReasoningPolicyPlanning();
 
@@ -23441,6 +24097,8 @@ class AutomatedReasoningPolicyPlanning {
 /// A container for various mutation operations that can be applied to an
 /// Automated Reasoning policy, including adding, updating, and deleting policy
 /// elements.
+///
+/// @nodoc
 class AutomatedReasoningPolicyMutation {
   /// A mutation to add a new rule to the policy.
   final AutomatedReasoningPolicyAddRuleMutation? addRule;
@@ -23548,6 +24206,8 @@ class AutomatedReasoningPolicyMutation {
 
 /// A mutation operation that adds a new custom type to the policy definition
 /// during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddTypeMutation {
   /// The type definition that specifies the name, description, and possible
   /// values for the new custom type being added to the policy.
@@ -23575,6 +24235,8 @@ class AutomatedReasoningPolicyAddTypeMutation {
 
 /// A mutation operation that modifies an existing custom type in the policy
 /// definition during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateTypeMutation {
   /// The updated type definition containing the modified name, description, or
   /// values for the existing custom type.
@@ -23602,6 +24264,8 @@ class AutomatedReasoningPolicyUpdateTypeMutation {
 
 /// A mutation operation that removes a custom type from the policy definition
 /// during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteTypeMutation {
   /// The name of the custom type to delete.
   final String name;
@@ -23627,6 +24291,8 @@ class AutomatedReasoningPolicyDeleteTypeMutation {
 
 /// A mutation operation that adds a new variable to the policy definition
 /// during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddVariableMutation {
   /// The variable definition that specifies the name, type, and description for
   /// the new variable being added to the policy.
@@ -23655,6 +24321,8 @@ class AutomatedReasoningPolicyAddVariableMutation {
 
 /// A mutation operation that modifies an existing variable in the policy
 /// definition during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateVariableMutation {
   /// The updated variable definition containing the modified name, type, or
   /// description for the existing variable.
@@ -23683,6 +24351,8 @@ class AutomatedReasoningPolicyUpdateVariableMutation {
 
 /// A mutation operation that removes a variable from the policy definition
 /// during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteVariableMutation {
   /// The name of the variable to delete.
   final String name;
@@ -23708,6 +24378,8 @@ class AutomatedReasoningPolicyDeleteVariableMutation {
 
 /// A mutation operation that adds a new rule to the policy definition during
 /// the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyAddRuleMutation {
   /// The rule definition that specifies the formal logical expression and
   /// metadata for the new rule being added to the policy.
@@ -23735,6 +24407,8 @@ class AutomatedReasoningPolicyAddRuleMutation {
 
 /// A mutation operation that modifies an existing rule in the policy definition
 /// during the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyUpdateRuleMutation {
   /// The updated rule definition containing the modified formal logical
   /// expression and any changed metadata for the existing rule.
@@ -23762,6 +24436,8 @@ class AutomatedReasoningPolicyUpdateRuleMutation {
 
 /// A mutation operation that removes a rule from the policy definition during
 /// the build process.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDeleteRuleMutation {
   /// The unique identifier of the rule to delete.
   final String id;
@@ -23787,6 +24463,8 @@ class AutomatedReasoningPolicyDeleteRuleMutation {
 
 /// Represents a set of rules that operate on completely separate variables,
 /// indicating they address different concerns or domains within the policy.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDisjointRuleSet {
   /// The list of rules that form this disjoint set, all operating on the same set
   /// of variables.
@@ -23826,6 +24504,8 @@ class AutomatedReasoningPolicyDisjointRuleSet {
 
 /// Associates a type name with a specific value name, used for referencing type
 /// values in rules and other policy elements.
+///
+/// @nodoc
 class AutomatedReasoningPolicyDefinitionTypeValuePair {
   /// The name of the custom type that contains the referenced value.
   final String typeName;
@@ -23858,6 +24538,8 @@ class AutomatedReasoningPolicyDefinitionTypeValuePair {
 
 /// Contains summary information about an Automated Reasoning policy, including
 /// metadata and timestamps.
+///
+/// @nodoc
 class AutomatedReasoningPolicySummary {
   /// The timestamp when the policy was created.
   final DateTime createdAt;
@@ -23923,6 +24605,8 @@ class AutomatedReasoningPolicySummary {
 }
 
 /// Contains a summary of an advanced prompt optimization job.
+///
+/// @nodoc
 class AdvancedPromptOptimizationJobSummary {
   /// The time at which the job was created.
   final DateTime creationTime;
@@ -23977,6 +24661,8 @@ class AdvancedPromptOptimizationJobSummary {
 }
 
 /// The status of an advanced prompt optimization job.
+///
+/// @nodoc
 class AdvancedPromptOptimizationJobStatus {
   static const inProgress = AdvancedPromptOptimizationJobStatus._('InProgress');
   static const completed = AdvancedPromptOptimizationJobStatus._('Completed');
@@ -24018,6 +24704,8 @@ class AdvancedPromptOptimizationJobStatus {
 
 /// Contains the input data configuration for an advanced prompt optimization
 /// job.
+///
+/// @nodoc
 class AdvancedPromptOptimizationInputConfig {
   /// The S3 URI of the JSONL input file containing prompt templates and
   /// evaluation samples.
@@ -24044,6 +24732,8 @@ class AdvancedPromptOptimizationInputConfig {
 
 /// Contains the output data configuration for an advanced prompt optimization
 /// job.
+///
+/// @nodoc
 class AdvancedPromptOptimizationOutputConfig {
   /// The S3 URI prefix where the optimization results will be written.
   final String s3Uri;
@@ -24069,6 +24759,8 @@ class AdvancedPromptOptimizationOutputConfig {
 
 /// Contains the configuration for a model used in an advanced prompt
 /// optimization job, including the model ID and inference parameters.
+///
+/// @nodoc
 class ModelConfiguration {
   /// The ID of the model to use for optimization.
   final String modelId;
@@ -24116,6 +24808,8 @@ class ModelConfiguration {
 /// Base inference parameters to pass to a model. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
 /// parameters for foundation models</a>.
+///
+/// @nodoc
 class InferenceConfiguration {
   /// The maximum number of tokens to allow in the generated response. The default
   /// value is the maximum allowed value for the model that you are using.
@@ -24172,6 +24866,8 @@ class InferenceConfiguration {
 
 /// Contains information about a successfully deleted advanced prompt
 /// optimization job.
+///
+/// @nodoc
 class BatchDeleteAdvancedPromptOptimizationJobItem {
   /// The identifier of the deleted job.
   final String jobIdentifier;
@@ -24205,6 +24901,8 @@ class BatchDeleteAdvancedPromptOptimizationJobItem {
 
 /// Contains information about an error that occurred when deleting an advanced
 /// prompt optimization job.
+///
+/// @nodoc
 class BatchDeleteAdvancedPromptOptimizationJobError {
   /// The error code for the deletion failure.
   final String code;
@@ -24242,31 +24940,37 @@ class BatchDeleteAdvancedPromptOptimizationJobError {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -24275,22 +24979,26 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

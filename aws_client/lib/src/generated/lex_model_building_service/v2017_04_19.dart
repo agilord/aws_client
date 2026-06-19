@@ -2568,6 +2568,7 @@ class LexModelBuilding {
   }
 }
 
+/// @nodoc
 class CreateBotVersionResponse {
   /// The message that Amazon Lex uses to cancel a conversation. For more
   /// information, see <a>PutBot</a>.
@@ -2752,6 +2753,7 @@ class CreateBotVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateIntentVersionResponse {
   /// Checksum of the intent version created.
   final String? checksum;
@@ -2939,6 +2941,7 @@ class CreateIntentVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateSlotTypeVersionResponse {
   /// Checksum of the <code>$LATEST</code> version of the slot type.
   final String? checksum;
@@ -3038,6 +3041,7 @@ class CreateSlotTypeVersionResponse {
   }
 }
 
+/// @nodoc
 class GetBotResponse {
   /// The message that Amazon Lex returns when the user elects to end the
   /// conversation without completing it. For more information, see <a>PutBot</a>.
@@ -3251,6 +3255,7 @@ class GetBotResponse {
   }
 }
 
+/// @nodoc
 class GetBotAliasResponse {
   /// The name of the bot that the alias points to.
   final String? botName;
@@ -3328,6 +3333,7 @@ class GetBotAliasResponse {
   }
 }
 
+/// @nodoc
 class GetBotAliasesResponse {
   /// An array of <code>BotAliasMetadata</code> objects, each describing a bot
   /// alias.
@@ -3364,6 +3370,7 @@ class GetBotAliasesResponse {
   }
 }
 
+/// @nodoc
 class GetBotChannelAssociationResponse {
   /// An alias pointing to the specific version of the Amazon Lex bot to which
   /// this association is being made.
@@ -3460,6 +3467,7 @@ class GetBotChannelAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetBotChannelAssociationsResponse {
   /// An array of objects, one for each association, that provides information
   /// about the Amazon Lex bot and its association with the channel.
@@ -3498,6 +3506,7 @@ class GetBotChannelAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetBotsResponse {
   /// An array of <code>botMetadata</code> objects, with one entry for each bot.
   final List<BotMetadata>? bots;
@@ -3531,6 +3540,7 @@ class GetBotsResponse {
   }
 }
 
+/// @nodoc
 class GetBotVersionsResponse {
   /// An array of <code>BotMetadata</code> objects, one for each numbered version
   /// of the bot plus one for the <code>$LATEST</code> version.
@@ -3567,6 +3577,7 @@ class GetBotVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetBuiltinIntentResponse {
   /// The unique identifier for a built-in intent.
   final String? signature;
@@ -3611,6 +3622,7 @@ class GetBuiltinIntentResponse {
   }
 }
 
+/// @nodoc
 class GetBuiltinIntentsResponse {
   /// An array of <code>builtinIntentMetadata</code> objects, one for each intent
   /// in the response.
@@ -3647,6 +3659,7 @@ class GetBuiltinIntentsResponse {
   }
 }
 
+/// @nodoc
 class GetBuiltinSlotTypesResponse {
   /// If the response is truncated, the response includes a pagination token that
   /// you can use in your next request to fetch the next page of slot types.
@@ -3682,6 +3695,7 @@ class GetBuiltinSlotTypesResponse {
   }
 }
 
+/// @nodoc
 class GetExportResponse {
   /// The status of the export.
   ///
@@ -3764,6 +3778,7 @@ class GetExportResponse {
   }
 }
 
+/// @nodoc
 class GetImportResponse {
   /// A timestamp for the date and time that the import job was created.
   final DateTime? createdDate;
@@ -3836,6 +3851,7 @@ class GetImportResponse {
   }
 }
 
+/// @nodoc
 class GetIntentResponse {
   /// Checksum of the intent.
   final String? checksum;
@@ -4026,6 +4042,7 @@ class GetIntentResponse {
   }
 }
 
+/// @nodoc
 class GetIntentsResponse {
   /// An array of <code>Intent</code> objects. For more information, see
   /// <a>PutBot</a>.
@@ -4060,6 +4077,7 @@ class GetIntentsResponse {
   }
 }
 
+/// @nodoc
 class GetIntentVersionsResponse {
   /// An array of <code>IntentMetadata</code> objects, one for each numbered
   /// version of the intent plus one for the <code>$LATEST</code> version.
@@ -4096,6 +4114,7 @@ class GetIntentVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetMigrationResponse {
   /// A list of alerts and warnings that indicate issues with the migration for
   /// the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon
@@ -4212,6 +4231,7 @@ class GetMigrationResponse {
   }
 }
 
+/// @nodoc
 class GetMigrationsResponse {
   /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To
   /// see details of the migration, use the <code>migrationId</code> from the
@@ -4247,6 +4267,7 @@ class GetMigrationsResponse {
   }
 }
 
+/// @nodoc
 class GetSlotTypeResponse {
   /// Checksum of the <code>$LATEST</code> version of the slot type.
   final String? checksum;
@@ -4346,6 +4367,7 @@ class GetSlotTypeResponse {
   }
 }
 
+/// @nodoc
 class GetSlotTypesResponse {
   /// If the response is truncated, it includes a pagination token that you can
   /// specify in your next request to fetch the next page of slot types.
@@ -4380,6 +4402,7 @@ class GetSlotTypesResponse {
   }
 }
 
+/// @nodoc
 class GetSlotTypeVersionsResponse {
   /// A pagination token for fetching the next page of slot type versions. If the
   /// response to this call is truncated, Amazon Lex returns a pagination token in
@@ -4416,6 +4439,7 @@ class GetSlotTypeVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetUtterancesViewResponse {
   /// The name of the bot for which utterance information was returned.
   final String? botName;
@@ -4452,6 +4476,7 @@ class GetUtterancesViewResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with a resource.
   final List<Tag>? tags;
@@ -4477,6 +4502,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutBotResponse {
   /// The message that Amazon Lex uses to cancel a conversation. For more
   /// information, see <a>PutBot</a>.
@@ -4713,6 +4739,7 @@ class PutBotResponse {
   }
 }
 
+/// @nodoc
 class PutBotAliasResponse {
   /// The name of the bot that the alias points to.
   final String? botName;
@@ -4800,6 +4827,7 @@ class PutBotAliasResponse {
   }
 }
 
+/// @nodoc
 class PutIntentResponse {
   /// Checksum of the <code>$LATEST</code>version of the intent created or
   /// updated.
@@ -5002,6 +5030,7 @@ class PutIntentResponse {
   }
 }
 
+/// @nodoc
 class PutSlotTypeResponse {
   /// Checksum of the <code>$LATEST</code> version of the slot type.
   final String? checksum;
@@ -5111,6 +5140,7 @@ class PutSlotTypeResponse {
   }
 }
 
+/// @nodoc
 class StartImportResponse {
   /// A timestamp for the date and time that the import job was requested.
   final DateTime? createdDate;
@@ -5182,6 +5212,7 @@ class StartImportResponse {
   }
 }
 
+/// @nodoc
 class StartMigrationResponse {
   /// The unique identifier that Amazon Lex assigned to the migration.
   final String? migrationId;
@@ -5256,6 +5287,7 @@ class StartMigrationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5268,6 +5300,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5283,6 +5316,8 @@ class UntagResourceResponse {
 /// A list of key/value pairs that identify a bot, bot alias, or bot channel.
 /// Tag keys and values can consist of Unicode letters, digits, white space, and
 /// any of the following symbols: _ . : / = + - @.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. Keys are not case-sensitive and must be unique.
   final String key;
@@ -5313,6 +5348,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class Locale {
   static const deDe = Locale._('de-DE');
   static const enAu = Locale._('en-AU');
@@ -5361,6 +5397,7 @@ class Locale {
   String toString() => value;
 }
 
+/// @nodoc
 class MigrationStrategy {
   static const createNew = MigrationStrategy._('CREATE_NEW');
   static const updateExisting = MigrationStrategy._('UPDATE_EXISTING');
@@ -5385,6 +5422,7 @@ class MigrationStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const bot = ResourceType._('BOT');
   static const intent = ResourceType._('INTENT');
@@ -5409,6 +5447,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class MergeStrategy {
   static const overwriteLatest = MergeStrategy._('OVERWRITE_LATEST');
   static const failOnConflict = MergeStrategy._('FAIL_ON_CONFLICT');
@@ -5433,6 +5472,7 @@ class MergeStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportStatus {
   static const inProgress = ImportStatus._('IN_PROGRESS');
   static const complete = ImportStatus._('COMPLETE');
@@ -5457,6 +5497,7 @@ class ImportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SlotValueSelectionStrategy {
   static const originalValue = SlotValueSelectionStrategy._('ORIGINAL_VALUE');
   static const topResolution = SlotValueSelectionStrategy._('TOP_RESOLUTION');
@@ -5483,6 +5524,8 @@ class SlotValueSelectionStrategy {
 }
 
 /// Provides configuration information for a slot type.
+///
+/// @nodoc
 class SlotTypeConfiguration {
   /// A regular expression used to validate the value of a slot.
   final SlotTypeRegexConfiguration? regexConfiguration;
@@ -5509,6 +5552,8 @@ class SlotTypeConfiguration {
 }
 
 /// Provides a regular expression used to validate the value of a slot.
+///
+/// @nodoc
 class SlotTypeRegexConfiguration {
   /// A regular expression used to validate the value of a slot.
   ///
@@ -5577,6 +5622,8 @@ class SlotTypeRegexConfiguration {
 /// stuffed
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EnumerationValue {
   /// The value of the slot type.
   final String value;
@@ -5614,6 +5661,8 @@ class EnumerationValue {
 /// user. If you provide more than one message, Amazon Lex chooses one of the
 /// messages to use to prompt the user. For more information, see
 /// <a>how-it-works</a>.
+///
+/// @nodoc
 class Prompt {
   /// The number of times to prompt the user for information.
   final int maxAttempts;
@@ -5660,6 +5709,8 @@ class Prompt {
 
 /// A collection of messages that convey information to the user. At runtime,
 /// Amazon Lex selects the message to convey.
+///
+/// @nodoc
 class Statement {
   /// A collection of message objects.
   final List<Message> messages;
@@ -5699,6 +5750,8 @@ class Statement {
 /// A prompt for additional activity after an intent is fulfilled. For example,
 /// after the <code>OrderPizza</code> intent is fulfilled, you might prompt the
 /// user to find out whether the user wants to order drinks.
+///
+/// @nodoc
 class FollowUpPrompt {
   /// Prompts for information from the user.
   final Prompt prompt;
@@ -5735,6 +5788,8 @@ class FollowUpPrompt {
 
 /// Specifies a Lambda function that verifies requests to a bot or fulfills the
 /// user's request to a bot..
+///
+/// @nodoc
 class CodeHook {
   /// The version of the request-response that you want Amazon Lex to use to
   /// invoke your Lambda function. For more information, see <a>using-lambda</a>.
@@ -5788,6 +5843,8 @@ class CodeHook {
 /// intent data to the client.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FulfillmentActivity {
   /// How the intent should be fulfilled, either by running a Lambda function or
   /// by returning the slot data to the client application.
@@ -5826,6 +5883,8 @@ class FulfillmentActivity {
 /// For more information, see <a
 /// href="http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html">
 /// AMAZON.KendraSearchIntent</a>.
+///
+/// @nodoc
 class KendraConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the
   /// AMAZON.KendraSearchIntent intent to search. The index must be in the same
@@ -5877,6 +5936,8 @@ class KendraConfiguration {
 
 /// The specification of an output context that is set when an intent is
 /// fulfilled.
+///
+/// @nodoc
 class OutputContext {
   /// The name of the context.
   final String name;
@@ -5919,6 +5980,8 @@ class OutputContext {
 
 /// The name of a context that must be active for an intent to be selected by
 /// Amazon Lex.
+///
+/// @nodoc
 class InputContext {
   /// The name of the context.
   final String name;
@@ -5941,6 +6004,7 @@ class InputContext {
   }
 }
 
+/// @nodoc
 class FulfillmentActivityType {
   static const returnIntent = FulfillmentActivityType._('ReturnIntent');
   static const codeHook = FulfillmentActivityType._('CodeHook');
@@ -5967,6 +6031,8 @@ class FulfillmentActivityType {
 }
 
 /// The message object that provides the message text and its type.
+///
+/// @nodoc
 class Message {
   /// The text of the message.
   final String content;
@@ -6006,6 +6072,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const plainText = ContentType._('PlainText');
   static const ssml = ContentType._('SSML');
@@ -6031,6 +6098,8 @@ class ContentType {
 }
 
 /// Identifies the version of a specific slot.
+///
+/// @nodoc
 class Slot {
   /// The name of the slot.
   final String name;
@@ -6154,6 +6223,7 @@ class Slot {
   }
 }
 
+/// @nodoc
 class SlotConstraint {
   static const required = SlotConstraint._('Required');
   static const optional = SlotConstraint._('Optional');
@@ -6178,6 +6248,7 @@ class SlotConstraint {
   String toString() => value;
 }
 
+/// @nodoc
 class ObfuscationSetting {
   static const none = ObfuscationSetting._('NONE');
   static const defaultObfuscation = ObfuscationSetting._('DEFAULT_OBFUSCATION');
@@ -6205,6 +6276,8 @@ class ObfuscationSetting {
 
 /// Contains the default values for a slot. Default values are used when Amazon
 /// Lex hasn't determined a value for a slot.
+///
+/// @nodoc
 class SlotDefaultValueSpec {
   /// The default values for a slot. You can specify more than one default. For
   /// example, you can specify a default value to use from a matching context
@@ -6238,6 +6311,8 @@ class SlotDefaultValueSpec {
 }
 
 /// A default value for a slot.
+///
+/// @nodoc
 class SlotDefaultValue {
   /// The default value for the slot. You can specify one of the following:
   ///
@@ -6275,6 +6350,8 @@ class SlotDefaultValue {
 }
 
 /// Contains information about conversation log settings.
+///
+/// @nodoc
 class ConversationLogsResponse {
   /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to
   /// CloudWatch Logs or an S3 bucket.
@@ -6309,6 +6386,8 @@ class ConversationLogsResponse {
 }
 
 /// The settings for conversation logs.
+///
+/// @nodoc
 class LogSettingsResponse {
   /// The destination where logs are delivered.
   final Destination? destination;
@@ -6364,6 +6443,7 @@ class LogSettingsResponse {
   }
 }
 
+/// @nodoc
 class LogType {
   static const audio = LogType._('AUDIO');
   static const text = LogType._('TEXT');
@@ -6387,6 +6467,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class Destination {
   static const cloudwatchLogs = Destination._('CLOUDWATCH_LOGS');
   static const s3 = Destination._('S3');
@@ -6411,6 +6492,8 @@ class Destination {
 }
 
 /// Provides the settings needed for conversation logs.
+///
+/// @nodoc
 class ConversationLogsRequest {
   /// The Amazon Resource Name (ARN) of an IAM role with permission to write to
   /// your CloudWatch Logs for text logs and your S3 bucket for audio logs. If
@@ -6441,6 +6524,8 @@ class ConversationLogsRequest {
 
 /// Settings used to configure delivery mode and destination for conversation
 /// logs.
+///
+/// @nodoc
 class LogSettingsRequest {
   /// Where the logs will be delivered. Text logs are delivered to a CloudWatch
   /// Logs log group. Audio logs are delivered to an S3 bucket.
@@ -6480,6 +6565,7 @@ class LogSettingsRequest {
   }
 }
 
+/// @nodoc
 class Status {
   static const building = Status._('BUILDING');
   static const ready = Status._('READY');
@@ -6507,6 +6593,8 @@ class Status {
 }
 
 /// Identifies the specific version of an intent.
+///
+/// @nodoc
 class Intent {
   /// The name of the intent.
   final String intentName;
@@ -6536,6 +6624,7 @@ class Intent {
   }
 }
 
+/// @nodoc
 class ProcessBehavior {
   static const save = ProcessBehavior._('SAVE');
   static const build = ProcessBehavior._('BUILD');
@@ -6562,6 +6651,8 @@ class ProcessBehavior {
 
 /// Provides a list of utterances that have been made to a specific version of
 /// your bot. The list contains a maximum of 100 utterances.
+///
+/// @nodoc
 class UtteranceList {
   /// The version of the bot that processed the list.
   final String? botVersion;
@@ -6597,6 +6688,8 @@ class UtteranceList {
 }
 
 /// Provides information about a single utterance that was made to your bot.
+///
+/// @nodoc
 class UtteranceData {
   /// The number of times that the utterance was processed.
   final int? count;
@@ -6650,6 +6743,7 @@ class UtteranceData {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const detected = StatusType._('Detected');
   static const missed = StatusType._('Missed');
@@ -6674,6 +6768,8 @@ class StatusType {
 }
 
 /// Provides information about a slot type..
+///
+/// @nodoc
 class SlotTypeMetadata {
   /// The date that the slot type was created.
   final DateTime? createdDate;
@@ -6728,6 +6824,8 @@ class SlotTypeMetadata {
 
 /// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
 /// V2.
+///
+/// @nodoc
 class MigrationSummary {
   /// The unique identifier that Amazon Lex assigned to the migration.
   final String? migrationId;
@@ -6813,6 +6911,7 @@ class MigrationSummary {
   }
 }
 
+/// @nodoc
 class MigrationStatus {
   static const inProgress = MigrationStatus._('IN_PROGRESS');
   static const completed = MigrationStatus._('COMPLETED');
@@ -6838,6 +6937,7 @@ class MigrationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MigrationSortAttribute {
   static const v1BotName = MigrationSortAttribute._('V1_BOT_NAME');
   static const migrationDateTime =
@@ -6864,6 +6964,7 @@ class MigrationSortAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -6889,6 +6990,8 @@ class SortOrder {
 
 /// Provides information about alerts and warnings that Amazon Lex sends during
 /// a migration. The alerts include information about how to resolve the issue.
+///
+/// @nodoc
 class MigrationAlert {
   /// Additional details about the alert.
   final List<String>? details;
@@ -6948,6 +7051,7 @@ class MigrationAlert {
   }
 }
 
+/// @nodoc
 class MigrationAlertType {
   static const error = MigrationAlertType._('ERROR');
   static const warn = MigrationAlertType._('WARN');
@@ -6974,6 +7078,8 @@ class MigrationAlertType {
 }
 
 /// Provides information about an intent.
+///
+/// @nodoc
 class IntentMetadata {
   /// The date that the intent was created.
   final DateTime? createdDate;
@@ -7026,6 +7132,7 @@ class IntentMetadata {
   }
 }
 
+/// @nodoc
 class ExportType {
   static const alexaSkillsKit = ExportType._('ALEXA_SKILLS_KIT');
   static const lex = ExportType._('LEX');
@@ -7049,6 +7156,7 @@ class ExportType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportStatus {
   static const inProgress = ExportStatus._('IN_PROGRESS');
   static const ready = ExportStatus._('READY');
@@ -7074,6 +7182,8 @@ class ExportStatus {
 }
 
 /// Provides information about a built in slot type.
+///
+/// @nodoc
 class BuiltinSlotTypeMetadata {
   /// A unique identifier for the built-in slot type. To find the signature for a
   /// slot type, see <a
@@ -7111,6 +7221,8 @@ class BuiltinSlotTypeMetadata {
 }
 
 /// Provides metadata for a built-in intent.
+///
+/// @nodoc
 class BuiltinIntentMetadata {
   /// A unique identifier for the built-in intent. To find the signature for an
   /// intent, see <a
@@ -7148,6 +7260,8 @@ class BuiltinIntentMetadata {
 }
 
 /// Provides information about a slot used in a built-in intent.
+///
+/// @nodoc
 class BuiltinIntentSlot {
   /// A list of the slots defined for the intent.
   final String? name;
@@ -7171,6 +7285,8 @@ class BuiltinIntentSlot {
 }
 
 /// Provides information about a bot. .
+///
+/// @nodoc
 class BotMetadata {
   /// The date that the bot was created.
   final DateTime? createdDate;
@@ -7233,6 +7349,8 @@ class BotMetadata {
 
 /// Represents an association between an Amazon Lex bot and an external
 /// messaging platform.
+///
+/// @nodoc
 class BotChannelAssociation {
   /// An alias pointing to the specific version of the Amazon Lex bot to which
   /// this association is being made.
@@ -7334,6 +7452,7 @@ class BotChannelAssociation {
   }
 }
 
+/// @nodoc
 class ChannelType {
   static const facebook = ChannelType._('Facebook');
   static const slack = ChannelType._('Slack');
@@ -7359,6 +7478,7 @@ class ChannelType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelStatus {
   static const inProgress = ChannelStatus._('IN_PROGRESS');
   static const created = ChannelStatus._('CREATED');
@@ -7385,6 +7505,8 @@ class ChannelStatus {
 }
 
 /// Provides information about a bot alias.
+///
+/// @nodoc
 class BotAliasMetadata {
   /// The name of the bot to which the alias points.
   final String? botName;
@@ -7461,42 +7583,50 @@ class BotAliasMetadata {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);

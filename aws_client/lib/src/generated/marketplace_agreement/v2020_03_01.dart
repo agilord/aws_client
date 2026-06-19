@@ -1736,6 +1736,7 @@ class MarketplaceAgreement {
   }
 }
 
+/// @nodoc
 class AcceptAgreementCancellationRequestOutput {
   /// The unique identifier of the accepted cancellation request.
   final String? agreementCancellationRequestId;
@@ -1807,6 +1808,7 @@ class AcceptAgreementCancellationRequestOutput {
   }
 }
 
+/// @nodoc
 class AcceptAgreementPaymentRequestOutput {
   /// The unique identifier of the agreement associated with this payment request.
   final String? agreementId;
@@ -1886,6 +1888,7 @@ class AcceptAgreementPaymentRequestOutput {
   }
 }
 
+/// @nodoc
 class AcceptAgreementRequestOutput {
   /// The unique identifier of the agreement created or modified by accepting the
   /// agreement request.
@@ -1909,6 +1912,7 @@ class AcceptAgreementRequestOutput {
   }
 }
 
+/// @nodoc
 class BatchCreateBillingAdjustmentRequestOutput {
   /// A list of errors for entries that failed validation, each containing the
   /// <code>clientToken</code>, error <code>code</code>, and <code>message</code>.
@@ -1949,6 +1953,7 @@ class BatchCreateBillingAdjustmentRequestOutput {
   }
 }
 
+/// @nodoc
 class CancelAgreementOutput {
   CancelAgreementOutput();
 
@@ -1961,6 +1966,7 @@ class CancelAgreementOutput {
   }
 }
 
+/// @nodoc
 class CancelAgreementCancellationRequestOutput {
   /// The unique identifier of the cancelled cancellation request.
   final String? agreementCancellationRequestId;
@@ -2040,6 +2046,7 @@ class CancelAgreementCancellationRequestOutput {
   }
 }
 
+/// @nodoc
 class CancelAgreementPaymentRequestOutput {
   /// The unique identifier of the agreement associated with this payment request.
   final String? agreementId;
@@ -2119,6 +2126,7 @@ class CancelAgreementPaymentRequestOutput {
   }
 }
 
+/// @nodoc
 class CreateAgreementRequestOutput {
   /// The unique identifier of the agreement request created. Use this identifier
   /// with <code>AcceptAgreementRequest</code> to accept the agreement.
@@ -2154,6 +2162,7 @@ class CreateAgreementRequestOutput {
   }
 }
 
+/// @nodoc
 class DescribeAgreementOutput {
   /// The date and time the offer was accepted or the agreement was created.
   /// <note>
@@ -2288,6 +2297,7 @@ class DescribeAgreementOutput {
   }
 }
 
+/// @nodoc
 class GetAgreementCancellationRequestOutput {
   /// The unique identifier of the cancellation request.
   final String? agreementCancellationRequestId;
@@ -2367,6 +2377,7 @@ class GetAgreementCancellationRequestOutput {
   }
 }
 
+/// @nodoc
 class GetAgreementEntitlementsOutput {
   /// A list of agreement entitlements which are part of the latest agreement.
   final List<AgreementEntitlement>? agreementEntitlements;
@@ -2401,6 +2412,7 @@ class GetAgreementEntitlementsOutput {
   }
 }
 
+/// @nodoc
 class GetAgreementPaymentRequestOutput {
   /// The unique identifier of the agreement associated with this payment request.
   /// Use <code>DescribeAgreement</code> to retrieve full agreement details.
@@ -2411,7 +2423,7 @@ class GetAgreementPaymentRequestOutput {
 
   /// The unique identifier of the charge created after the payment request is
   /// approved. This field is only present for approved payment requests and
-  /// follows the pattern <code>ch-[a-zA-Z0-9]+</code>.
+  /// follows the pattern <code>ch-\[a-zA-Z0-9\]+</code>.
   final String? chargeId;
 
   /// The date and time when the payment request was created.
@@ -2520,6 +2532,7 @@ class GetAgreementPaymentRequestOutput {
   }
 }
 
+/// @nodoc
 class GetAgreementTermsOutput {
   /// A subset of terms proposed by the proposer that have been accepted by the
   /// acceptor as part of the agreement creation.
@@ -2554,6 +2567,7 @@ class GetAgreementTermsOutput {
   }
 }
 
+/// @nodoc
 class GetBillingAdjustmentRequestOutput {
   /// The adjustment amount as a string representation of a decimal number.
   final String adjustmentAmount;
@@ -2653,6 +2667,7 @@ class GetBillingAdjustmentRequestOutput {
   }
 }
 
+/// @nodoc
 class ListAgreementCancellationRequestsOutput {
   /// An array of <code>AgreementCancellationRequestSummary</code> objects
   /// containing summary information about each cancellation request.
@@ -2689,6 +2704,7 @@ class ListAgreementCancellationRequestsOutput {
   }
 }
 
+/// @nodoc
 class ListAgreementChargesOutput {
   /// A list of agreement charges.
   final List<Charge>? items;
@@ -2722,6 +2738,7 @@ class ListAgreementChargesOutput {
   }
 }
 
+/// @nodoc
 class ListAgreementInvoiceLineItemsOutput {
   /// A list of grouped billing data objects.
   final List<AgreementInvoiceLineItemGroupSummary>?
@@ -2762,6 +2779,7 @@ class ListAgreementInvoiceLineItemsOutput {
   }
 }
 
+/// @nodoc
 class ListAgreementPaymentRequestsOutput {
   /// An array of <code>PaymentRequestSummary</code> objects containing summary
   /// information about each payment request.
@@ -2797,6 +2815,7 @@ class ListAgreementPaymentRequestsOutput {
   }
 }
 
+/// @nodoc
 class ListBillingAdjustmentRequestsOutput {
   /// An array of <code>BillingAdjustmentSummary</code> objects containing summary
   /// information about each billing adjustment request.
@@ -2833,6 +2852,7 @@ class ListBillingAdjustmentRequestsOutput {
   }
 }
 
+/// @nodoc
 class RejectAgreementCancellationRequestOutput {
   /// The unique identifier of the rejected cancellation request.
   final String? agreementCancellationRequestId;
@@ -2911,6 +2931,7 @@ class RejectAgreementCancellationRequestOutput {
   }
 }
 
+/// @nodoc
 class RejectAgreementPaymentRequestOutput {
   /// The unique identifier of the agreement associated with this payment request.
   final String? agreementId;
@@ -2997,6 +3018,7 @@ class RejectAgreementPaymentRequestOutput {
   }
 }
 
+/// @nodoc
 class SearchAgreementsOutput {
   /// A summary of the agreement, including top-level attributes (for example, the
   /// agreement ID, proposer, and acceptor).
@@ -3032,6 +3054,7 @@ class SearchAgreementsOutput {
   }
 }
 
+/// @nodoc
 class SendAgreementCancellationRequestOutput {
   /// The unique identifier for the created cancellation request.
   final String? agreementCancellationRequestId;
@@ -3102,6 +3125,7 @@ class SendAgreementCancellationRequestOutput {
   }
 }
 
+/// @nodoc
 class SendAgreementPaymentRequestOutput {
   /// The agreement identifier for this payment request.
   final String? agreementId;
@@ -3175,6 +3199,7 @@ class SendAgreementPaymentRequestOutput {
   }
 }
 
+/// @nodoc
 class UpdatePurchaseOrdersOutput {
   UpdatePurchaseOrdersOutput();
 
@@ -3189,6 +3214,8 @@ class UpdatePurchaseOrdersOutput {
 
 /// Contains information about a purchase order association to a charge within
 /// an agreement.
+///
+/// @nodoc
 class PurchaseOrder {
   /// The unique identifier of the charge to associate the purchase order with.
   final String chargeId;
@@ -3224,6 +3251,7 @@ class PurchaseOrder {
   }
 }
 
+/// @nodoc
 class PaymentRequestStatus {
   static const validating = PaymentRequestStatus._('VALIDATING');
   static const validationFailed = PaymentRequestStatus._('VALIDATION_FAILED');
@@ -3260,6 +3288,7 @@ class PaymentRequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AgreementCancellationRequestStatus {
   static const pendingApproval =
       AgreementCancellationRequestStatus._('PENDING_APPROVAL');
@@ -3296,6 +3325,7 @@ class AgreementCancellationRequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AgreementCancellationRequestReasonCode {
   static const incorrectTermsAccepted =
       AgreementCancellationRequestReasonCode._('INCORRECT_TERMS_ACCEPTED');
@@ -3346,6 +3376,8 @@ class AgreementCancellationRequestReasonCode {
 
 /// A summary of the agreement, including top-level attributes (for example, the
 /// agreement ID, proposer, and acceptor).
+///
+/// @nodoc
 class AgreementViewSummary {
   /// The date and time that the agreement was accepted.
   final DateTime? acceptanceTime;
@@ -3447,6 +3479,8 @@ class AgreementViewSummary {
 
 /// The details of the party accepting the agreement terms. This is commonly the
 /// buyer for <code>PurchaseAgreement</code>.
+///
+/// @nodoc
 class Acceptor {
   /// The AWS account ID of the acceptor.
   final String? accountId;
@@ -3471,6 +3505,8 @@ class Acceptor {
 
 /// Details of the party proposing the agreement terms,. This is commonly the
 /// seller for <code>PurchaseAgreement</code>.
+///
+/// @nodoc
 class Proposer {
   /// The AWS account ID of the proposer.
   final String? accountId;
@@ -3494,6 +3530,8 @@ class Proposer {
 }
 
 /// A summary of the proposal received from the proposer.
+///
+/// @nodoc
 class ProposalSummary {
   /// The unique identifier of the offer in AWS Marketplace.
   final String? offerId;
@@ -3534,6 +3572,7 @@ class ProposalSummary {
   }
 }
 
+/// @nodoc
 class AgreementStatus {
   static const active = AgreementStatus._('ACTIVE');
   static const archived = AgreementStatus._('ARCHIVED');
@@ -3576,6 +3615,8 @@ class AgreementStatus {
 }
 
 /// Represents an entitlement associated with an agreement.
+///
+/// @nodoc
 class Entitlement {
   /// The Amazon Resource Name (ARN) of the AWS License Manager license associated
   /// with the entitlement.
@@ -3600,6 +3641,8 @@ class Entitlement {
 }
 
 /// The list of resources involved in the agreement.
+///
+/// @nodoc
 class Resource {
   /// The unique identifier of the resource.
   /// <note>
@@ -3637,6 +3680,8 @@ class Resource {
 
 /// An object that contains the <code>SortBy</code> and <code>SortOrder</code>
 /// attributes.
+///
+/// @nodoc
 class Sort {
   /// The attribute on which the data is grouped, which can be by
   /// <code>StartTime</code> and <code>EndTime</code>. The default value is
@@ -3662,6 +3707,7 @@ class Sort {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -3688,6 +3734,8 @@ class SortOrder {
 /// The filter name and value pair that is used to return a more specific list
 /// of results. Filters can be used to match a set of resources by various
 /// criteria, such as <code>offerId</code> or <code>productId</code>.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter.
   final String? name;
@@ -3711,6 +3759,8 @@ class Filter {
 }
 
 /// Summary view of a billing adjustment request.
+///
+/// @nodoc
 class BillingAdjustmentSummary {
   /// The adjustment amount as a string representation of a decimal number.
   final String adjustmentAmount;
@@ -3799,6 +3849,7 @@ class BillingAdjustmentSummary {
   }
 }
 
+/// @nodoc
 class BillingAdjustmentStatus {
   static const pending = BillingAdjustmentStatus._('PENDING');
   static const validationFailed =
@@ -3827,6 +3878,8 @@ class BillingAdjustmentStatus {
 }
 
 /// Summary view of a payment request.
+///
+/// @nodoc
 class PaymentRequestSummary {
   /// The unique identifier of the agreement associated with this payment request.
   final String? agreementId;
@@ -3910,6 +3963,8 @@ class PaymentRequestSummary {
 }
 
 /// A summary of grouped billing data for an agreement invoice line item.
+///
+/// @nodoc
 class AgreementInvoiceLineItemGroupSummary {
   /// The unique identifier of the agreement.
   final String? agreementId;
@@ -3989,6 +4044,8 @@ class AgreementInvoiceLineItemGroupSummary {
 }
 
 /// Monetary amounts associated with an invoice line item group.
+///
+/// @nodoc
 class PricingCurrencyAmount {
   /// The monetary amount before tax.
   final String? amount;
@@ -4029,6 +4086,8 @@ class PricingCurrencyAmount {
 }
 
 /// The billing period for an invoice, specified by month and year.
+///
+/// @nodoc
 class InvoiceBillingPeriod {
   /// The billing period month. Valid range: 1-12.
   final int month;
@@ -4058,6 +4117,7 @@ class InvoiceBillingPeriod {
   }
 }
 
+/// @nodoc
 class InvoiceType {
   static const invoice = InvoiceType._('INVOICE');
   static const creditMemo = InvoiceType._('CREDIT_MEMO');
@@ -4082,6 +4142,8 @@ class InvoiceType {
 }
 
 /// The entity responsible for issuing the invoice.
+///
+/// @nodoc
 class InvoicingEntity {
   /// The branch where the issuing entity is operating from.
   final String? branchName;
@@ -4111,6 +4173,7 @@ class InvoicingEntity {
   }
 }
 
+/// @nodoc
 class LineItemGroupBy {
   static const invoiceId = LineItemGroupBy._('INVOICE_ID');
 
@@ -4136,6 +4199,8 @@ class LineItemGroupBy {
 
 /// Represents a charge associated with an agreement, including amount, timing,
 /// and purchase order details.
+///
+/// @nodoc
 class Charge {
   /// The unique identifier of the agreement that resulted in this charge.
   final String? agreementId;
@@ -4211,6 +4276,8 @@ class Charge {
 }
 
 /// Summary view of an agreement cancellation request.
+///
+/// @nodoc
 class AgreementCancellationRequestSummary {
   /// The unique identifier of the cancellation request.
   final String? agreementCancellationRequestId;
@@ -4290,6 +4357,7 @@ class AgreementCancellationRequestSummary {
   }
 }
 
+/// @nodoc
 class BillingAdjustmentReasonCode {
   static const incorrectTermsAccepted =
       BillingAdjustmentReasonCode._('INCORRECT_TERMS_ACCEPTED');
@@ -4336,6 +4404,8 @@ class BillingAdjustmentReasonCode {
 
 /// A subset of terms proposed by the proposer, which have been accepted by the
 /// acceptor as part of agreement creation.
+///
+/// @nodoc
 class AcceptedTerm {
   /// Enables you and your customers to move your existing agreements to AWS
   /// Marketplace. The customer won't be charged for product usage in AWS
@@ -4500,6 +4570,8 @@ class AcceptedTerm {
 
 /// Defines the list of text agreements proposed to the acceptors. An example is
 /// the end user license agreement (EULA).
+///
+/// @nodoc
 class LegalTerm {
   /// List of references to legal resources proposed to the buyers. An example is
   /// the EULA.
@@ -4542,6 +4614,8 @@ class LegalTerm {
 
 /// Defines the customer support available for the acceptors when they purchase
 /// the software.
+///
+/// @nodoc
 class SupportTerm {
   /// The unique identifier for the term.
   final String? id;
@@ -4588,6 +4662,8 @@ class SupportTerm {
 /// also change this flag from <code>True</code> to <code>False</code> or
 /// <code>False</code> to <code>True</code> at anytime during the agreement's
 /// lifecycle.
+///
+/// @nodoc
 class RenewalTerm {
   /// Additional parameters specified by the acceptor while accepting the term.
   final RenewalTermConfiguration? configuration;
@@ -4629,6 +4705,8 @@ class RenewalTerm {
 
 /// Defines a usage-based pricing model (typically, pay-as-you-go pricing),
 /// where the customers are charged based on product usage.
+///
+/// @nodoc
 class UsageBasedPricingTerm {
   /// Defines the currency for the prices mentioned in the term.
   final String? currencyCode;
@@ -4678,6 +4756,8 @@ class UsageBasedPricingTerm {
 
 /// Defines a prepaid payment model that allows buyers to configure the
 /// entitlements they want to purchase and the duration.
+///
+/// @nodoc
 class ConfigurableUpfrontPricingTerm {
   /// Additional parameters specified by the acceptor while accepting the term.
   final ConfigurableUpfrontPricingTermConfiguration? configuration;
@@ -4739,6 +4819,8 @@ class ConfigurableUpfrontPricingTerm {
 /// Marketplace. The customer won't be charged for product usage in AWS
 /// Marketplace because they already paid for the product outside of AWS
 /// Marketplace.
+///
+/// @nodoc
 class ByolPricingTerm {
   /// The unique identifier for the term.
   final String? id;
@@ -4770,6 +4852,8 @@ class ByolPricingTerm {
 
 /// Defines a pricing model where customers are charged a fixed recurring price
 /// at the end of each billing period.
+///
+/// @nodoc
 class RecurringPaymentTerm {
   /// Defines the recurrence at which buyers are charged.
   final String? billingPeriod;
@@ -4822,6 +4906,8 @@ class RecurringPaymentTerm {
 
 /// Defines the conditions that will keep an agreement created from this offer
 /// valid.
+///
+/// @nodoc
 class ValidityTerm {
   /// Defines the duration that the agreement remains active. If
   /// <code>AgreementStartDate</code> isn’t provided, the agreement duration is
@@ -4884,6 +4970,8 @@ class ValidityTerm {
 /// Defines an installment-based pricing model where customers are charged a
 /// fixed price on different dates during the agreement validity period. This is
 /// used most commonly for flexible payment schedule pricing.
+///
+/// @nodoc
 class PaymentScheduleTerm {
   /// Defines the currency for the prices mentioned in the term.
   final String? currencyCode;
@@ -4933,6 +5021,8 @@ class PaymentScheduleTerm {
 
 /// Defines a short-term free pricing model where the buyers aren’t charged
 /// anything within a specified limit.
+///
+/// @nodoc
 class FreeTrialPricingTerm {
   /// Duration of the free trial period (5–31 days).
   final String? duration;
@@ -4982,6 +5072,8 @@ class FreeTrialPricingTerm {
 
 /// Defines a prepaid pricing model where the customers are charged a fixed
 /// upfront amount.
+///
+/// @nodoc
 class FixedUpfrontPricingTerm {
   /// Defines the currency for the prices mentioned in this term.
   final String? currencyCode;
@@ -5046,6 +5138,8 @@ class FixedUpfrontPricingTerm {
 /// Defines a payment model where sellers can submit variable payment requests
 /// up to a maximum charge amount, with configurable approval strategies and
 /// expiration timelines.
+///
+/// @nodoc
 class VariablePaymentTerm {
   /// Additional parameters specified by the acceptor while accepting the term.
   final VariablePaymentTermConfiguration? configuration;
@@ -5103,6 +5197,8 @@ class VariablePaymentTerm {
 
 /// Additional parameters specified by the acceptor while accepting the variable
 /// payment term.
+///
+/// @nodoc
 class VariablePaymentTermConfiguration {
   /// Defines the strategy for approving payment requests. Values include
   /// <code>AUTO_APPROVE_ON_EXPIRATION</code> and <code>WAIT_FOR_APPROVAL</code>
@@ -5137,6 +5233,7 @@ class VariablePaymentTermConfiguration {
   }
 }
 
+/// @nodoc
 class PaymentRequestApprovalStrategy {
   static const autoApproveOnExpiration =
       PaymentRequestApprovalStrategy._('AUTO_APPROVE_ON_EXPIRATION');
@@ -5166,6 +5263,8 @@ class PaymentRequestApprovalStrategy {
 
 /// Entitlements granted to the acceptor of fixed upfront as part of agreement
 /// execution.
+///
+/// @nodoc
 class GrantItem {
   /// Unique dimension key defined in the product document. Dimensions represent
   /// categories of capacity in a product and are specified when the product is
@@ -5201,6 +5300,8 @@ class GrantItem {
 
 /// An individual installment of the payment that includes the date and amount
 /// of the charge.
+///
+/// @nodoc
 class ScheduleItem {
   /// The price that the customer would pay on the scheduled date (chargeDate).
   final String? chargeAmount;
@@ -5233,6 +5334,8 @@ class ScheduleItem {
 
 /// Defines a prepaid payment model that allows buyers to configure the
 /// entitlements they want to purchase and the duration.
+///
+/// @nodoc
 class ConfigurableUpfrontPricingTermConfiguration {
   /// Defines the dimensions that the acceptor has purchased from the overall set
   /// of dimensions presented in the rate card.
@@ -5270,6 +5373,8 @@ class ConfigurableUpfrontPricingTermConfiguration {
 
 /// Defines the dimensions that the acceptor has purchased from the overall set
 /// of dimensions presented in the rate card.
+///
+/// @nodoc
 class Dimension {
   /// The name of key value of the dimension.
   final String dimensionKey;
@@ -5310,6 +5415,8 @@ class Dimension {
 /// <code>ConfigurableUpfrontPricingTerm</code>, the <code>RateCardItem</code>
 /// defines all the various rate cards (including pricing and dimensions) that
 /// have been proposed.
+///
+/// @nodoc
 class ConfigurableUpfrontRateCardItem {
   /// Defines limits on how the term can be configured by acceptors.
   final Constraints? constraints;
@@ -5356,6 +5463,8 @@ class ConfigurableUpfrontRateCardItem {
 
 /// Differentiates between the mutually exclusive rate cards in the same pricing
 /// term to be selected by the buyer.
+///
+/// @nodoc
 class Selector {
   /// Category of selector.
   final String? type;
@@ -5386,6 +5495,8 @@ class Selector {
 }
 
 /// Defines limits on how the term can be configured by acceptors.
+///
+/// @nodoc
 class Constraints {
   /// Determines if buyers are allowed to select multiple dimensions in the rate
   /// card. The possible values are <code>Allowed</code> and
@@ -5422,6 +5533,8 @@ class Constraints {
 }
 
 /// Defines the per unit rates for each individual product dimension.
+///
+/// @nodoc
 class RateCardItem {
   /// Dimension for which the given entitlement applies. Dimensions represent
   /// categories of capacity in a product and are specified when the product is
@@ -5457,6 +5570,8 @@ class RateCardItem {
 /// Within the pay-as-you-go model defined under
 /// <code>UsageBasedPricingTerm</code>, the <code>UsageBasedRateCardItem</code>
 /// defines an individual rate for a product dimension.
+///
+/// @nodoc
 class UsageBasedRateCardItem {
   /// Defines the per unit rates for product dimensions.
   final List<RateCardItem>? rateCard;
@@ -5483,6 +5598,8 @@ class UsageBasedRateCardItem {
 }
 
 /// Additional parameters specified by the acceptor while accepting the term.
+///
+/// @nodoc
 class RenewalTermConfiguration {
   /// Defines whether the acceptor has chosen to auto-renew the agreement at the
   /// end of its lifecycle. Can be set to <code>True</code> or <code>False</code>.
@@ -5509,6 +5626,8 @@ class RenewalTermConfiguration {
 /// Includes the list of references to legal resources proposed by the proposer
 /// to the acceptor. Each <code>DocumentItem</code> refers to an individual
 /// reference.
+///
+/// @nodoc
 class DocumentItem {
   /// Category of the document. Document types include:
   ///
@@ -5573,6 +5692,8 @@ class DocumentItem {
 
 /// Represents an entitlement associated with an agreement, including the
 /// provisioning status, resource, and type.
+///
+/// @nodoc
 class AgreementEntitlement {
   /// The Amazon Resource Name (ARN) of the AWS License Manager license associated
   /// with the entitlement.
@@ -5637,6 +5758,7 @@ class AgreementEntitlement {
   }
 }
 
+/// @nodoc
 class AgreementEntitlementStatus {
   static const provisioned = AgreementEntitlementStatus._('PROVISIONED');
   static const scheduled = AgreementEntitlementStatus._('SCHEDULED');
@@ -5671,6 +5793,7 @@ class AgreementEntitlementStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AgreementEntitlementStatusReasonCode {
   static const provisioningInProgress =
       AgreementEntitlementStatusReasonCode._('PROVISIONING_IN_PROGRESS');
@@ -5723,6 +5846,8 @@ class AgreementEntitlementStatusReasonCode {
 }
 
 /// Estimated cost of the agreement.
+///
+/// @nodoc
 class EstimatedCharges {
   /// The total known amount customer has to pay across the lifecycle of the
   /// agreement.
@@ -5798,6 +5923,8 @@ class EstimatedCharges {
 /// include the tax <code>rate</code> and <code>type</code>.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class ChargeSummary {
   /// The three-letter currency code for all charges (e.g., USD).
   final String? currencyCode;
@@ -5876,6 +6003,8 @@ class ChargeSummary {
 }
 
 /// Provides an aggregated view of estimated tax information.
+///
+/// @nodoc
 class EstimatedTaxes {
   /// A list of tax breakdown information.
   final List<TaxBreakdownItem>? breakdown;
@@ -5910,6 +6039,8 @@ class EstimatedTaxes {
 
 /// A breakdown of individual charges or line items within a billing or pricing
 /// context.
+///
+/// @nodoc
 class ItemizedCharge {
   /// The identifier of the expected charge that this itemized charge contributes
   /// to.
@@ -5964,6 +6095,8 @@ class ItemizedCharge {
 }
 
 /// Represents a single tax breakdown entry with amount, rate, and type.
+///
+/// @nodoc
 class TaxBreakdownItem {
   /// The estimated tax amount.
   final String? amount;
@@ -6001,6 +6134,8 @@ class TaxBreakdownItem {
 }
 
 /// Estimated charge for the request.
+///
+/// @nodoc
 class ExpectedCharge {
   /// The tax-exclusive amount of the charge. Only available when the charge
   /// amount is known.
@@ -6068,6 +6203,7 @@ class ExpectedCharge {
   }
 }
 
+/// @nodoc
 class Timing {
   static const onAcceptance = Timing._('ON_ACCEPTANCE');
   static const scheduled = Timing._('SCHEDULED');
@@ -6092,6 +6228,7 @@ class Timing {
   String toString() => value;
 }
 
+/// @nodoc
 class Intent {
   static const $new = Intent._('NEW');
   static const amend = Intent._('AMEND');
@@ -6117,6 +6254,8 @@ class Intent {
 }
 
 /// Configuration controls for tax estimation in the agreement request.
+///
+/// @nodoc
 class TaxConfiguration {
   /// Toggle to estimate tax as part of the response. Values include
   /// <code>ENABLED</code> and <code>DISABLED</code>. Default is
@@ -6135,6 +6274,7 @@ class TaxConfiguration {
   }
 }
 
+/// @nodoc
 class TaxEstimation {
   static const disabled = TaxEstimation._('DISABLED');
   static const enabled = TaxEstimation._('ENABLED');
@@ -6161,6 +6301,8 @@ class TaxEstimation {
 
 /// Defines what is being accepted as part of the agreement creation or update
 /// request, and it includes their configurations.
+///
+/// @nodoc
 class RequestedTerm {
   /// The unique identifier of the term in the agreement proposal.
   final String id;
@@ -6187,6 +6329,8 @@ class RequestedTerm {
 
 /// A tagged union that represents the term configuration provided by the
 /// acceptor. Only one configuration is accepted per term.
+///
+/// @nodoc
 class RequestedTermConfiguration {
   final ConfigurableUpfrontPricingTermConfiguration?
       configurableUpfrontPricingTermConfiguration;
@@ -6218,6 +6362,8 @@ class RequestedTermConfiguration {
 }
 
 /// An error for a billing adjustment request entry that failed validation.
+///
+/// @nodoc
 class BatchCreateBillingAdjustmentError {
   /// The client token of the request entry that failed.
   final String clientToken;
@@ -6256,6 +6402,7 @@ class BatchCreateBillingAdjustmentError {
   }
 }
 
+/// @nodoc
 class BillingAdjustmentErrorCode {
   static const conflictException =
       BillingAdjustmentErrorCode._('CONFLICT_EXCEPTION');
@@ -6293,6 +6440,8 @@ class BillingAdjustmentErrorCode {
 }
 
 /// A successfully created billing adjustment request item.
+///
+/// @nodoc
 class BatchCreateBillingAdjustmentItem {
   /// The unique identifier of the created billing adjustment request.
   final String billingAdjustmentRequestId;
@@ -6325,6 +6474,8 @@ class BatchCreateBillingAdjustmentItem {
 
 /// An individual entry in a batch billing adjustment request, specifying the
 /// invoice and adjustment details.
+///
+/// @nodoc
 class BatchCreateBillingAdjustmentRequestEntry {
   /// The adjustment amount as a string representation of a decimal number in the
   /// currency of the invoice.
@@ -6381,26 +6532,31 @@ class BatchCreateBillingAdjustmentRequestEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6409,11 +6565,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

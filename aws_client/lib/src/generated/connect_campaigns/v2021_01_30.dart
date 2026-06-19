@@ -538,6 +538,8 @@ class ConnectCampaigns {
 }
 
 /// The response for Create Campaign API
+///
+/// @nodoc
 class CreateCampaignResponse {
   final String? arn;
   final String? id;
@@ -571,6 +573,8 @@ class CreateCampaignResponse {
 }
 
 /// DescribeCampaignResponse
+///
+/// @nodoc
 class DescribeCampaignResponse {
   final Campaign? campaign;
 
@@ -595,6 +599,8 @@ class DescribeCampaignResponse {
 }
 
 /// GetCampaignStateResponse
+///
+/// @nodoc
 class GetCampaignStateResponse {
   final CampaignState? state;
 
@@ -617,6 +623,8 @@ class GetCampaignStateResponse {
 }
 
 /// GetCampaignStateBatchResponse
+///
+/// @nodoc
 class GetCampaignStateBatchResponse {
   final List<FailedCampaignStateResponse>? failedRequests;
   final List<SuccessfulCampaignStateResponse>? successfulRequests;
@@ -652,6 +660,8 @@ class GetCampaignStateBatchResponse {
 }
 
 /// GetConnectInstanceConfigResponse
+///
+/// @nodoc
 class GetConnectInstanceConfigResponse {
   final InstanceConfig? connectInstanceConfig;
 
@@ -678,6 +688,8 @@ class GetConnectInstanceConfigResponse {
 }
 
 /// GetInstanceOnboardingJobStatusResponse
+///
+/// @nodoc
 class GetInstanceOnboardingJobStatusResponse {
   final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
 
@@ -709,6 +721,8 @@ class GetInstanceOnboardingJobStatusResponse {
 }
 
 /// ListCampaignsResponse
+///
+/// @nodoc
 class ListCampaignsResponse {
   final List<CampaignSummary>? campaignSummaryList;
   final String? nextToken;
@@ -740,6 +754,8 @@ class ListCampaignsResponse {
 }
 
 /// ListTagsForResponse
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -763,6 +779,8 @@ class ListTagsForResourceResponse {
 }
 
 /// PutDialRequestBatchResponse
+///
+/// @nodoc
 class PutDialRequestBatchResponse {
   final List<FailedRequest>? failedRequests;
   final List<SuccessfulRequest>? successfulRequests;
@@ -796,6 +814,8 @@ class PutDialRequestBatchResponse {
 }
 
 /// The response for StartInstanceOnboardingJob API.
+///
+/// @nodoc
 class StartInstanceOnboardingJobResponse {
   final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
 
@@ -827,6 +847,8 @@ class StartInstanceOnboardingJobResponse {
 }
 
 /// Answering Machine Detection config
+///
+/// @nodoc
 class AnswerMachineDetectionConfig {
   /// Enable or disable answering machine detection
   final bool enableAnswerMachineDetection;
@@ -859,6 +881,8 @@ class AnswerMachineDetectionConfig {
 }
 
 /// The possible types of dialer config parameters
+///
+/// @nodoc
 class DialerConfig {
   final AgentlessDialerConfig? agentlessDialerConfig;
   final PredictiveDialerConfig? predictiveDialerConfig;
@@ -903,6 +927,8 @@ class DialerConfig {
 }
 
 /// Progressive Dialer config
+///
+/// @nodoc
 class ProgressiveDialerConfig {
   final double bandwidthAllocation;
   final double? dialingCapacity;
@@ -930,6 +956,8 @@ class ProgressiveDialerConfig {
 }
 
 /// Predictive Dialer config
+///
+/// @nodoc
 class PredictiveDialerConfig {
   final double bandwidthAllocation;
   final double? dialingCapacity;
@@ -957,6 +985,8 @@ class PredictiveDialerConfig {
 }
 
 /// Agentless Dialer config
+///
+/// @nodoc
 class AgentlessDialerConfig {
   final double? dialingCapacity;
 
@@ -979,6 +1009,8 @@ class AgentlessDialerConfig {
 }
 
 /// Instance onboarding job status object
+///
+/// @nodoc
 class InstanceOnboardingJobStatus {
   final String connectInstanceId;
   final InstanceOnboardingJobStatusCode status;
@@ -1013,6 +1045,8 @@ class InstanceOnboardingJobStatus {
 }
 
 /// Enumeration of the possible states for instance onboarding job
+///
+/// @nodoc
 class InstanceOnboardingJobStatusCode {
   static const inProgress = InstanceOnboardingJobStatusCode._('IN_PROGRESS');
   static const succeeded = InstanceOnboardingJobStatusCode._('SUCCEEDED');
@@ -1040,6 +1074,8 @@ class InstanceOnboardingJobStatusCode {
 }
 
 /// Enumeration of the possible failure codes for instance onboarding job
+///
+/// @nodoc
 class InstanceOnboardingJobFailureCode {
   static const eventBridgeAccessDenied =
       InstanceOnboardingJobFailureCode._('EVENT_BRIDGE_ACCESS_DENIED');
@@ -1087,6 +1123,8 @@ class InstanceOnboardingJobFailureCode {
 /// be encrypted. If disabled, service will perform encryption with its own key.
 /// If enabled, a KMS key id needs to be provided and KMS charges will apply.
 /// KMS is only type supported
+///
+/// @nodoc
 class EncryptionConfig {
   final bool enabled;
   final EncryptionType? encryptionType;
@@ -1120,6 +1158,8 @@ class EncryptionConfig {
 }
 
 /// Server-side encryption type.
+///
+/// @nodoc
 class EncryptionType {
   static const kms = EncryptionType._('KMS');
 
@@ -1144,6 +1184,8 @@ class EncryptionType {
 }
 
 /// A failed request identified by the unique client token.
+///
+/// @nodoc
 class FailedRequest {
   final String? clientToken;
   final FailureCode? failureCode;
@@ -1177,6 +1219,8 @@ class FailedRequest {
 }
 
 /// A predefined code indicating the error that caused the failure.
+///
+/// @nodoc
 class FailureCode {
   static const invalidInput = FailureCode._('InvalidInput');
   static const requestThrottled = FailureCode._('RequestThrottled');
@@ -1202,6 +1246,8 @@ class FailureCode {
 }
 
 /// A successful request identified by the unique client token.
+///
+/// @nodoc
 class SuccessfulRequest {
   final String? clientToken;
   final String? id;
@@ -1229,6 +1275,8 @@ class SuccessfulRequest {
 }
 
 /// A dial request for a campaign.
+///
+/// @nodoc
 class DialRequest {
   final Map<String, String> attributes;
   final String clientToken;
@@ -1257,6 +1305,8 @@ class DialRequest {
 }
 
 /// State of a campaign
+///
+/// @nodoc
 class CampaignState {
   static const initialized = CampaignState._('Initialized');
   static const running = CampaignState._('Running');
@@ -1285,6 +1335,8 @@ class CampaignState {
 }
 
 /// An Amazon Connect campaign summary.
+///
+/// @nodoc
 class CampaignSummary {
   final String arn;
   final String connectInstanceId;
@@ -1322,6 +1374,8 @@ class CampaignSummary {
 }
 
 /// Filter model by type
+///
+/// @nodoc
 class CampaignFilters {
   final InstanceIdFilter? instanceIdFilter;
 
@@ -1338,6 +1392,8 @@ class CampaignFilters {
 }
 
 /// Connect instance identifier filter
+///
+/// @nodoc
 class InstanceIdFilter {
   final InstanceIdFilterOperator operator;
   final String value;
@@ -1358,6 +1414,8 @@ class InstanceIdFilter {
 }
 
 /// Operators for Connect instance identifier filter
+///
+/// @nodoc
 class InstanceIdFilterOperator {
   static const eq = InstanceIdFilterOperator._('Eq');
 
@@ -1383,6 +1441,8 @@ class InstanceIdFilterOperator {
 }
 
 /// Instance config object
+///
+/// @nodoc
 class InstanceConfig {
   final String connectInstanceId;
   final EncryptionConfig encryptionConfig;
@@ -1417,6 +1477,8 @@ class InstanceConfig {
 }
 
 /// Failed response of campaign state
+///
+/// @nodoc
 class FailedCampaignStateResponse {
   final String? campaignId;
   final GetCampaignStateBatchFailureCode? failureCode;
@@ -1446,6 +1508,8 @@ class FailedCampaignStateResponse {
 
 /// A predefined code indicating the error that caused the failure in getting
 /// state of campaigns
+///
+/// @nodoc
 class GetCampaignStateBatchFailureCode {
   static const resourceNotFound =
       GetCampaignStateBatchFailureCode._('ResourceNotFound');
@@ -1474,6 +1538,8 @@ class GetCampaignStateBatchFailureCode {
 }
 
 /// Successful response of campaign state
+///
+/// @nodoc
 class SuccessfulCampaignStateResponse {
   final String? campaignId;
   final CampaignState? state;
@@ -1501,6 +1567,8 @@ class SuccessfulCampaignStateResponse {
 }
 
 /// An Amazon Connect campaign.
+///
+/// @nodoc
 class Campaign {
   final String arn;
   final String connectInstanceId;
@@ -1558,6 +1626,8 @@ class Campaign {
 }
 
 /// The configuration used for outbound calls.
+///
+/// @nodoc
 class OutboundCallConfig {
   final String connectContactFlowId;
   final AnswerMachineDetectionConfig? answerMachineDetectionConfig;
@@ -1599,21 +1669,25 @@ class OutboundCallConfig {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidCampaignStateException extends _s.GenericAwsException {
   InvalidCampaignStateException({String? type, String? message})
       : super(
@@ -1622,16 +1696,19 @@ class InvalidCampaignStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1640,11 +1717,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -589,12 +589,12 @@ class Comprehend {
   /// double quotes, then you must escape the double quotes that are inside the
   /// policy:
   ///
-  /// <code>"{\"attribute\": \"value\", \"attribute\": [\"value\"]}"</code>
+  /// <code>"{\"attribute\": \"value\", \"attribute\": \[\"value\"\]}"</code>
   ///
   /// To avoid escaping quotes, you can use single quotes to enclose the policy
   /// and double quotes to enclose the JSON names and values:
   ///
-  /// <code>'{"attribute": "value", "attribute": ["value"]}'</code>
+  /// <code>'{"attribute": "value", "attribute": \["value"\]}'</code>
   ///
   /// Parameter [outputDataConfig] :
   /// Specifies the location for the output files from a custom classifier job.
@@ -832,12 +832,12 @@ class Comprehend {
   /// in double quotes. If the JSON body is also enclosed in double quotes, then
   /// you must escape the double quotes that are inside the policy:
   ///
-  /// <code>"{\"attribute\": \"value\", \"attribute\": [\"value\"]}"</code>
+  /// <code>"{\"attribute\": \"value\", \"attribute\": \[\"value\"\]}"</code>
   ///
   /// To avoid escaping quotes, you can use single quotes to enclose the policy
   /// and double quotes to enclose the JSON names and values:
   ///
-  /// <code>'{"attribute": "value", "attribute": ["value"]}'</code>
+  /// <code>'{"attribute": "value", "attribute": \["value"\]}'</code>
   ///
   /// Parameter [tags] :
   /// Tags to associate with the entity recognizer. A tag is a key-value pair
@@ -3088,12 +3088,12 @@ class Comprehend {
   /// quotes. If the JSON body is also enclosed in double quotes, then you must
   /// escape the double quotes that are inside the policy:
   ///
-  /// <code>"{\"attribute\": \"value\", \"attribute\": [\"value\"]}"</code>
+  /// <code>"{\"attribute\": \"value\", \"attribute\": \[\"value\"\]}"</code>
   ///
   /// To avoid escaping quotes, you can use single quotes to enclose the policy
   /// and double quotes to enclose the JSON names and values:
   ///
-  /// <code>'{"attribute": "value", "attribute": ["value"]}'</code>
+  /// <code>'{"attribute": "value", "attribute": \["value"\]}'</code>
   ///
   /// Parameter [policyRevisionId] :
   /// The revision ID that Amazon Comprehend assigned to the policy that you are
@@ -4588,6 +4588,7 @@ class Comprehend {
   }
 }
 
+/// @nodoc
 class BatchDetectDominantLanguageResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
@@ -4631,6 +4632,7 @@ class BatchDetectDominantLanguageResponse {
   }
 }
 
+/// @nodoc
 class BatchDetectEntitiesResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
@@ -4673,6 +4675,7 @@ class BatchDetectEntitiesResponse {
   }
 }
 
+/// @nodoc
 class BatchDetectKeyPhrasesResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
@@ -4715,6 +4718,7 @@ class BatchDetectKeyPhrasesResponse {
   }
 }
 
+/// @nodoc
 class BatchDetectSentimentResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
@@ -4757,6 +4761,7 @@ class BatchDetectSentimentResponse {
   }
 }
 
+/// @nodoc
 class BatchDetectSyntaxResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
@@ -4799,6 +4804,7 @@ class BatchDetectSyntaxResponse {
   }
 }
 
+/// @nodoc
 class BatchDetectTargetedSentimentResponse {
   /// List of errors that the operation can return.
   final List<BatchItemError> errorList;
@@ -4839,6 +4845,7 @@ class BatchDetectTargetedSentimentResponse {
   }
 }
 
+/// @nodoc
 class ClassifyDocumentResponse {
   /// The classes used by the document being analyzed. These are used for models
   /// trained in multi-class mode. Individual classes are mutually exclusive and
@@ -4935,6 +4942,7 @@ class ClassifyDocumentResponse {
   }
 }
 
+/// @nodoc
 class ContainsPiiEntitiesResponse {
   /// The labels used in the document being analyzed. Individual labels represent
   /// personally identifiable information (PII) entity types.
@@ -4961,6 +4969,7 @@ class ContainsPiiEntitiesResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The ARN of the dataset.
   final String? datasetArn;
@@ -4983,6 +4992,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateDocumentClassifierResponse {
   /// The Amazon Resource Name (ARN) that identifies the document classifier.
   final String? documentClassifierArn;
@@ -5006,6 +5016,7 @@ class CreateDocumentClassifierResponse {
   }
 }
 
+/// @nodoc
 class CreateEndpointResponse {
   /// The Amazon Resource Number (ARN) of the endpoint being created.
   final String? endpointArn;
@@ -5036,6 +5047,7 @@ class CreateEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateEntityRecognizerResponse {
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
   final String? entityRecognizerArn;
@@ -5059,6 +5071,7 @@ class CreateEntityRecognizerResponse {
   }
 }
 
+/// @nodoc
 class CreateFlywheelResponse {
   /// The Amazon Resource Number (ARN) of the active model version.
   final String? activeModelArn;
@@ -5088,6 +5101,7 @@ class CreateFlywheelResponse {
   }
 }
 
+/// @nodoc
 class DeleteDocumentClassifierResponse {
   DeleteDocumentClassifierResponse();
 
@@ -5100,6 +5114,7 @@ class DeleteDocumentClassifierResponse {
   }
 }
 
+/// @nodoc
 class DeleteEndpointResponse {
   DeleteEndpointResponse();
 
@@ -5112,6 +5127,7 @@ class DeleteEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteEntityRecognizerResponse {
   DeleteEntityRecognizerResponse();
 
@@ -5124,6 +5140,7 @@ class DeleteEntityRecognizerResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlywheelResponse {
   DeleteFlywheelResponse();
 
@@ -5136,6 +5153,7 @@ class DeleteFlywheelResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -5148,6 +5166,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   /// The dataset properties.
   final DatasetProperties? datasetProperties;
@@ -5173,6 +5192,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeDocumentClassificationJobResponse {
   /// An object that describes the properties associated with the document
   /// classification job.
@@ -5206,6 +5226,7 @@ class DescribeDocumentClassificationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeDocumentClassifierResponse {
   /// An object that contains the properties associated with a document
   /// classifier.
@@ -5234,6 +5255,7 @@ class DescribeDocumentClassifierResponse {
   }
 }
 
+/// @nodoc
 class DescribeDominantLanguageDetectionJobResponse {
   /// An object that contains the properties associated with a dominant language
   /// detection job.
@@ -5267,6 +5289,7 @@ class DescribeDominantLanguageDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointResponse {
   /// Describes information associated with the specific endpoint.
   final EndpointProperties? endpointProperties;
@@ -5292,6 +5315,7 @@ class DescribeEndpointResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntitiesDetectionJobResponse {
   /// An object that contains the properties associated with an entities detection
   /// job.
@@ -5321,6 +5345,7 @@ class DescribeEntitiesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntityRecognizerResponse {
   /// Describes information associated with an entity recognizer.
   final EntityRecognizerProperties? entityRecognizerProperties;
@@ -5347,6 +5372,7 @@ class DescribeEntityRecognizerResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventsDetectionJobResponse {
   /// An object that contains the properties associated with an event detection
   /// job.
@@ -5375,6 +5401,7 @@ class DescribeEventsDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlywheelResponse {
   /// The flywheel properties.
   final FlywheelProperties? flywheelProperties;
@@ -5400,6 +5427,7 @@ class DescribeFlywheelResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlywheelIterationResponse {
   /// The configuration properties of a flywheel iteration.
   final FlywheelIterationProperties? flywheelIterationProperties;
@@ -5427,6 +5455,7 @@ class DescribeFlywheelIterationResponse {
   }
 }
 
+/// @nodoc
 class DescribeKeyPhrasesDetectionJobResponse {
   /// An object that contains the properties associated with a key phrases
   /// detection job.
@@ -5458,6 +5487,7 @@ class DescribeKeyPhrasesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribePiiEntitiesDetectionJobResponse {
   final PiiEntitiesDetectionJobProperties? piiEntitiesDetectionJobProperties;
 
@@ -5487,6 +5517,7 @@ class DescribePiiEntitiesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePolicyResponse {
   /// The time at which the policy was created.
   final DateTime? creationTime;
@@ -5534,6 +5565,7 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeSentimentDetectionJobResponse {
   /// An object that contains the properties associated with a sentiment detection
   /// job.
@@ -5565,6 +5597,7 @@ class DescribeSentimentDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeTargetedSentimentDetectionJobResponse {
   /// An object that contains the properties associated with a targeted sentiment
   /// detection job.
@@ -5598,6 +5631,7 @@ class DescribeTargetedSentimentDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicsDetectionJobResponse {
   /// The list of properties for the requested job.
   final TopicsDetectionJobProperties? topicsDetectionJobProperties;
@@ -5625,6 +5659,7 @@ class DescribeTopicsDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class DetectDominantLanguageResponse {
   /// Array of languages that Amazon Comprehend detected in the input text. The
   /// array is sorted in descending order of the score (the dominant language is
@@ -5658,6 +5693,7 @@ class DetectDominantLanguageResponse {
   }
 }
 
+/// @nodoc
 class DetectEntitiesResponse {
   /// Information about each block of text in the input document. Blocks are
   /// nested. A page block contains a block for each line of text, which contains
@@ -5744,6 +5780,7 @@ class DetectEntitiesResponse {
   }
 }
 
+/// @nodoc
 class DetectKeyPhrasesResponse {
   /// A collection of key phrases that Amazon Comprehend identified in the input
   /// text. For each key phrase, the response provides the text of the key phrase,
@@ -5772,6 +5809,7 @@ class DetectKeyPhrasesResponse {
   }
 }
 
+/// @nodoc
 class DetectPiiEntitiesResponse {
   /// A collection of PII entities identified in the input text. For each entity,
   /// the response provides the entity type, where the entity text begins and
@@ -5800,6 +5838,7 @@ class DetectPiiEntitiesResponse {
   }
 }
 
+/// @nodoc
 class DetectSentimentResponse {
   /// The inferred sentiment that Amazon Comprehend has the highest level of
   /// confidence in.
@@ -5834,6 +5873,7 @@ class DetectSentimentResponse {
   }
 }
 
+/// @nodoc
 class DetectSyntaxResponse {
   /// A collection of syntax tokens describing the text. For each token, the
   /// response provides the text, the token type, where the text begins and ends,
@@ -5864,6 +5904,7 @@ class DetectSyntaxResponse {
   }
 }
 
+/// @nodoc
 class DetectTargetedSentimentResponse {
   /// Targeted sentiment analysis for each of the entities identified in the input
   /// text.
@@ -5891,6 +5932,7 @@ class DetectTargetedSentimentResponse {
   }
 }
 
+/// @nodoc
 class DetectToxicContentResponse {
   /// Results of the content moderation analysis. Each entry in the results list
   /// contains a list of toxic content types identified in the text, along with a
@@ -5919,6 +5961,7 @@ class DetectToxicContentResponse {
   }
 }
 
+/// @nodoc
 class ImportModelResponse {
   /// The Amazon Resource Name (ARN) of the custom model being imported.
   final String? modelArn;
@@ -5941,6 +5984,7 @@ class ImportModelResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// The dataset properties list.
   final List<DatasetProperties>? datasetPropertiesList;
@@ -5974,6 +6018,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListDocumentClassificationJobsResponse {
   /// A list containing the properties of each job returned.
   final List<DocumentClassificationJobProperties>?
@@ -6013,6 +6058,7 @@ class ListDocumentClassificationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDocumentClassifiersResponse {
   /// A list containing the properties of each job returned.
   final List<DocumentClassifierProperties>? documentClassifierPropertiesList;
@@ -6049,6 +6095,7 @@ class ListDocumentClassifiersResponse {
   }
 }
 
+/// @nodoc
 class ListDocumentClassifierSummariesResponse {
   /// The list of summaries of document classifiers.
   final List<DocumentClassifierSummary>? documentClassifierSummariesList;
@@ -6086,6 +6133,7 @@ class ListDocumentClassifierSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListDominantLanguageDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
   final List<DominantLanguageDetectionJobProperties>?
@@ -6125,6 +6173,7 @@ class ListDominantLanguageDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListEndpointsResponse {
   /// Displays a list of endpoint properties being retrieved by the service in
   /// response to the request.
@@ -6159,6 +6208,7 @@ class ListEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListEntitiesDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
   final List<EntitiesDetectionJobProperties>?
@@ -6198,6 +6248,7 @@ class ListEntitiesDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListEntityRecognizersResponse {
   /// The list of properties of an entity recognizer.
   final List<EntityRecognizerProperties>? entityRecognizerPropertiesList;
@@ -6233,6 +6284,7 @@ class ListEntityRecognizersResponse {
   }
 }
 
+/// @nodoc
 class ListEntityRecognizerSummariesResponse {
   /// The list entity recognizer summaries.
   final List<EntityRecognizerSummary>? entityRecognizerSummariesList;
@@ -6269,6 +6321,7 @@ class ListEntityRecognizerSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListEventsDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
   final List<EventsDetectionJobProperties>? eventsDetectionJobPropertiesList;
@@ -6305,6 +6358,7 @@ class ListEventsDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListFlywheelIterationHistoryResponse {
   /// List of flywheel iteration properties
   final List<FlywheelIterationProperties>? flywheelIterationPropertiesList;
@@ -6342,6 +6396,7 @@ class ListFlywheelIterationHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListFlywheelsResponse {
   /// A list of flywheel properties retrieved by the service in response to the
   /// request.
@@ -6376,6 +6431,7 @@ class ListFlywheelsResponse {
   }
 }
 
+/// @nodoc
 class ListKeyPhrasesDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
   final List<KeyPhrasesDetectionJobProperties>?
@@ -6415,6 +6471,7 @@ class ListKeyPhrasesDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListPiiEntitiesDetectionJobsResponse {
   /// Identifies the next page of results to return.
   final String? nextToken;
@@ -6454,6 +6511,7 @@ class ListPiiEntitiesDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListSentimentDetectionJobsResponse {
   /// Identifies the next page of results to return.
   final String? nextToken;
@@ -6493,6 +6551,7 @@ class ListSentimentDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you
   /// are querying.
@@ -6529,6 +6588,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTargetedSentimentDetectionJobsResponse {
   /// Identifies the next page of results to return.
   final String? nextToken;
@@ -6568,6 +6628,7 @@ class ListTargetedSentimentDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListTopicsDetectionJobsResponse {
   /// Identifies the next page of results to return.
   final String? nextToken;
@@ -6604,6 +6665,7 @@ class ListTopicsDetectionJobsResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The revision ID of the policy. Each time you modify a policy, Amazon
   /// Comprehend assigns a new revision ID, and it deletes the prior version of
@@ -6628,6 +6690,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class StartDocumentClassificationJobResponse {
   /// The ARN of the custom classification model.
   final String? documentClassifierArn;
@@ -6707,6 +6770,7 @@ class StartDocumentClassificationJobResponse {
   }
 }
 
+/// @nodoc
 class StartDominantLanguageDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the dominant language detection job. It is
   /// a unique, fully qualified identifier for the job. It includes the Amazon Web
@@ -6769,6 +6833,7 @@ class StartDominantLanguageDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartEntitiesDetectionJobResponse {
   /// The ARN of the custom entity recognition model.
   final String? entityRecognizerArn;
@@ -6846,6 +6911,7 @@ class StartEntitiesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartEventsDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the events detection job. It is a unique,
   /// fully qualified identifier for the job. It includes the Amazon Web Services
@@ -6892,6 +6958,7 @@ class StartEventsDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartFlywheelIterationResponse {
   ///
   final String? flywheelArn;
@@ -6922,6 +6989,7 @@ class StartFlywheelIterationResponse {
   }
 }
 
+/// @nodoc
 class StartKeyPhrasesDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the key phrase detection job. It is a
   /// unique, fully qualified identifier for the job. It includes the Amazon Web
@@ -6984,6 +7052,7 @@ class StartKeyPhrasesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartPiiEntitiesDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the PII entity detection job. It is a
   /// unique, fully qualified identifier for the job. It includes the Amazon Web
@@ -7030,6 +7099,7 @@ class StartPiiEntitiesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartSentimentDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a
   /// unique, fully qualified identifier for the job. It includes the Amazon Web
@@ -7092,6 +7162,7 @@ class StartSentimentDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartTargetedSentimentDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It
   /// is a unique, fully qualified identifier for the job. It includes the Amazon
@@ -7156,6 +7227,7 @@ class StartTargetedSentimentDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StartTopicsDetectionJobResponse {
   /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique,
   /// fully qualified identifier for the job. It includes the Amazon Web Services
@@ -7218,6 +7290,7 @@ class StartTopicsDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopDominantLanguageDetectionJobResponse {
   /// The identifier of the dominant language detection job to stop.
   final String? jobId;
@@ -7250,6 +7323,7 @@ class StopDominantLanguageDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopEntitiesDetectionJobResponse {
   /// The identifier of the entities detection job to stop.
   final String? jobId;
@@ -7281,6 +7355,7 @@ class StopEntitiesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopEventsDetectionJobResponse {
   /// The identifier of the events detection job to stop.
   final String? jobId;
@@ -7310,6 +7385,7 @@ class StopEventsDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopKeyPhrasesDetectionJobResponse {
   /// The identifier of the key phrases detection job to stop.
   final String? jobId;
@@ -7342,6 +7418,7 @@ class StopKeyPhrasesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopPiiEntitiesDetectionJobResponse {
   /// The identifier of the PII entities detection job to stop.
   final String? jobId;
@@ -7372,6 +7449,7 @@ class StopPiiEntitiesDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopSentimentDetectionJobResponse {
   /// The identifier of the sentiment detection job to stop.
   final String? jobId;
@@ -7404,6 +7482,7 @@ class StopSentimentDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopTargetedSentimentDetectionJobResponse {
   /// The identifier of the targeted sentiment detection job to stop.
   final String? jobId;
@@ -7436,6 +7515,7 @@ class StopTargetedSentimentDetectionJobResponse {
   }
 }
 
+/// @nodoc
 class StopTrainingDocumentClassifierResponse {
   StopTrainingDocumentClassifierResponse();
 
@@ -7449,6 +7529,7 @@ class StopTrainingDocumentClassifierResponse {
   }
 }
 
+/// @nodoc
 class StopTrainingEntityRecognizerResponse {
   StopTrainingEntityRecognizerResponse();
 
@@ -7462,6 +7543,7 @@ class StopTrainingEntityRecognizerResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7474,6 +7556,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7486,6 +7569,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointResponse {
   /// The Amazon Resource Number (ARN) of the new model.
   final String? desiredModelArn;
@@ -7508,6 +7592,7 @@ class UpdateEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlywheelResponse {
   /// The flywheel properties.
   final FlywheelProperties? flywheelProperties;
@@ -7534,6 +7619,8 @@ class UpdateFlywheelResponse {
 }
 
 /// The flywheel properties.
+///
+/// @nodoc
 class FlywheelProperties {
   /// The Amazon Resource Number (ARN) of the active model version.
   final String? activeModelArn;
@@ -7643,6 +7730,8 @@ class FlywheelProperties {
 }
 
 /// Configuration about the model associated with a flywheel.
+///
+/// @nodoc
 class TaskConfig {
   /// Language code for the language that the model supports.
   final LanguageCode languageCode;
@@ -7689,6 +7778,8 @@ class TaskConfig {
 }
 
 /// Data security configuration.
+///
+/// @nodoc
 class DataSecurityConfig {
   /// ID for the KMS key that Amazon Comprehend uses to encrypt the data in the
   /// data lake.
@@ -7744,6 +7835,7 @@ class DataSecurityConfig {
   }
 }
 
+/// @nodoc
 class FlywheelStatus {
   static const creating = FlywheelStatus._('CREATING');
   static const active = FlywheelStatus._('ACTIVE');
@@ -7771,6 +7863,7 @@ class FlywheelStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelType {
   static const documentClassifier = ModelType._('DOCUMENT_CLASSIFIER');
   static const entityRecognizer = ModelType._('ENTITY_RECOGNIZER');
@@ -7799,6 +7892,8 @@ class ModelType {
 /// see <a
 /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
 /// VPC</a>.
+///
+/// @nodoc
 class VpcConfig {
   /// The ID number for a security group on an instance of your private VPC.
   /// Security groups on your VPC function serve as a virtual firewall to control
@@ -7846,6 +7941,7 @@ class VpcConfig {
   }
 }
 
+/// @nodoc
 class LanguageCode {
   static const en = LanguageCode._('en');
   static const es = LanguageCode._('es');
@@ -7880,6 +7976,8 @@ class LanguageCode {
 }
 
 /// Configuration required for a document classification model.
+///
+/// @nodoc
 class DocumentClassificationConfig {
   /// Classification mode indicates whether the documents are
   /// <code>MULTI_CLASS</code> or <code>MULTI_LABEL</code>.
@@ -7912,6 +8010,8 @@ class DocumentClassificationConfig {
 }
 
 /// Configuration required for an entity recognition model.
+///
+/// @nodoc
 class EntityRecognitionConfig {
   /// Up to 25 entity types that the model is trained to recognize.
   final List<EntityTypesListItem> entityTypes;
@@ -7939,6 +8039,8 @@ class EntityRecognitionConfig {
 
 /// An entity type within a labeled training dataset that Amazon Comprehend uses
 /// to train a custom entity recognizer.
+///
+/// @nodoc
 class EntityTypesListItem {
   /// An entity type within a labeled training dataset that Amazon Comprehend uses
   /// to train a custom entity recognizer.
@@ -7966,6 +8068,7 @@ class EntityTypesListItem {
   }
 }
 
+/// @nodoc
 class DocumentClassifierMode {
   static const multiClass = DocumentClassifierMode._('MULTI_CLASS');
   static const multiLabel = DocumentClassifierMode._('MULTI_LABEL');
@@ -7992,6 +8095,8 @@ class DocumentClassifierMode {
 }
 
 /// Data security configuration.
+///
+/// @nodoc
 class UpdateDataSecurityConfig {
   /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom
   /// models. The ModelKmsKeyId can be either of the following formats:
@@ -8032,6 +8137,8 @@ class UpdateDataSecurityConfig {
 /// A key-value pair that adds as a metadata to a resource used by Amazon
 /// Comprehend. For example, a tag with the key-value pair ‘Department’:’Sales’
 /// might be added to a resource to indicate its use by a particular department.
+///
+/// @nodoc
 class Tag {
   /// The initial part of a key-value pair that forms a tag associated with a
   /// given resource. For instance, if you want to show which resources are used
@@ -8068,6 +8175,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const inProgress = JobStatus._('IN_PROGRESS');
@@ -8104,6 +8212,8 @@ class JobStatus {
 
 /// The input properties for an inference job. The document reader config field
 /// applies only to non-text inputs for custom analysis.
+///
+/// @nodoc
 class InputDataConfig {
   /// The Amazon S3 URI for the input data. The URI must be in same Region as the
   /// API endpoint that you are calling. The URI can point to a single input file
@@ -8169,6 +8279,8 @@ class InputDataConfig {
 /// Provides configuration parameters for the output of inference jobs.
 ///
 ///
+///
+/// @nodoc
 class OutputDataConfig {
   /// When you use the <code>OutputDataConfig</code> object with asynchronous
   /// operations, you specify the Amazon S3 location where you want to write the
@@ -8233,6 +8345,7 @@ class OutputDataConfig {
   }
 }
 
+/// @nodoc
 class InputFormat {
   static const oneDocPerFile = InputFormat._('ONE_DOC_PER_FILE');
   static const oneDocPerLine = InputFormat._('ONE_DOC_PER_LINE');
@@ -8281,6 +8394,8 @@ class InputFormat {
 /// using the fields listed below. For more information, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html">
 /// Setting text extraction options</a> in the Comprehend Developer Guide.
+///
+/// @nodoc
 class DocumentReaderConfig {
   /// This field defines the Amazon Textract API operation that Amazon Comprehend
   /// uses to extract text from PDF files and image files. Enter one of the
@@ -8362,6 +8477,7 @@ class DocumentReaderConfig {
   }
 }
 
+/// @nodoc
 class DocumentReadAction {
   static const textractDetectDocumentText =
       DocumentReadAction._('TEXTRACT_DETECT_DOCUMENT_TEXT');
@@ -8389,6 +8505,7 @@ class DocumentReadAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentReadMode {
   static const serviceDefault = DocumentReadMode._('SERVICE_DEFAULT');
   static const forceDocumentReadAction =
@@ -8415,6 +8532,8 @@ class DocumentReadMode {
 }
 
 /// TABLES or FORMS
+///
+/// @nodoc
 class DocumentReadFeatureTypes {
   static const tables = DocumentReadFeatureTypes._('TABLES');
   static const forms = DocumentReadFeatureTypes._('FORMS');
@@ -8440,6 +8559,7 @@ class DocumentReadFeatureTypes {
   String toString() => value;
 }
 
+/// @nodoc
 class PiiEntitiesDetectionMode {
   static const onlyRedaction = PiiEntitiesDetectionMode._('ONLY_REDACTION');
   static const onlyOffsets = PiiEntitiesDetectionMode._('ONLY_OFFSETS');
@@ -8466,6 +8586,8 @@ class PiiEntitiesDetectionMode {
 }
 
 /// Provides configuration parameters for PII entity redaction.
+///
+/// @nodoc
 class RedactionConfig {
   /// A character that replaces each character in the redacted PII entity.
   final String? maskCharacter;
@@ -8509,6 +8631,7 @@ class RedactionConfig {
   }
 }
 
+/// @nodoc
 class PiiEntitiesDetectionMaskMode {
   static const mask = PiiEntitiesDetectionMaskMode._('MASK');
   static const replaceWithPiiEntityType =
@@ -8535,6 +8658,7 @@ class PiiEntitiesDetectionMaskMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PiiEntityType {
   static const bankAccountNumber = PiiEntityType._('BANK_ACCOUNT_NUMBER');
   static const bankRouting = PiiEntityType._('BANK_ROUTING');
@@ -8641,6 +8765,8 @@ class PiiEntityType {
 }
 
 /// Provides information about a topic detection job.
+///
+/// @nodoc
 class TopicsDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your job data.
@@ -8789,6 +8915,8 @@ class TopicsDetectionJobProperties {
 
 /// Provides information for filtering topic detection jobs. For more
 /// information, see .
+///
+/// @nodoc
 class TopicsDetectionJobFilter {
   ///
   final String? jobName;
@@ -8831,6 +8959,8 @@ class TopicsDetectionJobFilter {
 }
 
 /// Provides information about a targeted sentiment detection job.
+///
+/// @nodoc
 class TargetedSentimentDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -8970,6 +9100,8 @@ class TargetedSentimentDetectionJobProperties {
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the
 /// <code>ListTargetedSentimentDetectionJobs</code> operation.
+///
+/// @nodoc
 class TargetedSentimentDetectionJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -9012,6 +9144,8 @@ class TargetedSentimentDetectionJobFilter {
 }
 
 /// Provides information about a sentiment detection job.
+///
+/// @nodoc
 class SentimentDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -9160,6 +9294,8 @@ class SentimentDetectionJobProperties {
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
+///
+/// @nodoc
 class SentimentDetectionJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -9202,6 +9338,8 @@ class SentimentDetectionJobFilter {
 }
 
 /// Provides information about a PII entities detection job.
+///
+/// @nodoc
 class PiiEntitiesDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -9340,6 +9478,8 @@ class PiiEntitiesDetectionJobProperties {
 
 /// Provides configuration parameters for the output of PII entity detection
 /// jobs.
+///
+/// @nodoc
 class PiiOutputDataConfig {
   /// When you use the <code>PiiOutputDataConfig</code> object with asynchronous
   /// operations, you specify the Amazon S3 location where you want to write the
@@ -9377,6 +9517,8 @@ class PiiOutputDataConfig {
 }
 
 /// Provides information for filtering a list of PII entity detection jobs.
+///
+/// @nodoc
 class PiiEntitiesDetectionJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -9419,6 +9561,8 @@ class PiiEntitiesDetectionJobFilter {
 }
 
 /// Provides information about a key phrases detection job.
+///
+/// @nodoc
 class KeyPhrasesDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -9566,6 +9710,8 @@ class KeyPhrasesDetectionJobProperties {
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
+///
+/// @nodoc
 class KeyPhrasesDetectionJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -9608,6 +9754,8 @@ class KeyPhrasesDetectionJobFilter {
 }
 
 /// Flywheel summary information.
+///
+/// @nodoc
 class FlywheelSummary {
   /// ARN of the active model version for the flywheel.
   final String? activeModelArn;
@@ -9690,6 +9838,8 @@ class FlywheelSummary {
 }
 
 /// Filter the flywheels based on creation time or flywheel status.
+///
+/// @nodoc
 class FlywheelFilter {
   /// Filter the flywheels to include flywheels created after the specified time.
   final DateTime? creationTimeAfter;
@@ -9721,6 +9871,8 @@ class FlywheelFilter {
 }
 
 /// The configuration properties of a flywheel iteration.
+///
+/// @nodoc
 class FlywheelIterationProperties {
   /// The creation start time of the flywheel iteration.
   final DateTime? creationTime;
@@ -9823,6 +9975,7 @@ class FlywheelIterationProperties {
   }
 }
 
+/// @nodoc
 class FlywheelIterationStatus {
   static const training = FlywheelIterationStatus._('TRAINING');
   static const evaluating = FlywheelIterationStatus._('EVALUATING');
@@ -9860,6 +10013,8 @@ class FlywheelIterationStatus {
 }
 
 /// The evaluation metrics associated with the evaluated model.
+///
+/// @nodoc
 class FlywheelModelEvaluationMetrics {
   /// Average accuracy metric for the model.
   final double? averageAccuracy;
@@ -9904,6 +10059,8 @@ class FlywheelModelEvaluationMetrics {
 }
 
 /// Filter the flywheel iterations based on creation time.
+///
+/// @nodoc
 class FlywheelIterationFilter {
   /// Filter the flywheel iterations to include iterations created after the
   /// specified time.
@@ -9931,6 +10088,8 @@ class FlywheelIterationFilter {
 }
 
 /// Provides information about an events detection job.
+///
+/// @nodoc
 class EventsDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -10053,6 +10212,8 @@ class EventsDetectionJobProperties {
 }
 
 /// Provides information for filtering a list of event detection jobs.
+///
+/// @nodoc
 class EventsDetectionJobFilter {
   /// Filters on the name of the events detection job.
   final String? jobName;
@@ -10095,6 +10256,8 @@ class EventsDetectionJobFilter {
 }
 
 /// Describes the information about an entity recognizer and its versions.
+///
+/// @nodoc
 class EntityRecognizerSummary {
   /// The time that the latest entity recognizer version was submitted for
   /// processing.
@@ -10149,6 +10312,7 @@ class EntityRecognizerSummary {
   }
 }
 
+/// @nodoc
 class ModelStatus {
   static const submitted = ModelStatus._('SUBMITTED');
   static const training = ModelStatus._('TRAINING');
@@ -10188,6 +10352,8 @@ class ModelStatus {
 }
 
 /// Describes information about an entity recognizer.
+///
+/// @nodoc
 class EntityRecognizerProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -10377,6 +10543,8 @@ class EntityRecognizerProperties {
 }
 
 /// Specifies the format and location of the input data.
+///
+/// @nodoc
 class EntityRecognizerInputDataConfig {
   /// The entity types in the labeled training data that Amazon Comprehend uses to
   /// train the custom entity recognizer. Any entity types that you don't specify
@@ -10495,6 +10663,8 @@ class EntityRecognizerInputDataConfig {
 }
 
 /// Detailed information about an entity recognizer.
+///
+/// @nodoc
 class EntityRecognizerMetadata {
   /// Entity types from the metadata of an entity recognizer.
   final List<EntityRecognizerMetadataEntityTypesListItem>? entityTypes;
@@ -10550,6 +10720,8 @@ class EntityRecognizerMetadata {
 }
 
 /// Output data configuration.
+///
+/// @nodoc
 class EntityRecognizerOutputDataConfig {
   /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
   final String? flywheelStatsS3Prefix;
@@ -10574,6 +10746,8 @@ class EntityRecognizerOutputDataConfig {
 }
 
 /// Detailed information about the accuracy of an entity recognizer.
+///
+/// @nodoc
 class EntityRecognizerEvaluationMetrics {
   /// A measure of how accurate the recognizer results are for the test data. It
   /// is derived from the <code>Precision</code> and <code>Recall</code> values.
@@ -10621,6 +10795,8 @@ class EntityRecognizerEvaluationMetrics {
 
 /// Individual item from the list of entity types in the metadata of an entity
 /// recognizer.
+///
+/// @nodoc
 class EntityRecognizerMetadataEntityTypesListItem {
   /// Detailed information about the accuracy of the entity recognizer for a
   /// specific item on the list of entity types.
@@ -10667,6 +10843,8 @@ class EntityRecognizerMetadataEntityTypesListItem {
 
 /// Detailed information about the accuracy of an entity recognizer for a
 /// specific entity type.
+///
+/// @nodoc
 class EntityTypesEvaluationMetrics {
   /// A measure of how accurate the recognizer results are for a specific entity
   /// type in the test data. It is derived from the <code>Precision</code> and
@@ -10710,6 +10888,7 @@ class EntityTypesEvaluationMetrics {
   }
 }
 
+/// @nodoc
 class EntityRecognizerDataFormat {
   static const comprehendCsv = EntityRecognizerDataFormat._('COMPREHEND_CSV');
   static const augmentedManifest =
@@ -10737,6 +10916,8 @@ class EntityRecognizerDataFormat {
 }
 
 /// Describes the training documents submitted with an entity recognizer.
+///
+/// @nodoc
 class EntityRecognizerDocuments {
   /// Specifies the Amazon S3 location where the training documents for an entity
   /// recognizer are located. The URI must be in the same Region as the API
@@ -10785,6 +10966,8 @@ class EntityRecognizerDocuments {
 }
 
 /// Describes the annotations associated with a entity recognizer.
+///
+/// @nodoc
 class EntityRecognizerAnnotations {
   /// Specifies the Amazon S3 location where the annotations for an entity
   /// recognizer are located. The URI must be in the same Region as the API
@@ -10819,6 +11002,8 @@ class EntityRecognizerAnnotations {
 }
 
 /// Describes the entity list submitted with an entity recognizer.
+///
+/// @nodoc
 class EntityRecognizerEntityList {
   /// Specifies the Amazon S3 location where the entity list is located. The URI
   /// must be in the same Region as the API endpoint that you are calling.
@@ -10845,6 +11030,8 @@ class EntityRecognizerEntityList {
 /// An augmented manifest file that provides training data for your custom
 /// model. An augmented manifest file is a labeled dataset that is produced by
 /// Amazon SageMaker Ground Truth.
+///
+/// @nodoc
 class AugmentedManifestsListItem {
   /// The JSON attribute that contains the annotations for your training
   /// documents. The number of attribute names that you specify depends on whether
@@ -10942,6 +11129,7 @@ class AugmentedManifestsListItem {
   }
 }
 
+/// @nodoc
 class Split {
   static const train = Split._('TRAIN');
   static const test = Split._('TEST');
@@ -10965,6 +11153,7 @@ class Split {
   String toString() => value;
 }
 
+/// @nodoc
 class AugmentedManifestsDocumentTypeFormat {
   static const plainTextDocument =
       AugmentedManifestsDocumentTypeFormat._('PLAIN_TEXT_DOCUMENT');
@@ -10995,6 +11184,8 @@ class AugmentedManifestsDocumentTypeFormat {
 /// Provides information for filtering a list of entity recognizers. You can
 /// only specify one filtering parameter in a request. For more information, see
 /// the <code>ListEntityRecognizers</code> operation./>
+///
+/// @nodoc
 class EntityRecognizerFilter {
   /// The name that you assigned the entity recognizer.
   final String? recognizerName;
@@ -11036,6 +11227,8 @@ class EntityRecognizerFilter {
 }
 
 /// Provides information about an entities detection job.
+///
+/// @nodoc
 class EntitiesDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -11199,6 +11392,8 @@ class EntitiesDetectionJobProperties {
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
+///
+/// @nodoc
 class EntitiesDetectionJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -11244,6 +11439,8 @@ class EntitiesDetectionJobFilter {
 /// endpoints, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html">Managing
 /// endpoints</a>.
+///
+/// @nodoc
 class EndpointProperties {
   /// The creation date and time of the endpoint.
   final DateTime? creationTime;
@@ -11358,6 +11555,7 @@ class EndpointProperties {
   }
 }
 
+/// @nodoc
 class EndpointStatus {
   static const creating = EndpointStatus._('CREATING');
   static const deleting = EndpointStatus._('DELETING');
@@ -11388,6 +11586,8 @@ class EndpointStatus {
 /// The filter used to determine which endpoints are returned. You can filter
 /// jobs on their name, model, status, or the date and time that they were
 /// created. You can only set one filter at a time.
+///
+/// @nodoc
 class EndpointFilter {
   /// Specifies a date after which the returned endpoint or endpoints were
   /// created.
@@ -11429,6 +11629,8 @@ class EndpointFilter {
 }
 
 /// Provides information about a dominant language detection job.
+///
+/// @nodoc
 class DominantLanguageDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -11571,6 +11773,8 @@ class DominantLanguageDetectionJobProperties {
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
+///
+/// @nodoc
 class DominantLanguageDetectionJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -11613,6 +11817,8 @@ class DominantLanguageDetectionJobFilter {
 }
 
 /// Describes information about a document classifier and its versions.
+///
+/// @nodoc
 class DocumentClassifierSummary {
   /// The name that you assigned the document classifier.
   final String? documentClassifierName;
@@ -11669,6 +11875,8 @@ class DocumentClassifierSummary {
 }
 
 /// Provides information about a document classifier.
+///
+/// @nodoc
 class DocumentClassifierProperties {
   /// Information about the document classifier, including the number of documents
   /// used for training the classifier, the number of documents used for test the
@@ -11887,6 +12095,8 @@ class DocumentClassifierProperties {
 /// For more information on how the input file is formatted, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html">Preparing
 /// training data</a> in the Comprehend Developer Guide.
+///
+/// @nodoc
 class DocumentClassifierInputDataConfig {
   /// A list of augmented manifest files that provide training data for your
   /// custom model. An augmented manifest file is a labeled dataset that is
@@ -12019,6 +12229,8 @@ class DocumentClassifierInputDataConfig {
 
 /// Provide the location for output data from a custom classifier job. This
 /// field is mandatory if you are training a native document model.
+///
+/// @nodoc
 class DocumentClassifierOutputDataConfig {
   /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
   final String? flywheelStatsS3Prefix;
@@ -12086,6 +12298,8 @@ class DocumentClassifierOutputDataConfig {
 }
 
 /// Provides information about a document classifier.
+///
+/// @nodoc
 class ClassifierMetadata {
   /// Describes the result metrics for the test data associated with an
   /// documentation classifier.
@@ -12140,6 +12354,8 @@ class ClassifierMetadata {
 
 /// Describes the result metrics for the test data associated with an
 /// documentation classifier.
+///
+/// @nodoc
 class ClassifierEvaluationMetrics {
   /// The fraction of the labels that were correct recognized. It is computed by
   /// dividing the number of labels in the test documents that were correctly
@@ -12234,6 +12450,7 @@ class ClassifierEvaluationMetrics {
   }
 }
 
+/// @nodoc
 class DocumentClassifierDataFormat {
   static const comprehendCsv = DocumentClassifierDataFormat._('COMPREHEND_CSV');
   static const augmentedManifest =
@@ -12260,6 +12477,7 @@ class DocumentClassifierDataFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentClassifierDocumentTypeFormat {
   static const plainTextDocument =
       DocumentClassifierDocumentTypeFormat._('PLAIN_TEXT_DOCUMENT');
@@ -12289,6 +12507,8 @@ class DocumentClassifierDocumentTypeFormat {
 
 /// The location of the training documents. This parameter is required in a
 /// request to create a semi-structured document classification model.
+///
+/// @nodoc
 class DocumentClassifierDocuments {
   /// The S3 URI location of the training documents specified in the S3Uri CSV
   /// file.
@@ -12323,6 +12543,8 @@ class DocumentClassifierDocuments {
 /// Provides information for filtering a list of document classifiers. You can
 /// only specify one filtering parameter in a request. For more information, see
 /// the <code>ListDocumentClassifiers</code> operation.
+///
+/// @nodoc
 class DocumentClassifierFilter {
   /// The name that you assigned to the document classifier
   final String? documentClassifierName;
@@ -12367,6 +12589,8 @@ class DocumentClassifierFilter {
 }
 
 /// Provides information about a document classification job.
+///
+/// @nodoc
 class DocumentClassificationJobProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend
   /// read access to your input data.
@@ -12524,6 +12748,8 @@ class DocumentClassificationJobProperties {
 /// Provides information for filtering a list of document classification jobs.
 /// For more information, see the operation. You can provide only one filter
 /// parameter in each request.
+///
+/// @nodoc
 class DocumentClassificationJobFilter {
   /// Filters on the name of the job.
   final String? jobName;
@@ -12566,6 +12792,8 @@ class DocumentClassificationJobFilter {
 }
 
 /// Properties associated with the dataset.
+///
+/// @nodoc
 class DatasetProperties {
   /// Creation time of the dataset.
   final DateTime? creationTime;
@@ -12655,6 +12883,7 @@ class DatasetProperties {
   }
 }
 
+/// @nodoc
 class DatasetType {
   static const train = DatasetType._('TRAIN');
   static const test = DatasetType._('TEST');
@@ -12678,6 +12907,7 @@ class DatasetType {
   String toString() => value;
 }
 
+/// @nodoc
 class DatasetStatus {
   static const creating = DatasetStatus._('CREATING');
   static const completed = DatasetStatus._('COMPLETED');
@@ -12704,6 +12934,8 @@ class DatasetStatus {
 }
 
 /// Filter the datasets based on creation time or dataset status.
+///
+/// @nodoc
 class DatasetFilter {
   /// Filter the datasets to include datasets created after the specified time.
   final DateTime? creationTimeAfter;
@@ -12744,6 +12976,8 @@ class DatasetFilter {
 /// detection, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html">Toxicity
 /// detection</a> in the <i>Amazon Comprehend Developer Guide</i>.
+///
+/// @nodoc
 class ToxicLabels {
   /// Array of toxic content types identified in the string.
   final List<ToxicContent>? labels;
@@ -12781,6 +13015,8 @@ class ToxicLabels {
 /// toxicity detection, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html">Toxicity
 /// detection</a> in the <i>Amazon Comprehend Developer Guide</i>
+///
+/// @nodoc
 class ToxicContent {
   /// The name of the toxic content type.
   final ToxicContentType? name;
@@ -12811,6 +13047,7 @@ class ToxicContent {
   }
 }
 
+/// @nodoc
 class ToxicContentType {
   static const graphic = ToxicContentType._('GRAPHIC');
   static const harassmentOrAbuse = ToxicContentType._('HARASSMENT_OR_ABUSE');
@@ -12849,6 +13086,8 @@ class ToxicContentType {
 }
 
 /// One of the of text strings. Each string has a size limit of 1KB.
+///
+/// @nodoc
 class TextSegment {
   /// The text content.
   final String text;
@@ -12870,6 +13109,8 @@ class TextSegment {
 /// For more information about targeted sentiment, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
 /// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
+///
+/// @nodoc
 class TargetedSentimentEntity {
   /// One or more index into the Mentions array that provides the best name for
   /// the entity group.
@@ -12917,6 +13158,8 @@ class TargetedSentimentEntity {
 /// For more information about targeted sentiment, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
 /// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
+///
+/// @nodoc
 class TargetedSentimentMention {
   /// The offset into the document text where the mention begins.
   final int? beginOffset;
@@ -12989,6 +13232,7 @@ class TargetedSentimentMention {
   }
 }
 
+/// @nodoc
 class TargetedSentimentEntityType {
   static const person = TargetedSentimentEntityType._('PERSON');
   static const location = TargetedSentimentEntityType._('LOCATION');
@@ -13053,6 +13297,8 @@ class TargetedSentimentEntityType {
 /// For more information about targeted sentiment, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html">Targeted
 /// sentiment</a> in the <i>Amazon Comprehend Developer Guide</i>.
+///
+/// @nodoc
 class MentionSentiment {
   /// The sentiment of the mention.
   final SentimentType? sentiment;
@@ -13083,6 +13329,7 @@ class MentionSentiment {
   }
 }
 
+/// @nodoc
 class SentimentType {
   static const positive = SentimentType._('POSITIVE');
   static const negative = SentimentType._('NEGATIVE');
@@ -13111,6 +13358,8 @@ class SentimentType {
 
 /// Describes the level of confidence that Amazon Comprehend has in the accuracy
 /// of its detection of sentiments.
+///
+/// @nodoc
 class SentimentScore {
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// detection of the <code>MIXED</code> sentiment.
@@ -13161,6 +13410,8 @@ class SentimentScore {
 /// Represents a work in the input text that was recognized and assigned a part
 /// of speech. There is one syntax token record for each word in the source
 /// text.
+///
+/// @nodoc
 class SyntaxToken {
   /// The zero-based offset from the beginning of the source text to the first
   /// character in the word.
@@ -13226,6 +13477,8 @@ class SyntaxToken {
 /// Comprehend can identify, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html">Syntax</a>
 /// in the Comprehend Developer Guide.
+///
+/// @nodoc
 class PartOfSpeechTag {
   /// The confidence that Amazon Comprehend has that the part of speech was
   /// correctly identified.
@@ -13256,6 +13509,7 @@ class PartOfSpeechTag {
   }
 }
 
+/// @nodoc
 class PartOfSpeechTagType {
   static const adj = PartOfSpeechTagType._('ADJ');
   static const adp = PartOfSpeechTagType._('ADP');
@@ -13316,6 +13570,7 @@ class PartOfSpeechTagType {
   String toString() => value;
 }
 
+/// @nodoc
 class SyntaxLanguageCode {
   static const en = SyntaxLanguageCode._('en');
   static const es = SyntaxLanguageCode._('es');
@@ -13346,6 +13601,8 @@ class SyntaxLanguageCode {
 }
 
 /// Provides information about a PII entity.
+///
+/// @nodoc
 class PiiEntity {
   /// The zero-based offset from the beginning of the source text to the first
   /// character in the entity.
@@ -13393,6 +13650,8 @@ class PiiEntity {
 }
 
 /// Describes a key noun phrase.
+///
+/// @nodoc
 class KeyPhrase {
   /// The zero-based offset from the beginning of the source text to the first
   /// character in the key phrase.
@@ -13440,6 +13699,8 @@ class KeyPhrase {
 }
 
 /// Information about the document, discovered during text extraction.
+///
+/// @nodoc
 class DocumentMetadata {
   /// List of pages in the document, with the number of characters extracted from
   /// each page.
@@ -13506,6 +13767,8 @@ class DocumentMetadata {
 /// request again.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ErrorsListItem {
   /// Error code for the cause of the error.
   final PageBasedErrorCode? errorCode;
@@ -13543,6 +13806,7 @@ class ErrorsListItem {
   }
 }
 
+/// @nodoc
 class PageBasedErrorCode {
   static const textractBadPage = PageBasedErrorCode._('TEXTRACT_BAD_PAGE');
   static const textractProvisionedThroughputExceeded =
@@ -13585,6 +13849,8 @@ class PageBasedErrorCode {
 /// For additional information, see <a
 /// href="https://docs.aws.amazon.com/textract/latest/dg/API_Block.html">Block</a>
 /// in the Amazon Textract API reference.
+///
+/// @nodoc
 class Block {
   /// The block represents a line of text or one word of text.
   ///
@@ -13659,6 +13925,7 @@ class Block {
   }
 }
 
+/// @nodoc
 class BlockType {
   static const line = BlockType._('LINE');
   static const word = BlockType._('WORD');
@@ -13687,6 +13954,8 @@ class BlockType {
 /// For additional information, see <a
 /// href="https://docs.aws.amazon.com/textract/latest/dg/API_Geometry.html">Geometry</a>
 /// in the Amazon Textract API reference.
+///
+/// @nodoc
 class Geometry {
   /// An axis-aligned coarse representation of the location of the recognized item
   /// on the document page.
@@ -13723,6 +13992,8 @@ class Geometry {
 }
 
 /// List of child blocks for the current block.
+///
+/// @nodoc
 class RelationshipsListItem {
   /// Identifers of the child blocks.
   final List<String>? ids;
@@ -13752,6 +14023,7 @@ class RelationshipsListItem {
   }
 }
 
+/// @nodoc
 class RelationshipType {
   static const child = RelationshipType._('CHILD');
 
@@ -13783,6 +14055,8 @@ class RelationshipType {
 /// For additional information, see <a
 /// href="https://docs.aws.amazon.com/textract/latest/dg/API_BoundingBox.html">BoundingBox</a>
 /// in the Amazon Textract API reference.
+///
+/// @nodoc
 class BoundingBox {
   /// The height of the bounding box as a ratio of the overall document page
   /// height.
@@ -13834,6 +14108,8 @@ class BoundingBox {
 /// For additional information, see <a
 /// href="https://docs.aws.amazon.com/textract/latest/dg/API_Point.html">Point</a>
 /// in the Amazon Textract API reference.
+///
+/// @nodoc
 class Point {
   /// The value of the X coordinate for a point on a polygon
   final double? x;
@@ -13864,6 +14140,8 @@ class Point {
 }
 
 /// Document type for each page in the document.
+///
+/// @nodoc
 class DocumentTypeListItem {
   /// Page number.
   final int? page;
@@ -13893,6 +14171,7 @@ class DocumentTypeListItem {
   }
 }
 
+/// @nodoc
 class DocumentType {
   static const nativePdf = DocumentType._('NATIVE_PDF');
   static const scannedPdf = DocumentType._('SCANNED_PDF');
@@ -13932,6 +14211,8 @@ class DocumentType {
 }
 
 /// Array of the number of characters extracted from each page.
+///
+/// @nodoc
 class ExtractedCharactersListItem {
   /// Number of characters extracted from each page.
   final int? count;
@@ -13964,6 +14245,8 @@ class ExtractedCharactersListItem {
 /// Provides information about an entity.
 ///
 ///
+///
+/// @nodoc
 class Entity {
   /// The zero-based offset from the beginning of the source text to the first
   /// character in the entity.
@@ -14036,6 +14319,7 @@ class Entity {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const person = EntityType._('PERSON');
   static const location = EntityType._('LOCATION');
@@ -14077,6 +14361,8 @@ class EntityType {
 }
 
 /// A reference to a block.
+///
+/// @nodoc
 class BlockReference {
   /// Offset of the start of the block within its parent block.
   final int? beginOffset;
@@ -14124,6 +14410,8 @@ class BlockReference {
 }
 
 /// Nested block contained within a block.
+///
+/// @nodoc
 class ChildBlock {
   /// Offset of the start of the child block within its parent block.
   final int? beginOffset;
@@ -14162,6 +14450,8 @@ class ChildBlock {
 
 /// Returns the code for the dominant language in the input text and the level
 /// of confidence that Amazon Comprehend has in the accuracy of the detection.
+///
+/// @nodoc
 class DominantLanguage {
   /// The RFC 5646 language code for the dominant language. For more information
   /// about RFC 5646, see <a href="https://tools.ietf.org/html/rfc5646">Tags for
@@ -14195,6 +14485,8 @@ class DominantLanguage {
 }
 
 /// Specifies the format and location of the input data for the dataset.
+///
+/// @nodoc
 class DatasetInputDataConfig {
   /// A list of augmented manifest files that provide training data for your
   /// custom model. An augmented manifest file is a labeled dataset that is
@@ -14243,6 +14535,7 @@ class DatasetInputDataConfig {
   }
 }
 
+/// @nodoc
 class DatasetDataFormat {
   static const comprehendCsv = DatasetDataFormat._('COMPREHEND_CSV');
   static const augmentedManifest = DatasetDataFormat._('AUGMENTED_MANIFEST');
@@ -14273,6 +14566,8 @@ class DatasetDataFormat {
 /// For more information on how the input file is formatted, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html">Preparing
 /// training data</a> in the Comprehend Developer Guide.
+///
+/// @nodoc
 class DatasetDocumentClassifierInputDataConfig {
   /// The Amazon S3 URI for the input data. The S3 bucket must be in the same
   /// Region as the API endpoint that you are calling. The URI can point to a
@@ -14315,6 +14610,8 @@ class DatasetDocumentClassifierInputDataConfig {
 /// Specifies the format and location of the input data. You must provide either
 /// the <code>Annotations</code> parameter or the <code>EntityList</code>
 /// parameter.
+///
+/// @nodoc
 class DatasetEntityRecognizerInputDataConfig {
   /// The format and location of the training documents for your custom entity
   /// recognizer.
@@ -14346,6 +14643,8 @@ class DatasetEntityRecognizerInputDataConfig {
 }
 
 /// Describes the annotations associated with a entity recognizer.
+///
+/// @nodoc
 class DatasetEntityRecognizerAnnotations {
   /// Specifies the Amazon S3 location where the training documents for an entity
   /// recognizer are located. The URI must be in the same Region as the API
@@ -14366,6 +14665,8 @@ class DatasetEntityRecognizerAnnotations {
 
 /// Describes the documents submitted with a dataset for an entity recognizer
 /// model.
+///
+/// @nodoc
 class DatasetEntityRecognizerDocuments {
   /// Specifies the Amazon S3 location where the documents for the dataset are
   /// located.
@@ -14400,6 +14701,8 @@ class DatasetEntityRecognizerDocuments {
 /// For more information on how the input file is formatted, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/prep-training-data-cer.html">Preparing
 /// training data</a> in the Comprehend Developer Guide.
+///
+/// @nodoc
 class DatasetEntityRecognizerEntityList {
   /// Specifies the Amazon S3 location where the entity list is located.
   final String s3Uri;
@@ -14419,6 +14722,8 @@ class DatasetEntityRecognizerEntityList {
 /// An augmented manifest file that provides training data for your custom
 /// model. An augmented manifest file is a labeled dataset that is produced by
 /// Amazon SageMaker Ground Truth.
+///
+/// @nodoc
 class DatasetAugmentedManifestsListItem {
   /// The JSON attribute that contains the annotations for your training
   /// documents. The number of attribute names that you specify depends on whether
@@ -14480,6 +14785,8 @@ class DatasetAugmentedManifestsListItem {
 
 /// Specifies one of the label or labels that categorize the personally
 /// identifiable information (PII) entity being analyzed.
+///
+/// @nodoc
 class EntityLabel {
   /// The name of the label.
   final PiiEntityType? name;
@@ -14523,6 +14830,8 @@ class EntityLabel {
 /// plain-text model.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class WarningsListItem {
   /// Page number in the input document.
   final int? page;
@@ -14560,6 +14869,7 @@ class WarningsListItem {
   }
 }
 
+/// @nodoc
 class PageBasedWarningCode {
   static const inferencingPlaintextWithNativeTrainedModel =
       PageBasedWarningCode._('INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL');
@@ -14593,6 +14903,8 @@ class PageBasedWarningCode {
 
 /// Specifies one of the label or labels that categorize the document being
 /// analyzed.
+///
+/// @nodoc
 class DocumentLabel {
   /// The name of the label.
   final String? name;
@@ -14632,6 +14944,8 @@ class DocumentLabel {
 }
 
 /// Specifies the class that categorizes the document being analyzed
+///
+/// @nodoc
 class DocumentClass {
   /// The name of the class.
   final String? name;
@@ -14673,6 +14987,8 @@ class DocumentClass {
 /// Describes an error that occurred while processing a document in a batch. The
 /// operation returns on <code>BatchItemError</code> object for each document
 /// that contained an error.
+///
+/// @nodoc
 class BatchItemError {
   /// The numeric error code of the error.
   final String? errorCode;
@@ -14710,6 +15026,8 @@ class BatchItemError {
 }
 
 /// Analysis results for one of the documents in the batch.
+///
+/// @nodoc
 class BatchDetectTargetedSentimentItemResult {
   /// An array of targeted sentiment entities.
   final List<TargetedSentimentEntity>? entities;
@@ -14746,6 +15064,8 @@ class BatchDetectTargetedSentimentItemResult {
 
 /// The result of calling the operation. The operation returns one object that
 /// is successfully processed by the operation.
+///
+/// @nodoc
 class BatchDetectSyntaxItemResult {
   /// The zero-based index of the document in the input list.
   final int? index;
@@ -14780,6 +15100,8 @@ class BatchDetectSyntaxItemResult {
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
+///
+/// @nodoc
 class BatchDetectSentimentItemResult {
   /// The zero-based index of the document in the input list.
   final int? index;
@@ -14822,6 +15144,8 @@ class BatchDetectSentimentItemResult {
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
+///
+/// @nodoc
 class BatchDetectKeyPhrasesItemResult {
   /// The zero-based index of the document in the input list.
   final int? index;
@@ -14857,6 +15181,8 @@ class BatchDetectKeyPhrasesItemResult {
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
+///
+/// @nodoc
 class BatchDetectEntitiesItemResult {
   /// One or more <a>Entity</a> objects, one for each entity detected in the
   /// document.
@@ -14892,6 +15218,8 @@ class BatchDetectEntitiesItemResult {
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
+///
+/// @nodoc
 class BatchDetectDominantLanguageItemResult {
   /// The zero-based index of the document in the input list.
   final int? index;
@@ -14926,6 +15254,7 @@ class BatchDetectDominantLanguageItemResult {
   }
 }
 
+/// @nodoc
 class BatchSizeLimitExceededException extends _s.GenericAwsException {
   BatchSizeLimitExceededException({String? type, String? message})
       : super(
@@ -14934,6 +15263,7 @@ class BatchSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -14942,36 +15272,43 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidFilterException extends _s.GenericAwsException {
   InvalidFilterException({String? type, String? message})
       : super(type: type, code: 'InvalidFilterException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class JobNotFoundException extends _s.GenericAwsException {
   JobNotFoundException({String? type, String? message})
       : super(type: type, code: 'JobNotFoundException', message: message);
 }
 
+/// @nodoc
 class KmsKeyValidationException extends _s.GenericAwsException {
   KmsKeyValidationException({String? type, String? message})
       : super(type: type, code: 'KmsKeyValidationException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -14980,17 +15317,20 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TextSizeLimitExceededException extends _s.GenericAwsException {
   TextSizeLimitExceededException({String? type, String? message})
       : super(
@@ -14999,21 +15339,25 @@ class TextSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class TooManyTagKeysException extends _s.GenericAwsException {
   TooManyTagKeysException({String? type, String? message})
       : super(type: type, code: 'TooManyTagKeysException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedLanguageException extends _s.GenericAwsException {
   UnsupportedLanguageException({String? type, String? message})
       : super(

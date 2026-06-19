@@ -1285,6 +1285,7 @@ class Detective {
   }
 }
 
+/// @nodoc
 class BatchGetGraphMemberDatasourcesResponse {
   /// Details on the status of data source packages for members of the behavior
   /// graph.
@@ -1323,6 +1324,7 @@ class BatchGetGraphMemberDatasourcesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetMembershipDatasourcesResponse {
   /// Details on the data source package history for an member of the behavior
   /// graph.
@@ -1361,6 +1363,7 @@ class BatchGetMembershipDatasourcesResponse {
   }
 }
 
+/// @nodoc
 class CreateGraphResponse {
   /// The ARN of the new behavior graph.
   final String? graphArn;
@@ -1383,6 +1386,7 @@ class CreateGraphResponse {
   }
 }
 
+/// @nodoc
 class CreateMembersResponse {
   /// The set of member account invitation or enablement requests that Detective
   /// was able to process. This includes accounts that are being verified, that
@@ -1425,6 +1429,7 @@ class CreateMembersResponse {
   }
 }
 
+/// @nodoc
 class DeleteMembersResponse {
   /// The list of Amazon Web Services account identifiers for the member accounts
   /// that Detective successfully removed from the behavior graph.
@@ -1464,6 +1469,7 @@ class DeleteMembersResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigurationResponse {
   /// Indicates whether to automatically enable new organization accounts as
   /// member accounts in the organization behavior graph.
@@ -1488,6 +1494,7 @@ class DescribeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetInvestigationResponse {
   /// The creation time of the investigation report in UTC time stamp format.
   final DateTime? createdTime;
@@ -1581,6 +1588,7 @@ class GetInvestigationResponse {
   }
 }
 
+/// @nodoc
 class GetMembersResponse {
   /// The member account details that Detective is returning in response to the
   /// request.
@@ -1622,6 +1630,7 @@ class GetMembersResponse {
   }
 }
 
+/// @nodoc
 class ListDatasourcePackagesResponse {
   /// Details on the data source packages active in the behavior graph.
   final Map<DatasourcePackage, DatasourcePackageIngestDetail>?
@@ -1660,6 +1669,7 @@ class ListDatasourcePackagesResponse {
   }
 }
 
+/// @nodoc
 class ListGraphsResponse {
   /// A list of behavior graphs that the account is an administrator account for.
   final List<Graph>? graphList;
@@ -1693,6 +1703,7 @@ class ListGraphsResponse {
   }
 }
 
+/// @nodoc
 class ListIndicatorsResponse {
   /// The Amazon Resource Name (ARN) of the behavior graph.
   final String? graphArn;
@@ -1744,6 +1755,7 @@ class ListIndicatorsResponse {
   }
 }
 
+/// @nodoc
 class ListInvestigationsResponse {
   /// Lists the summary of uncommon behavior or malicious activity which indicates
   /// a compromise.
@@ -1782,6 +1794,7 @@ class ListInvestigationsResponse {
   }
 }
 
+/// @nodoc
 class ListInvitationsResponse {
   /// The list of behavior graphs for which the member account has open or
   /// accepted invitations.
@@ -1816,6 +1829,7 @@ class ListInvitationsResponse {
   }
 }
 
+/// @nodoc
 class ListMembersResponse {
   /// The list of member accounts in the behavior graph.
   ///
@@ -1858,6 +1872,7 @@ class ListMembersResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationAdminAccountsResponse {
   /// The list of Detective administrator accounts.
   final List<Administrator>? administrators;
@@ -1892,6 +1907,7 @@ class ListOrganizationAdminAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tag values that are assigned to the behavior graph. The request returns
   /// up to 50 tag values.
@@ -1916,6 +1932,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartInvestigationResponse {
   /// The investigation ID of the investigation report.
   final String? investigationId;
@@ -1938,6 +1955,7 @@ class StartInvestigationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1950,6 +1968,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1962,6 +1981,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class State {
   static const active = State._('ACTIVE');
   static const archived = State._('ARCHIVED');
@@ -1985,6 +2005,7 @@ class State {
   String toString() => value;
 }
 
+/// @nodoc
 class DatasourcePackage {
   static const detectiveCore = DatasourcePackage._('DETECTIVE_CORE');
   static const eksAudit = DatasourcePackage._('EKS_AUDIT');
@@ -2012,6 +2033,8 @@ class DatasourcePackage {
 }
 
 /// Information about the Detective administrator account for an organization.
+///
+/// @nodoc
 class Administrator {
   /// The Amazon Web Services account identifier of the Detective administrator
   /// account for the organization.
@@ -2053,6 +2076,8 @@ class Administrator {
 }
 
 /// Details about a member account in a behavior graph.
+///
+/// @nodoc
 class MemberDetail {
   /// The Amazon Web Services account identifier for the member account.
   final String? accountId;
@@ -2281,6 +2306,7 @@ class MemberDetail {
   }
 }
 
+/// @nodoc
 class MemberStatus {
   static const invited = MemberStatus._('INVITED');
   static const verificationInProgress =
@@ -2314,6 +2340,7 @@ class MemberStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MemberDisabledReason {
   static const volumeTooHigh = MemberDisabledReason._('VOLUME_TOO_HIGH');
   static const volumeUnknown = MemberDisabledReason._('VOLUME_UNKNOWN');
@@ -2339,6 +2366,7 @@ class MemberDisabledReason {
   String toString() => value;
 }
 
+/// @nodoc
 class InvitationType {
   static const invitation = InvitationType._('INVITATION');
   static const organization = InvitationType._('ORGANIZATION');
@@ -2363,6 +2391,7 @@ class InvitationType {
   String toString() => value;
 }
 
+/// @nodoc
 class DatasourcePackageIngestState {
   static const started = DatasourcePackageIngestState._('STARTED');
   static const stopped = DatasourcePackageIngestState._('STOPPED');
@@ -2390,6 +2419,8 @@ class DatasourcePackageIngestState {
 }
 
 /// Information on the usage of a data source package in the behavior graph.
+///
+/// @nodoc
 class DatasourcePackageUsageInfo {
   /// Total volume of data in bytes per day ingested for a given data source
   /// package.
@@ -2425,6 +2456,8 @@ class DatasourcePackageUsageInfo {
 
 /// Details about the investigation related to a potential security event
 /// identified by Detective.
+///
+/// @nodoc
 class InvestigationDetail {
   /// The time stamp of the creation time of the investigation report. The value
   /// is an UTC ISO8601 formatted string. For example,
@@ -2494,6 +2527,7 @@ class InvestigationDetail {
   }
 }
 
+/// @nodoc
 class Severity {
   static const informational = Severity._('INFORMATIONAL');
   static const low = Severity._('LOW');
@@ -2520,6 +2554,7 @@ class Severity {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const running = Status._('RUNNING');
   static const failed = Status._('FAILED');
@@ -2544,6 +2579,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class EntityType {
   static const iamRole = EntityType._('IAM_ROLE');
   static const iamUser = EntityType._('IAM_USER');
@@ -2568,6 +2604,8 @@ class EntityType {
 }
 
 /// Details on the criteria used to define the filter for investigation results.
+///
+/// @nodoc
 class FilterCriteria {
   /// Filter the investigation results based on when the investigation was
   /// created.
@@ -2611,6 +2649,8 @@ class FilterCriteria {
 }
 
 /// Details about the criteria used for sorting investigations.
+///
+/// @nodoc
 class SortCriteria {
   /// Represents the <code>Field</code> attribute to sort investigations.
   final Field? field;
@@ -2633,6 +2673,7 @@ class SortCriteria {
   }
 }
 
+/// @nodoc
 class Field {
   static const severity = Field._('SEVERITY');
   static const status = Field._('STATUS');
@@ -2657,6 +2698,7 @@ class Field {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -2681,6 +2723,8 @@ class SortOrder {
 }
 
 /// A string for filtering Detective investigations.
+///
+/// @nodoc
 class StringFilter {
   /// The string filter value.
   final String value;
@@ -2698,6 +2742,8 @@ class StringFilter {
 }
 
 /// Contains details on the time range used to filter data.
+///
+/// @nodoc
 class DateFilter {
   /// A timestamp representing the end date of the time period until when data is
   /// filtered, including the end date.
@@ -2727,6 +2773,8 @@ class DateFilter {
 /// on high-level investigations. An <code>Indicator</code> lets you determine
 /// if an Amazon Web Services resource is involved in unusual activity that
 /// could indicate malicious behavior and its impact.
+///
+/// @nodoc
 class Indicator {
   /// Details about the indicators of compromise that are used to determine if a
   /// resource is involved in a security incident. An indicator of compromise
@@ -2764,6 +2812,7 @@ class Indicator {
   }
 }
 
+/// @nodoc
 class IndicatorType {
   static const ttpObserved = IndicatorType._('TTP_OBSERVED');
   static const impossibleTravel = IndicatorType._('IMPOSSIBLE_TRAVEL');
@@ -2811,6 +2860,8 @@ class IndicatorType {
 /// generated by Detective investigations, see <a
 /// href="https://docs.aws.amazon.com/detective/latest/userguide/detective-investigation-about.html">Detective
 /// investigations</a>.
+///
+/// @nodoc
 class IndicatorDetail {
   /// Suspicious IP addresses that are flagged, which indicates critical or severe
   /// threats based on threat intelligence by Detective. This indicator is derived
@@ -2916,6 +2967,8 @@ class IndicatorDetail {
 /// security event. Tactics are based on <a
 /// href="https://attack.mitre.org/matrices/enterprise/">MITRE ATT&CK Matrix for
 /// Enterprise</a>.
+///
+/// @nodoc
 class TTPsObservedDetail {
   /// The total number of failed API requests.
   final int? aPIFailureCount;
@@ -2983,6 +3036,8 @@ class TTPsObservedDetail {
 }
 
 /// Contains information on unusual and impossible travel in an account.
+///
+/// @nodoc
 class ImpossibleTravelDetail {
   /// IP address where the resource was last used in the impossible travel.
   final String? endingIpAddress;
@@ -3037,6 +3092,8 @@ class ImpossibleTravelDetail {
 /// Contains information on suspicious IP addresses identified as indicators of
 /// compromise. This indicator is derived from Amazon Web Services threat
 /// intelligence.
+///
+/// @nodoc
 class FlaggedIpAddressDetail {
   /// IP address of the suspicious entity.
   final String? ipAddress;
@@ -3069,6 +3126,8 @@ class FlaggedIpAddressDetail {
 /// Details new geolocations used either at the resource or account level. For
 /// example, lists an observed geolocation that is an infrequent or unused
 /// location based on previous user activity.
+///
+/// @nodoc
 class NewGeolocationDetail {
   /// IP address using which the resource was accessed.
   final String? ipAddress;
@@ -3108,6 +3167,8 @@ class NewGeolocationDetail {
 
 /// Details new Autonomous System Organizations (ASOs) used either at the
 /// resource or account level.
+///
+/// @nodoc
 class NewAsoDetail {
   /// Details about the new Autonomous System Organization (ASO).
   final String? aso;
@@ -3140,6 +3201,8 @@ class NewAsoDetail {
 }
 
 /// Details new user agents used either at the resource or account level.
+///
+/// @nodoc
 class NewUserAgentDetail {
   /// Checks if the user agent is new for the entire account.
   final bool? isNewForEntireAccount;
@@ -3173,6 +3236,8 @@ class NewUserAgentDetail {
 /// Details related activities associated with a potential security event. Lists
 /// all distinct categories of evidence that are connected to the resource or
 /// the finding group.
+///
+/// @nodoc
 class RelatedFindingDetail {
   /// The Amazon Resource Name (ARN) of the related finding.
   final String? arn;
@@ -3212,6 +3277,8 @@ class RelatedFindingDetail {
 /// Details multiple activities as they related to a potential security event.
 /// Detective uses graph analysis technique that infers relationships between
 /// findings and entities, and groups them together as a finding group.
+///
+/// @nodoc
 class RelatedFindingGroupDetail {
   /// The unique identifier for the finding group.
   final String? id;
@@ -3234,6 +3301,7 @@ class RelatedFindingGroupDetail {
   }
 }
 
+/// @nodoc
 class Reason {
   static const awsThreatIntelligence = Reason._('AWS_THREAT_INTELLIGENCE');
 
@@ -3257,6 +3325,8 @@ class Reason {
 }
 
 /// A behavior graph in Detective.
+///
+/// @nodoc
 class Graph {
   /// The ARN of the behavior graph.
   final String? arn;
@@ -3289,6 +3359,8 @@ class Graph {
 }
 
 /// Details about the data source packages ingested by your behavior graph.
+///
+/// @nodoc
 class DatasourcePackageIngestDetail {
   /// Details on which data source packages are ingested for a member account.
   final DatasourcePackageIngestState? datasourcePackageIngestState;
@@ -3328,6 +3400,8 @@ class DatasourcePackageIngestDetail {
 }
 
 /// Details on when data collection began for a source package.
+///
+/// @nodoc
 class TimestampForCollection {
   /// The data and time when data collection began for a source package. The value
   /// is an ISO8601 formatted string. For example,
@@ -3354,6 +3428,8 @@ class TimestampForCollection {
 
 /// A member account that was included in a request but for which the request
 /// could not be processed.
+///
+/// @nodoc
 class UnprocessedAccount {
   /// The Amazon Web Services account identifier of the member account that was
   /// not processed.
@@ -3386,6 +3462,8 @@ class UnprocessedAccount {
 
 /// An Amazon Web Services account that is the administrator account of or a
 /// member of a behavior graph.
+///
+/// @nodoc
 class Account {
   /// The account identifier of the Amazon Web Services account.
   final String accountId;
@@ -3410,6 +3488,8 @@ class Account {
 }
 
 /// Behavior graphs that could not be processed in the request.
+///
+/// @nodoc
 class UnprocessedGraph {
   /// The ARN of the organization behavior graph.
   final String? graphArn;
@@ -3441,6 +3521,8 @@ class UnprocessedGraph {
 }
 
 /// Details on data source packages for members of the behavior graph.
+///
+/// @nodoc
 class MembershipDatasources {
   /// The account identifier of the Amazon Web Services account.
   final String? accountId;
@@ -3488,26 +3570,31 @@ class MembershipDatasources {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3516,11 +3603,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -3162,6 +3162,7 @@ class DirectConnect {
   }
 }
 
+/// @nodoc
 class AcceptDirectConnectGatewayAssociationProposalResult {
   /// Information about an association between a Direct Connect gateway and a
   /// virtual gateway or transit gateway.
@@ -3194,6 +3195,8 @@ class AcceptDirectConnectGatewayAssociationProposalResult {
 }
 
 /// Information about an Direct Connect connection.
+///
+/// @nodoc
 class Connection {
   /// The Direct Connect endpoint on which the physical connection terminates.
   final String? awsDevice;
@@ -3434,6 +3437,8 @@ class Connection {
 }
 
 /// Information about a virtual interface.
+///
+/// @nodoc
 class VirtualInterface {
   /// The address family for the BGP peer.
   final AddressFamily? addressFamily;
@@ -3745,6 +3750,7 @@ class VirtualInterface {
   }
 }
 
+/// @nodoc
 class AllocateTransitVirtualInterfaceResult {
   /// Information about the transit virtual interface.
   final VirtualInterface? virtualInterface;
@@ -3771,6 +3777,7 @@ class AllocateTransitVirtualInterfaceResult {
   }
 }
 
+/// @nodoc
 class AssociateMacSecKeyResponse {
   /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx),
   /// or LAG (dxlag-xxxx).
@@ -3804,6 +3811,7 @@ class AssociateMacSecKeyResponse {
   }
 }
 
+/// @nodoc
 class ConfirmConnectionResponse {
   /// The state of the connection. The following are the possible values:
   ///
@@ -3865,6 +3873,7 @@ class ConfirmConnectionResponse {
   }
 }
 
+/// @nodoc
 class ConfirmCustomerAgreementResponse {
   /// The status of the customer agreement when the connection was created. This
   /// will be either <code>signed</code> or <code>unsigned</code>.
@@ -3888,6 +3897,7 @@ class ConfirmCustomerAgreementResponse {
   }
 }
 
+/// @nodoc
 class ConfirmPrivateVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -3960,6 +3970,7 @@ class ConfirmPrivateVirtualInterfaceResponse {
   }
 }
 
+/// @nodoc
 class ConfirmPublicVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -4032,6 +4043,7 @@ class ConfirmPublicVirtualInterfaceResponse {
   }
 }
 
+/// @nodoc
 class ConfirmTransitVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -4104,6 +4116,7 @@ class ConfirmTransitVirtualInterfaceResponse {
   }
 }
 
+/// @nodoc
 class CreateBGPPeerResponse {
   /// The virtual interface.
   final VirtualInterface? virtualInterface;
@@ -4129,6 +4142,7 @@ class CreateBGPPeerResponse {
   }
 }
 
+/// @nodoc
 class CreateDirectConnectGatewayResult {
   /// The Direct Connect gateway.
   final DirectConnectGateway? directConnectGateway;
@@ -4155,6 +4169,7 @@ class CreateDirectConnectGatewayResult {
   }
 }
 
+/// @nodoc
 class CreateDirectConnectGatewayAssociationResult {
   /// The association to be created.
   final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
@@ -4185,6 +4200,7 @@ class CreateDirectConnectGatewayAssociationResult {
   }
 }
 
+/// @nodoc
 class CreateDirectConnectGatewayAssociationProposalResult {
   /// Information about the Direct Connect gateway proposal.
   final DirectConnectGatewayAssociationProposal?
@@ -4218,6 +4234,8 @@ class CreateDirectConnectGatewayAssociationProposalResult {
 }
 
 /// Information about an interconnect.
+///
+/// @nodoc
 class Interconnect {
   /// The Direct Connect endpoint on which the physical connection terminates.
   final String? awsDevice;
@@ -4416,6 +4434,8 @@ class Interconnect {
 }
 
 /// Information about a link aggregation group (LAG).
+///
+/// @nodoc
 class Lag {
   /// Indicates whether the LAG can host other connections.
   final bool? allowsHostedConnections;
@@ -4629,6 +4649,7 @@ class Lag {
   }
 }
 
+/// @nodoc
 class CreateTransitVirtualInterfaceResult {
   /// Information about a virtual interface.
   final VirtualInterface? virtualInterface;
@@ -4655,6 +4676,7 @@ class CreateTransitVirtualInterfaceResult {
   }
 }
 
+/// @nodoc
 class DeleteBGPPeerResponse {
   /// The virtual interface.
   final VirtualInterface? virtualInterface;
@@ -4680,6 +4702,7 @@ class DeleteBGPPeerResponse {
   }
 }
 
+/// @nodoc
 class DeleteDirectConnectGatewayResult {
   /// The Direct Connect gateway.
   final DirectConnectGateway? directConnectGateway;
@@ -4706,6 +4729,7 @@ class DeleteDirectConnectGatewayResult {
   }
 }
 
+/// @nodoc
 class DeleteDirectConnectGatewayAssociationResult {
   /// Information about the deleted association.
   final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
@@ -4736,6 +4760,7 @@ class DeleteDirectConnectGatewayAssociationResult {
   }
 }
 
+/// @nodoc
 class DeleteDirectConnectGatewayAssociationProposalResult {
   /// The ID of the associated gateway.
   final DirectConnectGatewayAssociationProposal?
@@ -4768,6 +4793,7 @@ class DeleteDirectConnectGatewayAssociationProposalResult {
   }
 }
 
+/// @nodoc
 class DeleteInterconnectResponse {
   /// The state of the interconnect. The following are the possible values:
   ///
@@ -4820,6 +4846,7 @@ class DeleteInterconnectResponse {
   }
 }
 
+/// @nodoc
 class DeleteVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -4891,6 +4918,7 @@ class DeleteVirtualInterfaceResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectionLoaResponse {
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
   final Loa? loa;
@@ -4915,6 +4943,7 @@ class DescribeConnectionLoaResponse {
   }
 }
 
+/// @nodoc
 class Connections {
   /// The connections.
   final List<Connection>? connections;
@@ -4948,6 +4977,7 @@ class Connections {
   }
 }
 
+/// @nodoc
 class DescribeCustomerMetadataResponse {
   /// The list of customer agreements.
   final List<CustomerAgreement>? agreements;
@@ -4996,6 +5026,7 @@ class DescribeCustomerMetadataResponse {
   }
 }
 
+/// @nodoc
 class DescribeDirectConnectGatewayAssociationProposalsResult {
   /// Describes the Direct Connect gateway association proposals.
   final List<DirectConnectGatewayAssociationProposal>?
@@ -5036,6 +5067,7 @@ class DescribeDirectConnectGatewayAssociationProposalsResult {
   }
 }
 
+/// @nodoc
 class DescribeDirectConnectGatewayAssociationsResult {
   /// Information about the associations.
   final List<DirectConnectGatewayAssociation>? directConnectGatewayAssociations;
@@ -5073,6 +5105,7 @@ class DescribeDirectConnectGatewayAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeDirectConnectGatewayAttachmentsResult {
   /// The attachments.
   final List<DirectConnectGatewayAttachment>? directConnectGatewayAttachments;
@@ -5110,6 +5143,7 @@ class DescribeDirectConnectGatewayAttachmentsResult {
   }
 }
 
+/// @nodoc
 class DescribeDirectConnectGatewaysResult {
   /// The Direct Connect gateways.
   final List<DirectConnectGateway>? directConnectGateways;
@@ -5144,6 +5178,7 @@ class DescribeDirectConnectGatewaysResult {
   }
 }
 
+/// @nodoc
 class DescribeInterconnectLoaResponse {
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
   final Loa? loa;
@@ -5168,6 +5203,7 @@ class DescribeInterconnectLoaResponse {
   }
 }
 
+/// @nodoc
 class Interconnects {
   /// The interconnects.
   final List<Interconnect>? interconnects;
@@ -5201,6 +5237,7 @@ class Interconnects {
   }
 }
 
+/// @nodoc
 class Lags {
   /// The LAGs.
   final List<Lag>? lags;
@@ -5236,6 +5273,8 @@ class Lags {
 
 /// Information about a Letter of Authorization - Connecting Facility Assignment
 /// (LOA-CFA) for a connection.
+///
+/// @nodoc
 class Loa {
   /// The binary contents of the LOA-CFA document.
   final Uint8List? loaContent;
@@ -5267,6 +5306,7 @@ class Loa {
   }
 }
 
+/// @nodoc
 class Locations {
   /// The locations.
   final List<Location>? locations;
@@ -5292,6 +5332,7 @@ class Locations {
   }
 }
 
+/// @nodoc
 class DescribeRouterConfigurationResponse {
   /// The customer router configuration.
   final String? customerRouterConfig;
@@ -5340,6 +5381,7 @@ class DescribeRouterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeTagsResponse {
   /// Information about the tags.
   final List<ResourceTag>? resourceTags;
@@ -5365,6 +5407,7 @@ class DescribeTagsResponse {
   }
 }
 
+/// @nodoc
 class VirtualGateways {
   /// The virtual private gateways.
   final List<VirtualGateway>? virtualGateways;
@@ -5390,6 +5433,7 @@ class VirtualGateways {
   }
 }
 
+/// @nodoc
 class VirtualInterfaces {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -5423,6 +5467,7 @@ class VirtualInterfaces {
   }
 }
 
+/// @nodoc
 class DisassociateMacSecKeyResponse {
   /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx),
   /// or LAG (dxlag-xxxx).
@@ -5457,6 +5502,7 @@ class DisassociateMacSecKeyResponse {
   }
 }
 
+/// @nodoc
 class ListVirtualInterfaceTestHistoryResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -5494,6 +5540,7 @@ class ListVirtualInterfaceTestHistoryResponse {
   }
 }
 
+/// @nodoc
 class StartBgpFailoverTestResponse {
   /// Information about the virtual interface failover test.
   final VirtualInterfaceTestHistory? virtualInterfaceTest;
@@ -5520,6 +5567,7 @@ class StartBgpFailoverTestResponse {
   }
 }
 
+/// @nodoc
 class StopBgpFailoverTestResponse {
   /// Information about the virtual interface failover test.
   final VirtualInterfaceTestHistory? virtualInterfaceTest;
@@ -5546,6 +5594,7 @@ class StopBgpFailoverTestResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5558,6 +5607,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5570,6 +5620,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDirectConnectGatewayResponse {
   /// Informaiton about a Direct Connect gateway, which enables you to connect
   /// virtual interfaces and virtual private gateways or transit gateways.
@@ -5598,6 +5649,7 @@ class UpdateDirectConnectGatewayResponse {
   }
 }
 
+/// @nodoc
 class UpdateDirectConnectGatewayAssociationResult {
   /// Information about an association between a Direct Connect gateway and a
   /// virtual private gateway or transit gateway.
@@ -5631,6 +5683,8 @@ class UpdateDirectConnectGatewayAssociationResult {
 
 /// Information about an association between a Direct Connect gateway and a
 /// virtual private gateway or transit gateway.
+///
+/// @nodoc
 class DirectConnectGatewayAssociation {
   /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
   final List<RouteFilterPrefix>? allowedPrefixesToDirectConnectGateway;
@@ -5774,6 +5828,7 @@ class DirectConnectGatewayAssociation {
   }
 }
 
+/// @nodoc
 class DirectConnectGatewayAssociationState {
   static const associating =
       DirectConnectGatewayAssociationState._('associating');
@@ -5813,6 +5868,8 @@ class DirectConnectGatewayAssociationState {
 }
 
 /// Information about the associated gateway.
+///
+/// @nodoc
 class AssociatedGateway {
   /// The ID of the associated gateway.
   final String? id;
@@ -5860,6 +5917,8 @@ class AssociatedGateway {
 /// The Amazon Web Services Cloud WAN core network that the Direct Connect
 /// gateway is associated to. This is only returned when a Direct Connect
 /// gateway is associated to a Cloud WAN core network.
+///
+/// @nodoc
 class AssociatedCoreNetwork {
   /// the ID of the Direct Connect gateway attachment.
   final String? attachmentId;
@@ -5899,6 +5958,8 @@ class AssociatedCoreNetwork {
 
 /// Information about a route filter prefix that a customer can advertise
 /// through Border Gateway Protocol (BGP) over a public virtual interface.
+///
+/// @nodoc
 class RouteFilterPrefix {
   /// The CIDR block for the advertised route. Separate multiple routes using
   /// commas. An IPv6 CIDR must use /64 or shorter.
@@ -5922,6 +5983,7 @@ class RouteFilterPrefix {
   }
 }
 
+/// @nodoc
 class GatewayType {
   static const virtualPrivateGateway = GatewayType._('virtualPrivateGateway');
   static const transitGateway = GatewayType._('transitGateway');
@@ -5947,6 +6009,8 @@ class GatewayType {
 
 /// Information about a Direct Connect gateway, which enables you to connect
 /// virtual interfaces and virtual private gateway or transit gateways.
+///
+/// @nodoc
 class DirectConnectGateway {
   /// The autonomous system number (AS) for the Amazon side of the connection.
   final int? amazonSideAsn;
@@ -6038,6 +6102,7 @@ class DirectConnectGateway {
   }
 }
 
+/// @nodoc
 class DirectConnectGatewayState {
   static const pending = DirectConnectGatewayState._('pending');
   static const available = DirectConnectGatewayState._('available');
@@ -6066,6 +6131,8 @@ class DirectConnectGatewayState {
 }
 
 /// Information about a tag.
+///
+/// @nodoc
 class Tag {
   /// The key.
   final String key;
@@ -6096,6 +6163,8 @@ class Tag {
 }
 
 /// Information about the virtual interface failover test.
+///
+/// @nodoc
 class VirtualInterfaceTestHistory {
   /// The BGP peers that were put in the DOWN state as part of the virtual
   /// interface failover test.
@@ -6173,6 +6242,8 @@ class VirtualInterfaceTestHistory {
 }
 
 /// Information about the MAC Security (MACsec) secret key.
+///
+/// @nodoc
 class MacSecKey {
   /// The Connection Key Name (CKN) for the MAC Security secret key.
   final String? ckn;
@@ -6239,6 +6310,8 @@ class MacSecKey {
 }
 
 /// Information about a virtual private gateway for a private virtual interface.
+///
+/// @nodoc
 class VirtualGateway {
   /// The ID of the virtual private gateway.
   final String? virtualGatewayId;
@@ -6289,6 +6362,8 @@ class VirtualGateway {
 }
 
 /// Information about a tag associated with an Direct Connect resource.
+///
+/// @nodoc
 class ResourceTag {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceArn;
@@ -6322,6 +6397,8 @@ class ResourceTag {
 }
 
 /// Information about the virtual router.
+///
+/// @nodoc
 class RouterType {
   /// The virtual interface router platform.
   final String? platform;
@@ -6383,6 +6460,8 @@ class RouterType {
 }
 
 /// Information about an Direct Connect location.
+///
+/// @nodoc
 class Location {
   /// The available MAC Security (MACsec) port speeds for the location.
   final List<String>? availableMacSecPortSpeeds;
@@ -6452,6 +6531,7 @@ class Location {
   }
 }
 
+/// @nodoc
 class LoaContentType {
   static const applicationPdf = LoaContentType._('application/pdf');
 
@@ -6477,6 +6557,8 @@ class LoaContentType {
 
 /// Information about an attachment between a Direct Connect gateway and a
 /// virtual interface.
+///
+/// @nodoc
 class DirectConnectGatewayAttachment {
   /// The state of the attachment. The following are the possible values:
   ///
@@ -6567,6 +6649,7 @@ class DirectConnectGatewayAttachment {
   }
 }
 
+/// @nodoc
 class DirectConnectGatewayAttachmentState {
   static const attaching = DirectConnectGatewayAttachmentState._('attaching');
   static const attached = DirectConnectGatewayAttachmentState._('attached');
@@ -6594,6 +6677,7 @@ class DirectConnectGatewayAttachmentState {
   String toString() => value;
 }
 
+/// @nodoc
 class DirectConnectGatewayAttachmentType {
   static const transitVirtualInterface =
       DirectConnectGatewayAttachmentType._('TransitVirtualInterface');
@@ -6623,6 +6707,8 @@ class DirectConnectGatewayAttachmentType {
 
 /// Information about the proposal request to attach a virtual private gateway
 /// to a Direct Connect gateway.
+///
+/// @nodoc
 class DirectConnectGatewayAssociationProposal {
   /// Information about the associated gateway.
   final AssociatedGateway? associatedGateway;
@@ -6727,6 +6813,7 @@ class DirectConnectGatewayAssociationProposal {
   }
 }
 
+/// @nodoc
 class DirectConnectGatewayAssociationProposalState {
   static const requested =
       DirectConnectGatewayAssociationProposalState._('requested');
@@ -6758,6 +6845,7 @@ class DirectConnectGatewayAssociationProposalState {
   String toString() => value;
 }
 
+/// @nodoc
 class NniPartnerType {
   static const v1 = NniPartnerType._('v1');
   static const v2 = NniPartnerType._('v2');
@@ -6784,6 +6872,8 @@ class NniPartnerType {
 }
 
 /// The name and status of a customer agreement.
+///
+/// @nodoc
 class CustomerAgreement {
   /// The name of the agreement.
   final String? agreementName;
@@ -6814,6 +6904,7 @@ class CustomerAgreement {
   }
 }
 
+/// @nodoc
 class VirtualInterfaceState {
   static const confirming = VirtualInterfaceState._('confirming');
   static const verifying = VirtualInterfaceState._('verifying');
@@ -6858,6 +6949,7 @@ class VirtualInterfaceState {
   String toString() => value;
 }
 
+/// @nodoc
 class InterconnectState {
   static const requested = InterconnectState._('requested');
   static const pending = InterconnectState._('pending');
@@ -6896,6 +6988,8 @@ class InterconnectState {
 }
 
 /// Information about a transit virtual interface.
+///
+/// @nodoc
 class NewTransitVirtualInterface {
   /// The address family for the BGP peer.
   final AddressFamily? addressFamily;
@@ -7018,6 +7112,7 @@ class NewTransitVirtualInterface {
   }
 }
 
+/// @nodoc
 class AddressFamily {
   static const ipv4 = AddressFamily._('ipv4');
   static const ipv6 = AddressFamily._('ipv6');
@@ -7043,6 +7138,8 @@ class AddressFamily {
 }
 
 /// Information about a public virtual interface.
+///
+/// @nodoc
 class NewPublicVirtualInterface {
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
@@ -7153,6 +7250,8 @@ class NewPublicVirtualInterface {
 }
 
 /// Information about a private virtual interface.
+///
+/// @nodoc
 class NewPrivateVirtualInterface {
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
@@ -7281,6 +7380,7 @@ class NewPrivateVirtualInterface {
   }
 }
 
+/// @nodoc
 class LagState {
   static const requested = LagState._('requested');
   static const pending = LagState._('pending');
@@ -7317,6 +7417,7 @@ class LagState {
   String toString() => value;
 }
 
+/// @nodoc
 class HasLogicalRedundancy {
   static const unknown = HasLogicalRedundancy._('unknown');
   static const yes = HasLogicalRedundancy._('yes');
@@ -7344,6 +7445,8 @@ class HasLogicalRedundancy {
 }
 
 /// Information about a new BGP peer.
+///
+/// @nodoc
 class NewBGPPeer {
   /// The address family for the BGP peer.
   final AddressFamily? addressFamily;
@@ -7394,6 +7497,7 @@ class NewBGPPeer {
   }
 }
 
+/// @nodoc
 class ConnectionState {
   static const ordering = ConnectionState._('ordering');
   static const requested = ConnectionState._('requested');
@@ -7437,6 +7541,8 @@ class ConnectionState {
 
 /// Information about a transit virtual interface to be provisioned on a
 /// connection.
+///
+/// @nodoc
 class NewTransitVirtualInterfaceAllocation {
   /// The address family for the BGP peer.
   final AddressFamily? addressFamily;
@@ -7549,6 +7655,8 @@ class NewTransitVirtualInterfaceAllocation {
 
 /// Information about a public virtual interface to be provisioned on a
 /// connection.
+///
+/// @nodoc
 class NewPublicVirtualInterfaceAllocation {
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
@@ -7660,6 +7768,8 @@ class NewPublicVirtualInterfaceAllocation {
 }
 
 /// Information about a BGP peer.
+///
+/// @nodoc
 class BGPPeer {
   /// The address family for the BGP peer.
   final AddressFamily? addressFamily;
@@ -7826,6 +7936,7 @@ class BGPPeer {
   }
 }
 
+/// @nodoc
 class BGPPeerState {
   static const verifying = BGPPeerState._('verifying');
   static const pending = BGPPeerState._('pending');
@@ -7852,6 +7963,7 @@ class BGPPeerState {
   String toString() => value;
 }
 
+/// @nodoc
 class BGPStatus {
   static const up = BGPStatus._('up');
   static const down = BGPStatus._('down');
@@ -7878,6 +7990,8 @@ class BGPStatus {
 
 /// Information about a private virtual interface to be provisioned on a
 /// connection.
+///
+/// @nodoc
 class NewPrivateVirtualInterfaceAllocation {
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
@@ -7987,23 +8101,27 @@ class NewPrivateVirtualInterfaceAllocation {
   }
 }
 
+/// @nodoc
 class DirectConnectClientException extends _s.GenericAwsException {
   DirectConnectClientException({String? type, String? message})
       : super(
             type: type, code: 'DirectConnectClientException', message: message);
 }
 
+/// @nodoc
 class DirectConnectServerException extends _s.GenericAwsException {
   DirectConnectServerException({String? type, String? message})
       : super(
             type: type, code: 'DirectConnectServerException', message: message);
 }
 
+/// @nodoc
 class DuplicateTagKeysException extends _s.GenericAwsException {
   DuplicateTagKeysException({String? type, String? message})
       : super(type: type, code: 'DuplicateTagKeysException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

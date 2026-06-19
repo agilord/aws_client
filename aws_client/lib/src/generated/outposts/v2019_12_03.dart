@@ -1594,6 +1594,7 @@ class Outposts {
   }
 }
 
+/// @nodoc
 class CancelCapacityTaskOutput {
   CancelCapacityTaskOutput();
 
@@ -1606,6 +1607,7 @@ class CancelCapacityTaskOutput {
   }
 }
 
+/// @nodoc
 class CancelOrderOutput {
   CancelOrderOutput();
 
@@ -1618,6 +1620,7 @@ class CancelOrderOutput {
   }
 }
 
+/// @nodoc
 class CreateOrderOutput {
   /// Information about this order.
   final Order? order;
@@ -1642,6 +1645,7 @@ class CreateOrderOutput {
   }
 }
 
+/// @nodoc
 class CreateOutpostOutput {
   final Outpost? outpost;
 
@@ -1665,6 +1669,7 @@ class CreateOutpostOutput {
   }
 }
 
+/// @nodoc
 class CreateRenewalOutput {
   /// The monthly recurring price of the renewal.
   final double? monthlyRecurringPrice;
@@ -1718,6 +1723,7 @@ class CreateRenewalOutput {
   }
 }
 
+/// @nodoc
 class CreateSiteOutput {
   final Site? site;
 
@@ -1741,6 +1747,7 @@ class CreateSiteOutput {
   }
 }
 
+/// @nodoc
 class DeleteOutpostOutput {
   DeleteOutpostOutput();
 
@@ -1753,6 +1760,7 @@ class DeleteOutpostOutput {
   }
 }
 
+/// @nodoc
 class DeleteSiteOutput {
   DeleteSiteOutput();
 
@@ -1765,6 +1773,7 @@ class DeleteSiteOutput {
   }
 }
 
+/// @nodoc
 class GetCapacityTaskOutput {
   /// The ID of the Outpost asset. An Outpost asset can be a single server within
   /// an Outposts rack or an Outposts server configuration.
@@ -1934,6 +1943,7 @@ class GetCapacityTaskOutput {
   }
 }
 
+/// @nodoc
 class GetCatalogItemOutput {
   /// Information about this catalog item.
   final CatalogItem? catalogItem;
@@ -1958,6 +1968,7 @@ class GetCatalogItemOutput {
   }
 }
 
+/// @nodoc
 class GetConnectionResponse {
   /// Information about the connection.
   final ConnectionDetails? connectionDetails;
@@ -1990,6 +2001,7 @@ class GetConnectionResponse {
   }
 }
 
+/// @nodoc
 class GetOrderOutput {
   final Order? order;
 
@@ -2013,6 +2025,7 @@ class GetOrderOutput {
   }
 }
 
+/// @nodoc
 class GetOutpostOutput {
   final Outpost? outpost;
 
@@ -2036,6 +2049,7 @@ class GetOutpostOutput {
   }
 }
 
+/// @nodoc
 class GetOutpostBillingInformationOutput {
   /// The date the current contract term ends for the specified Outpost. You must
   /// start the renewal or decommission process at least 5 business days before
@@ -2094,6 +2108,7 @@ class GetOutpostBillingInformationOutput {
   }
 }
 
+/// @nodoc
 class GetOutpostInstanceTypesOutput {
   final List<InstanceTypeItem>? instanceTypes;
   final String? nextToken;
@@ -2135,6 +2150,7 @@ class GetOutpostInstanceTypesOutput {
   }
 }
 
+/// @nodoc
 class GetOutpostSupportedInstanceTypesOutput {
   final List<InstanceTypeItem>? instanceTypes;
   final String? nextToken;
@@ -2165,6 +2181,7 @@ class GetOutpostSupportedInstanceTypesOutput {
   }
 }
 
+/// @nodoc
 class GetRenewalPricingOutput {
   /// The pricing options for the specified Outpost.
   final List<PricingOption>? pricingOptions;
@@ -2198,6 +2215,7 @@ class GetRenewalPricingOutput {
   }
 }
 
+/// @nodoc
 class GetSiteOutput {
   final Site? site;
 
@@ -2221,6 +2239,7 @@ class GetSiteOutput {
   }
 }
 
+/// @nodoc
 class GetSiteAddressOutput {
   /// Information about the address.
   final Address? address;
@@ -2258,6 +2277,7 @@ class GetSiteAddressOutput {
   }
 }
 
+/// @nodoc
 class ListAssetInstancesOutput {
   /// List of instances owned by all accounts on the Outpost. Does not include
   /// Amazon EBS or Amazon S3 instances.
@@ -2289,6 +2309,7 @@ class ListAssetInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListAssetsOutput {
   /// Information about the hardware assets.
   final List<AssetInfo>? assets;
@@ -2319,6 +2340,7 @@ class ListAssetsOutput {
   }
 }
 
+/// @nodoc
 class ListBlockingInstancesForCapacityTaskOutput {
   /// A list of all running Amazon EC2 instances on the Outpost. Stopping one or
   /// more of these instances can free up the capacity needed to run the capacity
@@ -2352,6 +2374,7 @@ class ListBlockingInstancesForCapacityTaskOutput {
   }
 }
 
+/// @nodoc
 class ListCapacityTasksOutput {
   /// Lists all the capacity tasks.
   final List<CapacityTaskSummary>? capacityTasks;
@@ -2382,6 +2405,7 @@ class ListCapacityTasksOutput {
   }
 }
 
+/// @nodoc
 class ListCatalogItemsOutput {
   /// Information about the catalog items.
   final List<CatalogItem>? catalogItems;
@@ -2412,6 +2436,7 @@ class ListCatalogItemsOutput {
   }
 }
 
+/// @nodoc
 class ListOrdersOutput {
   final String? nextToken;
 
@@ -2443,6 +2468,7 @@ class ListOrdersOutput {
   }
 }
 
+/// @nodoc
 class ListOutpostsOutput {
   final String? nextToken;
   final List<Outpost>? outposts;
@@ -2472,6 +2498,7 @@ class ListOutpostsOutput {
   }
 }
 
+/// @nodoc
 class ListSitesOutput {
   final String? nextToken;
   final List<Site>? sites;
@@ -2501,6 +2528,7 @@ class ListSitesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The resource tags.
   final Map<String, String>? tags;
@@ -2524,6 +2552,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartCapacityTaskOutput {
   /// The ID of the asset. An Outpost asset can be a single server within an
   /// Outposts rack or an Outposts server configuration.
@@ -2663,6 +2692,7 @@ class StartCapacityTaskOutput {
   }
 }
 
+/// @nodoc
 class StartConnectionResponse {
   /// The ID of the connection.
   final String? connectionId;
@@ -2692,6 +2722,7 @@ class StartConnectionResponse {
   }
 }
 
+/// @nodoc
 class StartOutpostDecommissionOutput {
   /// The resources still associated with the Outpost that you are
   /// decommissioning.
@@ -2728,6 +2759,7 @@ class StartOutpostDecommissionOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2740,6 +2772,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2752,6 +2785,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateOutpostOutput {
   final Outpost? outpost;
 
@@ -2775,6 +2809,7 @@ class UpdateOutpostOutput {
   }
 }
 
+/// @nodoc
 class UpdateSiteOutput {
   final Site? site;
 
@@ -2798,6 +2833,7 @@ class UpdateSiteOutput {
   }
 }
 
+/// @nodoc
 class UpdateSiteAddressOutput {
   /// Information about an address.
   final Address? address;
@@ -2830,6 +2866,7 @@ class UpdateSiteAddressOutput {
   }
 }
 
+/// @nodoc
 class UpdateSiteRackPhysicalPropertiesOutput {
   final Site? site;
 
@@ -2855,6 +2892,8 @@ class UpdateSiteRackPhysicalPropertiesOutput {
 }
 
 /// Information about a site.
+///
+/// @nodoc
 class Site {
   final String? accountId;
   final String? description;
@@ -2954,6 +2993,8 @@ class Site {
 /// For more information about hardware requirements for racks, see <a
 /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist">Network
 /// readiness checklist</a> in the Amazon Web Services Outposts User Guide.
+///
+/// @nodoc
 class RackPhysicalProperties {
   /// The type of fiber used to attach the Outpost to the network.
   final FiberOpticCableType? fiberOpticCableType;
@@ -3046,6 +3087,7 @@ class RackPhysicalProperties {
   }
 }
 
+/// @nodoc
 class PowerDrawKva {
   static const power_5Kva = PowerDrawKva._('POWER_5_KVA');
   static const power_10Kva = PowerDrawKva._('POWER_10_KVA');
@@ -3071,6 +3113,7 @@ class PowerDrawKva {
   String toString() => value;
 }
 
+/// @nodoc
 class PowerPhase {
   static const singlePhase = PowerPhase._('SINGLE_PHASE');
   static const threePhase = PowerPhase._('THREE_PHASE');
@@ -3094,6 +3137,7 @@ class PowerPhase {
   String toString() => value;
 }
 
+/// @nodoc
 class PowerConnector {
   static const l6_30p = PowerConnector._('L6_30P');
   static const iec309 = PowerConnector._('IEC309');
@@ -3121,6 +3165,7 @@ class PowerConnector {
   String toString() => value;
 }
 
+/// @nodoc
 class PowerFeedDrop {
   static const aboveRack = PowerFeedDrop._('ABOVE_RACK');
   static const belowRack = PowerFeedDrop._('BELOW_RACK');
@@ -3145,6 +3190,7 @@ class PowerFeedDrop {
   String toString() => value;
 }
 
+/// @nodoc
 class UplinkGbps {
   static const uplink_1g = UplinkGbps._('UPLINK_1G');
   static const uplink_10g = UplinkGbps._('UPLINK_10G');
@@ -3170,6 +3216,7 @@ class UplinkGbps {
   String toString() => value;
 }
 
+/// @nodoc
 class UplinkCount {
   static const uplinkCount_1 = UplinkCount._('UPLINK_COUNT_1');
   static const uplinkCount_2 = UplinkCount._('UPLINK_COUNT_2');
@@ -3212,6 +3259,7 @@ class UplinkCount {
   String toString() => value;
 }
 
+/// @nodoc
 class FiberOpticCableType {
   static const singleMode = FiberOpticCableType._('SINGLE_MODE');
   static const multiMode = FiberOpticCableType._('MULTI_MODE');
@@ -3237,6 +3285,7 @@ class FiberOpticCableType {
   String toString() => value;
 }
 
+/// @nodoc
 class OpticalStandard {
   static const optic_10gbaseSr = OpticalStandard._('OPTIC_10GBASE_SR');
   static const optic_10gbaseIr = OpticalStandard._('OPTIC_10GBASE_IR');
@@ -3287,6 +3336,7 @@ class OpticalStandard {
   String toString() => value;
 }
 
+/// @nodoc
 class MaximumSupportedWeightLbs {
   static const noLimit = MaximumSupportedWeightLbs._('NO_LIMIT');
   static const max_1400Lbs = MaximumSupportedWeightLbs._('MAX_1400_LBS');
@@ -3321,6 +3371,7 @@ class MaximumSupportedWeightLbs {
   String toString() => value;
 }
 
+/// @nodoc
 class AddressType {
   static const shippingAddress = AddressType._('SHIPPING_ADDRESS');
   static const operatingAddress = AddressType._('OPERATING_ADDRESS');
@@ -3345,6 +3396,8 @@ class AddressType {
 }
 
 /// Information about an address.
+///
+/// @nodoc
 class Address {
   /// The first line of the address.
   final String addressLine1;
@@ -3438,6 +3491,8 @@ class Address {
 }
 
 /// Information about an Outpost.
+///
+/// @nodoc
 class Outpost {
   final String? availabilityZone;
   final String? availabilityZoneId;
@@ -3523,6 +3578,7 @@ class Outpost {
   }
 }
 
+/// @nodoc
 class SupportedHardwareType {
   static const rack = SupportedHardwareType._('RACK');
   static const server = SupportedHardwareType._('SERVER');
@@ -3548,6 +3604,7 @@ class SupportedHardwareType {
   String toString() => value;
 }
 
+/// @nodoc
 class DecommissionRequestStatus {
   static const skipped = DecommissionRequestStatus._('SKIPPED');
   static const blocked = DecommissionRequestStatus._('BLOCKED');
@@ -3574,6 +3631,7 @@ class DecommissionRequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockingResourceType {
   static const ec2Instance = BlockingResourceType._('EC2_INSTANCE');
   static const outpostRamShare = BlockingResourceType._('OUTPOST_RAM_SHARE');
@@ -3618,6 +3676,8 @@ class BlockingResourceType {
 /// User-specified instances that must not be stopped. These instances will not
 /// appear in the list of instances that Amazon Web Services recommends to stop
 /// in order to free up capacity.
+///
+/// @nodoc
 class InstancesToExclude {
   /// IDs of the accounts that own each instance that must not be stopped.
   final List<String>? accountIds;
@@ -3664,6 +3724,7 @@ class InstancesToExclude {
   }
 }
 
+/// @nodoc
 class CapacityTaskStatus {
   static const requested = CapacityTaskStatus._('REQUESTED');
   static const inProgress = CapacityTaskStatus._('IN_PROGRESS');
@@ -3705,6 +3766,8 @@ class CapacityTaskStatus {
 }
 
 /// The capacity tasks that failed.
+///
+/// @nodoc
 class CapacityTaskFailure {
   /// The reason that the specified capacity task failed.
   final String reason;
@@ -3734,6 +3797,7 @@ class CapacityTaskFailure {
   }
 }
 
+/// @nodoc
 class TaskActionOnBlockingInstances {
   static const waitForEvacuation =
       TaskActionOnBlockingInstances._('WAIT_FOR_EVACUATION');
@@ -3760,6 +3824,7 @@ class TaskActionOnBlockingInstances {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityTaskFailureType {
   static const unsupportedCapacityConfiguration =
       CapacityTaskFailureType._('UNSUPPORTED_CAPACITY_CONFIGURATION');
@@ -3799,6 +3864,7 @@ class CapacityTaskFailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class AWSServiceName {
   static const aws = AWSServiceName._('AWS');
   static const ec2 = AWSServiceName._('EC2');
@@ -3829,6 +3895,8 @@ class AWSServiceName {
 
 /// The instance type that you specify determines the combination of CPU,
 /// memory, storage, and networking capacity.
+///
+/// @nodoc
 class InstanceTypeCapacity {
   /// The number of instances for the specified instance type.
   final int count;
@@ -3859,6 +3927,8 @@ class InstanceTypeCapacity {
 }
 
 /// A summary of line items in your order.
+///
+/// @nodoc
 class OrderSummary {
   /// The status of all line items in the order.
   final Map<LineItemStatus, int>? lineItemCountsByStatus;
@@ -3952,6 +4022,7 @@ class OrderSummary {
   }
 }
 
+/// @nodoc
 class OrderType {
   static const outpost = OrderType._('OUTPOST');
   static const replacement = OrderType._('REPLACEMENT');
@@ -3975,6 +4046,7 @@ class OrderType {
   String toString() => value;
 }
 
+/// @nodoc
 class OrderStatus {
   static const received = OrderStatus._('RECEIVED');
   static const pending = OrderStatus._('PENDING');
@@ -4019,6 +4091,7 @@ class OrderStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LineItemStatus {
   static const preparing = LineItemStatus._('PREPARING');
   static const building = LineItemStatus._('BUILDING');
@@ -4061,6 +4134,8 @@ class LineItemStatus {
 }
 
 /// Information about a catalog item.
+///
+/// @nodoc
 class CatalogItem {
   /// The ID of the catalog item.
   final String? catalogItemId;
@@ -4138,6 +4213,7 @@ class CatalogItem {
   }
 }
 
+/// @nodoc
 class CatalogItemStatus {
   static const available = CatalogItemStatus._('AVAILABLE');
   static const discontinued = CatalogItemStatus._('DISCONTINUED');
@@ -4162,6 +4238,7 @@ class CatalogItemStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SupportedStorageEnum {
   static const ebs = SupportedStorageEnum._('EBS');
   static const s3 = SupportedStorageEnum._('S3');
@@ -4188,6 +4265,8 @@ class SupportedStorageEnum {
 }
 
 /// Information about EC2 capacity.
+///
+/// @nodoc
 class EC2Capacity {
   /// The family of the EC2 capacity.
   final String? family;
@@ -4224,6 +4303,7 @@ class EC2Capacity {
   }
 }
 
+/// @nodoc
 class CatalogItemClass {
   static const rack = CatalogItemClass._('RACK');
   static const server = CatalogItemClass._('SERVER');
@@ -4249,6 +4329,8 @@ class CatalogItemClass {
 }
 
 /// The summary of the capacity task.
+///
+/// @nodoc
 class CapacityTaskSummary {
   /// The ID of the asset. An Outpost asset can be a single server within an
   /// Outposts rack or an Outposts server configuration.
@@ -4329,6 +4411,8 @@ class CapacityTaskSummary {
 
 /// A running Amazon EC2 instance that can be stopped to free up capacity needed
 /// to run the capacity task.
+///
+/// @nodoc
 class BlockingInstance {
   final String? accountId;
 
@@ -4367,6 +4451,8 @@ class BlockingInstance {
 }
 
 /// Information about hardware assets.
+///
+/// @nodoc
 class AssetInfo {
   /// The ID of the asset. An Outpost asset can be a single server within an
   /// Outposts rack or an Outposts server configuration.
@@ -4424,6 +4510,7 @@ class AssetInfo {
   }
 }
 
+/// @nodoc
 class AssetType {
   static const compute = AssetType._('COMPUTE');
   static const storage = AssetType._('STORAGE');
@@ -4451,6 +4538,8 @@ class AssetType {
 }
 
 /// Information about compute hardware assets.
+///
+/// @nodoc
 class ComputeAttributes {
   /// The host ID of the Dedicated Host on the asset.
   final String? hostId;
@@ -4533,6 +4622,8 @@ class ComputeAttributes {
 }
 
 /// Information about the position of the asset in a rack.
+///
+/// @nodoc
 class AssetLocation {
   /// The position of an asset in a rack measured in rack units.
   final double? rackElevation;
@@ -4555,6 +4646,7 @@ class AssetLocation {
   }
 }
 
+/// @nodoc
 class ComputeAssetState {
   static const active = ComputeAssetState._('ACTIVE');
   static const isolated = ComputeAssetState._('ISOLATED');
@@ -4582,6 +4674,8 @@ class ComputeAssetState {
 }
 
 /// The capacity for each instance type.
+///
+/// @nodoc
 class AssetInstanceTypeCapacity {
   /// The number of each instance type.
   final int count;
@@ -4611,6 +4705,7 @@ class AssetInstanceTypeCapacity {
   }
 }
 
+/// @nodoc
 class AssetState {
   static const active = AssetState._('ACTIVE');
   static const retiring = AssetState._('RETIRING');
@@ -4637,6 +4732,8 @@ class AssetState {
 }
 
 /// An Amazon EC2 instance.
+///
+/// @nodoc
 class AssetInstance {
   final String? accountId;
 
@@ -4688,6 +4785,7 @@ class AssetInstance {
   }
 }
 
+/// @nodoc
 class PricingResult {
   static const priced = PricingResult._('PRICED');
   static const unableToPrice = PricingResult._('UNABLE_TO_PRICE');
@@ -4713,6 +4811,8 @@ class PricingResult {
 }
 
 /// A pricing option for the specified Outpost.
+///
+/// @nodoc
 class PricingOption {
   /// The type of pricing model.
   final QuotePricingType? pricingType;
@@ -4747,6 +4847,7 @@ class PricingOption {
   }
 }
 
+/// @nodoc
 class QuotePricingType {
   static const subscription = QuotePricingType._('SUBSCRIPTION');
 
@@ -4771,6 +4872,8 @@ class QuotePricingType {
 }
 
 /// The pricing details for a subscription.
+///
+/// @nodoc
 class SubscriptionPricingDetails {
   /// The monthly recurring price.
   final double? monthlyRecurringPrice;
@@ -4817,6 +4920,7 @@ class SubscriptionPricingDetails {
   }
 }
 
+/// @nodoc
 class PaymentOption {
   static const allUpfront = PaymentOption._('ALL_UPFRONT');
   static const noUpfront = PaymentOption._('NO_UPFRONT');
@@ -4842,6 +4946,7 @@ class PaymentOption {
   String toString() => value;
 }
 
+/// @nodoc
 class PaymentTerm {
   static const threeYears = PaymentTerm._('THREE_YEARS');
   static const oneYear = PaymentTerm._('ONE_YEAR');
@@ -4867,6 +4972,8 @@ class PaymentTerm {
 }
 
 /// Information about an instance type.
+///
+/// @nodoc
 class InstanceTypeItem {
   final String? instanceType;
 
@@ -4896,6 +5003,8 @@ class InstanceTypeItem {
 }
 
 /// Provides information about your Amazon Web Services Outposts subscriptions.
+///
+/// @nodoc
 class Subscription {
   /// The date your subscription starts.
   final DateTime? beginDate;
@@ -5005,6 +5114,7 @@ class Subscription {
   }
 }
 
+/// @nodoc
 class SubscriptionType {
   static const original = SubscriptionType._('ORIGINAL');
   static const renewal = SubscriptionType._('RENEWAL');
@@ -5030,6 +5140,7 @@ class SubscriptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionStatus {
   static const active = SubscriptionStatus._('ACTIVE');
   static const pending = SubscriptionStatus._('PENDING');
@@ -5058,6 +5169,8 @@ class SubscriptionStatus {
 }
 
 /// Information about an order.
+///
+/// @nodoc
 class Order {
   /// The line items for the order
   final List<LineItem>? lineItems;
@@ -5170,6 +5283,8 @@ class Order {
 }
 
 /// Information about a line item.
+///
+/// @nodoc
 class LineItem {
   /// Information about assets.
   final List<LineItemAssetInformation>? assetInformationList;
@@ -5251,6 +5366,8 @@ class LineItem {
 }
 
 /// Information about a line item shipment.
+///
+/// @nodoc
 class ShipmentInformation {
   /// The carrier of the shipment.
   final ShipmentCarrier? shipmentCarrier;
@@ -5283,6 +5400,8 @@ class ShipmentInformation {
 }
 
 /// Information about a line item asset.
+///
+/// @nodoc
 class LineItemAssetInformation {
   /// The ID of the asset. An Outpost asset can be a single server within an
   /// Outposts rack or an Outposts server configuration.
@@ -5316,6 +5435,7 @@ class LineItemAssetInformation {
   }
 }
 
+/// @nodoc
 class ShipmentCarrier {
   static const dhl = ShipmentCarrier._('DHL');
   static const dbs = ShipmentCarrier._('DBS');
@@ -5344,6 +5464,8 @@ class ShipmentCarrier {
 }
 
 /// Information about a connection.
+///
+/// @nodoc
 class ConnectionDetails {
   /// The allowed IP addresses.
   final List<String>? allowedIps;
@@ -5407,6 +5529,8 @@ class ConnectionDetails {
 }
 
 /// Information about a line item request.
+///
+/// @nodoc
 class LineItemRequest {
   /// The ID of the catalog item.
   final String? catalogItemId;
@@ -5429,26 +5553,31 @@ class LineItemRequest {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5457,6 +5586,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -323,19 +323,19 @@ class DataPipeline {
   /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribeObjects
   /// Content-Length: 98 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
   /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
-  /// "df-06372391ZG65EXAMPLE", "objectIds": ["Schedule"],
+  /// "df-06372391ZG65EXAMPLE", "objectIds": \["Schedule"\],
   /// "evaluateExpressions": true} </request> <response> x-amzn-RequestId:
   /// 4c18ea5d-0777-11e2-8a14-21bb8a1f50ef Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 1488 Date: Mon, 12 Nov 2012
-  /// 17:50:53 GMT {"hasMoreResults": false, "pipelineObjects": [ {"fields": [
+  /// 17:50:53 GMT {"hasMoreResults": false, "pipelineObjects": \[ {"fields": \[
   /// {"key": "startDateTime", "stringValue": "2012-12-12T00:00:00"}, {"key":
   /// "parent", "refValue": "Default"}, {"key": "@sphere", "stringValue":
   /// "COMPONENT"}, {"key": "type", "stringValue": "Schedule"}, {"key":
   /// "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue":
   /// "2012-12-21T18:00:00"}, {"key": "@version", "stringValue": "1"}, {"key":
   /// "@status", "stringValue": "PENDING"}, {"key": "@pipelineId",
-  /// "stringValue": "df-06372391ZG65EXAMPLE"} ], "id": "Schedule", "name":
-  /// "Schedule"} ] } </response> </examples>
+  /// "stringValue": "df-06372391ZG65EXAMPLE"} \], "id": "Schedule", "name":
+  /// "Schedule"} \] } </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -401,11 +401,11 @@ class DataPipeline {
   /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribePipelines
   /// Content-Length: 70 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
   /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineIds":
-  /// ["df-08785951KAKJEXAMPLE"] } </request> <response> x-amzn-RequestId:
+  /// \["df-08785951KAKJEXAMPLE"\] } </request> <response> x-amzn-RequestId:
   /// 02870eb7-0736-11e2-af6f-6bc7a6be60d9 Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 767 Date: Mon, 12 Nov 2012
-  /// 17:50:53 GMT {"pipelineDescriptionList": [ {"description": "This is my
-  /// first pipeline", "fields": [ {"key": "@pipelineState", "stringValue":
+  /// 17:50:53 GMT {"pipelineDescriptionList": \[ {"description": "This is my
+  /// first pipeline", "fields": \[ {"key": "@pipelineState", "stringValue":
   /// "SCHEDULED"}, {"key": "description", "stringValue": "This is my first
   /// pipeline"}, {"key": "name", "stringValue": "myPipeline"}, {"key":
   /// "@creationTime", "stringValue": "2012-12-13T01:24:06"}, {"key": "@id",
@@ -413,8 +413,8 @@ class DataPipeline {
   /// "stringValue": "PIPELINE"}, {"key": "@version", "stringValue": "1"},
   /// {"key": "@userId", "stringValue": "924374875933"}, {"key": "@accountId",
   /// "stringValue": "924374875933"}, {"key": "uniqueId", "stringValue":
-  /// "1234567890"} ], "name": "myPipeline", "pipelineId":
-  /// "df-0937003356ZJEXAMPLE"} ] } </response> </examples>
+  /// "1234567890"} \], "name": "myPipeline", "pipelineId":
+  /// "df-0937003356ZJEXAMPLE"} \] } </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -511,16 +511,16 @@ class DataPipeline {
   /// </request> <response> x-amzn-RequestId:
   /// e28309e5-0776-11e2-8a14-21bb8a1f50ef Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 890 Date: Mon, 12 Nov 2012
-  /// 17:50:53 GMT {"pipelineObjects": [ {"fields": [ {"key": "workerGroup",
-  /// "stringValue": "workerGroup"} ], "id": "Default", "name": "Default"},
-  /// {"fields": [ {"key": "startDateTime", "stringValue":
+  /// 17:50:53 GMT {"pipelineObjects": \[ {"fields": \[ {"key": "workerGroup",
+  /// "stringValue": "workerGroup"} \], "id": "Default", "name": "Default"},
+  /// {"fields": \[ {"key": "startDateTime", "stringValue":
   /// "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"},
   /// {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime",
-  /// "stringValue": "2012-09-25T18:00:00"} ], "id": "Schedule", "name":
-  /// "Schedule"}, {"fields": [ {"key": "schedule", "refValue": "Schedule"},
+  /// "stringValue": "2012-09-25T18:00:00"} \], "id": "Schedule", "name":
+  /// "Schedule"}, {"fields": \[ {"key": "schedule", "refValue": "Schedule"},
   /// {"key": "command", "stringValue": "echo hello"}, {"key": "parent",
   /// "refValue": "Default"}, {"key": "type", "stringValue":
-  /// "ShellCommandActivity"} ], "id": "SayHello", "name": "SayHello"} ] }
+  /// "ShellCommandActivity"} \], "id": "SayHello", "name": "SayHello"} \] }
   /// </response> </examples>
   ///
   /// May throw [InternalServiceError].
@@ -567,9 +567,9 @@ class DataPipeline {
   /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {}</request>
   /// <response> Status: x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9
   /// Content-Type: application/x-amz-json-1.1 Content-Length: 39 Date: Mon, 12
-  /// Nov 2012 17:50:53 GMT {"PipelineIdList": [ {"id":
+  /// Nov 2012 17:50:53 GMT {"PipelineIdList": \[ {"id":
   /// "df-08785951KAKJEXAMPLE", "name": "MyPipeline"}, {"id":
-  /// "df-08662578ISYEXAMPLE", "name": "MySecondPipeline"} ] }</response>
+  /// "df-08662578ISYEXAMPLE", "name": "MySecondPipeline"} \] }</response>
   /// </examples>
   ///
   /// May throw [InternalServiceError].
@@ -626,7 +626,7 @@ class DataPipeline {
   /// application/x-amz-json-1.1 Content-Length: 39 Date: Mon, 12 Nov 2012
   /// 17:50:53 GMT {"taskObject": {"attemptId":
   /// "@SayHello_2012-12-12T00:00:00_Attempt=1", "objects":
-  /// {"@SayHello_2012-12-12T00:00:00_Attempt=1": {"fields": [ {"key":
+  /// {"@SayHello_2012-12-12T00:00:00_Attempt=1": {"fields": \[ {"key":
   /// "@componentParent", "refValue": "SayHello"}, {"key":
   /// "@scheduledStartTime", "stringValue": "2012-12-12T00:00:00"}, {"key":
   /// "parent", "refValue": "SayHello"}, {"key": "@sphere", "stringValue":
@@ -639,7 +639,7 @@ class DataPipeline {
   /// "command", "stringValue": "echo hello"}, {"key": "@scheduledEndTime",
   /// "stringValue": "2012-12-12T01:00:00"}, {"key": "@activeInstances",
   /// "refValue": "@SayHello_2012-12-12T00:00:00"}, {"key": "@pipelineId",
-  /// "stringValue": "df-0937003356ZJEXAMPLE"} ], "id":
+  /// "stringValue": "df-0937003356ZJEXAMPLE"} \], "id":
   /// "@SayHello_2012-12-12T00:00:00_Attempt=1", "name":
   /// "@SayHello_2012-12-12T00:00:00_Attempt=1"} }, "pipelineId":
   /// "df-0937003356ZJEXAMPLE", "taskId":
@@ -717,19 +717,19 @@ class DataPipeline {
   /// X-Amz-Target: DataPipeline.PutPipelineDefinition Content-Length: 914 Host:
   /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
   /// GMT Authorization: AuthParams {"pipelineId": "df-0937003356ZJEXAMPLE",
-  /// "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [
-  /// {"key": "workerGroup", "stringValue": "workerGroup"} ] }, {"id":
-  /// "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime",
+  /// "pipelineObjects": \[ {"id": "Default", "name": "Default", "fields": \[
+  /// {"key": "workerGroup", "stringValue": "workerGroup"} \] }, {"id":
+  /// "Schedule", "name": "Schedule", "fields": \[ {"key": "startDateTime",
   /// "stringValue": "2012-12-12T00:00:00"}, {"key": "type", "stringValue":
   /// "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key":
-  /// "endDateTime", "stringValue": "2012-12-21T18:00:00"} ] }, {"id":
-  /// "SayHello", "name": "SayHello", "fields": [ {"key": "type", "stringValue":
-  /// "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"},
-  /// {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue":
-  /// "Schedule"} ] } ] } </request> <response> HTTP/1.1 200 x-amzn-RequestId:
-  /// f74afc14-0754-11e2-af6f-6bc7a6be60d9 Content-Type:
-  /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
-  /// 17:50:53 GMT {"errored": false} </response> </example> <example>
+  /// "endDateTime", "stringValue": "2012-12-21T18:00:00"} \] }, {"id":
+  /// "SayHello", "name": "SayHello", "fields": \[ {"key": "type",
+  /// "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue":
+  /// "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key":
+  /// "schedule", "refValue": "Schedule"} \] } \] } </request> <response>
+  /// HTTP/1.1 200 x-amzn-RequestId: f74afc14-0754-11e2-af6f-6bc7a6be60d9
+  /// Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12
+  /// Nov 2012 17:50:53 GMT {"errored": false} </response> </example> <example>
   /// <name>Example 2</name> <description> This example sets an invalid pipeline
   /// configuration (the value for <code>workerGroup</code> is an empty string)
   /// and returns an error message. </description> <request> POST / HTTP/1.1
@@ -737,23 +737,24 @@ class DataPipeline {
   /// DataPipeline.PutPipelineDefinition Content-Length: 903 Host:
   /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
   /// GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE",
-  /// "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [
-  /// {"key": "workerGroup", "stringValue": ""} ] }, {"id": "Schedule", "name":
-  /// "Schedule", "fields": [ {"key": "startDateTime", "stringValue":
+  /// "pipelineObjects": \[ {"id": "Default", "name": "Default", "fields": \[
+  /// {"key": "workerGroup", "stringValue": ""} \] }, {"id": "Schedule", "name":
+  /// "Schedule", "fields": \[ {"key": "startDateTime", "stringValue":
   /// "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"},
   /// {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime",
-  /// "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name":
-  /// "SayHello", "fields": [ {"key": "type", "stringValue":
+  /// "stringValue": "2012-09-25T18:00:00"} \] }, {"id": "SayHello", "name":
+  /// "SayHello", "fields": \[ {"key": "type", "stringValue":
   /// "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"},
   /// {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue":
-  /// "Schedule"} ] } ] } </request> <response> HTTP/1.1 200 x-amzn-RequestId:
+  /// "Schedule"} \] } \] } </request> <response> HTTP/1.1 200 x-amzn-RequestId:
   /// f74afc14-0754-11e2-af6f-6bc7a6be60d9 Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
   /// 17:50:53 GMT {"__type":
   /// "com.amazon.setl.webservice#InvalidRequestException", "message": "Pipeline
   /// definition has errors: Could not save the pipeline definition due to FATAL
-  /// errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call
-  /// Validate to validate your pipeline"} </response> </example> </examples>
+  /// errors: \[com.amazon.setl.webservice.ValidationError@108d7ea9\] Please
+  /// call Validate to validate your pipeline"} </response> </example>
+  /// </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -805,12 +806,12 @@ class DataPipeline {
   /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.QueryObjects
   /// Content-Length: 123 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
   /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
-  /// "df-06372391ZG65EXAMPLE", "query": {"selectors": [ ] }, "sphere":
+  /// "df-06372391ZG65EXAMPLE", "query": {"selectors": \[ \] }, "sphere":
   /// "INSTANCE", "marker": "", "limit": 10} </request> <response>
   /// x-amzn-RequestId: 14d704c1-0775-11e2-af6f-6bc7a6be60d9 Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 72 Date: Mon, 12 Nov 2012
   /// 17:50:53 GMT {"hasMoreResults": false, "ids":
-  /// ["@SayHello_1_2012-09-25T17:00:00"] } </response> </examples>
+  /// \["@SayHello_1_2012-09-25T17:00:00"\] } </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -919,10 +920,11 @@ class DataPipeline {
   /// Content-Length: 832 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
   /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"taskId":
   /// "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
-  /// "fields": [ {"key": "percentComplete", "stringValue": "50"} ] } </request>
-  /// <response> x-amzn-RequestId: 640bd023-0775-11e2-af6f-6bc7a6be60d9
-  /// Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12
-  /// Nov 2012 17:50:53 GMT {"canceled": false} </response> </examples>
+  /// "fields": \[ {"key": "percentComplete", "stringValue": "50"} \] }
+  /// </request> <response> x-amzn-RequestId:
+  /// 640bd023-0775-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"canceled": false} </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -1029,7 +1031,7 @@ class DataPipeline {
   /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.SetStatus
   /// Content-Length: 100 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
   /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
-  /// "df-0634701J7KEXAMPLE", "objectIds": ["o-08600941GHJWMBR9E2"], "status":
+  /// "df-0634701J7KEXAMPLE", "objectIds": \["o-08600941GHJWMBR9E2"\], "status":
   /// "pause"} </request> <response> x-amzn-RequestId:
   /// e83b8ab7-076a-11e2-af6f-6bc7a6be60d9 Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012
@@ -1159,16 +1161,16 @@ class DataPipeline {
   /// X-Amz-Target: DataPipeline.ValidatePipelineDefinition Content-Length: 936
   /// Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012
   /// 17:49:52 GMT Authorization: AuthParams {"pipelineId":
-  /// "df-06372391ZG65EXAMPLE", "pipelineObjects": [ {"id": "Default", "name":
-  /// "Default", "fields": [ {"key": "workerGroup", "stringValue":
-  /// "MyworkerGroup"} ] }, {"id": "Schedule", "name": "Schedule", "fields": [
+  /// "df-06372391ZG65EXAMPLE", "pipelineObjects": \[ {"id": "Default", "name":
+  /// "Default", "fields": \[ {"key": "workerGroup", "stringValue":
+  /// "MyworkerGroup"} \] }, {"id": "Schedule", "name": "Schedule", "fields": \[
   /// {"key": "startDateTime", "stringValue": "2012-09-25T17:00:00"}, {"key":
   /// "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1
-  /// hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} ] },
-  /// {"id": "SayHello", "name": "SayHello", "fields": [ {"key": "type",
+  /// hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} \] },
+  /// {"id": "SayHello", "name": "SayHello", "fields": \[ {"key": "type",
   /// "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue":
   /// "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key":
-  /// "schedule", "refValue": "Schedule"} ] } ] } </request> <response>
+  /// "schedule", "refValue": "Schedule"} \] } \] } </request> <response>
   /// x-amzn-RequestId: 92c9f347-0776-11e2-8a14-21bb8a1f50ef Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
   /// 17:50:53 GMT {"errored": false} </response> </example> <example>
@@ -1179,21 +1181,21 @@ class DataPipeline {
   /// DataPipeline.ValidatePipelineDefinition Content-Length: 903 Host:
   /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
   /// GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE",
-  /// "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [
-  /// {"key": "workerGroup", "stringValue": "MyworkerGroup"} ] }, {"id":
-  /// "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime",
+  /// "pipelineObjects": \[ {"id": "Default", "name": "Default", "fields": \[
+  /// {"key": "workerGroup", "stringValue": "MyworkerGroup"} \] }, {"id":
+  /// "Schedule", "name": "Schedule", "fields": \[ {"key": "startDateTime",
   /// "stringValue": "bad-time"}, {"key": "type", "stringValue": "Schedule"},
   /// {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime",
-  /// "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name":
-  /// "SayHello", "fields": [ {"key": "type", "stringValue":
+  /// "stringValue": "2012-09-25T18:00:00"} \] }, {"id": "SayHello", "name":
+  /// "SayHello", "fields": \[ {"key": "type", "stringValue":
   /// "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"},
   /// {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue":
-  /// "Schedule"} ] } ] } </request> <response> x-amzn-RequestId:
+  /// "Schedule"} \] } \] } </request> <response> x-amzn-RequestId:
   /// 496a1f5a-0e6a-11e2-a61c-bd6312c92ddd Content-Type:
   /// application/x-amz-json-1.1 Content-Length: 278 Date: Mon, 12 Nov 2012
-  /// 17:50:53 GMT {"errored": true, "validationErrors": [ {"errors":
-  /// ["INVALID_FIELD_VALUE: 'startDateTime' value must be a literal datetime
-  /// value."], "id": "Schedule"} ] } </response> </example> </examples>
+  /// 17:50:53 GMT {"errored": true, "validationErrors": \[ {"errors":
+  /// \["INVALID_FIELD_VALUE: 'startDateTime' value must be a literal datetime
+  /// value."\], "id": "Schedule"} \] } </response> </example> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -1241,6 +1243,8 @@ class DataPipeline {
 }
 
 /// Contains the output of ActivatePipeline.
+///
+/// @nodoc
 class ActivatePipelineOutput {
   ActivatePipelineOutput();
 
@@ -1254,6 +1258,8 @@ class ActivatePipelineOutput {
 }
 
 /// Contains the output of AddTags.
+///
+/// @nodoc
 class AddTagsOutput {
   AddTagsOutput();
 
@@ -1267,6 +1273,8 @@ class AddTagsOutput {
 }
 
 /// Contains the output of CreatePipeline.
+///
+/// @nodoc
 class CreatePipelineOutput {
   /// The ID that AWS Data Pipeline assigns the newly created pipeline. For
   /// example, <code>df-06372391ZG65EXAMPLE</code>.
@@ -1291,6 +1299,8 @@ class CreatePipelineOutput {
 }
 
 /// Contains the output of DeactivatePipeline.
+///
+/// @nodoc
 class DeactivatePipelineOutput {
   DeactivatePipelineOutput();
 
@@ -1304,6 +1314,8 @@ class DeactivatePipelineOutput {
 }
 
 /// Contains the output of DescribeObjects.
+///
+/// @nodoc
 class DescribeObjectsOutput {
   /// An array of object definitions.
   final List<PipelineObject> pipelineObjects;
@@ -1346,6 +1358,8 @@ class DescribeObjectsOutput {
 }
 
 /// Contains the output of DescribePipelines.
+///
+/// @nodoc
 class DescribePipelinesOutput {
   /// An array of descriptions for the specified pipelines.
   final List<PipelineDescription> pipelineDescriptionList;
@@ -1373,6 +1387,8 @@ class DescribePipelinesOutput {
 }
 
 /// Contains the output of EvaluateExpression.
+///
+/// @nodoc
 class EvaluateExpressionOutput {
   /// The evaluated expression.
   final String evaluatedExpression;
@@ -1396,6 +1412,8 @@ class EvaluateExpressionOutput {
 }
 
 /// Contains the output of GetPipelineDefinition.
+///
+/// @nodoc
 class GetPipelineDefinitionOutput {
   /// The parameter objects used in the pipeline definition.
   final List<ParameterObject>? parameterObjects;
@@ -1442,6 +1460,8 @@ class GetPipelineDefinitionOutput {
 }
 
 /// Contains the output of ListPipelines.
+///
+/// @nodoc
 class ListPipelinesOutput {
   /// The pipeline identifiers. If you require additional information about the
   /// pipelines, you can use these identifiers to call <a>DescribePipelines</a>
@@ -1487,6 +1507,8 @@ class ListPipelinesOutput {
 }
 
 /// Contains the output of PollForTask.
+///
+/// @nodoc
 class PollForTaskOutput {
   /// The information needed to complete the task that is being assigned to the
   /// task runner. One of the fields returned in this object is
@@ -1516,6 +1538,8 @@ class PollForTaskOutput {
 }
 
 /// Contains the output of PutPipelineDefinition.
+///
+/// @nodoc
 class PutPipelineDefinitionOutput {
   /// Indicates whether there were validation errors, and the pipeline definition
   /// is stored but cannot be activated until you correct the pipeline and call
@@ -1563,6 +1587,8 @@ class PutPipelineDefinitionOutput {
 }
 
 /// Contains the output of QueryObjects.
+///
+/// @nodoc
 class QueryObjectsOutput {
   /// Indicates whether there are more results that can be obtained by a
   /// subsequent call.
@@ -1603,6 +1629,8 @@ class QueryObjectsOutput {
 }
 
 /// Contains the output of RemoveTags.
+///
+/// @nodoc
 class RemoveTagsOutput {
   RemoveTagsOutput();
 
@@ -1616,6 +1644,8 @@ class RemoveTagsOutput {
 }
 
 /// Contains the output of ReportTaskProgress.
+///
+/// @nodoc
 class ReportTaskProgressOutput {
   /// If true, the calling task runner should cancel processing of the task. The
   /// task runner does not need to call <a>SetTaskStatus</a> for canceled tasks.
@@ -1640,6 +1670,8 @@ class ReportTaskProgressOutput {
 }
 
 /// Contains the output of ReportTaskRunnerHeartbeat.
+///
+/// @nodoc
 class ReportTaskRunnerHeartbeatOutput {
   /// Indicates whether the calling task runner should terminate.
   final bool terminate;
@@ -1663,6 +1695,8 @@ class ReportTaskRunnerHeartbeatOutput {
 }
 
 /// Contains the output of SetTaskStatus.
+///
+/// @nodoc
 class SetTaskStatusOutput {
   SetTaskStatusOutput();
 
@@ -1676,6 +1710,8 @@ class SetTaskStatusOutput {
 }
 
 /// Contains the output of ValidatePipelineDefinition.
+///
+/// @nodoc
 class ValidatePipelineDefinitionOutput {
   /// Indicates whether there were validation errors.
   final bool errored;
@@ -1721,6 +1757,8 @@ class ValidatePipelineDefinitionOutput {
 /// Defines a validation warning. Validation warnings do not prevent pipeline
 /// activation. The set of validation warnings that can be returned are defined
 /// by AWS Data Pipeline.
+///
+/// @nodoc
 class ValidationWarning {
   /// The identifier of the object that contains the validation warning.
   final String? id;
@@ -1756,6 +1794,8 @@ class ValidationWarning {
 /// Defines a validation error. Validation errors prevent pipeline activation.
 /// The set of validation errors that can be returned are defined by AWS Data
 /// Pipeline.
+///
+/// @nodoc
 class ValidationError {
   /// A description of the validation error.
   final List<String>? errors;
@@ -1787,6 +1827,8 @@ class ValidationError {
 }
 
 /// A value or list of parameter values.
+///
+/// @nodoc
 class ParameterValue {
   /// The ID of the parameter value.
   final String id;
@@ -1817,6 +1859,8 @@ class ParameterValue {
 }
 
 /// Contains information about a parameter object.
+///
+/// @nodoc
 class ParameterObject {
   /// The attributes of the parameter object.
   final List<ParameterAttribute> attributes;
@@ -1850,6 +1894,8 @@ class ParameterObject {
 }
 
 /// The attributes allowed or specified with a parameter object.
+///
+/// @nodoc
 class ParameterAttribute {
   /// The field identifier.
   final String key;
@@ -1882,6 +1928,8 @@ class ParameterAttribute {
 /// Contains information about a pipeline object. This can be a logical,
 /// physical, or physical attempt pipeline object. The complete set of
 /// components of a pipeline defines the pipeline.
+///
+/// @nodoc
 class PipelineObject {
   /// Key-value pairs that define the properties of the object.
   final List<Field> fields;
@@ -1924,6 +1972,8 @@ class PipelineObject {
 /// A key-value pair that describes a property of a pipeline object. The value
 /// is specified as either a string value (<code>StringValue</code>) or a
 /// reference to another object (<code>RefValue</code>) but not as both.
+///
+/// @nodoc
 class Field {
   /// The field identifier.
   final String key;
@@ -1960,6 +2010,7 @@ class Field {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const finished = TaskStatus._('FINISHED');
   static const failed = TaskStatus._('FAILED');
@@ -1985,6 +2036,8 @@ class TaskStatus {
 }
 
 /// Defines the query to run against an object.
+///
+/// @nodoc
 class Query {
   /// List of selectors that define the query. An object must satisfy all of the
   /// selectors to match the query.
@@ -2004,6 +2057,8 @@ class Query {
 
 /// A comparision that is used to determine whether a query should return this
 /// object.
+///
+/// @nodoc
 class Selector {
   /// The name of the field that the operator will be applied to. The field name
   /// is the "key" portion of the field definition in the pipeline definition
@@ -2029,6 +2084,8 @@ class Selector {
 
 /// Contains a logical operation for comparing the value of a field with a
 /// specified value.
+///
+/// @nodoc
 class Operator {
   /// The logical operation to be performed: equal (<code>EQ</code>), equal
   /// reference (<code>REF_EQ</code>), less than or equal (<code>LE</code>),
@@ -2086,6 +2143,7 @@ class Operator {
   }
 }
 
+/// @nodoc
 class OperatorType {
   static const eq = OperatorType._('EQ');
   static const refEq = OperatorType._('REF_EQ');
@@ -2114,6 +2172,8 @@ class OperatorType {
 
 /// Contains information about a pipeline task that is assigned to a task
 /// runner.
+///
+/// @nodoc
 class TaskObject {
   /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this
   /// value to track how many times a task is attempted.
@@ -2171,6 +2231,8 @@ class TaskObject {
 /// and ensures the proper AWS Data Pipeline service charges are applied to your
 /// pipeline.
 ///
+///
+/// @nodoc
 class InstanceIdentity {
   /// A description of an EC2 instance that is generated when the instance is
   /// launched and exposed to the instance via the instance metadata service in
@@ -2197,6 +2259,8 @@ class InstanceIdentity {
 }
 
 /// Contains the name and identifier of a pipeline.
+///
+/// @nodoc
 class PipelineIdName {
   /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a
   /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
@@ -2228,6 +2292,8 @@ class PipelineIdName {
 }
 
 /// Contains pipeline metadata.
+///
+/// @nodoc
 class PipelineDescription {
   /// A list of read-only fields that contain metadata about the pipeline:
   /// @userId, @accountId, and @pipelineState.
@@ -2296,6 +2362,8 @@ class PipelineDescription {
 /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
 /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
 /// Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key name of a tag defined by a user. For more information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
@@ -2332,26 +2400,31 @@ class Tag {
   }
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class PipelineDeletedException extends _s.GenericAwsException {
   PipelineDeletedException({String? type, String? message})
       : super(type: type, code: 'PipelineDeletedException', message: message);
 }
 
+/// @nodoc
 class PipelineNotFoundException extends _s.GenericAwsException {
   PipelineNotFoundException({String? type, String? message})
       : super(type: type, code: 'PipelineNotFoundException', message: message);
 }
 
+/// @nodoc
 class TaskNotFoundException extends _s.GenericAwsException {
   TaskNotFoundException({String? type, String? message})
       : super(type: type, code: 'TaskNotFoundException', message: message);

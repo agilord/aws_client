@@ -39,7 +39,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// <li>
 /// It is the prefix before IAM policy actions for Amazon EMR on EKS. For
-/// example, <code>"Action": [ "emr-containers:StartJobRun"]</code>. For more
+/// example, <code>"Action": \[ "emr-containers:StartJobRun"\]</code>. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-actions">Policy
 /// actions for Amazon EMR on EKS</a>.
@@ -1007,6 +1007,7 @@ class EmrContainers {
   }
 }
 
+/// @nodoc
 class CancelJobRunResponse {
   /// The output contains the ID of the cancelled job run.
   final String? id;
@@ -1037,6 +1038,7 @@ class CancelJobRunResponse {
   }
 }
 
+/// @nodoc
 class CreateJobTemplateResponse {
   /// This output display the ARN of the created job template.
   final String? arn;
@@ -1080,6 +1082,7 @@ class CreateJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateManagedEndpointResponse {
   /// The output contains the ARN of the managed endpoint.
   final String? arn;
@@ -1123,6 +1126,7 @@ class CreateManagedEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityConfigurationResponse {
   /// The ARN (Amazon Resource Name) of the security configuration.
   final String? arn;
@@ -1160,6 +1164,7 @@ class CreateSecurityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateVirtualClusterResponse {
   /// This output contains the ARN of virtual cluster.
   final String? arn;
@@ -1196,6 +1201,7 @@ class CreateVirtualClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobTemplateResponse {
   /// This output contains the ID of the job template that was deleted.
   final String? id;
@@ -1218,6 +1224,7 @@ class DeleteJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteManagedEndpointResponse {
   /// The output displays the ID of the managed endpoint.
   final String? id;
@@ -1247,6 +1254,7 @@ class DeleteManagedEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteVirtualClusterResponse {
   /// This output contains the ID of the virtual cluster that will be deleted.
   final String? id;
@@ -1269,6 +1277,7 @@ class DeleteVirtualClusterResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobRunResponse {
   /// The output displays information about a job run.
   final JobRun? jobRun;
@@ -1293,6 +1302,7 @@ class DescribeJobRunResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobTemplateResponse {
   /// This output displays information about the specified job template.
   final JobTemplate? jobTemplate;
@@ -1317,6 +1327,7 @@ class DescribeJobTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeManagedEndpointResponse {
   /// This output displays information about a managed endpoint.
   final Endpoint? endpoint;
@@ -1341,6 +1352,7 @@ class DescribeManagedEndpointResponse {
   }
 }
 
+/// @nodoc
 class DescribeSecurityConfigurationResponse {
   /// Details of the security configuration.
   final SecurityConfiguration? securityConfiguration;
@@ -1368,6 +1380,7 @@ class DescribeSecurityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeVirtualClusterResponse {
   /// This output displays information about the specified virtual cluster.
   final VirtualCluster? virtualCluster;
@@ -1393,6 +1406,7 @@ class DescribeVirtualClusterResponse {
   }
 }
 
+/// @nodoc
 class GetManagedEndpointSessionCredentialsResponse {
   /// The structure containing the session credentials.
   final Credentials? credentials;
@@ -1432,6 +1446,7 @@ class GetManagedEndpointSessionCredentialsResponse {
   }
 }
 
+/// @nodoc
 class ListJobRunsResponse {
   /// This output lists information about the specified job runs.
   final List<JobRun>? jobRuns;
@@ -1464,6 +1479,7 @@ class ListJobRunsResponse {
   }
 }
 
+/// @nodoc
 class ListJobTemplatesResponse {
   /// This output displays the token for the next set of job templates.
   final String? nextToken;
@@ -1496,6 +1512,7 @@ class ListJobTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListManagedEndpointsResponse {
   /// The managed endpoints to be listed.
   final List<Endpoint>? endpoints;
@@ -1528,6 +1545,7 @@ class ListManagedEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityConfigurationsResponse {
   /// The token for the next set of security configurations to return.
   final String? nextToken;
@@ -1562,6 +1580,7 @@ class ListSecurityConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags assigned to resources.
   final Map<String, String>? tags;
@@ -1585,6 +1604,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListVirtualClustersResponse {
   /// This output displays the token for the next set of virtual clusters.
   final String? nextToken;
@@ -1617,6 +1637,7 @@ class ListVirtualClustersResponse {
   }
 }
 
+/// @nodoc
 class StartJobRunResponse {
   /// This output lists the ARN of job run.
   final String? arn;
@@ -1661,6 +1682,7 @@ class StartJobRunResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1673,6 +1695,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1687,6 +1710,8 @@ class UntagResourceResponse {
 
 /// Specify the driver that the job runs on. Exactly one of the two available
 /// job drivers is required, either sparkSqlJobDriver or sparkSubmitJobDriver.
+///
+/// @nodoc
 class JobDriver {
   /// The job driver for job type.
   final SparkSqlJobDriver? sparkSqlJobDriver;
@@ -1725,6 +1750,8 @@ class JobDriver {
 
 /// A configuration specification to be used to override existing
 /// configurations.
+///
+/// @nodoc
 class ConfigurationOverrides {
   /// The configurations for the application running by the job run.
   final List<Configuration>? applicationConfiguration;
@@ -1763,6 +1790,8 @@ class ConfigurationOverrides {
 }
 
 /// The configuration of the retry policy that the job runs on.
+///
+/// @nodoc
 class RetryPolicyConfiguration {
   /// The maximum number of attempts on the job's driver.
   final int maxAttempts;
@@ -1786,6 +1815,8 @@ class RetryPolicyConfiguration {
 }
 
 /// Configuration setting for monitoring.
+///
+/// @nodoc
 class MonitoringConfiguration {
   /// Monitoring configurations for CloudWatch.
   final CloudWatchMonitoringConfiguration? cloudWatchMonitoringConfiguration;
@@ -1858,6 +1889,8 @@ class MonitoringConfiguration {
 }
 
 /// The entity that provides configuration control over managed logs.
+///
+/// @nodoc
 class ManagedLogs {
   /// Determines whether Amazon Web Services can retain logs.
   final AllowAWSToRetainLogs? allowAWSToRetainLogs;
@@ -1889,6 +1922,7 @@ class ManagedLogs {
   }
 }
 
+/// @nodoc
 class PersistentAppUI {
   static const enabled = PersistentAppUI._('ENABLED');
   static const disabled = PersistentAppUI._('DISABLED');
@@ -1915,6 +1949,8 @@ class PersistentAppUI {
 
 /// A configuration for CloudWatch monitoring. You can configure your jobs to
 /// send log information to CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchMonitoringConfiguration {
   /// The name of the log group for log publishing.
   final String logGroupName;
@@ -1948,6 +1984,8 @@ class CloudWatchMonitoringConfiguration {
 
 /// Amazon S3 configuration for monitoring log publishing. You can configure
 /// your jobs to send log information to Amazon S3.
+///
+/// @nodoc
 class S3MonitoringConfiguration {
   /// Amazon S3 destination URI for log publishing.
   final String logUri;
@@ -1971,6 +2009,8 @@ class S3MonitoringConfiguration {
 }
 
 /// The settings for container log rotation.
+///
+/// @nodoc
 class ContainerLogRotationConfiguration {
   /// The number of files to keep in container after rotation.
   final int maxFilesToKeep;
@@ -2001,6 +2041,7 @@ class ContainerLogRotationConfiguration {
   }
 }
 
+/// @nodoc
 class AllowAWSToRetainLogs {
   static const enabled = AllowAWSToRetainLogs._('ENABLED');
   static const disabled = AllowAWSToRetainLogs._('DISABLED');
@@ -2032,6 +2073,8 @@ class AllowAWSToRetainLogs {
 /// and optional nested configurations. A classification refers to an
 /// application-specific configuration file. Properties are the settings you
 /// want to change in that file.
+///
+/// @nodoc
 class Configuration {
   /// The classification within a configuration.
   final String classification;
@@ -2073,6 +2116,8 @@ class Configuration {
 }
 
 /// The information about job driver for Spark submit.
+///
+/// @nodoc
 class SparkSubmitJobDriver {
   /// The entry point of job application.
   final String entryPoint;
@@ -2115,6 +2160,8 @@ class SparkSubmitJobDriver {
 }
 
 /// The job driver for job type.
+///
+/// @nodoc
 class SparkSqlJobDriver {
   /// The SQL file to be executed.
   final String? entryPoint;
@@ -2151,6 +2198,8 @@ class SparkSqlJobDriver {
 /// one namespace on an Amazon EKS cluster. Virtual clusters do not create any
 /// active resources that contribute to your bill or that require lifecycle
 /// management outside the service.
+///
+/// @nodoc
 class VirtualCluster {
   /// The ARN of the virtual cluster.
   final String? arn;
@@ -2227,6 +2276,7 @@ class VirtualCluster {
   }
 }
 
+/// @nodoc
 class VirtualClusterState {
   static const running = VirtualClusterState._('RUNNING');
   static const terminating = VirtualClusterState._('TERMINATING');
@@ -2255,6 +2305,8 @@ class VirtualClusterState {
 }
 
 /// The information about the container provider.
+///
+/// @nodoc
 class ContainerProvider {
   /// The ID of the container cluster.
   final String id;
@@ -2294,6 +2346,7 @@ class ContainerProvider {
   }
 }
 
+/// @nodoc
 class ContainerProviderType {
   static const eks = ContainerProviderType._('EKS');
 
@@ -2320,6 +2373,8 @@ class ContainerProviderType {
 
 /// The information about the container used for a job run or a managed
 /// endpoint.
+///
+/// @nodoc
 class ContainerInfo {
   /// The information about the Amazon EKS cluster.
   final EksInfo? eksInfo;
@@ -2345,6 +2400,8 @@ class ContainerInfo {
 }
 
 /// The information about the Amazon EKS cluster.
+///
+/// @nodoc
 class EksInfo {
   /// The namespaces of the Amazon EKS cluster.
   final String? namespace;
@@ -2380,6 +2437,8 @@ class EksInfo {
 /// security configurations to configure the Lake Formation integration setup.
 /// You can also create a security configuration to re-use a security setup each
 /// time you create a virtual cluster.
+///
+/// @nodoc
 class SecurityConfiguration {
   /// The ARN (Amazon Resource Name) of the security configuration.
   final String? arn;
@@ -2450,6 +2509,8 @@ class SecurityConfiguration {
 }
 
 /// Configurations related to the security configuration for the request.
+///
+/// @nodoc
 class SecurityConfigurationData {
   /// Authorization-related configuration input for the security configuration.
   final AuthorizationConfiguration? authorizationConfiguration;
@@ -2477,6 +2538,8 @@ class SecurityConfigurationData {
 }
 
 /// Authorization-related configuration inputs for the security configuration.
+///
+/// @nodoc
 class AuthorizationConfiguration {
   /// Encryption-related configuration input for the security configuration.
   final EncryptionConfiguration? encryptionConfiguration;
@@ -2515,6 +2578,8 @@ class AuthorizationConfiguration {
 }
 
 /// Lake Formation related configuration inputs for the security configuration.
+///
+/// @nodoc
 class LakeFormationConfiguration {
   /// The session tag to authorize Amazon EMR on EKS for API calls to Lake
   /// Formation.
@@ -2560,6 +2625,8 @@ class LakeFormationConfiguration {
 }
 
 /// Configurations related to encryption for the security configuration.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// In-transit encryption-related input for the security configuration.
   final InTransitEncryptionConfiguration? inTransitEncryptionConfiguration;
@@ -2591,6 +2658,8 @@ class EncryptionConfiguration {
 
 /// Configurations related to in-transit encryption for the security
 /// configuration.
+///
+/// @nodoc
 class InTransitEncryptionConfiguration {
   /// TLS certificate-related configuration input for the security configuration.
   final TLSCertificateConfiguration? tlsCertificateConfiguration;
@@ -2619,6 +2688,8 @@ class InTransitEncryptionConfiguration {
 
 /// Configurations related to the TLS certificate for the security
 /// configuration.
+///
+/// @nodoc
 class TLSCertificateConfiguration {
   /// The TLS certificate type. Acceptable values: <code>PEM</code> or
   /// <code>Custom</code>.
@@ -2663,6 +2734,7 @@ class TLSCertificateConfiguration {
   }
 }
 
+/// @nodoc
 class CertificateProviderType {
   static const pem = CertificateProviderType._('PEM');
 
@@ -2688,6 +2760,8 @@ class CertificateProviderType {
 }
 
 /// Namespace inputs for the system job.
+///
+/// @nodoc
 class SecureNamespaceInfo {
   /// The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run.
   final String? clusterId;
@@ -2718,6 +2792,8 @@ class SecureNamespaceInfo {
 }
 
 /// This entity represents the endpoint that is managed by Amazon EMR on EKS.
+///
+/// @nodoc
 class Endpoint {
   /// The ARN of the endpoint.
   final String? arn;
@@ -2875,6 +2951,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class EndpointState {
   static const creating = EndpointState._('CREATING');
   static const active = EndpointState._('ACTIVE');
@@ -2909,6 +2986,8 @@ class EndpointState {
 }
 
 /// The entity representing certificate data generated for managed endpoint.
+///
+/// @nodoc
 class Certificate {
   /// The ARN of the certificate generated for managed endpoint.
   final String? certificateArn;
@@ -2938,6 +3017,7 @@ class Certificate {
   }
 }
 
+/// @nodoc
 class FailureReason {
   static const internalError = FailureReason._('INTERNAL_ERROR');
   static const userError = FailureReason._('USER_ERROR');
@@ -2973,6 +3053,8 @@ class FailureReason {
 /// StartJobRun API request in a template and can be used to start a job run.
 /// Job template allows two use cases: avoid repeating recurring StartJobRun API
 /// request values, enforcing certain values in StartJobRun API request.
+///
+/// @nodoc
 class JobTemplate {
   /// The job template data which holds values of StartJobRun API request.
   final JobTemplateData jobTemplateData;
@@ -3056,6 +3138,8 @@ class JobTemplate {
 
 /// The values of StartJobRun API requests used in job runs started using the
 /// job template.
+///
+/// @nodoc
 class JobTemplateData {
   /// The execution role ARN of the job run.
   final String executionRoleArn;
@@ -3127,6 +3211,8 @@ class JobTemplateData {
 /// A configuration specification to be used to override existing
 /// configurations. This data type allows job template parameters to be
 /// specified within.
+///
+/// @nodoc
 class ParametricConfigurationOverrides {
   /// The configurations for the application running by the job run.
   final List<Configuration>? applicationConfiguration;
@@ -3165,6 +3251,8 @@ class ParametricConfigurationOverrides {
 }
 
 /// The configuration of a job template parameter.
+///
+/// @nodoc
 class TemplateParameterConfiguration {
   /// The default value for the job template parameter.
   final String? defaultValue;
@@ -3196,6 +3284,7 @@ class TemplateParameterConfiguration {
   }
 }
 
+/// @nodoc
 class TemplateParameterDataType {
   static const number = TemplateParameterDataType._('NUMBER');
   static const string = TemplateParameterDataType._('STRING');
@@ -3223,6 +3312,8 @@ class TemplateParameterDataType {
 
 /// Configuration setting for monitoring. This data type allows job template
 /// parameters to be specified within.
+///
+/// @nodoc
 class ParametricMonitoringConfiguration {
   /// Monitoring configurations for CloudWatch.
   final ParametricCloudWatchMonitoringConfiguration?
@@ -3275,6 +3366,8 @@ class ParametricMonitoringConfiguration {
 /// A configuration for CloudWatch monitoring. You can configure your jobs to
 /// send log information to CloudWatch Logs. This data type allows job template
 /// parameters to be specified within.
+///
+/// @nodoc
 class ParametricCloudWatchMonitoringConfiguration {
   /// The name of the log group for log publishing.
   final String? logGroupName;
@@ -3309,6 +3402,8 @@ class ParametricCloudWatchMonitoringConfiguration {
 /// Amazon S3 configuration for monitoring log publishing. You can configure
 /// your jobs to send log information to Amazon S3. This data type allows job
 /// template parameters to be specified within.
+///
+/// @nodoc
 class ParametricS3MonitoringConfiguration {
   /// Amazon S3 destination URI for log publishing.
   final String? logUri;
@@ -3335,6 +3430,8 @@ class ParametricS3MonitoringConfiguration {
 /// This entity describes a job run. A job run is a unit of work, such as a
 /// Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR
 /// on EKS.
+///
+/// @nodoc
 class JobRun {
   /// The ARN of job run.
   final String? arn;
@@ -3492,6 +3589,7 @@ class JobRun {
   }
 }
 
+/// @nodoc
 class JobRunState {
   static const pending = JobRunState._('PENDING');
   static const submitted = JobRunState._('SUBMITTED');
@@ -3529,6 +3627,8 @@ class JobRunState {
 }
 
 /// The current status of the retry policy executed on the job.
+///
+/// @nodoc
 class RetryPolicyExecution {
   /// The current number of attempts made on the driver of the job.
   final int currentAttemptCount;
@@ -3552,6 +3652,8 @@ class RetryPolicyExecution {
 }
 
 /// The structure containing the session token being returned.
+///
+/// @nodoc
 class Credentials {
   /// The actual session token being returned.
   final String? token;
@@ -3574,27 +3676,32 @@ class Credentials {
   }
 }
 
+/// @nodoc
 class EKSRequestThrottledException extends _s.GenericAwsException {
   EKSRequestThrottledException({String? type, String? message})
       : super(
             type: type, code: 'EKSRequestThrottledException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class RequestThrottledException extends _s.GenericAwsException {
   RequestThrottledException({String? type, String? message})
       : super(type: type, code: 'RequestThrottledException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

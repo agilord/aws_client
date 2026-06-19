@@ -282,7 +282,7 @@ class WafV2 {
   /// Parameter [tokenDomains] :
   /// The client application domains that you want to use this API key for.
   ///
-  /// Example JSON: <code>"TokenDomains": ["abc.com", "store.abc.com"]</code>
+  /// Example JSON: <code>"TokenDomains": \["abc.com", "store.abc.com"\]</code>
   ///
   /// Public suffixes aren't allowed. For example, you can't use
   /// <code>gov.au</code> or <code>co.uk</code> as token domains.
@@ -362,17 +362,17 @@ class WafV2 {
   ///
   /// <ul>
   /// <li>
-  /// Empty array: <code>"Addresses": []</code>
+  /// Empty array: <code>"Addresses": \[\]</code>
   /// </li>
   /// <li>
-  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// Array with one address: <code>"Addresses": \["192.0.2.44/32"\]</code>
   /// </li>
   /// <li>
-  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
-  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// Array with three addresses: <code>"Addresses": \["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"\]</code>
   /// </li>
   /// <li>
-  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// INVALID specification: <code>"Addresses": \[""\]</code> INVALID
   /// </li>
   /// </ul>
   ///
@@ -3877,17 +3877,17 @@ class WafV2 {
   ///
   /// <ul>
   /// <li>
-  /// Empty array: <code>"Addresses": []</code>
+  /// Empty array: <code>"Addresses": \[\]</code>
   /// </li>
   /// <li>
-  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// Array with one address: <code>"Addresses": \["192.0.2.44/32"\]</code>
   /// </li>
   /// <li>
-  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
-  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// Array with three addresses: <code>"Addresses": \["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"\]</code>
   /// </li>
   /// <li>
-  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// INVALID specification: <code>"Addresses": \[""\]</code> INVALID
   /// </li>
   /// </ul>
   ///
@@ -4638,6 +4638,7 @@ class WafV2 {
   }
 }
 
+/// @nodoc
 class AssociateWebACLResponse {
   AssociateWebACLResponse();
 
@@ -4650,6 +4651,7 @@ class AssociateWebACLResponse {
   }
 }
 
+/// @nodoc
 class CheckCapacityResponse {
   /// The capacity required by the rules and scope.
   final int? capacity;
@@ -4672,6 +4674,7 @@ class CheckCapacityResponse {
   }
 }
 
+/// @nodoc
 class CreateAPIKeyResponse {
   /// The generated, encrypted API key. You can copy this for use in your
   /// JavaScript CAPTCHA integration.
@@ -4695,6 +4698,7 @@ class CreateAPIKeyResponse {
   }
 }
 
+/// @nodoc
 class CreateIPSetResponse {
   /// High-level information about an <a>IPSet</a>, returned by operations like
   /// create and list. This provides information like the ID, that you can use to
@@ -4722,6 +4726,7 @@ class CreateIPSetResponse {
   }
 }
 
+/// @nodoc
 class CreateRegexPatternSetResponse {
   /// High-level information about a <a>RegexPatternSet</a>, returned by
   /// operations like create and list. This provides information like the ID, that
@@ -4751,6 +4756,7 @@ class CreateRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleGroupResponse {
   /// High-level information about a <a>RuleGroup</a>, returned by operations like
   /// create and list. This provides information like the ID, that you can use to
@@ -4779,6 +4785,7 @@ class CreateRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateWebACLResponse {
   /// High-level information about a <a>WebACL</a>, returned by operations like
   /// create and list. This provides information like the ID, that you can use to
@@ -4806,6 +4813,7 @@ class CreateWebACLResponse {
   }
 }
 
+/// @nodoc
 class DeleteAPIKeyResponse {
   DeleteAPIKeyResponse();
 
@@ -4818,6 +4826,7 @@ class DeleteAPIKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteFirewallManagerRuleGroupsResponse {
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
@@ -4850,6 +4859,7 @@ class DeleteFirewallManagerRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class DeleteIPSetResponse {
   DeleteIPSetResponse();
 
@@ -4862,6 +4872,7 @@ class DeleteIPSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteLoggingConfigurationResponse {
   DeleteLoggingConfigurationResponse();
 
@@ -4874,6 +4885,7 @@ class DeleteLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionPolicyResponse {
   DeletePermissionPolicyResponse();
 
@@ -4886,6 +4898,7 @@ class DeletePermissionPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegexPatternSetResponse {
   DeleteRegexPatternSetResponse();
 
@@ -4898,6 +4911,7 @@ class DeleteRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleGroupResponse {
   DeleteRuleGroupResponse();
 
@@ -4910,6 +4924,7 @@ class DeleteRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteWebACLResponse {
   DeleteWebACLResponse();
 
@@ -4922,6 +4937,7 @@ class DeleteWebACLResponse {
   }
 }
 
+/// @nodoc
 class DescribeAllManagedProductsResponse {
   /// High-level information for the Amazon Web Services Managed Rules rule groups
   /// and Amazon Web Services Marketplace managed rule groups.
@@ -4950,6 +4966,7 @@ class DescribeAllManagedProductsResponse {
   }
 }
 
+/// @nodoc
 class DescribeManagedProductsByVendorResponse {
   /// High-level information for the managed rule groups owned by the specified
   /// vendor.
@@ -4978,6 +4995,7 @@ class DescribeManagedProductsByVendorResponse {
   }
 }
 
+/// @nodoc
 class DescribeManagedRuleGroupResponse {
   /// The labels that one or more rules in this rule group add to matching web
   /// requests. These labels are defined in the <code>RuleLabels</code> for a
@@ -5090,6 +5108,7 @@ class DescribeManagedRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWebACLResponse {
   DisassociateWebACLResponse();
 
@@ -5102,6 +5121,7 @@ class DisassociateWebACLResponse {
   }
 }
 
+/// @nodoc
 class GenerateMobileSdkReleaseUrlResponse {
   /// The presigned download URL for the specified SDK release.
   final String? url;
@@ -5125,6 +5145,7 @@ class GenerateMobileSdkReleaseUrlResponse {
   }
 }
 
+/// @nodoc
 class GetDecryptedAPIKeyResponse {
   /// The date and time that the key was created.
   final DateTime? creationTimestamp;
@@ -5158,6 +5179,7 @@ class GetDecryptedAPIKeyResponse {
   }
 }
 
+/// @nodoc
 class GetIPSetResponse {
   ///
   final IPSet? iPSet;
@@ -5197,6 +5219,7 @@ class GetIPSetResponse {
   }
 }
 
+/// @nodoc
 class GetLoggingConfigurationResponse {
   /// The <a>LoggingConfiguration</a> for the specified web ACL.
   final LoggingConfiguration? loggingConfiguration;
@@ -5223,6 +5246,7 @@ class GetLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetManagedRuleSetResponse {
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
@@ -5263,6 +5287,7 @@ class GetManagedRuleSetResponse {
   }
 }
 
+/// @nodoc
 class GetMobileSdkReleaseResponse {
   /// Information for a specified SDK release, including release notes and tags.
   final MobileSdkRelease? mobileSdkRelease;
@@ -5288,6 +5313,7 @@ class GetMobileSdkReleaseResponse {
   }
 }
 
+/// @nodoc
 class GetPermissionPolicyResponse {
   /// The IAM policy that is attached to the specified rule group.
   final String? policy;
@@ -5310,6 +5336,7 @@ class GetPermissionPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRateBasedStatementManagedKeysResponse {
   /// The keys that are of Internet Protocol version 4 (IPv4).
   final RateBasedStatementManagedKeysIPSet? managedKeysIPV4;
@@ -5346,6 +5373,7 @@ class GetRateBasedStatementManagedKeysResponse {
   }
 }
 
+/// @nodoc
 class GetRegexPatternSetResponse {
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
@@ -5386,6 +5414,7 @@ class GetRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class GetRuleGroupResponse {
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
@@ -5425,6 +5454,7 @@ class GetRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class GetSampledRequestsResponse {
   /// The total number of requests from which <code>GetSampledRequests</code> got
   /// a sample of <code>MaxItems</code> requests. If <code>PopulationSize</code>
@@ -5475,6 +5505,7 @@ class GetSampledRequestsResponse {
   }
 }
 
+/// @nodoc
 class GetTopPathStatisticsByTrafficResponse {
   /// The list of path statistics, ordered by request count. Each entry includes
   /// the path, request count, percentage of total traffic, and the top bots
@@ -5535,6 +5566,7 @@ class GetTopPathStatisticsByTrafficResponse {
   }
 }
 
+/// @nodoc
 class GetWebACLResponse {
   /// The URL to use in SDK integrations with Amazon Web Services managed rule
   /// groups. For example, you can use the integration SDKs with the account
@@ -5591,6 +5623,7 @@ class GetWebACLResponse {
   }
 }
 
+/// @nodoc
 class GetWebACLForResourceResponse {
   /// The web ACL that is associated with the resource. If there is no associated
   /// resource, WAF returns a null web ACL.
@@ -5616,6 +5649,7 @@ class GetWebACLForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListAPIKeysResponse {
   /// The array of key summaries. If you specified a <code>Limit</code> in your
   /// request, this might not be the full list.
@@ -5662,6 +5696,7 @@ class ListAPIKeysResponse {
   }
 }
 
+/// @nodoc
 class ListAvailableManagedRuleGroupsResponse {
   /// Array of managed rule groups that you can use. If you specified a
   /// <code>Limit</code> in your request, this might not be the full list.
@@ -5701,6 +5736,7 @@ class ListAvailableManagedRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListAvailableManagedRuleGroupVersionsResponse {
   /// The name of the version that's currently set as the default.
   final String? currentDefaultVersion;
@@ -5749,6 +5785,7 @@ class ListAvailableManagedRuleGroupVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListIPSetsResponse {
   /// Array of IPSets. If you specified a <code>Limit</code> in your request, this
   /// might not be the full list.
@@ -5786,6 +5823,7 @@ class ListIPSetsResponse {
   }
 }
 
+/// @nodoc
 class ListLoggingConfigurationsResponse {
   /// Array of logging configurations. If you specified a <code>Limit</code> in
   /// your request, this might not be the full list.
@@ -5825,6 +5863,7 @@ class ListLoggingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListManagedRuleSetsResponse {
   /// Your managed rule sets. If you specified a <code>Limit</code> in your
   /// request, this might not be the full list.
@@ -5862,6 +5901,7 @@ class ListManagedRuleSetsResponse {
   }
 }
 
+/// @nodoc
 class ListMobileSdkReleasesResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
@@ -5899,6 +5939,7 @@ class ListMobileSdkReleasesResponse {
   }
 }
 
+/// @nodoc
 class ListRegexPatternSetsResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
@@ -5937,6 +5978,7 @@ class ListRegexPatternSetsResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesForWebACLResponse {
   /// The array of Amazon Resource Names (ARNs) of the associated resources.
   final List<String>? resourceArns;
@@ -5962,6 +6004,7 @@ class ListResourcesForWebACLResponse {
   }
 }
 
+/// @nodoc
 class ListRuleGroupsResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
@@ -5999,6 +6042,7 @@ class ListRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
@@ -6036,6 +6080,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWebACLsResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
@@ -6073,6 +6118,7 @@ class ListWebACLsResponse {
   }
 }
 
+/// @nodoc
 class PutLoggingConfigurationResponse {
   ///
   final LoggingConfiguration? loggingConfiguration;
@@ -6099,6 +6145,7 @@ class PutLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutManagedRuleSetVersionsResponse {
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
@@ -6130,6 +6177,7 @@ class PutManagedRuleSetVersionsResponse {
   }
 }
 
+/// @nodoc
 class PutPermissionPolicyResponse {
   PutPermissionPolicyResponse();
 
@@ -6142,6 +6190,7 @@ class PutPermissionPolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6154,6 +6203,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6166,6 +6216,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateIPSetResponse {
   /// A token used for optimistic locking. WAF returns this token to your
   /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
@@ -6190,6 +6241,7 @@ class UpdateIPSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateManagedRuleSetVersionExpiryDateResponse {
   /// The version that is set to expire.
   final String? expiringVersion;
@@ -6239,6 +6291,7 @@ class UpdateManagedRuleSetVersionExpiryDateResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegexPatternSetResponse {
   /// A token used for optimistic locking. WAF returns this token to your
   /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
@@ -6263,6 +6316,7 @@ class UpdateRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleGroupResponse {
   /// A token used for optimistic locking. WAF returns this token to your
   /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
@@ -6287,6 +6341,7 @@ class UpdateRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateWebACLResponse {
   /// A token used for optimistic locking. WAF returns this token to your
   /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
@@ -6311,6 +6366,7 @@ class UpdateWebACLResponse {
   }
 }
 
+/// @nodoc
 class Scope {
   static const cloudfront = Scope._('CLOUDFRONT');
   static const regional = Scope._('REGIONAL');
@@ -6337,6 +6393,8 @@ class Scope {
 /// In a <a>WebACL</a>, this is the action that you want WAF to perform when a
 /// web request doesn't match any of the rules in the <code>WebACL</code>. The
 /// default action must be a terminating action.
+///
+/// @nodoc
 class DefaultAction {
   /// Specifies that WAF should allow requests by default.
   final AllowAction? allow;
@@ -6372,6 +6430,8 @@ class DefaultAction {
 
 /// Defines and enables Amazon CloudWatch metrics and web request sample
 /// collection.
+///
+/// @nodoc
 class VisibilityConfig {
   /// Indicates whether the associated resource sends metrics to Amazon
   /// CloudWatch. For the list of available metrics, see <a
@@ -6445,6 +6505,8 @@ class VisibilityConfig {
 /// the logging configuration, which only affects logging.
 ///
 /// This is part of the data protection configuration for a web ACL.
+///
+/// @nodoc
 class DataProtectionConfig {
   /// An array of data protection configurations for specific web request field
   /// types. This is defined for each web ACL. WAF applies the specified
@@ -6474,6 +6536,8 @@ class DataProtectionConfig {
 
 /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations. This is
 /// available at the web ACL level and in each rule.
+///
+/// @nodoc
 class CaptchaConfig {
   /// Determines how long a <code>CAPTCHA</code> timestamp in the token remains
   /// valid after the client successfully solves a <code>CAPTCHA</code> puzzle.
@@ -6503,6 +6567,8 @@ class CaptchaConfig {
 
 /// Specifies how WAF should handle <code>Challenge</code> evaluations. This is
 /// available at the web ACL level and in each rule.
+///
+/// @nodoc
 class ChallengeConfig {
   /// Determines how long a challenge timestamp in the token remains valid after
   /// the client successfully responds to a challenge.
@@ -6544,6 +6610,8 @@ class ChallengeConfig {
 /// </note>
 /// For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192
 /// bytes).
+///
+/// @nodoc
 class AssociationConfig {
   /// Customizes the maximum size of the request body that your protected
   /// CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access
@@ -6587,6 +6655,8 @@ class AssociationConfig {
 
 /// Configures the level of DDoS protection that applies to web ACLs associated
 /// with Application Load Balancers.
+///
+/// @nodoc
 class OnSourceDDoSProtectionConfig {
   /// The level of DDoS protection that applies to web ACLs associated with
   /// Application Load Balancers. <code>ACTIVE_UNDER_DDOS</code> protection is
@@ -6622,6 +6692,8 @@ class OnSourceDDoSProtectionConfig {
 
 /// A list of <code>ApplicationAttribute</code>s that contains information about
 /// the application.
+///
+/// @nodoc
 class ApplicationConfig {
   /// Contains the attribute name and a list of values for that attribute.
   final List<ApplicationAttribute>? attributes;
@@ -6649,6 +6721,8 @@ class ApplicationConfig {
 
 /// Application details defined during the web ACL creation process. Application
 /// attributes help WAF give recommendations for protection packs.
+///
+/// @nodoc
 class ApplicationAttribute {
   /// Specifies the attribute name.
   final String? name;
@@ -6679,6 +6753,7 @@ class ApplicationAttribute {
   }
 }
 
+/// @nodoc
 class LowReputationMode {
   static const activeUnderDdos = LowReputationMode._('ACTIVE_UNDER_DDOS');
   static const alwaysOn = LowReputationMode._('ALWAYS_ON');
@@ -6703,6 +6778,7 @@ class LowReputationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AssociatedResourceType {
   static const cloudfront = AssociatedResourceType._('CLOUDFRONT');
   static const apiGateway = AssociatedResourceType._('API_GATEWAY');
@@ -6755,6 +6831,8 @@ class AssociatedResourceType {
 /// bytes).
 ///
 /// This is used in the <code>AssociationConfig</code> of the web ACL.
+///
+/// @nodoc
 class RequestBodyAssociatedResourceTypeConfig {
   /// Specifies the maximum size of the web request body component that an
   /// associated CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified
@@ -6784,6 +6862,7 @@ class RequestBodyAssociatedResourceTypeConfig {
   }
 }
 
+/// @nodoc
 class SizeInspectionLimit {
   static const kb_16 = SizeInspectionLimit._('KB_16');
   static const kb_32 = SizeInspectionLimit._('KB_32');
@@ -6814,6 +6893,8 @@ class SizeInspectionLimit {
 /// Used for CAPTCHA and challenge token settings. Determines how long a
 /// <code>CAPTCHA</code> or challenge timestamp remains valid after WAF updates
 /// it for a successful <code>CAPTCHA</code> or challenge response.
+///
+/// @nodoc
 class ImmunityTimeProperty {
   /// The amount of time, in seconds, that a <code>CAPTCHA</code> or challenge
   /// timestamp is considered valid by WAF. The default setting is 300.
@@ -6842,6 +6923,8 @@ class ImmunityTimeProperty {
 /// The response body to use in a custom response to a web request. This is
 /// referenced by key from <a>CustomResponse</a>
 /// <code>CustomResponseBodyKey</code>.
+///
+/// @nodoc
 class CustomResponseBody {
   /// The payload of the custom response.
   ///
@@ -6881,6 +6964,7 @@ class CustomResponseBody {
   }
 }
 
+/// @nodoc
 class ResponseContentType {
   static const textPlain = ResponseContentType._('TEXT_PLAIN');
   static const textHtml = ResponseContentType._('TEXT_HTML');
@@ -6909,6 +6993,8 @@ class ResponseContentType {
 
 /// Specifies the protection behavior for a field type. This is part of the data
 /// protection configuration for a web ACL.
+///
+/// @nodoc
 class DataProtection {
   /// Specifies how to protect the field. WAF can apply a one-way hash to the
   /// field or hard code a string substitution.
@@ -6984,6 +7070,8 @@ class DataProtection {
 
 /// Specifies a field type and keys to protect in stored web request data. This
 /// is part of the data protection configuration for a web ACL.
+///
+/// @nodoc
 class FieldToProtect {
   /// Specifies the web request component type to protect.
   final FieldToProtectType fieldType;
@@ -7018,6 +7106,7 @@ class FieldToProtect {
   }
 }
 
+/// @nodoc
 class DataProtectionAction {
   static const substitution = DataProtectionAction._('SUBSTITUTION');
   static const hash = DataProtectionAction._('HASH');
@@ -7043,6 +7132,7 @@ class DataProtectionAction {
   String toString() => value;
 }
 
+/// @nodoc
 class FieldToProtectType {
   static const singleHeader = FieldToProtectType._('SINGLE_HEADER');
   static const singleCookie = FieldToProtectType._('SINGLE_COOKIE');
@@ -7082,6 +7172,8 @@ class FieldToProtectType {
 /// identify web requests that you want to manage in some way. Each rule
 /// includes one top-level <a>Statement</a> that WAF uses to identify matching
 /// web requests, and parameters that govern how WAF handles them.
+///
+/// @nodoc
 class Rule {
   /// The name of the rule.
   ///
@@ -7267,6 +7359,8 @@ class Rule {
 /// a web request matches the rule.
 ///
 /// For example specifications, see the examples section of <a>CreateWebACL</a>.
+///
+/// @nodoc
 class Statement {
   /// A logical rule statement used to combine other rule statements with AND
   /// logic. You provide more than one <a>Statement</a> within the
@@ -7700,6 +7794,8 @@ class Statement {
 /// The action that WAF should take on a web request when it matches a rule's
 /// statement. Settings at the web ACL level can override the rule action
 /// setting.
+///
+/// @nodoc
 class RuleAction {
   /// Instructs WAF to allow the web request.
   final AllowAction? allow;
@@ -7775,6 +7871,8 @@ class RuleAction {
 /// option, with <code>Count</code> action, in your rule group reference
 /// statement settings.
 /// </note>
+///
+/// @nodoc
 class OverrideAction {
   /// Override the rule group evaluation result to count only.
   /// <note>
@@ -7819,6 +7917,8 @@ class OverrideAction {
 /// A single label container. This is used as an element of a label array in
 /// multiple contexts, for example, in <code>RuleLabels</code> inside a
 /// <a>Rule</a> and in <code>Labels</code> inside a <a>SampledHTTPRequest</a>.
+///
+/// @nodoc
 class Label {
   /// The label string.
   final String name;
@@ -7846,6 +7946,8 @@ class Label {
 ///
 /// This is used in the context of other settings, for example to specify values
 /// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+///
+/// @nodoc
 class CountAction {
   /// Defines custom handling for the web request.
   ///
@@ -7884,6 +7986,8 @@ class CountAction {
 /// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
 ///
 /// JSON specification: <code>"None": {}</code>
+///
+/// @nodoc
 class NoneAction {
   NoneAction();
 
@@ -7904,6 +8008,8 @@ class NoneAction {
 /// For information about customizing web requests and responses, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
 /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class CustomRequestHandling {
   /// The HTTP headers to insert into the request. Duplicate header names are not
   /// allowed.
@@ -7937,6 +8043,8 @@ class CustomRequestHandling {
 
 /// A custom header for custom request and response handling. This is used in
 /// <a>CustomResponse</a> and <a>CustomRequestHandling</a>.
+///
+/// @nodoc
 class CustomHTTPHeader {
   /// The name of the custom header.
   ///
@@ -7977,6 +8085,8 @@ class CustomHTTPHeader {
 ///
 /// This is used in the context of other settings, for example to specify values
 /// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+///
+/// @nodoc
 class BlockAction {
   /// Defines a custom response for the web request.
   ///
@@ -8011,6 +8121,8 @@ class BlockAction {
 ///
 /// This is used in the context of other settings, for example to specify values
 /// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+///
+/// @nodoc
 class AllowAction {
   /// Defines custom handling for the web request.
   ///
@@ -8080,6 +8192,8 @@ class AllowAction {
 ///
 /// This action option is available for rules. It isn't available for web ACL
 /// default actions.
+///
+/// @nodoc
 class CaptchaAction {
   /// Defines custom handling for the web request, used when the
   /// <code>CAPTCHA</code> inspection determines that the request's token is valid
@@ -8164,6 +8278,8 @@ class CaptchaAction {
 ///
 /// This action option is available for rules. It isn't available for web ACL
 /// default actions.
+///
+/// @nodoc
 class ChallengeAction {
   /// Defines custom handling for the web request, used when the challenge
   /// inspection determines that the request's token is valid and unexpired.
@@ -8202,6 +8318,8 @@ class ChallengeAction {
 /// For information about customizing web requests and responses, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
 /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class CustomResponse {
   /// The HTTP status code to return to the client.
   ///
@@ -8265,6 +8383,8 @@ class CustomResponse {
 /// bytes to search for are typically a string that corresponds with ASCII
 /// characters. In the WAF console and the developer guide, this is called a
 /// string match statement.
+///
+/// @nodoc
 class ByteMatchStatement {
   /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
@@ -8423,6 +8543,8 @@ class ByteMatchStatement {
 /// A rule statement that inspects for malicious SQL code. Attackers insert
 /// malicious SQL code into web requests to do things like modify your database
 /// or extract data from it.
+///
+/// @nodoc
 class SqliMatchStatement {
   /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
@@ -8491,6 +8613,8 @@ class SqliMatchStatement {
 /// XSS attacks, the attacker uses vulnerabilities in a benign website as a
 /// vehicle to inject malicious client-site scripts into other legitimate web
 /// browsers.
+///
+/// @nodoc
 class XssMatchStatement {
   /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
@@ -8549,6 +8673,8 @@ class XssMatchStatement {
 /// If you choose URI for the value of Part of the request to filter on, the
 /// slash (/) in the URI counts as one character. For example, the URI
 /// <code>/logo.jpg</code> is nine characters long.
+///
+/// @nodoc
 class SizeConstraintStatement {
   /// The operator to use to compare the request part to the size setting.
   final ComparisonOperator comparisonOperator;
@@ -8644,10 +8770,12 @@ class SizeConstraintStatement {
 /// match rule statement</a> in the <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF
 /// Developer Guide</a>.
+///
+/// @nodoc
 class GeoMatchStatement {
   /// An array of two-character country codes that you want to match against, for
-  /// example, <code>[ "US", "CN" ]</code>, from the alpha-2 country ISO codes of
-  /// the ISO 3166 international standard.
+  /// example, <code>\[ "US", "CN" \]</code>, from the alpha-2 country ISO codes
+  /// of the ISO 3166 international standard.
   ///
   /// When you use a geo match statement just for the region and country labels
   /// that it adds to requests, you still have to supply a country code for the
@@ -8706,6 +8834,8 @@ class GeoMatchStatement {
 /// cannot use a rule group reference statement inside another rule group. You
 /// can only reference a rule group as a top-level statement within a rule that
 /// you define in a web ACL.
+///
+/// @nodoc
 class RuleGroupReferenceStatement {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
@@ -8777,6 +8907,8 @@ class RuleGroupReferenceStatement {
 /// set independent of your rules. This allows you to use the single set in
 /// multiple rules. When you update the referenced set, WAF automatically
 /// updates all rules that reference it.
+///
+/// @nodoc
 class IPSetReferenceStatement {
   /// The Amazon Resource Name (ARN) of the <a>IPSet</a> that this statement
   /// references.
@@ -8829,6 +8961,8 @@ class IPSetReferenceStatement {
 /// create and maintain the set independent of your rules. This allows you to
 /// use the single set in multiple rules. When you update the referenced set,
 /// WAF automatically updates all rules that reference it.
+///
+/// @nodoc
 class RegexPatternSetReferenceStatement {
   /// The Amazon Resource Name (ARN) of the <a>RegexPatternSet</a> that this
   /// statement references.
@@ -9000,6 +9134,8 @@ class RegexPatternSetReferenceStatement {
 /// rule group, and then use that rule group in multiple places, each use
 /// creates a separate instance of the rate-based rule that gets its own
 /// tracking and management by WAF.
+///
+/// @nodoc
 class RateBasedStatement {
   /// Setting that indicates how to aggregate the request counts.
   /// <note>
@@ -9158,6 +9294,8 @@ class RateBasedStatement {
 /// A logical rule statement used to combine other rule statements with AND
 /// logic. You provide more than one <a>Statement</a> within the
 /// <code>AndStatement</code>.
+///
+/// @nodoc
 class AndStatement {
   /// The statements to combine with AND logic. You can use any statements that
   /// can be nested.
@@ -9187,6 +9325,8 @@ class AndStatement {
 /// A logical rule statement used to combine other rule statements with OR
 /// logic. You provide more than one <a>Statement</a> within the
 /// <code>OrStatement</code>.
+///
+/// @nodoc
 class OrStatement {
   /// The statements to combine with OR logic. You can use any statements that can
   /// be nested.
@@ -9216,6 +9356,8 @@ class OrStatement {
 /// A logical rule statement used to negate the results of another rule
 /// statement. You provide one <a>Statement</a> within the
 /// <code>NotStatement</code>.
+///
+/// @nodoc
 class NotStatement {
   /// The statement to negate. You can use any statement that can be nested.
   final Statement statement;
@@ -9259,6 +9401,8 @@ class NotStatement {
 /// <code>AWSManagedRulesACFPRuleSet</code>. For more information, see <a
 /// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
 /// </note>
+///
+/// @nodoc
 class ManagedRuleGroupStatement {
   /// The name of the managed rule group. You use this, along with the vendor
   /// name, to identify the rule group.
@@ -9410,6 +9554,8 @@ class ManagedRuleGroupStatement {
 /// do not provide the fully qualified name in your label match string, WAF
 /// performs the search for labels that were added in the same context as the
 /// label match statement.
+///
+/// @nodoc
 class LabelMatchStatement {
   /// The string to match against. The setting you provide for this depends on the
   /// match statement's <code>Scope</code> setting:
@@ -9460,6 +9606,8 @@ class LabelMatchStatement {
 
 /// A rule statement used to search web request components for a match against a
 /// single regular expression.
+///
+/// @nodoc
 class RegexMatchStatement {
   /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
@@ -9517,6 +9665,8 @@ class RegexMatchStatement {
 /// match rule statement</a> in the <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF
 /// Developer Guide</a>.
+///
+/// @nodoc
 class AsnMatchStatement {
   /// Contains one or more Autonomous System Numbers (ASNs). ASNs are unique
   /// identifiers assigned to large internet networks managed by organizations
@@ -9571,6 +9721,8 @@ class AsnMatchStatement {
 /// <a>IPSetReferenceStatement</a>, use <a>IPSetForwardedIPConfig</a> instead.
 ///
 /// WAF only evaluates the first IP address found in the specified HTTP header.
+///
+/// @nodoc
 class ForwardedIPConfig {
   /// The match status to assign to the web request if the request doesn't have a
   /// valid IP address in the specified position.
@@ -9623,6 +9775,7 @@ class ForwardedIPConfig {
   }
 }
 
+/// @nodoc
 class FallbackBehavior {
   static const match = FallbackBehavior._('MATCH');
   static const noMatch = FallbackBehavior._('NO_MATCH');
@@ -9692,6 +9845,8 @@ class FallbackBehavior {
 /// </li>
 /// </ul> </li>
 /// </ul>
+///
+/// @nodoc
 class FieldToMatch {
   /// Inspect all query arguments.
   final AllQueryArguments? allQueryArguments;
@@ -9976,6 +10131,8 @@ class FieldToMatch {
 
 /// Text transformations eliminate some of the unusual formatting that attackers
 /// use in web requests in an effort to bypass detection.
+///
+/// @nodoc
 class TextTransformation {
   /// Sets the relative processing order for multiple transformations. WAF
   /// processes all transformations, from lowest priority to highest, before
@@ -10010,6 +10167,7 @@ class TextTransformation {
   }
 }
 
+/// @nodoc
 class TextTransformationType {
   static const none = TextTransformationType._('NONE');
   static const compressWhiteSpace =
@@ -10090,6 +10248,8 @@ class TextTransformationType {
 /// <a>FieldToMatch</a> specification.
 ///
 /// Example JSON: <code>"SingleHeader": { "Name": "haystack" }</code>
+///
+/// @nodoc
 class SingleHeader {
   /// The name of the query header to inspect.
   final String name;
@@ -10120,6 +10280,8 @@ class SingleHeader {
 /// <a>FieldToMatch</a> specification.
 ///
 /// Example JSON: <code>"SingleQueryArgument": { "Name": "myArgument" }</code>
+///
+/// @nodoc
 class SingleQueryArgument {
   /// The name of the query argument to inspect.
   final String name;
@@ -10148,6 +10310,8 @@ class SingleQueryArgument {
 /// component types.
 ///
 /// JSON specification: <code>"AllQueryArguments": {}</code>
+///
+/// @nodoc
 class AllQueryArguments {
   AllQueryArguments();
 
@@ -10168,6 +10332,8 @@ class AllQueryArguments {
 /// component types.
 ///
 /// JSON specification: <code>"UriPath": {}</code>
+///
+/// @nodoc
 class UriPath {
   UriPath();
 
@@ -10187,6 +10353,8 @@ class UriPath {
 /// component types.
 ///
 /// JSON specification: <code>"QueryString": {}</code>
+///
+/// @nodoc
 class QueryString {
   QueryString();
 
@@ -10204,6 +10372,8 @@ class QueryString {
 ///
 /// This is used to indicate the web request component to inspect, in the
 /// <a>FieldToMatch</a> specification.
+///
+/// @nodoc
 class Body {
   /// What WAF should do if the body is larger than WAF can inspect.
   ///
@@ -10276,6 +10446,8 @@ class Body {
 /// component types.
 ///
 /// JSON specification: <code>"Method": {}</code>
+///
+/// @nodoc
 class Method {
   Method();
 
@@ -10304,6 +10476,8 @@ class Method {
 /// For additional information about this request component option, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body">JSON
 /// body</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class JsonBody {
   /// The patterns to look for in the JSON body. WAF inspects the results of these
   /// pattern matches against the rule inspection criteria.
@@ -10441,6 +10615,8 @@ class JsonBody {
 ///
 /// Example JSON: <code>"Headers": { "MatchPattern": { "All": {} },
 /// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+///
+/// @nodoc
 class Headers {
   /// The filter to use to identify the subset of headers to inspect in a web
   /// request.
@@ -10448,8 +10624,8 @@ class Headers {
   /// You must specify exactly one setting: either <code>All</code>,
   /// <code>IncludedHeaders</code>, or <code>ExcludedHeaders</code>.
   ///
-  /// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1",
-  /// "KeyToExclude2" ] }</code>
+  /// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": \[ "KeyToExclude1",
+  /// "KeyToExclude2" \] }</code>
   final HeaderMatchPattern matchPattern;
 
   /// The parts of the headers to match with the rule inspection criteria. If you
@@ -10525,6 +10701,8 @@ class Headers {
 ///
 /// Example JSON: <code>"Cookies": { "MatchPattern": { "All": {} },
 /// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+///
+/// @nodoc
 class Cookies {
   /// The filter to use to identify the subset of cookies to inspect in a web
   /// request.
@@ -10532,8 +10710,8 @@ class Cookies {
   /// You must specify exactly one setting: either <code>All</code>,
   /// <code>IncludedCookies</code>, or <code>ExcludedCookies</code>.
   ///
-  /// Example JSON: <code>"MatchPattern": { "IncludedCookies": [
-  /// "session-id-time", "session-id" ] }</code>
+  /// Example JSON: <code>"MatchPattern": { "IncludedCookies": \[
+  /// "session-id-time", "session-id" \] }</code>
   final CookieMatchPattern matchPattern;
 
   /// The parts of the cookies to inspect with the rule inspection criteria. If
@@ -10606,6 +10784,8 @@ class Cookies {
 /// its inspection. WAF separates the header names in the string using colons
 /// and no added spaces, for example
 /// <code>host:user-agent:accept:authorization:referer</code>.
+///
+/// @nodoc
 class HeaderOrder {
   /// What WAF should do if the headers determined by your match scope are more
   /// numerous or larger than WAF can inspect. WAF does not support inspecting the
@@ -10671,6 +10851,8 @@ class HeaderOrder {
 /// Provide the JA3 fingerprint string from the logs in your string match
 /// statement specification, to match with any future requests that have the
 /// same TLS configuration.
+///
+/// @nodoc
 class JA3Fingerprint {
   /// The match status to assign to the web request if the request doesn't have a
   /// JA3 fingerprint.
@@ -10729,6 +10911,8 @@ class JA3Fingerprint {
 /// Provide the JA4 fingerprint string from the logs in your string match
 /// statement specification, to match with any future requests that have the
 /// same TLS configuration.
+///
+/// @nodoc
 class JA4Fingerprint {
   /// The match status to assign to the web request if the request doesn't have a
   /// JA4 fingerprint.
@@ -10775,6 +10959,8 @@ class JA4Fingerprint {
 ///
 /// Example JSON: <code>"UriFragment": { "MatchPattern": { "All": {} },
 /// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+///
+/// @nodoc
 class UriFragment {
   /// What WAF should do if it fails to completely parse the JSON body. The
   /// options are the following:
@@ -10826,6 +11012,7 @@ class UriFragment {
   }
 }
 
+/// @nodoc
 class OversizeHandling {
   static const $continue = OversizeHandling._('CONTINUE');
   static const match = OversizeHandling._('MATCH');
@@ -10857,8 +11044,10 @@ class OversizeHandling {
 /// You must specify exactly one setting: either <code>All</code>,
 /// <code>IncludedCookies</code>, or <code>ExcludedCookies</code>.
 ///
-/// Example JSON: <code>"MatchPattern": { "IncludedCookies": [
-/// "session-id-time", "session-id" ] }</code>
+/// Example JSON: <code>"MatchPattern": { "IncludedCookies": \[
+/// "session-id-time", "session-id" \] }</code>
+///
+/// @nodoc
 class CookieMatchPattern {
   /// Inspect all cookies.
   final All? all;
@@ -10905,6 +11094,7 @@ class CookieMatchPattern {
   }
 }
 
+/// @nodoc
 class MapMatchScope {
   static const all = MapMatchScope._('ALL');
   static const key = MapMatchScope._('KEY');
@@ -10938,6 +11128,8 @@ class MapMatchScope {
 /// component types.
 ///
 /// JSON specification: <code>"All": {}</code>
+///
+/// @nodoc
 class All {
   All();
 
@@ -10956,8 +11148,10 @@ class All {
 /// You must specify exactly one setting: either <code>All</code>,
 /// <code>IncludedHeaders</code>, or <code>ExcludedHeaders</code>.
 ///
-/// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1",
-/// "KeyToExclude2" ] }</code>
+/// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": \[ "KeyToExclude1",
+/// "KeyToExclude2" \] }</code>
+///
+/// @nodoc
 class HeaderMatchPattern {
   /// Inspect all headers.
   final All? all;
@@ -11007,6 +11201,8 @@ class HeaderMatchPattern {
 /// The patterns to look for in the JSON body. WAF inspects the results of these
 /// pattern matches against the rule inspection criteria. This is used with the
 /// <a>FieldToMatch</a> option <code>JsonBody</code>.
+///
+/// @nodoc
 class JsonMatchPattern {
   /// Match all of the elements. See also <code>MatchScope</code> in
   /// <a>JsonBody</a>.
@@ -11019,7 +11215,7 @@ class JsonMatchPattern {
   /// <a>JsonBody</a>.
   ///
   /// Provide the include paths using JSON Pointer syntax. For example,
-  /// <code>"IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]</code>. For
+  /// <code>"IncludedPaths": \["/dogs/0/name", "/dogs/1/name"\]</code>. For
   /// information about this syntax, see the Internet Engineering Task Force
   /// (IETF) documentation <a
   /// href="https://tools.ietf.org/html/rfc6901">JavaScript Object Notation (JSON)
@@ -11060,6 +11256,7 @@ class JsonMatchPattern {
   }
 }
 
+/// @nodoc
 class JsonMatchScope {
   static const all = JsonMatchScope._('ALL');
   static const key = JsonMatchScope._('KEY');
@@ -11085,6 +11282,7 @@ class JsonMatchScope {
   String toString() => value;
 }
 
+/// @nodoc
 class BodyParsingFallbackBehavior {
   static const match = BodyParsingFallbackBehavior._('MATCH');
   static const noMatch = BodyParsingFallbackBehavior._('NO_MATCH');
@@ -11112,6 +11310,7 @@ class BodyParsingFallbackBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class LabelMatchScope {
   static const label = LabelMatchScope._('LABEL');
   static const namespace = LabelMatchScope._('NAMESPACE');
@@ -11151,6 +11350,8 @@ class LabelMatchScope {
 /// to understand how the rule group would handle your web traffic. You can also
 /// permanently override some or all actions, to modify how the rule group
 /// manages your web traffic.
+///
+/// @nodoc
 class RuleActionOverride {
   /// The override action to use, in place of the configured action of the rule in
   /// the rule group.
@@ -11225,6 +11426,8 @@ class RuleActionOverride {
 /// </li>
 /// </ul>
 /// For example specifications, see the examples section of <a>CreateWebACL</a>.
+///
+/// @nodoc
 class ManagedRuleGroupConfig {
   /// Additional configuration for using the account creation fraud prevention
   /// (ACFP) managed rule group, <code>AWSManagedRulesACFPRuleSet</code>. Use this
@@ -11379,6 +11582,7 @@ class ManagedRuleGroupConfig {
   }
 }
 
+/// @nodoc
 class PayloadType {
   static const json = PayloadType._('JSON');
   static const formEncoded = PayloadType._('FORM_ENCODED');
@@ -11407,6 +11611,8 @@ class PayloadType {
 ///
 /// This data type is used in the <code>RequestInspection</code> and
 /// <code>RequestInspectionACFP</code> data types.
+///
+/// @nodoc
 class UsernameField {
   /// The name of the username field.
   ///
@@ -11457,6 +11663,8 @@ class UsernameField {
 ///
 /// This data type is used in the <code>RequestInspection</code> and
 /// <code>RequestInspectionACFP</code> data types.
+///
+/// @nodoc
 class PasswordField {
   /// The name of the password field.
   ///
@@ -11513,6 +11721,8 @@ class PasswordField {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list">Amazon
 /// Web Services Managed Rules rule groups list</a> in the <i>WAF Developer
 /// Guide</i>.
+///
+/// @nodoc
 class AWSManagedRulesBotControlRuleSet {
   /// The inspection level to use for the Bot Control rule group. The common level
   /// is the least expensive. The targeted level includes all common level rules
@@ -11572,6 +11782,8 @@ class AWSManagedRulesBotControlRuleSet {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list">Amazon
 /// Web Services Managed Rules rule groups list</a> in the <i>WAF Developer
 /// Guide</i>.
+///
+/// @nodoc
 class AWSManagedRulesATPRuleSet {
   /// The path of the login endpoint for your application. For example, for the
   /// URL <code>https://example.com/web/login</code>, you would provide the path
@@ -11654,6 +11866,8 @@ class AWSManagedRulesATPRuleSet {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list">Amazon
 /// Web Services Managed Rules rule groups list</a> in the <i>WAF Developer
 /// Guide</i>.
+///
+/// @nodoc
 class AWSManagedRulesACFPRuleSet {
   /// The path of the account creation endpoint for your application. This is the
   /// page on your website that accepts the completed registration form for a new
@@ -11759,6 +11973,8 @@ class AWSManagedRulesACFPRuleSet {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list">Amazon
 /// Web Services Managed Rules rule groups list</a> in the <i>WAF Developer
 /// Guide</i>.
+///
+/// @nodoc
 class AWSManagedRulesAntiDDoSRuleSet {
   /// Configures the request handling that's applied by the managed rule group
   /// rules <code>ChallengeAllDuringEvent</code> and
@@ -11822,6 +12038,8 @@ class AWSManagedRulesAntiDDoSRuleSet {
 /// This is part of the configuration for the managed rules
 /// <code>AWSManagedRulesAntiDDoSRuleSet</code> in
 /// <code>ManagedRuleGroupConfig</code>.
+///
+/// @nodoc
 class ClientSideActionConfig {
   /// Configuration for the use of the <code>AWSManagedRulesAntiDDoSRuleSet</code>
   /// rules <code>ChallengeAllDuringEvent</code> and
@@ -11855,6 +12073,7 @@ class ClientSideActionConfig {
   }
 }
 
+/// @nodoc
 class SensitivityToAct {
   static const low = SensitivityToAct._('LOW');
   static const medium = SensitivityToAct._('MEDIUM');
@@ -11883,6 +12102,8 @@ class SensitivityToAct {
 /// This is part of the <code>AWSManagedRulesAntiDDoSRuleSet</code>
 /// <code>ClientSideActionConfig</code> configuration in
 /// <code>ManagedRuleGroupConfig</code>.
+///
+/// @nodoc
 class ClientSideAction {
   /// Determines whether to use the <code>AWSManagedRulesAntiDDoSRuleSet</code>
   /// rules <code>ChallengeAllDuringEvent</code> and
@@ -11960,7 +12181,7 @@ class ClientSideAction {
   /// Amazon Web Services recommends starting with the following setting. Review
   /// and update it for your application's needs:
   ///
-  /// <code>\/api\/|\.(acc|avi|css|gif|jpe?g|js|mp[34]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$</code>
+  /// <code>\/api\/|\.(acc|avi|css|gif|jpe?g|js|mp\[34\]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$</code>
   final List<Regex>? exemptUriRegularExpressions;
 
   /// The sensitivity that the rule group rule <code>ChallengeDDoSRequests</code>
@@ -12023,6 +12244,7 @@ class ClientSideAction {
   }
 }
 
+/// @nodoc
 class UsageOfAction {
   static const enabled = UsageOfAction._('ENABLED');
   static const disabled = UsageOfAction._('DISABLED');
@@ -12050,6 +12272,8 @@ class UsageOfAction {
 /// A single regular expression. This is used in a <a>RegexPatternSet</a> and
 /// also in the configuration for the Amazon Web Services Managed Rules rule
 /// group <code>AWSManagedRulesAntiDDoSRuleSet</code>.
+///
+/// @nodoc
 class Regex {
   /// The string representing the regular expression.
   final String? regexString;
@@ -12082,6 +12306,8 @@ class Regex {
 /// attempts by providing the request payload type and the names of the fields
 /// within the request body where the username, password, email, and primary
 /// address and phone number fields are provided.
+///
+/// @nodoc
 class RequestInspectionACFP {
   /// The payload type for your account creation endpoint, either JSON or form
   /// encoded.
@@ -12313,6 +12539,8 @@ class RequestInspectionACFP {
 /// <code>StatusCode</code>. You can't configure more than one component for
 /// inspection. If you don't configure any of the response inspection options,
 /// response inspection is disabled.
+///
+/// @nodoc
 class ResponseInspection {
   /// Configures inspection of the response body for success and failure
   /// indicators. WAF can inspect the first 65,536 bytes (64 KB) of the response
@@ -12382,13 +12610,15 @@ class ResponseInspection {
 /// Response inspection is available only in web ACLs that protect Amazon
 /// CloudFront distributions.
 /// </note>
+///
+/// @nodoc
 class ResponseInspectionStatusCode {
   /// Status codes in the response that indicate a failed login or account
   /// creation attempt. To be counted as a failure, the response status code must
   /// match one of these. Each code must be unique among the success and failure
   /// status codes.
   ///
-  /// JSON example: <code>"FailureCodes": [ 400, 404 ]</code>
+  /// JSON example: <code>"FailureCodes": \[ 400, 404 \]</code>
   final List<int> failureCodes;
 
   /// Status codes in the response that indicate a successful login or account
@@ -12396,7 +12626,7 @@ class ResponseInspectionStatusCode {
   /// match one of these. Each code must be unique among the success and failure
   /// status codes.
   ///
-  /// JSON example: <code>"SuccessCodes": [ 200, 201 ]</code>
+  /// JSON example: <code>"SuccessCodes": \[ 200, 201 \]</code>
   final List<int> successCodes;
 
   ResponseInspectionStatusCode({
@@ -12435,20 +12665,22 @@ class ResponseInspectionStatusCode {
 /// Response inspection is available only in web ACLs that protect Amazon
 /// CloudFront distributions.
 /// </note>
+///
+/// @nodoc
 class ResponseInspectionHeader {
   /// Values in the response header with the specified name that indicate a failed
   /// login or account creation attempt. To be counted as a failure, the value
   /// must be an exact match, including case. Each value must be unique among the
   /// success and failure values.
   ///
-  /// JSON examples: <code>"FailureValues": [ "LoginFailed", "Failed login"
-  /// ]</code> and <code>"FailureValues": [ "AccountCreationFailed" ]</code>
+  /// JSON examples: <code>"FailureValues": \[ "LoginFailed", "Failed login"
+  /// \]</code> and <code>"FailureValues": \[ "AccountCreationFailed" \]</code>
   final List<String> failureValues;
 
   /// The name of the header to match against. The name must be an exact match,
   /// including case.
   ///
-  /// JSON example: <code>"Name": [ "RequestResult" ]</code>
+  /// JSON example: <code>"Name": \[ "RequestResult" \]</code>
   final String name;
 
   /// Values in the response header with the specified name that indicate a
@@ -12456,9 +12688,9 @@ class ResponseInspectionHeader {
   /// the value must be an exact match, including case. Each value must be unique
   /// among the success and failure values.
   ///
-  /// JSON examples: <code>"SuccessValues": [ "LoginPassed", "Successful login"
-  /// ]</code> and <code>"SuccessValues": [ "AccountCreated", "Successful account
-  /// creation" ]</code>
+  /// JSON examples: <code>"SuccessValues": \[ "LoginPassed", "Successful login"
+  /// \]</code> and <code>"SuccessValues": \[ "AccountCreated", "Successful
+  /// account creation" \]</code>
   final List<String> successValues;
 
   ResponseInspectionHeader({
@@ -12502,13 +12734,15 @@ class ResponseInspectionHeader {
 /// Response inspection is available only in web ACLs that protect Amazon
 /// CloudFront distributions.
 /// </note>
+///
+/// @nodoc
 class ResponseInspectionBodyContains {
   /// Strings in the body of the response that indicate a failed login or account
   /// creation attempt. To be counted as a failure, the string can be anywhere in
   /// the body and must be an exact match, including case. Each string must be
   /// unique among the success and failure strings.
   ///
-  /// JSON example: <code>"FailureStrings": [ "Request failed" ]</code>
+  /// JSON example: <code>"FailureStrings": \[ "Request failed" \]</code>
   final List<String> failureStrings;
 
   /// Strings in the body of the response that indicate a successful login or
@@ -12516,9 +12750,9 @@ class ResponseInspectionBodyContains {
   /// anywhere in the body and must be an exact match, including case. Each string
   /// must be unique among the success and failure strings.
   ///
-  /// JSON examples: <code>"SuccessStrings": [ "Login successful" ]</code> and
-  /// <code>"SuccessStrings": [ "Account creation successful", "Welcome to our
-  /// site!" ]</code>
+  /// JSON examples: <code>"SuccessStrings": \[ "Login successful" \]</code> and
+  /// <code>"SuccessStrings": \[ "Account creation successful", "Welcome to our
+  /// site!" \]</code>
   final List<String> successStrings;
 
   ResponseInspectionBodyContains({
@@ -12558,20 +12792,22 @@ class ResponseInspectionBodyContains {
 /// Response inspection is available only in web ACLs that protect Amazon
 /// CloudFront distributions.
 /// </note>
+///
+/// @nodoc
 class ResponseInspectionJson {
   /// Values for the specified identifier in the response JSON that indicate a
   /// failed login or account creation attempt. To be counted as a failure, the
   /// value must be an exact match, including case. Each value must be unique
   /// among the success and failure values.
   ///
-  /// JSON example: <code>"FailureValues": [ "False", "Failed" ]</code>
+  /// JSON example: <code>"FailureValues": \[ "False", "Failed" \]</code>
   final List<String> failureValues;
 
   /// The identifier for the value to match against in the JSON. The identifier
   /// must be an exact match, including case.
   ///
-  /// JSON examples: <code>"Identifier": [ "/login/success" ]</code> and
-  /// <code>"Identifier": [ "/sign-up/success" ]</code>
+  /// JSON examples: <code>"Identifier": \[ "/login/success" \]</code> and
+  /// <code>"Identifier": \[ "/sign-up/success" \]</code>
   final String identifier;
 
   /// Values for the specified identifier in the response JSON that indicate a
@@ -12579,7 +12815,7 @@ class ResponseInspectionJson {
   /// the value must be an exact match, including case. Each value must be unique
   /// among the success and failure values.
   ///
-  /// JSON example: <code>"SuccessValues": [ "True", "Succeeded" ]</code>
+  /// JSON example: <code>"SuccessValues": \[ "True", "Succeeded" \]</code>
   final List<String> successValues;
 
   ResponseInspectionJson({
@@ -12618,6 +12854,8 @@ class ResponseInspectionJson {
 /// email.
 ///
 /// This data type is used in the <code>RequestInspectionACFP</code> data type.
+///
+/// @nodoc
 class EmailField {
   /// The name of the email field.
   ///
@@ -12665,6 +12903,8 @@ class EmailField {
 /// customer's primary physical address.
 ///
 /// This data type is used in the <code>RequestInspectionACFP</code> data type.
+///
+/// @nodoc
 class AddressField {
   /// The name of a single primary address field.
   ///
@@ -12720,6 +12960,8 @@ class AddressField {
 /// customer's primary phone number.
 ///
 /// This data type is used in the <code>RequestInspectionACFP</code> data type.
+///
+/// @nodoc
 class PhoneNumberField {
   /// The name of a single primary phone number field.
   ///
@@ -12779,6 +13021,8 @@ class PhoneNumberField {
 /// In these settings, you specify how your application accepts login attempts
 /// by providing the request payload type and the names of the fields within the
 /// request body where the username and password are provided.
+///
+/// @nodoc
 class RequestInspection {
   /// The name of the field in the request payload that contains your customer's
   /// password.
@@ -12868,6 +13112,7 @@ class RequestInspection {
   }
 }
 
+/// @nodoc
 class InspectionLevel {
   static const common = InspectionLevel._('COMMON');
   static const targeted = InspectionLevel._('TARGETED');
@@ -12898,6 +13143,8 @@ class InspectionLevel {
 /// Instead of this option, use <code>RuleActionOverrides</code>. It accepts any
 /// valid action setting, including <code>Count</code>.
 /// </note>
+///
+/// @nodoc
 class ExcludedRule {
   /// The name of the rule whose action you want to override to
   /// <code>Count</code>.
@@ -12921,6 +13168,7 @@ class ExcludedRule {
   }
 }
 
+/// @nodoc
 class RateBasedStatementAggregateKeyType {
   static const ip = RateBasedStatementAggregateKeyType._('IP');
   static const forwardedIp =
@@ -12955,6 +13203,8 @@ class RateBasedStatementAggregateKeyType {
 /// aggregation keys are omitted from the rate-based rule evaluation and
 /// handling.
 /// </note>
+///
+/// @nodoc
 class RateBasedStatementCustomKey {
   /// Use an Autonomous System Number (ASN) derived from the request's originating
   /// or forwarded IP address as an aggregate key. Each distinct ASN contributes
@@ -13135,6 +13385,8 @@ class RateBasedStatementCustomKey {
 /// value in the header contributes to the aggregation instance. If you use a
 /// single header as your custom key, then each value fully defines an
 /// aggregation instance.
+///
+/// @nodoc
 class RateLimitHeader {
   /// The name of the header to use.
   final String name;
@@ -13179,6 +13431,8 @@ class RateLimitHeader {
 /// value in the cookie contributes to the aggregation instance. If you use a
 /// single cookie as your custom key, then each value fully defines an
 /// aggregation instance.
+///
+/// @nodoc
 class RateLimitCookie {
   /// The name of the cookie to use.
   final String name;
@@ -13223,6 +13477,8 @@ class RateLimitCookie {
 /// rate-based rule. Each distinct value for the named query argument
 /// contributes to the aggregation instance. If you use a single query argument
 /// as your custom key, then each value fully defines an aggregation instance.
+///
+/// @nodoc
 class RateLimitQueryArgument {
   /// The name of the query argument to use.
   final String name;
@@ -13267,6 +13523,8 @@ class RateLimitQueryArgument {
 /// rule. Each distinct string contributes to the aggregation instance. If you
 /// use just the query string as your custom key, then each string fully defines
 /// an aggregation instance.
+///
+/// @nodoc
 class RateLimitQueryString {
   /// Text transformations eliminate some of the unusual formatting that attackers
   /// use in web requests in an effort to bypass detection. Text transformations
@@ -13306,6 +13564,8 @@ class RateLimitQueryString {
 /// defines an aggregation instance.
 ///
 /// JSON specification: <code>"RateLimitHTTPMethod": {}</code>
+///
+/// @nodoc
 class RateLimitHTTPMethod {
   RateLimitHTTPMethod();
 
@@ -13338,6 +13598,8 @@ class RateLimitHTTPMethod {
 ///
 /// When you use this specification, you must also configure the forwarded IP
 /// address in the rate-based statement's <code>ForwardedIPConfig</code>.
+///
+/// @nodoc
 class RateLimitForwardedIP {
   RateLimitForwardedIP();
 
@@ -13361,6 +13623,8 @@ class RateLimitForwardedIP {
 /// <code>AggregateKeyType</code>, specify <code>IP</code>.
 ///
 /// JSON specification: <code>"RateLimitIP": {}</code>
+///
+/// @nodoc
 class RateLimitIP {
   RateLimitIP();
 
@@ -13385,6 +13649,8 @@ class RateLimitIP {
 /// For information about label namespaces and names, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html">Label
 /// syntax and naming requirements</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class RateLimitLabelNamespace {
   /// The namespace to use for aggregation.
   final String namespace;
@@ -13411,6 +13677,8 @@ class RateLimitLabelNamespace {
 /// Each distinct URI path contributes to the aggregation instance. If you use
 /// just the URI path as your custom key, then each URI path fully defines an
 /// aggregation instance.
+///
+/// @nodoc
 class RateLimitUriPath {
   /// Text transformations eliminate some of the unusual formatting that attackers
   /// use in web requests in an effort to bypass detection. Text transformations
@@ -13447,6 +13715,8 @@ class RateLimitUriPath {
 /// Use the request's JA3 fingerprint derived from the TLS Client Hello of an
 /// incoming request as an aggregate key. If you use a single JA3 fingerprint as
 /// your custom key, then each value fully defines an aggregation instance.
+///
+/// @nodoc
 class RateLimitJA3Fingerprint {
   /// The match status to assign to the web request if there is insufficient TSL
   /// Client Hello information to compute the JA3 fingerprint.
@@ -13487,6 +13757,8 @@ class RateLimitJA3Fingerprint {
 /// Use the request's JA4 fingerprint derived from the TLS Client Hello of an
 /// incoming request as an aggregate key. If you use a single JA4 fingerprint as
 /// your custom key, then each value fully defines an aggregation instance.
+///
+/// @nodoc
 class RateLimitJA4Fingerprint {
   /// The match status to assign to the web request if there is insufficient TSL
   /// Client Hello information to compute the JA4 fingerprint.
@@ -13529,6 +13801,8 @@ class RateLimitJA4Fingerprint {
 /// rule. Each distinct ASN contributes to the aggregation instance. If you use
 /// a single ASN as your custom key, then each ASN fully defines an aggregation
 /// instance.
+///
+/// @nodoc
 class RateLimitAsn {
   RateLimitAsn();
 
@@ -13552,6 +13826,8 @@ class RateLimitAsn {
 /// This configuration is used only for <a>IPSetReferenceStatement</a>. For
 /// <a>GeoMatchStatement</a> and <a>RateBasedStatement</a>, use
 /// <a>ForwardedIPConfig</a> instead.
+///
+/// @nodoc
 class IPSetForwardedIPConfig {
   /// The match status to assign to the web request if the request doesn't have a
   /// valid IP address in the specified position.
@@ -13633,6 +13909,7 @@ class IPSetForwardedIPConfig {
   }
 }
 
+/// @nodoc
 class ForwardedIPPosition {
   static const first = ForwardedIPPosition._('FIRST');
   static const last = ForwardedIPPosition._('LAST');
@@ -13659,6 +13936,7 @@ class ForwardedIPPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class CountryCode {
   static const af = CountryCode._('AF');
   static const ax = CountryCode._('AX');
@@ -14181,6 +14459,7 @@ class CountryCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const eq = ComparisonOperator._('EQ');
   static const ne = ComparisonOperator._('NE');
@@ -14210,6 +14489,7 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SensitivityLevel {
   static const low = SensitivityLevel._('LOW');
   static const high = SensitivityLevel._('HIGH');
@@ -14234,6 +14514,7 @@ class SensitivityLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class PositionalConstraint {
   static const exactly = PositionalConstraint._('EXACTLY');
   static const startsWith = PositionalConstraint._('STARTS_WITH');
@@ -14274,6 +14555,8 @@ class PositionalConstraint {
 /// You can tag the Amazon Web Services resources that you manage through WAF:
 /// web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or
 /// view tags through the WAF console.
+///
+/// @nodoc
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -14319,6 +14602,8 @@ class Tag {
 /// <code>PutManagedRuleSetVersions</code>, and
 /// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
 /// </note>
+///
+/// @nodoc
 class VersionToPublish {
   /// The Amazon Resource Name (ARN) of the vendor's rule group that's used in the
   /// published managed rule group version.
@@ -14385,6 +14670,8 @@ class VersionToPublish {
 /// For additional information about web ACL logging, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
 /// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// The logging destination configuration that you want to associate with the
   /// web ACL.
@@ -14526,6 +14813,8 @@ class LoggingConfiguration {
 ///
 /// You can filter on the rule action and on the web request labels that were
 /// applied by matching rules during web ACL evaluation.
+///
+/// @nodoc
 class LoggingFilter {
   /// Default handling for logs that don't match any of the specified filtering
   /// conditions.
@@ -14560,6 +14849,7 @@ class LoggingFilter {
   }
 }
 
+/// @nodoc
 class LogType {
   static const wafLogs = LogType._('WAF_LOGS');
 
@@ -14582,6 +14872,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogScope {
   static const customer = LogScope._('CUSTOMER');
   static const securityLake = LogScope._('SECURITY_LAKE');
@@ -14611,6 +14902,7 @@ class LogScope {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterBehavior {
   static const keep = FilterBehavior._('KEEP');
   static const drop = FilterBehavior._('DROP');
@@ -14636,6 +14928,8 @@ class FilterBehavior {
 }
 
 /// A single logging filter, used in <a>LoggingFilter</a>.
+///
+/// @nodoc
 class Filter {
   /// How to handle logs that satisfy the filter's conditions and requirement.
   final FilterBehavior behavior;
@@ -14678,6 +14972,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterRequirement {
   static const meetsAll = FilterRequirement._('MEETS_ALL');
   static const meetsAny = FilterRequirement._('MEETS_ANY');
@@ -14703,6 +14998,8 @@ class FilterRequirement {
 }
 
 /// A single match condition for a <a>Filter</a>.
+///
+/// @nodoc
 class Condition {
   /// A single action condition. This is the action setting that a log record must
   /// contain in order to meet the condition.
@@ -14744,6 +15041,8 @@ class Condition {
 }
 
 /// A single action condition for a <a>Condition</a> in a logging filter.
+///
+/// @nodoc
 class ActionCondition {
   /// The action setting that a log record must contain in order to meet the
   /// condition. This is the action that WAF applied to the web request.
@@ -14773,6 +15072,8 @@ class ActionCondition {
 }
 
 /// A single label name condition for a <a>Condition</a> in a logging filter.
+///
+/// @nodoc
 class LabelNameCondition {
   /// The label name that a log record must contain in order to meet the
   /// condition. This must be a fully qualified label name. Fully qualified labels
@@ -14798,6 +15099,7 @@ class LabelNameCondition {
   }
 }
 
+/// @nodoc
 class ActionValue {
   static const allow = ActionValue._('ALLOW');
   static const block = ActionValue._('BLOCK');
@@ -14836,6 +15138,8 @@ class ActionValue {
 /// create and list. This provides information like the ID, that you can use to
 /// retrieve and manage a <code>WebACL</code>, and the ARN, that you provide to
 /// operations like <a>AssociateWebACL</a>.
+///
+/// @nodoc
 class WebACLSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -14909,6 +15213,8 @@ class WebACLSummary {
 /// You can tag the Amazon Web Services resources that you manage through WAF:
 /// web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or
 /// view tags through the WAF console.
+///
+/// @nodoc
 class TagInfoForResource {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceARN;
@@ -14946,6 +15252,8 @@ class TagInfoForResource {
 /// retrieve and manage a <code>RuleGroup</code>, and the ARN, that you provide
 /// to the <a>RuleGroupReferenceStatement</a> to use the rule group in a
 /// <a>Rule</a>.
+///
+/// @nodoc
 class RuleGroupSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -15007,6 +15315,7 @@ class RuleGroupSummary {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const applicationLoadBalancer =
       ResourceType._('APPLICATION_LOAD_BALANCER');
@@ -15050,6 +15359,8 @@ class ResourceType {
 /// you can use to retrieve and manage a <code>RegexPatternSet</code>, and the
 /// ARN, that you provide to the <a>RegexPatternSetReferenceStatement</a> to use
 /// the pattern set in a <a>Rule</a>.
+///
+/// @nodoc
 class RegexPatternSetSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -15112,6 +15423,8 @@ class RegexPatternSetSummary {
 }
 
 /// High level information for an SDK release.
+///
+/// @nodoc
 class ReleaseSummary {
   /// The release version.
   final String? releaseVersion;
@@ -15141,6 +15454,7 @@ class ReleaseSummary {
   }
 }
 
+/// @nodoc
 class Platform {
   static const ios = Platform._('IOS');
   static const android = Platform._('ANDROID');
@@ -15175,6 +15489,8 @@ class Platform {
 /// <code>PutManagedRuleSetVersions</code>, and
 /// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
 /// </note>
+///
+/// @nodoc
 class ManagedRuleSetSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -15269,6 +15585,8 @@ class ManagedRuleSetSummary {
 /// create and list. This provides information like the ID, that you can use to
 /// retrieve and manage an <code>IPSet</code>, and the ARN, that you provide to
 /// the <a>IPSetReferenceStatement</a> to use the address set in a <a>Rule</a>.
+///
+/// @nodoc
 class IPSetSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -15331,6 +15649,8 @@ class IPSetSummary {
 }
 
 /// Describes a single version of a managed rule group.
+///
+/// @nodoc
 class ManagedRuleGroupVersion {
   /// The date and time that the managed rule group owner updated the rule group
   /// version information.
@@ -15370,6 +15690,8 @@ class ManagedRuleGroupVersion {
 /// Marketplace managed rule groups. To use any Amazon Web Services Marketplace
 /// managed rule group, first subscribe to the rule group through Amazon Web
 /// Services Marketplace.
+///
+/// @nodoc
 class ManagedRuleGroupSummary {
   /// The description of the managed rule group, provided by Amazon Web Services
   /// Managed Rules or the Amazon Web Services Marketplace seller who manages it.
@@ -15427,6 +15749,8 @@ class ManagedRuleGroupSummary {
 /// information about the CAPTCHA JavaScript integration, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
 /// client application integration</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class APIKeySummary {
   /// The generated, encrypted API key. You can copy this for use in your
   /// JavaScript CAPTCHA integration.
@@ -15486,6 +15810,8 @@ class APIKeySummary {
 /// distribution, Amazon API Gateway REST API, Application Load Balancer,
 /// AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify
 /// application, and Amazon Web Services Verified Access instance.
+///
+/// @nodoc
 class WebACL {
   /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
   /// with the resource.
@@ -15808,6 +16134,8 @@ class WebACL {
 }
 
 /// A rule group that's defined for an Firewall Manager WAF policy.
+///
+/// @nodoc
 class FirewallManagerRuleGroup {
   /// The processing guidance for an Firewall Manager rule. This is like a regular
   /// rule <a>Statement</a>, but it can only contain a rule group reference.
@@ -15886,6 +16214,8 @@ class FirewallManagerRuleGroup {
 /// The processing guidance for an Firewall Manager rule. This is like a regular
 /// rule <a>Statement</a>, but it can only contain a single rule group
 /// reference.
+///
+/// @nodoc
 class FirewallManagerStatement {
   /// A statement used by Firewall Manager to run the rules that are defined in a
   /// managed rule group. This is managed by Firewall Manager for an Firewall
@@ -15930,6 +16260,8 @@ class FirewallManagerStatement {
 /// Statistics about bot traffic to a specific URI path, including the path,
 /// request count, percentage of total traffic, and the top bots accessing that
 /// path.
+///
+/// @nodoc
 class PathStatistics {
   /// The URI path. For example, <code>/api/</code> or <code>/api/v1/users</code>.
   final String path;
@@ -15992,6 +16324,8 @@ class PathStatistics {
 /// Information about the bot filter that was applied to the request. This
 /// structure is populated in the response when you filter by bot category,
 /// organization, or name.
+///
+/// @nodoc
 class FilterSource {
   /// The bot category that was used to filter the results. For example,
   /// <code>ai</code> or <code>search_engine</code>.
@@ -16033,6 +16367,8 @@ class FilterSource {
 
 /// Statistics about a specific bot's traffic to a path, including the bot name,
 /// request count, and percentage of traffic.
+///
+/// @nodoc
 class BotStatistics {
   /// The name of the bot. For example, <code>gptbot</code> or
   /// <code>googlebot</code>.
@@ -16089,6 +16425,8 @@ class BotStatistics {
 /// than 5,000 requests during that period, WAF stops sampling after the 5,000th
 /// request. In that case, <code>EndTime</code> is the time that WAF received
 /// the 5,000th request.
+///
+/// @nodoc
 class TimeWindow {
   /// The end of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
@@ -16133,6 +16471,8 @@ class TimeWindow {
 /// complex type that appears as <code>SampledRequests</code> in the response
 /// syntax. <code>SampledHTTPRequests</code> contains an array of
 /// <code>SampledHTTPRequest</code> objects.
+///
+/// @nodoc
 class SampledHTTPRequest {
   /// A complex type that contains detailed information about the request.
   final HTTPRequest request;
@@ -16263,6 +16603,8 @@ class SampledHTTPRequest {
 /// Part of the response from <a>GetSampledRequests</a>. This is a complex type
 /// that appears as <code>Request</code> in the response syntax.
 /// <code>HTTPRequest</code> contains information about one of the web requests.
+///
+/// @nodoc
 class HTTPRequest {
   /// The IP address that the request originated from. If the web ACL is
   /// associated with a CloudFront distribution, this is the value of one of the
@@ -16344,6 +16686,8 @@ class HTTPRequest {
 
 /// The result from the inspection of the web request for a valid
 /// <code>CAPTCHA</code> token.
+///
+/// @nodoc
 class CaptchaResponse {
   /// The reason for failure, populated when the evaluation of the token fails.
   final FailureReason? failureReason;
@@ -16386,6 +16730,8 @@ class CaptchaResponse {
 
 /// The result from the inspection of the web request for a valid challenge
 /// token.
+///
+/// @nodoc
 class ChallengeResponse {
   /// The reason for failure, populated when the evaluation of the token fails.
   final FailureReason? failureReason;
@@ -16425,6 +16771,7 @@ class ChallengeResponse {
   }
 }
 
+/// @nodoc
 class FailureReason {
   static const tokenMissing = FailureReason._('TOKEN_MISSING');
   static const tokenExpired = FailureReason._('TOKEN_EXPIRED');
@@ -16460,6 +16807,8 @@ class FailureReason {
 /// that appears as <code>Headers</code> in the response syntax.
 /// <code>HTTPHeader</code> contains the names and values of all of the headers
 /// that appear in one of the web requests.
+///
+/// @nodoc
 class HTTPHeader {
   /// The name of the HTTP header.
   final String? name;
@@ -16494,6 +16843,8 @@ class HTTPHeader {
 /// you define an immutable capacity limit. If you update a rule group, you must
 /// stay within the capacity. This allows others to reuse the rule group with
 /// confidence in its capacity requirements.
+///
+/// @nodoc
 class RuleGroup {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
@@ -16672,6 +17023,8 @@ class RuleGroup {
 /// <a>Statement</a> definition of a rule.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LabelSummary {
   /// An individual label specification.
   final String? name;
@@ -16699,6 +17052,8 @@ class LabelSummary {
 /// WAF assigns an ARN to each <code>RegexPatternSet</code> that you create. To
 /// use a set in a rule, you provide the ARN to the <a>Rule</a> statement
 /// <a>RegexPatternSetReferenceStatement</a>.
+///
+/// @nodoc
 class RegexPatternSet {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
@@ -16770,6 +17125,8 @@ class RegexPatternSet {
 /// The maximum number of IP addresses that can be rate limited by a single
 /// rate-based rule instance is 10,000. If more than 10,000 addresses exceed the
 /// rate limit, WAF limits those with the highest rates.
+///
+/// @nodoc
 class RateBasedStatementManagedKeysIPSet {
   /// The IP addresses that are currently blocked.
   final List<String>? addresses;
@@ -16805,6 +17162,7 @@ class RateBasedStatementManagedKeysIPSet {
   }
 }
 
+/// @nodoc
 class IPAddressVersion {
   static const ipv4 = IPAddressVersion._('IPV4');
   static const ipv6 = IPAddressVersion._('IPV6');
@@ -16837,6 +17195,8 @@ class IPAddressVersion {
 /// requests from a mobile device to WAF. For more information, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
 /// client application integration</a> in the <i>WAF Developer Guide</i>.
+///
+/// @nodoc
 class MobileSdkRelease {
   /// Notes describing the release.
   final String? releaseNotes;
@@ -16896,6 +17256,8 @@ class MobileSdkRelease {
 /// <code>PutManagedRuleSetVersions</code>, and
 /// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
 /// </note>
+///
+/// @nodoc
 class ManagedRuleSet {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
@@ -16999,6 +17361,8 @@ class ManagedRuleSet {
 /// <code>PutManagedRuleSetVersions</code>, and
 /// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
 /// </note>
+///
+/// @nodoc
 class ManagedRuleSetVersion {
   /// The Amazon Resource Name (ARN) of the vendor rule group that's used to
   /// define the published version of your managed rule group.
@@ -17091,6 +17455,8 @@ class ManagedRuleSetVersion {
 /// WAF assigns an ARN to each <code>IPSet</code> that you create. To use an IP
 /// set in a rule, you provide the ARN to the <a>Rule</a> statement
 /// <a>IPSetReferenceStatement</a>.
+///
+/// @nodoc
 class IPSet {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
@@ -17132,17 +17498,17 @@ class IPSet {
   ///
   /// <ul>
   /// <li>
-  /// Empty array: <code>"Addresses": []</code>
+  /// Empty array: <code>"Addresses": \[\]</code>
   /// </li>
   /// <li>
-  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// Array with one address: <code>"Addresses": \["192.0.2.44/32"\]</code>
   /// </li>
   /// <li>
-  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
-  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// Array with three addresses: <code>"Addresses": \["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"\]</code>
   /// </li>
   /// <li>
-  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// INVALID specification: <code>"Addresses": \[""\]</code> INVALID
   /// </li>
   /// </ul>
   final List<String> addresses;
@@ -17210,6 +17576,8 @@ class IPSet {
 /// you can use to retrieve and manage a <code>RuleGroup</code>, and the ARN,
 /// that you provide to the <a>RuleGroupReferenceStatement</a> to use the rule
 /// group in a <a>Rule</a>.
+///
+/// @nodoc
 class RuleSummary {
   /// The action that WAF should take on a web request when it matches a rule's
   /// statement. Settings at the web ACL level can override the rule action
@@ -17245,6 +17613,8 @@ class RuleSummary {
 
 /// The properties of a managed product, such as an Amazon Web Services Managed
 /// Rules rule group or an Amazon Web Services Marketplace managed rule group.
+///
+/// @nodoc
 class ManagedProductDescriptor {
   /// Indicates whether the rule group provides an advanced set of protections,
   /// such as the the Amazon Web Services Managed Rules rule groups that are used
@@ -17340,11 +17710,13 @@ class ManagedProductDescriptor {
   }
 }
 
+/// @nodoc
 class WAFAssociatedItemException extends _s.GenericAwsException {
   WAFAssociatedItemException({String? type, String? message})
       : super(type: type, code: 'WAFAssociatedItemException', message: message);
 }
 
+/// @nodoc
 class WAFConfigurationWarningException extends _s.GenericAwsException {
   WAFConfigurationWarningException({String? type, String? message})
       : super(
@@ -17353,11 +17725,13 @@ class WAFConfigurationWarningException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFDuplicateItemException extends _s.GenericAwsException {
   WAFDuplicateItemException({String? type, String? message})
       : super(type: type, code: 'WAFDuplicateItemException', message: message);
 }
 
+/// @nodoc
 class WAFExpiredManagedRuleGroupVersionException
     extends _s.GenericAwsException {
   WAFExpiredManagedRuleGroupVersionException({String? type, String? message})
@@ -17367,6 +17741,7 @@ class WAFExpiredManagedRuleGroupVersionException
             message: message);
 }
 
+/// @nodoc
 class WAFFeatureNotIncludedInPricingPlanException
     extends _s.GenericAwsException {
   WAFFeatureNotIncludedInPricingPlanException({String? type, String? message})
@@ -17376,23 +17751,27 @@ class WAFFeatureNotIncludedInPricingPlanException
             message: message);
 }
 
+/// @nodoc
 class WAFInternalErrorException extends _s.GenericAwsException {
   WAFInternalErrorException({String? type, String? message})
       : super(type: type, code: 'WAFInternalErrorException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidOperationException extends _s.GenericAwsException {
   WAFInvalidOperationException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidOperationException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidParameterException extends _s.GenericAwsException {
   WAFInvalidParameterException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidParameterException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidPermissionPolicyException extends _s.GenericAwsException {
   WAFInvalidPermissionPolicyException({String? type, String? message})
       : super(
@@ -17401,17 +17780,20 @@ class WAFInvalidPermissionPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFInvalidResourceException extends _s.GenericAwsException {
   WAFInvalidResourceException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidResourceException', message: message);
 }
 
+/// @nodoc
 class WAFLimitsExceededException extends _s.GenericAwsException {
   WAFLimitsExceededException({String? type, String? message})
       : super(type: type, code: 'WAFLimitsExceededException', message: message);
 }
 
+/// @nodoc
 class WAFLogDestinationPermissionIssueException extends _s.GenericAwsException {
   WAFLogDestinationPermissionIssueException({String? type, String? message})
       : super(
@@ -17420,17 +17802,20 @@ class WAFLogDestinationPermissionIssueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFNonexistentItemException extends _s.GenericAwsException {
   WAFNonexistentItemException({String? type, String? message})
       : super(
             type: type, code: 'WAFNonexistentItemException', message: message);
 }
 
+/// @nodoc
 class WAFOptimisticLockException extends _s.GenericAwsException {
   WAFOptimisticLockException({String? type, String? message})
       : super(type: type, code: 'WAFOptimisticLockException', message: message);
 }
 
+/// @nodoc
 class WAFServiceLinkedRoleErrorException extends _s.GenericAwsException {
   WAFServiceLinkedRoleErrorException({String? type, String? message})
       : super(
@@ -17439,6 +17824,7 @@ class WAFServiceLinkedRoleErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFSubscriptionNotFoundException extends _s.GenericAwsException {
   WAFSubscriptionNotFoundException({String? type, String? message})
       : super(
@@ -17447,11 +17833,13 @@ class WAFSubscriptionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFTagOperationException extends _s.GenericAwsException {
   WAFTagOperationException({String? type, String? message})
       : super(type: type, code: 'WAFTagOperationException', message: message);
 }
 
+/// @nodoc
 class WAFTagOperationInternalErrorException extends _s.GenericAwsException {
   WAFTagOperationInternalErrorException({String? type, String? message})
       : super(
@@ -17460,6 +17848,7 @@ class WAFTagOperationInternalErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFUnavailableEntityException extends _s.GenericAwsException {
   WAFUnavailableEntityException({String? type, String? message})
       : super(
@@ -17468,6 +17857,7 @@ class WAFUnavailableEntityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFUnsupportedAggregateKeyTypeException extends _s.GenericAwsException {
   WAFUnsupportedAggregateKeyTypeException({String? type, String? message})
       : super(

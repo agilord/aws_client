@@ -1020,6 +1020,7 @@ class TaxSettings {
   }
 }
 
+/// @nodoc
 class BatchDeleteTaxRegistrationResponse {
   /// The list of errors for the accounts the TRN information could not be deleted
   /// for.
@@ -1048,6 +1049,7 @@ class BatchDeleteTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class BatchGetTaxExemptionsResponse {
   /// The list of accounts that failed to get tax exemptions.
   final List<String>? failedAccounts;
@@ -1084,6 +1086,7 @@ class BatchGetTaxExemptionsResponse {
   }
 }
 
+/// @nodoc
 class BatchPutTaxRegistrationResponse {
   /// List of errors for the accounts the TRN information could not be added or
   /// updated to.
@@ -1121,6 +1124,7 @@ class BatchPutTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteSupplementalTaxRegistrationResponse {
   DeleteSupplementalTaxRegistrationResponse();
 
@@ -1134,6 +1138,7 @@ class DeleteSupplementalTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteTaxRegistrationResponse {
   DeleteTaxRegistrationResponse();
 
@@ -1146,6 +1151,7 @@ class DeleteTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class GetTaxExemptionTypesResponse {
   /// The supported types of tax exemptions.
   final List<TaxExemptionType>? taxExemptionTypes;
@@ -1171,6 +1177,7 @@ class GetTaxExemptionTypesResponse {
   }
 }
 
+/// @nodoc
 class GetTaxInheritanceResponse {
   /// The tax inheritance status.
   final HeritageStatus? heritageStatus;
@@ -1194,6 +1201,7 @@ class GetTaxInheritanceResponse {
   }
 }
 
+/// @nodoc
 class GetTaxRegistrationResponse {
   /// TRN information of the account mentioned in the request.
   final TaxRegistration? taxRegistration;
@@ -1219,6 +1227,7 @@ class GetTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class GetTaxRegistrationDocumentResponse {
   /// The file path of the Amazon S3 bucket where you want to download your tax
   /// document to.
@@ -1251,6 +1260,7 @@ class GetTaxRegistrationDocumentResponse {
   }
 }
 
+/// @nodoc
 class ListSupplementalTaxRegistrationsResponse {
   /// The list of supplemental tax registrations.
   final List<SupplementalTaxRegistration> taxRegistrations;
@@ -1285,6 +1295,7 @@ class ListSupplementalTaxRegistrationsResponse {
   }
 }
 
+/// @nodoc
 class ListTaxExemptionsResponse {
   /// The token to retrieve the next set of results.
   final String? nextToken;
@@ -1319,6 +1330,7 @@ class ListTaxExemptionsResponse {
   }
 }
 
+/// @nodoc
 class ListTaxRegistrationsResponse {
   /// The list of account details. This contains account Ids and TRN Information
   /// for each of the linked accounts.
@@ -1352,6 +1364,7 @@ class ListTaxRegistrationsResponse {
   }
 }
 
+/// @nodoc
 class PutSupplementalTaxRegistrationResponse {
   /// Unique authority ID for the supplemental TRN information that was stored.
   final String authorityId;
@@ -1386,6 +1399,7 @@ class PutSupplementalTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class PutTaxExemptionResponse {
   /// The customer support case ID.
   final String? caseId;
@@ -1408,6 +1422,7 @@ class PutTaxExemptionResponse {
   }
 }
 
+/// @nodoc
 class PutTaxInheritanceResponse {
   PutTaxInheritanceResponse();
 
@@ -1420,6 +1435,7 @@ class PutTaxInheritanceResponse {
   }
 }
 
+/// @nodoc
 class PutTaxRegistrationResponse {
   /// The status of your TRN stored in the system after processing. Based on the
   /// validation occurring on the TRN, the status can be <code>Verified</code>,
@@ -1445,6 +1461,7 @@ class PutTaxRegistrationResponse {
   }
 }
 
+/// @nodoc
 class TaxRegistrationStatus {
   static const verified = TaxRegistrationStatus._('Verified');
   static const pending = TaxRegistrationStatus._('Pending');
@@ -1473,6 +1490,8 @@ class TaxRegistrationStatus {
 }
 
 /// The TRN information you provide when you add a new TRN, or update.
+///
+/// @nodoc
 class TaxRegistrationEntry {
   /// Your tax registration unique identifier.
   final String registrationId;
@@ -1557,6 +1576,7 @@ class TaxRegistrationEntry {
   }
 }
 
+/// @nodoc
 class TaxRegistrationType {
   static const vat = TaxRegistrationType._('VAT');
   static const gst = TaxRegistrationType._('GST');
@@ -1588,6 +1608,8 @@ class TaxRegistrationType {
 }
 
 /// The details of the address associated with the TRN information.
+///
+/// @nodoc
 class Address {
   /// The first line of the address.
   final String addressLine1;
@@ -1673,6 +1695,7 @@ class Address {
   }
 }
 
+/// @nodoc
 class Sector {
   static const business = Sector._('Business');
   static const individual = Sector._('Individual');
@@ -1708,6 +1731,8 @@ class Sector {
 /// available. For example, if you set a TRN in Canada for specific provinces,
 /// you must also specify the <code>canadaAdditionalInfo</code> parameter.
 /// </note>
+///
+/// @nodoc
 class AdditionalInfoRequest {
   /// Additional tax information associated with your TRN in Canada.
   final CanadaAdditionalInfo? canadaAdditionalInfo;
@@ -1852,6 +1877,8 @@ class AdditionalInfoRequest {
 }
 
 /// Required information to verify your TRN.
+///
+/// @nodoc
 class VerificationDetails {
   /// Date of birth to verify your submitted TRN. Use the <code>YYYY-MM-DD</code>
   /// format.
@@ -1878,6 +1905,8 @@ class VerificationDetails {
 }
 
 /// Tax registration document information.
+///
+/// @nodoc
 class TaxRegistrationDocument {
   /// The tax registration document.
   final TaxRegistrationDocFile? file;
@@ -1901,6 +1930,8 @@ class TaxRegistrationDocument {
 }
 
 /// The Amazon S3 bucket in your account where your tax document is located.
+///
+/// @nodoc
 class SourceS3Location {
   /// The name of your Amazon S3 bucket that your tax document is located.
   final String bucket;
@@ -1924,6 +1955,8 @@ class SourceS3Location {
 }
 
 /// The tax registration document.
+///
+/// @nodoc
 class TaxRegistrationDocFile {
   /// The tax registration document content.
   final Uint8List fileContent;
@@ -1947,6 +1980,8 @@ class TaxRegistrationDocFile {
 }
 
 /// Additional tax information associated with your TRN in Malaysia.
+///
+/// @nodoc
 class MalaysiaAdditionalInfo {
   /// The tax registration number (TRN) in Malaysia.
   ///
@@ -2025,6 +2060,8 @@ class MalaysiaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Israel.
+///
+/// @nodoc
 class IsraelAdditionalInfo {
   /// Customer type for your TRN in Israel. The value can be <code>Business</code>
   /// or <code>Individual</code>. Use <code>Business</code>for entities such as
@@ -2061,6 +2098,8 @@ class IsraelAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Estonia.
+///
+/// @nodoc
 class EstoniaAdditionalInfo {
   /// Registry commercial code (RCC) for your TRN in Estonia. This value is an
   /// eight-numeric string, such as <code>12345678</code>.
@@ -2085,6 +2124,8 @@ class EstoniaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Canada .
+///
+/// @nodoc
 class CanadaAdditionalInfo {
   /// The Quebec Sales Tax ID number. Leave blank if you do not have a Quebec
   /// Sales Tax ID number.
@@ -2161,6 +2202,8 @@ class CanadaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Spain.
+///
+/// @nodoc
 class SpainAdditionalInfo {
   /// The registration type in Spain.
   final RegistrationType registrationType;
@@ -2185,6 +2228,8 @@ class SpainAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Kenya.
+///
+/// @nodoc
 class KenyaAdditionalInfo {
   /// The legal person or physical person assigned to this TRN in Kenya.
   final PersonType personType;
@@ -2208,6 +2253,8 @@ class KenyaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in South Korea.
+///
+/// @nodoc
 class SouthKoreaAdditionalInfo {
   /// The business legal name based on the most recently uploaded tax registration
   /// certificate.
@@ -2249,6 +2296,8 @@ class SouthKoreaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Turkey.
+///
+/// @nodoc
 class TurkeyAdditionalInfo {
   /// The industry information that tells the Tax Settings API if you're subject
   /// to additional withholding taxes. This information required for
@@ -2304,6 +2353,8 @@ class TurkeyAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Georgia.
+///
+/// @nodoc
 class GeorgiaAdditionalInfo {
   /// The legal person or physical person assigned to this TRN in Georgia.
   final PersonType personType;
@@ -2327,6 +2378,8 @@ class GeorgiaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Italy.
+///
+/// @nodoc
 class ItalyAdditionalInfo {
   /// The tender procedure identification code.
   final String? cigNumber;
@@ -2375,6 +2428,8 @@ class ItalyAdditionalInfo {
 }
 
 /// Additional tax information to specify for a TRN in Romania.
+///
+/// @nodoc
 class RomaniaAdditionalInfo {
   /// The tax registration number type. The value can be
   /// <code>TaxRegistrationNumber</code> or <code>LocalRegistrationNumber</code>.
@@ -2400,6 +2455,8 @@ class RomaniaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Ukraine.
+///
+/// @nodoc
 class UkraineAdditionalInfo {
   /// The tax registration type.
   final UkraineTrnType ukraineTrnType;
@@ -2424,6 +2481,8 @@ class UkraineAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Poland.
+///
+/// @nodoc
 class PolandAdditionalInfo {
   /// The individual tax registration number (NIP). Individual NIP is valid for
   /// other taxes excluding VAT purposes.
@@ -2458,6 +2517,8 @@ class PolandAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Saudi Arabia.
+///
+/// @nodoc
 class SaudiArabiaAdditionalInfo {
   /// The tax registration number type.
   final SaudiArabiaTaxRegistrationNumberType? taxRegistrationNumberType;
@@ -2483,6 +2544,8 @@ class SaudiArabiaAdditionalInfo {
 }
 
 /// Additional tax information associated with your TRN in Indonesia.
+///
+/// @nodoc
 class IndonesiaAdditionalInfo {
   /// VAT-exempt customers have a Directorate General of Taxation (DGT) exemption
   /// letter or certificate (Surat Keterangan Bebas) decision number.
@@ -2528,6 +2591,8 @@ class IndonesiaAdditionalInfo {
 }
 
 /// Additional tax information to specify for a TRN in Vietnam.
+///
+/// @nodoc
 class VietnamAdditionalInfo {
   /// The electronic transaction code number on the tax return document. This
   /// field must be provided for successful API operation.
@@ -2583,6 +2648,8 @@ class VietnamAdditionalInfo {
 }
 
 /// Additional tax information to specify for a TRN in Egypt.
+///
+/// @nodoc
 class EgyptAdditionalInfo {
   /// The unique identification number provided by the Egypt Tax Authority.
   final String? uniqueIdentificationNumber;
@@ -2619,6 +2686,8 @@ class EgyptAdditionalInfo {
 }
 
 /// Additional tax information to specify for a TRN in Greece.
+///
+/// @nodoc
 class GreeceAdditionalInfo {
   /// The code of contracting authority for e-invoicing.
   final String? contractingAuthorityCode;
@@ -2643,6 +2712,8 @@ class GreeceAdditionalInfo {
 }
 
 /// Additional tax information to specify for a TRN in Uzbekistan.
+///
+/// @nodoc
 class UzbekistanAdditionalInfo {
   /// The tax registration number type. The tax registration number type valid
   /// values are <code>Business</code> and <code>Individual</code>.
@@ -2677,6 +2748,7 @@ class UzbekistanAdditionalInfo {
   }
 }
 
+/// @nodoc
 class UzbekistanTaxRegistrationNumberType {
   static const business = UzbekistanTaxRegistrationNumberType._('Business');
   static const individual = UzbekistanTaxRegistrationNumberType._('Individual');
@@ -2702,6 +2774,7 @@ class UzbekistanTaxRegistrationNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class IndonesiaTaxRegistrationNumberType {
   static const nik = IndonesiaTaxRegistrationNumberType._('NIK');
   static const passportNumber =
@@ -2730,6 +2803,7 @@ class IndonesiaTaxRegistrationNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class SaudiArabiaTaxRegistrationNumberType {
   static const taxRegistrationNumber =
       SaudiArabiaTaxRegistrationNumberType._('TaxRegistrationNumber');
@@ -2763,6 +2837,7 @@ class SaudiArabiaTaxRegistrationNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class UkraineTrnType {
   static const business = UkraineTrnType._('Business');
   static const individual = UkraineTrnType._('Individual');
@@ -2787,6 +2862,7 @@ class UkraineTrnType {
   String toString() => value;
 }
 
+/// @nodoc
 class TaxRegistrationNumberType {
   static const taxRegistrationNumber =
       TaxRegistrationNumberType._('TaxRegistrationNumber');
@@ -2814,6 +2890,7 @@ class TaxRegistrationNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class PersonType {
   static const legalPerson = PersonType._('Legal Person');
   static const physicalPerson = PersonType._('Physical Person');
@@ -2838,6 +2915,7 @@ class PersonType {
   String toString() => value;
 }
 
+/// @nodoc
 class Industries {
   static const circulatingOrg = Industries._('CirculatingOrg');
   static const professionalOrg = Industries._('ProfessionalOrg');
@@ -2872,6 +2950,7 @@ class Industries {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistrationType {
   static const intraEu = RegistrationType._('Intra-EU');
   static const local = RegistrationType._('Local');
@@ -2896,6 +2975,7 @@ class RegistrationType {
   String toString() => value;
 }
 
+/// @nodoc
 class IsraelDealerType {
   static const authorized = IsraelDealerType._('Authorized');
   static const nonAuthorized = IsraelDealerType._('Non-authorized');
@@ -2920,6 +3000,7 @@ class IsraelDealerType {
   String toString() => value;
 }
 
+/// @nodoc
 class IsraelCustomerType {
   static const business = IsraelCustomerType._('Business');
   static const individual = IsraelCustomerType._('Individual');
@@ -2945,6 +3026,7 @@ class IsraelCustomerType {
   String toString() => value;
 }
 
+/// @nodoc
 class MalaysiaServiceTaxCode {
   static const consultancy = MalaysiaServiceTaxCode._('Consultancy');
   static const digitalServiceAndElectronicMedium =
@@ -2979,6 +3061,7 @@ class MalaysiaServiceTaxCode {
   String toString() => value;
 }
 
+/// @nodoc
 class HeritageStatus {
   static const optIn = HeritageStatus._('OptIn');
   static const optOut = HeritageStatus._('OptOut');
@@ -3004,6 +3087,8 @@ class HeritageStatus {
 }
 
 /// The address domain associate with the tax information.
+///
+/// @nodoc
 class Authority {
   /// The country code for the country that the address is in.
   final String country;
@@ -3034,6 +3119,8 @@ class Authority {
 }
 
 /// The exemption certificate.
+///
+/// @nodoc
 class ExemptionCertificate {
   /// The exemption certificate file content.
   final Uint8List documentFile;
@@ -3058,6 +3145,8 @@ class ExemptionCertificate {
 
 /// The supplemental TRN information to provide when adding or updating a
 /// supplemental TRN.
+///
+/// @nodoc
 class SupplementalTaxRegistrationEntry {
   final Address address;
 
@@ -3091,6 +3180,7 @@ class SupplementalTaxRegistrationEntry {
   }
 }
 
+/// @nodoc
 class SupplementalTaxRegistrationType {
   static const vat = SupplementalTaxRegistrationType._('VAT');
 
@@ -3116,6 +3206,8 @@ class SupplementalTaxRegistrationType {
 }
 
 /// An object with your <code>accountId</code> and TRN information.
+///
+/// @nodoc
 class AccountDetails {
   /// List of unique account identifiers.
   final String? accountId;
@@ -3173,6 +3265,8 @@ class AccountDetails {
 
 /// Your TRN information with jurisdiction details. This doesn't contain the
 /// full legal address associated with the TRN information.
+///
+/// @nodoc
 class TaxRegistrationWithJurisdiction {
   /// The jurisdiction associated with your TRN information.
   final Jurisdiction jurisdiction;
@@ -3270,6 +3364,8 @@ class TaxRegistrationWithJurisdiction {
 }
 
 /// Tax inheritance information associated with the account.
+///
+/// @nodoc
 class TaxInheritanceDetails {
   /// Tax inheritance reason information associated with the account.
   final String? inheritanceObtainedReason;
@@ -3301,6 +3397,8 @@ class TaxInheritanceDetails {
 }
 
 /// The meta data information associated with the account.
+///
+/// @nodoc
 class AccountMetaData {
   /// The Amazon Web Services accounts name.
   final String? accountName;
@@ -3356,6 +3454,7 @@ class AccountMetaData {
   }
 }
 
+/// @nodoc
 class AddressRoleType {
   static const taxAddress = AddressRoleType._('TaxAddress');
   static const billingAddress = AddressRoleType._('BillingAddress');
@@ -3384,6 +3483,8 @@ class AddressRoleType {
 /// The jurisdiction details of the TRN information of the customers. This
 /// doesn't contain full legal address, and contains only country code and
 /// state/region/province.
+///
+/// @nodoc
 class Jurisdiction {
   /// The country code of the jurisdiction.
   final String countryCode;
@@ -3417,6 +3518,8 @@ class Jurisdiction {
 /// Additional tax information associated with your TRN. The Tax Settings API
 /// returns country-specific information in the response when any additional
 /// information is present with your TRN for the following countries.
+///
+/// @nodoc
 class AdditionalInfoResponse {
   /// Additional tax information associated with your TRN in Brazil. The Tax
   /// Settings API returns this information in your response when any additional
@@ -3666,6 +3769,8 @@ class AdditionalInfoResponse {
 }
 
 /// Additional tax information associated with your TRN in Brazil.
+///
+/// @nodoc
 class BrazilAdditionalInfo {
   /// The Cadastro de Contribuintes Mobiliários (CCM) code for your TRN in Brazil.
   /// This only applies for a CNPJ tax type for the São Paulo municipality.
@@ -3698,6 +3803,8 @@ class BrazilAdditionalInfo {
 }
 
 /// Additional tax information in India.
+///
+/// @nodoc
 class IndiaAdditionalInfo {
   /// India pan information associated with the account.
   final String? pan;
@@ -3721,6 +3828,8 @@ class IndiaAdditionalInfo {
 }
 
 /// The metadata for your tax document.
+///
+/// @nodoc
 class TaxDocumentMetadata {
   /// The tax document access token, which contains information that the Tax
   /// Settings API uses to locate the tax document.
@@ -3759,6 +3868,8 @@ class TaxDocumentMetadata {
 }
 
 /// The tax exemption details.
+///
+/// @nodoc
 class TaxExemptionDetails {
   /// The indicator if the tax exemption is inherited from the consolidated
   /// billing family management account.
@@ -3812,6 +3923,8 @@ class TaxExemptionDetails {
 }
 
 /// The tax exemption.
+///
+/// @nodoc
 class TaxExemption {
   /// The address domain associate with tax exemption.
   final Authority authority;
@@ -3878,6 +3991,8 @@ class TaxExemption {
 }
 
 /// The tax exemption type.
+///
+/// @nodoc
 class TaxExemptionType {
   /// The tax exemption's applicable jurisdictions.
   final List<Authority>? applicableJurisdictions;
@@ -3918,6 +4033,7 @@ class TaxExemptionType {
   }
 }
 
+/// @nodoc
 class EntityExemptionAccountStatus {
   static const none = EntityExemptionAccountStatus._('None');
   static const valid = EntityExemptionAccountStatus._('Valid');
@@ -3946,6 +4062,8 @@ class EntityExemptionAccountStatus {
 }
 
 /// Supplemental TRN details.
+///
+/// @nodoc
 class SupplementalTaxRegistration {
   final Address address;
 
@@ -4007,6 +4125,8 @@ class SupplementalTaxRegistration {
 
 /// The location of the Amazon S3 bucket that you specify to download your tax
 /// documents to.
+///
+/// @nodoc
 class DestinationS3Location {
   /// The name of your Amazon S3 bucket that you specify to download your tax
   /// documents to.
@@ -4031,6 +4151,8 @@ class DestinationS3Location {
 }
 
 /// Your TRN information.
+///
+/// @nodoc
 class TaxRegistration {
   /// The legal address associated with your TRN registration.
   final Address legalAddress;
@@ -4128,6 +4250,8 @@ class TaxRegistration {
 
 /// The error object for representing failures in the
 /// <code>BatchPutTaxRegistration</code> operation.
+///
+/// @nodoc
 class BatchPutTaxRegistrationError {
   /// The unique account identifier for the account that the tax registration
   /// couldn't be added, or updated during the
@@ -4170,6 +4294,8 @@ class BatchPutTaxRegistrationError {
 
 /// The error object for representing failures in the
 /// <code>BatchDeleteTaxRegistration</code> operation.
+///
+/// @nodoc
 class BatchDeleteTaxRegistrationError {
   /// The unique account identifier for the account whose tax registration
   /// couldn't be deleted during the <code>BatchDeleteTaxRegistration</code>
@@ -4210,16 +4336,19 @@ class BatchDeleteTaxRegistrationError {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AttachmentUploadException extends _s.GenericAwsException {
   AttachmentUploadException({String? type, String? message})
       : super(type: type, code: 'AttachmentUploadException', message: message);
 }
 
+/// @nodoc
 class CaseCreationLimitExceededException extends _s.GenericAwsException {
   CaseCreationLimitExceededException({String? type, String? message})
       : super(
@@ -4228,21 +4357,25 @@ class CaseCreationLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

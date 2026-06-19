@@ -94,7 +94,7 @@ class Sfn {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -224,7 +224,7 @@ class Sfn {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -2085,7 +2085,7 @@ class Sfn {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -2957,6 +2957,7 @@ class Sfn {
   }
 }
 
+/// @nodoc
 class CreateActivityOutput {
   /// The Amazon Resource Name (ARN) that identifies the created activity.
   final String activityArn;
@@ -2986,6 +2987,7 @@ class CreateActivityOutput {
   }
 }
 
+/// @nodoc
 class CreateStateMachineOutput {
   /// The date the state machine is created.
   final DateTime creationDate;
@@ -3025,6 +3027,7 @@ class CreateStateMachineOutput {
   }
 }
 
+/// @nodoc
 class CreateStateMachineAliasOutput {
   /// The date the state machine alias was created.
   final DateTime creationDate;
@@ -3055,6 +3058,7 @@ class CreateStateMachineAliasOutput {
   }
 }
 
+/// @nodoc
 class DeleteActivityOutput {
   DeleteActivityOutput();
 
@@ -3067,6 +3071,7 @@ class DeleteActivityOutput {
   }
 }
 
+/// @nodoc
 class DeleteStateMachineOutput {
   DeleteStateMachineOutput();
 
@@ -3079,6 +3084,7 @@ class DeleteStateMachineOutput {
   }
 }
 
+/// @nodoc
 class DeleteStateMachineAliasOutput {
   DeleteStateMachineAliasOutput();
 
@@ -3091,6 +3097,7 @@ class DeleteStateMachineAliasOutput {
   }
 }
 
+/// @nodoc
 class DeleteStateMachineVersionOutput {
   DeleteStateMachineVersionOutput();
 
@@ -3103,6 +3110,7 @@ class DeleteStateMachineVersionOutput {
   }
 }
 
+/// @nodoc
 class DescribeActivityOutput {
   /// The Amazon Resource Name (ARN) that identifies the activity.
   final String activityArn;
@@ -3119,7 +3127,7 @@ class DescribeActivityOutput {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -3179,6 +3187,7 @@ class DescribeActivityOutput {
   }
 }
 
+/// @nodoc
 class DescribeExecutionOutput {
   /// The Amazon Resource Name (ARN) that identifies the execution.
   final String executionArn;
@@ -3217,7 +3226,7 @@ class DescribeExecutionOutput {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -3469,6 +3478,7 @@ class DescribeExecutionOutput {
   }
 }
 
+/// @nodoc
 class DescribeMapRunOutput {
   /// The Amazon Resource Name (ARN) that identifies the execution in which the
   /// Map Run was started.
@@ -3585,6 +3595,7 @@ class DescribeMapRunOutput {
   }
 }
 
+/// @nodoc
 class DescribeStateMachineOutput {
   /// The date the state machine is created.
   ///
@@ -3609,7 +3620,7 @@ class DescribeStateMachineOutput {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -3764,6 +3775,7 @@ class DescribeStateMachineOutput {
   }
 }
 
+/// @nodoc
 class DescribeStateMachineAliasOutput {
   /// The date the state machine alias was created.
   final DateTime? creationDate;
@@ -3830,6 +3842,7 @@ class DescribeStateMachineAliasOutput {
   }
 }
 
+/// @nodoc
 class DescribeStateMachineForExecutionOutput {
   /// The Amazon States Language definition of the state machine. See <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
@@ -3961,6 +3974,7 @@ class DescribeStateMachineForExecutionOutput {
   }
 }
 
+/// @nodoc
 class GetActivityTaskOutput {
   /// The string that contains the JSON input data for the task. Length
   /// constraints apply to the payload size, and are expressed as bytes in UTF-8
@@ -3995,6 +4009,7 @@ class GetActivityTaskOutput {
   }
 }
 
+/// @nodoc
 class GetExecutionHistoryOutput {
   /// The list of events that occurred in the execution.
   final List<HistoryEvent> events;
@@ -4032,6 +4047,7 @@ class GetExecutionHistoryOutput {
   }
 }
 
+/// @nodoc
 class ListActivitiesOutput {
   /// The list of activities.
   final List<ActivityListItem> activities;
@@ -4069,6 +4085,7 @@ class ListActivitiesOutput {
   }
 }
 
+/// @nodoc
 class ListExecutionsOutput {
   /// The list of matching executions.
   final List<ExecutionListItem> executions;
@@ -4106,6 +4123,7 @@ class ListExecutionsOutput {
   }
 }
 
+/// @nodoc
 class ListMapRunsOutput {
   /// An array that lists information related to a Map Run, such as the Amazon
   /// Resource Name (ARN) of the Map Run and the ARN of the state machine that
@@ -4145,6 +4163,7 @@ class ListMapRunsOutput {
   }
 }
 
+/// @nodoc
 class ListStateMachineAliasesOutput {
   /// Aliases for the state machine.
   final List<StateMachineAliasListItem> stateMachineAliases;
@@ -4183,6 +4202,7 @@ class ListStateMachineAliasesOutput {
   }
 }
 
+/// @nodoc
 class ListStateMachinesOutput {
   final List<StateMachineListItem> stateMachines;
 
@@ -4219,6 +4239,7 @@ class ListStateMachinesOutput {
   }
 }
 
+/// @nodoc
 class ListStateMachineVersionsOutput {
   /// Versions for the state machine.
   final List<StateMachineVersionListItem> stateMachineVersions;
@@ -4258,6 +4279,7 @@ class ListStateMachineVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// An array of tags associated with the resource.
   final List<Tag>? tags;
@@ -4283,6 +4305,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PublishStateMachineVersionOutput {
   /// The date the version was created.
   final DateTime creationDate;
@@ -4313,6 +4336,7 @@ class PublishStateMachineVersionOutput {
   }
 }
 
+/// @nodoc
 class RedriveExecutionOutput {
   /// The date the execution was last redriven.
   final DateTime redriveDate;
@@ -4335,6 +4359,7 @@ class RedriveExecutionOutput {
   }
 }
 
+/// @nodoc
 class SendTaskFailureOutput {
   SendTaskFailureOutput();
 
@@ -4347,6 +4372,7 @@ class SendTaskFailureOutput {
   }
 }
 
+/// @nodoc
 class SendTaskHeartbeatOutput {
   SendTaskHeartbeatOutput();
 
@@ -4359,6 +4385,7 @@ class SendTaskHeartbeatOutput {
   }
 }
 
+/// @nodoc
 class SendTaskSuccessOutput {
   SendTaskSuccessOutput();
 
@@ -4371,6 +4398,7 @@ class SendTaskSuccessOutput {
   }
 }
 
+/// @nodoc
 class StartExecutionOutput {
   /// The Amazon Resource Name (ARN) that identifies the execution.
   final String executionArn;
@@ -4400,6 +4428,7 @@ class StartExecutionOutput {
   }
 }
 
+/// @nodoc
 class StartSyncExecutionOutput {
   /// The Amazon Resource Name (ARN) that identifies the execution.
   final String executionArn;
@@ -4535,6 +4564,7 @@ class StartSyncExecutionOutput {
   }
 }
 
+/// @nodoc
 class StopExecutionOutput {
   /// The date the execution is stopped.
   final DateTime stopDate;
@@ -4557,6 +4587,7 @@ class StopExecutionOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -4569,6 +4600,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class TestStateOutput {
   /// A detailed explanation of the cause for the error when the execution of a
   /// state fails.
@@ -4636,6 +4668,7 @@ class TestStateOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -4648,6 +4681,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateMapRunOutput {
   UpdateMapRunOutput();
 
@@ -4660,6 +4694,7 @@ class UpdateMapRunOutput {
   }
 }
 
+/// @nodoc
 class UpdateStateMachineOutput {
   /// The date and time the state machine was updated.
   final DateTime updateDate;
@@ -4700,6 +4735,7 @@ class UpdateStateMachineOutput {
   }
 }
 
+/// @nodoc
 class UpdateStateMachineAliasOutput {
   /// The date and time the state machine alias was updated.
   final DateTime updateDate;
@@ -4722,6 +4758,7 @@ class UpdateStateMachineAliasOutput {
   }
 }
 
+/// @nodoc
 class ValidateStateMachineDefinitionOutput {
   /// An array of diagnostic errors and warnings found during validation of the
   /// state machine definition. Since <b>warnings</b> do not prevent deploying
@@ -4770,6 +4807,7 @@ class ValidateStateMachineDefinitionOutput {
   }
 }
 
+/// @nodoc
 class ValidateStateMachineDefinitionResultCode {
   static const ok = ValidateStateMachineDefinitionResultCode._('OK');
   static const fail = ValidateStateMachineDefinitionResultCode._('FAIL');
@@ -4847,6 +4885,8 @@ class ValidateStateMachineDefinitionResultCode {
 /// </dd> <dt>TOO_DEEPLY_NESTED</dt> <dd>
 /// The states are too deeply nested.
 /// </dd> </dl>
+///
+/// @nodoc
 class ValidateStateMachineDefinitionDiagnostic {
   /// Identifying code for the diagnostic.
   final String code;
@@ -4900,6 +4940,7 @@ class ValidateStateMachineDefinitionDiagnostic {
   }
 }
 
+/// @nodoc
 class ValidateStateMachineDefinitionSeverity {
   static const error = ValidateStateMachineDefinitionSeverity._('ERROR');
   static const warning = ValidateStateMachineDefinitionSeverity._('WARNING');
@@ -4925,6 +4966,7 @@ class ValidateStateMachineDefinitionSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class StateMachineType {
   static const standard = StateMachineType._('STANDARD');
   static const express = StateMachineType._('EXPRESS');
@@ -4953,6 +4995,8 @@ class StateMachineType {
 /// In a routing configuration, you define an array of objects that specify up
 /// to two state machine versions. You also specify the percentage of traffic to
 /// be routed to each version.
+///
+/// @nodoc
 class RoutingConfigurationListItem {
   /// The Amazon Resource Name (ARN) that identifies one or two state machine
   /// versions defined in the routing configuration.
@@ -4989,6 +5033,8 @@ class RoutingConfigurationListItem {
 
 /// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
 /// Logs options.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// An array of objects that describes where your execution history events will
   /// be logged. Limited to size 1. Required, if your log level is not set to
@@ -5034,6 +5080,8 @@ class LoggingConfiguration {
 
 /// Selects whether or not the state machine's X-Ray tracing is enabled. Default
 /// is <code>false</code>
+///
+/// @nodoc
 class TracingConfiguration {
   /// When set to <code>true</code>, X-Ray tracing is enabled.
   final bool? enabled;
@@ -5075,6 +5123,8 @@ class TracingConfiguration {
 /// For more information on KMS, see <a
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/overview.html">What
 /// is Key Management Service?</a>
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// Encryption type
   final EncryptionType type;
@@ -5117,6 +5167,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const awsOwnedKey = EncryptionType._('AWS_OWNED_KEY');
   static const customerManagedKmsKey =
@@ -5142,6 +5193,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogLevel {
   static const all = LogLevel._('ALL');
   static const error = LogLevel._('ERROR');
@@ -5168,6 +5220,8 @@ class LogLevel {
 }
 
 ///
+///
+/// @nodoc
 class LogDestination {
   /// An object describing a CloudWatch log group. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html">AWS::Logs::LogGroup</a>
@@ -5197,6 +5251,8 @@ class LogDestination {
 }
 
 ///
+///
+/// @nodoc
 class CloudWatchLogsLogGroup {
   /// The ARN of the the CloudWatch log group to which you want your logs emitted
   /// to. The ARN must end with <code>:*</code>
@@ -5222,6 +5278,8 @@ class CloudWatchLogsLogGroup {
 
 /// Contains additional details about the state's execution, including its input
 /// and output data processing flow, and HTTP request and response information.
+///
+/// @nodoc
 class InspectionData {
   /// The input after Step Functions applies an Arguments filter. This event will
   /// only be present when QueryLanguage for the state machine or individual
@@ -5394,6 +5452,7 @@ class InspectionData {
   }
 }
 
+/// @nodoc
 class TestExecutionStatus {
   static const succeeded = TestExecutionStatus._('SUCCEEDED');
   static const failed = TestExecutionStatus._('FAILED');
@@ -5423,6 +5482,8 @@ class TestExecutionStatus {
 
 /// Contains additional details about the state's execution, including its input
 /// and output data processing flow, and HTTP request information.
+///
+/// @nodoc
 class InspectionDataRequest {
   /// The request body for the HTTP request.
   final String? body;
@@ -5477,6 +5538,8 @@ class InspectionDataRequest {
 /// and output data processing flow, and HTTP response information. The
 /// <code>inspectionLevel</code> request parameter specifies which details are
 /// returned.
+///
+/// @nodoc
 class InspectionDataResponse {
   /// The HTTP response returned.
   final String? body;
@@ -5528,6 +5591,8 @@ class InspectionDataResponse {
 }
 
 /// An object containing data about a handled exception in the tested state.
+///
+/// @nodoc
 class InspectionErrorDetails {
   /// The array index of the Catch which handled the exception.
   final int? catchIndex;
@@ -5566,6 +5631,7 @@ class InspectionErrorDetails {
   }
 }
 
+/// @nodoc
 class InspectionLevel {
   static const info = InspectionLevel._('INFO');
   static const debug = InspectionLevel._('DEBUG');
@@ -5593,6 +5659,8 @@ class InspectionLevel {
 
 /// A JSON object that contains a mocked <code>result</code> or
 /// <code>errorOutput</code>.
+///
+/// @nodoc
 class MockInput {
   /// The mocked error output when calling TestState. When specified, the mocked
   /// response is returned as a JSON object that contains an <code>error</code>
@@ -5640,6 +5708,8 @@ class MockInput {
 }
 
 /// Contains configurations for the tested state.
+///
+/// @nodoc
 class TestStateConfiguration {
   /// The name of the state from which an error originates when an error is mocked
   /// for a Map or Parallel state.
@@ -5680,6 +5750,8 @@ class TestStateConfiguration {
 }
 
 /// A JSON object that contains a mocked error.
+///
+/// @nodoc
 class MockErrorOutput {
   /// A string containing the cause of the exception thrown when executing the
   /// state's logic.
@@ -5705,6 +5777,7 @@ class MockErrorOutput {
   }
 }
 
+/// @nodoc
 class MockResponseValidationMode {
   static const strict = MockResponseValidationMode._('STRICT');
   static const present = MockResponseValidationMode._('PRESENT');
@@ -5743,6 +5816,8 @@ class MockResponseValidationMode {
 ///
 /// Tags may only contain Unicode letters, digits, white space, or these
 /// symbols: <code>_ . : / = + - @</code>.
+///
+/// @nodoc
 class Tag {
   /// The key of a tag.
   final String? key;
@@ -5772,6 +5847,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class SyncExecutionStatus {
   static const succeeded = SyncExecutionStatus._('SUCCEEDED');
   static const failed = SyncExecutionStatus._('FAILED');
@@ -5799,6 +5875,8 @@ class SyncExecutionStatus {
 }
 
 /// Provides details about execution input or output.
+///
+/// @nodoc
 class CloudWatchEventsExecutionDataDetails {
   /// Indicates whether input or output was included in the response. Always
   /// <code>true</code> for API calls.
@@ -5824,6 +5902,8 @@ class CloudWatchEventsExecutionDataDetails {
 }
 
 /// An object that describes workflow billing details.
+///
+/// @nodoc
 class BillingDetails {
   /// Billed duration of your workflow, in milliseconds.
   final int? billedDurationInMilliseconds;
@@ -5856,6 +5936,7 @@ class BillingDetails {
   }
 }
 
+/// @nodoc
 class IncludedData {
   static const allData = IncludedData._('ALL_DATA');
   static const metadataOnly = IncludedData._('METADATA_ONLY');
@@ -5880,6 +5961,8 @@ class IncludedData {
 }
 
 /// Contains details about a specific state machine version.
+///
+/// @nodoc
 class StateMachineVersionListItem {
   /// The creation date of a state machine version.
   final DateTime creationDate;
@@ -5912,6 +5995,8 @@ class StateMachineVersionListItem {
 }
 
 /// Contains details about the state machine.
+///
+/// @nodoc
 class StateMachineListItem {
   /// The date the state machine is created.
   final DateTime creationDate;
@@ -5925,7 +6010,7 @@ class StateMachineListItem {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -5985,6 +6070,8 @@ class StateMachineListItem {
 }
 
 /// Contains details about a specific state machine alias.
+///
+/// @nodoc
 class StateMachineAliasListItem {
   /// The creation date of a state machine alias.
   final DateTime creationDate;
@@ -6017,6 +6104,8 @@ class StateMachineAliasListItem {
 }
 
 /// Contains details about a specific Map Run.
+///
+/// @nodoc
 class MapRunListItem {
   /// The <code>executionArn</code> of the execution from which the Map Run was
   /// started.
@@ -6069,6 +6158,8 @@ class MapRunListItem {
 }
 
 /// Contains details about an execution.
+///
+/// @nodoc
 class ExecutionListItem {
   /// The Amazon Resource Name (ARN) that identifies the execution.
   final String executionArn;
@@ -6082,7 +6173,7 @@ class ExecutionListItem {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -6221,6 +6312,7 @@ class ExecutionListItem {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const running = ExecutionStatus._('RUNNING');
   static const succeeded = ExecutionStatus._('SUCCEEDED');
@@ -6256,6 +6348,7 @@ class ExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionRedriveFilter {
   static const redriven = ExecutionRedriveFilter._('REDRIVEN');
   static const notRedriven = ExecutionRedriveFilter._('NOT_REDRIVEN');
@@ -6282,6 +6375,8 @@ class ExecutionRedriveFilter {
 }
 
 /// Contains details about an activity.
+///
+/// @nodoc
 class ActivityListItem {
   /// The Amazon Resource Name (ARN) that identifies the activity.
   final String activityArn;
@@ -6298,7 +6393,7 @@ class ActivityListItem {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -6348,6 +6443,8 @@ class ActivityListItem {
 }
 
 /// Contains details about the events of an execution.
+///
+/// @nodoc
 class HistoryEvent {
   /// The id of the event. Events are numbered sequentially, starting at one.
   final int id;
@@ -6820,6 +6917,7 @@ class HistoryEvent {
   }
 }
 
+/// @nodoc
 class HistoryEventType {
   static const activityFailed = HistoryEventType._('ActivityFailed');
   static const activityScheduled = HistoryEventType._('ActivityScheduled');
@@ -6981,6 +7079,8 @@ class HistoryEventType {
 }
 
 /// Contains details about an activity that failed during an execution.
+///
+/// @nodoc
 class ActivityFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7012,6 +7112,8 @@ class ActivityFailedEventDetails {
 
 /// Contains details about an activity schedule failure that occurred during an
 /// execution.
+///
+/// @nodoc
 class ActivityScheduleFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7043,6 +7145,8 @@ class ActivityScheduleFailedEventDetails {
 }
 
 /// Contains details about an activity scheduled during an execution.
+///
+/// @nodoc
 class ActivityScheduledEventDetails {
   /// The Amazon Resource Name (ARN) of the scheduled activity.
   final String resource;
@@ -7098,6 +7202,8 @@ class ActivityScheduledEventDetails {
 }
 
 /// Contains details about the start of an activity during an execution.
+///
+/// @nodoc
 class ActivityStartedEventDetails {
   /// The name of the worker that the task is assigned to. These names are
   /// provided by the workers when calling <a>GetActivityTask</a>.
@@ -7123,6 +7229,8 @@ class ActivityStartedEventDetails {
 
 /// Contains details about an activity that successfully terminated during an
 /// execution.
+///
+/// @nodoc
 class ActivitySucceededEventDetails {
   /// The JSON data output by the activity task. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
@@ -7158,6 +7266,8 @@ class ActivitySucceededEventDetails {
 
 /// Contains details about an activity timeout that occurred during an
 /// execution.
+///
+/// @nodoc
 class ActivityTimedOutEventDetails {
   /// A more detailed explanation of the cause of the timeout.
   final String? cause;
@@ -7188,6 +7298,8 @@ class ActivityTimedOutEventDetails {
 }
 
 /// Contains details about a task failure event.
+///
+/// @nodoc
 class TaskFailedEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7232,6 +7344,8 @@ class TaskFailedEventDetails {
 }
 
 /// Contains details about a task scheduled during an execution.
+///
+/// @nodoc
 class TaskScheduledEventDetails {
   /// The JSON data passed to the resource referenced in a task state. Length
   /// constraints apply to the payload size, and are expressed as bytes in UTF-8
@@ -7302,6 +7416,8 @@ class TaskScheduledEventDetails {
 }
 
 /// Contains details about a task that failed to start during an execution.
+///
+/// @nodoc
 class TaskStartFailedEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7346,6 +7462,8 @@ class TaskStartFailedEventDetails {
 }
 
 /// Contains details about the start of a task during an execution.
+///
+/// @nodoc
 class TaskStartedEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7376,6 +7494,8 @@ class TaskStartedEventDetails {
 }
 
 /// Contains details about a task that failed to submit during an execution.
+///
+/// @nodoc
 class TaskSubmitFailedEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7420,6 +7540,8 @@ class TaskSubmitFailedEventDetails {
 }
 
 /// Contains details about a task submitted to a resource .
+///
+/// @nodoc
 class TaskSubmittedEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7468,6 +7590,8 @@ class TaskSubmittedEventDetails {
 }
 
 /// Contains details about the successful completion of a task state.
+///
+/// @nodoc
 class TaskSucceededEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7517,6 +7641,8 @@ class TaskSucceededEventDetails {
 }
 
 /// Contains details about a resource timeout that occurred during an execution.
+///
+/// @nodoc
 class TaskTimedOutEventDetails {
   /// The action of the resource called by a task state.
   final String resource;
@@ -7561,6 +7687,8 @@ class TaskTimedOutEventDetails {
 }
 
 /// Contains details about an execution failure event.
+///
+/// @nodoc
 class ExecutionFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7591,6 +7719,8 @@ class ExecutionFailedEventDetails {
 }
 
 /// Contains details about the start of the execution.
+///
+/// @nodoc
 class ExecutionStartedEventDetails {
   /// The JSON data input to the execution. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
@@ -7651,6 +7781,8 @@ class ExecutionStartedEventDetails {
 }
 
 /// Contains details about the successful termination of the execution.
+///
+/// @nodoc
 class ExecutionSucceededEventDetails {
   /// The JSON data output by the execution. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
@@ -7685,6 +7817,8 @@ class ExecutionSucceededEventDetails {
 }
 
 /// Contains details about an abort of an execution.
+///
+/// @nodoc
 class ExecutionAbortedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7716,6 +7850,8 @@ class ExecutionAbortedEventDetails {
 
 /// Contains details about the execution timeout that occurred during the
 /// execution.
+///
+/// @nodoc
 class ExecutionTimedOutEventDetails {
   /// A more detailed explanation of the cause of the timeout.
   final String? cause;
@@ -7746,6 +7882,8 @@ class ExecutionTimedOutEventDetails {
 }
 
 /// Contains details about a redriven execution.
+///
+/// @nodoc
 class ExecutionRedrivenEventDetails {
   /// The number of times you've redriven an execution. If you have not yet
   /// redriven an execution, the <code>redriveCount</code> is 0. This count is not
@@ -7771,6 +7909,8 @@ class ExecutionRedrivenEventDetails {
 }
 
 /// Details about a Map state that was started.
+///
+/// @nodoc
 class MapStateStartedEventDetails {
   /// The size of the array for Map state iterations.
   final int? length;
@@ -7794,6 +7934,8 @@ class MapStateStartedEventDetails {
 }
 
 /// Contains details about an iteration of a Map state.
+///
+/// @nodoc
 class MapIterationEventDetails {
   /// The index of the array belonging to the Map state iteration.
   final int? index;
@@ -7824,6 +7966,8 @@ class MapIterationEventDetails {
 }
 
 /// Contains details about a Lambda function that failed during an execution.
+///
+/// @nodoc
 class LambdaFunctionFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7855,6 +7999,8 @@ class LambdaFunctionFailedEventDetails {
 
 /// Contains details about a failed Lambda function schedule event that occurred
 /// during an execution.
+///
+/// @nodoc
 class LambdaFunctionScheduleFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7886,6 +8032,8 @@ class LambdaFunctionScheduleFailedEventDetails {
 }
 
 /// Contains details about a Lambda function scheduled during an execution.
+///
+/// @nodoc
 class LambdaFunctionScheduledEventDetails {
   /// The Amazon Resource Name (ARN) of the scheduled Lambda function.
   final String resource;
@@ -7946,6 +8094,8 @@ class LambdaFunctionScheduledEventDetails {
 
 /// Contains details about a lambda function that failed to start during an
 /// execution.
+///
+/// @nodoc
 class LambdaFunctionStartFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -7978,6 +8128,8 @@ class LambdaFunctionStartFailedEventDetails {
 
 /// Contains details about a Lambda function that successfully terminated during
 /// an execution.
+///
+/// @nodoc
 class LambdaFunctionSucceededEventDetails {
   /// The JSON data output by the Lambda function. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
@@ -8014,6 +8166,8 @@ class LambdaFunctionSucceededEventDetails {
 
 /// Contains details about a Lambda function timeout that occurred during an
 /// execution.
+///
+/// @nodoc
 class LambdaFunctionTimedOutEventDetails {
   /// A more detailed explanation of the cause of the timeout.
   final String? cause;
@@ -8045,6 +8199,8 @@ class LambdaFunctionTimedOutEventDetails {
 }
 
 /// Contains details about a state entered during an execution.
+///
+/// @nodoc
 class StateEnteredEventDetails {
   /// The name of the state.
   final String name;
@@ -8087,6 +8243,8 @@ class StateEnteredEventDetails {
 }
 
 /// Contains details about an exit from a state during an execution.
+///
+/// @nodoc
 class StateExitedEventDetails {
   /// The name of the state.
   ///
@@ -8097,7 +8255,7 @@ class StateExitedEventDetails {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>< > { } [ ]</code>
+  /// brackets <code>< > { } \[ \]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
@@ -8177,6 +8335,8 @@ class StateExitedEventDetails {
 
 /// Contains details about a Map Run that was started during a state machine
 /// execution.
+///
+/// @nodoc
 class MapRunStartedEventDetails {
   /// The Amazon Resource Name (ARN) of a Map Run that was started.
   final String? mapRunArn;
@@ -8201,6 +8361,8 @@ class MapRunStartedEventDetails {
 
 /// Contains details about a Map Run failure event that occurred during a state
 /// machine execution.
+///
+/// @nodoc
 class MapRunFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -8231,6 +8393,8 @@ class MapRunFailedEventDetails {
 }
 
 /// Contains details about a Map Run that was redriven.
+///
+/// @nodoc
 class MapRunRedrivenEventDetails {
   /// The Amazon Resource Name (ARN) of a Map Run that was redriven.
   final String? mapRunArn;
@@ -8266,6 +8430,8 @@ class MapRunRedrivenEventDetails {
 /// a state, for example, when a JSONata expression throws an error. This event
 /// will only be present in state machines that have <b> QueryLanguage</b> set
 /// to JSONata, or individual states set to JSONata.
+///
+/// @nodoc
 class EvaluationFailedEventDetails {
   /// The name of the state in which the evaluation error occurred.
   final String state;
@@ -8311,6 +8477,8 @@ class EvaluationFailedEventDetails {
 }
 
 /// Provides details about input or output in an execution history event.
+///
+/// @nodoc
 class HistoryEventExecutionDataDetails {
   /// Indicates whether input or output was truncated in the response. Always
   /// <code>false</code> for API calls. In CloudWatch logs, the value will be true
@@ -8336,6 +8504,8 @@ class HistoryEventExecutionDataDetails {
 }
 
 /// Provides details about assigned variables in an execution history event.
+///
+/// @nodoc
 class AssignedVariablesDetails {
   /// Indicates whether assigned variables were truncated in the response. Always
   /// <code>false</code> for API calls. In CloudWatch logs, the value will be true
@@ -8361,6 +8531,8 @@ class AssignedVariablesDetails {
 }
 
 /// Contains details about the credentials that Step Functions uses for a task.
+///
+/// @nodoc
 class TaskCredentials {
   /// The ARN of an IAM role that Step Functions assumes for the task. The role
   /// can allow cross-account access to resources.
@@ -8384,6 +8556,7 @@ class TaskCredentials {
   }
 }
 
+/// @nodoc
 class StateMachineStatus {
   static const active = StateMachineStatus._('ACTIVE');
   static const deleting = StateMachineStatus._('DELETING');
@@ -8409,6 +8582,7 @@ class StateMachineStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MapRunStatus {
   static const running = MapRunStatus._('RUNNING');
   static const succeeded = MapRunStatus._('SUCCEEDED');
@@ -8436,6 +8610,8 @@ class MapRunStatus {
 
 /// Contains details about items that were processed in all of the child
 /// workflow executions that were started by a Map Run.
+///
+/// @nodoc
 class MapRunItemCounts {
   /// The total number of items processed in child workflow executions that were
   /// either stopped by the user or by Step Functions, because the Map Run failed.
@@ -8540,6 +8716,8 @@ class MapRunItemCounts {
 
 /// Contains details about all of the child workflow executions started by a Map
 /// Run.
+///
+/// @nodoc
 class MapRunExecutionCounts {
   /// The total number of child workflow executions that were started by a Map Run
   /// and were running, but were either stopped by the user or by Step Functions
@@ -8645,6 +8823,7 @@ class MapRunExecutionCounts {
   }
 }
 
+/// @nodoc
 class ExecutionRedriveStatus {
   static const redrivable = ExecutionRedriveStatus._('REDRIVABLE');
   static const notRedrivable = ExecutionRedriveStatus._('NOT_REDRIVABLE');
@@ -8672,62 +8851,74 @@ class ExecutionRedriveStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ActivityAlreadyExists extends _s.GenericAwsException {
   ActivityAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ActivityAlreadyExists', message: message);
 }
 
+/// @nodoc
 class ActivityDoesNotExist extends _s.GenericAwsException {
   ActivityDoesNotExist({String? type, String? message})
       : super(type: type, code: 'ActivityDoesNotExist', message: message);
 }
 
+/// @nodoc
 class ActivityLimitExceeded extends _s.GenericAwsException {
   ActivityLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ActivityLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ActivityWorkerLimitExceeded extends _s.GenericAwsException {
   ActivityWorkerLimitExceeded({String? type, String? message})
       : super(
             type: type, code: 'ActivityWorkerLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ExecutionAlreadyExists extends _s.GenericAwsException {
   ExecutionAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ExecutionAlreadyExists', message: message);
 }
 
+/// @nodoc
 class ExecutionDoesNotExist extends _s.GenericAwsException {
   ExecutionDoesNotExist({String? type, String? message})
       : super(type: type, code: 'ExecutionDoesNotExist', message: message);
 }
 
+/// @nodoc
 class ExecutionLimitExceeded extends _s.GenericAwsException {
   ExecutionLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ExecutionLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ExecutionNotRedrivable extends _s.GenericAwsException {
   ExecutionNotRedrivable({String? type, String? message})
       : super(type: type, code: 'ExecutionNotRedrivable', message: message);
 }
 
+/// @nodoc
 class InvalidArn extends _s.GenericAwsException {
   InvalidArn({String? type, String? message})
       : super(type: type, code: 'InvalidArn', message: message);
 }
 
+/// @nodoc
 class InvalidDefinition extends _s.GenericAwsException {
   InvalidDefinition({String? type, String? message})
       : super(type: type, code: 'InvalidDefinition', message: message);
 }
 
+/// @nodoc
 class InvalidEncryptionConfiguration extends _s.GenericAwsException {
   InvalidEncryptionConfiguration({String? type, String? message})
       : super(
@@ -8736,63 +8927,75 @@ class InvalidEncryptionConfiguration extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidExecutionInput extends _s.GenericAwsException {
   InvalidExecutionInput({String? type, String? message})
       : super(type: type, code: 'InvalidExecutionInput', message: message);
 }
 
+/// @nodoc
 class InvalidLoggingConfiguration extends _s.GenericAwsException {
   InvalidLoggingConfiguration({String? type, String? message})
       : super(
             type: type, code: 'InvalidLoggingConfiguration', message: message);
 }
 
+/// @nodoc
 class InvalidName extends _s.GenericAwsException {
   InvalidName({String? type, String? message})
       : super(type: type, code: 'InvalidName', message: message);
 }
 
+/// @nodoc
 class InvalidOutput extends _s.GenericAwsException {
   InvalidOutput({String? type, String? message})
       : super(type: type, code: 'InvalidOutput', message: message);
 }
 
+/// @nodoc
 class InvalidToken extends _s.GenericAwsException {
   InvalidToken({String? type, String? message})
       : super(type: type, code: 'InvalidToken', message: message);
 }
 
+/// @nodoc
 class InvalidTracingConfiguration extends _s.GenericAwsException {
   InvalidTracingConfiguration({String? type, String? message})
       : super(
             type: type, code: 'InvalidTracingConfiguration', message: message);
 }
 
+/// @nodoc
 class KmsAccessDeniedException extends _s.GenericAwsException {
   KmsAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KmsAccessDeniedException', message: message);
 }
 
+/// @nodoc
 class KmsInvalidStateException extends _s.GenericAwsException {
   KmsInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KmsInvalidStateException', message: message);
 }
 
+/// @nodoc
 class KmsThrottlingException extends _s.GenericAwsException {
   KmsThrottlingException({String? type, String? message})
       : super(type: type, code: 'KmsThrottlingException', message: message);
 }
 
+/// @nodoc
 class MissingRequiredParameter extends _s.GenericAwsException {
   MissingRequiredParameter({String? type, String? message})
       : super(type: type, code: 'MissingRequiredParameter', message: message);
 }
 
+/// @nodoc
 class ResourceNotFound extends _s.GenericAwsException {
   ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8801,47 +9004,56 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StateMachineAlreadyExists extends _s.GenericAwsException {
   StateMachineAlreadyExists({String? type, String? message})
       : super(type: type, code: 'StateMachineAlreadyExists', message: message);
 }
 
+/// @nodoc
 class StateMachineDeleting extends _s.GenericAwsException {
   StateMachineDeleting({String? type, String? message})
       : super(type: type, code: 'StateMachineDeleting', message: message);
 }
 
+/// @nodoc
 class StateMachineDoesNotExist extends _s.GenericAwsException {
   StateMachineDoesNotExist({String? type, String? message})
       : super(type: type, code: 'StateMachineDoesNotExist', message: message);
 }
 
+/// @nodoc
 class StateMachineLimitExceeded extends _s.GenericAwsException {
   StateMachineLimitExceeded({String? type, String? message})
       : super(type: type, code: 'StateMachineLimitExceeded', message: message);
 }
 
+/// @nodoc
 class StateMachineTypeNotSupported extends _s.GenericAwsException {
   StateMachineTypeNotSupported({String? type, String? message})
       : super(
             type: type, code: 'StateMachineTypeNotSupported', message: message);
 }
 
+/// @nodoc
 class TaskDoesNotExist extends _s.GenericAwsException {
   TaskDoesNotExist({String? type, String? message})
       : super(type: type, code: 'TaskDoesNotExist', message: message);
 }
 
+/// @nodoc
 class TaskTimedOut extends _s.GenericAwsException {
   TaskTimedOut({String? type, String? message})
       : super(type: type, code: 'TaskTimedOut', message: message);
 }
 
+/// @nodoc
 class TooManyTags extends _s.GenericAwsException {
   TooManyTags({String? type, String? message})
       : super(type: type, code: 'TooManyTags', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

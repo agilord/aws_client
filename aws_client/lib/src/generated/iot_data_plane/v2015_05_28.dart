@@ -523,7 +523,7 @@ class IoTDataPlane {
   /// string which represents two User Properties. Note that it needs to be
   /// base64-encoded:
   ///
-  /// <code>[{"deviceName": "alpha"}, {"deviceCnt": "45"}]</code>
+  /// <code>\[{"deviceName": "alpha"}, {"deviceCnt": "45"}\]</code>
   Future<void> publish({
     required String topic,
     String? contentType,
@@ -680,7 +680,7 @@ class IoTDataPlane {
   /// string which represents two User Properties. Note that it needs to be
   /// base64-encoded:
   ///
-  /// <code>[{"deviceName": "alpha"}, {"deviceCnt": "45"}]</code>
+  /// <code>\[{"deviceName": "alpha"}, {"deviceCnt": "45"}\]</code>
   Future<SendDirectMessageResponse> sendDirectMessage({
     required String clientId,
     required String topic,
@@ -770,6 +770,8 @@ class IoTDataPlane {
 }
 
 /// The output from the DeleteThingShadow operation.
+///
+/// @nodoc
 class DeleteThingShadowResponse {
   /// The state information, in JSON format.
   final Uint8List payload;
@@ -786,6 +788,7 @@ class DeleteThingShadowResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionResponse {
   /// Indicates whether the client is using a clean session. Returns
   /// <code>true</code> for clean sessions or <code>false</code> for persistent
@@ -921,6 +924,8 @@ class GetConnectionResponse {
 }
 
 /// The output from the GetRetainedMessage operation.
+///
+/// @nodoc
 class GetRetainedMessageResponse {
   /// The Epoch date and time, in milliseconds, when the retained message was
   /// stored by IoT.
@@ -941,7 +946,7 @@ class GetRetainedMessageResponse {
   /// The following example <code>userProperties</code> parameter is a JSON string
   /// that represents two user properties. Note that it will be base64-encoded:
   ///
-  /// <code>[{"deviceName": "alpha"}, {"deviceCnt": "45"}]</code>
+  /// <code>\[{"deviceName": "alpha"}, {"deviceCnt": "45"}\]</code>
   final Uint8List? userProperties;
 
   GetRetainedMessageResponse({
@@ -981,6 +986,8 @@ class GetRetainedMessageResponse {
 }
 
 /// The output from the GetThingShadow operation.
+///
+/// @nodoc
 class GetThingShadowResponse {
   /// The state information, in JSON format.
   final Uint8List? payload;
@@ -997,6 +1004,7 @@ class GetThingShadowResponse {
   }
 }
 
+/// @nodoc
 class ListNamedShadowsForThingResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -1035,6 +1043,7 @@ class ListNamedShadowsForThingResponse {
   }
 }
 
+/// @nodoc
 class ListRetainedMessagesResponse {
   /// The token for the next set of results, or null if there are no additional
   /// results.
@@ -1070,6 +1079,7 @@ class ListRetainedMessagesResponse {
   }
 }
 
+/// @nodoc
 class ListSubscriptionsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -1105,6 +1115,8 @@ class ListSubscriptionsResponse {
 }
 
 /// The output from the SendDirectMessage operation.
+///
+/// @nodoc
 class SendDirectMessageResponse {
   /// The status message indicating the result of the operation.
   final String? message;
@@ -1136,6 +1148,8 @@ class SendDirectMessageResponse {
 }
 
 /// The output from the UpdateThingShadow operation.
+///
+/// @nodoc
 class UpdateThingShadowResponse {
   /// The state information, in JSON format.
   final Uint8List? payload;
@@ -1152,6 +1166,7 @@ class UpdateThingShadowResponse {
   }
 }
 
+/// @nodoc
 class PayloadFormatIndicator {
   static const unspecifiedBytes = PayloadFormatIndicator._('UNSPECIFIED_BYTES');
   static const utf8Data = PayloadFormatIndicator._('UTF8_DATA');
@@ -1179,6 +1194,8 @@ class PayloadFormatIndicator {
 
 /// Contains information about a subscription for an MQTT client, including the
 /// topic filter and Quality of Service (QoS) level.
+///
+/// @nodoc
 class SubscriptionSummary {
   /// The Quality of Service (QoS) level for the subscription. Valid values are 0
   /// (at most once) and 1 (at least once).
@@ -1211,6 +1228,8 @@ class SubscriptionSummary {
 }
 
 /// Information about a single retained message.
+///
+/// @nodoc
 class RetainedMessageSummary {
   /// The Epoch date and time, in milliseconds, when the retained message was
   /// stored by IoT.
@@ -1255,36 +1274,43 @@ class RetainedMessageSummary {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GatewayTimeoutException extends _s.GenericAwsException {
   GatewayTimeoutException({String? type, String? message})
       : super(type: type, code: 'GatewayTimeoutException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class MethodNotAllowedException extends _s.GenericAwsException {
   MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
+/// @nodoc
 class RequestEntityTooLargeException extends _s.GenericAwsException {
   RequestEntityTooLargeException({String? type, String? message})
       : super(
@@ -1293,27 +1319,32 @@ class RequestEntityTooLargeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UnsupportedDocumentEncodingException extends _s.GenericAwsException {
   UnsupportedDocumentEncodingException({String? type, String? message})
       : super(

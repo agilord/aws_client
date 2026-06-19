@@ -2376,6 +2376,7 @@ class Chime {
   }
 }
 
+/// @nodoc
 class AssociatePhoneNumberWithUserResponse {
   AssociatePhoneNumberWithUserResponse();
 
@@ -2389,6 +2390,7 @@ class AssociatePhoneNumberWithUserResponse {
   }
 }
 
+/// @nodoc
 class AssociateSigninDelegateGroupsWithAccountResponse {
   AssociateSigninDelegateGroupsWithAccountResponse();
 
@@ -2402,6 +2404,7 @@ class AssociateSigninDelegateGroupsWithAccountResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateRoomMembershipResponse {
   /// If the action fails for one or more of the member IDs in the request, a list
   /// of the member IDs is returned, along with error codes and error messages.
@@ -2429,6 +2432,7 @@ class BatchCreateRoomMembershipResponse {
   }
 }
 
+/// @nodoc
 class BatchDeletePhoneNumberResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -2456,6 +2460,7 @@ class BatchDeletePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class BatchSuspendUserResponse {
   /// If the <a>BatchSuspendUser</a> action fails for one or more of the user IDs
   /// in the request, a list of the user IDs is returned, along with error codes
@@ -2483,6 +2488,7 @@ class BatchSuspendUserResponse {
   }
 }
 
+/// @nodoc
 class BatchUnsuspendUserResponse {
   /// If the <a>BatchUnsuspendUser</a> action fails for one or more of the user
   /// IDs in the request, a list of the user IDs is returned, along with error
@@ -2510,6 +2516,7 @@ class BatchUnsuspendUserResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdatePhoneNumberResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
@@ -2537,6 +2544,7 @@ class BatchUpdatePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateUserResponse {
   /// If the <a>BatchUpdateUser</a> action fails for one or more of the user IDs
   /// in the request, a list of the user IDs is returned, along with error codes
@@ -2564,6 +2572,7 @@ class BatchUpdateUserResponse {
   }
 }
 
+/// @nodoc
 class CreateAccountResponse {
   /// The Amazon Chime account details.
   final Account? account;
@@ -2588,6 +2597,7 @@ class CreateAccountResponse {
   }
 }
 
+/// @nodoc
 class CreateBotResponse {
   /// The bot details.
   final Bot? bot;
@@ -2612,6 +2622,7 @@ class CreateBotResponse {
   }
 }
 
+/// @nodoc
 class CreateMeetingDialOutResponse {
   /// Unique ID that tracks API calls.
   final String? transactionId;
@@ -2634,6 +2645,7 @@ class CreateMeetingDialOutResponse {
   }
 }
 
+/// @nodoc
 class CreatePhoneNumberOrderResponse {
   /// The phone number order details.
   final PhoneNumberOrder? phoneNumberOrder;
@@ -2659,6 +2671,7 @@ class CreatePhoneNumberOrderResponse {
   }
 }
 
+/// @nodoc
 class CreateRoomResponse {
   /// The room details.
   final Room? room;
@@ -2683,6 +2696,7 @@ class CreateRoomResponse {
   }
 }
 
+/// @nodoc
 class CreateRoomMembershipResponse {
   /// The room membership details.
   final RoomMembership? roomMembership;
@@ -2708,6 +2722,7 @@ class CreateRoomMembershipResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The user on the Amazon Chime account.
   final User? user;
@@ -2732,6 +2747,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountResponse {
   DeleteAccountResponse();
 
@@ -2744,6 +2760,7 @@ class DeleteAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociatePhoneNumberFromUserResponse {
   DisassociatePhoneNumberFromUserResponse();
 
@@ -2757,6 +2774,7 @@ class DisassociatePhoneNumberFromUserResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSigninDelegateGroupsFromAccountResponse {
   DisassociateSigninDelegateGroupsFromAccountResponse();
 
@@ -2770,6 +2788,7 @@ class DisassociateSigninDelegateGroupsFromAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAccountResponse {
   /// The Amazon Chime account details.
   final Account? account;
@@ -2794,6 +2813,7 @@ class GetAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAccountSettingsResponse {
   /// The Amazon Chime account settings.
   final AccountSettings? accountSettings;
@@ -2819,6 +2839,7 @@ class GetAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetBotResponse {
   /// The chat bot details.
   final Bot? bot;
@@ -2843,6 +2864,7 @@ class GetBotResponse {
   }
 }
 
+/// @nodoc
 class GetEventsConfigurationResponse {
   /// The events configuration details.
   final EventsConfiguration? eventsConfiguration;
@@ -2869,6 +2891,7 @@ class GetEventsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetGlobalSettingsResponse {
   /// The Amazon Chime Business Calling settings.
   final BusinessCallingSettings? businessCalling;
@@ -2904,6 +2927,7 @@ class GetGlobalSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetPhoneNumberResponse {
   /// The phone number details.
   final PhoneNumber? phoneNumber;
@@ -2928,6 +2952,7 @@ class GetPhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class GetPhoneNumberOrderResponse {
   /// The phone number order details.
   final PhoneNumberOrder? phoneNumberOrder;
@@ -2953,6 +2978,7 @@ class GetPhoneNumberOrderResponse {
   }
 }
 
+/// @nodoc
 class GetPhoneNumberSettingsResponse {
   /// The default outbound calling name for the account.
   final String? callingName;
@@ -2985,6 +3011,7 @@ class GetPhoneNumberSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetRetentionSettingsResponse {
   /// The timestamp representing the time at which the specified items are
   /// permanently deleted, in ISO 8601 format.
@@ -3020,6 +3047,7 @@ class GetRetentionSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetRoomResponse {
   /// The room details.
   final Room? room;
@@ -3044,6 +3072,7 @@ class GetRoomResponse {
   }
 }
 
+/// @nodoc
 class GetUserResponse {
   /// The user details.
   final User? user;
@@ -3068,6 +3097,7 @@ class GetUserResponse {
   }
 }
 
+/// @nodoc
 class GetUserSettingsResponse {
   /// The user settings.
   final UserSettings? userSettings;
@@ -3092,6 +3122,7 @@ class GetUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class InviteUsersResponse {
   /// The email invitation details.
   final List<Invite>? invites;
@@ -3117,6 +3148,7 @@ class InviteUsersResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsResponse {
   /// List of Amazon Chime accounts and account details.
   final List<Account>? accounts;
@@ -3149,6 +3181,7 @@ class ListAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListBotsResponse {
   /// List of bots and bot details.
   final List<Bot>? bots;
@@ -3181,6 +3214,7 @@ class ListBotsResponse {
   }
 }
 
+/// @nodoc
 class ListPhoneNumberOrdersResponse {
   /// The token to use to retrieve the next page of results.
   final String? nextToken;
@@ -3213,6 +3247,7 @@ class ListPhoneNumberOrdersResponse {
   }
 }
 
+/// @nodoc
 class ListPhoneNumbersResponse {
   /// The token to use to retrieve the next page of results.
   final String? nextToken;
@@ -3245,6 +3280,7 @@ class ListPhoneNumbersResponse {
   }
 }
 
+/// @nodoc
 class ListRoomMembershipsResponse {
   /// The token to use to retrieve the next page of results.
   final String? nextToken;
@@ -3277,6 +3313,7 @@ class ListRoomMembershipsResponse {
   }
 }
 
+/// @nodoc
 class ListRoomsResponse {
   /// The token to use to retrieve the next page of results.
   final String? nextToken;
@@ -3309,6 +3346,7 @@ class ListRoomsResponse {
   }
 }
 
+/// @nodoc
 class ListSupportedPhoneNumberCountriesResponse {
   /// The supported phone number countries.
   final List<PhoneNumberCountry>? phoneNumberCountries;
@@ -3336,6 +3374,7 @@ class ListSupportedPhoneNumberCountriesResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// The token to use to retrieve the next page of results.
   final String? nextToken;
@@ -3368,6 +3407,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class LogoutUserResponse {
   LogoutUserResponse();
 
@@ -3380,6 +3420,7 @@ class LogoutUserResponse {
   }
 }
 
+/// @nodoc
 class PutEventsConfigurationResponse {
   /// The configuration that allows a bot to receive outgoing events. Can be an
   /// HTTPS endpoint or an AWS Lambda function ARN.
@@ -3407,6 +3448,7 @@ class PutEventsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutRetentionSettingsResponse {
   /// The timestamp representing the time at which the specified items are
   /// permanently deleted, in ISO 8601 format.
@@ -3442,6 +3484,7 @@ class PutRetentionSettingsResponse {
   }
 }
 
+/// @nodoc
 class RedactConversationMessageResponse {
   RedactConversationMessageResponse();
 
@@ -3454,6 +3497,7 @@ class RedactConversationMessageResponse {
   }
 }
 
+/// @nodoc
 class RedactRoomMessageResponse {
   RedactRoomMessageResponse();
 
@@ -3466,6 +3510,7 @@ class RedactRoomMessageResponse {
   }
 }
 
+/// @nodoc
 class RegenerateSecurityTokenResponse {
   /// A resource that allows Enterprise account administrators to configure an
   /// interface that receives events from Amazon Chime.
@@ -3491,6 +3536,7 @@ class RegenerateSecurityTokenResponse {
   }
 }
 
+/// @nodoc
 class ResetPersonalPINResponse {
   /// The user details and new personal meeting PIN.
   final User? user;
@@ -3515,6 +3561,7 @@ class ResetPersonalPINResponse {
   }
 }
 
+/// @nodoc
 class RestorePhoneNumberResponse {
   /// The phone number details.
   final PhoneNumber? phoneNumber;
@@ -3539,6 +3586,7 @@ class RestorePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class SearchAvailablePhoneNumbersResponse {
   /// List of phone numbers, in E.164 format.
   final List<String>? e164PhoneNumbers;
@@ -3572,6 +3620,7 @@ class SearchAvailablePhoneNumbersResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountResponse {
   /// The updated Amazon Chime account details.
   final Account? account;
@@ -3596,6 +3645,7 @@ class UpdateAccountResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsResponse {
   UpdateAccountSettingsResponse();
 
@@ -3608,6 +3658,7 @@ class UpdateAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateBotResponse {
   /// The updated bot details.
   final Bot? bot;
@@ -3632,6 +3683,7 @@ class UpdateBotResponse {
   }
 }
 
+/// @nodoc
 class UpdatePhoneNumberResponse {
   /// The updated phone number details.
   final PhoneNumber? phoneNumber;
@@ -3656,6 +3708,7 @@ class UpdatePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoomResponse {
   /// The room details.
   final Room? room;
@@ -3680,6 +3733,7 @@ class UpdateRoomResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoomMembershipResponse {
   /// The room membership details.
   final RoomMembership? roomMembership;
@@ -3705,6 +3759,7 @@ class UpdateRoomMembershipResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The updated user details.
   final User? user;
@@ -3731,6 +3786,8 @@ class UpdateUserResponse {
 
 /// Settings associated with an Amazon Chime user, including inbound and
 /// outbound calling and text messaging.
+///
+/// @nodoc
 class UserSettings {
   /// The telephony settings associated with the user.
   final TelephonySettings telephony;
@@ -3757,6 +3814,8 @@ class UserSettings {
 
 /// Settings that allow management of telephony permissions for an Amazon Chime
 /// user, such as inbound and outbound calling and text messaging.
+///
+/// @nodoc
 class TelephonySettings {
   /// Allows or denies inbound calling.
   final bool inboundCalling;
@@ -3794,6 +3853,8 @@ class TelephonySettings {
 }
 
 /// The user on the Amazon Chime account.
+///
+/// @nodoc
 class User {
   /// The user ID.
   final String userId;
@@ -3910,6 +3971,7 @@ class User {
   }
 }
 
+/// @nodoc
 class License {
   static const basic = License._('Basic');
   static const plus = License._('Plus');
@@ -3935,6 +3997,7 @@ class License {
   String toString() => value;
 }
 
+/// @nodoc
 class UserType {
   static const privateUser = UserType._('PrivateUser');
   static const sharedDevice = UserType._('SharedDevice');
@@ -3958,6 +4021,7 @@ class UserType {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistrationStatus {
   static const unregistered = RegistrationStatus._('Unregistered');
   static const registered = RegistrationStatus._('Registered');
@@ -3984,6 +4048,7 @@ class RegistrationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InviteStatus {
   static const pending = InviteStatus._('Pending');
   static const accepted = InviteStatus._('Accepted');
@@ -4010,6 +4075,8 @@ class InviteStatus {
 
 /// The Alexa for Business metadata associated with an Amazon Chime user, used
 /// to integrate Alexa for Business with a device.
+///
+/// @nodoc
 class AlexaForBusinessMetadata {
   /// The ARN of the room resource.
   final String? alexaForBusinessRoomArn;
@@ -4042,6 +4109,8 @@ class AlexaForBusinessMetadata {
 }
 
 /// The room membership details.
+///
+/// @nodoc
 class RoomMembership {
   /// The identifier of the user that invited the room member.
   final String? invitedBy;
@@ -4096,6 +4165,8 @@ class RoomMembership {
 }
 
 /// The member details, such as email address, name, member ID, and member type.
+///
+/// @nodoc
 class Member {
   /// The Amazon Chime account ID.
   final String? accountId;
@@ -4146,6 +4217,7 @@ class Member {
   }
 }
 
+/// @nodoc
 class RoomMembershipRole {
   static const administrator = RoomMembershipRole._('Administrator');
   static const member = RoomMembershipRole._('Member');
@@ -4171,6 +4243,7 @@ class RoomMembershipRole {
   String toString() => value;
 }
 
+/// @nodoc
 class MemberType {
   static const user = MemberType._('User');
   static const bot = MemberType._('Bot');
@@ -4196,6 +4269,8 @@ class MemberType {
 }
 
 /// The Amazon Chime chat room details.
+///
+/// @nodoc
 class Room {
   /// The Amazon Chime account ID.
   final String? accountId;
@@ -4257,6 +4332,8 @@ class Room {
 
 /// A phone number used for Amazon Chime Business Calling or an Amazon Chime
 /// Voice Connector.
+///
+/// @nodoc
 class PhoneNumber {
   /// The phone number associations.
   final List<PhoneNumberAssociation>? associations;
@@ -4376,6 +4453,7 @@ class PhoneNumber {
   }
 }
 
+/// @nodoc
 class PhoneNumberType {
   static const local = PhoneNumberType._('Local');
   static const tollFree = PhoneNumberType._('TollFree');
@@ -4400,6 +4478,7 @@ class PhoneNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberProductType {
   static const businessCalling = PhoneNumberProductType._('BusinessCalling');
   static const voiceConnector = PhoneNumberProductType._('VoiceConnector');
@@ -4431,6 +4510,7 @@ class PhoneNumberProductType {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberStatus {
   static const acquireInProgress = PhoneNumberStatus._('AcquireInProgress');
   static const acquireFailed = PhoneNumberStatus._('AcquireFailed');
@@ -4472,6 +4552,8 @@ class PhoneNumberStatus {
 
 /// The phone number capabilities for Amazon Chime Business Calling phone
 /// numbers, such as enabled inbound and outbound calling and text messaging.
+///
+/// @nodoc
 class PhoneNumberCapabilities {
   /// Allows or denies inbound calling for the specified phone number.
   final bool? inboundCall;
@@ -4529,6 +4611,7 @@ class PhoneNumberCapabilities {
   }
 }
 
+/// @nodoc
 class CallingNameStatus {
   static const unassigned = CallingNameStatus._('Unassigned');
   static const updateInProgress = CallingNameStatus._('UpdateInProgress');
@@ -4563,6 +4646,8 @@ class CallingNameStatus {
 /// The phone number associations, such as Amazon Chime account ID, Amazon Chime
 /// user ID, Amazon Chime Voice Connector ID, or Amazon Chime Voice Connector
 /// group ID.
+///
+/// @nodoc
 class PhoneNumberAssociation {
   /// The timestamp of the phone number association, in ISO 8601 format.
   final DateTime? associatedTimestamp;
@@ -4602,6 +4687,7 @@ class PhoneNumberAssociation {
   }
 }
 
+/// @nodoc
 class PhoneNumberAssociationName {
   static const accountId = PhoneNumberAssociationName._('AccountId');
   static const userId = PhoneNumberAssociationName._('UserId');
@@ -4641,6 +4727,8 @@ class PhoneNumberAssociationName {
 /// The Amazon Chime Business Calling settings for the administrator's AWS
 /// account. Includes any Amazon S3 buckets designated for storing call detail
 /// records.
+///
+/// @nodoc
 class BusinessCallingSettings {
   /// The Amazon S3 bucket designated for call detail record storage.
   final String? cdrBucket;
@@ -4665,6 +4753,8 @@ class BusinessCallingSettings {
 
 /// The Amazon Chime Voice Connector settings. Includes any Amazon S3 buckets
 /// designated for storing call detail records.
+///
+/// @nodoc
 class VoiceConnectorSettings {
   /// The Amazon S3 bucket designated for call detail record storage.
   final String? cdrBucket;
@@ -4689,6 +4779,8 @@ class VoiceConnectorSettings {
 
 /// A resource that allows Enterprise account administrators to configure an
 /// interface to receive events from Amazon Chime.
+///
+/// @nodoc
 class Bot {
   /// The bot email address.
   final String? botEmail;
@@ -4770,6 +4862,7 @@ class Bot {
   }
 }
 
+/// @nodoc
 class BotType {
   static const chatBot = BotType._('ChatBot');
 
@@ -4798,6 +4891,8 @@ class BotType {
 /// about these settings, see <a
 /// href="https://docs.aws.amazon.com/chime/latest/ag/policies.html">Use the
 /// Policies Page</a> in the <i>Amazon Chime Administration Guide</i>.
+///
+/// @nodoc
 class AccountSettings {
   /// Setting that stops or starts remote control of shared screens during
   /// meetings.
@@ -4834,6 +4929,8 @@ class AccountSettings {
 
 /// The Amazon Chime account details. An AWS account can have multiple Amazon
 /// Chime accounts.
+///
+/// @nodoc
 class Account {
   /// The Amazon Chime account ID.
   final String accountId;
@@ -4928,6 +5025,7 @@ class Account {
   }
 }
 
+/// @nodoc
 class AccountType {
   static const team = AccountType._('Team');
   static const enterpriseDirectory = AccountType._('EnterpriseDirectory');
@@ -4958,6 +5056,7 @@ class AccountType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountStatus {
   static const suspended = AccountStatus._('Suspended');
   static const active = AccountStatus._('Active');
@@ -4984,6 +5083,8 @@ class AccountStatus {
 
 /// An Active Directory (AD) group whose members are granted permission to act
 /// as delegates.
+///
+/// @nodoc
 class SigninDelegateGroup {
   /// The group name.
   final String? groupName;
@@ -5009,6 +5110,8 @@ class SigninDelegateGroup {
 /// The retention settings for an Amazon Chime Enterprise account that determine
 /// how long to retain items such as chat-room messages and chat-conversation
 /// messages.
+///
+/// @nodoc
 class RetentionSettings {
   /// The chat conversation retention settings.
   final ConversationRetentionSettings? conversationRetentionSettings;
@@ -5049,6 +5152,8 @@ class RetentionSettings {
 
 /// The retention settings that determine how long to retain chat-room messages
 /// for an Amazon Chime Enterprise account.
+///
+/// @nodoc
 class RoomRetentionSettings {
   /// The number of days for which to retain chat-room messages.
   final int? retentionDays;
@@ -5073,6 +5178,8 @@ class RoomRetentionSettings {
 
 /// The retention settings that determine how long to retain conversation
 /// messages for an Amazon Chime Enterprise account.
+///
+/// @nodoc
 class ConversationRetentionSettings {
   /// The number of days for which to retain conversation messages.
   final int? retentionDays;
@@ -5097,6 +5204,8 @@ class ConversationRetentionSettings {
 
 /// The configuration that allows a bot to receive outgoing events. Can be
 /// either an HTTPS endpoint or a Lambda function ARN.
+///
+/// @nodoc
 class EventsConfiguration {
   /// The bot ID.
   final String? botId;
@@ -5136,6 +5245,8 @@ class EventsConfiguration {
 }
 
 /// The phone number country.
+///
+/// @nodoc
 class PhoneNumberCountry {
   /// The phone number country code. Format: ISO 3166-1 alpha-2.
   final String? countryCode;
@@ -5171,6 +5282,8 @@ class PhoneNumberCountry {
 }
 
 /// The details of a phone number order created for Amazon Chime.
+///
+/// @nodoc
 class PhoneNumberOrder {
   /// The phone number order creation time stamp, in ISO 8601 format.
   final DateTime? createdTimestamp;
@@ -5237,6 +5350,7 @@ class PhoneNumberOrder {
   }
 }
 
+/// @nodoc
 class PhoneNumberOrderStatus {
   static const processing = PhoneNumberOrderStatus._('Processing');
   static const successful = PhoneNumberOrderStatus._('Successful');
@@ -5265,6 +5379,8 @@ class PhoneNumberOrderStatus {
 }
 
 /// A phone number for which an order has been placed.
+///
+/// @nodoc
 class OrderedPhoneNumber {
   /// The phone number, in E.164 format.
   final String? e164PhoneNumber;
@@ -5295,6 +5411,7 @@ class OrderedPhoneNumber {
   }
 }
 
+/// @nodoc
 class OrderedPhoneNumberStatus {
   static const processing = OrderedPhoneNumberStatus._('Processing');
   static const acquired = OrderedPhoneNumberStatus._('Acquired');
@@ -5323,6 +5440,8 @@ class OrderedPhoneNumberStatus {
 
 /// Invitation object returned after emailing users to invite them to join the
 /// Amazon Chime <code>Team</code> account.
+///
+/// @nodoc
 class Invite {
   /// The email address to which the invite is sent.
   final String? emailAddress;
@@ -5367,6 +5486,7 @@ class Invite {
   }
 }
 
+/// @nodoc
 class EmailStatus {
   static const notSent = EmailStatus._('NotSent');
   static const sent = EmailStatus._('Sent');
@@ -5391,6 +5511,7 @@ class EmailStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorCode {
   static const badRequest = ErrorCode._('BadRequest');
   static const conflict = ErrorCode._('Conflict');
@@ -5449,6 +5570,8 @@ class ErrorCode {
 /// <a>BatchSuspendUser</a>, <a>BatchUnsuspendUser</a>, or
 /// <a>BatchUpdateUser</a> actions. This includes user IDs, error codes, and
 /// error messages.
+///
+/// @nodoc
 class UserError {
   /// The error code.
   final ErrorCode? errorCode;
@@ -5487,6 +5610,8 @@ class UserError {
 
 /// The user ID and user fields to update, used with the <a>BatchUpdateUser</a>
 /// action.
+///
+/// @nodoc
 class UpdateUserRequestItem {
   /// The user ID.
   final String userId;
@@ -5525,6 +5650,8 @@ class UpdateUserRequestItem {
 /// If the phone number action fails for one or more of the phone numbers in the
 /// request, a list of the phone numbers is returned, along with error codes and
 /// error messages.
+///
+/// @nodoc
 class PhoneNumberError {
   /// The error code.
   final ErrorCode? errorCode;
@@ -5563,6 +5690,8 @@ class PhoneNumberError {
 
 /// The phone number ID, product type, or calling name fields to update, used
 /// with the <a>BatchUpdatePhoneNumber</a> and <a>UpdatePhoneNumber</a> actions.
+///
+/// @nodoc
 class UpdatePhoneNumberRequestItem {
   /// The phone number ID to update.
   final String phoneNumberId;
@@ -5592,6 +5721,8 @@ class UpdatePhoneNumberRequestItem {
 }
 
 /// The list of errors returned when a member action results in an error.
+///
+/// @nodoc
 class MemberError {
   /// The error code.
   final ErrorCode? errorCode;
@@ -5629,6 +5760,8 @@ class MemberError {
 }
 
 /// Membership details, such as member ID and member role.
+///
+/// @nodoc
 class MembershipItem {
   /// The member ID.
   final String? memberId;
@@ -5651,31 +5784,37 @@ class MembershipItem {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -5684,28 +5823,33 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottledClientException extends _s.GenericAwsException {
   ThrottledClientException({String? type, String? message})
       : super(type: type, code: 'ThrottledClientException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedClientException extends _s.GenericAwsException {
   UnauthorizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnauthorizedClientException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(

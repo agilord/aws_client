@@ -3736,6 +3736,8 @@ class OpenSearch {
 }
 
 /// Contains details about the accepted inbound connection.
+///
+/// @nodoc
 class AcceptInboundConnectionResponse {
   /// Information about the accepted inbound connection.
   final InboundConnection? connection;
@@ -3762,6 +3764,8 @@ class AcceptInboundConnectionResponse {
 }
 
 /// The result of an <code>AddDataSource</code> operation.
+///
+/// @nodoc
 class AddDataSourceResponse {
   /// A message associated with creation of the data source.
   final String? message;
@@ -3784,6 +3788,7 @@ class AddDataSourceResponse {
   }
 }
 
+/// @nodoc
 class AddDirectQueryDataSourceResponse {
   /// The unique, system-generated identifier that represents the data source.
   final String? dataSourceArn;
@@ -3808,6 +3813,8 @@ class AddDirectQueryDataSourceResponse {
 
 /// Container for the response returned by the <code>AssociatePackage</code>
 /// operation.
+///
+/// @nodoc
 class AssociatePackageResponse {
   /// Information about a package that is associated with a domain.
   final DomainPackageDetails? domainPackageDetails;
@@ -3834,6 +3841,7 @@ class AssociatePackageResponse {
   }
 }
 
+/// @nodoc
 class AssociatePackagesResponse {
   /// List of information about packages that are associated with a domain.
   final List<DomainPackageDetails>? domainPackageDetailsList;
@@ -3860,6 +3868,7 @@ class AssociatePackagesResponse {
   }
 }
 
+/// @nodoc
 class AuthorizeVpcEndpointAccessResponse {
   /// Information about the Amazon Web Services account or service that was
   /// provided access to the domain.
@@ -3886,6 +3895,7 @@ class AuthorizeVpcEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class CancelDomainConfigChangeResponse {
   /// The unique identifiers of the changes that were cancelled.
   final List<String>? cancelledChangeIds;
@@ -3933,6 +3943,8 @@ class CancelDomainConfigChangeResponse {
 
 /// Container for the response to a <code>CancelServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
+///
+/// @nodoc
 class CancelServiceSoftwareUpdateResponse {
   /// Container for the state of your domain relative to the latest service
   /// software.
@@ -3961,6 +3973,7 @@ class CancelServiceSoftwareUpdateResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// Configuration settings for the OpenSearch application, including
   /// administrative options.
@@ -4052,6 +4065,8 @@ class CreateApplicationResponse {
 
 /// The result of a <code>CreateDomain</code> operation. Contains the status of
 /// the newly created domain.
+///
+/// @nodoc
 class CreateDomainResponse {
   /// The status of the newly created domain.
   final DomainStatus? domainStatus;
@@ -4076,6 +4091,7 @@ class CreateDomainResponse {
   }
 }
 
+/// @nodoc
 class CreateIndexResponse {
   /// The status of the index creation operation.
   final IndexStatus status;
@@ -4100,6 +4116,8 @@ class CreateIndexResponse {
 
 /// The result of a <code>CreateOutboundConnection</code> request. Contains
 /// details about the newly created cross-cluster connection.
+///
+/// @nodoc
 class CreateOutboundConnectionResponse {
   /// Name of the connection.
   final String? connectionAlias;
@@ -4181,6 +4199,8 @@ class CreateOutboundConnectionResponse {
 
 /// Container for the response returned by the <code>CreatePackage</code>
 /// operation.
+///
+/// @nodoc
 class CreatePackageResponse {
   /// Basic information about an OpenSearch Service package.
   final PackageDetails? packageDetails;
@@ -4206,6 +4226,7 @@ class CreatePackageResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcEndpointResponse {
   /// Information about the newly created VPC endpoint.
   final VpcEndpoint vpcEndpoint;
@@ -4230,6 +4251,7 @@ class CreateVpcEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -4243,6 +4265,8 @@ class DeleteApplicationResponse {
 }
 
 /// The result of a <code>GetDataSource</code> operation.
+///
+/// @nodoc
 class DeleteDataSourceResponse {
   /// A message associated with deletion of the data source.
   final String? message;
@@ -4268,6 +4292,8 @@ class DeleteDataSourceResponse {
 /// The results of a <code>DeleteDomain</code> request. Contains the status of
 /// the pending deletion, or a "domain not found" error if the domain and all of
 /// its resources have been deleted.
+///
+/// @nodoc
 class DeleteDomainResponse {
   /// The status of the domain being deleted.
   final DomainStatus? domainStatus;
@@ -4294,6 +4320,8 @@ class DeleteDomainResponse {
 
 /// The results of a <code>DeleteInboundConnection</code> operation. Contains
 /// details about the deleted inbound connection.
+///
+/// @nodoc
 class DeleteInboundConnectionResponse {
   /// The deleted inbound connection.
   final InboundConnection? connection;
@@ -4319,6 +4347,7 @@ class DeleteInboundConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteIndexResponse {
   /// The status of the index deletion operation.
   final IndexStatus status;
@@ -4342,6 +4371,8 @@ class DeleteIndexResponse {
 }
 
 /// Details about the deleted outbound connection.
+///
+/// @nodoc
 class DeleteOutboundConnectionResponse {
   /// The deleted inbound connection.
   final OutboundConnection? connection;
@@ -4369,6 +4400,8 @@ class DeleteOutboundConnectionResponse {
 
 /// Container for the response parameters to the <code>DeletePackage</code>
 /// operation.
+///
+/// @nodoc
 class DeletePackageResponse {
   /// Information about the deleted package.
   final PackageDetails? packageDetails;
@@ -4394,6 +4427,7 @@ class DeletePackageResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcEndpointResponse {
   /// Information about the deleted endpoint, including its current status
   /// (<code>DELETING</code> or <code>DELETE_FAILED</code>).
@@ -4420,6 +4454,8 @@ class DeleteVpcEndpointResponse {
 }
 
 /// The result of a <code>DeregisterCapability</code> request.
+///
+/// @nodoc
 class DeregisterCapabilityResponse {
   /// The status of the deregistration operation. Returns <code>deleting</code>
   /// when the capability is being removed.
@@ -4444,6 +4480,8 @@ class DeregisterCapabilityResponse {
 }
 
 /// Contains the status of the domain specified in the request.
+///
+/// @nodoc
 class DescribeDomainResponse {
   /// List that contains the status of each specified OpenSearch Service domain.
   final DomainStatus domainStatus;
@@ -4469,6 +4507,8 @@ class DescribeDomainResponse {
 }
 
 /// The result of a <code>DescribeDomainAutoTunes</code> request.
+///
+/// @nodoc
 class DescribeDomainAutoTunesResponse {
   /// The list of setting adjustments that Auto-Tune has made to the domain.
   final List<AutoTune>? autoTunes;
@@ -4506,6 +4546,8 @@ class DescribeDomainAutoTunesResponse {
 
 /// The result of a <code>DescribeDomainChangeProgress</code> request. Contains
 /// progress information for the requested domain change.
+///
+/// @nodoc
 class DescribeDomainChangeProgressResponse {
   /// Container for information about the stages of a configuration change
   /// happening on a domain.
@@ -4535,6 +4577,8 @@ class DescribeDomainChangeProgressResponse {
 }
 
 /// Contains the configuration information of the requested domain.
+///
+/// @nodoc
 class DescribeDomainConfigResponse {
   /// Container for the configuration of the OpenSearch Service domain.
   final DomainConfig domainConfig;
@@ -4561,6 +4605,8 @@ class DescribeDomainConfigResponse {
 
 /// The result of a <code>DescribeDomainHealth</code> request. Contains health
 /// information for the requested domain.
+///
+/// @nodoc
 class DescribeDomainHealthResponse {
   /// The number of active Availability Zones configured for the domain. If the
   /// service is unable to fetch this information, it will return
@@ -4732,6 +4778,8 @@ class DescribeDomainHealthResponse {
 
 /// The result of a <code>DescribeDomainNodes</code> request. Contains
 /// information about the nodes on the requested domain.
+///
+/// @nodoc
 class DescribeDomainNodesResponse {
   /// Contains nodes information list <code>DomainNodesStatusList</code> with
   /// details about the all nodes on the requested domain.
@@ -4761,6 +4809,8 @@ class DescribeDomainNodesResponse {
 
 /// Contains the status of the specified domains or all domains owned by the
 /// account.
+///
+/// @nodoc
 class DescribeDomainsResponse {
   /// The status of the requested domains.
   final List<DomainStatus> domainStatusList;
@@ -4786,6 +4836,7 @@ class DescribeDomainsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDryRunProgressResponse {
   /// Details about the changes you're planning to make on the domain.
   final DomainStatus? dryRunConfig;
@@ -4832,6 +4883,8 @@ class DescribeDryRunProgressResponse {
 }
 
 /// Contains a list of connections matching the filter criteria.
+///
+/// @nodoc
 class DescribeInboundConnectionsResponse {
   /// List of inbound connections.
   final List<InboundConnection>? connections;
@@ -4870,6 +4923,8 @@ class DescribeInboundConnectionsResponse {
 
 /// The result of a <code>DescribeInsightDetails</code> request. Contains the
 /// detailed fields associated with the specified insight.
+///
+/// @nodoc
 class DescribeInsightDetailsResponse {
   /// The list of fields that contain detailed information about the insight.
   final List<InsightField> fields;
@@ -4897,6 +4952,8 @@ class DescribeInsightDetailsResponse {
 
 /// Container for the parameters received from the
 /// <code>DescribeInstanceTypeLimits</code> operation.
+///
+/// @nodoc
 class DescribeInstanceTypeLimitsResponse {
   /// Map that contains all applicable instance type limits.<code>data</code>
   /// refers to data nodes.<code>master</code> refers to dedicated master nodes.
@@ -4923,6 +4980,8 @@ class DescribeInstanceTypeLimitsResponse {
 }
 
 /// Contains a list of connections matching the filter criteria.
+///
+/// @nodoc
 class DescribeOutboundConnectionsResponse {
   /// List of outbound connections that match the filter criteria.
   final List<OutboundConnection>? connections;
@@ -4961,6 +5020,8 @@ class DescribeOutboundConnectionsResponse {
 
 /// Container for the response returned by the <code>DescribePackages</code>
 /// operation.
+///
+/// @nodoc
 class DescribePackagesResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -4998,6 +5059,8 @@ class DescribePackagesResponse {
 
 /// Container for results of a <code>DescribeReservedInstanceOfferings</code>
 /// request.
+///
+/// @nodoc
 class DescribeReservedInstanceOfferingsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -5037,6 +5100,8 @@ class DescribeReservedInstanceOfferingsResponse {
 }
 
 /// Container for results from <code>DescribeReservedInstances</code>
+///
+/// @nodoc
 class DescribeReservedInstancesResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -5073,6 +5138,7 @@ class DescribeReservedInstancesResponse {
   }
 }
 
+/// @nodoc
 class DescribeVpcEndpointsResponse {
   /// Any errors associated with the request.
   final List<VpcEndpointError> vpcEndpointErrors;
@@ -5110,6 +5176,8 @@ class DescribeVpcEndpointsResponse {
 
 /// Container for the response returned by an <code>DissociatePackage</code>
 /// operation.
+///
+/// @nodoc
 class DissociatePackageResponse {
   /// Information about a package that has been dissociated from the domain.
   final DomainPackageDetails? domainPackageDetails;
@@ -5136,6 +5204,7 @@ class DissociatePackageResponse {
   }
 }
 
+/// @nodoc
 class DissociatePackagesResponse {
   /// A list of package details for the packages that were dissociated from the
   /// domain.
@@ -5163,6 +5232,7 @@ class DissociatePackagesResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The configuration settings of the OpenSearch application.
   final List<AppConfig>? appConfigs;
@@ -5269,6 +5339,8 @@ class GetApplicationResponse {
 
 /// The result of a <code>GetCapability</code> request. Contains details about
 /// the capability.
+///
+/// @nodoc
 class GetCapabilityResponse {
   /// The unique identifier of the OpenSearch UI application.
   final String? applicationId;
@@ -5332,6 +5404,8 @@ class GetCapabilityResponse {
 
 /// Container for the response returned by the
 /// <code>GetCompatibleVersions</code> operation.
+///
+/// @nodoc
 class GetCompatibleVersionsResponse {
   /// A map of OpenSearch or Elasticsearch versions and the versions you can
   /// upgrade them to.
@@ -5359,6 +5433,8 @@ class GetCompatibleVersionsResponse {
 }
 
 /// The result of a <code>GetDataSource</code> operation.
+///
+/// @nodoc
 class GetDataSourceResponse {
   /// The type of data source.
   final DataSourceType? dataSourceType;
@@ -5405,6 +5481,7 @@ class GetDataSourceResponse {
   }
 }
 
+/// @nodoc
 class GetDefaultApplicationSettingResponse {
   final String? applicationArn;
 
@@ -5427,6 +5504,7 @@ class GetDefaultApplicationSettingResponse {
   }
 }
 
+/// @nodoc
 class GetDirectQueryDataSourceResponse {
   /// The IAM access policy document that defines the permissions for accessing
   /// the direct query data source. Returns the current policy configuration in
@@ -5499,6 +5577,8 @@ class GetDirectQueryDataSourceResponse {
 
 /// The result of a <code>GetDomainMaintenanceStatus</code> request that
 /// information about the requested action.
+///
+/// @nodoc
 class GetDomainMaintenanceStatusResponse {
   /// The action name.
   final MaintenanceType? action;
@@ -5557,6 +5637,7 @@ class GetDomainMaintenanceStatusResponse {
   }
 }
 
+/// @nodoc
 class GetIndexResponse {
   /// The JSON schema of the index including mappings, settings, and semantic
   /// enrichment configuration.
@@ -5582,6 +5663,8 @@ class GetIndexResponse {
 
 /// Container for response returned by <code>GetPackageVersionHistory</code>
 /// operation.
+///
+/// @nodoc
 class GetPackageVersionHistoryResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -5628,6 +5711,8 @@ class GetPackageVersionHistoryResponse {
 
 /// Container for the response returned by the <code>GetUpgradeHistory</code>
 /// operation.
+///
+/// @nodoc
 class GetUpgradeHistoryResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -5666,6 +5751,8 @@ class GetUpgradeHistoryResponse {
 
 /// Container for the response returned by the <code>GetUpgradeStatus</code>
 /// operation.
+///
+/// @nodoc
 class GetUpgradeStatusResponse {
   /// The status of the current step that an upgrade is on.
   final UpgradeStatus? stepStatus;
@@ -5705,6 +5792,7 @@ class GetUpgradeStatusResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// Summarizes OpenSearch applications, including ID, ARN, name, endpoint,
   /// status, creation time, and last update time.
@@ -5738,6 +5826,8 @@ class ListApplicationsResponse {
 }
 
 /// The result of a <code>ListDataSources</code> operation.
+///
+/// @nodoc
 class ListDataSourcesResponse {
   /// A list of data sources associated with specified domain.
   final List<DataSourceDetails>? dataSources;
@@ -5763,6 +5853,7 @@ class ListDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListDirectQueryDataSourcesResponse {
   /// A list of the direct query data sources that are returned by the
   /// <code>ListDirectQueryDataSources</code> API operation.
@@ -5798,6 +5889,8 @@ class ListDirectQueryDataSourcesResponse {
 
 /// The result of a <code>ListDomainMaintenances</code> request that contains
 /// information about the requested actions.
+///
+/// @nodoc
 class ListDomainMaintenancesResponse {
   /// A list of the submitted maintenance actions.
   final List<DomainMaintenanceDetails>? domainMaintenances;
@@ -5836,6 +5929,8 @@ class ListDomainMaintenancesResponse {
 
 /// The results of a <code>ListDomainNames</code> operation. Contains the names
 /// of all domains owned by this account and their respective engine types.
+///
+/// @nodoc
 class ListDomainNamesResponse {
   /// The names of all OpenSearch Service domains owned by the current user and
   /// their respective engine types.
@@ -5864,6 +5959,8 @@ class ListDomainNamesResponse {
 
 /// Container for the response parameters to the
 /// <code>ListDomainsForPackage</code> operation.
+///
+/// @nodoc
 class ListDomainsForPackageResponse {
   /// Information about all domains associated with a package.
   final List<DomainPackageDetails>? domainPackageDetailsList;
@@ -5902,6 +5999,8 @@ class ListDomainsForPackageResponse {
 
 /// The result of a <code>ListInsights</code> request. Contains the list of
 /// insights and a pagination token for retrieving the next page of results.
+///
+/// @nodoc
 class ListInsightsResponse {
   /// The list of insights returned for the specified entity.
   final List<Insight>? insights;
@@ -5937,6 +6036,7 @@ class ListInsightsResponse {
   }
 }
 
+/// @nodoc
 class ListInstanceTypeDetailsResponse {
   /// Lists all supported instance types and features for the given OpenSearch or
   /// Elasticsearch version.
@@ -5976,6 +6076,8 @@ class ListInstanceTypeDetailsResponse {
 
 /// Container for the response parameters to the
 /// <code>ListPackagesForDomain</code> operation.
+///
+/// @nodoc
 class ListPackagesForDomainResponse {
   /// List of all packages associated with a domain.
   final List<DomainPackageDetails>? domainPackageDetailsList;
@@ -6012,6 +6114,7 @@ class ListPackagesForDomainResponse {
   }
 }
 
+/// @nodoc
 class ListScheduledActionsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -6048,6 +6151,8 @@ class ListScheduledActionsResponse {
 }
 
 /// The results of a <code>ListTags</code> operation.
+///
+/// @nodoc
 class ListTagsResponse {
   /// List of resource tags associated with the specified domain, data source, or
   /// application.
@@ -6076,6 +6181,8 @@ class ListTagsResponse {
 
 /// Container for the parameters for response received from the
 /// <code>ListVersions</code> operation.
+///
+/// @nodoc
 class ListVersionsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -6112,6 +6219,7 @@ class ListVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListVpcEndpointAccessResponse {
   /// A list of <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">IAM
@@ -6150,6 +6258,7 @@ class ListVpcEndpointAccessResponse {
   }
 }
 
+/// @nodoc
 class ListVpcEndpointsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -6186,6 +6295,7 @@ class ListVpcEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListVpcEndpointsForDomainResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -6225,6 +6335,8 @@ class ListVpcEndpointsForDomainResponse {
 
 /// Represents the output of a <code>PurchaseReservedInstanceOffering</code>
 /// operation.
+///
+/// @nodoc
 class PurchaseReservedInstanceOfferingResponse {
   /// The customer-specified identifier used to track this reservation.
   final String? reservationName;
@@ -6255,6 +6367,7 @@ class PurchaseReservedInstanceOfferingResponse {
   }
 }
 
+/// @nodoc
 class PutDefaultApplicationSettingResponse {
   final String? applicationArn;
 
@@ -6279,6 +6392,8 @@ class PutDefaultApplicationSettingResponse {
 
 /// The result of a <code>RegisterCapability</code> request. Contains details
 /// about the registered capability.
+///
+/// @nodoc
 class RegisterCapabilityResponse {
   /// The unique identifier of the OpenSearch UI application.
   final String? applicationId;
@@ -6329,6 +6444,8 @@ class RegisterCapabilityResponse {
 }
 
 /// Represents the output of a <code>RejectInboundConnection</code> operation.
+///
+/// @nodoc
 class RejectInboundConnectionResponse {
   /// Contains details about the rejected inbound connection.
   final InboundConnection? connection;
@@ -6354,6 +6471,7 @@ class RejectInboundConnectionResponse {
   }
 }
 
+/// @nodoc
 class RevokeVpcEndpointAccessResponse {
   RevokeVpcEndpointAccessResponse();
 
@@ -6367,6 +6485,8 @@ class RevokeVpcEndpointAccessResponse {
 }
 
 /// Contains details about the rolled-back service software update.
+///
+/// @nodoc
 class RollbackServiceSoftwareUpdateResponse {
   /// The rollback options for the service software update.
   final RollbackServiceSoftwareOptions? rollbackServiceSoftwareOptions;
@@ -6397,6 +6517,8 @@ class RollbackServiceSoftwareUpdateResponse {
 
 /// The result of a <code>StartDomainMaintenance</code> request that information
 /// about the requested action.
+///
+/// @nodoc
 class StartDomainMaintenanceResponse {
   /// The request ID of requested action.
   final String? maintenanceId;
@@ -6421,6 +6543,8 @@ class StartDomainMaintenanceResponse {
 
 /// Represents the output of a <code>StartServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
+///
+/// @nodoc
 class StartServiceSoftwareUpdateResponse {
   /// The current status of the OpenSearch Service software update.
   final ServiceSoftwareOptions? serviceSoftwareOptions;
@@ -6448,6 +6572,7 @@ class StartServiceSoftwareUpdateResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// The configuration settings for the updated OpenSearch application.
   final List<AppConfig>? appConfigs;
@@ -6530,6 +6655,8 @@ class UpdateApplicationResponse {
 }
 
 /// The result of an <code>UpdateDataSource</code> operation.
+///
+/// @nodoc
 class UpdateDataSourceResponse {
   /// A message associated with the updated data source.
   final String? message;
@@ -6552,6 +6679,7 @@ class UpdateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDirectQueryDataSourceResponse {
   /// The unique, system-generated identifier that represents the data source.
   final String? dataSourceArn;
@@ -6577,6 +6705,8 @@ class UpdateDirectQueryDataSourceResponse {
 
 /// The results of an <code>UpdateDomain</code> request. Contains the status of
 /// the domain being updated.
+///
+/// @nodoc
 class UpdateDomainConfigResponse {
   /// The status of the updated domain.
   final DomainConfig domainConfig;
@@ -6622,6 +6752,7 @@ class UpdateDomainConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateIndexResponse {
   /// The status of the index update operation.
   final IndexStatus status;
@@ -6646,6 +6777,8 @@ class UpdateIndexResponse {
 
 /// Container for the response returned by the <code>UpdatePackage</code>
 /// operation.
+///
+/// @nodoc
 class UpdatePackageResponse {
   /// Information about a package.
   final PackageDetails? packageDetails;
@@ -6671,6 +6804,7 @@ class UpdatePackageResponse {
   }
 }
 
+/// @nodoc
 class UpdatePackageScopeResponse {
   /// The operation that was performed on the package scope.
   final PackageScopeOperationEnum? operation;
@@ -6711,6 +6845,7 @@ class UpdatePackageScopeResponse {
   }
 }
 
+/// @nodoc
 class UpdateScheduledActionResponse {
   /// Information about the rescheduled action.
   final ScheduledAction? scheduledAction;
@@ -6736,6 +6871,7 @@ class UpdateScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class UpdateVpcEndpointResponse {
   /// The endpoint to be updated.
   final VpcEndpoint vpcEndpoint;
@@ -6761,6 +6897,8 @@ class UpdateVpcEndpointResponse {
 }
 
 /// Container for the response returned by <code>UpgradeDomain</code> operation.
+///
+/// @nodoc
 class UpgradeDomainResponse {
   /// The advanced options configuration for the domain.
   final Map<String, String>? advancedOptions;
@@ -6826,6 +6964,8 @@ class UpgradeDomainResponse {
 
 /// Container for information about a configuration change happening on a
 /// domain.
+///
+/// @nodoc
 class ChangeProgressDetails {
   /// The ID of the configuration change.
   final String? changeId;
@@ -6888,6 +7028,7 @@ class ChangeProgressDetails {
   }
 }
 
+/// @nodoc
 class ConfigChangeStatus {
   static const pending = ConfigChangeStatus._('Pending');
   static const initializing = ConfigChangeStatus._('Initializing');
@@ -6928,6 +7069,7 @@ class ConfigChangeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InitiatedBy {
   static const customer = InitiatedBy._('CUSTOMER');
   static const service = InitiatedBy._('SERVICE');
@@ -6953,6 +7095,8 @@ class InitiatedBy {
 
 /// The connection endpoint for connecting to an Amazon OpenSearch Service
 /// domain through a proxy.
+///
+/// @nodoc
 class VpcEndpoint {
   /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
   final String? domainArn;
@@ -7019,6 +7163,8 @@ class VpcEndpoint {
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html">Launching
 /// your Amazon OpenSearch Service domains using a VPC</a>. This information
 /// only exists if the domain was created with <code>VPCOptions</code>.
+///
+/// @nodoc
 class VPCDerivedInfo {
   /// The list of Availability Zones associated with the VPC subnets.
   final List<String>? availabilityZones;
@@ -7082,6 +7228,7 @@ class VPCDerivedInfo {
   }
 }
 
+/// @nodoc
 class VpcEndpointStatus {
   static const creating = VpcEndpointStatus._('CREATING');
   static const createFailed = VpcEndpointStatus._('CREATE_FAILED');
@@ -7123,6 +7270,8 @@ class VpcEndpointStatus {
 /// Service VPC endpoint. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html">Launching
 /// your Amazon OpenSearch Service domains using a VPC</a>.
+///
+/// @nodoc
 class VPCOptions {
   /// Controls whether egress traffic from the domain is routed through the
   /// customer VPC. When <code>true</code>, outbound traffic flows through the
@@ -7164,6 +7313,8 @@ class VPCOptions {
 /// software update</a> or a <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types">blue/green
 /// Auto-Tune enhancement</a>.
+///
+/// @nodoc
 class ScheduledAction {
   /// The unique identifier of the scheduled action.
   final String id;
@@ -7244,6 +7395,7 @@ class ScheduledAction {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const serviceSoftwareUpdate = ActionType._('SERVICE_SOFTWARE_UPDATE');
   static const jvmHeapSizeTuning = ActionType._('JVM_HEAP_SIZE_TUNING');
@@ -7272,6 +7424,7 @@ class ActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionSeverity {
   static const high = ActionSeverity._('HIGH');
   static const medium = ActionSeverity._('MEDIUM');
@@ -7297,6 +7450,7 @@ class ActionSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class ScheduledBy {
   static const customer = ScheduledBy._('CUSTOMER');
   static const system = ScheduledBy._('SYSTEM');
@@ -7320,6 +7474,7 @@ class ScheduledBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionStatus {
   static const pendingUpdate = ActionStatus._('PENDING_UPDATE');
   static const inProgress = ActionStatus._('IN_PROGRESS');
@@ -7354,6 +7509,7 @@ class ActionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ScheduleAt {
   static const now = ScheduleAt._('NOW');
   static const timestamp = ScheduleAt._('TIMESTAMP');
@@ -7378,6 +7534,7 @@ class ScheduleAt {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageScopeOperationEnum {
   static const add = PackageScopeOperationEnum._('ADD');
   static const $override = PackageScopeOperationEnum._('OVERRIDE');
@@ -7405,6 +7562,8 @@ class PackageScopeOperationEnum {
 }
 
 /// Basic information about a package.
+///
+/// @nodoc
 class PackageDetails {
   /// A list of users who are allowed to view and associate the package. This
   /// field is only visible to the owner of a package.
@@ -7566,6 +7725,7 @@ class PackageDetails {
   }
 }
 
+/// @nodoc
 class PackageType {
   static const txtDictionary = PackageType._('TXT-DICTIONARY');
   static const zipPlugin = PackageType._('ZIP-PLUGIN');
@@ -7596,6 +7756,7 @@ class PackageType {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageStatus {
   static const copying = PackageStatus._('COPYING');
   static const copyFailed = PackageStatus._('COPY_FAILED');
@@ -7636,6 +7797,8 @@ class PackageStatus {
 }
 
 /// Additional information if the package is in an error state. Null otherwise.
+///
+/// @nodoc
 class ErrorDetails {
   /// A message describing the error.
   final String? errorMessage;
@@ -7666,6 +7829,8 @@ class ErrorDetails {
 }
 
 /// Basic information about the plugin.
+///
+/// @nodoc
 class PluginProperties {
   /// The name of the class to load.
   final String? className;
@@ -7718,6 +7883,8 @@ class PluginProperties {
 }
 
 /// The configuration parameters for a package.
+///
+/// @nodoc
 class PackageConfiguration {
   /// The configuration requirements for the package.
   final RequirementLevel configurationRequirement;
@@ -7770,6 +7937,8 @@ class PackageConfiguration {
 
 /// Configuration options for determining whether a package can be made
 /// available for use by other users.
+///
+/// @nodoc
 class PackageVendingOptions {
   /// Indicates whether the package vending feature is enabled, allowing the
   /// package to be used by other users.
@@ -7794,6 +7963,8 @@ class PackageVendingOptions {
 }
 
 /// Encryption options for a package.
+///
+/// @nodoc
 class PackageEncryptionOptions {
   /// Whether encryption is enabled for the package.
   final bool encryptionEnabled;
@@ -7823,6 +7994,7 @@ class PackageEncryptionOptions {
   }
 }
 
+/// @nodoc
 class RequirementLevel {
   static const required = RequirementLevel._('REQUIRED');
   static const optional = RequirementLevel._('OPTIONAL');
@@ -7849,6 +8021,8 @@ class RequirementLevel {
 }
 
 /// The Amazon S3 location to import the package from.
+///
+/// @nodoc
 class PackageSource {
   /// The name of the Amazon S3 bucket containing the package.
   final String? s3BucketName;
@@ -7871,6 +8045,7 @@ class PackageSource {
   }
 }
 
+/// @nodoc
 class IndexStatus {
   static const created = IndexStatus._('CREATED');
   static const updated = IndexStatus._('UPDATED');
@@ -7896,6 +8071,8 @@ class IndexStatus {
 }
 
 /// Container for the configuration of an OpenSearch Service domain.
+///
+/// @nodoc
 class DomainConfig {
   /// Container for parameters required to enable all machine learning features.
   final AIMLOptionsStatus? aIMLOptions;
@@ -8166,6 +8343,8 @@ class DomainConfig {
 }
 
 /// Results of a dry run performed in an update domain request.
+///
+/// @nodoc
 class DryRunResults {
   /// Specifies the way in which OpenSearch Service will apply an update. Possible
   /// values are:
@@ -8213,6 +8392,8 @@ class DryRunResults {
 }
 
 /// Information about the progress of a pre-upgrade dry run analysis.
+///
+/// @nodoc
 class DryRunProgressStatus {
   /// The timestamp when the dry run was initiated.
   final String creationDate;
@@ -8268,6 +8449,8 @@ class DryRunProgressStatus {
 
 /// A validation failure that occurred as the result of a pre-update validation
 /// check (verbose dry run) on a domain.
+///
+/// @nodoc
 class ValidationFailure {
   /// The error code of the failure.
   final String? code;
@@ -8299,6 +8482,8 @@ class ValidationFailure {
 
 /// The status of the the OpenSearch or Elasticsearch version options for the
 /// specified Amazon OpenSearch Service domain.
+///
+/// @nodoc
 class VersionStatus {
   /// The OpenSearch or Elasticsearch version for the specified domain.
   final String options;
@@ -8330,6 +8515,8 @@ class VersionStatus {
 }
 
 /// The cluster configuration status for a domain.
+///
+/// @nodoc
 class ClusterConfigStatus {
   /// Cluster configuration options for the specified domain.
   final ClusterConfig options;
@@ -8363,6 +8550,8 @@ class ClusterConfigStatus {
 }
 
 /// The status of the EBS options for the specified OpenSearch Service domain.
+///
+/// @nodoc
 class EBSOptionsStatus {
   /// The configured EBS options for the specified domain.
   final EBSOptions options;
@@ -8396,6 +8585,8 @@ class EBSOptionsStatus {
 
 /// The configured access rules for the domain's search endpoint, and the
 /// current status of those rules.
+///
+/// @nodoc
 class AccessPoliciesStatus {
   /// The access policy configured for the domain. Access policies can be
   /// resource-based, IP-based, or IAM-based. For more information, see <a
@@ -8430,6 +8621,8 @@ class AccessPoliciesStatus {
 }
 
 /// The IP address type status for the domain.
+///
+/// @nodoc
 class IPAddressTypeStatus {
   /// The IP address options for the domain.
   final IPAddressType options;
@@ -8460,6 +8653,8 @@ class IPAddressTypeStatus {
 
 /// Container for information about a daily automated snapshot for an OpenSearch
 /// Service domain.
+///
+/// @nodoc
 class SnapshotOptionsStatus {
   /// The daily snapshot options specified for the domain.
   final SnapshotOptions options;
@@ -8493,6 +8688,8 @@ class SnapshotOptionsStatus {
 }
 
 /// Status of the VPC options for a specified domain.
+///
+/// @nodoc
 class VPCDerivedInfoStatus {
   /// The VPC options for the specified domain.
   final VPCDerivedInfo options;
@@ -8526,6 +8723,8 @@ class VPCDerivedInfoStatus {
 }
 
 /// The status of the Cognito options for the specified domain.
+///
+/// @nodoc
 class CognitoOptionsStatus {
   /// Cognito options for the specified domain.
   final CognitoOptions options;
@@ -8560,6 +8759,8 @@ class CognitoOptionsStatus {
 
 /// Status of the encryption at rest options for the specified OpenSearch
 /// Service domain.
+///
+/// @nodoc
 class EncryptionAtRestOptionsStatus {
   /// Encryption at rest options for the specified domain.
   final EncryptionAtRestOptions options;
@@ -8593,6 +8794,8 @@ class EncryptionAtRestOptionsStatus {
 }
 
 /// Status of the node-to-node encryption options for the specified domain.
+///
+/// @nodoc
 class NodeToNodeEncryptionOptionsStatus {
   /// The node-to-node encryption options for the specified domain.
   final NodeToNodeEncryptionOptions options;
@@ -8660,6 +8863,8 @@ class NodeToNodeEncryptionOptionsStatus {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options">Advanced
 /// cluster parameters</a>.
+///
+/// @nodoc
 class AdvancedOptionsStatus {
   /// The status of advanced options for the specified domain.
   final Map<String, String> options;
@@ -8694,6 +8899,8 @@ class AdvancedOptionsStatus {
 
 /// The configured log publishing options for the domain and their current
 /// status.
+///
+/// @nodoc
 class LogPublishingOptionsStatus {
   /// The log publishing options configured for the domain.
   final Map<LogType, LogPublishingOption>? options;
@@ -8729,6 +8936,8 @@ class LogPublishingOptionsStatus {
 }
 
 /// The configured endpoint options for a domain and their current status.
+///
+/// @nodoc
 class DomainEndpointOptionsStatus {
   /// Options to configure the endpoint for a domain.
   final DomainEndpointOptions options;
@@ -8762,6 +8971,8 @@ class DomainEndpointOptionsStatus {
 }
 
 /// The status of fine-grained access control settings for a domain.
+///
+/// @nodoc
 class AdvancedSecurityOptionsStatus {
   /// Container for fine-grained access control settings.
   final AdvancedSecurityOptions options;
@@ -8795,6 +9006,8 @@ class AdvancedSecurityOptionsStatus {
 }
 
 /// The status of IAM Identity Center configuration settings for a domain.
+///
+/// @nodoc
 class IdentityCenterOptionsStatus {
   /// Configuration settings for IAM Identity Center integration.
   final IdentityCenterOptions options;
@@ -8828,6 +9041,8 @@ class IdentityCenterOptionsStatus {
 }
 
 /// The Auto-Tune status for the domain.
+///
+/// @nodoc
 class AutoTuneOptionsStatus {
   /// Auto-Tune settings for updating a domain.
   final AutoTuneOptions? options;
@@ -8864,6 +9079,8 @@ class AutoTuneOptionsStatus {
 /// The status of <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
 /// window</a> options for a domain.
+///
+/// @nodoc
 class OffPeakWindowOptionsStatus {
   /// The domain's off-peak window configuration.
   final OffPeakWindowOptions? options;
@@ -8899,6 +9116,8 @@ class OffPeakWindowOptionsStatus {
 }
 
 /// The status of the service software options for a domain.
+///
+/// @nodoc
 class SoftwareUpdateOptionsStatus {
   /// The service software update options for a domain.
   final SoftwareUpdateOptions? options;
@@ -8935,6 +9154,8 @@ class SoftwareUpdateOptionsStatus {
 }
 
 /// The status of machine learning options on the specified domain.
+///
+/// @nodoc
 class AIMLOptionsStatus {
   /// Machine learning options on the specified domain.
   final AIMLOptionsOutput? options;
@@ -8967,6 +9188,8 @@ class AIMLOptionsStatus {
 }
 
 /// The status of deployment strategy options for the domain.
+///
+/// @nodoc
 class DeploymentStrategyOptionsStatus {
   /// Deployment strategy options for the domain.
   final DeploymentStrategyOptions options;
@@ -9000,6 +9223,8 @@ class DeploymentStrategyOptionsStatus {
 }
 
 /// The status of automated snapshot pause options for the domain.
+///
+/// @nodoc
 class AutomatedSnapshotPauseOptionsStatus {
   /// Automated snapshot pause options for the domain.
   final AutomatedSnapshotPauseOptions options;
@@ -9036,6 +9261,8 @@ class AutomatedSnapshotPauseOptionsStatus {
 /// Specifies the automated snapshot pause options for the domain. These options
 /// allow you to temporarily pause automated snapshots for a specified time
 /// period.
+///
+/// @nodoc
 class AutomatedSnapshotPauseOptions {
   /// Whether automated snapshot pause is enabled for the domain.
   final bool enabled;
@@ -9082,6 +9309,8 @@ class AutomatedSnapshotPauseOptions {
 }
 
 /// Provides the current status of an entity.
+///
+/// @nodoc
 class OptionStatus {
   /// The timestamp when the entity was created.
   final DateTime creationDate;
@@ -9144,6 +9373,8 @@ class OptionStatus {
 /// domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class OptionState {
   static const requiresIndexDocuments = OptionState._('RequiresIndexDocuments');
   static const processing = OptionState._('Processing');
@@ -9171,6 +9402,8 @@ class OptionState {
 /// The state of the automated snapshot pause. Valid values are
 /// <code>Active</code>, <code>Completed</code>, <code>Scheduled</code>, and
 /// <code>Disabled</code>.
+///
+/// @nodoc
 class PauseState {
   static const active = PauseState._('Active');
   static const completed = PauseState._('Completed');
@@ -9197,6 +9430,8 @@ class PauseState {
 }
 
 /// Specifies the deployment strategy options for the domain.
+///
+/// @nodoc
 class DeploymentStrategyOptions {
   /// Specifies the deployment strategy for the domain. Valid values are
   /// <code>Default</code> and <code>CapacityOptimized</code>.
@@ -9223,6 +9458,8 @@ class DeploymentStrategyOptions {
 
 /// Specifies the deployment strategy for the domain. Valid values are
 /// <code>Default</code> and <code>CapacityOptimized</code>.
+///
+/// @nodoc
 class DeploymentStrategy {
   static const $default = DeploymentStrategy._('Default');
   static const capacityOptimized = DeploymentStrategy._('CapacityOptimized');
@@ -9250,6 +9487,8 @@ class DeploymentStrategy {
 
 /// Container for parameters representing the state of machine learning features
 /// on the specified domain.
+///
+/// @nodoc
 class AIMLOptionsOutput {
   /// Container for parameters required for natural language query generation on
   /// the specified domain.
@@ -9306,6 +9545,8 @@ class AIMLOptionsOutput {
 
 /// Container for parameters representing the state of the natural language
 /// query generation feature on the specified domain.
+///
+/// @nodoc
 class NaturalLanguageQueryGenerationOptionsOutput {
   /// The current state of the natural language query generation feature,
   /// indicating completion, in progress, or failure.
@@ -9341,6 +9582,8 @@ class NaturalLanguageQueryGenerationOptionsOutput {
 }
 
 /// Options for enabling S3 vectors engine features on the specified domain.
+///
+/// @nodoc
 class S3VectorsEngine {
   /// Enables S3 vectors engine features.
   final bool? enabled;
@@ -9366,6 +9609,8 @@ class S3VectorsEngine {
 /// Configuration for serverless vector acceleration, which provides <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/gpu-acceleration-vector-index.html">GPU-accelerated</a>
 /// vector search capabilities for improved performance on vector workloads.
+///
+/// @nodoc
 class ServerlessVectorAcceleration {
   /// Specifies whether serverless vector acceleration is enabled for the domain.
   final bool? enabled;
@@ -9388,6 +9633,7 @@ class ServerlessVectorAcceleration {
   }
 }
 
+/// @nodoc
 class NaturalLanguageQueryGenerationDesiredState {
   static const enabled =
       NaturalLanguageQueryGenerationDesiredState._('ENABLED');
@@ -9416,6 +9662,7 @@ class NaturalLanguageQueryGenerationDesiredState {
   String toString() => value;
 }
 
+/// @nodoc
 class NaturalLanguageQueryGenerationCurrentState {
   static const notEnabled =
       NaturalLanguageQueryGenerationCurrentState._('NOT_ENABLED');
@@ -9463,6 +9710,8 @@ class NaturalLanguageQueryGenerationCurrentState {
 }
 
 /// Information about the domain properties that are currently being modified.
+///
+/// @nodoc
 class ModifyingProperties {
   /// The current value of the domain property that is being modified.
   final String? activeValue;
@@ -9520,6 +9769,7 @@ class ModifyingProperties {
   }
 }
 
+/// @nodoc
 class PropertyValueType {
   static const plainText = PropertyValueType._('PLAIN_TEXT');
   static const stringifiedJson = PropertyValueType._('STRINGIFIED_JSON');
@@ -9545,6 +9795,8 @@ class PropertyValueType {
 }
 
 /// Options for configuring service software updates for a domain.
+///
+/// @nodoc
 class SoftwareUpdateOptions {
   /// Whether automatic service software updates are enabled for the domain.
   final bool? autoSoftwareUpdateEnabled;
@@ -9585,6 +9837,8 @@ class SoftwareUpdateOptions {
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
 /// window</a>, during which OpenSearch Service can perform mandatory
 /// configuration changes on the domain.
+///
+/// @nodoc
 class OffPeakWindowOptions {
   /// Whether to enable an off-peak window.
   ///
@@ -9634,6 +9888,8 @@ class OffPeakWindowOptions {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html">Defining
 /// off-peak maintenance windows for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class OffPeakWindow {
   /// A custom start time for the off-peak window, in Coordinated Universal Time
   /// (UTC). The window length will always be 10 hours, so you can't specify an
@@ -9665,6 +9921,8 @@ class OffPeakWindow {
 /// The desired start time for an <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
 /// maintenance window</a>.
+///
+/// @nodoc
 class WindowStartTime {
   /// The start hour of the window in Coordinated Universal Time (UTC), using
   /// 24-hour time. For example, <code>17</code> refers to 5:00 P.M. UTC.
@@ -9698,6 +9956,8 @@ class WindowStartTime {
 /// Auto-Tune settings when updating a domain. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AutoTuneOptions {
   /// Whether Auto-Tune is enabled or disabled.
   final AutoTuneDesiredState? desiredState;
@@ -9763,6 +10023,8 @@ class AutoTuneOptions {
 /// The current status of Auto-Tune for the domain. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AutoTuneStatus {
   /// Date and time when Auto-Tune was enabled for the domain.
   final DateTime creationDate;
@@ -9823,6 +10085,8 @@ class AutoTuneStatus {
 /// The Auto-Tune state for the domain. For valid states see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AutoTuneState {
   static const enabled = AutoTuneState._('ENABLED');
   static const disabled = AutoTuneState._('DISABLED');
@@ -9869,6 +10133,8 @@ class AutoTuneState {
 }
 
 /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
+///
+/// @nodoc
 class AutoTuneDesiredState {
   static const enabled = AutoTuneDesiredState._('ENABLED');
   static const disabled = AutoTuneDesiredState._('DISABLED');
@@ -9895,6 +10161,8 @@ class AutoTuneDesiredState {
 }
 
 /// The rollback state while disabling Auto-Tune for the domain.
+///
+/// @nodoc
 class RollbackOnDisable {
   static const noRollback = RollbackOnDisable._('NO_ROLLBACK');
   static const defaultRollback = RollbackOnDisable._('DEFAULT_ROLLBACK');
@@ -9930,6 +10198,8 @@ class RollbackOnDisable {
 /// The Auto-Tune maintenance schedule. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AutoTuneMaintenanceSchedule {
   /// A cron expression for a recurring maintenance schedule during which
   /// Auto-Tune can deploy changes.
@@ -9975,6 +10245,8 @@ class AutoTuneMaintenanceSchedule {
 /// The duration of a maintenance schedule. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class Duration {
   /// The unit of measurement for the duration of a maintenance schedule.
   final TimeUnit? unit;
@@ -10006,6 +10278,8 @@ class Duration {
 
 /// The unit of a maintenance schedule duration. Valid value is
 /// <code>HOUR</code>.
+///
+/// @nodoc
 class TimeUnit {
   static const hours = TimeUnit._('HOURS');
 
@@ -10032,6 +10306,8 @@ class TimeUnit {
 /// applications, which enables enabling secure user authentication and access
 /// control across multiple data sources. This setup supports single sign-on
 /// (SSO) through IAM Identity Center, allowing centralized user management.
+///
+/// @nodoc
 class IdentityCenterOptions {
   /// Indicates whether IAM Identity Center is enabled for the application.
   final bool? enabledAPIAccess;
@@ -10106,6 +10382,7 @@ class IdentityCenterOptions {
   }
 }
 
+/// @nodoc
 class SubjectKeyIdCOption {
   static const userName = SubjectKeyIdCOption._('UserName');
   static const userId = SubjectKeyIdCOption._('UserId');
@@ -10132,6 +10409,7 @@ class SubjectKeyIdCOption {
   String toString() => value;
 }
 
+/// @nodoc
 class RolesKeyIdCOption {
   static const groupName = RolesKeyIdCOption._('GroupName');
   static const groupId = RolesKeyIdCOption._('GroupId');
@@ -10157,6 +10435,8 @@ class RolesKeyIdCOption {
 }
 
 /// Container for fine-grained access control settings.
+///
+/// @nodoc
 class AdvancedSecurityOptions {
   /// Date and time when the migration period will be disabled. Only necessary
   /// when <a
@@ -10246,6 +10526,8 @@ class AdvancedSecurityOptions {
 }
 
 /// Describes the SAML application configured for the domain.
+///
+/// @nodoc
 class SAMLOptionsOutput {
   /// True if SAML is enabled.
   final bool? enabled;
@@ -10300,6 +10582,8 @@ class SAMLOptionsOutput {
 }
 
 /// Describes the JWT options configured for the domain.
+///
+/// @nodoc
 class JWTOptionsOutput {
   /// True if JWT use is enabled.
   final bool? enabled;
@@ -10352,6 +10636,8 @@ class JWTOptionsOutput {
 }
 
 /// Output parameters showing the current IAM identity federation configuration.
+///
+/// @nodoc
 class IAMFederationOptionsOutput {
   /// Indicates whether IAM identity federation is currently enabled for the
   /// domain.
@@ -10390,6 +10676,8 @@ class IAMFederationOptionsOutput {
 }
 
 /// The SAML identity povider information.
+///
+/// @nodoc
 class SAMLIdp {
   /// The unique entity ID of the application in the SAML identity provider.
   final String entityId;
@@ -10420,6 +10708,8 @@ class SAMLIdp {
 }
 
 /// Options to configure a custom endpoint for an OpenSearch Service domain.
+///
+/// @nodoc
 class DomainEndpointOptions {
   /// The fully qualified URL for the custom endpoint.
   final String? customEndpoint;
@@ -10496,6 +10786,7 @@ class DomainEndpointOptions {
   }
 }
 
+/// @nodoc
 class TLSSecurityPolicy {
   static const policyMinTls_1_0_2019_07 =
       TLSSecurityPolicy._('Policy-Min-TLS-1-0-2019-07');
@@ -10552,6 +10843,8 @@ class TLSSecurityPolicy {
 /// to the domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LogType {
   static const indexSlowLogs = LogType._('INDEX_SLOW_LOGS');
   static const searchSlowLogs = LogType._('SEARCH_SLOW_LOGS');
@@ -10591,6 +10884,8 @@ class LogType {
 /// After you enable log publishing, you still have to enable the collection of
 /// slow logs using the OpenSearch REST API.
 /// </note>
+///
+/// @nodoc
 class LogPublishingOption {
   /// The Amazon Resource Name (ARN) of the CloudWatch Logs group to publish logs
   /// to.
@@ -10625,6 +10920,8 @@ class LogPublishingOption {
 /// Enables or disables node-to-node encryption. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ntn.html">Node-to-node
 /// encryption for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class NodeToNodeEncryptionOptions {
   /// True to enable node-to-node encryption.
   final bool? enabled;
@@ -10651,6 +10948,8 @@ class NodeToNodeEncryptionOptions {
 /// Management Service (KMS) key to use. Can only be used when creating a new
 /// domain or enabling encryption at rest for the first time on an existing
 /// domain. You can't modify this parameter after it's already been specified.
+///
+/// @nodoc
 class EncryptionAtRestOptions {
   /// True to enable encryption at rest.
   final bool? enabled;
@@ -10685,6 +10984,8 @@ class EncryptionAtRestOptions {
 /// an OpenSearch Service domain. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html">Configuring
 /// Amazon Cognito authentication for OpenSearch Dashboards</a>.
+///
+/// @nodoc
 class CognitoOptions {
   /// Whether to enable or disable Amazon Cognito authentication for OpenSearch
   /// Dashboards.
@@ -10734,6 +11035,8 @@ class CognitoOptions {
 
 /// The time, in UTC format, when OpenSearch Service takes a daily automated
 /// snapshot of the specified domain. Default is <code>0</code> hours.
+///
+/// @nodoc
 class SnapshotOptions {
   /// The time, in UTC format, when OpenSearch Service takes a daily automated
   /// snapshot of the specified domain. Default is <code>0</code> hours.
@@ -10758,6 +11061,7 @@ class SnapshotOptions {
   }
 }
 
+/// @nodoc
 class IPAddressType {
   static const ipv4 = IPAddressType._('ipv4');
   static const dualstack = IPAddressType._('dualstack');
@@ -10784,6 +11088,8 @@ class IPAddressType {
 
 /// Container for the parameters required to enable EBS-based storage for an
 /// OpenSearch Service domain.
+///
+/// @nodoc
 class EBSOptions {
   /// Indicates whether EBS volumes are attached to data nodes in an OpenSearch
   /// Service domain.
@@ -10841,6 +11147,8 @@ class EBSOptions {
 /// The type of EBS volume that a domain uses. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs">Configuring
 /// EBS-based storage</a>.
+///
+/// @nodoc
 class VolumeType {
   static const standard = VolumeType._('standard');
   static const gp2 = VolumeType._('gp2');
@@ -10870,6 +11178,8 @@ class VolumeType {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html">Creating
 /// and managing Amazon OpenSearch Service domains</a>.
+///
+/// @nodoc
 class ClusterConfig {
   /// Container for cold storage configuration options.
   final ColdStorageOptions? coldStorageOptions;
@@ -11006,6 +11316,7 @@ class ClusterConfig {
   }
 }
 
+/// @nodoc
 class OpenSearchPartitionInstanceType {
   static const m3MediumSearch =
       OpenSearchPartitionInstanceType._('m3.medium.search');
@@ -11340,6 +11651,8 @@ class OpenSearchPartitionInstanceType {
 }
 
 /// The zone awareness configuration for an Amazon OpenSearch Service domain.
+///
+/// @nodoc
 class ZoneAwarenessConfig {
   /// If you enabled multiple Availability Zones, this value is the number of
   /// zones that you want the domain to use. Valid values are <code>2</code> and
@@ -11366,6 +11679,7 @@ class ZoneAwarenessConfig {
   }
 }
 
+/// @nodoc
 class OpenSearchWarmPartitionInstanceType {
   static const ultrawarm1MediumSearch =
       OpenSearchWarmPartitionInstanceType._('ultrawarm1.medium.search');
@@ -11403,6 +11717,8 @@ class OpenSearchWarmPartitionInstanceType {
 /// OpenSearch Service domain. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html">Cold
 /// storage for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class ColdStorageOptions {
   /// Whether to enable or disable cold storage on the domain. You must enable
   /// UltraWarm storage to enable cold storage.
@@ -11427,6 +11743,8 @@ class ColdStorageOptions {
 }
 
 /// Configuration settings for defining the node type within a cluster.
+///
+/// @nodoc
 class NodeOption {
   /// Configuration options for defining the setup of any node type.
   final NodeConfig? nodeConfig;
@@ -11459,6 +11777,7 @@ class NodeOption {
   }
 }
 
+/// @nodoc
 class NodeOptionsNodeType {
   static const coordinator = NodeOptionsNodeType._('coordinator');
 
@@ -11485,6 +11804,8 @@ class NodeOptionsNodeType {
 
 /// Configuration options for defining the setup of any node type within the
 /// cluster.
+///
+/// @nodoc
 class NodeConfig {
   /// The number of nodes of a specific type within the cluster.
   final int? count;
@@ -11527,6 +11848,8 @@ class NodeConfig {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html">Fine-grained
 /// access control in Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AdvancedSecurityOptionsInput {
   /// True to enable a 30-day migration period during which administrators can
   /// create role mappings. Only necessary when <a
@@ -11589,6 +11912,8 @@ class AdvancedSecurityOptionsInput {
 }
 
 /// Configuration settings for enabling and managing IAM Identity Center.
+///
+/// @nodoc
 class IdentityCenterOptionsInput {
   /// Indicates whether IAM Identity Center is enabled for API access in Amazon
   /// OpenSearch Service.
@@ -11635,6 +11960,7 @@ class IdentityCenterOptionsInput {
   }
 }
 
+/// @nodoc
 class DryRunMode {
   static const basic = DryRunMode._('Basic');
   static const verbose = DryRunMode._('Verbose');
@@ -11659,6 +11985,8 @@ class DryRunMode {
 }
 
 /// Container for parameters required to enable all machine learning features.
+///
+/// @nodoc
 class AIMLOptionsInput {
   /// Container for parameters required for natural language query generation on
   /// the specified domain.
@@ -11704,6 +12032,8 @@ class AIMLOptionsInput {
 /// short-term operational needs such as migrations or maintenance windows.
 /// </important>
 /// Maximum suspension duration: 3 days.
+///
+/// @nodoc
 class AutomatedSnapshotPauseRequestOptions {
   /// Whether to enable or disable automated snapshot pause for the domain.
   final bool enabled;
@@ -11736,6 +12066,8 @@ class AutomatedSnapshotPauseRequestOptions {
 
 /// Container for parameters required to enable the natural language query
 /// generation feature.
+///
+/// @nodoc
 class NaturalLanguageQueryGenerationOptionsInput {
   /// The desired state of the natural language query generation feature. Valid
   /// values are ENABLED and DISABLED.
@@ -11754,6 +12086,8 @@ class NaturalLanguageQueryGenerationOptionsInput {
 }
 
 /// Credentials for the master user for a domain.
+///
+/// @nodoc
 class MasterUserOptions {
   /// Amazon Resource Name (ARN) for the master user. Only specify if
   /// <code>InternalUserDatabaseEnabled</code> is <code>false</code>.
@@ -11787,6 +12121,8 @@ class MasterUserOptions {
 
 /// The SAML authentication configuration for an Amazon OpenSearch Service
 /// domain.
+///
+/// @nodoc
 class SAMLOptionsInput {
   /// True to enable SAML authentication for a domain.
   final bool? enabled;
@@ -11846,6 +12182,8 @@ class SAMLOptionsInput {
 
 /// The JWT authentication and authorization configuration for an Amazon
 /// OpenSearch Service domain.
+///
+/// @nodoc
 class JWTOptionsInput {
   /// True to enable JWT authentication and authorization for a domain.
   final bool? enabled;
@@ -11888,6 +12226,8 @@ class JWTOptionsInput {
 }
 
 /// Input parameters for configuring IAM identity federation settings.
+///
+/// @nodoc
 class IAMFederationOptionsInput {
   /// Specifies whether IAM identity federation is enabled for the OpenSearch
   /// domain.
@@ -11919,6 +12259,8 @@ class IAMFederationOptionsInput {
 
 /// The type of data source that is used for direct queries. This is a supported
 /// Amazon Web Services service, such as CloudWatch Logs or Security Lake.
+///
+/// @nodoc
 class DirectQueryDataSourceType {
   /// Specifies CloudWatch Logs as a type of data source for direct queries.
   final CloudWatchDirectQueryDataSource? cloudWatchLog;
@@ -11966,6 +12308,8 @@ class DirectQueryDataSourceType {
 
 /// Configuration details for a CloudWatch Logs data source that can be used for
 /// direct queries.
+///
+/// @nodoc
 class CloudWatchDirectQueryDataSource {
   /// The unique identifier of the IAM role that grants OpenSearch Service
   /// permission to access the specified data source.
@@ -11991,6 +12335,8 @@ class CloudWatchDirectQueryDataSource {
 
 /// Configuration details for a Security Lake data source that can be used for
 /// direct queries.
+///
+/// @nodoc
 class SecurityLakeDirectQueryDataSource {
   /// The unique identifier of the IAM role that grants OpenSearch Service
   /// permission to access the specified data source.
@@ -12017,6 +12363,8 @@ class SecurityLakeDirectQueryDataSource {
 
 /// Configuration details for a Prometheus data source that can be used for
 /// direct queries.
+///
+/// @nodoc
 class PrometheusDirectQueryDataSource {
   /// The unique identifier of the IAM role that grants OpenSearch Service
   /// permission to access the specified data source.
@@ -12049,6 +12397,8 @@ class PrometheusDirectQueryDataSource {
 }
 
 /// The type of data source.
+///
+/// @nodoc
 class DataSourceType {
   /// An Amazon S3 data source.
   final S3GlueDataCatalog? s3GlueDataCatalog;
@@ -12074,6 +12424,7 @@ class DataSourceType {
   }
 }
 
+/// @nodoc
 class DataSourceStatus {
   static const active = DataSourceStatus._('ACTIVE');
   static const disabled = DataSourceStatus._('DISABLED');
@@ -12099,6 +12450,8 @@ class DataSourceStatus {
 }
 
 /// Information about the Amazon S3 Glue Data Catalog.
+///
+/// @nodoc
 class S3GlueDataCatalog {
   /// >The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
   final String? roleArn;
@@ -12122,6 +12475,8 @@ class S3GlueDataCatalog {
 }
 
 /// Configuration settings for IAM Identity Center in an OpenSearch application.
+///
+/// @nodoc
 class IamIdentityCenterOptions {
   /// Indicates whether IAM Identity Center is enabled for the OpenSearch
   /// application.
@@ -12176,6 +12531,8 @@ class IamIdentityCenterOptions {
 /// see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html">Using
 /// the OpenSearch user interface in Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AppConfig {
   /// The configuration item to set, such as the admin role for the OpenSearch
   /// application.
@@ -12206,6 +12563,7 @@ class AppConfig {
   }
 }
 
+/// @nodoc
 class AppConfigType {
   static const opensearchDashboardsDashboardAdminUsers =
       AppConfigType._('opensearchDashboards.dashboardAdmin.users');
@@ -12236,6 +12594,8 @@ class AppConfigType {
 }
 
 /// Data sources that are associated with an OpenSearch application.
+///
+/// @nodoc
 class DataSource {
   final String? dataSourceArn;
 
@@ -12278,6 +12638,8 @@ class DataSource {
 /// domain. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
 /// software updates in Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class ServiceSoftwareOptions {
   /// The timestamp, in Epoch time, until which you can manually request a service
   /// software update. After this date, we automatically update your service
@@ -12356,6 +12718,7 @@ class ServiceSoftwareOptions {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const pendingUpdate = DeploymentStatus._('PENDING_UPDATE');
   static const inProgress = DeploymentStatus._('IN_PROGRESS');
@@ -12389,6 +12752,7 @@ class DeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MaintenanceType {
   static const rebootNode = MaintenanceType._('REBOOT_NODE');
   static const restartSearchProcess =
@@ -12416,6 +12780,8 @@ class MaintenanceType {
 }
 
 /// Details about the rollback options for a service software update.
+///
+/// @nodoc
 class RollbackServiceSoftwareOptions {
   /// The current service software version on the domain.
   final String? currentVersion;
@@ -12459,6 +12825,7 @@ class RollbackServiceSoftwareOptions {
   }
 }
 
+/// @nodoc
 class AWSServicePrincipal {
   static const applicationOpensearchserviceAmazonawsCom =
       AWSServicePrincipal._('application.opensearchservice.amazonaws.com');
@@ -12485,6 +12852,8 @@ class AWSServicePrincipal {
 }
 
 /// Options for the service, such as the supported Regions.
+///
+/// @nodoc
 class ServiceOptions {
   /// The list of supported Regions for the service.
   final List<String>? supportedRegions;
@@ -12514,6 +12883,8 @@ class ServiceOptions {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
 /// search for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class InboundConnection {
   /// The unique identifier of the connection.
   final String? connectionId;
@@ -12575,6 +12946,8 @@ class InboundConnection {
 }
 
 /// Container for information about an OpenSearch Service domain.
+///
+/// @nodoc
 class DomainInformationContainer {
   /// Information about an Amazon OpenSearch Service domain.
   final AWSDomainInformation? awsDomainInformation;
@@ -12602,6 +12975,8 @@ class DomainInformationContainer {
 }
 
 /// The status of an inbound cross-cluster connection for OpenSearch Service.
+///
+/// @nodoc
 class InboundConnectionStatus {
   /// Information about the connection.
   final String? message;
@@ -12672,6 +13047,8 @@ class InboundConnectionStatus {
 /// Service VPC domains.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ConnectionMode {
   static const direct = ConnectionMode._('DIRECT');
   static const vpcEndpoint = ConnectionMode._('VPC_ENDPOINT');
@@ -12696,6 +13073,7 @@ class ConnectionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class InboundConnectionStatusCode {
   static const pendingAcceptance =
       InboundConnectionStatusCode._('PENDING_ACCEPTANCE');
@@ -12738,6 +13116,8 @@ class InboundConnectionStatusCode {
 }
 
 /// Information about an Amazon OpenSearch Service domain.
+///
+/// @nodoc
 class AWSDomainInformation {
   /// Name of the domain.
   final String domainName;
@@ -12778,6 +13158,8 @@ class AWSDomainInformation {
 /// <code>create_failed</code>, <code>active</code>, <code>updating</code>,
 /// <code>update_failed</code>, <code>deleting</code>,
 /// <code>delete_failed</code>.
+///
+/// @nodoc
 class CapabilityStatus {
   static const creating = CapabilityStatus._('creating');
   static const createFailed = CapabilityStatus._('create_failed');
@@ -12816,6 +13198,8 @@ class CapabilityStatus {
 }
 
 /// The base configuration returned for a registered capability.
+///
+/// @nodoc
 class CapabilityBaseResponseConfig {
   /// Configuration settings for AI-powered capabilities.
   final AIConfig? aiConfig;
@@ -12842,6 +13226,8 @@ class CapabilityBaseResponseConfig {
 
 /// Configuration settings for AI-powered capabilities of an OpenSearch UI
 /// application.
+///
+/// @nodoc
 class AIConfig {
   AIConfig();
 
@@ -12856,6 +13242,8 @@ class AIConfig {
 
 /// The base configuration for registering a capability. Contains
 /// capability-specific configuration such as AI settings.
+///
+/// @nodoc
 class CapabilityBaseRequestConfig {
   /// Configuration settings for AI-powered capabilities.
   final AIConfig? aiConfig;
@@ -12873,6 +13261,8 @@ class CapabilityBaseRequestConfig {
 }
 
 /// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
+///
+/// @nodoc
 class VpcEndpointSummary {
   /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
   final String? domainArn;
@@ -12919,6 +13309,8 @@ class VpcEndpointSummary {
 /// Information about an Amazon Web Services account or service that has access
 /// to an Amazon OpenSearch Service domain through the use of an interface VPC
 /// endpoint.
+///
+/// @nodoc
 class AuthorizedPrincipal {
   /// The <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">IAM
@@ -12962,6 +13354,7 @@ class AuthorizedPrincipal {
   }
 }
 
+/// @nodoc
 class PrincipalType {
   static const awsAccount = PrincipalType._('AWS_ACCOUNT');
   static const awsService = PrincipalType._('AWS_SERVICE');
@@ -12987,6 +13380,8 @@ class PrincipalType {
 }
 
 /// A tag (key-value pair) for an Amazon OpenSearch Service resource.
+///
+/// @nodoc
 class Tag {
   /// The tag key. Tag keys must be unique for the domain to which they are
   /// attached.
@@ -13024,6 +13419,8 @@ class Tag {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
 /// packages for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class DomainPackageDetails {
   /// The configuration for associating a package with an Amazon OpenSearch
   /// Service domain.
@@ -13132,6 +13529,7 @@ class DomainPackageDetails {
   }
 }
 
+/// @nodoc
 class DomainPackageStatus {
   static const associating = DomainPackageStatus._('ASSOCIATING');
   static const associationFailed = DomainPackageStatus._('ASSOCIATION_FAILED');
@@ -13168,6 +13566,8 @@ class DomainPackageStatus {
 }
 
 /// The configuration for associating a package with a domain.
+///
+/// @nodoc
 class PackageAssociationConfiguration {
   /// The configuration parameters to enable accessing the key store required by
   /// the package.
@@ -13197,6 +13597,8 @@ class PackageAssociationConfiguration {
 
 /// The configuration parameters to enable access to the key store required by
 /// the package.
+///
+/// @nodoc
 class KeyStoreAccessOption {
   /// This indicates whether Key Store access is enabled
   final bool keyStoreAccessEnabled;
@@ -13228,6 +13630,8 @@ class KeyStoreAccessOption {
 
 /// Lists all instance types and available features for a given OpenSearch or
 /// Elasticsearch version.
+///
+/// @nodoc
 class InstanceTypeDetails {
   /// Whether fine-grained access control is supported for the instance type.
   final bool? advancedSecurityEnabled;
@@ -13312,6 +13716,8 @@ class InstanceTypeDetails {
 /// Represents an insight returned by the <code>ListInsights</code> operation.
 /// An insight is a notification about a domain event or recommendation that
 /// helps you optimize your Amazon OpenSearch Service domain.
+///
+/// @nodoc
 class Insight {
   /// The timestamp when the insight was created, in epoch milliseconds.
   final DateTime? creationTime;
@@ -13391,6 +13797,8 @@ class Insight {
 
 /// The type of an insight. Possible values are <code>EVENT</code> and
 /// <code>RECOMMENDATION</code>.
+///
+/// @nodoc
 class InsightType {
   static const event = InsightType._('EVENT');
   static const recommendation = InsightType._('RECOMMENDATION');
@@ -13416,6 +13824,8 @@ class InsightType {
 
 /// The priority level of an insight. Possible values are <code>CRITICAL</code>,
 /// <code>HIGH</code>, <code>MEDIUM</code>, and <code>LOW</code>.
+///
+/// @nodoc
 class InsightPriorityLevel {
   static const critical = InsightPriorityLevel._('CRITICAL');
   static const high = InsightPriorityLevel._('HIGH');
@@ -13445,6 +13855,8 @@ class InsightPriorityLevel {
 
 /// The status of an insight. Possible values are <code>ACTIVE</code>,
 /// <code>RESOLVED</code>, and <code>DISMISSED</code>.
+///
+/// @nodoc
 class InsightStatus {
   static const active = InsightStatus._('ACTIVE');
   static const resolved = InsightStatus._('RESOLVED');
@@ -13472,6 +13884,8 @@ class InsightStatus {
 
 /// Specifies the entity for which to retrieve insights. An entity can be an
 /// Amazon OpenSearch Service domain or an Amazon Web Services account.
+///
+/// @nodoc
 class InsightEntity {
   /// The type of the entity. Possible values are <code>Account</code> and
   /// <code>DomainName</code>.
@@ -13497,6 +13911,8 @@ class InsightEntity {
 }
 
 /// Specifies the time range for filtering insights.
+///
+/// @nodoc
 class InsightTimeRange {
   /// The start of the time range, in epoch milliseconds.
   final int from;
@@ -13521,6 +13937,8 @@ class InsightTimeRange {
 
 /// The sort order for listing insights. Possible values are <code>ASC</code>
 /// (ascending) and <code>DESC</code> (descending).
+///
+/// @nodoc
 class InsightSortOrder {
   static const asc = InsightSortOrder._('ASC');
   static const desc = InsightSortOrder._('DESC');
@@ -13547,6 +13965,8 @@ class InsightSortOrder {
 
 /// The type of entity for which to retrieve insights. Possible values are
 /// <code>Account</code> and <code>DomainName</code>.
+///
+/// @nodoc
 class InsightEntityType {
   static const account = InsightEntityType._('Account');
   static const domainName = InsightEntityType._('DomainName');
@@ -13572,6 +13992,8 @@ class InsightEntityType {
 }
 
 /// Information about an OpenSearch Service domain.
+///
+/// @nodoc
 class DomainInfo {
   /// Name of the domain.
   final String? domainName;
@@ -13603,6 +14025,7 @@ class DomainInfo {
   }
 }
 
+/// @nodoc
 class EngineType {
   static const openSearch = EngineType._('OpenSearch');
   static const elasticsearch = EngineType._('Elasticsearch');
@@ -13627,6 +14050,8 @@ class EngineType {
 }
 
 /// Container for the domain maintenance details.
+///
+/// @nodoc
 class DomainMaintenanceDetails {
   /// The name of the action.
   final MaintenanceType? action;
@@ -13698,6 +14123,7 @@ class DomainMaintenanceDetails {
   }
 }
 
+/// @nodoc
 class MaintenanceStatus {
   static const pending = MaintenanceStatus._('PENDING');
   static const inProgress = MaintenanceStatus._('IN_PROGRESS');
@@ -13726,6 +14152,8 @@ class MaintenanceStatus {
 }
 
 /// The configuration details for a data source that can be directly queried.
+///
+/// @nodoc
 class DirectQueryDataSource {
   /// The unique, system-generated identifier that represents the data source.
   final String? dataSourceArn;
@@ -13797,6 +14225,8 @@ class DirectQueryDataSource {
 }
 
 /// Details about a direct-query data source.
+///
+/// @nodoc
 class DataSourceDetails {
   /// The type of data source.
   final DataSourceType? dataSourceType;
@@ -13844,6 +14274,8 @@ class DataSourceDetails {
 }
 
 /// Basic details of an OpenSearch application.
+///
+/// @nodoc
 class ApplicationSummary {
   final String? arn;
 
@@ -13910,6 +14342,7 @@ class ApplicationSummary {
   }
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const creating = ApplicationStatus._('CREATING');
   static const updating = ApplicationStatus._('UPDATING');
@@ -13937,6 +14370,7 @@ class ApplicationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpgradeStep {
   static const preUpgradeCheck = UpgradeStep._('PRE_UPGRADE_CHECK');
   static const snapshot = UpgradeStep._('SNAPSHOT');
@@ -13961,6 +14395,7 @@ class UpgradeStep {
   String toString() => value;
 }
 
+/// @nodoc
 class UpgradeStatus {
   static const inProgress = UpgradeStatus._('IN_PROGRESS');
   static const succeeded = UpgradeStatus._('SUCCEEDED');
@@ -13989,6 +14424,8 @@ class UpgradeStatus {
 
 /// History of the last 10 upgrades and upgrade eligibility checks for an Amazon
 /// OpenSearch Service domain.
+///
+/// @nodoc
 class UpgradeHistory {
   /// UTC timestamp at which the upgrade API call was made, in the format
   /// <code>yyyy-MM-ddTHH:mm:ssZ</code>.
@@ -14057,6 +14494,8 @@ class UpgradeHistory {
 
 /// Represents a single step of an upgrade or upgrade eligibility check
 /// workflow.
+///
+/// @nodoc
 class UpgradeStepItem {
   /// A list of strings containing detailed information about the errors
   /// encountered in a particular step.
@@ -14136,6 +14575,8 @@ class UpgradeStepItem {
 }
 
 /// Details about a package version.
+///
+/// @nodoc
 class PackageVersionHistory {
   /// A message associated with the package version when it was uploaded.
   final String? commitMessage;
@@ -14196,6 +14637,8 @@ class PackageVersionHistory {
 
 /// A map of OpenSearch or Elasticsearch versions and the versions you can
 /// upgrade them to.
+///
+/// @nodoc
 class CompatibleVersionsMap {
   /// The current version that the OpenSearch Service domain is running.
   final String? sourceVersion;
@@ -14230,6 +14673,8 @@ class CompatibleVersionsMap {
 
 /// The extended configuration returned for a registered capability, including
 /// additional details beyond the base configuration.
+///
+/// @nodoc
 class CapabilityExtendedResponseConfig {
   /// Configuration settings for AI-powered capabilities.
   final AIConfig? aiConfig;
@@ -14255,6 +14700,8 @@ class CapabilityExtendedResponseConfig {
 }
 
 /// Information about a capability failure.
+///
+/// @nodoc
 class CapabilityFailure {
   /// Additional details about the capability failure.
   final String? details;
@@ -14286,6 +14733,7 @@ class CapabilityFailure {
   }
 }
 
+/// @nodoc
 class CapabilityFailureReason {
   static const kmsKeyInsufficientPermission =
       CapabilityFailureReason._('KMS_KEY_INSUFFICIENT_PERMISSION');
@@ -14313,6 +14761,8 @@ class CapabilityFailureReason {
 
 /// Error information when attempting to describe an Amazon OpenSearch
 /// Service-managed VPC endpoint.
+///
+/// @nodoc
 class VpcEndpointError {
   /// The code associated with the error.
   final VpcEndpointErrorCode? errorCode;
@@ -14350,6 +14800,7 @@ class VpcEndpointError {
   }
 }
 
+/// @nodoc
 class VpcEndpointErrorCode {
   static const endpointNotFound = VpcEndpointErrorCode._('ENDPOINT_NOT_FOUND');
   static const serverError = VpcEndpointErrorCode._('SERVER_ERROR');
@@ -14376,6 +14827,8 @@ class VpcEndpointErrorCode {
 }
 
 /// Details of an OpenSearch Reserved Instance.
+///
+/// @nodoc
 class ReservedInstance {
   /// The unique identifier of the billing subscription.
   final int? billingSubscriptionId;
@@ -14499,6 +14952,7 @@ class ReservedInstance {
   }
 }
 
+/// @nodoc
 class ReservedInstancePaymentOption {
   static const allUpfront = ReservedInstancePaymentOption._('ALL_UPFRONT');
   static const partialUpfront =
@@ -14528,6 +14982,8 @@ class ReservedInstancePaymentOption {
 
 /// Contains the specific price and frequency of a recurring charges for an
 /// OpenSearch Reserved Instance, or for a Reserved Instance offering.
+///
+/// @nodoc
 class RecurringCharge {
   /// The monetary amount of the recurring charge.
   final double? recurringChargeAmount;
@@ -14560,6 +15016,8 @@ class RecurringCharge {
 }
 
 /// Details of an OpenSearch Reserved Instance offering.
+///
+/// @nodoc
 class ReservedInstanceOffering {
   /// The currency code for the Reserved Instance offering.
   final String? currencyCode;
@@ -14642,6 +15100,8 @@ class ReservedInstanceOffering {
 }
 
 /// A filter to apply to the <code>DescribePackage</code> response.
+///
+/// @nodoc
 class DescribePackagesFilter {
   /// Any field from <code>PackageDetails</code>.
   final DescribePackagesFilterName? name;
@@ -14664,6 +15124,7 @@ class DescribePackagesFilter {
   }
 }
 
+/// @nodoc
 class DescribePackagesFilterName {
   static const packageID = DescribePackagesFilterName._('PackageID');
   static const packageName = DescribePackagesFilterName._('PackageName');
@@ -14701,6 +15162,8 @@ class DescribePackagesFilterName {
 }
 
 /// Specifies details about an outbound cross-cluster connection.
+///
+/// @nodoc
 class OutboundConnection {
   /// Name of the connection.
   final String? connectionAlias;
@@ -14780,6 +15243,8 @@ class OutboundConnection {
 }
 
 /// The status of an outbound cross-cluster connection.
+///
+/// @nodoc
 class OutboundConnectionStatus {
   /// Verbose information for the outbound connection.
   final String? message;
@@ -14848,6 +15313,8 @@ class OutboundConnectionStatus {
 }
 
 /// The connection properties of an outbound connection.
+///
+/// @nodoc
 class ConnectionProperties {
   /// The connection properties for cross cluster search.
   final CrossClusterSearchConnectionProperties? crossClusterSearch;
@@ -14885,6 +15352,8 @@ class ConnectionProperties {
 }
 
 /// Cross-cluster search specific connection properties.
+///
+/// @nodoc
 class CrossClusterSearchConnectionProperties {
   /// The status of the <code>SkipUnavailable</code> setting for the outbound
   /// connection. This feature allows you to specify some clusters as optional and
@@ -14925,6 +15394,8 @@ class CrossClusterSearchConnectionProperties {
 /// the connection.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SkipUnavailableStatus {
   static const enabled = SkipUnavailableStatus._('ENABLED');
   static const disabled = SkipUnavailableStatus._('DISABLED');
@@ -14950,6 +15421,7 @@ class SkipUnavailableStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OutboundConnectionStatusCode {
   static const validating = OutboundConnectionStatusCode._('VALIDATING');
   static const validationFailed =
@@ -15000,6 +15472,8 @@ class OutboundConnectionStatusCode {
 /// cross-cluster connections. You can specify multiple values per filter. A
 /// cross-cluster connection must match at least one of the specified values for
 /// it to be returned from an operation.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter.
   final String? name;
@@ -15023,6 +15497,8 @@ class Filter {
 }
 
 /// Limits for a given instance type and for each of its roles.
+///
+/// @nodoc
 class Limits {
   /// List of additional limits that are specific to a given instance type for
   /// each of its instance roles.
@@ -15070,6 +15546,8 @@ class Limits {
 }
 
 /// Instance-related attributes that are available for a given instance type.
+///
+/// @nodoc
 class InstanceLimits {
   /// Limits on the number of instances that can be created for a given instance
   /// type.
@@ -15098,6 +15576,8 @@ class InstanceLimits {
 }
 
 /// List of limits that are specific to a given instance type.
+///
+/// @nodoc
 class AdditionalLimit {
   /// <ul>
   /// <li>
@@ -15143,6 +15623,8 @@ class AdditionalLimit {
 
 /// Limits on the number of instances that can be created in OpenSearch Service
 /// for a given instance type.
+///
+/// @nodoc
 class InstanceCountLimits {
   /// The minimum allowed number of instances.
   final int? maximumInstanceCount;
@@ -15176,6 +15658,8 @@ class InstanceCountLimits {
 
 /// A list of storage types for an Amazon OpenSearch Service domain that are
 /// available for a given intance type.
+///
+/// @nodoc
 class StorageType {
   /// The storage sub-type, such as <code>gp3</code> or <code>io1</code>.
   final String? storageSubTypeName;
@@ -15217,6 +15701,8 @@ class StorageType {
 
 /// Limits that are applicable for the given Amazon OpenSearch Service storage
 /// type.
+///
+/// @nodoc
 class StorageTypeLimit {
   /// Name of storage limits that are applicable for the given storage type. If
   /// <code>StorageType</code> is <code>ebs</code>, the following options are
@@ -15280,6 +15766,8 @@ class StorageTypeLimit {
 
 /// Represents a field in the detailed view of an insight, returned by the
 /// <code>DescribeInsightDetails</code> operation.
+///
+/// @nodoc
 class InsightField {
   /// The name of the insight field.
   final String name;
@@ -15319,6 +15807,8 @@ class InsightField {
 
 /// The type of an insight field. Possible values are <code>text</code> and
 /// <code>metric</code>.
+///
+/// @nodoc
 class InsightFieldType {
   static const text = InsightFieldType._('text');
   static const metric = InsightFieldType._('metric');
@@ -15344,6 +15834,8 @@ class InsightFieldType {
 }
 
 /// The current status of an OpenSearch Service domain.
+///
+/// @nodoc
 class DomainStatus {
   /// The Amazon Resource Name (ARN) of the domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
@@ -15725,6 +16217,8 @@ class DomainStatus {
 
 /// The Auto-Tune settings for a domain, displayed when enabling or disabling
 /// Auto-Tune.
+///
+/// @nodoc
 class AutoTuneOptionsOutput {
   /// Any errors that occurred while enabling or disabling Auto-Tune.
   final String? errorMessage;
@@ -15762,6 +16256,7 @@ class AutoTuneOptionsOutput {
   }
 }
 
+/// @nodoc
 class DomainProcessingStatusType {
   static const creating = DomainProcessingStatusType._('Creating');
   static const active = DomainProcessingStatusType._('Active');
@@ -15803,6 +16298,8 @@ class DomainProcessingStatusType {
 }
 
 /// Container for information about nodes on the domain.
+///
+/// @nodoc
 class DomainNodesStatus {
   /// The Availability Zone of the node.
   final String? availabilityZone;
@@ -15878,6 +16375,7 @@ class DomainNodesStatus {
   }
 }
 
+/// @nodoc
 class NodeType {
   static const data = NodeType._('Data');
   static const ultrawarm = NodeType._('Ultrawarm');
@@ -15903,6 +16401,7 @@ class NodeType {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeStatus {
   static const active = NodeStatus._('Active');
   static const standBy = NodeStatus._('StandBy');
@@ -15927,6 +16426,7 @@ class NodeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainState {
   static const active = DomainState._('Active');
   static const processing = DomainState._('Processing');
@@ -15951,6 +16451,7 @@ class DomainState {
   String toString() => value;
 }
 
+/// @nodoc
 class MasterNodeStatus {
   static const available = MasterNodeStatus._('Available');
   static const unAvailable = MasterNodeStatus._('UnAvailable');
@@ -15975,6 +16476,7 @@ class MasterNodeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainHealth {
   static const red = DomainHealth._('Red');
   static const yellow = DomainHealth._('Yellow');
@@ -16001,6 +16503,8 @@ class DomainHealth {
 }
 
 /// Information about the active domain environment.
+///
+/// @nodoc
 class EnvironmentInfo {
   /// A list of <code>AvailabilityZoneInfo</code> for the domain.
   final List<AvailabilityZoneInfo>? availabilityZoneInformation;
@@ -16029,6 +16533,8 @@ class EnvironmentInfo {
 }
 
 /// Information about an Availability Zone on a domain.
+///
+/// @nodoc
 class AvailabilityZoneInfo {
   /// The name of the Availability Zone.
   final String? availabilityZoneName;
@@ -16105,6 +16611,7 @@ class AvailabilityZoneInfo {
   }
 }
 
+/// @nodoc
 class ZoneStatus {
   static const active = ZoneStatus._('Active');
   static const standBy = ZoneStatus._('StandBy');
@@ -16130,6 +16637,8 @@ class ZoneStatus {
 }
 
 /// The progress details of a specific domain configuration change.
+///
+/// @nodoc
 class ChangeProgressStatusDetails {
   /// The unique change identifier associated with a specific domain configuration
   /// change.
@@ -16236,6 +16745,8 @@ class ChangeProgressStatusDetails {
 }
 
 /// The overall status value of the domain configuration change.
+///
+/// @nodoc
 class OverallChangeStatus {
   static const pending = OverallChangeStatus._('PENDING');
   static const processing = OverallChangeStatus._('PROCESSING');
@@ -16264,6 +16775,8 @@ class OverallChangeStatus {
 }
 
 /// Progress details for each stage of a domain update.
+///
+/// @nodoc
 class ChangeProgressStage {
   /// The description of the stage.
   final String? description;
@@ -16310,6 +16823,8 @@ class ChangeProgressStage {
 /// Information about an Auto-Tune action. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AutoTune {
   /// Details about an Auto-Tune action.
   final AutoTuneDetails? autoTuneDetails;
@@ -16344,6 +16859,8 @@ class AutoTune {
 }
 
 /// Specifies the Auto-Tune type. Valid value is SCHEDULED_ACTION.
+///
+/// @nodoc
 class AutoTuneType {
   static const scheduledAction = AutoTuneType._('SCHEDULED_ACTION');
 
@@ -16370,6 +16887,8 @@ class AutoTuneType {
 /// see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class AutoTuneDetails {
   /// Container for details about a scheduled Auto-Tune action.
   final ScheduledAutoTuneDetails? scheduledAutoTuneDetails;
@@ -16400,6 +16919,8 @@ class AutoTuneDetails {
 /// see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class ScheduledAutoTuneDetails {
   /// A description of the Auto-Tune action.
   final String? action;
@@ -16447,6 +16968,8 @@ class ScheduledAutoTuneDetails {
 }
 
 /// The Auto-Tune action type.
+///
+/// @nodoc
 class ScheduledAutoTuneActionType {
   static const jvmHeapSizeTuning =
       ScheduledAutoTuneActionType._('JVM_HEAP_SIZE_TUNING');
@@ -16475,6 +16998,8 @@ class ScheduledAutoTuneActionType {
 }
 
 /// The Auto-Tune action severity.
+///
+/// @nodoc
 class ScheduledAutoTuneSeverityType {
   static const low = ScheduledAutoTuneSeverityType._('LOW');
   static const medium = ScheduledAutoTuneSeverityType._('MEDIUM');
@@ -16504,6 +17029,8 @@ class ScheduledAutoTuneSeverityType {
 /// Options for configuring Auto-Tune. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
 /// for Amazon OpenSearch Service</a>
+///
+/// @nodoc
 class AutoTuneOptionsInput {
   /// Whether Auto-Tune is enabled or disabled.
   final AutoTuneDesiredState? desiredState;
@@ -16538,6 +17065,8 @@ class AutoTuneOptionsInput {
 }
 
 /// Configuration settings for enabling and managing IAM Identity Center.
+///
+/// @nodoc
 class IamIdentityCenterOptionsInput {
   /// Specifies whether IAM Identity Center is enabled or disabled.
   final bool? enabled;
@@ -16570,6 +17099,8 @@ class IamIdentityCenterOptionsInput {
 
 /// A property change that was cancelled for an Amazon OpenSearch Service
 /// domain.
+///
+/// @nodoc
 class CancelledChangeProperty {
   /// The current value of the property, after the change was cancelled.
   final String? activeValue;
@@ -16608,6 +17139,8 @@ class CancelledChangeProperty {
 }
 
 /// Details of a package that is associated with a domain.
+///
+/// @nodoc
 class PackageDetailsForAssociation {
   /// Internal ID of the package that you want to associate with a domain.
   final String packageID;
@@ -16639,36 +17172,43 @@ class PackageDetailsForAssociation {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BaseException extends _s.GenericAwsException {
   BaseException({String? type, String? message})
       : super(type: type, code: 'BaseException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DependencyFailureException extends _s.GenericAwsException {
   DependencyFailureException({String? type, String? message})
       : super(type: type, code: 'DependencyFailureException', message: message);
 }
 
+/// @nodoc
 class DisabledOperationException extends _s.GenericAwsException {
   DisabledOperationException({String? type, String? message})
       : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -16677,16 +17217,19 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTypeException extends _s.GenericAwsException {
   InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -16695,11 +17238,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -16708,16 +17253,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SlotNotAvailableException extends _s.GenericAwsException {
   SlotNotAvailableException({String? type, String? message})
       : super(type: type, code: 'SlotNotAvailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -5332,6 +5332,7 @@ class Omics {
   }
 }
 
+/// @nodoc
 class DeleteS3AccessPolicyResponse {
   DeleteS3AccessPolicyResponse();
 
@@ -5344,6 +5345,7 @@ class DeleteS3AccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetS3AccessPolicyResponse {
   /// The current resource policy that controls S3 access on the store.
   final Object s3AccessPolicy;
@@ -5394,6 +5396,7 @@ class GetS3AccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutS3AccessPolicyResponse {
   /// The S3 access point ARN that now has the access policy.
   final String? s3AccessPointArn;
@@ -5430,6 +5433,7 @@ class PutS3AccessPolicyResponse {
   }
 }
 
+/// @nodoc
 class StartAnnotationImportResponse {
   /// The job's ID.
   final String jobId;
@@ -5452,6 +5456,7 @@ class StartAnnotationImportResponse {
   }
 }
 
+/// @nodoc
 class GetAnnotationImportResponse {
   /// When the job completed.
   final DateTime completionTime;
@@ -5563,6 +5568,7 @@ class GetAnnotationImportResponse {
   }
 }
 
+/// @nodoc
 class CancelAnnotationImportResponse {
   CancelAnnotationImportResponse();
 
@@ -5575,6 +5581,7 @@ class CancelAnnotationImportResponse {
   }
 }
 
+/// @nodoc
 class ListAnnotationImportJobsResponse {
   /// A list of jobs.
   final List<AnnotationImportJobItem>? annotationImportJobs;
@@ -5610,6 +5617,7 @@ class ListAnnotationImportJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateAnnotationStoreResponse {
   /// When the store was created.
   final DateTime creationTime;
@@ -5688,6 +5696,7 @@ class CreateAnnotationStoreResponse {
   }
 }
 
+/// @nodoc
 class GetAnnotationStoreResponse {
   /// When the store was created.
   final DateTime creationTime;
@@ -5817,6 +5826,7 @@ class GetAnnotationStoreResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnnotationStoreResponse {
   /// When the store was created.
   final DateTime creationTime;
@@ -5900,6 +5910,7 @@ class UpdateAnnotationStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteAnnotationStoreResponse {
   /// The store's status.
   final StoreStatus status;
@@ -5922,6 +5933,7 @@ class DeleteAnnotationStoreResponse {
   }
 }
 
+/// @nodoc
 class ListAnnotationStoresResponse {
   /// A list of stores.
   final List<AnnotationStoreItem>? annotationStores;
@@ -5954,6 +5966,7 @@ class ListAnnotationStoresResponse {
   }
 }
 
+/// @nodoc
 class CreateAnnotationStoreVersionResponse {
   /// The time stamp for the creation of an annotation store version.
   final DateTime creationTime;
@@ -6024,6 +6037,7 @@ class CreateAnnotationStoreVersionResponse {
   }
 }
 
+/// @nodoc
 class GetAnnotationStoreVersionResponse {
   /// The time stamp for when an annotation store version was created.
   final DateTime creationTime;
@@ -6136,6 +6150,7 @@ class GetAnnotationStoreVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnnotationStoreVersionResponse {
   /// The time stamp for when an annotation store version was created.
   final DateTime creationTime;
@@ -6208,6 +6223,7 @@ class UpdateAnnotationStoreVersionResponse {
   }
 }
 
+/// @nodoc
 class ListAnnotationStoreVersionsResponse {
   /// Lists all versions of an annotation store.
   final List<AnnotationStoreVersionItem>? annotationStoreVersions;
@@ -6244,6 +6260,7 @@ class ListAnnotationStoreVersionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteAnnotationStoreVersionsResponse {
   /// Any errors that occur when attempting to delete an annotation store version.
   final List<VersionDeleteError>? errors;
@@ -6270,6 +6287,7 @@ class DeleteAnnotationStoreVersionsResponse {
   }
 }
 
+/// @nodoc
 class CreateConfigurationResponse {
   /// Unique resource identifier for the configuration.
   final String? arn;
@@ -6345,6 +6363,7 @@ class CreateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetConfigurationResponse {
   /// Unique resource identifier for the configuration.
   final String? arn;
@@ -6420,6 +6439,7 @@ class GetConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationsResponse {
   /// List of configuration items.
   final List<ConfigurationListItem>? items;
@@ -6452,6 +6472,7 @@ class ListConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class CreateReferenceStoreResponse {
   /// The store's ARN.
   final String arn;
@@ -6511,6 +6532,7 @@ class CreateReferenceStoreResponse {
   }
 }
 
+/// @nodoc
 class GetReferenceStoreResponse {
   /// The store's ARN.
   final String arn;
@@ -6570,6 +6592,7 @@ class GetReferenceStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteReferenceStoreResponse {
   DeleteReferenceStoreResponse();
 
@@ -6582,6 +6605,7 @@ class DeleteReferenceStoreResponse {
   }
 }
 
+/// @nodoc
 class ListReferenceStoresResponse {
   /// A list of reference stores.
   final List<ReferenceStoreDetail> referenceStores;
@@ -6614,6 +6638,7 @@ class ListReferenceStoresResponse {
   }
 }
 
+/// @nodoc
 class GetReferenceImportJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -6691,6 +6716,7 @@ class GetReferenceImportJobResponse {
   }
 }
 
+/// @nodoc
 class ListReferenceImportJobsResponse {
   /// A lis of jobs.
   final List<ImportReferenceJobItem>? importJobs;
@@ -6724,6 +6750,7 @@ class ListReferenceImportJobsResponse {
   }
 }
 
+/// @nodoc
 class StartReferenceImportJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -6775,6 +6802,7 @@ class StartReferenceImportJobResponse {
   }
 }
 
+/// @nodoc
 class GetReferenceMetadataResponse {
   /// The reference's ARN.
   final String arn;
@@ -6877,6 +6905,7 @@ class GetReferenceMetadataResponse {
   }
 }
 
+/// @nodoc
 class DeleteReferenceResponse {
   DeleteReferenceResponse();
 
@@ -6889,6 +6918,7 @@ class DeleteReferenceResponse {
   }
 }
 
+/// @nodoc
 class ListReferencesResponse {
   /// A list of references.
   final List<ReferenceListItem> references;
@@ -6921,6 +6951,7 @@ class ListReferencesResponse {
   }
 }
 
+/// @nodoc
 class GetReferenceResponse {
   /// The reference file payload.
   final Uint8List? payload;
@@ -6937,6 +6968,7 @@ class GetReferenceResponse {
   }
 }
 
+/// @nodoc
 class StartRunBatchResponse {
   /// The unique ARN of the run batch.
   final String? arn;
@@ -6989,6 +7021,7 @@ class StartRunBatchResponse {
   }
 }
 
+/// @nodoc
 class GetBatchResponse {
   /// The unique ARN of the run batch.
   final String? arn;
@@ -7129,6 +7162,7 @@ class GetBatchResponse {
   }
 }
 
+/// @nodoc
 class ListBatchResponse {
   /// A list of batch summary objects. See <code>BatchListItem</code>.
   final List<BatchListItem>? items;
@@ -7162,6 +7196,7 @@ class ListBatchResponse {
   }
 }
 
+/// @nodoc
 class CancelRunBatchResponse {
   CancelRunBatchResponse();
 
@@ -7174,6 +7209,7 @@ class CancelRunBatchResponse {
   }
 }
 
+/// @nodoc
 class DeleteRunBatchResponse {
   DeleteRunBatchResponse();
 
@@ -7186,6 +7222,7 @@ class DeleteRunBatchResponse {
   }
 }
 
+/// @nodoc
 class ListRunsInBatchResponse {
   /// A pagination token to retrieve the next page of results. Absent when the
   /// last run has been returned.
@@ -7219,6 +7256,7 @@ class ListRunsInBatchResponse {
   }
 }
 
+/// @nodoc
 class CreateRunCacheResponse {
   /// Unique resource identifier for the run cache.
   final String? arn;
@@ -7263,6 +7301,7 @@ class CreateRunCacheResponse {
   }
 }
 
+/// @nodoc
 class GetRunCacheResponse {
   /// Unique resource identifier for the run cache.
   final String? arn;
@@ -7350,6 +7389,7 @@ class GetRunCacheResponse {
   }
 }
 
+/// @nodoc
 class ListRunCachesResponse {
   /// Details about each run cache in the response.
   final List<RunCacheListItem>? items;
@@ -7383,6 +7423,7 @@ class ListRunCachesResponse {
   }
 }
 
+/// @nodoc
 class CreateRunGroupResponse {
   /// The group's ARN.
   final String? arn;
@@ -7420,6 +7461,7 @@ class CreateRunGroupResponse {
   }
 }
 
+/// @nodoc
 class GetRunGroupResponse {
   /// The group's ARN.
   final String? arn;
@@ -7499,6 +7541,7 @@ class GetRunGroupResponse {
   }
 }
 
+/// @nodoc
 class ListRunGroupsResponse {
   /// A list of groups.
   final List<RunGroupListItem>? items;
@@ -7531,6 +7574,7 @@ class ListRunGroupsResponse {
   }
 }
 
+/// @nodoc
 class StartRunResponse {
   /// Unique resource identifier for the run.
   final String? arn;
@@ -7606,6 +7650,7 @@ class StartRunResponse {
   }
 }
 
+/// @nodoc
 class GetRunResponse {
   /// The computational accelerator used to run the workflow.
   final Accelerators? accelerators;
@@ -7930,6 +7975,7 @@ class GetRunResponse {
   }
 }
 
+/// @nodoc
 class ListRunsResponse {
   /// A list of runs.
   final List<RunListItem>? items;
@@ -7962,6 +8008,7 @@ class ListRunsResponse {
   }
 }
 
+/// @nodoc
 class GetRunTaskResponse {
   /// Set to true if Amazon Web Services HealthOmics found a matching entry in the
   /// run cache for this task.
@@ -8092,6 +8139,7 @@ class GetRunTaskResponse {
   }
 }
 
+/// @nodoc
 class ListRunTasksResponse {
   /// A list of tasks.
   final List<TaskListItem>? items;
@@ -8124,6 +8172,7 @@ class ListRunTasksResponse {
   }
 }
 
+/// @nodoc
 class CreateSequenceStoreResponse {
   /// The store's ARN.
   final String arn;
@@ -8234,6 +8283,7 @@ class CreateSequenceStoreResponse {
   }
 }
 
+/// @nodoc
 class GetSequenceStoreResponse {
   /// The store's ARN.
   final String arn;
@@ -8353,6 +8403,7 @@ class GetSequenceStoreResponse {
   }
 }
 
+/// @nodoc
 class UpdateSequenceStoreResponse {
   /// The ARN of the sequence store.
   final String arn;
@@ -8467,6 +8518,7 @@ class UpdateSequenceStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteSequenceStoreResponse {
   DeleteSequenceStoreResponse();
 
@@ -8479,6 +8531,7 @@ class DeleteSequenceStoreResponse {
   }
 }
 
+/// @nodoc
 class ListSequenceStoresResponse {
   /// A list of sequence stores.
   final List<SequenceStoreDetail> sequenceStores;
@@ -8511,6 +8564,7 @@ class ListSequenceStoresResponse {
   }
 }
 
+/// @nodoc
 class AbortMultipartReadSetUploadResponse {
   AbortMultipartReadSetUploadResponse();
 
@@ -8523,6 +8577,7 @@ class AbortMultipartReadSetUploadResponse {
   }
 }
 
+/// @nodoc
 class CompleteMultipartReadSetUploadResponse {
   /// The read set ID created for an uploaded read set.
   final String readSetId;
@@ -8546,6 +8601,7 @@ class CompleteMultipartReadSetUploadResponse {
   }
 }
 
+/// @nodoc
 class CreateMultipartReadSetUploadResponse {
   /// The creation time of the multipart upload.
   final DateTime creationTime;
@@ -8641,6 +8697,7 @@ class CreateMultipartReadSetUploadResponse {
   }
 }
 
+/// @nodoc
 class GetReadSetActivationJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -8711,6 +8768,7 @@ class GetReadSetActivationJobResponse {
   }
 }
 
+/// @nodoc
 class GetReadSetExportJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -8787,6 +8845,7 @@ class GetReadSetExportJobResponse {
   }
 }
 
+/// @nodoc
 class GetReadSetImportJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -8864,6 +8923,7 @@ class GetReadSetImportJobResponse {
   }
 }
 
+/// @nodoc
 class ListMultipartReadSetUploadsResponse {
   /// Next token returned in the response of a previous
   /// ListMultipartReadSetUploads call. Used to get the next page of results.
@@ -8899,6 +8959,7 @@ class ListMultipartReadSetUploadsResponse {
   }
 }
 
+/// @nodoc
 class ListReadSetActivationJobsResponse {
   /// A list of jobs.
   final List<ActivateReadSetJobItem>? activationJobs;
@@ -8933,6 +8994,7 @@ class ListReadSetActivationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListReadSetExportJobsResponse {
   /// A list of jobs.
   final List<ExportReadSetJobDetail>? exportJobs;
@@ -8966,6 +9028,7 @@ class ListReadSetExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListReadSetImportJobsResponse {
   /// A list of jobs.
   final List<ImportReadSetJobItem>? importJobs;
@@ -8998,6 +9061,7 @@ class ListReadSetImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListReadSetUploadPartsResponse {
   /// Next token returned in the response of a previous ListReadSetUploadParts
   /// call. Used to get the next page of results.
@@ -9032,6 +9096,7 @@ class ListReadSetUploadPartsResponse {
   }
 }
 
+/// @nodoc
 class StartReadSetActivationJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -9077,6 +9142,7 @@ class StartReadSetActivationJobResponse {
   }
 }
 
+/// @nodoc
 class StartReadSetExportJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -9128,6 +9194,7 @@ class StartReadSetExportJobResponse {
   }
 }
 
+/// @nodoc
 class StartReadSetImportJobResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -9179,6 +9246,7 @@ class StartReadSetImportJobResponse {
   }
 }
 
+/// @nodoc
 class UploadReadSetPartResponse {
   /// An identifier used to confirm that parts are being added to the intended
   /// upload.
@@ -9202,6 +9270,7 @@ class UploadReadSetPartResponse {
   }
 }
 
+/// @nodoc
 class GetReadSetMetadataResponse {
   /// The read set's ARN.
   final String arn;
@@ -9347,6 +9416,7 @@ class GetReadSetMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListReadSetsResponse {
   /// A list of read sets.
   final List<ReadSetListItem> readSets;
@@ -9379,6 +9449,7 @@ class ListReadSetsResponse {
   }
 }
 
+/// @nodoc
 class GetReadSetResponse {
   /// The read set file payload.
   final Uint8List? payload;
@@ -9395,6 +9466,7 @@ class GetReadSetResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteReadSetResponse {
   /// Errors returned by individual delete operations.
   final List<ReadSetBatchError>? errors;
@@ -9420,6 +9492,7 @@ class BatchDeleteReadSetResponse {
   }
 }
 
+/// @nodoc
 class CreateShareResponse {
   /// The ID that HealthOmics generates for the share.
   final String? shareId;
@@ -9456,6 +9529,7 @@ class CreateShareResponse {
   }
 }
 
+/// @nodoc
 class GetShareResponse {
   /// A resource share details object. The object includes the status, the
   /// resourceArn, and ownerId.
@@ -9481,6 +9555,7 @@ class GetShareResponse {
   }
 }
 
+/// @nodoc
 class AcceptShareResponse {
   /// The status of the resource share.
   final ShareStatus? status;
@@ -9503,6 +9578,7 @@ class AcceptShareResponse {
   }
 }
 
+/// @nodoc
 class DeleteShareResponse {
   /// The status of the share being deleted.
   final ShareStatus? status;
@@ -9525,6 +9601,7 @@ class DeleteShareResponse {
   }
 }
 
+/// @nodoc
 class ListSharesResponse {
   /// The shares available and their metadata details.
   final List<ShareDetails> shares;
@@ -9558,6 +9635,7 @@ class ListSharesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags.
   final Map<String, String> tags;
@@ -9582,6 +9660,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9594,6 +9673,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -9606,6 +9686,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class StartVariantImportResponse {
   /// The job's ID.
   final String jobId;
@@ -9628,6 +9709,7 @@ class StartVariantImportResponse {
   }
 }
 
+/// @nodoc
 class GetVariantImportResponse {
   /// When the job was created.
   final DateTime creationTime;
@@ -9726,6 +9808,7 @@ class GetVariantImportResponse {
   }
 }
 
+/// @nodoc
 class CancelVariantImportResponse {
   CancelVariantImportResponse();
 
@@ -9738,6 +9821,7 @@ class CancelVariantImportResponse {
   }
 }
 
+/// @nodoc
 class ListVariantImportJobsResponse {
   /// A pagination token that's included if more results are available.
   final String? nextToken;
@@ -9770,6 +9854,7 @@ class ListVariantImportJobsResponse {
   }
 }
 
+/// @nodoc
 class CreateVariantStoreResponse {
   /// When the store was created.
   final DateTime creationTime;
@@ -9822,6 +9907,7 @@ class CreateVariantStoreResponse {
   }
 }
 
+/// @nodoc
 class GetVariantStoreResponse {
   /// When the store was created.
   final DateTime creationTime;
@@ -9927,6 +10013,7 @@ class GetVariantStoreResponse {
   }
 }
 
+/// @nodoc
 class UpdateVariantStoreResponse {
   /// When the store was created.
   final DateTime creationTime;
@@ -9993,6 +10080,7 @@ class UpdateVariantStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteVariantStoreResponse {
   /// The store's status.
   final StoreStatus status;
@@ -10015,6 +10103,7 @@ class DeleteVariantStoreResponse {
   }
 }
 
+/// @nodoc
 class ListVariantStoresResponse {
   /// A pagination token that's included if more results are available.
   final String? nextToken;
@@ -10047,6 +10136,7 @@ class ListVariantStoresResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowResponse {
   /// The workflow's ARN.
   final String? arn;
@@ -10098,6 +10188,7 @@ class CreateWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowResponse {
   /// The computational accelerator specified to run the workflow.
   final Accelerators? accelerators;
@@ -10320,6 +10411,7 @@ class GetWorkflowResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// A list of workflow items.
   final List<WorkflowListItem>? items;
@@ -10352,6 +10444,7 @@ class ListWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowVersionResponse {
   /// ARN of the workflow version.
   final String? arn;
@@ -10410,6 +10503,7 @@ class CreateWorkflowVersionResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowVersionResponse {
   /// The accelerator for this workflow version.
   final Accelerators? accelerators;
@@ -10639,6 +10733,7 @@ class GetWorkflowVersionResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowVersionsResponse {
   /// A list of workflow version items.
   final List<WorkflowVersionListItem>? items;
@@ -10673,6 +10768,8 @@ class ListWorkflowVersionsResponse {
 }
 
 /// A list of workflow version items.
+///
+/// @nodoc
 class WorkflowVersionListItem {
   /// ARN of the workflow version.
   final String? arn;
@@ -10752,6 +10849,7 @@ class WorkflowVersionListItem {
   }
 }
 
+/// @nodoc
 class WorkflowStatus {
   static const creating = WorkflowStatus._('CREATING');
   static const active = WorkflowStatus._('ACTIVE');
@@ -10780,6 +10878,7 @@ class WorkflowStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkflowType {
   static const private = WorkflowType._('PRIVATE');
   static const ready2run = WorkflowType._('READY2RUN');
@@ -10803,6 +10902,7 @@ class WorkflowType {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageType {
   static const static = StorageType._('STATIC');
   static const $dynamic = StorageType._('DYNAMIC');
@@ -10826,6 +10926,7 @@ class StorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class Accelerators {
   static const gpu = Accelerators._('GPU');
 
@@ -10848,6 +10949,7 @@ class Accelerators {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkflowEngine {
   static const wdl = WorkflowEngine._('WDL');
   static const nextflow = WorkflowEngine._('NEXTFLOW');
@@ -10878,6 +10980,8 @@ class WorkflowEngine {
 /// repository and one or more upstream registries. For more information, see <a
 /// href="https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html">Container
 /// images</a> in the <i>Amazon Web Services HealthOmics User Guide</i>.
+///
+/// @nodoc
 class ContainerRegistryMap {
   /// Image mappings specify path mappings between the ECR private repository and
   /// their corresponding external repositories.
@@ -10917,6 +11021,8 @@ class ContainerRegistryMap {
 
 /// Contains detailed information about the source code repository that hosts
 /// the workflow definition files.
+///
+/// @nodoc
 class DefinitionRepositoryDetails {
   /// The Amazon Resource Name (ARN) of the connection to the source code
   /// repository.
@@ -10976,6 +11082,8 @@ class DefinitionRepositoryDetails {
 
 /// Contains information about the source reference in a code repository, such
 /// as a branch, tag, or commit.
+///
+/// @nodoc
 class SourceReference {
   /// The type of source reference, such as branch, tag, or commit.
   final SourceReferenceType type;
@@ -11006,6 +11114,7 @@ class SourceReference {
   }
 }
 
+/// @nodoc
 class SourceReferenceType {
   static const branch = SourceReferenceType._('BRANCH');
   static const tag = SourceReferenceType._('TAG');
@@ -11037,6 +11146,8 @@ class SourceReferenceType {
 /// in your private ECR repository. You can use image mappings with upstream
 /// registries that don't support pull through cache. You need to manually
 /// synchronize the upstream registry with your private repository.
+///
+/// @nodoc
 class ImageMapping {
   /// Specifies the URI of the corresponding image in the private ECR registry.
   final String? destinationImage;
@@ -11069,6 +11180,8 @@ class ImageMapping {
 /// If you are using the ECR pull through cache feature, the registry mapping
 /// maps between the ECR repository and the upstream registry where container
 /// images are pulled and synchronized.
+///
+/// @nodoc
 class RegistryMapping {
   /// Account ID of the account that owns the upstream container image.
   final String? ecrAccountId;
@@ -11117,6 +11230,8 @@ class RegistryMapping {
 }
 
 /// A workflow parameter.
+///
+/// @nodoc
 class WorkflowParameter {
   /// The parameter's description.
   final String? description;
@@ -11146,6 +11261,7 @@ class WorkflowParameter {
   }
 }
 
+/// @nodoc
 class WorkflowExport {
   static const definition = WorkflowExport._('DEFINITION');
   static const readme = WorkflowExport._('README');
@@ -11172,6 +11288,8 @@ class WorkflowExport {
 
 /// Contains information about a source code repository that hosts the workflow
 /// definition files.
+///
+/// @nodoc
 class DefinitionRepository {
   /// The Amazon Resource Name (ARN) of the connection to the source code
   /// repository.
@@ -11212,6 +11330,8 @@ class DefinitionRepository {
 }
 
 /// A workflow.
+///
+/// @nodoc
 class WorkflowListItem {
   /// The workflow's ARN.
   final String? arn;
@@ -11286,6 +11406,8 @@ class WorkflowListItem {
 }
 
 /// A variant store.
+///
+/// @nodoc
 class VariantStoreItem {
   /// When the store was created.
   final DateTime creationTime;
@@ -11383,6 +11505,8 @@ class VariantStoreItem {
 }
 
 /// A genome reference.
+///
+/// @nodoc
 class ReferenceItem {
   /// The reference's ARN.
   final String? referenceArn;
@@ -11405,6 +11529,7 @@ class ReferenceItem {
   }
 }
 
+/// @nodoc
 class StoreStatus {
   static const creating = StoreStatus._('CREATING');
   static const updating = StoreStatus._('UPDATING');
@@ -11432,6 +11557,8 @@ class StoreStatus {
 }
 
 /// Server-side encryption (SSE) settings for a store.
+///
+/// @nodoc
 class SseConfig {
   /// The encryption type.
   final EncryptionType type;
@@ -11461,6 +11588,7 @@ class SseConfig {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const kms = EncryptionType._('KMS');
 
@@ -11485,6 +11613,8 @@ class EncryptionType {
 }
 
 /// A filter for variant stores.
+///
+/// @nodoc
 class ListVariantStoresFilter {
   /// A status to filter on.
   final StoreStatus? status;
@@ -11502,6 +11632,8 @@ class ListVariantStoresFilter {
 }
 
 /// A variant import job.
+///
+/// @nodoc
 class VariantImportJobItem {
   /// When the job was created.
   final DateTime creationTime;
@@ -11583,6 +11715,7 @@ class VariantImportJobItem {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const inProgress = JobStatus._('IN_PROGRESS');
@@ -11618,6 +11751,8 @@ class JobStatus {
 }
 
 /// A filter for variant import jobs.
+///
+/// @nodoc
 class ListVariantImportJobsFilter {
   /// A status to filter on.
   final JobStatus? status;
@@ -11641,6 +11776,8 @@ class ListVariantImportJobsFilter {
 }
 
 /// Details about an imported variant item.
+///
+/// @nodoc
 class VariantImportItemDetail {
   /// The item's job status.
   final JobStatus jobStatus;
@@ -11678,6 +11815,8 @@ class VariantImportItemDetail {
 }
 
 /// A imported variant item's source.
+///
+/// @nodoc
 class VariantImportItemSource {
   /// The source file's location in Amazon S3.
   final String source;
@@ -11695,6 +11834,8 @@ class VariantImportItemSource {
 }
 
 /// The details of a resource share.
+///
+/// @nodoc
 class ShareDetails {
   /// The timestamp of when the resource share was created.
   final DateTime? creationTime;
@@ -11782,6 +11923,7 @@ class ShareDetails {
   }
 }
 
+/// @nodoc
 class ShareStatus {
   static const pending = ShareStatus._('PENDING');
   static const activating = ShareStatus._('ACTIVATING');
@@ -11816,6 +11958,7 @@ class ShareStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceOwner {
   static const self = ResourceOwner._('SELF');
   static const other = ResourceOwner._('OTHER');
@@ -11842,6 +11985,8 @@ class ResourceOwner {
 
 /// Use filters to return a subset of resources. You can define filters for
 /// specific parameters, such as the resource status.
+///
+/// @nodoc
 class Filter {
   /// Filter based on the Amazon Resource Number (ARN) of the resource. You can
   /// specify up to 10 values.
@@ -11872,6 +12017,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class ShareResourceType {
   static const variantStore = ShareResourceType._('VARIANT_STORE');
   static const annotationStore = ShareResourceType._('ANNOTATION_STORE');
@@ -11898,6 +12044,8 @@ class ShareResourceType {
 }
 
 /// An error from a batch read set operation.
+///
+/// @nodoc
 class ReadSetBatchError {
   /// The error's code.
   final String code;
@@ -11934,6 +12082,7 @@ class ReadSetBatchError {
   }
 }
 
+/// @nodoc
 class ReadSetFile {
   static const source1 = ReadSetFile._('SOURCE1');
   static const source2 = ReadSetFile._('SOURCE2');
@@ -11959,6 +12108,8 @@ class ReadSetFile {
 }
 
 /// A read set.
+///
+/// @nodoc
 class ReadSetListItem {
   /// The read set's ARN.
   final String arn;
@@ -12086,6 +12237,7 @@ class ReadSetListItem {
   }
 }
 
+/// @nodoc
 class ReadSetStatus {
   static const archived = ReadSetStatus._('ARCHIVED');
   static const activating = ReadSetStatus._('ACTIVATING');
@@ -12123,6 +12275,7 @@ class ReadSetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FileType {
   static const fastq = FileType._('FASTQ');
   static const bam = FileType._('BAM');
@@ -12149,6 +12302,8 @@ class FileType {
 }
 
 /// Details about a sequence.
+///
+/// @nodoc
 class SequenceInformation {
   /// The sequence's alignment setting.
   final String? alignment;
@@ -12192,6 +12347,7 @@ class SequenceInformation {
   }
 }
 
+/// @nodoc
 class CreationType {
   static const import = CreationType._('IMPORT');
   static const upload = CreationType._('UPLOAD');
@@ -12217,6 +12373,8 @@ class CreationType {
 
 /// The entity tag (ETag) is a hash of the object representing its semantic
 /// content.
+///
+/// @nodoc
 class ETag {
   /// The algorithm used to calculate the read set’s ETag(s).
   final ETagAlgorithm? algorithm;
@@ -12253,6 +12411,7 @@ class ETag {
   }
 }
 
+/// @nodoc
 class ETagAlgorithm {
   static const fastqMD5up = ETagAlgorithm._('FASTQ_MD5up');
   static const bamMD5up = ETagAlgorithm._('BAM_MD5up');
@@ -12295,6 +12454,8 @@ class ETagAlgorithm {
 }
 
 /// A filter for read sets.
+///
+/// @nodoc
 class ReadSetFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -12360,6 +12521,8 @@ class ReadSetFilter {
 }
 
 /// Files in a read set.
+///
+/// @nodoc
 class ReadSetFiles {
   /// The files' index.
   final FileInformation? index;
@@ -12403,6 +12566,8 @@ class ReadSetFiles {
 }
 
 /// Details about a file.
+///
+/// @nodoc
 class FileInformation {
   /// The file's content length.
   final int? contentLength;
@@ -12449,6 +12614,8 @@ class FileInformation {
 }
 
 /// The S3 URI for each read set file.
+///
+/// @nodoc
 class ReadSetS3Access {
   /// The S3 URI for each read set file.
   final String? s3Uri;
@@ -12471,6 +12638,7 @@ class ReadSetS3Access {
   }
 }
 
+/// @nodoc
 class ReadSetPartSource {
   static const source1 = ReadSetPartSource._('SOURCE1');
   static const source2 = ReadSetPartSource._('SOURCE2');
@@ -12495,6 +12663,7 @@ class ReadSetPartSource {
   String toString() => value;
 }
 
+/// @nodoc
 class ReadSetImportJobStatus {
   static const submitted = ReadSetImportJobStatus._('SUBMITTED');
   static const inProgress = ReadSetImportJobStatus._('IN_PROGRESS');
@@ -12535,6 +12704,8 @@ class ReadSetImportJobStatus {
 }
 
 /// A source for a read set import job.
+///
+/// @nodoc
 class StartReadSetImportJobSourceItem {
   /// The source's sample ID.
   final String sampleId;
@@ -12600,6 +12771,8 @@ class StartReadSetImportJobSourceItem {
 }
 
 /// Source files for a sequence.
+///
+/// @nodoc
 class SourceFiles {
   /// The location of the first file in Amazon S3.
   final String source1;
@@ -12629,6 +12802,7 @@ class SourceFiles {
   }
 }
 
+/// @nodoc
 class ReadSetExportJobStatus {
   static const submitted = ReadSetExportJobStatus._('SUBMITTED');
   static const inProgress = ReadSetExportJobStatus._('IN_PROGRESS');
@@ -12669,6 +12843,8 @@ class ReadSetExportJobStatus {
 }
 
 /// A read set.
+///
+/// @nodoc
 class ExportReadSet {
   /// The set's ID.
   final String readSetId;
@@ -12685,6 +12861,7 @@ class ExportReadSet {
   }
 }
 
+/// @nodoc
 class ReadSetActivationJobStatus {
   static const submitted = ReadSetActivationJobStatus._('SUBMITTED');
   static const inProgress = ReadSetActivationJobStatus._('IN_PROGRESS');
@@ -12725,6 +12902,8 @@ class ReadSetActivationJobStatus {
 }
 
 /// A source for a read set activation job.
+///
+/// @nodoc
 class StartReadSetActivationJobSourceItem {
   /// The source's read set ID.
   final String readSetId;
@@ -12744,6 +12923,8 @@ class StartReadSetActivationJobSourceItem {
 /// The metadata of a single part of a file that was added to a multipart
 /// upload. A list of these parts is returned in the response to the
 /// ListReadSetUploadParts API.
+///
+/// @nodoc
 class ReadSetUploadPartListItem {
   /// A unique identifier used to confirm that parts are being added to the
   /// correct upload.
@@ -12805,6 +12986,8 @@ class ReadSetUploadPartListItem {
 }
 
 /// Filter settings that select for read set upload parts of interest.
+///
+/// @nodoc
 class ReadSetUploadPartListFilter {
   /// Filters for read set uploads after a specified time.
   final DateTime? createdAfter;
@@ -12828,6 +13011,8 @@ class ReadSetUploadPartListFilter {
 }
 
 /// An import read set job.
+///
+/// @nodoc
 class ImportReadSetJobItem {
   /// When the job was created.
   final DateTime creationTime;
@@ -12888,6 +13073,8 @@ class ImportReadSetJobItem {
 }
 
 /// A filter for import read set jobs.
+///
+/// @nodoc
 class ImportReadSetFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -12917,6 +13104,8 @@ class ImportReadSetFilter {
 }
 
 /// Details about a read set export job.
+///
+/// @nodoc
 class ExportReadSetJobDetail {
   /// When the job was created.
   final DateTime creationTime;
@@ -12977,6 +13166,8 @@ class ExportReadSetJobDetail {
 }
 
 /// An read set export job filter.
+///
+/// @nodoc
 class ExportReadSetFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -13006,6 +13197,8 @@ class ExportReadSetFilter {
 }
 
 /// A read set activation job.
+///
+/// @nodoc
 class ActivateReadSetJobItem {
   /// When the job was created.
   final DateTime creationTime;
@@ -13059,6 +13252,8 @@ class ActivateReadSetJobItem {
 }
 
 /// A read set activation job filter.
+///
+/// @nodoc
 class ActivateReadSetFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -13089,6 +13284,8 @@ class ActivateReadSetFilter {
 
 /// Part of the response to ListMultipartReadSetUploads, excluding completed and
 /// aborted multipart uploads.
+///
+/// @nodoc
 class MultipartReadSetUploadListItem {
   /// The time stamp for when a direct upload was created.
   final DateTime creationTime;
@@ -13184,6 +13381,8 @@ class MultipartReadSetUploadListItem {
 }
 
 /// A source for an import read set job.
+///
+/// @nodoc
 class ImportReadSetSourceItem {
   /// The source's sample ID.
   final String sampleId;
@@ -13288,6 +13487,7 @@ class ImportReadSetSourceItem {
   }
 }
 
+/// @nodoc
 class ReadSetImportJobItemStatus {
   static const notStarted = ReadSetImportJobItemStatus._('NOT_STARTED');
   static const inProgress = ReadSetImportJobItemStatus._('IN_PROGRESS');
@@ -13316,6 +13516,8 @@ class ReadSetImportJobItemStatus {
 }
 
 /// Details about a read set.
+///
+/// @nodoc
 class ExportReadSetDetail {
   /// The set's ID.
   final String id;
@@ -13353,6 +13555,7 @@ class ExportReadSetDetail {
   }
 }
 
+/// @nodoc
 class ReadSetExportJobItemStatus {
   static const notStarted = ReadSetExportJobItemStatus._('NOT_STARTED');
   static const inProgress = ReadSetExportJobItemStatus._('IN_PROGRESS');
@@ -13381,6 +13584,8 @@ class ReadSetExportJobItemStatus {
 }
 
 /// A source for a read set activation job.
+///
+/// @nodoc
 class ActivateReadSetSourceItem {
   /// The source's read set ID.
   final String readSetId;
@@ -13418,6 +13623,7 @@ class ActivateReadSetSourceItem {
   }
 }
 
+/// @nodoc
 class ReadSetActivationJobItemStatus {
   static const notStarted = ReadSetActivationJobItemStatus._('NOT_STARTED');
   static const inProgress = ReadSetActivationJobItemStatus._('IN_PROGRESS');
@@ -13446,6 +13652,8 @@ class ReadSetActivationJobItemStatus {
 }
 
 /// Part of the response to the CompleteReadSetUpload API, including metadata.
+///
+/// @nodoc
 class CompleteReadSetUploadPartListItem {
   /// A unique identifier used to confirm that parts are being added to the
   /// correct upload.
@@ -13476,6 +13684,8 @@ class CompleteReadSetUploadPartListItem {
 }
 
 /// Details about a sequence store.
+///
+/// @nodoc
 class SequenceStoreDetail {
   /// The store's ARN.
   final String arn;
@@ -13572,6 +13782,7 @@ class SequenceStoreDetail {
   }
 }
 
+/// @nodoc
 class ETagAlgorithmFamily {
   static const mD5up = ETagAlgorithmFamily._('MD5up');
   static const sHA256up = ETagAlgorithmFamily._('SHA256up');
@@ -13598,6 +13809,7 @@ class ETagAlgorithmFamily {
   String toString() => value;
 }
 
+/// @nodoc
 class SequenceStoreStatus {
   static const creating = SequenceStoreStatus._('CREATING');
   static const active = SequenceStoreStatus._('ACTIVE');
@@ -13627,6 +13839,8 @@ class SequenceStoreStatus {
 }
 
 /// A filter for a sequence store.
+///
+/// @nodoc
 class SequenceStoreFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -13674,6 +13888,8 @@ class SequenceStoreFilter {
 }
 
 /// The S3 access metadata of the sequence store.
+///
+/// @nodoc
 class SequenceStoreS3Access {
   /// Location of the access logs.
   final String? accessLogLocation;
@@ -13712,6 +13928,8 @@ class SequenceStoreS3Access {
 }
 
 /// S3 access configuration parameters.
+///
+/// @nodoc
 class S3AccessConfig {
   /// Location of the access logs.
   final String? accessLogLocation;
@@ -13729,6 +13947,8 @@ class S3AccessConfig {
 }
 
 /// A workflow run task.
+///
+/// @nodoc
 class TaskListItem {
   /// Set to true if Amazon Web Services HealthOmics found a matching entry in the
   /// run cache for this task.
@@ -13829,6 +14049,7 @@ class TaskListItem {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const pending = TaskStatus._('PENDING');
   static const starting = TaskStatus._('STARTING');
@@ -13866,6 +14087,8 @@ class TaskStatus {
 }
 
 /// Information about the container image used for a task.
+///
+/// @nodoc
 class ImageDetails {
   /// The URI of the container image.
   final String? image;
@@ -13906,6 +14129,8 @@ class ImageDetails {
 }
 
 /// A workflow run.
+///
+/// @nodoc
 class RunListItem {
   /// The run's ARN.
   final String? arn;
@@ -14016,6 +14241,7 @@ class RunListItem {
   }
 }
 
+/// @nodoc
 class RunStatus {
   static const pending = RunStatus._('PENDING');
   static const starting = RunStatus._('STARTING');
@@ -14054,6 +14280,7 @@ class RunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CacheBehavior {
   static const cacheOnFailure = CacheBehavior._('CACHE_ON_FAILURE');
   static const cacheAlways = CacheBehavior._('CACHE_ALWAYS');
@@ -14078,6 +14305,7 @@ class CacheBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class RunLogLevel {
   static const off = RunLogLevel._('OFF');
   static const fatal = RunLogLevel._('FATAL');
@@ -14103,6 +14331,7 @@ class RunLogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class RunRetentionMode {
   static const retain = RunRetentionMode._('RETAIN');
   static const remove = RunRetentionMode._('REMOVE');
@@ -14128,6 +14357,8 @@ class RunRetentionMode {
 }
 
 /// The URI for the run log.
+///
+/// @nodoc
 class RunLogLocation {
   /// The log stream ARN for the engine log.
   final String? engineLogStream;
@@ -14157,6 +14388,7 @@ class RunLogLocation {
   }
 }
 
+/// @nodoc
 class NetworkingMode {
   static const restricted = NetworkingMode._('RESTRICTED');
   static const vpc = NetworkingMode._('VPC');
@@ -14182,6 +14414,8 @@ class NetworkingMode {
 }
 
 /// Minimal details for a configuration resource.
+///
+/// @nodoc
 class ConfigurationDetails {
   /// Unique resource identifier for the configuration.
   final String? arn;
@@ -14219,6 +14453,8 @@ class ConfigurationDetails {
 }
 
 /// VPC configuration for workflow runs with computed VPC ID.
+///
+/// @nodoc
 class VpcConfigResponse {
   /// List of security group IDs.
   final List<String>? securityGroupIds;
@@ -14261,6 +14497,7 @@ class VpcConfigResponse {
   }
 }
 
+/// @nodoc
 class RunExport {
   static const definition = RunExport._('DEFINITION');
 
@@ -14284,6 +14521,8 @@ class RunExport {
 }
 
 /// A run group.
+///
+/// @nodoc
 class RunGroupListItem {
   /// The group's ARN.
   final String? arn;
@@ -14356,6 +14595,8 @@ class RunGroupListItem {
 }
 
 /// List entry for one run cache.
+///
+/// @nodoc
 class RunCacheListItem {
   /// Unique resource identifier for the run cache.
   final String? arn;
@@ -14421,6 +14662,7 @@ class RunCacheListItem {
   }
 }
 
+/// @nodoc
 class RunCacheStatus {
   static const active = RunCacheStatus._('ACTIVE');
   static const deleted = RunCacheStatus._('DELETED');
@@ -14447,6 +14689,8 @@ class RunCacheStatus {
 }
 
 /// A single run entry returned by <code>ListRunsInBatch</code>.
+///
+/// @nodoc
 class RunBatchListItem {
   /// The unique ARN of the workflow run.
   final String? runArn;
@@ -14518,6 +14762,7 @@ class RunBatchListItem {
   }
 }
 
+/// @nodoc
 class SubmissionStatus {
   static const success = SubmissionStatus._('SUCCESS');
   static const failed = SubmissionStatus._('FAILED');
@@ -14554,6 +14799,8 @@ class SubmissionStatus {
 }
 
 /// A summary of a batch returned by <code>ListBatch</code>.
+///
+/// @nodoc
 class BatchListItem {
   /// The timestamp when the batch was created.
   final DateTime? createdAt;
@@ -14611,6 +14858,7 @@ class BatchListItem {
   }
 }
 
+/// @nodoc
 class BatchStatus {
   static const creating = BatchStatus._('CREATING');
   static const pending = BatchStatus._('PENDING');
@@ -14658,6 +14906,8 @@ class BatchStatus {
 /// in this object for that run. The <code>parameters</code> and
 /// <code>runTags</code> fields are merged rather than replaced — run-specific
 /// values take precedence when keys overlap.
+///
+/// @nodoc
 class DefaultRunSetting {
   /// The IAM role ARN that grants HealthOmics permissions to access required AWS
   /// resources such as Amazon S3 and CloudWatch. The role must have the same
@@ -14837,6 +15087,8 @@ class DefaultRunSetting {
 }
 
 /// A summary of the submissions in a batch.
+///
+/// @nodoc
 class SubmissionSummary {
   /// The number of failed cancel submissions.
   final int? failedCancelSubmissionCount;
@@ -14914,6 +15166,8 @@ class SubmissionSummary {
 }
 
 /// A summary of the runs in a batch.
+///
+/// @nodoc
 class RunSummary {
   /// The number of cancelled runs.
   final int? cancelledRunCount;
@@ -14987,6 +15241,8 @@ class RunSummary {
 
 /// A union type representing per-run configurations for the batch. Specify
 /// exactly one of the following members.
+///
+/// @nodoc
 class BatchRunSettings {
   /// A list of per-run configurations provided inline in the request. Each entry
   /// must include a unique <code>runSettingId</code>. Supports up to 100 entries.
@@ -15021,6 +15277,8 @@ class BatchRunSettings {
 
 /// A per-run configuration that overrides or merges with fields from
 /// <code>DefaultRunSetting</code> for a specific run.
+///
+/// @nodoc
 class InlineSetting {
   /// A customer-provided unique identifier for this run configuration within the
   /// batch. After submission, use <code>ListRunsInBatch</code> to map each
@@ -15080,6 +15338,7 @@ class InlineSetting {
   }
 }
 
+/// @nodoc
 class ReferenceFile {
   static const source = ReferenceFile._('SOURCE');
   static const $index = ReferenceFile._('INDEX');
@@ -15105,6 +15364,8 @@ class ReferenceFile {
 }
 
 /// A genome reference.
+///
+/// @nodoc
 class ReferenceListItem {
   /// The reference's ARN.
   final String arn;
@@ -15183,6 +15444,7 @@ class ReferenceListItem {
   }
 }
 
+/// @nodoc
 class ReferenceStatus {
   static const active = ReferenceStatus._('ACTIVE');
   static const deleting = ReferenceStatus._('DELETING');
@@ -15209,6 +15471,8 @@ class ReferenceStatus {
 }
 
 /// A filter for references.
+///
+/// @nodoc
 class ReferenceFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -15244,6 +15508,8 @@ class ReferenceFilter {
 }
 
 /// A set of genome reference files.
+///
+/// @nodoc
 class ReferenceFiles {
   /// The files' index.
   final FileInformation? index;
@@ -15277,6 +15543,7 @@ class ReferenceFiles {
   }
 }
 
+/// @nodoc
 class ReferenceCreationType {
   static const import = ReferenceCreationType._('IMPORT');
 
@@ -15301,6 +15568,7 @@ class ReferenceCreationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReferenceImportJobStatus {
   static const submitted = ReferenceImportJobStatus._('SUBMITTED');
   static const inProgress = ReferenceImportJobStatus._('IN_PROGRESS');
@@ -15341,6 +15609,8 @@ class ReferenceImportJobStatus {
 }
 
 /// A source for a reference import job.
+///
+/// @nodoc
 class StartReferenceImportJobSourceItem {
   /// The source's name.
   final String name;
@@ -15376,6 +15646,8 @@ class StartReferenceImportJobSourceItem {
 }
 
 /// An import reference job.
+///
+/// @nodoc
 class ImportReferenceJobItem {
   /// When the job was created.
   final DateTime creationTime;
@@ -15436,6 +15708,8 @@ class ImportReferenceJobItem {
 }
 
 /// A filter for import references.
+///
+/// @nodoc
 class ImportReferenceFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -15465,6 +15739,8 @@ class ImportReferenceFilter {
 }
 
 /// An genome reference source.
+///
+/// @nodoc
 class ImportReferenceSourceItem {
   /// The source's status.
   final ReferenceImportJobItemStatus status;
@@ -15531,6 +15807,7 @@ class ImportReferenceSourceItem {
   }
 }
 
+/// @nodoc
 class ReferenceImportJobItemStatus {
   static const notStarted = ReferenceImportJobItemStatus._('NOT_STARTED');
   static const inProgress = ReferenceImportJobItemStatus._('IN_PROGRESS');
@@ -15559,6 +15836,8 @@ class ReferenceImportJobItemStatus {
 }
 
 /// Details about a reference store.
+///
+/// @nodoc
 class ReferenceStoreDetail {
   /// The store's ARN.
   final String arn;
@@ -15619,6 +15898,8 @@ class ReferenceStoreDetail {
 }
 
 /// A filter for reference stores.
+///
+/// @nodoc
 class ReferenceStoreFilter {
   /// The filter's start date.
   final DateTime? createdAfter;
@@ -15648,6 +15929,8 @@ class ReferenceStoreFilter {
 }
 
 /// Configuration list item with summary information.
+///
+/// @nodoc
 class ConfigurationListItem {
   /// Unique resource identifier for the configuration.
   final String? arn;
@@ -15698,6 +15981,7 @@ class ConfigurationListItem {
   }
 }
 
+/// @nodoc
 class ConfigurationStatus {
   static const creating = ConfigurationStatus._('CREATING');
   static const active = ConfigurationStatus._('ACTIVE');
@@ -15728,6 +16012,8 @@ class ConfigurationStatus {
 }
 
 /// Run-specific configuration settings with computed values.
+///
+/// @nodoc
 class RunConfigurationsResponse {
   /// VPC configuration for workflow runs with computed VPC ID.
   final VpcConfigResponse? vpcConfig;
@@ -15754,6 +16040,8 @@ class RunConfigurationsResponse {
 }
 
 /// Run-specific configuration settings.
+///
+/// @nodoc
 class RunConfigurations {
   /// VPC configuration for workflow runs.
   final VpcConfig? vpcConfig;
@@ -15771,6 +16059,8 @@ class RunConfigurations {
 }
 
 /// VPC configuration for workflow runs.
+///
+/// @nodoc
 class VpcConfig {
   /// List of security group IDs. Maximum of 5 security groups allowed.
   final List<String>? securityGroupIds;
@@ -15794,6 +16084,8 @@ class VpcConfig {
 }
 
 /// The error preventing deletion of the annotation store version.
+///
+/// @nodoc
 class VersionDeleteError {
   /// The message explaining the error in annotation store deletion.
   final String message;
@@ -15824,6 +16116,8 @@ class VersionDeleteError {
 }
 
 /// Annotation store versions.
+///
+/// @nodoc
 class AnnotationStoreVersionItem {
   /// The time stamp for when an annotation store version was created.
   final DateTime creationTime;
@@ -15916,6 +16210,7 @@ class AnnotationStoreVersionItem {
   }
 }
 
+/// @nodoc
 class VersionStatus {
   static const creating = VersionStatus._('CREATING');
   static const updating = VersionStatus._('UPDATING');
@@ -15945,6 +16240,8 @@ class VersionStatus {
 
 /// Use filters to focus the returned annotation store versions on a specific
 /// parameter, such as the status of the annotation store.
+///
+/// @nodoc
 class ListAnnotationStoreVersionsFilter {
   /// The status of an annotation store version.
   final VersionStatus? status;
@@ -15962,6 +16259,8 @@ class ListAnnotationStoreVersionsFilter {
 }
 
 /// The options for an annotation store version.
+///
+/// @nodoc
 class VersionOptions {
   /// File settings for a version of a TSV store.
   final TsvVersionOptions? tsvVersionOptions;
@@ -15988,6 +16287,8 @@ class VersionOptions {
 }
 
 /// The options for a TSV file.
+///
+/// @nodoc
 class TsvVersionOptions {
   /// The store version's annotation type.
   final AnnotationType? annotationType;
@@ -16033,6 +16334,7 @@ class TsvVersionOptions {
   }
 }
 
+/// @nodoc
 class AnnotationType {
   static const generic = AnnotationType._('GENERIC');
   static const chrPos = AnnotationType._('CHR_POS');
@@ -16073,6 +16375,7 @@ class AnnotationType {
   String toString() => value;
 }
 
+/// @nodoc
 class SchemaValueType {
   static const long = SchemaValueType._('LONG');
   static const $int = SchemaValueType._('INT');
@@ -16101,6 +16404,7 @@ class SchemaValueType {
   String toString() => value;
 }
 
+/// @nodoc
 class FormatToHeaderKey {
   static const chr = FormatToHeaderKey._('CHR');
   static const start = FormatToHeaderKey._('START');
@@ -16130,6 +16434,8 @@ class FormatToHeaderKey {
 }
 
 /// An annotation store.
+///
+/// @nodoc
 class AnnotationStoreItem {
   /// The store's creation time.
   final DateTime creationTime;
@@ -16234,6 +16540,7 @@ class AnnotationStoreItem {
   }
 }
 
+/// @nodoc
 class StoreFormat {
   static const gff = StoreFormat._('GFF');
   static const tsv = StoreFormat._('TSV');
@@ -16259,6 +16566,8 @@ class StoreFormat {
 }
 
 /// A filter for annotation stores.
+///
+/// @nodoc
 class ListAnnotationStoresFilter {
   /// A status to filter on.
   final StoreStatus? status;
@@ -16276,6 +16585,8 @@ class ListAnnotationStoresFilter {
 }
 
 /// Settings for a store.
+///
+/// @nodoc
 class StoreOptions {
   /// File settings for a TSV store.
   final TsvStoreOptions? tsvStoreOptions;
@@ -16302,6 +16613,8 @@ class StoreOptions {
 }
 
 /// File settings for a TSV store.
+///
+/// @nodoc
 class TsvStoreOptions {
   /// The store's annotation type.
   final AnnotationType? annotationType;
@@ -16348,6 +16661,8 @@ class TsvStoreOptions {
 }
 
 /// An annotation import job.
+///
+/// @nodoc
 class AnnotationImportJobItem {
   /// When the job was created.
   final DateTime creationTime;
@@ -16437,6 +16752,8 @@ class AnnotationImportJobItem {
 }
 
 /// A filter for annotation import jobs.
+///
+/// @nodoc
 class ListAnnotationImportJobsFilter {
   /// A status to filter on.
   final JobStatus? status;
@@ -16460,6 +16777,8 @@ class ListAnnotationImportJobsFilter {
 }
 
 /// Formatting options for a file.
+///
+/// @nodoc
 class FormatOptions {
   /// Options for a TSV file.
   final TsvOptions? tsvOptions;
@@ -16494,6 +16813,8 @@ class FormatOptions {
 }
 
 /// Formatting options for a TSV file.
+///
+/// @nodoc
 class TsvOptions {
   /// The file's read options.
   final ReadOptions? readOptions;
@@ -16519,6 +16840,8 @@ class TsvOptions {
 }
 
 /// Formatting options for a VCF file.
+///
+/// @nodoc
 class VcfOptions {
   /// The file's ignore filter field setting.
   final bool? ignoreFilterField;
@@ -16549,6 +16872,8 @@ class VcfOptions {
 }
 
 /// Read options for an annotation import job.
+///
+/// @nodoc
 class ReadOptions {
   /// The file's comment character.
   final String? comment;
@@ -16628,6 +16953,8 @@ class ReadOptions {
 }
 
 /// Details about an imported annotation item.
+///
+/// @nodoc
 class AnnotationImportItemDetail {
   /// The item's job status.
   final JobStatus jobStatus;
@@ -16658,6 +16985,8 @@ class AnnotationImportItemDetail {
 }
 
 /// A source for an annotation import job.
+///
+/// @nodoc
 class AnnotationImportItemSource {
   /// The source file's location in Amazon S3.
   final String source;
@@ -16674,6 +17003,7 @@ class AnnotationImportItemSource {
   }
 }
 
+/// @nodoc
 class StoreType {
   static const sequenceStore = StoreType._('SEQUENCE_STORE');
   static const referenceStore = StoreType._('REFERENCE_STORE');
@@ -16697,21 +17027,25 @@ class StoreType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class NotSupportedOperationException extends _s.GenericAwsException {
   NotSupportedOperationException({String? type, String? message})
       : super(
@@ -16720,22 +17054,26 @@ class NotSupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RangeNotSatisfiableException extends _s.GenericAwsException {
   RangeNotSatisfiableException({String? type, String? message})
       : super(
             type: type, code: 'RangeNotSatisfiableException', message: message);
 }
 
+/// @nodoc
 class RequestTimeoutException extends _s.GenericAwsException {
   RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -16744,11 +17082,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

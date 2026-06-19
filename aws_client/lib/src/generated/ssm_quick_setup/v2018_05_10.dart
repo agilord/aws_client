@@ -476,6 +476,7 @@ class SsmQuickSetup {
   }
 }
 
+/// @nodoc
 class CreateConfigurationManagerOutput {
   /// The ARN for the newly created configuration manager.
   final String managerArn;
@@ -498,6 +499,7 @@ class CreateConfigurationManagerOutput {
   }
 }
 
+/// @nodoc
 class GetConfigurationOutput {
   /// The ID of the Amazon Web Services account where the configuration was
   /// deployed.
@@ -599,6 +601,7 @@ class GetConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetConfigurationManagerOutput {
   /// The ARN of the configuration manager.
   final String managerArn;
@@ -682,6 +685,7 @@ class GetConfigurationManagerOutput {
   }
 }
 
+/// @nodoc
 class GetServiceSettingsOutput {
   /// Returns details about the settings for Quick Setup in the requesting Amazon
   /// Web Services account and Amazon Web Services Region.
@@ -708,6 +712,7 @@ class GetServiceSettingsOutput {
   }
 }
 
+/// @nodoc
 class ListConfigurationManagersOutput {
   /// The configuration managers returned by the request.
   final List<ConfigurationManagerSummary>? configurationManagersList;
@@ -743,6 +748,7 @@ class ListConfigurationManagersOutput {
   }
 }
 
+/// @nodoc
 class ListConfigurationsOutput {
   /// An array of configurations.
   final List<ConfigurationSummary>? configurationsList;
@@ -776,6 +782,7 @@ class ListConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class ListQuickSetupTypesOutput {
   /// An array of Quick Setup types.
   final List<QuickSetupTypeOutput>? quickSetupTypeList;
@@ -801,6 +808,7 @@ class ListQuickSetupTypesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Key-value pairs of metadata assigned to the resource.
   final List<TagEntry>? tags;
@@ -827,6 +835,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Key-value pairs of metadata.
+///
+/// @nodoc
 class TagEntry {
   /// The key for the tag.
   final String? key;
@@ -857,6 +867,8 @@ class TagEntry {
 }
 
 /// Information about the Quick Setup type.
+///
+/// @nodoc
 class QuickSetupTypeOutput {
   /// The latest version number of the configuration.
   final String? latestVersion;
@@ -887,6 +899,8 @@ class QuickSetupTypeOutput {
 }
 
 /// Details for a Quick Setup configuration.
+///
+/// @nodoc
 class ConfigurationSummary {
   /// The ID of the Amazon Web Services account where the configuration was
   /// deployed.
@@ -983,6 +997,8 @@ class ConfigurationSummary {
 }
 
 /// A summarized description of the status.
+///
+/// @nodoc
 class StatusSummary {
   /// The datetime stamp when the status was last updated.
   final DateTime lastUpdatedAt;
@@ -1037,6 +1053,7 @@ class StatusSummary {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const deployment = StatusType._('Deployment');
   static const asyncExecutions = StatusType._('AsyncExecutions');
@@ -1060,6 +1077,7 @@ class StatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const initializing = Status._('INITIALIZING');
   static const deploying = Status._('DEPLOYING');
@@ -1103,6 +1121,8 @@ class Status {
 }
 
 /// A key-value pair to filter results.
+///
+/// @nodoc
 class Filter {
   /// The key for the filter.
   final String key;
@@ -1126,6 +1146,8 @@ class Filter {
 }
 
 /// A summary of a Quick Setup configuration manager.
+///
+/// @nodoc
 class ConfigurationManagerSummary {
   /// The ARN of the Quick Setup configuration.
   final String managerArn;
@@ -1190,6 +1212,8 @@ class ConfigurationManagerSummary {
 }
 
 /// A summarized definition of a Quick Setup configuration definition.
+///
+/// @nodoc
 class ConfigurationDefinitionSummary {
   /// The common parameters and values for the configuration definition.
   final Map<String, String>? firstClassParameters;
@@ -1238,6 +1262,8 @@ class ConfigurationDefinitionSummary {
 }
 
 /// Settings configured for Quick Setup.
+///
+/// @nodoc
 class ServiceSettings {
   /// The IAM role used to enable Explorer.
   final String? explorerEnablingRoleArn;
@@ -1262,6 +1288,8 @@ class ServiceSettings {
 }
 
 /// The definition of a Quick Setup configuration.
+///
+/// @nodoc
 class ConfigurationDefinition {
   /// A list of key-value pairs containing the required parameters for the
   /// configuration type.
@@ -1331,6 +1359,8 @@ class ConfigurationDefinition {
 }
 
 /// Defines the preferences and options for a configuration definition.
+///
+/// @nodoc
 class ConfigurationDefinitionInput {
   /// The parameters for the configuration definition type. Parameters for
   /// configuration definitions vary based the configuration type. The following
@@ -2393,31 +2423,37 @@ class ConfigurationDefinitionInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

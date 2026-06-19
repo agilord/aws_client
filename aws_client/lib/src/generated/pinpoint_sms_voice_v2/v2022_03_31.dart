@@ -5988,6 +5988,7 @@ class PinpointSmsVoiceV2 {
   }
 }
 
+/// @nodoc
 class AssociateOriginationIdentityResult {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or
   /// region.
@@ -6043,6 +6044,7 @@ class AssociateOriginationIdentityResult {
   }
 }
 
+/// @nodoc
 class AssociateProtectConfigurationResult {
   /// The Amazon Resource Name (ARN) of the configuration set.
   final String configurationSetArn;
@@ -6088,6 +6090,7 @@ class AssociateProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class CarrierLookupResult {
   /// The phone number in E164 format, sanitized from the original input by
   /// removing any formatting characters.
@@ -6167,6 +6170,7 @@ class CarrierLookupResult {
   }
 }
 
+/// @nodoc
 class CreateConfigurationSetResult {
   /// The Amazon Resource Name (ARN) of the newly created configuration set.
   final String? configurationSetArn;
@@ -6218,6 +6222,7 @@ class CreateConfigurationSetResult {
   }
 }
 
+/// @nodoc
 class CreateEventDestinationResult {
   /// The ARN of the configuration set.
   final String? configurationSetArn;
@@ -6259,6 +6264,7 @@ class CreateEventDestinationResult {
   }
 }
 
+/// @nodoc
 class CreateNotifyConfigurationResult {
   /// The time when the notify configuration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -6398,6 +6404,7 @@ class CreateNotifyConfigurationResult {
   }
 }
 
+/// @nodoc
 class CreateOptOutListResult {
   /// The time when the pool was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -6446,6 +6453,7 @@ class CreateOptOutListResult {
   }
 }
 
+/// @nodoc
 class CreatePoolResult {
   /// The time when the pool was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -6583,6 +6591,7 @@ class CreatePoolResult {
   }
 }
 
+/// @nodoc
 class CreateProtectConfigurationResult {
   /// This is true if the protect configuration is set as your account default
   /// protect configuration.
@@ -6649,6 +6658,7 @@ class CreateProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class CreateRcsAgentResult {
   /// The time when the RCS agent was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -6753,6 +6763,7 @@ class CreateRcsAgentResult {
   }
 }
 
+/// @nodoc
 class CreateRegistrationResult {
   /// The time when the registration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -6873,6 +6884,7 @@ class CreateRegistrationResult {
   }
 }
 
+/// @nodoc
 class CreateRegistrationAssociationResult {
   /// The Amazon Resource Name (ARN) for the registration.
   final String registrationArn;
@@ -6949,6 +6961,7 @@ class CreateRegistrationAssociationResult {
   }
 }
 
+/// @nodoc
 class CreateRegistrationAttachmentResult {
   /// The status of the registration attachment.
   ///
@@ -7024,6 +7037,7 @@ class CreateRegistrationAttachmentResult {
   }
 }
 
+/// @nodoc
 class CreateRegistrationVersionResult {
   /// The Amazon Resource Name (ARN) for the registration.
   final String registrationArn;
@@ -7117,6 +7131,7 @@ class CreateRegistrationVersionResult {
   }
 }
 
+/// @nodoc
 class CreateVerifiedDestinationNumberResult {
   /// The time when the verified phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -7201,6 +7216,7 @@ class CreateVerifiedDestinationNumberResult {
   }
 }
 
+/// @nodoc
 class DeleteAccountDefaultProtectConfigurationResult {
   /// The Amazon Resource Name (ARN) of the account default protect configuration.
   final String defaultProtectConfigurationArn;
@@ -7233,6 +7249,7 @@ class DeleteAccountDefaultProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteConfigurationSetResult {
   /// The Amazon Resource Name (ARN) of the deleted configuration set.
   final String? configurationSetArn;
@@ -7310,6 +7327,7 @@ class DeleteConfigurationSetResult {
   }
 }
 
+/// @nodoc
 class DeleteDefaultMessageTypeResult {
   /// The Amazon Resource Name (ARN) of the configuration set.
   final String? configurationSetArn;
@@ -7349,6 +7367,7 @@ class DeleteDefaultMessageTypeResult {
   }
 }
 
+/// @nodoc
 class DeleteDefaultSenderIdResult {
   /// The Amazon Resource Name (ARN) of the configuration set.
   final String? configurationSetArn;
@@ -7387,6 +7406,7 @@ class DeleteDefaultSenderIdResult {
   }
 }
 
+/// @nodoc
 class DeleteEventDestinationResult {
   /// The Amazon Resource Name (ARN) of the configuration set.
   final String? configurationSetArn;
@@ -7428,6 +7448,7 @@ class DeleteEventDestinationResult {
   }
 }
 
+/// @nodoc
 class DeleteKeywordResult {
   /// The keyword that was deleted.
   final String? keyword;
@@ -7481,6 +7502,7 @@ class DeleteKeywordResult {
   }
 }
 
+/// @nodoc
 class DeleteMediaMessageSpendLimitOverrideResult {
   /// The current monthly limit, in US dollars.
   final int? monthlyLimit;
@@ -7504,6 +7526,7 @@ class DeleteMediaMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class DeleteNotifyConfigurationResult {
   /// The time when the notify configuration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -7632,6 +7655,7 @@ class DeleteNotifyConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteNotifyMessageSpendLimitOverrideResult {
   /// The current monthly limit, in US dollars.
   final int? monthlyLimit;
@@ -7655,6 +7679,7 @@ class DeleteNotifyMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class DeleteOptedOutNumberResult {
   /// This is true if it was the end user who requested their phone number be
   /// removed.
@@ -7708,6 +7733,7 @@ class DeleteOptedOutNumberResult {
   }
 }
 
+/// @nodoc
 class DeleteOptOutListResult {
   /// The time when the OptOutList was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -7746,6 +7772,7 @@ class DeleteOptOutListResult {
   }
 }
 
+/// @nodoc
 class DeletePoolResult {
   /// The time when the pool was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -7863,6 +7890,7 @@ class DeletePoolResult {
   }
 }
 
+/// @nodoc
 class DeleteProtectConfigurationResult {
   /// This is true if the protect configuration is set as your account default
   /// protect configuration.
@@ -7919,6 +7947,7 @@ class DeleteProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteProtectConfigurationRuleSetNumberOverrideResult {
   /// The action associated with the rule.
   final ProtectConfigurationRuleOverrideAction action;
@@ -7991,6 +8020,7 @@ class DeleteProtectConfigurationRuleSetNumberOverrideResult {
   }
 }
 
+/// @nodoc
 class DeleteRcsAgentResult {
   /// The time when the RCS agent was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -8085,6 +8115,7 @@ class DeleteRcsAgentResult {
   }
 }
 
+/// @nodoc
 class DeleteRegistrationResult {
   /// The time when the registration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -8210,6 +8241,7 @@ class DeleteRegistrationResult {
   }
 }
 
+/// @nodoc
 class DeleteRegistrationAttachmentResult {
   /// The status of the registration attachment.
   ///
@@ -8284,6 +8316,7 @@ class DeleteRegistrationAttachmentResult {
   }
 }
 
+/// @nodoc
 class DeleteRegistrationFieldValueResult {
   /// The path to the registration form field.
   final String fieldPath;
@@ -8353,6 +8386,7 @@ class DeleteRegistrationFieldValueResult {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResult {
   /// The time when the resource-based policy was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -8392,6 +8426,7 @@ class DeleteResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class DeleteTextMessageSpendLimitOverrideResult {
   /// The current monthly limit, in US dollars.
   final int? monthlyLimit;
@@ -8415,6 +8450,7 @@ class DeleteTextMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class DeleteVerifiedDestinationNumberResult {
   /// The time when the destination phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -8463,6 +8499,7 @@ class DeleteVerifiedDestinationNumberResult {
   }
 }
 
+/// @nodoc
 class DeleteVoiceMessageSpendLimitOverrideResult {
   /// The current monthly limit, in US dollars.
   final int? monthlyLimit;
@@ -8486,6 +8523,7 @@ class DeleteVoiceMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class DescribeAccountAttributesResult {
   /// An array of AccountAttributes objects.
   final List<AccountAttribute>? accountAttributes;
@@ -8519,6 +8557,7 @@ class DescribeAccountAttributesResult {
   }
 }
 
+/// @nodoc
 class DescribeAccountLimitsResult {
   /// An array of AccountLimit objects that show the current spend limits.
   final List<AccountLimit>? accountLimits;
@@ -8552,6 +8591,7 @@ class DescribeAccountLimitsResult {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationSetsResult {
   /// An array of ConfigurationSets objects.
   final List<ConfigurationSetInformation>? configurationSets;
@@ -8586,6 +8626,7 @@ class DescribeConfigurationSetsResult {
   }
 }
 
+/// @nodoc
 class DescribeKeywordsResult {
   /// An array of KeywordInformation objects that contain the results.
   final List<KeywordInformation>? keywords;
@@ -8636,6 +8677,7 @@ class DescribeKeywordsResult {
   }
 }
 
+/// @nodoc
 class DescribeNotifyConfigurationsResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8672,6 +8714,7 @@ class DescribeNotifyConfigurationsResult {
   }
 }
 
+/// @nodoc
 class DescribeNotifyTemplatesResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8706,6 +8749,7 @@ class DescribeNotifyTemplatesResult {
   }
 }
 
+/// @nodoc
 class DescribeOptedOutNumbersResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8755,6 +8799,7 @@ class DescribeOptedOutNumbersResult {
   }
 }
 
+/// @nodoc
 class DescribeOptOutListsResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8789,6 +8834,7 @@ class DescribeOptOutListsResult {
   }
 }
 
+/// @nodoc
 class DescribePhoneNumbersResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8824,6 +8870,7 @@ class DescribePhoneNumbersResult {
   }
 }
 
+/// @nodoc
 class DescribePoolsResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8858,6 +8905,7 @@ class DescribePoolsResult {
   }
 }
 
+/// @nodoc
 class DescribeProtectConfigurationsResult {
   /// The token to be used for the next set of paginated results. You don't need
   /// to supply a value for this field in the initial request.
@@ -8895,6 +8943,7 @@ class DescribeProtectConfigurationsResult {
   }
 }
 
+/// @nodoc
 class DescribeRcsAgentCountryLaunchStatusResult {
   /// The Amazon Resource Name (ARN) of the RCS agent.
   final String rcsAgentArn;
@@ -8946,6 +8995,7 @@ class DescribeRcsAgentCountryLaunchStatusResult {
   }
 }
 
+/// @nodoc
 class DescribeRcsAgentsResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -8980,6 +9030,7 @@ class DescribeRcsAgentsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationAttachmentsResult {
   /// An array of <b>RegistrationAttachments</b> objects that contain the details
   /// for the requested registration attachments.
@@ -9017,6 +9068,7 @@ class DescribeRegistrationAttachmentsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationFieldDefinitionsResult {
   /// An array of RegistrationFieldDefinitions objects that contain the details
   /// for the requested fields.
@@ -9063,6 +9115,7 @@ class DescribeRegistrationFieldDefinitionsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationFieldValuesResult {
   /// The Amazon Resource Name (ARN) for the registration.
   final String registrationArn;
@@ -9121,6 +9174,7 @@ class DescribeRegistrationFieldValuesResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationsResult {
   /// An array of RegistrationInformation objects.
   final List<RegistrationInformation> registrations;
@@ -9155,6 +9209,7 @@ class DescribeRegistrationsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationSectionDefinitionsResult {
   /// An array of RegistrationSectionDefinition objects.
   final List<RegistrationSectionDefinition> registrationSectionDefinitions;
@@ -9200,6 +9255,7 @@ class DescribeRegistrationSectionDefinitionsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationTypeDefinitionsResult {
   /// The type of registration form. The list of <b>RegistrationTypes</b> can be
   /// found using the <a>DescribeRegistrationTypeDefinitions</a> action.
@@ -9238,6 +9294,7 @@ class DescribeRegistrationTypeDefinitionsResult {
   }
 }
 
+/// @nodoc
 class DescribeRegistrationVersionsResult {
   /// The Amazon Resource Name (ARN) for the registration.
   final String registrationArn;
@@ -9288,6 +9345,7 @@ class DescribeRegistrationVersionsResult {
   }
 }
 
+/// @nodoc
 class DescribeSenderIdsResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -9322,6 +9380,7 @@ class DescribeSenderIdsResult {
   }
 }
 
+/// @nodoc
 class DescribeSpendLimitsResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -9356,6 +9415,7 @@ class DescribeSpendLimitsResult {
   }
 }
 
+/// @nodoc
 class DescribeVerifiedDestinationNumbersResult {
   /// An array of VerifiedDestinationNumberInformation objects
   final List<VerifiedDestinationNumberInformation> verifiedDestinationNumbers;
@@ -9392,6 +9452,7 @@ class DescribeVerifiedDestinationNumbersResult {
   }
 }
 
+/// @nodoc
 class DisassociateOriginationIdentityResult {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or
   /// region.
@@ -9446,6 +9507,7 @@ class DisassociateOriginationIdentityResult {
   }
 }
 
+/// @nodoc
 class DisassociateProtectConfigurationResult {
   /// The Amazon Resource Name (ARN) of the configuration set.
   final String configurationSetArn;
@@ -9491,6 +9553,7 @@ class DisassociateProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class DiscardRegistrationVersionResult {
   /// The Amazon Resource Name (ARN) for the registration.
   final String registrationArn;
@@ -9584,6 +9647,7 @@ class DiscardRegistrationVersionResult {
   }
 }
 
+/// @nodoc
 class GetProtectConfigurationCountryRuleSetResult {
   /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain
   /// the details for the requested NumberCapability. The Key is the two-letter
@@ -9642,6 +9706,7 @@ class GetProtectConfigurationCountryRuleSetResult {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResult {
   /// The time when the resource-based policy was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -9682,6 +9747,7 @@ class GetResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class ListNotifyCountriesResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -9716,6 +9782,7 @@ class ListNotifyCountriesResult {
   }
 }
 
+/// @nodoc
 class ListPoolOriginationIdentitiesResult {
   /// The token to be used for the next set of paginated results. If this field is
   /// empty then there are no more results.
@@ -9766,6 +9833,7 @@ class ListPoolOriginationIdentitiesResult {
   }
 }
 
+/// @nodoc
 class ListProtectConfigurationRuleSetNumberOverridesResult {
   /// The Amazon Resource Name (ARN) of the protect configuration.
   final String protectConfigurationArn;
@@ -9817,6 +9885,7 @@ class ListProtectConfigurationRuleSetNumberOverridesResult {
   }
 }
 
+/// @nodoc
 class ListRegistrationAssociationsResult {
   /// The Amazon Resource Name (ARN) for the registration.
   final String registrationArn;
@@ -9875,6 +9944,7 @@ class ListRegistrationAssociationsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// The ARN of the resource.
   final String? resourceArn;
@@ -9907,6 +9977,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class PutKeywordResult {
   /// The keyword that was added.
   final String? keyword;
@@ -9960,6 +10031,7 @@ class PutKeywordResult {
   }
 }
 
+/// @nodoc
 class PutMessageFeedbackResult {
   /// The current status of the message.
   final MessageFeedbackStatus messageFeedbackStatus;
@@ -9990,6 +10062,7 @@ class PutMessageFeedbackResult {
   }
 }
 
+/// @nodoc
 class PutOptedOutNumberResult {
   /// This is true if it was the end user who requested their phone number be
   /// removed.
@@ -10043,6 +10116,7 @@ class PutOptedOutNumberResult {
   }
 }
 
+/// @nodoc
 class PutProtectConfigurationRuleSetNumberOverrideResult {
   /// The action for the rule to take.
   final ProtectConfigurationRuleOverrideAction action;
@@ -10114,6 +10188,7 @@ class PutProtectConfigurationRuleSetNumberOverrideResult {
   }
 }
 
+/// @nodoc
 class PutRegistrationFieldValueResult {
   /// The path to the registration form field. You can use
   /// <a>DescribeRegistrationFieldDefinitions</a> for a list of <b>FieldPaths</b>.
@@ -10183,6 +10258,7 @@ class PutRegistrationFieldValueResult {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResult {
   /// The time when the resource-based policy was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -10222,6 +10298,7 @@ class PutResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class ReleasePhoneNumberResult {
   /// The time when the phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -10366,6 +10443,7 @@ class ReleasePhoneNumberResult {
   }
 }
 
+/// @nodoc
 class ReleaseSenderIdResult {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or
   /// region.
@@ -10436,6 +10514,7 @@ class ReleaseSenderIdResult {
   }
 }
 
+/// @nodoc
 class RequestPhoneNumberResult {
   /// The time when the phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -10621,6 +10700,7 @@ class RequestPhoneNumberResult {
   }
 }
 
+/// @nodoc
 class RequestSenderIdResult {
   /// By default this is set to false. When set to true the sender ID can't be
   /// deleted.
@@ -10703,6 +10783,7 @@ class RequestSenderIdResult {
   }
 }
 
+/// @nodoc
 class SendDestinationNumberVerificationCodeResult {
   /// The unique identifier for the message.
   final String messageId;
@@ -10726,6 +10807,7 @@ class SendDestinationNumberVerificationCodeResult {
   }
 }
 
+/// @nodoc
 class SendMediaMessageResult {
   /// The unique identifier for the message.
   final String? messageId;
@@ -10748,6 +10830,7 @@ class SendMediaMessageResult {
   }
 }
 
+/// @nodoc
 class SendNotifyTextMessageResult {
   /// The unique identifier for the message.
   final String? messageId;
@@ -10785,6 +10868,7 @@ class SendNotifyTextMessageResult {
   }
 }
 
+/// @nodoc
 class SendNotifyVoiceMessageResult {
   /// The unique identifier for the message.
   final String? messageId;
@@ -10822,6 +10906,7 @@ class SendNotifyVoiceMessageResult {
   }
 }
 
+/// @nodoc
 class SendTextMessageResult {
   /// The unique identifier for the message.
   final String? messageId;
@@ -10844,6 +10929,7 @@ class SendTextMessageResult {
   }
 }
 
+/// @nodoc
 class SendVoiceMessageResult {
   /// The unique identifier for the message.
   final String? messageId;
@@ -10866,6 +10952,7 @@ class SendVoiceMessageResult {
   }
 }
 
+/// @nodoc
 class SetAccountDefaultProtectConfigurationResult {
   /// The Amazon Resource Name (ARN) of the account default protect configuration.
   final String defaultProtectConfigurationArn;
@@ -10898,6 +10985,7 @@ class SetAccountDefaultProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class SetDefaultMessageFeedbackEnabledResult {
   /// The arn of the configuration set.
   final String? configurationSetArn;
@@ -10938,6 +11026,7 @@ class SetDefaultMessageFeedbackEnabledResult {
   }
 }
 
+/// @nodoc
 class SetDefaultMessageTypeResult {
   /// The Amazon Resource Name (ARN) of the updated configuration set.
   final String? configurationSetArn;
@@ -10977,6 +11066,7 @@ class SetDefaultMessageTypeResult {
   }
 }
 
+/// @nodoc
 class SetDefaultSenderIdResult {
   /// The Amazon Resource Name (ARN) of the updated configuration set.
   final String? configurationSetArn;
@@ -11015,6 +11105,7 @@ class SetDefaultSenderIdResult {
   }
 }
 
+/// @nodoc
 class SetMediaMessageSpendLimitOverrideResult {
   /// The current monthly limit to enforce on sending text messages.
   final int? monthlyLimit;
@@ -11038,6 +11129,7 @@ class SetMediaMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class SetNotifyMessageSpendLimitOverrideResult {
   /// The current monthly limit, in US dollars.
   final int? monthlyLimit;
@@ -11061,6 +11153,7 @@ class SetNotifyMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class SetTextMessageSpendLimitOverrideResult {
   /// The current monthly limit to enforce on sending text messages.
   final int? monthlyLimit;
@@ -11084,6 +11177,7 @@ class SetTextMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class SetVoiceMessageSpendLimitOverrideResult {
   /// The current monthly limit to enforce on sending voice messages.
   final int? monthlyLimit;
@@ -11107,6 +11201,7 @@ class SetVoiceMessageSpendLimitOverrideResult {
   }
 }
 
+/// @nodoc
 class SubmitRegistrationVersionResult {
   /// Indicates whether AWS review was requested for this registration submission.
   final bool awsReview;
@@ -11207,6 +11302,7 @@ class SubmitRegistrationVersionResult {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   TagResourceResult();
 
@@ -11219,6 +11315,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   UntagResourceResult();
 
@@ -11231,6 +11328,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdateEventDestinationResult {
   /// The Amazon Resource Name (ARN) for the ConfigurationSet that was updated.
   final String? configurationSetArn;
@@ -11273,6 +11371,7 @@ class UpdateEventDestinationResult {
   }
 }
 
+/// @nodoc
 class UpdateNotifyConfigurationResult {
   /// The time when the notify configuration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -11401,6 +11500,7 @@ class UpdateNotifyConfigurationResult {
   }
 }
 
+/// @nodoc
 class UpdatePhoneNumberResult {
   /// The time when the phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -11558,6 +11658,7 @@ class UpdatePhoneNumberResult {
   }
 }
 
+/// @nodoc
 class UpdatePoolResult {
   /// The time when the pool was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -11670,6 +11771,7 @@ class UpdatePoolResult {
   }
 }
 
+/// @nodoc
 class UpdateProtectConfigurationResult {
   /// This is true if the protect configuration is set as your account default
   /// protect configuration.
@@ -11726,6 +11828,7 @@ class UpdateProtectConfigurationResult {
   }
 }
 
+/// @nodoc
 class UpdateProtectConfigurationCountryRuleSetResult {
   /// An array of ProtectConfigurationCountryRuleSetInformation containing the
   /// rules for the NumberCapability.
@@ -11779,6 +11882,7 @@ class UpdateProtectConfigurationCountryRuleSetResult {
   }
 }
 
+/// @nodoc
 class UpdateRcsAgentResult {
   /// The time when the RCS agent was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -11873,6 +11977,7 @@ class UpdateRcsAgentResult {
   }
 }
 
+/// @nodoc
 class UpdateSenderIdResult {
   /// By default this is set to false. When set to true the sender ID can't be
   /// deleted.
@@ -11952,6 +12057,7 @@ class UpdateSenderIdResult {
   }
 }
 
+/// @nodoc
 class VerifyDestinationNumberResult {
   /// The time when the destination phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -12006,6 +12112,7 @@ class VerifyDestinationNumberResult {
   }
 }
 
+/// @nodoc
 class VerificationStatus {
   static const pending = VerificationStatus._('PENDING');
   static const verified = VerificationStatus._('VERIFIED');
@@ -12032,6 +12139,7 @@ class VerificationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MessageType {
   static const transactional = MessageType._('TRANSACTIONAL');
   static const promotional = MessageType._('PROMOTIONAL');
@@ -12077,6 +12185,8 @@ class MessageType {
 /// <code>DELETED</code>: The RCS agent has been deleted.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RcsAgentStatus {
   static const created = RcsAgentStatus._('CREATED');
   static const pending = RcsAgentStatus._('PENDING');
@@ -12105,6 +12215,7 @@ class RcsAgentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NumberCapability {
   static const sms = NumberCapability._('SMS');
   static const voice = NumberCapability._('VOICE');
@@ -12132,6 +12243,8 @@ class NumberCapability {
 }
 
 /// The types of statuses that can be used.
+///
+/// @nodoc
 class ProtectConfigurationCountryRuleSetInformation {
   /// The types of protection that can be used.
   final ProtectStatus protectStatus;
@@ -12156,6 +12269,7 @@ class ProtectConfigurationCountryRuleSetInformation {
   }
 }
 
+/// @nodoc
 class ProtectStatus {
   static const allow = ProtectStatus._('ALLOW');
   static const block = ProtectStatus._('BLOCK');
@@ -12182,6 +12296,7 @@ class ProtectStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PoolStatus {
   static const creating = PoolStatus._('CREATING');
   static const active = PoolStatus._('ACTIVE');
@@ -12206,6 +12321,7 @@ class PoolStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NumberStatus {
   static const pending = NumberStatus._('PENDING');
   static const active = NumberStatus._('ACTIVE');
@@ -12232,6 +12348,7 @@ class NumberStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NumberType {
   static const shortCode = NumberType._('SHORT_CODE');
   static const longCode = NumberType._('LONG_CODE');
@@ -12265,6 +12382,8 @@ class NumberType {
 /// <code>CODE_VERIFICATION</code> - Code verification use case.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyConfigurationUseCase {
   static const codeVerification =
       NotifyConfigurationUseCase._('CODE_VERIFICATION');
@@ -12300,6 +12419,8 @@ class NotifyConfigurationUseCase {
 /// <code>ADVANCED</code> - Advanced tier.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyConfigurationTier {
   static const basic = NotifyConfigurationTier._('BASIC');
   static const advanced = NotifyConfigurationTier._('ADVANCED');
@@ -12341,6 +12462,8 @@ class NotifyConfigurationTier {
 /// <code>REJECTED</code> - Tier upgrade was rejected.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TierUpgradeStatus {
   static const basic = TierUpgradeStatus._('BASIC');
   static const pendingUpgrade = TierUpgradeStatus._('PENDING_UPGRADE');
@@ -12384,6 +12507,8 @@ class TierUpgradeStatus {
 /// verification.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyConfigurationStatus {
   static const pending = NotifyConfigurationStatus._('PENDING');
   static const active = NotifyConfigurationStatus._('ACTIVE');
@@ -12416,6 +12541,8 @@ class NotifyConfigurationStatus {
 ///
 /// Event destinations are associated with configuration sets, which enable you
 /// to publish message sending events to CloudWatch, Firehose, or Amazon SNS.
+///
+/// @nodoc
 class EventDestination {
   /// When set to true events will be logged.
   final bool enabled;
@@ -12495,6 +12622,8 @@ class EventDestination {
 
 /// Contains the destination configuration to use when publishing message
 /// sending events.
+///
+/// @nodoc
 class CloudWatchLogsDestination {
   /// The Amazon Resource Name (ARN) of an Identity and Access Management role
   /// that is able to write event data to an Amazon CloudWatch destination.
@@ -12532,6 +12661,8 @@ class CloudWatchLogsDestination {
 ///
 /// Event destinations, such as Firehose, are associated with configuration
 /// sets, which enable you to publish message sending events.
+///
+/// @nodoc
 class KinesisFirehoseDestination {
   /// The Amazon Resource Name (ARN) of the delivery stream.
   final String deliveryStreamArn;
@@ -12564,6 +12695,8 @@ class KinesisFirehoseDestination {
 
 /// An object that defines an Amazon SNS destination for events. You can use
 /// Amazon SNS to send notification when certain events occur.
+///
+/// @nodoc
 class SnsDestination {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
   /// publish events to.
@@ -12587,6 +12720,7 @@ class SnsDestination {
   }
 }
 
+/// @nodoc
 class EventType {
   static const all = EventType._('ALL');
   static const textAll = EventType._('TEXT_ALL');
@@ -12698,6 +12832,8 @@ class EventType {
 }
 
 /// The list of tags to be added to the specified topic.
+///
+/// @nodoc
 class Tag {
   /// The key identifier, or name, of the tag.
   final String key;
@@ -12727,6 +12863,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class RegistrationVersionStatus {
   static const draft = RegistrationVersionStatus._('DRAFT');
   static const submitted = RegistrationVersionStatus._('SUBMITTED');
@@ -12777,6 +12914,8 @@ class RegistrationVersionStatus {
 
 /// The <b>RegistrationVersionStatusHistory</b> object contains the time stamps
 /// for when the reservations status changes.
+///
+/// @nodoc
 class RegistrationVersionStatusHistory {
   /// The time when the registration was in the draft state, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -12884,6 +13023,7 @@ class RegistrationVersionStatusHistory {
   }
 }
 
+/// @nodoc
 class VoiceMessageBodyTextType {
   static const text = VoiceMessageBodyTextType._('TEXT');
   static const ssml = VoiceMessageBodyTextType._('SSML');
@@ -12909,6 +13049,7 @@ class VoiceMessageBodyTextType {
   String toString() => value;
 }
 
+/// @nodoc
 class VoiceId {
   static const amy = VoiceId._('AMY');
   static const astrid = VoiceId._('ASTRID');
@@ -13049,6 +13190,7 @@ class VoiceId {
   String toString() => value;
 }
 
+/// @nodoc
 class DestinationCountryParameterKey {
   static const inTemplateId =
       DestinationCountryParameterKey._('IN_TEMPLATE_ID');
@@ -13075,6 +13217,7 @@ class DestinationCountryParameterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class VerificationChannel {
   static const text = VerificationChannel._('TEXT');
   static const voice = VerificationChannel._('VOICE');
@@ -13100,6 +13243,7 @@ class VerificationChannel {
   String toString() => value;
 }
 
+/// @nodoc
 class LanguageCode {
   static const deDe = LanguageCode._('DE_DE');
   static const enGb = LanguageCode._('EN_GB');
@@ -13148,6 +13292,7 @@ class LanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class RequestableNumberType {
   static const longCode = RequestableNumberType._('LONG_CODE');
   static const tollFree = RequestableNumberType._('TOLL_FREE');
@@ -13175,6 +13320,7 @@ class RequestableNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectConfigurationRuleOverrideAction {
   static const allow = ProtectConfigurationRuleOverrideAction._('ALLOW');
   static const block = ProtectConfigurationRuleOverrideAction._('BLOCK');
@@ -13200,6 +13346,7 @@ class ProtectConfigurationRuleOverrideAction {
   String toString() => value;
 }
 
+/// @nodoc
 class MessageFeedbackStatus {
   static const received = MessageFeedbackStatus._('RECEIVED');
   static const failed = MessageFeedbackStatus._('FAILED');
@@ -13225,6 +13372,7 @@ class MessageFeedbackStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class KeywordAction {
   static const automaticResponse = KeywordAction._('AUTOMATIC_RESPONSE');
   static const optOut = KeywordAction._('OPT_OUT');
@@ -13252,6 +13400,8 @@ class KeywordAction {
 
 /// Metadata for the origination identity that is associated with the
 /// registration.
+///
+/// @nodoc
 class RegistrationAssociationMetadata {
   /// The Amazon Resource Name (ARN) of the origination identity that is
   /// associated with the registration.
@@ -13307,6 +13457,8 @@ class RegistrationAssociationMetadata {
 
 /// The filter definition for filtering registrations that meets a specified
 /// criteria.
+///
+/// @nodoc
 class RegistrationAssociationFilter {
   /// The name of the attribute to filter on.
   final RegistrationAssociationFilterName name;
@@ -13329,6 +13481,7 @@ class RegistrationAssociationFilter {
   }
 }
 
+/// @nodoc
 class RegistrationAssociationFilterName {
   static const resourceType =
       RegistrationAssociationFilterName._('resource-type');
@@ -13357,6 +13510,8 @@ class RegistrationAssociationFilterName {
 }
 
 /// Provides details on phone number rule overrides for a protect configuration.
+///
+/// @nodoc
 class ProtectConfigurationRuleSetNumberOverride {
   /// The action for the rule to perform of either blocking or allowing messages
   /// to the destination phone number.
@@ -13417,6 +13572,8 @@ class ProtectConfigurationRuleSetNumberOverride {
 
 /// The information for a protect configuration rule set number override that
 /// meets a specified criteria.
+///
+/// @nodoc
 class ProtectConfigurationRuleSetNumberOverrideFilterItem {
   /// The name of the attribute to filter on.
   final ProtectConfigurationRuleSetNumberOverrideFilterName name;
@@ -13439,6 +13596,7 @@ class ProtectConfigurationRuleSetNumberOverrideFilterItem {
   }
 }
 
+/// @nodoc
 class ProtectConfigurationRuleSetNumberOverrideFilterName {
   static const isoCountryCode =
       ProtectConfigurationRuleSetNumberOverrideFilterName._('iso-country-code');
@@ -13489,6 +13647,8 @@ class ProtectConfigurationRuleSetNumberOverrideFilterName {
 }
 
 /// The metadata for an origination identity associated with a pool.
+///
+/// @nodoc
 class OriginationIdentityMetadata {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or
   /// region. This field is optional and may not be present for origination
@@ -13547,6 +13707,8 @@ class OriginationIdentityMetadata {
 
 /// Information about origination identities associated with a pool that meets a
 /// specified criteria.
+///
+/// @nodoc
 class PoolOriginationIdentitiesFilter {
   /// The name of the attribute to filter on.
   final PoolOriginationIdentitiesFilterName name;
@@ -13569,6 +13731,7 @@ class PoolOriginationIdentitiesFilter {
   }
 }
 
+/// @nodoc
 class PoolOriginationIdentitiesFilterName {
   static const isoCountryCode =
       PoolOriginationIdentitiesFilterName._('iso-country-code');
@@ -13597,6 +13760,8 @@ class PoolOriginationIdentitiesFilterName {
 }
 
 /// The information for a country that supports notify messaging.
+///
+/// @nodoc
 class NotifyCountryInformation {
   /// The name of the country.
   final String countryName;
@@ -13668,6 +13833,8 @@ class NotifyCountryInformation {
 }
 
 /// Provides information about the requested verified destintion phone number.
+///
+/// @nodoc
 class VerifiedDestinationNumberInformation {
   /// The time when the destination phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -13743,6 +13910,8 @@ class VerifiedDestinationNumberInformation {
 
 /// The filter definition for filtering verified destination phone numbers that
 /// meets a specified criteria.
+///
+/// @nodoc
 class VerifiedDestinationNumberFilter {
   /// The name of the attribute to filter on.
   final VerifiedDestinationNumberFilterName name;
@@ -13776,6 +13945,8 @@ class VerifiedDestinationNumberFilter {
 /// <code>rcs-agent-id</code>: Filter by the RCS agent identifier.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class VerifiedDestinationNumberFilterName {
   static const status = VerifiedDestinationNumberFilterName._('status');
   static const rcsAgentId =
@@ -13808,6 +13979,8 @@ class VerifiedDestinationNumberFilterName {
 /// href="https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html">
 /// Requesting a spending quota increase </a> in the <i>End User Messaging SMS
 /// User Guide</i>.
+///
+/// @nodoc
 class SpendLimit {
   /// The maximum amount of money, in US dollars, that you want to be able to
   /// spend sending messages each month. This value has to be less than or equal
@@ -13857,6 +14030,7 @@ class SpendLimit {
   }
 }
 
+/// @nodoc
 class SpendLimitName {
   static const textMessageMonthlySpendLimit =
       SpendLimitName._('TEXT_MESSAGE_MONTHLY_SPEND_LIMIT');
@@ -13893,6 +14067,8 @@ class SpendLimitName {
 }
 
 /// The information for all SenderIds in an Amazon Web Services account.
+///
+/// @nodoc
 class SenderIdInformation {
   /// By default this is set to false. When set to true the sender ID can't be
   /// deleted.
@@ -13973,6 +14149,7 @@ class SenderIdInformation {
   }
 }
 
+/// @nodoc
 class Owner {
   static const self = Owner._('SELF');
   static const shared = Owner._('SHARED');
@@ -13997,6 +14174,8 @@ class Owner {
 }
 
 /// The information for a sender ID that meets a specified criteria.
+///
+/// @nodoc
 class SenderIdFilter {
   /// The name of the attribute to filter on.
   final SenderIdFilterName name;
@@ -14019,6 +14198,7 @@ class SenderIdFilter {
   }
 }
 
+/// @nodoc
 class SenderIdFilterName {
   static const senderId = SenderIdFilterName._('sender-id');
   static const isoCountryCode = SenderIdFilterName._('iso-country-code');
@@ -14058,6 +14238,8 @@ class SenderIdFilterName {
 /// For more information on sender IDs see <a
 /// href="https://docs.aws.amazon.com/sms-voice/latest/userguide/sender-id-request.html">Requesting
 /// sender IDs </a> in the <i>End User Messaging SMS User Guide</i>.
+///
+/// @nodoc
 class SenderIdAndCountry {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or
   /// region.
@@ -14082,6 +14264,8 @@ class SenderIdAndCountry {
 }
 
 /// Provides information about the specified version of the registration.
+///
+/// @nodoc
 class RegistrationVersionInformation {
   /// The status of the registration.
   ///
@@ -14181,6 +14365,8 @@ class RegistrationVersionInformation {
 }
 
 /// Provides the reason a registration was rejected.
+///
+/// @nodoc
 class RegistrationDeniedReasonInformation {
   /// The reason a registration was rejected.
   final String reason;
@@ -14234,6 +14420,8 @@ class RegistrationDeniedReasonInformation {
 
 /// The filter definition for filtering registration versions that meets a
 /// specified criteria.
+///
+/// @nodoc
 class RegistrationVersionFilter {
   /// The name of the attribute to filter on.
   final RegistrationVersionFilterName name;
@@ -14256,6 +14444,7 @@ class RegistrationVersionFilter {
   }
 }
 
+/// @nodoc
 class RegistrationVersionFilterName {
   static const registrationVersionStatus =
       RegistrationVersionFilterName._('registration-version-status');
@@ -14282,6 +14471,8 @@ class RegistrationVersionFilterName {
 }
 
 /// Provides information on the supported registration type.
+///
+/// @nodoc
 class RegistrationTypeDefinition {
   /// Provides help information on the registration.
   final RegistrationTypeDisplayHints displayHints;
@@ -14326,6 +14517,8 @@ class RegistrationTypeDefinition {
 }
 
 /// Provides help information on the registration type.
+///
+/// @nodoc
 class RegistrationTypeDisplayHints {
   /// The title of the display hint.
   final String title;
@@ -14378,6 +14571,8 @@ class RegistrationTypeDisplayHints {
 
 /// The processing rules for when a registration can be associated with an
 /// origination identity and disassociated from an origination identity.
+///
+/// @nodoc
 class SupportedAssociation {
   /// The association behavior.
   ///
@@ -14459,6 +14654,7 @@ class SupportedAssociation {
   }
 }
 
+/// @nodoc
 class RegistrationAssociationBehavior {
   static const associateBeforeSubmit =
       RegistrationAssociationBehavior._('ASSOCIATE_BEFORE_SUBMIT');
@@ -14492,6 +14688,7 @@ class RegistrationAssociationBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistrationDisassociationBehavior {
   static const disassociateAllClosesRegistration =
       RegistrationDisassociationBehavior._(
@@ -14529,6 +14726,8 @@ class RegistrationDisassociationBehavior {
 
 /// The filter definition for filtering registration types that meets a
 /// specified criteria.
+///
+/// @nodoc
 class RegistrationTypeFilter {
   /// The name of the attribute to filter on.
   final RegistrationTypeFilterName name;
@@ -14551,6 +14750,7 @@ class RegistrationTypeFilter {
   }
 }
 
+/// @nodoc
 class RegistrationTypeFilterName {
   static const supportedAssociationResourceType =
       RegistrationTypeFilterName._('supported-association-resource-type');
@@ -14582,6 +14782,8 @@ class RegistrationTypeFilterName {
 }
 
 /// Provides information on the specified section definition.
+///
+/// @nodoc
 class RegistrationSectionDefinition {
   /// The path to the section of the registration.
   final RegistrationSectionDisplayHints displayHints;
@@ -14614,6 +14816,8 @@ class RegistrationSectionDefinition {
 }
 
 /// Provides help information on the registration section.
+///
+/// @nodoc
 class RegistrationSectionDisplayHints {
   /// A short description of the display hint.
   final String shortDescription;
@@ -14665,6 +14869,8 @@ class RegistrationSectionDisplayHints {
 }
 
 /// Provides information about the requested registration.
+///
+/// @nodoc
 class RegistrationInformation {
   /// The time when the registration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -14790,6 +14996,7 @@ class RegistrationInformation {
   }
 }
 
+/// @nodoc
 class RegistrationStatus {
   static const created = RegistrationStatus._('CREATED');
   static const submitted = RegistrationStatus._('SUBMITTED');
@@ -14837,6 +15044,8 @@ class RegistrationStatus {
 
 /// The filter definition for filtering registrations that meets a specified
 /// criteria.
+///
+/// @nodoc
 class RegistrationFilter {
   /// The name of the attribute to filter on.
   final RegistrationFilterName name;
@@ -14859,6 +15068,7 @@ class RegistrationFilter {
   }
 }
 
+/// @nodoc
 class RegistrationFilterName {
   static const registrationType = RegistrationFilterName._('registration-type');
   static const registrationStatus =
@@ -14886,6 +15096,8 @@ class RegistrationFilterName {
 }
 
 /// Provides the values of the specified field.
+///
+/// @nodoc
 class RegistrationFieldValueInformation {
   /// The path to the registration form field. You can use
   /// <a>DescribeRegistrationFieldDefinitions</a> for a list of <b>FieldPaths</b>.
@@ -14952,6 +15164,8 @@ class RegistrationFieldValueInformation {
 }
 
 /// Provides a description of the specified field.
+///
+/// @nodoc
 class RegistrationFieldDefinition {
   /// An array of RegistrationFieldDisplayHints objects for the field.
   final RegistrationFieldDisplayHints displayHints;
@@ -15027,6 +15241,7 @@ class RegistrationFieldDefinition {
   }
 }
 
+/// @nodoc
 class FieldType {
   static const select = FieldType._('SELECT');
   static const text = FieldType._('TEXT');
@@ -15051,6 +15266,7 @@ class FieldType {
   String toString() => value;
 }
 
+/// @nodoc
 class FieldRequirement {
   static const required = FieldRequirement._('REQUIRED');
   static const conditional = FieldRequirement._('CONDITIONAL');
@@ -15077,6 +15293,8 @@ class FieldRequirement {
 }
 
 /// Validation rules for a select field.
+///
+/// @nodoc
 class SelectValidation {
   /// The maximum number of choices for the select.
   final int maxChoices;
@@ -15117,6 +15335,8 @@ class SelectValidation {
 }
 
 /// Validation rules for a text field.
+///
+/// @nodoc
 class TextValidation {
   /// The maximum number of characters for the text field.
   final int maxLength;
@@ -15154,6 +15374,8 @@ class TextValidation {
 }
 
 /// Provides help information on the registration field.
+///
+/// @nodoc
 class RegistrationFieldDisplayHints {
   /// A short description of the display hint.
   final String shortDescription;
@@ -15232,6 +15454,8 @@ class RegistrationFieldDisplayHints {
 }
 
 /// A description of each select option.
+///
+/// @nodoc
 class SelectOptionDescription {
   /// The value of the option.
   final String option;
@@ -15269,6 +15493,8 @@ class SelectOptionDescription {
 }
 
 /// Provides information on the specified registration attachments.
+///
+/// @nodoc
 class RegistrationAttachmentsInformation {
   /// The status of the registration attachment.
   ///
@@ -15350,6 +15576,7 @@ class RegistrationAttachmentsInformation {
   }
 }
 
+/// @nodoc
 class AttachmentStatus {
   static const uploadInProgress = AttachmentStatus._('UPLOAD_IN_PROGRESS');
   static const uploadComplete = AttachmentStatus._('UPLOAD_COMPLETE');
@@ -15381,6 +15608,7 @@ class AttachmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AttachmentUploadErrorReason {
   static const internalError = AttachmentUploadErrorReason._('INTERNAL_ERROR');
 
@@ -15407,6 +15635,8 @@ class AttachmentUploadErrorReason {
 
 /// The filter definition for filtering registration attachments that meets a
 /// specified criteria.
+///
+/// @nodoc
 class RegistrationAttachmentFilter {
   /// The name of the attribute to filter on.
   final RegistrationAttachmentFilterName name;
@@ -15429,6 +15659,7 @@ class RegistrationAttachmentFilter {
   }
 }
 
+/// @nodoc
 class RegistrationAttachmentFilterName {
   static const attachmentStatus =
       RegistrationAttachmentFilterName._('attachment-status');
@@ -15455,6 +15686,8 @@ class RegistrationAttachmentFilterName {
 }
 
 /// The information for an RCS agent in an Amazon Web Services account.
+///
+/// @nodoc
 class RcsAgentInformation {
   /// The time when the RCS agent was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -15566,6 +15799,8 @@ class RcsAgentInformation {
 }
 
 /// Contains details about the testing agent associated with an RCS agent.
+///
+/// @nodoc
 class TestingAgentInformation {
   /// The unique identifier of the registration associated with the testing agent.
   final String registrationId;
@@ -15615,6 +15850,8 @@ class TestingAgentInformation {
 /// <code>ACTIVE</code>: The testing agent is active and available for use.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TestingAgentStatus {
   static const created = TestingAgentStatus._('CREATED');
   static const pending = TestingAgentStatus._('PENDING');
@@ -15642,6 +15879,8 @@ class TestingAgentStatus {
 }
 
 /// The information for an RCS agent that meets a specified criteria.
+///
+/// @nodoc
 class RcsAgentFilter {
   /// The name of the attribute to filter on.
   final RcsAgentFilterName name;
@@ -15688,6 +15927,8 @@ class RcsAgentFilter {
 /// <code>two-way-enabled</code>: Filter by two-way enabled status.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RcsAgentFilterName {
   static const status = RcsAgentFilterName._('status');
   static const twoWayEnabled = RcsAgentFilterName._('two-way-enabled');
@@ -15727,6 +15968,8 @@ class RcsAgentFilterName {
 }
 
 /// Contains per-country launch status details for an RCS agent.
+///
+/// @nodoc
 class CountryLaunchStatusInformation {
   /// An array of CarrierStatusInformation objects containing carrier-level launch
   /// status details.
@@ -15803,6 +16046,8 @@ class CountryLaunchStatusInformation {
 /// <code>REJECTED</code>: The country launch was rejected.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CountryLaunchStatus {
   static const created = CountryLaunchStatus._('CREATED');
   static const pending = CountryLaunchStatus._('PENDING');
@@ -15833,6 +16078,8 @@ class CountryLaunchStatus {
 
 /// Contains carrier-level launch status details for an RCS agent within a
 /// country.
+///
+/// @nodoc
 class CarrierStatusInformation {
   /// The name of the carrier.
   final String carrierName;
@@ -15875,6 +16122,8 @@ class CarrierStatusInformation {
 /// <code>REJECTED</code>: The carrier launch was rejected.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CarrierStatus {
   static const pending = CarrierStatus._('PENDING');
   static const active = CarrierStatus._('ACTIVE');
@@ -15901,6 +16150,8 @@ class CarrierStatus {
 }
 
 /// The information for a country launch status that meets a specified criteria.
+///
+/// @nodoc
 class CountryLaunchStatusFilter {
   /// The name of the attribute to filter on.
   final CountryLaunchStatusFilterName name;
@@ -15931,6 +16182,8 @@ class CountryLaunchStatusFilter {
 /// <code>country-launch-status</code>: Filter by country launch status.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CountryLaunchStatusFilterName {
   static const countryLaunchStatus =
       CountryLaunchStatusFilterName._('country-launch-status');
@@ -15957,6 +16210,8 @@ class CountryLaunchStatusFilterName {
 }
 
 /// Provides information on the specified protect configuration.
+///
+/// @nodoc
 class ProtectConfigurationInformation {
   /// This is true if the protect configuration is set as your account default
   /// protect configuration.
@@ -16015,6 +16270,8 @@ class ProtectConfigurationInformation {
 
 /// The filter definition for filtering protect configurations that meet a
 /// specified criteria.
+///
+/// @nodoc
 class ProtectConfigurationFilter {
   /// The name of the attribute to filter on.
   final ProtectConfigurationFilterName name;
@@ -16037,6 +16294,7 @@ class ProtectConfigurationFilter {
   }
 }
 
+/// @nodoc
 class ProtectConfigurationFilterName {
   static const accountDefault =
       ProtectConfigurationFilterName._('account-default');
@@ -16065,6 +16323,8 @@ class ProtectConfigurationFilterName {
 }
 
 /// The information for a pool in an Amazon Web Services account.
+///
+/// @nodoc
 class PoolInformation {
   /// The time when the pool was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -16187,6 +16447,8 @@ class PoolInformation {
 }
 
 /// The information for a pool that meets a specified criteria.
+///
+/// @nodoc
 class PoolFilter {
   /// The name of the attribute to filter on.
   final PoolFilterName name;
@@ -16209,6 +16471,7 @@ class PoolFilter {
   }
 }
 
+/// @nodoc
 class PoolFilterName {
   static const status = PoolFilterName._('status');
   static const messageType = PoolFilterName._('message-type');
@@ -16252,6 +16515,8 @@ class PoolFilterName {
 
 /// The information for a phone number, in E.164 format, in an Amazon Web
 /// Services account.
+///
+/// @nodoc
 class PhoneNumberInformation {
   /// The time when the phone number was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -16423,6 +16688,8 @@ class PhoneNumberInformation {
 }
 
 /// The information for a phone number that meets a specified criteria.
+///
+/// @nodoc
 class PhoneNumberFilter {
   /// The name of the attribute to filter on.
   final PhoneNumberFilterName name;
@@ -16445,6 +16712,7 @@ class PhoneNumberFilter {
   }
 }
 
+/// @nodoc
 class PhoneNumberFilterName {
   static const status = PhoneNumberFilterName._('status');
   static const isoCountryCode = PhoneNumberFilterName._('iso-country-code');
@@ -16493,6 +16761,8 @@ class PhoneNumberFilterName {
 }
 
 /// The information for all OptOutList in an Amazon Web Services account.
+///
+/// @nodoc
 class OptOutListInformation {
   /// The time when the OutOutList was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -16532,6 +16802,8 @@ class OptOutListInformation {
 }
 
 /// The information for an opted out number in an Amazon Web Services account.
+///
+/// @nodoc
 class OptedOutNumberInformation {
   /// This is set to true if it was the end recipient that opted out.
   final bool endUserOptedOut;
@@ -16571,6 +16843,8 @@ class OptedOutNumberInformation {
 }
 
 /// The information for opted out numbers that meet a specified criteria.
+///
+/// @nodoc
 class OptedOutFilter {
   /// The name of the attribute to filter on.
   final OptedOutFilterName name;
@@ -16593,6 +16867,7 @@ class OptedOutFilter {
   }
 }
 
+/// @nodoc
 class OptedOutFilterName {
   static const endUserOptedOut = OptedOutFilterName._('end-user-opted-out');
 
@@ -16619,6 +16894,8 @@ class OptedOutFilterName {
 
 /// The information for a system-managed notify template in an Amazon Web
 /// Services account.
+///
+/// @nodoc
 class NotifyTemplateInformation {
   /// The channels for the template. Supported values are <code>SMS</code> and
   /// <code>VOICE</code>.
@@ -16745,6 +17022,8 @@ class NotifyTemplateInformation {
 /// <code>OTP_VERIFICATION</code> - OTP verification template type.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyTemplateType {
   static const otpVerification = NotifyTemplateType._('OTP_VERIFICATION');
 
@@ -16779,6 +17058,8 @@ class NotifyTemplateType {
 /// <code>INACTIVE</code> - The template is inactive.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyTemplateStatus {
   static const active = NotifyTemplateStatus._('ACTIVE');
   static const inactive = NotifyTemplateStatus._('INACTIVE');
@@ -16805,6 +17086,8 @@ class NotifyTemplateStatus {
 }
 
 /// Contains metadata about a template variable.
+///
+/// @nodoc
 class TemplateVariableMetadata {
   /// Whether the variable is required.
   final bool required;
@@ -16905,6 +17188,8 @@ class TemplateVariableMetadata {
 /// <code>BOOLEAN</code> - Boolean variable type.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TemplateVariableType {
   static const string = TemplateVariableType._('STRING');
   static const integer = TemplateVariableType._('INTEGER');
@@ -16941,6 +17226,8 @@ class TemplateVariableType {
 /// <code>SYSTEM</code> - The variable value is provided by the system.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TemplateVariableSource {
   static const customer = TemplateVariableSource._('CUSTOMER');
   static const system = TemplateVariableSource._('SYSTEM');
@@ -16967,6 +17254,8 @@ class TemplateVariableSource {
 }
 
 /// The information for notify templates that meet a specified criteria.
+///
+/// @nodoc
 class NotifyTemplateFilter {
   /// The name of the attribute to filter on.
   final NotifyTemplateFilterName name;
@@ -17012,6 +17301,8 @@ class NotifyTemplateFilter {
 /// <code>tier-access</code>: Filter by tier access.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyTemplateFilterName {
   static const templateType = NotifyTemplateFilterName._('template-type');
   static const channels = NotifyTemplateFilterName._('channels');
@@ -17052,6 +17343,8 @@ class NotifyTemplateFilterName {
 
 /// The information for a notify configuration in an Amazon Web Services
 /// account.
+///
+/// @nodoc
 class NotifyConfigurationInformation {
   /// The time when the notify configuration was created, in <a
   /// href="https://www.epochconverter.com/">UNIX epoch time</a> format.
@@ -17181,6 +17474,8 @@ class NotifyConfigurationInformation {
 }
 
 /// The information for notify configurations that meet a specified criteria.
+///
+/// @nodoc
 class NotifyConfigurationFilter {
   /// The name of the attribute to filter on.
   final NotifyConfigurationFilterName name;
@@ -17236,6 +17531,8 @@ class NotifyConfigurationFilter {
 /// <code>use-case</code>: Filter by use case.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NotifyConfigurationFilterName {
   static const displayName = NotifyConfigurationFilterName._('display-name');
   static const enabledCountries =
@@ -17284,6 +17581,8 @@ class NotifyConfigurationFilterName {
 }
 
 /// The information for all keywords in a pool.
+///
+/// @nodoc
 class KeywordInformation {
   /// The keyword as a string.
   final String keyword;
@@ -17322,6 +17621,8 @@ class KeywordInformation {
 }
 
 /// The information for keywords that meet a specified criteria.
+///
+/// @nodoc
 class KeywordFilter {
   /// The name of the attribute to filter on.
   final KeywordFilterName name;
@@ -17344,6 +17645,7 @@ class KeywordFilter {
   }
 }
 
+/// @nodoc
 class KeywordFilterName {
   static const keywordAction = KeywordFilterName._('keyword-action');
 
@@ -17369,6 +17671,8 @@ class KeywordFilterName {
 
 /// Information related to a given configuration set in your Amazon Web Services
 /// account.
+///
+/// @nodoc
 class ConfigurationSetInformation {
   /// The Resource Name (ARN) of the ConfigurationSet.
   final String configurationSetArn;
@@ -17454,6 +17758,8 @@ class ConfigurationSetInformation {
 }
 
 /// The information for configuration sets that meet a specified criteria.
+///
+/// @nodoc
 class ConfigurationSetFilter {
   /// The name of the attribute to filter on.
   final ConfigurationSetFilterName name;
@@ -17476,6 +17782,7 @@ class ConfigurationSetFilter {
   }
 }
 
+/// @nodoc
 class ConfigurationSetFilterName {
   static const eventDestinationName =
       ConfigurationSetFilterName._('event-destination-name');
@@ -17519,6 +17826,8 @@ class ConfigurationSetFilterName {
 }
 
 /// The current resource quotas associated with an Amazon Web Services account.
+///
+/// @nodoc
 class AccountLimit {
   /// The Amazon Web Services set limit for that resource type, in US dollars.
   final int max;
@@ -17555,6 +17864,7 @@ class AccountLimit {
   }
 }
 
+/// @nodoc
 class AccountLimitName {
   static const phoneNumbers = AccountLimitName._('PHONE_NUMBERS');
   static const pools = AccountLimitName._('POOLS');
@@ -17598,6 +17908,8 @@ class AccountLimitName {
 
 /// Displays the attributes associated with a single Amazon Web Services
 /// account.
+///
+/// @nodoc
 class AccountAttribute {
   /// The name of the account attribute.
   final AccountAttributeName name;
@@ -17627,6 +17939,7 @@ class AccountAttribute {
   }
 }
 
+/// @nodoc
 class AccountAttributeName {
   static const accountTier = AccountAttributeName._('ACCOUNT_TIER');
   static const defaultProtectConfigurationId =
@@ -17653,6 +17966,7 @@ class AccountAttributeName {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberType {
   static const mobile = PhoneNumberType._('MOBILE');
   static const landline = PhoneNumberType._('LANDLINE');
@@ -17679,26 +17993,31 @@ class PhoneNumberType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -17707,11 +18026,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

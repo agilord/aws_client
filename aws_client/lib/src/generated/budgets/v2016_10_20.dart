@@ -1371,6 +1371,8 @@ class Budgets {
 }
 
 /// Response of CreateBudget
+///
+/// @nodoc
 class CreateBudgetResponse {
   CreateBudgetResponse();
 
@@ -1383,6 +1385,7 @@ class CreateBudgetResponse {
   }
 }
 
+/// @nodoc
 class CreateBudgetActionResponse {
   final String accountId;
 
@@ -1417,6 +1420,8 @@ class CreateBudgetActionResponse {
 }
 
 /// Response of CreateNotification
+///
+/// @nodoc
 class CreateNotificationResponse {
   CreateNotificationResponse();
 
@@ -1430,6 +1435,8 @@ class CreateNotificationResponse {
 }
 
 /// Response of CreateSubscriber
+///
+/// @nodoc
 class CreateSubscriberResponse {
   CreateSubscriberResponse();
 
@@ -1443,6 +1450,8 @@ class CreateSubscriberResponse {
 }
 
 /// Response of DeleteBudget
+///
+/// @nodoc
 class DeleteBudgetResponse {
   DeleteBudgetResponse();
 
@@ -1455,6 +1464,7 @@ class DeleteBudgetResponse {
   }
 }
 
+/// @nodoc
 class DeleteBudgetActionResponse {
   final String accountId;
   final Action action;
@@ -1488,6 +1498,8 @@ class DeleteBudgetActionResponse {
 }
 
 /// Response of DeleteNotification
+///
+/// @nodoc
 class DeleteNotificationResponse {
   DeleteNotificationResponse();
 
@@ -1501,6 +1513,8 @@ class DeleteNotificationResponse {
 }
 
 /// Response of DeleteSubscriber
+///
+/// @nodoc
 class DeleteSubscriberResponse {
   DeleteSubscriberResponse();
 
@@ -1514,6 +1528,8 @@ class DeleteSubscriberResponse {
 }
 
 /// Response of DescribeBudget
+///
+/// @nodoc
 class DescribeBudgetResponse {
   /// The description of the budget.
   final Budget? budget;
@@ -1538,6 +1554,7 @@ class DescribeBudgetResponse {
   }
 }
 
+/// @nodoc
 class DescribeBudgetActionResponse {
   final String accountId;
 
@@ -1572,6 +1589,7 @@ class DescribeBudgetActionResponse {
   }
 }
 
+/// @nodoc
 class DescribeBudgetActionHistoriesResponse {
   /// The historical record of the budget action resource.
   final List<ActionHistory> actionHistories;
@@ -1603,6 +1621,7 @@ class DescribeBudgetActionHistoriesResponse {
   }
 }
 
+/// @nodoc
 class DescribeBudgetActionsForAccountResponse {
   /// A list of the budget action resources information.
   final List<Action> actions;
@@ -1634,6 +1653,7 @@ class DescribeBudgetActionsForAccountResponse {
   }
 }
 
+/// @nodoc
 class DescribeBudgetActionsForBudgetResponse {
   /// A list of the budget action resources information.
   final List<Action> actions;
@@ -1665,6 +1685,7 @@ class DescribeBudgetActionsForBudgetResponse {
   }
 }
 
+/// @nodoc
 class DescribeBudgetNotificationsForAccountResponse {
   /// A list of budget names and associated notifications for an account.
   final List<BudgetNotificationsForAccount>? budgetNotificationsForAccount;
@@ -1699,6 +1720,7 @@ class DescribeBudgetNotificationsForAccountResponse {
   }
 }
 
+/// @nodoc
 class DescribeBudgetPerformanceHistoryResponse {
   /// The history of how often the budget has gone into an <code>ALARM</code>
   /// state.
@@ -1739,6 +1761,8 @@ class DescribeBudgetPerformanceHistoryResponse {
 }
 
 /// Response of DescribeBudgets
+///
+/// @nodoc
 class DescribeBudgetsResponse {
   /// A list of budgets.
   final List<Budget>? budgets;
@@ -1773,6 +1797,8 @@ class DescribeBudgetsResponse {
 }
 
 /// Response of GetNotificationsForBudget
+///
+/// @nodoc
 class DescribeNotificationsForBudgetResponse {
   /// The pagination token in the service response that indicates the next set of
   /// results that you can retrieve.
@@ -1808,6 +1834,8 @@ class DescribeNotificationsForBudgetResponse {
 }
 
 /// Response of DescribeSubscribersForNotification
+///
+/// @nodoc
 class DescribeSubscribersForNotificationResponse {
   /// The pagination token in the service response that indicates the next set of
   /// results that you can retrieve.
@@ -1842,6 +1870,7 @@ class DescribeSubscribersForNotificationResponse {
   }
 }
 
+/// @nodoc
 class ExecuteBudgetActionResponse {
   final String accountId;
 
@@ -1883,6 +1912,7 @@ class ExecuteBudgetActionResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final List<ResourceTag>? resourceTags;
@@ -1908,6 +1938,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1920,6 +1951,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1933,6 +1965,8 @@ class UntagResourceResponse {
 }
 
 /// Response of UpdateBudget
+///
+/// @nodoc
 class UpdateBudgetResponse {
   UpdateBudgetResponse();
 
@@ -1945,6 +1979,7 @@ class UpdateBudgetResponse {
   }
 }
 
+/// @nodoc
 class UpdateBudgetActionResponse {
   final String accountId;
   final String budgetName;
@@ -1988,6 +2023,8 @@ class UpdateBudgetActionResponse {
 }
 
 /// Response of UpdateNotification
+///
+/// @nodoc
 class UpdateNotificationResponse {
   UpdateNotificationResponse();
 
@@ -2001,6 +2038,8 @@ class UpdateNotificationResponse {
 }
 
 /// Response of UpdateSubscriber
+///
+/// @nodoc
 class UpdateSubscriberResponse {
   UpdateSubscriberResponse();
 
@@ -2038,6 +2077,8 @@ class UpdateSubscriberResponse {
 /// A notification <code>threshold</code> of <code>80</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Notification {
   /// The comparison that's used for this notification.
   final ComparisonOperator comparisonOperator;
@@ -2120,6 +2161,8 @@ class Notification {
 /// An <code>address</code> of <code>example@example.com</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Subscriber {
   /// The address that Amazon Web Services sends budget notifications to, either
   /// an SNS topic or an email.
@@ -2155,6 +2198,8 @@ class Subscriber {
 }
 
 /// The subscription type of the subscriber. It can be SMS or EMAIL.
+///
+/// @nodoc
 class SubscriptionType {
   static const sns = SubscriptionType._('SNS');
   static const email = SubscriptionType._('EMAIL');
@@ -2180,6 +2225,8 @@ class SubscriptionType {
 }
 
 /// The type of a notification. It must be ACTUAL or FORECASTED.
+///
+/// @nodoc
 class NotificationType {
   static const actual = NotificationType._('ACTUAL');
   static const forecasted = NotificationType._('FORECASTED');
@@ -2208,6 +2255,8 @@ class NotificationType {
 /// the following operators:
 ///
 /// <code>GREATER_THAN</code>, <code>LESS_THAN</code>, <code>EQUAL_TO</code>
+///
+/// @nodoc
 class ComparisonOperator {
   static const greaterThan = ComparisonOperator._('GREATER_THAN');
   static const lessThan = ComparisonOperator._('LESS_THAN');
@@ -2235,6 +2284,8 @@ class ComparisonOperator {
 }
 
 /// The type of threshold for a notification.
+///
+/// @nodoc
 class ThresholdType {
   static const percentage = ThresholdType._('PERCENTAGE');
   static const absoluteValue = ThresholdType._('ABSOLUTE_VALUE');
@@ -2259,6 +2310,7 @@ class ThresholdType {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationState {
   static const ok = NotificationState._('OK');
   static const alarm = NotificationState._('ALARM');
@@ -2284,6 +2336,8 @@ class NotificationState {
 }
 
 /// A budget action resource.
+///
+/// @nodoc
 class Action {
   /// A system-generated universally unique identifier (UUID) for the action.
   final String actionId;
@@ -2374,6 +2428,7 @@ class Action {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const applyIamPolicy = ActionType._('APPLY_IAM_POLICY');
   static const applyScpPolicy = ActionType._('APPLY_SCP_POLICY');
@@ -2399,6 +2454,8 @@ class ActionType {
 }
 
 /// The trigger threshold of the action.
+///
+/// @nodoc
 class ActionThreshold {
   final ThresholdType actionThresholdType;
   final double actionThresholdValue;
@@ -2427,6 +2484,8 @@ class ActionThreshold {
 }
 
 /// Specifies all of the type-specific parameters.
+///
+/// @nodoc
 class Definition {
   /// The Identity and Access Management (IAM) action definition details.
   final IamActionDefinition? iamActionDefinition;
@@ -2475,6 +2534,7 @@ class Definition {
   }
 }
 
+/// @nodoc
 class ApprovalModel {
   static const automatic = ApprovalModel._('AUTOMATIC');
   static const manual = ApprovalModel._('MANUAL');
@@ -2499,6 +2559,7 @@ class ApprovalModel {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionStatus {
   static const standby = ActionStatus._('STANDBY');
   static const pending = ActionStatus._('PENDING');
@@ -2542,6 +2603,8 @@ class ActionStatus {
 }
 
 /// The Identity and Access Management (IAM) action definition details.
+///
+/// @nodoc
 class IamActionDefinition {
   /// The Amazon Resource Name (ARN) of the policy to be attached.
   final String policyArn;
@@ -2589,6 +2652,8 @@ class IamActionDefinition {
 }
 
 /// The service control policies (SCP) action definition details.
+///
+/// @nodoc
 class ScpActionDefinition {
   /// The policy ID attached.
   final String policyId;
@@ -2622,6 +2687,8 @@ class ScpActionDefinition {
 }
 
 /// The Amazon Web Services Systems Manager (SSM) action definition details.
+///
+/// @nodoc
 class SsmActionDefinition {
   /// The action subType.
   final ActionSubType actionSubType;
@@ -2662,6 +2729,7 @@ class SsmActionDefinition {
   }
 }
 
+/// @nodoc
 class ActionSubType {
   static const stopEc2Instances = ActionSubType._('STOP_EC2_INSTANCES');
   static const stopRdsInstances = ActionSubType._('STOP_RDS_INSTANCES');
@@ -2693,6 +2761,8 @@ class ActionSubType {
 /// This is the Amazon Resource Name (ARN) pattern for a budget:
 ///
 /// <code>arn:aws:budgets::AccountId:budget/budgetName</code>
+///
+/// @nodoc
 class Budget {
   /// The name of a budget. The name must be unique within an account. The
   /// <code>:</code> and <code>\</code> characters, and the "/action/" substring,
@@ -2965,6 +3035,8 @@ class Budget {
 /// A <code>Unit</code> of <code>GB</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Spend {
   /// The cost or usage amount that's associated with a budget forecast, actual
   /// spend, or budget threshold.
@@ -3003,6 +3075,8 @@ class Spend {
 /// <code>SAVINGS_PLANS_UTILIZATION</code>, and
 /// <code>SAVINGS_PLANS_COVERAGE</code> budgets don't have
 /// <code>CostTypes</code>.
+///
+/// @nodoc
 class CostTypes {
   /// Specifies whether a budget includes credits.
   ///
@@ -3120,6 +3194,8 @@ class CostTypes {
 }
 
 /// The time unit of the budget, such as MONTHLY or QUARTERLY.
+///
+/// @nodoc
 class TimeUnit {
   static const daily = TimeUnit._('DAILY');
   static const monthly = TimeUnit._('MONTHLY');
@@ -3149,6 +3225,8 @@ class TimeUnit {
 /// The period of time that's covered by a budget. The period has a start date
 /// and an end date. The start date must come before the end date. There are no
 /// restrictions on the end date.
+///
+/// @nodoc
 class TimePeriod {
   /// The end date for a budget. If you didn't specify an end date, Amazon Web
   /// Services set your end date to <code>06/15/87 00:00 UTC</code>. The defaults
@@ -3203,6 +3281,8 @@ class TimePeriod {
 /// <code>50</code> dollars on Amazon EC2, your <code>actualSpend</code> is
 /// <code>50 USD</code>, and your <code>forecastedSpend</code> is <code>75
 /// USD</code>.
+///
+/// @nodoc
 class CalculatedSpend {
   /// The amount of cost, usage, RI units, or Savings Plans units that you used.
   final Spend actualSpend;
@@ -3242,6 +3322,8 @@ class CalculatedSpend {
 /// <code>COST</code>, <code>USAGE</code>, <code>RI_UTILIZATION</code>,
 /// <code>RI_COVERAGE</code>, <code>SAVINGS_PLANS_UTILIZATION</code>, or
 /// <code>SAVINGS_PLANS_COVERAGE</code>.
+///
+/// @nodoc
 class BudgetType {
   static const usage = BudgetType._('USAGE');
   static const cost = BudgetType._('COST');
@@ -3279,6 +3361,8 @@ class BudgetType {
 
 /// The parameters that determine the budget amount for an auto-adjusting
 /// budget.
+///
+/// @nodoc
 class AutoAdjustData {
   /// The string that defines whether your budget auto-adjusts based on historical
   /// or forecasted data.
@@ -3323,6 +3407,8 @@ class AutoAdjustData {
 }
 
 /// Use Expression to filter in various Budgets APIs.
+///
+/// @nodoc
 class Expression {
   /// Return results that match both Dimension objects.
   final List<Expression>? and;
@@ -3399,6 +3485,8 @@ class Expression {
 /// Provides information about the current operational state of a billing view
 /// resource, including its ability to access and update based on its associated
 /// billing view.
+///
+/// @nodoc
 class HealthStatus {
   final DateTime? lastUpdatedTime;
 
@@ -3456,6 +3544,7 @@ class HealthStatus {
   }
 }
 
+/// @nodoc
 class HealthStatusValue {
   static const healthy = HealthStatusValue._('HEALTHY');
   static const unhealthy = HealthStatusValue._('UNHEALTHY');
@@ -3480,6 +3569,7 @@ class HealthStatusValue {
   String toString() => value;
 }
 
+/// @nodoc
 class HealthStatusReason {
   static const billingViewNoAccess =
       HealthStatusReason._('BILLING_VIEW_NO_ACCESS');
@@ -3515,6 +3605,7 @@ class HealthStatusReason {
   String toString() => value;
 }
 
+/// @nodoc
 class Metric {
   static const blendedCost = Metric._('BlendedCost');
   static const unblendedCost = Metric._('UnblendedCost');
@@ -3554,6 +3645,8 @@ class Metric {
 }
 
 /// Contains the specifications for the filters to use for your request.
+///
+/// @nodoc
 class ExpressionDimensionValues {
   /// The name of the dimension that you want to filter on.
   final Dimension key;
@@ -3600,6 +3693,8 @@ class ExpressionDimensionValues {
 }
 
 /// The values that are available for a tag.
+///
+/// @nodoc
 class TagValues {
   /// The key for the tag.
   final String? key;
@@ -3642,6 +3737,8 @@ class TagValues {
 }
 
 /// The cost category values used for filtering the costs.
+///
+/// @nodoc
 class CostCategoryValues {
   /// The unique name of the cost category.
   final String? key;
@@ -3683,6 +3780,7 @@ class CostCategoryValues {
   }
 }
 
+/// @nodoc
 class MatchOption {
   static const equals = MatchOption._('EQUALS');
   static const absent = MatchOption._('ABSENT');
@@ -3721,6 +3819,7 @@ class MatchOption {
   String toString() => value;
 }
 
+/// @nodoc
 class Dimension {
   static const az = Dimension._('AZ');
   static const instanceType = Dimension._('INSTANCE_TYPE');
@@ -3809,6 +3908,7 @@ class Dimension {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoAdjustType {
   static const historical = AutoAdjustType._('HISTORICAL');
   static const forecast = AutoAdjustType._('FORECAST');
@@ -3835,6 +3935,8 @@ class AutoAdjustType {
 
 /// The parameters that define or describe the historical data that your
 /// auto-adjusting budget is based on.
+///
+/// @nodoc
 class HistoricalOptions {
   /// The number of budget periods included in the moving-average calculation that
   /// determines your auto-adjusted budget amount. The maximum value depends on
@@ -3901,6 +4003,8 @@ class HistoricalOptions {
 }
 
 /// The tag structure that contains a tag key and value.
+///
+/// @nodoc
 class ResourceTag {
   /// The key that's associated with the tag.
   final String key;
@@ -3930,6 +4034,7 @@ class ResourceTag {
   }
 }
 
+/// @nodoc
 class ExecutionType {
   static const approveBudgetAction = ExecutionType._('APPROVE_BUDGET_ACTION');
   static const retryBudgetAction = ExecutionType._('RETRY_BUDGET_ACTION');
@@ -3963,6 +4068,8 @@ class ExecutionType {
 
 /// A history of the state of a budget at the end of the budget's specified time
 /// period.
+///
+/// @nodoc
 class BudgetPerformanceHistory {
   /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
   /// view. The ARN is used to specify which particular billing view you want to
@@ -4058,6 +4165,8 @@ class BudgetPerformanceHistory {
 
 /// The amount of cost or usage that you created the budget for, compared to
 /// your actual costs or usage.
+///
+/// @nodoc
 class BudgetedAndActualAmounts {
   /// Your actual costs or usage for a budget period.
   final Spend? actualAmount;
@@ -4101,6 +4210,8 @@ class BudgetedAndActualAmounts {
 }
 
 /// The budget name and associated notifications for an account.
+///
+/// @nodoc
 class BudgetNotificationsForAccount {
   final String? budgetName;
   final List<Notification>? notifications;
@@ -4131,6 +4242,8 @@ class BudgetNotificationsForAccount {
 }
 
 /// The historical records for a budget action.
+///
+/// @nodoc
 class ActionHistory {
   /// The description of the details for the event.
   final ActionHistoryDetails actionHistoryDetails;
@@ -4175,6 +4288,7 @@ class ActionHistory {
   }
 }
 
+/// @nodoc
 class EventType {
   static const system = EventType._('SYSTEM');
   static const createAction = EventType._('CREATE_ACTION');
@@ -4208,6 +4322,8 @@ class EventType {
 }
 
 /// The description of the details for the event.
+///
+/// @nodoc
 class ActionHistoryDetails {
   /// The budget action resource.
   final Action action;
@@ -4238,6 +4354,8 @@ class ActionHistoryDetails {
 
 /// A notification with subscribers. A notification can have one SNS subscriber
 /// and up to 10 email subscribers, for a total of 11 subscribers.
+///
+/// @nodoc
 class NotificationWithSubscribers {
   /// The notification that's associated with a budget.
   final Notification notification;
@@ -4260,11 +4378,13 @@ class NotificationWithSubscribers {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BillingViewHealthStatusException extends _s.GenericAwsException {
   BillingViewHealthStatusException({String? type, String? message})
       : super(
@@ -4273,6 +4393,7 @@ class BillingViewHealthStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CreationLimitExceededException extends _s.GenericAwsException {
   CreationLimitExceededException({String? type, String? message})
       : super(
@@ -4281,41 +4402,49 @@ class CreationLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateRecordException extends _s.GenericAwsException {
   DuplicateRecordException({String? type, String? message})
       : super(type: type, code: 'DuplicateRecordException', message: message);
 }
 
+/// @nodoc
 class ExpiredNextTokenException extends _s.GenericAwsException {
   ExpiredNextTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredNextTokenException', message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceLockedException extends _s.GenericAwsException {
   ResourceLockedException({String? type, String? message})
       : super(type: type, code: 'ResourceLockedException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4324,6 +4453,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

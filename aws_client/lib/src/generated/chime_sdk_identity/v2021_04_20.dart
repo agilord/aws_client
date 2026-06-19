@@ -1187,6 +1187,7 @@ class ChimeSdkIdentity {
   }
 }
 
+/// @nodoc
 class CreateAppInstanceResponse {
   /// The Amazon Resource Number (ARN) of the <code>AppInstance</code>.
   final String? appInstanceArn;
@@ -1209,6 +1210,7 @@ class CreateAppInstanceResponse {
   }
 }
 
+/// @nodoc
 class CreateAppInstanceAdminResponse {
   /// The ARN and name of the administrator, the ARN of the
   /// <code>AppInstance</code>, and the created and last-updated timestamps. All
@@ -1242,6 +1244,7 @@ class CreateAppInstanceAdminResponse {
   }
 }
 
+/// @nodoc
 class CreateAppInstanceBotResponse {
   /// The ARN of the <code>AppinstanceBot</code>.
   final String? appInstanceBotArn;
@@ -1264,6 +1267,7 @@ class CreateAppInstanceBotResponse {
   }
 }
 
+/// @nodoc
 class CreateAppInstanceUserResponse {
   /// The user's ARN.
   final String? appInstanceUserArn;
@@ -1286,6 +1290,7 @@ class CreateAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppInstanceResponse {
   /// The ARN, metadata, created and last-updated timestamps, and the name of the
   /// <code>AppInstance</code>. All timestamps use epoch milliseconds.
@@ -1311,6 +1316,7 @@ class DescribeAppInstanceResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppInstanceAdminResponse {
   /// The ARN and name of the <code>AppInstanceUser</code>, the ARN of the
   /// <code>AppInstance</code>, and the created and last-updated timestamps. All
@@ -1338,6 +1344,7 @@ class DescribeAppInstanceAdminResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppInstanceBotResponse {
   /// The detials of the <code>AppInstanceBot</code>.
   final AppInstanceBot? appInstanceBot;
@@ -1363,6 +1370,7 @@ class DescribeAppInstanceBotResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppInstanceUserResponse {
   /// The name of the <code>AppInstanceUser</code>.
   final AppInstanceUser? appInstanceUser;
@@ -1388,6 +1396,7 @@ class DescribeAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeAppInstanceUserEndpointResponse {
   /// The full details of an <code>AppInstanceUserEndpoint</code>: the
   /// <code>AppInstanceUserArn</code>, ID, name, type, resource ARN, attributes,
@@ -1418,6 +1427,7 @@ class DescribeAppInstanceUserEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetAppInstanceRetentionSettingsResponse {
   /// The retention settings for the <code>AppInstance</code>.
   final AppInstanceRetentionSettings? appInstanceRetentionSettings;
@@ -1456,6 +1466,7 @@ class GetAppInstanceRetentionSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListAppInstanceAdminsResponse {
   /// The information for each administrator.
   final List<AppInstanceAdminSummary>? appInstanceAdmins;
@@ -1497,6 +1508,7 @@ class ListAppInstanceAdminsResponse {
   }
 }
 
+/// @nodoc
 class ListAppInstanceBotsResponse {
   /// The ARN of the AppInstance.
   final String? appInstanceArn;
@@ -1537,6 +1549,7 @@ class ListAppInstanceBotsResponse {
   }
 }
 
+/// @nodoc
 class ListAppInstancesResponse {
   /// The information for each <code>AppInstance</code>.
   final List<AppInstanceSummary>? appInstances;
@@ -1570,6 +1583,7 @@ class ListAppInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListAppInstanceUserEndpointsResponse {
   /// The information for each requested <code>AppInstanceUserEndpoint</code>.
   final List<AppInstanceUserEndpointSummary>? appInstanceUserEndpoints;
@@ -1606,6 +1620,7 @@ class ListAppInstanceUserEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListAppInstanceUsersResponse {
   /// The ARN of the <code>AppInstance</code>.
   final String? appInstanceArn;
@@ -1647,6 +1662,7 @@ class ListAppInstanceUsersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tag key-value pairs.
   final List<Tag>? tags;
@@ -1672,6 +1688,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutAppInstanceRetentionSettingsResponse {
   /// The time in days to retain data. Data type: number.
   final AppInstanceRetentionSettings? appInstanceRetentionSettings;
@@ -1709,6 +1726,7 @@ class PutAppInstanceRetentionSettingsResponse {
   }
 }
 
+/// @nodoc
 class PutAppInstanceUserExpirationSettingsResponse {
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
@@ -1743,6 +1761,7 @@ class PutAppInstanceUserExpirationSettingsResponse {
   }
 }
 
+/// @nodoc
 class RegisterAppInstanceUserEndpointResponse {
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
@@ -1773,6 +1792,7 @@ class RegisterAppInstanceUserEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppInstanceResponse {
   /// The ARN of the <code>AppInstance</code>.
   final String? appInstanceArn;
@@ -1795,6 +1815,7 @@ class UpdateAppInstanceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppInstanceBotResponse {
   /// The ARN of the <code>AppInstanceBot</code>.
   final String? appInstanceBotArn;
@@ -1817,6 +1838,7 @@ class UpdateAppInstanceBotResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppInstanceUserResponse {
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
@@ -1839,6 +1861,7 @@ class UpdateAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppInstanceUserEndpointResponse {
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
@@ -1869,6 +1892,7 @@ class UpdateAppInstanceUserEndpointResponse {
   }
 }
 
+/// @nodoc
 class AllowMessages {
   static const all = AllowMessages._('ALL');
   static const none = AllowMessages._('NONE');
@@ -1894,6 +1918,8 @@ class AllowMessages {
 }
 
 /// A structure that contains configuration data.
+///
+/// @nodoc
 class Configuration {
   /// The configuration for an Amazon Lex V2 bot.
   final LexConfiguration lex;
@@ -1918,6 +1944,8 @@ class Configuration {
 }
 
 /// The configuration for an Amazon Lex V2 bot.
+///
+/// @nodoc
 class LexConfiguration {
   /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:
   /// <code>arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS</code>
@@ -1980,6 +2008,7 @@ class LexConfiguration {
   }
 }
 
+/// @nodoc
 class RespondsTo {
   static const standardMessages = RespondsTo._('STANDARD_MESSAGES');
 
@@ -2003,6 +2032,8 @@ class RespondsTo {
 }
 
 /// Specifies the type of message that triggers a bot.
+///
+/// @nodoc
 class InvokedBy {
   /// Sets standard messages as the bot trigger. For standard messages:
   ///
@@ -2063,6 +2094,7 @@ class InvokedBy {
   }
 }
 
+/// @nodoc
 class StandardMessages {
   static const auto = StandardMessages._('AUTO');
   static const all = StandardMessages._('ALL');
@@ -2089,6 +2121,7 @@ class StandardMessages {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetedMessages {
   static const all = TargetedMessages._('ALL');
   static const none = TargetedMessages._('NONE');
@@ -2114,6 +2147,8 @@ class TargetedMessages {
 }
 
 /// A tag object containing a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// The key in a tag.
   final String key;
@@ -2143,6 +2178,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class AppInstanceUserEndpointType {
   static const apns = AppInstanceUserEndpointType._('APNS');
   static const apnsSandbox = AppInstanceUserEndpointType._('APNS_SANDBOX');
@@ -2170,6 +2206,8 @@ class AppInstanceUserEndpointType {
 }
 
 /// The attributes of an <code>Endpoint</code>.
+///
+/// @nodoc
 class EndpointAttributes {
   /// The device token for the GCM, APNS, and APNS_SANDBOX endpoint types.
   final String deviceToken;
@@ -2201,6 +2239,8 @@ class EndpointAttributes {
 
 /// Determines the interval after which an <code>AppInstanceUser</code> is
 /// automatically deleted.
+///
+/// @nodoc
 class ExpirationSettings {
   /// Specifies the conditions under which an <code>AppInstanceUser</code> will
   /// expire.
@@ -2233,6 +2273,7 @@ class ExpirationSettings {
   }
 }
 
+/// @nodoc
 class ExpirationCriterion {
   static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
 
@@ -2258,6 +2299,8 @@ class ExpirationCriterion {
 }
 
 /// The details of the data-retention settings for an <code>AppInstance</code>.
+///
+/// @nodoc
 class AppInstanceRetentionSettings {
   /// The length of time in days to retain the messages in a channel.
   final ChannelRetentionSettings? channelRetentionSettings;
@@ -2285,6 +2328,8 @@ class AppInstanceRetentionSettings {
 }
 
 /// The details of the retention settings for a channel.
+///
+/// @nodoc
 class ChannelRetentionSettings {
   /// The time in days to retain the messages in a channel.
   final int? retentionDays;
@@ -2308,6 +2353,8 @@ class ChannelRetentionSettings {
 }
 
 /// Summary of the details of an <code>AppInstanceUser</code>.
+///
+/// @nodoc
 class AppInstanceUserSummary {
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
@@ -2345,6 +2392,8 @@ class AppInstanceUserSummary {
 }
 
 /// Summary of the details of an <code>AppInstanceUserEndpoint</code>.
+///
+/// @nodoc
 class AppInstanceUserEndpointSummary {
   /// BBoolean that controls whether the <code>AppInstanceUserEndpoint</code> is
   /// opted in to receive messages. <code>ALL</code> indicates the endpoint will
@@ -2437,6 +2486,8 @@ class AppInstanceUserEndpointSummary {
 /// field.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EndpointState {
   /// Enum that indicates the Status of an <code>AppInstanceUserEndpoint</code>.
   final EndpointStatus status;
@@ -2467,6 +2518,7 @@ class EndpointState {
   }
 }
 
+/// @nodoc
 class EndpointStatus {
   static const active = EndpointStatus._('ACTIVE');
   static const inactive = EndpointStatus._('INACTIVE');
@@ -2491,6 +2543,7 @@ class EndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointStatusReason {
   static const invalidDeviceToken =
       EndpointStatusReason._('INVALID_DEVICE_TOKEN');
@@ -2519,6 +2572,8 @@ class EndpointStatusReason {
 }
 
 /// Summary of the data for an <code>AppInstance</code>.
+///
+/// @nodoc
 class AppInstanceSummary {
   /// The <code>AppInstance</code> ARN.
   final String? appInstanceArn;
@@ -2556,6 +2611,8 @@ class AppInstanceSummary {
 }
 
 /// High-level information about an AppInstanceBot.
+///
+/// @nodoc
 class AppInstanceBotSummary {
   /// The ARN of the AppInstanceBot.
   final String? appInstanceBotArn;
@@ -2593,6 +2650,8 @@ class AppInstanceBotSummary {
 }
 
 /// Summary of the details of an <code>AppInstanceAdmin</code>.
+///
+/// @nodoc
 class AppInstanceAdminSummary {
   /// The details of the <code>AppInstanceAdmin</code>.
   final Identity? admin;
@@ -2618,6 +2677,8 @@ class AppInstanceAdminSummary {
 }
 
 /// The details of a user or bot.
+///
+/// @nodoc
 class Identity {
   /// The ARN in an Identity.
   final String? arn;
@@ -2650,6 +2711,8 @@ class Identity {
 /// An endpoint under an Amazon Chime <code>AppInstanceUser</code> that receives
 /// messages for a user. For push notifications, the endpoint is a mobile device
 /// used to receive mobile push notifications for a user.
+///
+/// @nodoc
 class AppInstanceUserEndpoint {
   /// Boolean that controls whether the <code>AppInstanceUserEndpoint</code> is
   /// opted in to receive messages. <code>ALL</code> indicates the endpoint will
@@ -2774,6 +2837,8 @@ class AppInstanceUserEndpoint {
 }
 
 /// The details of an <code>AppInstanceUser</code>.
+///
+/// @nodoc
 class AppInstanceUser {
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
@@ -2838,6 +2903,8 @@ class AppInstanceUser {
 }
 
 /// An Amazon Lex V2 chat bot created under an <code>AppInstance</code>.
+///
+/// @nodoc
 class AppInstanceBot {
   /// The ARN of the AppInstanceBot.
   final String? appInstanceBotArn;
@@ -2901,6 +2968,8 @@ class AppInstanceBot {
 }
 
 /// The name and ARN of the admin for the <code>AppInstance</code>.
+///
+/// @nodoc
 class AppInstanceAdmin {
   /// The <code>AppInstanceAdmin</code> data.
   final Identity? admin;
@@ -2943,6 +3012,8 @@ class AppInstanceAdmin {
 
 /// The details of an <code>AppInstance</code>, an instance of an Amazon Chime
 /// SDK messaging application.
+///
+/// @nodoc
 class AppInstance {
   /// The ARN of the messaging instance.
   final String? appInstanceArn;
@@ -2997,26 +3068,31 @@ class AppInstance {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -3025,22 +3101,26 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottledClientException extends _s.GenericAwsException {
   ThrottledClientException({String? type, String? message})
       : super(type: type, code: 'ThrottledClientException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedClientException extends _s.GenericAwsException {
   UnauthorizedClientException({String? type, String? message})
       : super(

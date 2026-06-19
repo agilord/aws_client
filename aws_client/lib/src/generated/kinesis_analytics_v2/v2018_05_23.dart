@@ -1919,6 +1919,7 @@ class KinesisAnalyticsV2 {
   }
 }
 
+/// @nodoc
 class AddApplicationCloudWatchLoggingOptionResponse {
   /// The application's ARN.
   final String? applicationARN;
@@ -1976,6 +1977,7 @@ class AddApplicationCloudWatchLoggingOptionResponse {
   }
 }
 
+/// @nodoc
 class AddApplicationInputResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationARN;
@@ -2016,6 +2018,7 @@ class AddApplicationInputResponse {
   }
 }
 
+/// @nodoc
 class AddApplicationInputProcessingConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationARN;
@@ -2073,6 +2076,7 @@ class AddApplicationInputProcessingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class AddApplicationOutputResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationARN;
@@ -2116,6 +2120,7 @@ class AddApplicationOutputResponse {
   }
 }
 
+/// @nodoc
 class AddApplicationReferenceDataSourceResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationARN;
@@ -2162,6 +2167,7 @@ class AddApplicationReferenceDataSourceResponse {
   }
 }
 
+/// @nodoc
 class AddApplicationVpcConfigurationResponse {
   /// The ARN of the application.
   final String? applicationARN;
@@ -2212,6 +2218,7 @@ class AddApplicationVpcConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// In response to your <code>CreateApplication</code> request, Managed Service
   /// for Apache Flink returns a response with details of the application it
@@ -2238,6 +2245,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationPresignedUrlResponse {
   /// The URL of the extension.
   final String? authorizedUrl;
@@ -2261,6 +2269,7 @@ class CreateApplicationPresignedUrlResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationSnapshotResponse {
   CreateApplicationSnapshotResponse();
 
@@ -2273,6 +2282,7 @@ class CreateApplicationSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -2285,6 +2295,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationCloudWatchLoggingOptionResponse {
   /// The application's Amazon Resource Name (ARN).
   final String? applicationARN;
@@ -2342,6 +2353,7 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationInputProcessingConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationARN;
@@ -2373,6 +2385,7 @@ class DeleteApplicationInputProcessingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationOutputResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationARN;
@@ -2403,6 +2416,7 @@ class DeleteApplicationOutputResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationReferenceDataSourceResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationARN;
@@ -2434,6 +2448,7 @@ class DeleteApplicationReferenceDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationSnapshotResponse {
   DeleteApplicationSnapshotResponse();
 
@@ -2446,6 +2461,7 @@ class DeleteApplicationSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationVpcConfigurationResponse {
   /// The ARN of the Managed Service for Apache Flink application.
   final String? applicationARN;
@@ -2484,6 +2500,7 @@ class DeleteApplicationVpcConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationResponse {
   /// Provides a description of the application, such as the application's Amazon
   /// Resource Name (ARN), status, and latest version.
@@ -2511,6 +2528,8 @@ class DescribeApplicationResponse {
 
 /// Provides details of the operation that corresponds to the operation ID on a
 /// Managed Service for Apache Flink application.
+///
+/// @nodoc
 class DescribeApplicationOperationResponse {
   final ApplicationOperationInfoDetails? applicationOperationInfoDetails;
 
@@ -2540,6 +2559,7 @@ class DescribeApplicationOperationResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationSnapshotResponse {
   /// An object containing information about the application snapshot.
   final SnapshotDetails snapshotDetails;
@@ -2565,6 +2585,7 @@ class DescribeApplicationSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationVersionResponse {
   final ApplicationDetail? applicationVersionDetail;
 
@@ -2591,6 +2612,7 @@ class DescribeApplicationVersionResponse {
   }
 }
 
+/// @nodoc
 class DiscoverInputSchemaResponse {
   /// The schema inferred from the streaming source. It identifies the format of
   /// the data in the streaming source and how each data element maps to
@@ -2651,6 +2673,8 @@ class DiscoverInputSchemaResponse {
 }
 
 /// A response that returns a list of operations for an application.
+///
+/// @nodoc
 class ListApplicationOperationsResponse {
   final List<ApplicationOperationInfo>? applicationOperationInfoList;
   final String? nextToken;
@@ -2684,6 +2708,7 @@ class ListApplicationOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// A list of <code>ApplicationSummary</code> objects.
   final List<ApplicationSummary> applicationSummaries;
@@ -2722,6 +2747,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationSnapshotsResponse {
   /// The token for the next set of results, or <code>null</code> if there are no
   /// additional results.
@@ -2756,6 +2782,7 @@ class ListApplicationSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationVersionsResponse {
   /// A list of the application versions and the associated configuration
   /// summaries. The list includes application versions that were rolled back.
@@ -2800,6 +2827,7 @@ class ListApplicationVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The key-value tags assigned to the application.
   final List<Tag>? tags;
@@ -2825,6 +2853,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RollbackApplicationResponse {
   final ApplicationDetail applicationDetail;
 
@@ -2855,6 +2884,7 @@ class RollbackApplicationResponse {
   }
 }
 
+/// @nodoc
 class StartApplicationResponse {
   /// The operation ID that can be used to track the request.
   final String? operationId;
@@ -2877,6 +2907,7 @@ class StartApplicationResponse {
   }
 }
 
+/// @nodoc
 class StopApplicationResponse {
   /// The operation ID that can be used to track the request.
   final String? operationId;
@@ -2899,6 +2930,7 @@ class StopApplicationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2911,6 +2943,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2923,6 +2956,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// Describes application updates.
   final ApplicationDetail applicationDetail;
@@ -2954,6 +2988,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationMaintenanceConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationARN;
@@ -2994,6 +3029,8 @@ class UpdateApplicationMaintenanceConfigurationResponse {
 }
 
 /// The details of the maintenance configuration for the application.
+///
+/// @nodoc
 class ApplicationMaintenanceConfigurationDescription {
   /// The end time for the maintenance window.
   final String applicationMaintenanceWindowEndTime;
@@ -3031,6 +3068,8 @@ class ApplicationMaintenanceConfigurationDescription {
 }
 
 /// Describes the updated maintenance configuration for the application.
+///
+/// @nodoc
 class ApplicationMaintenanceConfigurationUpdate {
   /// The updated start time for the maintenance window.
   final String applicationMaintenanceWindowStartTimeUpdate;
@@ -3051,6 +3090,8 @@ class ApplicationMaintenanceConfigurationUpdate {
 
 /// Describes the application, including the application Amazon Resource Name
 /// (ARN), status, latest version, and input and output configurations.
+///
+/// @nodoc
 class ApplicationDetail {
   /// The ARN of the application.
   final String applicationARN;
@@ -3245,6 +3286,7 @@ class ApplicationDetail {
   }
 }
 
+/// @nodoc
 class RuntimeEnvironment {
   static const sql_1_0 = RuntimeEnvironment._('SQL-1_0');
   static const flink_1_6 = RuntimeEnvironment._('FLINK-1_6');
@@ -3295,6 +3337,7 @@ class RuntimeEnvironment {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const deleting = ApplicationStatus._('DELETING');
   static const starting = ApplicationStatus._('STARTING');
@@ -3342,6 +3385,8 @@ class ApplicationStatus {
 
 /// Describes details about the application code and starting parameters for a
 /// Managed Service for Apache Flink application.
+///
+/// @nodoc
 class ApplicationConfigurationDescription {
   /// The details about the application code for a Managed Service for Apache
   /// Flink application.
@@ -3516,6 +3561,7 @@ class ApplicationConfigurationDescription {
   }
 }
 
+/// @nodoc
 class ApplicationMode {
   static const streaming = ApplicationMode._('STREAMING');
   static const interactive = ApplicationMode._('INTERACTIVE');
@@ -3541,6 +3587,8 @@ class ApplicationMode {
 }
 
 /// Describes the Amazon CloudWatch logging option.
+///
+/// @nodoc
 class CloudWatchLoggingOptionDescription {
   /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application
   /// messages.
@@ -3587,6 +3635,8 @@ class CloudWatchLoggingOptionDescription {
 
 /// Describes the inputs, outputs, and reference data sources for a SQL-based
 /// Kinesis Data Analytics application.
+///
+/// @nodoc
 class SqlApplicationConfigurationDescription {
   /// The array of <a>InputDescription</a> objects describing the input streams
   /// used by the application.
@@ -3641,6 +3691,8 @@ class SqlApplicationConfigurationDescription {
 }
 
 /// Describes code configuration for an application.
+///
+/// @nodoc
 class ApplicationCodeConfigurationDescription {
   /// Specifies whether the code content is in text or zip format.
   final CodeContentType codeContentType;
@@ -3678,6 +3730,8 @@ class ApplicationCodeConfigurationDescription {
 
 /// Describes the starting properties for a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class RunConfigurationDescription {
   /// Describes the restore behavior of a restarting application.
   final ApplicationRestoreConfiguration?
@@ -3723,6 +3777,8 @@ class RunConfigurationDescription {
 
 /// Describes configuration parameters for a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class FlinkApplicationConfigurationDescription {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance.
@@ -3803,6 +3859,8 @@ class FlinkApplicationConfigurationDescription {
 }
 
 /// Describes the execution properties for an Apache Flink runtime.
+///
+/// @nodoc
 class EnvironmentPropertyDescriptions {
   /// Describes the execution property groups.
   final List<PropertyGroup>? propertyGroupDescriptions;
@@ -3831,6 +3889,8 @@ class EnvironmentPropertyDescriptions {
 
 /// Describes whether snapshots are enabled for a Managed Service for Apache
 /// Flink application.
+///
+/// @nodoc
 class ApplicationSnapshotConfigurationDescription {
   /// Describes whether snapshots are enabled for a Managed Service for Apache
   /// Flink application.
@@ -3857,6 +3917,8 @@ class ApplicationSnapshotConfigurationDescription {
 
 /// Describes the system rollback configuration for a Managed Service for Apache
 /// Flink application.
+///
+/// @nodoc
 class ApplicationSystemRollbackConfigurationDescription {
   /// Describes whether system rollbacks are enabled for a Managed Service for
   /// Apache Flink application.
@@ -3882,6 +3944,8 @@ class ApplicationSystemRollbackConfigurationDescription {
 }
 
 /// The configuration of a Managed Service for Apache Flink Studio notebook.
+///
+/// @nodoc
 class ZeppelinApplicationConfigurationDescription {
   /// The monitoring configuration of a Managed Service for Apache Flink Studio
   /// notebook.
@@ -3961,6 +4025,8 @@ class ZeppelinApplicationConfigurationDescription {
 }
 
 /// Describes the encryption at rest configuration.
+///
+/// @nodoc
 class ApplicationEncryptionConfigurationDescription {
   /// Specifies the type of key used for encryption at rest.
   final KeyType keyType;
@@ -3992,6 +4058,7 @@ class ApplicationEncryptionConfigurationDescription {
   }
 }
 
+/// @nodoc
 class KeyType {
   static const awsOwnedKey = KeyType._('AWS_OWNED_KEY');
   static const customerManagedKey = KeyType._('CUSTOMER_MANAGED_KEY');
@@ -4017,6 +4084,8 @@ class KeyType {
 
 /// The monitoring configuration for Apache Zeppelin within a Managed Service
 /// for Apache Flink Studio notebook.
+///
+/// @nodoc
 class ZeppelinMonitoringConfigurationDescription {
   /// Describes the verbosity of the CloudWatch Logs for an application.
   final LogLevel? logLevel;
@@ -4043,6 +4112,8 @@ class ZeppelinMonitoringConfigurationDescription {
 /// The configuration parameters for the default Amazon Glue database. You use
 /// this database for Apache Flink SQL queries and table API transforms that you
 /// write in a Managed Service for Apache Flink Studio notebook.
+///
+/// @nodoc
 class CatalogConfigurationDescription {
   /// The configuration parameters for the default Amazon Glue database. You use
   /// this database for SQL queries that you write in a Managed Service for Apache
@@ -4076,6 +4147,8 @@ class CatalogConfigurationDescription {
 
 /// The configuration information required to deploy an Amazon Data Analytics
 /// Studio notebook as an application with durable state.
+///
+/// @nodoc
 class DeployAsApplicationConfigurationDescription {
   /// The location that holds the data required to specify an Amazon Data
   /// Analytics application.
@@ -4103,6 +4176,8 @@ class DeployAsApplicationConfigurationDescription {
 }
 
 /// Specifies a dependency JAR or a JAR of user-defined functions.
+///
+/// @nodoc
 class CustomArtifactConfigurationDescription {
   /// <code>UDF</code> stands for user-defined functions. This type of artifact
   /// must be in an S3 bucket. A <code>DEPENDENCY_JAR</code> can be in either
@@ -4149,6 +4224,7 @@ class CustomArtifactConfigurationDescription {
   }
 }
 
+/// @nodoc
 class ArtifactType {
   static const udf = ArtifactType._('UDF');
   static const dependencyJar = ArtifactType._('DEPENDENCY_JAR');
@@ -4176,6 +4252,8 @@ class ArtifactType {
 /// an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3
 /// bucket, the name of the Amazon S3 object that contains the data, and the
 /// version number of the Amazon S3 object that contains the data.
+///
+/// @nodoc
 class S3ContentLocation {
   /// The Amazon Resource Name (ARN) for the S3 bucket containing the application
   /// code.
@@ -4215,6 +4293,8 @@ class S3ContentLocation {
 
 /// The information required to specify a Maven reference. You can use Maven
 /// references to specify dependency JAR files.
+///
+/// @nodoc
 class MavenReference {
   /// The artifact ID of the Maven reference.
   final String artifactId;
@@ -4252,6 +4332,8 @@ class MavenReference {
 }
 
 /// The description of the S3 base location that holds the application.
+///
+/// @nodoc
 class S3ContentBaseLocationDescription {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String bucketARN;
@@ -4283,6 +4365,8 @@ class S3ContentBaseLocationDescription {
 
 /// The configuration of the Glue Data Catalog that you use for Apache Flink SQL
 /// queries and table API transforms that you write in an application.
+///
+/// @nodoc
 class GlueDataCatalogConfigurationDescription {
   /// The Amazon Resource Name (ARN) of the database.
   final String databaseARN;
@@ -4306,6 +4390,7 @@ class GlueDataCatalogConfigurationDescription {
   }
 }
 
+/// @nodoc
 class LogLevel {
   static const info = LogLevel._('INFO');
   static const warn = LogLevel._('WARN');
@@ -4332,6 +4417,8 @@ class LogLevel {
 }
 
 /// Describes the parameters of a VPC used by the application.
+///
+/// @nodoc
 class VpcConfigurationDescription {
   /// The array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SecurityGroup.html">SecurityGroup</a>
@@ -4386,6 +4473,8 @@ class VpcConfigurationDescription {
 }
 
 /// Property key-value pairs passed into an application.
+///
+/// @nodoc
 class PropertyGroup {
   /// Describes the key of an application execution property key-value pair.
   final String propertyGroupId;
@@ -4419,6 +4508,8 @@ class PropertyGroup {
 
 /// Describes checkpointing parameters for a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class CheckpointConfigurationDescription {
   /// Describes the interval in milliseconds between checkpoint operations.
   /// <note>
@@ -4506,6 +4597,8 @@ class CheckpointConfigurationDescription {
 
 /// Describes configuration parameters for CloudWatch logging for an
 /// application.
+///
+/// @nodoc
 class MonitoringConfigurationDescription {
   /// Describes whether to use the default CloudWatch logging configuration for an
   /// application.
@@ -4549,6 +4642,8 @@ class MonitoringConfigurationDescription {
 
 /// Describes parameters for how a Managed Service for Apache Flink application
 /// executes multiple tasks simultaneously.
+///
+/// @nodoc
 class ParallelismConfigurationDescription {
   /// Describes whether the Managed Service for Apache Flink service can increase
   /// the parallelism of the application in response to increased throughput.
@@ -4624,6 +4719,7 @@ class ParallelismConfigurationDescription {
   }
 }
 
+/// @nodoc
 class ConfigurationType {
   static const $default = ConfigurationType._('DEFAULT');
   static const custom = ConfigurationType._('CUSTOM');
@@ -4648,6 +4744,7 @@ class ConfigurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricsLevel {
   static const application = MetricsLevel._('APPLICATION');
   static const task = MetricsLevel._('TASK');
@@ -4675,6 +4772,8 @@ class MetricsLevel {
 
 /// Specifies the method and snapshot to use when restarting an application
 /// using previously saved application state.
+///
+/// @nodoc
 class ApplicationRestoreConfiguration {
   /// Specifies how the application should be restored.
   final ApplicationRestoreType applicationRestoreType;
@@ -4710,6 +4809,8 @@ class ApplicationRestoreConfiguration {
 
 /// Describes the starting parameters for a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class FlinkRunConfiguration {
   /// When restoring from a snapshot, specifies whether the runtime is allowed to
   /// skip a state that cannot be mapped to the new program. This will happen if
@@ -4747,6 +4848,7 @@ class FlinkRunConfiguration {
   }
 }
 
+/// @nodoc
 class ApplicationRestoreType {
   static const skipRestoreFromSnapshot =
       ApplicationRestoreType._('SKIP_RESTORE_FROM_SNAPSHOT');
@@ -4780,6 +4882,7 @@ class ApplicationRestoreType {
   String toString() => value;
 }
 
+/// @nodoc
 class CodeContentType {
   static const plaintext = CodeContentType._('PLAINTEXT');
   static const zipfile = CodeContentType._('ZIPFILE');
@@ -4806,6 +4909,8 @@ class CodeContentType {
 
 /// Describes details about the code of a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class CodeContentDescription {
   /// The checksum that can be used to validate zip-format code.
   final String? codeMD5;
@@ -4861,6 +4966,8 @@ class CodeContentDescription {
 }
 
 /// Describes the location of an application's code stored in an S3 bucket.
+///
+/// @nodoc
 class S3ApplicationCodeLocationDescription {
   /// The Amazon Resource Name (ARN) for the S3 bucket containing the application
   /// code.
@@ -4901,6 +5008,8 @@ class S3ApplicationCodeLocationDescription {
 
 /// For a SQL-based Kinesis Data Analytics application, describes the reference
 /// data source configured for an application.
+///
+/// @nodoc
 class ReferenceDataSourceDescription {
   /// The ID of the reference data source. This is the ID that Kinesis Data
   /// Analytics assigns when you add the reference data source to your application
@@ -4959,6 +5068,8 @@ class ReferenceDataSourceDescription {
 
 /// For a SQL-based Kinesis Data Analytics application, provides the bucket name
 /// and object key name that stores the reference data.
+///
+/// @nodoc
 class S3ReferenceDataSourceDescription {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String bucketARN;
@@ -5005,6 +5116,8 @@ class S3ReferenceDataSourceDescription {
 /// For a SQL-based Kinesis Data Analytics application, describes the format of
 /// the data in the streaming source, and how each data element maps to
 /// corresponding columns created in the in-application stream.
+///
+/// @nodoc
 class SourceSchema {
   /// A list of <code>RecordColumn</code> objects.
   final List<RecordColumn> recordColumns;
@@ -5050,6 +5163,8 @@ class SourceSchema {
 /// For a SQL-based Kinesis Data Analytics application, describes the record
 /// format and relevant mapping information that should be applied to schematize
 /// the records on the stream.
+///
+/// @nodoc
 class RecordFormat {
   /// The type of record format.
   final RecordFormatType recordFormatType;
@@ -5091,6 +5206,8 @@ class RecordFormat {
 /// in-application stream.
 ///
 /// Also used to describe the format of the reference data source.
+///
+/// @nodoc
 class RecordColumn {
   /// The name of the column that is created in the in-application input stream or
   /// reference table.
@@ -5130,6 +5247,7 @@ class RecordColumn {
   }
 }
 
+/// @nodoc
 class RecordFormatType {
   static const json = RecordFormatType._('JSON');
   static const csv = RecordFormatType._('CSV');
@@ -5158,6 +5276,8 @@ class RecordFormatType {
 /// the time of creating or updating an application, provides additional mapping
 /// information specific to the record format (such as JSON, CSV, or record
 /// fields delimited by some delimiter) on the streaming source.
+///
+/// @nodoc
 class MappingParameters {
   /// Provides additional mapping information when the record format uses
   /// delimiters (for example, CSV).
@@ -5199,6 +5319,8 @@ class MappingParameters {
 
 /// For a SQL-based Kinesis Data Analytics application, provides additional
 /// mapping information when JSON is the record format on the streaming source.
+///
+/// @nodoc
 class JSONMappingParameters {
   /// The path to the top-level parent that contains the records.
   final String recordRowPath;
@@ -5230,6 +5352,8 @@ class JSONMappingParameters {
 /// <code>"name1", "address1"</code>
 ///
 /// <code>"name2", "address2"</code>
+///
+/// @nodoc
 class CSVMappingParameters {
   /// The column delimiter. For example, in a CSV format, a comma (",") is the
   /// typical column delimiter.
@@ -5265,6 +5389,8 @@ class CSVMappingParameters {
 /// application output configuration, which includes the in-application stream
 /// name and the destination where the stream data is written. The destination
 /// can be a Kinesis data stream or a Kinesis Data Firehose delivery stream.
+///
+/// @nodoc
 class OutputDescription {
   /// The data format used for writing data to the destination.
   final DestinationSchema? destinationSchema;
@@ -5348,6 +5474,8 @@ class OutputDescription {
 
 /// For an SQL-based Kinesis Data Analytics application's output, describes the
 /// Kinesis data stream that is configured as its destination.
+///
+/// @nodoc
 class KinesisStreamsOutputDescription {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream.
   final String resourceARN;
@@ -5385,6 +5513,8 @@ class KinesisStreamsOutputDescription {
 
 /// For a SQL-based Kinesis Data Analytics application's output, describes the
 /// Kinesis Data Firehose delivery stream that is configured as its destination.
+///
+/// @nodoc
 class KinesisFirehoseOutputDescription {
   /// The Amazon Resource Name (ARN) of the delivery stream.
   final String resourceARN;
@@ -5422,6 +5552,8 @@ class KinesisFirehoseOutputDescription {
 
 /// For a SQL-based Kinesis Data Analytics application's output, describes the
 /// Amazon Lambda function that is configured as its destination.
+///
+/// @nodoc
 class LambdaOutputDescription {
   /// The Amazon Resource Name (ARN) of the destination Lambda function.
   final String resourceARN;
@@ -5459,6 +5591,8 @@ class LambdaOutputDescription {
 
 /// Describes the data format when records are written to the destination in a
 /// SQL-based Kinesis Data Analytics application.
+///
+/// @nodoc
 class DestinationSchema {
   /// Specifies the format of the records on the output stream.
   final RecordFormatType recordFormatType;
@@ -5484,6 +5618,8 @@ class DestinationSchema {
 
 /// Describes the application input configuration for a SQL-based Kinesis Data
 /// Analytics application.
+///
+/// @nodoc
 class InputDescription {
   /// Returns the in-application stream names that are mapped to the stream
   /// source.
@@ -5613,6 +5749,8 @@ class InputDescription {
 /// configuration information about an input processor. Currently, the only
 /// input processor available is <a
 /// href="https://docs.aws.amazon.com/lambda/">Amazon Lambda</a>.
+///
+/// @nodoc
 class InputProcessingConfigurationDescription {
   /// Provides configuration information about the associated
   /// <a>InputLambdaProcessorDescription</a>
@@ -5647,6 +5785,8 @@ class InputProcessingConfigurationDescription {
 /// For a SQL-based Kinesis Data Analytics application, describes the Kinesis
 /// data stream that is configured as the streaming source in the application
 /// input configuration.
+///
+/// @nodoc
 class KinesisStreamsInputDescription {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream.
   final String resourceARN;
@@ -5684,6 +5824,8 @@ class KinesisStreamsInputDescription {
 
 /// Describes the Amazon Kinesis Data Firehose delivery stream that is
 /// configured as the streaming source in the application input configuration.
+///
+/// @nodoc
 class KinesisFirehoseInputDescription {
   /// The Amazon Resource Name (ARN) of the delivery stream.
   final String resourceARN;
@@ -5721,6 +5863,8 @@ class KinesisFirehoseInputDescription {
 
 /// For a SQL-based Kinesis Data Analytics application, describes the number of
 /// in-application streams to create for a given streaming source.
+///
+/// @nodoc
 class InputParallelism {
   /// The number of in-application streams to create.
   final int? count;
@@ -5745,6 +5889,8 @@ class InputParallelism {
 
 /// Describes the point at which the application reads from the streaming
 /// source.
+///
+/// @nodoc
 class InputStartingPositionConfiguration {
   /// The starting position on the stream.
   ///
@@ -5786,6 +5932,7 @@ class InputStartingPositionConfiguration {
   }
 }
 
+/// @nodoc
 class InputStartingPosition {
   static const now = InputStartingPosition._('NOW');
   static const trimHorizon = InputStartingPosition._('TRIM_HORIZON');
@@ -5815,6 +5962,8 @@ class InputStartingPosition {
 /// For a SQL-based Kinesis Data Analytics application, an object that contains
 /// the Amazon Resource Name (ARN) of the Amazon Lambda function that is used to
 /// preprocess records in the stream.
+///
+/// @nodoc
 class InputLambdaProcessorDescription {
   /// The ARN of the Amazon Lambda function that is used to preprocess the records
   /// in the stream.
@@ -5858,6 +6007,8 @@ class InputLambdaProcessorDescription {
 }
 
 /// Describes updates to an application's configuration.
+///
+/// @nodoc
 class ApplicationConfigurationUpdate {
   /// Describes updates to an application's code configuration.
   final ApplicationCodeConfigurationUpdate? applicationCodeConfigurationUpdate;
@@ -5958,6 +6109,8 @@ class ApplicationConfigurationUpdate {
 
 /// Describes the updates to the starting parameters for a Managed Service for
 /// Apache Flink application.
+///
+/// @nodoc
 class RunConfigurationUpdate {
   /// Describes updates to the restore behavior of a restarting application.
   final ApplicationRestoreConfiguration? applicationRestoreConfiguration;
@@ -5985,6 +6138,8 @@ class RunConfigurationUpdate {
 }
 
 /// Describes the Amazon CloudWatch logging option updates.
+///
+/// @nodoc
 class CloudWatchLoggingOptionUpdate {
   /// The ID of the CloudWatch logging option to update
   final String cloudWatchLoggingOptionId;
@@ -6010,6 +6165,8 @@ class CloudWatchLoggingOptionUpdate {
 
 /// Describes updates to the input streams, destination streams, and reference
 /// data sources for a SQL-based Kinesis Data Analytics application.
+///
+/// @nodoc
 class SqlApplicationConfigurationUpdate {
   /// The array of <a>InputUpdate</a> objects describing the new input streams
   /// used by the application.
@@ -6045,6 +6202,8 @@ class SqlApplicationConfigurationUpdate {
 /// Describes code configuration updates for an application. This is supported
 /// for a Managed Service for Apache Flink application or a SQL-based Kinesis
 /// Data Analytics application.
+///
+/// @nodoc
 class ApplicationCodeConfigurationUpdate {
   /// Describes updates to the code content type.
   final CodeContentType? codeContentTypeUpdate;
@@ -6070,6 +6229,8 @@ class ApplicationCodeConfigurationUpdate {
 
 /// Describes updates to the configuration parameters for a Managed Service for
 /// Apache Flink application.
+///
+/// @nodoc
 class FlinkApplicationConfigurationUpdate {
   /// Describes updates to an application's checkpointing configuration.
   /// Checkpointing is the process of persisting application state for fault
@@ -6107,6 +6268,8 @@ class FlinkApplicationConfigurationUpdate {
 
 /// Describes updates to the execution property groups for a Managed Service for
 /// Apache Flink application or a Studio notebook.
+///
+/// @nodoc
 class EnvironmentPropertyUpdates {
   /// Describes updates to the execution property groups.
   final List<PropertyGroup> propertyGroups;
@@ -6125,6 +6288,8 @@ class EnvironmentPropertyUpdates {
 
 /// Describes updates to whether snapshots are enabled for a Managed Service for
 /// Apache Flink application.
+///
+/// @nodoc
 class ApplicationSnapshotConfigurationUpdate {
   /// Describes updates to whether snapshots are enabled for an application.
   final bool snapshotsEnabledUpdate;
@@ -6143,6 +6308,8 @@ class ApplicationSnapshotConfigurationUpdate {
 
 /// Describes the system rollback configuration for a Managed Service for Apache
 /// Flink application.
+///
+/// @nodoc
 class ApplicationSystemRollbackConfigurationUpdate {
   /// Describes whether system rollbacks are enabled for a Managed Service for
   /// Apache Flink application.
@@ -6162,6 +6329,8 @@ class ApplicationSystemRollbackConfigurationUpdate {
 
 /// Updates to the configuration of Managed Service for Apache Flink Studio
 /// notebook.
+///
+/// @nodoc
 class ZeppelinApplicationConfigurationUpdate {
   /// Updates to the configuration of the Amazon Glue Data Catalog that is
   /// associated with the Managed Service for Apache Flink Studio notebook.
@@ -6207,6 +6376,8 @@ class ZeppelinApplicationConfigurationUpdate {
 }
 
 /// Describes configuration updates to encryption at rest.
+///
+/// @nodoc
 class ApplicationEncryptionConfigurationUpdate {
   /// Specifies the type of key to be used for encryption at rest.
   final KeyType keyTypeUpdate;
@@ -6232,6 +6403,8 @@ class ApplicationEncryptionConfigurationUpdate {
 
 /// Updates to the monitoring configuration for Apache Zeppelin within a Managed
 /// Service for Apache Flink Studio notebook.
+///
+/// @nodoc
 class ZeppelinMonitoringConfigurationUpdate {
   /// Updates to the logging level for Apache Zeppelin within a Managed Service
   /// for Apache Flink Studio notebook.
@@ -6252,6 +6425,8 @@ class ZeppelinMonitoringConfigurationUpdate {
 /// Updates to the configuration parameters for the default Amazon Glue
 /// database. You use this database for SQL queries that you write in a Managed
 /// Service for Apache Flink Studio notebook.
+///
+/// @nodoc
 class CatalogConfigurationUpdate {
   /// Updates to the configuration parameters for the default Amazon Glue
   /// database. You use this database for SQL queries that you write in a Managed
@@ -6273,6 +6448,8 @@ class CatalogConfigurationUpdate {
 
 /// Updates to the configuration information required to deploy an Amazon Data
 /// Analytics Studio notebook as an application with durable state.
+///
+/// @nodoc
 class DeployAsApplicationConfigurationUpdate {
   /// Updates to the location that holds the data required to specify an Amazon
   /// Data Analytics application.
@@ -6293,6 +6470,8 @@ class DeployAsApplicationConfigurationUpdate {
 
 /// Specifies dependency JARs, as well as JAR files that contain user-defined
 /// functions (UDF).
+///
+/// @nodoc
 class CustomArtifactConfiguration {
   /// <code>UDF</code> stands for user-defined functions. This type of artifact
   /// must be in an S3 bucket. A <code>DEPENDENCY_JAR</code> can be in either
@@ -6323,6 +6502,8 @@ class CustomArtifactConfiguration {
 
 /// The information required to update the S3 base location that holds the
 /// application.
+///
+/// @nodoc
 class S3ContentBaseLocationUpdate {
   /// The updated S3 bucket path.
   final String? basePathUpdate;
@@ -6348,6 +6529,8 @@ class S3ContentBaseLocationUpdate {
 /// Updates to the configuration of the Glue Data Catalog that you use for SQL
 /// queries that you write in a Managed Service for Apache Flink Studio
 /// notebook.
+///
+/// @nodoc
 class GlueDataCatalogConfigurationUpdate {
   /// The updated Amazon Resource Name (ARN) of the database.
   final String databaseARNUpdate;
@@ -6365,6 +6548,8 @@ class GlueDataCatalogConfigurationUpdate {
 }
 
 /// Describes updates to the VPC configuration used by the application.
+///
+/// @nodoc
 class VpcConfigurationUpdate {
   /// Describes an update to the ID of the VPC configuration.
   final String vpcConfigurationId;
@@ -6400,6 +6585,8 @@ class VpcConfigurationUpdate {
 
 /// Describes updates to the checkpointing parameters for a Managed Service for
 /// Apache Flink application.
+///
+/// @nodoc
 class CheckpointConfigurationUpdate {
   /// Describes updates to the interval in milliseconds between checkpoint
   /// operations.
@@ -6481,6 +6668,8 @@ class CheckpointConfigurationUpdate {
 
 /// Describes updates to configuration parameters for Amazon CloudWatch logging
 /// for an application.
+///
+/// @nodoc
 class MonitoringConfigurationUpdate {
   /// Describes updates to whether to use the default CloudWatch logging
   /// configuration for an application. You must set this property to
@@ -6519,6 +6708,8 @@ class MonitoringConfigurationUpdate {
 
 /// Describes updates to parameters for how an application executes multiple
 /// tasks simultaneously.
+///
+/// @nodoc
 class ParallelismConfigurationUpdate {
   /// Describes updates to whether the Managed Service for Apache Flink service
   /// can increase the parallelism of a Managed Service for Apache Flink
@@ -6574,6 +6765,8 @@ class ParallelismConfigurationUpdate {
 
 /// Describes an update to the code of an application. Not supported for Apache
 /// Zeppelin.
+///
+/// @nodoc
 class CodeContentUpdate {
   /// Describes an update to the location of code for an application.
   final S3ContentLocationUpdate? s3ContentLocationUpdate;
@@ -6606,6 +6799,8 @@ class CodeContentUpdate {
 
 /// Describes an update for the Amazon S3 code content location for an
 /// application.
+///
+/// @nodoc
 class S3ContentLocationUpdate {
   /// The new Amazon Resource Name (ARN) for the S3 bucket containing the
   /// application code.
@@ -6642,6 +6837,8 @@ class S3ContentLocationUpdate {
 /// in-application table name that is created, and updated mapping information
 /// that maps the data in the Amazon S3 object to the in-application reference
 /// table that is created.
+///
+/// @nodoc
 class ReferenceDataSourceUpdate {
   /// The ID of the reference data source that is being updated. You can use the
   /// <a>DescribeApplication</a> operation to get this value.
@@ -6684,6 +6881,8 @@ class ReferenceDataSourceUpdate {
 
 /// For a SQL-based Kinesis Data Analytics application, describes the Amazon S3
 /// bucket name and object key name for an in-application reference table.
+///
+/// @nodoc
 class S3ReferenceDataSourceUpdate {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String? bucketARNUpdate;
@@ -6708,6 +6907,8 @@ class S3ReferenceDataSourceUpdate {
 
 /// For a SQL-based Kinesis Data Analytics application, describes updates to the
 /// output configuration identified by the <code>OutputId</code>.
+///
+/// @nodoc
 class OutputUpdate {
   /// Identifies the specific output configuration that you want to update.
   final String outputId;
@@ -6763,6 +6964,8 @@ class OutputUpdate {
 /// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about a Kinesis data stream that is configured as the
 /// destination.
+///
+/// @nodoc
 class KinesisStreamsOutputUpdate {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream where you want to
   /// write the output.
@@ -6784,6 +6987,8 @@ class KinesisStreamsOutputUpdate {
 /// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about a Kinesis Data Firehose delivery stream that is configured
 /// as the destination.
+///
+/// @nodoc
 class KinesisFirehoseOutputUpdate {
   /// The Amazon Resource Name (ARN) of the delivery stream to write to.
   final String resourceARNUpdate;
@@ -6804,6 +7009,8 @@ class KinesisFirehoseOutputUpdate {
 /// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about an Amazon Lambda function that is configured as the
 /// destination.
+///
+/// @nodoc
 class LambdaOutputUpdate {
   /// The Amazon Resource Name (ARN) of the destination Amazon Lambda function.
   /// <note>
@@ -6830,6 +7037,8 @@ class LambdaOutputUpdate {
 /// For a SQL-based Kinesis Data Analytics application, describes updates to a
 /// specific input configuration (identified by the <code>InputId</code> of an
 /// application).
+///
+/// @nodoc
 class InputUpdate {
   /// The input ID of the application input to be updated.
   final String inputId;
@@ -6896,6 +7105,8 @@ class InputUpdate {
 
 /// For a SQL-based Kinesis Data Analytics application, describes updates to an
 /// <a>InputProcessingConfiguration</a>.
+///
+/// @nodoc
 class InputProcessingConfigurationUpdate {
   /// Provides update information for an <a>InputLambdaProcessor</a>.
   final InputLambdaProcessorUpdate inputLambdaProcessorUpdate;
@@ -6915,6 +7126,8 @@ class InputProcessingConfigurationUpdate {
 /// When you update the input configuration for a SQL-based Kinesis Data
 /// Analytics application, provides information about a Kinesis stream as the
 /// streaming source.
+///
+/// @nodoc
 class KinesisStreamsInputUpdate {
   /// The Amazon Resource Name (ARN) of the input Kinesis data stream to read.
   final String resourceARNUpdate;
@@ -6934,6 +7147,8 @@ class KinesisStreamsInputUpdate {
 /// For a SQL-based Kinesis Data Analytics application, when updating
 /// application input configuration, provides information about a Kinesis Data
 /// Firehose delivery stream as the streaming source.
+///
+/// @nodoc
 class KinesisFirehoseInputUpdate {
   /// The Amazon Resource Name (ARN) of the input delivery stream to read.
   final String resourceARNUpdate;
@@ -6952,6 +7167,8 @@ class KinesisFirehoseInputUpdate {
 
 /// Describes updates for an SQL-based Kinesis Data Analytics application's
 /// input schema.
+///
+/// @nodoc
 class InputSchemaUpdate {
   /// A list of <code>RecordColumn</code> objects. Each object describes the
   /// mapping of the streaming source element to the corresponding column in the
@@ -6987,6 +7204,8 @@ class InputSchemaUpdate {
 
 /// For a SQL-based Kinesis Data Analytics application, provides updates to the
 /// parallelism count.
+///
+/// @nodoc
 class InputParallelismUpdate {
   /// The number of in-application streams to create for the specified streaming
   /// source.
@@ -7007,6 +7226,8 @@ class InputParallelismUpdate {
 /// For a SQL-based Kinesis Data Analytics application, represents an update to
 /// the <a>InputLambdaProcessor</a> that is used to preprocess the records in
 /// the stream.
+///
+/// @nodoc
 class InputLambdaProcessorUpdate {
   /// The Amazon Resource Name (ARN) of the new Amazon Lambda function that is
   /// used to preprocess the records in the stream.
@@ -7038,6 +7259,8 @@ class InputLambdaProcessorUpdate {
 /// of user-defined application tags is 50. For more information, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html">Using
 /// Tagging</a>.
+///
+/// @nodoc
 class Tag {
   /// The key of the key-value tag.
   final String key;
@@ -7069,6 +7292,8 @@ class Tag {
 
 /// Describes the starting parameters for an Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class RunConfiguration {
   /// Describes the restore behavior of a restarting application.
   final ApplicationRestoreConfiguration? applicationRestoreConfiguration;
@@ -7105,6 +7330,8 @@ class RunConfiguration {
 
 /// Describes the starting parameters for a SQL-based Kinesis Data Analytics
 /// application.
+///
+/// @nodoc
 class SqlRunConfiguration {
   /// The input source ID. You can get this ID by calling the
   /// <a>DescribeApplication</a> operation.
@@ -7131,6 +7358,8 @@ class SqlRunConfiguration {
 }
 
 /// The summary of the application version.
+///
+/// @nodoc
 class ApplicationVersionSummary {
   /// The status of the application.
   final ApplicationStatus applicationStatus;
@@ -7163,6 +7392,8 @@ class ApplicationVersionSummary {
 }
 
 /// Provides details about a snapshot of application state.
+///
+/// @nodoc
 class SnapshotDetails {
   /// The current application version ID when the snapshot was created.
   final int applicationVersionId;
@@ -7236,6 +7467,7 @@ class SnapshotDetails {
   }
 }
 
+/// @nodoc
 class SnapshotStatus {
   static const creating = SnapshotStatus._('CREATING');
   static const ready = SnapshotStatus._('READY');
@@ -7264,6 +7496,8 @@ class SnapshotStatus {
 
 /// Provides application summary information, including the application Amazon
 /// Resource Name (ARN), name, and status.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The ARN of the application.
   final String applicationARN;
@@ -7328,6 +7562,8 @@ class ApplicationSummary {
 
 /// A description of the aplication operation that provides information about
 /// the updates that were made to the application.
+///
+/// @nodoc
 class ApplicationOperationInfo {
   /// The timestamp that indicates when the operation finished.
   final DateTime? endTime;
@@ -7374,6 +7610,8 @@ class ApplicationOperationInfo {
 }
 
 /// The status of the operation.
+///
+/// @nodoc
 class OperationStatus {
   static const inProgress = OperationStatus._('IN_PROGRESS');
   static const cancelled = OperationStatus._('CANCELLED');
@@ -7403,6 +7641,8 @@ class OperationStatus {
 /// For a SQL-based Kinesis Data Analytics application, provides a description
 /// of an Amazon S3 data source, including the Amazon Resource Name (ARN) of the
 /// S3 bucket and the name of the Amazon S3 object that contains the data.
+///
+/// @nodoc
 class S3Configuration {
   /// The ARN of the S3 bucket that contains the data.
   final String bucketARN;
@@ -7429,6 +7669,8 @@ class S3Configuration {
 /// that is used to preprocess the records in the stream before being processed
 /// by your application code. Currently, the only input processor available is
 /// <a href="https://docs.aws.amazon.com/lambda/">Amazon Lambda</a>.
+///
+/// @nodoc
 class InputProcessingConfiguration {
   /// The <a>InputLambdaProcessor</a> that is used to preprocess the records in
   /// the stream before being processed by your application code.
@@ -7449,6 +7691,8 @@ class InputProcessingConfiguration {
 /// An object that contains the Amazon Resource Name (ARN) of the Amazon Lambda
 /// function that is used to preprocess records in the stream in a SQL-based
 /// Kinesis Data Analytics application.
+///
+/// @nodoc
 class InputLambdaProcessor {
   /// The ARN of the Amazon Lambda function that operates on records in the
   /// stream.
@@ -7475,6 +7719,8 @@ class InputLambdaProcessor {
 
 /// A description of the application operation that provides information about
 /// the updates that were made to the application.
+///
+/// @nodoc
 class ApplicationOperationInfoDetails {
   /// The timestamp that indicates when the operation finished.
   final DateTime endTime;
@@ -7538,6 +7784,8 @@ class ApplicationOperationInfoDetails {
 
 /// Contains information about the version changes that the operation applied to
 /// the application.
+///
+/// @nodoc
 class ApplicationVersionChangeDetails {
   /// The new version that the application was updated to.
   final int applicationVersionUpdatedFrom;
@@ -7570,6 +7818,8 @@ class ApplicationVersionChangeDetails {
 }
 
 /// Provides a description of the operation failure.
+///
+/// @nodoc
 class OperationFailureDetails {
   final ErrorInfo? errorInfo;
 
@@ -7603,6 +7853,8 @@ class OperationFailureDetails {
 }
 
 /// A description of the error that caused an operation to fail.
+///
+/// @nodoc
 class ErrorInfo {
   final String? errorString;
 
@@ -7624,6 +7876,7 @@ class ErrorInfo {
   }
 }
 
+/// @nodoc
 class UrlType {
   static const flinkDashboardUrl = UrlType._('FLINK_DASHBOARD_URL');
   static const zeppelinUiUrl = UrlType._('ZEPPELIN_UI_URL');
@@ -7649,6 +7902,8 @@ class UrlType {
 
 /// Specifies the creation parameters for a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class ApplicationConfiguration {
   /// The code location and type parameters for a Managed Service for Apache Flink
   /// application.
@@ -7738,6 +7993,8 @@ class ApplicationConfiguration {
 
 /// Provides a description of Amazon CloudWatch logging options, including the
 /// log stream Amazon Resource Name (ARN).
+///
+/// @nodoc
 class CloudWatchLoggingOption {
   /// The ARN of the CloudWatch log to receive application messages.
   final String logStreamARN;
@@ -7756,6 +8013,8 @@ class CloudWatchLoggingOption {
 
 /// Describes the inputs, outputs, and reference data sources for a SQL-based
 /// Kinesis Data Analytics application.
+///
+/// @nodoc
 class SqlApplicationConfiguration {
   /// The array of <a>Input</a> objects describing the input streams used by the
   /// application.
@@ -7790,6 +8049,8 @@ class SqlApplicationConfiguration {
 
 /// Describes configuration parameters for a Managed Service for Apache Flink
 /// application or a Studio notebook.
+///
+/// @nodoc
 class FlinkApplicationConfiguration {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance. For more
@@ -7831,6 +8092,8 @@ class FlinkApplicationConfiguration {
 
 /// Describes execution properties for a Managed Service for Apache Flink
 /// application.
+///
+/// @nodoc
 class EnvironmentProperties {
   /// Describes the execution property groups.
   final List<PropertyGroup> propertyGroups;
@@ -7848,6 +8111,8 @@ class EnvironmentProperties {
 }
 
 /// Describes code configuration for an application.
+///
+/// @nodoc
 class ApplicationCodeConfiguration {
   /// Specifies whether the code content is in text or zip format.
   final CodeContentType codeContentType;
@@ -7872,6 +8137,8 @@ class ApplicationCodeConfiguration {
 
 /// Describes whether snapshots are enabled for a Managed Service for Apache
 /// Flink application.
+///
+/// @nodoc
 class ApplicationSnapshotConfiguration {
   /// Describes whether snapshots are enabled for a Managed Service for Apache
   /// Flink application.
@@ -7891,6 +8158,8 @@ class ApplicationSnapshotConfiguration {
 
 /// Describes the system rollback configuration for a Managed Service for Apache
 /// Flink application.
+///
+/// @nodoc
 class ApplicationSystemRollbackConfiguration {
   /// Describes whether system rollbacks are enabled for a Managed Service for
   /// Apache Flink application.
@@ -7909,6 +8178,8 @@ class ApplicationSystemRollbackConfiguration {
 }
 
 /// The configuration of a Managed Service for Apache Flink Studio notebook.
+///
+/// @nodoc
 class ZeppelinApplicationConfiguration {
   /// The Amazon Glue Data Catalog that you use in queries in a Managed Service
   /// for Apache Flink Studio notebook.
@@ -7952,6 +8223,8 @@ class ZeppelinApplicationConfiguration {
 }
 
 /// Specifies the configuration to manage encryption at rest.
+///
+/// @nodoc
 class ApplicationEncryptionConfiguration {
   /// Specifies the type of key used for encryption at rest.
   final KeyType keyType;
@@ -7979,6 +8252,8 @@ class ApplicationEncryptionConfiguration {
 /// Managed Service for Apache Flink Studio notebook. For more information about
 /// CloudWatch logging, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html">Monitoring</a>.
+///
+/// @nodoc
 class ZeppelinMonitoringConfiguration {
   /// The verbosity of the CloudWatch Logs for an application.
   final LogLevel logLevel;
@@ -7998,6 +8273,8 @@ class ZeppelinMonitoringConfiguration {
 /// The configuration parameters for the default Amazon Glue database. You use
 /// this database for SQL queries that you write in a Managed Service for Apache
 /// Flink Studio notebook.
+///
+/// @nodoc
 class CatalogConfiguration {
   /// The configuration parameters for the default Amazon Glue database. You use
   /// this database for Apache Flink SQL queries and table API transforms that you
@@ -8018,6 +8295,8 @@ class CatalogConfiguration {
 
 /// The information required to deploy a Managed Service for Apache Flink Studio
 /// notebook as an application with durable state.
+///
+/// @nodoc
 class DeployAsApplicationConfiguration {
   /// The description of an Amazon S3 object that contains the Amazon Data
   /// Analytics application, including the Amazon Resource Name (ARN) of the S3
@@ -8038,6 +8317,8 @@ class DeployAsApplicationConfiguration {
 }
 
 /// The S3 bucket that holds the application information.
+///
+/// @nodoc
 class S3ContentBaseLocation {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String bucketARN;
@@ -8062,6 +8343,8 @@ class S3ContentBaseLocation {
 
 /// The configuration of the Glue Data Catalog that you use for Apache Flink SQL
 /// queries and table API transforms that you write in an application.
+///
+/// @nodoc
 class GlueDataCatalogConfiguration {
   /// The Amazon Resource Name (ARN) of the database.
   final String databaseARN;
@@ -8079,6 +8362,8 @@ class GlueDataCatalogConfiguration {
 }
 
 /// Describes the parameters of a VPC used by the application.
+///
+/// @nodoc
 class VpcConfiguration {
   /// The array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SecurityGroup.html">SecurityGroup</a>
@@ -8107,6 +8392,8 @@ class VpcConfiguration {
 
 /// Specifies either the application code, or the location of the application
 /// code, for a Managed Service for Apache Flink application.
+///
+/// @nodoc
 class CodeContent {
   /// Information about the Amazon S3 bucket that contains the application code.
   final S3ContentLocation? s3ContentLocation;
@@ -8143,6 +8430,8 @@ class CodeContent {
 /// Checkpoints for Fault Tolerance</a> in the <a
 /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
 /// Flink Documentation</a>.
+///
+/// @nodoc
 class CheckpointConfiguration {
   /// Describes whether the application uses Managed Service for Apache Flink'
   /// default checkpointing behavior. You must set this property to
@@ -8229,6 +8518,8 @@ class CheckpointConfiguration {
 /// Describes configuration parameters for Amazon CloudWatch logging for an
 /// application. For more information about CloudWatch logging, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html">Monitoring</a>.
+///
+/// @nodoc
 class MonitoringConfiguration {
   /// Describes whether to use the default CloudWatch logging configuration for an
   /// application. You must set this property to <code>CUSTOM</code> in order to
@@ -8268,6 +8559,8 @@ class MonitoringConfiguration {
 /// Execution</a> in the <a
 /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
 /// Flink Documentation</a>.
+///
+/// @nodoc
 class ParallelismConfiguration {
   /// Describes whether the application uses the default parallelism for the
   /// Managed Service for Apache Flink service. You must set this property to
@@ -8326,6 +8619,8 @@ class ParallelismConfiguration {
 /// object key name), the resulting in-application table name that is created,
 /// and the necessary schema to map the data elements in the Amazon S3 object to
 /// the in-application table.
+///
+/// @nodoc
 class ReferenceDataSource {
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns created in the in-application stream.
@@ -8365,6 +8660,8 @@ class ReferenceDataSource {
 /// A SQL-based Kinesis Data Analytics application loads reference data only
 /// once. If the data changes, you call the <a>UpdateApplication</a> operation
 /// to trigger reloading of data into your application.
+///
+/// @nodoc
 class S3ReferenceDataSource {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String? bucketARN;
@@ -8394,6 +8691,8 @@ class S3ReferenceDataSource {
 /// stream.
 ///
 ///
+///
+/// @nodoc
 class Output {
   /// Describes the data format when records are written to the destination.
   final DestinationSchema destinationSchema;
@@ -8439,6 +8738,8 @@ class Output {
 /// When you configure a SQL-based Kinesis Data Analytics application's output,
 /// identifies a Kinesis data stream as the destination. You provide the stream
 /// Amazon Resource Name (ARN).
+///
+/// @nodoc
 class KinesisStreamsOutput {
   /// The ARN of the destination Kinesis data stream to write to.
   final String resourceARN;
@@ -8459,6 +8760,8 @@ class KinesisStreamsOutput {
 /// application output, identifies a Kinesis Data Firehose delivery stream as
 /// the destination. You provide the stream Amazon Resource Name (ARN) of the
 /// delivery stream.
+///
+/// @nodoc
 class KinesisFirehoseOutput {
   /// The ARN of the destination delivery stream to write to.
   final String resourceARN;
@@ -8478,6 +8781,8 @@ class KinesisFirehoseOutput {
 /// When you configure a SQL-based Kinesis Data Analytics application's output,
 /// identifies an Amazon Lambda function as the destination. You provide the
 /// function Amazon Resource Name (ARN) of the Lambda function.
+///
+/// @nodoc
 class LambdaOutput {
   /// The Amazon Resource Name (ARN) of the destination Lambda function to write
   /// to.
@@ -8505,6 +8810,8 @@ class LambdaOutput {
 /// When you configure the application input for a SQL-based Kinesis Data
 /// Analytics application, you specify the streaming source, the in-application
 /// stream name that is created, and the mapping between the two.
+///
+/// @nodoc
 class Input {
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns in the in-application stream that is
@@ -8570,6 +8877,8 @@ class Input {
 
 /// Identifies a Kinesis data stream as the streaming source. You provide the
 /// stream's Amazon Resource Name (ARN).
+///
+/// @nodoc
 class KinesisStreamsInput {
   /// The ARN of the input Kinesis data stream to read.
   final String resourceARN;
@@ -8589,6 +8898,8 @@ class KinesisStreamsInput {
 /// For a SQL-based Kinesis Data Analytics application, identifies a Kinesis
 /// Data Firehose delivery stream as the streaming source. You provide the
 /// delivery stream's Amazon Resource Name (ARN).
+///
+/// @nodoc
 class KinesisFirehoseInput {
   /// The Amazon Resource Name (ARN) of the delivery stream.
   final String resourceARN;
@@ -8605,11 +8916,13 @@ class KinesisFirehoseInput {
   }
 }
 
+/// @nodoc
 class CodeValidationException extends _s.GenericAwsException {
   CodeValidationException({String? type, String? message})
       : super(type: type, code: 'CodeValidationException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -8618,6 +8931,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidApplicationConfigurationException extends _s.GenericAwsException {
   InvalidApplicationConfigurationException({String? type, String? message})
       : super(
@@ -8626,31 +8940,37 @@ class InvalidApplicationConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceProvisionedThroughputExceededException
     extends _s.GenericAwsException {
   ResourceProvisionedThroughputExceededException(
@@ -8661,17 +8981,20 @@ class ResourceProvisionedThroughputExceededException
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnableToDetectSchemaException extends _s.GenericAwsException {
   UnableToDetectSchemaException({String? type, String? message})
       : super(
@@ -8680,6 +9003,7 @@ class UnableToDetectSchemaException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

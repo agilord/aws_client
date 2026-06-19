@@ -3180,6 +3180,7 @@ class Ecr {
   }
 }
 
+/// @nodoc
 class BatchCheckLayerAvailabilityResponse {
   /// Any failures associated with the call.
   final List<LayerFailure>? failures;
@@ -3217,6 +3218,7 @@ class BatchCheckLayerAvailabilityResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteImageResponse {
   /// Any failures associated with the call.
   final List<ImageFailure>? failures;
@@ -3252,6 +3254,7 @@ class BatchDeleteImageResponse {
   }
 }
 
+/// @nodoc
 class BatchGetImageResponse {
   /// Any failures associated with the call.
   final List<ImageFailure>? failures;
@@ -3288,6 +3291,7 @@ class BatchGetImageResponse {
   }
 }
 
+/// @nodoc
 class BatchGetRepositoryScanningConfigurationResponse {
   /// Any failures associated with the call.
   final List<RepositoryScanningConfigurationFailure>? failures;
@@ -3327,6 +3331,7 @@ class BatchGetRepositoryScanningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CompleteLayerUploadResponse {
   /// The <code>sha256</code> digest of the image layer.
   final String? layerDigest;
@@ -3370,6 +3375,7 @@ class CompleteLayerUploadResponse {
   }
 }
 
+/// @nodoc
 class CreatePullThroughCacheRuleResponse {
   /// The date and time, in JavaScript date format, when the pull through cache
   /// rule was created.
@@ -3450,6 +3456,7 @@ class CreatePullThroughCacheRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateRepositoryResponse {
   /// The repository that was created.
   final Repository? repository;
@@ -3474,6 +3481,7 @@ class CreateRepositoryResponse {
   }
 }
 
+/// @nodoc
 class CreateRepositoryCreationTemplateResponse {
   /// The registry ID associated with the request.
   final String? registryId;
@@ -3508,6 +3516,7 @@ class CreateRepositoryCreationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
   final DateTime? lastEvaluatedAt;
@@ -3553,6 +3562,7 @@ class DeleteLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeletePullThroughCacheRuleResponse {
   /// The timestamp associated with the pull through cache rule.
   final DateTime? createdAt;
@@ -3622,6 +3632,7 @@ class DeletePullThroughCacheRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegistryPolicyResponse {
   /// The contents of the registry permissions policy that was deleted.
   final String? policyText;
@@ -3651,6 +3662,7 @@ class DeleteRegistryPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryResponse {
   /// The repository that was deleted.
   final Repository? repository;
@@ -3675,6 +3687,7 @@ class DeleteRepositoryResponse {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryCreationTemplateResponse {
   /// The registry ID associated with the request.
   final String? registryId;
@@ -3709,6 +3722,7 @@ class DeleteRepositoryCreationTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryPolicyResponse {
   /// The JSON repository policy that was deleted from the repository.
   final String? policyText;
@@ -3745,6 +3759,7 @@ class DeleteRepositoryPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteSigningConfigurationResponse {
   /// The Amazon Web Services account ID associated with the registry.
   final String? registryId;
@@ -3779,6 +3794,7 @@ class DeleteSigningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeregisterPullTimeUpdateExclusionResponse {
   /// The ARN of the IAM principal that was removed from the pull time update
   /// exclusion list.
@@ -3803,6 +3819,7 @@ class DeregisterPullTimeUpdateExclusionResponse {
   }
 }
 
+/// @nodoc
 class DescribeImageReplicationStatusResponse {
   final ImageIdentifier? imageId;
 
@@ -3846,6 +3863,7 @@ class DescribeImageReplicationStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeImagesResponse {
   /// A list of <a>ImageDetail</a> objects that contain data about the image.
   final List<ImageDetail>? imageDetails;
@@ -3882,6 +3900,7 @@ class DescribeImagesResponse {
   }
 }
 
+/// @nodoc
 class DescribeImageScanFindingsResponse {
   final ImageIdentifier? imageId;
 
@@ -3951,6 +3970,7 @@ class DescribeImageScanFindingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeImageSigningStatusResponse {
   /// An object with identifying information for the image.
   final ImageIdentifier? imageId;
@@ -4001,6 +4021,7 @@ class DescribeImageSigningStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribePullThroughCacheRulesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribePullThroughCacheRulesRequest</code> request. When the results
@@ -4039,6 +4060,7 @@ class DescribePullThroughCacheRulesResponse {
   }
 }
 
+/// @nodoc
 class DescribeRegistryResponse {
   /// The registry ID associated with the request.
   final String? registryId;
@@ -4072,6 +4094,7 @@ class DescribeRegistryResponse {
   }
 }
 
+/// @nodoc
 class DescribeRepositoriesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeRepositories</code> request. When the results of a
@@ -4108,6 +4131,7 @@ class DescribeRepositoriesResponse {
   }
 }
 
+/// @nodoc
 class DescribeRepositoryCreationTemplatesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeRepositoryCreationTemplates</code> request. When the results
@@ -4156,6 +4180,7 @@ class DescribeRepositoryCreationTemplatesResponse {
   }
 }
 
+/// @nodoc
 class GetAccountSettingResponse {
   /// Retrieves the name of the account setting.
   final String? name;
@@ -4188,6 +4213,7 @@ class GetAccountSettingResponse {
   }
 }
 
+/// @nodoc
 class GetAuthorizationTokenResponse {
   /// A list of authorization token data objects that correspond to the
   /// <code>registryIds</code> values in the request.
@@ -4218,6 +4244,7 @@ class GetAuthorizationTokenResponse {
   }
 }
 
+/// @nodoc
 class GetDownloadUrlForLayerResponse {
   /// The pre-signed Amazon S3 download URL for the requested layer.
   final String? downloadUrl;
@@ -4247,6 +4274,7 @@ class GetDownloadUrlForLayerResponse {
   }
 }
 
+/// @nodoc
 class GetLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
   final DateTime? lastEvaluatedAt;
@@ -4292,6 +4320,7 @@ class GetLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetLifecyclePolicyPreviewResponse {
   /// The JSON lifecycle policy text.
   final String? lifecyclePolicyText;
@@ -4371,6 +4400,7 @@ class GetLifecyclePolicyPreviewResponse {
   }
 }
 
+/// @nodoc
 class GetRegistryPolicyResponse {
   /// The JSON text of the permissions policy for a registry.
   final String? policyText;
@@ -4400,6 +4430,7 @@ class GetRegistryPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRegistryScanningConfigurationResponse {
   /// The registry ID associated with the request.
   final String? registryId;
@@ -4434,6 +4465,7 @@ class GetRegistryScanningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetRepositoryPolicyResponse {
   /// The JSON repository policy text associated with the repository.
   final String? policyText;
@@ -4470,6 +4502,7 @@ class GetRepositoryPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetSigningConfigurationResponse {
   /// The Amazon Web Services account ID associated with the registry.
   final String? registryId;
@@ -4503,6 +4536,7 @@ class GetSigningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class InitiateLayerUploadResponse {
   /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
   final int? partSize;
@@ -4533,6 +4567,7 @@ class InitiateLayerUploadResponse {
   }
 }
 
+/// @nodoc
 class ListImageReferrersResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListImageReferrers</code> request. When the results of a
@@ -4569,6 +4604,7 @@ class ListImageReferrersResponse {
   }
 }
 
+/// @nodoc
 class ListImagesResponse {
   /// The list of image IDs for the requested repository.
   final List<ImageIdentifier>? imageIds;
@@ -4605,6 +4641,7 @@ class ListImagesResponse {
   }
 }
 
+/// @nodoc
 class ListPullTimeUpdateExclusionsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListPullTimeUpdateExclusions</code> request. When the results of a
@@ -4645,6 +4682,7 @@ class ListPullTimeUpdateExclusionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final List<Tag>? tags;
@@ -4670,6 +4708,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutAccountSettingResponse {
   /// Retrieves the name of the account setting.
   final String? name;
@@ -4699,6 +4738,7 @@ class PutAccountSettingResponse {
   }
 }
 
+/// @nodoc
 class PutImageResponse {
   /// Details of the image uploaded.
   final Image? image;
@@ -4723,6 +4763,7 @@ class PutImageResponse {
   }
 }
 
+/// @nodoc
 class PutImageScanningConfigurationResponse {
   /// The image scanning configuration setting for the repository.
   final ImageScanningConfiguration? imageScanningConfiguration;
@@ -4764,6 +4805,7 @@ class PutImageScanningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutImageTagMutabilityResponse {
   /// The image tag mutability setting for the repository.
   final ImageTagMutability? imageTagMutability;
@@ -4819,6 +4861,7 @@ class PutImageTagMutabilityResponse {
   }
 }
 
+/// @nodoc
 class PutLifecyclePolicyResponse {
   /// The JSON repository policy text.
   final String? lifecyclePolicyText;
@@ -4856,6 +4899,7 @@ class PutLifecyclePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutRegistryPolicyResponse {
   /// The JSON policy text for your registry.
   final String? policyText;
@@ -4885,6 +4929,7 @@ class PutRegistryPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutRegistryScanningConfigurationResponse {
   /// The scanning configuration for your registry.
   final RegistryScanningConfiguration? registryScanningConfiguration;
@@ -4913,6 +4958,7 @@ class PutRegistryScanningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutReplicationConfigurationResponse {
   /// The contents of the replication configuration for the registry.
   final ReplicationConfiguration? replicationConfiguration;
@@ -4940,6 +4986,7 @@ class PutReplicationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutSigningConfigurationResponse {
   /// The registry's updated signing configuration.
   final SigningConfiguration? signingConfiguration;
@@ -4966,6 +5013,7 @@ class PutSigningConfigurationResponse {
   }
 }
 
+/// @nodoc
 class RegisterPullTimeUpdateExclusionResponse {
   /// The date and time, expressed in standard JavaScript date format, when the
   /// exclusion was created.
@@ -4998,6 +5046,7 @@ class RegisterPullTimeUpdateExclusionResponse {
   }
 }
 
+/// @nodoc
 class SetRepositoryPolicyResponse {
   /// The JSON repository policy text applied to the repository.
   final String? policyText;
@@ -5034,6 +5083,7 @@ class SetRepositoryPolicyResponse {
   }
 }
 
+/// @nodoc
 class StartImageScanResponse {
   final ImageIdentifier? imageId;
 
@@ -5081,6 +5131,7 @@ class StartImageScanResponse {
   }
 }
 
+/// @nodoc
 class StartLifecyclePolicyPreviewResponse {
   /// The JSON repository policy text.
   final String? lifecyclePolicyText;
@@ -5127,6 +5178,7 @@ class StartLifecyclePolicyPreviewResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5139,6 +5191,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5151,6 +5204,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateImageStorageClassResponse {
   final ImageIdentifier? imageId;
 
@@ -5198,6 +5252,7 @@ class UpdateImageStorageClassResponse {
   }
 }
 
+/// @nodoc
 class UpdatePullThroughCacheRuleResponse {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret associated with the pull through cache rule.
@@ -5261,6 +5316,7 @@ class UpdatePullThroughCacheRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateRepositoryCreationTemplateResponse {
   /// The registry ID associated with the request.
   final String? registryId;
@@ -5295,6 +5351,7 @@ class UpdateRepositoryCreationTemplateResponse {
   }
 }
 
+/// @nodoc
 class UploadLayerPartResponse {
   /// The integer value of the last byte received in the request.
   final int? lastByteReceived;
@@ -5338,6 +5395,7 @@ class UploadLayerPartResponse {
   }
 }
 
+/// @nodoc
 class ValidatePullThroughCacheRuleResponse {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
   /// secret associated with the pull through cache rule.
@@ -5423,6 +5481,8 @@ class ValidatePullThroughCacheRuleResponse {
 }
 
 /// The details of the repository creation template associated with the request.
+///
+/// @nodoc
 class RepositoryCreationTemplate {
   /// A list of enumerable Strings representing the repository creation scenarios
   /// that this template will apply towards. The supported scenarios are
@@ -5566,6 +5626,8 @@ class RepositoryCreationTemplate {
 
 /// The encryption configuration to associate with the repository creation
 /// template.
+///
+/// @nodoc
 class EncryptionConfigurationForRepositoryCreationTemplate {
   /// The encryption type to use.
   ///
@@ -5620,6 +5682,7 @@ class EncryptionConfigurationForRepositoryCreationTemplate {
   }
 }
 
+/// @nodoc
 class ImageTagMutability {
   static const mutable = ImageTagMutability._('MUTABLE');
   static const immutable = ImageTagMutability._('IMMUTABLE');
@@ -5654,6 +5717,7 @@ class ImageTagMutability {
   String toString() => value;
 }
 
+/// @nodoc
 class RCTAppliedFor {
   static const replication = RCTAppliedFor._('REPLICATION');
   static const pullThroughCache = RCTAppliedFor._('PULL_THROUGH_CACHE');
@@ -5681,6 +5745,8 @@ class RCTAppliedFor {
 
 /// A filter that specifies which image tags should be excluded from the
 /// repository's image tag mutability setting.
+///
+/// @nodoc
 class ImageTagMutabilityExclusionFilter {
   /// The filter value used to match image tags for exclusion from mutability
   /// settings.
@@ -5714,6 +5780,7 @@ class ImageTagMutabilityExclusionFilter {
   }
 }
 
+/// @nodoc
 class ImageTagMutabilityExclusionFilterType {
   static const wildcard = ImageTagMutabilityExclusionFilterType._('WILDCARD');
 
@@ -5742,6 +5809,8 @@ class ImageTagMutabilityExclusionFilterType {
 /// them. Each tag consists of a key and a value, both of which you define. Tag
 /// keys can have a maximum character length of 128 characters, and tag values
 /// can have a maximum length of 256 characters.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
@@ -5772,6 +5841,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const aes256 = EncryptionType._('AES256');
   static const kms = EncryptionType._('KMS');
@@ -5799,6 +5869,8 @@ class EncryptionType {
 
 /// An object with identifying information for an image in an Amazon ECR
 /// repository.
+///
+/// @nodoc
 class ImageIdentifier {
   /// The <code>sha256</code> digest of the image manifest.
   final String? imageDigest;
@@ -5828,6 +5900,7 @@ class ImageIdentifier {
   }
 }
 
+/// @nodoc
 class ImageStatus {
   static const active = ImageStatus._('ACTIVE');
   static const archived = ImageStatus._('ARCHIVED');
@@ -5852,6 +5925,7 @@ class ImageStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetStorageClass {
   static const standard = TargetStorageClass._('STANDARD');
   static const archive = TargetStorageClass._('ARCHIVE');
@@ -5877,6 +5951,7 @@ class TargetStorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class LifecyclePolicyPreviewStatus {
   static const inProgress = LifecyclePolicyPreviewStatus._('IN_PROGRESS');
   static const complete = LifecyclePolicyPreviewStatus._('COMPLETE');
@@ -5905,6 +5980,8 @@ class LifecyclePolicyPreviewStatus {
 }
 
 /// The current status of an image scan.
+///
+/// @nodoc
 class ImageScanStatus {
   /// The description of the image scan status.
   final String? description;
@@ -5934,6 +6011,7 @@ class ImageScanStatus {
   }
 }
 
+/// @nodoc
 class ScanStatus {
   static const inProgress = ScanStatus._('IN_PROGRESS');
   static const complete = ScanStatus._('COMPLETE');
@@ -5979,6 +6057,8 @@ class ScanStatus {
 
 /// The signing configuration for a registry, which specifies rules for
 /// automatically signing images when pushed.
+///
+/// @nodoc
 class SigningConfiguration {
   /// A list of signing rules. Each rule defines a signing profile and optional
   /// repository filters that determine which images are automatically signed.
@@ -6009,6 +6089,8 @@ class SigningConfiguration {
 /// A signing rule that specifies a signing profile and optional repository
 /// filters. When an image is pushed to a matching repository, a signing job is
 /// created using the specified profile.
+///
+/// @nodoc
 class SigningRule {
   /// The ARN of the Amazon Web Services Signer signing profile to use for signing
   /// images that match this rule. For more information about signing profiles,
@@ -6052,6 +6134,8 @@ class SigningRule {
 /// A repository filter used to determine which repositories have their images
 /// automatically signed on push. Each filter consists of a filter type and
 /// filter value.
+///
+/// @nodoc
 class SigningRepositoryFilter {
   /// The filter value used to match repository names. When using
   /// <code>WILDCARD_MATCH</code>, the <code>*</code> character matches any
@@ -6103,6 +6187,8 @@ class SigningRepositoryFilter {
 
 /// The type of filter to use when determining which repositories should have
 /// their images automatically signed.
+///
+/// @nodoc
 class SigningRepositoryFilterType {
   static const wildcardMatch = SigningRepositoryFilterType._('WILDCARD_MATCH');
 
@@ -6128,6 +6214,8 @@ class SigningRepositoryFilterType {
 }
 
 /// The replication configuration for a registry.
+///
+/// @nodoc
 class ReplicationConfiguration {
   /// An array of objects representing the replication destinations and repository
   /// filters for a replication configuration.
@@ -6156,6 +6244,8 @@ class ReplicationConfiguration {
 
 /// An array of objects representing the replication destinations and repository
 /// filters for a replication configuration.
+///
+/// @nodoc
 class ReplicationRule {
   /// An array of objects representing the destination for a replication rule.
   final List<ReplicationDestination> destinations;
@@ -6198,6 +6288,8 @@ class ReplicationRule {
 /// filter to a replication rule provides a method for controlling which
 /// repositories in a private registry are replicated. If no filters are added,
 /// the contents of all repositories are replicated.
+///
+/// @nodoc
 class RepositoryFilter {
   /// The repository filter details. When the <code>PREFIX_MATCH</code> filter
   /// type is specified, this value is required and should be the repository name
@@ -6232,6 +6324,7 @@ class RepositoryFilter {
   }
 }
 
+/// @nodoc
 class RepositoryFilterType {
   static const prefixMatch = RepositoryFilterType._('PREFIX_MATCH');
 
@@ -6257,6 +6350,8 @@ class RepositoryFilterType {
 }
 
 /// An array of objects representing the destination for a replication rule.
+///
+/// @nodoc
 class ReplicationDestination {
   /// The Region to replicate to.
   final String region;
@@ -6289,6 +6384,8 @@ class ReplicationDestination {
 }
 
 /// The scanning configuration for a private registry.
+///
+/// @nodoc
 class RegistryScanningConfiguration {
   /// The scanning rules associated with the registry.
   final List<RegistryScanningRule>? rules;
@@ -6321,6 +6418,7 @@ class RegistryScanningConfiguration {
   }
 }
 
+/// @nodoc
 class ScanType {
   static const basic = ScanType._('BASIC');
   static const enhanced = ScanType._('ENHANCED');
@@ -6345,6 +6443,8 @@ class ScanType {
 }
 
 /// The details of a scanning rule for a private registry.
+///
+/// @nodoc
 class RegistryScanningRule {
   /// The repository filters associated with the scanning configuration for a
   /// private registry.
@@ -6385,6 +6485,7 @@ class RegistryScanningRule {
   }
 }
 
+/// @nodoc
 class ScanFrequency {
   static const scanOnPush = ScanFrequency._('SCAN_ON_PUSH');
   static const continuousScan = ScanFrequency._('CONTINUOUS_SCAN');
@@ -6414,6 +6515,8 @@ class ScanFrequency {
 /// use filters, see <a
 /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html#image-scanning-filters">Using
 /// filters</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
+///
+/// @nodoc
 class ScanningRepositoryFilter {
   /// The filter to use when scanning.
   final String filter;
@@ -6444,6 +6547,7 @@ class ScanningRepositoryFilter {
   }
 }
 
+/// @nodoc
 class ScanningRepositoryFilterType {
   static const wildcard = ScanningRepositoryFilterType._('WILDCARD');
 
@@ -6469,6 +6573,8 @@ class ScanningRepositoryFilterType {
 }
 
 /// The image scanning configuration for a repository.
+///
+/// @nodoc
 class ImageScanningConfiguration {
   /// The setting that determines whether images are scanned after being pushed to
   /// a repository. If set to <code>true</code>, images will be scanned after
@@ -6498,6 +6604,8 @@ class ImageScanningConfiguration {
 }
 
 /// An object representing an Amazon ECR image.
+///
+/// @nodoc
 class Image {
   /// An object containing the image tag and image digest associated with an
   /// image.
@@ -6554,6 +6662,8 @@ class Image {
 }
 
 /// An object representing a filter on a <a>ListImages</a> operation.
+///
+/// @nodoc
 class ListImagesFilter {
   /// The image status with which to filter your <a>ListImages</a> results. Valid
   /// values are <code>ACTIVE</code>, <code>ARCHIVED</code>, and
@@ -6579,6 +6689,7 @@ class ListImagesFilter {
   }
 }
 
+/// @nodoc
 class TagStatus {
   static const tagged = TagStatus._('TAGGED');
   static const untagged = TagStatus._('UNTAGGED');
@@ -6603,6 +6714,7 @@ class TagStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageStatusFilter {
   static const active = ImageStatusFilter._('ACTIVE');
   static const archived = ImageStatusFilter._('ARCHIVED');
@@ -6630,6 +6742,8 @@ class ImageStatusFilter {
 }
 
 /// An object representing an artifact associated with a subject image.
+///
+/// @nodoc
 class ImageReferrer {
   /// The digest of the artifact manifest.
   final String digest;
@@ -6690,6 +6804,7 @@ class ImageReferrer {
   }
 }
 
+/// @nodoc
 class ArtifactStatus {
   static const active = ArtifactStatus._('ACTIVE');
   static const archived = ArtifactStatus._('ARCHIVED');
@@ -6716,6 +6831,8 @@ class ArtifactStatus {
 }
 
 /// An object that identifies an image subject.
+///
+/// @nodoc
 class SubjectIdentifier {
   /// The digest of the image.
   final String imageDigest;
@@ -6733,6 +6850,8 @@ class SubjectIdentifier {
 }
 
 /// An object representing a filter on a <a>ListImageReferrers</a> operation.
+///
+/// @nodoc
 class ListImageReferrersFilter {
   /// The artifact status with which to filter your <a>ListImageReferrers</a>
   /// results. Valid values are <code>ACTIVE</code>, <code>ARCHIVED</code>,
@@ -6759,6 +6878,7 @@ class ListImageReferrersFilter {
   }
 }
 
+/// @nodoc
 class ArtifactStatusFilter {
   static const active = ArtifactStatusFilter._('ACTIVE');
   static const archived = ArtifactStatusFilter._('ARCHIVED');
@@ -6787,6 +6907,8 @@ class ArtifactStatusFilter {
 }
 
 /// The summary of the lifecycle policy preview request.
+///
+/// @nodoc
 class LifecyclePolicyPreviewSummary {
   /// The number of expiring images.
   final int? expiringImageTotalCount;
@@ -6826,6 +6948,8 @@ class LifecyclePolicyPreviewSummary {
 }
 
 /// The total count of images transitioning to a storage class.
+///
+/// @nodoc
 class TransitioningImageTotalCount {
   /// The total number of images transitioning to the storage class.
   final int? imageTotalCount;
@@ -6857,6 +6981,7 @@ class TransitioningImageTotalCount {
   }
 }
 
+/// @nodoc
 class LifecyclePolicyTargetStorageClass {
   static const archive = LifecyclePolicyTargetStorageClass._('ARCHIVE');
 
@@ -6882,6 +7007,8 @@ class LifecyclePolicyTargetStorageClass {
 }
 
 /// The result of the lifecycle policy preview.
+///
+/// @nodoc
 class LifecyclePolicyPreviewResult {
   /// The type of action to be taken.
   final LifecyclePolicyRuleAction? action;
@@ -6950,6 +7077,8 @@ class LifecyclePolicyPreviewResult {
 }
 
 /// The type of action to be taken.
+///
+/// @nodoc
 class LifecyclePolicyRuleAction {
   /// The target storage class for the action. This is only present when the
   /// <code>type</code> is <code>TRANSITION.</code>
@@ -6982,6 +7111,7 @@ class LifecyclePolicyRuleAction {
   }
 }
 
+/// @nodoc
 class LifecyclePolicyStorageClass {
   static const archive = LifecyclePolicyStorageClass._('ARCHIVE');
   static const standard = LifecyclePolicyStorageClass._('STANDARD');
@@ -7007,6 +7137,7 @@ class LifecyclePolicyStorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageActionType {
   static const expire = ImageActionType._('EXPIRE');
   static const transition = ImageActionType._('TRANSITION');
@@ -7032,6 +7163,8 @@ class ImageActionType {
 }
 
 /// The filter for the lifecycle policy preview.
+///
+/// @nodoc
 class LifecyclePolicyPreviewFilter {
   /// The tag status of the image.
   final TagStatus? tagStatus;
@@ -7049,6 +7182,8 @@ class LifecyclePolicyPreviewFilter {
 }
 
 /// An object representing authorization data for an Amazon ECR registry.
+///
+/// @nodoc
 class AuthorizationData {
   /// A base64-encoded string that contains authorization data for the specified
   /// Amazon ECR registry. When the string is decoded, it is presented in the
@@ -7093,6 +7228,8 @@ class AuthorizationData {
 }
 
 /// An object representing a repository.
+///
+/// @nodoc
 class Repository {
   /// The date and time, in JavaScript date format, when the repository was
   /// created.
@@ -7213,6 +7350,8 @@ class Repository {
 /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html">Amazon
 /// ECR encryption at rest</a> in the <i>Amazon Elastic Container Registry User
 /// Guide</i>.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The encryption type to use.
   ///
@@ -7270,6 +7409,8 @@ class EncryptionConfiguration {
 }
 
 /// The details of a pull through cache rule.
+///
+/// @nodoc
 class PullThroughCacheRule {
   /// The date and time the pull through cache was created.
   final DateTime? createdAt;
@@ -7357,6 +7498,7 @@ class PullThroughCacheRule {
   }
 }
 
+/// @nodoc
 class UpstreamRegistry {
   static const ecr = UpstreamRegistry._('ecr');
   static const ecrPublic = UpstreamRegistry._('ecr-public');
@@ -7403,6 +7545,8 @@ class UpstreamRegistry {
 
 /// The signing status for an image. Each status corresponds to a signing
 /// profile.
+///
+/// @nodoc
 class ImageSigningStatus {
   /// The failure code, which is only present if <code>status</code> is
   /// <code>FAILED</code>.
@@ -7464,6 +7608,8 @@ class ImageSigningStatus {
 
 /// The image signing status. Possible values include <code>IN_PROGRESS</code>,
 /// <code>COMPLETE</code>, and <code>FAILED</code>.
+///
+/// @nodoc
 class SigningStatus {
   static const inProgress = SigningStatus._('IN_PROGRESS');
   static const complete = SigningStatus._('COMPLETE');
@@ -7490,6 +7636,8 @@ class SigningStatus {
 }
 
 /// The details of an image scan.
+///
+/// @nodoc
 class ImageScanFindings {
   /// Details about the enhanced scan findings from Amazon Inspector.
   final List<EnhancedImageScanFinding>? enhancedFindings;
@@ -7557,6 +7705,8 @@ class ImageScanFindings {
 
 /// The details of an enhanced image scan. This is returned when enhanced
 /// scanning is enabled for your private registry.
+///
+/// @nodoc
 class EnhancedImageScanFinding {
   /// The Amazon Web Services account ID associated with the image.
   final String? awsAccountId;
@@ -7708,6 +7858,8 @@ class EnhancedImageScanFinding {
 }
 
 /// Information about a package vulnerability finding.
+///
+/// @nodoc
 class PackageVulnerabilityDetails {
   /// An object that contains details about the CVSS score of a finding.
   final List<CvssScore>? cvss;
@@ -7811,6 +7963,8 @@ class PackageVulnerabilityDetails {
 }
 
 /// Information on how to remediate a finding.
+///
+/// @nodoc
 class Remediation {
   /// An object that contains information about the recommended course of action
   /// to remediate the finding.
@@ -7838,6 +7992,8 @@ class Remediation {
 }
 
 /// Information about the Amazon Inspector score given to a finding.
+///
+/// @nodoc
 class ScoreDetails {
   /// An object that contains details about the CVSS score given to a finding.
   final CvssScoreDetails? cvss;
@@ -7863,6 +8019,8 @@ class ScoreDetails {
 }
 
 /// Information about the CVSS score.
+///
+/// @nodoc
 class CvssScoreDetails {
   /// An object that contains details about adjustment Amazon Inspector made to
   /// the CVSS score.
@@ -7919,6 +8077,8 @@ class CvssScoreDetails {
 
 /// Details on adjustments Amazon Inspector made to the CVSS score for a
 /// finding.
+///
+/// @nodoc
 class CvssScoreAdjustment {
   /// The metric used to adjust the CVSS score.
   final String? metric;
@@ -7949,6 +8109,8 @@ class CvssScoreAdjustment {
 }
 
 /// Details about the resource involved in a finding.
+///
+/// @nodoc
 class Resource {
   /// An object that contains details about the resource involved in a finding.
   final ResourceDetails? details;
@@ -7996,6 +8158,8 @@ class Resource {
 }
 
 /// Contains details about the resource involved in the finding.
+///
+/// @nodoc
 class ResourceDetails {
   /// An object that contains details about the Amazon ECR container image
   /// involved in the finding.
@@ -8024,6 +8188,8 @@ class ResourceDetails {
 }
 
 /// The image details of the Amazon ECR container image.
+///
+/// @nodoc
 class AwsEcrContainerImageDetails {
   /// The architecture of the Amazon ECR container image.
   final String? architecture;
@@ -8113,6 +8279,8 @@ class AwsEcrContainerImageDetails {
 }
 
 /// Details about the recommended course of action to remediate the finding.
+///
+/// @nodoc
 class Recommendation {
   /// The recommended course of action to remediate the finding.
   final String? text;
@@ -8143,6 +8311,8 @@ class Recommendation {
 }
 
 /// Information on the vulnerable package identified by a finding.
+///
+/// @nodoc
 class VulnerablePackage {
   /// The architecture of the vulnerable package.
   final String? arch;
@@ -8222,6 +8392,8 @@ class VulnerablePackage {
 }
 
 /// The CVSS score for a finding.
+///
+/// @nodoc
 class CvssScore {
   /// The base CVSS score used for the finding.
   final double? baseScore;
@@ -8266,6 +8438,8 @@ class CvssScore {
 }
 
 /// Contains information about an image scan finding.
+///
+/// @nodoc
 class ImageScanFinding {
   /// A collection of attributes of the host from which the finding is generated.
   final List<Attribute>? attributes;
@@ -8319,6 +8493,7 @@ class ImageScanFinding {
   }
 }
 
+/// @nodoc
 class FindingSeverity {
   static const informational = FindingSeverity._('INFORMATIONAL');
   static const low = FindingSeverity._('LOW');
@@ -8348,6 +8523,8 @@ class FindingSeverity {
 }
 
 /// This data type is used in the <a>ImageScanFinding</a> data type.
+///
+/// @nodoc
 class Attribute {
   /// The attribute key.
   final String key;
@@ -8379,6 +8556,8 @@ class Attribute {
 
 /// An object that describes an image returned by a <a>DescribeImages</a>
 /// operation.
+///
+/// @nodoc
 class ImageDetail {
   /// The artifact media type of the image.
   final String? artifactMediaType;
@@ -8541,6 +8720,8 @@ class ImageDetail {
 }
 
 /// A summary of the last completed image scan.
+///
+/// @nodoc
 class ImageScanFindingsSummary {
   /// The image vulnerability counts, sorted by severity.
   final Map<FindingSeverity, int>? findingSeverityCounts;
@@ -8586,6 +8767,8 @@ class ImageScanFindingsSummary {
 }
 
 /// An object representing a filter on a <a>DescribeImages</a> operation.
+///
+/// @nodoc
 class DescribeImagesFilter {
   /// The image status with which to filter your <a>DescribeImages</a> results.
   /// Valid values are <code>ACTIVE</code>, <code>ARCHIVED</code>, and
@@ -8614,6 +8797,8 @@ class DescribeImagesFilter {
 }
 
 /// The status of the replication process for an image.
+///
+/// @nodoc
 class ImageReplicationStatus {
   /// The failure code for a replication that has failed.
   final String? failureCode;
@@ -8658,6 +8843,7 @@ class ImageReplicationStatus {
   }
 }
 
+/// @nodoc
 class ReplicationStatus {
   static const inProgress = ReplicationStatus._('IN_PROGRESS');
   static const complete = ReplicationStatus._('COMPLETE');
@@ -8685,6 +8871,8 @@ class ReplicationStatus {
 
 /// The details about any failures associated with the scanning configuration of
 /// a repository.
+///
+/// @nodoc
 class RepositoryScanningConfigurationFailure {
   /// The failure code.
   final ScanningConfigurationFailureCode? failureCode;
@@ -8723,6 +8911,7 @@ class RepositoryScanningConfigurationFailure {
   }
 }
 
+/// @nodoc
 class ScanningConfigurationFailureCode {
   static const repositoryNotFound =
       ScanningConfigurationFailureCode._('REPOSITORY_NOT_FOUND');
@@ -8749,6 +8938,8 @@ class ScanningConfigurationFailureCode {
 }
 
 /// The details of the scanning configuration for a repository.
+///
+/// @nodoc
 class RepositoryScanningConfiguration {
   /// The scan filters applied to the repository.
   final List<ScanningRepositoryFilter>? appliedScanFilters;
@@ -8805,6 +8996,8 @@ class RepositoryScanningConfiguration {
 }
 
 /// An object representing an Amazon ECR image failure.
+///
+/// @nodoc
 class ImageFailure {
   /// The code associated with the failure.
   final ImageFailureCode? failureCode;
@@ -8844,6 +9037,7 @@ class ImageFailure {
   }
 }
 
+/// @nodoc
 class ImageFailureCode {
   static const invalidImageDigest = ImageFailureCode._('InvalidImageDigest');
   static const invalidImageTag = ImageFailureCode._('InvalidImageTag');
@@ -8894,6 +9088,8 @@ class ImageFailureCode {
 }
 
 /// An object representing an Amazon ECR image layer failure.
+///
+/// @nodoc
 class LayerFailure {
   /// The failure code associated with the failure.
   final LayerFailureCode? failureCode;
@@ -8931,6 +9127,7 @@ class LayerFailure {
   }
 }
 
+/// @nodoc
 class LayerFailureCode {
   static const invalidLayerDigest = LayerFailureCode._('InvalidLayerDigest');
   static const missingLayerDigest = LayerFailureCode._('MissingLayerDigest');
@@ -8956,6 +9153,8 @@ class LayerFailureCode {
 }
 
 /// An object representing an Amazon ECR image layer.
+///
+/// @nodoc
 class Layer {
   /// The availability status of the image layer.
   final LayerAvailability? layerAvailability;
@@ -9003,6 +9202,7 @@ class Layer {
   }
 }
 
+/// @nodoc
 class LayerAvailability {
   static const available = LayerAvailability._('AVAILABLE');
   static const unavailable = LayerAvailability._('UNAVAILABLE');
@@ -9028,6 +9228,7 @@ class LayerAvailability {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockedByOrganizationPolicyException extends _s.GenericAwsException {
   BlockedByOrganizationPolicyException({String? type, String? message})
       : super(
@@ -9036,11 +9237,13 @@ class BlockedByOrganizationPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EmptyUploadException extends _s.GenericAwsException {
   EmptyUploadException({String? type, String? message})
       : super(type: type, code: 'EmptyUploadException', message: message);
 }
 
+/// @nodoc
 class ExclusionAlreadyExistsException extends _s.GenericAwsException {
   ExclusionAlreadyExistsException({String? type, String? message})
       : super(
@@ -9049,22 +9252,26 @@ class ExclusionAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ExclusionNotFoundException extends _s.GenericAwsException {
   ExclusionNotFoundException({String? type, String? message})
       : super(type: type, code: 'ExclusionNotFoundException', message: message);
 }
 
+/// @nodoc
 class ImageAlreadyExistsException extends _s.GenericAwsException {
   ImageAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'ImageAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ImageArchivedException extends _s.GenericAwsException {
   ImageArchivedException({String? type, String? message})
       : super(type: type, code: 'ImageArchivedException', message: message);
 }
 
+/// @nodoc
 class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
   ImageDigestDoesNotMatchException({String? type, String? message})
       : super(
@@ -9073,11 +9280,13 @@ class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ImageNotFoundException extends _s.GenericAwsException {
   ImageNotFoundException({String? type, String? message})
       : super(type: type, code: 'ImageNotFoundException', message: message);
 }
 
+/// @nodoc
 class ImageStorageClassUpdateNotSupportedException
     extends _s.GenericAwsException {
   ImageStorageClassUpdateNotSupportedException({String? type, String? message})
@@ -9087,6 +9296,7 @@ class ImageStorageClassUpdateNotSupportedException
             message: message);
 }
 
+/// @nodoc
 class ImageTagAlreadyExistsException extends _s.GenericAwsException {
   ImageTagAlreadyExistsException({String? type, String? message})
       : super(
@@ -9095,53 +9305,63 @@ class ImageTagAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLayerException extends _s.GenericAwsException {
   InvalidLayerException({String? type, String? message})
       : super(type: type, code: 'InvalidLayerException', message: message);
 }
 
+/// @nodoc
 class InvalidLayerPartException extends _s.GenericAwsException {
   InvalidLayerPartException({String? type, String? message})
       : super(type: type, code: 'InvalidLayerPartException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidTagParameterException extends _s.GenericAwsException {
   InvalidTagParameterException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagParameterException', message: message);
 }
 
+/// @nodoc
 class KmsException extends _s.GenericAwsException {
   KmsException({String? type, String? message})
       : super(type: type, code: 'KmsException', message: message);
 }
 
+/// @nodoc
 class LayerAlreadyExistsException extends _s.GenericAwsException {
   LayerAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'LayerAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class LayerInaccessibleException extends _s.GenericAwsException {
   LayerInaccessibleException({String? type, String? message})
       : super(type: type, code: 'LayerInaccessibleException', message: message);
 }
 
+/// @nodoc
 class LayerPartTooSmallException extends _s.GenericAwsException {
   LayerPartTooSmallException({String? type, String? message})
       : super(type: type, code: 'LayerPartTooSmallException', message: message);
 }
 
+/// @nodoc
 class LayersNotFoundException extends _s.GenericAwsException {
   LayersNotFoundException({String? type, String? message})
       : super(type: type, code: 'LayersNotFoundException', message: message);
 }
 
+/// @nodoc
 class LifecyclePolicyNotFoundException extends _s.GenericAwsException {
   LifecyclePolicyNotFoundException({String? type, String? message})
       : super(
@@ -9150,6 +9370,7 @@ class LifecyclePolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LifecyclePolicyPreviewInProgressException extends _s.GenericAwsException {
   LifecyclePolicyPreviewInProgressException({String? type, String? message})
       : super(
@@ -9158,6 +9379,7 @@ class LifecyclePolicyPreviewInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LifecyclePolicyPreviewNotFoundException extends _s.GenericAwsException {
   LifecyclePolicyPreviewNotFoundException({String? type, String? message})
       : super(
@@ -9166,11 +9388,13 @@ class LifecyclePolicyPreviewNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class PullThroughCacheRuleAlreadyExistsException
     extends _s.GenericAwsException {
   PullThroughCacheRuleAlreadyExistsException({String? type, String? message})
@@ -9180,6 +9404,7 @@ class PullThroughCacheRuleAlreadyExistsException
             message: message);
 }
 
+/// @nodoc
 class PullThroughCacheRuleNotFoundException extends _s.GenericAwsException {
   PullThroughCacheRuleNotFoundException({String? type, String? message})
       : super(
@@ -9188,6 +9413,7 @@ class PullThroughCacheRuleNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReferencedImagesNotFoundException extends _s.GenericAwsException {
   ReferencedImagesNotFoundException({String? type, String? message})
       : super(
@@ -9196,6 +9422,7 @@ class ReferencedImagesNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RegistryPolicyNotFoundException extends _s.GenericAwsException {
   RegistryPolicyNotFoundException({String? type, String? message})
       : super(
@@ -9204,6 +9431,7 @@ class RegistryPolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryAlreadyExistsException extends _s.GenericAwsException {
   RepositoryAlreadyExistsException({String? type, String? message})
       : super(
@@ -9212,18 +9440,21 @@ class RepositoryAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryNotEmptyException extends _s.GenericAwsException {
   RepositoryNotEmptyException({String? type, String? message})
       : super(
             type: type, code: 'RepositoryNotEmptyException', message: message);
 }
 
+/// @nodoc
 class RepositoryNotFoundException extends _s.GenericAwsException {
   RepositoryNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'RepositoryNotFoundException', message: message);
 }
 
+/// @nodoc
 class RepositoryPolicyNotFoundException extends _s.GenericAwsException {
   RepositoryPolicyNotFoundException({String? type, String? message})
       : super(
@@ -9232,21 +9463,25 @@ class RepositoryPolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ScanNotFoundException extends _s.GenericAwsException {
   ScanNotFoundException({String? type, String? message})
       : super(type: type, code: 'ScanNotFoundException', message: message);
 }
 
+/// @nodoc
 class SecretNotFoundException extends _s.GenericAwsException {
   SecretNotFoundException({String? type, String? message})
       : super(type: type, code: 'SecretNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
+/// @nodoc
 class SigningConfigurationNotFoundException extends _s.GenericAwsException {
   SigningConfigurationNotFoundException({String? type, String? message})
       : super(
@@ -9255,6 +9490,7 @@ class SigningConfigurationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TemplateAlreadyExistsException extends _s.GenericAwsException {
   TemplateAlreadyExistsException({String? type, String? message})
       : super(
@@ -9263,16 +9499,19 @@ class TemplateAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TemplateNotFoundException extends _s.GenericAwsException {
   TemplateNotFoundException({String? type, String? message})
       : super(type: type, code: 'TemplateNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnableToAccessSecretException extends _s.GenericAwsException {
   UnableToAccessSecretException({String? type, String? message})
       : super(
@@ -9281,6 +9520,7 @@ class UnableToAccessSecretException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnableToDecryptSecretValueException extends _s.GenericAwsException {
   UnableToDecryptSecretValueException({String? type, String? message})
       : super(
@@ -9289,6 +9529,7 @@ class UnableToDecryptSecretValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnableToGetUpstreamImageException extends _s.GenericAwsException {
   UnableToGetUpstreamImageException({String? type, String? message})
       : super(
@@ -9297,6 +9538,7 @@ class UnableToGetUpstreamImageException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnableToGetUpstreamLayerException extends _s.GenericAwsException {
   UnableToGetUpstreamLayerException({String? type, String? message})
       : super(
@@ -9305,6 +9547,7 @@ class UnableToGetUpstreamLayerException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnableToListUpstreamImageReferrersException
     extends _s.GenericAwsException {
   UnableToListUpstreamImageReferrersException({String? type, String? message})
@@ -9314,6 +9557,7 @@ class UnableToListUpstreamImageReferrersException
             message: message);
 }
 
+/// @nodoc
 class UnsupportedImageTypeException extends _s.GenericAwsException {
   UnsupportedImageTypeException({String? type, String? message})
       : super(
@@ -9322,6 +9566,7 @@ class UnsupportedImageTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedUpstreamRegistryException extends _s.GenericAwsException {
   UnsupportedUpstreamRegistryException({String? type, String? message})
       : super(
@@ -9330,11 +9575,13 @@ class UnsupportedUpstreamRegistryException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UploadNotFoundException extends _s.GenericAwsException {
   UploadNotFoundException({String? type, String? message})
       : super(type: type, code: 'UploadNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

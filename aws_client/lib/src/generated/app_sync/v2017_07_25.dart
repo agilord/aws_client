@@ -3549,6 +3549,7 @@ class AppSync {
   }
 }
 
+/// @nodoc
 class AssociateApiResponse {
   /// The <code>ApiAssociation</code> object.
   final ApiAssociation? apiAssociation;
@@ -3574,6 +3575,7 @@ class AssociateApiResponse {
   }
 }
 
+/// @nodoc
 class AssociateMergedGraphqlApiResponse {
   /// The <code>SourceApiAssociation</code> object data.
   final SourceApiAssociation? sourceApiAssociation;
@@ -3601,6 +3603,7 @@ class AssociateMergedGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class AssociateSourceGraphqlApiResponse {
   /// The <code>SourceApiAssociation</code> object data.
   final SourceApiAssociation? sourceApiAssociation;
@@ -3628,6 +3631,7 @@ class AssociateSourceGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class CreateApiResponse {
   /// The <code>Api</code> object.
   final Api? api;
@@ -3653,6 +3657,8 @@ class CreateApiResponse {
 }
 
 /// Represents the output of a <code>CreateApiCache</code> operation.
+///
+/// @nodoc
 class CreateApiCacheResponse {
   /// The <code>ApiCache</code> object.
   final ApiCache? apiCache;
@@ -3677,6 +3683,7 @@ class CreateApiCacheResponse {
   }
 }
 
+/// @nodoc
 class CreateApiKeyResponse {
   /// The API key.
   final ApiKey? apiKey;
@@ -3701,6 +3708,7 @@ class CreateApiKeyResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelNamespaceResponse {
   /// The <code>ChannelNamespace</code> object.
   final ChannelNamespace? channelNamespace;
@@ -3726,6 +3734,7 @@ class CreateChannelNamespaceResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSourceResponse {
   /// The <code>DataSource</code> object.
   final DataSource? dataSource;
@@ -3750,6 +3759,7 @@ class CreateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainNameResponse {
   /// The configuration for the <code>DomainName</code>.
   final DomainNameConfig? domainNameConfig;
@@ -3775,6 +3785,7 @@ class CreateDomainNameResponse {
   }
 }
 
+/// @nodoc
 class CreateFunctionResponse {
   /// The <code>Function</code> object.
   final FunctionConfiguration? functionConfiguration;
@@ -3801,6 +3812,7 @@ class CreateFunctionResponse {
   }
 }
 
+/// @nodoc
 class CreateGraphqlApiResponse {
   /// The <code>GraphqlApi</code>.
   final GraphqlApi? graphqlApi;
@@ -3825,6 +3837,7 @@ class CreateGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class CreateResolverResponse {
   /// The <code>Resolver</code> object.
   final Resolver? resolver;
@@ -3849,6 +3862,7 @@ class CreateResolverResponse {
   }
 }
 
+/// @nodoc
 class CreateTypeResponse {
   /// The <code>Type</code> object.
   final Type? type;
@@ -3873,6 +3887,7 @@ class CreateTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteApiResponse {
   DeleteApiResponse();
 
@@ -3886,6 +3901,8 @@ class DeleteApiResponse {
 }
 
 /// Represents the output of a <code>DeleteApiCache</code> operation.
+///
+/// @nodoc
 class DeleteApiCacheResponse {
   DeleteApiCacheResponse();
 
@@ -3898,6 +3915,7 @@ class DeleteApiCacheResponse {
   }
 }
 
+/// @nodoc
 class DeleteApiKeyResponse {
   DeleteApiKeyResponse();
 
@@ -3910,6 +3928,7 @@ class DeleteApiKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelNamespaceResponse {
   DeleteChannelNamespaceResponse();
 
@@ -3922,6 +3941,7 @@ class DeleteChannelNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataSourceResponse {
   DeleteDataSourceResponse();
 
@@ -3934,6 +3954,7 @@ class DeleteDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainNameResponse {
   DeleteDomainNameResponse();
 
@@ -3946,6 +3967,7 @@ class DeleteDomainNameResponse {
   }
 }
 
+/// @nodoc
 class DeleteFunctionResponse {
   DeleteFunctionResponse();
 
@@ -3958,6 +3980,7 @@ class DeleteFunctionResponse {
   }
 }
 
+/// @nodoc
 class DeleteGraphqlApiResponse {
   DeleteGraphqlApiResponse();
 
@@ -3970,6 +3993,7 @@ class DeleteGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class DeleteResolverResponse {
   DeleteResolverResponse();
 
@@ -3982,6 +4006,7 @@ class DeleteResolverResponse {
   }
 }
 
+/// @nodoc
 class DeleteTypeResponse {
   DeleteTypeResponse();
 
@@ -3994,6 +4019,7 @@ class DeleteTypeResponse {
   }
 }
 
+/// @nodoc
 class DisassociateApiResponse {
   DisassociateApiResponse();
 
@@ -4006,6 +4032,7 @@ class DisassociateApiResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMergedGraphqlApiResponse {
   /// The state of the source API association.
   final SourceApiAssociationStatus? sourceApiAssociationStatus;
@@ -4032,6 +4059,7 @@ class DisassociateMergedGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class DisassociateSourceGraphqlApiResponse {
   /// The state of the source API association.
   final SourceApiAssociationStatus? sourceApiAssociationStatus;
@@ -4058,6 +4086,7 @@ class DisassociateSourceGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class EvaluateCodeResponse {
   /// Contains the payload of the response error.
   final EvaluateCodeErrorDetail? error;
@@ -4115,6 +4144,7 @@ class EvaluateCodeResponse {
   }
 }
 
+/// @nodoc
 class EvaluateMappingTemplateResponse {
   /// The <code>ErrorDetail</code> object.
   final ErrorDetail? error;
@@ -4172,6 +4202,8 @@ class EvaluateMappingTemplateResponse {
 }
 
 /// Represents the output of a <code>FlushApiCache</code> operation.
+///
+/// @nodoc
 class FlushApiCacheResponse {
   FlushApiCacheResponse();
 
@@ -4184,6 +4216,7 @@ class FlushApiCacheResponse {
   }
 }
 
+/// @nodoc
 class GetApiResponse {
   /// The <code>Api</code> object.
   final Api? api;
@@ -4208,6 +4241,7 @@ class GetApiResponse {
   }
 }
 
+/// @nodoc
 class GetApiAssociationResponse {
   /// The <code>ApiAssociation</code> object.
   final ApiAssociation? apiAssociation;
@@ -4234,6 +4268,8 @@ class GetApiAssociationResponse {
 }
 
 /// Represents the output of a <code>GetApiCache</code> operation.
+///
+/// @nodoc
 class GetApiCacheResponse {
   /// The <code>ApiCache</code> object.
   final ApiCache? apiCache;
@@ -4258,6 +4294,7 @@ class GetApiCacheResponse {
   }
 }
 
+/// @nodoc
 class GetChannelNamespaceResponse {
   /// The <code>ChannelNamespace</code> object.
   final ChannelNamespace? channelNamespace;
@@ -4283,6 +4320,7 @@ class GetChannelNamespaceResponse {
   }
 }
 
+/// @nodoc
 class GetDataSourceResponse {
   /// The <code>DataSource</code> object.
   final DataSource? dataSource;
@@ -4307,6 +4345,7 @@ class GetDataSourceResponse {
   }
 }
 
+/// @nodoc
 class GetDataSourceIntrospectionResponse {
   /// The introspection ID. Each introspection contains a unique ID that can be
   /// used to reference the instrospection record.
@@ -4367,6 +4406,7 @@ class GetDataSourceIntrospectionResponse {
   }
 }
 
+/// @nodoc
 class GetDomainNameResponse {
   /// The configuration for the <code>DomainName</code>.
   final DomainNameConfig? domainNameConfig;
@@ -4392,6 +4432,7 @@ class GetDomainNameResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionResponse {
   /// The <code>Function</code> object.
   final FunctionConfiguration? functionConfiguration;
@@ -4418,6 +4459,7 @@ class GetFunctionResponse {
   }
 }
 
+/// @nodoc
 class GetGraphqlApiResponse {
   /// The <code>GraphqlApi</code> object.
   final GraphqlApi? graphqlApi;
@@ -4442,6 +4484,7 @@ class GetGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class GetGraphqlApiEnvironmentVariablesResponse {
   /// The payload containing each environmental variable in the <code>"key" :
   /// "value"</code> format.
@@ -4469,6 +4512,7 @@ class GetGraphqlApiEnvironmentVariablesResponse {
   }
 }
 
+/// @nodoc
 class GetIntrospectionSchemaResponse {
   /// The schema, in GraphQL Schema Definition Language (SDL) format.
   ///
@@ -4488,6 +4532,7 @@ class GetIntrospectionSchemaResponse {
   }
 }
 
+/// @nodoc
 class GetResolverResponse {
   /// The <code>Resolver</code> object.
   final Resolver? resolver;
@@ -4512,6 +4557,7 @@ class GetResolverResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaCreationStatusResponse {
   /// Detailed information about the status of the schema creation operation.
   final String? details;
@@ -4542,6 +4588,7 @@ class GetSchemaCreationStatusResponse {
   }
 }
 
+/// @nodoc
 class GetSourceApiAssociationResponse {
   /// The <code>SourceApiAssociation</code> object data.
   final SourceApiAssociation? sourceApiAssociation;
@@ -4568,6 +4615,7 @@ class GetSourceApiAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetTypeResponse {
   /// The <code>Type</code> object.
   final Type? type;
@@ -4592,6 +4640,7 @@ class GetTypeResponse {
   }
 }
 
+/// @nodoc
 class ListApiKeysResponse {
   /// The <code>ApiKey</code> objects.
   final List<ApiKey>? apiKeys;
@@ -4625,6 +4674,7 @@ class ListApiKeysResponse {
   }
 }
 
+/// @nodoc
 class ListApisResponse {
   /// The <code>Api</code> objects.
   final List<Api>? apis;
@@ -4658,6 +4708,7 @@ class ListApisResponse {
   }
 }
 
+/// @nodoc
 class ListChannelNamespacesResponse {
   /// The <code>ChannelNamespace</code> objects.
   final List<ChannelNamespace>? channelNamespaces;
@@ -4691,6 +4742,7 @@ class ListChannelNamespacesResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourcesResponse {
   /// The <code>DataSource</code> objects.
   final List<DataSource>? dataSources;
@@ -4724,6 +4776,7 @@ class ListDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListDomainNamesResponse {
   /// Lists configurations for multiple domain names.
   final List<DomainNameConfig>? domainNameConfigs;
@@ -4757,6 +4810,7 @@ class ListDomainNamesResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionsResponse {
   /// A list of <code>Function</code> objects.
   final List<FunctionConfiguration>? functions;
@@ -4790,6 +4844,7 @@ class ListFunctionsResponse {
   }
 }
 
+/// @nodoc
 class ListGraphqlApisResponse {
   /// The <code>GraphqlApi</code> objects.
   final List<GraphqlApi>? graphqlApis;
@@ -4823,6 +4878,7 @@ class ListGraphqlApisResponse {
   }
 }
 
+/// @nodoc
 class ListResolversResponse {
   /// An identifier to pass in the next request to this operation to return the
   /// next set of items in the list.
@@ -4856,6 +4912,7 @@ class ListResolversResponse {
   }
 }
 
+/// @nodoc
 class ListResolversByFunctionResponse {
   /// An identifier that you can use to return the next set of items in the list.
   final String? nextToken;
@@ -4888,6 +4945,7 @@ class ListResolversByFunctionResponse {
   }
 }
 
+/// @nodoc
 class ListSourceApiAssociationsResponse {
   /// An identifier that was returned from the previous call to this operation,
   /// which you can use to return the next set of items in the list.
@@ -4925,6 +4983,7 @@ class ListSourceApiAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A <code>TagMap</code> object.
   final Map<String, String>? tags;
@@ -4948,6 +5007,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTypesResponse {
   /// An identifier to pass in the next request to this operation to return the
   /// next set of items in the list.
@@ -4981,6 +5041,7 @@ class ListTypesResponse {
   }
 }
 
+/// @nodoc
 class ListTypesByAssociationResponse {
   /// An identifier that was returned from the previous call to this operation,
   /// which you can use to return the next set of items in the list.
@@ -5014,6 +5075,7 @@ class ListTypesByAssociationResponse {
   }
 }
 
+/// @nodoc
 class PutGraphqlApiEnvironmentVariablesResponse {
   /// The payload containing each environmental variable in the <code>"key" :
   /// "value"</code> format.
@@ -5041,6 +5103,7 @@ class PutGraphqlApiEnvironmentVariablesResponse {
   }
 }
 
+/// @nodoc
 class StartDataSourceIntrospectionResponse {
   /// The introspection ID. Each introspection contains a unique ID that can be
   /// used to reference the instrospection record.
@@ -5090,6 +5153,7 @@ class StartDataSourceIntrospectionResponse {
   }
 }
 
+/// @nodoc
 class StartSchemaCreationResponse {
   /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or
   /// NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
@@ -5113,6 +5177,7 @@ class StartSchemaCreationResponse {
   }
 }
 
+/// @nodoc
 class StartSchemaMergeResponse {
   /// The state of the source API association.
   final SourceApiAssociationStatus? sourceApiAssociationStatus;
@@ -5138,6 +5203,7 @@ class StartSchemaMergeResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5150,6 +5216,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5162,6 +5229,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApiResponse {
   /// The <code>Api</code> object.
   final Api? api;
@@ -5187,6 +5255,8 @@ class UpdateApiResponse {
 }
 
 /// Represents the output of a <code>UpdateApiCache</code> operation.
+///
+/// @nodoc
 class UpdateApiCacheResponse {
   /// The <code>ApiCache</code> object.
   final ApiCache? apiCache;
@@ -5211,6 +5281,7 @@ class UpdateApiCacheResponse {
   }
 }
 
+/// @nodoc
 class UpdateApiKeyResponse {
   /// The API key.
   final ApiKey? apiKey;
@@ -5235,6 +5306,7 @@ class UpdateApiKeyResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelNamespaceResponse {
   /// The <code>ChannelNamespace</code> object.
   final ChannelNamespace? channelNamespace;
@@ -5260,6 +5332,7 @@ class UpdateChannelNamespaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSourceResponse {
   /// The updated <code>DataSource</code> object.
   final DataSource? dataSource;
@@ -5284,6 +5357,7 @@ class UpdateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainNameResponse {
   /// The configuration for the <code>DomainName</code>.
   final DomainNameConfig? domainNameConfig;
@@ -5309,6 +5383,7 @@ class UpdateDomainNameResponse {
   }
 }
 
+/// @nodoc
 class UpdateFunctionResponse {
   /// The <code>Function</code> object.
   final FunctionConfiguration? functionConfiguration;
@@ -5335,6 +5410,7 @@ class UpdateFunctionResponse {
   }
 }
 
+/// @nodoc
 class UpdateGraphqlApiResponse {
   /// The updated <code>GraphqlApi</code> object.
   final GraphqlApi? graphqlApi;
@@ -5359,6 +5435,7 @@ class UpdateGraphqlApiResponse {
   }
 }
 
+/// @nodoc
 class UpdateResolverResponse {
   /// The updated <code>Resolver</code> object.
   final Resolver? resolver;
@@ -5383,6 +5460,7 @@ class UpdateResolverResponse {
   }
 }
 
+/// @nodoc
 class UpdateSourceApiAssociationResponse {
   /// The <code>SourceApiAssociation</code> object data.
   final SourceApiAssociation? sourceApiAssociation;
@@ -5410,6 +5488,7 @@ class UpdateSourceApiAssociationResponse {
   }
 }
 
+/// @nodoc
 class UpdateTypeResponse {
   /// The updated <code>Type</code> object.
   final Type? type;
@@ -5435,6 +5514,8 @@ class UpdateTypeResponse {
 }
 
 /// Describes a type.
+///
+/// @nodoc
 class Type {
   /// The type Amazon Resource Name (ARN).
   final String? arn;
@@ -5485,6 +5566,7 @@ class Type {
   }
 }
 
+/// @nodoc
 class TypeDefinitionFormat {
   static const sdl = TypeDefinitionFormat._('SDL');
   static const json = TypeDefinitionFormat._('JSON');
@@ -5522,6 +5604,8 @@ class TypeDefinitionFormat {
 /// href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">What is
 /// Amazon Web Services Resource Access Manager?</a> in the <i>Amazon Web
 /// Services Resource Access Manager</i> guide.
+///
+/// @nodoc
 class SourceApiAssociation {
   /// The Amazon Resource Name (ARN) of the source API association.
   final String? associationArn;
@@ -5629,6 +5713,8 @@ class SourceApiAssociation {
 }
 
 /// Describes properties used to specify configurations related to a source API.
+///
+/// @nodoc
 class SourceApiAssociationConfig {
   /// The property that indicates which merging option is enabled in the source
   /// API association.
@@ -5660,6 +5746,7 @@ class SourceApiAssociationConfig {
   }
 }
 
+/// @nodoc
 class SourceApiAssociationStatus {
   static const mergeScheduled = SourceApiAssociationStatus._('MERGE_SCHEDULED');
   static const mergeFailed = SourceApiAssociationStatus._('MERGE_FAILED');
@@ -5704,6 +5791,7 @@ class SourceApiAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MergeType {
   static const manualMerge = MergeType._('MANUAL_MERGE');
   static const autoMerge = MergeType._('AUTO_MERGE');
@@ -5728,6 +5816,8 @@ class MergeType {
 }
 
 /// Describes a resolver.
+///
+/// @nodoc
 class Resolver {
   /// The caching configuration for the resolver.
   final CachingConfig? cachingConfig;
@@ -5879,6 +5969,7 @@ class Resolver {
   }
 }
 
+/// @nodoc
 class ResolverKind {
   static const unit = ResolverKind._('UNIT');
   static const pipeline = ResolverKind._('PIPELINE');
@@ -5903,6 +5994,8 @@ class ResolverKind {
 }
 
 /// The pipeline configuration for a resolver of kind <code>PIPELINE</code>.
+///
+/// @nodoc
 class PipelineConfig {
   /// A list of <code>Function</code> objects.
   final List<String>? functions;
@@ -5932,6 +6025,8 @@ class PipelineConfig {
 ///
 /// Specifies which Conflict Detection strategy and Resolution strategy to use
 /// when the resolver is invoked.
+///
+/// @nodoc
 class SyncConfig {
   /// The Conflict Detection strategy to use.
   ///
@@ -6001,6 +6096,8 @@ class SyncConfig {
 }
 
 /// The caching configuration for a resolver that has caching activated.
+///
+/// @nodoc
 class CachingConfig {
   /// The TTL in seconds for a resolver that has caching activated.
   ///
@@ -6042,6 +6139,8 @@ class CachingConfig {
 /// or Amazon Web Services AppSync function. Specifies the name and version of
 /// the runtime to use. Note that if a runtime is specified, code must also be
 /// specified.
+///
+/// @nodoc
 class AppSyncRuntime {
   /// The <code>name</code> of the runtime to use. Currently, the only allowed
   /// value is <code>APPSYNC_JS</code>.
@@ -6073,6 +6172,7 @@ class AppSyncRuntime {
   }
 }
 
+/// @nodoc
 class ResolverLevelMetricsConfig {
   static const enabled = ResolverLevelMetricsConfig._('ENABLED');
   static const disabled = ResolverLevelMetricsConfig._('DISABLED');
@@ -6098,6 +6198,7 @@ class ResolverLevelMetricsConfig {
   String toString() => value;
 }
 
+/// @nodoc
 class RuntimeName {
   static const appsyncJs = RuntimeName._('APPSYNC_JS');
 
@@ -6120,6 +6221,7 @@ class RuntimeName {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictHandlerType {
   static const optimisticConcurrency =
       ConflictHandlerType._('OPTIMISTIC_CONCURRENCY');
@@ -6148,6 +6250,7 @@ class ConflictHandlerType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictDetectionType {
   static const version = ConflictDetectionType._('VERSION');
   static const none = ConflictDetectionType._('NONE');
@@ -6175,6 +6278,8 @@ class ConflictDetectionType {
 
 /// The <code>LambdaConflictHandlerConfig</code> object when configuring
 /// <code>LAMBDA</code> as the Conflict Handler.
+///
+/// @nodoc
 class LambdaConflictHandlerConfig {
   /// The Amazon Resource Name (ARN) for the Lambda function to use as the
   /// Conflict Handler.
@@ -6200,6 +6305,8 @@ class LambdaConflictHandlerConfig {
 }
 
 /// Describes a GraphQL API.
+///
+/// @nodoc
 class GraphqlApi {
   /// A list of additional authentication providers for the
   /// <code>GraphqlApi</code> API.
@@ -6442,6 +6549,7 @@ class GraphqlApi {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const apiKey = AuthenticationType._('API_KEY');
   static const awsIam = AuthenticationType._('AWS_IAM');
@@ -6478,6 +6586,8 @@ class AuthenticationType {
 }
 
 /// The Amazon CloudWatch Logs configuration.
+///
+/// @nodoc
 class LogConfig {
   /// The service role that AppSync assumes to publish to CloudWatch logs in your
   /// account.
@@ -6551,6 +6661,8 @@ class LogConfig {
 }
 
 /// Describes an Amazon Cognito user pool configuration.
+///
+/// @nodoc
 class UserPoolConfig {
   /// The Amazon Web Services Region in which the user pool was created.
   final String awsRegion;
@@ -6599,6 +6711,8 @@ class UserPoolConfig {
 }
 
 /// Describes an OpenID Connect (OIDC) configuration.
+///
+/// @nodoc
 class OpenIDConnectConfig {
   /// The issuer for the OIDC configuration. The issuer returned by discovery must
   /// exactly match the value of <code>iss</code> in the ID token.
@@ -6650,6 +6764,8 @@ class OpenIDConnectConfig {
 /// A <code>LambdaAuthorizerConfig</code> specifies how to authorize AppSync API
 /// access when using the <code>AWS_LAMBDA</code> authorizer mode. Be aware that
 /// an AppSync API can have only one Lambda authorizer configured at a time.
+///
+/// @nodoc
 class LambdaAuthorizerConfig {
   /// The Amazon Resource Name (ARN) of the Lambda function to be called for
   /// authorization. This can be a standard Lambda ARN, a version ARN
@@ -6707,6 +6823,7 @@ class LambdaAuthorizerConfig {
   }
 }
 
+/// @nodoc
 class GraphQLApiVisibility {
   static const global = GraphQLApiVisibility._('GLOBAL');
   static const private = GraphQLApiVisibility._('PRIVATE');
@@ -6732,6 +6849,7 @@ class GraphQLApiVisibility {
   String toString() => value;
 }
 
+/// @nodoc
 class GraphQLApiType {
   static const graphql = GraphQLApiType._('GRAPHQL');
   static const merged = GraphQLApiType._('MERGED');
@@ -6756,6 +6874,7 @@ class GraphQLApiType {
   String toString() => value;
 }
 
+/// @nodoc
 class GraphQLApiIntrospectionConfig {
   static const enabled = GraphQLApiIntrospectionConfig._('ENABLED');
   static const disabled = GraphQLApiIntrospectionConfig._('DISABLED');
@@ -6875,6 +6994,8 @@ class GraphQLApiIntrospectionConfig {
 /// Metrics will be recorded by API ID and operation name. You can set the value
 /// to <code>ENABLED</code> or <code>DISABLED</code>.
 /// </li> </ol>
+///
+/// @nodoc
 class EnhancedMetricsConfig {
   /// Controls how data source metrics will be emitted to CloudWatch. Data source
   /// metrics include:
@@ -6991,6 +7112,7 @@ class EnhancedMetricsConfig {
   }
 }
 
+/// @nodoc
 class ResolverLevelMetricsBehavior {
   static const fullRequestResolverMetrics =
       ResolverLevelMetricsBehavior._('FULL_REQUEST_RESOLVER_METRICS');
@@ -7018,6 +7140,7 @@ class ResolverLevelMetricsBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceLevelMetricsBehavior {
   static const fullRequestDataSourceMetrics =
       DataSourceLevelMetricsBehavior._('FULL_REQUEST_DATA_SOURCE_METRICS');
@@ -7045,6 +7168,7 @@ class DataSourceLevelMetricsBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationLevelMetricsConfig {
   static const enabled = OperationLevelMetricsConfig._('ENABLED');
   static const disabled = OperationLevelMetricsConfig._('DISABLED');
@@ -7071,6 +7195,8 @@ class OperationLevelMetricsConfig {
 }
 
 /// Describes an additional authentication provider.
+///
+/// @nodoc
 class AdditionalAuthenticationProvider {
   /// The authentication type: API key, Identity and Access Management (IAM),
   /// OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
@@ -7129,6 +7255,8 @@ class AdditionalAuthenticationProvider {
 }
 
 /// Describes an Amazon Cognito user pool configuration.
+///
+/// @nodoc
 class CognitoUserPoolConfig {
   /// The Amazon Web Services Region in which the user pool was created.
   final String awsRegion;
@@ -7166,6 +7294,7 @@ class CognitoUserPoolConfig {
   }
 }
 
+/// @nodoc
 class DefaultAction {
   static const allow = DefaultAction._('ALLOW');
   static const deny = DefaultAction._('DENY');
@@ -7190,6 +7319,7 @@ class DefaultAction {
   String toString() => value;
 }
 
+/// @nodoc
 class FieldLogLevel {
   static const none = FieldLogLevel._('NONE');
   static const error = FieldLogLevel._('ERROR');
@@ -7219,6 +7349,8 @@ class FieldLogLevel {
 
 /// A function is a reusable entity. You can use multiple functions to compose
 /// the resolver logic.
+///
+/// @nodoc
 class FunctionConfiguration {
   /// The <code>function</code> code that contains the request and response
   /// functions. When code is used, the <code>runtime</code> is required. The
@@ -7325,6 +7457,8 @@ class FunctionConfiguration {
 }
 
 /// Describes a configuration for a custom domain.
+///
+/// @nodoc
 class DomainNameConfig {
   /// The domain name that AppSync provides.
   final String? appsyncDomainName;
@@ -7391,6 +7525,8 @@ class DomainNameConfig {
 }
 
 /// Describes a data source.
+///
+/// @nodoc
 class DataSource {
   /// The data source Amazon Resource Name (ARN).
   final String? dataSourceArn;
@@ -7571,6 +7707,7 @@ class DataSource {
   }
 }
 
+/// @nodoc
 class DataSourceType {
   static const awsLambda = DataSourceType._('AWS_LAMBDA');
   static const amazonDynamodb = DataSourceType._('AMAZON_DYNAMODB');
@@ -7615,6 +7752,8 @@ class DataSourceType {
 }
 
 /// Describes an Amazon DynamoDB data source configuration.
+///
+/// @nodoc
 class DynamodbDataSourceConfig {
   /// The Amazon Web Services Region.
   final String awsRegion;
@@ -7670,6 +7809,8 @@ class DynamodbDataSourceConfig {
 }
 
 /// Describes an Lambda data source configuration.
+///
+/// @nodoc
 class LambdaDataSourceConfig {
   /// The Amazon Resource Name (ARN) for the Lambda function.
   final String lambdaFunctionArn;
@@ -7698,6 +7839,8 @@ class LambdaDataSourceConfig {
 /// Service. This configuration is deprecated. For new data sources, use
 /// <a>OpenSearchServiceDataSourceConfig</a> to specify an OpenSearch data
 /// source.
+///
+/// @nodoc
 class ElasticsearchDataSourceConfig {
   /// The Amazon Web Services Region.
   final String awsRegion;
@@ -7728,6 +7871,8 @@ class ElasticsearchDataSourceConfig {
 }
 
 /// Describes an OpenSearch data source configuration.
+///
+/// @nodoc
 class OpenSearchServiceDataSourceConfig {
   /// The Amazon Web Services Region.
   final String awsRegion;
@@ -7759,6 +7904,8 @@ class OpenSearchServiceDataSourceConfig {
 }
 
 /// Describes an HTTP data source configuration.
+///
+/// @nodoc
 class HttpDataSourceConfig {
   /// The authorization configuration in case the HTTP endpoint requires
   /// authorization.
@@ -7797,6 +7944,8 @@ class HttpDataSourceConfig {
 }
 
 /// Describes a relational database data source configuration.
+///
+/// @nodoc
 class RelationalDatabaseDataSourceConfig {
   /// Amazon RDS HTTP endpoint settings.
   final RdsHttpEndpointConfig? rdsHttpEndpointConfig;
@@ -7842,6 +7991,8 @@ class RelationalDatabaseDataSourceConfig {
 }
 
 /// Describes an Amazon EventBridge bus data source configuration.
+///
+/// @nodoc
 class EventBridgeDataSourceConfig {
   /// The ARN of the event bus. For more information about event buses, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus.html">Amazon
@@ -7866,6 +8017,7 @@ class EventBridgeDataSourceConfig {
   }
 }
 
+/// @nodoc
 class DataSourceLevelMetricsConfig {
   static const enabled = DataSourceLevelMetricsConfig._('ENABLED');
   static const disabled = DataSourceLevelMetricsConfig._('DISABLED');
@@ -7891,6 +8043,7 @@ class DataSourceLevelMetricsConfig {
   String toString() => value;
 }
 
+/// @nodoc
 class RelationalDatabaseSourceType {
   static const rdsHttpEndpoint =
       RelationalDatabaseSourceType._('RDS_HTTP_ENDPOINT');
@@ -7918,6 +8071,8 @@ class RelationalDatabaseSourceType {
 
 /// The Amazon Relational Database Service (Amazon RDS) HTTP endpoint
 /// configuration.
+///
+/// @nodoc
 class RdsHttpEndpointConfig {
   /// Amazon Web Services Region for Amazon RDS HTTP endpoint.
   final String? awsRegion;
@@ -7972,6 +8127,8 @@ class RdsHttpEndpointConfig {
 
 /// The authorization configuration in case the HTTP endpoint requires
 /// authorization.
+///
+/// @nodoc
 class AuthorizationConfig {
   /// The authorization type that the HTTP endpoint requires.
   ///
@@ -8010,6 +8167,7 @@ class AuthorizationConfig {
   }
 }
 
+/// @nodoc
 class AuthorizationType {
   static const awsIam = AuthorizationType._('AWS_IAM');
 
@@ -8034,6 +8192,8 @@ class AuthorizationType {
 }
 
 /// The Identity and Access Management (IAM) configuration.
+///
+/// @nodoc
 class AwsIamConfig {
   /// The signing Amazon Web Services Region for IAM authorization.
   final String? signingRegion;
@@ -8064,6 +8224,8 @@ class AwsIamConfig {
 }
 
 /// Describes a Delta Sync configuration.
+///
+/// @nodoc
 class DeltaSyncConfig {
   /// The number of minutes that an Item is stored in the data source.
   final int? baseTableTTL;
@@ -8104,6 +8266,8 @@ class DeltaSyncConfig {
 /// Describes a channel namespace associated with an <code>Api</code>. The
 /// <code>ChannelNamespace</code> contains the definitions for code handlers for
 /// the <code>Api</code>.
+///
+/// @nodoc
 class ChannelNamespace {
   /// The <code>Api</code> ID.
   final String? apiId;
@@ -8208,6 +8372,8 @@ class ChannelNamespace {
 
 /// The configuration for the <code>OnPublish</code> and
 /// <code>OnSubscribe</code> handlers.
+///
+/// @nodoc
 class HandlerConfigs {
   /// The configuration for the <code>OnPublish</code> handler.
   final HandlerConfig? onPublish;
@@ -8242,6 +8408,8 @@ class HandlerConfigs {
 }
 
 /// The configuration for a handler.
+///
+/// @nodoc
 class HandlerConfig {
   /// The behavior for the handler.
   final HandlerBehavior behavior;
@@ -8273,6 +8441,7 @@ class HandlerConfig {
   }
 }
 
+/// @nodoc
 class HandlerBehavior {
   static const code = HandlerBehavior._('CODE');
   static const direct = HandlerBehavior._('DIRECT');
@@ -8298,6 +8467,8 @@ class HandlerBehavior {
 }
 
 /// The integration data source configuration for the handler.
+///
+/// @nodoc
 class Integration {
   /// The unique name of the data source that has been configured on the API.
   final String dataSourceName;
@@ -8330,6 +8501,8 @@ class Integration {
 }
 
 /// The configuration for a Lambda data source.
+///
+/// @nodoc
 class LambdaConfig {
   /// The invocation type for a Lambda data source.
   final InvokeType? invokeType;
@@ -8352,6 +8525,7 @@ class LambdaConfig {
   }
 }
 
+/// @nodoc
 class InvokeType {
   static const requestResponse = InvokeType._('REQUEST_RESPONSE');
   static const event = InvokeType._('EVENT');
@@ -8378,6 +8552,8 @@ class InvokeType {
 /// Describes an authorization configuration. Use <code>AuthMode</code> to
 /// specify the publishing and subscription authorization configuration for an
 /// Event API.
+///
+/// @nodoc
 class AuthMode {
   /// The authorization type.
   final AuthenticationType authType;
@@ -8462,6 +8638,8 @@ class AuthMode {
 /// time.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ApiKey {
   /// The time after which the API key is deleted. The date is represented as
   /// seconds since the epoch, rounded down to the nearest hour.
@@ -8508,6 +8686,8 @@ class ApiKey {
 }
 
 /// The <code>ApiCache</code> object.
+///
+/// @nodoc
 class ApiCache {
   /// Caching behavior.
   ///
@@ -8689,6 +8869,7 @@ class ApiCache {
   }
 }
 
+/// @nodoc
 class ApiCachingBehavior {
   static const fullRequestCaching =
       ApiCachingBehavior._('FULL_REQUEST_CACHING');
@@ -8722,6 +8903,7 @@ class ApiCachingBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiCacheType {
   static const t2Small = ApiCacheType._('T2_SMALL');
   static const t2Medium = ApiCacheType._('T2_MEDIUM');
@@ -8774,6 +8956,7 @@ class ApiCacheType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApiCacheStatus {
   static const available = ApiCacheStatus._('AVAILABLE');
   static const creating = ApiCacheStatus._('CREATING');
@@ -8801,6 +8984,7 @@ class ApiCacheStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CacheHealthMetricsConfig {
   static const enabled = CacheHealthMetricsConfig._('ENABLED');
   static const disabled = CacheHealthMetricsConfig._('DISABLED');
@@ -8829,6 +9013,8 @@ class CacheHealthMetricsConfig {
 /// Describes an AppSync API. You can use <code>Api</code> for an AppSync API
 /// with your preferred configuration, such as an Event API that provides
 /// real-time message publishing and message subscriptions over WebSockets.
+///
+/// @nodoc
 class Api {
   /// The Amazon Resource Name (ARN) for the <code>Api</code>.
   final String? apiArn;
@@ -8921,6 +9107,8 @@ class Api {
 
 /// Describes the authorization configuration for connections, message
 /// publishing, message subscriptions, and logging for an Event API.
+///
+/// @nodoc
 class EventConfig {
   /// A list of authorization providers.
   final List<AuthProvider> authProviders;
@@ -8988,6 +9176,8 @@ class EventConfig {
 }
 
 /// Describes the CloudWatch Logs configuration for the Event API.
+///
+/// @nodoc
 class EventLogConfig {
   /// The IAM service role that AppSync assumes to publish CloudWatch Logs in your
   /// account.
@@ -9018,6 +9208,7 @@ class EventLogConfig {
   }
 }
 
+/// @nodoc
 class EventLogLevel {
   static const none = EventLogLevel._('NONE');
   static const error = EventLogLevel._('ERROR');
@@ -9046,6 +9237,8 @@ class EventLogLevel {
 }
 
 /// Describes an authorization provider.
+///
+/// @nodoc
 class AuthProvider {
   /// The authorization type.
   final AuthenticationType authType;
@@ -9098,6 +9291,8 @@ class AuthProvider {
 }
 
 /// Describes an Amazon Cognito configuration.
+///
+/// @nodoc
 class CognitoConfig {
   /// The Amazon Web Services Region in which the user pool was created.
   final String awsRegion;
@@ -9135,6 +9330,7 @@ class CognitoConfig {
   }
 }
 
+/// @nodoc
 class SchemaStatus {
   static const processing = SchemaStatus._('PROCESSING');
   static const active = SchemaStatus._('ACTIVE');
@@ -9169,6 +9365,7 @@ class SchemaStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceIntrospectionStatus {
   static const processing = DataSourceIntrospectionStatus._('PROCESSING');
   static const failed = DataSourceIntrospectionStatus._('FAILED');
@@ -9196,6 +9393,8 @@ class DataSourceIntrospectionStatus {
 }
 
 /// Contains the metadata required to introspect the RDS cluster.
+///
+/// @nodoc
 class RdsDataApiConfig {
   /// The name of the database in the cluster.
   final String databaseName;
@@ -9229,6 +9428,8 @@ class RdsDataApiConfig {
 }
 
 /// Describes the ARNs and IDs of associations, Merged APIs, and source APIs.
+///
+/// @nodoc
 class SourceApiAssociationSummary {
   /// The Amazon Resource Name (ARN) of the source API association.
   final String? associationArn;
@@ -9293,6 +9494,7 @@ class SourceApiAssociationSummary {
   }
 }
 
+/// @nodoc
 class Ownership {
   static const currentAccount = Ownership._('CURRENT_ACCOUNT');
   static const otherAccounts = Ownership._('OTHER_ACCOUNTS');
@@ -9316,6 +9518,7 @@ class Ownership {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputType {
   static const sdl = OutputType._('SDL');
   static const json = OutputType._('JSON');
@@ -9342,6 +9545,8 @@ class OutputType {
 /// Represents the output of a <code>DataSourceIntrospectionResult</code>. This
 /// is the populated result of a <code>GetDataSourceIntrospection</code>
 /// operation.
+///
+/// @nodoc
 class DataSourceIntrospectionResult {
   /// The array of <code>DataSourceIntrospectionModel</code> objects.
   final List<DataSourceIntrospectionModel>? models;
@@ -9378,6 +9583,8 @@ class DataSourceIntrospectionResult {
 }
 
 /// Contains the introspected data that was retrieved from the data source.
+///
+/// @nodoc
 class DataSourceIntrospectionModel {
   /// The <code>DataSourceIntrospectionModelField</code> object data.
   final List<DataSourceIntrospectionModelField>? fields;
@@ -9444,6 +9651,8 @@ class DataSourceIntrospectionModel {
 }
 
 /// The index that was retrieved from the introspected data.
+///
+/// @nodoc
 class DataSourceIntrospectionModelIndex {
   /// The fields of the index.
   final List<String>? fields;
@@ -9476,6 +9685,8 @@ class DataSourceIntrospectionModelIndex {
 }
 
 /// Represents the fields that were retrieved from the introspected data.
+///
+/// @nodoc
 class DataSourceIntrospectionModelField {
   /// The length value of the introspected field.
   final int? length;
@@ -9517,6 +9728,8 @@ class DataSourceIntrospectionModelField {
 }
 
 /// Represents the type data for each field retrieved from the introspection.
+///
+/// @nodoc
 class DataSourceIntrospectionModelFieldType {
   /// Specifies the classification of data. For example, this could be set to
   /// values like <code>Scalar</code> or <code>NonNull</code> to indicate a
@@ -9594,6 +9807,8 @@ class DataSourceIntrospectionModelFieldType {
 }
 
 /// Describes an <code>ApiAssociation</code> object.
+///
+/// @nodoc
 class ApiAssociation {
   /// The API ID.
   final String? apiId;
@@ -9654,6 +9869,7 @@ class ApiAssociation {
   }
 }
 
+/// @nodoc
 class AssociationStatus {
   static const processing = AssociationStatus._('PROCESSING');
   static const failed = AssociationStatus._('FAILED');
@@ -9681,6 +9897,8 @@ class AssociationStatus {
 
 /// Contains the list of errors generated. When using JavaScript, this will
 /// apply to the request or response function evaluation.
+///
+/// @nodoc
 class ErrorDetail {
   /// The error payload.
   final String? message;
@@ -9704,6 +9922,8 @@ class ErrorDetail {
 }
 
 /// Contains the list of errors from a code evaluation response.
+///
+/// @nodoc
 class EvaluateCodeErrorDetail {
   /// Contains the list of <code>CodeError</code> objects.
   final List<CodeError>? codeErrors;
@@ -9737,6 +9957,8 @@ class EvaluateCodeErrorDetail {
 }
 
 /// Describes an AppSync error.
+///
+/// @nodoc
 class CodeError {
   /// The type of code error.
   ///
@@ -9782,6 +10004,8 @@ class CodeError {
 }
 
 /// Describes the location of the error in a code sample.
+///
+/// @nodoc
 class CodeErrorLocation {
   /// The column number in the code. Defaults to <code>0</code> if unknown.
   final int? column;
@@ -9818,17 +10042,20 @@ class CodeErrorLocation {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ApiKeyLimitExceededException extends _s.GenericAwsException {
   ApiKeyLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ApiKeyLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ApiKeyValidityOutOfBoundsException extends _s.GenericAwsException {
   ApiKeyValidityOutOfBoundsException({String? type, String? message})
       : super(
@@ -9837,16 +10064,19 @@ class ApiKeyValidityOutOfBoundsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApiLimitExceededException extends _s.GenericAwsException {
   ApiLimitExceededException({String? type, String? message})
       : super(type: type, code: 'ApiLimitExceededException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -9855,31 +10085,37 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class GraphQLSchemaException extends _s.GenericAwsException {
   GraphQLSchemaException({String? type, String? message})
       : super(type: type, code: 'GraphQLSchemaException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -9888,6 +10124,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

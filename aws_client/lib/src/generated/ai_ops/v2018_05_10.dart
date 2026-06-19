@@ -507,12 +507,12 @@ class AIOps {
   /// alarms to create investigations and add events to investigations, you must
   /// use this operation to create a policy similar to this example.
   ///
-  /// <code> { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow",
+  /// <code> { "Version": "2008-10-17", "Statement": \[ { "Effect": "Allow",
   /// "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" },
-  /// "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent"
-  /// ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount":
+  /// "Action": \[ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent"
+  /// \], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount":
   /// "account-id" }, "ArnLike": { "aws:SourceArn":
-  /// "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } </code>
+  /// "arn:aws:cloudwatch:region:account-id:alarm:*" } } } \] } </code>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -546,7 +546,7 @@ class AIOps {
 
   /// Returns the JSON of the IAM resource policy associated with the specified
   /// investigation group in a string. For example,
-  /// <code>{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}</code>.
+  /// <code>{\"Version\":\"2012-10-17\",\"Statement\":\[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":\[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"\],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}\]}</code>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -595,6 +595,7 @@ class AIOps {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tag keys and values associated with the resource you specified.
   final Map<String, String>? tags;
@@ -618,6 +619,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -630,6 +632,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -642,6 +645,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateInvestigationGroupOutput {
   /// The ARN of the investigation group that you just created.
   final String? arn;
@@ -664,6 +668,7 @@ class CreateInvestigationGroupOutput {
   }
 }
 
+/// @nodoc
 class GetInvestigationGroupResponse {
   /// The Amazon Resource Name (ARN) of the investigation group.
   final String? arn;
@@ -805,6 +810,7 @@ class GetInvestigationGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateInvestigationGroupOutput {
   UpdateInvestigationGroupOutput();
 
@@ -817,6 +823,7 @@ class UpdateInvestigationGroupOutput {
   }
 }
 
+/// @nodoc
 class ListInvestigationGroupsOutput {
   /// An array of structures, where each structure contains the information about
   /// one investigation group in the account.
@@ -853,6 +860,7 @@ class ListInvestigationGroupsOutput {
   }
 }
 
+/// @nodoc
 class PutInvestigationGroupPolicyResponse {
   /// The ARN of the investigation group that will use this policy.
   final String? investigationGroupArn;
@@ -877,6 +885,7 @@ class PutInvestigationGroupPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetInvestigationGroupPolicyResponse {
   /// The Amazon Resource Name (ARN) of the investigation group that you want to
   /// view the policy of.
@@ -909,6 +918,7 @@ class GetInvestigationGroupPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteInvestigationGroupPolicyOutput {
   DeleteInvestigationGroupPolicyOutput();
 
@@ -924,6 +934,8 @@ class DeleteInvestigationGroupPolicyOutput {
 
 /// This structure contains information about one investigation group in the
 /// account.
+///
+/// @nodoc
 class ListInvestigationGroupsModel {
   /// The Amazon Resource Name (ARN) of the investigation group.
   final String? arn;
@@ -955,6 +967,8 @@ class ListInvestigationGroupsModel {
 
 /// Use this structure to specify a customer managed KMS key to use to encrypt
 /// investigation data.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// If the investigation group uses a customer managed key for encryption, this
   /// field displays the ID of that key.
@@ -989,6 +1003,8 @@ class EncryptionConfiguration {
 
 /// This structure contains information about the cross-account configuration in
 /// the account.
+///
+/// @nodoc
 class CrossAccountConfiguration {
   /// The ARN of an existing role which will be used to do investigations on your
   /// behalf.
@@ -1012,6 +1028,7 @@ class CrossAccountConfiguration {
   }
 }
 
+/// @nodoc
 class EncryptionConfigurationType {
   static const awsOwnedKey = EncryptionConfigurationType._('AWS_OWNED_KEY');
   static const customerManagedKmsKey =
@@ -1038,26 +1055,31 @@ class EncryptionConfigurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1066,11 +1088,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -3790,6 +3790,7 @@ class BedrockAgent {
   }
 }
 
+/// @nodoc
 class ValidateFlowDefinitionResponse {
   /// Contains an array of objects, each of which contains an error identified by
   /// validation.
@@ -3816,6 +3817,7 @@ class ValidateFlowDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentActionGroupResponse {
   /// Contains details about the action group that was created.
   final AgentActionGroup agentActionGroup;
@@ -3840,6 +3842,7 @@ class CreateAgentActionGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentActionGroupResponse {
   DeleteAgentActionGroupResponse();
 
@@ -3852,6 +3855,7 @@ class DeleteAgentActionGroupResponse {
   }
 }
 
+/// @nodoc
 class GetAgentActionGroupResponse {
   /// Contains details about the action group.
   final AgentActionGroup agentActionGroup;
@@ -3876,6 +3880,7 @@ class GetAgentActionGroupResponse {
   }
 }
 
+/// @nodoc
 class ListAgentActionGroupsResponse {
   /// A list of objects, each of which contains information about an action group.
   final List<ActionGroupSummary> actionGroupSummaries;
@@ -3911,6 +3916,7 @@ class ListAgentActionGroupsResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentActionGroupResponse {
   /// Contains details about the action group that was updated.
   final AgentActionGroup agentActionGroup;
@@ -3935,6 +3941,7 @@ class UpdateAgentActionGroupResponse {
   }
 }
 
+/// @nodoc
 class AssociateAgentCollaboratorResponse {
   /// Details about the collaborator.
   final AgentCollaborator agentCollaborator;
@@ -3960,6 +3967,7 @@ class AssociateAgentCollaboratorResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAgentCollaboratorResponse {
   DisassociateAgentCollaboratorResponse();
 
@@ -3973,6 +3981,7 @@ class DisassociateAgentCollaboratorResponse {
   }
 }
 
+/// @nodoc
 class GetAgentCollaboratorResponse {
   /// Details about the collaborator.
   final AgentCollaborator agentCollaborator;
@@ -3997,6 +4006,7 @@ class GetAgentCollaboratorResponse {
   }
 }
 
+/// @nodoc
 class ListAgentCollaboratorsResponse {
   /// A list of collaborator summaries.
   final List<AgentCollaboratorSummary> agentCollaboratorSummaries;
@@ -4032,6 +4042,7 @@ class ListAgentCollaboratorsResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentCollaboratorResponse {
   /// Details about the collaborator.
   final AgentCollaborator agentCollaborator;
@@ -4056,6 +4067,7 @@ class UpdateAgentCollaboratorResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentResponse {
   /// Contains details about the agent created.
   final Agent agent;
@@ -4079,6 +4091,7 @@ class CreateAgentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentResponse {
   /// The unique identifier of the agent that was deleted.
   final String agentId;
@@ -4109,6 +4122,7 @@ class DeleteAgentResponse {
   }
 }
 
+/// @nodoc
 class GetAgentResponse {
   /// Contains details about the agent.
   final Agent agent;
@@ -4132,6 +4146,7 @@ class GetAgentResponse {
   }
 }
 
+/// @nodoc
 class ListAgentsResponse {
   /// A list of objects, each of which contains information about an agent.
   final List<AgentSummary> agentSummaries;
@@ -4166,6 +4181,7 @@ class ListAgentsResponse {
   }
 }
 
+/// @nodoc
 class PrepareAgentResponse {
   /// The unique identifier of the agent for which the <code>DRAFT</code> version
   /// was created.
@@ -4213,6 +4229,7 @@ class PrepareAgentResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentResponse {
   /// Contains details about the agent that was updated.
   final Agent agent;
@@ -4236,6 +4253,7 @@ class UpdateAgentResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentAliasResponse {
   /// Contains details about the alias that was created.
   final AgentAlias agentAlias;
@@ -4260,6 +4278,7 @@ class CreateAgentAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentAliasResponse {
   /// The unique identifier of the alias that was deleted.
   final String agentAliasId;
@@ -4297,6 +4316,7 @@ class DeleteAgentAliasResponse {
   }
 }
 
+/// @nodoc
 class GetAgentAliasResponse {
   /// Contains information about the alias.
   final AgentAlias agentAlias;
@@ -4321,6 +4341,7 @@ class GetAgentAliasResponse {
   }
 }
 
+/// @nodoc
 class ListAgentAliasesResponse {
   /// A list of objects, each of which contains information about an alias of the
   /// agent.
@@ -4356,6 +4377,7 @@ class ListAgentAliasesResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentAliasResponse {
   /// Contains details about the alias that was updated.
   final AgentAlias agentAlias;
@@ -4380,6 +4402,7 @@ class UpdateAgentAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSourceResponse {
   /// Contains details about the data source.
   final DataSource dataSource;
@@ -4404,6 +4427,7 @@ class CreateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataSourceResponse {
   /// The unique identifier of the data source that was deleted.
   final String dataSourceId;
@@ -4441,6 +4465,7 @@ class DeleteDataSourceResponse {
   }
 }
 
+/// @nodoc
 class GetDataSourceResponse {
   /// Contains details about the data source.
   final DataSource dataSource;
@@ -4465,6 +4490,7 @@ class GetDataSourceResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourcesResponse {
   /// A list of objects, each of which contains information about a data source.
   final List<DataSourceSummary> dataSourceSummaries;
@@ -4499,6 +4525,7 @@ class ListDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSourceResponse {
   /// Contains details about the data source.
   final DataSource dataSource;
@@ -4523,6 +4550,7 @@ class UpdateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -4626,6 +4654,7 @@ class CreateFlowResponse {
   }
 }
 
+/// @nodoc
 class GetFlowResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -4761,6 +4790,7 @@ class GetFlowResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -4864,6 +4894,7 @@ class UpdateFlowResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowResponse {
   /// The unique identifier of the flow.
   final String id;
@@ -4886,6 +4917,7 @@ class DeleteFlowResponse {
   }
 }
 
+/// @nodoc
 class ListFlowsResponse {
   /// A list, each member of which contains information about a flow.
   final List<FlowSummary> flowSummaries;
@@ -4920,6 +4952,7 @@ class ListFlowsResponse {
   }
 }
 
+/// @nodoc
 class PrepareFlowResponse {
   /// The unique identifier of the flow.
   final String id;
@@ -4951,6 +4984,7 @@ class PrepareFlowResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowAliasResponse {
   /// The Amazon Resource Name (ARN) of the alias.
   final String arn;
@@ -5039,6 +5073,7 @@ class CreateFlowAliasResponse {
   }
 }
 
+/// @nodoc
 class GetFlowAliasResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -5127,6 +5162,7 @@ class GetFlowAliasResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowAliasResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -5215,6 +5251,7 @@ class UpdateFlowAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowAliasResponse {
   /// The unique identifier of the flow that the alias belongs to.
   final String flowId;
@@ -5244,6 +5281,7 @@ class DeleteFlowAliasResponse {
   }
 }
 
+/// @nodoc
 class ListFlowAliasesResponse {
   /// A list, each member of which contains information about an alias.
   final List<FlowAliasSummary> flowAliasSummaries;
@@ -5278,6 +5316,7 @@ class ListFlowAliasesResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowVersionResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -5371,6 +5410,7 @@ class CreateFlowVersionResponse {
   }
 }
 
+/// @nodoc
 class GetFlowVersionResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -5464,6 +5504,7 @@ class GetFlowVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowVersionResponse {
   /// The unique identifier of the flow.
   final String id;
@@ -5493,6 +5534,7 @@ class DeleteFlowVersionResponse {
   }
 }
 
+/// @nodoc
 class ListFlowVersionsResponse {
   /// A list, each member of which contains information about a flow.
   final List<FlowVersionSummary> flowVersionSummaries;
@@ -5528,6 +5570,7 @@ class ListFlowVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetIngestionJobResponse {
   /// Contains details about the data ingestion job.
   final IngestionJob ingestionJob;
@@ -5552,6 +5595,7 @@ class GetIngestionJobResponse {
   }
 }
 
+/// @nodoc
 class ListIngestionJobsResponse {
   /// A list of data ingestion jobs with information about each job.
   final List<IngestionJobSummary> ingestionJobSummaries;
@@ -5587,6 +5631,7 @@ class ListIngestionJobsResponse {
   }
 }
 
+/// @nodoc
 class StartIngestionJobResponse {
   /// Contains information about the data ingestion job.
   final IngestionJob ingestionJob;
@@ -5611,6 +5656,7 @@ class StartIngestionJobResponse {
   }
 }
 
+/// @nodoc
 class StopIngestionJobResponse {
   /// Contains information about the stopped data ingestion job.
   final IngestionJob ingestionJob;
@@ -5635,6 +5681,7 @@ class StopIngestionJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteKnowledgeBaseDocumentsResponse {
   /// A list of objects, each of which contains information about the documents
   /// that were deleted.
@@ -5663,6 +5710,7 @@ class DeleteKnowledgeBaseDocumentsResponse {
   }
 }
 
+/// @nodoc
 class GetKnowledgeBaseDocumentsResponse {
   /// A list of objects, each of which contains information about the documents
   /// that were retrieved.
@@ -5691,6 +5739,7 @@ class GetKnowledgeBaseDocumentsResponse {
   }
 }
 
+/// @nodoc
 class IngestKnowledgeBaseDocumentsResponse {
   /// A list of objects, each of which contains information about the documents
   /// that were ingested.
@@ -5719,6 +5768,7 @@ class IngestKnowledgeBaseDocumentsResponse {
   }
 }
 
+/// @nodoc
 class ListKnowledgeBaseDocumentsResponse {
   /// A list of objects, each of which contains information about the documents
   /// that were retrieved.
@@ -5756,6 +5806,7 @@ class ListKnowledgeBaseDocumentsResponse {
   }
 }
 
+/// @nodoc
 class AssociateAgentKnowledgeBaseResponse {
   /// Contains details about the knowledge base that has been associated with the
   /// agent.
@@ -5782,6 +5833,7 @@ class AssociateAgentKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class CreateKnowledgeBaseResponse {
   /// Contains details about the knowledge base.
   final KnowledgeBase knowledgeBase;
@@ -5806,6 +5858,7 @@ class CreateKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteKnowledgeBaseResponse {
   /// The unique identifier of the knowledge base that was deleted.
   final String knowledgeBaseId;
@@ -5836,6 +5889,7 @@ class DeleteKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAgentKnowledgeBaseResponse {
   DisassociateAgentKnowledgeBaseResponse();
 
@@ -5849,6 +5903,7 @@ class DisassociateAgentKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class GetAgentKnowledgeBaseResponse {
   /// Contains details about a knowledge base attached to an agent.
   final AgentKnowledgeBase agentKnowledgeBase;
@@ -5873,6 +5928,7 @@ class GetAgentKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class GetKnowledgeBaseResponse {
   /// Contains details about the knowledge base.
   final KnowledgeBase knowledgeBase;
@@ -5897,6 +5953,7 @@ class GetKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class ListAgentKnowledgeBasesResponse {
   /// A list of objects, each of which contains information about a knowledge base
   /// associated with the agent.
@@ -5934,6 +5991,7 @@ class ListAgentKnowledgeBasesResponse {
   }
 }
 
+/// @nodoc
 class ListKnowledgeBasesResponse {
   /// A list of knowledge bases with information about each knowledge base.
   final List<KnowledgeBaseSummary> knowledgeBaseSummaries;
@@ -5969,6 +6027,7 @@ class ListKnowledgeBasesResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentKnowledgeBaseResponse {
   /// Contains details about the knowledge base that has been associated with an
   /// agent.
@@ -5994,6 +6053,7 @@ class UpdateAgentKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateKnowledgeBaseResponse {
   /// Contains details about the knowledge base.
   final KnowledgeBase knowledgeBase;
@@ -6018,6 +6078,7 @@ class UpdateKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class CreatePromptResponse {
   /// The Amazon Resource Name (ARN) of the prompt.
   final String arn;
@@ -6109,6 +6170,7 @@ class CreatePromptResponse {
   }
 }
 
+/// @nodoc
 class GetPromptResponse {
   /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you
   /// specified a version in the request).
@@ -6203,6 +6265,7 @@ class GetPromptResponse {
   }
 }
 
+/// @nodoc
 class UpdatePromptResponse {
   /// The Amazon Resource Name (ARN) of the prompt.
   final String arn;
@@ -6296,6 +6359,7 @@ class UpdatePromptResponse {
   }
 }
 
+/// @nodoc
 class DeletePromptResponse {
   /// The unique identifier of the prompt that was deleted.
   final String id;
@@ -6325,6 +6389,7 @@ class DeletePromptResponse {
   }
 }
 
+/// @nodoc
 class ListPromptsResponse {
   /// A list, each member of which contains information about a prompt using
   /// Prompt management.
@@ -6360,6 +6425,7 @@ class ListPromptsResponse {
   }
 }
 
+/// @nodoc
 class CreatePromptVersionResponse {
   /// The Amazon Resource Name (ARN) of the version of the prompt.
   final String arn;
@@ -6454,6 +6520,7 @@ class CreatePromptVersionResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The key-value pairs for the tags associated with the resource.
   final Map<String, String>? tags;
@@ -6477,6 +6544,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6489,6 +6557,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6501,6 +6570,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentVersionResponse {
   /// The unique identifier of the agent that the version belongs to.
   final String agentId;
@@ -6538,6 +6608,7 @@ class DeleteAgentVersionResponse {
   }
 }
 
+/// @nodoc
 class GetAgentVersionResponse {
   /// Contains details about the version of the agent.
   final AgentVersion agentVersion;
@@ -6562,6 +6633,7 @@ class GetAgentVersionResponse {
   }
 }
 
+/// @nodoc
 class ListAgentVersionsResponse {
   /// A list of objects, each of which contains information about a version of the
   /// agent.
@@ -6599,6 +6671,8 @@ class ListAgentVersionsResponse {
 }
 
 /// Contains details about a version of an agent.
+///
+/// @nodoc
 class AgentVersionSummary {
   /// The name of the agent to which the version belongs.
   final String agentName;
@@ -6668,6 +6742,7 @@ class AgentVersionSummary {
   }
 }
 
+/// @nodoc
 class AgentStatus {
   static const creating = AgentStatus._('CREATING');
   static const preparing = AgentStatus._('PREPARING');
@@ -6707,6 +6782,8 @@ class AgentStatus {
 }
 
 /// Details about a guardrail associated with a resource.
+///
+/// @nodoc
 class GuardrailConfiguration {
   /// The unique identifier of the guardrail.
   final String? guardrailIdentifier;
@@ -6738,6 +6815,8 @@ class GuardrailConfiguration {
 }
 
 /// Contains details about a version of an agent.
+///
+/// @nodoc
 class AgentVersion {
   /// The Amazon Resource Name (ARN) of the agent that the version belongs to.
   final String agentArn;
@@ -6922,6 +7001,8 @@ class AgentVersion {
 /// sequence. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html">Advanced
 /// prompts</a>.
+///
+/// @nodoc
 class PromptOverrideConfiguration {
   /// Contains configurations to override a prompt template in one part of an
   /// agent sequence. For more information, see <a
@@ -6965,6 +7046,8 @@ class PromptOverrideConfiguration {
 }
 
 /// Details of the memory configuration.
+///
+/// @nodoc
 class MemoryConfiguration {
   /// The type of memory that is stored.
   final List<MemoryType> enabledMemoryTypes;
@@ -7010,6 +7093,7 @@ class MemoryConfiguration {
   }
 }
 
+/// @nodoc
 class AgentCollaboration {
   static const supervisor = AgentCollaboration._('SUPERVISOR');
   static const supervisorRouter = AgentCollaboration._('SUPERVISOR_ROUTER');
@@ -7037,6 +7121,8 @@ class AgentCollaboration {
 }
 
 /// Configuration for SESSION_SUMMARY memory type enabled for the agent.
+///
+/// @nodoc
 class SessionSummaryConfiguration {
   /// Maximum number of recent session summaries to include in the agent's prompt
   /// context.
@@ -7060,6 +7146,7 @@ class SessionSummaryConfiguration {
   }
 }
 
+/// @nodoc
 class MemoryType {
   static const sessionSummary = MemoryType._('SESSION_SUMMARY');
 
@@ -7086,6 +7173,8 @@ class MemoryType {
 /// agent sequence. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html">Advanced
 /// prompts</a>.
+///
+/// @nodoc
 class PromptConfiguration {
   /// If the Converse or ConverseStream operations support the model,
   /// <code>additionalModelRequestFields</code> contains additional inference
@@ -7210,6 +7299,7 @@ class PromptConfiguration {
   }
 }
 
+/// @nodoc
 class PromptType {
   static const preProcessing = PromptType._('PRE_PROCESSING');
   static const orchestration = PromptType._('ORCHESTRATION');
@@ -7243,6 +7333,7 @@ class PromptType {
   String toString() => value;
 }
 
+/// @nodoc
 class CreationMode {
   static const $default = CreationMode._('DEFAULT');
   static const overridden = CreationMode._('OVERRIDDEN');
@@ -7266,6 +7357,7 @@ class CreationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PromptState {
   static const enabled = PromptState._('ENABLED');
   static const disabled = PromptState._('DISABLED');
@@ -7294,6 +7386,8 @@ class PromptState {
 /// <code>promptType</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
 /// parameters for foundation models</a>.
+///
+/// @nodoc
 class InferenceConfiguration {
   /// The maximum number of tokens to allow in the generated response.
   final int? maximumLength;
@@ -7362,6 +7456,8 @@ class InferenceConfiguration {
 }
 
 /// Contains details about a variant of the prompt.
+///
+/// @nodoc
 class PromptVariant {
   /// The name of the prompt variant.
   final String name;
@@ -7457,6 +7553,7 @@ class PromptVariant {
   }
 }
 
+/// @nodoc
 class PromptTemplateType {
   static const text = PromptTemplateType._('TEXT');
   static const chat = PromptTemplateType._('CHAT');
@@ -7485,6 +7582,8 @@ class PromptTemplateType {
 /// Contains the message for a prompt. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html">Construct
 /// and store reusable prompts with Prompt management in Amazon Bedrock</a>.
+///
+/// @nodoc
 class PromptTemplateConfiguration {
   /// Contains configurations to use the prompt in a conversational format.
   final ChatPromptTemplateConfiguration? chat;
@@ -7521,6 +7620,8 @@ class PromptTemplateConfiguration {
 }
 
 /// Contains inference configurations for the prompt.
+///
+/// @nodoc
 class PromptInferenceConfiguration {
   /// Contains inference configurations for a text prompt.
   final PromptModelInferenceConfiguration? text;
@@ -7550,6 +7651,8 @@ class PromptInferenceConfiguration {
 /// prompt. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
 /// a prompt using Prompt management</a>.
+///
+/// @nodoc
 class PromptGenAiResource {
   /// Specifies an Amazon Bedrock agent with which to use the prompt.
   final PromptAgentResource? agent;
@@ -7580,6 +7683,8 @@ class PromptGenAiResource {
 /// a prompt using Prompt management</a> and <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html">Automate
 /// tasks in your application using conversational agents</a>.
+///
+/// @nodoc
 class PromptAgentResource {
   /// The ARN of the agent with which to use the prompt.
   final String agentIdentifier;
@@ -7606,6 +7711,8 @@ class PromptAgentResource {
 /// a prompt variant. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
 /// a prompt using Prompt management</a>.
+///
+/// @nodoc
 class PromptMetadataEntry {
   /// The key of a metadata tag for a prompt variant.
   final String key;
@@ -7639,6 +7746,8 @@ class PromptMetadataEntry {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/inference-parameters.html">Inference
 /// parameters</a>.
+///
+/// @nodoc
 class PromptModelInferenceConfiguration {
   /// The maximum number of tokens to return in the response.
   final int? maxTokens;
@@ -7691,6 +7800,8 @@ class PromptModelInferenceConfiguration {
 
 /// Contains configurations for a text prompt template. To include a variable,
 /// enclose a word in double curly braces as in <code>{{variable}}</code>.
+///
+/// @nodoc
 class TextPromptTemplateConfiguration {
   /// The message for the prompt.
   final String text;
@@ -7736,6 +7847,8 @@ class TextPromptTemplateConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
 /// a prompt using Prompt management</a>.
+///
+/// @nodoc
 class ChatPromptTemplateConfiguration {
   /// Contains messages in the chat for the prompt.
   final List<Message> messages;
@@ -7797,6 +7910,8 @@ class ChatPromptTemplateConfiguration {
 /// generating a response. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class ToolConfiguration {
   /// An array of tools to pass to a model.
   final List<Tool> tools;
@@ -7835,6 +7950,8 @@ class ToolConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class ToolChoice {
   /// Defines tools, at least one of which must be requested by the model. No text
   /// is generated but the results of tool use are sent back to the model to help
@@ -7886,6 +8003,8 @@ class ToolChoice {
 /// generate text instead. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class AutoToolChoice {
   AutoToolChoice();
 
@@ -7903,6 +8022,8 @@ class AutoToolChoice {
 /// generate a response. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class AnyToolChoice {
   AnyToolChoice();
 
@@ -7920,6 +8041,8 @@ class AnyToolChoice {
 /// response. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class SpecificToolChoice {
   /// The name of the tool.
   final String name;
@@ -7946,6 +8069,8 @@ class SpecificToolChoice {
 /// response. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class Tool {
   /// Creates a cache checkpoint within a tool designation
   final CachePointBlock? cachePoint;
@@ -7982,6 +8107,8 @@ class Tool {
 /// Contains a specification for a tool. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class ToolSpecification {
   /// The input schema for the tool.
   final ToolInputSchema inputSchema;
@@ -8029,6 +8156,8 @@ class ToolSpecification {
 
 /// Indicates where a cache checkpoint is located. All information before this
 /// checkpoint is cached to be accessed on subsequent requests.
+///
+/// @nodoc
 class CachePointBlock {
   /// Indicates that the CachePointBlock is of the default type
   final CachePointType type;
@@ -8051,6 +8180,7 @@ class CachePointBlock {
   }
 }
 
+/// @nodoc
 class CachePointType {
   static const $default = CachePointType._('default');
 
@@ -8077,6 +8207,8 @@ class CachePointType {
 /// The input schema for the tool. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Use
 /// a tool to complete an Amazon Bedrock model response</a>.
+///
+/// @nodoc
 class ToolInputSchema {
   /// A JSON object defining the input schema for the tool.
   final Document? json;
@@ -8102,6 +8234,8 @@ class ToolInputSchema {
 }
 
 /// Contains information about a variable in the prompt.
+///
+/// @nodoc
 class PromptInputVariable {
   /// The name of the variable.
   final String? name;
@@ -8128,6 +8262,8 @@ class PromptInputVariable {
 /// it should behave. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
 /// a prompt using Prompt management</a>.
+///
+/// @nodoc
 class SystemContentBlock {
   /// Creates a cache checkpoint within a tool designation
   final CachePointBlock? cachePoint;
@@ -8162,6 +8298,8 @@ class SystemContentBlock {
 /// A message input or response from a model. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
 /// a prompt using Prompt management</a>.
+///
+/// @nodoc
 class Message {
   /// The content in the message.
   final List<ContentBlock> content;
@@ -8194,6 +8332,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class ConversationRole {
   static const user = ConversationRole._('user');
   static const assistant = ConversationRole._('assistant');
@@ -8222,6 +8361,8 @@ class ConversationRole {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
 /// a prompt using Prompt management</a>.
+///
+/// @nodoc
 class ContentBlock {
   /// Creates a cache checkpoint within a message.
   final CachePointBlock? cachePoint;
@@ -8264,6 +8405,8 @@ class ContentBlock {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PromptSummary {
   /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you
   /// specified a version in the request).
@@ -8330,6 +8473,8 @@ class PromptSummary {
 }
 
 /// Contains information about a knowledge base.
+///
+/// @nodoc
 class KnowledgeBase {
   /// The time the knowledge base was created.
   final DateTime createdAt;
@@ -8452,6 +8597,8 @@ class KnowledgeBase {
 
 /// Contains details about the vector embeddings configuration of the knowledge
 /// base.
+///
+/// @nodoc
 class KnowledgeBaseConfiguration {
   /// The type of data that the data source is converted into for the knowledge
   /// base.
@@ -8517,6 +8664,8 @@ class KnowledgeBaseConfiguration {
 }
 
 /// Contains the storage configuration of the knowledge base.
+///
+/// @nodoc
 class StorageConfiguration {
   /// The vector store service in which the knowledge base is stored.
   final KnowledgeBaseStorageType type;
@@ -8652,6 +8801,7 @@ class StorageConfiguration {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseStatus {
   static const creating = KnowledgeBaseStatus._('CREATING');
   static const active = KnowledgeBaseStatus._('ACTIVE');
@@ -8689,6 +8839,7 @@ class KnowledgeBaseStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class KnowledgeBaseStorageType {
   static const opensearchServerless =
       KnowledgeBaseStorageType._('OPENSEARCH_SERVERLESS');
@@ -8737,6 +8888,8 @@ class KnowledgeBaseStorageType {
 /// Amazon OpenSearch Service. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html">Create
 /// a vector index in Amazon OpenSearch Service</a>.
+///
+/// @nodoc
 class OpenSearchServerlessConfiguration {
   /// The Amazon Resource Name (ARN) of the OpenSearch Service vector store.
   final String collectionArn;
@@ -8781,6 +8934,8 @@ class OpenSearchServerlessConfiguration {
 /// base in Amazon OpenSearch Service. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-osm.html">Create
 /// a vector index in OpenSearch Managed Cluster</a>.
+///
+/// @nodoc
 class OpenSearchManagedClusterConfiguration {
   /// The Amazon Resource Name (ARN) of the OpenSearch domain.
   final String domainArn;
@@ -8832,6 +8987,8 @@ class OpenSearchManagedClusterConfiguration {
 /// Pinecone. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html">Create
 /// a vector index in Pinecone</a>.
+///
+/// @nodoc
 class PineconeConfiguration {
   /// The endpoint URL for your index management page.
   final String connectionString;
@@ -8883,6 +9040,8 @@ class PineconeConfiguration {
 /// Redis Enterprise Cloud. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html">Create
 /// a vector index in Redis Enterprise Cloud</a>.
+///
+/// @nodoc
 class RedisEnterpriseCloudConfiguration {
   /// The Amazon Resource Name (ARN) of the secret that you created in Secrets
   /// Manager that is linked to your Redis Enterprise Cloud database.
@@ -8935,6 +9094,8 @@ class RedisEnterpriseCloudConfiguration {
 /// Amazon RDS. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html">Create
 /// a vector index in Amazon RDS</a>.
+///
+/// @nodoc
 class RdsConfiguration {
   /// The Amazon Resource Name (ARN) of the secret that you created in Secrets
   /// Manager that is linked to your Amazon RDS database.
@@ -8991,6 +9152,8 @@ class RdsConfiguration {
 
 /// Contains details about the storage configuration of the knowledge base in
 /// MongoDB Atlas.
+///
+/// @nodoc
 class MongoDbAtlasConfiguration {
   /// The collection name of the knowledge base in MongoDB Atlas.
   final String collectionName;
@@ -9073,6 +9236,8 @@ class MongoDbAtlasConfiguration {
 /// Amazon Neptune Analytics. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-neptune.html">Create
 /// a vector index in Amazon Neptune Analytics</a>.
+///
+/// @nodoc
 class NeptuneAnalyticsConfiguration {
   /// Contains the names of the fields to which to map information about the
   /// vector store.
@@ -9106,6 +9271,8 @@ class NeptuneAnalyticsConfiguration {
 }
 
 /// Contains the storage configuration of the knowledge base for S3 vectors.
+///
+/// @nodoc
 class S3VectorsConfiguration {
   /// The Amazon Resource Name (ARN) of the vector index used for the knowledge
   /// base. This ARN identifies the specific vector index resource within Amazon
@@ -9148,6 +9315,8 @@ class S3VectorsConfiguration {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class NeptuneAnalyticsFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9181,6 +9350,8 @@ class NeptuneAnalyticsFieldMapping {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class MongoDbAtlasFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9222,6 +9393,8 @@ class MongoDbAtlasFieldMapping {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class RdsFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9279,6 +9452,8 @@ class RdsFieldMapping {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class RedisEnterpriseCloudFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9320,6 +9495,8 @@ class RedisEnterpriseCloudFieldMapping {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class PineconeFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9353,6 +9530,8 @@ class PineconeFieldMapping {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class OpenSearchManagedClusterFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9395,6 +9574,8 @@ class OpenSearchManagedClusterFieldMapping {
 
 /// Contains the names of the fields to which to map information about the
 /// vector store.
+///
+/// @nodoc
 class OpenSearchServerlessFieldMapping {
   /// The name of the field in which Amazon Bedrock stores metadata about the
   /// vector store.
@@ -9434,6 +9615,7 @@ class OpenSearchServerlessFieldMapping {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseType {
   static const vector = KnowledgeBaseType._('VECTOR');
   static const kendra = KnowledgeBaseType._('KENDRA');
@@ -9461,6 +9643,8 @@ class KnowledgeBaseType {
 
 /// Contains details about the model used to create vector embeddings for the
 /// knowledge base.
+///
+/// @nodoc
 class VectorKnowledgeBaseConfiguration {
   /// The Amazon Resource Name (ARN) of the model used to create vector embeddings
   /// for the knowledge base.
@@ -9517,6 +9701,8 @@ class VectorKnowledgeBaseConfiguration {
 }
 
 /// Settings for an Amazon Kendra knowledge base.
+///
+/// @nodoc
 class KendraKnowledgeBaseConfiguration {
   /// The ARN of the Amazon Kendra index.
   final String kendraIndexArn;
@@ -9545,6 +9731,8 @@ class KendraKnowledgeBaseConfiguration {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html">Build
 /// a knowledge base by connecting to a structured data source</a> in the Amazon
 /// Bedrock User Guide.
+///
+/// @nodoc
 class SqlKnowledgeBaseConfiguration {
   /// The type of SQL database to connect to the knowledge base.
   final QueryEngineType type;
@@ -9579,6 +9767,7 @@ class SqlKnowledgeBaseConfiguration {
   }
 }
 
+/// @nodoc
 class QueryEngineType {
   static const redshift = QueryEngineType._('REDSHIFT');
 
@@ -9607,6 +9796,8 @@ class QueryEngineType {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html">Build
 /// a knowledge base by connecting to a structured data source</a> in the Amazon
 /// Bedrock User Guide.
+///
+/// @nodoc
 class RedshiftConfiguration {
   /// Specifies configurations for an Amazon Redshift query engine.
   final RedshiftQueryEngineConfiguration queryEngineConfiguration;
@@ -9660,6 +9851,8 @@ class RedshiftConfiguration {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html">Build
 /// a knowledge base by connecting to a structured data source</a> in the Amazon
 /// Bedrock User Guide.
+///
+/// @nodoc
 class RedshiftQueryEngineConfiguration {
   /// The type of query engine.
   final RedshiftQueryEngineType type;
@@ -9708,6 +9901,8 @@ class RedshiftQueryEngineConfiguration {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html">Build
 /// a knowledge base by connecting to a structured data source</a> in the Amazon
 /// Bedrock User Guide..
+///
+/// @nodoc
 class QueryGenerationConfiguration {
   /// The time after which query generation will time out.
   final int? executionTimeoutSeconds;
@@ -9742,6 +9937,8 @@ class QueryGenerationConfiguration {
 }
 
 /// &gt;Contains configurations for context to use during query generation.
+///
+/// @nodoc
 class QueryGenerationContext {
   /// An array of objects, each of which defines information about example queries
   /// to help the query engine generate appropriate SQL queries.
@@ -9781,6 +9978,8 @@ class QueryGenerationContext {
 
 /// Contains configurations for a query, each of which defines information about
 /// example queries to help the query engine generate appropriate SQL queries.
+///
+/// @nodoc
 class CuratedQuery {
   /// An example natural language query.
   final String naturalLanguage;
@@ -9811,6 +10010,8 @@ class CuratedQuery {
 }
 
 /// Contains information about a table for the query engine to consider.
+///
+/// @nodoc
 class QueryGenerationTable {
   /// The name of the table for which the other fields in this object apply.
   final String name;
@@ -9861,6 +10062,7 @@ class QueryGenerationTable {
   }
 }
 
+/// @nodoc
 class IncludeExclude {
   static const include = IncludeExclude._('INCLUDE');
   static const exclude = IncludeExclude._('EXCLUDE');
@@ -9887,6 +10089,8 @@ class IncludeExclude {
 
 /// Contains information about a column in the current table for the query
 /// engine to consider.
+///
+/// @nodoc
 class QueryGenerationColumn {
   /// A description of the column that helps the query engine understand the
   /// contents of the column.
@@ -9927,6 +10131,7 @@ class QueryGenerationColumn {
   }
 }
 
+/// @nodoc
 class RedshiftQueryEngineType {
   static const serverless = RedshiftQueryEngineType._('SERVERLESS');
   static const provisioned = RedshiftQueryEngineType._('PROVISIONED');
@@ -9953,6 +10158,8 @@ class RedshiftQueryEngineType {
 }
 
 /// Contains configurations for authentication to Amazon Redshift Serverless.
+///
+/// @nodoc
 class RedshiftServerlessConfiguration {
   /// Specifies configurations for authentication to an Amazon Redshift
   /// provisioned data warehouse.
@@ -9986,6 +10193,8 @@ class RedshiftServerlessConfiguration {
 }
 
 /// Contains configurations for a provisioned Amazon Redshift query engine.
+///
+/// @nodoc
 class RedshiftProvisionedConfiguration {
   /// Specifies configurations for authentication to Amazon Redshift.
   final RedshiftProvisionedAuthConfiguration authConfiguration;
@@ -10021,6 +10230,8 @@ class RedshiftProvisionedConfiguration {
 /// data warehouse. Specify the type of authentication to use in the
 /// <code>type</code> field and include the corresponding field. If you specify
 /// IAM authentication, you don't need to include another field.
+///
+/// @nodoc
 class RedshiftProvisionedAuthConfiguration {
   /// The type of authentication to use.
   final RedshiftProvisionedAuthType type;
@@ -10061,6 +10272,7 @@ class RedshiftProvisionedAuthConfiguration {
   }
 }
 
+/// @nodoc
 class RedshiftProvisionedAuthType {
   static const iam = RedshiftProvisionedAuthType._('IAM');
   static const usernamePassword =
@@ -10092,6 +10304,8 @@ class RedshiftProvisionedAuthType {
 /// Specify the type of authentication to use in the <code>type</code> field and
 /// include the corresponding field. If you specify IAM authentication, you
 /// don't need to include another field.
+///
+/// @nodoc
 class RedshiftServerlessAuthConfiguration {
   /// The type of authentication to use.
   final RedshiftServerlessAuthType type;
@@ -10124,6 +10338,7 @@ class RedshiftServerlessAuthConfiguration {
   }
 }
 
+/// @nodoc
 class RedshiftServerlessAuthType {
   static const iam = RedshiftServerlessAuthType._('IAM');
   static const usernamePassword =
@@ -10156,6 +10371,8 @@ class RedshiftServerlessAuthType {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html">Build
 /// a knowledge base by connecting to a structured data source</a> in the Amazon
 /// Bedrock User Guide.
+///
+/// @nodoc
 class RedshiftQueryEngineStorageConfiguration {
   /// The data storage service to use.
   final RedshiftQueryEngineStorageType type;
@@ -10203,6 +10420,7 @@ class RedshiftQueryEngineStorageConfiguration {
   }
 }
 
+/// @nodoc
 class RedshiftQueryEngineStorageType {
   static const redshift = RedshiftQueryEngineStorageType._('REDSHIFT');
   static const awsDataCatalog =
@@ -10230,6 +10448,8 @@ class RedshiftQueryEngineStorageType {
 }
 
 /// Contains configurations for storage in Glue Data Catalog.
+///
+/// @nodoc
 class RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
   /// A list of names of the tables to use.
   final List<String> tableNames;
@@ -10257,6 +10477,8 @@ class RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
 }
 
 /// Contains configurations for storage in Amazon Redshift.
+///
+/// @nodoc
 class RedshiftQueryEngineRedshiftStorageConfiguration {
   /// The name of the Amazon Redshift database.
   final String databaseName;
@@ -10281,6 +10503,8 @@ class RedshiftQueryEngineRedshiftStorageConfiguration {
 }
 
 /// The configuration details for the embeddings model.
+///
+/// @nodoc
 class EmbeddingModelConfiguration {
   /// The vector configuration details on the Bedrock embeddings model.
   final BedrockEmbeddingModelConfiguration? bedrockEmbeddingModelConfiguration;
@@ -10314,6 +10538,8 @@ class EmbeddingModelConfiguration {
 /// Specifies configurations for the storage location of the images extracted
 /// from multimodal documents in your data source. These images can be retrieved
 /// and returned to the end user.
+///
+/// @nodoc
 class SupplementalDataStorageConfiguration {
   /// A list of objects specifying storage locations for images extracted from
   /// multimodal documents in your data source.
@@ -10344,6 +10570,8 @@ class SupplementalDataStorageConfiguration {
 
 /// Contains information about a storage location for images extracted from
 /// multimodal documents in your data source.
+///
+/// @nodoc
 class SupplementalDataStorageLocation {
   /// Specifies the storage service used for this location.
   final SupplementalDataStorageLocationType type;
@@ -10376,6 +10604,7 @@ class SupplementalDataStorageLocation {
   }
 }
 
+/// @nodoc
 class SupplementalDataStorageLocationType {
   static const s3 = SupplementalDataStorageLocationType._('S3');
 
@@ -10401,6 +10630,8 @@ class SupplementalDataStorageLocationType {
 }
 
 /// An Amazon S3 location.
+///
+/// @nodoc
 class S3Location {
   /// The location's URI. For example,
   /// <code>s3://my-bucket/chunk-processor/</code>.
@@ -10425,6 +10656,8 @@ class S3Location {
 }
 
 /// The vector configuration details for the Bedrock embeddings model.
+///
+/// @nodoc
 class BedrockEmbeddingModelConfiguration {
   /// Configuration settings for processing audio content in multimodal knowledge
   /// bases.
@@ -10487,6 +10720,8 @@ class BedrockEmbeddingModelConfiguration {
 }
 
 /// Bedrock models embedding data type. Can be either float32 or binary.
+///
+/// @nodoc
 class EmbeddingDataType {
   static const float32 = EmbeddingDataType._('FLOAT32');
   static const binary = EmbeddingDataType._('BINARY');
@@ -10513,6 +10748,8 @@ class EmbeddingDataType {
 
 /// Configuration settings for processing video content in multimodal knowledge
 /// bases.
+///
+/// @nodoc
 class VideoConfiguration {
   /// Configuration for segmenting video content during processing.
   final VideoSegmentationConfiguration segmentationConfiguration;
@@ -10540,6 +10777,8 @@ class VideoConfiguration {
 /// Configuration for segmenting video content during multimodal knowledge base
 /// ingestion. Determines how video files are divided into chunks for
 /// processing.
+///
+/// @nodoc
 class VideoSegmentationConfiguration {
   /// The duration in seconds for each video segment. Video files will be divided
   /// into chunks of this length for processing.
@@ -10565,6 +10804,8 @@ class VideoSegmentationConfiguration {
 
 /// Configuration settings for processing audio content in multimodal knowledge
 /// bases.
+///
+/// @nodoc
 class AudioConfiguration {
   /// Configuration for segmenting audio content during processing.
   final AudioSegmentationConfiguration segmentationConfiguration;
@@ -10592,6 +10833,8 @@ class AudioConfiguration {
 /// Configuration for segmenting audio content during multimodal knowledge base
 /// ingestion. Determines how audio files are divided into chunks for
 /// processing.
+///
+/// @nodoc
 class AudioSegmentationConfiguration {
   /// The duration in seconds for each audio segment. Audio files will be divided
   /// into chunks of this length for processing.
@@ -10616,6 +10859,8 @@ class AudioSegmentationConfiguration {
 }
 
 /// Contains details about a knowledge base that is associated with an agent.
+///
+/// @nodoc
 class AgentKnowledgeBase {
   /// The unique identifier of the agent with which the knowledge base is
   /// associated.
@@ -10687,6 +10932,7 @@ class AgentKnowledgeBase {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseState {
   static const enabled = KnowledgeBaseState._('ENABLED');
   static const disabled = KnowledgeBaseState._('DISABLED');
@@ -10713,6 +10959,8 @@ class KnowledgeBaseState {
 }
 
 /// Contains details about a knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseSummary {
   /// The unique identifier of the knowledge base.
   final String knowledgeBaseId;
@@ -10764,6 +11012,8 @@ class KnowledgeBaseSummary {
 }
 
 /// Contains details about a knowledge base associated with an agent.
+///
+/// @nodoc
 class AgentKnowledgeBaseSummary {
   /// The unique identifier of the knowledge base associated with an agent.
   final String knowledgeBaseId;
@@ -10813,6 +11063,8 @@ class AgentKnowledgeBaseSummary {
 }
 
 /// Contains the details for a document that was ingested or deleted.
+///
+/// @nodoc
 class KnowledgeBaseDocumentDetail {
   /// The identifier of the data source connected to the knowledge base that the
   /// document was ingested into or deleted from.
@@ -10916,6 +11168,7 @@ class KnowledgeBaseDocumentDetail {
   }
 }
 
+/// @nodoc
 class DocumentStatus {
   static const indexed = DocumentStatus._('INDEXED');
   static const partiallyIndexed = DocumentStatus._('PARTIALLY_INDEXED');
@@ -10966,6 +11219,8 @@ class DocumentStatus {
 }
 
 /// Contains information that identifies the document.
+///
+/// @nodoc
 class DocumentIdentifier {
   /// The type of data source connected to the knowledge base that contains the
   /// document.
@@ -11009,6 +11264,7 @@ class DocumentIdentifier {
   }
 }
 
+/// @nodoc
 class ContentDataSourceType {
   static const custom = ContentDataSourceType._('CUSTOM');
   static const s3 = ContentDataSourceType._('S3');
@@ -11036,6 +11292,8 @@ class ContentDataSourceType {
 
 /// Contains information about the identifier of the document to ingest into a
 /// custom data source.
+///
+/// @nodoc
 class CustomDocumentIdentifier {
   /// The identifier of the document to ingest into a custom data source.
   final String id;
@@ -11060,6 +11318,8 @@ class CustomDocumentIdentifier {
 
 /// Contains information about a document to ingest into a knowledge base and
 /// metadata to associate with it.
+///
+/// @nodoc
 class KnowledgeBaseDocument {
   /// Contains the content of the document.
   final DocumentContent content;
@@ -11085,6 +11345,8 @@ class KnowledgeBaseDocument {
 /// Contains information about the metadata associate with the content to ingest
 /// into a knowledge base. Choose a <code>type</code> and include the field that
 /// corresponds to it.
+///
+/// @nodoc
 class DocumentMetadata {
   /// The type of the source source from which to add metadata.
   final MetadataSourceType type;
@@ -11117,6 +11379,8 @@ class DocumentMetadata {
 
 /// Contains information about the content of a document. Choose a
 /// <code>dataSourceType</code> and include the field that corresponds to it.
+///
+/// @nodoc
 class DocumentContent {
   /// The type of data source that is connected to the knowledge base to which to
   /// ingest this document.
@@ -11151,6 +11415,8 @@ class DocumentContent {
 /// Contains information about the content to ingest into a knowledge base
 /// connected to a custom data source. Choose a <code>sourceType</code> and
 /// include the field that corresponds to it.
+///
+/// @nodoc
 class CustomContent {
   /// A unique identifier for the document.
   final CustomDocumentIdentifier customDocumentIdentifier;
@@ -11189,6 +11455,8 @@ class CustomContent {
 
 /// Contains information about the content to ingest into a knowledge base
 /// connected to an Amazon S3 data source.
+///
+/// @nodoc
 class S3Content {
   /// The S3 location of the file containing the content to ingest.
   final S3Location s3Location;
@@ -11205,6 +11473,7 @@ class S3Content {
   }
 }
 
+/// @nodoc
 class CustomSourceType {
   static const inLine = CustomSourceType._('IN_LINE');
   static const s3Location = CustomSourceType._('S3_LOCATION');
@@ -11231,6 +11500,8 @@ class CustomSourceType {
 
 /// Contains information about the Amazon S3 location of the file containing the
 /// content to ingest into a knowledge base connected to a custom data source.
+///
+/// @nodoc
 class CustomS3Location {
   /// The S3 URI of the file containing the content to ingest.
   final String uri;
@@ -11258,6 +11529,8 @@ class CustomS3Location {
 /// Contains information about content defined inline to ingest into a data
 /// source. Choose a <code>type</code> and include the field that corresponds to
 /// it.
+///
+/// @nodoc
 class InlineContent {
   /// The type of inline content to define.
   final InlineContentType type;
@@ -11286,6 +11559,7 @@ class InlineContent {
   }
 }
 
+/// @nodoc
 class InlineContentType {
   static const byte = InlineContentType._('BYTE');
   static const text = InlineContentType._('TEXT');
@@ -11311,6 +11585,8 @@ class InlineContentType {
 }
 
 /// Contains information about content defined inline in bytes.
+///
+/// @nodoc
 class ByteContentDoc {
   /// The base64-encoded string of the content.
   final Uint8List data;
@@ -11399,6 +11675,8 @@ class ByteContentDoc {
 }
 
 /// Contains information about content defined inline in text.
+///
+/// @nodoc
 class TextContentDoc {
   /// The text of the content.
   final String data;
@@ -11415,6 +11693,7 @@ class TextContentDoc {
   }
 }
 
+/// @nodoc
 class MetadataSourceType {
   static const inLineAttribute = MetadataSourceType._('IN_LINE_ATTRIBUTE');
   static const s3Location = MetadataSourceType._('S3_LOCATION');
@@ -11441,6 +11720,8 @@ class MetadataSourceType {
 }
 
 /// Contains information about a metadata attribute.
+///
+/// @nodoc
 class MetadataAttribute {
   /// The key of the metadata attribute.
   final String key;
@@ -11465,6 +11746,8 @@ class MetadataAttribute {
 
 /// Contains the value of the metadata attribute. Choose a <code>type</code> and
 /// include the field that corresponds to it.
+///
+/// @nodoc
 class MetadataAttributeValue {
   /// The type of the metadata attribute.
   final MetadataValueType type;
@@ -11505,6 +11788,7 @@ class MetadataAttributeValue {
   }
 }
 
+/// @nodoc
 class MetadataValueType {
   static const boolean = MetadataValueType._('BOOLEAN');
   static const number = MetadataValueType._('NUMBER');
@@ -11553,6 +11837,8 @@ class MetadataValueType {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class IngestionJob {
   /// The unique identifier of the data source for the data ingestion job.
   final String dataSourceId;
@@ -11643,6 +11929,7 @@ class IngestionJob {
   }
 }
 
+/// @nodoc
 class IngestionJobStatus {
   static const starting = IngestionJobStatus._('STARTING');
   static const inProgress = IngestionJobStatus._('IN_PROGRESS');
@@ -11680,6 +11967,8 @@ class IngestionJobStatus {
 }
 
 /// Contains the statistics for the data ingestion job.
+///
+/// @nodoc
 class IngestionJobStatistics {
   /// The number of source documents that were deleted.
   final int? numberOfDocumentsDeleted;
@@ -11762,6 +12051,8 @@ class IngestionJobStatistics {
 }
 
 /// Contains details about a data ingestion job.
+///
+/// @nodoc
 class IngestionJobSummary {
   /// The unique identifier of the data source for the data ingestion job.
   final String dataSourceId;
@@ -11837,6 +12128,8 @@ class IngestionJobSummary {
 }
 
 /// The parameters of sorting the data.
+///
+/// @nodoc
 class IngestionJobSortBy {
   /// The name of field or attribute to apply sorting of data.
   final IngestionJobSortByAttribute attribute;
@@ -11859,6 +12152,7 @@ class IngestionJobSortBy {
   }
 }
 
+/// @nodoc
 class IngestionJobSortByAttribute {
   static const status = IngestionJobSortByAttribute._('STATUS');
   static const startedAt = IngestionJobSortByAttribute._('STARTED_AT');
@@ -11884,6 +12178,7 @@ class IngestionJobSortByAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -11908,6 +12203,8 @@ class SortOrder {
 }
 
 /// The definition of a filter to filter the data.
+///
+/// @nodoc
 class IngestionJobFilter {
   /// The name of field or attribute to apply the filter.
   final IngestionJobFilterAttribute attribute;
@@ -11936,6 +12233,7 @@ class IngestionJobFilter {
   }
 }
 
+/// @nodoc
 class IngestionJobFilterAttribute {
   static const status = IngestionJobFilterAttribute._('STATUS');
 
@@ -11960,6 +12258,7 @@ class IngestionJobFilterAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class IngestionJobFilterOperator {
   static const eq = IngestionJobFilterOperator._('EQ');
 
@@ -11995,6 +12294,8 @@ class IngestionJobFilterOperator {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FlowVersionSummary {
   /// The Amazon Resource Name (ARN) of the flow that the version belongs to.
   final String arn;
@@ -12045,6 +12346,7 @@ class FlowVersionSummary {
   }
 }
 
+/// @nodoc
 class FlowStatus {
   static const failed = FlowStatus._('Failed');
   static const prepared = FlowStatus._('Prepared');
@@ -12071,6 +12373,8 @@ class FlowStatus {
 }
 
 /// The definition of the nodes and connections between nodes in the flow.
+///
+/// @nodoc
 class FlowDefinition {
   /// An array of connection definitions in the flow.
   final List<FlowConnection>? connections;
@@ -12107,6 +12411,8 @@ class FlowDefinition {
 }
 
 /// Contains information about a connection between two nodes in the flow.
+///
+/// @nodoc
 class FlowConnection {
   /// A name for the connection that you can reference.
   final String name;
@@ -12161,6 +12467,7 @@ class FlowConnection {
   }
 }
 
+/// @nodoc
 class FlowConnectionType {
   static const data = FlowConnectionType._('Data');
   static const conditional = FlowConnectionType._('Conditional');
@@ -12187,6 +12494,8 @@ class FlowConnectionType {
 }
 
 /// The configuration of the connection.
+///
+/// @nodoc
 class FlowConnectionConfiguration {
   /// The configuration of a connection originating from a Condition node.
   final FlowConditionalConnectionConfiguration? conditional;
@@ -12225,6 +12534,8 @@ class FlowConnectionConfiguration {
 
 /// The configuration of a connection originating from a node that isn't a
 /// Condition node.
+///
+/// @nodoc
 class FlowDataConnectionConfiguration {
   /// The name of the output in the source node that the connection begins from.
   final String sourceOutput;
@@ -12255,6 +12566,8 @@ class FlowDataConnectionConfiguration {
 }
 
 /// The configuration of a connection between a condition node and another node.
+///
+/// @nodoc
 class FlowConditionalConnectionConfiguration {
   /// The condition that triggers this connection. For more information about how
   /// to write conditions, see the <b>Condition</b> node type in the <a
@@ -12282,6 +12595,8 @@ class FlowConditionalConnectionConfiguration {
 }
 
 /// Contains configurations about a node in the flow.
+///
+/// @nodoc
 class FlowNode {
   /// A name for the node.
   final String name;
@@ -12345,6 +12660,7 @@ class FlowNode {
   }
 }
 
+/// @nodoc
 class FlowNodeType {
   static const input = FlowNodeType._('Input');
   static const output = FlowNodeType._('Output');
@@ -12403,6 +12719,8 @@ class FlowNodeType {
 /// <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class FlowNodeConfiguration {
   /// Contains configurations for an agent node in your flow. Invokes an alias of
   /// an agent and returns the response.
@@ -12600,6 +12918,8 @@ class FlowNodeConfiguration {
 }
 
 /// Contains configurations for an output from a node.
+///
+/// @nodoc
 class FlowNodeOutput {
   /// A name for the output that you can reference.
   final String name;
@@ -12630,6 +12950,7 @@ class FlowNodeOutput {
   }
 }
 
+/// @nodoc
 class FlowNodeIODataType {
   static const string = FlowNodeIODataType._('String');
   static const number = FlowNodeIODataType._('Number');
@@ -12659,6 +12980,8 @@ class FlowNodeIODataType {
 }
 
 /// Contains configurations for an input in an Amazon Bedrock Flows node.
+///
+/// @nodoc
 class FlowNodeInput {
   /// An expression that formats the input for the node. For an explanation of how
   /// to create expressions, see <a
@@ -12724,6 +13047,7 @@ class FlowNodeInput {
   }
 }
 
+/// @nodoc
 class FlowNodeInputCategory {
   static const loopCondition = FlowNodeInputCategory._('LoopCondition');
   static const returnValueToLoopStart =
@@ -12754,6 +13078,8 @@ class FlowNodeInputCategory {
 /// Contains configurations for the input flow node for a flow. This node takes
 /// the input from flow invocation and passes it to the next node in the data
 /// type that you specify.
+///
+/// @nodoc
 class InputFlowNodeConfiguration {
   InputFlowNodeConfiguration();
 
@@ -12770,6 +13096,8 @@ class InputFlowNodeConfiguration {
 /// data type expected for the input into the node in the <code>type</code>
 /// field and how to return the final output in the <code>expression</code>
 /// field.
+///
+/// @nodoc
 class OutputFlowNodeConfiguration {
   OutputFlowNodeConfiguration();
 
@@ -12788,6 +13116,8 @@ class OutputFlowNodeConfiguration {
 /// responses. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class KnowledgeBaseFlowNodeConfiguration {
   /// The unique identifier of the knowledge base to query.
   final String knowledgeBaseId;
@@ -12890,6 +13220,8 @@ class KnowledgeBaseFlowNodeConfiguration {
 /// determine which node comes next in the flow. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class ConditionFlowNodeConfiguration {
   /// An array of conditions. Each member contains the name of a condition and an
   /// expression that defines the condition.
@@ -12922,6 +13254,8 @@ class ConditionFlowNodeConfiguration {
 /// see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class LexFlowNodeConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon Lex bot alias to invoke.
   final String botAliasArn;
@@ -12958,6 +13292,8 @@ class LexFlowNodeConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class PromptFlowNodeConfiguration {
   /// Specifies whether the prompt is from Prompt management or defined inline.
   final PromptFlowNodeSourceConfiguration sourceConfiguration;
@@ -13000,6 +13336,8 @@ class PromptFlowNodeConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class LambdaFunctionFlowNodeConfiguration {
   /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
   final String lambdaArn;
@@ -13025,6 +13363,8 @@ class LambdaFunctionFlowNodeConfiguration {
 
 /// Contains configurations for a Storage node in a flow. This node stores the
 /// input in an Amazon S3 location that you specify.
+///
+/// @nodoc
 class StorageFlowNodeConfiguration {
   /// Contains configurations for the service to use for storing the input into
   /// the node.
@@ -13054,6 +13394,8 @@ class StorageFlowNodeConfiguration {
 /// point in the flow. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class AgentFlowNodeConfiguration {
   /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
   final String agentAliasArn;
@@ -13079,6 +13421,8 @@ class AgentFlowNodeConfiguration {
 /// Contains configurations for a Retrieval node in a flow. This node retrieves
 /// data from the Amazon S3 location that you specify and returns it as the
 /// output.
+///
+/// @nodoc
 class RetrievalFlowNodeConfiguration {
   /// Contains configurations for the service to use for retrieving data to return
   /// as the output from the node.
@@ -13111,6 +13455,8 @@ class RetrievalFlowNodeConfiguration {
 /// The output flow node at the end of the flow iteration will return a response
 /// for each member of the array. To return only one response, you can include a
 /// collector node downstream from the iterator node.
+///
+/// @nodoc
 class IteratorFlowNodeConfiguration {
   IteratorFlowNodeConfiguration();
 
@@ -13128,6 +13474,8 @@ class IteratorFlowNodeConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
 /// types in a flow</a> in the Amazon Bedrock User Guide.
+///
+/// @nodoc
 class CollectorFlowNodeConfiguration {
   CollectorFlowNodeConfiguration();
 
@@ -13144,6 +13492,8 @@ class CollectorFlowNodeConfiguration {
 /// nodes let you write and execute code directly within your flow, enabling
 /// data transformations, custom logic, and integrations without needing an
 /// external Lambda function.
+///
+/// @nodoc
 class InlineCodeFlowNodeConfiguration {
   /// The code that's executed in your inline code node. The code can access input
   /// data from previous nodes in the flow, perform operations on that data, and
@@ -13211,6 +13561,8 @@ class InlineCodeFlowNodeConfiguration {
 /// These nodes work together to create a loop that runs at least once and
 /// continues until a specified condition is met or a maximum number of
 /// iterations is reached.
+///
+/// @nodoc
 class LoopFlowNodeConfiguration {
   /// The definition of the DoWhile loop nodes and connections between nodes in
   /// the flow.
@@ -13237,6 +13589,8 @@ class LoopFlowNodeConfiguration {
 }
 
 /// Contains configurations for the input node of a DoWhile loop in the flow.
+///
+/// @nodoc
 class LoopInputFlowNodeConfiguration {
   LoopInputFlowNodeConfiguration();
 
@@ -13251,6 +13605,8 @@ class LoopInputFlowNodeConfiguration {
 
 /// Contains configurations for the controller node of a DoWhile loop in the
 /// flow.
+///
+/// @nodoc
 class LoopControllerFlowNodeConfiguration {
   /// Specifies the condition that determines when the flow exits the DoWhile
   /// loop. The loop executes until this condition evaluates to true.
@@ -13286,6 +13642,8 @@ class LoopControllerFlowNodeConfiguration {
 }
 
 /// Defines a condition in the condition node.
+///
+/// @nodoc
 class FlowCondition {
   /// A name for the condition that you can reference.
   final String name;
@@ -13318,6 +13676,7 @@ class FlowCondition {
   }
 }
 
+/// @nodoc
 class SupportedLanguages {
   static const python_3 = SupportedLanguages._('Python_3');
 
@@ -13344,6 +13703,8 @@ class SupportedLanguages {
 
 /// Contains configurations for the service to use for retrieving data to return
 /// as the output from the node.
+///
+/// @nodoc
 class RetrievalFlowNodeServiceConfiguration {
   /// Contains configurations for the Amazon S3 location from which to retrieve
   /// data to return as the output from the node.
@@ -13373,6 +13734,8 @@ class RetrievalFlowNodeServiceConfiguration {
 
 /// Contains configurations for the Amazon S3 location from which to retrieve
 /// data to return as the output from the node.
+///
+/// @nodoc
 class RetrievalFlowNodeS3Configuration {
   /// The name of the Amazon S3 bucket from which to retrieve data.
   final String bucketName;
@@ -13397,6 +13760,8 @@ class RetrievalFlowNodeS3Configuration {
 
 /// Contains configurations for the service to use for storing the input into
 /// the node.
+///
+/// @nodoc
 class StorageFlowNodeServiceConfiguration {
   /// Contains configurations for the Amazon S3 location in which to store the
   /// input into the node.
@@ -13426,6 +13791,8 @@ class StorageFlowNodeServiceConfiguration {
 
 /// Contains configurations for the Amazon S3 location in which to store the
 /// input into the node.
+///
+/// @nodoc
 class StorageFlowNodeS3Configuration {
   /// The name of the Amazon S3 bucket in which to store the input into the node.
   final String bucketName;
@@ -13450,6 +13817,8 @@ class StorageFlowNodeS3Configuration {
 
 /// Contains configurations for a prompt and whether it is from Prompt
 /// management or defined inline.
+///
+/// @nodoc
 class PromptFlowNodeSourceConfiguration {
   /// Contains configurations for a prompt that is defined inline
   final PromptFlowNodeInlineConfiguration? inline;
@@ -13488,6 +13857,8 @@ class PromptFlowNodeSourceConfiguration {
 
 /// Contains configurations for a prompt from Prompt management to use in a
 /// node.
+///
+/// @nodoc
 class PromptFlowNodeResourceConfiguration {
   /// The Amazon Resource Name (ARN) of the prompt from Prompt management.
   final String promptArn;
@@ -13512,6 +13883,8 @@ class PromptFlowNodeResourceConfiguration {
 }
 
 /// Contains configurations for a prompt defined inline in the node.
+///
+/// @nodoc
 class PromptFlowNodeInlineConfiguration {
   /// The unique identifier of the model or <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html">inference
@@ -13579,6 +13952,8 @@ class PromptFlowNodeInlineConfiguration {
 
 /// Defines a custom prompt template for orchestrating the retrieval and
 /// generation process.
+///
+/// @nodoc
 class KnowledgeBasePromptTemplate {
   /// The text of the prompt template.
   final String? textPromptTemplate;
@@ -13603,6 +13978,8 @@ class KnowledgeBasePromptTemplate {
 
 /// Specifies how retrieved results from a knowledge base are reranked to
 /// improve relevance.
+///
+/// @nodoc
 class VectorSearchRerankingConfiguration {
   /// Specifies the type of reranking model to use. Currently, the only supported
   /// value is <code>BEDROCK_RERANKING_MODEL</code>.
@@ -13645,6 +14022,8 @@ class VectorSearchRerankingConfiguration {
 /// Configures how the knowledge base orchestrates the retrieval and generation
 /// process, allowing for customization of prompts, inference parameters, and
 /// performance settings.
+///
+/// @nodoc
 class KnowledgeBaseOrchestrationConfiguration {
   /// The additional model-specific request parameters as key-value pairs to be
   /// included in the request to the foundation model.
@@ -13706,6 +14085,8 @@ class KnowledgeBaseOrchestrationConfiguration {
 
 /// The performance-related configuration options for the knowledge base
 /// retrieval and generation process.
+///
+/// @nodoc
 class PerformanceConfiguration {
   /// The latency optimization setting.
   final PerformanceConfigLatency? latency;
@@ -13729,6 +14110,7 @@ class PerformanceConfiguration {
   }
 }
 
+/// @nodoc
 class PerformanceConfigLatency {
   static const standard = PerformanceConfigLatency._('standard');
   static const optimized = PerformanceConfigLatency._('optimized');
@@ -13754,6 +14136,7 @@ class PerformanceConfigLatency {
   String toString() => value;
 }
 
+/// @nodoc
 class VectorSearchRerankingConfigurationType {
   static const bedrockRerankingModel =
       VectorSearchRerankingConfigurationType._('BEDROCK_RERANKING_MODEL');
@@ -13781,6 +14164,8 @@ class VectorSearchRerankingConfigurationType {
 
 /// Configures the Amazon Bedrock reranker model to improve the relevance of
 /// retrieved results.
+///
+/// @nodoc
 class VectorSearchBedrockRerankingConfiguration {
   /// Specifies the configuration for the Amazon Bedrock reranker model.
   final VectorSearchBedrockRerankingModelConfiguration modelConfiguration;
@@ -13828,6 +14213,8 @@ class VectorSearchBedrockRerankingConfiguration {
 }
 
 /// Configures the Amazon Bedrock model used for reranking retrieved results.
+///
+/// @nodoc
 class VectorSearchBedrockRerankingModelConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon Bedrock reranker model.
   final String modelArn;
@@ -13864,6 +14251,8 @@ class VectorSearchBedrockRerankingModelConfiguration {
 
 /// Specifies how metadata fields should be handled during the reranking
 /// process.
+///
+/// @nodoc
 class MetadataConfigurationForReranking {
   /// The mode for selecting metadata fields for reranking.
   final RerankingMetadataSelectionMode selectionMode;
@@ -13900,6 +14289,7 @@ class MetadataConfigurationForReranking {
   }
 }
 
+/// @nodoc
 class RerankingMetadataSelectionMode {
   static const selective = RerankingMetadataSelectionMode._('SELECTIVE');
   static const all = RerankingMetadataSelectionMode._('ALL');
@@ -13927,6 +14317,8 @@ class RerankingMetadataSelectionMode {
 
 /// Configures the metadata fields to include or exclude during the reranking
 /// process when using selective mode.
+///
+/// @nodoc
 class RerankingMetadataSelectiveModeConfiguration {
   /// Specifies the metadata fields to exclude from the reranking process.
   final List<FieldForReranking>? fieldsToExclude;
@@ -13965,6 +14357,8 @@ class RerankingMetadataSelectiveModeConfiguration {
 
 /// Specifies a metadata field to include or exclude during the reranking
 /// process.
+///
+/// @nodoc
 class FieldForReranking {
   /// The name of the metadata field to include or exclude during reranking.
   final String fieldName;
@@ -13998,6 +14392,8 @@ class FieldForReranking {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FlowAliasSummary {
   /// The Amazon Resource Name (ARN) of the alias.
   final String arn;
@@ -14089,6 +14485,8 @@ class FlowAliasSummary {
 
 /// Determines how multiple nodes in a flow can run in parallel. Running nodes
 /// concurrently can improve your flow's performance.
+///
+/// @nodoc
 class FlowAliasConcurrencyConfiguration {
   /// The type of concurrency to use for parallel node execution. Specify one of
   /// the following options:
@@ -14130,6 +14528,7 @@ class FlowAliasConcurrencyConfiguration {
   }
 }
 
+/// @nodoc
 class ConcurrencyType {
   static const automatic = ConcurrencyType._('Automatic');
   static const manual = ConcurrencyType._('Manual');
@@ -14155,6 +14554,8 @@ class ConcurrencyType {
 }
 
 /// Contains information about a version that the alias maps to.
+///
+/// @nodoc
 class FlowAliasRoutingConfigurationListItem {
   /// The version that the alias maps to.
   final String? flowVersion;
@@ -14179,6 +14580,8 @@ class FlowAliasRoutingConfigurationListItem {
 }
 
 /// Contains the definition of a flow.
+///
+/// @nodoc
 class FlowSummary {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -14291,6 +14694,8 @@ class FlowSummary {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FlowValidation {
   /// A message describing the validation error.
   final String message;
@@ -14338,6 +14743,7 @@ class FlowValidation {
   }
 }
 
+/// @nodoc
 class FlowValidationSeverity {
   static const warning = FlowValidationSeverity._('Warning');
   static const error = FlowValidationSeverity._('Error');
@@ -14364,6 +14770,8 @@ class FlowValidationSeverity {
 }
 
 /// A union type containing various possible validation issues in the flow.
+///
+/// @nodoc
 class FlowValidationDetails {
   /// Details about a cyclic connection in the flow.
   final CyclicConnectionFlowValidationDetails? cyclicConnection;
@@ -14758,6 +15166,7 @@ class FlowValidationDetails {
   }
 }
 
+/// @nodoc
 class FlowValidationType {
   static const cyclicConnection = FlowValidationType._('CyclicConnection');
   static const duplicateConnections =
@@ -14874,6 +15283,8 @@ class FlowValidationType {
 }
 
 /// Details about a cyclic connection detected in the flow.
+///
+/// @nodoc
 class CyclicConnectionFlowValidationDetails {
   /// The name of the connection that causes the cycle in the flow.
   final String connection;
@@ -14898,6 +15309,8 @@ class CyclicConnectionFlowValidationDetails {
 }
 
 /// Details about duplicate connections found between two nodes in the flow.
+///
+/// @nodoc
 class DuplicateConnectionsFlowValidationDetails {
   /// The name of the source node where the duplicate connection starts.
   final String source;
@@ -14929,6 +15342,8 @@ class DuplicateConnectionsFlowValidationDetails {
 }
 
 /// Details about duplicate condition expressions found in a condition node.
+///
+/// @nodoc
 class DuplicateConditionExpressionFlowValidationDetails {
   /// The duplicated condition expression.
   final String expression;
@@ -14961,6 +15376,8 @@ class DuplicateConditionExpressionFlowValidationDetails {
 
 /// Details about an unreachable node in the flow. A node is unreachable when
 /// there are no paths to it from any starting node.
+///
+/// @nodoc
 class UnreachableNodeFlowValidationDetails {
   /// The name of the unreachable node.
   final String node;
@@ -14985,6 +15402,8 @@ class UnreachableNodeFlowValidationDetails {
 }
 
 /// Details about an unknown source node for a connection.
+///
+/// @nodoc
 class UnknownConnectionSourceFlowValidationDetails {
   /// The name of the connection with the unknown source.
   final String connection;
@@ -15009,6 +15428,8 @@ class UnknownConnectionSourceFlowValidationDetails {
 }
 
 /// Details about an unknown source output for a connection.
+///
+/// @nodoc
 class UnknownConnectionSourceOutputFlowValidationDetails {
   /// The name of the connection with the unknown source output.
   final String connection;
@@ -15033,6 +15454,8 @@ class UnknownConnectionSourceOutputFlowValidationDetails {
 }
 
 /// Details about an unknown target node for a connection.
+///
+/// @nodoc
 class UnknownConnectionTargetFlowValidationDetails {
   /// The name of the connection with the unknown target.
   final String connection;
@@ -15057,6 +15480,8 @@ class UnknownConnectionTargetFlowValidationDetails {
 }
 
 /// Details about an unknown target input for a connection.
+///
+/// @nodoc
 class UnknownConnectionTargetInputFlowValidationDetails {
   /// The name of the connection with the unknown target input.
   final String connection;
@@ -15081,6 +15506,8 @@ class UnknownConnectionTargetInputFlowValidationDetails {
 }
 
 /// Details about an unknown condition for a connection.
+///
+/// @nodoc
 class UnknownConnectionConditionFlowValidationDetails {
   /// The name of the connection with the unknown condition.
   final String connection;
@@ -15105,6 +15532,8 @@ class UnknownConnectionConditionFlowValidationDetails {
 }
 
 /// Details about a malformed condition expression in a node.
+///
+/// @nodoc
 class MalformedConditionExpressionFlowValidationDetails {
   /// The error message describing why the condition expression is malformed.
   final String cause;
@@ -15143,6 +15572,8 @@ class MalformedConditionExpressionFlowValidationDetails {
 }
 
 /// Details about a malformed input expression in a node.
+///
+/// @nodoc
 class MalformedNodeInputExpressionFlowValidationDetails {
   /// The error message describing why the input expression is malformed.
   final String cause;
@@ -15181,6 +15612,8 @@ class MalformedNodeInputExpressionFlowValidationDetails {
 }
 
 /// Details about mismatched input data types in a node.
+///
+/// @nodoc
 class MismatchedNodeInputTypeFlowValidationDetails {
   /// The expected data type for the node input.
   final FlowNodeIODataType expectedType;
@@ -15220,6 +15653,8 @@ class MismatchedNodeInputTypeFlowValidationDetails {
 }
 
 /// Details about mismatched output data types in a node.
+///
+/// @nodoc
 class MismatchedNodeOutputTypeFlowValidationDetails {
   /// The expected data type for the node output.
   final FlowNodeIODataType expectedType;
@@ -15259,6 +15694,8 @@ class MismatchedNodeOutputTypeFlowValidationDetails {
 }
 
 /// Details about incompatible data types in a connection between nodes.
+///
+/// @nodoc
 class IncompatibleConnectionDataTypeFlowValidationDetails {
   /// The name of the connection with incompatible data types.
   final String connection;
@@ -15283,6 +15720,8 @@ class IncompatibleConnectionDataTypeFlowValidationDetails {
 }
 
 /// Details about a connection missing required configuration.
+///
+/// @nodoc
 class MissingConnectionConfigurationFlowValidationDetails {
   /// The name of the connection missing configuration.
   final String connection;
@@ -15307,6 +15746,8 @@ class MissingConnectionConfigurationFlowValidationDetails {
 }
 
 /// Details about a missing default condition in a conditional node.
+///
+/// @nodoc
 class MissingDefaultConditionFlowValidationDetails {
   /// The name of the node missing the default condition.
   final String node;
@@ -15331,6 +15772,8 @@ class MissingDefaultConditionFlowValidationDetails {
 }
 
 /// Details about missing ending nodes (such as FlowOutputNode) in the flow.
+///
+/// @nodoc
 class MissingEndingNodesFlowValidationDetails {
   MissingEndingNodesFlowValidationDetails();
 
@@ -15345,6 +15788,8 @@ class MissingEndingNodesFlowValidationDetails {
 }
 
 /// Details about a node missing a required configuration.
+///
+/// @nodoc
 class MissingNodeConfigurationFlowValidationDetails {
   /// The name of the node missing a required configuration.
   final String node;
@@ -15369,6 +15814,8 @@ class MissingNodeConfigurationFlowValidationDetails {
 }
 
 /// Details about a missing required input in a node.
+///
+/// @nodoc
 class MissingNodeInputFlowValidationDetails {
   /// The name of the missing input.
   final String input;
@@ -15400,6 +15847,8 @@ class MissingNodeInputFlowValidationDetails {
 }
 
 /// Details about a missing required output in a node.
+///
+/// @nodoc
 class MissingNodeOutputFlowValidationDetails {
   /// The name of the node missing the required output.
   final String node;
@@ -15431,6 +15880,8 @@ class MissingNodeOutputFlowValidationDetails {
 }
 
 /// Details about missing starting nodes (such as FlowInputNode) in the flow.
+///
+/// @nodoc
 class MissingStartingNodesFlowValidationDetails {
   MissingStartingNodesFlowValidationDetails();
 
@@ -15445,6 +15896,8 @@ class MissingStartingNodesFlowValidationDetails {
 }
 
 /// Details about multiple connections to a single node input.
+///
+/// @nodoc
 class MultipleNodeInputConnectionsFlowValidationDetails {
   /// The name of the input with multiple connections to it.
   final String input;
@@ -15476,6 +15929,8 @@ class MultipleNodeInputConnectionsFlowValidationDetails {
 }
 
 /// Details about an unfulfilled node input with no valid connections.
+///
+/// @nodoc
 class UnfulfilledNodeInputFlowValidationDetails {
   /// The name of the unfulfilled input. An input is unfulfilled if there are no
   /// data connections to it.
@@ -15510,6 +15965,8 @@ class UnfulfilledNodeInputFlowValidationDetails {
 /// Details about unsatisfied conditions for a connection. A condition is
 /// unsatisfied if it can never be true, for example two branches of condition
 /// node cannot be simultaneously true.
+///
+/// @nodoc
 class UnsatisfiedConnectionConditionsFlowValidationDetails {
   /// The name of the connection with unsatisfied conditions.
   final String connection;
@@ -15534,6 +15991,8 @@ class UnsatisfiedConnectionConditionsFlowValidationDetails {
 }
 
 /// Details about an unspecified validation that doesn't fit other categories.
+///
+/// @nodoc
 class UnspecifiedFlowValidationDetails {
   UnspecifiedFlowValidationDetails();
 
@@ -15547,6 +16006,8 @@ class UnspecifiedFlowValidationDetails {
 }
 
 /// Details about an unknown input for a node.
+///
+/// @nodoc
 class UnknownNodeInputFlowValidationDetails {
   /// The name of the node with the unknown input.
   final String input;
@@ -15578,6 +16039,8 @@ class UnknownNodeInputFlowValidationDetails {
 }
 
 /// Details about an unknown output for a node.
+///
+/// @nodoc
 class UnknownNodeOutputFlowValidationDetails {
   /// The name of the node with the unknown output.
   final String node;
@@ -15610,6 +16073,8 @@ class UnknownNodeOutputFlowValidationDetails {
 
 /// Details about a flow that's missing a required <code>LoopInput</code> node
 /// in a DoWhile loop.
+///
+/// @nodoc
 class MissingLoopInputNodeFlowValidationDetails {
   /// The DoWhile loop in a flow that's missing a required <code>LoopInput</code>
   /// node.
@@ -15636,6 +16101,8 @@ class MissingLoopInputNodeFlowValidationDetails {
 
 /// Details about a flow that's missing a required <code>LoopController</code>
 /// node in a DoWhile loop.
+///
+/// @nodoc
 class MissingLoopControllerNodeFlowValidationDetails {
   /// The DoWhile loop in a flow that's missing a required
   /// <code>LoopController</code> node.
@@ -15662,6 +16129,8 @@ class MissingLoopControllerNodeFlowValidationDetails {
 
 /// Details about a flow that contains multiple <code>LoopInput</code> nodes in
 /// a DoWhile loop.
+///
+/// @nodoc
 class MultipleLoopInputNodesFlowValidationDetails {
   /// The DoWhile loop in a flow that contains multiple <code>LoopInput</code>
   /// nodes.
@@ -15688,6 +16157,8 @@ class MultipleLoopInputNodesFlowValidationDetails {
 
 /// Details about a flow that contains multiple <code>LoopController</code>
 /// nodes in a DoWhile loop.
+///
+/// @nodoc
 class MultipleLoopControllerNodesFlowValidationDetails {
   /// The DoWhile loop in a flow that contains multiple
   /// <code>LoopController</code> nodes.
@@ -15713,6 +16184,8 @@ class MultipleLoopControllerNodesFlowValidationDetails {
 }
 
 /// Details about a flow that contains an incompatible node in a DoWhile loop.
+///
+/// @nodoc
 class LoopIncompatibleNodeTypeFlowValidationDetails {
   /// The node that's incompatible in the DoWhile loop.
   final String incompatibleNodeName;
@@ -15754,6 +16227,8 @@ class LoopIncompatibleNodeTypeFlowValidationDetails {
 
 /// Details about a flow that contains connections that violate loop boundary
 /// rules.
+///
+/// @nodoc
 class InvalidLoopBoundaryFlowValidationDetails {
   /// The name of the connection that violates loop boundary rules.
   final String connection;
@@ -15791,6 +16266,7 @@ class InvalidLoopBoundaryFlowValidationDetails {
   }
 }
 
+/// @nodoc
 class IncompatibleLoopNodeType {
   static const input = IncompatibleLoopNodeType._('Input');
   static const condition = IncompatibleLoopNodeType._('Condition');
@@ -15819,6 +16295,8 @@ class IncompatibleLoopNodeType {
 }
 
 /// Contains details about a data source.
+///
+/// @nodoc
 class DataSource {
   /// The time at which the data source was created.
   final DateTime createdAt;
@@ -15947,6 +16425,7 @@ class DataSource {
   }
 }
 
+/// @nodoc
 class DataSourceStatus {
   static const available = DataSourceStatus._('AVAILABLE');
   static const deleting = DataSourceStatus._('DELETING');
@@ -15973,6 +16452,8 @@ class DataSourceStatus {
 }
 
 /// The connection configuration for the data source.
+///
+/// @nodoc
 class DataSourceConfiguration {
   /// The type of data source.
   final DataSourceType type;
@@ -16066,6 +16547,8 @@ class DataSourceConfiguration {
 }
 
 /// Contains the configuration for server-side encryption.
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
   final String? kmsKeyArn;
@@ -16090,6 +16573,8 @@ class ServerSideEncryptionConfiguration {
 }
 
 /// Contains details about how to ingest the documents in a data source.
+///
+/// @nodoc
 class VectorIngestionConfiguration {
   /// Details about how to chunk the documents in the data source. A <i>chunk</i>
   /// refers to an excerpt from a data source that is returned when the knowledge
@@ -16157,6 +16642,7 @@ class VectorIngestionConfiguration {
   }
 }
 
+/// @nodoc
 class DataDeletionPolicy {
   static const retain = DataDeletionPolicy._('RETAIN');
   static const delete = DataDeletionPolicy._('DELETE');
@@ -16185,6 +16671,8 @@ class DataDeletionPolicy {
 /// Details about how to chunk the documents in the data source. A <i>chunk</i>
 /// refers to an excerpt from a data source that is returned when the knowledge
 /// base that it belongs to is queried.
+///
+/// @nodoc
 class ChunkingConfiguration {
   /// Knowledge base can split your source data into chunks. A <i>chunk</i> refers
   /// to an excerpt from a data source that is returned when the knowledge base
@@ -16291,6 +16779,8 @@ class ChunkingConfiguration {
 /// path for input and output objects, and a transformation that specifies the
 /// Lambda function to invoke. You can use the Lambda function to customize how
 /// chunks are split, and the metadata for each chunk.
+///
+/// @nodoc
 class CustomTransformationConfiguration {
   /// An S3 bucket path for input and output objects.
   final IntermediateStorage intermediateStorage;
@@ -16339,6 +16829,8 @@ class CustomTransformationConfiguration {
 /// <code>BEDROCK_FOUNDATION_MODEL</code> and it fails to parse a file, the
 /// Amazon Bedrock default parser will be used instead.
 /// </note>
+///
+/// @nodoc
 class ParsingConfiguration {
   /// The parsing strategy for the data source.
   final ParsingStrategy parsingStrategy;
@@ -16399,6 +16891,8 @@ class ParsingConfiguration {
 
 /// Context enrichment configuration is used to provide additional context to
 /// the RAG application.
+///
+/// @nodoc
 class ContextEnrichmentConfiguration {
   /// The method used for context enrichment. It must be Amazon Bedrock foundation
   /// models.
@@ -16439,6 +16933,7 @@ class ContextEnrichmentConfiguration {
   }
 }
 
+/// @nodoc
 class ContextEnrichmentType {
   static const bedrockFoundationModel =
       ContextEnrichmentType._('BEDROCK_FOUNDATION_MODEL');
@@ -16466,6 +16961,8 @@ class ContextEnrichmentType {
 
 /// Context enrichment configuration is used to provide additional context to
 /// the RAG application using Amazon Bedrock foundation models.
+///
+/// @nodoc
 class BedrockFoundationModelContextEnrichmentConfiguration {
   /// The enrichment stategy used to provide additional context. For example,
   /// Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk
@@ -16503,6 +17000,8 @@ class BedrockFoundationModelContextEnrichmentConfiguration {
 }
 
 /// The strategy used for performing context enrichment.
+///
+/// @nodoc
 class EnrichmentStrategyConfiguration {
   /// The method used for the context enrichment strategy.
   final EnrichmentStrategyMethod method;
@@ -16526,6 +17025,7 @@ class EnrichmentStrategyConfiguration {
   }
 }
 
+/// @nodoc
 class EnrichmentStrategyMethod {
   static const chunkEntityExtraction =
       EnrichmentStrategyMethod._('CHUNK_ENTITY_EXTRACTION');
@@ -16551,6 +17051,7 @@ class EnrichmentStrategyMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class ParsingStrategy {
   static const bedrockFoundationModel =
       ParsingStrategy._('BEDROCK_FOUNDATION_MODEL');
@@ -16578,6 +17079,8 @@ class ParsingStrategy {
 }
 
 /// Settings for a foundation model used to parse documents for a data source.
+///
+/// @nodoc
 class BedrockFoundationModelConfiguration {
   /// The ARN of the foundation model to use for parsing.
   final String modelArn;
@@ -16622,6 +17125,8 @@ class BedrockFoundationModelConfiguration {
 
 /// Contains configurations for using Amazon Bedrock Data Automation as the
 /// parser for ingesting your data sources.
+///
+/// @nodoc
 class BedrockDataAutomationConfiguration {
   /// Specifies whether to enable parsing of multimodal data, including both text
   /// and/or images.
@@ -16647,6 +17152,7 @@ class BedrockDataAutomationConfiguration {
   }
 }
 
+/// @nodoc
 class ParsingModality {
   static const multimodal = ParsingModality._('MULTIMODAL');
 
@@ -16671,6 +17177,8 @@ class ParsingModality {
 }
 
 /// Instructions for interpreting the contents of a document.
+///
+/// @nodoc
 class ParsingPrompt {
   /// Instructions for interpreting the contents of a document.
   final String parsingPromptText;
@@ -16695,6 +17203,8 @@ class ParsingPrompt {
 
 /// A location for storing content from data sources temporarily as it is
 /// processed by custom components in the ingestion pipeline.
+///
+/// @nodoc
 class IntermediateStorage {
   /// An S3 bucket path.
   final S3Location s3Location;
@@ -16722,6 +17232,8 @@ class IntermediateStorage {
 /// A custom processing step for documents moving through a data source
 /// ingestion pipeline. To process documents after they have been converted into
 /// chunks, set the step to apply to <code>POST_CHUNKING</code>.
+///
+/// @nodoc
 class Transformation {
   /// When the service applies the transformation.
   final StepType stepToApply;
@@ -16754,6 +17266,8 @@ class Transformation {
 }
 
 /// A Lambda function that processes documents.
+///
+/// @nodoc
 class TransformationFunction {
   /// The Lambda function.
   final TransformationLambdaConfiguration transformationLambdaConfiguration;
@@ -16781,6 +17295,7 @@ class TransformationFunction {
   }
 }
 
+/// @nodoc
 class StepType {
   static const postChunking = StepType._('POST_CHUNKING');
 
@@ -16804,6 +17319,8 @@ class StepType {
 }
 
 /// A Lambda function that processes documents.
+///
+/// @nodoc
 class TransformationLambdaConfiguration {
   /// The function's ARN identifier.
   final String lambdaArn;
@@ -16827,6 +17344,7 @@ class TransformationLambdaConfiguration {
   }
 }
 
+/// @nodoc
 class ChunkingStrategy {
   static const fixedSize = ChunkingStrategy._('FIXED_SIZE');
   static const none = ChunkingStrategy._('NONE');
@@ -16855,6 +17373,8 @@ class ChunkingStrategy {
 
 /// Configurations for when you choose fixed-size chunking. If you set the
 /// <code>chunkingStrategy</code> as <code>NONE</code>, exclude this field.
+///
+/// @nodoc
 class FixedSizeChunkingConfiguration {
   /// The maximum number of tokens to include in a chunk.
   final int maxTokens;
@@ -16893,6 +17413,8 @@ class FixedSizeChunkingConfiguration {
 /// chunks. For example, if you set overlap tokens to 60, the last 60 tokens in
 /// the first chunk are also included at the beginning of the second chunk. For
 /// each layer, you must also configure the maximum number of tokens in a chunk.
+///
+/// @nodoc
 class HierarchicalChunkingConfiguration {
   /// Token settings for each layer.
   final List<HierarchicalChunkingLevelConfiguration> levelConfigurations;
@@ -16945,6 +17467,8 @@ class HierarchicalChunkingConfiguration {
 /// previous and following sentence. For example, if you set the buffer size to
 /// <code>1</code>, the embedding for sentence 10 is derived from sentences 9,
 /// 10, and 11 combined.
+///
+/// @nodoc
 class SemanticChunkingConfiguration {
   /// The dissimilarity threshold for splitting chunks.
   final int breakpointPercentileThreshold;
@@ -16983,6 +17507,8 @@ class SemanticChunkingConfiguration {
 }
 
 /// Token settings for a layer in a hierarchical chunking configuration.
+///
+/// @nodoc
 class HierarchicalChunkingLevelConfiguration {
   /// The maximum number of tokens that a chunk can contain in this layer.
   final int maxTokens;
@@ -17006,6 +17532,7 @@ class HierarchicalChunkingLevelConfiguration {
   }
 }
 
+/// @nodoc
 class DataSourceType {
   static const s3 = DataSourceType._('S3');
   static const web = DataSourceType._('WEB');
@@ -17044,6 +17571,8 @@ class DataSourceType {
 }
 
 /// The configuration information to connect to Amazon S3 as your data source.
+///
+/// @nodoc
 class S3DataSourceConfiguration {
   /// The Amazon Resource Name (ARN) of the S3 bucket that contains your data.
   final String bucketArn;
@@ -17088,6 +17617,8 @@ class S3DataSourceConfiguration {
 }
 
 /// The configuration details for the web data source.
+///
+/// @nodoc
 class WebDataSourceConfiguration {
   /// The source configuration details for the web data source.
   final WebSourceConfiguration sourceConfiguration;
@@ -17124,6 +17655,8 @@ class WebDataSourceConfiguration {
 }
 
 /// The configuration information to connect to Confluence as your data source.
+///
+/// @nodoc
 class ConfluenceDataSourceConfiguration {
   /// The endpoint information to connect to your Confluence data source.
   final ConfluenceSourceConfiguration sourceConfiguration;
@@ -17162,6 +17695,8 @@ class ConfluenceDataSourceConfiguration {
 }
 
 /// The configuration information to connect to Salesforce as your data source.
+///
+/// @nodoc
 class SalesforceDataSourceConfiguration {
   /// The endpoint information to connect to your Salesforce data source.
   final SalesforceSourceConfiguration sourceConfiguration;
@@ -17200,6 +17735,8 @@ class SalesforceDataSourceConfiguration {
 }
 
 /// The configuration information to connect to SharePoint as your data source.
+///
+/// @nodoc
 class SharePointDataSourceConfiguration {
   /// The endpoint information to connect to your SharePoint data source.
   final SharePointSourceConfiguration sourceConfiguration;
@@ -17238,6 +17775,8 @@ class SharePointDataSourceConfiguration {
 }
 
 /// The endpoint information to connect to your SharePoint data source.
+///
+/// @nodoc
 class SharePointSourceConfiguration {
   /// The supported authentication type to authenticate and connect to your
   /// SharePoint site/sites.
@@ -17308,6 +17847,8 @@ class SharePointSourceConfiguration {
 
 /// The configuration of the SharePoint content. For example, configuring
 /// specific types of SharePoint content.
+///
+/// @nodoc
 class SharePointCrawlerConfiguration {
   /// The configuration of filtering the SharePoint content. For example,
   /// configuring regular expression patterns to include or exclude certain
@@ -17339,6 +17880,8 @@ class SharePointCrawlerConfiguration {
 /// The configuration of filtering the data source content. For example,
 /// configuring regular expression patterns to include or exclude certain
 /// content.
+///
+/// @nodoc
 class CrawlFilterConfiguration {
   /// The type of filtering that you want to apply to certain objects or content
   /// of the data source. For example, the <code>PATTERN</code> type is regular
@@ -17376,6 +17919,7 @@ class CrawlFilterConfiguration {
   }
 }
 
+/// @nodoc
 class CrawlFilterConfigurationType {
   static const pattern = CrawlFilterConfigurationType._('PATTERN');
 
@@ -17402,6 +17946,8 @@ class CrawlFilterConfigurationType {
 
 /// The configuration of filtering certain objects or content types of the data
 /// source.
+///
+/// @nodoc
 class PatternObjectFilterConfiguration {
   /// The configuration of specific filters applied to your data source content.
   /// You can filter out or include certain content.
@@ -17430,6 +17976,8 @@ class PatternObjectFilterConfiguration {
 
 /// The specific filters applied to your data source content. You can filter out
 /// or include certain content.
+///
+/// @nodoc
 class PatternObjectFilter {
   /// The supported object type or content type of the data source.
   final String objectType;
@@ -17478,6 +18026,7 @@ class PatternObjectFilter {
   }
 }
 
+/// @nodoc
 class SharePointHostType {
   static const online = SharePointHostType._('ONLINE');
 
@@ -17502,6 +18051,7 @@ class SharePointHostType {
   String toString() => value;
 }
 
+/// @nodoc
 class SharePointAuthType {
   static const oauth2ClientCredentials =
       SharePointAuthType._('OAUTH2_CLIENT_CREDENTIALS');
@@ -17533,6 +18083,8 @@ class SharePointAuthType {
 }
 
 /// The endpoint information to connect to your Salesforce data source.
+///
+/// @nodoc
 class SalesforceSourceConfiguration {
   /// The supported authentication type to authenticate and connect to your
   /// Salesforce instance.
@@ -17578,6 +18130,8 @@ class SalesforceSourceConfiguration {
 
 /// The configuration of the Salesforce content. For example, configuring
 /// specific types of Salesforce content.
+///
+/// @nodoc
 class SalesforceCrawlerConfiguration {
   /// The configuration of filtering the Salesforce content. For example,
   /// configuring regular expression patterns to include or exclude certain
@@ -17606,6 +18160,7 @@ class SalesforceCrawlerConfiguration {
   }
 }
 
+/// @nodoc
 class SalesforceAuthType {
   static const oauth2ClientCredentials =
       SalesforceAuthType._('OAUTH2_CLIENT_CREDENTIALS');
@@ -17632,6 +18187,8 @@ class SalesforceAuthType {
 }
 
 /// The endpoint information to connect to your Confluence data source.
+///
+/// @nodoc
 class ConfluenceSourceConfiguration {
   /// The supported authentication type to authenticate and connect to your
   /// Confluence instance.
@@ -17685,6 +18242,8 @@ class ConfluenceSourceConfiguration {
 
 /// The configuration of the Confluence content. For example, configuring
 /// specific types of Confluence content.
+///
+/// @nodoc
 class ConfluenceCrawlerConfiguration {
   /// The configuration of filtering the Confluence content. For example,
   /// configuring regular expression patterns to include or exclude certain
@@ -17713,6 +18272,7 @@ class ConfluenceCrawlerConfiguration {
   }
 }
 
+/// @nodoc
 class ConfluenceHostType {
   static const saas = ConfluenceHostType._('SAAS');
 
@@ -17737,6 +18297,7 @@ class ConfluenceHostType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfluenceAuthType {
   static const basic = ConfluenceAuthType._('BASIC');
   static const oauth2ClientCredentials =
@@ -17765,6 +18326,8 @@ class ConfluenceAuthType {
 
 /// The configuration of the URL/URLs for the web content that you want to
 /// crawl. You should be authorized to crawl the URLs.
+///
+/// @nodoc
 class WebSourceConfiguration {
   /// The configuration of the URL/URLs.
   final UrlConfiguration urlConfiguration;
@@ -17791,6 +18354,8 @@ class WebSourceConfiguration {
 
 /// The configuration of web URLs that you want to crawl. You should be
 /// authorized to crawl the URLs.
+///
+/// @nodoc
 class WebCrawlerConfiguration {
   /// The configuration of crawl limits for the web URLs.
   final WebCrawlerLimits? crawlerLimits;
@@ -17877,6 +18442,8 @@ class WebCrawlerConfiguration {
 
 /// The rate limits for the URLs that you want to crawl. You should be
 /// authorized to crawl the URLs.
+///
+/// @nodoc
 class WebCrawlerLimits {
   /// The max number of web pages crawled from your source URLs, up to 25,000
   /// pages. If the web pages exceed this limit, the data source sync will fail
@@ -17908,6 +18475,7 @@ class WebCrawlerLimits {
   }
 }
 
+/// @nodoc
 class WebScopeType {
   static const hostOnly = WebScopeType._('HOST_ONLY');
   static const subdomains = WebScopeType._('SUBDOMAINS');
@@ -17933,6 +18501,8 @@ class WebScopeType {
 
 /// The configuration of web URLs that you want to crawl. You should be
 /// authorized to crawl the URLs.
+///
+/// @nodoc
 class UrlConfiguration {
   /// One or more seed or starting point URLs.
   final List<SeedUrl>? seedUrls;
@@ -17959,6 +18529,8 @@ class UrlConfiguration {
 }
 
 /// The seed or starting point URL. You should be authorized to crawl the URL.
+///
+/// @nodoc
 class SeedUrl {
   /// A seed or starting point URL.
   final String? url;
@@ -17982,6 +18554,8 @@ class SeedUrl {
 }
 
 /// Contains details about a data source.
+///
+/// @nodoc
 class DataSourceSummary {
   /// The unique identifier of the data source.
   final String dataSourceId;
@@ -18041,6 +18615,8 @@ class DataSourceSummary {
 }
 
 /// Contains details about an alias of an agent.
+///
+/// @nodoc
 class AgentAlias {
   /// The Amazon Resource Name (ARN) of the alias of the agent.
   final String agentAliasArn;
@@ -18195,6 +18771,7 @@ class AgentAlias {
   }
 }
 
+/// @nodoc
 class AgentAliasStatus {
   static const creating = AgentAliasStatus._('CREATING');
   static const prepared = AgentAliasStatus._('PREPARED');
@@ -18231,6 +18808,8 @@ class AgentAliasStatus {
 }
 
 /// Enum representing the invocation state of an agent alias
+///
+/// @nodoc
 class AliasInvocationState {
   static const acceptInvocations = AliasInvocationState._('ACCEPT_INVOCATIONS');
   static const rejectInvocations = AliasInvocationState._('REJECT_INVOCATIONS');
@@ -18257,6 +18836,8 @@ class AliasInvocationState {
 }
 
 /// Contains details about the history of the alias.
+///
+/// @nodoc
 class AgentAliasHistoryEvent {
   /// The date that the alias stopped being associated to the version in the
   /// <code>routingConfiguration</code> object
@@ -18302,6 +18883,8 @@ class AgentAliasHistoryEvent {
 }
 
 /// Contains details about the routing configuration of the alias.
+///
+/// @nodoc
 class AgentAliasRoutingConfigurationListItem {
   /// The version of the agent with which the alias is associated.
   final String? agentVersion;
@@ -18334,6 +18917,8 @@ class AgentAliasRoutingConfigurationListItem {
 }
 
 /// Contains details about an alias of an agent.
+///
+/// @nodoc
 class AgentAliasSummary {
   /// Contains details about
   final String agentAliasId;
@@ -18418,6 +19003,8 @@ class AgentAliasSummary {
 }
 
 /// Contains details about an agent.
+///
+/// @nodoc
 class Agent {
   /// The Amazon Resource Name (ARN) of the agent.
   final String agentArn;
@@ -18663,6 +19250,7 @@ class Agent {
   }
 }
 
+/// @nodoc
 class OrchestrationType {
   static const $default = OrchestrationType._('DEFAULT');
   static const customOrchestration =
@@ -18689,6 +19277,8 @@ class OrchestrationType {
 }
 
 /// Details of custom orchestration.
+///
+/// @nodoc
 class CustomOrchestration {
   /// The structure of the executor invoking the actions in custom orchestration.
   final OrchestrationExecutor? executor;
@@ -18716,6 +19306,8 @@ class CustomOrchestration {
 
 /// Contains details about the Lambda function containing the orchestration
 /// logic carried out upon invoking the custom orchestration.
+///
+/// @nodoc
 class OrchestrationExecutor {
   /// The Amazon Resource Name (ARN) of the Lambda function containing the
   /// business logic that is carried out upon invoking the action.
@@ -18740,6 +19332,8 @@ class OrchestrationExecutor {
 }
 
 /// Contains details about an agent.
+///
+/// @nodoc
 class AgentSummary {
   /// The unique identifier of the agent.
   final String agentId;
@@ -18810,6 +19404,8 @@ class AgentSummary {
 }
 
 /// An agent collaborator.
+///
+/// @nodoc
 class AgentCollaborator {
   /// The collaborator's agent descriptor.
   final AgentDescriptor agentDescriptor;
@@ -18901,6 +19497,8 @@ class AgentCollaborator {
 }
 
 /// An agent descriptor.
+///
+/// @nodoc
 class AgentDescriptor {
   /// The agent's alias ARN.
   final String? aliasArn;
@@ -18923,6 +19521,7 @@ class AgentDescriptor {
   }
 }
 
+/// @nodoc
 class RelayConversationHistory {
   static const toCollaborator = RelayConversationHistory._('TO_COLLABORATOR');
   static const disabled = RelayConversationHistory._('DISABLED');
@@ -18949,6 +19548,8 @@ class RelayConversationHistory {
 }
 
 /// An agent collaborator summary.
+///
+/// @nodoc
 class AgentCollaboratorSummary {
   /// The collaborator's agent descriptor.
   final AgentDescriptor agentDescriptor;
@@ -19032,6 +19633,8 @@ class AgentCollaboratorSummary {
 }
 
 /// Contains details about an action group.
+///
+/// @nodoc
 class AgentActionGroup {
   /// The unique identifier of the action group.
   final String actionGroupId;
@@ -19192,6 +19795,7 @@ class AgentActionGroup {
   }
 }
 
+/// @nodoc
 class ActionGroupSignature {
   static const amazonUserInput = ActionGroupSignature._('AMAZON.UserInput');
   static const amazonCodeInterpreter =
@@ -19231,6 +19835,8 @@ class ActionGroupSignature {
 /// Contains details about the Lambda function containing the business logic
 /// that is carried out upon invoking the action or the custom control method
 /// for handling the information elicited from the user.
+///
+/// @nodoc
 class ActionGroupExecutor {
   /// To return the action group invocation results directly in the
   /// <code>InvokeAgent</code> response, specify <code>RETURN_CONTROL</code>.
@@ -19269,6 +19875,8 @@ class ActionGroupExecutor {
 /// group OpenAPI schemas</a>. You can either include the schema directly in the
 /// <code>payload</code> field or you can upload it to an S3 bucket and specify
 /// the S3 bucket location in the <code>s3</code> field.
+///
+/// @nodoc
 class APISchema {
   /// The JSON or YAML-formatted payload defining the OpenAPI schema for the
   /// action group. For more information, see <a
@@ -19338,6 +19946,8 @@ class APISchema {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FunctionSchema {
   /// A list of functions that each define an action in the action group.
   final List<$Function>? functions;
@@ -19363,6 +19973,7 @@ class FunctionSchema {
   }
 }
 
+/// @nodoc
 class ActionGroupState {
   static const enabled = ActionGroupState._('ENABLED');
   static const disabled = ActionGroupState._('DISABLED');
@@ -19419,6 +20030,8 @@ class ActionGroupState {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class $Function {
   /// A name for the function.
   final String name;
@@ -19467,6 +20080,8 @@ class $Function {
 }
 
 /// Whether the action requires user confirmation.
+///
+/// @nodoc
 class RequireConfirmation {
   static const enabled = RequireConfirmation._('ENABLED');
   static const disabled = RequireConfirmation._('DISABLED');
@@ -19523,6 +20138,8 @@ class RequireConfirmation {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ParameterDetail {
   /// The data type of the parameter.
   final Type type;
@@ -19561,6 +20178,7 @@ class ParameterDetail {
   }
 }
 
+/// @nodoc
 class Type {
   static const string = Type._('string');
   static const number = Type._('number');
@@ -19588,6 +20206,8 @@ class Type {
 }
 
 /// The identifier information for an Amazon S3 bucket.
+///
+/// @nodoc
 class S3Identifier {
   /// The name of the S3 bucket.
   final String? s3BucketName;
@@ -19617,6 +20237,7 @@ class S3Identifier {
   }
 }
 
+/// @nodoc
 class CustomControlMethod {
   static const returnControl = CustomControlMethod._('RETURN_CONTROL');
 
@@ -19642,6 +20263,8 @@ class CustomControlMethod {
 }
 
 /// Contains details about an action group.
+///
+/// @nodoc
 class ActionGroupSummary {
   /// The unique identifier of the action group.
   final String actionGroupId;
@@ -19696,6 +20319,7 @@ class ActionGroupSummary {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -19708,26 +20332,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -19736,11 +20365,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

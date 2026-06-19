@@ -211,7 +211,7 @@ class Firehose {
   /// The destination in Amazon Redshift. You can specify only one destination.
   ///
   /// Parameter [s3DestinationConfiguration] :
-  /// [Deprecated] The destination in Amazon S3. You can specify only one
+  /// \[Deprecated\] The destination in Amazon S3. You can specify only one
   /// destination.
   ///
   /// Parameter [snowflakeDestinationConfiguration] :
@@ -1095,7 +1095,7 @@ class Firehose {
   /// Describes an update for a destination in Amazon Redshift.
   ///
   /// Parameter [s3DestinationUpdate] :
-  /// [Deprecated] Describes an update for a destination in Amazon S3.
+  /// \[Deprecated\] Describes an update for a destination in Amazon S3.
   ///
   /// Parameter [snowflakeDestinationUpdate] :
   /// Update to the Snowflake destination configuration settings.
@@ -1160,6 +1160,7 @@ class Firehose {
   }
 }
 
+/// @nodoc
 class CreateDeliveryStreamOutput {
   /// The ARN of the Firehose stream.
   final String? deliveryStreamARN;
@@ -1182,6 +1183,7 @@ class CreateDeliveryStreamOutput {
   }
 }
 
+/// @nodoc
 class DeleteDeliveryStreamOutput {
   DeleteDeliveryStreamOutput();
 
@@ -1194,6 +1196,7 @@ class DeleteDeliveryStreamOutput {
   }
 }
 
+/// @nodoc
 class DescribeDeliveryStreamOutput {
   /// Information about the Firehose stream.
   final DeliveryStreamDescription deliveryStreamDescription;
@@ -1218,6 +1221,7 @@ class DescribeDeliveryStreamOutput {
   }
 }
 
+/// @nodoc
 class ListDeliveryStreamsOutput {
   /// The names of the Firehose streams.
   final List<String> deliveryStreamNames;
@@ -1251,6 +1255,7 @@ class ListDeliveryStreamsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForDeliveryStreamOutput {
   /// If this is <code>true</code> in the response, more tags are available. To
   /// list the remaining tags, set <code>ExclusiveStartTagKey</code> to the key of
@@ -1287,6 +1292,7 @@ class ListTagsForDeliveryStreamOutput {
   }
 }
 
+/// @nodoc
 class PutRecordOutput {
   /// The ID of the record.
   final String recordId;
@@ -1317,6 +1323,7 @@ class PutRecordOutput {
   }
 }
 
+/// @nodoc
 class PutRecordBatchOutput {
   /// The number of records that might have failed processing. This number might
   /// be greater than 0 even if the <a>PutRecordBatch</a> call succeeds. Check
@@ -1362,6 +1369,7 @@ class PutRecordBatchOutput {
   }
 }
 
+/// @nodoc
 class StartDeliveryStreamEncryptionOutput {
   StartDeliveryStreamEncryptionOutput();
 
@@ -1374,6 +1382,7 @@ class StartDeliveryStreamEncryptionOutput {
   }
 }
 
+/// @nodoc
 class StopDeliveryStreamEncryptionOutput {
   StopDeliveryStreamEncryptionOutput();
 
@@ -1386,6 +1395,7 @@ class StopDeliveryStreamEncryptionOutput {
   }
 }
 
+/// @nodoc
 class TagDeliveryStreamOutput {
   TagDeliveryStreamOutput();
 
@@ -1398,6 +1408,7 @@ class TagDeliveryStreamOutput {
   }
 }
 
+/// @nodoc
 class UntagDeliveryStreamOutput {
   UntagDeliveryStreamOutput();
 
@@ -1410,6 +1421,7 @@ class UntagDeliveryStreamOutput {
   }
 }
 
+/// @nodoc
 class UpdateDestinationOutput {
   UpdateDestinationOutput();
 
@@ -1423,6 +1435,8 @@ class UpdateDestinationOutput {
 }
 
 /// Describes an update for a destination in Amazon S3.
+///
+/// @nodoc
 class S3DestinationUpdate {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1505,6 +1519,8 @@ class S3DestinationUpdate {
 }
 
 /// Describes an update for a destination in Amazon S3.
+///
+/// @nodoc
 class ExtendedS3DestinationUpdate {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1634,6 +1650,8 @@ class ExtendedS3DestinationUpdate {
 }
 
 /// Describes an update for a destination in Amazon Redshift.
+///
+/// @nodoc
 class RedshiftDestinationUpdate {
   /// The Amazon CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
@@ -1731,6 +1749,8 @@ class RedshiftDestinationUpdate {
 }
 
 /// Describes an update for a destination in Amazon OpenSearch Service.
+///
+/// @nodoc
 class ElasticsearchDestinationUpdate {
   /// The buffering options. If no value is specified,
   /// <code>ElasticsearchBufferingHints</code> object default values are used.
@@ -1846,6 +1866,8 @@ class ElasticsearchDestinationUpdate {
 }
 
 /// Describes an update for a destination in Amazon OpenSearch Service.
+///
+/// @nodoc
 class AmazonopensearchserviceDestinationUpdate {
   /// The buffering options. If no value is specified,
   /// AmazonopensearchBufferingHints object default values are used.
@@ -1943,6 +1965,8 @@ class AmazonopensearchserviceDestinationUpdate {
 }
 
 /// Describes an update for a destination in Splunk.
+///
+/// @nodoc
 class SplunkDestinationUpdate {
   /// The buffering options. If no value is specified, the default values for
   /// Splunk are used.
@@ -2040,6 +2064,8 @@ class SplunkDestinationUpdate {
 }
 
 /// Updates the specified HTTP endpoint destination.
+///
+/// @nodoc
 class HttpEndpointDestinationUpdate {
   /// Describes buffering options that can be applied to the data before it is
   /// delivered to the HTTPS endpoint destination. Firehose teats these options as
@@ -2124,6 +2150,8 @@ class HttpEndpointDestinationUpdate {
 
 /// Describes an update for a destination in the Serverless offering for Amazon
 /// OpenSearch Service.
+///
+/// @nodoc
 class AmazonOpenSearchServerlessDestinationUpdate {
   /// The buffering options. If no value is specified,
   /// AmazonopensearchBufferingHints object default values are used.
@@ -2185,6 +2213,8 @@ class AmazonOpenSearchServerlessDestinationUpdate {
 }
 
 /// Update to configuration settings
+///
+/// @nodoc
 class SnowflakeDestinationUpdate {
   /// URL for accessing your Snowflake account. This URL must include your <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
@@ -2340,6 +2370,8 @@ class SnowflakeDestinationUpdate {
 }
 
 /// Describes an update for a destination in Apache Iceberg Tables.
+///
+/// @nodoc
 class IcebergDestinationUpdate {
   /// Describes whether all incoming data for this delivery stream will be append
   /// only (inserts only and not for updates and deletes) for Iceberg delivery.
@@ -2437,6 +2469,8 @@ class IcebergDestinationUpdate {
 /// The configuration to enable schema evolution.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class SchemaEvolutionConfiguration {
   /// Specify whether you want to enable schema evolution.
   ///
@@ -2464,6 +2498,8 @@ class SchemaEvolutionConfiguration {
 /// The configuration to enable automatic table creation.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class TableCreationConfiguration {
   /// Specify whether you want to enable automatic table creation.
   ///
@@ -2494,6 +2530,8 @@ class TableCreationConfiguration {
 /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
 /// optional. However, if specify a value for one of them, you must also provide
 /// a value for the other.
+///
+/// @nodoc
 class BufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300. This parameter
@@ -2535,6 +2573,8 @@ class BufferingHints {
 }
 
 /// Describes the Amazon CloudWatch logging options for your Firehose stream.
+///
+/// @nodoc
 class CloudWatchLoggingOptions {
   /// Enables or disables CloudWatch logging.
   final bool? enabled;
@@ -2574,6 +2614,8 @@ class CloudWatchLoggingOptions {
 }
 
 /// Describes a data processing configuration.
+///
+/// @nodoc
 class ProcessingConfiguration {
   /// Enables or disables data processing.
   final bool? enabled;
@@ -2606,6 +2648,7 @@ class ProcessingConfiguration {
   }
 }
 
+/// @nodoc
 class IcebergS3BackupMode {
   static const failedDataOnly = IcebergS3BackupMode._('FailedDataOnly');
   static const allData = IcebergS3BackupMode._('AllData');
@@ -2633,6 +2676,8 @@ class IcebergS3BackupMode {
 
 /// The retry behavior in case Firehose is unable to deliver data to a
 /// destination.
+///
+/// @nodoc
 class RetryOptions {
   /// The period of time during which Firehose retries to deliver data to the
   /// specified destination.
@@ -2658,6 +2703,8 @@ class RetryOptions {
 
 /// Describes the containers where the destination Apache Iceberg Tables are
 /// persisted.
+///
+/// @nodoc
 class CatalogConfiguration {
   /// Specifies the Glue catalog ARN identifier of the destination Apache Iceberg
   /// Tables. You must specify the ARN in the format
@@ -2693,6 +2740,8 @@ class CatalogConfiguration {
 }
 
 /// Describes the configuration of a destination in Amazon S3.
+///
+/// @nodoc
 class S3DestinationConfiguration {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2774,6 +2823,7 @@ class S3DestinationConfiguration {
   }
 }
 
+/// @nodoc
 class CompressionFormat {
   static const uncompressed = CompressionFormat._('UNCOMPRESSED');
   static const gzip = CompressionFormat._('GZIP');
@@ -2802,6 +2852,8 @@ class CompressionFormat {
 }
 
 /// Describes the encryption for a destination in Amazon S3.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The encryption key.
   final KMSEncryptionConfig? kMSEncryptionConfig;
@@ -2838,6 +2890,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class NoEncryptionConfig {
   static const noEncryption = NoEncryptionConfig._('NoEncryption');
 
@@ -2863,6 +2916,8 @@ class NoEncryptionConfig {
 }
 
 /// Describes an encryption key for a destination in Amazon S3.
+///
+/// @nodoc
 class KMSEncryptionConfig {
   /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the
   /// same Amazon Web Services Region as the destination Amazon S3 bucket. For
@@ -2896,6 +2951,8 @@ class KMSEncryptionConfig {
 /// processor type. You don’t have to put a processor parameter when you select
 /// <code>AppendDelimiterToRecord</code>.
 /// </note>
+///
+/// @nodoc
 class Processor {
   /// The type of processor.
   final ProcessorType type;
@@ -2928,6 +2985,7 @@ class Processor {
   }
 }
 
+/// @nodoc
 class ProcessorType {
   static const recordDeAggregation = ProcessorType._('RecordDeAggregation');
   static const decompression = ProcessorType._('Decompression');
@@ -2966,6 +3024,8 @@ class ProcessorType {
 }
 
 /// Describes the processor parameter.
+///
+/// @nodoc
 class ProcessorParameter {
   /// The name of the parameter. Currently the following default values are
   /// supported: 3 for <code>NumberOfRetries</code> and 60 for the
@@ -3001,6 +3061,7 @@ class ProcessorParameter {
   }
 }
 
+/// @nodoc
 class ProcessorParameterName {
   static const lambdaArn = ProcessorParameterName._('LambdaArn');
   static const numberOfRetries = ProcessorParameterName._('NumberOfRetries');
@@ -3053,6 +3114,8 @@ class ProcessorParameterName {
 }
 
 /// Describes the configuration of a destination in Apache Iceberg Tables.
+///
+/// @nodoc
 class DestinationTableConfiguration {
   /// The name of the Apache Iceberg database.
   final String destinationDatabaseName;
@@ -3124,10 +3187,12 @@ class DestinationTableConfiguration {
 ///
 /// Here is an example of the schema in JSON.
 ///
-/// <code>"partitionSpec": { "identity": [ {"sourceName": "column1"},
-/// {"sourceName": "column2"}, {"sourceName": "column3"} ] }</code>
+/// <code>"partitionSpec": { "identity": \[ {"sourceName": "column1"},
+/// {"sourceName": "column2"}, {"sourceName": "column3"} \] }</code>
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class PartitionSpec {
   /// List of identity <a
   /// href="https://iceberg.apache.org/spec/#partition-transforms">transforms</a>
@@ -3161,6 +3226,8 @@ class PartitionSpec {
 /// Represents a single field in a <code>PartitionSpec</code>.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class PartitionField {
   /// The column name to be configured in partition spec.
   ///
@@ -3187,6 +3254,8 @@ class PartitionField {
 
 /// Optionally configure a Snowflake role. Otherwise the default user role will
 /// be used.
+///
+/// @nodoc
 class SnowflakeRoleConfiguration {
   /// Enable Snowflake role
   final bool? enabled;
@@ -3216,6 +3285,7 @@ class SnowflakeRoleConfiguration {
   }
 }
 
+/// @nodoc
 class SnowflakeDataLoadingOption {
   static const jsonMapping = SnowflakeDataLoadingOption._('JSON_MAPPING');
   static const variantContentMapping =
@@ -3264,6 +3334,8 @@ class SnowflakeDataLoadingOption {
 /// retries again and repeats the logic until it receives an acknowledgment or
 /// determines that the retry time has expired. If you don't want Firehose to
 /// retry sending data, set this value to 0.
+///
+/// @nodoc
 class SnowflakeRetryOptions {
   /// the time period where Firehose will retry sending data to the chosen HTTP
   /// endpoint.
@@ -3287,6 +3359,7 @@ class SnowflakeRetryOptions {
   }
 }
 
+/// @nodoc
 class SnowflakeS3BackupMode {
   static const failedDataOnly = SnowflakeS3BackupMode._('FailedDataOnly');
   static const allData = SnowflakeS3BackupMode._('AllData');
@@ -3313,6 +3386,8 @@ class SnowflakeS3BackupMode {
 }
 
 /// The structure that defines how Firehose accesses the secret.
+///
+/// @nodoc
 class SecretsManagerConfiguration {
   /// Specifies whether you want to use the secrets manager feature. When set as
   /// <code>True</code> the secrets manager configuration overwrites the existing
@@ -3364,6 +3439,8 @@ class SecretsManagerConfiguration {
 /// Describes the buffering to perform before delivering data to the Snowflake
 /// destination. If you do not specify any value, Firehose uses the default
 /// values.
+///
+/// @nodoc
 class SnowflakeBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 0.
@@ -3397,6 +3474,8 @@ class SnowflakeBufferingHints {
 
 /// Describes the buffering to perform before delivering data to the Serverless
 /// offering for Amazon OpenSearch Service destination.
+///
+/// @nodoc
 class AmazonOpenSearchServerlessBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300 (5 minutes).
@@ -3436,6 +3515,8 @@ class AmazonOpenSearchServerlessBufferingHints {
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
 /// the Serverless offering for Amazon OpenSearch Service.
+///
+/// @nodoc
 class AmazonOpenSearchServerlessRetryOptions {
   /// After an initial failure to deliver to the Serverless offering for Amazon
   /// OpenSearch Service, the total amount of time during which Firehose retries
@@ -3465,6 +3546,8 @@ class AmazonOpenSearchServerlessRetryOptions {
 
 /// Describes the configuration of the HTTP endpoint to which Kinesis Firehose
 /// delivers data.
+///
+/// @nodoc
 class HttpEndpointConfiguration {
   /// The URL of the HTTP endpoint selected as the destination.
   /// <important>
@@ -3506,6 +3589,8 @@ class HttpEndpointConfiguration {
 /// and <code>IntervalInSeconds</code> parameters are optional. However, if
 /// specify a value for one of them, you must also provide a value for the
 /// other.
+///
+/// @nodoc
 class HttpEndpointBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300 (5 minutes).
@@ -3543,6 +3628,8 @@ class HttpEndpointBufferingHints {
 }
 
 /// The configuration of the HTTP endpoint request.
+///
+/// @nodoc
 class HttpEndpointRequestConfiguration {
   /// Describes the metadata sent to the HTTP endpoint destination.
   final List<HttpEndpointCommonAttribute>? commonAttributes;
@@ -3583,6 +3670,8 @@ class HttpEndpointRequestConfiguration {
 /// Describes the retry behavior in case Firehose is unable to deliver data to
 /// the specified HTTP endpoint destination, or if it doesn't receive a valid
 /// acknowledgment of receipt from the specified HTTP endpoint destination.
+///
+/// @nodoc
 class HttpEndpointRetryOptions {
   /// The total amount of time that Firehose spends on retries. This duration
   /// starts after the initial attempt to send data to the custom destination via
@@ -3608,6 +3697,7 @@ class HttpEndpointRetryOptions {
   }
 }
 
+/// @nodoc
 class HttpEndpointS3BackupMode {
   static const failedDataOnly = HttpEndpointS3BackupMode._('FailedDataOnly');
   static const allData = HttpEndpointS3BackupMode._('AllData');
@@ -3633,6 +3723,7 @@ class HttpEndpointS3BackupMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentEncoding {
   static const none = ContentEncoding._('NONE');
   static const gzip = ContentEncoding._('GZIP');
@@ -3659,6 +3750,8 @@ class ContentEncoding {
 
 /// Describes the metadata that's delivered to the specified HTTP endpoint
 /// destination.
+///
+/// @nodoc
 class HttpEndpointCommonAttribute {
   /// The name of the HTTP endpoint common attribute.
   final String attributeName;
@@ -3688,6 +3781,7 @@ class HttpEndpointCommonAttribute {
   }
 }
 
+/// @nodoc
 class HECEndpointType {
   static const raw = HECEndpointType._('Raw');
   static const event = HECEndpointType._('Event');
@@ -3714,6 +3808,8 @@ class HECEndpointType {
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
 /// Splunk, or if it doesn't receive an acknowledgment from Splunk.
+///
+/// @nodoc
 class SplunkRetryOptions {
   /// The total amount of time that Firehose spends on retries. This duration
   /// starts after the initial attempt to send data to Splunk fails. It doesn't
@@ -3739,6 +3835,7 @@ class SplunkRetryOptions {
   }
 }
 
+/// @nodoc
 class SplunkS3BackupMode {
   static const failedEventsOnly = SplunkS3BackupMode._('FailedEventsOnly');
   static const allEvents = SplunkS3BackupMode._('AllEvents');
@@ -3766,6 +3863,8 @@ class SplunkS3BackupMode {
 
 /// The buffering options. If no value is specified, the default values for
 /// Splunk are used.
+///
+/// @nodoc
 class SplunkBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 60 (1 minute).
@@ -3797,6 +3896,7 @@ class SplunkBufferingHints {
   }
 }
 
+/// @nodoc
 class AmazonopensearchserviceIndexRotationPeriod {
   static const noRotation =
       AmazonopensearchserviceIndexRotationPeriod._('NoRotation');
@@ -3832,6 +3932,8 @@ class AmazonopensearchserviceIndexRotationPeriod {
 
 /// Describes the buffering to perform before delivering data to the Amazon
 /// OpenSearch Service destination.
+///
+/// @nodoc
 class AmazonopensearchserviceBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300 (5 minutes).
@@ -3871,6 +3973,8 @@ class AmazonopensearchserviceBufferingHints {
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
 /// Amazon OpenSearch Service.
+///
+/// @nodoc
 class AmazonopensearchserviceRetryOptions {
   /// After an initial failure to deliver to Amazon OpenSearch Service, the total
   /// amount of time during which Firehose retries delivery (including the first
@@ -3902,6 +4006,8 @@ class AmazonopensearchserviceRetryOptions {
 /// Firehose generated document ID and OpenSearch Service generated document ID.
 ///
 ///
+///
+/// @nodoc
 class DocumentIdOptions {
   /// When the <code>FIREHOSE_DEFAULT</code> option is chosen, Firehose generates
   /// a unique document ID for each record based on a unique internal identifier.
@@ -3938,6 +4044,7 @@ class DocumentIdOptions {
   }
 }
 
+/// @nodoc
 class DefaultDocumentIdFormat {
   static const firehoseDefault = DefaultDocumentIdFormat._('FIREHOSE_DEFAULT');
   static const noDocumentId = DefaultDocumentIdFormat._('NO_DOCUMENT_ID');
@@ -3963,6 +4070,7 @@ class DefaultDocumentIdFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ElasticsearchIndexRotationPeriod {
   static const noRotation = ElasticsearchIndexRotationPeriod._('NoRotation');
   static const oneHour = ElasticsearchIndexRotationPeriod._('OneHour');
@@ -3993,6 +4101,8 @@ class ElasticsearchIndexRotationPeriod {
 
 /// Describes the buffering to perform before delivering data to the Amazon
 /// OpenSearch Service destination.
+///
+/// @nodoc
 class ElasticsearchBufferingHints {
   /// Buffer incoming data for the specified period of time, in seconds, before
   /// delivering it to the destination. The default value is 300 (5 minutes).
@@ -4031,6 +4141,8 @@ class ElasticsearchBufferingHints {
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
 /// Amazon OpenSearch Service.
+///
+/// @nodoc
 class ElasticsearchRetryOptions {
   /// After an initial failure to deliver to Amazon OpenSearch Service, the total
   /// amount of time during which Firehose retries delivery (including the first
@@ -4058,6 +4170,8 @@ class ElasticsearchRetryOptions {
 }
 
 /// Describes a <code>COPY</code> command for Amazon Redshift.
+///
+/// @nodoc
 class CopyCommand {
   /// The name of the target table. The table must already exist in the database.
   final String dataTableName;
@@ -4120,6 +4234,8 @@ class CopyCommand {
 
 /// Configures retry behavior in case Firehose is unable to deliver documents to
 /// Amazon Redshift.
+///
+/// @nodoc
 class RedshiftRetryOptions {
   /// The length of time during which Firehose retries delivery after a failure,
   /// starting from the initial request and including the first attempt. The
@@ -4146,6 +4262,7 @@ class RedshiftRetryOptions {
   }
 }
 
+/// @nodoc
 class RedshiftS3BackupMode {
   static const disabled = RedshiftS3BackupMode._('Disabled');
   static const enabled = RedshiftS3BackupMode._('Enabled');
@@ -4171,6 +4288,7 @@ class RedshiftS3BackupMode {
   String toString() => value;
 }
 
+/// @nodoc
 class S3BackupMode {
   static const disabled = S3BackupMode._('Disabled');
   static const enabled = S3BackupMode._('Enabled');
@@ -4202,6 +4320,8 @@ class S3BackupMode {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/firehose/latest/dev/record-format-conversion.html">Firehose
 /// Record Format Conversion</a>.
+///
+/// @nodoc
 class DataFormatConversionConfiguration {
   /// Defaults to <code>true</code>. Set it to <code>false</code> if you want to
   /// disable format conversion while preserving the configuration details.
@@ -4269,6 +4389,8 @@ class DataFormatConversionConfiguration {
 /// data sets from the streaming data by partitioning it based on partition
 /// keys. Currently, dynamic partitioning is only supported for Amazon S3
 /// destinations.
+///
+/// @nodoc
 class DynamicPartitioningConfiguration {
   /// Specifies that the dynamic partitioning is enabled for this Firehose stream.
   final bool? enabled;
@@ -4304,6 +4426,8 @@ class DynamicPartitioningConfiguration {
 /// Specifies the schema to which you want Firehose to configure your data
 /// before it writes it to Amazon S3. This parameter is required if
 /// <code>Enabled</code> is set to true.
+///
+/// @nodoc
 class SchemaConfiguration {
   /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply
   /// this, the Amazon Web Services account ID is used by default.
@@ -4389,6 +4513,8 @@ class SchemaConfiguration {
 /// Specifies the deserializer you want to use to convert the format of the
 /// input data. This parameter is required if <code>Enabled</code> is set to
 /// true.
+///
+/// @nodoc
 class InputFormatConfiguration {
   /// Specifies which deserializer to use. You can choose either the Apache Hive
   /// JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects
@@ -4418,6 +4544,8 @@ class InputFormatConfiguration {
 /// Specifies the serializer that you want Firehose to use to convert the format
 /// of your data before it writes it to Amazon S3. This parameter is required if
 /// <code>Enabled</code> is set to true.
+///
+/// @nodoc
 class OutputFormatConfiguration {
   /// Specifies which serializer to use. You can choose either the ORC SerDe or
   /// the Parquet SerDe. If both are non-null, the server rejects the request.
@@ -4446,6 +4574,8 @@ class OutputFormatConfiguration {
 /// The serializer that you want Firehose to use to convert data to the target
 /// format before writing it to Amazon S3. Firehose supports two types of
 /// serializers: the ORC SerDe and the Parquet SerDe.
+///
+/// @nodoc
 class Serializer {
   /// A serializer to use for converting data to the ORC format before storing it
   /// in Amazon S3. For more information, see <a
@@ -4487,6 +4617,8 @@ class Serializer {
 /// A serializer to use for converting data to the Parquet format before storing
 /// it in Amazon S3. For more information, see <a
 /// href="https://parquet.apache.org/docs/">Apache Parquet</a>.
+///
+/// @nodoc
 class ParquetSerDe {
   /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
   /// intend to copy the data from Amazon S3 to HDFS before querying. The default
@@ -4561,6 +4693,8 @@ class ParquetSerDe {
 /// A serializer to use for converting data to the ORC format before storing it
 /// in Amazon S3. For more information, see <a
 /// href="https://orc.apache.org/docs/">Apache ORC</a>.
+///
+/// @nodoc
 class OrcSerDe {
   /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
   /// intend to copy the data from Amazon S3 to HDFS before querying. The default
@@ -4683,6 +4817,7 @@ class OrcSerDe {
   }
 }
 
+/// @nodoc
 class OrcCompression {
   static const none = OrcCompression._('NONE');
   static const zlib = OrcCompression._('ZLIB');
@@ -4708,6 +4843,7 @@ class OrcCompression {
   String toString() => value;
 }
 
+/// @nodoc
 class OrcFormatVersion {
   static const v0_11 = OrcFormatVersion._('V0_11');
   static const v0_12 = OrcFormatVersion._('V0_12');
@@ -4732,6 +4868,7 @@ class OrcFormatVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class ParquetCompression {
   static const uncompressed = ParquetCompression._('UNCOMPRESSED');
   static const gzip = ParquetCompression._('GZIP');
@@ -4758,6 +4895,7 @@ class ParquetCompression {
   String toString() => value;
 }
 
+/// @nodoc
 class ParquetWriterVersion {
   static const v1 = ParquetWriterVersion._('V1');
   static const v2 = ParquetWriterVersion._('V2');
@@ -4789,6 +4927,8 @@ class ParquetWriterVersion {
 /// href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-JSON">Apache
 /// Hive JSON SerDe</a> and the <a
 /// href="https://github.com/rcongiu/Hive-JSON-Serde">OpenX JSON SerDe</a>.
+///
+/// @nodoc
 class Deserializer {
   /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
   /// data, which means converting it from the JSON format in preparation for
@@ -4837,6 +4977,8 @@ class Deserializer {
 /// Parquet or ORC format. This is one of two deserializers you can choose,
 /// depending on which one offers the functionality you need. The other option
 /// is the native Hive / HCatalog JsonSerDe.
+///
+/// @nodoc
 class OpenXJsonSerDe {
   /// When set to <code>true</code>, which is the default, Firehose converts JSON
   /// keys to lowercase before deserializing them.
@@ -4896,6 +5038,8 @@ class OpenXJsonSerDe {
 /// serializing it to the Parquet or ORC format. This is one of two
 /// deserializers you can choose, depending on which one offers the
 /// functionality you need. The other option is the OpenX SerDe.
+///
+/// @nodoc
 class HiveJsonSerDe {
   /// Indicates how you want Firehose to parse the date and timestamps that may be
   /// present in your input data JSON. To specify these format strings, follow the
@@ -4930,6 +5074,8 @@ class HiveJsonSerDe {
 
 /// Metadata that you can assign to a Firehose stream, consisting of a key-value
 /// pair.
+///
+/// @nodoc
 class Tag {
   /// A unique identifier for the tag. Maximum length: 128 characters. Valid
   /// characters: Unicode letters, digits, white space, _ . / = + - % @
@@ -4964,6 +5110,8 @@ class Tag {
 
 /// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for
 /// Server-Side Encryption (SSE).
+///
+/// @nodoc
 class DeliveryStreamEncryptionConfigurationInput {
   /// Indicates the type of customer master key (CMK) to use for encryption. The
   /// default setting is <code>Amazon Web Services_OWNED_CMK</code>. For more
@@ -5016,6 +5164,7 @@ class DeliveryStreamEncryptionConfigurationInput {
   }
 }
 
+/// @nodoc
 class KeyType {
   static const awsOwnedCmk = KeyType._('AWS_OWNED_CMK');
   static const customerManagedCmk = KeyType._('CUSTOMER_MANAGED_CMK');
@@ -5043,6 +5192,8 @@ class KeyType {
 /// request. If the record is successfully added to your Firehose stream, it
 /// receives a record ID. If the record fails to be added to your Firehose
 /// stream, the result includes an error code and an error message.
+///
+/// @nodoc
 class PutRecordBatchResponseEntry {
   /// The error code for an individual record result.
   final String? errorCode;
@@ -5080,6 +5231,8 @@ class PutRecordBatchResponseEntry {
 }
 
 /// The unit of data in a Firehose stream.
+///
+/// @nodoc
 class Record {
   /// The data blob, which is base64-encoded when the blob is serialized. The
   /// maximum size of the data blob, before base64-encoding, is 1,000 KiB.
@@ -5097,6 +5250,7 @@ class Record {
   }
 }
 
+/// @nodoc
 class DeliveryStreamType {
   static const directPut = DeliveryStreamType._('DirectPut');
   static const kinesisStreamAsSource =
@@ -5131,6 +5285,8 @@ class DeliveryStreamType {
 }
 
 /// Contains information about a Firehose stream.
+///
+/// @nodoc
 class DeliveryStreamDescription {
   /// The Amazon Resource Name (ARN) of the Firehose stream. For more information,
   /// see <a
@@ -5277,6 +5433,7 @@ class DeliveryStreamDescription {
   }
 }
 
+/// @nodoc
 class DeliveryStreamStatus {
   static const creating = DeliveryStreamStatus._('CREATING');
   static const creatingFailed = DeliveryStreamStatus._('CREATING_FAILED');
@@ -5315,6 +5472,8 @@ class DeliveryStreamStatus {
 /// error related to KMS: <a>CreateDeliveryStream</a>,
 /// <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
 /// <a>StopDeliveryStreamEncryption</a>.
+///
+/// @nodoc
 class FailureDescription {
   /// A message providing details about the error that caused the failure.
   final String details;
@@ -5350,6 +5509,8 @@ class FailureDescription {
 /// ARN of the CMK. You can get
 /// <code>DeliveryStreamEncryptionConfiguration</code> by invoking the
 /// <a>DescribeDeliveryStream</a> operation.
+///
+/// @nodoc
 class DeliveryStreamEncryptionConfiguration {
   /// Provides details in case one of the following operations fails due to an
   /// error related to KMS: <a>CreateDeliveryStream</a>,
@@ -5416,6 +5577,8 @@ class DeliveryStreamEncryptionConfiguration {
 
 /// Details about a Kinesis data stream used as the source for a Firehose
 /// stream.
+///
+/// @nodoc
 class SourceDescription {
   /// Details about a database used as the source for a Firehose stream.
   ///
@@ -5481,6 +5644,8 @@ class SourceDescription {
 }
 
 /// Describes the destination for a Firehose stream.
+///
+/// @nodoc
 class DestinationDescription {
   /// The ID of the destination.
   final String destinationId;
@@ -5509,7 +5674,7 @@ class DestinationDescription {
   /// The destination in Amazon Redshift.
   final RedshiftDestinationDescription? redshiftDestinationDescription;
 
-  /// [Deprecated] The destination in Amazon S3.
+  /// \[Deprecated\] The destination in Amazon S3.
   final S3DestinationDescription? s3DestinationDescription;
 
   /// Optional description for the destination
@@ -5641,6 +5806,8 @@ class DestinationDescription {
 }
 
 /// Describes a destination in Amazon S3.
+///
+/// @nodoc
 class S3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5737,6 +5904,8 @@ class S3DestinationDescription {
 }
 
 /// Describes a destination in Amazon S3.
+///
+/// @nodoc
 class ExtendedS3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5908,6 +6077,8 @@ class ExtendedS3DestinationDescription {
 }
 
 /// Describes a destination in Amazon Redshift.
+///
+/// @nodoc
 class RedshiftDestinationDescription {
   /// The database connection string.
   final String clusterJDBCURL;
@@ -6029,6 +6200,8 @@ class RedshiftDestinationDescription {
 }
 
 /// The destination description in Amazon OpenSearch Service.
+///
+/// @nodoc
 class ElasticsearchDestinationDescription {
   /// The buffering options.
   final ElasticsearchBufferingHints? bufferingHints;
@@ -6187,6 +6360,8 @@ class ElasticsearchDestinationDescription {
 }
 
 /// The destination description in Amazon OpenSearch Service.
+///
+/// @nodoc
 class AmazonopensearchserviceDestinationDescription {
   /// The buffering options.
   final AmazonopensearchserviceBufferingHints? bufferingHints;
@@ -6327,6 +6502,8 @@ class AmazonopensearchserviceDestinationDescription {
 }
 
 /// Describes a destination in Splunk.
+///
+/// @nodoc
 class SplunkDestinationDescription {
   /// The buffering options. If no value is specified, the default values for
   /// Splunk are used.
@@ -6458,6 +6635,8 @@ class SplunkDestinationDescription {
 }
 
 /// Describes the HTTP endpoint destination.
+///
+/// @nodoc
 class HttpEndpointDestinationDescription {
   /// Describes buffering options that can be applied to the data before it is
   /// delivered to the HTTPS endpoint destination. Firehose teats these options as
@@ -6583,6 +6762,8 @@ class HttpEndpointDestinationDescription {
 }
 
 /// Optional Snowflake destination description
+///
+/// @nodoc
 class SnowflakeDestinationDescription {
   /// URL for accessing your Snowflake account. This URL must include your <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
@@ -6634,7 +6815,8 @@ class SnowflakeDestinationDescription {
   final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
 
   /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
-  /// is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see <a
+  /// is com.amazonaws.vpce.\[region\].vpce-svc-<\[id\]>. For more information,
+  /// see <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
   /// PrivateLink & Snowflake</a>
   final SnowflakeVpcConfiguration? snowflakeVpcConfiguration;
@@ -6767,6 +6949,8 @@ class SnowflakeDestinationDescription {
 
 /// The destination description in the Serverless offering for Amazon OpenSearch
 /// Service.
+///
+/// @nodoc
 class AmazonOpenSearchServerlessDestinationDescription {
   /// The buffering options.
   final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
@@ -6870,6 +7054,8 @@ class AmazonOpenSearchServerlessDestinationDescription {
 }
 
 /// Describes a destination in Apache Iceberg Tables.
+///
+/// @nodoc
 class IcebergDestinationDescription {
   /// Describes whether all incoming data for this delivery stream will be append
   /// only (inserts only and not for updates and deletes) for Iceberg delivery.
@@ -7013,6 +7199,7 @@ class IcebergDestinationDescription {
   }
 }
 
+/// @nodoc
 class AmazonOpenSearchServerlessS3BackupMode {
   static const failedDocumentsOnly =
       AmazonOpenSearchServerlessS3BackupMode._('FailedDocumentsOnly');
@@ -7041,6 +7228,8 @@ class AmazonOpenSearchServerlessS3BackupMode {
 }
 
 /// The details of the VPC of the Amazon OpenSearch Service destination.
+///
+/// @nodoc
 class VpcConfigurationDescription {
   /// The ARN of the IAM role that the Firehose stream uses to create endpoints in
   /// the destination VPC. You can use your existing Firehose delivery role or you
@@ -7149,9 +7338,12 @@ class VpcConfigurationDescription {
 }
 
 /// Configure a Snowflake VPC
+///
+/// @nodoc
 class SnowflakeVpcConfiguration {
   /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
-  /// is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see <a
+  /// is com.amazonaws.vpce.\[region\].vpce-svc-<\[id\]>. For more information,
+  /// see <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
   /// PrivateLink & Snowflake</a>
   final String privateLinkVpceId;
@@ -7175,6 +7367,8 @@ class SnowflakeVpcConfiguration {
 }
 
 /// Describes the HTTP endpoint selected as the destination.
+///
+/// @nodoc
 class HttpEndpointDescription {
   /// The name of the HTTP endpoint selected as the destination.
   final String? name;
@@ -7204,6 +7398,7 @@ class HttpEndpointDescription {
   }
 }
 
+/// @nodoc
 class AmazonopensearchserviceS3BackupMode {
   static const failedDocumentsOnly =
       AmazonopensearchserviceS3BackupMode._('FailedDocumentsOnly');
@@ -7231,6 +7426,7 @@ class AmazonopensearchserviceS3BackupMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ElasticsearchS3BackupMode {
   static const failedDocumentsOnly =
       ElasticsearchS3BackupMode._('FailedDocumentsOnly');
@@ -7260,6 +7456,8 @@ class ElasticsearchS3BackupMode {
 /// The structure that configures parameters such as
 /// <code>ThroughputHintInMBs</code> for a stream configured with Direct PUT as
 /// a source.
+///
+/// @nodoc
 class DirectPutSourceDescription {
   /// The value that you configure for this parameter is for information purpose
   /// only and does not affect Firehose delivery throughput limit. You can use the
@@ -7289,6 +7487,8 @@ class DirectPutSourceDescription {
 
 /// Details about a Kinesis data stream used as the source for a Firehose
 /// stream.
+///
+/// @nodoc
 class KinesisStreamSourceDescription {
   /// Firehose starts retrieving records from the Kinesis data stream starting
   /// with this timestamp.
@@ -7335,6 +7535,8 @@ class KinesisStreamSourceDescription {
 
 /// Details about the Amazon MSK cluster used as the source for a Firehose
 /// stream.
+///
+/// @nodoc
 class MSKSourceDescription {
   /// The authentication configuration of the Amazon MSK cluster.
   final AuthenticationConfiguration? authenticationConfiguration;
@@ -7401,6 +7603,8 @@ class MSKSourceDescription {
 /// The top level object for database source description.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseSourceDescription {
   /// The list of column patterns in source database endpoint for Firehose to read
   /// from.
@@ -7576,6 +7780,7 @@ class DatabaseSourceDescription {
   }
 }
 
+/// @nodoc
 class DatabaseType {
   static const mySQL = DatabaseType._('MySQL');
   static const postgreSQL = DatabaseType._('PostgreSQL');
@@ -7599,6 +7804,7 @@ class DatabaseType {
   String toString() => value;
 }
 
+/// @nodoc
 class SSLMode {
   static const disabled = SSLMode._('Disabled');
   static const enabled = SSLMode._('Enabled');
@@ -7626,6 +7832,8 @@ class SSLMode {
 /// database endpoint for Firehose to read from.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseList {
   /// The list of database patterns in source database endpoint to be excluded for
   /// Firehose to read from.
@@ -7667,6 +7875,8 @@ class DatabaseList {
 /// database endpoint for Firehose to read from.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseTableList {
   /// The list of table patterns in source database endpoint to be excluded for
   /// Firehose to read from.
@@ -7708,6 +7918,8 @@ class DatabaseTableList {
 /// database endpoint for Firehose to read from.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseColumnList {
   /// The list of column patterns in source database to be excluded for Firehose
   /// to read from.
@@ -7749,6 +7961,8 @@ class DatabaseColumnList {
 /// connect to source database endpoint.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseSourceAuthenticationConfiguration {
   final SecretsManagerConfiguration secretsManagerConfiguration;
 
@@ -7777,6 +7991,8 @@ class DatabaseSourceAuthenticationConfiguration {
 /// create a PrivateLink to the database.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseSourceVPCConfiguration {
   /// The VPC endpoint service name which Firehose uses to create a PrivateLink to
   /// the database. The endpoint service must have the Firehose service principle
@@ -7809,6 +8025,8 @@ class DatabaseSourceVPCConfiguration {
 /// database endpoint that Firehose reads.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseSnapshotInfo {
   /// The identifier of the current snapshot of the table in source database
   /// endpoint.
@@ -7882,6 +8100,7 @@ class DatabaseSnapshotInfo {
   }
 }
 
+/// @nodoc
 class SnapshotRequestedBy {
   static const user = SnapshotRequestedBy._('USER');
   static const firehose = SnapshotRequestedBy._('FIREHOSE');
@@ -7907,6 +8126,7 @@ class SnapshotRequestedBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SnapshotStatus {
   static const inProgress = SnapshotStatus._('IN_PROGRESS');
   static const complete = SnapshotStatus._('COMPLETE');
@@ -7933,6 +8153,8 @@ class SnapshotStatus {
 }
 
 /// The authentication configuration of the Amazon MSK cluster.
+///
+/// @nodoc
 class AuthenticationConfiguration {
   /// The type of connectivity used to access the Amazon MSK cluster.
   final Connectivity connectivity;
@@ -7963,6 +8185,7 @@ class AuthenticationConfiguration {
   }
 }
 
+/// @nodoc
 class Connectivity {
   static const public = Connectivity._('PUBLIC');
   static const private = Connectivity._('PRIVATE');
@@ -7986,6 +8209,7 @@ class Connectivity {
   String toString() => value;
 }
 
+/// @nodoc
 class DeliveryStreamEncryptionStatus {
   static const enabled = DeliveryStreamEncryptionStatus._('ENABLED');
   static const enabling = DeliveryStreamEncryptionStatus._('ENABLING');
@@ -8024,6 +8248,7 @@ class DeliveryStreamEncryptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DeliveryStreamFailureType {
   static const vpcEndpointServiceNameNotFound =
       DeliveryStreamFailureType._('VPC_ENDPOINT_SERVICE_NAME_NOT_FOUND');
@@ -8099,6 +8324,8 @@ class DeliveryStreamFailureType {
 /// The structure that configures parameters such as
 /// <code>ThroughputHintInMBs</code> for a stream configured with Direct PUT as
 /// a source.
+///
+/// @nodoc
 class DirectPutSourceConfiguration {
   /// The value that you configure for this parameter is for information purpose
   /// only and does not affect Firehose delivery throughput limit. You can use the
@@ -8121,6 +8348,8 @@ class DirectPutSourceConfiguration {
 
 /// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream
 /// used as the source for a Firehose stream.
+///
+/// @nodoc
 class KinesisStreamSourceConfiguration {
   /// The ARN of the source Kinesis data stream. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
@@ -8149,6 +8378,8 @@ class KinesisStreamSourceConfiguration {
 }
 
 /// Describes the configuration of a destination in Amazon S3.
+///
+/// @nodoc
 class ExtendedS3DestinationConfiguration {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -8279,6 +8510,8 @@ class ExtendedS3DestinationConfiguration {
 }
 
 /// Describes the configuration of a destination in Amazon Redshift.
+///
+/// @nodoc
 class RedshiftDestinationConfiguration {
   /// The database connection string.
   final String clusterJDBCURL;
@@ -8379,6 +8612,8 @@ class RedshiftDestinationConfiguration {
 }
 
 /// Describes the configuration of a destination in Amazon OpenSearch Service.
+///
+/// @nodoc
 class ElasticsearchDestinationConfiguration {
   /// The Elasticsearch index name.
   final String indexName;
@@ -8515,6 +8750,8 @@ class ElasticsearchDestinationConfiguration {
 }
 
 /// Describes the configuration of a destination in Amazon OpenSearch Service
+///
+/// @nodoc
 class AmazonopensearchserviceDestinationConfiguration {
   /// The ElasticsearAmazon OpenSearch Service index name.
   final String indexName;
@@ -8624,6 +8861,8 @@ class AmazonopensearchserviceDestinationConfiguration {
 }
 
 /// Describes the configuration of a destination in Splunk.
+///
+/// @nodoc
 class SplunkDestinationConfiguration {
   /// The HTTP Event Collector (HEC) endpoint to which Firehose sends your data.
   final String hECEndpoint;
@@ -8721,6 +8960,8 @@ class SplunkDestinationConfiguration {
 }
 
 /// Describes the configuration of the HTTP endpoint destination.
+///
+/// @nodoc
 class HttpEndpointDestinationConfiguration {
   /// The configuration of the HTTP endpoint selected as the destination.
   final HttpEndpointConfiguration endpointConfiguration;
@@ -8804,6 +9045,8 @@ class HttpEndpointDestinationConfiguration {
 
 /// Describes the configuration of a destination in the Serverless offering for
 /// Amazon OpenSearch Service.
+///
+/// @nodoc
 class AmazonOpenSearchServerlessDestinationConfiguration {
   /// The Serverless offering for Amazon OpenSearch Service index name.
   final String indexName;
@@ -8882,6 +9125,8 @@ class AmazonOpenSearchServerlessDestinationConfiguration {
 
 /// The configuration for the Amazon MSK cluster to be used as the source for a
 /// delivery stream.
+///
+/// @nodoc
 class MSKSourceConfiguration {
   /// The authentication configuration of the Amazon MSK cluster.
   final AuthenticationConfiguration authenticationConfiguration;
@@ -8924,6 +9169,8 @@ class MSKSourceConfiguration {
 }
 
 /// Configure Snowflake destination
+///
+/// @nodoc
 class SnowflakeDestinationConfiguration {
   /// URL for accessing your Snowflake account. This URL must include your <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
@@ -9004,7 +9251,8 @@ class SnowflakeDestinationConfiguration {
   final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
 
   /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
-  /// is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see <a
+  /// is com.amazonaws.vpce.\[region\].vpce-svc-<\[id\]>. For more information,
+  /// see <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
   /// PrivateLink & Snowflake</a>
   final SnowflakeVpcConfiguration? snowflakeVpcConfiguration;
@@ -9088,6 +9336,8 @@ class SnowflakeDestinationConfiguration {
 }
 
 /// Specifies the destination configure settings for Apache Iceberg Table.
+///
+/// @nodoc
 class IcebergDestinationConfiguration {
   /// Configuration describing where the destination Apache Iceberg Tables are
   /// persisted.
@@ -9185,6 +9435,8 @@ class IcebergDestinationConfiguration {
 /// The top level object for configuring streams with database as a source.
 ///
 /// Amazon Data Firehose is in preview release and is subject to change.
+///
+/// @nodoc
 class DatabaseSourceConfiguration {
   /// The structure to configure the authentication methods for Firehose to
   /// connect to source database endpoint.
@@ -9312,6 +9564,8 @@ class DatabaseSourceConfiguration {
 
 /// The details of the VPC of the Amazon OpenSearch or Amazon OpenSearch
 /// Serverless destination.
+///
+/// @nodoc
 class VpcConfiguration {
   /// The ARN of the IAM role that you want the Firehose stream to use to create
   /// endpoints in the destination VPC. You can use your existing Firehose
@@ -9403,6 +9657,7 @@ class VpcConfiguration {
   }
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -9411,37 +9666,44 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidKMSResourceException extends _s.GenericAwsException {
   InvalidKMSResourceException({String? type, String? message})
       : super(
             type: type, code: 'InvalidKMSResourceException', message: message);
 }
 
+/// @nodoc
 class InvalidSourceException extends _s.GenericAwsException {
   InvalidSourceException({String? type, String? message})
       : super(type: type, code: 'InvalidSourceException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(

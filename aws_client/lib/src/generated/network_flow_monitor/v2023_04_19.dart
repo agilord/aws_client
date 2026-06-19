@@ -1354,6 +1354,7 @@ class NetworkFlowMonitor {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tags for a resource.
   final Map<String, String>? tags;
@@ -1377,6 +1378,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1389,6 +1391,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1401,6 +1404,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateMonitorOutput {
   /// The date and time when the monitor was created.
   final DateTime createdAt;
@@ -1501,6 +1505,7 @@ class CreateMonitorOutput {
   }
 }
 
+/// @nodoc
 class GetMonitorOutput {
   /// The date and time when the monitor was created.
   final DateTime createdAt;
@@ -1601,6 +1606,7 @@ class GetMonitorOutput {
   }
 }
 
+/// @nodoc
 class UpdateMonitorOutput {
   /// The date and time when the monitor was created.
   final DateTime createdAt;
@@ -1704,6 +1710,7 @@ class UpdateMonitorOutput {
   }
 }
 
+/// @nodoc
 class DeleteMonitorOutput {
   DeleteMonitorOutput();
 
@@ -1716,6 +1723,7 @@ class DeleteMonitorOutput {
   }
 }
 
+/// @nodoc
 class ListMonitorsOutput {
   /// The monitors that are in an account.
   final List<MonitorSummary> monitors;
@@ -1749,6 +1757,7 @@ class ListMonitorsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryResultsMonitorTopContributorsOutput {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
@@ -1792,6 +1801,7 @@ class GetQueryResultsMonitorTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryStatusMonitorTopContributorsOutput {
   /// When you run a query, use this call to check the status of the query to make
   /// sure that the query has <code>SUCCEEDED</code> before you review the
@@ -1835,6 +1845,7 @@ class GetQueryStatusMonitorTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class StartQueryMonitorTopContributorsOutput {
   /// The identifier for the query. A query ID is an internally-generated
   /// identifier for a specific query returned from an API call to start a query.
@@ -1859,6 +1870,7 @@ class StartQueryMonitorTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class StopQueryMonitorTopContributorsOutput {
   StopQueryMonitorTopContributorsOutput();
 
@@ -1872,6 +1884,7 @@ class StopQueryMonitorTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class CreateScopeOutput {
   /// The Amazon Resource Name (ARN) of the scope.
   final String scopeArn;
@@ -1925,6 +1938,7 @@ class CreateScopeOutput {
   }
 }
 
+/// @nodoc
 class GetScopeOutput {
   /// The Amazon Resource Name (ARN) of the scope.
   final String scopeArn;
@@ -1991,6 +2005,7 @@ class GetScopeOutput {
   }
 }
 
+/// @nodoc
 class UpdateScopeOutput {
   /// The Amazon Resource Name (ARN) of the scope.
   final String scopeArn;
@@ -2044,6 +2059,7 @@ class UpdateScopeOutput {
   }
 }
 
+/// @nodoc
 class DeleteScopeOutput {
   DeleteScopeOutput();
 
@@ -2056,6 +2072,7 @@ class DeleteScopeOutput {
   }
 }
 
+/// @nodoc
 class ListScopesOutput {
   /// The scopes returned by the call.
   final List<ScopeSummary> scopes;
@@ -2089,6 +2106,7 @@ class ListScopesOutput {
   }
 }
 
+/// @nodoc
 class GetQueryResultsWorkloadInsightsTopContributorsOutput {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
@@ -2125,6 +2143,7 @@ class GetQueryResultsWorkloadInsightsTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryResultsWorkloadInsightsTopContributorsDataOutput {
   /// The datapoints returned by the query.
   final List<WorkloadInsightsTopContributorsDataPoint> datapoints;
@@ -2167,6 +2186,7 @@ class GetQueryResultsWorkloadInsightsTopContributorsDataOutput {
   }
 }
 
+/// @nodoc
 class GetQueryStatusWorkloadInsightsTopContributorsOutput {
   /// When you run a query, use this call to check the status of the query to make
   /// sure that the query has <code>SUCCEEDED</code> before you review the
@@ -2210,6 +2230,7 @@ class GetQueryStatusWorkloadInsightsTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryStatusWorkloadInsightsTopContributorsDataOutput {
   /// The status of a query for top contributors data.
   ///
@@ -2251,6 +2272,7 @@ class GetQueryStatusWorkloadInsightsTopContributorsDataOutput {
   }
 }
 
+/// @nodoc
 class StartQueryWorkloadInsightsTopContributorsOutput {
   /// The identifier for the query. A query ID is an internally-generated
   /// identifier for a specific query returned from an API call to start a query.
@@ -2275,6 +2297,7 @@ class StartQueryWorkloadInsightsTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class StartQueryWorkloadInsightsTopContributorsDataOutput {
   /// The identifier for the query. A query ID is an internally-generated
   /// identifier for a specific query returned from an API call to start a query.
@@ -2299,6 +2322,7 @@ class StartQueryWorkloadInsightsTopContributorsDataOutput {
   }
 }
 
+/// @nodoc
 class StopQueryWorkloadInsightsTopContributorsOutput {
   StopQueryWorkloadInsightsTopContributorsOutput();
 
@@ -2312,6 +2336,7 @@ class StopQueryWorkloadInsightsTopContributorsOutput {
   }
 }
 
+/// @nodoc
 class StopQueryWorkloadInsightsTopContributorsDataOutput {
   StopQueryWorkloadInsightsTopContributorsDataOutput();
 
@@ -2325,6 +2350,7 @@ class StopQueryWorkloadInsightsTopContributorsDataOutput {
   }
 }
 
+/// @nodoc
 class WorkloadInsightsMetric {
   static const timeouts = WorkloadInsightsMetric._('TIMEOUTS');
   static const retransmissions = WorkloadInsightsMetric._('RETRANSMISSIONS');
@@ -2351,6 +2377,7 @@ class WorkloadInsightsMetric {
   String toString() => value;
 }
 
+/// @nodoc
 class DestinationCategory {
   static const intraAz = DestinationCategory._('INTRA_AZ');
   static const interAz = DestinationCategory._('INTER_AZ');
@@ -2389,6 +2416,7 @@ class DestinationCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class QueryStatus {
   static const queued = QueryStatus._('QUEUED');
   static const running = QueryStatus._('RUNNING');
@@ -2415,6 +2443,7 @@ class QueryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricUnit {
   static const seconds = MetricUnit._('Seconds');
   static const microseconds = MetricUnit._('Microseconds');
@@ -2494,6 +2523,8 @@ class MetricUnit {
 /// A data point for a top contributor network flow in a scope. Network Flow
 /// Monitor returns information about the network flows with the top values for
 /// each metric type, which are called top contributors.
+///
+/// @nodoc
 class WorkloadInsightsTopContributorsDataPoint {
   /// The label identifying the data point.
   final String label;
@@ -2538,6 +2569,8 @@ class WorkloadInsightsTopContributorsDataPoint {
 }
 
 /// A row for a top contributor for a scope.
+///
+/// @nodoc
 class WorkloadInsightsTopContributorsRow {
   /// The account ID for a specific row of data.
   final String? accountId;
@@ -2624,6 +2657,8 @@ class WorkloadInsightsTopContributorsRow {
 
 /// A summary of information about a scope, including the ARN, target ID, and
 /// Amazon Web Services Region.
+///
+/// @nodoc
 class ScopeSummary {
   /// The Amazon Resource Name (ARN) of the scope.
   final String scopeArn;
@@ -2669,6 +2704,7 @@ class ScopeSummary {
   }
 }
 
+/// @nodoc
 class ScopeStatus {
   static const succeeded = ScopeStatus._('SUCCEEDED');
   static const inProgress = ScopeStatus._('IN_PROGRESS');
@@ -2705,6 +2741,8 @@ class ScopeStatus {
 /// account, defined by a target identifier. A target identifier is made up of a
 /// target ID (currently always an account ID) and a target type (currently
 /// always <code>ACCOUNT</code>).
+///
+/// @nodoc
 class TargetResource {
   /// The Amazon Web Services Region for the scope.
   final String region;
@@ -2742,6 +2780,8 @@ class TargetResource {
 /// included in a target. A target identifier is made up of a target ID and a
 /// target type. Currently the target ID is always an account ID and the target
 /// type is always ACCOUNT.
+///
+/// @nodoc
 class TargetIdentifier {
   /// The identifier for a target, which is currently always an account ID .
   final TargetId targetId;
@@ -2776,6 +2816,8 @@ class TargetIdentifier {
 /// A target ID is an internally-generated identifier for a target. A target
 /// allows you to identify all the resources in a Network Flow Monitor scope.
 /// Currently, a target is always an Amazon Web Services account.
+///
+/// @nodoc
 class TargetId {
   /// The identifier for the account for a target.
   final String? accountId;
@@ -2798,6 +2840,7 @@ class TargetId {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const account = TargetType._('ACCOUNT');
 
@@ -2820,6 +2863,7 @@ class TargetType {
   String toString() => value;
 }
 
+/// @nodoc
 class MonitorMetric {
   static const roundTripTime = MonitorMetric._('ROUND_TRIP_TIME');
   static const timeouts = MonitorMetric._('TIMEOUTS');
@@ -2855,6 +2899,8 @@ class MonitorMetric {
 /// monitor, Network Flow Monitor returns information about the network flows
 /// for top contributors for each metric. Top contributors are network flows
 /// with the top values for each metric type.
+///
+/// @nodoc
 class MonitorTopContributorsRow {
   /// The destination category for a top contributors row. Destination categories
   /// can be one of the following:
@@ -3090,6 +3136,8 @@ class MonitorTopContributorsRow {
 }
 
 /// Meta data about Kubernetes resources.
+///
+/// @nodoc
 class KubernetesMetadata {
   /// The name of the pod for a local resource.
   final String? localPodName;
@@ -3148,6 +3196,8 @@ class KubernetesMetadata {
 }
 
 /// A section of the network that a network flow has traveled through.
+///
+/// @nodoc
 class TraversedComponent {
   /// The Amazon Resource Name (ARN) of a traversed component.
   final String? componentArn;
@@ -3193,6 +3243,8 @@ class TraversedComponent {
 
 /// A summary of information about a monitor, including the ARN, the name, and
 /// the status.
+///
+/// @nodoc
 class MonitorSummary {
   /// The Amazon Resource Name (ARN) of the monitor.
   final String monitorArn;
@@ -3248,6 +3300,7 @@ class MonitorSummary {
   }
 }
 
+/// @nodoc
 class MonitorStatus {
   static const pending = MonitorStatus._('PENDING');
   static const active = MonitorStatus._('ACTIVE');
@@ -3299,6 +3352,8 @@ class MonitorStatus {
 /// When a remote resource is an Amazon Web Services Region, Network Flow
 /// Monitor provides network performance measurements up to the edge of the
 /// Region that you specify.
+///
+/// @nodoc
 class MonitorRemoteResource {
   /// The identifier of the remote resource. For a VPC or subnet, this identifier
   /// is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability
@@ -3335,6 +3390,7 @@ class MonitorRemoteResource {
   }
 }
 
+/// @nodoc
 class MonitorRemoteResourceType {
   static const awsEc2Vpc = MonitorRemoteResourceType._('AWS::EC2::VPC');
   static const awsAvailabilityZone =
@@ -3373,6 +3429,8 @@ class MonitorRemoteResourceType {
 /// A local resource is the host where the agent is installed. Local resources
 /// can be a a subnet, a VPC, an Availability Zone, an EKS cluster or an Amazon
 /// Web Services Region.
+///
+/// @nodoc
 class MonitorLocalResource {
   /// The identifier of the local resource. The values you can specify are the
   /// following:
@@ -3420,6 +3478,7 @@ class MonitorLocalResource {
   }
 }
 
+/// @nodoc
 class MonitorLocalResourceType {
   static const awsEc2Vpc = MonitorLocalResourceType._('AWS::EC2::VPC');
   static const awsAvailabilityZone =
@@ -3455,26 +3514,31 @@ class MonitorLocalResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3483,11 +3547,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

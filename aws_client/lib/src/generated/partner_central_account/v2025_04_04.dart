@@ -1355,6 +1355,7 @@ class PartnerCentralAccount {
   }
 }
 
+/// @nodoc
 class GetVerificationResponse {
   /// The timestamp when the verification process was initiated.
   final DateTime startedAt;
@@ -1422,6 +1423,7 @@ class GetVerificationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The Amazon Resource Name (ARN) of the resource that the tags are associated
   /// with.
@@ -1455,6 +1457,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class SendEmailVerificationCodeResponse {
   SendEmailVerificationCodeResponse();
 
@@ -1467,6 +1470,7 @@ class SendEmailVerificationCodeResponse {
   }
 }
 
+/// @nodoc
 class StartVerificationResponse {
   /// The timestamp when the verification process was successfully initiated.
   final DateTime startedAt;
@@ -1535,6 +1539,7 @@ class StartVerificationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1547,6 +1552,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1559,6 +1565,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectionInvitationResponse {
   /// The Amazon Resource Name (ARN) of the created connection invitation.
   final String arn;
@@ -1678,6 +1685,7 @@ class CreateConnectionInvitationResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionInvitationResponse {
   /// The Amazon Resource Name (ARN) of the connection invitation.
   final String arn;
@@ -1794,6 +1802,7 @@ class GetConnectionInvitationResponse {
   }
 }
 
+/// @nodoc
 class ListConnectionInvitationsResponse {
   /// A list of connection invitation summaries matching the specified criteria.
   final List<ConnectionInvitationSummary> connectionInvitationSummaries;
@@ -1831,6 +1840,7 @@ class ListConnectionInvitationsResponse {
   }
 }
 
+/// @nodoc
 class AcceptConnectionInvitationResponse {
   /// The details of the accepted connection between the two partners.
   final Connection connection;
@@ -1856,6 +1866,7 @@ class AcceptConnectionInvitationResponse {
   }
 }
 
+/// @nodoc
 class CancelConnectionInvitationResponse {
   /// The Amazon Resource Name (ARN) of the canceled connection invitation.
   final String arn;
@@ -1974,6 +1985,7 @@ class CancelConnectionInvitationResponse {
   }
 }
 
+/// @nodoc
 class RejectConnectionInvitationResponse {
   /// The Amazon Resource Name (ARN) of the rejected connection invitation.
   final String arn;
@@ -2091,6 +2103,7 @@ class RejectConnectionInvitationResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionPreferencesResponse {
   /// The access type setting for connections (e.g., open, restricted,
   /// invitation-only).
@@ -2154,6 +2167,7 @@ class GetConnectionPreferencesResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectionPreferencesResponse {
   /// The updated access type setting for connections.
   final AccessType accessType;
@@ -2217,6 +2231,7 @@ class UpdateConnectionPreferencesResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionResponse {
   /// The Amazon Resource Name (ARN) of the connection.
   final String arn;
@@ -2278,6 +2293,7 @@ class GetConnectionResponse {
   }
 }
 
+/// @nodoc
 class ListConnectionsResponse {
   /// A list of connection summaries matching the specified criteria.
   final List<ConnectionSummary> connectionSummaries;
@@ -2311,6 +2327,7 @@ class ListConnectionsResponse {
   }
 }
 
+/// @nodoc
 class CancelConnectionResponse {
   /// The Amazon Resource Name (ARN) of the canceled connection.
   final String arn;
@@ -2372,6 +2389,7 @@ class CancelConnectionResponse {
   }
 }
 
+/// @nodoc
 class CreatePartnerResponse {
   /// The alliance lead contact information for the partner account.
   final AllianceLeadContact allianceLeadContact;
@@ -2456,6 +2474,7 @@ class CreatePartnerResponse {
   }
 }
 
+/// @nodoc
 class GetPartnerResponse {
   /// The Amazon Resource Name (ARN) of the partner account.
   final String arn;
@@ -2531,6 +2550,7 @@ class GetPartnerResponse {
   }
 }
 
+/// @nodoc
 class ListPartnersResponse {
   /// A list of partner summaries including basic information about each partner
   /// account.
@@ -2565,6 +2585,7 @@ class ListPartnersResponse {
   }
 }
 
+/// @nodoc
 class AssociateAwsTrainingCertificationEmailDomainResponse {
   AssociateAwsTrainingCertificationEmailDomainResponse();
 
@@ -2578,6 +2599,7 @@ class AssociateAwsTrainingCertificationEmailDomainResponse {
   }
 }
 
+/// @nodoc
 class CancelProfileUpdateTaskResponse {
   /// The Amazon Resource Name (ARN) of the canceled profile update task.
   final String arn;
@@ -2662,6 +2684,7 @@ class CancelProfileUpdateTaskResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAwsTrainingCertificationEmailDomainResponse {
   DisassociateAwsTrainingCertificationEmailDomainResponse();
 
@@ -2675,6 +2698,7 @@ class DisassociateAwsTrainingCertificationEmailDomainResponse {
   }
 }
 
+/// @nodoc
 class GetAllianceLeadContactResponse {
   /// The alliance lead contact information including name, email, and business
   /// title.
@@ -2721,6 +2745,7 @@ class GetAllianceLeadContactResponse {
   }
 }
 
+/// @nodoc
 class GetProfileUpdateTaskResponse {
   /// The Amazon Resource Name (ARN) of the profile update task.
   final String arn;
@@ -2807,6 +2832,7 @@ class GetProfileUpdateTaskResponse {
   }
 }
 
+/// @nodoc
 class GetProfileVisibilityResponse {
   /// The Amazon Resource Name (ARN) of the partner account.
   final String arn;
@@ -2859,6 +2885,7 @@ class GetProfileVisibilityResponse {
   }
 }
 
+/// @nodoc
 class PutAllianceLeadContactResponse {
   /// The updated alliance lead contact information.
   final AllianceLeadContact allianceLeadContact;
@@ -2904,6 +2931,7 @@ class PutAllianceLeadContactResponse {
   }
 }
 
+/// @nodoc
 class PutProfileVisibilityResponse {
   /// The Amazon Resource Name (ARN) of the partner account.
   final String arn;
@@ -2955,6 +2983,7 @@ class PutProfileVisibilityResponse {
   }
 }
 
+/// @nodoc
 class StartProfileUpdateTaskResponse {
   /// The Amazon Resource Name (ARN) of the started profile update task.
   final String arn;
@@ -3042,6 +3071,8 @@ class StartProfileUpdateTaskResponse {
 
 /// Contains detailed information about a profile update task including the
 /// changes to be made.
+///
+/// @nodoc
 class TaskDetails {
   /// The updated description for the partner profile.
   final String description;
@@ -3121,6 +3152,7 @@ class TaskDetails {
   }
 }
 
+/// @nodoc
 class ProfileTaskStatus {
   static const inProgress = ProfileTaskStatus._('IN_PROGRESS');
   static const canceled = ProfileTaskStatus._('CANCELED');
@@ -3149,6 +3181,8 @@ class ProfileTaskStatus {
 
 /// Contains detailed information about an error that occurred during an
 /// operation.
+///
+/// @nodoc
 class ErrorDetail {
   /// The locale or language code for the error message.
   final String locale;
@@ -3186,6 +3220,7 @@ class ErrorDetail {
   }
 }
 
+/// @nodoc
 class ProfileValidationErrorReason {
   static const invalidContent =
       ProfileValidationErrorReason._('INVALID_CONTENT');
@@ -3230,6 +3265,7 @@ class ProfileValidationErrorReason {
   String toString() => value;
 }
 
+/// @nodoc
 class PrimarySolutionType {
   static const softwareProducts = PrimarySolutionType._('SOFTWARE_PRODUCTS');
   static const consultingServices =
@@ -3276,6 +3312,8 @@ class PrimarySolutionType {
 
 /// Contains localized content for a partner profile in a specific language or
 /// locale.
+///
+/// @nodoc
 class LocalizedContent {
   /// The localized description of the partner's business and services.
   final String description;
@@ -3326,6 +3364,7 @@ class LocalizedContent {
   }
 }
 
+/// @nodoc
 class IndustrySegment {
   static const agricultureMining = IndustrySegment._('AGRICULTURE_MINING');
   static const biotechnology = IndustrySegment._('BIOTECHNOLOGY');
@@ -3434,6 +3473,7 @@ class IndustrySegment {
   String toString() => value;
 }
 
+/// @nodoc
 class ProfileVisibility {
   static const private = ProfileVisibility._('PRIVATE');
   static const public = ProfileVisibility._('PUBLIC');
@@ -3460,6 +3500,8 @@ class ProfileVisibility {
 
 /// Contains contact information for the primary alliance lead responsible for
 /// partnership activities.
+///
+/// @nodoc
 class AllianceLeadContact {
   /// The business title or role of the alliance lead contact person.
   final String businessTitle;
@@ -3505,6 +3547,8 @@ class AllianceLeadContact {
 
 /// A summary view of a partner account containing basic information for listing
 /// purposes.
+///
+/// @nodoc
 class PartnerSummary {
   /// The Amazon Resource Name (ARN) of the partner account.
   final String arn;
@@ -3557,6 +3601,8 @@ class PartnerSummary {
 
 /// Contains comprehensive profile information for a partner including
 /// public-facing details.
+///
+/// @nodoc
 class PartnerProfile {
   /// A description of the partner's business, services, and capabilities.
   final String description;
@@ -3644,6 +3690,8 @@ class PartnerProfile {
 }
 
 /// Represents a verified domain associated with a partner account.
+///
+/// @nodoc
 class PartnerDomain {
   /// The domain name that has been verified for the partner account.
   final String domainName;
@@ -3676,6 +3724,8 @@ class PartnerDomain {
 
 /// A key-value pair used to associate metadata with AWS Partner Central Account
 /// resources.
+///
+/// @nodoc
 class Tag {
   /// The key name of the tag. Tag keys are case-sensitive.
   final String key;
@@ -3705,6 +3755,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ConnectionType {
   static const opportunityCollaboration =
       ConnectionType._('OPPORTUNITY_COLLABORATION');
@@ -3731,6 +3782,8 @@ class ConnectionType {
 }
 
 /// Detailed information about a specific connection type within a connection.
+///
+/// @nodoc
 class ConnectionTypeDetail {
   /// The timestamp when this connection type was created.
   final DateTime createdAt;
@@ -3798,6 +3851,7 @@ class ConnectionTypeDetail {
   }
 }
 
+/// @nodoc
 class ConnectionTypeStatus {
   static const active = ConnectionTypeStatus._('ACTIVE');
   static const canceled = ConnectionTypeStatus._('CANCELED');
@@ -3825,6 +3879,8 @@ class ConnectionTypeStatus {
 
 /// Represents a participant in a partner connection, containing their profile
 /// and account information.
+///
+/// @nodoc
 class Participant {
   /// The AWS account information for the participant.
   final AccountSummary? account;
@@ -3871,6 +3927,8 @@ class Participant {
 
 /// A summary view of a partner profile containing basic identifying
 /// information.
+///
+/// @nodoc
 class PartnerProfileSummary {
   /// The unique identifier of the partner profile.
   final String id;
@@ -3901,6 +3959,8 @@ class PartnerProfileSummary {
 }
 
 /// A summary view of a seller profile containing basic identifying information.
+///
+/// @nodoc
 class SellerProfileSummary {
   /// The unique identifier of the seller profile.
   final String id;
@@ -3931,6 +3991,8 @@ class SellerProfileSummary {
 }
 
 /// Summary information about an AWS account.
+///
+/// @nodoc
 class AccountSummary {
   /// The name associated with the AWS account.
   final String name;
@@ -3955,6 +4017,8 @@ class AccountSummary {
 
 /// A summary view of an active connection between partners containing key
 /// information.
+///
+/// @nodoc
 class ConnectionSummary {
   /// The Amazon Resource Name (ARN) of the connection.
   final String arn;
@@ -4017,6 +4081,8 @@ class ConnectionSummary {
 }
 
 /// Summary information about a specific connection type between partners.
+///
+/// @nodoc
 class ConnectionTypeSummary {
   /// Information about the other participant in this connection type.
   final Participant otherParticipant;
@@ -4049,6 +4115,7 @@ class ConnectionTypeSummary {
   }
 }
 
+/// @nodoc
 class AccessType {
   static const allowAll = AccessType._('ALLOW_ALL');
   static const denyAll = AccessType._('DENY_ALL');
@@ -4074,6 +4141,7 @@ class AccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantType {
   static const sender = ParticipantType._('SENDER');
   static const receiver = ParticipantType._('RECEIVER');
@@ -4098,6 +4166,7 @@ class ParticipantType {
   String toString() => value;
 }
 
+/// @nodoc
 class InvitationStatus {
   static const pending = InvitationStatus._('PENDING');
   static const accepted = InvitationStatus._('ACCEPTED');
@@ -4126,6 +4195,8 @@ class InvitationStatus {
 }
 
 /// Base structure containing common connection properties.
+///
+/// @nodoc
 class Connection {
   /// The AWS Resource Name (ARN) of the connection.
   final String arn;
@@ -4189,6 +4260,8 @@ class Connection {
 
 /// A summary view of a connection invitation containing key information without
 /// full details.
+///
+/// @nodoc
 class ConnectionInvitationSummary {
   /// The Amazon Resource Name (ARN) of the connection invitation.
   final String arn;
@@ -4284,6 +4357,7 @@ class ConnectionInvitationSummary {
   }
 }
 
+/// @nodoc
 class VerificationType {
   static const businessVerification =
       VerificationType._('BUSINESS_VERIFICATION');
@@ -4310,6 +4384,7 @@ class VerificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class VerificationStatus {
   static const pendingCustomerAction =
       VerificationStatus._('PENDING_CUSTOMER_ACTION');
@@ -4348,6 +4423,8 @@ class VerificationStatus {
 /// A union structure containing the response details specific to different
 /// types of verification processes, providing type-specific information and
 /// results.
+///
+/// @nodoc
 class VerificationResponseDetails {
   /// The response details from a business verification process, including
   /// verification results and any additional business information discovered.
@@ -4392,6 +4469,8 @@ class VerificationResponseDetails {
 /// Contains the response information and results from a business verification
 /// process, including any verification-specific data returned by the
 /// verification service.
+///
+/// @nodoc
 class BusinessVerificationResponse {
   /// The business verification details that were processed and verified,
   /// potentially including additional information discovered during the
@@ -4439,6 +4518,8 @@ class BusinessVerificationResponse {
 /// Contains the response information from a registrant verification process,
 /// including any verification-specific data and next steps for the individual
 /// verification workflow.
+///
+/// @nodoc
 class RegistrantVerificationResponse {
   /// A secure URL where the registrant can complete additional verification
   /// steps, such as document upload or identity confirmation through a
@@ -4474,6 +4555,8 @@ class RegistrantVerificationResponse {
 
 /// Contains the business information required for verifying a company's legal
 /// status and registration details within AWS Partner Central.
+///
+/// @nodoc
 class BusinessVerificationDetails {
   /// The ISO 3166-1 alpha-2 country code where the business is legally registered
   /// and operates.
@@ -4527,6 +4610,8 @@ class BusinessVerificationDetails {
 
 /// A union structure containing the specific details required for different
 /// types of verification processes supported by AWS Partner Central.
+///
+/// @nodoc
 class VerificationDetails {
   /// The business verification details to be used when starting a business
   /// verification process.
@@ -4555,6 +4640,8 @@ class VerificationDetails {
 
 /// Contains the personal information required for verifying an individual's
 /// identity as part of the partner registration process in AWS Partner Central.
+///
+/// @nodoc
 class RegistrantVerificationDetails {
   RegistrantVerificationDetails();
 
@@ -4563,26 +4650,31 @@ class RegistrantVerificationDetails {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4591,11 +4683,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

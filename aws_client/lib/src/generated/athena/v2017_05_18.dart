@@ -3311,6 +3311,7 @@ class Athena {
   }
 }
 
+/// @nodoc
 class BatchGetNamedQueryOutput {
   /// Information about the named query IDs submitted.
   final List<NamedQuery>? namedQueries;
@@ -3348,6 +3349,7 @@ class BatchGetNamedQueryOutput {
   }
 }
 
+/// @nodoc
 class BatchGetPreparedStatementOutput {
   /// The list of prepared statements returned.
   final List<PreparedStatement>? preparedStatements;
@@ -3389,6 +3391,7 @@ class BatchGetPreparedStatementOutput {
   }
 }
 
+/// @nodoc
 class BatchGetQueryExecutionOutput {
   /// Information about a query execution.
   final List<QueryExecution>? queryExecutions;
@@ -3427,6 +3430,7 @@ class BatchGetQueryExecutionOutput {
   }
 }
 
+/// @nodoc
 class CancelCapacityReservationOutput {
   CancelCapacityReservationOutput();
 
@@ -3439,6 +3443,7 @@ class CancelCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class CreateCapacityReservationOutput {
   CreateCapacityReservationOutput();
 
@@ -3451,6 +3456,7 @@ class CreateCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class CreateDataCatalogOutput {
   final DataCatalog? dataCatalog;
 
@@ -3474,6 +3480,7 @@ class CreateDataCatalogOutput {
   }
 }
 
+/// @nodoc
 class CreateNamedQueryOutput {
   /// The unique ID of the query.
   final String? namedQueryId;
@@ -3496,6 +3503,7 @@ class CreateNamedQueryOutput {
   }
 }
 
+/// @nodoc
 class CreateNotebookOutput {
   /// A unique identifier for the notebook.
   final String? notebookId;
@@ -3518,6 +3526,7 @@ class CreateNotebookOutput {
   }
 }
 
+/// @nodoc
 class CreatePreparedStatementOutput {
   CreatePreparedStatementOutput();
 
@@ -3530,6 +3539,7 @@ class CreatePreparedStatementOutput {
   }
 }
 
+/// @nodoc
 class CreatePresignedNotebookUrlResponse {
   /// The authentication token for the notebook.
   final String authToken;
@@ -3568,6 +3578,7 @@ class CreatePresignedNotebookUrlResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkGroupOutput {
   CreateWorkGroupOutput();
 
@@ -3580,6 +3591,7 @@ class CreateWorkGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteCapacityReservationOutput {
   DeleteCapacityReservationOutput();
 
@@ -3592,6 +3604,7 @@ class DeleteCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class DeleteDataCatalogOutput {
   final DataCatalog? dataCatalog;
 
@@ -3615,6 +3628,7 @@ class DeleteDataCatalogOutput {
   }
 }
 
+/// @nodoc
 class DeleteNamedQueryOutput {
   DeleteNamedQueryOutput();
 
@@ -3627,6 +3641,7 @@ class DeleteNamedQueryOutput {
   }
 }
 
+/// @nodoc
 class DeleteNotebookOutput {
   DeleteNotebookOutput();
 
@@ -3639,6 +3654,7 @@ class DeleteNotebookOutput {
   }
 }
 
+/// @nodoc
 class DeletePreparedStatementOutput {
   DeletePreparedStatementOutput();
 
@@ -3651,6 +3667,7 @@ class DeletePreparedStatementOutput {
   }
 }
 
+/// @nodoc
 class DeleteWorkGroupOutput {
   DeleteWorkGroupOutput();
 
@@ -3663,6 +3680,7 @@ class DeleteWorkGroupOutput {
   }
 }
 
+/// @nodoc
 class ExportNotebookOutput {
   /// The notebook metadata, including notebook ID, notebook name, and workgroup
   /// name.
@@ -3696,6 +3714,7 @@ class ExportNotebookOutput {
   }
 }
 
+/// @nodoc
 class GetCalculationExecutionResponse {
   /// The calculation execution UUID.
   final String? calculationExecutionId;
@@ -3770,6 +3789,7 @@ class GetCalculationExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetCalculationExecutionCodeResponse {
   /// The unencrypted code that was executed for the calculation.
   final String? codeBlock;
@@ -3793,6 +3813,7 @@ class GetCalculationExecutionCodeResponse {
   }
 }
 
+/// @nodoc
 class GetCalculationExecutionStatusResponse {
   /// Contains information about the DPU execution time and progress.
   final CalculationStatistics? statistics;
@@ -3828,6 +3849,7 @@ class GetCalculationExecutionStatusResponse {
   }
 }
 
+/// @nodoc
 class GetCapacityAssignmentConfigurationOutput {
   /// The requested capacity assignment configuration for the specified capacity
   /// reservation.
@@ -3855,6 +3877,7 @@ class GetCapacityAssignmentConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetCapacityReservationOutput {
   /// The requested capacity reservation structure.
   final CapacityReservation capacityReservation;
@@ -3879,6 +3902,7 @@ class GetCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class GetDatabaseOutput {
   /// The database returned.
   final Database? database;
@@ -3903,6 +3927,7 @@ class GetDatabaseOutput {
   }
 }
 
+/// @nodoc
 class GetDataCatalogOutput {
   /// The data catalog returned.
   final DataCatalog? dataCatalog;
@@ -3927,6 +3952,7 @@ class GetDataCatalogOutput {
   }
 }
 
+/// @nodoc
 class GetNamedQueryOutput {
   /// Information about the query.
   final NamedQuery? namedQuery;
@@ -3951,6 +3977,7 @@ class GetNamedQueryOutput {
   }
 }
 
+/// @nodoc
 class GetNotebookMetadataOutput {
   /// The metadata that is returned for the specified notebook ID.
   final NotebookMetadata? notebookMetadata;
@@ -3976,6 +4003,7 @@ class GetNotebookMetadataOutput {
   }
 }
 
+/// @nodoc
 class GetPreparedStatementOutput {
   /// The name of the prepared statement that was retrieved.
   final PreparedStatement? preparedStatement;
@@ -4001,6 +4029,7 @@ class GetPreparedStatementOutput {
   }
 }
 
+/// @nodoc
 class GetQueryExecutionOutput {
   /// Information about the query execution.
   final QueryExecution? queryExecution;
@@ -4026,6 +4055,7 @@ class GetQueryExecutionOutput {
   }
 }
 
+/// @nodoc
 class GetQueryResultsOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
@@ -4068,6 +4098,7 @@ class GetQueryResultsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryRuntimeStatisticsOutput {
   /// Runtime statistics about the query execution.
   final QueryRuntimeStatistics? queryRuntimeStatistics;
@@ -4094,6 +4125,7 @@ class GetQueryRuntimeStatisticsOutput {
   }
 }
 
+/// @nodoc
 class GetResourceDashboardResponse {
   /// The Live UI/Persistence UI url for a session.
   final String url;
@@ -4116,6 +4148,7 @@ class GetResourceDashboardResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The session description.
   final String? description;
@@ -4218,6 +4251,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionEndpointResponse {
   /// Authentication token for the connection
   final String authToken;
@@ -4255,6 +4289,7 @@ class GetSessionEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetSessionStatusResponse {
   /// The session ID.
   final String? sessionId;
@@ -4286,6 +4321,7 @@ class GetSessionStatusResponse {
   }
 }
 
+/// @nodoc
 class GetTableMetadataOutput {
   /// An object that contains table metadata.
   final TableMetadata? tableMetadata;
@@ -4311,6 +4347,7 @@ class GetTableMetadataOutput {
   }
 }
 
+/// @nodoc
 class GetWorkGroupOutput {
   /// Information about the workgroup.
   final WorkGroup? workGroup;
@@ -4335,6 +4372,7 @@ class GetWorkGroupOutput {
   }
 }
 
+/// @nodoc
 class ImportNotebookOutput {
   /// The ID assigned to the imported notebook.
   final String? notebookId;
@@ -4357,6 +4395,7 @@ class ImportNotebookOutput {
   }
 }
 
+/// @nodoc
 class ListApplicationDPUSizesOutput {
   /// A list of the supported DPU sizes that the application runtime supports.
   final List<ApplicationDPUSizes>? applicationDPUSizes;
@@ -4393,6 +4432,7 @@ class ListApplicationDPUSizesOutput {
   }
 }
 
+/// @nodoc
 class ListCalculationExecutionsResponse {
   /// A list of <a>CalculationSummary</a> objects.
   final List<CalculationSummary>? calculations;
@@ -4429,6 +4469,7 @@ class ListCalculationExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListCapacityReservationsOutput {
   /// The capacity reservations for the current account.
   final List<CapacityReservation> capacityReservations;
@@ -4465,6 +4506,7 @@ class ListCapacityReservationsOutput {
   }
 }
 
+/// @nodoc
 class ListDatabasesOutput {
   /// A list of databases from a data catalog.
   final List<Database>? databaseList;
@@ -4500,6 +4542,7 @@ class ListDatabasesOutput {
   }
 }
 
+/// @nodoc
 class ListDataCatalogsOutput {
   /// A summary list of data catalogs.
   final List<DataCatalogSummary>? dataCatalogsSummary;
@@ -4536,6 +4579,7 @@ class ListDataCatalogsOutput {
   }
 }
 
+/// @nodoc
 class ListEngineVersionsOutput {
   /// A list of engine versions that are available to choose from.
   final List<EngineVersion>? engineVersions;
@@ -4571,6 +4615,7 @@ class ListEngineVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListExecutorsResponse {
   /// The session ID.
   final String sessionId;
@@ -4613,6 +4658,7 @@ class ListExecutorsResponse {
   }
 }
 
+/// @nodoc
 class ListNamedQueriesOutput {
   /// The list of unique query IDs.
   final List<String>? namedQueryIds;
@@ -4648,6 +4694,7 @@ class ListNamedQueriesOutput {
   }
 }
 
+/// @nodoc
 class ListNotebookMetadataOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
@@ -4684,6 +4731,7 @@ class ListNotebookMetadataOutput {
   }
 }
 
+/// @nodoc
 class ListNotebookSessionsResponse {
   /// A list of the sessions belonging to the notebook.
   final List<NotebookSessionSummary> notebookSessionsList;
@@ -4721,6 +4769,7 @@ class ListNotebookSessionsResponse {
   }
 }
 
+/// @nodoc
 class ListPreparedStatementsOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
@@ -4757,6 +4806,7 @@ class ListPreparedStatementsOutput {
   }
 }
 
+/// @nodoc
 class ListQueryExecutionsOutput {
   /// A token to be used by the next request if this request is truncated.
   final String? nextToken;
@@ -4789,6 +4839,7 @@ class ListQueryExecutionsOutput {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
@@ -4824,6 +4875,7 @@ class ListSessionsResponse {
   }
 }
 
+/// @nodoc
 class ListTableMetadataOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
@@ -4859,6 +4911,7 @@ class ListTableMetadataOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A token to be used by the next request if this request is truncated.
   final String? nextToken;
@@ -4891,6 +4944,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListWorkGroupsOutput {
   /// A token generated by the Athena service that specifies where to continue
   /// pagination if a previous request was truncated. To obtain the next set of
@@ -4927,6 +4981,7 @@ class ListWorkGroupsOutput {
   }
 }
 
+/// @nodoc
 class PutCapacityAssignmentConfigurationOutput {
   PutCapacityAssignmentConfigurationOutput();
 
@@ -4940,6 +4995,7 @@ class PutCapacityAssignmentConfigurationOutput {
   }
 }
 
+/// @nodoc
 class StartCalculationExecutionResponse {
   /// The calculation execution UUID.
   final String? calculationExecutionId;
@@ -4988,6 +5044,7 @@ class StartCalculationExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartQueryExecutionOutput {
   /// The unique ID of the query that ran as a result of this request.
   final String? queryExecutionId;
@@ -5010,6 +5067,7 @@ class StartQueryExecutionOutput {
   }
 }
 
+/// @nodoc
 class StartSessionResponse {
   /// The session ID.
   final String? sessionId;
@@ -5059,6 +5117,7 @@ class StartSessionResponse {
   }
 }
 
+/// @nodoc
 class StopCalculationExecutionResponse {
   /// <code>CREATING</code> - The calculation is in the process of being created.
   ///
@@ -5098,6 +5157,7 @@ class StopCalculationExecutionResponse {
   }
 }
 
+/// @nodoc
 class StopQueryExecutionOutput {
   StopQueryExecutionOutput();
 
@@ -5110,6 +5170,7 @@ class StopQueryExecutionOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -5122,6 +5183,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class TerminateSessionResponse {
   /// The state of the session. A description of each state follows.
   ///
@@ -5164,6 +5226,7 @@ class TerminateSessionResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -5176,6 +5239,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateCapacityReservationOutput {
   UpdateCapacityReservationOutput();
 
@@ -5188,6 +5252,7 @@ class UpdateCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class UpdateDataCatalogOutput {
   UpdateDataCatalogOutput();
 
@@ -5200,6 +5265,7 @@ class UpdateDataCatalogOutput {
   }
 }
 
+/// @nodoc
 class UpdateNamedQueryOutput {
   UpdateNamedQueryOutput();
 
@@ -5212,6 +5278,7 @@ class UpdateNamedQueryOutput {
   }
 }
 
+/// @nodoc
 class UpdateNotebookOutput {
   UpdateNotebookOutput();
 
@@ -5224,6 +5291,7 @@ class UpdateNotebookOutput {
   }
 }
 
+/// @nodoc
 class UpdateNotebookMetadataOutput {
   UpdateNotebookMetadataOutput();
 
@@ -5236,6 +5304,7 @@ class UpdateNotebookMetadataOutput {
   }
 }
 
+/// @nodoc
 class UpdatePreparedStatementOutput {
   UpdatePreparedStatementOutput();
 
@@ -5248,6 +5317,7 @@ class UpdatePreparedStatementOutput {
   }
 }
 
+/// @nodoc
 class UpdateWorkGroupOutput {
   UpdateWorkGroupOutput();
 
@@ -5266,6 +5336,8 @@ class UpdateWorkGroupOutput {
 /// Amazon CloudWatch Metrics are enabled for the workgroup, whether the
 /// workgroup settings override the client-side settings, and the data usage
 /// limit for the amount of bytes scanned per query, if it is specified.
+///
+/// @nodoc
 class WorkGroupConfigurationUpdates {
   /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
   final String? additionalConfiguration;
@@ -5433,6 +5505,7 @@ class WorkGroupConfigurationUpdates {
   }
 }
 
+/// @nodoc
 class WorkGroupState {
   static const enabled = WorkGroupState._('ENABLED');
   static const disabled = WorkGroupState._('DISABLED');
@@ -5459,6 +5532,8 @@ class WorkGroupState {
 
 /// The information about the updates in the query results, such as output
 /// location and encryption configuration for the query results.
+///
+/// @nodoc
 class ResultConfigurationUpdates {
   /// The ACL configuration for the query results.
   final AclConfiguration? aclConfiguration;
@@ -5579,6 +5654,8 @@ class ResultConfigurationUpdates {
 }
 
 /// Updates the configuration for managed query results.
+///
+/// @nodoc
 class ManagedQueryResultsConfigurationUpdates {
   /// If set to true, specifies that Athena manages query results in Athena owned
   /// storage.
@@ -5616,6 +5693,8 @@ class ManagedQueryResultsConfigurationUpdates {
 
 /// The Athena engine version for running queries, or the PySpark engine version
 /// for running sessions.
+///
+/// @nodoc
 class EngineVersion {
   /// Read only. The engine version on which the query runs. If the user requests
   /// a valid engine version other than Auto, the effective engine version is the
@@ -5658,6 +5737,8 @@ class EngineVersion {
 /// Specifies the customer managed KMS key that is used to encrypt the user's
 /// data stores in Athena. When an Amazon Web Services managed key is used, this
 /// value is null. This setting does not apply to Athena SQL workgroups.
+///
+/// @nodoc
 class CustomerContentEncryptionConfiguration {
   /// The customer managed KMS key that is used to encrypt the user's data stores
   /// in Athena.
@@ -5683,6 +5764,8 @@ class CustomerContentEncryptionConfiguration {
 }
 
 /// Specifies whether Amazon S3 access grants are enabled for query results.
+///
+/// @nodoc
 class QueryResultsS3AccessGrantsConfiguration {
   /// The authentication type used for Amazon S3 access grants. Currently, only
   /// <code>DIRECTORY_IDENTITY</code> is supported.
@@ -5726,6 +5809,8 @@ class QueryResultsS3AccessGrantsConfiguration {
 
 /// Contains the configuration settings for managed log persistence, delivering
 /// logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+///
+/// @nodoc
 class MonitoringConfiguration {
   /// Configuration settings for delivering logs to Amazon CloudWatch log groups.
   final CloudWatchLoggingConfiguration? cloudWatchLoggingConfiguration;
@@ -5785,6 +5870,8 @@ class MonitoringConfiguration {
 /// should have the following values: The name of the Classifications should be
 /// <code>athena-query-engine-properties</code>, with the only allowed
 /// properties as <code>max-dpu-count</code> and <code>min-dpu-count</code>.
+///
+/// @nodoc
 class EngineConfiguration {
   /// Contains additional notebook engine <code>MAP<string, string></code>
   /// parameter mappings in the form of key-value pairs. To specify an Athena
@@ -5859,6 +5946,8 @@ class EngineConfiguration {
 }
 
 /// A classification refers to a set of specific configurations.
+///
+/// @nodoc
 class Classification {
   /// The name of the configuration classification.
   final String? name;
@@ -5890,6 +5979,8 @@ class Classification {
 }
 
 /// Configuration settings for delivering logs to Amazon CloudWatch log groups.
+///
+/// @nodoc
 class CloudWatchLoggingConfiguration {
   /// Enables CloudWatch logging.
   final bool enabled;
@@ -5937,6 +6028,8 @@ class CloudWatchLoggingConfiguration {
 }
 
 /// Configuration settings for delivering logs to Amazon S3 buckets.
+///
+/// @nodoc
 class ManagedLoggingConfiguration {
   /// Enables mamanged log persistence.
   final bool enabled;
@@ -5967,6 +6060,8 @@ class ManagedLoggingConfiguration {
 }
 
 /// Configuration settings for delivering logs to Amazon S3 buckets.
+///
+/// @nodoc
 class S3LoggingConfiguration {
   /// Enables S3 log delivery.
   final bool enabled;
@@ -6004,6 +6099,7 @@ class S3LoggingConfiguration {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const directoryIdentity = AuthenticationType._('DIRECTORY_IDENTITY');
 
@@ -6031,6 +6127,8 @@ class AuthenticationType {
 /// If you encrypt query and calculation results in Athena owned storage, this
 /// field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and
 /// key information.
+///
+/// @nodoc
 class ManagedQueryResultsEncryptionConfiguration {
   /// The ARN of an KMS key for encrypting managed query results.
   final String kmsKey;
@@ -6057,6 +6155,8 @@ class ManagedQueryResultsEncryptionConfiguration {
 /// If query and calculation results are encrypted in Amazon S3, indicates the
 /// encryption option used (for example, <code>SSE_KMS</code> or
 /// <code>CSE_KMS</code>) and key information.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed
   /// keys (<code>SSE_S3</code>), server-side encryption with KMS-managed keys
@@ -6103,6 +6203,8 @@ class EncryptionConfiguration {
 /// header. For more information about S3 Object Ownership, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html#object-ownership-overview">Object
 /// Ownership settings</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AclConfiguration {
   /// The Amazon S3 canned ACL that Athena should specify when storing query
   /// results, including data files inserted by Athena as the result of statements
@@ -6134,6 +6236,7 @@ class AclConfiguration {
   }
 }
 
+/// @nodoc
 class S3AclOption {
   static const bucketOwnerFullControl =
       S3AclOption._('BUCKET_OWNER_FULL_CONTROL');
@@ -6157,6 +6260,7 @@ class S3AclOption {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionOption {
   static const sseS3 = EncryptionOption._('SSE_S3');
   static const sseKms = EncryptionOption._('SSE_KMS');
@@ -6182,6 +6286,7 @@ class EncryptionOption {
   String toString() => value;
 }
 
+/// @nodoc
 class NotebookType {
   static const ipynb = NotebookType._('IPYNB');
 
@@ -6204,6 +6309,7 @@ class NotebookType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataCatalogType {
   static const lambda = DataCatalogType._('LAMBDA');
   static const glue = DataCatalogType._('GLUE');
@@ -6230,6 +6336,7 @@ class DataCatalogType {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionState {
   static const creating = SessionState._('CREATING');
   static const created = SessionState._('CREATED');
@@ -6281,6 +6388,8 @@ class SessionState {
 /// - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
 /// unique per resource. If you specify more than one tag, separate them by
 /// commas.
+///
+/// @nodoc
 class Tag {
   /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8.
   /// You can use letters and numbers representable in UTF-8, and the following
@@ -6315,6 +6424,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class CalculationExecutionState {
   static const creating = CalculationExecutionState._('CREATING');
   static const created = CalculationExecutionState._('CREATED');
@@ -6356,6 +6466,8 @@ class CalculationExecutionState {
 }
 
 /// The database and data catalog context in which the query execution occurs.
+///
+/// @nodoc
 class QueryExecutionContext {
   /// The name of the data catalog used in the query execution.
   final String? catalog;
@@ -6390,6 +6502,8 @@ class QueryExecutionContext {
 /// the encryption option, if any, used for query and calculation results. These
 /// are known as "client-side settings". If workgroup settings override
 /// client-side settings, then the query uses the workgroup settings.
+///
+/// @nodoc
 class ResultConfiguration {
   /// Indicates that an Amazon S3 canned ACL should be set to control ownership of
   /// stored query results. Currently the only supported canned ACL is
@@ -6481,6 +6595,8 @@ class ResultConfiguration {
 }
 
 /// Specifies the query result reuse behavior for the query.
+///
+/// @nodoc
 class ResultReuseConfiguration {
   /// Specifies whether previous query results are reused, and if so, their
   /// maximum age.
@@ -6511,6 +6627,8 @@ class ResultReuseConfiguration {
 
 /// Specifies whether previous query results are reused, and if so, their
 /// maximum age.
+///
+/// @nodoc
 class ResultReuseByAgeConfiguration {
   /// True if previous query results can be reused when the query is run;
   /// otherwise, false. The default is false.
@@ -6543,6 +6661,8 @@ class ResultReuseByAgeConfiguration {
 }
 
 /// Contains configuration information for the calculation.
+///
+/// @nodoc
 class CalculationConfiguration {
   /// A string that contains the code for the calculation.
   final String? codeBlock;
@@ -6560,6 +6680,8 @@ class CalculationConfiguration {
 }
 
 /// A mapping between one or more workgroups and a capacity reservation.
+///
+/// @nodoc
 class CapacityAssignment {
   /// The list of workgroup names for the capacity assignment.
   final List<String>? workGroupNames;
@@ -6587,6 +6709,8 @@ class CapacityAssignment {
 
 /// The summary information for the workgroup, which includes its name, state,
 /// description, and the date and time it was created.
+///
+/// @nodoc
 class WorkGroupSummary {
   /// The workgroup creation date and time.
   final DateTime? creationTime;
@@ -6654,6 +6778,8 @@ class WorkGroupSummary {
 }
 
 /// Contains metadata for a table.
+///
+/// @nodoc
 class TableMetadata {
   /// The name of the table.
   final String name;
@@ -6727,6 +6853,8 @@ class TableMetadata {
 }
 
 /// Contains metadata for a column in a table.
+///
+/// @nodoc
 class Column {
   /// The name of the column.
   final String name;
@@ -6764,6 +6892,8 @@ class Column {
 }
 
 /// Contains summary information about a session.
+///
+/// @nodoc
 class SessionSummary {
   /// The session description.
   final String? description;
@@ -6821,6 +6951,8 @@ class SessionSummary {
 }
 
 /// Contains information about the status of a session.
+///
+/// @nodoc
 class SessionStatus {
   /// The date and time that the session ended.
   final DateTime? endDateTime;
@@ -6904,6 +7036,8 @@ class SessionStatus {
 }
 
 /// The name and last modified time of the prepared statement.
+///
+/// @nodoc
 class PreparedStatementSummary {
   /// The last modified time of the prepared statement.
   final DateTime? lastModifiedTime;
@@ -6935,6 +7069,8 @@ class PreparedStatementSummary {
 }
 
 /// Contains the notebook session ID and notebook session creation time.
+///
+/// @nodoc
 class NotebookSessionSummary {
   /// The time when the notebook session was created.
   final DateTime? creationTime;
@@ -6967,6 +7103,8 @@ class NotebookSessionSummary {
 
 /// Contains metadata for notebook, including the notebook name, ID, workgroup,
 /// and time created.
+///
+/// @nodoc
 class NotebookMetadata {
   /// The time when the notebook was created.
   final DateTime? creationTime;
@@ -7027,6 +7165,8 @@ class NotebookMetadata {
 }
 
 /// A string for searching notebook names.
+///
+/// @nodoc
 class FilterDefinition {
   /// The name of the notebook to search for.
   final String? name;
@@ -7044,6 +7184,8 @@ class FilterDefinition {
 }
 
 /// Contains summary information about an executor.
+///
+/// @nodoc
 class ExecutorsSummary {
   /// The UUID of the executor.
   final String executorId;
@@ -7120,6 +7262,7 @@ class ExecutorsSummary {
   }
 }
 
+/// @nodoc
 class ExecutorType {
   static const coordinator = ExecutorType._('COORDINATOR');
   static const gateway = ExecutorType._('GATEWAY');
@@ -7144,6 +7287,7 @@ class ExecutorType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutorState {
   static const creating = ExecutorState._('CREATING');
   static const created = ExecutorState._('CREATED');
@@ -7181,6 +7325,8 @@ class ExecutorState {
 
 /// The summary information for the data catalog, which includes its name and
 /// type.
+///
+/// @nodoc
 class DataCatalogSummary {
   /// The name of the data catalog. The catalog name is unique for the Amazon Web
   /// Services account and can use a maximum of 127 alphanumeric, underscore, at
@@ -7290,6 +7436,7 @@ class DataCatalogSummary {
   }
 }
 
+/// @nodoc
 class DataCatalogStatus {
   static const createInProgress = DataCatalogStatus._('CREATE_IN_PROGRESS');
   static const createComplete = DataCatalogStatus._('CREATE_COMPLETE');
@@ -7334,6 +7481,7 @@ class DataCatalogStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionType {
   static const dynamodb = ConnectionType._('DYNAMODB');
   static const mysql = ConnectionType._('MYSQL');
@@ -7398,6 +7546,8 @@ class ConnectionType {
 }
 
 /// Contains metadata information for a database in a data catalog.
+///
+/// @nodoc
 class Database {
   /// The name of the database.
   final String name;
@@ -7438,6 +7588,8 @@ class Database {
 /// A reservation for a specified number of data processing units (DPUs). When a
 /// reservation is initially created, it has no DPUs. Athena allocates DPUs
 /// until the allocated amount equals the requested amount.
+///
+/// @nodoc
 class CapacityReservation {
   /// The number of data processing units currently allocated.
   final int allocatedDpus;
@@ -7507,6 +7659,7 @@ class CapacityReservation {
   }
 }
 
+/// @nodoc
 class CapacityReservationStatus {
   static const pending = CapacityReservationStatus._('PENDING');
   static const active = CapacityReservationStatus._('ACTIVE');
@@ -7545,6 +7698,8 @@ class CapacityReservationStatus {
 
 /// Contains the submission time of a single allocation request for a capacity
 /// reservation and the most recent status of the attempted allocation.
+///
+/// @nodoc
 class CapacityAllocation {
   /// The time when the capacity allocation was requested.
   final DateTime requestTime;
@@ -7590,6 +7745,7 @@ class CapacityAllocation {
   }
 }
 
+/// @nodoc
 class CapacityAllocationStatus {
   static const pending = CapacityAllocationStatus._('PENDING');
   static const succeeded = CapacityAllocationStatus._('SUCCEEDED');
@@ -7617,6 +7773,8 @@ class CapacityAllocationStatus {
 }
 
 /// Summary information for a notebook calculation.
+///
+/// @nodoc
 class CalculationSummary {
   /// The calculation execution UUID.
   final String? calculationExecutionId;
@@ -7657,6 +7815,8 @@ class CalculationSummary {
 }
 
 /// Contains information about the status of a notebook calculation.
+///
+/// @nodoc
 class CalculationStatus {
   /// The date and time the calculation completed processing.
   final DateTime? completionDateTime;
@@ -7723,6 +7883,8 @@ class CalculationStatus {
 }
 
 /// Contains the application runtime IDs and their supported DPU sizes.
+///
+/// @nodoc
 class ApplicationDPUSizes {
   /// The name of the supported application runtime (for example, <code>Athena
   /// notebook version 1</code>).
@@ -7767,6 +7929,8 @@ class ApplicationDPUSizes {
 /// override is specified in <code>EnforceWorkGroupConfiguration</code>
 /// (true/false) in the <code>WorkGroupConfiguration</code>. See
 /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+///
+/// @nodoc
 class WorkGroup {
   /// The workgroup name.
   final String name;
@@ -7848,6 +8012,8 @@ class WorkGroup {
 /// specified in <code>EnforceWorkGroupConfiguration</code> (true/false) in the
 /// <code>WorkGroupConfiguration</code>. See
 /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+///
+/// @nodoc
 class WorkGroupConfiguration {
   /// Specifies a user defined JSON string that is passed to the notebook engine.
   final String? additionalConfiguration;
@@ -8063,6 +8229,8 @@ class WorkGroupConfiguration {
 /// The configuration for storing results in Athena owned storage, which
 /// includes whether this feature is enabled; whether encryption configuration,
 /// if any, is used for encrypting query results.
+///
+/// @nodoc
 class ManagedQueryResultsConfiguration {
   /// If set to true, allows you to store query results in Athena owned storage.
   /// If set to false, workgroup member stores query results in location specified
@@ -8103,6 +8271,8 @@ class ManagedQueryResultsConfiguration {
 }
 
 /// Specifies whether the workgroup is IAM Identity Center supported.
+///
+/// @nodoc
 class IdentityCenterConfiguration {
   /// Specifies whether the workgroup is IAM Identity Center supported.
   final bool? enableIdentityCenter;
@@ -8135,6 +8305,8 @@ class IdentityCenterConfiguration {
 }
 
 /// Contains session configuration information.
+///
+/// @nodoc
 class SessionConfiguration {
   final EncryptionConfiguration? encryptionConfiguration;
 
@@ -8192,6 +8364,8 @@ class SessionConfiguration {
 }
 
 /// Contains statistics for a session.
+///
+/// @nodoc
 class SessionStatistics {
   /// The data processing unit execution time for a session in milliseconds.
   final int? dpuExecutionInMillis;
@@ -8217,6 +8391,8 @@ class SessionStatistics {
 
 /// The query execution timeline, statistics on input and output rows and bytes,
 /// and the different query stages that form the query execution plan.
+///
+/// @nodoc
 class QueryRuntimeStatistics {
   /// Stage statistics such as input and output rows and bytes, execution time,
   /// and stage state. This information also includes substages and the query
@@ -8261,6 +8437,8 @@ class QueryRuntimeStatistics {
 
 /// Timeline statistics such as query queue time, planning time, execution time,
 /// service processing time, and total execution time.
+///
+/// @nodoc
 class QueryRuntimeStatisticsTimeline {
   /// The number of milliseconds that the query took to execute.
   final int? engineExecutionTimeInMillis;
@@ -8336,6 +8514,8 @@ class QueryRuntimeStatisticsTimeline {
 
 /// Statistics such as input rows and bytes read by the query, rows and bytes
 /// output by the query, and the number of rows written by the query.
+///
+/// @nodoc
 class QueryRuntimeStatisticsRows {
   /// The number of bytes read to execute the query.
   final int? inputBytes;
@@ -8382,6 +8562,8 @@ class QueryRuntimeStatisticsRows {
 /// Stage statistics such as input and output rows and bytes, execution time and
 /// stage state. This information also includes substages and the query stage
 /// plan.
+///
+/// @nodoc
 class QueryStage {
   /// Time taken to execute this stage.
   final int? executionTime;
@@ -8469,6 +8651,8 @@ class QueryStage {
 
 /// Stage plan information such as name, identifier, sub plans, and remote
 /// sources.
+///
+/// @nodoc
 class QueryStagePlanNode {
   /// Stage plan information such as name, identifier, sub plans, and remote
   /// sources of child plan nodes/
@@ -8523,6 +8707,8 @@ class QueryStagePlanNode {
 /// The metadata and rows that make up a query result set. The metadata
 /// describes the column structure and data types. To return a
 /// <code>ResultSet</code> object, use <a>GetQueryResults</a>.
+///
+/// @nodoc
 class ResultSet {
   /// The metadata that describes the column structure and data types of a table
   /// of query results.
@@ -8562,6 +8748,8 @@ class ResultSet {
 /// The metadata that describes the column structure and data types of a table
 /// of query results. To return a <code>ResultSetMetadata</code> object, use
 /// <a>GetQueryResults</a>.
+///
+/// @nodoc
 class ResultSetMetadata {
   /// Information about the columns returned in a query result metadata.
   final List<ColumnInfo>? columnInfo;
@@ -8588,6 +8776,8 @@ class ResultSetMetadata {
 }
 
 /// Information about the columns in a query execution result.
+///
+/// @nodoc
 class ColumnInfo {
   /// The name of the column.
   final String name;
@@ -8675,6 +8865,7 @@ class ColumnInfo {
   }
 }
 
+/// @nodoc
 class ColumnNullable {
   static const notNull = ColumnNullable._('NOT_NULL');
   static const nullable = ColumnNullable._('NULLABLE');
@@ -8701,6 +8892,8 @@ class ColumnNullable {
 }
 
 /// The rows that make up a query result table.
+///
+/// @nodoc
 class Row {
   /// The data that populates a row in a query result table.
   final List<Datum>? data;
@@ -8727,6 +8920,8 @@ class Row {
 }
 
 /// A piece of data (a field in the table).
+///
+/// @nodoc
 class Datum {
   /// The value of the datum.
   final String? varCharValue;
@@ -8749,6 +8944,7 @@ class Datum {
   }
 }
 
+/// @nodoc
 class QueryResultType {
   static const dataManifest = QueryResultType._('DATA_MANIFEST');
   static const dataRows = QueryResultType._('DATA_ROWS');
@@ -8774,6 +8970,8 @@ class QueryResultType {
 }
 
 /// Information about a single instance of a query execution.
+///
+/// @nodoc
 class QueryExecution {
   /// The engine version that executed the query.
   final EngineVersion? engineVersion;
@@ -8945,6 +9143,7 @@ class QueryExecution {
   }
 }
 
+/// @nodoc
 class StatementType {
   static const ddl = StatementType._('DDL');
   static const dml = StatementType._('DML');
@@ -8972,6 +9171,8 @@ class StatementType {
 
 /// The completion date, current state, submission time, and state change reason
 /// (if applicable) for the query execution.
+///
+/// @nodoc
 class QueryExecutionStatus {
   /// Provides information about an Athena query error.
   final AthenaError? athenaError;
@@ -9039,6 +9240,8 @@ class QueryExecutionStatus {
 
 /// The amount of data scanned during the query execution and the amount of time
 /// that it took to execute, and the type of statement that was run.
+///
+/// @nodoc
 class QueryExecutionStatistics {
   /// The location and file name of a data manifest file. The manifest file is
   /// saved to the Athena query results location in Amazon S3. The manifest file
@@ -9157,6 +9360,8 @@ class QueryExecutionStatistics {
 
 /// Contains information about whether the result of a previous query was
 /// reused.
+///
+/// @nodoc
 class ResultReuseInformation {
   /// True if a previous query result was reused; false if the result was
   /// generated from a new run of the query.
@@ -9180,6 +9385,7 @@ class ResultReuseInformation {
   }
 }
 
+/// @nodoc
 class QueryExecutionState {
   static const queued = QueryExecutionState._('QUEUED');
   static const running = QueryExecutionState._('RUNNING');
@@ -9214,6 +9420,8 @@ class QueryExecutionState {
 /// occurs. <code>AthenaError</code> includes an <code>ErrorCategory</code>
 /// field that specifies whether the cause of the failed query is due to system
 /// error, user error, or other error.
+///
+/// @nodoc
 class AthenaError {
   /// An integer value that specifies the category of a query failure error. The
   /// following list shows the category for each integer value.
@@ -9268,6 +9476,8 @@ class AthenaError {
 }
 
 /// A prepared SQL statement for use with Athena.
+///
+/// @nodoc
 class PreparedStatement {
   /// The description of the prepared statement.
   final String? description;
@@ -9321,6 +9531,8 @@ class PreparedStatement {
 
 /// A query, where <code>QueryString</code> contains the SQL statements that
 /// make up the query.
+///
+/// @nodoc
 class NamedQuery {
   /// The database to which the query belongs.
   final String database;
@@ -9383,6 +9595,8 @@ class NamedQuery {
 /// In the Athena console, data catalogs are listed as "data sources" on the
 /// <b>Data sources</b> page under the <b>Data source name</b> column.
 /// </note>
+///
+/// @nodoc
 class DataCatalog {
   /// The name of the data catalog. The catalog name must be unique for the Amazon
   /// Web Services account and can use a maximum of 127 alphanumeric, underscore,
@@ -9585,6 +9799,8 @@ class DataCatalog {
 /// multiple individual assignments. Each assignment specifies how Athena
 /// queries can consume capacity from the capacity reservation that their
 /// workgroup is mapped to.
+///
+/// @nodoc
 class CapacityAssignmentConfiguration {
   /// The list of assignments that make up the capacity assignment configuration.
   final List<CapacityAssignment>? capacityAssignments;
@@ -9621,6 +9837,8 @@ class CapacityAssignmentConfiguration {
 }
 
 /// Contains statistics for a notebook calculation.
+///
+/// @nodoc
 class CalculationStatistics {
   /// The data processing unit execution time in milliseconds for the calculation.
   final int? dpuExecutionInMillis;
@@ -9652,6 +9870,8 @@ class CalculationStatistics {
 }
 
 /// Contains information about an application-specific calculation result.
+///
+/// @nodoc
 class CalculationResult {
   /// The Amazon S3 location of the folder for the calculation results.
   final String? resultS3Uri;
@@ -9697,6 +9917,8 @@ class CalculationResult {
 }
 
 /// Describes a query execution that failed to process.
+///
+/// @nodoc
 class UnprocessedQueryExecutionId {
   /// The error code returned when the query execution failed to process, if
   /// applicable.
@@ -9736,6 +9958,8 @@ class UnprocessedQueryExecutionId {
 }
 
 /// The name of a prepared statement that could not be returned.
+///
+/// @nodoc
 class UnprocessedPreparedStatementName {
   /// The error code returned when the request for the prepared statement failed.
   final String? errorCode;
@@ -9789,6 +10013,8 @@ class UnprocessedPreparedStatementName {
 }
 
 /// Information about a named query ID that could not be processed.
+///
+/// @nodoc
 class UnprocessedNamedQueryId {
   /// The error code returned when the processing request for the named query
   /// failed, if applicable.
@@ -9827,26 +10053,31 @@ class UnprocessedNamedQueryId {
   }
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class MetadataException extends _s.GenericAwsException {
   MetadataException({String? type, String? message})
       : super(type: type, code: 'MetadataException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class SessionAlreadyExistsException extends _s.GenericAwsException {
   SessionAlreadyExistsException({String? type, String? message})
       : super(
@@ -9855,6 +10086,7 @@ class SessionAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

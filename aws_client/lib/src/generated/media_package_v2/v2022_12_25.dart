@@ -1549,6 +1549,7 @@ class MediaPackageV2 {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Contains a map of the key-value pairs for the resource tag or tags assigned
   /// to the resource.
@@ -1573,6 +1574,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelGroupResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -1651,6 +1653,7 @@ class CreateChannelGroupResponse {
   }
 }
 
+/// @nodoc
 class GetChannelGroupResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -1728,6 +1731,7 @@ class GetChannelGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelGroupResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -1805,6 +1809,7 @@ class UpdateChannelGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelGroupResponse {
   DeleteChannelGroupResponse();
 
@@ -1817,6 +1822,7 @@ class DeleteChannelGroupResponse {
   }
 }
 
+/// @nodoc
 class ListChannelGroupsResponse {
   /// The objects being returned.
   final List<ChannelGroupListConfiguration>? items;
@@ -1851,6 +1857,7 @@ class ListChannelGroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -1984,6 +1991,7 @@ class CreateChannelResponse {
   }
 }
 
+/// @nodoc
 class GetChannelResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -2124,6 +2132,7 @@ class GetChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -2257,6 +2266,7 @@ class UpdateChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelResponse {
   DeleteChannelResponse();
 
@@ -2269,6 +2279,7 @@ class DeleteChannelResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// The objects being returned.
   final List<ChannelListConfiguration>? items;
@@ -2302,6 +2313,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class ResetChannelStateResponse {
   /// The Amazon Resource Name (ARN) associated with the channel that you just
   /// reset.
@@ -2346,6 +2358,7 @@ class ResetChannelStateResponse {
   }
 }
 
+/// @nodoc
 class PutChannelPolicyResponse {
   PutChannelPolicyResponse();
 
@@ -2358,6 +2371,7 @@ class PutChannelPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetChannelPolicyResponse {
   /// The name that describes the channel group. The name is the primary
   /// identifier for the channel group, and must be unique for your account in the
@@ -2398,6 +2412,7 @@ class GetChannelPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelPolicyResponse {
   DeleteChannelPolicyResponse();
 
@@ -2410,6 +2425,7 @@ class DeleteChannelPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateOriginEndpointResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -2592,6 +2608,7 @@ class CreateOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetOriginEndpointResponse {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -2778,6 +2795,7 @@ class GetOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateOriginEndpointResponse {
   /// The ARN associated with the resource.
   final String arn;
@@ -2960,6 +2978,7 @@ class UpdateOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteOriginEndpointResponse {
   DeleteOriginEndpointResponse();
 
@@ -2972,6 +2991,7 @@ class DeleteOriginEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListOriginEndpointsResponse {
   /// The objects being returned.
   final List<OriginEndpointListConfiguration>? items;
@@ -3006,6 +3026,7 @@ class ListOriginEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ResetOriginEndpointStateResponse {
   /// The Amazon Resource Name (ARN) associated with the endpoint that you just
   /// reset.
@@ -3058,6 +3079,7 @@ class ResetOriginEndpointStateResponse {
   }
 }
 
+/// @nodoc
 class PutOriginEndpointPolicyResponse {
   PutOriginEndpointPolicyResponse();
 
@@ -3070,6 +3092,7 @@ class PutOriginEndpointPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetOriginEndpointPolicyResponse {
   /// The name that describes the channel group. The name is the primary
   /// identifier for the channel group, and must be unique for your account in the
@@ -3135,6 +3158,7 @@ class GetOriginEndpointPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteOriginEndpointPolicyResponse {
   DeleteOriginEndpointPolicyResponse();
 
@@ -3148,6 +3172,8 @@ class DeleteOriginEndpointPolicyResponse {
 }
 
 /// The response object returned after creating a harvest job.
+///
+/// @nodoc
 class CreateHarvestJobResponse {
   /// The Amazon Resource Name (ARN) of the created harvest job.
   final String arn;
@@ -3279,6 +3305,8 @@ class CreateHarvestJobResponse {
 }
 
 /// The response object containing the details of the requested harvest job.
+///
+/// @nodoc
 class GetHarvestJobResponse {
   /// The Amazon Resource Name (ARN) of the harvest job.
   final String arn;
@@ -3409,6 +3437,7 @@ class GetHarvestJobResponse {
   }
 }
 
+/// @nodoc
 class CancelHarvestJobResponse {
   CancelHarvestJobResponse();
 
@@ -3423,6 +3452,8 @@ class CancelHarvestJobResponse {
 
 /// The response object containing the list of harvest jobs that match the
 /// specified criteria.
+///
+/// @nodoc
 class ListHarvestJobsResponse {
   /// An array of harvest job objects that match the specified criteria.
   final List<HarvestJob>? items;
@@ -3459,6 +3490,8 @@ class ListHarvestJobsResponse {
 
 /// Represents a harvest job resource in MediaPackage v2, which is used to
 /// export content from an origin endpoint to an S3 bucket.
+///
+/// @nodoc
 class HarvestJob {
   /// The Amazon Resource Name (ARN) of the harvest job.
   final String arn;
@@ -3582,6 +3615,8 @@ class HarvestJob {
 
 /// The configuration for the destination where the harvested content will be
 /// exported.
+///
+/// @nodoc
 class Destination {
   /// The configuration for exporting harvested content to an S3 bucket. This
   /// includes details such as the bucket name and destination path within the
@@ -3609,6 +3644,8 @@ class Destination {
 }
 
 /// A collection of harvested manifests of different types.
+///
+/// @nodoc
 class HarvestedManifests {
   /// A list of harvested DASH manifests.
   final List<HarvestedDashManifest>? dashManifests;
@@ -3657,6 +3694,8 @@ class HarvestedManifests {
 }
 
 /// Defines the schedule configuration for a harvest job.
+///
+/// @nodoc
 class HarvesterScheduleConfiguration {
   /// The end time for the harvest job.
   final DateTime endTime;
@@ -3686,6 +3725,7 @@ class HarvesterScheduleConfiguration {
   }
 }
 
+/// @nodoc
 class HarvestJobStatus {
   static const queued = HarvestJobStatus._('QUEUED');
   static const inProgress = HarvestJobStatus._('IN_PROGRESS');
@@ -3714,6 +3754,8 @@ class HarvestJobStatus {
 }
 
 /// Information about a harvested Low-Latency HLS manifest.
+///
+/// @nodoc
 class HarvestedLowLatencyHlsManifest {
   /// The name of the harvested Low-Latency HLS manifest.
   final String manifestName;
@@ -3737,6 +3779,8 @@ class HarvestedLowLatencyHlsManifest {
 }
 
 /// Information about a harvested DASH manifest.
+///
+/// @nodoc
 class HarvestedDashManifest {
   /// The name of the harvested DASH manifest.
   final String manifestName;
@@ -3760,6 +3804,8 @@ class HarvestedDashManifest {
 }
 
 /// Information about a harvested HLS manifest.
+///
+/// @nodoc
 class HarvestedHlsManifest {
   /// The name of the harvested HLS manifest.
   final String manifestName;
@@ -3784,6 +3830,8 @@ class HarvestedHlsManifest {
 
 /// Configuration parameters for where in an S3 bucket to place the harvested
 /// content.
+///
+/// @nodoc
 class S3DestinationConfig {
   /// The name of an S3 bucket within which harvested content will be exported.
   final String bucketName;
@@ -3815,6 +3863,8 @@ class S3DestinationConfig {
 }
 
 /// The settings to enable CDN authorization headers in MediaPackage.
+///
+/// @nodoc
 class CdnAuthConfiguration {
   /// The ARN for the secret in Secrets Manager that your CDN uses for
   /// authorization to access the endpoint.
@@ -3851,6 +3901,8 @@ class CdnAuthConfiguration {
 }
 
 /// The configuration of the origin endpoint.
+///
+/// @nodoc
 class OriginEndpointListConfiguration {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -4001,6 +4053,7 @@ class OriginEndpointListConfiguration {
   }
 }
 
+/// @nodoc
 class ContainerType {
   static const ts = ContainerType._('TS');
   static const cmaf = ContainerType._('CMAF');
@@ -4027,6 +4080,8 @@ class ContainerType {
 }
 
 /// The failover settings for the endpoint.
+///
+/// @nodoc
 class ForceEndpointErrorConfiguration {
   /// The failover conditions for the endpoint. The options are:
   ///
@@ -4072,6 +4127,7 @@ class ForceEndpointErrorConfiguration {
   }
 }
 
+/// @nodoc
 class UriSeparator {
   static const underscore = UriSeparator._('UNDERSCORE');
   static const hyphen = UriSeparator._('HYPHEN');
@@ -4095,6 +4151,7 @@ class UriSeparator {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointErrorCondition {
   static const staleManifest = EndpointErrorCondition._('STALE_MANIFEST');
   static const incompleteManifest =
@@ -4131,6 +4188,8 @@ class EndpointErrorCondition {
 /// Summary information about a Microsoft Smooth Streaming (MSS) manifest
 /// configuration. This provides key details about the MSS manifest without
 /// including all configuration parameters.
+///
+/// @nodoc
 class ListMssManifestConfiguration {
   /// The name of the MSS manifest configuration.
   final String manifestName;
@@ -4161,6 +4220,8 @@ class ListMssManifestConfiguration {
 }
 
 /// List the DASH manifest configuration.
+///
+/// @nodoc
 class ListDashManifestConfiguration {
   /// A short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -4193,6 +4254,8 @@ class ListDashManifestConfiguration {
 }
 
 /// List the low-latency HTTP live streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class ListLowLatencyHlsManifestConfiguration {
   /// A short short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -4241,6 +4304,8 @@ class ListLowLatencyHlsManifestConfiguration {
 }
 
 /// List the HTTP live streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class ListHlsManifestConfiguration {
   /// A short short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -4289,6 +4354,8 @@ class ListHlsManifestConfiguration {
 
 /// The segment configuration, including the segment name, duration, and other
 /// configuration values.
+///
+/// @nodoc
 class Segment {
   final Encryption? encryption;
 
@@ -4376,6 +4443,8 @@ class Segment {
 }
 
 /// Retrieve the DASH manifest configuration.
+///
+/// @nodoc
 class GetDashManifestConfiguration {
   /// A short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -4613,6 +4682,8 @@ class GetDashManifestConfiguration {
 /// Filter configuration includes settings for manifest filtering, start and end
 /// times, and time delay that apply to all of your egress requests for this
 /// manifest.
+///
+/// @nodoc
 class FilterConfiguration {
   /// Optionally specify the clip start time for all of your manifest egress
   /// requests. When you include clip start time, note that you cannot use clip
@@ -4685,6 +4756,7 @@ class FilterConfiguration {
   }
 }
 
+/// @nodoc
 class DashSegmentTemplateFormat {
   static const numberWithTimeline =
       DashSegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
@@ -4711,6 +4783,8 @@ class DashSegmentTemplateFormat {
 }
 
 /// The SCTE configuration.
+///
+/// @nodoc
 class ScteDash {
   /// Choose how ad markers are included in the packaged content. If you include
   /// ad markers in the content stream in your upstream encoders, then you need to
@@ -4761,6 +4835,7 @@ class ScteDash {
   }
 }
 
+/// @nodoc
 class DashDrmSignaling {
   static const individual = DashDrmSignaling._('INDIVIDUAL');
   static const referenced = DashDrmSignaling._('REFERENCED');
@@ -4787,6 +4862,8 @@ class DashDrmSignaling {
 
 /// Determines the type of UTC timing included in the DASH Media Presentation
 /// Description (MPD).
+///
+/// @nodoc
 class DashUtcTiming {
   /// The UTC timing mode.
   final DashUtcTimingMode? timingMode;
@@ -4820,6 +4897,8 @@ class DashUtcTiming {
 
 /// Details about the content that you want MediaPackage to pass through in the
 /// manifest to the playback device.
+///
+/// @nodoc
 class DashProgramInformation {
   /// A copyright statement about the content.
   final String? copyright;
@@ -4873,6 +4952,8 @@ class DashProgramInformation {
 /// For endpoints that use the DVB-DASH profile only. The font download and
 /// error reporting information that you want MediaPackage to pass through to
 /// the manifest.
+///
+/// @nodoc
 class DashDvbSettings {
   /// Playback device error reporting settings.
   final List<DashDvbMetricsReporting>? errorMetrics;
@@ -4909,6 +4990,7 @@ class DashDvbSettings {
   }
 }
 
+/// @nodoc
 class DashCompactness {
   static const standard = DashCompactness._('STANDARD');
   static const none = DashCompactness._('NONE');
@@ -4934,6 +5016,8 @@ class DashCompactness {
 }
 
 /// The configuration for DASH subtitles.
+///
+/// @nodoc
 class DashSubtitleConfiguration {
   /// Settings for TTML subtitles.
   final DashTtmlConfiguration? ttmlConfiguration;
@@ -4959,6 +5043,7 @@ class DashSubtitleConfiguration {
   }
 }
 
+/// @nodoc
 class UriPathType {
   static const leaf = UriPathType._('LEAF');
   static const root = UriPathType._('ROOT');
@@ -4985,6 +5070,8 @@ class UriPathType {
 /// The configuration for the DASH <code>availabilityStartTime</code> attribute
 /// of the Media Presentation Description (MPD). Use this configuration to set a
 /// custom availability start time for your DASH manifest.
+///
+/// @nodoc
 class DashAvailabilityStartTimeConfiguration {
   /// The fixed availability start time for the DASH manifest, in ISO 8601
   /// date-time format. The value must have hourly granularity, meaning that the
@@ -5015,6 +5102,8 @@ class DashAvailabilityStartTimeConfiguration {
 }
 
 /// The settings for TTML subtitles.
+///
+/// @nodoc
 class DashTtmlConfiguration {
   /// The profile that MediaPackage uses when signaling subtitles in the manifest.
   /// <code>IMSC</code> is the default profile. <code>EBU-TT-D</code> produces
@@ -5044,6 +5133,7 @@ class DashTtmlConfiguration {
   }
 }
 
+/// @nodoc
 class DashTtmlProfile {
   static const imsc_1 = DashTtmlProfile._('IMSC_1');
   static const ebuTtD_101 = DashTtmlProfile._('EBU_TT_D_101');
@@ -5070,6 +5160,8 @@ class DashTtmlProfile {
 
 /// For use with DVB-DASH profiles only. The settings for font downloads that
 /// you want Elemental MediaPackage to pass through to the manifest.
+///
+/// @nodoc
 class DashDvbFontDownload {
   /// The <code>fontFamily</code> name for subtitles, as described in <a
   /// href="https://tech.ebu.ch/publications/tech3380">EBU-TT-D Subtitling
@@ -5116,6 +5208,8 @@ class DashDvbFontDownload {
 /// For use with DVB-DASH profiles only. The settings for error reporting from
 /// the playback device that you want Elemental MediaPackage to pass through to
 /// the manifest.
+///
+/// @nodoc
 class DashDvbMetricsReporting {
   /// The URL where playback devices send error reports.
   final String reportingUrl;
@@ -5150,6 +5244,8 @@ class DashDvbMetricsReporting {
 /// The base URLs to use for retrieving segments. You can specify multiple
 /// locations and indicate the priority and weight for when each should be used,
 /// for use in mutli-CDN workflows.
+///
+/// @nodoc
 class DashBaseUrl {
   /// A source location for segments.
   final String url;
@@ -5195,6 +5291,7 @@ class DashBaseUrl {
   }
 }
 
+/// @nodoc
 class DashProfile {
   static const dvbDash = DashProfile._('DVB_DASH');
 
@@ -5217,6 +5314,7 @@ class DashProfile {
   String toString() => value;
 }
 
+/// @nodoc
 class DashUtcTimingMode {
   static const httpHead = DashUtcTimingMode._('HTTP_HEAD');
   static const httpIso = DashUtcTimingMode._('HTTP_ISO');
@@ -5243,6 +5341,7 @@ class DashUtcTimingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AdMarkerDash {
   static const binary = AdMarkerDash._('BINARY');
   static const xml = AdMarkerDash._('XML');
@@ -5266,6 +5365,7 @@ class AdMarkerDash {
   String toString() => value;
 }
 
+/// @nodoc
 class ScteInManifests {
   static const all = ScteInManifests._('ALL');
   static const matchesFilter = ScteInManifests._('MATCHES_FILTER');
@@ -5290,6 +5390,7 @@ class ScteInManifests {
   String toString() => value;
 }
 
+/// @nodoc
 class DashPeriodTrigger {
   static const avails = DashPeriodTrigger._('AVAILS');
   static const drmKeyRotation = DashPeriodTrigger._('DRM_KEY_ROTATION');
@@ -5326,6 +5427,8 @@ class DashPeriodTrigger {
 /// Configuration details for a Microsoft Smooth Streaming (MSS) manifest
 /// associated with an origin endpoint. This includes all the settings and
 /// properties that define how the MSS content is packaged and delivered.
+///
+/// @nodoc
 class GetMssManifestConfiguration {
   /// The name of the MSS manifest. This name is appended to the origin endpoint
   /// URL to create the unique path for accessing this specific MSS manifest.
@@ -5385,6 +5488,7 @@ class GetMssManifestConfiguration {
   }
 }
 
+/// @nodoc
 class MssManifestLayout {
   static const full = MssManifestLayout._('FULL');
   static const compact = MssManifestLayout._('COMPACT');
@@ -5410,6 +5514,8 @@ class MssManifestLayout {
 }
 
 /// Retrieve the low-latency HTTP live streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class GetLowLatencyHlsManifestConfiguration {
   /// A short short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -5528,6 +5634,8 @@ class GetLowLatencyHlsManifestConfiguration {
 }
 
 /// The SCTE configuration.
+///
+/// @nodoc
 class ScteHls {
   /// Ad markers indicate when ads should be inserted during playback. If you
   /// include ad markers in the content stream in your upstream encoders, then you
@@ -5588,6 +5696,8 @@ class ScteHls {
 /// configuration object with a valid TimeOffset. When you do, you can also
 /// optionally specify whether to include a PRECISE value in the EXT-X-START
 /// tag.
+///
+/// @nodoc
 class StartTag {
   /// Specify the value for TIME-OFFSET within your EXT-X-START tag. Enter a
   /// signed floating point value which, if positive, must be less than the
@@ -5623,6 +5733,7 @@ class StartTag {
   }
 }
 
+/// @nodoc
 class AdMarkerHls {
   static const daterange = AdMarkerHls._('DATERANGE');
   static const scte35Enhanced = AdMarkerHls._('SCTE35_ENHANCED');
@@ -5647,6 +5758,8 @@ class AdMarkerHls {
 }
 
 /// Retrieve the HTTP live streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class GetHlsManifestConfiguration {
   /// A short short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -5764,6 +5877,8 @@ class GetHlsManifestConfiguration {
 }
 
 /// The SCTE configuration.
+///
+/// @nodoc
 class Scte {
   /// A list of additional non-Ad SCTE-35 event types to treat as advertisements.
   /// When configured, events matching these types produce ad markers (such as
@@ -5838,6 +5953,8 @@ class Scte {
 }
 
 /// The parameters for encrypting content.
+///
+/// @nodoc
 class Encryption {
   /// The encryption method to use.
   final EncryptionMethod encryptionMethod;
@@ -5932,6 +6049,8 @@ class Encryption {
 }
 
 /// The encryption type.
+///
+/// @nodoc
 class EncryptionMethod {
   /// The encryption method to use.
   final CmafEncryptionMethod? cmafEncryptionMethod;
@@ -5977,6 +6096,8 @@ class EncryptionMethod {
 }
 
 /// The parameters for the SPEKE key provider.
+///
+/// @nodoc
 class SpekeKeyProvider {
   /// The DRM solution provider you're using to protect your content during
   /// distribution.
@@ -6072,6 +6193,8 @@ class SpekeKeyProvider {
 /// used to encrypt the audio and video tracks in your stream. To configure the
 /// encryption contract, specify which audio and video encryption presets to
 /// use.
+///
+/// @nodoc
 class EncryptionContractConfiguration {
   /// A collection of audio encryption presets.
   ///
@@ -6180,6 +6303,7 @@ class EncryptionContractConfiguration {
   }
 }
 
+/// @nodoc
 class DrmSystem {
   static const clearKeyAes_128 = DrmSystem._('CLEAR_KEY_AES_128');
   static const fairplay = DrmSystem._('FAIRPLAY');
@@ -6212,6 +6336,7 @@ class DrmSystem {
   String toString() => value;
 }
 
+/// @nodoc
 class PresetSpeke20Audio {
   static const presetAudio_1 = PresetSpeke20Audio._('PRESET_AUDIO_1');
   static const presetAudio_2 = PresetSpeke20Audio._('PRESET_AUDIO_2');
@@ -6246,6 +6371,7 @@ class PresetSpeke20Audio {
   String toString() => value;
 }
 
+/// @nodoc
 class PresetSpeke20Video {
   static const presetVideo_1 = PresetSpeke20Video._('PRESET_VIDEO_1');
   static const presetVideo_2 = PresetSpeke20Video._('PRESET_VIDEO_2');
@@ -6290,6 +6416,7 @@ class PresetSpeke20Video {
   String toString() => value;
 }
 
+/// @nodoc
 class TsEncryptionMethod {
   static const aes_128 = TsEncryptionMethod._('AES_128');
   static const sampleAes = TsEncryptionMethod._('SAMPLE_AES');
@@ -6315,6 +6442,7 @@ class TsEncryptionMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class CmafEncryptionMethod {
   static const cenc = CmafEncryptionMethod._('CENC');
   static const cbcs = CmafEncryptionMethod._('CBCS');
@@ -6340,6 +6468,7 @@ class CmafEncryptionMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class IsmEncryptionMethod {
   static const cenc = IsmEncryptionMethod._('CENC');
 
@@ -6364,6 +6493,7 @@ class IsmEncryptionMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class ScteInSegments {
   static const none = ScteInSegments._('NONE');
   static const all = ScteInSegments._('ALL');
@@ -6389,6 +6519,7 @@ class ScteInSegments {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomAdType {
   static const program = CustomAdType._('PROGRAM');
   static const chapter = CustomAdType._('CHAPTER');
@@ -6422,6 +6553,7 @@ class CustomAdType {
   String toString() => value;
 }
 
+/// @nodoc
 class ScteFilter {
   static const spliceInsert = ScteFilter._('SPLICE_INSERT');
   static const $break = ScteFilter._('BREAK');
@@ -6488,6 +6620,8 @@ class ScteFilter {
 /// manifest. MSS is a streaming media format developed by Microsoft that
 /// delivers adaptive bitrate streaming content to compatible players and
 /// devices.
+///
+/// @nodoc
 class CreateMssManifestConfiguration {
   /// A short string that's appended to the endpoint URL to create a unique path
   /// to this MSS manifest. The manifest name must be unique within the origin
@@ -6530,6 +6664,8 @@ class CreateMssManifestConfiguration {
 }
 
 /// Create a DASH manifest configuration.
+///
+/// @nodoc
 class CreateDashManifestConfiguration {
   /// A short string that's appended to the endpoint URL. The child manifest name
   /// creates a unique path to this endpoint.
@@ -6709,6 +6845,8 @@ class CreateDashManifestConfiguration {
 }
 
 /// Create a low-latency HTTP live streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class CreateLowLatencyHlsManifestConfiguration {
   /// A short short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -6799,6 +6937,8 @@ class CreateLowLatencyHlsManifestConfiguration {
 }
 
 /// Create an HTTP live streaming (HLS) manifest configuration.
+///
+/// @nodoc
 class CreateHlsManifestConfiguration {
   /// A short short string that's appended to the endpoint URL. The manifest name
   /// creates a unique path to this endpoint. If you don't enter a value,
@@ -6889,6 +7029,8 @@ class CreateHlsManifestConfiguration {
 }
 
 /// The configuration of the channel.
+///
+/// @nodoc
 class ChannelListConfiguration {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -6973,6 +7115,7 @@ class ChannelListConfiguration {
   }
 }
 
+/// @nodoc
 class InputType {
   static const hls = InputType._('HLS');
   static const cmaf = InputType._('CMAF');
@@ -6998,6 +7141,8 @@ class InputType {
 
 /// The configuration for input switching based on the media quality confidence
 /// score (MQCS) as provided from AWS Elemental MediaLive.
+///
+/// @nodoc
 class InputSwitchConfiguration {
   /// When true, AWS Elemental MediaPackage performs input switching based on the
   /// MQCS. Default is false. This setting is valid only when
@@ -7035,6 +7180,8 @@ class InputSwitchConfiguration {
 
 /// The settings for what common media server data (CMSD) headers AWS Elemental
 /// MediaPackage includes in responses to the CDN.
+///
+/// @nodoc
 class OutputHeaderConfiguration {
   /// When true, AWS Elemental MediaPackage includes the MQCS in responses to the
   /// CDN. This setting is valid only when <code>InputType</code> is
@@ -7060,6 +7207,8 @@ class OutputHeaderConfiguration {
 }
 
 /// The ingest domain URL where the source stream should be sent.
+///
+/// @nodoc
 class IngestEndpoint {
   /// The system-generated unique identifier for the IngestEndpoint.
   final String? id;
@@ -7090,6 +7239,8 @@ class IngestEndpoint {
 }
 
 /// The configuration of the channel group.
+///
+/// @nodoc
 class ChannelGroupListConfiguration {
   /// The Amazon Resource Name (ARN) associated with the resource.
   final String arn;
@@ -7143,26 +7294,31 @@ class ChannelGroupListConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7171,11 +7327,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

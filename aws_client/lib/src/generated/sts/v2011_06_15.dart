@@ -329,7 +329,7 @@ class Sts {
   /// includes a single trusted context assertion and the ARN of the context
   /// provider from which the trusted context assertion was generated.
   ///
-  /// <code>[{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}]</code>
+  /// <code>\[{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}\]</code>
   ///
   /// Parameter [serialNumber] :
   /// The identification number of the MFA device that is associated with the
@@ -1981,6 +1981,8 @@ class Sts {
 /// Contains the response to a successful <a>AssumeRole</a> request, including
 /// temporary Amazon Web Services credentials that can be used to make Amazon
 /// Web Services requests.
+///
+/// @nodoc
 class AssumeRoleResponse {
   /// The Amazon Resource Name (ARN) and the assumed role ID, which are
   /// identifiers that you can use to refer to the resulting temporary security
@@ -2058,6 +2060,8 @@ class AssumeRoleResponse {
 /// Contains the response to a successful <a>AssumeRoleWithSAML</a> request,
 /// including temporary Amazon Web Services credentials that can be used to make
 /// Amazon Web Services requests.
+///
+/// @nodoc
 class AssumeRoleWithSAMLResponse {
   /// The identifiers for the temporary security credentials that the operation
   /// returns.
@@ -2203,6 +2207,8 @@ class AssumeRoleWithSAMLResponse {
 /// Contains the response to a successful <a>AssumeRoleWithWebIdentity</a>
 /// request, including temporary Amazon Web Services credentials that can be
 /// used to make Amazon Web Services requests.
+///
+/// @nodoc
 class AssumeRoleWithWebIdentityResponse {
   /// The Amazon Resource Name (ARN) and the assumed role ID, which are
   /// identifiers that you can use to refer to the resulting temporary security
@@ -2320,6 +2326,7 @@ class AssumeRoleWithWebIdentityResponse {
   }
 }
 
+/// @nodoc
 class AssumeRootResponse {
   /// The temporary security credentials, which include an access key ID, a secret
   /// access key, and a security token.
@@ -2369,6 +2376,8 @@ class AssumeRootResponse {
 /// A document that contains additional information about the authorization
 /// status of a request from an encoded message that is returned in response to
 /// an Amazon Web Services request.
+///
+/// @nodoc
 class DecodeAuthorizationMessageResponse {
   /// The API returns a response with the decoded message.
   final String? decodedMessage;
@@ -2390,6 +2399,7 @@ class DecodeAuthorizationMessageResponse {
   }
 }
 
+/// @nodoc
 class GetAccessKeyInfoResponse {
   /// The number used to identify the Amazon Web Services account.
   final String? account;
@@ -2413,6 +2423,8 @@ class GetAccessKeyInfoResponse {
 
 /// Contains the response to a successful <a>GetCallerIdentity</a> request,
 /// including information about the entity making the request.
+///
+/// @nodoc
 class GetCallerIdentityResponse {
   /// The Amazon Web Services account ID number of the account that owns or
   /// contains the calling entity.
@@ -2454,6 +2466,7 @@ class GetCallerIdentityResponse {
   }
 }
 
+/// @nodoc
 class GetDelegatedAccessTokenResponse {
   /// The Amazon Resource Name (ARN) of the principal that was assumed when
   /// obtaining the delegated access token. This ARN identifies the IAM entity
@@ -2496,6 +2509,8 @@ class GetDelegatedAccessTokenResponse {
 /// Contains the response to a successful <a>GetFederationToken</a> request,
 /// including temporary Amazon Web Services credentials that can be used to make
 /// Amazon Web Services requests.
+///
+/// @nodoc
 class GetFederationTokenResponse {
   /// The temporary security credentials, which include an access key ID, a secret
   /// access key, and a security (or session) token.
@@ -2547,6 +2562,8 @@ class GetFederationTokenResponse {
 /// Contains the response to a successful <a>GetSessionToken</a> request,
 /// including temporary Amazon Web Services credentials that can be used to make
 /// Amazon Web Services requests.
+///
+/// @nodoc
 class GetSessionTokenResponse {
   /// The temporary security credentials, which include an access key ID, a secret
   /// access key, and a security (or session) token.
@@ -2574,6 +2591,7 @@ class GetSessionTokenResponse {
   }
 }
 
+/// @nodoc
 class GetWebIdentityTokenResponse {
   /// The date and time when the web identity token expires, in UTC. The
   /// expiration is determined by adding the <code>DurationSeconds</code> value to
@@ -2617,6 +2635,8 @@ class GetWebIdentityTokenResponse {
 /// tags to control access to resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html">Tagging
 /// Amazon Web Services STS Sessions</a> in the <i>IAM User Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key for a session tag.
   ///
@@ -2659,6 +2679,8 @@ class Tag {
 }
 
 /// Amazon Web Services credentials for API authentication.
+///
+/// @nodoc
 class Credentials {
   /// The access key ID that identifies the temporary security credentials.
   final String accessKeyId;
@@ -2703,6 +2725,8 @@ class Credentials {
 }
 
 /// Identifiers for the federated user that is associated with the credentials.
+///
+/// @nodoc
 class FederatedUser {
   /// The ARN that specifies the federated user that is associated with the
   /// credentials. For more information about ARNs and how to use them in
@@ -2738,6 +2762,8 @@ class FederatedUser {
 
 /// A reference to the IAM managed policy that is passed as a session policy for
 /// a role session or a federated user session.
+///
+/// @nodoc
 class PolicyDescriptorType {
   /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session
   /// policy for the role. For more information about ARNs, see <a
@@ -2767,6 +2793,8 @@ class PolicyDescriptorType {
 
 /// The identifiers for the temporary security credentials that the operation
 /// returns.
+///
+/// @nodoc
 class AssumedRoleUser {
   /// The ARN of the temporary security credentials that are returned from the
   /// <a>AssumeRole</a> action. For more information about ARNs and how to use
@@ -2804,6 +2832,8 @@ class AssumedRoleUser {
 /// Contains information about the provided context. This includes the signed
 /// and encrypted trusted context assertion and the context provider ARN from
 /// which the trusted context assertion was generated.
+///
+/// @nodoc
 class ProvidedContext {
   /// The signed and encrypted trusted context assertion generated by the context
   /// provider. The trusted context assertion is signed and encrypted by Amazon
@@ -2838,17 +2868,20 @@ class ProvidedContext {
   }
 }
 
+/// @nodoc
 class ExpiredTokenException extends _s.GenericAwsException {
   ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
+/// @nodoc
 class ExpiredTradeInTokenException extends _s.GenericAwsException {
   ExpiredTradeInTokenException({String? type, String? message})
       : super(
             type: type, code: 'ExpiredTradeInTokenException', message: message);
 }
 
+/// @nodoc
 class IDPCommunicationErrorException extends _s.GenericAwsException {
   IDPCommunicationErrorException({String? type, String? message})
       : super(
@@ -2857,11 +2890,13 @@ class IDPCommunicationErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IDPRejectedClaimException extends _s.GenericAwsException {
   IDPRejectedClaimException({String? type, String? message})
       : super(type: type, code: 'IDPRejectedClaimException', message: message);
 }
 
+/// @nodoc
 class InvalidAuthorizationMessageException extends _s.GenericAwsException {
   InvalidAuthorizationMessageException({String? type, String? message})
       : super(
@@ -2870,6 +2905,7 @@ class InvalidAuthorizationMessageException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidIdentityTokenException extends _s.GenericAwsException {
   InvalidIdentityTokenException({String? type, String? message})
       : super(
@@ -2878,6 +2914,7 @@ class InvalidIdentityTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class JWTPayloadSizeExceededException extends _s.GenericAwsException {
   JWTPayloadSizeExceededException({String? type, String? message})
       : super(
@@ -2886,6 +2923,7 @@ class JWTPayloadSizeExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -2894,6 +2932,7 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OutboundWebIdentityFederationDisabledException
     extends _s.GenericAwsException {
   OutboundWebIdentityFederationDisabledException(
@@ -2904,6 +2943,7 @@ class OutboundWebIdentityFederationDisabledException
             message: message);
 }
 
+/// @nodoc
 class PackedPolicyTooLargeException extends _s.GenericAwsException {
   PackedPolicyTooLargeException({String? type, String? message})
       : super(
@@ -2912,11 +2952,13 @@ class PackedPolicyTooLargeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RegionDisabledException extends _s.GenericAwsException {
   RegionDisabledException({String? type, String? message})
       : super(type: type, code: 'RegionDisabledException', message: message);
 }
 
+/// @nodoc
 class SessionDurationEscalationException extends _s.GenericAwsException {
   SessionDurationEscalationException({String? type, String? message})
       : super(

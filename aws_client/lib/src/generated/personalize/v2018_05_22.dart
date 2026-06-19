@@ -4060,6 +4060,7 @@ class Personalize {
   }
 }
 
+/// @nodoc
 class CreateBatchInferenceJobResponse {
   /// The ARN of the batch inference job.
   final String? batchInferenceJobArn;
@@ -4083,6 +4084,7 @@ class CreateBatchInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class CreateBatchSegmentJobResponse {
   /// The ARN of the batch segment job.
   final String? batchSegmentJobArn;
@@ -4105,6 +4107,7 @@ class CreateBatchSegmentJobResponse {
   }
 }
 
+/// @nodoc
 class CreateCampaignResponse {
   /// The Amazon Resource Name (ARN) of the campaign.
   final String? campaignArn;
@@ -4127,6 +4130,7 @@ class CreateCampaignResponse {
   }
 }
 
+/// @nodoc
 class CreateDataDeletionJobResponse {
   /// The Amazon Resource Name (ARN) of the data deletion job.
   final String? dataDeletionJobArn;
@@ -4149,6 +4153,7 @@ class CreateDataDeletionJobResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The ARN of the dataset.
   final String? datasetArn;
@@ -4171,6 +4176,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetExportJobResponse {
   /// The Amazon Resource Name (ARN) of the dataset export job.
   final String? datasetExportJobArn;
@@ -4194,6 +4200,7 @@ class CreateDatasetExportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetGroupResponse {
   /// The Amazon Resource Name (ARN) of the new dataset group.
   final String? datasetGroupArn;
@@ -4223,6 +4230,7 @@ class CreateDatasetGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetImportJobResponse {
   /// The ARN of the dataset import job.
   final String? datasetImportJobArn;
@@ -4246,6 +4254,7 @@ class CreateDatasetImportJobResponse {
   }
 }
 
+/// @nodoc
 class CreateEventTrackerResponse {
   /// The ARN of the event tracker.
   final String? eventTrackerArn;
@@ -4277,6 +4286,7 @@ class CreateEventTrackerResponse {
   }
 }
 
+/// @nodoc
 class CreateFilterResponse {
   /// The ARN of the new filter.
   final String? filterArn;
@@ -4299,6 +4309,7 @@ class CreateFilterResponse {
   }
 }
 
+/// @nodoc
 class CreateMetricAttributionResponse {
   /// The Amazon Resource Name (ARN) for the new metric attribution.
   final String? metricAttributionArn;
@@ -4322,6 +4333,7 @@ class CreateMetricAttributionResponse {
   }
 }
 
+/// @nodoc
 class CreateRecommenderResponse {
   /// The Amazon Resource Name (ARN) of the recommender.
   final String? recommenderArn;
@@ -4344,6 +4356,7 @@ class CreateRecommenderResponse {
   }
 }
 
+/// @nodoc
 class CreateSchemaResponse {
   /// The Amazon Resource Name (ARN) of the created schema.
   final String? schemaArn;
@@ -4366,6 +4379,7 @@ class CreateSchemaResponse {
   }
 }
 
+/// @nodoc
 class CreateSolutionResponse {
   /// The ARN of the solution.
   final String? solutionArn;
@@ -4388,6 +4402,7 @@ class CreateSolutionResponse {
   }
 }
 
+/// @nodoc
 class CreateSolutionVersionResponse {
   /// The ARN of the new solution version.
   final String? solutionVersionArn;
@@ -4410,6 +4425,7 @@ class CreateSolutionVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAlgorithmResponse {
   /// A listing of the properties of the algorithm.
   final Algorithm? algorithm;
@@ -4434,6 +4450,7 @@ class DescribeAlgorithmResponse {
   }
 }
 
+/// @nodoc
 class DescribeBatchInferenceJobResponse {
   /// Information on the specified batch inference job.
   final BatchInferenceJob? batchInferenceJob;
@@ -4460,6 +4477,7 @@ class DescribeBatchInferenceJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeBatchSegmentJobResponse {
   /// Information on the specified batch segment job.
   final BatchSegmentJob? batchSegmentJob;
@@ -4485,6 +4503,7 @@ class DescribeBatchSegmentJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeCampaignResponse {
   /// <note>
   /// The <code>latestCampaignUpdate</code> field is only returned when the
@@ -4517,6 +4536,7 @@ class DescribeCampaignResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataDeletionJobResponse {
   /// Information about the data deletion job, including the status.
   ///
@@ -4559,6 +4579,7 @@ class DescribeDataDeletionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   /// A listing of the dataset's properties.
   final Dataset? dataset;
@@ -4583,6 +4604,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetExportJobResponse {
   /// Information about the dataset export job, including the status.
   ///
@@ -4625,6 +4647,7 @@ class DescribeDatasetExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetGroupResponse {
   /// A listing of the dataset group's properties.
   final DatasetGroup? datasetGroup;
@@ -4649,6 +4672,7 @@ class DescribeDatasetGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetImportJobResponse {
   /// Information about the dataset import job, including the status.
   ///
@@ -4691,6 +4715,7 @@ class DescribeDatasetImportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventTrackerResponse {
   /// An object that describes the event tracker.
   final EventTracker? eventTracker;
@@ -4715,6 +4740,7 @@ class DescribeEventTrackerResponse {
   }
 }
 
+/// @nodoc
 class DescribeFeatureTransformationResponse {
   /// A listing of the FeatureTransformation properties.
   final FeatureTransformation? featureTransformation;
@@ -4742,6 +4768,7 @@ class DescribeFeatureTransformationResponse {
   }
 }
 
+/// @nodoc
 class DescribeFilterResponse {
   /// The filter's details.
   final Filter? filter;
@@ -4766,6 +4793,7 @@ class DescribeFilterResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetricAttributionResponse {
   /// The details of the metric attribution.
   final MetricAttribution? metricAttribution;
@@ -4792,6 +4820,7 @@ class DescribeMetricAttributionResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecipeResponse {
   /// An object that describes the recipe.
   final Recipe? recipe;
@@ -4816,6 +4845,7 @@ class DescribeRecipeResponse {
   }
 }
 
+/// @nodoc
 class DescribeRecommenderResponse {
   /// The properties of the recommender.
   final Recommender? recommender;
@@ -4840,6 +4870,7 @@ class DescribeRecommenderResponse {
   }
 }
 
+/// @nodoc
 class DescribeSchemaResponse {
   /// The requested schema.
   final DatasetSchema? schema;
@@ -4864,6 +4895,7 @@ class DescribeSchemaResponse {
   }
 }
 
+/// @nodoc
 class DescribeSolutionResponse {
   /// An object that describes the solution.
   final Solution? solution;
@@ -4888,6 +4920,7 @@ class DescribeSolutionResponse {
   }
 }
 
+/// @nodoc
 class DescribeSolutionVersionResponse {
   /// The solution version.
   final SolutionVersion? solutionVersion;
@@ -4913,6 +4946,7 @@ class DescribeSolutionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetSolutionMetricsResponse {
   /// The metrics for the solution version. For more information, see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/working-with-training-metrics.html">
@@ -4945,6 +4979,7 @@ class GetSolutionMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListBatchInferenceJobsResponse {
   /// A list containing information on each job that is returned.
   final List<BatchInferenceJobSummary>? batchInferenceJobs;
@@ -4979,6 +5014,7 @@ class ListBatchInferenceJobsResponse {
   }
 }
 
+/// @nodoc
 class ListBatchSegmentJobsResponse {
   /// A list containing information on each job that is returned.
   final List<BatchSegmentJobSummary>? batchSegmentJobs;
@@ -5013,6 +5049,7 @@ class ListBatchSegmentJobsResponse {
   }
 }
 
+/// @nodoc
 class ListCampaignsResponse {
   /// A list of the campaigns.
   final List<CampaignSummary>? campaigns;
@@ -5045,6 +5082,7 @@ class ListCampaignsResponse {
   }
 }
 
+/// @nodoc
 class ListDataDeletionJobsResponse {
   /// The list of data deletion jobs.
   final List<DataDeletionJobSummary>? dataDeletionJobs;
@@ -5078,6 +5116,7 @@ class ListDataDeletionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetExportJobsResponse {
   /// The list of dataset export jobs.
   final List<DatasetExportJobSummary>? datasetExportJobs;
@@ -5111,6 +5150,7 @@ class ListDatasetExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetGroupsResponse {
   /// The list of your dataset groups.
   final List<DatasetGroupSummary>? datasetGroups;
@@ -5143,6 +5183,7 @@ class ListDatasetGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetImportJobsResponse {
   /// The list of dataset import jobs.
   final List<DatasetImportJobSummary>? datasetImportJobs;
@@ -5176,6 +5217,7 @@ class ListDatasetImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// An array of <code>Dataset</code> objects. Each object provides metadata
   /// information.
@@ -5209,6 +5251,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListEventTrackersResponse {
   /// A list of event trackers.
   final List<EventTrackerSummary>? eventTrackers;
@@ -5241,6 +5284,7 @@ class ListEventTrackersResponse {
   }
 }
 
+/// @nodoc
 class ListFiltersResponse {
   /// A list of returned filters.
   final List<FilterSummary>? filters;
@@ -5273,6 +5317,7 @@ class ListFiltersResponse {
   }
 }
 
+/// @nodoc
 class ListMetricAttributionMetricsResponse {
   /// The metrics for the specified metric attribution.
   final List<MetricAttribute>? metrics;
@@ -5308,6 +5353,7 @@ class ListMetricAttributionMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListMetricAttributionsResponse {
   /// The list of metric attributions.
   final List<MetricAttributionSummary>? metricAttributions;
@@ -5342,6 +5388,7 @@ class ListMetricAttributionsResponse {
   }
 }
 
+/// @nodoc
 class ListRecipesResponse {
   /// A token for getting the next set of recipes.
   final String? nextToken;
@@ -5374,6 +5421,7 @@ class ListRecipesResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendersResponse {
   /// A token for getting the next set of recommenders (if they exist).
   final String? nextToken;
@@ -5406,6 +5454,7 @@ class ListRecommendersResponse {
   }
 }
 
+/// @nodoc
 class ListSchemasResponse {
   /// A token used to get the next set of schemas (if they exist).
   final String? nextToken;
@@ -5438,6 +5487,7 @@ class ListSchemasResponse {
   }
 }
 
+/// @nodoc
 class ListSolutionsResponse {
   /// A token for getting the next set of solutions (if they exist).
   final String? nextToken;
@@ -5470,6 +5520,7 @@ class ListSolutionsResponse {
   }
 }
 
+/// @nodoc
 class ListSolutionVersionsResponse {
   /// A token for getting the next set of solution versions (if they exist).
   final String? nextToken;
@@ -5503,6 +5554,7 @@ class ListSolutionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The resource's tags.
   final List<Tag>? tags;
@@ -5528,6 +5580,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartRecommenderResponse {
   /// The Amazon Resource Name (ARN) of the recommender you started.
   final String? recommenderArn;
@@ -5550,6 +5603,7 @@ class StartRecommenderResponse {
   }
 }
 
+/// @nodoc
 class StopRecommenderResponse {
   /// The Amazon Resource Name (ARN) of the recommender you stopped.
   final String? recommenderArn;
@@ -5572,6 +5626,7 @@ class StopRecommenderResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5584,6 +5639,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5596,6 +5652,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCampaignResponse {
   /// The same campaign ARN as given in the request.
   final String? campaignArn;
@@ -5618,6 +5675,7 @@ class UpdateCampaignResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset you updated.
   final String? datasetArn;
@@ -5640,6 +5698,7 @@ class UpdateDatasetResponse {
   }
 }
 
+/// @nodoc
 class UpdateMetricAttributionResponse {
   /// The Amazon Resource Name (ARN) for the metric attribution that you updated.
   final String? metricAttributionArn;
@@ -5663,6 +5722,7 @@ class UpdateMetricAttributionResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecommenderResponse {
   /// The same recommender Amazon Resource Name (ARN) as given in the request.
   final String? recommenderArn;
@@ -5685,6 +5745,7 @@ class UpdateRecommenderResponse {
   }
 }
 
+/// @nodoc
 class UpdateSolutionResponse {
   /// The same solution Amazon Resource Name (ARN) as given in the request.
   final String? solutionArn;
@@ -5708,6 +5769,8 @@ class UpdateSolutionResponse {
 }
 
 /// The configuration details of the solution update.
+///
+/// @nodoc
 class SolutionUpdateConfig {
   final AutoTrainingConfig? autoTrainingConfig;
 
@@ -5745,6 +5808,8 @@ class SolutionUpdateConfig {
 
 /// The automatic training configuration to use when
 /// <code>performAutoTraining</code> is true.
+///
+/// @nodoc
 class AutoTrainingConfig {
   /// Specifies how often to automatically train new solution versions. Specify a
   /// rate expression in rate(<i>value</i> <i>unit</i>) format. For value, specify
@@ -5778,6 +5843,8 @@ class AutoTrainingConfig {
 }
 
 /// Describes the configuration of events, which are used in solution creation.
+///
+/// @nodoc
 class EventsConfig {
   /// A list of event parameters, which includes event types and their event value
   /// thresholds and weights.
@@ -5806,6 +5873,8 @@ class EventsConfig {
 }
 
 /// Describes the parameters of events, which are used in solution creation.
+///
+/// @nodoc
 class EventParameters {
   /// The name of the event type to be considered for solution creation.
   final String? eventType;
@@ -5846,6 +5915,8 @@ class EventParameters {
 }
 
 /// The configuration details of the recommender.
+///
+/// @nodoc
 class RecommenderConfig {
   /// Whether metadata with recommendations is enabled for the recommender. If
   /// enabled, you can specify the columns from your Items dataset in your request
@@ -5928,6 +5999,8 @@ class RecommenderConfig {
 
 /// The training data configuration to use when creating a domain recommender or
 /// custom solution version (trained model).
+///
+/// @nodoc
 class TrainingDataConfig {
   /// Specifies the columns to exclude from training. Each key is a dataset type,
   /// and each value is a list of columns. Exclude columns to control what data
@@ -5977,6 +6050,8 @@ class TrainingDataConfig {
 }
 
 /// The output configuration details for a metric attribution.
+///
+/// @nodoc
 class MetricAttributionOutput {
   /// The Amazon Resource Name (ARN) of the IAM service role that has permissions
   /// to add data to your output Amazon S3 bucket and add metrics to Amazon
@@ -6012,6 +6087,8 @@ class MetricAttributionOutput {
 }
 
 /// The configuration details of an Amazon S3 input or output bucket.
+///
+/// @nodoc
 class S3DataConfig {
   /// The file path of the Amazon S3 bucket.
   final String path;
@@ -6046,6 +6123,8 @@ class S3DataConfig {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
 /// impact of recommendations</a>.
+///
+/// @nodoc
 class MetricAttribute {
   /// The metric's event type.
   final String eventType;
@@ -6087,6 +6166,8 @@ class MetricAttribute {
 }
 
 /// The configuration details of a campaign.
+///
+/// @nodoc
 class CampaignConfig {
   /// Whether metadata with recommendations is enabled for the campaign. If
   /// enabled, you can specify the columns from your Items dataset in your request
@@ -6173,6 +6254,7 @@ class CampaignConfig {
   }
 }
 
+/// @nodoc
 class RankingInfluenceType {
   static const popularity = RankingInfluenceType._('POPULARITY');
   static const freshness = RankingInfluenceType._('FRESHNESS');
@@ -6203,6 +6285,8 @@ class RankingInfluenceType {
 /// which you define. For more information see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html">Tagging
 /// Amazon Personalize resources</a>.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
@@ -6238,6 +6322,8 @@ class Tag {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html">DescribeSolutionVersion</a>
 /// API.
+///
+/// @nodoc
 class SolutionVersionSummary {
   /// The date and time (in Unix time) that this version of a solution was
   /// created.
@@ -6319,6 +6405,7 @@ class SolutionVersionSummary {
   }
 }
 
+/// @nodoc
 class TrainingMode {
   static const full = TrainingMode._('FULL');
   static const update = TrainingMode._('UPDATE');
@@ -6343,6 +6430,7 @@ class TrainingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class TrainingType {
   static const automatic = TrainingType._('AUTOMATIC');
   static const manual = TrainingType._('MANUAL');
@@ -6370,6 +6458,8 @@ class TrainingType {
 /// call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
 /// API.
+///
+/// @nodoc
 class SolutionSummary {
   /// The date and time (in Unix time) that the solution was created.
   final DateTime? creationDateTime;
@@ -6444,6 +6534,8 @@ class SolutionSummary {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSchema.html">DescribeSchema</a>
 /// API.
+///
+/// @nodoc
 class DatasetSchemaSummary {
   /// The date and time (in Unix time) that the schema was created.
   final DateTime? creationDateTime;
@@ -6497,6 +6589,7 @@ class DatasetSchemaSummary {
   }
 }
 
+/// @nodoc
 class Domain {
   static const ecommerce = Domain._('ECOMMERCE');
   static const videoOnDemand = Domain._('VIDEO_ON_DEMAND');
@@ -6521,6 +6614,8 @@ class Domain {
 }
 
 /// Provides a summary of the properties of the recommender.
+///
+/// @nodoc
 class RecommenderSummary {
   /// The date and time (in Unix format) that the recommender was created.
   final DateTime? creationDateTime;
@@ -6617,6 +6712,8 @@ class RecommenderSummary {
 /// call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecipe.html">DescribeRecipe</a>
 /// API.
+///
+/// @nodoc
 class RecipeSummary {
   /// The date and time (in Unix time) that the recipe was created.
   final DateTime? creationDateTime;
@@ -6676,6 +6773,7 @@ class RecipeSummary {
   }
 }
 
+/// @nodoc
 class RecipeProvider {
   static const service = RecipeProvider._('SERVICE');
 
@@ -6702,6 +6800,8 @@ class RecipeProvider {
 /// Provides a summary of the properties of a metric attribution. For a complete
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeMetricAttribution.html">DescribeMetricAttribution</a>.
+///
+/// @nodoc
 class MetricAttributionSummary {
   /// The metric attribution's creation date time.
   final DateTime? creationDateTime;
@@ -6763,6 +6863,8 @@ class MetricAttributionSummary {
 }
 
 /// A short summary of a filter's attributes.
+///
+/// @nodoc
 class FilterSummary {
   /// The time at which the filter was created.
   final DateTime? creationDateTime;
@@ -6833,6 +6935,8 @@ class FilterSummary {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html">DescribeEventTracker</a>
 /// API.
+///
+/// @nodoc
 class EventTrackerSummary {
   /// The date and time (in Unix time) that the event tracker was created.
   final DateTime? creationDateTime;
@@ -6900,6 +7004,8 @@ class EventTrackerSummary {
 /// call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
 /// API.
+///
+/// @nodoc
 class DatasetSummary {
   /// The date and time (in Unix time) that the dataset was created.
   final DateTime? creationDateTime;
@@ -6989,6 +7095,8 @@ class DatasetSummary {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
 /// API.
+///
+/// @nodoc
 class DatasetImportJobSummary {
   /// The date and time (in Unix time) that the dataset import job was created.
   final DateTime? creationDateTime;
@@ -7068,6 +7176,7 @@ class DatasetImportJobSummary {
   }
 }
 
+/// @nodoc
 class ImportMode {
   static const full = ImportMode._('FULL');
   static const incremental = ImportMode._('INCREMENTAL');
@@ -7095,6 +7204,8 @@ class ImportMode {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
 /// API.
+///
+/// @nodoc
 class DatasetGroupSummary {
   /// The date and time (in Unix time) that the dataset group was created.
   final DateTime? creationDateTime;
@@ -7176,6 +7287,8 @@ class DatasetGroupSummary {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html">DescribeDatasetExportJob</a>
 /// API.
+///
+/// @nodoc
 class DatasetExportJobSummary {
   /// The date and time (in Unix time) that the dataset export job was created.
   final DateTime? creationDateTime;
@@ -7249,6 +7362,8 @@ class DatasetExportJobSummary {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataDeletionJob.html">DescribeDataDeletionJob</a>
 /// API operation.
+///
+/// @nodoc
 class DataDeletionJobSummary {
   /// The creation date and time (in Unix time) of the data deletion job.
   final DateTime? creationDateTime;
@@ -7328,6 +7443,8 @@ class DataDeletionJobSummary {
 /// call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
 /// API.
+///
+/// @nodoc
 class CampaignSummary {
   /// The Amazon Resource Name (ARN) of the campaign.
   final String? campaignArn;
@@ -7403,6 +7520,8 @@ class CampaignSummary {
 /// datatype. <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchSegmentJobs.html">ListBatchSegmentJobs</a>
 /// operation returns a list of batch segment job summaries.
+///
+/// @nodoc
 class BatchSegmentJobSummary {
   /// The Amazon Resource Name (ARN) of the batch segment job.
   final String? batchSegmentJobArn;
@@ -7491,6 +7610,8 @@ class BatchSegmentJobSummary {
 /// The <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchInferenceJobs.html">ListBatchInferenceJobs</a>
 /// operation returns a list of batch inference job summaries.
+///
+/// @nodoc
 class BatchInferenceJobSummary {
   /// The Amazon Resource Name (ARN) of the batch inference job.
   final String? batchInferenceJobArn;
@@ -7583,6 +7704,7 @@ class BatchInferenceJobSummary {
   }
 }
 
+/// @nodoc
 class BatchInferenceJobMode {
   static const batchInference = BatchInferenceJobMode._('BATCH_INFERENCE');
   static const themeGeneration = BatchInferenceJobMode._('THEME_GENERATION');
@@ -7611,6 +7733,8 @@ class BatchInferenceJobMode {
 /// An object that provides information about a specific version of a <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_Solution.html">Solution</a>
 /// in a Custom dataset group.
+///
+/// @nodoc
 class SolutionVersion {
   /// The date and time (in Unix time) that this version of the solution was
   /// created.
@@ -7804,6 +7928,8 @@ class SolutionVersion {
 }
 
 /// Describes the configuration properties for the solution.
+///
+/// @nodoc
 class SolutionConfig {
   /// Lists the algorithm hyperparameters and their values.
   final Map<String, String>? algorithmHyperParameters;
@@ -7917,6 +8043,8 @@ class SolutionConfig {
 
 /// If hyperparameter optimization (HPO) was performed, contains the
 /// hyperparameter values of the best performing model.
+///
+/// @nodoc
 class TunedHPOParams {
   /// A list of the hyperparameter values of the best performing model.
   final Map<String, String>? algorithmHyperParameters;
@@ -7943,6 +8071,8 @@ class TunedHPOParams {
 }
 
 /// Describes the properties for hyperparameter optimization (HPO).
+///
+/// @nodoc
 class HPOConfig {
   /// The hyperparameters and their allowable ranges.
   final HyperParameterRanges? algorithmHyperParameterRanges;
@@ -7998,6 +8128,8 @@ class HPOConfig {
 /// Amazon Personalize determines which recipe, from the specified list,
 /// optimizes the given metric. Amazon Personalize then uses that recipe for the
 /// solution.
+///
+/// @nodoc
 class AutoMLConfig {
   /// The metric to optimize.
   final String? metricName;
@@ -8034,6 +8166,8 @@ class AutoMLConfig {
 /// streaming minutes or increasing revenue. For more information see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html">Optimizing
 /// a solution</a>.
+///
+/// @nodoc
 class OptimizationObjective {
   /// The numerical metadata column in an Items dataset related to the
   /// optimization objective. For example, VIDEO_LENGTH (to maximize streaming
@@ -8068,6 +8202,7 @@ class OptimizationObjective {
   }
 }
 
+/// @nodoc
 class ObjectiveSensitivity {
   static const low = ObjectiveSensitivity._('LOW');
   static const medium = ObjectiveSensitivity._('MEDIUM');
@@ -8100,6 +8235,8 @@ class ObjectiveSensitivity {
 /// Amazon Personalize doesn't support configuring the <code>hpoObjective</code>
 /// at this time.
 /// </note>
+///
+/// @nodoc
 class HPOObjective {
   /// The name of the metric.
   final String? metricName;
@@ -8138,6 +8275,8 @@ class HPOObjective {
 }
 
 /// Describes the resource configuration for hyperparameter optimization (HPO).
+///
+/// @nodoc
 class HPOResourceConfig {
   /// The maximum number of training jobs when you create a solution version. The
   /// maximum value for <code>maxNumberOfTrainingJobs</code> is <code>40</code>.
@@ -8174,6 +8313,8 @@ class HPOResourceConfig {
 
 /// Specifies the hyperparameters and their ranges. Hyperparameters can be
 /// categorical, continuous, or integer-valued.
+///
+/// @nodoc
 class HyperParameterRanges {
   /// The categorical hyperparameters and their ranges.
   final List<CategoricalHyperParameterRange>? categoricalHyperParameterRanges;
@@ -8230,6 +8371,8 @@ class HyperParameterRanges {
 }
 
 /// Provides the name and range of a categorical hyperparameter.
+///
+/// @nodoc
 class CategoricalHyperParameterRange {
   /// The name of the hyperparameter.
   final String? name;
@@ -8261,6 +8404,8 @@ class CategoricalHyperParameterRange {
 }
 
 /// Provides the name and range of a continuous hyperparameter.
+///
+/// @nodoc
 class ContinuousHyperParameterRange {
   /// The maximum allowable value for the hyperparameter.
   final double? maxValue;
@@ -8298,6 +8443,8 @@ class ContinuousHyperParameterRange {
 }
 
 /// Provides the name and range of an integer-valued hyperparameter.
+///
+/// @nodoc
 class IntegerHyperParameterRange {
   /// The maximum allowable value for the hyperparameter.
   final int? maxValue;
@@ -8352,6 +8499,8 @@ class IntegerHyperParameterRange {
 /// to make changes, you can <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html">clone
 /// the solution</a> with the Amazon Personalize console or create a new one.
+///
+/// @nodoc
 class Solution {
   /// When <code>performAutoML</code> is true, specifies the best recipe found.
   final AutoMLResult? autoMLResult;
@@ -8536,6 +8685,8 @@ class Solution {
 /// When the solution performs AutoML (<code>performAutoML</code> is true in <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>),
 /// specifies the recipe that best optimized the specified metric.
+///
+/// @nodoc
 class AutoMLResult {
   /// The Amazon Resource Name (ARN) of the best recipe.
   final String? bestRecipeArn;
@@ -8562,6 +8713,8 @@ class AutoMLResult {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
 /// API.
+///
+/// @nodoc
 class SolutionUpdateSummary {
   /// The date and time (in Unix format) that the solution update was created.
   final DateTime? creationDateTime;
@@ -8643,6 +8796,8 @@ class SolutionUpdateSummary {
 
 /// Describes the schema for a dataset. For more information on schemas, see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html">CreateSchema</a>.
+///
+/// @nodoc
 class DatasetSchema {
   /// The date and time (in Unix time) that the schema was created.
   final DateTime? creationDateTime;
@@ -8708,6 +8863,8 @@ class DatasetSchema {
 /// (domain recipe), and specify the recommender in a <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html">GetRecommendations</a>
 /// request.
+///
+/// @nodoc
 class Recommender {
   /// The date and time (in Unix format) that the recommender was created.
   final DateTime? creationDateTime;
@@ -8834,6 +8991,8 @@ class Recommender {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html">DescribeRecommender</a>
 /// API.
+///
+/// @nodoc
 class RecommenderUpdateSummary {
   /// The date and time (in Unix format) that the recommender update was created.
   final DateTime? creationDateTime;
@@ -8897,6 +9056,8 @@ class RecommenderUpdateSummary {
 /// Amazon Personalize uses in model training when you use the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>
 /// operation.
+///
+/// @nodoc
 class Recipe {
   /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses
   /// to train the model.
@@ -8997,6 +9158,8 @@ class Recipe {
 /// S3. For more information, see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
 /// impact of recommendations</a>.
+///
+/// @nodoc
 class MetricAttribution {
   /// The metric attribution's creation date time.
   final DateTime? creationDateTime;
@@ -9077,6 +9240,8 @@ class MetricAttribution {
 
 /// Contains information on a recommendation filter, including its ARN, status,
 /// and filter expression.
+///
+/// @nodoc
 class Filter {
   /// The time at which the filter was created.
   final DateTime? creationDateTime;
@@ -9157,6 +9322,8 @@ class Filter {
 /// Provides feature transformation information. Feature transformation is the
 /// process of modifying raw input data into a form more suitable for model
 /// training.
+///
+/// @nodoc
 class FeatureTransformation {
   /// The creation date and time (in Unix time) of the feature transformation.
   final DateTime? creationDateTime;
@@ -9227,6 +9394,8 @@ class FeatureTransformation {
 }
 
 /// Provides information about an event tracker.
+///
+/// @nodoc
 class EventTracker {
   /// The Amazon Web Services account that owns the event tracker.
   final String? accountId;
@@ -9325,6 +9494,8 @@ class EventTracker {
 /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DatasetImportJob {
   /// The creation date and time (in Unix time) of the dataset import job.
   final DateTime? creationDateTime;
@@ -9436,6 +9607,8 @@ class DatasetImportJob {
 
 /// Describes the data source that contains the data to upload to a dataset, or
 /// the list of records to delete from Amazon Personalize.
+///
+/// @nodoc
 class DataSource {
   /// For dataset import jobs, the path to the Amazon S3 bucket where the data
   /// that you want to upload to your dataset is stored. For data deletion jobs,
@@ -9484,6 +9657,8 @@ class DataSource {
 ///
 /// You can specify an Key Management Service (KMS) key to encrypt the datasets
 /// in the group.
+///
+/// @nodoc
 class DatasetGroup {
   /// The creation date and time (in Unix time) of the dataset group.
   final DateTime? creationDateTime;
@@ -9589,6 +9764,8 @@ class DatasetGroup {
 /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DatasetExportJob {
   /// The creation date and time (in Unix time) of the dataset export job.
   final DateTime? creationDateTime;
@@ -9698,6 +9875,7 @@ class DatasetExportJob {
   }
 }
 
+/// @nodoc
 class IngestionMode {
   static const bulk = IngestionMode._('BULK');
   static const put = IngestionMode._('PUT');
@@ -9724,6 +9902,8 @@ class IngestionMode {
 }
 
 /// The output configuration parameters of a dataset export job.
+///
+/// @nodoc
 class DatasetExportJobOutput {
   final S3DataConfig s3DataDestination;
 
@@ -9748,6 +9928,8 @@ class DatasetExportJobOutput {
 }
 
 /// Provides metadata for a dataset.
+///
+/// @nodoc
 class Dataset {
   /// The creation date and time (in Unix time) of the dataset.
   final DateTime? creationDateTime;
@@ -9872,6 +10054,8 @@ class Dataset {
 }
 
 /// Describes an update to a dataset.
+///
+/// @nodoc
 class DatasetUpdateSummary {
   /// The creation date and time (in Unix time) of the dataset update.
   final DateTime? creationDateTime;
@@ -9930,6 +10114,8 @@ class DatasetUpdateSummary {
 /// deletion job, see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html">Deleting
 /// users</a>.
+///
+/// @nodoc
 class DataDeletionJob {
   /// The creation date and time (in Unix time) of the data deletion job.
   final DateTime? creationDateTime;
@@ -10030,6 +10216,8 @@ class DataDeletionJob {
 /// An object that describes the deployment of a solution version. For more
 /// information on campaigns, see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html">CreateCampaign</a>.
+///
+/// @nodoc
 class Campaign {
   /// The Amazon Resource Name (ARN) of the campaign.
   final String? campaignArn;
@@ -10150,6 +10338,8 @@ class Campaign {
 /// listing, call the <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
 /// API.
+///
+/// @nodoc
 class CampaignUpdateSummary {
   final CampaignConfig? campaignConfig;
 
@@ -10231,6 +10421,8 @@ class CampaignUpdateSummary {
 }
 
 /// Contains information on a batch segment job.
+///
+/// @nodoc
 class BatchSegmentJob {
   /// The Amazon Resource Name (ARN) of the batch segment job.
   final String? batchSegmentJobArn;
@@ -10360,6 +10552,8 @@ class BatchSegmentJob {
 }
 
 /// The input configuration of a batch segment job.
+///
+/// @nodoc
 class BatchSegmentJobInput {
   final S3DataConfig s3DataSource;
 
@@ -10384,6 +10578,8 @@ class BatchSegmentJobInput {
 }
 
 /// The output configuration parameters of a batch segment job.
+///
+/// @nodoc
 class BatchSegmentJobOutput {
   final S3DataConfig s3DataDestination;
 
@@ -10408,6 +10604,8 @@ class BatchSegmentJobOutput {
 }
 
 /// Contains information on a batch inference job.
+///
+/// @nodoc
 class BatchInferenceJob {
   /// The Amazon Resource Name (ARN) of the batch inference job.
   final String? batchInferenceJobArn;
@@ -10570,6 +10768,8 @@ class BatchInferenceJob {
 }
 
 /// The input configuration of a batch inference job.
+///
+/// @nodoc
 class BatchInferenceJobInput {
   /// The URI of the Amazon S3 location that contains your input data. The Amazon
   /// S3 bucket must be in the same region as the API endpoint you are calling.
@@ -10596,6 +10796,8 @@ class BatchInferenceJobInput {
 }
 
 /// The output configuration parameters of a batch inference job.
+///
+/// @nodoc
 class BatchInferenceJobOutput {
   /// Information on the Amazon S3 bucket in which the batch inference job's
   /// output is stored.
@@ -10622,6 +10824,8 @@ class BatchInferenceJobOutput {
 }
 
 /// The configuration details of a batch inference job.
+///
+/// @nodoc
 class BatchInferenceJobConfig {
   /// A string to string map specifying the exploration configuration
   /// hyperparameters, including <code>explorationWeight</code> and
@@ -10668,6 +10872,8 @@ class BatchInferenceJobConfig {
 }
 
 /// The configuration details for generating themes with a batch inference job.
+///
+/// @nodoc
 class ThemeGenerationConfig {
   /// Fields used to generate descriptive themes for a batch inference job.
   final FieldsForThemeGeneration fieldsForThemeGeneration;
@@ -10693,6 +10899,8 @@ class ThemeGenerationConfig {
 }
 
 /// A string to string map of the configuration details for theme generation.
+///
+/// @nodoc
 class FieldsForThemeGeneration {
   /// The name of the Items dataset column that stores the name of each item in
   /// the dataset.
@@ -10717,6 +10925,8 @@ class FieldsForThemeGeneration {
 }
 
 /// Describes a custom algorithm.
+///
+/// @nodoc
 class Algorithm {
   /// The Amazon Resource Name (ARN) of the algorithm.
   final String? algorithmArn;
@@ -10821,6 +11031,8 @@ class Algorithm {
 }
 
 /// Describes an algorithm image.
+///
+/// @nodoc
 class AlgorithmImage {
   /// The URI of the Docker container for the algorithm image.
   final String dockerURI;
@@ -10852,6 +11064,8 @@ class AlgorithmImage {
 
 /// Specifies the hyperparameters and their default ranges. Hyperparameters can
 /// be categorical, continuous, or integer-valued.
+///
+/// @nodoc
 class DefaultHyperParameterRanges {
   /// The categorical hyperparameters and their default ranges.
   final List<DefaultCategoricalHyperParameterRange>?
@@ -10912,6 +11126,8 @@ class DefaultHyperParameterRanges {
 /// Provides the name and default range of a categorical hyperparameter and
 /// whether the hyperparameter is tunable. A tunable hyperparameter can have its
 /// value determined during hyperparameter optimization (HPO).
+///
+/// @nodoc
 class DefaultCategoricalHyperParameterRange {
   /// Whether the hyperparameter is tunable.
   final bool? isTunable;
@@ -10953,6 +11169,8 @@ class DefaultCategoricalHyperParameterRange {
 /// Provides the name and default range of a continuous hyperparameter and
 /// whether the hyperparameter is tunable. A tunable hyperparameter can have its
 /// value determined during hyperparameter optimization (HPO).
+///
+/// @nodoc
 class DefaultContinuousHyperParameterRange {
   /// Whether the hyperparameter is tunable.
   final bool? isTunable;
@@ -11000,6 +11218,8 @@ class DefaultContinuousHyperParameterRange {
 /// Provides the name and default range of a integer-valued hyperparameter and
 /// whether the hyperparameter is tunable. A tunable hyperparameter can have its
 /// value determined during hyperparameter optimization (HPO).
+///
+/// @nodoc
 class DefaultIntegerHyperParameterRange {
   /// Indicates whether the hyperparameter is tunable.
   final bool? isTunable;
@@ -11044,21 +11264,25 @@ class DefaultIntegerHyperParameterRange {
   }
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -11067,21 +11291,25 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagKeysException extends _s.GenericAwsException {
   TooManyTagKeysException({String? type, String? message})
       : super(type: type, code: 'TooManyTagKeysException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

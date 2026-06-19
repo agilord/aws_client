@@ -669,7 +669,7 @@ class ServiceCatalog {
   /// Specify the <code>NotificationArns</code> property as follows:
   ///
   /// <code>{"NotificationArns" :
-  /// ["arn:aws:sns:us-east-1:123456789012:Topic"]}</code>
+  /// \["arn:aws:sns:us-east-1:123456789012:Topic"\]}</code>
   /// </dd> <dt>RESOURCE_UPDATE</dt> <dd>
   /// Specify the <code>TagUpdatesOnProvisionedProduct</code> property as
   /// follows:
@@ -681,8 +681,8 @@ class ServiceCatalog {
   /// </dd> <dt>STACKSET</dt> <dd>
   /// Specify the <code>Parameters</code> property as follows:
   ///
-  /// <code>{"Version": "String", "Properties": {"AccountList": [ "String" ],
-  /// "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole":
+  /// <code>{"Version": "String", "Properties": {"AccountList": \[ "String" \],
+  /// "RegionList": \[ "String" \], "AdminRole": "String", "ExecutionRole":
   /// "String"}}</code>
   ///
   /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code>
@@ -1292,8 +1292,9 @@ class ServiceCatalog {
   /// </dd> <dt>Parameters</dt> <dd>
   /// The list of parameters in JSON format.
   ///
-  /// For example: <code>[{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}]</code>
-  /// or <code>[{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}]</code>.
+  /// For example:
+  /// <code>\[{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}\]</code> or
+  /// <code>\[{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}\]</code>.
   /// </dd> </dl>
   ///
   /// Parameter [definitionType] :
@@ -2336,7 +2337,7 @@ class ServiceCatalog {
   /// fix the conflict, and launch is not blocked. In subsequent calls to
   /// <a>ProvisionProduct</a>, do not include conflicted TagOption keys as tags,
   /// or this causes the error "Parameter validation failed: Missing required
-  /// parameter in Tags[<i>N</i>]:<i>Value</i>". Tag the provisioned product
+  /// parameter in Tags\[<i>N</i>\]:<i>Value</i>". Tag the provisioned product
   /// with the value <code>sc-tagoption-conflict-portfolioId-productId</code>.
   ///
   /// May throw [InvalidParametersException].
@@ -4555,7 +4556,7 @@ class ServiceCatalog {
   /// If the request contains a tag key with an empty list of values, there's a
   /// tag conflict for that key. Don't include conflicted keys as tags, or this
   /// will cause the error "Parameter validation failed: Missing required
-  /// parameter in Tags[<i>N</i>]:<i>Value</i>".
+  /// parameter in Tags\[<i>N</i>\]:<i>Value</i>".
   /// <note>
   /// When provisioning a product that's been added to a portfolio, you must
   /// grant your user, group, or role access to the portfolio. For more
@@ -4984,7 +4985,7 @@ class ServiceCatalog {
   /// <code>lastSuccessfulProvisioningRecordId</code>, <code>productName</code>,
   /// and <code>provisioningArtifactName</code>.
   ///
-  /// Example: <code>"SearchQuery":["status:AVAILABLE"]</code>
+  /// Example: <code>"SearchQuery":\["status:AVAILABLE"\]</code>
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to return with this call.
@@ -5175,7 +5176,7 @@ class ServiceCatalog {
   /// Specify the <code>NotificationArns</code> property as follows:
   ///
   /// <code>{"NotificationArns" :
-  /// ["arn:aws:sns:us-east-1:123456789012:Topic"]}</code>
+  /// \["arn:aws:sns:us-east-1:123456789012:Topic"\]}</code>
   /// </dd> <dt>RESOURCE_UPDATE</dt> <dd>
   /// Specify the <code>TagUpdatesOnProvisionedProduct</code> property as
   /// follows:
@@ -5187,8 +5188,8 @@ class ServiceCatalog {
   /// </dd> <dt>STACKSET</dt> <dd>
   /// Specify the <code>Parameters</code> property as follows:
   ///
-  /// <code>{"Version": "String", "Properties": {"AccountList": [ "String" ],
-  /// "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole":
+  /// <code>{"Version": "String", "Properties": {"AccountList": \[ "String" \],
+  /// "RegionList": \[ "String" \], "AdminRole": "String", "ExecutionRole":
   /// "String"}}</code>
   ///
   /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code>
@@ -5899,6 +5900,7 @@ class ServiceCatalog {
   }
 }
 
+/// @nodoc
 class AcceptPortfolioShareOutput {
   AcceptPortfolioShareOutput();
 
@@ -5911,6 +5913,7 @@ class AcceptPortfolioShareOutput {
   }
 }
 
+/// @nodoc
 class AssociateBudgetWithResourceOutput {
   AssociateBudgetWithResourceOutput();
 
@@ -5923,6 +5926,7 @@ class AssociateBudgetWithResourceOutput {
   }
 }
 
+/// @nodoc
 class AssociatePrincipalWithPortfolioOutput {
   AssociatePrincipalWithPortfolioOutput();
 
@@ -5936,6 +5940,7 @@ class AssociatePrincipalWithPortfolioOutput {
   }
 }
 
+/// @nodoc
 class AssociateProductWithPortfolioOutput {
   AssociateProductWithPortfolioOutput();
 
@@ -5948,6 +5953,7 @@ class AssociateProductWithPortfolioOutput {
   }
 }
 
+/// @nodoc
 class AssociateServiceActionWithProvisioningArtifactOutput {
   AssociateServiceActionWithProvisioningArtifactOutput();
 
@@ -5961,6 +5967,7 @@ class AssociateServiceActionWithProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class AssociateTagOptionWithResourceOutput {
   AssociateTagOptionWithResourceOutput();
 
@@ -5974,6 +5981,7 @@ class AssociateTagOptionWithResourceOutput {
   }
 }
 
+/// @nodoc
 class BatchAssociateServiceActionWithProvisioningArtifactOutput {
   /// An object that contains a list of errors, along with information to help you
   /// identify the self-service action.
@@ -6005,6 +6013,7 @@ class BatchAssociateServiceActionWithProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class BatchDisassociateServiceActionFromProvisioningArtifactOutput {
   /// An object that contains a list of errors, along with information to help you
   /// identify the self-service action.
@@ -6036,6 +6045,7 @@ class BatchDisassociateServiceActionFromProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class CopyProductOutput {
   /// The token to use to track the progress of the operation.
   final String? copyProductToken;
@@ -6058,6 +6068,7 @@ class CopyProductOutput {
   }
 }
 
+/// @nodoc
 class CreateConstraintOutput {
   /// Information about the constraint.
   final ConstraintDetail? constraintDetail;
@@ -6098,6 +6109,7 @@ class CreateConstraintOutput {
   }
 }
 
+/// @nodoc
 class CreatePortfolioOutput {
   /// Information about the portfolio.
   final PortfolioDetail? portfolioDetail;
@@ -6133,6 +6145,7 @@ class CreatePortfolioOutput {
   }
 }
 
+/// @nodoc
 class CreatePortfolioShareOutput {
   /// The portfolio shares a unique identifier that only returns if the portfolio
   /// is shared to an organization node.
@@ -6157,6 +6170,7 @@ class CreatePortfolioShareOutput {
   }
 }
 
+/// @nodoc
 class CreateProductOutput {
   /// Information about the product view.
   final ProductViewDetail? productViewDetail;
@@ -6203,6 +6217,7 @@ class CreateProductOutput {
   }
 }
 
+/// @nodoc
 class CreateProvisionedProductPlanOutput {
   /// The plan identifier.
   final String? planId;
@@ -6256,10 +6271,11 @@ class CreateProvisionedProductPlanOutput {
   }
 }
 
+/// @nodoc
 class CreateProvisioningArtifactOutput {
   /// Specify the template source with one of the following options, but not both.
-  /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
-  /// <code>ImportFromPhysicalId</code> ].
+  /// Keys accepted: \[ <code>LoadTemplateFromURL</code>,
+  /// <code>ImportFromPhysicalId</code> \].
   ///
   /// Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON
   /// format.
@@ -6312,6 +6328,7 @@ class CreateProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class CreateServiceActionOutput {
   /// An object containing information about the self-service action.
   final ServiceActionDetail? serviceActionDetail;
@@ -6338,6 +6355,7 @@ class CreateServiceActionOutput {
   }
 }
 
+/// @nodoc
 class CreateTagOptionOutput {
   /// Information about the TagOption.
   final TagOptionDetail? tagOptionDetail;
@@ -6363,6 +6381,7 @@ class CreateTagOptionOutput {
   }
 }
 
+/// @nodoc
 class DeleteConstraintOutput {
   DeleteConstraintOutput();
 
@@ -6375,6 +6394,7 @@ class DeleteConstraintOutput {
   }
 }
 
+/// @nodoc
 class DeletePortfolioOutput {
   DeletePortfolioOutput();
 
@@ -6387,6 +6407,7 @@ class DeletePortfolioOutput {
   }
 }
 
+/// @nodoc
 class DeletePortfolioShareOutput {
   /// The portfolio share unique identifier. This will only be returned if delete
   /// is made to an organization node.
@@ -6411,6 +6432,7 @@ class DeletePortfolioShareOutput {
   }
 }
 
+/// @nodoc
 class DeleteProductOutput {
   DeleteProductOutput();
 
@@ -6423,6 +6445,7 @@ class DeleteProductOutput {
   }
 }
 
+/// @nodoc
 class DeleteProvisionedProductPlanOutput {
   DeleteProvisionedProductPlanOutput();
 
@@ -6435,6 +6458,7 @@ class DeleteProvisionedProductPlanOutput {
   }
 }
 
+/// @nodoc
 class DeleteProvisioningArtifactOutput {
   DeleteProvisioningArtifactOutput();
 
@@ -6447,6 +6471,7 @@ class DeleteProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class DeleteServiceActionOutput {
   DeleteServiceActionOutput();
 
@@ -6459,6 +6484,7 @@ class DeleteServiceActionOutput {
   }
 }
 
+/// @nodoc
 class DeleteTagOptionOutput {
   DeleteTagOptionOutput();
 
@@ -6471,6 +6497,7 @@ class DeleteTagOptionOutput {
   }
 }
 
+/// @nodoc
 class DescribeConstraintOutput {
   /// Information about the constraint.
   final ConstraintDetail? constraintDetail;
@@ -6511,6 +6538,7 @@ class DescribeConstraintOutput {
   }
 }
 
+/// @nodoc
 class DescribeCopyProductStatusOutput {
   /// The status of the copy product operation.
   final CopyProductStatus? copyProductStatus;
@@ -6549,6 +6577,7 @@ class DescribeCopyProductStatusOutput {
   }
 }
 
+/// @nodoc
 class DescribePortfolioOutput {
   /// Information about the associated budgets.
   final List<BudgetDetail>? budgets;
@@ -6604,6 +6633,7 @@ class DescribePortfolioOutput {
   }
 }
 
+/// @nodoc
 class DescribePortfolioSharesOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -6638,6 +6668,7 @@ class DescribePortfolioSharesOutput {
   }
 }
 
+/// @nodoc
 class DescribePortfolioShareStatusOutput {
   /// Organization node identifier. It can be either account id, organizational
   /// unit id or organization id.
@@ -6695,6 +6726,7 @@ class DescribePortfolioShareStatusOutput {
   }
 }
 
+/// @nodoc
 class DescribeProductOutput {
   /// Information about the associated budgets.
   final List<BudgetDetail>? budgets;
@@ -6751,6 +6783,7 @@ class DescribeProductOutput {
   }
 }
 
+/// @nodoc
 class DescribeProductAsAdminOutput {
   /// Information about the associated budgets.
   final List<BudgetDetail>? budgets;
@@ -6820,6 +6853,7 @@ class DescribeProductAsAdminOutput {
   }
 }
 
+/// @nodoc
 class DescribeProductViewOutput {
   /// Summary information about the product.
   final ProductViewSummary? productViewSummary;
@@ -6856,6 +6890,7 @@ class DescribeProductViewOutput {
   }
 }
 
+/// @nodoc
 class DescribeProvisionedProductOutput {
   /// Any CloudWatch dashboards that were created when provisioning the product.
   final List<CloudWatchDashboard>? cloudWatchDashboards;
@@ -6893,6 +6928,7 @@ class DescribeProvisionedProductOutput {
   }
 }
 
+/// @nodoc
 class DescribeProvisionedProductPlanOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -6940,6 +6976,7 @@ class DescribeProvisionedProductPlanOutput {
   }
 }
 
+/// @nodoc
 class DescribeProvisioningArtifactOutput {
   /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
   /// format.
@@ -6996,6 +7033,7 @@ class DescribeProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class DescribeProvisioningParametersOutput {
   /// Information about the constraints used to provision the product.
   final List<ConstraintSummary>? constraintSummaries;
@@ -7101,6 +7139,7 @@ class DescribeProvisioningParametersOutput {
   }
 }
 
+/// @nodoc
 class DescribeRecordOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7145,6 +7184,7 @@ class DescribeRecordOutput {
   }
 }
 
+/// @nodoc
 class DescribeServiceActionOutput {
   /// Detailed information about the self-service action.
   final ServiceActionDetail? serviceActionDetail;
@@ -7171,6 +7211,7 @@ class DescribeServiceActionOutput {
   }
 }
 
+/// @nodoc
 class DescribeServiceActionExecutionParametersOutput {
   /// The parameters of the self-service action.
   final List<ExecutionParameter>? serviceActionParameters;
@@ -7198,6 +7239,7 @@ class DescribeServiceActionExecutionParametersOutput {
   }
 }
 
+/// @nodoc
 class DescribeTagOptionOutput {
   /// Information about the TagOption.
   final TagOptionDetail? tagOptionDetail;
@@ -7223,6 +7265,7 @@ class DescribeTagOptionOutput {
   }
 }
 
+/// @nodoc
 class DisableAWSOrganizationsAccessOutput {
   DisableAWSOrganizationsAccessOutput();
 
@@ -7235,6 +7278,7 @@ class DisableAWSOrganizationsAccessOutput {
   }
 }
 
+/// @nodoc
 class DisassociateBudgetFromResourceOutput {
   DisassociateBudgetFromResourceOutput();
 
@@ -7248,6 +7292,7 @@ class DisassociateBudgetFromResourceOutput {
   }
 }
 
+/// @nodoc
 class DisassociatePrincipalFromPortfolioOutput {
   DisassociatePrincipalFromPortfolioOutput();
 
@@ -7261,6 +7306,7 @@ class DisassociatePrincipalFromPortfolioOutput {
   }
 }
 
+/// @nodoc
 class DisassociateProductFromPortfolioOutput {
   DisassociateProductFromPortfolioOutput();
 
@@ -7274,6 +7320,7 @@ class DisassociateProductFromPortfolioOutput {
   }
 }
 
+/// @nodoc
 class DisassociateServiceActionFromProvisioningArtifactOutput {
   DisassociateServiceActionFromProvisioningArtifactOutput();
 
@@ -7287,6 +7334,7 @@ class DisassociateServiceActionFromProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class DisassociateTagOptionFromResourceOutput {
   DisassociateTagOptionFromResourceOutput();
 
@@ -7300,6 +7348,7 @@ class DisassociateTagOptionFromResourceOutput {
   }
 }
 
+/// @nodoc
 class EnableAWSOrganizationsAccessOutput {
   EnableAWSOrganizationsAccessOutput();
 
@@ -7312,6 +7361,7 @@ class EnableAWSOrganizationsAccessOutput {
   }
 }
 
+/// @nodoc
 class ExecuteProvisionedProductPlanOutput {
   /// Information about the result of provisioning the product.
   final RecordDetail? recordDetail;
@@ -7337,6 +7387,7 @@ class ExecuteProvisionedProductPlanOutput {
   }
 }
 
+/// @nodoc
 class ExecuteProvisionedProductServiceActionOutput {
   /// An object containing detailed information about the result of provisioning
   /// the product.
@@ -7363,6 +7414,7 @@ class ExecuteProvisionedProductServiceActionOutput {
   }
 }
 
+/// @nodoc
 class GetAWSOrganizationsAccessStatusOutput {
   /// The status of the portfolio share feature.
   final AccessStatus? accessStatus;
@@ -7387,6 +7439,7 @@ class GetAWSOrganizationsAccessStatusOutput {
   }
 }
 
+/// @nodoc
 class GetProvisionedProductOutputsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7423,6 +7476,7 @@ class GetProvisionedProductOutputsOutput {
   }
 }
 
+/// @nodoc
 class ImportAsProvisionedProductOutput {
   final RecordDetail? recordDetail;
 
@@ -7446,6 +7500,7 @@ class ImportAsProvisionedProductOutput {
   }
 }
 
+/// @nodoc
 class ListAcceptedPortfolioSharesOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7480,6 +7535,7 @@ class ListAcceptedPortfolioSharesOutput {
   }
 }
 
+/// @nodoc
 class ListBudgetsForResourceOutput {
   /// Information about the associated budgets.
   final List<BudgetDetail>? budgets;
@@ -7513,6 +7569,7 @@ class ListBudgetsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListConstraintsForPortfolioOutput {
   /// Information about the constraints.
   final List<ConstraintDetail>? constraintDetails;
@@ -7547,6 +7604,7 @@ class ListConstraintsForPortfolioOutput {
   }
 }
 
+/// @nodoc
 class ListLaunchPathsOutput {
   /// Information about the launch path.
   final List<LaunchPathSummary>? launchPathSummaries;
@@ -7581,6 +7639,7 @@ class ListLaunchPathsOutput {
   }
 }
 
+/// @nodoc
 class ListOrganizationPortfolioAccessOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7615,6 +7674,7 @@ class ListOrganizationPortfolioAccessOutput {
   }
 }
 
+/// @nodoc
 class ListPortfolioAccessOutput {
   /// Information about the Amazon Web Services accounts with access to the
   /// portfolio.
@@ -7649,6 +7709,7 @@ class ListPortfolioAccessOutput {
   }
 }
 
+/// @nodoc
 class ListPortfoliosOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7682,6 +7743,7 @@ class ListPortfoliosOutput {
   }
 }
 
+/// @nodoc
 class ListPortfoliosForProductOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7715,6 +7777,7 @@ class ListPortfoliosForProductOutput {
   }
 }
 
+/// @nodoc
 class ListPrincipalsForPortfolioOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7749,6 +7812,7 @@ class ListPrincipalsForPortfolioOutput {
   }
 }
 
+/// @nodoc
 class ListProvisionedProductPlansOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7785,6 +7849,7 @@ class ListProvisionedProductPlansOutput {
   }
 }
 
+/// @nodoc
 class ListProvisioningArtifactsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7821,6 +7886,7 @@ class ListProvisioningArtifactsOutput {
   }
 }
 
+/// @nodoc
 class ListProvisioningArtifactsForServiceActionOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7858,6 +7924,7 @@ class ListProvisioningArtifactsForServiceActionOutput {
   }
 }
 
+/// @nodoc
 class ListRecordHistoryOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7891,6 +7958,7 @@ class ListRecordHistoryOutput {
   }
 }
 
+/// @nodoc
 class ListResourcesForTagOptionOutput {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
@@ -7924,6 +7992,7 @@ class ListResourcesForTagOptionOutput {
   }
 }
 
+/// @nodoc
 class ListServiceActionsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7959,6 +8028,7 @@ class ListServiceActionsOutput {
   }
 }
 
+/// @nodoc
 class ListServiceActionsForProvisioningArtifactOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -7995,6 +8065,7 @@ class ListServiceActionsForProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class ListStackInstancesForProvisionedProductOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8029,6 +8100,7 @@ class ListStackInstancesForProvisionedProductOutput {
   }
 }
 
+/// @nodoc
 class ListTagOptionsOutput {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
@@ -8062,6 +8134,7 @@ class ListTagOptionsOutput {
   }
 }
 
+/// @nodoc
 class NotifyProvisionProductEngineWorkflowResultOutput {
   NotifyProvisionProductEngineWorkflowResultOutput();
 
@@ -8075,6 +8148,7 @@ class NotifyProvisionProductEngineWorkflowResultOutput {
   }
 }
 
+/// @nodoc
 class NotifyTerminateProvisionedProductEngineWorkflowResultOutput {
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput();
 
@@ -8088,6 +8162,7 @@ class NotifyTerminateProvisionedProductEngineWorkflowResultOutput {
   }
 }
 
+/// @nodoc
 class NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput();
 
@@ -8101,6 +8176,7 @@ class NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
   }
 }
 
+/// @nodoc
 class ProvisionProductOutput {
   /// Information about the result of provisioning the product.
   final RecordDetail? recordDetail;
@@ -8125,6 +8201,7 @@ class ProvisionProductOutput {
   }
 }
 
+/// @nodoc
 class RejectPortfolioShareOutput {
   RejectPortfolioShareOutput();
 
@@ -8137,6 +8214,7 @@ class RejectPortfolioShareOutput {
   }
 }
 
+/// @nodoc
 class ScanProvisionedProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8172,6 +8250,7 @@ class ScanProvisionedProductsOutput {
   }
 }
 
+/// @nodoc
 class SearchProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8222,6 +8301,7 @@ class SearchProductsOutput {
   }
 }
 
+/// @nodoc
 class SearchProductsAsAdminOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8255,6 +8335,7 @@ class SearchProductsAsAdminOutput {
   }
 }
 
+/// @nodoc
 class SearchProvisionedProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8297,6 +8378,7 @@ class SearchProvisionedProductsOutput {
   }
 }
 
+/// @nodoc
 class TerminateProvisionedProductOutput {
   /// Information about the result of this request.
   final RecordDetail? recordDetail;
@@ -8322,6 +8404,7 @@ class TerminateProvisionedProductOutput {
   }
 }
 
+/// @nodoc
 class UpdateConstraintOutput {
   /// Information about the constraint.
   final ConstraintDetail? constraintDetail;
@@ -8362,6 +8445,7 @@ class UpdateConstraintOutput {
   }
 }
 
+/// @nodoc
 class UpdatePortfolioOutput {
   /// Information about the portfolio.
   final PortfolioDetail? portfolioDetail;
@@ -8397,6 +8481,7 @@ class UpdatePortfolioOutput {
   }
 }
 
+/// @nodoc
 class UpdatePortfolioShareOutput {
   /// The token that tracks the status of the <code>UpdatePortfolioShare</code>
   /// operation for external account to account or organizational type sharing.
@@ -8430,6 +8515,7 @@ class UpdatePortfolioShareOutput {
   }
 }
 
+/// @nodoc
 class UpdateProductOutput {
   /// Information about the product view.
   final ProductViewDetail? productViewDetail;
@@ -8465,6 +8551,7 @@ class UpdateProductOutput {
   }
 }
 
+/// @nodoc
 class UpdateProvisionedProductOutput {
   /// Information about the result of the request.
   final RecordDetail? recordDetail;
@@ -8489,6 +8576,7 @@ class UpdateProvisionedProductOutput {
   }
 }
 
+/// @nodoc
 class UpdateProvisionedProductPropertiesOutput {
   /// The provisioned product identifier.
   final String? provisionedProductId;
@@ -8538,6 +8626,7 @@ class UpdateProvisionedProductPropertiesOutput {
   }
 }
 
+/// @nodoc
 class UpdateProvisioningArtifactOutput {
   /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
   /// format.
@@ -8580,6 +8669,7 @@ class UpdateProvisioningArtifactOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceActionOutput {
   /// Detailed information about the self-service action.
   final ServiceActionDetail? serviceActionDetail;
@@ -8606,6 +8696,7 @@ class UpdateServiceActionOutput {
   }
 }
 
+/// @nodoc
 class UpdateTagOptionOutput {
   /// Information about the TagOption.
   final TagOptionDetail? tagOptionDetail;
@@ -8632,6 +8723,8 @@ class UpdateTagOptionOutput {
 }
 
 /// Information about a TagOption.
+///
+/// @nodoc
 class TagOptionDetail {
   /// The TagOption active state.
   final bool? active;
@@ -8684,6 +8777,8 @@ class TagOptionDetail {
 }
 
 /// An object containing detailed information about the self-service action.
+///
+/// @nodoc
 class ServiceActionDetail {
   /// A map that defines the self-service action.
   final Map<ServiceActionDefinitionKey, String>? definition;
@@ -8720,6 +8815,8 @@ class ServiceActionDetail {
 }
 
 /// Detailed information about the self-service action.
+///
+/// @nodoc
 class ServiceActionSummary {
   /// The self-service action definition type. For example,
   /// <code>SSM_AUTOMATION</code>.
@@ -8765,6 +8862,7 @@ class ServiceActionSummary {
   }
 }
 
+/// @nodoc
 class ServiceActionDefinitionKey {
   static const name = ServiceActionDefinitionKey._('Name');
   static const version = ServiceActionDefinitionKey._('Version');
@@ -8792,6 +8890,7 @@ class ServiceActionDefinitionKey {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceActionDefinitionType {
   static const ssmAutomation = ServiceActionDefinitionType._('SSM_AUTOMATION');
 
@@ -8818,6 +8917,8 @@ class ServiceActionDefinitionType {
 
 /// Information about a provisioning artifact (also known as a version) for a
 /// product.
+///
+/// @nodoc
 class ProvisioningArtifactDetail {
   /// Indicates whether the product version is active.
   final bool? active;
@@ -8917,6 +9018,7 @@ class ProvisioningArtifactDetail {
   }
 }
 
+/// @nodoc
 class Status {
   static const available = Status._('AVAILABLE');
   static const creating = Status._('CREATING');
@@ -8941,6 +9043,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisioningArtifactType {
   static const cloudFormationTemplate =
       ProvisioningArtifactType._('CLOUD_FORMATION_TEMPLATE');
@@ -8979,6 +9082,7 @@ class ProvisioningArtifactType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisioningArtifactGuidance {
   static const $default = ProvisioningArtifactGuidance._('DEFAULT');
   static const deprecated = ProvisioningArtifactGuidance._('DEPRECATED');
@@ -9004,6 +9108,7 @@ class ProvisioningArtifactGuidance {
   String toString() => value;
 }
 
+/// @nodoc
 class RecordStatus {
   static const created = RecordStatus._('CREATED');
   static const inProgress = RecordStatus._('IN_PROGRESS');
@@ -9036,6 +9141,7 @@ class RecordStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PropertyKey {
   static const owner = PropertyKey._('OWNER');
   static const launchRole = PropertyKey._('LAUNCH_ROLE');
@@ -9060,6 +9166,8 @@ class PropertyKey {
 }
 
 /// Information about a request operation.
+///
+/// @nodoc
 class RecordDetail {
   /// The UTC time stamp of the creation time.
   final DateTime? createdTime;
@@ -9221,6 +9329,8 @@ class RecordDetail {
 }
 
 /// Information about a tag, which is a key-value pair.
+///
+/// @nodoc
 class RecordTag {
   /// The key for this tag.
   final String? key;
@@ -9251,6 +9361,8 @@ class RecordTag {
 }
 
 /// The error code and description resulting from an operation.
+///
+/// @nodoc
 class RecordError {
   /// The numeric value of the error.
   final String? code;
@@ -9283,6 +9395,8 @@ class RecordError {
 /// The user-defined preferences that will be applied when updating a
 /// provisioned product. Not all preferences are applicable to all provisioned
 /// product types.
+///
+/// @nodoc
 class UpdateProvisioningPreferences {
   /// One or more Amazon Web Services accounts that will have access to the
   /// provisioned product.
@@ -9434,6 +9548,8 @@ class UpdateProvisioningPreferences {
 
 /// Information about a tag. A tag is a key-value pair. Tags are propagated to
 /// the resources created when provisioning a product.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -9463,6 +9579,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class StackSetOperationType {
   static const create = StackSetOperationType._('CREATE');
   static const update = StackSetOperationType._('UPDATE');
@@ -9490,6 +9607,8 @@ class StackSetOperationType {
 }
 
 /// The parameter key-value pair used to update a provisioned product.
+///
+/// @nodoc
 class UpdateProvisioningParameter {
   /// The parameter key.
   final String? key;
@@ -9528,6 +9647,8 @@ class UpdateProvisioningParameter {
 }
 
 /// Information about a product view.
+///
+/// @nodoc
 class ProductViewDetail {
   /// The UTC time stamp of the creation time.
   final DateTime? createdTime;
@@ -9604,6 +9725,8 @@ class ProductViewDetail {
 }
 
 /// Summary information about a product view.
+///
+/// @nodoc
 class ProductViewSummary {
   /// The distributor of the product. Contact the product administrator for the
   /// significance of this value.
@@ -9705,6 +9828,8 @@ class ProductViewSummary {
 }
 
 /// Provides details about the configured <code>SourceConnection</code>.
+///
+/// @nodoc
 class SourceConnectionDetail {
   /// The connection details based on the connection <code>Type</code>.
   final SourceConnectionParameters? connectionParameters;
@@ -9766,6 +9891,7 @@ class SourceConnectionDetail {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const codestar = SourceType._('CODESTAR');
 
@@ -9789,6 +9915,8 @@ class SourceType {
 }
 
 /// Provides connection details.
+///
+/// @nodoc
 class SourceConnectionParameters {
   /// Provides <code>ConnectionType</code> details.
   final CodeStarParameters? codeStar;
@@ -9834,6 +9962,8 @@ class SourceConnectionParameters {
 /// <code>LastSuccessfulSyncProvisioningArtifactID</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LastSync {
   /// The ProvisioningArtifactID of the ProvisioningArtifact created from the
   /// latest successful sync.
@@ -9896,6 +10026,7 @@ class LastSync {
   }
 }
 
+/// @nodoc
 class LastSyncStatus {
   static const succeeded = LastSyncStatus._('SUCCEEDED');
   static const failed = LastSyncStatus._('FAILED');
@@ -9922,6 +10053,8 @@ class LastSyncStatus {
 
 /// The subtype containing details about the Codestar connection
 /// <code>Type</code>.
+///
+/// @nodoc
 class CodeStarParameters {
   /// The absolute path wehre the artifact resides within the repo and branch,
   /// formatted as "folder/file.json."
@@ -9968,6 +10101,7 @@ class CodeStarParameters {
   }
 }
 
+/// @nodoc
 class ProductType {
   static const cloudFormationTemplate =
       ProductType._('CLOUD_FORMATION_TEMPLATE');
@@ -10008,6 +10142,8 @@ class ProductType {
 /// APIs. This response contains the same fields as the
 /// <code>ConnectionParameters</code> request, with the addition of the
 /// <code>LastSync</code> response.
+///
+/// @nodoc
 class SourceConnection {
   /// The connection details based on the connection <code>Type</code>.
   final SourceConnectionParameters connectionParameters;
@@ -10030,6 +10166,7 @@ class SourceConnection {
   }
 }
 
+/// @nodoc
 class ShareStatus {
   static const notStarted = ShareStatus._('NOT_STARTED');
   static const inProgress = ShareStatus._('IN_PROGRESS');
@@ -10063,6 +10200,8 @@ class ShareStatus {
 }
 
 /// Information about the organization node.
+///
+/// @nodoc
 class OrganizationNode {
   /// The organization node type.
   final OrganizationNodeType? type;
@@ -10092,6 +10231,7 @@ class OrganizationNode {
   }
 }
 
+/// @nodoc
 class OrganizationNodeType {
   static const organization = OrganizationNodeType._('ORGANIZATION');
   static const organizationalUnit =
@@ -10120,6 +10260,8 @@ class OrganizationNodeType {
 }
 
 /// Information about a portfolio.
+///
+/// @nodoc
 class PortfolioDetail {
   /// The ARN assigned to the portfolio.
   final String? arn;
@@ -10178,6 +10320,8 @@ class PortfolioDetail {
 }
 
 /// Information about a constraint.
+///
+/// @nodoc
 class ConstraintDetail {
   /// The identifier of the constraint.
   final String? constraintId;
@@ -10255,6 +10399,8 @@ class ConstraintDetail {
 }
 
 /// Information about a provisioned product.
+///
+/// @nodoc
 class ProvisionedProductAttribute {
   /// The ARN of the provisioned product.
   final String? arn;
@@ -10483,6 +10629,7 @@ class ProvisionedProductAttribute {
   }
 }
 
+/// @nodoc
 class ProvisionedProductStatus {
   static const available = ProvisionedProductStatus._('AVAILABLE');
   static const underChange = ProvisionedProductStatus._('UNDER_CHANGE');
@@ -10518,6 +10665,8 @@ class ProvisionedProductStatus {
 }
 
 /// The access level to use to filter results.
+///
+/// @nodoc
 class AccessLevelFilter {
   /// The access level.
   ///
@@ -10554,6 +10703,7 @@ class AccessLevelFilter {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -10577,6 +10727,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisionedProductViewFilterBy {
   static const searchQuery = ProvisionedProductViewFilterBy._('SearchQuery');
 
@@ -10601,6 +10752,7 @@ class ProvisionedProductViewFilterBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessLevelFilterKey {
   static const account = AccessLevelFilterKey._('Account');
   static const role = AccessLevelFilterKey._('Role');
@@ -10627,6 +10779,7 @@ class AccessLevelFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class ProductViewSortBy {
   static const title = ProductViewSortBy._('Title');
   static const versionCount = ProductViewSortBy._('VersionCount');
@@ -10652,6 +10805,7 @@ class ProductViewSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ProductSource {
   static const account = ProductSource._('ACCOUNT');
 
@@ -10675,6 +10829,7 @@ class ProductSource {
   String toString() => value;
 }
 
+/// @nodoc
 class ProductViewFilterBy {
   static const fullTextSearch = ProductViewFilterBy._('FullTextSearch');
   static const owner = ProductViewFilterBy._('Owner');
@@ -10704,6 +10859,8 @@ class ProductViewFilterBy {
 
 /// A single product view aggregation value/count pair, containing metadata
 /// about each product to which the calling user has access.
+///
+/// @nodoc
 class ProductViewAggregationValue {
   /// An approximate count of the products that match the value.
   final int? approximateCount;
@@ -10734,6 +10891,8 @@ class ProductViewAggregationValue {
 }
 
 /// Information about a provisioned product.
+///
+/// @nodoc
 class ProvisionedProductDetail {
   /// The ARN of the provisioned product.
   final String? arn;
@@ -10923,6 +11082,7 @@ class ProvisionedProductDetail {
   }
 }
 
+/// @nodoc
 class PortfolioShareType {
   static const imported = PortfolioShareType._('IMPORTED');
   static const awsServicecatalog = PortfolioShareType._('AWS_SERVICECATALOG');
@@ -10965,6 +11125,8 @@ class PortfolioShareType {
 ///
 /// If no values are specified, the default value is all accounts from the
 /// <code>STACKSET</code> constraint.
+///
+/// @nodoc
 class ProvisioningPreferences {
   /// One or more Amazon Web Services accounts where the provisioned product will
   /// be available.
@@ -11092,6 +11254,8 @@ class ProvisioningPreferences {
 }
 
 /// Information about a parameter used to provision a product.
+///
+/// @nodoc
 class ProvisioningParameter {
   /// The parameter key.
   final String? key;
@@ -11114,6 +11278,7 @@ class ProvisioningParameter {
   }
 }
 
+/// @nodoc
 class EngineWorkflowStatus {
   static const succeeded = EngineWorkflowStatus._('SUCCEEDED');
   static const failed = EngineWorkflowStatus._('FAILED');
@@ -11142,6 +11307,8 @@ class EngineWorkflowStatus {
 /// The output for the product created as the result of a request. For example,
 /// the output for a CloudFormation-backed product that creates an S3 bucket
 /// would include the S3 bucket URL.
+///
+/// @nodoc
 class RecordOutput {
   /// The description of the output.
   final String? description;
@@ -11180,6 +11347,8 @@ class RecordOutput {
 
 /// The ID for the provisioned product resources that are part of a resource
 /// group.
+///
+/// @nodoc
 class EngineWorkflowResourceIdentifier {
   /// The unique key-value pair for a tag that identifies provisioned product
   /// resources.
@@ -11199,6 +11368,8 @@ class EngineWorkflowResourceIdentifier {
 
 /// The unique key-value pair for a tag that identifies provisioned product
 /// resources.
+///
+/// @nodoc
 class UniqueTagResourceIdentifier {
   /// A unique key that's attached to a resource.
   final String? key;
@@ -11222,6 +11393,8 @@ class UniqueTagResourceIdentifier {
 }
 
 /// Filters to use when listing TagOptions.
+///
+/// @nodoc
 class ListTagOptionsFilters {
   /// The active state.
   final bool? active;
@@ -11257,6 +11430,8 @@ class ListTagOptionsFilters {
 /// reason. A stack instance is associated with only one stack set. Each stack
 /// instance contains the ID of its associated stack set, as well as the ID of
 /// the actual stack and the stack status.
+///
+/// @nodoc
 class StackInstance {
   /// The name of the Amazon Web Services account that the stack instance is
   /// associated with.
@@ -11320,6 +11495,7 @@ class StackInstance {
   }
 }
 
+/// @nodoc
 class StackInstanceStatus {
   static const current = StackInstanceStatus._('CURRENT');
   static const outdated = StackInstanceStatus._('OUTDATED');
@@ -11347,6 +11523,8 @@ class StackInstanceStatus {
 }
 
 /// Information about a resource.
+///
+/// @nodoc
 class ResourceDetail {
   /// The ARN of the resource.
   final String? arn;
@@ -11398,6 +11576,8 @@ class ResourceDetail {
 }
 
 /// The search filter to use when listing history records.
+///
+/// @nodoc
 class ListRecordHistorySearchFilter {
   /// The filter key.
   ///
@@ -11433,6 +11613,8 @@ class ListRecordHistorySearchFilter {
 
 /// An object that contains summary information about a product view and a
 /// provisioning artifact.
+///
+/// @nodoc
 class ProvisioningArtifactView {
   /// Summary information about a product view.
   final ProductViewSummary? productViewSummary;
@@ -11472,6 +11654,8 @@ class ProvisioningArtifactView {
 
 /// Information about a provisioning artifact. A provisioning artifact is also
 /// known as a product version.
+///
+/// @nodoc
 class ProvisioningArtifact {
   /// The UTC time stamp of the creation time.
   final DateTime? createdTime;
@@ -11525,6 +11709,8 @@ class ProvisioningArtifact {
 }
 
 /// Summary information about a plan.
+///
+/// @nodoc
 class ProvisionedProductPlanSummary {
   /// The plan identifier.
   final String? planId;
@@ -11585,6 +11771,7 @@ class ProvisionedProductPlanSummary {
   }
 }
 
+/// @nodoc
 class ProvisionedProductPlanType {
   static const cloudformation = ProvisionedProductPlanType._('CLOUDFORMATION');
 
@@ -11610,6 +11797,8 @@ class ProvisionedProductPlanType {
 }
 
 /// Information about a principal.
+///
+/// @nodoc
 class Principal {
   /// The ARN of the principal (user, role, or group). This field allows for an
   /// ARN with no <code>accountID</code>, with or without wildcard characters if
@@ -11648,6 +11837,7 @@ class Principal {
   }
 }
 
+/// @nodoc
 class PrincipalType {
   static const iam = PrincipalType._('IAM');
   static const iamPattern = PrincipalType._('IAM_PATTERN');
@@ -11673,6 +11863,8 @@ class PrincipalType {
 }
 
 /// Summary information about a product path for a user.
+///
+/// @nodoc
 class LaunchPathSummary {
   /// The constraints on the portfolio-product relationship.
   final List<ConstraintSummary>? constraintSummaries;
@@ -11724,6 +11916,8 @@ class LaunchPathSummary {
 }
 
 /// Summary information about a constraint.
+///
+/// @nodoc
 class ConstraintSummary {
   /// The description of the constraint.
   final String? description;
@@ -11769,6 +11963,8 @@ class ConstraintSummary {
 }
 
 /// Information about a budget.
+///
+/// @nodoc
 class BudgetDetail {
   /// Name of the associated budget.
   final String? budgetName;
@@ -11791,6 +11987,7 @@ class BudgetDetail {
   }
 }
 
+/// @nodoc
 class AccessStatus {
   static const enabled = AccessStatus._('ENABLED');
   static const underChange = AccessStatus._('UNDER_CHANGE');
@@ -11817,6 +12014,8 @@ class AccessStatus {
 
 /// Details of an execution parameter value that is passed to a self-service
 /// action when executed on a provisioned product.
+///
+/// @nodoc
 class ExecutionParameter {
   /// The default values for the execution parameter.
   final List<String>? defaultValues;
@@ -11864,6 +12063,8 @@ class ExecutionParameter {
 /// see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
 /// set operation options</a> in the <i>CloudFormation User Guide</i>.
+///
+/// @nodoc
 class ProvisioningArtifactPreferences {
   /// One or more Amazon Web Services accounts where stack instances are deployed
   /// from the stack set. These accounts can be scoped in
@@ -11910,6 +12111,8 @@ class ProvisioningArtifactPreferences {
 }
 
 /// Provisioning artifact output.
+///
+/// @nodoc
 class ProvisioningArtifactOutput {
   /// Description of the provisioning artifact output key.
   final String? description;
@@ -11940,6 +12143,8 @@ class ProvisioningArtifactOutput {
 }
 
 /// Summary information about a TagOption.
+///
+/// @nodoc
 class TagOptionSummary {
   /// The TagOption key.
   final String? key;
@@ -11971,6 +12176,8 @@ class TagOptionSummary {
 }
 
 /// Additional information provided by the administrator.
+///
+/// @nodoc
 class UsageInstruction {
   /// The usage instruction type for the value.
   final String? type;
@@ -12001,6 +12208,8 @@ class UsageInstruction {
 }
 
 /// Information about a parameter used to provision a product.
+///
+/// @nodoc
 class ProvisioningArtifactParameter {
   /// The default value.
   final String? defaultValue;
@@ -12065,6 +12274,8 @@ class ProvisioningArtifactParameter {
 }
 
 /// The constraints that the administrator has put on the parameter.
+///
+/// @nodoc
 class ParameterConstraints {
   /// A regular expression that represents the patterns that allow for
   /// <code>String</code> types. The pattern must match the entire parameter value
@@ -12076,11 +12287,11 @@ class ParameterConstraints {
 
   /// A string that explains a constraint when the constraint is violated. For
   /// example, without a constraint description, a parameter that has an allowed
-  /// pattern of <code>[A-Za-z0-9]+</code> displays the following error message
+  /// pattern of <code>\[A-Za-z0-9\]+</code> displays the following error message
   /// when the user specifies an invalid value:
   ///
   /// <code>Malformed input-Parameter MyParameter must match pattern
-  /// [A-Za-z0-9]+</code>
+  /// \[A-Za-z0-9\]+</code>
   ///
   /// By adding a constraint description, such as must only contain letters
   /// (uppercase and lowercase) and numbers, you can display the following
@@ -12153,6 +12364,8 @@ class ParameterConstraints {
 }
 
 /// Information about a plan.
+///
+/// @nodoc
 class ProvisionedProductPlanDetails {
   /// The UTC time stamp of the creation time.
   final DateTime? createdTime;
@@ -12293,6 +12506,8 @@ class ProvisionedProductPlanDetails {
 }
 
 /// Information about a resource change that will occur when a plan is executed.
+///
+/// @nodoc
 class ResourceChange {
   /// The change action.
   final ChangeAction? action;
@@ -12365,6 +12580,7 @@ class ResourceChange {
   }
 }
 
+/// @nodoc
 class ChangeAction {
   static const add = ChangeAction._('ADD');
   static const modify = ChangeAction._('MODIFY');
@@ -12389,6 +12605,7 @@ class ChangeAction {
   String toString() => value;
 }
 
+/// @nodoc
 class Replacement {
   static const $true = Replacement._('TRUE');
   static const $false = Replacement._('FALSE');
@@ -12414,6 +12631,8 @@ class Replacement {
 }
 
 /// Information about a change to a resource attribute.
+///
+/// @nodoc
 class ResourceChangeDetail {
   /// The ID of the entity that caused the change.
   final String? causingEntity;
@@ -12457,6 +12676,8 @@ class ResourceChangeDetail {
 }
 
 /// Information about a change to a resource attribute.
+///
+/// @nodoc
 class ResourceTargetDefinition {
   /// The attribute to be changed.
   final ResourceAttribute? attribute;
@@ -12498,6 +12719,7 @@ class ResourceTargetDefinition {
   }
 }
 
+/// @nodoc
 class EvaluationType {
   static const static = EvaluationType._('STATIC');
   static const $dynamic = EvaluationType._('DYNAMIC');
@@ -12522,6 +12744,7 @@ class EvaluationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceAttribute {
   static const properties = ResourceAttribute._('PROPERTIES');
   static const metadata = ResourceAttribute._('METADATA');
@@ -12557,6 +12780,7 @@ class ResourceAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RequiresRecreation {
   static const never = RequiresRecreation._('NEVER');
   static const conditionally = RequiresRecreation._('CONDITIONALLY');
@@ -12583,6 +12807,7 @@ class RequiresRecreation {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisionedProductPlanStatus {
   static const createInProgress =
       ProvisionedProductPlanStatus._('CREATE_IN_PROGRESS');
@@ -12623,6 +12848,8 @@ class ProvisionedProductPlanStatus {
 }
 
 /// Information about a CloudWatch dashboard.
+///
+/// @nodoc
 class CloudWatchDashboard {
   /// The name of the CloudWatch dashboard.
   final String? name;
@@ -12647,6 +12874,8 @@ class CloudWatchDashboard {
 
 /// Summary information about a provisioning artifact (also known as a version)
 /// for a product.
+///
+/// @nodoc
 class ProvisioningArtifactSummary {
   /// The UTC time stamp of the creation time.
   final DateTime? createdTime;
@@ -12702,6 +12931,8 @@ class ProvisioningArtifactSummary {
 }
 
 /// A launch path object.
+///
+/// @nodoc
 class LaunchPath {
   /// The identifier of the launch path.
   final String? id;
@@ -12732,6 +12963,8 @@ class LaunchPath {
 }
 
 /// Information about the portfolio share operation.
+///
+/// @nodoc
 class ShareDetails {
   /// List of errors.
   final List<ShareError>? shareErrors;
@@ -12768,6 +13001,8 @@ class ShareDetails {
 }
 
 /// Errors that occurred during the portfolio share operation.
+///
+/// @nodoc
 class ShareError {
   /// List of accounts impacted by the error.
   final List<String>? accounts;
@@ -12808,6 +13043,8 @@ class ShareError {
 }
 
 /// Information about the portfolio share.
+///
+/// @nodoc
 class PortfolioShareDetail {
   /// Indicates whether the shared portfolio is imported by the recipient account.
   /// If the recipient is in an organization node, the share is automatically
@@ -12873,6 +13110,7 @@ class PortfolioShareDetail {
   }
 }
 
+/// @nodoc
 class DescribePortfolioShareType {
   static const account = DescribePortfolioShareType._('ACCOUNT');
   static const organization = DescribePortfolioShareType._('ORGANIZATION');
@@ -12907,6 +13145,7 @@ class DescribePortfolioShareType {
   String toString() => value;
 }
 
+/// @nodoc
 class CopyProductStatus {
   static const succeeded = CopyProductStatus._('SUCCEEDED');
   static const inProgress = CopyProductStatus._('IN_PROGRESS');
@@ -12934,6 +13173,8 @@ class CopyProductStatus {
 
 /// Information about a provisioning artifact (also known as a version) for a
 /// product.
+///
+/// @nodoc
 class ProvisioningArtifactProperties {
   /// The description of the provisioning artifact, including how it differs from
   /// the previous provisioning artifact.
@@ -12947,8 +13188,8 @@ class ProvisioningArtifactProperties {
   final bool? disableTemplateValidation;
 
   /// Specify the template source with one of the following options, but not both.
-  /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
-  /// <code>ImportFromPhysicalId</code> ]
+  /// Keys accepted: \[ <code>LoadTemplateFromURL</code>,
+  /// <code>ImportFromPhysicalId</code> \]
   ///
   /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
   /// format. Specify the URL in JSON format as follows:
@@ -12960,7 +13201,7 @@ class ProvisioningArtifactProperties {
   /// contains the template. Currently only supports CloudFormation stack arn.
   /// Specify the physical id in JSON format as follows:
   /// <code>ImportFromPhysicalId:
-  /// “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]</code>
+  /// “arn:aws:cloudformation:\[us-east-1\]:\[accountId\]:stack/\[StackName\]/\[resourceId\]</code>
   final Map<String, String>? info;
 
   /// The name of the provisioning artifact (for example, v1 v2beta). No spaces
@@ -13011,6 +13252,7 @@ class ProvisioningArtifactProperties {
   }
 }
 
+/// @nodoc
 class CopyOption {
   static const copyTags = CopyOption._('CopyTags');
 
@@ -13033,6 +13275,7 @@ class CopyOption {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisioningArtifactPropertyName {
   static const id = ProvisioningArtifactPropertyName._('Id');
 
@@ -13059,6 +13302,8 @@ class ProvisioningArtifactPropertyName {
 
 /// An object containing information about the error, along with identifying
 /// information about the self-service action and its associations.
+///
+/// @nodoc
 class FailedServiceActionAssociation {
   /// The error code. Valid values are listed below.
   final ServiceActionAssociationErrorCode? errorCode;
@@ -13113,6 +13358,7 @@ class FailedServiceActionAssociation {
   }
 }
 
+/// @nodoc
 class ServiceActionAssociationErrorCode {
   static const duplicateResource =
       ServiceActionAssociationErrorCode._('DUPLICATE_RESOURCE');
@@ -13156,6 +13402,8 @@ class ServiceActionAssociationErrorCode {
 
 /// A self-service action association consisting of the Action ID, the Product
 /// ID, and the Provisioning Artifact ID.
+///
+/// @nodoc
 class ServiceActionAssociation {
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
   final String productId;
@@ -13186,26 +13434,31 @@ class ServiceActionAssociation {
   }
 }
 
+/// @nodoc
 class DuplicateResourceException extends _s.GenericAwsException {
   DuplicateResourceException({String? type, String? message})
       : super(type: type, code: 'DuplicateResourceException', message: message);
 }
 
+/// @nodoc
 class InvalidParametersException extends _s.GenericAwsException {
   InvalidParametersException({String? type, String? message})
       : super(type: type, code: 'InvalidParametersException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class OperationNotSupportedException extends _s.GenericAwsException {
   OperationNotSupportedException({String? type, String? message})
       : super(
@@ -13214,16 +13467,19 @@ class OperationNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TagOptionNotMigratedException extends _s.GenericAwsException {
   TagOptionNotMigratedException({String? type, String? message})
       : super(

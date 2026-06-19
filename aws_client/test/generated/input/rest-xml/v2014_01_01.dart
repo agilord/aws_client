@@ -72,6 +72,7 @@ class EndpointHostTrait {
   }
 }
 
+/// @nodoc
 class StaticInputShape {
   final String? name;
 
@@ -102,6 +103,7 @@ class StaticInputShape {
   }
 }
 
+/// @nodoc
 class MemberRefInputShape {
   final String? name;
 

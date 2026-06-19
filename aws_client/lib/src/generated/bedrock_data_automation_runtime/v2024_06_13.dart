@@ -303,6 +303,8 @@ class BedrockDataAutomationRuntime {
 }
 
 /// Invoke Data Automation Response
+///
+/// @nodoc
 class InvokeDataAutomationResponse {
   /// Detected semantic modality
   final SemanticModality semanticModality;
@@ -347,6 +349,7 @@ class InvokeDataAutomationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final List<Tag>? tags;
 
@@ -371,6 +374,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -383,6 +387,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -396,6 +401,8 @@ class UntagResourceResponse {
 }
 
 /// Invoke Data Automation Async Response
+///
+/// @nodoc
 class InvokeDataAutomationAsyncResponse {
   /// ARN of the automation job
   final String invocationArn;
@@ -420,6 +427,8 @@ class InvokeDataAutomationAsyncResponse {
 }
 
 /// Response of GetDataAutomationStatus API.
+///
+/// @nodoc
 class GetDataAutomationStatusResponse {
   /// Error Message.
   final String? errorMessage;
@@ -492,6 +501,8 @@ class GetDataAutomationStatusResponse {
 }
 
 /// List of status supported by automation jobs
+///
+/// @nodoc
 class AutomationJobStatus {
   static const created = AutomationJobStatus._('Created');
   static const inProgress = AutomationJobStatus._('InProgress');
@@ -527,6 +538,8 @@ class AutomationJobStatus {
 }
 
 /// Output configuration.
+///
+/// @nodoc
 class OutputConfiguration {
   /// S3 uri.
   final String s3Uri;
@@ -550,6 +563,8 @@ class OutputConfiguration {
 }
 
 /// Input configuration.
+///
+/// @nodoc
 class InputConfiguration {
   /// S3 uri.
   final String s3Uri;
@@ -574,6 +589,8 @@ class InputConfiguration {
 }
 
 /// Data automation configuration.
+///
+/// @nodoc
 class DataAutomationConfiguration {
   /// Data automation project arn.
   final String dataAutomationProjectArn;
@@ -597,6 +614,8 @@ class DataAutomationConfiguration {
 }
 
 /// Encryption configuration.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// Customer KMS key used for encryption
   final String kmsKeyId;
@@ -621,6 +640,8 @@ class EncryptionConfiguration {
 }
 
 /// Notification configuration.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// Event bridge configuration.
   final EventBridgeConfiguration eventBridgeConfiguration;
@@ -638,6 +659,8 @@ class NotificationConfiguration {
 }
 
 /// Key value pair of a tag
+///
+/// @nodoc
 class Tag {
   final String key;
   final String value;
@@ -665,6 +688,8 @@ class Tag {
 }
 
 /// Structure for single blueprint entity.
+///
+/// @nodoc
 class Blueprint {
   /// Arn of blueprint.
   final String blueprintArn;
@@ -694,6 +719,8 @@ class Blueprint {
 }
 
 /// Blueprint stage enum.
+///
+/// @nodoc
 class BlueprintStage {
   static const development = BlueprintStage._('DEVELOPMENT');
   static const live = BlueprintStage._('LIVE');
@@ -719,6 +746,8 @@ class BlueprintStage {
 }
 
 /// Event bridge configuration.
+///
+/// @nodoc
 class EventBridgeConfiguration {
   /// Event bridge flag.
   final bool eventBridgeEnabled;
@@ -736,6 +765,8 @@ class EventBridgeConfiguration {
 }
 
 /// Data automation stage.
+///
+/// @nodoc
 class DataAutomationStage {
   static const live = DataAutomationStage._('LIVE');
   static const development = DataAutomationStage._('DEVELOPMENT');
@@ -762,6 +793,8 @@ class DataAutomationStage {
 }
 
 /// Config containing asset processing related knobs for all modalities
+///
+/// @nodoc
 class AssetProcessingConfiguration {
   /// Video asset processing configuration
   final VideoAssetProcessingConfiguration? video;
@@ -779,6 +812,8 @@ class AssetProcessingConfiguration {
 }
 
 /// Video asset processing configuration
+///
+/// @nodoc
 class VideoAssetProcessingConfiguration {
   /// Delimits the segment of the input that will be processed
   final VideoSegmentConfiguration? segmentConfiguration;
@@ -797,6 +832,8 @@ class VideoAssetProcessingConfiguration {
 }
 
 /// Delimits the segment of the input that will be processed
+///
+/// @nodoc
 class VideoSegmentConfiguration {
   /// Timestamp segment
   final TimestampSegment? timestampSegment;
@@ -814,6 +851,8 @@ class VideoSegmentConfiguration {
 }
 
 /// Timestamp segment
+///
+/// @nodoc
 class TimestampSegment {
   /// End timestamp in milliseconds
   final int endTimeMillis;
@@ -837,6 +876,8 @@ class TimestampSegment {
 }
 
 /// Semantic modality enum
+///
+/// @nodoc
 class SemanticModality {
   static const document = SemanticModality._('DOCUMENT');
   static const image = SemanticModality._('IMAGE');
@@ -864,6 +905,8 @@ class SemanticModality {
 }
 
 /// Results for an output segment
+///
+/// @nodoc
 class OutputSegment {
   /// Custom output response
   final String? customOutput;
@@ -903,6 +946,8 @@ class OutputSegment {
 }
 
 /// Custom output status enum
+///
+/// @nodoc
 class CustomOutputStatus {
   static const match = CustomOutputStatus._('MATCH');
   static const noMatch = CustomOutputStatus._('NO_MATCH');
@@ -929,6 +974,8 @@ class CustomOutputStatus {
 }
 
 /// Input configuration for synchronous API
+///
+/// @nodoc
 class SyncInputConfiguration {
   /// Input data as bytes
   final Uint8List? bytes;
@@ -951,21 +998,25 @@ class SyncInputConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -974,17 +1025,20 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
