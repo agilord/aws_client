@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+- Hide generated data, enum and exception classes from dartdoc to keep pub.dev analysis within its time limit.
+
 ## 0.9.0
 
 - **Breaking:** refreshed the service catalogue (some discontinued services dropped, many new ones added) along with a handful of API surface changes.
