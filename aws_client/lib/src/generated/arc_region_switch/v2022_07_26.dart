@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Application Recovery Controller (ARC) Region switch helps you to
@@ -36,22 +38,72 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Guide</i>.
 class ArcRegionSwitch {
   final _s.JsonProtocol _protocol;
-  ArcRegionSwitch({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  factory ArcRegionSwitch({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'arc-region-switch',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'arc-region-switch',
+    );
+    return ArcRegionSwitch._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+    );
+  }
+  ArcRegionSwitch._({
+    required _s.JsonProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint;
+  _s.Endpoint _resolveEndpoint({
+    bool? useControlPlaneEndpoint,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        useControlPlaneEndpoint: useControlPlaneEndpoint,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -503,6 +555,9 @@ class ArcRegionSwitch {
         if (nextToken != null) 'nextToken': nextToken,
         if (recordName != null) 'recordName': recordName,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
 
     return ListRoute53HealthChecksResponse.fromJson(jsonResponse.body);
@@ -822,6 +877,9 @@ class ArcRegionSwitch {
         if (tags != null) 'tags': tags,
         if (triggers != null) 'triggers': triggers,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
 
     return CreatePlanResponse.fromJson(jsonResponse.body);
@@ -850,6 +908,9 @@ class ArcRegionSwitch {
       payload: {
         'arn': arn,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
 
     return GetPlanResponse.fromJson(jsonResponse.body);
@@ -918,6 +979,9 @@ class ArcRegionSwitch {
           'reportConfiguration': reportConfiguration,
         if (triggers != null) 'triggers': triggers,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
 
     return UpdatePlanResponse.fromJson(jsonResponse.body);
@@ -949,6 +1013,9 @@ class ArcRegionSwitch {
       payload: {
         'arn': arn,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
   }
 
@@ -987,6 +1054,9 @@ class ArcRegionSwitch {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
 
     return ListPlansResponse.fromJson(jsonResponse.body);
@@ -1015,6 +1085,9 @@ class ArcRegionSwitch {
       payload: {
         'arn': arn,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1050,6 +1123,9 @@ class ArcRegionSwitch {
         'arn': arn,
         'tags': tags,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
   }
 
@@ -1081,6 +1157,9 @@ class ArcRegionSwitch {
         'arn': arn,
         'resourceTagKeys': resourceTagKeys,
       },
+      endpoint: _resolveEndpoint(
+        useControlPlaneEndpoint: true,
+      ),
     );
   }
 }

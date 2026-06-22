@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_03_14.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// With Cloud Map, you can configure public DNS, private DNS, or HTTP
@@ -29,22 +31,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// receive an answer that contains up to eight healthy records.
 class ServiceDiscovery {
   final _s.JsonProtocol _protocol;
-  ServiceDiscovery({
+  factory ServiceDiscovery({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'servicediscovery',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'servicediscovery',
+    );
+    return ServiceDiscovery._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  ServiceDiscovery._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -678,6 +697,8 @@ class ServiceDiscovery {
         if (ownerAccount != null) 'OwnerAccount': ownerAccount,
         if (queryParameters != null) 'QueryParameters': queryParameters,
       },
+
+      hostPrefix: 'data-',
     );
 
     return DiscoverInstancesResponse.fromJson(jsonResponse.body);
@@ -728,6 +749,8 @@ class ServiceDiscovery {
         'ServiceName': serviceName,
         if (ownerAccount != null) 'OwnerAccount': ownerAccount,
       },
+
+      hostPrefix: 'data-',
     );
 
     return DiscoverInstancesRevisionResponse.fromJson(jsonResponse.body);

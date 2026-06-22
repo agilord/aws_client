@@ -104,12 +104,17 @@ void _writeRequestTest(StringBuffer code, Api api, Operation operation,
     code.writeln("  expect(request.method, equalsIgnoringCase('$method'));");
   }
 
+  // A vector's `host` is the endpoint configured on the client (it may include a
+  // path, e.g. `example.com/custom`), so wire it through as a custom endpoint.
+  final host = test['host'] as String?;
+  final endpointArg = host != null ? "endpointUrl: 'https://$host', " : '';
+
   code.writeln('''
   return Response(${_emptyBody(api)}, 200);
 });
 
 final service = ${api.metadata.className}(client: client, region: 'us-east-1',
-    credentials: AwsClientCredentials(accessKey: '', secretKey: ''),);
+    ${endpointArg}credentials: AwsClientCredentials(accessKey: '', secretKey: ''),);
 ''');
 
   final params = test['params'] as Map<String, dynamic>?;

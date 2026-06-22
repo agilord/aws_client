@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2025_09_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Automation is a feature within Amazon Web Services Compute Optimizer that
@@ -33,22 +35,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// achieved, and reverse actions directly from Compute Optimizer when needed.
 class ComputeOptimizerAutomation {
   final _s.JsonProtocol _protocol;
-  ComputeOptimizerAutomation({
+  factory ComputeOptimizerAutomation({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'aco-automation',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'aco-automation',
+    );
+    return ComputeOptimizerAutomation._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ComputeOptimizerAutomation._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.

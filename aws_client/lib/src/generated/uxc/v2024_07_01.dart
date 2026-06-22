@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2024_07_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the Amazon Web Services User Experience Customization (UXC) API
@@ -39,22 +41,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// and access management for Amazon Web Services Management Console</a>.
 class Uxc {
   final _s.RestJsonProtocol _protocol;
-  Uxc({
+  factory Uxc({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'uxc',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'uxc',
+    );
+    return Uxc._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Uxc._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.

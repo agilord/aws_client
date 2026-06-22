@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -23,22 +24,31 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 /// A REST XML service that sends XML requests and responses.
 class RestXmlProtocol {
   final _s.RestXmlProtocol _protocol;
-  RestXmlProtocol({
+  factory RestXmlProtocol({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestXmlProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'restxml',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'restxml',
+    );
+    return RestXmlProtocol._(
+      protocol: _s.RestXmlProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.forProtocol(
+            service: service, region: region, endpointUrl: endpointUrl),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  RestXmlProtocol._({
+    required _s.RestXmlProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -144,8 +154,7 @@ class RestXmlProtocol {
     final $result = await _protocol.send(
       method: 'PUT',
       requestUri: '/BodyWithXmlName',
-      payload: BodyWithXmlNameInputOutput(nested: nested)
-          .toXml('BodyWithXmlNameInputOutput'),
+      payload: BodyWithXmlNameInputOutput(nested: nested).toXml('Ahoy'),
       exceptionFnMap: _exceptionFns,
     );
     return BodyWithXmlNameInputOutput.fromXml($result.body);
@@ -224,6 +233,7 @@ class RestXmlProtocol {
     await _protocol.send(
       method: 'POST',
       requestUri: '/EndpointOperation',
+      hostPrefix: 'foo.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -238,6 +248,7 @@ class RestXmlProtocol {
       method: 'POST',
       requestUri: '/EndpointWithHostLabelHeaderOperation',
       headers: headers,
+      hostPrefix: '{accountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -250,6 +261,7 @@ class RestXmlProtocol {
       requestUri: '/EndpointWithHostLabelOperation',
       payload: EndpointWithHostLabelOperationRequest(label: label)
           .toXml('EndpointWithHostLabelOperationRequest'),
+      hostPrefix: 'foo.${label}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -430,7 +442,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/HttpPayloadWithStructure',
-      payload: nested?.toXml('nested'),
+      payload: nested?.toXml('NestedPayload'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -446,7 +458,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/HttpPayloadWithUnion',
-      payload: nested?.toXml('nested'),
+      payload: nested?.toXml('UnionPayload'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -463,7 +475,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/HttpPayloadWithXmlName',
-      payload: nested?.toXml('nested'),
+      payload: nested?.toXml('Hello'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -479,7 +491,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/HttpPayloadWithXmlNamespace',
-      payload: nested?.toXml('nested'),
+      payload: nested?.toXml('PayloadWithXmlNamespace'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -496,7 +508,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/HttpPayloadWithXmlNamespaceAndPrefix',
-      payload: nested?.toXml('nested'),
+      payload: nested?.toXml('PayloadWithXmlNamespaceAndPrefix'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1060,7 +1072,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/XmlAttributesInMiddle',
-      payload: payload?.toXml('payload'),
+      payload: payload?.toXml('XmlAttributesInMiddlePayloadRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1077,7 +1089,7 @@ class RestXmlProtocol {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/XmlAttributesOnPayload',
-      payload: payload?.toXml('payload'),
+      payload: payload?.toXml('XmlAttributesPayloadRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1375,6 +1387,7 @@ class RestXmlProtocol {
   }
 }
 
+/// @nodoc
 class AllQueryStringTypesInput {
   final bool? queryBoolean;
   final List<bool>? queryBooleanList;
@@ -1494,6 +1507,7 @@ class AllQueryStringTypesInput {
   }
 }
 
+/// @nodoc
 class BodyWithXmlNameInputOutput {
   final PayloadWithXmlName? nested;
 
@@ -1530,6 +1544,7 @@ class BodyWithXmlNameInputOutput {
   }
 }
 
+/// @nodoc
 class ContentTypeParametersInput {
   final int? value;
 
@@ -1560,6 +1575,7 @@ class ContentTypeParametersInput {
   }
 }
 
+/// @nodoc
 class ContentTypeParametersOutput {
   ContentTypeParametersOutput();
   factory ContentTypeParametersOutput.fromXml(
@@ -1573,6 +1589,7 @@ class ContentTypeParametersOutput {
   }
 }
 
+/// @nodoc
 class DatetimeOffsetsOutput {
   final DateTime? datetime;
 
@@ -1594,6 +1611,7 @@ class DatetimeOffsetsOutput {
   }
 }
 
+/// @nodoc
 class EmptyInputAndEmptyOutputOutput {
   EmptyInputAndEmptyOutputOutput();
   factory EmptyInputAndEmptyOutputOutput.fromXml(
@@ -1607,6 +1625,7 @@ class EmptyInputAndEmptyOutputOutput {
   }
 }
 
+/// @nodoc
 class EndpointWithHostLabelOperationRequest {
   final String label;
 
@@ -1637,6 +1656,7 @@ class EndpointWithHostLabelOperationRequest {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapRequest {
   final Map<String, FooEnum>? myMap;
 
@@ -1672,6 +1692,7 @@ class FlattenedXmlMapRequest {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapResponse {
   final Map<String, FooEnum>? myMap;
 
@@ -1699,6 +1720,7 @@ class FlattenedXmlMapResponse {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapWithXmlNameRequest {
   final Map<String, String>? myMap;
 
@@ -1734,6 +1756,7 @@ class FlattenedXmlMapWithXmlNameRequest {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapWithXmlNameResponse {
   final Map<String, String>? myMap;
 
@@ -1761,6 +1784,7 @@ class FlattenedXmlMapWithXmlNameResponse {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapWithXmlNamespaceOutput {
   final Map<String, String>? myMap;
 
@@ -1788,6 +1812,7 @@ class FlattenedXmlMapWithXmlNamespaceOutput {
   }
 }
 
+/// @nodoc
 class FractionalSecondsOutput {
   final DateTime? datetime;
 
@@ -1809,6 +1834,7 @@ class FractionalSecondsOutput {
   }
 }
 
+/// @nodoc
 class GreetingWithErrorsOutput {
   final String? greeting;
 
@@ -1822,6 +1848,7 @@ class GreetingWithErrorsOutput {
   }
 }
 
+/// @nodoc
 class HttpEmptyPrefixHeadersOutput {
   final Map<String, String>? prefixHeaders;
   final String? specificHeader;
@@ -1838,6 +1865,7 @@ class HttpEmptyPrefixHeadersOutput {
   }
 }
 
+/// @nodoc
 class EnumPayloadInput {
   final StringEnum? payload;
 
@@ -1853,6 +1881,7 @@ class EnumPayloadInput {
   }
 }
 
+/// @nodoc
 class HttpPayloadTraitsInputOutput {
   final Uint8List? blob;
   final String? foo;
@@ -1871,6 +1900,7 @@ class HttpPayloadTraitsInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadTraitsWithMediaTypeInputOutput {
   final Uint8List? blob;
   final String? foo;
@@ -1889,6 +1919,7 @@ class HttpPayloadTraitsWithMediaTypeInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithMemberXmlNameInputOutput {
   final PayloadWithXmlName? nested;
 
@@ -1904,6 +1935,7 @@ class HttpPayloadWithMemberXmlNameInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithStructureInputOutput {
   final NestedPayload? nested;
 
@@ -1919,6 +1951,7 @@ class HttpPayloadWithStructureInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithUnionInputOutput {
   final UnionPayload? nested;
 
@@ -1934,6 +1967,7 @@ class HttpPayloadWithUnionInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithXmlNameInputOutput {
   final PayloadWithXmlName? nested;
 
@@ -1949,6 +1983,7 @@ class HttpPayloadWithXmlNameInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithXmlNamespaceInputOutput {
   final PayloadWithXmlNamespace? nested;
 
@@ -1964,6 +1999,7 @@ class HttpPayloadWithXmlNamespaceInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithXmlNamespaceAndPrefixInputOutput {
   final PayloadWithXmlNamespaceAndPrefix? nested;
 
@@ -1979,6 +2015,7 @@ class HttpPayloadWithXmlNamespaceAndPrefixInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPrefixHeadersInputOutput {
   final String? foo;
   final Map<String, String>? fooMap;
@@ -1995,6 +2032,7 @@ class HttpPrefixHeadersInputOutput {
   }
 }
 
+/// @nodoc
 class HttpResponseCodeOutput {
   final int? status;
 
@@ -2013,6 +2051,7 @@ class HttpResponseCodeOutput {
   }
 }
 
+/// @nodoc
 class StringPayloadInput {
   final String? payload;
 
@@ -2028,6 +2067,7 @@ class StringPayloadInput {
   }
 }
 
+/// @nodoc
 class IgnoreQueryParamsInResponseOutput {
   final String? baz;
 
@@ -2046,6 +2086,7 @@ class IgnoreQueryParamsInResponseOutput {
   }
 }
 
+/// @nodoc
 class InputAndOutputWithHeadersIO {
   final List<bool>? headerBooleanList;
   final int? headerByte;
@@ -2104,6 +2145,7 @@ class InputAndOutputWithHeadersIO {
   }
 }
 
+/// @nodoc
 class NestedXmlMapsRequest {
   final Map<String, Map<String, FooEnum>>? flatNestedMap;
   final Map<String, Map<String, FooEnum>>? nestedMap;
@@ -2171,6 +2213,7 @@ class NestedXmlMapsRequest {
   }
 }
 
+/// @nodoc
 class NestedXmlMapsResponse {
   final Map<String, Map<String, FooEnum>>? flatNestedMap;
   final Map<String, Map<String, FooEnum>>? nestedMap;
@@ -2235,6 +2278,7 @@ class NestedXmlMapsResponse {
   }
 }
 
+/// @nodoc
 class NestedXmlMapWithXmlNameRequest {
   final Map<String, Map<String, String>>? nestedXmlMapWithXmlNameMap;
 
@@ -2281,6 +2325,7 @@ class NestedXmlMapWithXmlNameRequest {
   }
 }
 
+/// @nodoc
 class NestedXmlMapWithXmlNameResponse {
   final Map<String, Map<String, String>>? nestedXmlMapWithXmlNameMap;
 
@@ -2321,6 +2366,7 @@ class NestedXmlMapWithXmlNameResponse {
   }
 }
 
+/// @nodoc
 class NoInputAndOutputOutput {
   NoInputAndOutputOutput();
   factory NoInputAndOutputOutput.fromXml(
@@ -2334,6 +2380,7 @@ class NoInputAndOutputOutput {
   }
 }
 
+/// @nodoc
 class NullAndEmptyHeadersIO {
   final String? a;
   final String? b;
@@ -2353,6 +2400,7 @@ class NullAndEmptyHeadersIO {
   }
 }
 
+/// @nodoc
 class PutWithContentEncodingInput {
   final String? data;
   final String? encoding;
@@ -2387,6 +2435,7 @@ class PutWithContentEncodingInput {
   }
 }
 
+/// @nodoc
 class QueryParamsAsStringListMapInput {
   final Map<String, List<String>>? foo;
   final String? qux;
@@ -2430,6 +2479,7 @@ class QueryParamsAsStringListMapInput {
   }
 }
 
+/// @nodoc
 class QueryPrecedenceInput {
   final Map<String, String>? baz;
   final String? foo;
@@ -2472,6 +2522,7 @@ class QueryPrecedenceInput {
   }
 }
 
+/// @nodoc
 class RecursiveShapesRequest {
   final RecursiveShapesInputOutputNested1? nested;
 
@@ -2502,6 +2553,7 @@ class RecursiveShapesRequest {
   }
 }
 
+/// @nodoc
 class RecursiveShapesResponse {
   final RecursiveShapesInputOutputNested1? nested;
 
@@ -2524,6 +2576,7 @@ class RecursiveShapesResponse {
   }
 }
 
+/// @nodoc
 class SimpleScalarPropertiesRequest {
   final int? byteValue;
   final double? doubleValue;
@@ -2562,9 +2615,10 @@ class SimpleScalarPropertiesRequest {
     final trueBooleanValue = this.trueBooleanValue;
     return {
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'DoubleDribble': doubleValue,
+      if (doubleValue != null)
+        'DoubleDribble': _s.encodeJsonDouble(doubleValue),
       if (falseBooleanValue != null) 'falseBooleanValue': falseBooleanValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -2611,6 +2665,7 @@ class SimpleScalarPropertiesRequest {
   }
 }
 
+/// @nodoc
 class SimpleScalarPropertiesResponse {
   final int? byteValue;
   final double? doubleValue;
@@ -2649,9 +2704,10 @@ class SimpleScalarPropertiesResponse {
     final trueBooleanValue = this.trueBooleanValue;
     return {
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'DoubleDribble': doubleValue,
+      if (doubleValue != null)
+        'DoubleDribble': _s.encodeJsonDouble(doubleValue),
       if (falseBooleanValue != null) 'falseBooleanValue': falseBooleanValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -2661,6 +2717,7 @@ class SimpleScalarPropertiesResponse {
   }
 }
 
+/// @nodoc
 class TimestampFormatHeadersIO {
   final DateTime? defaultFormat;
   final DateTime? memberDateTime;
@@ -2692,6 +2749,7 @@ class TimestampFormatHeadersIO {
   }
 }
 
+/// @nodoc
 class XmlAttributesRequest {
   final String? attr;
   final String? foo;
@@ -2728,6 +2786,7 @@ class XmlAttributesRequest {
   }
 }
 
+/// @nodoc
 class XmlAttributesResponse {
   final String? attr;
   final String? foo;
@@ -2753,6 +2812,7 @@ class XmlAttributesResponse {
   }
 }
 
+/// @nodoc
 class XmlAttributesInMiddleResponse {
   final XmlAttributesInMiddlePayloadResponse? payload;
 
@@ -2768,6 +2828,7 @@ class XmlAttributesInMiddleResponse {
   }
 }
 
+/// @nodoc
 class XmlAttributesOnPayloadResponse {
   final XmlAttributesPayloadResponse? payload;
 
@@ -2783,6 +2844,7 @@ class XmlAttributesOnPayloadResponse {
   }
 }
 
+/// @nodoc
 class XmlBlobsRequest {
   final Uint8List? data;
 
@@ -2813,6 +2875,7 @@ class XmlBlobsRequest {
   }
 }
 
+/// @nodoc
 class XmlBlobsResponse {
   final Uint8List? data;
 
@@ -2833,6 +2896,7 @@ class XmlBlobsResponse {
   }
 }
 
+/// @nodoc
 class XmlEmptyBlobsRequest {
   final Uint8List? data;
 
@@ -2863,6 +2927,7 @@ class XmlEmptyBlobsRequest {
   }
 }
 
+/// @nodoc
 class XmlEmptyBlobsResponse {
   final Uint8List? data;
 
@@ -2883,6 +2948,7 @@ class XmlEmptyBlobsResponse {
   }
 }
 
+/// @nodoc
 class XmlEmptyListsRequest {
   final List<bool>? booleanList;
   final List<FooEnum>? enumList;
@@ -3036,6 +3102,7 @@ class XmlEmptyListsRequest {
   }
 }
 
+/// @nodoc
 class XmlEmptyListsResponse {
   final List<bool>? booleanList;
   final List<FooEnum>? enumList;
@@ -3079,14 +3146,16 @@ class XmlEmptyListsResponse {
           .extractXmlStringListValues(elem, 'member')
           .map(FooEnum.fromString)
           .toList()),
-      flattenedList: _s.extractXmlStringListValues(elem, 'item'),
-      flattenedList2: _s.extractXmlStringListValues(elem, 'item'),
+      flattenedList: _s.extractXmlStringListValues(elem, 'flattenedList'),
+      flattenedList2: _s.extractXmlStringListValues(elem, 'customName'),
       flattenedListWithMemberNamespace: _s.extractXmlStringListValues(
           elem, 'flattenedListWithMemberNamespace'),
       flattenedListWithNamespace:
           _s.extractXmlStringListValues(elem, 'flattenedListWithNamespace'),
-      flattenedStructureList:
-          elem.findElements('item').map(StructureListMember.fromXml).toList(),
+      flattenedStructureList: elem
+          .findElements('flattenedStructureList')
+          .map(StructureListMember.fromXml)
+          .toList(),
       intEnumList: _s
           .extractXmlChild(elem, 'intEnumList')
           ?.let((elem) => _s.extractXmlIntListValues(elem, 'member')),
@@ -3156,6 +3225,7 @@ class XmlEmptyListsResponse {
   }
 }
 
+/// @nodoc
 class XmlEmptyMapsRequest {
   final Map<String, GreetingStruct>? myMap;
 
@@ -3194,6 +3264,7 @@ class XmlEmptyMapsRequest {
   }
 }
 
+/// @nodoc
 class XmlEmptyMapsResponse {
   final Map<String, GreetingStruct>? myMap;
 
@@ -3222,6 +3293,7 @@ class XmlEmptyMapsResponse {
   }
 }
 
+/// @nodoc
 class XmlEmptyStringsRequest {
   final String? emptyString;
 
@@ -3253,6 +3325,7 @@ class XmlEmptyStringsRequest {
   }
 }
 
+/// @nodoc
 class XmlEmptyStringsResponse {
   final String? emptyString;
 
@@ -3273,6 +3346,7 @@ class XmlEmptyStringsResponse {
   }
 }
 
+/// @nodoc
 class XmlEnumsRequest {
   final FooEnum? fooEnum1;
   final FooEnum? fooEnum2;
@@ -3348,6 +3422,7 @@ class XmlEnumsRequest {
   }
 }
 
+/// @nodoc
 class XmlEnumsResponse {
   final FooEnum? fooEnum1;
   final FooEnum? fooEnum2;
@@ -3415,6 +3490,7 @@ class XmlEnumsResponse {
   }
 }
 
+/// @nodoc
 class XmlIntEnumsRequest {
   final int? intEnum1;
   final int? intEnum2;
@@ -3487,6 +3563,7 @@ class XmlIntEnumsRequest {
   }
 }
 
+/// @nodoc
 class XmlIntEnumsResponse {
   final int? intEnum1;
   final int? intEnum2;
@@ -3544,6 +3621,7 @@ class XmlIntEnumsResponse {
   }
 }
 
+/// @nodoc
 class XmlListsRequest {
   final List<bool>? booleanList;
   final List<FooEnum>? enumList;
@@ -3697,6 +3775,7 @@ class XmlListsRequest {
   }
 }
 
+/// @nodoc
 class XmlListsResponse {
   final List<bool>? booleanList;
   final List<FooEnum>? enumList;
@@ -3740,14 +3819,16 @@ class XmlListsResponse {
           .extractXmlStringListValues(elem, 'member')
           .map(FooEnum.fromString)
           .toList()),
-      flattenedList: _s.extractXmlStringListValues(elem, 'item'),
-      flattenedList2: _s.extractXmlStringListValues(elem, 'item'),
+      flattenedList: _s.extractXmlStringListValues(elem, 'flattenedList'),
+      flattenedList2: _s.extractXmlStringListValues(elem, 'customName'),
       flattenedListWithMemberNamespace: _s.extractXmlStringListValues(
           elem, 'flattenedListWithMemberNamespace'),
       flattenedListWithNamespace:
           _s.extractXmlStringListValues(elem, 'flattenedListWithNamespace'),
-      flattenedStructureList:
-          elem.findElements('item').map(StructureListMember.fromXml).toList(),
+      flattenedStructureList: elem
+          .findElements('flattenedStructureList')
+          .map(StructureListMember.fromXml)
+          .toList(),
       intEnumList: _s
           .extractXmlChild(elem, 'intEnumList')
           ?.let((elem) => _s.extractXmlIntListValues(elem, 'member')),
@@ -3817,6 +3898,7 @@ class XmlListsResponse {
   }
 }
 
+/// @nodoc
 class XmlMapsRequest {
   final Map<String, GreetingStruct>? myMap;
 
@@ -3855,6 +3937,7 @@ class XmlMapsRequest {
   }
 }
 
+/// @nodoc
 class XmlMapsResponse {
   final Map<String, GreetingStruct>? myMap;
 
@@ -3883,6 +3966,7 @@ class XmlMapsResponse {
   }
 }
 
+/// @nodoc
 class XmlMapsXmlNameRequest {
   final Map<String, GreetingStruct>? myMap;
 
@@ -3921,6 +4005,7 @@ class XmlMapsXmlNameRequest {
   }
 }
 
+/// @nodoc
 class XmlMapsXmlNameResponse {
   final Map<String, GreetingStruct>? myMap;
 
@@ -3949,6 +4034,7 @@ class XmlMapsXmlNameResponse {
   }
 }
 
+/// @nodoc
 class XmlMapWithXmlNamespaceRequest {
   final Map<String, String>? myMap;
 
@@ -3987,6 +4073,7 @@ class XmlMapWithXmlNamespaceRequest {
   }
 }
 
+/// @nodoc
 class XmlMapWithXmlNamespaceResponse {
   final Map<String, String>? myMap;
 
@@ -4015,6 +4102,7 @@ class XmlMapWithXmlNamespaceResponse {
   }
 }
 
+/// @nodoc
 class XmlNamespacesRequest {
   final XmlNamespaceNested? nested;
 
@@ -4045,6 +4133,7 @@ class XmlNamespacesRequest {
   }
 }
 
+/// @nodoc
 class XmlNamespacesResponse {
   final XmlNamespaceNested? nested;
 
@@ -4066,6 +4155,7 @@ class XmlNamespacesResponse {
   }
 }
 
+/// @nodoc
 class XmlTimestampsRequest {
   final DateTime? dateTime;
   final DateTime? dateTimeOnTarget;
@@ -4148,6 +4238,7 @@ class XmlTimestampsRequest {
   }
 }
 
+/// @nodoc
 class XmlTimestampsResponse {
   final DateTime? dateTime;
   final DateTime? dateTimeOnTarget;
@@ -4209,6 +4300,7 @@ class XmlTimestampsResponse {
   }
 }
 
+/// @nodoc
 class XmlUnionsRequest {
   final XmlUnionShape? unionValue;
 
@@ -4239,6 +4331,7 @@ class XmlUnionsRequest {
   }
 }
 
+/// @nodoc
 class XmlUnionsResponse {
   final XmlUnionShape? unionValue;
 
@@ -4260,6 +4353,7 @@ class XmlUnionsResponse {
   }
 }
 
+/// @nodoc
 class XmlUnionShape {
   final bool? booleanValue;
   final int? byteValue;
@@ -4316,8 +4410,8 @@ class XmlUnionShape {
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -4365,6 +4459,7 @@ class XmlUnionShape {
   }
 }
 
+/// @nodoc
 class XmlNestedUnionStruct {
   final bool? booleanValue;
   final int? byteValue;
@@ -4410,8 +4505,8 @@ class XmlNestedUnionStruct {
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -4453,6 +4548,7 @@ class XmlNestedUnionStruct {
   }
 }
 
+/// @nodoc
 class XmlNamespaceNested {
   final String? foo;
   final List<String>? values;
@@ -4500,6 +4596,7 @@ class XmlNamespaceNested {
   }
 }
 
+/// @nodoc
 class GreetingStruct {
   final String? hi;
 
@@ -4535,6 +4632,7 @@ class GreetingStruct {
   }
 }
 
+/// @nodoc
 class StructureListMember {
   final String? a;
   final String? b;
@@ -4577,6 +4675,7 @@ class StructureListMember {
   }
 }
 
+/// @nodoc
 class FooEnum {
   static const foo = FooEnum._('Foo');
   static const baz = FooEnum._('Baz');
@@ -4603,6 +4702,7 @@ class FooEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class XmlAttributesPayloadResponse {
   final String? attr;
   final String? foo;
@@ -4628,6 +4728,7 @@ class XmlAttributesPayloadResponse {
   }
 }
 
+/// @nodoc
 class XmlAttributesPayloadRequest {
   final String? attr;
   final String? foo;
@@ -4664,6 +4765,7 @@ class XmlAttributesPayloadRequest {
   }
 }
 
+/// @nodoc
 class XmlAttributesInMiddlePayloadResponse {
   final String? attr;
   final String? baz;
@@ -4694,6 +4796,7 @@ class XmlAttributesInMiddlePayloadResponse {
   }
 }
 
+/// @nodoc
 class XmlAttributesInMiddlePayloadRequest {
   final String? attr;
   final String? baz;
@@ -4736,6 +4839,7 @@ class XmlAttributesInMiddlePayloadRequest {
   }
 }
 
+/// @nodoc
 class RecursiveShapesInputOutputNested1 {
   final String? foo;
   final RecursiveShapesInputOutputNested2? nested;
@@ -4780,6 +4884,7 @@ class RecursiveShapesInputOutputNested1 {
   }
 }
 
+/// @nodoc
 class RecursiveShapesInputOutputNested2 {
   final String? bar;
   final RecursiveShapesInputOutputNested1? recursiveMember;
@@ -4824,6 +4929,7 @@ class RecursiveShapesInputOutputNested2 {
   }
 }
 
+/// @nodoc
 class PayloadWithXmlNamespaceAndPrefix {
   final String? name;
 
@@ -4861,6 +4967,7 @@ class PayloadWithXmlNamespaceAndPrefix {
   }
 }
 
+/// @nodoc
 class PayloadWithXmlNamespace {
   final String? name;
 
@@ -4897,6 +5004,7 @@ class PayloadWithXmlNamespace {
   }
 }
 
+/// @nodoc
 class PayloadWithXmlName {
   final String? name;
 
@@ -4932,6 +5040,7 @@ class PayloadWithXmlName {
   }
 }
 
+/// @nodoc
 class UnionPayload {
   final String? greeting;
 
@@ -4967,6 +5076,7 @@ class UnionPayload {
   }
 }
 
+/// @nodoc
 class NestedPayload {
   final String? greeting;
   final String? name;
@@ -5009,6 +5119,7 @@ class NestedPayload {
   }
 }
 
+/// @nodoc
 class StringEnum {
   static const enumvalue = StringEnum._('enumvalue');
 
@@ -5031,11 +5142,13 @@ class StringEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ComplexError extends _s.GenericAwsException {
   ComplexError({String? type, String? message})
       : super(type: type, code: 'ComplexError', message: message);
 }
 
+/// @nodoc
 class InvalidGreeting extends _s.GenericAwsException {
   InvalidGreeting({String? type, String? message})
       : super(type: type, code: 'InvalidGreeting', message: message);

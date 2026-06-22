@@ -31,5 +31,5 @@ void main() {
     );
 
     await service.queryIncompatibleOperation();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

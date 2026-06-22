@@ -27,9 +27,10 @@ void main() {
     final service = JsonProtocol(
       client: client,
       region: 'us-east-1',
+      endpointUrl: 'https://example.com/custom',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 
     await service.hostWithPathOperation();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

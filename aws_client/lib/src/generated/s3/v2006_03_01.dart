@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,129 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2006_03_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 ///
 class S3 {
   final _s.RestXmlProtocol _protocol;
-  S3({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  final bool _forcePathStyle;
+  final bool? _useArnRegion;
+  final bool _disableMultiRegionAccessPoints;
+  final bool _accelerate;
+  final bool? _disableS3ExpressSessionAuth;
+  factory S3({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestXmlProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 's3',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool forcePathStyle = false,
+    bool? useArnRegion,
+    bool disableMultiRegionAccessPoints = false,
+    bool accelerate = false,
+    bool? disableS3ExpressSessionAuth,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 's3',
+    );
+    return S3._(
+      protocol: _s.RestXmlProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint,
+                forcePathStyle: forcePathStyle,
+                useArnRegion: useArnRegion,
+                disableMultiRegionAccessPoints: disableMultiRegionAccessPoints,
+                accelerate: accelerate,
+                disableS3ExpressSessionAuth: disableS3ExpressSessionAuth),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+      forcePathStyle: forcePathStyle,
+      useArnRegion: useArnRegion,
+      disableMultiRegionAccessPoints: disableMultiRegionAccessPoints,
+      accelerate: accelerate,
+      disableS3ExpressSessionAuth: disableS3ExpressSessionAuth,
+    );
+  }
+  S3._({
+    required _s.RestXmlProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+    required bool forcePathStyle,
+    required bool? useArnRegion,
+    required bool disableMultiRegionAccessPoints,
+    required bool accelerate,
+    required bool? disableS3ExpressSessionAuth,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint,
+        _forcePathStyle = forcePathStyle,
+        _useArnRegion = useArnRegion,
+        _disableMultiRegionAccessPoints = disableMultiRegionAccessPoints,
+        _accelerate = accelerate,
+        _disableS3ExpressSessionAuth = disableS3ExpressSessionAuth;
+  _s.Endpoint _resolveEndpoint({
+    String? bucket,
+    String? copySource,
+    bool? disableAccessPoints,
+    bool? disableS3ExpressSessionAuth,
+    String? key,
+    String? prefix,
+    bool? useObjectLambdaEndpoint,
+    bool? useS3ExpressControlEndpoint,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        forcePathStyle: _forcePathStyle,
+        useArnRegion: _useArnRegion,
+        disableMultiRegionAccessPoints: _disableMultiRegionAccessPoints,
+        accelerate: _accelerate,
+        bucket: bucket,
+        copySource: copySource,
+        disableAccessPoints: disableAccessPoints,
+        disableS3ExpressSessionAuth:
+            disableS3ExpressSessionAuth ?? _disableS3ExpressSessionAuth,
+        key: key,
+        prefix: prefix,
+        useObjectLambdaEndpoint: useObjectLambdaEndpoint,
+        useS3ExpressControlEndpoint: useS3ExpressControlEndpoint,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -232,9 +335,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=AbortMultipartUpload',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=AbortMultipartUpload',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -715,11 +822,14 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'POST',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}',
+      requestUri: '/${key.split('/').map(Uri.encodeComponent).join('/')}',
       queryParams: $query,
       headers: headers,
       payload: multipartUpload?.toXml('CompleteMultipartUpload'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1941,8 +2051,14 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=CopyObject',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=CopyObject',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        disableS3ExpressSessionAuth: true,
+        bucket: bucket,
+        copySource: copySource,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -2274,9 +2390,14 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}',
+      requestUri: '',
       headers: headers,
       payload: createBucketConfiguration?.toXml('CreateBucketConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        disableAccessPoints: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -2405,9 +2526,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'POST',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataConfiguration',
+      requestUri: '?metadataConfiguration',
       headers: headers,
       payload: metadataConfiguration.toXml('MetadataConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2518,9 +2643,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'POST',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataTable',
+      requestUri: '?metadataTable',
       headers: headers,
       payload: metadataTableConfiguration.toXml('MetadataTableConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3547,8 +3676,12 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?uploads',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?uploads',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3876,8 +4009,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?session',
+      requestUri: '?session',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        disableS3ExpressSessionAuth: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3996,8 +4133,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}',
+      requestUri: '',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4068,9 +4209,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
+      requestUri: '?analytics',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4124,8 +4269,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?cors',
+      requestUri: '?cors',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4231,8 +4380,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
+      requestUri: '?encryption',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4311,9 +4464,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?intelligent-tiering',
+      requestUri: '?intelligent-tiering',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4439,9 +4596,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?inventory',
+      requestUri: '?inventory',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4543,8 +4704,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      requestUri: '?lifecycle',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4613,8 +4778,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataConfiguration',
+      requestUri: '?metadataConfiguration',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4692,8 +4861,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataTable',
+      requestUri: '?metadataTable',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4825,9 +4998,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metrics',
+      requestUri: '?metrics',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4881,8 +5058,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
+      requestUri: '?ownershipControls',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4999,8 +5180,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?policy',
+      requestUri: '?policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5062,8 +5247,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?replication',
+      requestUri: '?replication',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5118,8 +5307,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
+      requestUri: '?tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5179,8 +5372,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?website',
+      requestUri: '?website',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5474,9 +5671,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=DeleteObject',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=DeleteObject',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -5786,9 +5987,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'POST',
-      requestUri: '/${Uri.encodeComponent(bucket)}?delete',
+      requestUri: '?delete',
       headers: headers,
       payload: delete.toXml('Delete'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -5889,9 +6093,12 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'DELETE',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -5961,8 +6168,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
+      requestUri: '?publicAccessBlock',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5988,8 +6199,11 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?abac',
+      requestUri: '?abac',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6066,8 +6280,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?accelerate',
+      requestUri: '?accelerate',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6152,8 +6370,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?acl',
+      requestUri: '?acl',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketAclOutput.fromXml($result.body);
@@ -6228,10 +6450,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}?analytics&x-id=GetBucketAnalyticsConfiguration',
+      requestUri: '?analytics&x-id=GetBucketAnalyticsConfiguration',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6311,8 +6536,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?cors',
+      requestUri: '?cors',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketCorsOutput.fromXml($result.body);
@@ -6424,8 +6653,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
+      requestUri: '?encryption',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6510,9 +6743,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration',
+          '?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6640,10 +6877,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}?inventory&x-id=GetBucketInventoryConfiguration',
+      requestUri: '?inventory&x-id=GetBucketInventoryConfiguration',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6782,8 +7022,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      requestUri: '?lifecycle',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -6877,8 +7121,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?location',
+      requestUri: '?location',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLocationOutput.fromXml($result.body);
@@ -6925,8 +7173,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?logging',
+      requestUri: '?logging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLoggingOutput.fromXml($result.body);
@@ -6996,8 +7248,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataConfiguration',
+      requestUri: '?metadataConfiguration',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -7081,8 +7337,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataTable',
+      requestUri: '?metadataTable',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -7218,10 +7478,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}?metrics&x-id=GetBucketMetricsConfiguration',
+      requestUri: '?metrics&x-id=GetBucketMetricsConfiguration',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -7304,8 +7567,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?notification',
+      requestUri: '?notification',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return NotificationConfiguration.fromXml($result.body);
@@ -7377,8 +7644,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
+      requestUri: '?ownershipControls',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -7519,8 +7790,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?policy',
+      requestUri: '?policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketPolicyOutput(
@@ -7588,8 +7863,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?policyStatus',
+      requestUri: '?policyStatus',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -7661,8 +7940,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?replication',
+      requestUri: '?replication',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -7712,8 +7995,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?requestPayment',
+      requestUri: '?requestPayment',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketRequestPaymentOutput.fromXml($result.body);
@@ -7775,8 +8062,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
+      requestUri: '?tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketTaggingOutput.fromXml($result.body);
@@ -7834,8 +8125,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?versioning',
+      requestUri: '?versioning',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketVersioningOutput.fromXml($result.body);
@@ -7891,8 +8186,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?website',
+      requestUri: '?website',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketWebsiteOutput.fromXml($result.body);
@@ -8427,9 +8726,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=GetObject',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=GetObject',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectOutput(
@@ -8626,10 +8929,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?acl',
+      requestUri: '/${key.split('/').map(Uri.encodeComponent).join('/')}?acl',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9009,9 +9315,12 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?attributes',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?attributes',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9106,9 +9415,12 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?legal-hold',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?legal-hold',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9172,8 +9484,11 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?object-lock',
+      requestUri: '?object-lock',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9252,9 +9567,12 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?retention',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?retention',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9362,9 +9680,12 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9432,8 +9753,11 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?torrent',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?torrent',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectTorrentOutput(
@@ -9516,8 +9840,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
+      requestUri: '?publicAccessBlock',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -9679,8 +10007,11 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'HEAD',
-      requestUri: '/${Uri.encodeComponent(bucket)}',
+      requestUri: '',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -10149,10 +10480,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'HEAD',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}',
+      requestUri: '/${key.split('/').map(Uri.encodeComponent).join('/')}',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -10330,10 +10664,13 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}?analytics&x-id=ListBucketAnalyticsConfigurations',
+      requestUri: '?analytics&x-id=ListBucketAnalyticsConfigurations',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListBucketAnalyticsConfigurationsOutput.fromXml($result.body);
@@ -10415,9 +10752,13 @@ class S3 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations',
+          '?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListBucketIntelligentTieringConfigurationsOutput.fromXml(
@@ -10556,10 +10897,13 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}?inventory&x-id=ListBucketInventoryConfigurations',
+      requestUri: '?inventory&x-id=ListBucketInventoryConfigurations',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListBucketInventoryConfigurationsOutput.fromXml($result.body);
@@ -10701,10 +11045,13 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}?metrics&x-id=ListBucketMetricsConfigurations',
+      requestUri: '?metrics&x-id=ListBucketMetricsConfigurations',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListBucketMetricsConfigurationsOutput.fromXml($result.body);
@@ -10877,6 +11224,9 @@ class S3 {
       method: 'GET',
       requestUri: '/?x-id=ListDirectoryBuckets',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListDirectoryBucketsOutput.fromXml($result.body);
@@ -11163,9 +11513,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?uploads',
+      requestUri: '?uploads',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        prefix: prefix,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -11341,9 +11695,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}',
+      requestUri: '',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        prefix: prefix,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -11650,9 +12008,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?list-type=2',
+      requestUri: '?list-type=2',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        prefix: prefix,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -11799,9 +12161,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?versions',
+      requestUri: '?versions',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        prefix: prefix,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -12062,9 +12428,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=ListParts',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=ListParts',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -12157,9 +12527,12 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?abac',
+      requestUri: '?abac',
       headers: headers,
       payload: abacStatus.toXml('AbacStatus'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -12262,9 +12635,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?accelerate',
+      requestUri: '?accelerate',
       headers: headers,
       payload: accelerateConfiguration.toXml('AccelerateConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -12577,9 +12954,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?acl',
+      requestUri: '?acl',
       headers: headers,
       payload: accessControlPolicy?.toXml('AccessControlPolicy'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -12713,10 +13094,14 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
+      requestUri: '?analytics',
       queryParams: $query,
       headers: headers,
       payload: analyticsConfiguration.toXml('AnalyticsConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -12843,9 +13228,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?cors',
+      requestUri: '?cors',
       headers: headers,
       payload: cORSConfiguration.toXml('CORSConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -13084,10 +13473,14 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
+      requestUri: '?encryption',
       headers: headers,
       payload: serverSideEncryptionConfiguration
           .toXml('ServerSideEncryptionConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -13190,11 +13583,15 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?intelligent-tiering',
+      requestUri: '?intelligent-tiering',
       queryParams: $query,
       headers: headers,
       payload: intelligentTieringConfiguration
           .toXml('IntelligentTieringConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -13371,10 +13768,14 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?inventory',
+      requestUri: '?inventory',
       queryParams: $query,
       headers: headers,
       payload: inventoryConfiguration.toXml('InventoryConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -13592,9 +13993,13 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      requestUri: '?lifecycle',
       headers: headers,
       payload: lifecycleConfiguration?.toXml('LifecycleConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -13759,9 +14164,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?logging',
+      requestUri: '?logging',
       headers: headers,
       payload: bucketLoggingStatus.toXml('BucketLoggingStatus'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -13911,10 +14320,14 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metrics',
+      requestUri: '?metrics',
       queryParams: $query,
       headers: headers,
       payload: metricsConfiguration.toXml('MetricsConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14021,9 +14434,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?notification',
+      requestUri: '?notification',
       headers: headers,
       payload: notificationConfiguration.toXml('NotificationConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14107,9 +14524,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
+      requestUri: '?ownershipControls',
       headers: headers,
       payload: ownershipControls.toXml('OwnershipControls'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14325,9 +14746,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?policy',
+      requestUri: '?policy',
       headers: headers,
       payload: policy,
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14471,9 +14896,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?replication',
+      requestUri: '?replication',
       headers: headers,
       payload: replicationConfiguration.toXml('ReplicationConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14556,9 +14985,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?requestPayment',
+      requestUri: '?requestPayment',
       headers: headers,
       payload: requestPaymentConfiguration.toXml('RequestPaymentConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14693,9 +15126,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
+      requestUri: '?tagging',
       headers: headers,
       payload: tagging.toXml('Tagging'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14826,9 +15263,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?versioning',
+      requestUri: '?versioning',
       headers: headers,
       payload: versioningConfiguration.toXml('VersioningConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -14987,9 +15428,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?website',
+      requestUri: '?website',
       headers: headers,
       payload: websiteConfiguration.toXml('WebsiteConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -15958,9 +16403,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=PutObject',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=PutObject',
       headers: headers,
       payload: body,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -16365,11 +16814,14 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?acl',
+      requestUri: '/${key.split('/').map(Uri.encodeComponent).join('/')}?acl',
       queryParams: $query,
       headers: headers,
       payload: accessControlPolicy?.toXml('AccessControlPolicy'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -16471,10 +16923,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?legal-hold',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?legal-hold',
       queryParams: $query,
       headers: headers,
       payload: legalHold?.toXml('LegalHold'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -16571,9 +17026,12 @@ class S3 {
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?object-lock',
+      requestUri: '?object-lock',
       headers: headers,
       payload: objectLockConfiguration?.toXml('ObjectLockConfiguration'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -16687,10 +17145,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?retention',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?retention',
       queryParams: $query,
       headers: headers,
       payload: retention?.toXml('Retention'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -16859,10 +17320,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
       queryParams: $query,
       headers: headers,
       payload: tagging.toXml('Tagging'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -16974,10 +17438,14 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
+      requestUri: '?publicAccessBlock',
       headers: headers,
       payload: publicAccessBlockConfiguration
           .toXml('PublicAccessBlockConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -17158,8 +17626,12 @@ class S3 {
     await _protocol.send(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?renameObject',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?renameObject',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -17442,10 +17914,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?restore',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?restore',
       queryParams: $query,
       headers: headers,
       payload: restoreRequest?.toXml('RestoreRequest'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -17683,7 +18158,7 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?select&select-type=2',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?select&select-type=2',
       headers: headers,
       payload: SelectObjectContentRequest(
               bucket: bucket,
@@ -17699,6 +18174,9 @@ class S3 {
               sSECustomerKeyMD5: sSECustomerKeyMD5,
               scanRange: scanRange)
           .toXml('SelectObjectContentRequest'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -17811,9 +18289,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataInventoryTable',
+      requestUri: '?metadataInventoryTable',
       headers: headers,
       payload: inventoryTableConfiguration.toXml('InventoryTableConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -17890,9 +18372,13 @@ class S3 {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(bucket)}?metadataJournalTable',
+      requestUri: '?metadataJournalTable',
       headers: headers,
       payload: journalTableConfiguration.toXml('JournalTableConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -18142,10 +18628,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?encryption',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?encryption',
       queryParams: $query,
       headers: headers,
       payload: objectEncryption.toXml('ObjectEncryption'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -18633,10 +19122,14 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=UploadPart',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=UploadPart',
       queryParams: $query,
       headers: headers,
       payload: body,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -19245,9 +19738,13 @@ class S3 {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=UploadPartCopy',
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?x-id=UploadPartCopy',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        disableS3ExpressSessionAuth: true,
+        bucket: bucket,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -19792,6 +20289,10 @@ class S3 {
       requestUri: '/WriteGetObjectResponse',
       headers: headers,
       payload: body,
+      endpoint: _resolveEndpoint(
+        useObjectLambdaEndpoint: true,
+      ),
+      hostPrefix: '{RequestRoute}.',
       exceptionFnMap: _exceptionFns,
     );
   }

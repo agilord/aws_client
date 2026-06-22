@@ -45,6 +45,7 @@ String buildService(Api api,
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -54,6 +55,9 @@ import '$sharedLibraryPath/shared.dart'
   show rfc822ToJson, iso8601ToJson, unixTimestampToJson, nonNullableTimeStampFromJson, timeStampFromJson;
 """);
   buf.writeln(builder.imports());
+  if (api.metadata.endpointRuleSet != null) {
+    buf.writeln("import '${api.fileBasename}.endpoints.dart' as _endpoints;");
+  }
   buf.writeln(
       "export '$sharedLibraryPath/shared.dart' show AwsClientCredentials;\n");
 
@@ -309,9 +313,7 @@ ${builder.constructor()}
           final extractor = extractXmlCode(
             member.shapeClass!,
             elemVar: 'elem',
-            elemName: member.locationName ??
-                member.shapeClass?.locationName ??
-                member.name,
+            elemName: member.locationName ?? member.name,
             flattened: member.flattened,
             container: shape,
             member: member,
@@ -337,9 +339,7 @@ ${builder.constructor()}
           final encodeCode = encodeJsonCode(
               member.shapeClass!, member.fieldName,
               member: member, nullability: Nullability.none);
-          final location = member.locationName ??
-              member.shapeClass?.locationName ??
-              member.name;
+          final location = member.locationName ?? member.name;
           writeln("'$location': $encodeCode,");
         }
         writeln('};');
@@ -354,7 +354,6 @@ ${builder.constructor()}
         writeln('return {');
         for (var member in shape.members.where((m) => m.isBody)) {
           final lastName = member.locationName ??
-              member.shapeClass?.locationName ??
               member.shapeClass?.member?.locationName ??
               member.name;
           for (var line in queryLines(member.fieldName,
@@ -516,11 +515,11 @@ String extractXmlCode(Shape shapeRef,
     return code;
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member!.shape];
-    var memberElemName = shapeRef.member!.locationName;
+    final String? memberElemName;
     if (flattened || shapeRef.flattened) {
-      memberElemName ??= elemName;
+      memberElemName = elemName;
     } else {
-      memberElemName ??= 'member';
+      memberElemName = shapeRef.member!.locationName ?? 'member';
     }
 
     if (!flattened && !nullability.outputNullable) {

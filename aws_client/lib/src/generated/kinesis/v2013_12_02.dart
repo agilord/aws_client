@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,87 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2013_12_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Kinesis Data Streams is a managed service that scales elastically for
 /// real-time processing of streaming big data.
 class Kinesis {
   final _s.JsonProtocol _protocol;
-  Kinesis({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  factory Kinesis({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'kinesis',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'kinesis',
+    );
+    return Kinesis._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+    );
+  }
+  Kinesis._({
+    required _s.JsonProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint;
+  _s.Endpoint _resolveEndpoint({
+    String? consumerARN,
+    String? operationType,
+    String? resourceARN,
+    String? streamARN,
+    String? streamId,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        consumerARN: consumerARN,
+        operationType: operationType,
+        resourceARN: resourceARN,
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -105,6 +165,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -321,6 +386,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -366,6 +436,11 @@ class Kinesis {
         'ResourceARN': resourceARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        resourceARN: resourceARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -440,6 +515,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -498,6 +578,12 @@ class Kinesis {
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        consumerARN: consumerARN,
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -641,6 +727,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return DescribeStreamOutput.fromJson(jsonResponse.body);
@@ -701,6 +792,12 @@ class Kinesis {
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        consumerARN: consumerARN,
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return DescribeStreamConsumerOutput.fromJson(jsonResponse.body);
@@ -753,6 +850,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return DescribeStreamSummaryOutput.fromJson(jsonResponse.body);
@@ -839,6 +941,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return EnhancedMonitoringOutput.fromJson(jsonResponse.body);
@@ -924,6 +1031,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return EnhancedMonitoringOutput.fromJson(jsonResponse.body);
@@ -1057,6 +1169,11 @@ class Kinesis {
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'data',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return GetRecordsOutput.fromJson(jsonResponse.body);
@@ -1104,6 +1221,11 @@ class Kinesis {
         'ResourceARN': resourceARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        resourceARN: resourceARN,
+        streamId: streamId,
+      ),
     );
 
     return GetResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -1251,6 +1373,11 @@ class Kinesis {
         if (streamName != null) 'StreamName': streamName,
         if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'data',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return GetShardIteratorOutput.fromJson(jsonResponse.body);
@@ -1312,6 +1439,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -1479,6 +1611,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return ListShardsOutput.fromJson(jsonResponse.body);
@@ -1580,6 +1717,11 @@ class Kinesis {
               unixTimestampToJson(streamCreationTimestamp),
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return ListStreamConsumersOutput.fromJson(jsonResponse.body);
@@ -1688,6 +1830,11 @@ class Kinesis {
         'ResourceARN': resourceARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        resourceARN: resourceARN,
+        streamId: streamId,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -1756,6 +1903,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return ListTagsForStreamOutput.fromJson(jsonResponse.body);
@@ -1858,6 +2010,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -1996,6 +2153,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'data',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return PutRecordOutput.fromJson(jsonResponse.body);
@@ -2132,6 +2294,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'data',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return PutRecordsOutput.fromJson(jsonResponse.body);
@@ -2198,6 +2365,11 @@ class Kinesis {
         'ResourceARN': resourceARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        resourceARN: resourceARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2275,6 +2447,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (tags != null) 'Tags': tags,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return RegisterStreamConsumerOutput.fromJson(jsonResponse.body);
@@ -2332,6 +2509,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2448,6 +2630,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2552,6 +2739,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2649,6 +2841,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2725,6 +2922,11 @@ class Kinesis {
         'StartingPosition': startingPosition,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'data',
+        consumerARN: consumerARN,
+        streamId: streamId,
+      ),
     );
 
     return SubscribeToShardOutput.fromJson(jsonResponse.body);
@@ -2775,6 +2977,11 @@ class Kinesis {
         'Tags': tags,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        resourceARN: resourceARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2817,6 +3024,11 @@ class Kinesis {
         'TagKeys': tagKeys,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        resourceARN: resourceARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -2922,6 +3134,11 @@ class Kinesis {
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamId != null) 'StreamId': streamId,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -3058,6 +3275,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return UpdateShardCountOutput.fromJson(jsonResponse.body);
@@ -3128,6 +3350,11 @@ class Kinesis {
         if (warmThroughputMiBps != null)
           'WarmThroughputMiBps': warmThroughputMiBps,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
   }
 
@@ -3223,6 +3450,11 @@ class Kinesis {
         if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
+      endpoint: _resolveEndpoint(
+        operationType: 'control',
+        streamARN: streamARN,
+        streamId: streamId,
+      ),
     );
 
     return UpdateStreamWarmThroughputOutput.fromJson(jsonResponse.body);

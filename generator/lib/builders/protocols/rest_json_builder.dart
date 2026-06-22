@@ -11,27 +11,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
   RestJsonServiceBuilder(this.api);
 
   @override
-  String constructor() {
-    final isRegionRequired = !api.isGlobalService;
-    return '''
-  final _s.RestJsonProtocol _protocol;
-  ${api.metadata.className}({
-      ${isRegionRequired ? 'required String' : 'String?'} region,
-      _s.AwsClientCredentials? credentials,
-      _s.AwsClientCredentialsProvider? credentialsProvider,
-      _s.Client? client, 
-      String? endpointUrl,
-    })
-  : _protocol = _s.RestJsonProtocol(
-      client: client,
-      service: ${buildServiceMetadata(api)},
-      region: region,
-      credentials: credentials,
-      credentialsProvider: credentialsProvider,
-      endpointUrl: endpointUrl,
-    );
-  ''';
-  }
+  String constructor() => buildProtocolConstructor(api, 'RestJsonProtocol');
 
   @override
   String imports() => '';
@@ -99,6 +79,8 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       if (operation.authtype == 'none') 'signed: false,',
       if (inputShape?.hasQueryMembers ?? false) 'queryParams: \$query,',
       if (inputShape?.hasHeaderMembers ?? false) 'headers: headers,',
+      if (buildOperationEndpoint(api, operation) case final ep?) ep,
+      if (buildHostPrefix(operation) case final hp?) hp,
       'exceptionFnMap: _exceptionFns,',
     ].join('\n'));
     buf.writeln(');');

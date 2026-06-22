@@ -8,14 +8,15 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
-import 'builders/endpoint_config_builder.dart';
+import 'builders/endpoint_resolver_builder.dart';
+import 'builders/endpoint_tests_builder.dart';
 import 'builders/library_builder.dart';
+import 'builders/partitions_builder.dart';
 import 'builders/test_all_builder.dart';
 import 'builders/test_suite_builder.dart';
 import 'download_command.dart';
 import 'model/api.dart';
 import 'model/config.dart';
-import 'model/region_config.dart';
 import 'model/test_model.dart';
 import 'smithy/ast.dart';
 import 'smithy/from_smithy.dart';
@@ -62,7 +63,7 @@ from the downloaded models, plus the protocol conformance test suite.''';
       );
   }
 
-  final _configDataFile = File('./apis/config/region_config_data.json');
+  final _partitionsFile = File('./apis/config/partitions.json');
 
   @override
   Future<void> run() async {
@@ -73,7 +74,7 @@ from the downloaded models, plus the protocol conformance test suite.''';
 
     if (argResults!['download'] == true ||
         smithyMissing ||
-        [Directory('./apis'), _configDataFile].any((e) => !e.existsSync())) {
+        [Directory('./apis'), _partitionsFile].any((e) => !e.existsSync())) {
       final config = Config.fromJson(json.decode(
               json.encode(loadYaml(File('config.yaml').readAsStringSync())))
           as Map<String, dynamic>);
@@ -118,6 +119,11 @@ from the downloaded models, plus the protocol conformance test suite.''';
     final generatedDir = '$libDir/src/generated';
 
     _clearGeneratedSources(libDir);
+
+    final endpointTestsDir = Directory('$_packageDir/test/generated_endpoints');
+    if (endpointTestsDir.existsSync()) {
+      endpointTestsDir.deleteSync(recursive: true);
+    }
 
     for (var i = 0; i < services.length; i++) {
       final service = services.elementAt(i);
@@ -178,6 +184,27 @@ export '../src/generated/${api.directoryName}/${api.fileBasename}.dart';
 
         serviceFile.writeAsStringSync(serviceText);
         entryFile.writeAsStringSync(entryContent);
+
+        final ruleSet = api.metadata.endpointRuleSet;
+        if (ruleSet != null) {
+          File('$baseDir/${api.fileBasename}.endpoints.dart').writeAsStringSync(
+              _formatter.format(buildEndpointResolverFile(ruleSet)));
+        }
+
+        final endpointTests = api.metadata.endpointTests;
+        if (ruleSet != null &&
+            endpointTests != null &&
+            endpointTests.isNotEmpty) {
+          final testCode = buildEndpointTestsFile(
+            directoryName: api.directoryName,
+            fileBasename: api.fileBasename,
+            testCases: endpointTests,
+          );
+          File('$_packageDir/test/generated_endpoints/'
+              '${api.directoryName}/${api.fileBasename}_test.dart')
+            ..createSync(recursive: true)
+            ..writeAsStringSync(_formatter.format(testCode));
+        }
 
         generatedApis[api.directoryName] = api.metadata.serviceFullName;
       } on UnrecognizedKeysException catch (e) {
@@ -254,17 +281,15 @@ export 'src/credential_providers/aws_credential_providers.dart';
   }
 
   Future<void> _generateConfigFiles() async {
-    final jsonContent = jsonDecode(await _configDataFile.readAsString())
+    final partitionsJson = jsonDecode(await _partitionsFile.readAsString())
         as Map<String, dynamic>;
-    final configData = RegionConfigData.fromJson(jsonContent);
-    final endpointConfigCode =
-        _formatter.format(buildEndpointConfig(configData));
+    final partitionsCode = _formatter.format(buildPartitions(partitionsJson));
 
-    File('$_packageDir/lib/src/shared/src/protocol/endpoint_config_data.dart')
+    File('$_packageDir/lib/src/shared/src/protocol/endpoints/partitions.dart')
       ..createSync(recursive: true)
-      ..writeAsStringSync(endpointConfigCode);
+      ..writeAsStringSync(partitionsCode);
 
-    print('Generated endpoint_config_data file');
+    print('Generated partitions file');
   }
 
   Future<void> _generateTestSuite() async {

@@ -1,11 +1,16 @@
-import 'endpoint_config_data.dart' as config;
+import 'endpoints/endpoint_resolver.dart';
 import 'shared.dart';
+
+export 'endpoints/endpoint_resolver.dart';
 
 class ServiceMetadata {
   final String endpointPrefix;
   final String? signingName;
 
-  const ServiceMetadata({required this.endpointPrefix, this.signingName});
+  const ServiceMetadata({
+    required this.endpointPrefix,
+    this.signingName,
+  });
 
   @override
   bool operator ==(Object other) {
@@ -34,69 +39,76 @@ class Endpoint {
   /// The region to use in the request signature.
   final String signingRegion;
 
-  /// The version of the algorithm to sign the request.
-  final String signatureVersion;
+  Endpoint({
+    required this.service,
+    required this.url,
+    required this.signingRegion,
+  });
 
-  Endpoint(
-      {required this.service,
-      required this.url,
-      required this.signingRegion,
-      String? signatureVersion})
-      : signatureVersion = signatureVersion ?? 'v4';
-
-  /// Creates a `Endpoint` using only the service prefix and an optional region
-  /// The other information will be inferred from the global configuration rules.
-  static Endpoint fromConfig(ServiceMetadata service, {String? region}) {
-    final regionConfig = _findRegionConfig(service, region);
-    final urlPattern =
-        regionConfig?.endpoint ?? '{service}.{region}.amazonaws.com';
-
-    if (urlPattern.contains('{region}') && region == null) {
+  static Endpoint fromResolved(
+    ResolvedEndpoint resolved, {
+    required ServiceMetadata service,
+    String? region,
+  }) {
+    final authScheme = resolved.authScheme;
+    if (authScheme?.name == 'sigv4a') {
+      throw UnsupportedError(
+          'The resolved endpoint for "${service.endpointPrefix}" requires '
+          'SigV4A signing, which is not yet supported by this client.');
+    }
+    final signingRegionSet = authScheme?.signingRegionSet;
+    final signingRegion = authScheme?.signingRegion ??
+        (signingRegionSet != null && signingRegionSet.isNotEmpty
+            ? signingRegionSet.first
+            : null) ??
+        region;
+    if (signingRegion == null) {
       throw ArgumentError(
           'Region must not be null when the service is not a global service.');
     }
 
-    String? signingRegion;
-    if (regionConfig != null && regionConfig.globalEndpoint) {
-      signingRegion = regionConfig.signingRegion ?? 'us-east-1';
-    }
-
-    var url = urlPattern.replaceAll('{service}', service.endpointPrefix);
-    if (region != null) {
-      url = url.replaceAll('{region}', region);
-    }
-    assert(
-        !url.contains('{'), 'Url pattern is not correctly transformed ($url)');
-
-    if (!url.contains('://')) {
-      url = 'https://$url';
-    }
+    final resolvedSigningName = authScheme?.signingName;
+    final effectiveService = (resolvedSigningName != null &&
+            resolvedSigningName != service.signingName)
+        ? ServiceMetadata(
+            endpointPrefix: service.endpointPrefix,
+            signingName: resolvedSigningName)
+        : service;
 
     return Endpoint(
-      service: service,
-      url: url,
-      signingRegion: signingRegion ?? region!,
-      signatureVersion: regionConfig?.signatureVersion ?? 'v4',
+      service: effectiveService,
+      url: resolved.url,
+      signingRegion: signingRegion,
     );
   }
 
-  /// Creates a `Endpoint` from either a user-provided custom endpointUrl or
-  /// by inferring the configuration from the service prefix.
   static Endpoint forProtocol(
       {ServiceMetadata? service, String? region, String? endpointUrl}) {
-    if (service == null) {
-      ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
-    }
-
     if (endpointUrl != null) {
-      final endpointUri = Uri.parse(endpointUrl);
-      service ??= ServiceMetadata(endpointPrefix: extractService(endpointUri));
-      region ??= extractRegion(endpointUri);
+      final uri = Uri.parse(endpointUrl);
+      final signingRegion = region ?? tryExtractRegion(uri);
+      if (signingRegion == null) {
+        throw ArgumentError(
+            'Could not infer a signing region from endpointUrl "$endpointUrl". '
+            'Pass an explicit region when using a custom endpoint.');
+      }
       return Endpoint(
-          service: service, url: endpointUrl, signingRegion: region);
-    } else {
-      return Endpoint.fromConfig(service!, region: region);
+        service:
+            service ?? ServiceMetadata(endpointPrefix: extractService(uri)),
+        url: endpointUrl,
+        signingRegion: signingRegion,
+      );
     }
+    ArgumentError.checkNotNull(service, 'service');
+    if (region == null) {
+      throw ArgumentError(
+          'Region must not be null when the service is not a global service.');
+    }
+    return Endpoint(
+      service: service!,
+      url: 'https://${service.endpointPrefix}.$region.amazonaws.com',
+      signingRegion: region,
+    );
   }
 
   @override
@@ -104,68 +116,13 @@ class Endpoint {
     return other is Endpoint &&
         other.service == service &&
         other.url == url &&
-        other.signingRegion == signingRegion &&
-        other.signatureVersion == signatureVersion;
+        other.signingRegion == signingRegion;
   }
 
   @override
-  int get hashCode =>
-      service.hashCode ^
-      url.hashCode ^
-      signingRegion.hashCode ^
-      signatureVersion.hashCode;
+  int get hashCode => service.hashCode ^ url.hashCode ^ signingRegion.hashCode;
 
   @override
   String toString() => 'Endpoint(service: $service, url: $url, '
-      'signingRegion: $signingRegion, signatureVersion: $signatureVersion)';
-}
-
-/// The internal data-class used in the generated configuration file.
-/// It holds the url pattern to use for each services.
-class RegionConfig {
-  /// The URL pattern for the service.
-  /// The pattern can contains a "{service}" and "{region}" placeholder (ie. {service}.{region}.amazonaws.com)
-  final String endpoint;
-  final bool globalEndpoint;
-  final String? signatureVersion;
-  final String? signingRegion;
-
-  RegionConfig(
-      {required this.endpoint,
-      bool? globalEndpoint,
-      this.signatureVersion,
-      this.signingRegion})
-      : globalEndpoint = globalEndpoint ?? false;
-}
-
-RegionConfig? _findRegionConfig(ServiceMetadata service, String? region) {
-  final keys = _derivedKeys(service.endpointPrefix, region);
-  for (var key in keys) {
-    final regionConfig = config.rules[key];
-    if (regionConfig != null) {
-      return regionConfig;
-    }
-  }
-  return null;
-}
-
-List<String> _derivedKeys(String endpointPrefix, String? region) {
-  final regionPrefix = _generateRegionPrefix(region);
-
-  return [
-    [region, endpointPrefix],
-    [regionPrefix, endpointPrefix],
-    [region, '*'],
-    [regionPrefix, '*'],
-    ['*', endpointPrefix],
-    ['*', '*']
-  ].where((l) => l.every((e) => e != null)).map((l) => l.join('/')).toList();
-}
-
-String? _generateRegionPrefix(String? region) {
-  if (region == null) return null;
-
-  final parts = region.split('-');
-  if (parts.length < 3) return null;
-  return '${parts.getRange(0, parts.length - 2).join('-')}-*';
+      'signingRegion: $signingRegion)';
 }

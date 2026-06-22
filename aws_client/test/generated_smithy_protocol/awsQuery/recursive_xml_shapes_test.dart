@@ -49,5 +49,5 @@ void main() {
     expect(output.nested?.nested?.recursiveMember?.nested?.bar, "Bar2");
     expect(output.nested?.nested?.recursiveMember?.nested?.recursiveMember,
         isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

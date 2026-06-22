@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_07_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the <i>AWS HealthImaging API Reference</i>. For an introduction to
@@ -26,22 +28,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// is AWS HealthImaging?</a> in the <i>AWS HealthImaging Developer Guide</i>.
 class MedicalImaging {
   final _s.RestJsonProtocol _protocol;
-  MedicalImaging({
+  factory MedicalImaging({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'medical-imaging',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'medical-imaging',
+    );
+    return MedicalImaging._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  MedicalImaging._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -100,6 +119,7 @@ class MedicalImaging {
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(sourceImageSetId)}/copyImageSet',
       queryParams: $query,
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return CopyImageSetResponse.fromJson(response);
@@ -128,6 +148,7 @@ class MedicalImaging {
       method: 'POST',
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(imageSetId)}/deleteImageSet',
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteImageSetResponse.fromJson(response);
@@ -199,6 +220,7 @@ class MedicalImaging {
       method: 'POST',
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(imageSetId)}/getImageFrame',
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return GetImageFrameResponse(
@@ -239,6 +261,7 @@ class MedicalImaging {
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(imageSetId)}/getImageSet',
       queryParams: $query,
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return GetImageSetResponse.fromJson(response);
@@ -275,6 +298,7 @@ class MedicalImaging {
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(imageSetId)}/getImageSetMetadata',
       queryParams: $query,
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return GetImageSetMetadataResponse(
@@ -366,6 +390,7 @@ class MedicalImaging {
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(imageSetId)}/listImageSetVersions',
       queryParams: $query,
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return ListImageSetVersionsResponse.fromJson(response);
@@ -442,6 +467,7 @@ class MedicalImaging {
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/searchImageSets',
       queryParams: $query,
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return SearchImageSetsResponse.fromJson(response);
@@ -638,6 +664,7 @@ class MedicalImaging {
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(imageSetId)}/updateImageSetMetadata',
       queryParams: $query,
+      hostPrefix: 'runtime-',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateImageSetMetadataResponse.fromJson(response);

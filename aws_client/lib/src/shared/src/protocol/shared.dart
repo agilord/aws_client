@@ -82,12 +82,8 @@ AwsExceptionFn? lookupExceptionFn(
         Map<String, AwsExceptionFn> exceptionFnMap, String code) =>
     exceptionFnMap[code] ?? exceptionFnMap['${code}Exception'];
 
-XmlElement? extractXmlChild(XmlElement elem, String name) {
-  if (name == elem.localName) {
-    return elem;
-  }
-  return elem.findElements(name).firstOrNull;
-}
+XmlElement? extractXmlChild(XmlElement elem, String name) =>
+    elem.findElements(name).firstOrNull;
 
 String? extractXmlStringValue(XmlElement elem, String name) {
   final c = extractXmlChild(elem, name);
@@ -312,10 +308,19 @@ String extractService(Uri uri) {
   throw Exception('Unable to detect service in ${uri.host}.');
 }
 
-String extractRegion(Uri uri) {
+String? tryExtractRegion(Uri uri) {
   final parts = uri.host.split('.');
   if (parts.length == 4 && parts[1].contains('-')) return parts[1];
-  throw Exception('Unable to detect region in ${uri.host}.');
+  return null;
+}
+
+String extractRegion(Uri uri) =>
+    tryExtractRegion(uri) ??
+    (throw Exception('Unable to detect region in ${uri.host}.'));
+
+Uri applyHostPrefix(Uri uri, String? hostPrefix, {required bool disabled}) {
+  if (disabled || hostPrefix == null || hostPrefix.isEmpty) return uri;
+  return uri.replace(host: '$hostPrefix${uri.host}');
 }
 
 class JsonResponse {

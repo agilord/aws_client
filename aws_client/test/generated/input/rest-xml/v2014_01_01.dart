@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -23,22 +24,31 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 /// Endpoint host trait
 class EndpointHostTrait {
   final _s.RestXmlProtocol _protocol;
-  EndpointHostTrait({
+  factory EndpointHostTrait({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestXmlProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'EndpointHostTrait',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'EndpointHostTrait',
+    );
+    return EndpointHostTrait._(
+      protocol: _s.RestXmlProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.forProtocol(
+            service: service, region: region, endpointUrl: endpointUrl),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  EndpointHostTrait._({
+    required _s.RestXmlProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -56,6 +66,7 @@ class EndpointHostTrait {
       method: 'POST',
       requestUri: '/path',
       payload: StaticInputShape(name: name).toXml('StaticOpRequest'),
+      hostPrefix: 'data-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -67,6 +78,7 @@ class EndpointHostTrait {
       method: 'POST',
       requestUri: '/path',
       payload: MemberRefInputShape(name: name).toXml('MemberRefOpRequest'),
+      hostPrefix: 'foo-${name}.',
       exceptionFnMap: _exceptionFns,
     );
   }

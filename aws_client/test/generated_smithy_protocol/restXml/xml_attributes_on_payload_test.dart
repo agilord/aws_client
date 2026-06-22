@@ -37,7 +37,7 @@ void main() {
         foo: "hi",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlAttributesOnPayload', () async {
     final client = MockClient((request) async {
@@ -59,5 +59,5 @@ void main() {
     final output = await service.xmlAttributesOnPayload();
     expect(output.payload?.attr, "test");
     expect(output.payload?.foo, "hi");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

@@ -238,6 +238,9 @@ class Member {
   final List<String>? tags;
   final String? timestampFormat;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final String? contextParam;
+
   Member({
     required this.shape,
     this.documentation,
@@ -258,6 +261,7 @@ class Member {
     this.eventpayload = false,
     this.tags,
     this.timestampFormat,
+    this.contextParam,
   }) {
     _isRequired = location == 'uri';
   }

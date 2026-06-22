@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_08_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon WorkSpaces Thin Client is an affordable device built to work with
@@ -41,22 +43,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Thin Client section of the CLI Reference</a>.
 class WorkSpacesThinClient {
   final _s.RestJsonProtocol _protocol;
-  WorkSpacesThinClient({
+  factory WorkSpacesThinClient({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'thinclient',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'thinclient',
+    );
+    return WorkSpacesThinClient._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  WorkSpacesThinClient._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -160,6 +179,7 @@ class WorkSpacesThinClient {
       payload: $payload,
       method: 'POST',
       requestUri: '/environments',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateEnvironmentResponse.fromJson(response);
@@ -204,6 +224,7 @@ class WorkSpacesThinClient {
       method: 'DELETE',
       requestUri: '/devices/${Uri.encodeComponent(id)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -247,6 +268,7 @@ class WorkSpacesThinClient {
       method: 'DELETE',
       requestUri: '/environments/${Uri.encodeComponent(id)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -295,6 +317,7 @@ class WorkSpacesThinClient {
       payload: $payload,
       method: 'POST',
       requestUri: '/deregister-device/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -316,6 +339,7 @@ class WorkSpacesThinClient {
       payload: null,
       method: 'GET',
       requestUri: '/devices/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeviceResponse.fromJson(response);
@@ -338,6 +362,7 @@ class WorkSpacesThinClient {
       payload: null,
       method: 'GET',
       requestUri: '/environments/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetEnvironmentResponse.fromJson(response);
@@ -360,6 +385,7 @@ class WorkSpacesThinClient {
       payload: null,
       method: 'GET',
       requestUri: '/softwaresets/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetSoftwareSetResponse.fromJson(response);
@@ -405,6 +431,7 @@ class WorkSpacesThinClient {
       method: 'GET',
       requestUri: '/devices',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListDevicesResponse.fromJson(response);
@@ -450,6 +477,7 @@ class WorkSpacesThinClient {
       method: 'GET',
       requestUri: '/environments',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListEnvironmentsResponse.fromJson(response);
@@ -495,6 +523,7 @@ class WorkSpacesThinClient {
       method: 'GET',
       requestUri: '/softwaresets',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListSoftwareSetsResponse.fromJson(response);
@@ -518,6 +547,7 @@ class WorkSpacesThinClient {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -548,6 +578,7 @@ class WorkSpacesThinClient {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -579,6 +610,7 @@ class WorkSpacesThinClient {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -620,6 +652,7 @@ class WorkSpacesThinClient {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/devices/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDeviceResponse.fromJson(response);
@@ -692,6 +725,7 @@ class WorkSpacesThinClient {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/environments/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEnvironmentResponse.fromJson(response);
@@ -721,6 +755,7 @@ class WorkSpacesThinClient {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/softwaresets/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }

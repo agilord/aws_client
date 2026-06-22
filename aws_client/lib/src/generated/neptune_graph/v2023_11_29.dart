@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_11_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Neptune Analytics is a new analytics database engine for Amazon Neptune that
@@ -26,22 +28,74 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// queries, and getting analytics results in seconds.
 class NeptuneGraph {
   final _s.RestJsonProtocol _protocol;
-  NeptuneGraph({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  factory NeptuneGraph({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'neptune-graph',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'neptune-graph',
+    );
+    return NeptuneGraph._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+    );
+  }
+  NeptuneGraph._({
+    required _s.RestJsonProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint;
+  _s.Endpoint _resolveEndpoint({
+    String? apiType,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        apiType: apiType,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -77,6 +131,10 @@ class NeptuneGraph {
       method: 'DELETE',
       requestUri: '/queries/${Uri.encodeComponent(queryId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        apiType: 'DataPlane',
+      ),
+      hostPrefix: '${graphIdentifier}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -160,6 +218,10 @@ class NeptuneGraph {
       method: 'POST',
       requestUri: '/queries',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        apiType: 'DataPlane',
+      ),
+      hostPrefix: '${graphIdentifier}.',
       exceptionFnMap: _exceptionFns,
     );
     return ExecuteQueryOutput(
@@ -197,6 +259,10 @@ class NeptuneGraph {
       requestUri: '/summary',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        apiType: 'DataPlane',
+      ),
+      hostPrefix: '${graphIdentifier}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetGraphSummaryOutput.fromJson(response);
@@ -232,6 +298,10 @@ class NeptuneGraph {
       method: 'GET',
       requestUri: '/queries/${Uri.encodeComponent(queryId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        apiType: 'DataPlane',
+      ),
+      hostPrefix: '${graphIdentifier}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueryOutput.fromJson(response);
@@ -270,6 +340,10 @@ class NeptuneGraph {
       requestUri: '/queries',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        apiType: 'DataPlane',
+      ),
+      hostPrefix: '${graphIdentifier}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueriesOutput.fromJson(response);
@@ -291,6 +365,9 @@ class NeptuneGraph {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceOutput.fromJson(response);
@@ -333,6 +410,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -361,6 +441,9 @@ class NeptuneGraph {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -450,6 +533,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/graphs',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateGraphOutput.fromJson(response);
@@ -484,6 +570,9 @@ class NeptuneGraph {
       method: 'DELETE',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGraphOutput.fromJson(response);
@@ -505,6 +594,9 @@ class NeptuneGraph {
       payload: null,
       method: 'GET',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetGraphOutput.fromJson(response);
@@ -551,6 +643,9 @@ class NeptuneGraph {
       method: 'GET',
       requestUri: '/graphs',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListGraphsOutput.fromJson(response);
@@ -583,6 +678,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'PUT',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ResetGraphOutput.fromJson(response);
@@ -667,6 +765,9 @@ class NeptuneGraph {
       method: 'POST',
       requestUri:
           '/snapshots/${Uri.encodeComponent(snapshotIdentifier)}/restore',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return RestoreGraphFromSnapshotOutput.fromJson(response);
@@ -689,6 +790,9 @@ class NeptuneGraph {
       payload: null,
       method: 'POST',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}/start',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return StartGraphOutput.fromJson(response);
@@ -711,6 +815,9 @@ class NeptuneGraph {
       payload: null,
       method: 'POST',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}/stop',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return StopGraphOutput.fromJson(response);
@@ -762,6 +869,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGraphOutput.fromJson(response);
@@ -808,6 +918,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}/endpoints/',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreatePrivateGraphEndpointOutput.fromJson(response);
@@ -835,6 +948,9 @@ class NeptuneGraph {
       method: 'DELETE',
       requestUri:
           '/graphs/${Uri.encodeComponent(graphIdentifier)}/endpoints/${Uri.encodeComponent(vpcId)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return DeletePrivateGraphEndpointOutput.fromJson(response);
@@ -861,6 +977,9 @@ class NeptuneGraph {
       method: 'GET',
       requestUri:
           '/graphs/${Uri.encodeComponent(graphIdentifier)}/endpoints/${Uri.encodeComponent(vpcId)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetPrivateGraphEndpointOutput.fromJson(response);
@@ -912,6 +1031,9 @@ class NeptuneGraph {
       method: 'GET',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}/endpoints/',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListPrivateGraphEndpointsOutput.fromJson(response);
@@ -953,6 +1075,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/snapshots',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateGraphSnapshotOutput.fromJson(response);
@@ -975,6 +1100,9 @@ class NeptuneGraph {
       payload: null,
       method: 'DELETE',
       requestUri: '/snapshots/${Uri.encodeComponent(snapshotIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGraphSnapshotOutput.fromJson(response);
@@ -996,6 +1124,9 @@ class NeptuneGraph {
       payload: null,
       method: 'GET',
       requestUri: '/snapshots/${Uri.encodeComponent(snapshotIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetGraphSnapshotOutput.fromJson(response);
@@ -1048,6 +1179,9 @@ class NeptuneGraph {
       method: 'GET',
       requestUri: '/snapshots',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListGraphSnapshotsOutput.fromJson(response);
@@ -1070,6 +1204,9 @@ class NeptuneGraph {
       payload: null,
       method: 'DELETE',
       requestUri: '/exporttasks/${Uri.encodeComponent(taskIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CancelExportTaskOutput.fromJson(response);
@@ -1092,6 +1229,9 @@ class NeptuneGraph {
       payload: null,
       method: 'DELETE',
       requestUri: '/importtasks/${Uri.encodeComponent(taskIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CancelImportTaskOutput.fromJson(response);
@@ -1266,6 +1406,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/importtasks',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return CreateGraphUsingImportTaskOutput.fromJson(response);
@@ -1287,6 +1430,9 @@ class NeptuneGraph {
       payload: null,
       method: 'GET',
       requestUri: '/exporttasks/${Uri.encodeComponent(taskIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetExportTaskOutput.fromJson(response);
@@ -1308,6 +1454,9 @@ class NeptuneGraph {
       payload: null,
       method: 'GET',
       requestUri: '/importtasks/${Uri.encodeComponent(taskIdentifier)}',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetImportTaskOutput.fromJson(response);
@@ -1349,6 +1498,9 @@ class NeptuneGraph {
       method: 'GET',
       requestUri: '/exporttasks',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListExportTasksOutput.fromJson(response);
@@ -1396,6 +1548,9 @@ class NeptuneGraph {
       method: 'GET',
       requestUri: '/importtasks',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListImportTasksOutput.fromJson(response);
@@ -1458,6 +1613,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/exporttasks',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return StartExportTaskOutput.fromJson(response);
@@ -1528,6 +1686,9 @@ class NeptuneGraph {
       payload: $payload,
       method: 'POST',
       requestUri: '/graphs/${Uri.encodeComponent(graphIdentifier)}/importtasks',
+      endpoint: _resolveEndpoint(
+        apiType: 'ControlPlane',
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return StartImportTaskOutput.fromJson(response);

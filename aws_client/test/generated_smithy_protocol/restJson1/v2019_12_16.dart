@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -22,22 +23,31 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
 class RestJsonProtocol {
   final _s.RestJsonProtocol _protocol;
-  RestJsonProtocol({
+  factory RestJsonProtocol({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'restjson',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'restjson',
+    );
+    return RestJsonProtocol._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.forProtocol(
+            service: service, region: region, endpointUrl: endpointUrl),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  RestJsonProtocol._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -299,6 +309,7 @@ class RestJsonProtocol {
       payload: null,
       method: 'POST',
       requestUri: '/EndpointOperation',
+      hostPrefix: 'foo.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -313,6 +324,7 @@ class RestJsonProtocol {
       payload: $payload,
       method: 'POST',
       requestUri: '/EndpointWithHostLabelOperation',
+      hostPrefix: 'foo.${label}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1152,7 +1164,8 @@ class RestJsonProtocol {
       if (doubleInQuery != null) 'doubleInQuery': [doubleInQuery.toString()],
     };
     final $payload = <String, dynamic>{
-      if (doubleInBody != null) 'doubleInBody': doubleInBody,
+      if (doubleInBody != null)
+        'doubleInBody': _s.encodeJsonDouble(doubleInBody),
     };
     await _protocol.send(
       payload: $payload,
@@ -1178,7 +1191,7 @@ class RestJsonProtocol {
       if (floatInQuery != null) 'floatInQuery': [floatInQuery.toString()],
     };
     final $payload = <String, dynamic>{
-      if (floatInBody != null) 'floatInBody': floatInBody,
+      if (floatInBody != null) 'floatInBody': _s.encodeJsonDouble(floatInBody),
     };
     await _protocol.send(
       payload: $payload,
@@ -1277,7 +1290,7 @@ class RestJsonProtocol {
     int? intValue,
   }) async {
     final $payload = <String, dynamic>{
-      if (float != null) 'float': float,
+      if (float != null) 'float': _s.encodeJsonDouble(float),
       if (intValue != null) 'int': intValue,
     };
     await _protocol.send(
@@ -1892,9 +1905,10 @@ class RestJsonProtocol {
     };
     final $payload = <String, dynamic>{
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'DoubleDribble': doubleValue,
+      if (doubleValue != null)
+        'DoubleDribble': _s.encodeJsonDouble(doubleValue),
       if (falseBooleanValue != null) 'falseBooleanValue': falseBooleanValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -1911,9 +1925,9 @@ class RestJsonProtocol {
     final $json = await _s.jsonFromResponse(response);
     return SimpleScalarPropertiesInputOutput(
       byteValue: $json['byteValue'] as int?,
-      doubleValue: $json['DoubleDribble'] as double?,
+      doubleValue: _s.parseJsonDouble($json['DoubleDribble']),
       falseBooleanValue: $json['falseBooleanValue'] as bool?,
-      floatValue: $json['floatValue'] as double?,
+      floatValue: _s.parseJsonDouble($json['floatValue']),
       integerValue: $json['integerValue'] as int?,
       longValue: $json['longValue'] as int?,
       shortValue: $json['shortValue'] as int?,
@@ -2258,6 +2272,7 @@ class RestJsonProtocol {
   }
 }
 
+/// @nodoc
 class ContentTypeParametersOutput {
   ContentTypeParametersOutput();
 
@@ -2270,6 +2285,7 @@ class ContentTypeParametersOutput {
   }
 }
 
+/// @nodoc
 class DatetimeOffsetsOutput {
   final DateTime? datetime;
 
@@ -2291,6 +2307,7 @@ class DatetimeOffsetsOutput {
   }
 }
 
+/// @nodoc
 class DocumentTypeInputOutput {
   final Object? documentValue;
   final String? stringValue;
@@ -2317,6 +2334,7 @@ class DocumentTypeInputOutput {
   }
 }
 
+/// @nodoc
 class DocumentTypeAsMapValueInputOutput {
   final Map<String, Object>? docValuedMap;
 
@@ -2340,6 +2358,7 @@ class DocumentTypeAsMapValueInputOutput {
   }
 }
 
+/// @nodoc
 class DocumentTypeAsPayloadInputOutput {
   final Object? documentValue;
 
@@ -2355,6 +2374,7 @@ class DocumentTypeAsPayloadInputOutput {
   }
 }
 
+/// @nodoc
 class DuplexStreamOutput {
   final EventStream? stream;
 
@@ -2370,6 +2390,7 @@ class DuplexStreamOutput {
   }
 }
 
+/// @nodoc
 class DuplexStreamWithDistinctStreamsOutput {
   final SingletonEventStream? stream;
 
@@ -2385,6 +2406,7 @@ class DuplexStreamWithDistinctStreamsOutput {
   }
 }
 
+/// @nodoc
 class DuplexStreamWithInitialMessagesOutput {
   final String initialResponseMember;
   final EventStream? stream;
@@ -2403,6 +2425,7 @@ class DuplexStreamWithInitialMessagesOutput {
   }
 }
 
+/// @nodoc
 class EmptyInputAndEmptyOutputOutput {
   EmptyInputAndEmptyOutputOutput();
 
@@ -2415,6 +2438,7 @@ class EmptyInputAndEmptyOutputOutput {
   }
 }
 
+/// @nodoc
 class FractionalSecondsOutput {
   final DateTime? datetime;
 
@@ -2436,6 +2460,7 @@ class FractionalSecondsOutput {
   }
 }
 
+/// @nodoc
 class GreetingWithErrorsOutput {
   final String? greeting;
 
@@ -2449,6 +2474,7 @@ class GreetingWithErrorsOutput {
   }
 }
 
+/// @nodoc
 class HttpChecksumRequiredInputOutput {
   final String? foo;
 
@@ -2470,6 +2496,7 @@ class HttpChecksumRequiredInputOutput {
   }
 }
 
+/// @nodoc
 class HttpEmptyPrefixHeadersOutput {
   final Map<String, String>? prefixHeaders;
   final String? specificHeader;
@@ -2486,6 +2513,7 @@ class HttpEmptyPrefixHeadersOutput {
   }
 }
 
+/// @nodoc
 class EnumPayloadInput {
   final StringEnum? payload;
 
@@ -2501,6 +2529,7 @@ class EnumPayloadInput {
   }
 }
 
+/// @nodoc
 class HttpPayloadTraitsInputOutput {
   final Uint8List? blob;
   final String? foo;
@@ -2519,6 +2548,7 @@ class HttpPayloadTraitsInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadTraitsWithMediaTypeInputOutput {
   final Uint8List? blob;
   final String? foo;
@@ -2537,6 +2567,7 @@ class HttpPayloadTraitsWithMediaTypeInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithStructureInputOutput {
   final NestedPayload? nested;
 
@@ -2552,6 +2583,7 @@ class HttpPayloadWithStructureInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPayloadWithUnionInputOutput {
   final UnionPayload? nested;
 
@@ -2567,6 +2599,7 @@ class HttpPayloadWithUnionInputOutput {
   }
 }
 
+/// @nodoc
 class HttpPrefixHeadersOutput {
   final String? foo;
   final Map<String, String>? fooMap;
@@ -2583,6 +2616,7 @@ class HttpPrefixHeadersOutput {
   }
 }
 
+/// @nodoc
 class HttpPrefixHeadersInResponseOutput {
   final Map<String, String>? prefixHeaders;
 
@@ -2596,6 +2630,7 @@ class HttpPrefixHeadersInResponseOutput {
   }
 }
 
+/// @nodoc
 class HttpResponseCodeOutput {
   final int? status;
 
@@ -2615,6 +2650,7 @@ class HttpResponseCodeOutput {
   }
 }
 
+/// @nodoc
 class StringPayloadInput {
   final String? payload;
 
@@ -2630,6 +2666,7 @@ class StringPayloadInput {
   }
 }
 
+/// @nodoc
 class IgnoreQueryParamsInResponseOutput {
   final String? baz;
 
@@ -2650,6 +2687,7 @@ class IgnoreQueryParamsInResponseOutput {
   }
 }
 
+/// @nodoc
 class InputAndOutputWithHeadersIO {
   final List<bool>? headerBooleanList;
   final int? headerByte;
@@ -2714,6 +2752,7 @@ class InputAndOutputWithHeadersIO {
   }
 }
 
+/// @nodoc
 class JsonBlobsInputOutput {
   final Uint8List? data;
 
@@ -2735,6 +2774,7 @@ class JsonBlobsInputOutput {
   }
 }
 
+/// @nodoc
 class JsonEnumsInputOutput {
   final FooEnum? fooEnum1;
   final FooEnum? fooEnum2;
@@ -2791,6 +2831,7 @@ class JsonEnumsInputOutput {
   }
 }
 
+/// @nodoc
 class JsonIntEnumsInputOutput {
   final int? integerEnum1;
   final int? integerEnum2;
@@ -2844,6 +2885,7 @@ class JsonIntEnumsInputOutput {
   }
 }
 
+/// @nodoc
 class JsonListsInputOutput {
   final List<bool>? booleanList;
   final List<FooEnum>? enumList;
@@ -2933,6 +2975,7 @@ class JsonListsInputOutput {
   }
 }
 
+/// @nodoc
 class JsonMapsInputOutput {
   final Map<String, bool>? denseBooleanMap;
   final Map<String, int>? denseNumberMap;
@@ -2980,6 +3023,7 @@ class JsonMapsInputOutput {
   }
 }
 
+/// @nodoc
 class JsonTimestampsInputOutput {
   final DateTime? dateTime;
   final DateTime? dateTimeOnTarget;
@@ -3036,6 +3080,8 @@ class JsonTimestampsInputOutput {
 }
 
 /// A shared structure that contains a single union member.
+///
+/// @nodoc
 class UnionInputOutput {
   final MyUnion? contents;
 
@@ -3059,6 +3105,7 @@ class UnionInputOutput {
   }
 }
 
+/// @nodoc
 class SharedGreetingStruct {
   final String? hi;
 
@@ -3080,6 +3127,7 @@ class SharedGreetingStruct {
   }
 }
 
+/// @nodoc
 class MalformedAcceptWithGenericStringOutput {
   final String? payload;
 
@@ -3095,6 +3143,7 @@ class MalformedAcceptWithGenericStringOutput {
   }
 }
 
+/// @nodoc
 class MalformedAcceptWithPayloadOutput {
   final Uint8List? payload;
 
@@ -3110,6 +3159,7 @@ class MalformedAcceptWithPayloadOutput {
   }
 }
 
+/// @nodoc
 class MediaTypeHeaderOutput {
   final Object? json;
 
@@ -3123,6 +3173,7 @@ class MediaTypeHeaderOutput {
   }
 }
 
+/// @nodoc
 class NoInputAndOutputOutput {
   NoInputAndOutputOutput();
 
@@ -3135,6 +3186,7 @@ class NoInputAndOutputOutput {
   }
 }
 
+/// @nodoc
 class NullAndEmptyHeadersIO {
   final String? a;
   final String? b;
@@ -3154,6 +3206,7 @@ class NullAndEmptyHeadersIO {
   }
 }
 
+/// @nodoc
 class OperationWithDefaultsOutput {
   final Uint8List? defaultBlob;
   final bool? defaultBoolean;
@@ -3224,9 +3277,9 @@ class OperationWithDefaultsOutput {
       defaultDocumentList: json['defaultDocumentList'],
       defaultDocumentMap: json['defaultDocumentMap'],
       defaultDocumentString: json['defaultDocumentString'],
-      defaultDouble: json['defaultDouble'] as double?,
+      defaultDouble: _s.parseJsonDouble(json['defaultDouble']),
       defaultEnum: (json['defaultEnum'] as String?)?.let(TestEnum.fromString),
-      defaultFloat: json['defaultFloat'] as double?,
+      defaultFloat: _s.parseJsonDouble(json['defaultFloat']),
       defaultIntEnum: json['defaultIntEnum'] as int?,
       defaultInteger: json['defaultInteger'] as int?,
       defaultList: (json['defaultList'] as List?)
@@ -3244,8 +3297,8 @@ class OperationWithDefaultsOutput {
       emptyString: json['emptyString'] as String?,
       falseBoolean: json['falseBoolean'] as bool?,
       zeroByte: json['zeroByte'] as int?,
-      zeroDouble: json['zeroDouble'] as double?,
-      zeroFloat: json['zeroFloat'] as double?,
+      zeroDouble: _s.parseJsonDouble(json['zeroDouble']),
+      zeroFloat: _s.parseJsonDouble(json['zeroFloat']),
       zeroInteger: json['zeroInteger'] as int?,
       zeroLong: json['zeroLong'] as int?,
       zeroShort: json['zeroShort'] as int?,
@@ -3292,9 +3345,11 @@ class OperationWithDefaultsOutput {
       if (defaultDocumentMap != null) 'defaultDocumentMap': defaultDocumentMap,
       if (defaultDocumentString != null)
         'defaultDocumentString': defaultDocumentString,
-      if (defaultDouble != null) 'defaultDouble': defaultDouble,
+      if (defaultDouble != null)
+        'defaultDouble': _s.encodeJsonDouble(defaultDouble),
       if (defaultEnum != null) 'defaultEnum': defaultEnum.value,
-      if (defaultFloat != null) 'defaultFloat': defaultFloat,
+      if (defaultFloat != null)
+        'defaultFloat': _s.encodeJsonDouble(defaultFloat),
       if (defaultIntEnum != null) 'defaultIntEnum': defaultIntEnum,
       if (defaultInteger != null) 'defaultInteger': defaultInteger,
       if (defaultList != null) 'defaultList': defaultList,
@@ -3310,8 +3365,8 @@ class OperationWithDefaultsOutput {
       if (emptyString != null) 'emptyString': emptyString,
       if (falseBoolean != null) 'falseBoolean': falseBoolean,
       if (zeroByte != null) 'zeroByte': zeroByte,
-      if (zeroDouble != null) 'zeroDouble': zeroDouble,
-      if (zeroFloat != null) 'zeroFloat': zeroFloat,
+      if (zeroDouble != null) 'zeroDouble': _s.encodeJsonDouble(zeroDouble),
+      if (zeroFloat != null) 'zeroFloat': _s.encodeJsonDouble(zeroFloat),
       if (zeroInteger != null) 'zeroInteger': zeroInteger,
       if (zeroLong != null) 'zeroLong': zeroLong,
       if (zeroShort != null) 'zeroShort': zeroShort,
@@ -3319,6 +3374,7 @@ class OperationWithDefaultsOutput {
   }
 }
 
+/// @nodoc
 class OperationWithNestedStructureOutput {
   final Dialog dialog;
   final List<Dialog>? dialogList;
@@ -3356,6 +3412,7 @@ class OperationWithNestedStructureOutput {
   }
 }
 
+/// @nodoc
 class OutputStreamOutput {
   final EventStream? stream;
 
@@ -3371,6 +3428,7 @@ class OutputStreamOutput {
   }
 }
 
+/// @nodoc
 class OutputStreamWithInitialResponseOutput {
   final String initialResponseMember;
   final EventStream? stream;
@@ -3389,6 +3447,7 @@ class OutputStreamWithInitialResponseOutput {
   }
 }
 
+/// @nodoc
 class PostPlayerActionOutput {
   final PlayerAction action;
 
@@ -3411,6 +3470,7 @@ class PostPlayerActionOutput {
   }
 }
 
+/// @nodoc
 class PostUnionWithJsonNameOutput {
   final UnionWithJsonName value;
 
@@ -3434,6 +3494,7 @@ class PostUnionWithJsonNameOutput {
   }
 }
 
+/// @nodoc
 class RecursiveShapesInputOutput {
   final RecursiveShapesInputOutputNested1? nested;
 
@@ -3458,6 +3519,7 @@ class RecursiveShapesInputOutput {
   }
 }
 
+/// @nodoc
 class ResponseCodeHttpFallbackInputOutput {
   ResponseCodeHttpFallbackInputOutput();
 
@@ -3470,6 +3532,7 @@ class ResponseCodeHttpFallbackInputOutput {
   }
 }
 
+/// @nodoc
 class ResponseCodeRequiredOutput {
   final int responseCode;
 
@@ -3489,6 +3552,7 @@ class ResponseCodeRequiredOutput {
   }
 }
 
+/// @nodoc
 class SimpleScalarPropertiesInputOutput {
   final int? byteValue;
   final double? doubleValue;
@@ -3527,9 +3591,10 @@ class SimpleScalarPropertiesInputOutput {
     final trueBooleanValue = this.trueBooleanValue;
     return {
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'DoubleDribble': doubleValue,
+      if (doubleValue != null)
+        'DoubleDribble': _s.encodeJsonDouble(doubleValue),
       if (falseBooleanValue != null) 'falseBooleanValue': falseBooleanValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -3539,6 +3604,7 @@ class SimpleScalarPropertiesInputOutput {
   }
 }
 
+/// @nodoc
 class SparseJsonListsInputOutput {
   final List<int>? sparseShortList;
   final List<String>? sparseStringList;
@@ -3571,6 +3637,7 @@ class SparseJsonListsInputOutput {
   }
 }
 
+/// @nodoc
 class SparseJsonMapsInputOutput {
   final Map<String, bool>? sparseBooleanMap;
   final Map<String, int>? sparseNumberMap;
@@ -3619,6 +3686,7 @@ class SparseJsonMapsInputOutput {
   }
 }
 
+/// @nodoc
 class StreamingTraitsInputOutput {
   final Uint8List? blob;
   final String? foo;
@@ -3637,6 +3705,7 @@ class StreamingTraitsInputOutput {
   }
 }
 
+/// @nodoc
 class StreamingTraitsWithMediaTypeInputOutput {
   final Uint8List? blob;
   final String? foo;
@@ -3655,6 +3724,7 @@ class StreamingTraitsWithMediaTypeInputOutput {
   }
 }
 
+/// @nodoc
 class TestBodyStructureInputOutput {
   final TestConfig? testConfig;
   final String? testId;
@@ -3673,6 +3743,7 @@ class TestBodyStructureInputOutput {
   }
 }
 
+/// @nodoc
 class TestNoPayloadInputOutput {
   final String? testId;
 
@@ -3686,6 +3757,7 @@ class TestNoPayloadInputOutput {
   }
 }
 
+/// @nodoc
 class TestPayloadBlobInputOutput {
   final String? contentType;
   final Uint8List? data;
@@ -3704,6 +3776,7 @@ class TestPayloadBlobInputOutput {
   }
 }
 
+/// @nodoc
 class TestPayloadStructureInputOutput {
   final PayloadConfig? payloadConfig;
   final String? testId;
@@ -3722,6 +3795,7 @@ class TestPayloadStructureInputOutput {
   }
 }
 
+/// @nodoc
 class TimestampFormatHeadersIO {
   final DateTime? defaultFormat;
   final DateTime? memberDateTime;
@@ -3753,6 +3827,7 @@ class TimestampFormatHeadersIO {
   }
 }
 
+/// @nodoc
 class PayloadConfig {
   final int? data;
 
@@ -3774,6 +3849,7 @@ class PayloadConfig {
   }
 }
 
+/// @nodoc
 class TestConfig {
   final int? timeout;
 
@@ -3795,6 +3871,7 @@ class TestConfig {
   }
 }
 
+/// @nodoc
 class RecursiveShapesInputOutputNested1 {
   final String? foo;
   final RecursiveShapesInputOutputNested2? nested;
@@ -3825,6 +3902,7 @@ class RecursiveShapesInputOutputNested1 {
   }
 }
 
+/// @nodoc
 class RecursiveShapesInputOutputNested2 {
   final String? bar;
   final RecursiveShapesInputOutputNested1? recursiveMember;
@@ -3855,6 +3933,7 @@ class RecursiveShapesInputOutputNested2 {
   }
 }
 
+/// @nodoc
 class UnionWithJsonName {
   final String? bar;
   final String? baz;
@@ -3886,6 +3965,7 @@ class UnionWithJsonName {
   }
 }
 
+/// @nodoc
 class PlayerAction {
   /// Quit the game.
   final Unit? quit;
@@ -3910,6 +3990,7 @@ class PlayerAction {
   }
 }
 
+/// @nodoc
 class EventStream {
   final BlobPayloadEvent? blobPayload;
   final ErrorEvent? error;
@@ -3990,6 +4071,7 @@ class EventStream {
   }
 }
 
+/// @nodoc
 class HeadersEvent {
   final Uint8List? blobHeader;
   final bool? booleanHeader;
@@ -4047,6 +4129,7 @@ class HeadersEvent {
   }
 }
 
+/// @nodoc
 class BlobPayloadEvent {
   final Uint8List? payload;
 
@@ -4068,6 +4151,7 @@ class BlobPayloadEvent {
   }
 }
 
+/// @nodoc
 class StringPayloadEvent {
   final String? payload;
 
@@ -4089,6 +4173,7 @@ class StringPayloadEvent {
   }
 }
 
+/// @nodoc
 class StructurePayloadEvent {
   final PayloadStructure? payload;
 
@@ -4112,6 +4197,7 @@ class StructurePayloadEvent {
   }
 }
 
+/// @nodoc
 class UnionPayloadEvent {
   final PayloadUnion? payload;
 
@@ -4135,6 +4221,7 @@ class UnionPayloadEvent {
   }
 }
 
+/// @nodoc
 class HeadersAndExplicitPayloadEvent {
   final String? header;
   final PayloadStructure? payload;
@@ -4163,6 +4250,7 @@ class HeadersAndExplicitPayloadEvent {
   }
 }
 
+/// @nodoc
 class HeadersAndImplicitPayloadEvent {
   final String? header;
   final String? payload;
@@ -4189,6 +4277,7 @@ class HeadersAndImplicitPayloadEvent {
   }
 }
 
+/// @nodoc
 class ErrorEvent implements _s.AwsException {
   final String? message;
 
@@ -4210,6 +4299,7 @@ class ErrorEvent implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class PayloadStructure {
   final String? structureMember;
 
@@ -4231,6 +4321,7 @@ class PayloadStructure {
   }
 }
 
+/// @nodoc
 class PayloadUnion {
   final String? unionMember;
 
@@ -4252,6 +4343,7 @@ class PayloadUnion {
   }
 }
 
+/// @nodoc
 class Dialog {
   final Farewell? farewell;
   final String? greeting;
@@ -4285,6 +4377,7 @@ class Dialog {
   }
 }
 
+/// @nodoc
 class Farewell {
   final String? phrase;
 
@@ -4306,6 +4399,7 @@ class Farewell {
   }
 }
 
+/// @nodoc
 class TopLevel {
   final Dialog dialog;
   final List<Dialog>? dialogList;
@@ -4329,6 +4423,7 @@ class TopLevel {
   }
 }
 
+/// @nodoc
 class TestEnum {
   static const foo = TestEnum._('FOO');
   static const bar = TestEnum._('BAR');
@@ -4353,6 +4448,7 @@ class TestEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class Defaults {
   final Uint8List? defaultBlob;
   final bool? defaultBoolean;
@@ -4454,9 +4550,11 @@ class Defaults {
       if (defaultDocumentMap != null) 'defaultDocumentMap': defaultDocumentMap,
       if (defaultDocumentString != null)
         'defaultDocumentString': defaultDocumentString,
-      if (defaultDouble != null) 'defaultDouble': defaultDouble,
+      if (defaultDouble != null)
+        'defaultDouble': _s.encodeJsonDouble(defaultDouble),
       if (defaultEnum != null) 'defaultEnum': defaultEnum.value,
-      if (defaultFloat != null) 'defaultFloat': defaultFloat,
+      if (defaultFloat != null)
+        'defaultFloat': _s.encodeJsonDouble(defaultFloat),
       if (defaultIntEnum != null) 'defaultIntEnum': defaultIntEnum,
       if (defaultInteger != null) 'defaultInteger': defaultInteger,
       if (defaultList != null) 'defaultList': defaultList,
@@ -4472,8 +4570,8 @@ class Defaults {
       if (emptyString != null) 'emptyString': emptyString,
       if (falseBoolean != null) 'falseBoolean': falseBoolean,
       if (zeroByte != null) 'zeroByte': zeroByte,
-      if (zeroDouble != null) 'zeroDouble': zeroDouble,
-      if (zeroFloat != null) 'zeroFloat': zeroFloat,
+      if (zeroDouble != null) 'zeroDouble': _s.encodeJsonDouble(zeroDouble),
+      if (zeroFloat != null) 'zeroFloat': _s.encodeJsonDouble(zeroFloat),
       if (zeroInteger != null) 'zeroInteger': zeroInteger,
       if (zeroLong != null) 'zeroLong': zeroLong,
       if (zeroShort != null) 'zeroShort': zeroShort,
@@ -4481,6 +4579,7 @@ class Defaults {
   }
 }
 
+/// @nodoc
 class ClientOptionalDefaults {
   final int? member;
 
@@ -4496,6 +4595,7 @@ class ClientOptionalDefaults {
   }
 }
 
+/// @nodoc
 class FooEnum {
   static const foo = FooEnum._('Foo');
   static const baz = FooEnum._('Baz');
@@ -4522,6 +4622,7 @@ class FooEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class SimpleUnion {
   final int? intValue;
   final String? string;
@@ -4542,6 +4643,8 @@ class SimpleUnion {
 }
 
 /// A union with a representative set of types for members.
+///
+/// @nodoc
 class MyUnion {
   final Uint8List? blobValue;
   final bool? booleanValue;
@@ -4620,6 +4723,7 @@ class MyUnion {
   }
 }
 
+/// @nodoc
 class NestedGreetingStruct {
   final String? salutation;
 
@@ -4641,6 +4745,7 @@ class NestedGreetingStruct {
   }
 }
 
+/// @nodoc
 class StructureListMember {
   final String? a;
   final String? b;
@@ -4667,6 +4772,7 @@ class StructureListMember {
   }
 }
 
+/// @nodoc
 class UnionPayload {
   final String? greeting;
 
@@ -4688,6 +4794,7 @@ class UnionPayload {
   }
 }
 
+/// @nodoc
 class NestedPayload {
   final String? greeting;
   final String? name;
@@ -4714,6 +4821,7 @@ class NestedPayload {
   }
 }
 
+/// @nodoc
 class StringEnum {
   static const enumvalue = StringEnum._('enumvalue');
 
@@ -4736,6 +4844,7 @@ class StringEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class SingletonEventStream {
   final SingletonEvent? singleton;
 
@@ -4759,6 +4868,7 @@ class SingletonEventStream {
   }
 }
 
+/// @nodoc
 class SingletonEvent {
   final String? value;
 
@@ -4780,6 +4890,7 @@ class SingletonEvent {
   }
 }
 
+/// @nodoc
 class Unit {
   Unit();
 
@@ -4792,21 +4903,25 @@ class Unit {
   }
 }
 
+/// @nodoc
 class ComplexError extends _s.GenericAwsException {
   ComplexError({String? type, String? message})
       : super(type: type, code: 'ComplexError', message: message);
 }
 
+/// @nodoc
 class FooError extends _s.GenericAwsException {
   FooError({String? type, String? message})
       : super(type: type, code: 'FooError', message: message);
 }
 
+/// @nodoc
 class InvalidGreeting extends _s.GenericAwsException {
   InvalidGreeting({String? type, String? message})
       : super(type: type, code: 'InvalidGreeting', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableError extends _s.GenericAwsException {
   ServiceUnavailableError({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailableError', message: message);

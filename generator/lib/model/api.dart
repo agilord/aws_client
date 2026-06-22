@@ -137,6 +137,16 @@ class Metadata {
   final Object? awsQueryCompatible;
   final String? ripServiceName;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final Map<String, Object?>? endpointRuleSet;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final List<Object?>? endpointTests;
+
+  // Client-level endpoint config, e.g. S3's ForcePathStyle.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final Map<String, Object?>? clientContextParams;
+
   Metadata({
     required this.apiVersion,
     required this.endpointPrefix,
@@ -159,6 +169,9 @@ class Metadata {
     this.auth,
     this.awsQueryCompatible,
     this.ripServiceName,
+    this.endpointRuleSet,
+    this.endpointTests,
+    this.clientContextParams,
   });
 
   String get className {

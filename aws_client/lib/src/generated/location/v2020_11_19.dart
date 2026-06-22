@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,46 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_11_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// "Suite of geospatial services including Maps, Places, Routes, Tracking, and
 /// Geofencing"
 class Location {
   final _s.RestJsonProtocol _protocol;
-  Location({
+  factory Location({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'geo',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'geo',
+    );
+    return Location._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Location._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -150,6 +169,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/keys',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateKeyResponse.fromJson(response);
@@ -177,6 +197,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/metadata/v0/keys/${Uri.encodeComponent(keyName)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeKeyResponse.fromJson(response);
@@ -237,6 +258,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/metadata/v0/keys/${Uri.encodeComponent(keyName)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateKeyResponse.fromJson(response);
@@ -283,6 +305,7 @@ class Location {
       method: 'DELETE',
       requestUri: '/metadata/v0/keys/${Uri.encodeComponent(keyName)}',
       queryParams: $query,
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -327,6 +350,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/list-keys',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return ListKeysResponse.fromJson(response);
@@ -358,6 +382,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -436,6 +461,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -473,6 +499,7 @@ class Location {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -571,6 +598,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/geofencing/v0/collections',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGeofenceCollectionResponse.fromJson(response);
@@ -594,6 +622,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGeofenceCollectionResponse.fromJson(response);
@@ -636,6 +665,7 @@ class Location {
       method: 'PATCH',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGeofenceCollectionResponse.fromJson(response);
@@ -664,6 +694,7 @@ class Location {
       method: 'DELETE',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -697,6 +728,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/geofencing/v0/list-collections',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return ListGeofenceCollectionsResponse.fromJson(response);
@@ -730,6 +762,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/delete-geofences',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDeleteGeofenceResponse.fromJson(response);
@@ -790,6 +823,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/positions',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchEvaluateGeofencesResponse.fromJson(response);
@@ -822,6 +856,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/put-geofences',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutGeofenceResponse.fromJson(response);
@@ -923,6 +958,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/forecast-geofence-events',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return ForecastGeofenceEventsResponse.fromJson(response);
@@ -954,6 +990,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/geofences/${Uri.encodeComponent(geofenceId)}',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return GetGeofenceResponse.fromJson(response);
@@ -994,6 +1031,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/list-geofences',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return ListGeofencesResponse.fromJson(response);
@@ -1051,6 +1089,7 @@ class Location {
       method: 'PUT',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/geofences/${Uri.encodeComponent(geofenceId)}',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return PutGeofenceResponse.fromJson(response);
@@ -1130,6 +1169,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/jobs',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return StartJobResponse.fromJson(response);
@@ -1158,6 +1198,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/metadata/v0/jobs/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -1198,6 +1239,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/jobs/list-jobs',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -1229,6 +1271,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/jobs/cancel-job',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -1362,6 +1405,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/maps/v0/maps',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMapResponse.fromJson(response);
@@ -1417,6 +1461,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMapResponse.fromJson(response);
@@ -1492,6 +1537,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMapResponse.fromJson(response);
@@ -1551,6 +1597,7 @@ class Location {
       payload: null,
       method: 'DELETE',
       requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1617,6 +1664,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/maps/v0/list-maps',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return ListMapsResponse.fromJson(response);
@@ -1778,6 +1826,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/glyphs/${Uri.encodeComponent(fontStack)}/${Uri.encodeComponent(fontUnicodeRange)}',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapGlyphsResponse(
@@ -1878,6 +1927,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/sprites/${Uri.encodeComponent(fileName)}',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapSpritesResponse(
@@ -1957,6 +2007,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/style-descriptor',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapStyleDescriptorResponse(
@@ -2049,6 +2100,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/tiles/${Uri.encodeComponent(z)}/${Uri.encodeComponent(x)}/${Uri.encodeComponent(y)}',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapTileResponse(
@@ -2234,6 +2286,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/places/v0/indexes',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePlaceIndexResponse.fromJson(response);
@@ -2288,6 +2341,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePlaceIndexResponse.fromJson(response);
@@ -2361,6 +2415,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePlaceIndexResponse.fromJson(response);
@@ -2418,6 +2473,7 @@ class Location {
       payload: null,
       method: 'DELETE',
       requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2484,6 +2540,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/places/v0/list-indexes',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return ListPlaceIndexesResponse.fromJson(response);
@@ -2599,6 +2656,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/places/${Uri.encodeComponent(placeId)}',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return GetPlaceResponse.fromJson(response);
@@ -2715,6 +2773,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/position',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchPlaceIndexForPositionResponse.fromJson(response);
@@ -2896,6 +2955,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/suggestions',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchPlaceIndexForSuggestionsResponse.fromJson(response);
@@ -3083,6 +3143,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/text',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchPlaceIndexForTextResponse.fromJson(response);
@@ -3260,6 +3321,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/routes/v0/calculators',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRouteCalculatorResponse.fromJson(response);
@@ -3315,6 +3377,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRouteCalculatorResponse.fromJson(response);
@@ -3383,6 +3446,7 @@ class Location {
       method: 'PATCH',
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRouteCalculatorResponse.fromJson(response);
@@ -3441,6 +3505,7 @@ class Location {
       method: 'DELETE',
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3506,6 +3571,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/routes/v0/list-calculators',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return ListRouteCalculatorsResponse.fromJson(response);
@@ -3789,6 +3855,7 @@ class Location {
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}/calculate/route',
       queryParams: $query,
+      hostPrefix: 'routes.',
       exceptionFnMap: _exceptionFns,
     );
     return CalculateRouteResponse.fromJson(response);
@@ -4039,6 +4106,7 @@ class Location {
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}/calculate/route-matrix',
       queryParams: $query,
+      hostPrefix: 'routes.',
       exceptionFnMap: _exceptionFns,
     );
     return CalculateRouteMatrixResponse.fromJson(response);
@@ -4209,6 +4277,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/tracking/v0/trackers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTrackerResponse.fromJson(response);
@@ -4231,6 +4300,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTrackerResponse.fromJson(response);
@@ -4329,6 +4399,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrackerResponse.fromJson(response);
@@ -4356,6 +4427,7 @@ class Location {
       payload: null,
       method: 'DELETE',
       requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4389,6 +4461,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/tracking/v0/list-trackers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTrackersResponse.fromJson(response);
@@ -4441,6 +4514,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/consumers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4480,6 +4554,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/delete-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDeleteDevicePositionHistoryResponse.fromJson(response);
@@ -4517,6 +4592,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/get-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetDevicePositionResponse.fromJson(response);
@@ -4573,6 +4649,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateDevicePositionResponse.fromJson(response);
@@ -4614,6 +4691,7 @@ class Location {
       method: 'DELETE',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/consumers/${Uri.encodeComponent(consumerArn)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4643,6 +4721,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/devices/${Uri.encodeComponent(deviceId)}/positions/latest',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicePositionResponse.fromJson(response);
@@ -4729,6 +4808,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/devices/${Uri.encodeComponent(deviceId)}/list-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicePositionHistoryResponse.fromJson(response);
@@ -4773,6 +4853,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/list-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return ListDevicePositionsResponse.fromJson(response);
@@ -4815,6 +4896,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/list-consumers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTrackerConsumersResponse.fromJson(response);
@@ -4863,6 +4945,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/positions/verify',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return VerifyDevicePositionResponse.fromJson(response);

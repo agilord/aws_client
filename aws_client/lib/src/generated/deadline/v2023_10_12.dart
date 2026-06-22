@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_10_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The Amazon Web Services Deadline Cloud API provides infrastructure and
@@ -32,22 +34,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// high-speed storage, licenses, and cost management services.
 class Deadline {
   final _s.RestJsonProtocol _protocol;
-  Deadline({
+  factory Deadline({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'deadline',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'deadline',
+    );
+    return Deadline._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Deadline._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -84,6 +103,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/batch-get-job',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetJobResponse.fromJson(response);
@@ -115,6 +135,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/batch-get-session',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetSessionResponse.fromJson(response);
@@ -146,6 +167,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/batch-get-session-action',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetSessionActionResponse.fromJson(response);
@@ -177,6 +199,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/batch-get-step',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetStepResponse.fromJson(response);
@@ -208,6 +231,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/batch-get-task',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetTaskResponse.fromJson(response);
@@ -239,6 +263,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/batch-get-worker',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetWorkerResponse.fromJson(response);
@@ -285,6 +310,7 @@ class Deadline {
       method: 'PATCH',
       requestUri: '/2023-10-12/batch-update-job',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateJobResponse.fromJson(response);
@@ -324,6 +350,7 @@ class Deadline {
       method: 'PATCH',
       requestUri: '/2023-10-12/batch-update-task',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateTaskResponse.fromJson(response);
@@ -359,6 +386,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-fleet-associations',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -397,6 +425,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-limit-associations',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -428,6 +457,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-fleet-associations/${Uri.encodeComponent(queueId)}/${Uri.encodeComponent(fleetId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -466,6 +496,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-limit-associations/${Uri.encodeComponent(queueId)}/${Uri.encodeComponent(limitId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -496,6 +527,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-fleet-associations/${Uri.encodeComponent(queueId)}/${Uri.encodeComponent(fleetId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueueFleetAssociationResponse.fromJson(response);
@@ -528,6 +560,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-limit-associations/${Uri.encodeComponent(queueId)}/${Uri.encodeComponent(limitId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueueLimitAssociationResponse.fromJson(response);
@@ -586,6 +619,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/sessions-statistics-aggregation',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetSessionsStatisticsAggregationResponse.fromJson(response);
@@ -622,6 +656,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/metered-products',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAvailableMeteredProductsResponse.fromJson(response);
@@ -675,6 +710,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-fleet-associations',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueueFleetAssociationsResponse.fromJson(response);
@@ -735,6 +771,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-limit-associations',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueueLimitAssociationsResponse.fromJson(response);
@@ -757,6 +794,7 @@ class Deadline {
       payload: null,
       method: 'GET',
       requestUri: '/2023-10-12/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -807,6 +845,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/search/jobs',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchJobsResponse.fromJson(response);
@@ -862,6 +901,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/search/steps',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchStepsResponse.fromJson(response);
@@ -917,6 +957,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/search/tasks',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchTasksResponse.fromJson(response);
@@ -967,6 +1008,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/search/workers',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchWorkersResponse.fromJson(response);
@@ -1036,6 +1078,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/sessions-statistics-aggregation',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return StartSessionsStatisticsAggregationResponse.fromJson(response);
@@ -1067,6 +1110,7 @@ class Deadline {
       payload: $payload,
       method: 'POST',
       requestUri: '/2023-10-12/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1097,6 +1141,7 @@ class Deadline {
       method: 'DELETE',
       requestUri: '/2023-10-12/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1134,6 +1179,7 @@ class Deadline {
       method: 'PATCH',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-fleet-associations/${Uri.encodeComponent(queueId)}/${Uri.encodeComponent(fleetId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1176,6 +1222,7 @@ class Deadline {
       method: 'PATCH',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queue-limit-associations/${Uri.encodeComponent(queueId)}/${Uri.encodeComponent(limitId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1254,6 +1301,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/farms',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFarmResponse.fromJson(response);
@@ -1276,6 +1324,7 @@ class Deadline {
       payload: null,
       method: 'GET',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetFarmResponse.fromJson(response);
@@ -1334,6 +1383,7 @@ class Deadline {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1355,6 +1405,7 @@ class Deadline {
       payload: null,
       method: 'DELETE',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1397,6 +1448,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/farms',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListFarmsResponse.fromJson(response);
@@ -1442,6 +1494,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1527,6 +1580,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/limits',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLimitResponse.fromJson(response);
@@ -1584,6 +1638,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/storage-profiles',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateStorageProfileResponse.fromJson(response);
@@ -1612,6 +1667,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/limits/${Uri.encodeComponent(limitId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1637,6 +1693,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/storage-profiles/${Uri.encodeComponent(storageProfileId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1663,6 +1720,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1689,6 +1747,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/limits/${Uri.encodeComponent(limitId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetLimitResponse.fromJson(response);
@@ -1716,6 +1775,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/storage-profiles/${Uri.encodeComponent(storageProfileId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetStorageProfileResponse.fromJson(response);
@@ -1759,6 +1819,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/members',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListFarmMembersResponse.fromJson(response);
@@ -1801,6 +1862,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/limits',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListLimitsResponse.fromJson(response);
@@ -1845,6 +1907,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/storage-profiles',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStorageProfilesResponse.fromJson(response);
@@ -1915,6 +1978,7 @@ class Deadline {
       method: 'PATCH',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/limits/${Uri.encodeComponent(limitId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1979,6 +2043,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/storage-profiles/${Uri.encodeComponent(storageProfileId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2065,6 +2130,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/budgets',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBudgetResponse.fromJson(response);
@@ -2092,6 +2158,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/budgets/${Uri.encodeComponent(budgetId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBudgetResponse.fromJson(response);
@@ -2193,6 +2260,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/budgets/${Uri.encodeComponent(budgetId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2219,6 +2287,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/budgets/${Uri.encodeComponent(budgetId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2266,6 +2335,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/budgets',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListBudgetsResponse.fromJson(response);
@@ -2378,6 +2448,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFleetResponse.fromJson(response);
@@ -2405,6 +2476,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetFleetResponse.fromJson(response);
@@ -2511,6 +2583,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2547,6 +2620,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2609,6 +2683,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListFleetsResponse.fromJson(response);
@@ -2658,6 +2733,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2685,6 +2761,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/read-roles',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return AssumeFleetRoleForReadResponse.fromJson(response);
@@ -2717,6 +2794,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2764,6 +2842,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/members',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListFleetMembersResponse.fromJson(response);
@@ -2795,6 +2874,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/volumes/${Uri.encodeComponent(volumeId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetVolumeResponse.fromJson(response);
@@ -2827,6 +2907,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/volumes/${Uri.encodeComponent(volumeId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2874,6 +2955,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/volumes',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListVolumesResponse.fromJson(response);
@@ -2936,6 +3018,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers',
       headers: headers,
+      hostPrefix: 'scheduling.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateWorkerResponse.fromJson(response);
@@ -2967,6 +3050,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetWorkerResponse.fromJson(response);
@@ -3016,6 +3100,7 @@ class Deadline {
       method: 'PATCH',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}',
+      hostPrefix: 'scheduling.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateWorkerResponse.fromJson(response);
@@ -3048,6 +3133,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3095,6 +3181,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListWorkersResponse.fromJson(response);
@@ -3127,6 +3214,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}/fleet-roles',
+      hostPrefix: 'scheduling.',
       exceptionFnMap: _exceptionFns,
     );
     return AssumeFleetRoleForWorkerResponse.fromJson(response);
@@ -3167,6 +3255,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}/queue-roles',
       queryParams: $query,
+      hostPrefix: 'scheduling.',
       exceptionFnMap: _exceptionFns,
     );
     return AssumeQueueRoleForWorkerResponse.fromJson(response);
@@ -3207,6 +3296,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}/batchGetJobEntity',
+      hostPrefix: 'scheduling.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetJobEntityResponse.fromJson(response);
@@ -3259,6 +3349,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}/sessions',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListSessionsForWorkerResponse.fromJson(response);
@@ -3299,6 +3390,7 @@ class Deadline {
       method: 'PATCH',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/fleets/${Uri.encodeComponent(fleetId)}/workers/${Uri.encodeComponent(workerId)}/schedule',
+      hostPrefix: 'scheduling.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateWorkerScheduleResponse.fromJson(response);
@@ -3406,6 +3498,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateQueueResponse.fromJson(response);
@@ -3433,6 +3526,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueueResponse.fromJson(response);
@@ -3552,6 +3646,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3583,6 +3678,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3648,6 +3744,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueuesResponse.fromJson(response);
@@ -3697,6 +3794,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3724,6 +3822,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/read-roles',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return AssumeQueueRoleForReadResponse.fromJson(response);
@@ -3751,6 +3850,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/user-roles',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return AssumeQueueRoleForUserResponse.fromJson(response);
@@ -3815,6 +3915,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/environments',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateQueueEnvironmentResponse.fromJson(response);
@@ -3845,6 +3946,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/environments/${Uri.encodeComponent(queueEnvironmentId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3876,6 +3978,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3906,6 +4009,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/environments/${Uri.encodeComponent(queueEnvironmentId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueueEnvironmentResponse.fromJson(response);
@@ -3937,6 +4041,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/storage-profiles/${Uri.encodeComponent(storageProfileId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetStorageProfileForQueueResponse.fromJson(response);
@@ -3985,6 +4090,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/environments',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueueEnvironmentsResponse.fromJson(response);
@@ -4033,6 +4139,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/members',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListQueueMembersResponse.fromJson(response);
@@ -4081,6 +4188,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/storage-profiles',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStorageProfilesForQueueResponse.fromJson(response);
@@ -4144,6 +4252,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/environments/${Uri.encodeComponent(queueEnvironmentId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4299,6 +4408,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResponse.fromJson(response);
@@ -4330,6 +4440,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -4462,6 +4573,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4514,6 +4626,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -4567,6 +4680,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4605,6 +4719,7 @@ class Deadline {
       method: 'POST',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/template',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CopyJobTemplateResponse.fromJson(response);
@@ -4640,6 +4755,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/members/${Uri.encodeComponent(principalId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4674,6 +4790,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/sessions/${Uri.encodeComponent(sessionId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetSessionResponse.fromJson(response);
@@ -4709,6 +4826,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/session-actions/${Uri.encodeComponent(sessionActionId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetSessionActionResponse.fromJson(response);
@@ -4744,6 +4862,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetStepResponse.fromJson(response);
@@ -4783,6 +4902,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}/tasks/${Uri.encodeComponent(taskId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetTaskResponse.fromJson(response);
@@ -4835,6 +4955,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/members',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobMembersResponse.fromJson(response);
@@ -4887,6 +5008,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/parameter-definitions',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobParameterDefinitionsResponse.fromJson(response);
@@ -4949,6 +5071,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/session-actions',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListSessionActionsResponse.fromJson(response);
@@ -5001,6 +5124,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/sessions',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListSessionsResponse.fromJson(response);
@@ -5051,6 +5175,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}/consumers',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStepConsumersResponse.fromJson(response);
@@ -5101,6 +5226,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}/dependencies',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStepDependenciesResponse.fromJson(response);
@@ -5153,6 +5279,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStepsResponse.fromJson(response);
@@ -5209,6 +5336,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}/tasks',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTasksResponse.fromJson(response);
@@ -5261,6 +5389,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/sessions/${Uri.encodeComponent(sessionId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5312,6 +5441,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5367,6 +5497,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/farms/${Uri.encodeComponent(farmId)}/queues/${Uri.encodeComponent(queueId)}/jobs/${Uri.encodeComponent(jobId)}/steps/${Uri.encodeComponent(stepId)}/tasks/${Uri.encodeComponent(taskId)}',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5418,6 +5549,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/license-endpoints',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateLicenseEndpointResponse.fromJson(response);
@@ -5441,6 +5573,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/license-endpoints/${Uri.encodeComponent(licenseEndpointId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetLicenseEndpointResponse.fromJson(response);
@@ -5465,6 +5598,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/license-endpoints/${Uri.encodeComponent(licenseEndpointId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5503,6 +5637,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/license-endpoints',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListLicenseEndpointsResponse.fromJson(response);
@@ -5530,6 +5665,7 @@ class Deadline {
       method: 'DELETE',
       requestUri:
           '/2023-10-12/license-endpoints/${Uri.encodeComponent(licenseEndpointId)}/metered-products/${Uri.encodeComponent(productId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5573,6 +5709,7 @@ class Deadline {
       requestUri:
           '/2023-10-12/license-endpoints/${Uri.encodeComponent(licenseEndpointId)}/metered-products',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListMeteredProductsResponse.fromJson(response);
@@ -5600,6 +5737,7 @@ class Deadline {
       method: 'PUT',
       requestUri:
           '/2023-10-12/license-endpoints/${Uri.encodeComponent(licenseEndpointId)}/metered-products/${Uri.encodeComponent(productId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5675,6 +5813,7 @@ class Deadline {
       method: 'POST',
       requestUri: '/2023-10-12/monitors',
       headers: headers,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMonitorResponse.fromJson(response);
@@ -5698,6 +5837,7 @@ class Deadline {
       payload: null,
       method: 'GET',
       requestUri: '/2023-10-12/monitors/${Uri.encodeComponent(monitorId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMonitorResponse.fromJson(response);
@@ -5743,6 +5883,7 @@ class Deadline {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/2023-10-12/monitors/${Uri.encodeComponent(monitorId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5767,6 +5908,7 @@ class Deadline {
       payload: null,
       method: 'DELETE',
       requestUri: '/2023-10-12/monitors/${Uri.encodeComponent(monitorId)}',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5804,6 +5946,7 @@ class Deadline {
       method: 'GET',
       requestUri: '/2023-10-12/monitors',
       queryParams: $query,
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return ListMonitorsResponse.fromJson(response);
@@ -5829,6 +5972,7 @@ class Deadline {
       method: 'GET',
       requestUri:
           '/2023-10-12/monitors/${Uri.encodeComponent(monitorId)}/settings',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMonitorSettingsResponse.fromJson(response);
@@ -5863,6 +6007,7 @@ class Deadline {
       method: 'PATCH',
       requestUri:
           '/2023-10-12/monitors/${Uri.encodeComponent(monitorId)}/settings',
+      hostPrefix: 'management.',
       exceptionFnMap: _exceptionFns,
     );
   }

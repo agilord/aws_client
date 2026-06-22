@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_11_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// IoT TwinMaker is a service with which you can build operational digital
@@ -28,22 +30,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// diagnose and repair errors.
 class IoTTwinMaker {
   final _s.RestJsonProtocol _protocol;
-  IoTTwinMaker({
+  factory IoTTwinMaker({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'iottwinmaker',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'iottwinmaker',
+    );
+    return IoTTwinMaker._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  IoTTwinMaker._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -79,6 +98,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entity-properties',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutPropertyValuesResponse.fromJson(response);
@@ -103,6 +123,7 @@ class IoTTwinMaker {
       method: 'PUT',
       requestUri:
           '/metadata-transfer-jobs/${Uri.encodeComponent(metadataTransferJobId)}/cancel',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CancelMetadataTransferJobResponse.fromJson(response);
@@ -186,6 +207,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types/${Uri.encodeComponent(componentTypeId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateComponentTypeResponse.fromJson(response);
@@ -250,6 +272,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}/entities',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateEntityResponse.fromJson(response);
@@ -293,6 +316,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata-transfer-jobs',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMetadataTransferJobResponse.fromJson(response);
@@ -349,6 +373,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}/scenes',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSceneResponse.fromJson(response);
@@ -393,6 +418,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/sync-jobs/${Uri.encodeComponent(syncSource)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSyncJobResponse.fromJson(response);
@@ -439,6 +465,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateWorkspaceResponse.fromJson(response);
@@ -466,6 +493,7 @@ class IoTTwinMaker {
       method: 'DELETE',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types/${Uri.encodeComponent(componentTypeId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteComponentTypeResponse.fromJson(response);
@@ -502,6 +530,7 @@ class IoTTwinMaker {
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entities/${Uri.encodeComponent(entityId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEntityResponse.fromJson(response);
@@ -529,6 +558,7 @@ class IoTTwinMaker {
       method: 'DELETE',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/scenes/${Uri.encodeComponent(sceneId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -559,6 +589,7 @@ class IoTTwinMaker {
       method: 'DELETE',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/sync-jobs/${Uri.encodeComponent(syncSource)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSyncJobResponse.fromJson(response);
@@ -581,6 +612,7 @@ class IoTTwinMaker {
       payload: null,
       method: 'DELETE',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteWorkspaceResponse.fromJson(response);
@@ -635,6 +667,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/queries/execution',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ExecuteQueryResponse.fromJson(response);
@@ -662,6 +695,7 @@ class IoTTwinMaker {
       method: 'GET',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types/${Uri.encodeComponent(componentTypeId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetComponentTypeResponse.fromJson(response);
@@ -689,6 +723,7 @@ class IoTTwinMaker {
       method: 'GET',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entities/${Uri.encodeComponent(entityId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetEntityResponse.fromJson(response);
@@ -712,6 +747,7 @@ class IoTTwinMaker {
       method: 'GET',
       requestUri:
           '/metadata-transfer-jobs/${Uri.encodeComponent(metadataTransferJobId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMetadataTransferJobResponse.fromJson(response);
@@ -728,6 +764,7 @@ class IoTTwinMaker {
       payload: null,
       method: 'GET',
       requestUri: '/pricingplan',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetPricingPlanResponse.fromJson(response);
@@ -814,6 +851,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entity-properties/value',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return GetPropertyValueResponse.fromJson(response);
@@ -936,6 +974,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entity-properties/history',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return GetPropertyValueHistoryResponse.fromJson(response);
@@ -963,6 +1002,7 @@ class IoTTwinMaker {
       method: 'GET',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/scenes/${Uri.encodeComponent(sceneId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetSceneResponse.fromJson(response);
@@ -997,6 +1037,7 @@ class IoTTwinMaker {
       method: 'GET',
       requestUri: '/sync-jobs/${Uri.encodeComponent(syncSource)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetSyncJobResponse.fromJson(response);
@@ -1019,6 +1060,7 @@ class IoTTwinMaker {
       payload: null,
       method: 'GET',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetWorkspaceResponse.fromJson(response);
@@ -1071,6 +1113,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entities/${Uri.encodeComponent(entityId)}/components-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListComponentsResponse.fromJson(response);
@@ -1118,6 +1161,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListComponentTypesResponse.fromJson(response);
@@ -1168,6 +1212,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entities-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListEntitiesResponse.fromJson(response);
@@ -1218,6 +1263,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata-transfer-jobs-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListMetadataTransferJobsResponse.fromJson(response);
@@ -1276,6 +1322,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/properties-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListPropertiesResponse.fromJson(response);
@@ -1315,6 +1362,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}/scenes-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListScenesResponse.fromJson(response);
@@ -1358,6 +1406,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/sync-jobs-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListSyncJobsResponse.fromJson(response);
@@ -1427,6 +1476,7 @@ class IoTTwinMaker {
       method: 'POST',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/sync-jobs/${Uri.encodeComponent(syncSource)}/resources-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListSyncResourcesResponse.fromJson(response);
@@ -1467,6 +1517,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1504,6 +1555,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/workspaces-list',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListWorkspacesResponse.fromJson(response);
@@ -1532,6 +1584,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1560,6 +1613,7 @@ class IoTTwinMaker {
       method: 'DELETE',
       requestUri: '/tags',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1637,6 +1691,7 @@ class IoTTwinMaker {
       method: 'PUT',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types/${Uri.encodeComponent(componentTypeId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateComponentTypeResponse.fromJson(response);
@@ -1697,6 +1752,7 @@ class IoTTwinMaker {
       method: 'PUT',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/entities/${Uri.encodeComponent(entityId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEntityResponse.fromJson(response);
@@ -1726,6 +1782,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'POST',
       requestUri: '/pricingplan',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePricingPlanResponse.fromJson(response);
@@ -1776,6 +1833,7 @@ class IoTTwinMaker {
       method: 'PUT',
       requestUri:
           '/workspaces/${Uri.encodeComponent(workspaceId)}/scenes/${Uri.encodeComponent(sceneId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSceneResponse.fromJson(response);
@@ -1817,6 +1875,7 @@ class IoTTwinMaker {
       payload: $payload,
       method: 'PUT',
       requestUri: '/workspaces/${Uri.encodeComponent(workspaceId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateWorkspaceResponse.fromJson(response);

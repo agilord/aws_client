@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_11_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Web Services HealthOmics is a service that helps users such as
@@ -32,22 +34,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// HealthOmics User Guide</i>.
 class Omics {
   final _s.RestJsonProtocol _protocol;
-  Omics({
+  factory Omics({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'omics',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'omics',
+    );
+    return Omics._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Omics._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -77,6 +96,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/s3accesspolicy/${Uri.encodeComponent(s3AccessPointArn)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -101,6 +121,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/s3accesspolicy/${Uri.encodeComponent(s3AccessPointArn)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetS3AccessPolicyResponse.fromJson(response);
@@ -132,6 +153,7 @@ class Omics {
       payload: $payload,
       method: 'PUT',
       requestUri: '/s3accesspolicy/${Uri.encodeComponent(s3AccessPointArn)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return PutS3AccessPolicyResponse.fromJson(response);
@@ -197,6 +219,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/import/annotation',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return StartAnnotationImportResponse.fromJson(response);
@@ -227,6 +250,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/import/annotation/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return GetAnnotationImportResponse.fromJson(response);
@@ -257,6 +281,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/import/annotation/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -308,6 +333,7 @@ class Omics {
       method: 'POST',
       requestUri: '/import/annotations',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return ListAnnotationImportJobsResponse.fromJson(response);
@@ -379,6 +405,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/annotationStore',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAnnotationStoreResponse.fromJson(response);
@@ -409,6 +436,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/annotationStore/${Uri.encodeComponent(name)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return GetAnnotationStoreResponse.fromJson(response);
@@ -446,6 +474,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/annotationStore/${Uri.encodeComponent(name)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAnnotationStoreResponse.fromJson(response);
@@ -485,6 +514,7 @@ class Omics {
       method: 'DELETE',
       requestUri: '/annotationStore/${Uri.encodeComponent(name)}',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAnnotationStoreResponse.fromJson(response);
@@ -537,6 +567,7 @@ class Omics {
       method: 'POST',
       requestUri: '/annotationStores',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return ListAnnotationStoresResponse.fromJson(response);
@@ -585,6 +616,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/annotationStore/${Uri.encodeComponent(name)}/version',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAnnotationStoreVersionResponse.fromJson(response);
@@ -614,6 +646,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/annotationStore/${Uri.encodeComponent(name)}/version/${Uri.encodeComponent(versionName)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return GetAnnotationStoreVersionResponse.fromJson(response);
@@ -648,6 +681,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/annotationStore/${Uri.encodeComponent(name)}/version/${Uri.encodeComponent(versionName)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAnnotationStoreVersionResponse.fromJson(response);
@@ -692,6 +726,7 @@ class Omics {
       method: 'POST',
       requestUri: '/annotationStore/${Uri.encodeComponent(name)}/versions',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return ListAnnotationStoreVersionsResponse.fromJson(response);
@@ -732,6 +767,7 @@ class Omics {
       requestUri:
           '/annotationStore/${Uri.encodeComponent(name)}/versions/delete',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAnnotationStoreVersionsResponse.fromJson(response);
@@ -781,6 +817,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/configuration',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationResponse.fromJson(response);
@@ -806,6 +843,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/configuration/${Uri.encodeComponent(name)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationResponse.fromJson(response);
@@ -831,6 +869,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/configuration/${Uri.encodeComponent(name)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -864,6 +903,7 @@ class Omics {
       method: 'GET',
       requestUri: '/configuration',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationsResponse.fromJson(response);
@@ -920,6 +960,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/referencestore',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateReferenceStoreResponse.fromJson(response);
@@ -943,6 +984,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/referencestore/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReferenceStoreResponse.fromJson(response);
@@ -975,6 +1017,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/referencestore/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1019,6 +1062,7 @@ class Omics {
       method: 'POST',
       requestUri: '/referencestores',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReferenceStoresResponse.fromJson(response);
@@ -1048,6 +1092,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/importjob/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReferenceImportJobResponse.fromJson(response);
@@ -1094,6 +1139,7 @@ class Omics {
       requestUri:
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/importjobs',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReferenceImportJobsResponse.fromJson(response);
@@ -1141,6 +1187,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/importjob',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return StartReferenceImportJobResponse.fromJson(response);
@@ -1172,6 +1219,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/reference/${Uri.encodeComponent(id)}/metadata',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReferenceMetadataResponse.fromJson(response);
@@ -1210,6 +1258,7 @@ class Omics {
       method: 'DELETE',
       requestUri:
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/reference/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1260,6 +1309,7 @@ class Omics {
       requestUri:
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/references',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReferencesResponse.fromJson(response);
@@ -1316,6 +1366,7 @@ class Omics {
           '/referencestore/${Uri.encodeComponent(referenceStoreId)}/reference/${Uri.encodeComponent(id)}',
       queryParams: $query,
       headers: headers,
+      hostPrefix: 'storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReferenceResponse(
@@ -1382,6 +1433,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runBatch',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return StartRunBatchResponse.fromJson(response);
@@ -1406,6 +1458,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/runBatch/${Uri.encodeComponent(batchId)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetBatchResponse.fromJson(response);
@@ -1441,6 +1494,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/runBatch/${Uri.encodeComponent(batchId)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1489,6 +1543,7 @@ class Omics {
       method: 'GET',
       requestUri: '/runBatch',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListBatchResponse.fromJson(response);
@@ -1528,6 +1583,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runBatch/cancel',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1564,6 +1620,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runBatch/delete',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1621,6 +1678,7 @@ class Omics {
       method: 'GET',
       requestUri: '/runBatch/${Uri.encodeComponent(batchId)}/run',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListRunsInBatchResponse.fromJson(response);
@@ -1714,6 +1772,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runCache',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRunCacheResponse.fromJson(response);
@@ -1744,6 +1803,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/runCache/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetRunCacheResponse.fromJson(response);
@@ -1795,6 +1855,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runCache/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1828,6 +1889,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/runCache/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1862,6 +1924,7 @@ class Omics {
       method: 'GET',
       requestUri: '/runCache',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListRunCachesResponse.fromJson(response);
@@ -1925,6 +1988,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runGroup',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRunGroupResponse.fromJson(response);
@@ -1950,6 +2014,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/runGroup/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetRunGroupResponse.fromJson(response);
@@ -2026,6 +2091,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/runGroup/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2063,6 +2129,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/runGroup/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2103,6 +2170,7 @@ class Omics {
       method: 'GET',
       requestUri: '/runGroup',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListRunGroupsResponse.fromJson(response);
@@ -2386,6 +2454,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/run',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return StartRunResponse.fromJson(response);
@@ -2427,6 +2496,7 @@ class Omics {
       method: 'GET',
       requestUri: '/run/${Uri.encodeComponent(id)}',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetRunResponse.fromJson(response);
@@ -2470,6 +2540,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/run/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2532,6 +2603,7 @@ class Omics {
       method: 'GET',
       requestUri: '/run',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListRunsResponse.fromJson(response);
@@ -2560,6 +2632,7 @@ class Omics {
       payload: null,
       method: 'POST',
       requestUri: '/run/${Uri.encodeComponent(id)}/cancel',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2589,6 +2662,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/run/${Uri.encodeComponent(id)}/task/${Uri.encodeComponent(taskId)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetRunTaskResponse.fromJson(response);
@@ -2635,6 +2709,7 @@ class Omics {
       method: 'GET',
       requestUri: '/run/${Uri.encodeComponent(id)}/task',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListRunTasksResponse.fromJson(response);
@@ -2749,6 +2824,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/sequencestore',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateSequenceStoreResponse.fromJson(response);
@@ -2773,6 +2849,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/sequencestore/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetSequenceStoreResponse.fromJson(response);
@@ -2832,6 +2909,7 @@ class Omics {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/sequencestore/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSequenceStoreResponse.fromJson(response);
@@ -2867,6 +2945,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/sequencestore/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2911,6 +2990,7 @@ class Omics {
       method: 'POST',
       requestUri: '/sequencestores',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListSequenceStoresResponse.fromJson(response);
@@ -2945,6 +3025,7 @@ class Omics {
       method: 'DELETE',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/upload/${Uri.encodeComponent(uploadId)}/abort',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2992,6 +3073,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/upload/${Uri.encodeComponent(uploadId)}/complete',
+      hostPrefix: 'storage-',
       exceptionFnMap: _exceptionFns,
     );
     return CompleteMultipartReadSetUploadResponse.fromJson(response);
@@ -3097,6 +3179,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/upload',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMultipartReadSetUploadResponse.fromJson(response);
@@ -3126,6 +3209,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/activationjob/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReadSetActivationJobResponse.fromJson(response);
@@ -3156,6 +3240,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/exportjob/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReadSetExportJobResponse.fromJson(response);
@@ -3185,6 +3270,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/importjob/${Uri.encodeComponent(id)}',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReadSetImportJobResponse.fromJson(response);
@@ -3229,6 +3315,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/uploads',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListMultipartReadSetUploadsResponse.fromJson(response);
@@ -3277,6 +3364,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/activationjobs',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReadSetActivationJobsResponse.fromJson(response);
@@ -3324,6 +3412,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/exportjobs',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReadSetExportJobsResponse.fromJson(response);
@@ -3370,6 +3459,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/importjobs',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReadSetImportJobsResponse.fromJson(response);
@@ -3427,6 +3517,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/upload/${Uri.encodeComponent(uploadId)}/parts',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReadSetUploadPartsResponse.fromJson(response);
@@ -3472,6 +3563,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/activationjob',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return StartReadSetActivationJobResponse.fromJson(response);
@@ -3525,6 +3617,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/exportjob',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return StartReadSetExportJobResponse.fromJson(response);
@@ -3571,6 +3664,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/importjob',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return StartReadSetImportJobResponse.fromJson(response);
@@ -3627,6 +3721,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/upload/${Uri.encodeComponent(uploadId)}/part',
       queryParams: $query,
+      hostPrefix: 'storage-',
       exceptionFnMap: _exceptionFns,
     );
     return UploadReadSetPartResponse.fromJson(response);
@@ -3657,6 +3752,7 @@ class Omics {
       method: 'GET',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/readset/${Uri.encodeComponent(id)}/metadata',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReadSetMetadataResponse.fromJson(response);
@@ -3703,6 +3799,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/readsets',
       queryParams: $query,
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return ListReadSetsResponse.fromJson(response);
@@ -3748,6 +3845,7 @@ class Omics {
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/readset/${Uri.encodeComponent(id)}',
       queryParams: $query,
+      hostPrefix: 'storage-',
       exceptionFnMap: _exceptionFns,
     );
     return GetReadSetResponse(
@@ -3787,6 +3885,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/sequencestore/${Uri.encodeComponent(sequenceStoreId)}/readset/batch/delete',
+      hostPrefix: 'control-storage-',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDeleteReadSetResponse.fromJson(response);
@@ -3841,6 +3940,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/share',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateShareResponse.fromJson(response);
@@ -3865,6 +3965,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/share/${Uri.encodeComponent(shareId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return GetShareResponse.fromJson(response);
@@ -3889,6 +3990,7 @@ class Omics {
       payload: null,
       method: 'POST',
       requestUri: '/share/${Uri.encodeComponent(shareId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return AcceptShareResponse.fromJson(response);
@@ -3915,6 +4017,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/share/${Uri.encodeComponent(shareId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteShareResponse.fromJson(response);
@@ -3963,6 +4066,7 @@ class Omics {
       method: 'POST',
       requestUri: '/shares',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return ListSharesResponse.fromJson(response);
@@ -3988,6 +4092,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'tags-',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -4020,6 +4125,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'tags-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4052,6 +4158,7 @@ class Omics {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'tags-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4106,6 +4213,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/import/variant',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return StartVariantImportResponse.fromJson(response);
@@ -4136,6 +4244,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/import/variant/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return GetVariantImportResponse.fromJson(response);
@@ -4166,6 +4275,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/import/variant/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4217,6 +4327,7 @@ class Omics {
       method: 'POST',
       requestUri: '/import/variants',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return ListVariantImportJobsResponse.fromJson(response);
@@ -4272,6 +4383,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/variantStore',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateVariantStoreResponse.fromJson(response);
@@ -4302,6 +4414,7 @@ class Omics {
       payload: null,
       method: 'GET',
       requestUri: '/variantStore/${Uri.encodeComponent(name)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return GetVariantStoreResponse.fromJson(response);
@@ -4339,6 +4452,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/variantStore/${Uri.encodeComponent(name)}',
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateVariantStoreResponse.fromJson(response);
@@ -4378,6 +4492,7 @@ class Omics {
       method: 'DELETE',
       requestUri: '/variantStore/${Uri.encodeComponent(name)}',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVariantStoreResponse.fromJson(response);
@@ -4430,6 +4545,7 @@ class Omics {
       method: 'POST',
       requestUri: '/variantStores',
       queryParams: $query,
+      hostPrefix: 'analytics-',
       exceptionFnMap: _exceptionFns,
     );
     return ListVariantStoresResponse.fromJson(response);
@@ -4674,6 +4790,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/workflow',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateWorkflowResponse.fromJson(response);
@@ -4724,6 +4841,7 @@ class Omics {
       method: 'GET',
       requestUri: '/workflow/${Uri.encodeComponent(id)}',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetWorkflowResponse.fromJson(response);
@@ -4808,6 +4926,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/workflow/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4845,6 +4964,7 @@ class Omics {
       payload: null,
       method: 'DELETE',
       requestUri: '/workflow/${Uri.encodeComponent(id)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4894,6 +5014,7 @@ class Omics {
       method: 'GET',
       requestUri: '/workflow',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListWorkflowsResponse.fromJson(response);
@@ -5115,6 +5236,7 @@ class Omics {
       payload: $payload,
       method: 'POST',
       requestUri: '/workflow/${Uri.encodeComponent(workflowId)}/version',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return CreateWorkflowVersionResponse.fromJson(response);
@@ -5168,6 +5290,7 @@ class Omics {
       requestUri:
           '/workflow/${Uri.encodeComponent(workflowId)}/version/${Uri.encodeComponent(versionName)}',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return GetWorkflowVersionResponse.fromJson(response);
@@ -5237,6 +5360,7 @@ class Omics {
       method: 'POST',
       requestUri:
           '/workflow/${Uri.encodeComponent(workflowId)}/version/${Uri.encodeComponent(versionName)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5272,6 +5396,7 @@ class Omics {
       method: 'DELETE',
       requestUri:
           '/workflow/${Uri.encodeComponent(workflowId)}/version/${Uri.encodeComponent(versionName)}',
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5326,6 +5451,7 @@ class Omics {
       method: 'GET',
       requestUri: '/workflow/${Uri.encodeComponent(workflowId)}/version',
       queryParams: $query,
+      hostPrefix: 'workflows-',
       exceptionFnMap: _exceptionFns,
     );
     return ListWorkflowVersionsResponse.fromJson(response);

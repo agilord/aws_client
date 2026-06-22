@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_12_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the IoT SiteWise API Reference. IoT SiteWise is an Amazon Web
@@ -31,22 +33,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// in the <i>IoT SiteWise User Guide</i>.
 class IoTSiteWise {
   final _s.RestJsonProtocol _protocol;
-  IoTSiteWise({
+  factory IoTSiteWise({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'iotsitewise',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'iotsitewise',
+    );
+    return IoTSiteWise._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  IoTSiteWise._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -114,6 +133,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/associate',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -166,6 +186,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri: '/timeseries/associate',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -202,6 +223,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri:
           '/projects/${Uri.encodeComponent(projectId)}/assets/associate',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchAssociateProjectAssetsResponse.fromJson(response);
@@ -240,6 +262,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri:
           '/projects/${Uri.encodeComponent(projectId)}/assets/disassociate',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDisassociateProjectAssetsResponse.fromJson(response);
@@ -297,6 +320,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/properties/batch/aggregates',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetAssetPropertyAggregatesResponse.fromJson(response);
@@ -330,6 +354,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/properties/batch/latest',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetAssetPropertyValueResponse.fromJson(response);
@@ -387,6 +412,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/properties/batch/history',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetAssetPropertyValueHistoryResponse.fromJson(response);
@@ -457,6 +483,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/properties',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutAssetPropertyValueResponse.fromJson(response);
@@ -516,6 +543,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/access-policies',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessPolicyResponse.fromJson(response);
@@ -592,6 +620,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/assets',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAssetResponse.fromJson(response);
@@ -747,6 +776,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/asset-models',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAssetModelResponse.fromJson(response);
@@ -903,6 +933,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models',
       headers: headers,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAssetModelCompositeModelResponse.fromJson(response);
@@ -993,6 +1024,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/jobs',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBulkImportJobResponse.fromJson(response);
@@ -1054,6 +1086,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/computation-models',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateComputationModelResponse.fromJson(response);
@@ -1124,6 +1157,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/dashboards',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDashboardResponse.fromJson(response);
@@ -1181,6 +1215,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/datasets',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDatasetResponse.fromJson(response);
@@ -1241,6 +1276,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/20200301/gateways',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGatewayResponse.fromJson(response);
@@ -1383,6 +1419,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/portals',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePortalResponse.fromJson(response);
@@ -1437,6 +1474,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/projects',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateProjectResponse.fromJson(response);
@@ -1470,6 +1508,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/access-policies/${Uri.encodeComponent(accessPolicyId)}',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1513,6 +1552,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetResponse.fromJson(response);
@@ -1585,6 +1625,7 @@ class IoTSiteWise {
       requestUri: '/asset-models/${Uri.encodeComponent(assetModelId)}',
       queryParams: $query,
       headers: headers,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetModelResponse.fromJson(response);
@@ -1659,6 +1700,7 @@ class IoTSiteWise {
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models/${Uri.encodeComponent(assetModelCompositeModelId)}',
       queryParams: $query,
       headers: headers,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetModelCompositeModelResponse.fromJson(response);
@@ -1700,6 +1742,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-model-interface-relationship',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetModelInterfaceRelationshipResponse.fromJson(response);
@@ -1733,6 +1776,7 @@ class IoTSiteWise {
       requestUri:
           '/computation-models/${Uri.encodeComponent(computationModelId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteComputationModelResponse.fromJson(response);
@@ -1764,6 +1808,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/dashboards/${Uri.encodeComponent(dashboardId)}',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1795,6 +1840,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDatasetResponse.fromJson(response);
@@ -1818,6 +1864,7 @@ class IoTSiteWise {
       payload: null,
       method: 'DELETE',
       requestUri: '/20200301/gateways/${Uri.encodeComponent(gatewayId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1849,6 +1896,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/portals/${Uri.encodeComponent(portalId)}',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePortalResponse.fromJson(response);
@@ -1880,6 +1928,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/projects/${Uri.encodeComponent(projectId)}',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1956,6 +2005,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri: '/timeseries/delete',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1977,6 +2027,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/access-policies/${Uri.encodeComponent(accessPolicyId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAccessPolicyResponse.fromJson(response);
@@ -1998,6 +2049,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/actions/${Uri.encodeComponent(actionId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeActionResponse.fromJson(response);
@@ -2032,6 +2084,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetResponse.fromJson(response);
@@ -2070,6 +2123,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri:
           '/assets/${Uri.encodeComponent(assetId)}/composite-models/${Uri.encodeComponent(assetCompositeModelId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetCompositeModelResponse.fromJson(response);
@@ -2115,6 +2169,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/asset-models/${Uri.encodeComponent(assetModelId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2208,6 +2263,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models/${Uri.encodeComponent(assetModelCompositeModelId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetModelCompositeModelResponse.fromJson(response);
@@ -2238,6 +2294,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-model-interface-relationship',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetModelInterfaceRelationshipResponse.fromJson(response);
@@ -2281,6 +2338,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri:
           '/assets/${Uri.encodeComponent(assetId)}/properties/${Uri.encodeComponent(propertyId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetPropertyResponse.fromJson(response);
@@ -2306,6 +2364,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/jobs/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeBulkImportJobResponse.fromJson(response);
@@ -2337,6 +2396,7 @@ class IoTSiteWise {
       requestUri:
           '/computation-models/${Uri.encodeComponent(computationModelId)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeComputationModelResponse.fromJson(response);
@@ -2375,6 +2435,7 @@ class IoTSiteWise {
       requestUri:
           '/computation-models/${Uri.encodeComponent(computationModelId)}/execution-summary',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeComputationModelExecutionSummaryResponse.fromJson(response);
@@ -2396,6 +2457,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/dashboards/${Uri.encodeComponent(dashboardId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDashboardResponse.fromJson(response);
@@ -2417,6 +2479,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatasetResponse.fromJson(response);
@@ -2437,6 +2500,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/configuration/account/encryption',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDefaultEncryptionConfigurationResponse.fromJson(response);
@@ -2458,6 +2522,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/executions/${Uri.encodeComponent(executionId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeExecutionResponse.fromJson(response);
@@ -2479,6 +2544,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/20200301/gateways/${Uri.encodeComponent(gatewayId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGatewayResponse.fromJson(response);
@@ -2537,6 +2603,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri:
           '/20200301/gateways/${Uri.encodeComponent(gatewayId)}/capability/${Uri.encodeComponent(capabilityNamespace)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGatewayCapabilityConfigurationResponse.fromJson(response);
@@ -2553,6 +2620,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/logging',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeLoggingOptionsResponse.fromJson(response);
@@ -2574,6 +2642,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/portals/${Uri.encodeComponent(portalId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePortalResponse.fromJson(response);
@@ -2595,6 +2664,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/projects/${Uri.encodeComponent(projectId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProjectResponse.fromJson(response);
@@ -2614,6 +2684,7 @@ class IoTSiteWise {
       payload: null,
       method: 'GET',
       requestUri: '/configuration/account/storage',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStorageConfigurationResponse.fromJson(response);
@@ -2679,6 +2750,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/timeseries/describe',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTimeSeriesResponse.fromJson(response);
@@ -2739,6 +2811,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/disassociate',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2791,6 +2864,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri: '/timeseries/disassociate',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2838,6 +2912,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/actions',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ExecuteActionResponse.fromJson(response);
@@ -2901,6 +2976,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/queries/execution',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return ExecuteQueryResponse.fromJson(response);
@@ -3022,6 +3098,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/properties/aggregates',
       queryParams: $query,
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssetPropertyAggregatesResponse.fromJson(response);
@@ -3080,6 +3157,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/properties/latest',
       queryParams: $query,
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssetPropertyValueResponse.fromJson(response);
@@ -3193,6 +3271,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/properties/history',
       queryParams: $query,
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssetPropertyValueHistoryResponse.fromJson(response);
@@ -3417,6 +3496,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/properties/interpolated',
       queryParams: $query,
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return GetInterpolatedAssetPropertyValuesResponse.fromJson(response);
@@ -3458,6 +3538,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/assistant/invocation',
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3535,6 +3616,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/access-policies',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessPoliciesResponse.fromJson(response);
@@ -3593,6 +3675,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/actions',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListActionsResponse.fromJson(response);
@@ -3650,6 +3733,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetModelCompositeModelsResponse.fromJson(response);
@@ -3725,6 +3809,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/properties',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetModelPropertiesResponse.fromJson(response);
@@ -3794,6 +3879,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/asset-models',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetModelsResponse.fromJson(response);
@@ -3859,6 +3945,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/properties',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetPropertiesResponse.fromJson(response);
@@ -3920,6 +4007,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/assetRelationships',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetRelationshipsResponse.fromJson(response);
@@ -4004,6 +4092,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/assets',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetsResponse.fromJson(response);
@@ -4096,6 +4185,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}/hierarchies',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssociatedAssetsResponse.fromJson(response);
@@ -4141,6 +4231,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/jobs',
       queryParams: $query,
+      hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
     return ListBulkImportJobsResponse.fromJson(response);
@@ -4189,6 +4280,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composition-relationships',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListCompositionRelationshipsResponse.fromJson(response);
@@ -4235,6 +4327,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/computation-models/data-binding-usages',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListComputationModelDataBindingUsagesResponse.fromJson(response);
@@ -4278,6 +4371,7 @@ class IoTSiteWise {
       requestUri:
           '/computation-models/${Uri.encodeComponent(computationModelId)}/resolve-to-resources',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListComputationModelResolveToResourcesResponse.fromJson(response);
@@ -4320,6 +4414,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/computation-models',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListComputationModelsResponse.fromJson(response);
@@ -4363,6 +4458,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/dashboards',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return ListDashboardsResponse.fromJson(response);
@@ -4404,6 +4500,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/datasets',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetsResponse.fromJson(response);
@@ -4467,6 +4564,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/executions',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListExecutionsResponse.fromJson(response);
@@ -4504,6 +4602,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/20200301/gateways',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListGatewaysResponse.fromJson(response);
@@ -4548,6 +4647,7 @@ class IoTSiteWise {
       requestUri:
           '/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-models',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListInterfaceRelationshipsResponse.fromJson(response);
@@ -4585,6 +4685,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/portals',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return ListPortalsResponse.fromJson(response);
@@ -4627,6 +4728,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/projects/${Uri.encodeComponent(projectId)}/assets',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return ListProjectAssetsResponse.fromJson(response);
@@ -4669,6 +4771,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/projects',
       queryParams: $query,
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return ListProjectsResponse.fromJson(response);
@@ -4699,6 +4802,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/tags',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -4766,6 +4870,7 @@ class IoTSiteWise {
       method: 'GET',
       requestUri: '/timeseries',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTimeSeriesResponse.fromJson(response);
@@ -4816,6 +4921,7 @@ class IoTSiteWise {
       method: 'PUT',
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-model-interface-relationship',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return PutAssetModelInterfaceRelationshipResponse.fromJson(response);
@@ -4851,6 +4957,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/configuration/account/encryption',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return PutDefaultEncryptionConfigurationResponse.fromJson(response);
@@ -4876,6 +4983,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/logging',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4971,6 +5079,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'POST',
       requestUri: '/configuration/account/storage',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return PutStorageConfigurationResponse.fromJson(response);
@@ -5013,6 +5122,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri: '/tags',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5047,6 +5157,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/tags',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5095,6 +5206,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/access-policies/${Uri.encodeComponent(accessPolicyId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5151,6 +5263,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/assets/${Uri.encodeComponent(assetId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetResponse.fromJson(response);
@@ -5308,6 +5421,7 @@ class IoTSiteWise {
       method: 'PUT',
       requestUri: '/asset-models/${Uri.encodeComponent(assetModelId)}',
       headers: headers,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetModelResponse.fromJson(response);
@@ -5435,6 +5549,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models/${Uri.encodeComponent(assetModelCompositeModelId)}',
       headers: headers,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetModelCompositeModelResponse.fromJson(response);
@@ -5519,6 +5634,7 @@ class IoTSiteWise {
       method: 'PUT',
       requestUri:
           '/assets/${Uri.encodeComponent(assetId)}/properties/${Uri.encodeComponent(propertyId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5576,6 +5692,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri:
           '/computation-models/${Uri.encodeComponent(computationModelId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateComputationModelResponse.fromJson(response);
@@ -5636,6 +5753,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/dashboards/${Uri.encodeComponent(dashboardId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5682,6 +5800,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDatasetResponse.fromJson(response);
@@ -5711,6 +5830,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/20200301/gateways/${Uri.encodeComponent(gatewayId)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5786,6 +5906,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri:
           '/20200301/gateways/${Uri.encodeComponent(gatewayId)}/capability',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGatewayCapabilityConfigurationResponse.fromJson(response);
@@ -5877,6 +5998,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/portals/${Uri.encodeComponent(portalId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePortalResponse.fromJson(response);
@@ -5917,6 +6039,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/projects/${Uri.encodeComponent(projectId)}',
+      hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
   }

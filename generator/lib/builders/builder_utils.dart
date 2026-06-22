@@ -103,6 +103,14 @@ String extractJsonCode(Shape shape, String variable,
     return '_s.decodeUint8List($variable as String)';
   } else {
     final dartType = shape.type.getDartType(shape.api);
+    if (dartType == 'double') {
+      if (correctMissing) {
+        return '_s.parseJsonDouble($variable) ?? 0';
+      }
+      return nullability.outputNullable
+          ? '_s.parseJsonDouble($variable)'
+          : '_s.parseJsonDouble($variable)!';
+    }
     if (correctMissing) {
       final fallback = _missingScalarFallback(dartType);
       if (fallback != null) {
@@ -176,6 +184,8 @@ String encodeJsonCode(Shape shape, String variable,
     } else {
       return 'base64Encode($variable)';
     }
+  } else if (shape.type == 'double' || shape.type == 'float') {
+    return '_s.encodeJsonDouble($variable)';
   }
   return variable;
 }
@@ -199,7 +209,6 @@ String encodeXmlCode(Shape shape, String variable,
       value?.locationName ??
       key?.locationName ??
       listMember?.locationName ??
-      shape.locationName ??
       (value != null ? 'value' : null) ??
       (key != null ? 'key' : null) ??
       (listMember != null ? 'member' : null) ??

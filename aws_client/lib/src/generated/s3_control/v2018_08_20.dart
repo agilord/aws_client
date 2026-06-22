@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,29 +19,101 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_08_20.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Web Services S3 Control provides access to Amazon S3 control plane
 /// actions.
 class S3Control {
   final _s.RestXmlProtocol _protocol;
-  S3Control({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  final bool? _useArnRegion;
+  factory S3Control({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestXmlProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 's3-control',
-            signingName: 's3',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool? useArnRegion,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 's3-control',
+      signingName: 's3',
+    );
+    return S3Control._(
+      protocol: _s.RestXmlProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint,
+                useArnRegion: useArnRegion),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+      useArnRegion: useArnRegion,
+    );
+  }
+  S3Control._({
+    required _s.RestXmlProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+    required bool? useArnRegion,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint,
+        _useArnRegion = useArnRegion;
+  _s.Endpoint _resolveEndpoint({
+    String? accessPointName,
+    String? accountId,
+    String? bucket,
+    String? outpostId,
+    bool? requiresAccountId,
+    String? resourceArn,
+    bool? useS3ExpressControlEndpoint,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        useArnRegion: _useArnRegion,
+        accessPointName: accessPointName,
+        accountId: accountId,
+        bucket: bucket,
+        outpostId: outpostId,
+        requiresAccountId: requiresAccountId,
+        resourceArn: resourceArn,
+        useS3ExpressControlEndpoint: useS3ExpressControlEndpoint,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -91,6 +164,11 @@ class S3Control {
       payload: AssociateAccessGrantsIdentityCenterRequest(
               accountId: accountId, identityCenterArn: identityCenterArn)
           .toXml('AssociateAccessGrantsIdentityCenterRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -204,6 +282,11 @@ class S3Control {
               s3PrefixType: s3PrefixType,
               tags: tags)
           .toXml('CreateAccessGrantRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessGrantResult.fromXml($result.body);
@@ -258,6 +341,11 @@ class S3Control {
               identityCenterArn: identityCenterArn,
               tags: tags)
           .toXml('CreateAccessGrantsInstanceRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessGrantsInstanceResult.fromXml($result.body);
@@ -335,6 +423,11 @@ class S3Control {
               locationScope: locationScope,
               tags: tags)
           .toXml('CreateAccessGrantsLocationRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessGrantsLocationResult.fromXml($result.body);
@@ -480,7 +573,7 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
+      requestUri: '/v20180820/accesspoint',
       headers: headers,
       payload: CreateAccessPointRequest(
               accountId: accountId,
@@ -492,6 +585,13 @@ class S3Control {
               tags: tags,
               vpcConfiguration: vpcConfiguration)
           .toXml('CreateAccessPointRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessPointResult.fromXml($result.body);
@@ -549,6 +649,11 @@ class S3Control {
       payload: CreateAccessPointForObjectLambdaRequest(
               accountId: accountId, configuration: configuration, name: name)
           .toXml('CreateAccessPointForObjectLambdaRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessPointForObjectLambdaResult.fromXml($result.body);
@@ -707,9 +812,13 @@ class S3Control {
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}',
+      requestUri: '/v20180820/bucket',
       headers: headers,
       payload: createBucketConfiguration?.toXml('CreateBucketConfiguration'),
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        outpostId: outpostId,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -851,6 +960,11 @@ class S3Control {
               manifestGenerator: manifestGenerator,
               tags: tags)
           .toXml('CreateJobRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResult.fromXml($result.body);
@@ -927,6 +1041,11 @@ class S3Control {
       payload: CreateMultiRegionAccessPointRequest(
               accountId: accountId, details: details, clientToken: clientToken)
           .toXml('CreateMultiRegionAccessPointRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMultiRegionAccessPointResult.fromXml($result.body);
@@ -981,6 +1100,11 @@ class S3Control {
               storageLensGroup: storageLensGroup,
               tags: tags)
           .toXml('CreateStorageLensGroupRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1011,6 +1135,11 @@ class S3Control {
       requestUri:
           '/v20180820/accessgrantsinstance/grant/${Uri.encodeComponent(accessGrantId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1045,6 +1174,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/accessgrantsinstance',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1070,6 +1204,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/accessgrantsinstance/resourcepolicy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1107,6 +1246,11 @@ class S3Control {
       requestUri:
           '/v20180820/accessgrantsinstance/location/${Uri.encodeComponent(accessGrantsLocationId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1168,8 +1312,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
+      requestUri: '/v20180820/accesspoint',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1215,6 +1365,11 @@ class S3Control {
       requestUri:
           '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1273,8 +1428,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
+      requestUri: '/v20180820/accesspoint/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1317,6 +1478,11 @@ class S3Control {
       requestUri:
           '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1348,8 +1514,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/scope',
+      requestUri: '/v20180820/accesspoint/scope',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        useS3ExpressControlEndpoint: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1418,8 +1590,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}',
+      requestUri: '/v20180820/bucket',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1497,9 +1675,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/lifecycleconfiguration',
+      requestUri: '/v20180820/bucket/lifecycleconfiguration',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1583,8 +1766,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/policy',
+      requestUri: '/v20180820/bucket/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1671,9 +1860,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/replication',
+      requestUri: '/v20180820/bucket/replication',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1742,8 +1936,14 @@ class S3Control {
     };
     await _protocol.send(
       method: 'DELETE',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/tagging',
+      requestUri: '/v20180820/bucket/tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1795,6 +1995,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1867,6 +2072,11 @@ class S3Control {
       payload: DeleteMultiRegionAccessPointRequest(
               accountId: accountId, details: details, clientToken: clientToken)
           .toXml('DeleteMultiRegionAccessPointRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMultiRegionAccessPointResult.fromXml($result.body);
@@ -1911,6 +2121,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/configuration/publicAccessBlock',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1948,6 +2163,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/storagelens/${Uri.encodeComponent(configId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1986,6 +2206,11 @@ class S3Control {
       requestUri:
           '/v20180820/storagelens/${Uri.encodeComponent(configId)}/tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2019,6 +2244,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/storagelensgroup/${Uri.encodeComponent(name)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2074,6 +2304,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobResult.fromXml($result.body);
@@ -2132,6 +2367,11 @@ class S3Control {
       requestUri:
           '/v20180820/async-requests/mrap/${requestTokenARN.split('/').map(Uri.encodeComponent).join('/')}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMultiRegionAccessPointOperationResult.fromXml($result.body);
@@ -2159,6 +2399,11 @@ class S3Control {
       method: 'DELETE',
       requestUri: '/v20180820/accessgrantsinstance/identitycenter',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2187,6 +2432,11 @@ class S3Control {
       requestUri:
           '/v20180820/accessgrantsinstance/grant/${Uri.encodeComponent(accessGrantId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessGrantResult.fromXml($result.body);
@@ -2214,6 +2464,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/accessgrantsinstance',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessGrantsInstanceResult.fromXml($result.body);
@@ -2250,6 +2505,11 @@ class S3Control {
       requestUri: '/v20180820/accessgrantsinstance/prefix',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessGrantsInstanceForPrefixResult.fromXml($result.body);
@@ -2274,6 +2534,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/accessgrantsinstance/resourcepolicy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessGrantsInstanceResourcePolicyResult.fromXml($result.body);
@@ -2307,6 +2572,11 @@ class S3Control {
       requestUri:
           '/v20180820/accessgrantsinstance/location/${Uri.encodeComponent(accessGrantsLocationId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessGrantsLocationResult.fromXml($result.body);
@@ -2372,8 +2642,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
+      requestUri: '/v20180820/accesspoint',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointResult.fromXml($result.body);
@@ -2414,6 +2690,11 @@ class S3Control {
       requestUri:
           '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/configuration',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointConfigurationForObjectLambdaResult.fromXml(
@@ -2462,6 +2743,11 @@ class S3Control {
       requestUri:
           '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointForObjectLambdaResult.fromXml($result.body);
@@ -2510,8 +2796,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
+      requestUri: '/v20180820/accesspoint/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointPolicyResult.fromXml($result.body);
@@ -2555,6 +2847,11 @@ class S3Control {
       requestUri:
           '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointPolicyForObjectLambdaResult.fromXml($result.body);
@@ -2584,9 +2881,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policyStatus',
+      requestUri: '/v20180820/accesspoint/policyStatus',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointPolicyStatusResult.fromXml($result.body);
@@ -2617,6 +2919,11 @@ class S3Control {
       requestUri:
           '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policyStatus',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointPolicyStatusForObjectLambdaResult.fromXml(
@@ -2647,8 +2954,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/scope',
+      requestUri: '/v20180820/accesspoint/scope',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        useS3ExpressControlEndpoint: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointScopeResult.fromXml($result.body);
@@ -2723,8 +3036,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}',
+      requestUri: '/v20180820/bucket',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketResult.fromXml($result.body);
@@ -2823,9 +3142,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/lifecycleconfiguration',
+      requestUri: '/v20180820/bucket/lifecycleconfiguration',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLifecycleConfigurationResult.fromXml($result.body);
@@ -2914,8 +3238,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/policy',
+      requestUri: '/v20180820/bucket/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketPolicyResult.fromXml($result.body);
@@ -3010,9 +3340,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/replication',
+      requestUri: '/v20180820/bucket/replication',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketReplicationResult.fromXml($result.body);
@@ -3094,8 +3429,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/tagging',
+      requestUri: '/v20180820/bucket/tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketTaggingResult.fromXml($result.body);
@@ -3161,8 +3502,14 @@ class S3Control {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/versioning',
+      requestUri: '/v20180820/bucket/versioning',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketVersioningResult.fromXml($result.body);
@@ -3273,6 +3620,11 @@ class S3Control {
       requestUri: '/v20180820/accessgrantsinstance/dataaccess',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataAccessResult.fromXml($result.body);
@@ -3325,6 +3677,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobTaggingResult.fromXml($result.body);
@@ -3389,6 +3746,11 @@ class S3Control {
       requestUri:
           '/v20180820/mrap/instances/${name.split('/').map(Uri.encodeComponent).join('/')}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMultiRegionAccessPointResult.fromXml($result.body);
@@ -3446,6 +3808,11 @@ class S3Control {
       requestUri:
           '/v20180820/mrap/instances/${name.split('/').map(Uri.encodeComponent).join('/')}/policy',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMultiRegionAccessPointPolicyResult.fromXml($result.body);
@@ -3503,6 +3870,11 @@ class S3Control {
       requestUri:
           '/v20180820/mrap/instances/${name.split('/').map(Uri.encodeComponent).join('/')}/policystatus',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMultiRegionAccessPointPolicyStatusResult.fromXml($result.body);
@@ -3555,6 +3927,11 @@ class S3Control {
       requestUri:
           '/v20180820/mrap/instances/${mrap.split('/').map(Uri.encodeComponent).join('/')}/routes',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMultiRegionAccessPointRoutesResult.fromXml($result.body);
@@ -3598,6 +3975,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/configuration/publicAccessBlock',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3643,6 +4025,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/storagelens/${Uri.encodeComponent(configId)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3686,6 +4073,11 @@ class S3Control {
       requestUri:
           '/v20180820/storagelens/${Uri.encodeComponent(configId)}/tagging',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return GetStorageLensConfigurationTaggingResult.fromXml($result.body);
@@ -3721,6 +4113,11 @@ class S3Control {
       method: 'GET',
       requestUri: '/v20180820/storagelensgroup/${Uri.encodeComponent(name)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3837,6 +4234,11 @@ class S3Control {
       requestUri: '/v20180820/accessgrantsinstance/grants',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessGrantsResult.fromXml($result.body);
@@ -3886,6 +4288,11 @@ class S3Control {
       requestUri: '/v20180820/accessgrantsinstances',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessGrantsInstancesResult.fromXml($result.body);
@@ -3946,6 +4353,11 @@ class S3Control {
       requestUri: '/v20180820/accessgrantsinstance/locations',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessGrantsLocationsResult.fromXml($result.body);
@@ -4060,6 +4472,12 @@ class S3Control {
       requestUri: '/v20180820/accesspoint',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessPointsResult.fromXml($result.body);
@@ -4127,6 +4545,11 @@ class S3Control {
       requestUri: '/v20180820/accesspointfordirectory',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        useS3ExpressControlEndpoint: true,
+        accountId: accountId,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessPointsForDirectoryBucketsResult.fromXml($result.body);
@@ -4197,6 +4620,11 @@ class S3Control {
       requestUri: '/v20180820/accesspointforobjectlambda',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessPointsForObjectLambdaResult.fromXml($result.body);
@@ -4274,6 +4702,11 @@ class S3Control {
       requestUri: '/v20180820/accessgrantsinstance/caller/grants',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListCallerAccessGrantsResult.fromXml($result.body);
@@ -4360,6 +4793,11 @@ class S3Control {
       requestUri: '/v20180820/jobs',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResult.fromXml($result.body);
@@ -4434,6 +4872,11 @@ class S3Control {
       requestUri: '/v20180820/mrap/instances',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListMultiRegionAccessPointsResult.fromXml($result.body);
@@ -4492,6 +4935,12 @@ class S3Control {
       requestUri: '/v20180820/bucket',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        outpostId: outpostId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListRegionalBucketsResult.fromXml($result.body);
@@ -4534,6 +4983,11 @@ class S3Control {
       requestUri: '/v20180820/storagelens',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStorageLensConfigurationsResult.fromXml($result.body);
@@ -4572,6 +5026,11 @@ class S3Control {
       requestUri: '/v20180820/storagelensgroup',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListStorageLensGroupsResult.fromXml($result.body);
@@ -4653,6 +5112,12 @@ class S3Control {
       requestUri:
           '/v20180820/tags/${resourceArn.split('/').map(Uri.encodeComponent).join('/')}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        resourceArn: resourceArn,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResult.fromXml($result.body);
@@ -4689,6 +5154,11 @@ class S3Control {
       payload: PutAccessGrantsInstanceResourcePolicyRequest(
               accountId: accountId, policy: policy, organization: organization)
           .toXml('PutAccessGrantsInstanceResourcePolicyRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return PutAccessGrantsInstanceResourcePolicyResult.fromXml($result.body);
@@ -4734,6 +5204,11 @@ class S3Control {
       payload: PutAccessPointConfigurationForObjectLambdaRequest(
               accountId: accountId, configuration: configuration, name: name)
           .toXml('PutAccessPointConfigurationForObjectLambdaRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4806,11 +5281,17 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
+      requestUri: '/v20180820/accesspoint/policy',
       headers: headers,
       payload: PutAccessPointPolicyRequest(
               accountId: accountId, name: name, policy: policy)
           .toXml('PutAccessPointPolicyRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4862,6 +5343,11 @@ class S3Control {
       payload: PutAccessPointPolicyForObjectLambdaRequest(
               accountId: accountId, name: name, policy: policy)
           .toXml('PutAccessPointPolicyForObjectLambdaRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4900,11 +5386,17 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/scope',
+      requestUri: '/v20180820/accesspoint/scope',
       headers: headers,
       payload: PutAccessPointScopeRequest(
               accountId: accountId, name: name, scope: scope)
           .toXml('PutAccessPointScopeRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        useS3ExpressControlEndpoint: true,
+        accountId: accountId,
+        accessPointName: name,
+      ),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4964,10 +5456,15 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri:
-          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/lifecycleconfiguration',
+      requestUri: '/v20180820/bucket/lifecycleconfiguration',
       headers: headers,
       payload: lifecycleConfiguration?.toXml('LifecycleConfiguration'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5067,7 +5564,7 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/policy',
+      requestUri: '/v20180820/bucket/policy',
       headers: headers,
       payload: PutBucketPolicyRequest(
               accountId: accountId,
@@ -5075,6 +5572,12 @@ class S3Control {
               policy: policy,
               confirmRemoveSelfBucketAccess: confirmRemoveSelfBucketAccess)
           .toXml('PutBucketPolicyRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5214,10 +5717,15 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri:
-          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/replication',
+      requestUri: '/v20180820/bucket/replication',
       headers: headers,
       payload: replicationConfiguration.toXml('ReplicationConfiguration'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5354,9 +5862,15 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/tagging',
+      requestUri: '/v20180820/bucket/tagging',
       headers: headers,
       payload: tagging.toXml('Tagging'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5458,9 +5972,15 @@ class S3Control {
     };
     await _protocol.send(
       method: 'PUT',
-      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/versioning',
+      requestUri: '/v20180820/bucket/versioning',
       headers: headers,
       payload: versioningConfiguration.toXml('VersioningConfiguration'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        bucket: bucket,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5567,6 +6087,11 @@ class S3Control {
       payload:
           PutJobTaggingRequest(accountId: accountId, jobId: jobId, tags: tags)
               .toXml('PutJobTaggingRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5628,6 +6153,11 @@ class S3Control {
       payload: PutMultiRegionAccessPointPolicyRequest(
               accountId: accountId, details: details, clientToken: clientToken)
           .toXml('PutMultiRegionAccessPointPolicyRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return PutMultiRegionAccessPointPolicyResult.fromXml($result.body);
@@ -5681,6 +6211,11 @@ class S3Control {
       headers: headers,
       payload: publicAccessBlockConfiguration
           .toXml('PublicAccessBlockConfiguration'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5737,6 +6272,11 @@ class S3Control {
               storageLensConfiguration: storageLensConfiguration,
               tags: tags)
           .toXml('PutStorageLensConfigurationRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5785,6 +6325,11 @@ class S3Control {
       payload: PutStorageLensConfigurationTaggingRequest(
               accountId: accountId, configId: configId, tags: tags)
           .toXml('PutStorageLensConfigurationTaggingRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5858,6 +6403,11 @@ class S3Control {
       payload: SubmitMultiRegionAccessPointRoutesRequest(
               accountId: accountId, mrap: mrap, routeUpdates: routeUpdates)
           .toXml('SubmitMultiRegionAccessPointRoutesRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5948,6 +6498,12 @@ class S3Control {
       payload: TagResourceRequest(
               accountId: accountId, resourceArn: resourceArn, tags: tags)
           .toXml('TagResourceRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        resourceArn: resourceArn,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -6036,6 +6592,12 @@ class S3Control {
           '/v20180820/tags/${resourceArn.split('/').map(Uri.encodeComponent).join('/')}',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+        resourceArn: resourceArn,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -6090,6 +6652,11 @@ class S3Control {
               accountId: accountId,
               iAMRoleArn: iAMRoleArn)
           .toXml('UpdateAccessGrantsLocationRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAccessGrantsLocationResult.fromXml($result.body);
@@ -6161,6 +6728,11 @@ class S3Control {
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/priority',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobPriorityResult.fromXml($result.body);
@@ -6234,6 +6806,11 @@ class S3Control {
       requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/status',
       queryParams: $query,
       headers: headers,
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobStatusResult.fromXml($result.body);
@@ -6276,6 +6853,11 @@ class S3Control {
               name: name,
               storageLensGroup: storageLensGroup)
           .toXml('UpdateStorageLensGroupRequest'),
+      endpoint: _resolveEndpoint(
+        requiresAccountId: true,
+        accountId: accountId,
+      ),
+      hostPrefix: '{AccountId}.',
       exceptionFnMap: _exceptionFns,
     );
   }

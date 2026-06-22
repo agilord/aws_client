@@ -10,6 +10,11 @@ class TraitIds {
 
   static const awsApiService = 'aws.api#service';
   static const sigv4 = 'aws.auth#sigv4';
+  static const endpointRuleSet = 'smithy.rules#endpointRuleSet';
+  static const endpointTests = 'smithy.rules#endpointTests';
+  static const clientContextParams = 'smithy.rules#clientContextParams';
+  static const staticContextParams = 'smithy.rules#staticContextParams';
+  static const contextParam = 'smithy.rules#contextParam';
 
   static const optionalAuth = 'smithy.api#optionalAuth';
   static const unsignedPayload = 'aws.auth#unsignedPayload';
@@ -42,6 +47,7 @@ class TraitIds {
   static const timestampFormat = 'smithy.api#timestampFormat';
   static const idempotencyToken = 'smithy.api#idempotencyToken';
   static const hostLabel = 'smithy.api#hostLabel';
+  static const endpointTrait = 'smithy.api#endpoint';
 
   // Adapter-internal only — not a real Smithy trait. Carries the fixture's
   // original wire name so the generated client emits the expected Action/target.

@@ -30,7 +30,7 @@ void main() {
     );
 
     await service.noInputAndOutput();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('AwsJson10NoInputAndOutput', () async {
     final client = MockClient((request) async {
@@ -45,5 +45,5 @@ void main() {
     );
 
     await service.noInputAndOutput();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

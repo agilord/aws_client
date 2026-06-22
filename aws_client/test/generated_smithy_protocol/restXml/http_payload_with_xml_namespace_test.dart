@@ -35,7 +35,7 @@ void main() {
         name: "Phreddy",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('HttpPayloadWithXmlNamespace', () async {
     final client = MockClient((request) async {
@@ -55,5 +55,5 @@ void main() {
 
     final output = await service.httpPayloadWithXmlNamespace();
     expect(output.nested?.name, "Phreddy");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }
