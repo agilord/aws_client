@@ -2562,13 +2562,13 @@ class FieldInputConfig {
               json['fileUploaderConfig'] as Map<String, dynamic>)
           : null,
       isArray: json['isArray'] as bool?,
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
+      maxValue: _s.parseJsonDouble(json['maxValue']),
+      minValue: _s.parseJsonDouble(json['minValue']),
       name: json['name'] as String?,
       placeholder: json['placeholder'] as String?,
       readOnly: json['readOnly'] as bool?,
       required: json['required'] as bool?,
-      step: json['step'] as double?,
+      step: _s.parseJsonDouble(json['step']),
       value: json['value'] as String?,
       valueMappings: json['valueMappings'] != null
           ? ValueMappings.fromJson(
@@ -2602,13 +2602,13 @@ class FieldInputConfig {
       if (descriptiveText != null) 'descriptiveText': descriptiveText,
       if (fileUploaderConfig != null) 'fileUploaderConfig': fileUploaderConfig,
       if (isArray != null) 'isArray': isArray,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
+      if (maxValue != null) 'maxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'minValue': _s.encodeJsonDouble(minValue),
       if (name != null) 'name': name,
       if (placeholder != null) 'placeholder': placeholder,
       if (readOnly != null) 'readOnly': readOnly,
       if (required != null) 'required': required,
-      if (step != null) 'step': step,
+      if (step != null) 'step': _s.encodeJsonDouble(step),
       if (value != null) 'value': value,
       if (valueMappings != null) 'valueMappings': valueMappings,
     };

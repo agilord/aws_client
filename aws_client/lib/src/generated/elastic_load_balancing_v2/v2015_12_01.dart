@@ -8241,7 +8241,7 @@ class ZonalCapacityReservationState {
     return {
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (effectiveCapacityUnits != null)
-        'EffectiveCapacityUnits': effectiveCapacityUnits,
+        'EffectiveCapacityUnits': _s.encodeJsonDouble(effectiveCapacityUnits),
       if (state != null) 'State': state,
     };
   }

@@ -12420,7 +12420,7 @@ class EncodingParameters {
 
   factory EncodingParameters.fromJson(Map<String, dynamic> json) {
     return EncodingParameters(
-      compressionFactor: (json['compressionFactor'] as double?) ?? 0,
+      compressionFactor: _s.parseJsonDouble(json['compressionFactor']) ?? 0,
       encoderProfile:
           EncoderProfile.fromString((json['encoderProfile'] as String?) ?? ''),
     );
@@ -12430,7 +12430,7 @@ class EncodingParameters {
     final compressionFactor = this.compressionFactor;
     final encoderProfile = this.encoderProfile;
     return {
-      'compressionFactor': compressionFactor,
+      'compressionFactor': _s.encodeJsonDouble(compressionFactor),
       'encoderProfile': encoderProfile.value,
     };
   }
@@ -12587,7 +12587,7 @@ class EncodingParametersRequest {
     final compressionFactor = this.compressionFactor;
     final encoderProfile = this.encoderProfile;
     return {
-      'compressionFactor': compressionFactor,
+      'compressionFactor': _s.encodeJsonDouble(compressionFactor),
       'encoderProfile': encoderProfile.value,
     };
   }

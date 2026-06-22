@@ -2286,7 +2286,7 @@ class AppMonitorConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      sessionSampleRate: json['SessionSampleRate'] as double?,
+      sessionSampleRate: _s.parseJsonDouble(json['SessionSampleRate']),
       telemetries: (json['Telemetries'] as List?)
           ?.nonNulls
           .map((e) => Telemetry.fromString((e as String)))
@@ -2312,7 +2312,8 @@ class AppMonitorConfiguration {
       if (guestRoleArn != null) 'GuestRoleArn': guestRoleArn,
       if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
       if (includedPages != null) 'IncludedPages': includedPages,
-      if (sessionSampleRate != null) 'SessionSampleRate': sessionSampleRate,
+      if (sessionSampleRate != null)
+        'SessionSampleRate': _s.encodeJsonDouble(sessionSampleRate),
       if (telemetries != null)
         'Telemetries': telemetries.map((e) => e.value).toList(),
     };

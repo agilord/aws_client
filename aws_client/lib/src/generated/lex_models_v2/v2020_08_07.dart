@@ -523,7 +523,8 @@ class LexModelsV2 {
     );
     final $payload = <String, dynamic>{
       'localeId': localeId,
-      'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+      'nluIntentConfidenceThreshold':
+          _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (audioFillerSettings != null)
         'audioFillerSettings': audioFillerSettings,
       if (description != null) 'description': description,
@@ -5544,7 +5545,8 @@ class LexModelsV2 {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+      'nluIntentConfidenceThreshold':
+          _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (audioFillerSettings != null)
         'audioFillerSettings': audioFillerSettings,
       if (description != null) 'description': description,
@@ -6644,7 +6646,7 @@ class CreateBotLocaleResponse {
       localeId: json['localeId'] as String?,
       localeName: json['localeName'] as String?,
       nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
+          _s.parseJsonDouble(json['nluIntentConfidenceThreshold']),
       speechDetectionSensitivity:
           (json['speechDetectionSensitivity'] as String?)
               ?.let(SpeechDetectionSensitivity.fromString),
@@ -6692,7 +6694,8 @@ class CreateBotLocaleResponse {
       if (localeId != null) 'localeId': localeId,
       if (localeName != null) 'localeName': localeName,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (speechDetectionSensitivity != null)
         'speechDetectionSensitivity': speechDetectionSensitivity.value,
       if (speechRecognitionSettings != null)
@@ -8360,7 +8363,7 @@ class DescribeBotLocaleResponse {
       localeId: json['localeId'] as String?,
       localeName: json['localeName'] as String?,
       nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
+          _s.parseJsonDouble(json['nluIntentConfidenceThreshold']),
       recommendedActions: (json['recommendedActions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8429,7 +8432,8 @@ class DescribeBotLocaleResponse {
       if (localeId != null) 'localeId': localeId,
       if (localeName != null) 'localeName': localeName,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (recommendedActions != null) 'recommendedActions': recommendedActions,
       if (slotTypesCount != null) 'slotTypesCount': slotTypesCount,
       if (speechDetectionSensitivity != null)
@@ -12826,7 +12830,7 @@ class UpdateBotLocaleResponse {
       localeId: json['localeId'] as String?,
       localeName: json['localeName'] as String?,
       nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
+          _s.parseJsonDouble(json['nluIntentConfidenceThreshold']),
       recommendedActions: (json['recommendedActions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -12884,7 +12888,8 @@ class UpdateBotLocaleResponse {
       if (localeId != null) 'localeId': localeId,
       if (localeName != null) 'localeName': localeName,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (recommendedActions != null) 'recommendedActions': recommendedActions,
       if (speechDetectionSensitivity != null)
         'speechDetectionSensitivity': speechDetectionSensitivity.value,
@@ -20202,7 +20207,7 @@ class BotLocaleImportSpecification {
               json['audioFillerSettings'] as Map<String, dynamic>)
           : null,
       nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
+          _s.parseJsonDouble(json['nluIntentConfidenceThreshold']),
       speechDetectionSensitivity:
           (json['speechDetectionSensitivity'] as String?)
               ?.let(SpeechDetectionSensitivity.fromString),
@@ -20238,7 +20243,8 @@ class BotLocaleImportSpecification {
       if (audioFillerSettings != null)
         'audioFillerSettings': audioFillerSettings,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (speechDetectionSensitivity != null)
         'speechDetectionSensitivity': speechDetectionSensitivity.value,
       if (speechRecognitionSettings != null)
@@ -20719,7 +20725,7 @@ class AnalyticsUtteranceMetricResult {
           ?.let(AnalyticsUtteranceMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(AnalyticsMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -20730,7 +20736,7 @@ class AnalyticsUtteranceMetricResult {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -24429,7 +24435,7 @@ class AnalyticsSessionMetricResult {
           (json['name'] as String?)?.let(AnalyticsSessionMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(AnalyticsMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -24440,7 +24446,7 @@ class AnalyticsSessionMetricResult {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -25273,7 +25279,7 @@ class AnalyticsIntentStageMetricResult {
           ?.let(AnalyticsIntentStageMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(AnalyticsMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -25284,7 +25290,7 @@ class AnalyticsIntentStageMetricResult {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -26246,7 +26252,7 @@ class AnalyticsIntentMetricResult {
           (json['name'] as String?)?.let(AnalyticsIntentMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(AnalyticsMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -26257,7 +26263,7 @@ class AnalyticsIntentMetricResult {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }

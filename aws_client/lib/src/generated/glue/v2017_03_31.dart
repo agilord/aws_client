@@ -1180,7 +1180,7 @@ class Glue {
         'TableName': tableName,
         if (catalogID != null) 'CatalogID': catalogID,
         if (columnNameList != null) 'ColumnNameList': columnNameList,
-        if (sampleSize != null) 'SampleSize': sampleSize,
+        if (sampleSize != null) 'SampleSize': _s.encodeJsonDouble(sampleSize),
         if (schedule != null) 'Schedule': schedule,
         if (securityConfiguration != null)
           'SecurityConfiguration': securityConfiguration,
@@ -2294,7 +2294,8 @@ class Glue {
           'JobRunQueuingEnabled': jobRunQueuingEnabled,
         if (logUri != null) 'LogUri': logUri,
         if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxCapacity != null)
+          'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
         if (maxRetries != null) 'MaxRetries': maxRetries,
         if (nonOverridableArguments != null)
           'NonOverridableArguments': nonOverridableArguments,
@@ -2521,7 +2522,8 @@ class Glue {
         'Role': role,
         if (description != null) 'Description': description,
         if (glueVersion != null) 'GlueVersion': glueVersion,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxCapacity != null)
+          'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
         if (maxRetries != null) 'MaxRetries': maxRetries,
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
         if (tags != null) 'Tags': tags,
@@ -3055,7 +3057,8 @@ class Glue {
         if (description != null) 'Description': description,
         if (glueVersion != null) 'GlueVersion': glueVersion,
         if (idleTimeout != null) 'IdleTimeout': idleTimeout,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxCapacity != null)
+          'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
         if (requestOrigin != null) 'RequestOrigin': requestOrigin,
         if (securityConfiguration != null)
@@ -11287,7 +11290,7 @@ class Glue {
         'TableName': tableName,
         if (catalogID != null) 'CatalogID': catalogID,
         if (columnNameList != null) 'ColumnNameList': columnNameList,
-        if (sampleSize != null) 'SampleSize': sampleSize,
+        if (sampleSize != null) 'SampleSize': _s.encodeJsonDouble(sampleSize),
         if (securityConfiguration != null)
           'SecurityConfiguration': securityConfiguration,
       },
@@ -11902,7 +11905,8 @@ class Glue {
         if (jobRunId != null) 'JobRunId': jobRunId,
         if (jobRunQueuingEnabled != null)
           'JobRunQueuingEnabled': jobRunQueuingEnabled,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxCapacity != null)
+          'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
         if (notificationProperty != null)
           'NotificationProperty': notificationProperty,
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
@@ -12832,7 +12836,7 @@ class Glue {
         if (catalogID != null) 'CatalogID': catalogID,
         if (columnNameList != null) 'ColumnNameList': columnNameList,
         if (role != null) 'Role': role,
-        if (sampleSize != null) 'SampleSize': sampleSize,
+        if (sampleSize != null) 'SampleSize': _s.encodeJsonDouble(sampleSize),
         if (schedule != null) 'Schedule': schedule,
         if (securityConfiguration != null)
           'SecurityConfiguration': securityConfiguration,
@@ -13584,7 +13588,8 @@ class Glue {
         'TransformId': transformId,
         if (description != null) 'Description': description,
         if (glueVersion != null) 'GlueVersion': glueVersion,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (maxCapacity != null)
+          'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
         if (maxRetries != null) 'MaxRetries': maxRetries,
         if (name != null) 'Name': name,
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
@@ -17809,7 +17814,7 @@ class GetDataQualityResultResponse {
           .toList(),
       rulesetEvaluationRunId: json['RulesetEvaluationRunId'] as String?,
       rulesetName: json['RulesetName'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       startedOn: timeStampFromJson(json['StartedOn']),
     );
   }
@@ -17845,7 +17850,7 @@ class GetDataQualityResultResponse {
       if (rulesetEvaluationRunId != null)
         'RulesetEvaluationRunId': rulesetEvaluationRunId,
       if (rulesetName != null) 'RulesetName': rulesetName,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
     };
   }
@@ -18923,7 +18928,7 @@ class GetMLTransformResponse {
           .toList(),
       labelCount: json['LabelCount'] as int?,
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
-      maxCapacity: json['MaxCapacity'] as double?,
+      maxCapacity: _s.parseJsonDouble(json['MaxCapacity']),
       maxRetries: json['MaxRetries'] as int?,
       name: json['Name'] as String?,
       numberOfWorkers: json['NumberOfWorkers'] as int?,
@@ -18976,7 +18981,7 @@ class GetMLTransformResponse {
       if (labelCount != null) 'LabelCount': labelCount,
       if (lastModifiedOn != null)
         'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (name != null) 'Name': name,
       if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
@@ -25968,9 +25973,10 @@ class FindMatchesParameters {
 
   factory FindMatchesParameters.fromJson(Map<String, dynamic> json) {
     return FindMatchesParameters(
-      accuracyCostTradeoff: json['AccuracyCostTradeoff'] as double?,
+      accuracyCostTradeoff: _s.parseJsonDouble(json['AccuracyCostTradeoff']),
       enforceProvidedLabels: json['EnforceProvidedLabels'] as bool?,
-      precisionRecallTradeoff: json['PrecisionRecallTradeoff'] as double?,
+      precisionRecallTradeoff:
+          _s.parseJsonDouble(json['PrecisionRecallTradeoff']),
       primaryKeyColumnName: json['PrimaryKeyColumnName'] as String?,
     );
   }
@@ -25982,11 +25988,11 @@ class FindMatchesParameters {
     final primaryKeyColumnName = this.primaryKeyColumnName;
     return {
       if (accuracyCostTradeoff != null)
-        'AccuracyCostTradeoff': accuracyCostTradeoff,
+        'AccuracyCostTradeoff': _s.encodeJsonDouble(accuracyCostTradeoff),
       if (enforceProvidedLabels != null)
         'EnforceProvidedLabels': enforceProvidedLabels,
       if (precisionRecallTradeoff != null)
-        'PrecisionRecallTradeoff': precisionRecallTradeoff,
+        'PrecisionRecallTradeoff': _s.encodeJsonDouble(precisionRecallTradeoff),
       if (primaryKeyColumnName != null)
         'PrimaryKeyColumnName': primaryKeyColumnName,
     };
@@ -26271,7 +26277,7 @@ class JobUpdate {
         'JobRunQueuingEnabled': jobRunQueuingEnabled,
       if (logUri != null) 'LogUri': logUri,
       if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (nonOverridableArguments != null)
         'NonOverridableArguments': nonOverridableArguments,
@@ -29168,7 +29174,7 @@ class Spigot {
           .toList(),
       name: (json['Name'] as String?) ?? '',
       path: (json['Path'] as String?) ?? '',
-      prob: json['Prob'] as double?,
+      prob: _s.parseJsonDouble(json['Prob']),
       topk: json['Topk'] as int?,
     );
   }
@@ -29183,7 +29189,7 @@ class Spigot {
       'Inputs': inputs,
       'Name': name,
       'Path': path,
-      if (prob != null) 'Prob': prob,
+      if (prob != null) 'Prob': _s.encodeJsonDouble(prob),
       if (topk != null) 'Topk': topk,
     };
   }
@@ -30117,8 +30123,8 @@ class PIIDetection {
       outputColumnName: json['OutputColumnName'] as String?,
       redactChar: json['RedactChar'] as String?,
       redactText: json['RedactText'] as String?,
-      sampleFraction: json['SampleFraction'] as double?,
-      thresholdFraction: json['ThresholdFraction'] as double?,
+      sampleFraction: _s.parseJsonDouble(json['SampleFraction']),
+      thresholdFraction: _s.parseJsonDouble(json['ThresholdFraction']),
     );
   }
 
@@ -30156,8 +30162,10 @@ class PIIDetection {
       if (outputColumnName != null) 'OutputColumnName': outputColumnName,
       if (redactChar != null) 'RedactChar': redactChar,
       if (redactText != null) 'RedactText': redactText,
-      if (sampleFraction != null) 'SampleFraction': sampleFraction,
-      if (thresholdFraction != null) 'ThresholdFraction': thresholdFraction,
+      if (sampleFraction != null)
+        'SampleFraction': _s.encodeJsonDouble(sampleFraction),
+      if (thresholdFraction != null)
+        'ThresholdFraction': _s.encodeJsonDouble(thresholdFraction),
     };
   }
 }
@@ -37110,7 +37118,7 @@ class DynamoDBTarget {
     return DynamoDBTarget(
       path: json['Path'] as String?,
       scanAll: json['scanAll'] as bool?,
-      scanRate: json['scanRate'] as double?,
+      scanRate: _s.parseJsonDouble(json['scanRate']),
     );
   }
 
@@ -37121,7 +37129,7 @@ class DynamoDBTarget {
     return {
       if (path != null) 'Path': path,
       if (scanAll != null) 'scanAll': scanAll,
-      if (scanRate != null) 'scanRate': scanRate,
+      if (scanRate != null) 'scanRate': _s.encodeJsonDouble(scanRate),
     };
   }
 }
@@ -38723,8 +38731,8 @@ class DoubleColumnStatisticsData {
     return DoubleColumnStatisticsData(
       numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
       numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
-      maximumValue: json['MaximumValue'] as double?,
-      minimumValue: json['MinimumValue'] as double?,
+      maximumValue: _s.parseJsonDouble(json['MaximumValue']),
+      minimumValue: _s.parseJsonDouble(json['MinimumValue']),
     );
   }
 
@@ -38736,8 +38744,10 @@ class DoubleColumnStatisticsData {
     return {
       'NumberOfDistinctValues': numberOfDistinctValues,
       'NumberOfNulls': numberOfNulls,
-      if (maximumValue != null) 'MaximumValue': maximumValue,
-      if (minimumValue != null) 'MinimumValue': minimumValue,
+      if (maximumValue != null)
+        'MaximumValue': _s.encodeJsonDouble(maximumValue),
+      if (minimumValue != null)
+        'MinimumValue': _s.encodeJsonDouble(minimumValue),
     };
   }
 }
@@ -38813,7 +38823,7 @@ class StringColumnStatisticsData {
 
   factory StringColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return StringColumnStatisticsData(
-      averageLength: (json['AverageLength'] as double?) ?? 0,
+      averageLength: _s.parseJsonDouble(json['AverageLength']) ?? 0,
       maximumLength: (json['MaximumLength'] as int?) ?? 0,
       numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
       numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
@@ -38826,7 +38836,7 @@ class StringColumnStatisticsData {
     final numberOfDistinctValues = this.numberOfDistinctValues;
     final numberOfNulls = this.numberOfNulls;
     return {
-      'AverageLength': averageLength,
+      'AverageLength': _s.encodeJsonDouble(averageLength),
       'MaximumLength': maximumLength,
       'NumberOfDistinctValues': numberOfDistinctValues,
       'NumberOfNulls': numberOfNulls,
@@ -38855,7 +38865,7 @@ class BinaryColumnStatisticsData {
 
   factory BinaryColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return BinaryColumnStatisticsData(
-      averageLength: (json['AverageLength'] as double?) ?? 0,
+      averageLength: _s.parseJsonDouble(json['AverageLength']) ?? 0,
       maximumLength: (json['MaximumLength'] as int?) ?? 0,
       numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
     );
@@ -38866,7 +38876,7 @@ class BinaryColumnStatisticsData {
     final maximumLength = this.maximumLength;
     final numberOfNulls = this.numberOfNulls;
     return {
-      'AverageLength': averageLength,
+      'AverageLength': _s.encodeJsonDouble(averageLength),
       'MaximumLength': maximumLength,
       'NumberOfNulls': numberOfNulls,
     };
@@ -42729,8 +42739,8 @@ class IcebergOrphanFileDeletionMetrics {
 
   factory IcebergOrphanFileDeletionMetrics.fromJson(Map<String, dynamic> json) {
     return IcebergOrphanFileDeletionMetrics(
-      dpuHours: json['DpuHours'] as double?,
-      jobDurationInHour: json['JobDurationInHour'] as double?,
+      dpuHours: _s.parseJsonDouble(json['DpuHours']),
+      jobDurationInHour: _s.parseJsonDouble(json['JobDurationInHour']),
       numberOfDpus: json['NumberOfDpus'] as int?,
       numberOfOrphanFilesDeleted: json['NumberOfOrphanFilesDeleted'] as int?,
     );
@@ -42742,8 +42752,9 @@ class IcebergOrphanFileDeletionMetrics {
     final numberOfDpus = this.numberOfDpus;
     final numberOfOrphanFilesDeleted = this.numberOfOrphanFilesDeleted;
     return {
-      if (dpuHours != null) 'DpuHours': dpuHours,
-      if (jobDurationInHour != null) 'JobDurationInHour': jobDurationInHour,
+      if (dpuHours != null) 'DpuHours': _s.encodeJsonDouble(dpuHours),
+      if (jobDurationInHour != null)
+        'JobDurationInHour': _s.encodeJsonDouble(jobDurationInHour),
       if (numberOfDpus != null) 'NumberOfDpus': numberOfDpus,
       if (numberOfOrphanFilesDeleted != null)
         'NumberOfOrphanFilesDeleted': numberOfOrphanFilesDeleted,
@@ -42785,8 +42796,8 @@ class IcebergRetentionMetrics {
 
   factory IcebergRetentionMetrics.fromJson(Map<String, dynamic> json) {
     return IcebergRetentionMetrics(
-      dpuHours: json['DpuHours'] as double?,
-      jobDurationInHour: json['JobDurationInHour'] as double?,
+      dpuHours: _s.parseJsonDouble(json['DpuHours']),
+      jobDurationInHour: _s.parseJsonDouble(json['JobDurationInHour']),
       numberOfDataFilesDeleted: json['NumberOfDataFilesDeleted'] as int?,
       numberOfDpus: json['NumberOfDpus'] as int?,
       numberOfManifestFilesDeleted:
@@ -42804,8 +42815,9 @@ class IcebergRetentionMetrics {
     final numberOfManifestFilesDeleted = this.numberOfManifestFilesDeleted;
     final numberOfManifestListsDeleted = this.numberOfManifestListsDeleted;
     return {
-      if (dpuHours != null) 'DpuHours': dpuHours,
-      if (jobDurationInHour != null) 'JobDurationInHour': jobDurationInHour,
+      if (dpuHours != null) 'DpuHours': _s.encodeJsonDouble(dpuHours),
+      if (jobDurationInHour != null)
+        'JobDurationInHour': _s.encodeJsonDouble(jobDurationInHour),
       if (numberOfDataFilesDeleted != null)
         'NumberOfDataFilesDeleted': numberOfDataFilesDeleted,
       if (numberOfDpus != null) 'NumberOfDpus': numberOfDpus,
@@ -42847,8 +42859,8 @@ class IcebergCompactionMetrics {
 
   factory IcebergCompactionMetrics.fromJson(Map<String, dynamic> json) {
     return IcebergCompactionMetrics(
-      dpuHours: json['DpuHours'] as double?,
-      jobDurationInHour: json['JobDurationInHour'] as double?,
+      dpuHours: _s.parseJsonDouble(json['DpuHours']),
+      jobDurationInHour: _s.parseJsonDouble(json['JobDurationInHour']),
       numberOfBytesCompacted: json['NumberOfBytesCompacted'] as int?,
       numberOfDpus: json['NumberOfDpus'] as int?,
       numberOfFilesCompacted: json['NumberOfFilesCompacted'] as int?,
@@ -42862,8 +42874,9 @@ class IcebergCompactionMetrics {
     final numberOfDpus = this.numberOfDpus;
     final numberOfFilesCompacted = this.numberOfFilesCompacted;
     return {
-      if (dpuHours != null) 'DpuHours': dpuHours,
-      if (jobDurationInHour != null) 'JobDurationInHour': jobDurationInHour,
+      if (dpuHours != null) 'DpuHours': _s.encodeJsonDouble(dpuHours),
+      if (jobDurationInHour != null)
+        'JobDurationInHour': _s.encodeJsonDouble(jobDurationInHour),
       if (numberOfBytesCompacted != null)
         'NumberOfBytesCompacted': numberOfBytesCompacted,
       if (numberOfDpus != null) 'NumberOfDpus': numberOfDpus,
@@ -42916,7 +42929,7 @@ class Statement {
       output: json['Output'] != null
           ? StatementOutput.fromJson(json['Output'] as Map<String, dynamic>)
           : null,
-      progress: json['Progress'] as double?,
+      progress: _s.parseJsonDouble(json['Progress']),
       startedOn: json['StartedOn'] as int?,
       state: (json['State'] as String?)?.let(StatementState.fromString),
     );
@@ -42935,7 +42948,7 @@ class Statement {
       if (completedOn != null) 'CompletedOn': completedOn,
       if (id != null) 'Id': id,
       if (output != null) 'Output': output,
-      if (progress != null) 'Progress': progress,
+      if (progress != null) 'Progress': _s.encodeJsonDouble(progress),
       if (startedOn != null) 'StartedOn': startedOn,
       if (state != null) 'State': state.value,
     };
@@ -43178,19 +43191,19 @@ class Session {
               json['Connections'] as Map<String, dynamic>)
           : null,
       createdOn: timeStampFromJson(json['CreatedOn']),
-      dPUSeconds: json['DPUSeconds'] as double?,
+      dPUSeconds: _s.parseJsonDouble(json['DPUSeconds']),
       defaultArguments: (json['DefaultArguments'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       description: json['Description'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
-      executionTime: json['ExecutionTime'] as double?,
+      executionTime: _s.parseJsonDouble(json['ExecutionTime']),
       glueVersion: json['GlueVersion'] as String?,
       id: json['Id'] as String?,
       idleTimeout: json['IdleTimeout'] as int?,
-      maxCapacity: json['MaxCapacity'] as double?,
+      maxCapacity: _s.parseJsonDouble(json['MaxCapacity']),
       numberOfWorkers: json['NumberOfWorkers'] as int?,
       profileName: json['ProfileName'] as String?,
-      progress: json['Progress'] as double?,
+      progress: _s.parseJsonDouble(json['Progress']),
       role: json['Role'] as String?,
       securityConfiguration: json['SecurityConfiguration'] as String?,
       sessionType:
@@ -43227,18 +43240,19 @@ class Session {
       if (completedOn != null) 'CompletedOn': unixTimestampToJson(completedOn),
       if (connections != null) 'Connections': connections,
       if (createdOn != null) 'CreatedOn': unixTimestampToJson(createdOn),
-      if (dPUSeconds != null) 'DPUSeconds': dPUSeconds,
+      if (dPUSeconds != null) 'DPUSeconds': _s.encodeJsonDouble(dPUSeconds),
       if (defaultArguments != null) 'DefaultArguments': defaultArguments,
       if (description != null) 'Description': description,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (executionTime != null) 'ExecutionTime': executionTime,
+      if (executionTime != null)
+        'ExecutionTime': _s.encodeJsonDouble(executionTime),
       if (glueVersion != null) 'GlueVersion': glueVersion,
       if (id != null) 'Id': id,
       if (idleTimeout != null) 'IdleTimeout': idleTimeout,
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
       if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
       if (profileName != null) 'ProfileName': profileName,
-      if (progress != null) 'Progress': progress,
+      if (progress != null) 'Progress': _s.encodeJsonDouble(progress),
       if (role != null) 'Role': role,
       if (securityConfiguration != null)
         'SecurityConfiguration': securityConfiguration,
@@ -43875,7 +43889,7 @@ class MaterializedViewRefreshTaskRun {
       catalogId: json['CatalogId'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       customerId: json['CustomerId'] as String?,
-      dPUSeconds: json['DPUSeconds'] as double?,
+      dPUSeconds: _s.parseJsonDouble(json['DPUSeconds']),
       databaseName: json['DatabaseName'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       errorMessage: json['ErrorMessage'] as String?,
@@ -43915,7 +43929,7 @@ class MaterializedViewRefreshTaskRun {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (customerId != null) 'CustomerId': customerId,
-      if (dPUSeconds != null) 'DPUSeconds': dPUSeconds,
+      if (dPUSeconds != null) 'DPUSeconds': _s.encodeJsonDouble(dPUSeconds),
       if (databaseName != null) 'DatabaseName': databaseName,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
@@ -44193,7 +44207,7 @@ class StatisticSummary {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      doubleValue: json['DoubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['DoubleValue']),
       evaluationLevel: (json['EvaluationLevel'] as String?)
           ?.let(StatisticEvaluationLevel.fromString),
       inclusionAnnotation: json['InclusionAnnotation'] != null
@@ -44232,7 +44246,7 @@ class StatisticSummary {
     final statisticProperties = this.statisticProperties;
     return {
       if (columnsReferenced != null) 'ColumnsReferenced': columnsReferenced,
-      if (doubleValue != null) 'DoubleValue': doubleValue,
+      if (doubleValue != null) 'DoubleValue': _s.encodeJsonDouble(doubleValue),
       if (evaluationLevel != null) 'EvaluationLevel': evaluationLevel.value,
       if (inclusionAnnotation != null)
         'InclusionAnnotation': inclusionAnnotation,
@@ -45000,7 +45014,7 @@ class CrawlerHistory {
   factory CrawlerHistory.fromJson(Map<String, dynamic> json) {
     return CrawlerHistory(
       crawlId: json['CrawlId'] as String?,
-      dPUHour: json['DPUHour'] as double?,
+      dPUHour: _s.parseJsonDouble(json['DPUHour']),
       endTime: timeStampFromJson(json['EndTime']),
       errorMessage: json['ErrorMessage'] as String?,
       logGroup: json['LogGroup'] as String?,
@@ -45025,7 +45039,7 @@ class CrawlerHistory {
     final summary = this.summary;
     return {
       if (crawlId != null) 'CrawlId': crawlId,
-      if (dPUHour != null) 'DPUHour': dPUHour,
+      if (dPUHour != null) 'DPUHour': _s.encodeJsonDouble(dPUHour),
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (logGroup != null) 'LogGroup': logGroup,
@@ -46312,7 +46326,7 @@ class JobRun {
           ?.map((k, e) => MapEntry(k, e as String)),
       attempt: json['Attempt'] as int?,
       completedOn: timeStampFromJson(json['CompletedOn']),
-      dPUSeconds: json['DPUSeconds'] as double?,
+      dPUSeconds: _s.parseJsonDouble(json['DPUSeconds']),
       errorMessage: json['ErrorMessage'] as String?,
       executionClass:
           (json['ExecutionClass'] as String?)?.let(ExecutionClass.fromString),
@@ -46328,7 +46342,7 @@ class JobRun {
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
       logGroupName: json['LogGroupName'] as String?,
       maintenanceWindow: json['MaintenanceWindow'] as String?,
-      maxCapacity: json['MaxCapacity'] as double?,
+      maxCapacity: _s.parseJsonDouble(json['MaxCapacity']),
       notificationProperty: json['NotificationProperty'] != null
           ? NotificationProperty.fromJson(
               json['NotificationProperty'] as Map<String, dynamic>)
@@ -46385,7 +46399,7 @@ class JobRun {
       if (arguments != null) 'Arguments': arguments,
       if (attempt != null) 'Attempt': attempt,
       if (completedOn != null) 'CompletedOn': unixTimestampToJson(completedOn),
-      if (dPUSeconds != null) 'DPUSeconds': dPUSeconds,
+      if (dPUSeconds != null) 'DPUSeconds': _s.encodeJsonDouble(dPUSeconds),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (executionClass != null) 'ExecutionClass': executionClass.value,
       if (executionRoleSessionPolicy != null)
@@ -46402,7 +46416,7 @@ class JobRun {
         'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
       if (logGroupName != null) 'LogGroupName': logGroupName,
       if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
       if (notificationProperty != null)
         'NotificationProperty': notificationProperty,
       if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
@@ -48306,7 +48320,7 @@ class MLTransform {
           .toList(),
       labelCount: json['LabelCount'] as int?,
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
-      maxCapacity: json['MaxCapacity'] as double?,
+      maxCapacity: _s.parseJsonDouble(json['MaxCapacity']),
       maxRetries: json['MaxRetries'] as int?,
       name: json['Name'] as String?,
       numberOfWorkers: json['NumberOfWorkers'] as int?,
@@ -48359,7 +48373,7 @@ class MLTransform {
       if (labelCount != null) 'LabelCount': labelCount,
       if (lastModifiedOn != null)
         'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (name != null) 'Name': name,
       if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
@@ -48594,7 +48608,7 @@ class FindMatchesMetrics {
 
   factory FindMatchesMetrics.fromJson(Map<String, dynamic> json) {
     return FindMatchesMetrics(
-      areaUnderPRCurve: json['AreaUnderPRCurve'] as double?,
+      areaUnderPRCurve: _s.parseJsonDouble(json['AreaUnderPRCurve']),
       columnImportances: (json['ColumnImportances'] as List?)
           ?.nonNulls
           .map((e) => ColumnImportance.fromJson(e as Map<String, dynamic>))
@@ -48603,9 +48617,9 @@ class FindMatchesMetrics {
           ? ConfusionMatrix.fromJson(
               json['ConfusionMatrix'] as Map<String, dynamic>)
           : null,
-      f1: json['F1'] as double?,
-      precision: json['Precision'] as double?,
-      recall: json['Recall'] as double?,
+      f1: _s.parseJsonDouble(json['F1']),
+      precision: _s.parseJsonDouble(json['Precision']),
+      recall: _s.parseJsonDouble(json['Recall']),
     );
   }
 
@@ -48617,12 +48631,13 @@ class FindMatchesMetrics {
     final precision = this.precision;
     final recall = this.recall;
     return {
-      if (areaUnderPRCurve != null) 'AreaUnderPRCurve': areaUnderPRCurve,
+      if (areaUnderPRCurve != null)
+        'AreaUnderPRCurve': _s.encodeJsonDouble(areaUnderPRCurve),
       if (columnImportances != null) 'ColumnImportances': columnImportances,
       if (confusionMatrix != null) 'ConfusionMatrix': confusionMatrix,
-      if (f1 != null) 'F1': f1,
-      if (precision != null) 'Precision': precision,
-      if (recall != null) 'Recall': recall,
+      if (f1 != null) 'F1': _s.encodeJsonDouble(f1),
+      if (precision != null) 'Precision': _s.encodeJsonDouble(precision),
+      if (recall != null) 'Recall': _s.encodeJsonDouble(recall),
     };
   }
 }
@@ -48704,7 +48719,7 @@ class ColumnImportance {
   factory ColumnImportance.fromJson(Map<String, dynamic> json) {
     return ColumnImportance(
       columnName: json['ColumnName'] as String?,
-      importance: json['Importance'] as double?,
+      importance: _s.parseJsonDouble(json['Importance']),
     );
   }
 
@@ -48713,7 +48728,7 @@ class ColumnImportance {
     final importance = this.importance;
     return {
       if (columnName != null) 'ColumnName': columnName,
-      if (importance != null) 'Importance': importance,
+      if (importance != null) 'Importance': _s.encodeJsonDouble(importance),
     };
   }
 }
@@ -49463,7 +49478,7 @@ class Job {
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
       logUri: json['LogUri'] as String?,
       maintenanceWindow: json['MaintenanceWindow'] as String?,
-      maxCapacity: json['MaxCapacity'] as double?,
+      maxCapacity: _s.parseJsonDouble(json['MaxCapacity']),
       maxRetries: json['MaxRetries'] as int?,
       name: json['Name'] as String?,
       nonOverridableArguments:
@@ -49533,7 +49548,7 @@ class Job {
         'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
       if (logUri != null) 'LogUri': logUri,
       if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
       if (maxRetries != null) 'MaxRetries': maxRetries,
       if (name != null) 'Name': name,
       if (nonOverridableArguments != null)
@@ -49887,12 +49902,12 @@ class DataQualityAggregatedMetrics {
 
   factory DataQualityAggregatedMetrics.fromJson(Map<String, dynamic> json) {
     return DataQualityAggregatedMetrics(
-      totalRowsFailed: json['TotalRowsFailed'] as double?,
-      totalRowsPassed: json['TotalRowsPassed'] as double?,
-      totalRowsProcessed: json['TotalRowsProcessed'] as double?,
-      totalRulesFailed: json['TotalRulesFailed'] as double?,
-      totalRulesPassed: json['TotalRulesPassed'] as double?,
-      totalRulesProcessed: json['TotalRulesProcessed'] as double?,
+      totalRowsFailed: _s.parseJsonDouble(json['TotalRowsFailed']),
+      totalRowsPassed: _s.parseJsonDouble(json['TotalRowsPassed']),
+      totalRowsProcessed: _s.parseJsonDouble(json['TotalRowsProcessed']),
+      totalRulesFailed: _s.parseJsonDouble(json['TotalRulesFailed']),
+      totalRulesPassed: _s.parseJsonDouble(json['TotalRulesPassed']),
+      totalRulesProcessed: _s.parseJsonDouble(json['TotalRulesProcessed']),
     );
   }
 
@@ -49904,13 +49919,18 @@ class DataQualityAggregatedMetrics {
     final totalRulesPassed = this.totalRulesPassed;
     final totalRulesProcessed = this.totalRulesProcessed;
     return {
-      if (totalRowsFailed != null) 'TotalRowsFailed': totalRowsFailed,
-      if (totalRowsPassed != null) 'TotalRowsPassed': totalRowsPassed,
-      if (totalRowsProcessed != null) 'TotalRowsProcessed': totalRowsProcessed,
-      if (totalRulesFailed != null) 'TotalRulesFailed': totalRulesFailed,
-      if (totalRulesPassed != null) 'TotalRulesPassed': totalRulesPassed,
+      if (totalRowsFailed != null)
+        'TotalRowsFailed': _s.encodeJsonDouble(totalRowsFailed),
+      if (totalRowsPassed != null)
+        'TotalRowsPassed': _s.encodeJsonDouble(totalRowsPassed),
+      if (totalRowsProcessed != null)
+        'TotalRowsProcessed': _s.encodeJsonDouble(totalRowsProcessed),
+      if (totalRulesFailed != null)
+        'TotalRulesFailed': _s.encodeJsonDouble(totalRulesFailed),
+      if (totalRulesPassed != null)
+        'TotalRulesPassed': _s.encodeJsonDouble(totalRulesPassed),
       if (totalRulesProcessed != null)
-        'TotalRulesProcessed': totalRulesProcessed,
+        'TotalRulesProcessed': _s.encodeJsonDouble(totalRulesProcessed),
     };
   }
 }
@@ -50037,10 +50057,10 @@ class DataQualityMetricValues {
 
   factory DataQualityMetricValues.fromJson(Map<String, dynamic> json) {
     return DataQualityMetricValues(
-      actualValue: json['ActualValue'] as double?,
-      expectedValue: json['ExpectedValue'] as double?,
-      lowerLimit: json['LowerLimit'] as double?,
-      upperLimit: json['UpperLimit'] as double?,
+      actualValue: _s.parseJsonDouble(json['ActualValue']),
+      expectedValue: _s.parseJsonDouble(json['ExpectedValue']),
+      lowerLimit: _s.parseJsonDouble(json['LowerLimit']),
+      upperLimit: _s.parseJsonDouble(json['UpperLimit']),
     );
   }
 
@@ -50050,10 +50070,11 @@ class DataQualityMetricValues {
     final lowerLimit = this.lowerLimit;
     final upperLimit = this.upperLimit;
     return {
-      if (actualValue != null) 'ActualValue': actualValue,
-      if (expectedValue != null) 'ExpectedValue': expectedValue,
-      if (lowerLimit != null) 'LowerLimit': lowerLimit,
-      if (upperLimit != null) 'UpperLimit': upperLimit,
+      if (actualValue != null) 'ActualValue': _s.encodeJsonDouble(actualValue),
+      if (expectedValue != null)
+        'ExpectedValue': _s.encodeJsonDouble(expectedValue),
+      if (lowerLimit != null) 'LowerLimit': _s.encodeJsonDouble(lowerLimit),
+      if (upperLimit != null) 'UpperLimit': _s.encodeJsonDouble(upperLimit),
     };
   }
 }
@@ -50085,7 +50106,7 @@ class DataQualityAnalyzerResult {
     return DataQualityAnalyzerResult(
       description: json['Description'] as String?,
       evaluatedMetrics: (json['EvaluatedMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       evaluationMessage: json['EvaluationMessage'] as String?,
       name: json['Name'] as String?,
     );
@@ -50098,7 +50119,9 @@ class DataQualityAnalyzerResult {
     final name = this.name;
     return {
       if (description != null) 'Description': description,
-      if (evaluatedMetrics != null) 'EvaluatedMetrics': evaluatedMetrics,
+      if (evaluatedMetrics != null)
+        'EvaluatedMetrics':
+            evaluatedMetrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (evaluationMessage != null) 'EvaluationMessage': evaluationMessage,
       if (name != null) 'Name': name,
     };
@@ -50149,7 +50172,7 @@ class DataQualityRuleResult {
     return DataQualityRuleResult(
       description: json['Description'] as String?,
       evaluatedMetrics: (json['EvaluatedMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       evaluatedRule: json['EvaluatedRule'] as String?,
       evaluationMessage: json['EvaluationMessage'] as String?,
       labels: (json['Labels'] as Map<String, dynamic>?)
@@ -50158,7 +50181,7 @@ class DataQualityRuleResult {
       result: (json['Result'] as String?)
           ?.let(DataQualityRuleResultStatus.fromString),
       ruleMetrics: (json['RuleMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
     );
   }
 
@@ -50173,13 +50196,17 @@ class DataQualityRuleResult {
     final ruleMetrics = this.ruleMetrics;
     return {
       if (description != null) 'Description': description,
-      if (evaluatedMetrics != null) 'EvaluatedMetrics': evaluatedMetrics,
+      if (evaluatedMetrics != null)
+        'EvaluatedMetrics':
+            evaluatedMetrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (evaluatedRule != null) 'EvaluatedRule': evaluatedRule,
       if (evaluationMessage != null) 'EvaluationMessage': evaluationMessage,
       if (labels != null) 'Labels': labels,
       if (name != null) 'Name': name,
       if (result != null) 'Result': result.value,
-      if (ruleMetrics != null) 'RuleMetrics': ruleMetrics,
+      if (ruleMetrics != null)
+        'RuleMetrics':
+            ruleMetrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
     };
   }
 }
@@ -50244,13 +50271,13 @@ class StatisticModelResult {
 
   factory StatisticModelResult.fromJson(Map<String, dynamic> json) {
     return StatisticModelResult(
-      actualValue: json['ActualValue'] as double?,
+      actualValue: _s.parseJsonDouble(json['ActualValue']),
       date: timeStampFromJson(json['Date']),
       inclusionAnnotation: (json['InclusionAnnotation'] as String?)
           ?.let(InclusionAnnotationValue.fromString),
-      lowerBound: json['LowerBound'] as double?,
-      predictedValue: json['PredictedValue'] as double?,
-      upperBound: json['UpperBound'] as double?,
+      lowerBound: _s.parseJsonDouble(json['LowerBound']),
+      predictedValue: _s.parseJsonDouble(json['PredictedValue']),
+      upperBound: _s.parseJsonDouble(json['UpperBound']),
     );
   }
 
@@ -50262,13 +50289,14 @@ class StatisticModelResult {
     final predictedValue = this.predictedValue;
     final upperBound = this.upperBound;
     return {
-      if (actualValue != null) 'ActualValue': actualValue,
+      if (actualValue != null) 'ActualValue': _s.encodeJsonDouble(actualValue),
       if (date != null) 'Date': unixTimestampToJson(date),
       if (inclusionAnnotation != null)
         'InclusionAnnotation': inclusionAnnotation.value,
-      if (lowerBound != null) 'LowerBound': lowerBound,
-      if (predictedValue != null) 'PredictedValue': predictedValue,
-      if (upperBound != null) 'UpperBound': upperBound,
+      if (lowerBound != null) 'LowerBound': _s.encodeJsonDouble(lowerBound),
+      if (predictedValue != null)
+        'PredictedValue': _s.encodeJsonDouble(predictedValue),
+      if (upperBound != null) 'UpperBound': _s.encodeJsonDouble(upperBound),
     };
   }
 }
@@ -50950,13 +50978,13 @@ class CrawlerMetrics {
   factory CrawlerMetrics.fromJson(Map<String, dynamic> json) {
     return CrawlerMetrics(
       crawlerName: json['CrawlerName'] as String?,
-      lastRuntimeSeconds: json['LastRuntimeSeconds'] as double?,
-      medianRuntimeSeconds: json['MedianRuntimeSeconds'] as double?,
+      lastRuntimeSeconds: _s.parseJsonDouble(json['LastRuntimeSeconds']),
+      medianRuntimeSeconds: _s.parseJsonDouble(json['MedianRuntimeSeconds']),
       stillEstimating: json['StillEstimating'] as bool?,
       tablesCreated: json['TablesCreated'] as int?,
       tablesDeleted: json['TablesDeleted'] as int?,
       tablesUpdated: json['TablesUpdated'] as int?,
-      timeLeftSeconds: json['TimeLeftSeconds'] as double?,
+      timeLeftSeconds: _s.parseJsonDouble(json['TimeLeftSeconds']),
     );
   }
 
@@ -50971,14 +50999,16 @@ class CrawlerMetrics {
     final timeLeftSeconds = this.timeLeftSeconds;
     return {
       if (crawlerName != null) 'CrawlerName': crawlerName,
-      if (lastRuntimeSeconds != null) 'LastRuntimeSeconds': lastRuntimeSeconds,
+      if (lastRuntimeSeconds != null)
+        'LastRuntimeSeconds': _s.encodeJsonDouble(lastRuntimeSeconds),
       if (medianRuntimeSeconds != null)
-        'MedianRuntimeSeconds': medianRuntimeSeconds,
+        'MedianRuntimeSeconds': _s.encodeJsonDouble(medianRuntimeSeconds),
       if (stillEstimating != null) 'StillEstimating': stillEstimating,
       if (tablesCreated != null) 'TablesCreated': tablesCreated,
       if (tablesDeleted != null) 'TablesDeleted': tablesDeleted,
       if (tablesUpdated != null) 'TablesUpdated': tablesUpdated,
-      if (timeLeftSeconds != null) 'TimeLeftSeconds': timeLeftSeconds,
+      if (timeLeftSeconds != null)
+        'TimeLeftSeconds': _s.encodeJsonDouble(timeLeftSeconds),
     };
   }
 }
@@ -51618,7 +51648,7 @@ class ColumnStatisticsTaskSettings {
               json['LastExecutionAttempt'] as Map<String, dynamic>)
           : null,
       role: json['Role'] as String?,
-      sampleSize: json['SampleSize'] as double?,
+      sampleSize: _s.parseJsonDouble(json['SampleSize']),
       schedule: json['Schedule'] != null
           ? Schedule.fromJson(json['Schedule'] as Map<String, dynamic>)
           : null,
@@ -51650,7 +51680,7 @@ class ColumnStatisticsTaskSettings {
       if (lastExecutionAttempt != null)
         'LastExecutionAttempt': lastExecutionAttempt,
       if (role != null) 'Role': role,
-      if (sampleSize != null) 'SampleSize': sampleSize,
+      if (sampleSize != null) 'SampleSize': _s.encodeJsonDouble(sampleSize),
       if (schedule != null) 'Schedule': schedule,
       if (scheduleType != null) 'ScheduleType': scheduleType.value,
       if (securityConfiguration != null)
@@ -51884,14 +51914,14 @@ class ColumnStatisticsTaskRun {
           (json['ComputationType'] as String?)?.let(ComputationType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       customerId: json['CustomerId'] as String?,
-      dPUSeconds: json['DPUSeconds'] as double?,
+      dPUSeconds: _s.parseJsonDouble(json['DPUSeconds']),
       databaseName: json['DatabaseName'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       numberOfWorkers: json['NumberOfWorkers'] as int?,
       role: json['Role'] as String?,
-      sampleSize: json['SampleSize'] as double?,
+      sampleSize: _s.parseJsonDouble(json['SampleSize']),
       securityConfiguration: json['SecurityConfiguration'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
       status:
@@ -51930,14 +51960,14 @@ class ColumnStatisticsTaskRun {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (customerId != null) 'CustomerId': customerId,
-      if (dPUSeconds != null) 'DPUSeconds': dPUSeconds,
+      if (dPUSeconds != null) 'DPUSeconds': _s.encodeJsonDouble(dPUSeconds),
       if (databaseName != null) 'DatabaseName': databaseName,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
       if (role != null) 'Role': role,
-      if (sampleSize != null) 'SampleSize': sampleSize,
+      if (sampleSize != null) 'SampleSize': _s.encodeJsonDouble(sampleSize),
       if (securityConfiguration != null)
         'SecurityConfiguration': securityConfiguration,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
@@ -54806,7 +54836,7 @@ class DataQualityResult {
           .toList(),
       rulesetEvaluationRunId: json['RulesetEvaluationRunId'] as String?,
       rulesetName: json['RulesetName'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       startedOn: timeStampFromJson(json['StartedOn']),
     );
   }
@@ -54842,7 +54872,7 @@ class DataQualityResult {
       if (rulesetEvaluationRunId != null)
         'RulesetEvaluationRunId': rulesetEvaluationRunId,
       if (rulesetName != null) 'RulesetName': rulesetName,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
     };
   }

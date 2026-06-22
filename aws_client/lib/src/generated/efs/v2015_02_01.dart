@@ -397,7 +397,8 @@ class Efs {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (performanceMode != null) 'PerformanceMode': performanceMode.value,
       if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+        'ProvisionedThroughputInMibps':
+            _s.encodeJsonDouble(provisionedThroughputInMibps),
       if (tags != null) 'Tags': tags,
       if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
@@ -1957,7 +1958,8 @@ class Efs {
     );
     final $payload = <String, dynamic>{
       if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+        'ProvisionedThroughputInMibps':
+            _s.encodeJsonDouble(provisionedThroughputInMibps),
       if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
     final response = await _protocol.send(
@@ -2268,7 +2270,7 @@ class FileSystemDescription {
       kmsKeyId: json['KmsKeyId'] as String?,
       name: json['Name'] as String?,
       provisionedThroughputInMibps:
-          json['ProvisionedThroughputInMibps'] as double?,
+          _s.parseJsonDouble(json['ProvisionedThroughputInMibps']),
       throughputMode:
           (json['ThroughputMode'] as String?)?.let(ThroughputMode.fromString),
     );
@@ -2313,7 +2315,8 @@ class FileSystemDescription {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (name != null) 'Name': name,
       if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+        'ProvisionedThroughputInMibps':
+            _s.encodeJsonDouble(provisionedThroughputInMibps),
       if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
   }

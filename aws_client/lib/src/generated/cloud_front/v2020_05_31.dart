@@ -14173,7 +14173,8 @@ class ResponseHeadersPolicyServerTimingHeadersConfig {
     final samplingRate = this.samplingRate;
     return {
       'Enabled': enabled,
-      if (samplingRate != null) 'SamplingRate': samplingRate,
+      if (samplingRate != null)
+        'SamplingRate': _s.encodeJsonDouble(samplingRate),
     };
   }
 
@@ -24148,7 +24149,7 @@ class ContinuousDeploymentSingleWeightConfig {
     final weight = this.weight;
     final sessionStickinessConfig = this.sessionStickinessConfig;
     return {
-      'Weight': weight,
+      'Weight': _s.encodeJsonDouble(weight),
       if (sessionStickinessConfig != null)
         'SessionStickinessConfig': sessionStickinessConfig,
     };

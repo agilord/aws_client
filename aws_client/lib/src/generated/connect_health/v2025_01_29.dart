@@ -1835,8 +1835,8 @@ class MedicalScribeTranscriptSegment {
 
   factory MedicalScribeTranscriptSegment.fromJson(Map<String, dynamic> json) {
     return MedicalScribeTranscriptSegment(
-      audioBeginOffset: json['audioBeginOffset'] as double?,
-      audioEndOffset: json['audioEndOffset'] as double?,
+      audioBeginOffset: _s.parseJsonDouble(json['audioBeginOffset']),
+      audioEndOffset: _s.parseJsonDouble(json['audioEndOffset']),
       channelId: json['channelId'] as String?,
       content: json['content'] as String?,
       isPartial: json['isPartial'] as bool?,
@@ -1852,8 +1852,10 @@ class MedicalScribeTranscriptSegment {
     final isPartial = this.isPartial;
     final segmentId = this.segmentId;
     return {
-      if (audioBeginOffset != null) 'audioBeginOffset': audioBeginOffset,
-      if (audioEndOffset != null) 'audioEndOffset': audioEndOffset,
+      if (audioBeginOffset != null)
+        'audioBeginOffset': _s.encodeJsonDouble(audioBeginOffset),
+      if (audioEndOffset != null)
+        'audioEndOffset': _s.encodeJsonDouble(audioEndOffset),
       if (channelId != null) 'channelId': channelId,
       if (content != null) 'content': content,
       if (isPartial != null) 'isPartial': isPartial,

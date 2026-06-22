@@ -4227,7 +4227,7 @@ class TargetTrackingScalingPolicyConfiguration {
   factory TargetTrackingScalingPolicyConfiguration.fromJson(
       Map<String, dynamic> json) {
     return TargetTrackingScalingPolicyConfiguration(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       customizedMetricSpecification:
           json['CustomizedMetricSpecification'] != null
               ? CustomizedMetricSpecification.fromJson(
@@ -4252,7 +4252,7 @@ class TargetTrackingScalingPolicyConfiguration {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedMetricSpecification != null)
         'CustomizedMetricSpecification': customizedMetricSpecification,
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
@@ -4452,7 +4452,7 @@ class PredictiveScalingMetricSpecification {
   factory PredictiveScalingMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return PredictiveScalingMetricSpecification(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       customizedCapacityMetricSpecification:
           json['CustomizedCapacityMetricSpecification'] != null
               ? PredictiveScalingCustomizedMetricSpecification.fromJson(
@@ -4507,7 +4507,7 @@ class PredictiveScalingMetricSpecification {
     final predefinedScalingMetricSpecification =
         this.predefinedScalingMetricSpecification;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedCapacityMetricSpecification != null)
         'CustomizedCapacityMetricSpecification':
             customizedCapacityMetricSpecification,
@@ -5704,8 +5704,10 @@ class StepAdjustment {
   factory StepAdjustment.fromJson(Map<String, dynamic> json) {
     return StepAdjustment(
       scalingAdjustment: (json['ScalingAdjustment'] as int?) ?? 0,
-      metricIntervalLowerBound: json['MetricIntervalLowerBound'] as double?,
-      metricIntervalUpperBound: json['MetricIntervalUpperBound'] as double?,
+      metricIntervalLowerBound:
+          _s.parseJsonDouble(json['MetricIntervalLowerBound']),
+      metricIntervalUpperBound:
+          _s.parseJsonDouble(json['MetricIntervalUpperBound']),
     );
   }
 
@@ -5716,9 +5718,11 @@ class StepAdjustment {
     return {
       'ScalingAdjustment': scalingAdjustment,
       if (metricIntervalLowerBound != null)
-        'MetricIntervalLowerBound': metricIntervalLowerBound,
+        'MetricIntervalLowerBound':
+            _s.encodeJsonDouble(metricIntervalLowerBound),
       if (metricIntervalUpperBound != null)
-        'MetricIntervalUpperBound': metricIntervalUpperBound,
+        'MetricIntervalUpperBound':
+            _s.encodeJsonDouble(metricIntervalUpperBound),
     };
   }
 }
@@ -5749,7 +5753,7 @@ class CapacityForecast {
           .toList(),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -5759,7 +5763,7 @@ class CapacityForecast {
     final values = this.values;
     return {
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -5797,7 +5801,7 @@ class LoadForecast {
           .toList(),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -5809,7 +5813,7 @@ class LoadForecast {
     return {
       'MetricSpecification': metricSpecification,
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

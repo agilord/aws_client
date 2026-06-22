@@ -242,7 +242,7 @@ class SagemakerJobRuntime {
       'X-Amzn-SageMaker-Job-Arn': jobArn.toString(),
     };
     final $payload = <String, dynamic>{
-      'Rewards': rewards,
+      'Rewards': rewards.map(_s.encodeJsonDouble).toList(),
       'TrajectoryId': trajectoryId,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
     };

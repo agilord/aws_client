@@ -7588,11 +7588,11 @@ class InstanceTypeConfig {
       if (bidPrice != null) 'BidPrice': bidPrice,
       if (bidPriceAsPercentageOfOnDemandPrice != null)
         'BidPriceAsPercentageOfOnDemandPrice':
-            bidPriceAsPercentageOfOnDemandPrice,
+            _s.encodeJsonDouble(bidPriceAsPercentageOfOnDemandPrice),
       if (configurations != null) 'Configurations': configurations,
       if (customAmiId != null) 'CustomAmiId': customAmiId,
       if (ebsConfiguration != null) 'EbsConfiguration': ebsConfiguration,
-      if (priority != null) 'Priority': priority,
+      if (priority != null) 'Priority': _s.encodeJsonDouble(priority),
       if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
   }
@@ -8072,7 +8072,7 @@ class CloudWatchAlarmDefinition {
           (json['ComparisonOperator'] as String?) ?? ''),
       metricName: (json['MetricName'] as String?) ?? '',
       period: (json['Period'] as int?) ?? 0,
-      threshold: (json['Threshold'] as double?) ?? 0,
+      threshold: _s.parseJsonDouble(json['Threshold']) ?? 0,
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
@@ -8098,7 +8098,7 @@ class CloudWatchAlarmDefinition {
       'ComparisonOperator': comparisonOperator.value,
       'MetricName': metricName,
       'Period': period,
-      'Threshold': threshold,
+      'Threshold': _s.encodeJsonDouble(threshold),
       if (dimensions != null) 'Dimensions': dimensions,
       if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
       if (namespace != null) 'Namespace': namespace,
@@ -8994,7 +8994,7 @@ class SupportedInstanceType {
       ebsStorageOnly: json['EbsStorageOnly'] as bool?,
       instanceFamilyId: json['InstanceFamilyId'] as String?,
       is64BitsOnly: json['Is64BitsOnly'] as bool?,
-      memoryGB: json['MemoryGB'] as double?,
+      memoryGB: _s.parseJsonDouble(json['MemoryGB']),
       numberOfDisks: json['NumberOfDisks'] as int?,
       storageGB: json['StorageGB'] as int?,
       type: json['Type'] as String?,
@@ -9023,7 +9023,7 @@ class SupportedInstanceType {
       if (ebsStorageOnly != null) 'EbsStorageOnly': ebsStorageOnly,
       if (instanceFamilyId != null) 'InstanceFamilyId': instanceFamilyId,
       if (is64BitsOnly != null) 'Is64BitsOnly': is64BitsOnly,
-      if (memoryGB != null) 'MemoryGB': memoryGB,
+      if (memoryGB != null) 'MemoryGB': _s.encodeJsonDouble(memoryGB),
       if (numberOfDisks != null) 'NumberOfDisks': numberOfDisks,
       if (storageGB != null) 'StorageGB': storageGB,
       if (type != null) 'Type': type,
@@ -11160,7 +11160,7 @@ class InstanceTypeSpecification {
     return InstanceTypeSpecification(
       bidPrice: json['BidPrice'] as String?,
       bidPriceAsPercentageOfOnDemandPrice:
-          json['BidPriceAsPercentageOfOnDemandPrice'] as double?,
+          _s.parseJsonDouble(json['BidPriceAsPercentageOfOnDemandPrice']),
       configurations: (json['Configurations'] as List?)
           ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
@@ -11172,7 +11172,7 @@ class InstanceTypeSpecification {
           .toList(),
       ebsOptimized: json['EbsOptimized'] as bool?,
       instanceType: json['InstanceType'] as String?,
-      priority: json['Priority'] as double?,
+      priority: _s.parseJsonDouble(json['Priority']),
       weightedCapacity: json['WeightedCapacity'] as int?,
     );
   }
@@ -11192,13 +11192,13 @@ class InstanceTypeSpecification {
       if (bidPrice != null) 'BidPrice': bidPrice,
       if (bidPriceAsPercentageOfOnDemandPrice != null)
         'BidPriceAsPercentageOfOnDemandPrice':
-            bidPriceAsPercentageOfOnDemandPrice,
+            _s.encodeJsonDouble(bidPriceAsPercentageOfOnDemandPrice),
       if (configurations != null) 'Configurations': configurations,
       if (customAmiId != null) 'CustomAmiId': customAmiId,
       if (ebsBlockDevices != null) 'EbsBlockDevices': ebsBlockDevices,
       if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
       if (instanceType != null) 'InstanceType': instanceType,
-      if (priority != null) 'Priority': priority,
+      if (priority != null) 'Priority': _s.encodeJsonDouble(priority),
       if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
   }

@@ -7181,7 +7181,7 @@ class ExponentialRolloutRate {
   factory ExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return ExponentialRolloutRate(
       baseRatePerMinute: json['BaseRatePerMinute'] as int?,
-      incrementFactor: json['IncrementFactor'] as double?,
+      incrementFactor: _s.parseJsonDouble(json['IncrementFactor']),
       rateIncreaseCriteria: json['RateIncreaseCriteria'] != null
           ? RolloutRateIncreaseCriteria.fromJson(
               json['RateIncreaseCriteria'] as Map<String, dynamic>)
@@ -7195,7 +7195,8 @@ class ExponentialRolloutRate {
     final rateIncreaseCriteria = this.rateIncreaseCriteria;
     return {
       if (baseRatePerMinute != null) 'BaseRatePerMinute': baseRatePerMinute,
-      if (incrementFactor != null) 'IncrementFactor': incrementFactor,
+      if (incrementFactor != null)
+        'IncrementFactor': _s.encodeJsonDouble(incrementFactor),
       if (rateIncreaseCriteria != null)
         'RateIncreaseCriteria': rateIncreaseCriteria,
     };
@@ -7269,7 +7270,7 @@ class AbortConfigCriteria {
       failureType: (json['FailureType'] as String?)
           ?.let(AbortCriteriaFailureType.fromString),
       minNumberOfExecutedThings: json['MinNumberOfExecutedThings'] as int?,
-      thresholdPercentage: json['ThresholdPercentage'] as double?,
+      thresholdPercentage: _s.parseJsonDouble(json['ThresholdPercentage']),
     );
   }
 
@@ -7284,7 +7285,7 @@ class AbortConfigCriteria {
       if (minNumberOfExecutedThings != null)
         'MinNumberOfExecutedThings': minNumberOfExecutedThings,
       if (thresholdPercentage != null)
-        'ThresholdPercentage': thresholdPercentage,
+        'ThresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
     };
   }
 }

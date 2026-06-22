@@ -5508,7 +5508,7 @@ class DescribeDatasetImportJobResponse {
   factory DescribeDatasetImportJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDatasetImportJobResponse(
       creationTime: timeStampFromJson(json['CreationTime']),
-      dataSize: json['DataSize'] as double?,
+      dataSize: _s.parseJsonDouble(json['DataSize']),
       dataSource: json['DataSource'] != null
           ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
           : null,
@@ -5554,7 +5554,7 @@ class DescribeDatasetImportJobResponse {
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (dataSize != null) 'DataSize': dataSize,
+      if (dataSize != null) 'DataSize': _s.encodeJsonDouble(dataSize),
       if (dataSource != null) 'DataSource': dataSource,
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (datasetImportJobArn != null)
@@ -8912,7 +8912,7 @@ class MetricResult {
   factory MetricResult.fromJson(Map<String, dynamic> json) {
     return MetricResult(
       metricName: json['MetricName'] as String?,
-      metricValue: json['MetricValue'] as double?,
+      metricValue: _s.parseJsonDouble(json['MetricValue']),
     );
   }
 
@@ -8921,7 +8921,7 @@ class MetricResult {
     final metricValue = this.metricValue;
     return {
       if (metricName != null) 'MetricName': metricName,
-      if (metricValue != null) 'MetricValue': metricValue,
+      if (metricValue != null) 'MetricValue': _s.encodeJsonDouble(metricValue),
     };
   }
 }
@@ -10108,12 +10108,12 @@ class Metrics {
   factory Metrics.fromJson(Map<String, dynamic> json) {
     return Metrics(
       averageWeightedQuantileLoss:
-          json['AverageWeightedQuantileLoss'] as double?,
+          _s.parseJsonDouble(json['AverageWeightedQuantileLoss']),
       errorMetrics: (json['ErrorMetrics'] as List?)
           ?.nonNulls
           .map((e) => ErrorMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rmse: json['RMSE'] as double?,
+      rmse: _s.parseJsonDouble(json['RMSE']),
       weightedQuantileLosses: (json['WeightedQuantileLosses'] as List?)
           ?.nonNulls
           .map((e) => WeightedQuantileLoss.fromJson(e as Map<String, dynamic>))
@@ -10128,9 +10128,10 @@ class Metrics {
     final weightedQuantileLosses = this.weightedQuantileLosses;
     return {
       if (averageWeightedQuantileLoss != null)
-        'AverageWeightedQuantileLoss': averageWeightedQuantileLoss,
+        'AverageWeightedQuantileLoss':
+            _s.encodeJsonDouble(averageWeightedQuantileLoss),
       if (errorMetrics != null) 'ErrorMetrics': errorMetrics,
-      if (rmse != null) 'RMSE': rmse,
+      if (rmse != null) 'RMSE': _s.encodeJsonDouble(rmse),
       if (weightedQuantileLosses != null)
         'WeightedQuantileLosses': weightedQuantileLosses,
     };
@@ -10168,10 +10169,10 @@ class ErrorMetric {
   factory ErrorMetric.fromJson(Map<String, dynamic> json) {
     return ErrorMetric(
       forecastType: json['ForecastType'] as String?,
-      mape: json['MAPE'] as double?,
-      mase: json['MASE'] as double?,
-      rmse: json['RMSE'] as double?,
-      wape: json['WAPE'] as double?,
+      mape: _s.parseJsonDouble(json['MAPE']),
+      mase: _s.parseJsonDouble(json['MASE']),
+      rmse: _s.parseJsonDouble(json['RMSE']),
+      wape: _s.parseJsonDouble(json['WAPE']),
     );
   }
 
@@ -10183,10 +10184,10 @@ class ErrorMetric {
     final wape = this.wape;
     return {
       if (forecastType != null) 'ForecastType': forecastType,
-      if (mape != null) 'MAPE': mape,
-      if (mase != null) 'MASE': mase,
-      if (rmse != null) 'RMSE': rmse,
-      if (wape != null) 'WAPE': wape,
+      if (mape != null) 'MAPE': _s.encodeJsonDouble(mape),
+      if (mase != null) 'MASE': _s.encodeJsonDouble(mase),
+      if (rmse != null) 'RMSE': _s.encodeJsonDouble(rmse),
+      if (wape != null) 'WAPE': _s.encodeJsonDouble(wape),
     };
   }
 }
@@ -10212,8 +10213,8 @@ class WeightedQuantileLoss {
 
   factory WeightedQuantileLoss.fromJson(Map<String, dynamic> json) {
     return WeightedQuantileLoss(
-      lossValue: json['LossValue'] as double?,
-      quantile: json['Quantile'] as double?,
+      lossValue: _s.parseJsonDouble(json['LossValue']),
+      quantile: _s.parseJsonDouble(json['Quantile']),
     );
   }
 
@@ -10221,8 +10222,8 @@ class WeightedQuantileLoss {
     final lossValue = this.lossValue;
     final quantile = this.quantile;
     return {
-      if (lossValue != null) 'LossValue': lossValue,
-      if (quantile != null) 'Quantile': quantile,
+      if (lossValue != null) 'LossValue': _s.encodeJsonDouble(lossValue),
+      if (quantile != null) 'Quantile': _s.encodeJsonDouble(quantile),
     };
   }
 }
@@ -10471,7 +10472,7 @@ class Action {
     return Action(
       attributeName: (json['AttributeName'] as String?) ?? '',
       operation: Operation.fromString((json['Operation'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -10482,7 +10483,7 @@ class Action {
     return {
       'AttributeName': attributeName,
       'Operation': operation.value,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -11744,8 +11745,8 @@ class ContinuousParameterRange {
 
   factory ContinuousParameterRange.fromJson(Map<String, dynamic> json) {
     return ContinuousParameterRange(
-      maxValue: (json['MaxValue'] as double?) ?? 0,
-      minValue: (json['MinValue'] as double?) ?? 0,
+      maxValue: _s.parseJsonDouble(json['MaxValue']) ?? 0,
+      minValue: _s.parseJsonDouble(json['MinValue']) ?? 0,
       name: (json['Name'] as String?) ?? '',
       scalingType:
           (json['ScalingType'] as String?)?.let(ScalingType.fromString),
@@ -11758,8 +11759,8 @@ class ContinuousParameterRange {
     final name = this.name;
     final scalingType = this.scalingType;
     return {
-      'MaxValue': maxValue,
-      'MinValue': minValue,
+      'MaxValue': _s.encodeJsonDouble(maxValue),
+      'MinValue': _s.encodeJsonDouble(minValue),
       'Name': name,
       if (scalingType != null) 'ScalingType': scalingType.value,
     };
@@ -11886,7 +11887,7 @@ class BaselineMetric {
   factory BaselineMetric.fromJson(Map<String, dynamic> json) {
     return BaselineMetric(
       name: json['Name'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -11895,7 +11896,7 @@ class BaselineMetric {
     final value = this.value;
     return {
       if (name != null) 'Name': name,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -11971,7 +11972,7 @@ class Statistics {
 
   factory Statistics.fromJson(Map<String, dynamic> json) {
     return Statistics(
-      avg: json['Avg'] as double?,
+      avg: _s.parseJsonDouble(json['Avg']),
       count: json['Count'] as int?,
       countDistinct: json['CountDistinct'] as int?,
       countDistinctLong: json['CountDistinctLong'] as int?,
@@ -11982,7 +11983,7 @@ class Statistics {
       countNullLong: json['CountNullLong'] as int?,
       max: json['Max'] as String?,
       min: json['Min'] as String?,
-      stddev: json['Stddev'] as double?,
+      stddev: _s.parseJsonDouble(json['Stddev']),
     );
   }
 
@@ -12000,7 +12001,7 @@ class Statistics {
     final min = this.min;
     final stddev = this.stddev;
     return {
-      if (avg != null) 'Avg': avg,
+      if (avg != null) 'Avg': _s.encodeJsonDouble(avg),
       if (count != null) 'Count': count,
       if (countDistinct != null) 'CountDistinct': countDistinct,
       if (countDistinctLong != null) 'CountDistinctLong': countDistinctLong,
@@ -12011,7 +12012,7 @@ class Statistics {
       if (countNullLong != null) 'CountNullLong': countNullLong,
       if (max != null) 'Max': max,
       if (min != null) 'Min': min,
-      if (stddev != null) 'Stddev': stddev,
+      if (stddev != null) 'Stddev': _s.encodeJsonDouble(stddev),
     };
   }
 }

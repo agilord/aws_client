@@ -442,7 +442,7 @@ class Event {
       'eventType': eventType,
       'sentAt': unixTimestampToJson(sentAt),
       if (eventId != null) 'eventId': eventId,
-      if (eventValue != null) 'eventValue': eventValue,
+      if (eventValue != null) 'eventValue': _s.encodeJsonDouble(eventValue),
       if (impression != null) 'impression': impression,
       if (itemId != null) 'itemId': itemId,
       if (metricAttribution != null) 'metricAttribution': metricAttribution,

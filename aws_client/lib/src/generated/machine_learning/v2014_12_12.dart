@@ -2092,7 +2092,8 @@ class MachineLearning {
       payload: {
         'MLModelId': mLModelId,
         if (mLModelName != null) 'MLModelName': mLModelName,
-        if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
+        if (scoreThreshold != null)
+          'ScoreThreshold': _s.encodeJsonDouble(scoreThreshold),
       },
     );
 
@@ -3575,7 +3576,7 @@ class GetMLModelOutput {
       name: json['Name'] as String?,
       recipe: json['Recipe'] as String?,
       schema: json['Schema'] as String?,
-      scoreThreshold: json['ScoreThreshold'] as double?,
+      scoreThreshold: _s.parseJsonDouble(json['ScoreThreshold']),
       scoreThresholdLastUpdatedAt:
           timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
       sizeInBytes: json['SizeInBytes'] as int?,
@@ -3626,7 +3627,8 @@ class GetMLModelOutput {
       if (name != null) 'Name': name,
       if (recipe != null) 'Recipe': recipe,
       if (schema != null) 'Schema': schema,
-      if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
+      if (scoreThreshold != null)
+        'ScoreThreshold': _s.encodeJsonDouble(scoreThreshold),
       if (scoreThresholdLastUpdatedAt != null)
         'ScoreThresholdLastUpdatedAt':
             unixTimestampToJson(scoreThresholdLastUpdatedAt),
@@ -3831,8 +3833,8 @@ class Prediction {
           (k, e) => MapEntry(DetailsAttributes.fromString(k), e as String)),
       predictedLabel: json['predictedLabel'] as String?,
       predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
-      predictedValue: json['predictedValue'] as double?,
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
+      predictedValue: _s.parseJsonDouble(json['predictedValue']),
     );
   }
 
@@ -3845,8 +3847,11 @@ class Prediction {
       if (details != null)
         'details': details.map((k, e) => MapEntry(k.value, e)),
       if (predictedLabel != null) 'predictedLabel': predictedLabel,
-      if (predictedScores != null) 'predictedScores': predictedScores,
-      if (predictedValue != null) 'predictedValue': predictedValue,
+      if (predictedScores != null)
+        'predictedScores':
+            predictedScores.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
+      if (predictedValue != null)
+        'predictedValue': _s.encodeJsonDouble(predictedValue),
     };
   }
 }
@@ -4536,7 +4541,7 @@ class MLModel {
           (json['MLModelType'] as String?)?.let(MLModelType.fromString),
       message: json['Message'] as String?,
       name: json['Name'] as String?,
-      scoreThreshold: json['ScoreThreshold'] as double?,
+      scoreThreshold: _s.parseJsonDouble(json['ScoreThreshold']),
       scoreThresholdLastUpdatedAt:
           timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
       sizeInBytes: json['SizeInBytes'] as int?,
@@ -4583,7 +4588,8 @@ class MLModel {
       if (mLModelType != null) 'MLModelType': mLModelType.value,
       if (message != null) 'Message': message,
       if (name != null) 'Name': name,
-      if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
+      if (scoreThreshold != null)
+        'ScoreThreshold': _s.encodeJsonDouble(scoreThreshold),
       if (scoreThresholdLastUpdatedAt != null)
         'ScoreThresholdLastUpdatedAt':
             unixTimestampToJson(scoreThresholdLastUpdatedAt),

@@ -6129,8 +6129,8 @@ class Sensor {
       comment: json['comment'] as String?,
       deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
-      max: json['max'] as double?,
-      min: json['min'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
       structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
       unit: json['unit'] as String?,
     );
@@ -6154,8 +6154,8 @@ class Sensor {
       if (comment != null) 'comment': comment,
       if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
       if (structFullyQualifiedName != null)
         'structFullyQualifiedName': structFullyQualifiedName,
       if (unit != null) 'unit': unit,
@@ -6237,8 +6237,8 @@ class Actuator {
       comment: json['comment'] as String?,
       deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
-      max: json['max'] as double?,
-      min: json['min'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
       structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
       unit: json['unit'] as String?,
     );
@@ -6264,8 +6264,8 @@ class Actuator {
       if (comment != null) 'comment': comment,
       if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
       if (structFullyQualifiedName != null)
         'structFullyQualifiedName': structFullyQualifiedName,
       if (unit != null) 'unit': unit,
@@ -6340,8 +6340,8 @@ class Attribute {
       defaultValue: json['defaultValue'] as String?,
       deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
-      max: json['max'] as double?,
-      min: json['min'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
       unit: json['unit'] as String?,
     );
   }
@@ -6367,8 +6367,8 @@ class Attribute {
       if (defaultValue != null) 'defaultValue': defaultValue,
       if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
       if (unit != null) 'unit': unit,
     };
   }
@@ -7132,12 +7132,12 @@ class CanSignal {
 
   factory CanSignal.fromJson(Map<String, dynamic> json) {
     return CanSignal(
-      factor: (json['factor'] as double?) ?? 0,
+      factor: _s.parseJsonDouble(json['factor']) ?? 0,
       isBigEndian: (json['isBigEndian'] as bool?) ?? false,
       isSigned: (json['isSigned'] as bool?) ?? false,
       length: (json['length'] as int?) ?? 0,
       messageId: (json['messageId'] as int?) ?? 0,
-      offset: (json['offset'] as double?) ?? 0,
+      offset: _s.parseJsonDouble(json['offset']) ?? 0,
       startBit: (json['startBit'] as int?) ?? 0,
       name: json['name'] as String?,
       signalValueType:
@@ -7156,12 +7156,12 @@ class CanSignal {
     final name = this.name;
     final signalValueType = this.signalValueType;
     return {
-      'factor': factor,
+      'factor': _s.encodeJsonDouble(factor),
       'isBigEndian': isBigEndian,
       'isSigned': isSigned,
       'length': length,
       'messageId': messageId,
-      'offset': offset,
+      'offset': _s.encodeJsonDouble(offset),
       'startBit': startBit,
       if (name != null) 'name': name,
       if (signalValueType != null) 'signalValueType': signalValueType.value,
@@ -7230,10 +7230,10 @@ class ObdSignal {
   factory ObdSignal.fromJson(Map<String, dynamic> json) {
     return ObdSignal(
       byteLength: (json['byteLength'] as int?) ?? 0,
-      offset: (json['offset'] as double?) ?? 0,
+      offset: _s.parseJsonDouble(json['offset']) ?? 0,
       pid: (json['pid'] as int?) ?? 0,
       pidResponseLength: (json['pidResponseLength'] as int?) ?? 0,
-      scaling: (json['scaling'] as double?) ?? 0,
+      scaling: _s.parseJsonDouble(json['scaling']) ?? 0,
       serviceMode: (json['serviceMode'] as int?) ?? 0,
       startByte: (json['startByte'] as int?) ?? 0,
       bitMaskLength: json['bitMaskLength'] as int?,
@@ -7258,10 +7258,10 @@ class ObdSignal {
     final signalValueType = this.signalValueType;
     return {
       'byteLength': byteLength,
-      'offset': offset,
+      'offset': _s.encodeJsonDouble(offset),
       'pid': pid,
       'pidResponseLength': pidResponseLength,
-      'scaling': scaling,
+      'scaling': _s.encodeJsonDouble(scaling),
       'serviceMode': serviceMode,
       'startByte': startByte,
       if (bitMaskLength != null) 'bitMaskLength': bitMaskLength,
@@ -7585,8 +7585,8 @@ class ROS2PrimitiveMessageDefinition {
     return ROS2PrimitiveMessageDefinition(
       primitiveType: ROS2PrimitiveType.fromString(
           (json['primitiveType'] as String?) ?? ''),
-      offset: json['offset'] as double?,
-      scaling: json['scaling'] as double?,
+      offset: _s.parseJsonDouble(json['offset']),
+      scaling: _s.parseJsonDouble(json['scaling']),
       upperBound: json['upperBound'] as int?,
     );
   }
@@ -7598,8 +7598,8 @@ class ROS2PrimitiveMessageDefinition {
     final upperBound = this.upperBound;
     return {
       'primitiveType': primitiveType.value,
-      if (offset != null) 'offset': offset,
-      if (scaling != null) 'scaling': scaling,
+      if (offset != null) 'offset': _s.encodeJsonDouble(offset),
+      if (scaling != null) 'scaling': _s.encodeJsonDouble(scaling),
       if (upperBound != null) 'upperBound': upperBound,
     };
   }

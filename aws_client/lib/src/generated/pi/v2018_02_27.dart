@@ -2146,7 +2146,7 @@ class DataPoint {
   factory DataPoint.fromJson(Map<String, dynamic> json) {
     return DataPoint(
       timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -2155,7 +2155,7 @@ class DataPoint {
     final value = this.value;
     return {
       'Timestamp': unixTimestampToJson(timestamp),
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -3009,7 +3009,7 @@ class PerformanceInsightsMetric {
       filter: (json['Filter'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       metric: json['Metric'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -3024,7 +3024,7 @@ class PerformanceInsightsMetric {
       if (displayName != null) 'DisplayName': displayName,
       if (filter != null) 'Filter': filter,
       if (metric != null) 'Metric': metric,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -3208,14 +3208,14 @@ class DimensionKeyDescription {
   factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) {
     return DimensionKeyDescription(
       additionalMetrics: (json['AdditionalMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       dimensions: (json['Dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitions: (json['Partitions'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
-      total: json['Total'] as double?,
+      total: _s.parseJsonDouble(json['Total']),
     );
   }
 
@@ -3225,10 +3225,13 @@ class DimensionKeyDescription {
     final partitions = this.partitions;
     final total = this.total;
     return {
-      if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
+      if (additionalMetrics != null)
+        'AdditionalMetrics': additionalMetrics
+            .map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (dimensions != null) 'Dimensions': dimensions,
-      if (partitions != null) 'Partitions': partitions,
-      if (total != null) 'Total': total,
+      if (partitions != null)
+        'Partitions': partitions.map(_s.encodeJsonDouble).toList(),
+      if (total != null) 'Total': _s.encodeJsonDouble(total),
     };
   }
 }

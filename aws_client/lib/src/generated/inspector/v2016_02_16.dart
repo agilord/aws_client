@@ -3901,7 +3901,7 @@ class Finding {
       description: json['description'] as String?,
       id: json['id'] as String?,
       indicatorOfCompromise: json['indicatorOfCompromise'] as bool?,
-      numericSeverity: json['numericSeverity'] as double?,
+      numericSeverity: _s.parseJsonDouble(json['numericSeverity']),
       recommendation: json['recommendation'] as String?,
       schemaVersion: json['schemaVersion'] as int?,
       service: json['service'] as String?,
@@ -3946,7 +3946,8 @@ class Finding {
       if (id != null) 'id': id,
       if (indicatorOfCompromise != null)
         'indicatorOfCompromise': indicatorOfCompromise,
-      if (numericSeverity != null) 'numericSeverity': numericSeverity,
+      if (numericSeverity != null)
+        'numericSeverity': _s.encodeJsonDouble(numericSeverity),
       if (recommendation != null) 'recommendation': recommendation,
       if (schemaVersion != null) 'schemaVersion': schemaVersion,
       if (service != null) 'service': service,

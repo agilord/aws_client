@@ -6624,7 +6624,7 @@ class BrokerNodeInfo {
   factory BrokerNodeInfo.fromJson(Map<String, dynamic> json) {
     return BrokerNodeInfo(
       attachedENIId: json['attachedENIId'] as String?,
-      brokerId: json['brokerId'] as double?,
+      brokerId: _s.parseJsonDouble(json['brokerId']),
       clientSubnet: json['clientSubnet'] as String?,
       clientVpcIpAddress: json['clientVpcIpAddress'] as String?,
       currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] != null
@@ -6647,7 +6647,7 @@ class BrokerNodeInfo {
     final endpoints = this.endpoints;
     return {
       if (attachedENIId != null) 'attachedENIId': attachedENIId,
-      if (brokerId != null) 'brokerId': brokerId,
+      if (brokerId != null) 'brokerId': _s.encodeJsonDouble(brokerId),
       if (clientSubnet != null) 'clientSubnet': clientSubnet,
       if (clientVpcIpAddress != null) 'clientVpcIpAddress': clientVpcIpAddress,
       if (currentBrokerSoftwareInfo != null)
@@ -6745,7 +6745,7 @@ class ZookeeperNodeInfo {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      zookeeperId: json['zookeeperId'] as double?,
+      zookeeperId: _s.parseJsonDouble(json['zookeeperId']),
       zookeeperVersion: json['zookeeperVersion'] as String?,
     );
   }
@@ -6760,7 +6760,7 @@ class ZookeeperNodeInfo {
       if (attachedENIId != null) 'attachedENIId': attachedENIId,
       if (clientVpcIpAddress != null) 'clientVpcIpAddress': clientVpcIpAddress,
       if (endpoints != null) 'endpoints': endpoints,
-      if (zookeeperId != null) 'zookeeperId': zookeeperId,
+      if (zookeeperId != null) 'zookeeperId': _s.encodeJsonDouble(zookeeperId),
       if (zookeeperVersion != null) 'zookeeperVersion': zookeeperVersion,
     };
   }
@@ -8521,11 +8521,11 @@ class BrokerCountUpdateInfo {
     return BrokerCountUpdateInfo(
       createdBrokerIds: (json['createdBrokerIds'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       deletedBrokerIds: (json['deletedBrokerIds'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -8534,8 +8534,10 @@ class BrokerCountUpdateInfo {
     final createdBrokerIds = this.createdBrokerIds;
     final deletedBrokerIds = this.deletedBrokerIds;
     return {
-      if (createdBrokerIds != null) 'createdBrokerIds': createdBrokerIds,
-      if (deletedBrokerIds != null) 'deletedBrokerIds': deletedBrokerIds,
+      if (createdBrokerIds != null)
+        'createdBrokerIds': createdBrokerIds.map(_s.encodeJsonDouble).toList(),
+      if (deletedBrokerIds != null)
+        'deletedBrokerIds': deletedBrokerIds.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

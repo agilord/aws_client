@@ -3815,14 +3815,14 @@ class S3SnapshotAsset {
 
   factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) {
     return S3SnapshotAsset(
-      size: (json['Size'] as double?) ?? 0,
+      size: _s.parseJsonDouble(json['Size']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final size = this.size;
     return {
-      'Size': size,
+      'Size': _s.encodeJsonDouble(size),
     };
   }
 }
@@ -5355,7 +5355,7 @@ class JobError {
           : null,
       limitName:
           (json['LimitName'] as String?)?.let(JobErrorLimitName.fromString),
-      limitValue: json['LimitValue'] as double?,
+      limitValue: _s.parseJsonDouble(json['LimitValue']),
       resourceId: json['ResourceId'] as String?,
       resourceType: (json['ResourceType'] as String?)
           ?.let(JobErrorResourceTypes.fromString),
@@ -5375,7 +5375,7 @@ class JobError {
       'Message': message,
       if (details != null) 'Details': details,
       if (limitName != null) 'LimitName': limitName.value,
-      if (limitValue != null) 'LimitValue': limitValue,
+      if (limitValue != null) 'LimitValue': _s.encodeJsonDouble(limitValue),
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType.value,
     };

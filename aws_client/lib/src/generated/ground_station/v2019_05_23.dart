@@ -4633,9 +4633,9 @@ class TimeAzEl {
     final dt = this.dt;
     final el = this.el;
     return {
-      'az': az,
-      'dt': dt,
-      'el': el,
+      'az': _s.encodeJsonDouble(az),
+      'dt': _s.encodeJsonDouble(dt),
+      'el': _s.encodeJsonDouble(el),
     };
   }
 }
@@ -5846,7 +5846,7 @@ class Elevation {
   factory Elevation.fromJson(Map<String, dynamic> json) {
     return Elevation(
       unit: AngleUnits.fromString((json['unit'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -5855,7 +5855,7 @@ class Elevation {
     final value = this.value;
     return {
       'unit': unit.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7126,7 +7126,7 @@ class Eirp {
   factory Eirp.fromJson(Map<String, dynamic> json) {
     return Eirp(
       units: EirpUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -7135,7 +7135,7 @@ class Eirp {
     final value = this.value;
     return {
       'units': units.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7182,7 +7182,7 @@ class Frequency {
   factory Frequency.fromJson(Map<String, dynamic> json) {
     return Frequency(
       units: FrequencyUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -7191,7 +7191,7 @@ class Frequency {
     final value = this.value;
     return {
       'units': units.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7395,7 +7395,7 @@ class FrequencyBandwidth {
   factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
     return FrequencyBandwidth(
       units: BandwidthUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -7404,7 +7404,7 @@ class FrequencyBandwidth {
     final value = this.value;
     return {
       'units': units.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }

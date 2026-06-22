@@ -13902,7 +13902,7 @@ class MetricTransformation {
       metricName: (json['metricName'] as String?) ?? '',
       metricNamespace: (json['metricNamespace'] as String?) ?? '',
       metricValue: (json['metricValue'] as String?) ?? '',
-      defaultValue: json['defaultValue'] as double?,
+      defaultValue: _s.parseJsonDouble(json['defaultValue']),
       dimensions: (json['dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       unit: (json['unit'] as String?)?.let(StandardUnit.fromString),
@@ -13920,7 +13920,8 @@ class MetricTransformation {
       'metricName': metricName,
       'metricNamespace': metricNamespace,
       'metricValue': metricValue,
-      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (defaultValue != null)
+        'defaultValue': _s.encodeJsonDouble(defaultValue),
       if (dimensions != null) 'dimensions': dimensions,
       if (unit != null) 'unit': unit.value,
     };
@@ -16231,12 +16232,13 @@ class QueryStatistics {
 
   factory QueryStatistics.fromJson(Map<String, dynamic> json) {
     return QueryStatistics(
-      bytesScanned: json['bytesScanned'] as double?,
-      estimatedBytesSkipped: json['estimatedBytesSkipped'] as double?,
-      estimatedRecordsSkipped: json['estimatedRecordsSkipped'] as double?,
-      logGroupsScanned: json['logGroupsScanned'] as double?,
-      recordsMatched: json['recordsMatched'] as double?,
-      recordsScanned: json['recordsScanned'] as double?,
+      bytesScanned: _s.parseJsonDouble(json['bytesScanned']),
+      estimatedBytesSkipped: _s.parseJsonDouble(json['estimatedBytesSkipped']),
+      estimatedRecordsSkipped:
+          _s.parseJsonDouble(json['estimatedRecordsSkipped']),
+      logGroupsScanned: _s.parseJsonDouble(json['logGroupsScanned']),
+      recordsMatched: _s.parseJsonDouble(json['recordsMatched']),
+      recordsScanned: _s.parseJsonDouble(json['recordsScanned']),
     );
   }
 
@@ -16248,14 +16250,18 @@ class QueryStatistics {
     final recordsMatched = this.recordsMatched;
     final recordsScanned = this.recordsScanned;
     return {
-      if (bytesScanned != null) 'bytesScanned': bytesScanned,
+      if (bytesScanned != null)
+        'bytesScanned': _s.encodeJsonDouble(bytesScanned),
       if (estimatedBytesSkipped != null)
-        'estimatedBytesSkipped': estimatedBytesSkipped,
+        'estimatedBytesSkipped': _s.encodeJsonDouble(estimatedBytesSkipped),
       if (estimatedRecordsSkipped != null)
-        'estimatedRecordsSkipped': estimatedRecordsSkipped,
-      if (logGroupsScanned != null) 'logGroupsScanned': logGroupsScanned,
-      if (recordsMatched != null) 'recordsMatched': recordsMatched,
-      if (recordsScanned != null) 'recordsScanned': recordsScanned,
+        'estimatedRecordsSkipped': _s.encodeJsonDouble(estimatedRecordsSkipped),
+      if (logGroupsScanned != null)
+        'logGroupsScanned': _s.encodeJsonDouble(logGroupsScanned),
+      if (recordsMatched != null)
+        'recordsMatched': _s.encodeJsonDouble(recordsMatched),
+      if (recordsScanned != null)
+        'recordsScanned': _s.encodeJsonDouble(recordsScanned),
     };
   }
 }
@@ -17614,7 +17620,7 @@ class QueryInfo {
 
   factory QueryInfo.fromJson(Map<String, dynamic> json) {
     return QueryInfo(
-      bytesScanned: json['bytesScanned'] as double?,
+      bytesScanned: _s.parseJsonDouble(json['bytesScanned']),
       createTime: json['createTime'] as int?,
       logGroupName: json['logGroupName'] as String?,
       queryDuration: json['queryDuration'] as int?,
@@ -17638,7 +17644,8 @@ class QueryInfo {
     final status = this.status;
     final userIdentity = this.userIdentity;
     return {
-      if (bytesScanned != null) 'bytesScanned': bytesScanned,
+      if (bytesScanned != null)
+        'bytesScanned': _s.encodeJsonDouble(bytesScanned),
       if (createTime != null) 'createTime': createTime,
       if (logGroupName != null) 'logGroupName': logGroupName,
       if (queryDuration != null) 'queryDuration': queryDuration,
@@ -18994,8 +19001,8 @@ class DeliverySourceConfigurationSchema {
       keyName: (json['keyName'] as String?) ?? '',
       valueType: DeliverySourceConfigurationSchemaValueType.fromString(
           (json['valueType'] as String?) ?? ''),
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
+      maxValue: _s.parseJsonDouble(json['maxValue']),
+      minValue: _s.parseJsonDouble(json['minValue']),
       supportedValues: (json['supportedValues'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -19014,8 +19021,8 @@ class DeliverySourceConfigurationSchema {
       'defaultValue': defaultValue,
       'keyName': keyName,
       'valueType': valueType.value,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
+      if (maxValue != null) 'maxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'minValue': _s.encodeJsonDouble(minValue),
       if (supportedValues != null) 'supportedValues': supportedValues,
     };
   }

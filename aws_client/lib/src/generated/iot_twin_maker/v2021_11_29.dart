@@ -4178,7 +4178,7 @@ class DataValue {
   factory DataValue.fromJson(Map<String, dynamic> json) {
     return DataValue(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       expression: json['expression'] as String?,
       integerValue: json['integerValue'] as int?,
       listValue: (json['listValue'] as List?)
@@ -4208,7 +4208,7 @@ class DataValue {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (expression != null) 'expression': expression,
       if (integerValue != null) 'integerValue': integerValue,
       if (listValue != null) 'listValue': listValue,

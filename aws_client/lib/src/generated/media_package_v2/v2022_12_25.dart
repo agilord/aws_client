@@ -5735,7 +5735,7 @@ class StartTag {
 
   factory StartTag.fromJson(Map<String, dynamic> json) {
     return StartTag(
-      timeOffset: (json['TimeOffset'] as double?) ?? 0,
+      timeOffset: _s.parseJsonDouble(json['TimeOffset']) ?? 0,
       precise: json['Precise'] as bool?,
     );
   }
@@ -5744,7 +5744,7 @@ class StartTag {
     final timeOffset = this.timeOffset;
     final precise = this.precise;
     return {
-      'TimeOffset': timeOffset,
+      'TimeOffset': _s.encodeJsonDouble(timeOffset),
       if (precise != null) 'Precise': precise,
     };
   }

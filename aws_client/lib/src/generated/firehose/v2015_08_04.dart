@@ -4791,14 +4791,15 @@ class OrcSerDe {
           .map((e) => e as String)
           .toList(),
       bloomFilterFalsePositiveProbability:
-          json['BloomFilterFalsePositiveProbability'] as double?,
+          _s.parseJsonDouble(json['BloomFilterFalsePositiveProbability']),
       compression:
           (json['Compression'] as String?)?.let(OrcCompression.fromString),
-      dictionaryKeyThreshold: json['DictionaryKeyThreshold'] as double?,
+      dictionaryKeyThreshold:
+          _s.parseJsonDouble(json['DictionaryKeyThreshold']),
       enablePadding: json['EnablePadding'] as bool?,
       formatVersion:
           (json['FormatVersion'] as String?)?.let(OrcFormatVersion.fromString),
-      paddingTolerance: json['PaddingTolerance'] as double?,
+      paddingTolerance: _s.parseJsonDouble(json['PaddingTolerance']),
       rowIndexStride: json['RowIndexStride'] as int?,
       stripeSizeBytes: json['StripeSizeBytes'] as int?,
     );
@@ -4821,13 +4822,14 @@ class OrcSerDe {
       if (bloomFilterColumns != null) 'BloomFilterColumns': bloomFilterColumns,
       if (bloomFilterFalsePositiveProbability != null)
         'BloomFilterFalsePositiveProbability':
-            bloomFilterFalsePositiveProbability,
+            _s.encodeJsonDouble(bloomFilterFalsePositiveProbability),
       if (compression != null) 'Compression': compression.value,
       if (dictionaryKeyThreshold != null)
-        'DictionaryKeyThreshold': dictionaryKeyThreshold,
+        'DictionaryKeyThreshold': _s.encodeJsonDouble(dictionaryKeyThreshold),
       if (enablePadding != null) 'EnablePadding': enablePadding,
       if (formatVersion != null) 'FormatVersion': formatVersion.value,
-      if (paddingTolerance != null) 'PaddingTolerance': paddingTolerance,
+      if (paddingTolerance != null)
+        'PaddingTolerance': _s.encodeJsonDouble(paddingTolerance),
       if (rowIndexStride != null) 'RowIndexStride': rowIndexStride,
       if (stripeSizeBytes != null) 'StripeSizeBytes': stripeSizeBytes,
     };

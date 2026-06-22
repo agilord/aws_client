@@ -1291,7 +1291,8 @@ class Deadline {
     };
     final $payload = <String, dynamic>{
       'displayName': displayName,
-      if (costScaleFactor != null) 'costScaleFactor': costScaleFactor,
+      if (costScaleFactor != null)
+        'costScaleFactor': _s.encodeJsonDouble(costScaleFactor),
       if (description != null) 'description': description,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (tags != null) 'tags': tags,
@@ -1375,7 +1376,8 @@ class Deadline {
       100,
     );
     final $payload = <String, dynamic>{
-      if (costScaleFactor != null) 'costScaleFactor': costScaleFactor,
+      if (costScaleFactor != null)
+        'costScaleFactor': _s.encodeJsonDouble(costScaleFactor),
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
     };
@@ -2118,7 +2120,7 @@ class Deadline {
     };
     final $payload = <String, dynamic>{
       'actions': actions,
-      'approximateDollarLimit': approximateDollarLimit,
+      'approximateDollarLimit': _s.encodeJsonDouble(approximateDollarLimit),
       'displayName': displayName,
       'schedule': schedule,
       'usageTrackingResource': usageTrackingResource,
@@ -2248,7 +2250,7 @@ class Deadline {
       if (actionsToAdd != null) 'actionsToAdd': actionsToAdd,
       if (actionsToRemove != null) 'actionsToRemove': actionsToRemove,
       if (approximateDollarLimit != null)
-        'approximateDollarLimit': approximateDollarLimit,
+        'approximateDollarLimit': _s.encodeJsonDouble(approximateDollarLimit),
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
       if (schedule != null) 'schedule': schedule,
@@ -7033,7 +7035,7 @@ class GetFarmResponse {
 
   factory GetFarmResponse.fromJson(Map<String, dynamic> json) {
     return GetFarmResponse(
-      costScaleFactor: (json['costScaleFactor'] as double?) ?? 0,
+      costScaleFactor: _s.parseJsonDouble(json['costScaleFactor']) ?? 0,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
       displayName: (json['displayName'] as String?) ?? '',
@@ -7056,7 +7058,7 @@ class GetFarmResponse {
     final updatedAt = this.updatedAt;
     final updatedBy = this.updatedBy;
     return {
-      'costScaleFactor': costScaleFactor,
+      'costScaleFactor': _s.encodeJsonDouble(costScaleFactor),
       'createdAt': iso8601ToJson(createdAt),
       'createdBy': createdBy,
       'displayName': displayName,
@@ -7701,7 +7703,8 @@ class GetBudgetResponse {
           .nonNulls
           .map((e) => ResponseBudgetAction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      approximateDollarLimit: (json['approximateDollarLimit'] as double?) ?? 0,
+      approximateDollarLimit:
+          _s.parseJsonDouble(json['approximateDollarLimit']) ?? 0,
       budgetId: (json['budgetId'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
@@ -7740,7 +7743,7 @@ class GetBudgetResponse {
     final updatedBy = this.updatedBy;
     return {
       'actions': actions,
-      'approximateDollarLimit': approximateDollarLimit,
+      'approximateDollarLimit': _s.encodeJsonDouble(approximateDollarLimit),
       'budgetId': budgetId,
       'createdAt': iso8601ToJson(createdAt),
       'createdBy': createdBy,
@@ -9961,7 +9964,7 @@ class GetSessionActionResponse {
           .toList(),
       processExitCode: json['processExitCode'] as int?,
       progressMessage: json['progressMessage'] as String?,
-      progressPercent: json['progressPercent'] as double?,
+      progressPercent: _s.parseJsonDouble(json['progressPercent']),
       startedAt: timeStampFromJson(json['startedAt']),
       workerUpdatedAt: timeStampFromJson(json['workerUpdatedAt']),
     );
@@ -9990,7 +9993,8 @@ class GetSessionActionResponse {
       if (manifests != null) 'manifests': manifests,
       if (processExitCode != null) 'processExitCode': processExitCode,
       if (progressMessage != null) 'progressMessage': progressMessage,
-      if (progressPercent != null) 'progressPercent': progressPercent,
+      if (progressPercent != null)
+        'progressPercent': _s.encodeJsonDouble(progressPercent),
       if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
       if (workerUpdatedAt != null)
         'workerUpdatedAt': iso8601ToJson(workerUpdatedAt),
@@ -12182,7 +12186,7 @@ class SessionActionSummary {
           .map((e) => TaskRunManifestPropertiesResponse.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      progressPercent: json['progressPercent'] as double?,
+      progressPercent: _s.parseJsonDouble(json['progressPercent']),
       startedAt: timeStampFromJson(json['startedAt']),
       workerUpdatedAt: timeStampFromJson(json['workerUpdatedAt']),
     );
@@ -12203,7 +12207,8 @@ class SessionActionSummary {
       'status': status.value,
       if (endedAt != null) 'endedAt': iso8601ToJson(endedAt),
       if (manifests != null) 'manifests': manifests,
-      if (progressPercent != null) 'progressPercent': progressPercent,
+      if (progressPercent != null)
+        'progressPercent': _s.encodeJsonDouble(progressPercent),
       if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
       if (workerUpdatedAt != null)
         'workerUpdatedAt': iso8601ToJson(workerUpdatedAt),
@@ -12830,9 +12835,9 @@ class StepAmountCapability {
   factory StepAmountCapability.fromJson(Map<String, dynamic> json) {
     return StepAmountCapability(
       name: (json['name'] as String?) ?? '',
-      max: json['max'] as double?,
-      min: json['min'] as double?,
-      value: json['value'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -12843,9 +12848,9 @@ class StepAmountCapability {
     final value = this.value;
     return {
       'name': name,
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
-      if (value != null) 'value': value,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -14558,7 +14563,7 @@ class WeightedBalancedSchedulingConfiguration {
   factory WeightedBalancedSchedulingConfiguration.fromJson(
       Map<String, dynamic> json) {
     return WeightedBalancedSchedulingConfiguration(
-      errorWeight: json['errorWeight'] as double?,
+      errorWeight: _s.parseJsonDouble(json['errorWeight']),
       maxPriorityOverride: json['maxPriorityOverride'] != null
           ? SchedulingMaxPriorityOverride.fromJson(
               json['maxPriorityOverride'] as Map<String, dynamic>)
@@ -14567,10 +14572,10 @@ class WeightedBalancedSchedulingConfiguration {
           ? SchedulingMinPriorityOverride.fromJson(
               json['minPriorityOverride'] as Map<String, dynamic>)
           : null,
-      priorityWeight: json['priorityWeight'] as double?,
+      priorityWeight: _s.parseJsonDouble(json['priorityWeight']),
       renderingTaskBuffer: json['renderingTaskBuffer'] as int?,
-      renderingTaskWeight: json['renderingTaskWeight'] as double?,
-      submissionTimeWeight: json['submissionTimeWeight'] as double?,
+      renderingTaskWeight: _s.parseJsonDouble(json['renderingTaskWeight']),
+      submissionTimeWeight: _s.parseJsonDouble(json['submissionTimeWeight']),
     );
   }
 
@@ -14583,18 +14588,19 @@ class WeightedBalancedSchedulingConfiguration {
     final renderingTaskWeight = this.renderingTaskWeight;
     final submissionTimeWeight = this.submissionTimeWeight;
     return {
-      if (errorWeight != null) 'errorWeight': errorWeight,
+      if (errorWeight != null) 'errorWeight': _s.encodeJsonDouble(errorWeight),
       if (maxPriorityOverride != null)
         'maxPriorityOverride': maxPriorityOverride,
       if (minPriorityOverride != null)
         'minPriorityOverride': minPriorityOverride,
-      if (priorityWeight != null) 'priorityWeight': priorityWeight,
+      if (priorityWeight != null)
+        'priorityWeight': _s.encodeJsonDouble(priorityWeight),
       if (renderingTaskBuffer != null)
         'renderingTaskBuffer': renderingTaskBuffer,
       if (renderingTaskWeight != null)
-        'renderingTaskWeight': renderingTaskWeight,
+        'renderingTaskWeight': _s.encodeJsonDouble(renderingTaskWeight),
       if (submissionTimeWeight != null)
-        'submissionTimeWeight': submissionTimeWeight,
+        'submissionTimeWeight': _s.encodeJsonDouble(submissionTimeWeight),
     };
   }
 }
@@ -15131,7 +15137,8 @@ class UpdatedSessionActionInfo {
       if (manifests != null) 'manifests': manifests,
       if (processExitCode != null) 'processExitCode': processExitCode,
       if (progressMessage != null) 'progressMessage': progressMessage,
-      if (progressPercent != null) 'progressPercent': progressPercent,
+      if (progressPercent != null)
+        'progressPercent': _s.encodeJsonDouble(progressPercent),
       if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -16296,7 +16303,7 @@ class WorkerAmountCapability {
     final value = this.value;
     return {
       'name': name,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -17459,9 +17466,9 @@ class FleetAmountCapability {
 
   factory FleetAmountCapability.fromJson(Map<String, dynamic> json) {
     return FleetAmountCapability(
-      min: (json['min'] as double?) ?? 0,
+      min: _s.parseJsonDouble(json['min']) ?? 0,
       name: (json['name'] as String?) ?? '',
-      max: json['max'] as double?,
+      max: _s.parseJsonDouble(json['max']),
     );
   }
 
@@ -17470,9 +17477,9 @@ class FleetAmountCapability {
     final name = this.name;
     final max = this.max;
     return {
-      'min': min,
+      'min': _s.encodeJsonDouble(min),
       'name': name,
-      if (max != null) 'max': max,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
     };
   }
 }
@@ -18045,7 +18052,8 @@ class BudgetSummary {
 
   factory BudgetSummary.fromJson(Map<String, dynamic> json) {
     return BudgetSummary(
-      approximateDollarLimit: (json['approximateDollarLimit'] as double?) ?? 0,
+      approximateDollarLimit:
+          _s.parseJsonDouble(json['approximateDollarLimit']) ?? 0,
       budgetId: (json['budgetId'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       createdBy: (json['createdBy'] as String?) ?? '',
@@ -18076,7 +18084,7 @@ class BudgetSummary {
     final updatedAt = this.updatedAt;
     final updatedBy = this.updatedBy;
     return {
-      'approximateDollarLimit': approximateDollarLimit,
+      'approximateDollarLimit': _s.encodeJsonDouble(approximateDollarLimit),
       'budgetId': budgetId,
       'createdAt': iso8601ToJson(createdAt),
       'createdBy': createdBy,
@@ -18153,14 +18161,15 @@ class ConsumedUsages {
 
   factory ConsumedUsages.fromJson(Map<String, dynamic> json) {
     return ConsumedUsages(
-      approximateDollarUsage: (json['approximateDollarUsage'] as double?) ?? 0,
+      approximateDollarUsage:
+          _s.parseJsonDouble(json['approximateDollarUsage']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final approximateDollarUsage = this.approximateDollarUsage;
     return {
-      'approximateDollarUsage': approximateDollarUsage,
+      'approximateDollarUsage': _s.encodeJsonDouble(approximateDollarUsage),
     };
   }
 }
@@ -18243,7 +18252,7 @@ class BudgetActionToRemove {
     final thresholdPercentage = this.thresholdPercentage;
     final type = this.type;
     return {
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
       'type': type.value,
     };
   }
@@ -18308,7 +18317,7 @@ class BudgetActionToAdd {
     final type = this.type;
     final description = this.description;
     return {
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
       'type': type.value,
       if (description != null) 'description': description,
     };
@@ -18341,7 +18350,7 @@ class ResponseBudgetAction {
 
   factory ResponseBudgetAction.fromJson(Map<String, dynamic> json) {
     return ResponseBudgetAction(
-      thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
+      thresholdPercentage: _s.parseJsonDouble(json['thresholdPercentage']) ?? 0,
       type: BudgetActionType.fromString((json['type'] as String?) ?? ''),
       description: json['description'] as String?,
     );
@@ -18352,7 +18361,7 @@ class ResponseBudgetAction {
     final type = this.type;
     final description = this.description;
     return {
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
       'type': type.value,
       if (description != null) 'description': description,
     };
@@ -20255,10 +20264,10 @@ class Stats {
 
   factory Stats.fromJson(Map<String, dynamic> json) {
     return Stats(
-      avg: json['avg'] as double?,
-      max: json['max'] as double?,
-      min: json['min'] as double?,
-      sum: json['sum'] as double?,
+      avg: _s.parseJsonDouble(json['avg']),
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
+      sum: _s.parseJsonDouble(json['sum']),
     );
   }
 
@@ -20268,10 +20277,10 @@ class Stats {
     final min = this.min;
     final sum = this.sum;
     return {
-      if (avg != null) 'avg': avg,
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
-      if (sum != null) 'sum': sum,
+      if (avg != null) 'avg': _s.encodeJsonDouble(avg),
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
+      if (sum != null) 'sum': _s.encodeJsonDouble(sum),
     };
   }
 }
@@ -21626,7 +21635,7 @@ class BatchGetSessionActionItem {
           .toList(),
       processExitCode: json['processExitCode'] as int?,
       progressMessage: json['progressMessage'] as String?,
-      progressPercent: json['progressPercent'] as double?,
+      progressPercent: _s.parseJsonDouble(json['progressPercent']),
       startedAt: timeStampFromJson(json['startedAt']),
       workerUpdatedAt: timeStampFromJson(json['workerUpdatedAt']),
     );
@@ -21661,7 +21670,8 @@ class BatchGetSessionActionItem {
       if (manifests != null) 'manifests': manifests,
       if (processExitCode != null) 'processExitCode': processExitCode,
       if (progressMessage != null) 'progressMessage': progressMessage,
-      if (progressPercent != null) 'progressPercent': progressPercent,
+      if (progressPercent != null)
+        'progressPercent': _s.encodeJsonDouble(progressPercent),
       if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
       if (workerUpdatedAt != null)
         'workerUpdatedAt': iso8601ToJson(workerUpdatedAt),

@@ -6297,8 +6297,10 @@ class ListInsightsMetricDataResponse {
           .map(nonNullableTimeStampFromJson)
           .toList(),
       trailARN: json['TrailARN'] as String?,
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      values: (json['Values'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
@@ -6320,7 +6322,7 @@ class ListInsightsMetricDataResponse {
       if (timestamps != null)
         'Timestamps': timestamps.map(unixTimestampToJson).toList(),
       if (trailARN != null) 'TrailARN': trailARN,
-      if (values != null) 'Values': values,
+      if (values != null) 'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -8373,7 +8375,7 @@ class SearchSampleQueriesSearchResult {
     return SearchSampleQueriesSearchResult(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
-      relevance: json['Relevance'] as double?,
+      relevance: _s.parseJsonDouble(json['Relevance']),
       sql: json['SQL'] as String?,
     );
   }
@@ -8386,7 +8388,7 @@ class SearchSampleQueriesSearchResult {
     return {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
-      if (relevance != null) 'Relevance': relevance,
+      if (relevance != null) 'Relevance': _s.encodeJsonDouble(relevance),
       if (sql != null) 'SQL': sql,
     };
   }

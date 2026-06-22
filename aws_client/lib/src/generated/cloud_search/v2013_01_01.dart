@@ -2704,7 +2704,8 @@ class DoubleOptions {
     final sortEnabled = this.sortEnabled;
     final sourceField = this.sourceField;
     return {
-      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (defaultValue != null)
+        'DefaultValue': _s.encodeJsonDouble(defaultValue),
       if (facetEnabled != null) 'FacetEnabled': facetEnabled,
       if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
       if (searchEnabled != null) 'SearchEnabled': searchEnabled,
@@ -3153,7 +3154,8 @@ class DoubleArrayOptions {
     final searchEnabled = this.searchEnabled;
     final sourceFields = this.sourceFields;
     return {
-      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (defaultValue != null)
+        'DefaultValue': _s.encodeJsonDouble(defaultValue),
       if (facetEnabled != null) 'FacetEnabled': facetEnabled,
       if (returnEnabled != null) 'ReturnEnabled': returnEnabled,
       if (searchEnabled != null) 'SearchEnabled': searchEnabled,

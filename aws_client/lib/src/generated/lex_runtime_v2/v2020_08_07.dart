@@ -2757,14 +2757,14 @@ class ConfidenceScore {
 
   factory ConfidenceScore.fromJson(Map<String, dynamic> json) {
     return ConfidenceScore(
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final score = this.score;
     return {
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -2892,10 +2892,10 @@ class SentimentScore {
 
   factory SentimentScore.fromJson(Map<String, dynamic> json) {
     return SentimentScore(
-      mixed: json['mixed'] as double?,
-      negative: json['negative'] as double?,
-      neutral: json['neutral'] as double?,
-      positive: json['positive'] as double?,
+      mixed: _s.parseJsonDouble(json['mixed']),
+      negative: _s.parseJsonDouble(json['negative']),
+      neutral: _s.parseJsonDouble(json['neutral']),
+      positive: _s.parseJsonDouble(json['positive']),
     );
   }
 
@@ -2905,10 +2905,10 @@ class SentimentScore {
     final neutral = this.neutral;
     final positive = this.positive;
     return {
-      if (mixed != null) 'mixed': mixed,
-      if (negative != null) 'negative': negative,
-      if (neutral != null) 'neutral': neutral,
-      if (positive != null) 'positive': positive,
+      if (mixed != null) 'mixed': _s.encodeJsonDouble(mixed),
+      if (negative != null) 'negative': _s.encodeJsonDouble(negative),
+      if (neutral != null) 'neutral': _s.encodeJsonDouble(neutral),
+      if (positive != null) 'positive': _s.encodeJsonDouble(positive),
     };
   }
 }

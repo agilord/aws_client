@@ -3225,7 +3225,8 @@ class UpdateBackendAuthPasswordPolicyConfig {
       if (additionalConstraints != null)
         'additionalConstraints':
             additionalConstraints.map((e) => e.value).toList(),
-      if (minimumLength != null) 'minimumLength': minimumLength,
+      if (minimumLength != null)
+        'minimumLength': _s.encodeJsonDouble(minimumLength),
     };
   }
 }
@@ -3876,7 +3877,7 @@ class BackendAPIAppSyncAuthSettings {
     return BackendAPIAppSyncAuthSettings(
       cognitoUserPoolId: json['cognitoUserPoolId'] as String?,
       description: json['description'] as String?,
-      expirationTime: json['expirationTime'] as double?,
+      expirationTime: _s.parseJsonDouble(json['expirationTime']),
       openIDAuthTTL: json['openIDAuthTTL'] as String?,
       openIDClientId: json['openIDClientId'] as String?,
       openIDIatTTL: json['openIDIatTTL'] as String?,
@@ -3897,7 +3898,8 @@ class BackendAPIAppSyncAuthSettings {
     return {
       if (cognitoUserPoolId != null) 'cognitoUserPoolId': cognitoUserPoolId,
       if (description != null) 'description': description,
-      if (expirationTime != null) 'expirationTime': expirationTime,
+      if (expirationTime != null)
+        'expirationTime': _s.encodeJsonDouble(expirationTime),
       if (openIDAuthTTL != null) 'openIDAuthTTL': openIDAuthTTL,
       if (openIDClientId != null) 'openIDClientId': openIDClientId,
       if (openIDIatTTL != null) 'openIDIatTTL': openIDIatTTL,
@@ -4472,7 +4474,7 @@ class CreateBackendAuthPasswordPolicyConfig {
   factory CreateBackendAuthPasswordPolicyConfig.fromJson(
       Map<String, dynamic> json) {
     return CreateBackendAuthPasswordPolicyConfig(
-      minimumLength: (json['minimumLength'] as double?) ?? 0,
+      minimumLength: _s.parseJsonDouble(json['minimumLength']) ?? 0,
       additionalConstraints: (json['additionalConstraints'] as List?)
           ?.nonNulls
           .map((e) => AdditionalConstraintsElement.fromString((e as String)))
@@ -4484,7 +4486,7 @@ class CreateBackendAuthPasswordPolicyConfig {
     final minimumLength = this.minimumLength;
     final additionalConstraints = this.additionalConstraints;
     return {
-      'minimumLength': minimumLength,
+      'minimumLength': _s.encodeJsonDouble(minimumLength),
       if (additionalConstraints != null)
         'additionalConstraints':
             additionalConstraints.map((e) => e.value).toList(),

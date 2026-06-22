@@ -9117,8 +9117,8 @@ class ServerlessV2ScalingConfigurationInfo {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 }
@@ -9369,8 +9369,8 @@ class ServerlessV2ScalingConfiguration {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 
@@ -10956,8 +10956,8 @@ class DoubleRange {
     final from = this.from;
     final to = this.to;
     return {
-      if (from != null) 'From': from,
-      if (to != null) 'To': to,
+      if (from != null) 'From': _s.encodeJsonDouble(from),
+      if (to != null) 'To': _s.encodeJsonDouble(to),
     };
   }
 }
@@ -11280,11 +11280,13 @@ class OrderableDBInstanceOption {
       if (licenseModel != null) 'LicenseModel': licenseModel,
       if (maxIopsPerDbInstance != null)
         'MaxIopsPerDbInstance': maxIopsPerDbInstance,
-      if (maxIopsPerGib != null) 'MaxIopsPerGib': maxIopsPerGib,
+      if (maxIopsPerGib != null)
+        'MaxIopsPerGib': _s.encodeJsonDouble(maxIopsPerGib),
       if (maxStorageSize != null) 'MaxStorageSize': maxStorageSize,
       if (minIopsPerDbInstance != null)
         'MinIopsPerDbInstance': minIopsPerDbInstance,
-      if (minIopsPerGib != null) 'MinIopsPerGib': minIopsPerGib,
+      if (minIopsPerGib != null)
+        'MinIopsPerGib': _s.encodeJsonDouble(minIopsPerGib),
       if (minStorageSize != null) 'MinStorageSize': minStorageSize,
       if (multiAZCapable != null) 'MultiAZCapable': multiAZCapable,
       if (readReplicaCapable != null) 'ReadReplicaCapable': readReplicaCapable,

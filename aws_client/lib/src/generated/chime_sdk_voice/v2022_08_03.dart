@@ -7681,7 +7681,7 @@ class SpeakerSearchResult {
 
   factory SpeakerSearchResult.fromJson(Map<String, dynamic> json) {
     return SpeakerSearchResult(
-      confidenceScore: json['ConfidenceScore'] as double?,
+      confidenceScore: _s.parseJsonDouble(json['ConfidenceScore']),
       voiceProfileId: json['VoiceProfileId'] as String?,
     );
   }
@@ -7690,7 +7690,8 @@ class SpeakerSearchResult {
     final confidenceScore = this.confidenceScore;
     final voiceProfileId = this.voiceProfileId;
     return {
-      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
+      if (confidenceScore != null)
+        'ConfidenceScore': _s.encodeJsonDouble(confidenceScore),
       if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
     };
   }

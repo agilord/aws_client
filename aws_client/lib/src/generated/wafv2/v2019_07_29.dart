@@ -16310,7 +16310,7 @@ class PathStatistics {
   factory PathStatistics.fromJson(Map<String, dynamic> json) {
     return PathStatistics(
       path: (json['Path'] as String?) ?? '',
-      percentage: (json['Percentage'] as double?) ?? 0,
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
       requestCount: (json['RequestCount'] as int?) ?? 0,
       source: json['Source'] != null
           ? FilterSource.fromJson(json['Source'] as Map<String, dynamic>)
@@ -16330,7 +16330,7 @@ class PathStatistics {
     final topBots = this.topBots;
     return {
       'Path': path,
-      'Percentage': percentage,
+      'Percentage': _s.encodeJsonDouble(percentage),
       'RequestCount': requestCount,
       if (source != null) 'Source': source,
       if (topBots != null) 'TopBots': topBots,
@@ -16408,7 +16408,7 @@ class BotStatistics {
   factory BotStatistics.fromJson(Map<String, dynamic> json) {
     return BotStatistics(
       botName: (json['BotName'] as String?) ?? '',
-      percentage: (json['Percentage'] as double?) ?? 0,
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
       requestCount: (json['RequestCount'] as int?) ?? 0,
     );
   }
@@ -16419,7 +16419,7 @@ class BotStatistics {
     final requestCount = this.requestCount;
     return {
       'BotName': botName,
-      'Percentage': percentage,
+      'Percentage': _s.encodeJsonDouble(percentage),
       'RequestCount': requestCount,
     };
   }

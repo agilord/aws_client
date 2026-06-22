@@ -2262,7 +2262,8 @@ class MemberDetail {
           (json['InvitationType'] as String?)?.let(InvitationType.fromString),
       invitedTime: timeStampFromJson(json['InvitedTime']),
       masterId: json['MasterId'] as String?,
-      percentOfGraphUtilization: json['PercentOfGraphUtilization'] as double?,
+      percentOfGraphUtilization:
+          _s.parseJsonDouble(json['PercentOfGraphUtilization']),
       percentOfGraphUtilizationUpdatedTime:
           timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
       status: (json['Status'] as String?)?.let(MemberStatus.fromString),
@@ -2307,7 +2308,8 @@ class MemberDetail {
       if (invitedTime != null) 'InvitedTime': iso8601ToJson(invitedTime),
       if (masterId != null) 'MasterId': masterId,
       if (percentOfGraphUtilization != null)
-        'PercentOfGraphUtilization': percentOfGraphUtilization,
+        'PercentOfGraphUtilization':
+            _s.encodeJsonDouble(percentOfGraphUtilization),
       if (percentOfGraphUtilizationUpdatedTime != null)
         'PercentOfGraphUtilizationUpdatedTime':
             iso8601ToJson(percentOfGraphUtilizationUpdatedTime),

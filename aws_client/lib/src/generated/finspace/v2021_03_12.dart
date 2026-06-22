@@ -8620,10 +8620,12 @@ class AutoScalingConfiguration {
       autoScalingMetric: (json['autoScalingMetric'] as String?)
           ?.let(AutoScalingMetric.fromString),
       maxNodeCount: json['maxNodeCount'] as int?,
-      metricTarget: json['metricTarget'] as double?,
+      metricTarget: _s.parseJsonDouble(json['metricTarget']),
       minNodeCount: json['minNodeCount'] as int?,
-      scaleInCooldownSeconds: json['scaleInCooldownSeconds'] as double?,
-      scaleOutCooldownSeconds: json['scaleOutCooldownSeconds'] as double?,
+      scaleInCooldownSeconds:
+          _s.parseJsonDouble(json['scaleInCooldownSeconds']),
+      scaleOutCooldownSeconds:
+          _s.parseJsonDouble(json['scaleOutCooldownSeconds']),
     );
   }
 
@@ -8638,12 +8640,13 @@ class AutoScalingConfiguration {
       if (autoScalingMetric != null)
         'autoScalingMetric': autoScalingMetric.value,
       if (maxNodeCount != null) 'maxNodeCount': maxNodeCount,
-      if (metricTarget != null) 'metricTarget': metricTarget,
+      if (metricTarget != null)
+        'metricTarget': _s.encodeJsonDouble(metricTarget),
       if (minNodeCount != null) 'minNodeCount': minNodeCount,
       if (scaleInCooldownSeconds != null)
-        'scaleInCooldownSeconds': scaleInCooldownSeconds,
+        'scaleInCooldownSeconds': _s.encodeJsonDouble(scaleInCooldownSeconds),
       if (scaleOutCooldownSeconds != null)
-        'scaleOutCooldownSeconds': scaleOutCooldownSeconds,
+        'scaleOutCooldownSeconds': _s.encodeJsonDouble(scaleOutCooldownSeconds),
     };
   }
 }
@@ -8865,7 +8868,7 @@ class KxScalingGroupConfiguration {
       memoryReservation: (json['memoryReservation'] as int?) ?? 0,
       nodeCount: (json['nodeCount'] as int?) ?? 0,
       scalingGroupName: (json['scalingGroupName'] as String?) ?? '',
-      cpu: json['cpu'] as double?,
+      cpu: _s.parseJsonDouble(json['cpu']),
       memoryLimit: json['memoryLimit'] as int?,
     );
   }
@@ -8880,7 +8883,7 @@ class KxScalingGroupConfiguration {
       'memoryReservation': memoryReservation,
       'nodeCount': nodeCount,
       'scalingGroupName': scalingGroupName,
-      if (cpu != null) 'cpu': cpu,
+      if (cpu != null) 'cpu': _s.encodeJsonDouble(cpu),
       if (memoryLimit != null) 'memoryLimit': memoryLimit,
     };
   }

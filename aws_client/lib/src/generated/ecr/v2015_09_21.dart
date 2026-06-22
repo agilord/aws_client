@@ -7819,7 +7819,7 @@ class EnhancedImageScanFinding {
           ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
       scoreDetails: json['scoreDetails'] != null
           ? ScoreDetails.fromJson(json['scoreDetails'] as Map<String, dynamic>)
           : null,
@@ -7863,7 +7863,7 @@ class EnhancedImageScanFinding {
         'packageVulnerabilityDetails': packageVulnerabilityDetails,
       if (remediation != null) 'remediation': remediation,
       if (resources != null) 'resources': resources,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
       if (scoreDetails != null) 'scoreDetails': scoreDetails,
       if (severity != null) 'severity': severity,
       if (status != null) 'status': status,
@@ -8069,7 +8069,7 @@ class CvssScoreDetails {
           ?.nonNulls
           .map((e) => CvssScoreAdjustment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
       scoreSource: json['scoreSource'] as String?,
       scoringVector: json['scoringVector'] as String?,
       version: json['version'] as String?,
@@ -8084,7 +8084,7 @@ class CvssScoreDetails {
     final version = this.version;
     return {
       if (adjustments != null) 'adjustments': adjustments,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
       if (scoreSource != null) 'scoreSource': scoreSource,
       if (scoringVector != null) 'scoringVector': scoringVector,
       if (version != null) 'version': version,
@@ -8433,7 +8433,7 @@ class CvssScore {
 
   factory CvssScore.fromJson(Map<String, dynamic> json) {
     return CvssScore(
-      baseScore: json['baseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['baseScore']),
       scoringVector: json['scoringVector'] as String?,
       source: json['source'] as String?,
       version: json['version'] as String?,
@@ -8446,7 +8446,7 @@ class CvssScore {
     final source = this.source;
     final version = this.version;
     return {
-      if (baseScore != null) 'baseScore': baseScore,
+      if (baseScore != null) 'baseScore': _s.encodeJsonDouble(baseScore),
       if (scoringVector != null) 'scoringVector': scoringVector,
       if (source != null) 'source': source,
       if (version != null) 'version': version,

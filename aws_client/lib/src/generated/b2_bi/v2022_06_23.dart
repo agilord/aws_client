@@ -1667,7 +1667,7 @@ class GenerateMappingResponse {
   factory GenerateMappingResponse.fromJson(Map<String, dynamic> json) {
     return GenerateMappingResponse(
       mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
-      mappingAccuracy: json['mappingAccuracy'] as double?,
+      mappingAccuracy: _s.parseJsonDouble(json['mappingAccuracy']),
     );
   }
 
@@ -1676,7 +1676,8 @@ class GenerateMappingResponse {
     final mappingAccuracy = this.mappingAccuracy;
     return {
       'mappingTemplate': mappingTemplate,
-      if (mappingAccuracy != null) 'mappingAccuracy': mappingAccuracy,
+      if (mappingAccuracy != null)
+        'mappingAccuracy': _s.encodeJsonDouble(mappingAccuracy),
     };
   }
 }

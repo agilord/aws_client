@@ -7443,7 +7443,7 @@ class AggregatedVariablesImpactExplanation {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      logOddsImpact: json['logOddsImpact'] as double?,
+      logOddsImpact: _s.parseJsonDouble(json['logOddsImpact']),
       relativeImpact: json['relativeImpact'] as String?,
     );
   }
@@ -7454,7 +7454,8 @@ class AggregatedVariablesImpactExplanation {
     final relativeImpact = this.relativeImpact;
     return {
       if (eventVariableNames != null) 'eventVariableNames': eventVariableNames,
-      if (logOddsImpact != null) 'logOddsImpact': logOddsImpact,
+      if (logOddsImpact != null)
+        'logOddsImpact': _s.encodeJsonDouble(logOddsImpact),
       if (relativeImpact != null) 'relativeImpact': relativeImpact,
     };
   }
@@ -7496,7 +7497,7 @@ class VariableImpactExplanation {
   factory VariableImpactExplanation.fromJson(Map<String, dynamic> json) {
     return VariableImpactExplanation(
       eventVariableName: json['eventVariableName'] as String?,
-      logOddsImpact: json['logOddsImpact'] as double?,
+      logOddsImpact: _s.parseJsonDouble(json['logOddsImpact']),
       relativeImpact: json['relativeImpact'] as String?,
     );
   }
@@ -7507,7 +7508,8 @@ class VariableImpactExplanation {
     final relativeImpact = this.relativeImpact;
     return {
       if (eventVariableName != null) 'eventVariableName': eventVariableName,
-      if (logOddsImpact != null) 'logOddsImpact': logOddsImpact,
+      if (logOddsImpact != null)
+        'logOddsImpact': _s.encodeJsonDouble(logOddsImpact),
       if (relativeImpact != null) 'relativeImpact': relativeImpact,
     };
   }
@@ -7749,7 +7751,7 @@ class ModelScores {
           ? ModelVersion.fromJson(json['modelVersion'] as Map<String, dynamic>)
           : null,
       scores: (json['scores'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
     );
   }
 
@@ -7758,7 +7760,8 @@ class ModelScores {
     final scores = this.scores;
     return {
       if (modelVersion != null) 'modelVersion': modelVersion,
-      if (scores != null) 'scores': scores,
+      if (scores != null)
+        'scores': scores.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
     };
   }
 }
@@ -8680,7 +8683,7 @@ class AggregatedLogOddsMetric {
   factory AggregatedLogOddsMetric.fromJson(Map<String, dynamic> json) {
     return AggregatedLogOddsMetric(
       aggregatedVariablesImportance:
-          (json['aggregatedVariablesImportance'] as double?) ?? 0,
+          _s.parseJsonDouble(json['aggregatedVariablesImportance']) ?? 0,
       variableNames: ((json['variableNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
@@ -8692,7 +8695,8 @@ class AggregatedLogOddsMetric {
     final aggregatedVariablesImportance = this.aggregatedVariablesImportance;
     final variableNames = this.variableNames;
     return {
-      'aggregatedVariablesImportance': aggregatedVariablesImportance,
+      'aggregatedVariablesImportance':
+          _s.encodeJsonDouble(aggregatedVariablesImportance),
       'variableNames': variableNames,
     };
   }
@@ -8721,7 +8725,7 @@ class LogOddsMetric {
 
   factory LogOddsMetric.fromJson(Map<String, dynamic> json) {
     return LogOddsMetric(
-      variableImportance: (json['variableImportance'] as double?) ?? 0,
+      variableImportance: _s.parseJsonDouble(json['variableImportance']) ?? 0,
       variableName: (json['variableName'] as String?) ?? '',
       variableType: (json['variableType'] as String?) ?? '',
     );
@@ -8732,7 +8736,7 @@ class LogOddsMetric {
     final variableName = this.variableName;
     final variableType = this.variableType;
     return {
-      'variableImportance': variableImportance,
+      'variableImportance': _s.encodeJsonDouble(variableImportance),
       'variableName': variableName,
       'variableType': variableType,
     };
@@ -8872,14 +8876,14 @@ class ATIModelPerformance {
 
   factory ATIModelPerformance.fromJson(Map<String, dynamic> json) {
     return ATIModelPerformance(
-      asi: json['asi'] as double?,
+      asi: _s.parseJsonDouble(json['asi']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final asi = this.asi;
     return {
-      if (asi != null) 'asi': asi,
+      if (asi != null) 'asi': _s.encodeJsonDouble(asi),
     };
   }
 }
@@ -8921,10 +8925,10 @@ class ATIMetricDataPoint {
 
   factory ATIMetricDataPoint.fromJson(Map<String, dynamic> json) {
     return ATIMetricDataPoint(
-      adr: json['adr'] as double?,
-      atodr: json['atodr'] as double?,
-      cr: json['cr'] as double?,
-      threshold: json['threshold'] as double?,
+      adr: _s.parseJsonDouble(json['adr']),
+      atodr: _s.parseJsonDouble(json['atodr']),
+      cr: _s.parseJsonDouble(json['cr']),
+      threshold: _s.parseJsonDouble(json['threshold']),
     );
   }
 
@@ -8934,10 +8938,10 @@ class ATIMetricDataPoint {
     final cr = this.cr;
     final threshold = this.threshold;
     return {
-      if (adr != null) 'adr': adr,
-      if (atodr != null) 'atodr': atodr,
-      if (cr != null) 'cr': cr,
-      if (threshold != null) 'threshold': threshold,
+      if (adr != null) 'adr': _s.encodeJsonDouble(adr),
+      if (atodr != null) 'atodr': _s.encodeJsonDouble(atodr),
+      if (cr != null) 'cr': _s.encodeJsonDouble(cr),
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
     };
   }
 }
@@ -8962,7 +8966,7 @@ class TFIModelPerformance {
 
   factory TFIModelPerformance.fromJson(Map<String, dynamic> json) {
     return TFIModelPerformance(
-      auc: json['auc'] as double?,
+      auc: _s.parseJsonDouble(json['auc']),
       uncertaintyRange: json['uncertaintyRange'] != null
           ? UncertaintyRange.fromJson(
               json['uncertaintyRange'] as Map<String, dynamic>)
@@ -8974,7 +8978,7 @@ class TFIModelPerformance {
     final auc = this.auc;
     final uncertaintyRange = this.uncertaintyRange;
     return {
-      if (auc != null) 'auc': auc,
+      if (auc != null) 'auc': _s.encodeJsonDouble(auc),
       if (uncertaintyRange != null) 'uncertaintyRange': uncertaintyRange,
     };
   }
@@ -8999,8 +9003,8 @@ class UncertaintyRange {
 
   factory UncertaintyRange.fromJson(Map<String, dynamic> json) {
     return UncertaintyRange(
-      lowerBoundValue: (json['lowerBoundValue'] as double?) ?? 0,
-      upperBoundValue: (json['upperBoundValue'] as double?) ?? 0,
+      lowerBoundValue: _s.parseJsonDouble(json['lowerBoundValue']) ?? 0,
+      upperBoundValue: _s.parseJsonDouble(json['upperBoundValue']) ?? 0,
     );
   }
 
@@ -9008,8 +9012,8 @@ class UncertaintyRange {
     final lowerBoundValue = this.lowerBoundValue;
     final upperBoundValue = this.upperBoundValue;
     return {
-      'lowerBoundValue': lowerBoundValue,
-      'upperBoundValue': upperBoundValue,
+      'lowerBoundValue': _s.encodeJsonDouble(lowerBoundValue),
+      'upperBoundValue': _s.encodeJsonDouble(upperBoundValue),
     };
   }
 }
@@ -9045,10 +9049,10 @@ class TFIMetricDataPoint {
 
   factory TFIMetricDataPoint.fromJson(Map<String, dynamic> json) {
     return TFIMetricDataPoint(
-      fpr: json['fpr'] as double?,
-      precision: json['precision'] as double?,
-      threshold: json['threshold'] as double?,
-      tpr: json['tpr'] as double?,
+      fpr: _s.parseJsonDouble(json['fpr']),
+      precision: _s.parseJsonDouble(json['precision']),
+      threshold: _s.parseJsonDouble(json['threshold']),
+      tpr: _s.parseJsonDouble(json['tpr']),
     );
   }
 
@@ -9058,10 +9062,10 @@ class TFIMetricDataPoint {
     final threshold = this.threshold;
     final tpr = this.tpr;
     return {
-      if (fpr != null) 'fpr': fpr,
-      if (precision != null) 'precision': precision,
-      if (threshold != null) 'threshold': threshold,
-      if (tpr != null) 'tpr': tpr,
+      if (fpr != null) 'fpr': _s.encodeJsonDouble(fpr),
+      if (precision != null) 'precision': _s.encodeJsonDouble(precision),
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
+      if (tpr != null) 'tpr': _s.encodeJsonDouble(tpr),
     };
   }
 }
@@ -9086,7 +9090,7 @@ class OFIModelPerformance {
 
   factory OFIModelPerformance.fromJson(Map<String, dynamic> json) {
     return OFIModelPerformance(
-      auc: json['auc'] as double?,
+      auc: _s.parseJsonDouble(json['auc']),
       uncertaintyRange: json['uncertaintyRange'] != null
           ? UncertaintyRange.fromJson(
               json['uncertaintyRange'] as Map<String, dynamic>)
@@ -9098,7 +9102,7 @@ class OFIModelPerformance {
     final auc = this.auc;
     final uncertaintyRange = this.uncertaintyRange;
     return {
-      if (auc != null) 'auc': auc,
+      if (auc != null) 'auc': _s.encodeJsonDouble(auc),
       if (uncertaintyRange != null) 'uncertaintyRange': uncertaintyRange,
     };
   }
@@ -9134,10 +9138,10 @@ class OFIMetricDataPoint {
 
   factory OFIMetricDataPoint.fromJson(Map<String, dynamic> json) {
     return OFIMetricDataPoint(
-      fpr: json['fpr'] as double?,
-      precision: json['precision'] as double?,
-      threshold: json['threshold'] as double?,
-      tpr: json['tpr'] as double?,
+      fpr: _s.parseJsonDouble(json['fpr']),
+      precision: _s.parseJsonDouble(json['precision']),
+      threshold: _s.parseJsonDouble(json['threshold']),
+      tpr: _s.parseJsonDouble(json['tpr']),
     );
   }
 
@@ -9147,10 +9151,10 @@ class OFIMetricDataPoint {
     final threshold = this.threshold;
     final tpr = this.tpr;
     return {
-      if (fpr != null) 'fpr': fpr,
-      if (precision != null) 'precision': precision,
-      if (threshold != null) 'threshold': threshold,
-      if (tpr != null) 'tpr': tpr,
+      if (fpr != null) 'fpr': _s.encodeJsonDouble(fpr),
+      if (precision != null) 'precision': _s.encodeJsonDouble(precision),
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
+      if (tpr != null) 'tpr': _s.encodeJsonDouble(tpr),
     };
   }
 }
@@ -9267,7 +9271,7 @@ class TrainingMetrics {
 
   factory TrainingMetrics.fromJson(Map<String, dynamic> json) {
     return TrainingMetrics(
-      auc: json['auc'] as double?,
+      auc: _s.parseJsonDouble(json['auc']),
       metricDataPoints: (json['metricDataPoints'] as List?)
           ?.nonNulls
           .map((e) => MetricDataPoint.fromJson(e as Map<String, dynamic>))
@@ -9279,7 +9283,7 @@ class TrainingMetrics {
     final auc = this.auc;
     final metricDataPoints = this.metricDataPoints;
     return {
-      if (auc != null) 'auc': auc,
+      if (auc != null) 'auc': _s.encodeJsonDouble(auc),
       if (metricDataPoints != null) 'metricDataPoints': metricDataPoints,
     };
   }
@@ -9315,10 +9319,10 @@ class MetricDataPoint {
 
   factory MetricDataPoint.fromJson(Map<String, dynamic> json) {
     return MetricDataPoint(
-      fpr: json['fpr'] as double?,
-      precision: json['precision'] as double?,
-      threshold: json['threshold'] as double?,
-      tpr: json['tpr'] as double?,
+      fpr: _s.parseJsonDouble(json['fpr']),
+      precision: _s.parseJsonDouble(json['precision']),
+      threshold: _s.parseJsonDouble(json['threshold']),
+      tpr: _s.parseJsonDouble(json['tpr']),
     );
   }
 
@@ -9328,10 +9332,10 @@ class MetricDataPoint {
     final threshold = this.threshold;
     final tpr = this.tpr;
     return {
-      if (fpr != null) 'fpr': fpr,
-      if (precision != null) 'precision': precision,
-      if (threshold != null) 'threshold': threshold,
-      if (tpr != null) 'tpr': tpr,
+      if (fpr != null) 'fpr': _s.encodeJsonDouble(fpr),
+      if (precision != null) 'precision': _s.encodeJsonDouble(precision),
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
+      if (tpr != null) 'tpr': _s.encodeJsonDouble(tpr),
     };
   }
 }

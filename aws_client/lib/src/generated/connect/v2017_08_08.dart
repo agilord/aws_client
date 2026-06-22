@@ -32867,7 +32867,7 @@ class UserProficiency {
     return UserProficiency(
       attributeName: (json['AttributeName'] as String?) ?? '',
       attributeValue: (json['AttributeValue'] as String?) ?? '',
-      level: (json['Level'] as double?) ?? 0,
+      level: _s.parseJsonDouble(json['Level']) ?? 0,
     );
   }
 
@@ -32878,7 +32878,7 @@ class UserProficiency {
     return {
       'AttributeName': attributeName,
       'AttributeValue': attributeValue,
-      'Level': level,
+      'Level': _s.encodeJsonDouble(level),
     };
   }
 }
@@ -35054,7 +35054,7 @@ class FieldValueUnion {
   factory FieldValueUnion.fromJson(Map<String, dynamic> json) {
     return FieldValueUnion(
       booleanValue: json['BooleanValue'] as bool?,
-      doubleValue: json['DoubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['DoubleValue']),
       emptyValue: json['EmptyValue'] != null
           ? EmptyFieldValue.fromJson(json['EmptyValue'] as Map<String, dynamic>)
           : null,
@@ -35069,7 +35069,7 @@ class FieldValueUnion {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'BooleanValue': booleanValue,
-      if (doubleValue != null) 'DoubleValue': doubleValue,
+      if (doubleValue != null) 'DoubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'EmptyValue': emptyValue,
       if (stringValue != null) 'StringValue': stringValue,
     };
@@ -37412,7 +37412,7 @@ class EvaluationFormSection {
       refId: (json['RefId'] as String?) ?? '',
       title: (json['Title'] as String?) ?? '',
       instructions: json['Instructions'] as String?,
-      weight: json['Weight'] as double?,
+      weight: _s.parseJsonDouble(json['Weight']),
     );
   }
 
@@ -37427,7 +37427,7 @@ class EvaluationFormSection {
       'RefId': refId,
       'Title': title,
       if (instructions != null) 'Instructions': instructions,
-      if (weight != null) 'Weight': weight,
+      if (weight != null) 'Weight': _s.encodeJsonDouble(weight),
     };
   }
 }
@@ -37489,7 +37489,7 @@ class EvaluationFormQuestion {
           ? EvaluationFormQuestionTypeProperties.fromJson(
               json['QuestionTypeProperties'] as Map<String, dynamic>)
           : null,
-      weight: json['Weight'] as double?,
+      weight: _s.parseJsonDouble(json['Weight']),
     );
   }
 
@@ -37512,7 +37512,7 @@ class EvaluationFormQuestion {
         'NotApplicableEnabled': notApplicableEnabled,
       if (questionTypeProperties != null)
         'QuestionTypeProperties': questionTypeProperties,
-      if (weight != null) 'Weight': weight,
+      if (weight != null) 'Weight': _s.encodeJsonDouble(weight),
     };
   }
 }
@@ -39182,16 +39182,16 @@ class Validation {
       enumValue: json['Enum'] != null
           ? ValidationEnum.fromJson(json['Enum'] as Map<String, dynamic>)
           : null,
-      exclusiveMaximum: json['ExclusiveMaximum'] as double?,
-      exclusiveMinimum: json['ExclusiveMinimum'] as double?,
+      exclusiveMaximum: _s.parseJsonDouble(json['ExclusiveMaximum']),
+      exclusiveMinimum: _s.parseJsonDouble(json['ExclusiveMinimum']),
       ignoreCase: json['IgnoreCase'] as bool?,
       maxLength: json['MaxLength'] as int?,
       maxValues: json['MaxValues'] as int?,
-      maximum: json['Maximum'] as double?,
+      maximum: _s.parseJsonDouble(json['Maximum']),
       minLength: json['MinLength'] as int?,
       minValues: json['MinValues'] as int?,
-      minimum: json['Minimum'] as double?,
-      multipleOf: json['MultipleOf'] as double?,
+      minimum: _s.parseJsonDouble(json['Minimum']),
+      multipleOf: _s.parseJsonDouble(json['MultipleOf']),
     );
   }
 
@@ -39209,16 +39209,18 @@ class Validation {
     final multipleOf = this.multipleOf;
     return {
       if (enumValue != null) 'Enum': enumValue,
-      if (exclusiveMaximum != null) 'ExclusiveMaximum': exclusiveMaximum,
-      if (exclusiveMinimum != null) 'ExclusiveMinimum': exclusiveMinimum,
+      if (exclusiveMaximum != null)
+        'ExclusiveMaximum': _s.encodeJsonDouble(exclusiveMaximum),
+      if (exclusiveMinimum != null)
+        'ExclusiveMinimum': _s.encodeJsonDouble(exclusiveMinimum),
       if (ignoreCase != null) 'IgnoreCase': ignoreCase,
       if (maxLength != null) 'MaxLength': maxLength,
       if (maxValues != null) 'MaxValues': maxValues,
-      if (maximum != null) 'Maximum': maximum,
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
       if (minLength != null) 'MinLength': minLength,
       if (minValues != null) 'MinValues': minValues,
-      if (minimum != null) 'Minimum': minimum,
-      if (multipleOf != null) 'MultipleOf': multipleOf,
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
+      if (multipleOf != null) 'MultipleOf': _s.encodeJsonDouble(multipleOf),
     };
   }
 }
@@ -39427,7 +39429,7 @@ class AttributeCondition {
               json['MatchCriteria'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      proficiencyLevel: json['ProficiencyLevel'] as double?,
+      proficiencyLevel: _s.parseJsonDouble(json['ProficiencyLevel']),
       range: json['Range'] != null
           ? Range.fromJson(json['Range'] as Map<String, dynamic>)
           : null,
@@ -39446,7 +39448,8 @@ class AttributeCondition {
       if (comparisonOperator != null) 'ComparisonOperator': comparisonOperator,
       if (matchCriteria != null) 'MatchCriteria': matchCriteria,
       if (name != null) 'Name': name,
-      if (proficiencyLevel != null) 'ProficiencyLevel': proficiencyLevel,
+      if (proficiencyLevel != null)
+        'ProficiencyLevel': _s.encodeJsonDouble(proficiencyLevel),
       if (range != null) 'Range': range,
       if (value != null) 'Value': value,
     };
@@ -39470,8 +39473,8 @@ class Range {
 
   factory Range.fromJson(Map<String, dynamic> json) {
     return Range(
-      maxProficiencyLevel: json['MaxProficiencyLevel'] as double?,
-      minProficiencyLevel: json['MinProficiencyLevel'] as double?,
+      maxProficiencyLevel: _s.parseJsonDouble(json['MaxProficiencyLevel']),
+      minProficiencyLevel: _s.parseJsonDouble(json['MinProficiencyLevel']),
     );
   }
 
@@ -39480,9 +39483,9 @@ class Range {
     final minProficiencyLevel = this.minProficiencyLevel;
     return {
       if (maxProficiencyLevel != null)
-        'MaxProficiencyLevel': maxProficiencyLevel,
+        'MaxProficiencyLevel': _s.encodeJsonDouble(maxProficiencyLevel),
       if (minProficiencyLevel != null)
-        'MinProficiencyLevel': minProficiencyLevel,
+        'MinProficiencyLevel': _s.encodeJsonDouble(minProficiencyLevel),
     };
   }
 }
@@ -39697,7 +39700,7 @@ class EvaluationAnswerData {
     return EvaluationAnswerData(
       dateTimeValue: json['DateTimeValue'] as String?,
       notApplicable: json['NotApplicable'] as bool?,
-      numericValue: json['NumericValue'] as double?,
+      numericValue: _s.parseJsonDouble(json['NumericValue']),
       stringValue: json['StringValue'] as String?,
       stringValues: (json['StringValues'] as List?)
           ?.nonNulls
@@ -39715,7 +39718,8 @@ class EvaluationAnswerData {
     return {
       if (dateTimeValue != null) 'DateTimeValue': dateTimeValue,
       if (notApplicable != null) 'NotApplicable': notApplicable,
-      if (numericValue != null) 'NumericValue': numericValue,
+      if (numericValue != null)
+        'NumericValue': _s.encodeJsonDouble(numericValue),
       if (stringValue != null) 'StringValue': stringValue,
       if (stringValues != null) 'StringValues': stringValues,
     };
@@ -48020,7 +48024,7 @@ class EvaluationSearchMetadata {
       samplingJobId: json['SamplingJobId'] as String?,
       scoreAutomaticFail: json['ScoreAutomaticFail'] as bool?,
       scoreNotApplicable: json['ScoreNotApplicable'] as bool?,
-      scorePercentage: json['ScorePercentage'] as double?,
+      scorePercentage: _s.parseJsonDouble(json['ScorePercentage']),
     );
   }
 
@@ -48064,7 +48068,8 @@ class EvaluationSearchMetadata {
       if (samplingJobId != null) 'SamplingJobId': samplingJobId,
       if (scoreAutomaticFail != null) 'ScoreAutomaticFail': scoreAutomaticFail,
       if (scoreNotApplicable != null) 'ScoreNotApplicable': scoreNotApplicable,
-      if (scorePercentage != null) 'ScorePercentage': scorePercentage,
+      if (scorePercentage != null)
+        'ScorePercentage': _s.encodeJsonDouble(scorePercentage),
     };
   }
 }
@@ -48276,8 +48281,8 @@ class DecimalCondition {
     return {
       if (comparisonType != null) 'ComparisonType': comparisonType.value,
       if (fieldName != null) 'FieldName': fieldName,
-      if (maxValue != null) 'MaxValue': maxValue,
-      if (minValue != null) 'MinValue': minValue,
+      if (maxValue != null) 'MaxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'MinValue': _s.encodeJsonDouble(minValue),
     };
   }
 }
@@ -54024,10 +54029,10 @@ class EvaluationScore {
 
   factory EvaluationScore.fromJson(Map<String, dynamic> json) {
     return EvaluationScore(
-      appliedWeight: json['AppliedWeight'] as double?,
+      appliedWeight: _s.parseJsonDouble(json['AppliedWeight']),
       automaticFail: json['AutomaticFail'] as bool?,
       notApplicable: json['NotApplicable'] as bool?,
-      percentage: json['Percentage'] as double?,
+      percentage: _s.parseJsonDouble(json['Percentage']),
     );
   }
 
@@ -54037,10 +54042,11 @@ class EvaluationScore {
     final notApplicable = this.notApplicable;
     final percentage = this.percentage;
     return {
-      if (appliedWeight != null) 'AppliedWeight': appliedWeight,
+      if (appliedWeight != null)
+        'AppliedWeight': _s.encodeJsonDouble(appliedWeight),
       if (automaticFail != null) 'AutomaticFail': automaticFail,
       if (notApplicable != null) 'NotApplicable': notApplicable,
-      if (percentage != null) 'Percentage': percentage,
+      if (percentage != null) 'Percentage': _s.encodeJsonDouble(percentage),
     };
   }
 }
@@ -54719,7 +54725,7 @@ class MetricDataV2 {
       metric: json['Metric'] != null
           ? MetricV2.fromJson(json['Metric'] as Map<String, dynamic>)
           : null,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -54728,7 +54734,7 @@ class MetricDataV2 {
     final value = this.value;
     return {
       if (metric != null) 'Metric': metric,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -54909,7 +54915,7 @@ class ThresholdV2 {
   factory ThresholdV2.fromJson(Map<String, dynamic> json) {
     return ThresholdV2(
       comparison: json['Comparison'] as String?,
-      thresholdValue: json['ThresholdValue'] as double?,
+      thresholdValue: _s.parseJsonDouble(json['ThresholdValue']),
     );
   }
 
@@ -54918,7 +54924,8 @@ class ThresholdV2 {
     final thresholdValue = this.thresholdValue;
     return {
       if (comparison != null) 'Comparison': comparison,
-      if (thresholdValue != null) 'ThresholdValue': thresholdValue,
+      if (thresholdValue != null)
+        'ThresholdValue': _s.encodeJsonDouble(thresholdValue),
     };
   }
 }
@@ -55245,7 +55252,7 @@ class HistoricalMetricData {
       metric: json['Metric'] != null
           ? HistoricalMetric.fromJson(json['Metric'] as Map<String, dynamic>)
           : null,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -55254,7 +55261,7 @@ class HistoricalMetricData {
     final value = this.value;
     return {
       if (metric != null) 'Metric': metric,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -55621,7 +55628,7 @@ class Threshold {
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
       comparison: (json['Comparison'] as String?)?.let(Comparison.fromString),
-      thresholdValue: json['ThresholdValue'] as double?,
+      thresholdValue: _s.parseJsonDouble(json['ThresholdValue']),
     );
   }
 
@@ -55630,7 +55637,8 @@ class Threshold {
     final thresholdValue = this.thresholdValue;
     return {
       if (comparison != null) 'Comparison': comparison.value,
-      if (thresholdValue != null) 'ThresholdValue': thresholdValue,
+      if (thresholdValue != null)
+        'ThresholdValue': _s.encodeJsonDouble(thresholdValue),
     };
   }
 }
@@ -56715,7 +56723,7 @@ class CurrentMetricData {
       metric: json['Metric'] != null
           ? CurrentMetric.fromJson(json['Metric'] as Map<String, dynamic>)
           : null,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -56724,7 +56732,7 @@ class CurrentMetricData {
     final value = this.value;
     return {
       if (metric != null) 'Metric': metric,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -56941,14 +56949,14 @@ class ContactMetricValue {
 
   factory ContactMetricValue.fromJson(Map<String, dynamic> json) {
     return ContactMetricValue(
-      number: json['Number'] as double?,
+      number: _s.parseJsonDouble(json['Number']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final number = this.number;
     return {
-      if (number != null) 'Number': number,
+      if (number != null) 'Number': _s.encodeJsonDouble(number),
     };
   }
 }
@@ -61705,7 +61713,7 @@ class AudioQualityMetricsInfo {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      qualityScore: json['QualityScore'] as double?,
+      qualityScore: _s.parseJsonDouble(json['QualityScore']),
     );
   }
 
@@ -61715,7 +61723,8 @@ class AudioQualityMetricsInfo {
     return {
       if (potentialQualityIssues != null)
         'PotentialQualityIssues': potentialQualityIssues,
-      if (qualityScore != null) 'QualityScore': qualityScore,
+      if (qualityScore != null)
+        'QualityScore': _s.encodeJsonDouble(qualityScore),
     };
   }
 }

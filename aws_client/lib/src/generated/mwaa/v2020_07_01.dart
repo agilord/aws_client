@@ -1537,7 +1537,7 @@ class MetricDatum {
       if (dimensions != null) 'Dimensions': dimensions,
       if (statisticValues != null) 'StatisticValues': statisticValues,
       if (unit != null) 'Unit': unit.value,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -1652,10 +1652,10 @@ class StatisticSet {
     final sampleCount = this.sampleCount;
     final sum = this.sum;
     return {
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
       if (sampleCount != null) 'SampleCount': sampleCount,
-      if (sum != null) 'Sum': sum,
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
     };
   }
 }

@@ -249,7 +249,8 @@ class GeoPlaces {
       'QueryText': queryText,
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
-      if (biasPosition != null) 'BiasPosition': biasPosition,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
       if (filter != null) 'Filter': filter,
       if (intendedUse != null) 'IntendedUse': intendedUse.value,
       if (language != null) 'Language': language,
@@ -365,7 +366,8 @@ class GeoPlaces {
     final $payload = <String, dynamic>{
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
-      if (biasPosition != null) 'BiasPosition': biasPosition,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
       if (filter != null) 'Filter': filter,
       if (intendedUse != null) 'IntendedUse': intendedUse.value,
       if (language != null) 'Language': language,
@@ -513,7 +515,7 @@ class GeoPlaces {
           : null,
       mapView: ($json['MapView'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       openingHours: ($json['OpeningHours'] as List?)
           ?.nonNulls
@@ -525,7 +527,7 @@ class GeoPlaces {
       politicalView: $json['PoliticalView'] as String?,
       position: ($json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       postalCodeDetails: ($json['PostalCodeDetails'] as List?)
           ?.nonNulls
@@ -658,11 +660,11 @@ class GeoPlaces {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'QueryPosition': queryPosition,
+      'QueryPosition': queryPosition.map(_s.encodeJsonDouble).toList(),
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
       if (filter != null) 'Filter': filter,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (intendedUse != null) 'IntendedUse': intendedUse.value,
       if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -789,7 +791,7 @@ class GeoPlaces {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'QueryPosition': queryPosition,
+      'QueryPosition': queryPosition.map(_s.encodeJsonDouble).toList(),
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
       if (filter != null) 'Filter': filter,
@@ -938,7 +940,8 @@ class GeoPlaces {
     final $payload = <String, dynamic>{
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
-      if (biasPosition != null) 'BiasPosition': biasPosition,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
       if (filter != null) 'Filter': filter,
       if (intendedUse != null) 'IntendedUse': intendedUse.value,
       if (language != null) 'Language': language,
@@ -1076,7 +1079,8 @@ class GeoPlaces {
       'QueryText': queryText,
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
-      if (biasPosition != null) 'BiasPosition': biasPosition,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
       if (filter != null) 'Filter': filter,
       if (intendedUse != null) 'IntendedUse': intendedUse.value,
       if (language != null) 'Language': language,
@@ -1346,11 +1350,12 @@ class GetPlaceResponse {
       if (contacts != null) 'Contacts': contacts,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (mainAddress != null) 'MainAddress': mainAddress,
-      if (mapView != null) 'MapView': mapView,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (openingHours != null) 'OpeningHours': openingHours,
       if (phonemes != null) 'Phonemes': phonemes,
       if (politicalView != null) 'PoliticalView': politicalView,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (postalCodeDetails != null) 'PostalCodeDetails': postalCodeDetails,
       if (secondaryAddresses != null) 'SecondaryAddresses': secondaryAddresses,
       if (timeZone != null) 'TimeZone': timeZone,
@@ -1743,8 +1748,10 @@ class SuggestPlaceResult {
           ?.nonNulls
           .map((e) => FoodType.fromJson(e as Map<String, dynamic>))
           .toList(),
-      mapView:
-          (json['MapView'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      mapView: (json['MapView'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       phonemes: json['Phonemes'] != null
           ? PhonemeDetails.fromJson(json['Phonemes'] as Map<String, dynamic>)
           : null,
@@ -1753,7 +1760,7 @@ class SuggestPlaceResult {
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       timeZone: json['TimeZone'] != null
           ? TimeZone.fromJson(json['TimeZone'] as Map<String, dynamic>)
@@ -1784,12 +1791,13 @@ class SuggestPlaceResult {
       if (categories != null) 'Categories': categories,
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
-      if (mapView != null) 'MapView': mapView,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (phonemes != null) 'Phonemes': phonemes,
       if (placeId != null) 'PlaceId': placeId,
       if (placeType != null) 'PlaceType': placeType.value,
       if (politicalView != null) 'PoliticalView': politicalView,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (timeZone != null) 'TimeZone': timeZone,
     };
   }
@@ -2514,7 +2522,7 @@ class AccessPoint {
     return AccessPoint(
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -2522,7 +2530,8 @@ class AccessPoint {
   Map<String, dynamic> toJson() {
     final position = this.position;
     return {
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -2942,7 +2951,8 @@ class SuggestFilter {
     final circle = this.circle;
     final includeCountries = this.includeCountries;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (circle != null) 'Circle': circle,
       if (includeCountries != null) 'IncludeCountries': includeCountries,
     };
@@ -3025,7 +3035,7 @@ class FilterCircle {
     final center = this.center;
     final radius = this.radius;
     return {
-      'Center': center,
+      'Center': center.map(_s.encodeJsonDouble).toList(),
       'Radius': radius,
     };
   }
@@ -3156,8 +3166,10 @@ class SearchTextResultItem {
           ?.nonNulls
           .map((e) => FoodType.fromJson(e as Map<String, dynamic>))
           .toList(),
-      mapView:
-          (json['MapView'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      mapView: (json['MapView'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       openingHours: (json['OpeningHours'] as List?)
           ?.nonNulls
           .map((e) => OpeningHours.fromJson(e as Map<String, dynamic>))
@@ -3168,7 +3180,7 @@ class SearchTextResultItem {
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       timeZone: json['TimeZone'] != null
           ? TimeZone.fromJson(json['TimeZone'] as Map<String, dynamic>)
@@ -3209,11 +3221,12 @@ class SearchTextResultItem {
       if (contacts != null) 'Contacts': contacts,
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
-      if (mapView != null) 'MapView': mapView,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (openingHours != null) 'OpeningHours': openingHours,
       if (phonemes != null) 'Phonemes': phonemes,
       if (politicalView != null) 'PoliticalView': politicalView,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (timeZone != null) 'TimeZone': timeZone,
     };
   }
@@ -3445,7 +3458,8 @@ class SearchTextFilter {
     final circle = this.circle;
     final includeCountries = this.includeCountries;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (circle != null) 'Circle': circle,
       if (includeCountries != null) 'IncludeCountries': includeCountries,
     };
@@ -3631,8 +3645,10 @@ class SearchNearbyResultItem {
           ?.nonNulls
           .map((e) => FoodType.fromJson(e as Map<String, dynamic>))
           .toList(),
-      mapView:
-          (json['MapView'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      mapView: (json['MapView'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       openingHours: (json['OpeningHours'] as List?)
           ?.nonNulls
           .map((e) => OpeningHours.fromJson(e as Map<String, dynamic>))
@@ -3643,7 +3659,7 @@ class SearchNearbyResultItem {
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       timeZone: json['TimeZone'] != null
           ? TimeZone.fromJson(json['TimeZone'] as Map<String, dynamic>)
@@ -3684,11 +3700,12 @@ class SearchNearbyResultItem {
       if (contacts != null) 'Contacts': contacts,
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
-      if (mapView != null) 'MapView': mapView,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (openingHours != null) 'OpeningHours': openingHours,
       if (phonemes != null) 'Phonemes': phonemes,
       if (politicalView != null) 'PoliticalView': politicalView,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (timeZone != null) 'TimeZone': timeZone,
     };
   }
@@ -3749,7 +3766,8 @@ class SearchNearbyFilter {
     final includeCountries = this.includeCountries;
     final includeFoodTypes = this.includeFoodTypes;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (excludeBusinessChains != null)
         'ExcludeBusinessChains': excludeBusinessChains,
       if (excludeCategories != null) 'ExcludeCategories': excludeCategories,
@@ -3940,12 +3958,14 @@ class ReverseGeocodeResultItem {
           ?.nonNulls
           .map((e) => Intersection.fromJson(e as Map<String, dynamic>))
           .toList(),
-      mapView:
-          (json['MapView'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      mapView: (json['MapView'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       postalCodeDetails: (json['PostalCodeDetails'] as List?)
           ?.nonNulls
@@ -3985,9 +4005,10 @@ class ReverseGeocodeResultItem {
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (intersections != null) 'Intersections': intersections,
-      if (mapView != null) 'MapView': mapView,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (politicalView != null) 'PoliticalView': politicalView,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (postalCodeDetails != null) 'PostalCodeDetails': postalCodeDetails,
       if (timeZone != null) 'TimeZone': timeZone,
     };
@@ -4052,11 +4073,13 @@ class Intersection {
           ? Address.fromJson(json['Address'] as Map<String, dynamic>)
           : null,
       distance: json['Distance'] as int?,
-      mapView:
-          (json['MapView'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      mapView: (json['MapView'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       routeDistance: json['RouteDistance'] as int?,
     );
@@ -4077,8 +4100,9 @@ class Intersection {
       if (accessPoints != null) 'AccessPoints': accessPoints,
       if (address != null) 'Address': address,
       if (distance != null) 'Distance': distance,
-      if (mapView != null) 'MapView': mapView,
-      if (position != null) 'Position': position,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (routeDistance != null) 'RouteDistance': routeDistance,
     };
   }
@@ -4466,7 +4490,7 @@ class RelatedPlace {
           : null,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -4484,7 +4508,8 @@ class RelatedPlace {
       'Title': title,
       if (accessPoints != null) 'AccessPoints': accessPoints,
       if (address != null) 'Address': address,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -4680,8 +4705,10 @@ class GeocodeResultItem {
       mainAddress: json['MainAddress'] != null
           ? RelatedPlace.fromJson(json['MainAddress'] as Map<String, dynamic>)
           : null,
-      mapView:
-          (json['MapView'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      mapView: (json['MapView'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       matchScores: json['MatchScores'] != null
           ? MatchScoreDetails.fromJson(
               json['MatchScores'] as Map<String, dynamic>)
@@ -4693,7 +4720,7 @@ class GeocodeResultItem {
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       postalCodeDetails: (json['PostalCodeDetails'] as List?)
           ?.nonNulls
@@ -4742,11 +4769,12 @@ class GeocodeResultItem {
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (intersections != null) 'Intersections': intersections,
       if (mainAddress != null) 'MainAddress': mainAddress,
-      if (mapView != null) 'MapView': mapView,
+      if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (matchScores != null) 'MatchScores': matchScores,
       if (parsedQuery != null) 'ParsedQuery': parsedQuery,
       if (politicalView != null) 'PoliticalView': politicalView,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (postalCodeDetails != null) 'PostalCodeDetails': postalCodeDetails,
       if (secondaryAddresses != null) 'SecondaryAddresses': secondaryAddresses,
       if (timeZone != null) 'TimeZone': timeZone,
@@ -4777,7 +4805,7 @@ class MatchScoreDetails {
           ? ComponentMatchScores.fromJson(
               json['Components'] as Map<String, dynamic>)
           : null,
-      overall: json['Overall'] as double?,
+      overall: _s.parseJsonDouble(json['Overall']),
     );
   }
 
@@ -4786,7 +4814,7 @@ class MatchScoreDetails {
     final overall = this.overall;
     return {
       if (components != null) 'Components': components,
-      if (overall != null) 'Overall': overall,
+      if (overall != null) 'Overall': _s.encodeJsonDouble(overall),
     };
   }
 }
@@ -5124,7 +5152,7 @@ class ComponentMatchScores {
           ? AddressComponentMatchScores.fromJson(
               json['Address'] as Map<String, dynamic>)
           : null,
-      title: json['Title'] as double?,
+      title: _s.parseJsonDouble(json['Title']),
     );
   }
 
@@ -5133,7 +5161,7 @@ class ComponentMatchScores {
     final title = this.title;
     return {
       if (address != null) 'Address': address,
-      if (title != null) 'Title': title,
+      if (title != null) 'Title': _s.encodeJsonDouble(title),
     };
   }
 }
@@ -5219,26 +5247,26 @@ class AddressComponentMatchScores {
 
   factory AddressComponentMatchScores.fromJson(Map<String, dynamic> json) {
     return AddressComponentMatchScores(
-      addressNumber: json['AddressNumber'] as double?,
-      block: json['Block'] as double?,
-      building: json['Building'] as double?,
-      country: json['Country'] as double?,
-      district: json['District'] as double?,
+      addressNumber: _s.parseJsonDouble(json['AddressNumber']),
+      block: _s.parseJsonDouble(json['Block']),
+      building: _s.parseJsonDouble(json['Building']),
+      country: _s.parseJsonDouble(json['Country']),
+      district: _s.parseJsonDouble(json['District']),
       intersection: (json['Intersection'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
-      locality: json['Locality'] as double?,
-      postalCode: json['PostalCode'] as double?,
-      region: json['Region'] as double?,
+      locality: _s.parseJsonDouble(json['Locality']),
+      postalCode: _s.parseJsonDouble(json['PostalCode']),
+      region: _s.parseJsonDouble(json['Region']),
       secondaryAddressComponents: (json['SecondaryAddressComponents'] as List?)
           ?.nonNulls
           .map((e) => SecondaryAddressComponentMatchScore.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      subBlock: json['SubBlock'] as double?,
-      subDistrict: json['SubDistrict'] as double?,
-      subRegion: json['SubRegion'] as double?,
+      subBlock: _s.parseJsonDouble(json['SubBlock']),
+      subDistrict: _s.parseJsonDouble(json['SubDistrict']),
+      subRegion: _s.parseJsonDouble(json['SubRegion']),
     );
   }
 
@@ -5257,20 +5285,22 @@ class AddressComponentMatchScores {
     final subDistrict = this.subDistrict;
     final subRegion = this.subRegion;
     return {
-      if (addressNumber != null) 'AddressNumber': addressNumber,
-      if (block != null) 'Block': block,
-      if (building != null) 'Building': building,
-      if (country != null) 'Country': country,
-      if (district != null) 'District': district,
-      if (intersection != null) 'Intersection': intersection,
-      if (locality != null) 'Locality': locality,
-      if (postalCode != null) 'PostalCode': postalCode,
-      if (region != null) 'Region': region,
+      if (addressNumber != null)
+        'AddressNumber': _s.encodeJsonDouble(addressNumber),
+      if (block != null) 'Block': _s.encodeJsonDouble(block),
+      if (building != null) 'Building': _s.encodeJsonDouble(building),
+      if (country != null) 'Country': _s.encodeJsonDouble(country),
+      if (district != null) 'District': _s.encodeJsonDouble(district),
+      if (intersection != null)
+        'Intersection': intersection.map(_s.encodeJsonDouble).toList(),
+      if (locality != null) 'Locality': _s.encodeJsonDouble(locality),
+      if (postalCode != null) 'PostalCode': _s.encodeJsonDouble(postalCode),
+      if (region != null) 'Region': _s.encodeJsonDouble(region),
       if (secondaryAddressComponents != null)
         'SecondaryAddressComponents': secondaryAddressComponents,
-      if (subBlock != null) 'SubBlock': subBlock,
-      if (subDistrict != null) 'SubDistrict': subDistrict,
-      if (subRegion != null) 'SubRegion': subRegion,
+      if (subBlock != null) 'SubBlock': _s.encodeJsonDouble(subBlock),
+      if (subDistrict != null) 'SubDistrict': _s.encodeJsonDouble(subDistrict),
+      if (subRegion != null) 'SubRegion': _s.encodeJsonDouble(subRegion),
     };
   }
 }
@@ -5289,14 +5319,14 @@ class SecondaryAddressComponentMatchScore {
   factory SecondaryAddressComponentMatchScore.fromJson(
       Map<String, dynamic> json) {
     return SecondaryAddressComponentMatchScore(
-      number: json['Number'] as double?,
+      number: _s.parseJsonDouble(json['Number']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final number = this.number;
     return {
-      if (number != null) 'Number': number,
+      if (number != null) 'Number': _s.encodeJsonDouble(number),
     };
   }
 }
@@ -5951,7 +5981,8 @@ class AutocompleteFilter {
     final includeCountries = this.includeCountries;
     final includePlaceTypes = this.includePlaceTypes;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (circle != null) 'Circle': circle,
       if (includeCountries != null) 'IncludeCountries': includeCountries,
       if (includePlaceTypes != null)

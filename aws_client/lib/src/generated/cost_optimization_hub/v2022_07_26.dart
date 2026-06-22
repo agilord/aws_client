@@ -653,11 +653,13 @@ class GetRecommendationResponse {
           : null,
       currentResourceType: (json['currentResourceType'] as String?)
           ?.let(ResourceType.fromString),
-      estimatedMonthlyCost: json['estimatedMonthlyCost'] as double?,
-      estimatedMonthlySavings: json['estimatedMonthlySavings'] as double?,
-      estimatedSavingsOverCostCalculationLookbackPeriod:
-          json['estimatedSavingsOverCostCalculationLookbackPeriod'] as double?,
-      estimatedSavingsPercentage: json['estimatedSavingsPercentage'] as double?,
+      estimatedMonthlyCost: _s.parseJsonDouble(json['estimatedMonthlyCost']),
+      estimatedMonthlySavings:
+          _s.parseJsonDouble(json['estimatedMonthlySavings']),
+      estimatedSavingsOverCostCalculationLookbackPeriod: _s.parseJsonDouble(
+          json['estimatedSavingsOverCostCalculationLookbackPeriod']),
+      estimatedSavingsPercentage:
+          _s.parseJsonDouble(json['estimatedSavingsPercentage']),
       implementationEffort: (json['implementationEffort'] as String?)
           ?.let(ImplementationEffort.fromString),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
@@ -722,14 +724,16 @@ class GetRecommendationResponse {
       if (currentResourceType != null)
         'currentResourceType': currentResourceType.value,
       if (estimatedMonthlyCost != null)
-        'estimatedMonthlyCost': estimatedMonthlyCost,
+        'estimatedMonthlyCost': _s.encodeJsonDouble(estimatedMonthlyCost),
       if (estimatedMonthlySavings != null)
-        'estimatedMonthlySavings': estimatedMonthlySavings,
+        'estimatedMonthlySavings': _s.encodeJsonDouble(estimatedMonthlySavings),
       if (estimatedSavingsOverCostCalculationLookbackPeriod != null)
         'estimatedSavingsOverCostCalculationLookbackPeriod':
-            estimatedSavingsOverCostCalculationLookbackPeriod,
+            _s.encodeJsonDouble(
+                estimatedSavingsOverCostCalculationLookbackPeriod),
       if (estimatedSavingsPercentage != null)
-        'estimatedSavingsPercentage': estimatedSavingsPercentage,
+        'estimatedSavingsPercentage':
+            _s.encodeJsonDouble(estimatedSavingsPercentage),
       if (implementationEffort != null)
         'implementationEffort': implementationEffort.value,
       if (lastRefreshTimestamp != null)
@@ -905,7 +909,7 @@ class ListRecommendationSummariesResponse {
     return ListRecommendationSummariesResponse(
       currencyCode: json['currencyCode'] as String?,
       estimatedTotalDedupedSavings:
-          json['estimatedTotalDedupedSavings'] as double?,
+          _s.parseJsonDouble(json['estimatedTotalDedupedSavings']),
       groupBy: json['groupBy'] as String?,
       items: (json['items'] as List?)
           ?.nonNulls
@@ -929,7 +933,8 @@ class ListRecommendationSummariesResponse {
     return {
       if (currencyCode != null) 'currencyCode': currencyCode,
       if (estimatedTotalDedupedSavings != null)
-        'estimatedTotalDedupedSavings': estimatedTotalDedupedSavings,
+        'estimatedTotalDedupedSavings':
+            _s.encodeJsonDouble(estimatedTotalDedupedSavings),
       if (groupBy != null) 'groupBy': groupBy,
       if (items != null) 'items': items,
       if (metrics != null) 'metrics': metrics,
@@ -1230,7 +1235,8 @@ class RecommendationSummary {
 
   factory RecommendationSummary.fromJson(Map<String, dynamic> json) {
     return RecommendationSummary(
-      estimatedMonthlySavings: json['estimatedMonthlySavings'] as double?,
+      estimatedMonthlySavings:
+          _s.parseJsonDouble(json['estimatedMonthlySavings']),
       group: json['group'] as String?,
       recommendationCount: json['recommendationCount'] as int?,
     );
@@ -1242,7 +1248,7 @@ class RecommendationSummary {
     final recommendationCount = this.recommendationCount;
     return {
       if (estimatedMonthlySavings != null)
-        'estimatedMonthlySavings': estimatedMonthlySavings,
+        'estimatedMonthlySavings': _s.encodeJsonDouble(estimatedMonthlySavings),
       if (group != null) 'group': group,
       if (recommendationCount != null)
         'recommendationCount': recommendationCount,
@@ -1627,9 +1633,11 @@ class Recommendation {
       currencyCode: json['currencyCode'] as String?,
       currentResourceSummary: json['currentResourceSummary'] as String?,
       currentResourceType: json['currentResourceType'] as String?,
-      estimatedMonthlyCost: json['estimatedMonthlyCost'] as double?,
-      estimatedMonthlySavings: json['estimatedMonthlySavings'] as double?,
-      estimatedSavingsPercentage: json['estimatedSavingsPercentage'] as double?,
+      estimatedMonthlyCost: _s.parseJsonDouble(json['estimatedMonthlyCost']),
+      estimatedMonthlySavings:
+          _s.parseJsonDouble(json['estimatedMonthlySavings']),
+      estimatedSavingsPercentage:
+          _s.parseJsonDouble(json['estimatedSavingsPercentage']),
       implementationEffort: json['implementationEffort'] as String?,
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       recommendationId: json['recommendationId'] as String?,
@@ -1682,11 +1690,12 @@ class Recommendation {
       if (currentResourceType != null)
         'currentResourceType': currentResourceType,
       if (estimatedMonthlyCost != null)
-        'estimatedMonthlyCost': estimatedMonthlyCost,
+        'estimatedMonthlyCost': _s.encodeJsonDouble(estimatedMonthlyCost),
       if (estimatedMonthlySavings != null)
-        'estimatedMonthlySavings': estimatedMonthlySavings,
+        'estimatedMonthlySavings': _s.encodeJsonDouble(estimatedMonthlySavings),
       if (estimatedSavingsPercentage != null)
-        'estimatedSavingsPercentage': estimatedSavingsPercentage,
+        'estimatedSavingsPercentage':
+            _s.encodeJsonDouble(estimatedSavingsPercentage),
       if (implementationEffort != null)
         'implementationEffort': implementationEffort,
       if (lastRefreshTimestamp != null)
@@ -1916,9 +1925,9 @@ class MetricsByTime {
 
   factory MetricsByTime.fromJson(Map<String, dynamic> json) {
     return MetricsByTime(
-      savings: json['savings'] as double?,
-      score: json['score'] as double?,
-      spend: json['spend'] as double?,
+      savings: _s.parseJsonDouble(json['savings']),
+      score: _s.parseJsonDouble(json['score']),
+      spend: _s.parseJsonDouble(json['spend']),
       timestamp: json['timestamp'] as String?,
     );
   }
@@ -1929,9 +1938,9 @@ class MetricsByTime {
     final spend = this.spend;
     final timestamp = this.timestamp;
     return {
-      if (savings != null) 'savings': savings,
-      if (score != null) 'score': score,
-      if (spend != null) 'spend': spend,
+      if (savings != null) 'savings': _s.encodeJsonDouble(savings),
+      if (score != null) 'score': _s.encodeJsonDouble(score),
+      if (spend != null) 'spend': _s.encodeJsonDouble(spend),
       if (timestamp != null) 'timestamp': timestamp,
     };
   }
@@ -3034,15 +3043,15 @@ class ResourcePricing {
   factory ResourcePricing.fromJson(Map<String, dynamic> json) {
     return ResourcePricing(
       estimatedCostAfterDiscounts:
-          json['estimatedCostAfterDiscounts'] as double?,
+          _s.parseJsonDouble(json['estimatedCostAfterDiscounts']),
       estimatedCostBeforeDiscounts:
-          json['estimatedCostBeforeDiscounts'] as double?,
+          _s.parseJsonDouble(json['estimatedCostBeforeDiscounts']),
       estimatedDiscounts: json['estimatedDiscounts'] != null
           ? EstimatedDiscounts.fromJson(
               json['estimatedDiscounts'] as Map<String, dynamic>)
           : null,
       estimatedNetUnusedAmortizedCommitments:
-          json['estimatedNetUnusedAmortizedCommitments'] as double?,
+          _s.parseJsonDouble(json['estimatedNetUnusedAmortizedCommitments']),
     );
   }
 
@@ -3054,13 +3063,15 @@ class ResourcePricing {
         this.estimatedNetUnusedAmortizedCommitments;
     return {
       if (estimatedCostAfterDiscounts != null)
-        'estimatedCostAfterDiscounts': estimatedCostAfterDiscounts,
+        'estimatedCostAfterDiscounts':
+            _s.encodeJsonDouble(estimatedCostAfterDiscounts),
       if (estimatedCostBeforeDiscounts != null)
-        'estimatedCostBeforeDiscounts': estimatedCostBeforeDiscounts,
+        'estimatedCostBeforeDiscounts':
+            _s.encodeJsonDouble(estimatedCostBeforeDiscounts),
       if (estimatedDiscounts != null) 'estimatedDiscounts': estimatedDiscounts,
       if (estimatedNetUnusedAmortizedCommitments != null)
         'estimatedNetUnusedAmortizedCommitments':
-            estimatedNetUnusedAmortizedCommitments,
+            _s.encodeJsonDouble(estimatedNetUnusedAmortizedCommitments),
     };
   }
 }
@@ -3089,9 +3100,10 @@ class EstimatedDiscounts {
 
   factory EstimatedDiscounts.fromJson(Map<String, dynamic> json) {
     return EstimatedDiscounts(
-      otherDiscount: json['otherDiscount'] as double?,
-      reservedInstancesDiscount: json['reservedInstancesDiscount'] as double?,
-      savingsPlansDiscount: json['savingsPlansDiscount'] as double?,
+      otherDiscount: _s.parseJsonDouble(json['otherDiscount']),
+      reservedInstancesDiscount:
+          _s.parseJsonDouble(json['reservedInstancesDiscount']),
+      savingsPlansDiscount: _s.parseJsonDouble(json['savingsPlansDiscount']),
     );
   }
 
@@ -3100,11 +3112,13 @@ class EstimatedDiscounts {
     final reservedInstancesDiscount = this.reservedInstancesDiscount;
     final savingsPlansDiscount = this.savingsPlansDiscount;
     return {
-      if (otherDiscount != null) 'otherDiscount': otherDiscount,
+      if (otherDiscount != null)
+        'otherDiscount': _s.encodeJsonDouble(otherDiscount),
       if (reservedInstancesDiscount != null)
-        'reservedInstancesDiscount': reservedInstancesDiscount,
+        'reservedInstancesDiscount':
+            _s.encodeJsonDouble(reservedInstancesDiscount),
       if (savingsPlansDiscount != null)
-        'savingsPlansDiscount': savingsPlansDiscount,
+        'savingsPlansDiscount': _s.encodeJsonDouble(savingsPlansDiscount),
     };
   }
 }
@@ -3141,7 +3155,7 @@ class Usage {
       operation: json['operation'] as String?,
       productCode: json['productCode'] as String?,
       unit: json['unit'] as String?,
-      usageAmount: json['usageAmount'] as double?,
+      usageAmount: _s.parseJsonDouble(json['usageAmount']),
       usageType: json['usageType'] as String?,
     );
   }
@@ -3156,7 +3170,7 @@ class Usage {
       if (operation != null) 'operation': operation,
       if (productCode != null) 'productCode': productCode,
       if (unit != null) 'unit': unit,
-      if (usageAmount != null) 'usageAmount': usageAmount,
+      if (usageAmount != null) 'usageAmount': _s.encodeJsonDouble(usageAmount),
       if (usageType != null) 'usageType': usageType,
     };
   }
@@ -3341,11 +3355,11 @@ class ReservedInstancesPricing {
   factory ReservedInstancesPricing.fromJson(Map<String, dynamic> json) {
     return ReservedInstancesPricing(
       estimatedMonthlyAmortizedReservationCost:
-          json['estimatedMonthlyAmortizedReservationCost'] as double?,
-      estimatedOnDemandCost: json['estimatedOnDemandCost'] as double?,
+          _s.parseJsonDouble(json['estimatedMonthlyAmortizedReservationCost']),
+      estimatedOnDemandCost: _s.parseJsonDouble(json['estimatedOnDemandCost']),
       monthlyReservationEligibleCost:
-          json['monthlyReservationEligibleCost'] as double?,
-      savingsPercentage: json['savingsPercentage'] as double?,
+          _s.parseJsonDouble(json['monthlyReservationEligibleCost']),
+      savingsPercentage: _s.parseJsonDouble(json['savingsPercentage']),
     );
   }
 
@@ -3358,12 +3372,14 @@ class ReservedInstancesPricing {
     return {
       if (estimatedMonthlyAmortizedReservationCost != null)
         'estimatedMonthlyAmortizedReservationCost':
-            estimatedMonthlyAmortizedReservationCost,
+            _s.encodeJsonDouble(estimatedMonthlyAmortizedReservationCost),
       if (estimatedOnDemandCost != null)
-        'estimatedOnDemandCost': estimatedOnDemandCost,
+        'estimatedOnDemandCost': _s.encodeJsonDouble(estimatedOnDemandCost),
       if (monthlyReservationEligibleCost != null)
-        'monthlyReservationEligibleCost': monthlyReservationEligibleCost,
-      if (savingsPercentage != null) 'savingsPercentage': savingsPercentage,
+        'monthlyReservationEligibleCost':
+            _s.encodeJsonDouble(monthlyReservationEligibleCost),
+      if (savingsPercentage != null)
+        'savingsPercentage': _s.encodeJsonDouble(savingsPercentage),
     };
   }
 }
@@ -3509,9 +3525,9 @@ class RdsDbInstanceStorageConfiguration {
   factory RdsDbInstanceStorageConfiguration.fromJson(
       Map<String, dynamic> json) {
     return RdsDbInstanceStorageConfiguration(
-      allocatedStorageInGb: json['allocatedStorageInGb'] as double?,
-      iops: json['iops'] as double?,
-      storageThroughput: json['storageThroughput'] as double?,
+      allocatedStorageInGb: _s.parseJsonDouble(json['allocatedStorageInGb']),
+      iops: _s.parseJsonDouble(json['iops']),
+      storageThroughput: _s.parseJsonDouble(json['storageThroughput']),
       storageType: json['storageType'] as String?,
     );
   }
@@ -3523,9 +3539,10 @@ class RdsDbInstanceStorageConfiguration {
     final storageType = this.storageType;
     return {
       if (allocatedStorageInGb != null)
-        'allocatedStorageInGb': allocatedStorageInGb,
-      if (iops != null) 'iops': iops,
-      if (storageThroughput != null) 'storageThroughput': storageThroughput,
+        'allocatedStorageInGb': _s.encodeJsonDouble(allocatedStorageInGb),
+      if (iops != null) 'iops': _s.encodeJsonDouble(iops),
+      if (storageThroughput != null)
+        'storageThroughput': _s.encodeJsonDouble(storageThroughput),
       if (storageType != null) 'storageType': storageType,
     };
   }
@@ -3685,11 +3702,12 @@ class SavingsPlansPricing {
 
   factory SavingsPlansPricing.fromJson(Map<String, dynamic> json) {
     return SavingsPlansPricing(
-      estimatedMonthlyCommitment: json['estimatedMonthlyCommitment'] as double?,
-      estimatedOnDemandCost: json['estimatedOnDemandCost'] as double?,
+      estimatedMonthlyCommitment:
+          _s.parseJsonDouble(json['estimatedMonthlyCommitment']),
+      estimatedOnDemandCost: _s.parseJsonDouble(json['estimatedOnDemandCost']),
       monthlySavingsPlansEligibleCost:
-          json['monthlySavingsPlansEligibleCost'] as double?,
-      savingsPercentage: json['savingsPercentage'] as double?,
+          _s.parseJsonDouble(json['monthlySavingsPlansEligibleCost']),
+      savingsPercentage: _s.parseJsonDouble(json['savingsPercentage']),
     );
   }
 
@@ -3701,12 +3719,15 @@ class SavingsPlansPricing {
     final savingsPercentage = this.savingsPercentage;
     return {
       if (estimatedMonthlyCommitment != null)
-        'estimatedMonthlyCommitment': estimatedMonthlyCommitment,
+        'estimatedMonthlyCommitment':
+            _s.encodeJsonDouble(estimatedMonthlyCommitment),
       if (estimatedOnDemandCost != null)
-        'estimatedOnDemandCost': estimatedOnDemandCost,
+        'estimatedOnDemandCost': _s.encodeJsonDouble(estimatedOnDemandCost),
       if (monthlySavingsPlansEligibleCost != null)
-        'monthlySavingsPlansEligibleCost': monthlySavingsPlansEligibleCost,
-      if (savingsPercentage != null) 'savingsPercentage': savingsPercentage,
+        'monthlySavingsPlansEligibleCost':
+            _s.encodeJsonDouble(monthlySavingsPlansEligibleCost),
+      if (savingsPercentage != null)
+        'savingsPercentage': _s.encodeJsonDouble(savingsPercentage),
     };
   }
 }
@@ -4679,7 +4700,7 @@ class StorageConfiguration {
 
   factory StorageConfiguration.fromJson(Map<String, dynamic> json) {
     return StorageConfiguration(
-      sizeInGb: json['sizeInGb'] as double?,
+      sizeInGb: _s.parseJsonDouble(json['sizeInGb']),
       type: json['type'] as String?,
     );
   }
@@ -4688,7 +4709,7 @@ class StorageConfiguration {
     final sizeInGb = this.sizeInGb;
     final type = this.type;
     return {
-      if (sizeInGb != null) 'sizeInGb': sizeInGb,
+      if (sizeInGb != null) 'sizeInGb': _s.encodeJsonDouble(sizeInGb),
       if (type != null) 'type': type,
     };
   }
@@ -4713,8 +4734,8 @@ class BlockStoragePerformanceConfiguration {
   factory BlockStoragePerformanceConfiguration.fromJson(
       Map<String, dynamic> json) {
     return BlockStoragePerformanceConfiguration(
-      iops: json['iops'] as double?,
-      throughput: json['throughput'] as double?,
+      iops: _s.parseJsonDouble(json['iops']),
+      throughput: _s.parseJsonDouble(json['throughput']),
     );
   }
 
@@ -4722,8 +4743,8 @@ class BlockStoragePerformanceConfiguration {
     final iops = this.iops;
     final throughput = this.throughput;
     return {
-      if (iops != null) 'iops': iops,
-      if (throughput != null) 'throughput': throughput,
+      if (iops != null) 'iops': _s.encodeJsonDouble(iops),
+      if (throughput != null) 'throughput': _s.encodeJsonDouble(throughput),
     };
   }
 }
@@ -4814,7 +4835,7 @@ class ComputeConfiguration {
       architecture: json['architecture'] as String?,
       memorySizeInMB: json['memorySizeInMB'] as int?,
       platform: json['platform'] as String?,
-      vCpu: json['vCpu'] as double?,
+      vCpu: _s.parseJsonDouble(json['vCpu']),
     );
   }
 
@@ -4827,7 +4848,7 @@ class ComputeConfiguration {
       if (architecture != null) 'architecture': architecture,
       if (memorySizeInMB != null) 'memorySizeInMB': memorySizeInMB,
       if (platform != null) 'platform': platform,
-      if (vCpu != null) 'vCpu': vCpu,
+      if (vCpu != null) 'vCpu': _s.encodeJsonDouble(vCpu),
     };
   }
 }

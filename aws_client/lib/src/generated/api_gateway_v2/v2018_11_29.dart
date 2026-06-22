@@ -10985,7 +10985,7 @@ class RouteSettings {
       loggingLevel:
           (json['loggingLevel'] as String?)?.let(LoggingLevel.fromString),
       throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
-      throttlingRateLimit: json['throttlingRateLimit'] as double?,
+      throttlingRateLimit: _s.parseJsonDouble(json['throttlingRateLimit']),
     );
   }
 
@@ -11003,7 +11003,7 @@ class RouteSettings {
       if (throttlingBurstLimit != null)
         'throttlingBurstLimit': throttlingBurstLimit,
       if (throttlingRateLimit != null)
-        'throttlingRateLimit': throttlingRateLimit,
+        'throttlingRateLimit': _s.encodeJsonDouble(throttlingRateLimit),
     };
   }
 }

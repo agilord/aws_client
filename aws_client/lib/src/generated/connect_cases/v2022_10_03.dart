@@ -4847,7 +4847,7 @@ class FieldValueUnion {
   factory FieldValueUnion.fromJson(Map<String, dynamic> json) {
     return FieldValueUnion(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       emptyValue: json['emptyValue'] != null
           ? EmptyFieldValue.fromJson(json['emptyValue'] as Map<String, dynamic>)
           : null,
@@ -4864,7 +4864,7 @@ class FieldValueUnion {
     final userArnValue = this.userArnValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'emptyValue': emptyValue,
       if (stringValue != null) 'stringValue': stringValue,
       if (userArnValue != null) 'userArnValue': userArnValue,
@@ -6073,7 +6073,7 @@ class OperandTwo {
   factory OperandTwo.fromJson(Map<String, dynamic> json) {
     return OperandTwo(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       emptyValue: json['emptyValue'] != null
           ? EmptyOperandValue.fromJson(
               json['emptyValue'] as Map<String, dynamic>)
@@ -6089,7 +6089,7 @@ class OperandTwo {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'emptyValue': emptyValue,
       if (stringValue != null) 'stringValue': stringValue,
     };
@@ -6965,7 +6965,7 @@ class AuditEventFieldValueUnion {
   factory AuditEventFieldValueUnion.fromJson(Map<String, dynamic> json) {
     return AuditEventFieldValueUnion(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       emptyValue: json['emptyValue'] != null
           ? EmptyFieldValue.fromJson(json['emptyValue'] as Map<String, dynamic>)
           : null,
@@ -6982,7 +6982,7 @@ class AuditEventFieldValueUnion {
     final userArnValue = this.userArnValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'emptyValue': emptyValue,
       if (stringValue != null) 'stringValue': stringValue,
       if (userArnValue != null) 'userArnValue': userArnValue,

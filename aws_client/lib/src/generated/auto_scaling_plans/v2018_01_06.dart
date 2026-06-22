@@ -1423,7 +1423,7 @@ class TargetTrackingConfiguration {
 
   factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) {
     return TargetTrackingConfiguration(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       customizedScalingMetricSpecification:
           json['CustomizedScalingMetricSpecification'] != null
               ? CustomizedScalingMetricSpecification.fromJson(
@@ -1454,7 +1454,7 @@ class TargetTrackingConfiguration {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedScalingMetricSpecification != null)
         'CustomizedScalingMetricSpecification':
             customizedScalingMetricSpecification,
@@ -1733,7 +1733,7 @@ class Datapoint {
   factory Datapoint.fromJson(Map<String, dynamic> json) {
     return Datapoint(
       timestamp: timeStampFromJson(json['Timestamp']),
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -1742,7 +1742,7 @@ class Datapoint {
     final value = this.value;
     return {
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }

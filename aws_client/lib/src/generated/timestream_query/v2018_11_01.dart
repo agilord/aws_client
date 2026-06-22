@@ -1755,7 +1755,7 @@ class QueryStatus {
     return QueryStatus(
       cumulativeBytesMetered: json['CumulativeBytesMetered'] as int?,
       cumulativeBytesScanned: json['CumulativeBytesScanned'] as int?,
-      progressPercentage: json['ProgressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['ProgressPercentage']),
     );
   }
 
@@ -1768,7 +1768,8 @@ class QueryStatus {
         'CumulativeBytesMetered': cumulativeBytesMetered,
       if (cumulativeBytesScanned != null)
         'CumulativeBytesScanned': cumulativeBytesScanned,
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'ProgressPercentage': _s.encodeJsonDouble(progressPercentage),
     };
   }
 }
@@ -2042,7 +2043,7 @@ class QuerySpatialCoverageMax {
           .map((e) => e as String)
           .toList(),
       tableArn: json['TableArn'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -2053,7 +2054,7 @@ class QuerySpatialCoverageMax {
     return {
       if (partitionKey != null) 'PartitionKey': partitionKey,
       if (tableArn != null) 'TableArn': tableArn,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }

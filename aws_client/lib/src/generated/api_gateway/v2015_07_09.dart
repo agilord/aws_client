@@ -8919,7 +8919,7 @@ class ThrottleSettings {
   factory ThrottleSettings.fromJson(Map<String, dynamic> json) {
     return ThrottleSettings(
       burstLimit: json['burstLimit'] as int?,
-      rateLimit: json['rateLimit'] as double?,
+      rateLimit: _s.parseJsonDouble(json['rateLimit']),
     );
   }
 
@@ -8928,7 +8928,7 @@ class ThrottleSettings {
     final rateLimit = this.rateLimit;
     return {
       if (burstLimit != null) 'burstLimit': burstLimit,
-      if (rateLimit != null) 'rateLimit': rateLimit,
+      if (rateLimit != null) 'rateLimit': _s.encodeJsonDouble(rateLimit),
     };
   }
 }
@@ -9207,7 +9207,7 @@ class CanarySettings {
   factory CanarySettings.fromJson(Map<String, dynamic> json) {
     return CanarySettings(
       deploymentId: json['deploymentId'] as String?,
-      percentTraffic: json['percentTraffic'] as double?,
+      percentTraffic: _s.parseJsonDouble(json['percentTraffic']),
       stageVariableOverrides:
           (json['stageVariableOverrides'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -9222,7 +9222,8 @@ class CanarySettings {
     final useStageCache = this.useStageCache;
     return {
       if (deploymentId != null) 'deploymentId': deploymentId,
-      if (percentTraffic != null) 'percentTraffic': percentTraffic,
+      if (percentTraffic != null)
+        'percentTraffic': _s.encodeJsonDouble(percentTraffic),
       if (stageVariableOverrides != null)
         'stageVariableOverrides': stageVariableOverrides,
       if (useStageCache != null) 'useStageCache': useStageCache,
@@ -9300,7 +9301,7 @@ class MethodSetting {
       requireAuthorizationForCacheControl:
           json['requireAuthorizationForCacheControl'] as bool?,
       throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
-      throttlingRateLimit: json['throttlingRateLimit'] as double?,
+      throttlingRateLimit: _s.parseJsonDouble(json['throttlingRateLimit']),
       unauthorizedCacheControlHeaderStrategy:
           (json['unauthorizedCacheControlHeaderStrategy'] as String?)
               ?.let(UnauthorizedCacheControlHeaderStrategy.fromString),
@@ -9333,7 +9334,7 @@ class MethodSetting {
       if (throttlingBurstLimit != null)
         'throttlingBurstLimit': throttlingBurstLimit,
       if (throttlingRateLimit != null)
-        'throttlingRateLimit': throttlingRateLimit,
+        'throttlingRateLimit': _s.encodeJsonDouble(throttlingRateLimit),
       if (unauthorizedCacheControlHeaderStrategy != null)
         'unauthorizedCacheControlHeaderStrategy':
             unauthorizedCacheControlHeaderStrategy.value,
@@ -9958,7 +9959,8 @@ class DeploymentCanarySettings {
     final stageVariableOverrides = this.stageVariableOverrides;
     final useStageCache = this.useStageCache;
     return {
-      if (percentTraffic != null) 'percentTraffic': percentTraffic,
+      if (percentTraffic != null)
+        'percentTraffic': _s.encodeJsonDouble(percentTraffic),
       if (stageVariableOverrides != null)
         'stageVariableOverrides': stageVariableOverrides,
       if (useStageCache != null) 'useStageCache': useStageCache,

@@ -471,7 +471,7 @@ class EdgeMetric {
       if (dimension != null) 'Dimension': dimension,
       if (metricName != null) 'MetricName': metricName,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }

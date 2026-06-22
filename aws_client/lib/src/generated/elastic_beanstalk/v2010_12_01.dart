@@ -5477,7 +5477,8 @@ class SystemStatus {
     final loadAverage = this.loadAverage;
     return {
       if (cPUUtilization != null) 'CPUUtilization': cPUUtilization,
-      if (loadAverage != null) 'LoadAverage': loadAverage,
+      if (loadAverage != null)
+        'LoadAverage': loadAverage.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -5624,14 +5625,14 @@ class CPUUtilization {
     final system = this.system;
     final user = this.user;
     return {
-      if (iOWait != null) 'IOWait': iOWait,
-      if (irq != null) 'IRQ': irq,
-      if (idle != null) 'Idle': idle,
-      if (nice != null) 'Nice': nice,
-      if (privileged != null) 'Privileged': privileged,
-      if (softIRQ != null) 'SoftIRQ': softIRQ,
-      if (system != null) 'System': system,
-      if (user != null) 'User': user,
+      if (iOWait != null) 'IOWait': _s.encodeJsonDouble(iOWait),
+      if (irq != null) 'IRQ': _s.encodeJsonDouble(irq),
+      if (idle != null) 'Idle': _s.encodeJsonDouble(idle),
+      if (nice != null) 'Nice': _s.encodeJsonDouble(nice),
+      if (privileged != null) 'Privileged': _s.encodeJsonDouble(privileged),
+      if (softIRQ != null) 'SoftIRQ': _s.encodeJsonDouble(softIRQ),
+      if (system != null) 'System': _s.encodeJsonDouble(system),
+      if (user != null) 'User': _s.encodeJsonDouble(user),
     };
   }
 }
@@ -5758,14 +5759,14 @@ class Latency {
     final p99 = this.p99;
     final p999 = this.p999;
     return {
-      if (p10 != null) 'P10': p10,
-      if (p50 != null) 'P50': p50,
-      if (p75 != null) 'P75': p75,
-      if (p85 != null) 'P85': p85,
-      if (p90 != null) 'P90': p90,
-      if (p95 != null) 'P95': p95,
-      if (p99 != null) 'P99': p99,
-      if (p999 != null) 'P999': p999,
+      if (p10 != null) 'P10': _s.encodeJsonDouble(p10),
+      if (p50 != null) 'P50': _s.encodeJsonDouble(p50),
+      if (p75 != null) 'P75': _s.encodeJsonDouble(p75),
+      if (p85 != null) 'P85': _s.encodeJsonDouble(p85),
+      if (p90 != null) 'P90': _s.encodeJsonDouble(p90),
+      if (p95 != null) 'P95': _s.encodeJsonDouble(p95),
+      if (p99 != null) 'P99': _s.encodeJsonDouble(p99),
+      if (p999 != null) 'P999': _s.encodeJsonDouble(p999),
     };
   }
 }

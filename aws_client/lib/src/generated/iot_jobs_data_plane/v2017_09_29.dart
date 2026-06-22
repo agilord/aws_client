@@ -779,7 +779,7 @@ class CommandParameterValue {
     return {
       if (b != null) 'B': b,
       if (bin != null) 'BIN': base64Encode(bin),
-      if (d != null) 'D': d,
+      if (d != null) 'D': _s.encodeJsonDouble(d),
       if (i != null) 'I': i,
       if (l != null) 'L': l,
       if (s != null) 'S': s,

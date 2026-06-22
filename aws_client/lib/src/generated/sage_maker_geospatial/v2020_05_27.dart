@@ -2360,7 +2360,10 @@ class Geometry {
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+              .map((e) => (e as List)
+                  .nonNulls
+                  .map((e) => _s.parseJsonDouble(e)!)
+                  .toList())
               .toList())
           .toList(),
       type: (json['Type'] as String?) ?? '',
@@ -2371,7 +2374,10 @@ class Geometry {
     final coordinates = this.coordinates;
     final type = this.type;
     return {
-      'Coordinates': coordinates,
+      'Coordinates': coordinates
+          .map(
+              (e) => e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+          .toList(),
       'Type': type,
     };
   }
@@ -2420,12 +2426,12 @@ class Properties {
 
   factory Properties.fromJson(Map<String, dynamic> json) {
     return Properties(
-      eoCloudCover: json['EoCloudCover'] as double?,
-      landsatCloudCoverLand: json['LandsatCloudCoverLand'] as double?,
+      eoCloudCover: _s.parseJsonDouble(json['EoCloudCover']),
+      landsatCloudCoverLand: _s.parseJsonDouble(json['LandsatCloudCoverLand']),
       platform: json['Platform'] as String?,
-      viewOffNadir: json['ViewOffNadir'] as double?,
-      viewSunAzimuth: json['ViewSunAzimuth'] as double?,
-      viewSunElevation: json['ViewSunElevation'] as double?,
+      viewOffNadir: _s.parseJsonDouble(json['ViewOffNadir']),
+      viewSunAzimuth: _s.parseJsonDouble(json['ViewSunAzimuth']),
+      viewSunElevation: _s.parseJsonDouble(json['ViewSunElevation']),
     );
   }
 
@@ -2437,13 +2443,17 @@ class Properties {
     final viewSunAzimuth = this.viewSunAzimuth;
     final viewSunElevation = this.viewSunElevation;
     return {
-      if (eoCloudCover != null) 'EoCloudCover': eoCloudCover,
+      if (eoCloudCover != null)
+        'EoCloudCover': _s.encodeJsonDouble(eoCloudCover),
       if (landsatCloudCoverLand != null)
-        'LandsatCloudCoverLand': landsatCloudCoverLand,
+        'LandsatCloudCoverLand': _s.encodeJsonDouble(landsatCloudCoverLand),
       if (platform != null) 'Platform': platform,
-      if (viewOffNadir != null) 'ViewOffNadir': viewOffNadir,
-      if (viewSunAzimuth != null) 'ViewSunAzimuth': viewSunAzimuth,
-      if (viewSunElevation != null) 'ViewSunElevation': viewSunElevation,
+      if (viewOffNadir != null)
+        'ViewOffNadir': _s.encodeJsonDouble(viewOffNadir),
+      if (viewSunAzimuth != null)
+        'ViewSunAzimuth': _s.encodeJsonDouble(viewSunAzimuth),
+      if (viewSunElevation != null)
+        'ViewSunElevation': _s.encodeJsonDouble(viewSunElevation),
     };
   }
 }
@@ -2753,8 +2763,8 @@ class EoCloudCoverInput {
 
   factory EoCloudCoverInput.fromJson(Map<String, dynamic> json) {
     return EoCloudCoverInput(
-      lowerBound: (json['LowerBound'] as double?) ?? 0,
-      upperBound: (json['UpperBound'] as double?) ?? 0,
+      lowerBound: _s.parseJsonDouble(json['LowerBound']) ?? 0,
+      upperBound: _s.parseJsonDouble(json['UpperBound']) ?? 0,
     );
   }
 
@@ -2762,8 +2772,8 @@ class EoCloudCoverInput {
     final lowerBound = this.lowerBound;
     final upperBound = this.upperBound;
     return {
-      'LowerBound': lowerBound,
-      'UpperBound': upperBound,
+      'LowerBound': _s.encodeJsonDouble(lowerBound),
+      'UpperBound': _s.encodeJsonDouble(upperBound),
     };
   }
 }
@@ -2789,8 +2799,8 @@ class ViewOffNadirInput {
 
   factory ViewOffNadirInput.fromJson(Map<String, dynamic> json) {
     return ViewOffNadirInput(
-      lowerBound: (json['LowerBound'] as double?) ?? 0,
-      upperBound: (json['UpperBound'] as double?) ?? 0,
+      lowerBound: _s.parseJsonDouble(json['LowerBound']) ?? 0,
+      upperBound: _s.parseJsonDouble(json['UpperBound']) ?? 0,
     );
   }
 
@@ -2798,8 +2808,8 @@ class ViewOffNadirInput {
     final lowerBound = this.lowerBound;
     final upperBound = this.upperBound;
     return {
-      'LowerBound': lowerBound,
-      'UpperBound': upperBound,
+      'LowerBound': _s.encodeJsonDouble(lowerBound),
+      'UpperBound': _s.encodeJsonDouble(upperBound),
     };
   }
 }
@@ -2826,8 +2836,8 @@ class ViewSunAzimuthInput {
 
   factory ViewSunAzimuthInput.fromJson(Map<String, dynamic> json) {
     return ViewSunAzimuthInput(
-      lowerBound: (json['LowerBound'] as double?) ?? 0,
-      upperBound: (json['UpperBound'] as double?) ?? 0,
+      lowerBound: _s.parseJsonDouble(json['LowerBound']) ?? 0,
+      upperBound: _s.parseJsonDouble(json['UpperBound']) ?? 0,
     );
   }
 
@@ -2835,8 +2845,8 @@ class ViewSunAzimuthInput {
     final lowerBound = this.lowerBound;
     final upperBound = this.upperBound;
     return {
-      'LowerBound': lowerBound,
-      'UpperBound': upperBound,
+      'LowerBound': _s.encodeJsonDouble(lowerBound),
+      'UpperBound': _s.encodeJsonDouble(upperBound),
     };
   }
 }
@@ -2858,8 +2868,8 @@ class ViewSunElevationInput {
 
   factory ViewSunElevationInput.fromJson(Map<String, dynamic> json) {
     return ViewSunElevationInput(
-      lowerBound: (json['LowerBound'] as double?) ?? 0,
-      upperBound: (json['UpperBound'] as double?) ?? 0,
+      lowerBound: _s.parseJsonDouble(json['LowerBound']) ?? 0,
+      upperBound: _s.parseJsonDouble(json['UpperBound']) ?? 0,
     );
   }
 
@@ -2867,8 +2877,8 @@ class ViewSunElevationInput {
     final lowerBound = this.lowerBound;
     final upperBound = this.upperBound;
     return {
-      'LowerBound': lowerBound,
-      'UpperBound': upperBound,
+      'LowerBound': _s.encodeJsonDouble(lowerBound),
+      'UpperBound': _s.encodeJsonDouble(upperBound),
     };
   }
 }
@@ -2929,8 +2939,8 @@ class LandsatCloudCoverLandInput {
 
   factory LandsatCloudCoverLandInput.fromJson(Map<String, dynamic> json) {
     return LandsatCloudCoverLandInput(
-      lowerBound: (json['LowerBound'] as double?) ?? 0,
-      upperBound: (json['UpperBound'] as double?) ?? 0,
+      lowerBound: _s.parseJsonDouble(json['LowerBound']) ?? 0,
+      upperBound: _s.parseJsonDouble(json['UpperBound']) ?? 0,
     );
   }
 
@@ -2938,8 +2948,8 @@ class LandsatCloudCoverLandInput {
     final lowerBound = this.lowerBound;
     final upperBound = this.upperBound;
     return {
-      'LowerBound': lowerBound,
-      'UpperBound': upperBound,
+      'LowerBound': _s.encodeJsonDouble(lowerBound),
+      'UpperBound': _s.encodeJsonDouble(upperBound),
     };
   }
 }
@@ -3031,7 +3041,10 @@ class PolygonGeometryInput {
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+              .map((e) => (e as List)
+                  .nonNulls
+                  .map((e) => _s.parseJsonDouble(e)!)
+                  .toList())
               .toList())
           .toList(),
     );
@@ -3040,7 +3053,10 @@ class PolygonGeometryInput {
   Map<String, dynamic> toJson() {
     final coordinates = this.coordinates;
     return {
-      'Coordinates': coordinates,
+      'Coordinates': coordinates
+          .map(
+              (e) => e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+          .toList(),
     };
   }
 }
@@ -3066,8 +3082,10 @@ class MultiPolygonGeometryInput {
               .nonNulls
               .map((e) => (e as List)
                   .nonNulls
-                  .map((e) =>
-                      (e as List).nonNulls.map((e) => e as double).toList())
+                  .map((e) => (e as List)
+                      .nonNulls
+                      .map((e) => _s.parseJsonDouble(e)!)
+                      .toList())
                   .toList())
               .toList())
           .toList(),
@@ -3077,7 +3095,12 @@ class MultiPolygonGeometryInput {
   Map<String, dynamic> toJson() {
     final coordinates = this.coordinates;
     return {
-      'Coordinates': coordinates,
+      'Coordinates': coordinates
+          .map((e) => e
+              .map((e) =>
+                  e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+              .toList())
+          .toList(),
     };
   }
 }
@@ -3207,8 +3230,8 @@ class Filter {
     return Filter(
       name: (json['Name'] as String?) ?? '',
       type: (json['Type'] as String?) ?? '',
-      maximum: json['Maximum'] as double?,
-      minimum: json['Minimum'] as double?,
+      maximum: _s.parseJsonDouble(json['Maximum']),
+      minimum: _s.parseJsonDouble(json['Minimum']),
     );
   }
 
@@ -3220,8 +3243,8 @@ class Filter {
     return {
       'Name': name,
       'Type': type,
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
     };
   }
 }
@@ -4270,7 +4293,7 @@ class UserDefined {
   factory UserDefined.fromJson(Map<String, dynamic> json) {
     return UserDefined(
       unit: Unit.fromString((json['Unit'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -4279,7 +4302,7 @@ class UserDefined {
     final value = this.value;
     return {
       'Unit': unit.value,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }

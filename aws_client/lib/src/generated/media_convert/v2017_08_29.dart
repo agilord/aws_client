@@ -5874,7 +5874,7 @@ class Av1Settings {
               ?.let(Av1FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       maxBitrate: json['maxBitrate'] as int?,
       numberBFramesBetweenReferenceFrames:
           json['numberBFramesBetweenReferenceFrames'] as int?,
@@ -5924,7 +5924,7 @@ class Av1Settings {
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (numberBFramesBetweenReferenceFrames != null)
         'numberBFramesBetweenReferenceFrames':
@@ -6829,7 +6829,7 @@ class H264Settings {
       gopBReference:
           (json['gopBReference'] as String?)?.let(H264GopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(H264GopSizeUnits.fromString),
       hrdBufferFinalFillPercentage:
@@ -6956,7 +6956,7 @@ class H264Settings {
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (hrdBufferFinalFillPercentage != null)
         'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
@@ -7505,7 +7505,7 @@ class H265Settings {
       gopBReference:
           (json['gopBReference'] as String?)?.let(H265GopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(H265GopSizeUnits.fromString),
       hrdBufferFinalFillPercentage:
@@ -7649,7 +7649,7 @@ class H265Settings {
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (hrdBufferFinalFillPercentage != null)
         'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
@@ -8042,7 +8042,7 @@ class Mpeg2Settings {
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
       gopClosedCadence: json['gopClosedCadence'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(Mpeg2GopSizeUnits.fromString),
       hrdBufferFinalFillPercentage:
@@ -8137,7 +8137,7 @@ class Mpeg2Settings {
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (hrdBufferFinalFillPercentage != null)
         'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
@@ -8871,7 +8871,7 @@ class Vp8Settings {
               ?.let(Vp8FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       hrdBufferSize: json['hrdBufferSize'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
       parControl:
@@ -8907,7 +8907,7 @@ class Vp8Settings {
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (parControl != null) 'parControl': parControl.value,
@@ -9040,7 +9040,7 @@ class Vp9Settings {
               ?.let(Vp9FramerateConversionAlgorithm.fromString),
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       hrdBufferSize: json['hrdBufferSize'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
       parControl:
@@ -9076,7 +9076,7 @@ class Vp9Settings {
       if (framerateDenominator != null)
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (parControl != null) 'parControl': parControl.value,
@@ -13109,7 +13109,8 @@ class H265QvbrSettings {
     return H265QvbrSettings(
       maxAverageBitrate: json['maxAverageBitrate'] as int?,
       qvbrQualityLevel: json['qvbrQualityLevel'] as int?,
-      qvbrQualityLevelFineTune: json['qvbrQualityLevelFineTune'] as double?,
+      qvbrQualityLevelFineTune:
+          _s.parseJsonDouble(json['qvbrQualityLevelFineTune']),
     );
   }
 
@@ -13121,7 +13122,8 @@ class H265QvbrSettings {
       if (maxAverageBitrate != null) 'maxAverageBitrate': maxAverageBitrate,
       if (qvbrQualityLevel != null) 'qvbrQualityLevel': qvbrQualityLevel,
       if (qvbrQualityLevelFineTune != null)
-        'qvbrQualityLevelFineTune': qvbrQualityLevelFineTune,
+        'qvbrQualityLevelFineTune':
+            _s.encodeJsonDouble(qvbrQualityLevelFineTune),
     };
   }
 }
@@ -14281,7 +14283,8 @@ class H264QvbrSettings {
     return H264QvbrSettings(
       maxAverageBitrate: json['maxAverageBitrate'] as int?,
       qvbrQualityLevel: json['qvbrQualityLevel'] as int?,
-      qvbrQualityLevelFineTune: json['qvbrQualityLevelFineTune'] as double?,
+      qvbrQualityLevelFineTune:
+          _s.parseJsonDouble(json['qvbrQualityLevelFineTune']),
     );
   }
 
@@ -14293,7 +14296,8 @@ class H264QvbrSettings {
       if (maxAverageBitrate != null) 'maxAverageBitrate': maxAverageBitrate,
       if (qvbrQualityLevel != null) 'qvbrQualityLevel': qvbrQualityLevel,
       if (qvbrQualityLevelFineTune != null)
-        'qvbrQualityLevelFineTune': qvbrQualityLevelFineTune,
+        'qvbrQualityLevelFineTune':
+            _s.encodeJsonDouble(qvbrQualityLevelFineTune),
     };
   }
 }
@@ -15341,7 +15345,8 @@ class Av1QvbrSettings {
   factory Av1QvbrSettings.fromJson(Map<String, dynamic> json) {
     return Av1QvbrSettings(
       qvbrQualityLevel: json['qvbrQualityLevel'] as int?,
-      qvbrQualityLevelFineTune: json['qvbrQualityLevelFineTune'] as double?,
+      qvbrQualityLevelFineTune:
+          _s.parseJsonDouble(json['qvbrQualityLevelFineTune']),
     );
   }
 
@@ -15351,7 +15356,8 @@ class Av1QvbrSettings {
     return {
       if (qvbrQualityLevel != null) 'qvbrQualityLevel': qvbrQualityLevel,
       if (qvbrQualityLevelFineTune != null)
-        'qvbrQualityLevelFineTune': qvbrQualityLevelFineTune,
+        'qvbrQualityLevelFineTune':
+            _s.encodeJsonDouble(qvbrQualityLevelFineTune),
     };
   }
 }
@@ -16109,14 +16115,14 @@ class M2tsSettings {
           (json['esRateInPes'] as String?)?.let(M2tsEsRateInPes.fromString),
       forceTsVideoEbpOrder: (json['forceTsVideoEbpOrder'] as String?)
           ?.let(M2tsForceTsVideoEbpOrder.fromString),
-      fragmentTime: json['fragmentTime'] as double?,
+      fragmentTime: _s.parseJsonDouble(json['fragmentTime']),
       klvMetadata:
           (json['klvMetadata'] as String?)?.let(M2tsKlvMetadata.fromString),
       maxPcrInterval: json['maxPcrInterval'] as int?,
       minEbpInterval: json['minEbpInterval'] as int?,
       nielsenId3:
           (json['nielsenId3'] as String?)?.let(M2tsNielsenId3.fromString),
-      nullPacketBitrate: json['nullPacketBitrate'] as double?,
+      nullPacketBitrate: _s.parseJsonDouble(json['nullPacketBitrate']),
       patInterval: json['patInterval'] as int?,
       pcrControl:
           (json['pcrControl'] as String?)?.let(M2tsPcrControl.fromString),
@@ -16141,7 +16147,7 @@ class M2tsSettings {
           ?.let(M2tsSegmentationMarkers.fromString),
       segmentationStyle: (json['segmentationStyle'] as String?)
           ?.let(M2tsSegmentationStyle.fromString),
-      segmentationTime: json['segmentationTime'] as double?,
+      segmentationTime: _s.parseJsonDouble(json['segmentationTime']),
       timedMetadataPid: json['timedMetadataPid'] as int?,
       transportStreamId: json['transportStreamId'] as int?,
       videoPid: json['videoPid'] as int?,
@@ -16212,12 +16218,14 @@ class M2tsSettings {
       if (esRateInPes != null) 'esRateInPes': esRateInPes.value,
       if (forceTsVideoEbpOrder != null)
         'forceTsVideoEbpOrder': forceTsVideoEbpOrder.value,
-      if (fragmentTime != null) 'fragmentTime': fragmentTime,
+      if (fragmentTime != null)
+        'fragmentTime': _s.encodeJsonDouble(fragmentTime),
       if (klvMetadata != null) 'klvMetadata': klvMetadata.value,
       if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
       if (minEbpInterval != null) 'minEbpInterval': minEbpInterval,
       if (nielsenId3 != null) 'nielsenId3': nielsenId3.value,
-      if (nullPacketBitrate != null) 'nullPacketBitrate': nullPacketBitrate,
+      if (nullPacketBitrate != null)
+        'nullPacketBitrate': _s.encodeJsonDouble(nullPacketBitrate),
       if (patInterval != null) 'patInterval': patInterval,
       if (pcrControl != null) 'pcrControl': pcrControl.value,
       if (pcrPid != null) 'pcrPid': pcrPid,
@@ -16237,7 +16245,8 @@ class M2tsSettings {
         'segmentationMarkers': segmentationMarkers.value,
       if (segmentationStyle != null)
         'segmentationStyle': segmentationStyle.value,
-      if (segmentationTime != null) 'segmentationTime': segmentationTime,
+      if (segmentationTime != null)
+        'segmentationTime': _s.encodeJsonDouble(segmentationTime),
       if (timedMetadataPid != null) 'timedMetadataPid': timedMetadataPid,
       if (transportStreamId != null) 'transportStreamId': transportStreamId,
       if (videoPid != null) 'videoPid': videoPid,
@@ -22108,8 +22117,9 @@ class AudioNormalizationSettings {
           ?.let(AudioNormalizationLoudnessLogging.fromString),
       peakCalculation: (json['peakCalculation'] as String?)
           ?.let(AudioNormalizationPeakCalculation.fromString),
-      targetLkfs: json['targetLkfs'] as double?,
-      truePeakLimiterThreshold: json['truePeakLimiterThreshold'] as double?,
+      targetLkfs: _s.parseJsonDouble(json['targetLkfs']),
+      truePeakLimiterThreshold:
+          _s.parseJsonDouble(json['truePeakLimiterThreshold']),
     );
   }
 
@@ -22128,9 +22138,10 @@ class AudioNormalizationSettings {
         'correctionGateLevel': correctionGateLevel,
       if (loudnessLogging != null) 'loudnessLogging': loudnessLogging.value,
       if (peakCalculation != null) 'peakCalculation': peakCalculation.value,
-      if (targetLkfs != null) 'targetLkfs': targetLkfs,
+      if (targetLkfs != null) 'targetLkfs': _s.encodeJsonDouble(targetLkfs),
       if (truePeakLimiterThreshold != null)
-        'truePeakLimiterThreshold': truePeakLimiterThreshold,
+        'truePeakLimiterThreshold':
+            _s.encodeJsonDouble(truePeakLimiterThreshold),
     };
   }
 }
@@ -22545,7 +22556,7 @@ class OutputChannelMapping {
           .toList(),
       inputChannelsFineTune: (json['inputChannelsFineTune'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -22556,7 +22567,8 @@ class OutputChannelMapping {
     return {
       if (inputChannels != null) 'inputChannels': inputChannels,
       if (inputChannelsFineTune != null)
-        'inputChannelsFineTune': inputChannelsFineTune,
+        'inputChannelsFineTune':
+            inputChannelsFineTune.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -23004,10 +23016,10 @@ class Ac4Settings {
       dynamicRangeCompressionPortableSpeakers:
           (json['dynamicRangeCompressionPortableSpeakers'] as String?)
               ?.let(Ac4DynamicRangeCompressionDrcProfile.fromString),
-      loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
-      loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
-      ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
-      ltRtSurroundMixLevel: json['ltRtSurroundMixLevel'] as double?,
+      loRoCenterMixLevel: _s.parseJsonDouble(json['loRoCenterMixLevel']),
+      loRoSurroundMixLevel: _s.parseJsonDouble(json['loRoSurroundMixLevel']),
+      ltRtCenterMixLevel: _s.parseJsonDouble(json['ltRtCenterMixLevel']),
+      ltRtSurroundMixLevel: _s.parseJsonDouble(json['ltRtSurroundMixLevel']),
       sampleRate: json['sampleRate'] as int?,
       stereoDownmix:
           (json['stereoDownmix'] as String?)?.let(Ac4StereoDownmix.fromString),
@@ -23048,12 +23060,14 @@ class Ac4Settings {
       if (dynamicRangeCompressionPortableSpeakers != null)
         'dynamicRangeCompressionPortableSpeakers':
             dynamicRangeCompressionPortableSpeakers.value,
-      if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
+      if (loRoCenterMixLevel != null)
+        'loRoCenterMixLevel': _s.encodeJsonDouble(loRoCenterMixLevel),
       if (loRoSurroundMixLevel != null)
-        'loRoSurroundMixLevel': loRoSurroundMixLevel,
-      if (ltRtCenterMixLevel != null) 'ltRtCenterMixLevel': ltRtCenterMixLevel,
+        'loRoSurroundMixLevel': _s.encodeJsonDouble(loRoSurroundMixLevel),
+      if (ltRtCenterMixLevel != null)
+        'ltRtCenterMixLevel': _s.encodeJsonDouble(ltRtCenterMixLevel),
       if (ltRtSurroundMixLevel != null)
-        'ltRtSurroundMixLevel': ltRtSurroundMixLevel,
+        'ltRtSurroundMixLevel': _s.encodeJsonDouble(ltRtSurroundMixLevel),
       if (sampleRate != null) 'sampleRate': sampleRate,
       if (stereoDownmix != null) 'stereoDownmix': stereoDownmix.value,
     };
@@ -23326,10 +23340,10 @@ class Eac3AtmosSettings {
           ?.let(Eac3AtmosDynamicRangeCompressionRf.fromString),
       dynamicRangeControl: (json['dynamicRangeControl'] as String?)
           ?.let(Eac3AtmosDynamicRangeControl.fromString),
-      loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
-      loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
-      ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
-      ltRtSurroundMixLevel: json['ltRtSurroundMixLevel'] as double?,
+      loRoCenterMixLevel: _s.parseJsonDouble(json['loRoCenterMixLevel']),
+      loRoSurroundMixLevel: _s.parseJsonDouble(json['loRoSurroundMixLevel']),
+      ltRtCenterMixLevel: _s.parseJsonDouble(json['ltRtCenterMixLevel']),
+      ltRtSurroundMixLevel: _s.parseJsonDouble(json['ltRtSurroundMixLevel']),
       meteringMode: (json['meteringMode'] as String?)
           ?.let(Eac3AtmosMeteringMode.fromString),
       sampleRate: json['sampleRate'] as int?,
@@ -23372,12 +23386,14 @@ class Eac3AtmosSettings {
         'dynamicRangeCompressionRf': dynamicRangeCompressionRf.value,
       if (dynamicRangeControl != null)
         'dynamicRangeControl': dynamicRangeControl.value,
-      if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
+      if (loRoCenterMixLevel != null)
+        'loRoCenterMixLevel': _s.encodeJsonDouble(loRoCenterMixLevel),
       if (loRoSurroundMixLevel != null)
-        'loRoSurroundMixLevel': loRoSurroundMixLevel,
-      if (ltRtCenterMixLevel != null) 'ltRtCenterMixLevel': ltRtCenterMixLevel,
+        'loRoSurroundMixLevel': _s.encodeJsonDouble(loRoSurroundMixLevel),
+      if (ltRtCenterMixLevel != null)
+        'ltRtCenterMixLevel': _s.encodeJsonDouble(ltRtCenterMixLevel),
       if (ltRtSurroundMixLevel != null)
-        'ltRtSurroundMixLevel': ltRtSurroundMixLevel,
+        'ltRtSurroundMixLevel': _s.encodeJsonDouble(ltRtSurroundMixLevel),
       if (meteringMode != null) 'meteringMode': meteringMode.value,
       if (sampleRate != null) 'sampleRate': sampleRate,
       if (speechThreshold != null) 'speechThreshold': speechThreshold,
@@ -23561,10 +23577,10 @@ class Eac3Settings {
       lfeControl:
           (json['lfeControl'] as String?)?.let(Eac3LfeControl.fromString),
       lfeFilter: (json['lfeFilter'] as String?)?.let(Eac3LfeFilter.fromString),
-      loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
-      loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
-      ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
-      ltRtSurroundMixLevel: json['ltRtSurroundMixLevel'] as double?,
+      loRoCenterMixLevel: _s.parseJsonDouble(json['loRoCenterMixLevel']),
+      loRoSurroundMixLevel: _s.parseJsonDouble(json['loRoSurroundMixLevel']),
+      ltRtCenterMixLevel: _s.parseJsonDouble(json['ltRtCenterMixLevel']),
+      ltRtSurroundMixLevel: _s.parseJsonDouble(json['ltRtSurroundMixLevel']),
       metadataControl: (json['metadataControl'] as String?)
           ?.let(Eac3MetadataControl.fromString),
       passthroughControl: (json['passthroughControl'] as String?)
@@ -23617,12 +23633,14 @@ class Eac3Settings {
         'dynamicRangeCompressionRf': dynamicRangeCompressionRf.value,
       if (lfeControl != null) 'lfeControl': lfeControl.value,
       if (lfeFilter != null) 'lfeFilter': lfeFilter.value,
-      if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
+      if (loRoCenterMixLevel != null)
+        'loRoCenterMixLevel': _s.encodeJsonDouble(loRoCenterMixLevel),
       if (loRoSurroundMixLevel != null)
-        'loRoSurroundMixLevel': loRoSurroundMixLevel,
-      if (ltRtCenterMixLevel != null) 'ltRtCenterMixLevel': ltRtCenterMixLevel,
+        'loRoSurroundMixLevel': _s.encodeJsonDouble(loRoSurroundMixLevel),
+      if (ltRtCenterMixLevel != null)
+        'ltRtCenterMixLevel': _s.encodeJsonDouble(ltRtCenterMixLevel),
       if (ltRtSurroundMixLevel != null)
-        'ltRtSurroundMixLevel': ltRtSurroundMixLevel,
+        'ltRtSurroundMixLevel': _s.encodeJsonDouble(ltRtSurroundMixLevel),
       if (metadataControl != null) 'metadataControl': metadataControl.value,
       if (passthroughControl != null)
         'passthroughControl': passthroughControl.value,
@@ -26443,7 +26461,7 @@ class KantarWatermarkSettings {
       channelName: json['channelName'] as String?,
       contentReference: json['contentReference'] as String?,
       credentialsSecretName: json['credentialsSecretName'] as String?,
-      fileOffset: json['fileOffset'] as double?,
+      fileOffset: _s.parseJsonDouble(json['fileOffset']),
       kantarLicenseId: json['kantarLicenseId'] as int?,
       kantarServerUrl: json['kantarServerUrl'] as String?,
       logDestination: json['logDestination'] as String?,
@@ -26475,7 +26493,7 @@ class KantarWatermarkSettings {
       if (contentReference != null) 'contentReference': contentReference,
       if (credentialsSecretName != null)
         'credentialsSecretName': credentialsSecretName,
-      if (fileOffset != null) 'fileOffset': fileOffset,
+      if (fileOffset != null) 'fileOffset': _s.encodeJsonDouble(fileOffset),
       if (kantarLicenseId != null) 'kantarLicenseId': kantarLicenseId,
       if (kantarServerUrl != null) 'kantarServerUrl': kantarServerUrl,
       if (logDestination != null) 'logDestination': logDestination,
@@ -27935,7 +27953,7 @@ class CmafGroupSettings {
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
           ?.let(CmafManifestDurationFormat.fromString),
       minBufferTime: json['minBufferTime'] as int?,
-      minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
+      minFinalSegmentLength: _s.parseJsonDouble(json['minFinalSegmentLength']),
       mpdManifestBandwidthType: (json['mpdManifestBandwidthType'] as String?)
           ?.let(CmafMpdManifestBandwidthType.fromString),
       mpdProfile:
@@ -28026,7 +28044,7 @@ class CmafGroupSettings {
         'manifestDurationFormat': manifestDurationFormat.value,
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
-        'minFinalSegmentLength': minFinalSegmentLength,
+        'minFinalSegmentLength': _s.encodeJsonDouble(minFinalSegmentLength),
       if (mpdManifestBandwidthType != null)
         'mpdManifestBandwidthType': mpdManifestBandwidthType.value,
       if (mpdProfile != null) 'mpdProfile': mpdProfile.value,
@@ -28313,7 +28331,7 @@ class DashIsoGroupSettings {
                   e as Map<String, dynamic>))
               .toList(),
       minBufferTime: json['minBufferTime'] as int?,
-      minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
+      minFinalSegmentLength: _s.parseJsonDouble(json['minFinalSegmentLength']),
       mpdManifestBandwidthType: (json['mpdManifestBandwidthType'] as String?)
           ?.let(DashIsoMpdManifestBandwidthType.fromString),
       mpdProfile:
@@ -28384,7 +28402,7 @@ class DashIsoGroupSettings {
         'imageBasedTrickPlayVariants': imageBasedTrickPlayVariants,
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
-        'minFinalSegmentLength': minFinalSegmentLength,
+        'minFinalSegmentLength': _s.encodeJsonDouble(minFinalSegmentLength),
       if (mpdManifestBandwidthType != null)
         'mpdManifestBandwidthType': mpdManifestBandwidthType.value,
       if (mpdProfile != null) 'mpdProfile': mpdProfile.value,
@@ -28752,7 +28770,7 @@ class HlsGroupSettings {
           ?.let(HlsManifestCompression.fromString),
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
           ?.let(HlsManifestDurationFormat.fromString),
-      minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
+      minFinalSegmentLength: _s.parseJsonDouble(json['minFinalSegmentLength']),
       minSegmentLength: json['minSegmentLength'] as int?,
       outputSelection: (json['outputSelection'] as String?)
           ?.let(HlsOutputSelection.fromString),
@@ -28848,7 +28866,7 @@ class HlsGroupSettings {
       if (manifestDurationFormat != null)
         'manifestDurationFormat': manifestDurationFormat.value,
       if (minFinalSegmentLength != null)
-        'minFinalSegmentLength': minFinalSegmentLength,
+        'minFinalSegmentLength': _s.encodeJsonDouble(minFinalSegmentLength),
       if (minSegmentLength != null) 'minSegmentLength': minSegmentLength,
       if (outputSelection != null) 'outputSelection': outputSelection.value,
       if (programDateTime != null) 'programDateTime': programDateTime.value,
@@ -30103,7 +30121,7 @@ class HlsImageBasedTrickPlaySettings {
       intervalCadence: (json['intervalCadence'] as String?)
           ?.let(HlsIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
-      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailInterval: _s.parseJsonDouble(json['thumbnailInterval']),
       thumbnailWidth: json['thumbnailWidth'] as int?,
       tileHeight: json['tileHeight'] as int?,
       tileWidth: json['tileWidth'] as int?,
@@ -30120,7 +30138,8 @@ class HlsImageBasedTrickPlaySettings {
     return {
       if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
-      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailInterval != null)
+        'thumbnailInterval': _s.encodeJsonDouble(thumbnailInterval),
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
       if (tileHeight != null) 'tileHeight': tileHeight,
       if (tileWidth != null) 'tileWidth': tileWidth,
@@ -30510,7 +30529,7 @@ class HlsImageBasedTrickPlayVariant {
       intervalCadence: (json['intervalCadence'] as String?)
           ?.let(HlsIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
-      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailInterval: _s.parseJsonDouble(json['thumbnailInterval']),
       thumbnailWidth: json['thumbnailWidth'] as int?,
       tileHeight: json['tileHeight'] as int?,
       tileWidth: json['tileWidth'] as int?,
@@ -30527,7 +30546,8 @@ class HlsImageBasedTrickPlayVariant {
     return {
       if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
-      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailInterval != null)
+        'thumbnailInterval': _s.encodeJsonDouble(thumbnailInterval),
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
       if (tileHeight != null) 'tileHeight': tileHeight,
       if (tileWidth != null) 'tileWidth': tileWidth,
@@ -31119,7 +31139,7 @@ class DashIsoImageBasedTrickPlaySettings {
       intervalCadence: (json['intervalCadence'] as String?)
           ?.let(DashIsoIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
-      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailInterval: _s.parseJsonDouble(json['thumbnailInterval']),
       thumbnailWidth: json['thumbnailWidth'] as int?,
       tileHeight: json['tileHeight'] as int?,
       tileWidth: json['tileWidth'] as int?,
@@ -31136,7 +31156,8 @@ class DashIsoImageBasedTrickPlaySettings {
     return {
       if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
-      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailInterval != null)
+        'thumbnailInterval': _s.encodeJsonDouble(thumbnailInterval),
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
       if (tileHeight != null) 'tileHeight': tileHeight,
       if (tileWidth != null) 'tileWidth': tileWidth,
@@ -31446,7 +31467,7 @@ class DashIsoImageBasedTrickPlayVariant {
       intervalCadence: (json['intervalCadence'] as String?)
           ?.let(DashIsoIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
-      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailInterval: _s.parseJsonDouble(json['thumbnailInterval']),
       thumbnailWidth: json['thumbnailWidth'] as int?,
       tileHeight: json['tileHeight'] as int?,
       tileWidth: json['tileWidth'] as int?,
@@ -31463,7 +31484,8 @@ class DashIsoImageBasedTrickPlayVariant {
     return {
       if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
-      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailInterval != null)
+        'thumbnailInterval': _s.encodeJsonDouble(thumbnailInterval),
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
       if (tileHeight != null) 'tileHeight': tileHeight,
       if (tileWidth != null) 'tileWidth': tileWidth,
@@ -31850,7 +31872,7 @@ class CmafImageBasedTrickPlaySettings {
       intervalCadence: (json['intervalCadence'] as String?)
           ?.let(CmafIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
-      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailInterval: _s.parseJsonDouble(json['thumbnailInterval']),
       thumbnailWidth: json['thumbnailWidth'] as int?,
       tileHeight: json['tileHeight'] as int?,
       tileWidth: json['tileWidth'] as int?,
@@ -31867,7 +31889,8 @@ class CmafImageBasedTrickPlaySettings {
     return {
       if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
-      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailInterval != null)
+        'thumbnailInterval': _s.encodeJsonDouble(thumbnailInterval),
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
       if (tileHeight != null) 'tileHeight': tileHeight,
       if (tileWidth != null) 'tileWidth': tileWidth,
@@ -32354,7 +32377,7 @@ class CmafImageBasedTrickPlayVariant {
       intervalCadence: (json['intervalCadence'] as String?)
           ?.let(CmafIntervalCadence.fromString),
       thumbnailHeight: json['thumbnailHeight'] as int?,
-      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailInterval: _s.parseJsonDouble(json['thumbnailInterval']),
       thumbnailWidth: json['thumbnailWidth'] as int?,
       tileHeight: json['tileHeight'] as int?,
       tileWidth: json['tileWidth'] as int?,
@@ -32371,7 +32394,8 @@ class CmafImageBasedTrickPlayVariant {
     return {
       if (intervalCadence != null) 'intervalCadence': intervalCadence.value,
       if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
-      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailInterval != null)
+        'thumbnailInterval': _s.encodeJsonDouble(thumbnailInterval),
       if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
       if (tileHeight != null) 'tileHeight': tileHeight,
       if (tileWidth != null) 'tileWidth': tileWidth,
@@ -32697,7 +32721,7 @@ class AutomatedAbrSettings {
   factory AutomatedAbrSettings.fromJson(Map<String, dynamic> json) {
     return AutomatedAbrSettings(
       maxAbrBitrate: json['maxAbrBitrate'] as int?,
-      maxQualityLevel: json['maxQualityLevel'] as double?,
+      maxQualityLevel: _s.parseJsonDouble(json['maxQualityLevel']),
       maxRenditions: json['maxRenditions'] as int?,
       minAbrBitrate: json['minAbrBitrate'] as int?,
       rules: (json['rules'] as List?)
@@ -32715,7 +32739,8 @@ class AutomatedAbrSettings {
     final rules = this.rules;
     return {
       if (maxAbrBitrate != null) 'maxAbrBitrate': maxAbrBitrate,
-      if (maxQualityLevel != null) 'maxQualityLevel': maxQualityLevel,
+      if (maxQualityLevel != null)
+        'maxQualityLevel': _s.encodeJsonDouble(maxQualityLevel),
       if (maxRenditions != null) 'maxRenditions': maxRenditions,
       if (minAbrBitrate != null) 'minAbrBitrate': minAbrBitrate,
       if (rules != null) 'rules': rules,
@@ -38987,7 +39012,7 @@ class Container {
 
   factory Container.fromJson(Map<String, dynamic> json) {
     return Container(
-      duration: json['duration'] as double?,
+      duration: _s.parseJsonDouble(json['duration']),
       format: (json['format'] as String?)?.let(Format.fromString),
       startTimecode: json['startTimecode'] as String?,
       tracks: (json['tracks'] as List?)
@@ -39003,7 +39028,7 @@ class Container {
     final startTimecode = this.startTimecode;
     final tracks = this.tracks;
     return {
-      if (duration != null) 'duration': duration,
+      if (duration != null) 'duration': _s.encodeJsonDouble(duration),
       if (format != null) 'format': format.value,
       if (startTimecode != null) 'startTimecode': startTimecode,
       if (tracks != null) 'tracks': tracks,
@@ -39193,7 +39218,7 @@ class Track {
           ? DataProperties.fromJson(
               json['dataProperties'] as Map<String, dynamic>)
           : null,
-      duration: json['duration'] as double?,
+      duration: _s.parseJsonDouble(json['duration']),
       index: json['index'] as int?,
       trackType: (json['trackType'] as String?)?.let(TrackType.fromString),
       videoProperties: json['videoProperties'] != null
@@ -39215,7 +39240,7 @@ class Track {
       if (audioProperties != null) 'audioProperties': audioProperties,
       if (codec != null) 'codec': codec.value,
       if (dataProperties != null) 'dataProperties': dataProperties,
-      if (duration != null) 'duration': duration,
+      if (duration != null) 'duration': _s.encodeJsonDouble(duration),
       if (index != null) 'index': index,
       if (trackType != null) 'trackType': trackType.value,
       if (videoProperties != null) 'videoProperties': videoProperties,

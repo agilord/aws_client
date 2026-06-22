@@ -10269,7 +10269,8 @@ class SlotMigration {
   Map<String, dynamic> toJson() {
     final progressPercentage = this.progressPercentage;
     return {
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'ProgressPercentage': _s.encodeJsonDouble(progressPercentage),
     };
   }
 }
@@ -12004,7 +12005,7 @@ class ReservedCacheNode {
       if (cacheNodeCount != null) 'CacheNodeCount': cacheNodeCount,
       if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (offeringType != null) 'OfferingType': offeringType,
       if (productDescription != null) 'ProductDescription': productDescription,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
@@ -12015,7 +12016,7 @@ class ReservedCacheNode {
         'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
       if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -12049,7 +12050,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -14816,13 +14817,13 @@ class ReservedCacheNodesOffering {
     return {
       if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (offeringType != null) 'OfferingType': offeringType,
       if (productDescription != null) 'ProductDescription': productDescription,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservedCacheNodesOfferingId != null)
         'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }

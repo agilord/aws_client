@@ -33871,7 +33871,7 @@ class NumericEqualityFilter {
       parameterName: json['ParameterName'] as String?,
       selectAllOptions: (json['SelectAllOptions'] as String?)
           ?.let(NumericFilterSelectAllOptions.fromString),
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -33897,7 +33897,7 @@ class NumericEqualityFilter {
         'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (parameterName != null) 'ParameterName': parameterName,
       if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions.value,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -35044,9 +35044,9 @@ class DefaultSliderControlOptions {
 
   factory DefaultSliderControlOptions.fromJson(Map<String, dynamic> json) {
     return DefaultSliderControlOptions(
-      maximumValue: (json['MaximumValue'] as double?) ?? 0,
-      minimumValue: (json['MinimumValue'] as double?) ?? 0,
-      stepSize: (json['StepSize'] as double?) ?? 0,
+      maximumValue: _s.parseJsonDouble(json['MaximumValue']) ?? 0,
+      minimumValue: _s.parseJsonDouble(json['MinimumValue']) ?? 0,
+      stepSize: _s.parseJsonDouble(json['StepSize']) ?? 0,
       displayOptions: json['DisplayOptions'] != null
           ? SliderControlDisplayOptions.fromJson(
               json['DisplayOptions'] as Map<String, dynamic>)
@@ -35062,9 +35062,9 @@ class DefaultSliderControlOptions {
     final displayOptions = this.displayOptions;
     final type = this.type;
     return {
-      'MaximumValue': maximumValue,
-      'MinimumValue': minimumValue,
-      'StepSize': stepSize,
+      'MaximumValue': _s.encodeJsonDouble(maximumValue),
+      'MinimumValue': _s.encodeJsonDouble(minimumValue),
+      'StepSize': _s.encodeJsonDouble(stepSize),
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (type != null) 'Type': type.value,
     };
@@ -36058,14 +36058,15 @@ class PercentileAggregation {
 
   factory PercentileAggregation.fromJson(Map<String, dynamic> json) {
     return PercentileAggregation(
-      percentileValue: json['PercentileValue'] as double?,
+      percentileValue: _s.parseJsonDouble(json['PercentileValue']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final percentileValue = this.percentileValue;
     return {
-      if (percentileValue != null) 'PercentileValue': percentileValue,
+      if (percentileValue != null)
+        'PercentileValue': _s.encodeJsonDouble(percentileValue),
     };
   }
 }
@@ -36939,7 +36940,7 @@ class NumericRangeFilterValue {
   factory NumericRangeFilterValue.fromJson(Map<String, dynamic> json) {
     return NumericRangeFilterValue(
       parameter: json['Parameter'] as String?,
-      staticValue: json['StaticValue'] as double?,
+      staticValue: _s.parseJsonDouble(json['StaticValue']),
     );
   }
 
@@ -36948,7 +36949,7 @@ class NumericRangeFilterValue {
     final staticValue = this.staticValue;
     return {
       if (parameter != null) 'Parameter': parameter,
-      if (staticValue != null) 'StaticValue': staticValue,
+      if (staticValue != null) 'StaticValue': _s.encodeJsonDouble(staticValue),
     };
   }
 }
@@ -37624,7 +37625,7 @@ class DecimalDefaultValues {
           : null,
       staticValues: (json['StaticValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -37634,7 +37635,8 @@ class DecimalDefaultValues {
     final staticValues = this.staticValues;
     return {
       if (dynamicValue != null) 'DynamicValue': dynamicValue,
-      if (staticValues != null) 'StaticValues': staticValues,
+      if (staticValues != null)
+        'StaticValues': staticValues.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -37668,7 +37670,7 @@ class DecimalValueWhenUnsetConfiguration {
   factory DecimalValueWhenUnsetConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DecimalValueWhenUnsetConfiguration(
-      customValue: json['CustomValue'] as double?,
+      customValue: _s.parseJsonDouble(json['CustomValue']),
       valueWhenUnsetOption: (json['ValueWhenUnsetOption'] as String?)
           ?.let(ValueWhenUnsetOption.fromString),
     );
@@ -37678,7 +37680,7 @@ class DecimalValueWhenUnsetConfiguration {
     final customValue = this.customValue;
     final valueWhenUnsetOption = this.valueWhenUnsetOption;
     return {
-      if (customValue != null) 'CustomValue': customValue,
+      if (customValue != null) 'CustomValue': _s.encodeJsonDouble(customValue),
       if (valueWhenUnsetOption != null)
         'ValueWhenUnsetOption': valueWhenUnsetOption.value,
     };
@@ -40002,7 +40004,7 @@ class CustomParameterValues {
           .toList(),
       decimalValues: (json['DecimalValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       integerValues: (json['IntegerValues'] as List?)
           ?.nonNulls
@@ -40023,7 +40025,8 @@ class CustomParameterValues {
     return {
       if (dateTimeValues != null)
         'DateTimeValues': dateTimeValues.map(unixTimestampToJson).toList(),
-      if (decimalValues != null) 'DecimalValues': decimalValues,
+      if (decimalValues != null)
+        'DecimalValues': decimalValues.map(_s.encodeJsonDouble).toList(),
       if (integerValues != null) 'IntegerValues': integerValues,
       if (stringValues != null) 'StringValues': stringValues,
     };
@@ -44463,7 +44466,7 @@ class RadarChartConfiguration {
           ? RadarChartSortConfiguration.fromJson(
               json['SortConfiguration'] as Map<String, dynamic>)
           : null,
-      startAngle: json['StartAngle'] as double?,
+      startAngle: _s.parseJsonDouble(json['StartAngle']),
       visualPalette: json['VisualPalette'] != null
           ? VisualPalette.fromJson(
               json['VisualPalette'] as Map<String, dynamic>)
@@ -44507,7 +44510,7 @@ class RadarChartConfiguration {
       if (legend != null) 'Legend': legend,
       if (shape != null) 'Shape': shape.value,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
-      if (startAngle != null) 'StartAngle': startAngle,
+      if (startAngle != null) 'StartAngle': _s.encodeJsonDouble(startAngle),
       if (visualPalette != null) 'VisualPalette': visualPalette,
     };
   }
@@ -44772,7 +44775,7 @@ class NumericEqualityDrillDownFilter {
       column: ColumnIdentifier.fromJson(
           (json['Column'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -44781,7 +44784,7 @@ class NumericEqualityDrillDownFilter {
     final value = this.value;
     return {
       'Column': column,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -45507,7 +45510,7 @@ class AxisTickLabelOptions {
       labelOptions: json['LabelOptions'] != null
           ? LabelOptions.fromJson(json['LabelOptions'] as Map<String, dynamic>)
           : null,
-      rotationAngle: json['RotationAngle'] as double?,
+      rotationAngle: _s.parseJsonDouble(json['RotationAngle']),
     );
   }
 
@@ -45516,7 +45519,8 @@ class AxisTickLabelOptions {
     final rotationAngle = this.rotationAngle;
     return {
       if (labelOptions != null) 'LabelOptions': labelOptions,
-      if (rotationAngle != null) 'RotationAngle': rotationAngle,
+      if (rotationAngle != null)
+        'RotationAngle': _s.encodeJsonDouble(rotationAngle),
     };
   }
 }
@@ -45642,8 +45646,8 @@ class PercentVisibleRange {
 
   factory PercentVisibleRange.fromJson(Map<String, dynamic> json) {
     return PercentVisibleRange(
-      from: json['From'] as double?,
-      to: json['To'] as double?,
+      from: _s.parseJsonDouble(json['From']),
+      to: _s.parseJsonDouble(json['To']),
     );
   }
 
@@ -45651,8 +45655,8 @@ class PercentVisibleRange {
     final from = this.from;
     final to = this.to;
     return {
-      if (from != null) 'From': from,
-      if (to != null) 'To': to,
+      if (from != null) 'From': _s.encodeJsonDouble(from),
+      if (to != null) 'To': _s.encodeJsonDouble(to),
     };
   }
 }
@@ -45818,8 +45822,8 @@ class AxisDisplayMinMaxRange {
 
   factory AxisDisplayMinMaxRange.fromJson(Map<String, dynamic> json) {
     return AxisDisplayMinMaxRange(
-      maximum: json['Maximum'] as double?,
-      minimum: json['Minimum'] as double?,
+      maximum: _s.parseJsonDouble(json['Maximum']),
+      minimum: _s.parseJsonDouble(json['Minimum']),
     );
   }
 
@@ -45827,8 +45831,8 @@ class AxisDisplayMinMaxRange {
     final maximum = this.maximum;
     final minimum = this.minimum;
     return {
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
     };
   }
 }
@@ -45869,7 +45873,7 @@ class AxisLinearScale {
   factory AxisLinearScale.fromJson(Map<String, dynamic> json) {
     return AxisLinearScale(
       stepCount: json['StepCount'] as int?,
-      stepSize: json['StepSize'] as double?,
+      stepSize: _s.parseJsonDouble(json['StepSize']),
     );
   }
 
@@ -45878,7 +45882,7 @@ class AxisLinearScale {
     final stepSize = this.stepSize;
     return {
       if (stepCount != null) 'StepCount': stepCount,
-      if (stepSize != null) 'StepSize': stepSize,
+      if (stepSize != null) 'StepSize': _s.encodeJsonDouble(stepSize),
     };
   }
 }
@@ -45896,14 +45900,14 @@ class AxisLogarithmicScale {
 
   factory AxisLogarithmicScale.fromJson(Map<String, dynamic> json) {
     return AxisLogarithmicScale(
-      base: json['Base'] as double?,
+      base: _s.parseJsonDouble(json['Base']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final base = this.base;
     return {
-      if (base != null) 'Base': base,
+      if (base != null) 'Base': _s.encodeJsonDouble(base),
     };
   }
 }
@@ -47730,7 +47734,7 @@ class ForecastComputation {
     return ForecastComputation(
       computationId: (json['ComputationId'] as String?) ?? '',
       customSeasonalityValue: json['CustomSeasonalityValue'] as int?,
-      lowerBoundary: json['LowerBoundary'] as double?,
+      lowerBoundary: _s.parseJsonDouble(json['LowerBoundary']),
       name: json['Name'] as String?,
       periodsBackward: json['PeriodsBackward'] as int?,
       periodsForward: json['PeriodsForward'] as int?,
@@ -47740,7 +47744,7 @@ class ForecastComputation {
       time: json['Time'] != null
           ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
           : null,
-      upperBoundary: json['UpperBoundary'] as double?,
+      upperBoundary: _s.parseJsonDouble(json['UpperBoundary']),
       value: json['Value'] != null
           ? MeasureField.fromJson(json['Value'] as Map<String, dynamic>)
           : null,
@@ -47763,14 +47767,16 @@ class ForecastComputation {
       'ComputationId': computationId,
       if (customSeasonalityValue != null)
         'CustomSeasonalityValue': customSeasonalityValue,
-      if (lowerBoundary != null) 'LowerBoundary': lowerBoundary,
+      if (lowerBoundary != null)
+        'LowerBoundary': _s.encodeJsonDouble(lowerBoundary),
       if (name != null) 'Name': name,
       if (periodsBackward != null) 'PeriodsBackward': periodsBackward,
       if (periodsForward != null) 'PeriodsForward': periodsForward,
       if (predictionInterval != null) 'PredictionInterval': predictionInterval,
       if (seasonality != null) 'Seasonality': seasonality.value,
       if (time != null) 'Time': time,
-      if (upperBoundary != null) 'UpperBoundary': upperBoundary,
+      if (upperBoundary != null)
+        'UpperBoundary': _s.encodeJsonDouble(upperBoundary),
       if (value != null) 'Value': value,
     };
   }
@@ -48435,7 +48441,7 @@ class HistogramBinOptions {
           : null,
       selectedBinType: (json['SelectedBinType'] as String?)
           ?.let(HistogramBinType.fromString),
-      startValue: json['StartValue'] as double?,
+      startValue: _s.parseJsonDouble(json['StartValue']),
     );
   }
 
@@ -48448,7 +48454,7 @@ class HistogramBinOptions {
       if (binCount != null) 'BinCount': binCount,
       if (binWidth != null) 'BinWidth': binWidth,
       if (selectedBinType != null) 'SelectedBinType': selectedBinType.value,
-      if (startValue != null) 'StartValue': startValue,
+      if (startValue != null) 'StartValue': _s.encodeJsonDouble(startValue),
     };
   }
 }
@@ -48888,7 +48894,7 @@ class BinWidthOptions {
   factory BinWidthOptions.fromJson(Map<String, dynamic> json) {
     return BinWidthOptions(
       binCountLimit: json['BinCountLimit'] as int?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -48897,7 +48903,7 @@ class BinWidthOptions {
     final value = this.value;
     return {
       if (binCountLimit != null) 'BinCountLimit': binCountLimit,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -50023,14 +50029,14 @@ class ReferenceLineStaticDataConfiguration {
   factory ReferenceLineStaticDataConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ReferenceLineStaticDataConfiguration(
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final value = this.value;
     return {
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -52148,10 +52154,10 @@ class GeospatialCoordinateBounds {
 
   factory GeospatialCoordinateBounds.fromJson(Map<String, dynamic> json) {
     return GeospatialCoordinateBounds(
-      east: (json['East'] as double?) ?? 0,
-      north: (json['North'] as double?) ?? 0,
-      south: (json['South'] as double?) ?? 0,
-      west: (json['West'] as double?) ?? 0,
+      east: _s.parseJsonDouble(json['East']) ?? 0,
+      north: _s.parseJsonDouble(json['North']) ?? 0,
+      south: _s.parseJsonDouble(json['South']) ?? 0,
+      west: _s.parseJsonDouble(json['West']) ?? 0,
     );
   }
 
@@ -52161,10 +52167,10 @@ class GeospatialCoordinateBounds {
     final south = this.south;
     final west = this.west;
     return {
-      'East': east,
-      'North': north,
-      'South': south,
-      'West': west,
+      'East': _s.encodeJsonDouble(east),
+      'North': _s.encodeJsonDouble(north),
+      'South': _s.encodeJsonDouble(south),
+      'West': _s.encodeJsonDouble(west),
     };
   }
 }
@@ -52847,14 +52853,14 @@ class GeospatialLineWidth {
 
   factory GeospatialLineWidth.fromJson(Map<String, dynamic> json) {
     return GeospatialLineWidth(
-      lineWidth: json['LineWidth'] as double?,
+      lineWidth: _s.parseJsonDouble(json['LineWidth']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final lineWidth = this.lineWidth;
     return {
-      if (lineWidth != null) 'LineWidth': lineWidth,
+      if (lineWidth != null) 'LineWidth': _s.encodeJsonDouble(lineWidth),
     };
   }
 }
@@ -52921,7 +52927,7 @@ class GeospatialGradientColor {
           .map((e) =>
               GeospatialGradientStepColor.fromJson(e as Map<String, dynamic>))
           .toList(),
-      defaultOpacity: json['DefaultOpacity'] as double?,
+      defaultOpacity: _s.parseJsonDouble(json['DefaultOpacity']),
       nullDataSettings: json['NullDataSettings'] != null
           ? GeospatialNullDataSettings.fromJson(
               json['NullDataSettings'] as Map<String, dynamic>)
@@ -52938,7 +52944,8 @@ class GeospatialGradientColor {
     final nullDataVisibility = this.nullDataVisibility;
     return {
       'StepColors': stepColors,
-      if (defaultOpacity != null) 'DefaultOpacity': defaultOpacity,
+      if (defaultOpacity != null)
+        'DefaultOpacity': _s.encodeJsonDouble(defaultOpacity),
       if (nullDataSettings != null) 'NullDataSettings': nullDataSettings,
       if (nullDataVisibility != null)
         'NullDataVisibility': nullDataVisibility.value,
@@ -52976,7 +52983,7 @@ class GeospatialCategoricalColor {
           .map((e) => GeospatialCategoricalDataColor.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      defaultOpacity: json['DefaultOpacity'] as double?,
+      defaultOpacity: _s.parseJsonDouble(json['DefaultOpacity']),
       nullDataSettings: json['NullDataSettings'] != null
           ? GeospatialNullDataSettings.fromJson(
               json['NullDataSettings'] as Map<String, dynamic>)
@@ -52993,7 +53000,8 @@ class GeospatialCategoricalColor {
     final nullDataVisibility = this.nullDataVisibility;
     return {
       'CategoryDataColors': categoryDataColors,
-      if (defaultOpacity != null) 'DefaultOpacity': defaultOpacity,
+      if (defaultOpacity != null)
+        'DefaultOpacity': _s.encodeJsonDouble(defaultOpacity),
       if (nullDataSettings != null) 'NullDataSettings': nullDataSettings,
       if (nullDataVisibility != null)
         'NullDataVisibility': nullDataVisibility.value,
@@ -53051,7 +53059,7 @@ class GeospatialNullSymbolStyle {
     return GeospatialNullSymbolStyle(
       fillColor: json['FillColor'] as String?,
       strokeColor: json['StrokeColor'] as String?,
-      strokeWidth: json['StrokeWidth'] as double?,
+      strokeWidth: _s.parseJsonDouble(json['StrokeWidth']),
     );
   }
 
@@ -53062,7 +53070,7 @@ class GeospatialNullSymbolStyle {
     return {
       if (fillColor != null) 'FillColor': fillColor,
       if (strokeColor != null) 'StrokeColor': strokeColor,
-      if (strokeWidth != null) 'StrokeWidth': strokeWidth,
+      if (strokeWidth != null) 'StrokeWidth': _s.encodeJsonDouble(strokeWidth),
     };
   }
 }
@@ -53117,7 +53125,7 @@ class GeospatialGradientStepColor {
   factory GeospatialGradientStepColor.fromJson(Map<String, dynamic> json) {
     return GeospatialGradientStepColor(
       color: (json['Color'] as String?) ?? '',
-      dataValue: (json['DataValue'] as double?) ?? 0,
+      dataValue: _s.parseJsonDouble(json['DataValue']) ?? 0,
     );
   }
 
@@ -53126,7 +53134,7 @@ class GeospatialGradientStepColor {
     final dataValue = this.dataValue;
     return {
       'Color': color,
-      'DataValue': dataValue,
+      'DataValue': _s.encodeJsonDouble(dataValue),
     };
   }
 }
@@ -53320,14 +53328,14 @@ class GeospatialCircleRadius {
 
   factory GeospatialCircleRadius.fromJson(Map<String, dynamic> json) {
     return GeospatialCircleRadius(
-      radius: json['Radius'] as double?,
+      radius: _s.parseJsonDouble(json['Radius']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final radius = this.radius;
     return {
-      if (radius != null) 'Radius': radius,
+      if (radius != null) 'Radius': _s.encodeJsonDouble(radius),
     };
   }
 }
@@ -53616,8 +53624,8 @@ class Coordinate {
 
   factory Coordinate.fromJson(Map<String, dynamic> json) {
     return Coordinate(
-      latitude: (json['Latitude'] as double?) ?? 0,
-      longitude: (json['Longitude'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['Latitude']) ?? 0,
+      longitude: _s.parseJsonDouble(json['Longitude']) ?? 0,
     );
   }
 
@@ -53625,8 +53633,8 @@ class Coordinate {
     final latitude = this.latitude;
     final longitude = this.longitude;
     return {
-      'Latitude': latitude,
-      'Longitude': longitude,
+      'Latitude': _s.encodeJsonDouble(latitude),
+      'Longitude': _s.encodeJsonDouble(longitude),
     };
   }
 }
@@ -53878,9 +53886,9 @@ class GradientStop {
 
   factory GradientStop.fromJson(Map<String, dynamic> json) {
     return GradientStop(
-      gradientOffset: (json['GradientOffset'] as double?) ?? 0,
+      gradientOffset: _s.parseJsonDouble(json['GradientOffset']) ?? 0,
       color: json['Color'] as String?,
-      dataValue: json['DataValue'] as double?,
+      dataValue: _s.parseJsonDouble(json['DataValue']),
     );
   }
 
@@ -53889,9 +53897,9 @@ class GradientStop {
     final color = this.color;
     final dataValue = this.dataValue;
     return {
-      'GradientOffset': gradientOffset,
+      'GradientOffset': _s.encodeJsonDouble(gradientOffset),
       if (color != null) 'Color': color,
-      if (dataValue != null) 'DataValue': dataValue,
+      if (dataValue != null) 'DataValue': _s.encodeJsonDouble(dataValue),
     };
   }
 }
@@ -54785,7 +54793,7 @@ class DataColor {
   factory DataColor.fromJson(Map<String, dynamic> json) {
     return DataColor(
       color: json['Color'] as String?,
-      dataValue: json['DataValue'] as double?,
+      dataValue: _s.parseJsonDouble(json['DataValue']),
     );
   }
 
@@ -54794,7 +54802,7 @@ class DataColor {
     final dataValue = this.dataValue;
     return {
       if (color != null) 'Color': color,
-      if (dataValue != null) 'DataValue': dataValue,
+      if (dataValue != null) 'DataValue': _s.encodeJsonDouble(dataValue),
     };
   }
 }
@@ -56283,12 +56291,12 @@ class TimeBasedForecastProperties {
 
   factory TimeBasedForecastProperties.fromJson(Map<String, dynamic> json) {
     return TimeBasedForecastProperties(
-      lowerBoundary: json['LowerBoundary'] as double?,
+      lowerBoundary: _s.parseJsonDouble(json['LowerBoundary']),
       periodsBackward: json['PeriodsBackward'] as int?,
       periodsForward: json['PeriodsForward'] as int?,
       predictionInterval: json['PredictionInterval'] as int?,
       seasonality: json['Seasonality'] as int?,
-      upperBoundary: json['UpperBoundary'] as double?,
+      upperBoundary: _s.parseJsonDouble(json['UpperBoundary']),
     );
   }
 
@@ -56300,12 +56308,14 @@ class TimeBasedForecastProperties {
     final seasonality = this.seasonality;
     final upperBoundary = this.upperBoundary;
     return {
-      if (lowerBoundary != null) 'LowerBoundary': lowerBoundary,
+      if (lowerBoundary != null)
+        'LowerBoundary': _s.encodeJsonDouble(lowerBoundary),
       if (periodsBackward != null) 'PeriodsBackward': periodsBackward,
       if (periodsForward != null) 'PeriodsForward': periodsForward,
       if (predictionInterval != null) 'PredictionInterval': predictionInterval,
       if (seasonality != null) 'Seasonality': seasonality,
-      if (upperBoundary != null) 'UpperBoundary': upperBoundary,
+      if (upperBoundary != null)
+        'UpperBoundary': _s.encodeJsonDouble(upperBoundary),
     };
   }
 }
@@ -56368,7 +56378,7 @@ class WhatIfPointScenario {
   factory WhatIfPointScenario.fromJson(Map<String, dynamic> json) {
     return WhatIfPointScenario(
       date: nonNullableTimeStampFromJson(json['Date'] ?? 0),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -56377,7 +56387,7 @@ class WhatIfPointScenario {
     final value = this.value;
     return {
       'Date': unixTimestampToJson(date),
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -56405,7 +56415,7 @@ class WhatIfRangeScenario {
     return WhatIfRangeScenario(
       endDate: nonNullableTimeStampFromJson(json['EndDate'] ?? 0),
       startDate: nonNullableTimeStampFromJson(json['StartDate'] ?? 0),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -56416,7 +56426,7 @@ class WhatIfRangeScenario {
     return {
       'EndDate': unixTimestampToJson(endDate),
       'StartDate': unixTimestampToJson(startDate),
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -57318,7 +57328,7 @@ class ArcConfiguration {
 
   factory ArcConfiguration.fromJson(Map<String, dynamic> json) {
     return ArcConfiguration(
-      arcAngle: json['ArcAngle'] as double?,
+      arcAngle: _s.parseJsonDouble(json['ArcAngle']),
       arcThickness: (json['ArcThickness'] as String?)
           ?.let(ArcThicknessOptions.fromString),
     );
@@ -57328,7 +57338,7 @@ class ArcConfiguration {
     final arcAngle = this.arcAngle;
     final arcThickness = this.arcThickness;
     return {
-      if (arcAngle != null) 'ArcAngle': arcAngle,
+      if (arcAngle != null) 'ArcAngle': _s.encodeJsonDouble(arcAngle),
       if (arcThickness != null) 'ArcThickness': arcThickness.value,
     };
   }
@@ -57378,8 +57388,8 @@ class ArcAxisDisplayRange {
 
   factory ArcAxisDisplayRange.fromJson(Map<String, dynamic> json) {
     return ArcAxisDisplayRange(
-      max: json['Max'] as double?,
-      min: json['Min'] as double?,
+      max: _s.parseJsonDouble(json['Max']),
+      min: _s.parseJsonDouble(json['Min']),
     );
   }
 
@@ -57387,8 +57397,8 @@ class ArcAxisDisplayRange {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -63432,10 +63442,10 @@ class FilterSliderControl {
   factory FilterSliderControl.fromJson(Map<String, dynamic> json) {
     return FilterSliderControl(
       filterControlId: (json['FilterControlId'] as String?) ?? '',
-      maximumValue: (json['MaximumValue'] as double?) ?? 0,
-      minimumValue: (json['MinimumValue'] as double?) ?? 0,
+      maximumValue: _s.parseJsonDouble(json['MaximumValue']) ?? 0,
+      minimumValue: _s.parseJsonDouble(json['MinimumValue']) ?? 0,
       sourceFilterId: (json['SourceFilterId'] as String?) ?? '',
-      stepSize: (json['StepSize'] as double?) ?? 0,
+      stepSize: _s.parseJsonDouble(json['StepSize']) ?? 0,
       controlTitleFormatText: json['ControlTitleFormatText'] != null
           ? ControlTitleFormatText.fromJson(
               json['ControlTitleFormatText'] as Map<String, dynamic>)
@@ -63461,10 +63471,10 @@ class FilterSliderControl {
     final type = this.type;
     return {
       'FilterControlId': filterControlId,
-      'MaximumValue': maximumValue,
-      'MinimumValue': minimumValue,
+      'MaximumValue': _s.encodeJsonDouble(maximumValue),
+      'MinimumValue': _s.encodeJsonDouble(minimumValue),
       'SourceFilterId': sourceFilterId,
-      'StepSize': stepSize,
+      'StepSize': _s.encodeJsonDouble(stepSize),
       if (controlTitleFormatText != null)
         'ControlTitleFormatText': controlTitleFormatText,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
@@ -64186,11 +64196,11 @@ class ParameterSliderControl {
 
   factory ParameterSliderControl.fromJson(Map<String, dynamic> json) {
     return ParameterSliderControl(
-      maximumValue: (json['MaximumValue'] as double?) ?? 0,
-      minimumValue: (json['MinimumValue'] as double?) ?? 0,
+      maximumValue: _s.parseJsonDouble(json['MaximumValue']) ?? 0,
+      minimumValue: _s.parseJsonDouble(json['MinimumValue']) ?? 0,
       parameterControlId: (json['ParameterControlId'] as String?) ?? '',
       sourceParameterName: (json['SourceParameterName'] as String?) ?? '',
-      stepSize: (json['StepSize'] as double?) ?? 0,
+      stepSize: _s.parseJsonDouble(json['StepSize']) ?? 0,
       controlTitleFormatText: json['ControlTitleFormatText'] != null
           ? ControlTitleFormatText.fromJson(
               json['ControlTitleFormatText'] as Map<String, dynamic>)
@@ -64213,11 +64223,11 @@ class ParameterSliderControl {
     final displayOptions = this.displayOptions;
     final title = this.title;
     return {
-      'MaximumValue': maximumValue,
-      'MinimumValue': minimumValue,
+      'MaximumValue': _s.encodeJsonDouble(maximumValue),
+      'MinimumValue': _s.encodeJsonDouble(minimumValue),
       'ParameterControlId': parameterControlId,
       'SourceParameterName': sourceParameterName,
-      'StepSize': stepSize,
+      'StepSize': _s.encodeJsonDouble(stepSize),
       if (controlTitleFormatText != null)
         'ControlTitleFormatText': controlTitleFormatText,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
@@ -70622,14 +70632,14 @@ class DataSetNumericFilterValue {
 
   factory DataSetNumericFilterValue.fromJson(Map<String, dynamic> json) {
     return DataSetNumericFilterValue(
-      staticValue: json['StaticValue'] as double?,
+      staticValue: _s.parseJsonDouble(json['StaticValue']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final staticValue = this.staticValue;
     return {
-      if (staticValue != null) 'StaticValue': staticValue,
+      if (staticValue != null) 'StaticValue': _s.encodeJsonDouble(staticValue),
     };
   }
 }
@@ -71485,7 +71495,7 @@ class DecimalDatasetParameterDefaultValues {
     return DecimalDatasetParameterDefaultValues(
       staticValues: (json['StaticValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -71493,7 +71503,8 @@ class DecimalDatasetParameterDefaultValues {
   Map<String, dynamic> toJson() {
     final staticValues = this.staticValues;
     return {
-      if (staticValues != null) 'StaticValues': staticValues,
+      if (staticValues != null)
+        'StaticValues': staticValues.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -72296,7 +72307,7 @@ class NewDefaultValues {
           .toList(),
       decimalStaticValues: (json['DecimalStaticValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       integerStaticValues: (json['IntegerStaticValues'] as List?)
           ?.nonNulls
@@ -72319,7 +72330,8 @@ class NewDefaultValues {
         'DateTimeStaticValues':
             dateTimeStaticValues.map(unixTimestampToJson).toList(),
       if (decimalStaticValues != null)
-        'DecimalStaticValues': decimalStaticValues,
+        'DecimalStaticValues':
+            decimalStaticValues.map(_s.encodeJsonDouble).toList(),
       if (integerStaticValues != null)
         'IntegerStaticValues': integerStaticValues,
       if (stringStaticValues != null) 'StringStaticValues': stringStaticValues,
@@ -73775,7 +73787,7 @@ class DecimalParameter {
       name: (json['Name'] as String?) ?? '',
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -73785,7 +73797,7 @@ class DecimalParameter {
     final values = this.values;
     return {
       'Name': name,
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -89399,7 +89411,7 @@ class SpaceContributor {
   factory SpaceContributor.fromJson(Map<String, dynamic> json) {
     return SpaceContributor(
       rawFileSizeBytes: (json['rawFileSizeBytes'] as int?) ?? 0,
-      percentage: json['percentage'] as double?,
+      percentage: _s.parseJsonDouble(json['percentage']),
       userName: json['userName'] as String?,
     );
   }
@@ -89410,7 +89422,7 @@ class SpaceContributor {
     final userName = this.userName;
     return {
       'rawFileSizeBytes': rawFileSizeBytes,
-      if (percentage != null) 'percentage': percentage,
+      if (percentage != null) 'percentage': _s.encodeJsonDouble(percentage),
       if (userName != null) 'userName': userName,
     };
   }

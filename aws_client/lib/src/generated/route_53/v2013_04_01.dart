@@ -9912,7 +9912,7 @@ class CloudWatchAlarmConfiguration {
       'Namespace': namespace,
       'Period': period,
       'Statistic': statistic.value,
-      'Threshold': threshold,
+      'Threshold': _s.encodeJsonDouble(threshold),
       if (dimensions != null) 'Dimensions': dimensions,
     };
   }

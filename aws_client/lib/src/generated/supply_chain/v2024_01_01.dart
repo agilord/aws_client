@@ -2396,7 +2396,7 @@ class Instance {
       instanceName: json['instanceName'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
-      versionNumber: json['versionNumber'] as double?,
+      versionNumber: _s.parseJsonDouble(json['versionNumber']),
       webAppDnsDomain: json['webAppDnsDomain'] as String?,
     );
   }
@@ -2425,7 +2425,8 @@ class Instance {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedTime != null)
         'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (versionNumber != null) 'versionNumber': versionNumber,
+      if (versionNumber != null)
+        'versionNumber': _s.encodeJsonDouble(versionNumber),
       if (webAppDnsDomain != null) 'webAppDnsDomain': webAppDnsDomain,
     };
   }

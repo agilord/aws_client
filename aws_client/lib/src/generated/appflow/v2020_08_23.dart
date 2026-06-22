@@ -11223,8 +11223,8 @@ class Range {
 
   factory Range.fromJson(Map<String, dynamic> json) {
     return Range(
-      maximum: json['maximum'] as double?,
-      minimum: json['minimum'] as double?,
+      maximum: _s.parseJsonDouble(json['maximum']),
+      minimum: _s.parseJsonDouble(json['minimum']),
     );
   }
 
@@ -11232,8 +11232,8 @@ class Range {
     final maximum = this.maximum;
     final minimum = this.minimum;
     return {
-      if (maximum != null) 'maximum': maximum,
-      if (minimum != null) 'minimum': minimum,
+      if (maximum != null) 'maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'minimum': _s.encodeJsonDouble(minimum),
     };
   }
 }

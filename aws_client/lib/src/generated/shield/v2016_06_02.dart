@@ -3637,14 +3637,14 @@ class AttackVolumeStatistics {
 
   factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
     return AttackVolumeStatistics(
-      max: (json['Max'] as double?) ?? 0,
+      max: _s.parseJsonDouble(json['Max']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final max = this.max;
     return {
-      'Max': max,
+      'Max': _s.encodeJsonDouble(max),
     };
   }
 }
@@ -4003,11 +4003,11 @@ class SummarizedCounter {
 
   factory SummarizedCounter.fromJson(Map<String, dynamic> json) {
     return SummarizedCounter(
-      average: json['Average'] as double?,
-      max: json['Max'] as double?,
+      average: _s.parseJsonDouble(json['Average']),
+      max: _s.parseJsonDouble(json['Max']),
       n: json['N'] as int?,
       name: json['Name'] as String?,
-      sum: json['Sum'] as double?,
+      sum: _s.parseJsonDouble(json['Sum']),
       unit: json['Unit'] as String?,
     );
   }
@@ -4020,11 +4020,11 @@ class SummarizedCounter {
     final sum = this.sum;
     final unit = this.unit;
     return {
-      if (average != null) 'Average': average,
-      if (max != null) 'Max': max,
+      if (average != null) 'Average': _s.encodeJsonDouble(average),
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
       if (n != null) 'N': n,
       if (name != null) 'Name': name,
-      if (sum != null) 'Sum': sum,
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
       if (unit != null) 'Unit': unit,
     };
   }

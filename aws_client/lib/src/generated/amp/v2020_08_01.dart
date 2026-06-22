@@ -4275,8 +4275,8 @@ class IgnoreNearExpected {
 
   factory IgnoreNearExpected.fromJson(Map<String, dynamic> json) {
     return IgnoreNearExpected(
-      amount: json['amount'] as double?,
-      ratio: json['ratio'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
+      ratio: _s.parseJsonDouble(json['ratio']),
     );
   }
 
@@ -4284,8 +4284,8 @@ class IgnoreNearExpected {
     final amount = this.amount;
     final ratio = this.ratio;
     return {
-      if (amount != null) 'amount': amount,
-      if (ratio != null) 'ratio': ratio,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
+      if (ratio != null) 'ratio': _s.encodeJsonDouble(ratio),
     };
   }
 }

@@ -2663,7 +2663,8 @@ class UsageMetricBasis {
     final percentageAdjust = this.percentageAdjust;
     return {
       if (name != null) 'name': name,
-      if (percentageAdjust != null) 'percentageAdjust': percentageAdjust,
+      if (percentageAdjust != null)
+        'percentageAdjust': _s.encodeJsonDouble(percentageAdjust),
     };
   }
 }

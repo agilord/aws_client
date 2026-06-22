@@ -2174,9 +2174,9 @@ class TotalResourceUtilization {
 
   factory TotalResourceUtilization.fromJson(Map<String, dynamic> json) {
     return TotalResourceUtilization(
-      memoryGBHour: json['memoryGBHour'] as double?,
-      storageGBHour: json['storageGBHour'] as double?,
-      vCPUHour: json['vCPUHour'] as double?,
+      memoryGBHour: _s.parseJsonDouble(json['memoryGBHour']),
+      storageGBHour: _s.parseJsonDouble(json['storageGBHour']),
+      vCPUHour: _s.parseJsonDouble(json['vCPUHour']),
     );
   }
 
@@ -2185,9 +2185,11 @@ class TotalResourceUtilization {
     final storageGBHour = this.storageGBHour;
     final vCPUHour = this.vCPUHour;
     return {
-      if (memoryGBHour != null) 'memoryGBHour': memoryGBHour,
-      if (storageGBHour != null) 'storageGBHour': storageGBHour,
-      if (vCPUHour != null) 'vCPUHour': vCPUHour,
+      if (memoryGBHour != null)
+        'memoryGBHour': _s.encodeJsonDouble(memoryGBHour),
+      if (storageGBHour != null)
+        'storageGBHour': _s.encodeJsonDouble(storageGBHour),
+      if (vCPUHour != null) 'vCPUHour': _s.encodeJsonDouble(vCPUHour),
     };
   }
 }
@@ -2216,9 +2218,9 @@ class ResourceUtilization {
 
   factory ResourceUtilization.fromJson(Map<String, dynamic> json) {
     return ResourceUtilization(
-      memoryGBHour: json['memoryGBHour'] as double?,
-      storageGBHour: json['storageGBHour'] as double?,
-      vCPUHour: json['vCPUHour'] as double?,
+      memoryGBHour: _s.parseJsonDouble(json['memoryGBHour']),
+      storageGBHour: _s.parseJsonDouble(json['storageGBHour']),
+      vCPUHour: _s.parseJsonDouble(json['vCPUHour']),
     );
   }
 
@@ -2227,9 +2229,11 @@ class ResourceUtilization {
     final storageGBHour = this.storageGBHour;
     final vCPUHour = this.vCPUHour;
     return {
-      if (memoryGBHour != null) 'memoryGBHour': memoryGBHour,
-      if (storageGBHour != null) 'storageGBHour': storageGBHour,
-      if (vCPUHour != null) 'vCPUHour': vCPUHour,
+      if (memoryGBHour != null)
+        'memoryGBHour': _s.encodeJsonDouble(memoryGBHour),
+      if (storageGBHour != null)
+        'storageGBHour': _s.encodeJsonDouble(storageGBHour),
+      if (vCPUHour != null) 'vCPUHour': _s.encodeJsonDouble(vCPUHour),
     };
   }
 }

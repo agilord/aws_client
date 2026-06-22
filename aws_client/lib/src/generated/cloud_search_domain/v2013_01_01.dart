@@ -1092,9 +1092,9 @@ class FieldStats {
       mean: json['mean'] as String?,
       min: json['min'] as String?,
       missing: json['missing'] as int?,
-      stddev: json['stddev'] as double?,
-      sum: json['sum'] as double?,
-      sumOfSquares: json['sumOfSquares'] as double?,
+      stddev: _s.parseJsonDouble(json['stddev']),
+      sum: _s.parseJsonDouble(json['sum']),
+      sumOfSquares: _s.parseJsonDouble(json['sumOfSquares']),
     );
   }
 
@@ -1113,9 +1113,10 @@ class FieldStats {
       if (mean != null) 'mean': mean,
       if (min != null) 'min': min,
       if (missing != null) 'missing': missing,
-      if (stddev != null) 'stddev': stddev,
-      if (sum != null) 'sum': sum,
-      if (sumOfSquares != null) 'sumOfSquares': sumOfSquares,
+      if (stddev != null) 'stddev': _s.encodeJsonDouble(stddev),
+      if (sum != null) 'sum': _s.encodeJsonDouble(sum),
+      if (sumOfSquares != null)
+        'sumOfSquares': _s.encodeJsonDouble(sumOfSquares),
     };
   }
 }

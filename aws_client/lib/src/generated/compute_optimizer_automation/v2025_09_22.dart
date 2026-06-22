@@ -2854,8 +2854,10 @@ class DoubleCriteriaCondition {
     return DoubleCriteriaCondition(
       comparison:
           (json['comparison'] as String?)?.let(ComparisonOperator.fromString),
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      values: (json['values'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
@@ -2864,7 +2866,7 @@ class DoubleCriteriaCondition {
     final values = this.values;
     return {
       if (comparison != null) 'comparison': comparison.value,
-      if (values != null) 'values': values,
+      if (values != null) 'values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -3169,8 +3171,10 @@ class EstimatedMonthlySavings {
 
   factory EstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return EstimatedMonthlySavings(
-      afterDiscountSavings: (json['afterDiscountSavings'] as double?) ?? 0,
-      beforeDiscountSavings: (json['beforeDiscountSavings'] as double?) ?? 0,
+      afterDiscountSavings:
+          _s.parseJsonDouble(json['afterDiscountSavings']) ?? 0,
+      beforeDiscountSavings:
+          _s.parseJsonDouble(json['beforeDiscountSavings']) ?? 0,
       currency: (json['currency'] as String?) ?? '',
       savingsEstimationMode: SavingsEstimationMode.fromString(
           (json['savingsEstimationMode'] as String?) ?? ''),
@@ -3183,8 +3187,8 @@ class EstimatedMonthlySavings {
     final currency = this.currency;
     final savingsEstimationMode = this.savingsEstimationMode;
     return {
-      'afterDiscountSavings': afterDiscountSavings,
-      'beforeDiscountSavings': beforeDiscountSavings,
+      'afterDiscountSavings': _s.encodeJsonDouble(afterDiscountSavings),
+      'beforeDiscountSavings': _s.encodeJsonDouble(beforeDiscountSavings),
       'currency': currency,
       'savingsEstimationMode': savingsEstimationMode.value,
     };

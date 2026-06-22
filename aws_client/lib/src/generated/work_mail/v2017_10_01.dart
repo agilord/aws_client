@@ -6436,7 +6436,7 @@ class GetMailboxDetailsResponse {
   factory GetMailboxDetailsResponse.fromJson(Map<String, dynamic> json) {
     return GetMailboxDetailsResponse(
       mailboxQuota: json['MailboxQuota'] as int?,
-      mailboxSize: json['MailboxSize'] as double?,
+      mailboxSize: _s.parseJsonDouble(json['MailboxSize']),
     );
   }
 
@@ -6445,7 +6445,7 @@ class GetMailboxDetailsResponse {
     final mailboxSize = this.mailboxSize;
     return {
       if (mailboxQuota != null) 'MailboxQuota': mailboxQuota,
-      if (mailboxSize != null) 'MailboxSize': mailboxSize,
+      if (mailboxSize != null) 'MailboxSize': _s.encodeJsonDouble(mailboxSize),
     };
   }
 }

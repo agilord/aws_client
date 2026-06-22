@@ -2981,7 +2981,7 @@ class S3OnDeviceServiceConfiguration {
     return S3OnDeviceServiceConfiguration(
       faultTolerance: json['FaultTolerance'] as int?,
       serviceSize: json['ServiceSize'] as int?,
-      storageLimit: json['StorageLimit'] as double?,
+      storageLimit: _s.parseJsonDouble(json['StorageLimit']),
       storageUnit:
           (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
     );
@@ -2995,7 +2995,8 @@ class S3OnDeviceServiceConfiguration {
     return {
       if (faultTolerance != null) 'FaultTolerance': faultTolerance,
       if (serviceSize != null) 'ServiceSize': serviceSize,
-      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageLimit != null)
+        'StorageLimit': _s.encodeJsonDouble(storageLimit),
       if (storageUnit != null) 'StorageUnit': storageUnit.value,
     };
   }

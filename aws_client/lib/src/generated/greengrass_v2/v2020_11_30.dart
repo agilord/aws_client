@@ -3848,7 +3848,7 @@ class IoTJobAbortCriteria {
           (json['failureType'] as String?) ?? ''),
       minNumberOfExecutedThings:
           (json['minNumberOfExecutedThings'] as int?) ?? 0,
-      thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
+      thresholdPercentage: _s.parseJsonDouble(json['thresholdPercentage']) ?? 0,
     );
   }
 
@@ -3861,7 +3861,7 @@ class IoTJobAbortCriteria {
       'action': action.value,
       'failureType': failureType.value,
       'minNumberOfExecutedThings': minNumberOfExecutedThings,
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
     };
   }
 }
@@ -3946,7 +3946,7 @@ class IoTJobExponentialRolloutRate {
   factory IoTJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return IoTJobExponentialRolloutRate(
       baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
-      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
+      incrementFactor: _s.parseJsonDouble(json['incrementFactor']) ?? 0,
       rateIncreaseCriteria: IoTJobRateIncreaseCriteria.fromJson(
           (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -3959,7 +3959,7 @@ class IoTJobExponentialRolloutRate {
     final rateIncreaseCriteria = this.rateIncreaseCriteria;
     return {
       'baseRatePerMinute': baseRatePerMinute,
-      'incrementFactor': incrementFactor,
+      'incrementFactor': _s.encodeJsonDouble(incrementFactor),
       'rateIncreaseCriteria': rateIncreaseCriteria,
     };
   }
@@ -4376,7 +4376,7 @@ class SystemResourceLimits {
 
   factory SystemResourceLimits.fromJson(Map<String, dynamic> json) {
     return SystemResourceLimits(
-      cpus: json['cpus'] as double?,
+      cpus: _s.parseJsonDouble(json['cpus']),
       memory: json['memory'] as int?,
     );
   }
@@ -4385,7 +4385,7 @@ class SystemResourceLimits {
     final cpus = this.cpus;
     final memory = this.memory;
     return {
-      if (cpus != null) 'cpus': cpus,
+      if (cpus != null) 'cpus': _s.encodeJsonDouble(cpus),
       if (memory != null) 'memory': memory,
     };
   }

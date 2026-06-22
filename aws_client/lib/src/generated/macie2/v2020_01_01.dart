@@ -12672,8 +12672,8 @@ class IpGeoLocation {
 
   factory IpGeoLocation.fromJson(Map<String, dynamic> json) {
     return IpGeoLocation(
-      lat: json['lat'] as double?,
-      lon: json['lon'] as double?,
+      lat: _s.parseJsonDouble(json['lat']),
+      lon: _s.parseJsonDouble(json['lon']),
     );
   }
 
@@ -12681,8 +12681,8 @@ class IpGeoLocation {
     final lat = this.lat;
     final lon = this.lon;
     return {
-      if (lat != null) 'lat': lat,
-      if (lon != null) 'lon': lon,
+      if (lat != null) 'lat': _s.encodeJsonDouble(lat),
+      if (lon != null) 'lon': _s.encodeJsonDouble(lon),
     };
   }
 }
@@ -14354,8 +14354,8 @@ class Statistics {
   factory Statistics.fromJson(Map<String, dynamic> json) {
     return Statistics(
       approximateNumberOfObjectsToProcess:
-          json['approximateNumberOfObjectsToProcess'] as double?,
-      numberOfRuns: json['numberOfRuns'] as double?,
+          _s.parseJsonDouble(json['approximateNumberOfObjectsToProcess']),
+      numberOfRuns: _s.parseJsonDouble(json['numberOfRuns']),
     );
   }
 
@@ -14366,8 +14366,9 @@ class Statistics {
     return {
       if (approximateNumberOfObjectsToProcess != null)
         'approximateNumberOfObjectsToProcess':
-            approximateNumberOfObjectsToProcess,
-      if (numberOfRuns != null) 'numberOfRuns': numberOfRuns,
+            _s.encodeJsonDouble(approximateNumberOfObjectsToProcess),
+      if (numberOfRuns != null)
+        'numberOfRuns': _s.encodeJsonDouble(numberOfRuns),
     };
   }
 }

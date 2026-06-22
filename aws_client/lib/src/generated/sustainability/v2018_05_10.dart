@@ -521,7 +521,7 @@ class Emissions {
   factory Emissions.fromJson(Map<String, dynamic> json) {
     return Emissions(
       unit: EmissionsUnit.fromString((json['Unit'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -530,7 +530,7 @@ class Emissions {
     final value = this.value;
     return {
       'Unit': unit.value,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }

@@ -14304,9 +14304,9 @@ class SpanAttributes {
           ?.nonNulls
           .map((e) => SpanMessageValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      temperature: json['temperature'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
       timeToFirstTokenMs: json['timeToFirstTokenMs'] as int?,
-      topP: json['topP'] as double?,
+      topP: _s.parseJsonDouble(json['topP']),
       usageInputTokens: json['usageInputTokens'] as int?,
       usageOutputTokens: json['usageOutputTokens'] as int?,
       usageTotalTokens: json['usageTotalTokens'] as int?,
@@ -14386,9 +14386,9 @@ class SpanAttributes {
       if (responseModel != null) 'responseModel': responseModel,
       if (sessionName != null) 'sessionName': sessionName,
       if (systemInstructions != null) 'systemInstructions': systemInstructions,
-      if (temperature != null) 'temperature': temperature,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (timeToFirstTokenMs != null) 'timeToFirstTokenMs': timeToFirstTokenMs,
-      if (topP != null) 'topP': topP,
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
       if (usageInputTokens != null) 'usageInputTokens': usageInputTokens,
       if (usageOutputTokens != null) 'usageOutputTokens': usageOutputTokens,
       if (usageTotalTokens != null) 'usageTotalTokens': usageTotalTokens,
@@ -16384,9 +16384,9 @@ class AIPromptInferenceConfiguration {
   factory AIPromptInferenceConfiguration.fromJson(Map<String, dynamic> json) {
     return AIPromptInferenceConfiguration(
       maxTokensToSample: json['maxTokensToSample'] as int?,
-      temperature: json['temperature'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
       topK: json['topK'] as int?,
-      topP: json['topP'] as double?,
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -16397,9 +16397,9 @@ class AIPromptInferenceConfiguration {
     final topP = this.topP;
     return {
       if (maxTokensToSample != null) 'maxTokensToSample': maxTokensToSample,
-      if (temperature != null) 'temperature': temperature,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,
-      if (topP != null) 'topP': topP,
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -16920,7 +16920,7 @@ class GuardrailContextualGroundingFilterConfig {
   factory GuardrailContextualGroundingFilterConfig.fromJson(
       Map<String, dynamic> json) {
     return GuardrailContextualGroundingFilterConfig(
-      threshold: (json['threshold'] as double?) ?? 0,
+      threshold: _s.parseJsonDouble(json['threshold']) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
           (json['type'] as String?) ?? ''),
     );
@@ -16930,7 +16930,7 @@ class GuardrailContextualGroundingFilterConfig {
     final threshold = this.threshold;
     final type = this.type;
     return {
-      'threshold': threshold,
+      'threshold': _s.encodeJsonDouble(threshold),
       'type': type.value,
     };
   }
@@ -19902,7 +19902,7 @@ class ResultData {
       document: json['document'] != null
           ? Document.fromJson(json['document'] as Map<String, dynamic>)
           : null,
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
       type: (json['type'] as String?)?.let(QueryResultType.fromString),
     );
   }
@@ -19917,7 +19917,8 @@ class ResultData {
       'resultId': resultId,
       if (data != null) 'data': data,
       if (document != null) 'document': document,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
       if (type != null) 'type': type.value,
     };
   }
@@ -20788,7 +20789,7 @@ class RankingData {
     return RankingData(
       relevanceLevel:
           (json['relevanceLevel'] as String?)?.let(RelevanceLevel.fromString),
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
     );
   }
 
@@ -20797,7 +20798,8 @@ class RankingData {
     final relevanceScore = this.relevanceScore;
     return {
       if (relevanceLevel != null) 'relevanceLevel': relevanceLevel.value,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
     };
   }
 }
@@ -21714,7 +21716,7 @@ class RecommendationData {
           : null,
       relevanceLevel:
           (json['relevanceLevel'] as String?)?.let(RelevanceLevel.fromString),
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
       type: (json['type'] as String?)?.let(RecommendationType.fromString),
     );
   }
@@ -21731,7 +21733,8 @@ class RecommendationData {
       if (data != null) 'data': data,
       if (document != null) 'document': document,
       if (relevanceLevel != null) 'relevanceLevel': relevanceLevel.value,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
       if (type != null) 'type': type.value,
     };
   }

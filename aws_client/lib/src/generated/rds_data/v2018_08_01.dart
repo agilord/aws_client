@@ -801,7 +801,7 @@ class Field {
           : null,
       blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       isNull: json['isNull'] as bool?,
       longValue: json['longValue'] as int?,
       stringValue: json['stringValue'] as String?,
@@ -820,7 +820,7 @@ class Field {
       if (arrayValue != null) 'arrayValue': arrayValue,
       if (blobValue != null) 'blobValue': base64Encode(blobValue),
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (isNull != null) 'isNull': isNull,
       if (longValue != null) 'longValue': longValue,
       if (stringValue != null) 'stringValue': stringValue,
@@ -867,7 +867,7 @@ class ArrayValue {
           .toList(),
       doubleValues: (json['doubleValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       longValues:
           (json['longValues'] as List?)?.nonNulls.map((e) => e as int).toList(),
@@ -887,7 +887,8 @@ class ArrayValue {
     return {
       if (arrayValues != null) 'arrayValues': arrayValues,
       if (booleanValues != null) 'booleanValues': booleanValues,
-      if (doubleValues != null) 'doubleValues': doubleValues,
+      if (doubleValues != null)
+        'doubleValues': doubleValues.map(_s.encodeJsonDouble).toList(),
       if (longValues != null) 'longValues': longValues,
       if (stringValues != null) 'stringValues': stringValues,
     };
@@ -1426,10 +1427,10 @@ class Value {
       bigIntValue: json['bigIntValue'] as int?,
       bitValue: json['bitValue'] as bool?,
       blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       intValue: json['intValue'] as int?,
       isNull: json['isNull'] as bool?,
-      realValue: json['realValue'] as double?,
+      realValue: _s.parseJsonDouble(json['realValue']),
       stringValue: json['stringValue'] as String?,
       structValue: json['structValue'] != null
           ? StructValue.fromJson(json['structValue'] as Map<String, dynamic>)
@@ -1453,10 +1454,10 @@ class Value {
       if (bigIntValue != null) 'bigIntValue': bigIntValue,
       if (bitValue != null) 'bitValue': bitValue,
       if (blobValue != null) 'blobValue': base64Encode(blobValue),
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (intValue != null) 'intValue': intValue,
       if (isNull != null) 'isNull': isNull,
-      if (realValue != null) 'realValue': realValue,
+      if (realValue != null) 'realValue': _s.encodeJsonDouble(realValue),
       if (stringValue != null) 'stringValue': stringValue,
       if (structValue != null) 'structValue': structValue,
     };

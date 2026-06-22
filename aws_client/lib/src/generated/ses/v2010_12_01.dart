@@ -4297,9 +4297,11 @@ class GetSendQuotaResponse {
     final maxSendRate = this.maxSendRate;
     final sentLast24Hours = this.sentLast24Hours;
     return {
-      if (max24HourSend != null) 'Max24HourSend': max24HourSend,
-      if (maxSendRate != null) 'MaxSendRate': maxSendRate,
-      if (sentLast24Hours != null) 'SentLast24Hours': sentLast24Hours,
+      if (max24HourSend != null)
+        'Max24HourSend': _s.encodeJsonDouble(max24HourSend),
+      if (maxSendRate != null) 'MaxSendRate': _s.encodeJsonDouble(maxSendRate),
+      if (sentLast24Hours != null)
+        'SentLast24Hours': _s.encodeJsonDouble(sentLast24Hours),
     };
   }
 }

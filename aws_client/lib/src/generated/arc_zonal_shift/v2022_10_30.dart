@@ -1132,7 +1132,7 @@ class GetManagedResourceResponse {
     return GetManagedResourceResponse(
       appliedWeights: ((json['appliedWeights'] as Map<String, dynamic>?) ??
               const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as double)),
+          .map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       zonalShifts: ((json['zonalShifts'] as List?) ?? const [])
           .nonNulls
           .map((e) => ZonalShiftInResource.fromJson(e as Map<String, dynamic>))
@@ -1161,7 +1161,8 @@ class GetManagedResourceResponse {
     final practiceRunConfiguration = this.practiceRunConfiguration;
     final zonalAutoshiftStatus = this.zonalAutoshiftStatus;
     return {
-      'appliedWeights': appliedWeights,
+      'appliedWeights':
+          appliedWeights.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       'zonalShifts': zonalShifts,
       if (arn != null) 'arn': arn,
       if (autoshifts != null) 'autoshifts': autoshifts,
@@ -2257,7 +2258,7 @@ class ManagedResourceSummary {
           .map((e) => e as String)
           .toList(),
       appliedWeights: (json['appliedWeights'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       arn: json['arn'] as String?,
       autoshifts: (json['autoshifts'] as List?)
           ?.nonNulls
@@ -2286,7 +2287,9 @@ class ManagedResourceSummary {
     final zonalShifts = this.zonalShifts;
     return {
       'availabilityZones': availabilityZones,
-      if (appliedWeights != null) 'appliedWeights': appliedWeights,
+      if (appliedWeights != null)
+        'appliedWeights':
+            appliedWeights.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (arn != null) 'arn': arn,
       if (autoshifts != null) 'autoshifts': autoshifts,
       if (name != null) 'name': name,

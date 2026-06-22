@@ -7450,9 +7450,9 @@ class InferenceConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      temperature: json['temperature'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
       topK: json['topK'] as int?,
-      topP: json['topP'] as double?,
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -7465,9 +7465,9 @@ class InferenceConfiguration {
     return {
       if (maximumLength != null) 'maximumLength': maximumLength,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,
-      if (topP != null) 'topP': topP,
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -7796,8 +7796,8 @@ class PromptModelInferenceConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -7809,8 +7809,8 @@ class PromptModelInferenceConfiguration {
     return {
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -11798,7 +11798,7 @@ class MetadataAttributeValue {
     return {
       'type': type.value,
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (numberValue != null) 'numberValue': numberValue,
+      if (numberValue != null) 'numberValue': _s.encodeJsonDouble(numberValue),
       if (stringListValue != null) 'stringListValue': stringListValue,
       if (stringValue != null) 'stringValue': stringValue,
     };

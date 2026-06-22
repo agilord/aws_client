@@ -2453,7 +2453,7 @@ class Field {
     return Field(
       blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       isNull: json['isNull'] as bool?,
       longValue: json['longValue'] as int?,
       stringValue: json['stringValue'] as String?,
@@ -2470,7 +2470,7 @@ class Field {
     return {
       if (blobValue != null) 'blobValue': base64Encode(blobValue),
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (isNull != null) 'isNull': isNull,
       if (longValue != null) 'longValue': longValue,
       if (stringValue != null) 'stringValue': stringValue,

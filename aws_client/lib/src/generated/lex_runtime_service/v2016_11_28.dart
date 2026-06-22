@@ -2140,14 +2140,14 @@ class IntentConfidence {
 
   factory IntentConfidence.fromJson(Map<String, dynamic> json) {
     return IntentConfidence(
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final score = this.score;
     return {
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }

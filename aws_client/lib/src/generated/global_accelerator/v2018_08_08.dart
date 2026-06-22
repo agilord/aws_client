@@ -867,7 +867,7 @@ class GlobalAccelerator {
         if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
-          'TrafficDialPercentage': trafficDialPercentage,
+          'TrafficDialPercentage': _s.encodeJsonDouble(trafficDialPercentage),
       },
     );
 
@@ -2980,7 +2980,7 @@ class GlobalAccelerator {
         if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
-          'TrafficDialPercentage': trafficDialPercentage,
+          'TrafficDialPercentage': _s.encodeJsonDouble(trafficDialPercentage),
       },
     );
 
@@ -4815,7 +4815,7 @@ class EndpointGroup {
           .map((e) => PortOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
       thresholdCount: json['ThresholdCount'] as int?,
-      trafficDialPercentage: json['TrafficDialPercentage'] as double?,
+      trafficDialPercentage: _s.parseJsonDouble(json['TrafficDialPercentage']),
     );
   }
 
@@ -4845,7 +4845,7 @@ class EndpointGroup {
       if (portOverrides != null) 'PortOverrides': portOverrides,
       if (thresholdCount != null) 'ThresholdCount': thresholdCount,
       if (trafficDialPercentage != null)
-        'TrafficDialPercentage': trafficDialPercentage,
+        'TrafficDialPercentage': _s.encodeJsonDouble(trafficDialPercentage),
     };
   }
 }

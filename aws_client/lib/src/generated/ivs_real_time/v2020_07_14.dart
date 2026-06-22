@@ -5955,7 +5955,7 @@ class Video {
   factory Video.fromJson(Map<String, dynamic> json) {
     return Video(
       bitrate: json['bitrate'] as int?,
-      framerate: json['framerate'] as double?,
+      framerate: _s.parseJsonDouble(json['framerate']),
       height: json['height'] as int?,
       width: json['width'] as int?,
     );
@@ -5968,7 +5968,7 @@ class Video {
     final width = this.width;
     return {
       if (bitrate != null) 'bitrate': bitrate,
-      if (framerate != null) 'framerate': framerate,
+      if (framerate != null) 'framerate': _s.encodeJsonDouble(framerate),
       if (height != null) 'height': height,
       if (width != null) 'width': width,
     };

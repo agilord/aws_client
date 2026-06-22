@@ -2624,7 +2624,7 @@ class Recommendation {
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
       allMatchesCount: (json['allMatchesCount'] as int?) ?? 0,
-      allMatchesSum: (json['allMatchesSum'] as double?) ?? 0,
+      allMatchesSum: _s.parseJsonDouble(json['allMatchesSum']) ?? 0,
       endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
       pattern: Pattern.fromJson((json['pattern'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
@@ -2645,7 +2645,7 @@ class Recommendation {
     final topMatches = this.topMatches;
     return {
       'allMatchesCount': allMatchesCount,
-      'allMatchesSum': allMatchesSum,
+      'allMatchesSum': _s.encodeJsonDouble(allMatchesSum),
       'endTime': iso8601ToJson(endTime),
       'pattern': pattern,
       'startTime': iso8601ToJson(startTime),
@@ -2708,7 +2708,7 @@ class Pattern {
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
-      thresholdPercent: json['thresholdPercent'] as double?,
+      thresholdPercent: _s.parseJsonDouble(json['thresholdPercent']),
     );
   }
 
@@ -2728,7 +2728,8 @@ class Pattern {
       if (name != null) 'name': name,
       if (resolutionSteps != null) 'resolutionSteps': resolutionSteps,
       if (targetFrames != null) 'targetFrames': targetFrames,
-      if (thresholdPercent != null) 'thresholdPercent': thresholdPercent,
+      if (thresholdPercent != null)
+        'thresholdPercent': _s.encodeJsonDouble(thresholdPercent),
     };
   }
 }
@@ -2757,7 +2758,7 @@ class Match {
     return Match(
       frameAddress: json['frameAddress'] as String?,
       targetFramesIndex: json['targetFramesIndex'] as int?,
-      thresholdBreachValue: json['thresholdBreachValue'] as double?,
+      thresholdBreachValue: _s.parseJsonDouble(json['thresholdBreachValue']),
     );
   }
 
@@ -2769,7 +2770,7 @@ class Match {
       if (frameAddress != null) 'frameAddress': frameAddress,
       if (targetFramesIndex != null) 'targetFramesIndex': targetFramesIndex,
       if (thresholdBreachValue != null)
-        'thresholdBreachValue': thresholdBreachValue,
+        'thresholdBreachValue': _s.encodeJsonDouble(thresholdBreachValue),
     };
   }
 }
@@ -2957,7 +2958,7 @@ class FrameMetricDatum {
               const <String, dynamic>{}),
       values: ((json['values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -2967,7 +2968,7 @@ class FrameMetricDatum {
     final values = this.values;
     return {
       'frameMetric': frameMetric,
-      'values': values,
+      'values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

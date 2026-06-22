@@ -9324,7 +9324,7 @@ class QueryExecutionStatistics {
     return QueryExecutionStatistics(
       dataManifestLocation: json['DataManifestLocation'] as String?,
       dataScannedInBytes: json['DataScannedInBytes'] as int?,
-      dpuCount: json['DpuCount'] as double?,
+      dpuCount: _s.parseJsonDouble(json['DpuCount']),
       engineExecutionTimeInMillis: json['EngineExecutionTimeInMillis'] as int?,
       queryPlanningTimeInMillis: json['QueryPlanningTimeInMillis'] as int?,
       queryQueueTimeInMillis: json['QueryQueueTimeInMillis'] as int?,
@@ -9356,7 +9356,7 @@ class QueryExecutionStatistics {
       if (dataManifestLocation != null)
         'DataManifestLocation': dataManifestLocation,
       if (dataScannedInBytes != null) 'DataScannedInBytes': dataScannedInBytes,
-      if (dpuCount != null) 'DpuCount': dpuCount,
+      if (dpuCount != null) 'DpuCount': _s.encodeJsonDouble(dpuCount),
       if (engineExecutionTimeInMillis != null)
         'EngineExecutionTimeInMillis': engineExecutionTimeInMillis,
       if (queryPlanningTimeInMillis != null)

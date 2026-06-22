@@ -1890,7 +1890,8 @@ class LexModelBuilding {
         'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       if (intents != null) 'intents': intents,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (processBehavior != null) 'processBehavior': processBehavior.value,
       if (tags != null) 'tags': tags,
       if (voiceId != null) 'voiceId': voiceId,
@@ -3218,7 +3219,7 @@ class GetBotResponse {
       locale: (json['locale'] as String?)?.let(Locale.fromString),
       name: json['name'] as String?,
       nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
+          _s.parseJsonDouble(json['nluIntentConfidenceThreshold']),
       status: (json['status'] as String?)?.let(Status.fromString),
       version: json['version'] as String?,
       voiceId: json['voiceId'] as String?,
@@ -3264,7 +3265,8 @@ class GetBotResponse {
       if (locale != null) 'locale': locale.value,
       if (name != null) 'name': name,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (status != null) 'status': status.value,
       if (version != null) 'version': version,
       if (voiceId != null) 'voiceId': voiceId,
@@ -4694,7 +4696,7 @@ class PutBotResponse {
       locale: (json['locale'] as String?)?.let(Locale.fromString),
       name: json['name'] as String?,
       nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
+          _s.parseJsonDouble(json['nluIntentConfidenceThreshold']),
       status: (json['status'] as String?)?.let(Status.fromString),
       tags: (json['tags'] as List?)
           ?.nonNulls
@@ -4747,7 +4749,8 @@ class PutBotResponse {
       if (locale != null) 'locale': locale.value,
       if (name != null) 'name': name,
       if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+        'nluIntentConfidenceThreshold':
+            _s.encodeJsonDouble(nluIntentConfidenceThreshold),
       if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (version != null) 'version': version,

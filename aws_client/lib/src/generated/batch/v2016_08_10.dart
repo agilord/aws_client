@@ -4536,7 +4536,7 @@ class ShareAttributes {
   factory ShareAttributes.fromJson(Map<String, dynamic> json) {
     return ShareAttributes(
       shareIdentifier: (json['shareIdentifier'] as String?) ?? '',
-      weightFactor: json['weightFactor'] as double?,
+      weightFactor: _s.parseJsonDouble(json['weightFactor']),
     );
   }
 
@@ -4545,7 +4545,8 @@ class ShareAttributes {
     final weightFactor = this.weightFactor;
     return {
       'shareIdentifier': shareIdentifier,
-      if (weightFactor != null) 'weightFactor': weightFactor,
+      if (weightFactor != null)
+        'weightFactor': _s.encodeJsonDouble(weightFactor),
     };
   }
 }
@@ -10938,7 +10939,7 @@ class ServiceJobCapacityUsageSummary {
   factory ServiceJobCapacityUsageSummary.fromJson(Map<String, dynamic> json) {
     return ServiceJobCapacityUsageSummary(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -10947,7 +10948,7 @@ class ServiceJobCapacityUsageSummary {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -11645,7 +11646,7 @@ class JobCapacityUsageSummary {
   factory JobCapacityUsageSummary.fromJson(Map<String, dynamic> json) {
     return JobCapacityUsageSummary(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -11654,7 +11655,7 @@ class JobCapacityUsageSummary {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -11997,7 +11998,7 @@ class QuotaShareCapacityUsage {
   factory QuotaShareCapacityUsage.fromJson(Map<String, dynamic> json) {
     return QuotaShareCapacityUsage(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12006,7 +12007,7 @@ class QuotaShareCapacityUsage {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -12071,7 +12072,7 @@ class FairshareCapacityUsage {
   factory FairshareCapacityUsage.fromJson(Map<String, dynamic> json) {
     return FairshareCapacityUsage(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12080,7 +12081,7 @@ class FairshareCapacityUsage {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -12107,7 +12108,7 @@ class QueueSnapshotCapacityUsage {
   factory QueueSnapshotCapacityUsage.fromJson(Map<String, dynamic> json) {
     return QueueSnapshotCapacityUsage(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12116,7 +12117,7 @@ class QueueSnapshotCapacityUsage {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -12303,7 +12304,7 @@ class ServiceJobCapacityUsageDetail {
   factory ServiceJobCapacityUsageDetail.fromJson(Map<String, dynamic> json) {
     return ServiceJobCapacityUsageDetail(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12312,7 +12313,7 @@ class ServiceJobCapacityUsageDetail {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }

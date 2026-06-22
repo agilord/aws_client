@@ -8120,7 +8120,7 @@ class MetricDimension {
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
       comparisonOperator: (json['ComparisonOperator'] as String?) ?? '',
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -8129,7 +8129,7 @@ class MetricDimension {
     final value = this.value;
     return {
       'ComparisonOperator': comparisonOperator,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -8195,7 +8195,7 @@ class GPSPointDimension {
       coordinates: GPSCoordinates.fromJson(
           (json['Coordinates'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      rangeInKilometers: json['RangeInKilometers'] as double?,
+      rangeInKilometers: _s.parseJsonDouble(json['RangeInKilometers']),
     );
   }
 
@@ -8204,7 +8204,8 @@ class GPSPointDimension {
     final rangeInKilometers = this.rangeInKilometers;
     return {
       'Coordinates': coordinates,
-      if (rangeInKilometers != null) 'RangeInKilometers': rangeInKilometers,
+      if (rangeInKilometers != null)
+        'RangeInKilometers': _s.encodeJsonDouble(rangeInKilometers),
     };
   }
 }
@@ -8226,8 +8227,8 @@ class GPSCoordinates {
 
   factory GPSCoordinates.fromJson(Map<String, dynamic> json) {
     return GPSCoordinates(
-      latitude: (json['Latitude'] as double?) ?? 0,
-      longitude: (json['Longitude'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['Latitude']) ?? 0,
+      longitude: _s.parseJsonDouble(json['Longitude']) ?? 0,
     );
   }
 
@@ -8235,8 +8236,8 @@ class GPSCoordinates {
     final latitude = this.latitude;
     final longitude = this.longitude;
     return {
-      'Latitude': latitude,
-      'Longitude': longitude,
+      'Latitude': _s.encodeJsonDouble(latitude),
+      'Longitude': _s.encodeJsonDouble(longitude),
     };
   }
 }
@@ -12416,7 +12417,8 @@ class EndpointBatchItem {
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (id != null) 'Id': id,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
@@ -12590,8 +12592,8 @@ class EndpointLocation {
     return EndpointLocation(
       city: json['City'] as String?,
       country: json['Country'] as String?,
-      latitude: json['Latitude'] as double?,
-      longitude: json['Longitude'] as double?,
+      latitude: _s.parseJsonDouble(json['Latitude']),
+      longitude: _s.parseJsonDouble(json['Longitude']),
       postalCode: json['PostalCode'] as String?,
       region: json['Region'] as String?,
     );
@@ -12607,8 +12609,8 @@ class EndpointLocation {
     return {
       if (city != null) 'City': city,
       if (country != null) 'Country': country,
-      if (latitude != null) 'Latitude': latitude,
-      if (longitude != null) 'Longitude': longitude,
+      if (latitude != null) 'Latitude': _s.encodeJsonDouble(latitude),
+      if (longitude != null) 'Longitude': _s.encodeJsonDouble(longitude),
       if (postalCode != null) 'PostalCode': postalCode,
       if (region != null) 'Region': region,
     };
@@ -12764,7 +12766,8 @@ class EndpointRequest {
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
@@ -18223,7 +18226,8 @@ class PublicEndpoint {
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
@@ -18297,7 +18301,8 @@ class Event {
       if (appVersionCode != null) 'AppVersionCode': appVersionCode,
       if (attributes != null) 'Attributes': attributes,
       if (clientSdkVersion != null) 'ClientSdkVersion': clientSdkVersion,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (sdkName != null) 'SdkName': sdkName,
       if (session != null) 'Session': session,
     };
@@ -19115,7 +19120,7 @@ class EndpointResponse {
           ? EndpointLocation.fromJson(json['Location'] as Map<String, dynamic>)
           : null,
       metrics: (json['Metrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       optOut: json['OptOut'] as String?,
       requestId: json['RequestId'] as String?,
       user: json['User'] != null
@@ -19152,7 +19157,8 @@ class EndpointResponse {
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (id != null) 'Id': id,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,

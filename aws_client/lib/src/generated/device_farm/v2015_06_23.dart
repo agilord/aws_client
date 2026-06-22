@@ -7953,9 +7953,9 @@ class DeviceMinutes {
 
   factory DeviceMinutes.fromJson(Map<String, dynamic> json) {
     return DeviceMinutes(
-      metered: json['metered'] as double?,
-      total: json['total'] as double?,
-      unmetered: json['unmetered'] as double?,
+      metered: _s.parseJsonDouble(json['metered']),
+      total: _s.parseJsonDouble(json['total']),
+      unmetered: _s.parseJsonDouble(json['unmetered']),
     );
   }
 
@@ -7964,9 +7964,9 @@ class DeviceMinutes {
     final total = this.total;
     final unmetered = this.unmetered;
     return {
-      if (metered != null) 'metered': metered,
-      if (total != null) 'total': total,
-      if (unmetered != null) 'unmetered': unmetered,
+      if (metered != null) 'metered': _s.encodeJsonDouble(metered),
+      if (total != null) 'total': _s.encodeJsonDouble(total),
+      if (unmetered != null) 'unmetered': _s.encodeJsonDouble(unmetered),
     };
   }
 }
@@ -8098,8 +8098,8 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
-      latitude: (json['latitude'] as double?) ?? 0,
-      longitude: (json['longitude'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['latitude']) ?? 0,
+      longitude: _s.parseJsonDouble(json['longitude']) ?? 0,
     );
   }
 
@@ -8107,8 +8107,8 @@ class Location {
     final latitude = this.latitude;
     final longitude = this.longitude;
     return {
-      'latitude': latitude,
-      'longitude': longitude,
+      'latitude': _s.encodeJsonDouble(latitude),
+      'longitude': _s.encodeJsonDouble(longitude),
     };
   }
 }
@@ -8973,7 +8973,7 @@ class CPU {
   factory CPU.fromJson(Map<String, dynamic> json) {
     return CPU(
       architecture: json['architecture'] as String?,
-      clock: json['clock'] as double?,
+      clock: _s.parseJsonDouble(json['clock']),
       frequency: json['frequency'] as String?,
     );
   }
@@ -8984,7 +8984,7 @@ class CPU {
     final frequency = this.frequency;
     return {
       if (architecture != null) 'architecture': architecture,
-      if (clock != null) 'clock': clock,
+      if (clock != null) 'clock': _s.encodeJsonDouble(clock),
       if (frequency != null) 'frequency': frequency,
     };
   }
@@ -9888,7 +9888,7 @@ class MonetaryAmount {
 
   factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
     return MonetaryAmount(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       currencyCode:
           (json['currencyCode'] as String?)?.let(CurrencyCode.fromString),
     );
@@ -9898,7 +9898,7 @@ class MonetaryAmount {
     final amount = this.amount;
     final currencyCode = this.currencyCode;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (currencyCode != null) 'currencyCode': currencyCode.value,
     };
   }
@@ -10504,7 +10504,7 @@ class TestGridSession {
   factory TestGridSession.fromJson(Map<String, dynamic> json) {
     return TestGridSession(
       arn: json['arn'] as String?,
-      billingMinutes: json['billingMinutes'] as double?,
+      billingMinutes: _s.parseJsonDouble(json['billingMinutes']),
       created: timeStampFromJson(json['created']),
       ended: timeStampFromJson(json['ended']),
       seleniumProperties: json['seleniumProperties'] as String?,
@@ -10522,7 +10522,8 @@ class TestGridSession {
     final status = this.status;
     return {
       if (arn != null) 'arn': arn,
-      if (billingMinutes != null) 'billingMinutes': billingMinutes,
+      if (billingMinutes != null)
+        'billingMinutes': _s.encodeJsonDouble(billingMinutes),
       if (created != null) 'created': unixTimestampToJson(created),
       if (ended != null) 'ended': unixTimestampToJson(ended),
       if (seleniumProperties != null) 'seleniumProperties': seleniumProperties,
@@ -11554,8 +11555,8 @@ class TrialMinutes {
 
   factory TrialMinutes.fromJson(Map<String, dynamic> json) {
     return TrialMinutes(
-      remaining: json['remaining'] as double?,
-      total: json['total'] as double?,
+      remaining: _s.parseJsonDouble(json['remaining']),
+      total: _s.parseJsonDouble(json['total']),
     );
   }
 
@@ -11563,8 +11564,8 @@ class TrialMinutes {
     final remaining = this.remaining;
     final total = this.total;
     return {
-      if (remaining != null) 'remaining': remaining,
-      if (total != null) 'total': total,
+      if (remaining != null) 'remaining': _s.encodeJsonDouble(remaining),
+      if (total != null) 'total': _s.encodeJsonDouble(total),
     };
   }
 }

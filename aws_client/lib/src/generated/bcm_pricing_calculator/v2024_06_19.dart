@@ -3027,7 +3027,7 @@ class CreateWorkloadEstimateResponse {
           ?.let(WorkloadEstimateRateType.fromString),
       status:
           (json['status'] as String?)?.let(WorkloadEstimateStatus.fromString),
-      totalCost: json['totalCost'] as double?,
+      totalCost: _s.parseJsonDouble(json['totalCost']),
     );
   }
 
@@ -3053,7 +3053,7 @@ class CreateWorkloadEstimateResponse {
         'rateTimestamp': unixTimestampToJson(rateTimestamp),
       if (rateType != null) 'rateType': rateType.value,
       if (status != null) 'status': status.value,
-      if (totalCost != null) 'totalCost': totalCost,
+      if (totalCost != null) 'totalCost': _s.encodeJsonDouble(totalCost),
     };
   }
 }
@@ -3119,7 +3119,7 @@ class GetWorkloadEstimateResponse {
           ?.let(WorkloadEstimateRateType.fromString),
       status:
           (json['status'] as String?)?.let(WorkloadEstimateStatus.fromString),
-      totalCost: json['totalCost'] as double?,
+      totalCost: _s.parseJsonDouble(json['totalCost']),
     );
   }
 
@@ -3145,7 +3145,7 @@ class GetWorkloadEstimateResponse {
         'rateTimestamp': unixTimestampToJson(rateTimestamp),
       if (rateType != null) 'rateType': rateType.value,
       if (status != null) 'status': status.value,
-      if (totalCost != null) 'totalCost': totalCost,
+      if (totalCost != null) 'totalCost': _s.encodeJsonDouble(totalCost),
     };
   }
 }
@@ -3211,7 +3211,7 @@ class UpdateWorkloadEstimateResponse {
           ?.let(WorkloadEstimateRateType.fromString),
       status:
           (json['status'] as String?)?.let(WorkloadEstimateStatus.fromString),
-      totalCost: json['totalCost'] as double?,
+      totalCost: _s.parseJsonDouble(json['totalCost']),
     );
   }
 
@@ -3237,7 +3237,7 @@ class UpdateWorkloadEstimateResponse {
         'rateTimestamp': unixTimestampToJson(rateTimestamp),
       if (rateType != null) 'rateType': rateType.value,
       if (status != null) 'status': status.value,
-      if (totalCost != null) 'totalCost': totalCost,
+      if (totalCost != null) 'totalCost': _s.encodeJsonDouble(totalCost),
     };
   }
 }
@@ -3567,7 +3567,7 @@ class WorkloadEstimateUsageItem {
       operation: (json['operation'] as String?) ?? '',
       serviceCode: (json['serviceCode'] as String?) ?? '',
       usageType: (json['usageType'] as String?) ?? '',
-      cost: json['cost'] as double?,
+      cost: _s.parseJsonDouble(json['cost']),
       currency: (json['currency'] as String?)?.let(CurrencyCode.fromString),
       group: json['group'] as String?,
       historicalUsage: json['historicalUsage'] != null
@@ -3603,7 +3603,7 @@ class WorkloadEstimateUsageItem {
       'operation': operation,
       'serviceCode': serviceCode,
       'usageType': usageType,
-      if (cost != null) 'cost': cost,
+      if (cost != null) 'cost': _s.encodeJsonDouble(cost),
       if (currency != null) 'currency': currency.value,
       if (group != null) 'group': group,
       if (historicalUsage != null) 'historicalUsage': historicalUsage,
@@ -3633,7 +3633,7 @@ class WorkloadEstimateUsageQuantity {
 
   factory WorkloadEstimateUsageQuantity.fromJson(Map<String, dynamic> json) {
     return WorkloadEstimateUsageQuantity(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       unit: json['unit'] as String?,
     );
   }
@@ -3642,7 +3642,7 @@ class WorkloadEstimateUsageQuantity {
     final amount = this.amount;
     final unit = this.unit;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (unit != null) 'unit': unit,
     };
   }
@@ -3945,7 +3945,7 @@ class BatchUpdateWorkloadEstimateUsageEntry {
     final group = this.group;
     return {
       'id': id,
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (group != null) 'group': group,
     };
   }
@@ -4132,7 +4132,7 @@ class BatchCreateWorkloadEstimateUsageItem {
       operation: (json['operation'] as String?) ?? '',
       serviceCode: (json['serviceCode'] as String?) ?? '',
       usageType: (json['usageType'] as String?) ?? '',
-      cost: json['cost'] as double?,
+      cost: _s.parseJsonDouble(json['cost']),
       currency: (json['currency'] as String?)?.let(CurrencyCode.fromString),
       group: json['group'] as String?,
       historicalUsage: json['historicalUsage'] != null
@@ -4170,7 +4170,7 @@ class BatchCreateWorkloadEstimateUsageItem {
       'operation': operation,
       'serviceCode': serviceCode,
       'usageType': usageType,
-      if (cost != null) 'cost': cost,
+      if (cost != null) 'cost': _s.encodeJsonDouble(cost),
       if (currency != null) 'currency': currency.value,
       if (group != null) 'group': group,
       if (historicalUsage != null) 'historicalUsage': historicalUsage,
@@ -4233,7 +4233,7 @@ class BatchCreateWorkloadEstimateUsageEntry {
     final group = this.group;
     final historicalUsage = this.historicalUsage;
     return {
-      'amount': amount,
+      'amount': _s.encodeJsonDouble(amount),
       'key': key,
       'operation': operation,
       'serviceCode': serviceCode,
@@ -4414,7 +4414,7 @@ class WorkloadEstimateSummary {
           ?.let(WorkloadEstimateRateType.fromString),
       status:
           (json['status'] as String?)?.let(WorkloadEstimateStatus.fromString),
-      totalCost: json['totalCost'] as double?,
+      totalCost: _s.parseJsonDouble(json['totalCost']),
     );
   }
 
@@ -4440,7 +4440,7 @@ class WorkloadEstimateSummary {
         'rateTimestamp': unixTimestampToJson(rateTimestamp),
       if (rateType != null) 'rateType': rateType.value,
       if (status != null) 'status': status.value,
-      if (totalCost != null) 'totalCost': totalCost,
+      if (totalCost != null) 'totalCost': _s.encodeJsonDouble(totalCost),
     };
   }
 }
@@ -4783,7 +4783,7 @@ class UsageQuantity {
 
   factory UsageQuantity.fromJson(Map<String, dynamic> json) {
     return UsageQuantity(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       startHour: timeStampFromJson(json['startHour']),
       unit: json['unit'] as String?,
     );
@@ -4794,7 +4794,7 @@ class UsageQuantity {
     final startHour = this.startHour;
     final unit = this.unit;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (startHour != null) 'startHour': unixTimestampToJson(startHour),
       if (unit != null) 'unit': unit,
     };
@@ -4852,7 +4852,7 @@ class UsageAmount {
     final amount = this.amount;
     final startHour = this.startHour;
     return {
-      'amount': amount,
+      'amount': _s.encodeJsonDouble(amount),
       'startHour': unixTimestampToJson(startHour),
     };
   }
@@ -5442,7 +5442,7 @@ class AddSavingsPlanAction {
 
   factory AddSavingsPlanAction.fromJson(Map<String, dynamic> json) {
     return AddSavingsPlanAction(
-      commitment: json['commitment'] as double?,
+      commitment: _s.parseJsonDouble(json['commitment']),
       savingsPlanOfferingId: json['savingsPlanOfferingId'] as String?,
     );
   }
@@ -5451,7 +5451,7 @@ class AddSavingsPlanAction {
     final commitment = this.commitment;
     final savingsPlanOfferingId = this.savingsPlanOfferingId;
     return {
-      if (commitment != null) 'commitment': commitment,
+      if (commitment != null) 'commitment': _s.encodeJsonDouble(commitment),
       if (savingsPlanOfferingId != null)
         'savingsPlanOfferingId': savingsPlanOfferingId,
     };
@@ -6159,7 +6159,7 @@ class UsageQuantityResult {
 
   factory UsageQuantityResult.fromJson(Map<String, dynamic> json) {
     return UsageQuantityResult(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       unit: json['unit'] as String?,
     );
   }
@@ -6168,7 +6168,7 @@ class UsageQuantityResult {
     final amount = this.amount;
     final unit = this.unit;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (unit != null) 'unit': unit,
     };
   }
@@ -6191,7 +6191,7 @@ class CostAmount {
 
   factory CostAmount.fromJson(Map<String, dynamic> json) {
     return CostAmount(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       currency: (json['currency'] as String?)?.let(CurrencyCode.fromString),
     );
   }
@@ -6200,7 +6200,7 @@ class CostAmount {
     final amount = this.amount;
     final currency = this.currency;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (currency != null) 'currency': currency.value,
     };
   }

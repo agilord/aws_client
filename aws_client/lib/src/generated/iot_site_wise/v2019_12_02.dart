@@ -17008,7 +17008,7 @@ class Variant {
   factory Variant.fromJson(Map<String, dynamic> json) {
     return Variant(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       integerValue: json['integerValue'] as int?,
       nullValue: json['nullValue'] != null
           ? PropertyValueNullValue.fromJson(
@@ -17026,7 +17026,7 @@ class Variant {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (nullValue != null) 'nullValue': nullValue,
       if (stringValue != null) 'stringValue': stringValue,
@@ -17251,12 +17251,12 @@ class Aggregates {
 
   factory Aggregates.fromJson(Map<String, dynamic> json) {
     return Aggregates(
-      average: json['average'] as double?,
-      count: json['count'] as double?,
-      maximum: json['maximum'] as double?,
-      minimum: json['minimum'] as double?,
-      standardDeviation: json['standardDeviation'] as double?,
-      sum: json['sum'] as double?,
+      average: _s.parseJsonDouble(json['average']),
+      count: _s.parseJsonDouble(json['count']),
+      maximum: _s.parseJsonDouble(json['maximum']),
+      minimum: _s.parseJsonDouble(json['minimum']),
+      standardDeviation: _s.parseJsonDouble(json['standardDeviation']),
+      sum: _s.parseJsonDouble(json['sum']),
     );
   }
 
@@ -17268,12 +17268,13 @@ class Aggregates {
     final standardDeviation = this.standardDeviation;
     final sum = this.sum;
     return {
-      if (average != null) 'average': average,
-      if (count != null) 'count': count,
-      if (maximum != null) 'maximum': maximum,
-      if (minimum != null) 'minimum': minimum,
-      if (standardDeviation != null) 'standardDeviation': standardDeviation,
-      if (sum != null) 'sum': sum,
+      if (average != null) 'average': _s.encodeJsonDouble(average),
+      if (count != null) 'count': _s.encodeJsonDouble(count),
+      if (maximum != null) 'maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'minimum': _s.encodeJsonDouble(minimum),
+      if (standardDeviation != null)
+        'standardDeviation': _s.encodeJsonDouble(standardDeviation),
+      if (sum != null) 'sum': _s.encodeJsonDouble(sum),
     };
   }
 }

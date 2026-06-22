@@ -815,7 +815,7 @@ class RescoreResultItem {
   factory RescoreResultItem.fromJson(Map<String, dynamic> json) {
     return RescoreResultItem(
       documentId: json['DocumentId'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -824,7 +824,7 @@ class RescoreResultItem {
     final score = this.score;
     return {
       if (documentId != null) 'DocumentId': documentId,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -884,7 +884,7 @@ class Document {
     final tokenizedTitle = this.tokenizedTitle;
     return {
       'Id': id,
-      'OriginalScore': originalScore,
+      'OriginalScore': _s.encodeJsonDouble(originalScore),
       if (body != null) 'Body': body,
       if (groupId != null) 'GroupId': groupId,
       if (title != null) 'Title': title,

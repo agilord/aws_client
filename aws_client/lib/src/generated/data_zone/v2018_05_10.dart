@@ -37182,7 +37182,7 @@ class RejectRule {
     final threshold = this.threshold;
     return {
       if (rule != null) 'rule': rule.value,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
     };
   }
 }
@@ -42650,7 +42650,7 @@ class AcceptRule {
     final threshold = this.threshold;
     return {
       if (rule != null) 'rule': rule.value,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
     };
   }
 }

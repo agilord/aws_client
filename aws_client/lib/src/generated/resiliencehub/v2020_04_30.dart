@@ -7157,7 +7157,7 @@ class App {
               json['permissionModel'] as Map<String, dynamic>)
           : null,
       policyArn: json['policyArn'] as String?,
-      resiliencyScore: json['resiliencyScore'] as double?,
+      resiliencyScore: _s.parseJsonDouble(json['resiliencyScore']),
       rpoInSecs: json['rpoInSecs'] as int?,
       rtoInSecs: json['rtoInSecs'] as int?,
       status: (json['status'] as String?)?.let(AppStatusType.fromString),
@@ -7209,7 +7209,8 @@ class App {
             unixTimestampToJson(lastResiliencyScoreEvaluationTime),
       if (permissionModel != null) 'permissionModel': permissionModel,
       if (policyArn != null) 'policyArn': policyArn,
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (resiliencyScore != null)
+        'resiliencyScore': _s.encodeJsonDouble(resiliencyScore),
       if (rpoInSecs != null) 'rpoInSecs': rpoInSecs,
       if (rtoInSecs != null) 'rtoInSecs': rtoInSecs,
       if (status != null) 'status': status.value,
@@ -7806,7 +7807,7 @@ class Cost {
 
   factory Cost.fromJson(Map<String, dynamic> json) {
     return Cost(
-      amount: (json['amount'] as double?) ?? 0,
+      amount: _s.parseJsonDouble(json['amount']) ?? 0,
       currency: (json['currency'] as String?) ?? '',
       frequency: CostFrequency.fromString((json['frequency'] as String?) ?? ''),
     );
@@ -7817,7 +7818,7 @@ class Cost {
     final currency = this.currency;
     final frequency = this.frequency;
     return {
-      'amount': amount,
+      'amount': _s.encodeJsonDouble(amount),
       'currency': currency,
       'frequency': frequency.value,
     };
@@ -7854,8 +7855,9 @@ class ResiliencyScore {
     return ResiliencyScore(
       disruptionScore: ((json['disruptionScore'] as Map<String, dynamic>?) ??
               const <String, dynamic>{})
-          .map((k, e) => MapEntry(DisruptionType.fromString(k), e as double)),
-      score: (json['score'] as double?) ?? 0,
+          .map((k, e) =>
+              MapEntry(DisruptionType.fromString(k), _s.parseJsonDouble(e)!)),
+      score: _s.parseJsonDouble(json['score']) ?? 0,
       componentScore: (json['componentScore'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
               ResiliencyScoreType.fromString(k),
@@ -7869,8 +7871,9 @@ class ResiliencyScore {
     final score = this.score;
     final componentScore = this.componentScore;
     return {
-      'disruptionScore': disruptionScore.map((k, e) => MapEntry(k.value, e)),
-      'score': score,
+      'disruptionScore': disruptionScore
+          .map((k, e) => MapEntry(k.value, _s.encodeJsonDouble(e))),
+      'score': _s.encodeJsonDouble(score),
       if (componentScore != null)
         'componentScore': componentScore.map((k, e) => MapEntry(k.value, e)),
     };
@@ -8319,8 +8322,8 @@ class ScoringComponentResiliencyScore {
     return ScoringComponentResiliencyScore(
       excludedCount: json['excludedCount'] as int?,
       outstandingCount: json['outstandingCount'] as int?,
-      possibleScore: json['possibleScore'] as double?,
-      score: json['score'] as double?,
+      possibleScore: _s.parseJsonDouble(json['possibleScore']),
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -8332,8 +8335,9 @@ class ScoringComponentResiliencyScore {
     return {
       if (excludedCount != null) 'excludedCount': excludedCount,
       if (outstandingCount != null) 'outstandingCount': outstandingCount,
-      if (possibleScore != null) 'possibleScore': possibleScore,
-      if (score != null) 'score': score,
+      if (possibleScore != null)
+        'possibleScore': _s.encodeJsonDouble(possibleScore),
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -9097,7 +9101,7 @@ class GroupingRecommendation {
           .nonNulls
           .map((e) => GroupingResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: (json['score'] as double?) ?? 0,
+      score: _s.parseJsonDouble(json['score']) ?? 0,
       status: GroupingRecommendationStatusType.fromString(
           (json['status'] as String?) ?? ''),
       rejectionReason: (json['rejectionReason'] as String?)
@@ -9122,7 +9126,7 @@ class GroupingRecommendation {
       'groupingRecommendationId': groupingRecommendationId,
       'recommendationReasons': recommendationReasons,
       'resources': resources,
-      'score': score,
+      'score': _s.encodeJsonDouble(score),
       'status': status.value,
       if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
     };
@@ -9961,7 +9965,7 @@ class AppSummary {
           (json['driftStatus'] as String?)?.let(AppDriftStatusType.fromString),
       lastAppComplianceEvaluationTime:
           timeStampFromJson(json['lastAppComplianceEvaluationTime']),
-      resiliencyScore: json['resiliencyScore'] as double?,
+      resiliencyScore: _s.parseJsonDouble(json['resiliencyScore']),
       rpoInSecs: json['rpoInSecs'] as int?,
       rtoInSecs: json['rtoInSecs'] as int?,
       status: (json['status'] as String?)?.let(AppStatusType.fromString),
@@ -9996,7 +10000,8 @@ class AppSummary {
       if (lastAppComplianceEvaluationTime != null)
         'lastAppComplianceEvaluationTime':
             unixTimestampToJson(lastAppComplianceEvaluationTime),
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (resiliencyScore != null)
+        'resiliencyScore': _s.encodeJsonDouble(resiliencyScore),
       if (rpoInSecs != null) 'rpoInSecs': rpoInSecs,
       if (rtoInSecs != null) 'rtoInSecs': rtoInSecs,
       if (status != null) 'status': status.value,
@@ -10630,7 +10635,7 @@ class AppAssessmentSummary {
       endTime: timeStampFromJson(json['endTime']),
       invoker: (json['invoker'] as String?)?.let(AssessmentInvoker.fromString),
       message: json['message'] as String?,
-      resiliencyScore: json['resiliencyScore'] as double?,
+      resiliencyScore: _s.parseJsonDouble(json['resiliencyScore']),
       startTime: timeStampFromJson(json['startTime']),
       versionName: json['versionName'] as String?,
     );
@@ -10663,7 +10668,8 @@ class AppAssessmentSummary {
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (invoker != null) 'invoker': invoker.value,
       if (message != null) 'message': message,
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (resiliencyScore != null)
+        'resiliencyScore': _s.encodeJsonDouble(resiliencyScore),
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       if (versionName != null) 'versionName': versionName,
     };

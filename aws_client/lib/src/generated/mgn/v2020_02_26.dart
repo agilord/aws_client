@@ -12599,7 +12599,7 @@ class ImportTask {
       creationDateTime: json['creationDateTime'] as String?,
       endDateTime: json['endDateTime'] as String?,
       importID: json['importID'] as String?,
-      progressPercentage: json['progressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['progressPercentage']),
       s3BucketSource: json['s3BucketSource'] != null
           ? S3BucketSource.fromJson(
               json['s3BucketSource'] as Map<String, dynamic>)
@@ -12628,7 +12628,8 @@ class ImportTask {
       if (creationDateTime != null) 'creationDateTime': creationDateTime,
       if (endDateTime != null) 'endDateTime': endDateTime,
       if (importID != null) 'importID': importID,
-      if (progressPercentage != null) 'progressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'progressPercentage': _s.encodeJsonDouble(progressPercentage),
       if (s3BucketSource != null) 's3BucketSource': s3BucketSource,
       if (status != null) 'status': status.value,
       if (summary != null) 'summary': summary,
@@ -12981,7 +12982,7 @@ class ExportTask {
       creationDateTime: json['creationDateTime'] as String?,
       endDateTime: json['endDateTime'] as String?,
       exportID: json['exportID'] as String?,
-      progressPercentage: json['progressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['progressPercentage']),
       s3Bucket: json['s3Bucket'] as String?,
       s3BucketOwner: json['s3BucketOwner'] as String?,
       s3Key: json['s3Key'] as String?,
@@ -13011,7 +13012,8 @@ class ExportTask {
       if (creationDateTime != null) 'creationDateTime': creationDateTime,
       if (endDateTime != null) 'endDateTime': endDateTime,
       if (exportID != null) 'exportID': exportID,
-      if (progressPercentage != null) 'progressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'progressPercentage': _s.encodeJsonDouble(progressPercentage),
       if (s3Bucket != null) 's3Bucket': s3Bucket,
       if (s3BucketOwner != null) 's3BucketOwner': s3BucketOwner,
       if (s3Key != null) 's3Key': s3Key,

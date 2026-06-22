@@ -957,8 +957,8 @@ class ProgressiveDialerConfig {
 
   factory ProgressiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return ProgressiveDialerConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
-      dialingCapacity: json['dialingCapacity'] as double?,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
+      dialingCapacity: _s.parseJsonDouble(json['dialingCapacity']),
     );
   }
 
@@ -966,8 +966,9 @@ class ProgressiveDialerConfig {
     final bandwidthAllocation = this.bandwidthAllocation;
     final dialingCapacity = this.dialingCapacity;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
+      if (dialingCapacity != null)
+        'dialingCapacity': _s.encodeJsonDouble(dialingCapacity),
     };
   }
 }
@@ -986,8 +987,8 @@ class PredictiveDialerConfig {
 
   factory PredictiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveDialerConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
-      dialingCapacity: json['dialingCapacity'] as double?,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
+      dialingCapacity: _s.parseJsonDouble(json['dialingCapacity']),
     );
   }
 
@@ -995,8 +996,9 @@ class PredictiveDialerConfig {
     final bandwidthAllocation = this.bandwidthAllocation;
     final dialingCapacity = this.dialingCapacity;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
+      if (dialingCapacity != null)
+        'dialingCapacity': _s.encodeJsonDouble(dialingCapacity),
     };
   }
 }
@@ -1013,14 +1015,15 @@ class AgentlessDialerConfig {
 
   factory AgentlessDialerConfig.fromJson(Map<String, dynamic> json) {
     return AgentlessDialerConfig(
-      dialingCapacity: json['dialingCapacity'] as double?,
+      dialingCapacity: _s.parseJsonDouble(json['dialingCapacity']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final dialingCapacity = this.dialingCapacity;
     return {
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      if (dialingCapacity != null)
+        'dialingCapacity': _s.encodeJsonDouble(dialingCapacity),
     };
   }
 }

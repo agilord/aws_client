@@ -3393,7 +3393,7 @@ class BillingRecord {
       domainName: json['DomainName'] as String?,
       invoiceId: json['InvoiceId'] as String?,
       operation: (json['Operation'] as String?)?.let(OperationType.fromString),
-      price: json['Price'] as double?,
+      price: _s.parseJsonDouble(json['Price']),
     );
   }
 
@@ -3408,7 +3408,7 @@ class BillingRecord {
       if (domainName != null) 'DomainName': domainName,
       if (invoiceId != null) 'InvoiceId': invoiceId,
       if (operation != null) 'Operation': operation.value,
-      if (price != null) 'Price': price,
+      if (price != null) 'Price': _s.encodeJsonDouble(price),
     };
   }
 }
@@ -3732,7 +3732,7 @@ class Consent {
     final maxPrice = this.maxPrice;
     return {
       'Currency': currency,
-      'MaxPrice': maxPrice,
+      'MaxPrice': _s.encodeJsonDouble(maxPrice),
     };
   }
 }
@@ -5220,7 +5220,7 @@ class PriceWithCurrency {
   factory PriceWithCurrency.fromJson(Map<String, dynamic> json) {
     return PriceWithCurrency(
       currency: (json['Currency'] as String?) ?? '',
-      price: (json['Price'] as double?) ?? 0,
+      price: _s.parseJsonDouble(json['Price']) ?? 0,
     );
   }
 
@@ -5229,7 +5229,7 @@ class PriceWithCurrency {
     final price = this.price;
     return {
       'Currency': currency,
-      'Price': price,
+      'Price': _s.encodeJsonDouble(price),
     };
   }
 }

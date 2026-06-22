@@ -4570,7 +4570,7 @@ class SavingsOpportunity {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -4581,7 +4581,8 @@ class SavingsOpportunity {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -4751,7 +4752,7 @@ class EstimatedMonthlySavings {
   factory EstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return EstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -4760,7 +4761,7 @@ class EstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -4850,7 +4851,7 @@ class IdleSummary {
   factory IdleSummary.fromJson(Map<String, dynamic> json) {
     return IdleSummary(
       name: (json['name'] as String?)?.let(IdleFinding.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -4859,7 +4860,7 @@ class IdleSummary {
     final value = this.value;
     return {
       if (name != null) 'name': name.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -4915,7 +4916,7 @@ class Summary {
           ?.nonNulls
           .map((e) => ReasonCodeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -4927,7 +4928,7 @@ class Summary {
       if (name != null) 'name': name.value,
       if (reasonCodeSummaries != null)
         'reasonCodeSummaries': reasonCodeSummaries,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -4981,7 +4982,7 @@ class ReasonCodeSummary {
   factory ReasonCodeSummary.fromJson(Map<String, dynamic> json) {
     return ReasonCodeSummary(
       name: (json['name'] as String?)?.let(FindingReasonCode.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -4990,7 +4991,7 @@ class ReasonCodeSummary {
     final value = this.value;
     return {
       if (name != null) 'name': name.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -5429,7 +5430,7 @@ class RDSDBRecommendation {
                   e as Map<String, dynamic>))
               .toList(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
-      lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
+      lookbackPeriodInDays: _s.parseJsonDouble(json['lookbackPeriodInDays']),
       promotionTier: json['promotionTier'] as int?,
       resourceArn: json['resourceArn'] as String?,
       storageFinding: (json['storageFinding'] as String?)
@@ -5509,7 +5510,7 @@ class RDSDBRecommendation {
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookbackPeriodInDays != null)
-        'lookbackPeriodInDays': lookbackPeriodInDays,
+        'lookbackPeriodInDays': _s.encodeJsonDouble(lookbackPeriodInDays),
       if (promotionTier != null) 'promotionTier': promotionTier,
       if (resourceArn != null) 'resourceArn': resourceArn,
       if (storageFinding != null) 'storageFinding': storageFinding.value,
@@ -5955,7 +5956,7 @@ class RDSDBUtilizationMetric {
       name: (json['name'] as String?)?.let(RDSDBMetricName.fromString),
       statistic:
           (json['statistic'] as String?)?.let(RDSDBMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -5966,7 +5967,7 @@ class RDSDBUtilizationMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -6187,7 +6188,7 @@ class RDSStorageSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -6198,7 +6199,8 @@ class RDSStorageSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -6224,7 +6226,7 @@ class RDSStorageEstimatedMonthlySavings {
       Map<String, dynamic> json) {
     return RDSStorageEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -6233,7 +6235,7 @@ class RDSStorageEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -6279,7 +6281,7 @@ class RDSDBInstanceRecommendationOption {
       Map<String, dynamic> json) {
     return RDSDBInstanceRecommendationOption(
       dbInstanceClass: json['dbInstanceClass'] as String?,
-      performanceRisk: json['performanceRisk'] as double?,
+      performanceRisk: _s.parseJsonDouble(json['performanceRisk']),
       projectedUtilizationMetrics: (json['projectedUtilizationMetrics']
               as List?)
           ?.nonNulls
@@ -6310,7 +6312,8 @@ class RDSDBInstanceRecommendationOption {
         this.savingsOpportunityAfterDiscounts;
     return {
       if (dbInstanceClass != null) 'dbInstanceClass': dbInstanceClass,
-      if (performanceRisk != null) 'performanceRisk': performanceRisk,
+      if (performanceRisk != null)
+        'performanceRisk': _s.encodeJsonDouble(performanceRisk),
       if (projectedUtilizationMetrics != null)
         'projectedUtilizationMetrics': projectedUtilizationMetrics,
       if (rank != null) 'rank': rank,
@@ -6353,7 +6356,7 @@ class RDSInstanceSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -6364,7 +6367,8 @@ class RDSInstanceSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -6390,7 +6394,7 @@ class RDSInstanceEstimatedMonthlySavings {
       Map<String, dynamic> json) {
     return RDSInstanceEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -6399,7 +6403,7 @@ class RDSInstanceEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -6733,8 +6737,10 @@ class RDSDatabaseProjectedMetric {
           ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      values: (json['values'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
@@ -6746,7 +6752,7 @@ class RDSDatabaseProjectedMetric {
       if (name != null) 'name': name.value,
       if (timestamps != null)
         'timestamps': timestamps.map(unixTimestampToJson).toList(),
-      if (values != null) 'values': values,
+      if (values != null) 'values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -6883,7 +6889,7 @@ class LicenseRecommendation {
           .map((e) =>
               LicenseRecommendationOption.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
+      lookbackPeriodInDays: _s.parseJsonDouble(json['lookbackPeriodInDays']),
       resourceArn: json['resourceArn'] as String?,
       tags: (json['tags'] as List?)
           ?.nonNulls
@@ -6914,7 +6920,7 @@ class LicenseRecommendation {
       if (licenseRecommendationOptions != null)
         'licenseRecommendationOptions': licenseRecommendationOptions,
       if (lookbackPeriodInDays != null)
-        'lookbackPeriodInDays': lookbackPeriodInDays,
+        'lookbackPeriodInDays': _s.encodeJsonDouble(lookbackPeriodInDays),
       if (resourceArn != null) 'resourceArn': resourceArn,
       if (tags != null) 'tags': tags,
     };
@@ -7514,7 +7520,7 @@ class LambdaFunctionRecommendation {
       functionArn: json['functionArn'] as String?,
       functionVersion: json['functionVersion'] as String?,
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
-      lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
+      lookbackPeriodInDays: _s.parseJsonDouble(json['lookbackPeriodInDays']),
       memorySizeRecommendationOptions:
           (json['memorySizeRecommendationOptions'] as List?)
               ?.nonNulls
@@ -7567,7 +7573,7 @@ class LambdaFunctionRecommendation {
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookbackPeriodInDays != null)
-        'lookbackPeriodInDays': lookbackPeriodInDays,
+        'lookbackPeriodInDays': _s.encodeJsonDouble(lookbackPeriodInDays),
       if (memorySizeRecommendationOptions != null)
         'memorySizeRecommendationOptions': memorySizeRecommendationOptions,
       if (numberOfInvocations != null)
@@ -7838,7 +7844,7 @@ class LambdaSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -7849,7 +7855,8 @@ class LambdaSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -7874,7 +7881,7 @@ class LambdaEstimatedMonthlySavings {
   factory LambdaEstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return LambdaEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -7883,7 +7890,7 @@ class LambdaEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7915,7 +7922,7 @@ class LambdaFunctionMemoryProjectedMetric {
           ?.let(LambdaFunctionMemoryMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(LambdaFunctionMemoryMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -7926,7 +7933,7 @@ class LambdaFunctionMemoryProjectedMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -8073,7 +8080,7 @@ class LambdaFunctionUtilizationMetric {
       name: (json['name'] as String?)?.let(LambdaFunctionMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(LambdaFunctionMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -8084,7 +8091,7 @@ class LambdaFunctionUtilizationMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -8390,7 +8397,7 @@ class IdleRecommendation {
       finding: (json['finding'] as String?)?.let(IdleFinding.fromString),
       findingDescription: json['findingDescription'] as String?,
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
-      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      lookBackPeriodInDays: _s.parseJsonDouble(json['lookBackPeriodInDays']),
       resourceArn: json['resourceArn'] as String?,
       resourceId: json['resourceId'] as String?,
       resourceType: (json['resourceType'] as String?)
@@ -8437,7 +8444,7 @@ class IdleRecommendation {
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookBackPeriodInDays != null)
-        'lookBackPeriodInDays': lookBackPeriodInDays,
+        'lookBackPeriodInDays': _s.encodeJsonDouble(lookBackPeriodInDays),
       if (resourceArn != null) 'resourceArn': resourceArn,
       if (resourceId != null) 'resourceId': resourceId,
       if (resourceType != null) 'resourceType': resourceType.value,
@@ -8474,7 +8481,7 @@ class IdleSavingsOpportunity {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -8485,7 +8492,8 @@ class IdleSavingsOpportunity {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -8521,7 +8529,7 @@ class IdleSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -8532,7 +8540,8 @@ class IdleSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -8576,7 +8585,7 @@ class IdleUtilizationMetric {
       name: (json['name'] as String?)?.let(IdleMetricName.fromString),
       statistic:
           (json['statistic'] as String?)?.let(MetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -8587,7 +8596,7 @@ class IdleUtilizationMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -8665,7 +8674,7 @@ class IdleEstimatedMonthlySavings {
   factory IdleEstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return IdleEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -8674,7 +8683,7 @@ class IdleEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -9085,7 +9094,7 @@ class ECSServiceRecommendation {
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       launchType:
           (json['launchType'] as String?)?.let(ECSServiceLaunchType.fromString),
-      lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
+      lookbackPeriodInDays: _s.parseJsonDouble(json['lookbackPeriodInDays']),
       serviceArn: json['serviceArn'] as String?,
       serviceRecommendationOptions:
           (json['serviceRecommendationOptions'] as List?)
@@ -9136,7 +9145,7 @@ class ECSServiceRecommendation {
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (launchType != null) 'launchType': launchType.value,
       if (lookbackPeriodInDays != null)
-        'lookbackPeriodInDays': lookbackPeriodInDays,
+        'lookbackPeriodInDays': _s.encodeJsonDouble(lookbackPeriodInDays),
       if (serviceArn != null) 'serviceArn': serviceArn,
       if (serviceRecommendationOptions != null)
         'serviceRecommendationOptions': serviceRecommendationOptions,
@@ -9504,7 +9513,7 @@ class ECSSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -9515,7 +9524,8 @@ class ECSSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -9655,11 +9665,11 @@ class ECSServiceProjectedUtilizationMetric {
   factory ECSServiceProjectedUtilizationMetric.fromJson(
       Map<String, dynamic> json) {
     return ECSServiceProjectedUtilizationMetric(
-      lowerBoundValue: json['lowerBoundValue'] as double?,
+      lowerBoundValue: _s.parseJsonDouble(json['lowerBoundValue']),
       name: (json['name'] as String?)?.let(ECSServiceMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(ECSServiceMetricStatistic.fromString),
-      upperBoundValue: json['upperBoundValue'] as double?,
+      upperBoundValue: _s.parseJsonDouble(json['upperBoundValue']),
     );
   }
 
@@ -9669,10 +9679,12 @@ class ECSServiceProjectedUtilizationMetric {
     final statistic = this.statistic;
     final upperBoundValue = this.upperBoundValue;
     return {
-      if (lowerBoundValue != null) 'lowerBoundValue': lowerBoundValue,
+      if (lowerBoundValue != null)
+        'lowerBoundValue': _s.encodeJsonDouble(lowerBoundValue),
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (upperBoundValue != null) 'upperBoundValue': upperBoundValue,
+      if (upperBoundValue != null)
+        'upperBoundValue': _s.encodeJsonDouble(upperBoundValue),
     };
   }
 }
@@ -9749,7 +9761,7 @@ class ECSEstimatedMonthlySavings {
   factory ECSEstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return ECSEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -9758,7 +9770,7 @@ class ECSEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -9855,7 +9867,7 @@ class ECSServiceUtilizationMetric {
       name: (json['name'] as String?)?.let(ECSServiceMetricName.fromString),
       statistic: (json['statistic'] as String?)
           ?.let(ECSServiceMetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -9866,7 +9878,7 @@ class ECSServiceUtilizationMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -10132,7 +10144,7 @@ class ECSServiceProjectedMetric {
     return ECSServiceProjectedMetric(
       lowerBoundValues: (json['lowerBoundValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       name: (json['name'] as String?)?.let(ECSServiceMetricName.fromString),
       timestamps: (json['timestamps'] as List?)
@@ -10141,7 +10153,7 @@ class ECSServiceProjectedMetric {
           .toList(),
       upperBoundValues: (json['upperBoundValues'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -10152,11 +10164,13 @@ class ECSServiceProjectedMetric {
     final timestamps = this.timestamps;
     final upperBoundValues = this.upperBoundValues;
     return {
-      if (lowerBoundValues != null) 'lowerBoundValues': lowerBoundValues,
+      if (lowerBoundValues != null)
+        'lowerBoundValues': lowerBoundValues.map(_s.encodeJsonDouble).toList(),
       if (name != null) 'name': name.value,
       if (timestamps != null)
         'timestamps': timestamps.map(unixTimestampToJson).toList(),
-      if (upperBoundValues != null) 'upperBoundValues': upperBoundValues,
+      if (upperBoundValues != null)
+        'upperBoundValues': upperBoundValues.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -10305,8 +10319,10 @@ class ProjectedMetric {
           ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      values: (json['values'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
@@ -10318,7 +10334,7 @@ class ProjectedMetric {
       if (name != null) 'name': name.value,
       if (timestamps != null)
         'timestamps': timestamps.map(unixTimestampToJson).toList(),
-      if (values != null) 'values': values,
+      if (values != null) 'values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -10725,7 +10741,7 @@ class InstanceRecommendation {
       instanceState:
           (json['instanceState'] as String?)?.let(InstanceState.fromString),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
-      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      lookBackPeriodInDays: _s.parseJsonDouble(json['lookBackPeriodInDays']),
       recommendationOptions: (json['recommendationOptions'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -10793,7 +10809,7 @@ class InstanceRecommendation {
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookBackPeriodInDays != null)
-        'lookBackPeriodInDays': lookBackPeriodInDays,
+        'lookBackPeriodInDays': _s.encodeJsonDouble(lookBackPeriodInDays),
       if (recommendationOptions != null)
         'recommendationOptions': recommendationOptions,
       if (recommendationSources != null)
@@ -11459,7 +11475,7 @@ class InstanceRecommendationOption {
       instanceType: json['instanceType'] as String?,
       migrationEffort:
           (json['migrationEffort'] as String?)?.let(MigrationEffort.fromString),
-      performanceRisk: json['performanceRisk'] as double?,
+      performanceRisk: _s.parseJsonDouble(json['performanceRisk']),
       platformDifferences: (json['platformDifferences'] as List?)
           ?.nonNulls
           .map((e) => PlatformDifference.fromString((e as String)))
@@ -11498,7 +11514,8 @@ class InstanceRecommendationOption {
       if (instanceGpuInfo != null) 'instanceGpuInfo': instanceGpuInfo,
       if (instanceType != null) 'instanceType': instanceType,
       if (migrationEffort != null) 'migrationEffort': migrationEffort.value,
-      if (performanceRisk != null) 'performanceRisk': performanceRisk,
+      if (performanceRisk != null)
+        'performanceRisk': _s.encodeJsonDouble(performanceRisk),
       if (platformDifferences != null)
         'platformDifferences': platformDifferences.map((e) => e.value).toList(),
       if (projectedUtilizationMetrics != null)
@@ -11542,7 +11559,7 @@ class InstanceSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -11553,7 +11570,8 @@ class InstanceSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -11605,7 +11623,7 @@ class InstanceEstimatedMonthlySavings {
   factory InstanceEstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return InstanceEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -11614,7 +11632,7 @@ class InstanceEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -11821,7 +11839,7 @@ class UtilizationMetric {
       name: (json['name'] as String?)?.let(MetricName.fromString),
       statistic:
           (json['statistic'] as String?)?.let(MetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -11832,7 +11850,7 @@ class UtilizationMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -12225,7 +12243,7 @@ class VolumeRecommendation {
               : null,
       finding: (json['finding'] as String?)?.let(EBSFinding.fromString),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
-      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      lookBackPeriodInDays: _s.parseJsonDouble(json['lookBackPeriodInDays']),
       tags: (json['tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -12270,7 +12288,7 @@ class VolumeRecommendation {
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookBackPeriodInDays != null)
-        'lookBackPeriodInDays': lookBackPeriodInDays,
+        'lookBackPeriodInDays': _s.encodeJsonDouble(lookBackPeriodInDays),
       if (tags != null) 'tags': tags,
       if (utilizationMetrics != null) 'utilizationMetrics': utilizationMetrics,
       if (volumeArn != null) 'volumeArn': volumeArn,
@@ -12546,7 +12564,7 @@ class VolumeRecommendationOption {
           ? VolumeConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
           : null,
-      performanceRisk: json['performanceRisk'] as double?,
+      performanceRisk: _s.parseJsonDouble(json['performanceRisk']),
       rank: json['rank'] as int?,
       savingsOpportunity: json['savingsOpportunity'] != null
           ? SavingsOpportunity.fromJson(
@@ -12570,7 +12588,8 @@ class VolumeRecommendationOption {
         this.savingsOpportunityAfterDiscounts;
     return {
       if (configuration != null) 'configuration': configuration,
-      if (performanceRisk != null) 'performanceRisk': performanceRisk,
+      if (performanceRisk != null)
+        'performanceRisk': _s.encodeJsonDouble(performanceRisk),
       if (rank != null) 'rank': rank,
       if (savingsOpportunity != null) 'savingsOpportunity': savingsOpportunity,
       if (savingsOpportunityAfterDiscounts != null)
@@ -12607,7 +12626,7 @@ class EBSSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -12618,7 +12637,8 @@ class EBSSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -12643,7 +12663,7 @@ class EBSEstimatedMonthlySavings {
   factory EBSEstimatedMonthlySavings.fromJson(Map<String, dynamic> json) {
     return EBSEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -12652,7 +12672,7 @@ class EBSEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -12730,7 +12750,7 @@ class EBSUtilizationMetric {
       name: (json['name'] as String?)?.let(EBSMetricName.fromString),
       statistic:
           (json['statistic'] as String?)?.let(MetricStatistic.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -12741,7 +12761,7 @@ class EBSUtilizationMetric {
     return {
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -13014,7 +13034,7 @@ class AutoScalingGroupRecommendation {
           .map((e) => InferredWorkloadType.fromString((e as String)))
           .toList(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
-      lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
+      lookBackPeriodInDays: _s.parseJsonDouble(json['lookBackPeriodInDays']),
       recommendationOptions: (json['recommendationOptions'] as List?)
           ?.nonNulls
           .map((e) => AutoScalingGroupRecommendationOption.fromJson(
@@ -13064,7 +13084,7 @@ class AutoScalingGroupRecommendation {
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookBackPeriodInDays != null)
-        'lookBackPeriodInDays': lookBackPeriodInDays,
+        'lookBackPeriodInDays': _s.encodeJsonDouble(lookBackPeriodInDays),
       if (recommendationOptions != null)
         'recommendationOptions': recommendationOptions,
       if (utilizationMetrics != null) 'utilizationMetrics': utilizationMetrics,
@@ -13126,7 +13146,7 @@ class AutoScalingGroupConfiguration {
           ?.let(AllocationStrategy.fromString),
       desiredCapacity: json['desiredCapacity'] as int?,
       estimatedInstanceHourReductionPercentage:
-          json['estimatedInstanceHourReductionPercentage'] as double?,
+          _s.parseJsonDouble(json['estimatedInstanceHourReductionPercentage']),
       instanceType: json['instanceType'] as String?,
       maxSize: json['maxSize'] as int?,
       minSize: json['minSize'] as int?,
@@ -13154,7 +13174,7 @@ class AutoScalingGroupConfiguration {
       if (desiredCapacity != null) 'desiredCapacity': desiredCapacity,
       if (estimatedInstanceHourReductionPercentage != null)
         'estimatedInstanceHourReductionPercentage':
-            estimatedInstanceHourReductionPercentage,
+            _s.encodeJsonDouble(estimatedInstanceHourReductionPercentage),
       if (instanceType != null) 'instanceType': instanceType,
       if (maxSize != null) 'maxSize': maxSize,
       if (minSize != null) 'minSize': minSize,
@@ -13255,7 +13275,7 @@ class AutoScalingGroupRecommendationOption {
           : null,
       migrationEffort:
           (json['migrationEffort'] as String?)?.let(MigrationEffort.fromString),
-      performanceRisk: json['performanceRisk'] as double?,
+      performanceRisk: _s.parseJsonDouble(json['performanceRisk']),
       projectedUtilizationMetrics:
           (json['projectedUtilizationMetrics'] as List?)
               ?.nonNulls
@@ -13289,7 +13309,8 @@ class AutoScalingGroupRecommendationOption {
       if (configuration != null) 'configuration': configuration,
       if (instanceGpuInfo != null) 'instanceGpuInfo': instanceGpuInfo,
       if (migrationEffort != null) 'migrationEffort': migrationEffort.value,
-      if (performanceRisk != null) 'performanceRisk': performanceRisk,
+      if (performanceRisk != null)
+        'performanceRisk': _s.encodeJsonDouble(performanceRisk),
       if (projectedUtilizationMetrics != null)
         'projectedUtilizationMetrics': projectedUtilizationMetrics,
       if (rank != null) 'rank': rank,
@@ -13332,7 +13353,7 @@ class AutoScalingGroupSavingsOpportunityAfterDiscounts {
               json['estimatedMonthlySavings'] as Map<String, dynamic>)
           : null,
       savingsOpportunityPercentage:
-          json['savingsOpportunityPercentage'] as double?,
+          _s.parseJsonDouble(json['savingsOpportunityPercentage']),
     );
   }
 
@@ -13343,7 +13364,8 @@ class AutoScalingGroupSavingsOpportunityAfterDiscounts {
       if (estimatedMonthlySavings != null)
         'estimatedMonthlySavings': estimatedMonthlySavings,
       if (savingsOpportunityPercentage != null)
-        'savingsOpportunityPercentage': savingsOpportunityPercentage,
+        'savingsOpportunityPercentage':
+            _s.encodeJsonDouble(savingsOpportunityPercentage),
     };
   }
 }
@@ -13369,7 +13391,7 @@ class AutoScalingGroupEstimatedMonthlySavings {
       Map<String, dynamic> json) {
     return AutoScalingGroupEstimatedMonthlySavings(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -13378,7 +13400,7 @@ class AutoScalingGroupEstimatedMonthlySavings {
     final value = this.value;
     return {
       if (currency != null) 'currency': currency.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }

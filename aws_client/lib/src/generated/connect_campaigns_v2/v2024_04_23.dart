@@ -2050,7 +2050,7 @@ class TelephonyChannelSubtypeConfig {
       outboundMode: TelephonyOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
       connectQueueId: json['connectQueueId'] as String?,
     );
   }
@@ -2063,7 +2063,7 @@ class TelephonyChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
       if (connectQueueId != null) 'connectQueueId': connectQueueId,
     };
   }
@@ -2091,7 +2091,7 @@ class SmsChannelSubtypeConfig {
       outboundMode: SmsOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
     );
   }
 
@@ -2102,7 +2102,7 @@ class SmsChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
     };
   }
 }
@@ -2129,7 +2129,7 @@ class EmailChannelSubtypeConfig {
       outboundMode: EmailOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
     );
   }
 
@@ -2140,7 +2140,7 @@ class EmailChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
     };
   }
 }
@@ -2167,7 +2167,7 @@ class WhatsAppChannelSubtypeConfig {
       outboundMode: WhatsAppOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
     );
   }
 
@@ -2178,7 +2178,7 @@ class WhatsAppChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
     };
   }
 }
@@ -2512,14 +2512,14 @@ class ProgressiveConfig {
 
   factory ProgressiveConfig.fromJson(Map<String, dynamic> json) {
     return ProgressiveConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
     };
   }
 }
@@ -2536,14 +2536,14 @@ class PredictiveConfig {
 
   factory PredictiveConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
     };
   }
 }
@@ -2564,7 +2564,7 @@ class PreviewConfig {
 
   factory PreviewConfig.fromJson(Map<String, dynamic> json) {
     return PreviewConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
       timeoutConfig: TimeoutConfig.fromJson(
           (json['timeoutConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2580,7 +2580,7 @@ class PreviewConfig {
     final timeoutConfig = this.timeoutConfig;
     final agentActions = this.agentActions;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
       'timeoutConfig': timeoutConfig,
       if (agentActions != null)
         'agentActions': agentActions.map((e) => e.value).toList(),

@@ -1243,11 +1243,11 @@ class FindingMetricsValuePerSeverity {
 
   factory FindingMetricsValuePerSeverity.fromJson(Map<String, dynamic> json) {
     return FindingMetricsValuePerSeverity(
-      critical: json['critical'] as double?,
-      high: json['high'] as double?,
-      info: json['info'] as double?,
-      low: json['low'] as double?,
-      medium: json['medium'] as double?,
+      critical: _s.parseJsonDouble(json['critical']),
+      high: _s.parseJsonDouble(json['high']),
+      info: _s.parseJsonDouble(json['info']),
+      low: _s.parseJsonDouble(json['low']),
+      medium: _s.parseJsonDouble(json['medium']),
     );
   }
 
@@ -1258,11 +1258,11 @@ class FindingMetricsValuePerSeverity {
     final low = this.low;
     final medium = this.medium;
     return {
-      if (critical != null) 'critical': critical,
-      if (high != null) 'high': high,
-      if (info != null) 'info': info,
-      if (low != null) 'low': low,
-      if (medium != null) 'medium': medium,
+      if (critical != null) 'critical': _s.encodeJsonDouble(critical),
+      if (high != null) 'high': _s.encodeJsonDouble(high),
+      if (info != null) 'info': _s.encodeJsonDouble(info),
+      if (low != null) 'low': _s.encodeJsonDouble(low),
+      if (medium != null) 'medium': _s.encodeJsonDouble(medium),
     };
   }
 }

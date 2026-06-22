@@ -1573,7 +1573,7 @@ class QueryOutputVector {
   factory QueryOutputVector.fromJson(Map<String, dynamic> json) {
     return QueryOutputVector(
       key: (json['key'] as String?) ?? '',
-      distance: json['distance'] as double?,
+      distance: _s.parseJsonDouble(json['distance']),
       metadata: json['metadata'],
     );
   }
@@ -1584,7 +1584,7 @@ class QueryOutputVector {
     final metadata = this.metadata;
     return {
       'key': key,
-      if (distance != null) 'distance': distance,
+      if (distance != null) 'distance': _s.encodeJsonDouble(distance),
       if (metadata != null) 'metadata': metadata,
     };
   }
@@ -1605,15 +1605,17 @@ class VectorData {
 
   factory VectorData.fromJson(Map<String, dynamic> json) {
     return VectorData(
-      float32:
-          (json['float32'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      float32: (json['float32'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final float32 = this.float32;
     return {
-      if (float32 != null) 'float32': float32,
+      if (float32 != null) 'float32': float32.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

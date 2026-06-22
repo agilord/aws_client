@@ -670,7 +670,7 @@ class Bedrock {
       'guardContent': guardContent,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (confidenceThreshold != null)
-        'confidenceThreshold': confidenceThreshold,
+        'confidenceThreshold': _s.encodeJsonDouble(confidenceThreshold),
       if (queryContent != null) 'queryContent': queryContent,
     };
     final response = await _protocol.send(
@@ -1408,7 +1408,7 @@ class Bedrock {
       'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (confidenceThreshold != null)
-        'confidenceThreshold': confidenceThreshold,
+        'confidenceThreshold': _s.encodeJsonDouble(confidenceThreshold),
       if (queryContent != null) 'queryContent': queryContent,
     };
     final response = await _protocol.send(
@@ -10326,14 +10326,15 @@ class TrainingMetrics {
 
   factory TrainingMetrics.fromJson(Map<String, dynamic> json) {
     return TrainingMetrics(
-      trainingLoss: json['trainingLoss'] as double?,
+      trainingLoss: _s.parseJsonDouble(json['trainingLoss']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final trainingLoss = this.trainingLoss;
     return {
-      if (trainingLoss != null) 'trainingLoss': trainingLoss,
+      if (trainingLoss != null)
+        'trainingLoss': _s.encodeJsonDouble(trainingLoss),
     };
   }
 }
@@ -10571,7 +10572,7 @@ class RFTHyperParameters {
       epochCount: json['epochCount'] as int?,
       evalInterval: json['evalInterval'] as int?,
       inferenceMaxTokens: json['inferenceMaxTokens'] as int?,
-      learningRate: json['learningRate'] as double?,
+      learningRate: _s.parseJsonDouble(json['learningRate']),
       maxPromptLength: json['maxPromptLength'] as int?,
       reasoningEffort:
           (json['reasoningEffort'] as String?)?.let(ReasoningEffort.fromString),
@@ -10593,7 +10594,8 @@ class RFTHyperParameters {
       if (epochCount != null) 'epochCount': epochCount,
       if (evalInterval != null) 'evalInterval': evalInterval,
       if (inferenceMaxTokens != null) 'inferenceMaxTokens': inferenceMaxTokens,
-      if (learningRate != null) 'learningRate': learningRate,
+      if (learningRate != null)
+        'learningRate': _s.encodeJsonDouble(learningRate),
       if (maxPromptLength != null) 'maxPromptLength': maxPromptLength,
       if (reasoningEffort != null) 'reasoningEffort': reasoningEffort.value,
       if (trainingSamplePerPrompt != null)
@@ -10703,14 +10705,15 @@ class ValidatorMetric {
 
   factory ValidatorMetric.fromJson(Map<String, dynamic> json) {
     return ValidatorMetric(
-      validationLoss: json['validationLoss'] as double?,
+      validationLoss: _s.parseJsonDouble(json['validationLoss']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final validationLoss = this.validationLoss;
     return {
-      if (validationLoss != null) 'validationLoss': validationLoss,
+      if (validationLoss != null)
+        'validationLoss': _s.encodeJsonDouble(validationLoss),
     };
   }
 }
@@ -11654,14 +11657,15 @@ class RoutingCriteria {
   factory RoutingCriteria.fromJson(Map<String, dynamic> json) {
     return RoutingCriteria(
       responseQualityDifference:
-          (json['responseQualityDifference'] as double?) ?? 0,
+          _s.parseJsonDouble(json['responseQualityDifference']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final responseQualityDifference = this.responseQualityDifference;
     return {
-      'responseQualityDifference': responseQualityDifference,
+      'responseQualityDifference':
+          _s.encodeJsonDouble(responseQualityDifference),
     };
   }
 }
@@ -13703,7 +13707,7 @@ class GuardrailAutomatedReasoningPolicyConfig {
     return {
       'policies': policies,
       if (confidenceThreshold != null)
-        'confidenceThreshold': confidenceThreshold,
+        'confidenceThreshold': _s.encodeJsonDouble(confidenceThreshold),
     };
   }
 }
@@ -13783,7 +13787,7 @@ class GuardrailContextualGroundingFilterConfig {
     final action = this.action;
     final enabled = this.enabled;
     return {
-      'threshold': threshold,
+      'threshold': _s.encodeJsonDouble(threshold),
       'type': type.value,
       if (action != null) 'action': action.value,
       if (enabled != null) 'enabled': enabled,
@@ -15356,7 +15360,7 @@ class GuardrailAutomatedReasoningPolicy {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      confidenceThreshold: json['confidenceThreshold'] as double?,
+      confidenceThreshold: _s.parseJsonDouble(json['confidenceThreshold']),
     );
   }
 
@@ -15366,7 +15370,7 @@ class GuardrailAutomatedReasoningPolicy {
     return {
       'policies': policies,
       if (confidenceThreshold != null)
-        'confidenceThreshold': confidenceThreshold,
+        'confidenceThreshold': _s.encodeJsonDouble(confidenceThreshold),
     };
   }
 }
@@ -15411,7 +15415,7 @@ class GuardrailContextualGroundingFilter {
   factory GuardrailContextualGroundingFilter.fromJson(
       Map<String, dynamic> json) {
     return GuardrailContextualGroundingFilter(
-      threshold: (json['threshold'] as double?) ?? 0,
+      threshold: _s.parseJsonDouble(json['threshold']) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
           (json['type'] as String?) ?? ''),
       action: (json['action'] as String?)
@@ -15426,7 +15430,7 @@ class GuardrailContextualGroundingFilter {
     final action = this.action;
     final enabled = this.enabled;
     return {
-      'threshold': threshold,
+      'threshold': _s.encodeJsonDouble(threshold),
       'type': type.value,
       if (action != null) 'action': action.value,
       if (enabled != null) 'enabled': enabled,
@@ -17329,8 +17333,8 @@ class TextInferenceConfig {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -17342,8 +17346,8 @@ class TextInferenceConfig {
     return {
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -19264,7 +19268,7 @@ class RatingScaleItemValue {
 
   factory RatingScaleItemValue.fromJson(Map<String, dynamic> json) {
     return RatingScaleItemValue(
-      floatValue: json['floatValue'] as double?,
+      floatValue: _s.parseJsonDouble(json['floatValue']),
       stringValue: json['stringValue'] as String?,
     );
   }
@@ -19273,7 +19277,7 @@ class RatingScaleItemValue {
     final floatValue = this.floatValue;
     final stringValue = this.stringValue;
     return {
-      if (floatValue != null) 'floatValue': floatValue,
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (stringValue != null) 'stringValue': stringValue,
     };
   }
@@ -21742,7 +21746,7 @@ class AutomatedReasoningPolicyTestCase {
       guardContent: (json['guardContent'] as String?) ?? '',
       testCaseId: (json['testCaseId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      confidenceThreshold: json['confidenceThreshold'] as double?,
+      confidenceThreshold: _s.parseJsonDouble(json['confidenceThreshold']),
       expectedAggregatedFindingsResult:
           (json['expectedAggregatedFindingsResult'] as String?)
               ?.let(AutomatedReasoningCheckResult.fromString),
@@ -21765,7 +21769,7 @@ class AutomatedReasoningPolicyTestCase {
       'testCaseId': testCaseId,
       'updatedAt': iso8601ToJson(updatedAt),
       if (confidenceThreshold != null)
-        'confidenceThreshold': confidenceThreshold,
+        'confidenceThreshold': _s.encodeJsonDouble(confidenceThreshold),
       if (expectedAggregatedFindingsResult != null)
         'expectedAggregatedFindingsResult':
             expectedAggregatedFindingsResult.value,
@@ -22385,7 +22389,7 @@ class AutomatedReasoningCheckTranslation {
           .map((e) => AutomatedReasoningLogicStatement.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      confidence: (json['confidence'] as double?) ?? 0,
+      confidence: _s.parseJsonDouble(json['confidence']) ?? 0,
       premises: (json['premises'] as List?)
           ?.nonNulls
           .map((e) => AutomatedReasoningLogicStatement.fromJson(
@@ -22412,7 +22416,7 @@ class AutomatedReasoningCheckTranslation {
     final untranslatedPremises = this.untranslatedPremises;
     return {
       'claims': claims,
-      'confidence': confidence,
+      'confidence': _s.encodeJsonDouble(confidence),
       if (premises != null) 'premises': premises,
       if (untranslatedClaims != null) 'untranslatedClaims': untranslatedClaims,
       if (untranslatedPremises != null)
@@ -23174,8 +23178,8 @@ class AutomatedReasoningPolicyFidelityReport {
   factory AutomatedReasoningPolicyFidelityReport.fromJson(
       Map<String, dynamic> json) {
     return AutomatedReasoningPolicyFidelityReport(
-      accuracyScore: (json['accuracyScore'] as double?) ?? 0,
-      coverageScore: (json['coverageScore'] as double?) ?? 0,
+      accuracyScore: _s.parseJsonDouble(json['accuracyScore']) ?? 0,
+      coverageScore: _s.parseJsonDouble(json['coverageScore']) ?? 0,
       documentSources: ((json['documentSources'] as List?) ?? const [])
           .nonNulls
           .map((e) => AutomatedReasoningPolicyReportSourceDocument.fromJson(
@@ -23203,8 +23207,8 @@ class AutomatedReasoningPolicyFidelityReport {
     final ruleReports = this.ruleReports;
     final variableReports = this.variableReports;
     return {
-      'accuracyScore': accuracyScore,
-      'coverageScore': coverageScore,
+      'accuracyScore': _s.encodeJsonDouble(accuracyScore),
+      'coverageScore': _s.encodeJsonDouble(coverageScore),
       'documentSources': documentSources,
       'ruleReports': ruleReports,
       'variableReports': variableReports,
@@ -23499,7 +23503,7 @@ class AutomatedReasoningPolicyVariableReport {
     return AutomatedReasoningPolicyVariableReport(
       policyVariable: (json['policyVariable'] as String?) ?? '',
       accuracyJustification: json['accuracyJustification'] as String?,
-      accuracyScore: json['accuracyScore'] as double?,
+      accuracyScore: _s.parseJsonDouble(json['accuracyScore']),
       groundingJustifications: (json['groundingJustifications'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -23522,7 +23526,8 @@ class AutomatedReasoningPolicyVariableReport {
       'policyVariable': policyVariable,
       if (accuracyJustification != null)
         'accuracyJustification': accuracyJustification,
-      if (accuracyScore != null) 'accuracyScore': accuracyScore,
+      if (accuracyScore != null)
+        'accuracyScore': _s.encodeJsonDouble(accuracyScore),
       if (groundingJustifications != null)
         'groundingJustifications': groundingJustifications,
       if (groundingStatements != null)
@@ -23602,7 +23607,7 @@ class AutomatedReasoningPolicyRuleReport {
     return AutomatedReasoningPolicyRuleReport(
       rule: (json['rule'] as String?) ?? '',
       accuracyJustification: json['accuracyJustification'] as String?,
-      accuracyScore: json['accuracyScore'] as double?,
+      accuracyScore: _s.parseJsonDouble(json['accuracyScore']),
       groundingJustifications: (json['groundingJustifications'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -23625,7 +23630,8 @@ class AutomatedReasoningPolicyRuleReport {
       'rule': rule,
       if (accuracyJustification != null)
         'accuracyJustification': accuracyJustification,
-      if (accuracyScore != null) 'accuracyScore': accuracyScore,
+      if (accuracyScore != null)
+        'accuracyScore': _s.encodeJsonDouble(accuracyScore),
       if (groundingJustifications != null)
         'groundingJustifications': groundingJustifications,
       if (groundingStatements != null)
@@ -24862,8 +24868,8 @@ class InferenceConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -24875,8 +24881,8 @@ class InferenceConfiguration {
     return {
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }

@@ -6019,7 +6019,7 @@ class CountPercent {
   factory CountPercent.fromJson(Map<String, dynamic> json) {
     return CountPercent(
       count: (json['Count'] as int?) ?? 0,
-      percentage: (json['Percentage'] as double?) ?? 0,
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
     );
   }
 
@@ -6028,7 +6028,7 @@ class CountPercent {
     final percentage = this.percentage;
     return {
       'Count': count,
-      'Percentage': percentage,
+      'Percentage': _s.encodeJsonDouble(percentage),
     };
   }
 }

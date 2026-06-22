@@ -1288,10 +1288,12 @@ class CodeBuild {
       payload: {
         'reportArn': reportArn,
         if (maxLineCoveragePercentage != null)
-          'maxLineCoveragePercentage': maxLineCoveragePercentage,
+          'maxLineCoveragePercentage':
+              _s.encodeJsonDouble(maxLineCoveragePercentage),
         if (maxResults != null) 'maxResults': maxResults,
         if (minLineCoveragePercentage != null)
-          'minLineCoveragePercentage': minLineCoveragePercentage,
+          'minLineCoveragePercentage':
+              _s.encodeJsonDouble(minLineCoveragePercentage),
         if (nextToken != null) 'nextToken': nextToken,
         if (sortBy != null) 'sortBy': sortBy.value,
         if (sortOrder != null) 'sortOrder': sortOrder.value,
@@ -10364,7 +10366,7 @@ class TargetTrackingScalingConfiguration {
     return TargetTrackingScalingConfiguration(
       metricType: (json['metricType'] as String?)
           ?.let(FleetScalingMetricType.fromString),
-      targetValue: json['targetValue'] as double?,
+      targetValue: _s.parseJsonDouble(json['targetValue']),
     );
   }
 
@@ -10373,7 +10375,7 @@ class TargetTrackingScalingConfiguration {
     final targetValue = this.targetValue;
     return {
       if (metricType != null) 'metricType': metricType.value,
-      if (targetValue != null) 'targetValue': targetValue,
+      if (targetValue != null) 'targetValue': _s.encodeJsonDouble(targetValue),
     };
   }
 }
@@ -13491,13 +13493,15 @@ class CodeCoverage {
 
   factory CodeCoverage.fromJson(Map<String, dynamic> json) {
     return CodeCoverage(
-      branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
+      branchCoveragePercentage:
+          _s.parseJsonDouble(json['branchCoveragePercentage']),
       branchesCovered: json['branchesCovered'] as int?,
       branchesMissed: json['branchesMissed'] as int?,
       expired: timeStampFromJson(json['expired']),
       filePath: json['filePath'] as String?,
       id: json['id'] as String?,
-      lineCoveragePercentage: json['lineCoveragePercentage'] as double?,
+      lineCoveragePercentage:
+          _s.parseJsonDouble(json['lineCoveragePercentage']),
       linesCovered: json['linesCovered'] as int?,
       linesMissed: json['linesMissed'] as int?,
       reportARN: json['reportARN'] as String?,
@@ -13517,14 +13521,15 @@ class CodeCoverage {
     final reportARN = this.reportARN;
     return {
       if (branchCoveragePercentage != null)
-        'branchCoveragePercentage': branchCoveragePercentage,
+        'branchCoveragePercentage':
+            _s.encodeJsonDouble(branchCoveragePercentage),
       if (branchesCovered != null) 'branchesCovered': branchesCovered,
       if (branchesMissed != null) 'branchesMissed': branchesMissed,
       if (expired != null) 'expired': unixTimestampToJson(expired),
       if (filePath != null) 'filePath': filePath,
       if (id != null) 'id': id,
       if (lineCoveragePercentage != null)
-        'lineCoveragePercentage': lineCoveragePercentage,
+        'lineCoveragePercentage': _s.encodeJsonDouble(lineCoveragePercentage),
       if (linesCovered != null) 'linesCovered': linesCovered,
       if (linesMissed != null) 'linesMissed': linesMissed,
       if (reportARN != null) 'reportARN': reportARN,
@@ -13802,10 +13807,12 @@ class CodeCoverageReportSummary {
 
   factory CodeCoverageReportSummary.fromJson(Map<String, dynamic> json) {
     return CodeCoverageReportSummary(
-      branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
+      branchCoveragePercentage:
+          _s.parseJsonDouble(json['branchCoveragePercentage']),
       branchesCovered: json['branchesCovered'] as int?,
       branchesMissed: json['branchesMissed'] as int?,
-      lineCoveragePercentage: json['lineCoveragePercentage'] as double?,
+      lineCoveragePercentage:
+          _s.parseJsonDouble(json['lineCoveragePercentage']),
       linesCovered: json['linesCovered'] as int?,
       linesMissed: json['linesMissed'] as int?,
     );
@@ -13820,11 +13827,12 @@ class CodeCoverageReportSummary {
     final linesMissed = this.linesMissed;
     return {
       if (branchCoveragePercentage != null)
-        'branchCoveragePercentage': branchCoveragePercentage,
+        'branchCoveragePercentage':
+            _s.encodeJsonDouble(branchCoveragePercentage),
       if (branchesCovered != null) 'branchesCovered': branchesCovered,
       if (branchesMissed != null) 'branchesMissed': branchesMissed,
       if (lineCoveragePercentage != null)
-        'lineCoveragePercentage': lineCoveragePercentage,
+        'lineCoveragePercentage': _s.encodeJsonDouble(lineCoveragePercentage),
       if (linesCovered != null) 'linesCovered': linesCovered,
       if (linesMissed != null) 'linesMissed': linesMissed,
     };

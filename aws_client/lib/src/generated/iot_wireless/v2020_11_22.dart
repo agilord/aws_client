@@ -3677,7 +3677,7 @@ class IoTWireless {
       'resourceType': [resourceType.value],
     };
     final $payload = <String, dynamic>{
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3922,7 +3922,7 @@ class IoTWireless {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (joinEuiFilters != null) 'JoinEuiFilters': joinEuiFilters,
-      if (maxEirp != null) 'MaxEirp': maxEirp,
+      if (maxEirp != null) 'MaxEirp': _s.encodeJsonDouble(maxEirp),
       if (name != null) 'Name': name,
       if (netIdFilters != null) 'NetIdFilters': netIdFilters,
     };
@@ -5252,7 +5252,7 @@ class GetPositionResponse {
           : null,
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       solverProvider: (json['SolverProvider'] as String?)
           ?.let(PositionSolverProvider.fromString),
@@ -5272,7 +5272,8 @@ class GetPositionResponse {
     final timestamp = this.timestamp;
     return {
       if (accuracy != null) 'Accuracy': accuracy,
-      if (position != null) 'Position': position,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
       if (solverProvider != null) 'SolverProvider': solverProvider.value,
       if (solverType != null) 'SolverType': solverType.value,
       if (solverVersion != null) 'SolverVersion': solverVersion,
@@ -9684,7 +9685,7 @@ class LoRaWANGateway {
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
-      maxEirp: json['MaxEirp'] as double?,
+      maxEirp: _s.parseJsonDouble(json['MaxEirp']),
       netIdFilters: (json['NetIdFilters'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -9707,7 +9708,7 @@ class LoRaWANGateway {
       if (beaconing != null) 'Beaconing': beaconing,
       if (gatewayEui != null) 'GatewayEui': gatewayEui,
       if (joinEuiFilters != null) 'JoinEuiFilters': joinEuiFilters,
-      if (maxEirp != null) 'MaxEirp': maxEirp,
+      if (maxEirp != null) 'MaxEirp': _s.encodeJsonDouble(maxEirp),
       if (netIdFilters != null) 'NetIdFilters': netIdFilters,
       if (rfRegion != null) 'RfRegion': rfRegion,
       if (subBands != null) 'SubBands': subBands,
@@ -11605,8 +11606,8 @@ class LoRaWANPublicGatewayMetadata {
       id: json['Id'] as String?,
       providerNetId: json['ProviderNetId'] as String?,
       rfRegion: json['RfRegion'] as String?,
-      rssi: json['Rssi'] as double?,
-      snr: json['Snr'] as double?,
+      rssi: _s.parseJsonDouble(json['Rssi']),
+      snr: _s.parseJsonDouble(json['Snr']),
     );
   }
 
@@ -11622,8 +11623,8 @@ class LoRaWANPublicGatewayMetadata {
       if (id != null) 'Id': id,
       if (providerNetId != null) 'ProviderNetId': providerNetId,
       if (rfRegion != null) 'RfRegion': rfRegion,
-      if (rssi != null) 'Rssi': rssi,
-      if (snr != null) 'Snr': snr,
+      if (rssi != null) 'Rssi': _s.encodeJsonDouble(rssi),
+      if (snr != null) 'Snr': _s.encodeJsonDouble(snr),
     };
   }
 }
@@ -11650,8 +11651,8 @@ class LoRaWANGatewayMetadata {
   factory LoRaWANGatewayMetadata.fromJson(Map<String, dynamic> json) {
     return LoRaWANGatewayMetadata(
       gatewayEui: json['GatewayEui'] as String?,
-      rssi: json['Rssi'] as double?,
-      snr: json['Snr'] as double?,
+      rssi: _s.parseJsonDouble(json['Rssi']),
+      snr: _s.parseJsonDouble(json['Snr']),
     );
   }
 
@@ -11661,8 +11662,8 @@ class LoRaWANGatewayMetadata {
     final snr = this.snr;
     return {
       if (gatewayEui != null) 'GatewayEui': gatewayEui,
-      if (rssi != null) 'Rssi': rssi,
-      if (snr != null) 'Snr': snr,
+      if (rssi != null) 'Rssi': _s.encodeJsonDouble(rssi),
+      if (snr != null) 'Snr': _s.encodeJsonDouble(snr),
     };
   }
 }
@@ -12509,11 +12510,13 @@ class Gnss {
     final use2DSolver = this.use2DSolver;
     return {
       'Payload': payload,
-      if (assistAltitude != null) 'AssistAltitude': assistAltitude,
-      if (assistPosition != null) 'AssistPosition': assistPosition,
-      if (captureTime != null) 'CaptureTime': captureTime,
+      if (assistAltitude != null)
+        'AssistAltitude': _s.encodeJsonDouble(assistAltitude),
+      if (assistPosition != null)
+        'AssistPosition': assistPosition.map(_s.encodeJsonDouble).toList(),
+      if (captureTime != null) 'CaptureTime': _s.encodeJsonDouble(captureTime),
       if (captureTimeAccuracy != null)
-        'CaptureTimeAccuracy': captureTimeAccuracy,
+        'CaptureTimeAccuracy': _s.encodeJsonDouble(captureTimeAccuracy),
       if (use2DSolver != null) 'Use2DSolver': use2DSolver,
     };
   }
@@ -12616,8 +12619,8 @@ class CdmaObj {
       'BaseStationId': baseStationId,
       'NetworkId': networkId,
       'SystemId': systemId,
-      if (baseLat != null) 'BaseLat': baseLat,
-      if (baseLng != null) 'BaseLng': baseLng,
+      if (baseLat != null) 'BaseLat': _s.encodeJsonDouble(baseLat),
+      if (baseLng != null) 'BaseLng': _s.encodeJsonDouble(baseLng),
       if (cdmaLocalId != null) 'CdmaLocalId': cdmaLocalId,
       if (cdmaNmr != null) 'CdmaNmr': cdmaNmr,
       if (pilotPower != null) 'PilotPower': pilotPower,
@@ -12762,7 +12765,7 @@ class LteObj {
       if (lteTimingAdvance != null) 'LteTimingAdvance': lteTimingAdvance,
       if (nrCapable != null) 'NrCapable': nrCapable,
       if (rsrp != null) 'Rsrp': rsrp,
-      if (rsrq != null) 'Rsrq': rsrq,
+      if (rsrq != null) 'Rsrq': _s.encodeJsonDouble(rsrq),
       if (tac != null) 'Tac': tac,
     };
   }
@@ -12835,7 +12838,7 @@ class LteNmrObj {
       'Pci': pci,
       if (eutranCid != null) 'EutranCid': eutranCid,
       if (rsrp != null) 'Rsrp': rsrp,
-      if (rsrq != null) 'Rsrq': rsrq,
+      if (rsrq != null) 'Rsrq': _s.encodeJsonDouble(rsrq),
     };
   }
 }
@@ -13311,8 +13314,8 @@ class Accuracy {
 
   factory Accuracy.fromJson(Map<String, dynamic> json) {
     return Accuracy(
-      horizontalAccuracy: json['HorizontalAccuracy'] as double?,
-      verticalAccuracy: json['VerticalAccuracy'] as double?,
+      horizontalAccuracy: _s.parseJsonDouble(json['HorizontalAccuracy']),
+      verticalAccuracy: _s.parseJsonDouble(json['VerticalAccuracy']),
     );
   }
 
@@ -13320,8 +13323,10 @@ class Accuracy {
     final horizontalAccuracy = this.horizontalAccuracy;
     final verticalAccuracy = this.verticalAccuracy;
     return {
-      if (horizontalAccuracy != null) 'HorizontalAccuracy': horizontalAccuracy,
-      if (verticalAccuracy != null) 'VerticalAccuracy': verticalAccuracy,
+      if (horizontalAccuracy != null)
+        'HorizontalAccuracy': _s.encodeJsonDouble(horizontalAccuracy),
+      if (verticalAccuracy != null)
+        'VerticalAccuracy': _s.encodeJsonDouble(verticalAccuracy),
     };
   }
 }
@@ -13677,12 +13682,12 @@ class MetricQueryValue {
 
   factory MetricQueryValue.fromJson(Map<String, dynamic> json) {
     return MetricQueryValue(
-      avg: json['Avg'] as double?,
-      max: json['Max'] as double?,
-      min: json['Min'] as double?,
-      p90: json['P90'] as double?,
-      std: json['Std'] as double?,
-      sum: json['Sum'] as double?,
+      avg: _s.parseJsonDouble(json['Avg']),
+      max: _s.parseJsonDouble(json['Max']),
+      min: _s.parseJsonDouble(json['Min']),
+      p90: _s.parseJsonDouble(json['P90']),
+      std: _s.parseJsonDouble(json['Std']),
+      sum: _s.parseJsonDouble(json['Sum']),
     );
   }
 
@@ -13694,12 +13699,12 @@ class MetricQueryValue {
     final std = this.std;
     final sum = this.sum;
     return {
-      if (avg != null) 'Avg': avg,
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
-      if (p90 != null) 'P90': p90,
-      if (std != null) 'Std': std,
-      if (sum != null) 'Sum': sum,
+      if (avg != null) 'Avg': _s.encodeJsonDouble(avg),
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
+      if (p90 != null) 'P90': _s.encodeJsonDouble(p90),
+      if (std != null) 'Std': _s.encodeJsonDouble(std),
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
     };
   }
 }

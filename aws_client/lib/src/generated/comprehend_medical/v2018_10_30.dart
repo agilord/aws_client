@@ -2570,7 +2570,7 @@ class SNOMEDCTEntity {
           ?.nonNulls
           .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -2598,7 +2598,7 @@ class SNOMEDCTEntity {
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -2687,7 +2687,7 @@ class SNOMEDCTConcept {
     return SNOMEDCTConcept(
       code: json['Code'] as String?,
       description: json['Description'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -2698,7 +2698,7 @@ class SNOMEDCTConcept {
     return {
       if (code != null) 'Code': code,
       if (description != null) 'Description': description,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -2722,7 +2722,7 @@ class SNOMEDCTTrait {
   factory SNOMEDCTTrait.fromJson(Map<String, dynamic> json) {
     return SNOMEDCTTrait(
       name: (json['Name'] as String?)?.let(SNOMEDCTTraitName.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -2731,7 +2731,7 @@ class SNOMEDCTTrait {
     final score = this.score;
     return {
       if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -2850,14 +2850,14 @@ class SNOMEDCTAttribute {
           (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipScore: _s.parseJsonDouble(json['RelationshipScore']),
       relationshipType: (json['RelationshipType'] as String?)
           ?.let(SNOMEDCTRelationshipType.fromString),
       sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
           ?.nonNulls
           .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -2884,10 +2884,11 @@ class SNOMEDCTAttribute {
       if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipScore != null)
+        'RelationshipScore': _s.encodeJsonDouble(relationshipScore),
       if (relationshipType != null) 'RelationshipType': relationshipType.value,
       if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -3048,7 +3049,7 @@ class RxNormEntity {
           ?.nonNulls
           .map((e) => RxNormConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -3076,7 +3077,7 @@ class RxNormEntity {
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
       if (rxNormConcepts != null) 'RxNormConcepts': rxNormConcepts,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -3159,7 +3160,7 @@ class RxNormConcept {
     return RxNormConcept(
       code: json['Code'] as String?,
       description: json['Description'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -3170,7 +3171,7 @@ class RxNormConcept {
     return {
       if (code != null) 'Code': code,
       if (description != null) 'Description': description,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -3196,7 +3197,7 @@ class RxNormTrait {
   factory RxNormTrait.fromJson(Map<String, dynamic> json) {
     return RxNormTrait(
       name: (json['Name'] as String?)?.let(RxNormTraitName.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -3205,7 +3206,7 @@ class RxNormTrait {
     final score = this.score;
     return {
       if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -3291,8 +3292,8 @@ class RxNormAttribute {
       beginOffset: json['BeginOffset'] as int?,
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
-      score: json['Score'] as double?,
+      relationshipScore: _s.parseJsonDouble(json['RelationshipScore']),
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -3315,8 +3316,9 @@ class RxNormAttribute {
       if (beginOffset != null) 'BeginOffset': beginOffset,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (score != null) 'Score': score,
+      if (relationshipScore != null)
+        'RelationshipScore': _s.encodeJsonDouble(relationshipScore),
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -3441,7 +3443,7 @@ class ICD10CMEntity {
           .map((e) => ICD10CMConcept.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -3469,7 +3471,7 @@ class ICD10CMEntity {
       if (endOffset != null) 'EndOffset': endOffset,
       if (iCD10CMConcepts != null) 'ICD10CMConcepts': iCD10CMConcepts,
       if (id != null) 'Id': id,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -3553,7 +3555,7 @@ class ICD10CMConcept {
     return ICD10CMConcept(
       code: json['Code'] as String?,
       description: json['Description'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -3564,7 +3566,7 @@ class ICD10CMConcept {
     return {
       if (code != null) 'Code': code,
       if (description != null) 'Description': description,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -3590,7 +3592,7 @@ class ICD10CMTrait {
   factory ICD10CMTrait.fromJson(Map<String, dynamic> json) {
     return ICD10CMTrait(
       name: (json['Name'] as String?)?.let(ICD10CMTraitName.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -3599,7 +3601,7 @@ class ICD10CMTrait {
     final score = this.score;
     return {
       if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -3712,10 +3714,10 @@ class ICD10CMAttribute {
           (json['Category'] as String?)?.let(ICD10CMEntityType.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipScore: _s.parseJsonDouble(json['RelationshipScore']),
       relationshipType: (json['RelationshipType'] as String?)
           ?.let(ICD10CMRelationshipType.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -3741,9 +3743,10 @@ class ICD10CMAttribute {
       if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipScore != null)
+        'RelationshipScore': _s.encodeJsonDouble(relationshipScore),
       if (relationshipType != null) 'RelationshipType': relationshipType.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -3874,7 +3877,7 @@ class Entity {
       category: (json['Category'] as String?)?.let(EntityType.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -3900,7 +3903,7 @@ class Entity {
       if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -4127,10 +4130,10 @@ class Attribute {
       category: (json['Category'] as String?)?.let(EntityType.fromString),
       endOffset: json['EndOffset'] as int?,
       id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipScore: _s.parseJsonDouble(json['RelationshipScore']),
       relationshipType: (json['RelationshipType'] as String?)
           ?.let(RelationshipType.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       traits: (json['Traits'] as List?)
           ?.nonNulls
@@ -4156,9 +4159,10 @@ class Attribute {
       if (category != null) 'Category': category.value,
       if (endOffset != null) 'EndOffset': endOffset,
       if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipScore != null)
+        'RelationshipScore': _s.encodeJsonDouble(relationshipScore),
       if (relationshipType != null) 'RelationshipType': relationshipType.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (traits != null) 'Traits': traits,
       if (type != null) 'Type': type.value,
@@ -4253,7 +4257,7 @@ class Trait {
   factory Trait.fromJson(Map<String, dynamic> json) {
     return Trait(
       name: (json['Name'] as String?)?.let(AttributeName.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -4262,7 +4266,7 @@ class Trait {
     final score = this.score;
     return {
       if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }

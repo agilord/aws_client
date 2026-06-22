@@ -2140,7 +2140,7 @@ class Notification {
           (json['ComparisonOperator'] as String?) ?? ''),
       notificationType: NotificationType.fromString(
           (json['NotificationType'] as String?) ?? ''),
-      threshold: (json['Threshold'] as double?) ?? 0,
+      threshold: _s.parseJsonDouble(json['Threshold']) ?? 0,
       notificationState: (json['NotificationState'] as String?)
           ?.let(NotificationState.fromString),
       thresholdType:
@@ -2157,7 +2157,7 @@ class Notification {
     return {
       'ComparisonOperator': comparisonOperator.value,
       'NotificationType': notificationType.value,
-      'Threshold': threshold,
+      'Threshold': _s.encodeJsonDouble(threshold),
       if (notificationState != null)
         'NotificationState': notificationState.value,
       if (thresholdType != null) 'ThresholdType': thresholdType.value,
@@ -2486,7 +2486,8 @@ class ActionThreshold {
     return ActionThreshold(
       actionThresholdType: ThresholdType.fromString(
           (json['ActionThresholdType'] as String?) ?? ''),
-      actionThresholdValue: (json['ActionThresholdValue'] as double?) ?? 0,
+      actionThresholdValue:
+          _s.parseJsonDouble(json['ActionThresholdValue']) ?? 0,
     );
   }
 
@@ -2495,7 +2496,7 @@ class ActionThreshold {
     final actionThresholdValue = this.actionThresholdValue;
     return {
       'ActionThresholdType': actionThresholdType.value,
-      'ActionThresholdValue': actionThresholdValue,
+      'ActionThresholdValue': _s.encodeJsonDouble(actionThresholdValue),
     };
   }
 }

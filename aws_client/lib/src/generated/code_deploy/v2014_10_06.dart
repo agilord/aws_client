@@ -6232,7 +6232,7 @@ class CloudFormationTarget {
       resourceType: json['resourceType'] as String?,
       status: (json['status'] as String?)?.let(TargetStatus.fromString),
       targetId: json['targetId'] as String?,
-      targetVersionWeight: json['targetVersionWeight'] as double?,
+      targetVersionWeight: _s.parseJsonDouble(json['targetVersionWeight']),
     );
   }
 
@@ -6253,7 +6253,7 @@ class CloudFormationTarget {
       if (status != null) 'status': status.value,
       if (targetId != null) 'targetId': targetId,
       if (targetVersionWeight != null)
-        'targetVersionWeight': targetVersionWeight,
+        'targetVersionWeight': _s.encodeJsonDouble(targetVersionWeight),
     };
   }
 }
@@ -6566,7 +6566,7 @@ class ECSTaskSet {
           : null,
       taskSetLabel:
           (json['taskSetLabel'] as String?)?.let(TargetLabel.fromString),
-      trafficWeight: json['trafficWeight'] as double?,
+      trafficWeight: _s.parseJsonDouble(json['trafficWeight']),
     );
   }
 
@@ -6587,7 +6587,8 @@ class ECSTaskSet {
       if (status != null) 'status': status,
       if (targetGroup != null) 'targetGroup': targetGroup,
       if (taskSetLabel != null) 'taskSetLabel': taskSetLabel.value,
-      if (trafficWeight != null) 'trafficWeight': trafficWeight,
+      if (trafficWeight != null)
+        'trafficWeight': _s.encodeJsonDouble(trafficWeight),
     };
   }
 }
@@ -6653,7 +6654,7 @@ class LambdaFunctionInfo {
       functionAlias: json['functionAlias'] as String?,
       functionName: json['functionName'] as String?,
       targetVersion: json['targetVersion'] as String?,
-      targetVersionWeight: json['targetVersionWeight'] as double?,
+      targetVersionWeight: _s.parseJsonDouble(json['targetVersionWeight']),
     );
   }
 
@@ -6669,7 +6670,7 @@ class LambdaFunctionInfo {
       if (functionName != null) 'functionName': functionName,
       if (targetVersion != null) 'targetVersion': targetVersion,
       if (targetVersionWeight != null)
-        'targetVersionWeight': targetVersionWeight,
+        'targetVersionWeight': _s.encodeJsonDouble(targetVersionWeight),
     };
   }
 }

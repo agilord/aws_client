@@ -9924,7 +9924,7 @@ class WebCrawlerConfiguration {
           : null,
       crawlDepth: json['CrawlDepth'] as int?,
       maxContentSizePerPageInMegaBytes:
-          json['MaxContentSizePerPageInMegaBytes'] as double?,
+          _s.parseJsonDouble(json['MaxContentSizePerPageInMegaBytes']),
       maxLinksPerPage: json['MaxLinksPerPage'] as int?,
       maxUrlsPerMinuteCrawlRate: json['MaxUrlsPerMinuteCrawlRate'] as int?,
       proxyConfiguration: json['ProxyConfiguration'] != null
@@ -9959,7 +9959,8 @@ class WebCrawlerConfiguration {
         'AuthenticationConfiguration': authenticationConfiguration,
       if (crawlDepth != null) 'CrawlDepth': crawlDepth,
       if (maxContentSizePerPageInMegaBytes != null)
-        'MaxContentSizePerPageInMegaBytes': maxContentSizePerPageInMegaBytes,
+        'MaxContentSizePerPageInMegaBytes':
+            _s.encodeJsonDouble(maxContentSizePerPageInMegaBytes),
       if (maxLinksPerPage != null) 'MaxLinksPerPage': maxLinksPerPage,
       if (maxUrlsPerMinuteCrawlRate != null)
         'MaxUrlsPerMinuteCrawlRate': maxUrlsPerMinuteCrawlRate,

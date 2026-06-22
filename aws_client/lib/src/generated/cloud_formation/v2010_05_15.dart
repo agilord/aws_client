@@ -8727,7 +8727,7 @@ class DescribeResourceScanOutput {
     return {
       if (endTime != null) 'EndTime': iso8601ToJson(endTime),
       if (percentageCompleted != null)
-        'PercentageCompleted': percentageCompleted,
+        'PercentageCompleted': _s.encodeJsonDouble(percentageCompleted),
       if (resourceScanId != null) 'ResourceScanId': resourceScanId,
       if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       if (resourcesRead != null) 'ResourcesRead': resourcesRead,
@@ -15783,7 +15783,7 @@ class ResourceScanSummary {
     return {
       if (endTime != null) 'EndTime': iso8601ToJson(endTime),
       if (percentageCompleted != null)
-        'PercentageCompleted': percentageCompleted,
+        'PercentageCompleted': _s.encodeJsonDouble(percentageCompleted),
       if (resourceScanId != null) 'ResourceScanId': resourceScanId,
       if (scanType != null) 'ScanType': scanType.value,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),

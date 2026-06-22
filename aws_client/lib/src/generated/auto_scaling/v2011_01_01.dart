@@ -8295,8 +8295,8 @@ class MemoryGiBPerVCpuRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 
@@ -8458,8 +8458,8 @@ class TotalLocalStorageGBRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 
@@ -8639,8 +8639,8 @@ class NetworkBandwidthGbpsRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 
@@ -9750,7 +9750,7 @@ class TargetTrackingConfiguration {
     final disableScaleIn = this.disableScaleIn;
     final predefinedMetricSpecification = this.predefinedMetricSpecification;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedMetricSpecification != null)
         'CustomizedMetricSpecification': customizedMetricSpecification,
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
@@ -10103,7 +10103,7 @@ class PredictiveScalingMetricSpecification {
     final predefinedScalingMetricSpecification =
         this.predefinedScalingMetricSpecification;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedCapacityMetricSpecification != null)
         'CustomizedCapacityMetricSpecification':
             customizedCapacityMetricSpecification,
@@ -11483,9 +11483,11 @@ class StepAdjustment {
     return {
       'ScalingAdjustment': scalingAdjustment,
       if (metricIntervalLowerBound != null)
-        'MetricIntervalLowerBound': metricIntervalLowerBound,
+        'MetricIntervalLowerBound':
+            _s.encodeJsonDouble(metricIntervalLowerBound),
       if (metricIntervalUpperBound != null)
-        'MetricIntervalUpperBound': metricIntervalUpperBound,
+        'MetricIntervalUpperBound':
+            _s.encodeJsonDouble(metricIntervalUpperBound),
     };
   }
 
@@ -11691,7 +11693,7 @@ class CapacityForecast {
     final values = this.values;
     return {
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -11735,7 +11737,7 @@ class LoadForecast {
     return {
       'MetricSpecification': metricSpecification,
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

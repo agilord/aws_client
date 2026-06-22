@@ -3957,7 +3957,7 @@ class AssessmentCost {
 
   factory AssessmentCost.fromJson(Map<String, dynamic> json) {
     return AssessmentCost(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       currency: (json['currency'] as String?)?.let(CostCurrency.fromString),
     );
   }
@@ -3966,7 +3966,7 @@ class AssessmentCost {
     final amount = this.amount;
     final currency = this.currency;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (currency != null) 'currency': currency.value,
     };
   }
@@ -4259,7 +4259,7 @@ class SloSource {
     return SloSource(
       policyName: json['policyName'] as String?,
       source: (json['source'] as String?)?.let(PolicyValueSource.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -4270,7 +4270,7 @@ class SloSource {
     return {
       if (policyName != null) 'policyName': policyName,
       if (source != null) 'source': source.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -4626,14 +4626,14 @@ class AvailabilitySlo {
 
   factory AvailabilitySlo.fromJson(Map<String, dynamic> json) {
     return AvailabilitySlo(
-      target: json['target'] as double?,
+      target: _s.parseJsonDouble(json['target']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final target = this.target;
     return {
-      if (target != null) 'target': target,
+      if (target != null) 'target': _s.encodeJsonDouble(target),
     };
   }
 }

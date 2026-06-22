@@ -3007,7 +3007,7 @@ class SamplingRule {
 
   factory SamplingRule.fromJson(Map<String, dynamic> json) {
     return SamplingRule(
-      fixedRate: (json['FixedRate'] as double?) ?? 0,
+      fixedRate: _s.parseJsonDouble(json['FixedRate']) ?? 0,
       hTTPMethod: (json['HTTPMethod'] as String?) ?? '',
       host: (json['Host'] as String?) ?? '',
       priority: (json['Priority'] as int?) ?? 0,
@@ -3044,7 +3044,7 @@ class SamplingRule {
     final ruleName = this.ruleName;
     final samplingRateBoost = this.samplingRateBoost;
     return {
-      'FixedRate': fixedRate,
+      'FixedRate': _s.encodeJsonDouble(fixedRate),
       'HTTPMethod': hTTPMethod,
       'Host': host,
       'Priority': priority,
@@ -3084,7 +3084,7 @@ class SamplingRateBoost {
   factory SamplingRateBoost.fromJson(Map<String, dynamic> json) {
     return SamplingRateBoost(
       cooldownWindowMinutes: (json['CooldownWindowMinutes'] as int?) ?? 0,
-      maxRate: (json['MaxRate'] as double?) ?? 0,
+      maxRate: _s.parseJsonDouble(json['MaxRate']) ?? 0,
     );
   }
 
@@ -3093,7 +3093,7 @@ class SamplingRateBoost {
     final maxRate = this.maxRate;
     return {
       'CooldownWindowMinutes': cooldownWindowMinutes,
-      'MaxRate': maxRate,
+      'MaxRate': _s.encodeJsonDouble(maxRate),
     };
   }
 }
@@ -3183,7 +3183,7 @@ class SamplingRuleUpdate {
     final uRLPath = this.uRLPath;
     return {
       if (attributes != null) 'Attributes': attributes,
-      if (fixedRate != null) 'FixedRate': fixedRate,
+      if (fixedRate != null) 'FixedRate': _s.encodeJsonDouble(fixedRate),
       if (hTTPMethod != null) 'HTTPMethod': hTTPMethod,
       if (host != null) 'Host': host,
       if (priority != null) 'Priority': priority,
@@ -3289,8 +3289,9 @@ class ProbabilisticRuleValue {
   factory ProbabilisticRuleValue.fromJson(Map<String, dynamic> json) {
     return ProbabilisticRuleValue(
       desiredSamplingPercentage:
-          (json['DesiredSamplingPercentage'] as double?) ?? 0,
-      actualSamplingPercentage: json['ActualSamplingPercentage'] as double?,
+          _s.parseJsonDouble(json['DesiredSamplingPercentage']) ?? 0,
+      actualSamplingPercentage:
+          _s.parseJsonDouble(json['ActualSamplingPercentage']),
     );
   }
 
@@ -3298,9 +3299,11 @@ class ProbabilisticRuleValue {
     final desiredSamplingPercentage = this.desiredSamplingPercentage;
     final actualSamplingPercentage = this.actualSamplingPercentage;
     return {
-      'DesiredSamplingPercentage': desiredSamplingPercentage,
+      'DesiredSamplingPercentage':
+          _s.encodeJsonDouble(desiredSamplingPercentage),
       if (actualSamplingPercentage != null)
-        'ActualSamplingPercentage': actualSamplingPercentage,
+        'ActualSamplingPercentage':
+            _s.encodeJsonDouble(actualSamplingPercentage),
     };
   }
 }
@@ -3340,7 +3343,8 @@ class ProbabilisticRuleValueUpdate {
   Map<String, dynamic> toJson() {
     final desiredSamplingPercentage = this.desiredSamplingPercentage;
     return {
-      'DesiredSamplingPercentage': desiredSamplingPercentage,
+      'DesiredSamplingPercentage':
+          _s.encodeJsonDouble(desiredSamplingPercentage),
     };
   }
 }
@@ -3867,7 +3871,7 @@ class RetrievedTrace {
 
   factory RetrievedTrace.fromJson(Map<String, dynamic> json) {
     return RetrievedTrace(
-      duration: json['Duration'] as double?,
+      duration: _s.parseJsonDouble(json['Duration']),
       id: json['Id'] as String?,
       spans: (json['Spans'] as List?)
           ?.nonNulls
@@ -3881,7 +3885,7 @@ class RetrievedTrace {
     final id = this.id;
     final spans = this.spans;
     return {
-      if (duration != null) 'Duration': duration,
+      if (duration != null) 'Duration': _s.encodeJsonDouble(duration),
       if (id != null) 'Id': id,
       if (spans != null) 'Spans': spans,
     };
@@ -4039,7 +4043,7 @@ class TraceSummary {
           .map(
               (e) => AvailabilityZoneDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      duration: json['Duration'] as double?,
+      duration: _s.parseJsonDouble(json['Duration']),
       entryPoint: json['EntryPoint'] != null
           ? ServiceId.fromJson(json['EntryPoint'] as Map<String, dynamic>)
           : null,
@@ -4068,7 +4072,7 @@ class TraceSummary {
           ?.nonNulls
           .map((e) => ResourceARNDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      responseTime: json['ResponseTime'] as double?,
+      responseTime: _s.parseJsonDouble(json['ResponseTime']),
       responseTimeRootCauses: (json['ResponseTimeRootCauses'] as List?)
           ?.nonNulls
           .map((e) => ResponseTimeRootCause.fromJson(e as Map<String, dynamic>))
@@ -4111,7 +4115,7 @@ class TraceSummary {
     return {
       if (annotations != null) 'Annotations': annotations,
       if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (duration != null) 'Duration': duration,
+      if (duration != null) 'Duration': _s.encodeJsonDouble(duration),
       if (entryPoint != null) 'EntryPoint': entryPoint,
       if (errorRootCauses != null) 'ErrorRootCauses': errorRootCauses,
       if (faultRootCauses != null) 'FaultRootCauses': faultRootCauses,
@@ -4125,7 +4129,8 @@ class TraceSummary {
       if (matchedEventTime != null)
         'MatchedEventTime': unixTimestampToJson(matchedEventTime),
       if (resourceARNs != null) 'ResourceARNs': resourceARNs,
-      if (responseTime != null) 'ResponseTime': responseTime,
+      if (responseTime != null)
+        'ResponseTime': _s.encodeJsonDouble(responseTime),
       if (responseTimeRootCauses != null)
         'ResponseTimeRootCauses': responseTimeRootCauses,
       if (revision != null) 'Revision': revision,
@@ -4360,7 +4365,7 @@ class ResponseTimeRootCauseEntity {
 
   factory ResponseTimeRootCauseEntity.fromJson(Map<String, dynamic> json) {
     return ResponseTimeRootCauseEntity(
-      coverage: json['Coverage'] as double?,
+      coverage: _s.parseJsonDouble(json['Coverage']),
       name: json['Name'] as String?,
       remote: json['Remote'] as bool?,
     );
@@ -4371,7 +4376,7 @@ class ResponseTimeRootCauseEntity {
     final name = this.name;
     final remote = this.remote;
     return {
-      if (coverage != null) 'Coverage': coverage,
+      if (coverage != null) 'Coverage': _s.encodeJsonDouble(coverage),
       if (name != null) 'Name': name,
       if (remote != null) 'Remote': remote,
     };
@@ -4867,7 +4872,7 @@ class AnnotationValue {
   factory AnnotationValue.fromJson(Map<String, dynamic> json) {
     return AnnotationValue(
       booleanValue: json['BooleanValue'] as bool?,
-      numberValue: json['NumberValue'] as double?,
+      numberValue: _s.parseJsonDouble(json['NumberValue']),
       stringValue: json['StringValue'] as String?,
     );
   }
@@ -4878,7 +4883,7 @@ class AnnotationValue {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'BooleanValue': booleanValue,
-      if (numberValue != null) 'NumberValue': numberValue,
+      if (numberValue != null) 'NumberValue': _s.encodeJsonDouble(numberValue),
       if (stringValue != null) 'StringValue': stringValue,
     };
   }
@@ -4930,7 +4935,7 @@ class SamplingStrategy {
     final value = this.value;
     return {
       if (name != null) 'Name': name.value,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -5146,7 +5151,7 @@ class ServiceStatistics {
           : null,
       okCount: json['OkCount'] as int?,
       totalCount: json['TotalCount'] as int?,
-      totalResponseTime: json['TotalResponseTime'] as double?,
+      totalResponseTime: _s.parseJsonDouble(json['TotalResponseTime']),
     );
   }
 
@@ -5161,7 +5166,8 @@ class ServiceStatistics {
       if (faultStatistics != null) 'FaultStatistics': faultStatistics,
       if (okCount != null) 'OkCount': okCount,
       if (totalCount != null) 'TotalCount': totalCount,
-      if (totalResponseTime != null) 'TotalResponseTime': totalResponseTime,
+      if (totalResponseTime != null)
+        'TotalResponseTime': _s.encodeJsonDouble(totalResponseTime),
     };
   }
 }
@@ -5186,7 +5192,7 @@ class HistogramEntry {
   factory HistogramEntry.fromJson(Map<String, dynamic> json) {
     return HistogramEntry(
       count: json['Count'] as int?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -5195,7 +5201,7 @@ class HistogramEntry {
     final value = this.value;
     return {
       if (count != null) 'Count': count,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -5408,7 +5414,7 @@ class EdgeStatistics {
           : null,
       okCount: json['OkCount'] as int?,
       totalCount: json['TotalCount'] as int?,
-      totalResponseTime: json['TotalResponseTime'] as double?,
+      totalResponseTime: _s.parseJsonDouble(json['TotalResponseTime']),
     );
   }
 
@@ -5423,7 +5429,8 @@ class EdgeStatistics {
       if (faultStatistics != null) 'FaultStatistics': faultStatistics,
       if (okCount != null) 'OkCount': okCount,
       if (totalCount != null) 'TotalCount': totalCount,
-      if (totalResponseTime != null) 'TotalResponseTime': totalResponseTime,
+      if (totalResponseTime != null)
+        'TotalResponseTime': _s.encodeJsonDouble(totalResponseTime),
     };
   }
 }
@@ -5646,7 +5653,7 @@ class SamplingTargetDocument {
 
   factory SamplingTargetDocument.fromJson(Map<String, dynamic> json) {
     return SamplingTargetDocument(
-      fixedRate: json['FixedRate'] as double?,
+      fixedRate: _s.parseJsonDouble(json['FixedRate']),
       interval: json['Interval'] as int?,
       reservoirQuota: json['ReservoirQuota'] as int?,
       reservoirQuotaTTL: timeStampFromJson(json['ReservoirQuotaTTL']),
@@ -5666,7 +5673,7 @@ class SamplingTargetDocument {
     final ruleName = this.ruleName;
     final samplingBoost = this.samplingBoost;
     return {
-      if (fixedRate != null) 'FixedRate': fixedRate,
+      if (fixedRate != null) 'FixedRate': _s.encodeJsonDouble(fixedRate),
       if (interval != null) 'Interval': interval,
       if (reservoirQuota != null) 'ReservoirQuota': reservoirQuota,
       if (reservoirQuotaTTL != null)
@@ -5697,7 +5704,7 @@ class SamplingBoost {
 
   factory SamplingBoost.fromJson(Map<String, dynamic> json) {
     return SamplingBoost(
-      boostRate: (json['BoostRate'] as double?) ?? 0,
+      boostRate: _s.parseJsonDouble(json['BoostRate']) ?? 0,
       boostRateTTL: nonNullableTimeStampFromJson(json['BoostRateTTL'] ?? 0),
     );
   }
@@ -5706,7 +5713,7 @@ class SamplingBoost {
     final boostRate = this.boostRate;
     final boostRateTTL = this.boostRateTTL;
     return {
-      'BoostRate': boostRate,
+      'BoostRate': _s.encodeJsonDouble(boostRate),
       'BoostRateTTL': unixTimestampToJson(boostRateTTL),
     };
   }
@@ -6608,7 +6615,7 @@ class Trace {
 
   factory Trace.fromJson(Map<String, dynamic> json) {
     return Trace(
-      duration: json['Duration'] as double?,
+      duration: _s.parseJsonDouble(json['Duration']),
       id: json['Id'] as String?,
       limitExceeded: json['LimitExceeded'] as bool?,
       segments: (json['Segments'] as List?)
@@ -6624,7 +6631,7 @@ class Trace {
     final limitExceeded = this.limitExceeded;
     final segments = this.segments;
     return {
-      if (duration != null) 'Duration': duration,
+      if (duration != null) 'Duration': _s.encodeJsonDouble(duration),
       if (id != null) 'Id': id,
       if (limitExceeded != null) 'LimitExceeded': limitExceeded,
       if (segments != null) 'Segments': segments,

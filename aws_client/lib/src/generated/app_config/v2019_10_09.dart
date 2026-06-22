@@ -515,7 +515,7 @@ class AppConfig {
     );
     final $payload = <String, dynamic>{
       'DeploymentDurationInMinutes': deploymentDurationInMinutes,
-      'GrowthFactor': growthFactor,
+      'GrowthFactor': _s.encodeJsonDouble(growthFactor),
       'Name': name,
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
@@ -2191,7 +2191,8 @@ class AppConfig {
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthFactor != null) 'GrowthFactor': growthFactor,
+      if (growthFactor != null)
+        'GrowthFactor': _s.encodeJsonDouble(growthFactor),
       if (growthType != null) 'GrowthType': growthType.value,
     };
     final response = await _protocol.send(
@@ -2543,7 +2544,7 @@ class DeploymentStrategy {
       deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
       description: json['Description'] as String?,
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
-      growthFactor: json['GrowthFactor'] as double?,
+      growthFactor: _s.parseJsonDouble(json['GrowthFactor']),
       growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
@@ -2567,7 +2568,8 @@ class DeploymentStrategy {
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthFactor != null) 'GrowthFactor': growthFactor,
+      if (growthFactor != null)
+        'GrowthFactor': _s.encodeJsonDouble(growthFactor),
       if (growthType != null) 'GrowthType': growthType.value,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
@@ -3026,11 +3028,11 @@ class Deployment {
           .map((e) => DeploymentEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
-      growthFactor: json['GrowthFactor'] as double?,
+      growthFactor: _s.parseJsonDouble(json['GrowthFactor']),
       growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
       kmsKeyArn: json['KmsKeyArn'] as String?,
       kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
-      percentageComplete: json['PercentageComplete'] as double?,
+      percentageComplete: _s.parseJsonDouble(json['PercentageComplete']),
       startedAt: timeStampFromJson(json['StartedAt']),
       state: (json['State'] as String?)?.let(DeploymentState.fromString),
       versionLabel: json['VersionLabel'] as String?,
@@ -3081,11 +3083,13 @@ class Deployment {
       if (eventLog != null) 'EventLog': eventLog,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthFactor != null) 'GrowthFactor': growthFactor,
+      if (growthFactor != null)
+        'GrowthFactor': _s.encodeJsonDouble(growthFactor),
       if (growthType != null) 'GrowthType': growthType.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
-      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+      if (percentageComplete != null)
+        'PercentageComplete': _s.encodeJsonDouble(percentageComplete),
       if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
       if (state != null) 'State': state.value,
       if (versionLabel != null) 'VersionLabel': versionLabel,
@@ -3976,9 +3980,9 @@ class DeploymentSummary {
       deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
       deploymentNumber: json['DeploymentNumber'] as int?,
       finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
-      growthFactor: json['GrowthFactor'] as double?,
+      growthFactor: _s.parseJsonDouble(json['GrowthFactor']),
       growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
-      percentageComplete: json['PercentageComplete'] as double?,
+      percentageComplete: _s.parseJsonDouble(json['PercentageComplete']),
       startedAt: timeStampFromJson(json['StartedAt']),
       state: (json['State'] as String?)?.let(DeploymentState.fromString),
       versionLabel: json['VersionLabel'] as String?,
@@ -4008,9 +4012,11 @@ class DeploymentSummary {
       if (deploymentNumber != null) 'DeploymentNumber': deploymentNumber,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthFactor != null) 'GrowthFactor': growthFactor,
+      if (growthFactor != null)
+        'GrowthFactor': _s.encodeJsonDouble(growthFactor),
       if (growthType != null) 'GrowthType': growthType.value,
-      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+      if (percentageComplete != null)
+        'PercentageComplete': _s.encodeJsonDouble(percentageComplete),
       if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
       if (state != null) 'State': state.value,
       if (versionLabel != null) 'VersionLabel': versionLabel,

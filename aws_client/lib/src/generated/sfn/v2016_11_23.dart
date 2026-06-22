@@ -2643,7 +2643,8 @@ class Sfn {
         if (toleratedFailureCount != null)
           'toleratedFailureCount': toleratedFailureCount,
         if (toleratedFailurePercentage != null)
-          'toleratedFailurePercentage': toleratedFailurePercentage,
+          'toleratedFailurePercentage':
+              _s.encodeJsonDouble(toleratedFailurePercentage),
       },
     );
   }
@@ -3581,7 +3582,7 @@ class DescribeMapRunOutput {
       status: MapRunStatus.fromString((json['status'] as String?) ?? ''),
       toleratedFailureCount: (json['toleratedFailureCount'] as int?) ?? 0,
       toleratedFailurePercentage:
-          (json['toleratedFailurePercentage'] as double?) ?? 0,
+          _s.parseJsonDouble(json['toleratedFailurePercentage']) ?? 0,
       redriveCount: json['redriveCount'] as int?,
       redriveDate: timeStampFromJson(json['redriveDate']),
       stopDate: timeStampFromJson(json['stopDate']),
@@ -3610,7 +3611,8 @@ class DescribeMapRunOutput {
       'startDate': unixTimestampToJson(startDate),
       'status': status.value,
       'toleratedFailureCount': toleratedFailureCount,
-      'toleratedFailurePercentage': toleratedFailurePercentage,
+      'toleratedFailurePercentage':
+          _s.encodeJsonDouble(toleratedFailurePercentage),
       if (redriveCount != null) 'redriveCount': redriveCount,
       if (redriveDate != null) 'redriveDate': unixTimestampToJson(redriveDate),
       if (stopDate != null) 'stopDate': unixTimestampToJson(stopDate),
@@ -5425,7 +5427,8 @@ class InspectionData {
           : null,
       result: json['result'] as String?,
       toleratedFailureCount: json['toleratedFailureCount'] as int?,
-      toleratedFailurePercentage: json['toleratedFailurePercentage'] as double?,
+      toleratedFailurePercentage:
+          _s.parseJsonDouble(json['toleratedFailurePercentage']),
       variables: json['variables'] as String?,
     );
   }
@@ -5469,7 +5472,8 @@ class InspectionData {
       if (toleratedFailureCount != null)
         'toleratedFailureCount': toleratedFailureCount,
       if (toleratedFailurePercentage != null)
-        'toleratedFailurePercentage': toleratedFailurePercentage,
+        'toleratedFailurePercentage':
+            _s.encodeJsonDouble(toleratedFailurePercentage),
       if (variables != null) 'variables': variables,
     };
   }

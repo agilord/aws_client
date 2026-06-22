@@ -299,7 +299,7 @@ class EntitlementValue {
   factory EntitlementValue.fromJson(Map<String, dynamic> json) {
     return EntitlementValue(
       booleanValue: json['BooleanValue'] as bool?,
-      doubleValue: json['DoubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['DoubleValue']),
       integerValue: json['IntegerValue'] as int?,
       stringValue: json['StringValue'] as String?,
     );
@@ -312,7 +312,7 @@ class EntitlementValue {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'BooleanValue': booleanValue,
-      if (doubleValue != null) 'DoubleValue': doubleValue,
+      if (doubleValue != null) 'DoubleValue': _s.encodeJsonDouble(doubleValue),
       if (integerValue != null) 'IntegerValue': integerValue,
       if (stringValue != null) 'StringValue': stringValue,
     };

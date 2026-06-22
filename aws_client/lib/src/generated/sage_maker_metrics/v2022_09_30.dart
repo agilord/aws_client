@@ -288,7 +288,7 @@ class RawMetricData {
     return {
       'MetricName': metricName,
       'Timestamp': unixTimestampToJson(timestamp),
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
       if (step != null) 'Step': step,
     };
   }
@@ -321,7 +321,7 @@ class MetricQueryResult {
     return MetricQueryResult(
       metricValues: ((json['MetricValues'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       status:
           MetricQueryResultStatus.fromString((json['Status'] as String?) ?? ''),
@@ -339,7 +339,7 @@ class MetricQueryResult {
     final xAxisValues = this.xAxisValues;
     final message = this.message;
     return {
-      'MetricValues': metricValues,
+      'MetricValues': metricValues.map(_s.encodeJsonDouble).toList(),
       'Status': status.value,
       'XAxisValues': xAxisValues,
       if (message != null) 'Message': message,

@@ -6909,8 +6909,8 @@ class ServerlessV2ScalingConfigurationInfo {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 }
@@ -7137,8 +7137,8 @@ class ServerlessV2ScalingConfiguration {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 
@@ -8876,8 +8876,8 @@ class ServerlessV2FeaturesSupport {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 }

@@ -2079,9 +2079,9 @@ class TrustedAdvisorCostOptimizingSummary {
       Map<String, dynamic> json) {
     return TrustedAdvisorCostOptimizingSummary(
       estimatedMonthlySavings:
-          (json['estimatedMonthlySavings'] as double?) ?? 0,
+          _s.parseJsonDouble(json['estimatedMonthlySavings']) ?? 0,
       estimatedPercentMonthlySavings:
-          (json['estimatedPercentMonthlySavings'] as double?) ?? 0,
+          _s.parseJsonDouble(json['estimatedPercentMonthlySavings']) ?? 0,
     );
   }
 
@@ -2089,8 +2089,9 @@ class TrustedAdvisorCostOptimizingSummary {
     final estimatedMonthlySavings = this.estimatedMonthlySavings;
     final estimatedPercentMonthlySavings = this.estimatedPercentMonthlySavings;
     return {
-      'estimatedMonthlySavings': estimatedMonthlySavings,
-      'estimatedPercentMonthlySavings': estimatedPercentMonthlySavings,
+      'estimatedMonthlySavings': _s.encodeJsonDouble(estimatedMonthlySavings),
+      'estimatedPercentMonthlySavings':
+          _s.encodeJsonDouble(estimatedPercentMonthlySavings),
     };
   }
 }

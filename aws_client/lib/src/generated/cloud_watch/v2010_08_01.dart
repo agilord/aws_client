@@ -3568,7 +3568,7 @@ class CloudWatch {
         if (period != null) 'Period': period,
         if (statistic != null) 'Statistic': statistic.value,
         if (tags != null) 'Tags': tags,
-        if (threshold != null) 'Threshold': threshold,
+        if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
         if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
         if (treatMissingData != null) 'TreatMissingData': treatMissingData,
         if (unit != null) 'Unit': unit.value,
@@ -4732,7 +4732,7 @@ class GetInsightRuleReportOutput {
 
   factory GetInsightRuleReportOutput.fromJson(Map<String, dynamic> json) {
     return GetInsightRuleReportOutput(
-      aggregateValue: json['AggregateValue'] as double?,
+      aggregateValue: _s.parseJsonDouble(json['AggregateValue']),
       aggregationStatistic: json['AggregationStatistic'] as String?,
       approximateUniqueCount: json['ApproximateUniqueCount'] as int?,
       contributors: (json['Contributors'] as List?)
@@ -4760,7 +4760,8 @@ class GetInsightRuleReportOutput {
     final keyLabels = this.keyLabels;
     final metricDatapoints = this.metricDatapoints;
     return {
-      if (aggregateValue != null) 'AggregateValue': aggregateValue,
+      if (aggregateValue != null)
+        'AggregateValue': _s.encodeJsonDouble(aggregateValue),
       if (aggregationStatistic != null)
         'AggregationStatistic': aggregationStatistic,
       if (approximateUniqueCount != null)
@@ -5849,14 +5850,14 @@ class MetricDatum {
     final values = this.values;
     return {
       'MetricName': metricName,
-      if (counts != null) 'Counts': counts,
+      if (counts != null) 'Counts': counts.map(_s.encodeJsonDouble).toList(),
       if (dimensions != null) 'Dimensions': dimensions,
       if (statisticValues != null) 'StatisticValues': statisticValues,
       if (storageResolution != null) 'StorageResolution': storageResolution,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
       if (unit != null) 'Unit': unit.value,
-      if (value != null) 'Value': value,
-      if (values != null) 'Values': values,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
+      if (values != null) 'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -5890,10 +5891,10 @@ class StatisticSet {
     final sampleCount = this.sampleCount;
     final sum = this.sum;
     return {
-      'Maximum': maximum,
-      'Minimum': minimum,
-      'SampleCount': sampleCount,
-      'Sum': sum,
+      'Maximum': _s.encodeJsonDouble(maximum),
+      'Minimum': _s.encodeJsonDouble(minimum),
+      'SampleCount': _s.encodeJsonDouble(sampleCount),
+      'Sum': _s.encodeJsonDouble(sum),
     };
   }
 }
@@ -7404,13 +7405,13 @@ class Datapoint {
 
   factory Datapoint.fromJson(Map<String, dynamic> json) {
     return Datapoint(
-      average: json['Average'] as double?,
+      average: _s.parseJsonDouble(json['Average']),
       extendedStatistics: (json['ExtendedStatistics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
-      maximum: json['Maximum'] as double?,
-      minimum: json['Minimum'] as double?,
-      sampleCount: json['SampleCount'] as double?,
-      sum: json['Sum'] as double?,
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
+      maximum: _s.parseJsonDouble(json['Maximum']),
+      minimum: _s.parseJsonDouble(json['Minimum']),
+      sampleCount: _s.parseJsonDouble(json['SampleCount']),
+      sum: _s.parseJsonDouble(json['Sum']),
       timestamp: timeStampFromJson(json['Timestamp']),
       unit: (json['Unit'] as String?)?.let(StandardUnit.fromString),
     );
@@ -7426,12 +7427,14 @@ class Datapoint {
     final timestamp = this.timestamp;
     final unit = this.unit;
     return {
-      if (average != null) 'Average': average,
-      if (extendedStatistics != null) 'ExtendedStatistics': extendedStatistics,
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
-      if (sampleCount != null) 'SampleCount': sampleCount,
-      if (sum != null) 'Sum': sum,
+      if (average != null) 'Average': _s.encodeJsonDouble(average),
+      if (extendedStatistics != null)
+        'ExtendedStatistics': extendedStatistics
+            .map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
+      if (sampleCount != null) 'SampleCount': _s.encodeJsonDouble(sampleCount),
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
       if (unit != null) 'Unit': unit.value,
     };
@@ -7535,8 +7538,10 @@ class MetricDataResult {
           ?.nonNulls
           .map(nonNullableTimeStampFromJson)
           .toList(),
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      values: (json['Values'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
@@ -7554,7 +7559,7 @@ class MetricDataResult {
       if (statusCode != null) 'StatusCode': statusCode.value,
       if (timestamps != null)
         'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      if (values != null) 'Values': values,
+      if (values != null) 'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -7713,13 +7718,13 @@ class InsightRuleMetricDatapoint {
   factory InsightRuleMetricDatapoint.fromJson(Map<String, dynamic> json) {
     return InsightRuleMetricDatapoint(
       timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
-      average: json['Average'] as double?,
-      maxContributorValue: json['MaxContributorValue'] as double?,
-      maximum: json['Maximum'] as double?,
-      minimum: json['Minimum'] as double?,
-      sampleCount: json['SampleCount'] as double?,
-      sum: json['Sum'] as double?,
-      uniqueContributors: json['UniqueContributors'] as double?,
+      average: _s.parseJsonDouble(json['Average']),
+      maxContributorValue: _s.parseJsonDouble(json['MaxContributorValue']),
+      maximum: _s.parseJsonDouble(json['Maximum']),
+      minimum: _s.parseJsonDouble(json['Minimum']),
+      sampleCount: _s.parseJsonDouble(json['SampleCount']),
+      sum: _s.parseJsonDouble(json['Sum']),
+      uniqueContributors: _s.parseJsonDouble(json['UniqueContributors']),
     );
   }
 
@@ -7734,14 +7739,15 @@ class InsightRuleMetricDatapoint {
     final uniqueContributors = this.uniqueContributors;
     return {
       'Timestamp': unixTimestampToJson(timestamp),
-      if (average != null) 'Average': average,
+      if (average != null) 'Average': _s.encodeJsonDouble(average),
       if (maxContributorValue != null)
-        'MaxContributorValue': maxContributorValue,
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
-      if (sampleCount != null) 'SampleCount': sampleCount,
-      if (sum != null) 'Sum': sum,
-      if (uniqueContributors != null) 'UniqueContributors': uniqueContributors,
+        'MaxContributorValue': _s.encodeJsonDouble(maxContributorValue),
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
+      if (sampleCount != null) 'SampleCount': _s.encodeJsonDouble(sampleCount),
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
+      if (uniqueContributors != null)
+        'UniqueContributors': _s.encodeJsonDouble(uniqueContributors),
     };
   }
 }
@@ -7778,7 +7784,7 @@ class InsightRuleContributor {
   factory InsightRuleContributor.fromJson(Map<String, dynamic> json) {
     return InsightRuleContributor(
       approximateAggregateValue:
-          (json['ApproximateAggregateValue'] as double?) ?? 0,
+          _s.parseJsonDouble(json['ApproximateAggregateValue']) ?? 0,
       datapoints: ((json['Datapoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => InsightRuleContributorDatapoint.fromJson(
@@ -7796,7 +7802,8 @@ class InsightRuleContributor {
     final datapoints = this.datapoints;
     final keys = this.keys;
     return {
-      'ApproximateAggregateValue': approximateAggregateValue,
+      'ApproximateAggregateValue':
+          _s.encodeJsonDouble(approximateAggregateValue),
       'Datapoints': datapoints,
       'Keys': keys,
     };
@@ -7825,7 +7832,7 @@ class InsightRuleContributorDatapoint {
 
   factory InsightRuleContributorDatapoint.fromJson(Map<String, dynamic> json) {
     return InsightRuleContributorDatapoint(
-      approximateValue: (json['ApproximateValue'] as double?) ?? 0,
+      approximateValue: _s.parseJsonDouble(json['ApproximateValue']) ?? 0,
       timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
     );
   }
@@ -7834,7 +7841,7 @@ class InsightRuleContributorDatapoint {
     final approximateValue = this.approximateValue;
     final timestamp = this.timestamp;
     return {
-      'ApproximateValue': approximateValue,
+      'ApproximateValue': _s.encodeJsonDouble(approximateValue),
       'Timestamp': unixTimestampToJson(timestamp),
     };
   }
@@ -8311,7 +8318,7 @@ class MetricAlarm {
       stateUpdatedTimestamp: timeStampFromJson(json['StateUpdatedTimestamp']),
       stateValue: (json['StateValue'] as String?)?.let(StateValue.fromString),
       statistic: (json['Statistic'] as String?)?.let(Statistic.fromString),
-      threshold: json['Threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['Threshold']),
       thresholdMetricId: json['ThresholdMetricId'] as String?,
       treatMissingData: json['TreatMissingData'] as String?,
       unit: (json['Unit'] as String?)?.let(StandardUnit.fromString),
@@ -8388,7 +8395,7 @@ class MetricAlarm {
         'StateUpdatedTimestamp': unixTimestampToJson(stateUpdatedTimestamp),
       if (stateValue != null) 'StateValue': stateValue.value,
       if (statistic != null) 'Statistic': statistic.value,
-      if (threshold != null) 'Threshold': threshold,
+      if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
       if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
       if (treatMissingData != null) 'TreatMissingData': treatMissingData,
       if (unit != null) 'Unit': unit.value,

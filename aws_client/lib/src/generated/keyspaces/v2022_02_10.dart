@@ -3212,7 +3212,7 @@ class TargetTrackingScalingPolicyConfiguration {
   factory TargetTrackingScalingPolicyConfiguration.fromJson(
       Map<String, dynamic> json) {
     return TargetTrackingScalingPolicyConfiguration(
-      targetValue: (json['targetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['targetValue']) ?? 0,
       disableScaleIn: json['disableScaleIn'] as bool?,
       scaleInCooldown: json['scaleInCooldown'] as int?,
       scaleOutCooldown: json['scaleOutCooldown'] as int?,
@@ -3225,7 +3225,7 @@ class TargetTrackingScalingPolicyConfiguration {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'targetValue': targetValue,
+      'targetValue': _s.encodeJsonDouble(targetValue),
       if (disableScaleIn != null) 'disableScaleIn': disableScaleIn,
       if (scaleInCooldown != null) 'scaleInCooldown': scaleInCooldown,
       if (scaleOutCooldown != null) 'scaleOutCooldown': scaleOutCooldown,

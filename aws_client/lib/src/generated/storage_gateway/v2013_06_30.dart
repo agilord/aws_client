@@ -6898,10 +6898,10 @@ class DescribeCacheOutput {
   factory DescribeCacheOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCacheOutput(
       cacheAllocatedInBytes: json['CacheAllocatedInBytes'] as int?,
-      cacheDirtyPercentage: json['CacheDirtyPercentage'] as double?,
-      cacheHitPercentage: json['CacheHitPercentage'] as double?,
-      cacheMissPercentage: json['CacheMissPercentage'] as double?,
-      cacheUsedPercentage: json['CacheUsedPercentage'] as double?,
+      cacheDirtyPercentage: _s.parseJsonDouble(json['CacheDirtyPercentage']),
+      cacheHitPercentage: _s.parseJsonDouble(json['CacheHitPercentage']),
+      cacheMissPercentage: _s.parseJsonDouble(json['CacheMissPercentage']),
+      cacheUsedPercentage: _s.parseJsonDouble(json['CacheUsedPercentage']),
       diskIds:
           (json['DiskIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
       gatewayARN: json['GatewayARN'] as String?,
@@ -6920,12 +6920,13 @@ class DescribeCacheOutput {
       if (cacheAllocatedInBytes != null)
         'CacheAllocatedInBytes': cacheAllocatedInBytes,
       if (cacheDirtyPercentage != null)
-        'CacheDirtyPercentage': cacheDirtyPercentage,
-      if (cacheHitPercentage != null) 'CacheHitPercentage': cacheHitPercentage,
+        'CacheDirtyPercentage': _s.encodeJsonDouble(cacheDirtyPercentage),
+      if (cacheHitPercentage != null)
+        'CacheHitPercentage': _s.encodeJsonDouble(cacheHitPercentage),
       if (cacheMissPercentage != null)
-        'CacheMissPercentage': cacheMissPercentage,
+        'CacheMissPercentage': _s.encodeJsonDouble(cacheMissPercentage),
       if (cacheUsedPercentage != null)
-        'CacheUsedPercentage': cacheUsedPercentage,
+        'CacheUsedPercentage': _s.encodeJsonDouble(cacheUsedPercentage),
       if (diskIds != null) 'DiskIds': diskIds,
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
     };
@@ -11129,7 +11130,7 @@ class Tape {
       kMSKey: json['KMSKey'] as String?,
       poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
       poolId: json['PoolId'] as String?,
-      progress: json['Progress'] as double?,
+      progress: _s.parseJsonDouble(json['Progress']),
       retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
       tapeARN: json['TapeARN'] as String?,
       tapeBarcode: json['TapeBarcode'] as String?,
@@ -11161,7 +11162,7 @@ class Tape {
       if (poolEntryDate != null)
         'PoolEntryDate': unixTimestampToJson(poolEntryDate),
       if (poolId != null) 'PoolId': poolId,
-      if (progress != null) 'Progress': progress,
+      if (progress != null) 'Progress': _s.encodeJsonDouble(progress),
       if (retentionStartDate != null)
         'RetentionStartDate': unixTimestampToJson(retentionStartDate),
       if (tapeARN != null) 'TapeARN': tapeARN,
@@ -11461,7 +11462,7 @@ class StorediSCSIVolume {
       volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
       volumeDiskId: json['VolumeDiskId'] as String?,
       volumeId: json['VolumeId'] as String?,
-      volumeProgress: json['VolumeProgress'] as double?,
+      volumeProgress: _s.parseJsonDouble(json['VolumeProgress']),
       volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
       volumeStatus: json['VolumeStatus'] as String?,
       volumeType: json['VolumeType'] as String?,
@@ -11501,7 +11502,8 @@ class StorediSCSIVolume {
         'VolumeAttachmentStatus': volumeAttachmentStatus,
       if (volumeDiskId != null) 'VolumeDiskId': volumeDiskId,
       if (volumeId != null) 'VolumeId': volumeId,
-      if (volumeProgress != null) 'VolumeProgress': volumeProgress,
+      if (volumeProgress != null)
+        'VolumeProgress': _s.encodeJsonDouble(volumeProgress),
       if (volumeSizeInBytes != null) 'VolumeSizeInBytes': volumeSizeInBytes,
       if (volumeStatus != null) 'VolumeStatus': volumeStatus,
       if (volumeType != null) 'VolumeType': volumeType,
@@ -12576,7 +12578,7 @@ class CachediSCSIVolume {
       volumeARN: json['VolumeARN'] as String?,
       volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
       volumeId: json['VolumeId'] as String?,
-      volumeProgress: json['VolumeProgress'] as double?,
+      volumeProgress: _s.parseJsonDouble(json['VolumeProgress']),
       volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
       volumeStatus: json['VolumeStatus'] as String?,
       volumeType: json['VolumeType'] as String?,
@@ -12611,7 +12613,8 @@ class CachediSCSIVolume {
       if (volumeAttachmentStatus != null)
         'VolumeAttachmentStatus': volumeAttachmentStatus,
       if (volumeId != null) 'VolumeId': volumeId,
-      if (volumeProgress != null) 'VolumeProgress': volumeProgress,
+      if (volumeProgress != null)
+        'VolumeProgress': _s.encodeJsonDouble(volumeProgress),
       if (volumeSizeInBytes != null) 'VolumeSizeInBytes': volumeSizeInBytes,
       if (volumeStatus != null) 'VolumeStatus': volumeStatus,
       if (volumeType != null) 'VolumeType': volumeType,

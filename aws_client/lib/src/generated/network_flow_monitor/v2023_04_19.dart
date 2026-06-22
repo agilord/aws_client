@@ -2568,7 +2568,7 @@ class WorkloadInsightsTopContributorsDataPoint {
           .toList(),
       values: ((json['values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -2580,7 +2580,7 @@ class WorkloadInsightsTopContributorsDataPoint {
     return {
       'label': label,
       'timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'values': values,
+      'values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

@@ -12994,7 +12994,8 @@ class SelectionCriteria {
       if (delimiter != null) 'Delimiter': delimiter,
       if (maxDepth != null) 'MaxDepth': maxDepth,
       if (minStorageBytesPercentage != null)
-        'MinStorageBytesPercentage': minStorageBytesPercentage,
+        'MinStorageBytesPercentage':
+            _s.encodeJsonDouble(minStorageBytesPercentage),
     };
   }
 

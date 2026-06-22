@@ -2900,7 +2900,8 @@ class CustomActionLambdaConfiguration {
           .toList(),
       regionToRun:
           RegionToRunIn.fromString((json['regionToRun'] as String?) ?? ''),
-      retryIntervalMinutes: (json['retryIntervalMinutes'] as double?) ?? 0,
+      retryIntervalMinutes:
+          _s.parseJsonDouble(json['retryIntervalMinutes']) ?? 0,
       timeoutMinutes: json['timeoutMinutes'] as int?,
       ungraceful: json['ungraceful'] != null
           ? LambdaUngraceful.fromJson(
@@ -2918,7 +2919,7 @@ class CustomActionLambdaConfiguration {
     return {
       'lambdas': lambdas,
       'regionToRun': regionToRun.value,
-      'retryIntervalMinutes': retryIntervalMinutes,
+      'retryIntervalMinutes': _s.encodeJsonDouble(retryIntervalMinutes),
       if (timeoutMinutes != null) 'timeoutMinutes': timeoutMinutes,
       if (ungraceful != null) 'ungraceful': ungraceful,
     };

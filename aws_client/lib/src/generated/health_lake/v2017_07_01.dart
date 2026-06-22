@@ -1401,7 +1401,7 @@ class JobProgressReport {
 
   factory JobProgressReport.fromJson(Map<String, dynamic> json) {
     return JobProgressReport(
-      throughput: json['Throughput'] as double?,
+      throughput: _s.parseJsonDouble(json['Throughput']),
       totalNumberOfFilesReadWithCustomerError:
           json['TotalNumberOfFilesReadWithCustomerError'] as int?,
       totalNumberOfImportedFiles: json['TotalNumberOfImportedFiles'] as int?,
@@ -1413,7 +1413,7 @@ class JobProgressReport {
           json['TotalNumberOfResourcesWithCustomerError'] as int?,
       totalNumberOfScannedFiles: json['TotalNumberOfScannedFiles'] as int?,
       totalSizeOfScannedFilesInMB:
-          json['TotalSizeOfScannedFilesInMB'] as double?,
+          _s.parseJsonDouble(json['TotalSizeOfScannedFilesInMB']),
     );
   }
 
@@ -1429,7 +1429,7 @@ class JobProgressReport {
     final totalNumberOfScannedFiles = this.totalNumberOfScannedFiles;
     final totalSizeOfScannedFilesInMB = this.totalSizeOfScannedFilesInMB;
     return {
-      if (throughput != null) 'Throughput': throughput,
+      if (throughput != null) 'Throughput': _s.encodeJsonDouble(throughput),
       if (totalNumberOfFilesReadWithCustomerError != null)
         'TotalNumberOfFilesReadWithCustomerError':
             totalNumberOfFilesReadWithCustomerError,
@@ -1445,7 +1445,8 @@ class JobProgressReport {
       if (totalNumberOfScannedFiles != null)
         'TotalNumberOfScannedFiles': totalNumberOfScannedFiles,
       if (totalSizeOfScannedFilesInMB != null)
-        'TotalSizeOfScannedFilesInMB': totalSizeOfScannedFilesInMB,
+        'TotalSizeOfScannedFilesInMB':
+            _s.encodeJsonDouble(totalSizeOfScannedFilesInMB),
     };
   }
 }

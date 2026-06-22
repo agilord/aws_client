@@ -8910,7 +8910,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       disableScaleIn: json['DisableScaleIn'] as bool?,
       scaleInCooldown: json['ScaleInCooldown'] as int?,
       scaleOutCooldown: json['ScaleOutCooldown'] as int?,
@@ -8923,7 +8923,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
       if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
       if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
@@ -9224,7 +9224,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
       if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
       if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
@@ -12231,7 +12231,7 @@ class ConsumedCapacity {
 
   factory ConsumedCapacity.fromJson(Map<String, dynamic> json) {
     return ConsumedCapacity(
-      capacityUnits: json['CapacityUnits'] as double?,
+      capacityUnits: _s.parseJsonDouble(json['CapacityUnits']),
       globalSecondaryIndexes:
           (json['GlobalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
               (k, e) =>
@@ -12240,12 +12240,12 @@ class ConsumedCapacity {
           (json['LocalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
               (k, e) =>
                   MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
-      readCapacityUnits: json['ReadCapacityUnits'] as double?,
+      readCapacityUnits: _s.parseJsonDouble(json['ReadCapacityUnits']),
       table: json['Table'] != null
           ? Capacity.fromJson(json['Table'] as Map<String, dynamic>)
           : null,
       tableName: json['TableName'] as String?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+      writeCapacityUnits: _s.parseJsonDouble(json['WriteCapacityUnits']),
     );
   }
 
@@ -12258,15 +12258,18 @@ class ConsumedCapacity {
     final tableName = this.tableName;
     final writeCapacityUnits = this.writeCapacityUnits;
     return {
-      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (capacityUnits != null)
+        'CapacityUnits': _s.encodeJsonDouble(capacityUnits),
       if (globalSecondaryIndexes != null)
         'GlobalSecondaryIndexes': globalSecondaryIndexes,
       if (localSecondaryIndexes != null)
         'LocalSecondaryIndexes': localSecondaryIndexes,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (readCapacityUnits != null)
+        'ReadCapacityUnits': _s.encodeJsonDouble(readCapacityUnits),
       if (table != null) 'Table': table,
       if (tableName != null) 'TableName': tableName,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+      if (writeCapacityUnits != null)
+        'WriteCapacityUnits': _s.encodeJsonDouble(writeCapacityUnits),
     };
   }
 }
@@ -12305,7 +12308,7 @@ class ItemCollectionMetrics {
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -12316,7 +12319,8 @@ class ItemCollectionMetrics {
     return {
       if (itemCollectionKey != null) 'ItemCollectionKey': itemCollectionKey,
       if (sizeEstimateRangeGB != null)
-        'SizeEstimateRangeGB': sizeEstimateRangeGB,
+        'SizeEstimateRangeGB':
+            sizeEstimateRangeGB.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -12473,9 +12477,9 @@ class Capacity {
 
   factory Capacity.fromJson(Map<String, dynamic> json) {
     return Capacity(
-      capacityUnits: json['CapacityUnits'] as double?,
-      readCapacityUnits: json['ReadCapacityUnits'] as double?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+      capacityUnits: _s.parseJsonDouble(json['CapacityUnits']),
+      readCapacityUnits: _s.parseJsonDouble(json['ReadCapacityUnits']),
+      writeCapacityUnits: _s.parseJsonDouble(json['WriteCapacityUnits']),
     );
   }
 
@@ -12484,9 +12488,12 @@ class Capacity {
     final readCapacityUnits = this.readCapacityUnits;
     final writeCapacityUnits = this.writeCapacityUnits;
     return {
-      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+      if (capacityUnits != null)
+        'CapacityUnits': _s.encodeJsonDouble(capacityUnits),
+      if (readCapacityUnits != null)
+        'ReadCapacityUnits': _s.encodeJsonDouble(readCapacityUnits),
+      if (writeCapacityUnits != null)
+        'WriteCapacityUnits': _s.encodeJsonDouble(writeCapacityUnits),
     };
   }
 }

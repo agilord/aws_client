@@ -735,10 +735,10 @@ class OvalParameters {
 
   factory OvalParameters.fromJson(Map<String, dynamic> json) {
     return OvalParameters(
-      centerX: (json['CenterX'] as double?) ?? 0,
-      centerY: (json['CenterY'] as double?) ?? 0,
-      height: (json['Height'] as double?) ?? 0,
-      width: (json['Width'] as double?) ?? 0,
+      centerX: _s.parseJsonDouble(json['CenterX']) ?? 0,
+      centerY: _s.parseJsonDouble(json['CenterY']) ?? 0,
+      height: _s.parseJsonDouble(json['Height']) ?? 0,
+      width: _s.parseJsonDouble(json['Width']) ?? 0,
     );
   }
 
@@ -748,10 +748,10 @@ class OvalParameters {
     final height = this.height;
     final width = this.width;
     return {
-      'CenterX': centerX,
-      'CenterY': centerY,
-      'Height': height,
-      'Width': width,
+      'CenterX': _s.encodeJsonDouble(centerX),
+      'CenterY': _s.encodeJsonDouble(centerY),
+      'Height': _s.encodeJsonDouble(height),
+      'Width': _s.encodeJsonDouble(width),
     };
   }
 }
@@ -811,17 +811,21 @@ class ChallengeConfig {
   factory ChallengeConfig.fromJson(Map<String, dynamic> json) {
     return ChallengeConfig(
       blazeFaceDetectionThreshold:
-          json['BlazeFaceDetectionThreshold'] as double?,
-      faceDistanceThreshold: json['FaceDistanceThreshold'] as double?,
-      faceDistanceThresholdMax: json['FaceDistanceThresholdMax'] as double?,
-      faceDistanceThresholdMin: json['FaceDistanceThresholdMin'] as double?,
-      faceIouHeightThreshold: json['FaceIouHeightThreshold'] as double?,
-      faceIouWidthThreshold: json['FaceIouWidthThreshold'] as double?,
+          _s.parseJsonDouble(json['BlazeFaceDetectionThreshold']),
+      faceDistanceThreshold: _s.parseJsonDouble(json['FaceDistanceThreshold']),
+      faceDistanceThresholdMax:
+          _s.parseJsonDouble(json['FaceDistanceThresholdMax']),
+      faceDistanceThresholdMin:
+          _s.parseJsonDouble(json['FaceDistanceThresholdMin']),
+      faceIouHeightThreshold:
+          _s.parseJsonDouble(json['FaceIouHeightThreshold']),
+      faceIouWidthThreshold: _s.parseJsonDouble(json['FaceIouWidthThreshold']),
       ovalFitTimeout: json['OvalFitTimeout'] as int?,
-      ovalHeightWidthRatio: json['OvalHeightWidthRatio'] as double?,
-      ovalIouHeightThreshold: json['OvalIouHeightThreshold'] as double?,
-      ovalIouThreshold: json['OvalIouThreshold'] as double?,
-      ovalIouWidthThreshold: json['OvalIouWidthThreshold'] as double?,
+      ovalHeightWidthRatio: _s.parseJsonDouble(json['OvalHeightWidthRatio']),
+      ovalIouHeightThreshold:
+          _s.parseJsonDouble(json['OvalIouHeightThreshold']),
+      ovalIouThreshold: _s.parseJsonDouble(json['OvalIouThreshold']),
+      ovalIouWidthThreshold: _s.parseJsonDouble(json['OvalIouWidthThreshold']),
     );
   }
 
@@ -839,25 +843,29 @@ class ChallengeConfig {
     final ovalIouWidthThreshold = this.ovalIouWidthThreshold;
     return {
       if (blazeFaceDetectionThreshold != null)
-        'BlazeFaceDetectionThreshold': blazeFaceDetectionThreshold,
+        'BlazeFaceDetectionThreshold':
+            _s.encodeJsonDouble(blazeFaceDetectionThreshold),
       if (faceDistanceThreshold != null)
-        'FaceDistanceThreshold': faceDistanceThreshold,
+        'FaceDistanceThreshold': _s.encodeJsonDouble(faceDistanceThreshold),
       if (faceDistanceThresholdMax != null)
-        'FaceDistanceThresholdMax': faceDistanceThresholdMax,
+        'FaceDistanceThresholdMax':
+            _s.encodeJsonDouble(faceDistanceThresholdMax),
       if (faceDistanceThresholdMin != null)
-        'FaceDistanceThresholdMin': faceDistanceThresholdMin,
+        'FaceDistanceThresholdMin':
+            _s.encodeJsonDouble(faceDistanceThresholdMin),
       if (faceIouHeightThreshold != null)
-        'FaceIouHeightThreshold': faceIouHeightThreshold,
+        'FaceIouHeightThreshold': _s.encodeJsonDouble(faceIouHeightThreshold),
       if (faceIouWidthThreshold != null)
-        'FaceIouWidthThreshold': faceIouWidthThreshold,
+        'FaceIouWidthThreshold': _s.encodeJsonDouble(faceIouWidthThreshold),
       if (ovalFitTimeout != null) 'OvalFitTimeout': ovalFitTimeout,
       if (ovalHeightWidthRatio != null)
-        'OvalHeightWidthRatio': ovalHeightWidthRatio,
+        'OvalHeightWidthRatio': _s.encodeJsonDouble(ovalHeightWidthRatio),
       if (ovalIouHeightThreshold != null)
-        'OvalIouHeightThreshold': ovalIouHeightThreshold,
-      if (ovalIouThreshold != null) 'OvalIouThreshold': ovalIouThreshold,
+        'OvalIouHeightThreshold': _s.encodeJsonDouble(ovalIouHeightThreshold),
+      if (ovalIouThreshold != null)
+        'OvalIouThreshold': _s.encodeJsonDouble(ovalIouThreshold),
       if (ovalIouWidthThreshold != null)
-        'OvalIouWidthThreshold': ovalIouWidthThreshold,
+        'OvalIouWidthThreshold': _s.encodeJsonDouble(ovalIouWidthThreshold),
     };
   }
 }
@@ -911,8 +919,8 @@ class ColorSequence {
 
   factory ColorSequence.fromJson(Map<String, dynamic> json) {
     return ColorSequence(
-      downscrollDuration: (json['DownscrollDuration'] as double?) ?? 0,
-      flatDisplayDuration: (json['FlatDisplayDuration'] as double?) ?? 0,
+      downscrollDuration: _s.parseJsonDouble(json['DownscrollDuration']) ?? 0,
+      flatDisplayDuration: _s.parseJsonDouble(json['FlatDisplayDuration']) ?? 0,
       freshnessColor: FreshnessColor.fromJson(
           (json['FreshnessColor'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -924,8 +932,8 @@ class ColorSequence {
     final flatDisplayDuration = this.flatDisplayDuration;
     final freshnessColor = this.freshnessColor;
     return {
-      'DownscrollDuration': downscrollDuration,
-      'FlatDisplayDuration': flatDisplayDuration,
+      'DownscrollDuration': _s.encodeJsonDouble(downscrollDuration),
+      'FlatDisplayDuration': _s.encodeJsonDouble(flatDisplayDuration),
       'FreshnessColor': freshnessColor,
     };
   }
@@ -1263,10 +1271,10 @@ class BoundingBox {
     final top = this.top;
     final width = this.width;
     return {
-      'Height': height,
-      'Left': left,
-      'Top': top,
-      'Width': width,
+      'Height': _s.encodeJsonDouble(height),
+      'Left': _s.encodeJsonDouble(left),
+      'Top': _s.encodeJsonDouble(top),
+      'Width': _s.encodeJsonDouble(width),
     };
   }
 }

@@ -16360,7 +16360,7 @@ class SeverityStatistics {
   factory SeverityStatistics.fromJson(Map<String, dynamic> json) {
     return SeverityStatistics(
       lastGeneratedAt: timeStampFromJson(json['lastGeneratedAt']),
-      severity: json['severity'] as double?,
+      severity: _s.parseJsonDouble(json['severity']),
       totalFindings: json['totalFindings'] as int?,
     );
   }
@@ -16372,7 +16372,7 @@ class SeverityStatistics {
     return {
       if (lastGeneratedAt != null)
         'lastGeneratedAt': unixTimestampToJson(lastGeneratedAt),
-      if (severity != null) 'severity': severity,
+      if (severity != null) 'severity': _s.encodeJsonDouble(severity),
       if (totalFindings != null) 'totalFindings': totalFindings,
     };
   }
@@ -16547,7 +16547,7 @@ class DateStatistics {
     return DateStatistics(
       date: timeStampFromJson(json['date']),
       lastGeneratedAt: timeStampFromJson(json['lastGeneratedAt']),
-      severity: json['severity'] as double?,
+      severity: _s.parseJsonDouble(json['severity']),
       totalFindings: json['totalFindings'] as int?,
     );
   }
@@ -16561,7 +16561,7 @@ class DateStatistics {
       if (date != null) 'date': unixTimestampToJson(date),
       if (lastGeneratedAt != null)
         'lastGeneratedAt': unixTimestampToJson(lastGeneratedAt),
-      if (severity != null) 'severity': severity,
+      if (severity != null) 'severity': _s.encodeJsonDouble(severity),
       if (totalFindings != null) 'totalFindings': totalFindings,
     };
   }
@@ -16745,12 +16745,12 @@ class Finding {
       resource: Resource.fromJson((json['resource'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       schemaVersion: (json['schemaVersion'] as String?) ?? '',
-      severity: (json['severity'] as double?) ?? 0,
+      severity: _s.parseJsonDouble(json['severity']) ?? 0,
       type: (json['type'] as String?) ?? '',
       updatedAt: (json['updatedAt'] as String?) ?? '',
       associatedAttackSequenceArn:
           json['associatedAttackSequenceArn'] as String?,
-      confidence: json['confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['confidence']),
       description: json['description'] as String?,
       partition: json['partition'] as String?,
       service: json['service'] != null
@@ -16785,12 +16785,12 @@ class Finding {
       'region': region,
       'resource': resource,
       'schemaVersion': schemaVersion,
-      'severity': severity,
+      'severity': _s.encodeJsonDouble(severity),
       'type': type,
       'updatedAt': updatedAt,
       if (associatedAttackSequenceArn != null)
         'associatedAttackSequenceArn': associatedAttackSequenceArn,
-      if (confidence != null) 'confidence': confidence,
+      if (confidence != null) 'confidence': _s.encodeJsonDouble(confidence),
       if (description != null) 'description': description,
       if (partition != null) 'partition': partition,
       if (service != null) 'service': service,
@@ -18052,7 +18052,7 @@ class Signal {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      severity: json['severity'] as double?,
+      severity: _s.parseJsonDouble(json['severity']),
       signalIndicators: (json['signalIndicators'] as List?)
           ?.nonNulls
           .map((e) => Indicator.fromJson(e as Map<String, dynamic>))
@@ -18088,7 +18088,7 @@ class Signal {
       if (description != null) 'description': description,
       if (endpointIds != null) 'endpointIds': endpointIds,
       if (resourceUids != null) 'resourceUids': resourceUids,
-      if (severity != null) 'severity': severity,
+      if (severity != null) 'severity': _s.encodeJsonDouble(severity),
       if (signalIndicators != null) 'signalIndicators': signalIndicators,
     };
   }
@@ -18235,8 +18235,8 @@ class NetworkGeoLocation {
     return NetworkGeoLocation(
       city: (json['city'] as String?) ?? '',
       country: (json['country'] as String?) ?? '',
-      latitude: (json['lat'] as double?) ?? 0,
-      longitude: (json['lon'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['lat']) ?? 0,
+      longitude: _s.parseJsonDouble(json['lon']) ?? 0,
     );
   }
 
@@ -18248,8 +18248,8 @@ class NetworkGeoLocation {
     return {
       'city': city,
       'country': country,
-      'lat': latitude,
-      'lon': longitude,
+      'lat': _s.encodeJsonDouble(latitude),
+      'lon': _s.encodeJsonDouble(longitude),
     };
   }
 }
@@ -21881,8 +21881,8 @@ class GeoLocation {
 
   factory GeoLocation.fromJson(Map<String, dynamic> json) {
     return GeoLocation(
-      lat: json['lat'] as double?,
-      lon: json['lon'] as double?,
+      lat: _s.parseJsonDouble(json['lat']),
+      lon: _s.parseJsonDouble(json['lon']),
     );
   }
 
@@ -21890,8 +21890,8 @@ class GeoLocation {
     final lat = this.lat;
     final lon = this.lon;
     return {
-      if (lat != null) 'lat': lat,
-      if (lon != null) 'lon': lon,
+      if (lat != null) 'lat': _s.encodeJsonDouble(lat),
+      if (lon != null) 'lon': _s.encodeJsonDouble(lon),
     };
   }
 }

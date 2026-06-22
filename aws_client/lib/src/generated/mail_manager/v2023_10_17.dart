@@ -6411,7 +6411,7 @@ class RuleNumberExpression {
               const <String, dynamic>{}),
       operator:
           RuleNumberOperator.fromString((json['Operator'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -6422,7 +6422,7 @@ class RuleNumberExpression {
     return {
       'Evaluate': evaluate,
       'Operator': operator.value,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }

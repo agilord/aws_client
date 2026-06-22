@@ -6081,7 +6081,8 @@ class TranscriptionJob {
           : null,
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifiedLanguageScore:
+          _s.parseJsonDouble(json['IdentifiedLanguageScore']),
       identifyLanguage: json['IdentifyLanguage'] as bool?,
       identifyMultipleLanguages: json['IdentifyMultipleLanguages'] as bool?,
       jobExecutionSettings: json['JobExecutionSettings'] != null
@@ -6169,7 +6170,7 @@ class TranscriptionJob {
         'CreationTime': unixTimestampToJson(creationTime),
       if (failureReason != null) 'FailureReason': failureReason,
       if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
+        'IdentifiedLanguageScore': _s.encodeJsonDouble(identifiedLanguageScore),
       if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
       if (identifyMultipleLanguages != null)
         'IdentifyMultipleLanguages': identifyMultipleLanguages,
@@ -6961,7 +6962,7 @@ class LanguageCodeItem {
 
   factory LanguageCodeItem.fromJson(Map<String, dynamic> json) {
     return LanguageCodeItem(
-      durationInSeconds: json['DurationInSeconds'] as double?,
+      durationInSeconds: _s.parseJsonDouble(json['DurationInSeconds']),
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
     );
@@ -6971,7 +6972,8 @@ class LanguageCodeItem {
     final durationInSeconds = this.durationInSeconds;
     final languageCode = this.languageCode;
     return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (durationInSeconds != null)
+        'DurationInSeconds': _s.encodeJsonDouble(durationInSeconds),
       if (languageCode != null) 'LanguageCode': languageCode.value,
     };
   }
@@ -8435,7 +8437,8 @@ class CallAnalyticsJob {
       creationTime: timeStampFromJson(json['CreationTime']),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifiedLanguageScore:
+          _s.parseJsonDouble(json['IdentifiedLanguageScore']),
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       media: json['Media'] != null
@@ -8492,7 +8495,7 @@ class CallAnalyticsJob {
       if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
       if (failureReason != null) 'FailureReason': failureReason,
       if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
+        'IdentifiedLanguageScore': _s.encodeJsonDouble(identifiedLanguageScore),
       if (languageCode != null) 'LanguageCode': languageCode.value,
       if (media != null) 'Media': media,
       if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
@@ -9156,7 +9159,8 @@ class TranscriptionJobSummary {
           : null,
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifiedLanguageScore:
+          _s.parseJsonDouble(json['IdentifiedLanguageScore']),
       identifyLanguage: json['IdentifyLanguage'] as bool?,
       identifyMultipleLanguages: json['IdentifyMultipleLanguages'] as bool?,
       languageCode:
@@ -9207,7 +9211,7 @@ class TranscriptionJobSummary {
         'CreationTime': unixTimestampToJson(creationTime),
       if (failureReason != null) 'FailureReason': failureReason,
       if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
+        'IdentifiedLanguageScore': _s.encodeJsonDouble(identifiedLanguageScore),
       if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
       if (identifyMultipleLanguages != null)
         'IdentifyMultipleLanguages': identifyMultipleLanguages,

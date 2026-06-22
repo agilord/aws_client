@@ -329,7 +329,7 @@ class DataPoint {
   factory DataPoint.fromJson(Map<String, dynamic> json) {
     return DataPoint(
       timestamp: json['Timestamp'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -338,7 +338,7 @@ class DataPoint {
     final value = this.value;
     return {
       if (timestamp != null) 'Timestamp': timestamp,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }

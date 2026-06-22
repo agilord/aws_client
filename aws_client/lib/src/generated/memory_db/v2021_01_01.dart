@@ -5306,14 +5306,15 @@ class SlotMigration {
 
   factory SlotMigration.fromJson(Map<String, dynamic> json) {
     return SlotMigration(
-      progressPercentage: json['ProgressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['ProgressPercentage']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final progressPercentage = this.progressPercentage;
     return {
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'ProgressPercentage': _s.encodeJsonDouble(progressPercentage),
     };
   }
 }
@@ -5548,7 +5549,7 @@ class ReservedNode {
     return ReservedNode(
       arn: json['ARN'] as String?,
       duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       nodeCount: json['NodeCount'] as int?,
       nodeType: json['NodeType'] as String?,
       offeringType: json['OfferingType'] as String?,
@@ -5578,7 +5579,7 @@ class ReservedNode {
     return {
       if (arn != null) 'ARN': arn,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (nodeCount != null) 'NodeCount': nodeCount,
       if (nodeType != null) 'NodeType': nodeType,
       if (offeringType != null) 'OfferingType': offeringType,
@@ -5609,7 +5610,7 @@ class RecurringCharge {
 
   factory RecurringCharge.fromJson(Map<String, dynamic> json) {
     return RecurringCharge(
-      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
+      recurringChargeAmount: _s.parseJsonDouble(json['RecurringChargeAmount']),
       recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
     );
   }
@@ -5619,7 +5620,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -6102,7 +6103,7 @@ class ReservedNodesOffering {
   factory ReservedNodesOffering.fromJson(Map<String, dynamic> json) {
     return ReservedNodesOffering(
       duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       nodeType: json['NodeType'] as String?,
       offeringType: json['OfferingType'] as String?,
       recurringCharges: (json['RecurringCharges'] as List?)
@@ -6122,7 +6123,7 @@ class ReservedNodesOffering {
     final reservedNodesOfferingId = this.reservedNodesOfferingId;
     return {
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (nodeType != null) 'NodeType': nodeType,
       if (offeringType != null) 'OfferingType': offeringType,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,

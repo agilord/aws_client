@@ -4483,10 +4483,14 @@ class CollectionGroupCapacityLimits {
 
   factory CollectionGroupCapacityLimits.fromJson(Map<String, dynamic> json) {
     return CollectionGroupCapacityLimits(
-      maxIndexingCapacityInOCU: json['maxIndexingCapacityInOCU'] as double?,
-      maxSearchCapacityInOCU: json['maxSearchCapacityInOCU'] as double?,
-      minIndexingCapacityInOCU: json['minIndexingCapacityInOCU'] as double?,
-      minSearchCapacityInOCU: json['minSearchCapacityInOCU'] as double?,
+      maxIndexingCapacityInOCU:
+          _s.parseJsonDouble(json['maxIndexingCapacityInOCU']),
+      maxSearchCapacityInOCU:
+          _s.parseJsonDouble(json['maxSearchCapacityInOCU']),
+      minIndexingCapacityInOCU:
+          _s.parseJsonDouble(json['minIndexingCapacityInOCU']),
+      minSearchCapacityInOCU:
+          _s.parseJsonDouble(json['minSearchCapacityInOCU']),
     );
   }
 
@@ -4497,13 +4501,15 @@ class CollectionGroupCapacityLimits {
     final minSearchCapacityInOCU = this.minSearchCapacityInOCU;
     return {
       if (maxIndexingCapacityInOCU != null)
-        'maxIndexingCapacityInOCU': maxIndexingCapacityInOCU,
+        'maxIndexingCapacityInOCU':
+            _s.encodeJsonDouble(maxIndexingCapacityInOCU),
       if (maxSearchCapacityInOCU != null)
-        'maxSearchCapacityInOCU': maxSearchCapacityInOCU,
+        'maxSearchCapacityInOCU': _s.encodeJsonDouble(maxSearchCapacityInOCU),
       if (minIndexingCapacityInOCU != null)
-        'minIndexingCapacityInOCU': minIndexingCapacityInOCU,
+        'minIndexingCapacityInOCU':
+            _s.encodeJsonDouble(minIndexingCapacityInOCU),
       if (minSearchCapacityInOCU != null)
-        'minSearchCapacityInOCU': minSearchCapacityInOCU,
+        'minSearchCapacityInOCU': _s.encodeJsonDouble(minSearchCapacityInOCU),
     };
   }
 }
@@ -6265,7 +6271,7 @@ class CapacityDetails {
     return CapacityDetails(
       autoscalingStatus: (json['autoscalingStatus'] as String?)
           ?.let(AutoscalingStatus.fromString),
-      capacityInOcu: json['capacityInOcu'] as double?,
+      capacityInOcu: _s.parseJsonDouble(json['capacityInOcu']),
     );
   }
 
@@ -6275,7 +6281,8 @@ class CapacityDetails {
     return {
       if (autoscalingStatus != null)
         'autoscalingStatus': autoscalingStatus.value,
-      if (capacityInOcu != null) 'capacityInOcu': capacityInOcu,
+      if (capacityInOcu != null)
+        'capacityInOcu': _s.encodeJsonDouble(capacityInOcu),
     };
   }
 }

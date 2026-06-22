@@ -3848,7 +3848,7 @@ class Threshold {
 
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
       type: (json['Type'] as String?)?.let(ThresholdType.fromString),
       unit: (json['Unit'] as String?)?.let(ThresholdUnit.fromString),
     );
@@ -3859,7 +3859,7 @@ class Threshold {
     final type = this.type;
     final unit = this.unit;
     return {
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
       if (type != null) 'Type': type.value,
       if (unit != null) 'Unit': unit.value,
     };

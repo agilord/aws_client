@@ -3768,7 +3768,7 @@ class InfluxDBv3CoreParameters {
               json['parquetMemCachePruneInterval'] as Map<String, dynamic>)
           : null,
       parquetMemCachePrunePercentage:
-          json['parquetMemCachePrunePercentage'] as double?,
+          _s.parseJsonDouble(json['parquetMemCachePrunePercentage']),
       parquetMemCacheQueryPathDuration:
           json['parquetMemCacheQueryPathDuration'] != null
               ? Duration.fromJson(json['parquetMemCacheQueryPathDuration']
@@ -3896,7 +3896,8 @@ class InfluxDBv3CoreParameters {
       if (parquetMemCachePruneInterval != null)
         'parquetMemCachePruneInterval': parquetMemCachePruneInterval,
       if (parquetMemCachePrunePercentage != null)
-        'parquetMemCachePrunePercentage': parquetMemCachePrunePercentage,
+        'parquetMemCachePrunePercentage':
+            _s.encodeJsonDouble(parquetMemCachePrunePercentage),
       if (parquetMemCacheQueryPathDuration != null)
         'parquetMemCacheQueryPathDuration': parquetMemCacheQueryPathDuration,
       if (parquetMemCacheSize != null)
@@ -4346,7 +4347,7 @@ class InfluxDBv3EnterpriseParameters {
               json['parquetMemCachePruneInterval'] as Map<String, dynamic>)
           : null,
       parquetMemCachePrunePercentage:
-          json['parquetMemCachePrunePercentage'] as double?,
+          _s.parseJsonDouble(json['parquetMemCachePrunePercentage']),
       parquetMemCacheQueryPathDuration:
           json['parquetMemCacheQueryPathDuration'] != null
               ? Duration.fromJson(json['parquetMemCacheQueryPathDuration']
@@ -4514,7 +4515,8 @@ class InfluxDBv3EnterpriseParameters {
       if (parquetMemCachePruneInterval != null)
         'parquetMemCachePruneInterval': parquetMemCachePruneInterval,
       if (parquetMemCachePrunePercentage != null)
-        'parquetMemCachePrunePercentage': parquetMemCachePrunePercentage,
+        'parquetMemCachePrunePercentage':
+            _s.encodeJsonDouble(parquetMemCachePrunePercentage),
       if (parquetMemCacheQueryPathDuration != null)
         'parquetMemCacheQueryPathDuration': parquetMemCacheQueryPathDuration,
       if (parquetMemCacheSize != null)

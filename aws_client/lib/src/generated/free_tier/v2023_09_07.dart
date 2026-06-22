@@ -706,7 +706,7 @@ class MonetaryAmount {
 
   factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
     return MonetaryAmount(
-      amount: (json['amount'] as double?) ?? 0,
+      amount: _s.parseJsonDouble(json['amount']) ?? 0,
       unit: CurrencyCode.fromString((json['unit'] as String?) ?? ''),
     );
   }
@@ -715,7 +715,7 @@ class MonetaryAmount {
     final amount = this.amount;
     final unit = this.unit;
     return {
-      'amount': amount,
+      'amount': _s.encodeJsonDouble(amount),
       'unit': unit.value,
     };
   }
@@ -850,11 +850,11 @@ class FreeTierUsage {
 
   factory FreeTierUsage.fromJson(Map<String, dynamic> json) {
     return FreeTierUsage(
-      actualUsageAmount: json['actualUsageAmount'] as double?,
+      actualUsageAmount: _s.parseJsonDouble(json['actualUsageAmount']),
       description: json['description'] as String?,
-      forecastedUsageAmount: json['forecastedUsageAmount'] as double?,
+      forecastedUsageAmount: _s.parseJsonDouble(json['forecastedUsageAmount']),
       freeTierType: json['freeTierType'] as String?,
-      limit: json['limit'] as double?,
+      limit: _s.parseJsonDouble(json['limit']),
       operation: json['operation'] as String?,
       region: json['region'] as String?,
       service: json['service'] as String?,
@@ -875,12 +875,13 @@ class FreeTierUsage {
     final unit = this.unit;
     final usageType = this.usageType;
     return {
-      if (actualUsageAmount != null) 'actualUsageAmount': actualUsageAmount,
+      if (actualUsageAmount != null)
+        'actualUsageAmount': _s.encodeJsonDouble(actualUsageAmount),
       if (description != null) 'description': description,
       if (forecastedUsageAmount != null)
-        'forecastedUsageAmount': forecastedUsageAmount,
+        'forecastedUsageAmount': _s.encodeJsonDouble(forecastedUsageAmount),
       if (freeTierType != null) 'freeTierType': freeTierType,
-      if (limit != null) 'limit': limit,
+      if (limit != null) 'limit': _s.encodeJsonDouble(limit),
       if (operation != null) 'operation': operation,
       if (region != null) 'region': region,
       if (service != null) 'service': service,

@@ -5670,7 +5670,7 @@ class ResultData {
       document: Document.fromJson((json['document'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       resultId: (json['resultId'] as String?) ?? '',
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
     );
   }
 
@@ -5681,7 +5681,8 @@ class ResultData {
     return {
       'document': document,
       'resultId': resultId,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
     };
   }
 }
@@ -6091,7 +6092,7 @@ class RecommendationData {
       recommendationId: (json['recommendationId'] as String?) ?? '',
       relevanceLevel:
           (json['relevanceLevel'] as String?)?.let(RelevanceLevel.fromString),
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
       type: (json['type'] as String?)?.let(RecommendationType.fromString),
     );
   }
@@ -6106,7 +6107,8 @@ class RecommendationData {
       'document': document,
       'recommendationId': recommendationId,
       if (relevanceLevel != null) 'relevanceLevel': relevanceLevel.value,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
       if (type != null) 'type': type.value,
     };
   }

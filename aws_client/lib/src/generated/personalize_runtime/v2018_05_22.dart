@@ -545,7 +545,7 @@ class PredictedItem {
       promotionName: json['promotionName'] as String?,
       reason:
           (json['reason'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -560,7 +560,7 @@ class PredictedItem {
       if (metadata != null) 'metadata': metadata,
       if (promotionName != null) 'promotionName': promotionName,
       if (reason != null) 'reason': reason,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -644,7 +644,7 @@ class PredictedAction {
   factory PredictedAction.fromJson(Map<String, dynamic> json) {
     return PredictedAction(
       actionId: json['actionId'] as String?,
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -653,7 +653,7 @@ class PredictedAction {
     final score = this.score;
     return {
       if (actionId != null) 'actionId': actionId,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }

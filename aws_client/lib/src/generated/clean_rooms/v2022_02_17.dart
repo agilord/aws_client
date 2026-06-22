@@ -7282,8 +7282,8 @@ class DifferentialPrivacySensitivityParameters {
       aggregationType: DifferentialPrivacyAggregationType.fromString(
           (json['aggregationType'] as String?) ?? ''),
       userContributionLimit: (json['userContributionLimit'] as int?) ?? 0,
-      maxColumnValue: json['maxColumnValue'] as double?,
-      minColumnValue: json['minColumnValue'] as double?,
+      maxColumnValue: _s.parseJsonDouble(json['maxColumnValue']),
+      minColumnValue: _s.parseJsonDouble(json['minColumnValue']),
     );
   }
 
@@ -7297,8 +7297,10 @@ class DifferentialPrivacySensitivityParameters {
       'aggregationExpression': aggregationExpression,
       'aggregationType': aggregationType.value,
       'userContributionLimit': userContributionLimit,
-      if (maxColumnValue != null) 'maxColumnValue': maxColumnValue,
-      if (minColumnValue != null) 'minColumnValue': minColumnValue,
+      if (maxColumnValue != null)
+        'maxColumnValue': _s.encodeJsonDouble(maxColumnValue),
+      if (minColumnValue != null)
+        'minColumnValue': _s.encodeJsonDouble(minColumnValue),
     };
   }
 }
@@ -7498,14 +7500,14 @@ class BilledResourceUtilization {
 
   factory BilledResourceUtilization.fromJson(Map<String, dynamic> json) {
     return BilledResourceUtilization(
-      units: (json['units'] as double?) ?? 0,
+      units: _s.parseJsonDouble(json['units']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final units = this.units;
     return {
-      'units': units,
+      'units': _s.encodeJsonDouble(units),
     };
   }
 }
@@ -8291,14 +8293,14 @@ class BilledJobResourceUtilization {
 
   factory BilledJobResourceUtilization.fromJson(Map<String, dynamic> json) {
     return BilledJobResourceUtilization(
-      units: (json['units'] as double?) ?? 0,
+      units: _s.parseJsonDouble(json['units']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final units = this.units;
     return {
-      'units': units,
+      'units': _s.encodeJsonDouble(units),
     };
   }
 }
@@ -16698,9 +16700,9 @@ class MLSyntheticDataParameters {
       columnClassification: ColumnClassificationDetails.fromJson(
           (json['columnClassification'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      epsilon: (json['epsilon'] as double?) ?? 0,
+      epsilon: _s.parseJsonDouble(json['epsilon']) ?? 0,
       maxMembershipInferenceAttackScore:
-          (json['maxMembershipInferenceAttackScore'] as double?) ?? 0,
+          _s.parseJsonDouble(json['maxMembershipInferenceAttackScore']) ?? 0,
     );
   }
 
@@ -16711,8 +16713,9 @@ class MLSyntheticDataParameters {
         this.maxMembershipInferenceAttackScore;
     return {
       'columnClassification': columnClassification,
-      'epsilon': epsilon,
-      'maxMembershipInferenceAttackScore': maxMembershipInferenceAttackScore,
+      'epsilon': _s.encodeJsonDouble(epsilon),
+      'maxMembershipInferenceAttackScore':
+          _s.encodeJsonDouble(maxMembershipInferenceAttackScore),
     };
   }
 }

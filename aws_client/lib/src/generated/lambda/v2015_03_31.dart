@@ -9946,7 +9946,7 @@ class AliasRoutingConfiguration {
     return AliasRoutingConfiguration(
       additionalVersionWeights:
           (json['AdditionalVersionWeights'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as double)),
+              ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
     );
   }
 
@@ -9954,7 +9954,8 @@ class AliasRoutingConfiguration {
     final additionalVersionWeights = this.additionalVersionWeights;
     return {
       if (additionalVersionWeights != null)
-        'AdditionalVersionWeights': additionalVersionWeights,
+        'AdditionalVersionWeights': additionalVersionWeights
+            .map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
     };
   }
 }
@@ -10839,7 +10840,7 @@ class LambdaManagedInstancesCapacityProviderConfig {
     return LambdaManagedInstancesCapacityProviderConfig(
       capacityProviderArn: (json['CapacityProviderArn'] as String?) ?? '',
       executionEnvironmentMemoryGiBPerVCpu:
-          json['ExecutionEnvironmentMemoryGiBPerVCpu'] as double?,
+          _s.parseJsonDouble(json['ExecutionEnvironmentMemoryGiBPerVCpu']),
       perExecutionEnvironmentMaxConcurrency:
           json['PerExecutionEnvironmentMaxConcurrency'] as int?,
     );
@@ -10855,7 +10856,7 @@ class LambdaManagedInstancesCapacityProviderConfig {
       'CapacityProviderArn': capacityProviderArn,
       if (executionEnvironmentMemoryGiBPerVCpu != null)
         'ExecutionEnvironmentMemoryGiBPerVCpu':
-            executionEnvironmentMemoryGiBPerVCpu,
+            _s.encodeJsonDouble(executionEnvironmentMemoryGiBPerVCpu),
       if (perExecutionEnvironmentMaxConcurrency != null)
         'PerExecutionEnvironmentMaxConcurrency':
             perExecutionEnvironmentMaxConcurrency,
@@ -13715,7 +13716,7 @@ class TargetTrackingScalingPolicy {
     return TargetTrackingScalingPolicy(
       predefinedMetricType: CapacityProviderPredefinedMetricType.fromString(
           (json['PredefinedMetricType'] as String?) ?? ''),
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
     );
   }
 
@@ -13724,7 +13725,7 @@ class TargetTrackingScalingPolicy {
     final targetValue = this.targetValue;
     return {
       'PredefinedMetricType': predefinedMetricType.value,
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
     };
   }
 }

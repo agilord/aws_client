@@ -619,7 +619,8 @@ class Odb {
       // TODO queryParams
       headers: headers,
       payload: {
-        'autonomousDataStorageSizeInTBs': autonomousDataStorageSizeInTBs,
+        'autonomousDataStorageSizeInTBs':
+            _s.encodeJsonDouble(autonomousDataStorageSizeInTBs),
         'cloudExadataInfrastructureId': cloudExadataInfrastructureId,
         'cpuCoreCountPerNode': cpuCoreCountPerNode,
         'displayName': displayName,
@@ -1335,7 +1336,7 @@ class Odb {
         if (dataCollectionOptions != null)
           'dataCollectionOptions': dataCollectionOptions,
         if (dataStorageSizeInTBs != null)
-          'dataStorageSizeInTBs': dataStorageSizeInTBs,
+          'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
         if (dbNodeStorageSizeInGBs != null)
           'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
         if (dbServers != null) 'dbServers': dbServers,
@@ -3676,7 +3677,7 @@ class OdbPeeringConnectionSummary {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       status: (json['status'] as String?)?.let(ResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
@@ -3705,7 +3706,8 @@ class OdbPeeringConnectionSummary {
         'odbPeeringConnectionType': odbPeeringConnectionType,
       if (peerNetworkArn != null) 'peerNetworkArn': peerNetworkArn,
       if (peerNetworkCidrs != null) 'peerNetworkCidrs': peerNetworkCidrs,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
@@ -3825,7 +3827,7 @@ class OdbPeeringConnection {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       status: (json['status'] as String?)?.let(ResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
@@ -3854,7 +3856,8 @@ class OdbPeeringConnection {
         'odbPeeringConnectionType': odbPeeringConnectionType,
       if (peerNetworkArn != null) 'peerNetworkArn': peerNetworkArn,
       if (peerNetworkCidrs != null) 'peerNetworkCidrs': peerNetworkCidrs,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
@@ -3996,7 +3999,7 @@ class OdbNetworkSummary {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       status: (json['status'] as String?)?.let(ResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
@@ -4049,7 +4052,8 @@ class OdbNetworkSummary {
       if (ociVcnUrl != null) 'ociVcnUrl': ociVcnUrl,
       if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
       if (peeredCidrs != null) 'peeredCidrs': peeredCidrs,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
@@ -4726,7 +4730,7 @@ class OdbNetwork {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       status: (json['status'] as String?)?.let(ResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
@@ -4779,7 +4783,8 @@ class OdbNetwork {
       if (ociVcnUrl != null) 'ociVcnUrl': ociVcnUrl,
       if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
       if (peeredCidrs != null) 'peeredCidrs': peeredCidrs,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
@@ -5506,7 +5511,7 @@ class CloudVmClusterSummary {
           ? DataCollectionOptions.fromJson(
               json['dataCollectionOptions'] as Map<String, dynamic>)
           : null,
-      dataStorageSizeInTBs: json['dataStorageSizeInTBs'] as double?,
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
       dbNodeStorageSizeInGBs: json['dbNodeStorageSizeInGBs'] as int?,
       dbServers: (json['dbServers'] as List?)
           ?.nonNulls
@@ -5539,7 +5544,7 @@ class CloudVmClusterSummary {
       ocid: json['ocid'] as String?,
       odbNetworkArn: json['odbNetworkArn'] as String?,
       odbNetworkId: json['odbNetworkId'] as String?,
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       scanDnsName: json['scanDnsName'] as String?,
       scanDnsRecordId: json['scanDnsRecordId'] as String?,
       scanIpIds: (json['scanIpIds'] as List?)
@@ -5619,7 +5624,7 @@ class CloudVmClusterSummary {
       if (dataCollectionOptions != null)
         'dataCollectionOptions': dataCollectionOptions,
       if (dataStorageSizeInTBs != null)
-        'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
       if (dbNodeStorageSizeInGBs != null)
         'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
       if (dbServers != null) 'dbServers': dbServers,
@@ -5646,7 +5651,8 @@ class CloudVmClusterSummary {
       if (ocid != null) 'ocid': ocid,
       if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
       if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (scanDnsName != null) 'scanDnsName': scanDnsName,
       if (scanDnsRecordId != null) 'scanDnsRecordId': scanDnsRecordId,
       if (scanIpIds != null) 'scanIpIds': scanIpIds,
@@ -6259,7 +6265,7 @@ class CloudVmCluster {
           ? DataCollectionOptions.fromJson(
               json['dataCollectionOptions'] as Map<String, dynamic>)
           : null,
-      dataStorageSizeInTBs: json['dataStorageSizeInTBs'] as double?,
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
       dbNodeStorageSizeInGBs: json['dbNodeStorageSizeInGBs'] as int?,
       dbServers: (json['dbServers'] as List?)
           ?.nonNulls
@@ -6292,7 +6298,7 @@ class CloudVmCluster {
       ocid: json['ocid'] as String?,
       odbNetworkArn: json['odbNetworkArn'] as String?,
       odbNetworkId: json['odbNetworkId'] as String?,
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       scanDnsName: json['scanDnsName'] as String?,
       scanDnsRecordId: json['scanDnsRecordId'] as String?,
       scanIpIds: (json['scanIpIds'] as List?)
@@ -6372,7 +6378,7 @@ class CloudVmCluster {
       if (dataCollectionOptions != null)
         'dataCollectionOptions': dataCollectionOptions,
       if (dataStorageSizeInTBs != null)
-        'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
       if (dbNodeStorageSizeInGBs != null)
         'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
       if (dbServers != null) 'dbServers': dbServers,
@@ -6399,7 +6405,8 @@ class CloudVmCluster {
       if (ocid != null) 'ocid': ocid,
       if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
       if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (scanDnsName != null) 'scanDnsName': scanDnsName,
       if (scanDnsRecordId != null) 'scanDnsRecordId': scanDnsRecordId,
       if (scanIpIds != null) 'scanIpIds': scanIpIds,
@@ -6917,7 +6924,7 @@ class CloudExadataInfrastructureUnallocatedResources {
           json['cloudExadataInfrastructureDisplayName'] as String?,
       cloudExadataInfrastructureId:
           json['cloudExadataInfrastructureId'] as String?,
-      exadataStorageInTBs: json['exadataStorageInTBs'] as double?,
+      exadataStorageInTBs: _s.parseJsonDouble(json['exadataStorageInTBs']),
       localStorageInGBs: json['localStorageInGBs'] as int?,
       memoryInGBs: json['memoryInGBs'] as int?,
       ocpus: json['ocpus'] as int?,
@@ -6942,7 +6949,7 @@ class CloudExadataInfrastructureUnallocatedResources {
       if (cloudExadataInfrastructureId != null)
         'cloudExadataInfrastructureId': cloudExadataInfrastructureId,
       if (exadataStorageInTBs != null)
-        'exadataStorageInTBs': exadataStorageInTBs,
+        'exadataStorageInTBs': _s.encodeJsonDouble(exadataStorageInTBs),
       if (localStorageInGBs != null) 'localStorageInGBs': localStorageInGBs,
       if (memoryInGBs != null) 'memoryInGBs': memoryInGBs,
       if (ocpus != null) 'ocpus': ocpus,
@@ -6970,7 +6977,8 @@ class CloudAutonomousVmClusterResourceDetails {
       Map<String, dynamic> json) {
     return CloudAutonomousVmClusterResourceDetails(
       cloudAutonomousVmClusterId: json['cloudAutonomousVmClusterId'] as String?,
-      unallocatedAdbStorageInTBs: json['unallocatedAdbStorageInTBs'] as double?,
+      unallocatedAdbStorageInTBs:
+          _s.parseJsonDouble(json['unallocatedAdbStorageInTBs']),
     );
   }
 
@@ -6981,7 +6989,8 @@ class CloudAutonomousVmClusterResourceDetails {
       if (cloudAutonomousVmClusterId != null)
         'cloudAutonomousVmClusterId': cloudAutonomousVmClusterId,
       if (unallocatedAdbStorageInTBs != null)
-        'unallocatedAdbStorageInTBs': unallocatedAdbStorageInTBs,
+        'unallocatedAdbStorageInTBs':
+            _s.encodeJsonDouble(unallocatedAdbStorageInTBs),
     };
   }
 }
@@ -7190,7 +7199,7 @@ class CloudExadataInfrastructureSummary {
               ?.nonNulls
               .map((e) => CustomerContact.fromJson(e as Map<String, dynamic>))
               .toList(),
-      dataStorageSizeInTBs: json['dataStorageSizeInTBs'] as double?,
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
       databaseServerType: json['databaseServerType'] as String?,
       dbNodeStorageSizeInGBs: json['dbNodeStorageSizeInGBs'] as int?,
       dbServerVersion: json['dbServerVersion'] as String?,
@@ -7201,7 +7210,7 @@ class CloudExadataInfrastructureSummary {
               json['maintenanceWindow'] as Map<String, dynamic>)
           : null,
       maxCpuCount: json['maxCpuCount'] as int?,
-      maxDataStorageInTBs: json['maxDataStorageInTBs'] as double?,
+      maxDataStorageInTBs: _s.parseJsonDouble(json['maxDataStorageInTBs']),
       maxDbNodeStorageSizeInGBs: json['maxDbNodeStorageSizeInGBs'] as int?,
       maxMemoryInGBs: json['maxMemoryInGBs'] as int?,
       memorySizeInGBs: json['memorySizeInGBs'] as int?,
@@ -7212,7 +7221,7 @@ class CloudExadataInfrastructureSummary {
       ociResourceAnchorName: json['ociResourceAnchorName'] as String?,
       ociUrl: json['ociUrl'] as String?,
       ocid: json['ocid'] as String?,
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       shape: json['shape'] as String?,
       status: (json['status'] as String?)?.let(ResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
@@ -7281,7 +7290,7 @@ class CloudExadataInfrastructureSummary {
       if (customerContactsToSendToOCI != null)
         'customerContactsToSendToOCI': customerContactsToSendToOCI,
       if (dataStorageSizeInTBs != null)
-        'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
       if (databaseServerType != null) 'databaseServerType': databaseServerType,
       if (dbNodeStorageSizeInGBs != null)
         'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
@@ -7292,7 +7301,7 @@ class CloudExadataInfrastructureSummary {
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (maxCpuCount != null) 'maxCpuCount': maxCpuCount,
       if (maxDataStorageInTBs != null)
-        'maxDataStorageInTBs': maxDataStorageInTBs,
+        'maxDataStorageInTBs': _s.encodeJsonDouble(maxDataStorageInTBs),
       if (maxDbNodeStorageSizeInGBs != null)
         'maxDbNodeStorageSizeInGBs': maxDbNodeStorageSizeInGBs,
       if (maxMemoryInGBs != null) 'maxMemoryInGBs': maxMemoryInGBs,
@@ -7307,7 +7316,8 @@ class CloudExadataInfrastructureSummary {
         'ociResourceAnchorName': ociResourceAnchorName,
       if (ociUrl != null) 'ociUrl': ociUrl,
       if (ocid != null) 'ocid': ocid,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (shape != null) 'shape': shape,
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
@@ -7841,7 +7851,7 @@ class CloudExadataInfrastructure {
               ?.nonNulls
               .map((e) => CustomerContact.fromJson(e as Map<String, dynamic>))
               .toList(),
-      dataStorageSizeInTBs: json['dataStorageSizeInTBs'] as double?,
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
       databaseServerType: json['databaseServerType'] as String?,
       dbNodeStorageSizeInGBs: json['dbNodeStorageSizeInGBs'] as int?,
       dbServerVersion: json['dbServerVersion'] as String?,
@@ -7852,7 +7862,7 @@ class CloudExadataInfrastructure {
               json['maintenanceWindow'] as Map<String, dynamic>)
           : null,
       maxCpuCount: json['maxCpuCount'] as int?,
-      maxDataStorageInTBs: json['maxDataStorageInTBs'] as double?,
+      maxDataStorageInTBs: _s.parseJsonDouble(json['maxDataStorageInTBs']),
       maxDbNodeStorageSizeInGBs: json['maxDbNodeStorageSizeInGBs'] as int?,
       maxMemoryInGBs: json['maxMemoryInGBs'] as int?,
       memorySizeInGBs: json['memorySizeInGBs'] as int?,
@@ -7863,7 +7873,7 @@ class CloudExadataInfrastructure {
       ociResourceAnchorName: json['ociResourceAnchorName'] as String?,
       ociUrl: json['ociUrl'] as String?,
       ocid: json['ocid'] as String?,
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       shape: json['shape'] as String?,
       status: (json['status'] as String?)?.let(ResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
@@ -7932,7 +7942,7 @@ class CloudExadataInfrastructure {
       if (customerContactsToSendToOCI != null)
         'customerContactsToSendToOCI': customerContactsToSendToOCI,
       if (dataStorageSizeInTBs != null)
-        'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
       if (databaseServerType != null) 'databaseServerType': databaseServerType,
       if (dbNodeStorageSizeInGBs != null)
         'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
@@ -7943,7 +7953,7 @@ class CloudExadataInfrastructure {
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (maxCpuCount != null) 'maxCpuCount': maxCpuCount,
       if (maxDataStorageInTBs != null)
-        'maxDataStorageInTBs': maxDataStorageInTBs,
+        'maxDataStorageInTBs': _s.encodeJsonDouble(maxDataStorageInTBs),
       if (maxDbNodeStorageSizeInGBs != null)
         'maxDbNodeStorageSizeInGBs': maxDbNodeStorageSizeInGBs,
       if (maxMemoryInGBs != null) 'maxMemoryInGBs': maxMemoryInGBs,
@@ -7958,7 +7968,8 @@ class CloudExadataInfrastructure {
         'ociResourceAnchorName': ociResourceAnchorName,
       if (ociUrl != null) 'ociUrl': ociUrl,
       if (ocid != null) 'ocid': ocid,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (shape != null) 'shape': shape,
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
@@ -8333,13 +8344,13 @@ class CloudAutonomousVmClusterSummary {
       cloudAutonomousVmClusterId:
           (json['cloudAutonomousVmClusterId'] as String?) ?? '',
       autonomousDataStoragePercentage:
-          json['autonomousDataStoragePercentage'] as double?,
+          _s.parseJsonDouble(json['autonomousDataStoragePercentage']),
       autonomousDataStorageSizeInTBs:
-          json['autonomousDataStorageSizeInTBs'] as double?,
+          _s.parseJsonDouble(json['autonomousDataStorageSizeInTBs']),
       availableAutonomousDataStorageSizeInTBs:
-          json['availableAutonomousDataStorageSizeInTBs'] as double?,
+          _s.parseJsonDouble(json['availableAutonomousDataStorageSizeInTBs']),
       availableContainerDatabases: json['availableContainerDatabases'] as int?,
-      availableCpus: json['availableCpus'] as double?,
+      availableCpus: _s.parseJsonDouble(json['availableCpus']),
       cloudAutonomousVmClusterArn:
           json['cloudAutonomousVmClusterArn'] as String?,
       cloudExadataInfrastructureArn:
@@ -8350,10 +8361,10 @@ class CloudAutonomousVmClusterSummary {
           (json['computeModel'] as String?)?.let(ComputeModel.fromString),
       cpuCoreCount: json['cpuCoreCount'] as int?,
       cpuCoreCountPerNode: json['cpuCoreCountPerNode'] as int?,
-      cpuPercentage: json['cpuPercentage'] as double?,
+      cpuPercentage: _s.parseJsonDouble(json['cpuPercentage']),
       createdAt: timeStampFromJson(json['createdAt']),
-      dataStorageSizeInGBs: json['dataStorageSizeInGBs'] as double?,
-      dataStorageSizeInTBs: json['dataStorageSizeInTBs'] as double?,
+      dataStorageSizeInGBs: _s.parseJsonDouble(json['dataStorageSizeInGBs']),
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
       dbNodeStorageSizeInGBs: json['dbNodeStorageSizeInGBs'] as int?,
       dbServers: (json['dbServers'] as List?)
           ?.nonNulls
@@ -8363,7 +8374,7 @@ class CloudAutonomousVmClusterSummary {
       displayName: json['displayName'] as String?,
       domain: json['domain'] as String?,
       exadataStorageInTBsLowestScaledValue:
-          json['exadataStorageInTBsLowestScaledValue'] as double?,
+          _s.parseJsonDouble(json['exadataStorageInTBsLowestScaledValue']),
       hostname: json['hostname'] as String?,
       iamRoles: (json['iamRoles'] as List?)
           ?.nonNulls
@@ -8388,14 +8399,14 @@ class CloudAutonomousVmClusterSummary {
       ocid: json['ocid'] as String?,
       odbNetworkArn: json['odbNetworkArn'] as String?,
       odbNetworkId: json['odbNetworkId'] as String?,
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       provisionableAutonomousContainerDatabases:
           json['provisionableAutonomousContainerDatabases'] as int?,
       provisionedAutonomousContainerDatabases:
           json['provisionedAutonomousContainerDatabases'] as int?,
-      provisionedCpus: json['provisionedCpus'] as double?,
-      reclaimableCpus: json['reclaimableCpus'] as double?,
-      reservedCpus: json['reservedCpus'] as double?,
+      provisionedCpus: _s.parseJsonDouble(json['provisionedCpus']),
+      reclaimableCpus: _s.parseJsonDouble(json['reclaimableCpus']),
+      reservedCpus: _s.parseJsonDouble(json['reservedCpus']),
       scanListenerPortNonTls: json['scanListenerPortNonTls'] as int?,
       scanListenerPortTls: json['scanListenerPortTls'] as int?,
       shape: json['shape'] as String?,
@@ -8474,15 +8485,18 @@ class CloudAutonomousVmClusterSummary {
     return {
       'cloudAutonomousVmClusterId': cloudAutonomousVmClusterId,
       if (autonomousDataStoragePercentage != null)
-        'autonomousDataStoragePercentage': autonomousDataStoragePercentage,
+        'autonomousDataStoragePercentage':
+            _s.encodeJsonDouble(autonomousDataStoragePercentage),
       if (autonomousDataStorageSizeInTBs != null)
-        'autonomousDataStorageSizeInTBs': autonomousDataStorageSizeInTBs,
+        'autonomousDataStorageSizeInTBs':
+            _s.encodeJsonDouble(autonomousDataStorageSizeInTBs),
       if (availableAutonomousDataStorageSizeInTBs != null)
         'availableAutonomousDataStorageSizeInTBs':
-            availableAutonomousDataStorageSizeInTBs,
+            _s.encodeJsonDouble(availableAutonomousDataStorageSizeInTBs),
       if (availableContainerDatabases != null)
         'availableContainerDatabases': availableContainerDatabases,
-      if (availableCpus != null) 'availableCpus': availableCpus,
+      if (availableCpus != null)
+        'availableCpus': _s.encodeJsonDouble(availableCpus),
       if (cloudAutonomousVmClusterArn != null)
         'cloudAutonomousVmClusterArn': cloudAutonomousVmClusterArn,
       if (cloudExadataInfrastructureArn != null)
@@ -8493,12 +8507,13 @@ class CloudAutonomousVmClusterSummary {
       if (cpuCoreCount != null) 'cpuCoreCount': cpuCoreCount,
       if (cpuCoreCountPerNode != null)
         'cpuCoreCountPerNode': cpuCoreCountPerNode,
-      if (cpuPercentage != null) 'cpuPercentage': cpuPercentage,
+      if (cpuPercentage != null)
+        'cpuPercentage': _s.encodeJsonDouble(cpuPercentage),
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (dataStorageSizeInGBs != null)
-        'dataStorageSizeInGBs': dataStorageSizeInGBs,
+        'dataStorageSizeInGBs': _s.encodeJsonDouble(dataStorageSizeInGBs),
       if (dataStorageSizeInTBs != null)
-        'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
       if (dbNodeStorageSizeInGBs != null)
         'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
       if (dbServers != null) 'dbServers': dbServers,
@@ -8507,7 +8522,7 @@ class CloudAutonomousVmClusterSummary {
       if (domain != null) 'domain': domain,
       if (exadataStorageInTBsLowestScaledValue != null)
         'exadataStorageInTBsLowestScaledValue':
-            exadataStorageInTBsLowestScaledValue,
+            _s.encodeJsonDouble(exadataStorageInTBsLowestScaledValue),
       if (hostname != null) 'hostname': hostname,
       if (iamRoles != null) 'iamRoles': iamRoles,
       if (isMtlsEnabledVmCluster != null)
@@ -8529,16 +8544,20 @@ class CloudAutonomousVmClusterSummary {
       if (ocid != null) 'ocid': ocid,
       if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
       if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (provisionableAutonomousContainerDatabases != null)
         'provisionableAutonomousContainerDatabases':
             provisionableAutonomousContainerDatabases,
       if (provisionedAutonomousContainerDatabases != null)
         'provisionedAutonomousContainerDatabases':
             provisionedAutonomousContainerDatabases,
-      if (provisionedCpus != null) 'provisionedCpus': provisionedCpus,
-      if (reclaimableCpus != null) 'reclaimableCpus': reclaimableCpus,
-      if (reservedCpus != null) 'reservedCpus': reservedCpus,
+      if (provisionedCpus != null)
+        'provisionedCpus': _s.encodeJsonDouble(provisionedCpus),
+      if (reclaimableCpus != null)
+        'reclaimableCpus': _s.encodeJsonDouble(reclaimableCpus),
+      if (reservedCpus != null)
+        'reservedCpus': _s.encodeJsonDouble(reservedCpus),
       if (scanListenerPortNonTls != null)
         'scanListenerPortNonTls': scanListenerPortNonTls,
       if (scanListenerPortTls != null)
@@ -8804,13 +8823,13 @@ class CloudAutonomousVmCluster {
       cloudAutonomousVmClusterId:
           (json['cloudAutonomousVmClusterId'] as String?) ?? '',
       autonomousDataStoragePercentage:
-          json['autonomousDataStoragePercentage'] as double?,
+          _s.parseJsonDouble(json['autonomousDataStoragePercentage']),
       autonomousDataStorageSizeInTBs:
-          json['autonomousDataStorageSizeInTBs'] as double?,
+          _s.parseJsonDouble(json['autonomousDataStorageSizeInTBs']),
       availableAutonomousDataStorageSizeInTBs:
-          json['availableAutonomousDataStorageSizeInTBs'] as double?,
+          _s.parseJsonDouble(json['availableAutonomousDataStorageSizeInTBs']),
       availableContainerDatabases: json['availableContainerDatabases'] as int?,
-      availableCpus: json['availableCpus'] as double?,
+      availableCpus: _s.parseJsonDouble(json['availableCpus']),
       cloudAutonomousVmClusterArn:
           json['cloudAutonomousVmClusterArn'] as String?,
       cloudExadataInfrastructureArn:
@@ -8821,10 +8840,10 @@ class CloudAutonomousVmCluster {
           (json['computeModel'] as String?)?.let(ComputeModel.fromString),
       cpuCoreCount: json['cpuCoreCount'] as int?,
       cpuCoreCountPerNode: json['cpuCoreCountPerNode'] as int?,
-      cpuPercentage: json['cpuPercentage'] as double?,
+      cpuPercentage: _s.parseJsonDouble(json['cpuPercentage']),
       createdAt: timeStampFromJson(json['createdAt']),
-      dataStorageSizeInGBs: json['dataStorageSizeInGBs'] as double?,
-      dataStorageSizeInTBs: json['dataStorageSizeInTBs'] as double?,
+      dataStorageSizeInGBs: _s.parseJsonDouble(json['dataStorageSizeInGBs']),
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
       dbNodeStorageSizeInGBs: json['dbNodeStorageSizeInGBs'] as int?,
       dbServers: (json['dbServers'] as List?)
           ?.nonNulls
@@ -8834,7 +8853,7 @@ class CloudAutonomousVmCluster {
       displayName: json['displayName'] as String?,
       domain: json['domain'] as String?,
       exadataStorageInTBsLowestScaledValue:
-          json['exadataStorageInTBsLowestScaledValue'] as double?,
+          _s.parseJsonDouble(json['exadataStorageInTBsLowestScaledValue']),
       hostname: json['hostname'] as String?,
       iamRoles: (json['iamRoles'] as List?)
           ?.nonNulls
@@ -8859,14 +8878,14 @@ class CloudAutonomousVmCluster {
       ocid: json['ocid'] as String?,
       odbNetworkArn: json['odbNetworkArn'] as String?,
       odbNetworkId: json['odbNetworkId'] as String?,
-      percentProgress: json['percentProgress'] as double?,
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
       provisionableAutonomousContainerDatabases:
           json['provisionableAutonomousContainerDatabases'] as int?,
       provisionedAutonomousContainerDatabases:
           json['provisionedAutonomousContainerDatabases'] as int?,
-      provisionedCpus: json['provisionedCpus'] as double?,
-      reclaimableCpus: json['reclaimableCpus'] as double?,
-      reservedCpus: json['reservedCpus'] as double?,
+      provisionedCpus: _s.parseJsonDouble(json['provisionedCpus']),
+      reclaimableCpus: _s.parseJsonDouble(json['reclaimableCpus']),
+      reservedCpus: _s.parseJsonDouble(json['reservedCpus']),
       scanListenerPortNonTls: json['scanListenerPortNonTls'] as int?,
       scanListenerPortTls: json['scanListenerPortTls'] as int?,
       shape: json['shape'] as String?,
@@ -8945,15 +8964,18 @@ class CloudAutonomousVmCluster {
     return {
       'cloudAutonomousVmClusterId': cloudAutonomousVmClusterId,
       if (autonomousDataStoragePercentage != null)
-        'autonomousDataStoragePercentage': autonomousDataStoragePercentage,
+        'autonomousDataStoragePercentage':
+            _s.encodeJsonDouble(autonomousDataStoragePercentage),
       if (autonomousDataStorageSizeInTBs != null)
-        'autonomousDataStorageSizeInTBs': autonomousDataStorageSizeInTBs,
+        'autonomousDataStorageSizeInTBs':
+            _s.encodeJsonDouble(autonomousDataStorageSizeInTBs),
       if (availableAutonomousDataStorageSizeInTBs != null)
         'availableAutonomousDataStorageSizeInTBs':
-            availableAutonomousDataStorageSizeInTBs,
+            _s.encodeJsonDouble(availableAutonomousDataStorageSizeInTBs),
       if (availableContainerDatabases != null)
         'availableContainerDatabases': availableContainerDatabases,
-      if (availableCpus != null) 'availableCpus': availableCpus,
+      if (availableCpus != null)
+        'availableCpus': _s.encodeJsonDouble(availableCpus),
       if (cloudAutonomousVmClusterArn != null)
         'cloudAutonomousVmClusterArn': cloudAutonomousVmClusterArn,
       if (cloudExadataInfrastructureArn != null)
@@ -8964,12 +8986,13 @@ class CloudAutonomousVmCluster {
       if (cpuCoreCount != null) 'cpuCoreCount': cpuCoreCount,
       if (cpuCoreCountPerNode != null)
         'cpuCoreCountPerNode': cpuCoreCountPerNode,
-      if (cpuPercentage != null) 'cpuPercentage': cpuPercentage,
+      if (cpuPercentage != null)
+        'cpuPercentage': _s.encodeJsonDouble(cpuPercentage),
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (dataStorageSizeInGBs != null)
-        'dataStorageSizeInGBs': dataStorageSizeInGBs,
+        'dataStorageSizeInGBs': _s.encodeJsonDouble(dataStorageSizeInGBs),
       if (dataStorageSizeInTBs != null)
-        'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
       if (dbNodeStorageSizeInGBs != null)
         'dbNodeStorageSizeInGBs': dbNodeStorageSizeInGBs,
       if (dbServers != null) 'dbServers': dbServers,
@@ -8978,7 +9001,7 @@ class CloudAutonomousVmCluster {
       if (domain != null) 'domain': domain,
       if (exadataStorageInTBsLowestScaledValue != null)
         'exadataStorageInTBsLowestScaledValue':
-            exadataStorageInTBsLowestScaledValue,
+            _s.encodeJsonDouble(exadataStorageInTBsLowestScaledValue),
       if (hostname != null) 'hostname': hostname,
       if (iamRoles != null) 'iamRoles': iamRoles,
       if (isMtlsEnabledVmCluster != null)
@@ -9000,16 +9023,20 @@ class CloudAutonomousVmCluster {
       if (ocid != null) 'ocid': ocid,
       if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
       if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
-      if (percentProgress != null) 'percentProgress': percentProgress,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
       if (provisionableAutonomousContainerDatabases != null)
         'provisionableAutonomousContainerDatabases':
             provisionableAutonomousContainerDatabases,
       if (provisionedAutonomousContainerDatabases != null)
         'provisionedAutonomousContainerDatabases':
             provisionedAutonomousContainerDatabases,
-      if (provisionedCpus != null) 'provisionedCpus': provisionedCpus,
-      if (reclaimableCpus != null) 'reclaimableCpus': reclaimableCpus,
-      if (reservedCpus != null) 'reservedCpus': reservedCpus,
+      if (provisionedCpus != null)
+        'provisionedCpus': _s.encodeJsonDouble(provisionedCpus),
+      if (reclaimableCpus != null)
+        'reclaimableCpus': _s.encodeJsonDouble(reclaimableCpus),
+      if (reservedCpus != null)
+        'reservedCpus': _s.encodeJsonDouble(reservedCpus),
       if (scanListenerPortNonTls != null)
         'scanListenerPortNonTls': scanListenerPortNonTls,
       if (scanListenerPortTls != null)

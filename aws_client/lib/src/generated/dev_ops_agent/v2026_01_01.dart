@@ -8700,7 +8700,7 @@ class UsageMetric {
   factory UsageMetric.fromJson(Map<String, dynamic> json) {
     return UsageMetric(
       limit: (json['limit'] as int?) ?? 0,
-      usage: (json['usage'] as double?) ?? 0,
+      usage: _s.parseJsonDouble(json['usage']) ?? 0,
     );
   }
 
@@ -8709,7 +8709,7 @@ class UsageMetric {
     final usage = this.usage;
     return {
       'limit': limit,
-      'usage': usage,
+      'usage': _s.encodeJsonDouble(usage),
     };
   }
 }
