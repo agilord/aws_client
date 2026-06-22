@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_12_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// <note>
@@ -49,22 +51,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// MediaPackage User Guide.
 class MediaPackageV2 {
   final _s.RestJsonProtocol _protocol;
-  MediaPackageV2({
+  factory MediaPackageV2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'mediapackagev2',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'mediapackagev2',
+    );
+    return MediaPackageV2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  MediaPackageV2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -5718,7 +5735,7 @@ class StartTag {
 
   factory StartTag.fromJson(Map<String, dynamic> json) {
     return StartTag(
-      timeOffset: (json['TimeOffset'] as double?) ?? 0,
+      timeOffset: _s.parseJsonDouble(json['TimeOffset']) ?? 0,
       precise: json['Precise'] as bool?,
     );
   }
@@ -5727,7 +5744,7 @@ class StartTag {
     final timeOffset = this.timeOffset;
     final precise = this.precise;
     return {
-      'TimeOffset': timeOffset,
+      'TimeOffset': _s.encodeJsonDouble(timeOffset),
       if (precise != null) 'Precise': precise,
     };
   }

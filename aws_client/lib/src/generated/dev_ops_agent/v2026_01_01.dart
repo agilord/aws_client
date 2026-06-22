@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2026_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// AWS DevOps Agent is your always-available operations teammate. It resolves
@@ -30,22 +32,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// deployment data across all of them.
 class DevOpsAgent {
   final _s.RestJsonProtocol _protocol;
-  DevOpsAgent({
+  factory DevOpsAgent({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'aidevops',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'aidevops',
+    );
+    return DevOpsAgent._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  DevOpsAgent._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -107,6 +126,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/tasks',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateBacklogTaskResponse.fromJson(response);
@@ -141,6 +161,7 @@ class DevOpsAgent {
       requestUri:
           '/agents/agent-space/${Uri.encodeComponent(agentSpaceId)}/chat/create',
       queryParams: $query,
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateChatResponse.fromJson(response);
@@ -158,6 +179,7 @@ class DevOpsAgent {
       payload: null,
       method: 'GET',
       requestUri: '/usage/account',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccountUsageOutput.fromJson(response);
@@ -186,6 +208,7 @@ class DevOpsAgent {
       method: 'GET',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/tasks/${Uri.encodeComponent(taskId)}',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetBacklogTaskResponse.fromJson(response);
@@ -223,6 +246,7 @@ class DevOpsAgent {
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/recommendations/${Uri.encodeComponent(recommendationId)}',
       queryParams: $query,
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetRecommendationResponse.fromJson(response);
@@ -281,6 +305,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/tasks/list',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListBacklogTasksResponse.fromJson(response);
@@ -320,6 +345,7 @@ class DevOpsAgent {
       requestUri:
           '/agents/agent-space/${Uri.encodeComponent(agentSpaceId)}/chat/list',
       queryParams: $query,
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListChatsResponse.fromJson(response);
@@ -360,6 +386,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/journal/agent-space/${Uri.encodeComponent(agentSpaceId)}/executions',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListExecutionsResponse.fromJson(response);
@@ -404,6 +431,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/goals/list',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListGoalsResponse.fromJson(response);
@@ -455,6 +483,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/journal/agent-space/${Uri.encodeComponent(agentSpaceId)}/journalRecords',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJournalRecordsResponse.fromJson(response);
@@ -482,6 +511,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/agents/agent-space/${Uri.encodeComponent(agentSpaceId)}/pendingMessages',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListPendingMessagesResponse.fromJson(response);
@@ -536,6 +566,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/recommendations/list',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListRecommendationsResponse.fromJson(response);
@@ -557,6 +588,7 @@ class DevOpsAgent {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -605,6 +637,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/agents/agent-space/${Uri.encodeComponent(agentSpaceId)}/chat/sendMessage',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -636,6 +669,7 @@ class DevOpsAgent {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -664,6 +698,7 @@ class DevOpsAgent {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -703,6 +738,7 @@ class DevOpsAgent {
       method: 'PATCH',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/tasks/${Uri.encodeComponent(taskId)}',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBacklogTaskResponse.fromJson(response);
@@ -743,6 +779,7 @@ class DevOpsAgent {
       method: 'PATCH',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/goals/${Uri.encodeComponent(goalId)}',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGoalResponse.fromJson(response);
@@ -788,6 +825,7 @@ class DevOpsAgent {
       method: 'PATCH',
       requestUri:
           '/backlog/agent-space/${Uri.encodeComponent(agentSpaceId)}/recommendations/${Uri.encodeComponent(recommendationId)}',
+      hostPrefix: 'dp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRecommendationResponse.fromJson(response);
@@ -844,6 +882,7 @@ class DevOpsAgent {
       payload: $payload,
       method: 'POST',
       requestUri: '/v1/agentspaces',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAgentSpaceOutput.fromJson(response);
@@ -865,6 +904,7 @@ class DevOpsAgent {
       payload: null,
       method: 'GET',
       requestUri: '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAgentSpaceOutput.fromJson(response);
@@ -905,6 +945,7 @@ class DevOpsAgent {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAgentSpaceOutput.fromJson(response);
@@ -928,6 +969,7 @@ class DevOpsAgent {
       payload: null,
       method: 'DELETE',
       requestUri: '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -957,6 +999,7 @@ class DevOpsAgent {
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/operator',
       headers: headers,
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1015,6 +1058,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/operator',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return EnableOperatorAppOutput.fromJson(response);
@@ -1037,6 +1081,7 @@ class DevOpsAgent {
       method: 'GET',
       requestUri:
           '/v2/agentspaces/${Uri.encodeComponent(agentSpaceId)}/operator',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetOperatorAppOutput.fromJson(response);
@@ -1066,6 +1111,7 @@ class DevOpsAgent {
       method: 'PATCH',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/operator/idp',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateOperatorAppIdpConfigOutput.fromJson(response);
@@ -1095,6 +1141,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri: '/v1/agentspaces/list',
       queryParams: $query,
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAgentSpacesOutput.fromJson(response);
@@ -1133,6 +1180,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateServiceOutput.fromJson(response);
@@ -1159,6 +1207,7 @@ class DevOpsAgent {
       method: 'GET',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations/${Uri.encodeComponent(associationId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssociationOutput.fromJson(response);
@@ -1195,6 +1244,7 @@ class DevOpsAgent {
       method: 'PATCH',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations/${Uri.encodeComponent(associationId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssociationOutput.fromJson(response);
@@ -1222,6 +1272,7 @@ class DevOpsAgent {
       method: 'DELETE',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations/${Uri.encodeComponent(associationId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1247,6 +1298,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations/${Uri.encodeComponent(associationId)}/webhooks/list',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListWebhooksOutput.fromJson(response);
@@ -1288,6 +1340,7 @@ class DevOpsAgent {
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations/list',
       queryParams: $query,
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListAssociationsOutput.fromJson(response);
@@ -1311,6 +1364,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/v1/agentspaces/${Uri.encodeComponent(agentSpaceId)}/associations/validate',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1344,6 +1398,7 @@ class DevOpsAgent {
       payload: $payload,
       method: 'POST',
       requestUri: '/v1/private-connections',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePrivateConnectionOutput.fromJson(response);
@@ -1366,6 +1421,7 @@ class DevOpsAgent {
       payload: null,
       method: 'GET',
       requestUri: '/v1/private-connections/${Uri.encodeComponent(name)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePrivateConnectionOutput.fromJson(response);
@@ -1389,6 +1445,7 @@ class DevOpsAgent {
       payload: null,
       method: 'DELETE',
       requestUri: '/v1/private-connections/${Uri.encodeComponent(name)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePrivateConnectionOutput.fromJson(response);
@@ -1405,6 +1462,7 @@ class DevOpsAgent {
       payload: null,
       method: 'GET',
       requestUri: '/v1/private-connections',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListPrivateConnectionsOutput.fromJson(response);
@@ -1436,6 +1494,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri:
           '/v1/private-connections/${Uri.encodeComponent(name)}/certificate',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePrivateConnectionCertificateOutput.fromJson(response);
@@ -1483,6 +1542,7 @@ class DevOpsAgent {
       payload: $payload,
       method: 'POST',
       requestUri: '/v1/register/${Uri.encodeComponent(service.value)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterServiceOutput.fromJson(response);
@@ -1504,6 +1564,7 @@ class DevOpsAgent {
       payload: null,
       method: 'GET',
       requestUri: '/v1/services/${Uri.encodeComponent(serviceId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return GetServiceOutput.fromJson(response);
@@ -1527,6 +1588,7 @@ class DevOpsAgent {
       payload: null,
       method: 'DELETE',
       requestUri: '/v1/services/${Uri.encodeComponent(serviceId)}',
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1561,6 +1623,7 @@ class DevOpsAgent {
       method: 'POST',
       requestUri: '/v1/services/list',
       queryParams: $query,
+      hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
     return ListServicesOutput.fromJson(response);
@@ -8637,7 +8700,7 @@ class UsageMetric {
   factory UsageMetric.fromJson(Map<String, dynamic> json) {
     return UsageMetric(
       limit: (json['limit'] as int?) ?? 0,
-      usage: (json['usage'] as double?) ?? 0,
+      usage: _s.parseJsonDouble(json['usage']) ?? 0,
     );
   }
 
@@ -8646,7 +8709,7 @@ class UsageMetric {
     final usage = this.usage;
     return {
       'limit': limit,
-      'usage': usage,
+      'usage': _s.encodeJsonDouble(usage),
     };
   }
 }

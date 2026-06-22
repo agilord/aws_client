@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,46 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_11_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// "Suite of geospatial services including Maps, Places, Routes, Tracking, and
 /// Geofencing"
 class Location {
   final _s.RestJsonProtocol _protocol;
-  Location({
+  factory Location({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'geo',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'geo',
+    );
+    return Location._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Location._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -150,6 +169,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/keys',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateKeyResponse.fromJson(response);
@@ -177,6 +197,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/metadata/v0/keys/${Uri.encodeComponent(keyName)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeKeyResponse.fromJson(response);
@@ -237,6 +258,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/metadata/v0/keys/${Uri.encodeComponent(keyName)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateKeyResponse.fromJson(response);
@@ -283,6 +305,7 @@ class Location {
       method: 'DELETE',
       requestUri: '/metadata/v0/keys/${Uri.encodeComponent(keyName)}',
       queryParams: $query,
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -327,6 +350,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/list-keys',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return ListKeysResponse.fromJson(response);
@@ -358,6 +382,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -436,6 +461,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -473,6 +499,7 @@ class Location {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'cp.metadata.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -571,6 +598,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/geofencing/v0/collections',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateGeofenceCollectionResponse.fromJson(response);
@@ -594,6 +622,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGeofenceCollectionResponse.fromJson(response);
@@ -636,6 +665,7 @@ class Location {
       method: 'PATCH',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGeofenceCollectionResponse.fromJson(response);
@@ -664,6 +694,7 @@ class Location {
       method: 'DELETE',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -697,6 +728,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/geofencing/v0/list-collections',
+      hostPrefix: 'cp.geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return ListGeofenceCollectionsResponse.fromJson(response);
@@ -730,6 +762,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/delete-geofences',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDeleteGeofenceResponse.fromJson(response);
@@ -790,6 +823,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/positions',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchEvaluateGeofencesResponse.fromJson(response);
@@ -822,6 +856,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/put-geofences',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutGeofenceResponse.fromJson(response);
@@ -916,13 +951,15 @@ class Location {
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (speedUnit != null) 'SpeedUnit': speedUnit.value,
-      if (timeHorizonMinutes != null) 'TimeHorizonMinutes': timeHorizonMinutes,
+      if (timeHorizonMinutes != null)
+        'TimeHorizonMinutes': _s.encodeJsonDouble(timeHorizonMinutes),
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/forecast-geofence-events',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return ForecastGeofenceEventsResponse.fromJson(response);
@@ -954,6 +991,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/geofences/${Uri.encodeComponent(geofenceId)}',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return GetGeofenceResponse.fromJson(response);
@@ -994,6 +1032,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/list-geofences',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return ListGeofencesResponse.fromJson(response);
@@ -1051,6 +1090,7 @@ class Location {
       method: 'PUT',
       requestUri:
           '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/geofences/${Uri.encodeComponent(geofenceId)}',
+      hostPrefix: 'geofencing.',
       exceptionFnMap: _exceptionFns,
     );
     return PutGeofenceResponse.fromJson(response);
@@ -1130,6 +1170,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/jobs',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return StartJobResponse.fromJson(response);
@@ -1158,6 +1199,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/metadata/v0/jobs/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -1198,6 +1240,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/jobs/list-jobs',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -1229,6 +1272,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/metadata/v0/jobs/cancel-job',
+      hostPrefix: 'metadata.',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -1362,6 +1406,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/maps/v0/maps',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateMapResponse.fromJson(response);
@@ -1417,6 +1462,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeMapResponse.fromJson(response);
@@ -1492,6 +1538,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMapResponse.fromJson(response);
@@ -1551,6 +1598,7 @@ class Location {
       payload: null,
       method: 'DELETE',
       requestUri: '/maps/v0/maps/${Uri.encodeComponent(mapName)}',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1617,6 +1665,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/maps/v0/list-maps',
+      hostPrefix: 'cp.maps.',
       exceptionFnMap: _exceptionFns,
     );
     return ListMapsResponse.fromJson(response);
@@ -1778,6 +1827,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/glyphs/${Uri.encodeComponent(fontStack)}/${Uri.encodeComponent(fontUnicodeRange)}',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapGlyphsResponse(
@@ -1878,6 +1928,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/sprites/${Uri.encodeComponent(fileName)}',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapSpritesResponse(
@@ -1957,6 +2008,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/style-descriptor',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapStyleDescriptorResponse(
@@ -2049,6 +2101,7 @@ class Location {
       requestUri:
           '/maps/v0/maps/${Uri.encodeComponent(mapName)}/tiles/${Uri.encodeComponent(z)}/${Uri.encodeComponent(x)}/${Uri.encodeComponent(y)}',
       queryParams: $query,
+      hostPrefix: 'maps.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMapTileResponse(
@@ -2234,6 +2287,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/places/v0/indexes',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePlaceIndexResponse.fromJson(response);
@@ -2288,6 +2342,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePlaceIndexResponse.fromJson(response);
@@ -2361,6 +2416,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePlaceIndexResponse.fromJson(response);
@@ -2418,6 +2474,7 @@ class Location {
       payload: null,
       method: 'DELETE',
       requestUri: '/places/v0/indexes/${Uri.encodeComponent(indexName)}',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2484,6 +2541,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/places/v0/list-indexes',
+      hostPrefix: 'cp.places.',
       exceptionFnMap: _exceptionFns,
     );
     return ListPlaceIndexesResponse.fromJson(response);
@@ -2599,6 +2657,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/places/${Uri.encodeComponent(placeId)}',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return GetPlaceResponse.fromJson(response);
@@ -2705,7 +2764,7 @@ class Location {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
     };
@@ -2715,6 +2774,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/position',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchPlaceIndexForPositionResponse.fromJson(response);
@@ -2883,8 +2943,10 @@ class Location {
     };
     final $payload = <String, dynamic>{
       'Text': text,
-      if (biasPosition != null) 'BiasPosition': biasPosition,
-      if (filterBBox != null) 'FilterBBox': filterBBox,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
+      if (filterBBox != null)
+        'FilterBBox': filterBBox.map(_s.encodeJsonDouble).toList(),
       if (filterCategories != null) 'FilterCategories': filterCategories,
       if (filterCountries != null) 'FilterCountries': filterCountries,
       if (language != null) 'Language': language,
@@ -2896,6 +2958,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/suggestions',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchPlaceIndexForSuggestionsResponse.fromJson(response);
@@ -3070,8 +3133,10 @@ class Location {
     };
     final $payload = <String, dynamic>{
       'Text': text,
-      if (biasPosition != null) 'BiasPosition': biasPosition,
-      if (filterBBox != null) 'FilterBBox': filterBBox,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
+      if (filterBBox != null)
+        'FilterBBox': filterBBox.map(_s.encodeJsonDouble).toList(),
       if (filterCategories != null) 'FilterCategories': filterCategories,
       if (filterCountries != null) 'FilterCountries': filterCountries,
       if (language != null) 'Language': language,
@@ -3083,6 +3148,7 @@ class Location {
       requestUri:
           '/places/v0/indexes/${Uri.encodeComponent(indexName)}/search/text',
       queryParams: $query,
+      hostPrefix: 'places.',
       exceptionFnMap: _exceptionFns,
     );
     return SearchPlaceIndexForTextResponse.fromJson(response);
@@ -3260,6 +3326,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/routes/v0/calculators',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRouteCalculatorResponse.fromJson(response);
@@ -3315,6 +3382,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRouteCalculatorResponse.fromJson(response);
@@ -3383,6 +3451,7 @@ class Location {
       method: 'PATCH',
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRouteCalculatorResponse.fromJson(response);
@@ -3441,6 +3510,7 @@ class Location {
       method: 'DELETE',
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3506,6 +3576,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/routes/v0/list-calculators',
+      hostPrefix: 'cp.routes.',
       exceptionFnMap: _exceptionFns,
     );
     return ListRouteCalculatorsResponse.fromJson(response);
@@ -3770,8 +3841,9 @@ class Location {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'DeparturePosition': departurePosition,
-      'DestinationPosition': destinationPosition,
+      'DeparturePosition': departurePosition.map(_s.encodeJsonDouble).toList(),
+      'DestinationPosition':
+          destinationPosition.map(_s.encodeJsonDouble).toList(),
       if (arrivalTime != null) 'ArrivalTime': iso8601ToJson(arrivalTime),
       if (carModeOptions != null) 'CarModeOptions': carModeOptions,
       if (departNow != null) 'DepartNow': departNow,
@@ -3781,7 +3853,10 @@ class Location {
       if (optimizeFor != null) 'OptimizeFor': optimizeFor.value,
       if (travelMode != null) 'TravelMode': travelMode.value,
       if (truckModeOptions != null) 'TruckModeOptions': truckModeOptions,
-      if (waypointPositions != null) 'WaypointPositions': waypointPositions,
+      if (waypointPositions != null)
+        'WaypointPositions': waypointPositions
+            .map((e) => e.map(_s.encodeJsonDouble).toList())
+            .toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3789,6 +3864,7 @@ class Location {
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}/calculate/route',
       queryParams: $query,
+      hostPrefix: 'routes.',
       exceptionFnMap: _exceptionFns,
     );
     return CalculateRouteResponse.fromJson(response);
@@ -4024,8 +4100,12 @@ class Location {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'DeparturePositions': departurePositions,
-      'DestinationPositions': destinationPositions,
+      'DeparturePositions': departurePositions
+          .map((e) => e.map(_s.encodeJsonDouble).toList())
+          .toList(),
+      'DestinationPositions': destinationPositions
+          .map((e) => e.map(_s.encodeJsonDouble).toList())
+          .toList(),
       if (carModeOptions != null) 'CarModeOptions': carModeOptions,
       if (departNow != null) 'DepartNow': departNow,
       if (departureTime != null) 'DepartureTime': iso8601ToJson(departureTime),
@@ -4039,6 +4119,7 @@ class Location {
       requestUri:
           '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}/calculate/route-matrix',
       queryParams: $query,
+      hostPrefix: 'routes.',
       exceptionFnMap: _exceptionFns,
     );
     return CalculateRouteMatrixResponse.fromJson(response);
@@ -4209,6 +4290,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/tracking/v0/trackers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateTrackerResponse.fromJson(response);
@@ -4231,6 +4313,7 @@ class Location {
       payload: null,
       method: 'GET',
       requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTrackerResponse.fromJson(response);
@@ -4329,6 +4412,7 @@ class Location {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrackerResponse.fromJson(response);
@@ -4356,6 +4440,7 @@ class Location {
       payload: null,
       method: 'DELETE',
       requestUri: '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4389,6 +4474,7 @@ class Location {
       payload: $payload,
       method: 'POST',
       requestUri: '/tracking/v0/list-trackers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTrackersResponse.fromJson(response);
@@ -4441,6 +4527,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/consumers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4480,6 +4567,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/delete-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchDeleteDevicePositionHistoryResponse.fromJson(response);
@@ -4517,6 +4605,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/get-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchGetDevicePositionResponse.fromJson(response);
@@ -4573,6 +4662,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return BatchUpdateDevicePositionResponse.fromJson(response);
@@ -4614,6 +4704,7 @@ class Location {
       method: 'DELETE',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/consumers/${Uri.encodeComponent(consumerArn)}',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4643,6 +4734,7 @@ class Location {
       method: 'GET',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/devices/${Uri.encodeComponent(deviceId)}/positions/latest',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicePositionResponse.fromJson(response);
@@ -4729,6 +4821,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/devices/${Uri.encodeComponent(deviceId)}/list-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicePositionHistoryResponse.fromJson(response);
@@ -4773,6 +4866,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/list-positions',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return ListDevicePositionsResponse.fromJson(response);
@@ -4815,6 +4909,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/list-consumers',
+      hostPrefix: 'cp.tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTrackerConsumersResponse.fromJson(response);
@@ -4863,6 +4958,7 @@ class Location {
       method: 'POST',
       requestUri:
           '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/positions/verify',
+      hostPrefix: 'tracking.',
       exceptionFnMap: _exceptionFns,
     );
     return VerifyDevicePositionResponse.fromJson(response);
@@ -7112,13 +7208,15 @@ class CalculateRouteMatrixResponse {
               const <String, dynamic>{}),
       snappedDeparturePositions: (json['SnappedDeparturePositions'] as List?)
           ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+          .map((e) =>
+              (e as List).nonNulls.map((e) => _s.parseJsonDouble(e)!).toList())
           .toList(),
-      snappedDestinationPositions:
-          (json['SnappedDestinationPositions'] as List?)
-              ?.nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
-              .toList(),
+      snappedDestinationPositions: (json['SnappedDestinationPositions']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              (e as List).nonNulls.map((e) => _s.parseJsonDouble(e)!).toList())
+          .toList(),
     );
   }
 
@@ -7131,9 +7229,13 @@ class CalculateRouteMatrixResponse {
       'RouteMatrix': routeMatrix,
       'Summary': summary,
       if (snappedDeparturePositions != null)
-        'SnappedDeparturePositions': snappedDeparturePositions,
+        'SnappedDeparturePositions': snappedDeparturePositions
+            .map((e) => e.map(_s.encodeJsonDouble).toList())
+            .toList(),
       if (snappedDestinationPositions != null)
-        'SnappedDestinationPositions': snappedDestinationPositions,
+        'SnappedDestinationPositions': snappedDestinationPositions
+            .map((e) => e.map(_s.encodeJsonDouble).toList())
+            .toList(),
     };
   }
 }
@@ -7579,7 +7681,7 @@ class GetDevicePositionResponse {
     return GetDevicePositionResponse(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       receivedTime: nonNullableTimeStampFromJson(json['ReceivedTime'] ?? 0),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
@@ -7601,7 +7703,7 @@ class GetDevicePositionResponse {
     final deviceId = this.deviceId;
     final positionProperties = this.positionProperties;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       'ReceivedTime': iso8601ToJson(receivedTime),
       'SampleTime': iso8601ToJson(sampleTime),
       if (accuracy != null) 'Accuracy': accuracy,
@@ -7807,10 +7909,10 @@ class InferredState {
           ? PositionalAccuracy.fromJson(
               json['Accuracy'] as Map<String, dynamic>)
           : null,
-      deviationDistance: json['DeviationDistance'] as double?,
+      deviationDistance: _s.parseJsonDouble(json['DeviationDistance']),
       position: (json['Position'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -7823,8 +7925,10 @@ class InferredState {
     return {
       'ProxyDetected': proxyDetected,
       if (accuracy != null) 'Accuracy': accuracy,
-      if (deviationDistance != null) 'DeviationDistance': deviationDistance,
-      if (position != null) 'Position': position,
+      if (deviationDistance != null)
+        'DeviationDistance': _s.encodeJsonDouble(deviationDistance),
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -7867,14 +7971,14 @@ class PositionalAccuracy {
 
   factory PositionalAccuracy.fromJson(Map<String, dynamic> json) {
     return PositionalAccuracy(
-      horizontal: (json['Horizontal'] as double?) ?? 0,
+      horizontal: _s.parseJsonDouble(json['Horizontal']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final horizontal = this.horizontal;
     return {
-      'Horizontal': horizontal,
+      'Horizontal': _s.encodeJsonDouble(horizontal),
     };
   }
 }
@@ -7924,7 +8028,7 @@ class DeviceState {
     final wiFiAccessPoints = this.wiFiAccessPoints;
     return {
       'DeviceId': deviceId,
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       'SampleTime': iso8601ToJson(sampleTime),
       if (accuracy != null) 'Accuracy': accuracy,
       if (cellSignals != null) 'CellSignals': cellSignals,
@@ -8022,7 +8126,7 @@ class LteCellDetails {
         'NetworkMeasurements': networkMeasurements,
       if (nrCapable != null) 'NrCapable': nrCapable,
       if (rsrp != null) 'Rsrp': rsrp,
-      if (rsrq != null) 'Rsrq': rsrq,
+      if (rsrq != null) 'Rsrq': _s.encodeJsonDouble(rsrq),
       if (tac != null) 'Tac': tac,
       if (timingAdvance != null) 'TimingAdvance': timingAdvance,
     };
@@ -8095,7 +8199,7 @@ class LteNetworkMeasurements {
       'Earfcn': earfcn,
       'Pci': pci,
       if (rsrp != null) 'Rsrp': rsrp,
-      if (rsrq != null) 'Rsrq': rsrq,
+      if (rsrq != null) 'Rsrq': _s.encodeJsonDouble(rsrq),
     };
   }
 }
@@ -8159,7 +8263,7 @@ class ListDevicePositionsResponseEntry {
       deviceId: (json['DeviceId'] as String?) ?? '',
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
       accuracy: json['Accuracy'] != null
@@ -8179,7 +8283,7 @@ class ListDevicePositionsResponseEntry {
     final positionProperties = this.positionProperties;
     return {
       'DeviceId': deviceId,
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       'SampleTime': iso8601ToJson(sampleTime),
       if (accuracy != null) 'Accuracy': accuracy,
       if (positionProperties != null) 'PositionProperties': positionProperties,
@@ -8202,7 +8306,11 @@ class TrackingFilterGeometry {
   Map<String, dynamic> toJson() {
     final polygon = this.polygon;
     return {
-      if (polygon != null) 'Polygon': polygon,
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
     };
   }
 }
@@ -8246,7 +8354,7 @@ class DevicePosition {
     return DevicePosition(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       receivedTime: nonNullableTimeStampFromJson(json['ReceivedTime'] ?? 0),
       sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
@@ -8268,7 +8376,7 @@ class DevicePosition {
     final deviceId = this.deviceId;
     final positionProperties = this.positionProperties;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       'ReceivedTime': iso8601ToJson(receivedTime),
       'SampleTime': iso8601ToJson(sampleTime),
       if (accuracy != null) 'Accuracy': accuracy,
@@ -8435,7 +8543,7 @@ class DevicePositionUpdate {
     final positionProperties = this.positionProperties;
     return {
       'DeviceId': deviceId,
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       'SampleTime': iso8601ToJson(sampleTime),
       if (accuracy != null) 'Accuracy': accuracy,
       if (positionProperties != null) 'PositionProperties': positionProperties,
@@ -8718,8 +8826,8 @@ class RouteMatrixEntry {
 
   factory RouteMatrixEntry.fromJson(Map<String, dynamic> json) {
     return RouteMatrixEntry(
-      distance: json['Distance'] as double?,
-      durationSeconds: json['DurationSeconds'] as double?,
+      distance: _s.parseJsonDouble(json['Distance']),
+      durationSeconds: _s.parseJsonDouble(json['DurationSeconds']),
       error: json['Error'] != null
           ? RouteMatrixEntryError.fromJson(
               json['Error'] as Map<String, dynamic>)
@@ -8732,8 +8840,9 @@ class RouteMatrixEntry {
     final durationSeconds = this.durationSeconds;
     final error = this.error;
     return {
-      if (distance != null) 'Distance': distance,
-      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
+      if (distance != null) 'Distance': _s.encodeJsonDouble(distance),
+      if (durationSeconds != null)
+        'DurationSeconds': _s.encodeJsonDouble(durationSeconds),
       if (error != null) 'Error': error,
     };
   }
@@ -9023,10 +9132,10 @@ class TruckDimensions {
     final unit = this.unit;
     final width = this.width;
     return {
-      if (height != null) 'Height': height,
-      if (length != null) 'Length': length,
+      if (height != null) 'Height': _s.encodeJsonDouble(height),
+      if (length != null) 'Length': _s.encodeJsonDouble(length),
       if (unit != null) 'Unit': unit.value,
-      if (width != null) 'Width': width,
+      if (width != null) 'Width': _s.encodeJsonDouble(width),
     };
   }
 }
@@ -9060,7 +9169,7 @@ class TruckWeight {
     final total = this.total;
     final unit = this.unit;
     return {
-      if (total != null) 'Total': total,
+      if (total != null) 'Total': _s.encodeJsonDouble(total),
       if (unit != null) 'Unit': unit.value,
     };
   }
@@ -9197,13 +9306,13 @@ class CalculateRouteSummary {
   factory CalculateRouteSummary.fromJson(Map<String, dynamic> json) {
     return CalculateRouteSummary(
       dataSource: (json['DataSource'] as String?) ?? '',
-      distance: (json['Distance'] as double?) ?? 0,
+      distance: _s.parseJsonDouble(json['Distance']) ?? 0,
       distanceUnit:
           DistanceUnit.fromString((json['DistanceUnit'] as String?) ?? ''),
-      durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
+      durationSeconds: _s.parseJsonDouble(json['DurationSeconds']) ?? 0,
       routeBBox: ((json['RouteBBox'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -9216,10 +9325,10 @@ class CalculateRouteSummary {
     final routeBBox = this.routeBBox;
     return {
       'DataSource': dataSource,
-      'Distance': distance,
+      'Distance': _s.encodeJsonDouble(distance),
       'DistanceUnit': distanceUnit.value,
-      'DurationSeconds': durationSeconds,
-      'RouteBBox': routeBBox,
+      'DurationSeconds': _s.encodeJsonDouble(durationSeconds),
+      'RouteBBox': routeBBox.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -9311,15 +9420,15 @@ class Leg {
 
   factory Leg.fromJson(Map<String, dynamic> json) {
     return Leg(
-      distance: (json['Distance'] as double?) ?? 0,
-      durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
+      distance: _s.parseJsonDouble(json['Distance']) ?? 0,
+      durationSeconds: _s.parseJsonDouble(json['DurationSeconds']) ?? 0,
       endPosition: ((json['EndPosition'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       startPosition: ((json['StartPosition'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       steps: ((json['Steps'] as List?) ?? const [])
           .nonNulls
@@ -9339,10 +9448,10 @@ class Leg {
     final steps = this.steps;
     final geometry = this.geometry;
     return {
-      'Distance': distance,
-      'DurationSeconds': durationSeconds,
-      'EndPosition': endPosition,
-      'StartPosition': startPosition,
+      'Distance': _s.encodeJsonDouble(distance),
+      'DurationSeconds': _s.encodeJsonDouble(durationSeconds),
+      'EndPosition': endPosition.map(_s.encodeJsonDouble).toList(),
+      'StartPosition': startPosition.map(_s.encodeJsonDouble).toList(),
       'Steps': steps,
       if (geometry != null) 'Geometry': geometry,
     };
@@ -9375,7 +9484,8 @@ class LegGeometry {
     return LegGeometry(
       lineString: (json['LineString'] as List?)
           ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+          .map((e) =>
+              (e as List).nonNulls.map((e) => _s.parseJsonDouble(e)!).toList())
           .toList(),
     );
   }
@@ -9383,7 +9493,9 @@ class LegGeometry {
   Map<String, dynamic> toJson() {
     final lineString = this.lineString;
     return {
-      if (lineString != null) 'LineString': lineString,
+      if (lineString != null)
+        'LineString':
+            lineString.map((e) => e.map(_s.encodeJsonDouble).toList()).toList(),
     };
   }
 }
@@ -9429,15 +9541,15 @@ class Step {
 
   factory Step.fromJson(Map<String, dynamic> json) {
     return Step(
-      distance: (json['Distance'] as double?) ?? 0,
-      durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
+      distance: _s.parseJsonDouble(json['Distance']) ?? 0,
+      durationSeconds: _s.parseJsonDouble(json['DurationSeconds']) ?? 0,
       endPosition: ((json['EndPosition'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       startPosition: ((json['StartPosition'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       geometryOffset: json['GeometryOffset'] as int?,
     );
@@ -9450,10 +9562,10 @@ class Step {
     final startPosition = this.startPosition;
     final geometryOffset = this.geometryOffset;
     return {
-      'Distance': distance,
-      'DurationSeconds': durationSeconds,
-      'EndPosition': endPosition,
-      'StartPosition': startPosition,
+      'Distance': _s.encodeJsonDouble(distance),
+      'DurationSeconds': _s.encodeJsonDouble(durationSeconds),
+      'EndPosition': endPosition.map(_s.encodeJsonDouble).toList(),
+      'StartPosition': startPosition.map(_s.encodeJsonDouble).toList(),
       if (geometryOffset != null) 'GeometryOffset': geometryOffset,
     };
   }
@@ -9660,11 +9772,11 @@ class SearchPlaceIndexForTextSummary {
       text: (json['Text'] as String?) ?? '',
       biasPosition: (json['BiasPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       filterBBox: (json['FilterBBox'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       filterCategories: (json['FilterCategories'] as List?)
           ?.nonNulls
@@ -9678,7 +9790,7 @@ class SearchPlaceIndexForTextSummary {
       maxResults: json['MaxResults'] as int?,
       resultBBox: (json['ResultBBox'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -9696,13 +9808,16 @@ class SearchPlaceIndexForTextSummary {
     return {
       'DataSource': dataSource,
       'Text': text,
-      if (biasPosition != null) 'BiasPosition': biasPosition,
-      if (filterBBox != null) 'FilterBBox': filterBBox,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
+      if (filterBBox != null)
+        'FilterBBox': filterBBox.map(_s.encodeJsonDouble).toList(),
       if (filterCategories != null) 'FilterCategories': filterCategories,
       if (filterCountries != null) 'FilterCountries': filterCountries,
       if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
-      if (resultBBox != null) 'ResultBBox': resultBBox,
+      if (resultBBox != null)
+        'ResultBBox': resultBBox.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -9752,9 +9867,9 @@ class SearchForTextResult {
     return SearchForTextResult(
       place: Place.fromJson((json['Place'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
-      distance: json['Distance'] as double?,
+      distance: _s.parseJsonDouble(json['Distance']),
       placeId: json['PlaceId'] as String?,
-      relevance: json['Relevance'] as double?,
+      relevance: _s.parseJsonDouble(json['Relevance']),
     );
   }
 
@@ -9765,9 +9880,9 @@ class SearchForTextResult {
     final relevance = this.relevance;
     return {
       'Place': place,
-      if (distance != null) 'Distance': distance,
+      if (distance != null) 'Distance': _s.encodeJsonDouble(distance),
       if (placeId != null) 'PlaceId': placeId,
-      if (relevance != null) 'Relevance': relevance,
+      if (relevance != null) 'Relevance': _s.encodeJsonDouble(relevance),
     };
   }
 }
@@ -9985,15 +10100,17 @@ class PlaceGeometry {
 
   factory PlaceGeometry.fromJson(Map<String, dynamic> json) {
     return PlaceGeometry(
-      point:
-          (json['Point'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      point: (json['Point'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final point = this.point;
     return {
-      if (point != null) 'Point': point,
+      if (point != null) 'Point': point.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -10108,11 +10225,11 @@ class SearchPlaceIndexForSuggestionsSummary {
       text: (json['Text'] as String?) ?? '',
       biasPosition: (json['BiasPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       filterBBox: (json['FilterBBox'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       filterCategories: (json['FilterCategories'] as List?)
           ?.nonNulls
@@ -10139,8 +10256,10 @@ class SearchPlaceIndexForSuggestionsSummary {
     return {
       'DataSource': dataSource,
       'Text': text,
-      if (biasPosition != null) 'BiasPosition': biasPosition,
-      if (filterBBox != null) 'FilterBBox': filterBBox,
+      if (biasPosition != null)
+        'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
+      if (filterBBox != null)
+        'FilterBBox': filterBBox.map(_s.encodeJsonDouble).toList(),
       if (filterCategories != null) 'FilterCategories': filterCategories,
       if (filterCountries != null) 'FilterCountries': filterCountries,
       if (language != null) 'Language': language,
@@ -10271,7 +10390,7 @@ class SearchPlaceIndexForPositionSummary {
       dataSource: (json['DataSource'] as String?) ?? '',
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       language: json['Language'] as String?,
       maxResults: json['MaxResults'] as int?,
@@ -10285,7 +10404,7 @@ class SearchPlaceIndexForPositionSummary {
     final maxResults = this.maxResults;
     return {
       'DataSource': dataSource,
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
     };
@@ -10325,7 +10444,7 @@ class SearchForPositionResult {
 
   factory SearchForPositionResult.fromJson(Map<String, dynamic> json) {
     return SearchForPositionResult(
-      distance: (json['Distance'] as double?) ?? 0,
+      distance: _s.parseJsonDouble(json['Distance']) ?? 0,
       place: Place.fromJson((json['Place'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       placeId: json['PlaceId'] as String?,
@@ -10337,7 +10456,7 @@ class SearchForPositionResult {
     final place = this.place;
     final placeId = this.placeId;
     return {
-      'Distance': distance,
+      'Distance': _s.encodeJsonDouble(distance),
       'Place': place,
       if (placeId != null) 'PlaceId': placeId,
     };
@@ -11435,8 +11554,10 @@ class GeofenceGeometry {
               .nonNulls
               .map((e) => (e as List)
                   .nonNulls
-                  .map((e) =>
-                      (e as List).nonNulls.map((e) => e as double).toList())
+                  .map((e) => (e as List)
+                      .nonNulls
+                      .map((e) => _s.parseJsonDouble(e)!)
+                      .toList())
                   .toList())
               .toList())
           .toList(),
@@ -11444,7 +11565,10 @@ class GeofenceGeometry {
           ?.nonNulls
           .map((e) => (e as List)
               .nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+              .map((e) => (e as List)
+                  .nonNulls
+                  .map((e) => _s.parseJsonDouble(e)!)
+                  .toList())
               .toList())
           .toList(),
     );
@@ -11458,8 +11582,18 @@ class GeofenceGeometry {
     return {
       if (circle != null) 'Circle': circle,
       if (geobuf != null) 'Geobuf': base64Encode(geobuf),
-      if (multiPolygon != null) 'MultiPolygon': multiPolygon,
-      if (polygon != null) 'Polygon': polygon,
+      if (multiPolygon != null)
+        'MultiPolygon': multiPolygon
+            .map((e) => e
+                .map((e) =>
+                    e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+                .toList())
+            .toList(),
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
     };
   }
 }
@@ -11486,9 +11620,9 @@ class Circle {
     return Circle(
       center: ((json['Center'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
-      radius: (json['Radius'] as double?) ?? 0,
+      radius: _s.parseJsonDouble(json['Radius']) ?? 0,
     );
   }
 
@@ -11496,8 +11630,8 @@ class Circle {
     final center = this.center;
     final radius = this.radius;
     return {
-      'Center': center,
-      'Radius': radius,
+      'Center': center.map(_s.encodeJsonDouble).toList(),
+      'Radius': _s.encodeJsonDouble(radius),
     };
   }
 }
@@ -11679,7 +11813,7 @@ class ForecastedEvent {
           (json['EventType'] as String?) ?? ''),
       geofenceId: (json['GeofenceId'] as String?) ?? '',
       isDeviceInGeofence: (json['IsDeviceInGeofence'] as bool?) ?? false,
-      nearestDistance: (json['NearestDistance'] as double?) ?? 0,
+      nearestDistance: _s.parseJsonDouble(json['NearestDistance']) ?? 0,
       forecastedBreachTime: timeStampFromJson(json['ForecastedBreachTime']),
       geofenceProperties: (json['GeofenceProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -11699,7 +11833,7 @@ class ForecastedEvent {
       'EventType': eventType.value,
       'GeofenceId': geofenceId,
       'IsDeviceInGeofence': isDeviceInGeofence,
-      'NearestDistance': nearestDistance,
+      'NearestDistance': _s.encodeJsonDouble(nearestDistance),
       if (forecastedBreachTime != null)
         'ForecastedBreachTime': iso8601ToJson(forecastedBreachTime),
       if (geofenceProperties != null) 'GeofenceProperties': geofenceProperties,
@@ -11753,8 +11887,8 @@ class ForecastGeofenceEventsDeviceState {
     final position = this.position;
     final speed = this.speed;
     return {
-      'Position': position,
-      if (speed != null) 'Speed': speed,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
+      if (speed != null) 'Speed': _s.encodeJsonDouble(speed),
     };
   }
 }

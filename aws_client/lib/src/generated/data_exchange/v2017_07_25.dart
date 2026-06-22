@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_07_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// AWS Data Exchange is a service that makes it easy for AWS customers to
@@ -44,22 +46,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// import or export operations used to create or copy assets.
 class DataExchange {
   final _s.RestJsonProtocol _protocol;
-  DataExchange({
+  factory DataExchange({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'dataexchange',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'dataexchange',
+    );
+    return DataExchange._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  DataExchange._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1031,6 +1050,7 @@ class DataExchange {
       method: 'POST',
       requestUri: '/v1',
       headers: headers,
+      hostPrefix: 'api-fulfill.',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3795,14 +3815,14 @@ class S3SnapshotAsset {
 
   factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) {
     return S3SnapshotAsset(
-      size: (json['Size'] as double?) ?? 0,
+      size: _s.parseJsonDouble(json['Size']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final size = this.size;
     return {
-      'Size': size,
+      'Size': _s.encodeJsonDouble(size),
     };
   }
 }
@@ -5335,7 +5355,7 @@ class JobError {
           : null,
       limitName:
           (json['LimitName'] as String?)?.let(JobErrorLimitName.fromString),
-      limitValue: json['LimitValue'] as double?,
+      limitValue: _s.parseJsonDouble(json['LimitValue']),
       resourceId: json['ResourceId'] as String?,
       resourceType: (json['ResourceType'] as String?)
           ?.let(JobErrorResourceTypes.fromString),
@@ -5355,7 +5375,7 @@ class JobError {
       'Message': message,
       if (details != null) 'Details': details,
       if (limitName != null) 'LimitName': limitName.value,
-      if (limitValue != null) 'LimitValue': limitValue,
+      if (limitValue != null) 'LimitValue': _s.encodeJsonDouble(limitValue),
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType.value,
     };

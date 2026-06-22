@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_05_18.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Athena is an interactive query service that lets you use standard SQL
@@ -37,22 +39,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon Athena with JDBC</a>.
 class Athena {
   final _s.JsonProtocol _protocol;
-  Athena({
+  factory Athena({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'athena',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'athena',
+    );
+    return Athena._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Athena._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -9307,7 +9324,7 @@ class QueryExecutionStatistics {
     return QueryExecutionStatistics(
       dataManifestLocation: json['DataManifestLocation'] as String?,
       dataScannedInBytes: json['DataScannedInBytes'] as int?,
-      dpuCount: json['DpuCount'] as double?,
+      dpuCount: _s.parseJsonDouble(json['DpuCount']),
       engineExecutionTimeInMillis: json['EngineExecutionTimeInMillis'] as int?,
       queryPlanningTimeInMillis: json['QueryPlanningTimeInMillis'] as int?,
       queryQueueTimeInMillis: json['QueryQueueTimeInMillis'] as int?,
@@ -9339,7 +9356,7 @@ class QueryExecutionStatistics {
       if (dataManifestLocation != null)
         'DataManifestLocation': dataManifestLocation,
       if (dataScannedInBytes != null) 'DataScannedInBytes': dataScannedInBytes,
-      if (dpuCount != null) 'DpuCount': dpuCount,
+      if (dpuCount != null) 'DpuCount': _s.encodeJsonDouble(dpuCount),
       if (engineExecutionTimeInMillis != null)
         'EngineExecutionTimeInMillis': engineExecutionTimeInMillis,
       if (queryPlanningTimeInMillis != null)

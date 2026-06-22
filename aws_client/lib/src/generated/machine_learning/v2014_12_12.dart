@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2014_12_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Definition of the public APIs exposed by Amazon Machine Learning
 class MachineLearning {
   final _s.JsonProtocol _protocol;
-  MachineLearning({
+  factory MachineLearning({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'machinelearning',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'machinelearning',
+    );
+    return MachineLearning._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  MachineLearning._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2075,7 +2092,8 @@ class MachineLearning {
       payload: {
         'MLModelId': mLModelId,
         if (mLModelName != null) 'MLModelName': mLModelName,
-        if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
+        if (scoreThreshold != null)
+          'ScoreThreshold': _s.encodeJsonDouble(scoreThreshold),
       },
     );
 
@@ -3558,7 +3576,7 @@ class GetMLModelOutput {
       name: json['Name'] as String?,
       recipe: json['Recipe'] as String?,
       schema: json['Schema'] as String?,
-      scoreThreshold: json['ScoreThreshold'] as double?,
+      scoreThreshold: _s.parseJsonDouble(json['ScoreThreshold']),
       scoreThresholdLastUpdatedAt:
           timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
       sizeInBytes: json['SizeInBytes'] as int?,
@@ -3609,7 +3627,8 @@ class GetMLModelOutput {
       if (name != null) 'Name': name,
       if (recipe != null) 'Recipe': recipe,
       if (schema != null) 'Schema': schema,
-      if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
+      if (scoreThreshold != null)
+        'ScoreThreshold': _s.encodeJsonDouble(scoreThreshold),
       if (scoreThresholdLastUpdatedAt != null)
         'ScoreThresholdLastUpdatedAt':
             unixTimestampToJson(scoreThresholdLastUpdatedAt),
@@ -3814,8 +3833,8 @@ class Prediction {
           (k, e) => MapEntry(DetailsAttributes.fromString(k), e as String)),
       predictedLabel: json['predictedLabel'] as String?,
       predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
-      predictedValue: json['predictedValue'] as double?,
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
+      predictedValue: _s.parseJsonDouble(json['predictedValue']),
     );
   }
 
@@ -3828,8 +3847,11 @@ class Prediction {
       if (details != null)
         'details': details.map((k, e) => MapEntry(k.value, e)),
       if (predictedLabel != null) 'predictedLabel': predictedLabel,
-      if (predictedScores != null) 'predictedScores': predictedScores,
-      if (predictedValue != null) 'predictedValue': predictedValue,
+      if (predictedScores != null)
+        'predictedScores':
+            predictedScores.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
+      if (predictedValue != null)
+        'predictedValue': _s.encodeJsonDouble(predictedValue),
     };
   }
 }
@@ -4519,7 +4541,7 @@ class MLModel {
           (json['MLModelType'] as String?)?.let(MLModelType.fromString),
       message: json['Message'] as String?,
       name: json['Name'] as String?,
-      scoreThreshold: json['ScoreThreshold'] as double?,
+      scoreThreshold: _s.parseJsonDouble(json['ScoreThreshold']),
       scoreThresholdLastUpdatedAt:
           timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
       sizeInBytes: json['SizeInBytes'] as int?,
@@ -4566,7 +4588,8 @@ class MLModel {
       if (mLModelType != null) 'MLModelType': mLModelType.value,
       if (message != null) 'Message': message,
       if (name != null) 'Name': name,
-      if (scoreThreshold != null) 'ScoreThreshold': scoreThreshold,
+      if (scoreThreshold != null)
+        'ScoreThreshold': _s.encodeJsonDouble(scoreThreshold),
       if (scoreThresholdLastUpdatedAt != null)
         'ScoreThresholdLastUpdatedAt':
             unixTimestampToJson(scoreThresholdLastUpdatedAt),

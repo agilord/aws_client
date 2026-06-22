@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_11_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// With Step Functions, you can create workflows, also called <i>state
@@ -25,22 +27,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// orchestrate microservices, and create data and machine learning pipelines.
 class Sfn {
   final _s.JsonProtocol _protocol;
-  Sfn({
+  factory Sfn({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'states',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'states',
+    );
+    return Sfn._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Sfn._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2233,6 +2252,8 @@ class Sfn {
         if (name != null) 'name': name,
         if (traceHeader != null) 'traceHeader': traceHeader,
       },
+
+      hostPrefix: 'sync-',
     );
 
     return StartSyncExecutionOutput.fromJson(jsonResponse.body);
@@ -2524,6 +2545,8 @@ class Sfn {
         if (stateName != null) 'stateName': stateName,
         if (variables != null) 'variables': variables,
       },
+
+      hostPrefix: 'sync-',
     );
 
     return TestStateOutput.fromJson(jsonResponse.body);
@@ -2620,7 +2643,8 @@ class Sfn {
         if (toleratedFailureCount != null)
           'toleratedFailureCount': toleratedFailureCount,
         if (toleratedFailurePercentage != null)
-          'toleratedFailurePercentage': toleratedFailurePercentage,
+          'toleratedFailurePercentage':
+              _s.encodeJsonDouble(toleratedFailurePercentage),
       },
     );
   }
@@ -3558,7 +3582,7 @@ class DescribeMapRunOutput {
       status: MapRunStatus.fromString((json['status'] as String?) ?? ''),
       toleratedFailureCount: (json['toleratedFailureCount'] as int?) ?? 0,
       toleratedFailurePercentage:
-          (json['toleratedFailurePercentage'] as double?) ?? 0,
+          _s.parseJsonDouble(json['toleratedFailurePercentage']) ?? 0,
       redriveCount: json['redriveCount'] as int?,
       redriveDate: timeStampFromJson(json['redriveDate']),
       stopDate: timeStampFromJson(json['stopDate']),
@@ -3587,7 +3611,8 @@ class DescribeMapRunOutput {
       'startDate': unixTimestampToJson(startDate),
       'status': status.value,
       'toleratedFailureCount': toleratedFailureCount,
-      'toleratedFailurePercentage': toleratedFailurePercentage,
+      'toleratedFailurePercentage':
+          _s.encodeJsonDouble(toleratedFailurePercentage),
       if (redriveCount != null) 'redriveCount': redriveCount,
       if (redriveDate != null) 'redriveDate': unixTimestampToJson(redriveDate),
       if (stopDate != null) 'stopDate': unixTimestampToJson(stopDate),
@@ -5402,7 +5427,8 @@ class InspectionData {
           : null,
       result: json['result'] as String?,
       toleratedFailureCount: json['toleratedFailureCount'] as int?,
-      toleratedFailurePercentage: json['toleratedFailurePercentage'] as double?,
+      toleratedFailurePercentage:
+          _s.parseJsonDouble(json['toleratedFailurePercentage']),
       variables: json['variables'] as String?,
     );
   }
@@ -5446,7 +5472,8 @@ class InspectionData {
       if (toleratedFailureCount != null)
         'toleratedFailureCount': toleratedFailureCount,
       if (toleratedFailurePercentage != null)
-        'toleratedFailurePercentage': toleratedFailurePercentage,
+        'toleratedFailurePercentage':
+            _s.encodeJsonDouble(toleratedFailurePercentage),
       if (variables != null) 'variables': variables,
     };
   }

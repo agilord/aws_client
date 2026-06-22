@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,29 +19,45 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_09_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Describes the API operations for running inference using Amazon Bedrock
 /// models.
 class BedrockRuntime {
   final _s.RestJsonProtocol _protocol;
-  BedrockRuntime({
+  factory BedrockRuntime({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'bedrock-runtime',
-            signingName: 'bedrock',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'bedrock-runtime',
+      signingName: 'bedrock',
+    );
+    return BedrockRuntime._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  BedrockRuntime._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6378,7 +6395,7 @@ class GuardrailAutomatedReasoningTranslation {
           .map((e) => GuardrailAutomatedReasoningStatement.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      confidence: json['confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['confidence']),
       premises: (json['premises'] as List?)
           ?.nonNulls
           .map((e) => GuardrailAutomatedReasoningStatement.fromJson(
@@ -6405,7 +6422,7 @@ class GuardrailAutomatedReasoningTranslation {
     final untranslatedPremises = this.untranslatedPremises;
     return {
       if (claims != null) 'claims': claims,
-      if (confidence != null) 'confidence': confidence,
+      if (confidence != null) 'confidence': _s.encodeJsonDouble(confidence),
       if (premises != null) 'premises': premises,
       if (untranslatedClaims != null) 'untranslatedClaims': untranslatedClaims,
       if (untranslatedPremises != null)
@@ -6592,8 +6609,8 @@ class GuardrailContextualGroundingFilter {
     return GuardrailContextualGroundingFilter(
       action: GuardrailContextualGroundingPolicyAction.fromString(
           (json['action'] as String?) ?? ''),
-      score: (json['score'] as double?) ?? 0,
-      threshold: (json['threshold'] as double?) ?? 0,
+      score: _s.parseJsonDouble(json['score']) ?? 0,
+      threshold: _s.parseJsonDouble(json['threshold']) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
           (json['type'] as String?) ?? ''),
       detected: json['detected'] as bool?,
@@ -6608,8 +6625,8 @@ class GuardrailContextualGroundingFilter {
     final detected = this.detected;
     return {
       'action': action.value,
-      'score': score,
-      'threshold': threshold,
+      'score': _s.encodeJsonDouble(score),
+      'threshold': _s.encodeJsonDouble(threshold),
       'type': type.value,
       if (detected != null) 'detected': detected,
     };
@@ -7922,8 +7939,8 @@ class InferenceConfiguration {
     return {
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }

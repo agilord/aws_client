@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_11_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// IoT Greengrass brings local compute, messaging, data management, sync, and
@@ -39,22 +41,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// is IoT Greengrass?</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
 class GreengrassV2 {
   final _s.RestJsonProtocol _protocol;
-  GreengrassV2({
+  factory GreengrassV2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'greengrass',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'greengrass',
+    );
+    return GreengrassV2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  GreengrassV2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3831,7 +3848,7 @@ class IoTJobAbortCriteria {
           (json['failureType'] as String?) ?? ''),
       minNumberOfExecutedThings:
           (json['minNumberOfExecutedThings'] as int?) ?? 0,
-      thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
+      thresholdPercentage: _s.parseJsonDouble(json['thresholdPercentage']) ?? 0,
     );
   }
 
@@ -3844,7 +3861,7 @@ class IoTJobAbortCriteria {
       'action': action.value,
       'failureType': failureType.value,
       'minNumberOfExecutedThings': minNumberOfExecutedThings,
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
     };
   }
 }
@@ -3929,7 +3946,7 @@ class IoTJobExponentialRolloutRate {
   factory IoTJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return IoTJobExponentialRolloutRate(
       baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
-      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
+      incrementFactor: _s.parseJsonDouble(json['incrementFactor']) ?? 0,
       rateIncreaseCriteria: IoTJobRateIncreaseCriteria.fromJson(
           (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -3942,7 +3959,7 @@ class IoTJobExponentialRolloutRate {
     final rateIncreaseCriteria = this.rateIncreaseCriteria;
     return {
       'baseRatePerMinute': baseRatePerMinute,
-      'incrementFactor': incrementFactor,
+      'incrementFactor': _s.encodeJsonDouble(incrementFactor),
       'rateIncreaseCriteria': rateIncreaseCriteria,
     };
   }
@@ -4359,7 +4376,7 @@ class SystemResourceLimits {
 
   factory SystemResourceLimits.fromJson(Map<String, dynamic> json) {
     return SystemResourceLimits(
-      cpus: json['cpus'] as double?,
+      cpus: _s.parseJsonDouble(json['cpus']),
       memory: json['memory'] as int?,
     );
   }
@@ -4368,7 +4385,7 @@ class SystemResourceLimits {
     final cpus = this.cpus;
     final memory = this.memory;
     return {
-      if (cpus != null) 'cpus': cpus,
+      if (cpus != null) 'cpus': _s.encodeJsonDouble(cpus),
       if (memory != null) 'memory': memory,
     };
   }

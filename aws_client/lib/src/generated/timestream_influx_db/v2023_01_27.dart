@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_01_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Timestream for InfluxDB is a managed time-series database engine that
@@ -28,22 +30,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// with single-digit millisecond query response time.
 class TimestreamInfluxDB {
   final _s.JsonProtocol _protocol;
-  TimestreamInfluxDB({
+  factory TimestreamInfluxDB({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'timestream-influxdb',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'timestream-influxdb',
+    );
+    return TimestreamInfluxDB._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  TimestreamInfluxDB._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3751,7 +3768,7 @@ class InfluxDBv3CoreParameters {
               json['parquetMemCachePruneInterval'] as Map<String, dynamic>)
           : null,
       parquetMemCachePrunePercentage:
-          json['parquetMemCachePrunePercentage'] as double?,
+          _s.parseJsonDouble(json['parquetMemCachePrunePercentage']),
       parquetMemCacheQueryPathDuration:
           json['parquetMemCacheQueryPathDuration'] != null
               ? Duration.fromJson(json['parquetMemCacheQueryPathDuration']
@@ -3879,7 +3896,8 @@ class InfluxDBv3CoreParameters {
       if (parquetMemCachePruneInterval != null)
         'parquetMemCachePruneInterval': parquetMemCachePruneInterval,
       if (parquetMemCachePrunePercentage != null)
-        'parquetMemCachePrunePercentage': parquetMemCachePrunePercentage,
+        'parquetMemCachePrunePercentage':
+            _s.encodeJsonDouble(parquetMemCachePrunePercentage),
       if (parquetMemCacheQueryPathDuration != null)
         'parquetMemCacheQueryPathDuration': parquetMemCacheQueryPathDuration,
       if (parquetMemCacheSize != null)
@@ -4329,7 +4347,7 @@ class InfluxDBv3EnterpriseParameters {
               json['parquetMemCachePruneInterval'] as Map<String, dynamic>)
           : null,
       parquetMemCachePrunePercentage:
-          json['parquetMemCachePrunePercentage'] as double?,
+          _s.parseJsonDouble(json['parquetMemCachePrunePercentage']),
       parquetMemCacheQueryPathDuration:
           json['parquetMemCacheQueryPathDuration'] != null
               ? Duration.fromJson(json['parquetMemCacheQueryPathDuration']
@@ -4497,7 +4515,8 @@ class InfluxDBv3EnterpriseParameters {
       if (parquetMemCachePruneInterval != null)
         'parquetMemCachePruneInterval': parquetMemCachePruneInterval,
       if (parquetMemCachePrunePercentage != null)
-        'parquetMemCachePrunePercentage': parquetMemCachePrunePercentage,
+        'parquetMemCachePrunePercentage':
+            _s.encodeJsonDouble(parquetMemCachePrunePercentage),
       if (parquetMemCacheQueryPathDuration != null)
         'parquetMemCacheQueryPathDuration': parquetMemCacheQueryPathDuration,
       if (parquetMemCacheSize != null)

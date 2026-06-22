@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_07_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the <i>AWS HealthLake API Reference</i>. For an introduction to the
@@ -26,22 +28,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// is AWS HealthLake?</a> in the <i>AWS HealthLake Developer Guide</i>.
 class HealthLake {
   final _s.JsonProtocol _protocol;
-  HealthLake({
+  factory HealthLake({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'healthlake',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'healthlake',
+    );
+    return HealthLake._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  HealthLake._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1384,7 +1401,7 @@ class JobProgressReport {
 
   factory JobProgressReport.fromJson(Map<String, dynamic> json) {
     return JobProgressReport(
-      throughput: json['Throughput'] as double?,
+      throughput: _s.parseJsonDouble(json['Throughput']),
       totalNumberOfFilesReadWithCustomerError:
           json['TotalNumberOfFilesReadWithCustomerError'] as int?,
       totalNumberOfImportedFiles: json['TotalNumberOfImportedFiles'] as int?,
@@ -1396,7 +1413,7 @@ class JobProgressReport {
           json['TotalNumberOfResourcesWithCustomerError'] as int?,
       totalNumberOfScannedFiles: json['TotalNumberOfScannedFiles'] as int?,
       totalSizeOfScannedFilesInMB:
-          json['TotalSizeOfScannedFilesInMB'] as double?,
+          _s.parseJsonDouble(json['TotalSizeOfScannedFilesInMB']),
     );
   }
 
@@ -1412,7 +1429,7 @@ class JobProgressReport {
     final totalNumberOfScannedFiles = this.totalNumberOfScannedFiles;
     final totalSizeOfScannedFilesInMB = this.totalSizeOfScannedFilesInMB;
     return {
-      if (throughput != null) 'Throughput': throughput,
+      if (throughput != null) 'Throughput': _s.encodeJsonDouble(throughput),
       if (totalNumberOfFilesReadWithCustomerError != null)
         'TotalNumberOfFilesReadWithCustomerError':
             totalNumberOfFilesReadWithCustomerError,
@@ -1428,7 +1445,8 @@ class JobProgressReport {
       if (totalNumberOfScannedFiles != null)
         'TotalNumberOfScannedFiles': totalNumberOfScannedFiles,
       if (totalSizeOfScannedFilesInMB != null)
-        'TotalSizeOfScannedFilesInMB': totalSizeOfScannedFilesInMB,
+        'TotalSizeOfScannedFilesInMB':
+            _s.encodeJsonDouble(totalSizeOfScannedFilesInMB),
     };
   }
 }

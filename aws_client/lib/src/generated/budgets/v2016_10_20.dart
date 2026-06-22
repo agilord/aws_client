@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_10_20.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Use the Amazon Web Services Budgets API to plan your service usage, service
@@ -81,22 +83,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Services Cost Management Pricing</a>.
 class Budgets {
   final _s.JsonProtocol _protocol;
-  Budgets({
+  factory Budgets({
     String? region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'budgets',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'budgets',
+    );
+    return Budgets._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Budgets._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2123,7 +2140,7 @@ class Notification {
           (json['ComparisonOperator'] as String?) ?? ''),
       notificationType: NotificationType.fromString(
           (json['NotificationType'] as String?) ?? ''),
-      threshold: (json['Threshold'] as double?) ?? 0,
+      threshold: _s.parseJsonDouble(json['Threshold']) ?? 0,
       notificationState: (json['NotificationState'] as String?)
           ?.let(NotificationState.fromString),
       thresholdType:
@@ -2140,7 +2157,7 @@ class Notification {
     return {
       'ComparisonOperator': comparisonOperator.value,
       'NotificationType': notificationType.value,
-      'Threshold': threshold,
+      'Threshold': _s.encodeJsonDouble(threshold),
       if (notificationState != null)
         'NotificationState': notificationState.value,
       if (thresholdType != null) 'ThresholdType': thresholdType.value,
@@ -2469,7 +2486,8 @@ class ActionThreshold {
     return ActionThreshold(
       actionThresholdType: ThresholdType.fromString(
           (json['ActionThresholdType'] as String?) ?? ''),
-      actionThresholdValue: (json['ActionThresholdValue'] as double?) ?? 0,
+      actionThresholdValue:
+          _s.parseJsonDouble(json['ActionThresholdValue']) ?? 0,
     );
   }
 
@@ -2478,7 +2496,7 @@ class ActionThreshold {
     final actionThresholdValue = this.actionThresholdValue;
     return {
       'ActionThresholdType': actionThresholdType.value,
-      'ActionThresholdValue': actionThresholdValue,
+      'ActionThresholdValue': _s.encodeJsonDouble(actionThresholdValue),
     };
   }
 }

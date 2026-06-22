@@ -12,27 +12,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
   RestXmlServiceBuilder(this.api);
 
   @override
-  String constructor() {
-    final isRegionRequired = !api.isGlobalService;
-    return '''
-    final _s.RestXmlProtocol _protocol;
-    ${api.metadata.className}({
-      ${isRegionRequired ? 'required String' : 'String?'} region,
-      _s.AwsClientCredentials? credentials,
-      _s.AwsClientCredentialsProvider? credentialsProvider,
-      _s.Client? client,
-      String? endpointUrl,
-    })
-    : _protocol = _s.RestXmlProtocol(
-        client: client, 
-        service: ${buildServiceMetadata(api)}, 
-        region: region, 
-        credentials: credentials, 
-        credentialsProvider: credentialsProvider, 
-        endpointUrl: endpointUrl,
-      );
-    ''';
-  }
+  String constructor() => buildProtocolConstructor(api, 'RestXmlProtocol');
 
   @override
   String imports() => '';
@@ -67,8 +47,11 @@ class RestXmlServiceBuilder extends ServiceBuilder {
       } else if (payloadMember.shapeClass!.type.isBasicType()) {
         payloadArg = payloadMember.fieldName;
       } else {
+        final payloadTag = payloadMember.locationName ??
+            payloadMember.shapeClass!.locationName ??
+            payloadMember.shapeClass!.name;
         payloadArg =
-            '${payloadMember.fieldName}${payloadMember.isRequired ? '' : '?'}.toXml(\'${payloadMember.locationName ?? shapeClass.payload}\')';
+            '${payloadMember.fieldName}${payloadMember.isRequired ? '' : '?'}.toXml(\'$payloadTag\')';
       }
     } else if (shapeClass != null) {
       final bodyMembers = shapeClass.members.where((m) => m.isBody);
@@ -95,6 +78,8 @@ class RestXmlServiceBuilder extends ServiceBuilder {
       if (shapeClass?.hasQueryMembers ?? false) 'queryParams: \$query,',
       if (shapeClass?.hasHeaderMembers ?? false) 'headers: headers,',
       if (payloadArg != null) 'payload: $payloadArg,',
+      if (buildOperationEndpoint(api, operation) case final ep?) ep,
+      if (buildHostPrefix(operation) case final hp?) hp,
       'exceptionFnMap: _exceptionFns,',
     ];
     var resultWrapperParam = '';
@@ -154,9 +139,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
             final extractor = extractXmlCode(
               member.shapeClass!,
               elemVar: '\$elem',
-              elemName: member.locationName ??
-                  member.shapeClass!.locationName ??
-                  member.name,
+              elemName: member.locationName ?? member.name,
               flattened: member.flattened,
               container: operation.output!.shapeClass!,
               member: member,

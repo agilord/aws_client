@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_08_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the Amazon AppFlow API reference. This guide is for developers
@@ -67,22 +69,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <i>Authorize Apps with OAuth</i> </a> documentation.
 class Appflow {
   final _s.RestJsonProtocol _protocol;
-  Appflow({
+  factory Appflow({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'appflow',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'appflow',
+    );
+    return Appflow._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Appflow._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -11206,8 +11223,8 @@ class Range {
 
   factory Range.fromJson(Map<String, dynamic> json) {
     return Range(
-      maximum: json['maximum'] as double?,
-      minimum: json['minimum'] as double?,
+      maximum: _s.parseJsonDouble(json['maximum']),
+      minimum: _s.parseJsonDouble(json['minimum']),
     );
   }
 
@@ -11215,8 +11232,8 @@ class Range {
     final maximum = this.maximum;
     final minimum = this.minimum;
     return {
-      if (maximum != null) 'maximum': maximum,
-      if (minimum != null) 'minimum': minimum,
+      if (maximum != null) 'maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'minimum': _s.encodeJsonDouble(minimum),
     };
   }
 }

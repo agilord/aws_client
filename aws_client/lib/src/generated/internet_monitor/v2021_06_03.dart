@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_06_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon CloudWatch Internet Monitor provides visibility into how internet
@@ -55,22 +57,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Guide</i>.
 class InternetMonitor {
   final _s.RestJsonProtocol _protocol;
-  InternetMonitor({
+  factory InternetMonitor({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'internetmonitor',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'internetmonitor',
+    );
+    return InternetMonitor._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  InternetMonitor._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1634,9 +1651,9 @@ class GetHealthEventOutput {
       status: HealthEventStatus.fromString((json['Status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
-      healthScoreThreshold: json['HealthScoreThreshold'] as double?,
+      healthScoreThreshold: _s.parseJsonDouble(json['HealthScoreThreshold']),
       percentOfTotalTrafficImpacted:
-          json['PercentOfTotalTrafficImpacted'] as double?,
+          _s.parseJsonDouble(json['PercentOfTotalTrafficImpacted']),
     );
   }
 
@@ -1663,9 +1680,10 @@ class GetHealthEventOutput {
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
       if (healthScoreThreshold != null)
-        'HealthScoreThreshold': healthScoreThreshold,
+        'HealthScoreThreshold': _s.encodeJsonDouble(healthScoreThreshold),
       if (percentOfTotalTrafficImpacted != null)
-        'PercentOfTotalTrafficImpacted': percentOfTotalTrafficImpacted,
+        'PercentOfTotalTrafficImpacted':
+            _s.encodeJsonDouble(percentOfTotalTrafficImpacted),
     };
   }
 }
@@ -1779,9 +1797,9 @@ class HealthEvent {
       status: HealthEventStatus.fromString((json['Status'] as String?) ?? ''),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
-      healthScoreThreshold: json['HealthScoreThreshold'] as double?,
+      healthScoreThreshold: _s.parseJsonDouble(json['HealthScoreThreshold']),
       percentOfTotalTrafficImpacted:
-          json['PercentOfTotalTrafficImpacted'] as double?,
+          _s.parseJsonDouble(json['PercentOfTotalTrafficImpacted']),
     );
   }
 
@@ -1808,9 +1826,10 @@ class HealthEvent {
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
       if (healthScoreThreshold != null)
-        'HealthScoreThreshold': healthScoreThreshold,
+        'HealthScoreThreshold': _s.encodeJsonDouble(healthScoreThreshold),
       if (percentOfTotalTrafficImpacted != null)
-        'PercentOfTotalTrafficImpacted': percentOfTotalTrafficImpacted,
+        'PercentOfTotalTrafficImpacted':
+            _s.encodeJsonDouble(percentOfTotalTrafficImpacted),
     };
   }
 }
@@ -1979,8 +1998,8 @@ class ImpactedLocation {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      latitude: json['Latitude'] as double?,
-      longitude: json['Longitude'] as double?,
+      latitude: _s.parseJsonDouble(json['Latitude']),
+      longitude: _s.parseJsonDouble(json['Longitude']),
       metro: json['Metro'] as String?,
       serviceLocation: json['ServiceLocation'] as String?,
       subdivision: json['Subdivision'] as String?,
@@ -2014,8 +2033,8 @@ class ImpactedLocation {
       if (countryCode != null) 'CountryCode': countryCode,
       if (internetHealth != null) 'InternetHealth': internetHealth,
       if (ipv4Prefixes != null) 'Ipv4Prefixes': ipv4Prefixes,
-      if (latitude != null) 'Latitude': latitude,
-      if (longitude != null) 'Longitude': longitude,
+      if (latitude != null) 'Latitude': _s.encodeJsonDouble(latitude),
+      if (longitude != null) 'Longitude': _s.encodeJsonDouble(longitude),
       if (metro != null) 'Metro': metro,
       if (serviceLocation != null) 'ServiceLocation': serviceLocation,
       if (subdivision != null) 'Subdivision': subdivision,
@@ -2208,11 +2227,11 @@ class AvailabilityMeasurement {
 
   factory AvailabilityMeasurement.fromJson(Map<String, dynamic> json) {
     return AvailabilityMeasurement(
-      experienceScore: json['ExperienceScore'] as double?,
+      experienceScore: _s.parseJsonDouble(json['ExperienceScore']),
       percentOfClientLocationImpacted:
-          json['PercentOfClientLocationImpacted'] as double?,
+          _s.parseJsonDouble(json['PercentOfClientLocationImpacted']),
       percentOfTotalTrafficImpacted:
-          json['PercentOfTotalTrafficImpacted'] as double?,
+          _s.parseJsonDouble(json['PercentOfTotalTrafficImpacted']),
     );
   }
 
@@ -2222,11 +2241,14 @@ class AvailabilityMeasurement {
         this.percentOfClientLocationImpacted;
     final percentOfTotalTrafficImpacted = this.percentOfTotalTrafficImpacted;
     return {
-      if (experienceScore != null) 'ExperienceScore': experienceScore,
+      if (experienceScore != null)
+        'ExperienceScore': _s.encodeJsonDouble(experienceScore),
       if (percentOfClientLocationImpacted != null)
-        'PercentOfClientLocationImpacted': percentOfClientLocationImpacted,
+        'PercentOfClientLocationImpacted':
+            _s.encodeJsonDouble(percentOfClientLocationImpacted),
       if (percentOfTotalTrafficImpacted != null)
-        'PercentOfTotalTrafficImpacted': percentOfTotalTrafficImpacted,
+        'PercentOfTotalTrafficImpacted':
+            _s.encodeJsonDouble(percentOfTotalTrafficImpacted),
     };
   }
 }
@@ -2313,11 +2335,11 @@ class PerformanceMeasurement {
 
   factory PerformanceMeasurement.fromJson(Map<String, dynamic> json) {
     return PerformanceMeasurement(
-      experienceScore: json['ExperienceScore'] as double?,
+      experienceScore: _s.parseJsonDouble(json['ExperienceScore']),
       percentOfClientLocationImpacted:
-          json['PercentOfClientLocationImpacted'] as double?,
+          _s.parseJsonDouble(json['PercentOfClientLocationImpacted']),
       percentOfTotalTrafficImpacted:
-          json['PercentOfTotalTrafficImpacted'] as double?,
+          _s.parseJsonDouble(json['PercentOfTotalTrafficImpacted']),
       roundTripTime: json['RoundTripTime'] != null
           ? RoundTripTime.fromJson(
               json['RoundTripTime'] as Map<String, dynamic>)
@@ -2332,11 +2354,14 @@ class PerformanceMeasurement {
     final percentOfTotalTrafficImpacted = this.percentOfTotalTrafficImpacted;
     final roundTripTime = this.roundTripTime;
     return {
-      if (experienceScore != null) 'ExperienceScore': experienceScore,
+      if (experienceScore != null)
+        'ExperienceScore': _s.encodeJsonDouble(experienceScore),
       if (percentOfClientLocationImpacted != null)
-        'PercentOfClientLocationImpacted': percentOfClientLocationImpacted,
+        'PercentOfClientLocationImpacted':
+            _s.encodeJsonDouble(percentOfClientLocationImpacted),
       if (percentOfTotalTrafficImpacted != null)
-        'PercentOfTotalTrafficImpacted': percentOfTotalTrafficImpacted,
+        'PercentOfTotalTrafficImpacted':
+            _s.encodeJsonDouble(percentOfTotalTrafficImpacted),
       if (roundTripTime != null) 'RoundTripTime': roundTripTime,
     };
   }
@@ -2365,9 +2390,9 @@ class RoundTripTime {
 
   factory RoundTripTime.fromJson(Map<String, dynamic> json) {
     return RoundTripTime(
-      p50: json['P50'] as double?,
-      p90: json['P90'] as double?,
-      p95: json['P95'] as double?,
+      p50: _s.parseJsonDouble(json['P50']),
+      p90: _s.parseJsonDouble(json['P90']),
+      p95: _s.parseJsonDouble(json['P95']),
     );
   }
 
@@ -2376,9 +2401,9 @@ class RoundTripTime {
     final p90 = this.p90;
     final p95 = this.p95;
     return {
-      if (p50 != null) 'P50': p50,
-      if (p90 != null) 'P90': p90,
-      if (p95 != null) 'P95': p95,
+      if (p50 != null) 'P50': _s.encodeJsonDouble(p50),
+      if (p90 != null) 'P90': _s.encodeJsonDouble(p90),
+      if (p95 != null) 'P95': _s.encodeJsonDouble(p95),
     };
   }
 }
@@ -2833,14 +2858,16 @@ class HealthEventsConfig {
                   json['AvailabilityLocalHealthEventsConfig']
                       as Map<String, dynamic>)
               : null,
-      availabilityScoreThreshold: json['AvailabilityScoreThreshold'] as double?,
+      availabilityScoreThreshold:
+          _s.parseJsonDouble(json['AvailabilityScoreThreshold']),
       performanceLocalHealthEventsConfig:
           json['PerformanceLocalHealthEventsConfig'] != null
               ? LocalHealthEventsConfig.fromJson(
                   json['PerformanceLocalHealthEventsConfig']
                       as Map<String, dynamic>)
               : null,
-      performanceScoreThreshold: json['PerformanceScoreThreshold'] as double?,
+      performanceScoreThreshold:
+          _s.parseJsonDouble(json['PerformanceScoreThreshold']),
     );
   }
 
@@ -2856,12 +2883,14 @@ class HealthEventsConfig {
         'AvailabilityLocalHealthEventsConfig':
             availabilityLocalHealthEventsConfig,
       if (availabilityScoreThreshold != null)
-        'AvailabilityScoreThreshold': availabilityScoreThreshold,
+        'AvailabilityScoreThreshold':
+            _s.encodeJsonDouble(availabilityScoreThreshold),
       if (performanceLocalHealthEventsConfig != null)
         'PerformanceLocalHealthEventsConfig':
             performanceLocalHealthEventsConfig,
       if (performanceScoreThreshold != null)
-        'PerformanceScoreThreshold': performanceScoreThreshold,
+        'PerformanceScoreThreshold':
+            _s.encodeJsonDouble(performanceScoreThreshold),
     };
   }
 }
@@ -2911,8 +2940,8 @@ class LocalHealthEventsConfig {
 
   factory LocalHealthEventsConfig.fromJson(Map<String, dynamic> json) {
     return LocalHealthEventsConfig(
-      healthScoreThreshold: json['HealthScoreThreshold'] as double?,
-      minTrafficImpact: json['MinTrafficImpact'] as double?,
+      healthScoreThreshold: _s.parseJsonDouble(json['HealthScoreThreshold']),
+      minTrafficImpact: _s.parseJsonDouble(json['MinTrafficImpact']),
       status: (json['Status'] as String?)
           ?.let(LocalHealthEventsConfigStatus.fromString),
     );
@@ -2924,8 +2953,9 @@ class LocalHealthEventsConfig {
     final status = this.status;
     return {
       if (healthScoreThreshold != null)
-        'HealthScoreThreshold': healthScoreThreshold,
-      if (minTrafficImpact != null) 'MinTrafficImpact': minTrafficImpact,
+        'HealthScoreThreshold': _s.encodeJsonDouble(healthScoreThreshold),
+      if (minTrafficImpact != null)
+        'MinTrafficImpact': _s.encodeJsonDouble(minTrafficImpact),
       if (status != null) 'Status': status.value,
     };
   }
@@ -3161,8 +3191,8 @@ class ClientLocation {
       aSNumber: (json['ASNumber'] as int?) ?? 0,
       city: (json['City'] as String?) ?? '',
       country: (json['Country'] as String?) ?? '',
-      latitude: (json['Latitude'] as double?) ?? 0,
-      longitude: (json['Longitude'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['Latitude']) ?? 0,
+      longitude: _s.parseJsonDouble(json['Longitude']) ?? 0,
       metro: json['Metro'] as String?,
       subdivision: json['Subdivision'] as String?,
     );
@@ -3182,8 +3212,8 @@ class ClientLocation {
       'ASNumber': aSNumber,
       'City': city,
       'Country': country,
-      'Latitude': latitude,
-      'Longitude': longitude,
+      'Latitude': _s.encodeJsonDouble(latitude),
+      'Longitude': _s.encodeJsonDouble(longitude),
       if (metro != null) 'Metro': metro,
       if (subdivision != null) 'Subdivision': subdivision,
     };

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_09_21.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic Container Registry (Amazon ECR) is a managed container image
@@ -29,23 +31,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// instances can access repositories and images.
 class Ecr {
   final _s.JsonProtocol _protocol;
-  Ecr({
+  factory Ecr({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'api.ecr',
-            signingName: 'ecr',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'api.ecr',
+      signingName: 'ecr',
+    );
+    return Ecr._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Ecr._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -7802,7 +7819,7 @@ class EnhancedImageScanFinding {
           ?.nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
       scoreDetails: json['scoreDetails'] != null
           ? ScoreDetails.fromJson(json['scoreDetails'] as Map<String, dynamic>)
           : null,
@@ -7846,7 +7863,7 @@ class EnhancedImageScanFinding {
         'packageVulnerabilityDetails': packageVulnerabilityDetails,
       if (remediation != null) 'remediation': remediation,
       if (resources != null) 'resources': resources,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
       if (scoreDetails != null) 'scoreDetails': scoreDetails,
       if (severity != null) 'severity': severity,
       if (status != null) 'status': status,
@@ -8052,7 +8069,7 @@ class CvssScoreDetails {
           ?.nonNulls
           .map((e) => CvssScoreAdjustment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
       scoreSource: json['scoreSource'] as String?,
       scoringVector: json['scoringVector'] as String?,
       version: json['version'] as String?,
@@ -8067,7 +8084,7 @@ class CvssScoreDetails {
     final version = this.version;
     return {
       if (adjustments != null) 'adjustments': adjustments,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
       if (scoreSource != null) 'scoreSource': scoreSource,
       if (scoringVector != null) 'scoringVector': scoringVector,
       if (version != null) 'version': version,
@@ -8416,7 +8433,7 @@ class CvssScore {
 
   factory CvssScore.fromJson(Map<String, dynamic> json) {
     return CvssScore(
-      baseScore: json['baseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['baseScore']),
       scoringVector: json['scoringVector'] as String?,
       source: json['source'] as String?,
       version: json['version'] as String?,
@@ -8429,7 +8446,7 @@ class CvssScore {
     final source = this.source;
     final version = this.version;
     return {
-      if (baseScore != null) 'baseScore': baseScore,
+      if (baseScore != null) 'baseScore': _s.encodeJsonDouble(baseScore),
       if (scoringVector != null) 'scoringVector': scoringVector,
       if (source != null) 'source': source,
       if (version != null) 'version': version,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_11_14.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the Elemental MediaConnect API reference.
@@ -54,22 +56,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class MediaConnect {
   final _s.RestJsonProtocol _protocol;
-  MediaConnect({
+  factory MediaConnect({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'mediaconnect',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'mediaconnect',
+    );
+    return MediaConnect._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  MediaConnect._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -12403,7 +12420,7 @@ class EncodingParameters {
 
   factory EncodingParameters.fromJson(Map<String, dynamic> json) {
     return EncodingParameters(
-      compressionFactor: (json['compressionFactor'] as double?) ?? 0,
+      compressionFactor: _s.parseJsonDouble(json['compressionFactor']) ?? 0,
       encoderProfile:
           EncoderProfile.fromString((json['encoderProfile'] as String?) ?? ''),
     );
@@ -12413,7 +12430,7 @@ class EncodingParameters {
     final compressionFactor = this.compressionFactor;
     final encoderProfile = this.encoderProfile;
     return {
-      'compressionFactor': compressionFactor,
+      'compressionFactor': _s.encodeJsonDouble(compressionFactor),
       'encoderProfile': encoderProfile.value,
     };
   }
@@ -12570,7 +12587,7 @@ class EncodingParametersRequest {
     final compressionFactor = this.compressionFactor;
     final encoderProfile = this.encoderProfile;
     return {
-      'compressionFactor': compressionFactor,
+      'compressionFactor': _s.encodeJsonDouble(compressionFactor),
       'encoderProfile': encoderProfile.value,
     };
   }

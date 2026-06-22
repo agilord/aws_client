@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2024_02_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the Amazon Bedrock AgentCore Data Plane API reference. Data Plane
@@ -25,22 +27,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// services.
 class BedrockAgentCore {
   final _s.RestJsonProtocol _protocol;
-  BedrockAgentCore({
+  factory BedrockAgentCore({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'bedrock-agentcore',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'bedrock-agentcore',
+    );
+    return BedrockAgentCore._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  BedrockAgentCore._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8454,7 +8471,7 @@ class MemoryRecordSummary {
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k,
               MemoryRecordMetadataValue.fromJson(e as Map<String, dynamic>))),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -8473,7 +8490,7 @@ class MemoryRecordSummary {
       'memoryStrategyId': memoryStrategyId,
       'namespaces': namespaces,
       if (metadata != null) 'metadata': metadata,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -8529,7 +8546,7 @@ class MemoryRecordMetadataValue {
   factory MemoryRecordMetadataValue.fromJson(Map<String, dynamic> json) {
     return MemoryRecordMetadataValue(
       dateTimeValue: timeStampFromJson(json['dateTimeValue']),
-      numberValue: json['numberValue'] as double?,
+      numberValue: _s.parseJsonDouble(json['numberValue']),
       stringListValue: (json['stringListValue'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8546,7 +8563,7 @@ class MemoryRecordMetadataValue {
     return {
       if (dateTimeValue != null)
         'dateTimeValue': unixTimestampToJson(dateTimeValue),
-      if (numberValue != null) 'numberValue': numberValue,
+      if (numberValue != null) 'numberValue': _s.encodeJsonDouble(numberValue),
       if (stringListValue != null) 'stringListValue': stringListValue,
       if (stringValue != null) 'stringValue': stringValue,
     };
@@ -10523,7 +10540,7 @@ class FilterValue {
   factory FilterValue.fromJson(Map<String, dynamic> json) {
     return FilterValue(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       stringValue: json['stringValue'] as String?,
     );
   }
@@ -10534,7 +10551,7 @@ class FilterValue {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (stringValue != null) 'stringValue': stringValue,
     };
   }
@@ -11579,14 +11596,15 @@ class EvaluatorStatistics {
 
   factory EvaluatorStatistics.fromJson(Map<String, dynamic> json) {
     return EvaluatorStatistics(
-      averageScore: json['averageScore'] as double?,
+      averageScore: _s.parseJsonDouble(json['averageScore']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final averageScore = this.averageScore;
     return {
-      if (averageScore != null) 'averageScore': averageScore,
+      if (averageScore != null)
+        'averageScore': _s.encodeJsonDouble(averageScore),
     };
   }
 }
@@ -11999,7 +12017,7 @@ class ControlStats {
 
   factory ControlStats.fromJson(Map<String, dynamic> json) {
     return ControlStats(
-      mean: (json['mean'] as double?) ?? 0,
+      mean: _s.parseJsonDouble(json['mean']) ?? 0,
       sampleSize: (json['sampleSize'] as int?) ?? 0,
       variantName: (json['variantName'] as String?) ?? '',
     );
@@ -12010,7 +12028,7 @@ class ControlStats {
     final sampleSize = this.sampleSize;
     final variantName = this.variantName;
     return {
-      'mean': mean,
+      'mean': _s.encodeJsonDouble(mean),
       'sampleSize': sampleSize,
       'variantName': variantName,
     };
@@ -12060,16 +12078,16 @@ class VariantResult {
   factory VariantResult.fromJson(Map<String, dynamic> json) {
     return VariantResult(
       isSignificant: (json['isSignificant'] as bool?) ?? false,
-      mean: (json['mean'] as double?) ?? 0,
+      mean: _s.parseJsonDouble(json['mean']) ?? 0,
       sampleSize: (json['sampleSize'] as int?) ?? 0,
       variantName: (json['variantName'] as String?) ?? '',
-      absoluteChange: json['absoluteChange'] as double?,
+      absoluteChange: _s.parseJsonDouble(json['absoluteChange']),
       confidenceInterval: json['confidenceInterval'] != null
           ? ConfidenceInterval.fromJson(
               json['confidenceInterval'] as Map<String, dynamic>)
           : null,
-      pValue: json['pValue'] as double?,
-      percentChange: json['percentChange'] as double?,
+      pValue: _s.parseJsonDouble(json['pValue']),
+      percentChange: _s.parseJsonDouble(json['percentChange']),
     );
   }
 
@@ -12084,13 +12102,15 @@ class VariantResult {
     final percentChange = this.percentChange;
     return {
       'isSignificant': isSignificant,
-      'mean': mean,
+      'mean': _s.encodeJsonDouble(mean),
       'sampleSize': sampleSize,
       'variantName': variantName,
-      if (absoluteChange != null) 'absoluteChange': absoluteChange,
+      if (absoluteChange != null)
+        'absoluteChange': _s.encodeJsonDouble(absoluteChange),
       if (confidenceInterval != null) 'confidenceInterval': confidenceInterval,
-      if (pValue != null) 'pValue': pValue,
-      if (percentChange != null) 'percentChange': percentChange,
+      if (pValue != null) 'pValue': _s.encodeJsonDouble(pValue),
+      if (percentChange != null)
+        'percentChange': _s.encodeJsonDouble(percentChange),
     };
   }
 }
@@ -12112,8 +12132,8 @@ class ConfidenceInterval {
 
   factory ConfidenceInterval.fromJson(Map<String, dynamic> json) {
     return ConfidenceInterval(
-      lower: json['lower'] as double?,
-      upper: json['upper'] as double?,
+      lower: _s.parseJsonDouble(json['lower']),
+      upper: _s.parseJsonDouble(json['upper']),
     );
   }
 
@@ -12121,8 +12141,8 @@ class ConfidenceInterval {
     final lower = this.lower;
     final upper = this.upper;
     return {
-      if (lower != null) 'lower': lower,
-      if (upper != null) 'upper': upper,
+      if (lower != null) 'lower': _s.encodeJsonDouble(lower),
+      if (upper != null) 'upper': _s.encodeJsonDouble(upper),
     };
   }
 }
@@ -12225,7 +12245,7 @@ class EvaluationResultContent {
       tokenUsage: json['tokenUsage'] != null
           ? TokenUsage.fromJson(json['tokenUsage'] as Map<String, dynamic>)
           : null,
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -12253,7 +12273,7 @@ class EvaluationResultContent {
         'ignoredReferenceInputFields': ignoredReferenceInputFields,
       if (label != null) 'label': label,
       if (tokenUsage != null) 'tokenUsage': tokenUsage,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -15734,8 +15754,8 @@ class HarnessBedrockModelConfig {
       if (additionalParams != null) 'additionalParams': additionalParams,
       if (apiFormat != null) 'apiFormat': apiFormat.value,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -15791,8 +15811,8 @@ class HarnessOpenAiModelConfig {
       if (additionalParams != null) 'additionalParams': additionalParams,
       if (apiFormat != null) 'apiFormat': apiFormat.value,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -15841,9 +15861,9 @@ class HarnessGeminiModelConfig {
       'apiKeyArn': apiKeyArn,
       'modelId': modelId,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,
-      if (topP != null) 'topP': topP,
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -15900,8 +15920,8 @@ class HarnessLiteLlmModelConfig {
       if (apiBase != null) 'apiBase': apiBase,
       if (apiKeyArn != null) 'apiKeyArn': apiKeyArn,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -16356,7 +16376,7 @@ class ToolResultStructuredContent {
 
   factory ToolResultStructuredContent.fromJson(Map<String, dynamic> json) {
     return ToolResultStructuredContent(
-      executionTime: json['executionTime'] as double?,
+      executionTime: _s.parseJsonDouble(json['executionTime']),
       exitCode: json['exitCode'] as int?,
       stderr: json['stderr'] as String?,
       stdout: json['stdout'] as String?,
@@ -16373,7 +16393,8 @@ class ToolResultStructuredContent {
     final taskId = this.taskId;
     final taskStatus = this.taskStatus;
     return {
-      if (executionTime != null) 'executionTime': executionTime,
+      if (executionTime != null)
+        'executionTime': _s.encodeJsonDouble(executionTime),
       if (exitCode != null) 'exitCode': exitCode,
       if (stderr != null) 'stderr': stderr,
       if (stdout != null) 'stdout': stdout,

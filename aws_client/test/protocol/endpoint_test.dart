@@ -2,97 +2,88 @@ import 'package:aws_client/src/shared/src/protocol/endpoint.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Endpoint.fromConfig', () {
-    test('Create url for service', () {
-      expect(
-        Endpoint.fromConfig(ServiceMetadata(endpointPrefix: 's3'),
-            region: 'eu-west-1'),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 's3'),
-          url: 'https://s3.eu-west-1.amazonaws.com',
-          signingRegion: 'eu-west-1',
-          signatureVersion: 's3',
-        ),
-      );
-      expect(
-        Endpoint.fromConfig(ServiceMetadata(endpointPrefix: 'a4b'),
-            region: 'af-south-1'),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 'a4b'),
-          url: 'https://a4b.af-south-1.amazonaws.com',
-          signingRegion: 'af-south-1',
-          signatureVersion: 'v4',
-        ),
-      );
-      expect(
-        Endpoint.fromConfig(ServiceMetadata(endpointPrefix: 'lambda'),
-            region: 'us-west-2'),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 'lambda'),
-          url: 'https://lambda.us-west-2.amazonaws.com',
-          signingRegion: 'us-west-2',
-          signatureVersion: 'v4',
-        ),
-      );
-    });
-
-    test('Throw if region is not provided when required', () {
-      expect(
-        () => Endpoint.fromConfig(ServiceMetadata(endpointPrefix: 's3')),
-        throwsA(isA<ArgumentError>()),
-      );
-    });
-
-    test('Infer signing region for global services', () {
-      expect(
-        Endpoint.fromConfig(ServiceMetadata(endpointPrefix: 'iam')),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 'iam'),
-          url: 'https://iam.amazonaws.com',
-          signingRegion: 'us-east-1',
-          signatureVersion: 'v4',
-        ),
-      );
-    });
-
-    test('Use correct signing region for global services', () {
-      expect(
-        Endpoint.fromConfig(ServiceMetadata(endpointPrefix: 'iam'),
-            region: 'eu-west-1'),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 'iam'),
-          url: 'https://iam.amazonaws.com',
-          signingRegion: 'us-east-1',
-          signatureVersion: 'v4',
-        ),
-      );
-    });
+  test('fromResolved extracts the signing region and name', () {
+    final ep = Endpoint.fromResolved(
+      const ResolvedEndpoint(
+        url: 'https://example.eu-west-1.amazonaws.com',
+        authSchemes: [
+          EndpointAuthScheme(
+              name: 'sigv4',
+              signingName: 'example',
+              signingRegion: 'eu-west-1'),
+        ],
+      ),
+      service: ServiceMetadata(endpointPrefix: 'example'),
+      region: 'eu-west-1',
+    );
+    expect(ep.url, 'https://example.eu-west-1.amazonaws.com');
+    expect(ep.signingRegion, 'eu-west-1');
+    expect(ep.service.signingName, 'example');
   });
-  group('Endpoint.forProtocol', () {
-    test('Infer endpoint', () {
-      expect(
-        Endpoint.forProtocol(service: ServiceMetadata(endpointPrefix: 'iam')),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 'iam'),
-          url: 'https://iam.amazonaws.com',
-          signingRegion: 'us-east-1',
-          signatureVersion: 'v4',
+
+  test('fromResolved falls back to the passed region without an auth scheme',
+      () {
+    final ep = Endpoint.fromResolved(
+      const ResolvedEndpoint(url: 'https://example.amazonaws.com'),
+      service: ServiceMetadata(endpointPrefix: 'example'),
+      region: 'us-east-1',
+    );
+    expect(ep.signingRegion, 'us-east-1');
+  });
+
+  test('fromResolved uses the first signingRegionSet entry', () {
+    final ep = Endpoint.fromResolved(
+      const ResolvedEndpoint(
+        url: 'https://example.amazonaws.com',
+        authSchemes: [
+          EndpointAuthScheme(name: 'sigv4', signingRegionSet: ['us-east-1']),
+        ],
+      ),
+      service: ServiceMetadata(endpointPrefix: 'example'),
+    );
+    expect(ep.signingRegion, 'us-east-1');
+  });
+
+  test('fromResolved throws on unsupported SigV4A signing', () {
+    expect(
+      () => Endpoint.fromResolved(
+        const ResolvedEndpoint(
+          url: 'https://example.amazonaws.com',
+          authSchemes: [
+            EndpointAuthScheme(name: 'sigv4a', signingRegionSet: ['*']),
+          ],
         ),
-      );
-    });
-    test('Custom endpointUrl', () {
-      expect(
-        Endpoint.forProtocol(
-            service: ServiceMetadata(endpointPrefix: 'iam'),
-            endpointUrl: 'https://test.com',
-            region: 'us-gov-1'),
-        Endpoint(
-          service: ServiceMetadata(endpointPrefix: 'iam'),
-          url: 'https://test.com',
-          signingRegion: 'us-gov-1',
-          signatureVersion: 'v4',
-        ),
-      );
-    });
+        service: ServiceMetadata(endpointPrefix: 'example'),
+        region: 'us-east-1',
+      ),
+      throwsA(isA<UnsupportedError>()),
+    );
+  });
+
+  test('forProtocol uses a custom endpointUrl', () {
+    final ep = Endpoint.forProtocol(
+      service: ServiceMetadata(endpointPrefix: 'example'),
+      region: 'eu-west-1',
+      endpointUrl: 'https://localhost:4566',
+    );
+    expect(ep.url, 'https://localhost:4566');
+    expect(ep.signingRegion, 'eu-west-1');
+  });
+
+  test('forProtocol builds the default regional pattern', () {
+    final ep = Endpoint.forProtocol(
+      service: ServiceMetadata(endpointPrefix: 'example'),
+      region: 'us-east-1',
+    );
+    expect(ep.url, 'https://example.us-east-1.amazonaws.com');
+    expect(ep.signingRegion, 'us-east-1');
+  });
+
+  test('forProtocol infers the service from a custom endpointUrl', () {
+    final ep = Endpoint.forProtocol(
+      endpointUrl: 'https://s3.eu-central-1.amazonaws.com',
+    );
+    expect(ep.service.endpointPrefix, 's3');
+    expect(ep.signingRegion, 'eu-central-1');
   });
 }

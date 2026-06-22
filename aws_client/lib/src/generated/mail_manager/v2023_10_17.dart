@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_10_17.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The Amazon SES Mail Manager API contains operations and data types that
@@ -25,23 +27,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="http://aws.amazon.com/ses">Amazon Simple Email Service (SES)</a>.
 class MailManager {
   final _s.JsonProtocol _protocol;
-  MailManager({
+  factory MailManager({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'mail-manager',
-            signingName: 'ses',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'mail-manager',
+      signingName: 'ses',
+    );
+    return MailManager._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  MailManager._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6394,7 +6411,7 @@ class RuleNumberExpression {
               const <String, dynamic>{}),
       operator:
           RuleNumberOperator.fromString((json['Operator'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -6405,7 +6422,7 @@ class RuleNumberExpression {
     return {
       'Evaluate': evaluate,
       'Operator': operator.value,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }

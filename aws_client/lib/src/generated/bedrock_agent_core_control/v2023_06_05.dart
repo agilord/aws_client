@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_06_05.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control
@@ -25,23 +27,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// resources.
 class BedrockAgentCoreControl {
   final _s.RestJsonProtocol _protocol;
-  BedrockAgentCoreControl({
+  factory BedrockAgentCoreControl({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'bedrock-agentcore-control',
-            signingName: 'bedrock-agentcore',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'bedrock-agentcore-control',
+      signingName: 'bedrock-agentcore',
+    );
+    return BedrockAgentCoreControl._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  BedrockAgentCoreControl._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -20088,14 +20105,14 @@ class SamplingConfig {
 
   factory SamplingConfig.fromJson(Map<String, dynamic> json) {
     return SamplingConfig(
-      samplingPercentage: (json['samplingPercentage'] as double?) ?? 0,
+      samplingPercentage: _s.parseJsonDouble(json['samplingPercentage']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final samplingPercentage = this.samplingPercentage;
     return {
-      'samplingPercentage': samplingPercentage,
+      'samplingPercentage': _s.encodeJsonDouble(samplingPercentage),
     };
   }
 }
@@ -20231,7 +20248,7 @@ class FilterValue {
   factory FilterValue.fromJson(Map<String, dynamic> json) {
     return FilterValue(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       stringValue: json['stringValue'] as String?,
     );
   }
@@ -20242,7 +20259,7 @@ class FilterValue {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (stringValue != null) 'stringValue': stringValue,
     };
   }
@@ -22707,8 +22724,8 @@ class NumberValidation {
 
   factory NumberValidation.fromJson(Map<String, dynamic> json) {
     return NumberValidation(
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
+      maxValue: _s.parseJsonDouble(json['maxValue']),
+      minValue: _s.parseJsonDouble(json['minValue']),
     );
   }
 
@@ -22716,8 +22733,8 @@ class NumberValidation {
     final maxValue = this.maxValue;
     final minValue = this.minValue;
     return {
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
+      if (maxValue != null) 'maxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'minValue': _s.encodeJsonDouble(minValue),
     };
   }
 }
@@ -25306,7 +25323,7 @@ class HarnessAgentCoreMemoryRetrievalConfig {
   factory HarnessAgentCoreMemoryRetrievalConfig.fromJson(
       Map<String, dynamic> json) {
     return HarnessAgentCoreMemoryRetrievalConfig(
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
       strategyId: json['strategyId'] as String?,
       topK: json['topK'] as int?,
     );
@@ -25317,7 +25334,8 @@ class HarnessAgentCoreMemoryRetrievalConfig {
     final strategyId = this.strategyId;
     final topK = this.topK;
     return {
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
       if (strategyId != null) 'strategyId': strategyId,
       if (topK != null) 'topK': topK,
     };
@@ -25858,7 +25876,7 @@ class HarnessSummarizationConfiguration {
     return HarnessSummarizationConfiguration(
       preserveRecentMessages: json['preserveRecentMessages'] as int?,
       summarizationSystemPrompt: json['summarizationSystemPrompt'] as String?,
-      summaryRatio: json['summaryRatio'] as double?,
+      summaryRatio: _s.parseJsonDouble(json['summaryRatio']),
     );
   }
 
@@ -25871,7 +25889,8 @@ class HarnessSummarizationConfiguration {
         'preserveRecentMessages': preserveRecentMessages,
       if (summarizationSystemPrompt != null)
         'summarizationSystemPrompt': summarizationSystemPrompt,
-      if (summaryRatio != null) 'summaryRatio': summaryRatio,
+      if (summaryRatio != null)
+        'summaryRatio': _s.encodeJsonDouble(summaryRatio),
     };
   }
 }
@@ -26535,8 +26554,8 @@ class HarnessBedrockModelConfig {
       apiFormat: (json['apiFormat'] as String?)
           ?.let(HarnessBedrockApiFormat.fromString),
       maxTokens: json['maxTokens'] as int?,
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -26552,8 +26571,8 @@ class HarnessBedrockModelConfig {
       if (additionalParams != null) 'additionalParams': additionalParams,
       if (apiFormat != null) 'apiFormat': apiFormat.value,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -26605,8 +26624,8 @@ class HarnessOpenAiModelConfig {
       apiFormat: (json['apiFormat'] as String?)
           ?.let(HarnessOpenAiApiFormat.fromString),
       maxTokens: json['maxTokens'] as int?,
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -26624,8 +26643,8 @@ class HarnessOpenAiModelConfig {
       if (additionalParams != null) 'additionalParams': additionalParams,
       if (apiFormat != null) 'apiFormat': apiFormat.value,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -26668,9 +26687,9 @@ class HarnessGeminiModelConfig {
       apiKeyArn: (json['apiKeyArn'] as String?) ?? '',
       modelId: (json['modelId'] as String?) ?? '',
       maxTokens: json['maxTokens'] as int?,
-      temperature: json['temperature'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
       topK: json['topK'] as int?,
-      topP: json['topP'] as double?,
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -26685,9 +26704,9 @@ class HarnessGeminiModelConfig {
       'apiKeyArn': apiKeyArn,
       'modelId': modelId,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,
-      if (topP != null) 'topP': topP,
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -26739,8 +26758,8 @@ class HarnessLiteLlmModelConfig {
       apiBase: json['apiBase'] as String?,
       apiKeyArn: json['apiKeyArn'] as String?,
       maxTokens: json['maxTokens'] as int?,
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -26758,8 +26777,8 @@ class HarnessLiteLlmModelConfig {
       if (apiBase != null) 'apiBase': apiBase,
       if (apiKeyArn != null) 'apiKeyArn': apiKeyArn,
       if (maxTokens != null) 'maxTokens': maxTokens,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -30294,8 +30313,8 @@ class InferenceConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      temperature: json['temperature'] as double?,
-      topP: json['topP'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -30307,8 +30326,8 @@ class InferenceConfiguration {
     return {
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -30372,7 +30391,7 @@ class NumericalScaleDefinition {
     return NumericalScaleDefinition(
       definition: (json['definition'] as String?) ?? '',
       label: (json['label'] as String?) ?? '',
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -30383,7 +30402,7 @@ class NumericalScaleDefinition {
     return {
       'definition': definition,
       'label': label,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }

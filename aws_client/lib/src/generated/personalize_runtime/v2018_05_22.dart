@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_05_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 ///
 class PersonalizeRuntime {
   final _s.RestJsonProtocol _protocol;
-  PersonalizeRuntime({
+  factory PersonalizeRuntime({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'personalize-runtime',
-            signingName: 'personalize',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'personalize-runtime',
+      signingName: 'personalize',
+    );
+    return PersonalizeRuntime._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  PersonalizeRuntime._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -528,7 +545,7 @@ class PredictedItem {
       promotionName: json['promotionName'] as String?,
       reason:
           (json['reason'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -543,7 +560,7 @@ class PredictedItem {
       if (metadata != null) 'metadata': metadata,
       if (promotionName != null) 'promotionName': promotionName,
       if (reason != null) 'reason': reason,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -627,7 +644,7 @@ class PredictedAction {
   factory PredictedAction.fromJson(Map<String, dynamic> json) {
     return PredictedAction(
       actionId: json['actionId'] as String?,
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -636,7 +653,7 @@ class PredictedAction {
     final score = this.score;
     return {
       if (actionId != null) 'actionId': actionId,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }

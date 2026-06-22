@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2014_05_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Route 53 API actions let you register domain names and perform
 /// related operations.
 class Route53Domains {
   final _s.JsonProtocol _protocol;
-  Route53Domains({
+  factory Route53Domains({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'route53domains',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'route53domains',
+    );
+    return Route53Domains._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Route53Domains._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3376,7 +3393,7 @@ class BillingRecord {
       domainName: json['DomainName'] as String?,
       invoiceId: json['InvoiceId'] as String?,
       operation: (json['Operation'] as String?)?.let(OperationType.fromString),
-      price: json['Price'] as double?,
+      price: _s.parseJsonDouble(json['Price']),
     );
   }
 
@@ -3391,7 +3408,7 @@ class BillingRecord {
       if (domainName != null) 'DomainName': domainName,
       if (invoiceId != null) 'InvoiceId': invoiceId,
       if (operation != null) 'Operation': operation.value,
-      if (price != null) 'Price': price,
+      if (price != null) 'Price': _s.encodeJsonDouble(price),
     };
   }
 }
@@ -3715,7 +3732,7 @@ class Consent {
     final maxPrice = this.maxPrice;
     return {
       'Currency': currency,
-      'MaxPrice': maxPrice,
+      'MaxPrice': _s.encodeJsonDouble(maxPrice),
     };
   }
 }
@@ -5203,7 +5220,7 @@ class PriceWithCurrency {
   factory PriceWithCurrency.fromJson(Map<String, dynamic> json) {
     return PriceWithCurrency(
       currency: (json['Currency'] as String?) ?? '',
-      price: (json['Price'] as double?) ?? 0,
+      price: _s.parseJsonDouble(json['Price']) ?? 0,
     );
   }
 
@@ -5212,7 +5229,7 @@ class PriceWithCurrency {
     final price = this.price;
     return {
       'Currency': currency,
-      'Price': price,
+      'Price': _s.encodeJsonDouble(price),
     };
   }
 }

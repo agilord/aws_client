@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2024_04_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Use CloudWatch Application Signals for comprehensive observability of your
@@ -50,22 +52,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// dashboards and maps.
 class ApplicationSignals {
   final _s.RestJsonProtocol _protocol;
-  ApplicationSignals({
+  factory ApplicationSignals({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'application-signals',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'application-signals',
+    );
+    return ApplicationSignals._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ApplicationSignals._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3157,7 +3174,7 @@ class ServiceLevelIndicator {
     return ServiceLevelIndicator(
       comparisonOperator: ServiceLevelIndicatorComparisonOperator.fromString(
           (json['ComparisonOperator'] as String?) ?? ''),
-      metricThreshold: (json['MetricThreshold'] as double?) ?? 0,
+      metricThreshold: _s.parseJsonDouble(json['MetricThreshold']) ?? 0,
       sliMetric: ServiceLevelIndicatorMetric.fromJson(
           (json['SliMetric'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -3170,7 +3187,7 @@ class ServiceLevelIndicator {
     final sliMetric = this.sliMetric;
     return {
       'ComparisonOperator': comparisonOperator.value,
-      'MetricThreshold': metricThreshold,
+      'MetricThreshold': _s.encodeJsonDouble(metricThreshold),
       'SliMetric': sliMetric,
     };
   }
@@ -3207,7 +3224,7 @@ class RequestBasedServiceLevelIndicator {
               const <String, dynamic>{}),
       comparisonOperator: (json['ComparisonOperator'] as String?)
           ?.let(ServiceLevelIndicatorComparisonOperator.fromString),
-      metricThreshold: json['MetricThreshold'] as double?,
+      metricThreshold: _s.parseJsonDouble(json['MetricThreshold']),
     );
   }
 
@@ -3219,7 +3236,8 @@ class RequestBasedServiceLevelIndicator {
       'RequestBasedSliMetric': requestBasedSliMetric,
       if (comparisonOperator != null)
         'ComparisonOperator': comparisonOperator.value,
-      if (metricThreshold != null) 'MetricThreshold': metricThreshold,
+      if (metricThreshold != null)
+        'MetricThreshold': _s.encodeJsonDouble(metricThreshold),
     };
   }
 }
@@ -3261,11 +3279,11 @@ class Goal {
 
   factory Goal.fromJson(Map<String, dynamic> json) {
     return Goal(
-      attainmentGoal: json['AttainmentGoal'] as double?,
+      attainmentGoal: _s.parseJsonDouble(json['AttainmentGoal']),
       interval: json['Interval'] != null
           ? Interval.fromJson(json['Interval'] as Map<String, dynamic>)
           : null,
-      warningThreshold: json['WarningThreshold'] as double?,
+      warningThreshold: _s.parseJsonDouble(json['WarningThreshold']),
     );
   }
 
@@ -3274,9 +3292,11 @@ class Goal {
     final interval = this.interval;
     final warningThreshold = this.warningThreshold;
     return {
-      if (attainmentGoal != null) 'AttainmentGoal': attainmentGoal,
+      if (attainmentGoal != null)
+        'AttainmentGoal': _s.encodeJsonDouble(attainmentGoal),
       if (interval != null) 'Interval': interval,
-      if (warningThreshold != null) 'WarningThreshold': warningThreshold,
+      if (warningThreshold != null)
+        'WarningThreshold': _s.encodeJsonDouble(warningThreshold),
     };
   }
 }
@@ -4246,7 +4266,8 @@ class ServiceLevelIndicatorConfig {
       'SliMetricConfig': sliMetricConfig,
       if (comparisonOperator != null)
         'ComparisonOperator': comparisonOperator.value,
-      if (metricThreshold != null) 'MetricThreshold': metricThreshold,
+      if (metricThreshold != null)
+        'MetricThreshold': _s.encodeJsonDouble(metricThreshold),
     };
   }
 }
@@ -4283,7 +4304,8 @@ class RequestBasedServiceLevelIndicatorConfig {
       'RequestBasedSliMetricConfig': requestBasedSliMetricConfig,
       if (comparisonOperator != null)
         'ComparisonOperator': comparisonOperator.value,
-      if (metricThreshold != null) 'MetricThreshold': metricThreshold,
+      if (metricThreshold != null)
+        'MetricThreshold': _s.encodeJsonDouble(metricThreshold),
     };
   }
 }
@@ -5676,7 +5698,7 @@ class Edge {
       connectionType:
           (json['ConnectionType'] as String?)?.let(ConnectionType.fromString),
       destinationNodeId: json['DestinationNodeId'] as String?,
-      duration: json['Duration'] as double?,
+      duration: _s.parseJsonDouble(json['Duration']),
       sourceNodeId: json['SourceNodeId'] as String?,
     );
   }
@@ -5689,7 +5711,7 @@ class Edge {
     return {
       if (connectionType != null) 'ConnectionType': connectionType.value,
       if (destinationNodeId != null) 'DestinationNodeId': destinationNodeId,
-      if (duration != null) 'Duration': duration,
+      if (duration != null) 'Duration': _s.encodeJsonDouble(duration),
       if (sourceNodeId != null) 'SourceNodeId': sourceNodeId,
     };
   }
@@ -5766,7 +5788,7 @@ class Node {
           .map((k, e) => MapEntry(k, e as String)),
       name: (json['Name'] as String?) ?? '',
       nodeId: (json['NodeId'] as String?) ?? '',
-      duration: json['Duration'] as double?,
+      duration: _s.parseJsonDouble(json['Duration']),
       operation: json['Operation'] as String?,
       status: json['Status'] as String?,
       type: json['Type'] as String?,
@@ -5785,7 +5807,7 @@ class Node {
       'KeyAttributes': keyAttributes,
       'Name': name,
       'NodeId': nodeId,
-      if (duration != null) 'Duration': duration,
+      if (duration != null) 'Duration': _s.encodeJsonDouble(duration),
       if (operation != null) 'Operation': operation,
       if (status != null) 'Status': status,
       if (type != null) 'Type': type,
@@ -6462,7 +6484,7 @@ class ServiceLevelObjectiveBudgetReport {
       budgetStatus: ServiceLevelObjectiveBudgetStatus.fromString(
           (json['BudgetStatus'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
-      attainment: json['Attainment'] as double?,
+      attainment: _s.parseJsonDouble(json['Attainment']),
       budgetRequestsRemaining: json['BudgetRequestsRemaining'] as int?,
       budgetSecondsRemaining: json['BudgetSecondsRemaining'] as int?,
       evaluationType:
@@ -6499,7 +6521,7 @@ class ServiceLevelObjectiveBudgetReport {
       'Arn': arn,
       'BudgetStatus': budgetStatus.value,
       'Name': name,
-      if (attainment != null) 'Attainment': attainment,
+      if (attainment != null) 'Attainment': _s.encodeJsonDouble(attainment),
       if (budgetRequestsRemaining != null)
         'BudgetRequestsRemaining': budgetRequestsRemaining,
       if (budgetSecondsRemaining != null)

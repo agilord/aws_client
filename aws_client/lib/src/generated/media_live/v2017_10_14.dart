@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_10_14.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// API for AWS Elemental MediaLive
 class MediaLive {
   final _s.RestJsonProtocol _protocol;
-  MediaLive({
+  factory MediaLive({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'medialive',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'medialive',
+    );
+    return MediaLive._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  MediaLive._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -528,7 +545,7 @@ class MediaLive {
       'period': period,
       'statistic': statistic.value,
       'targetResourceType': targetResourceType.value,
-      'threshold': threshold,
+      'threshold': _s.encodeJsonDouble(threshold),
       'treatMissingData': treatMissingData.value,
       if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
       if (description != null) 'description': description,
@@ -4057,7 +4074,7 @@ class MediaLive {
       if (statistic != null) 'statistic': statistic.value,
       if (targetResourceType != null)
         'targetResourceType': targetResourceType.value,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
       if (treatMissingData != null) 'treatMissingData': treatMissingData.value,
     };
     final response = await _protocol.send(
@@ -5107,7 +5124,7 @@ class CreateCloudWatchAlarmTemplateResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       targetResourceType: (json['targetResourceType'] as String?)
           ?.let(CloudWatchAlarmTemplateTargetResourceType.fromString),
-      threshold: json['threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['threshold']),
       treatMissingData: (json['treatMissingData'] as String?)
           ?.let(CloudWatchAlarmTemplateTreatMissingData.fromString),
     );
@@ -5149,7 +5166,7 @@ class CreateCloudWatchAlarmTemplateResponse {
       if (tags != null) 'tags': tags,
       if (targetResourceType != null)
         'targetResourceType': targetResourceType.value,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
       if (treatMissingData != null) 'treatMissingData': treatMissingData.value,
     };
   }
@@ -6879,7 +6896,7 @@ class DeleteReservationResponse {
       durationUnits: (json['durationUnits'] as String?)
           ?.let(OfferingDurationUnits.fromString),
       end: json['end'] as String?,
-      fixedPrice: json['fixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['fixedPrice']),
       name: json['name'] as String?,
       offeringDescription: json['offeringDescription'] as String?,
       offeringId: json['offeringId'] as String?,
@@ -6899,7 +6916,7 @@ class DeleteReservationResponse {
       state: (json['state'] as String?)?.let(ReservationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      usagePrice: json['usagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['usagePrice']),
     );
   }
 
@@ -6930,7 +6947,7 @@ class DeleteReservationResponse {
       if (duration != null) 'duration': duration,
       if (durationUnits != null) 'durationUnits': durationUnits.value,
       if (end != null) 'end': end,
-      if (fixedPrice != null) 'fixedPrice': fixedPrice,
+      if (fixedPrice != null) 'fixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (name != null) 'name': name,
       if (offeringDescription != null)
         'offeringDescription': offeringDescription,
@@ -6944,7 +6961,7 @@ class DeleteReservationResponse {
       if (start != null) 'start': start,
       if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
-      if (usagePrice != null) 'usagePrice': usagePrice,
+      if (usagePrice != null) 'usagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -8327,7 +8344,7 @@ class DescribeOfferingResponse {
       duration: json['duration'] as int?,
       durationUnits: (json['durationUnits'] as String?)
           ?.let(OfferingDurationUnits.fromString),
-      fixedPrice: json['fixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['fixedPrice']),
       offeringDescription: json['offeringDescription'] as String?,
       offeringId: json['offeringId'] as String?,
       offeringType:
@@ -8337,7 +8354,7 @@ class DescribeOfferingResponse {
           ? ReservationResourceSpecification.fromJson(
               json['resourceSpecification'] as Map<String, dynamic>)
           : null,
-      usagePrice: json['usagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['usagePrice']),
     );
   }
 
@@ -8358,7 +8375,7 @@ class DescribeOfferingResponse {
       if (currencyCode != null) 'currencyCode': currencyCode,
       if (duration != null) 'duration': duration,
       if (durationUnits != null) 'durationUnits': durationUnits.value,
-      if (fixedPrice != null) 'fixedPrice': fixedPrice,
+      if (fixedPrice != null) 'fixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (offeringDescription != null)
         'offeringDescription': offeringDescription,
       if (offeringId != null) 'offeringId': offeringId,
@@ -8366,7 +8383,7 @@ class DescribeOfferingResponse {
       if (region != null) 'region': region,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
-      if (usagePrice != null) 'usagePrice': usagePrice,
+      if (usagePrice != null) 'usagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -8468,7 +8485,7 @@ class DescribeReservationResponse {
       durationUnits: (json['durationUnits'] as String?)
           ?.let(OfferingDurationUnits.fromString),
       end: json['end'] as String?,
-      fixedPrice: json['fixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['fixedPrice']),
       name: json['name'] as String?,
       offeringDescription: json['offeringDescription'] as String?,
       offeringId: json['offeringId'] as String?,
@@ -8488,7 +8505,7 @@ class DescribeReservationResponse {
       state: (json['state'] as String?)?.let(ReservationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      usagePrice: json['usagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['usagePrice']),
     );
   }
 
@@ -8519,7 +8536,7 @@ class DescribeReservationResponse {
       if (duration != null) 'duration': duration,
       if (durationUnits != null) 'durationUnits': durationUnits.value,
       if (end != null) 'end': end,
-      if (fixedPrice != null) 'fixedPrice': fixedPrice,
+      if (fixedPrice != null) 'fixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (name != null) 'name': name,
       if (offeringDescription != null)
         'offeringDescription': offeringDescription,
@@ -8533,7 +8550,7 @@ class DescribeReservationResponse {
       if (start != null) 'start': start,
       if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
-      if (usagePrice != null) 'usagePrice': usagePrice,
+      if (usagePrice != null) 'usagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -8716,7 +8733,7 @@ class GetCloudWatchAlarmTemplateResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       targetResourceType: (json['targetResourceType'] as String?)
           ?.let(CloudWatchAlarmTemplateTargetResourceType.fromString),
-      threshold: json['threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['threshold']),
       treatMissingData: (json['treatMissingData'] as String?)
           ?.let(CloudWatchAlarmTemplateTreatMissingData.fromString),
     );
@@ -8758,7 +8775,7 @@ class GetCloudWatchAlarmTemplateResponse {
       if (tags != null) 'tags': tags,
       if (targetResourceType != null)
         'targetResourceType': targetResourceType.value,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
       if (treatMissingData != null) 'treatMissingData': treatMissingData.value,
     };
   }
@@ -11711,7 +11728,7 @@ class UpdateCloudWatchAlarmTemplateResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       targetResourceType: (json['targetResourceType'] as String?)
           ?.let(CloudWatchAlarmTemplateTargetResourceType.fromString),
-      threshold: json['threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['threshold']),
       treatMissingData: (json['treatMissingData'] as String?)
           ?.let(CloudWatchAlarmTemplateTreatMissingData.fromString),
     );
@@ -11753,7 +11770,7 @@ class UpdateCloudWatchAlarmTemplateResponse {
       if (tags != null) 'tags': tags,
       if (targetResourceType != null)
         'targetResourceType': targetResourceType.value,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
       if (treatMissingData != null) 'treatMissingData': treatMissingData.value,
     };
   }
@@ -12930,7 +12947,7 @@ class Reservation {
       durationUnits: (json['durationUnits'] as String?)
           ?.let(OfferingDurationUnits.fromString),
       end: json['end'] as String?,
-      fixedPrice: json['fixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['fixedPrice']),
       name: json['name'] as String?,
       offeringDescription: json['offeringDescription'] as String?,
       offeringId: json['offeringId'] as String?,
@@ -12950,7 +12967,7 @@ class Reservation {
       state: (json['state'] as String?)?.let(ReservationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      usagePrice: json['usagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['usagePrice']),
     );
   }
 
@@ -12981,7 +12998,7 @@ class Reservation {
       if (duration != null) 'duration': duration,
       if (durationUnits != null) 'durationUnits': durationUnits.value,
       if (end != null) 'end': end,
-      if (fixedPrice != null) 'fixedPrice': fixedPrice,
+      if (fixedPrice != null) 'fixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (name != null) 'name': name,
       if (offeringDescription != null)
         'offeringDescription': offeringDescription,
@@ -12995,7 +13012,7 @@ class Reservation {
       if (start != null) 'start': start,
       if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
-      if (usagePrice != null) 'usagePrice': usagePrice,
+      if (usagePrice != null) 'usagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -14864,7 +14881,7 @@ class InputDeviceHdSettings {
           ?.let(InputDeviceConfiguredInput.fromString),
       deviceState:
           (json['deviceState'] as String?)?.let(InputDeviceState.fromString),
-      framerate: json['framerate'] as double?,
+      framerate: _s.parseJsonDouble(json['framerate']),
       height: json['height'] as int?,
       latencyMs: json['latencyMs'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
@@ -14888,7 +14905,7 @@ class InputDeviceHdSettings {
       if (activeInput != null) 'activeInput': activeInput.value,
       if (configuredInput != null) 'configuredInput': configuredInput.value,
       if (deviceState != null) 'deviceState': deviceState.value,
-      if (framerate != null) 'framerate': framerate,
+      if (framerate != null) 'framerate': _s.encodeJsonDouble(framerate),
       if (height != null) 'height': height,
       if (latencyMs != null) 'latencyMs': latencyMs,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
@@ -15068,7 +15085,7 @@ class InputDeviceUhdSettings {
           ?.let(InputDeviceConfiguredInput.fromString),
       deviceState:
           (json['deviceState'] as String?)?.let(InputDeviceState.fromString),
-      framerate: json['framerate'] as double?,
+      framerate: _s.parseJsonDouble(json['framerate']),
       height: json['height'] as int?,
       inputResolution: json['inputResolution'] as String?,
       latencyMs: json['latencyMs'] as int?,
@@ -15103,7 +15120,7 @@ class InputDeviceUhdSettings {
       if (codec != null) 'codec': codec.value,
       if (configuredInput != null) 'configuredInput': configuredInput.value,
       if (deviceState != null) 'deviceState': deviceState.value,
-      if (framerate != null) 'framerate': framerate,
+      if (framerate != null) 'framerate': _s.encodeJsonDouble(framerate),
       if (height != null) 'height': height,
       if (inputResolution != null) 'inputResolution': inputResolution,
       if (latencyMs != null) 'latencyMs': latencyMs,
@@ -20241,10 +20258,10 @@ class CaptionRectangle {
 
   factory CaptionRectangle.fromJson(Map<String, dynamic> json) {
     return CaptionRectangle(
-      height: (json['height'] as double?) ?? 0,
-      leftOffset: (json['leftOffset'] as double?) ?? 0,
-      topOffset: (json['topOffset'] as double?) ?? 0,
-      width: (json['width'] as double?) ?? 0,
+      height: _s.parseJsonDouble(json['height']) ?? 0,
+      leftOffset: _s.parseJsonDouble(json['leftOffset']) ?? 0,
+      topOffset: _s.parseJsonDouble(json['topOffset']) ?? 0,
+      width: _s.parseJsonDouble(json['width']) ?? 0,
     );
   }
 
@@ -20254,10 +20271,10 @@ class CaptionRectangle {
     final topOffset = this.topOffset;
     final width = this.width;
     return {
-      'height': height,
-      'leftOffset': leftOffset,
-      'topOffset': topOffset,
-      'width': width,
+      'height': _s.encodeJsonDouble(height),
+      'leftOffset': _s.encodeJsonDouble(leftOffset),
+      'topOffset': _s.encodeJsonDouble(topOffset),
+      'width': _s.encodeJsonDouble(width),
     };
   }
 }
@@ -20970,7 +20987,7 @@ class VideoBlackFailoverSettings {
 
   factory VideoBlackFailoverSettings.fromJson(Map<String, dynamic> json) {
     return VideoBlackFailoverSettings(
-      blackDetectThreshold: json['blackDetectThreshold'] as double?,
+      blackDetectThreshold: _s.parseJsonDouble(json['blackDetectThreshold']),
       videoBlackThresholdMsec: json['videoBlackThresholdMsec'] as int?,
     );
   }
@@ -20980,7 +20997,7 @@ class VideoBlackFailoverSettings {
     final videoBlackThresholdMsec = this.videoBlackThresholdMsec;
     return {
       if (blackDetectThreshold != null)
-        'blackDetectThreshold': blackDetectThreshold,
+        'blackDetectThreshold': _s.encodeJsonDouble(blackDetectThreshold),
       if (videoBlackThresholdMsec != null)
         'videoBlackThresholdMsec': videoBlackThresholdMsec,
     };
@@ -22138,7 +22155,7 @@ class H264Settings {
           (json['gopBReference'] as String?)?.let(H264GopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopNumBFrames: json['gopNumBFrames'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(H264GopSizeUnits.fromString),
       level: (json['level'] as String?)?.let(H264Level.fromString),
@@ -22246,7 +22263,7 @@ class H264Settings {
       if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopNumBFrames != null) 'gopNumBFrames': gopNumBFrames,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (level != null) 'level': level.value,
       if (lookAheadRateControl != null)
@@ -22576,7 +22593,7 @@ class H265Settings {
           (json['gopBReference'] as String?)?.let(H265GopBReference.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopNumBFrames: json['gopNumBFrames'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(H265GopSizeUnits.fromString),
       level: (json['level'] as String?)?.let(H265Level.fromString),
@@ -22680,7 +22697,7 @@ class H265Settings {
       if (gopBReference != null) 'gopBReference': gopBReference.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopNumBFrames != null) 'gopNumBFrames': gopNumBFrames,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (level != null) 'level': level.value,
       if (lookAheadRateControl != null)
@@ -22856,7 +22873,7 @@ class Mpeg2Settings {
       fixedAfd: (json['fixedAfd'] as String?)?.let(FixedAfd.fromString),
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopNumBFrames: json['gopNumBFrames'] as int?,
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(Mpeg2GopSizeUnits.fromString),
       scanType: (json['scanType'] as String?)?.let(Mpeg2ScanType.fromString),
@@ -22903,7 +22920,7 @@ class Mpeg2Settings {
       if (fixedAfd != null) 'fixedAfd': fixedAfd.value,
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopNumBFrames != null) 'gopNumBFrames': gopNumBFrames,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (scanType != null) 'scanType': scanType.value,
       if (subgopLength != null) 'subgopLength': subgopLength.value,
@@ -23090,7 +23107,7 @@ class Av1Settings {
               json['colorSpaceSettings'] as Map<String, dynamic>)
           : null,
       fixedAfd: (json['fixedAfd'] as String?)?.let(FixedAfd.fromString),
-      gopSize: json['gopSize'] as double?,
+      gopSize: _s.parseJsonDouble(json['gopSize']),
       gopSizeUnits:
           (json['gopSizeUnits'] as String?)?.let(Av1GopSizeUnits.fromString),
       level: (json['level'] as String?)?.let(Av1Level.fromString),
@@ -23152,7 +23169,7 @@ class Av1Settings {
       if (bufSize != null) 'bufSize': bufSize,
       if (colorSpaceSettings != null) 'colorSpaceSettings': colorSpaceSettings,
       if (fixedAfd != null) 'fixedAfd': fixedAfd.value,
-      if (gopSize != null) 'gopSize': gopSize,
+      if (gopSize != null) 'gopSize': _s.encodeJsonDouble(gopSize),
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.value,
       if (level != null) 'level': level.value,
       if (lookAheadRateControl != null)
@@ -26964,12 +26981,12 @@ class M2tsSettings {
           (json['esRateInPes'] as String?)?.let(M2tsEsRateInPes.fromString),
       etvPlatformPid: json['etvPlatformPid'] as String?,
       etvSignalPid: json['etvSignalPid'] as String?,
-      fragmentTime: json['fragmentTime'] as double?,
+      fragmentTime: _s.parseJsonDouble(json['fragmentTime']),
       klv: (json['klv'] as String?)?.let(M2tsKlv.fromString),
       klvDataPids: json['klvDataPids'] as String?,
       nielsenId3Behavior: (json['nielsenId3Behavior'] as String?)
           ?.let(M2tsNielsenId3Behavior.fromString),
-      nullPacketBitrate: json['nullPacketBitrate'] as double?,
+      nullPacketBitrate: _s.parseJsonDouble(json['nullPacketBitrate']),
       patInterval: json['patInterval'] as int?,
       pcrControl:
           (json['pcrControl'] as String?)?.let(M2tsPcrControl.fromString),
@@ -26984,12 +27001,12 @@ class M2tsSettings {
           (json['scte35Control'] as String?)?.let(M2tsScte35Control.fromString),
       scte35Pid: json['scte35Pid'] as String?,
       scte35PrerollPullupMilliseconds:
-          json['scte35PrerollPullupMilliseconds'] as double?,
+          _s.parseJsonDouble(json['scte35PrerollPullupMilliseconds']),
       segmentationMarkers: (json['segmentationMarkers'] as String?)
           ?.let(M2tsSegmentationMarkers.fromString),
       segmentationStyle: (json['segmentationStyle'] as String?)
           ?.let(M2tsSegmentationStyle.fromString),
-      segmentationTime: json['segmentationTime'] as double?,
+      segmentationTime: _s.parseJsonDouble(json['segmentationTime']),
       timedMetadataBehavior: (json['timedMetadataBehavior'] as String?)
           ?.let(M2tsTimedMetadataBehavior.fromString),
       timedMetadataPid: json['timedMetadataPid'] as String?,
@@ -27075,12 +27092,14 @@ class M2tsSettings {
       if (esRateInPes != null) 'esRateInPes': esRateInPes.value,
       if (etvPlatformPid != null) 'etvPlatformPid': etvPlatformPid,
       if (etvSignalPid != null) 'etvSignalPid': etvSignalPid,
-      if (fragmentTime != null) 'fragmentTime': fragmentTime,
+      if (fragmentTime != null)
+        'fragmentTime': _s.encodeJsonDouble(fragmentTime),
       if (klv != null) 'klv': klv.value,
       if (klvDataPids != null) 'klvDataPids': klvDataPids,
       if (nielsenId3Behavior != null)
         'nielsenId3Behavior': nielsenId3Behavior.value,
-      if (nullPacketBitrate != null) 'nullPacketBitrate': nullPacketBitrate,
+      if (nullPacketBitrate != null)
+        'nullPacketBitrate': _s.encodeJsonDouble(nullPacketBitrate),
       if (patInterval != null) 'patInterval': patInterval,
       if (pcrControl != null) 'pcrControl': pcrControl.value,
       if (pcrPeriod != null) 'pcrPeriod': pcrPeriod,
@@ -27093,12 +27112,14 @@ class M2tsSettings {
       if (scte35Control != null) 'scte35Control': scte35Control.value,
       if (scte35Pid != null) 'scte35Pid': scte35Pid,
       if (scte35PrerollPullupMilliseconds != null)
-        'scte35PrerollPullupMilliseconds': scte35PrerollPullupMilliseconds,
+        'scte35PrerollPullupMilliseconds':
+            _s.encodeJsonDouble(scte35PrerollPullupMilliseconds),
       if (segmentationMarkers != null)
         'segmentationMarkers': segmentationMarkers.value,
       if (segmentationStyle != null)
         'segmentationStyle': segmentationStyle.value,
-      if (segmentationTime != null) 'segmentationTime': segmentationTime,
+      if (segmentationTime != null)
+        'segmentationTime': _s.encodeJsonDouble(segmentationTime),
       if (timedMetadataBehavior != null)
         'timedMetadataBehavior': timedMetadataBehavior.value,
       if (timedMetadataPid != null) 'timedMetadataPid': timedMetadataPid,
@@ -28085,7 +28106,7 @@ class MultiplexM2tsSettings {
       scte35Control:
           (json['scte35Control'] as String?)?.let(M2tsScte35Control.fromString),
       scte35PrerollPullupMilliseconds:
-          json['scte35PrerollPullupMilliseconds'] as double?,
+          _s.parseJsonDouble(json['scte35PrerollPullupMilliseconds']),
     );
   }
 
@@ -28122,7 +28143,8 @@ class MultiplexM2tsSettings {
       if (pcrPeriod != null) 'pcrPeriod': pcrPeriod,
       if (scte35Control != null) 'scte35Control': scte35Control.value,
       if (scte35PrerollPullupMilliseconds != null)
-        'scte35PrerollPullupMilliseconds': scte35PrerollPullupMilliseconds,
+        'scte35PrerollPullupMilliseconds':
+            _s.encodeJsonDouble(scte35PrerollPullupMilliseconds),
     };
   }
 }
@@ -35278,7 +35300,7 @@ class AudioNormalizationSettings {
           ?.let(AudioNormalizationAlgorithm.fromString),
       algorithmControl: (json['algorithmControl'] as String?)
           ?.let(AudioNormalizationAlgorithmControl.fromString),
-      targetLkfs: json['targetLkfs'] as double?,
+      targetLkfs: _s.parseJsonDouble(json['targetLkfs']),
     );
   }
 
@@ -35289,7 +35311,7 @@ class AudioNormalizationSettings {
     return {
       if (algorithm != null) 'algorithm': algorithm.value,
       if (algorithmControl != null) 'algorithmControl': algorithmControl.value,
-      if (targetLkfs != null) 'targetLkfs': targetLkfs,
+      if (targetLkfs != null) 'targetLkfs': _s.encodeJsonDouble(targetLkfs),
     };
   }
 }
@@ -35701,7 +35723,7 @@ class AacSettings {
 
   factory AacSettings.fromJson(Map<String, dynamic> json) {
     return AacSettings(
-      bitrate: json['bitrate'] as double?,
+      bitrate: _s.parseJsonDouble(json['bitrate']),
       codingMode:
           (json['codingMode'] as String?)?.let(AacCodingMode.fromString),
       inputType: (json['inputType'] as String?)?.let(AacInputType.fromString),
@@ -35709,7 +35731,7 @@ class AacSettings {
       rateControlMode: (json['rateControlMode'] as String?)
           ?.let(AacRateControlMode.fromString),
       rawFormat: (json['rawFormat'] as String?)?.let(AacRawFormat.fromString),
-      sampleRate: json['sampleRate'] as double?,
+      sampleRate: _s.parseJsonDouble(json['sampleRate']),
       spec: (json['spec'] as String?)?.let(AacSpec.fromString),
       vbrQuality:
           (json['vbrQuality'] as String?)?.let(AacVbrQuality.fromString),
@@ -35727,13 +35749,13 @@ class AacSettings {
     final spec = this.spec;
     final vbrQuality = this.vbrQuality;
     return {
-      if (bitrate != null) 'bitrate': bitrate,
+      if (bitrate != null) 'bitrate': _s.encodeJsonDouble(bitrate),
       if (codingMode != null) 'codingMode': codingMode.value,
       if (inputType != null) 'inputType': inputType.value,
       if (profile != null) 'profile': profile.value,
       if (rateControlMode != null) 'rateControlMode': rateControlMode.value,
       if (rawFormat != null) 'rawFormat': rawFormat.value,
-      if (sampleRate != null) 'sampleRate': sampleRate,
+      if (sampleRate != null) 'sampleRate': _s.encodeJsonDouble(sampleRate),
       if (spec != null) 'spec': spec.value,
       if (vbrQuality != null) 'vbrQuality': vbrQuality.value,
     };
@@ -35791,7 +35813,7 @@ class Ac3Settings {
     return Ac3Settings(
       attenuationControl: (json['attenuationControl'] as String?)
           ?.let(Ac3AttenuationControl.fromString),
-      bitrate: json['bitrate'] as double?,
+      bitrate: _s.parseJsonDouble(json['bitrate']),
       bitstreamMode:
           (json['bitstreamMode'] as String?)?.let(Ac3BitstreamMode.fromString),
       codingMode:
@@ -35817,7 +35839,7 @@ class Ac3Settings {
     return {
       if (attenuationControl != null)
         'attenuationControl': attenuationControl.value,
-      if (bitrate != null) 'bitrate': bitrate,
+      if (bitrate != null) 'bitrate': _s.encodeJsonDouble(bitrate),
       if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.value,
       if (codingMode != null) 'codingMode': codingMode.value,
       if (dialnorm != null) 'dialnorm': dialnorm,
@@ -35871,14 +35893,14 @@ class Eac3AtmosSettings {
 
   factory Eac3AtmosSettings.fromJson(Map<String, dynamic> json) {
     return Eac3AtmosSettings(
-      bitrate: json['bitrate'] as double?,
+      bitrate: _s.parseJsonDouble(json['bitrate']),
       codingMode:
           (json['codingMode'] as String?)?.let(Eac3AtmosCodingMode.fromString),
       dialnorm: json['dialnorm'] as int?,
       drcLine: (json['drcLine'] as String?)?.let(Eac3AtmosDrcLine.fromString),
       drcRf: (json['drcRf'] as String?)?.let(Eac3AtmosDrcRf.fromString),
-      heightTrim: json['heightTrim'] as double?,
-      surroundTrim: json['surroundTrim'] as double?,
+      heightTrim: _s.parseJsonDouble(json['heightTrim']),
+      surroundTrim: _s.parseJsonDouble(json['surroundTrim']),
     );
   }
 
@@ -35891,13 +35913,14 @@ class Eac3AtmosSettings {
     final heightTrim = this.heightTrim;
     final surroundTrim = this.surroundTrim;
     return {
-      if (bitrate != null) 'bitrate': bitrate,
+      if (bitrate != null) 'bitrate': _s.encodeJsonDouble(bitrate),
       if (codingMode != null) 'codingMode': codingMode.value,
       if (dialnorm != null) 'dialnorm': dialnorm,
       if (drcLine != null) 'drcLine': drcLine.value,
       if (drcRf != null) 'drcRf': drcRf.value,
-      if (heightTrim != null) 'heightTrim': heightTrim,
-      if (surroundTrim != null) 'surroundTrim': surroundTrim,
+      if (heightTrim != null) 'heightTrim': _s.encodeJsonDouble(heightTrim),
+      if (surroundTrim != null)
+        'surroundTrim': _s.encodeJsonDouble(surroundTrim),
     };
   }
 }
@@ -36007,7 +36030,7 @@ class Eac3Settings {
     return Eac3Settings(
       attenuationControl: (json['attenuationControl'] as String?)
           ?.let(Eac3AttenuationControl.fromString),
-      bitrate: json['bitrate'] as double?,
+      bitrate: _s.parseJsonDouble(json['bitrate']),
       bitstreamMode:
           (json['bitstreamMode'] as String?)?.let(Eac3BitstreamMode.fromString),
       codingMode:
@@ -36019,10 +36042,10 @@ class Eac3Settings {
       lfeControl:
           (json['lfeControl'] as String?)?.let(Eac3LfeControl.fromString),
       lfeFilter: (json['lfeFilter'] as String?)?.let(Eac3LfeFilter.fromString),
-      loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
-      loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
-      ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
-      ltRtSurroundMixLevel: json['ltRtSurroundMixLevel'] as double?,
+      loRoCenterMixLevel: _s.parseJsonDouble(json['loRoCenterMixLevel']),
+      loRoSurroundMixLevel: _s.parseJsonDouble(json['loRoSurroundMixLevel']),
+      ltRtCenterMixLevel: _s.parseJsonDouble(json['ltRtCenterMixLevel']),
+      ltRtSurroundMixLevel: _s.parseJsonDouble(json['ltRtSurroundMixLevel']),
       metadataControl: (json['metadataControl'] as String?)
           ?.let(Eac3MetadataControl.fromString),
       passthroughControl: (json['passthroughControl'] as String?)
@@ -36062,7 +36085,7 @@ class Eac3Settings {
     return {
       if (attenuationControl != null)
         'attenuationControl': attenuationControl.value,
-      if (bitrate != null) 'bitrate': bitrate,
+      if (bitrate != null) 'bitrate': _s.encodeJsonDouble(bitrate),
       if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.value,
       if (codingMode != null) 'codingMode': codingMode.value,
       if (dcFilter != null) 'dcFilter': dcFilter.value,
@@ -36071,12 +36094,14 @@ class Eac3Settings {
       if (drcRf != null) 'drcRf': drcRf.value,
       if (lfeControl != null) 'lfeControl': lfeControl.value,
       if (lfeFilter != null) 'lfeFilter': lfeFilter.value,
-      if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
+      if (loRoCenterMixLevel != null)
+        'loRoCenterMixLevel': _s.encodeJsonDouble(loRoCenterMixLevel),
       if (loRoSurroundMixLevel != null)
-        'loRoSurroundMixLevel': loRoSurroundMixLevel,
-      if (ltRtCenterMixLevel != null) 'ltRtCenterMixLevel': ltRtCenterMixLevel,
+        'loRoSurroundMixLevel': _s.encodeJsonDouble(loRoSurroundMixLevel),
+      if (ltRtCenterMixLevel != null)
+        'ltRtCenterMixLevel': _s.encodeJsonDouble(ltRtCenterMixLevel),
       if (ltRtSurroundMixLevel != null)
-        'ltRtSurroundMixLevel': ltRtSurroundMixLevel,
+        'ltRtSurroundMixLevel': _s.encodeJsonDouble(ltRtSurroundMixLevel),
       if (metadataControl != null) 'metadataControl': metadataControl.value,
       if (passthroughControl != null)
         'passthroughControl': passthroughControl.value,
@@ -36110,10 +36135,10 @@ class Mp2Settings {
 
   factory Mp2Settings.fromJson(Map<String, dynamic> json) {
     return Mp2Settings(
-      bitrate: json['bitrate'] as double?,
+      bitrate: _s.parseJsonDouble(json['bitrate']),
       codingMode:
           (json['codingMode'] as String?)?.let(Mp2CodingMode.fromString),
-      sampleRate: json['sampleRate'] as double?,
+      sampleRate: _s.parseJsonDouble(json['sampleRate']),
     );
   }
 
@@ -36122,9 +36147,9 @@ class Mp2Settings {
     final codingMode = this.codingMode;
     final sampleRate = this.sampleRate;
     return {
-      if (bitrate != null) 'bitrate': bitrate,
+      if (bitrate != null) 'bitrate': _s.encodeJsonDouble(bitrate),
       if (codingMode != null) 'codingMode': codingMode.value,
-      if (sampleRate != null) 'sampleRate': sampleRate,
+      if (sampleRate != null) 'sampleRate': _s.encodeJsonDouble(sampleRate),
     };
   }
 }
@@ -36166,10 +36191,10 @@ class WavSettings {
 
   factory WavSettings.fromJson(Map<String, dynamic> json) {
     return WavSettings(
-      bitDepth: json['bitDepth'] as double?,
+      bitDepth: _s.parseJsonDouble(json['bitDepth']),
       codingMode:
           (json['codingMode'] as String?)?.let(WavCodingMode.fromString),
-      sampleRate: json['sampleRate'] as double?,
+      sampleRate: _s.parseJsonDouble(json['sampleRate']),
     );
   }
 
@@ -36178,9 +36203,9 @@ class WavSettings {
     final codingMode = this.codingMode;
     final sampleRate = this.sampleRate;
     return {
-      if (bitDepth != null) 'bitDepth': bitDepth,
+      if (bitDepth != null) 'bitDepth': _s.encodeJsonDouble(bitDepth),
       if (codingMode != null) 'codingMode': codingMode.value,
-      if (sampleRate != null) 'sampleRate': sampleRate,
+      if (sampleRate != null) 'sampleRate': _s.encodeJsonDouble(sampleRate),
     };
   }
 }
@@ -37295,7 +37320,7 @@ class NielsenNaesIiNw {
   factory NielsenNaesIiNw.fromJson(Map<String, dynamic> json) {
     return NielsenNaesIiNw(
       checkDigitString: (json['checkDigitString'] as String?) ?? '',
-      sid: (json['sid'] as double?) ?? 0,
+      sid: _s.parseJsonDouble(json['sid']) ?? 0,
       timezone: (json['timezone'] as String?)
           ?.let(NielsenWatermarkTimezones.fromString),
     );
@@ -37307,7 +37332,7 @@ class NielsenNaesIiNw {
     final timezone = this.timezone;
     return {
       'checkDigitString': checkDigitString,
-      'sid': sid,
+      'sid': _s.encodeJsonDouble(sid),
       if (timezone != null) 'timezone': timezone.value,
     };
   }
@@ -38621,7 +38646,7 @@ class Offering {
       duration: json['duration'] as int?,
       durationUnits: (json['durationUnits'] as String?)
           ?.let(OfferingDurationUnits.fromString),
-      fixedPrice: json['fixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['fixedPrice']),
       offeringDescription: json['offeringDescription'] as String?,
       offeringId: json['offeringId'] as String?,
       offeringType:
@@ -38631,7 +38656,7 @@ class Offering {
           ? ReservationResourceSpecification.fromJson(
               json['resourceSpecification'] as Map<String, dynamic>)
           : null,
-      usagePrice: json['usagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['usagePrice']),
     );
   }
 
@@ -38652,7 +38677,7 @@ class Offering {
       if (currencyCode != null) 'currencyCode': currencyCode,
       if (duration != null) 'duration': duration,
       if (durationUnits != null) 'durationUnits': durationUnits.value,
-      if (fixedPrice != null) 'fixedPrice': fixedPrice,
+      if (fixedPrice != null) 'fixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (offeringDescription != null)
         'offeringDescription': offeringDescription,
       if (offeringId != null) 'offeringId': offeringId,
@@ -38660,7 +38685,7 @@ class Offering {
       if (region != null) 'region': region,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
-      if (usagePrice != null) 'usagePrice': usagePrice,
+      if (usagePrice != null) 'usagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -39778,7 +39803,7 @@ class CloudWatchAlarmTemplateSummary {
           (json['statistic'] as String?) ?? ''),
       targetResourceType: CloudWatchAlarmTemplateTargetResourceType.fromString(
           (json['targetResourceType'] as String?) ?? ''),
-      threshold: (json['threshold'] as double?) ?? 0,
+      threshold: _s.parseJsonDouble(json['threshold']) ?? 0,
       treatMissingData: CloudWatchAlarmTemplateTreatMissingData.fromString(
           (json['treatMissingData'] as String?) ?? ''),
       datapointsToAlarm: json['datapointsToAlarm'] as int?,
@@ -39819,7 +39844,7 @@ class CloudWatchAlarmTemplateSummary {
       'period': period,
       'statistic': statistic.value,
       'targetResourceType': targetResourceType.value,
-      'threshold': threshold,
+      'threshold': _s.encodeJsonDouble(threshold),
       'treatMissingData': treatMissingData.value,
       if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
       if (description != null) 'description': description,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_02_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic File System (Amazon EFS) provides simple, scalable file
@@ -32,22 +34,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Elastic File System User Guide</a>.
 class Efs {
   final _s.RestJsonProtocol _protocol;
-  Efs({
+  factory Efs({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'elasticfilesystem',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'elasticfilesystem',
+    );
+    return Efs._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Efs._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -380,7 +397,8 @@ class Efs {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (performanceMode != null) 'PerformanceMode': performanceMode.value,
       if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+        'ProvisionedThroughputInMibps':
+            _s.encodeJsonDouble(provisionedThroughputInMibps),
       if (tags != null) 'Tags': tags,
       if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
@@ -1940,7 +1958,8 @@ class Efs {
     );
     final $payload = <String, dynamic>{
       if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+        'ProvisionedThroughputInMibps':
+            _s.encodeJsonDouble(provisionedThroughputInMibps),
       if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
     final response = await _protocol.send(
@@ -2251,7 +2270,7 @@ class FileSystemDescription {
       kmsKeyId: json['KmsKeyId'] as String?,
       name: json['Name'] as String?,
       provisionedThroughputInMibps:
-          json['ProvisionedThroughputInMibps'] as double?,
+          _s.parseJsonDouble(json['ProvisionedThroughputInMibps']),
       throughputMode:
           (json['ThroughputMode'] as String?)?.let(ThroughputMode.fromString),
     );
@@ -2296,7 +2315,8 @@ class FileSystemDescription {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (name != null) 'Name': name,
       if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
+        'ProvisionedThroughputInMibps':
+            _s.encodeJsonDouble(provisionedThroughputInMibps),
       if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
   }

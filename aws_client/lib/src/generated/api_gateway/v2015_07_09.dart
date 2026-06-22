@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_07_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon API Gateway helps developers deliver robust, secure, and scalable
@@ -27,22 +29,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// outside of AWS.
 class ApiGateway {
   final _s.RestJsonProtocol _protocol;
-  ApiGateway({
+  factory ApiGateway({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'apigateway',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'apigateway',
+    );
+    return ApiGateway._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ApiGateway._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8902,7 +8919,7 @@ class ThrottleSettings {
   factory ThrottleSettings.fromJson(Map<String, dynamic> json) {
     return ThrottleSettings(
       burstLimit: json['burstLimit'] as int?,
-      rateLimit: json['rateLimit'] as double?,
+      rateLimit: _s.parseJsonDouble(json['rateLimit']),
     );
   }
 
@@ -8911,7 +8928,7 @@ class ThrottleSettings {
     final rateLimit = this.rateLimit;
     return {
       if (burstLimit != null) 'burstLimit': burstLimit,
-      if (rateLimit != null) 'rateLimit': rateLimit,
+      if (rateLimit != null) 'rateLimit': _s.encodeJsonDouble(rateLimit),
     };
   }
 }
@@ -9190,7 +9207,7 @@ class CanarySettings {
   factory CanarySettings.fromJson(Map<String, dynamic> json) {
     return CanarySettings(
       deploymentId: json['deploymentId'] as String?,
-      percentTraffic: json['percentTraffic'] as double?,
+      percentTraffic: _s.parseJsonDouble(json['percentTraffic']),
       stageVariableOverrides:
           (json['stageVariableOverrides'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -9205,7 +9222,8 @@ class CanarySettings {
     final useStageCache = this.useStageCache;
     return {
       if (deploymentId != null) 'deploymentId': deploymentId,
-      if (percentTraffic != null) 'percentTraffic': percentTraffic,
+      if (percentTraffic != null)
+        'percentTraffic': _s.encodeJsonDouble(percentTraffic),
       if (stageVariableOverrides != null)
         'stageVariableOverrides': stageVariableOverrides,
       if (useStageCache != null) 'useStageCache': useStageCache,
@@ -9283,7 +9301,7 @@ class MethodSetting {
       requireAuthorizationForCacheControl:
           json['requireAuthorizationForCacheControl'] as bool?,
       throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
-      throttlingRateLimit: json['throttlingRateLimit'] as double?,
+      throttlingRateLimit: _s.parseJsonDouble(json['throttlingRateLimit']),
       unauthorizedCacheControlHeaderStrategy:
           (json['unauthorizedCacheControlHeaderStrategy'] as String?)
               ?.let(UnauthorizedCacheControlHeaderStrategy.fromString),
@@ -9316,7 +9334,7 @@ class MethodSetting {
       if (throttlingBurstLimit != null)
         'throttlingBurstLimit': throttlingBurstLimit,
       if (throttlingRateLimit != null)
-        'throttlingRateLimit': throttlingRateLimit,
+        'throttlingRateLimit': _s.encodeJsonDouble(throttlingRateLimit),
       if (unauthorizedCacheControlHeaderStrategy != null)
         'unauthorizedCacheControlHeaderStrategy':
             unauthorizedCacheControlHeaderStrategy.value,
@@ -9941,7 +9959,8 @@ class DeploymentCanarySettings {
     final stageVariableOverrides = this.stageVariableOverrides;
     final useStageCache = this.useStageCache;
     return {
-      if (percentTraffic != null) 'percentTraffic': percentTraffic,
+      if (percentTraffic != null)
+        'percentTraffic': _s.encodeJsonDouble(percentTraffic),
       if (stageVariableOverrides != null)
         'stageVariableOverrides': stageVariableOverrides,
       if (useStageCache != null) 'useStageCache': useStageCache,

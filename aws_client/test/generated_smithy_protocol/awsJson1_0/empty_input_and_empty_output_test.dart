@@ -31,7 +31,7 @@ void main() {
     );
 
     await service.emptyInputAndEmptyOutput();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('AwsJson10EmptyInputAndEmptyOutputSendJsonObject', () async {
     final client = MockClient((request) async {

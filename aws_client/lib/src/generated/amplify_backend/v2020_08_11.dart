@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_08_11.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// AWS Amplify Admin API
 class AmplifyBackend {
   final _s.RestJsonProtocol _protocol;
-  AmplifyBackend({
+  factory AmplifyBackend({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'amplifybackend',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'amplifybackend',
+    );
+    return AmplifyBackend._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  AmplifyBackend._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3208,7 +3225,8 @@ class UpdateBackendAuthPasswordPolicyConfig {
       if (additionalConstraints != null)
         'additionalConstraints':
             additionalConstraints.map((e) => e.value).toList(),
-      if (minimumLength != null) 'minimumLength': minimumLength,
+      if (minimumLength != null)
+        'minimumLength': _s.encodeJsonDouble(minimumLength),
     };
   }
 }
@@ -3859,7 +3877,7 @@ class BackendAPIAppSyncAuthSettings {
     return BackendAPIAppSyncAuthSettings(
       cognitoUserPoolId: json['cognitoUserPoolId'] as String?,
       description: json['description'] as String?,
-      expirationTime: json['expirationTime'] as double?,
+      expirationTime: _s.parseJsonDouble(json['expirationTime']),
       openIDAuthTTL: json['openIDAuthTTL'] as String?,
       openIDClientId: json['openIDClientId'] as String?,
       openIDIatTTL: json['openIDIatTTL'] as String?,
@@ -3880,7 +3898,8 @@ class BackendAPIAppSyncAuthSettings {
     return {
       if (cognitoUserPoolId != null) 'cognitoUserPoolId': cognitoUserPoolId,
       if (description != null) 'description': description,
-      if (expirationTime != null) 'expirationTime': expirationTime,
+      if (expirationTime != null)
+        'expirationTime': _s.encodeJsonDouble(expirationTime),
       if (openIDAuthTTL != null) 'openIDAuthTTL': openIDAuthTTL,
       if (openIDClientId != null) 'openIDClientId': openIDClientId,
       if (openIDIatTTL != null) 'openIDIatTTL': openIDIatTTL,
@@ -4455,7 +4474,7 @@ class CreateBackendAuthPasswordPolicyConfig {
   factory CreateBackendAuthPasswordPolicyConfig.fromJson(
       Map<String, dynamic> json) {
     return CreateBackendAuthPasswordPolicyConfig(
-      minimumLength: (json['minimumLength'] as double?) ?? 0,
+      minimumLength: _s.parseJsonDouble(json['minimumLength']) ?? 0,
       additionalConstraints: (json['additionalConstraints'] as List?)
           ?.nonNulls
           .map((e) => AdditionalConstraintsElement.fromString((e as String)))
@@ -4467,7 +4486,7 @@ class CreateBackendAuthPasswordPolicyConfig {
     final minimumLength = this.minimumLength;
     final additionalConstraints = this.additionalConstraints;
     return {
-      'minimumLength': minimumLength,
+      'minimumLength': _s.encodeJsonDouble(minimumLength),
       if (additionalConstraints != null)
         'additionalConstraints':
             additionalConstraints.map((e) => e.value).toList(),

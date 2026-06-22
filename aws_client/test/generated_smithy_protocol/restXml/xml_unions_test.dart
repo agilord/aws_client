@@ -55,7 +55,7 @@ void main() {
         ),
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithStringMember', () async {
     final client = MockClient((request) async {
@@ -82,7 +82,7 @@ void main() {
         stringValue: "some string",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithBooleanMember', () async {
     final client = MockClient((request) async {
@@ -109,7 +109,7 @@ void main() {
         booleanValue: true,
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithUnionMember', () async {
     final client = MockClient((request) async {
@@ -140,7 +140,7 @@ void main() {
         ),
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithStructMember', () async {
     final client = MockClient((request) async {
@@ -188,7 +188,7 @@ void main() {
     expect(output.unionValue?.structValue?.shortValue, 2);
     expect(output.unionValue?.structValue?.stringValue, "string");
     expect(output.unionValue?.unionValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithStringMember', () async {
     final client = MockClient((request) async {
@@ -220,7 +220,7 @@ void main() {
     expect(output.unionValue?.stringValue, "some string");
     expect(output.unionValue?.structValue, isNull);
     expect(output.unionValue?.unionValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithBooleanMember', () async {
     final client = MockClient((request) async {
@@ -252,7 +252,7 @@ void main() {
     expect(output.unionValue?.stringValue, isNull);
     expect(output.unionValue?.structValue, isNull);
     expect(output.unionValue?.unionValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlUnionsWithUnionMember', () async {
     final client = MockClient((request) async {
@@ -295,5 +295,5 @@ void main() {
     expect(output.unionValue?.unionValue?.stringValue, isNull);
     expect(output.unionValue?.unionValue?.structValue, isNull);
     expect(output.unionValue?.unionValue?.unionValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

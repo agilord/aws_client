@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2014_11_13.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic Container Service (Amazon ECS) is a highly scalable, fast,
@@ -29,22 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// manage.
 class Ecs {
   final _s.JsonProtocol _protocol;
-  Ecs({
+  factory Ecs({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'ecs',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'ecs',
+    );
+    return Ecs._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Ecs._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -10848,7 +10865,7 @@ class Scale {
   factory Scale.fromJson(Map<String, dynamic> json) {
     return Scale(
       unit: (json['unit'] as String?)?.let(ScaleUnit.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -10857,7 +10874,7 @@ class Scale {
     final value = this.value;
     return {
       if (unit != null) 'unit': unit.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -19105,7 +19122,7 @@ class ManagedApplicationAutoScalingPolicy {
       policyType: (json['policyType'] as String?) ?? '',
       status:
           ManagedResourceStatus.fromString((json['status'] as String?) ?? ''),
-      targetValue: (json['targetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['targetValue']) ?? 0,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       arn: json['arn'] as String?,
       statusReason: json['statusReason'] as String?,
@@ -19124,7 +19141,7 @@ class ManagedApplicationAutoScalingPolicy {
       'metric': metric,
       'policyType': policyType,
       'status': status.value,
-      'targetValue': targetValue,
+      'targetValue': _s.encodeJsonDouble(targetValue),
       'updatedAt': unixTimestampToJson(updatedAt),
       if (arn != null) 'arn': arn,
       if (statusReason != null) 'statusReason': statusReason,
@@ -22083,7 +22100,7 @@ class LinearConfiguration {
   factory LinearConfiguration.fromJson(Map<String, dynamic> json) {
     return LinearConfiguration(
       stepBakeTimeInMinutes: json['stepBakeTimeInMinutes'] as int?,
-      stepPercent: json['stepPercent'] as double?,
+      stepPercent: _s.parseJsonDouble(json['stepPercent']),
     );
   }
 
@@ -22093,7 +22110,7 @@ class LinearConfiguration {
     return {
       if (stepBakeTimeInMinutes != null)
         'stepBakeTimeInMinutes': stepBakeTimeInMinutes,
-      if (stepPercent != null) 'stepPercent': stepPercent,
+      if (stepPercent != null) 'stepPercent': _s.encodeJsonDouble(stepPercent),
     };
   }
 }
@@ -22127,7 +22144,7 @@ class CanaryConfiguration {
   factory CanaryConfiguration.fromJson(Map<String, dynamic> json) {
     return CanaryConfiguration(
       canaryBakeTimeInMinutes: json['canaryBakeTimeInMinutes'] as int?,
-      canaryPercent: json['canaryPercent'] as double?,
+      canaryPercent: _s.parseJsonDouble(json['canaryPercent']),
     );
   }
 
@@ -22137,7 +22154,8 @@ class CanaryConfiguration {
     return {
       if (canaryBakeTimeInMinutes != null)
         'canaryBakeTimeInMinutes': canaryBakeTimeInMinutes,
-      if (canaryPercent != null) 'canaryPercent': canaryPercent,
+      if (canaryPercent != null)
+        'canaryPercent': _s.encodeJsonDouble(canaryPercent),
     };
   }
 }
@@ -23679,9 +23697,10 @@ class ServiceRevisionSummary {
       arn: json['arn'] as String?,
       pendingTaskCount: json['pendingTaskCount'] as int?,
       requestedProductionTrafficWeight:
-          json['requestedProductionTrafficWeight'] as double?,
+          _s.parseJsonDouble(json['requestedProductionTrafficWeight']),
       requestedTaskCount: json['requestedTaskCount'] as int?,
-      requestedTestTrafficWeight: json['requestedTestTrafficWeight'] as double?,
+      requestedTestTrafficWeight:
+          _s.parseJsonDouble(json['requestedTestTrafficWeight']),
       runningTaskCount: json['runningTaskCount'] as int?,
     );
   }
@@ -23698,10 +23717,12 @@ class ServiceRevisionSummary {
       if (arn != null) 'arn': arn,
       if (pendingTaskCount != null) 'pendingTaskCount': pendingTaskCount,
       if (requestedProductionTrafficWeight != null)
-        'requestedProductionTrafficWeight': requestedProductionTrafficWeight,
+        'requestedProductionTrafficWeight':
+            _s.encodeJsonDouble(requestedProductionTrafficWeight),
       if (requestedTaskCount != null) 'requestedTaskCount': requestedTaskCount,
       if (requestedTestTrafficWeight != null)
-        'requestedTestTrafficWeight': requestedTestTrafficWeight,
+        'requestedTestTrafficWeight':
+            _s.encodeJsonDouble(requestedTestTrafficWeight),
       if (runningTaskCount != null) 'runningTaskCount': runningTaskCount,
     };
   }
@@ -24937,7 +24958,7 @@ class DaemonDeploymentConfiguration {
               json['alarms'] as Map<String, dynamic>)
           : null,
       bakeTimeInMinutes: json['bakeTimeInMinutes'] as int?,
-      drainPercent: json['drainPercent'] as double?,
+      drainPercent: _s.parseJsonDouble(json['drainPercent']),
     );
   }
 
@@ -24948,7 +24969,8 @@ class DaemonDeploymentConfiguration {
     return {
       if (alarms != null) 'alarms': alarms,
       if (bakeTimeInMinutes != null) 'bakeTimeInMinutes': bakeTimeInMinutes,
-      if (drainPercent != null) 'drainPercent': drainPercent,
+      if (drainPercent != null)
+        'drainPercent': _s.encodeJsonDouble(drainPercent),
     };
   }
 }
@@ -26267,7 +26289,7 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       integerValue: json['integerValue'] as int?,
       longValue: json['longValue'] as int?,
       name: json['name'] as String?,
@@ -26287,7 +26309,7 @@ class Resource {
     final stringSetValue = this.stringSetValue;
     final type = this.type;
     return {
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (name != null) 'name': name,
@@ -28799,8 +28821,8 @@ class MemoryGiBPerVCpuRequest {
 
   factory MemoryGiBPerVCpuRequest.fromJson(Map<String, dynamic> json) {
     return MemoryGiBPerVCpuRequest(
-      max: json['max'] as double?,
-      min: json['min'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
     );
   }
 
@@ -28808,8 +28830,8 @@ class MemoryGiBPerVCpuRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -28948,8 +28970,8 @@ class TotalLocalStorageGBRequest {
 
   factory TotalLocalStorageGBRequest.fromJson(Map<String, dynamic> json) {
     return TotalLocalStorageGBRequest(
-      max: json['max'] as double?,
-      min: json['min'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
     );
   }
 
@@ -28957,8 +28979,8 @@ class TotalLocalStorageGBRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -29091,8 +29113,8 @@ class NetworkBandwidthGbpsRequest {
 
   factory NetworkBandwidthGbpsRequest.fromJson(Map<String, dynamic> json) {
     return NetworkBandwidthGbpsRequest(
-      max: json['max'] as double?,
-      min: json['min'] as double?,
+      max: _s.parseJsonDouble(json['max']),
+      min: _s.parseJsonDouble(json['min']),
     );
   }
 
@@ -29100,8 +29122,8 @@ class NetworkBandwidthGbpsRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
+      if (max != null) 'max': _s.encodeJsonDouble(max),
+      if (min != null) 'min': _s.encodeJsonDouble(min),
     };
   }
 }

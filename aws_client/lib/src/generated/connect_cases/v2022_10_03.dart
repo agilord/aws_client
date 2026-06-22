@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_10_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// <ul>
@@ -41,22 +43,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Connect Cases</a> in the <i>Amazon Connect Administrator Guide</i>.
 class ConnectCases {
   final _s.RestJsonProtocol _protocol;
-  ConnectCases({
+  factory ConnectCases({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'cases',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'cases',
+    );
+    return ConnectCases._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ConnectCases._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4830,7 +4847,7 @@ class FieldValueUnion {
   factory FieldValueUnion.fromJson(Map<String, dynamic> json) {
     return FieldValueUnion(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       emptyValue: json['emptyValue'] != null
           ? EmptyFieldValue.fromJson(json['emptyValue'] as Map<String, dynamic>)
           : null,
@@ -4847,7 +4864,7 @@ class FieldValueUnion {
     final userArnValue = this.userArnValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'emptyValue': emptyValue,
       if (stringValue != null) 'stringValue': stringValue,
       if (userArnValue != null) 'userArnValue': userArnValue,
@@ -6056,7 +6073,7 @@ class OperandTwo {
   factory OperandTwo.fromJson(Map<String, dynamic> json) {
     return OperandTwo(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       emptyValue: json['emptyValue'] != null
           ? EmptyOperandValue.fromJson(
               json['emptyValue'] as Map<String, dynamic>)
@@ -6072,7 +6089,7 @@ class OperandTwo {
     final stringValue = this.stringValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'emptyValue': emptyValue,
       if (stringValue != null) 'stringValue': stringValue,
     };
@@ -6948,7 +6965,7 @@ class AuditEventFieldValueUnion {
   factory AuditEventFieldValueUnion.fromJson(Map<String, dynamic> json) {
     return AuditEventFieldValueUnion(
       booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
       emptyValue: json['emptyValue'] != null
           ? EmptyFieldValue.fromJson(json['emptyValue'] as Map<String, dynamic>)
           : null,
@@ -6965,7 +6982,7 @@ class AuditEventFieldValueUnion {
     final userArnValue = this.userArnValue;
     return {
       if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
       if (emptyValue != null) 'emptyValue': emptyValue,
       if (stringValue != null) 'stringValue': stringValue,
       if (userArnValue != null) 'userArnValue': userArnValue,

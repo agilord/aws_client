@@ -34,7 +34,7 @@ void main() {
         greeting: "hello",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlHttpPayloadWithUnsetUnion', () async {
     final client = MockClient((request) async {
@@ -71,7 +71,7 @@ void main() {
 
     final output = await service.httpPayloadWithUnion();
     expect(output.nested?.greeting, "hello");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('RestXmlHttpPayloadWithUnsetUnion', () async {
     final client = MockClient((request) async {

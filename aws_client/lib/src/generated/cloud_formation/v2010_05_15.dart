@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2010_05_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// CloudFormation allows you to create and manage Amazon Web Services
@@ -29,23 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// creating or configuring the underlying Amazon Web Services infrastructure.
 class CloudFormation {
   final _s.QueryProtocol _protocol;
-
-  CloudFormation({
+  factory CloudFormation({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'cloudformation',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'cloudformation',
+    );
+    return CloudFormation._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CloudFormation._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8711,7 +8727,7 @@ class DescribeResourceScanOutput {
     return {
       if (endTime != null) 'EndTime': iso8601ToJson(endTime),
       if (percentageCompleted != null)
-        'PercentageCompleted': percentageCompleted,
+        'PercentageCompleted': _s.encodeJsonDouble(percentageCompleted),
       if (resourceScanId != null) 'ResourceScanId': resourceScanId,
       if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       if (resourcesRead != null) 'ResourcesRead': resourcesRead,
@@ -15767,7 +15783,7 @@ class ResourceScanSummary {
     return {
       if (endTime != null) 'EndTime': iso8601ToJson(endTime),
       if (percentageCompleted != null)
-        'PercentageCompleted': percentageCompleted,
+        'PercentageCompleted': _s.encodeJsonDouble(percentageCompleted),
       if (resourceScanId != null) 'ResourceScanId': resourceScanId,
       if (scanType != null) 'ScanType': scanType.value,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),

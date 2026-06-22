@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Transcribe streaming offers four main types of real-time
@@ -48,23 +50,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class TranscribeStreaming {
   final _s.RestJsonProtocol _protocol;
-  TranscribeStreaming({
+  factory TranscribeStreaming({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'transcribestreaming',
-            signingName: 'transcribe',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'transcribestreaming',
+      signingName: 'transcribe',
+    );
+    return TranscribeStreaming._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  TranscribeStreaming._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2551,7 +2568,7 @@ class Result {
           .map((e) => Alternative.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelId: json['ChannelId'] as String?,
-      endTime: json['EndTime'] as double?,
+      endTime: _s.parseJsonDouble(json['EndTime']),
       isPartial: json['IsPartial'] as bool?,
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
@@ -2560,7 +2577,7 @@ class Result {
           .map((e) => LanguageWithScore.fromJson(e as Map<String, dynamic>))
           .toList(),
       resultId: json['ResultId'] as String?,
-      startTime: json['StartTime'] as double?,
+      startTime: _s.parseJsonDouble(json['StartTime']),
     );
   }
 
@@ -2576,13 +2593,13 @@ class Result {
     return {
       if (alternatives != null) 'Alternatives': alternatives,
       if (channelId != null) 'ChannelId': channelId,
-      if (endTime != null) 'EndTime': endTime,
+      if (endTime != null) 'EndTime': _s.encodeJsonDouble(endTime),
       if (isPartial != null) 'IsPartial': isPartial,
       if (languageCode != null) 'LanguageCode': languageCode.value,
       if (languageIdentification != null)
         'LanguageIdentification': languageIdentification,
       if (resultId != null) 'ResultId': resultId,
-      if (startTime != null) 'StartTime': startTime,
+      if (startTime != null) 'StartTime': _s.encodeJsonDouble(startTime),
     };
   }
 }
@@ -2611,7 +2628,7 @@ class LanguageWithScore {
     return LanguageWithScore(
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -2620,7 +2637,7 @@ class LanguageWithScore {
     final score = this.score;
     return {
       if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -2719,10 +2736,10 @@ class Entity {
   factory Entity.fromJson(Map<String, dynamic> json) {
     return Entity(
       category: json['Category'] as String?,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
-      endTime: json['EndTime'] as double?,
-      startTime: json['StartTime'] as double?,
+      endTime: _s.parseJsonDouble(json['EndTime']),
+      startTime: _s.parseJsonDouble(json['StartTime']),
       type: json['Type'] as String?,
     );
   }
@@ -2736,10 +2753,10 @@ class Entity {
     final type = this.type;
     return {
       if (category != null) 'Category': category,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
-      if (endTime != null) 'EndTime': endTime,
-      if (startTime != null) 'StartTime': startTime,
+      if (endTime != null) 'EndTime': _s.encodeJsonDouble(endTime),
+      if (startTime != null) 'StartTime': _s.encodeJsonDouble(startTime),
       if (type != null) 'Type': type,
     };
   }
@@ -2800,12 +2817,12 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
-      endTime: json['EndTime'] as double?,
+      endTime: _s.parseJsonDouble(json['EndTime']),
       speaker: json['Speaker'] as String?,
       stable: json['Stable'] as bool?,
-      startTime: json['StartTime'] as double?,
+      startTime: _s.parseJsonDouble(json['StartTime']),
       type: (json['Type'] as String?)?.let(ItemType.fromString),
       vocabularyFilterMatch: json['VocabularyFilterMatch'] as bool?,
     );
@@ -2821,12 +2838,12 @@ class Item {
     final type = this.type;
     final vocabularyFilterMatch = this.vocabularyFilterMatch;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
-      if (endTime != null) 'EndTime': endTime,
+      if (endTime != null) 'EndTime': _s.encodeJsonDouble(endTime),
       if (speaker != null) 'Speaker': speaker,
       if (stable != null) 'Stable': stable,
-      if (startTime != null) 'StartTime': startTime,
+      if (startTime != null) 'StartTime': _s.encodeJsonDouble(startTime),
       if (type != null) 'Type': type.value,
       if (vocabularyFilterMatch != null)
         'VocabularyFilterMatch': vocabularyFilterMatch,
@@ -3443,10 +3460,10 @@ class MedicalResult {
           .map((e) => MedicalAlternative.fromJson(e as Map<String, dynamic>))
           .toList(),
       channelId: json['ChannelId'] as String?,
-      endTime: json['EndTime'] as double?,
+      endTime: _s.parseJsonDouble(json['EndTime']),
       isPartial: json['IsPartial'] as bool?,
       resultId: json['ResultId'] as String?,
-      startTime: json['StartTime'] as double?,
+      startTime: _s.parseJsonDouble(json['StartTime']),
     );
   }
 
@@ -3460,10 +3477,10 @@ class MedicalResult {
     return {
       if (alternatives != null) 'Alternatives': alternatives,
       if (channelId != null) 'ChannelId': channelId,
-      if (endTime != null) 'EndTime': endTime,
+      if (endTime != null) 'EndTime': _s.encodeJsonDouble(endTime),
       if (isPartial != null) 'IsPartial': isPartial,
       if (resultId != null) 'ResultId': resultId,
-      if (startTime != null) 'StartTime': startTime,
+      if (startTime != null) 'StartTime': _s.encodeJsonDouble(startTime),
     };
   }
 }
@@ -3555,10 +3572,10 @@ class MedicalEntity {
   factory MedicalEntity.fromJson(Map<String, dynamic> json) {
     return MedicalEntity(
       category: json['Category'] as String?,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
-      endTime: json['EndTime'] as double?,
-      startTime: json['StartTime'] as double?,
+      endTime: _s.parseJsonDouble(json['EndTime']),
+      startTime: _s.parseJsonDouble(json['StartTime']),
     );
   }
 
@@ -3570,10 +3587,10 @@ class MedicalEntity {
     final startTime = this.startTime;
     return {
       if (category != null) 'Category': category,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
-      if (endTime != null) 'EndTime': endTime,
-      if (startTime != null) 'StartTime': startTime,
+      if (endTime != null) 'EndTime': _s.encodeJsonDouble(endTime),
+      if (startTime != null) 'StartTime': _s.encodeJsonDouble(startTime),
     };
   }
 }
@@ -3619,11 +3636,11 @@ class MedicalItem {
 
   factory MedicalItem.fromJson(Map<String, dynamic> json) {
     return MedicalItem(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
-      endTime: json['EndTime'] as double?,
+      endTime: _s.parseJsonDouble(json['EndTime']),
       speaker: json['Speaker'] as String?,
-      startTime: json['StartTime'] as double?,
+      startTime: _s.parseJsonDouble(json['StartTime']),
       type: (json['Type'] as String?)?.let(ItemType.fromString),
     );
   }
@@ -3636,11 +3653,11 @@ class MedicalItem {
     final startTime = this.startTime;
     final type = this.type;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
-      if (endTime != null) 'EndTime': endTime,
+      if (endTime != null) 'EndTime': _s.encodeJsonDouble(endTime),
       if (speaker != null) 'Speaker': speaker,
-      if (startTime != null) 'StartTime': startTime,
+      if (startTime != null) 'StartTime': _s.encodeJsonDouble(startTime),
       if (type != null) 'Type': type.value,
     };
   }
@@ -3850,10 +3867,10 @@ class MedicalScribeTranscriptSegment {
 
   factory MedicalScribeTranscriptSegment.fromJson(Map<String, dynamic> json) {
     return MedicalScribeTranscriptSegment(
-      beginAudioTime: json['BeginAudioTime'] as double?,
+      beginAudioTime: _s.parseJsonDouble(json['BeginAudioTime']),
       channelId: json['ChannelId'] as String?,
       content: json['Content'] as String?,
-      endAudioTime: json['EndAudioTime'] as double?,
+      endAudioTime: _s.parseJsonDouble(json['EndAudioTime']),
       isPartial: json['IsPartial'] as bool?,
       items: (json['Items'] as List?)
           ?.nonNulls
@@ -3873,10 +3890,12 @@ class MedicalScribeTranscriptSegment {
     final items = this.items;
     final segmentId = this.segmentId;
     return {
-      if (beginAudioTime != null) 'BeginAudioTime': beginAudioTime,
+      if (beginAudioTime != null)
+        'BeginAudioTime': _s.encodeJsonDouble(beginAudioTime),
       if (channelId != null) 'ChannelId': channelId,
       if (content != null) 'Content': content,
-      if (endAudioTime != null) 'EndAudioTime': endAudioTime,
+      if (endAudioTime != null)
+        'EndAudioTime': _s.encodeJsonDouble(endAudioTime),
       if (isPartial != null) 'IsPartial': isPartial,
       if (items != null) 'Items': items,
       if (segmentId != null) 'SegmentId': segmentId,
@@ -3926,10 +3945,10 @@ class MedicalScribeTranscriptItem {
 
   factory MedicalScribeTranscriptItem.fromJson(Map<String, dynamic> json) {
     return MedicalScribeTranscriptItem(
-      beginAudioTime: json['BeginAudioTime'] as double?,
-      confidence: json['Confidence'] as double?,
+      beginAudioTime: _s.parseJsonDouble(json['BeginAudioTime']),
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
-      endAudioTime: json['EndAudioTime'] as double?,
+      endAudioTime: _s.parseJsonDouble(json['EndAudioTime']),
       type: (json['Type'] as String?)
           ?.let(MedicalScribeTranscriptItemType.fromString),
       vocabularyFilterMatch: json['VocabularyFilterMatch'] as bool?,
@@ -3944,10 +3963,12 @@ class MedicalScribeTranscriptItem {
     final type = this.type;
     final vocabularyFilterMatch = this.vocabularyFilterMatch;
     return {
-      if (beginAudioTime != null) 'BeginAudioTime': beginAudioTime,
-      if (confidence != null) 'Confidence': confidence,
+      if (beginAudioTime != null)
+        'BeginAudioTime': _s.encodeJsonDouble(beginAudioTime),
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
-      if (endAudioTime != null) 'EndAudioTime': endAudioTime,
+      if (endAudioTime != null)
+        'EndAudioTime': _s.encodeJsonDouble(endAudioTime),
       if (type != null) 'Type': type.value,
       if (vocabularyFilterMatch != null)
         'VocabularyFilterMatch': vocabularyFilterMatch,
@@ -5030,7 +5051,7 @@ class CallAnalyticsLanguageWithScore {
     return CallAnalyticsLanguageWithScore(
       languageCode: (json['LanguageCode'] as String?)
           ?.let(CallAnalyticsLanguageCode.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -5039,7 +5060,7 @@ class CallAnalyticsLanguageWithScore {
     final score = this.score;
     return {
       if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -5157,7 +5178,7 @@ class CallAnalyticsEntity {
     return CallAnalyticsEntity(
       beginOffsetMillis: json['BeginOffsetMillis'] as int?,
       category: json['Category'] as String?,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
       endOffsetMillis: json['EndOffsetMillis'] as int?,
       type: json['Type'] as String?,
@@ -5174,7 +5195,7 @@ class CallAnalyticsEntity {
     return {
       if (beginOffsetMillis != null) 'BeginOffsetMillis': beginOffsetMillis,
       if (category != null) 'Category': category,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
       if (endOffsetMillis != null) 'EndOffsetMillis': endOffsetMillis,
       if (type != null) 'Type': type,
@@ -5233,7 +5254,7 @@ class CallAnalyticsItem {
   factory CallAnalyticsItem.fromJson(Map<String, dynamic> json) {
     return CallAnalyticsItem(
       beginOffsetMillis: json['BeginOffsetMillis'] as int?,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       content: json['Content'] as String?,
       endOffsetMillis: json['EndOffsetMillis'] as int?,
       stable: json['Stable'] as bool?,
@@ -5252,7 +5273,7 @@ class CallAnalyticsItem {
     final vocabularyFilterMatch = this.vocabularyFilterMatch;
     return {
       if (beginOffsetMillis != null) 'BeginOffsetMillis': beginOffsetMillis,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (content != null) 'Content': content,
       if (endOffsetMillis != null) 'EndOffsetMillis': endOffsetMillis,
       if (stable != null) 'Stable': stable,

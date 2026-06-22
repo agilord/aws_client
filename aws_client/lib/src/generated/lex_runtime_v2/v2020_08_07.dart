@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,29 +19,45 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_08_07.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This section contains documentation for the Amazon Lex V2 Runtime V2 API
 /// operations.
 class LexRuntimeV2 {
   final _s.RestJsonProtocol _protocol;
-  LexRuntimeV2({
+  factory LexRuntimeV2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'runtime-v2-lex',
-            signingName: 'lex',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'runtime-v2-lex',
+      signingName: 'lex',
+    );
+    return LexRuntimeV2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  LexRuntimeV2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2740,14 +2757,14 @@ class ConfidenceScore {
 
   factory ConfidenceScore.fromJson(Map<String, dynamic> json) {
     return ConfidenceScore(
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final score = this.score;
     return {
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -2875,10 +2892,10 @@ class SentimentScore {
 
   factory SentimentScore.fromJson(Map<String, dynamic> json) {
     return SentimentScore(
-      mixed: json['mixed'] as double?,
-      negative: json['negative'] as double?,
-      neutral: json['neutral'] as double?,
-      positive: json['positive'] as double?,
+      mixed: _s.parseJsonDouble(json['mixed']),
+      negative: _s.parseJsonDouble(json['negative']),
+      neutral: _s.parseJsonDouble(json['neutral']),
+      positive: _s.parseJsonDouble(json['positive']),
     );
   }
 
@@ -2888,10 +2905,10 @@ class SentimentScore {
     final neutral = this.neutral;
     final positive = this.positive;
     return {
-      if (mixed != null) 'mixed': mixed,
-      if (negative != null) 'negative': negative,
-      if (neutral != null) 'neutral': neutral,
-      if (positive != null) 'positive': positive,
+      if (mixed != null) 'mixed': _s.encodeJsonDouble(mixed),
+      if (negative != null) 'negative': _s.encodeJsonDouble(negative),
+      if (neutral != null) 'neutral': _s.encodeJsonDouble(neutral),
+      if (positive != null) 'positive': _s.encodeJsonDouble(positive),
     };
   }
 }

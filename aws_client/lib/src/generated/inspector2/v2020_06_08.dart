@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_06_08.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Inspector is a vulnerability discovery service that automates
@@ -25,22 +27,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon ECR, and Amazon Web Services Lambda environments.
 class Inspector2 {
   final _s.RestJsonProtocol _protocol;
-  Inspector2({
+  factory Inspector2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'inspector2',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'inspector2',
+    );
+    return Inspector2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Inspector2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -5927,8 +5944,8 @@ class NumberFilter {
 
   factory NumberFilter.fromJson(Map<String, dynamic> json) {
     return NumberFilter(
-      lowerInclusive: json['lowerInclusive'] as double?,
-      upperInclusive: json['upperInclusive'] as double?,
+      lowerInclusive: _s.parseJsonDouble(json['lowerInclusive']),
+      upperInclusive: _s.parseJsonDouble(json['upperInclusive']),
     );
   }
 
@@ -5936,8 +5953,10 @@ class NumberFilter {
     final lowerInclusive = this.lowerInclusive;
     final upperInclusive = this.upperInclusive;
     return {
-      if (lowerInclusive != null) 'lowerInclusive': lowerInclusive,
-      if (upperInclusive != null) 'upperInclusive': upperInclusive,
+      if (lowerInclusive != null)
+        'lowerInclusive': _s.encodeJsonDouble(lowerInclusive),
+      if (upperInclusive != null)
+        'upperInclusive': _s.encodeJsonDouble(upperInclusive),
     };
   }
 }
@@ -7565,7 +7584,7 @@ class Cvss4 {
 
   factory Cvss4.fromJson(Map<String, dynamic> json) {
     return Cvss4(
-      baseScore: json['baseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['baseScore']),
       scoringVector: json['scoringVector'] as String?,
     );
   }
@@ -7574,7 +7593,7 @@ class Cvss4 {
     final baseScore = this.baseScore;
     final scoringVector = this.scoringVector;
     return {
-      if (baseScore != null) 'baseScore': baseScore,
+      if (baseScore != null) 'baseScore': _s.encodeJsonDouble(baseScore),
       if (scoringVector != null) 'scoringVector': scoringVector,
     };
   }
@@ -7598,7 +7617,7 @@ class Cvss3 {
 
   factory Cvss3.fromJson(Map<String, dynamic> json) {
     return Cvss3(
-      baseScore: json['baseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['baseScore']),
       scoringVector: json['scoringVector'] as String?,
     );
   }
@@ -7607,7 +7626,7 @@ class Cvss3 {
     final baseScore = this.baseScore;
     final scoringVector = this.scoringVector;
     return {
-      if (baseScore != null) 'baseScore': baseScore,
+      if (baseScore != null) 'baseScore': _s.encodeJsonDouble(baseScore),
       if (scoringVector != null) 'scoringVector': scoringVector,
     };
   }
@@ -7631,7 +7650,7 @@ class Cvss2 {
 
   factory Cvss2.fromJson(Map<String, dynamic> json) {
     return Cvss2(
-      baseScore: json['baseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['baseScore']),
       scoringVector: json['scoringVector'] as String?,
     );
   }
@@ -7640,7 +7659,7 @@ class Cvss2 {
     final baseScore = this.baseScore;
     final scoringVector = this.scoringVector;
     return {
-      if (baseScore != null) 'baseScore': baseScore,
+      if (baseScore != null) 'baseScore': _s.encodeJsonDouble(baseScore),
       if (scoringVector != null) 'scoringVector': scoringVector,
     };
   }
@@ -7691,14 +7710,14 @@ class Epss {
 
   factory Epss.fromJson(Map<String, dynamic> json) {
     return Epss(
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final score = this.score;
     return {
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -7784,8 +7803,8 @@ class Usage {
   factory Usage.fromJson(Map<String, dynamic> json) {
     return Usage(
       currency: (json['currency'] as String?)?.let(Currency.fromString),
-      estimatedMonthlyCost: json['estimatedMonthlyCost'] as double?,
-      total: json['total'] as double?,
+      estimatedMonthlyCost: _s.parseJsonDouble(json['estimatedMonthlyCost']),
+      total: _s.parseJsonDouble(json['total']),
       type: (json['type'] as String?)?.let(UsageType.fromString),
     );
   }
@@ -7798,8 +7817,8 @@ class Usage {
     return {
       if (currency != null) 'currency': currency.value,
       if (estimatedMonthlyCost != null)
-        'estimatedMonthlyCost': estimatedMonthlyCost,
-      if (total != null) 'total': total,
+        'estimatedMonthlyCost': _s.encodeJsonDouble(estimatedMonthlyCost),
+      if (total != null) 'total': _s.encodeJsonDouble(total),
       if (type != null) 'type': type.value,
     };
   }
@@ -8115,7 +8134,7 @@ class Finding {
           : null,
       fixAvailable:
           (json['fixAvailable'] as String?)?.let(FixAvailable.fromString),
-      inspectorScore: json['inspectorScore'] as double?,
+      inspectorScore: _s.parseJsonDouble(json['inspectorScore']),
       inspectorScoreDetails: json['inspectorScoreDetails'] != null
           ? InspectorScoreDetails.fromJson(
               json['inspectorScoreDetails'] as Map<String, dynamic>)
@@ -8173,7 +8192,8 @@ class Finding {
       if (exploitabilityDetails != null)
         'exploitabilityDetails': exploitabilityDetails,
       if (fixAvailable != null) 'fixAvailable': fixAvailable.value,
-      if (inspectorScore != null) 'inspectorScore': inspectorScore,
+      if (inspectorScore != null)
+        'inspectorScore': _s.encodeJsonDouble(inspectorScore),
       if (inspectorScoreDetails != null)
         'inspectorScoreDetails': inspectorScoreDetails,
       if (networkReachabilityDetails != null)
@@ -8671,14 +8691,14 @@ class EpssDetails {
 
   factory EpssDetails.fromJson(Map<String, dynamic> json) {
     return EpssDetails(
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final score = this.score;
     return {
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -8755,7 +8775,7 @@ class CvssScore {
 
   factory CvssScore.fromJson(Map<String, dynamic> json) {
     return CvssScore(
-      baseScore: (json['baseScore'] as double?) ?? 0,
+      baseScore: _s.parseJsonDouble(json['baseScore']) ?? 0,
       scoringVector: (json['scoringVector'] as String?) ?? '',
       source: (json['source'] as String?) ?? '',
       version: (json['version'] as String?) ?? '',
@@ -8768,7 +8788,7 @@ class CvssScore {
     final source = this.source;
     final version = this.version;
     return {
-      'baseScore': baseScore,
+      'baseScore': _s.encodeJsonDouble(baseScore),
       'scoringVector': scoringVector,
       'source': source,
       'version': version,
@@ -9093,7 +9113,7 @@ class CvssScoreDetails {
 
   factory CvssScoreDetails.fromJson(Map<String, dynamic> json) {
     return CvssScoreDetails(
-      score: (json['score'] as double?) ?? 0,
+      score: _s.parseJsonDouble(json['score']) ?? 0,
       scoreSource: (json['scoreSource'] as String?) ?? '',
       scoringVector: (json['scoringVector'] as String?) ?? '',
       version: (json['version'] as String?) ?? '',
@@ -9113,7 +9133,7 @@ class CvssScoreDetails {
     final adjustments = this.adjustments;
     final cvssSource = this.cvssSource;
     return {
-      'score': score,
+      'score': _s.encodeJsonDouble(score),
       'scoreSource': scoreSource,
       'scoringVector': scoringVector,
       'version': version,
@@ -17209,7 +17229,7 @@ class FindingDetail {
           ? CisaData.fromJson(json['cisaData'] as Map<String, dynamic>)
           : null,
       cwes: (json['cwes'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      epssScore: json['epssScore'] as double?,
+      epssScore: _s.parseJsonDouble(json['epssScore']),
       evidences: (json['evidences'] as List?)
           ?.nonNulls
           .map((e) => Evidence.fromJson(e as Map<String, dynamic>))
@@ -17244,7 +17264,7 @@ class FindingDetail {
     return {
       if (cisaData != null) 'cisaData': cisaData,
       if (cwes != null) 'cwes': cwes,
-      if (epssScore != null) 'epssScore': epssScore,
+      if (epssScore != null) 'epssScore': _s.encodeJsonDouble(epssScore),
       if (evidences != null) 'evidences': evidences,
       if (exploitObserved != null) 'exploitObserved': exploitObserved,
       if (findingArn != null) 'findingArn': findingArn,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// With Amazon CloudWatch RUM, you can perform real-user monitoring to collect
@@ -35,22 +37,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// geolocations, and browsers used.
 class Rum {
   final _s.RestJsonProtocol _protocol;
-  Rum({
+  factory Rum({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'rum',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'rum',
+    );
+    return Rum._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Rum._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -138,6 +157,7 @@ class Rum {
       payload: $payload,
       method: 'POST',
       requestUri: '/appmonitors/${Uri.encodeComponent(id)}/',
+      hostPrefix: 'dataplane.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2266,7 +2286,7 @@ class AppMonitorConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      sessionSampleRate: json['SessionSampleRate'] as double?,
+      sessionSampleRate: _s.parseJsonDouble(json['SessionSampleRate']),
       telemetries: (json['Telemetries'] as List?)
           ?.nonNulls
           .map((e) => Telemetry.fromString((e as String)))
@@ -2292,7 +2312,8 @@ class AppMonitorConfiguration {
       if (guestRoleArn != null) 'GuestRoleArn': guestRoleArn,
       if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
       if (includedPages != null) 'IncludedPages': includedPages,
-      if (sessionSampleRate != null) 'SessionSampleRate': sessionSampleRate,
+      if (sessionSampleRate != null)
+        'SessionSampleRate': _s.encodeJsonDouble(sessionSampleRate),
       if (telemetries != null)
         'Telemetries': telemetries.map((e) => e.value).toList(),
     };

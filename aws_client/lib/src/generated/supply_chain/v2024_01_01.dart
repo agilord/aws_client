@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2024_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// AWS Supply Chain is a cloud-based application that works with your
@@ -35,22 +37,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// roles to help facilitate access, trust, and permission policies.
 class SupplyChain {
   final _s.RestJsonProtocol _protocol;
-  SupplyChain({
+  factory SupplyChain({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'scn',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'scn',
+    );
+    return SupplyChain._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  SupplyChain._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2379,7 +2396,7 @@ class Instance {
       instanceName: json['instanceName'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
-      versionNumber: json['versionNumber'] as double?,
+      versionNumber: _s.parseJsonDouble(json['versionNumber']),
       webAppDnsDomain: json['webAppDnsDomain'] as String?,
     );
   }
@@ -2408,7 +2425,8 @@ class Instance {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedTime != null)
         'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (versionNumber != null) 'versionNumber': versionNumber,
+      if (versionNumber != null)
+        'versionNumber': _s.encodeJsonDouble(versionNumber),
       if (webAppDnsDomain != null) 'webAppDnsDomain': webAppDnsDomain,
     };
   }

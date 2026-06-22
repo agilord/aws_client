@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,29 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_02_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon ElastiCache is a web service that makes it easier to set up, operate,
 /// and scale a distributed cache in the cloud.
 class ElastiCache {
   final _s.QueryProtocol _protocol;
-
-  ElastiCache({
+  factory ElastiCache({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'elasticache',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'elasticache',
+    );
+    return ElastiCache._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ElastiCache._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -10253,7 +10269,8 @@ class SlotMigration {
   Map<String, dynamic> toJson() {
     final progressPercentage = this.progressPercentage;
     return {
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'ProgressPercentage': _s.encodeJsonDouble(progressPercentage),
     };
   }
 }
@@ -11988,7 +12005,7 @@ class ReservedCacheNode {
       if (cacheNodeCount != null) 'CacheNodeCount': cacheNodeCount,
       if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (offeringType != null) 'OfferingType': offeringType,
       if (productDescription != null) 'ProductDescription': productDescription,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
@@ -11999,7 +12016,7 @@ class ReservedCacheNode {
         'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
       if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -12033,7 +12050,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -14800,13 +14817,13 @@ class ReservedCacheNodesOffering {
     return {
       if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (offeringType != null) 'OfferingType': offeringType,
       if (productDescription != null) 'ProductDescription': productDescription,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservedCacheNodesOfferingId != null)
         'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }

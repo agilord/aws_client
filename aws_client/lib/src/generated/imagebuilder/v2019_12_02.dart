@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_12_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// EC2 Image Builder is a fully managed Amazon Web Services service that makes
@@ -27,22 +29,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// IT standards.
 class Imagebuilder {
   final _s.RestJsonProtocol _protocol;
-  Imagebuilder({
+  factory Imagebuilder({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'imagebuilder',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'imagebuilder',
+    );
+    return Imagebuilder._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Imagebuilder._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -10849,7 +10866,7 @@ class ImageScanFinding {
       fixAvailable: json['fixAvailable'] as String?,
       imageBuildVersionArn: json['imageBuildVersionArn'] as String?,
       imagePipelineArn: json['imagePipelineArn'] as String?,
-      inspectorScore: json['inspectorScore'] as double?,
+      inspectorScore: _s.parseJsonDouble(json['inspectorScore']),
       inspectorScoreDetails: json['inspectorScoreDetails'] != null
           ? InspectorScoreDetails.fromJson(
               json['inspectorScoreDetails'] as Map<String, dynamic>)
@@ -10892,7 +10909,8 @@ class ImageScanFinding {
       if (imageBuildVersionArn != null)
         'imageBuildVersionArn': imageBuildVersionArn,
       if (imagePipelineArn != null) 'imagePipelineArn': imagePipelineArn,
-      if (inspectorScore != null) 'inspectorScore': inspectorScore,
+      if (inspectorScore != null)
+        'inspectorScore': _s.encodeJsonDouble(inspectorScore),
       if (inspectorScoreDetails != null)
         'inspectorScoreDetails': inspectorScoreDetails,
       if (packageVulnerabilityDetails != null)
@@ -11105,7 +11123,7 @@ class CvssScore {
 
   factory CvssScore.fromJson(Map<String, dynamic> json) {
     return CvssScore(
-      baseScore: json['baseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['baseScore']),
       scoringVector: json['scoringVector'] as String?,
       source: json['source'] as String?,
       version: json['version'] as String?,
@@ -11118,7 +11136,7 @@ class CvssScore {
     final source = this.source;
     final version = this.version;
     return {
-      if (baseScore != null) 'baseScore': baseScore,
+      if (baseScore != null) 'baseScore': _s.encodeJsonDouble(baseScore),
       if (scoringVector != null) 'scoringVector': scoringVector,
       if (source != null) 'source': source,
       if (version != null) 'version': version,
@@ -11255,7 +11273,7 @@ class CvssScoreDetails {
           .map((e) => CvssScoreAdjustment.fromJson(e as Map<String, dynamic>))
           .toList(),
       cvssSource: json['cvssSource'] as String?,
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
       scoreSource: json['scoreSource'] as String?,
       scoringVector: json['scoringVector'] as String?,
       version: json['version'] as String?,
@@ -11272,7 +11290,7 @@ class CvssScoreDetails {
     return {
       if (adjustments != null) 'adjustments': adjustments,
       if (cvssSource != null) 'cvssSource': cvssSource,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
       if (scoreSource != null) 'scoreSource': scoreSource,
       if (scoringVector != null) 'scoringVector': scoringVector,
       if (version != null) 'version': version,

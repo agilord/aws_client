@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2014_10_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// CodeDeploy is a deployment service that automates application deployments to
@@ -113,22 +115,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class CodeDeploy {
   final _s.JsonProtocol _protocol;
-  CodeDeploy({
+  factory CodeDeploy({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'codedeploy',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'codedeploy',
+    );
+    return CodeDeploy._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CodeDeploy._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6215,7 +6232,7 @@ class CloudFormationTarget {
       resourceType: json['resourceType'] as String?,
       status: (json['status'] as String?)?.let(TargetStatus.fromString),
       targetId: json['targetId'] as String?,
-      targetVersionWeight: json['targetVersionWeight'] as double?,
+      targetVersionWeight: _s.parseJsonDouble(json['targetVersionWeight']),
     );
   }
 
@@ -6236,7 +6253,7 @@ class CloudFormationTarget {
       if (status != null) 'status': status.value,
       if (targetId != null) 'targetId': targetId,
       if (targetVersionWeight != null)
-        'targetVersionWeight': targetVersionWeight,
+        'targetVersionWeight': _s.encodeJsonDouble(targetVersionWeight),
     };
   }
 }
@@ -6549,7 +6566,7 @@ class ECSTaskSet {
           : null,
       taskSetLabel:
           (json['taskSetLabel'] as String?)?.let(TargetLabel.fromString),
-      trafficWeight: json['trafficWeight'] as double?,
+      trafficWeight: _s.parseJsonDouble(json['trafficWeight']),
     );
   }
 
@@ -6570,7 +6587,8 @@ class ECSTaskSet {
       if (status != null) 'status': status,
       if (targetGroup != null) 'targetGroup': targetGroup,
       if (taskSetLabel != null) 'taskSetLabel': taskSetLabel.value,
-      if (trafficWeight != null) 'trafficWeight': trafficWeight,
+      if (trafficWeight != null)
+        'trafficWeight': _s.encodeJsonDouble(trafficWeight),
     };
   }
 }
@@ -6636,7 +6654,7 @@ class LambdaFunctionInfo {
       functionAlias: json['functionAlias'] as String?,
       functionName: json['functionName'] as String?,
       targetVersion: json['targetVersion'] as String?,
-      targetVersionWeight: json['targetVersionWeight'] as double?,
+      targetVersionWeight: _s.parseJsonDouble(json['targetVersionWeight']),
     );
   }
 
@@ -6652,7 +6670,7 @@ class LambdaFunctionInfo {
       if (functionName != null) 'functionName': functionName,
       if (targetVersion != null) 'targetVersion': targetVersion,
       if (targetVersionWeight != null)
-        'targetVersionWeight': targetVersionWeight,
+        'targetVersionWeight': _s.encodeJsonDouble(targetVersionWeight),
     };
   }
 }

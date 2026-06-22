@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_08_11.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The Amplify UI Builder API provides a programmatic interface for creating
@@ -38,22 +40,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// User Guide</a>.
 class AmplifyUIBuilder {
   final _s.RestJsonProtocol _protocol;
-  AmplifyUIBuilder({
+  factory AmplifyUIBuilder({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'amplifyuibuilder',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'amplifyuibuilder',
+    );
+    return AmplifyUIBuilder._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  AmplifyUIBuilder._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2545,13 +2562,13 @@ class FieldInputConfig {
               json['fileUploaderConfig'] as Map<String, dynamic>)
           : null,
       isArray: json['isArray'] as bool?,
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
+      maxValue: _s.parseJsonDouble(json['maxValue']),
+      minValue: _s.parseJsonDouble(json['minValue']),
       name: json['name'] as String?,
       placeholder: json['placeholder'] as String?,
       readOnly: json['readOnly'] as bool?,
       required: json['required'] as bool?,
-      step: json['step'] as double?,
+      step: _s.parseJsonDouble(json['step']),
       value: json['value'] as String?,
       valueMappings: json['valueMappings'] != null
           ? ValueMappings.fromJson(
@@ -2585,13 +2602,13 @@ class FieldInputConfig {
       if (descriptiveText != null) 'descriptiveText': descriptiveText,
       if (fileUploaderConfig != null) 'fileUploaderConfig': fileUploaderConfig,
       if (isArray != null) 'isArray': isArray,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
+      if (maxValue != null) 'maxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'minValue': _s.encodeJsonDouble(minValue),
       if (name != null) 'name': name,
       if (placeholder != null) 'placeholder': placeholder,
       if (readOnly != null) 'readOnly': readOnly,
       if (required != null) 'required': required,
-      if (step != null) 'step': step,
+      if (step != null) 'step': _s.encodeJsonDouble(step),
       if (value != null) 'value': value,
       if (valueMappings != null) 'valueMappings': valueMappings,
     };

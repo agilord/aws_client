@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2011_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The <a
@@ -29,23 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// exclude instance details from the response.
 class AutoScaling {
   final _s.QueryProtocol _protocol;
-
-  AutoScaling({
+  factory AutoScaling({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'autoscaling',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'autoscaling',
+    );
+    return AutoScaling._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  AutoScaling._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8279,8 +8295,8 @@ class MemoryGiBPerVCpuRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 
@@ -8442,8 +8458,8 @@ class TotalLocalStorageGBRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 
@@ -8623,8 +8639,8 @@ class NetworkBandwidthGbpsRequest {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 
@@ -9734,7 +9750,7 @@ class TargetTrackingConfiguration {
     final disableScaleIn = this.disableScaleIn;
     final predefinedMetricSpecification = this.predefinedMetricSpecification;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedMetricSpecification != null)
         'CustomizedMetricSpecification': customizedMetricSpecification,
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
@@ -10087,7 +10103,7 @@ class PredictiveScalingMetricSpecification {
     final predefinedScalingMetricSpecification =
         this.predefinedScalingMetricSpecification;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedCapacityMetricSpecification != null)
         'CustomizedCapacityMetricSpecification':
             customizedCapacityMetricSpecification,
@@ -11467,9 +11483,11 @@ class StepAdjustment {
     return {
       'ScalingAdjustment': scalingAdjustment,
       if (metricIntervalLowerBound != null)
-        'MetricIntervalLowerBound': metricIntervalLowerBound,
+        'MetricIntervalLowerBound':
+            _s.encodeJsonDouble(metricIntervalLowerBound),
       if (metricIntervalUpperBound != null)
-        'MetricIntervalUpperBound': metricIntervalUpperBound,
+        'MetricIntervalUpperBound':
+            _s.encodeJsonDouble(metricIntervalUpperBound),
     };
   }
 
@@ -11675,7 +11693,7 @@ class CapacityForecast {
     final values = this.values;
     return {
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -11719,7 +11737,7 @@ class LoadForecast {
     return {
       'MetricSpecification': metricSpecification,
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

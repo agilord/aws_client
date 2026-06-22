@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 class TimestreamQuery {
   final _s.JsonProtocol _protocol;
-  TimestreamQuery({
+  factory TimestreamQuery({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'query.timestream',
-            signingName: 'timestream',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'query.timestream',
+      signingName: 'timestream',
+    );
+    return TimestreamQuery._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  TimestreamQuery._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1738,7 +1755,7 @@ class QueryStatus {
     return QueryStatus(
       cumulativeBytesMetered: json['CumulativeBytesMetered'] as int?,
       cumulativeBytesScanned: json['CumulativeBytesScanned'] as int?,
-      progressPercentage: json['ProgressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['ProgressPercentage']),
     );
   }
 
@@ -1751,7 +1768,8 @@ class QueryStatus {
         'CumulativeBytesMetered': cumulativeBytesMetered,
       if (cumulativeBytesScanned != null)
         'CumulativeBytesScanned': cumulativeBytesScanned,
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'ProgressPercentage': _s.encodeJsonDouble(progressPercentage),
     };
   }
 }
@@ -2025,7 +2043,7 @@ class QuerySpatialCoverageMax {
           .map((e) => e as String)
           .toList(),
       tableArn: json['TableArn'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -2036,7 +2054,7 @@ class QuerySpatialCoverageMax {
     return {
       if (partitionKey != null) 'PartitionKey': partitionKey,
       if (tableArn != null) 'TableArn': tableArn,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }

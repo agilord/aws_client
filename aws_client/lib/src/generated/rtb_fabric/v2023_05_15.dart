@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_05_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Web Services RTB Fabric provides secure, low-latency infrastructure
@@ -35,22 +37,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Services RTB Fabric User Guide</a>.
 class RtbFabric {
   final _s.RestJsonProtocol _protocol;
-  RtbFabric({
+  factory RtbFabric({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'rtbfabric',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'rtbfabric',
+    );
+    return RtbFabric._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  RtbFabric._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3715,8 +3732,8 @@ class LinkApplicationLogSampling {
 
   factory LinkApplicationLogSampling.fromJson(Map<String, dynamic> json) {
     return LinkApplicationLogSampling(
-      errorLog: (json['errorLog'] as double?) ?? 0,
-      filterLog: (json['filterLog'] as double?) ?? 0,
+      errorLog: _s.parseJsonDouble(json['errorLog']) ?? 0,
+      filterLog: _s.parseJsonDouble(json['filterLog']) ?? 0,
     );
   }
 
@@ -3724,8 +3741,8 @@ class LinkApplicationLogSampling {
     final errorLog = this.errorLog;
     final filterLog = this.filterLog;
     return {
-      'errorLog': errorLog,
-      'filterLog': filterLog,
+      'errorLog': _s.encodeJsonDouble(errorLog),
+      'filterLog': _s.encodeJsonDouble(filterLog),
     };
   }
 }
@@ -3763,7 +3780,8 @@ class ResponderErrorMaskingForHttpCode {
           .map(
               (e) => ResponderErrorMaskingLoggingType.fromString((e as String)))
           .toList(),
-      responseLoggingPercentage: json['responseLoggingPercentage'] as double?,
+      responseLoggingPercentage:
+          _s.parseJsonDouble(json['responseLoggingPercentage']),
     );
   }
 
@@ -3777,7 +3795,8 @@ class ResponderErrorMaskingForHttpCode {
       'httpCode': httpCode,
       'loggingTypes': loggingTypes.map((e) => e.value).toList(),
       if (responseLoggingPercentage != null)
-        'responseLoggingPercentage': responseLoggingPercentage,
+        'responseLoggingPercentage':
+            _s.encodeJsonDouble(responseLoggingPercentage),
     };
   }
 }
@@ -3956,7 +3975,7 @@ class NoBidModuleParameters {
 
   factory NoBidModuleParameters.fromJson(Map<String, dynamic> json) {
     return NoBidModuleParameters(
-      passThroughPercentage: json['passThroughPercentage'] as double?,
+      passThroughPercentage: _s.parseJsonDouble(json['passThroughPercentage']),
       reason: json['reason'] as String?,
       reasonCode: json['reasonCode'] as int?,
     );
@@ -3968,7 +3987,7 @@ class NoBidModuleParameters {
     final reasonCode = this.reasonCode;
     return {
       if (passThroughPercentage != null)
-        'passThroughPercentage': passThroughPercentage,
+        'passThroughPercentage': _s.encodeJsonDouble(passThroughPercentage),
       if (reason != null) 'reason': reason,
       if (reasonCode != null) 'reasonCode': reasonCode,
     };
@@ -4007,7 +4026,7 @@ class OpenRtbAttributeModuleParameters {
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
       filterType: FilterType.fromString((json['filterType'] as String?) ?? ''),
-      holdbackPercentage: (json['holdbackPercentage'] as double?) ?? 0,
+      holdbackPercentage: _s.parseJsonDouble(json['holdbackPercentage']) ?? 0,
     );
   }
 
@@ -4020,7 +4039,7 @@ class OpenRtbAttributeModuleParameters {
       'action': action,
       'filterConfiguration': filterConfiguration,
       'filterType': filterType.value,
-      'holdbackPercentage': holdbackPercentage,
+      'holdbackPercentage': _s.encodeJsonDouble(holdbackPercentage),
     };
   }
 }
@@ -4038,14 +4057,14 @@ class RateLimiterModuleParameters {
 
   factory RateLimiterModuleParameters.fromJson(Map<String, dynamic> json) {
     return RateLimiterModuleParameters(
-      tps: json['tps'] as double?,
+      tps: _s.parseJsonDouble(json['tps']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final tps = this.tps;
     return {
-      if (tps != null) 'tps': tps,
+      if (tps != null) 'tps': _s.encodeJsonDouble(tps),
     };
   }
 }

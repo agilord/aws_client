@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Use the Amazon OpenSearch Serverless API to create, configure, and manage
@@ -35,22 +37,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// is Amazon OpenSearch Serverless?</a>
 class OpenSearchServerless {
   final _s.JsonProtocol _protocol;
-  OpenSearchServerless({
+  factory OpenSearchServerless({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'aoss',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'aoss',
+    );
+    return OpenSearchServerless._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  OpenSearchServerless._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4466,10 +4483,14 @@ class CollectionGroupCapacityLimits {
 
   factory CollectionGroupCapacityLimits.fromJson(Map<String, dynamic> json) {
     return CollectionGroupCapacityLimits(
-      maxIndexingCapacityInOCU: json['maxIndexingCapacityInOCU'] as double?,
-      maxSearchCapacityInOCU: json['maxSearchCapacityInOCU'] as double?,
-      minIndexingCapacityInOCU: json['minIndexingCapacityInOCU'] as double?,
-      minSearchCapacityInOCU: json['minSearchCapacityInOCU'] as double?,
+      maxIndexingCapacityInOCU:
+          _s.parseJsonDouble(json['maxIndexingCapacityInOCU']),
+      maxSearchCapacityInOCU:
+          _s.parseJsonDouble(json['maxSearchCapacityInOCU']),
+      minIndexingCapacityInOCU:
+          _s.parseJsonDouble(json['minIndexingCapacityInOCU']),
+      minSearchCapacityInOCU:
+          _s.parseJsonDouble(json['minSearchCapacityInOCU']),
     );
   }
 
@@ -4480,13 +4501,15 @@ class CollectionGroupCapacityLimits {
     final minSearchCapacityInOCU = this.minSearchCapacityInOCU;
     return {
       if (maxIndexingCapacityInOCU != null)
-        'maxIndexingCapacityInOCU': maxIndexingCapacityInOCU,
+        'maxIndexingCapacityInOCU':
+            _s.encodeJsonDouble(maxIndexingCapacityInOCU),
       if (maxSearchCapacityInOCU != null)
-        'maxSearchCapacityInOCU': maxSearchCapacityInOCU,
+        'maxSearchCapacityInOCU': _s.encodeJsonDouble(maxSearchCapacityInOCU),
       if (minIndexingCapacityInOCU != null)
-        'minIndexingCapacityInOCU': minIndexingCapacityInOCU,
+        'minIndexingCapacityInOCU':
+            _s.encodeJsonDouble(minIndexingCapacityInOCU),
       if (minSearchCapacityInOCU != null)
-        'minSearchCapacityInOCU': minSearchCapacityInOCU,
+        'minSearchCapacityInOCU': _s.encodeJsonDouble(minSearchCapacityInOCU),
     };
   }
 }
@@ -6248,7 +6271,7 @@ class CapacityDetails {
     return CapacityDetails(
       autoscalingStatus: (json['autoscalingStatus'] as String?)
           ?.let(AutoscalingStatus.fromString),
-      capacityInOcu: json['capacityInOcu'] as double?,
+      capacityInOcu: _s.parseJsonDouble(json['capacityInOcu']),
     );
   }
 
@@ -6258,7 +6281,8 @@ class CapacityDetails {
     return {
       if (autoscalingStatus != null)
         'autoscalingStatus': autoscalingStatus.value,
-      if (capacityInOcu != null) 'capacityInOcu': capacityInOcu,
+      if (capacityInOcu != null)
+        'capacityInOcu': _s.encodeJsonDouble(capacityInOcu),
     };
   }
 }

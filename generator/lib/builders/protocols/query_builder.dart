@@ -10,27 +10,7 @@ class QueryServiceBuilder extends ServiceBuilder {
   QueryServiceBuilder(this.api);
 
   @override
-  String constructor() {
-    final isRegionRequired = !api.isGlobalService;
-    return '''
-  final _s.QueryProtocol _protocol;
-
-  ${api.metadata.className}({
-    ${isRegionRequired ? 'required String' : 'String?'} region,
-    _s.AwsClientCredentials? credentials,
-    _s.AwsClientCredentialsProvider? credentialsProvider,
-    _s.Client? client, String? endpointUrl,
-    })
-  : _protocol = _s.QueryProtocol(
-      client: client,
-      service: ${buildServiceMetadata(api)},
-      region: region,
-      credentials: credentials,
-      credentialsProvider: credentialsProvider,
-      endpointUrl: endpointUrl,
-    );
-  ''';
-  }
+  String constructor() => buildProtocolConstructor(api, 'QueryProtocol');
 
   @override
   String imports() => '';
@@ -58,6 +38,8 @@ class QueryServiceBuilder extends ServiceBuilder {
       'requestUri: \'${operation.http.requestUri}\', ',
       'exceptionFnMap: _exceptionFns, ',
       if (operation.authtype == 'none') 'signed: false, ',
+      if (buildOperationEndpoint(api, operation) case final ep?) ep,
+      if (buildHostPrefix(operation) case final hp?) hp,
     ].join());
     if (operation.output?.resultWrapper != null) {
       params.write('resultWrapper: \'${operation.output!.resultWrapper}\',');

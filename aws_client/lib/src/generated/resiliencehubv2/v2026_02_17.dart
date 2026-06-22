@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2026_02_17.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The next generation of AWS Resilience Hub is the single location in AWS
@@ -27,22 +29,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// hidden dependencies, and report on progress across the enterprise.
 class ResiliencehubV2 {
   final _s.RestJsonProtocol _protocol;
-  ResiliencehubV2({
+  factory ResiliencehubV2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'resiliencehub',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'resiliencehub',
+    );
+    return ResiliencehubV2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ResiliencehubV2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3940,7 +3957,7 @@ class AssessmentCost {
 
   factory AssessmentCost.fromJson(Map<String, dynamic> json) {
     return AssessmentCost(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       currency: (json['currency'] as String?)?.let(CostCurrency.fromString),
     );
   }
@@ -3949,7 +3966,7 @@ class AssessmentCost {
     final amount = this.amount;
     final currency = this.currency;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (currency != null) 'currency': currency.value,
     };
   }
@@ -4242,7 +4259,7 @@ class SloSource {
     return SloSource(
       policyName: json['policyName'] as String?,
       source: (json['source'] as String?)?.let(PolicyValueSource.fromString),
-      value: json['value'] as double?,
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -4253,7 +4270,7 @@ class SloSource {
     return {
       if (policyName != null) 'policyName': policyName,
       if (source != null) 'source': source.value,
-      if (value != null) 'value': value,
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -4609,14 +4626,14 @@ class AvailabilitySlo {
 
   factory AvailabilitySlo.fromJson(Map<String, dynamic> json) {
     return AvailabilitySlo(
-      target: json['target'] as double?,
+      target: _s.parseJsonDouble(json['target']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final target = this.target;
     return {
-      if (target != null) 'target': target,
+      if (target != null) 'target': _s.encodeJsonDouble(target),
     };
   }
 }

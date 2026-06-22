@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_10_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Connect Wisdom delivers agents the information they need to solve
@@ -27,22 +29,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// knowledge base, for example, or manage content by uploading custom files.
 class Wisdom {
   final _s.RestJsonProtocol _protocol;
-  Wisdom({
+  factory Wisdom({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'wisdom',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'wisdom',
+    );
+    return Wisdom._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Wisdom._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -5653,7 +5670,7 @@ class ResultData {
       document: Document.fromJson((json['document'] as Map<String, dynamic>?) ??
           const <String, dynamic>{}),
       resultId: (json['resultId'] as String?) ?? '',
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
     );
   }
 
@@ -5664,7 +5681,8 @@ class ResultData {
     return {
       'document': document,
       'resultId': resultId,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
     };
   }
 }
@@ -6074,7 +6092,7 @@ class RecommendationData {
       recommendationId: (json['recommendationId'] as String?) ?? '',
       relevanceLevel:
           (json['relevanceLevel'] as String?)?.let(RelevanceLevel.fromString),
-      relevanceScore: json['relevanceScore'] as double?,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']),
       type: (json['type'] as String?)?.let(RecommendationType.fromString),
     );
   }
@@ -6089,7 +6107,8 @@ class RecommendationData {
       'document': document,
       'recommendationId': recommendationId,
       if (relevanceLevel != null) 'relevanceLevel': relevanceLevel.value,
-      if (relevanceScore != null) 'relevanceScore': relevanceScore,
+      if (relevanceScore != null)
+        'relevanceScore': _s.encodeJsonDouble(relevanceScore),
       if (type != null) 'type': type.value,
     };
   }

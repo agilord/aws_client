@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_08_08.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the <i>Global Accelerator API Reference</i>. This guide is for
@@ -28,22 +30,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Accelerator Developer Guide</a>.
 class GlobalAccelerator {
   final _s.JsonProtocol _protocol;
-  GlobalAccelerator({
+  factory GlobalAccelerator({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'globalaccelerator',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'globalaccelerator',
+    );
+    return GlobalAccelerator._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  GlobalAccelerator._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -850,7 +867,7 @@ class GlobalAccelerator {
         if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
-          'TrafficDialPercentage': trafficDialPercentage,
+          'TrafficDialPercentage': _s.encodeJsonDouble(trafficDialPercentage),
       },
     );
 
@@ -2963,7 +2980,7 @@ class GlobalAccelerator {
         if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
-          'TrafficDialPercentage': trafficDialPercentage,
+          'TrafficDialPercentage': _s.encodeJsonDouble(trafficDialPercentage),
       },
     );
 
@@ -4798,7 +4815,7 @@ class EndpointGroup {
           .map((e) => PortOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
       thresholdCount: json['ThresholdCount'] as int?,
-      trafficDialPercentage: json['TrafficDialPercentage'] as double?,
+      trafficDialPercentage: _s.parseJsonDouble(json['TrafficDialPercentage']),
     );
   }
 
@@ -4828,7 +4845,7 @@ class EndpointGroup {
       if (portOverrides != null) 'PortOverrides': portOverrides,
       if (thresholdCount != null) 'ThresholdCount': thresholdCount,
       if (trafficDialPercentage != null)
-        'TrafficDialPercentage': trafficDialPercentage,
+        'TrafficDialPercentage': _s.encodeJsonDouble(trafficDialPercentage),
     };
   }
 }

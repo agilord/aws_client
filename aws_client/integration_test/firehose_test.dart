@@ -15,7 +15,13 @@ void main() {
   test('Firehose (json): create an S3 delivery stream and put a record',
       () async {
     final bucket = uniqueName('fh-bucket');
-    final s3 = localClient(S3.new);
+    // LocalStack needs path-style addressing; the default is virtual-host.
+    final s3 = S3(
+      region: testRegion,
+      credentials: testCredentials,
+      endpointUrl: testEndpoint,
+      forcePathStyle: true,
+    );
     await s3.createBucket(bucket: bucket);
 
     final streamName = uniqueName('stream');

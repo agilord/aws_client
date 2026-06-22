@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Use the Amazon OpenSearch Service configuration API to create, configure,
@@ -29,22 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Web Services service endpoints</a>.
 class OpenSearch {
   final _s.RestJsonProtocol _protocol;
-  OpenSearch({
+  factory OpenSearch({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'es',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'es',
+    );
+    return OpenSearch._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  OpenSearch._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -14551,7 +14568,7 @@ class UpgradeStepItem {
     return UpgradeStepItem(
       issues:
           (json['Issues'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      progressPercent: json['ProgressPercent'] as double?,
+      progressPercent: _s.parseJsonDouble(json['ProgressPercent']),
       upgradeStep:
           (json['UpgradeStep'] as String?)?.let(UpgradeStep.fromString),
       upgradeStepStatus:
@@ -14566,7 +14583,8 @@ class UpgradeStepItem {
     final upgradeStepStatus = this.upgradeStepStatus;
     return {
       if (issues != null) 'Issues': issues,
-      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (progressPercent != null)
+        'ProgressPercent': _s.encodeJsonDouble(progressPercent),
       if (upgradeStep != null) 'UpgradeStep': upgradeStep.value,
       if (upgradeStepStatus != null)
         'UpgradeStepStatus': upgradeStepStatus.value,
@@ -14897,7 +14915,7 @@ class ReservedInstance {
       billingSubscriptionId: json['BillingSubscriptionId'] as int?,
       currencyCode: json['CurrencyCode'] as String?,
       duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       instanceCount: json['InstanceCount'] as int?,
       instanceType: (json['InstanceType'] as String?)
           ?.let(OpenSearchPartitionInstanceType.fromString),
@@ -14912,7 +14930,7 @@ class ReservedInstance {
       reservedInstanceOfferingId: json['ReservedInstanceOfferingId'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
       state: json['State'] as String?,
-      usagePrice: json['UsagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['UsagePrice']),
     );
   }
 
@@ -14936,7 +14954,7 @@ class ReservedInstance {
         'BillingSubscriptionId': billingSubscriptionId,
       if (currencyCode != null) 'CurrencyCode': currencyCode,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (instanceCount != null) 'InstanceCount': instanceCount,
       if (instanceType != null) 'InstanceType': instanceType.value,
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
@@ -14947,7 +14965,7 @@ class ReservedInstance {
         'ReservedInstanceOfferingId': reservedInstanceOfferingId,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -14998,7 +15016,7 @@ class RecurringCharge {
 
   factory RecurringCharge.fromJson(Map<String, dynamic> json) {
     return RecurringCharge(
-      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
+      recurringChargeAmount: _s.parseJsonDouble(json['RecurringChargeAmount']),
       recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
     );
   }
@@ -15008,7 +15026,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -15062,7 +15080,7 @@ class ReservedInstanceOffering {
     return ReservedInstanceOffering(
       currencyCode: json['CurrencyCode'] as String?,
       duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       instanceType: (json['InstanceType'] as String?)
           ?.let(OpenSearchPartitionInstanceType.fromString),
       paymentOption: (json['PaymentOption'] as String?)
@@ -15072,7 +15090,7 @@ class ReservedInstanceOffering {
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
           .toList(),
       reservedInstanceOfferingId: json['ReservedInstanceOfferingId'] as String?,
-      usagePrice: json['UsagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['UsagePrice']),
     );
   }
 
@@ -15088,13 +15106,13 @@ class ReservedInstanceOffering {
     return {
       if (currencyCode != null) 'CurrencyCode': currencyCode,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (instanceType != null) 'InstanceType': instanceType.value,
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservedInstanceOfferingId != null)
         'ReservedInstanceOfferingId': reservedInstanceOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }

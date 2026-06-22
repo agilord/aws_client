@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_09_07.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// You can use the Amazon Web Services Free Tier API to query programmatically
@@ -36,22 +38,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// the Amazon Web Services Free Tier</a> in the <i>Billing User Guide</i>.
 class FreeTier {
   final _s.JsonProtocol _protocol;
-  FreeTier({
+  factory FreeTier({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'freetier',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'freetier',
+    );
+    return FreeTier._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  FreeTier._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -689,7 +706,7 @@ class MonetaryAmount {
 
   factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
     return MonetaryAmount(
-      amount: (json['amount'] as double?) ?? 0,
+      amount: _s.parseJsonDouble(json['amount']) ?? 0,
       unit: CurrencyCode.fromString((json['unit'] as String?) ?? ''),
     );
   }
@@ -698,7 +715,7 @@ class MonetaryAmount {
     final amount = this.amount;
     final unit = this.unit;
     return {
-      'amount': amount,
+      'amount': _s.encodeJsonDouble(amount),
       'unit': unit.value,
     };
   }
@@ -833,11 +850,11 @@ class FreeTierUsage {
 
   factory FreeTierUsage.fromJson(Map<String, dynamic> json) {
     return FreeTierUsage(
-      actualUsageAmount: json['actualUsageAmount'] as double?,
+      actualUsageAmount: _s.parseJsonDouble(json['actualUsageAmount']),
       description: json['description'] as String?,
-      forecastedUsageAmount: json['forecastedUsageAmount'] as double?,
+      forecastedUsageAmount: _s.parseJsonDouble(json['forecastedUsageAmount']),
       freeTierType: json['freeTierType'] as String?,
-      limit: json['limit'] as double?,
+      limit: _s.parseJsonDouble(json['limit']),
       operation: json['operation'] as String?,
       region: json['region'] as String?,
       service: json['service'] as String?,
@@ -858,12 +875,13 @@ class FreeTierUsage {
     final unit = this.unit;
     final usageType = this.usageType;
     return {
-      if (actualUsageAmount != null) 'actualUsageAmount': actualUsageAmount,
+      if (actualUsageAmount != null)
+        'actualUsageAmount': _s.encodeJsonDouble(actualUsageAmount),
       if (description != null) 'description': description,
       if (forecastedUsageAmount != null)
-        'forecastedUsageAmount': forecastedUsageAmount,
+        'forecastedUsageAmount': _s.encodeJsonDouble(forecastedUsageAmount),
       if (freeTierType != null) 'freeTierType': freeTierType,
-      if (limit != null) 'limit': limit,
+      if (limit != null) 'limit': _s.encodeJsonDouble(limit),
       if (operation != null) 'operation': operation,
       if (region != null) 'region': region,
       if (service != null) 'service': service,

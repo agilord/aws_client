@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_11_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Comprehend is an Amazon Web Services service for gaining insight into
@@ -26,22 +28,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// sentiment expressed in them, the predominant language used, and more.
 class Comprehend {
   final _s.JsonProtocol _protocol;
-  Comprehend({
+  factory Comprehend({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'comprehend',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'comprehend',
+    );
+    return Comprehend._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Comprehend._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -10037,10 +10054,10 @@ class FlywheelModelEvaluationMetrics {
 
   factory FlywheelModelEvaluationMetrics.fromJson(Map<String, dynamic> json) {
     return FlywheelModelEvaluationMetrics(
-      averageAccuracy: json['AverageAccuracy'] as double?,
-      averageF1Score: json['AverageF1Score'] as double?,
-      averagePrecision: json['AveragePrecision'] as double?,
-      averageRecall: json['AverageRecall'] as double?,
+      averageAccuracy: _s.parseJsonDouble(json['AverageAccuracy']),
+      averageF1Score: _s.parseJsonDouble(json['AverageF1Score']),
+      averagePrecision: _s.parseJsonDouble(json['AveragePrecision']),
+      averageRecall: _s.parseJsonDouble(json['AverageRecall']),
     );
   }
 
@@ -10050,10 +10067,14 @@ class FlywheelModelEvaluationMetrics {
     final averagePrecision = this.averagePrecision;
     final averageRecall = this.averageRecall;
     return {
-      if (averageAccuracy != null) 'AverageAccuracy': averageAccuracy,
-      if (averageF1Score != null) 'AverageF1Score': averageF1Score,
-      if (averagePrecision != null) 'AveragePrecision': averagePrecision,
-      if (averageRecall != null) 'AverageRecall': averageRecall,
+      if (averageAccuracy != null)
+        'AverageAccuracy': _s.encodeJsonDouble(averageAccuracy),
+      if (averageF1Score != null)
+        'AverageF1Score': _s.encodeJsonDouble(averageF1Score),
+      if (averagePrecision != null)
+        'AveragePrecision': _s.encodeJsonDouble(averagePrecision),
+      if (averageRecall != null)
+        'AverageRecall': _s.encodeJsonDouble(averageRecall),
     };
   }
 }
@@ -10775,9 +10796,9 @@ class EntityRecognizerEvaluationMetrics {
   factory EntityRecognizerEvaluationMetrics.fromJson(
       Map<String, dynamic> json) {
     return EntityRecognizerEvaluationMetrics(
-      f1Score: json['F1Score'] as double?,
-      precision: json['Precision'] as double?,
-      recall: json['Recall'] as double?,
+      f1Score: _s.parseJsonDouble(json['F1Score']),
+      precision: _s.parseJsonDouble(json['Precision']),
+      recall: _s.parseJsonDouble(json['Recall']),
     );
   }
 
@@ -10786,9 +10807,9 @@ class EntityRecognizerEvaluationMetrics {
     final precision = this.precision;
     final recall = this.recall;
     return {
-      if (f1Score != null) 'F1Score': f1Score,
-      if (precision != null) 'Precision': precision,
-      if (recall != null) 'Recall': recall,
+      if (f1Score != null) 'F1Score': _s.encodeJsonDouble(f1Score),
+      if (precision != null) 'Precision': _s.encodeJsonDouble(precision),
+      if (recall != null) 'Recall': _s.encodeJsonDouble(recall),
     };
   }
 }
@@ -10870,9 +10891,9 @@ class EntityTypesEvaluationMetrics {
 
   factory EntityTypesEvaluationMetrics.fromJson(Map<String, dynamic> json) {
     return EntityTypesEvaluationMetrics(
-      f1Score: json['F1Score'] as double?,
-      precision: json['Precision'] as double?,
-      recall: json['Recall'] as double?,
+      f1Score: _s.parseJsonDouble(json['F1Score']),
+      precision: _s.parseJsonDouble(json['Precision']),
+      recall: _s.parseJsonDouble(json['Recall']),
     );
   }
 
@@ -10881,9 +10902,9 @@ class EntityTypesEvaluationMetrics {
     final precision = this.precision;
     final recall = this.recall;
     return {
-      if (f1Score != null) 'F1Score': f1Score,
-      if (precision != null) 'Precision': precision,
-      if (recall != null) 'Recall': recall,
+      if (f1Score != null) 'F1Score': _s.encodeJsonDouble(f1Score),
+      if (precision != null) 'Precision': _s.encodeJsonDouble(precision),
+      if (recall != null) 'Recall': _s.encodeJsonDouble(recall),
     };
   }
 }
@@ -12417,14 +12438,14 @@ class ClassifierEvaluationMetrics {
 
   factory ClassifierEvaluationMetrics.fromJson(Map<String, dynamic> json) {
     return ClassifierEvaluationMetrics(
-      accuracy: json['Accuracy'] as double?,
-      f1Score: json['F1Score'] as double?,
-      hammingLoss: json['HammingLoss'] as double?,
-      microF1Score: json['MicroF1Score'] as double?,
-      microPrecision: json['MicroPrecision'] as double?,
-      microRecall: json['MicroRecall'] as double?,
-      precision: json['Precision'] as double?,
-      recall: json['Recall'] as double?,
+      accuracy: _s.parseJsonDouble(json['Accuracy']),
+      f1Score: _s.parseJsonDouble(json['F1Score']),
+      hammingLoss: _s.parseJsonDouble(json['HammingLoss']),
+      microF1Score: _s.parseJsonDouble(json['MicroF1Score']),
+      microPrecision: _s.parseJsonDouble(json['MicroPrecision']),
+      microRecall: _s.parseJsonDouble(json['MicroRecall']),
+      precision: _s.parseJsonDouble(json['Precision']),
+      recall: _s.parseJsonDouble(json['Recall']),
     );
   }
 
@@ -12438,14 +12459,16 @@ class ClassifierEvaluationMetrics {
     final precision = this.precision;
     final recall = this.recall;
     return {
-      if (accuracy != null) 'Accuracy': accuracy,
-      if (f1Score != null) 'F1Score': f1Score,
-      if (hammingLoss != null) 'HammingLoss': hammingLoss,
-      if (microF1Score != null) 'MicroF1Score': microF1Score,
-      if (microPrecision != null) 'MicroPrecision': microPrecision,
-      if (microRecall != null) 'MicroRecall': microRecall,
-      if (precision != null) 'Precision': precision,
-      if (recall != null) 'Recall': recall,
+      if (accuracy != null) 'Accuracy': _s.encodeJsonDouble(accuracy),
+      if (f1Score != null) 'F1Score': _s.encodeJsonDouble(f1Score),
+      if (hammingLoss != null) 'HammingLoss': _s.encodeJsonDouble(hammingLoss),
+      if (microF1Score != null)
+        'MicroF1Score': _s.encodeJsonDouble(microF1Score),
+      if (microPrecision != null)
+        'MicroPrecision': _s.encodeJsonDouble(microPrecision),
+      if (microRecall != null) 'MicroRecall': _s.encodeJsonDouble(microRecall),
+      if (precision != null) 'Precision': _s.encodeJsonDouble(precision),
+      if (recall != null) 'Recall': _s.encodeJsonDouble(recall),
     };
   }
 }
@@ -12997,7 +13020,7 @@ class ToxicLabels {
           ?.nonNulls
           .map((e) => ToxicContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      toxicity: json['Toxicity'] as double?,
+      toxicity: _s.parseJsonDouble(json['Toxicity']),
     );
   }
 
@@ -13006,7 +13029,7 @@ class ToxicLabels {
     final toxicity = this.toxicity;
     return {
       if (labels != null) 'Labels': labels,
-      if (toxicity != null) 'Toxicity': toxicity,
+      if (toxicity != null) 'Toxicity': _s.encodeJsonDouble(toxicity),
     };
   }
 }
@@ -13033,7 +13056,7 @@ class ToxicContent {
   factory ToxicContent.fromJson(Map<String, dynamic> json) {
     return ToxicContent(
       name: (json['Name'] as String?)?.let(ToxicContentType.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -13042,7 +13065,7 @@ class ToxicContent {
     final score = this.score;
     return {
       if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -13200,12 +13223,12 @@ class TargetedSentimentMention {
     return TargetedSentimentMention(
       beginOffset: json['BeginOffset'] as int?,
       endOffset: json['EndOffset'] as int?,
-      groupScore: json['GroupScore'] as double?,
+      groupScore: _s.parseJsonDouble(json['GroupScore']),
       mentionSentiment: json['MentionSentiment'] != null
           ? MentionSentiment.fromJson(
               json['MentionSentiment'] as Map<String, dynamic>)
           : null,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       type: (json['Type'] as String?)
           ?.let(TargetedSentimentEntityType.fromString),
@@ -13223,9 +13246,9 @@ class TargetedSentimentMention {
     return {
       if (beginOffset != null) 'BeginOffset': beginOffset,
       if (endOffset != null) 'EndOffset': endOffset,
-      if (groupScore != null) 'GroupScore': groupScore,
+      if (groupScore != null) 'GroupScore': _s.encodeJsonDouble(groupScore),
       if (mentionSentiment != null) 'MentionSentiment': mentionSentiment,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (type != null) 'Type': type.value,
     };
@@ -13386,10 +13409,10 @@ class SentimentScore {
 
   factory SentimentScore.fromJson(Map<String, dynamic> json) {
     return SentimentScore(
-      mixed: json['Mixed'] as double?,
-      negative: json['Negative'] as double?,
-      neutral: json['Neutral'] as double?,
-      positive: json['Positive'] as double?,
+      mixed: _s.parseJsonDouble(json['Mixed']),
+      negative: _s.parseJsonDouble(json['Negative']),
+      neutral: _s.parseJsonDouble(json['Neutral']),
+      positive: _s.parseJsonDouble(json['Positive']),
     );
   }
 
@@ -13399,10 +13422,10 @@ class SentimentScore {
     final neutral = this.neutral;
     final positive = this.positive;
     return {
-      if (mixed != null) 'Mixed': mixed,
-      if (negative != null) 'Negative': negative,
-      if (neutral != null) 'Neutral': neutral,
-      if (positive != null) 'Positive': positive,
+      if (mixed != null) 'Mixed': _s.encodeJsonDouble(mixed),
+      if (negative != null) 'Negative': _s.encodeJsonDouble(negative),
+      if (neutral != null) 'Neutral': _s.encodeJsonDouble(neutral),
+      if (positive != null) 'Positive': _s.encodeJsonDouble(positive),
     };
   }
 }
@@ -13494,7 +13517,7 @@ class PartOfSpeechTag {
 
   factory PartOfSpeechTag.fromJson(Map<String, dynamic> json) {
     return PartOfSpeechTag(
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       tag: (json['Tag'] as String?)?.let(PartOfSpeechTagType.fromString),
     );
   }
@@ -13503,7 +13526,7 @@ class PartOfSpeechTag {
     final score = this.score;
     final tag = this.tag;
     return {
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (tag != null) 'Tag': tag.value,
     };
   }
@@ -13630,7 +13653,7 @@ class PiiEntity {
     return PiiEntity(
       beginOffset: json['BeginOffset'] as int?,
       endOffset: json['EndOffset'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       type: (json['Type'] as String?)?.let(PiiEntityType.fromString),
     );
   }
@@ -13643,7 +13666,7 @@ class PiiEntity {
     return {
       if (beginOffset != null) 'BeginOffset': beginOffset,
       if (endOffset != null) 'EndOffset': endOffset,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (type != null) 'Type': type.value,
     };
   }
@@ -13679,7 +13702,7 @@ class KeyPhrase {
     return KeyPhrase(
       beginOffset: json['BeginOffset'] as int?,
       endOffset: json['EndOffset'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
     );
   }
@@ -13692,7 +13715,7 @@ class KeyPhrase {
     return {
       if (beginOffset != null) 'BeginOffset': beginOffset,
       if (endOffset != null) 'EndOffset': endOffset,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
     };
   }
@@ -14082,10 +14105,10 @@ class BoundingBox {
 
   factory BoundingBox.fromJson(Map<String, dynamic> json) {
     return BoundingBox(
-      height: json['Height'] as double?,
-      left: json['Left'] as double?,
-      top: json['Top'] as double?,
-      width: json['Width'] as double?,
+      height: _s.parseJsonDouble(json['Height']),
+      left: _s.parseJsonDouble(json['Left']),
+      top: _s.parseJsonDouble(json['Top']),
+      width: _s.parseJsonDouble(json['Width']),
     );
   }
 
@@ -14095,10 +14118,10 @@ class BoundingBox {
     final top = this.top;
     final width = this.width;
     return {
-      if (height != null) 'Height': height,
-      if (left != null) 'Left': left,
-      if (top != null) 'Top': top,
-      if (width != null) 'Width': width,
+      if (height != null) 'Height': _s.encodeJsonDouble(height),
+      if (left != null) 'Left': _s.encodeJsonDouble(left),
+      if (top != null) 'Top': _s.encodeJsonDouble(top),
+      if (width != null) 'Width': _s.encodeJsonDouble(width),
     };
   }
 }
@@ -14124,8 +14147,8 @@ class Point {
 
   factory Point.fromJson(Map<String, dynamic> json) {
     return Point(
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
+      x: _s.parseJsonDouble(json['X']),
+      y: _s.parseJsonDouble(json['Y']),
     );
   }
 
@@ -14133,8 +14156,8 @@ class Point {
     final x = this.x;
     final y = this.y;
     return {
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
+      if (x != null) 'X': _s.encodeJsonDouble(x),
+      if (y != null) 'Y': _s.encodeJsonDouble(y),
     };
   }
 }
@@ -14295,7 +14318,7 @@ class Entity {
           .map((e) => BlockReference.fromJson(e as Map<String, dynamic>))
           .toList(),
       endOffset: json['EndOffset'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
       text: json['Text'] as String?,
       type: (json['Type'] as String?)?.let(EntityType.fromString),
     );
@@ -14312,7 +14335,7 @@ class Entity {
       if (beginOffset != null) 'BeginOffset': beginOffset,
       if (blockReferences != null) 'BlockReferences': blockReferences,
       if (endOffset != null) 'EndOffset': endOffset,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
       if (text != null) 'Text': text,
       if (type != null) 'Type': type.value,
     };
@@ -14470,7 +14493,7 @@ class DominantLanguage {
   factory DominantLanguage.fromJson(Map<String, dynamic> json) {
     return DominantLanguage(
       languageCode: json['LanguageCode'] as String?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -14479,7 +14502,7 @@ class DominantLanguage {
     final score = this.score;
     return {
       if (languageCode != null) 'LanguageCode': languageCode,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -14803,7 +14826,7 @@ class EntityLabel {
   factory EntityLabel.fromJson(Map<String, dynamic> json) {
     return EntityLabel(
       name: (json['Name'] as String?)?.let(PiiEntityType.fromString),
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -14812,7 +14835,7 @@ class EntityLabel {
     final score = this.score;
     return {
       if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -14927,7 +14950,7 @@ class DocumentLabel {
     return DocumentLabel(
       name: json['Name'] as String?,
       page: json['Page'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -14938,7 +14961,7 @@ class DocumentLabel {
     return {
       if (name != null) 'Name': name,
       if (page != null) 'Page': page,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -14968,7 +14991,7 @@ class DocumentClass {
     return DocumentClass(
       name: json['Name'] as String?,
       page: json['Page'] as int?,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -14979,7 +15002,7 @@ class DocumentClass {
     return {
       if (name != null) 'Name': name,
       if (page != null) 'Page': page,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }

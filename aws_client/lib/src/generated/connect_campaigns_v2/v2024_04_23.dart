@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2024_04_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Provide APIs to create and manage Amazon Connect Campaigns.
 class ConnectCampaignsV2 {
   final _s.RestJsonProtocol _protocol;
-  ConnectCampaignsV2({
+  factory ConnectCampaignsV2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'connect-campaigns',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'connect-campaigns',
+    );
+    return ConnectCampaignsV2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ConnectCampaignsV2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2033,7 +2050,7 @@ class TelephonyChannelSubtypeConfig {
       outboundMode: TelephonyOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
       connectQueueId: json['connectQueueId'] as String?,
     );
   }
@@ -2046,7 +2063,7 @@ class TelephonyChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
       if (connectQueueId != null) 'connectQueueId': connectQueueId,
     };
   }
@@ -2074,7 +2091,7 @@ class SmsChannelSubtypeConfig {
       outboundMode: SmsOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
     );
   }
 
@@ -2085,7 +2102,7 @@ class SmsChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
     };
   }
 }
@@ -2112,7 +2129,7 @@ class EmailChannelSubtypeConfig {
       outboundMode: EmailOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
     );
   }
 
@@ -2123,7 +2140,7 @@ class EmailChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
     };
   }
 }
@@ -2150,7 +2167,7 @@ class WhatsAppChannelSubtypeConfig {
       outboundMode: WhatsAppOutboundMode.fromJson(
           (json['outboundMode'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      capacity: json['capacity'] as double?,
+      capacity: _s.parseJsonDouble(json['capacity']),
     );
   }
 
@@ -2161,7 +2178,7 @@ class WhatsAppChannelSubtypeConfig {
     return {
       'defaultOutboundConfig': defaultOutboundConfig,
       'outboundMode': outboundMode,
-      if (capacity != null) 'capacity': capacity,
+      if (capacity != null) 'capacity': _s.encodeJsonDouble(capacity),
     };
   }
 }
@@ -2495,14 +2512,14 @@ class ProgressiveConfig {
 
   factory ProgressiveConfig.fromJson(Map<String, dynamic> json) {
     return ProgressiveConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
     };
   }
 }
@@ -2519,14 +2536,14 @@ class PredictiveConfig {
 
   factory PredictiveConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
     };
   }
 }
@@ -2547,7 +2564,7 @@ class PreviewConfig {
 
   factory PreviewConfig.fromJson(Map<String, dynamic> json) {
     return PreviewConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
       timeoutConfig: TimeoutConfig.fromJson(
           (json['timeoutConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -2563,7 +2580,7 @@ class PreviewConfig {
     final timeoutConfig = this.timeoutConfig;
     final agentActions = this.agentActions;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
       'timeoutConfig': timeoutConfig,
       if (agentActions != null)
         'agentActions': agentActions.map((e) => e.value).toList(),

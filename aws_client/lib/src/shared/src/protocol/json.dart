@@ -11,33 +11,39 @@ import 'shared.dart';
 
 class JsonProtocol {
   final Client _client;
-  final Endpoint _endpoint;
+  // Resolved lazily; some services only have a usable endpoint per-operation.
+  final Endpoint Function() _endpointBuilder;
+  Endpoint? _cachedEndpoint;
+  Endpoint get _endpoint => _cachedEndpoint ??= _endpointBuilder();
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
+  final bool _disableHostPrefix;
   bool _closed = false;
 
   JsonProtocol._(
     this._client,
-    this._endpoint,
+    this._endpointBuilder,
     this._credentialsProvider,
     this._requestSigner,
     this._manageHttpClient,
+    this._disableHostPrefix,
   );
 
   factory JsonProtocol({
     Client? client,
+    Endpoint Function()? endpointBuilder,
     ServiceMetadata? service,
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
+    bool disableHostPrefix = false,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
-
-    final endpoint = Endpoint.forProtocol(
+    endpointBuilder ??= () => Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
     // If credentials are provided, override credentials provider
@@ -50,10 +56,11 @@ class JsonProtocol {
 
     return JsonProtocol._(
       client,
-      endpoint,
+      endpointBuilder,
       credentialsProvider,
       requestSigner,
       manageHttpClient,
+      disableHostPrefix,
     );
   }
 
@@ -65,8 +72,12 @@ class JsonProtocol {
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
+    Endpoint? endpoint,
+    String? hostPrefix,
   }) async {
-    var uri = Uri.parse('${_endpoint.url}$requestUri');
+    final ep = endpoint ?? _endpoint;
+    var uri = Uri.parse('${ep.url}$requestUri');
+    uri = applyHostPrefix(uri, hostPrefix, disabled: _disableHostPrefix);
     uri = uri.replace(queryParameters: {
       ...uri.queryParameters,
       ...?queryParams,
@@ -76,9 +87,8 @@ class JsonProtocol {
       uri,
     );
     rq.headers.addAll(headers ?? {});
-    if (payload != null) {
-      rq.body = json.encode(payload);
-    }
+    // The awsJson protocol always sends a JSON body, even for empty input (`{}`).
+    rq.body = json.encode(payload ?? const <String, dynamic>{});
 
     if (signed) {
       final credentials = await _credentialsProvider?.call(client: _client);
@@ -89,8 +99,8 @@ class JsonProtocol {
 
       _requestSigner(
         rq: rq,
-        service: _endpoint.service,
-        region: _endpoint.signingRegion,
+        service: ep.service,
+        region: ep.signingRegion,
         credentials: credentials,
       );
     }

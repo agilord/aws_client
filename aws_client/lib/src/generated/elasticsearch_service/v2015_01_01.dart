@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Use the Amazon Elasticsearch Configuration API to create, configure, and
 /// manage Elasticsearch domains.
 class Elasticsearch {
   final _s.RestJsonProtocol _protocol;
-  Elasticsearch({
+  factory Elasticsearch({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'es',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'es',
+    );
+    return Elasticsearch._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Elasticsearch._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -7652,7 +7669,7 @@ class UpgradeStepItem {
     return UpgradeStepItem(
       issues:
           (json['Issues'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      progressPercent: json['ProgressPercent'] as double?,
+      progressPercent: _s.parseJsonDouble(json['ProgressPercent']),
       upgradeStep:
           (json['UpgradeStep'] as String?)?.let(UpgradeStep.fromString),
       upgradeStepStatus:
@@ -7667,7 +7684,8 @@ class UpgradeStepItem {
     final upgradeStepStatus = this.upgradeStepStatus;
     return {
       if (issues != null) 'Issues': issues,
-      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (progressPercent != null)
+        'ProgressPercent': _s.encodeJsonDouble(progressPercent),
       if (upgradeStep != null) 'UpgradeStep': upgradeStep.value,
       if (upgradeStepStatus != null)
         'UpgradeStepStatus': upgradeStepStatus.value,
@@ -7895,7 +7913,7 @@ class ReservedElasticsearchInstance {
       elasticsearchInstanceCount: json['ElasticsearchInstanceCount'] as int?,
       elasticsearchInstanceType: (json['ElasticsearchInstanceType'] as String?)
           ?.let(ESPartitionInstanceType.fromString),
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       paymentOption: (json['PaymentOption'] as String?)
           ?.let(ReservedElasticsearchInstancePaymentOption.fromString),
       recurringCharges: (json['RecurringCharges'] as List?)
@@ -7909,7 +7927,7 @@ class ReservedElasticsearchInstance {
           json['ReservedElasticsearchInstanceOfferingId'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
       state: json['State'] as String?,
-      usagePrice: json['UsagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['UsagePrice']),
     );
   }
 
@@ -7936,7 +7954,7 @@ class ReservedElasticsearchInstance {
         'ElasticsearchInstanceCount': elasticsearchInstanceCount,
       if (elasticsearchInstanceType != null)
         'ElasticsearchInstanceType': elasticsearchInstanceType.value,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservationName != null) 'ReservationName': reservationName,
@@ -7947,7 +7965,7 @@ class ReservedElasticsearchInstance {
             reservedElasticsearchInstanceOfferingId,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -8002,7 +8020,7 @@ class RecurringCharge {
 
   factory RecurringCharge.fromJson(Map<String, dynamic> json) {
     return RecurringCharge(
-      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
+      recurringChargeAmount: _s.parseJsonDouble(json['RecurringChargeAmount']),
       recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
     );
   }
@@ -8012,7 +8030,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -8069,7 +8087,7 @@ class ReservedElasticsearchInstanceOffering {
       duration: json['Duration'] as int?,
       elasticsearchInstanceType: (json['ElasticsearchInstanceType'] as String?)
           ?.let(ESPartitionInstanceType.fromString),
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       paymentOption: (json['PaymentOption'] as String?)
           ?.let(ReservedElasticsearchInstancePaymentOption.fromString),
       recurringCharges: (json['RecurringCharges'] as List?)
@@ -8078,7 +8096,7 @@ class ReservedElasticsearchInstanceOffering {
           .toList(),
       reservedElasticsearchInstanceOfferingId:
           json['ReservedElasticsearchInstanceOfferingId'] as String?,
-      usagePrice: json['UsagePrice'] as double?,
+      usagePrice: _s.parseJsonDouble(json['UsagePrice']),
     );
   }
 
@@ -8097,13 +8115,13 @@ class ReservedElasticsearchInstanceOffering {
       if (duration != null) 'Duration': duration,
       if (elasticsearchInstanceType != null)
         'ElasticsearchInstanceType': elasticsearchInstanceType.value,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservedElasticsearchInstanceOfferingId != null)
         'ReservedElasticsearchInstanceOfferingId':
             reservedElasticsearchInstanceOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }

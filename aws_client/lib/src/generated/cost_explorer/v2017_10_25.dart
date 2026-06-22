@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_10_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// You can use the Cost Explorer API to programmatically query your cost and
@@ -40,22 +42,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Web Services Cost Management Pricing</a>.
 class CostExplorer {
   final _s.JsonProtocol _protocol;
-  CostExplorer({
+  factory CostExplorer({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'ce',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'ce',
+    );
+    return CostExplorer._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CostExplorer._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3910,7 +3927,7 @@ class CostExplorer {
         if (monitorArnList != null) 'MonitorArnList': monitorArnList,
         if (subscribers != null) 'Subscribers': subscribers,
         if (subscriptionName != null) 'SubscriptionName': subscriptionName,
-        if (threshold != null) 'Threshold': threshold,
+        if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
         if (thresholdExpression != null)
           'ThresholdExpression': thresholdExpression,
       },
@@ -7366,7 +7383,8 @@ class SavingsPlans {
       paymentOption:
           (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
       region: json['Region'] as String?,
-      savingsPlansCommitment: json['SavingsPlansCommitment'] as double?,
+      savingsPlansCommitment:
+          _s.parseJsonDouble(json['SavingsPlansCommitment']),
       savingsPlansType: (json['SavingsPlansType'] as String?)
           ?.let(SupportedSavingsPlansType.fromString),
       termInYears:
@@ -7388,7 +7406,7 @@ class SavingsPlans {
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (region != null) 'Region': region,
       if (savingsPlansCommitment != null)
-        'SavingsPlansCommitment': savingsPlansCommitment,
+        'SavingsPlansCommitment': _s.encodeJsonDouble(savingsPlansCommitment),
       if (savingsPlansType != null) 'SavingsPlansType': savingsPlansType.value,
       if (termInYears != null) 'TermInYears': termInYears.value,
     };
@@ -12962,7 +12980,7 @@ class AnomalySubscription {
       subscriptionName: (json['SubscriptionName'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       subscriptionArn: json['SubscriptionArn'] as String?,
-      threshold: json['Threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['Threshold']),
       thresholdExpression: json['ThresholdExpression'] != null
           ? Expression.fromJson(
               json['ThresholdExpression'] as Map<String, dynamic>)
@@ -12986,7 +13004,7 @@ class AnomalySubscription {
       'SubscriptionName': subscriptionName,
       if (accountId != null) 'AccountId': accountId,
       if (subscriptionArn != null) 'SubscriptionArn': subscriptionArn,
-      if (threshold != null) 'Threshold': threshold,
+      if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
       if (thresholdExpression != null)
         'ThresholdExpression': thresholdExpression,
     };
@@ -13303,8 +13321,8 @@ class AnomalyScore {
 
   factory AnomalyScore.fromJson(Map<String, dynamic> json) {
     return AnomalyScore(
-      currentScore: (json['CurrentScore'] as double?) ?? 0,
-      maxScore: (json['MaxScore'] as double?) ?? 0,
+      currentScore: _s.parseJsonDouble(json['CurrentScore']) ?? 0,
+      maxScore: _s.parseJsonDouble(json['MaxScore']) ?? 0,
     );
   }
 
@@ -13312,8 +13330,8 @@ class AnomalyScore {
     final currentScore = this.currentScore;
     final maxScore = this.maxScore;
     return {
-      'CurrentScore': currentScore,
-      'MaxScore': maxScore,
+      'CurrentScore': _s.encodeJsonDouble(currentScore),
+      'MaxScore': _s.encodeJsonDouble(maxScore),
     };
   }
 }
@@ -13356,11 +13374,11 @@ class Impact {
 
   factory Impact.fromJson(Map<String, dynamic> json) {
     return Impact(
-      maxImpact: (json['MaxImpact'] as double?) ?? 0,
-      totalActualSpend: json['TotalActualSpend'] as double?,
-      totalExpectedSpend: json['TotalExpectedSpend'] as double?,
-      totalImpact: json['TotalImpact'] as double?,
-      totalImpactPercentage: json['TotalImpactPercentage'] as double?,
+      maxImpact: _s.parseJsonDouble(json['MaxImpact']) ?? 0,
+      totalActualSpend: _s.parseJsonDouble(json['TotalActualSpend']),
+      totalExpectedSpend: _s.parseJsonDouble(json['TotalExpectedSpend']),
+      totalImpact: _s.parseJsonDouble(json['TotalImpact']),
+      totalImpactPercentage: _s.parseJsonDouble(json['TotalImpactPercentage']),
     );
   }
 
@@ -13371,12 +13389,14 @@ class Impact {
     final totalImpact = this.totalImpact;
     final totalImpactPercentage = this.totalImpactPercentage;
     return {
-      'MaxImpact': maxImpact,
-      if (totalActualSpend != null) 'TotalActualSpend': totalActualSpend,
-      if (totalExpectedSpend != null) 'TotalExpectedSpend': totalExpectedSpend,
-      if (totalImpact != null) 'TotalImpact': totalImpact,
+      'MaxImpact': _s.encodeJsonDouble(maxImpact),
+      if (totalActualSpend != null)
+        'TotalActualSpend': _s.encodeJsonDouble(totalActualSpend),
+      if (totalExpectedSpend != null)
+        'TotalExpectedSpend': _s.encodeJsonDouble(totalExpectedSpend),
+      if (totalImpact != null) 'TotalImpact': _s.encodeJsonDouble(totalImpact),
       if (totalImpactPercentage != null)
-        'TotalImpactPercentage': totalImpactPercentage,
+        'TotalImpactPercentage': _s.encodeJsonDouble(totalImpactPercentage),
     };
   }
 }
@@ -13461,14 +13481,14 @@ class RootCauseImpact {
 
   factory RootCauseImpact.fromJson(Map<String, dynamic> json) {
     return RootCauseImpact(
-      contribution: (json['Contribution'] as double?) ?? 0,
+      contribution: _s.parseJsonDouble(json['Contribution']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final contribution = this.contribution;
     return {
-      'Contribution': contribution,
+      'Contribution': _s.encodeJsonDouble(contribution),
     };
   }
 }
@@ -13523,8 +13543,8 @@ class TotalImpactFilter {
     final endValue = this.endValue;
     return {
       'NumericOperator': numericOperator.value,
-      'StartValue': startValue,
-      if (endValue != null) 'EndValue': endValue,
+      'StartValue': _s.encodeJsonDouble(startValue),
+      if (endValue != null) 'EndValue': _s.encodeJsonDouble(endValue),
     };
   }
 }

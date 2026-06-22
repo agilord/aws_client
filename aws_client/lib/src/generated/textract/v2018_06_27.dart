@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_06_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Textract detects and analyzes text in documents and converts it into
@@ -25,22 +27,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Textract.
 class Textract {
   final _s.JsonProtocol _protocol;
-  Textract({
+  factory Textract({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'textract',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'textract',
+    );
+    return Textract._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Textract._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4217,7 +4234,7 @@ class Block {
       blockType: (json['BlockType'] as String?)?.let(BlockType.fromString),
       columnIndex: json['ColumnIndex'] as int?,
       columnSpan: json['ColumnSpan'] as int?,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       entityTypes: (json['EntityTypes'] as List?)
           ?.nonNulls
           .map((e) => EntityType.fromString((e as String)))
@@ -4263,7 +4280,7 @@ class Block {
       if (blockType != null) 'BlockType': blockType.value,
       if (columnIndex != null) 'ColumnIndex': columnIndex,
       if (columnSpan != null) 'ColumnSpan': columnSpan,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (entityTypes != null)
         'EntityTypes': entityTypes.map((e) => e.value).toList(),
       if (geometry != null) 'Geometry': geometry,
@@ -4406,7 +4423,7 @@ class Geometry {
           ?.nonNulls
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rotationAngle: json['RotationAngle'] as double?,
+      rotationAngle: _s.parseJsonDouble(json['RotationAngle']),
     );
   }
 
@@ -4417,7 +4434,8 @@ class Geometry {
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
       if (polygon != null) 'Polygon': polygon,
-      if (rotationAngle != null) 'RotationAngle': rotationAngle,
+      if (rotationAngle != null)
+        'RotationAngle': _s.encodeJsonDouble(rotationAngle),
     };
   }
 }
@@ -4644,10 +4662,10 @@ class BoundingBox {
 
   factory BoundingBox.fromJson(Map<String, dynamic> json) {
     return BoundingBox(
-      height: json['Height'] as double?,
-      left: json['Left'] as double?,
-      top: json['Top'] as double?,
-      width: json['Width'] as double?,
+      height: _s.parseJsonDouble(json['Height']),
+      left: _s.parseJsonDouble(json['Left']),
+      top: _s.parseJsonDouble(json['Top']),
+      width: _s.parseJsonDouble(json['Width']),
     );
   }
 
@@ -4657,10 +4675,10 @@ class BoundingBox {
     final top = this.top;
     final width = this.width;
     return {
-      if (height != null) 'Height': height,
-      if (left != null) 'Left': left,
-      if (top != null) 'Top': top,
-      if (width != null) 'Width': width,
+      if (height != null) 'Height': _s.encodeJsonDouble(height),
+      if (left != null) 'Left': _s.encodeJsonDouble(left),
+      if (top != null) 'Top': _s.encodeJsonDouble(top),
+      if (width != null) 'Width': _s.encodeJsonDouble(width),
     };
   }
 }
@@ -4691,8 +4709,8 @@ class Point {
 
   factory Point.fromJson(Map<String, dynamic> json) {
     return Point(
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
+      x: _s.parseJsonDouble(json['X']),
+      y: _s.parseJsonDouble(json['Y']),
     );
   }
 
@@ -4700,8 +4718,8 @@ class Point {
     final x = this.x;
     final y = this.y;
     return {
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
+      if (x != null) 'X': _s.encodeJsonDouble(x),
+      if (y != null) 'Y': _s.encodeJsonDouble(y),
     };
   }
 }
@@ -4765,7 +4783,7 @@ class AnalyzeIDDetections {
   factory AnalyzeIDDetections.fromJson(Map<String, dynamic> json) {
     return AnalyzeIDDetections(
       text: (json['Text'] as String?) ?? '',
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       normalizedValue: json['NormalizedValue'] != null
           ? NormalizedValue.fromJson(
               json['NormalizedValue'] as Map<String, dynamic>)
@@ -4779,7 +4797,7 @@ class AnalyzeIDDetections {
     final normalizedValue = this.normalizedValue;
     return {
       'Text': text,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (normalizedValue != null) 'NormalizedValue': normalizedValue,
     };
   }
@@ -5003,7 +5021,7 @@ class ExpenseType {
 
   factory ExpenseType.fromJson(Map<String, dynamic> json) {
     return ExpenseType(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       text: json['Text'] as String?,
     );
   }
@@ -5012,7 +5030,7 @@ class ExpenseType {
     final confidence = this.confidence;
     final text = this.text;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (text != null) 'Text': text,
     };
   }
@@ -5038,7 +5056,7 @@ class ExpenseDetection {
 
   factory ExpenseDetection.fromJson(Map<String, dynamic> json) {
     return ExpenseDetection(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       geometry: json['Geometry'] != null
           ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
           : null,
@@ -5051,7 +5069,7 @@ class ExpenseDetection {
     final geometry = this.geometry;
     final text = this.text;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (geometry != null) 'Geometry': geometry,
       if (text != null) 'Text': text,
     };
@@ -5115,7 +5133,7 @@ class ExpenseCurrency {
   factory ExpenseCurrency.fromJson(Map<String, dynamic> json) {
     return ExpenseCurrency(
       code: json['Code'] as String?,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
     );
   }
 
@@ -5124,7 +5142,7 @@ class ExpenseCurrency {
     final confidence = this.confidence;
     return {
       if (code != null) 'Code': code,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
     };
   }
 }
@@ -5180,7 +5198,7 @@ class SignatureDetection {
 
   factory SignatureDetection.fromJson(Map<String, dynamic> json) {
     return SignatureDetection(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       geometry: json['Geometry'] != null
           ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
           : null,
@@ -5191,7 +5209,7 @@ class SignatureDetection {
     final confidence = this.confidence;
     final geometry = this.geometry;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (geometry != null) 'Geometry': geometry,
     };
   }
@@ -5266,7 +5284,7 @@ class LendingDetection {
 
   factory LendingDetection.fromJson(Map<String, dynamic> json) {
     return LendingDetection(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       geometry: json['Geometry'] != null
           ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
           : null,
@@ -5282,7 +5300,7 @@ class LendingDetection {
     final selectionStatus = this.selectionStatus;
     final text = this.text;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (geometry != null) 'Geometry': geometry,
       if (selectionStatus != null) 'SelectionStatus': selectionStatus.value,
       if (text != null) 'Text': text,
@@ -5309,7 +5327,7 @@ class Prediction {
 
   factory Prediction.fromJson(Map<String, dynamic> json) {
     return Prediction(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as String?,
     );
   }
@@ -5318,7 +5336,7 @@ class Prediction {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -5420,9 +5438,9 @@ class EvaluationMetric {
 
   factory EvaluationMetric.fromJson(Map<String, dynamic> json) {
     return EvaluationMetric(
-      f1Score: json['F1Score'] as double?,
-      precision: json['Precision'] as double?,
-      recall: json['Recall'] as double?,
+      f1Score: _s.parseJsonDouble(json['F1Score']),
+      precision: _s.parseJsonDouble(json['Precision']),
+      recall: _s.parseJsonDouble(json['Recall']),
     );
   }
 
@@ -5431,9 +5449,9 @@ class EvaluationMetric {
     final precision = this.precision;
     final recall = this.recall;
     return {
-      if (f1Score != null) 'F1Score': f1Score,
-      if (precision != null) 'Precision': precision,
-      if (recall != null) 'Recall': recall,
+      if (f1Score != null) 'F1Score': _s.encodeJsonDouble(f1Score),
+      if (precision != null) 'Precision': _s.encodeJsonDouble(precision),
+      if (recall != null) 'Recall': _s.encodeJsonDouble(recall),
     };
   }
 }

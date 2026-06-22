@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_02_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The Application Migration Service service.
 class Mgn {
   final _s.RestJsonProtocol _protocol;
-  Mgn({
+  factory Mgn({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'mgn',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'mgn',
+    );
+    return Mgn._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Mgn._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -12582,7 +12599,7 @@ class ImportTask {
       creationDateTime: json['creationDateTime'] as String?,
       endDateTime: json['endDateTime'] as String?,
       importID: json['importID'] as String?,
-      progressPercentage: json['progressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['progressPercentage']),
       s3BucketSource: json['s3BucketSource'] != null
           ? S3BucketSource.fromJson(
               json['s3BucketSource'] as Map<String, dynamic>)
@@ -12611,7 +12628,8 @@ class ImportTask {
       if (creationDateTime != null) 'creationDateTime': creationDateTime,
       if (endDateTime != null) 'endDateTime': endDateTime,
       if (importID != null) 'importID': importID,
-      if (progressPercentage != null) 'progressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'progressPercentage': _s.encodeJsonDouble(progressPercentage),
       if (s3BucketSource != null) 's3BucketSource': s3BucketSource,
       if (status != null) 'status': status.value,
       if (summary != null) 'summary': summary,
@@ -12964,7 +12982,7 @@ class ExportTask {
       creationDateTime: json['creationDateTime'] as String?,
       endDateTime: json['endDateTime'] as String?,
       exportID: json['exportID'] as String?,
-      progressPercentage: json['progressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['progressPercentage']),
       s3Bucket: json['s3Bucket'] as String?,
       s3BucketOwner: json['s3BucketOwner'] as String?,
       s3Key: json['s3Key'] as String?,
@@ -12994,7 +13012,8 @@ class ExportTask {
       if (creationDateTime != null) 'creationDateTime': creationDateTime,
       if (endDateTime != null) 'endDateTime': endDateTime,
       if (exportID != null) 'exportID': exportID,
-      if (progressPercentage != null) 'progressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'progressPercentage': _s.encodeJsonDouble(progressPercentage),
       if (s3Bucket != null) 's3Bucket': s3Bucket,
       if (s3BucketOwner != null) 's3BucketOwner': s3BucketOwner,
       if (s3Key != null) 's3Key': s3Key,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_06_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the API Reference for <a
@@ -329,22 +331,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class Rekognition {
   final _s.JsonProtocol _protocol;
-  Rekognition({
+  factory Rekognition({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'rekognition',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'rekognition',
+    );
+    return Rekognition._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Rekognition._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -460,7 +477,7 @@ class Rekognition {
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (userMatchThreshold != null)
-          'UserMatchThreshold': userMatchThreshold,
+          'UserMatchThreshold': _s.encodeJsonDouble(userMatchThreshold),
       },
     );
 
@@ -604,7 +621,7 @@ class Rekognition {
         'TargetImage': targetImage,
         if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
         if (similarityThreshold != null)
-          'SimilarityThreshold': similarityThreshold,
+          'SimilarityThreshold': _s.encodeJsonDouble(similarityThreshold),
       },
     );
 
@@ -2073,7 +2090,8 @@ class Rekognition {
         'Image': image,
         'ProjectVersionArn': projectVersionArn,
         if (maxResults != null) 'MaxResults': maxResults,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (minConfidence != null)
+          'MinConfidence': _s.encodeJsonDouble(minConfidence),
       },
     );
 
@@ -2375,7 +2393,8 @@ class Rekognition {
         'Image': image,
         if (features != null) 'Features': features.map((e) => e.value).toList(),
         if (maxLabels != null) 'MaxLabels': maxLabels,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (minConfidence != null)
+          'MinConfidence': _s.encodeJsonDouble(minConfidence),
         if (settings != null) 'Settings': settings,
       },
     );
@@ -2467,7 +2486,8 @@ class Rekognition {
       payload: {
         'Image': image,
         if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (minConfidence != null)
+          'MinConfidence': _s.encodeJsonDouble(minConfidence),
         if (projectVersion != null) 'ProjectVersion': projectVersion,
       },
     );
@@ -4772,7 +4792,7 @@ class Rekognition {
         'CollectionId': collectionId,
         'FaceId': faceId,
         if (faceMatchThreshold != null)
-          'FaceMatchThreshold': faceMatchThreshold,
+          'FaceMatchThreshold': _s.encodeJsonDouble(faceMatchThreshold),
         if (maxFaces != null) 'MaxFaces': maxFaces,
       },
     );
@@ -4908,7 +4928,7 @@ class Rekognition {
         'CollectionId': collectionId,
         'Image': image,
         if (faceMatchThreshold != null)
-          'FaceMatchThreshold': faceMatchThreshold,
+          'FaceMatchThreshold': _s.encodeJsonDouble(faceMatchThreshold),
         if (maxFaces != null) 'MaxFaces': maxFaces,
         if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
       },
@@ -4984,7 +5004,7 @@ class Rekognition {
         if (maxUsers != null) 'MaxUsers': maxUsers,
         if (userId != null) 'UserId': userId,
         if (userMatchThreshold != null)
-          'UserMatchThreshold': userMatchThreshold,
+          'UserMatchThreshold': _s.encodeJsonDouble(userMatchThreshold),
       },
     );
 
@@ -5065,7 +5085,7 @@ class Rekognition {
         if (maxUsers != null) 'MaxUsers': maxUsers,
         if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
         if (userMatchThreshold != null)
-          'UserMatchThreshold': userMatchThreshold,
+          'UserMatchThreshold': _s.encodeJsonDouble(userMatchThreshold),
       },
     );
 
@@ -5244,7 +5264,8 @@ class Rekognition {
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (jobTag != null) 'JobTag': jobTag,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (minConfidence != null)
+          'MinConfidence': _s.encodeJsonDouble(minConfidence),
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
       },
@@ -5429,7 +5450,7 @@ class Rekognition {
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (faceMatchThreshold != null)
-          'FaceMatchThreshold': faceMatchThreshold,
+          'FaceMatchThreshold': _s.encodeJsonDouble(faceMatchThreshold),
         if (jobTag != null) 'JobTag': jobTag,
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
@@ -5558,7 +5579,8 @@ class Rekognition {
           'ClientRequestToken': clientRequestToken,
         if (features != null) 'Features': features.map((e) => e.value).toList(),
         if (jobTag != null) 'JobTag': jobTag,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
+        if (minConfidence != null)
+          'MinConfidence': _s.encodeJsonDouble(minConfidence),
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
         if (settings != null) 'Settings': settings,
@@ -7864,7 +7886,7 @@ class GetFaceLivenessSessionResultsResponse {
       challenge: json['Challenge'] != null
           ? Challenge.fromJson(json['Challenge'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       referenceImage: json['ReferenceImage'] != null
           ? AuditImage.fromJson(json['ReferenceImage'] as Map<String, dynamic>)
           : null,
@@ -7883,7 +7905,7 @@ class GetFaceLivenessSessionResultsResponse {
       'Status': status.value,
       if (auditImages != null) 'AuditImages': auditImages,
       if (challenge != null) 'Challenge': challenge,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (referenceImage != null) 'ReferenceImage': referenceImage,
     };
   }
@@ -9093,7 +9115,8 @@ class SearchFacesByImageResponse {
           ? BoundingBox.fromJson(
               json['SearchedFaceBoundingBox'] as Map<String, dynamic>)
           : null,
-      searchedFaceConfidence: json['SearchedFaceConfidence'] as double?,
+      searchedFaceConfidence:
+          _s.parseJsonDouble(json['SearchedFaceConfidence']),
     );
   }
 
@@ -9108,7 +9131,7 @@ class SearchFacesByImageResponse {
       if (searchedFaceBoundingBox != null)
         'SearchedFaceBoundingBox': searchedFaceBoundingBox,
       if (searchedFaceConfidence != null)
-        'SearchedFaceConfidence': searchedFaceConfidence,
+        'SearchedFaceConfidence': _s.encodeJsonDouble(searchedFaceConfidence),
     };
   }
 }
@@ -9753,10 +9776,10 @@ class BoundingBox {
 
   factory BoundingBox.fromJson(Map<String, dynamic> json) {
     return BoundingBox(
-      height: json['Height'] as double?,
-      left: json['Left'] as double?,
-      top: json['Top'] as double?,
-      width: json['Width'] as double?,
+      height: _s.parseJsonDouble(json['Height']),
+      left: _s.parseJsonDouble(json['Left']),
+      top: _s.parseJsonDouble(json['Top']),
+      width: _s.parseJsonDouble(json['Width']),
     );
   }
 
@@ -9766,10 +9789,10 @@ class BoundingBox {
     final top = this.top;
     final width = this.width;
     return {
-      if (height != null) 'Height': height,
-      if (left != null) 'Left': left,
-      if (top != null) 'Top': top,
-      if (width != null) 'Width': width,
+      if (height != null) 'Height': _s.encodeJsonDouble(height),
+      if (left != null) 'Left': _s.encodeJsonDouble(left),
+      if (top != null) 'Top': _s.encodeJsonDouble(top),
+      if (width != null) 'Width': _s.encodeJsonDouble(width),
     };
   }
 }
@@ -9800,8 +9823,8 @@ class Point {
 
   factory Point.fromJson(Map<String, dynamic> json) {
     return Point(
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
+      x: _s.parseJsonDouble(json['X']),
+      y: _s.parseJsonDouble(json['Y']),
     );
   }
 
@@ -9809,8 +9832,8 @@ class Point {
     final x = this.x;
     final y = this.y;
     return {
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
+      if (x != null) 'X': _s.encodeJsonDouble(x),
+      if (y != null) 'Y': _s.encodeJsonDouble(y),
     };
   }
 }
@@ -9839,7 +9862,8 @@ class ConnectedHomeSettingsForUpdate {
     final minConfidence = this.minConfidence;
     return {
       if (labels != null) 'Labels': labels,
-      if (minConfidence != null) 'MinConfidence': minConfidence,
+      if (minConfidence != null)
+        'MinConfidence': _s.encodeJsonDouble(minConfidence),
     };
   }
 }
@@ -10058,10 +10082,11 @@ class DetectionFilter {
     final minConfidence = this.minConfidence;
     return {
       if (minBoundingBoxHeight != null)
-        'MinBoundingBoxHeight': minBoundingBoxHeight,
+        'MinBoundingBoxHeight': _s.encodeJsonDouble(minBoundingBoxHeight),
       if (minBoundingBoxWidth != null)
-        'MinBoundingBoxWidth': minBoundingBoxWidth,
-      if (minConfidence != null) 'MinConfidence': minConfidence,
+        'MinBoundingBoxWidth': _s.encodeJsonDouble(minBoundingBoxWidth),
+      if (minConfidence != null)
+        'MinConfidence': _s.encodeJsonDouble(minConfidence),
     };
   }
 }
@@ -10273,7 +10298,7 @@ class StartTechnicalCueDetectionFilter {
     return {
       if (blackFrame != null) 'BlackFrame': blackFrame,
       if (minSegmentConfidence != null)
-        'MinSegmentConfidence': minSegmentConfidence,
+        'MinSegmentConfidence': _s.encodeJsonDouble(minSegmentConfidence),
     };
   }
 }
@@ -10303,7 +10328,7 @@ class StartShotDetectionFilter {
     final minSegmentConfidence = this.minSegmentConfidence;
     return {
       if (minSegmentConfidence != null)
-        'MinSegmentConfidence': minSegmentConfidence,
+        'MinSegmentConfidence': _s.encodeJsonDouble(minSegmentConfidence),
     };
   }
 }
@@ -10348,9 +10373,10 @@ class BlackFrame {
     final maxPixelThreshold = this.maxPixelThreshold;
     final minCoveragePercentage = this.minCoveragePercentage;
     return {
-      if (maxPixelThreshold != null) 'MaxPixelThreshold': maxPixelThreshold,
+      if (maxPixelThreshold != null)
+        'MaxPixelThreshold': _s.encodeJsonDouble(maxPixelThreshold),
       if (minCoveragePercentage != null)
-        'MinCoveragePercentage': minCoveragePercentage,
+        'MinCoveragePercentage': _s.encodeJsonDouble(minCoveragePercentage),
     };
   }
 }
@@ -10465,7 +10491,7 @@ class MediaAnalysisDetectModerationLabelsConfig {
   factory MediaAnalysisDetectModerationLabelsConfig.fromJson(
       Map<String, dynamic> json) {
     return MediaAnalysisDetectModerationLabelsConfig(
-      minConfidence: json['MinConfidence'] as double?,
+      minConfidence: _s.parseJsonDouble(json['MinConfidence']),
       projectVersion: json['ProjectVersion'] as String?,
     );
   }
@@ -10474,7 +10500,8 @@ class MediaAnalysisDetectModerationLabelsConfig {
     final minConfidence = this.minConfidence;
     final projectVersion = this.projectVersion;
     return {
-      if (minConfidence != null) 'MinConfidence': minConfidence,
+      if (minConfidence != null)
+        'MinConfidence': _s.encodeJsonDouble(minConfidence),
       if (projectVersion != null) 'ProjectVersion': projectVersion,
     };
   }
@@ -10796,7 +10823,7 @@ class FaceDetail {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       emotions: (json['Emotions'] as List?)
           ?.nonNulls
           .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
@@ -10863,7 +10890,7 @@ class FaceDetail {
       if (ageRange != null) 'AgeRange': ageRange,
       if (beard != null) 'Beard': beard,
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (emotions != null) 'Emotions': emotions,
       if (eyeDirection != null) 'EyeDirection': eyeDirection,
       if (eyeglasses != null) 'Eyeglasses': eyeglasses,
@@ -10977,7 +11004,7 @@ class Smile {
 
   factory Smile.fromJson(Map<String, dynamic> json) {
     return Smile(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -10986,7 +11013,7 @@ class Smile {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11010,7 +11037,7 @@ class Eyeglasses {
 
   factory Eyeglasses.fromJson(Map<String, dynamic> json) {
     return Eyeglasses(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11019,7 +11046,7 @@ class Eyeglasses {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11043,7 +11070,7 @@ class Sunglasses {
 
   factory Sunglasses.fromJson(Map<String, dynamic> json) {
     return Sunglasses(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11052,7 +11079,7 @@ class Sunglasses {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11090,7 +11117,7 @@ class Gender {
 
   factory Gender.fromJson(Map<String, dynamic> json) {
     return Gender(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: (json['Value'] as String?)?.let(GenderType.fromString),
     );
   }
@@ -11099,7 +11126,7 @@ class Gender {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value.value,
     };
   }
@@ -11123,7 +11150,7 @@ class Beard {
 
   factory Beard.fromJson(Map<String, dynamic> json) {
     return Beard(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11132,7 +11159,7 @@ class Beard {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11156,7 +11183,7 @@ class Mustache {
 
   factory Mustache.fromJson(Map<String, dynamic> json) {
     return Mustache(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11165,7 +11192,7 @@ class Mustache {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11189,7 +11216,7 @@ class EyeOpen {
 
   factory EyeOpen.fromJson(Map<String, dynamic> json) {
     return EyeOpen(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11198,7 +11225,7 @@ class EyeOpen {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11222,7 +11249,7 @@ class MouthOpen {
 
   factory MouthOpen.fromJson(Map<String, dynamic> json) {
     return MouthOpen(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11231,7 +11258,7 @@ class MouthOpen {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11258,9 +11285,9 @@ class Pose {
 
   factory Pose.fromJson(Map<String, dynamic> json) {
     return Pose(
-      pitch: json['Pitch'] as double?,
-      roll: json['Roll'] as double?,
-      yaw: json['Yaw'] as double?,
+      pitch: _s.parseJsonDouble(json['Pitch']),
+      roll: _s.parseJsonDouble(json['Roll']),
+      yaw: _s.parseJsonDouble(json['Yaw']),
     );
   }
 
@@ -11269,9 +11296,9 @@ class Pose {
     final roll = this.roll;
     final yaw = this.yaw;
     return {
-      if (pitch != null) 'Pitch': pitch,
-      if (roll != null) 'Roll': roll,
-      if (yaw != null) 'Yaw': yaw,
+      if (pitch != null) 'Pitch': _s.encodeJsonDouble(pitch),
+      if (roll != null) 'Roll': _s.encodeJsonDouble(roll),
+      if (yaw != null) 'Yaw': _s.encodeJsonDouble(yaw),
     };
   }
 }
@@ -11297,8 +11324,8 @@ class ImageQuality {
 
   factory ImageQuality.fromJson(Map<String, dynamic> json) {
     return ImageQuality(
-      brightness: json['Brightness'] as double?,
-      sharpness: json['Sharpness'] as double?,
+      brightness: _s.parseJsonDouble(json['Brightness']),
+      sharpness: _s.parseJsonDouble(json['Sharpness']),
     );
   }
 
@@ -11306,8 +11333,8 @@ class ImageQuality {
     final brightness = this.brightness;
     final sharpness = this.sharpness;
     return {
-      if (brightness != null) 'Brightness': brightness,
-      if (sharpness != null) 'Sharpness': sharpness,
+      if (brightness != null) 'Brightness': _s.encodeJsonDouble(brightness),
+      if (sharpness != null) 'Sharpness': _s.encodeJsonDouble(sharpness),
     };
   }
 }
@@ -11342,7 +11369,7 @@ class FaceOccluded {
 
   factory FaceOccluded.fromJson(Map<String, dynamic> json) {
     return FaceOccluded(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -11351,7 +11378,7 @@ class FaceOccluded {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -11379,9 +11406,9 @@ class EyeDirection {
 
   factory EyeDirection.fromJson(Map<String, dynamic> json) {
     return EyeDirection(
-      confidence: json['Confidence'] as double?,
-      pitch: json['Pitch'] as double?,
-      yaw: json['Yaw'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
+      pitch: _s.parseJsonDouble(json['Pitch']),
+      yaw: _s.parseJsonDouble(json['Yaw']),
     );
   }
 
@@ -11390,9 +11417,9 @@ class EyeDirection {
     final pitch = this.pitch;
     final yaw = this.yaw;
     return {
-      if (confidence != null) 'Confidence': confidence,
-      if (pitch != null) 'Pitch': pitch,
-      if (yaw != null) 'Yaw': yaw,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
+      if (pitch != null) 'Pitch': _s.encodeJsonDouble(pitch),
+      if (yaw != null) 'Yaw': _s.encodeJsonDouble(yaw),
     };
   }
 }
@@ -11425,8 +11452,8 @@ class Landmark {
   factory Landmark.fromJson(Map<String, dynamic> json) {
     return Landmark(
       type: (json['Type'] as String?)?.let(LandmarkType.fromString),
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
+      x: _s.parseJsonDouble(json['X']),
+      y: _s.parseJsonDouble(json['Y']),
     );
   }
 
@@ -11436,8 +11463,8 @@ class Landmark {
     final y = this.y;
     return {
       if (type != null) 'Type': type.value,
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
+      if (x != null) 'X': _s.encodeJsonDouble(x),
+      if (y != null) 'Y': _s.encodeJsonDouble(y),
     };
   }
 }
@@ -11548,7 +11575,7 @@ class Emotion {
 
   factory Emotion.fromJson(Map<String, dynamic> json) {
     return Emotion(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       type: (json['Type'] as String?)?.let(EmotionName.fromString),
     );
   }
@@ -11557,7 +11584,7 @@ class Emotion {
     final confidence = this.confidence;
     final type = this.type;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (type != null) 'Type': type.value,
     };
   }
@@ -11646,7 +11673,7 @@ class UserMatch {
 
   factory UserMatch.fromJson(Map<String, dynamic> json) {
     return UserMatch(
-      similarity: json['Similarity'] as double?,
+      similarity: _s.parseJsonDouble(json['Similarity']),
       user: json['User'] != null
           ? MatchedUser.fromJson(json['User'] as Map<String, dynamic>)
           : null,
@@ -11657,7 +11684,7 @@ class UserMatch {
     final similarity = this.similarity;
     final user = this.user;
     return {
-      if (similarity != null) 'Similarity': similarity,
+      if (similarity != null) 'Similarity': _s.encodeJsonDouble(similarity),
       if (user != null) 'User': user,
     };
   }
@@ -11874,7 +11901,7 @@ class FaceMatch {
       face: json['Face'] != null
           ? Face.fromJson(json['Face'] as Map<String, dynamic>)
           : null,
-      similarity: json['Similarity'] as double?,
+      similarity: _s.parseJsonDouble(json['Similarity']),
     );
   }
 
@@ -11883,7 +11910,7 @@ class FaceMatch {
     final similarity = this.similarity;
     return {
       if (face != null) 'Face': face,
-      if (similarity != null) 'Similarity': similarity,
+      if (similarity != null) 'Similarity': _s.encodeJsonDouble(similarity),
     };
   }
 }
@@ -11931,7 +11958,7 @@ class Face {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       externalImageId: json['ExternalImageId'] as String?,
       faceId: json['FaceId'] as String?,
       imageId: json['ImageId'] as String?,
@@ -11950,7 +11977,7 @@ class Face {
     final userId = this.userId;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (externalImageId != null) 'ExternalImageId': externalImageId,
       if (faceId != null) 'FaceId': faceId,
       if (imageId != null) 'ImageId': imageId,
@@ -12033,7 +12060,7 @@ class ComparedFace {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       emotions: (json['Emotions'] as List?)
           ?.nonNulls
           .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
@@ -12064,7 +12091,7 @@ class ComparedFace {
     final smile = this.smile;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (emotions != null) 'Emotions': emotions,
       if (landmarks != null) 'Landmarks': landmarks,
       if (pose != null) 'Pose': pose,
@@ -12116,7 +12143,7 @@ class Celebrity {
       knownGender: json['KnownGender'] != null
           ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
           : null,
-      matchConfidence: json['MatchConfidence'] as double?,
+      matchConfidence: _s.parseJsonDouble(json['MatchConfidence']),
       name: json['Name'] as String?,
       urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
@@ -12133,7 +12160,8 @@ class Celebrity {
       if (face != null) 'Face': face,
       if (id != null) 'Id': id,
       if (knownGender != null) 'KnownGender': knownGender,
-      if (matchConfidence != null) 'MatchConfidence': matchConfidence,
+      if (matchConfidence != null)
+        'MatchConfidence': _s.encodeJsonDouble(matchConfidence),
       if (name != null) 'Name': name,
       if (urls != null) 'Urls': urls,
     };
@@ -13021,7 +13049,7 @@ class VideoMetadata {
       durationMillis: json['DurationMillis'] as int?,
       format: json['Format'] as String?,
       frameHeight: json['FrameHeight'] as int?,
-      frameRate: json['FrameRate'] as double?,
+      frameRate: _s.parseJsonDouble(json['FrameRate']),
       frameWidth: json['FrameWidth'] as int?,
     );
   }
@@ -13040,7 +13068,7 @@ class VideoMetadata {
       if (durationMillis != null) 'DurationMillis': durationMillis,
       if (format != null) 'Format': format,
       if (frameHeight != null) 'FrameHeight': frameHeight,
-      if (frameRate != null) 'FrameRate': frameRate,
+      if (frameRate != null) 'FrameRate': _s.encodeJsonDouble(frameRate),
       if (frameWidth != null) 'FrameWidth': frameWidth,
     };
   }
@@ -13135,7 +13163,7 @@ class TextDetection {
 
   factory TextDetection.fromJson(Map<String, dynamic> json) {
     return TextDetection(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       detectedText: json['DetectedText'] as String?,
       geometry: json['Geometry'] != null
           ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
@@ -13154,7 +13182,7 @@ class TextDetection {
     final parentId = this.parentId;
     final type = this.type;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (detectedText != null) 'DetectedText': detectedText,
       if (geometry != null) 'Geometry': geometry,
       if (id != null) 'Id': id,
@@ -13429,7 +13457,7 @@ class TechnicalCueSegment {
 
   factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) {
     return TechnicalCueSegment(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       type: (json['Type'] as String?)?.let(TechnicalCueType.fromString),
     );
   }
@@ -13438,7 +13466,7 @@ class TechnicalCueSegment {
     final confidence = this.confidence;
     final type = this.type;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (type != null) 'Type': type.value,
     };
   }
@@ -13463,7 +13491,7 @@ class ShotSegment {
 
   factory ShotSegment.fromJson(Map<String, dynamic> json) {
     return ShotSegment(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       index: json['Index'] as int?,
     );
   }
@@ -13472,7 +13500,7 @@ class ShotSegment {
     final confidence = this.confidence;
     final index = this.index;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (index != null) 'Index': index,
     };
   }
@@ -13872,7 +13900,7 @@ class Label {
           ?.nonNulls
           .map((e) => LabelCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       instances: (json['Instances'] as List?)
           ?.nonNulls
           .map((e) => Instance.fromJson(e as Map<String, dynamic>))
@@ -13895,7 +13923,7 @@ class Label {
     return {
       if (aliases != null) 'Aliases': aliases,
       if (categories != null) 'Categories': categories,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (instances != null) 'Instances': instances,
       if (name != null) 'Name': name,
       if (parents != null) 'Parents': parents,
@@ -14005,7 +14033,7 @@ class Instance {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       dominantColors: (json['DominantColors'] as List?)
           ?.nonNulls
           .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
@@ -14019,7 +14047,7 @@ class Instance {
     final dominantColors = this.dominantColors;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (dominantColors != null) 'DominantColors': dominantColors,
     };
   }
@@ -14066,7 +14094,7 @@ class DominantColor {
       cSSColor: json['CSSColor'] as String?,
       green: json['Green'] as int?,
       hexCode: json['HexCode'] as String?,
-      pixelPercent: json['PixelPercent'] as double?,
+      pixelPercent: _s.parseJsonDouble(json['PixelPercent']),
       red: json['Red'] as int?,
       simplifiedColor: json['SimplifiedColor'] as String?,
     );
@@ -14085,7 +14113,8 @@ class DominantColor {
       if (cSSColor != null) 'CSSColor': cSSColor,
       if (green != null) 'Green': green,
       if (hexCode != null) 'HexCode': hexCode,
-      if (pixelPercent != null) 'PixelPercent': pixelPercent,
+      if (pixelPercent != null)
+        'PixelPercent': _s.encodeJsonDouble(pixelPercent),
       if (red != null) 'Red': red,
       if (simplifiedColor != null) 'SimplifiedColor': simplifiedColor,
     };
@@ -14532,7 +14561,7 @@ class ModerationLabel {
 
   factory ModerationLabel.fromJson(Map<String, dynamic> json) {
     return ModerationLabel(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       name: json['Name'] as String?,
       parentName: json['ParentName'] as String?,
       taxonomyLevel: json['TaxonomyLevel'] as int?,
@@ -14545,7 +14574,7 @@ class ModerationLabel {
     final parentName = this.parentName;
     final taxonomyLevel = this.taxonomyLevel;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (name != null) 'Name': name,
       if (parentName != null) 'ParentName': parentName,
       if (taxonomyLevel != null) 'TaxonomyLevel': taxonomyLevel,
@@ -14571,7 +14600,7 @@ class ContentType {
 
   factory ContentType.fromJson(Map<String, dynamic> json) {
     return ContentType(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       name: json['Name'] as String?,
     );
   }
@@ -14580,7 +14609,7 @@ class ContentType {
     final confidence = this.confidence;
     final name = this.name;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (name != null) 'Name': name,
     };
   }
@@ -14665,7 +14694,7 @@ class CelebrityDetail {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       face: json['Face'] != null
           ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
           : null,
@@ -14688,7 +14717,7 @@ class CelebrityDetail {
     final urls = this.urls;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (face != null) 'Face': face,
       if (id != null) 'Id': id,
       if (knownGender != null) 'KnownGender': knownGender,
@@ -14983,7 +15012,7 @@ class ProtectiveEquipmentPerson {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       id: json['Id'] as int?,
     );
   }
@@ -14996,7 +15025,7 @@ class ProtectiveEquipmentPerson {
     return {
       if (bodyParts != null) 'BodyParts': bodyParts,
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (id != null) 'Id': id,
     };
   }
@@ -15027,7 +15056,7 @@ class ProtectiveEquipmentBodyPart {
 
   factory ProtectiveEquipmentBodyPart.fromJson(Map<String, dynamic> json) {
     return ProtectiveEquipmentBodyPart(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       equipmentDetections: (json['EquipmentDetections'] as List?)
           ?.nonNulls
           .map((e) => EquipmentDetection.fromJson(e as Map<String, dynamic>))
@@ -15041,7 +15070,7 @@ class ProtectiveEquipmentBodyPart {
     final equipmentDetections = this.equipmentDetections;
     final name = this.name;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (equipmentDetections != null)
         'EquipmentDetections': equipmentDetections,
       if (name != null) 'Name': name.value,
@@ -15106,7 +15135,7 @@ class EquipmentDetection {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       coversBodyPart: json['CoversBodyPart'] != null
           ? CoversBodyPart.fromJson(
               json['CoversBodyPart'] as Map<String, dynamic>)
@@ -15122,7 +15151,7 @@ class EquipmentDetection {
     final type = this.type;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (coversBodyPart != null) 'CoversBodyPart': coversBodyPart,
       if (type != null) 'Type': type.value,
     };
@@ -15176,7 +15205,7 @@ class CoversBodyPart {
 
   factory CoversBodyPart.fromJson(Map<String, dynamic> json) {
     return CoversBodyPart(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       value: json['Value'] as bool?,
     );
   }
@@ -15185,7 +15214,7 @@ class CoversBodyPart {
     final confidence = this.confidence;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (value != null) 'Value': value,
     };
   }
@@ -15234,7 +15263,7 @@ class ProtectiveEquipmentSummarizationAttributes {
     final minConfidence = this.minConfidence;
     final requiredEquipmentTypes = this.requiredEquipmentTypes;
     return {
-      'MinConfidence': minConfidence,
+      'MinConfidence': _s.encodeJsonDouble(minConfidence),
       'RequiredEquipmentTypes':
           requiredEquipmentTypes.map((e) => e.value).toList(),
     };
@@ -15471,9 +15500,9 @@ class DetectLabelsImageQuality {
 
   factory DetectLabelsImageQuality.fromJson(Map<String, dynamic> json) {
     return DetectLabelsImageQuality(
-      brightness: json['Brightness'] as double?,
-      contrast: json['Contrast'] as double?,
-      sharpness: json['Sharpness'] as double?,
+      brightness: _s.parseJsonDouble(json['Brightness']),
+      contrast: _s.parseJsonDouble(json['Contrast']),
+      sharpness: _s.parseJsonDouble(json['Sharpness']),
     );
   }
 
@@ -15482,9 +15511,9 @@ class DetectLabelsImageQuality {
     final contrast = this.contrast;
     final sharpness = this.sharpness;
     return {
-      if (brightness != null) 'Brightness': brightness,
-      if (contrast != null) 'Contrast': contrast,
-      if (sharpness != null) 'Sharpness': sharpness,
+      if (brightness != null) 'Brightness': _s.encodeJsonDouble(brightness),
+      if (contrast != null) 'Contrast': _s.encodeJsonDouble(contrast),
+      if (sharpness != null) 'Sharpness': _s.encodeJsonDouble(sharpness),
     };
   }
 }
@@ -15670,7 +15699,7 @@ class CustomLabel {
 
   factory CustomLabel.fromJson(Map<String, dynamic> json) {
     return CustomLabel(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       geometry: json['Geometry'] != null
           ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
           : null,
@@ -15683,7 +15712,7 @@ class CustomLabel {
     final geometry = this.geometry;
     final name = this.name;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (geometry != null) 'Geometry': geometry,
       if (name != null) 'Name': name,
     };
@@ -15863,7 +15892,7 @@ class FaceSearchSettings {
   factory FaceSearchSettings.fromJson(Map<String, dynamic> json) {
     return FaceSearchSettings(
       collectionId: json['CollectionId'] as String?,
-      faceMatchThreshold: json['FaceMatchThreshold'] as double?,
+      faceMatchThreshold: _s.parseJsonDouble(json['FaceMatchThreshold']),
     );
   }
 
@@ -15872,7 +15901,8 @@ class FaceSearchSettings {
     final faceMatchThreshold = this.faceMatchThreshold;
     return {
       if (collectionId != null) 'CollectionId': collectionId,
-      if (faceMatchThreshold != null) 'FaceMatchThreshold': faceMatchThreshold,
+      if (faceMatchThreshold != null)
+        'FaceMatchThreshold': _s.encodeJsonDouble(faceMatchThreshold),
     };
   }
 }
@@ -15909,7 +15939,7 @@ class ConnectedHomeSettings {
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      minConfidence: json['MinConfidence'] as double?,
+      minConfidence: _s.parseJsonDouble(json['MinConfidence']),
     );
   }
 
@@ -15918,7 +15948,8 @@ class ConnectedHomeSettings {
     final minConfidence = this.minConfidence;
     return {
       'Labels': labels,
-      if (minConfidence != null) 'MinConfidence': minConfidence,
+      if (minConfidence != null)
+        'MinConfidence': _s.encodeJsonDouble(minConfidence),
     };
   }
 }
@@ -16350,7 +16381,7 @@ class EvaluationResult {
 
   factory EvaluationResult.fromJson(Map<String, dynamic> json) {
     return EvaluationResult(
-      f1Score: json['F1Score'] as double?,
+      f1Score: _s.parseJsonDouble(json['F1Score']),
       summary: json['Summary'] != null
           ? Summary.fromJson(json['Summary'] as Map<String, dynamic>)
           : null,
@@ -16361,7 +16392,7 @@ class EvaluationResult {
     final f1Score = this.f1Score;
     final summary = this.summary;
     return {
-      if (f1Score != null) 'F1Score': f1Score,
+      if (f1Score != null) 'F1Score': _s.encodeJsonDouble(f1Score),
       if (summary != null) 'Summary': summary,
     };
   }
@@ -16466,7 +16497,7 @@ class CustomizationFeatureContentModerationConfig {
   factory CustomizationFeatureContentModerationConfig.fromJson(
       Map<String, dynamic> json) {
     return CustomizationFeatureContentModerationConfig(
-      confidenceThreshold: json['ConfidenceThreshold'] as double?,
+      confidenceThreshold: _s.parseJsonDouble(json['ConfidenceThreshold']),
     );
   }
 
@@ -16474,7 +16505,7 @@ class CustomizationFeatureContentModerationConfig {
     final confidenceThreshold = this.confidenceThreshold;
     return {
       if (confidenceThreshold != null)
-        'ConfidenceThreshold': confidenceThreshold,
+        'ConfidenceThreshold': _s.encodeJsonDouble(confidenceThreshold),
     };
   }
 }
@@ -17299,7 +17330,7 @@ class ComparedSourceImageFace {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
     );
   }
 
@@ -17308,7 +17339,7 @@ class ComparedSourceImageFace {
     final confidence = this.confidence;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
     };
   }
 }
@@ -17338,7 +17369,7 @@ class CompareFacesMatch {
       face: json['Face'] != null
           ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
           : null,
-      similarity: json['Similarity'] as double?,
+      similarity: _s.parseJsonDouble(json['Similarity']),
     );
   }
 
@@ -17347,7 +17378,7 @@ class CompareFacesMatch {
     final similarity = this.similarity;
     return {
       if (face != null) 'Face': face,
-      if (similarity != null) 'Similarity': similarity,
+      if (similarity != null) 'Similarity': _s.encodeJsonDouble(similarity),
     };
   }
 }
@@ -17379,7 +17410,7 @@ class UnsuccessfulFaceAssociation {
 
   factory UnsuccessfulFaceAssociation.fromJson(Map<String, dynamic> json) {
     return UnsuccessfulFaceAssociation(
-      confidence: json['Confidence'] as double?,
+      confidence: _s.parseJsonDouble(json['Confidence']),
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
           ?.nonNulls
@@ -17396,7 +17427,7 @@ class UnsuccessfulFaceAssociation {
     final reasons = this.reasons;
     final userId = this.userId;
     return {
-      if (confidence != null) 'Confidence': confidence,
+      if (confidence != null) 'Confidence': _s.encodeJsonDouble(confidence),
       if (faceId != null) 'FaceId': faceId,
       if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
       if (userId != null) 'UserId': userId,

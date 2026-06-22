@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_06_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the <i>Shield Advanced API Reference</i>. This guide is for
@@ -29,22 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Developer Guide</a>.
 class Shield {
   final _s.JsonProtocol _protocol;
-  Shield({
+  factory Shield({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'shield',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'shield',
+    );
+    return Shield._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Shield._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3620,14 +3637,14 @@ class AttackVolumeStatistics {
 
   factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
     return AttackVolumeStatistics(
-      max: (json['Max'] as double?) ?? 0,
+      max: _s.parseJsonDouble(json['Max']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final max = this.max;
     return {
-      'Max': max,
+      'Max': _s.encodeJsonDouble(max),
     };
   }
 }
@@ -3986,11 +4003,11 @@ class SummarizedCounter {
 
   factory SummarizedCounter.fromJson(Map<String, dynamic> json) {
     return SummarizedCounter(
-      average: json['Average'] as double?,
-      max: json['Max'] as double?,
+      average: _s.parseJsonDouble(json['Average']),
+      max: _s.parseJsonDouble(json['Max']),
       n: json['N'] as int?,
       name: json['Name'] as String?,
-      sum: json['Sum'] as double?,
+      sum: _s.parseJsonDouble(json['Sum']),
       unit: json['Unit'] as String?,
     );
   }
@@ -4003,11 +4020,11 @@ class SummarizedCounter {
     final sum = this.sum;
     final unit = this.unit;
     return {
-      if (average != null) 'Average': average,
-      if (max != null) 'Max': max,
+      if (average != null) 'Average': _s.encodeJsonDouble(average),
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
       if (n != null) 'N': n,
       if (name != null) 'Name': name,
-      if (sum != null) 'Sum': sum,
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
       if (unit != null) 'Unit': unit,
     };
   }

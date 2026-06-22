@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Doc Engage API - Amazon Pinpoint API
 class Pinpoint {
   final _s.RestJsonProtocol _protocol;
-  Pinpoint({
+  factory Pinpoint({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'pinpoint',
-            signingName: 'mobiletargeting',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'pinpoint',
+      signingName: 'mobiletargeting',
+    );
+    return Pinpoint._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Pinpoint._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8103,7 +8120,7 @@ class MetricDimension {
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
       comparisonOperator: (json['ComparisonOperator'] as String?) ?? '',
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -8112,7 +8129,7 @@ class MetricDimension {
     final value = this.value;
     return {
       'ComparisonOperator': comparisonOperator,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -8178,7 +8195,7 @@ class GPSPointDimension {
       coordinates: GPSCoordinates.fromJson(
           (json['Coordinates'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      rangeInKilometers: json['RangeInKilometers'] as double?,
+      rangeInKilometers: _s.parseJsonDouble(json['RangeInKilometers']),
     );
   }
 
@@ -8187,7 +8204,8 @@ class GPSPointDimension {
     final rangeInKilometers = this.rangeInKilometers;
     return {
       'Coordinates': coordinates,
-      if (rangeInKilometers != null) 'RangeInKilometers': rangeInKilometers,
+      if (rangeInKilometers != null)
+        'RangeInKilometers': _s.encodeJsonDouble(rangeInKilometers),
     };
   }
 }
@@ -8209,8 +8227,8 @@ class GPSCoordinates {
 
   factory GPSCoordinates.fromJson(Map<String, dynamic> json) {
     return GPSCoordinates(
-      latitude: (json['Latitude'] as double?) ?? 0,
-      longitude: (json['Longitude'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['Latitude']) ?? 0,
+      longitude: _s.parseJsonDouble(json['Longitude']) ?? 0,
     );
   }
 
@@ -8218,8 +8236,8 @@ class GPSCoordinates {
     final latitude = this.latitude;
     final longitude = this.longitude;
     return {
-      'Latitude': latitude,
-      'Longitude': longitude,
+      'Latitude': _s.encodeJsonDouble(latitude),
+      'Longitude': _s.encodeJsonDouble(longitude),
     };
   }
 }
@@ -12399,7 +12417,8 @@ class EndpointBatchItem {
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (id != null) 'Id': id,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
@@ -12573,8 +12592,8 @@ class EndpointLocation {
     return EndpointLocation(
       city: json['City'] as String?,
       country: json['Country'] as String?,
-      latitude: json['Latitude'] as double?,
-      longitude: json['Longitude'] as double?,
+      latitude: _s.parseJsonDouble(json['Latitude']),
+      longitude: _s.parseJsonDouble(json['Longitude']),
       postalCode: json['PostalCode'] as String?,
       region: json['Region'] as String?,
     );
@@ -12590,8 +12609,8 @@ class EndpointLocation {
     return {
       if (city != null) 'City': city,
       if (country != null) 'Country': country,
-      if (latitude != null) 'Latitude': latitude,
-      if (longitude != null) 'Longitude': longitude,
+      if (latitude != null) 'Latitude': _s.encodeJsonDouble(latitude),
+      if (longitude != null) 'Longitude': _s.encodeJsonDouble(longitude),
       if (postalCode != null) 'PostalCode': postalCode,
       if (region != null) 'Region': region,
     };
@@ -12747,7 +12766,8 @@ class EndpointRequest {
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
@@ -18206,7 +18226,8 @@ class PublicEndpoint {
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,
@@ -18280,7 +18301,8 @@ class Event {
       if (appVersionCode != null) 'AppVersionCode': appVersionCode,
       if (attributes != null) 'Attributes': attributes,
       if (clientSdkVersion != null) 'ClientSdkVersion': clientSdkVersion,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (sdkName != null) 'SdkName': sdkName,
       if (session != null) 'Session': session,
     };
@@ -19098,7 +19120,7 @@ class EndpointResponse {
           ? EndpointLocation.fromJson(json['Location'] as Map<String, dynamic>)
           : null,
       metrics: (json['Metrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       optOut: json['OptOut'] as String?,
       requestId: json['RequestId'] as String?,
       user: json['User'] != null
@@ -19135,7 +19157,8 @@ class EndpointResponse {
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
       if (id != null) 'Id': id,
       if (location != null) 'Location': location,
-      if (metrics != null) 'Metrics': metrics,
+      if (metrics != null)
+        'Metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (optOut != null) 'OptOut': optOut,
       if (requestId != null) 'RequestId': requestId,
       if (user != null) 'User': user,

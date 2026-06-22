@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Macie
 class Macie2 {
   final _s.RestJsonProtocol _protocol;
-  Macie2({
+  factory Macie2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'macie2',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'macie2',
+    );
+    return Macie2._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Macie2._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -12655,8 +12672,8 @@ class IpGeoLocation {
 
   factory IpGeoLocation.fromJson(Map<String, dynamic> json) {
     return IpGeoLocation(
-      lat: json['lat'] as double?,
-      lon: json['lon'] as double?,
+      lat: _s.parseJsonDouble(json['lat']),
+      lon: _s.parseJsonDouble(json['lon']),
     );
   }
 
@@ -12664,8 +12681,8 @@ class IpGeoLocation {
     final lat = this.lat;
     final lon = this.lon;
     return {
-      if (lat != null) 'lat': lat,
-      if (lon != null) 'lon': lon,
+      if (lat != null) 'lat': _s.encodeJsonDouble(lat),
+      if (lon != null) 'lon': _s.encodeJsonDouble(lon),
     };
   }
 }
@@ -14337,8 +14354,8 @@ class Statistics {
   factory Statistics.fromJson(Map<String, dynamic> json) {
     return Statistics(
       approximateNumberOfObjectsToProcess:
-          json['approximateNumberOfObjectsToProcess'] as double?,
-      numberOfRuns: json['numberOfRuns'] as double?,
+          _s.parseJsonDouble(json['approximateNumberOfObjectsToProcess']),
+      numberOfRuns: _s.parseJsonDouble(json['numberOfRuns']),
     );
   }
 
@@ -14349,8 +14366,9 @@ class Statistics {
     return {
       if (approximateNumberOfObjectsToProcess != null)
         'approximateNumberOfObjectsToProcess':
-            approximateNumberOfObjectsToProcess,
-      if (numberOfRuns != null) 'numberOfRuns': numberOfRuns,
+            _s.encodeJsonDouble(approximateNumberOfObjectsToProcess),
+      if (numberOfRuns != null)
+        'numberOfRuns': _s.encodeJsonDouble(numberOfRuns),
     };
   }
 }

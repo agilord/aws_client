@@ -11,7 +11,13 @@ void main() {
   late String bucket;
 
   setUp(() async {
-    s3 = localClient(S3.new);
+    // LocalStack needs path-style addressing; the default is virtual-host.
+    s3 = S3(
+      region: testRegion,
+      credentials: testCredentials,
+      endpointUrl: testEndpoint,
+      forcePathStyle: true,
+    );
     bucket = uniqueName();
     await s3.createBucket(bucket: bucket);
   });

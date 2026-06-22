@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_07_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Billing Conductor is a fully managed service that you can use to customize a
@@ -43,22 +45,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Billing Conductor User Guide</a>.
 class Billingconductor {
   final _s.RestJsonProtocol _protocol;
-  Billingconductor({
+  factory Billingconductor({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'billingconductor',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'billingconductor',
+    );
+    return Billingconductor._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Billingconductor._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1339,7 +1356,8 @@ class Billingconductor {
       'Type': type.value,
       if (billingEntity != null) 'BillingEntity': billingEntity,
       if (description != null) 'Description': description,
-      if (modifierPercentage != null) 'ModifierPercentage': modifierPercentage,
+      if (modifierPercentage != null)
+        'ModifierPercentage': _s.encodeJsonDouble(modifierPercentage),
       if (operation != null) 'Operation': operation,
       if (service != null) 'Service': service,
       if (tags != null) 'Tags': tags,
@@ -1401,7 +1419,8 @@ class Billingconductor {
     final $payload = <String, dynamic>{
       'Arn': arn,
       if (description != null) 'Description': description,
-      if (modifierPercentage != null) 'ModifierPercentage': modifierPercentage,
+      if (modifierPercentage != null)
+        'ModifierPercentage': _s.encodeJsonDouble(modifierPercentage),
       if (name != null) 'Name': name,
       if (tiering != null) 'Tiering': tiering,
       if (type != null) 'Type': type.value,
@@ -2585,7 +2604,7 @@ class UpdatePricingRuleOutput {
       billingEntity: json['BillingEntity'] as String?,
       description: json['Description'] as String?,
       lastModifiedTime: json['LastModifiedTime'] as int?,
-      modifierPercentage: json['ModifierPercentage'] as double?,
+      modifierPercentage: _s.parseJsonDouble(json['ModifierPercentage']),
       name: json['Name'] as String?,
       operation: json['Operation'] as String?,
       scope: (json['Scope'] as String?)?.let(PricingRuleScope.fromString),
@@ -2619,7 +2638,8 @@ class UpdatePricingRuleOutput {
       if (billingEntity != null) 'BillingEntity': billingEntity,
       if (description != null) 'Description': description,
       if (lastModifiedTime != null) 'LastModifiedTime': lastModifiedTime,
-      if (modifierPercentage != null) 'ModifierPercentage': modifierPercentage,
+      if (modifierPercentage != null)
+        'ModifierPercentage': _s.encodeJsonDouble(modifierPercentage),
       if (name != null) 'Name': name,
       if (operation != null) 'Operation': operation,
       if (scope != null) 'Scope': scope.value,
@@ -2832,7 +2852,7 @@ class PricingRuleListElement {
       creationTime: json['CreationTime'] as int?,
       description: json['Description'] as String?,
       lastModifiedTime: json['LastModifiedTime'] as int?,
-      modifierPercentage: json['ModifierPercentage'] as double?,
+      modifierPercentage: _s.parseJsonDouble(json['ModifierPercentage']),
       name: json['Name'] as String?,
       operation: json['Operation'] as String?,
       scope: (json['Scope'] as String?)?.let(PricingRuleScope.fromString),
@@ -2868,7 +2888,8 @@ class PricingRuleListElement {
       if (creationTime != null) 'CreationTime': creationTime,
       if (description != null) 'Description': description,
       if (lastModifiedTime != null) 'LastModifiedTime': lastModifiedTime,
-      if (modifierPercentage != null) 'ModifierPercentage': modifierPercentage,
+      if (modifierPercentage != null)
+        'ModifierPercentage': _s.encodeJsonDouble(modifierPercentage),
       if (name != null) 'Name': name,
       if (operation != null) 'Operation': operation,
       if (scope != null) 'Scope': scope.value,
@@ -3562,14 +3583,14 @@ class ListCustomLineItemFlatChargeDetails {
   factory ListCustomLineItemFlatChargeDetails.fromJson(
       Map<String, dynamic> json) {
     return ListCustomLineItemFlatChargeDetails(
-      chargeValue: (json['ChargeValue'] as double?) ?? 0,
+      chargeValue: _s.parseJsonDouble(json['ChargeValue']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final chargeValue = this.chargeValue;
     return {
-      'ChargeValue': chargeValue,
+      'ChargeValue': _s.encodeJsonDouble(chargeValue),
     };
   }
 }
@@ -3590,14 +3611,14 @@ class ListCustomLineItemPercentageChargeDetails {
   factory ListCustomLineItemPercentageChargeDetails.fromJson(
       Map<String, dynamic> json) {
     return ListCustomLineItemPercentageChargeDetails(
-      percentageValue: (json['PercentageValue'] as double?) ?? 0,
+      percentageValue: _s.parseJsonDouble(json['PercentageValue']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final percentageValue = this.percentageValue;
     return {
-      'PercentageValue': percentageValue,
+      'PercentageValue': _s.encodeJsonDouble(percentageValue),
     };
   }
 }
@@ -4200,7 +4221,7 @@ class UpdateCustomLineItemFlatChargeDetails {
   Map<String, dynamic> toJson() {
     final chargeValue = this.chargeValue;
     return {
-      'ChargeValue': chargeValue,
+      'ChargeValue': _s.encodeJsonDouble(chargeValue),
     };
   }
 }
@@ -4222,7 +4243,7 @@ class UpdateCustomLineItemPercentageChargeDetails {
   Map<String, dynamic> toJson() {
     final percentageValue = this.percentageValue;
     return {
-      'PercentageValue': percentageValue,
+      'PercentageValue': _s.encodeJsonDouble(percentageValue),
     };
   }
 }
@@ -4283,7 +4304,7 @@ class CustomLineItemFlatChargeDetails {
   Map<String, dynamic> toJson() {
     final chargeValue = this.chargeValue;
     return {
-      'ChargeValue': chargeValue,
+      'ChargeValue': _s.encodeJsonDouble(chargeValue),
     };
   }
 }
@@ -4309,7 +4330,7 @@ class CustomLineItemPercentageChargeDetails {
     final percentageValue = this.percentageValue;
     final associatedValues = this.associatedValues;
     return {
-      'PercentageValue': percentageValue,
+      'PercentageValue': _s.encodeJsonDouble(percentageValue),
       if (associatedValues != null) 'AssociatedValues': associatedValues,
     };
   }

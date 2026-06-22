@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon DevOps Guru is a fully managed service that helps you identify
@@ -43,22 +45,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// in DevOps Guru</a>.
 class DevOpsGuru {
   final _s.RestJsonProtocol _protocol;
-  DevOpsGuru({
+  factory DevOpsGuru({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'devops-guru',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'devops-guru',
+    );
+    return DevOpsGuru._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  DevOpsGuru._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1886,7 +1903,7 @@ class GetCostEstimationResponse {
           ? CostEstimationTimeRange.fromJson(
               json['TimeRange'] as Map<String, dynamic>)
           : null,
-      totalCost: json['TotalCost'] as double?,
+      totalCost: _s.parseJsonDouble(json['TotalCost']),
     );
   }
 
@@ -1903,7 +1920,7 @@ class GetCostEstimationResponse {
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (status != null) 'Status': status.value,
       if (timeRange != null) 'TimeRange': timeRange,
-      if (totalCost != null) 'TotalCost': totalCost,
+      if (totalCost != null) 'TotalCost': _s.encodeJsonDouble(totalCost),
     };
   }
 }
@@ -6070,7 +6087,7 @@ class PerformanceInsightsStat {
   factory PerformanceInsightsStat.fromJson(Map<String, dynamic> json) {
     return PerformanceInsightsStat(
       type: json['Type'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -6079,7 +6096,7 @@ class PerformanceInsightsStat {
     final value = this.value;
     return {
       if (type != null) 'Type': type,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -6184,14 +6201,14 @@ class PerformanceInsightsReferenceScalar {
   factory PerformanceInsightsReferenceScalar.fromJson(
       Map<String, dynamic> json) {
     return PerformanceInsightsReferenceScalar(
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final value = this.value;
     return {
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -6615,7 +6632,7 @@ class TimestampMetricValuePair {
 
   factory TimestampMetricValuePair.fromJson(Map<String, dynamic> json) {
     return TimestampMetricValuePair(
-      metricValue: json['MetricValue'] as double?,
+      metricValue: _s.parseJsonDouble(json['MetricValue']),
       timestamp: timeStampFromJson(json['Timestamp']),
     );
   }
@@ -6624,7 +6641,7 @@ class TimestampMetricValuePair {
     final metricValue = this.metricValue;
     final timestamp = this.timestamp;
     return {
-      if (metricValue != null) 'MetricValue': metricValue,
+      if (metricValue != null) 'MetricValue': _s.encodeJsonDouble(metricValue),
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
     };
   }
@@ -6752,7 +6769,7 @@ class ProactiveAnomalySummary {
       associatedInsightId: json['AssociatedInsightId'] as String?,
       description: json['Description'] as String?,
       id: json['Id'] as String?,
-      limit: json['Limit'] as double?,
+      limit: _s.parseJsonDouble(json['Limit']),
       predictionTimeRange: json['PredictionTimeRange'] != null
           ? PredictionTimeRange.fromJson(
               json['PredictionTimeRange'] as Map<String, dynamic>)
@@ -6799,7 +6816,7 @@ class ProactiveAnomalySummary {
         'AssociatedInsightId': associatedInsightId,
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
-      if (limit != null) 'Limit': limit,
+      if (limit != null) 'Limit': _s.encodeJsonDouble(limit),
       if (predictionTimeRange != null)
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
@@ -7176,12 +7193,12 @@ class ServiceResourceCost {
 
   factory ServiceResourceCost.fromJson(Map<String, dynamic> json) {
     return ServiceResourceCost(
-      cost: json['Cost'] as double?,
+      cost: _s.parseJsonDouble(json['Cost']),
       count: json['Count'] as int?,
       state: (json['State'] as String?)
           ?.let(CostEstimationServiceResourceState.fromString),
       type: json['Type'] as String?,
-      unitCost: json['UnitCost'] as double?,
+      unitCost: _s.parseJsonDouble(json['UnitCost']),
     );
   }
 
@@ -7192,11 +7209,11 @@ class ServiceResourceCost {
     final type = this.type;
     final unitCost = this.unitCost;
     return {
-      if (cost != null) 'Cost': cost,
+      if (cost != null) 'Cost': _s.encodeJsonDouble(cost),
       if (count != null) 'Count': count,
       if (state != null) 'State': state.value,
       if (type != null) 'Type': type,
-      if (unitCost != null) 'UnitCost': unitCost,
+      if (unitCost != null) 'UnitCost': _s.encodeJsonDouble(unitCost),
     };
   }
 }
@@ -8011,7 +8028,7 @@ class ProactiveAnomaly {
       associatedInsightId: json['AssociatedInsightId'] as String?,
       description: json['Description'] as String?,
       id: json['Id'] as String?,
-      limit: json['Limit'] as double?,
+      limit: _s.parseJsonDouble(json['Limit']),
       predictionTimeRange: json['PredictionTimeRange'] != null
           ? PredictionTimeRange.fromJson(
               json['PredictionTimeRange'] as Map<String, dynamic>)
@@ -8058,7 +8075,7 @@ class ProactiveAnomaly {
         'AssociatedInsightId': associatedInsightId,
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
-      if (limit != null) 'Limit': limit,
+      if (limit != null) 'Limit': _s.encodeJsonDouble(limit),
       if (predictionTimeRange != null)
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,

@@ -60,6 +60,14 @@ Api apiFromSmithy(SmithyModel model, {required String uid, String? serviceId}) {
         : null,
     uid: uid,
     auth: sigv4 != null ? [TraitIds.sigv4] : null,
+    endpointRuleSet: service.traits
+        .object(TraitIds.endpointRuleSet)
+        ?.cast<String, Object?>(),
+    endpointTests:
+        service.traits.object(TraitIds.endpointTests)?['testCases'] as List?,
+    clientContextParams: service.traits
+        .object(TraitIds.clientContextParams)
+        ?.cast<String, Object?>(),
   );
 
   // Only emit shapes reachable from this service's operation closure. Official
@@ -219,7 +227,20 @@ Operation _operation(String localName, SmithyShape op, bool rest, bool query,
         ? null
         : [for (final e in op.errors!) Descriptor(shape: resolve(e.target))],
     documentation: _doc(op.documentation),
+    staticContextParams: _staticContextParams(op.traits),
+    endpoint: switch (op.traits.object(TraitIds.endpointTrait)?['hostPrefix']) {
+      final String hostPrefix => EndPoint(hostPrefix),
+      _ => null,
+    },
   );
+}
+
+Map<String, Object?>? _staticContextParams(Map<String, Object?> traits) {
+  final raw = traits.object(TraitIds.staticContextParams);
+  if (raw == null) return null;
+  return {
+    for (final e in raw.entries) e.key: (e.value as Map)['value'],
+  };
 }
 
 Descriptor? _descriptor(ShapeRef? ref,
@@ -301,6 +322,7 @@ Shape _structure(SmithyShape shape, SmithyModel model, bool rest, bool xml,
     required: (isException || required.isEmpty) ? null : required,
     exception: isException,
     payload: payload,
+    locationName: xml ? shape.traits.string(TraitIds.xmlName) : null,
     xmlNamespace: xml ? _xmlNs(shape.traits) : null,
     documentation: _doc(shape.documentation),
   );
@@ -340,6 +362,8 @@ Member _member(String name, ShapeRef ref, SmithyModel model, bool rest,
     xmlNamespace: xml ? _xmlNs(t) : null,
     timestampFormat: _timestampFormat(t.string(TraitIds.timestampFormat)),
     jsonvalue: _isJsonValue(ref, model),
+    contextParam: t.object(TraitIds.contextParam)?['name'] as String?,
+    hostLabel: t.has(TraitIds.hostLabel),
   );
 }
 

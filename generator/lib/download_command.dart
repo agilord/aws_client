@@ -94,9 +94,7 @@ Future<void> _fetchApiDefinitions(String reference) async {
       newfile
         ..createSync(recursive: true)
         ..writeAsStringSync(jsonEncode(json));
-    } else if (file.isFile &&
-        const ['lib/region_config_data.json', 'apis/metadata.json']
-            .contains(filename)) {
+    } else if (file.isFile && filename == 'apis/metadata.json') {
       File(path.join('apis/config', path.basename(filename)))
         ..createSync(recursive: true)
         ..writeAsBytesSync(file.content as List<int>);
@@ -109,6 +107,8 @@ Future<void> _fetchSmithyModels(String reference) async {
       'api.github.com', '/repos/aws/aws-sdk-js-v3/zipball/$reference'));
   final archive = ZipDecoder().decodeBytes(response.bodyBytes);
   const modelsDir = 'codegen/sdk-codegen/aws-models/';
+  const partitionsPath =
+      'packages-internal/util-endpoints/src/lib/aws/partitions.json';
   for (final file in archive) {
     final filename = file.name.split('/').skip(1).join('/');
     if (file.isFile &&
@@ -116,6 +116,10 @@ Future<void> _fetchSmithyModels(String reference) async {
         filename.endsWith('.json')) {
       final newfile = File('smithy_apis/${path.basename(filename)}');
       newfile
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(file.content as List<int>);
+    } else if (file.isFile && filename == partitionsPath) {
+      File('apis/config/partitions.json')
         ..createSync(recursive: true)
         ..writeAsBytesSync(file.content as List<int>);
     }

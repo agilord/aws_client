@@ -11,33 +11,39 @@ import 'shared.dart';
 
 class RestXmlProtocol {
   final Client _client;
-  final Endpoint _endpoint;
+  // Resolved lazily; some services only have a usable endpoint per-operation.
+  final Endpoint Function() _endpointBuilder;
+  Endpoint? _cachedEndpoint;
+  Endpoint get _endpoint => _cachedEndpoint ??= _endpointBuilder();
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
+  final bool _disableHostPrefix;
   bool _closed = false;
 
   RestXmlProtocol._(
     this._client,
-    this._endpoint,
+    this._endpointBuilder,
     this._credentialsProvider,
     this._requestSigner,
     this._manageHttpClient,
+    this._disableHostPrefix,
   );
 
   factory RestXmlProtocol({
     Client? client,
+    Endpoint Function()? endpointBuilder,
     ServiceMetadata? service,
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
+    bool disableHostPrefix = false,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
-
-    final endpoint = Endpoint.forProtocol(
+    endpointBuilder ??= () => Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
     // If credentials are provided, override credentials provider
@@ -50,10 +56,11 @@ class RestXmlProtocol {
 
     return RestXmlProtocol._(
       client,
-      endpoint,
+      endpointBuilder,
       credentialsProvider,
       requestSigner,
       manageHttpClient,
+      disableHostPrefix,
     );
   }
 
@@ -66,14 +73,18 @@ class RestXmlProtocol {
     Map<String, String>? headers,
     dynamic payload,
     String? resultWrapper,
+    Endpoint? endpoint,
+    String? hostPrefix,
   }) async {
     final rq = await _buildRequest(
+      endpoint ?? _endpoint,
       method,
       requestUri,
       signed,
       queryParams,
       payload,
       headers,
+      hostPrefix,
     );
     final rs = await _client.send(rq);
 
@@ -121,6 +132,8 @@ class RestXmlProtocol {
     Map<String, String>? headers,
     dynamic payload,
     String? resultWrapper,
+    Endpoint? endpoint,
+    String? hostPrefix,
   }) async {
     final rs = await sendRaw(
       method: method,
@@ -131,6 +144,8 @@ class RestXmlProtocol {
       headers: headers,
       payload: payload,
       resultWrapper: resultWrapper,
+      endpoint: endpoint,
+      hostPrefix: hostPrefix,
     );
 
     final elem = await xmlFromResponse(rs, resultWrapper: resultWrapper);
@@ -138,14 +153,17 @@ class RestXmlProtocol {
   }
 
   Future<Request> _buildRequest(
+    Endpoint endpoint,
     String method,
     String requestUri,
     bool signed,
     Map<String, List<String>>? queryParams,
     dynamic payload,
     Map<String, String>? headers,
+    String? hostPrefix,
   ) async {
-    var uri = Uri.parse('${_endpoint.url}$requestUri');
+    var uri = Uri.parse('${endpoint.url}$requestUri');
+    uri = applyHostPrefix(uri, hostPrefix, disabled: _disableHostPrefix);
     uri = uri.replace(queryParameters: {
       ...uri.queryParametersAll,
       ...?queryParams,
@@ -178,8 +196,8 @@ class RestXmlProtocol {
 
       _requestSigner(
         rq: rq,
-        service: _endpoint.service,
-        region: _endpoint.signingRegion,
+        service: endpoint.service,
+        region: endpoint.signingRegion,
         credentials: credentials,
       );
     }

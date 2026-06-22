@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_07_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the latest version of the <b>WAF</b> API, released in November,
@@ -28,22 +30,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// improvements.
 class WafV2 {
   final _s.JsonProtocol _protocol;
-  WafV2({
+  factory WafV2({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'wafv2',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'wafv2',
+    );
+    return WafV2._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  WafV2._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -16293,7 +16310,7 @@ class PathStatistics {
   factory PathStatistics.fromJson(Map<String, dynamic> json) {
     return PathStatistics(
       path: (json['Path'] as String?) ?? '',
-      percentage: (json['Percentage'] as double?) ?? 0,
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
       requestCount: (json['RequestCount'] as int?) ?? 0,
       source: json['Source'] != null
           ? FilterSource.fromJson(json['Source'] as Map<String, dynamic>)
@@ -16313,7 +16330,7 @@ class PathStatistics {
     final topBots = this.topBots;
     return {
       'Path': path,
-      'Percentage': percentage,
+      'Percentage': _s.encodeJsonDouble(percentage),
       'RequestCount': requestCount,
       if (source != null) 'Source': source,
       if (topBots != null) 'TopBots': topBots,
@@ -16391,7 +16408,7 @@ class BotStatistics {
   factory BotStatistics.fromJson(Map<String, dynamic> json) {
     return BotStatistics(
       botName: (json['BotName'] as String?) ?? '',
-      percentage: (json['Percentage'] as double?) ?? 0,
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
       requestCount: (json['RequestCount'] as int?) ?? 0,
     );
   }
@@ -16402,7 +16419,7 @@ class BotStatistics {
     final requestCount = this.requestCount;
     return {
       'BotName': botName,
-      'Percentage': percentage,
+      'Percentage': _s.encodeJsonDouble(percentage),
       'RequestCount': requestCount,
     };
   }

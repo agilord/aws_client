@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_10_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon GameLift Servers provides solutions for hosting session-based
@@ -87,22 +89,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class GameLift {
   final _s.JsonProtocol _protocol;
-  GameLift({
+  factory GameLift({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'gamelift',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'gamelift',
+    );
+    return GameLift._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  GameLift._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1234,7 +1251,7 @@ class GameLift {
         'Name': name,
         'OperatingSystem': operatingSystem.value,
         'TotalMemoryLimitMebibytes': totalMemoryLimitMebibytes,
-        'TotalVcpuLimit': totalVcpuLimit,
+        'TotalVcpuLimit': _s.encodeJsonDouble(totalVcpuLimit),
         if (containerGroupType != null)
           'ContainerGroupType': containerGroupType.value,
         if (gameServerContainerDefinition != null)
@@ -8301,7 +8318,7 @@ class GameLift {
           'ScalingAdjustmentType': scalingAdjustmentType.value,
         if (targetConfiguration != null)
           'TargetConfiguration': targetConfiguration,
-        if (threshold != null) 'Threshold': threshold,
+        if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
       },
     );
 
@@ -10447,7 +10464,8 @@ class GameLift {
           'SupportContainerDefinitions': supportContainerDefinitions,
         if (totalMemoryLimitMebibytes != null)
           'TotalMemoryLimitMebibytes': totalMemoryLimitMebibytes,
-        if (totalVcpuLimit != null) 'TotalVcpuLimit': totalVcpuLimit,
+        if (totalVcpuLimit != null)
+          'TotalVcpuLimit': _s.encodeJsonDouble(totalVcpuLimit),
         if (versionDescription != null)
           'VersionDescription': versionDescription,
       },
@@ -17793,7 +17811,7 @@ class ContainerGroupDefinition {
               SupportContainerDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalMemoryLimitMebibytes: json['TotalMemoryLimitMebibytes'] as int?,
-      totalVcpuLimit: json['TotalVcpuLimit'] as double?,
+      totalVcpuLimit: _s.parseJsonDouble(json['TotalVcpuLimit']),
       versionDescription: json['VersionDescription'] as String?,
       versionNumber: json['VersionNumber'] as int?,
     );
@@ -17830,7 +17848,8 @@ class ContainerGroupDefinition {
         'SupportContainerDefinitions': supportContainerDefinitions,
       if (totalMemoryLimitMebibytes != null)
         'TotalMemoryLimitMebibytes': totalMemoryLimitMebibytes,
-      if (totalVcpuLimit != null) 'TotalVcpuLimit': totalVcpuLimit,
+      if (totalVcpuLimit != null)
+        'TotalVcpuLimit': _s.encodeJsonDouble(totalVcpuLimit),
       if (versionDescription != null) 'VersionDescription': versionDescription,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
@@ -18163,7 +18182,7 @@ class SupportContainerDefinition {
               json['PortConfiguration'] as Map<String, dynamic>)
           : null,
       resolvedImageDigest: json['ResolvedImageDigest'] as String?,
-      vcpu: json['Vcpu'] as double?,
+      vcpu: _s.parseJsonDouble(json['Vcpu']),
     );
   }
 
@@ -18193,7 +18212,7 @@ class SupportContainerDefinition {
       if (portConfiguration != null) 'PortConfiguration': portConfiguration,
       if (resolvedImageDigest != null)
         'ResolvedImageDigest': resolvedImageDigest,
-      if (vcpu != null) 'Vcpu': vcpu,
+      if (vcpu != null) 'Vcpu': _s.encodeJsonDouble(vcpu),
     };
   }
 }
@@ -18863,7 +18882,7 @@ class SupportContainerDefinitionInput {
         'MemoryHardLimitMebibytes': memoryHardLimitMebibytes,
       if (mountPoints != null) 'MountPoints': mountPoints,
       if (portConfiguration != null) 'PortConfiguration': portConfiguration,
-      if (vcpu != null) 'Vcpu': vcpu,
+      if (vcpu != null) 'Vcpu': _s.encodeJsonDouble(vcpu),
     };
   }
 }
@@ -20691,7 +20710,7 @@ class PlayerLatency {
 
   factory PlayerLatency.fromJson(Map<String, dynamic> json) {
     return PlayerLatency(
-      latencyInMilliseconds: json['LatencyInMilliseconds'] as double?,
+      latencyInMilliseconds: _s.parseJsonDouble(json['LatencyInMilliseconds']),
       playerId: json['PlayerId'] as String?,
       regionIdentifier: json['RegionIdentifier'] as String?,
     );
@@ -20703,7 +20722,7 @@ class PlayerLatency {
     final regionIdentifier = this.regionIdentifier;
     return {
       if (latencyInMilliseconds != null)
-        'LatencyInMilliseconds': latencyInMilliseconds,
+        'LatencyInMilliseconds': _s.encodeJsonDouble(latencyInMilliseconds),
       if (playerId != null) 'PlayerId': playerId,
       if (regionIdentifier != null) 'RegionIdentifier': regionIdentifier,
     };
@@ -21186,10 +21205,10 @@ class AttributeValue {
 
   factory AttributeValue.fromJson(Map<String, dynamic> json) {
     return AttributeValue(
-      n: json['N'] as double?,
+      n: _s.parseJsonDouble(json['N']),
       s: json['S'] as String?,
       sdm: (json['SDM'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       sl: (json['SL'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
@@ -21200,9 +21219,10 @@ class AttributeValue {
     final sdm = this.sdm;
     final sl = this.sl;
     return {
-      if (n != null) 'N': n,
+      if (n != null) 'N': _s.encodeJsonDouble(n),
       if (s != null) 'S': s,
-      if (sdm != null) 'SDM': sdm,
+      if (sdm != null)
+        'SDM': sdm.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (sl != null) 'SL': sl,
     };
   }
@@ -22743,14 +22763,14 @@ class TargetConfiguration {
 
   factory TargetConfiguration.fromJson(Map<String, dynamic> json) {
     return TargetConfiguration(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     final targetValue = this.targetValue;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
     };
   }
 }
@@ -23765,7 +23785,7 @@ class ScalingPolicy {
           ? TargetConfiguration.fromJson(
               json['TargetConfiguration'] as Map<String, dynamic>)
           : null,
-      threshold: json['Threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['Threshold']),
       updateStatus: (json['UpdateStatus'] as String?)
           ?.let(LocationUpdateStatus.fromString),
     );
@@ -23802,7 +23822,7 @@ class ScalingPolicy {
       if (status != null) 'Status': status.value,
       if (targetConfiguration != null)
         'TargetConfiguration': targetConfiguration,
-      if (threshold != null) 'Threshold': threshold,
+      if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
       if (updateStatus != null) 'UpdateStatus': updateStatus.value,
     };
   }
@@ -26370,7 +26390,7 @@ class TargetTrackingConfiguration {
   Map<String, dynamic> toJson() {
     final targetValue = this.targetValue;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
     };
   }
 }

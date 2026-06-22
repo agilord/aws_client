@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Contains APIs related to model invocation and querying of knowledge bases.
 class BedrockAgentRuntime {
   final _s.RestJsonProtocol _protocol;
-  BedrockAgentRuntime({
+  factory BedrockAgentRuntime({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'bedrock-agent-runtime',
-            signingName: 'bedrock',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'bedrock-agent-runtime',
+      signingName: 'bedrock',
+    );
+    return BedrockAgentRuntime._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  BedrockAgentRuntime._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3729,7 +3746,7 @@ class KnowledgeBaseRetrievalResult {
           : null,
       metadata: (json['metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as Object)),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -3742,7 +3759,7 @@ class KnowledgeBaseRetrievalResult {
       'content': content,
       if (location != null) 'location': location,
       if (metadata != null) 'metadata': metadata,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -6259,8 +6276,8 @@ class TextInferenceConfig {
     return {
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
-      if (topP != null) 'topP': topP,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }
@@ -6594,7 +6611,7 @@ class RerankResult {
   factory RerankResult.fromJson(Map<String, dynamic> json) {
     return RerankResult(
       index: (json['index'] as int?) ?? 0,
-      relevanceScore: (json['relevanceScore'] as double?) ?? 0,
+      relevanceScore: _s.parseJsonDouble(json['relevanceScore']) ?? 0,
       document: json['document'] != null
           ? RerankDocument.fromJson(json['document'] as Map<String, dynamic>)
           : null,
@@ -6607,7 +6624,7 @@ class RerankResult {
     final document = this.document;
     return {
       'index': index,
-      'relevanceScore': relevanceScore,
+      'relevanceScore': _s.encodeJsonDouble(relevanceScore),
       if (document != null) 'document': document,
     };
   }
@@ -9252,9 +9269,9 @@ class InferenceConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      temperature: json['temperature'] as double?,
+      temperature: _s.parseJsonDouble(json['temperature']),
       topK: json['topK'] as int?,
-      topP: json['topP'] as double?,
+      topP: _s.parseJsonDouble(json['topP']),
     );
   }
 
@@ -9267,9 +9284,9 @@ class InferenceConfiguration {
     return {
       if (maximumLength != null) 'maximumLength': maximumLength,
       if (stopSequences != null) 'stopSequences': stopSequences,
-      if (temperature != null) 'temperature': temperature,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,
-      if (topP != null) 'topP': topP,
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
     };
   }
 }

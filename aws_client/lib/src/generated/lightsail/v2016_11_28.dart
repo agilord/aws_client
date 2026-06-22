@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_11_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Lightsail is the easiest way to get started with Amazon Web Services
@@ -44,22 +46,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Reference</i>.
 class Lightsail {
   final _s.JsonProtocol _protocol;
-  Lightsail({
+  factory Lightsail({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'lightsail',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'lightsail',
+    );
+    return Lightsail._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Lightsail._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8442,7 +8459,7 @@ class Lightsail {
         'evaluationPeriods': evaluationPeriods,
         'metricName': metricName.value,
         'monitoredResourceName': monitoredResourceName,
-        'threshold': threshold,
+        'threshold': _s.encodeJsonDouble(threshold),
         if (contactProtocols != null)
           'contactProtocols': contactProtocols.map((e) => e.value).toList(),
         if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
@@ -19716,7 +19733,7 @@ class RelationalDatabaseHardware {
     return RelationalDatabaseHardware(
       cpuCount: json['cpuCount'] as int?,
       diskSizeInGb: json['diskSizeInGb'] as int?,
-      ramSizeInGb: json['ramSizeInGb'] as double?,
+      ramSizeInGb: _s.parseJsonDouble(json['ramSizeInGb']),
     );
   }
 
@@ -19727,7 +19744,7 @@ class RelationalDatabaseHardware {
     return {
       if (cpuCount != null) 'cpuCount': cpuCount,
       if (diskSizeInGb != null) 'diskSizeInGb': diskSizeInGb,
-      if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
+      if (ramSizeInGb != null) 'ramSizeInGb': _s.encodeJsonDouble(ramSizeInGb),
     };
   }
 }
@@ -19925,11 +19942,11 @@ class MetricDatapoint {
 
   factory MetricDatapoint.fromJson(Map<String, dynamic> json) {
     return MetricDatapoint(
-      average: json['average'] as double?,
-      maximum: json['maximum'] as double?,
-      minimum: json['minimum'] as double?,
-      sampleCount: json['sampleCount'] as double?,
-      sum: json['sum'] as double?,
+      average: _s.parseJsonDouble(json['average']),
+      maximum: _s.parseJsonDouble(json['maximum']),
+      minimum: _s.parseJsonDouble(json['minimum']),
+      sampleCount: _s.parseJsonDouble(json['sampleCount']),
+      sum: _s.parseJsonDouble(json['sum']),
       timestamp: timeStampFromJson(json['timestamp']),
       unit: (json['unit'] as String?)?.let(MetricUnit.fromString),
     );
@@ -19944,11 +19961,11 @@ class MetricDatapoint {
     final timestamp = this.timestamp;
     final unit = this.unit;
     return {
-      if (average != null) 'average': average,
-      if (maximum != null) 'maximum': maximum,
-      if (minimum != null) 'minimum': minimum,
-      if (sampleCount != null) 'sampleCount': sampleCount,
-      if (sum != null) 'sum': sum,
+      if (average != null) 'average': _s.encodeJsonDouble(average),
+      if (maximum != null) 'maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'minimum': _s.encodeJsonDouble(minimum),
+      if (sampleCount != null) 'sampleCount': _s.encodeJsonDouble(sampleCount),
+      if (sum != null) 'sum': _s.encodeJsonDouble(sum),
       if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
       if (unit != null) 'unit': unit.value,
     };
@@ -20221,8 +20238,8 @@ class RelationalDatabaseBundle {
       isActive: json['isActive'] as bool?,
       isEncrypted: json['isEncrypted'] as bool?,
       name: json['name'] as String?,
-      price: json['price'] as double?,
-      ramSizeInGb: json['ramSizeInGb'] as double?,
+      price: _s.parseJsonDouble(json['price']),
+      ramSizeInGb: _s.parseJsonDouble(json['ramSizeInGb']),
       transferPerMonthInGb: json['transferPerMonthInGb'] as int?,
     );
   }
@@ -20244,8 +20261,8 @@ class RelationalDatabaseBundle {
       if (isActive != null) 'isActive': isActive,
       if (isEncrypted != null) 'isEncrypted': isEncrypted,
       if (name != null) 'name': name,
-      if (price != null) 'price': price,
-      if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
+      if (price != null) 'price': _s.encodeJsonDouble(price),
+      if (ramSizeInGb != null) 'ramSizeInGb': _s.encodeJsonDouble(ramSizeInGb),
       if (transferPerMonthInGb != null)
         'transferPerMonthInGb': transferPerMonthInGb,
     };
@@ -22730,7 +22747,7 @@ class InstanceHardware {
           ?.nonNulls
           .map((e) => Disk.fromJson(e as Map<String, dynamic>))
           .toList(),
-      ramSizeInGb: json['ramSizeInGb'] as double?,
+      ramSizeInGb: _s.parseJsonDouble(json['ramSizeInGb']),
     );
   }
 
@@ -22741,7 +22758,7 @@ class InstanceHardware {
     return {
       if (cpuCount != null) 'cpuCount': cpuCount,
       if (disks != null) 'disks': disks,
-      if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
+      if (ramSizeInGb != null) 'ramSizeInGb': _s.encodeJsonDouble(ramSizeInGb),
     };
   }
 }
@@ -24834,7 +24851,7 @@ class DistributionBundle {
       bundleId: json['bundleId'] as String?,
       isActive: json['isActive'] as bool?,
       name: json['name'] as String?,
-      price: json['price'] as double?,
+      price: _s.parseJsonDouble(json['price']),
       transferPerMonthInGb: json['transferPerMonthInGb'] as int?,
     );
   }
@@ -24849,7 +24866,7 @@ class DistributionBundle {
       if (bundleId != null) 'bundleId': bundleId,
       if (isActive != null) 'isActive': isActive,
       if (name != null) 'name': name,
-      if (price != null) 'price': price,
+      if (price != null) 'price': _s.encodeJsonDouble(price),
       if (transferPerMonthInGb != null)
         'transferPerMonthInGb': transferPerMonthInGb,
     };
@@ -25152,8 +25169,8 @@ class EstimateByTime {
       timePeriod: json['timePeriod'] != null
           ? TimePeriod.fromJson(json['timePeriod'] as Map<String, dynamic>)
           : null,
-      unit: json['unit'] as double?,
-      usageCost: json['usageCost'] as double?,
+      unit: _s.parseJsonDouble(json['unit']),
+      usageCost: _s.parseJsonDouble(json['usageCost']),
     );
   }
 
@@ -25167,8 +25184,8 @@ class EstimateByTime {
       if (currency != null) 'currency': currency.value,
       if (pricingUnit != null) 'pricingUnit': pricingUnit.value,
       if (timePeriod != null) 'timePeriod': timePeriod,
-      if (unit != null) 'unit': unit,
-      if (usageCost != null) 'usageCost': usageCost,
+      if (unit != null) 'unit': _s.encodeJsonDouble(unit),
+      if (usageCost != null) 'usageCost': _s.encodeJsonDouble(usageCost),
     };
   }
 }
@@ -25305,12 +25322,12 @@ class ContainerServicePower {
 
   factory ContainerServicePower.fromJson(Map<String, dynamic> json) {
     return ContainerServicePower(
-      cpuCount: json['cpuCount'] as double?,
+      cpuCount: _s.parseJsonDouble(json['cpuCount']),
       isActive: json['isActive'] as bool?,
       name: json['name'] as String?,
       powerId: json['powerId'] as String?,
-      price: json['price'] as double?,
-      ramSizeInGb: json['ramSizeInGb'] as double?,
+      price: _s.parseJsonDouble(json['price']),
+      ramSizeInGb: _s.parseJsonDouble(json['ramSizeInGb']),
     );
   }
 
@@ -25322,12 +25339,12 @@ class ContainerServicePower {
     final price = this.price;
     final ramSizeInGb = this.ramSizeInGb;
     return {
-      if (cpuCount != null) 'cpuCount': cpuCount,
+      if (cpuCount != null) 'cpuCount': _s.encodeJsonDouble(cpuCount),
       if (isActive != null) 'isActive': isActive,
       if (name != null) 'name': name,
       if (powerId != null) 'powerId': powerId,
-      if (price != null) 'price': price,
-      if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
+      if (price != null) 'price': _s.encodeJsonDouble(price),
+      if (ramSizeInGb != null) 'ramSizeInGb': _s.encodeJsonDouble(ramSizeInGb),
     };
   }
 }
@@ -26472,9 +26489,9 @@ class Bundle {
       isActive: json['isActive'] as bool?,
       name: json['name'] as String?,
       power: json['power'] as int?,
-      price: json['price'] as double?,
+      price: _s.parseJsonDouble(json['price']),
       publicIpv4AddressCount: json['publicIpv4AddressCount'] as int?,
-      ramSizeInGb: json['ramSizeInGb'] as double?,
+      ramSizeInGb: _s.parseJsonDouble(json['ramSizeInGb']),
       supportedAppCategories: (json['supportedAppCategories'] as List?)
           ?.nonNulls
           .map((e) => AppCategory.fromString((e as String)))
@@ -26509,10 +26526,10 @@ class Bundle {
       if (isActive != null) 'isActive': isActive,
       if (name != null) 'name': name,
       if (power != null) 'power': power,
-      if (price != null) 'price': price,
+      if (price != null) 'price': _s.encodeJsonDouble(price),
       if (publicIpv4AddressCount != null)
         'publicIpv4AddressCount': publicIpv4AddressCount,
-      if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
+      if (ramSizeInGb != null) 'ramSizeInGb': _s.encodeJsonDouble(ramSizeInGb),
       if (supportedAppCategories != null)
         'supportedAppCategories':
             supportedAppCategories.map((e) => e.value).toList(),
@@ -26833,7 +26850,7 @@ class BucketBundle {
       bundleId: json['bundleId'] as String?,
       isActive: json['isActive'] as bool?,
       name: json['name'] as String?,
-      price: json['price'] as double?,
+      price: _s.parseJsonDouble(json['price']),
       storagePerMonthInGb: json['storagePerMonthInGb'] as int?,
       transferPerMonthInGb: json['transferPerMonthInGb'] as int?,
     );
@@ -26850,7 +26867,7 @@ class BucketBundle {
       if (bundleId != null) 'bundleId': bundleId,
       if (isActive != null) 'isActive': isActive,
       if (name != null) 'name': name,
-      if (price != null) 'price': price,
+      if (price != null) 'price': _s.encodeJsonDouble(price),
       if (storagePerMonthInGb != null)
         'storagePerMonthInGb': storagePerMonthInGb,
       if (transferPerMonthInGb != null)
@@ -27489,7 +27506,7 @@ class Alarm {
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      threshold: json['threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['threshold']),
       treatMissingData: (json['treatMissingData'] as String?)
           ?.let(TreatMissingData.fromString),
       unit: (json['unit'] as String?)?.let(MetricUnit.fromString),
@@ -27543,7 +27560,7 @@ class Alarm {
       if (statistic != null) 'statistic': statistic.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
-      if (threshold != null) 'threshold': threshold,
+      if (threshold != null) 'threshold': _s.encodeJsonDouble(threshold),
       if (treatMissingData != null) 'treatMissingData': treatMissingData.value,
       if (unit != null) 'unit': unit.value,
     };

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_07_24.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Provides APIs for creating and managing SageMaker resources.
@@ -38,23 +40,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class SageMaker {
   final _s.JsonProtocol _protocol;
-  SageMaker({
+  factory SageMaker({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'api.sagemaker',
-            signingName: 'sagemaker',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'api.sagemaker',
+      signingName: 'sagemaker',
+    );
+    return SageMaker._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  SageMaker._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -45807,7 +45824,7 @@ class TrialComponentParameterValue {
 
   factory TrialComponentParameterValue.fromJson(Map<String, dynamic> json) {
     return TrialComponentParameterValue(
-      numberValue: json['NumberValue'] as double?,
+      numberValue: _s.parseJsonDouble(json['NumberValue']),
       stringValue: json['StringValue'] as String?,
     );
   }
@@ -45816,7 +45833,7 @@ class TrialComponentParameterValue {
     final numberValue = this.numberValue;
     final stringValue = this.stringValue;
     return {
-      if (numberValue != null) 'NumberValue': numberValue,
+      if (numberValue != null) 'NumberValue': _s.encodeJsonDouble(numberValue),
       if (stringValue != null) 'StringValue': stringValue,
     };
   }
@@ -48578,7 +48595,7 @@ class EndpointInput {
       inferenceAttribute: json['InferenceAttribute'] as String?,
       probabilityAttribute: json['ProbabilityAttribute'] as String?,
       probabilityThresholdAttribute:
-          json['ProbabilityThresholdAttribute'] as double?,
+          _s.parseJsonDouble(json['ProbabilityThresholdAttribute']),
       s3DataDistributionType: (json['S3DataDistributionType'] as String?)
           ?.let(ProcessingS3DataDistributionType.fromString),
       s3InputMode: (json['S3InputMode'] as String?)
@@ -48610,7 +48627,8 @@ class EndpointInput {
       if (probabilityAttribute != null)
         'ProbabilityAttribute': probabilityAttribute,
       if (probabilityThresholdAttribute != null)
-        'ProbabilityThresholdAttribute': probabilityThresholdAttribute,
+        'ProbabilityThresholdAttribute':
+            _s.encodeJsonDouble(probabilityThresholdAttribute),
       if (s3DataDistributionType != null)
         'S3DataDistributionType': s3DataDistributionType.value,
       if (s3InputMode != null) 'S3InputMode': s3InputMode.value,
@@ -48701,7 +48719,7 @@ class BatchTransformInput {
       inferenceAttribute: json['InferenceAttribute'] as String?,
       probabilityAttribute: json['ProbabilityAttribute'] as String?,
       probabilityThresholdAttribute:
-          json['ProbabilityThresholdAttribute'] as double?,
+          _s.parseJsonDouble(json['ProbabilityThresholdAttribute']),
       s3DataDistributionType: (json['S3DataDistributionType'] as String?)
           ?.let(ProcessingS3DataDistributionType.fromString),
       s3InputMode: (json['S3InputMode'] as String?)
@@ -48735,7 +48753,8 @@ class BatchTransformInput {
       if (probabilityAttribute != null)
         'ProbabilityAttribute': probabilityAttribute,
       if (probabilityThresholdAttribute != null)
-        'ProbabilityThresholdAttribute': probabilityThresholdAttribute,
+        'ProbabilityThresholdAttribute':
+            _s.encodeJsonDouble(probabilityThresholdAttribute),
       if (s3DataDistributionType != null)
         'S3DataDistributionType': s3DataDistributionType.value,
       if (s3InputMode != null) 'S3InputMode': s3InputMode.value,
@@ -51916,8 +51935,9 @@ class InferenceComponentComputeResourceRequirements {
       minMemoryRequiredInMb: (json['MinMemoryRequiredInMb'] as int?) ?? 0,
       maxMemoryRequiredInMb: json['MaxMemoryRequiredInMb'] as int?,
       numberOfAcceleratorDevicesRequired:
-          json['NumberOfAcceleratorDevicesRequired'] as double?,
-      numberOfCpuCoresRequired: json['NumberOfCpuCoresRequired'] as double?,
+          _s.parseJsonDouble(json['NumberOfAcceleratorDevicesRequired']),
+      numberOfCpuCoresRequired:
+          _s.parseJsonDouble(json['NumberOfCpuCoresRequired']),
     );
   }
 
@@ -51933,9 +51953,10 @@ class InferenceComponentComputeResourceRequirements {
         'MaxMemoryRequiredInMb': maxMemoryRequiredInMb,
       if (numberOfAcceleratorDevicesRequired != null)
         'NumberOfAcceleratorDevicesRequired':
-            numberOfAcceleratorDevicesRequired,
+            _s.encodeJsonDouble(numberOfAcceleratorDevicesRequired),
       if (numberOfCpuCoresRequired != null)
-        'NumberOfCpuCoresRequired': numberOfCpuCoresRequired,
+        'NumberOfCpuCoresRequired':
+            _s.encodeJsonDouble(numberOfCpuCoresRequired),
     };
   }
 }
@@ -52655,7 +52676,8 @@ class DesiredWeightAndCapacity {
       'VariantName': variantName,
       if (desiredInstanceCount != null)
         'DesiredInstanceCount': desiredInstanceCount,
-      if (desiredWeight != null) 'DesiredWeight': desiredWeight,
+      if (desiredWeight != null)
+        'DesiredWeight': _s.encodeJsonDouble(desiredWeight),
       if (serverlessUpdateConfig != null)
         'ServerlessUpdateConfig': serverlessUpdateConfig,
     };
@@ -54133,8 +54155,8 @@ class ComputeQuotaResourceConfig {
           : null,
       accelerators: json['Accelerators'] as int?,
       count: json['Count'] as int?,
-      memoryInGiB: json['MemoryInGiB'] as double?,
-      vCpu: json['VCpu'] as double?,
+      memoryInGiB: _s.parseJsonDouble(json['MemoryInGiB']),
+      vCpu: _s.parseJsonDouble(json['VCpu']),
     );
   }
 
@@ -54151,8 +54173,8 @@ class ComputeQuotaResourceConfig {
         'AcceleratorPartition': acceleratorPartition,
       if (accelerators != null) 'Accelerators': accelerators,
       if (count != null) 'Count': count,
-      if (memoryInGiB != null) 'MemoryInGiB': memoryInGiB,
-      if (vCpu != null) 'VCpu': vCpu,
+      if (memoryInGiB != null) 'MemoryInGiB': _s.encodeJsonDouble(memoryInGiB),
+      if (vCpu != null) 'VCpu': _s.encodeJsonDouble(vCpu),
     };
   }
 }
@@ -64012,7 +64034,7 @@ class FinalHyperParameterTuningJobObjectiveMetric {
       Map<String, dynamic> json) {
     return FinalHyperParameterTuningJobObjectiveMetric(
       metricName: (json['MetricName'] as String?) ?? '',
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
       type: (json['Type'] as String?)
           ?.let(HyperParameterTuningJobObjectiveType.fromString),
     );
@@ -64024,7 +64046,7 @@ class FinalHyperParameterTuningJobObjectiveMetric {
     final type = this.type;
     return {
       'MetricName': metricName,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
       if (type != null) 'Type': type.value,
     };
   }
@@ -66458,7 +66480,8 @@ class TuningJobCompletionCriteria {
           ? ConvergenceDetected.fromJson(
               json['ConvergenceDetected'] as Map<String, dynamic>)
           : null,
-      targetObjectiveMetricValue: json['TargetObjectiveMetricValue'] as double?,
+      targetObjectiveMetricValue:
+          _s.parseJsonDouble(json['TargetObjectiveMetricValue']),
     );
   }
 
@@ -66472,7 +66495,8 @@ class TuningJobCompletionCriteria {
       if (convergenceDetected != null)
         'ConvergenceDetected': convergenceDetected,
       if (targetObjectiveMetricValue != null)
-        'TargetObjectiveMetricValue': targetObjectiveMetricValue,
+        'TargetObjectiveMetricValue':
+            _s.encodeJsonDouble(targetObjectiveMetricValue),
     };
   }
 }
@@ -68921,7 +68945,7 @@ class ProductionVariantSummary {
           ? ProductionVariantServerlessConfig.fromJson(
               json['CurrentServerlessConfig'] as Map<String, dynamic>)
           : null,
-      currentWeight: json['CurrentWeight'] as double?,
+      currentWeight: _s.parseJsonDouble(json['CurrentWeight']),
       deployedImages: (json['DeployedImages'] as List?)
           ?.nonNulls
           .map((e) => DeployedImage.fromJson(e as Map<String, dynamic>))
@@ -68931,7 +68955,7 @@ class ProductionVariantSummary {
           ? ProductionVariantServerlessConfig.fromJson(
               json['DesiredServerlessConfig'] as Map<String, dynamic>)
           : null,
-      desiredWeight: json['DesiredWeight'] as double?,
+      desiredWeight: _s.parseJsonDouble(json['DesiredWeight']),
       instancePools: (json['InstancePools'] as List?)
           ?.nonNulls
           .map((e) => InstancePoolSummary.fromJson(e as Map<String, dynamic>))
@@ -68974,13 +68998,15 @@ class ProductionVariantSummary {
         'CurrentInstanceCount': currentInstanceCount,
       if (currentServerlessConfig != null)
         'CurrentServerlessConfig': currentServerlessConfig,
-      if (currentWeight != null) 'CurrentWeight': currentWeight,
+      if (currentWeight != null)
+        'CurrentWeight': _s.encodeJsonDouble(currentWeight),
       if (deployedImages != null) 'DeployedImages': deployedImages,
       if (desiredInstanceCount != null)
         'DesiredInstanceCount': desiredInstanceCount,
       if (desiredServerlessConfig != null)
         'DesiredServerlessConfig': desiredServerlessConfig,
-      if (desiredWeight != null) 'DesiredWeight': desiredWeight,
+      if (desiredWeight != null)
+        'DesiredWeight': _s.encodeJsonDouble(desiredWeight),
       if (instancePools != null) 'InstancePools': instancePools,
       if (managedInstanceScaling != null)
         'ManagedInstanceScaling': managedInstanceScaling,
@@ -70940,14 +70966,14 @@ class TrialComponentMetricSummary {
 
   factory TrialComponentMetricSummary.fromJson(Map<String, dynamic> json) {
     return TrialComponentMetricSummary(
-      avg: json['Avg'] as double?,
+      avg: _s.parseJsonDouble(json['Avg']),
       count: json['Count'] as int?,
-      last: json['Last'] as double?,
-      max: json['Max'] as double?,
+      last: _s.parseJsonDouble(json['Last']),
+      max: _s.parseJsonDouble(json['Max']),
       metricName: json['MetricName'] as String?,
-      min: json['Min'] as double?,
+      min: _s.parseJsonDouble(json['Min']),
       sourceArn: json['SourceArn'] as String?,
-      stdDev: json['StdDev'] as double?,
+      stdDev: _s.parseJsonDouble(json['StdDev']),
       timeStamp: timeStampFromJson(json['TimeStamp']),
     );
   }
@@ -70963,14 +70989,14 @@ class TrialComponentMetricSummary {
     final stdDev = this.stdDev;
     final timeStamp = this.timeStamp;
     return {
-      if (avg != null) 'Avg': avg,
+      if (avg != null) 'Avg': _s.encodeJsonDouble(avg),
       if (count != null) 'Count': count,
-      if (last != null) 'Last': last,
-      if (max != null) 'Max': max,
+      if (last != null) 'Last': _s.encodeJsonDouble(last),
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
       if (metricName != null) 'MetricName': metricName,
-      if (min != null) 'Min': min,
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (stdDev != null) 'StdDev': stdDev,
+      if (stdDev != null) 'StdDev': _s.encodeJsonDouble(stdDev),
       if (timeStamp != null) 'TimeStamp': unixTimestampToJson(timeStamp),
     };
   }
@@ -71870,7 +71896,7 @@ class MetricData {
     return MetricData(
       metricName: json['MetricName'] as String?,
       timestamp: timeStampFromJson(json['Timestamp']),
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -71881,7 +71907,7 @@ class MetricData {
     return {
       if (metricName != null) 'MetricName': metricName,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -80078,11 +80104,11 @@ class RecommendationMetrics {
 
   factory RecommendationMetrics.fromJson(Map<String, dynamic> json) {
     return RecommendationMetrics(
-      costPerHour: json['CostPerHour'] as double?,
-      costPerInference: json['CostPerInference'] as double?,
-      cpuUtilization: json['CpuUtilization'] as double?,
+      costPerHour: _s.parseJsonDouble(json['CostPerHour']),
+      costPerInference: _s.parseJsonDouble(json['CostPerInference']),
+      cpuUtilization: _s.parseJsonDouble(json['CpuUtilization']),
       maxInvocations: json['MaxInvocations'] as int?,
-      memoryUtilization: json['MemoryUtilization'] as double?,
+      memoryUtilization: _s.parseJsonDouble(json['MemoryUtilization']),
       modelLatency: json['ModelLatency'] as int?,
       modelSetupTime: json['ModelSetupTime'] as int?,
     );
@@ -80097,11 +80123,14 @@ class RecommendationMetrics {
     final modelLatency = this.modelLatency;
     final modelSetupTime = this.modelSetupTime;
     return {
-      if (costPerHour != null) 'CostPerHour': costPerHour,
-      if (costPerInference != null) 'CostPerInference': costPerInference,
-      if (cpuUtilization != null) 'CpuUtilization': cpuUtilization,
+      if (costPerHour != null) 'CostPerHour': _s.encodeJsonDouble(costPerHour),
+      if (costPerInference != null)
+        'CostPerInference': _s.encodeJsonDouble(costPerInference),
+      if (cpuUtilization != null)
+        'CpuUtilization': _s.encodeJsonDouble(cpuUtilization),
       if (maxInvocations != null) 'MaxInvocations': maxInvocations,
-      if (memoryUtilization != null) 'MemoryUtilization': memoryUtilization,
+      if (memoryUtilization != null)
+        'MemoryUtilization': _s.encodeJsonDouble(memoryUtilization),
       if (modelLatency != null) 'ModelLatency': modelLatency,
       if (modelSetupTime != null) 'ModelSetupTime': modelSetupTime,
     };
@@ -84317,7 +84346,7 @@ class FinalAutoMLJobObjectiveMetric {
     return FinalAutoMLJobObjectiveMetric(
       metricName:
           AutoMLMetricEnum.fromString((json['MetricName'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
       standardMetricName: (json['StandardMetricName'] as String?)
           ?.let(AutoMLMetricEnum.fromString),
       type: (json['Type'] as String?)?.let(AutoMLJobObjectiveType.fromString),
@@ -84331,7 +84360,7 @@ class FinalAutoMLJobObjectiveMetric {
     final type = this.type;
     return {
       'MetricName': metricName.value,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
       if (standardMetricName != null)
         'StandardMetricName': standardMetricName.value,
       if (type != null) 'Type': type.value,
@@ -84510,7 +84539,7 @@ class MetricDatum {
       set: (json['Set'] as String?)?.let(MetricSetSource.fromString),
       standardMetricName: (json['StandardMetricName'] as String?)
           ?.let(AutoMLMetricExtendedEnum.fromString),
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -84524,7 +84553,7 @@ class MetricDatum {
       if (set != null) 'Set': set.value,
       if (standardMetricName != null)
         'StandardMetricName': standardMetricName.value,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -86474,7 +86503,7 @@ class TargetTrackingScalingPolicyConfiguration {
           ? MetricSpecification.fromJson(
               json['MetricSpecification'] as Map<String, dynamic>)
           : null,
-      targetValue: json['TargetValue'] as double?,
+      targetValue: _s.parseJsonDouble(json['TargetValue']),
     );
   }
 
@@ -86484,7 +86513,7 @@ class TargetTrackingScalingPolicyConfiguration {
     return {
       if (metricSpecification != null)
         'MetricSpecification': metricSpecification,
-      if (targetValue != null) 'TargetValue': targetValue,
+      if (targetValue != null) 'TargetValue': _s.encodeJsonDouble(targetValue),
     };
   }
 }
@@ -94936,7 +94965,7 @@ class ProductionVariant {
       inferenceAmiVersion: (json['InferenceAmiVersion'] as String?)
           ?.let(ProductionVariantInferenceAmiVersion.fromString),
       initialInstanceCount: json['InitialInstanceCount'] as int?,
-      initialVariantWeight: json['InitialVariantWeight'] as double?,
+      initialVariantWeight: _s.parseJsonDouble(json['InitialVariantWeight']),
       instancePools: (json['InstancePools'] as List?)
           ?.nonNulls
           .map((e) => InstancePool.fromJson(e as Map<String, dynamic>))
@@ -95001,7 +95030,7 @@ class ProductionVariant {
       if (initialInstanceCount != null)
         'InitialInstanceCount': initialInstanceCount,
       if (initialVariantWeight != null)
-        'InitialVariantWeight': initialVariantWeight,
+        'InitialVariantWeight': _s.encodeJsonDouble(initialVariantWeight),
       if (instancePools != null) 'InstancePools': instancePools,
       if (instanceType != null) 'InstanceType': instanceType.value,
       if (managedInstanceScaling != null)
@@ -95439,7 +95468,7 @@ class PendingProductionVariantSummary {
           ? ProductionVariantServerlessConfig.fromJson(
               json['CurrentServerlessConfig'] as Map<String, dynamic>)
           : null,
-      currentWeight: json['CurrentWeight'] as double?,
+      currentWeight: _s.parseJsonDouble(json['CurrentWeight']),
       deployedImages: (json['DeployedImages'] as List?)
           ?.nonNulls
           .map((e) => DeployedImage.fromJson(e as Map<String, dynamic>))
@@ -95449,7 +95478,7 @@ class PendingProductionVariantSummary {
           ? ProductionVariantServerlessConfig.fromJson(
               json['DesiredServerlessConfig'] as Map<String, dynamic>)
           : null,
-      desiredWeight: json['DesiredWeight'] as double?,
+      desiredWeight: _s.parseJsonDouble(json['DesiredWeight']),
       instancePools: (json['InstancePools'] as List?)
           ?.nonNulls
           .map((e) => InstancePoolSummary.fromJson(e as Map<String, dynamic>))
@@ -95494,13 +95523,15 @@ class PendingProductionVariantSummary {
         'CurrentInstanceCount': currentInstanceCount,
       if (currentServerlessConfig != null)
         'CurrentServerlessConfig': currentServerlessConfig,
-      if (currentWeight != null) 'CurrentWeight': currentWeight,
+      if (currentWeight != null)
+        'CurrentWeight': _s.encodeJsonDouble(currentWeight),
       if (deployedImages != null) 'DeployedImages': deployedImages,
       if (desiredInstanceCount != null)
         'DesiredInstanceCount': desiredInstanceCount,
       if (desiredServerlessConfig != null)
         'DesiredServerlessConfig': desiredServerlessConfig,
-      if (desiredWeight != null) 'DesiredWeight': desiredWeight,
+      if (desiredWeight != null)
+        'DesiredWeight': _s.encodeJsonDouble(desiredWeight),
       if (instancePools != null) 'InstancePools': instancePools,
       if (instanceType != null) 'InstanceType': instanceType.value,
       if (managedInstanceScaling != null)
@@ -99580,14 +99611,15 @@ class AutoMLDataSplitConfig {
 
   factory AutoMLDataSplitConfig.fromJson(Map<String, dynamic> json) {
     return AutoMLDataSplitConfig(
-      validationFraction: json['ValidationFraction'] as double?,
+      validationFraction: _s.parseJsonDouble(json['ValidationFraction']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final validationFraction = this.validationFraction;
     return {
-      if (validationFraction != null) 'ValidationFraction': validationFraction,
+      if (validationFraction != null)
+        'ValidationFraction': _s.encodeJsonDouble(validationFraction),
     };
   }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.2
+
+- More accurate endpoint resolution, including FIPS, dual-stack and S3 addressing.
+- Fixed request/response handling for special float values (`NaN`, `Infinity`) and several XML parsing bugs.
+
 ## 0.9.1
 
 - Hide generated data, enum and exception classes from dartdoc to keep pub.dev analysis within its time limit.

@@ -109,7 +109,7 @@ void main() {
     });
 
     test('double defaults to zero', () {
-      expect(required('Dbl'), "(json['X'] as double?) ?? 0");
+      expect(required('Dbl'), "_s.parseJsonDouble(json['X']) ?? 0");
     });
 
     test('timestamp defaults to the unix epoch', () {

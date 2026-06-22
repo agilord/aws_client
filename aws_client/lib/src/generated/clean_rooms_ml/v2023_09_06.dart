@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2023_09_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the <i>Amazon Web Services Clean Rooms ML API Reference</i>.
@@ -42,22 +44,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <p/>
 class CleanRoomsML {
   final _s.RestJsonProtocol _protocol;
-  CleanRoomsML({
+  factory CleanRoomsML({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'cleanrooms-ml',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'cleanrooms-ml',
+    );
+    return CleanRoomsML._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CleanRoomsML._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4554,7 +4571,7 @@ class GetMLInputChannelResponse {
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
-      numberOfFiles: json['numberOfFiles'] as double?,
+      numberOfFiles: _s.parseJsonDouble(json['numberOfFiles']),
       numberOfRecords: json['numberOfRecords'] as int?,
       payerConfiguration: json['payerConfiguration'] != null
           ? PayerConfiguration.fromJson(
@@ -4565,7 +4582,7 @@ class GetMLInputChannelResponse {
               json['privacyBudgets'] as Map<String, dynamic>)
           : null,
       protectedQueryIdentifier: json['protectedQueryIdentifier'] as String?,
-      sizeInGb: json['sizeInGb'] as double?,
+      sizeInGb: _s.parseJsonDouble(json['sizeInGb']),
       statusDetails: json['statusDetails'] != null
           ? StatusDetails.fromJson(
               json['statusDetails'] as Map<String, dynamic>)
@@ -4616,13 +4633,14 @@ class GetMLInputChannelResponse {
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (numberOfFiles != null) 'numberOfFiles': numberOfFiles,
+      if (numberOfFiles != null)
+        'numberOfFiles': _s.encodeJsonDouble(numberOfFiles),
       if (numberOfRecords != null) 'numberOfRecords': numberOfRecords,
       if (payerConfiguration != null) 'payerConfiguration': payerConfiguration,
       if (privacyBudgets != null) 'privacyBudgets': privacyBudgets,
       if (protectedQueryIdentifier != null)
         'protectedQueryIdentifier': protectedQueryIdentifier,
-      if (sizeInGb != null) 'sizeInGb': sizeInGb,
+      if (sizeInGb != null) 'sizeInGb': _s.encodeJsonDouble(sizeInGb),
       if (statusDetails != null) 'statusDetails': statusDetails,
       if (syntheticDataConfiguration != null)
         'syntheticDataConfiguration': syntheticDataConfiguration,
@@ -7785,9 +7803,9 @@ class MLSyntheticDataParameters {
 
   factory MLSyntheticDataParameters.fromJson(Map<String, dynamic> json) {
     return MLSyntheticDataParameters(
-      epsilon: (json['epsilon'] as double?) ?? 0,
+      epsilon: _s.parseJsonDouble(json['epsilon']) ?? 0,
       maxMembershipInferenceAttackScore:
-          (json['maxMembershipInferenceAttackScore'] as double?) ?? 0,
+          _s.parseJsonDouble(json['maxMembershipInferenceAttackScore']) ?? 0,
       columnClassification: json['columnClassification'] != null
           ? ColumnClassificationDetails.fromJson(
               json['columnClassification'] as Map<String, dynamic>)
@@ -7801,8 +7819,9 @@ class MLSyntheticDataParameters {
         this.maxMembershipInferenceAttackScore;
     final columnClassification = this.columnClassification;
     return {
-      'epsilon': epsilon,
-      'maxMembershipInferenceAttackScore': maxMembershipInferenceAttackScore,
+      'epsilon': _s.encodeJsonDouble(epsilon),
+      'maxMembershipInferenceAttackScore':
+          _s.encodeJsonDouble(maxMembershipInferenceAttackScore),
       if (columnClassification != null)
         'columnClassification': columnClassification,
     };
@@ -7898,7 +7917,7 @@ class MembershipInferenceAttackScore {
     return MembershipInferenceAttackScore(
       attackVersion: MembershipInferenceAttackVersion.fromString(
           (json['attackVersion'] as String?) ?? ''),
-      score: (json['score'] as double?) ?? 0,
+      score: _s.parseJsonDouble(json['score']) ?? 0,
     );
   }
 
@@ -7907,7 +7926,7 @@ class MembershipInferenceAttackScore {
     final score = this.score;
     return {
       'attackVersion': attackVersion.value,
-      'score': score,
+      'score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -8942,7 +8961,7 @@ class TrainedModelInferenceMaxOutputSize {
     return TrainedModelInferenceMaxOutputSize(
       unit: TrainedModelInferenceMaxOutputSizeUnitType.fromString(
           (json['unit'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -8951,7 +8970,7 @@ class TrainedModelInferenceMaxOutputSize {
     final value = this.value;
     return {
       'unit': unit.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -9182,7 +9201,7 @@ class TrainedModelExportsMaxSize {
     return TrainedModelExportsMaxSize(
       unit: TrainedModelExportsMaxSizeUnitType.fromString(
           (json['unit'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -9191,7 +9210,7 @@ class TrainedModelExportsMaxSize {
     final value = this.value;
     return {
       'unit': unit.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -9298,7 +9317,7 @@ class TrainedModelArtifactMaxSize {
     return TrainedModelArtifactMaxSize(
       unit: TrainedModelArtifactMaxSizeUnitType.fromString(
           (json['unit'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -9307,7 +9326,7 @@ class TrainedModelArtifactMaxSize {
     final value = this.value;
     return {
       'unit': unit.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -10279,7 +10298,7 @@ class AudienceQualityMetrics {
           .nonNulls
           .map((e) => RelevanceMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
-      recallMetric: json['recallMetric'] as double?,
+      recallMetric: _s.parseJsonDouble(json['recallMetric']),
     );
   }
 
@@ -10288,7 +10307,8 @@ class AudienceQualityMetrics {
     final recallMetric = this.recallMetric;
     return {
       'relevanceMetrics': relevanceMetrics,
-      if (recallMetric != null) 'recallMetric': recallMetric,
+      if (recallMetric != null)
+        'recallMetric': _s.encodeJsonDouble(recallMetric),
     };
   }
 }
@@ -10312,7 +10332,7 @@ class RelevanceMetric {
       audienceSize: AudienceSize.fromJson(
           (json['audienceSize'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      score: json['score'] as double?,
+      score: _s.parseJsonDouble(json['score']),
     );
   }
 
@@ -10321,7 +10341,7 @@ class RelevanceMetric {
     final score = this.score;
     return {
       'audienceSize': audienceSize,
-      if (score != null) 'score': score,
+      if (score != null) 'score': _s.encodeJsonDouble(score),
     };
   }
 }

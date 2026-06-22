@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2013_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// You use the AmazonCloudSearch2013 API to upload documents to a search domain
@@ -35,23 +37,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// CloudSearch Developer Guide</a>.
 class CloudSearchDomain {
   final _s.RestJsonProtocol _protocol;
-  CloudSearchDomain({
+  factory CloudSearchDomain({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'cloudsearchdomain',
-            signingName: 'cloudsearch',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'cloudsearchdomain',
+      signingName: 'cloudsearch',
+    );
+    return CloudSearchDomain._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CloudSearchDomain._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1075,9 +1092,9 @@ class FieldStats {
       mean: json['mean'] as String?,
       min: json['min'] as String?,
       missing: json['missing'] as int?,
-      stddev: json['stddev'] as double?,
-      sum: json['sum'] as double?,
-      sumOfSquares: json['sumOfSquares'] as double?,
+      stddev: _s.parseJsonDouble(json['stddev']),
+      sum: _s.parseJsonDouble(json['sum']),
+      sumOfSquares: _s.parseJsonDouble(json['sumOfSquares']),
     );
   }
 
@@ -1096,9 +1113,10 @@ class FieldStats {
       if (mean != null) 'mean': mean,
       if (min != null) 'min': min,
       if (missing != null) 'missing': missing,
-      if (stddev != null) 'stddev': stddev,
-      if (sum != null) 'sum': sum,
-      if (sumOfSquares != null) 'sumOfSquares': sumOfSquares,
+      if (stddev != null) 'stddev': _s.encodeJsonDouble(stddev),
+      if (sum != null) 'sum': _s.encodeJsonDouble(sum),
+      if (sumOfSquares != null)
+        'sumOfSquares': _s.encodeJsonDouble(sumOfSquares),
     };
   }
 }

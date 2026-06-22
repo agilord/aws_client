@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_02_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Kendra is a service for indexing large document sets.
 class Kendra {
   final _s.JsonProtocol _protocol;
-  Kendra({
+  factory Kendra({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'kendra',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'kendra',
+    );
+    return Kendra._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Kendra._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -9907,7 +9924,7 @@ class WebCrawlerConfiguration {
           : null,
       crawlDepth: json['CrawlDepth'] as int?,
       maxContentSizePerPageInMegaBytes:
-          json['MaxContentSizePerPageInMegaBytes'] as double?,
+          _s.parseJsonDouble(json['MaxContentSizePerPageInMegaBytes']),
       maxLinksPerPage: json['MaxLinksPerPage'] as int?,
       maxUrlsPerMinuteCrawlRate: json['MaxUrlsPerMinuteCrawlRate'] as int?,
       proxyConfiguration: json['ProxyConfiguration'] != null
@@ -9942,7 +9959,8 @@ class WebCrawlerConfiguration {
         'AuthenticationConfiguration': authenticationConfiguration,
       if (crawlDepth != null) 'CrawlDepth': crawlDepth,
       if (maxContentSizePerPageInMegaBytes != null)
-        'MaxContentSizePerPageInMegaBytes': maxContentSizePerPageInMegaBytes,
+        'MaxContentSizePerPageInMegaBytes':
+            _s.encodeJsonDouble(maxContentSizePerPageInMegaBytes),
       if (maxLinksPerPage != null) 'MaxLinksPerPage': maxLinksPerPage,
       if (maxUrlsPerMinuteCrawlRate != null)
         'MaxUrlsPerMinuteCrawlRate': maxUrlsPerMinuteCrawlRate,

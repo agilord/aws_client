@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// MemoryDB is a fully managed, Redis OSS-compatible, in-memory database that
@@ -29,23 +31,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// APIs, and commands.
 class MemoryDB {
   final _s.JsonProtocol _protocol;
-  MemoryDB({
+  factory MemoryDB({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'memory-db',
-            signingName: 'memorydb',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'memory-db',
+      signingName: 'memorydb',
+    );
+    return MemoryDB._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  MemoryDB._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -5289,14 +5306,15 @@ class SlotMigration {
 
   factory SlotMigration.fromJson(Map<String, dynamic> json) {
     return SlotMigration(
-      progressPercentage: json['ProgressPercentage'] as double?,
+      progressPercentage: _s.parseJsonDouble(json['ProgressPercentage']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final progressPercentage = this.progressPercentage;
     return {
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+      if (progressPercentage != null)
+        'ProgressPercentage': _s.encodeJsonDouble(progressPercentage),
     };
   }
 }
@@ -5531,7 +5549,7 @@ class ReservedNode {
     return ReservedNode(
       arn: json['ARN'] as String?,
       duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       nodeCount: json['NodeCount'] as int?,
       nodeType: json['NodeType'] as String?,
       offeringType: json['OfferingType'] as String?,
@@ -5561,7 +5579,7 @@ class ReservedNode {
     return {
       if (arn != null) 'ARN': arn,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (nodeCount != null) 'NodeCount': nodeCount,
       if (nodeType != null) 'NodeType': nodeType,
       if (offeringType != null) 'OfferingType': offeringType,
@@ -5592,7 +5610,7 @@ class RecurringCharge {
 
   factory RecurringCharge.fromJson(Map<String, dynamic> json) {
     return RecurringCharge(
-      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
+      recurringChargeAmount: _s.parseJsonDouble(json['RecurringChargeAmount']),
       recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
     );
   }
@@ -5602,7 +5620,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -6085,7 +6103,7 @@ class ReservedNodesOffering {
   factory ReservedNodesOffering.fromJson(Map<String, dynamic> json) {
     return ReservedNodesOffering(
       duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
+      fixedPrice: _s.parseJsonDouble(json['FixedPrice']),
       nodeType: json['NodeType'] as String?,
       offeringType: json['OfferingType'] as String?,
       recurringCharges: (json['RecurringCharges'] as List?)
@@ -6105,7 +6123,7 @@ class ReservedNodesOffering {
     final reservedNodesOfferingId = this.reservedNodesOfferingId;
     return {
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (nodeType != null) 'NodeType': nodeType,
       if (offeringType != null) 'OfferingType': offeringType,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,

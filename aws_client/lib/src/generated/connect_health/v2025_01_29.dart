@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,45 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2025_01_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Health Agent for healthcare providers and patient engagement
 class ConnectHealth {
   final _s.RestJsonProtocol _protocol;
-  ConnectHealth({
+  factory ConnectHealth({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'health-agent',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'health-agent',
+    );
+    return ConnectHealth._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  ConnectHealth._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -225,6 +244,7 @@ class ConnectHealth {
       method: 'GET',
       requestUri:
           '/medical-scribe-stream/domain/${Uri.encodeComponent(domainId)}/subscription/${Uri.encodeComponent(subscriptionId)}/session/${Uri.encodeComponent(sessionId)}',
+      hostPrefix: 'streaming.',
       exceptionFnMap: _exceptionFns,
     );
     return GetMedicalScribeListeningSessionOutput.fromJson(response);
@@ -252,6 +272,7 @@ class ConnectHealth {
       method: 'GET',
       requestUri:
           '/domain/${Uri.encodeComponent(domainId)}/patient-insights-job/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'runtime.',
       exceptionFnMap: _exceptionFns,
     );
     return GetPatientInsightsJobResponse.fromJson(response);
@@ -423,6 +444,7 @@ class ConnectHealth {
       method: 'POST',
       requestUri: '/medical-scribe-stream/',
       headers: headers,
+      hostPrefix: 'streaming.',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -506,6 +528,7 @@ class ConnectHealth {
       method: 'POST',
       requestUri:
           '/domain/${Uri.encodeComponent(domainId)}/patient-insights-job',
+      hostPrefix: 'runtime.',
       exceptionFnMap: _exceptionFns,
     );
     return StartPatientInsightsJobResponse.fromJson(response);
@@ -1812,8 +1835,8 @@ class MedicalScribeTranscriptSegment {
 
   factory MedicalScribeTranscriptSegment.fromJson(Map<String, dynamic> json) {
     return MedicalScribeTranscriptSegment(
-      audioBeginOffset: json['audioBeginOffset'] as double?,
-      audioEndOffset: json['audioEndOffset'] as double?,
+      audioBeginOffset: _s.parseJsonDouble(json['audioBeginOffset']),
+      audioEndOffset: _s.parseJsonDouble(json['audioEndOffset']),
       channelId: json['channelId'] as String?,
       content: json['content'] as String?,
       isPartial: json['isPartial'] as bool?,
@@ -1829,8 +1852,10 @@ class MedicalScribeTranscriptSegment {
     final isPartial = this.isPartial;
     final segmentId = this.segmentId;
     return {
-      if (audioBeginOffset != null) 'audioBeginOffset': audioBeginOffset,
-      if (audioEndOffset != null) 'audioEndOffset': audioEndOffset,
+      if (audioBeginOffset != null)
+        'audioBeginOffset': _s.encodeJsonDouble(audioBeginOffset),
+      if (audioEndOffset != null)
+        'audioEndOffset': _s.encodeJsonDouble(audioEndOffset),
       if (channelId != null) 'channelId': channelId,
       if (content != null) 'content': content,
       if (isPartial != null) 'isPartial': isPartial,

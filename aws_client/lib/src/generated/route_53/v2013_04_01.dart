@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2013_04_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Route 53 is a highly available and scalable Domain Name System (DNS)
@@ -50,22 +52,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class Route53 {
   final _s.RestXmlProtocol _protocol;
-  Route53({
+  factory Route53({
     String? region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestXmlProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'route53',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'route53',
+    );
+    return Route53._(
+      protocol: _s.RestXmlProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Route53._({
+    required _s.RestXmlProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -9895,7 +9912,7 @@ class CloudWatchAlarmConfiguration {
       'Namespace': namespace,
       'Period': period,
       'Statistic': statistic.value,
-      'Threshold': threshold,
+      'Threshold': _s.encodeJsonDouble(threshold),
       if (dimensions != null) 'Dimensions': dimensions,
     };
   }

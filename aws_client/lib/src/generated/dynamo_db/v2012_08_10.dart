@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2012_08_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon DynamoDB is a fully managed NoSQL database service that provides fast
@@ -27,22 +29,72 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// and configuration, replication, software patching, or cluster scaling.
 class DynamoDB {
   final _s.JsonProtocol _protocol;
-  DynamoDB({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  factory DynamoDB({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'dynamodb',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'dynamodb',
+    );
+    return DynamoDB._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+    );
+  }
+  DynamoDB._({
+    required _s.JsonProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint;
+  _s.Endpoint _resolveEndpoint({
+    String? resourceArn,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        resourceArn: resourceArn,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -560,6 +612,9 @@ class DynamoDB {
         'BackupName': backupName,
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return CreateBackupOutput.fromJson(jsonResponse.body);
@@ -666,6 +721,9 @@ class DynamoDB {
         'GlobalTableName': globalTableName,
         'ReplicationGroup': replicationGroup,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: globalTableName,
+      ),
     );
 
     return CreateGlobalTableOutput.fromJson(jsonResponse.body);
@@ -1052,6 +1110,9 @@ class DynamoDB {
         if (tags != null) 'Tags': tags,
         if (warmThroughput != null) 'WarmThroughput': warmThroughput,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return CreateTableOutput.fromJson(jsonResponse.body);
@@ -1086,6 +1147,9 @@ class DynamoDB {
       payload: {
         'BackupArn': backupArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: backupArn,
+      ),
     );
 
     return DeleteBackupOutput.fromJson(jsonResponse.body);
@@ -1326,6 +1390,9 @@ class DynamoDB {
           'ReturnValuesOnConditionCheckFailure':
               returnValuesOnConditionCheckFailure.value,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DeleteItemOutput.fromJson(jsonResponse.body);
@@ -1391,6 +1458,9 @@ class DynamoDB {
         if (expectedRevisionId != null)
           'ExpectedRevisionId': expectedRevisionId,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeleteResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -1446,6 +1516,9 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DeleteTableOutput.fromJson(jsonResponse.body);
@@ -1478,6 +1551,9 @@ class DynamoDB {
       payload: {
         'BackupArn': backupArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: backupArn,
+      ),
     );
 
     return DescribeBackupOutput.fromJson(jsonResponse.body);
@@ -1527,6 +1603,9 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DescribeContinuousBackupsOutput.fromJson(jsonResponse.body);
@@ -1562,6 +1641,9 @@ class DynamoDB {
         'TableName': tableName,
         if (indexName != null) 'IndexName': indexName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DescribeContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -1611,6 +1693,9 @@ class DynamoDB {
       payload: {
         'ExportArn': exportArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: exportArn,
+      ),
     );
 
     return DescribeExportOutput.fromJson(jsonResponse.body);
@@ -1656,6 +1741,9 @@ class DynamoDB {
       payload: {
         'GlobalTableName': globalTableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: globalTableName,
+      ),
     );
 
     return DescribeGlobalTableOutput.fromJson(jsonResponse.body);
@@ -1701,6 +1789,9 @@ class DynamoDB {
       payload: {
         'GlobalTableName': globalTableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: globalTableName,
+      ),
     );
 
     return DescribeGlobalTableSettingsOutput.fromJson(jsonResponse.body);
@@ -1729,6 +1820,9 @@ class DynamoDB {
       payload: {
         'ImportArn': importArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: importArn,
+      ),
     );
 
     return DescribeImportOutput.fromJson(jsonResponse.body);
@@ -1760,6 +1854,9 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DescribeKinesisStreamingDestinationOutput.fromJson(
@@ -1895,6 +1992,9 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DescribeTableOutput.fromJson(jsonResponse.body);
@@ -1926,6 +2026,9 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DescribeTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
@@ -1957,6 +2060,9 @@ class DynamoDB {
       payload: {
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return DescribeTimeToLiveOutput.fromJson(jsonResponse.body);
@@ -2002,6 +2108,9 @@ class DynamoDB {
           'EnableKinesisStreamingConfiguration':
               enableKinesisStreamingConfiguration,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return KinesisStreamingDestinationOutput.fromJson(jsonResponse.body);
@@ -2049,6 +2158,9 @@ class DynamoDB {
           'EnableKinesisStreamingConfiguration':
               enableKinesisStreamingConfiguration,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return KinesisStreamingDestinationOutput.fromJson(jsonResponse.body);
@@ -2335,6 +2447,9 @@ class DynamoDB {
         if (s3SseAlgorithm != null) 'S3SseAlgorithm': s3SseAlgorithm.value,
         if (s3SseKmsKeyId != null) 'S3SseKmsKeyId': s3SseKmsKeyId,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableArn,
+      ),
     );
 
     return ExportTableToPointInTimeOutput.fromJson(jsonResponse.body);
@@ -2478,6 +2593,9 @@ class DynamoDB {
         if (returnConsumedCapacity != null)
           'ReturnConsumedCapacity': returnConsumedCapacity.value,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return GetItemOutput.fromJson(jsonResponse.body);
@@ -2548,6 +2666,9 @@ class DynamoDB {
       payload: {
         'ResourceArn': resourceArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -2719,6 +2840,9 @@ class DynamoDB {
         if (timeRangeUpperBound != null)
           'TimeRangeUpperBound': unixTimestampToJson(timeRangeUpperBound),
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return ListBackupsOutput.fromJson(jsonResponse.body);
@@ -2765,6 +2889,9 @@ class DynamoDB {
         if (nextToken != null) 'NextToken': nextToken,
         if (tableName != null) 'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return ListContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -2812,6 +2939,9 @@ class DynamoDB {
         if (nextToken != null) 'NextToken': nextToken,
         if (tableArn != null) 'TableArn': tableArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableArn,
+      ),
     );
 
     return ListExportsOutput.fromJson(jsonResponse.body);
@@ -2927,6 +3057,9 @@ class DynamoDB {
         if (pageSize != null) 'PageSize': pageSize,
         if (tableArn != null) 'TableArn': tableArn,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableArn,
+      ),
     );
 
     return ListImportsOutput.fromJson(jsonResponse.body);
@@ -3014,6 +3147,9 @@ class DynamoDB {
         'ResourceArn': resourceArn,
         if (nextToken != null) 'NextToken': nextToken,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsOfResourceOutput.fromJson(jsonResponse.body);
@@ -3292,6 +3428,9 @@ class DynamoDB {
           'ReturnValuesOnConditionCheckFailure':
               returnValuesOnConditionCheckFailure.value,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return PutItemOutput.fromJson(jsonResponse.body);
@@ -3401,6 +3540,9 @@ class DynamoDB {
         if (expectedRevisionId != null)
           'ExpectedRevisionId': expectedRevisionId,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: resourceArn,
+      ),
     );
 
     return PutResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -3878,6 +4020,9 @@ class DynamoDB {
         if (scanIndexForward != null) 'ScanIndexForward': scanIndexForward,
         if (select != null) 'Select': select.value,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return QueryOutput.fromJson(jsonResponse.body);
@@ -3981,6 +4126,9 @@ class DynamoDB {
         if (sSESpecificationOverride != null)
           'SSESpecificationOverride': sSESpecificationOverride,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: targetTableName,
+      ),
     );
 
     return RestoreTableFromBackupOutput.fromJson(jsonResponse.body);
@@ -4132,6 +4280,9 @@ class DynamoDB {
         if (useLatestRestorableTime != null)
           'UseLatestRestorableTime': useLatestRestorableTime,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: targetTableName,
+      ),
     );
 
     return RestoreTableToPointInTimeOutput.fromJson(jsonResponse.body);
@@ -4545,6 +4696,9 @@ class DynamoDB {
         if (select != null) 'Select': select.value,
         if (totalSegments != null) 'TotalSegments': totalSegments,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return ScanOutput.fromJson(jsonResponse.body);
@@ -4607,6 +4761,9 @@ class DynamoDB {
         'ResourceArn': resourceArn,
         'Tags': tags,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: resourceArn,
+      ),
     );
   }
 
@@ -4886,6 +5043,9 @@ class DynamoDB {
         'ResourceArn': resourceArn,
         'TagKeys': tagKeys,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: resourceArn,
+      ),
     );
   }
 
@@ -4936,6 +5096,9 @@ class DynamoDB {
         'PointInTimeRecoverySpecification': pointInTimeRecoverySpecification,
         'TableName': tableName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateContinuousBackupsOutput.fromJson(jsonResponse.body);
@@ -4989,6 +5152,9 @@ class DynamoDB {
           'ContributorInsightsMode': contributorInsightsMode.value,
         if (indexName != null) 'IndexName': indexName,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -5072,6 +5238,9 @@ class DynamoDB {
         'GlobalTableName': globalTableName,
         'ReplicaUpdates': replicaUpdates,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: globalTableName,
+      ),
     );
 
     return UpdateGlobalTableOutput.fromJson(jsonResponse.body);
@@ -5186,6 +5355,9 @@ class DynamoDB {
         if (replicaSettingsUpdate != null)
           'ReplicaSettingsUpdate': replicaSettingsUpdate,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: globalTableName,
+      ),
     );
 
     return UpdateGlobalTableSettingsOutput.fromJson(jsonResponse.body);
@@ -5539,6 +5711,9 @@ class DynamoDB {
               returnValuesOnConditionCheckFailure.value,
         if (updateExpression != null) 'UpdateExpression': updateExpression,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateItemOutput.fromJson(jsonResponse.body);
@@ -5584,6 +5759,9 @@ class DynamoDB {
           'UpdateKinesisStreamingConfiguration':
               updateKinesisStreamingConfiguration,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateKinesisStreamingDestinationOutput.fromJson(jsonResponse.body);
@@ -5835,6 +6013,9 @@ class DynamoDB {
         if (tableClass != null) 'TableClass': tableClass.value,
         if (warmThroughput != null) 'WarmThroughput': warmThroughput,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateTableOutput.fromJson(jsonResponse.body);
@@ -5883,6 +6064,9 @@ class DynamoDB {
               provisionedWriteCapacityAutoScalingUpdate,
         if (replicaUpdates != null) 'ReplicaUpdates': replicaUpdates,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
@@ -5950,6 +6134,9 @@ class DynamoDB {
         'TableName': tableName,
         'TimeToLiveSpecification': timeToLiveSpecification,
       },
+      endpoint: _resolveEndpoint(
+        resourceArn: tableName,
+      ),
     );
 
     return UpdateTimeToLiveOutput.fromJson(jsonResponse.body);
@@ -8723,7 +8910,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       disableScaleIn: json['DisableScaleIn'] as bool?,
       scaleInCooldown: json['ScaleInCooldown'] as int?,
       scaleOutCooldown: json['ScaleOutCooldown'] as int?,
@@ -8736,7 +8923,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
       if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
       if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
@@ -9037,7 +9224,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
       if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
       if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
@@ -12044,7 +12231,7 @@ class ConsumedCapacity {
 
   factory ConsumedCapacity.fromJson(Map<String, dynamic> json) {
     return ConsumedCapacity(
-      capacityUnits: json['CapacityUnits'] as double?,
+      capacityUnits: _s.parseJsonDouble(json['CapacityUnits']),
       globalSecondaryIndexes:
           (json['GlobalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
               (k, e) =>
@@ -12053,12 +12240,12 @@ class ConsumedCapacity {
           (json['LocalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
               (k, e) =>
                   MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
-      readCapacityUnits: json['ReadCapacityUnits'] as double?,
+      readCapacityUnits: _s.parseJsonDouble(json['ReadCapacityUnits']),
       table: json['Table'] != null
           ? Capacity.fromJson(json['Table'] as Map<String, dynamic>)
           : null,
       tableName: json['TableName'] as String?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+      writeCapacityUnits: _s.parseJsonDouble(json['WriteCapacityUnits']),
     );
   }
 
@@ -12071,15 +12258,18 @@ class ConsumedCapacity {
     final tableName = this.tableName;
     final writeCapacityUnits = this.writeCapacityUnits;
     return {
-      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (capacityUnits != null)
+        'CapacityUnits': _s.encodeJsonDouble(capacityUnits),
       if (globalSecondaryIndexes != null)
         'GlobalSecondaryIndexes': globalSecondaryIndexes,
       if (localSecondaryIndexes != null)
         'LocalSecondaryIndexes': localSecondaryIndexes,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (readCapacityUnits != null)
+        'ReadCapacityUnits': _s.encodeJsonDouble(readCapacityUnits),
       if (table != null) 'Table': table,
       if (tableName != null) 'TableName': tableName,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+      if (writeCapacityUnits != null)
+        'WriteCapacityUnits': _s.encodeJsonDouble(writeCapacityUnits),
     };
   }
 }
@@ -12118,7 +12308,7 @@ class ItemCollectionMetrics {
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -12129,7 +12319,8 @@ class ItemCollectionMetrics {
     return {
       if (itemCollectionKey != null) 'ItemCollectionKey': itemCollectionKey,
       if (sizeEstimateRangeGB != null)
-        'SizeEstimateRangeGB': sizeEstimateRangeGB,
+        'SizeEstimateRangeGB':
+            sizeEstimateRangeGB.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -12286,9 +12477,9 @@ class Capacity {
 
   factory Capacity.fromJson(Map<String, dynamic> json) {
     return Capacity(
-      capacityUnits: json['CapacityUnits'] as double?,
-      readCapacityUnits: json['ReadCapacityUnits'] as double?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+      capacityUnits: _s.parseJsonDouble(json['CapacityUnits']),
+      readCapacityUnits: _s.parseJsonDouble(json['ReadCapacityUnits']),
+      writeCapacityUnits: _s.parseJsonDouble(json['WriteCapacityUnits']),
     );
   }
 
@@ -12297,9 +12488,12 @@ class Capacity {
     final readCapacityUnits = this.readCapacityUnits;
     final writeCapacityUnits = this.writeCapacityUnits;
     return {
-      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+      if (capacityUnits != null)
+        'CapacityUnits': _s.encodeJsonDouble(capacityUnits),
+      if (readCapacityUnits != null)
+        'ReadCapacityUnits': _s.encodeJsonDouble(readCapacityUnits),
+      if (writeCapacityUnits != null)
+        'WriteCapacityUnits': _s.encodeJsonDouble(writeCapacityUnits),
     };
   }
 }

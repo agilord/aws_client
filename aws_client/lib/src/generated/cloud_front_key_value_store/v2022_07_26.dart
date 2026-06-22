@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,79 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon CloudFront KeyValueStore Service to View and Update Data in a KVS
 /// Resource
 class CloudFrontKeyValueStore {
   final _s.RestJsonProtocol _protocol;
-  CloudFrontKeyValueStore({
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  factory CloudFrontKeyValueStore({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'cloudfront-keyvaluestore',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'cloudfront-keyvaluestore',
+    );
+    return CloudFrontKeyValueStore._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+    );
+  }
+  CloudFrontKeyValueStore._({
+    required _s.RestJsonProtocol protocol,
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint;
+  _s.Endpoint _resolveEndpoint({
+    String? kvsARN,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        kvsARN: kvsARN,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -79,9 +131,11 @@ class CloudFrontKeyValueStore {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
-      requestUri:
-          '/key-value-stores/${Uri.encodeComponent(kvsARN)}/keys/${Uri.encodeComponent(key)}',
+      requestUri: '/key-value-stores/keys/${Uri.encodeComponent(key)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        kvsARN: kvsARN,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -107,7 +161,10 @@ class CloudFrontKeyValueStore {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/key-value-stores/${Uri.encodeComponent(kvsARN)}',
+      requestUri: '/key-value-stores',
+      endpoint: _resolveEndpoint(
+        kvsARN: kvsARN,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -142,8 +199,10 @@ class CloudFrontKeyValueStore {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/key-value-stores/${Uri.encodeComponent(kvsARN)}/keys/${Uri.encodeComponent(key)}',
+      requestUri: '/key-value-stores/keys/${Uri.encodeComponent(key)}',
+      endpoint: _resolveEndpoint(
+        kvsARN: kvsARN,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return GetKeyResponse.fromJson(response);
@@ -180,8 +239,11 @@ class CloudFrontKeyValueStore {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/key-value-stores/${Uri.encodeComponent(kvsARN)}/keys',
+      requestUri: '/key-value-stores/keys',
       queryParams: $query,
+      endpoint: _resolveEndpoint(
+        kvsARN: kvsARN,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     return ListKeysResponse.fromJson(response);
@@ -223,9 +285,11 @@ class CloudFrontKeyValueStore {
     final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/key-value-stores/${Uri.encodeComponent(kvsARN)}/keys/${Uri.encodeComponent(key)}',
+      requestUri: '/key-value-stores/keys/${Uri.encodeComponent(key)}',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        kvsARN: kvsARN,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -274,8 +338,11 @@ class CloudFrontKeyValueStore {
     final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
-      requestUri: '/key-value-stores/${Uri.encodeComponent(kvsARN)}/keys',
+      requestUri: '/key-value-stores/keys',
       headers: headers,
+      endpoint: _resolveEndpoint(
+        kvsARN: kvsARN,
+      ),
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);

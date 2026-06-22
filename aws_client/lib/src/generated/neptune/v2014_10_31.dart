@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2014_10_31.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Neptune is a fast, reliable, fully-managed graph database service
@@ -33,23 +35,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// security.
 class Neptune {
   final _s.QueryProtocol _protocol;
-
-  Neptune({
+  factory Neptune({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'rds',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'rds',
+    );
+    return Neptune._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Neptune._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -9101,8 +9117,8 @@ class ServerlessV2ScalingConfigurationInfo {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 }
@@ -9353,8 +9369,8 @@ class ServerlessV2ScalingConfiguration {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 
@@ -10940,8 +10956,8 @@ class DoubleRange {
     final from = this.from;
     final to = this.to;
     return {
-      if (from != null) 'From': from,
-      if (to != null) 'To': to,
+      if (from != null) 'From': _s.encodeJsonDouble(from),
+      if (to != null) 'To': _s.encodeJsonDouble(to),
     };
   }
 }
@@ -11264,11 +11280,13 @@ class OrderableDBInstanceOption {
       if (licenseModel != null) 'LicenseModel': licenseModel,
       if (maxIopsPerDbInstance != null)
         'MaxIopsPerDbInstance': maxIopsPerDbInstance,
-      if (maxIopsPerGib != null) 'MaxIopsPerGib': maxIopsPerGib,
+      if (maxIopsPerGib != null)
+        'MaxIopsPerGib': _s.encodeJsonDouble(maxIopsPerGib),
       if (maxStorageSize != null) 'MaxStorageSize': maxStorageSize,
       if (minIopsPerDbInstance != null)
         'MinIopsPerDbInstance': minIopsPerDbInstance,
-      if (minIopsPerGib != null) 'MinIopsPerGib': minIopsPerGib,
+      if (minIopsPerGib != null)
+        'MinIopsPerGib': _s.encodeJsonDouble(minIopsPerGib),
       if (minStorageSize != null) 'MinStorageSize': minStorageSize,
       if (multiAZCapable != null) 'MultiAZCapable': multiAZCapable,
       if (readReplicaCapable != null) 'ReadReplicaCapable': readReplicaCapable,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Database Migration Service (DMS) can migrate your data to and from the most
@@ -29,22 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// to PostgreSQL.
 class DatabaseMigration {
   final _s.JsonProtocol _protocol;
-  DatabaseMigration({
+  factory DatabaseMigration({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'dms',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'dms',
+    );
+    return DatabaseMigration._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  DatabaseMigration._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -21458,7 +21475,7 @@ class TableStatistics {
       fullLoadStartTime: timeStampFromJson(json['FullLoadStartTime']),
       inserts: json['Inserts'] as int?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-      resyncProgress: json['ResyncProgress'] as double?,
+      resyncProgress: _s.parseJsonDouble(json['ResyncProgress']),
       resyncRowsAttempted: json['ResyncRowsAttempted'] as int?,
       resyncRowsFailed: json['ResyncRowsFailed'] as int?,
       resyncRowsSucceeded: json['ResyncRowsSucceeded'] as int?,
@@ -21523,7 +21540,8 @@ class TableStatistics {
       if (inserts != null) 'Inserts': inserts,
       if (lastUpdateTime != null)
         'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (resyncProgress != null) 'ResyncProgress': resyncProgress,
+      if (resyncProgress != null)
+        'ResyncProgress': _s.encodeJsonDouble(resyncProgress),
       if (resyncRowsAttempted != null)
         'ResyncRowsAttempted': resyncRowsAttempted,
       if (resyncRowsFailed != null) 'ResyncRowsFailed': resyncRowsFailed,
@@ -22004,8 +22022,8 @@ class RdsRequirements {
       deploymentOption: json['DeploymentOption'] as String?,
       engineEdition: json['EngineEdition'] as String?,
       engineVersion: json['EngineVersion'] as String?,
-      instanceMemory: json['InstanceMemory'] as double?,
-      instanceVcpu: json['InstanceVcpu'] as double?,
+      instanceMemory: _s.parseJsonDouble(json['InstanceMemory']),
+      instanceVcpu: _s.parseJsonDouble(json['InstanceVcpu']),
       storageIops: json['StorageIops'] as int?,
       storageSize: json['StorageSize'] as int?,
     );
@@ -22023,8 +22041,10 @@ class RdsRequirements {
       if (deploymentOption != null) 'DeploymentOption': deploymentOption,
       if (engineEdition != null) 'EngineEdition': engineEdition,
       if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (instanceMemory != null) 'InstanceMemory': instanceMemory,
-      if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
+      if (instanceMemory != null)
+        'InstanceMemory': _s.encodeJsonDouble(instanceMemory),
+      if (instanceVcpu != null)
+        'InstanceVcpu': _s.encodeJsonDouble(instanceVcpu),
       if (storageIops != null) 'StorageIops': storageIops,
       if (storageSize != null) 'StorageSize': storageSize,
     };
@@ -22091,9 +22111,9 @@ class RdsConfiguration {
       deploymentOption: json['DeploymentOption'] as String?,
       engineEdition: json['EngineEdition'] as String?,
       engineVersion: json['EngineVersion'] as String?,
-      instanceMemory: json['InstanceMemory'] as double?,
+      instanceMemory: _s.parseJsonDouble(json['InstanceMemory']),
       instanceType: json['InstanceType'] as String?,
-      instanceVcpu: json['InstanceVcpu'] as double?,
+      instanceVcpu: _s.parseJsonDouble(json['InstanceVcpu']),
       storageIops: json['StorageIops'] as int?,
       storageSize: json['StorageSize'] as int?,
       storageType: json['StorageType'] as String?,
@@ -22114,9 +22134,11 @@ class RdsConfiguration {
       if (deploymentOption != null) 'DeploymentOption': deploymentOption,
       if (engineEdition != null) 'EngineEdition': engineEdition,
       if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (instanceMemory != null) 'InstanceMemory': instanceMemory,
+      if (instanceMemory != null)
+        'InstanceMemory': _s.encodeJsonDouble(instanceMemory),
       if (instanceType != null) 'InstanceType': instanceType,
-      if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
+      if (instanceVcpu != null)
+        'InstanceVcpu': _s.encodeJsonDouble(instanceVcpu),
       if (storageIops != null) 'StorageIops': storageIops,
       if (storageSize != null) 'StorageSize': storageSize,
       if (storageType != null) 'StorageType': storageType,
@@ -22643,7 +22665,7 @@ class Progress {
           ? ProcessedObject.fromJson(
               json['ProcessedObject'] as Map<String, dynamic>)
           : null,
-      progressPercent: json['ProgressPercent'] as double?,
+      progressPercent: _s.parseJsonDouble(json['ProgressPercent']),
       progressStep: json['ProgressStep'] as String?,
       totalObjects: json['TotalObjects'] as int?,
     );
@@ -22656,7 +22678,8 @@ class Progress {
     final totalObjects = this.totalObjects;
     return {
       if (processedObject != null) 'ProcessedObject': processedObject,
-      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (progressPercent != null)
+        'ProgressPercent': _s.encodeJsonDouble(progressPercent),
       if (progressStep != null) 'ProgressStep': progressStep,
       if (totalObjects != null) 'TotalObjects': totalObjects,
     };
@@ -22826,7 +22849,7 @@ class SchemaResponse {
           ? ServerShortInfoResponse.fromJson(
               json['Server'] as Map<String, dynamic>)
           : null,
-      similarity: json['Similarity'] as double?,
+      similarity: _s.parseJsonDouble(json['Similarity']),
     );
   }
 
@@ -22849,7 +22872,7 @@ class SchemaResponse {
       if (schemaId != null) 'SchemaId': schemaId,
       if (schemaName != null) 'SchemaName': schemaName,
       if (server != null) 'Server': server,
-      if (similarity != null) 'Similarity': similarity,
+      if (similarity != null) 'Similarity': _s.encodeJsonDouble(similarity),
     };
   }
 }

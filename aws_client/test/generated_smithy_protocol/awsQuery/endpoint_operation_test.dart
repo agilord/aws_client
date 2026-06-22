@@ -26,6 +26,7 @@ void main() {
     final service = QueryProtocol(
       client: client,
       region: 'us-east-1',
+      endpointUrl: 'https://example.com',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 

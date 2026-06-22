@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_06_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the AWS Device Farm API documentation, which contains APIs for:
@@ -43,22 +45,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class DeviceFarm {
   final _s.JsonProtocol _protocol;
-  DeviceFarm({
+  factory DeviceFarm({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'devicefarm',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'devicefarm',
+    );
+    return DeviceFarm._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  DeviceFarm._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -7936,9 +7953,9 @@ class DeviceMinutes {
 
   factory DeviceMinutes.fromJson(Map<String, dynamic> json) {
     return DeviceMinutes(
-      metered: json['metered'] as double?,
-      total: json['total'] as double?,
-      unmetered: json['unmetered'] as double?,
+      metered: _s.parseJsonDouble(json['metered']),
+      total: _s.parseJsonDouble(json['total']),
+      unmetered: _s.parseJsonDouble(json['unmetered']),
     );
   }
 
@@ -7947,9 +7964,9 @@ class DeviceMinutes {
     final total = this.total;
     final unmetered = this.unmetered;
     return {
-      if (metered != null) 'metered': metered,
-      if (total != null) 'total': total,
-      if (unmetered != null) 'unmetered': unmetered,
+      if (metered != null) 'metered': _s.encodeJsonDouble(metered),
+      if (total != null) 'total': _s.encodeJsonDouble(total),
+      if (unmetered != null) 'unmetered': _s.encodeJsonDouble(unmetered),
     };
   }
 }
@@ -8081,8 +8098,8 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
-      latitude: (json['latitude'] as double?) ?? 0,
-      longitude: (json['longitude'] as double?) ?? 0,
+      latitude: _s.parseJsonDouble(json['latitude']) ?? 0,
+      longitude: _s.parseJsonDouble(json['longitude']) ?? 0,
     );
   }
 
@@ -8090,8 +8107,8 @@ class Location {
     final latitude = this.latitude;
     final longitude = this.longitude;
     return {
-      'latitude': latitude,
-      'longitude': longitude,
+      'latitude': _s.encodeJsonDouble(latitude),
+      'longitude': _s.encodeJsonDouble(longitude),
     };
   }
 }
@@ -8956,7 +8973,7 @@ class CPU {
   factory CPU.fromJson(Map<String, dynamic> json) {
     return CPU(
       architecture: json['architecture'] as String?,
-      clock: json['clock'] as double?,
+      clock: _s.parseJsonDouble(json['clock']),
       frequency: json['frequency'] as String?,
     );
   }
@@ -8967,7 +8984,7 @@ class CPU {
     final frequency = this.frequency;
     return {
       if (architecture != null) 'architecture': architecture,
-      if (clock != null) 'clock': clock,
+      if (clock != null) 'clock': _s.encodeJsonDouble(clock),
       if (frequency != null) 'frequency': frequency,
     };
   }
@@ -9871,7 +9888,7 @@ class MonetaryAmount {
 
   factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
     return MonetaryAmount(
-      amount: json['amount'] as double?,
+      amount: _s.parseJsonDouble(json['amount']),
       currencyCode:
           (json['currencyCode'] as String?)?.let(CurrencyCode.fromString),
     );
@@ -9881,7 +9898,7 @@ class MonetaryAmount {
     final amount = this.amount;
     final currencyCode = this.currencyCode;
     return {
-      if (amount != null) 'amount': amount,
+      if (amount != null) 'amount': _s.encodeJsonDouble(amount),
       if (currencyCode != null) 'currencyCode': currencyCode.value,
     };
   }
@@ -10487,7 +10504,7 @@ class TestGridSession {
   factory TestGridSession.fromJson(Map<String, dynamic> json) {
     return TestGridSession(
       arn: json['arn'] as String?,
-      billingMinutes: json['billingMinutes'] as double?,
+      billingMinutes: _s.parseJsonDouble(json['billingMinutes']),
       created: timeStampFromJson(json['created']),
       ended: timeStampFromJson(json['ended']),
       seleniumProperties: json['seleniumProperties'] as String?,
@@ -10505,7 +10522,8 @@ class TestGridSession {
     final status = this.status;
     return {
       if (arn != null) 'arn': arn,
-      if (billingMinutes != null) 'billingMinutes': billingMinutes,
+      if (billingMinutes != null)
+        'billingMinutes': _s.encodeJsonDouble(billingMinutes),
       if (created != null) 'created': unixTimestampToJson(created),
       if (ended != null) 'ended': unixTimestampToJson(ended),
       if (seleniumProperties != null) 'seleniumProperties': seleniumProperties,
@@ -11537,8 +11555,8 @@ class TrialMinutes {
 
   factory TrialMinutes.fromJson(Map<String, dynamic> json) {
     return TrialMinutes(
-      remaining: json['remaining'] as double?,
-      total: json['total'] as double?,
+      remaining: _s.parseJsonDouble(json['remaining']),
+      total: _s.parseJsonDouble(json['total']),
     );
   }
 
@@ -11546,8 +11564,8 @@ class TrialMinutes {
     final remaining = this.remaining;
     final total = this.total;
     return {
-      if (remaining != null) 'remaining': remaining,
-      if (total != null) 'total': total,
+      if (remaining != null) 'remaining': _s.encodeJsonDouble(remaining),
+      if (total != null) 'total': _s.encodeJsonDouble(total),
     };
   }
 }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -22,22 +23,31 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
 class JsonProtocol {
   final _s.JsonProtocol _protocol;
-  JsonProtocol({
+  factory JsonProtocol({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'jsonprotocol',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'jsonprotocol',
+    );
+    return JsonProtocol._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.forProtocol(
+            service: service, region: region, endpointUrl: endpointUrl),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  JsonProtocol._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -110,6 +120,8 @@ class JsonProtocol {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+
+      hostPrefix: 'foo.',
     );
   }
 
@@ -129,6 +141,8 @@ class JsonProtocol {
       payload: {
         'label': label,
       },
+
+      hostPrefix: 'foo.${label}.',
     );
   }
 
@@ -321,9 +335,9 @@ class JsonProtocol {
       payload: {
         if (blob != null) 'Blob': base64Encode(blob),
         if (boolean != null) 'Boolean': boolean,
-        if (doubleValue != null) 'Double': doubleValue,
+        if (doubleValue != null) 'Double': _s.encodeJsonDouble(doubleValue),
         if (emptyStruct != null) 'EmptyStruct': emptyStruct,
-        if (float != null) 'Float': float,
+        if (float != null) 'Float': _s.encodeJsonDouble(float),
         if (httpdateTimestamp != null)
           'HttpdateTimestamp': rfc822ToJson(httpdateTimestamp),
         if (integer != null) 'Integer': integer,
@@ -458,8 +472,9 @@ class JsonProtocol {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (doubleValue != null) 'doubleValue': doubleValue,
-        if (floatValue != null) 'floatValue': floatValue,
+        if (doubleValue != null)
+          'doubleValue': _s.encodeJsonDouble(doubleValue),
+        if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       },
     );
 
@@ -490,6 +505,7 @@ class JsonProtocol {
   }
 }
 
+/// @nodoc
 class ContentTypeParametersOutput {
   ContentTypeParametersOutput();
 
@@ -502,6 +518,7 @@ class ContentTypeParametersOutput {
   }
 }
 
+/// @nodoc
 class DatetimeOffsetsOutput {
   final DateTime? datetime;
 
@@ -523,6 +540,7 @@ class DatetimeOffsetsOutput {
   }
 }
 
+/// @nodoc
 class FractionalSecondsOutput {
   final DateTime? datetime;
 
@@ -544,6 +562,7 @@ class FractionalSecondsOutput {
   }
 }
 
+/// @nodoc
 class GreetingWithErrorsOutput {
   final String? greeting;
 
@@ -565,6 +584,7 @@ class GreetingWithErrorsOutput {
   }
 }
 
+/// @nodoc
 class JsonEnumsInputOutput {
   final FooEnum? fooEnum1;
   final FooEnum? fooEnum2;
@@ -621,6 +641,7 @@ class JsonEnumsInputOutput {
   }
 }
 
+/// @nodoc
 class JsonIntEnumsInputOutput {
   final int? intEnum1;
   final int? intEnum2;
@@ -673,6 +694,8 @@ class JsonIntEnumsInputOutput {
 }
 
 /// A shared structure that contains a single union member.
+///
+/// @nodoc
 class UnionInputOutput {
   final MyUnion? contents;
 
@@ -696,6 +719,7 @@ class UnionInputOutput {
   }
 }
 
+/// @nodoc
 class KitchenSink {
   final Uint8List? blob;
   final bool? boolean;
@@ -757,11 +781,11 @@ class KitchenSink {
     return KitchenSink(
       blob: _s.decodeNullableUint8List(json['Blob'] as String?),
       boolean: json['Boolean'] as bool?,
-      doubleValue: json['Double'] as double?,
+      doubleValue: _s.parseJsonDouble(json['Double']),
       emptyStruct: json['EmptyStruct'] != null
           ? EmptyStruct.fromJson(json['EmptyStruct'] as Map<String, dynamic>)
           : null,
-      float: json['Float'] as double?,
+      float: _s.parseJsonDouble(json['Float']),
       httpdateTimestamp: timeStampFromJson(json['HttpdateTimestamp']),
       integer: json['Integer'] as int?,
       iso8601Timestamp: timeStampFromJson(json['Iso8601Timestamp']),
@@ -854,9 +878,9 @@ class KitchenSink {
     return {
       if (blob != null) 'Blob': base64Encode(blob),
       if (boolean != null) 'Boolean': boolean,
-      if (doubleValue != null) 'Double': doubleValue,
+      if (doubleValue != null) 'Double': _s.encodeJsonDouble(doubleValue),
       if (emptyStruct != null) 'EmptyStruct': emptyStruct,
-      if (float != null) 'Float': float,
+      if (float != null) 'Float': _s.encodeJsonDouble(float),
       if (httpdateTimestamp != null)
         'HttpdateTimestamp': rfc822ToJson(httpdateTimestamp),
       if (integer != null) 'Integer': integer,
@@ -887,6 +911,7 @@ class KitchenSink {
   }
 }
 
+/// @nodoc
 class NullOperationInputOutput {
   final String? string;
 
@@ -908,6 +933,7 @@ class NullOperationInputOutput {
   }
 }
 
+/// @nodoc
 class OperationWithOptionalInputOutputOutput {
   final String? value;
 
@@ -930,6 +956,7 @@ class OperationWithOptionalInputOutputOutput {
   }
 }
 
+/// @nodoc
 class PutAndGetInlineDocumentsInputOutput {
   final Object? inlineDocument;
 
@@ -952,6 +979,7 @@ class PutAndGetInlineDocumentsInputOutput {
   }
 }
 
+/// @nodoc
 class SimpleScalarPropertiesInputOutput {
   final double? doubleValue;
   final double? floatValue;
@@ -964,8 +992,8 @@ class SimpleScalarPropertiesInputOutput {
   factory SimpleScalarPropertiesInputOutput.fromJson(
       Map<String, dynamic> json) {
     return SimpleScalarPropertiesInputOutput(
-      doubleValue: json['doubleValue'] as double?,
-      floatValue: json['floatValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
+      floatValue: _s.parseJsonDouble(json['floatValue']),
     );
   }
 
@@ -973,12 +1001,13 @@ class SimpleScalarPropertiesInputOutput {
     final doubleValue = this.doubleValue;
     final floatValue = this.floatValue;
     return {
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
     };
   }
 }
 
+/// @nodoc
 class SparseNullsOperationInputOutput {
   final List<String>? sparseStringList;
   final Map<String, String>? sparseStringMap;
@@ -1009,6 +1038,7 @@ class SparseNullsOperationInputOutput {
   }
 }
 
+/// @nodoc
 class EmptyStruct {
   EmptyStruct();
 
@@ -1021,6 +1051,7 @@ class EmptyStruct {
   }
 }
 
+/// @nodoc
 class SimpleStruct {
   final String? value;
 
@@ -1042,6 +1073,7 @@ class SimpleStruct {
   }
 }
 
+/// @nodoc
 class StructWithJsonName {
   final String? value;
 
@@ -1064,6 +1096,8 @@ class StructWithJsonName {
 }
 
 /// A union with a representative set of types for members.
+///
+/// @nodoc
 class MyUnion {
   final Uint8List? blobValue;
   final bool? booleanValue;
@@ -1133,6 +1167,7 @@ class MyUnion {
   }
 }
 
+/// @nodoc
 class FooEnum {
   static const foo = FooEnum._('Foo');
   static const baz = FooEnum._('Baz');
@@ -1159,6 +1194,7 @@ class FooEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class GreetingStruct {
   final String? hi;
 
@@ -1180,26 +1216,31 @@ class GreetingStruct {
   }
 }
 
+/// @nodoc
 class ComplexError extends _s.GenericAwsException {
   ComplexError({String? type, String? message})
       : super(type: type, code: 'ComplexError', message: message);
 }
 
+/// @nodoc
 class ErrorWithMembers extends _s.GenericAwsException {
   ErrorWithMembers({String? type, String? message})
       : super(type: type, code: 'ErrorWithMembers', message: message);
 }
 
+/// @nodoc
 class ErrorWithoutMembers extends _s.GenericAwsException {
   ErrorWithoutMembers({String? type, String? message})
       : super(type: type, code: 'ErrorWithoutMembers', message: message);
 }
 
+/// @nodoc
 class FooError extends _s.GenericAwsException {
   FooError({String? type, String? message})
       : super(type: type, code: 'FooError', message: message);
 }
 
+/// @nodoc
 class InvalidGreeting extends _s.GenericAwsException {
   InvalidGreeting({String? type, String? message})
       : super(type: type, code: 'InvalidGreeting', message: message);

@@ -68,7 +68,7 @@ void main() {
     );
 
     await service.emptyOperation();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('handles_empty_output_shape', () async {
     final client = MockClient((request) async {

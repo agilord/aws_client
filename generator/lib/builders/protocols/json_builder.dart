@@ -9,26 +9,7 @@ class JsonServiceBuilder extends ServiceBuilder {
   JsonServiceBuilder(this.api);
 
   @override
-  String constructor() {
-    final isRegionRequired = !api.isGlobalService;
-    return '''
-  final _s.JsonProtocol _protocol;
-  ${api.metadata.className}({
-    ${isRegionRequired ? 'required String' : 'String?'} region,
-      _s.AwsClientCredentials? credentials,
-      _s.AwsClientCredentialsProvider? credentialsProvider,
-      _s.Client? client, String? endpointUrl,
-    })
-  : _protocol = _s.JsonProtocol(
-      client: client,
-      service: ${buildServiceMetadata(api)},
-      region: region,
-      credentials: credentials,
-      credentialsProvider: credentialsProvider,
-      endpointUrl: endpointUrl,
-    );
-  ''';
-  }
+  String constructor() => buildProtocolConstructor(api, 'JsonProtocol');
 
   @override
   String imports() => '';
@@ -81,6 +62,8 @@ class JsonServiceBuilder extends ServiceBuilder {
         // TODO queryParams
         headers: headers,
         $payload
+        ${buildOperationEndpoint(api, operation) ?? ''}
+        ${buildHostPrefix(operation) ?? ''}
 ''');
     buf.writeln(');\n');
 

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_07_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This section contains the Amazon Managed Workflows for Apache Airflow (MWAA)
@@ -26,22 +28,39 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// is Amazon MWAA?</a>.
 class Mwaa {
   final _s.RestJsonProtocol _protocol;
-  Mwaa({
+  factory Mwaa({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'airflow',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'airflow',
+    );
+    return Mwaa._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  Mwaa._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -68,6 +87,7 @@ class Mwaa {
       payload: null,
       method: 'POST',
       requestUri: '/clitoken/${Uri.encodeComponent(name)}',
+      hostPrefix: 'env.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCliTokenResponse.fromJson(response);
@@ -401,6 +421,7 @@ class Mwaa {
       payload: $payload,
       method: 'PUT',
       requestUri: '/environments/${Uri.encodeComponent(name)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateEnvironmentOutput.fromJson(response);
@@ -425,6 +446,7 @@ class Mwaa {
       payload: null,
       method: 'POST',
       requestUri: '/webtoken/${Uri.encodeComponent(name)}',
+      hostPrefix: 'env.',
       exceptionFnMap: _exceptionFns,
     );
     return CreateWebLoginTokenResponse.fromJson(response);
@@ -448,6 +470,7 @@ class Mwaa {
       payload: null,
       method: 'DELETE',
       requestUri: '/environments/${Uri.encodeComponent(name)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -469,6 +492,7 @@ class Mwaa {
       payload: null,
       method: 'GET',
       requestUri: '/environments/${Uri.encodeComponent(name)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return GetEnvironmentOutput.fromJson(response);
@@ -524,6 +548,7 @@ class Mwaa {
       payload: $payload,
       method: 'POST',
       requestUri: '/restapi/${Uri.encodeComponent(name)}',
+      hostPrefix: 'env.',
       exceptionFnMap: _exceptionFns,
     );
     return InvokeRestApiResponse.fromJson(response);
@@ -553,6 +578,7 @@ class Mwaa {
       method: 'GET',
       requestUri: '/environments',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListEnvironmentsOutput.fromJson(response);
@@ -577,6 +603,7 @@ class Mwaa {
       payload: null,
       method: 'GET',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceOutput.fromJson(response);
@@ -608,6 +635,7 @@ class Mwaa {
       method: 'POST',
       requestUri:
           '/metrics/environments/${Uri.encodeComponent(environmentName)}',
+      hostPrefix: 'ops.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -641,6 +669,7 @@ class Mwaa {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -673,6 +702,7 @@ class Mwaa {
       method: 'DELETE',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       queryParams: $query,
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -983,6 +1013,7 @@ class Mwaa {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/environments/${Uri.encodeComponent(name)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEnvironmentOutput.fromJson(response);
@@ -1506,7 +1537,7 @@ class MetricDatum {
       if (dimensions != null) 'Dimensions': dimensions,
       if (statisticValues != null) 'StatisticValues': statisticValues,
       if (unit != null) 'Unit': unit.value,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -1621,10 +1652,10 @@ class StatisticSet {
     final sampleCount = this.sampleCount;
     final sum = this.sum;
     return {
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
+      if (maximum != null) 'Maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'Minimum': _s.encodeJsonDouble(minimum),
       if (sampleCount != null) 'SampleCount': sampleCount,
-      if (sum != null) 'Sum': sum,
+      if (sum != null) 'Sum': _s.encodeJsonDouble(sum),
     };
   }
 }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_05_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// IoT provides secure, bi-directional communication between Internet-connected
@@ -29,22 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// credentials to authenticate devices.
 class IoT {
   final _s.RestJsonProtocol _protocol;
-  IoT({
+  factory IoT({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'iot',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'iot',
+    );
+    return IoT._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  IoT._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -5981,7 +5998,8 @@ class IoT {
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
       if (indexName != null) 'indexName': indexName,
-      if (percents != null) 'percents': percents,
+      if (percents != null)
+        'percents': percents.map(_s.encodeJsonDouble).toList(),
       if (queryVersion != null) 'queryVersion': queryVersion,
     };
     final response = await _protocol.send(
@@ -21987,9 +22005,11 @@ class MetricValue {
       cidrs:
           (json['cidrs'] as List?)?.nonNulls.map((e) => e as String).toList(),
       count: json['count'] as int?,
-      number: json['number'] as double?,
-      numbers:
-          (json['numbers'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      number: _s.parseJsonDouble(json['number']),
+      numbers: (json['numbers'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
       ports: (json['ports'] as List?)?.nonNulls.map((e) => e as int).toList(),
       strings:
           (json['strings'] as List?)?.nonNulls.map((e) => e as String).toList(),
@@ -22006,8 +22026,8 @@ class MetricValue {
     return {
       if (cidrs != null) 'cidrs': cidrs,
       if (count != null) 'count': count,
-      if (number != null) 'number': number,
-      if (numbers != null) 'numbers': numbers,
+      if (number != null) 'number': _s.encodeJsonDouble(number),
+      if (numbers != null) 'numbers': numbers.map(_s.encodeJsonDouble).toList(),
       if (ports != null) 'ports': ports,
       if (strings != null) 'strings': strings,
     };
@@ -23407,7 +23427,7 @@ class AbortCriteria {
           (json['failureType'] as String?) ?? ''),
       minNumberOfExecutedThings:
           (json['minNumberOfExecutedThings'] as int?) ?? 0,
-      thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
+      thresholdPercentage: _s.parseJsonDouble(json['thresholdPercentage']) ?? 0,
     );
   }
 
@@ -23420,7 +23440,7 @@ class AbortCriteria {
       'action': action.value,
       'failureType': failureType.value,
       'minNumberOfExecutedThings': minNumberOfExecutedThings,
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
     };
   }
 }
@@ -23503,7 +23523,7 @@ class ExponentialRolloutRate {
   factory ExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return ExponentialRolloutRate(
       baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
-      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
+      incrementFactor: _s.parseJsonDouble(json['incrementFactor']) ?? 0,
       rateIncreaseCriteria: RateIncreaseCriteria.fromJson(
           (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -23516,7 +23536,7 @@ class ExponentialRolloutRate {
     final rateIncreaseCriteria = this.rateIncreaseCriteria;
     return {
       'baseRatePerMinute': baseRatePerMinute,
-      'incrementFactor': incrementFactor,
+      'incrementFactor': _s.encodeJsonDouble(incrementFactor),
       'rateIncreaseCriteria': rateIncreaseCriteria,
     };
   }
@@ -32580,14 +32600,14 @@ class Statistics {
 
   factory Statistics.fromJson(Map<String, dynamic> json) {
     return Statistics(
-      average: json['average'] as double?,
+      average: _s.parseJsonDouble(json['average']),
       count: json['count'] as int?,
-      maximum: json['maximum'] as double?,
-      minimum: json['minimum'] as double?,
-      stdDeviation: json['stdDeviation'] as double?,
-      sum: json['sum'] as double?,
-      sumOfSquares: json['sumOfSquares'] as double?,
-      variance: json['variance'] as double?,
+      maximum: _s.parseJsonDouble(json['maximum']),
+      minimum: _s.parseJsonDouble(json['minimum']),
+      stdDeviation: _s.parseJsonDouble(json['stdDeviation']),
+      sum: _s.parseJsonDouble(json['sum']),
+      sumOfSquares: _s.parseJsonDouble(json['sumOfSquares']),
+      variance: _s.parseJsonDouble(json['variance']),
     );
   }
 
@@ -32601,14 +32621,16 @@ class Statistics {
     final sumOfSquares = this.sumOfSquares;
     final variance = this.variance;
     return {
-      if (average != null) 'average': average,
+      if (average != null) 'average': _s.encodeJsonDouble(average),
       if (count != null) 'count': count,
-      if (maximum != null) 'maximum': maximum,
-      if (minimum != null) 'minimum': minimum,
-      if (stdDeviation != null) 'stdDeviation': stdDeviation,
-      if (sum != null) 'sum': sum,
-      if (sumOfSquares != null) 'sumOfSquares': sumOfSquares,
-      if (variance != null) 'variance': variance,
+      if (maximum != null) 'maximum': _s.encodeJsonDouble(maximum),
+      if (minimum != null) 'minimum': _s.encodeJsonDouble(minimum),
+      if (stdDeviation != null)
+        'stdDeviation': _s.encodeJsonDouble(stdDeviation),
+      if (sum != null) 'sum': _s.encodeJsonDouble(sum),
+      if (sumOfSquares != null)
+        'sumOfSquares': _s.encodeJsonDouble(sumOfSquares),
+      if (variance != null) 'variance': _s.encodeJsonDouble(variance),
     };
   }
 }
@@ -32630,8 +32652,8 @@ class PercentPair {
 
   factory PercentPair.fromJson(Map<String, dynamic> json) {
     return PercentPair(
-      percent: json['percent'] as double?,
-      value: json['value'] as double?,
+      percent: _s.parseJsonDouble(json['percent']),
+      value: _s.parseJsonDouble(json['value']),
     );
   }
 
@@ -32639,8 +32661,8 @@ class PercentPair {
     final percent = this.percent;
     final value = this.value;
     return {
-      if (percent != null) 'percent': percent,
-      if (value != null) 'value': value,
+      if (percent != null) 'percent': _s.encodeJsonDouble(percent),
+      if (value != null) 'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -33436,7 +33458,7 @@ class AwsJobExponentialRolloutRate {
   factory AwsJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return AwsJobExponentialRolloutRate(
       baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
-      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
+      incrementFactor: _s.parseJsonDouble(json['incrementFactor']) ?? 0,
       rateIncreaseCriteria: AwsJobRateIncreaseCriteria.fromJson(
           (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
@@ -33449,7 +33471,7 @@ class AwsJobExponentialRolloutRate {
     final rateIncreaseCriteria = this.rateIncreaseCriteria;
     return {
       'baseRatePerMinute': baseRatePerMinute,
-      'incrementFactor': incrementFactor,
+      'incrementFactor': _s.encodeJsonDouble(incrementFactor),
       'rateIncreaseCriteria': rateIncreaseCriteria,
     };
   }
@@ -33637,7 +33659,7 @@ class CommandParameterValue {
     return CommandParameterValue(
       b: json['B'] as bool?,
       bin: _s.decodeNullableUint8List(json['BIN'] as String?),
-      d: json['D'] as double?,
+      d: _s.parseJsonDouble(json['D']),
       i: json['I'] as int?,
       l: json['L'] as int?,
       s: json['S'] as String?,
@@ -33656,7 +33678,7 @@ class CommandParameterValue {
     return {
       if (b != null) 'B': b,
       if (bin != null) 'BIN': base64Encode(bin),
-      if (d != null) 'D': d,
+      if (d != null) 'D': _s.encodeJsonDouble(d),
       if (i != null) 'I': i,
       if (l != null) 'L': l,
       if (s != null) 'S': s,
@@ -34240,7 +34262,7 @@ class BehaviorModelTrainingSummary {
     return BehaviorModelTrainingSummary(
       behaviorName: json['behaviorName'] as String?,
       datapointsCollectionPercentage:
-          json['datapointsCollectionPercentage'] as double?,
+          _s.parseJsonDouble(json['datapointsCollectionPercentage']),
       lastModelRefreshDate: timeStampFromJson(json['lastModelRefreshDate']),
       modelStatus:
           (json['modelStatus'] as String?)?.let(ModelStatus.fromString),
@@ -34261,7 +34283,8 @@ class BehaviorModelTrainingSummary {
     return {
       if (behaviorName != null) 'behaviorName': behaviorName,
       if (datapointsCollectionPercentage != null)
-        'datapointsCollectionPercentage': datapointsCollectionPercentage,
+        'datapointsCollectionPercentage':
+            _s.encodeJsonDouble(datapointsCollectionPercentage),
       if (lastModelRefreshDate != null)
         'lastModelRefreshDate': unixTimestampToJson(lastModelRefreshDate),
       if (modelStatus != null) 'modelStatus': modelStatus.value,
@@ -36380,7 +36403,7 @@ class AwsJobAbortCriteria {
       'action': action.value,
       'failureType': failureType.value,
       'minNumberOfExecutedThings': minNumberOfExecutedThings,
-      'thresholdPercentage': thresholdPercentage,
+      'thresholdPercentage': _s.encodeJsonDouble(thresholdPercentage),
     };
   }
 }

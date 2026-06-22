@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,27 +19,43 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_01_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Provide APIs to create and manage Amazon Connect Campaigns.
 class ConnectCampaigns {
   final _s.RestJsonProtocol _protocol;
-  ConnectCampaigns({
+  factory ConnectCampaigns({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'connect-campaigns',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'connect-campaigns',
+    );
+    return ConnectCampaigns._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ConnectCampaigns._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -940,8 +957,8 @@ class ProgressiveDialerConfig {
 
   factory ProgressiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return ProgressiveDialerConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
-      dialingCapacity: json['dialingCapacity'] as double?,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
+      dialingCapacity: _s.parseJsonDouble(json['dialingCapacity']),
     );
   }
 
@@ -949,8 +966,9 @@ class ProgressiveDialerConfig {
     final bandwidthAllocation = this.bandwidthAllocation;
     final dialingCapacity = this.dialingCapacity;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
+      if (dialingCapacity != null)
+        'dialingCapacity': _s.encodeJsonDouble(dialingCapacity),
     };
   }
 }
@@ -969,8 +987,8 @@ class PredictiveDialerConfig {
 
   factory PredictiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveDialerConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
-      dialingCapacity: json['dialingCapacity'] as double?,
+      bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
+      dialingCapacity: _s.parseJsonDouble(json['dialingCapacity']),
     );
   }
 
@@ -978,8 +996,9 @@ class PredictiveDialerConfig {
     final bandwidthAllocation = this.bandwidthAllocation;
     final dialingCapacity = this.dialingCapacity;
     return {
-      'bandwidthAllocation': bandwidthAllocation,
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
+      if (dialingCapacity != null)
+        'dialingCapacity': _s.encodeJsonDouble(dialingCapacity),
     };
   }
 }
@@ -996,14 +1015,15 @@ class AgentlessDialerConfig {
 
   factory AgentlessDialerConfig.fromJson(Map<String, dynamic> json) {
     return AgentlessDialerConfig(
-      dialingCapacity: json['dialingCapacity'] as double?,
+      dialingCapacity: _s.parseJsonDouble(json['dialingCapacity']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final dialingCapacity = this.dialingCapacity;
     return {
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      if (dialingCapacity != null)
+        'dialingCapacity': _s.encodeJsonDouble(dialingCapacity),
     };
   }
 }

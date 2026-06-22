@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_10_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the API Reference Guide for zonal shift and zonal autoshift in
@@ -42,22 +44,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Application Recovery Controller Developer Guide</a>.
 class ArcZonalShift {
   final _s.RestJsonProtocol _protocol;
-  ArcZonalShift({
+  factory ArcZonalShift({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'arc-zonal-shift',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'arc-zonal-shift',
+    );
+    return ArcZonalShift._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ArcZonalShift._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1115,7 +1132,7 @@ class GetManagedResourceResponse {
     return GetManagedResourceResponse(
       appliedWeights: ((json['appliedWeights'] as Map<String, dynamic>?) ??
               const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as double)),
+          .map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       zonalShifts: ((json['zonalShifts'] as List?) ?? const [])
           .nonNulls
           .map((e) => ZonalShiftInResource.fromJson(e as Map<String, dynamic>))
@@ -1144,7 +1161,8 @@ class GetManagedResourceResponse {
     final practiceRunConfiguration = this.practiceRunConfiguration;
     final zonalAutoshiftStatus = this.zonalAutoshiftStatus;
     return {
-      'appliedWeights': appliedWeights,
+      'appliedWeights':
+          appliedWeights.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       'zonalShifts': zonalShifts,
       if (arn != null) 'arn': arn,
       if (autoshifts != null) 'autoshifts': autoshifts,
@@ -2240,7 +2258,7 @@ class ManagedResourceSummary {
           .map((e) => e as String)
           .toList(),
       appliedWeights: (json['appliedWeights'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       arn: json['arn'] as String?,
       autoshifts: (json['autoshifts'] as List?)
           ?.nonNulls
@@ -2269,7 +2287,9 @@ class ManagedResourceSummary {
     final zonalShifts = this.zonalShifts;
     return {
       'availabilityZones': availabilityZones,
-      if (appliedWeights != null) 'appliedWeights': appliedWeights,
+      if (appliedWeights != null)
+        'appliedWeights':
+            appliedWeights.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (arn != null) 'arn': arn,
       if (autoshifts != null) 'autoshifts': autoshifts,
       if (name != null) 'name': name,

@@ -41,7 +41,7 @@ void main() {
         foo: "Foo",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('XmlAttributesInMiddle', () async {
     final client = MockClient((request) async {
@@ -65,5 +65,5 @@ void main() {
     expect(output.payload?.attr, "attributeValue");
     expect(output.payload?.baz, "Baz");
     expect(output.payload?.foo, "Foo");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

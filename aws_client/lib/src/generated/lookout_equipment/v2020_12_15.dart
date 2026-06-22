@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_12_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Lookout for Equipment is a machine learning service that uses
@@ -25,22 +27,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// use in predictive maintenance.
 class LookoutEquipment {
   final _s.JsonProtocol _protocol;
-  LookoutEquipment({
+  factory LookoutEquipment({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'lookoutequipment',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'lookoutequipment',
+    );
+    return LookoutEquipment._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  LookoutEquipment._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6002,7 +6019,7 @@ class CountPercent {
   factory CountPercent.fromJson(Map<String, dynamic> json) {
     return CountPercent(
       count: (json['Count'] as int?) ?? 0,
-      percentage: (json['Percentage'] as double?) ?? 0,
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
     );
   }
 
@@ -6011,7 +6028,7 @@ class CountPercent {
     final percentage = this.percentage;
     return {
       'Count': count,
-      'Percentage': percentage,
+      'Percentage': _s.encodeJsonDouble(percentage),
     };
   }
 }

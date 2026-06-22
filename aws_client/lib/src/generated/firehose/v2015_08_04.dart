@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2015_08_04.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Data Firehose was previously known as Amazon Kinesis Data Firehose.
@@ -28,22 +30,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// supported destinations.
 class Firehose {
   final _s.JsonProtocol _protocol;
-  Firehose({
+  factory Firehose({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'firehose',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'firehose',
+    );
+    return Firehose._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Firehose._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4774,14 +4791,15 @@ class OrcSerDe {
           .map((e) => e as String)
           .toList(),
       bloomFilterFalsePositiveProbability:
-          json['BloomFilterFalsePositiveProbability'] as double?,
+          _s.parseJsonDouble(json['BloomFilterFalsePositiveProbability']),
       compression:
           (json['Compression'] as String?)?.let(OrcCompression.fromString),
-      dictionaryKeyThreshold: json['DictionaryKeyThreshold'] as double?,
+      dictionaryKeyThreshold:
+          _s.parseJsonDouble(json['DictionaryKeyThreshold']),
       enablePadding: json['EnablePadding'] as bool?,
       formatVersion:
           (json['FormatVersion'] as String?)?.let(OrcFormatVersion.fromString),
-      paddingTolerance: json['PaddingTolerance'] as double?,
+      paddingTolerance: _s.parseJsonDouble(json['PaddingTolerance']),
       rowIndexStride: json['RowIndexStride'] as int?,
       stripeSizeBytes: json['StripeSizeBytes'] as int?,
     );
@@ -4804,13 +4822,14 @@ class OrcSerDe {
       if (bloomFilterColumns != null) 'BloomFilterColumns': bloomFilterColumns,
       if (bloomFilterFalsePositiveProbability != null)
         'BloomFilterFalsePositiveProbability':
-            bloomFilterFalsePositiveProbability,
+            _s.encodeJsonDouble(bloomFilterFalsePositiveProbability),
       if (compression != null) 'Compression': compression.value,
       if (dictionaryKeyThreshold != null)
-        'DictionaryKeyThreshold': dictionaryKeyThreshold,
+        'DictionaryKeyThreshold': _s.encodeJsonDouble(dictionaryKeyThreshold),
       if (enablePadding != null) 'EnablePadding': enablePadding,
       if (formatVersion != null) 'FormatVersion': formatVersion.value,
-      if (paddingTolerance != null) 'PaddingTolerance': paddingTolerance,
+      if (paddingTolerance != null)
+        'PaddingTolerance': _s.encodeJsonDouble(paddingTolerance),
       if (rowIndexStride != null) 'RowIndexStride': rowIndexStride,
       if (stripeSizeBytes != null) 'StripeSizeBytes': stripeSizeBytes,
     };

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_03_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The FinSpace management service provides the APIs for managing FinSpace
 /// environments.
 class Finspace {
   final _s.RestJsonProtocol _protocol;
-  Finspace({
+  factory Finspace({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'finspace',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'finspace',
+    );
+    return Finspace._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Finspace._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -8603,10 +8620,12 @@ class AutoScalingConfiguration {
       autoScalingMetric: (json['autoScalingMetric'] as String?)
           ?.let(AutoScalingMetric.fromString),
       maxNodeCount: json['maxNodeCount'] as int?,
-      metricTarget: json['metricTarget'] as double?,
+      metricTarget: _s.parseJsonDouble(json['metricTarget']),
       minNodeCount: json['minNodeCount'] as int?,
-      scaleInCooldownSeconds: json['scaleInCooldownSeconds'] as double?,
-      scaleOutCooldownSeconds: json['scaleOutCooldownSeconds'] as double?,
+      scaleInCooldownSeconds:
+          _s.parseJsonDouble(json['scaleInCooldownSeconds']),
+      scaleOutCooldownSeconds:
+          _s.parseJsonDouble(json['scaleOutCooldownSeconds']),
     );
   }
 
@@ -8621,12 +8640,13 @@ class AutoScalingConfiguration {
       if (autoScalingMetric != null)
         'autoScalingMetric': autoScalingMetric.value,
       if (maxNodeCount != null) 'maxNodeCount': maxNodeCount,
-      if (metricTarget != null) 'metricTarget': metricTarget,
+      if (metricTarget != null)
+        'metricTarget': _s.encodeJsonDouble(metricTarget),
       if (minNodeCount != null) 'minNodeCount': minNodeCount,
       if (scaleInCooldownSeconds != null)
-        'scaleInCooldownSeconds': scaleInCooldownSeconds,
+        'scaleInCooldownSeconds': _s.encodeJsonDouble(scaleInCooldownSeconds),
       if (scaleOutCooldownSeconds != null)
-        'scaleOutCooldownSeconds': scaleOutCooldownSeconds,
+        'scaleOutCooldownSeconds': _s.encodeJsonDouble(scaleOutCooldownSeconds),
     };
   }
 }
@@ -8848,7 +8868,7 @@ class KxScalingGroupConfiguration {
       memoryReservation: (json['memoryReservation'] as int?) ?? 0,
       nodeCount: (json['nodeCount'] as int?) ?? 0,
       scalingGroupName: (json['scalingGroupName'] as String?) ?? '',
-      cpu: json['cpu'] as double?,
+      cpu: _s.parseJsonDouble(json['cpu']),
       memoryLimit: json['memoryLimit'] as int?,
     );
   }
@@ -8863,7 +8883,7 @@ class KxScalingGroupConfiguration {
       'memoryReservation': memoryReservation,
       'nodeCount': nodeCount,
       'scalingGroupName': scalingGroupName,
-      if (cpu != null) 'cpu': cpu,
+      if (cpu != null) 'cpu': _s.encodeJsonDouble(cpu),
       if (memoryLimit != null) 'memoryLimit': memoryLimit,
     };
   }

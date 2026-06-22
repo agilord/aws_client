@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the <i>Amazon Pinpoint Email API Reference</i>. This guide
@@ -25,23 +27,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// including supported operations, data types, parameters, and schemas.
 class PinpointEmail {
   final _s.RestJsonProtocol _protocol;
-  PinpointEmail({
+  factory PinpointEmail({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'email',
-            signingName: 'ses',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'email',
+      signingName: 'ses',
+    );
+    return PinpointEmail._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  PinpointEmail._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3987,7 +4004,7 @@ class DomainDeliverabilityCampaign {
   factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) {
     return DomainDeliverabilityCampaign(
       campaignId: json['CampaignId'] as String?,
-      deleteRate: json['DeleteRate'] as double?,
+      deleteRate: _s.parseJsonDouble(json['DeleteRate']),
       esps: (json['Esps'] as List?)?.nonNulls.map((e) => e as String).toList(),
       firstSeenDateTime: timeStampFromJson(json['FirstSeenDateTime']),
       fromAddress: json['FromAddress'] as String?,
@@ -3995,8 +4012,8 @@ class DomainDeliverabilityCampaign {
       inboxCount: json['InboxCount'] as int?,
       lastSeenDateTime: timeStampFromJson(json['LastSeenDateTime']),
       projectedVolume: json['ProjectedVolume'] as int?,
-      readDeleteRate: json['ReadDeleteRate'] as double?,
-      readRate: json['ReadRate'] as double?,
+      readDeleteRate: _s.parseJsonDouble(json['ReadDeleteRate']),
+      readRate: _s.parseJsonDouble(json['ReadRate']),
       sendingIps: (json['SendingIps'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4023,7 +4040,7 @@ class DomainDeliverabilityCampaign {
     final subject = this.subject;
     return {
       if (campaignId != null) 'CampaignId': campaignId,
-      if (deleteRate != null) 'DeleteRate': deleteRate,
+      if (deleteRate != null) 'DeleteRate': _s.encodeJsonDouble(deleteRate),
       if (esps != null) 'Esps': esps,
       if (firstSeenDateTime != null)
         'FirstSeenDateTime': unixTimestampToJson(firstSeenDateTime),
@@ -4033,8 +4050,9 @@ class DomainDeliverabilityCampaign {
       if (lastSeenDateTime != null)
         'LastSeenDateTime': unixTimestampToJson(lastSeenDateTime),
       if (projectedVolume != null) 'ProjectedVolume': projectedVolume,
-      if (readDeleteRate != null) 'ReadDeleteRate': readDeleteRate,
-      if (readRate != null) 'ReadRate': readRate,
+      if (readDeleteRate != null)
+        'ReadDeleteRate': _s.encodeJsonDouble(readDeleteRate),
+      if (readRate != null) 'ReadRate': _s.encodeJsonDouble(readRate),
       if (sendingIps != null) 'SendingIps': sendingIps,
       if (spamCount != null) 'SpamCount': spamCount,
       if (subject != null) 'Subject': subject,
@@ -4434,7 +4452,7 @@ class OverallVolume {
           ?.nonNulls
           .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
           .toList(),
-      readRatePercent: json['ReadRatePercent'] as double?,
+      readRatePercent: _s.parseJsonDouble(json['ReadRatePercent']),
       volumeStatistics: json['VolumeStatistics'] != null
           ? VolumeStatistics.fromJson(
               json['VolumeStatistics'] as Map<String, dynamic>)
@@ -4449,7 +4467,8 @@ class OverallVolume {
     return {
       if (domainIspPlacements != null)
         'DomainIspPlacements': domainIspPlacements,
-      if (readRatePercent != null) 'ReadRatePercent': readRatePercent,
+      if (readRatePercent != null)
+        'ReadRatePercent': _s.encodeJsonDouble(readRatePercent),
       if (volumeStatistics != null) 'VolumeStatistics': volumeStatistics,
     };
   }
@@ -4590,10 +4609,10 @@ class DomainIspPlacement {
 
   factory DomainIspPlacement.fromJson(Map<String, dynamic> json) {
     return DomainIspPlacement(
-      inboxPercentage: json['InboxPercentage'] as double?,
+      inboxPercentage: _s.parseJsonDouble(json['InboxPercentage']),
       inboxRawCount: json['InboxRawCount'] as int?,
       ispName: json['IspName'] as String?,
-      spamPercentage: json['SpamPercentage'] as double?,
+      spamPercentage: _s.parseJsonDouble(json['SpamPercentage']),
       spamRawCount: json['SpamRawCount'] as int?,
     );
   }
@@ -4605,10 +4624,12 @@ class DomainIspPlacement {
     final spamPercentage = this.spamPercentage;
     final spamRawCount = this.spamRawCount;
     return {
-      if (inboxPercentage != null) 'InboxPercentage': inboxPercentage,
+      if (inboxPercentage != null)
+        'InboxPercentage': _s.encodeJsonDouble(inboxPercentage),
       if (inboxRawCount != null) 'InboxRawCount': inboxRawCount,
       if (ispName != null) 'IspName': ispName,
-      if (spamPercentage != null) 'SpamPercentage': spamPercentage,
+      if (spamPercentage != null)
+        'SpamPercentage': _s.encodeJsonDouble(spamPercentage),
       if (spamRawCount != null) 'SpamRawCount': spamRawCount,
     };
   }
@@ -4648,11 +4669,11 @@ class PlacementStatistics {
 
   factory PlacementStatistics.fromJson(Map<String, dynamic> json) {
     return PlacementStatistics(
-      dkimPercentage: json['DkimPercentage'] as double?,
-      inboxPercentage: json['InboxPercentage'] as double?,
-      missingPercentage: json['MissingPercentage'] as double?,
-      spamPercentage: json['SpamPercentage'] as double?,
-      spfPercentage: json['SpfPercentage'] as double?,
+      dkimPercentage: _s.parseJsonDouble(json['DkimPercentage']),
+      inboxPercentage: _s.parseJsonDouble(json['InboxPercentage']),
+      missingPercentage: _s.parseJsonDouble(json['MissingPercentage']),
+      spamPercentage: _s.parseJsonDouble(json['SpamPercentage']),
+      spfPercentage: _s.parseJsonDouble(json['SpfPercentage']),
     );
   }
 
@@ -4663,11 +4684,16 @@ class PlacementStatistics {
     final spamPercentage = this.spamPercentage;
     final spfPercentage = this.spfPercentage;
     return {
-      if (dkimPercentage != null) 'DkimPercentage': dkimPercentage,
-      if (inboxPercentage != null) 'InboxPercentage': inboxPercentage,
-      if (missingPercentage != null) 'MissingPercentage': missingPercentage,
-      if (spamPercentage != null) 'SpamPercentage': spamPercentage,
-      if (spfPercentage != null) 'SpfPercentage': spfPercentage,
+      if (dkimPercentage != null)
+        'DkimPercentage': _s.encodeJsonDouble(dkimPercentage),
+      if (inboxPercentage != null)
+        'InboxPercentage': _s.encodeJsonDouble(inboxPercentage),
+      if (missingPercentage != null)
+        'MissingPercentage': _s.encodeJsonDouble(missingPercentage),
+      if (spamPercentage != null)
+        'SpamPercentage': _s.encodeJsonDouble(spamPercentage),
+      if (spfPercentage != null)
+        'SpfPercentage': _s.encodeJsonDouble(spfPercentage),
     };
   }
 }
@@ -5139,9 +5165,9 @@ class SendQuota {
 
   factory SendQuota.fromJson(Map<String, dynamic> json) {
     return SendQuota(
-      max24HourSend: json['Max24HourSend'] as double?,
-      maxSendRate: json['MaxSendRate'] as double?,
-      sentLast24Hours: json['SentLast24Hours'] as double?,
+      max24HourSend: _s.parseJsonDouble(json['Max24HourSend']),
+      maxSendRate: _s.parseJsonDouble(json['MaxSendRate']),
+      sentLast24Hours: _s.parseJsonDouble(json['SentLast24Hours']),
     );
   }
 
@@ -5150,9 +5176,11 @@ class SendQuota {
     final maxSendRate = this.maxSendRate;
     final sentLast24Hours = this.sentLast24Hours;
     return {
-      if (max24HourSend != null) 'Max24HourSend': max24HourSend,
-      if (maxSendRate != null) 'MaxSendRate': maxSendRate,
-      if (sentLast24Hours != null) 'SentLast24Hours': sentLast24Hours,
+      if (max24HourSend != null)
+        'Max24HourSend': _s.encodeJsonDouble(max24HourSend),
+      if (maxSendRate != null) 'MaxSendRate': _s.encodeJsonDouble(maxSendRate),
+      if (sentLast24Hours != null)
+        'SentLast24Hours': _s.encodeJsonDouble(sentLast24Hours),
     };
   }
 }

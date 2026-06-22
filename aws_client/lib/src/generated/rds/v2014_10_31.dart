@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2014_10_31.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Relational Database Service (Amazon RDS) is a web service that makes
@@ -28,23 +30,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// businesses unique.
 class Rds {
   final _s.QueryProtocol _protocol;
-
-  Rds({
+  factory Rds({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'rds',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'rds',
+    );
+    return Rds._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Rds._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -25479,8 +25495,8 @@ class DBShardGroup {
       if (dBShardGroupResourceId != null)
         'DBShardGroupResourceId': dBShardGroupResourceId,
       if (endpoint != null) 'Endpoint': endpoint,
-      if (maxACU != null) 'MaxACU': maxACU,
-      if (minACU != null) 'MinACU': minACU,
+      if (maxACU != null) 'MaxACU': _s.encodeJsonDouble(maxACU),
+      if (minACU != null) 'MinACU': _s.encodeJsonDouble(minACU),
       if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
       if (status != null) 'Status': status,
       if (tagList != null) 'TagList': tagList,
@@ -34114,8 +34130,8 @@ class ServerlessV2ScalingConfigurationInfo {
     final minCapacity = this.minCapacity;
     final secondsUntilAutoPause = this.secondsUntilAutoPause;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
       if (secondsUntilAutoPause != null)
         'SecondsUntilAutoPause': secondsUntilAutoPause,
     };
@@ -34179,7 +34195,8 @@ class LimitlessDatabase {
     final minRequiredACU = this.minRequiredACU;
     final status = this.status;
     return {
-      if (minRequiredACU != null) 'MinRequiredACU': minRequiredACU,
+      if (minRequiredACU != null)
+        'MinRequiredACU': _s.encodeJsonDouble(minRequiredACU),
       if (status != null) 'Status': status.value,
     };
   }
@@ -34714,8 +34731,8 @@ class ServerlessV2ScalingConfiguration {
     final minCapacity = this.minCapacity;
     final secondsUntilAutoPause = this.secondsUntilAutoPause;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
       if (secondsUntilAutoPause != null)
         'SecondsUntilAutoPause': secondsUntilAutoPause,
     };
@@ -35509,7 +35526,7 @@ class ReservedDBInstance {
       if (dBInstanceClass != null) 'DBInstanceClass': dBInstanceClass,
       if (dBInstanceCount != null) 'DBInstanceCount': dBInstanceCount,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (leaseId != null) 'LeaseId': leaseId,
       if (multiAZ != null) 'MultiAZ': multiAZ,
       if (offeringType != null) 'OfferingType': offeringType,
@@ -35523,7 +35540,7 @@ class ReservedDBInstance {
         'ReservedDBInstancesOfferingId': reservedDBInstancesOfferingId,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
       if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -35558,7 +35575,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -37224,7 +37241,7 @@ class ScalarReferenceDetails {
   Map<String, dynamic> toJson() {
     final value = this.value;
     return {
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -39431,8 +39448,8 @@ class DoubleRange {
     final from = this.from;
     final to = this.to;
     return {
-      if (from != null) 'From': from,
-      if (to != null) 'To': to,
+      if (from != null) 'From': _s.encodeJsonDouble(from),
+      if (to != null) 'To': _s.encodeJsonDouble(to),
     };
   }
 }
@@ -39647,8 +39664,8 @@ class ServerlessV2FeaturesSupport {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
     return {
-      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-      if (minCapacity != null) 'MinCapacity': minCapacity,
+      if (maxCapacity != null) 'MaxCapacity': _s.encodeJsonDouble(maxCapacity),
+      if (minCapacity != null) 'MinCapacity': _s.encodeJsonDouble(minCapacity),
     };
   }
 }
@@ -39735,14 +39752,14 @@ class ReservedDBInstancesOffering {
       if (currencyCode != null) 'CurrencyCode': currencyCode,
       if (dBInstanceClass != null) 'DBInstanceClass': dBInstanceClass,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (multiAZ != null) 'MultiAZ': multiAZ,
       if (offeringType != null) 'OfferingType': offeringType,
       if (productDescription != null) 'ProductDescription': productDescription,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservedDBInstancesOfferingId != null)
         'ReservedDBInstancesOfferingId': reservedDBInstancesOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -40226,20 +40243,24 @@ class OrderableDBInstanceOption {
       if (licenseModel != null) 'LicenseModel': licenseModel,
       if (maxIopsPerDbInstance != null)
         'MaxIopsPerDbInstance': maxIopsPerDbInstance,
-      if (maxIopsPerGib != null) 'MaxIopsPerGib': maxIopsPerGib,
+      if (maxIopsPerGib != null)
+        'MaxIopsPerGib': _s.encodeJsonDouble(maxIopsPerGib),
       if (maxStorageSize != null) 'MaxStorageSize': maxStorageSize,
       if (maxStorageThroughputPerDbInstance != null)
         'MaxStorageThroughputPerDbInstance': maxStorageThroughputPerDbInstance,
       if (maxStorageThroughputPerIops != null)
-        'MaxStorageThroughputPerIops': maxStorageThroughputPerIops,
+        'MaxStorageThroughputPerIops':
+            _s.encodeJsonDouble(maxStorageThroughputPerIops),
       if (minIopsPerDbInstance != null)
         'MinIopsPerDbInstance': minIopsPerDbInstance,
-      if (minIopsPerGib != null) 'MinIopsPerGib': minIopsPerGib,
+      if (minIopsPerGib != null)
+        'MinIopsPerGib': _s.encodeJsonDouble(minIopsPerGib),
       if (minStorageSize != null) 'MinStorageSize': minStorageSize,
       if (minStorageThroughputPerDbInstance != null)
         'MinStorageThroughputPerDbInstance': minStorageThroughputPerDbInstance,
       if (minStorageThroughputPerIops != null)
-        'MinStorageThroughputPerIops': minStorageThroughputPerIops,
+        'MinStorageThroughputPerIops':
+            _s.encodeJsonDouble(minStorageThroughputPerIops),
       if (multiAZCapable != null) 'MultiAZCapable': multiAZCapable,
       if (outpostCapable != null) 'OutpostCapable': outpostCapable,
       if (readReplicaCapable != null) 'ReadReplicaCapable': readReplicaCapable,
@@ -40380,12 +40401,14 @@ class AvailableAdditionalStorageVolumesOption {
     final supportsStorageThroughput = this.supportsStorageThroughput;
     return {
       if (maxIops != null) 'MaxIops': maxIops,
-      if (maxIopsPerGib != null) 'MaxIopsPerGib': maxIopsPerGib,
+      if (maxIopsPerGib != null)
+        'MaxIopsPerGib': _s.encodeJsonDouble(maxIopsPerGib),
       if (maxStorageSize != null) 'MaxStorageSize': maxStorageSize,
       if (maxStorageThroughput != null)
         'MaxStorageThroughput': maxStorageThroughput,
       if (minIops != null) 'MinIops': minIops,
-      if (minIopsPerGib != null) 'MinIopsPerGib': minIopsPerGib,
+      if (minIopsPerGib != null)
+        'MinIopsPerGib': _s.encodeJsonDouble(minIopsPerGib),
       if (minStorageSize != null) 'MinStorageSize': minStorageSize,
       if (minStorageThroughput != null)
         'MinStorageThroughput': minStorageThroughput,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Transcribe offers three main types of batch transcription:
@@ -42,22 +44,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class Transcribe {
   final _s.JsonProtocol _protocol;
-  Transcribe({
+  factory Transcribe({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'transcribe',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'transcribe',
+    );
+    return Transcribe._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Transcribe._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6064,7 +6081,8 @@ class TranscriptionJob {
           : null,
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifiedLanguageScore:
+          _s.parseJsonDouble(json['IdentifiedLanguageScore']),
       identifyLanguage: json['IdentifyLanguage'] as bool?,
       identifyMultipleLanguages: json['IdentifyMultipleLanguages'] as bool?,
       jobExecutionSettings: json['JobExecutionSettings'] != null
@@ -6152,7 +6170,7 @@ class TranscriptionJob {
         'CreationTime': unixTimestampToJson(creationTime),
       if (failureReason != null) 'FailureReason': failureReason,
       if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
+        'IdentifiedLanguageScore': _s.encodeJsonDouble(identifiedLanguageScore),
       if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
       if (identifyMultipleLanguages != null)
         'IdentifyMultipleLanguages': identifyMultipleLanguages,
@@ -6944,7 +6962,7 @@ class LanguageCodeItem {
 
   factory LanguageCodeItem.fromJson(Map<String, dynamic> json) {
     return LanguageCodeItem(
-      durationInSeconds: json['DurationInSeconds'] as double?,
+      durationInSeconds: _s.parseJsonDouble(json['DurationInSeconds']),
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
     );
@@ -6954,7 +6972,8 @@ class LanguageCodeItem {
     final durationInSeconds = this.durationInSeconds;
     final languageCode = this.languageCode;
     return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (durationInSeconds != null)
+        'DurationInSeconds': _s.encodeJsonDouble(durationInSeconds),
       if (languageCode != null) 'LanguageCode': languageCode.value,
     };
   }
@@ -8418,7 +8437,8 @@ class CallAnalyticsJob {
       creationTime: timeStampFromJson(json['CreationTime']),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifiedLanguageScore:
+          _s.parseJsonDouble(json['IdentifiedLanguageScore']),
       languageCode:
           (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       media: json['Media'] != null
@@ -8475,7 +8495,7 @@ class CallAnalyticsJob {
       if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
       if (failureReason != null) 'FailureReason': failureReason,
       if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
+        'IdentifiedLanguageScore': _s.encodeJsonDouble(identifiedLanguageScore),
       if (languageCode != null) 'LanguageCode': languageCode.value,
       if (media != null) 'Media': media,
       if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
@@ -9139,7 +9159,8 @@ class TranscriptionJobSummary {
           : null,
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifiedLanguageScore:
+          _s.parseJsonDouble(json['IdentifiedLanguageScore']),
       identifyLanguage: json['IdentifyLanguage'] as bool?,
       identifyMultipleLanguages: json['IdentifyMultipleLanguages'] as bool?,
       languageCode:
@@ -9190,7 +9211,7 @@ class TranscriptionJobSummary {
         'CreationTime': unixTimestampToJson(creationTime),
       if (failureReason != null) 'FailureReason': failureReason,
       if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
+        'IdentifiedLanguageScore': _s.encodeJsonDouble(identifiedLanguageScore),
       if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
       if (identifyMultipleLanguages != null)
         'IdentifyMultipleLanguages': identifyMultipleLanguages,

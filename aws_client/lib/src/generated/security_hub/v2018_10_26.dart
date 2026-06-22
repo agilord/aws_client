@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Security Hub CSPM provides you with a comprehensive view of your security
@@ -119,22 +121,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class SecurityHub {
   final _s.RestJsonProtocol _protocol;
-  SecurityHub({
+  factory SecurityHub({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'securityhub',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'securityhub',
+    );
+    return SecurityHub._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  SecurityHub._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1092,7 +1109,7 @@ class SecurityHub {
       'Criteria': criteria,
       'Description': description,
       'RuleName': ruleName,
-      'RuleOrder': ruleOrder,
+      'RuleOrder': _s.encodeJsonDouble(ruleOrder),
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (ruleStatus != null) 'RuleStatus': ruleStatus.value,
       if (tags != null) 'Tags': tags,
@@ -4473,7 +4490,7 @@ class SecurityHub {
       if (criteria != null) 'Criteria': criteria,
       if (description != null) 'Description': description,
       if (ruleName != null) 'RuleName': ruleName,
-      if (ruleOrder != null) 'RuleOrder': ruleOrder,
+      if (ruleOrder != null) 'RuleOrder': _s.encodeJsonDouble(ruleOrder),
       if (ruleStatus != null) 'RuleStatus': ruleStatus.value,
     };
     final response = await _protocol.send(
@@ -6710,7 +6727,7 @@ class GetAutomationRuleV2Response {
       ruleArn: json['RuleArn'] as String?,
       ruleId: json['RuleId'] as String?,
       ruleName: json['RuleName'] as String?,
-      ruleOrder: json['RuleOrder'] as double?,
+      ruleOrder: _s.parseJsonDouble(json['RuleOrder']),
       ruleStatus: (json['RuleStatus'] as String?)?.let(RuleStatusV2.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
@@ -6735,7 +6752,7 @@ class GetAutomationRuleV2Response {
       if (ruleArn != null) 'RuleArn': ruleArn,
       if (ruleId != null) 'RuleId': ruleId,
       if (ruleName != null) 'RuleName': ruleName,
-      if (ruleOrder != null) 'RuleOrder': ruleOrder,
+      if (ruleOrder != null) 'RuleOrder': _s.encodeJsonDouble(ruleOrder),
       if (ruleStatus != null) 'RuleStatus': ruleStatus.value,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };
@@ -8726,7 +8743,7 @@ class ParameterValue {
   factory ParameterValue.fromJson(Map<String, dynamic> json) {
     return ParameterValue(
       boolean: json['Boolean'] as bool?,
-      doubleValue: json['Double'] as double?,
+      doubleValue: _s.parseJsonDouble(json['Double']),
       enumValue: json['Enum'] as String?,
       enumList: (json['EnumList'] as List?)
           ?.nonNulls
@@ -8756,7 +8773,7 @@ class ParameterValue {
     final stringList = this.stringList;
     return {
       if (boolean != null) 'Boolean': boolean,
-      if (doubleValue != null) 'Double': doubleValue,
+      if (doubleValue != null) 'Double': _s.encodeJsonDouble(doubleValue),
       if (enumValue != null) 'Enum': enumValue,
       if (enumList != null) 'EnumList': enumList,
       if (integer != null) 'Integer': integer,
@@ -10495,11 +10512,11 @@ class NumberFilter {
 
   factory NumberFilter.fromJson(Map<String, dynamic> json) {
     return NumberFilter(
-      eq: json['Eq'] as double?,
-      gt: json['Gt'] as double?,
-      gte: json['Gte'] as double?,
-      lt: json['Lt'] as double?,
-      lte: json['Lte'] as double?,
+      eq: _s.parseJsonDouble(json['Eq']),
+      gt: _s.parseJsonDouble(json['Gt']),
+      gte: _s.parseJsonDouble(json['Gte']),
+      lt: _s.parseJsonDouble(json['Lt']),
+      lte: _s.parseJsonDouble(json['Lte']),
     );
   }
 
@@ -10510,11 +10527,11 @@ class NumberFilter {
     final lt = this.lt;
     final lte = this.lte;
     return {
-      if (eq != null) 'Eq': eq,
-      if (gt != null) 'Gt': gt,
-      if (gte != null) 'Gte': gte,
-      if (lt != null) 'Lt': lt,
-      if (lte != null) 'Lte': lte,
+      if (eq != null) 'Eq': _s.encodeJsonDouble(eq),
+      if (gt != null) 'Gt': _s.encodeJsonDouble(gt),
+      if (gte != null) 'Gte': _s.encodeJsonDouble(gte),
+      if (lt != null) 'Lt': _s.encodeJsonDouble(lt),
+      if (lte != null) 'Lte': _s.encodeJsonDouble(lte),
     };
   }
 }
@@ -12794,9 +12811,9 @@ class DoubleConfigurationOptions {
 
   factory DoubleConfigurationOptions.fromJson(Map<String, dynamic> json) {
     return DoubleConfigurationOptions(
-      defaultValue: json['DefaultValue'] as double?,
-      max: json['Max'] as double?,
-      min: json['Min'] as double?,
+      defaultValue: _s.parseJsonDouble(json['DefaultValue']),
+      max: _s.parseJsonDouble(json['Max']),
+      min: _s.parseJsonDouble(json['Min']),
     );
   }
 
@@ -12805,9 +12822,10 @@ class DoubleConfigurationOptions {
     final max = this.max;
     final min = this.min;
     return {
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (defaultValue != null)
+        'DefaultValue': _s.encodeJsonDouble(defaultValue),
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -13711,7 +13729,7 @@ class AutomationRulesMetadataV2 {
       ruleArn: json['RuleArn'] as String?,
       ruleId: json['RuleId'] as String?,
       ruleName: json['RuleName'] as String?,
-      ruleOrder: json['RuleOrder'] as double?,
+      ruleOrder: _s.parseJsonDouble(json['RuleOrder']),
       ruleStatus: (json['RuleStatus'] as String?)?.let(RuleStatusV2.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
@@ -13734,7 +13752,7 @@ class AutomationRulesMetadataV2 {
       if (ruleArn != null) 'RuleArn': ruleArn,
       if (ruleId != null) 'RuleId': ruleId,
       if (ruleName != null) 'RuleName': ruleName,
-      if (ruleOrder != null) 'RuleOrder': ruleOrder,
+      if (ruleOrder != null) 'RuleOrder': _s.encodeJsonDouble(ruleOrder),
       if (ruleStatus != null) 'RuleStatus': ruleStatus.value,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };
@@ -16432,7 +16450,7 @@ class Severity {
       label: (json['Label'] as String?)?.let(SeverityLabel.fromString),
       normalized: json['Normalized'] as int?,
       original: json['Original'] as String?,
-      product: json['Product'] as double?,
+      product: _s.parseJsonDouble(json['Product']),
     );
   }
 
@@ -16445,7 +16463,7 @@ class Severity {
       if (label != null) 'Label': label.value,
       if (normalized != null) 'Normalized': normalized,
       if (original != null) 'Original': original,
-      if (product != null) 'Product': product,
+      if (product != null) 'Product': _s.encodeJsonDouble(product),
     };
   }
 }
@@ -17641,7 +17659,7 @@ class Signal {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      severity: json['Severity'] as double?,
+      severity: _s.parseJsonDouble(json['Severity']),
       signalIndicators: (json['SignalIndicators'] as List?)
           ?.nonNulls
           .map((e) => Indicator.fromJson(e as Map<String, dynamic>))
@@ -17679,7 +17697,7 @@ class Signal {
       if (name != null) 'Name': name,
       if (productArn != null) 'ProductArn': productArn,
       if (resourceIds != null) 'ResourceIds': resourceIds,
-      if (severity != null) 'Severity': severity,
+      if (severity != null) 'Severity': _s.encodeJsonDouble(severity),
       if (signalIndicators != null) 'SignalIndicators': signalIndicators,
       if (title != null) 'Title': title,
       if (type != null) 'Type': type,
@@ -17808,8 +17826,8 @@ class NetworkGeoLocation {
     return NetworkGeoLocation(
       city: json['City'] as String?,
       country: json['Country'] as String?,
-      lat: json['Lat'] as double?,
-      lon: json['Lon'] as double?,
+      lat: _s.parseJsonDouble(json['Lat']),
+      lon: _s.parseJsonDouble(json['Lon']),
     );
   }
 
@@ -17821,8 +17839,8 @@ class NetworkGeoLocation {
     return {
       if (city != null) 'City': city,
       if (country != null) 'Country': country,
-      if (lat != null) 'Lat': lat,
-      if (lon != null) 'Lon': lon,
+      if (lat != null) 'Lat': _s.encodeJsonDouble(lat),
+      if (lon != null) 'Lon': _s.encodeJsonDouble(lon),
     };
   }
 }
@@ -18811,8 +18829,8 @@ class GeoLocation {
 
   factory GeoLocation.fromJson(Map<String, dynamic> json) {
     return GeoLocation(
-      lat: json['Lat'] as double?,
-      lon: json['Lon'] as double?,
+      lat: _s.parseJsonDouble(json['Lat']),
+      lon: _s.parseJsonDouble(json['Lon']),
     );
   }
 
@@ -18820,8 +18838,8 @@ class GeoLocation {
     final lat = this.lat;
     final lon = this.lon;
     return {
-      if (lat != null) 'Lat': lat,
-      if (lon != null) 'Lon': lon,
+      if (lat != null) 'Lat': _s.encodeJsonDouble(lat),
+      if (lon != null) 'Lon': _s.encodeJsonDouble(lon),
     };
   }
 }
@@ -18972,7 +18990,7 @@ class Vulnerability {
           ?.nonNulls
           .map((e) => Cvss.fromJson(e as Map<String, dynamic>))
           .toList(),
-      epssScore: json['EpssScore'] as double?,
+      epssScore: _s.parseJsonDouble(json['EpssScore']),
       exploitAvailable: (json['ExploitAvailable'] as String?)
           ?.let(VulnerabilityExploitAvailable.fromString),
       fixAvailable: (json['FixAvailable'] as String?)
@@ -19013,7 +19031,7 @@ class Vulnerability {
       if (codeVulnerabilities != null)
         'CodeVulnerabilities': codeVulnerabilities,
       if (cvss != null) 'Cvss': cvss,
-      if (epssScore != null) 'EpssScore': epssScore,
+      if (epssScore != null) 'EpssScore': _s.encodeJsonDouble(epssScore),
       if (exploitAvailable != null) 'ExploitAvailable': exploitAvailable.value,
       if (fixAvailable != null) 'FixAvailable': fixAvailable.value,
       if (lastKnownExploitAt != null) 'LastKnownExploitAt': lastKnownExploitAt,
@@ -19269,7 +19287,7 @@ class Cvss {
           ?.nonNulls
           .map((e) => Adjustment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      baseScore: json['BaseScore'] as double?,
+      baseScore: _s.parseJsonDouble(json['BaseScore']),
       baseVector: json['BaseVector'] as String?,
       source: json['Source'] as String?,
       version: json['Version'] as String?,
@@ -19284,7 +19302,7 @@ class Cvss {
     final version = this.version;
     return {
       if (adjustments != null) 'Adjustments': adjustments,
-      if (baseScore != null) 'BaseScore': baseScore,
+      if (baseScore != null) 'BaseScore': _s.encodeJsonDouble(baseScore),
       if (baseVector != null) 'BaseVector': baseVector,
       if (source != null) 'Source': source,
       if (version != null) 'Version': version,
@@ -25254,7 +25272,7 @@ class AwsKmsKeyDetails {
   factory AwsKmsKeyDetails.fromJson(Map<String, dynamic> json) {
     return AwsKmsKeyDetails(
       awsAccountId: json['AWSAccountId'] as String?,
-      creationDate: json['CreationDate'] as double?,
+      creationDate: _s.parseJsonDouble(json['CreationDate']),
       description: json['Description'] as String?,
       keyId: json['KeyId'] as String?,
       keyManager: json['KeyManager'] as String?,
@@ -25275,7 +25293,8 @@ class AwsKmsKeyDetails {
     final origin = this.origin;
     return {
       if (awsAccountId != null) 'AWSAccountId': awsAccountId,
-      if (creationDate != null) 'CreationDate': creationDate,
+      if (creationDate != null)
+        'CreationDate': _s.encodeJsonDouble(creationDate),
       if (description != null) 'Description': description,
       if (keyId != null) 'KeyId': keyId,
       if (keyManager != null) 'KeyManager': keyManager,
@@ -29960,7 +29979,7 @@ class AwsCloudWatchAlarmDetails {
           .toList(),
       period: json['Period'] as int?,
       statistic: json['Statistic'] as String?,
-      threshold: json['Threshold'] as double?,
+      threshold: _s.parseJsonDouble(json['Threshold']),
       thresholdMetricId: json['ThresholdMetricId'] as String?,
       treatMissingData: json['TreatMissingData'] as String?,
       unit: json['Unit'] as String?,
@@ -30015,7 +30034,7 @@ class AwsCloudWatchAlarmDetails {
       if (okActions != null) 'OkActions': okActions,
       if (period != null) 'Period': period,
       if (statistic != null) 'Statistic': statistic,
-      if (threshold != null) 'Threshold': threshold,
+      if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
       if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
       if (treatMissingData != null) 'TreatMissingData': treatMissingData,
       if (unit != null) 'Unit': unit,
@@ -37575,8 +37594,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails {
   factory AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails(
-      max: json['Max'] as double?,
-      min: json['Min'] as double?,
+      max: _s.parseJsonDouble(json['Max']),
+      min: _s.parseJsonDouble(json['Min']),
     );
   }
 
@@ -37584,8 +37603,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -37677,8 +37696,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails {
   factory AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails.fromJson(
       Map<String, dynamic> json) {
     return AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails(
-      max: json['Max'] as double?,
-      min: json['Min'] as double?,
+      max: _s.parseJsonDouble(json['Max']),
+      min: _s.parseJsonDouble(json['Min']),
     );
   }
 
@@ -37686,8 +37705,8 @@ class AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails {
     final max = this.max;
     final min = this.min;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (max != null) 'Max': _s.encodeJsonDouble(max),
+      if (min != null) 'Min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -47253,7 +47272,7 @@ class AwsRedshiftClusterRestoreStatus {
   factory AwsRedshiftClusterRestoreStatus.fromJson(Map<String, dynamic> json) {
     return AwsRedshiftClusterRestoreStatus(
       currentRestoreRateInMegaBytesPerSecond:
-          json['CurrentRestoreRateInMegaBytesPerSecond'] as double?,
+          _s.parseJsonDouble(json['CurrentRestoreRateInMegaBytesPerSecond']),
       elapsedTimeInSeconds: json['ElapsedTimeInSeconds'] as int?,
       estimatedTimeToCompletionInSeconds:
           json['EstimatedTimeToCompletionInSeconds'] as int?,
@@ -47275,7 +47294,7 @@ class AwsRedshiftClusterRestoreStatus {
     return {
       if (currentRestoreRateInMegaBytesPerSecond != null)
         'CurrentRestoreRateInMegaBytesPerSecond':
-            currentRestoreRateInMegaBytesPerSecond,
+            _s.encodeJsonDouble(currentRestoreRateInMegaBytesPerSecond),
       if (elapsedTimeInSeconds != null)
         'ElapsedTimeInSeconds': elapsedTimeInSeconds,
       if (estimatedTimeToCompletionInSeconds != null)
@@ -48274,7 +48293,7 @@ class AwsApiGatewayCanarySettings {
   factory AwsApiGatewayCanarySettings.fromJson(Map<String, dynamic> json) {
     return AwsApiGatewayCanarySettings(
       deploymentId: json['DeploymentId'] as String?,
-      percentTraffic: json['PercentTraffic'] as double?,
+      percentTraffic: _s.parseJsonDouble(json['PercentTraffic']),
       stageVariableOverrides:
           (json['StageVariableOverrides'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -48289,7 +48308,8 @@ class AwsApiGatewayCanarySettings {
     final useStageCache = this.useStageCache;
     return {
       if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (percentTraffic != null) 'PercentTraffic': percentTraffic,
+      if (percentTraffic != null)
+        'PercentTraffic': _s.encodeJsonDouble(percentTraffic),
       if (stageVariableOverrides != null)
         'StageVariableOverrides': stageVariableOverrides,
       if (useStageCache != null) 'UseStageCache': useStageCache,
@@ -48390,7 +48410,7 @@ class AwsApiGatewayMethodSettings {
           json['RequireAuthorizationForCacheControl'] as bool?,
       resourcePath: json['ResourcePath'] as String?,
       throttlingBurstLimit: json['ThrottlingBurstLimit'] as int?,
-      throttlingRateLimit: json['ThrottlingRateLimit'] as double?,
+      throttlingRateLimit: _s.parseJsonDouble(json['ThrottlingRateLimit']),
       unauthorizedCacheControlHeaderStrategy:
           json['UnauthorizedCacheControlHeaderStrategy'] as String?,
     );
@@ -48426,7 +48446,7 @@ class AwsApiGatewayMethodSettings {
       if (throttlingBurstLimit != null)
         'ThrottlingBurstLimit': throttlingBurstLimit,
       if (throttlingRateLimit != null)
-        'ThrottlingRateLimit': throttlingRateLimit,
+        'ThrottlingRateLimit': _s.encodeJsonDouble(throttlingRateLimit),
       if (unauthorizedCacheControlHeaderStrategy != null)
         'UnauthorizedCacheControlHeaderStrategy':
             unauthorizedCacheControlHeaderStrategy,
@@ -49237,7 +49257,7 @@ class AwsApiGatewayV2RouteSettings {
       detailedMetricsEnabled: json['DetailedMetricsEnabled'] as bool?,
       loggingLevel: json['LoggingLevel'] as String?,
       throttlingBurstLimit: json['ThrottlingBurstLimit'] as int?,
-      throttlingRateLimit: json['ThrottlingRateLimit'] as double?,
+      throttlingRateLimit: _s.parseJsonDouble(json['ThrottlingRateLimit']),
     );
   }
 
@@ -49255,7 +49275,7 @@ class AwsApiGatewayV2RouteSettings {
       if (throttlingBurstLimit != null)
         'ThrottlingBurstLimit': throttlingBurstLimit,
       if (throttlingRateLimit != null)
-        'ThrottlingRateLimit': throttlingRateLimit,
+        'ThrottlingRateLimit': _s.encodeJsonDouble(throttlingRateLimit),
     };
   }
 }
@@ -57022,7 +57042,7 @@ class SeverityUpdate {
     return SeverityUpdate(
       label: (json['Label'] as String?)?.let(SeverityLabel.fromString),
       normalized: json['Normalized'] as int?,
-      product: json['Product'] as double?,
+      product: _s.parseJsonDouble(json['Product']),
     );
   }
 
@@ -57033,7 +57053,7 @@ class SeverityUpdate {
     return {
       if (label != null) 'Label': label.value,
       if (normalized != null) 'Normalized': normalized,
-      if (product != null) 'Product': product,
+      if (product != null) 'Product': _s.encodeJsonDouble(product),
     };
   }
 }

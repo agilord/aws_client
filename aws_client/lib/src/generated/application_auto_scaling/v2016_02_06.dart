@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_02_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// With Application Auto Scaling, you can configure automatic scaling for the
@@ -110,22 +112,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class ApplicationAutoScaling {
   final _s.JsonProtocol _protocol;
-  ApplicationAutoScaling({
+  factory ApplicationAutoScaling({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'application-autoscaling',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'application-autoscaling',
+    );
+    return ApplicationAutoScaling._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ApplicationAutoScaling._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4210,7 +4227,7 @@ class TargetTrackingScalingPolicyConfiguration {
   factory TargetTrackingScalingPolicyConfiguration.fromJson(
       Map<String, dynamic> json) {
     return TargetTrackingScalingPolicyConfiguration(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       customizedMetricSpecification:
           json['CustomizedMetricSpecification'] != null
               ? CustomizedMetricSpecification.fromJson(
@@ -4235,7 +4252,7 @@ class TargetTrackingScalingPolicyConfiguration {
     final scaleInCooldown = this.scaleInCooldown;
     final scaleOutCooldown = this.scaleOutCooldown;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedMetricSpecification != null)
         'CustomizedMetricSpecification': customizedMetricSpecification,
       if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
@@ -4435,7 +4452,7 @@ class PredictiveScalingMetricSpecification {
   factory PredictiveScalingMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return PredictiveScalingMetricSpecification(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
       customizedCapacityMetricSpecification:
           json['CustomizedCapacityMetricSpecification'] != null
               ? PredictiveScalingCustomizedMetricSpecification.fromJson(
@@ -4490,7 +4507,7 @@ class PredictiveScalingMetricSpecification {
     final predefinedScalingMetricSpecification =
         this.predefinedScalingMetricSpecification;
     return {
-      'TargetValue': targetValue,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
       if (customizedCapacityMetricSpecification != null)
         'CustomizedCapacityMetricSpecification':
             customizedCapacityMetricSpecification,
@@ -5687,8 +5704,10 @@ class StepAdjustment {
   factory StepAdjustment.fromJson(Map<String, dynamic> json) {
     return StepAdjustment(
       scalingAdjustment: (json['ScalingAdjustment'] as int?) ?? 0,
-      metricIntervalLowerBound: json['MetricIntervalLowerBound'] as double?,
-      metricIntervalUpperBound: json['MetricIntervalUpperBound'] as double?,
+      metricIntervalLowerBound:
+          _s.parseJsonDouble(json['MetricIntervalLowerBound']),
+      metricIntervalUpperBound:
+          _s.parseJsonDouble(json['MetricIntervalUpperBound']),
     );
   }
 
@@ -5699,9 +5718,11 @@ class StepAdjustment {
     return {
       'ScalingAdjustment': scalingAdjustment,
       if (metricIntervalLowerBound != null)
-        'MetricIntervalLowerBound': metricIntervalLowerBound,
+        'MetricIntervalLowerBound':
+            _s.encodeJsonDouble(metricIntervalLowerBound),
       if (metricIntervalUpperBound != null)
-        'MetricIntervalUpperBound': metricIntervalUpperBound,
+        'MetricIntervalUpperBound':
+            _s.encodeJsonDouble(metricIntervalUpperBound),
     };
   }
 }
@@ -5732,7 +5753,7 @@ class CapacityForecast {
           .toList(),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -5742,7 +5763,7 @@ class CapacityForecast {
     final values = this.values;
     return {
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -5780,7 +5801,7 @@ class LoadForecast {
           .toList(),
       values: ((json['Values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -5792,7 +5813,7 @@ class LoadForecast {
     return {
       'MetricSpecification': metricSpecification,
       'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
+      'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

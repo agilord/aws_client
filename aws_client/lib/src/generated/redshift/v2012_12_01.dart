@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2012_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is an interface reference for Amazon Redshift. It contains
@@ -33,23 +35,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// the Amazon Redshift Management Interfaces</a>.
 class Redshift {
   final _s.QueryProtocol _protocol;
-
-  Redshift({
+  factory Redshift({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'redshift',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'redshift',
+    );
+    return Redshift._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Redshift._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -10226,9 +10242,11 @@ class ResizeProgressMessage {
     final totalResizeDataInMegaBytes = this.totalResizeDataInMegaBytes;
     return {
       if (avgResizeRateInMegaBytesPerSecond != null)
-        'AvgResizeRateInMegaBytesPerSecond': avgResizeRateInMegaBytesPerSecond,
+        'AvgResizeRateInMegaBytesPerSecond':
+            _s.encodeJsonDouble(avgResizeRateInMegaBytesPerSecond),
       if (dataTransferProgressPercent != null)
-        'DataTransferProgressPercent': dataTransferProgressPercent,
+        'DataTransferProgressPercent':
+            _s.encodeJsonDouble(dataTransferProgressPercent),
       if (elapsedTimeInSeconds != null)
         'ElapsedTimeInSeconds': elapsedTimeInSeconds,
       if (estimatedTimeToCompletionInSeconds != null)
@@ -12630,10 +12648,11 @@ class CustomerStorageMessage {
         this.totalProvisionedStorageInMegaBytes;
     return {
       if (totalBackupSizeInMegaBytes != null)
-        'TotalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
+        'TotalBackupSizeInMegaBytes':
+            _s.encodeJsonDouble(totalBackupSizeInMegaBytes),
       if (totalProvisionedStorageInMegaBytes != null)
         'TotalProvisionedStorageInMegaBytes':
-            totalProvisionedStorageInMegaBytes,
+            _s.encodeJsonDouble(totalProvisionedStorageInMegaBytes),
     };
   }
 }
@@ -14887,7 +14906,7 @@ class RestoreStatus {
     return {
       if (currentRestoreRateInMegaBytesPerSecond != null)
         'CurrentRestoreRateInMegaBytesPerSecond':
-            currentRestoreRateInMegaBytesPerSecond,
+            _s.encodeJsonDouble(currentRestoreRateInMegaBytesPerSecond),
       if (elapsedTimeInSeconds != null)
         'ElapsedTimeInSeconds': elapsedTimeInSeconds,
       if (estimatedTimeToCompletionInSeconds != null)
@@ -14960,7 +14979,8 @@ class DataTransferProgress {
     final totalDataInMegaBytes = this.totalDataInMegaBytes;
     return {
       if (currentRateInMegaBytesPerSecond != null)
-        'CurrentRateInMegaBytesPerSecond': currentRateInMegaBytesPerSecond,
+        'CurrentRateInMegaBytesPerSecond':
+            _s.encodeJsonDouble(currentRateInMegaBytesPerSecond),
       if (dataTransferredInMegaBytes != null)
         'DataTransferredInMegaBytes': dataTransferredInMegaBytes,
       if (elapsedTimeInSeconds != null)
@@ -16192,17 +16212,18 @@ class Snapshot {
         'AccountsWithRestoreAccess': accountsWithRestoreAccess,
       if (actualIncrementalBackupSizeInMegaBytes != null)
         'ActualIncrementalBackupSizeInMegaBytes':
-            actualIncrementalBackupSizeInMegaBytes,
+            _s.encodeJsonDouble(actualIncrementalBackupSizeInMegaBytes),
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (backupProgressInMegaBytes != null)
-        'BackupProgressInMegaBytes': backupProgressInMegaBytes,
+        'BackupProgressInMegaBytes':
+            _s.encodeJsonDouble(backupProgressInMegaBytes),
       if (clusterCreateTime != null)
         'ClusterCreateTime': iso8601ToJson(clusterCreateTime),
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
       if (clusterVersion != null) 'ClusterVersion': clusterVersion,
       if (currentBackupRateInMegaBytesPerSecond != null)
         'CurrentBackupRateInMegaBytesPerSecond':
-            currentBackupRateInMegaBytesPerSecond,
+            _s.encodeJsonDouble(currentBackupRateInMegaBytesPerSecond),
       if (dBName != null) 'DBName': dBName,
       if (elapsedTimeInSeconds != null)
         'ElapsedTimeInSeconds': elapsedTimeInSeconds,
@@ -16241,7 +16262,8 @@ class Snapshot {
       if (status != null) 'Status': status,
       if (tags != null) 'Tags': tags,
       if (totalBackupSizeInMegaBytes != null)
-        'TotalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
+        'TotalBackupSizeInMegaBytes':
+            _s.encodeJsonDouble(totalBackupSizeInMegaBytes),
       if (vpcId != null) 'VpcId': vpcId,
     };
   }
@@ -17021,7 +17043,7 @@ class ReservedNode {
     return {
       if (currencyCode != null) 'CurrencyCode': currencyCode,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (nodeCount != null) 'NodeCount': nodeCount,
       if (nodeType != null) 'NodeType': nodeType,
       if (offeringType != null) 'OfferingType': offeringType,
@@ -17033,7 +17055,7 @@ class ReservedNode {
         'ReservedNodeOfferingType': reservedNodeOfferingType.value,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
       if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -17093,7 +17115,7 @@ class RecurringCharge {
     final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
       if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
+        'RecurringChargeAmount': _s.encodeJsonDouble(recurringChargeAmount),
       if (recurringChargeFrequency != null)
         'RecurringChargeFrequency': recurringChargeFrequency,
     };
@@ -18406,7 +18428,7 @@ class ReservedNodeOffering {
     return {
       if (currencyCode != null) 'CurrencyCode': currencyCode,
       if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (fixedPrice != null) 'FixedPrice': _s.encodeJsonDouble(fixedPrice),
       if (nodeType != null) 'NodeType': nodeType,
       if (offeringType != null) 'OfferingType': offeringType,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
@@ -18414,7 +18436,7 @@ class ReservedNodeOffering {
         'ReservedNodeOfferingId': reservedNodeOfferingId,
       if (reservedNodeOfferingType != null)
         'ReservedNodeOfferingType': reservedNodeOfferingType.value,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (usagePrice != null) 'UsagePrice': _s.encodeJsonDouble(usagePrice),
     };
   }
 }
@@ -18921,7 +18943,8 @@ class NodeConfigurationOption {
     final numberOfNodes = this.numberOfNodes;
     return {
       if (estimatedDiskUtilizationPercent != null)
-        'EstimatedDiskUtilizationPercent': estimatedDiskUtilizationPercent,
+        'EstimatedDiskUtilizationPercent':
+            _s.encodeJsonDouble(estimatedDiskUtilizationPercent),
       if (mode != null) 'Mode': mode.value,
       if (nodeType != null) 'NodeType': nodeType,
       if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_05_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Personalize is a machine learning service that makes it easy to add
 /// individualized recommendations to customers.
 class Personalize {
   final _s.JsonProtocol _protocol;
-  Personalize({
+  factory Personalize({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'personalize',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'personalize',
+    );
+    return Personalize._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Personalize._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4964,7 +4981,7 @@ class GetSolutionMetricsResponse {
   factory GetSolutionMetricsResponse.fromJson(Map<String, dynamic> json) {
     return GetSolutionMetricsResponse(
       metrics: (json['metrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       solutionVersionArn: json['solutionVersionArn'] as String?,
     );
   }
@@ -4973,7 +4990,8 @@ class GetSolutionMetricsResponse {
     final metrics = this.metrics;
     final solutionVersionArn = this.solutionVersionArn;
     return {
-      if (metrics != null) 'metrics': metrics,
+      if (metrics != null)
+        'metrics': metrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
     };
   }
@@ -5896,8 +5914,8 @@ class EventParameters {
   factory EventParameters.fromJson(Map<String, dynamic> json) {
     return EventParameters(
       eventType: json['eventType'] as String?,
-      eventValueThreshold: json['eventValueThreshold'] as double?,
-      weight: json['weight'] as double?,
+      eventValueThreshold: _s.parseJsonDouble(json['eventValueThreshold']),
+      weight: _s.parseJsonDouble(json['weight']),
     );
   }
 
@@ -5908,8 +5926,8 @@ class EventParameters {
     return {
       if (eventType != null) 'eventType': eventType,
       if (eventValueThreshold != null)
-        'eventValueThreshold': eventValueThreshold,
-      if (weight != null) 'weight': weight,
+        'eventValueThreshold': _s.encodeJsonDouble(eventValueThreshold),
+      if (weight != null) 'weight': _s.encodeJsonDouble(weight),
     };
   }
 }
@@ -6227,8 +6245,8 @@ class CampaignConfig {
           (json['itemExplorationConfig'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       rankingInfluence: (json['rankingInfluence'] as Map<String, dynamic>?)
-          ?.map((k, e) =>
-              MapEntry(RankingInfluenceType.fromString(k), e as double)),
+          ?.map((k, e) => MapEntry(
+              RankingInfluenceType.fromString(k), _s.parseJsonDouble(e)!)),
       syncWithLatestSolutionVersion:
           json['syncWithLatestSolutionVersion'] as bool?,
     );
@@ -6246,8 +6264,8 @@ class CampaignConfig {
       if (itemExplorationConfig != null)
         'itemExplorationConfig': itemExplorationConfig,
       if (rankingInfluence != null)
-        'rankingInfluence':
-            rankingInfluence.map((k, e) => MapEntry(k.value, e)),
+        'rankingInfluence': rankingInfluence
+            .map((k, e) => MapEntry(k.value, _s.encodeJsonDouble(e))),
       if (syncWithLatestSolutionVersion != null)
         'syncWithLatestSolutionVersion': syncWithLatestSolutionVersion,
     };
@@ -7870,7 +7888,7 @@ class SolutionVersion {
           : null,
       solutionVersionArn: json['solutionVersionArn'] as String?,
       status: json['status'] as String?,
-      trainingHours: json['trainingHours'] as double?,
+      trainingHours: _s.parseJsonDouble(json['trainingHours']),
       trainingMode:
           (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
       trainingType:
@@ -7919,7 +7937,8 @@ class SolutionVersion {
       if (solutionConfig != null) 'solutionConfig': solutionConfig,
       if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
       if (status != null) 'status': status,
-      if (trainingHours != null) 'trainingHours': trainingHours,
+      if (trainingHours != null)
+        'trainingHours': _s.encodeJsonDouble(trainingHours),
       if (trainingMode != null) 'trainingMode': trainingMode.value,
       if (trainingType != null) 'trainingType': trainingType.value,
       if (tunedHPOParams != null) 'tunedHPOParams': tunedHPOParams,
@@ -8424,8 +8443,8 @@ class ContinuousHyperParameterRange {
 
   factory ContinuousHyperParameterRange.fromJson(Map<String, dynamic> json) {
     return ContinuousHyperParameterRange(
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
+      maxValue: _s.parseJsonDouble(json['maxValue']),
+      minValue: _s.parseJsonDouble(json['minValue']),
       name: json['name'] as String?,
     );
   }
@@ -8435,8 +8454,8 @@ class ContinuousHyperParameterRange {
     final minValue = this.minValue;
     final name = this.name;
     return {
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
+      if (maxValue != null) 'maxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'minValue': _s.encodeJsonDouble(minValue),
       if (name != null) 'name': name,
     };
   }
@@ -8944,7 +8963,7 @@ class Recommender {
               json['latestRecommenderUpdate'] as Map<String, dynamic>)
           : null,
       modelMetrics: (json['modelMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       name: json['name'] as String?,
       recipeArn: json['recipeArn'] as String?,
       recommenderArn: json['recommenderArn'] as String?,
@@ -8977,7 +8996,9 @@ class Recommender {
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (latestRecommenderUpdate != null)
         'latestRecommenderUpdate': latestRecommenderUpdate,
-      if (modelMetrics != null) 'modelMetrics': modelMetrics,
+      if (modelMetrics != null)
+        'modelMetrics':
+            modelMetrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (name != null) 'name': name,
       if (recipeArn != null) 'recipeArn': recipeArn,
       if (recommenderArn != null) 'recommenderArn': recommenderArn,
@@ -10853,8 +10874,8 @@ class BatchInferenceJobConfig {
           (json['itemExplorationConfig'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       rankingInfluence: (json['rankingInfluence'] as Map<String, dynamic>?)
-          ?.map((k, e) =>
-              MapEntry(RankingInfluenceType.fromString(k), e as double)),
+          ?.map((k, e) => MapEntry(
+              RankingInfluenceType.fromString(k), _s.parseJsonDouble(e)!)),
     );
   }
 
@@ -10865,8 +10886,8 @@ class BatchInferenceJobConfig {
       if (itemExplorationConfig != null)
         'itemExplorationConfig': itemExplorationConfig,
       if (rankingInfluence != null)
-        'rankingInfluence':
-            rankingInfluence.map((k, e) => MapEntry(k.value, e)),
+        'rankingInfluence': rankingInfluence
+            .map((k, e) => MapEntry(k.value, _s.encodeJsonDouble(e))),
     };
   }
 }
@@ -11195,8 +11216,8 @@ class DefaultContinuousHyperParameterRange {
       Map<String, dynamic> json) {
     return DefaultContinuousHyperParameterRange(
       isTunable: json['isTunable'] as bool?,
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
+      maxValue: _s.parseJsonDouble(json['maxValue']),
+      minValue: _s.parseJsonDouble(json['minValue']),
       name: json['name'] as String?,
     );
   }
@@ -11208,8 +11229,8 @@ class DefaultContinuousHyperParameterRange {
     final name = this.name;
     return {
       if (isTunable != null) 'isTunable': isTunable,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
+      if (maxValue != null) 'maxValue': _s.encodeJsonDouble(maxValue),
+      if (minValue != null) 'minValue': _s.encodeJsonDouble(minValue),
       if (name != null) 'name': name,
     };
   }

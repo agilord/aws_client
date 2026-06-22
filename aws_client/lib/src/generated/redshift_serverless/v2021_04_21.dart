@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2021_04_21.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is an interface reference for Amazon Redshift Serverless. It contains
@@ -36,22 +38,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// is Amazon Redshift Serverless?</a>.
 class RedshiftServerless {
   final _s.JsonProtocol _protocol;
-  RedshiftServerless({
+  factory RedshiftServerless({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'redshift-serverless',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'redshift-serverless',
+    );
+    return RedshiftServerless._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  RedshiftServerless._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6147,14 +6164,15 @@ class Snapshot {
           .map((e) => e as String)
           .toList(),
       actualIncrementalBackupSizeInMegaBytes:
-          json['actualIncrementalBackupSizeInMegaBytes'] as double?,
+          _s.parseJsonDouble(json['actualIncrementalBackupSizeInMegaBytes']),
       adminPasswordSecretArn: json['adminPasswordSecretArn'] as String?,
       adminPasswordSecretKmsKeyId:
           json['adminPasswordSecretKmsKeyId'] as String?,
       adminUsername: json['adminUsername'] as String?,
-      backupProgressInMegaBytes: json['backupProgressInMegaBytes'] as double?,
+      backupProgressInMegaBytes:
+          _s.parseJsonDouble(json['backupProgressInMegaBytes']),
       currentBackupRateInMegaBytesPerSecond:
-          json['currentBackupRateInMegaBytesPerSecond'] as double?,
+          _s.parseJsonDouble(json['currentBackupRateInMegaBytesPerSecond']),
       elapsedTimeInSeconds: json['elapsedTimeInSeconds'] as int?,
       estimatedSecondsToCompletion:
           json['estimatedSecondsToCompletion'] as int?,
@@ -6170,7 +6188,8 @@ class Snapshot {
       snapshotRetentionStartTime:
           timeStampFromJson(json['snapshotRetentionStartTime']),
       status: (json['status'] as String?)?.let(SnapshotStatus.fromString),
-      totalBackupSizeInMegaBytes: json['totalBackupSizeInMegaBytes'] as double?,
+      totalBackupSizeInMegaBytes:
+          _s.parseJsonDouble(json['totalBackupSizeInMegaBytes']),
     );
   }
 
@@ -6208,17 +6227,18 @@ class Snapshot {
         'accountsWithRestoreAccess': accountsWithRestoreAccess,
       if (actualIncrementalBackupSizeInMegaBytes != null)
         'actualIncrementalBackupSizeInMegaBytes':
-            actualIncrementalBackupSizeInMegaBytes,
+            _s.encodeJsonDouble(actualIncrementalBackupSizeInMegaBytes),
       if (adminPasswordSecretArn != null)
         'adminPasswordSecretArn': adminPasswordSecretArn,
       if (adminPasswordSecretKmsKeyId != null)
         'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
       if (adminUsername != null) 'adminUsername': adminUsername,
       if (backupProgressInMegaBytes != null)
-        'backupProgressInMegaBytes': backupProgressInMegaBytes,
+        'backupProgressInMegaBytes':
+            _s.encodeJsonDouble(backupProgressInMegaBytes),
       if (currentBackupRateInMegaBytesPerSecond != null)
         'currentBackupRateInMegaBytesPerSecond':
-            currentBackupRateInMegaBytesPerSecond,
+            _s.encodeJsonDouble(currentBackupRateInMegaBytesPerSecond),
       if (elapsedTimeInSeconds != null)
         'elapsedTimeInSeconds': elapsedTimeInSeconds,
       if (estimatedSecondsToCompletion != null)
@@ -6239,7 +6259,8 @@ class Snapshot {
         'snapshotRetentionStartTime': iso8601ToJson(snapshotRetentionStartTime),
       if (status != null) 'status': status.value,
       if (totalBackupSizeInMegaBytes != null)
-        'totalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
+        'totalBackupSizeInMegaBytes':
+            _s.encodeJsonDouble(totalBackupSizeInMegaBytes),
     };
   }
 }
@@ -7066,11 +7087,11 @@ class ReservationOffering {
     return ReservationOffering(
       currencyCode: json['currencyCode'] as String?,
       duration: json['duration'] as int?,
-      hourlyCharge: json['hourlyCharge'] as double?,
+      hourlyCharge: _s.parseJsonDouble(json['hourlyCharge']),
       offeringId: json['offeringId'] as String?,
       offeringType:
           (json['offeringType'] as String?)?.let(OfferingType.fromString),
-      upfrontCharge: json['upfrontCharge'] as double?,
+      upfrontCharge: _s.parseJsonDouble(json['upfrontCharge']),
     );
   }
 
@@ -7084,10 +7105,12 @@ class ReservationOffering {
     return {
       if (currencyCode != null) 'currencyCode': currencyCode,
       if (duration != null) 'duration': duration,
-      if (hourlyCharge != null) 'hourlyCharge': hourlyCharge,
+      if (hourlyCharge != null)
+        'hourlyCharge': _s.encodeJsonDouble(hourlyCharge),
       if (offeringId != null) 'offeringId': offeringId,
       if (offeringType != null) 'offeringType': offeringType.value,
-      if (upfrontCharge != null) 'upfrontCharge': upfrontCharge,
+      if (upfrontCharge != null)
+        'upfrontCharge': _s.encodeJsonDouble(upfrontCharge),
     };
   }
 }
@@ -7156,7 +7179,7 @@ class RecoveryPoint {
       recoveryPointCreateTime:
           timeStampFromJson(json['recoveryPointCreateTime']),
       recoveryPointId: json['recoveryPointId'] as String?,
-      totalSizeInMegaBytes: json['totalSizeInMegaBytes'] as double?,
+      totalSizeInMegaBytes: _s.parseJsonDouble(json['totalSizeInMegaBytes']),
       workgroupName: json['workgroupName'] as String?,
     );
   }
@@ -7175,7 +7198,7 @@ class RecoveryPoint {
         'recoveryPointCreateTime': iso8601ToJson(recoveryPointCreateTime),
       if (recoveryPointId != null) 'recoveryPointId': recoveryPointId,
       if (totalSizeInMegaBytes != null)
-        'totalSizeInMegaBytes': totalSizeInMegaBytes,
+        'totalSizeInMegaBytes': _s.encodeJsonDouble(totalSizeInMegaBytes),
       if (workgroupName != null) 'workgroupName': workgroupName,
     };
   }

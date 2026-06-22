@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_08_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// <ul>
@@ -39,22 +41,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// (ERP), with contact history from your Connect Customer contact center.
 class CustomerProfiles {
   final _s.RestJsonProtocol _protocol;
-  CustomerProfiles({
+  factory CustomerProfiles({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'profile',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'profile',
+    );
+    return CustomerProfiles._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CustomerProfiles._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1732,7 +1749,7 @@ class CustomerProfiles {
       'Consolidation': consolidation,
       if (minAllowedConfidenceScoreForMerging != null)
         'MinAllowedConfidenceScoreForMerging':
-            minAllowedConfidenceScoreForMerging,
+            _s.encodeJsonDouble(minAllowedConfidenceScoreForMerging),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8238,7 +8255,7 @@ class GetSimilarProfilesResponse {
 
   factory GetSimilarProfilesResponse.fromJson(Map<String, dynamic> json) {
     return GetSimilarProfilesResponse(
-      confidenceScore: json['ConfidenceScore'] as double?,
+      confidenceScore: _s.parseJsonDouble(json['ConfidenceScore']),
       matchId: json['MatchId'] as String?,
       matchType: (json['MatchType'] as String?)?.let(MatchType.fromString),
       nextToken: json['NextToken'] as String?,
@@ -8258,7 +8275,8 @@ class GetSimilarProfilesResponse {
     final profileIds = this.profileIds;
     final ruleLevel = this.ruleLevel;
     return {
-      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
+      if (confidenceScore != null)
+        'ConfidenceScore': _s.encodeJsonDouble(confidenceScore),
       if (matchId != null) 'MatchId': matchId,
       if (matchType != null) 'MatchType': matchType.value,
       if (nextToken != null) 'NextToken': nextToken,
@@ -10590,8 +10608,8 @@ class EventParameters {
   factory EventParameters.fromJson(Map<String, dynamic> json) {
     return EventParameters(
       eventType: (json['EventType'] as String?) ?? '',
-      eventValueThreshold: json['EventValueThreshold'] as double?,
-      eventWeight: json['EventWeight'] as double?,
+      eventValueThreshold: _s.parseJsonDouble(json['EventValueThreshold']),
+      eventWeight: _s.parseJsonDouble(json['EventWeight']),
     );
   }
 
@@ -10602,8 +10620,8 @@ class EventParameters {
     return {
       'EventType': eventType,
       if (eventValueThreshold != null)
-        'EventValueThreshold': eventValueThreshold,
-      if (eventWeight != null) 'EventWeight': eventWeight,
+        'EventValueThreshold': _s.encodeJsonDouble(eventValueThreshold),
+      if (eventWeight != null) 'EventWeight': _s.encodeJsonDouble(eventWeight),
     };
   }
 }
@@ -11938,7 +11956,7 @@ class AutoMerging {
               json['Consolidation'] as Map<String, dynamic>)
           : null,
       minAllowedConfidenceScoreForMerging:
-          json['MinAllowedConfidenceScoreForMerging'] as double?,
+          _s.parseJsonDouble(json['MinAllowedConfidenceScoreForMerging']),
     );
   }
 
@@ -11954,7 +11972,7 @@ class AutoMerging {
       if (consolidation != null) 'Consolidation': consolidation,
       if (minAllowedConfidenceScoreForMerging != null)
         'MinAllowedConfidenceScoreForMerging':
-            minAllowedConfidenceScoreForMerging,
+            _s.encodeJsonDouble(minAllowedConfidenceScoreForMerging),
     };
   }
 }
@@ -18202,8 +18220,8 @@ class TrainingMetrics {
 
   factory TrainingMetrics.fromJson(Map<String, dynamic> json) {
     return TrainingMetrics(
-      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(TrainingMetricName.fromString(k), e as double)),
+      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(TrainingMetricName.fromString(k), _s.parseJsonDouble(e)!)),
       time: timeStampFromJson(json['Time']),
     );
   }
@@ -18213,7 +18231,8 @@ class TrainingMetrics {
     final time = this.time;
     return {
       if (metrics != null)
-        'Metrics': metrics.map((k, e) => MapEntry(k.value, e)),
+        'Metrics':
+            metrics.map((k, e) => MapEntry(k.value, _s.encodeJsonDouble(e))),
       if (time != null) 'Time': unixTimestampToJson(time),
     };
   }
@@ -18295,7 +18314,7 @@ class Recommendation {
       catalogItem: json['CatalogItem'] != null
           ? CatalogItem.fromJson(json['CatalogItem'] as Map<String, dynamic>)
           : null,
-      score: json['Score'] as double?,
+      score: _s.parseJsonDouble(json['Score']),
     );
   }
 
@@ -18304,7 +18323,7 @@ class Recommendation {
     final score = this.score;
     return {
       if (catalogItem != null) 'CatalogItem': catalogItem,
-      if (score != null) 'Score': score,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
     };
   }
 }
@@ -18546,13 +18565,13 @@ class GetObjectTypeAttributeStatisticsStats {
   factory GetObjectTypeAttributeStatisticsStats.fromJson(
       Map<String, dynamic> json) {
     return GetObjectTypeAttributeStatisticsStats(
-      average: (json['Average'] as double?) ?? 0,
-      maximum: (json['Maximum'] as double?) ?? 0,
-      minimum: (json['Minimum'] as double?) ?? 0,
+      average: _s.parseJsonDouble(json['Average']) ?? 0,
+      maximum: _s.parseJsonDouble(json['Maximum']) ?? 0,
+      minimum: _s.parseJsonDouble(json['Minimum']) ?? 0,
       percentiles: GetObjectTypeAttributeStatisticsPercentiles.fromJson(
           (json['Percentiles'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      standardDeviation: (json['StandardDeviation'] as double?) ?? 0,
+      standardDeviation: _s.parseJsonDouble(json['StandardDeviation']) ?? 0,
     );
   }
 
@@ -18563,11 +18582,11 @@ class GetObjectTypeAttributeStatisticsStats {
     final percentiles = this.percentiles;
     final standardDeviation = this.standardDeviation;
     return {
-      'Average': average,
-      'Maximum': maximum,
-      'Minimum': minimum,
+      'Average': _s.encodeJsonDouble(average),
+      'Maximum': _s.encodeJsonDouble(maximum),
+      'Minimum': _s.encodeJsonDouble(minimum),
       'Percentiles': percentiles,
-      'StandardDeviation': standardDeviation,
+      'StandardDeviation': _s.encodeJsonDouble(standardDeviation),
     };
   }
 }
@@ -18602,11 +18621,11 @@ class GetObjectTypeAttributeStatisticsPercentiles {
   factory GetObjectTypeAttributeStatisticsPercentiles.fromJson(
       Map<String, dynamic> json) {
     return GetObjectTypeAttributeStatisticsPercentiles(
-      p25: (json['P25'] as double?) ?? 0,
-      p5: (json['P5'] as double?) ?? 0,
-      p50: (json['P50'] as double?) ?? 0,
-      p75: (json['P75'] as double?) ?? 0,
-      p95: (json['P95'] as double?) ?? 0,
+      p25: _s.parseJsonDouble(json['P25']) ?? 0,
+      p5: _s.parseJsonDouble(json['P5']) ?? 0,
+      p50: _s.parseJsonDouble(json['P50']) ?? 0,
+      p75: _s.parseJsonDouble(json['P75']) ?? 0,
+      p95: _s.parseJsonDouble(json['P95']) ?? 0,
     );
   }
 
@@ -18617,11 +18636,11 @@ class GetObjectTypeAttributeStatisticsPercentiles {
     final p75 = this.p75;
     final p95 = this.p95;
     return {
-      'P25': p25,
-      'P5': p5,
-      'P50': p50,
-      'P75': p75,
-      'P95': p95,
+      'P25': _s.encodeJsonDouble(p25),
+      'P5': _s.encodeJsonDouble(p5),
+      'P50': _s.encodeJsonDouble(p50),
+      'P75': _s.encodeJsonDouble(p75),
+      'P95': _s.encodeJsonDouble(p95),
     };
   }
 }
@@ -18654,7 +18673,7 @@ class MatchItem {
 
   factory MatchItem.fromJson(Map<String, dynamic> json) {
     return MatchItem(
-      confidenceScore: json['ConfidenceScore'] as double?,
+      confidenceScore: _s.parseJsonDouble(json['ConfidenceScore']),
       matchId: json['MatchId'] as String?,
       profileIds: (json['ProfileIds'] as List?)
           ?.nonNulls
@@ -18668,7 +18687,8 @@ class MatchItem {
     final matchId = this.matchId;
     final profileIds = this.profileIds;
     return {
-      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
+      if (confidenceScore != null)
+        'ConfidenceScore': _s.encodeJsonDouble(confidenceScore),
       if (matchId != null) 'MatchId': matchId,
       if (profileIds != null) 'ProfileIds': profileIds,
     };

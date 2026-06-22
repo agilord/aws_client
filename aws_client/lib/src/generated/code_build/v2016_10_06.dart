@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_10_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// CodeBuild is a fully managed build service in the cloud. CodeBuild compiles
@@ -33,22 +35,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// User Guide</a>.</i>
 class CodeBuild {
   final _s.JsonProtocol _protocol;
-  CodeBuild({
+  factory CodeBuild({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'codebuild',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'codebuild',
+    );
+    return CodeBuild._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CodeBuild._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1271,10 +1288,12 @@ class CodeBuild {
       payload: {
         'reportArn': reportArn,
         if (maxLineCoveragePercentage != null)
-          'maxLineCoveragePercentage': maxLineCoveragePercentage,
+          'maxLineCoveragePercentage':
+              _s.encodeJsonDouble(maxLineCoveragePercentage),
         if (maxResults != null) 'maxResults': maxResults,
         if (minLineCoveragePercentage != null)
-          'minLineCoveragePercentage': minLineCoveragePercentage,
+          'minLineCoveragePercentage':
+              _s.encodeJsonDouble(minLineCoveragePercentage),
         if (nextToken != null) 'nextToken': nextToken,
         if (sortBy != null) 'sortBy': sortBy.value,
         if (sortOrder != null) 'sortOrder': sortOrder.value,
@@ -10347,7 +10366,7 @@ class TargetTrackingScalingConfiguration {
     return TargetTrackingScalingConfiguration(
       metricType: (json['metricType'] as String?)
           ?.let(FleetScalingMetricType.fromString),
-      targetValue: json['targetValue'] as double?,
+      targetValue: _s.parseJsonDouble(json['targetValue']),
     );
   }
 
@@ -10356,7 +10375,7 @@ class TargetTrackingScalingConfiguration {
     final targetValue = this.targetValue;
     return {
       if (metricType != null) 'metricType': metricType.value,
-      if (targetValue != null) 'targetValue': targetValue,
+      if (targetValue != null) 'targetValue': _s.encodeJsonDouble(targetValue),
     };
   }
 }
@@ -13474,13 +13493,15 @@ class CodeCoverage {
 
   factory CodeCoverage.fromJson(Map<String, dynamic> json) {
     return CodeCoverage(
-      branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
+      branchCoveragePercentage:
+          _s.parseJsonDouble(json['branchCoveragePercentage']),
       branchesCovered: json['branchesCovered'] as int?,
       branchesMissed: json['branchesMissed'] as int?,
       expired: timeStampFromJson(json['expired']),
       filePath: json['filePath'] as String?,
       id: json['id'] as String?,
-      lineCoveragePercentage: json['lineCoveragePercentage'] as double?,
+      lineCoveragePercentage:
+          _s.parseJsonDouble(json['lineCoveragePercentage']),
       linesCovered: json['linesCovered'] as int?,
       linesMissed: json['linesMissed'] as int?,
       reportARN: json['reportARN'] as String?,
@@ -13500,14 +13521,15 @@ class CodeCoverage {
     final reportARN = this.reportARN;
     return {
       if (branchCoveragePercentage != null)
-        'branchCoveragePercentage': branchCoveragePercentage,
+        'branchCoveragePercentage':
+            _s.encodeJsonDouble(branchCoveragePercentage),
       if (branchesCovered != null) 'branchesCovered': branchesCovered,
       if (branchesMissed != null) 'branchesMissed': branchesMissed,
       if (expired != null) 'expired': unixTimestampToJson(expired),
       if (filePath != null) 'filePath': filePath,
       if (id != null) 'id': id,
       if (lineCoveragePercentage != null)
-        'lineCoveragePercentage': lineCoveragePercentage,
+        'lineCoveragePercentage': _s.encodeJsonDouble(lineCoveragePercentage),
       if (linesCovered != null) 'linesCovered': linesCovered,
       if (linesMissed != null) 'linesMissed': linesMissed,
       if (reportARN != null) 'reportARN': reportARN,
@@ -13785,10 +13807,12 @@ class CodeCoverageReportSummary {
 
   factory CodeCoverageReportSummary.fromJson(Map<String, dynamic> json) {
     return CodeCoverageReportSummary(
-      branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
+      branchCoveragePercentage:
+          _s.parseJsonDouble(json['branchCoveragePercentage']),
       branchesCovered: json['branchesCovered'] as int?,
       branchesMissed: json['branchesMissed'] as int?,
-      lineCoveragePercentage: json['lineCoveragePercentage'] as double?,
+      lineCoveragePercentage:
+          _s.parseJsonDouble(json['lineCoveragePercentage']),
       linesCovered: json['linesCovered'] as int?,
       linesMissed: json['linesMissed'] as int?,
     );
@@ -13803,11 +13827,12 @@ class CodeCoverageReportSummary {
     final linesMissed = this.linesMissed;
     return {
       if (branchCoveragePercentage != null)
-        'branchCoveragePercentage': branchCoveragePercentage,
+        'branchCoveragePercentage':
+            _s.encodeJsonDouble(branchCoveragePercentage),
       if (branchesCovered != null) 'branchesCovered': branchesCovered,
       if (branchesMissed != null) 'branchesMissed': branchesMissed,
       if (lineCoveragePercentage != null)
-        'lineCoveragePercentage': lineCoveragePercentage,
+        'lineCoveragePercentage': _s.encodeJsonDouble(lineCoveragePercentage),
       if (linesCovered != null) 'linesCovered': linesCovered,
       if (linesMissed != null) 'linesMissed': linesMissed,
     };

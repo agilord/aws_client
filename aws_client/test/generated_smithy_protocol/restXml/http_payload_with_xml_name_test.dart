@@ -33,7 +33,7 @@ void main() {
         name: "Phreddy",
       ),
     );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 
   test('HttpPayloadWithXmlName', () async {
     final client = MockClient((request) async {
@@ -49,5 +49,5 @@ void main() {
 
     final output = await service.httpPayloadWithXmlName();
     expect(output.nested?.name, "Phreddy");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
+  });
 }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -23,23 +24,31 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 /// A query service that sends query requests and XML responses.
 class QueryProtocol {
   final _s.QueryProtocol _protocol;
-
-  QueryProtocol({
+  factory QueryProtocol({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'awsquery',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'awsquery',
+    );
+    return QueryProtocol._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.forProtocol(
+            service: service, region: region, endpointUrl: endpointUrl),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  QueryProtocol._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -89,6 +98,7 @@ class QueryProtocol {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      hostPrefix: 'foo.',
     );
   }
 
@@ -105,6 +115,7 @@ class QueryProtocol {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      hostPrefix: 'foo.${label}.',
     );
   }
 
@@ -684,6 +695,7 @@ class QueryProtocol {
   }
 }
 
+/// @nodoc
 class DatetimeOffsetsOutput {
   final DateTime? datetime;
 
@@ -705,6 +717,7 @@ class DatetimeOffsetsOutput {
   }
 }
 
+/// @nodoc
 class EmptyInputAndEmptyOutputOutput {
   EmptyInputAndEmptyOutputOutput();
   factory EmptyInputAndEmptyOutputOutput.fromXml(
@@ -718,6 +731,7 @@ class EmptyInputAndEmptyOutputOutput {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapOutput {
   final Map<String, FooEnum>? myMap;
 
@@ -745,6 +759,7 @@ class FlattenedXmlMapOutput {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapWithXmlNameOutput {
   final Map<String, String>? myMap;
 
@@ -772,6 +787,7 @@ class FlattenedXmlMapWithXmlNameOutput {
   }
 }
 
+/// @nodoc
 class FlattenedXmlMapWithXmlNamespaceOutput {
   final Map<String, String>? myMap;
 
@@ -799,6 +815,7 @@ class FlattenedXmlMapWithXmlNamespaceOutput {
   }
 }
 
+/// @nodoc
 class FractionalSecondsOutput {
   final DateTime? datetime;
 
@@ -820,6 +837,7 @@ class FractionalSecondsOutput {
   }
 }
 
+/// @nodoc
 class GreetingWithErrorsOutput {
   final String? greeting;
 
@@ -840,6 +858,7 @@ class GreetingWithErrorsOutput {
   }
 }
 
+/// @nodoc
 class IgnoresWrappingXmlNameOutput {
   final String? foo;
 
@@ -860,6 +879,7 @@ class IgnoresWrappingXmlNameOutput {
   }
 }
 
+/// @nodoc
 class NoInputAndOutputOutput {
   NoInputAndOutputOutput();
   factory NoInputAndOutputOutput.fromXml(
@@ -873,6 +893,7 @@ class NoInputAndOutputOutput {
   }
 }
 
+/// @nodoc
 class RecursiveXmlShapesOutput {
   final RecursiveXmlShapesOutputNested1? nested;
 
@@ -895,6 +916,7 @@ class RecursiveXmlShapesOutput {
   }
 }
 
+/// @nodoc
 class SimpleScalarXmlPropertiesOutput {
   final int? byteValue;
   final double? doubleValue;
@@ -947,10 +969,11 @@ class SimpleScalarXmlPropertiesOutput {
     final trueBooleanValue = this.trueBooleanValue;
     return {
       if (byteValue != null) 'byteValue': byteValue,
-      if (doubleValue != null) 'DoubleDribble': doubleValue,
+      if (doubleValue != null)
+        'DoubleDribble': _s.encodeJsonDouble(doubleValue),
       if (emptyStringValue != null) 'emptyStringValue': emptyStringValue,
       if (falseBooleanValue != null) 'falseBooleanValue': falseBooleanValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       if (integerValue != null) 'integerValue': integerValue,
       if (longValue != null) 'longValue': longValue,
       if (shortValue != null) 'shortValue': shortValue,
@@ -960,6 +983,7 @@ class SimpleScalarXmlPropertiesOutput {
   }
 }
 
+/// @nodoc
 class XmlBlobsOutput {
   final Uint8List? data;
 
@@ -980,6 +1004,7 @@ class XmlBlobsOutput {
   }
 }
 
+/// @nodoc
 class XmlListsOutput {
   final List<bool>? booleanList;
   final List<FooEnum>? enumList;
@@ -1021,8 +1046,8 @@ class XmlListsOutput {
           .extractXmlStringListValues(elem, 'member')
           .map(FooEnum.fromString)
           .toList()),
-      flattenedList: _s.extractXmlStringListValues(elem, 'item'),
-      flattenedList2: _s.extractXmlStringListValues(elem, 'item'),
+      flattenedList: _s.extractXmlStringListValues(elem, 'flattenedList'),
+      flattenedList2: _s.extractXmlStringListValues(elem, 'customName'),
       flattenedListWithMemberNamespace: _s.extractXmlStringListValues(
           elem, 'flattenedListWithMemberNamespace'),
       flattenedListWithNamespace:
@@ -1093,6 +1118,7 @@ class XmlListsOutput {
   }
 }
 
+/// @nodoc
 class XmlMapsOutput {
   final Map<String, GreetingStruct>? myMap;
 
@@ -1121,6 +1147,7 @@ class XmlMapsOutput {
   }
 }
 
+/// @nodoc
 class XmlEnumsOutput {
   final FooEnum? fooEnum1;
   final FooEnum? fooEnum2;
@@ -1188,6 +1215,7 @@ class XmlEnumsOutput {
   }
 }
 
+/// @nodoc
 class XmlIntEnumsOutput {
   final int? intEnum1;
   final int? intEnum2;
@@ -1245,6 +1273,7 @@ class XmlIntEnumsOutput {
   }
 }
 
+/// @nodoc
 class XmlMapsXmlNameOutput {
   final Map<String, GreetingStruct>? myMap;
 
@@ -1273,6 +1302,7 @@ class XmlMapsXmlNameOutput {
   }
 }
 
+/// @nodoc
 class XmlNamespacesOutput {
   final XmlNamespaceNested? nested;
 
@@ -1294,6 +1324,7 @@ class XmlNamespacesOutput {
   }
 }
 
+/// @nodoc
 class XmlTimestampsOutput {
   final DateTime? dateTime;
   final DateTime? dateTimeOnTarget;
@@ -1355,6 +1386,7 @@ class XmlTimestampsOutput {
   }
 }
 
+/// @nodoc
 class XmlNamespaceNested {
   final String? foo;
   final List<String>? values;
@@ -1382,6 +1414,7 @@ class XmlNamespaceNested {
   }
 }
 
+/// @nodoc
 class GreetingStruct {
   final String? hi;
 
@@ -1409,6 +1442,7 @@ class GreetingStruct {
   }
 }
 
+/// @nodoc
 class FooEnum {
   static const foo = FooEnum._('Foo');
   static const baz = FooEnum._('Baz');
@@ -1435,6 +1469,7 @@ class FooEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class StructureListMember {
   final String? a;
   final String? b;
@@ -1460,6 +1495,7 @@ class StructureListMember {
   }
 }
 
+/// @nodoc
 class RecursiveXmlShapesOutputNested1 {
   final String? foo;
   final RecursiveXmlShapesOutputNested2? nested;
@@ -1487,6 +1523,7 @@ class RecursiveXmlShapesOutputNested1 {
   }
 }
 
+/// @nodoc
 class RecursiveXmlShapesOutputNested2 {
   final String? bar;
   final RecursiveXmlShapesOutputNested1? recursiveMember;
@@ -1514,6 +1551,7 @@ class RecursiveXmlShapesOutputNested2 {
   }
 }
 
+/// @nodoc
 class NestedStructWithMap {
   final Map<String, String>? mapArg;
 
@@ -1540,6 +1578,7 @@ class NestedStructWithMap {
   }
 }
 
+/// @nodoc
 class NestedStructWithList {
   final List<String>? listArg;
 
@@ -1567,6 +1606,7 @@ class NestedStructWithList {
   }
 }
 
+/// @nodoc
 class StructArg {
   final bool? otherArg;
   final StructArg? recursiveArg;
@@ -1603,16 +1643,19 @@ class StructArg {
   }
 }
 
+/// @nodoc
 class ComplexError extends _s.GenericAwsException {
   ComplexError({String? type, String? message})
       : super(type: type, code: 'ComplexError', message: message);
 }
 
+/// @nodoc
 class CustomCodeError extends _s.GenericAwsException {
   CustomCodeError({String? type, String? message})
       : super(type: type, code: 'CustomCodeError', message: message);
 }
 
+/// @nodoc
 class InvalidGreeting extends _s.GenericAwsException {
   InvalidGreeting({String? type, String? message})
       : super(type: type, code: 'InvalidGreeting', message: message);

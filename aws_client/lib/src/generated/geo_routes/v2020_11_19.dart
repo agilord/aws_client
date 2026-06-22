@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2020_11_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// With the Routes API you can calculate routes and estimate travel time based
@@ -50,22 +52,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul>
 class GeoRoutes {
   final _s.RestJsonProtocol _protocol;
-  GeoRoutes({
+  factory GeoRoutes({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'geo-routes',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'geo-routes',
+    );
+    return GeoRoutes._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  GeoRoutes._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -315,7 +332,8 @@ class GeoRoutes {
       if (avoid != null) 'Avoid': avoid,
       if (departNow != null) 'DepartNow': departNow,
       if (departureTime != null) 'DepartureTime': departureTime,
-      if (destination != null) 'Destination': destination,
+      if (destination != null)
+        'Destination': destination.map(_s.encodeJsonDouble).toList(),
       if (destinationOptions != null) 'DestinationOptions': destinationOptions,
       if (isolineGeometryFormat != null)
         'IsolineGeometryFormat': isolineGeometryFormat.value,
@@ -324,7 +342,7 @@ class GeoRoutes {
         'OptimizeIsolineFor': optimizeIsolineFor.value,
       if (optimizeRoutingFor != null)
         'OptimizeRoutingFor': optimizeRoutingFor.value,
-      if (origin != null) 'Origin': origin,
+      if (origin != null) 'Origin': origin.map(_s.encodeJsonDouble).toList(),
       if (originOptions != null) 'OriginOptions': originOptions,
       if (traffic != null) 'Traffic': traffic,
       if (travelMode != null) 'TravelMode': travelMode.value,
@@ -349,11 +367,11 @@ class GeoRoutes {
       departureTime: $json['DepartureTime'] as String?,
       snappedDestination: ($json['SnappedDestination'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       snappedOrigin: ($json['SnappedOrigin'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       pricingBucket: _s.extractHeaderStringValue(
           response.headers, 'x-amz-geo-pricing-bucket')!,
@@ -870,8 +888,8 @@ class GeoRoutes {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'Destination': destination,
-      'Origin': origin,
+      'Destination': destination.map(_s.encodeJsonDouble).toList(),
+      'Origin': origin.map(_s.encodeJsonDouble).toList(),
       if (allow != null) 'Allow': allow,
       if (arrivalTime != null) 'ArrivalTime': arrivalTime,
       if (avoid != null) 'Avoid': avoid,
@@ -1040,11 +1058,12 @@ class GeoRoutes {
       if (key != null) 'key': [key],
     };
     final $payload = <String, dynamic>{
-      'Origin': origin,
+      'Origin': origin.map(_s.encodeJsonDouble).toList(),
       if (avoid != null) 'Avoid': avoid,
       if (clustering != null) 'Clustering': clustering,
       if (departureTime != null) 'DepartureTime': departureTime,
-      if (destination != null) 'Destination': destination,
+      if (destination != null)
+        'Destination': destination.map(_s.encodeJsonDouble).toList(),
       if (destinationOptions != null) 'DestinationOptions': destinationOptions,
       if (driver != null) 'Driver': driver,
       if (exclude != null) 'Exclude': exclude,
@@ -1261,8 +1280,11 @@ class CalculateIsolinesResponse {
       'Isolines': isolines,
       if (arrivalTime != null) 'ArrivalTime': arrivalTime,
       if (departureTime != null) 'DepartureTime': departureTime,
-      if (snappedDestination != null) 'SnappedDestination': snappedDestination,
-      if (snappedOrigin != null) 'SnappedOrigin': snappedOrigin,
+      if (snappedDestination != null)
+        'SnappedDestination':
+            snappedDestination.map(_s.encodeJsonDouble).toList(),
+      if (snappedOrigin != null)
+        'SnappedOrigin': snappedOrigin.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -1472,7 +1494,8 @@ class RoadSnapSnappedGeometry {
     return RoadSnapSnappedGeometry(
       lineString: (json['LineString'] as List?)
           ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+          .map((e) =>
+              (e as List).nonNulls.map((e) => _s.parseJsonDouble(e)!).toList())
           .toList(),
       polyline: json['Polyline'] as String?,
     );
@@ -1482,7 +1505,9 @@ class RoadSnapSnappedGeometry {
     final lineString = this.lineString;
     final polyline = this.polyline;
     return {
-      if (lineString != null) 'LineString': lineString,
+      if (lineString != null)
+        'LineString':
+            lineString.map((e) => e.map(_s.encodeJsonDouble).toList()).toList(),
       if (polyline != null) 'Polyline': polyline,
     };
   }
@@ -1535,14 +1560,14 @@ class RoadSnapSnappedTracePoint {
 
   factory RoadSnapSnappedTracePoint.fromJson(Map<String, dynamic> json) {
     return RoadSnapSnappedTracePoint(
-      confidence: (json['Confidence'] as double?) ?? 0,
+      confidence: _s.parseJsonDouble(json['Confidence']) ?? 0,
       originalPosition: ((json['OriginalPosition'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       snappedPosition: ((json['SnappedPosition'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -1552,9 +1577,9 @@ class RoadSnapSnappedTracePoint {
     final originalPosition = this.originalPosition;
     final snappedPosition = this.snappedPosition;
     return {
-      'Confidence': confidence,
-      'OriginalPosition': originalPosition,
-      'SnappedPosition': snappedPosition,
+      'Confidence': _s.encodeJsonDouble(confidence),
+      'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
+      'SnappedPosition': snappedPosition.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -1908,9 +1933,9 @@ class RoadSnapTracePoint {
     final speed = this.speed;
     final timestamp = this.timestamp;
     return {
-      'Position': position,
-      if (heading != null) 'Heading': heading,
-      if (speed != null) 'Speed': speed,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
+      if (speed != null) 'Speed': _s.encodeJsonDouble(speed),
       if (timestamp != null) 'Timestamp': timestamp,
     };
   }
@@ -2026,7 +2051,7 @@ class WaypointOptimizationOptimizedWaypoint {
       id: (json['Id'] as String?) ?? '',
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       arrivalTime: json['ArrivalTime'] as String?,
       clusterIndex: json['ClusterIndex'] as int?,
@@ -2042,7 +2067,7 @@ class WaypointOptimizationOptimizedWaypoint {
     return {
       'DepartureTime': departureTime,
       'Id': id,
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (arrivalTime != null) 'ArrivalTime': arrivalTime,
       if (clusterIndex != null) 'ClusterIndex': clusterIndex,
     };
@@ -2079,7 +2104,7 @@ class WaypointOptimizationImpedingWaypoint {
       id: (json['Id'] as String?) ?? '',
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
     );
   }
@@ -2091,7 +2116,7 @@ class WaypointOptimizationImpedingWaypoint {
     return {
       'FailedConstraints': failedConstraints,
       'Id': id,
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -2376,7 +2401,7 @@ class WaypointOptimizationDestinationOptions {
     return {
       if (accessHours != null) 'AccessHours': accessHours,
       if (appointmentTime != null) 'AppointmentTime': appointmentTime,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (id != null) 'Id': id,
       if (serviceDuration != null) 'ServiceDuration': serviceDuration,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
@@ -2618,11 +2643,11 @@ class WaypointOptimizationWaypoint {
     final serviceDuration = this.serviceDuration;
     final sideOfStreet = this.sideOfStreet;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (accessHours != null) 'AccessHours': accessHours,
       if (appointmentTime != null) 'AppointmentTime': appointmentTime,
       if (before != null) 'Before': before,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (id != null) 'Id': id,
       if (serviceDuration != null) 'ServiceDuration': serviceDuration,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
@@ -2677,7 +2702,7 @@ class WaypointOptimizationSideOfStreetOptions {
     final position = this.position;
     final useWith = this.useWith;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (useWith != null) 'UseWith': useWith.value,
     };
   }
@@ -2788,7 +2813,7 @@ class WaypointOptimizationPedestrianOptions {
   Map<String, dynamic> toJson() {
     final speed = this.speed;
     return {
-      if (speed != null) 'Speed': speed,
+      if (speed != null) 'Speed': _s.encodeJsonDouble(speed),
     };
   }
 }
@@ -3242,7 +3267,8 @@ class WaypointOptimizationAvoidanceAreaGeometry {
   Map<String, dynamic> toJson() {
     final boundingBox = this.boundingBox;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -3407,7 +3433,7 @@ class RouteTollPriceSummary {
       currency: (json['Currency'] as String?) ?? '',
       estimate: (json['Estimate'] as bool?) ?? false,
       range: (json['Range'] as bool?) ?? false,
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
       rangeValue: json['RangeValue'] != null
           ? RouteTollPriceValueRange.fromJson(
               json['RangeValue'] as Map<String, dynamic>)
@@ -3425,7 +3451,7 @@ class RouteTollPriceSummary {
       'Currency': currency,
       'Estimate': estimate,
       'Range': range,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
       if (rangeValue != null) 'RangeValue': rangeValue,
     };
   }
@@ -3448,8 +3474,8 @@ class RouteTollPriceValueRange {
 
   factory RouteTollPriceValueRange.fromJson(Map<String, dynamic> json) {
     return RouteTollPriceValueRange(
-      max: (json['Max'] as double?) ?? 0,
-      min: (json['Min'] as double?) ?? 0,
+      max: _s.parseJsonDouble(json['Max']) ?? 0,
+      min: _s.parseJsonDouble(json['Min']) ?? 0,
     );
   }
 
@@ -3457,8 +3483,8 @@ class RouteTollPriceValueRange {
     final max = this.max;
     final min = this.min;
     return {
-      'Max': max,
-      'Min': min,
+      'Max': _s.encodeJsonDouble(max),
+      'Min': _s.encodeJsonDouble(min),
     };
   }
 }
@@ -3882,7 +3908,8 @@ class RouteLegGeometry {
     return RouteLegGeometry(
       lineString: (json['LineString'] as List?)
           ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+          .map((e) =>
+              (e as List).nonNulls.map((e) => _s.parseJsonDouble(e)!).toList())
           .toList(),
       polyline: json['Polyline'] as String?,
     );
@@ -3892,7 +3919,9 @@ class RouteLegGeometry {
     final lineString = this.lineString;
     final polyline = this.polyline;
     return {
-      if (lineString != null) 'LineString': lineString,
+      if (lineString != null)
+        'LineString':
+            lineString.map((e) => e.map(_s.encodeJsonDouble).toList()).toList(),
       if (polyline != null) 'Polyline': polyline,
     };
   }
@@ -5344,11 +5373,11 @@ class RoutePassThroughPlace {
     return RoutePassThroughPlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       waypointIndex: json['WaypointIndex'] as int?,
     );
@@ -5359,8 +5388,9 @@ class RoutePassThroughPlace {
     final originalPosition = this.originalPosition;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (waypointIndex != null) 'WaypointIndex': waypointIndex,
     };
   }
@@ -5849,12 +5879,12 @@ class RouteTransitPlace {
     return RouteTransitPlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       name: json['Name'] as String?,
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       stationDetails: json['StationDetails'] != null
           ? RouteStationDetails.fromJson(
@@ -5873,9 +5903,10 @@ class RouteTransitPlace {
     final type = this.type;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (name != null) 'Name': name,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (stationDetails != null) 'StationDetails': stationDetails,
       if (type != null) 'Type': type.value,
       if (waypointIndex != null) 'WaypointIndex': waypointIndex,
@@ -6634,7 +6665,7 @@ class RouteExitStepDetails {
       relativeExit: json['RelativeExit'] as int?,
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -6651,7 +6682,7 @@ class RouteExitStepDetails {
       if (relativeExit != null) 'RelativeExit': relativeExit,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -6688,7 +6719,7 @@ class RouteKeepStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -6703,7 +6734,7 @@ class RouteKeepStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -6740,7 +6771,7 @@ class RouteRampStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -6755,7 +6786,7 @@ class RouteRampStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -6792,7 +6823,7 @@ class RouteRoundaboutEnterStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -6807,7 +6838,7 @@ class RouteRoundaboutEnterStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -6843,7 +6874,7 @@ class RouteRoundaboutExitStepDetails {
           .map((e) => LocalizedString.fromJson(e as Map<String, dynamic>))
           .toList(),
       relativeExit: json['RelativeExit'] as int?,
-      roundaboutAngle: json['RoundaboutAngle'] as double?,
+      roundaboutAngle: _s.parseJsonDouble(json['RoundaboutAngle']),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
     );
@@ -6857,7 +6888,8 @@ class RouteRoundaboutExitStepDetails {
     return {
       'Intersection': intersection,
       if (relativeExit != null) 'RelativeExit': relativeExit,
-      if (roundaboutAngle != null) 'RoundaboutAngle': roundaboutAngle,
+      if (roundaboutAngle != null)
+        'RoundaboutAngle': _s.encodeJsonDouble(roundaboutAngle),
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
     };
@@ -6895,7 +6927,7 @@ class RouteRoundaboutPassStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -6910,7 +6942,7 @@ class RouteRoundaboutPassStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -6947,7 +6979,7 @@ class RouteTurnStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -6962,7 +6994,7 @@ class RouteTurnStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -7046,7 +7078,7 @@ class RouteUTurnStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -7061,7 +7093,7 @@ class RouteUTurnStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -7336,7 +7368,7 @@ class RouteTaxiPlace {
     return RouteTaxiPlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       accessPointDetails: json['AccessPointDetails'] != null
           ? RouteAccessPointDetails.fromJson(
@@ -7345,7 +7377,7 @@ class RouteTaxiPlace {
       name: json['Name'] as String?,
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       stationDetails: json['StationDetails'] != null
           ? RouteStationDetails.fromJson(
@@ -7365,10 +7397,11 @@ class RouteTaxiPlace {
     final type = this.type;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (accessPointDetails != null) 'AccessPointDetails': accessPointDetails,
       if (name != null) 'Name': name,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (stationDetails != null) 'StationDetails': stationDetails,
       if (type != null) 'Type': type.value,
       if (waypointIndex != null) 'WaypointIndex': waypointIndex,
@@ -8093,7 +8126,7 @@ class RouteRentalPlace {
     return RouteRentalPlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       accessPointDetails: json['AccessPointDetails'] != null
           ? RouteAccessPointDetails.fromJson(
@@ -8102,7 +8135,7 @@ class RouteRentalPlace {
       name: json['Name'] as String?,
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       stationDetails: json['StationDetails'] != null
           ? RouteStationDetails.fromJson(
@@ -8122,10 +8155,11 @@ class RouteRentalPlace {
     final type = this.type;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (accessPointDetails != null) 'AccessPointDetails': accessPointDetails,
       if (name != null) 'Name': name,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (stationDetails != null) 'StationDetails': stationDetails,
       if (type != null) 'Type': type.value,
       if (waypointIndex != null) 'WaypointIndex': waypointIndex,
@@ -8706,7 +8740,7 @@ class RouteContinueHighwayStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -8721,7 +8755,7 @@ class RouteContinueHighwayStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -8813,7 +8847,7 @@ class RouteEnterHighwayStepDetails {
           .toList(),
       steeringDirection: (json['SteeringDirection'] as String?)
           ?.let(RouteSteeringDirection.fromString),
-      turnAngle: json['TurnAngle'] as double?,
+      turnAngle: _s.parseJsonDouble(json['TurnAngle']),
       turnIntensity: (json['TurnIntensity'] as String?)
           ?.let(RouteTurnIntensity.fromString),
     );
@@ -8828,7 +8862,7 @@ class RouteEnterHighwayStepDetails {
       'Intersection': intersection,
       if (steeringDirection != null)
         'SteeringDirection': steeringDirection.value,
-      if (turnAngle != null) 'TurnAngle': turnAngle,
+      if (turnAngle != null) 'TurnAngle': _s.encodeJsonDouble(turnAngle),
       if (turnIntensity != null) 'TurnIntensity': turnIntensity.value,
     };
   }
@@ -9187,7 +9221,7 @@ class RouteTollPrice {
       currency: (json['Currency'] as String?) ?? '',
       estimate: (json['Estimate'] as bool?) ?? false,
       range: (json['Range'] as bool?) ?? false,
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
       perDuration: json['PerDuration'] as int?,
       rangeValue: json['RangeValue'] != null
           ? RouteTollPriceValueRange.fromJson(
@@ -9207,7 +9241,7 @@ class RouteTollPrice {
       'Currency': currency,
       'Estimate': estimate,
       'Range': range,
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
       if (perDuration != null) 'PerDuration': perDuration,
       if (rangeValue != null) 'RangeValue': rangeValue,
     };
@@ -9418,7 +9452,7 @@ class RouteTollPaymentSite {
     return RouteTollPaymentSite(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       name: json['Name'] as String?,
     );
@@ -9428,7 +9462,7 @@ class RouteTollPaymentSite {
     final position = this.position;
     final name = this.name;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (name != null) 'Name': name,
     };
   }
@@ -9827,9 +9861,9 @@ class RouteSpanDynamicSpeedDetails {
 
   factory RouteSpanDynamicSpeedDetails.fromJson(Map<String, dynamic> json) {
     return RouteSpanDynamicSpeedDetails(
-      bestCaseSpeed: json['BestCaseSpeed'] as double?,
+      bestCaseSpeed: _s.parseJsonDouble(json['BestCaseSpeed']),
       turnDuration: json['TurnDuration'] as int?,
-      typicalSpeed: json['TypicalSpeed'] as double?,
+      typicalSpeed: _s.parseJsonDouble(json['TypicalSpeed']),
     );
   }
 
@@ -9838,9 +9872,11 @@ class RouteSpanDynamicSpeedDetails {
     final turnDuration = this.turnDuration;
     final typicalSpeed = this.typicalSpeed;
     return {
-      if (bestCaseSpeed != null) 'BestCaseSpeed': bestCaseSpeed,
+      if (bestCaseSpeed != null)
+        'BestCaseSpeed': _s.encodeJsonDouble(bestCaseSpeed),
       if (turnDuration != null) 'TurnDuration': turnDuration,
-      if (typicalSpeed != null) 'TypicalSpeed': typicalSpeed,
+      if (typicalSpeed != null)
+        'TypicalSpeed': _s.encodeJsonDouble(typicalSpeed),
     };
   }
 }
@@ -9920,7 +9956,7 @@ class RouteSpanSpeedLimitDetails {
 
   factory RouteSpanSpeedLimitDetails.fromJson(Map<String, dynamic> json) {
     return RouteSpanSpeedLimitDetails(
-      maxSpeed: json['MaxSpeed'] as double?,
+      maxSpeed: _s.parseJsonDouble(json['MaxSpeed']),
       unlimited: json['Unlimited'] as bool?,
     );
   }
@@ -9929,7 +9965,7 @@ class RouteSpanSpeedLimitDetails {
     final maxSpeed = this.maxSpeed;
     final unlimited = this.unlimited;
     return {
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (unlimited != null) 'Unlimited': unlimited,
     };
   }
@@ -10913,7 +10949,7 @@ class RouteVehiclePlace {
     return RouteVehiclePlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       accessPointDetails: json['AccessPointDetails'] != null
           ? RouteAccessPointDetails.fromJson(
@@ -10922,7 +10958,7 @@ class RouteVehiclePlace {
       name: json['Name'] as String?,
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       sideOfStreet:
           (json['SideOfStreet'] as String?)?.let(RouteSideOfStreet.fromString),
@@ -10945,10 +10981,11 @@ class RouteVehiclePlace {
     final type = this.type;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (accessPointDetails != null) 'AccessPointDetails': accessPointDetails,
       if (name != null) 'Name': name,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet.value,
       if (stationDetails != null) 'StationDetails': stationDetails,
       if (type != null) 'Type': type.value,
@@ -11092,9 +11129,9 @@ class RouteChargeStepDetails {
 
   factory RouteChargeStepDetails.fromJson(Map<String, dynamic> json) {
     return RouteChargeStepDetails(
-      arrivalCharge: json['ArrivalCharge'] as double?,
-      consumablePower: json['ConsumablePower'] as double?,
-      desiredCharge: json['DesiredCharge'] as double?,
+      arrivalCharge: _s.parseJsonDouble(json['ArrivalCharge']),
+      consumablePower: _s.parseJsonDouble(json['ConsumablePower']),
+      desiredCharge: _s.parseJsonDouble(json['DesiredCharge']),
     );
   }
 
@@ -11103,9 +11140,12 @@ class RouteChargeStepDetails {
     final consumablePower = this.consumablePower;
     final desiredCharge = this.desiredCharge;
     return {
-      if (arrivalCharge != null) 'ArrivalCharge': arrivalCharge,
-      if (consumablePower != null) 'ConsumablePower': consumablePower,
-      if (desiredCharge != null) 'DesiredCharge': desiredCharge,
+      if (arrivalCharge != null)
+        'ArrivalCharge': _s.encodeJsonDouble(arrivalCharge),
+      if (consumablePower != null)
+        'ConsumablePower': _s.encodeJsonDouble(consumablePower),
+      if (desiredCharge != null)
+        'DesiredCharge': _s.encodeJsonDouble(desiredCharge),
     };
   }
 }
@@ -11874,7 +11914,7 @@ class RoutePedestrianPlace {
     return RoutePedestrianPlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       accessPointDetails: json['AccessPointDetails'] != null
           ? RouteAccessPointDetails.fromJson(
@@ -11883,7 +11923,7 @@ class RoutePedestrianPlace {
       name: json['Name'] as String?,
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       sideOfStreet:
           (json['SideOfStreet'] as String?)?.let(RouteSideOfStreet.fromString),
@@ -11906,10 +11946,11 @@ class RoutePedestrianPlace {
     final type = this.type;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (accessPointDetails != null) 'AccessPointDetails': accessPointDetails,
       if (name != null) 'Name': name,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet.value,
       if (stationDetails != null) 'StationDetails': stationDetails,
       if (type != null) 'Type': type.value,
@@ -12459,12 +12500,12 @@ class RouteFerryPlace {
     return RouteFerryPlace(
       position: ((json['Position'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       name: json['Name'] as String?,
       originalPosition: (json['OriginalPosition'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       waypointIndex: json['WaypointIndex'] as int?,
     );
@@ -12476,9 +12517,10 @@ class RouteFerryPlace {
     final originalPosition = this.originalPosition;
     final waypointIndex = this.waypointIndex;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (name != null) 'Name': name,
-      if (originalPosition != null) 'OriginalPosition': originalPosition,
+      if (originalPosition != null)
+        'OriginalPosition': originalPosition.map(_s.encodeJsonDouble).toList(),
       if (waypointIndex != null) 'WaypointIndex': waypointIndex,
     };
   }
@@ -12902,7 +12944,7 @@ class RouteDestinationOptions {
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
       if (avoidUTurns != null) 'AvoidUTurns': avoidUTurns,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
       if (stopDuration != null) 'StopDuration': stopDuration,
@@ -13041,7 +13083,7 @@ class RouteOriginOptions {
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
       if (avoidUTurns != null) 'AvoidUTurns': avoidUTurns,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
     };
@@ -13356,11 +13398,11 @@ class RouteWaypoint {
     final sideOfStreet = this.sideOfStreet;
     final stopDuration = this.stopDuration;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
       if (avoidUTurns != null) 'AvoidUTurns': avoidUTurns,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (passThrough != null) 'PassThrough': passThrough,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
@@ -13437,7 +13479,7 @@ class RouteSideOfStreetOptions {
     final position = this.position;
     final useWith = this.useWith;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (useWith != null) 'UseWith': useWith.value,
     };
   }
@@ -13517,7 +13559,7 @@ class RouteCarOptions {
     return {
       if (engineType != null) 'EngineType': engineType.value,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
     };
   }
@@ -13540,7 +13582,7 @@ class RoutePedestrianOptions {
   Map<String, dynamic> toJson() {
     final speed = this.speed;
     return {
-      if (speed != null) 'Speed': speed,
+      if (speed != null) 'Speed': _s.encodeJsonDouble(speed),
     };
   }
 }
@@ -13593,7 +13635,7 @@ class RouteScooterOptions {
     return {
       if (engineType != null) 'EngineType': engineType.value,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
     };
   }
@@ -13796,7 +13838,7 @@ class RouteTruckOptions {
       if (kpraLength != null) 'KpraLength': kpraLength,
       if (length != null) 'Length': length,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
       if (payloadCapacity != null) 'PayloadCapacity': payloadCapacity,
       if (tireCount != null) 'TireCount': tireCount,
@@ -13955,7 +13997,7 @@ class RouteTransitPedestrianOptions {
     final speed = this.speed;
     return {
       if (maxDistance != null) 'MaxDistance': maxDistance,
-      if (speed != null) 'Speed': speed,
+      if (speed != null) 'Speed': _s.encodeJsonDouble(speed),
     };
   }
 }
@@ -14009,7 +14051,7 @@ class RouteIntermodalPedestrianOptions {
     final speed = this.speed;
     return {
       if (maxDistance != null) 'MaxDistance': maxDistance,
-      if (speed != null) 'Speed': speed,
+      if (speed != null) 'Speed': _s.encodeJsonDouble(speed),
     };
   }
 }
@@ -14644,9 +14686,14 @@ class RouteAvoidanceAreaGeometry {
     final polylineCorridor = this.polylineCorridor;
     final polylinePolygon = this.polylinePolygon;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (corridor != null) 'Corridor': corridor,
-      if (polygon != null) 'Polygon': polygon,
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
       if (polylineCorridor != null) 'PolylineCorridor': polylineCorridor,
       if (polylinePolygon != null) 'PolylinePolygon': polylinePolygon,
     };
@@ -14676,7 +14723,8 @@ class Corridor {
     final lineString = this.lineString;
     final radius = this.radius;
     return {
-      'LineString': lineString,
+      'LineString':
+          lineString.map((e) => e.map(_s.encodeJsonDouble).toList()).toList(),
       'Radius': radius,
     };
   }
@@ -14816,7 +14864,7 @@ class RouteMatrixBoundaryGeometry {
           : null,
       boundingBox: (json['BoundingBox'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
       circle: json['Circle'] != null
           ? Circle.fromJson(json['Circle'] as Map<String, dynamic>)
@@ -14825,7 +14873,10 @@ class RouteMatrixBoundaryGeometry {
           ?.nonNulls
           .map((e) => (e as List)
               .nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+              .map((e) => (e as List)
+                  .nonNulls
+                  .map((e) => _s.parseJsonDouble(e)!)
+                  .toList())
               .toList())
           .toList(),
     );
@@ -14838,9 +14889,14 @@ class RouteMatrixBoundaryGeometry {
     final polygon = this.polygon;
     return {
       if (autoCircle != null) 'AutoCircle': autoCircle,
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (circle != null) 'Circle': circle,
-      if (polygon != null) 'Polygon': polygon,
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
     };
   }
 }
@@ -14931,9 +14987,9 @@ class Circle {
     return Circle(
       center: ((json['Center'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
-      radius: (json['Radius'] as double?) ?? 0,
+      radius: _s.parseJsonDouble(json['Radius']) ?? 0,
     );
   }
 
@@ -14941,8 +14997,8 @@ class Circle {
     final center = this.center;
     final radius = this.radius;
     return {
-      'Center': center,
-      'Radius': radius,
+      'Center': center.map(_s.encodeJsonDouble).toList(),
+      'Radius': _s.encodeJsonDouble(radius),
     };
   }
 }
@@ -15301,7 +15357,7 @@ class RouteMatrixCarOptions {
     final occupancy = this.occupancy;
     return {
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
     };
   }
@@ -15336,7 +15392,7 @@ class RouteMatrixScooterOptions {
     final occupancy = this.occupancy;
     return {
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
     };
   }
@@ -15513,7 +15569,7 @@ class RouteMatrixTruckOptions {
       if (kpraLength != null) 'KpraLength': kpraLength,
       if (length != null) 'Length': length,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
       if (payloadCapacity != null) 'PayloadCapacity': payloadCapacity,
       if (trailer != null) 'Trailer': trailer,
@@ -15666,7 +15722,7 @@ class RouteMatrixOrigin {
     final position = this.position;
     final options = this.options;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (options != null) 'Options': options,
     };
   }
@@ -15705,7 +15761,7 @@ class RouteMatrixOriginOptions {
     return {
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
     };
@@ -15781,7 +15837,7 @@ class RouteMatrixSideOfStreetOptions {
     final position = this.position;
     final useWith = this.useWith;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (useWith != null) 'UseWith': useWith.value,
     };
   }
@@ -15809,7 +15865,7 @@ class RouteMatrixDestination {
     final position = this.position;
     final options = this.options;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (options != null) 'Options': options,
     };
   }
@@ -15848,7 +15904,7 @@ class RouteMatrixDestinationOptions {
     return {
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
     };
@@ -15952,8 +16008,13 @@ class RouteMatrixAvoidanceAreaGeometry {
     final polygon = this.polygon;
     final polylinePolygon = this.polylinePolygon;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (polygon != null) 'Polygon': polygon,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
       if (polylinePolygon != null) 'PolylinePolygon': polylinePolygon,
     };
   }
@@ -16056,7 +16117,10 @@ class IsolineShapeGeometry {
           ?.nonNulls
           .map((e) => (e as List)
               .nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+              .map((e) => (e as List)
+                  .nonNulls
+                  .map((e) => _s.parseJsonDouble(e)!)
+                  .toList())
               .toList())
           .toList(),
       polylinePolygon: (json['PolylinePolygon'] as List?)
@@ -16070,7 +16134,11 @@ class IsolineShapeGeometry {
     final polygon = this.polygon;
     final polylinePolygon = this.polylinePolygon;
     return {
-      if (polygon != null) 'Polygon': polygon,
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
       if (polylinePolygon != null) 'PolylinePolygon': polylinePolygon,
     };
   }
@@ -16157,7 +16225,8 @@ class IsolineConnectionGeometry {
     return IsolineConnectionGeometry(
       lineString: (json['LineString'] as List?)
           ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
+          .map((e) =>
+              (e as List).nonNulls.map((e) => _s.parseJsonDouble(e)!).toList())
           .toList(),
       polyline: json['Polyline'] as String?,
     );
@@ -16167,7 +16236,9 @@ class IsolineConnectionGeometry {
     final lineString = this.lineString;
     final polyline = this.polyline;
     return {
-      if (lineString != null) 'LineString': lineString,
+      if (lineString != null)
+        'LineString':
+            lineString.map((e) => e.map(_s.encodeJsonDouble).toList()).toList(),
       if (polyline != null) 'Polyline': polyline,
     };
   }
@@ -16367,7 +16438,7 @@ class IsolineDestinationOptions {
     return {
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
     };
@@ -16481,7 +16552,7 @@ class IsolineOriginOptions {
     return {
       if (avoidActionsForDistance != null)
         'AvoidActionsForDistance': avoidActionsForDistance,
-      if (heading != null) 'Heading': heading,
+      if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (matching != null) 'Matching': matching,
       if (sideOfStreet != null) 'SideOfStreet': sideOfStreet,
     };
@@ -16681,7 +16752,7 @@ class IsolineCarOptions {
     return {
       if (engineType != null) 'EngineType': engineType.value,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
     };
   }
@@ -16743,7 +16814,7 @@ class IsolineScooterOptions {
     return {
       if (engineType != null) 'EngineType': engineType.value,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
     };
   }
@@ -17021,7 +17092,7 @@ class IsolineTruckOptions {
       if (kpraLength != null) 'KpraLength': kpraLength,
       if (length != null) 'Length': length,
       if (licensePlate != null) 'LicensePlate': licensePlate,
-      if (maxSpeed != null) 'MaxSpeed': maxSpeed,
+      if (maxSpeed != null) 'MaxSpeed': _s.encodeJsonDouble(maxSpeed),
       if (occupancy != null) 'Occupancy': occupancy,
       if (payloadCapacity != null) 'PayloadCapacity': payloadCapacity,
       if (tireCount != null) 'TireCount': tireCount,
@@ -17270,7 +17341,7 @@ class IsolineSideOfStreetOptions {
     final position = this.position;
     final useWith = this.useWith;
     return {
-      'Position': position,
+      'Position': position.map(_s.encodeJsonDouble).toList(),
       if (useWith != null) 'UseWith': useWith.value,
     };
   }
@@ -17399,9 +17470,14 @@ class IsolineAvoidanceAreaGeometry {
     final polylineCorridor = this.polylineCorridor;
     final polylinePolygon = this.polylinePolygon;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (boundingBox != null)
+        'BoundingBox': boundingBox.map(_s.encodeJsonDouble).toList(),
       if (corridor != null) 'Corridor': corridor,
-      if (polygon != null) 'Polygon': polygon,
+      if (polygon != null)
+        'Polygon': polygon
+            .map((e) =>
+                e.map((e) => e.map(_s.encodeJsonDouble).toList()).toList())
+            .toList(),
       if (polylineCorridor != null) 'PolylineCorridor': polylineCorridor,
       if (polylinePolygon != null) 'PolylinePolygon': polylinePolygon,
     };

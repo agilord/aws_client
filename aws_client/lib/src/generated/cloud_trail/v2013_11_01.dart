@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,28 +19,44 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2013_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the CloudTrail API Reference. It provides descriptions of actions,
 /// data types, common parameters, and common errors for CloudTrail.
 class CloudTrail {
   final _s.JsonProtocol _protocol;
-  CloudTrail({
+  factory CloudTrail({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'cloudtrail',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'cloudtrail',
+    );
+    return CloudTrail._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CloudTrail._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -6280,8 +6297,10 @@ class ListInsightsMetricDataResponse {
           .map(nonNullableTimeStampFromJson)
           .toList(),
       trailARN: json['TrailARN'] as String?,
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      values: (json['Values'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
@@ -6303,7 +6322,7 @@ class ListInsightsMetricDataResponse {
       if (timestamps != null)
         'Timestamps': timestamps.map(unixTimestampToJson).toList(),
       if (trailARN != null) 'TrailARN': trailARN,
-      if (values != null) 'Values': values,
+      if (values != null) 'Values': values.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -8356,7 +8375,7 @@ class SearchSampleQueriesSearchResult {
     return SearchSampleQueriesSearchResult(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
-      relevance: json['Relevance'] as double?,
+      relevance: _s.parseJsonDouble(json['Relevance']),
       sql: json['SQL'] as String?,
     );
   }
@@ -8369,7 +8388,7 @@ class SearchSampleQueriesSearchResult {
     return {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
-      if (relevance != null) 'Relevance': relevance,
+      if (relevance != null) 'Relevance': _s.encodeJsonDouble(relevance),
       if (sql != null) 'SQL': sql,
     };
   }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_08_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Using Batch, you can run batch computing workloads on the Amazon Web
@@ -31,22 +33,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// costs, and delivering results more quickly.
 class Batch {
   final _s.RestJsonProtocol _protocol;
-  Batch({
+  factory Batch({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'batch',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'batch',
+    );
+    return Batch._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Batch._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4519,7 +4536,7 @@ class ShareAttributes {
   factory ShareAttributes.fromJson(Map<String, dynamic> json) {
     return ShareAttributes(
       shareIdentifier: (json['shareIdentifier'] as String?) ?? '',
-      weightFactor: json['weightFactor'] as double?,
+      weightFactor: _s.parseJsonDouble(json['weightFactor']),
     );
   }
 
@@ -4528,7 +4545,8 @@ class ShareAttributes {
     final weightFactor = this.weightFactor;
     return {
       'shareIdentifier': shareIdentifier,
-      if (weightFactor != null) 'weightFactor': weightFactor,
+      if (weightFactor != null)
+        'weightFactor': _s.encodeJsonDouble(weightFactor),
     };
   }
 }
@@ -10921,7 +10939,7 @@ class ServiceJobCapacityUsageSummary {
   factory ServiceJobCapacityUsageSummary.fromJson(Map<String, dynamic> json) {
     return ServiceJobCapacityUsageSummary(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -10930,7 +10948,7 @@ class ServiceJobCapacityUsageSummary {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -11628,7 +11646,7 @@ class JobCapacityUsageSummary {
   factory JobCapacityUsageSummary.fromJson(Map<String, dynamic> json) {
     return JobCapacityUsageSummary(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -11637,7 +11655,7 @@ class JobCapacityUsageSummary {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -11980,7 +11998,7 @@ class QuotaShareCapacityUsage {
   factory QuotaShareCapacityUsage.fromJson(Map<String, dynamic> json) {
     return QuotaShareCapacityUsage(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -11989,7 +12007,7 @@ class QuotaShareCapacityUsage {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -12054,7 +12072,7 @@ class FairshareCapacityUsage {
   factory FairshareCapacityUsage.fromJson(Map<String, dynamic> json) {
     return FairshareCapacityUsage(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12063,7 +12081,7 @@ class FairshareCapacityUsage {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -12090,7 +12108,7 @@ class QueueSnapshotCapacityUsage {
   factory QueueSnapshotCapacityUsage.fromJson(Map<String, dynamic> json) {
     return QueueSnapshotCapacityUsage(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12099,7 +12117,7 @@ class QueueSnapshotCapacityUsage {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }
@@ -12286,7 +12304,7 @@ class ServiceJobCapacityUsageDetail {
   factory ServiceJobCapacityUsageDetail.fromJson(Map<String, dynamic> json) {
     return ServiceJobCapacityUsageDetail(
       capacityUnit: json['capacityUnit'] as String?,
-      quantity: json['quantity'] as double?,
+      quantity: _s.parseJsonDouble(json['quantity']),
     );
   }
 
@@ -12295,7 +12313,7 @@ class ServiceJobCapacityUsageDetail {
     final quantity = this.quantity;
     return {
       if (capacityUnit != null) 'capacityUnit': capacityUnit,
-      if (quantity != null) 'quantity': quantity,
+      if (quantity != null) 'quantity': _s.encodeJsonDouble(quantity),
     };
   }
 }

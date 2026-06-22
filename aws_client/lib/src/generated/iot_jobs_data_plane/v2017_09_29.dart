@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2017_09_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// IoT Jobs is a service that allows you to define a set of jobs — remote
@@ -49,23 +51,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// progress of a job on a specific target and for all the targets of the job
 class IoTJobsDataPlane {
   final _s.RestJsonProtocol _protocol;
-  IoTJobsDataPlane({
+  factory IoTJobsDataPlane({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'data.jobs.iot',
-            signingName: 'iot-jobs-data',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'data.jobs.iot',
+      signingName: 'iot-jobs-data',
+    );
+    return IoTJobsDataPlane._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  IoTJobsDataPlane._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -762,7 +779,7 @@ class CommandParameterValue {
     return {
       if (b != null) 'B': b,
       if (bin != null) 'BIN': base64Encode(bin),
-      if (d != null) 'D': d,
+      if (d != null) 'D': _s.encodeJsonDouble(d),
       if (i != null) 'I': i,
       if (l != null) 'L': l,
       if (s != null) 'S': s,

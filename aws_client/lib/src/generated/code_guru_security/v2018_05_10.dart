@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// <note>
@@ -39,22 +41,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// CodeGuru Security User Guide</a>.
 class CodeGuruSecurity {
   final _s.RestJsonProtocol _protocol;
-  CodeGuruSecurity({
+  factory CodeGuruSecurity({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'codeguru-security',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'codeguru-security',
+    );
+    return CodeGuruSecurity._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  CodeGuruSecurity._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1226,11 +1243,11 @@ class FindingMetricsValuePerSeverity {
 
   factory FindingMetricsValuePerSeverity.fromJson(Map<String, dynamic> json) {
     return FindingMetricsValuePerSeverity(
-      critical: json['critical'] as double?,
-      high: json['high'] as double?,
-      info: json['info'] as double?,
-      low: json['low'] as double?,
-      medium: json['medium'] as double?,
+      critical: _s.parseJsonDouble(json['critical']),
+      high: _s.parseJsonDouble(json['high']),
+      info: _s.parseJsonDouble(json['info']),
+      low: _s.parseJsonDouble(json['low']),
+      medium: _s.parseJsonDouble(json['medium']),
     );
   }
 
@@ -1241,11 +1258,11 @@ class FindingMetricsValuePerSeverity {
     final low = this.low;
     final medium = this.medium;
     return {
-      if (critical != null) 'critical': critical,
-      if (high != null) 'high': high,
-      if (info != null) 'info': info,
-      if (low != null) 'low': low,
-      if (medium != null) 'medium': medium,
+      if (critical != null) 'critical': _s.encodeJsonDouble(critical),
+      if (high != null) 'high': _s.encodeJsonDouble(high),
+      if (info != null) 'info': _s.encodeJsonDouble(info),
+      if (low != null) 'low': _s.encodeJsonDouble(low),
+      if (medium != null) 'medium': _s.encodeJsonDouble(medium),
     };
   }
 }

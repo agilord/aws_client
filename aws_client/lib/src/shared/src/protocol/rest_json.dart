@@ -9,33 +9,39 @@ import 'shared.dart';
 
 class RestJsonProtocol {
   final Client _client;
-  final Endpoint _endpoint;
+  // Resolved lazily; some services only have a usable endpoint per-operation.
+  final Endpoint Function() _endpointBuilder;
+  Endpoint? _cachedEndpoint;
+  Endpoint get _endpoint => _cachedEndpoint ??= _endpointBuilder();
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
+  final bool _disableHostPrefix;
   bool _closed = false;
 
   RestJsonProtocol._(
     this._client,
-    this._endpoint,
+    this._endpointBuilder,
     this._credentialsProvider,
     this._requestSigner,
     this._manageHttpClient,
+    this._disableHostPrefix,
   );
 
   factory RestJsonProtocol({
     Client? client,
+    Endpoint Function()? endpointBuilder,
     ServiceMetadata? service,
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
+    bool disableHostPrefix = false,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
-
-    final endpoint = Endpoint.forProtocol(
+    endpointBuilder ??= () => Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
     // If credentials are provided, override credentials provider
@@ -48,10 +54,11 @@ class RestJsonProtocol {
 
     return RestJsonProtocol._(
       client,
-      endpoint,
+      endpointBuilder,
       credentialsProvider,
       requestSigner,
       manageHttpClient,
+      disableHostPrefix,
     );
   }
 
@@ -63,8 +70,12 @@ class RestJsonProtocol {
     Map<String, List<String>>? queryParams,
     Map<String, String>? headers,
     dynamic payload,
+    Endpoint? endpoint,
+    String? hostPrefix,
   }) async {
-    var uri = Uri.parse('${_endpoint.url}$requestUri');
+    final ep = endpoint ?? _endpoint;
+    var uri = Uri.parse('${ep.url}$requestUri');
+    uri = applyHostPrefix(uri, hostPrefix, disabled: _disableHostPrefix);
     uri = uri.replace(queryParameters: {
       ...uri.queryParametersAll,
       ...?queryParams,
@@ -99,8 +110,8 @@ class RestJsonProtocol {
 
       _requestSigner(
         rq: rq,
-        service: _endpoint.service,
-        region: _endpoint.signingRegion,
+        service: ep.service,
+        region: ep.signingRegion,
         credentials: credentials,
       );
     }
@@ -123,6 +134,8 @@ class RestJsonProtocol {
     Map<String, String>? headers,
     dynamic payload,
     bool isRawPayload = false,
+    Endpoint? endpoint,
+    String? hostPrefix,
   }) async {
     final rs = await sendRaw(
       method: method,
@@ -132,6 +145,8 @@ class RestJsonProtocol {
       queryParams: queryParams,
       headers: headers,
       payload: payload,
+      endpoint: endpoint,
+      hostPrefix: hostPrefix,
     );
     return jsonFromResponse(rs);
   }

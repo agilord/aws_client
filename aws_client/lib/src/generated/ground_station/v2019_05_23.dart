@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_05_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Welcome to the AWS Ground Station API Reference. AWS Ground Station is a
@@ -27,22 +29,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// ground station infrastructure.
 class GroundStation {
   final _s.RestJsonProtocol _protocol;
-  GroundStation({
+  factory GroundStation({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'groundstation',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'groundstation',
+    );
+    return GroundStation._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  GroundStation._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -4616,9 +4633,9 @@ class TimeAzEl {
     final dt = this.dt;
     final el = this.el;
     return {
-      'az': az,
-      'dt': dt,
-      'el': el,
+      'az': _s.encodeJsonDouble(az),
+      'dt': _s.encodeJsonDouble(dt),
+      'el': _s.encodeJsonDouble(el),
     };
   }
 }
@@ -5829,7 +5846,7 @@ class Elevation {
   factory Elevation.fromJson(Map<String, dynamic> json) {
     return Elevation(
       unit: AngleUnits.fromString((json['unit'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -5838,7 +5855,7 @@ class Elevation {
     final value = this.value;
     return {
       'unit': unit.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7109,7 +7126,7 @@ class Eirp {
   factory Eirp.fromJson(Map<String, dynamic> json) {
     return Eirp(
       units: EirpUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -7118,7 +7135,7 @@ class Eirp {
     final value = this.value;
     return {
       'units': units.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7165,7 +7182,7 @@ class Frequency {
   factory Frequency.fromJson(Map<String, dynamic> json) {
     return Frequency(
       units: FrequencyUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -7174,7 +7191,7 @@ class Frequency {
     final value = this.value;
     return {
       'units': units.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -7378,7 +7395,7 @@ class FrequencyBandwidth {
   factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
     return FrequencyBandwidth(
       units: BandwidthUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['value']) ?? 0,
     );
   }
 
@@ -7387,7 +7404,7 @@ class FrequencyBandwidth {
     final value = this.value;
     return {
       'units': units.value,
-      'value': value,
+      'value': _s.encodeJsonDouble(value),
     };
   }
 }

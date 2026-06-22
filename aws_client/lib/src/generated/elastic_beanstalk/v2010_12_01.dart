@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2010_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage
@@ -25,23 +27,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// cloud.
 class ElasticBeanstalk {
   final _s.QueryProtocol _protocol;
-
-  ElasticBeanstalk({
+  factory ElasticBeanstalk({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'elasticbeanstalk',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'elasticbeanstalk',
+    );
+    return ElasticBeanstalk._(
+      protocol: _s.QueryProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ElasticBeanstalk._({
+    required _s.QueryProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -5461,7 +5477,8 @@ class SystemStatus {
     final loadAverage = this.loadAverage;
     return {
       if (cPUUtilization != null) 'CPUUtilization': cPUUtilization,
-      if (loadAverage != null) 'LoadAverage': loadAverage,
+      if (loadAverage != null)
+        'LoadAverage': loadAverage.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -5608,14 +5625,14 @@ class CPUUtilization {
     final system = this.system;
     final user = this.user;
     return {
-      if (iOWait != null) 'IOWait': iOWait,
-      if (irq != null) 'IRQ': irq,
-      if (idle != null) 'Idle': idle,
-      if (nice != null) 'Nice': nice,
-      if (privileged != null) 'Privileged': privileged,
-      if (softIRQ != null) 'SoftIRQ': softIRQ,
-      if (system != null) 'System': system,
-      if (user != null) 'User': user,
+      if (iOWait != null) 'IOWait': _s.encodeJsonDouble(iOWait),
+      if (irq != null) 'IRQ': _s.encodeJsonDouble(irq),
+      if (idle != null) 'Idle': _s.encodeJsonDouble(idle),
+      if (nice != null) 'Nice': _s.encodeJsonDouble(nice),
+      if (privileged != null) 'Privileged': _s.encodeJsonDouble(privileged),
+      if (softIRQ != null) 'SoftIRQ': _s.encodeJsonDouble(softIRQ),
+      if (system != null) 'System': _s.encodeJsonDouble(system),
+      if (user != null) 'User': _s.encodeJsonDouble(user),
     };
   }
 }
@@ -5742,14 +5759,14 @@ class Latency {
     final p99 = this.p99;
     final p999 = this.p999;
     return {
-      if (p10 != null) 'P10': p10,
-      if (p50 != null) 'P50': p50,
-      if (p75 != null) 'P75': p75,
-      if (p85 != null) 'P85': p85,
-      if (p90 != null) 'P90': p90,
-      if (p95 != null) 'P95': p95,
-      if (p99 != null) 'P99': p99,
-      if (p999 != null) 'P999': p999,
+      if (p10 != null) 'P10': _s.encodeJsonDouble(p10),
+      if (p50 != null) 'P50': _s.encodeJsonDouble(p50),
+      if (p75 != null) 'P75': _s.encodeJsonDouble(p75),
+      if (p85 != null) 'P85': _s.encodeJsonDouble(p85),
+      if (p90 != null) 'P90': _s.encodeJsonDouble(p90),
+      if (p95 != null) 'P95': _s.encodeJsonDouble(p95),
+      if (p99 != null) 'P99': _s.encodeJsonDouble(p99),
+      if (p999 != null) 'P999': _s.encodeJsonDouble(p999),
     };
   }
 }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -22,22 +23,31 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
 class JsonRpc10 {
   final _s.JsonProtocol _protocol;
-  JsonRpc10({
+  factory JsonRpc10({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'jsonrpc10',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool disableHostPrefix = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'jsonrpc10',
+    );
+    return JsonRpc10._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.forProtocol(
+            service: service, region: region, endpointUrl: endpointUrl),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+        disableHostPrefix: disableHostPrefix,
+      ),
+    );
+  }
+  JsonRpc10._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -98,6 +108,8 @@ class JsonRpc10 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+
+      hostPrefix: 'foo.',
     );
   }
 
@@ -117,6 +129,8 @@ class JsonRpc10 {
       payload: {
         'label': label,
       },
+
+      hostPrefix: 'foo.${label}.',
     );
   }
 
@@ -355,8 +369,9 @@ class JsonRpc10 {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (doubleValue != null) 'doubleValue': doubleValue,
-        if (floatValue != null) 'floatValue': floatValue,
+        if (doubleValue != null)
+          'doubleValue': _s.encodeJsonDouble(doubleValue),
+        if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
       },
     );
 
@@ -364,6 +379,7 @@ class JsonRpc10 {
   }
 }
 
+/// @nodoc
 class ContentTypeParametersOutput {
   ContentTypeParametersOutput();
 
@@ -376,6 +392,7 @@ class ContentTypeParametersOutput {
   }
 }
 
+/// @nodoc
 class EmptyInputAndEmptyOutputOutput {
   EmptyInputAndEmptyOutputOutput();
 
@@ -388,6 +405,7 @@ class EmptyInputAndEmptyOutputOutput {
   }
 }
 
+/// @nodoc
 class GreetingWithErrorsOutput {
   final String? greeting;
 
@@ -409,6 +427,7 @@ class GreetingWithErrorsOutput {
   }
 }
 
+/// @nodoc
 class JsonUnionsOutput {
   final MyUnion? contents;
 
@@ -432,6 +451,7 @@ class JsonUnionsOutput {
   }
 }
 
+/// @nodoc
 class NoInputAndOutputOutput {
   NoInputAndOutputOutput();
 
@@ -444,6 +464,7 @@ class NoInputAndOutputOutput {
   }
 }
 
+/// @nodoc
 class OperationWithDefaultsOutput {
   final Uint8List? defaultBlob;
   final bool? defaultBoolean;
@@ -526,9 +547,9 @@ class OperationWithDefaultsOutput {
           ? Document.fromJson(
               json['defaultDocumentString'] as Map<String, dynamic>)
           : null,
-      defaultDouble: json['defaultDouble'] as double?,
+      defaultDouble: _s.parseJsonDouble(json['defaultDouble']),
       defaultEnum: (json['defaultEnum'] as String?)?.let(TestEnum.fromString),
-      defaultFloat: json['defaultFloat'] as double?,
+      defaultFloat: _s.parseJsonDouble(json['defaultFloat']),
       defaultIntEnum: json['defaultIntEnum'] as int?,
       defaultInteger: json['defaultInteger'] as int?,
       defaultList: (json['defaultList'] as List?)
@@ -549,8 +570,8 @@ class OperationWithDefaultsOutput {
       emptyString: json['emptyString'] as String?,
       falseBoolean: json['falseBoolean'] as bool?,
       zeroByte: json['zeroByte'] as int?,
-      zeroDouble: json['zeroDouble'] as double?,
-      zeroFloat: json['zeroFloat'] as double?,
+      zeroDouble: _s.parseJsonDouble(json['zeroDouble']),
+      zeroFloat: _s.parseJsonDouble(json['zeroFloat']),
       zeroInteger: json['zeroInteger'] as int?,
       zeroLong: json['zeroLong'] as int?,
       zeroShort: json['zeroShort'] as int?,
@@ -597,9 +618,11 @@ class OperationWithDefaultsOutput {
       if (defaultDocumentMap != null) 'defaultDocumentMap': defaultDocumentMap,
       if (defaultDocumentString != null)
         'defaultDocumentString': defaultDocumentString,
-      if (defaultDouble != null) 'defaultDouble': defaultDouble,
+      if (defaultDouble != null)
+        'defaultDouble': _s.encodeJsonDouble(defaultDouble),
       if (defaultEnum != null) 'defaultEnum': defaultEnum.value,
-      if (defaultFloat != null) 'defaultFloat': defaultFloat,
+      if (defaultFloat != null)
+        'defaultFloat': _s.encodeJsonDouble(defaultFloat),
       if (defaultIntEnum != null) 'defaultIntEnum': defaultIntEnum,
       if (defaultInteger != null) 'defaultInteger': defaultInteger,
       if (defaultList != null) 'defaultList': defaultList,
@@ -615,8 +638,8 @@ class OperationWithDefaultsOutput {
       if (emptyString != null) 'emptyString': emptyString,
       if (falseBoolean != null) 'falseBoolean': falseBoolean,
       if (zeroByte != null) 'zeroByte': zeroByte,
-      if (zeroDouble != null) 'zeroDouble': zeroDouble,
-      if (zeroFloat != null) 'zeroFloat': zeroFloat,
+      if (zeroDouble != null) 'zeroDouble': _s.encodeJsonDouble(zeroDouble),
+      if (zeroFloat != null) 'zeroFloat': _s.encodeJsonDouble(zeroFloat),
       if (zeroInteger != null) 'zeroInteger': zeroInteger,
       if (zeroLong != null) 'zeroLong': zeroLong,
       if (zeroShort != null) 'zeroShort': zeroShort,
@@ -624,6 +647,7 @@ class OperationWithDefaultsOutput {
   }
 }
 
+/// @nodoc
 class OperationWithNestedStructureOutput {
   final Dialog dialog;
   final List<Dialog>? dialogList;
@@ -661,6 +685,7 @@ class OperationWithNestedStructureOutput {
   }
 }
 
+/// @nodoc
 class OperationWithRequiredMembersOutput {
   final Uint8List requiredBlob;
   final bool requiredBoolean;
@@ -696,8 +721,8 @@ class OperationWithRequiredMembersOutput {
       requiredBlob: _s.decodeUint8List((json['requiredBlob'] as String?) ?? ''),
       requiredBoolean: (json['requiredBoolean'] as bool?) ?? false,
       requiredByte: (json['requiredByte'] as int?) ?? 0,
-      requiredDouble: (json['requiredDouble'] as double?) ?? 0,
-      requiredFloat: (json['requiredFloat'] as double?) ?? 0,
+      requiredDouble: _s.parseJsonDouble(json['requiredDouble']) ?? 0,
+      requiredFloat: _s.parseJsonDouble(json['requiredFloat']) ?? 0,
       requiredInteger: (json['requiredInteger'] as int?) ?? 0,
       requiredList: ((json['requiredList'] as List?) ?? const [])
           .nonNulls
@@ -731,8 +756,8 @@ class OperationWithRequiredMembersOutput {
       'requiredBlob': base64Encode(requiredBlob),
       'requiredBoolean': requiredBoolean,
       'requiredByte': requiredByte,
-      'requiredDouble': requiredDouble,
-      'requiredFloat': requiredFloat,
+      'requiredDouble': _s.encodeJsonDouble(requiredDouble),
+      'requiredFloat': _s.encodeJsonDouble(requiredFloat),
       'requiredInteger': requiredInteger,
       'requiredList': requiredList,
       'requiredLong': requiredLong,
@@ -744,6 +769,7 @@ class OperationWithRequiredMembersOutput {
   }
 }
 
+/// @nodoc
 class OperationWithRequiredMembersWithDefaultsOutput {
   final Uint8List requiredBlob;
   final bool requiredBoolean;
@@ -783,10 +809,10 @@ class OperationWithRequiredMembersWithDefaultsOutput {
       requiredBlob: _s.decodeUint8List((json['requiredBlob'] as String?) ?? ''),
       requiredBoolean: (json['requiredBoolean'] as bool?) ?? false,
       requiredByte: (json['requiredByte'] as int?) ?? 0,
-      requiredDouble: (json['requiredDouble'] as double?) ?? 0,
+      requiredDouble: _s.parseJsonDouble(json['requiredDouble']) ?? 0,
       requiredEnum:
           RequiredEnum.fromString((json['requiredEnum'] as String?) ?? ''),
-      requiredFloat: (json['requiredFloat'] as double?) ?? 0,
+      requiredFloat: _s.parseJsonDouble(json['requiredFloat']) ?? 0,
       requiredIntEnum: (json['requiredIntEnum'] as int?) ?? 0,
       requiredInteger: (json['requiredInteger'] as int?) ?? 0,
       requiredList: ((json['requiredList'] as List?) ?? const [])
@@ -823,9 +849,9 @@ class OperationWithRequiredMembersWithDefaultsOutput {
       'requiredBlob': base64Encode(requiredBlob),
       'requiredBoolean': requiredBoolean,
       'requiredByte': requiredByte,
-      'requiredDouble': requiredDouble,
+      'requiredDouble': _s.encodeJsonDouble(requiredDouble),
       'requiredEnum': requiredEnum.value,
-      'requiredFloat': requiredFloat,
+      'requiredFloat': _s.encodeJsonDouble(requiredFloat),
       'requiredIntEnum': requiredIntEnum,
       'requiredInteger': requiredInteger,
       'requiredList': requiredList,
@@ -838,6 +864,7 @@ class OperationWithRequiredMembersWithDefaultsOutput {
   }
 }
 
+/// @nodoc
 class SimpleScalarPropertiesOutput {
   final double? doubleValue;
   final double? floatValue;
@@ -849,8 +876,8 @@ class SimpleScalarPropertiesOutput {
 
   factory SimpleScalarPropertiesOutput.fromJson(Map<String, dynamic> json) {
     return SimpleScalarPropertiesOutput(
-      doubleValue: json['doubleValue'] as double?,
-      floatValue: json['floatValue'] as double?,
+      doubleValue: _s.parseJsonDouble(json['doubleValue']),
+      floatValue: _s.parseJsonDouble(json['floatValue']),
     );
   }
 
@@ -858,12 +885,13 @@ class SimpleScalarPropertiesOutput {
     final doubleValue = this.doubleValue;
     final floatValue = this.floatValue;
     return {
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (floatValue != null) 'floatValue': floatValue,
+      if (doubleValue != null) 'doubleValue': _s.encodeJsonDouble(doubleValue),
+      if (floatValue != null) 'floatValue': _s.encodeJsonDouble(floatValue),
     };
   }
 }
 
+/// @nodoc
 class RequiredEnum {
   static const foo = RequiredEnum._('FOO');
   static const bar = RequiredEnum._('BAR');
@@ -888,6 +916,7 @@ class RequiredEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class Dialog {
   final Farewell? farewell;
   final String? greeting;
@@ -921,6 +950,7 @@ class Dialog {
   }
 }
 
+/// @nodoc
 class Farewell {
   final String? phrase;
 
@@ -942,6 +972,7 @@ class Farewell {
   }
 }
 
+/// @nodoc
 class TopLevel {
   final Dialog dialog;
   final List<Dialog>? dialogList;
@@ -965,6 +996,7 @@ class TopLevel {
   }
 }
 
+/// @nodoc
 class TestEnum {
   static const foo = TestEnum._('FOO');
   static const bar = TestEnum._('BAR');
@@ -989,6 +1021,7 @@ class TestEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class Defaults {
   final Uint8List? defaultBlob;
   final bool? defaultBoolean;
@@ -1090,9 +1123,11 @@ class Defaults {
       if (defaultDocumentMap != null) 'defaultDocumentMap': defaultDocumentMap,
       if (defaultDocumentString != null)
         'defaultDocumentString': defaultDocumentString,
-      if (defaultDouble != null) 'defaultDouble': defaultDouble,
+      if (defaultDouble != null)
+        'defaultDouble': _s.encodeJsonDouble(defaultDouble),
       if (defaultEnum != null) 'defaultEnum': defaultEnum.value,
-      if (defaultFloat != null) 'defaultFloat': defaultFloat,
+      if (defaultFloat != null)
+        'defaultFloat': _s.encodeJsonDouble(defaultFloat),
       if (defaultIntEnum != null) 'defaultIntEnum': defaultIntEnum,
       if (defaultInteger != null) 'defaultInteger': defaultInteger,
       if (defaultList != null) 'defaultList': defaultList,
@@ -1108,8 +1143,8 @@ class Defaults {
       if (emptyString != null) 'emptyString': emptyString,
       if (falseBoolean != null) 'falseBoolean': falseBoolean,
       if (zeroByte != null) 'zeroByte': zeroByte,
-      if (zeroDouble != null) 'zeroDouble': zeroDouble,
-      if (zeroFloat != null) 'zeroFloat': zeroFloat,
+      if (zeroDouble != null) 'zeroDouble': _s.encodeJsonDouble(zeroDouble),
+      if (zeroFloat != null) 'zeroFloat': _s.encodeJsonDouble(zeroFloat),
       if (zeroInteger != null) 'zeroInteger': zeroInteger,
       if (zeroLong != null) 'zeroLong': zeroLong,
       if (zeroShort != null) 'zeroShort': zeroShort,
@@ -1117,6 +1152,7 @@ class Defaults {
   }
 }
 
+/// @nodoc
 class ClientOptionalDefaults {
   final int? member;
 
@@ -1133,6 +1169,8 @@ class ClientOptionalDefaults {
 }
 
 /// A union with a representative set of types for members.
+///
+/// @nodoc
 class MyUnion {
   final Uint8List? blobValue;
   final bool? booleanValue;
@@ -1207,6 +1245,7 @@ class MyUnion {
   }
 }
 
+/// @nodoc
 class FooEnum {
   static const foo = FooEnum._('Foo');
   static const baz = FooEnum._('Baz');
@@ -1233,6 +1272,7 @@ class FooEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class GreetingStruct {
   final String? hi;
 
@@ -1254,6 +1294,7 @@ class GreetingStruct {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -1266,16 +1307,19 @@ class Document {
   }
 }
 
+/// @nodoc
 class ComplexError extends _s.GenericAwsException {
   ComplexError({String? type, String? message})
       : super(type: type, code: 'ComplexError', message: message);
 }
 
+/// @nodoc
 class FooError extends _s.GenericAwsException {
   FooError({String? type, String? message})
       : super(type: type, code: 'FooError', message: message);
 }
 
+/// @nodoc
 class InvalidGreeting extends _s.GenericAwsException {
   InvalidGreeting({String? type, String? message})
       : super(type: type, code: 'InvalidGreeting', message: message);

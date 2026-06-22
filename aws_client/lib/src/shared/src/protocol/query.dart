@@ -15,33 +15,39 @@ import 'shared.dart';
 
 class QueryProtocol {
   final Client _client;
-  final Endpoint _endpoint;
+  // Resolved lazily; some services only have a usable endpoint per-operation.
+  final Endpoint Function() _endpointBuilder;
+  Endpoint? _cachedEndpoint;
+  Endpoint get _endpoint => _cachedEndpoint ??= _endpointBuilder();
   final AwsClientCredentialsProvider? _credentialsProvider;
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
+  final bool _disableHostPrefix;
   bool _closed = false;
 
   QueryProtocol._(
     this._client,
-    this._endpoint,
+    this._endpointBuilder,
     this._credentialsProvider,
     this._requestSigner,
     this._manageHttpClient,
+    this._disableHostPrefix,
   );
 
   factory QueryProtocol({
     Client? client,
+    Endpoint Function()? endpointBuilder,
     ServiceMetadata? service,
     String? region,
     String? endpointUrl,
     AwsClientCredentials? credentials,
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
+    bool disableHostPrefix = false,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
-
-    final endpoint = Endpoint.forProtocol(
+    endpointBuilder ??= () => Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
     // If credentials are provided, override credentials provider
@@ -54,10 +60,11 @@ class QueryProtocol {
 
     return QueryProtocol._(
       client,
-      endpoint,
+      endpointBuilder,
       credentialsProvider,
       requestSigner,
       manageHttpClient,
+      disableHostPrefix,
     );
   }
 
@@ -70,8 +77,14 @@ class QueryProtocol {
     required String version,
     required String action,
     String? resultWrapper,
+    Endpoint? endpoint,
+    String? hostPrefix,
   }) async {
-    final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
+    final ep = endpoint ?? _endpoint;
+    var requestUrl = Uri.parse('${ep.url}$requestUri');
+    requestUrl =
+        applyHostPrefix(requestUrl, hostPrefix, disabled: _disableHostPrefix);
+    final rq = Request(method, requestUrl);
     rq.body = canonicalQueryParameters(
         {'Action': action, 'Version': version, ...data});
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -85,8 +98,8 @@ class QueryProtocol {
 
       _requestSigner(
         rq: rq,
-        service: _endpoint.service,
-        region: _endpoint.signingRegion,
+        service: ep.service,
+        region: ep.signingRegion,
         credentials: credentials,
       );
     }

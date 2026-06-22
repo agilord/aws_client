@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2025_07_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon S3 vector buckets are a bucket type to store and search vectors with
@@ -31,22 +33,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// the vector in a vector index.
 class S3Vectors {
   final _s.RestJsonProtocol _protocol;
-  S3Vectors({
+  factory S3Vectors({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 's3vectors',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 's3vectors',
+    );
+    return S3Vectors._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  S3Vectors._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1556,7 +1573,7 @@ class QueryOutputVector {
   factory QueryOutputVector.fromJson(Map<String, dynamic> json) {
     return QueryOutputVector(
       key: (json['key'] as String?) ?? '',
-      distance: json['distance'] as double?,
+      distance: _s.parseJsonDouble(json['distance']),
       metadata: json['metadata'],
     );
   }
@@ -1567,7 +1584,7 @@ class QueryOutputVector {
     final metadata = this.metadata;
     return {
       'key': key,
-      if (distance != null) 'distance': distance,
+      if (distance != null) 'distance': _s.encodeJsonDouble(distance),
       if (metadata != null) 'metadata': metadata,
     };
   }
@@ -1588,15 +1605,17 @@ class VectorData {
 
   factory VectorData.fromJson(Map<String, dynamic> json) {
     return VectorData(
-      float32:
-          (json['float32'] as List?)?.nonNulls.map((e) => e as double).toList(),
+      float32: (json['float32'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final float32 = this.float32;
     return {
-      if (float32 != null) 'float32': float32,
+      if (float32 != null) 'float32': float32.map(_s.encodeJsonDouble).toList(),
     };
   }
 }

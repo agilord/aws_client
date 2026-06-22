@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_02_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon RDS Performance Insights enables you to monitor and explore different
@@ -26,22 +28,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// data types, parameters and errors.
 class PI {
   final _s.JsonProtocol _protocol;
-  PI({
+  factory PI({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'pi',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'pi',
+    );
+    return PI._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  PI._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2129,7 +2146,7 @@ class DataPoint {
   factory DataPoint.fromJson(Map<String, dynamic> json) {
     return DataPoint(
       timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
-      value: (json['Value'] as double?) ?? 0,
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
     );
   }
 
@@ -2138,7 +2155,7 @@ class DataPoint {
     final value = this.value;
     return {
       'Timestamp': unixTimestampToJson(timestamp),
-      'Value': value,
+      'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -2992,7 +3009,7 @@ class PerformanceInsightsMetric {
       filter: (json['Filter'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       metric: json['Metric'] as String?,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -3007,7 +3024,7 @@ class PerformanceInsightsMetric {
       if (displayName != null) 'DisplayName': displayName,
       if (filter != null) 'Filter': filter,
       if (metric != null) 'Metric': metric,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -3191,14 +3208,14 @@ class DimensionKeyDescription {
   factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) {
     return DimensionKeyDescription(
       additionalMetrics: (json['AdditionalMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
+          ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       dimensions: (json['Dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitions: (json['Partitions'] as List?)
           ?.nonNulls
-          .map((e) => e as double)
+          .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
-      total: json['Total'] as double?,
+      total: _s.parseJsonDouble(json['Total']),
     );
   }
 
@@ -3208,10 +3225,13 @@ class DimensionKeyDescription {
     final partitions = this.partitions;
     final total = this.total;
     return {
-      if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
+      if (additionalMetrics != null)
+        'AdditionalMetrics': additionalMetrics
+            .map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
       if (dimensions != null) 'Dimensions': dimensions,
-      if (partitions != null) 'Partitions': partitions,
-      if (total != null) 'Total': total,
+      if (partitions != null)
+        'Partitions': partitions.map(_s.encodeJsonDouble).toList(),
+      if (total != null) 'Total': _s.encodeJsonDouble(total),
     };
   }
 }

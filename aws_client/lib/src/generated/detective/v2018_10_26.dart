@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2018_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Detective uses machine learning and purpose-built visualizations to help you
@@ -113,23 +115,38 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </note>
 class Detective {
   final _s.RestJsonProtocol _protocol;
-  Detective({
+  factory Detective({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'api.detective',
-            signingName: 'detective',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'api.detective',
+      signingName: 'detective',
+    );
+    return Detective._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Detective._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -2245,7 +2262,8 @@ class MemberDetail {
           (json['InvitationType'] as String?)?.let(InvitationType.fromString),
       invitedTime: timeStampFromJson(json['InvitedTime']),
       masterId: json['MasterId'] as String?,
-      percentOfGraphUtilization: json['PercentOfGraphUtilization'] as double?,
+      percentOfGraphUtilization:
+          _s.parseJsonDouble(json['PercentOfGraphUtilization']),
       percentOfGraphUtilizationUpdatedTime:
           timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
       status: (json['Status'] as String?)?.let(MemberStatus.fromString),
@@ -2290,7 +2308,8 @@ class MemberDetail {
       if (invitedTime != null) 'InvitedTime': iso8601ToJson(invitedTime),
       if (masterId != null) 'MasterId': masterId,
       if (percentOfGraphUtilization != null)
-        'PercentOfGraphUtilization': percentOfGraphUtilization,
+        'PercentOfGraphUtilization':
+            _s.encodeJsonDouble(percentOfGraphUtilization),
       if (percentOfGraphUtilizationUpdatedTime != null)
         'PercentOfGraphUtilizationUpdatedTime':
             iso8601ToJson(percentOfGraphUtilizationUpdatedTime),

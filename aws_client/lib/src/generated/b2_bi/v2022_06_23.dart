@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2022_06_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// This is the <i>Amazon Web Services B2B Data Interchange API Reference</i>.
@@ -39,22 +41,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </note>
 class B2Bi {
   final _s.JsonProtocol _protocol;
-  B2Bi({
+  factory B2Bi({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'b2bi',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'b2bi',
+    );
+    return B2Bi._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  B2Bi._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1650,7 +1667,7 @@ class GenerateMappingResponse {
   factory GenerateMappingResponse.fromJson(Map<String, dynamic> json) {
     return GenerateMappingResponse(
       mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
-      mappingAccuracy: json['mappingAccuracy'] as double?,
+      mappingAccuracy: _s.parseJsonDouble(json['mappingAccuracy']),
     );
   }
 
@@ -1659,7 +1676,8 @@ class GenerateMappingResponse {
     final mappingAccuracy = this.mappingAccuracy;
     return {
       'mappingTemplate': mappingTemplate,
-      if (mappingAccuracy != null) 'mappingAccuracy': mappingAccuracy,
+      if (mappingAccuracy != null)
+        'mappingAccuracy': _s.encodeJsonDouble(mappingAccuracy),
     };
   }
 }

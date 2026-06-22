@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_06_24.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// With Service Quotas, you can view and manage your quotas easily as your
@@ -32,22 +34,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon OpenSearch Service.
 class ServiceQuotas {
   final _s.JsonProtocol _protocol;
-  ServiceQuotas({
+  factory ServiceQuotas({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'servicequotas',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'servicequotas',
+    );
+    return ServiceQuotas._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  ServiceQuotas._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1039,7 +1056,7 @@ class ServiceQuotas {
       headers: headers,
       payload: {
         'AwsRegion': awsRegion,
-        'DesiredValue': desiredValue,
+        'DesiredValue': _s.encodeJsonDouble(desiredValue),
         'QuotaCode': quotaCode,
         'ServiceCode': serviceCode,
       },
@@ -1112,7 +1129,7 @@ class ServiceQuotas {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DesiredValue': desiredValue,
+        'DesiredValue': _s.encodeJsonDouble(desiredValue),
         'QuotaCode': quotaCode,
         'ServiceCode': serviceCode,
         if (contextId != null) 'ContextId': contextId,
@@ -2409,7 +2426,7 @@ class RequestedServiceQuotaChange {
     return RequestedServiceQuotaChange(
       caseId: json['CaseId'] as String?,
       created: timeStampFromJson(json['Created']),
-      desiredValue: json['DesiredValue'] as double?,
+      desiredValue: _s.parseJsonDouble(json['DesiredValue']),
       globalQuota: json['GlobalQuota'] as bool?,
       id: json['Id'] as String?,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
@@ -2453,7 +2470,8 @@ class RequestedServiceQuotaChange {
     return {
       if (caseId != null) 'CaseId': caseId,
       if (created != null) 'Created': unixTimestampToJson(created),
-      if (desiredValue != null) 'DesiredValue': desiredValue,
+      if (desiredValue != null)
+        'DesiredValue': _s.encodeJsonDouble(desiredValue),
       if (globalQuota != null) 'GlobalQuota': globalQuota,
       if (id != null) 'Id': id,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
@@ -2689,7 +2707,7 @@ class ServiceQuotaIncreaseRequestInTemplate {
       Map<String, dynamic> json) {
     return ServiceQuotaIncreaseRequestInTemplate(
       awsRegion: json['AwsRegion'] as String?,
-      desiredValue: json['DesiredValue'] as double?,
+      desiredValue: _s.parseJsonDouble(json['DesiredValue']),
       globalQuota: json['GlobalQuota'] as bool?,
       quotaCode: json['QuotaCode'] as String?,
       quotaName: json['QuotaName'] as String?,
@@ -2710,7 +2728,8 @@ class ServiceQuotaIncreaseRequestInTemplate {
     final unit = this.unit;
     return {
       if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (desiredValue != null) 'DesiredValue': desiredValue,
+      if (desiredValue != null)
+        'DesiredValue': _s.encodeJsonDouble(desiredValue),
       if (globalQuota != null) 'GlobalQuota': globalQuota,
       if (quotaCode != null) 'QuotaCode': quotaCode,
       if (quotaName != null) 'QuotaName': quotaName,
@@ -2852,7 +2871,7 @@ class ServiceQuota {
       usageMetric: json['UsageMetric'] != null
           ? MetricInfo.fromJson(json['UsageMetric'] as Map<String, dynamic>)
           : null,
-      value: json['Value'] as double?,
+      value: _s.parseJsonDouble(json['Value']),
     );
   }
 
@@ -2888,7 +2907,7 @@ class ServiceQuota {
       if (serviceName != null) 'ServiceName': serviceName,
       if (unit != null) 'Unit': unit,
       if (usageMetric != null) 'UsageMetric': usageMetric,
-      if (value != null) 'Value': value,
+      if (value != null) 'Value': _s.encodeJsonDouble(value),
     };
   }
 }
@@ -3148,14 +3167,14 @@ class QuotaUtilizationInfo {
   factory QuotaUtilizationInfo.fromJson(Map<String, dynamic> json) {
     return QuotaUtilizationInfo(
       adjustable: json['Adjustable'] as bool?,
-      appliedValue: json['AppliedValue'] as double?,
-      defaultValue: json['DefaultValue'] as double?,
+      appliedValue: _s.parseJsonDouble(json['AppliedValue']),
+      defaultValue: _s.parseJsonDouble(json['DefaultValue']),
       namespace: json['Namespace'] as String?,
       quotaCode: json['QuotaCode'] as String?,
       quotaName: json['QuotaName'] as String?,
       serviceCode: json['ServiceCode'] as String?,
       serviceName: json['ServiceName'] as String?,
-      utilization: json['Utilization'] as double?,
+      utilization: _s.parseJsonDouble(json['Utilization']),
     );
   }
 
@@ -3171,14 +3190,16 @@ class QuotaUtilizationInfo {
     final utilization = this.utilization;
     return {
       if (adjustable != null) 'Adjustable': adjustable,
-      if (appliedValue != null) 'AppliedValue': appliedValue,
-      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (appliedValue != null)
+        'AppliedValue': _s.encodeJsonDouble(appliedValue),
+      if (defaultValue != null)
+        'DefaultValue': _s.encodeJsonDouble(defaultValue),
       if (namespace != null) 'Namespace': namespace,
       if (quotaCode != null) 'QuotaCode': quotaCode,
       if (quotaName != null) 'QuotaName': quotaName,
       if (serviceCode != null) 'ServiceCode': serviceCode,
       if (serviceName != null) 'ServiceName': serviceName,
-      if (utilization != null) 'Utilization': utilization,
+      if (utilization != null) 'Utilization': _s.encodeJsonDouble(utilization),
     };
   }
 }

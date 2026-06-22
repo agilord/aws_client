@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2019_12_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Web Services Outposts is a fully managed service that extends Amazon
@@ -29,22 +31,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// and local data processing needs.
 class Outposts {
   final _s.RestJsonProtocol _protocol;
-  Outposts({
+  factory Outposts({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.RestJsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'outposts',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'outposts',
+    );
+    return Outposts._(
+      protocol: _s.RestJsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Outposts._({
+    required _s.RestJsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -1696,13 +1713,13 @@ class CreateRenewalOutput {
 
   factory CreateRenewalOutput.fromJson(Map<String, dynamic> json) {
     return CreateRenewalOutput(
-      monthlyRecurringPrice: json['MonthlyRecurringPrice'] as double?,
+      monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
       outpostId: json['OutpostId'] as String?,
       paymentOption:
           (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
       paymentTerm:
           (json['PaymentTerm'] as String?)?.let(PaymentTerm.fromString),
-      upfrontPrice: json['UpfrontPrice'] as double?,
+      upfrontPrice: _s.parseJsonDouble(json['UpfrontPrice']),
     );
   }
 
@@ -1714,11 +1731,12 @@ class CreateRenewalOutput {
     final upfrontPrice = this.upfrontPrice;
     return {
       if (monthlyRecurringPrice != null)
-        'MonthlyRecurringPrice': monthlyRecurringPrice,
+        'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
       if (outpostId != null) 'OutpostId': outpostId,
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
-      if (upfrontPrice != null) 'UpfrontPrice': upfrontPrice,
+      if (upfrontPrice != null)
+        'UpfrontPrice': _s.encodeJsonDouble(upfrontPrice),
     };
   }
 }
@@ -4178,7 +4196,7 @@ class CatalogItem {
           .toList(),
       itemStatus:
           (json['ItemStatus'] as String?)?.let(CatalogItemStatus.fromString),
-      powerKva: json['PowerKva'] as double?,
+      powerKva: _s.parseJsonDouble(json['PowerKva']),
       supportedStorage: (json['SupportedStorage'] as List?)
           ?.nonNulls
           .map((e) => SupportedStorageEnum.fromString((e as String)))
@@ -4203,7 +4221,7 @@ class CatalogItem {
       if (catalogItemId != null) 'CatalogItemId': catalogItemId,
       if (eC2Capacities != null) 'EC2Capacities': eC2Capacities,
       if (itemStatus != null) 'ItemStatus': itemStatus.value,
-      if (powerKva != null) 'PowerKva': powerKva,
+      if (powerKva != null) 'PowerKva': _s.encodeJsonDouble(powerKva),
       if (supportedStorage != null)
         'SupportedStorage': supportedStorage.map((e) => e.value).toList(),
       if (supportedUplinkGbps != null)
@@ -4634,14 +4652,15 @@ class AssetLocation {
 
   factory AssetLocation.fromJson(Map<String, dynamic> json) {
     return AssetLocation(
-      rackElevation: json['RackElevation'] as double?,
+      rackElevation: _s.parseJsonDouble(json['RackElevation']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final rackElevation = this.rackElevation;
     return {
-      if (rackElevation != null) 'RackElevation': rackElevation,
+      if (rackElevation != null)
+        'RackElevation': _s.encodeJsonDouble(rackElevation),
     };
   }
 }
@@ -4896,12 +4915,12 @@ class SubscriptionPricingDetails {
 
   factory SubscriptionPricingDetails.fromJson(Map<String, dynamic> json) {
     return SubscriptionPricingDetails(
-      monthlyRecurringPrice: json['MonthlyRecurringPrice'] as double?,
+      monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
       paymentOption:
           (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
       paymentTerm:
           (json['PaymentTerm'] as String?)?.let(PaymentTerm.fromString),
-      upfrontPrice: json['UpfrontPrice'] as double?,
+      upfrontPrice: _s.parseJsonDouble(json['UpfrontPrice']),
     );
   }
 
@@ -4912,10 +4931,11 @@ class SubscriptionPricingDetails {
     final upfrontPrice = this.upfrontPrice;
     return {
       if (monthlyRecurringPrice != null)
-        'MonthlyRecurringPrice': monthlyRecurringPrice,
+        'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
-      if (upfrontPrice != null) 'UpfrontPrice': upfrontPrice,
+      if (upfrontPrice != null)
+        'UpfrontPrice': _s.encodeJsonDouble(upfrontPrice),
     };
   }
 }
@@ -5076,7 +5096,7 @@ class Subscription {
     return Subscription(
       beginDate: timeStampFromJson(json['BeginDate']),
       endDate: timeStampFromJson(json['EndDate']),
-      monthlyRecurringPrice: json['MonthlyRecurringPrice'] as double?,
+      monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
       orderIds: (json['OrderIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5086,7 +5106,7 @@ class Subscription {
           ?.let(SubscriptionStatus.fromString),
       subscriptionType: (json['SubscriptionType'] as String?)
           ?.let(SubscriptionType.fromString),
-      upfrontPrice: json['UpfrontPrice'] as double?,
+      upfrontPrice: _s.parseJsonDouble(json['UpfrontPrice']),
     );
   }
 
@@ -5103,13 +5123,14 @@ class Subscription {
       if (beginDate != null) 'BeginDate': unixTimestampToJson(beginDate),
       if (endDate != null) 'EndDate': unixTimestampToJson(endDate),
       if (monthlyRecurringPrice != null)
-        'MonthlyRecurringPrice': monthlyRecurringPrice,
+        'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
       if (orderIds != null) 'OrderIds': orderIds,
       if (subscriptionId != null) 'SubscriptionId': subscriptionId,
       if (subscriptionStatus != null)
         'SubscriptionStatus': subscriptionStatus.value,
       if (subscriptionType != null) 'SubscriptionType': subscriptionType.value,
-      if (upfrontPrice != null) 'UpfrontPrice': upfrontPrice,
+      if (upfrontPrice != null)
+        'UpfrontPrice': _s.encodeJsonDouble(upfrontPrice),
     };
   }
 }

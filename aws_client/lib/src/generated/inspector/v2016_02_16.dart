@@ -5,6 +5,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -18,6 +19,7 @@ import '../../shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
+import 'v2016_02_16.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Inspector enables you to analyze the behavior of your AWS resources
@@ -26,22 +28,37 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon Inspector User Guide</a>.
 class Inspector {
   final _s.JsonProtocol _protocol;
-  Inspector({
+  factory Inspector({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.JsonProtocol(
-          client: client,
-          service: _s.ServiceMetadata(
-            endpointPrefix: 'inspector',
-          ),
-          region: region,
-          credentials: credentials,
-          credentialsProvider: credentialsProvider,
-          endpointUrl: endpointUrl,
-        );
+    bool useFipsEndpoint = false,
+    bool useDualStackEndpoint = false,
+  }) {
+    final service = _s.ServiceMetadata(
+      endpointPrefix: 'inspector',
+    );
+    return Inspector._(
+      protocol: _s.JsonProtocol(
+        client: client,
+        endpointBuilder: () => _s.Endpoint.fromResolved(
+            _endpoints.resolveEndpoint(
+                region: region,
+                endpoint: endpointUrl,
+                useFips: useFipsEndpoint,
+                useDualStack: useDualStackEndpoint),
+            service: service,
+            region: region),
+        credentials: credentials,
+        credentialsProvider: credentialsProvider,
+      ),
+    );
+  }
+  Inspector._({
+    required _s.JsonProtocol protocol,
+  }) : _protocol = protocol;
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -3884,7 +3901,7 @@ class Finding {
       description: json['description'] as String?,
       id: json['id'] as String?,
       indicatorOfCompromise: json['indicatorOfCompromise'] as bool?,
-      numericSeverity: json['numericSeverity'] as double?,
+      numericSeverity: _s.parseJsonDouble(json['numericSeverity']),
       recommendation: json['recommendation'] as String?,
       schemaVersion: json['schemaVersion'] as int?,
       service: json['service'] as String?,
@@ -3929,7 +3946,8 @@ class Finding {
       if (id != null) 'id': id,
       if (indicatorOfCompromise != null)
         'indicatorOfCompromise': indicatorOfCompromise,
-      if (numericSeverity != null) 'numericSeverity': numericSeverity,
+      if (numericSeverity != null)
+        'numericSeverity': _s.encodeJsonDouble(numericSeverity),
       if (recommendation != null) 'recommendation': recommendation,
       if (schemaVersion != null) 'schemaVersion': schemaVersion,
       if (service != null) 'service': service,
