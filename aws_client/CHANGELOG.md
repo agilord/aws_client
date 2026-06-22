@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.3
+
+- Exclude the `test/` and `integration_test/` directories from the published package.
+
 ## 0.9.2
 
 - More accurate endpoint resolution, including FIPS, dual-stack and S3 addressing.
