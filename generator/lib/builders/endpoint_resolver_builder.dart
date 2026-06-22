@@ -114,8 +114,8 @@ class _Compiler {
       final conditions =
           ((rule['conditions'] as List?) ?? const []).cast<Object?>();
       // Non-null-fn conditions always pass, so they don't actually guard.
-      final guarded = conditions.any(
-          (c) => !_nonNullFns.contains((c as Map).cast<String, Object?>()['fn']));
+      final guarded = conditions.any((c) =>
+          !_nonNullFns.contains((c as Map).cast<String, Object?>()['fn']));
       if (guarded) continue;
       switch (rule['type']) {
         case 'endpoint':
