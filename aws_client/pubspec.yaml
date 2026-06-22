@@ -1,6 +1,6 @@
 name: aws_client
 description: Strongly-typed Dart client libraries for accessing Amazon Web Services (AWS) APIs.
-version: 0.9.1
+version: 0.9.2
 repository: https://github.com/agilord/aws_client
 topics:
   - aws
